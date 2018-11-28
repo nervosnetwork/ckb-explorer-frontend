@@ -15,31 +15,27 @@ export default {
       json: {
         version: 1,
         deps: [
-          // {
-          //   hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
-          //   index: 0,
-          // },
         ],
         inputs: [
           {
             previous_output: {
-              hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
-              index: 0,
+              hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              index: 0
             },
             unlock: {
               version: 0,
               args: [],
-              binary: [109, 105, 110, 101, 114], // "miner".into_bytes
-            },
-          },
+              binary: [109, 105, 110, 101, 114] // "miner".into_bytes
+            }
+          }
         ],
         outputs: [
           {
             capacity: 0,
             data: [0],
-            lock: "0x0000000000000000000000000000000000000000000000000000000000000000",
+            lock: '0x0000000000000000000000000000000000000000000000000000000000000000'
           }
-        ],
+        ]
       }
     }
   },
@@ -50,7 +46,7 @@ export default {
 
   methods: {
     send () {
-      this.$emit("send_transaction", this.json)
+      this.$emit('send_transaction', this.json)
     }
   }
 }

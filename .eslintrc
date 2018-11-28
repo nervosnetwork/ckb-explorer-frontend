@@ -1,0 +1,14 @@
+{
+  "extends": ["standard", "import", "plugin:vue/base"],
+  "plugins": ["prettier"],
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "rules": {
+    "indent": ["error", 2]
+  }
+}
