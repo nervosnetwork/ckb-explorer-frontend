@@ -3,10 +3,13 @@ import Moment from 'vue-moment'
 import App from './components/app.vue'
 import router from './router'
 
-Vue.use(Moment)
-
-new Vue({
+const app = new Vue({
   router,
   el: '#app',
   render: h => h(App)
+})
+
+Vue.use(Moment)
+Vue.use({
+  app
 })
