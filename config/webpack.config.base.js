@@ -45,7 +45,7 @@ const baseConfig = {
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../src/templates/index.html'),
-      title: 'Nervos Explorer',
+      title: 'CKB Explorer',
       styleCDN: 'https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/css/uikit.min.css',
       uikitCDN: 'https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/js/uikit.min.js',
       uikitIconCDN: 'https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/js/uikit-icons.min.js'
