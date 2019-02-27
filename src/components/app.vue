@@ -49,7 +49,8 @@ export default {
           this.jrpc().call('get_block_hash', [number]).then((hash) => {
             this.jrpc().call('get_block', [hash]).then((block) => {
               this.blocks.push(block)
-              this.transactions = this.transactions.concat(block.transactions)
+              this.transactions = this.transactions.concat(block.commit_transactions)
+              console.log(block.commit_transactions)
             })
           })
         })
