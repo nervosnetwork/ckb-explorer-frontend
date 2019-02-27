@@ -6,7 +6,7 @@
         <ul class="uk-list">
           <li class="uk-flex" v-for="block in orderedBlocks" :key="block.hash">
             <div class="uk-card uk-card-default uk-card-body uk-width-1-2">
-              Block #{{ block.header.raw.number }}
+              Block #{{ block.header.number }}
               <div class="uk-text-truncate">
                 <router-link v-bind:to="{ name: 'blocks', params: { id: block.hash }}">{{ block.hash }}</router-link>
               </div>
@@ -14,7 +14,7 @@
             <div class="uk-card uk-card-default uk-card-body uk-margin-left uk-width-1-2">
               {{ block.transactions.length }} txns
               <br/>
-              {{ new Date(block.header.raw.timestamp) | moment("YYYY-MM-DD HH:mm:ss") }}
+              {{ new Date(block.header.timestamp) | moment("YYYY-MM-DD HH:mm:ss") }}
             </div>
           </li>
         </ul>
@@ -54,8 +54,8 @@ export default {
 
   computed: {
     orderedBlocks: function () {
-      return this.blocks.sort(function(a, b) {
-        return b.header.raw.number - a.header.raw.number
+      return this.blocks.sort(function (a, b) {
+        return b.header.number - a.header.number
       })
     }
   }
