@@ -4,13 +4,13 @@
     <div>
       Inputs
       <ul class="uk-list">
-        <li v-for="i in transaction.transaction.inputs" :key="i">
+        <li v-for="i in transaction.inputs" :key="i">
           {{ i }}
         </li>
       </ul>
       Outputs
       <ul class="uk-list">
-        <li v-for="o in transaction.transaction.outputs" :key="o">
+        <li v-for="o in transaction.outputs" :key="o">
           {{ o }}
         </li>
       </ul>
