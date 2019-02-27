@@ -27,75 +27,76 @@
 </template>
 
 <script>
-import _ from "lodash"
-import JsonRPC from "simple-jsonrpc-js"
+import _ from 'lodash'
+import JsonRPC from 'simple-jsonrpc-js'
 
 export default {
-  data: function() {
+  data: function () {
     return {
       addr: 'http://localhost:8114/',
       blocks: [],
       transactions: [],
       block: {},
-      transaction: {},
+      transaction: {}
     }
   },
   methods: {
-    connect: function() {
+    connect: function () {
       this.jrpc().call('get_tip_header', []).then((result) => {
         this.blocks = []
         this.transactions = []
-        _.range(result.raw.number, result.raw.number - 10, -1).forEach((number, _) => {
+        _.range(result.number, result.number - 10, -1).forEach((number, _) => {
           this.jrpc().call('get_block_hash', [number]).then((hash) => {
             this.jrpc().call('get_block', [hash]).then((block) => {
               this.blocks.push(block)
-              this.transactions = this.transactions.concat(block.transactions)
+              this.transactions = this.transactions.concat(block.commit_transactions)
+              console.log(block.commit_transactions)
             })
           })
         })
       })
     },
 
-    get_block: function(hash) {
+    get_block: function (hash) {
       this.jrpc().call('get_block', [hash]).then((block) => {
         this.block = block
         console.log(block)
       })
     },
 
-    get_transaction: function(hash) {
+    get_transaction: function (hash) {
       this.jrpc().call('get_transaction', [hash]).then((transaction) => {
         this.transaction = transaction
         console.log(transaction)
       })
     },
 
-    send_transaction(tx) {
+    send_transaction (tx) {
       this.jrpc().call('send_transaction', [tx]).then((result) => {
         console.log(result)
       })
     },
 
-    jrpc: function() {
+    jrpc: function () {
       let jrpc = new JsonRPC()
       let addr = this.addr
 
-      jrpc.toStream = function(msg) {
-          let xhr = new XMLHttpRequest()
-          xhr.onreadystatechange = function() {
-              if (this.readyState != 4) return
+      jrpc.toStream = function (msg) {
+        let xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function () {
+          if (this.readyState !== 4) return
 
-              try {
-                  JSON.parse(this.responseText)
-                  jrpc.messageHandler(this.responseText)
-              } catch (e) {
-                  console.error(e)
-              }
+          try {
+            JSON.parse(this.responseText)
+            jrpc.messageHandler(this.responseText)
+          } catch (e) {
+            console.error(e)
           }
+        }
 
-          xhr.open("POST", addr, true)
-          xhr.setRequestHeader('Content-type', 'application/json')
-          xhr.send(msg)
+        xhr.open('POST', addr, true)
+        xhr.setRequestHeader('Content-type', 'application/json')
+        xhr.send(msg)
       }
       return jrpc
     }

@@ -1,34 +1,34 @@
 <template>
   <table class="uk-table">
-    <caption>Block #{{ block.header.raw.number }}</caption>
+    <caption>Block #{{ block.header.number }}</caption>
     <tbody>
         <tr>
           <td>Hash</td>
-          <td>#{{ block.hash }}</td>
+          <td>#{{ block.header.hash }}</td>
         </tr>
         <tr>
           <td>Pre Hash</td>
-          <td><router-link v-bind:to="{ name: 'blocks', params: { id: block.header.raw.parent_hash }}">{{ block.header.raw.parent_hash}}</router-link></td>
+          <td><router-link v-bind:to="{ name: 'blocks', params: { id: block.header.parent_hash }}">{{ block.header.parent_hash}}</router-link></td>
         </tr>
         <tr>
           <td>Timestamp</td>
-          <td>{{ new Date(block.header.raw.timestamp) | moment("YYYY-MM-DD HH:mm:ss") }}</td>
+          <td>{{ new Date(block.header.timestamp) | moment("YYYY-MM-DD HH:mm:ss") }}</td>
         </tr>
         <tr>
           <td>Height</td>
-          <td>{{ block.header.raw.number }}</td>
+          <td>{{ block.header.number }}</td>
         </tr>
         <tr>
           <td>Transactions Commit</td>
-          <td>{{ block.header.raw.txs_commit }}</td>
+          <td>{{ block.header.txs_commit }}</td>
         </tr>
         <tr>
           <td>Difficulty</td>
-          <td>{{ block.header.raw.difficulty }}</td>
+          <td>{{ block.header.difficulty }}</td>
         </tr>
         <tr>
           <td>Challenge</td>
-          <td>{{ block.header.raw.challenge }}</td>
+          <td>{{ block.header.challenge }}</td>
         </tr>
         <tr>
           <td></td>
@@ -48,6 +48,6 @@ export default {
 
   beforeRouteUpdate (to, from, next) {
     this.get_block(to.params.id)
-  },
+  }
 }
 </script>
