@@ -22,7 +22,7 @@ const ToastItemDiv = styled.div`
   margin-left: 10%;
   z-index: 9999;
   min-height: 32px;
-  .toast_item_text {
+  .toast--text {
     color: white;
     font-size: 12px;
     line-height: 12px;
@@ -67,14 +67,13 @@ const ToastItem = ({
   }, [])
   return (
     <ToastItemDiv
-      className="toast_item_container"
-      key={`toast_${data.id}`}
+      key={`toast${data.id}`}
       style={{
         ...style,
         opacity,
       }}
     >
-      <div className="toast_item_text">{data.text}</div>
+      <div className="toast--text">{data.text}</div>
     </ToastItemDiv>
   )
 }

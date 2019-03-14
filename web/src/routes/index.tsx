@@ -1,10 +1,10 @@
 import React from 'react'
 import { Router, Route, Redirect, Switch } from 'react-router-dom'
 import browserHistory from './history'
-import Home from '../pages/home'
-import Block from '../pages/block'
-import Transaction from '../pages/transaction'
-import Address from '../pages/address'
+import Home from '../pages/Home'
+import Block from '../pages/Block'
+import Transaction from '../pages/Transaction'
+import Address from '../pages/Address'
 
 import NotFoundPage from '../pages/404'
 

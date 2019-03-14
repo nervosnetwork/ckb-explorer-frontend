@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Modal as ModalType } from '../../contexts/app'
+import { Modal as ModalType } from '../../contexts/App'
 
 const ModalDiv = styled.div`
   position: absolute;
@@ -14,7 +14,7 @@ const ModalDiv = styled.div`
   z-index: 999;
   pointer-events: all;
 
-  .modal_content {
+  .modal--content {
     flex: 1;
     overflow-x: hidden;
     overflow-y: auto;
@@ -27,7 +27,7 @@ const ModalDiv = styled.div`
     justify-content: center;
   }
 
-  .modal_content > div {
+  .modal--content > div {
     width: 80%;
     min-height: 100px;
     background-color: white;
@@ -37,12 +37,12 @@ const ModalDiv = styled.div`
     overflow-y: auto;
     overflow-x: hidden;
   }
-  .modal_close {
+  .modal--close {
     position: absolute;
     right: 10px;
     top: 10px;
   }
-  .modal_close: hover {
+  .modal--close: hover {
     color: red;
     cursor: pointer;
   }
@@ -60,7 +60,7 @@ export default ({ data, onClose }: { data: ModalType | null; onClose: Function }
       }}
     >
       <div
-        className="modal_content"
+        className="modal--content"
         style={{
           marginTop: data.maskTop || 0,
           backgroundColor: data.maskColor || 'rgba(0,0,0,0.7)',
@@ -80,7 +80,7 @@ export default ({ data, onClose }: { data: ModalType | null; onClose: Function }
           <div
             role="menu"
             tabIndex={0}
-            className="modal_close"
+            className="modal--close"
             onClick={() => {
               if (onClose) onClose()
             }}

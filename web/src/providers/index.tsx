@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import AppContext, { initApp } from '../contexts/app'
+import AppContext, { initApp } from '../contexts/App'
 
 const withProviders = (Comp: React.ComponentType) => (props: React.Props<any>) => {
   const [app, setApp] = useState(initApp)

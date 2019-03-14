@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from 'react'
 import Routers from './routes'
-import Loading from './components/loading'
-import Modal from './components/modal'
-import Toast from './components/toast'
+import Loading from './components/Loading'
+import Modal from './components/Modal'
+import Toast from './components/Toast'
 
 import withProviders from './providers'
-import AppContext from './contexts/app'
+import AppContext from './contexts/App'
 
 const App = () => {
   const appContext = useContext(AppContext)
@@ -15,9 +15,6 @@ const App = () => {
       appContext.resize(window.innerWidth, window.innerHeight)
     }
     window.addEventListener('resize', resizeListener)
-    // appContext.toastMessage('hello', 12999933)
-    // appContext.showLoading(true, 0, 'red')
-    // appContext.showModal(<div>123</div>)
     return () => {
       if (resizeListener) window.removeEventListener('resize', resizeListener)
     }

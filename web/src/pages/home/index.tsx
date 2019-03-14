@@ -1,9 +1,8 @@
 import React from 'react'
-import Page from '../../components/page'
-
-import Header from '../../components/header'
-import Content from '../../components/content'
-import Footer from '../../components/footer'
+import Page from '../../components/Page'
+import Header from '../../components/Header'
+import Content from '../../components/Content'
+import Footer from '../../components/Footer'
 
 export default () => {
   return (

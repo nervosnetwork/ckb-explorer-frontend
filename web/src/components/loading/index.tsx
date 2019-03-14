@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import loadingImage from './loading.svg'
-import { Loading as LoadingType } from '../../contexts/app'
+import { Loading as LoadingType } from '../../contexts/App'
 
 const LoadingDiv = styled.div`
   position: absolute;
@@ -15,7 +15,7 @@ const LoadingDiv = styled.div`
   user-select: none;
   z-index: 1000;
 
-  .loading_content {
+  .loading--content {
     flex: 1;
     overflow-x: hidden;
     overflow-y: auto;
@@ -27,7 +27,7 @@ const LoadingDiv = styled.div`
     align-items: center;
     justify-content: center;
   }
-  .loading_content > div > img {
+  .loading--content > div > img {
     -webkit-transform: rotate(360deg);
     -webkit-animation: loadingAnimation 1.6s linear 0ms infinite;
   }
@@ -37,7 +37,7 @@ export default ({ data, onClose }: { data: LoadingType | null; onClose: Function
   return (
     <LoadingDiv className="loading">
       <div
-        className="loading_content"
+        className="loading--content"
         style={{
           marginTop: data.maskTop || 0,
           backgroundColor: data.maskColor || 'transparent',
