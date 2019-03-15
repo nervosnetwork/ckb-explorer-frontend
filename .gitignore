@@ -3,7 +3,6 @@
 
 # web
 /web/node_modules/
-/web/dist/
+/web/build/
 /web/npm-debug.log
 /web/*.log
-/web/yarn.lock
