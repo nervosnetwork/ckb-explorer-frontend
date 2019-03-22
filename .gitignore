@@ -4,6 +4,8 @@
 # server
 # Ignore bundler config.
 /server/.bundle
+/server/.env.local
+/server/.env.test
 
 # Ignore all logfiles and tempfiles.
 /server/log/*
