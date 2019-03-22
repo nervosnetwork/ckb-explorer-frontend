@@ -22,8 +22,8 @@ const App = () => {
   return (
     <div
       style={{
-        width: appContext.appWidth,
-        height: appContext.appHeight,
+        width: '100vw',
+        height: '100vh',
       }}
     >
       <Routers />

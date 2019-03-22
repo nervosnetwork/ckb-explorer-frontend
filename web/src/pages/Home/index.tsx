@@ -7,7 +7,7 @@ import Footer from '../../components/Footer'
 export default () => {
   return (
     <Page>
-      <Header />
+      <Header search={false}/>
       <Content
         style={{
           padding: 20,

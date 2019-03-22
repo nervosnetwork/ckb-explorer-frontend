@@ -6,7 +6,7 @@ const PageDiv = styled.div`
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  background-color: transparent;
+  background-color: #f9f9f9;
   box-sizing: border-box;
   position: relative;
   .page--content {
