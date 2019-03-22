@@ -88,7 +88,7 @@ export default ({ data, onClose }: { data: ModalType | null; onClose: Function }
               if (onClose) onClose()
             }}
           >
-            x
+            {'x'}
           </div>
         </div>
       </div>

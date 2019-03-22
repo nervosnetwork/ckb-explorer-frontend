@@ -5,7 +5,7 @@ const FooterDiv = styled.div`
   width: 100%;
   overflow-x: hidden;
   height: 100px;
-  background-color: lightgrey;
+  background-color: #18325d;
   text-align: center;
   display: flex;
   align-items: center;
