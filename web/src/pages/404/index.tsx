@@ -8,7 +8,13 @@ export default () => {
   return (
     <Page>
       <Header />
-      <Content>404</Content>
+      <Content
+        style={{
+          padding: 20,
+        }}
+      >
+        <div className="container">404</div>
+      </Content>
       <Footer />
     </Page>
   )

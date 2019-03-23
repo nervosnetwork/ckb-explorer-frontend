@@ -6,55 +6,54 @@ import searchIcon from '../../asserts/search.png'
 import logoIcon from '../../logo.png'
 
 const HeaderDiv = styled.div`
-  transform-origin: top left;
-  transform: scaleY(${(props: { width: number }) => props.width / 1920});
-  overflow-x: hidden;
   width: 100%;
-  min-height: 130px;
+  min-height: ${(props: { width: number }) => (130 * props.width) / 1920}px;
+  overflow: hidden;
   box-shadow: 0 2px 4px 0 #10274d;
   background-color: #18325d;
   position: sticky;
   position: -webkit-sticky;
   top: 0;
+  z-index: 1;
   display: flex;
-  align-items: center;
-  .logo{
-    width: ${(542 / 1920) * 100}%
-    height: 75px;
+  flex-wrap: wrap;
+  padding: ${(props: { width: number }) =>
+    `${(((130 - 78) / 2) * props.width) / 1920}px ${(112 * props.width) / 1920}px`};
+  .logo, .menus, .search{
     display: flex;
     align-items: center;
-    padding-left: ${(122 / 1920) * 100}%
+    flex-wrap: wrap;
+  }
+  .logo{
+    padding-left: ${(props: { width: number }) => (10 * props.width) / 1920}px;
     .logo--img{
-      width: auto;
+      width: 78px;
       height: 75px;
     }
     .logo--text{
-      flex: 1;
-      padding-left: ${(14 / 542) * 100}%;
+      padding-left: ${(props: { width: number }) => (14 * props.width) / 1920}px;
+      padding-top: 26px;
+      padding-bottom: 27px;
       color: #46ab81;
       font-size: 22px;
       font-weight: bold;
     }
   }
   
-  .menu {
-    width: ${(716 / 1920) * 100}%;
-    display: flex;
+  .menus {
+    padding-top: 26px;
+    padding-bottom: 27px;
+    min-height: 75px;
     .menuItem{
-      margin-left: ${(92 / 1920) * 100}%;
+      margin-left: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
+      margin-right: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
       font-size: 22px;
       font-weight: 900;
-      height: 50px;
-      line-height: 50px;
       color: #4bbc8e;
       &: hover {
         color: white;
         cursor: pointer;
       }
-      &: nth-child(1) {
-        margin-left: 0;
-      }
-      
     }
   }
   a {
@@ -63,16 +62,17 @@ const HeaderDiv = styled.div`
   .search{
     text-align: right;
     position: relative;
-    width: ${(662 / 1920) * 100}%;
-    padding-right: ${(112 / 1920) * 100}%;
+    margin: 0 auto;
+    height: 75px;
+    padding-top: 6px;
+    padding-bottom: 7px;
     input {
-      width: 100%;
+      min-width: ${(props: { width: number }) => ((662 - 112) * props.width) / 1920}px;
       color: #bababa;
       height: 62px;
       font-size: 16px;
-      padding: 20px 0;
-      padding-left: ${(20 / 662) * 100}%;
-      padding-right: ${(106 / 662) * 100}%
+      padding: 20px;
+      padding-right: ${(props: { width: number }) => (106 * props.width) / 1920}
       opacity: 0.2;
       border-radius: 6px;
       background-color: #ffffff;
@@ -81,18 +81,25 @@ const HeaderDiv = styled.div`
         opacity: 1;
       }
     }
-    img{
+    div{
       position: absolute;
-      right: ${((16 + 112) / 660) * 100}%
-      top: 10px;;
-      width: auto;
-      height: 41px;
-      opacity: 0.8;
-      &: hover{
-        opacity: 1;
-        cursor: pointer;
+      right: ${(props: { width: number }) => (16 * props.width) / 1920}px
+      top: 0;
+      height: 100%;
+      width: 41px;
+      display: flex;
+      align-items: center;
+      img{
+        width: 41px;
+        height: 41px;
+        opacity: 0.8;
+        &: hover{
+          opacity: 1;
+          cursor: pointer;
+        }
       }
     }
+    
   }
   
 `
@@ -118,7 +125,7 @@ export default ({ search = true }: { search?: boolean }) => {
         <img className="logo--img" src={logoIcon} alt="logo" />
         <span className="logo--text">CKB Testnet Explorer</span>
       </Link>
-      <div className="menu">
+      <div className="menus">
         {menus.map((d: any) => {
           return (
             <Link key={d.name} className="menuItem" to={d.url}>
@@ -130,7 +137,9 @@ export default ({ search = true }: { search?: boolean }) => {
       {search ? (
         <div className="search">
           <input type="text" placeholder="Block Height / Block Hash / Txhash / Address" />
-          <img src={searchIcon} alt="search" />
+          <div>
+            <img src={searchIcon} alt="search" />
+          </div>
         </div>
       ) : null}
     </HeaderDiv>

@@ -8,7 +8,13 @@ export default () => {
   return (
     <Page>
       <Header />
-      <Content>Transaction</Content>
+      <Content
+        style={{
+          padding: 20,
+        }}
+      >
+        <div className="container">Transaction</div>
+      </Content>
       <Footer />
     </Page>
   )
