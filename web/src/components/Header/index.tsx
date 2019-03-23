@@ -19,18 +19,21 @@ const HeaderDiv = styled.div`
   flex-wrap: wrap;
   padding: ${(props: { width: number }) =>
     `${(((130 - 78) / 2) * props.width) / 1920}px ${(112 * props.width) / 1920}px`};
-  .logo, .menus, .search{
+  .header--logo, .header--menus, .header--search{
     display: flex;
     align-items: center;
     flex-wrap: wrap;
   }
-  .logo{
+  .header--logo{
     padding-left: ${(props: { width: number }) => (10 * props.width) / 1920}px;
-    .logo--img{
+    .header--logo--img{
       width: 78px;
       height: 75px;
+      &:hover{
+        transform: scale(1.1,1.1)
+      }
     }
-    .logo--text{
+    .header--logo--text{
       padding-left: ${(props: { width: number }) => (14 * props.width) / 1920}px;
       padding-top: 26px;
       padding-bottom: 27px;
@@ -40,11 +43,11 @@ const HeaderDiv = styled.div`
     }
   }
   
-  .menus {
+  .header--menus {
     padding-top: 26px;
     padding-bottom: 27px;
     min-height: 75px;
-    .menuItem{
+    .header--menus--item{
       margin-left: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
       margin-right: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
       font-size: 22px;
@@ -59,7 +62,7 @@ const HeaderDiv = styled.div`
   a {
     text-decoration: none;
   }
-  .search{
+  .header--search{
     text-align: right;
     position: relative;
     margin: 0 auto;
@@ -68,7 +71,7 @@ const HeaderDiv = styled.div`
     padding-bottom: 7px;
     input {
       min-width: ${(props: { width: number }) => ((662 - 112) * props.width) / 1920}px;
-      color: #bababa;
+      color: rgb(186 186 186);
       height: 62px;
       font-size: 16px;
       padding: 20px;
@@ -121,21 +124,21 @@ const menus = [
 export default ({ search = true }: { search?: boolean }) => {
   return (
     <HeaderDiv width={window.innerWidth}>
-      <Link to="/" className="logo">
-        <img className="logo--img" src={logoIcon} alt="logo" />
-        <span className="logo--text">CKB Testnet Explorer</span>
+      <Link to="/" className="header--logo">
+        <img className="header--logo--img" src={logoIcon} alt="logo" />
+        <span className="header--logo--text">CKB Testnet Explorer</span>
       </Link>
-      <div className="menus">
+      <div className="header--menus">
         {menus.map((d: any) => {
           return (
-            <Link key={d.name} className="menuItem" to={d.url}>
+            <Link key={d.name} className="header--menus--item" to={d.url}>
               {d.name}
             </Link>
           )
         })}
       </div>
       {search ? (
-        <div className="search">
+        <div className="header--search">
           <input type="text" placeholder="Block Height / Block Hash / Txhash / Address" />
           <div>
             <img src={searchIcon} alt="search" />

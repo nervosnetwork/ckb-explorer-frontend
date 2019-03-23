@@ -19,7 +19,6 @@ export default () => {
           className="container"
           style={{
             padding: 20,
-            border: '1px  dashed black',
           }}
         >
           {new Array(100).fill(1).map(() => {

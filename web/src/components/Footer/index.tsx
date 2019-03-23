@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+
 import styled from 'styled-components'
 import LogoIcon from '../../logo.png'
 
@@ -20,6 +22,9 @@ const FooterDiv = styled.div`
   background-color: #18325d;
   display: flex;
   flex-direction: column;
+  a {
+    text-decoration: none;
+  }
   .footer--top,
   .footer--bottom {
     display: flex;
@@ -39,9 +44,16 @@ const FooterDiv = styled.div`
         justify-content: center;
         margin: 0 auto;
       }
+      .footer--top--logo {
+        img {
+          &:hover {
+            transform: scale(1.1, 1.1);
+          }
+        }
+      }
       .footer--top--orgs {
         .footer--top--orgs--item {
-          opacity: 0.9;
+          opacity: 0.8;
           &:hover {
             opacity: 1;
           }
@@ -147,13 +159,10 @@ export default () => {
             className="footer--top--logo"
             style={{
               width: 153 * 2 + 121,
+              textAlign: 'center',
             }}
           >
-            <div
-              style={{
-                textAlign: 'center',
-              }}
-            >
+            <Link to="/">
               <img
                 src={LogoIcon}
                 alt="logo"
@@ -172,7 +181,7 @@ export default () => {
               >
                 {'CKB Testnet Explorer'}
               </div>
-            </div>
+            </Link>
           </div>
           <div
             className="footer--top--orgs"
@@ -184,6 +193,7 @@ export default () => {
               {orgs.map((item: any) => {
                 return (
                   <div
+                    key={item.name}
                     className="footer--top--orgs--item"
                     style={{
                       display: 'flex',
@@ -212,6 +222,7 @@ export default () => {
                       {item.items.map((link: any) => {
                         return (
                           <a
+                            key={link.label}
                             href={link.url}
                             rel="noopener noreferrer"
                             target="_blank"
