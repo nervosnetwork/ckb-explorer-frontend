@@ -80,7 +80,7 @@ const parseDate = (timestamp: number) => {
     return `${diff / 60} minutes ${diff % 60} secs ago`
   }
   const date = new Date(timestamp)
-  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDay()} ${formatData(date.getHours())}:${formatData(
+  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${formatData(date.getHours())}:${formatData(
     date.getMinutes(),
   )}:${formatData(date.getSeconds())}`
 }
