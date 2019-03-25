@@ -25,39 +25,39 @@ const FooterDiv = styled.div`
   a {
     text-decoration: none;
   }
-  .footer--top,
-  .footer--bottom {
+  .footer__top,
+  .footer__bottom {
     display: flex;
     padding: 20px;
     align-items: center;
     justify-content: center;
   }
-  .footer--top {
+  .footer__top {
     min-height: ${(props: { width: number }) => (467 * props.width) / 1920}px;
     .container {
       display: flex;
       flex-wrap: wrap;
-      .footer--top--orgs,
-      .footer--top--logo {
+      .footer__top__orgs,
+      .footer__top__logo {
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 auto;
       }
-      .footer--top--logo {
+      .footer__top__logo {
         img {
           &:hover {
             transform: scale(1.1, 1.1);
           }
         }
       }
-      .footer--top--orgs {
-        .footer--top--orgs--item {
+      .footer__top__orgs {
+        .footer__top__orgs__item {
           opacity: 0.8;
           &:hover {
             opacity: 1;
           }
-          .footer--top--orgs--item--link {
+          .footer__top__orgs__item__link {
             text-decoration: none;
             &:hover {
               transform: scale(1.1, 1.1);
@@ -67,7 +67,7 @@ const FooterDiv = styled.div`
       }
     }
   }
-  .footer--bottom {
+  .footer__bottom {
     min-height: ${(props: { width: number }) => (102 * props.width) / 1920}px;
     border-top: 1px solid white;
     font-family: Helvetica;
@@ -153,10 +153,10 @@ const orgs = [
 export default () => {
   return (
     <FooterDiv width={window.innerWidth}>
-      <div className="footer--top">
+      <div className="footer__top">
         <div className="container">
           <div
-            className="footer--top--logo"
+            className="footer__top__logo"
             style={{
               width: 153 * 2 + 121,
               textAlign: 'center',
@@ -184,7 +184,7 @@ export default () => {
             </Link>
           </div>
           <div
-            className="footer--top--orgs"
+            className="footer__top__orgs"
             style={{
               flex: 1,
             }}
@@ -194,7 +194,7 @@ export default () => {
                 return (
                   <div
                     key={item.name}
-                    className="footer--top--orgs--item"
+                    className="footer__top__orgs__item"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -226,7 +226,7 @@ export default () => {
                             href={link.url}
                             rel="noopener noreferrer"
                             target="_blank"
-                            className="footer--top--orgs--item--link"
+                            className="footer__top__orgs__item__link"
                             style={{
                               marginLeft: 25,
                               marginTop: 15,
@@ -271,7 +271,7 @@ export default () => {
           </div>
         </div>
       </div>
-      <div className="footer--bottom">© CKB Explorer is a project of the Nervos Foundation. All Rights Reserved.</div>
+      <div className="footer__bottom">© CKB Explorer is a project of the Nervos Foundation. All Rights Reserved.</div>
     </FooterDiv>
   )
 }

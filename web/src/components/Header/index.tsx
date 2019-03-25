@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import browserHistory from '../../routes/history'
 
 import searchIcon from '../../asserts/search.png'
 import logoIcon from '../../logo.png'
@@ -19,21 +20,21 @@ const HeaderDiv = styled.div`
   flex-wrap: wrap;
   padding: ${(props: { width: number }) =>
     `${(((130 - 78) / 2) * props.width) / 1920}px ${(112 * props.width) / 1920}px`};
-  .header--logo, .header--menus, .header--search{
+  .header__logo, .header__menus, .header__search{
     display: flex;
     align-items: center;
     flex-wrap: wrap;
   }
-  .header--logo{
+  .header__logo{
     padding-left: ${(props: { width: number }) => (10 * props.width) / 1920}px;
-    .header--logo--img{
+    .header__logo__img{
       width: 78px;
       height: 75px;
       &:hover{
         transform: scale(1.1,1.1)
       }
     }
-    .header--logo--text{
+    .header__logo__text{
       padding-left: ${(props: { width: number }) => (14 * props.width) / 1920}px;
       padding-top: 26px;
       padding-bottom: 27px;
@@ -43,26 +44,25 @@ const HeaderDiv = styled.div`
     }
   }
   
-  .header--menus {
+  .header__menus {
     padding-top: 26px;
     padding-bottom: 27px;
     min-height: 75px;
-    .header--menus--item{
+    .header__menus__item{
       margin-left: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
       margin-right: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
       font-size: 22px;
       font-weight: 900;
       color: #4bbc8e;
-      &: hover {
+      &.header__menus__item--active, &: hover {
         color: white;
-        cursor: pointer;
       }
     }
   }
   a {
     text-decoration: none;
   }
-  .header--search{
+  .header__search{
     text-align: right;
     position: relative;
     margin: 0 auto;
@@ -124,21 +124,23 @@ const menus = [
 export default ({ search = true }: { search?: boolean }) => {
   return (
     <HeaderDiv width={window.innerWidth}>
-      <Link to="/" className="header--logo">
-        <img className="header--logo--img" src={logoIcon} alt="logo" />
-        <span className="header--logo--text">CKB Testnet Explorer</span>
+      <Link to="/" className="header__logo">
+        <img className="header__logo__img" src={logoIcon} alt="logo" />
+        <span className="header__logo__text">CKB Testnet Explorer</span>
       </Link>
-      <div className="header--menus">
+      <div className="header__menus">
         {menus.map((d: any) => {
+          let className = 'header__menus__item'
+          if (browserHistory.location.pathname === d.url) className += ' header__menus__item--active'
           return (
-            <Link key={d.name} className="header--menus--item" to={d.url}>
+            <Link key={d.name} className={className} to={d.url}>
               {d.name}
             </Link>
           )
         })}
       </div>
       {search ? (
-        <div className="header--search">
+        <div className="header__search">
           <input type="text" placeholder="Block Height / Block Hash / Txhash / Address" />
           <div>
             <img src={searchIcon} alt="search" />
