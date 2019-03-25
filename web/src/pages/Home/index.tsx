@@ -66,6 +66,25 @@ const TableLoogContentItem = ({ color, content }: { color: string; content: stri
   )
 }
 
+const formatData = (data: number) => {
+  return data < 10 ? `0${data}` : data
+}
+
+const parseDate = (timestamp: number) => {
+  const now = new Date().getTime()
+  const diff = (now - timestamp) / 1000
+  if (diff < 60) {
+    return `${diff} secs ago`
+  }
+  if (diff < 3600) {
+    return `${diff / 60} minutes ${diff % 60} secs ago`
+  }
+  const date = new Date(timestamp)
+  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDay()} ${formatData(date.getHours())}:${formatData(
+    date.getMinutes(),
+  )}:${formatData(date.getSeconds())}`
+}
+
 export default () => {
   const [clickableColor, normalColor] = ['#4bbc8e', '888888']
   return (
@@ -107,7 +126,7 @@ export default () => {
                     <TableContentItem color={normalColor} content={data.transactions_count} />
                     <TableContentItem color={normalColor} content={data.cell_consumed} />
                     <TableLoogContentItem color={clickableColor} content={data.miner_hash} />
-                    <TableContentItem color={normalColor} content={data.timestamp} />
+                    <TableContentItem color={normalColor} content={parseDate(data.timestamp)} />
                   </TableContentRow>
                 )
               })}
