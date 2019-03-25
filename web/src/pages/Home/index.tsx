@@ -1,109 +1,73 @@
 import React from 'react'
-import styled from 'styled-components'
+import {
+  HomeHeaderPanel,
+  HomeHeader,
+  LogoPanel,
+  SearchPanel,
+  BlockPanel,
+  ContentTitle,
+  ContentTable,
+  TableTitleRow,
+  TableContentRow,
+} from './index.css'
 import Page from '../../components/Page'
 import Header from '../../components/Header'
 import Content from '../../components/Content'
 import Footer from '../../components/Footer'
 import HomeLogo from '../../asserts/logo_home.png'
 import SearchLogo from '../../asserts/search.png'
+import BlockHeightIcon from '../../asserts/block_height.png'
+import TransactionIcon from '../../asserts/transactions.png'
+import CellConsumedIcon from '../../asserts/cell_consumed.png'
+import MinerIcon from '../../asserts/miner.png'
+import TimestampIcon from '../../asserts/timestamp.png'
+import BlocksData from './mock'
 
-const HomeHeaderPanel = styled.div`
-  height: ${(props: { width: number }) => (670 * props.width) / 1920}px;
-  width: 100%;
-  background: rgb(24, 50, 93);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`
+const TableTitleItem = ({ image, title }: { image: string; title: string }) => {
+  return (
+    <th>
+      <img src={image} alt={title} />
+      <div>{title}</div>
+    </th>
+  )
+}
 
-const HomeHeader = styled.div`
-  width: 100%;
-  display: flex;
-  display: -webkit-flex; /* Safari */
-  flex-direction: column;
-`
+const TableContentItem = ({ color, content }: { color: string; content: string }) => {
+  return (
+    <td
+      style={{
+        color,
+        height: (78 * window.innerWidth) / 1920,
+      }}
+    >
+      {content}
+    </td>
+  )
+}
 
-const LogoPanel = styled.div`
-  height: 149px;
-  width: auto;
-  justify-content: center;
-  dispaly: flex;
-  display: -webkit-flex; /* Safari */
-  flex-direction: row;
-  img {
-    width: 156px;
-    height: 149px;
-  }
-  div {
-    line-height: 156px;
-    margin-left: 29px;
-    color: #46ab81;
-    font-size: 50px;
-    font-weight: bold;
-  }
-`
-
-const SearchPanel = styled.div`
-  margin-top: ${(props: { width: number }) => (98 * props.width) / 1920}px;
-  width: auto;
-  height: 65px;
-  text-align: center;
-  input {
-    position: relative;
-    width: 650px;
-    color: #bababa;
-    height: 65px;
-    font-size: 16px;
-    padding-left: 20px;
-    padding-right: 106px;
-    opacity: 0.2;
-    border-radius: 6px;
-    background-color: #ffffff;
-    &: focus {
-      color: black;
-      opacity: 1;
-    }
-  }
-  img {
-    position: relative;
-    top: 14px;
-    right: 50px;
-    width: 41px;
-    height: 41px;
-    opacity: 0.8;
-    &: hover {
-      opacity: 1;
-      cursor: pointer;
-    }
-  }
-`
-
-const BlockPanel = styled.div`
-  width: 100%;
-  height: 200px;
-  margin-top: ${(props: { width: number }) => (150 * props.width) / 1920}px;
-  margin-bottom: ${(props: { width: number }) => (200 * props.width) / 1920}px;
-`
-
-const ContentTitle = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  div {
-    font-size: 50px;
-    color: black;
-    margin: 0 auto;
-  }
-
-  span {
-    background: #46ab81;
-    height: 4px;
-    width: 197px;
-    margin: 0 auto;
-  }
-`
+const TableLoogContentItem = ({ color, content }: { color: string; content: string }) => {
+  return (
+    <td
+      style={{
+        color,
+        height: (78 * window.innerWidth) / 1920,
+      }}
+    >
+      <div
+        style={{
+          maxWidth: 90,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        }}
+      >
+        {content}
+      </div>
+    </td>
+  )
+}
 
 export default () => {
+  const [clickableColor, normalColor] = ['#4bbc8e', '888888']
   return (
     <Page>
       <Header search={false} />
@@ -126,6 +90,29 @@ export default () => {
             <div>Latest Blocks</div>
             <span />
           </ContentTitle>
+
+          <ContentTable>
+            <table>
+              <TableTitleRow width={window.innerWidth}>
+                <TableTitleItem image={BlockHeightIcon} title="Height" />
+                <TableTitleItem image={TransactionIcon} title="Transactions" />
+                <TableTitleItem image={CellConsumedIcon} title="Cell Consumed(B)" />
+                <TableTitleItem image={MinerIcon} title="Miner" />
+                <TableTitleItem image={TimestampIcon} title="Time" />
+              </TableTitleRow>
+              {BlocksData.data.map((data: any) => {
+                return (
+                  <TableContentRow>
+                    <TableContentItem color={clickableColor} content={data.number} />
+                    <TableContentItem color={normalColor} content={data.transactions_count} />
+                    <TableContentItem color={normalColor} content={data.cell_consumed} />
+                    <TableLoogContentItem color={clickableColor} content={data.miner_hash} />
+                    <TableContentItem color={normalColor} content={data.timestamp} />
+                  </TableContentRow>
+                )
+              })}
+            </table>
+          </ContentTable>
         </BlockPanel>
       </Content>
       <Footer />
