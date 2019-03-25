@@ -15,7 +15,7 @@ const LoadingDiv = styled.div`
   user-select: none;
   z-index: 1000;
 
-  .loading--content {
+  .loading__content {
     flex: 1;
     overflow-x: hidden;
     overflow-y: auto;
@@ -27,7 +27,7 @@ const LoadingDiv = styled.div`
     align-items: center;
     justify-content: center;
   }
-  .loading--content > div > img {
+  .loading__content > div > img {
     -webkit-transform: rotate(360deg);
     -webkit-animation: loadingAnimation 1.6s linear 0ms infinite;
   }
@@ -37,7 +37,7 @@ export default ({ data, onClose }: { data: LoadingType | null; onClose: Function
   return (
     <LoadingDiv className="loading">
       <div
-        className="loading--content"
+        className="loading__content"
         style={{
           marginTop: data.maskTop || 0,
           backgroundColor: data.maskColor || 'transparent',

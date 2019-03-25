@@ -22,7 +22,7 @@ const ToastItemDiv = styled.div`
   margin-left: 10%;
   z-index: 9999;
   min-height: 32px;
-  .toast--text {
+  .toast__text {
     color: white;
     font-size: 12px;
     line-height: 12px;
@@ -73,7 +73,7 @@ const ToastItem = ({
         opacity,
       }}
     >
-      <div className="toast--text">{data.text}</div>
+      <div className="toast__text">{data.text}</div>
     </ToastItemDiv>
   )
 }

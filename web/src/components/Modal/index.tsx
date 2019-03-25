@@ -14,7 +14,7 @@ const ModalDiv = styled.div`
   z-index: 999;
   pointer-events: all;
 
-  .modal--content {
+  .modal__content {
     flex: 1;
     overflow-x: hidden;
     overflow-y: auto;
@@ -27,7 +27,7 @@ const ModalDiv = styled.div`
     justify-content: center;
   }
 
-  .modal--content > div {
+  .modal__content > div {
     width: 80%;
     min-height: 100px;
     background-color: white;
@@ -60,7 +60,7 @@ export default ({ data, onClose }: { data: ModalType | null; onClose: Function }
       }}
     >
       <div
-        className="modal--content"
+        className="modal__content"
         style={{
           marginTop: data.maskTop || 0,
           backgroundColor: data.maskColor || 'rgba(0,0,0,0.7)',

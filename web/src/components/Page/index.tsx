@@ -9,7 +9,7 @@ const PageDiv = styled.div`
   background-color: #f9f9f9;
   box-sizing: border-box;
   position: relative;
-  .page--content {
+  .page__content {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -48,7 +48,7 @@ export default ({
         }
       }}
     >
-      <div className="page--content">{children}</div>
+      <div className="page__content">{children}</div>
     </PageDiv>
   )
 }
