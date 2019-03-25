@@ -73,7 +73,6 @@ export const SearchPanel = styled.div`
 
 export const BlockPanel = styled.div`
   width: 100%;
-  height: 200px;
   margin-top: ${(props: { width: number }) => (150 * props.width) / 1920}px;
   margin-bottom: ${(props: { width: number }) => (200 * props.width) / 1920}px;
 `

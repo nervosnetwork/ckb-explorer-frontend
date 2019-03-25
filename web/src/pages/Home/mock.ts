@@ -22,7 +22,7 @@ const blocks = {
       proof: '0x',
     },
     {
-      block_hash: '0xfj3w82dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683eadeacd',
+      block_hash: '0xfj3w82dd3149da69e05e8867ccebd84eebdddaf947cc1218a1dca7683eadeacd',
       number: 8898,
       transactions_count: 60,
       proposal_transactions_count: 150,
@@ -34,7 +34,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
-      miner_hash: '0x9382h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
+      miner_hash: '0x9382h2dd3149da69e05e8867ccebd8423bdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1553068839789,
       difficulty: '0x100',
       version: 0,
@@ -42,7 +42,7 @@ const blocks = {
       proof: '0x',
     },
     {
-      block_hash: '0xfj3w82dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683eadeacd',
+      block_hash: '0xfj3w82dd3149da69e05e8867ccebd84eebddda2347cc2618a1dca7683eadeacd',
       number: 8899,
       transactions_count: 60,
       proposal_transactions_count: 150,
@@ -54,7 +54,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
-      miner_hash: '0x9382h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
+      miner_hash: '0x9382h2dd3149da69e05e8347ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1553068842789,
       difficulty: '0x100',
       version: 0,
@@ -62,7 +62,7 @@ const blocks = {
       proof: '0x',
     },
     {
-      block_hash: '0xfj3w82dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683eadeacd',
+      block_hash: '0xfj3w82dd3149da69e05e8867cce3484eebdddaf947cc2618a1dca7683eadeacd',
       number: 8900,
       transactions_count: 60,
       proposal_transactions_count: 150,
@@ -82,7 +82,7 @@ const blocks = {
       proof: '0x',
     },
     {
-      block_hash: '0xfj3w82dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683eadeacd',
+      block_hash: '0xfj3w82dd3149da69e05e8867ccebd84eebd34af947cc2618a1dca7683eadeacd',
       number: 8901,
       transactions_count: 60,
       proposal_transactions_count: 150,
