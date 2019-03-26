@@ -100,7 +100,6 @@ const HeaderDiv = styled.div`
           opacity: 1;
           cursor: pointer;
         }
-      }
     }
     
   }
