@@ -11,6 +11,7 @@ import {
   AddressOverviewPanel,
   AddressCommonContent,
   AddressLabelItemPanel,
+  CellConsumedBarDiv,
 } from './index.css'
 import CopyIcon from '../../asserts/copy.png'
 import BalanceIcon from '../../asserts/address_balance.png'
@@ -56,6 +57,37 @@ const AddressCommonLabel = ({
       <img src={image} alt={value} />
       <span>{label}</span>
       <div>{value}</div>
+    </AddressLabelItemPanel>
+  )
+}
+
+const CellConsumedBar = ({ percent }: { percent: number }) => {
+  return (
+    <CellConsumedBarDiv percent={`${percent}`}>
+      <div />
+    </CellConsumedBarDiv>
+  )
+}
+
+const AddressCellConsumedLabel = ({
+  image,
+  label,
+  consumed,
+  balance,
+  style,
+}: {
+  image: string
+  label: string
+  consumed: number
+  balance: number
+  style: any
+}) => {
+  return (
+    <AddressLabelItemPanel style={style}>
+      <img src={image} alt="Cell Consumed" />
+      <span>{label}</span>
+      <CellConsumedBar percent={(consumed * 100) / balance} />
+      <div>{`${consumed}B / ${(consumed * 100) / balance}%`}</div>
     </AddressLabelItemPanel>
   )
 }
@@ -120,10 +152,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                 left: 583,
               }}
             />
-            <AddressCommonLabel
+            <AddressCellConsumedLabel
               image={CellConsumedIcon}
               label="Cell Consumed: "
-              value={`${AddressData.data.balance}`}
+              consumed={AddressData.data.cell_consumed}
+              balance={AddressData.data.balance}
               style={{
                 position: 'relative',
                 top: -4,

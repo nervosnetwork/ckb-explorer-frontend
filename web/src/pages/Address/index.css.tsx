@@ -87,11 +87,26 @@ export const AddressLabelItemPanel = styled.div`
     font-size: 18px;
     color: rgb(77, 77, 77);
     margin-left: 10px;
+    margin-right: 21px;
   }
 
   div {
     font-size: 16px;
     color: rgb(75, 188, 142);
-    margin-left: 21px;
+  }
+`
+export const CellConsumedBarDiv = styled.div`
+  height: 20px;
+  width: 160px;
+  border-radius: 50px;
+  border: 1px solid rgb(75, 188, 142);
+  margin-right: 10px;
+
+  div {
+    width: ${(props: { percent: string }) => props.percent}%;
+    margin-right: 21px;
+    background: rgb(75, 188, 142);
+    height: 100%;
+    border-radius: inherit;
   }
 `
