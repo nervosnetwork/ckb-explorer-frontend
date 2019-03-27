@@ -36,5 +36,6 @@ declare module 'rc-pagination' {
     showTotal?: (total: number, range: number[]) => string
   }
 
-  export default class Pagination {}
+  const Pagination: React.SFC<PaginationProps> = (props: PaginationProps) => {}
+  export default Pagination
 }
