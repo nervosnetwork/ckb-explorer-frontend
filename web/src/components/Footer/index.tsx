@@ -4,17 +4,17 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import LogoIcon from '../../logo.png'
 
-import AboutIcon from '../../asserts/footer_About.png'
-import FAQIcon from '../../asserts/footer_FAQ.png'
-import APIIcon from '../../asserts/footer_API.png'
-import GithubIcon from '../../asserts/footer_Github.png'
-import WhitepaperIcon from '../../asserts/footer_Whitepaper.png'
-import TwitterIcon from '../../asserts/footer_Twitter.png'
-import BlogIcon from '../../asserts/footer_Blog.png'
-import TelegramIcon from '../../asserts/footer_Telegram.png'
-import RedditIcon from '../../asserts/footer_Reddit.png'
-import YoutubeIcon from '../../asserts/footer_Youtube.png'
-import ForumIcon from '../../asserts/footer_Forum.png'
+import AboutIcon from '../../asserts/footer_about.png'
+import FAQIcon from '../../asserts/footer_faq.png'
+import APIIcon from '../../asserts/footer_api.png'
+import GithubIcon from '../../asserts/footer_github.png'
+import WhitepaperIcon from '../../asserts/footer_whitepaper.png'
+import TwitterIcon from '../../asserts/footer_twitter.png'
+import BlogIcon from '../../asserts/footer_blog.png'
+import TelegramIcon from '../../asserts/footer_telegram.png'
+import RedditIcon from '../../asserts/footer_reddit.png'
+import YoutubeIcon from '../../asserts/footer_youtube.png'
+import ForumIcon from '../../asserts/footer_forum.png'
 
 const FooterDiv = styled.div`
   width: 100%;
@@ -84,12 +84,12 @@ const orgs = [
       {
         label: 'About Us',
         icon: AboutIcon,
-        url: '#',
+        url: 'https://www.nervos.org/',
       },
       {
         label: 'FAQ',
         icon: FAQIcon,
-        url: '#',
+        url: 'https://www.nervos.org/faq.html',
       },
     ],
   },
@@ -99,17 +99,17 @@ const orgs = [
       {
         label: 'API',
         icon: APIIcon,
-        url: '#',
+        url: 'https://github.com/nervosnetwork/ckb/blob/develop/rpc/doc.md',
       },
       {
         label: 'Github',
         icon: GithubIcon,
-        url: '#',
+        url: 'https://github.com/nervosnetwork',
       },
       {
         label: 'Whitepaper',
         icon: WhitepaperIcon,
-        url: '#',
+        url: 'https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0002-ckb/0002-ckb.md',
       },
     ],
   },
@@ -119,32 +119,32 @@ const orgs = [
       {
         label: 'Twitter',
         icon: TwitterIcon,
-        url: '#',
+        url: 'https://twitter.com/nervosnetwork',
       },
       {
         label: 'Blog',
         icon: BlogIcon,
-        url: '#',
+        url: 'https://medium.com/nervosnetwork',
       },
       {
         label: 'Telegram',
         icon: TelegramIcon,
-        url: '#',
+        url: 'https://t.me/nervosnetwork',
       },
       {
         label: 'Reddit',
         icon: RedditIcon,
-        url: '#',
+        url: 'https://www.reddit.com/r/NervosNetwork/',
       },
       {
         label: 'Youtube',
         icon: YoutubeIcon,
-        url: '#',
+        url: 'https://www.youtube.com/channel/UCONuJGdMzUY0Y6jrPBOzH7A',
       },
       {
         label: 'Forum',
         icon: ForumIcon,
-        url: '#',
+        url: 'https://talk.nervos.org/',
       },
     ],
   },
