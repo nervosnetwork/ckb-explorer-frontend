@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import ReactJson from 'react-json-view'
 import Pagination from 'rc-pagination'
@@ -136,12 +136,25 @@ const AddressTransactionCell = ({ cell }: { cell: any }) => {
   )
 }
 
+const formatData = (data: number) => {
+  return data < 10 ? `0${data}` : data
+}
+
+const parseDate = (timestamp: number) => {
+  const date = new Date(timestamp)
+  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${formatData(date.getHours())}:${formatData(
+    date.getMinutes(),
+  )}:${formatData(date.getSeconds())}`
+}
+
 const AddressTransactionsComponent = ({ transaction }: { transaction: any }) => {
   return (
     <AddressTransactionsItem>
       <div className="transaction__hash__panel">
         <div className="transaction_hash">{transaction.transaction_hash}</div>
-        <div className="transaction_block">{`(Block ${transaction.block_number})  ${transaction.block_timestamp}`}</div>
+        <div className="transaction_block">
+          {`(Block ${transaction.block_number})  ${parseDate(transaction.block_timestamp)}`}
+        </div>
       </div>
       <span className="transaction__separate" />
       <div className="transaction__input__output">
@@ -165,6 +178,20 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   const { match } = props
   const { params } = match
   const { address } = params
+
+  const PageSize = 3
+  const [currentPageNo, setCurrentPageNo] = useState(1)
+
+  // TODO: fetch transaction data from server
+  const getTransactionOfAddress = (pageNo: number, pageSize: number) => {
+    return TransactionsData.data.slice((pageNo - 1) * pageSize, pageNo * pageSize)
+  }
+
+  const onChange = (current: number, pageSize: number) => {
+    setCurrentPageNo(current)
+    getTransactionOfAddress(current, pageSize)
+  }
+
   return (
     <Page>
       <Header />
@@ -219,12 +246,19 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
           <AddressTransactionsPenal>
             <AddressOverview value="Transactions" />
             <div>
-              {TransactionsData.data.map((transaction: any) => {
+              {getTransactionOfAddress(currentPageNo, PageSize).map((transaction: any) => {
                 return <AddressTransactionsComponent transaction={transaction} key={transaction.transaction_hash} />
               })}
             </div>
             <AddressTransactionsPagition>
-              <Pagination showQuickJumper showSizeChanger defaultPageSize={20} defaultCurrent={5} total={450} />
+              <Pagination
+                showQuickJumper
+                showSizeChanger
+                defaultPageSize={PageSize}
+                defaultCurrent={1}
+                total={TransactionsData.data.length}
+                onChange={onChange}
+              />
             </AddressTransactionsPagition>
           </AddressTransactionsPenal>
         </AddressContentPanel>

@@ -1,5 +1,3 @@
-import React from 'react'
-
 declare module 'rc-pagination' {
   export interface PaginationData {
     className: string
@@ -38,7 +36,5 @@ declare module 'rc-pagination' {
     showTotal?: (total: number, range: number[]) => string
   }
 
-  const Pagination = PaginationProps => {}
-
-  export default Pagination
+  export default class Pagination {}
 }
