@@ -1,6 +1,8 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import ReactJson from 'react-json-view'
+import Pagination from 'rc-pagination'
+import 'rc-pagination/assets/index.css'
 import Page from '../../components/Page'
 import Header from '../../components/Header'
 import Content from '../../components/Content'
@@ -12,13 +14,18 @@ import {
   AddressCommonContent,
   AddressLabelItemPanel,
   CellConsumedBarDiv,
+  AddressTransactionsPenal,
+  AddressTransactionsItem,
+  AddressTransactionsCell,
+  AddressTransactionsPagition,
 } from './index.css'
 import CopyIcon from '../../asserts/copy.png'
 import BalanceIcon from '../../asserts/address_balance.png'
 import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/address_transactions.png'
-import { AddressData } from './mock'
+import InputOutputIcon from '../../asserts/input_arrow_output.png'
+import { AddressData, TransactionsData } from './mock'
 
 const AddressTitle = ({ address }: { address: string }) => {
   return (
@@ -32,10 +39,10 @@ const AddressTitle = ({ address }: { address: string }) => {
   )
 }
 
-const AddressOverview = () => {
+const AddressOverview = ({ value }: { value: string }) => {
   return (
     <AddressOverviewPanel>
-      <div>Overview</div>
+      <div>{value}</div>
       <span />
     </AddressOverviewPanel>
   )
@@ -120,6 +127,40 @@ const AddressScriptLabel = ({
   )
 }
 
+const AddressTransactionCell = ({ cell }: { cell: any }) => {
+  return (
+    <AddressTransactionsCell>
+      <div className="transaction__cell__hash">{cell.address_hash}</div>
+      <div className="transaction__cell__capacity">{`${cell.capacity} CKB`}</div>
+    </AddressTransactionsCell>
+  )
+}
+
+const AddressTransactionsComponent = ({ transaction }: { transaction: any }) => {
+  return (
+    <AddressTransactionsItem>
+      <div className="transaction__hash__panel">
+        <div className="transaction_hash">{transaction.transaction_hash}</div>
+        <div className="transaction_block">{`(Block ${transaction.block_number})  ${transaction.block_timestamp}`}</div>
+      </div>
+      <span className="transaction__separate" />
+      <div className="transaction__input__output">
+        <div className="transaction__input">
+          {transaction.display_inputs.map((cell: any) => {
+            return <AddressTransactionCell cell={cell} key={cell.input_id} />
+          })}
+        </div>
+        <img src={InputOutputIcon} alt="input and output" />
+        <div className="transaction__output">
+          {transaction.display_outputs.map((cell: any) => {
+            return <AddressTransactionCell cell={cell} key={cell.output_id} />
+          })}
+        </div>
+      </div>
+    </AddressTransactionsItem>
+  )
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string }>>) => {
   const { match } = props
   const { params } = match
@@ -130,7 +171,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
       <Content>
         <AddressContentPanel width={window.innerWidth}>
           <AddressTitle address={address} />
-          <AddressOverview />
+          <AddressOverview value="Overview" />
           <AddressCommonContent>
             <AddressCommonLabel
               image={BalanceIcon}
@@ -174,6 +215,18 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               }}
             />
           </AddressCommonContent>
+
+          <AddressTransactionsPenal>
+            <AddressOverview value="Transactions" />
+            <div>
+              {TransactionsData.data.map((transaction: any) => {
+                return <AddressTransactionsComponent transaction={transaction} key={transaction.transaction_hash} />
+              })}
+            </div>
+            <AddressTransactionsPagition>
+              <Pagination showQuickJumper showSizeChanger defaultPageSize={20} defaultCurrent={5} total={450} />
+            </AddressTransactionsPagition>
+          </AddressTransactionsPenal>
         </AddressContentPanel>
       </Content>
       <Footer />

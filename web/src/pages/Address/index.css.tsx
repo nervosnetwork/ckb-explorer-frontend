@@ -5,7 +5,6 @@ export const AddressContentPanel = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: ${(props: { width: number }) => (98 * props.width) / 1920}px;
-  margin-bottom: ${(props: { width: number }) => (200 * props.width) / 1920}px;
 `
 
 export const AddressTitlePanel = styled.div`
@@ -41,13 +40,13 @@ export const AddressTitlePanel = styled.div`
 export const AddressOverviewPanel = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin-top: 107px;
+  margin-bottom: 50px;
 
   div {
     font-size: 50px;
     color: rgb(20, 20, 20);
-    margin: 0 auto;
-    width: 218px;
     height: 70px;
   }
 
@@ -55,7 +54,6 @@ export const AddressOverviewPanel = styled.div`
     background: #46ab81;
     height: 4px;
     width: 197px;
-    margin: 0 auto;
   }
 `
 
@@ -109,4 +107,84 @@ export const CellConsumedBarDiv = styled.div`
     height: 100%;
     border-radius: inherit;
   }
+`
+
+export const AddressTransactionsPenal = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+export const AddressTransactionsItem = styled.div`
+  width: 1200px;
+  padding: 38px 83px 41px 83px;
+  margin: 0 auto;
+  margin-top: 10px;
+  background: white;
+  border: 0px solid white;
+  border-radius: 6px;
+  box-shadow: 0px 5px 9px rgb(233, 233, 233);
+  display: flex;
+  flex-direction: column;
+
+  .transaction__hash__panel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .transaction_hash {
+      font-size: 16px;
+      color: rgb(75, 188, 142);
+    }
+
+    .transaction_block {
+      font-size: 16px;
+      color: rgb(75, 188, 142);
+    }
+  }
+
+  .transaction__separate {
+    width: 100%;
+    height: 1px;
+    margin-top: 30px;
+    background: rgb(233, 233, 233);
+  }
+
+  .transaction__input__output {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    img {
+      width: 68px;
+      height: 68px;
+    }
+  }
+`
+
+export const AddressTransactionsCell = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 22px;
+
+  .transaction__cell__hash {
+    font-size: 16px;
+    color: rgb(75, 188, 142);
+    max-width: 320px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .transaction__cell__capacity {
+    font-size: 16px;
+    color: rgb(136, 136, 136);
+    margin-left: 25px;
+  }
+`
+
+export const AddressTransactionsPagition = styled.div`
+  margin: 80px 0 200px 0;
 `
