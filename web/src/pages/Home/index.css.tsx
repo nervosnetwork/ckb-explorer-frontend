@@ -139,3 +139,15 @@ export const TableContentRow = styled.tr`
     text-overflow: ellipsis;
   }
 `
+
+export const TableMinerContentPanel = styled.td`
+  height: 78px;
+
+  .table__miner__content {
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: ${(props: { color: string }) => props.color};
+    text-decoration: none;
+  }
+`
