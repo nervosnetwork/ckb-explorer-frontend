@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import {
   HomeHeaderPanel,
   HomeHeader,
@@ -9,6 +10,7 @@ import {
   ContentTable,
   TableTitleRow,
   TableContentRow,
+  TableMinerContentPanel,
 } from './index.css'
 import Page from '../../components/Page'
 import Header from '../../components/Header'
@@ -45,24 +47,13 @@ const TableContentItem = ({ color, content }: { color: string; content: string }
   )
 }
 
-const TableLoogContentItem = ({ color, content }: { color: string; content: string }) => {
+const TableMinerContentItem = ({ color, content }: { color: string; content: string }) => {
   return (
-    <td
-      style={{
-        color,
-        height: (78 * window.innerWidth) / 1920,
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 90,
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-        }}
-      >
+    <TableMinerContentPanel color={color}>
+      <Link className="table__miner__content" to={`/address/${content}`}>
         {content}
-      </div>
-    </td>
+      </Link>
+    </TableMinerContentPanel>
   )
 }
 
@@ -126,7 +117,7 @@ export default () => {
                       <TableContentItem color={clickableColor} content={data.number} />
                       <TableContentItem color={normalColor} content={data.transactions_count} />
                       <TableContentItem color={normalColor} content={data.cell_consumed} />
-                      <TableLoogContentItem color={clickableColor} content={data.miner_hash} />
+                      <TableMinerContentItem color={clickableColor} content={data.miner_hash} />
                       <TableContentItem color={normalColor} content={parseDate(data.timestamp)} />
                     </TableContentRow>
                   )
