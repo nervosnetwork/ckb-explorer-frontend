@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  balance: 1
+  address_hash: 
+  cell_consumed: 1
+
+two:
+  balance: 1
+  address_hash: 
+  cell_consumed: 1

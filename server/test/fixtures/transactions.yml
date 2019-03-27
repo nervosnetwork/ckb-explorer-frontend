@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tx_hash: 
+  deps: 
+  block_id: 1
+  block_number: 1
+  block_timestamp: 1
+  address_id: 1
+  display_input: 
+  display_output: 
+  status: 1
+  transaction_fee: 1
+
+two:
+  tx_hash: 
+  deps: 
+  block_id: 1
+  block_number: 1
+  block_timestamp: 1
+  address_id: 1
+  display_input: 
+  display_output: 
+  status: 1
+  transaction_fee: 1

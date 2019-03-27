@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  capacity: 1
+  data:
+  ckb_transaction_id: 1
+
+two:
+  capacity: 1
+  data:
+  ckb_transaction_id: 1
