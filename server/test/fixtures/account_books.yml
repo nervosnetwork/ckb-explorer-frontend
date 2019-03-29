@@ -3,9 +3,9 @@
 one:
   account_id: 1
   ckb_transaction_id: 1
-  transactions_count: 1
+  ckb_transactions_count: 1
 
 two:
   account_id: 1
   ckb_transaction_id: 1
-  transactions_count: 1
+  ckb_transactions_count: 1

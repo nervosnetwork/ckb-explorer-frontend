@@ -8,6 +8,7 @@ class CreateLockScripts < ActiveRecord::Migration[5.2]
       t.integer :version
       t.belongs_to :cell_output, index: true
       t.belongs_to :account, index: true
+      t.belongs_to :cell_input #TODO script 结构更新之后去掉
 
       t.timestamps
     end

@@ -1,9 +1,10 @@
 class CreateAccounts < ActiveRecord::Migration[5.2]
   def change
     create_table :accounts do |t|
-      t.integer :balance
+      t.bigint :balance
       t.binary :address_hash
-      t.integer :cell_consumed
+      t.bigint :cell_consumed
+      t.bigint :ckb_transactions_count, default: 0
 
       t.timestamps
     end

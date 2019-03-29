@@ -15,11 +15,13 @@ end
 #  version        :integer
 #  cell_output_id :bigint(8)
 #  account_id     :bigint(8)
+#  cell_input_id  :bigint(8)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #
 # Indexes
 #
 #  index_lock_scripts_on_account_id      (account_id)
+#  index_lock_scripts_on_cell_input_id   (cell_input_id)
 #  index_lock_scripts_on_cell_output_id  (cell_output_id)
 #

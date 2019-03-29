@@ -3,7 +3,6 @@ class CreateAccountBooks < ActiveRecord::Migration[5.2]
     create_table :account_books do |t|
       t.belongs_to :account, index: true
       t.belongs_to :ckb_transaction, index: true
-      t.integer :transactions_count, default: 0
 
       t.timestamps
     end

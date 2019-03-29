@@ -1,49 +1,49 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  cellbase_id: 
-  difficulty: 
-  block_hash: 
+  cellbase_id:
+  difficulty:
+  block_hash:
   number: 1
-  parent_hash: 
-  seal: 
+  parent_hash:
+  seal:
   timestamp: 1
-  txs_commit: 
-  txs_proposal: 
+  txs_commit:
+  txs_proposal:
   uncles_count: 1
-  uncles_hash: 
+  uncles_hash:
   uncle_block_hashes: MyString
   version: 1
-  proposal_transactions: 
+  proposal_transactions:
   proposal_transactions_count: 1
   cell_consumed: 1
-  miner_hash: 
+  miner_hash:
   status: 1
   reward: 1
   total_transaction_fee: 1
-  transactions_count: 1
+  ckb_transactions_count: 1
   total_cell_capacity: 1
 
 two:
-  cellbase_id: 
-  difficulty: 
-  block_hash: 
+  cellbase_id:
+  difficulty:
+  block_hash:
   number: 1
-  parent_hash: 
-  seal: 
+  parent_hash:
+  seal:
   timestamp: 1
-  txs_commit: 
-  txs_proposal: 
+  txs_commit:
+  txs_proposal:
   uncles_count: 1
-  uncles_hash: 
+  uncles_hash:
   uncle_block_hashes: MyString
   version: 1
-  proposal_transactions: 
+  proposal_transactions:
   proposal_transactions_count: 1
   cell_consumed: 1
-  miner_hash: 
+  miner_hash:
   status: 1
   reward: 1
   total_transaction_fee: 1
-  transactions_count: 1
+  ckb_transactions_count: 1
   total_cell_capacity: 1

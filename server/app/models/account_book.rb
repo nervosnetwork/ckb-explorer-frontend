@@ -1,6 +1,6 @@
 class AccountBook < ApplicationRecord
-  belongs_to :account
-  belongs_to :ckb_transaction, counter_cache: :transactions_count
+  belongs_to :account, counter_cache: :ckb_transactions_count
+  belongs_to :ckb_transaction
 end
 
 # == Schema Information
@@ -10,7 +10,6 @@ end
 #  id                 :bigint(8)        not null, primary key
 #  account_id         :bigint(8)
 #  ckb_transaction_id :bigint(8)
-#  transactions_count :integer          default(0)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #
