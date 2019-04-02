@@ -44,6 +44,9 @@ gem 'redis', '~> 4.0', '>= 4.0.3'
 # Sidekiq
 gem 'sidekiq', '~> 5.2', '>= 5.2.3'
 
+# bulk insertion of data into database using ActiveRecord
+gem 'activerecord-import'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "pry"
