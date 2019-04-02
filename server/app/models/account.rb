@@ -12,6 +12,14 @@ class Account < ApplicationRecord
     end
     account
   end
+
+  def address_hash
+    "0x#{super.unpack("H*").first}"
+  end
+
+  def address_hash=(address_hash)
+    super([address_hash[2..-1]].pack("H*"))
+  end
 end
 
 # == Schema Information

@@ -1,4 +1,6 @@
 class Block < ApplicationRecord
+  DEFAULT_HASH_LENGTH = 64
+  DEFAULT_SHORT_HASH_LENGTH = 10
   enum status: { inauthentic: 0, authentic: 1, abandoned: 2 }
 
   has_many :ckb_transactions
@@ -15,6 +17,112 @@ class Block < ApplicationRecord
 
   def contained_accounts
     ckb_transactions.map { |ckb_transaction| ckb_transaction.accounts }.uniq.flatten
+  end
+
+  def cellbase_id
+    "0x#{super.unpack("H*").first}"
+  end
+
+  def cellbase_id=(cellbase_id)
+    super([cellbase_id[2..-1]].pack("H*"))
+  end
+
+  def difficulty
+    "0x#{super.unpack("H*").first}"
+  end
+
+  def difficulty=(difficulty)
+    super([difficulty[2..-1]].pack("H*"))
+  end
+
+  def block_hash
+    "0x#{super.unpack("H*").first}"
+  end
+
+  def block_hash=(block_hash)
+    super([block_hash[2..-1]].pack("H*"))
+  end
+
+  def parent_hash
+    "0x#{super.unpack("H*").first}"
+  end
+
+  def parent_hash=(parent_hash)
+    super([parent_hash[2..-1]].pack("H*"))
+  end
+
+  def txs_commit
+    "0x#{super.unpack("H*").first}"
+  end
+
+  def txs_commit=(txs_commit)
+    super([txs_commit[2..-1]].pack("H*"))
+  end
+
+  def txs_proposal
+    "0x#{super.unpack("H*").first}"
+  end
+
+  def txs_proposal=(txs_proposal)
+    super([txs_proposal[2..-1]].pack("H*"))
+  end
+
+  def uncles_hash
+    if super.present?
+      "0x#{super.unpack("H*").first}"
+    else
+      super
+    end
+  end
+
+  def uncles_hash=(uncles_hash)
+    if uncles_hash.present?
+      uncles_hash = [uncles_hash[2..-1]].pack("H*")
+    end
+    super(uncles_hash)
+  end
+
+  def uncle_block_hashes
+    if super.present?
+      template = Array.new(uncles_count).reduce("") { |memo, item| "#{memo}H#{DEFAULT_HASH_LENGTH}" }
+      super.unpack("#{template}").map { |hash| "0x#{hash}" }.reject(&:blank?)
+    else
+      super.reject(&:blank?)
+    end
+  end
+
+  def uncle_block_hashes=(uncle_block_hashes)
+    if uncle_block_hashes.present?
+      real_uncle_block_hashes = uncle_block_hashes.map { |hash| hash[2..-1] }
+      uncle_block_hashes = real_uncle_block_hashes.pack("H*" * real_uncle_block_hashes.size)
+    end
+    super(uncle_block_hashes)
+  end
+
+  def proposal_transactions
+    if super.present?
+      template = Array.new(proposal_transactions_count).reduce("") { |memo, item| "#{memo}H#{DEFAULT_SHORT_HASH_LENGTH}" }
+      super.unpack("#{template}").map { |hash| "0x#{hash}" }.reject(&:blank?)
+    else
+      super.reject(&:blank?)
+    end
+  end
+
+  def proposal_transactions=(proposal_transactions)
+    if proposal_transactions.present?
+      real_proposal_transactions = proposal_transactions.map { |hash| hash[2..-1] }
+      proposal_transactions = real_proposal_transactions.pack("H*" * real_proposal_transactions.size)
+    else
+      super(proposal_transactions)
+    end
+  end
+
+  def miner_hash
+    "0x#{super.unpack("H*").first}"
+  end
+
+  def miner_hash=(miner_hash)
+    super([miner_hash[2..-1]].pack("H*"))
   end
 
   def cellbase_id

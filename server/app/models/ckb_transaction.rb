@@ -6,6 +6,14 @@ class CkbTransaction < ApplicationRecord
   has_many :accounts, through: :account_books
   has_many :cell_inputs
   has_many :cell_outputs
+
+  def tx_hash
+    "0x#{super.unpack("H*").first}"
+  end
+
+  def tx_hash=(tx_hash)
+    super([tx_hash[2..-1]].pack("H*"))
+  end
 end
 
 # == Schema Information

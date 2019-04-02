@@ -1,5 +1,13 @@
 class TypeScript < ApplicationRecord
   belongs_to :cell_output
+
+  def binary_hash
+    "0x#{super.unpack("H*").first}"
+  end
+
+  def binary_hash=(binary_hash)
+    super([binary_hash[2..-1]].pack("H*"))
+  end
 end
 
 # == Schema Information
