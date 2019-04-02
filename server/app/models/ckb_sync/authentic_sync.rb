@@ -15,8 +15,8 @@ class CkbSync::AuthenticSync
 
       ((local_tip_block_number + 1)..(node_tip_block_number - 10)).each do |number|
         block_hash = CkbSync::Api.get_block_hash(number)
-        CheckBlockWorker.perform_async(block_hash)
         SyncInfo.local_authentic_tip_block_number = number
+        CheckBlockWorker.perform_async(block_hash)
       end
     end
   end
