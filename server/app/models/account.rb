@@ -1,4 +1,7 @@
 class Account < ApplicationRecord
+  has_many :account_books
+  has_many :ckb_transactions, through: :account_books
+
   def self.create_account(verify_script_json_object)
     address_hash = CKB::Utils.json_script_to_type_hash(verify_script_json_object)
     if Account.where(address_hash: address_hash).exists?
