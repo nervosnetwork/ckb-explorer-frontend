@@ -43,7 +43,7 @@ const ToastItem = ({
   let animationFun: any = null
   const [opacity, setOpacity] = useState(1)
   useEffect(() => {
-    const requestAnimationFrame = window.webkitRequestAnimationFrame
+    const requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame
     animationFun = setTimeout(() => {
       const maxFrame: number = ((disappearDuration || 2000) / 1000) * 40 // suppose fps = 40
       let count: number = 0
@@ -60,7 +60,7 @@ const ToastItem = ({
     }, data.timeout)
     return () => {
       if (animationFun) {
-        const cancelAnimationFrame = window.webkitCancelAnimationFrame
+        const cancelAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame
         cancelAnimationFrame(animationFun)
       }
     }
