@@ -151,3 +151,37 @@ export const TableMinerContentPanel = styled.td`
     text-decoration: none;
   }
 `
+
+export const TableMorePanel = styled.td`
+  height: 78px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+
+  div {
+    height: 33px;
+    display: flex;
+
+    img {
+      width: 61px;
+      height: 15px;
+      margin-top: 9px;
+    }
+
+    div {
+      width: 59px;
+      height: 33px;
+      margin: 0 42px 0 42px;
+
+      .table__more {
+        font-size: 24px;
+        color: rgb(75, 188, 142);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-decoration: none;
+      }
+    }
+  }
+`

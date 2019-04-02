@@ -11,6 +11,7 @@ import {
   TableTitleRow,
   TableContentRow,
   TableMinerContentPanel,
+  TableMorePanel,
 } from './index.css'
 import { parseDate } from '../../utils/date'
 import Page from '../../components/Page'
@@ -24,6 +25,8 @@ import TransactionIcon from '../../asserts/transactions.png'
 import CellConsumedIcon from '../../asserts/cell_consumed.png'
 import MinerIcon from '../../asserts/miner.png'
 import TimestampIcon from '../../asserts/timestamp.png'
+import MoreLeftIcon from '../../asserts/more_left.png'
+import MoreRightIcon from '../../asserts/more_right.png'
 import BlocksData from './mock'
 
 const TableTitleItem = ({ image, title }: { image: string; title: string }) => {
@@ -107,6 +110,17 @@ export default () => {
               </tbody>
             </table>
           </ContentTable>
+          <TableMorePanel>
+            <div>
+              <img src={MoreLeftIcon} alt="more left" />
+              <div>
+                <Link className="table__more" to="/block/list">
+                  More
+                </Link>
+              </div>
+              <img src={MoreRightIcon} alt="more right" />
+            </div>
+          </TableMorePanel>
         </BlockPanel>
       </Content>
       <Footer />
