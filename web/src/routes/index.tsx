@@ -5,8 +5,8 @@ import Home from '../pages/Home'
 import Block from '../pages/Block'
 import Transaction from '../pages/Transaction'
 import Address from '../pages/Address'
-
 import NotFoundPage from '../pages/404'
+import SearchFail from '../pages/SearchFail'
 
 export default () => {
   return (
@@ -16,6 +16,7 @@ export default () => {
         <Route path="/block" exact component={Block} />
         <Route path="/transaction" exact component={Transaction} />
         <Route path="/address/:address" exact component={Address} />
+        <Route path="/search/fail" exact component={SearchFail} />
         <Route path="/404" exact component={NotFoundPage} />
         <Redirect from="*" to="/404" />
       </Switch>
