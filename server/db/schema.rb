@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
 
   create_table "cell_inputs", force: :cascade do |t|
     t.jsonb "previous_output"
-    t.jsonb "unlock"
+    t.string "args", array: true
     t.bigint "ckb_transaction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -101,18 +101,14 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   end
 
   create_table "lock_scripts", force: :cascade do |t|
-    t.binary "args"
-    t.binary "binary"
-    t.binary "reference"
-    t.binary "signed_args"
+    t.string "args", array: true
+    t.binary "binary_hash"
     t.integer "version"
     t.bigint "cell_output_id"
     t.bigint "account_id"
-    t.bigint "cell_input_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_lock_scripts_on_account_id"
-    t.index ["cell_input_id"], name: "index_lock_scripts_on_cell_input_id"
     t.index ["cell_output_id"], name: "index_lock_scripts_on_cell_output_id"
   end
 
@@ -127,10 +123,8 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   end
 
   create_table "type_scripts", force: :cascade do |t|
-    t.binary "args"
-    t.binary "binary"
-    t.binary "reference"
-    t.binary "signed_args"
+    t.string "args", array: true
+    t.binary "binary_hash"
     t.integer "version"
     t.bigint "cell_output_id"
     t.datetime "created_at", null: false
