@@ -101,29 +101,32 @@ export const ContentTable = styled.div`
   margin-top: 58px;
 `
 
-export const TableTitleRow = styled.tr`
+export const TableTitleRow = styled.div`
   background: rgb(75, 188, 142);
   display: flex;
   flex-direction: row;
 
-  th {
+  div {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     width: 240px;
     height: ${(props: { width: number }) => (78 * props.width) / 1920}px;
-  }
 
-  img {
-    width: 23px;
-    height: 23px;
-  }
+    div {
+      width: auto;
+      img {
+        width: 23px;
+        height: 23px;
+      }
 
-  div {
-    color: white;
-    font-size: 20px;
-    margin-left: 10px;
+      div {
+        color: white;
+        font-size: 20px;
+        margin-left: 10px;
+      }
+    }
   }
 `
 
@@ -149,5 +152,39 @@ export const TableMinerContentPanel = styled.td`
     text-overflow: ellipsis;
     color: ${(props: { color: string }) => props.color};
     text-decoration: none;
+  }
+`
+
+export const TableMorePanel = styled.td`
+  height: 78px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+
+  div {
+    height: 33px;
+    display: flex;
+
+    img {
+      width: 61px;
+      height: 15px;
+      margin-top: 9px;
+    }
+
+    div {
+      width: 59px;
+      height: 33px;
+      margin: 0 42px 0 42px;
+
+      .table__more {
+        font-size: 24px;
+        color: rgb(75, 188, 142);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-decoration: none;
+      }
+    }
   }
 `
