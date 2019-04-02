@@ -1,19 +1,19 @@
 
 module CKB
   module Utils
-    # script 结构更新之后使用新版方法
     def self.calculate_cell_min_capacity(output)
-      capacity = 8 + output["data"].bytesize + CKB::Utils.hex_to_bin(output["lock"]).bytesize
-      if type = output["type"]
-        capacity += 1
-        capacity += (type["args"] || []).map { |arg| arg.bytesize }.reduce(0, &:+)
-        if type["reference"]
-          capacity += CKB::Utils.hex_to_bin(type["reference"]).bytesize
-        end
-        if type["binary"]
-          capacity += type["binary"].bytesize
-        end
-        capacity += (type["signed_args"] || []).map { |arg| arg.bytesize }.reduce(0, &:+)
+      output = output.deep_symbolize_keys
+      capacity = 8 + output[:data].bytesize + calculate_script_capacity(output[:lock])
+      if type = output[:type]
+        capacity += calculate_script_capacity(type)
+      end
+      capacity
+    end
+
+    def self.calculate_script_capacity(script)
+      capacity = 1 + (script[:args] || []).map { |arg| arg.bytesize }.reduce(0, &:+)
+      if script[:binary_hash]
+        capacity += CKB::Utils.hex_to_bin(script[:binary_hash]).bytesize
       end
       capacity
     end
@@ -31,7 +31,7 @@ module CKB
     end
 
     def self.miner_hash(cellbase)
-      cellbase["outputs"].first["lock"] #TODO script 结构更新之后更改计算方式
+      CKB::Utils.json_script_to_type_hash(cellbase["outputs"].first["lock"].symbolize_keys)
     end
 
     def self.miner_reward(cellbase)

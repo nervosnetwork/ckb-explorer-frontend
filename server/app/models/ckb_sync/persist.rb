@@ -19,14 +19,13 @@ class CkbSync::Persist
         ckb_transactions_with_display_cell_item[:transaction] = ckb_transaction
         transaction["inputs"].each do |input|
           cell_input = build_cell_input(ckb_transaction, input)
-          account = Account.find_or_create_account(ckb_transaction, input["unlock"].except("args").symbolize_keys)
-          build_lock_script(cell_input, input["unlock"], account)
           ckb_transactions_with_display_cell_item[:inputs] << cell_input
         end
         transaction["outputs"].each do |output|
           cell_output = build_cell_output(ckb_transaction, output)
-          # build_lock_script(cell_output, output, account) #TODO 等 script 改版后会从 output 上拿数据创建 lock_script
-          build_type_script(cell_output, output["type"]) #TODO 等 script 改版后会在 output 上拿数据 type_script
+          account = Account.find_or_create_account(ckb_transaction, output["lock"].symbolize_keys)
+          build_lock_script(cell_output, output["lock"], account)
+          build_type_script(cell_output, output["type"])
           ckb_transactions_with_display_cell_item[:outputs] << cell_output
         end
         ckb_transactions_with_display_cell << ckb_transactions_with_display_cell_item
@@ -69,27 +68,20 @@ class CkbSync::Persist
       end
     end
 
-    #TODO 等 script 改版后更改数据结构
-    def build_type_script(cell_output, type_script_json_object)
-      return if type_script_json_object.blank?
+    def build_type_script(cell_output, type_script)
+      return if type_script.blank?
       cell_output.build_type_script(
-        args: type_script_json_object["args"],
-        binary: type_script_json_object["binary"],
-        reference: type_script_json_object["reference"],
-        signed_args: type_script_json_object["signed_args"],
-        version: type_script_json_object["version"]
+        args: type_script["args"],
+        binary_hash: type_script["binary_hash"],
+        version: type_script["version"]
       )
     end
 
-    #TODO 等 script 改版后从 cell_output 拿数据
-    def build_lock_script(cell_input, verify_script_json_object, account)
-      cell_input.build_lock_script(
-        args: verify_script_json_object["args"],
-        binary: verify_script_json_object["binary"],
-        reference: verify_script_json_object["reference"],
-        signed_args: verify_script_json_object["signed_args"],
-        version: verify_script_json_object["version"],
-        cell_output_id: 1, #TODO 修改成真实的 output id
+    def build_lock_script(cell_output, verify_script, account)
+      cell_output.build_lock_script(
+        args: verify_script["args"],
+        binary_hash: verify_script["binary_hash"],
+        version: verify_script["version"],
         account_id: account.id
       )
     end
@@ -97,7 +89,7 @@ class CkbSync::Persist
     def build_cell_input(ckb_transaction, input)
       ckb_transaction.cell_inputs.build(
         previous_output: input["previous_output"],
-        unlock: input["unlock"]
+        args: input["args"]
       )
     end
 
@@ -134,16 +126,16 @@ class CkbSync::Persist
         total_cell_capacity: CKB::Utils.total_cell_capacity(node_block["commit_transactions"]),
         miner_hash: CKB::Utils.miner_hash(node_block["commit_transactions"].first),
         status: sync_type,
-        reward: CKB::Utils.miner_reward(node_block["commit_transactions"].first), #TODO 等 script 改版后更新 reward 获取方式
+        reward: CKB::Utils.miner_reward(node_block["commit_transactions"].first),
         total_transaction_fee: CKB::Utils.total_transaction_fee(node_block["commit_transactions"])
       )
     end
 
     def build_uncle_block(uncle_block, local_block)
-      uncle_block_header = uncle_block["header"]
+      header = uncle_block["header"]
       local_block.uncle_blocks.build(
-        cellbase: uncle_block["cellbase"],
-        difficulty: uncle_block_header["difficulty"],
+        cellbase_id: header["cellbase_id"],
+        difficulty: header["difficulty"],
         block_hash: header["hash"],
         number: header["number"],
         parent_hash: header["parent_hash"],
@@ -156,8 +148,8 @@ class CkbSync::Persist
         version: header["version"],
         proposal_transactions: uncle_block["proposal_transactions"],
         proposal_transactions_count: uncle_block["proposal_transactions"].count,
-        miner_hash: CKB::Utils.miner_hash(uncle_block["commit_transactions"].first),
-        reward: CKB::Utils.miner_reward(node_block["commit_transactions"].first) #TODO 等 script 改版后更新 reward 获取方式
+        miner_hash: CKB::Utils.miner_hash(uncle_block["cellbase"]),
+        reward: CKB::Utils.miner_reward(uncle_block["cellbase"]) #TODO uncle reward 获取方式待定
       )
     end
 
