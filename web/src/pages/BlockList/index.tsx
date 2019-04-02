@@ -37,7 +37,7 @@ const TableContentItem = ({ color, content }: { color: string; content: string }
     <td
       style={{
         color,
-        height: (78 * window.innerWidth) / 1920,
+        height: 78,
       }}
     >
       {content}
@@ -84,7 +84,7 @@ export default () => {
           <ContentTable>
             <table>
               <tbody>
-                <TableTitleRow width={window.innerWidth}>
+                <TableTitleRow>
                   <TableTitleItem image={BlockHeightIcon} title="Height" />
                   <TableTitleItem image={TransactionIcon} title="Transactions" />
                   <TableTitleItem image={CellConsumedIcon} title="Cell Consumed(B)" />

@@ -44,7 +44,7 @@ export const TableTitleRow = styled.tr`
     justify-content: center;
     align-items: center;
     width: 240px;
-    height: ${(props: { width: number }) => (78 * props.width) / 1920}px;
+    height: 78px;
   }
 
   img {
@@ -85,5 +85,5 @@ export const TableMinerContentPanel = styled.td`
 `
 
 export const BlocksPagition = styled.div`
-  margin-top: 80px;
+  margin-top: 60px;
 `
