@@ -46,7 +46,7 @@ export default (props: any) => {
               props.history.goBack()
             }}
           >
-            GO BACK
+            {'GO BACK'}
           </GoBackButton>
         </NotFoundPanel>
       </Content>
