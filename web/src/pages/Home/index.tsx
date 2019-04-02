@@ -31,10 +31,12 @@ import BlocksData from './mock'
 
 const TableTitleItem = ({ image, title }: { image: string; title: string }) => {
   return (
-    <th>
-      <img src={image} alt={title} />
-      <div>{title}</div>
-    </th>
+    <div>
+      <div>
+        <img src={image} alt={title} />
+        <div>{title}</div>
+      </div>
+    </div>
   )
 }
 

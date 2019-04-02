@@ -33,29 +33,32 @@ export const ContentTable = styled.div`
   margin-top: 58px;
 `
 
-export const TableTitleRow = styled.tr`
+export const TableTitleRow = styled.div`
   background: rgb(75, 188, 142);
   display: flex;
   flex-direction: row;
 
-  th {
+  div {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     width: 240px;
     height: 78px;
-  }
 
-  img {
-    width: 23px;
-    height: 23px;
-  }
+    div {
+      width: auto;
+      img {
+        width: 23px;
+        height: 23px;
+      }
 
-  div {
-    color: white;
-    font-size: 20px;
-    margin-left: 10px;
+      div {
+        color: white;
+        font-size: 20px;
+        margin-left: 10px;
+      }
+    }
   }
 `
 
