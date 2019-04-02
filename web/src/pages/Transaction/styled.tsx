@@ -1,17 +1,65 @@
 import styled from 'styled-components'
 
-const PanelDiv = styled.div`
+export const TransactionDiv = styled.div.attrs({
+  className: 'container',
+})`
+  padding-top: 100px;
+  padding-bottom: 200px;
+`
+export const TransactionTitleDiv = styled.div`
+  text-align: center;
+  font-size: 40px;
+  font-family: PingFang-SC-Heavy;
+  font-weight: 900;
+`
+export const TransactionOverviewLabel = styled.div`
+  text-align: center;
+  margin-top: 100px;
+  font-size: 50px;
+  font-family: PingFang-SC-Heavy;
+  font-weight: 900;
+  &:after {
+    content: '';
+    display: block;
+    width: 197px;
+    height: 4px;
+    margin: 0 auto;
+    background-color: #50ba8e;
+  }
+`
+
+export const TransactionHashDiv = styled.div`
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #888888;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  #transaction__hash {
+    height: 56px;
+    line-height: 56px;
+  }
+`
+
+export const PanelDiv = styled.div`
   border-radius: 6px;
   box-shadow: 0 5px 9px 0 #dfdfdf;
   background-color: #ffffff;
+  > div {
+    overflow-x: auto;
+  }
 `
-const BriefInfoDiv = styled(PanelDiv)`
+export const BriefInfoDiv = styled(PanelDiv)`
   padding: ${(props: { width: number }) => `60px ${(14 * props.width) / 1920}px`};
   margin-top: 80px;
   min-height: 233px;
   display: flex;
   flex-wrap: wrap;
   > div {
+    overflow-x: unset;
     margin-top: 20px;
     // margin-bottom: 20px;
     width: 50%;
@@ -52,7 +100,7 @@ const BriefInfoDiv = styled(PanelDiv)`
   }
 `
 
-const InputOutPutTable = styled.table`
+export const InputOutputTable = styled.table`
   width: 1100px;
   border-collapse: collapse;
   thead {
@@ -63,6 +111,17 @@ const InputOutPutTable = styled.table`
       font-family: PingFang-SC-Heavy;
       color: #4d4d4d;
       font-weight: 900;
+      td {
+        &:nth-child(1) {
+          width: ${1100 - 150 - 300}px;
+        }
+        &:nth-child(2) {
+          width: 150px;
+        }
+        &:nth-child(3) {
+          width: 300px;
+        }
+      }
     }
   }
   tbody {
@@ -73,6 +132,80 @@ const InputOutPutTable = styled.table`
         padding-bottom: 10px;
         &: hover {
           background-color: #f9f9f9;
+        }
+        td {
+          &: nth-child(1) {
+            width: 50px;
+            font-size: 18px;
+            color: #888888;
+          }
+          &: nth-child(2) {
+            width: ${1100 - 50 - 150 - 100 * 3}px;
+            font-size: 16px;
+            color: #4bbc8e;
+          }
+          &: nth-child(3) {
+            width: 150px;
+            font-size: 16px;
+            color: #888888;
+          }
+          &: nth-child(4),&: nth-child(5),&: nth-child(6) {
+            width: 100px;
+            font-size: 16px;
+            color: #4bbc8e;
+            font-weight: bold;
+          }
+        }
+      }
+      &.tr-detail {
+        border-bottom: 2px solid #4bbc8e;
+        &:last-child {
+          border-bottom: 0;
+        }
+        td {
+          textarea {
+            border: none;
+            width: 100%;
+            padding: 18px 30px 18px 34px;
+            font-size: 16px;
+            color: #888888;
+            height: 170px;
+            background-color: #f9f9f9;
+            border-radius: 6px 6px;
+          }
+          .tr-detail-td-buttons {
+            display: flex;
+            justify-content: center;
+            > div {
+              width: 150px;
+              height: 40px;
+              margin: 20px 10px 40px 10px;
+              text-align: center;
+              line-height: 40px;
+              border-radius: 2px 2px;
+              &:nth-child(1) {
+                border: 1px solid #4bbc8e;
+                color: #4bbc8e;
+              }
+              &:nth-child(2) {
+                border: 1px solid #888888;
+                color: #888888;
+              }
+              &:nth-child(3) {
+                border: 1px solid #4bbc8e;
+                background-color: #4bbc8e;
+                color: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                img {
+                  margin-left: 5px;
+                  width: 21px;
+                  height: 24px;
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -89,11 +222,7 @@ const InputOutPutTable = styled.table`
   }
 `
 
-const WithRowDiv = styled.div`
+export const WithRowDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
 `
-export { PanelDiv }
-export { BriefInfoDiv }
-export { InputOutPutTable }
-export { WithRowDiv }
