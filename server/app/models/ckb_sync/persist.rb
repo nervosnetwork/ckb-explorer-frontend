@@ -19,7 +19,7 @@ class CkbSync::Persist
         ckb_transactions_with_display_cell_item[:transaction] = ckb_transaction
         transaction["inputs"].each do |input|
           cell_input = build_cell_input(ckb_transaction, input)
-          account = find_or_build_account(ckb_transaction, input["unlock"].except("args").symbolize_keys)      #
+          account = Account.find_or_create_account(ckb_transaction, input["unlock"].except("args").symbolize_keys)
           build_lock_script(cell_input, input["unlock"], account)
           ckb_transactions_with_display_cell_item[:inputs] << cell_input
         end
@@ -67,17 +67,6 @@ class CkbSync::Persist
         previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
         { id: previous_output.id, capacity: previous_output.capacity }
       end
-    end
-
-    def find_or_build_account(ckb_transaction, verify_script)
-      address_hash = CKB::Utils.json_script_to_type_hash(verify_script)
-      if Account.where(address_hash: address_hash).exists?
-        account = Account.find_by(address_hash: address_hash)
-      else
-        account = Account.create(address_hash: address_hash, balance: 0, cell_consumed: 0)
-        ckb_transaction.accounts << account
-      end
-      account
     end
 
     #TODO 等 script 改版后更改数据结构

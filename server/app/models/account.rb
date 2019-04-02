@@ -2,13 +2,15 @@ class Account < ApplicationRecord
   has_many :account_books
   has_many :ckb_transactions, through: :account_books
 
-  def self.create_account(verify_script_json_object)
-    address_hash = CKB::Utils.json_script_to_type_hash(verify_script_json_object)
-    if Account.where(address_hash: address_hash).exists?
-      Account.find_by(address_hash: address_hash)
+  def self.find_or_create_account(ckb_transaction, verify_script)
+    address_hash = CKB::Utils.json_script_to_type_hash(verify_script)
+    if Account.where(address_hash: [address_hash[2..-1]].pack("H*")).exists?
+      account = Account.find_by(address_hash: [address_hash[2..-1]].pack("H*"))
     else
-      Account.create(address_hash: address_hash)
+      account = Account.create(address_hash: address_hash, balance: 0, cell_consumed: 0)
+      ckb_transaction.accounts << account
     end
+    account
   end
 end
 
