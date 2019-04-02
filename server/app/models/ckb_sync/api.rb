@@ -1,5 +1,5 @@
 class CkbSync::Api
-  METHOD_NAMES = %w(system_script_cell genesis_block genesis_block_hash get_block get_block_hash inspect get_tip_header get_tip_block_number get_cells_by_type_hash get_transaction get_live_cell send_transaction local_node_info trace_transaction get_transaction_trace system_script_out_point uri system_script_cell_hash set_system_script_cell)
+  METHOD_NAMES = %w(local_node_info genesis_block get_transaction_trace trace_transaction get_live_cell inspect set_system_script_cell system_script_cell get_block genesis_block_hash get_block_hash get_tip_header get_tip_block_number get_cells_by_lock_hash get_transaction uri system_script_cell_hash send_transaction system_script_out_point)
   class << self
     METHOD_NAMES.each do |name|
       define_method name do |*params|
