@@ -3,7 +3,7 @@ class CreateAccounts < ActiveRecord::Migration[5.2]
     create_table :accounts do |t|
       t.bigint :balance
       t.binary :address_hash
-      t.bigint :cell_consumed
+      t.decimal :cell_consumed, precision: 64, scale: 2
       t.bigint :ckb_transactions_count, default: 0
 
       t.timestamps

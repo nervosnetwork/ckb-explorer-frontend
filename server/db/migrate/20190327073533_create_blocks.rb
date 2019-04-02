@@ -16,13 +16,13 @@ class CreateBlocks < ActiveRecord::Migration[5.2]
       t.integer :version
       t.binary :proposal_transactions
       t.integer :proposal_transactions_count
-      t.bigint :cell_consumed
+      t.decimal :cell_consumed, precision: 64, scale: 2
       t.binary :miner_hash
       t.integer :status
       t.integer :reward
       t.integer :total_transaction_fee
       t.bigint :ckb_transactions_count, default: 0
-      t.bigint :total_cell_capacity
+      t.decimal :total_cell_capacity, precision: 64, scale: 2
 
       t.timestamps
     end

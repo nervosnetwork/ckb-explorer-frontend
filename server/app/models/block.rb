@@ -266,13 +266,13 @@ end
 #  version                     :integer
 #  proposal_transactions       :binary
 #  proposal_transactions_count :integer
-#  cell_consumed               :bigint(8)
+#  cell_consumed               :decimal(64, 2)
 #  miner_hash                  :binary
 #  status                      :integer
 #  reward                      :integer
 #  total_transaction_fee       :integer
 #  ckb_transactions_count      :bigint(8)        default(0)
-#  total_cell_capacity         :bigint(8)
+#  total_cell_capacity         :decimal(64, 2)
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #

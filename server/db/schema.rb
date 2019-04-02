@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   create_table "accounts", force: :cascade do |t|
     t.bigint "balance"
     t.binary "address_hash"
-    t.bigint "cell_consumed"
+    t.decimal "cell_consumed", precision: 64, scale: 2
     t.bigint "ckb_transactions_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -50,13 +50,13 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.integer "version"
     t.binary "proposal_transactions"
     t.integer "proposal_transactions_count"
-    t.bigint "cell_consumed"
+    t.decimal "cell_consumed", precision: 64, scale: 2
     t.binary "miner_hash"
     t.integer "status"
     t.integer "reward"
     t.integer "total_transaction_fee"
     t.bigint "ckb_transactions_count", default: 0
-    t.bigint "total_cell_capacity"
+    t.decimal "total_cell_capacity", precision: 64, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["block_hash", "status"], name: "index_blocks_on_block_hash_and_status"
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   end
 
   create_table "cell_outputs", force: :cascade do |t|
-    t.bigint "capacity"
+    t.decimal "capacity", precision: 32, scale: 2
     t.binary "data"
     t.bigint "ckb_transaction_id"
     t.datetime "created_at", null: false

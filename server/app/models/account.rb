@@ -29,7 +29,7 @@ end
 #  id                     :bigint(8)        not null, primary key
 #  balance                :bigint(8)
 #  address_hash           :binary
-#  cell_consumed          :bigint(8)
+#  cell_consumed          :decimal(64, 2)
 #  ckb_transactions_count :bigint(8)        default(0)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null

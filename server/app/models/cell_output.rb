@@ -12,7 +12,7 @@ end
 # Table name: cell_outputs
 #
 #  id                 :bigint(8)        not null, primary key
-#  capacity           :bigint(8)
+#  capacity           :decimal(32, 2)
 #  data               :binary
 #  ckb_transaction_id :bigint(8)
 #  created_at         :datetime         not null
