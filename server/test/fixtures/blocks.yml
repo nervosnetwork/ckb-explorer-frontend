@@ -36,7 +36,7 @@ two:
   txs_proposal:
   uncles_count: 1
   uncles_hash:
-  uncle_block_hashes: MyString
+  uncle_block_hashes: MyString two
   version: 1
   proposal_transactions:
   proposal_transactions_count: 1

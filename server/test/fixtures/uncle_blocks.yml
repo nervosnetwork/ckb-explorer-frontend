@@ -14,13 +14,10 @@ one:
   version: 1
   proposal_transactions:
   proposal_transactions_count: 1
-  cell_consumed: 1
   miner_hash:
   status: 1
   reward: 1
   total_transaction_fee: 1
-  ckb_transactions_count: 1
-  total_cell_capacity: 1
   block: one
 
 two:
@@ -37,11 +34,7 @@ two:
   version: 1
   proposal_transactions:
   proposal_transactions_count: 1
-  cell_consumed: 1
   miner_hash:
   status: 1
   reward: 1
-  total_transaction_fee: 1
-  ckb_transactions_count: 1
-  total_cell_capacity: 1
   block: two

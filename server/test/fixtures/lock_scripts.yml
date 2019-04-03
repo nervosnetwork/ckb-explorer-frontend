@@ -1,19 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  args: 
-  binary: 
-  reference: 
-  signed_args: 
+  args:
+  binary_hash:
   version: 1
   cell_output_id: 1
   account_id: 1
 
 two:
-  args: 
-  binary: 
-  reference: 
-  signed_args: 
+  args:
+  binary_hash:
   version: 1
   cell_output_id: 1
   account_id: 1
