@@ -6,7 +6,6 @@ class CkbSync::Persist
     end
 
     def save_block(node_block, sync_type)
-      blocks = []
       ckb_transactions_with_display_cell = []
       local_block = build_block(node_block, sync_type)
       node_block["uncles"].each do |uncle_block|
@@ -30,10 +29,9 @@ class CkbSync::Persist
         end
         ckb_transactions_with_display_cell << ckb_transactions_with_display_cell_item
       end
-      blocks << local_block
-
+      local_block.ckb_transactions_count = ckb_transactions_with_display_cell.size
       ApplicationRecord.transaction do
-        Block.import! blocks, recursive: true, batch_size: 1500
+        Block.import! [local_block], recursive: true, batch_size: 1500
         SyncInfo.find_by!(name: sync_tip_block_number_type(sync_type)).update!(status: "synced")
         ckb_transactions = assign_display_info_to_ckb_transaction(ckb_transactions_with_display_cell)
         CkbTransaction.import! ckb_transactions, batch_size: 1500, on_duplicate_key_update: [:display_inputs, :display_outputs]

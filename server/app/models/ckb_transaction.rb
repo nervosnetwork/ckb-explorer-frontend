@@ -1,7 +1,7 @@
 class CkbTransaction < ApplicationRecord
   enum status: { inauthentic: 0, authentic: 1, abandoned: 2 }
 
-  belongs_to :block, counter_cache: true
+  belongs_to :block
   has_many :account_books
   has_many :accounts, through: :account_books
   has_many :cell_inputs

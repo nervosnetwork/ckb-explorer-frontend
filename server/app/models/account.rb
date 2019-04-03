@@ -8,8 +8,8 @@ class Account < ApplicationRecord
       account = Account.find_by(address_hash: [address_hash[2..-1]].pack("H*"))
     else
       account = Account.create(address_hash: address_hash, balance: 0, cell_consumed: 0)
-      ckb_transaction.accounts << account
     end
+    ckb_transaction.accounts << account.increment!("ckb_transactions_count")
     account
   end
 

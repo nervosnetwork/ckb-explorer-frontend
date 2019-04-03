@@ -1,5 +1,5 @@
 class AccountBook < ApplicationRecord
-  belongs_to :account, counter_cache: :ckb_transactions_count
+  belongs_to :account
   belongs_to :ckb_transaction
 end
 
