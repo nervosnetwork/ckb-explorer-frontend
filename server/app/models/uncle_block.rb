@@ -2,7 +2,7 @@ class UncleBlock < ApplicationRecord
   belongs_to :block
 
   def cellbase_id
-    "0x#{super.unpack("H*").first}"
+    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
   end
 
   def cellbase_id=(cellbase_id)
@@ -10,7 +10,7 @@ class UncleBlock < ApplicationRecord
   end
 
   def difficulty
-    "0x#{super.unpack("H*").first}"
+    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
   end
 
   def difficulty=(difficulty)
@@ -18,7 +18,7 @@ class UncleBlock < ApplicationRecord
   end
 
   def block_hash
-    "0x#{super.unpack("H*").first}"
+    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
   end
 
   def block_hash=(block_hash)
@@ -26,7 +26,7 @@ class UncleBlock < ApplicationRecord
   end
 
   def parent_hash
-    "0x#{super.unpack("H*").first}"
+    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
   end
 
   def parent_hash=(parent_hash)
@@ -34,7 +34,7 @@ class UncleBlock < ApplicationRecord
   end
 
   def txs_commit
-    "0x#{super.unpack("H*").first}"
+    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
   end
 
   def txs_commit=(txs_commit)
@@ -42,7 +42,7 @@ class UncleBlock < ApplicationRecord
   end
 
   def txs_proposal
-    "0x#{super.unpack("H*").first}"
+    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
   end
 
   def txs_proposal=(txs_proposal)
@@ -51,7 +51,7 @@ class UncleBlock < ApplicationRecord
 
   def uncles_hash
     if super.present?
-      "0x#{super.unpack("H*").first}"
+      "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
     else
       super
     end
@@ -66,8 +66,8 @@ class UncleBlock < ApplicationRecord
 
   def proposal_transactions
     if super.present?
-      template = Array.new(proposal_transactions_count).reduce("") { |memo, item| "#{memo}H#{DEFAULT_SHORT_HASH_LENGTH}" }
-      super.unpack("#{template}").map { |hash| "0x#{hash}" }.reject(&:blank?)
+      template = Array.new(proposal_transactions_count).reduce("") { |memo, item| "#{memo}H#{ENV["DEFAULT_SHORT_HASH_LENGTH"]}" }
+      super.unpack("#{template}").map { |hash| "#{ENV["DEFAULT_HASH_PREFIX"]}#{hash}" }.reject(&:blank?)
     else
       super.reject(&:blank?)
     end
@@ -83,7 +83,7 @@ class UncleBlock < ApplicationRecord
   end
 
   def miner_hash
-    "0x#{super.unpack("H*").first}"
+    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
   end
 
   def miner_hash=(miner_hash)

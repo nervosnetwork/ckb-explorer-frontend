@@ -14,7 +14,7 @@ class Account < ApplicationRecord
   end
 
   def address_hash
-    "0x#{super.unpack("H*").first}"
+    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
   end
 
   def address_hash=(address_hash)

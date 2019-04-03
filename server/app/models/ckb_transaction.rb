@@ -8,7 +8,7 @@ class CkbTransaction < ApplicationRecord
   has_many :cell_outputs
 
   def tx_hash
-    "0x#{super.unpack("H*").first}"
+    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
   end
 
   def tx_hash=(tx_hash)

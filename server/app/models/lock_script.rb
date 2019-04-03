@@ -3,7 +3,7 @@ class LockScript < ApplicationRecord
   belongs_to :account
 
   def binary_hash
-    "0x#{super.unpack("H*").first}"
+    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
   end
 
   def binary_hash=(binary_hash)
