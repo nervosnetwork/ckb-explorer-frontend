@@ -4,8 +4,12 @@ class CkbSync::Validator
       node_block = CkbSync::Api.get_block(block_hash).deep_stringify_keys
       local_block = Block.find_by(number: node_block.dig("header", "number"))
       ApplicationRecord.transaction do
-        local_block.verify!(block.dig("header", "hash"))
-        update_account_balance_and_cell_consumed!(local_block)
+        if local_block.present?
+          local_block.verify!(node_block.dig("header", "hash"))
+          update_account_balance_and_cell_consumed!(local_block)
+        else
+          CkbSync::Persist.save_block(node_block, "authentic")
+        end
       end
     end
 
