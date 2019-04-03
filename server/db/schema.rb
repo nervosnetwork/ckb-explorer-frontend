@@ -148,14 +148,11 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.binary "proposal_transactions"
     t.integer "proposal_transactions_count"
     t.binary "miner_hash"
-    t.integer "status"
     t.integer "reward"
-    t.integer "total_transaction_fee"
     t.bigint "block_id"
     t.jsonb "cellbase"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["block_hash", "status"], name: "index_uncle_blocks_on_block_hash_and_status"
     t.index ["block_hash"], name: "index_uncle_blocks_on_block_hash", unique: true
     t.index ["block_id"], name: "index_uncle_blocks_on_block_id"
   end

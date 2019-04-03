@@ -111,9 +111,7 @@ end
 #  proposal_transactions       :binary
 #  proposal_transactions_count :integer
 #  miner_hash                  :binary
-#  status                      :integer
 #  reward                      :integer
-#  total_transaction_fee       :integer
 #  block_id                    :bigint(8)
 #  cellbase                    :jsonb
 #  created_at                  :datetime         not null
@@ -121,7 +119,6 @@ end
 #
 # Indexes
 #
-#  index_uncle_blocks_on_block_hash             (block_hash) UNIQUE
-#  index_uncle_blocks_on_block_hash_and_status  (block_hash,status)
-#  index_uncle_blocks_on_block_id               (block_id)
+#  index_uncle_blocks_on_block_hash  (block_hash) UNIQUE
+#  index_uncle_blocks_on_block_id    (block_id)
 #

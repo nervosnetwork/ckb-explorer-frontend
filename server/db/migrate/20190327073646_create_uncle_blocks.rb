@@ -16,15 +16,12 @@ class CreateUncleBlocks < ActiveRecord::Migration[5.2]
       t.binary :proposal_transactions
       t.integer :proposal_transactions_count
       t.binary :miner_hash
-      t.integer :status
       t.integer :reward
-      t.integer :total_transaction_fee
       t.belongs_to :block, index: true
       t.jsonb :cellbase
 
       t.timestamps
     end
     add_index :uncle_blocks, :block_hash, unique: true
-    add_index :uncle_blocks, [:block_hash, :status]
   end
 end

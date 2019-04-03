@@ -146,8 +146,9 @@ class CkbSync::Persist
         version: header["version"],
         proposal_transactions: uncle_block["proposal_transactions"],
         proposal_transactions_count: uncle_block["proposal_transactions"].count,
+        cellbase: uncle_block["cellbase"],
         miner_hash: CKB::Utils.miner_hash(uncle_block["cellbase"]),
-        reward: CKB::Utils.miner_reward(uncle_block["cellbase"]) #TODO uncle reward 获取方式待定
+        reward: CKB::Utils.miner_reward(uncle_block["cellbase"]) # TODO uncle reward acquisition method to be determined
       )
     end
 
