@@ -39,9 +39,9 @@ module CKB
     end
 
     def self.transaction_fee(transaction)
-      output_capacity = transaction["outputs"].map { |output| output["capacity"] }.reduce(0, &:+)
-      input_capacity = transaction["inputs"].map { |input| CKB::Utils.cell_input_capacity(input) }.reduce(0, &:+)
-      output_capacity - input_capacity
+      output_capacities = transaction["outputs"].map { |output| output["capacity"] }.reduce(0, &:+)
+      input_capacities = transaction["inputs"].map { |input| CKB::Utils.cell_input_capacity(input) }.reduce(0, &:+)
+      output_capacities - (input_capacities.zero? ? output_capacities : input_capacities)
     end
 
     def self.total_transaction_fee(transactions)
@@ -73,7 +73,7 @@ module CKB
         previous_transaction_hash = out_point[:hash]
         previous_output_index = out_point[:index]
         if CellOutput::BASE_HASH != previous_transaction_hash
-          previous_transacton = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
+          previous_transacton = CkbTransaction.find_by(tx_hash: [previous_transaction_hash[2..-1]].pack("H*"))
           previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
           previous_output
         end
@@ -89,7 +89,7 @@ module CKB
       if CellOutput::BASE_HASH == previous_transaction_hash
         0
       else
-        previous_transacton = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
+        previous_transacton = CkbTransaction.find_by(tx_hash: [previous_transaction_hash[2..-1]].pack("H*"))
         previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
         previous_output.capacity
       end
