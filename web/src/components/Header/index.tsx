@@ -52,7 +52,7 @@ const HeaderDiv = styled.div`
       margin-left: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
       margin-right: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
       font-size: 22px;
-      font-weight: 900;
+      font-weight: 500;
       color: #4bbc8e;
       &.header__menus__item--active, &: hover {
         color: white;
@@ -70,15 +70,15 @@ const HeaderDiv = styled.div`
     padding-top: 6px;
     padding-bottom: 7px;
     input {
-      min-width: ${(props: { width: number }) => ((662 - 112) * props.width) / 1920}px;
+      min-width: ${(props: { width: number }) => (630 * props.width) / 1920}px;
       color: rgb(186 186 186);
       height: 62px;
       font-size: 16px;
       padding: 20px;
       padding-right: ${(props: { width: number }) => (106 * props.width) / 1920}
       opacity: 0.2;
-      border-radius: 6px;
       background-color: #ffffff;
+      border-radius: 6px;
       &: focus{
         color: black;
         opacity: 1;
@@ -107,11 +107,11 @@ const HeaderDiv = styled.div`
 `
 const menus = [
   {
-    name: 'CKB Wallet',
+    name: 'Wallet',
     url: '/block',
   },
   {
-    name: 'CKB Faucet',
+    name: 'Faucet',
     url: '/transaction',
   },
   {
