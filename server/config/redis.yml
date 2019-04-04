@@ -1,0 +1,12 @@
+defaults: &defaults
+  url: <%= ENV.fetch("REDIS_URL") || "redis://localhost:6379/8" %>
+  password: <%= ENV["REDIS_PASSWORD"] %>
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

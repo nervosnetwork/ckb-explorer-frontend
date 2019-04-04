@@ -4,12 +4,13 @@ class CreateCkbTransactions < ActiveRecord::Migration[5.2]
       t.binary :tx_hash
       t.jsonb :deps
       t.belongs_to :block, index: true
-      t.integer :block_number
-      t.integer :block_timestamp
-      t.jsonb :display_input
-      t.jsonb :display_output
+      t.bigint :block_number
+      t.bigint :block_timestamp
+      t.jsonb :display_inputs
+      t.jsonb :display_outputs
       t.integer :status
       t.integer :transaction_fee
+      t.integer :version
 
       t.timestamps
     end

@@ -18,7 +18,6 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   create_table "account_books", force: :cascade do |t|
     t.bigint "account_id"
     t.bigint "ckb_transaction_id"
-    t.integer "transactions_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_account_books_on_account_id"
@@ -26,9 +25,10 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   end
 
   create_table "accounts", force: :cascade do |t|
-    t.integer "balance"
+    t.bigint "balance"
     t.binary "address_hash"
-    t.integer "cell_consumed"
+    t.decimal "cell_consumed", precision: 64, scale: 2
+    t.bigint "ckb_transactions_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["address_hash"], name: "index_accounts_on_address_hash", unique: true
@@ -38,25 +38,25 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.binary "cellbase_id"
     t.binary "difficulty"
     t.binary "block_hash"
-    t.integer "number"
+    t.bigint "number"
     t.binary "parent_hash"
     t.jsonb "seal"
-    t.integer "timestamp"
+    t.bigint "timestamp"
     t.binary "txs_commit"
     t.binary "txs_proposal"
     t.integer "uncles_count"
     t.binary "uncles_hash"
-    t.string "uncle_block_hashes"
+    t.binary "uncle_block_hashes"
     t.integer "version"
     t.binary "proposal_transactions"
     t.integer "proposal_transactions_count"
-    t.integer "cell_consumed"
+    t.decimal "cell_consumed", precision: 64, scale: 2
     t.binary "miner_hash"
     t.integer "status"
     t.integer "reward"
     t.integer "total_transaction_fee"
-    t.integer "transactions_count"
-    t.integer "total_cell_capacity"
+    t.bigint "ckb_transactions_count", default: 0
+    t.decimal "total_cell_capacity", precision: 64, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["block_hash", "status"], name: "index_blocks_on_block_hash_and_status"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
 
   create_table "cell_inputs", force: :cascade do |t|
     t.jsonb "previous_output"
+    t.string "args", array: true
     t.bigint "ckb_transaction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -73,7 +74,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   end
 
   create_table "cell_outputs", force: :cascade do |t|
-    t.integer "capacity"
+    t.decimal "capacity", precision: 32, scale: 2
     t.binary "data"
     t.bigint "ckb_transaction_id"
     t.datetime "created_at", null: false
@@ -85,12 +86,13 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.binary "tx_hash"
     t.jsonb "deps"
     t.bigint "block_id"
-    t.integer "block_number"
-    t.integer "block_timestamp"
-    t.jsonb "display_input"
-    t.jsonb "display_output"
+    t.bigint "block_number"
+    t.bigint "block_timestamp"
+    t.jsonb "display_inputs"
+    t.jsonb "display_outputs"
     t.integer "status"
     t.integer "transaction_fee"
+    t.integer "version"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["block_id"], name: "index_ckb_transactions_on_block_id"
@@ -99,10 +101,8 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   end
 
   create_table "lock_scripts", force: :cascade do |t|
-    t.binary "args"
-    t.binary "binary"
-    t.binary "reference"
-    t.binary "signed_args"
+    t.string "args", array: true
+    t.binary "binary_hash"
     t.integer "version"
     t.bigint "cell_output_id"
     t.bigint "account_id"
@@ -114,17 +114,17 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
 
   create_table "sync_infos", force: :cascade do |t|
     t.string "name"
-    t.integer "value"
+    t.bigint "value"
+    t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_sync_infos_on_name"
+    t.index ["name", "status"], name: "index_sync_infos_on_name_and_status"
+    t.index ["name"], name: "index_sync_infos_on_name", unique: true
   end
 
   create_table "type_scripts", force: :cascade do |t|
-    t.binary "args"
-    t.binary "binary"
-    t.binary "reference"
-    t.binary "signed_args"
+    t.string "args", array: true
+    t.binary "binary_hash"
     t.integer "version"
     t.bigint "cell_output_id"
     t.datetime "created_at", null: false
@@ -136,24 +136,23 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.binary "cellbase_id"
     t.binary "difficulty"
     t.binary "block_hash"
-    t.integer "number"
+    t.bigint "number"
     t.binary "parent_hash"
     t.jsonb "seal"
-    t.integer "timestamp"
+    t.bigint "timestamp"
     t.binary "txs_commit"
     t.binary "txs_proposal"
+    t.integer "uncles_count"
     t.binary "uncles_hash"
     t.integer "version"
     t.binary "proposal_transactions"
     t.integer "proposal_transactions_count"
-    t.integer "cell_consumed"
     t.binary "miner_hash"
     t.integer "status"
     t.integer "reward"
     t.integer "total_transaction_fee"
-    t.integer "transactions_count"
-    t.integer "total_cell_capacity"
     t.bigint "block_id"
+    t.jsonb "cellbase"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["block_hash", "status"], name: "index_uncle_blocks_on_block_hash_and_status"

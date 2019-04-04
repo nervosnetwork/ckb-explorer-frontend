@@ -1,6 +1,14 @@
 class LockScript < ApplicationRecord
   belongs_to :cell_output
   belongs_to :account
+
+  def binary_hash
+    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
+  end
+
+  def binary_hash=(binary_hash)
+    super([binary_hash[2..-1]].pack("H*"))
+  end
 end
 
 # == Schema Information
@@ -8,10 +16,8 @@ end
 # Table name: lock_scripts
 #
 #  id             :bigint(8)        not null, primary key
-#  args           :binary
-#  binary         :binary
-#  reference      :binary
-#  signed_args    :binary
+#  args           :string           is an Array
+#  binary_hash    :binary
 #  version        :integer
 #  cell_output_id :bigint(8)
 #  account_id     :bigint(8)

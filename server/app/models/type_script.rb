@@ -1,5 +1,13 @@
 class TypeScript < ApplicationRecord
   belongs_to :cell_output
+
+  def binary_hash
+    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
+  end
+
+  def binary_hash=(binary_hash)
+    super([binary_hash[2..-1]].pack("H*"))
+  end
 end
 
 # == Schema Information
@@ -7,10 +15,8 @@ end
 # Table name: type_scripts
 #
 #  id             :bigint(8)        not null, primary key
-#  args           :binary
-#  binary         :binary
-#  reference      :binary
-#  signed_args    :binary
+#  args           :string           is an Array
+#  binary_hash    :binary
 #  version        :integer
 #  cell_output_id :bigint(8)
 #  created_at     :datetime         not null
