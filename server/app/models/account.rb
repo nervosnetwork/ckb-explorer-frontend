@@ -1,6 +1,8 @@
 class Account < ApplicationRecord
   has_many :account_books
   has_many :ckb_transactions, through: :account_books
+  validates_presence_of :address_hash, :balance, :cell_consumed, :ckb_transactions_count
+  validates :balance, :cell_consumed, :ckb_transactions_count, numericality: { greater_than_or_equal_to: 0 }
 
   def self.find_or_create_account(ckb_transaction, verify_script)
     address_hash = CKB::Utils.json_script_to_type_hash(verify_script)

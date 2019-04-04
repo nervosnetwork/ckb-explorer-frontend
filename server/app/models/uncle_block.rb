@@ -1,6 +1,9 @@
 class UncleBlock < ApplicationRecord
   belongs_to :block
 
+  validates_presence_of :cellbase_id, :difficulty, :block_hash, :number, :parent_hash, :seal, :timestamp, :txs_commit, :txs_proposal, :uncles_count, :uncles_hash, :version, :reward, :cellbase
+  validates :reward, numericality: { greater_than_or_equal_to: 0 }
+
   def cellbase_id
     "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
   end

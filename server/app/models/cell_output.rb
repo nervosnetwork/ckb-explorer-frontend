@@ -5,6 +5,8 @@ class CellOutput < ApplicationRecord
   belongs_to :ckb_transaction
   has_one :lock_script
   has_one :type_script
+
+  validates :capacity, presence: true, numericality: { greater_than_or_equal_to: 0 }
 end
 
 # == Schema Information

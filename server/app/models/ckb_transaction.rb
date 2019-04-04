@@ -7,6 +7,9 @@ class CkbTransaction < ApplicationRecord
   has_many :cell_inputs
   has_many :cell_outputs
 
+  validates_presence_of :transaction_fee, :status
+  validates :transaction_fee, numericality: { greater_than_or_equal_to: 0 }
+
   def tx_hash
     "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
   end

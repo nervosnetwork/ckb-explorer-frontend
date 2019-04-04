@@ -1,6 +1,8 @@
 class TypeScript < ApplicationRecord
   belongs_to :cell_output
 
+  validates_presence_of :binary_hash
+
   def binary_hash
     "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
   end
