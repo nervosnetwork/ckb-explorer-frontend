@@ -52,7 +52,7 @@ const HeaderDiv = styled.div`
       margin-left: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
       margin-right: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
       font-size: 22px;
-      font-weight: 900;
+      font-weight: 600;
       color: #4bbc8e;
       &.header__menus__item--active, &: hover {
         color: white;
@@ -107,11 +107,11 @@ const HeaderDiv = styled.div`
 `
 const menus = [
   {
-    name: 'CKB Wallet',
+    name: 'Wallet',
     url: '/block',
   },
   {
-    name: 'CKB Faucet',
+    name: 'Faucet',
     url: '/transaction',
   },
   {
