@@ -25,6 +25,7 @@ import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/address_transactions.png'
 import InputOutputIcon from '../../asserts/input_arrow_output.png'
+import { parseDate } from '../../utils/date'
 import { AddressData, TransactionsData } from './mock'
 
 const AddressTitle = ({ address }: { address: string }) => {
@@ -134,17 +135,6 @@ const AddressTransactionCell = ({ cell }: { cell: any }) => {
       <div className="transaction__cell__capacity">{`${cell.capacity} CKB`}</div>
     </AddressTransactionsCell>
   )
-}
-
-const formatData = (data: number) => {
-  return data < 10 ? `0${data}` : data
-}
-
-const parseDate = (timestamp: number) => {
-  const date = new Date(timestamp)
-  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${formatData(date.getHours())}:${formatData(
-    date.getMinutes(),
-  )}:${formatData(date.getSeconds())}`
 }
 
 const AddressTransactionsComponent = ({ transaction }: { transaction: any }) => {
