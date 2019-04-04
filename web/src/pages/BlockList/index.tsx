@@ -36,14 +36,14 @@ const TableTitleItem = ({ image, title }: { image: string; title: string }) => {
 
 const TableContentItem = ({ color, content }: { color: string; content: string }) => {
   return (
-    <td
+    <div
       style={{
         color,
         height: 78,
       }}
     >
       {content}
-    </td>
+    </div>
   )
 }
 
