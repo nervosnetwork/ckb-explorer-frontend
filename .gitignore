@@ -24,6 +24,9 @@
 /server/config/master.key
 /server/.vscode/*
 
+# Ignore coverage results
+/server/coverage/*
+
 # web
 /web/node_modules/
 /web/build/
