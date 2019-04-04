@@ -58,7 +58,7 @@ const SearchContent = styled.div`
 export default () => {
   return (
     <Page>
-      <Header />
+      <Header search={false} />
       <Content>
         <SearchPanel width={window.innerWidth}>
           <SearchInput>
