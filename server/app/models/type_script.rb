@@ -2,7 +2,7 @@ class TypeScript < ApplicationRecord
   belongs_to :cell_output
 
   def binary_hash
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
   end
 
   def binary_hash=(binary_hash)

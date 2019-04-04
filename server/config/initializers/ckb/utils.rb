@@ -1,4 +1,3 @@
-
 module CKB
   module Utils
     def self.calculate_cell_min_capacity(output)
@@ -19,13 +18,13 @@ module CKB
     end
 
     def self.block_cell_consumed(commit_transactions)
-      commit_transactions.inject(0) do |memo, commit_transaction|
+      commit_transactions.reduce(0) do |memo, commit_transaction|
         memo + commit_transaction["outputs"].reduce(0) { |inside_memo, output| inside_memo + CKB::Utils.calculate_cell_min_capacity(output) }
       end
     end
 
     def self.total_cell_capacity(commit_transactions)
-      commit_transactions.inject(0) do |memo, commit_transaction|
+      commit_transactions.reduce(0) do |memo, commit_transaction|
         memo + commit_transaction["outputs"].reduce(0) { |inside_memo, output| inside_memo + output["capacity"] }
       end
     end
@@ -45,7 +44,7 @@ module CKB
     end
 
     def self.total_transaction_fee(transactions)
-      transactions.inject(0) { |memo, transaction| memo + CKB::Utils.transaction_fee(transaction) }
+      transactions.reduce(0) { |memo, transaction| memo + CKB::Utils.transaction_fee(transaction) }
     end
 
     def self.get_unspent_cells(lock_hash)
@@ -61,23 +60,24 @@ module CKB
       results
     end
 
-    #TODO 可以改成通过本地的 cell 来计算。
+    # TODO Can be changed to calculate by local cell
     def self.get_balance(lock_hash)
       CKB::Utils.get_unspent_cells(lock_hash).map { |cell| cell[:capacity].reduce(0, &:+) }
     end
 
-    #TODO 可以改成通过本地的 cell 来计算。
+    # TODO Can be changed to calculate by local cell
     def self.account_cell_consumed(lock_hash)
-      outputs = CKB::Utils.get_unspent_cells(lock_hash).map do |cell|
-        out_point = cell[:out_point]
-        previous_transaction_hash = out_point[:hash]
-        previous_output_index = out_point[:index]
-        if CellOutput::BASE_HASH != previous_transaction_hash
-          previous_transacton = CkbTransaction.find_by(tx_hash: [previous_transaction_hash[2..-1]].pack("H*"))
-          previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
-          previous_output
+      outputs =
+        CKB::Utils.get_unspent_cells(lock_hash).map do |cell|
+          out_point = cell[:out_point]
+          previous_transaction_hash = out_point[:hash]
+          previous_output_index = out_point[:index]
+          if CellOutput::BASE_HASH != previous_transaction_hash
+            previous_transacton = CkbTransaction.find_by(tx_hash: [previous_transaction_hash[2..-1]].pack("H*"))
+            previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
+            previous_output
+          end
         end
-      end
 
       outputs.compact.reduce(0) { |memo, output| memo + CKB::Utils.calculate_cell_min_capacity(output) }
     end

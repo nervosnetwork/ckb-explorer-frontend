@@ -2,7 +2,7 @@ class UncleBlock < ApplicationRecord
   belongs_to :block
 
   def cellbase_id
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
   end
 
   def cellbase_id=(cellbase_id)
@@ -10,7 +10,7 @@ class UncleBlock < ApplicationRecord
   end
 
   def difficulty
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
   end
 
   def difficulty=(difficulty)
@@ -18,7 +18,7 @@ class UncleBlock < ApplicationRecord
   end
 
   def block_hash
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
   end
 
   def block_hash=(block_hash)
@@ -26,7 +26,7 @@ class UncleBlock < ApplicationRecord
   end
 
   def parent_hash
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
   end
 
   def parent_hash=(parent_hash)
@@ -34,7 +34,7 @@ class UncleBlock < ApplicationRecord
   end
 
   def txs_commit
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
   end
 
   def txs_commit=(txs_commit)
@@ -42,7 +42,7 @@ class UncleBlock < ApplicationRecord
   end
 
   def txs_proposal
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
   end
 
   def txs_proposal=(txs_proposal)
@@ -51,7 +51,7 @@ class UncleBlock < ApplicationRecord
 
   def uncles_hash
     if super.present?
-      "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
+      "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
     else
       super
     end
@@ -66,8 +66,8 @@ class UncleBlock < ApplicationRecord
 
   def proposal_transactions
     if super.present?
-      template = Array.new(proposal_transactions_count).reduce("") { |memo, item| "#{memo}H#{ENV["DEFAULT_SHORT_HASH_LENGTH"]}" }
-      super.unpack("#{template}").map { |hash| "#{ENV["DEFAULT_HASH_PREFIX"]}#{hash}" }.reject(&:blank?)
+      template = Array.new(proposal_transactions_count).reduce("") { |memo, _item| "#{memo}H#{ENV['DEFAULT_SHORT_HASH_LENGTH']}" }
+      super.unpack(template.to_s).map { |hash| "#{ENV['DEFAULT_HASH_PREFIX']}#{hash}" }.reject(&:blank?)
     else
       super.reject(&:blank?)
     end
@@ -77,13 +77,12 @@ class UncleBlock < ApplicationRecord
     if proposal_transactions.present?
       real_proposal_transactions = proposal_transactions.map { |hash| hash[2..-1] }
       proposal_transactions = real_proposal_transactions.pack("H*" * real_proposal_transactions.size)
-    else
-      super(proposal_transactions)
     end
+    super(proposal_transactions)
   end
 
   def miner_hash
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
   end
 
   def miner_hash=(miner_hash)
