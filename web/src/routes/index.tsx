@@ -2,7 +2,7 @@ import React from 'react'
 import { Router, Route, Redirect, Switch } from 'react-router-dom'
 import browserHistory from './history'
 import Home from '../pages/Home'
-import Block from '../pages/Block'
+import Block from '../pages/BlockDetail'
 import BlockList from '../pages/BlockList'
 import Transaction from '../pages/Transaction'
 import Address from '../pages/Address'
@@ -14,7 +14,7 @@ export default () => {
     <Router history={browserHistory}>
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/block" exact component={Block} />
+        <Route path="/block/:hash" exact component={Block} />
         <Route path="/block/list" exact component={BlockList} />
         <Route path="/transaction" exact component={Transaction} />
         <Route path="/address/:address" exact component={Address} />
