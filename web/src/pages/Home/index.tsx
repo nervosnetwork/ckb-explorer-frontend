@@ -116,7 +116,7 @@ export default () => {
             <div>
               <img src={MoreLeftIcon} alt="more left" />
               <div>
-                <Link className="table__more" to="/block/list">
+                <Link className="table__more" to="block/list">
                   More
                 </Link>
               </div>
