@@ -68,6 +68,29 @@ def create_block(status, block_hash = "0xed54818adbf956486a192989844d15d77bc937d
   )
 end
 
+def create_uncle_block(block)
+  cellbase = { "deps" => [], "hash" => "0x1d82a6d7bcefca69be3f2c7e43f88a18f4fd01eb05d06f4d2fe2df8a8afb350f", "inputs" => [{ "args" => ["0x0700000000000000"], "previous_output" => { "hash" => "0x0000000000000000000000000000000000000000000000000000000000000000", "index" => 4294967295 } }], "outputs" => [{ "data" => "0x", "lock" => { "args" => [], "version" => 0, "binary_hash" => "0x0000000000000000000000000000000000000000000000000000000000000001" }, "type" => nil, "capacity" => 50000 }], "version" => 0 }
+  block.uncle_blocks.create(
+    cellbase_id: "0x1d82a6d7bcefca69be3f2c7e43f88a18f4fd01eb05d06f4d2fe2df8a8afb350f",
+    difficulty: "0x100",
+    block_hash: "0xf6d9c070dfebb30eeb685d74836e7c7dcf82b61ef8214a769f50d9fa8b4ed783",
+    number: 7,
+    parent_hash: "0xe20604d760b8d13d76608fe74653554e727f81186697d976707d589a36948a59",
+    seal: { "nonce" => 8352409816158401096, "proof" => "0xf20a0000772300002f240000013c0000df4100004c4a0000634a0000bb5800001c6100005d6e0000267000007d740000" },
+    timestamp: 1554100397709,
+    txs_commit: "0x1d82a6d7bcefca69be3f2c7e43f88a18f4fd01eb05d06f4d2fe2df8a8afb350f",
+    txs_proposal: "0x0000000000000000000000000000000000000000000000000000000000000000",
+    uncles_count: 0,
+    uncles_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
+    version: 0,
+    proposal_transactions: [],
+    proposal_transactions_count: 0,
+    cellbase: cellbase,
+    miner_hash: CKB::Utils.miner_hash(cellbase),
+    reward: CKB::Utils.miner_reward(cellbase)
+  )
+end
+
 def unpack_attribute(obj, attribute_name)
   attribute = obj.read_attribute(attribute_name)
   "#{ENV['DEFAULT_HASH_PREFIX']}#{attribute.unpack1('H*')}" if attribute.present?
