@@ -55,3 +55,61 @@ export const BlockOverviewPanel = styled.div`
     width: 197px;
   }
 `
+export const BlockCommonContent = styled.div`
+  width: 1200px;
+  padding: 72px 88px 56px 88px;
+  margin: 0 auto;
+  margin-top: 50px;
+  background: white;
+  border: 0px solid white;
+  border-radius: 6px;
+  box-shadow: 0px 5px 9px rgb(233, 233, 233);
+  display: flex;
+  flex-direction: row;
+
+  .block__content__separate {
+    width: 1px;
+    height: 360px;
+    background: #46ab81;
+    margin: 0 auto;
+  }
+`
+
+export const BlockLabelItemPanel = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 28px;
+
+  img {
+    width: 28px;
+    height: 28px;
+  }
+
+  span {
+    font-size: 18px;
+    color: rgb(77, 77, 77);
+    margin-left: 10px;
+    margin-right: 21px;
+  }
+
+  div {
+    font-size: 16px;
+    color: rgb(75, 188, 142);
+  }
+`
+export const CellConsumedBarDiv = styled.div`
+  height: 20px;
+  width: 160px;
+  border-radius: 50px;
+  border: 1px solid rgb(75, 188, 142);
+  margin-right: 10px;
+
+  div {
+    width: ${(props: { percent: string }) => props.percent}%;
+    margin-right: 21px;
+    background: rgb(75, 188, 142);
+    height: 100%;
+    border-radius: inherit;
+  }
+`
