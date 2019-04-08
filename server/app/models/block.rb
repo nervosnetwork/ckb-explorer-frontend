@@ -7,8 +7,8 @@ class Block < ApplicationRecord
   validates_presence_of :cellbase_id, :difficulty, :block_hash, :number, :parent_hash, :seal, :timestamp, :txs_commit, :txs_proposal, :uncles_count, :uncles_hash, :version, :cell_consumed, :reward, :total_transaction_fee, :ckb_transactions_count, :total_cell_capacity, :status, on: :create
   validates :reward, :total_transaction_fee, :ckb_transactions_count, :total_cell_capacity, :cell_consumed, numericality: { greater_than_or_equal_to: 0 }
 
-  def verify!(node_block_hash)
-    if verified?(node_block_hash)
+  def verify!(node_block)
+    if verified?(node_block.dig("header", "hash"))
       authenticate!
     else
       abandon!
@@ -85,10 +85,10 @@ class Block < ApplicationRecord
 
   def uncle_block_hashes
     if super.present?
-      template = Array.new(uncles_count).reduce("") { |memo, _item| "#{memo}H#{ENV['DEFAULT_HASH_LENGTH']}" }
+      template = Array.new(uncles_count || 0).reduce("") { |memo, _item| "#{memo}H#{ENV['DEFAULT_HASH_LENGTH']}" }
       super.unpack(template.to_s).map { |hash| "#{ENV['DEFAULT_HASH_PREFIX']}#{hash}" }.reject(&:blank?)
     else
-      super.reject(&:blank?)
+      super.try(:reject, &:blank?)
     end
   end
 
@@ -102,10 +102,10 @@ class Block < ApplicationRecord
 
   def proposal_transactions
     if super.present?
-      template = Array.new(proposal_transactions_count).reduce("") { |memo, _item| "#{memo}H#{ENV['DEFAULT_SHORT_HASH_LENGTH']}" }
+      template = Array.new(proposal_transactions_count || 0).reduce("") { |memo, _item| "#{memo}H#{ENV['DEFAULT_SHORT_HASH_LENGTH']}" }
       super.unpack(template.to_s).map { |hash| "#{ENV['DEFAULT_HASH_PREFIX']}#{hash}" }.reject(&:blank?)
     else
-      super.reject(&:blank?)
+      super.try(:reject, &:blank?)
     end
   end
 

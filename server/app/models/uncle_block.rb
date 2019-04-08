@@ -69,10 +69,10 @@ class UncleBlock < ApplicationRecord
 
   def proposal_transactions
     if super.present?
-      template = Array.new(proposal_transactions_count).reduce("") { |memo, _item| "#{memo}H#{ENV['DEFAULT_SHORT_HASH_LENGTH']}" }
+      template = Array.new(proposal_transactions_count || 0).reduce("") { |memo, _item| "#{memo}H#{ENV['DEFAULT_SHORT_HASH_LENGTH']}" }
       super.unpack(template.to_s).map { |hash| "#{ENV['DEFAULT_HASH_PREFIX']}#{hash}" }.reject(&:blank?)
     else
-      super.reject(&:blank?)
+      super.try(:reject, &:blank?)
     end
   end
 
