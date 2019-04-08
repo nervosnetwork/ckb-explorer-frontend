@@ -14,7 +14,14 @@ import Content from '../../components/Content'
 import Footer from '../../components/Footer'
 import CopyIcon from '../../asserts/copy.png'
 import BlockHeightIcon from '../../asserts/block_height_green.png'
+import BlockTransactionIcon from '../../asserts/transactions_green.png'
+import ProposalTransactionsIcon from '../../asserts/proposal_transactions.png'
+import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
+import TimestampIcon from '../../asserts/timestamp_green.png'
+import VersionIcon from '../../asserts/version.png'
+import UncleCountIcon from '../../asserts/uncle_count.png'
 import BlockData from './mock'
+import { parseSimpleDate } from '../../utils/date'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
   return (
@@ -71,10 +78,49 @@ const BlockCellConsumedLabel = ({
   )
 }
 
+interface BlockItem {
+  image: any
+  label: string
+  value: string
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
   const { match } = props
   const { params } = match
   const { hash } = params
+
+  const BlockLeftItems: BlockItem[] = [
+    {
+      image: BlockHeightIcon,
+      label: 'Block Height:',
+      value: `${BlockData.data.number}`,
+    },
+    {
+      image: BlockTransactionIcon,
+      label: 'Transactions:',
+      value: `${BlockData.data.transactions_count}`,
+    },
+    {
+      image: ProposalTransactionsIcon,
+      label: 'Proposal Transactions:',
+      value: `${BlockData.data.proposal_transactions_count}`,
+    },
+    {
+      image: TimestampIcon,
+      label: 'Timestamp:',
+      value: `${parseSimpleDate(BlockData.data.timestamp)}`,
+    },
+    {
+      image: VersionIcon,
+      label: 'Version:',
+      value: `${BlockData.data.version}`,
+    },
+    {
+      image: UncleCountIcon,
+      label: 'Uncle Count:',
+      value: `${BlockData.data.uncles_count}`,
+    },
+  ]
 
   return (
     <Page>
@@ -85,13 +131,15 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <BlockOverview value="Overview" />
           <BlockCommonContent>
             <div>
-              <BlockCommonLabel image={BlockHeightIcon} label="Block Height" value={BlockData.data.number} />
+              {BlockLeftItems.map(item => {
+                return <BlockCommonLabel image={item.image} label={item.label} value={item.value} />
+              })}
             </div>
             <span className="block__content__separate" />
             <div>
               <BlockCellConsumedLabel
-                image={BlockHeightIcon}
-                label="Block Height"
+                image={CellConsumedIcon}
+                label="Cell Consumed"
                 consumed={BlockData.data.cell_consumed}
                 balance={BlockData.data.total_cell_capacity}
               />
