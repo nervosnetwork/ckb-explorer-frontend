@@ -40,19 +40,16 @@ export const BlockDetailTitlePanel = styled.div`
 `
 
 export const BlockOverviewPanel = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   margin-top: 107px;
   margin-bottom: 50px;
+  font-size: 50px;
+  color: rgb(20, 20, 20);
+  height: 70px;
 
-  div {
-    font-size: 50px;
-    color: rgb(20, 20, 20);
-    height: 70px;
-  }
-
-  span {
+  &:after {
+    display: block;
+    content: '';
+    margin: 0 auto;
     background: #46ab81;
     height: 4px;
     width: 197px;

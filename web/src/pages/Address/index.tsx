@@ -41,12 +41,7 @@ const AddressTitle = ({ address }: { address: string }) => {
 }
 
 const AddressOverview = ({ value }: { value: string }) => {
-  return (
-    <AddressOverviewPanel>
-      <div>{value}</div>
-      <span />
-    </AddressOverviewPanel>
-  )
+  return <AddressOverviewPanel>{value}</AddressOverviewPanel>
 }
 
 const AddressCommonLabel = ({

@@ -20,12 +20,7 @@ const BlockDetailTitle = ({ hash }: { hash: string }) => {
 }
 
 const BlockOverview = ({ value }: { value: string }) => {
-  return (
-    <BlockOverviewPanel>
-      <div>{value}</div>
-      <span />
-    </BlockOverviewPanel>
-  )
+  return <BlockOverviewPanel>{value}</BlockOverviewPanel>
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {

@@ -78,16 +78,14 @@ export const BlockPanel = styled.div`
 `
 
 export const ContentTitle = styled.div`
-  display: flex;
-  flex-direction: column;
+  font-size: 50px;
+  color: black;
+  text-align: center;
+  margin: 0 auto;
 
-  div {
-    font-size: 50px;
-    color: black;
-    margin: 0 auto;
-  }
-
-  span {
+  &:after {
+    content: '';
+    display: block;
     background: #46ab81;
     height: 4px;
     width: 197px;
