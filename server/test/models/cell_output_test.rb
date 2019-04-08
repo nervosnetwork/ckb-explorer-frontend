@@ -1,7 +1,15 @@
 require "test_helper"
 
 class CellOutputTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  context "associations" do
+    should belong_to(:ckb_transaction)
+    should have_one(:lock_script)
+    should have_one(:type_script)
+  end
+
+  context "validations" do
+    should validate_presence_of(:capacity)
+    should validate_numericality_of(:capacity).
+      is_greater_than_or_equal_to(0)
+  end
 end
