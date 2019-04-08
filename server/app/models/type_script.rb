@@ -4,11 +4,12 @@ class TypeScript < ApplicationRecord
   validates_presence_of :binary_hash
 
   def binary_hash
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
   end
 
   def binary_hash=(binary_hash)
-    super([binary_hash[2..-1]].pack("H*"))
+    binary_hash = [binary_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if binary_hash.present?
+    super
   end
 end
 

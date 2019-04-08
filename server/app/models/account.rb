@@ -6,8 +6,8 @@ class Account < ApplicationRecord
 
   def self.find_or_create_account(ckb_transaction, verify_script)
     address_hash = CKB::Utils.json_script_to_type_hash(verify_script)
-    if Account.where(address_hash: [address_hash[2..-1]].pack("H*")).exists?
-      account = Account.find_by(address_hash: [address_hash[2..-1]].pack("H*"))
+    if Account.where(address_hash: [address_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*")).exists?
+      account = Account.find_by(address_hash: [address_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*"))
     else
       account = Account.create(address_hash: address_hash, balance: 0, cell_consumed: 0)
     end
@@ -16,11 +16,12 @@ class Account < ApplicationRecord
   end
 
   def address_hash
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
   end
 
   def address_hash=(address_hash)
-    super([address_hash[2..-1]].pack("H*"))
+    address_hash = [address_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if address_hash.present?
+    super
   end
 end
 

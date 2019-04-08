@@ -11,11 +11,12 @@ class CkbTransaction < ApplicationRecord
   validates :transaction_fee, numericality: { greater_than_or_equal_to: 0 }
 
   def tx_hash
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
   end
 
   def tx_hash=(tx_hash)
-    super([tx_hash[2..-1]].pack("H*"))
+    tx_hash = [tx_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if tx_hash.present?
+    super
   end
 end
 

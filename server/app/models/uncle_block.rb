@@ -5,66 +5,66 @@ class UncleBlock < ApplicationRecord
   validates :reward, numericality: { greater_than_or_equal_to: 0 }
 
   def cellbase_id
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
   end
 
   def cellbase_id=(cellbase_id)
-    super([cellbase_id[2..-1]].pack("H*"))
+    cellbase_id = [cellbase_id.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if cellbase_id.present?
+    super
   end
 
   def difficulty
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
   end
 
   def difficulty=(difficulty)
-    super([difficulty[2..-1]].pack("H*"))
+    difficulty = [difficulty.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if difficulty.present?
+    super
   end
 
   def block_hash
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
   end
 
   def block_hash=(block_hash)
-    super([block_hash[2..-1]].pack("H*"))
+    block_hash = [block_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if block_hash.present?
+    super
   end
 
   def parent_hash
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
   end
 
   def parent_hash=(parent_hash)
-    super([parent_hash[2..-1]].pack("H*"))
+    parent_hash = [parent_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if parent_hash.present?
+    super
   end
 
   def txs_commit
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
   end
 
   def txs_commit=(txs_commit)
-    super([txs_commit[2..-1]].pack("H*"))
+    txs_commit = [txs_commit.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if txs_commit.present?
+    super
   end
 
   def txs_proposal
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
   end
 
   def txs_proposal=(txs_proposal)
-    super([txs_proposal[2..-1]].pack("H*"))
+    txs_proposal = [txs_proposal.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if txs_proposal.present?
+    super
   end
 
   def uncles_hash
-    if super.present?
-      "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
-    else
-      super
-    end
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
   end
 
   def uncles_hash=(uncles_hash)
-    if uncles_hash.present?
-      uncles_hash = [uncles_hash[2..-1]].pack("H*")
-    end
-    super(uncles_hash)
+    uncles_hash = [uncles_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if uncles_hash.present?
+    super
   end
 
   def proposal_transactions
@@ -78,18 +78,19 @@ class UncleBlock < ApplicationRecord
 
   def proposal_transactions=(proposal_transactions)
     if proposal_transactions.present?
-      real_proposal_transactions = proposal_transactions.map { |hash| hash[2..-1] }
+      real_proposal_transactions = proposal_transactions.map { |hash| hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"]) }
       proposal_transactions = real_proposal_transactions.pack("H*" * real_proposal_transactions.size)
     end
-    super(proposal_transactions)
+    super
   end
 
   def miner_hash
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}"
+    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
   end
 
   def miner_hash=(miner_hash)
-    super([miner_hash[2..-1]].pack("H*"))
+    miner_hash = [miner_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if miner_hash.present?
+    super
   end
 end
 
