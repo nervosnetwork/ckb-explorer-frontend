@@ -15,7 +15,7 @@ export default () => {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/block" exact component={Block} />
-        <Route path="/block/list/:pageNo?/:pageSize?" exact component={BlockList} />
+        <Route path="/blocklist/:pageNo?/:pageSize?" exact component={BlockList} />
         <Route path="/transaction" exact component={Transaction} />
         <Route path="/address/:address/:pageNo?/:pageSize?" exact component={Address} />
         <Route path="/search/fail" exact component={SearchFail} />

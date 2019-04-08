@@ -62,7 +62,7 @@ export const TableTitleRow = styled.div`
   }
 `
 
-export const TableContentRow = styled.tr`
+export const TableContentRow = styled.div`
   display: flex;
 
   div {
