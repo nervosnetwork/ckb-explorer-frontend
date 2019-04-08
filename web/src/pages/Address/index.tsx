@@ -174,22 +174,25 @@ const AddressTransactionsComponent = ({ transaction }: { transaction: any }) => 
   )
 }
 
-export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string }>>) => {
+export default (
+  props: React.PropsWithoutRef<RouteComponentProps<{ address: string; pageNo: string; pageSize: string }>>,
+) => {
   const { match } = props
   const { params } = match
-  const { address } = params
+  const { address, pageNo, pageSize } = params
 
-  const PageSize = 3
-  const [currentPageNo, setCurrentPageNo] = useState(1)
+  const [currentPageNo, setCurrentPageNo] = useState(pageNo === undefined ? 1 : parseInt(pageNo, 10))
+  const [currentPageSize, setCurrentPageSize] = useState(pageSize === undefined ? 3 : parseInt(pageSize, 10))
 
   // TODO: fetch transaction data from server
-  const getTransactionOfAddress = (pageNo: number, pageSize: number) => {
-    return TransactionsData.data.slice((pageNo - 1) * pageSize, pageNo * pageSize)
+  const getTransactionOfAddress = (page: number, size: number) => {
+    return TransactionsData.data.slice((page - 1) * size, page * size)
   }
 
-  const onChange = (current: number, pageSize: number) => {
-    setCurrentPageNo(current)
-    getTransactionOfAddress(current, pageSize)
+  const onChange = (page: number, size: number) => {
+    setCurrentPageNo(page)
+    setCurrentPageSize(size)
+    getTransactionOfAddress(page, size)
   }
 
   return (
@@ -246,7 +249,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
           <AddressTransactionsPenal>
             <AddressOverview value="Transactions" />
             <div>
-              {getTransactionOfAddress(currentPageNo, PageSize).map((transaction: any) => {
+              {getTransactionOfAddress(currentPageNo, currentPageSize).map((transaction: any) => {
                 return <AddressTransactionsComponent transaction={transaction} key={transaction.transaction_hash} />
               })}
             </div>
@@ -254,8 +257,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               <Pagination
                 showQuickJumper
                 showSizeChanger
-                defaultPageSize={PageSize}
-                defaultCurrent={1}
+                defaultPageSize={currentPageSize}
+                defaultCurrent={currentPageNo}
                 total={TransactionsData.data.length}
                 onChange={onChange}
               />

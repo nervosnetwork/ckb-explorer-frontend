@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { RouteComponentProps, Link } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
 import {
@@ -36,14 +36,14 @@ const TableTitleItem = ({ image, title }: { image: string; title: string }) => {
 
 const TableContentItem = ({ color, content }: { color: string; content: string }) => {
   return (
-    <td
+    <div
       style={{
         color,
         height: 78,
       }}
     >
       {content}
-    </td>
+    </div>
   )
 }
 
@@ -57,20 +57,25 @@ const TableMinerContentItem = ({ color, content }: { color: string; content: str
   )
 }
 
-export default () => {
+export default (props: React.PropsWithoutRef<RouteComponentProps<{ pageNo: string; pageSize: string }>>) => {
   const [clickableColor, normalColor] = ['#4bbc8e', '888888']
 
-  const PageSize = 10
-  const [currentPageNo, setCurrentPageNo] = useState(1)
+  const { match } = props
+  const { params } = match
+  const { pageNo, pageSize } = params
+
+  const [currentPageNo, setCurrentPageNo] = useState(pageNo === undefined ? 1 : parseInt(pageNo, 10))
+  const [currentPageSize, setCurrentPageSize] = useState(pageSize === undefined ? 3 : parseInt(pageSize, 10))
 
   // TODO: fetch transaction data from server
-  const getBlocks = (pageNo: number, pageSize: number) => {
-    return BlocksData.data.slice((pageNo - 1) * pageSize, pageNo * pageSize)
+  const getBlocks = (page: number, size: number) => {
+    return BlocksData.data.slice((page - 1) * size, page * size)
   }
 
-  const onChange = (current: number, pageSize: number) => {
-    setCurrentPageNo(current)
-    getBlocks(current, pageSize)
+  const onChange = (page: number, size: number) => {
+    setCurrentPageNo(page)
+    setCurrentPageSize(size)
+    getBlocks(page, size)
   }
 
   return (
@@ -84,35 +89,33 @@ export default () => {
           </ContentTitle>
 
           <ContentTable>
-            <table>
-              <tbody>
-                <TableTitleRow>
-                  <TableTitleItem image={BlockHeightIcon} title="Height" />
-                  <TableTitleItem image={TransactionIcon} title="Transactions" />
-                  <TableTitleItem image={CellConsumedIcon} title="Cell Consumed(B)" />
-                  <TableTitleItem image={MinerIcon} title="Miner" />
-                  <TableTitleItem image={TimestampIcon} title="Time" />
-                </TableTitleRow>
-                {getBlocks(currentPageNo, PageSize).map((data: any) => {
-                  return (
-                    <TableContentRow key={data.block_hash}>
-                      <TableContentItem color={clickableColor} content={data.number} />
-                      <TableContentItem color={normalColor} content={data.transactions_count} />
-                      <TableContentItem color={normalColor} content={data.cell_consumed} />
-                      <TableMinerContentItem color={clickableColor} content={data.miner_hash} />
-                      <TableContentItem color={normalColor} content={parseDate(data.timestamp)} />
-                    </TableContentRow>
-                  )
-                })}
-              </tbody>
-            </table>
+            <div>
+              <TableTitleRow>
+                <TableTitleItem image={BlockHeightIcon} title="Height" />
+                <TableTitleItem image={TransactionIcon} title="Transactions" />
+                <TableTitleItem image={CellConsumedIcon} title="Cell Consumed(B)" />
+                <TableTitleItem image={MinerIcon} title="Miner" />
+                <TableTitleItem image={TimestampIcon} title="Time" />
+              </TableTitleRow>
+              {getBlocks(currentPageNo, currentPageSize).map((data: any) => {
+                return (
+                  <TableContentRow key={data.block_hash}>
+                    <TableContentItem color={clickableColor} content={data.number} />
+                    <TableContentItem color={normalColor} content={data.transactions_count} />
+                    <TableContentItem color={normalColor} content={data.cell_consumed} />
+                    <TableMinerContentItem color={clickableColor} content={data.miner_hash} />
+                    <TableContentItem color={normalColor} content={parseDate(data.timestamp)} />
+                  </TableContentRow>
+                )
+              })}
+            </div>
           </ContentTable>
           <BlocksPagition>
             <Pagination
               showQuickJumper
               showSizeChanger
-              defaultPageSize={PageSize}
-              defaultCurrent={1}
+              defaultPageSize={currentPageSize}
+              defaultCurrent={currentPageNo}
               total={BlocksData.data.length}
               onChange={onChange}
             />
