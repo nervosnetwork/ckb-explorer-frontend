@@ -10,19 +10,17 @@ export const BlockListPanel = styled.div`
 `
 
 export const ContentTitle = styled.div`
-  display: flex;
-  flex-direction: column;
+  font-size: 50px;
+  color: black;
+  margin: 0 auto;
+  text-align: center;
 
-  div {
-    font-size: 50px;
-    color: black;
-    margin: 0 auto;
-  }
-
-  span {
+  &:after {
+    content: '';
     background: #46ab81;
     height: 4px;
     width: 197px;
+    display: block;
     margin: 0 auto;
   }
 `

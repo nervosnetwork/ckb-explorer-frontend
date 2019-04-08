@@ -78,10 +78,7 @@ export default () => {
       <Header />
       <Content>
         <BlockListPanel width={window.innerWidth}>
-          <ContentTitle>
-            <div>Blocks</div>
-            <span />
-          </ContentTitle>
+          <ContentTitle>Blocks</ContentTitle>
 
           <ContentTable>
             <table>
