@@ -18,6 +18,15 @@ VCR.configure do |config|
 end
 DatabaseCleaner.strategy = :transaction
 
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    # Choose a test framework:
+    with.test_framework :minitest
+
+    with.library :rails
+  end
+end
+
 module ActiveSupport
   class TestCase
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
