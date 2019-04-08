@@ -89,28 +89,26 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ pageNo: strin
           </ContentTitle>
 
           <ContentTable>
-            <table>
-              <tbody>
-                <TableTitleRow>
-                  <TableTitleItem image={BlockHeightIcon} title="Height" />
-                  <TableTitleItem image={TransactionIcon} title="Transactions" />
-                  <TableTitleItem image={CellConsumedIcon} title="Cell Consumed(B)" />
-                  <TableTitleItem image={MinerIcon} title="Miner" />
-                  <TableTitleItem image={TimestampIcon} title="Time" />
-                </TableTitleRow>
-                {getBlocks(currentPageNo, currentPageSize).map((data: any) => {
-                  return (
-                    <TableContentRow key={data.block_hash}>
-                      <TableContentItem color={clickableColor} content={data.number} />
-                      <TableContentItem color={normalColor} content={data.transactions_count} />
-                      <TableContentItem color={normalColor} content={data.cell_consumed} />
-                      <TableMinerContentItem color={clickableColor} content={data.miner_hash} />
-                      <TableContentItem color={normalColor} content={parseDate(data.timestamp)} />
-                    </TableContentRow>
-                  )
-                })}
-              </tbody>
-            </table>
+            <div>
+              <TableTitleRow>
+                <TableTitleItem image={BlockHeightIcon} title="Height" />
+                <TableTitleItem image={TransactionIcon} title="Transactions" />
+                <TableTitleItem image={CellConsumedIcon} title="Cell Consumed(B)" />
+                <TableTitleItem image={MinerIcon} title="Miner" />
+                <TableTitleItem image={TimestampIcon} title="Time" />
+              </TableTitleRow>
+              {getBlocks(currentPageNo, currentPageSize).map((data: any) => {
+                return (
+                  <TableContentRow key={data.block_hash}>
+                    <TableContentItem color={clickableColor} content={data.number} />
+                    <TableContentItem color={normalColor} content={data.transactions_count} />
+                    <TableContentItem color={normalColor} content={data.cell_consumed} />
+                    <TableMinerContentItem color={clickableColor} content={data.miner_hash} />
+                    <TableContentItem color={normalColor} content={parseDate(data.timestamp)} />
+                  </TableContentRow>
+                )
+              })}
+            </div>
           </ContentTable>
           <BlocksPagition>
             <Pagination
