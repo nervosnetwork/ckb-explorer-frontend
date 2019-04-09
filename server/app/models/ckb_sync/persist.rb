@@ -123,7 +123,6 @@ module CkbSync
       def build_block(node_block, sync_type)
         header = node_block["header"]
         Block.new(
-          cellbase_id: header["cellbase_id"],
           difficulty: header["difficulty"],
           block_hash: header["hash"],
           number: header["number"],
@@ -143,14 +142,14 @@ module CkbSync
           miner_hash: CKB::Utils.miner_hash(node_block["commit_transactions"].first),
           status: sync_type,
           reward: CKB::Utils.miner_reward(node_block["commit_transactions"].first),
-          total_transaction_fee: CKB::Utils.total_transaction_fee(node_block["commit_transactions"])
+          total_transaction_fee: CKB::Utils.total_transaction_fee(node_block["commit_transactions"]),
+          witnesses_root: header["witnesses_root"]
         )
       end
 
       def build_uncle_block(uncle_block, local_block)
         header = uncle_block["header"]
         local_block.uncle_blocks.build(
-          cellbase_id: header["cellbase_id"],
           difficulty: header["difficulty"],
           block_hash: header["hash"],
           number: header["number"],
@@ -164,9 +163,7 @@ module CkbSync
           version: header["version"],
           proposal_transactions: uncle_block["proposal_transactions"],
           proposal_transactions_count: uncle_block["proposal_transactions"].count,
-          cellbase: uncle_block["cellbase"],
-          miner_hash: CKB::Utils.miner_hash(uncle_block["cellbase"]),
-          reward: CKB::Utils.miner_reward(uncle_block["cellbase"]) # TODO uncle reward acquisition method to be determined
+          witnesses_root: header["witnesses_root"]
         )
       end
 
@@ -178,7 +175,8 @@ module CkbSync
           block_number: local_block.number,
           block_timestamp: local_block.timestamp,
           status: sync_type,
-          transaction_fee: CKB::Utils.transaction_fee(transaction)
+          transaction_fee: CKB::Utils.transaction_fee(transaction),
+          witnesses: transaction["witnesses"]
         )
       end
     end

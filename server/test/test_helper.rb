@@ -46,9 +46,8 @@ def prepare_inauthentic_node_data
   end
 end
 
-def create_block(status, block_hash = "0xed54818adbf956486a192989844d15d77bc937d8bcfcfc5e591a4f9e31e2cd2a")
+def create_block(status, block_hash = "0x554b5658716ac7dc95c46971d461ea9eadbf43234c092a23c6f50bc02dbcaec8")
   Block.create(
-    cellbase_id: "0xe08894ef0ed80481448f7a584438a76b6bdbea178c02b4c3b40863d75c5aed3c",
     difficulty: "0x100",
     block_hash: block_hash,
     number: 10,
@@ -70,9 +69,7 @@ def create_block(status, block_hash = "0xed54818adbf956486a192989844d15d77bc937d
 end
 
 def create_uncle_block(block)
-  cellbase = { "deps" => [], "hash" => "0x1d82a6d7bcefca69be3f2c7e43f88a18f4fd01eb05d06f4d2fe2df8a8afb350f", "inputs" => [{ "args" => ["0x0700000000000000"], "previous_output" => { "hash" => "0x0000000000000000000000000000000000000000000000000000000000000000", "index" => 4294967295 } }], "outputs" => [{ "data" => "0x", "lock" => { "args" => [], "version" => 0, "binary_hash" => "0x0000000000000000000000000000000000000000000000000000000000000001" }, "type" => nil, "capacity" => 50000 }], "version" => 0 }
   block.uncle_blocks.create(
-    cellbase_id: "0x1d82a6d7bcefca69be3f2c7e43f88a18f4fd01eb05d06f4d2fe2df8a8afb350f",
     difficulty: "0x100",
     block_hash: "0xf6d9c070dfebb30eeb685d74836e7c7dcf82b61ef8214a769f50d9fa8b4ed783",
     number: 7,
@@ -85,10 +82,7 @@ def create_uncle_block(block)
     uncles_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
     version: 0,
     proposal_transactions: [],
-    proposal_transactions_count: 0,
-    cellbase: cellbase,
-    miner_hash: CKB::Utils.miner_hash(cellbase),
-    reward: CKB::Utils.miner_reward(cellbase)
+    proposal_transactions_count: 0
   )
 end
 

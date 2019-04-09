@@ -7,8 +7,6 @@ class BlockTest < ActiveSupport::TestCase
   end
 
   context "validations" do
-    should validate_presence_of(:cellbase_id).on(:create)
-    should validate_presence_of(:difficulty).on(:create)
     should validate_presence_of(:block_hash).on(:create)
     should validate_presence_of(:number).on(:create)
     should validate_presence_of(:parent_hash).on(:create)
@@ -42,7 +40,8 @@ class BlockTest < ActiveSupport::TestCase
     block = create_block("inauthentic")
     assert_equal "inauthentic", block.status
     VCR.use_cassette("blocks/10") do
-      node_block = CkbSync::Api.get_block("0xed54818adbf956486a192989844d15d77bc937d8bcfcfc5e591a4f9e31e2cd2a").deep_stringify_keys
+      SyncInfo.local_inauthentic_tip_block_number
+      node_block = CkbSync::Api.get_block("0x554b5658716ac7dc95c46971d461ea9eadbf43234c092a23c6f50bc02dbcaec8").deep_stringify_keys
       block.verify!(node_block)
       assert_equal "authentic", block.status
     end
@@ -53,7 +52,7 @@ class BlockTest < ActiveSupport::TestCase
     SyncInfo.local_authentic_tip_block_number
     assert_equal "inauthentic", block.status
     VCR.use_cassette("blocks/10") do
-      node_block = CkbSync::Api.get_block("0xed54818adbf956486a192989844d15d77bc937d8bcfcfc5e591a4f9e31e2cd2a").deep_stringify_keys
+      node_block = CkbSync::Api.get_block("0x554b5658716ac7dc95c46971d461ea9eadbf43234c092a23c6f50bc02dbcaec8").deep_stringify_keys
       assert_difference "Block.count", 1 do
         block.verify!(node_block)
       end
@@ -68,18 +67,6 @@ class BlockTest < ActiveSupport::TestCase
       accounts = ckb_transactions_under_the_block.map { |ckb_transaction| ckb_transaction.accounts }.uniq.flatten
       assert_equal accounts, block.contained_accounts
     end
-  end
-
-  test "#cellbase_id should decodes packed string" do
-    block = create_block("inauthentic")
-    cellbase_id = block.cellbase_id
-    assert_equal unpack_attribute(block, "cellbase_id"), cellbase_id
-  end
-
-  test "#difficulty should decodes packed string" do
-    block = create_block("inauthentic")
-    difficulty = block.difficulty
-    assert_equal unpack_attribute(block, "difficulty"), difficulty
   end
 
   test "#block_hash should decodes packed string" do
@@ -115,9 +102,9 @@ class BlockTest < ActiveSupport::TestCase
   test "#uncle_block_hashes should decodes packed string" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
-      node_block = CkbSync::Api.get_block("0xed54818adbf956486a192989844d15d77bc937d8bcfcfc5e591a4f9e31e2cd2a").deep_stringify_keys
+      node_block = CkbSync::Api.get_block("0x554b5658716ac7dc95c46971d461ea9eadbf43234c092a23c6f50bc02dbcaec8").deep_stringify_keys
       CkbSync::Persist.save_block(node_block, "inauthentic")
-      packed_block_hash = ["0xed54818adbf956486a192989844d15d77bc937d8bcfcfc5e591a4f9e31e2cd2a".delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*")
+      packed_block_hash = ["0x554b5658716ac7dc95c46971d461ea9eadbf43234c092a23c6f50bc02dbcaec8".delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*")
       block = Block.find_by(block_hash: packed_block_hash)
       uncle_block_hashes = block.uncle_block_hashes
       assert_equal unpack_array_attribute(block, "uncle_block_hashes", block.uncles_count, ENV["DEFAULT_HASH_LENGTH"]), uncle_block_hashes
@@ -133,9 +120,9 @@ class BlockTest < ActiveSupport::TestCase
   test "#proposal_transactions should decodes packed string" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
-      node_block = CkbSync::Api.get_block("0xed54818adbf956486a192989844d15d77bc937d8bcfcfc5e591a4f9e31e2cd2a").deep_stringify_keys
+      node_block = CkbSync::Api.get_block("0x554b5658716ac7dc95c46971d461ea9eadbf43234c092a23c6f50bc02dbcaec8").deep_stringify_keys
       CkbSync::Persist.save_block(node_block, "inauthentic")
-      packed_block_hash = ["0xed54818adbf956486a192989844d15d77bc937d8bcfcfc5e591a4f9e31e2cd2a".delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*")
+      packed_block_hash = ["0x554b5658716ac7dc95c46971d461ea9eadbf43234c092a23c6f50bc02dbcaec8".delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*")
       block = Block.find_by(block_hash: packed_block_hash)
       proposal_transactions = block.proposal_transactions
       assert_equal unpack_array_attribute(block, "proposal_transactions", block.proposal_transactions_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), proposal_transactions
@@ -158,9 +145,9 @@ class BlockTest < ActiveSupport::TestCase
   test "#miner_hash should decodes packed string" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
-      node_block = CkbSync::Api.get_block("0xed54818adbf956486a192989844d15d77bc937d8bcfcfc5e591a4f9e31e2cd2a").deep_stringify_keys
+      node_block = CkbSync::Api.get_block("0x554b5658716ac7dc95c46971d461ea9eadbf43234c092a23c6f50bc02dbcaec8").deep_stringify_keys
       CkbSync::Persist.save_block(node_block, "inauthentic")
-      packed_block_hash = ["0xed54818adbf956486a192989844d15d77bc937d8bcfcfc5e591a4f9e31e2cd2a".delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*")
+      packed_block_hash = ["0x554b5658716ac7dc95c46971d461ea9eadbf43234c092a23c6f50bc02dbcaec8".delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*")
       block = Block.find_by(block_hash: packed_block_hash)
       miner_hash = block.miner_hash
       assert_equal unpack_attribute(block, "miner_hash"), miner_hash

@@ -35,6 +35,7 @@ end
 #  status          :integer
 #  transaction_fee :integer
 #  version         :integer
+#  witnesses       :string           is an Array
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #

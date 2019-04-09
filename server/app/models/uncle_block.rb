@@ -1,26 +1,7 @@
 class UncleBlock < ApplicationRecord
   belongs_to :block
 
-  validates_presence_of :cellbase_id, :difficulty, :block_hash, :number, :parent_hash, :seal, :timestamp, :txs_commit, :txs_proposal, :uncles_count, :uncles_hash, :version, :reward, :cellbase
-  validates :reward, numericality: { greater_than_or_equal_to: 0 }
-
-  def cellbase_id
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
-  end
-
-  def cellbase_id=(cellbase_id)
-    cellbase_id = [cellbase_id.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if cellbase_id.present?
-    super
-  end
-
-  def difficulty
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
-  end
-
-  def difficulty=(difficulty)
-    difficulty = [difficulty.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if difficulty.present?
-    super
-  end
+  validates_presence_of :difficulty, :block_hash, :number, :parent_hash, :seal, :timestamp, :txs_commit, :txs_proposal, :uncles_count, :uncles_hash, :version
 
   def block_hash
     "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
@@ -83,15 +64,6 @@ class UncleBlock < ApplicationRecord
     end
     super
   end
-
-  def miner_hash
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
-  end
-
-  def miner_hash=(miner_hash)
-    miner_hash = [miner_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if miner_hash.present?
-    super
-  end
 end
 
 # == Schema Information
@@ -99,8 +71,7 @@ end
 # Table name: uncle_blocks
 #
 #  id                          :bigint(8)        not null, primary key
-#  cellbase_id                 :binary
-#  difficulty                  :binary
+#  difficulty                  :string(66)
 #  block_hash                  :binary
 #  number                      :bigint(8)
 #  parent_hash                 :binary
@@ -113,10 +84,8 @@ end
 #  version                     :integer
 #  proposal_transactions       :binary
 #  proposal_transactions_count :integer
-#  miner_hash                  :binary
-#  reward                      :integer
 #  block_id                    :bigint(8)
-#  cellbase                    :jsonb
+#  witnesses_root              :binary
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #

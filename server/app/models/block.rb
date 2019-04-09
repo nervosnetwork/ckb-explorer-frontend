@@ -4,7 +4,7 @@ class Block < ApplicationRecord
   has_many :ckb_transactions
   has_many :uncle_blocks
 
-  validates_presence_of :cellbase_id, :difficulty, :block_hash, :number, :parent_hash, :seal, :timestamp, :txs_commit, :txs_proposal, :uncles_count, :uncles_hash, :version, :cell_consumed, :reward, :total_transaction_fee, :ckb_transactions_count, :total_cell_capacity, :status, on: :create
+  validates_presence_of :difficulty, :block_hash, :number, :parent_hash, :seal, :timestamp, :txs_commit, :txs_proposal, :uncles_count, :uncles_hash, :version, :cell_consumed, :reward, :total_transaction_fee, :ckb_transactions_count, :total_cell_capacity, :status, on: :create
   validates :reward, :total_transaction_fee, :ckb_transactions_count, :total_cell_capacity, :cell_consumed, numericality: { greater_than_or_equal_to: 0 }
 
   def verify!(node_block)
@@ -18,24 +18,6 @@ class Block < ApplicationRecord
 
   def contained_accounts
     ckb_transactions.map { |ckb_transaction| ckb_transaction.accounts }.uniq.flatten
-  end
-
-  def cellbase_id
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
-  end
-
-  def cellbase_id=(cellbase_id)
-    cellbase_id = [cellbase_id.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if cellbase_id.present?
-    super
-  end
-
-  def difficulty
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
-  end
-
-  def difficulty=(difficulty)
-    difficulty = [difficulty.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if difficulty.present?
-    super
   end
 
   def block_hash
@@ -146,8 +128,7 @@ end
 # Table name: blocks
 #
 #  id                          :bigint(8)        not null, primary key
-#  cellbase_id                 :binary
-#  difficulty                  :binary
+#  difficulty                  :string(66)
 #  block_hash                  :binary
 #  number                      :bigint(8)
 #  parent_hash                 :binary
@@ -168,6 +149,7 @@ end
 #  total_transaction_fee       :integer
 #  ckb_transactions_count      :bigint(8)        default(0)
 #  total_cell_capacity         :decimal(64, 2)
+#  witnesses_root              :binary
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #

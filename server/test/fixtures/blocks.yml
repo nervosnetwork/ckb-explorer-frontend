@@ -1,7 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  cellbase_id:
   difficulty:
   block_hash:
   number: 1
@@ -23,9 +22,9 @@ one:
   total_transaction_fee: 1
   ckb_transactions_count: 1
   total_cell_capacity: 1
+  witnesses_root:
 
 two:
-  cellbase_id:
   difficulty:
   block_hash:
   number: 1
@@ -47,3 +46,4 @@ two:
   total_transaction_fee: 1
   ckb_transactions_count: 1
   total_cell_capacity: 1
+  witnesses_root:
