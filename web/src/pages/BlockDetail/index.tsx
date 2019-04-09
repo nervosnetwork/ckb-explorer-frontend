@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
+import Pagination from 'rc-pagination'
+import 'rc-pagination/assets/index.css'
 import {
   BlockDetailPanel,
   BlockDetailTitlePanel,
@@ -7,11 +9,16 @@ import {
   BlockCommonContent,
   BlockLabelItemPanel,
   CellConsumedBarDiv,
+  BlockPreviousNextPanel,
+  BlockHightLabel,
+  BlockTransactionsPenal,
+  BlockTransactionsPagition,
 } from './index.css'
 import Page from '../../components/Page'
 import Header from '../../components/Header'
 import Content from '../../components/Content'
 import Footer from '../../components/Footer'
+import Transaction from '../../components/Transaction'
 import CopyIcon from '../../asserts/copy.png'
 import BlockHeightIcon from '../../asserts/block_height_green.png'
 import BlockTransactionIcon from '../../asserts/transactions_green.png'
@@ -26,7 +33,10 @@ import TransactionFeeIcon from '../../asserts/transaction_fee.png'
 import DifficultyIcon from '../../asserts/difficulty.png'
 import NonceIcon from '../../asserts/nonce.png'
 import ProofIcon from '../../asserts/proof.png'
-import BlockData from './mock'
+import PreviousBlockIcon from '../../asserts/left_arrow.png'
+import NextBlockIcon from '../../asserts/right_arrow.png'
+import MouseIcon from '../../asserts/block_mouse.png'
+import { BlockData, TransactionsData } from './mock'
 import { parseSimpleDate } from '../../utils/date'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
@@ -110,6 +120,19 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const { match } = props
   const { params } = match
   const { hash } = params
+
+  const PageSize = 3
+  const [currentPageNo, setCurrentPageNo] = useState(1)
+
+  // TODO: fetch transaction data from server
+  const getTransactionOfAddress = (pageNo: number, pageSize: number) => {
+    return TransactionsData.data.slice((pageNo - 1) * pageSize, pageNo * pageSize)
+  }
+
+  const onChange = (current: number, pageSize: number) => {
+    setCurrentPageNo(current)
+    getTransactionOfAddress(current, pageSize)
+  }
 
   const BlockLeftItems: BlockItem[] = [
     {
@@ -212,6 +235,31 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               })}
             </div>
           </BlockCommonContent>
+          <BlockPreviousNextPanel>
+            <img className="block__arrow" src={PreviousBlockIcon} alt="previous block" />
+            <img className="block__mouse" src={MouseIcon} alt="mouse" />
+            <img className="block__arrow" src={NextBlockIcon} alt="next block" />
+          </BlockPreviousNextPanel>
+          <BlockHightLabel>Block Height</BlockHightLabel>
+
+          <BlockTransactionsPenal>
+            <BlockOverview value="Transactions" />
+            <div>
+              {getTransactionOfAddress(currentPageNo, PageSize).map((transaction: any) => {
+                return <Transaction transaction={transaction} key={transaction.transaction_hash} />
+              })}
+            </div>
+            <BlockTransactionsPagition>
+              <Pagination
+                showQuickJumper
+                showSizeChanger
+                defaultPageSize={PageSize}
+                defaultCurrent={1}
+                total={TransactionsData.data.length}
+                onChange={onChange}
+              />
+            </BlockTransactionsPagition>
+          </BlockTransactionsPenal>
         </BlockDetailPanel>
       </Content>
       <Footer />

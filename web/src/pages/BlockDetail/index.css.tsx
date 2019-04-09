@@ -117,3 +117,37 @@ export const CellConsumedBarDiv = styled.div`
     border-radius: inherit;
   }
 `
+
+export const BlockPreviousNextPanel = styled.div`
+  display: flex;
+  margin-top: 59px;
+
+  .block__arrow {
+    width: 83px;
+    height: 19px;
+    margin-top: 13px;
+  }
+
+  .block__mouse {
+    width: 25px;
+    height: 45px;
+    margin: 0 21px 0 21px;
+  }
+`
+
+export const BlockHightLabel = styled.div`
+  margin-top: 17px;
+  font-size: 16px;
+  color: #979797;
+  text-align: center;
+`
+
+export const BlockTransactionsPenal = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+export const BlockTransactionsPagition = styled.div`
+  margin: 80px 0 0 0;
+`
