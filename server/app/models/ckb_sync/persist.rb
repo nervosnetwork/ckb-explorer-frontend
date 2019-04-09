@@ -12,25 +12,11 @@ module CkbSync
         node_block["uncles"].each do |uncle_block|
           build_uncle_block(uncle_block, local_block)
         end
-        commit_transactions = node_block["commit_transactions"]
-        ckb_transactions_with_display_cell_item = { transaction: nil, inputs: [], outputs: [] }
-        commit_transactions.each do |transaction|
-          ckb_transaction = build_ckb_transaction(local_block, transaction, sync_type)
-          ckb_transactions_with_display_cell_item[:transaction] = ckb_transaction
-          transaction["inputs"].each do |input|
-            cell_input = build_cell_input(ckb_transaction, input)
-            ckb_transactions_with_display_cell_item[:inputs] << cell_input
-          end
-          transaction["outputs"].each do |output|
-            cell_output = build_cell_output(ckb_transaction, output)
-            account = Account.find_or_create_account(ckb_transaction, output["lock"].symbolize_keys)
-            build_lock_script(cell_output, output["lock"], account)
-            build_type_script(cell_output, output["type"])
-            ckb_transactions_with_display_cell_item[:outputs] << cell_output
-          end
-          ckb_transactions_with_display_cell << ckb_transactions_with_display_cell_item
-        end
+
+        build_ckb_transactions(local_block, node_block["commit_transactions"], sync_type, ckb_transactions_with_display_cell)
+
         local_block.ckb_transactions_count = ckb_transactions_with_display_cell.size
+
         ApplicationRecord.transaction do
           Block.import! [local_block], recursive: true, batch_size: 1500
           SyncInfo.find_by!(name: sync_tip_block_number_type(sync_type)).update!(status: "synced")
@@ -40,6 +26,36 @@ module CkbSync
       end
 
       private
+
+      def build_ckb_transactions(local_block, commit_transactions, sync_type, ckb_transactions_with_display_cell)
+        ckb_transactions_with_display_cell_item = { transaction: nil, inputs: [], outputs: [] }
+        commit_transactions.each do |transaction|
+          ckb_transaction = build_ckb_transaction(local_block, transaction, sync_type)
+          ckb_transactions_with_display_cell_item[:transaction] = ckb_transaction
+
+          build_cell_inputs(transaction["inputs"], ckb_transaction, ckb_transactions_with_display_cell_item)
+          build_cell_outputs(transaction["outputs"], ckb_transaction, ckb_transactions_with_display_cell_item)
+
+          ckb_transactions_with_display_cell << ckb_transactions_with_display_cell_item
+        end
+      end
+
+      def build_cell_inputs(node_inputs, ckb_transaction, ckb_transactions_with_display_cell_item)
+        node_inputs.each do |input|
+          cell_input = build_cell_input(ckb_transaction, input)
+          ckb_transactions_with_display_cell_item[:inputs] << cell_input
+        end
+      end
+
+      def build_cell_outputs(node_outputs, ckb_transaction, ckb_transactions_with_display_cell_item)
+        node_outputs.each do |output|
+          cell_output = build_cell_output(ckb_transaction, output)
+          account = Account.find_or_create_account(ckb_transaction, output["lock"].symbolize_keys)
+          build_lock_script(cell_output, output["lock"], account)
+          build_type_script(cell_output, output["type"])
+          ckb_transactions_with_display_cell_item[:outputs] << cell_output
+        end
+      end
 
       def sync_tip_block_number_type(sync_type)
         "#{sync_type}_tip_block_number"
@@ -61,7 +77,7 @@ module CkbSync
         if CellOutput::BASE_HASH == previous_transaction_hash
           { id: nil, capacity: CellOutput::INITIAL_BLOCK_REWARD }
         else
-          previous_transacton = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
+          previous_transacton = CkbTransaction.find_by(tx_hash: [previous_transaction_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*"))
           previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
           { id: previous_output.id, capacity: previous_output.capacity }
         end
