@@ -97,6 +97,9 @@ export const BlockLabelItemPanel = styled.div`
   > div {
     font-size: 16px;
     color: rgb(136, 136, 136);
+    max-width: 320px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `
 export const CellConsumedBarDiv = styled.div`

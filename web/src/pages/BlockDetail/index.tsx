@@ -20,6 +20,12 @@ import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import TimestampIcon from '../../asserts/timestamp_green.png'
 import VersionIcon from '../../asserts/version.png'
 import UncleCountIcon from '../../asserts/uncle_count.png'
+import MinerIcon from '../../asserts/miner_green.png'
+import BlockRewardIcon from '../../asserts/block_reward.png'
+import TransactionFeeIcon from '../../asserts/transaction_fee.png'
+import DifficultyIcon from '../../asserts/difficulty.png'
+import NonceIcon from '../../asserts/nonce.png'
+import ProofIcon from '../../asserts/proof.png'
 import BlockData from './mock'
 import { parseSimpleDate } from '../../utils/date'
 
@@ -39,12 +45,28 @@ const BlockOverview = ({ value }: { value: string }) => {
   return <BlockOverviewPanel>{value}</BlockOverviewPanel>
 }
 
-const BlockCommonLabel = ({ image, label, value }: { image: string; label: string; value: any }) => {
+const BlockCommonLabel = ({
+  image,
+  label,
+  value,
+  highLight,
+}: {
+  image: string
+  label: string
+  value: any
+  highLight?: boolean
+}) => {
+  const highLightStyle = {
+    color: '#4BBC8E',
+  }
+  const normalStyle = {
+    color: '#888888',
+  }
   return (
     <BlockLabelItemPanel>
       <img src={image} alt={value} />
       <span>{label}</span>
-      <div>{value}</div>
+      <div style={highLight ? highLightStyle : normalStyle}>{value}</div>
     </BlockLabelItemPanel>
   )
 }
@@ -122,6 +144,39 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     },
   ]
 
+  const BlockRightItems: BlockItem[] = [
+    {
+      image: MinerIcon,
+      label: 'Miner:',
+      value: `${BlockData.data.miner_hash}`,
+    },
+    {
+      image: BlockRewardIcon,
+      label: 'Block Reward:',
+      value: `${BlockData.data.reward}`,
+    },
+    {
+      image: TransactionFeeIcon,
+      label: 'Transaction Fee:',
+      value: `${BlockData.data.total_transaction_fee}`,
+    },
+    {
+      image: DifficultyIcon,
+      label: 'Difficulty:',
+      value: `${BlockData.data.difficulty}`,
+    },
+    {
+      image: NonceIcon,
+      label: 'Nonce:',
+      value: `${BlockData.data.nonce}`,
+    },
+    {
+      image: ProofIcon,
+      label: 'Proof:',
+      value: `${BlockData.data.proof}`,
+    },
+  ]
+
   return (
     <Page>
       <Header />
@@ -131,18 +186,30 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <BlockOverview value="Overview" />
           <BlockCommonContent>
             <div>
-              {BlockLeftItems.map(item => {
+              {BlockLeftItems.slice(0, 3).map(item => {
                 return <BlockCommonLabel image={item.image} label={item.label} value={item.value} />
               })}
-            </div>
-            <span className="block__content__separate" />
-            <div>
               <BlockCellConsumedLabel
                 image={CellConsumedIcon}
                 label="Cell Consumed"
                 consumed={BlockData.data.cell_consumed}
                 balance={BlockData.data.total_cell_capacity}
               />
+              {BlockLeftItems.slice(3).map(item => {
+                return <BlockCommonLabel image={item.image} label={item.label} value={item.value} />
+              })}
+            </div>
+            <span className="block__content__separate" />
+            <div>
+              <BlockCommonLabel
+                image={BlockRightItems[0].image}
+                label={BlockRightItems[0].label}
+                value={BlockRightItems[0].value}
+                highLight
+              />
+              {BlockRightItems.slice(1).map(item => {
+                return <BlockCommonLabel image={item.image} label={item.label} value={item.value} />
+              })}
             </div>
           </BlockCommonContent>
         </BlockDetailPanel>
