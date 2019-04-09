@@ -6,6 +6,7 @@ SimpleCov.start "rails" do
 end
 require "database_cleaner"
 require "minitest/reporters"
+require 'mocha/minitest'
 Minitest::Reporters.use!
 
 ENV["RAILS_ENV"] ||= "test"
