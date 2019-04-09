@@ -128,10 +128,10 @@ export const TableTitleRow = styled.div`
   }
 `
 
-export const TableContentRow = styled.tr`
+export const TableContentRow = styled.div`
   display: flex;
 
-  td {
+  div {
     width: 240px;
     display: flex;
     align-items: center;
@@ -141,7 +141,7 @@ export const TableContentRow = styled.tr`
   }
 `
 
-export const TableMinerContentPanel = styled.td`
+export const TableMinerContentPanel = styled.div`
   height: 78px;
 
   .table__miner__content {
@@ -153,7 +153,7 @@ export const TableMinerContentPanel = styled.td`
   }
 `
 
-export const TableMorePanel = styled.td`
+export const TableMorePanel = styled.div`
   height: 78px;
   width: 100%;
   display: flex;

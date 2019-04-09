@@ -15,9 +15,9 @@ export default () => {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/block/:hash" exact component={Block} />
-        <Route path="/blocklist" exact component={BlockList} />
+        <Route path="/blocklist/:pageNo?/:pageSize?" exact component={BlockList} />
         <Route path="/transaction" exact component={Transaction} />
-        <Route path="/address/:address" exact component={Address} />
+        <Route path="/address/:address/:pageNo?/:pageSize?" exact component={Address} />
         <Route path="/search/fail" exact component={SearchFail} />
         <Route path="/404" exact component={NotFoundPage} />
         <Redirect from="*" to="/404" />
