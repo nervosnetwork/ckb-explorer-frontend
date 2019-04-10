@@ -35,8 +35,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   end
 
   create_table "blocks", force: :cascade do |t|
-    t.binary "cellbase_id"
-    t.binary "difficulty"
+    t.string "difficulty", limit: 66
     t.binary "block_hash"
     t.bigint "number"
     t.binary "parent_hash"
@@ -57,6 +56,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.integer "total_transaction_fee"
     t.bigint "ckb_transactions_count", default: 0
     t.decimal "total_cell_capacity", precision: 64, scale: 2
+    t.binary "witnesses_root"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["block_hash", "status"], name: "index_blocks_on_block_hash_and_status"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.integer "status"
     t.integer "transaction_fee"
     t.integer "version"
+    t.string "witnesses", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["block_id"], name: "index_ckb_transactions_on_block_id"
@@ -133,8 +134,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   end
 
   create_table "uncle_blocks", force: :cascade do |t|
-    t.binary "cellbase_id"
-    t.binary "difficulty"
+    t.string "difficulty", limit: 66
     t.binary "block_hash"
     t.bigint "number"
     t.binary "parent_hash"
@@ -147,15 +147,10 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.integer "version"
     t.binary "proposal_transactions"
     t.integer "proposal_transactions_count"
-    t.binary "miner_hash"
-    t.integer "status"
-    t.integer "reward"
-    t.integer "total_transaction_fee"
     t.bigint "block_id"
-    t.jsonb "cellbase"
+    t.binary "witnesses_root"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["block_hash", "status"], name: "index_uncle_blocks_on_block_hash_and_status"
     t.index ["block_hash"], name: "index_uncle_blocks_on_block_hash", unique: true
     t.index ["block_id"], name: "index_uncle_blocks_on_block_id"
   end

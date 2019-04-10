@@ -1,10 +1,12 @@
 class CellOutput < ApplicationRecord
-  BASE_HASH = "0x0000000000000000000000000000000000000000000000000000000000000000"
+  BASE_HASH = "0x0000000000000000000000000000000000000000000000000000000000000000".freeze
   INITIAL_BLOCK_REWARD = 50_000
 
   belongs_to :ckb_transaction
   has_one :lock_script
   has_one :type_script
+
+  validates :capacity, presence: true, numericality: { greater_than_or_equal_to: 0 }
 end
 
 # == Schema Information

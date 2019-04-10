@@ -7,13 +7,10 @@ class CkbTransaction < ApplicationRecord
   has_many :cell_inputs
   has_many :cell_outputs
 
-  def tx_hash
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
-  end
+  validates_presence_of :transaction_fee, :status
+  validates :transaction_fee, numericality: { greater_than_or_equal_to: 0 }
 
-  def tx_hash=(tx_hash)
-    super([tx_hash[2..-1]].pack("H*"))
-  end
+  attribute :tx_hash, :ckb_hash
 end
 
 # == Schema Information
@@ -31,6 +28,7 @@ end
 #  status          :integer
 #  transaction_fee :integer
 #  version         :integer
+#  witnesses       :string           is an Array
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #

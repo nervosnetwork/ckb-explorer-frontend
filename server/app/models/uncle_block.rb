@@ -1,94 +1,14 @@
 class UncleBlock < ApplicationRecord
   belongs_to :block
 
-  def cellbase_id
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
-  end
+  validates_presence_of :difficulty, :block_hash, :number, :parent_hash, :seal, :timestamp, :txs_commit, :txs_proposal, :uncles_count, :uncles_hash, :version
 
-  def cellbase_id=(cellbase_id)
-    super([cellbase_id[2..-1]].pack("H*"))
-  end
-
-  def difficulty
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
-  end
-
-  def difficulty=(difficulty)
-    super([difficulty[2..-1]].pack("H*"))
-  end
-
-  def block_hash
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
-  end
-
-  def block_hash=(block_hash)
-    super([block_hash[2..-1]].pack("H*"))
-  end
-
-  def parent_hash
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
-  end
-
-  def parent_hash=(parent_hash)
-    super([parent_hash[2..-1]].pack("H*"))
-  end
-
-  def txs_commit
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
-  end
-
-  def txs_commit=(txs_commit)
-    super([txs_commit[2..-1]].pack("H*"))
-  end
-
-  def txs_proposal
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
-  end
-
-  def txs_proposal=(txs_proposal)
-    super([txs_proposal[2..-1]].pack("H*"))
-  end
-
-  def uncles_hash
-    if super.present?
-      "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
-    else
-      super
-    end
-  end
-
-  def uncles_hash=(uncles_hash)
-    if uncles_hash.present?
-      uncles_hash = [uncles_hash[2..-1]].pack("H*")
-    end
-    super(uncles_hash)
-  end
-
-  def proposal_transactions
-    if super.present?
-      template = Array.new(proposal_transactions_count).reduce("") { |memo, item| "#{memo}H#{ENV["DEFAULT_SHORT_HASH_LENGTH"]}" }
-      super.unpack("#{template}").map { |hash| "#{ENV["DEFAULT_HASH_PREFIX"]}#{hash}" }.reject(&:blank?)
-    else
-      super.reject(&:blank?)
-    end
-  end
-
-  def proposal_transactions=(proposal_transactions)
-    if proposal_transactions.present?
-      real_proposal_transactions = proposal_transactions.map { |hash| hash[2..-1] }
-      proposal_transactions = real_proposal_transactions.pack("H*" * real_proposal_transactions.size)
-    else
-      super(proposal_transactions)
-    end
-  end
-
-  def miner_hash
-    "#{ENV["DEFAULT_HASH_PREFIX"]}#{super.unpack("H*").first}"
-  end
-
-  def miner_hash=(miner_hash)
-    super([miner_hash[2..-1]].pack("H*"))
-  end
+  attribute :block_hash, :ckb_hash
+  attribute :parent_hash, :ckb_hash
+  attribute :txs_commit, :ckb_hash
+  attribute :txs_proposal, :ckb_hash
+  attribute :uncles_hash, :ckb_hash
+  attribute :proposal_transactions, :ckb_array_hash, hash_length: ENV["DEFAULT_SHORT_HASH_LENGTH"]
 end
 
 # == Schema Information
@@ -96,8 +16,7 @@ end
 # Table name: uncle_blocks
 #
 #  id                          :bigint(8)        not null, primary key
-#  cellbase_id                 :binary
-#  difficulty                  :binary
+#  difficulty                  :string(66)
 #  block_hash                  :binary
 #  number                      :bigint(8)
 #  parent_hash                 :binary
@@ -110,18 +29,13 @@ end
 #  version                     :integer
 #  proposal_transactions       :binary
 #  proposal_transactions_count :integer
-#  miner_hash                  :binary
-#  status                      :integer
-#  reward                      :integer
-#  total_transaction_fee       :integer
 #  block_id                    :bigint(8)
-#  cellbase                    :jsonb
+#  witnesses_root              :binary
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #
 # Indexes
 #
-#  index_uncle_blocks_on_block_hash             (block_hash) UNIQUE
-#  index_uncle_blocks_on_block_hash_and_status  (block_hash,status)
-#  index_uncle_blocks_on_block_id               (block_id)
+#  index_uncle_blocks_on_block_hash  (block_hash) UNIQUE
+#  index_uncle_blocks_on_block_id    (block_id)
 #

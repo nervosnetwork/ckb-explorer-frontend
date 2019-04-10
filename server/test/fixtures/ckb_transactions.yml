@@ -11,6 +11,7 @@ one:
   status: 1
   transaction_fee: 1
   version: 0
+  witnesses:
 
 two:
   tx_hash:
@@ -23,3 +24,4 @@ two:
   status: 1
   transaction_fee: 1
   version: 0
+  witnesses:

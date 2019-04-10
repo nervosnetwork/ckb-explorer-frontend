@@ -1,7 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  cellbase_id:
   difficulty:
   block_hash:
   number: 1
@@ -14,14 +13,10 @@ one:
   version: 1
   proposal_transactions:
   proposal_transactions_count: 1
-  miner_hash:
-  status: 1
-  reward: 1
-  total_transaction_fee: 1
   block: one
+  witnesses_root:
 
 two:
-  cellbase_id:
   difficulty:
   block_hash:
   number: 1
@@ -34,7 +29,5 @@ two:
   version: 1
   proposal_transactions:
   proposal_transactions_count: 1
-  miner_hash:
-  status: 1
-  reward: 1
   block: two
+  witnesses_root:

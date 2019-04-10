@@ -1,8 +1,7 @@
 class CreateBlocks < ActiveRecord::Migration[5.2]
   def change
     create_table :blocks do |t|
-      t.binary :cellbase_id
-      t.binary :difficulty
+      t.string :difficulty, limit: 66
       t.binary :block_hash
       t.bigint :number
       t.binary :parent_hash
@@ -23,6 +22,7 @@ class CreateBlocks < ActiveRecord::Migration[5.2]
       t.integer :total_transaction_fee
       t.bigint :ckb_transactions_count, default: 0
       t.decimal :total_cell_capacity, precision: 64, scale: 2
+      t.binary :witnesses_root
 
       t.timestamps
     end

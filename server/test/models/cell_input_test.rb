@@ -1,7 +1,7 @@
-require 'test_helper'
+require "test_helper"
 
 class CellInputTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  context "associations" do
+    should belong_to(:ckb_transaction)
+  end
 end

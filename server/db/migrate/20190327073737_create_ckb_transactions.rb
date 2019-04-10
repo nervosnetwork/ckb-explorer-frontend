@@ -11,6 +11,7 @@ class CreateCkbTransactions < ActiveRecord::Migration[5.2]
       t.integer :status
       t.integer :transaction_fee
       t.integer :version
+      t.string :witnesses, array: true
 
       t.timestamps
     end
