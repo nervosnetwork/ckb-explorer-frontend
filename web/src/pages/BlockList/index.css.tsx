@@ -36,7 +36,7 @@ export const TableTitleRow = styled.div`
   display: flex;
   flex-direction: row;
 
-  div {
+  > div {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -44,14 +44,14 @@ export const TableTitleRow = styled.div`
     width: 240px;
     height: 78px;
 
-    div {
+    > div {
       width: auto;
-      img {
+      > img {
         width: 23px;
         height: 23px;
       }
 
-      div {
+      > div {
         color: white;
         font-size: 20px;
         margin-left: 10px;
@@ -63,7 +63,7 @@ export const TableTitleRow = styled.div`
 export const TableContentRow = styled.div`
   display: flex;
 
-  div {
+  > div {
     width: 240px;
     display: flex;
     align-items: center;

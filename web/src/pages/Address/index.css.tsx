@@ -23,13 +23,13 @@ export const AddressTitlePanel = styled.div`
     flex-direction: row;
     justify-content: center;
 
-    div {
+    > div {
       color: rgb(136, 136, 136);
       font-size: 18px;
       height: 25px;
     }
 
-    img {
+    > img {
       margin-left: 19px;
       width: 24px;
       height: 21px;
@@ -74,19 +74,19 @@ export const AddressLabelItemPanel = styled.div`
   align-items: center;
   height: 28px;
 
-  img {
+  > img {
     width: 28px;
     height: 28px;
   }
 
-  span {
+  > span {
     font-size: 18px;
     color: rgb(77, 77, 77);
     margin-left: 10px;
     margin-right: 21px;
   }
 
-  div {
+  > div {
     font-size: 16px;
     color: rgb(75, 188, 142);
   }
@@ -98,7 +98,7 @@ export const CellConsumedBarDiv = styled.div`
   border: 1px solid rgb(75, 188, 142);
   margin-right: 10px;
 
-  div {
+  > div {
     width: ${(props: { percent: string }) => props.percent}%;
     margin-right: 21px;
     background: rgb(75, 188, 142);
@@ -155,7 +155,7 @@ export const AddressTransactionsItem = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    img {
+    > img {
       width: 68px;
       height: 68px;
     }

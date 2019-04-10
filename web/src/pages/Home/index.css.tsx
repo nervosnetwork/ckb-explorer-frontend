@@ -23,11 +23,13 @@ export const LogoPanel = styled.div`
   dispaly: flex;
   display: -webkit-flex; /* Safari */
   flex-direction: row;
-  img {
+
+  > img {
     width: 156px;
     height: 149px;
   }
-  div {
+
+  > div {
     line-height: 156px;
     margin-left: 29px;
     color: #46ab81;
@@ -41,7 +43,8 @@ export const SearchPanel = styled.div`
   width: auto;
   height: 65px;
   text-align: center;
-  input {
+
+  > input {
     position: relative;
     width: 650px;
     color: #bababa;
@@ -57,7 +60,8 @@ export const SearchPanel = styled.div`
       opacity: 1;
     }
   }
-  img {
+
+  > img {
     position: relative;
     top: 14px;
     right: 50px;
@@ -104,7 +108,7 @@ export const TableTitleRow = styled.div`
   display: flex;
   flex-direction: row;
 
-  div {
+  > div {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -112,14 +116,15 @@ export const TableTitleRow = styled.div`
     width: 240px;
     height: ${(props: { width: number }) => (78 * props.width) / 1920}px;
 
-    div {
+    > div {
       width: auto;
-      img {
+
+      > img {
         width: 23px;
         height: 23px;
       }
 
-      div {
+      > div {
         color: white;
         font-size: 20px;
         margin-left: 10px;
@@ -131,7 +136,7 @@ export const TableTitleRow = styled.div`
 export const TableContentRow = styled.div`
   display: flex;
 
-  div {
+  > div {
     width: 240px;
     display: flex;
     align-items: center;
@@ -161,17 +166,17 @@ export const TableMorePanel = styled.div`
   justify-content: center;
   background: white;
 
-  div {
+  > div {
     height: 33px;
     display: flex;
 
-    img {
+    > img {
       width: 61px;
       height: 15px;
       margin-top: 9px;
     }
 
-    div {
+    > div {
       width: 59px;
       height: 33px;
       margin: 0 42px 0 42px;
