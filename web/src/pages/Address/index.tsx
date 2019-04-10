@@ -8,13 +8,14 @@ import Header from '../../components/Header'
 import Content from '../../components/Content'
 import Footer from '../../components/Footer'
 import Transaction from '../../components/Transaction'
+import SimpleLabel from '../../components/Label'
+import CellConsumedLabel from '../../components/Label/CellConsumedLabel'
 import {
   AddressContentPanel,
   AddressTitlePanel,
   AddressOverviewPanel,
   AddressCommonContent,
-  AddressLabelItemPanel,
-  CellConsumedBarDiv,
+  AddressScriptLabelPanel,
   AddressTransactionsPenal,
   AddressTransactionsPagition,
 } from './index.css'
@@ -41,81 +42,14 @@ const AddressOverview = ({ value }: { value: string }) => {
   return <AddressOverviewPanel>{value}</AddressOverviewPanel>
 }
 
-const AddressCommonLabel = ({
-  image,
-  label,
-  value,
-  style,
-}: {
-  image: string
-  label: string
-  value: any
-  style: any
-}) => {
+const AddressScriptLabel = ({ image, label, value }: { image: string; label: string; value: any }) => {
   return (
-    <AddressLabelItemPanel style={style}>
-      <img src={image} alt={value} />
-      <span>{label}</span>
-      <div>{value}</div>
-    </AddressLabelItemPanel>
-  )
-}
-
-const CellConsumedBar = ({ percent }: { percent: number }) => {
-  return (
-    <CellConsumedBarDiv percent={`${percent}`}>
-      <div />
-    </CellConsumedBarDiv>
-  )
-}
-
-const AddressCellConsumedLabel = ({
-  image,
-  label,
-  consumed,
-  balance,
-  style,
-}: {
-  image: string
-  label: string
-  consumed: number
-  balance: number
-  style: any
-}) => {
-  return (
-    <AddressLabelItemPanel style={style}>
-      <img src={image} alt="Cell Consumed" />
-      <span>{label}</span>
-      <CellConsumedBar percent={(consumed * 100) / balance} />
-      <div>{`${consumed}B / ${(consumed * 100) / balance}%`}</div>
-    </AddressLabelItemPanel>
-  )
-}
-
-const AddressScriptLabel = ({
-  image,
-  label,
-  value,
-  style,
-}: {
-  image: string
-  label: string
-  value: any
-  style: any
-}) => {
-  return (
-    <div style={style}>
-      <AddressLabelItemPanel>
+    <div>
+      <AddressScriptLabelPanel>
         <img src={image} alt={value} />
         <span>{label}</span>
-      </AddressLabelItemPanel>
-      <ReactJson
-        src={value}
-        style={{
-          marginLeft: 56,
-          marginTop: 18,
-        }}
-      />
+      </AddressScriptLabelPanel>
+      <ReactJson src={value} />
     </div>
   )
 }
@@ -149,47 +83,19 @@ export default (
           <AddressTitle address={address} />
           <AddressOverview value="Overview" />
           <AddressCommonContent>
-            <AddressCommonLabel
-              image={BalanceIcon}
-              label="Balance: "
-              value={`${AddressData.data.balance} CKB`}
-              style={{
-                position: 'relative',
-                top: 0,
-                left: 0,
-              }}
-            />
-            <AddressCommonLabel
+            <SimpleLabel image={BalanceIcon} label="Balance: " value={`${AddressData.data.balance} CKB`} />
+            <SimpleLabel
               image={TransactionsIcon}
               label="Transactions: "
               value={`${AddressData.data.transactions_count}`}
-              style={{
-                position: 'relative',
-                top: -28,
-                left: 583,
-              }}
             />
-            <AddressCellConsumedLabel
+            <CellConsumedLabel
               image={CellConsumedIcon}
               label="Cell Consumed: "
               consumed={AddressData.data.cell_consumed}
               balance={AddressData.data.balance}
-              style={{
-                position: 'relative',
-                top: -4,
-                left: 0,
-              }}
             />
-            <AddressScriptLabel
-              image={AddressScriptIcon}
-              label="Lock Script: "
-              value={AddressData.data.lock_script}
-              style={{
-                position: 'relative',
-                top: 20,
-                left: 0,
-              }}
-            />
+            <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " value={AddressData.data.lock_script} />
           </AddressCommonContent>
 
           <AddressTransactionsPenal>

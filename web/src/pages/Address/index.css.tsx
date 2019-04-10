@@ -68,45 +68,6 @@ export const AddressCommonContent = styled.div`
   flex-direction: column;
 `
 
-export const AddressLabelItemPanel = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 28px;
-
-  > img {
-    width: 28px;
-    height: 28px;
-  }
-
-  > span {
-    font-size: 18px;
-    color: rgb(77, 77, 77);
-    margin-left: 10px;
-    margin-right: 21px;
-  }
-
-  > div {
-    font-size: 16px;
-    color: rgb(75, 188, 142);
-  }
-`
-export const CellConsumedBarDiv = styled.div`
-  height: 20px;
-  width: 160px;
-  border-radius: 50px;
-  border: 1px solid rgb(75, 188, 142);
-  margin-right: 10px;
-
-  > div {
-    width: ${(props: { percent: string }) => props.percent}%;
-    margin-right: 21px;
-    background: rgb(75, 188, 142);
-    height: 100%;
-    border-radius: inherit;
-  }
-`
-
 export const AddressTransactionsPenal = styled.div`
   display: flex;
   flex-direction: column;
@@ -159,6 +120,26 @@ export const AddressTransactionsItem = styled.div`
       width: 68px;
       height: 68px;
     }
+  }
+`
+
+export const AddressScriptLabelPanel = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 28px;
+  margin-top: 24px;
+
+  > img {
+    width: 28px;
+    height: 28px;
+  }
+
+  > span {
+    font-size: 18px;
+    color: rgb(77, 77, 77);
+    margin-left: 10px;
+    margin-right: 21px;
   }
 `
 
