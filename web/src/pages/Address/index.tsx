@@ -7,6 +7,7 @@ import Page from '../../components/Page'
 import Header from '../../components/Header'
 import Content from '../../components/Content'
 import Footer from '../../components/Footer'
+import Transaction from '../../components/Transaction'
 import {
   AddressContentPanel,
   AddressTitlePanel,
@@ -15,8 +16,6 @@ import {
   AddressLabelItemPanel,
   CellConsumedBarDiv,
   AddressTransactionsPenal,
-  AddressTransactionsItem,
-  AddressTransactionsCell,
   AddressTransactionsPagition,
 } from './index.css'
 import CopyIcon from '../../asserts/copy.png'
@@ -24,8 +23,6 @@ import BalanceIcon from '../../asserts/address_balance.png'
 import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/transactions_green.png'
-import InputOutputIcon from '../../asserts/input_arrow_output.png'
-import { parseDate } from '../../utils/date'
 import { AddressData, TransactionsData } from './mock'
 
 const AddressTitle = ({ address }: { address: string }) => {
@@ -123,42 +120,6 @@ const AddressScriptLabel = ({
   )
 }
 
-const AddressTransactionCell = ({ cell }: { cell: any }) => {
-  return (
-    <AddressTransactionsCell>
-      <div className="transaction__cell__hash">{cell.address_hash}</div>
-      <div className="transaction__cell__capacity">{`${cell.capacity} CKB`}</div>
-    </AddressTransactionsCell>
-  )
-}
-
-const AddressTransactionsComponent = ({ transaction }: { transaction: any }) => {
-  return (
-    <AddressTransactionsItem>
-      <div className="transaction__hash__panel">
-        <div className="transaction_hash">{transaction.transaction_hash}</div>
-        <div className="transaction_block">
-          {`(Block ${transaction.block_number})  ${parseDate(transaction.block_timestamp)}`}
-        </div>
-      </div>
-      <span className="transaction__separate" />
-      <div className="transaction__input__output">
-        <div className="transaction__input">
-          {transaction.display_inputs.map((cell: any) => {
-            return <AddressTransactionCell cell={cell} key={cell.input_id} />
-          })}
-        </div>
-        <img src={InputOutputIcon} alt="input and output" />
-        <div className="transaction__output">
-          {transaction.display_outputs.map((cell: any) => {
-            return <AddressTransactionCell cell={cell} key={cell.output_id} />
-          })}
-        </div>
-      </div>
-    </AddressTransactionsItem>
-  )
-}
-
 export default (
   props: React.PropsWithoutRef<RouteComponentProps<{ address: string; pageNo: string; pageSize: string }>>,
 ) => {
@@ -235,7 +196,7 @@ export default (
             <AddressOverview value="Transactions" />
             <div>
               {getTransactionOfAddress(currentPageNo, currentPageSize).map((transaction: any) => {
-                return <AddressTransactionsComponent transaction={transaction} key={transaction.transaction_hash} />
+                return <Transaction transaction={transaction} key={transaction.transaction_hash} />
               })}
             </div>
             <AddressTransactionsPagition>
