@@ -23,6 +23,8 @@ module CkbSync
           ckb_transactions = assign_display_info_to_ckb_transaction(ckb_transactions_with_display_cell)
           CkbTransaction.import! ckb_transactions, batch_size: 1500, on_duplicate_key_update: [:display_inputs, :display_outputs]
         end
+
+        local_block
       end
 
       private

@@ -4,6 +4,7 @@
 # server
 # Ignore bundler config.
 /server/.bundle
+/server/.env
 /server/.env.local
 /server/.env.test
 

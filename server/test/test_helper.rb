@@ -64,6 +64,25 @@ def unpack_array_attribute(obj, attribute_name, array_size, hash_length)
   value.unpack(template.to_s).drop(1).map { |hash| "#{ENV['DEFAULT_HASH_PREFIX']}#{hash}" }.reject(&:blank?)
 end
 
+def format_node_block(node_block)
+  header = node_block["header"]
+  proposal_transactions = node_block["proposal_transactions"]
+  header.merge({ proposal_transactions: proposal_transactions }.deep_stringify_keys)
+end
+
+def format_node_block_commit_transaction(commit_transaction)
+  commit_transaction.reject { |key, _value| key.in?(%w(inputs outputs)) }
+end
+
+def format_node_block_cell_output(cell_output)
+  cell_output.select { |key, _value| key.in?(%w(capacity data)) }
+end
+
+def fake_node_block_with_type_script(node_block)
+  lock = node_block["commit_transactions"].first["outputs"].first["lock"]
+  node_block["commit_transactions"].first["outputs"].first["type"] = lock
+end
+
 module ActiveSupport
   class TestCase
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
