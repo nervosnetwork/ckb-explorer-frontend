@@ -7,6 +7,15 @@ class Block < ApplicationRecord
   validates_presence_of :difficulty, :block_hash, :number, :parent_hash, :seal, :timestamp, :txs_commit, :txs_proposal, :uncles_count, :uncles_hash, :version, :cell_consumed, :reward, :total_transaction_fee, :ckb_transactions_count, :total_cell_capacity, :status, on: :create
   validates :reward, :total_transaction_fee, :ckb_transactions_count, :total_cell_capacity, :cell_consumed, numericality: { greater_than_or_equal_to: 0 }
 
+  attribute :block_hash, :ckb_hash
+  attribute :parent_hash, :ckb_hash
+  attribute :txs_commit, :ckb_hash
+  attribute :txs_proposal, :ckb_hash
+  attribute :uncles_hash, :ckb_hash
+  attribute :miner_hash, :ckb_hash
+  attribute :uncle_block_hashes, :ckb_array_hash, hash_length: ENV["DEFAULT_HASH_LENGTH"]
+  attribute :proposal_transactions, :ckb_array_hash, hash_length: ENV["DEFAULT_SHORT_HASH_LENGTH"]
+
   def verify!(node_block)
     if verified?(node_block.dig("header", "hash"))
       authenticate!
@@ -18,94 +27,6 @@ class Block < ApplicationRecord
 
   def contained_accounts
     ckb_transactions.map { |ckb_transaction| ckb_transaction.accounts }.uniq.flatten
-  end
-
-  def block_hash
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
-  end
-
-  def block_hash=(block_hash)
-    block_hash = [block_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if block_hash.present?
-    super
-  end
-
-  def parent_hash
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
-  end
-
-  def parent_hash=(parent_hash)
-    parent_hash = [parent_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if parent_hash.present?
-    super
-  end
-
-  def txs_commit
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
-  end
-
-  def txs_commit=(txs_commit)
-    txs_commit = [txs_commit.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if txs_commit.present?
-    super
-  end
-
-  def txs_proposal
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
-  end
-
-  def txs_proposal=(txs_proposal)
-    txs_proposal = [txs_proposal.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if txs_proposal.present?
-    super
-  end
-
-  def uncles_hash
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
-  end
-
-  def uncles_hash=(uncles_hash)
-    uncles_hash = [uncles_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if uncles_hash.present?
-    super
-  end
-
-  def uncle_block_hashes
-    if super.present?
-      template = Array.new(uncles_count || 0).reduce("") { |memo, _item| "#{memo}H#{ENV['DEFAULT_HASH_LENGTH']}" }
-      super.unpack(template.to_s).map { |hash| "#{ENV['DEFAULT_HASH_PREFIX']}#{hash}" }.reject(&:blank?)
-    else
-      super.try(:reject, &:blank?)
-    end
-  end
-
-  def uncle_block_hashes=(uncle_block_hashes)
-    if uncle_block_hashes.present?
-      real_uncle_block_hashes = uncle_block_hashes.map { |hash| hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"]) }
-      uncle_block_hashes = real_uncle_block_hashes.pack("H*" * real_uncle_block_hashes.size)
-    end
-    super
-  end
-
-  def proposal_transactions
-    if super.present?
-      template = Array.new(proposal_transactions_count || 0).reduce("") { |memo, _item| "#{memo}H#{ENV['DEFAULT_SHORT_HASH_LENGTH']}" }
-      super.unpack(template.to_s).map { |hash| "#{ENV['DEFAULT_HASH_PREFIX']}#{hash}" }.reject(&:blank?)
-    else
-      super.try(:reject, &:blank?)
-    end
-  end
-
-  def proposal_transactions=(proposal_transactions)
-    if proposal_transactions.present?
-      real_proposal_transactions = proposal_transactions.map { |hash| hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"]) }
-      proposal_transactions = real_proposal_transactions.pack("H*" * real_proposal_transactions.size)
-    end
-    super
-  end
-
-  def miner_hash
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
-  end
-
-  def miner_hash=(miner_hash)
-    miner_hash = [miner_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if miner_hash.present?
-    super
   end
 
   private

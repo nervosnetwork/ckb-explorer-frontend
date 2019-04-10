@@ -77,7 +77,7 @@ module CkbSync
         if CellOutput::BASE_HASH == previous_transaction_hash
           { id: nil, capacity: CellOutput::INITIAL_BLOCK_REWARD }
         else
-          previous_transacton = CkbTransaction.find_by(tx_hash: [previous_transaction_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*"))
+          previous_transacton = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
           previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
           { id: previous_output.id, capacity: previous_output.capacity }
         end

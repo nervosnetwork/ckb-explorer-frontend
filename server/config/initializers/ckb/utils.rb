@@ -73,7 +73,7 @@ module CKB
           previous_transaction_hash = out_point[:hash]
           previous_output_index = out_point[:index]
           if CellOutput::BASE_HASH != previous_transaction_hash
-            previous_transacton = CkbTransaction.find_by(tx_hash: [previous_transaction_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*"))
+            previous_transacton = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
             previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
             previous_output
           end
@@ -89,7 +89,7 @@ module CKB
       if CellOutput::BASE_HASH == previous_transaction_hash
         0
       else
-        previous_transacton = CkbTransaction.find_by(tx_hash: [previous_transaction_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*"))
+        previous_transacton = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
         previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
         previous_output.capacity
       end

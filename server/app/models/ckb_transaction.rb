@@ -10,14 +10,7 @@ class CkbTransaction < ApplicationRecord
   validates_presence_of :transaction_fee, :status
   validates :transaction_fee, numericality: { greater_than_or_equal_to: 0 }
 
-  def tx_hash
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
-  end
-
-  def tx_hash=(tx_hash)
-    tx_hash = [tx_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if tx_hash.present?
-    super
-  end
+  attribute :tx_hash, :ckb_hash
 end
 
 # == Schema Information

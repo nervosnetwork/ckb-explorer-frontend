@@ -4,14 +4,7 @@ class LockScript < ApplicationRecord
 
   validates_presence_of :binary_hash
 
-  def binary_hash
-    "#{ENV['DEFAULT_HASH_PREFIX']}#{super.unpack1('H*')}" if super.present?
-  end
-
-  def binary_hash=(binary_hash)
-    binary_hash = [binary_hash.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])].pack("H*") if binary_hash.present?
-    super
-  end
+  attribute :binary_hash, :ckb_hash
 end
 
 # == Schema Information
