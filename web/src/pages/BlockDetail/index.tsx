@@ -7,8 +7,6 @@ import {
   BlockDetailTitlePanel,
   BlockOverviewPanel,
   BlockCommonContent,
-  BlockLabelItemPanel,
-  CellConsumedBarDiv,
   BlockPreviousNextPanel,
   BlockHightLabel,
   BlockTransactionsPenal,
@@ -19,6 +17,8 @@ import Header from '../../components/Header'
 import Content from '../../components/Content'
 import Footer from '../../components/Footer'
 import Transaction from '../../components/Transaction'
+import SimpleLabel from '../../components/Label'
+import CellConsumedLabel from '../../components/Label/CellConsumedLabel'
 import CopyIcon from '../../asserts/copy.png'
 import BlockHeightIcon from '../../asserts/block_height_green.png'
 import BlockTransactionIcon from '../../asserts/transactions_green.png'
@@ -55,58 +55,13 @@ const BlockOverview = ({ value }: { value: string }) => {
   return <BlockOverviewPanel>{value}</BlockOverviewPanel>
 }
 
-const BlockCommonLabel = ({
-  image,
-  label,
-  value,
-  highLight,
-}: {
-  image: string
-  label: string
-  value: any
-  highLight?: boolean
-}) => {
-  const highLightStyle = {
-    color: '#4BBC8E',
-  }
-  const normalStyle = {
-    color: '#888888',
-  }
+const BlockPreviousNext = () => {
   return (
-    <BlockLabelItemPanel>
-      <img src={image} alt={value} />
-      <span>{label}</span>
-      <div style={highLight ? highLightStyle : normalStyle}>{value}</div>
-    </BlockLabelItemPanel>
-  )
-}
-
-const CellConsumedBar = ({ percent }: { percent: number }) => {
-  return (
-    <CellConsumedBarDiv percent={`${percent}`}>
-      <div />
-    </CellConsumedBarDiv>
-  )
-}
-
-const BlockCellConsumedLabel = ({
-  image,
-  label,
-  consumed,
-  balance,
-}: {
-  image: string
-  label: string
-  consumed: number
-  balance: number
-}) => {
-  return (
-    <BlockLabelItemPanel>
-      <img src={image} alt="Cell Consumed" />
-      <span>{label}</span>
-      <CellConsumedBar percent={(consumed * 100) / balance} />
-      <div>{`${consumed}B / ${(consumed * 100) / balance}%`}</div>
-    </BlockLabelItemPanel>
+    <BlockPreviousNextPanel>
+      <img className="block__arrow" src={PreviousBlockIcon} alt="previous block" />
+      <img className="block__mouse" src={MouseIcon} alt="mouse" />
+      <img className="block__arrow" src={NextBlockIcon} alt="next block" />
+    </BlockPreviousNextPanel>
   )
 }
 
@@ -210,36 +165,32 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <BlockCommonContent>
             <div>
               {BlockLeftItems.slice(0, 3).map(item => {
-                return <BlockCommonLabel image={item.image} label={item.label} value={item.value} />
+                return <SimpleLabel image={item.image} label={item.label} value={item.value} />
               })}
-              <BlockCellConsumedLabel
+              <CellConsumedLabel
                 image={CellConsumedIcon}
                 label="Cell Consumed"
                 consumed={BlockData.data.cell_consumed}
                 balance={BlockData.data.total_cell_capacity}
               />
               {BlockLeftItems.slice(3).map(item => {
-                return <BlockCommonLabel image={item.image} label={item.label} value={item.value} />
+                return <SimpleLabel image={item.image} label={item.label} value={item.value} />
               })}
             </div>
             <span className="block__content__separate" />
             <div>
-              <BlockCommonLabel
+              <SimpleLabel
                 image={BlockRightItems[0].image}
                 label={BlockRightItems[0].label}
                 value={BlockRightItems[0].value}
                 highLight
               />
               {BlockRightItems.slice(1).map(item => {
-                return <BlockCommonLabel image={item.image} label={item.label} value={item.value} />
+                return <SimpleLabel image={item.image} label={item.label} value={item.value} />
               })}
             </div>
           </BlockCommonContent>
-          <BlockPreviousNextPanel>
-            <img className="block__arrow" src={PreviousBlockIcon} alt="previous block" />
-            <img className="block__mouse" src={MouseIcon} alt="mouse" />
-            <img className="block__arrow" src={NextBlockIcon} alt="next block" />
-          </BlockPreviousNextPanel>
+          <BlockPreviousNext />
           <BlockHightLabel>Block Height</BlockHightLabel>
 
           <BlockTransactionsPenal>
@@ -254,7 +205,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 showQuickJumper
                 showSizeChanger
                 defaultPageSize={PageSize}
-                defaultCurrent={1}
+                defaultCurrent={currentPageNo}
                 total={TransactionsData.data.length}
                 onChange={onChange}
               />
