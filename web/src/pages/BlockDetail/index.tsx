@@ -89,6 +89,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     getTransactionOfAddress(current, pageSize)
   }
 
+  const BlockLeftSeparateIndex = 3
+
   const BlockLeftItems: BlockItem[] = [
     {
       image: BlockHeightIcon,
@@ -164,7 +166,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <BlockOverview value="Overview" />
           <BlockCommonContent>
             <div>
-              {BlockLeftItems.slice(0, 3).map(item => {
+              {BlockLeftItems.slice(0, BlockLeftSeparateIndex).map(item => {
                 return <SimpleLabel image={item.image} label={item.label} value={item.value} />
               })}
               <CellConsumedLabel
@@ -173,7 +175,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 consumed={BlockData.data.cell_consumed}
                 balance={BlockData.data.total_cell_capacity}
               />
-              {BlockLeftItems.slice(3).map(item => {
+              {BlockLeftItems.slice(BlockLeftSeparateIndex).map(item => {
                 return <SimpleLabel image={item.image} label={item.label} value={item.value} />
               })}
             </div>
