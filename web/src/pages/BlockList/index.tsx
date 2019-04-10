@@ -83,10 +83,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ pageNo: strin
       <Header />
       <Content>
         <BlockListPanel width={window.innerWidth}>
-          <ContentTitle>
-            <div>Blocks</div>
-            <span />
-          </ContentTitle>
+          <ContentTitle>Blocks</ContentTitle>
 
           <ContentTable>
             <div>
