@@ -6,7 +6,7 @@ const LabelPanel = styled.div`
   flex-direction: row;
   align-items: center;
   height: 28px;
-  margin-top: 24px;
+  margin-bottom: 24px;
 
   > img {
     width: 28px;
@@ -26,12 +26,30 @@ const LabelPanel = styled.div`
   }
 `
 
-const SimpleLabel = ({ image, label, value }: { image: string; label: string; value: any }) => {
+const SimpleLabel = ({
+  image,
+  label,
+  value,
+  highLight,
+  style,
+}: {
+  image: string
+  label: string
+  value: any
+  highLight?: boolean
+  style?: any
+}) => {
+  const highLightStyle = {
+    color: '#4BBC8E',
+  }
+  const normalStyle = {
+    color: '#888888',
+  }
   return (
-    <LabelPanel>
+    <LabelPanel style={style}>
       <img src={image} alt={value} />
       <span>{label}</span>
-      <div>{value}</div>
+      <div style={highLight ? highLightStyle : normalStyle}>{value}</div>
     </LabelPanel>
   )
 }

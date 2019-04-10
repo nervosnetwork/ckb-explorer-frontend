@@ -128,7 +128,6 @@ export const AddressScriptLabelPanel = styled.div`
   flex-direction: row;
   align-items: center;
   height: 28px;
-  margin-top: 24px;
 
   > img {
     width: 28px;
@@ -166,4 +165,11 @@ export const AddressTransactionsCell = styled.div`
 
 export const AddressTransactionsPagition = styled.div`
   margin: 80px 0 200px 0;
+`
+
+export const AddressCommonRowPenal = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
 `

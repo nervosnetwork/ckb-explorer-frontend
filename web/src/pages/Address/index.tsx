@@ -17,6 +17,7 @@ import {
   AddressCommonContent,
   AddressScriptLabelPanel,
   AddressTransactionsPenal,
+  AddressCommonRowPenal,
   AddressTransactionsPagition,
 } from './index.css'
 import CopyIcon from '../../asserts/copy.png'
@@ -83,12 +84,18 @@ export default (
           <AddressTitle address={address} />
           <AddressOverview value="Overview" />
           <AddressCommonContent>
-            <SimpleLabel image={BalanceIcon} label="Balance: " value={`${AddressData.data.balance} CKB`} />
-            <SimpleLabel
-              image={TransactionsIcon}
-              label="Transactions: "
-              value={`${AddressData.data.transactions_count}`}
-            />
+            <AddressCommonRowPenal>
+              <SimpleLabel image={BalanceIcon} label="Balance: " value={`${AddressData.data.balance} CKB`} />
+              <SimpleLabel
+                image={TransactionsIcon}
+                label="Transactions : "
+                value={`${AddressData.data.transactions_count}`}
+                style={{
+                  marginRight: '25%',
+                }}
+              />
+            </AddressCommonRowPenal>
+
             <CellConsumedLabel
               image={CellConsumedIcon}
               label="Cell Consumed: "
