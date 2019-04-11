@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import { RouteComponentProps } from 'react-router-dom'
 import AppContext from '../../contexts/App'
 
 import Page from '../../components/Page'
@@ -146,7 +147,11 @@ const TransactionTitle = ({ hash, onClick }: { hash: string; onClick: any }) => 
     </TransactionTitlePanel>
   )
 }
-export default () => {
+export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
+  const { match } = props
+  const { params } = match
+  const { hash } = params
+
   const appContext = useContext(AppContext)
   const [transaction, setTransaction] = useState(TransactionData.data)
   const updateCellData = (type: 'string', id: number, newData: any) => {
@@ -168,7 +173,7 @@ export default () => {
       <Content>
         <TransactionDiv className="container">
           <TransactionTitle
-            hash={transaction.transaction_hash}
+            hash={hash}
             onClick={() => {
               const transactionDiv = document.getElementById('transaction__hash')
               if (transactionDiv) {
