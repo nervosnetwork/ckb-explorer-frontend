@@ -16,8 +16,8 @@ FactoryBot.define do
     total_transaction_fee { 0 }
     ckb_transactions_count { 1 }
     total_cell_capacity { 50000 }
-    uncle_block_hashes {  }
-    proposal_transactions {  }
+    uncle_block_hashes {}
+    proposal_transactions {}
     status { "inauthentic" }
 
     trait :authentic do
@@ -26,12 +26,12 @@ FactoryBot.define do
 
     trait :with_proposal_transactions do
       proposal_transactions { ["0xb5658716ac", "0xb5658716ac"] }
-      proposal_transactions_count { "#{proposal_transactions.size}" }
+      proposal_transactions_count { (proposal_transactions.size).to_s }
     end
 
     trait :with_uncle_block_hashes do
       uncle_block_hashes { ["0xa43e4bb916f6d08f746a055271049d3a61a5344ad266553454862ef68d41bc4d", "0xa43e4bb916f6d08f746a055271049d3a61a5344ad266553454862ef68d41bc3d"] }
-      uncles_count { "#{uncle_block_hashes.size}" }
+      uncles_count { (uncle_block_hashes.size).to_s }
     end
 
     trait :with_ckb_transactions do

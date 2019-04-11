@@ -11,7 +11,7 @@ FactoryBot.define do
     uncles_count { 1 }
     uncles_hash { "0x0000000000000000000000000000000000000000000000000000000000000000" }
     version { 0 }
-    proposal_transactions {  }
+    proposal_transactions {}
     proposal_transactions_count { 0 }
   end
 end

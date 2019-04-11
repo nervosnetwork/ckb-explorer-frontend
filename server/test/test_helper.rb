@@ -6,13 +6,13 @@ SimpleCov.start "rails" do
 end
 require "database_cleaner"
 require "minitest/reporters"
-require 'mocha/minitest'
+require "mocha/minitest"
 Minitest::Reporters.use!
 
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
-DEFAULT_NODE_BLOCK_HASH = "0x554b5658716ac7dc95c46971d461ea9eadbf43234c092a23c6f50bc02dbcaec8"
+DEFAULT_NODE_BLOCK_HASH = "0x554b5658716ac7dc95c46971d461ea9eadbf43234c092a23c6f50bc02dbcaec8".freeze
 
 VCR.configure do |config|
   config.cassette_library_dir = "vcr_fixtures/vcr_cassettes"
@@ -50,6 +50,7 @@ end
 def unpack_attribute(obj, attribute_name)
   value = obj.read_attribute(attribute_name)
   return if value.nil?
+
   attribute_before_type_cast = obj.attributes_before_type_cast[attribute_name]
   unescapted_attribute = ActiveRecord::Base.connection.unescape_bytea(attribute_before_type_cast)
   "#{ENV['DEFAULT_HASH_PREFIX']}#{unescapted_attribute.unpack1('H*')}" if unescapted_attribute.present?
@@ -58,6 +59,7 @@ end
 def unpack_array_attribute(obj, attribute_name, array_size, hash_length)
   value = obj.attributes_before_type_cast[attribute_name]
   return if value.nil?
+
   value = ActiveRecord::Base.connection.unescape_bytea(value)
   template = Array.new(array_size || 0).reduce("") { |memo, _item| "#{memo}H#{hash_length}" }
   template = "S!#{template}"

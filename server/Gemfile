@@ -61,8 +61,8 @@ group :test do
   gem "vcr"
   gem "webmock"
   gem "database_cleaner"
-  gem 'mocha'
-  gem 'factory_bot_rails'
+  gem "mocha"
+  gem "factory_bot_rails"
 end
 
 group :development do
