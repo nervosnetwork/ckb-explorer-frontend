@@ -40,7 +40,7 @@ module CKB
     def self.transaction_fee(transaction)
       output_capacities = transaction["outputs"].map { |output| output["capacity"] }.reduce(0, &:+)
       input_capacities = transaction["inputs"].map { |input| CKB::Utils.cell_input_capacity(input) }.reduce(0, &:+)
-      (input_capacities.zero? ? output_capacities : input_capacities) - output_capacities
+      input_capacities.zero? ? 0 : (input_capacities - output_capacities)
     end
 
     def self.total_transaction_fee(transactions)
