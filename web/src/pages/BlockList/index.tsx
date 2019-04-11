@@ -60,7 +60,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ pageNo: strin
               {getBlocks(currentPageNo, currentPageSize).map((data: any) => {
                 return (
                   <TableContentRow key={data.block_hash}>
-                    <TableContentItem content={data.number} highLight />
+                    <TableContentItem content={data.number} to={`block/${data.number}`} />
                     <TableContentItem content={data.transactions_count} />
                     <TableContentItem content={data.cell_consumed} />
                     <TableMinerContentItem content={data.miner_hash} />

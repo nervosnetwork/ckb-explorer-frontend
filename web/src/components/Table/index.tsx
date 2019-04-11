@@ -71,14 +71,23 @@ export const TableTitleItem = ({ image, title }: { image: string; title: string 
   )
 }
 
-export const TableContentItem = ({ content, highLight }: { content: string; highLight?: boolean }) => {
+export const TableContentItem = ({ content, to }: { content: string; to?: any }) => {
   const highLightStyle = {
     color: '#4BBC8E',
+    textDecoration: 'none',
   }
-  const normalStyle = {
-    color: '#888888',
-  }
-  return <TableContentRowItem style={highLight ? highLightStyle : normalStyle}>{content}</TableContentRowItem>
+  const highLight = to !== undefined
+  return (
+    <TableContentRowItem>
+      {highLight ? (
+        <Link style={highLightStyle} to={to}>
+          {content}
+        </Link>
+      ) : (
+        content
+      )}
+    </TableContentRowItem>
+  )
 }
 
 export const TableMinerContentItem = ({ content }: { content: string }) => {

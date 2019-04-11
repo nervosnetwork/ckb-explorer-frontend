@@ -28,6 +28,59 @@ export const TransactionOverviewLabel = styled.div`
   }
 `
 
+export const TransactionTitlePanel = styled.div`
+  dispaly: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .transaction__title {
+    color: rgb(20, 20, 20);
+    font-size: 40pt;
+    text-align: center;
+    font-family: PingFang-SC-Heavy;
+    font-weight: 900;
+  }
+
+  .transaction__content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    > div {
+      color: rgb(136, 136, 136);
+      font-size: 18px;
+      height: 25px;
+    }
+
+    > div {
+      > img {
+        margin-left: 19px;
+        width: 24px;
+        height: 21px;
+      }
+    }
+  }
+`
+
+export const TransactionCommonContent = styled.div`
+  width: 1200px;
+  padding: 72px 88px 56px 88px;
+  margin: 0 auto;
+  margin-top: 50px;
+  background: white;
+  border: 0px solid white;
+  border-radius: 6px;
+  box-shadow: 0px 5px 9px rgb(233, 233, 233);
+  display: flex;
+
+  .block__content__separate {
+    width: 1px;
+    height: 80px;
+    background: #46ab81;
+    margin: 0 auto;
+  }
+`
+
 export const TransactionHashDiv = styled.div`
   text-align: center;
   display: flex;
