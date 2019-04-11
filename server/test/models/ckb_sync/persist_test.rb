@@ -260,5 +260,103 @@ module CkbSync
         assert_equal node_block_type_scripts, local_block_type_scripts
       end
     end
+
+    test ".save_block generated transactions should has correct display input" do
+      VCR.use_cassette("blocks/10") do
+        SyncInfo.local_inauthentic_tip_block_number
+        node_block = CkbSync::Api.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+        node_block_commit_transactions = node_block["commit_transactions"]
+        node_block_cell_inputs = node_block_commit_transactions.map { |commit_transaciont| commit_transaciont["inputs"] }.flatten
+        node_display_inputs = node_block_cell_inputs.map { |input| build_display_input_from_node_input(input) }
+
+        local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
+        local_ckb_transactions = local_block.ckb_transactions
+        local_block_cell_inputs = local_ckb_transactions.map { |ckb_transaction| ckb_transaction.display_inputs }.flatten
+
+        assert_equal node_display_inputs, local_block_cell_inputs
+      end
+    end
+
+    test ".save_block generated transactions should has correct display output" do
+      VCR.use_cassette("blocks/10") do
+        SyncInfo.local_inauthentic_tip_block_number
+        node_block = CkbSync::Api.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+        local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
+
+        node_block_commit_transactions = node_block["commit_transactions"]
+        node_block_cell_outputs = node_block_commit_transactions.map { |commit_transaciont| commit_transaciont["outputs"] }.flatten
+        node_display_outputs = node_block_cell_outputs.map { |output| build_display_info_from_node_output(output) }
+
+        local_ckb_transactions = local_block.ckb_transactions
+        local_block_cell_outputs = local_ckb_transactions.map { |ckb_transaction| ckb_transaction.display_outputs }.flatten
+
+        assert_equal node_display_outputs, local_block_cell_outputs
+      end
+    end
+
+    test ".save_block generated transactions should has correct transaction fee" do
+      VCR.use_cassette("blocks/10") do
+        SyncInfo.local_inauthentic_tip_block_number
+        node_block = CkbSync::Api.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+        node_block_commit_transactions = node_block["commit_transactions"]
+        commit_transactions_fee = node_block_commit_transactions.reduce(0) { |memo, commit_transaciont| memo += CKB::Utils.transaction_fee(commit_transaciont) }
+
+        local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
+        local_ckb_transactions = local_block.ckb_transactions
+        local_ckb_transactions_fee = local_ckb_transactions.reduce(0) { |memo, ckb_transaction| memo += ckb_transaction.transaction_fee }
+
+        assert_equal commit_transactions_fee, local_ckb_transactions_fee
+      end
+    end
+
+    test ".save_block generated block should has correct total transaction fee" do
+      VCR.use_cassette("blocks/10") do
+        SyncInfo.local_inauthentic_tip_block_number
+        node_block = CkbSync::Api.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+        local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
+
+        assert_equal CKB::Utils.total_transaction_fee(node_block["commit_transactions"]), local_block.total_transaction_fee
+      end
+    end
+
+    test ".save_block generated block should has correct total capacity" do
+      VCR.use_cassette("blocks/10") do
+        SyncInfo.local_inauthentic_tip_block_number
+        node_block = CkbSync::Api.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+        local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
+
+        assert_equal CKB::Utils.total_cell_capacity(node_block["commit_transactions"]), local_block.total_cell_capacity
+      end
+    end
+
+    test ".save_block generated block should has correct miner hash" do
+      VCR.use_cassette("blocks/10") do
+        SyncInfo.local_inauthentic_tip_block_number
+        node_block = CkbSync::Api.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+        local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
+
+        assert_equal CKB::Utils.miner_hash(node_block["commit_transactions"].first), local_block.miner_hash
+      end
+    end
+
+    test ".save_block generated block should has correct reward" do
+      VCR.use_cassette("blocks/10") do
+        SyncInfo.local_inauthentic_tip_block_number
+        node_block = CkbSync::Api.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+        local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
+
+        assert_equal CKB::Utils.miner_reward(node_block["commit_transactions"].first), local_block.reward
+      end
+    end
+
+    test ".save_block generated block should has correct cell consumed" do
+      VCR.use_cassette("blocks/10") do
+        SyncInfo.local_inauthentic_tip_block_number
+        node_block = CkbSync::Api.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+        local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
+
+        assert_equal CKB::Utils.block_cell_consumed(node_block["commit_transactions"]), local_block.cell_consumed
+      end
+    end
   end
 end

@@ -7,20 +7,20 @@ module CkbSync
       end
 
       def save_block(node_block, sync_type)
-        ckb_transactions_with_display_cell = []
+        ckb_transaction_and_display_cell_hashes = []
         local_block = build_block(node_block, sync_type)
         node_block["uncles"].each do |uncle_block|
           build_uncle_block(uncle_block, local_block)
         end
 
-        build_ckb_transactions(local_block, node_block["commit_transactions"], sync_type, ckb_transactions_with_display_cell)
+        build_ckb_transactions(local_block, node_block["commit_transactions"], sync_type, ckb_transaction_and_display_cell_hashes)
 
-        local_block.ckb_transactions_count = ckb_transactions_with_display_cell.size
+        local_block.ckb_transactions_count = ckb_transaction_and_display_cell_hashes.size
 
         ApplicationRecord.transaction do
           Block.import! [local_block], recursive: true, batch_size: 1500
           SyncInfo.find_by!(name: sync_tip_block_number_type(sync_type)).update!(status: "synced")
-          ckb_transactions = assign_display_info_to_ckb_transaction(ckb_transactions_with_display_cell)
+          ckb_transactions = assign_display_info_to_ckb_transaction(ckb_transaction_and_display_cell_hashes)
           CkbTransaction.import! ckb_transactions, batch_size: 1500, on_duplicate_key_update: [:display_inputs, :display_outputs]
         end
 
@@ -29,33 +29,33 @@ module CkbSync
 
       private
 
-      def build_ckb_transactions(local_block, commit_transactions, sync_type, ckb_transactions_with_display_cell)
-        ckb_transactions_with_display_cell_item = { transaction: nil, inputs: [], outputs: [] }
+      def build_ckb_transactions(local_block, commit_transactions, sync_type, ckb_transaction_and_display_cell_hashes)
+        ckb_transaction_and_display_cell_hash = { transaction: nil, inputs: [], outputs: [] }
         commit_transactions.each do |transaction|
           ckb_transaction = build_ckb_transaction(local_block, transaction, sync_type)
-          ckb_transactions_with_display_cell_item[:transaction] = ckb_transaction
+          ckb_transaction_and_display_cell_hash[:transaction] = ckb_transaction
 
-          build_cell_inputs(transaction["inputs"], ckb_transaction, ckb_transactions_with_display_cell_item)
-          build_cell_outputs(transaction["outputs"], ckb_transaction, ckb_transactions_with_display_cell_item)
+          build_cell_inputs(transaction["inputs"], ckb_transaction, ckb_transaction_and_display_cell_hash)
+          build_cell_outputs(transaction["outputs"], ckb_transaction, ckb_transaction_and_display_cell_hash)
 
-          ckb_transactions_with_display_cell << ckb_transactions_with_display_cell_item
+          ckb_transaction_and_display_cell_hashes << ckb_transaction_and_display_cell_hash
         end
       end
 
-      def build_cell_inputs(node_inputs, ckb_transaction, ckb_transactions_with_display_cell_item)
+      def build_cell_inputs(node_inputs, ckb_transaction, ckb_transaction_and_display_cell_hash)
         node_inputs.each do |input|
           cell_input = build_cell_input(ckb_transaction, input)
-          ckb_transactions_with_display_cell_item[:inputs] << cell_input
+          ckb_transaction_and_display_cell_hash[:inputs] << cell_input
         end
       end
 
-      def build_cell_outputs(node_outputs, ckb_transaction, ckb_transactions_with_display_cell_item)
+      def build_cell_outputs(node_outputs, ckb_transaction, ckb_transaction_and_display_cell_hash)
         node_outputs.each do |output|
           cell_output = build_cell_output(ckb_transaction, output)
           account = Account.find_or_create_account(ckb_transaction, output["lock"].symbolize_keys)
           build_lock_script(cell_output, output["lock"], account)
           build_type_script(cell_output, output["type"])
-          ckb_transactions_with_display_cell_item[:outputs] << cell_output
+          ckb_transaction_and_display_cell_hash[:outputs] << cell_output
         end
       end
 
@@ -63,11 +63,11 @@ module CkbSync
         "#{sync_type}_tip_block_number"
       end
 
-      def assign_display_info_to_ckb_transaction(ckb_transactions)
-        ckb_transactions.map do |ckb_transaction|
-          transaction = ckb_transaction[:transaction]
-          transaction.display_inputs = ckb_transaction[:inputs].map { |input| build_display_input(input) }
-          transaction.display_outputs = ckb_transaction[:outputs].map { |output| { id: output.id, capacity: output.capacity } }
+      def assign_display_info_to_ckb_transaction(ckb_transaction_and_display_cell_hashes)
+        ckb_transaction_and_display_cell_hashes.map do |ckb_transaction_and_display_cell_hash|
+          transaction = ckb_transaction_and_display_cell_hash[:transaction]
+          transaction.display_inputs = ckb_transaction_and_display_cell_hash[:inputs].map { |input| build_display_input(input) }
+          transaction.display_outputs = ckb_transaction_and_display_cell_hash[:outputs].map { |output| { id: output.id, capacity: output.capacity } }
           transaction
         end
       end

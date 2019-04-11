@@ -33,5 +33,11 @@ FactoryBot.define do
       uncle_block_hashes { ["0xa43e4bb916f6d08f746a055271049d3a61a5344ad266553454862ef68d41bc4d", "0xa43e4bb916f6d08f746a055271049d3a61a5344ad266553454862ef68d41bc3d"] }
       uncles_count { "#{uncle_block_hashes.size}" }
     end
+
+    trait :with_ckb_transactions do
+      after(:create) do |block, _evaluator|
+        create_list(:ckb_transaction, 10, block: block)
+      end
+    end
   end
 end

@@ -1,4 +1,5 @@
 require "test_helper"
+require 'sidekiq/testing'
 
 class CkbTransactionTest < ActiveSupport::TestCase
   context "associations" do
@@ -26,6 +27,37 @@ class CkbTransactionTest < ActiveSupport::TestCase
       block = Block.find_by(block_hash: packed_block_hash)
       ckb_transaction = block.ckb_transactions.first
       assert_equal unpack_attribute(ckb_transaction, "tx_hash"), ckb_transaction.tx_hash
+    end
+  end
+
+  test "change ckb transaction to abandoned when it's block has been abandoned" do
+    Sidekiq::Testing.inline!
+
+    block = create(:block, :with_ckb_transactions, block_hash: "0x419c632366c8eb9635acbb39ea085f7552ae62e1fdd480893375334a0f37d1bx")
+    ckb_transactions = block.ckb_transactions
+
+    assert_changes -> { ckb_transactions.reload.pluck(:status).uniq }, from: ["inauthentic"], to: ["abandoned"] do
+      SyncInfo.local_authentic_tip_block_number
+      VCR.use_cassette("blocks/10") do
+        node_block = CkbSync::Api.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+        block.verify!(node_block)
+      end
+    end
+  end
+
+  test "change ckb transaction to authentic when it's block has been authenticated" do
+    Sidekiq::Testing.inline!
+
+    block = create(:block, :with_ckb_transactions)
+    ckb_transactions = block.ckb_transactions
+
+    assert_changes -> { ckb_transactions.reload.pluck(:status).uniq }, from: ["inauthentic"], to: ["authentic"] do
+      SyncInfo.local_authentic_tip_block_number
+      VCR.use_cassette("blocks/10") do
+        SyncInfo.local_inauthentic_tip_block_number
+        node_block = CkbSync::Api.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+        block.verify!(node_block)
+      end
     end
   end
 end

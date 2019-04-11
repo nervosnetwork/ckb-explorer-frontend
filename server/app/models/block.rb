@@ -37,10 +37,12 @@ class Block < ApplicationRecord
 
   def authenticate!
     update!(status: "authentic")
+    ChangeCkbTransactionsStatusWorker.perform_async(id, "authentic")
   end
 
   def abandon!
     update!(status: "abandoned")
+    ChangeCkbTransactionsStatusWorker.perform_async(id, "abandoned")
   end
 end
 
