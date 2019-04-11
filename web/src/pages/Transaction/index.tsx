@@ -5,15 +5,14 @@ import Page from '../../components/Page'
 import Header from '../../components/Header'
 import Content from '../../components/Content'
 import Footer from '../../components/Footer'
+import SimpleLabel from '../../components/Label'
 import {
   TransactionDiv,
-  TransactionTitleDiv,
-  TransactionHashDiv,
   TransactionOverviewLabel,
   PanelDiv,
-  BriefInfoDiv,
   InputOutputTable,
-  WithRowDiv,
+  TransactionTitlePanel,
+  TransactionCommonContent,
 } from './styled'
 
 import BlockHeightIcon from '../../asserts/block_height_green.png'
@@ -22,10 +21,10 @@ import TransactionIcon from '../../asserts/transaction_green.png'
 import VersionIcon from '../../asserts/version.png'
 import CopyGreenIcon from '../../asserts/copy_green.png'
 import CopyIcon from '../../asserts/copy.png'
+import { parseSimpleDate } from '../../utils/date'
 
-import { transaction, cell } from './mock'
+import { TransactionData, Cell } from './mock'
 
-const cellData = cell.data
 const operationItems = ['Lock Script', 'Type Script', 'Data']
 
 const RowData = ({
@@ -67,7 +66,7 @@ const RowData = ({
                     newData.open = null
                   } else {
                     newData.open = item
-                    newData[item] = cellData
+                    newData[item] = Cell.data
                   }
                   updateCellData(type, data[`${type}_id`], newData)
                 }}
@@ -84,7 +83,7 @@ const RowData = ({
           <td colSpan={5}>
             <textarea
               id={`textarea-${type}${+'-'}${data[`${type}_id`]}`}
-              defaultValue={JSON.stringify(cell.data, null, 4)}
+              defaultValue={JSON.stringify(Cell.data, null, 4)}
             />
             <div className="tr-detail-td-buttons">
               <div
@@ -134,10 +133,24 @@ const RowData = ({
   )
 }
 
+const TransactionTitle = ({ hash, onClick }: { hash: string; onClick: any }) => {
+  return (
+    <TransactionTitlePanel>
+      <div className="transaction__title">Transaction</div>
+      <div className="transaction__content">
+        <div id="transaction__hash">{hash}</div>
+        <div role="button" tabIndex={-1} onKeyDown={() => {}} onClick={onClick}>
+          <img src={CopyIcon} alt="copy" />
+        </div>
+      </div>
+    </TransactionTitlePanel>
+  )
+}
 export default () => {
-  const [transactionData, setTransactionData] = useState(transaction.data)
+  const appContext = useContext(AppContext)
+  const [transaction, setTransaction] = useState(TransactionData.data)
   const updateCellData = (type: 'string', id: number, newData: any) => {
-    setTransactionData((state: any) => {
+    setTransaction((state: any) => {
       const newState: any = {
         ...state,
       }
@@ -149,85 +162,41 @@ export default () => {
       return newState
     })
   }
-  const appContext = useContext(AppContext)
-
   return (
     <Page>
       <Header />
       <Content>
         <TransactionDiv className="container">
-          <TransactionTitleDiv>Transcations</TransactionTitleDiv>
-          <TransactionHashDiv>
-            <div id="transaction__hash">{transactionData && transactionData.transaction_hash}</div>
-            <div
-              role="button"
-              tabIndex={-1}
-              onKeyDown={() => {}}
-              onClick={() => {
-                const transactionDiv = document.getElementById('transaction__hash')
-                if (transactionDiv) {
-                  const div = document.createRange()
-                  div.setStartBefore(transactionDiv)
-                  div.setEndAfter(transactionDiv)
-                  window.getSelection().addRange(div)
-                  document.execCommand('copy')
-                  appContext.toastMessage('copy success', 3000)
-                }
-              }}
-            >
-              <img
-                alt="copy"
-                style={{
-                  marginLeft: 18,
-                  width: 21,
-                  height: 24,
-                }}
-                src={CopyIcon}
-              />
-            </div>
-          </TransactionHashDiv>
+          <TransactionTitle
+            hash={transaction.transaction_hash}
+            onClick={() => {
+              const transactionDiv = document.getElementById('transaction__hash')
+              if (transactionDiv) {
+                const div = document.createRange()
+                div.setStartBefore(transactionDiv)
+                div.setEndAfter(transactionDiv)
+                window.getSelection().addRange(div)
+                document.execCommand('copy')
+                appContext.toastMessage('copy success', 3000)
+              }
+            }}
+          />
           <TransactionOverviewLabel>Overview</TransactionOverviewLabel>
-          <BriefInfoDiv width={window.innerWidth}>
+          <TransactionCommonContent>
             <div>
-              <WithRowDiv>
-                <img className="brief__img" src={BlockHeightIcon} alt="block_height" />
-                <div className="brief__key">Block :</div>
-                <div
-                  className="brief__value"
-                  style={{
-                    color: '#4bbc8e',
-                  }}
-                >
-                  {transactionData && transactionData.block_number}
-                </div>
-              </WithRowDiv>
-              <WithRowDiv
-                style={{
-                  marginTop: 20,
-                }}
-              >
-                <img className="brief__img" src={TransactionIcon} alt="transaction_fee" />
-                <div className="brief__key">Transaction fee :</div>
-                <div className="brief__value">{transactionData && transactionData.transaction_fee}</div>
-              </WithRowDiv>
+              <SimpleLabel image={BlockHeightIcon} label="Block Height:" value={transaction.block_number} />
+              <SimpleLabel image={TransactionIcon} label="Transaction Fee:" value={transaction.transaction_fee} />
             </div>
+            <span className="block__content__separate" />
             <div>
-              <WithRowDiv>
-                <img className="brief__img" src={TimestampIcon} alt="timestamp" />
-                <div className="brief__key">Timestamp :</div>
-                <div className="brief__value">{transactionData && transactionData.block_timestamp}</div>
-              </WithRowDiv>
-              <WithRowDiv
-                style={{
-                  marginTop: 20,
-                }}
-              >
-                <img className="brief__img" src={VersionIcon} alt="version" />
-                <div className="brief__key">Version :</div>
-                <div className="brief__value">{transactionData && transactionData.version}</div>
-              </WithRowDiv>
+              <SimpleLabel
+                image={TimestampIcon}
+                label="Timestamp:"
+                value={parseSimpleDate(transaction.block_timestamp)}
+              />
+              <SimpleLabel image={VersionIcon} label="Version:" value={parseSimpleDate(transaction.version)} />
             </div>
-          </BriefInfoDiv>
+          </TransactionCommonContent>
 
           <PanelDiv
             style={{
@@ -250,8 +219,8 @@ export default () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {transactionData &&
-                    transactionData.display_inputs.map((input: any) => {
+                  {TransactionData &&
+                    transaction.display_inputs.map((input: any) => {
                       return (
                         <RowData
                           type="input"
@@ -288,8 +257,8 @@ export default () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {transactionData &&
-                    transactionData.display_outputs.map((ouput: any) => {
+                  {TransactionData &&
+                    transaction.display_outputs.map((ouput: any) => {
                       return (
                         <RowData
                           type="output"

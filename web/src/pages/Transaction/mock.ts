@@ -1,4 +1,4 @@
-const transaction = {
+const TransactionData = {
   type: 'transaction',
   data: {
     transaction_hash: '0x3abd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae324',
@@ -35,7 +35,7 @@ const transaction = {
   message: 'success',
 }
 
-const cell = {
+const Cell = {
   type: 'cell',
   cell_type: 'input',
   data_type: 'lock_script',
@@ -49,4 +49,4 @@ const cell = {
   message: 'success',
 }
 
-export { transaction, cell }
+export { TransactionData, Cell }
