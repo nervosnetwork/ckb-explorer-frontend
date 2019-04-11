@@ -83,6 +83,29 @@ def fake_node_block_with_type_script(node_block)
   node_block["commit_transactions"].first["outputs"].first["type"] = lock
 end
 
+def build_display_input_from_node_input(input)
+  outpoint = input["previous_output"]
+  previous_transaction_hash = outpoint["hash"]
+  previous_output_index = outpoint["index"]
+
+  if CellOutput::BASE_HASH == previous_transaction_hash
+    { id: nil, capacity: CellOutput::INITIAL_BLOCK_REWARD }.stringify_keys
+  else
+    VCR.use_cassette("blocks/") do
+      commit_transaction = CkbSync::Api.get_transaction(previous_transaction_hash)
+      previous_output = commit_transaction["outputs"][previous_output_index]
+      build_display_info_from_node_output(previous_output)
+    end
+  end
+end
+
+def build_display_info_from_node_output(output)
+  lock = output["lock"]
+  lock_script = LockScript.find_by(args: lock["args"], binary_hash: lock["binary_hash"])
+  cell_output = lock_script.cell_output
+  { id: cell_output.id, capacity: cell_output.capacity.to_s }.stringify_keys
+end
+
 module ActiveSupport
   class TestCase
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
