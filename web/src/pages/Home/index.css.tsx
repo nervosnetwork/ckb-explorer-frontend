@@ -61,7 +61,8 @@ export const SearchPanel = styled.div`
     }
   }
 
-  > img {
+  > div {
+    display: inline-block;
     position: relative;
     top: 14px;
     right: 50px;
@@ -71,6 +72,10 @@ export const SearchPanel = styled.div`
     &: hover {
       opacity: 1;
       cursor: pointer;
+    }
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 `

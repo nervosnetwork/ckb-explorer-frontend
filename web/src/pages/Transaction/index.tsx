@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, Link } from 'react-router-dom'
 import AppContext from '../../contexts/App'
 
 import Page from '../../components/Page'
@@ -45,7 +45,9 @@ const RowData = ({
     <>
       <tr className="tr-brief">
         <td>{`#${data[`${type}_id`]}`}</td>
-        <td>{data.address_hash}</td>
+        <td>
+          <Link to={`/address/${data.address_hash}`}>{data.address_hash}</Link>
+        </td>
         <td>{data.capacity}</td>
         {operationItems.map((item: string) => {
           let className = 'td-operatable'

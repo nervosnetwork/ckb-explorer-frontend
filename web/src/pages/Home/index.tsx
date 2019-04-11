@@ -32,6 +32,7 @@ import TimestampIcon from '../../asserts/timestamp.png'
 import MoreLeftIcon from '../../asserts/more_left.png'
 import MoreRightIcon from '../../asserts/more_right.png'
 import BlocksData from './mock'
+import browserHistory from '../../routes/history'
 
 export default () => {
   return (
@@ -46,7 +47,16 @@ export default () => {
             </LogoPanel>
             <SearchPanel width={window.innerWidth}>
               <input placeholder="Block Heigth / Block Hash / TxHash / Address" />
-              <img src={SearchLogo} alt="search logo" />
+              <div
+                role="button"
+                tabIndex={-1}
+                onKeyPress={() => {}}
+                onClick={() => {
+                  browserHistory.push('/search/fail')
+                }}
+              >
+                <img src={SearchLogo} alt="search logo" />
+              </div>
             </SearchPanel>
           </HomeHeader>
         </HomeHeaderPanel>
@@ -83,8 +93,8 @@ export default () => {
             <div>
               <img src={MoreLeftIcon} alt="more left" />
               <div>
-                <Link className="table__more" to="blocklist">
-                  More
+                <Link className="table__more" to="block/list">
+                  {`More`}
                 </Link>
               </div>
               <img src={MoreRightIcon} alt="more right" />
