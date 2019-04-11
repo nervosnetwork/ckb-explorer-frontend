@@ -18,7 +18,8 @@ const SearchInput = styled.div`
   width: auto;
   height: 65px;
   text-align: center;
-  input {
+
+  > input {
     position: relative;
     width: 650px;
     color: #bababa;
@@ -34,7 +35,8 @@ const SearchInput = styled.div`
       opacity: 1;
     }
   }
-  img {
+
+  > img {
     position: relative;
     top: 14px;
     right: 50px;

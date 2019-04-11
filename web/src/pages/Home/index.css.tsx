@@ -23,11 +23,13 @@ export const LogoPanel = styled.div`
   dispaly: flex;
   display: -webkit-flex; /* Safari */
   flex-direction: row;
-  img {
+
+  > img {
     width: 156px;
     height: 149px;
   }
-  div {
+
+  > div {
     line-height: 156px;
     margin-left: 29px;
     color: #46ab81;
@@ -41,7 +43,8 @@ export const SearchPanel = styled.div`
   width: auto;
   height: 65px;
   text-align: center;
-  input {
+
+  > input {
     position: relative;
     width: 650px;
     color: #bababa;
@@ -57,7 +60,8 @@ export const SearchPanel = styled.div`
       opacity: 1;
     }
   }
-  img {
+
+  > img {
     position: relative;
     top: 14px;
     right: 50px;
@@ -92,65 +96,10 @@ export const ContentTitle = styled.div`
     margin: 0 auto;
   }
 `
-
 export const ContentTable = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 58px;
-`
-
-export const TableTitleRow = styled.div`
-  background: rgb(75, 188, 142);
-  display: flex;
-  flex-direction: row;
-
-  div {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 240px;
-    height: ${(props: { width: number }) => (78 * props.width) / 1920}px;
-
-    div {
-      width: auto;
-      img {
-        width: 23px;
-        height: 23px;
-      }
-
-      div {
-        color: white;
-        font-size: 20px;
-        margin-left: 10px;
-      }
-    }
-  }
-`
-
-export const TableContentRow = styled.div`
-  display: flex;
-
-  div {
-    width: 240px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-`
-
-export const TableMinerContentPanel = styled.div`
-  height: 78px;
-
-  .table__miner__content {
-    max-width: 90px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: ${(props: { color: string }) => props.color};
-    text-decoration: none;
-  }
 `
 
 export const TableMorePanel = styled.div`
@@ -161,17 +110,17 @@ export const TableMorePanel = styled.div`
   justify-content: center;
   background: white;
 
-  div {
+  > div {
     height: 33px;
     display: flex;
 
-    img {
+    > img {
       width: 61px;
       height: 15px;
       margin-top: 9px;
     }
 
-    div {
+    > div {
       width: 59px;
       height: 33px;
       margin: 0 42px 0 42px;

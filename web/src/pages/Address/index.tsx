@@ -7,16 +7,17 @@ import Page from '../../components/Page'
 import Header from '../../components/Header'
 import Content from '../../components/Content'
 import Footer from '../../components/Footer'
+import Transaction from '../../components/Transaction'
+import SimpleLabel from '../../components/Label'
+import CellConsumedLabel from '../../components/Label/CellConsumedLabel'
 import {
   AddressContentPanel,
   AddressTitlePanel,
   AddressOverviewPanel,
   AddressCommonContent,
-  AddressLabelItemPanel,
-  CellConsumedBarDiv,
-  AddressTransactionsPenal,
-  AddressTransactionsItem,
-  AddressTransactionsCell,
+  AddressScriptLabelPanel,
+  AddressTransactionsPanel,
+  AddressCommonRowPanel,
   AddressTransactionsPagition,
 } from './index.css'
 import CopyIcon from '../../asserts/copy.png'
@@ -24,8 +25,6 @@ import BalanceIcon from '../../asserts/address_balance.png'
 import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/transactions_green.png'
-import InputOutputIcon from '../../asserts/input_arrow_output.png'
-import { parseDate } from '../../utils/date'
 import { AddressData, TransactionsData } from './mock'
 
 const AddressTitle = ({ address }: { address: string }) => {
@@ -44,118 +43,15 @@ const AddressOverview = ({ value }: { value: string }) => {
   return <AddressOverviewPanel>{value}</AddressOverviewPanel>
 }
 
-const AddressCommonLabel = ({
-  image,
-  label,
-  value,
-  style,
-}: {
-  image: string
-  label: string
-  value: any
-  style: any
-}) => {
+const AddressScriptLabel = ({ image, label, value }: { image: string; label: string; value: any }) => {
   return (
-    <AddressLabelItemPanel style={style}>
-      <img src={image} alt={value} />
-      <span>{label}</span>
-      <div>{value}</div>
-    </AddressLabelItemPanel>
-  )
-}
-
-const CellConsumedBar = ({ percent }: { percent: number }) => {
-  return (
-    <CellConsumedBarDiv percent={`${percent}`}>
-      <div />
-    </CellConsumedBarDiv>
-  )
-}
-
-const AddressCellConsumedLabel = ({
-  image,
-  label,
-  consumed,
-  balance,
-  style,
-}: {
-  image: string
-  label: string
-  consumed: number
-  balance: number
-  style: any
-}) => {
-  return (
-    <AddressLabelItemPanel style={style}>
-      <img src={image} alt="Cell Consumed" />
-      <span>{label}</span>
-      <CellConsumedBar percent={(consumed * 100) / balance} />
-      <div>{`${consumed}B / ${(consumed * 100) / balance}%`}</div>
-    </AddressLabelItemPanel>
-  )
-}
-
-const AddressScriptLabel = ({
-  image,
-  label,
-  value,
-  style,
-}: {
-  image: string
-  label: string
-  value: any
-  style: any
-}) => {
-  return (
-    <div style={style}>
-      <AddressLabelItemPanel>
+    <div>
+      <AddressScriptLabelPanel>
         <img src={image} alt={value} />
         <span>{label}</span>
-      </AddressLabelItemPanel>
-      <ReactJson
-        src={value}
-        style={{
-          marginLeft: 56,
-          marginTop: 18,
-        }}
-      />
+      </AddressScriptLabelPanel>
+      <ReactJson src={value} />
     </div>
-  )
-}
-
-const AddressTransactionCell = ({ cell }: { cell: any }) => {
-  return (
-    <AddressTransactionsCell>
-      <div className="transaction__cell__hash">{cell.address_hash}</div>
-      <div className="transaction__cell__capacity">{`${cell.capacity} CKB`}</div>
-    </AddressTransactionsCell>
-  )
-}
-
-const AddressTransactionsComponent = ({ transaction }: { transaction: any }) => {
-  return (
-    <AddressTransactionsItem>
-      <div className="transaction__hash__panel">
-        <div className="transaction_hash">{transaction.transaction_hash}</div>
-        <div className="transaction_block">
-          {`(Block ${transaction.block_number})  ${parseDate(transaction.block_timestamp)}`}
-        </div>
-      </div>
-      <span className="transaction__separate" />
-      <div className="transaction__input__output">
-        <div className="transaction__input">
-          {transaction.display_inputs.map((cell: any) => {
-            return <AddressTransactionCell cell={cell} key={cell.input_id} />
-          })}
-        </div>
-        <img src={InputOutputIcon} alt="input and output" />
-        <div className="transaction__output">
-          {transaction.display_outputs.map((cell: any) => {
-            return <AddressTransactionCell cell={cell} key={cell.output_id} />
-          })}
-        </div>
-      </div>
-    </AddressTransactionsItem>
   )
 }
 
@@ -188,54 +84,32 @@ export default (
           <AddressTitle address={address} />
           <AddressOverview value="Overview" />
           <AddressCommonContent>
-            <AddressCommonLabel
-              image={BalanceIcon}
-              label="Balance: "
-              value={`${AddressData.data.balance} CKB`}
-              style={{
-                position: 'relative',
-                top: 0,
-                left: 0,
-              }}
-            />
-            <AddressCommonLabel
-              image={TransactionsIcon}
-              label="Transactions: "
-              value={`${AddressData.data.transactions_count}`}
-              style={{
-                position: 'relative',
-                top: -28,
-                left: 583,
-              }}
-            />
-            <AddressCellConsumedLabel
+            <AddressCommonRowPanel>
+              <SimpleLabel image={BalanceIcon} label="Balance: " value={`${AddressData.data.balance} CKB`} />
+              <SimpleLabel
+                image={TransactionsIcon}
+                label="Transactions : "
+                value={`${AddressData.data.transactions_count}`}
+                style={{
+                  marginRight: '25%',
+                }}
+              />
+            </AddressCommonRowPanel>
+
+            <CellConsumedLabel
               image={CellConsumedIcon}
               label="Cell Consumed: "
               consumed={AddressData.data.cell_consumed}
               balance={AddressData.data.balance}
-              style={{
-                position: 'relative',
-                top: -4,
-                left: 0,
-              }}
             />
-            <AddressScriptLabel
-              image={AddressScriptIcon}
-              label="Lock Script: "
-              value={AddressData.data.lock_script}
-              style={{
-                position: 'relative',
-                top: 20,
-                left: 0,
-              }}
-            />
+            <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " value={AddressData.data.lock_script} />
           </AddressCommonContent>
 
-          <AddressTransactionsPenal>
+          <AddressTransactionsPanel>
             <AddressOverview value="Transactions" />
             <div>
               {getTransactionOfAddress(currentPageNo, currentPageSize).map((transaction: any) => {
-                return <AddressTransactionsComponent transaction={transaction} key={transaction.transaction_hash} />
+                return <Transaction transaction={transaction} key={transaction.transaction_hash} />
               })}
             </div>
             <AddressTransactionsPagition>
@@ -248,7 +122,7 @@ export default (
                 onChange={onChange}
               />
             </AddressTransactionsPagition>
-          </AddressTransactionsPenal>
+          </AddressTransactionsPanel>
         </AddressContentPanel>
       </Content>
       <Footer />

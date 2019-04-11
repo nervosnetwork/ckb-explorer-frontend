@@ -75,49 +75,6 @@ export const BlockCommonContent = styled.div`
   }
 `
 
-export const BlockLabelItemPanel = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 28px;
-  margin-bottom: 26px;
-
-  > img {
-    width: 28px;
-    height: 28px;
-  }
-
-  > span {
-    font-size: 18px;
-    color: rgb(77, 77, 77);
-    margin-left: 10px;
-    margin-right: 21px;
-  }
-
-  > div {
-    font-size: 16px;
-    color: rgb(136, 136, 136);
-    max-width: 320px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-`
-export const CellConsumedBarDiv = styled.div`
-  height: 20px;
-  width: 160px;
-  border-radius: 50px;
-  border: 1px solid rgb(75, 188, 142);
-  margin-right: 10px;
-
-  > div {
-    width: ${(props: { percent: string }) => props.percent}%;
-    margin-right: 21px;
-    background: rgb(75, 188, 142);
-    height: 100%;
-    border-radius: inherit;
-  }
-`
-
 export const BlockPreviousNextPanel = styled.div`
   display: flex;
   margin-top: 59px;
@@ -142,7 +99,7 @@ export const BlockHightLabel = styled.div`
   text-align: center;
 `
 
-export const BlockTransactionsPenal = styled.div`
+export const BlockTransactionsPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

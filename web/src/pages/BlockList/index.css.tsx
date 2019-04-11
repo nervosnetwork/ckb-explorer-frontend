@@ -31,60 +31,6 @@ export const ContentTable = styled.div`
   margin-top: 58px;
 `
 
-export const TableTitleRow = styled.div`
-  background: rgb(75, 188, 142);
-  display: flex;
-  flex-direction: row;
-
-  div {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 240px;
-    height: 78px;
-
-    div {
-      width: auto;
-      img {
-        width: 23px;
-        height: 23px;
-      }
-
-      div {
-        color: white;
-        font-size: 20px;
-        margin-left: 10px;
-      }
-    }
-  }
-`
-
-export const TableContentRow = styled.div`
-  display: flex;
-
-  div {
-    width: 240px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-`
-
-export const TableMinerContentPanel = styled.div`
-  height: 78px;
-
-  .table__miner__content {
-    max-width: 90px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: ${(props: { color: string }) => props.color};
-    text-decoration: none;
-  }
-`
-
 export const BlocksPagition = styled.div`
   margin-top: 60px;
 `

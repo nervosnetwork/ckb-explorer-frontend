@@ -23,13 +23,13 @@ export const AddressTitlePanel = styled.div`
     flex-direction: row;
     justify-content: center;
 
-    div {
+    > div {
       color: rgb(136, 136, 136);
       font-size: 18px;
       height: 25px;
     }
 
-    img {
+    > img {
       margin-left: 19px;
       width: 24px;
       height: 21px;
@@ -68,46 +68,7 @@ export const AddressCommonContent = styled.div`
   flex-direction: column;
 `
 
-export const AddressLabelItemPanel = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 28px;
-
-  img {
-    width: 28px;
-    height: 28px;
-  }
-
-  span {
-    font-size: 18px;
-    color: rgb(77, 77, 77);
-    margin-left: 10px;
-    margin-right: 21px;
-  }
-
-  div {
-    font-size: 16px;
-    color: rgb(75, 188, 142);
-  }
-`
-export const CellConsumedBarDiv = styled.div`
-  height: 20px;
-  width: 160px;
-  border-radius: 50px;
-  border: 1px solid rgb(75, 188, 142);
-  margin-right: 10px;
-
-  div {
-    width: ${(props: { percent: string }) => props.percent}%;
-    margin-right: 21px;
-    background: rgb(75, 188, 142);
-    height: 100%;
-    border-radius: inherit;
-  }
-`
-
-export const AddressTransactionsPenal = styled.div`
+export const AddressTransactionsPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -155,10 +116,29 @@ export const AddressTransactionsItem = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    img {
+    > img {
       width: 68px;
       height: 68px;
     }
+  }
+`
+
+export const AddressScriptLabelPanel = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 28px;
+
+  > img {
+    width: 28px;
+    height: 28px;
+  }
+
+  > span {
+    font-size: 18px;
+    color: rgb(77, 77, 77);
+    margin-left: 10px;
+    margin-right: 21px;
   }
 `
 
@@ -185,4 +165,11 @@ export const AddressTransactionsCell = styled.div`
 
 export const AddressTransactionsPagition = styled.div`
   margin: 80px 0 200px 0;
+`
+
+export const AddressCommonRowPanel = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
 `
