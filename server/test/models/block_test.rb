@@ -38,25 +38,25 @@ class BlockTest < ActiveSupport::TestCase
 
   test "#verify! change block status to authentic when block is verified" do
     block = create(:block)
-    assert_equal "inauthentic", block.status
-    VCR.use_cassette("blocks/10") do
-      SyncInfo.local_inauthentic_tip_block_number
-      node_block = CkbSync::Api.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
-      block.verify!(node_block)
-      assert_equal "authentic", block.status
+    assert_changes -> { block.status } , from: "inauthentic", to: "authentic" do
+      VCR.use_cassette("blocks/10") do
+        SyncInfo.local_inauthentic_tip_block_number
+        node_block = CkbSync::Api.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+        block.verify!(node_block)
+      end
     end
   end
 
   test "#verify! change block status to abandoned when block is not verified" do
     block = create(:block, block_hash: "0x419c632366c8eb9635acbb39ea085f7552ae62e1fdd480893375334a0f37d1bx")
     SyncInfo.local_authentic_tip_block_number
-    assert_equal "inauthentic", block.status
-    VCR.use_cassette("blocks/10") do
-      node_block = CkbSync::Api.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
-      assert_difference "Block.count", 1 do
-        block.verify!(node_block)
+    assert_changes -> { block.status } , from: "inauthentic", to: "abandoned" do
+      VCR.use_cassette("blocks/10") do
+        node_block = CkbSync::Api.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+        assert_difference "Block.count", 1 do
+          block.verify!(node_block)
+        end
       end
-      assert_equal "abandoned", block.status
     end
   end
 
