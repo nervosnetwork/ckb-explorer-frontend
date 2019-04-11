@@ -4,6 +4,8 @@ module CkbSync
       def start
         loop do
           sync_node_data
+
+          break if Rails.env == "test"
           sleep(10)
         end
       end
