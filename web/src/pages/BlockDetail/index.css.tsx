@@ -99,7 +99,7 @@ export const BlockHightLabel = styled.div`
   text-align: center;
 `
 
-export const BlockTransactionsPenal = styled.div`
+export const BlockTransactionsPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -68,7 +68,7 @@ export const AddressCommonContent = styled.div`
   flex-direction: column;
 `
 
-export const AddressTransactionsPenal = styled.div`
+export const AddressTransactionsPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -167,7 +167,7 @@ export const AddressTransactionsPagition = styled.div`
   margin: 80px 0 200px 0;
 `
 
-export const AddressCommonRowPenal = styled.div`
+export const AddressCommonRowPanel = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

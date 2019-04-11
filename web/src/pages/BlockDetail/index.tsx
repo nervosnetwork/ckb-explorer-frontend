@@ -9,7 +9,7 @@ import {
   BlockCommonContent,
   BlockPreviousNextPanel,
   BlockHightLabel,
-  BlockTransactionsPenal,
+  BlockTransactionsPanel,
   BlockTransactionsPagition,
 } from './index.css'
 import Page from '../../components/Page'
@@ -195,7 +195,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <BlockPreviousNext />
           <BlockHightLabel>Block Height</BlockHightLabel>
 
-          <BlockTransactionsPenal>
+          <BlockTransactionsPanel>
             <BlockOverview value="Transactions" />
             <div>
               {getTransactionOfAddress(currentPageNo, PageSize).map((transaction: any) => {
@@ -212,7 +212,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 onChange={onChange}
               />
             </BlockTransactionsPagition>
-          </BlockTransactionsPenal>
+          </BlockTransactionsPanel>
         </BlockDetailPanel>
       </Content>
       <Footer />

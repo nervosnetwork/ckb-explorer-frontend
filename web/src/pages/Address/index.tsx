@@ -16,8 +16,8 @@ import {
   AddressOverviewPanel,
   AddressCommonContent,
   AddressScriptLabelPanel,
-  AddressTransactionsPenal,
-  AddressCommonRowPenal,
+  AddressTransactionsPanel,
+  AddressCommonRowPanel,
   AddressTransactionsPagition,
 } from './index.css'
 import CopyIcon from '../../asserts/copy.png'
@@ -84,7 +84,7 @@ export default (
           <AddressTitle address={address} />
           <AddressOverview value="Overview" />
           <AddressCommonContent>
-            <AddressCommonRowPenal>
+            <AddressCommonRowPanel>
               <SimpleLabel image={BalanceIcon} label="Balance: " value={`${AddressData.data.balance} CKB`} />
               <SimpleLabel
                 image={TransactionsIcon}
@@ -94,7 +94,7 @@ export default (
                   marginRight: '25%',
                 }}
               />
-            </AddressCommonRowPenal>
+            </AddressCommonRowPanel>
 
             <CellConsumedLabel
               image={CellConsumedIcon}
@@ -105,7 +105,7 @@ export default (
             <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " value={AddressData.data.lock_script} />
           </AddressCommonContent>
 
-          <AddressTransactionsPenal>
+          <AddressTransactionsPanel>
             <AddressOverview value="Transactions" />
             <div>
               {getTransactionOfAddress(currentPageNo, currentPageSize).map((transaction: any) => {
@@ -122,7 +122,7 @@ export default (
                 onChange={onChange}
               />
             </AddressTransactionsPagition>
-          </AddressTransactionsPenal>
+          </AddressTransactionsPanel>
         </AddressContentPanel>
       </Content>
       <Footer />
