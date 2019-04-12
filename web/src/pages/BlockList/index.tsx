@@ -20,7 +20,7 @@ import TransactionIcon from '../../asserts/transactions.png'
 import CellConsumedIcon from '../../asserts/cell_consumed.png'
 import MinerIcon from '../../asserts/miner.png'
 import TimestampIcon from '../../asserts/timestamp.png'
-import BlocksData from './mock'
+import BlocksData from '../../http/mock/block_list'
 
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ pageNo: string; pageSize: string }>>) => {
   const { match } = props

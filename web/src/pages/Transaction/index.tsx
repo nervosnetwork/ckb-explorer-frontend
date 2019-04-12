@@ -24,7 +24,7 @@ import CopyGreenIcon from '../../asserts/copy_green.png'
 import CopyIcon from '../../asserts/copy.png'
 import { parseSimpleDate } from '../../utils/date'
 
-import { TransactionData, Cell } from './mock'
+import { TransactionData, Cell } from '../../http/mock/transaction'
 
 const operationItems = ['Lock Script', 'Type Script', 'Data']
 

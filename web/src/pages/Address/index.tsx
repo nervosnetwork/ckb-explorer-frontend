@@ -25,7 +25,7 @@ import BalanceIcon from '../../asserts/address_balance.png'
 import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/transactions_green.png'
-import { AddressData, TransactionsData } from './mock'
+import { AddressData, TransactionsData } from '../../http/mock/address'
 
 const AddressTitle = ({ address }: { address: string }) => {
   return (

@@ -36,7 +36,7 @@ import ProofIcon from '../../asserts/proof.png'
 import PreviousBlockIcon from '../../asserts/left_arrow.png'
 import NextBlockIcon from '../../asserts/right_arrow.png'
 import MouseIcon from '../../asserts/block_mouse.png'
-import { BlockData, TransactionsData } from './mock'
+import { BlockData, TransactionsData } from '../../http/mock/block'
 import { parseSimpleDate } from '../../utils/date'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {

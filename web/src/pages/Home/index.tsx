@@ -31,7 +31,7 @@ import MinerIcon from '../../asserts/miner.png'
 import TimestampIcon from '../../asserts/timestamp.png'
 import MoreLeftIcon from '../../asserts/more_left.png'
 import MoreRightIcon from '../../asserts/more_right.png'
-import BlocksData from './mock'
+import BlocksData from '../../http/mock/home'
 import browserHistory from '../../routes/history'
 
 export default () => {
