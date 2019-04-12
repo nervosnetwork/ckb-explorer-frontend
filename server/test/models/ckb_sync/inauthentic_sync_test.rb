@@ -1,5 +1,4 @@
 require "test_helper"
-require "sidekiq/testing"
 
 module CkbSync
   class InauthenticSyncTest < ActiveSupport::TestCase

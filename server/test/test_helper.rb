@@ -7,6 +7,7 @@ end
 require "database_cleaner"
 require "minitest/reporters"
 require "mocha/minitest"
+require "sidekiq/testing"
 Minitest::Reporters.use!
 
 ENV["RAILS_ENV"] ||= "test"
