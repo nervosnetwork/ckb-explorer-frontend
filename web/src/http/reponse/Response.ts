@@ -4,6 +4,9 @@ export interface Response<T> {
   status: number
   message: string
   error: Errors
+  // particular flieds for cell and script
+  cell_type: string
+  data_type: string
 }
 
 export interface Error {
