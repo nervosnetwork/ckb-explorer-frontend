@@ -30,13 +30,13 @@ Shoulda::Matchers.configure do |config|
 end
 
 def prepare_inauthentic_node_data
-  local_tip_block_number = -1
+  local_tip_block_number = 0
   SyncInfo.local_inauthentic_tip_block_number
   node_tip_block_number = 10
   ((local_tip_block_number + 1)..node_tip_block_number).each do |number|
     block_hash = nil
     VCR.use_cassette("block_hashes/#{number}") do
-      block_hash = CkbSync::Api.get_block_hash(number)
+      block_hash = CkbSync::Api.instance.get_block_hash(number)
     end
 
     SyncInfo.local_inauthentic_tip_block_number = number
@@ -92,7 +92,7 @@ def build_display_input_from_node_input(input)
     { id: nil, capacity: CellOutput::INITIAL_BLOCK_REWARD }.stringify_keys
   else
     VCR.use_cassette("blocks/") do
-      commit_transaction = CkbSync::Api.get_transaction(previous_transaction_hash)
+      commit_transaction = CkbSync::Api.instance.get_transaction(previous_transaction_hash)
       previous_output = commit_transaction["outputs"][previous_output_index]
       build_display_info_from_node_output(previous_output)
     end
@@ -104,6 +104,12 @@ def build_display_info_from_node_output(output)
   lock_script = LockScript.find_by(args: lock["args"], binary_hash: lock["binary_hash"])
   cell_output = lock_script.cell_output
   { id: cell_output.id, capacity: cell_output.capacity.to_s }.stringify_keys
+end
+
+def prepare_api_wrapper
+  VCR.use_cassette("genesis_block") do
+    CkbSync::Api.instance
+  end
 end
 
 module ActiveSupport
@@ -118,9 +124,14 @@ module ActiveSupport
       DatabaseCleaner.start
     end
 
+    def after_setup
+      prepare_api_wrapper
+    end
+
     def after_teardown
       super
       DatabaseCleaner.clean
+      Sidekiq::Worker.clear_all
     end
   end
 end
