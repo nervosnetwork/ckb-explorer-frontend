@@ -2,7 +2,7 @@ module CkbSync
   class Persist
     class << self
       def call(block_hash, sync_type)
-        node_block = CkbSync::Api.get_block(block_hash).deep_stringify_keys
+        node_block = CkbSync::Api.instance.get_block(block_hash).deep_stringify_keys
         save_block(node_block, sync_type)
       end
 
