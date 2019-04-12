@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, Link } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
 import {
@@ -181,12 +181,18 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
             </div>
             <span className="block__content__separate" />
             <div>
-              <SimpleLabel
-                image={BlockRightItems[0].image}
-                label={BlockRightItems[0].label}
-                value={BlockRightItems[0].value}
-                highLight
-              />
+              <Link
+                to={{
+                  pathname: `/address/${BlockRightItems[0].value}`,
+                }}
+              >
+                <SimpleLabel
+                  image={BlockRightItems[0].image}
+                  label={BlockRightItems[0].label}
+                  value={BlockRightItems[0].value}
+                  highLight
+                />
+              </Link>
               {BlockRightItems.slice(1).map(item => {
                 return <SimpleLabel image={item.image} label={item.label} value={item.value} />
               })}

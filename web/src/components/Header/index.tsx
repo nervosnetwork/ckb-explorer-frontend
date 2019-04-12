@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import browserHistory from '../../routes/history'
 
 import searchIcon from '../../asserts/search.png'
 import logoIcon from '../../logo.png'
+import browserHistory from '../../routes/history'
 
 const HeaderDiv = styled.div`
   width: 100%;
@@ -129,19 +129,24 @@ export default ({ search = true }: { search?: boolean }) => {
       </Link>
       <div className="header__menus">
         {menus.map((d: any) => {
-          let className = 'header__menus__item'
-          if (browserHistory.location.pathname === d.url) className += ' header__menus__item--active'
           return (
-            <Link key={d.name} className={className} to={d.url}>
+            <a key={d.name} className="header__menus__item" href={d.url} target="_blank" rel="noopener noreferrer">
               {d.name}
-            </Link>
+            </a>
           )
         })}
       </div>
       {search ? (
         <div className="header__search">
           <input type="text" placeholder="Block Height / Block Hash / Txhash / Address" />
-          <div>
+          <div
+            role="button"
+            tabIndex={-1}
+            onKeyPress={() => {}}
+            onClick={() => {
+              browserHistory.push('/search/fail')
+            }}
+          >
             <img src={searchIcon} alt="search" />
           </div>
         </div>
