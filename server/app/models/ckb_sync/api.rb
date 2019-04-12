@@ -1,6 +1,6 @@
 module CkbSync
   class Api
-    METHOD_NAMES = %w(local_node_info genesis_block get_transaction_trace trace_transaction get_live_cell inspect set_system_script_cell system_script_cell get_block genesis_block_hash get_block_hash get_tip_header get_tip_block_number get_cells_by_lock_hash get_transaction uri system_script_cell_hash send_transaction system_script_out_point).freeze
+    METHOD_NAMES = %w(get_tip_header get_tip_block_number get_cells_by_lock_hash get_transaction system_script_out_point system_script_cell_hash send_transaction get_live_cell trace_transaction genesis_block get_transaction_trace set_system_script_cell local_node_info inspect system_script_cell genesis_block_hash get_block uri get_block_hash).freeze
     class << self
       METHOD_NAMES.each do |name|
         define_method name do |*params|
