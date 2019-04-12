@@ -48,12 +48,12 @@ module CKB
     end
 
     def self.get_unspent_cells(lock_hash)
-      to = CkbSync::Api.get_tip_block_number
+      to = CkbSync::Api.instance.get_tip_block_number
       results = []
       current_from = 1
       while current_from <= to
         current_to = [current_from + 100, to].min
-        cells = CkbSync::Api.get_cells_by_lock_hash(lock_hash, current_from, current_to)
+        cells = CkbSync::Api.instance.get_cells_by_lock_hash(lock_hash, current_from, current_to)
         results.concat(cells)
         current_from = current_to + 1
       end
