@@ -49,6 +49,13 @@ export const fetchTransactionsByAddress = (address: string) => {
   })
 }
 
+export const fetchTransactionByHash = (hash: string) => {
+  return new Promise(function(resolve, reject) {
+    resolve(TransactionsData.data)
+    if (false) reject(hash)
+  })
+}
+
 export const fetchBlockByNumber = (number: string) =>
   axiosIns
     .get(`blocks/${number}`)
@@ -60,14 +67,6 @@ export const fetchBlockByNumber = (number: string) =>
 export const fetchBlockByHash = (hash: string) =>
   axiosIns
     .get(`blocks/${hash}`)
-    .then((res: AxiosResponse) => res.data)
-    .catch(() => {
-      throw new Error(ErrorTexts.CACHE_SERVER_NOT_AVAILABLE)
-    })
-
-export const fetchTransactionByHash = (hash: string) =>
-  axiosIns
-    .get(`transactions/${hash}`)
     .then((res: AxiosResponse) => res.data)
     .catch(() => {
       throw new Error(ErrorTexts.CACHE_SERVER_NOT_AVAILABLE)
