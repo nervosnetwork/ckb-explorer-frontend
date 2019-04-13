@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios'
 import ErrorTexts from './errors'
 import BlocksData from './mock/home'
 import BlockListData from './mock/block_list'
+import { AddressData, TransactionsData } from './mock/address'
 
 const baseURL = 'http://localhost:3000/'
 
@@ -34,6 +35,20 @@ export const fetchBlocksList = () => {
   })
 }
 
+export const fetchAddressInfo = (address: string) => {
+  return new Promise(function(resolve, reject) {
+    resolve(AddressData.data)
+    if (false) reject(address)
+  })
+}
+
+export const fetchTransactionsByAddress = (address: string) => {
+  return new Promise(function(resolve, reject) {
+    resolve(TransactionsData.data)
+    if (false) reject(address)
+  })
+}
+
 export const fetchBlockByNumber = (number: string) =>
   axiosIns
     .get(`blocks/${number}`)
@@ -58,9 +73,9 @@ export const fetchTransactionByHash = (hash: string) =>
       throw new Error(ErrorTexts.CACHE_SERVER_NOT_AVAILABLE)
     })
 
-export const fetchTransactionsByAddress = (address: string) =>
+export const fetchTransactionsByBlockHeight = (height: number) =>
   axiosIns
-    .get(`address_transactions/${address}`)
+    .get(`block_transactions/${height}`)
     .then((res: AxiosResponse) => res.data)
     .catch(() => {
       throw new Error(ErrorTexts.CACHE_SERVER_NOT_AVAILABLE)
@@ -83,14 +98,6 @@ export const fetchCells = (id: number, cellType: CellType, dataType: DataType) =
         data_type: dataType,
       },
     })
-    .then((res: AxiosResponse) => res.data)
-    .catch(() => {
-      throw new Error(ErrorTexts.CACHE_SERVER_NOT_AVAILABLE)
-    })
-
-export const fetchAddressInfo = (address: string) =>
-  axiosIns
-    .get(`addresses/${address}`)
     .then((res: AxiosResponse) => res.data)
     .catch(() => {
       throw new Error(ErrorTexts.CACHE_SERVER_NOT_AVAILABLE)

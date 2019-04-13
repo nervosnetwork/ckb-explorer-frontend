@@ -1,4 +1,8 @@
-export const AddressData = {
+import Address from '../response/Address'
+import { Transaction } from '../response/Transaction'
+import { Response } from '../response/Response'
+
+export const AddressData: Response<Address> = {
   type: 'address',
   data: {
     address_hash: '0xnj7982dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683eadekoi',
@@ -6,17 +10,15 @@ export const AddressData = {
     transactions_count: 100,
     cell_consumed: 50,
     lock_script: {
-      type: 'cell',
-      cell_type: 'input',
-      data_type: 'lock_script',
-      data: '\xE3\x83|\nj\xC8\xC4\x82\f\xC0\x98o\x10\x82w4\xA8\xBAa\xF1\v\xA3\xC0\xAF_9\x91\xAC\xC8\x89(H',
+      args: ['pubk', 'pubk'],
+      binary_hash: '0xnj7982dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683eadekoi',
     },
   },
   status: 200,
   message: 'success',
 }
 
-export const TransactionsData = {
+export const TransactionsData: Response<Transaction[]> = {
   type: 'address_transaction',
   data: [
     {
