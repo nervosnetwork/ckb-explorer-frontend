@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import ErrorTexts from './errors'
 import BlocksData from './mock/home'
+import BlockListData from './mock/block_list'
 
 const baseURL = 'http://localhost:3000/'
 
@@ -22,6 +23,13 @@ export enum DataType {
 export const fetchBlocks = () => {
   return new Promise(function(resolve, reject) {
     resolve(BlocksData.data)
+    if (false) reject()
+  })
+}
+
+export const fetchBlocksList = () => {
+  return new Promise(function(resolve, reject) {
+    resolve(BlockListData.data)
     if (false) reject()
   })
 }
