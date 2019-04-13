@@ -3,10 +3,10 @@ export interface Response<T> {
   data: T
   status: number
   message: string
-  error: Errors
+  error?: Errors
   // particular flieds for cell and script
-  cell_type: string
-  data_type: string
+  cell_type?: string
+  data_type?: string
 }
 
 export interface Error {

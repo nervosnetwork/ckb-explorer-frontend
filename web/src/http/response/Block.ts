@@ -13,6 +13,6 @@ export default interface Block {
   timestamp: number
   difficulty: string
   version: number
-  nonce: string
+  nonce: number
   proof: string
 }

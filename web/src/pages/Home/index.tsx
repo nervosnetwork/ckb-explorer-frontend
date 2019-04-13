@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   HomeHeaderPanel,
@@ -31,10 +31,19 @@ import MinerIcon from '../../asserts/miner.png'
 import TimestampIcon from '../../asserts/timestamp.png'
 import MoreLeftIcon from '../../asserts/more_left.png'
 import MoreRightIcon from '../../asserts/more_right.png'
-import BlocksData from '../../http/mock/home'
 import browserHistory from '../../routes/history'
+import { fetchBlocks } from '../../http/fetcher'
+import Block from '../../http/response/Block'
 
 export default () => {
+  const initBlocks: Block[] = []
+  const [blocksData, setBlocksData] = useState(initBlocks)
+  useEffect(() => {
+    fetchBlocks().then(data => {
+      setBlocksData(data as Block[])
+    })
+  }, [])
+
   return (
     <Page>
       <Header search={false} />
@@ -76,7 +85,7 @@ export default () => {
                 <TableTitleItem image={MinerIcon} title="Miner" />
                 <TableTitleItem image={TimestampIcon} title="Time" />
               </TableTitleRow>
-              {BlocksData.data.map((data: any) => {
+              {blocksData.map((data: any) => {
                 return (
                   <TableContentRow key={data.block_hash}>
                     <TableContentItem content={data.number} to={`block/${data.number}`} />

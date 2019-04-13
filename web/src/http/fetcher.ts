@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import ErrorTexts from './errors'
+import BlocksData from './mock/home'
 
 const baseURL = 'http://localhost:3000/'
 
@@ -18,13 +19,12 @@ export enum DataType {
   Data = 'data',
 }
 
-export const fetchBlocks = () =>
-  axiosIns
-    .get('blocks')
-    .then((res: AxiosResponse) => res.data)
-    .catch(() => {
-      throw new Error(ErrorTexts.CACHE_SERVER_NOT_AVAILABLE)
-    })
+export const fetchBlocks = () => {
+  return new Promise(function(resolve, reject) {
+    resolve(BlocksData.data)
+    if (false) reject()
+  })
+}
 
 export const fetchBlockByNumber = (number: string) =>
   axiosIns
