@@ -1,5 +1,4 @@
 require "test_helper"
-require 'sidekiq/testing'
 
 class CkbTransactionTest < ActiveSupport::TestCase
   context "associations" do

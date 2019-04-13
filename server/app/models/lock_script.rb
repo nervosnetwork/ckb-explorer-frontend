@@ -5,6 +5,13 @@ class LockScript < ApplicationRecord
   validates_presence_of :binary_hash
 
   attribute :binary_hash, :ckb_hash
+
+  def to_node_lock
+    {
+      args: args,
+      binary_hash: binary_hash
+    }
+  end
 end
 
 # == Schema Information

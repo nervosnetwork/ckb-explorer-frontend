@@ -5,7 +5,8 @@ module CkbSync
         loop do
           sync_node_data
 
-          break if Rails.env == "test"
+          break if Rails.env.test?
+
           sleep(ENV["AUTHENTICSYNC_LOOP_INTERVAL"])
         end
       end

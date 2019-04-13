@@ -48,9 +48,10 @@ module CKB
     end
 
     def self.get_unspent_cells(lock_hash)
-      to = CkbSync::Api.instance.get_tip_block_number
+      to = CkbSync::Api.instance.get_tip_block_number.to_i
       results = []
       current_from = 1
+
       while current_from <= to
         current_to = [current_from + 100, to].min
         cells = CkbSync::Api.instance.get_cells_by_lock_hash(lock_hash, current_from, current_to)
@@ -62,7 +63,7 @@ module CKB
 
     # TODO Can be changed to calculate by local cell
     def self.get_balance(lock_hash)
-      CKB::Utils.get_unspent_cells(lock_hash).map { |cell| cell[:capacity].reduce(0, &:+) }
+      CKB::Utils.get_unspent_cells(lock_hash).reduce(0) { |memo, cell| memo + cell[:capacity] }
     end
 
     # TODO Can be changed to calculate by local cell
@@ -74,12 +75,16 @@ module CKB
           previous_output_index = out_point[:index]
           if CellOutput::BASE_HASH != previous_transaction_hash
             previous_transacton = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
-            previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
-            previous_output
+
+            # TODO may be no need to do this. when testnet is repaired, check it.
+            if previous_transacton.present?
+              previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
+              previous_output
+            end
           end
         end
 
-      outputs.compact.reduce(0) { |memo, output| memo + CKB::Utils.calculate_cell_min_capacity(output) }
+      outputs.compact.reduce(0) { |memo, output| memo + CKB::Utils.calculate_cell_min_capacity(output.to_node_cell_output) }
     end
 
     def self.cell_input_capacity(cell_input)

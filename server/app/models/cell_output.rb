@@ -7,6 +7,15 @@ class CellOutput < ApplicationRecord
   has_one :type_script
 
   validates :capacity, presence: true, numericality: { greater_than_or_equal_to: 0 }
+
+  def to_node_cell_output
+    {
+      capacity: capacity,
+      data: data,
+      lock: lock_script.to_node_lock,
+      type: type_script.try(:to_node_lock)
+    }
+  end
 end
 
 # == Schema Information

@@ -11,7 +11,6 @@ FactoryBot.define do
     version { 0 }
     witnesses {}
 
-
     transient do
       account { nil }
     end

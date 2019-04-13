@@ -19,13 +19,13 @@ module CkbSync
 
       def update_account_balance_and_cell_consumed!(local_block)
         accounts =
-          local_block.contained_accounts.map do |account|
-            account.balance = CKB::Utils.get_balance(account.address_hash)
+        local_block.contained_accounts.map do |account|
+          account.balance = CKB::Utils.get_balance(account.address_hash)
             account.cell_consumed = CKB::Utils.account_cell_consumed(account.address_hash)
             account
           end
 
-        Account.import! accounts, on_duplicate_key_update: [:balance]
+        Account.import! accounts, on_duplicate_key_update: [:balance, :cell_consumed]
       end
     end
   end
