@@ -44,7 +44,7 @@ export const fetchAddressInfo = (address: string) => {
 
 export const fetchTransactionsByAddress = (address: string) => {
   return new Promise(function(resolve, reject) {
-    resolve(TransactionsData.data)
+    resolve(TransactionsData)
     if (false) reject(address)
   })
 }

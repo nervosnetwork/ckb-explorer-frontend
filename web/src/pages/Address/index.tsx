@@ -26,6 +26,7 @@ import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/transactions_green.png'
 import Address from '../../http/response/Address'
+import { Response } from '../../http/response/Response'
 import { Transaction } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
 
@@ -62,9 +63,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   const { params } = match
   const { address } = params
 
-  const PageSize = 3
-  const currentPageNo = 1
-
   const initTransactions: Transaction[] = []
   const initAddress: Address = {
     address_hash: '',
@@ -79,6 +77,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   const [addressData, setAddressData] = useState(initAddress)
   const [transactionsData, setTrasactionsData] = useState(initTransactions)
   const [totalTransactions, setTotalTransactions] = useState(1)
+  const [pageSize, setPageSize] = useState(3)
+  const [pageNo, setPageNo] = useState(1)
 
   const getAddressInfo = () => {
     fetchAddressInfo(address).then(data => {
@@ -87,19 +87,25 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   }
 
   const getTransactions = (page: number, size: number) => {
-    fetchTransactionsByAddress(address).then(data => {
-      setTotalTransactions((data as Transaction[]).length)
-      const transactions = (data as Transaction[]).slice((page - 1) * size, page * size)
+    fetchTransactionsByAddress(address).then(response => {
+      const { data, pagination } = response as Response<Transaction[]>
+      if (pagination) {
+        const { total } = pagination
+        setTotalTransactions(total)
+      }
+      const transactions = data.slice((page - 1) * size, page * size)
       setTrasactionsData(transactions)
     })
   }
 
   useEffect(() => {
     getAddressInfo()
-    getTransactions(currentPageNo, PageSize)
+    getTransactions(pageNo, pageSize)
   }, [])
 
   const onChange = (page: number, size: number) => {
+    setPageSize(size)
+    setPageNo(page)
     getTransactions(page, size)
   }
 
@@ -143,8 +149,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               <Pagination
                 showQuickJumper
                 showSizeChanger
-                defaultPageSize={PageSize}
-                defaultCurrent={currentPageNo}
+                defaultPageSize={pageSize}
+                defaultCurrent={pageNo}
                 total={totalTransactions}
                 onChange={onChange}
               />

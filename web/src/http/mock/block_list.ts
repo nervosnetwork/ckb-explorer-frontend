@@ -3,6 +3,14 @@ import { Response } from '../response/Response'
 
 const BlockListData: Response<Block[]> = {
   type: 'block',
+  pagination: {
+    previous: 1,
+    next: 3,
+    current: 2,
+    page_size: 20,
+    total: 200,
+    pages: 10,
+  },
   data: [
     {
       block_hash: '0x97f982dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683eadeacd',

@@ -3,6 +3,7 @@ export interface Response<T> {
   data: T
   status: number
   message: string
+  pagination?: Pagination
   error?: Errors
   // particular flieds for cell and script
   cell_type?: string
@@ -21,4 +22,13 @@ export interface Error {
 export interface Errors {
   message: string
   errors: Error[]
+}
+
+export interface Pagination {
+  previous: number
+  next: number
+  current: number
+  page_size: number
+  total: number
+  pages: number
 }
