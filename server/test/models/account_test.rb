@@ -112,9 +112,9 @@ class AccountTest < ActiveSupport::TestCase
 
         CkbSync::Validator.call(local_block.block_hash)
         updated_cell_consumed =
-        local_block.contained_accounts.map do |account|
-          CKB::Utils.account_cell_consumed(account.address_hash)
-        end
+          local_block.contained_accounts.map do |account|
+            CKB::Utils.account_cell_consumed(account.address_hash)
+          end
 
         old_cell_consumed = local_block.contained_accounts.pluck(:cell_consumed)
         assert_equal updated_cell_consumed, old_cell_consumed
