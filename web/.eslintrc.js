@@ -74,6 +74,14 @@ module.exports = {
       },
     ],
     'react-hooks/rules-of-hooks': 2,
+    'camelcase': [
+      "error",
+      {
+        properties: "never",
+        ignoreDestructuring: true,
+        allow: ["^.*_"]
+      }
+    ],
   },
   env: {
     jest: true,

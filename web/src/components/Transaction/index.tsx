@@ -15,7 +15,7 @@ const TransactionCell = ({ cell }: { cell: any }) => {
   )
 }
 
-const Transaction = ({ transaction }: { transaction: any }) => {
+const TransactionComponent = ({ transaction }: { transaction: any }) => {
   return (
     <TransactionsItem>
       <div className="transaction__hash__panel">
@@ -44,4 +44,4 @@ const Transaction = ({ transaction }: { transaction: any }) => {
   )
 }
 
-export default Transaction
+export default TransactionComponent

@@ -1,5 +1,16 @@
-const blocks = {
+import Block from '../response/Block'
+import { Response } from '../response/Response'
+
+const BlockListData: Response<Block[]> = {
   type: 'block',
+  pagination: {
+    previous: 1,
+    next: 3,
+    current: 2,
+    page_size: 20,
+    total: 200,
+    pages: 10,
+  },
   data: [
     {
       block_hash: '0x97f982dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683eadeacd',
@@ -14,6 +25,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 100,
+      total_cell_capacity: 1000,
       miner_hash: '0x9873h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1551012200000,
       difficulty: '0x100',
@@ -34,6 +46,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
+      total_cell_capacity: 1000,
       miner_hash: '0x9382h2dd3149da69e05e8867ccebd8423bdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1553068839789,
       difficulty: '0x100',
@@ -54,6 +67,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
+      total_cell_capacity: 1000,
       miner_hash: '0x9382h2dd3149da69e05e8347ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1553068842789,
       difficulty: '0x100',
@@ -74,6 +88,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
+      total_cell_capacity: 1000,
       miner_hash: '0x9382h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1552212200000,
       difficulty: '0x100',
@@ -94,6 +109,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
+      total_cell_capacity: 1000,
       miner_hash: '0x9382h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1552212610000,
       difficulty: '0x100',
@@ -114,6 +130,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
+      total_cell_capacity: 1000,
       miner_hash: '0x9382h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1552212610000,
       difficulty: '0x100',
@@ -134,6 +151,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
+      total_cell_capacity: 1000,
       miner_hash: '0x9382h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1552212610000,
       difficulty: '0x100',
@@ -154,6 +172,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
+      total_cell_capacity: 1000,
       miner_hash: '0x9382h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1552212610000,
       difficulty: '0x100',
@@ -174,6 +193,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
+      total_cell_capacity: 1000,
       miner_hash: '0x9382h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1552212610000,
       difficulty: '0x100',
@@ -194,6 +214,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
+      total_cell_capacity: 1000,
       miner_hash: '0x9382h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1552212610000,
       difficulty: '0x100',
@@ -214,6 +235,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
+      total_cell_capacity: 1000,
       miner_hash: '0x9382h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1552212610000,
       difficulty: '0x100',
@@ -234,6 +256,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
+      total_cell_capacity: 1000,
       miner_hash: '0x9382h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1552212610000,
       difficulty: '0x100',
@@ -254,6 +277,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
+      total_cell_capacity: 1000,
       miner_hash: '0x9382h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1552212610000,
       difficulty: '0x100',
@@ -274,6 +298,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
+      total_cell_capacity: 1000,
       miner_hash: '0x9382h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1552212610000,
       difficulty: '0x100',
@@ -294,6 +319,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
+      total_cell_capacity: 1000,
       miner_hash: '0x9382h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1552212610000,
       difficulty: '0x100',
@@ -314,6 +340,7 @@ const blocks = {
       reward: 40,
       total_transaction_fee: 10,
       cell_consumed: 102,
+      total_cell_capacity: 1000,
       miner_hash: '0x9382h2dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683ead2dw1',
       timestamp: 1552212610000,
       difficulty: '0x100',
@@ -326,4 +353,4 @@ const blocks = {
   message: 'success',
 }
 
-export default blocks
+export default BlockListData

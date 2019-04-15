@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import ReactJson from 'react-json-view'
 import Pagination from 'rc-pagination'
@@ -7,7 +7,7 @@ import Page from '../../components/Page'
 import Header from '../../components/Header'
 import Content from '../../components/Content'
 import Footer from '../../components/Footer'
-import Transaction from '../../components/Transaction'
+import TransactionComponent from '../../components/Transaction'
 import SimpleLabel from '../../components/Label'
 import CellConsumedLabel from '../../components/Label/CellConsumedLabel'
 import {
@@ -25,7 +25,10 @@ import BalanceIcon from '../../asserts/address_balance.png'
 import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/transactions_green.png'
-import { AddressData, TransactionsData } from './mock'
+import Address from '../../http/response/Address'
+import { Response } from '../../http/response/Response'
+import { Transaction } from '../../http/response/Transaction'
+import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
 
 const AddressTitle = ({ address }: { address: string }) => {
   return (
@@ -55,25 +58,55 @@ const AddressScriptLabel = ({ image, label, value }: { image: string; label: str
   )
 }
 
-export default (
-  props: React.PropsWithoutRef<RouteComponentProps<{ address: string; pageNo: string; pageSize: string }>>,
-) => {
+export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string }>>) => {
   const { match } = props
   const { params } = match
-  const { address, pageNo, pageSize } = params
+  const { address } = params
 
-  const [currentPageNo, setCurrentPageNo] = useState(pageNo === undefined ? 1 : parseInt(pageNo, 10))
-  const [currentPageSize, setCurrentPageSize] = useState(pageSize === undefined ? 3 : parseInt(pageSize, 10))
+  const initTransactions: Transaction[] = []
+  const initAddress: Address = {
+    address_hash: '',
+    balance: 0,
+    transactions_count: 0,
+    cell_consumed: 0,
+    lock_script: {
+      args: [],
+      binary_hash: '',
+    },
+  }
+  const [addressData, setAddressData] = useState(initAddress)
+  const [transactionsData, setTrasactionsData] = useState(initTransactions)
+  const [totalTransactions, setTotalTransactions] = useState(1)
+  const [pageSize, setPageSize] = useState(3)
+  const [pageNo, setPageNo] = useState(1)
 
-  // TODO: fetch transaction data from server
-  const getTransactionOfAddress = (page: number, size: number) => {
-    return TransactionsData.data.slice((page - 1) * size, page * size)
+  const getAddressInfo = () => {
+    fetchAddressInfo(address).then(data => {
+      setAddressData(data as Address)
+    })
   }
 
+  const getTransactions = (page: number, size: number) => {
+    fetchTransactionsByAddress(address).then(response => {
+      const { data, pagination } = response as Response<Transaction[]>
+      if (pagination) {
+        const { total } = pagination
+        setTotalTransactions(total)
+      }
+      const transactions = data.slice((page - 1) * size, page * size)
+      setTrasactionsData(transactions)
+    })
+  }
+
+  useEffect(() => {
+    getAddressInfo()
+    getTransactions(pageNo, pageSize)
+  }, [])
+
   const onChange = (page: number, size: number) => {
-    setCurrentPageNo(page)
-    setCurrentPageSize(size)
-    getTransactionOfAddress(page, size)
+    setPageSize(size)
+    setPageNo(page)
+    getTransactions(page, size)
   }
 
   return (
@@ -85,11 +118,11 @@ export default (
           <AddressOverview value="Overview" />
           <AddressCommonContent>
             <AddressCommonRowPanel>
-              <SimpleLabel image={BalanceIcon} label="Balance: " value={`${AddressData.data.balance} CKB`} />
+              <SimpleLabel image={BalanceIcon} label="Balance: " value={`${addressData.balance} CKB`} />
               <SimpleLabel
                 image={TransactionsIcon}
                 label="Transactions : "
-                value={`${AddressData.data.transactions_count}`}
+                value={`${addressData.transactions_count}`}
                 style={{
                   marginRight: '25%',
                 }}
@@ -99,26 +132,26 @@ export default (
             <CellConsumedLabel
               image={CellConsumedIcon}
               label="Cell Consumed: "
-              consumed={AddressData.data.cell_consumed}
-              balance={AddressData.data.balance}
+              consumed={addressData.cell_consumed}
+              balance={addressData.balance}
             />
-            <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " value={AddressData.data.lock_script} />
+            <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " value={addressData.lock_script} />
           </AddressCommonContent>
 
           <AddressTransactionsPanel>
             <AddressOverview value="Transactions" />
             <div>
-              {getTransactionOfAddress(currentPageNo, currentPageSize).map((transaction: any) => {
-                return <Transaction transaction={transaction} key={transaction.transaction_hash} />
+              {transactionsData.map((transaction: any) => {
+                return <TransactionComponent transaction={transaction} key={transaction.transaction_hash} />
               })}
             </div>
             <AddressTransactionsPagition>
               <Pagination
                 showQuickJumper
                 showSizeChanger
-                defaultPageSize={currentPageSize}
-                defaultCurrent={currentPageNo}
-                total={TransactionsData.data.length}
+                defaultPageSize={pageSize}
+                defaultCurrent={pageNo}
+                total={totalTransactions}
                 onChange={onChange}
               />
             </AddressTransactionsPagition>

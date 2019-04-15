@@ -25,6 +25,14 @@ export const BlockData = {
 
 export const TransactionsData = {
   type: 'address_transaction',
+  pagination: {
+    previous: 1,
+    next: 3,
+    current: 2,
+    page_size: 20,
+    total: 200,
+    pages: 10,
+  },
   data: [
     {
       transaction_hash: '0x3abd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae324',
