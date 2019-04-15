@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import AppContext from '../../contexts/App'
 
@@ -10,7 +10,8 @@ import SimpleLabel from '../../components/Label'
 import {
   TransactionDiv,
   TransactionOverviewLabel,
-  PanelDiv,
+  InputPanelDiv,
+  OutputPanelDiv,
   InputOutputTable,
   TransactionTitlePanel,
   TransactionCommonContent,
@@ -23,35 +24,41 @@ import VersionIcon from '../../asserts/version.png'
 import CopyGreenIcon from '../../asserts/copy_green.png'
 import CopyIcon from '../../asserts/copy.png'
 import { parseSimpleDate } from '../../utils/date'
+import { Transaction } from '../../http/response/Transaction'
+import Script from '../../http/response/Script'
+import { fetchTransactionByHash, fetchScript } from '../../http/fetcher'
 
-import { TransactionData, Cell } from '../../http/mock/transaction'
+const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
 
-const operationItems = ['Lock Script', 'Type Script', 'Data']
-
-const RowData = ({
-  type,
-  data,
-  whichToLoad = null,
+const ScriptComponent = ({
+  cellType,
+  cellData,
+  scriptType = null,
   updateCellData,
 }: {
-  type: 'input' | 'output'
-  data: any
-  whichToLoad?: 'Lock Script' | 'Type Script' | 'Data' | null
+  cellType: 'input' | 'output'
+  cellData: any
+  scriptType?: 'Lock Script' | 'Type Script' | 'Data' | null
   updateCellData: Function
 }) => {
   const appContext = useContext(AppContext)
+  const initScript: Script = {
+    binary_hash: '',
+    args: [],
+  }
+  const [script, setScript] = useState(initScript)
 
   return (
     <>
       <tr className="tr-brief">
-        <td>{`#${data[`${type}_id`]}`}</td>
+        <td>{`#${cellData[`${cellType}_id`]}`}</td>
         <td>
-          <Link to={`/address/${data.address_hash}`}>{data.address_hash}</Link>
+          <Link to={`/address/${cellData.address_hash}`}>{cellData.address_hash}</Link>
         </td>
-        <td>{data.capacity}</td>
-        {operationItems.map((item: string) => {
+        <td>{cellData.capacity}</td>
+        {ScriptTypeItems.map(item => {
           let className = 'td-operatable'
-          if (data.open === item) {
+          if (cellData.select === item) {
             className += ' td-operatable-active '
           }
           return (
@@ -62,16 +69,19 @@ const RowData = ({
                 className={className}
                 onKeyPress={() => {}}
                 onClick={() => {
-                  const newData = {
-                    ...data,
+                  const newCellData = {
+                    ...cellData,
                   }
-                  if (newData.open === item) {
-                    newData.open = null
-                  } else {
-                    newData.open = item
-                    newData[item] = Cell.data
-                  }
-                  updateCellData(type, data[`${type}_id`], newData)
+                  fetchScript().then(data => {
+                    setScript(data as Script)
+                    if (newCellData.select === item) {
+                      newCellData.select = null
+                    } else {
+                      newCellData.select = item
+                      newCellData[item] = script.binary_hash
+                    }
+                    updateCellData(cellType, cellData[`${cellType}_id`], newCellData)
+                  })
                 }}
               >
                 {item}
@@ -80,13 +90,13 @@ const RowData = ({
           )
         })}
       </tr>
-      {whichToLoad ? (
+      {scriptType ? (
         <tr className="tr-detail">
           <td />
           <td colSpan={5}>
             <textarea
-              id={`textarea-${type}${+'-'}${data[`${type}_id`]}`}
-              defaultValue={JSON.stringify(Cell.data, null, 4)}
+              id={`textarea-${cellType}${+'-'}${cellData[`${cellType}_id`]}`}
+              defaultValue={JSON.stringify(script, null, 4)}
             />
             <div className="tr-detail-td-buttons">
               <div
@@ -95,30 +105,8 @@ const RowData = ({
                 className="td-operatable"
                 onKeyPress={() => {}}
                 onClick={() => {
-                  // keep handle
-                }}
-              >
-                {'Default'}
-              </div>
-              <div
-                role="button"
-                tabIndex={-1}
-                className="td-operatable"
-                onKeyPress={() => {}}
-                onClick={() => {
-                  // keep handle
-                }}
-              >
-                {'UTF-8'}
-              </div>
-              <div
-                role="button"
-                tabIndex={-1}
-                className="td-operatable"
-                onKeyPress={() => {}}
-                onClick={() => {
                   const textarea = document.getElementById(
-                    `textarea-${type}${+'-'}${data[`${type}_id`]}`,
+                    `textarea-${cellType}${+'-'}${cellData[`${cellType}_id`]}`,
                   ) as HTMLTextAreaElement
                   textarea.select()
                   document.execCommand('copy')
@@ -149,26 +137,64 @@ const TransactionTitle = ({ hash, onClick }: { hash: string; onClick: any }) => 
     </TransactionTitlePanel>
   )
 }
+
+const InputOutputTableTitle = ({ transactionType }: { transactionType: string }) => {
+  return (
+    <thead>
+      <tr>
+        <td colSpan={2}>{transactionType}</td>
+        <td>
+          <div>Capcity</div>
+        </td>
+        <td colSpan={3}>
+          <div>Detail</div>
+        </td>
+      </tr>
+    </thead>
+  )
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
   const { match } = props
   const { params } = match
   const { hash } = params
 
   const appContext = useContext(AppContext)
-  const [transaction, setTransaction] = useState(TransactionData.data)
-  const updateCellData = (type: 'string', id: number, newData: any) => {
+  const initTransaction: Transaction = {
+    transaction_hash: '',
+    block_number: '',
+    block_timestamp: 0,
+    transaction_fee: 0,
+    version: 0,
+    display_inputs: [],
+    display_outputs: [],
+  }
+  const [transaction, setTransaction] = useState(initTransaction)
+
+  const updateCellData = (cellType: string, cellId: number, newCellData: any) => {
     setTransaction((state: any) => {
       const newState: any = {
         ...state,
       }
-      newState[`display_${type}s`].forEach((item: any, i: number) => {
-        if (item[`${type}_id`] === id) {
-          newState[`display_${type}s`][i] = newData
+      newState[`display_${cellType}s`].forEach((item: any, i: number) => {
+        if (item[`${cellType}_id`] === cellId) {
+          newState[`display_${cellType}s`][i] = newCellData
         }
       })
       return newState
     })
   }
+
+  const getTransaction = () => {
+    fetchTransactionByHash(hash).then(data => {
+      setTransaction(data as Transaction)
+    })
+  }
+
+  useEffect(() => {
+    getTransaction()
+  }, [])
+
   return (
     <Page>
       <Header />
@@ -205,81 +231,45 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
             </div>
           </TransactionCommonContent>
 
-          <PanelDiv
-            style={{
-              marginTop: 20,
-              minHeight: 88,
-              padding: '30px 50px',
-            }}
-          >
-            <div>
-              <InputOutputTable>
-                <thead>
-                  <tr>
-                    <td colSpan={2}>Input</td>
-                    <td>
-                      <div>Capcity</div>
-                    </td>
-                    <td colSpan={3}>
-                      <div>Detail</div>
-                    </td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {TransactionData &&
-                    transaction.display_inputs.map((input: any) => {
-                      return (
-                        <RowData
-                          type="input"
-                          key={input.input_id}
-                          data={input}
-                          whichToLoad={input.open || null}
-                          updateCellData={updateCellData}
-                        />
-                      )
-                    })}
-                </tbody>
-              </InputOutputTable>
-            </div>
-          </PanelDiv>
+          <InputPanelDiv>
+            <InputOutputTable>
+              <InputOutputTableTitle transactionType="Input" />
+              <tbody>
+                {transaction &&
+                  transaction.display_inputs.map((input: any) => {
+                    return (
+                      <ScriptComponent
+                        cellType="input"
+                        key={input.input_id}
+                        cellData={input}
+                        scriptType={input.select || null}
+                        updateCellData={updateCellData}
+                      />
+                    )
+                  })}
+              </tbody>
+            </InputOutputTable>
+          </InputPanelDiv>
 
-          <PanelDiv
-            style={{
-              marginTop: 10,
-              minHeight: 88,
-              padding: '30px 50px',
-            }}
-          >
-            <div>
-              <InputOutputTable>
-                <thead>
-                  <tr>
-                    <td colSpan={2}>Output</td>
-                    <td>
-                      <div>Capcity</div>
-                    </td>
-                    <td colSpan={3}>
-                      <div>Detail</div>
-                    </td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {TransactionData &&
-                    transaction.display_outputs.map((ouput: any) => {
-                      return (
-                        <RowData
-                          type="output"
-                          key={ouput.output_id}
-                          data={ouput}
-                          whichToLoad={ouput.open || null}
-                          updateCellData={updateCellData}
-                        />
-                      )
-                    })}
-                </tbody>
-              </InputOutputTable>
-            </div>
-          </PanelDiv>
+          <OutputPanelDiv>
+            <InputOutputTable>
+              <InputOutputTableTitle transactionType="Output" />
+              <tbody>
+                {transaction &&
+                  transaction.display_outputs.map((ouput: any) => {
+                    return (
+                      <ScriptComponent
+                        cellType="output"
+                        key={ouput.output_id}
+                        cellData={ouput}
+                        scriptType={ouput.select || null}
+                        updateCellData={updateCellData}
+                      />
+                    )
+                  })}
+              </tbody>
+            </InputOutputTable>
+          </OutputPanelDiv>
         </TransactionDiv>
       </Content>
       <Footer />

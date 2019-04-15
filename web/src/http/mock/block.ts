@@ -24,7 +24,7 @@ export const BlockData = {
 }
 
 export const TransactionsData = {
-  type: 'address_transaction',
+  type: 'block_transaction',
   pagination: {
     previous: 1,
     next: 3,
