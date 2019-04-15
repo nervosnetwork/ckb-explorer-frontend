@@ -25,9 +25,9 @@ import BalanceIcon from '../../asserts/address_balance.png'
 import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/transactions_green.png'
-import Address from '../../http/response/Address'
+import { Address } from '../../http/response/Address'
 import { Response } from '../../http/response/Response'
-import { Transaction } from '../../http/response/Transaction'
+import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
 
 const AddressTitle = ({ address }: { address: string }) => {
@@ -63,7 +63,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   const { params } = match
   const { address } = params
 
-  const initTransactions: Transaction[] = []
+  const initTransactionWrappers: TransactionWrapper[] = []
   const initAddress: Address = {
     address_hash: '',
     balance: 0,
@@ -75,7 +75,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     },
   }
   const [addressData, setAddressData] = useState(initAddress)
-  const [transactionsData, setTrasactionsData] = useState(initTransactions)
+  const [transactionWrappers, setTrasactionWrappers] = useState(initTransactionWrappers)
   const [totalTransactions, setTotalTransactions] = useState(1)
   const [pageSize, setPageSize] = useState(3)
   const [pageNo, setPageNo] = useState(1)
@@ -88,13 +88,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
 
   const getTransactions = (page: number, size: number) => {
     fetchTransactionsByAddress(address).then(response => {
-      const { data, pagination } = response as Response<Transaction[]>
-      if (pagination) {
-        const { total } = pagination
+      const { data, meta } = response as Response<TransactionWrapper[]>
+      if (meta) {
+        const { total } = meta
         setTotalTransactions(total)
       }
       const transactions = data.slice((page - 1) * size, page * size)
-      setTrasactionsData(transactions)
+      setTrasactionWrappers(transactions)
     })
   }
 
@@ -141,8 +141,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
           <AddressTransactionsPanel>
             <AddressOverview value="Transactions" />
             <div>
-              {transactionsData.map((transaction: any) => {
-                return <TransactionComponent transaction={transaction} key={transaction.transaction_hash} />
+              {transactionWrappers.map((transaction: any) => {
+                return <TransactionComponent transaction={transaction} key={transaction.attributes.transaction_hash} />
               })}
             </div>
             <AddressTransactionsPagition>

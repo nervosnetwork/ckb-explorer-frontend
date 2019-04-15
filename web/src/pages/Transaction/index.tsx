@@ -25,7 +25,7 @@ import CopyGreenIcon from '../../asserts/copy_green.png'
 import CopyIcon from '../../asserts/copy.png'
 import { parseSimpleDate } from '../../utils/date'
 import { Transaction } from '../../http/response/Transaction'
-import Script from '../../http/response/Script'
+import { Script } from '../../http/response/Script'
 import { fetchTransactionByHash, fetchScript } from '../../http/fetcher'
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']

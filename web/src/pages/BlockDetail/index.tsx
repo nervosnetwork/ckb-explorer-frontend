@@ -36,10 +36,10 @@ import ProofIcon from '../../asserts/proof.png'
 import PreviousBlockIcon from '../../asserts/left_arrow.png'
 import NextBlockIcon from '../../asserts/right_arrow.png'
 import MouseIcon from '../../asserts/block_mouse.png'
-import Block from '../../http/response/Block'
+import { Block } from '../../http/response/Block'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
-import { Transaction } from '../../http/response/Transaction'
+import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchBlockByHash, fetchTransactionsByBlockHash } from '../../http/fetcher'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
@@ -98,8 +98,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     proof: '',
   }
   const [blockData, setBlockData] = useState(initBlock)
-  const initTransactions: Transaction[] = []
-  const [transactionsData, setTrasactionsData] = useState(initTransactions)
+  const initTransactionWrappers: TransactionWrapper[] = []
+  const [transactionsWrapper, setTrasactionsWrapper] = useState(initTransactionWrappers)
   const [totalTransactions, setTotalTransactions] = useState(1)
   const [pageSize, setPageSize] = useState(3)
   const [pageNo, setPageNo] = useState(1)
@@ -112,13 +112,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
 
   const getTransactions = (page: number, size: number) => {
     fetchTransactionsByBlockHash(hash).then(response => {
-      const { data, pagination } = response as Response<Transaction[]>
-      if (pagination) {
-        const { total } = pagination
+      const { data, meta } = response as Response<TransactionWrapper[]>
+      if (meta) {
+        const { total } = meta
         setTotalTransactions(total)
       }
       const transactions = data.slice((page - 1) * size, page * size)
-      setTrasactionsData(transactions)
+      setTrasactionsWrapper(transactions)
     })
   }
 
@@ -247,8 +247,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <BlockTransactionsPanel>
             <BlockOverview value="Transactions" />
             <div>
-              {transactionsData.map((transaction: any) => {
-                return <TransactionComponent transaction={transaction} key={transaction.transaction_hash} />
+              {transactionsWrapper.map((transaction: any) => {
+                return <TransactionComponent transaction={transaction} key={transaction.attributes.transaction_hash} />
               })}
             </div>
             <BlockTransactionsPagition>
