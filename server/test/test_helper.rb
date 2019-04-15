@@ -115,11 +115,18 @@ def prepare_api_wrapper
   end
 end
 
+module RequestHelpers
+  def json
+    JSON.parse(response.body)
+  end
+end
+
 module ActiveSupport
   class TestCase
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     # fixtures :all
     include FactoryBot::Syntax::Methods
+    include ::RequestHelpers
 
     # Add more helper methods to be used by all tests here...
     def before_setup
