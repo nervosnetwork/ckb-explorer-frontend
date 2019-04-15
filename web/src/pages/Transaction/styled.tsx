@@ -105,6 +105,19 @@ export const PanelDiv = styled.div`
     overflow-x: auto;
   }
 `
+
+export const InputPanelDiv = styled(PanelDiv)`
+  margin-top: 20px;
+  min-height: 88px;
+  padding: 30px 50px;
+`
+
+export const OutputPanelDiv = styled(PanelDiv)`
+  margin-top: 10px;
+  min-height: 88px;
+  padding: 30px 50px;
+`
+
 export const BriefInfoDiv = styled(PanelDiv)`
   padding: ${(props: { width: number }) => `60px ${(14 * props.width) / 1920}px`};
   margin-top: 80px;
@@ -238,14 +251,6 @@ export const InputOutputTable = styled.table`
               border-radius: 2px 2px;
               &:nth-child(1) {
                 border: 1px solid #4bbc8e;
-                color: #4bbc8e;
-              }
-              &:nth-child(2) {
-                border: 1px solid #888888;
-                color: #888888;
-              }
-              &:nth-child(3) {
-                border: 1px solid #4bbc8e;
                 background-color: #4bbc8e;
                 color: white;
                 display: flex;
@@ -269,6 +274,9 @@ export const InputOutputTable = styled.table`
         padding-bottom: 4px;
       }
       .td-operatable-active {
+        cursor: pointer;
+        text-align: center;
+        padding-bottom: 4px;
         border-bottom: 2px solid #4bbc8e;
       }
     }

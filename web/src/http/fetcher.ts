@@ -4,6 +4,7 @@ import BlocksData from './mock/home'
 import BlockListData from './mock/block_list'
 import { AddressData, TransactionsData } from './mock/address'
 import { BlockData } from './mock/block'
+import { TransactionData, CellData } from './mock/transaction'
 
 const baseURL = 'http://localhost:3000/'
 
@@ -55,7 +56,7 @@ export const fetchTransactionsByAddress = (address: string) => {
 
 export const fetchTransactionByHash = (hash: string) => {
   return new Promise(function(resolve, reject) {
-    resolve(TransactionsData.data)
+    resolve(TransactionData.data)
     if (false) reject(hash)
   })
 }
@@ -71,6 +72,13 @@ export const fetchBlockByHash = (hash: string) => {
   return new Promise(function(resolve, reject) {
     resolve(BlockData.data)
     if (false) reject(hash)
+  })
+}
+
+export const fetchScript = () => {
+  return new Promise(function(resolve, reject) {
+    resolve(CellData.data)
+    if (false) reject()
   })
 }
 

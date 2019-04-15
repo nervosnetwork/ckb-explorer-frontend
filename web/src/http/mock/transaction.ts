@@ -1,4 +1,8 @@
-const TransactionData = {
+import { Transaction } from '../response/Transaction'
+import Script from '../response/Script'
+import { Response } from '../response/Response'
+
+const TransactionData: Response<Transaction> = {
   type: 'transaction',
   data: {
     transaction_hash: '0x3abd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae324',
@@ -35,18 +39,16 @@ const TransactionData = {
   message: 'success',
 }
 
-const Cell = {
+const CellData: Response<Script | string> = {
   type: 'cell',
   cell_type: 'input',
   data_type: 'lock_script',
   data: {
-    version: 0,
-    reference: '0x97f982dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683eadeacd',
-    signed_args: ['0x97f982dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683eadeacd'],
+    binary_hash: '0x97f982dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683eadeacd',
     args: ['0x99f982dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683eadeacf'],
   },
   status: 200,
   message: 'success',
 }
 
-export { TransactionData, Cell }
+export { TransactionData, CellData }
