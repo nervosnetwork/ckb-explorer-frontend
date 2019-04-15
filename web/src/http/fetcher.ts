@@ -30,7 +30,7 @@ export const fetchBlocks = () => {
 
 export const fetchBlocksList = () => {
   return new Promise(function(resolve, reject) {
-    resolve(BlockListData.data)
+    resolve(BlockListData)
     if (false) reject()
   })
 }

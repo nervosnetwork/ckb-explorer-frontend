@@ -21,28 +21,34 @@ import MinerIcon from '../../asserts/miner.png'
 import TimestampIcon from '../../asserts/timestamp.png'
 import { fetchBlocksList } from '../../http/fetcher'
 import Block from '../../http/response/Block'
+import { Response } from '../../http/response/Response'
 
 export default () => {
-  const PageSize = 5
-  const currentPageNo = 1
-
   const initBlocks: Block[] = []
   const [blocksData, setBlocksData] = useState(initBlocks)
   const [totalBlocks, setTotalBlocks] = useState(1)
+  const [pageSize, setPageSize] = useState(3)
+  const [pageNo, setPageNo] = useState(1)
 
   const getBlocks = (page: number, size: number) => {
-    fetchBlocksList().then(data => {
-      setTotalBlocks((data as Block[]).length)
-      const blocks = (data as Block[]).slice((page - 1) * size, page * size)
+    fetchBlocksList().then(response => {
+      const { data, pagination } = response as Response<Block[]>
+      if (pagination) {
+        const { total } = pagination
+        setTotalBlocks(total)
+      }
+      const blocks = data.slice((page - 1) * size, page * size)
       setBlocksData(blocks)
     })
   }
 
   useEffect(() => {
-    getBlocks(currentPageNo, PageSize)
+    getBlocks(pageNo, pageSize)
   }, [])
 
   const onChange = (page: number, size: number) => {
+    setPageSize(size)
+    setPageNo(page)
     getBlocks(page, size)
   }
 
@@ -79,8 +85,8 @@ export default () => {
             <Pagination
               showQuickJumper
               showSizeChanger
-              defaultPageSize={PageSize}
-              defaultCurrent={1}
+              defaultPageSize={pageSize}
+              defaultCurrent={pageNo}
               total={totalBlocks}
               onChange={onChange}
             />
