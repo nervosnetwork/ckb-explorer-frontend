@@ -32,6 +32,8 @@ module Server
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
+    config.autoload_paths += %W(#{config.root}/app/serializers)
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins "*"
