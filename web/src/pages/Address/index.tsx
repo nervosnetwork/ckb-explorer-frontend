@@ -142,7 +142,12 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
             <AddressOverview value="Transactions" />
             <div>
               {transactionWrappers.map((transaction: any) => {
-                return <TransactionComponent transaction={transaction} key={transaction.attributes.transaction_hash} />
+                return (
+                  <TransactionComponent
+                    transaction={transaction.attributes}
+                    key={transaction.attributes.transaction_hash}
+                  />
+                )
               })}
             </div>
             <AddressTransactionsPagition>
