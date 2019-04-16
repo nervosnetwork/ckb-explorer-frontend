@@ -11,6 +11,12 @@ class CkbTransaction < ApplicationRecord
   validates :transaction_fee, numericality: { greater_than_or_equal_to: 0 }
 
   attribute :tx_hash, :ckb_hash
+
+  def self.find_ckb_transaction(tx_hash)
+    raise Api::V1::Exceptions::CkbTransactionTxHashInvalidError unless (tx_hash.start_with?(ENV["DEFAULT_HASH_PREFIX"]) && tx_hash.length == ENV["DEFAULT_WITH_PREFIX_HASH_LENGTH"].to_i)
+
+    find_by(tx_hash: tx_hash)
+  end
 end
 
 # == Schema Information
