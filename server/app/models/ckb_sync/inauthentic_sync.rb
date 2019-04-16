@@ -14,7 +14,6 @@ module CkbSync
       private
 
       def sync_node_data
-
         local_tip_block_number = SyncInfo.local_inauthentic_tip_block_number
         node_tip_block_number = CkbSync::Api.instance.get_tip_block_number
 

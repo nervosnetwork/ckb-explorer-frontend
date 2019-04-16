@@ -24,6 +24,10 @@ FactoryBot.define do
       status { "authentic" }
     end
 
+    trait :with_block_hash do
+      block_hash { "0x#{SecureRandom.hex(32)}" }
+    end
+
     trait :with_proposal_transactions do
       proposal_transactions { ["0xb5658716ac", "0xb5658716ac"] }
       proposal_transactions_count { (proposal_transactions.size).to_s }

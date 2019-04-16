@@ -1,4 +1,7 @@
 class Block < ApplicationRecord
+  paginates_per 10
+  max_paginates_per 100
+
   enum status: { inauthentic: 0, authentic: 1, abandoned: 2 }
 
   has_many :ckb_transactions
@@ -15,6 +18,8 @@ class Block < ApplicationRecord
   attribute :miner_hash, :ckb_hash
   attribute :uncle_block_hashes, :ckb_array_hash, hash_length: ENV["DEFAULT_HASH_LENGTH"]
   attribute :proposal_transactions, :ckb_array_hash, hash_length: ENV["DEFAULT_SHORT_HASH_LENGTH"]
+
+  scope :recent, -> { order(id: :desc) }
 
   def verify!(node_block)
     if verified?(node_block.dig("header", "hash"))
