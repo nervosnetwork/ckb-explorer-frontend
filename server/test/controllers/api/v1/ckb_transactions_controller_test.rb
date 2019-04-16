@@ -133,6 +133,45 @@ module Api
 
         assert_equal json, JSON.parse(error_object)
       end
+
+      test "should return corresponding ckb transaction with given transaction hash" do
+        ckb_transaction = create(:ckb_transaction)
+
+        valid_get api_v1_ckb_transaction_url(ckb_transaction.tx_hash)
+
+        assert_equal CkbTransactionSerializer.new(ckb_transaction).serialized_json, response.body
+      end
+
+      test "should contain right keys in the serialized object when call show" do
+        display_inputs = [{
+          from_cellbase: true,
+          input_id: 1,
+          address_hash: "0x3b238b3326d10ec000417b68bc715f17e86293d6cdbcb3fd8a628ad4a0b756f6",
+          capacity: 100
+        },
+        {
+          from_cellbase: true,
+          input_id: 2,
+          address_hash: "0x4b238b3326d10ec000417b68bc715f17e86293d6cdbcb3fd8a628ad4a0b756f6",
+          capacity: 100
+        }]
+        display_outputs = [{
+          output_id: 1,
+          address_hash: "0xbb238b3326d10ec000417b68bc715f17e86293d6cdbcb3fd8a628ad4a0b756f6",
+          capacity: 100
+        },
+        {
+          output_id: 2,
+          address_hash: "0xcb238b3326d10ec000417b68bc715f17e86293d6cdbcb3fd8a628ad4a0b756f6",
+          capacity: 100
+        }]
+        ckb_transaction = create(:ckb_transaction, display_inputs: display_inputs, display_outputs: display_outputs)
+
+        valid_get api_v1_ckb_transaction_url(ckb_transaction.tx_hash)
+
+        response_tx_transaction = json["data"]
+        assert_equal %w(block_number transaction_hash block_timestamp transaction_fee version display_inputs display_outputs).sort, response_tx_transaction["attributes"].keys.sort
+      end
     end
   end
 end
