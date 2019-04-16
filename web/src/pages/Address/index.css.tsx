@@ -148,6 +148,17 @@ export const AddressScriptLabelPanel = styled.div`
   }
 `
 
+export const AddressScriptContent = styled.textarea`
+  border: none;
+  width: 100%;
+  padding: 18px 30px 18px 34px;
+  font-size: 16px;
+  color: #888888;
+  min-height: 170px;
+  background-color: #f9f9f9;
+  border-radius: 6px 6px;
+`
+
 export const AddressTransactionsCell = styled.div`
   display: flex;
   flex-direction: row;

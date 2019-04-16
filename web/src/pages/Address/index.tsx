@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import ReactJson from 'react-json-view'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
 import AppContext from '../../contexts/App'
@@ -16,6 +15,7 @@ import {
   AddressTitlePanel,
   AddressOverviewPanel,
   AddressCommonContent,
+  AddressScriptContent,
   AddressScriptLabelPanel,
   AddressTransactionsPanel,
   AddressCommonRowPanel,
@@ -66,7 +66,7 @@ const AddressScriptLabel = ({ image, label, value }: { image: string; label: str
         <img src={image} alt={value} />
         <span>{label}</span>
       </AddressScriptLabelPanel>
-      <ReactJson src={value} />
+      <AddressScriptContent value={JSON.stringify(value, null, 4)} readOnly />
     </div>
   )
 }
