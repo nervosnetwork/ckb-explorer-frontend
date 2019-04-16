@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import {
   HomeHeaderPanel,
@@ -10,6 +10,7 @@ import {
   ContentTable,
   TableMorePanel,
 } from './index.css'
+import AppContext from '../../contexts/App'
 import { parseDate } from '../../utils/date'
 import Page from '../../components/Page'
 import Header from '../../components/Header'
@@ -32,10 +33,13 @@ import TimestampIcon from '../../asserts/timestamp.png'
 import MoreLeftIcon from '../../asserts/more_left.png'
 import MoreRightIcon from '../../asserts/more_right.png'
 import browserHistory from '../../routes/history'
-import { fetchBlocks } from '../../http/fetcher'
+import { fetchBlocks, fetchSearchResult } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
+import { TransactionWrapper } from '../../http/response/Transaction'
+import { AddressWrapper } from '../../http/response/Address'
 
 export default () => {
+  const appContext = useContext(AppContext)
   const initBlockWrappers: BlockWrapper[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
   useEffect(() => {
@@ -43,6 +47,24 @@ export default () => {
       setBlocksWrappers(data as BlockWrapper[])
     })
   }, [])
+
+  const handleSearchResult = (q: string) => {
+    if (!q) {
+      appContext.toastMessage('Please input valid content', 3000)
+    } else {
+      fetchSearchResult(q).then((data: any) => {
+        if (data.type === 'block') {
+          browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
+        } else if (data.type === 'transaction') {
+          browserHistory.push(`/transaction/${(data as TransactionWrapper).attributes.transaction_hash}`)
+        } else if (data.type === 'address') {
+          browserHistory.push(`/address/${(data as AddressWrapper).attributes.address_hash}`)
+        } else {
+          browserHistory.push('/search/fail')
+        }
+      })
+    }
+  }
 
   return (
     <Page>
@@ -55,13 +77,22 @@ export default () => {
               <div>CKB Testnet Explorer</div>
             </LogoPanel>
             <SearchPanel width={window.innerWidth}>
-              <input placeholder="Block Heigth / Block Hash / TxHash / Address" />
+              <input
+                id="home__search__bar"
+                placeholder="Block Heigth / Block Hash / TxHash / Address"
+                onKeyUp={(event: any) => {
+                  if (event.keyCode === 13) {
+                    handleSearchResult(event.target.value)
+                  }
+                }}
+              />
               <div
                 role="button"
                 tabIndex={-1}
                 onKeyPress={() => {}}
                 onClick={() => {
-                  browserHistory.push('/search/fail')
+                  const homeSearchBar = document.getElementById('home__search__bar') as HTMLInputElement
+                  handleSearchResult(homeSearchBar.value)
                 }}
               >
                 <img src={SearchLogo} alt="search logo" />

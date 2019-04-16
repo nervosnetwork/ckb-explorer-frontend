@@ -90,6 +90,13 @@ export const fetchCellData = () => {
   })
 }
 
+export const fetchSearchResult = (q: string) => {
+  return new Promise(function(resolve, reject) {
+    resolve(AddressData.data)
+    if (false) reject(q)
+  })
+}
+
 export const fetchBlockByNumber = (number: string) =>
   axiosIns
     .get(`blocks/${number}`)
