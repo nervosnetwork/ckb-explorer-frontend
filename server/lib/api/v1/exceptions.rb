@@ -25,6 +25,17 @@ module Api
         end
       end
 
+      class BlockQueryKeyInvalidError < Error
+        def initialize
+          super code: 1003, status: 422, title: "URI parameters is invalid", detail: "URI parameters should be a block hash or a block height", href: "https://github.com/nervosnetwork/ckb-explorer"
+        end
+      end
+
+      class BlockNotFoundError < Error
+        def initialize
+          super code: 1004, status: 404, title: "Block Not Found", detail: "No block records found by given block hash or number", href: "https://github.com/nervosnetwork/ckb-explorer"
+        end
+      end
     end
   end
 end
