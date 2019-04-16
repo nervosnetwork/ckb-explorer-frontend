@@ -12,7 +12,7 @@ module Api
       test "should set right content type when visit index" do
         valid_get api_v1_blocks_url
 
-        assert_equal "application/vnd.api+json", @response.content_type
+        assert_equal "application/vnd.api+json", response.content_type
       end
 
       test "should get serialized objects" do
@@ -21,7 +21,7 @@ module Api
 
         valid_get api_v1_blocks_url
 
-        assert_equal BlockSerializer.new(blocks).serialized_json, @response.body
+        assert_equal BlockSerializer.new(blocks).serialized_json, response.body
       end
 
       test "serialized objects should in reverse order of id" do
@@ -40,7 +40,7 @@ module Api
 
         valid_get api_v1_blocks_url
 
-        response_block = JSON.parse(@response.body)["data"].first
+        response_block = json["data"].first
         assert_equal %w(block_hash number transactions_count proposal_transactions_count uncles_count uncle_block_hashes reward total_transaction_fee cell_consumed total_cell_capacity miner_hash timestamp difficulty version nonce proof).sort, response_block["attributes"].keys.sort
       end
 
@@ -120,6 +120,79 @@ module Api
         assert_equal parsed_block, json["data"].first
       end
 
+      test "should get success code when visit show" do
+        block = create(:block)
+
+        valid_get api_v1_block_url(block.block_hash)
+
+        assert_response :success
+      end
+
+      test "should set right content type when visit show" do
+        valid_get api_v1_block_url(1)
+
+        assert_equal "application/vnd.api+json", response.content_type
+      end
+
+      test "should contain right keys in the serialized object when vist show" do
+        block = create(:block)
+
+        valid_get api_v1_block_url(block.block_hash)
+
+        response_block = json["data"]
+        assert_equal %w(block_hash number transactions_count proposal_transactions_count uncles_count uncle_block_hashes reward total_transaction_fee cell_consumed total_cell_capacity miner_hash timestamp difficulty version nonce proof).sort, response_block["attributes"].keys.sort
+      end
+
+      test "should respond with 415 Unsupported Media Type when Content-Type is wrong when vist show" do
+        get api_v1_block_url(1), headers: { "Content-Type": "text/plain" }
+
+        assert_equal 415, response.status
+      end
+
+      test "should respond with error object when Content-Type is wrong when vist show" do
+        error_object = {
+          message: "Unsupported Media Type",
+          errors: [
+            {
+              code: 1001,
+              status: 415,
+              title: "Unsupported Media Type",
+              detail: "Content Type must be application/vnd.api+json",
+              href: "https://github.com/nervosnetwork/ckb-explorer"
+            }
+          ]
+        }
+
+        get api_v1_block_url(1), headers: { "Content-Type": "text/plain" }
+
+        assert_equal json, JSON.parse(error_object.to_json)
+      end
+
+      test "should respond with 406 Not Acceptable when Accept is wrong when vist show" do
+        get api_v1_block_url(1), headers: { "Content-Type": "application/vnd.api+json", "Accept": "application/json" }
+
+        assert_equal 406, response.status
+      end
+
+      test "should respond with error object when Accept is wrong when vist show" do
+        error_object = {
+          message: "Not Acceptable",
+          errors: [
+            {
+              code: 1002,
+              status: 406,
+              title: "Not Acceptable",
+              detail: "Accept must be application/vnd.api+json",
+              href: "https://github.com/nervosnetwork/ckb-explorer"
+            }
+          ]
+        }.to_json
+
+        get api_v1_block_url(1), headers: { "Content-Type": "application/vnd.api+json", "Accept": "application/json" }
+
+        assert_equal json, JSON.parse(error_object)
+      end
+
       test "should return error object when id is not a hex start with 0x" do
         error_object = {
           message: "URI parameters is invalid",
@@ -134,7 +207,7 @@ module Api
           ]
         }.to_json
 
-        valid_get api_v1_block_url(id: "9034fwefwef")
+        valid_get api_v1_block_url("9034fwefwef")
 
         assert_equal json, JSON.parse(error_object)
       end
@@ -153,7 +226,7 @@ module Api
           ]
         }.to_json
 
-        valid_get api_v1_block_url(id: "0xawefwef")
+        valid_get api_v1_block_url("0xawefwef")
 
         assert_equal json, JSON.parse(error_object)
       end
@@ -172,7 +245,7 @@ module Api
           ]
         }.to_json
 
-        valid_get api_v1_block_url(id: "0.87")
+        valid_get api_v1_block_url("0.87")
 
         assert_equal json, JSON.parse(error_object)
       end
@@ -180,7 +253,7 @@ module Api
       test "should return corresponding block with given block hash" do
         block = create(:block)
 
-        valid_get api_v1_block_url(id: block.block_hash)
+        valid_get api_v1_block_url(block.block_hash)
 
         assert_equal JSON.parse(BlockSerializer.new(block).serialized_json), json
       end
@@ -188,7 +261,7 @@ module Api
       test "should return corresponding block with given height" do
         block = create(:block)
 
-        valid_get api_v1_block_url(id: block.number)
+        valid_get api_v1_block_url(block.number)
 
         assert_equal JSON.parse(BlockSerializer.new(block).serialized_json), json
       end
