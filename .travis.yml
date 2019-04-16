@@ -3,24 +3,32 @@ dist: xenial
 jobs:
   include:
     - language: ruby
+      services:
+        - postgresql
+      addons:
+        postgresql: "10"
       rvm:
-        - 2.4.5
         - 2.5.3
-        - 2.6.1
       env:
-        - SKIP_RPC_TESTS=true
-      cache: 
-        - bundler
-      before_install: 
+        global:
+          - RAILS_ENV=test
+      cache:
+        bundler: true
+      before_install:
         - cd server
         - gem install bundler -v 2.0.1
         - sudo apt-get update
         - sudo apt-get install -y libsodium-dev
       install:
+        - git clone https://github.com/bitcoin-core/secp256k1.git && cd secp256k1 && ./autogen.sh && ./configure --enable-module-recovery && make && ./tests && sudo make install && cd ..
         - bundle install
+      before_script:
+        - cp config/database.yml.travis config/database.yml
+        - psql -c 'create database "ckb_explorer_test";' -U postgres
+        - cp .env.test.local.travis .env.test.local
       script:
-        - bundle exec rake
-
+        - bundle exec rails db:migrate
+        - bundle exec rails test
 
     - language: node_js
       node_js:
