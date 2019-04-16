@@ -3,7 +3,8 @@ module Api
     class CkbTransactionsController < ApplicationController
       def show
         ckb_transaction = CkbTransaction.find_ckb_transaction(params[:id])
-        render json: ckb_transaction.to_json
+
+        render json: CkbTransactionSerializer.new(ckb_transaction)
       end
     end
   end
