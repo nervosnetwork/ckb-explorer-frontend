@@ -137,13 +137,30 @@ const ScriptComponent = ({
   )
 }
 
-const TransactionTitle = ({ hash, onClick }: { hash: string; onClick: any }) => {
+const TransactionTitle = ({ hash }: { hash: string }) => {
+  const appContext = useContext(AppContext)
   return (
     <TransactionTitlePanel>
       <div className="transaction__title">Transaction</div>
       <div className="transaction__content">
         <div id="transaction__hash">{hash}</div>
-        <div role="button" tabIndex={-1} onKeyDown={() => {}} onClick={onClick}>
+        <div
+          role="button"
+          tabIndex={-1}
+          onKeyDown={() => {}}
+          onClick={() => {
+            const transactionDiv = document.getElementById('transaction__hash')
+            if (transactionDiv) {
+              const selection = window.getSelection()
+              const range = document.createRange()
+              range.selectNodeContents(transactionDiv)
+              selection.removeAllRanges()
+              window.getSelection().addRange(range)
+              document.execCommand('Copy')
+              appContext.toastMessage('copy success', 3000)
+            }
+          }}
+        >
           <img src={CopyIcon} alt="copy" />
         </div>
       </div>
@@ -172,7 +189,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const { params } = match
   const { hash } = params
 
-  const appContext = useContext(AppContext)
   const initTransaction: Transaction = {
     transaction_hash: '',
     block_number: '',
@@ -213,20 +229,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       <Header />
       <Content>
         <TransactionDiv className="container">
-          <TransactionTitle
-            hash={hash}
-            onClick={() => {
-              const transactionDiv = document.getElementById('transaction__hash')
-              if (transactionDiv) {
-                const div = document.createRange()
-                div.setStartBefore(transactionDiv)
-                div.setEndAfter(transactionDiv)
-                window.getSelection().addRange(div)
-                document.execCommand('copy')
-                appContext.toastMessage('copy success', 3000)
-              }
-            }}
-          />
+          <TransactionTitle hash={hash} />
           <TransactionOverviewLabel>Overview</TransactionOverviewLabel>
           <TransactionCommonContent>
             <div>
