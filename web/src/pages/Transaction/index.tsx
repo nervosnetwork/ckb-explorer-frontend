@@ -78,12 +78,10 @@ const ScriptComponent = ({
                     ...cellInputOutput,
                   }
                   newCellInputOutput.select = newCellInputOutput.select === item ? null : item
-                  console.log(`onClick: ${JSON.stringify(newCellInputOutput)}`)
                   if (item === 'Lock Script') {
                     fetchScript().then(data => {
                       setScript(data as Script)
                       updateCellData(cellType, cellInputOutput[`${cellType}_id`], newCellInputOutput)
-                      console.log('Lock Script')
                     })
                   } else if (item === 'Type Script') {
                     fetchScript().then(data => {
@@ -94,7 +92,6 @@ const ScriptComponent = ({
                     fetchCellData().then(data => {
                       setCellData(data as Data)
                       updateCellData(cellType, cellInputOutput[`${cellType}_id`], newCellInputOutput)
-                      console.log(`Data: ${JSON.stringify(cellData)}`)
                     })
                   }
                 }}
@@ -111,8 +108,8 @@ const ScriptComponent = ({
           <td colSpan={5}>
             <textarea
               id={`textarea-${cellType}${+'-'}${cellInputOutput[`${cellType}_id`]}`}
-              defaultValue={JSON.stringify(script.binary_hash ? script : cellData, null, 4)}
-              value={JSON.stringify(script.binary_hash ? script : cellData, null, 4)}
+              value={JSON.stringify(scriptType === 'Data' ? cellData : script, null, 4)}
+              readOnly
             />
             <div className="tr-detail-td-buttons">
               <div
@@ -197,7 +194,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           newState[`display_${cellType}s`][i] = newCellInputOutput
         }
       })
-      console.log(`updateCellData: ${JSON.stringify(newState)}`)
       return newState
     })
   }
