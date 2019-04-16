@@ -67,7 +67,7 @@ module CkbSync
         ckb_transaction_and_display_cell_hashes.map do |ckb_transaction_and_display_cell_hash|
           transaction = ckb_transaction_and_display_cell_hash[:transaction]
           transaction.display_inputs = ckb_transaction_and_display_cell_hash[:inputs].map { |input| build_display_input(input) }
-          transaction.display_outputs = ckb_transaction_and_display_cell_hash[:outputs].map { |output| { id: output.id, capacity: output.capacity } }
+          transaction.display_outputs = ckb_transaction_and_display_cell_hash[:outputs].map { |output| { id: output.id, capacity: output.capacity, address_hash: output.address_hash } }
           transaction
         end
       end
@@ -77,11 +77,12 @@ module CkbSync
         previous_transaction_hash = outpoint["hash"]
         previous_output_index = outpoint["index"]
         if CellOutput::BASE_HASH == previous_transaction_hash
-          { id: nil, capacity: CellOutput::INITIAL_BLOCK_REWARD }
+          { id: nil, from_cellbase: true, capacity: CellOutput::INITIAL_BLOCK_REWARD, address_hash: nil }
         else
           previous_transacton = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
           previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
-          { id: previous_output.id, capacity: previous_output.capacity }
+          address_hash = previous_output.address_hash
+          { id: previous_output.id, from_cellbase: false, capacity: previous_output.capacity, address_hash: address_hash }
         end
       end
 
