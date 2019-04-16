@@ -114,6 +114,25 @@ module Api
 
         assert_equal json, JSON.parse(error_object)
       end
+
+      test "should return error object when no records found by id" do
+        error_object = {
+          message: "Transaction Not Found",
+          errors: [
+            {
+              code: 1006,
+              status: 404,
+              title: "Transaction Not Found",
+              detail: "No transaction records found by given transaction hash",
+              href: "https://github.com/nervosnetwork/ckb-explorer"
+            }
+          ]
+        }.to_json
+
+        valid_get api_v1_ckb_transaction_url("0x3b138b3126d10ec000417b68bc715f17e86293d6cdbcb3fd8a628ad4a0b756f6")
+
+        assert_equal json, JSON.parse(error_object)
+      end
     end
   end
 end
