@@ -70,12 +70,12 @@ export default () => {
               </TableTitleRow>
               {blockWrappers.map((data: any) => {
                 return (
-                  <TableContentRow key={data.block_hash}>
-                    <TableContentItem content={data.number} to={`block/${data.number}`} />
-                    <TableContentItem content={data.transactions_count} />
-                    <TableContentItem content={data.cell_consumed} />
-                    <TableMinerContentItem content={data.miner_hash} />
-                    <TableContentItem content={parseDate(data.timestamp)} />
+                  <TableContentRow key={data.attributes.block_hash}>
+                    <TableContentItem content={data.attributes.number} to={`block/${data.number}`} />
+                    <TableContentItem content={data.attributes.transactions_count} />
+                    <TableContentItem content={data.attributes.cell_consumed} />
+                    <TableMinerContentItem content={data.attributes.miner_hash} />
+                    <TableContentItem content={parseDate(data.attributes.timestamp)} />
                   </TableContentRow>
                 )
               })}
