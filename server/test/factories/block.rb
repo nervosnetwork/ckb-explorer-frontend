@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :block do
     difficulty { "0x100" }
-    block_hash { "0x554b5658716ac7dc95c46971d461ea9eadbf43234c092a23c6f50bc02dbcaec8" }
+    block_hash { "0xfa446ed25123e956ea9cbbb7ea89d5f7ce3f50f1b4cfe62fb20282f84bed51bb" }
     number { 10 }
     parent_hash { "0xcba2d1a70602a1def80efbd59629c37a9d6c36f9de7a8ed6d1ca4f76389365e1" }
     seal { { "nonce" => 1757392074788233522, "proof" => "0x5900000098000000d90e00004b110000de1500001b25000051380000973d00001e490000194c00003760000012680000" } }

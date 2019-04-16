@@ -6,7 +6,7 @@ module CkbSync
       contained_method_names = CkbSync::Api::METHOD_NAMES
       sdk_api_names = CKB::API.instance_methods(false)
 
-      assert_equal sdk_api_names.map(&:to_s), contained_method_names
+      assert_equal sdk_api_names.map(&:to_s).sort, contained_method_names.sort
     end
   end
 end

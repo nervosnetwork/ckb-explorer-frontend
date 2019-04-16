@@ -11,7 +11,7 @@ module CkbSync
         CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
 
         assert_difference "Block.count", 11 do
-          VCR.use_cassette("genesis_block") do
+          VCR.use_cassette("genesis_block", match_requests_on: [:body]) do
             VCR.use_cassette("blocks/two", match_requests_on: [:body]) do
               CkbSync::AuthenticSync.start
             end
@@ -24,7 +24,7 @@ module CkbSync
       Sidekiq::Testing.fake!
       CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
 
-      VCR.use_cassette("genesis_block") do
+      VCR.use_cassette("genesis_block", match_requests_on: [:body]) do
         VCR.use_cassette("blocks/two", match_requests_on: [:body]) do
           assert_changes -> { CheckBlockWorker.jobs.size }, from: 0, to: 11 do
             CkbSync::AuthenticSync.start
