@@ -42,6 +42,12 @@ module Api
           super code: 1005, status: 422, title: "URI parameters is invalid", detail: "URI parameters should be a transaction hash", href: "https://github.com/nervosnetwork/ckb-explorer"
         end
       end
+
+      class CkbTransactionNotFoundError < Error
+        def initialize
+          super code: 1006, status: 404, title: "Transaction Not Found", detail: "No transaction records found by given transaction hash", href: "https://github.com/nervosnetwork/ckb-explorer"
+        end
+      end
     end
   end
 end
