@@ -34,6 +34,20 @@ class Block < ApplicationRecord
     ckb_transactions.map { |ckb_transaction| ckb_transaction.accounts }.uniq.flatten
   end
 
+  def self.find_block(query_key)
+    raise Api::V1::Exceptions::BlockQueryKeyInvalidError if !/\A\d+\z/.match(query_key) && !(query_key.start_with?(ENV["DEFAULT_HASH_PREFIX"]) && query_key.length == ENV["DEFAULT_WITH_PREFIX_HASH_LENGTH"].to_i)
+
+    begin
+      if query_key.start_with?(ENV["DEFAULT_HASH_PREFIX"])
+        find_by!(block_hash: query_key)
+      else
+        find_by!(number: query_key)
+      end
+    rescue ActiveRecord::RecordNotFound
+      raise Api::V1::Exceptions::BlockNotFoundError
+    end
+  end
+
   private
 
   def verified?(node_block_hash)
