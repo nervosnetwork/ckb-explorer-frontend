@@ -8,7 +8,7 @@ import { TransactionData, LockScriptData, CellData } from './mock/transaction'
 
 const baseURL = 'http://localhost:3000/'
 
-const axiosIns = axios.create({
+export const axiosIns = axios.create({
   baseURL,
   headers: {
     'Content-Type': 'application/vnd.api+json',
