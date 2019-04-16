@@ -119,6 +119,13 @@ module RequestHelpers
   def json
     JSON.parse(response.body)
   end
+
+  def valid_get(uri, opts = {})
+    params = {}
+    params[:params] = opts[:params] || {}
+    params[:headers] = { "Content-Type": "application/vnd.api+json", "Accept": "application/vnd.api+json" }
+    send :get, uri, params
+  end
 end
 
 module ActiveSupport
