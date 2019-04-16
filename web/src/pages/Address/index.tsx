@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import ReactJson from 'react-json-view'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
+import AppContext from '../../contexts/App'
 import Page from '../../components/Page'
 import Header from '../../components/Header'
 import Content from '../../components/Content'
@@ -29,14 +30,26 @@ import { Address } from '../../http/response/Address'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
+import copyDivValue from '../../utils/util'
 
 const AddressTitle = ({ address }: { address: string }) => {
+  const appContext = useContext(AppContext)
   return (
     <AddressTitlePanel>
       <div className="address__title">Address</div>
       <div className="address__content">
-        <div>{address}</div>
-        <img src={CopyIcon} alt="copy" />
+        <div id="address__hash">{address}</div>
+        <div
+          role="button"
+          tabIndex={-1}
+          onKeyDown={() => {}}
+          onClick={() => {
+            copyDivValue(document.getElementById('address__hash'))
+            appContext.toastMessage('copy success', 3000)
+          }}
+        >
+          <img src={CopyIcon} alt="copy" />
+        </div>
       </div>
     </AddressTitlePanel>
   )

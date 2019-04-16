@@ -31,7 +31,7 @@ export const BlockDetailTitlePanel = styled.div`
       height: 25px;
     }
 
-    > img {
+    img {
       margin-left: 19px;
       width: 24px;
       height: 21px;

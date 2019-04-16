@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
@@ -12,6 +12,7 @@ import {
   BlockTransactionsPanel,
   BlockTransactionsPagition,
 } from './index.css'
+import AppContext from '../../contexts/App'
 import Page from '../../components/Page'
 import Header from '../../components/Header'
 import Content from '../../components/Content'
@@ -41,14 +42,26 @@ import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchBlockByHash, fetchTransactionsByBlockHash } from '../../http/fetcher'
+import copyDivValue from '../../utils/util'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
+  const appContext = useContext(AppContext)
   return (
     <BlockDetailTitlePanel>
       <div className="address__title">Block</div>
       <div className="address__content">
-        <div>{hash}</div>
-        <img src={CopyIcon} alt="copy" />
+        <div id="block__hash">{hash}</div>
+        <div
+          role="button"
+          tabIndex={-1}
+          onKeyDown={() => {}}
+          onClick={() => {
+            copyDivValue(document.getElementById('block__hash'))
+            appContext.toastMessage('copy success', 3000)
+          }}
+        >
+          <img src={CopyIcon} alt="copy" />
+        </div>
       </div>
     </BlockDetailTitlePanel>
   )
