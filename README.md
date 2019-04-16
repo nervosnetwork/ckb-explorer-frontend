@@ -1,5 +1,7 @@
 # CKB Explorer
 
+[![TravisCI](https://travis-ci.com/nervosnetwork/ckb-explorer.svg?branch=develop)](https://travis-ci.com/nervosnetwork/ckb-explorer)
+
 CKB block explorer
 
 ## License
