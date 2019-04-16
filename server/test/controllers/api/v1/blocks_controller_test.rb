@@ -93,6 +93,32 @@ module Api
 
         assert_equal json, JSON.parse(error_object)
       end
+
+      test "should return 10 records when page_size is not set" do
+        create_list(:block, 15, :with_block_hash)
+
+        get api_v1_blocks_url, headers: { "Content-Type": "application/vnd.api+json", "Accept": "application/vnd.api+json" }
+
+        assert_equal 10, json["data"].size
+      end
+
+      test "should return the corresponding number of blocks when set page_size" do
+        create_list(:block, 15, :with_block_hash)
+
+        get api_v1_blocks_url, params: { page_size: 12 }, headers: { "Content-Type": "application/vnd.api+json", "Accept": "application/vnd.api+json" }
+
+        assert_equal 12, json["data"].size
+      end
+
+      test "should return the corresponding blocks when set page" do
+        create_list(:block, 15, :with_block_hash)
+        block = Block.recent.offset(1).first
+        parsed_block = JSON.parse(BlockSerializer.new(block).serialized_json)["data"]
+
+        get api_v1_blocks_url, params: { page: 2, page_size: 1 }, headers: { "Content-Type": "application/vnd.api+json", "Accept": "application/vnd.api+json" }
+
+        assert_equal parsed_block, json["data"].first
+      end
     end
   end
 end
