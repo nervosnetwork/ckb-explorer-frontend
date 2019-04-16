@@ -5,7 +5,14 @@ module Api
 
       def index
         blocks = Block.recent.page(@page).per(@page_size)
+
         render json: BlockSerializer.new(blocks)
+      end
+
+      def show
+        block = Block.find_block(params[:id])
+
+        render json: BlockSerializer.new(block)
       end
 
       private
