@@ -119,6 +119,79 @@ module Api
 
         assert_equal parsed_block, json["data"].first
       end
+
+      test "should return error object when id is not a hex start with 0x" do
+        error_object = {
+          message: "URI parameters is invalid",
+          errors: [
+            {
+              code: 1003,
+              status: 422,
+              title: "URI parameters is invalid",
+              detail: "URI parameters should be a block hash or a block height",
+              href: "https://github.com/nervosnetwork/ckb-explorer"
+            }
+          ]
+        }.to_json
+
+        get api_v1_block_url(id: "9034fwefwef"), headers: { "Content-Type": "application/vnd.api+json", "Accept": "application/vnd.api+json" }
+
+        assert_equal json, JSON.parse(error_object)
+      end
+
+      test "should return error object when id is a hex start with 0x but the length is wrong" do
+        error_object = {
+          message: "URI parameters is invalid",
+          errors: [
+            {
+              code: 1003,
+              status: 422,
+              title: "URI parameters is invalid",
+              detail: "URI parameters should be a block hash or a block height",
+              href: "https://github.com/nervosnetwork/ckb-explorer"
+            }
+          ]
+        }.to_json
+
+        get api_v1_block_url(id: "0xawefwef"), headers: { "Content-Type": "application/vnd.api+json", "Accept": "application/vnd.api+json" }
+
+        assert_equal json, JSON.parse(error_object)
+      end
+
+      test "should return error object when no records found by id" do
+        error_object = {
+          message: "Block Not Found",
+          errors: [
+            {
+              code: 1004,
+              status: 404,
+              title: "Block Not Found",
+              detail: "No block records found by given block hash or number",
+              href: "https://github.com/nervosnetwork/ckb-explorer"
+            }
+          ]
+        }.to_json
+
+        get api_v1_block_url(id: "0.87"), headers: { "Content-Type": "application/vnd.api+json", "Accept": "application/vnd.api+json" }
+
+        assert_equal json, JSON.parse(error_object)
+      end
+
+      test "should return corresponding block with given block hash" do
+        block = create(:block)
+
+        get api_v1_block_url(id: block.block_hash), headers: { "Content-Type": "application/vnd.api+json", "Accept": "application/vnd.api+json" }
+
+        assert_equal JSON.parse(BlockSerializer.new(block).serialized_json), json
+      end
+
+      test "should return corresponding block with given height" do
+        block = create(:block)
+
+        get api_v1_block_url(id: block.number), headers: { "Content-Type": "application/vnd.api+json", "Accept": "application/vnd.api+json" }
+
+        assert_equal JSON.parse(BlockSerializer.new(block).serialized_json), json
+      end
     end
   end
 end
