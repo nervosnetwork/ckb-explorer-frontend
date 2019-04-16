@@ -12,7 +12,6 @@ class CellOutput < ApplicationRecord
     lock_script.account.address_hash
   end
 
-
   def to_node_cell_output
     {
       capacity: capacity,

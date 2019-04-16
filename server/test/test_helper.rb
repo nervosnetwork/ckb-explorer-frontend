@@ -92,7 +92,7 @@ def build_display_input_from_node_input(input)
   previous_output_index = outpoint["index"]
 
   if CellOutput::BASE_HASH == previous_transaction_hash
-    { id: nil, capacity: CellOutput::INITIAL_BLOCK_REWARD }.stringify_keys
+    { id: nil, from_cellbase: true, capacity: CellOutput::INITIAL_BLOCK_REWARD, address_hash: nil }.stringify_keys
   else
     VCR.use_cassette("blocks/") do
       commit_transaction = CkbSync::Api.instance.get_transaction(previous_transaction_hash)
@@ -106,7 +106,7 @@ def build_display_info_from_node_output(output)
   lock = output["lock"]
   lock_script = LockScript.find_by(args: lock["args"], binary_hash: lock["binary_hash"])
   cell_output = lock_script.cell_output
-  { id: cell_output.id, capacity: cell_output.capacity.to_s }.stringify_keys
+  { id: cell_output.id, capacity: cell_output.capacity.to_s, address_hash: cell_output.address_hash }.stringify_keys
 end
 
 def prepare_api_wrapper
