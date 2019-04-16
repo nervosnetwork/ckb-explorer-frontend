@@ -28,6 +28,7 @@ import { Transaction } from '../../http/response/Transaction'
 import { Script } from '../../http/response/Script'
 import { Data } from '../../http/response/Data'
 import { fetchTransactionByHash, fetchScript, fetchCellData } from '../../http/fetcher'
+import copyDivValue from '../../utils/util'
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
 
@@ -149,16 +150,8 @@ const TransactionTitle = ({ hash }: { hash: string }) => {
           tabIndex={-1}
           onKeyDown={() => {}}
           onClick={() => {
-            const transactionDiv = document.getElementById('transaction__hash')
-            if (transactionDiv) {
-              const selection = window.getSelection()
-              const range = document.createRange()
-              range.selectNodeContents(transactionDiv)
-              selection.removeAllRanges()
-              window.getSelection().addRange(range)
-              document.execCommand('Copy')
-              appContext.toastMessage('copy success', 3000)
-            }
+            copyDivValue(document.getElementById('transaction__hash'))
+            appContext.toastMessage('copy success', 3000)
           }}
         >
           <img src={CopyIcon} alt="copy" />
