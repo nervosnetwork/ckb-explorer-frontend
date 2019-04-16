@@ -59,7 +59,7 @@ module Api
               status: 415,
               title: "Unsupported Media Type",
               detail: "Content Type must be application/vnd.api+json",
-              href: "http://shaojunda.coding.me/doc/api_doc.html"
+              href: "https://github.com/nervosnetwork/ckb-explorer"
             }
           ]
         }
@@ -84,7 +84,7 @@ module Api
               status: 406,
               title: "Not Acceptable",
               detail: "Accept must be application/vnd.api+json",
-              href: "http://shaojunda.coding.me/doc/api_doc.html"
+              href: "https://github.com/nervosnetwork/ckb-explorer"
             }
           ]
         }.to_json

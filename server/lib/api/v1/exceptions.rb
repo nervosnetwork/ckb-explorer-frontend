@@ -15,13 +15,13 @@ module Api
 
       class WrongContentTypeError < Error
         def initialize
-          super code: 1001, status: 415, title: "Unsupported Media Type", detail: "Content Type must be application/vnd.api+json", href: "http://shaojunda.coding.me/doc/api_doc.html"
+          super code: 1001, status: 415, title: "Unsupported Media Type", detail: "Content Type must be application/vnd.api+json", href: "https://github.com/nervosnetwork/ckb-explorer"
         end
       end
 
       class WrongAcceptError < Error
         def initialize
-          super code: 1002, status: 406, title: "Not Acceptable", detail: "Accept must be application/vnd.api+json", href: "http://shaojunda.coding.me/doc/api_doc.html"
+          super code: 1002, status: 406, title: "Not Acceptable", detail: "Accept must be application/vnd.api+json", href: "https://github.com/nervosnetwork/ckb-explorer"
         end
       end
 
