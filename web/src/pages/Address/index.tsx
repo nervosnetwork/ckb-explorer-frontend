@@ -131,13 +131,20 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
           <AddressOverview value="Overview" />
           <AddressCommonContent>
             <AddressCommonRowPanel>
-              <SimpleLabel image={BalanceIcon} label="Balance: " value={`${addressData.balance} CKB`} />
+              <SimpleLabel
+                image={BalanceIcon}
+                label="Balance: "
+                value={`${addressData.balance} CKB`}
+                style={{
+                  flexGrow: 1,
+                }}
+              />
               <SimpleLabel
                 image={TransactionsIcon}
                 label="Transactions : "
                 value={`${addressData.transactions_count}`}
                 style={{
-                  marginRight: '25%',
+                  flexGrow: 1,
                 }}
               />
             </AddressCommonRowPanel>
