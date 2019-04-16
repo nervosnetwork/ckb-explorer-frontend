@@ -1,4 +1,7 @@
 class Block < ApplicationRecord
+  paginates_per 10
+  max_paginates_per 100
+
   enum status: { inauthentic: 0, authentic: 1, abandoned: 2 }
 
   has_many :ckb_transactions

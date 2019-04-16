@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  before_action :check_header_info
   rescue_from Api::V1::Exceptions::Error, with: :api_error
 
   private
