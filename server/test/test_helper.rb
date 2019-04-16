@@ -13,11 +13,12 @@ Minitest::Reporters.use!
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
-DEFAULT_NODE_BLOCK_HASH = "0x554b5658716ac7dc95c46971d461ea9eadbf43234c092a23c6f50bc02dbcaec8".freeze
+DEFAULT_NODE_BLOCK_HASH = "0xfa446ed25123e956ea9cbbb7ea89d5f7ce3f50f1b4cfe62fb20282f84bed51bb".freeze
 
 VCR.configure do |config|
   config.cassette_library_dir = "vcr_fixtures/vcr_cassettes"
   config.hook_into :webmock
+  config.default_cassette_options[:match_requests_on] = [:method, :path, :body]
 end
 DatabaseCleaner.strategy = :transaction
 
@@ -36,13 +37,13 @@ def prepare_inauthentic_node_data
   node_tip_block_number = 10
   ((local_tip_block_number + 1)..node_tip_block_number).each do |number|
     block_hash = nil
-    VCR.use_cassette("block_hashes/#{number}") do
+    VCR.use_cassette("block_hashes/#{number}", match_requests_on: [:body]) do
       block_hash = CkbSync::Api.instance.get_block_hash(number)
     end
 
     SyncInfo.local_inauthentic_tip_block_number = number
 
-    VCR.use_cassette("blocks/#{number}") do
+    VCR.use_cassette("blocks/#{number}", match_requests_on: [:body]) do
       SaveBlockWorker.new.perform(block_hash, "inauthentic")
     end
   end
@@ -110,7 +111,7 @@ def build_display_info_from_node_output(output)
 end
 
 def prepare_api_wrapper
-  VCR.use_cassette("genesis_block") do
+  VCR.use_cassette("genesis_block", match_requests_on: [:body]) do
     CkbSync::Api.instance
   end
 end

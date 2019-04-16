@@ -40,7 +40,7 @@ class BlockTest < ActiveSupport::TestCase
     block = create(:block)
     assert_changes -> { block.status }, from: "inauthentic", to: "authentic" do
       VCR.use_cassette("blocks/10") do
-        SyncInfo.local_inauthentic_tip_block_number
+        SyncInfo.local_authentic_tip_block_number
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
         block.verify!(node_block)
       end

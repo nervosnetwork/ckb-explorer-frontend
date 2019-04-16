@@ -164,7 +164,7 @@ module CkbSync
             uncle_block.sort
           end
 
-        assert_equal formatted_node_uncle_blocks, local_uncle_blocks.sort
+        assert_equal formatted_node_uncle_blocks.sort, local_uncle_blocks.sort
       end
     end
 
