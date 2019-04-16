@@ -25,19 +25,20 @@ import CopyGreenIcon from '../../asserts/copy_green.png'
 import CopyIcon from '../../asserts/copy.png'
 import { parseSimpleDate } from '../../utils/date'
 import { Transaction } from '../../http/response/Transaction'
-import Script from '../../http/response/Script'
-import { fetchTransactionByHash, fetchScript } from '../../http/fetcher'
+import { Script } from '../../http/response/Script'
+import { Data } from '../../http/response/Data'
+import { fetchTransactionByHash, fetchScript, fetchCellData } from '../../http/fetcher'
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
 
 const ScriptComponent = ({
   cellType,
-  cellData,
+  cellInputOutput,
   scriptType = null,
   updateCellData,
 }: {
   cellType: 'input' | 'output'
-  cellData: any
+  cellInputOutput: any
   scriptType?: 'Lock Script' | 'Type Script' | 'Data' | null
   updateCellData: Function
 }) => {
@@ -47,18 +48,22 @@ const ScriptComponent = ({
     args: [],
   }
   const [script, setScript] = useState(initScript)
+  const initCellData: Data = {
+    data: '',
+  }
+  const [cellData, setCellData] = useState(initCellData)
 
   return (
     <>
       <tr className="tr-brief">
-        <td>{`#${cellData[`${cellType}_id`]}`}</td>
+        <td>{`#${cellInputOutput[`${cellType}_id`]}`}</td>
         <td>
-          <Link to={`/address/${cellData.address_hash}`}>{cellData.address_hash}</Link>
+          <Link to={`/address/${cellInputOutput.address_hash}`}>{cellInputOutput.address_hash}</Link>
         </td>
-        <td>{cellData.capacity}</td>
+        <td>{cellInputOutput.capacity}</td>
         {ScriptTypeItems.map(item => {
           let className = 'td-operatable'
-          if (cellData.select === item) {
+          if (cellInputOutput.select === item) {
             className += ' td-operatable-active '
           }
           return (
@@ -69,19 +74,26 @@ const ScriptComponent = ({
                 className={className}
                 onKeyPress={() => {}}
                 onClick={() => {
-                  const newCellData = {
-                    ...cellData,
+                  const newCellInputOutput = {
+                    ...cellInputOutput,
                   }
-                  fetchScript().then(data => {
-                    setScript(data as Script)
-                    if (newCellData.select === item) {
-                      newCellData.select = null
-                    } else {
-                      newCellData.select = item
-                      newCellData[item] = script.binary_hash
-                    }
-                    updateCellData(cellType, cellData[`${cellType}_id`], newCellData)
-                  })
+                  newCellInputOutput.select = newCellInputOutput.select === item ? null : item
+                  if (item === 'Lock Script') {
+                    fetchScript().then(data => {
+                      setScript(data as Script)
+                      updateCellData(cellType, cellInputOutput[`${cellType}_id`], newCellInputOutput)
+                    })
+                  } else if (item === 'Type Script') {
+                    fetchScript().then(data => {
+                      setScript(data as Script)
+                      updateCellData(cellType, cellInputOutput[`${cellType}_id`], newCellInputOutput)
+                    })
+                  } else {
+                    fetchCellData().then(data => {
+                      setCellData(data as Data)
+                      updateCellData(cellType, cellInputOutput[`${cellType}_id`], newCellInputOutput)
+                    })
+                  }
                 }}
               >
                 {item}
@@ -95,8 +107,9 @@ const ScriptComponent = ({
           <td />
           <td colSpan={5}>
             <textarea
-              id={`textarea-${cellType}${+'-'}${cellData[`${cellType}_id`]}`}
-              defaultValue={JSON.stringify(script, null, 4)}
+              id={`textarea-${cellType}${+'-'}${cellInputOutput[`${cellType}_id`]}`}
+              value={JSON.stringify(scriptType === 'Data' ? cellData : script, null, 4)}
+              readOnly
             />
             <div className="tr-detail-td-buttons">
               <div
@@ -106,7 +119,7 @@ const ScriptComponent = ({
                 onKeyPress={() => {}}
                 onClick={() => {
                   const textarea = document.getElementById(
-                    `textarea-${cellType}${+'-'}${cellData[`${cellType}_id`]}`,
+                    `textarea-${cellType}${+'-'}${cellInputOutput[`${cellType}_id`]}`,
                   ) as HTMLTextAreaElement
                   textarea.select()
                   document.execCommand('copy')
@@ -124,13 +137,30 @@ const ScriptComponent = ({
   )
 }
 
-const TransactionTitle = ({ hash, onClick }: { hash: string; onClick: any }) => {
+const TransactionTitle = ({ hash }: { hash: string }) => {
+  const appContext = useContext(AppContext)
   return (
     <TransactionTitlePanel>
       <div className="transaction__title">Transaction</div>
       <div className="transaction__content">
         <div id="transaction__hash">{hash}</div>
-        <div role="button" tabIndex={-1} onKeyDown={() => {}} onClick={onClick}>
+        <div
+          role="button"
+          tabIndex={-1}
+          onKeyDown={() => {}}
+          onClick={() => {
+            const transactionDiv = document.getElementById('transaction__hash')
+            if (transactionDiv) {
+              const selection = window.getSelection()
+              const range = document.createRange()
+              range.selectNodeContents(transactionDiv)
+              selection.removeAllRanges()
+              window.getSelection().addRange(range)
+              document.execCommand('Copy')
+              appContext.toastMessage('copy success', 3000)
+            }
+          }}
+        >
           <img src={CopyIcon} alt="copy" />
         </div>
       </div>
@@ -159,7 +189,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const { params } = match
   const { hash } = params
 
-  const appContext = useContext(AppContext)
   const initTransaction: Transaction = {
     transaction_hash: '',
     block_number: '',
@@ -171,14 +200,14 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   }
   const [transaction, setTransaction] = useState(initTransaction)
 
-  const updateCellData = (cellType: string, cellId: number, newCellData: any) => {
+  const updateCellData = (cellType: string, cellId: number, newCellInputOutput: any) => {
     setTransaction((state: any) => {
       const newState: any = {
         ...state,
       }
       newState[`display_${cellType}s`].forEach((item: any, i: number) => {
         if (item[`${cellType}_id`] === cellId) {
-          newState[`display_${cellType}s`][i] = newCellData
+          newState[`display_${cellType}s`][i] = newCellInputOutput
         }
       })
       return newState
@@ -200,20 +229,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       <Header />
       <Content>
         <TransactionDiv className="container">
-          <TransactionTitle
-            hash={hash}
-            onClick={() => {
-              const transactionDiv = document.getElementById('transaction__hash')
-              if (transactionDiv) {
-                const div = document.createRange()
-                div.setStartBefore(transactionDiv)
-                div.setEndAfter(transactionDiv)
-                window.getSelection().addRange(div)
-                document.execCommand('copy')
-                appContext.toastMessage('copy success', 3000)
-              }
-            }}
-          />
+          <TransactionTitle hash={hash} />
           <TransactionOverviewLabel>Overview</TransactionOverviewLabel>
           <TransactionCommonContent>
             <div>
@@ -241,7 +257,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                       <ScriptComponent
                         cellType="input"
                         key={input.input_id}
-                        cellData={input}
+                        cellInputOutput={input}
                         scriptType={input.select || null}
                         updateCellData={updateCellData}
                       />
@@ -261,7 +277,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                       <ScriptComponent
                         cellType="output"
                         key={ouput.output_id}
-                        cellData={ouput}
+                        cellInputOutput={ouput}
                         scriptType={ouput.select || null}
                         updateCellData={updateCellData}
                       />

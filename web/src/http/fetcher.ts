@@ -4,7 +4,7 @@ import BlocksData from './mock/home'
 import BlockListData from './mock/block_list'
 import { AddressData, TransactionsData } from './mock/address'
 import { BlockData } from './mock/block'
-import { TransactionData, CellData } from './mock/transaction'
+import { TransactionData, LockScriptData, CellData } from './mock/transaction'
 
 const baseURL = 'http://localhost:3000/'
 
@@ -12,6 +12,7 @@ const axiosIns = axios.create({
   baseURL,
   headers: {
     'Content-Type': 'application/vnd.api+json',
+    Accept: 'application/vnd.api+json',
   },
 })
 
@@ -42,7 +43,7 @@ export const fetchBlocksList = () => {
 
 export const fetchAddressInfo = (address: string) => {
   return new Promise(function(resolve, reject) {
-    resolve(AddressData.data)
+    resolve(AddressData.data.attributes)
     if (false) reject(address)
   })
 }
@@ -56,7 +57,7 @@ export const fetchTransactionsByAddress = (address: string) => {
 
 export const fetchTransactionByHash = (hash: string) => {
   return new Promise(function(resolve, reject) {
-    resolve(TransactionData.data)
+    resolve(TransactionData.data.attributes)
     if (false) reject(hash)
   })
 }
@@ -70,14 +71,21 @@ export const fetchTransactionsByBlockHash = (blockHash: string) => {
 
 export const fetchBlockByHash = (hash: string) => {
   return new Promise(function(resolve, reject) {
-    resolve(BlockData.data)
+    resolve(BlockData.data.attributes)
     if (false) reject(hash)
   })
 }
 
 export const fetchScript = () => {
   return new Promise(function(resolve, reject) {
-    resolve(CellData.data)
+    resolve(LockScriptData.data.attributes)
+    if (false) reject()
+  })
+}
+
+export const fetchCellData = () => {
+  return new Promise(function(resolve, reject) {
+    resolve(CellData.data.attributes)
     if (false) reject()
   })
 }

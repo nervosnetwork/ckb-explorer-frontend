@@ -33,14 +33,14 @@ import MoreLeftIcon from '../../asserts/more_left.png'
 import MoreRightIcon from '../../asserts/more_right.png'
 import browserHistory from '../../routes/history'
 import { fetchBlocks } from '../../http/fetcher'
-import Block from '../../http/response/Block'
+import { BlockWrapper } from '../../http/response/Block'
 
 export default () => {
-  const initBlocks: Block[] = []
-  const [blocksData, setBlocksData] = useState(initBlocks)
+  const initBlockWrappers: BlockWrapper[] = []
+  const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
   useEffect(() => {
     fetchBlocks().then(data => {
-      setBlocksData(data as Block[])
+      setBlocksWrappers(data as BlockWrapper[])
     })
   }, [])
 
@@ -85,14 +85,14 @@ export default () => {
                 <TableTitleItem image={MinerIcon} title="Miner" />
                 <TableTitleItem image={TimestampIcon} title="Time" />
               </TableTitleRow>
-              {blocksData.map((data: any) => {
+              {blocksWrappers.map((block: any) => {
                 return (
-                  <TableContentRow key={data.block_hash}>
-                    <TableContentItem content={data.number} to={`block/${data.number}`} />
-                    <TableContentItem content={data.transactions_count} />
-                    <TableContentItem content={data.cell_consumed} />
-                    <TableMinerContentItem content={data.miner_hash} />
-                    <TableContentItem content={parseDate(data.timestamp)} />
+                  <TableContentRow key={block.attributes.block_hash}>
+                    <TableContentItem content={block.attributes.number} to={`block/${block.attributes.number}`} />
+                    <TableContentItem content={block.attributes.transactions_count} />
+                    <TableContentItem content={block.attributes.cell_consumed} />
+                    <TableMinerContentItem content={block.attributes.miner_hash} />
+                    <TableContentItem content={parseDate(block.attributes.timestamp)} />
                   </TableContentRow>
                 )
               })}

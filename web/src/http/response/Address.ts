@@ -1,9 +1,15 @@
-import Script from './Script'
+import { Script } from './Script'
 
-export default interface Address {
+export interface Address {
   address_hash: string
   balance: number
   transactions_count: number
   cell_consumed: number
   lock_script: Script
+}
+
+export interface AddressWrapper {
+  id: number
+  type: string
+  attributes: Address
 }

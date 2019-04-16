@@ -1,4 +1,4 @@
-export default interface Block {
+export interface Block {
   block_hash: string
   number: number
   transactions_count: number
@@ -15,4 +15,10 @@ export default interface Block {
   version: number
   nonce: number
   proof: string
+}
+
+export interface BlockWrapper {
+  id: number
+  type: string
+  attributes: Block
 }
