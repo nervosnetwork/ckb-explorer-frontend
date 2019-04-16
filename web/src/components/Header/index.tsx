@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import AppContext from '../../contexts/App'
 
 import searchIcon from '../../asserts/search.png'
 import logoIcon from '../../logo.png'
 import browserHistory from '../../routes/history'
+import { fetchSearchResult } from '../../http/fetcher'
+import { BlockWrapper } from '../../http/response/Block'
+import { TransactionWrapper } from '../../http/response/Transaction'
+import { AddressWrapper } from '../../http/response/Address'
 
 const HeaderDiv = styled.div`
   width: 100%;
@@ -121,6 +126,25 @@ const menus = [
 ]
 
 export default ({ search = true }: { search?: boolean }) => {
+  const appContext = useContext(AppContext)
+  const handleSearchResult = (q: string) => {
+    if (!q) {
+      appContext.toastMessage('Please input valid content', 3000)
+    } else {
+      fetchSearchResult(q).then((data: any) => {
+        if (data.type === 'block') {
+          browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
+        } else if (data.type === 'transaction') {
+          browserHistory.push(`/transaction/${(data as TransactionWrapper).attributes.transaction_hash}`)
+        } else if (data.type === 'address') {
+          browserHistory.push(`/address/${(data as AddressWrapper).attributes.address_hash}`)
+        } else {
+          browserHistory.push('/search/fail')
+        }
+      })
+    }
+  }
+
   return (
     <HeaderDiv width={window.innerWidth}>
       <Link to="/" className="header__logo">
@@ -138,13 +162,23 @@ export default ({ search = true }: { search?: boolean }) => {
       </div>
       {search ? (
         <div className="header__search">
-          <input type="text" placeholder="Block Height / Block Hash / Txhash / Address" />
+          <input
+            id="header__search__bar"
+            type="text"
+            placeholder="Block Height / Block Hash / Txhash / Address"
+            onKeyUp={(event: any) => {
+              if (event.keyCode === 13) {
+                handleSearchResult(event.target.value)
+              }
+            }}
+          />
           <div
             role="button"
             tabIndex={-1}
             onKeyPress={() => {}}
             onClick={() => {
-              browserHistory.push('/search/fail')
+              const headerSearchBar = document.getElementById('header__search__bar') as HTMLInputElement
+              handleSearchResult(headerSearchBar.value)
             }}
           >
             <img src={searchIcon} alt="search" />
