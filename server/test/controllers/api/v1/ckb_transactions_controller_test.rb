@@ -76,6 +76,44 @@ module Api
 
         assert_equal json, JSON.parse(error_object)
       end
+
+      test "should return error object when id is not a hex start with 0x" do
+        error_object = {
+          message: "URI parameters is invalid",
+          errors: [
+            {
+              code: 1005,
+              status: 422,
+              title: "URI parameters is invalid",
+              detail: "URI parameters should be a transaction hash",
+              href: "https://github.com/nervosnetwork/ckb-explorer"
+            }
+          ]
+        }.to_json
+
+        valid_get api_v1_ckb_transaction_url("9034fwefwef")
+
+        assert_equal json, JSON.parse(error_object)
+      end
+
+      test "should return error object when id is a hex start with 0x but it's length is wrong" do
+        error_object = {
+          message: "URI parameters is invalid",
+          errors: [
+            {
+              code: 1005,
+              status: 422,
+              title: "URI parameters is invalid",
+              detail: "URI parameters should be a transaction hash",
+              href: "https://github.com/nervosnetwork/ckb-explorer"
+            }
+          ]
+        }.to_json
+
+        valid_get api_v1_ckb_transaction_url("0x9034fwefwef")
+
+        assert_equal json, JSON.parse(error_object)
+      end
     end
   end
 end
