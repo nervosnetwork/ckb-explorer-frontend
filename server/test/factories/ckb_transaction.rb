@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :ckb_transaction do
-    tx_hash {}
+    block
+    tx_hash { "0x#{SecureRandom.hex(32)}" }
     deps {}
     block_number {}
     block_timestamp {}
