@@ -4,7 +4,7 @@ module Validations
 
     validate :query_key_format_must_be_correct
 
-    def initialize(params={})
+    def initialize(params = {})
       @query_key = params[:id]
     end
 

@@ -5,7 +5,7 @@ module Validations
     validates :page, numericality: { only_integer: true }, allow_nil: true
     validates :page_size, numericality: { only_integer: true }, allow_nil: true
 
-    def initialize(params={})
+    def initialize(params = {})
       @page = params[:page]
       @page_size = params[:page_size]
     end
