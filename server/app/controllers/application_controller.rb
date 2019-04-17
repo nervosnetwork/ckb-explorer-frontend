@@ -4,19 +4,8 @@ class ApplicationController < ActionController::API
 
   private
 
-  def api_error(error)
-    render json: {
-      message: error.title,
-      errors: [
-        {
-          code: error.code,
-          status: error.status,
-          title: error.title,
-          detail: error.detail,
-          href: error.href
-        }
-      ]
-    }, status: error.status
+  def api_error(*error)
+    render json: RequestErrorSerializer.new(error, message: error.first.title), status: error.first.status
   end
 
   def check_header_info
