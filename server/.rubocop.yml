@@ -37,8 +37,6 @@ Style/TrailingCommaInHashLiteral:
 Metrics/LineLength:
   Enabled: false
 
-# Our preference
-
 Layout/IndentHash:
   EnforcedStyle: consistent
 
@@ -63,11 +61,8 @@ Naming/VariableNumber:
   Exclude:
     - spec/**/*
 
-# AccountVersion 裡用了 .find_by_timestamp(timestamp) 會被誤判
 Rails/DynamicFindBy:
   Enabled: false
-
-# Old Settings
 
 Metrics/ClassLength:
   Enabled: false
@@ -133,11 +128,9 @@ Layout/MultilineMethodDefinitionBraceLayout:
 Style/OptionHash:
   Enabled: true
 
-# Avoid using rescue in its modifier form
 Style/RescueModifier:
   Enabled: false
 
-# 使用 &. 取代檢查原本的參數是否存在，滿高招的，但團隊比較少用就先關閉
 Style/SafeNavigation:
   Enabled: false
 
@@ -212,10 +205,8 @@ Rails/HasManyOrHasOneDependent:
 Lint/ShadowingOuterLocalVariable:
   Enabled: false
 
-# Vincent 用在 scane block 很多
 Style/RescueStandardError:
   Enabled: false
 
-# 有時候會誤判
 Style/NumericPredicate:
   Enabled: false
