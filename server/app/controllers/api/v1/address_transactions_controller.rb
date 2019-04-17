@@ -2,6 +2,7 @@ module Api
   module V1
     class AddressTransactionsController < ApplicationController
       before_action :validate_query_params
+      before_action :validate_pagination_params
 
       def show
         account = Account.find_by!(address_hash: params[:id])
