@@ -7,6 +7,19 @@ GIT
       bitcoin-secp256k1 (~> 0.5.0)
       rbnacl (~> 6.0, >= 6.0.1)
 
+GIT
+  remote: https://github.com/stympy/faker.git
+  revision: 59a92644d5583828add1c68351074f6e52c6deb6
+  branch: master
+  specs:
+    faker (1.9.3)
+      i18n (>= 0.7)
+      pastel (~> 0.7.2)
+      thor (~> 0.20.0)
+      tty-pager (~> 0.12.0)
+      tty-screen (~> 0.6.5)
+      tty-tree (~> 0.2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -80,6 +93,7 @@ GEM
     dotenv-rails (2.7.2)
       dotenv (= 2.7.2)
       railties (>= 3.2, < 6.1)
+    equatable (0.5.0)
     erubi (1.8.0)
     factory_bot (5.0.2)
       activesupport (>= 4.2.0)
@@ -140,6 +154,9 @@ GEM
     parallel (1.17.0)
     parser (2.6.2.0)
       ast (~> 2.4.0)
+    pastel (0.7.2)
+      equatable (~> 0.5.0)
+      tty-color (~> 0.4.0)
     pg (1.1.4)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -225,11 +242,25 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    strings (0.1.5)
+      strings-ansi (~> 0.1)
+      unicode-display_width (~> 1.5)
+      unicode_utils (~> 1.4)
+    strings-ansi (0.1.0)
     thor (0.20.3)
     thread_safe (0.3.6)
+    tty-color (0.4.3)
+    tty-pager (0.12.1)
+      strings (~> 0.1.4)
+      tty-screen (~> 0.6)
+      tty-which (~> 0.4)
+    tty-screen (0.6.5)
+    tty-tree (0.2.0)
+    tty-which (0.4.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unicode-display_width (1.5.0)
+    unicode_utils (1.4.0)
     vcr (4.0.0)
     webmock (3.5.1)
       addressable (>= 2.3.6)
@@ -252,6 +283,7 @@ DEPENDENCIES
   database_cleaner
   dotenv-rails
   factory_bot_rails
+  faker!
   fast_jsonapi
   hiredis (~> 0.6.1)
   kaminari

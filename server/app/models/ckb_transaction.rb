@@ -1,4 +1,7 @@
 class CkbTransaction < ApplicationRecord
+  paginates_per 10
+  max_paginates_per 100
+
   enum status: { inauthentic: 0, authentic: 1, abandoned: 2 }
 
   belongs_to :block
@@ -11,6 +14,8 @@ class CkbTransaction < ApplicationRecord
   validates :transaction_fee, numericality: { greater_than_or_equal_to: 0 }
 
   attribute :tx_hash, :ckb_hash
+
+  scope :recent, -> { order(block_timestamp: :desc) }
 end
 
 # == Schema Information
