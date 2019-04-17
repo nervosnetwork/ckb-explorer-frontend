@@ -34,10 +34,10 @@ export const fetchBlocks = () => {
   })
 }
 
-export const fetchBlocksList = () => {
+export const fetchBlockList = (page: number, size: number) => {
   return new Promise(function(resolve, reject) {
     resolve(BlockListData)
-    if (false) reject()
+    if (false) reject(new Error(`${page}${size}`))
   })
 }
 
