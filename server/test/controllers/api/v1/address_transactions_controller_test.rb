@@ -75,7 +75,7 @@ module Api
 
       test "should return corresponding ckb transactions with given address hash" do
         account = create(:account, :with_transactions)
-        ckb_transactions = account.ckb_transactions
+        ckb_transactions = account.ckb_transactions.order(block_timestamp: :desc).limit(10)
 
         valid_get api_v1_address_transaction_url(account.address_hash)
 
@@ -131,6 +131,43 @@ module Api
         valid_get api_v1_address_transaction_url(account.address_hash), params: { page: "bbb", page_size: "aaa" }
 
         assert_equal response_json, response.body
+      end
+
+      test "should return 10 records when page and page_size are not set" do
+        account = create(:account, :with_transactions, transactions_count: 15)
+
+        valid_get api_v1_address_transaction_url(account.address_hash)
+
+        assert_equal 10, json["data"].size
+      end
+
+      test "should return corresponding page's records when page is set and page_size is not set" do
+        account = create(:account, :with_transactions, transactions_count: 30)
+        account_ckb_transactions = account.ckb_transactions.order(block_timestamp: :desc).offset(10).limit(10)
+        response_transaction = CkbTransactionSerializer.new(account_ckb_transactions).serialized_json
+
+        valid_get api_v1_address_transaction_url(account.address_hash), params: { page: 2 }
+
+        assert_equal response_transaction, response.body
+        assert_equal 10, json["data"].size
+      end
+
+      test "should return the corresponding number of transactions under the address when set page_size" do
+        account = create(:account, :with_transactions, transactions_count: 15)
+
+        valid_get api_v1_address_transaction_url(account.address_hash), params: { page_size: 12 }
+
+        assert_equal 12, json["data"].size
+      end
+
+      test "should return the corresponding transactions when page and page_size is set" do
+        account = create(:account, :with_transactions, transactions_count: 30)
+        account_ckb_transactions = account.ckb_transactions.order(block_timestamp: :desc).offset(5).limit(5)
+        response_transaction = CkbTransactionSerializer.new(account_ckb_transactions).serialized_json
+
+        valid_get api_v1_address_transaction_url(account.address_hash), params: { page: 2, page_size: 5 }
+
+        assert_equal response_transaction, response.body
       end
     end
   end
