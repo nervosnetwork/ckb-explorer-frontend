@@ -26,10 +26,36 @@ export const ContentTable = styled.div`
   margin-top: 58px;
   overflow-x: auto;
 `
+export const CommonPagition = styled.div`
+  .rc-pagination {
+    min-width: 450px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    li:focus {
+      outline: none !important;
+    }
+    .rc-pagination-item-active {
+      background-color: #4bbc8e !important;
+    }
+    .rc-pagination-item {
+      &:hover {
+        border-color: #4bbc8e !important;
+      }
+    }
+    .rc-pagination-options {
+      .rc-pagination-options-quick-jumper {
+        input:hover {
+          border-color: #4bbc8e !important;
+        }
+      }
+    }
+  }
+`
 
-export const BlocksPagition = styled.div`
+export const BlocksPagition = styled(CommonPagition)`
   margin-top: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  overflow-x: auto;
 `

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { CommonPagition } from '../BlockList/index.css'
 
 export const BlockDetailPanel = styled.div`
   width: 100%;
@@ -106,8 +107,8 @@ export const BlockTransactionsPanel = styled.div`
   }
 `
 
-export const BlockTransactionsPagition = styled.div`
+export const BlockTransactionsPagition = styled(CommonPagition)`
   margin: 80px 0 0 0;
-  display: flex;
-  justify-content: center;
+  width: 100%;
+  overflow-x: auto;
 `

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { CommonPagition } from '../BlockList/index.css'
 
 export const AddressContentPanel = styled.div`
   dispaly: flex;
@@ -168,10 +169,10 @@ export const AddressTransactionsCell = styled.div`
   }
 `
 
-export const AddressTransactionsPagition = styled.div`
+export const AddressTransactionsPagition = styled(CommonPagition)`
   margin: 80px 0 200px 0;
-  display: flex;
-  justify-content: center;
+  width: 100%;
+  overflow-x: auto;
 `
 
 export const AddressCommonRowPanel = styled.div`
