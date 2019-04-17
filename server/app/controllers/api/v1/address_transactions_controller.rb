@@ -4,10 +4,12 @@ module Api
       before_action :validate_query_params
 
       def show
-        account = Account.find_by(address_hash: params[:id])
+        account = Account.find_by!(address_hash: params[:id])
         ckb_transactions = account.ckb_transactions
 
         render json: CkbTransactionSerializer.new(ckb_transactions)
+      rescue ActiveRecord::RecordNotFound
+        raise Api::V1::Exceptions::AddressTransactionsNotFoundError
       end
 
       private

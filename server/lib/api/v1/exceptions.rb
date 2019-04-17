@@ -66,6 +66,12 @@ module Api
           super code: 1009, status: 422, title: "URI parameters is invalid", detail: "URI parameters should be a address hash", href: "https://github.com/nervosnetwork/ckb-explorer"
         end
       end
+
+      class AddressTransactionsNotFoundError < Error
+        def initialize
+          super code: 1010, status: 404, title: "Address Transaction Not Found", detail: "No transaction records found by given address hash", href: "https://github.com/nervosnetwork/ckb-explorer"
+        end
+      end
     end
   end
 end
