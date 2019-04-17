@@ -48,6 +48,18 @@ module Api
           super code: 1006, status: 404, title: "Transaction Not Found", detail: "No transaction records found by given transaction hash", href: "https://github.com/nervosnetwork/ckb-explorer"
         end
       end
+
+      class PageParamError < Error
+        def initialize
+          super code: 1007, status: 400, title: "Page Param Invalid", detail: "Params page should be a integer", href: "https://github.com/nervosnetwork/ckb-explorer"
+        end
+      end
+
+      class PageSizeParamError < Error
+        def initialize
+          super code: 1008, status: 400, title: "Page Size Param Invalid", detail: "Params page size should be a integer", href: "https://github.com/nervosnetwork/ckb-explorer"
+        end
+      end
     end
   end
 end

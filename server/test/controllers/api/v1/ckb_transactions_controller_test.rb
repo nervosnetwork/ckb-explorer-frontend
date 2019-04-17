@@ -29,23 +29,12 @@ module Api
 
       test "should respond with error object when Content-Type is wrong" do
         ckb_transaction = create(:ckb_transaction)
-
-        error_object = {
-          message: "Unsupported Media Type",
-          errors: [
-            {
-              code: 1001,
-              status: 415,
-              title: "Unsupported Media Type",
-              detail: "Content Type must be application/vnd.api+json",
-              href: "https://github.com/nervosnetwork/ckb-explorer"
-            }
-          ]
-        }
+        error_object = Api::V1::Exceptions::WrongContentTypeError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
         get api_v1_ckb_transaction_url(ckb_transaction.tx_hash), headers: { "Content-Type": "text/plain" }
 
-        assert_equal json, JSON.parse(error_object.to_json)
+        assert_equal response_json, response.body
       end
 
       test "should respond with 406 Not Acceptable when Accept is wrong" do
@@ -58,80 +47,39 @@ module Api
 
       test "should respond with error object when Accept is wrong" do
         ckb_transaction = create(:ckb_transaction)
-
-        error_object = {
-          message: "Not Acceptable",
-          errors: [
-            {
-              code: 1002,
-              status: 406,
-              title: "Not Acceptable",
-              detail: "Accept must be application/vnd.api+json",
-              href: "https://github.com/nervosnetwork/ckb-explorer"
-            }
-          ]
-        }.to_json
+        error_object = Api::V1::Exceptions::WrongAcceptError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
         get api_v1_ckb_transaction_url(ckb_transaction.tx_hash), headers: { "Content-Type": "application/vnd.api+json", "Accept": "application/json" }
 
-        assert_equal json, JSON.parse(error_object)
+        assert_equal response_json, response.body
       end
 
       test "should return error object when id is not a hex start with 0x" do
-        error_object = {
-          message: "URI parameters is invalid",
-          errors: [
-            {
-              code: 1005,
-              status: 422,
-              title: "URI parameters is invalid",
-              detail: "URI parameters should be a transaction hash",
-              href: "https://github.com/nervosnetwork/ckb-explorer"
-            }
-          ]
-        }.to_json
+        error_object = Api::V1::Exceptions::CkbTransactionTxHashInvalidError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
         valid_get api_v1_ckb_transaction_url("9034fwefwef")
 
-        assert_equal json, JSON.parse(error_object)
+        assert_equal response_json, response.body
       end
 
       test "should return error object when id is a hex start with 0x but it's length is wrong" do
-        error_object = {
-          message: "URI parameters is invalid",
-          errors: [
-            {
-              code: 1005,
-              status: 422,
-              title: "URI parameters is invalid",
-              detail: "URI parameters should be a transaction hash",
-              href: "https://github.com/nervosnetwork/ckb-explorer"
-            }
-          ]
-        }.to_json
+        error_object = Api::V1::Exceptions::CkbTransactionTxHashInvalidError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
         valid_get api_v1_ckb_transaction_url("0x9034fwefwef")
 
-        assert_equal json, JSON.parse(error_object)
+        assert_equal response_json, response.body
       end
 
       test "should return error object when no records found by id" do
-        error_object = {
-          message: "Transaction Not Found",
-          errors: [
-            {
-              code: 1006,
-              status: 404,
-              title: "Transaction Not Found",
-              detail: "No transaction records found by given transaction hash",
-              href: "https://github.com/nervosnetwork/ckb-explorer"
-            }
-          ]
-        }.to_json
+        error_object = Api::V1::Exceptions::CkbTransactionNotFoundError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
         valid_get api_v1_ckb_transaction_url("0x3b138b3126d10ec000417b68bc715f17e86293d6cdbcb3fd8a628ad4a0b756f6")
 
-        assert_equal json, JSON.parse(error_object)
+        assert_equal response_json, response.body
       end
 
       test "should return corresponding ckb transaction with given transaction hash" do

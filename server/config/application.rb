@@ -34,6 +34,7 @@ module Server
 
     config.autoload_paths += %W(#{config.root}/app/serializers)
     config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += Dir[Rails.root.join("lib/fast_jsonapi/*.rb")].each { |l| require l }
     config.eager_load_paths << Rails.root.join("lib")
 
     config.middleware.insert_before 0, Rack::Cors do

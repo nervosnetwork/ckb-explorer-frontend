@@ -51,22 +51,12 @@ module Api
       end
 
       test "should respond with error object when Content-Type is wrong" do
-        error_object = {
-          message: "Unsupported Media Type",
-          errors: [
-            {
-              code: 1001,
-              status: 415,
-              title: "Unsupported Media Type",
-              detail: "Content Type must be application/vnd.api+json",
-              href: "https://github.com/nervosnetwork/ckb-explorer"
-            }
-          ]
-        }
+        error_object = Api::V1::Exceptions::WrongContentTypeError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
         get api_v1_blocks_url, headers: { "Content-Type": "text/plain" }
 
-        assert_equal json, JSON.parse(error_object.to_json)
+        assert_equal response_json, response.body
       end
 
       test "should respond with 406 Not Acceptable when Accept is wrong" do
@@ -76,22 +66,12 @@ module Api
       end
 
       test "should respond with error object when Accept is wrong" do
-        error_object = {
-          message: "Not Acceptable",
-          errors: [
-            {
-              code: 1002,
-              status: 406,
-              title: "Not Acceptable",
-              detail: "Accept must be application/vnd.api+json",
-              href: "https://github.com/nervosnetwork/ckb-explorer"
-            }
-          ]
-        }.to_json
+        error_object = Api::V1::Exceptions::WrongAcceptError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
         get api_v1_blocks_url, headers: { "Content-Type": "application/vnd.api+json", "Accept": "application/json" }
 
-        assert_equal json, JSON.parse(error_object)
+        assert_equal response_json, response.body
       end
 
       test "should return 10 records when page_size is not set" do
@@ -150,22 +130,12 @@ module Api
       end
 
       test "should respond with error object when Content-Type is wrong when vist show" do
-        error_object = {
-          message: "Unsupported Media Type",
-          errors: [
-            {
-              code: 1001,
-              status: 415,
-              title: "Unsupported Media Type",
-              detail: "Content Type must be application/vnd.api+json",
-              href: "https://github.com/nervosnetwork/ckb-explorer"
-            }
-          ]
-        }
+        error_object = Api::V1::Exceptions::WrongContentTypeError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
         get api_v1_block_url(1), headers: { "Content-Type": "text/plain" }
 
-        assert_equal json, JSON.parse(error_object.to_json)
+        assert_equal response_json, response.body
       end
 
       test "should respond with 406 Not Acceptable when Accept is wrong when vist show" do
@@ -175,79 +145,39 @@ module Api
       end
 
       test "should respond with error object when Accept is wrong when vist show" do
-        error_object = {
-          message: "Not Acceptable",
-          errors: [
-            {
-              code: 1002,
-              status: 406,
-              title: "Not Acceptable",
-              detail: "Accept must be application/vnd.api+json",
-              href: "https://github.com/nervosnetwork/ckb-explorer"
-            }
-          ]
-        }.to_json
+        error_object = Api::V1::Exceptions::WrongAcceptError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
         get api_v1_block_url(1), headers: { "Content-Type": "application/vnd.api+json", "Accept": "application/json" }
 
-        assert_equal json, JSON.parse(error_object)
+        assert_equal response_json, response.body
       end
 
       test "should return error object when id is not a hex start with 0x" do
-        error_object = {
-          message: "URI parameters is invalid",
-          errors: [
-            {
-              code: 1003,
-              status: 422,
-              title: "URI parameters is invalid",
-              detail: "URI parameters should be a block hash or a block height",
-              href: "https://github.com/nervosnetwork/ckb-explorer"
-            }
-          ]
-        }.to_json
+        error_object = Api::V1::Exceptions::BlockQueryKeyInvalidError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
         valid_get api_v1_block_url("9034fwefwef")
 
-        assert_equal json, JSON.parse(error_object)
+        assert_equal response_json, response.body
       end
 
       test "should return error object when id is a hex start with 0x but the length is wrong" do
-        error_object = {
-          message: "URI parameters is invalid",
-          errors: [
-            {
-              code: 1003,
-              status: 422,
-              title: "URI parameters is invalid",
-              detail: "URI parameters should be a block hash or a block height",
-              href: "https://github.com/nervosnetwork/ckb-explorer"
-            }
-          ]
-        }.to_json
+        error_object = Api::V1::Exceptions::BlockQueryKeyInvalidError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
         valid_get api_v1_block_url("0xawefwef")
 
-        assert_equal json, JSON.parse(error_object)
+        assert_equal response_json, response.body
       end
 
       test "should return error object when no records found by id" do
-        error_object = {
-          message: "Block Not Found",
-          errors: [
-            {
-              code: 1004,
-              status: 404,
-              title: "Block Not Found",
-              detail: "No block records found by given block hash or number",
-              href: "https://github.com/nervosnetwork/ckb-explorer"
-            }
-          ]
-        }.to_json
+        error_object = Api::V1::Exceptions::BlockNotFoundError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
         valid_get api_v1_block_url("0.87")
 
-        assert_equal json, JSON.parse(error_object)
+        assert_equal response_json, response.body
       end
 
       test "should return corresponding block with given block hash" do
