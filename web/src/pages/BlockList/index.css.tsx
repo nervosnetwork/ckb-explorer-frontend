@@ -4,9 +4,6 @@ export const BlockListPanel = styled.div`
   width: 100%;
   margin-top: ${(props: { width: number }) => (150 * props.width) / 1920}px;
   margin-bottom: ${(props: { width: number }) => (200 * props.width) / 1920}px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `
 
 export const ContentTitle = styled.div`
@@ -26,11 +23,13 @@ export const ContentTitle = styled.div`
 `
 
 export const ContentTable = styled.div`
-  display: flex;
-  justify-content: center;
   margin-top: 58px;
+  overflow-x: auto;
 `
 
 export const BlocksPagition = styled.div`
   margin-top: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `

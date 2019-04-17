@@ -28,7 +28,11 @@ export const AddressTitlePanel = styled.div`
       font-size: 18px;
       height: 25px;
     }
-
+    #address__hash {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
     img {
       margin-left: 19px;
       width: 24px;
@@ -56,7 +60,8 @@ export const AddressOverviewPanel = styled.div`
 `
 
 export const AddressCommonContent = styled.div`
-  width: 1200px;
+  width: 100%;
+  overflow-x: auto;
   padding: 72px 88px 56px 88px;
   margin: 0 auto;
   margin-top: 50px;
@@ -69,13 +74,13 @@ export const AddressCommonContent = styled.div`
 `
 
 export const AddressTransactionsPanel = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  >div: nth-child(2) {
+    width: 100%;
+    overflow-x: auto;
+  }
 `
 
 export const AddressTransactionsItem = styled.div`
-  width: 1200px;
   padding: 38px 83px 41px 83px;
   margin: 0 auto;
   margin-top: 10px;
@@ -165,6 +170,8 @@ export const AddressTransactionsCell = styled.div`
 
 export const AddressTransactionsPagition = styled.div`
   margin: 80px 0 200px 0;
+  display: flex;
+  justify-content: center;
 `
 
 export const AddressCommonRowPanel = styled.div`

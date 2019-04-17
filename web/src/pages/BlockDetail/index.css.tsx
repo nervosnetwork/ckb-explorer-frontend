@@ -4,9 +4,6 @@ export const BlockDetailPanel = styled.div`
   width: 100%;
   margin-top: ${(props: { width: number }) => (100 * props.width) / 1920}px;
   margin-bottom: ${(props: { width: number }) => (200 * props.width) / 1920}px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `
 
 export const BlockDetailTitlePanel = styled.div`
@@ -40,6 +37,8 @@ export const BlockDetailTitlePanel = styled.div`
 `
 
 export const BlockOverviewPanel = styled.div`
+  margin: 0 auto;
+  text-align: center;
   margin-top: 107px;
   margin-bottom: 50px;
   font-size: 50px;
@@ -56,7 +55,7 @@ export const BlockOverviewPanel = styled.div`
   }
 `
 export const BlockCommonContent = styled.div`
-  width: 1200px;
+  overflow-x: auto;
   padding: 72px 88px 56px 88px;
   margin: 0 auto;
   margin-top: 50px;
@@ -77,6 +76,7 @@ export const BlockCommonContent = styled.div`
 
 export const BlockPreviousNextPanel = styled.div`
   display: flex;
+  justify-content: center;
   margin-top: 59px;
 
   .block__arrow {
@@ -100,11 +100,14 @@ export const BlockHightLabel = styled.div`
 `
 
 export const BlockTransactionsPanel = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  > div:nth-child(2) {
+    width: 100%;
+    overflow-x: auto;
+  }
 `
 
 export const BlockTransactionsPagition = styled.div`
   margin: 80px 0 0 0;
+  display: flex;
+  justify-content: center;
 `

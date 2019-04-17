@@ -217,7 +217,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     <Page>
       <Header />
       <Content>
-        <BlockDetailPanel width={window.innerWidth}>
+        <BlockDetailPanel width={window.innerWidth} className="container">
           <BlockDetailTitle hash={hash} />
           <BlockOverview value="Overview" />
           <BlockCommonContent>

@@ -32,6 +32,15 @@ const TableTitleRowItem = styled.div`
 export const TableContentRow = styled.div`
   display: flex;
   width: 1200px;
+  &:nth-child(odd) {
+    background-color: transparent;
+  }
+  &:nth-child(even) {
+    background-color: white;
+  }
+  &:hover {
+    // background-color: transparent;
+  }
 `
 
 const TableContentRowItem = styled.div`

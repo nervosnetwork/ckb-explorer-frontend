@@ -56,30 +56,28 @@ export default () => {
     <Page>
       <Header />
       <Content>
-        <BlockListPanel width={window.innerWidth}>
+        <BlockListPanel width={window.innerWidth} className="container">
           <ContentTitle>Blocks</ContentTitle>
 
           <ContentTable>
-            <div>
-              <TableTitleRow>
-                <TableTitleItem image={BlockHeightIcon} title="Height" />
-                <TableTitleItem image={TransactionIcon} title="Transactions" />
-                <TableTitleItem image={CellConsumedIcon} title="Cell Consumed(B)" />
-                <TableTitleItem image={MinerIcon} title="Miner" />
-                <TableTitleItem image={TimestampIcon} title="Time" />
-              </TableTitleRow>
-              {blockWrappers.map((data: any) => {
-                return (
-                  <TableContentRow key={data.attributes.block_hash}>
-                    <TableContentItem content={data.attributes.number} to={`block/${data.number}`} />
-                    <TableContentItem content={data.attributes.transactions_count} />
-                    <TableContentItem content={data.attributes.cell_consumed} />
-                    <TableMinerContentItem content={data.attributes.miner_hash} />
-                    <TableContentItem content={parseDate(data.attributes.timestamp)} />
-                  </TableContentRow>
-                )
-              })}
-            </div>
+            <TableTitleRow>
+              <TableTitleItem image={BlockHeightIcon} title="Height" />
+              <TableTitleItem image={TransactionIcon} title="Transactions" />
+              <TableTitleItem image={CellConsumedIcon} title="Cell Consumed(B)" />
+              <TableTitleItem image={MinerIcon} title="Miner" />
+              <TableTitleItem image={TimestampIcon} title="Time" />
+            </TableTitleRow>
+            {blockWrappers.map((data: any) => {
+              return (
+                <TableContentRow key={data.attributes.block_hash}>
+                  <TableContentItem content={data.attributes.number} to={`/block/${data.number}`} />
+                  <TableContentItem content={data.attributes.transactions_count} />
+                  <TableContentItem content={data.attributes.cell_consumed} />
+                  <TableMinerContentItem content={data.attributes.miner_hash} />
+                  <TableContentItem content={parseDate(data.attributes.timestamp)} />
+                </TableContentRow>
+              )
+            })}
           </ContentTable>
           <BlocksPagition>
             <Pagination

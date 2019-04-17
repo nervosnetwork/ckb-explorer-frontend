@@ -126,7 +126,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     <Page>
       <Header />
       <Content>
-        <AddressContentPanel width={window.innerWidth}>
+        <AddressContentPanel width={window.innerWidth} className="container">
           <AddressTitle address={address} />
           <AddressOverview value="Overview" />
           <AddressCommonContent>
