@@ -4,8 +4,8 @@ export interface Transaction {
   block_timestamp: number
   transaction_fee: number
   version: number
-  display_inputs: Input[]
-  display_outputs: Output[]
+  display_inputs: InputOutput[]
+  display_outputs: InputOutput[]
 }
 
 export interface TransactionWrapper {
@@ -14,14 +14,8 @@ export interface TransactionWrapper {
   attributes: Transaction
 }
 
-export interface Input {
-  input_id: number
-  address_hash: string
-  capacity: number
-}
-
-export interface Output {
-  output_id: number
+export interface InputOutput {
+  id: number
   address_hash: string
   capacity: number
 }

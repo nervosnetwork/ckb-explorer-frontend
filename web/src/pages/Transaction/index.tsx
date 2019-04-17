@@ -57,7 +57,7 @@ const ScriptComponent = ({
   return (
     <>
       <tr className="tr-brief">
-        <td>{`#${cellInputOutput[`${cellType}_id`]}`}</td>
+        <td>{`#${cellInputOutput.id}`}</td>
         <td>
           <Link to={`/address/${cellInputOutput.address_hash}`}>{cellInputOutput.address_hash}</Link>
         </td>
@@ -82,17 +82,17 @@ const ScriptComponent = ({
                   if (item === 'Lock Script') {
                     fetchScript().then(data => {
                       setScript(data as Script)
-                      updateCellData(cellType, cellInputOutput[`${cellType}_id`], newCellInputOutput)
+                      updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
                     })
                   } else if (item === 'Type Script') {
                     fetchScript().then(data => {
                       setScript(data as Script)
-                      updateCellData(cellType, cellInputOutput[`${cellType}_id`], newCellInputOutput)
+                      updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
                     })
                   } else {
                     fetchCellData().then(data => {
                       setCellData(data as Data)
-                      updateCellData(cellType, cellInputOutput[`${cellType}_id`], newCellInputOutput)
+                      updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
                     })
                   }
                 }}
@@ -108,7 +108,7 @@ const ScriptComponent = ({
           <td />
           <td colSpan={5}>
             <textarea
-              id={`textarea-${cellType}${+'-'}${cellInputOutput[`${cellType}_id`]}`}
+              id={`textarea-${cellType}${+'-'}${cellInputOutput.id}`}
               value={JSON.stringify(scriptType === 'Data' ? cellData : script, null, 4)}
               readOnly
             />
@@ -120,7 +120,7 @@ const ScriptComponent = ({
                 onKeyPress={() => {}}
                 onClick={() => {
                   const textarea = document.getElementById(
-                    `textarea-${cellType}${+'-'}${cellInputOutput[`${cellType}_id`]}`,
+                    `textarea-${cellType}${+'-'}${cellInputOutput.id}`,
                   ) as HTMLTextAreaElement
                   textarea.select()
                   document.execCommand('copy')
@@ -199,7 +199,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         ...state,
       }
       newState[`display_${cellType}s`].forEach((item: any, i: number) => {
-        if (item[`${cellType}_id`] === cellId) {
+        if (item.id === cellId) {
           newState[`display_${cellType}s`][i] = newCellInputOutput
         }
       })
@@ -249,7 +249,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                     return (
                       <ScriptComponent
                         cellType="input"
-                        key={input.input_id}
+                        key={input.id}
                         cellInputOutput={input}
                         scriptType={input.select || null}
                         updateCellData={updateCellData}
@@ -269,7 +269,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                     return (
                       <ScriptComponent
                         cellType="output"
-                        key={ouput.output_id}
+                        key={ouput.id}
                         cellInputOutput={ouput}
                         scriptType={ouput.select || null}
                         updateCellData={updateCellData}
