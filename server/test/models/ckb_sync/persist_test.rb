@@ -84,7 +84,7 @@ module CkbSync
       end
     end
 
-    test ".save_block should create accounts" do
+    test ".save_block should create addresses" do
       VCR.use_cassette("blocks/10") do
         SyncInfo.local_inauthentic_tip_block_number
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
@@ -92,7 +92,7 @@ module CkbSync
         node_cell_outputs = node_block_commit_transactions.map { |commit_transaction| commit_transaction["outputs"] }.flatten
         node_lock_scripts = node_cell_outputs.map { |cell_output| cell_output["lock"] }.uniq
 
-        assert_difference "Account.count", node_lock_scripts.size do
+        assert_difference "Address.count", node_lock_scripts.size do
           CkbSync::Persist.save_block(node_block, "inauthentic")
         end
       end

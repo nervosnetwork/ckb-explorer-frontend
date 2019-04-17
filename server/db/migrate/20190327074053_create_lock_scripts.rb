@@ -5,7 +5,7 @@ class CreateLockScripts < ActiveRecord::Migration[5.2]
       t.binary :binary_hash
       t.integer :version
       t.belongs_to :cell_output, index: true
-      t.belongs_to :account, index: true
+      t.belongs_to :address, index: true
 
       t.timestamps
     end

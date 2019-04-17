@@ -1,6 +1,6 @@
-class CreateAccounts < ActiveRecord::Migration[5.2]
+class CreateAddresses < ActiveRecord::Migration[5.2]
   def change
-    create_table :accounts do |t|
+    create_table :addresses do |t|
       t.bigint :balance
       t.binary :address_hash
       t.decimal :cell_consumed, precision: 64, scale: 2
@@ -8,6 +8,6 @@ class CreateAccounts < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-    add_index :accounts, :address_hash, unique: true
+    add_index :addresses, :address_hash, unique: true
   end
 end

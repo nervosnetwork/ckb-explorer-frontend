@@ -5,8 +5,8 @@ module Api
       before_action :validate_pagination_params, :pagination_params
 
       def show
-        account = Account.find_by!(address_hash: params[:id])
-        ckb_transactions = account.ckb_transactions.recent.page(@page).per(@page_size)
+        address = Address.find_by!(address_hash: params[:id])
+        ckb_transactions = address.ckb_transactions.recent.page(@page).per(@page_size)
 
         render json: CkbTransactionSerializer.new(ckb_transactions)
       rescue ActiveRecord::RecordNotFound
