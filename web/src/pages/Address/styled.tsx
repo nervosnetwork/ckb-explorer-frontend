@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { CommonPagition } from '../BlockList/index.css'
+import { CommonPagition } from '../BlockList/styled'
 
 export const AddressContentPanel = styled.div`
   dispaly: flex;
