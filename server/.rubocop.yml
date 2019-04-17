@@ -77,6 +77,14 @@ Metrics/BlockNesting:
 Metrics/ModuleLength:
   Max: 200
 
+Metrics/BlockLength:
+  CountComments: true
+  Max: 25
+  ExcludedMethods: []
+  Exclude:
+    - "test/**/*"
+    - "config/environments/**/*"
+
 Style/For:
   Enabled: false
 
