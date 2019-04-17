@@ -4,7 +4,7 @@ class CkbTransactionTest < ActiveSupport::TestCase
   context "associations" do
     should belong_to(:block)
     should have_many(:account_books)
-    should have_many(:accounts).
+    should have_many(:addresses).
       through(:account_books)
     should have_many(:cell_inputs)
     should have_many(:cell_outputs)

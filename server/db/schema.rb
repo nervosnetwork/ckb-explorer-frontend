@@ -16,22 +16,22 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   enable_extension "plpgsql"
 
   create_table "account_books", force: :cascade do |t|
-    t.bigint "account_id"
+    t.bigint "address_id"
     t.bigint "ckb_transaction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_account_books_on_account_id"
+    t.index ["address_id"], name: "index_account_books_on_address_id"
     t.index ["ckb_transaction_id"], name: "index_account_books_on_ckb_transaction_id"
   end
 
-  create_table "accounts", force: :cascade do |t|
+  create_table "addresses", force: :cascade do |t|
     t.bigint "balance"
     t.binary "address_hash"
     t.decimal "cell_consumed", precision: 64, scale: 2
     t.bigint "ckb_transactions_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["address_hash"], name: "index_accounts_on_address_hash", unique: true
+    t.index ["address_hash"], name: "index_addresses_on_address_hash", unique: true
   end
 
   create_table "blocks", force: :cascade do |t|
@@ -106,10 +106,10 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.binary "binary_hash"
     t.integer "version"
     t.bigint "cell_output_id"
-    t.bigint "account_id"
+    t.bigint "address_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_lock_scripts_on_account_id"
+    t.index ["address_id"], name: "index_lock_scripts_on_address_id"
     t.index ["cell_output_id"], name: "index_lock_scripts_on_cell_output_id"
   end
 

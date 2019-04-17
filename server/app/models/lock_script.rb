@@ -1,6 +1,6 @@
 class LockScript < ApplicationRecord
   belongs_to :cell_output
-  belongs_to :account
+  belongs_to :address
 
   validates_presence_of :binary_hash
 
@@ -23,12 +23,12 @@ end
 #  binary_hash    :binary
 #  version        :integer
 #  cell_output_id :bigint(8)
-#  account_id     :bigint(8)
+#  address_id     :bigint(8)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #
 # Indexes
 #
-#  index_lock_scripts_on_account_id      (account_id)
+#  index_lock_scripts_on_address_id      (address_id)
 #  index_lock_scripts_on_cell_output_id  (cell_output_id)
 #

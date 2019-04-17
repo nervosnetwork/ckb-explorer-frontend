@@ -67,7 +67,7 @@ module CKB
     end
 
     # TODO Can be changed to calculate by local cell
-    def self.account_cell_consumed(lock_hash)
+    def self.address_cell_consumed(lock_hash)
       outputs =
         CKB::Utils.get_unspent_cells(lock_hash).map do |cell|
           out_point = cell[:out_point]

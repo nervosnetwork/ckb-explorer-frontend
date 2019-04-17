@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  name: inauthentic_tip_block_number
-  value: 1
-
-two:
-  name: authentic_tip_block_number
-  value: 1

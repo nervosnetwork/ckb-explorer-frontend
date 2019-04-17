@@ -12,7 +12,7 @@ module Validations
       api_errors = []
 
       if invalid?
-        api_errors << Api::V1::Exceptions::AccountAddressHashInvalidError.new if :query_key.in?(errors.keys)
+        api_errors << Api::V1::Exceptions::AddressHashInvalidError.new if :query_key.in?(errors.keys)
         {
           status: api_errors.first.status,
           errors: RequestErrorSerializer.new(api_errors, message: api_errors.first.title)

@@ -60,12 +60,12 @@ class BlockTest < ActiveSupport::TestCase
     end
   end
 
-  test "#contained_accounts should return accounts under the block" do
+  test "#contained_addresses should return addresses under the block" do
     prepare_inauthentic_node_data
     Block.all.each do |block|
       ckb_transactions_under_the_block = block.ckb_transactions
-      accounts = ckb_transactions_under_the_block.map { |ckb_transaction| ckb_transaction.accounts }.uniq.flatten
-      assert_equal accounts, block.contained_accounts
+      addresses = ckb_transactions_under_the_block.map { |ckb_transaction| ckb_transaction.addresses }.uniq.flatten
+      assert_equal addresses, block.contained_addresses
     end
   end
 

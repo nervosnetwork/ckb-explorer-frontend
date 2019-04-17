@@ -8,7 +8,7 @@ module CkbSync
         ApplicationRecord.transaction do
           if local_block.present?
             local_block.verify!(node_block)
-            update_account_balance_and_cell_consumed!(local_block)
+            update_address_balance_and_cell_consumed!(local_block)
           else
             CkbSync::Persist.save_block(node_block, "authentic")
           end
@@ -17,15 +17,15 @@ module CkbSync
 
       private
 
-      def update_account_balance_and_cell_consumed!(local_block)
-        accounts =
-          local_block.contained_accounts.map do |account|
-            account.balance = CKB::Utils.get_balance(account.address_hash)
-            account.cell_consumed = CKB::Utils.account_cell_consumed(account.address_hash)
-            account
+      def update_address_balance_and_cell_consumed!(local_block)
+        addresses =
+          local_block.contained_addresses.map do |address|
+            address.balance = CKB::Utils.get_balance(address.address_hash)
+            address.cell_consumed = CKB::Utils.address_cell_consumed(address.address_hash)
+            address
           end
 
-        Account.import! accounts, on_duplicate_key_update: [:balance, :cell_consumed]
+        Address.import! addresses, on_duplicate_key_update: [:balance, :cell_consumed]
       end
     end
   end

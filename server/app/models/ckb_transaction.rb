@@ -6,7 +6,7 @@ class CkbTransaction < ApplicationRecord
 
   belongs_to :block
   has_many :account_books
-  has_many :accounts, through: :account_books
+  has_many :addresses, through: :account_books
   has_many :cell_inputs
   has_many :cell_outputs
 
