@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
+import queryString from 'query-string'
 import AppContext from '../../contexts/App'
 import Page from '../../components/Page'
 import Header from '../../components/Header'
@@ -72,9 +73,13 @@ const AddressScriptLabel = ({ image, label, value }: { image: string; label: str
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string }>>) => {
-  const { match } = props
+  const { match, location } = props
   const { params } = match
   const { address } = params
+
+  const { search } = location
+  const parsed = queryString.parse(search)
+  const { page, size } = parsed
 
   const initTransactionWrappers: TransactionWrapper[] = []
   const initAddress: Address = {
@@ -99,27 +104,31 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     })
   }
 
-  const getTransactions = (page: number, size: number) => {
-    fetchTransactionsByAddress(address).then(response => {
+  const getTransactions = (page_p: number, size_p: number) => {
+    fetchTransactionsByAddress(address, page_p, size_p).then(response => {
       const { data, meta } = response as Response<TransactionWrapper[]>
       if (meta) {
         const { total } = meta
         setTotalTransactions(total)
       }
-      const transactions = data.slice((page - 1) * size, page * size)
+      const transactions = data.slice((page_p - 1) * size_p, page_p * size_p)
       setTrasactionWrappers(transactions)
     })
   }
 
   useEffect(() => {
     getAddressInfo()
-    getTransactions(pageNo, pageSize)
-  }, [])
+    const page_p = page ? parseInt(page as string, 10) : pageNo
+    const size_p = size ? parseInt(size as string, 10) : pageSize
+    setPageNo(page_p)
+    setPageSize(size_p)
+    getTransactions(page_p, size_p)
+  }, [pageNo, pageSize])
 
-  const onChange = (page: number, size: number) => {
-    setPageSize(size)
-    setPageNo(page)
-    getTransactions(page, size)
+  const onChange = (page_p: number, size_p: number) => {
+    setPageNo(page_p)
+    setPageSize(size_p)
+    props.history.push(`/address/${address}?page=${page_p}&size=${size_p}`)
   }
 
   return (

@@ -48,10 +48,10 @@ export const fetchAddressInfo = (address: string) => {
   })
 }
 
-export const fetchTransactionsByAddress = (address: string) => {
+export const fetchTransactionsByAddress = (address: string, page: number, size: number) => {
   return new Promise(function(resolve, reject) {
     resolve(TransactionsData)
-    if (false) reject(address)
+    if (false) reject(new Error(`${address}${page}${size}`))
   })
 }
 
