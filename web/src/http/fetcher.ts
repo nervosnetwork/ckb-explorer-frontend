@@ -62,10 +62,10 @@ export const fetchTransactionByHash = (hash: string) => {
   })
 }
 
-export const fetchTransactionsByBlockHash = (blockHash: string) => {
+export const fetchTransactionsByBlockHash = (blockHash: string, page: number, size: number) => {
   return new Promise(function(resolve, reject) {
     resolve(TransactionsData)
-    if (false) reject(blockHash)
+    if (false) reject(new Error(`${blockHash}${page}${size}`))
   })
 }
 
