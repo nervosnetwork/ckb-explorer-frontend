@@ -20,7 +20,7 @@ import {
   AddressTransactionsPanel,
   AddressCommonRowPanel,
   AddressTransactionsPagition,
-} from './index.css'
+} from './styled'
 import CopyIcon from '../../asserts/copy.png'
 import BalanceIcon from '../../asserts/address_balance.png'
 import CellConsumedIcon from '../../asserts/address_cell_consumed.png'

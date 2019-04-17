@@ -11,7 +11,7 @@ import {
   BlockHightLabel,
   BlockTransactionsPanel,
   BlockTransactionsPagition,
-} from './index.css'
+} from './styled'
 import AppContext from '../../contexts/App'
 import Page from '../../components/Page'
 import Header from '../../components/Header'

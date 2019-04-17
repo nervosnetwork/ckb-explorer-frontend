@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
-import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition } from './index.css'
+import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition } from './styled'
 import { parseDate } from '../../utils/date'
 import Page from '../../components/Page'
 import Header from '../../components/Header'
