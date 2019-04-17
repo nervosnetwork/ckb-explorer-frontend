@@ -4,9 +4,6 @@ export const BlockListPanel = styled.div`
   width: 100%;
   margin-top: ${(props: { width: number }) => (150 * props.width) / 1920}px;
   margin-bottom: ${(props: { width: number }) => (200 * props.width) / 1920}px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `
 
 export const ContentTitle = styled.div`
@@ -26,11 +23,39 @@ export const ContentTitle = styled.div`
 `
 
 export const ContentTable = styled.div`
-  display: flex;
-  justify-content: center;
   margin-top: 58px;
+  overflow-x: auto;
+`
+export const CommonPagition = styled.div`
+  .rc-pagination {
+    min-width: 450px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    li:focus {
+      outline: none !important;
+    }
+    .rc-pagination-item-active {
+      background-color: #4bbc8e !important;
+    }
+    .rc-pagination-item {
+      &:hover {
+        border-color: #4bbc8e !important;
+      }
+    }
+    .rc-pagination-options {
+      .rc-pagination-options-quick-jumper {
+        input:hover {
+          border-color: #4bbc8e !important;
+        }
+      }
+    }
+  }
 `
 
-export const BlocksPagition = styled.div`
+export const BlocksPagition = styled(CommonPagition)`
   margin-top: 60px;
+  width: 100%;
+  overflow-x: auto;
 `

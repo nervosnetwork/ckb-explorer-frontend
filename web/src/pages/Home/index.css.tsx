@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const HomeHeaderPanel = styled.div`
-  height: ${(props: { width: number }) => (670 * props.width) / 1920}px;
+  min-height: ${(props: { width: number }) => (670 * props.width) / 1920}px;
   width: 100%;
   background: rgb(24, 50, 93);
   display: flex;
@@ -17,20 +17,21 @@ export const HomeHeader = styled.div`
 `
 
 export const LogoPanel = styled.div`
-  height: 149px;
+  min-height: 149px;
   width: auto;
   justify-content: center;
   dispaly: flex;
   display: -webkit-flex; /* Safari */
   flex-direction: row;
+  align-items: center;
 
   > img {
-    width: 156px;
-    height: 149px;
+    width: 156px !important;
+    height: 149px !important;
   }
 
   > div {
-    line-height: 156px;
+    // line-height: 156px;
     margin-left: 29px;
     color: #46ab81;
     font-size: 50px;
@@ -39,19 +40,23 @@ export const LogoPanel = styled.div`
 `
 
 export const SearchPanel = styled.div`
+  max-width: 650px;
+  width: 100%;
+  margin: 0 auto;
   margin-top: ${(props: { width: number }) => (98 * props.width) / 1920}px;
-  width: auto;
+  margin-bottom: ${(props: { width: number }) => (98 * props.width) / 1920}px;
   height: 65px;
   text-align: center;
-
+  position: relative;
   > input {
     position: relative;
-    width: 650px;
+    width: 100%;
     color: #bababa;
     height: 65px;
     font-size: 16px;
     padding-left: 20px;
     padding-right: 106px;
+    padding-right: 61px;
     opacity: 0.2;
     border-radius: 6px;
     background-color: #ffffff;
@@ -63,9 +68,9 @@ export const SearchPanel = styled.div`
 
   > div {
     display: inline-block;
-    position: relative;
+    position: absolute;
     top: 14px;
-    right: 50px;
+    right: 9px;
     width: 41px;
     height: 41px;
     opacity: 0.8;
@@ -102,9 +107,10 @@ export const ContentTitle = styled.div`
   }
 `
 export const ContentTable = styled.div`
-  display: flex;
-  justify-content: center;
+  margin: 0 auto;
   margin-top: 58px;
+  width: 100%;
+  overflow-x: auto;
 `
 
 export const TableMorePanel = styled.div`

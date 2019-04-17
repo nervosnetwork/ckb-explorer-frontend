@@ -9,19 +9,18 @@ import SearchLogo from '../../asserts/search.png'
 const SearchPanel = styled.div`
   margin-top: ${(props: { width: number }) => (350 * props.width) / 1920}px;
   margin-bottom: ${(props: { width: number }) => (440 * props.width) / 1920}px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `
 
 const SearchInput = styled.div`
-  width: auto;
+  max-width: 650px;
+  width: 100%;
+  margin: 0 auto;
   height: 65px;
   text-align: center;
-
+  position: relative;
   > input {
     position: relative;
-    width: 650px;
+    width: 100%;
     color: #bababa;
     height: 65px;
     font-size: 16px;
@@ -37,9 +36,9 @@ const SearchInput = styled.div`
   }
 
   > img {
-    position: relative;
+    position: absolute;
     top: 14px;
-    right: 50px;
+    right: 9px;
     width: 41px;
     height: 41px;
     opacity: 0.8;
@@ -52,7 +51,8 @@ const SearchInput = styled.div`
 
 const SearchContent = styled.div`
   font-size: 20px;
-  width: 423px;
+  max-width: 423px;
+  margin: 0 auto;
   margin-top: 39px;
   text-align: center;
 `
@@ -62,7 +62,7 @@ export default () => {
     <Page>
       <Header search={false} />
       <Content>
-        <SearchPanel width={window.innerWidth}>
+        <SearchPanel width={window.innerWidth} className="container">
           <SearchInput>
             <input placeholder="Block Heigth / Block Hash / TxHash / Address" />
             <img src={SearchLogo} alt="search logo" />

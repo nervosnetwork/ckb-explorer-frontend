@@ -6,6 +6,7 @@ const PageDiv = styled.div`
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch; // hack ios
   background-color: #f9f9f9;
   box-sizing: border-box;
   position: relative;
@@ -14,6 +15,17 @@ const PageDiv = styled.div`
     flex-direction: column;
     width: 100%;
     min-height: 100%;
+  }
+
+  /* hide inner scroll bar*/
+
+  div::-webkit-scrollbar {
+    width: 0 !important; // chrome, Safari
+  }
+  div {
+    overflow: -moz-scrollbars-none; // Firefox
+    scrollbar-width: none; // Firefox
+    -ms-overflow-style: none; // IE 10
   }
 `
 const scrollLatency: number = 300

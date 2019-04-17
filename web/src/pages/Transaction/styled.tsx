@@ -29,10 +29,6 @@ export const TransactionOverviewLabel = styled.div`
 `
 
 export const TransactionTitlePanel = styled.div`
-  dispaly: flex;
-  flex-direction: column;
-  align-items: center;
-
   .transaction__title {
     color: rgb(20, 20, 20);
     font-size: 40pt;
@@ -51,6 +47,11 @@ export const TransactionTitlePanel = styled.div`
       font-size: 18px;
       height: 25px;
     }
+    #transaction__hash {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     > div {
       > img {
@@ -63,21 +64,25 @@ export const TransactionTitlePanel = styled.div`
 `
 
 export const TransactionCommonContent = styled.div`
-  width: 1200px;
-  padding: 72px 88px 56px 88px;
-  margin: 0 auto;
-  margin-top: 50px;
-  background: white;
-  border: 0px solid white;
-  border-radius: 6px;
-  box-shadow: 0px 5px 9px rgb(233, 233, 233);
-  display: flex;
-
-  .block__content__separate {
-    width: 1px;
-    height: 80px;
-    background: #46ab81;
+  width: 100%;
+  overflow-x: auto;
+  > div {
+    padding: 72px 88px 56px 88px;
+    width: 1200px;
     margin: 0 auto;
+    margin-top: 50px;
+    background: white;
+    border: 0px solid white;
+    border-radius: 6px;
+    box-shadow: 0px 5px 9px rgb(233, 233, 233);
+    display: flex;
+
+    .block__content__separate {
+      width: 1px;
+      height: 80px;
+      background: #46ab81;
+      margin: 0 auto;
+    }
   }
 `
 
@@ -110,12 +115,16 @@ export const InputPanelDiv = styled(PanelDiv)`
   margin-top: 20px;
   min-height: 88px;
   padding: 30px 50px;
+  width: 100%;
+  overflow-x: auto;
 `
 
 export const OutputPanelDiv = styled(PanelDiv)`
   margin-top: 10px;
   min-height: 88px;
   padding: 30px 50px;
+  width: 100%;
+  overflow-x: auto;
 `
 
 export const BriefInfoDiv = styled(PanelDiv)`

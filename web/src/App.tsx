@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react'
+import styled from 'styled-components'
 import Routers from './routes'
 import Loading from './components/Loading'
 import Modal from './components/Modal'
@@ -8,6 +9,10 @@ import withProviders from './providers'
 import AppContext from './contexts/App'
 import { axiosIns } from './http/fetcher'
 
+const AppDiv = styled.div`
+  width: 100vw;
+  height: 100vh;
+`
 const App = () => {
   const appContext = useContext(AppContext)
   let resizeListener: any = null
@@ -43,12 +48,7 @@ const App = () => {
     }
   }, [])
   return (
-    <div
-      style={{
-        width: '100vw',
-        height: '100vh',
-      }}
-    >
+    <AppDiv>
       <Routers />
       <Modal
         onClose={() => {
@@ -65,10 +65,10 @@ const App = () => {
       <Toast
         toastMessage={appContext.toast}
         style={{
-          bottom: 5,
+          bottom: 10,
         }}
       />
-    </div>
+    </AppDiv>
   )
 }
 
