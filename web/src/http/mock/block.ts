@@ -46,24 +46,24 @@ export const TransactionsData: Response<TransactionWrapper[]> = {
         version: 0,
         display_inputs: [
           {
-            input_id: 101,
+            id: 101,
             address_hash: '0x3abd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae324',
             capacity: 100,
           },
           {
-            input_id: 102,
+            id: 102,
             address_hash: '0xddbd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae323',
             capacity: 100,
           },
         ],
         display_outputs: [
           {
-            output_id: 103,
+            id: 103,
             address_hash: '0x3abd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae324',
             capacity: 100,
           },
           {
-            output_id: 104,
+            id: 104,
             address_hash: '0xddbd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae323',
             capacity: 100,
           },
@@ -81,24 +81,24 @@ export const TransactionsData: Response<TransactionWrapper[]> = {
         version: 0,
         display_inputs: [
           {
-            input_id: 101,
+            id: 101,
             address_hash: '0x3abd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae324',
             capacity: 100,
           },
           {
-            input_id: 102,
+            id: 102,
             address_hash: '0xddbd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae323',
             capacity: 100,
           },
         ],
         display_outputs: [
           {
-            output_id: 103,
+            id: 103,
             address_hash: '0x3abd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae324',
             capacity: 100,
           },
           {
-            output_id: 104,
+            id: 104,
             address_hash: '0xddbd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae323',
             capacity: 100,
           },
@@ -116,24 +116,24 @@ export const TransactionsData: Response<TransactionWrapper[]> = {
         version: 0,
         display_inputs: [
           {
-            input_id: 101,
+            id: 101,
             address_hash: '0x3abd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae324',
             capacity: 100,
           },
           {
-            input_id: 102,
+            id: 102,
             address_hash: '0xddbd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae323',
             capacity: 100,
           },
         ],
         display_outputs: [
           {
-            output_id: 103,
+            id: 103,
             address_hash: '0x3abd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae324',
             capacity: 100,
           },
           {
-            output_id: 104,
+            id: 104,
             address_hash: '0xddbd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae323',
             capacity: 100,
           },
@@ -151,24 +151,24 @@ export const TransactionsData: Response<TransactionWrapper[]> = {
         version: 0,
         display_inputs: [
           {
-            input_id: 101,
+            id: 101,
             address_hash: '0x3abd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae324',
             capacity: 100,
           },
           {
-            input_id: 102,
+            id: 102,
             address_hash: '0xddbd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae323',
             capacity: 100,
           },
         ],
         display_outputs: [
           {
-            output_id: 103,
+            id: 103,
             address_hash: '0x3abd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae324',
             capacity: 100,
           },
           {
-            output_id: 104,
+            id: 104,
             address_hash: '0xddbd21e6e51674bb961bb4c5f3cee9faa5da30e64be10628dc1cef292cbae323',
             capacity: 100,
           },
