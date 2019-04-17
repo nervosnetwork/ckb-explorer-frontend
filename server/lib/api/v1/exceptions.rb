@@ -60,6 +60,12 @@ module Api
           super code: 1008, status: 400, title: "Page Size Param Invalid", detail: "Params page size should be a integer", href: "https://github.com/nervosnetwork/ckb-explorer"
         end
       end
+
+      class AccountAddressHashInvalidError < Error
+        def initialize
+          super code: 1009, status: 422, title: "URI parameters is invalid", detail: "URI parameters should be a address hash", href: "https://github.com/nervosnetwork/ckb-explorer"
+        end
+      end
     end
   end
 end
