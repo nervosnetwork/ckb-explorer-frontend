@@ -63,6 +63,28 @@ module Api
 
         assert_equal response_json, response.body
       end
+
+      test "should return corresponding lock script with given cell input id" do
+        cell_input = create(:cell_input, :with_full_transaction)
+        previous_output = cell_input.previous_output
+        tx_hash = previous_output["hash"]
+        output_index = previous_output["index"]
+        previous_transacton = CkbTransaction.find_by(tx_hash: tx_hash)
+        previous_cell_output = previous_transacton.cell_outputs.order(:id).first(output_index).first
+        lock_script = previous_cell_output.lock_script
+
+        valid_get api_v1_cell_input_lock_script_url(cell_input.id)
+
+        assert_equal LockScriptSerializer.new(lock_script).serialized_json, response.body
+      end
+
+      test "should contain right keys in the serialized object when call show" do
+        cell_input = create(:cell_input)
+
+        valid_get api_v1_cell_input_lock_script_url(cell_input.id)
+
+        assert_equal %w(args binary_hash).sort, json["data"]["attributes"].keys.sort
+      end
     end
   end
 end

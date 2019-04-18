@@ -31,7 +31,8 @@ FactoryBot.define do
     trait :with_cell_output_and_lock_script do
       after(:create) do |ckb_transaction, evaluator|
         cell_output = create(:cell_output, ckb_transaction: ckb_transaction)
-        create(:lock_script, cell_output: cell_output, address: evaluator.address, args: evaluator.args, binary_hash: evaluator.binary_hash, version: evaluator.lock_script_version)
+        create_list(:cell_output, 3, ckb_transaction: ckb_transaction)
+        create(:lock_script, cell_output: cell_output)
       end
     end
   end
