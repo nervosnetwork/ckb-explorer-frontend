@@ -8,6 +8,8 @@ module Api
         type_script = cell_output.type_script
 
         render json: TypeScriptSerializer.new(type_script)
+      rescue ActiveRecord::RecordNotFound
+        raise Api::V1::Exceptions::CellOutputNotFoundError
       end
 
       private
