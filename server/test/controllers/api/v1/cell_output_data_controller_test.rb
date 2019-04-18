@@ -79,6 +79,24 @@ module Api
 
         assert_equal %w(data).sort, json["data"]["attributes"].keys.sort
       end
+
+      test "should return error object when no cell output found by id" do
+        error_object = Api::V1::Exceptions::CellOutputNotFoundError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
+
+        valid_get api_v1_cell_output_datum_url(99)
+
+        assert_equal response_json, response.body
+      end
+
+      test "should return null when found record hasn't data" do
+        cell_output = create(:cell_output, :with_full_transaction_but_no_type_script)
+
+        valid_get api_v1_cell_output_datum_url(cell_output.id)
+
+        assert_equal nil, json.dig("data", "attributes", "data")
+        assert_equal CellOutputDataSerializer.new(cell_output).serialized_json, response.body
+      end
     end
   end
 end
