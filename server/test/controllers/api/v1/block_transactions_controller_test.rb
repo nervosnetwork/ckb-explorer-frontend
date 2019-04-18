@@ -101,6 +101,38 @@ module Api
         assert_equal response_json, response.body
       end
 
+      test "should return error object when page param is invalid" do
+        block = create(:block, :with_ckb_transactions)
+        error_object = Api::V1::Exceptions::PageParamError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
+
+        valid_get api_v1_block_transaction_url(block.block_hash), params: { page: "aaa" }
+
+        assert_equal response_json, response.body
+      end
+
+      test "should return error object when page size param is invalid" do
+        block = create(:block, :with_ckb_transactions)
+        error_object = Api::V1::Exceptions::PageSizeParamError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
+
+        valid_get api_v1_block_transaction_url(block.block_hash), params: { page_size: "aaa" }
+
+        assert_equal response_json, response.body
+      end
+
+      test "should return error object when page and page size param are invalid" do
+        errors = []
+        block = create(:block, :with_ckb_transactions)
+        errors << Api::V1::Exceptions::PageParamError.new
+        errors << Api::V1::Exceptions::PageSizeParamError.new
+        response_json = RequestErrorSerializer.new(errors, message: errors.first.title).serialized_json
+
+        valid_get api_v1_block_transaction_url(block.block_hash), params: { page: "bbb", page_size: "aaa" }
+
+        assert_equal response_json, response.body
+      end
+
     end
   end
 end
