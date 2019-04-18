@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { TransactionsCell, TransactionsItem } from './index.css'
+import { TransactionsCell, TransactionsItem } from './styled'
 import { parseDate } from '../../utils/date'
 import InputOutputIcon from '../../asserts/input_arrow_output.png'
 
