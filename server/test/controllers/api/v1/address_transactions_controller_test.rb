@@ -74,12 +74,16 @@ module Api
       end
 
       test "should return corresponding ckb transactions with given address hash" do
+        page = 1
+        page_size = 10
         address = create(:address, :with_transactions)
-        ckb_transactions = address.ckb_transactions.order(block_timestamp: :desc).limit(10)
+        ckb_transactions = address.ckb_transactions.order(block_timestamp: :desc).page(page).per(page_size)
 
         valid_get api_v1_address_transaction_url(address.address_hash)
 
-        assert_equal CkbTransactionSerializer.new(ckb_transactions).serialized_json, response.body
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: ckb_transactions, page: page, page_size: page_size).call()
+
+        assert_equal CkbTransactionSerializer.new(ckb_transactions, options).serialized_json, response.body
       end
 
       test "should contain right keys in the serialized object when call show" do
@@ -142,46 +146,98 @@ module Api
       end
 
       test "should return corresponding page's records when page is set and page_size is not set" do
+        page = 2
+        page_size = 10
         address = create(:address, :with_transactions, transactions_count: 30)
-        address_ckb_transactions = address.ckb_transactions.order(block_timestamp: :desc).offset(10).limit(10)
-        response_transaction = CkbTransactionSerializer.new(address_ckb_transactions).serialized_json
+        address_ckb_transactions = address.ckb_transactions.order(block_timestamp: :desc).page(page).per(page_size)
 
-        valid_get api_v1_address_transaction_url(address.address_hash), params: { page: 2 }
+        valid_get api_v1_address_transaction_url(address.address_hash), params: { page: page }
+
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: address_ckb_transactions, page: page, page_size: page_size).call()
+        response_transaction = CkbTransactionSerializer.new(address_ckb_transactions, options).serialized_json
 
         assert_equal response_transaction, response.body
-        assert_equal 10, json["data"].size
+        assert_equal page_size, json["data"].size
       end
 
       test "should return the corresponding transactions under the address when page is not set and page_size is set" do
+        page = 1
+        page_size = 12
         address = create(:address, :with_transactions, transactions_count: 15)
-        address_ckb_transactions = address.ckb_transactions.order(block_timestamp: :desc).limit(12)
-        response_transaction = CkbTransactionSerializer.new(address_ckb_transactions).serialized_json
+        address_ckb_transactions = address.ckb_transactions.order(block_timestamp: :desc).page(page).per(page_size)
 
-        valid_get api_v1_address_transaction_url(address.address_hash), params: { page_size: 12 }
+        valid_get api_v1_address_transaction_url(address.address_hash), params: { page_size: page_size }
+
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: address_ckb_transactions, page: page, page_size: page_size).call()
+        response_transaction = CkbTransactionSerializer.new(address_ckb_transactions, options).serialized_json
 
         assert_equal response_transaction, response.body
-        assert_equal 12, json["data"].size
+        assert_equal page_size, json["data"].size
       end
 
       test "should return the corresponding transactions when page and page_size are set" do
+        page = 2
+        page_size = 5
         address = create(:address, :with_transactions, transactions_count: 30)
-        address_ckb_transactions = address.ckb_transactions.order(block_timestamp: :desc).offset(5).limit(5)
-        response_transaction = CkbTransactionSerializer.new(address_ckb_transactions).serialized_json
+        address_ckb_transactions = address.ckb_transactions.order(block_timestamp: :desc).page(page).per(page_size)
 
-        valid_get api_v1_address_transaction_url(address.address_hash), params: { page: 2, page_size: 5 }
+        valid_get api_v1_address_transaction_url(address.address_hash), params: { page: page, page_size: page_size }
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: address_ckb_transactions, page: page, page_size: page_size).call()
+        response_transaction = CkbTransactionSerializer.new(address_ckb_transactions, options).serialized_json
 
         assert_equal response_transaction, response.body
       end
 
       test "should return empty array when there is no record under the address" do
+        page = 2
+        page_size = 5
         address = create(:address, :with_transactions)
-        address_ckb_transactions = address.ckb_transactions.order(block_timestamp: :desc).offset(5).limit(5)
-        response_transaction = CkbTransactionSerializer.new(address_ckb_transactions).serialized_json
+        address_ckb_transactions = address.ckb_transactions.order(block_timestamp: :desc).page(page).per(page_size)
 
-        valid_get api_v1_address_transaction_url(address.address_hash), params: { page: 2, page_size: 5 }
+        valid_get api_v1_address_transaction_url(address.address_hash), params: { page: page, page_size: page_size }
 
-        assert_equal "{\"data\":[]}", response.body
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: address_ckb_transactions, page: page, page_size: page_size).call()
+        response_transaction = CkbTransactionSerializer.new(address_ckb_transactions, options).serialized_json
+
+        assert_equal [], json["data"]
         assert_equal response_transaction, response.body
+      end
+
+      test "should return pagination links in response body" do
+        page = 2
+        page_size = 3
+        address = create(:address, :with_transactions, transactions_count: 30)
+
+        links = {
+          self: "#{api_v1_address_transaction_url(address.address_hash)}?page=2&page_size=3",
+          first: "#{api_v1_address_transaction_url(address.address_hash)}?page_size=3",
+          prev: "#{api_v1_address_transaction_url(address.address_hash)}?page_size=3",
+          next: "#{api_v1_address_transaction_url(address.address_hash)}?page=3&page_size=3",
+          last: "#{api_v1_address_transaction_url(address.address_hash)}?page=10&page_size=3",
+        }
+
+        valid_get api_v1_address_transaction_url(address.address_hash), params: { page: page, page_size: page_size }
+
+        assert_equal links.stringify_keys.sort, json["links"].sort
+      end
+
+      test "should return meta that contained total in response body" do
+        address = create(:address, :with_transactions, transactions_count: 3)
+
+        valid_get api_v1_address_transaction_url(address.address_hash)
+
+        assert_equal 3, json.dig("meta", "total")
+      end
+
+      test "should return pagination links that only contain self in response bod when there is no blocks" do
+        address = create(:address, :with_transactions)
+
+        links = {
+          self: "#{api_v1_address_transaction_url(address.address_hash)}?page_size=10",
+        }
+
+        valid_get api_v1_address_transaction_url(address.address_hash)
+        assert_equal links.stringify_keys.sort, json["links"].sort
       end
     end
   end
