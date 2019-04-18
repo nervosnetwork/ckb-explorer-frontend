@@ -2,6 +2,7 @@ module Api
   module V1
     class BlockTransactionsController < ApplicationController
       before_action :validate_query_params
+      before_action :validate_pagination_params
 
       def show
         block = Block.find_by!(block_hash: params[:id])
