@@ -8,6 +8,8 @@ module Api
         cell_output = cell_input.find_cell_output!
 
         render json: CellOutputDataSerializer.new(cell_output)
+      rescue ActiveRecord::RecordNotFound
+        raise Api::V1::Exceptions::CellInputNotFoundError
       end
 
       private
