@@ -91,6 +91,16 @@ module Api
 
         assert_equal %w(block_number transaction_hash block_timestamp transaction_fee version display_inputs display_outputs).sort, response_tx_transaction["attributes"].keys.sort
       end
+
+      test "should return error object when no records found by id" do
+        error_object = Api::V1::Exceptions::BlockTransactionsNotFoundError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
+
+        valid_get api_v1_block_transaction_url("0x3b138b3126d10ec000417b68bc715f17e86293d6cdbcb3fd8a628ad4a0b756f6")
+
+        assert_equal response_json, response.body
+      end
+
     end
   end
 end
