@@ -133,6 +133,45 @@ module Api
         assert_equal response_json, response.body
       end
 
+      test "should return 10 records when page and page_size are not set" do
+        block = create(:block, :with_ckb_transactions, transactions_count: 15)
+
+        valid_get api_v1_block_transaction_url(block.block_hash)
+
+        assert_equal 10, json["data"].size
+      end
+
+      test "should return corresponding page's records when page is set and page_size is not set" do
+        block = create(:block, :with_ckb_transactions, transactions_count: 30)
+        block_ckb_transactions = block.ckb_transactions.order(block_timestamp: :desc).offset(10).limit(10)
+        response_transaction = CkbTransactionSerializer.new(block_ckb_transactions).serialized_json
+
+        valid_get api_v1_block_transaction_url(block.block_hash), params: { page: 2 }
+
+        assert_equal response_transaction, response.body
+        assert_equal 10, json["data"].size
+      end
+
+      test "should return corresponding records when page is not set and page_size is set" do
+        block = create(:block, :with_ckb_transactions, transactions_count: 15)
+        block_ckb_transactions = block.ckb_transactions.order(block_timestamp: :desc).limit(12)
+        response_transaction = CkbTransactionSerializer.new(block_ckb_transactions).serialized_json
+
+        valid_get api_v1_block_transaction_url(block.block_hash), params: { page_size: 12 }
+
+        assert_equal response_transaction, response.body
+        assert_equal 12, json["data"].size
+      end
+
+      test "should return the corresponding transactions when page and page_size is set" do
+        block = create(:block, :with_ckb_transactions, transactions_count: 30)
+        block_ckb_transactions = block.ckb_transactions.order(block_timestamp: :desc).offset(5).limit(5)
+        response_transaction = CkbTransactionSerializer.new(block_ckb_transactions).serialized_json
+
+        valid_get api_v1_block_transaction_url(block.block_hash), params: { page: 2, page_size: 5 }
+
+        assert_equal response_transaction, response.body
+      end
     end
   end
 end
