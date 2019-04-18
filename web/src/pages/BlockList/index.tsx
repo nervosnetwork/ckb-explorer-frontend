@@ -24,6 +24,7 @@ import TimestampIcon from '../../asserts/timestamp.png'
 import { fetchBlockList } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
+import { validNumber } from '../../utils/util'
 
 enum PageParams {
   PageNo = 1,
@@ -39,8 +40,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   const initBlockWrappers: BlockWrapper[] = []
   const [blockWrappers, setBlockWrappers] = useState(initBlockWrappers)
   const [totalBlocks, setTotalBlocks] = useState(1)
-  const [pageSize, setPageSize] = useState(page ? parseInt(page as string, 10) : PageParams.PageNo)
-  const [pageNo, setPageNo] = useState(size ? parseInt(size as string, 10) : PageParams.PageSize)
+  const [pageSize, setPageSize] = useState(validNumber(size as string, PageParams.PageSize))
+  const [pageNo, setPageNo] = useState(validNumber(page as string, PageParams.PageNo))
 
   const getBlocks = (page_p: number, size_p: number) => {
     fetchBlockList(page_p, size_p).then(response => {
@@ -55,8 +56,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   }
 
   useEffect(() => {
-    const page_p = page ? parseInt(page as string, 10) : pageNo
-    const size_p = size ? parseInt(size as string, 10) : pageSize
+    const page_p = validNumber(page as string, pageNo)
+    const size_p = validNumber(size as string, pageSize)
     setPageNo(page_p)
     setPageSize(size_p)
     getBlocks(page_p, size_p)

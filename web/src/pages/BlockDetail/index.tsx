@@ -43,7 +43,7 @@ import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchBlockByHash, fetchTransactionsByBlockHash } from '../../http/fetcher'
-import { copyDivValue } from '../../utils/util'
+import { copyDivValue, validNumber } from '../../utils/util'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
@@ -88,6 +88,11 @@ interface BlockItem {
   value: string
 }
 
+enum PageParams {
+  PageNo = 1,
+  PageSize = 3,
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
   const { match, location } = props
   const { params } = match
@@ -119,8 +124,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const initTransactionWrappers: TransactionWrapper[] = []
   const [transactionWrappers, setTransactionWrappers] = useState(initTransactionWrappers)
   const [totalTransactions, setTotalTransactions] = useState(1)
-  const [pageSize, setPageSize] = useState(3)
-  const [pageNo, setPageNo] = useState(1)
+  const [pageSize, setPageSize] = useState(validNumber(size as string, PageParams.PageSize))
+  const [pageNo, setPageNo] = useState(validNumber(page as string, PageParams.PageNo))
 
   const getBlockByHash = () => {
     fetchBlockByHash(hash).then(data => {
@@ -142,8 +147,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
 
   useEffect(() => {
     getBlockByHash()
-    const page_p = page ? parseInt(page as string, 10) : pageNo
-    const size_p = size ? parseInt(size as string, 10) : pageSize
+    const page_p = validNumber(page as string, pageNo)
+    const size_p = validNumber(size as string, pageSize)
     setPageNo(page_p)
     setPageSize(size_p)
     getTransactions(page_p, size_p)

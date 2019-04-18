@@ -10,7 +10,7 @@ const copyDivValue = (component: any) => {
 }
 
 const validNumber = (value: string, defaultValue: number) => {
-  return value ? parseInt(value as string, 10) : defaultValue
+  return value ? parseInt(value, 10) : defaultValue
 }
 
 export { copyDivValue, validNumber }

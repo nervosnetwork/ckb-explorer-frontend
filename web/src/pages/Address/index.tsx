@@ -31,7 +31,7 @@ import { Address } from '../../http/response/Address'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
-import { copyDivValue } from '../../utils/util'
+import { copyDivValue, validNumber } from '../../utils/util'
 
 const AddressTitle = ({ address }: { address: string }) => {
   const appContext = useContext(AppContext)
@@ -72,6 +72,11 @@ const AddressScriptLabel = ({ image, label, value }: { image: string; label: str
   )
 }
 
+enum PageParams {
+  PageNo = 1,
+  PageSize = 3,
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string }>>) => {
   const { match, location } = props
   const { params } = match
@@ -95,8 +100,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   const [addressData, setAddressData] = useState(initAddress)
   const [transactionWrappers, setTrasactionWrappers] = useState(initTransactionWrappers)
   const [totalTransactions, setTotalTransactions] = useState(1)
-  const [pageSize, setPageSize] = useState(3)
-  const [pageNo, setPageNo] = useState(1)
+  const [pageSize, setPageSize] = useState(validNumber(size as string, PageParams.PageSize))
+  const [pageNo, setPageNo] = useState(validNumber(page as string, PageParams.PageNo))
 
   const getAddressInfo = () => {
     fetchAddressInfo(address).then(data => {
@@ -118,8 +123,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
 
   useEffect(() => {
     getAddressInfo()
-    const page_p = page ? parseInt(page as string, 10) : pageNo
-    const size_p = size ? parseInt(size as string, 10) : pageSize
+    const page_p = validNumber(page as string, pageNo)
+    const size_p = validNumber(size as string, pageSize)
     setPageNo(page_p)
     setPageSize(size_p)
     getTransactions(page_p, size_p)
