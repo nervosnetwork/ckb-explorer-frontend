@@ -4,7 +4,10 @@ module Api
       before_action :validate_query_params
 
       def show
-        render json: {}
+        block = Block.find_by(block_hash: params[:id])
+        ckb_transactions = block.ckb_transactions.recent
+
+        render json: CkbTransactionSerializer.new(ckb_transactions)
       end
 
       private
