@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :address_transactions, only: :show
       resources :block_transactions, only: :show
       resources :cell_input_lock_scripts, only: :show
+      resources :cell_input_type_scripts, only: :show
     end
   end
 end
