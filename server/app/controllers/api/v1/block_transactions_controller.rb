@@ -7,8 +7,9 @@ module Api
       def show
         block = Block.find_by!(block_hash: params[:id])
         ckb_transactions = block.ckb_transactions.recent.page(@page).per(@page_size)
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: ckb_transactions, page: @page, page_size: @page_size).call()
 
-        render json: CkbTransactionSerializer.new(ckb_transactions)
+        render json: CkbTransactionSerializer.new(ckb_transactions, options)
       rescue ActiveRecord::RecordNotFound
         raise Api::V1::Exceptions::BlockTransactionsNotFoundError
       end
