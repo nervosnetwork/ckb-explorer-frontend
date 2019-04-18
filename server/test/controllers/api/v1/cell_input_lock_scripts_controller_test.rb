@@ -4,7 +4,7 @@ module Api
   module V1
     class CellInputLockScriptsControllerTest < ActionDispatch::IntegrationTest
       test "should get success code when call show" do
-        cell_input = create(:cell_input)
+        cell_input = create(:cell_input, :with_full_transaction)
 
         valid_get api_v1_cell_input_lock_script_url(cell_input.id)
 
@@ -12,7 +12,7 @@ module Api
       end
 
       test "should set right content type when call show" do
-        cell_input = create(:cell_input)
+        cell_input = create(:cell_input, :with_full_transaction)
 
         valid_get api_v1_cell_input_lock_script_url(cell_input.id)
 
@@ -20,7 +20,7 @@ module Api
       end
 
       test "should respond with 415 Unsupported Media Type when Content-Type is wrong" do
-        cell_input = create(:cell_input)
+        cell_input = create(:cell_input, :with_full_transaction)
 
         get api_v1_cell_input_lock_script_url(cell_input.id), headers: { "Content-Type": "text/plain" }
 
@@ -28,7 +28,7 @@ module Api
       end
 
       test "should respond with error object when Content-Type is wrong" do
-        cell_input = create(:cell_input)
+        cell_input = create(:cell_input, :with_full_transaction)
         error_object = Api::V1::Exceptions::WrongContentTypeError.new
         response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
@@ -38,7 +38,7 @@ module Api
       end
 
       test "should respond with 406 Not Acceptable when Accept is wrong" do
-        cell_input = create(:cell_input)
+        cell_input = create(:cell_input, :with_full_transaction)
 
         get api_v1_cell_input_lock_script_url(cell_input.id), headers: { "Content-Type": "application/vnd.api+json", "Accept": "application/json" }
 
@@ -46,7 +46,7 @@ module Api
       end
 
       test "should respond with error object when Accept is wrong" do
-        cell_input = create(:cell_input)
+        cell_input = create(:cell_input, :with_full_transaction)
         error_object = Api::V1::Exceptions::WrongAcceptError.new
         response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
@@ -66,12 +66,7 @@ module Api
 
       test "should return corresponding lock script with given cell input id" do
         cell_input = create(:cell_input, :with_full_transaction)
-        previous_output = cell_input.previous_output
-        tx_hash = previous_output["hash"]
-        output_index = previous_output["index"]
-        previous_transacton = CkbTransaction.find_by(tx_hash: tx_hash)
-        previous_cell_output = previous_transacton.cell_outputs.order(:id).first(output_index).first
-        lock_script = previous_cell_output.lock_script
+        lock_script = cell_input.lock_script
 
         valid_get api_v1_cell_input_lock_script_url(cell_input.id)
 
@@ -79,7 +74,7 @@ module Api
       end
 
       test "should contain right keys in the serialized object when call show" do
-        cell_input = create(:cell_input)
+        cell_input = create(:cell_input, :with_full_transaction)
 
         valid_get api_v1_cell_input_lock_script_url(cell_input.id)
 
