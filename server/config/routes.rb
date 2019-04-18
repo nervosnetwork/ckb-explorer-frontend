@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :blocks, only: %i(index show)
       get "/transactions/:id", to: "ckb_transactions#show", as: "ckb_transaction"
       resources :address_transactions, only: :show
+      resources :block_transactions, only: :show
     end
   end
 end
