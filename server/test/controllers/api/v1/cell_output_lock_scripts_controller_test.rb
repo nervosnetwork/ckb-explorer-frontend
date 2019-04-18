@@ -80,6 +80,15 @@ module Api
 
         assert_equal %w(args binary_hash).sort, json["data"]["attributes"].keys.sort
       end
+
+      test "should return error object when no cell output found by id" do
+        error_object = Api::V1::Exceptions::CellOutputNotFoundError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
+
+        valid_get api_v1_cell_output_lock_script_url(99)
+
+        assert_equal response_json, response.body
+      end
     end
   end
 end
