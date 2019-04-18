@@ -2,15 +2,25 @@ class CellInput < ApplicationRecord
   belongs_to :ckb_transaction
 
   def find_lock_script!
+    previous_cell_output.lock_script
+  end
+
+  def find_type_script!
+    previous_cell_output.type_script
+  end
+
+  private
+
+  def previous_cell_output
     tx_hash = previous_output["hash"]
     output_index = previous_output["index"]
 
     raise ActiveRecord::RecordNotFound if CellOutput::BASE_HASH == tx_hash
 
     previous_transacton = CkbTransaction.find_by!(tx_hash: tx_hash)
-    previous_cell_output = previous_transacton.cell_outputs.order(:id).first(output_index).first
-    previous_cell_output.lock_script
+    previous_transacton.cell_outputs.order(:id).first(output_index).first
   end
+
 end
 
 # == Schema Information
