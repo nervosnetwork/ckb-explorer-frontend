@@ -69,13 +69,19 @@ module Api
 
       class AddressTransactionsNotFoundError < Error
         def initialize
-          super code: 1010, status: 404, title: "Address Transaction Not Found", detail: "No transaction records found by given address hash", href: "https://github.com/nervosnetwork/ckb-explorer"
+          super code: 1010, status: 404, title: "Address Transactions Not Found", detail: "No transaction records found by given address hash", href: "https://github.com/nervosnetwork/ckb-explorer"
         end
       end
 
       class BlockHashInvalidError < Error
         def initialize
           super code: 1011, status: 422, title: "URI parameters is invalid", detail: "URI parameters should be a block hash", href: "https://github.com/nervosnetwork/ckb-explorer"
+        end
+      end
+
+      class BlockTransactionsNotFoundError < Error
+        def initialize
+          super code: 1012, status: 404, title: "Block Transactions Not Found", detail: "No transaction records found by given address hash", href: "https://github.com/nervosnetwork/ckb-explorer"
         end
       end
     end
