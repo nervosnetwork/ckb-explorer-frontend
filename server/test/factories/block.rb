@@ -20,6 +20,10 @@ FactoryBot.define do
     proposal_transactions {}
     status { "inauthentic" }
 
+    transient do
+      transactions_count { 10 }
+    end
+
     trait :authentic do
       status { "authentic" }
     end
@@ -39,8 +43,8 @@ FactoryBot.define do
     end
 
     trait :with_ckb_transactions do
-      after(:create) do |block, _evaluator|
-        create_list(:ckb_transaction, 10, block: block)
+      after(:create) do |block, evaluator|
+        create_list(:ckb_transaction, evaluator.transactions_count, block: block)
       end
     end
   end
