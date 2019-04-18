@@ -172,6 +172,17 @@ module Api
 
         assert_equal response_transaction, response.body
       end
+
+      test "should return empty array when there is no record under the block" do
+        block = create(:block)
+        block_ckb_transactions = block.ckb_transactions.order(block_timestamp: :desc).offset(5).limit(5)
+        response_transaction = CkbTransactionSerializer.new(block_ckb_transactions).serialized_json
+
+        valid_get api_v1_block_transaction_url(block.block_hash), params: { page: 2, page_size: 5 }
+
+        assert_equal "{\"data\":[]}", response.body
+        assert_equal response_transaction, response.body
+      end
     end
   end
 end
