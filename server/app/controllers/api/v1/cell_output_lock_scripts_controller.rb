@@ -8,6 +8,8 @@ module Api
         lock_script = cell_output.lock_script
 
         render json: LockScriptSerializer.new(lock_script)
+      rescue ActiveRecord::RecordNotFound
+        raise Api::V1::Exceptions::CellOutputNotFoundError
       end
 
       private

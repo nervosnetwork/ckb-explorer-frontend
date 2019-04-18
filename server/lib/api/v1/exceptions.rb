@@ -102,6 +102,12 @@ module Api
           super code: 1015, status: 422, title: "URI parameters is invalid", detail: "URI parameters should be a integer", href: "https://github.com/nervosnetwork/ckb-explorer"
         end
       end
+
+      class CellOutputNotFoundError < Error
+        def initialize
+          super code: 1016, status: 404, title: "Cell Output Not Found", detail: "No cell output records found by given id", href: "https://github.com/nervosnetwork/ckb-explorer"
+        end
+      end
     end
   end
 end
