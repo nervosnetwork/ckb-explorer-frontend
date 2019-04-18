@@ -87,7 +87,13 @@ module Api
 
       class CellInputIdInvalidError < Error
         def initialize
-          super code: 1011, status: 422, title: "URI parameters is invalid", detail: "URI parameters should be a integer", href: "https://github.com/nervosnetwork/ckb-explorer"
+          super code: 1013, status: 422, title: "URI parameters is invalid", detail: "URI parameters should be a integer", href: "https://github.com/nervosnetwork/ckb-explorer"
+        end
+      end
+
+      class CellInputNotFoundError < Error
+        def initialize
+          super code: 1014, status: 404, title: "Cell Input Not Found", detail: "No cell input records found by given id", href: "https://github.com/nervosnetwork/ckb-explorer"
         end
       end
     end
