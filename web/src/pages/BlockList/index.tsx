@@ -25,6 +25,11 @@ import { fetchBlockList } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
 
+enum PageParams {
+  PageNo = 1,
+  PageSize = 3,
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   const { location } = props
   const { search } = location
@@ -34,8 +39,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   const initBlockWrappers: BlockWrapper[] = []
   const [blockWrappers, setBlockWrappers] = useState(initBlockWrappers)
   const [totalBlocks, setTotalBlocks] = useState(1)
-  const [pageSize, setPageSize] = useState(3)
-  const [pageNo, setPageNo] = useState(1)
+  const [pageSize, setPageSize] = useState(page ? parseInt(page as string, 10) : PageParams.PageNo)
+  const [pageNo, setPageNo] = useState(size ? parseInt(size as string, 10) : PageParams.PageSize)
 
   const getBlocks = (page_p: number, size_p: number) => {
     fetchBlockList(page_p, size_p).then(response => {
@@ -55,7 +60,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
     setPageNo(page_p)
     setPageSize(size_p)
     getBlocks(page_p, size_p)
-  }, [pageNo, pageSize])
+  }, [search])
 
   const onChange = (page_p: number, size_p: number) => {
     setPageNo(page_p)

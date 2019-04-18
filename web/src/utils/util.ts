@@ -9,4 +9,8 @@ const copyDivValue = (component: any) => {
   }
 }
 
-export default copyDivValue
+const validNumber = (value: string, defaultValue: number) => {
+  return value ? parseInt(value as string, 10) : defaultValue
+}
+
+export { copyDivValue, validNumber }

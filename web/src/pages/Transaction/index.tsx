@@ -28,7 +28,7 @@ import { Transaction } from '../../http/response/Transaction'
 import { Script } from '../../http/response/Script'
 import { Data } from '../../http/response/Data'
 import { fetchTransactionByHash, fetchScript, fetchCellData } from '../../http/fetcher'
-import copyDivValue from '../../utils/util'
+import { copyDivValue } from '../../utils/util'
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
 

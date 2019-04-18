@@ -43,7 +43,7 @@ import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchBlockByHash, fetchTransactionsByBlockHash } from '../../http/fetcher'
-import copyDivValue from '../../utils/util'
+import { copyDivValue } from '../../utils/util'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
@@ -147,7 +147,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     setPageNo(page_p)
     setPageSize(size_p)
     getTransactions(page_p, size_p)
-  }, [pageNo, pageSize])
+  }, [search])
 
   const onChange = (page_p: number, size_p: number) => {
     setPageNo(page_p)

@@ -31,7 +31,7 @@ import { Address } from '../../http/response/Address'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
-import copyDivValue from '../../utils/util'
+import { copyDivValue } from '../../utils/util'
 
 const AddressTitle = ({ address }: { address: string }) => {
   const appContext = useContext(AppContext)
@@ -123,7 +123,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     setPageNo(page_p)
     setPageSize(size_p)
     getTransactions(page_p, size_p)
-  }, [pageNo, pageSize])
+  }, [search])
 
   const onChange = (page_p: number, size_p: number) => {
     setPageNo(page_p)
