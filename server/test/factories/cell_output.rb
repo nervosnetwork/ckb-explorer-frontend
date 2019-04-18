@@ -4,9 +4,11 @@ FactoryBot.define do
     data {}
 
     trait :with_full_transaction do
-      before(:create) do |cell_input, _evaluator|
+      before(:create) do |cell_output, _evaluator|
         ckb_transaction = create(:ckb_transaction, :with_cell_output_and_lock_script)
-        cell_input.update(ckb_transaction: ckb_transaction)
+        cell_output.update(ckb_transaction: ckb_transaction)
+        create(:lock_script, cell_output: cell_output)
+        create(:type_script, cell_output: cell_output)
       end
     end
   end
