@@ -288,7 +288,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 showQuickJumper
                 showSizeChanger
                 defaultPageSize={pageSize}
+                pageSize={pageSize}
                 defaultCurrent={pageNo}
+                current={pageNo}
                 total={totalTransactions}
                 onChange={onChange}
               />

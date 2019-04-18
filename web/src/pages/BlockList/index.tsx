@@ -101,7 +101,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
               showQuickJumper
               showSizeChanger
               defaultPageSize={pageSize}
+              pageSize={pageSize}
               defaultCurrent={pageNo}
+              current={pageNo}
               total={totalBlocks}
               onChange={onChange}
             />

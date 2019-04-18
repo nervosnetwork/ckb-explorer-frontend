@@ -189,7 +189,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                 showQuickJumper
                 showSizeChanger
                 defaultPageSize={pageSize}
+                pageSize={pageSize}
                 defaultCurrent={pageNo}
+                current={pageNo}
                 total={totalTransactions}
                 onChange={onChange}
               />
