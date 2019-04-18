@@ -12,10 +12,7 @@ import {
 } from './styled'
 import AppContext from '../../contexts/App'
 import { parseDate } from '../../utils/date'
-import Page from '../../components/Page'
-import Header from '../../components/Header'
 import Content from '../../components/Content'
-import Footer from '../../components/Footer'
 import {
   TableTitleRow,
   TableTitleItem,
@@ -67,80 +64,76 @@ export default () => {
   }
 
   return (
-    <Page>
-      <Header search={false} />
-      <Content>
-        <HomeHeaderPanel width={window.innerWidth}>
-          <HomeHeader>
-            <LogoPanel>
-              <img src={HomeLogo} alt="home logo" />
-              <div>CKB Testnet Explorer</div>
-            </LogoPanel>
-            <SearchPanel width={window.innerWidth}>
-              <input
-                id="home__search__bar"
-                placeholder="Block Heigth / Block Hash / TxHash / Address"
-                onKeyUp={(event: any) => {
-                  if (event.keyCode === 13) {
-                    handleSearchResult(event.target.value)
-                  }
-                }}
-              />
-              <div
-                role="button"
-                tabIndex={-1}
-                onKeyPress={() => {}}
-                onClick={() => {
-                  const homeSearchBar = document.getElementById('home__search__bar') as HTMLInputElement
-                  handleSearchResult(homeSearchBar.value)
-                }}
-              >
-                <img src={SearchLogo} alt="search logo" />
-              </div>
-            </SearchPanel>
-          </HomeHeader>
-        </HomeHeaderPanel>
-
-        <BlockPanel className="container" width={window.innerWidth}>
-          <ContentTitle>
-            <div>Latest Blocks</div>
-            <span />
-          </ContentTitle>
-
-          <ContentTable>
-            <TableTitleRow>
-              <TableTitleItem image={BlockHeightIcon} title="Height" />
-              <TableTitleItem image={TransactionIcon} title="Transactions" />
-              <TableTitleItem image={CellConsumedIcon} title="Cell Consumed(B)" />
-              <TableTitleItem image={MinerIcon} title="Miner" />
-              <TableTitleItem image={TimestampIcon} title="Time" />
-            </TableTitleRow>
-            {blocksWrappers.map((block: any) => {
-              return (
-                <TableContentRow key={block.attributes.block_hash}>
-                  <TableContentItem content={block.attributes.number} to={`block/${block.attributes.number}`} />
-                  <TableContentItem content={block.attributes.transactions_count} />
-                  <TableContentItem content={block.attributes.cell_consumed} />
-                  <TableMinerContentItem content={block.attributes.miner_hash} />
-                  <TableContentItem content={parseDate(block.attributes.timestamp)} />
-                </TableContentRow>
-              )
-            })}
-          </ContentTable>
-          <TableMorePanel>
-            <div>
-              <img src={MoreLeftIcon} alt="more left" />
-              <div>
-                <Link className="table__more" to="/block/list">
-                  {`More`}
-                </Link>
-              </div>
-              <img src={MoreRightIcon} alt="more right" />
+    <Content>
+      <HomeHeaderPanel width={window.innerWidth}>
+        <HomeHeader>
+          <LogoPanel>
+            <img src={HomeLogo} alt="home logo" />
+            <div>CKB Testnet Explorer</div>
+          </LogoPanel>
+          <SearchPanel width={window.innerWidth}>
+            <input
+              id="home__search__bar"
+              placeholder="Block Heigth / Block Hash / TxHash / Address"
+              onKeyUp={(event: any) => {
+                if (event.keyCode === 13) {
+                  handleSearchResult(event.target.value)
+                }
+              }}
+            />
+            <div
+              role="button"
+              tabIndex={-1}
+              onKeyPress={() => {}}
+              onClick={() => {
+                const homeSearchBar = document.getElementById('home__search__bar') as HTMLInputElement
+                handleSearchResult(homeSearchBar.value)
+              }}
+            >
+              <img src={SearchLogo} alt="search logo" />
             </div>
-          </TableMorePanel>
-        </BlockPanel>
-      </Content>
-      <Footer />
-    </Page>
+          </SearchPanel>
+        </HomeHeader>
+      </HomeHeaderPanel>
+
+      <BlockPanel className="container" width={window.innerWidth}>
+        <ContentTitle>
+          <div>Latest Blocks</div>
+          <span />
+        </ContentTitle>
+
+        <ContentTable>
+          <TableTitleRow>
+            <TableTitleItem image={BlockHeightIcon} title="Height" />
+            <TableTitleItem image={TransactionIcon} title="Transactions" />
+            <TableTitleItem image={CellConsumedIcon} title="Cell Consumed(B)" />
+            <TableTitleItem image={MinerIcon} title="Miner" />
+            <TableTitleItem image={TimestampIcon} title="Time" />
+          </TableTitleRow>
+          {blocksWrappers.map((block: any) => {
+            return (
+              <TableContentRow key={block.attributes.block_hash}>
+                <TableContentItem content={block.attributes.number} to={`block/${block.attributes.number}`} />
+                <TableContentItem content={block.attributes.transactions_count} />
+                <TableContentItem content={block.attributes.cell_consumed} />
+                <TableMinerContentItem content={block.attributes.miner_hash} />
+                <TableContentItem content={parseDate(block.attributes.timestamp)} />
+              </TableContentRow>
+            )
+          })}
+        </ContentTable>
+        <TableMorePanel>
+          <div>
+            <img src={MoreLeftIcon} alt="more left" />
+            <div>
+              <Link className="table__more" to="/block/list">
+                {`More`}
+              </Link>
+            </div>
+            <img src={MoreRightIcon} alt="more right" />
+          </div>
+        </TableMorePanel>
+      </BlockPanel>
+    </Content>
   )
 }

@@ -4,10 +4,7 @@ import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
 import queryString from 'query-string'
 import AppContext from '../../contexts/App'
-import Page from '../../components/Page'
-import Header from '../../components/Header'
 import Content from '../../components/Content'
-import Footer from '../../components/Footer'
 import TransactionComponent from '../../components/Transaction'
 import SimpleLabel from '../../components/Label'
 import CellConsumedLabel from '../../components/Label/CellConsumedLabel'
@@ -137,69 +134,65 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   }
 
   return (
-    <Page>
-      <Header />
-      <Content>
-        <AddressContentPanel width={window.innerWidth} className="container">
-          <AddressTitle address={address} />
-          <AddressOverview value="Overview" />
-          <AddressCommonContent>
-            <AddressCommonRowPanel>
-              <SimpleLabel
-                image={BalanceIcon}
-                label="Balance: "
-                value={`${addressData.balance} CKB`}
-                style={{
-                  flexGrow: 1,
-                }}
-              />
-              <SimpleLabel
-                image={TransactionsIcon}
-                label="Transactions : "
-                value={`${addressData.transactions_count}`}
-                style={{
-                  flexGrow: 1,
-                }}
-              />
-            </AddressCommonRowPanel>
-
-            <CellConsumedLabel
-              image={CellConsumedIcon}
-              label="Cell Consumed: "
-              consumed={addressData.cell_consumed}
-              balance={addressData.balance}
+    <Content>
+      <AddressContentPanel width={window.innerWidth} className="container">
+        <AddressTitle address={address} />
+        <AddressOverview value="Overview" />
+        <AddressCommonContent>
+          <AddressCommonRowPanel>
+            <SimpleLabel
+              image={BalanceIcon}
+              label="Balance: "
+              value={`${addressData.balance} CKB`}
+              style={{
+                flexGrow: 1,
+              }}
             />
-            <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " value={addressData.lock_script} />
-          </AddressCommonContent>
+            <SimpleLabel
+              image={TransactionsIcon}
+              label="Transactions : "
+              value={`${addressData.transactions_count}`}
+              style={{
+                flexGrow: 1,
+              }}
+            />
+          </AddressCommonRowPanel>
 
-          <AddressTransactionsPanel>
-            <AddressOverview value="Transactions" />
-            <div>
-              {transactionWrappers.map((transaction: any) => {
-                return (
-                  <TransactionComponent
-                    transaction={transaction.attributes}
-                    key={transaction.attributes.transaction_hash}
-                  />
-                )
-              })}
-            </div>
-            <AddressTransactionsPagition>
-              <Pagination
-                showQuickJumper
-                showSizeChanger
-                defaultPageSize={pageSize}
-                pageSize={pageSize}
-                defaultCurrent={pageNo}
-                current={pageNo}
-                total={totalTransactions}
-                onChange={onChange}
-              />
-            </AddressTransactionsPagition>
-          </AddressTransactionsPanel>
-        </AddressContentPanel>
-      </Content>
-      <Footer />
-    </Page>
+          <CellConsumedLabel
+            image={CellConsumedIcon}
+            label="Cell Consumed: "
+            consumed={addressData.cell_consumed}
+            balance={addressData.balance}
+          />
+          <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " value={addressData.lock_script} />
+        </AddressCommonContent>
+
+        <AddressTransactionsPanel>
+          <AddressOverview value="Transactions" />
+          <div>
+            {transactionWrappers.map((transaction: any) => {
+              return (
+                <TransactionComponent
+                  transaction={transaction.attributes}
+                  key={transaction.attributes.transaction_hash}
+                />
+              )
+            })}
+          </div>
+          <AddressTransactionsPagition>
+            <Pagination
+              showQuickJumper
+              showSizeChanger
+              defaultPageSize={pageSize}
+              pageSize={pageSize}
+              defaultCurrent={pageNo}
+              current={pageNo}
+              total={totalTransactions}
+              onChange={onChange}
+            />
+          </AddressTransactionsPagition>
+        </AddressTransactionsPanel>
+      </AddressContentPanel>
+    </Content>
   )
 }

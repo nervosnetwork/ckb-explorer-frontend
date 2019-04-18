@@ -1,9 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Page from '../../components/Page'
-import Header from '../../components/Header'
 import Content from '../../components/Content'
-import Footer from '../../components/Footer'
 import NotFoundIcon from '../../asserts/not_found_404.png'
 import browserHistory from '../../routes/history'
 
@@ -41,22 +38,18 @@ const GoBackButton = styled.div`
 
 export default () => {
   return (
-    <Page>
-      <Header />
-      <Content>
-        <NotFoundPanel width={window.innerWidth} className="container">
-          <NotFoundImage src={NotFoundIcon} alt="404" />
-          <GoBackButton
-            width={window.innerWidth}
-            onClick={() => {
-              browserHistory.goBack()
-            }}
-          >
-            {'GO BACK'}
-          </GoBackButton>
-        </NotFoundPanel>
-      </Content>
-      <Footer />
-    </Page>
+    <Content>
+      <NotFoundPanel width={window.innerWidth} className="container">
+        <NotFoundImage src={NotFoundIcon} alt="404" />
+        <GoBackButton
+          width={window.innerWidth}
+          onClick={() => {
+            browserHistory.goBack()
+          }}
+        >
+          {'GO BACK'}
+        </GoBackButton>
+      </NotFoundPanel>
+    </Content>
   )
 }

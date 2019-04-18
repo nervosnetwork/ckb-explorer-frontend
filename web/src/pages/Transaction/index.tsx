@@ -2,10 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import AppContext from '../../contexts/App'
 
-import Page from '../../components/Page'
-import Header from '../../components/Header'
 import Content from '../../components/Content'
-import Footer from '../../components/Footer'
 import SimpleLabel from '../../components/Label'
 import {
   TransactionDiv,
@@ -218,72 +215,68 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   }, [])
 
   return (
-    <Page>
-      <Header />
-      <Content>
-        <TransactionDiv className="container">
-          <TransactionTitle hash={hash} />
-          <TransactionOverviewLabel>Overview</TransactionOverviewLabel>
-          <TransactionCommonContent>
+    <Content>
+      <TransactionDiv className="container">
+        <TransactionTitle hash={hash} />
+        <TransactionOverviewLabel>Overview</TransactionOverviewLabel>
+        <TransactionCommonContent>
+          <div>
             <div>
-              <div>
-                <SimpleLabel image={BlockHeightIcon} label="Block Height:" value={transaction.block_number} />
-                <SimpleLabel image={TransactionIcon} label="Transaction Fee:" value={transaction.transaction_fee} />
-              </div>
-              <span className="block__content__separate" />
-              <div>
-                <SimpleLabel
-                  image={TimestampIcon}
-                  label="Timestamp:"
-                  value={parseSimpleDate(transaction.block_timestamp)}
-                />
-                <SimpleLabel image={VersionIcon} label="Version:" value={parseSimpleDate(transaction.version)} />
-              </div>
+              <SimpleLabel image={BlockHeightIcon} label="Block Height:" value={transaction.block_number} />
+              <SimpleLabel image={TransactionIcon} label="Transaction Fee:" value={transaction.transaction_fee} />
             </div>
-          </TransactionCommonContent>
+            <span className="block__content__separate" />
+            <div>
+              <SimpleLabel
+                image={TimestampIcon}
+                label="Timestamp:"
+                value={parseSimpleDate(transaction.block_timestamp)}
+              />
+              <SimpleLabel image={VersionIcon} label="Version:" value={parseSimpleDate(transaction.version)} />
+            </div>
+          </div>
+        </TransactionCommonContent>
 
-          <InputPanelDiv>
-            <InputOutputTable>
-              <InputOutputTableTitle transactionType="Input" />
-              <tbody>
-                {transaction &&
-                  transaction.display_inputs.map((input: any) => {
-                    return (
-                      <ScriptComponent
-                        cellType="input"
-                        key={input.id}
-                        cellInputOutput={input}
-                        scriptType={input.select || null}
-                        updateCellData={updateCellData}
-                      />
-                    )
-                  })}
-              </tbody>
-            </InputOutputTable>
-          </InputPanelDiv>
+        <InputPanelDiv>
+          <InputOutputTable>
+            <InputOutputTableTitle transactionType="Input" />
+            <tbody>
+              {transaction &&
+                transaction.display_inputs.map((input: any) => {
+                  return (
+                    <ScriptComponent
+                      cellType="input"
+                      key={input.id}
+                      cellInputOutput={input}
+                      scriptType={input.select || null}
+                      updateCellData={updateCellData}
+                    />
+                  )
+                })}
+            </tbody>
+          </InputOutputTable>
+        </InputPanelDiv>
 
-          <OutputPanelDiv>
-            <InputOutputTable>
-              <InputOutputTableTitle transactionType="Output" />
-              <tbody>
-                {transaction &&
-                  transaction.display_outputs.map((ouput: any) => {
-                    return (
-                      <ScriptComponent
-                        cellType="output"
-                        key={ouput.id}
-                        cellInputOutput={ouput}
-                        scriptType={ouput.select || null}
-                        updateCellData={updateCellData}
-                      />
-                    )
-                  })}
-              </tbody>
-            </InputOutputTable>
-          </OutputPanelDiv>
-        </TransactionDiv>
-      </Content>
-      <Footer />
-    </Page>
+        <OutputPanelDiv>
+          <InputOutputTable>
+            <InputOutputTableTitle transactionType="Output" />
+            <tbody>
+              {transaction &&
+                transaction.display_outputs.map((ouput: any) => {
+                  return (
+                    <ScriptComponent
+                      cellType="output"
+                      key={ouput.id}
+                      cellInputOutput={ouput}
+                      scriptType={ouput.select || null}
+                      updateCellData={updateCellData}
+                    />
+                  )
+                })}
+            </tbody>
+          </InputOutputTable>
+        </OutputPanelDiv>
+      </TransactionDiv>
+    </Content>
   )
 }
