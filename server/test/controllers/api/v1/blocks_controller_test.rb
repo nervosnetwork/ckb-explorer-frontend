@@ -125,11 +125,14 @@ module Api
         assert_equal 5, json["data"].size
       end
 
-      test "should return the corresponding number of blocks when set page_size" do
+      test "should return the corresponding number of blocks when page is not set and page_size is set" do
         create_list(:block, 15, :with_block_hash)
+        blocks = Block.order(timestamp: :desc).limit(12)
+        response_blocks = BlockSerializer.new(blocks).serialized_json
 
         valid_get api_v1_blocks_url, params: { page_size: 12 }
 
+        assert_equal response_blocks, response.body
         assert_equal 12, json["data"].size
       end
 
@@ -140,6 +143,16 @@ module Api
 
         valid_get api_v1_blocks_url, params: { page: 2, page_size: 5 }
 
+        assert_equal response_blocks, response.body
+      end
+
+      test "should return empty array when there is no blocks" do
+        blocks = Block.order(timestamp: :desc).offset(5).limit(5)
+        response_blocks = BlockSerializer.new(blocks).serialized_json
+
+        valid_get api_v1_blocks_url, params: { page: 2, page_size: 5 }
+
+        assert_equal "{\"data\":[]}", response.body
         assert_equal response_blocks, response.body
       end
 

@@ -152,21 +152,35 @@ module Api
         assert_equal 10, json["data"].size
       end
 
-      test "should return the corresponding number of transactions under the address when set page_size" do
+      test "should return the corresponding transactions under the address when page is not set and page_size is set" do
         address = create(:address, :with_transactions, transactions_count: 15)
+        address_ckb_transactions = address.ckb_transactions.order(block_timestamp: :desc).limit(12)
+        response_transaction = CkbTransactionSerializer.new(address_ckb_transactions).serialized_json
 
         valid_get api_v1_address_transaction_url(address.address_hash), params: { page_size: 12 }
 
+        assert_equal response_transaction, response.body
         assert_equal 12, json["data"].size
       end
 
-      test "should return the corresponding transactions when page and page_size is set" do
+      test "should return the corresponding transactions when page and page_size are set" do
         address = create(:address, :with_transactions, transactions_count: 30)
         address_ckb_transactions = address.ckb_transactions.order(block_timestamp: :desc).offset(5).limit(5)
         response_transaction = CkbTransactionSerializer.new(address_ckb_transactions).serialized_json
 
         valid_get api_v1_address_transaction_url(address.address_hash), params: { page: 2, page_size: 5 }
 
+        assert_equal response_transaction, response.body
+      end
+
+      test "should return empty array when there is no record under the address" do
+        address = create(:address, :with_transactions)
+        address_ckb_transactions = address.ckb_transactions.order(block_timestamp: :desc).offset(5).limit(5)
+        response_transaction = CkbTransactionSerializer.new(address_ckb_transactions).serialized_json
+
+        valid_get api_v1_address_transaction_url(address.address_hash), params: { page: 2, page_size: 5 }
+
+        assert_equal "{\"data\":[]}", response.body
         assert_equal response_transaction, response.body
       end
     end
