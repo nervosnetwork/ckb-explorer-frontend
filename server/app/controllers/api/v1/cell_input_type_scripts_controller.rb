@@ -8,6 +8,8 @@ module Api
         type_script = cell_input.find_type_script!
 
         render json: TypeScriptSerializer.new(type_script)
+      rescue ActiveRecord::RecordNotFound
+        raise Api::V1::Exceptions::CellInputNotFoundError
       end
 
       private
