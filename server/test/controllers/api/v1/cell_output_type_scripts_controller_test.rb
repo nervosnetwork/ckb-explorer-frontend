@@ -80,6 +80,25 @@ module Api
 
         assert_equal %w(args binary_hash).sort, json["data"]["attributes"].keys.sort
       end
+
+      test "should return error object when no cell output found by id" do
+        error_object = Api::V1::Exceptions::CellOutputNotFoundError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
+
+        valid_get api_v1_cell_output_type_script_url(99)
+
+        assert_equal response_json, response.body
+      end
+
+      test "should return null when found record hasn't type script" do
+        cell_output = create(:cell_output, :with_full_transaction_but_no_type_script)
+        type_script = cell_output.type_script
+
+        valid_get api_v1_cell_output_type_script_url(cell_output.id)
+
+        assert_equal "{\"data\":null}", response.body
+        assert_equal TypeScriptSerializer.new(type_script).serialized_json, response.body
+      end
     end
   end
 end
