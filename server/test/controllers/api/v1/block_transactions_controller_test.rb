@@ -72,6 +72,25 @@ module Api
 
         assert_equal response_json, response.body
       end
+
+      test "should return corresponding ckb transactions with given block hash" do
+        block = create(:block, :with_ckb_transactions)
+        ckb_transactions = block.ckb_transactions.order(block_timestamp: :desc).limit(10)
+
+        valid_get api_v1_block_transaction_url(block.block_hash)
+
+        assert_equal CkbTransactionSerializer.new(ckb_transactions).serialized_json, response.body
+      end
+
+      test "should contain right keys in the serialized object when call show" do
+        block = create(:block, :with_ckb_transactions)
+
+        valid_get api_v1_block_transaction_url(block.block_hash)
+
+        response_tx_transaction = json["data"].first
+
+        assert_equal %w(block_number transaction_hash block_timestamp transaction_fee version display_inputs display_outputs).sort, response_tx_transaction["attributes"].keys.sort
+      end
     end
   end
 end
