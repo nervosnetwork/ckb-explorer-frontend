@@ -74,7 +74,7 @@ module Api
       end
 
       test "should contain right keys in the serialized object when call show" do
-        cell_input = create(:cell_input, :with_full_transaction)
+        cell_input = create(:cell_input, :with_full_transaction_and_type_script)
 
         valid_get api_v1_cell_input_type_script_url(cell_input.id)
 
