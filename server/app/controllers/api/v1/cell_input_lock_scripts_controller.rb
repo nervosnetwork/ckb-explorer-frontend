@@ -5,9 +5,11 @@ module Api
 
       def show
         cell_input = CellInput.find(params[:id])
-        lock_script = cell_input.lock_script
+        lock_script = cell_input.lock_script!
 
         render json: LockScriptSerializer.new(lock_script)
+      rescue ActiveRecord::RecordNotFound
+        raise Api::V1::Exceptions::CellInputNotFoundError
       end
 
       private

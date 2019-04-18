@@ -1,10 +1,13 @@
 class CellInput < ApplicationRecord
   belongs_to :ckb_transaction
 
-  def lock_script
+  def lock_script!
     tx_hash = previous_output["hash"]
     output_index = previous_output["index"]
-    previous_transacton = CkbTransaction.find_by(tx_hash: tx_hash)
+
+    raise ActiveRecord::RecordNotFound if CellOutput::BASE_HASH == tx_hash
+
+    previous_transacton = CkbTransaction.find_by!(tx_hash: tx_hash)
     previous_cell_output = previous_transacton.cell_outputs.order(:id).first(output_index).first
     previous_cell_output.lock_script
   end
