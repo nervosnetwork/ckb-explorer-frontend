@@ -63,6 +63,23 @@ module Api
 
         assert_equal response_json, response.body
       end
+
+      test "should return corresponding type script with given cell input id" do
+        cell_input = create(:cell_input, :with_full_transaction)
+        type_script = cell_input.find_type_script!
+
+        valid_get api_v1_cell_input_type_script_url(cell_input.id)
+
+        assert_equal TypeScriptSerializer.new(type_script).serialized_json, response.body
+      end
+
+      test "should contain right keys in the serialized object when call show" do
+        cell_input = create(:cell_input, :with_full_transaction)
+
+        valid_get api_v1_cell_input_type_script_url(cell_input.id)
+
+        assert_equal %w(args binary_hash).sort, json["data"]["attributes"].keys.sort
+      end
     end
   end
 end
