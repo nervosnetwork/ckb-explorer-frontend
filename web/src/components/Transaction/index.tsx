@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { TransactionsCell, TransactionsItem } from './index.css'
+import { TransactionsCell, TransactionsItem } from './styled'
 import { parseDate } from '../../utils/date'
 import InputOutputIcon from '../../asserts/input_arrow_output.png'
 
@@ -30,13 +30,13 @@ const TransactionComponent = ({ transaction }: { transaction: any }) => {
       <div className="transaction__input__output">
         <div className="transaction__input">
           {transaction.display_inputs.map((cell: any) => {
-            return <TransactionCell cell={cell} key={cell.input_id} />
+            return <TransactionCell cell={cell} key={cell.id} />
           })}
         </div>
         <img src={InputOutputIcon} alt="input and output" />
         <div className="transaction__output">
           {transaction.display_outputs.map((cell: any) => {
-            return <TransactionCell cell={cell} key={cell.output_id} />
+            return <TransactionCell cell={cell} key={cell.id} />
           })}
         </div>
       </div>

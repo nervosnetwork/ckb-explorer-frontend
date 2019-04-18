@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { RouteComponentProps } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
-import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition } from './index.css'
+import queryString from 'query-string'
+import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition } from './styled'
 import { parseDate } from '../../utils/date'
 import Page from '../../components/Page'
 import Header from '../../components/Header'
@@ -19,37 +21,52 @@ import TransactionIcon from '../../asserts/transactions.png'
 import CellConsumedIcon from '../../asserts/cell_consumed.png'
 import MinerIcon from '../../asserts/miner.png'
 import TimestampIcon from '../../asserts/timestamp.png'
-import { fetchBlocksList } from '../../http/fetcher'
+import { fetchBlockList } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
+import { validNumber } from '../../utils/util'
 
-export default () => {
+enum PageParams {
+  PageNo = 1,
+  PageSize = 3,
+}
+
+export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
+  const { location } = props
+  const { search } = location
+  const parsed = queryString.parse(search)
+  const { page, size } = parsed
+
   const initBlockWrappers: BlockWrapper[] = []
   const [blockWrappers, setBlockWrappers] = useState(initBlockWrappers)
   const [totalBlocks, setTotalBlocks] = useState(1)
-  const [pageSize, setPageSize] = useState(3)
-  const [pageNo, setPageNo] = useState(1)
+  const [pageNo, setPageNo] = useState(validNumber(page, PageParams.PageNo))
+  const [pageSize, setPageSize] = useState(validNumber(size, PageParams.PageSize))
 
-  const getBlocks = (page: number, size: number) => {
-    fetchBlocksList().then(response => {
+  const getBlocks = (page_p: number, size_p: number) => {
+    fetchBlockList(page_p, size_p).then(response => {
       const { data, meta } = response as Response<BlockWrapper[]>
       if (meta) {
         const { total } = meta
         setTotalBlocks(total)
       }
-      const blocks = data.slice((page - 1) * size, page * size)
+      const blocks = data.slice((page_p - 1) * size_p, page_p * size_p)
       setBlockWrappers(blocks)
     })
   }
 
   useEffect(() => {
-    getBlocks(pageNo, pageSize)
-  }, [])
+    const page_p = validNumber(page, PageParams.PageNo)
+    const size_p = validNumber(size, PageParams.PageSize)
+    setPageNo(page_p)
+    setPageSize(size_p)
+    getBlocks(page_p, size_p)
+  }, [search])
 
-  const onChange = (page: number, size: number) => {
-    setPageSize(size)
-    setPageNo(page)
-    getBlocks(page, size)
+  const onChange = (page_p: number, size_p: number) => {
+    setPageNo(page_p)
+    setPageSize(size_p)
+    props.history.push(`/block/list?page=${page_p}&size=${size_p}`)
   }
 
   return (
@@ -84,7 +101,9 @@ export default () => {
               showQuickJumper
               showSizeChanger
               defaultPageSize={pageSize}
+              pageSize={pageSize}
               defaultCurrent={pageNo}
+              current={pageNo}
               total={totalBlocks}
               onChange={onChange}
             />

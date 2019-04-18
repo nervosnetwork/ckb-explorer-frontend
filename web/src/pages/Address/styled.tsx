@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { CommonPagition } from '../BlockList/index.css'
+import { CommonPagition } from '../BlockList/styled'
 
 export const AddressContentPanel = styled.div`
   dispaly: flex;
@@ -146,6 +146,17 @@ export const AddressScriptLabelPanel = styled.div`
     margin-left: 10px;
     margin-right: 21px;
   }
+`
+
+export const AddressScriptContent = styled.textarea`
+  border: none;
+  width: 100%;
+  padding: 18px 30px 18px 34px;
+  font-size: 16px;
+  color: #888888;
+  min-height: 170px;
+  background-color: #f9f9f9;
+  border-radius: 6px 6px;
 `
 
 export const AddressTransactionsCell = styled.div`

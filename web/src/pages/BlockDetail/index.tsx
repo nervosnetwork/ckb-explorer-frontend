@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
+import queryString from 'query-string'
 import {
   BlockDetailPanel,
   BlockDetailTitlePanel,
@@ -11,7 +12,7 @@ import {
   BlockHightLabel,
   BlockTransactionsPanel,
   BlockTransactionsPagition,
-} from './index.css'
+} from './styled'
 import AppContext from '../../contexts/App'
 import Page from '../../components/Page'
 import Header from '../../components/Header'
@@ -42,7 +43,7 @@ import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchBlockByHash, fetchTransactionsByBlockHash } from '../../http/fetcher'
-import copyDivValue from '../../utils/util'
+import { copyDivValue, validNumber } from '../../utils/util'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
@@ -87,10 +88,19 @@ interface BlockItem {
   value: string
 }
 
+enum PageParams {
+  PageNo = 1,
+  PageSize = 3,
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
-  const { match } = props
+  const { match, location } = props
   const { params } = match
   const { hash } = params
+
+  const { search } = location
+  const parsed = queryString.parse(search)
+  const { page, size } = parsed
 
   const initBlock: Block = {
     block_hash: '',
@@ -112,10 +122,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   }
   const [blockData, setBlockData] = useState(initBlock)
   const initTransactionWrappers: TransactionWrapper[] = []
-  const [transactionsWrapper, setTrasactionsWrapper] = useState(initTransactionWrappers)
+  const [transactionWrappers, setTransactionWrappers] = useState(initTransactionWrappers)
   const [totalTransactions, setTotalTransactions] = useState(1)
-  const [pageSize, setPageSize] = useState(3)
-  const [pageNo, setPageNo] = useState(1)
+  const [pageNo, setPageNo] = useState(validNumber(page, PageParams.PageNo))
+  const [pageSize, setPageSize] = useState(validNumber(size, PageParams.PageSize))
 
   const getBlockByHash = () => {
     fetchBlockByHash(hash).then(data => {
@@ -123,27 +133,31 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     })
   }
 
-  const getTransactions = (page: number, size: number) => {
-    fetchTransactionsByBlockHash(hash).then(response => {
+  const getTransactions = (page_p: number, size_p: number) => {
+    fetchTransactionsByBlockHash(hash, page_p, size_p).then(response => {
       const { data, meta } = response as Response<TransactionWrapper[]>
       if (meta) {
         const { total } = meta
         setTotalTransactions(total)
       }
-      const transactions = data.slice((page - 1) * size, page * size)
-      setTrasactionsWrapper(transactions)
+      const transactions = data.slice((page_p - 1) * size_p, page_p * size_p)
+      setTransactionWrappers(transactions)
     })
   }
 
   useEffect(() => {
     getBlockByHash()
-    getTransactions(pageNo, pageSize)
-  }, [])
+    const page_p = validNumber(page, PageParams.PageNo)
+    const size_p = validNumber(size, PageParams.PageSize)
+    setPageNo(page_p)
+    setPageSize(size_p)
+    getTransactions(page_p, size_p)
+  }, [search])
 
-  const onChange = (page: number, size: number) => {
-    setPageSize(size)
-    setPageNo(page)
-    getTransactions(page, size)
+  const onChange = (page_p: number, size_p: number) => {
+    setPageNo(page_p)
+    setPageSize(size_p)
+    props.history.push(`/block/${hash}?page=${page_p}&size=${size_p}`)
   }
 
   const BlockLeftSeparateIndex = 3
@@ -260,7 +274,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <BlockTransactionsPanel>
             <BlockOverview value="Transactions" />
             <div>
-              {transactionsWrapper.map((transaction: any) => {
+              {transactionWrappers.map((transaction: any) => {
                 return (
                   <TransactionComponent
                     transaction={transaction.attributes}
@@ -274,7 +288,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 showQuickJumper
                 showSizeChanger
                 defaultPageSize={pageSize}
+                pageSize={pageSize}
                 defaultCurrent={pageNo}
+                current={pageNo}
                 total={totalTransactions}
                 onChange={onChange}
               />

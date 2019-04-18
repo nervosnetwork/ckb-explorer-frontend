@@ -9,7 +9,7 @@ import {
   ContentTitle,
   ContentTable,
   TableMorePanel,
-} from './index.css'
+} from './styled'
 import AppContext from '../../contexts/App'
 import { parseDate } from '../../utils/date'
 import Page from '../../components/Page'

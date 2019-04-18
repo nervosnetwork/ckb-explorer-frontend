@@ -34,10 +34,10 @@ export const fetchBlocks = () => {
   })
 }
 
-export const fetchBlocksList = () => {
+export const fetchBlockList = (page: number, size: number) => {
   return new Promise(function(resolve, reject) {
     resolve(BlockListData)
-    if (false) reject()
+    if (false) reject(new Error(`${page}${size}`))
   })
 }
 
@@ -48,10 +48,10 @@ export const fetchAddressInfo = (address: string) => {
   })
 }
 
-export const fetchTransactionsByAddress = (address: string) => {
+export const fetchTransactionsByAddress = (address: string, page: number, size: number) => {
   return new Promise(function(resolve, reject) {
     resolve(TransactionsData)
-    if (false) reject(address)
+    if (false) reject(new Error(`${address}${page}${size}`))
   })
 }
 
@@ -62,10 +62,10 @@ export const fetchTransactionByHash = (hash: string) => {
   })
 }
 
-export const fetchTransactionsByBlockHash = (blockHash: string) => {
+export const fetchTransactionsByBlockHash = (blockHash: string, page: number, size: number) => {
   return new Promise(function(resolve, reject) {
     resolve(TransactionsData)
-    if (false) reject(blockHash)
+    if (false) reject(new Error(`${blockHash}${page}${size}`))
   })
 }
 
