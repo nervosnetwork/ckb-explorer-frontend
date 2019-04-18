@@ -54,6 +54,15 @@ module Api
 
         assert_equal response_json, response.body
       end
+
+      test "should return error object when id is not a integer" do
+        error_object = Api::V1::Exceptions::CellOutputIdInvalidError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
+
+        valid_get api_v1_cell_output_datum_url("ssdww")
+
+        assert_equal response_json, response.body
+      end
     end
   end
 end
