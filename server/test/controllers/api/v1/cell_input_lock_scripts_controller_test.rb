@@ -66,7 +66,7 @@ module Api
 
       test "should return corresponding lock script with given cell input id" do
         cell_input = create(:cell_input, :with_full_transaction)
-        lock_script = cell_input.lock_script!
+        lock_script = cell_input.find_lock_script!
 
         valid_get api_v1_cell_input_lock_script_url(cell_input.id)
 

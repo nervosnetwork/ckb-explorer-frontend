@@ -1,7 +1,7 @@
 class CellInput < ApplicationRecord
   belongs_to :ckb_transaction
 
-  def lock_script!
+  def find_lock_script!
     tx_hash = previous_output["hash"]
     output_index = previous_output["index"]
 
