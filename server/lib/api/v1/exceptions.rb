@@ -84,6 +84,18 @@ module Api
           super code: 1012, status: 404, title: "Block Transactions Not Found", detail: "No transaction records found by given address hash", href: "https://github.com/nervosnetwork/ckb-explorer"
         end
       end
+
+      class CellInputIdInvalidError < Error
+        def initialize
+          super code: 1013, status: 422, title: "URI parameters is invalid", detail: "URI parameters should be a integer", href: "https://github.com/nervosnetwork/ckb-explorer"
+        end
+      end
+
+      class CellInputNotFoundError < Error
+        def initialize
+          super code: 1014, status: 404, title: "Cell Input Not Found", detail: "No cell input records found by given id", href: "https://github.com/nervosnetwork/ckb-explorer"
+        end
+      end
     end
   end
 end
