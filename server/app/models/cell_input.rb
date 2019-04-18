@@ -9,6 +9,10 @@ class CellInput < ApplicationRecord
     previous_cell_output.type_script
   end
 
+  def find_cell_output!
+    previous_cell_output
+  end
+
   private
 
   def previous_cell_output
@@ -20,7 +24,6 @@ class CellInput < ApplicationRecord
     previous_transacton = CkbTransaction.find_by!(tx_hash: tx_hash)
     previous_transacton.cell_outputs.order(:id).first(output_index).first
   end
-
 end
 
 # == Schema Information

@@ -4,7 +4,10 @@ module Api
       before_action :validate_query_params
 
       def show
-        render json: {}
+        cell_input = CellInput.find(params[:id])
+        cell_output = cell_input.find_cell_output!
+
+        render json: CellOutputDataSerializer.new(cell_output)
       end
 
       private
