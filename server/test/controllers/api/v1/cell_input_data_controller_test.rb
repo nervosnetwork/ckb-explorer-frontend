@@ -63,6 +63,23 @@ module Api
 
         assert_equal response_json, response.body
       end
+
+      test "should return corresponding data with given cell input id" do
+        cell_input = create(:cell_input, :with_full_transaction)
+        cell_output = cell_input.find_cell_output!
+
+        valid_get api_v1_cell_input_datum_url(cell_input.id)
+
+        assert_equal CellOutputDataSerializer.new(cell_output).serialized_json, response.body
+      end
+
+      test "should contain right keys in the serialized object when call show" do
+        cell_input = create(:cell_input, :with_full_transaction)
+
+        valid_get api_v1_cell_input_datum_url(cell_input.id)
+
+        assert_equal %w(data).sort, json["data"]["attributes"].keys.sort
+      end
     end
   end
 end
