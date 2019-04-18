@@ -14,10 +14,7 @@ import {
   BlockTransactionsPagition,
 } from './styled'
 import AppContext from '../../contexts/App'
-import Page from '../../components/Page'
-import Header from '../../components/Header'
 import Content from '../../components/Content'
-import Footer from '../../components/Footer'
 import TransactionComponent from '../../components/Transaction'
 import SimpleLabel from '../../components/Label'
 import CellConsumedLabel from '../../components/Label/CellConsumedLabel'
@@ -228,77 +225,73 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   ]
 
   return (
-    <Page>
-      <Header />
-      <Content>
-        <BlockDetailPanel width={window.innerWidth} className="container">
-          <BlockDetailTitle hash={hash} />
-          <BlockOverview value="Overview" />
-          <BlockCommonContent>
-            <div>
-              {BlockLeftItems.slice(0, BlockLeftSeparateIndex).map(item => {
-                return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
-              })}
-              <CellConsumedLabel
-                image={CellConsumedIcon}
-                label="Cell Consumed"
-                consumed={blockData.cell_consumed}
-                balance={blockData.total_cell_capacity}
+    <Content>
+      <BlockDetailPanel width={window.innerWidth} className="container">
+        <BlockDetailTitle hash={hash} />
+        <BlockOverview value="Overview" />
+        <BlockCommonContent>
+          <div>
+            {BlockLeftItems.slice(0, BlockLeftSeparateIndex).map(item => {
+              return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+            })}
+            <CellConsumedLabel
+              image={CellConsumedIcon}
+              label="Cell Consumed"
+              consumed={blockData.cell_consumed}
+              balance={blockData.total_cell_capacity}
+            />
+            {BlockLeftItems.slice(BlockLeftSeparateIndex).map(item => {
+              return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+            })}
+          </div>
+          <span className="block__content__separate" />
+          <div>
+            <Link
+              to={{
+                pathname: `/address/${BlockRightItems[0].value}`,
+              }}
+            >
+              <SimpleLabel
+                image={BlockRightItems[0].image}
+                label={BlockRightItems[0].label}
+                value={BlockRightItems[0].value}
+                highLight
               />
-              {BlockLeftItems.slice(BlockLeftSeparateIndex).map(item => {
-                return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
-              })}
-            </div>
-            <span className="block__content__separate" />
-            <div>
-              <Link
-                to={{
-                  pathname: `/address/${BlockRightItems[0].value}`,
-                }}
-              >
-                <SimpleLabel
-                  image={BlockRightItems[0].image}
-                  label={BlockRightItems[0].label}
-                  value={BlockRightItems[0].value}
-                  highLight
-                />
-              </Link>
-              {BlockRightItems.slice(1).map(item => {
-                return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
-              })}
-            </div>
-          </BlockCommonContent>
-          <BlockPreviousNext />
-          <BlockHightLabel>Block Height</BlockHightLabel>
+            </Link>
+            {BlockRightItems.slice(1).map(item => {
+              return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+            })}
+          </div>
+        </BlockCommonContent>
+        <BlockPreviousNext />
+        <BlockHightLabel>Block Height</BlockHightLabel>
 
-          <BlockTransactionsPanel>
-            <BlockOverview value="Transactions" />
-            <div>
-              {transactionWrappers.map((transaction: any) => {
-                return (
-                  <TransactionComponent
-                    transaction={transaction.attributes}
-                    key={transaction.attributes.transaction_hash}
-                  />
-                )
-              })}
-            </div>
-            <BlockTransactionsPagition>
-              <Pagination
-                showQuickJumper
-                showSizeChanger
-                defaultPageSize={pageSize}
-                pageSize={pageSize}
-                defaultCurrent={pageNo}
-                current={pageNo}
-                total={totalTransactions}
-                onChange={onChange}
-              />
-            </BlockTransactionsPagition>
-          </BlockTransactionsPanel>
-        </BlockDetailPanel>
-      </Content>
-      <Footer />
-    </Page>
+        <BlockTransactionsPanel>
+          <BlockOverview value="Transactions" />
+          <div>
+            {transactionWrappers.map((transaction: any) => {
+              return (
+                <TransactionComponent
+                  transaction={transaction.attributes}
+                  key={transaction.attributes.transaction_hash}
+                />
+              )
+            })}
+          </div>
+          <BlockTransactionsPagition>
+            <Pagination
+              showQuickJumper
+              showSizeChanger
+              defaultPageSize={pageSize}
+              pageSize={pageSize}
+              defaultCurrent={pageNo}
+              current={pageNo}
+              total={totalTransactions}
+              onChange={onChange}
+            />
+          </BlockTransactionsPagition>
+        </BlockTransactionsPanel>
+      </BlockDetailPanel>
+    </Content>
   )
 }

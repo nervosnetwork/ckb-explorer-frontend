@@ -1,9 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Page from '../../components/Page'
-import Header from '../../components/Header'
 import Content from '../../components/Content'
-import Footer from '../../components/Footer'
 import SearchLogo from '../../asserts/search.png'
 
 const SearchPanel = styled.div`
@@ -59,18 +56,14 @@ const SearchContent = styled.div`
 
 export default () => {
   return (
-    <Page>
-      <Header search={false} />
-      <Content>
-        <SearchPanel width={window.innerWidth} className="container">
-          <SearchInput>
-            <input placeholder="Block Heigth / Block Hash / TxHash / Address" />
-            <img src={SearchLogo} alt="search logo" />
-          </SearchInput>
-          <SearchContent>Opps! Your search did not match any record. Please try different keywords~</SearchContent>
-        </SearchPanel>
-      </Content>
-      <Footer />
-    </Page>
+    <Content>
+      <SearchPanel width={window.innerWidth} className="container">
+        <SearchInput>
+          <input placeholder="Block Heigth / Block Hash / TxHash / Address" />
+          <img src={SearchLogo} alt="search logo" />
+        </SearchInput>
+        <SearchContent>Opps! Your search did not match any record. Please try different keywords~</SearchContent>
+      </SearchPanel>
+    </Content>
   )
 }
