@@ -40,8 +40,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   const initBlockWrappers: BlockWrapper[] = []
   const [blockWrappers, setBlockWrappers] = useState(initBlockWrappers)
   const [totalBlocks, setTotalBlocks] = useState(1)
-  const [pageSize, setPageSize] = useState(validNumber(size as string, PageParams.PageSize))
-  const [pageNo, setPageNo] = useState(validNumber(page as string, PageParams.PageNo))
+  const [pageNo, setPageNo] = useState(validNumber(page, PageParams.PageNo))
+  const [pageSize, setPageSize] = useState(validNumber(size, PageParams.PageSize))
 
   const getBlocks = (page_p: number, size_p: number) => {
     fetchBlockList(page_p, size_p).then(response => {
@@ -56,8 +56,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   }
 
   useEffect(() => {
-    const page_p = validNumber(page as string, pageNo)
-    const size_p = validNumber(size as string, pageSize)
+    const page_p = validNumber(page, PageParams.PageNo)
+    const size_p = validNumber(size, PageParams.PageSize)
     setPageNo(page_p)
     setPageSize(size_p)
     getBlocks(page_p, size_p)

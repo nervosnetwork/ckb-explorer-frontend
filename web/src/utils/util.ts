@@ -9,7 +9,10 @@ const copyDivValue = (component: any) => {
   }
 }
 
-const validNumber = (value: string, defaultValue: number) => {
+const validNumber = (value: any, defaultValue: number) => {
+  if (typeof value !== 'string') {
+    return defaultValue
+  }
   return value ? parseInt(value, 10) : defaultValue
 }
 

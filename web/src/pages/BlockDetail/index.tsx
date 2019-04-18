@@ -124,8 +124,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const initTransactionWrappers: TransactionWrapper[] = []
   const [transactionWrappers, setTransactionWrappers] = useState(initTransactionWrappers)
   const [totalTransactions, setTotalTransactions] = useState(1)
-  const [pageSize, setPageSize] = useState(validNumber(size as string, PageParams.PageSize))
-  const [pageNo, setPageNo] = useState(validNumber(page as string, PageParams.PageNo))
+  const [pageNo, setPageNo] = useState(validNumber(page, PageParams.PageNo))
+  const [pageSize, setPageSize] = useState(validNumber(size, PageParams.PageSize))
 
   const getBlockByHash = () => {
     fetchBlockByHash(hash).then(data => {
@@ -147,8 +147,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
 
   useEffect(() => {
     getBlockByHash()
-    const page_p = validNumber(page as string, pageNo)
-    const size_p = validNumber(size as string, pageSize)
+    const page_p = validNumber(page, PageParams.PageNo)
+    const size_p = validNumber(size, PageParams.PageSize)
     setPageNo(page_p)
     setPageSize(size_p)
     getTransactions(page_p, size_p)
