@@ -163,7 +163,7 @@ module Api
         assert_equal 12, json["data"].size
       end
 
-      test "should return the corresponding transactions when page and page_size is set" do
+      test "should return the corresponding transactions when page and page_size are set" do
         block = create(:block, :with_ckb_transactions, transactions_count: 30)
         block_ckb_transactions = block.ckb_transactions.order(block_timestamp: :desc).offset(5).limit(5)
         response_transaction = CkbTransactionSerializer.new(block_ckb_transactions).serialized_json
