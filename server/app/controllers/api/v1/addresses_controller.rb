@@ -7,6 +7,8 @@ module Api
         address = Address.find_by!(address_hash: params[:id])
 
         render json: AddressSerializer.new(address)
+      rescue ActiveRecord::RecordNotFound
+        raise Api::V1::Exceptions::AddressNotFoundError
       end
 
       private
