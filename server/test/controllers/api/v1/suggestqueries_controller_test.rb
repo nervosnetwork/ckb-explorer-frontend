@@ -107,6 +107,24 @@ module Api
 
         assert_equal response_json, response.body
       end
+
+      test "should return error object when no records found by a integer query key" do
+        error_object = Api::V1::Exceptions::SuggestQueryResultNotFoundError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
+
+        valid_get api_v1_suggestqueries_url, params: { q: 1 }
+
+        assert_equal response_json, response.body
+      end
+
+      test "should return error object when no records found by a hex query key" do
+        error_object = Api::V1::Exceptions::SuggestQueryResultNotFoundError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
+
+        valid_get api_v1_suggestqueries_url, params: { q: "0x3b238b3326d10ec000417b6&^&bc715090e86293d6cdbcb3fd8a628ad4a0b756f6" }
+
+        assert_equal response_json, response.body
+      end
     end
   end
 end
