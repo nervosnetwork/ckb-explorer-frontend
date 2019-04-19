@@ -4,7 +4,9 @@ module Api
       before_action :validate_query_params
 
       def show
-        render json: {}
+        address = Address.find_by!(address_hash: params[:id])
+
+        render json: AddressSerializer.new(address)
       end
 
       private
