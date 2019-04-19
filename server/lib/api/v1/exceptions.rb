@@ -67,9 +67,9 @@ module Api
         end
       end
 
-      class AddressTransactionsNotFoundError < Error
+      class AddressNotFoundError < Error
         def initialize
-          super code: 1010, status: 404, title: "Address Transactions Not Found", detail: "No transaction records found by given address hash", href: "https://github.com/nervosnetwork/ckb-explorer"
+          super code: 1010, status: 404, title: "Address Not Found", detail: "No address found by given address hash", href: "https://github.com/nervosnetwork/ckb-explorer"
         end
       end
 

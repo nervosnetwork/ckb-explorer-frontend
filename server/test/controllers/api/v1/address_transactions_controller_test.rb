@@ -97,7 +97,7 @@ module Api
       end
 
       test "should return error object when no records found by id" do
-        error_object = Api::V1::Exceptions::AddressTransactionsNotFoundError.new
+        error_object = Api::V1::Exceptions::AddressNotFoundError.new
         response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
         valid_get api_v1_address_transaction_url("0x3b138b3126d10ec000417b68bc715f17e86293d6cdbcb3fd8a628ad4a0b756f6")

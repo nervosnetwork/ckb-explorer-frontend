@@ -11,7 +11,7 @@ module Api
 
         render json: CkbTransactionSerializer.new(ckb_transactions, options)
       rescue ActiveRecord::RecordNotFound
-        raise Api::V1::Exceptions::AddressTransactionsNotFoundError
+        raise Api::V1::Exceptions::AddressNotFoundError
       end
 
       private
