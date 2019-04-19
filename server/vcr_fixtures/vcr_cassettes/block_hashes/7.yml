@@ -5,7 +5,7 @@ http_interactions:
     uri: http://47.111.175.189:8122/
     body:
       encoding: UTF-8
-      string: '{"id":1,"jsonrpc":"2.0","method":"get_block_hash","params":[7]}'
+      string: '{"id":1,"jsonrpc":"2.0","method":"get_block_hash","params":["7"]}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -23,7 +23,7 @@ http_interactions:
       Server:
       - nginx/1.14.0 (Ubuntu)
       Date:
-      - Tue, 16 Apr 2019 09:50:05 GMT
+      - Fri, 19 Apr 2019 06:57:23 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -32,9 +32,9 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"jsonrpc":"2.0","result":"0xd3b115f3b6708f7c63272c97b6f718ce2a2757d05fe89c6d40509bb28b48e522","id":1}
+      string: '{"jsonrpc":"2.0","result":"0x267959408f66f8afd3723e0826a39a884b845c84fdc2ebbf519cb1e22ab07ec6","id":1}
 
 '
     http_version: 
-  recorded_at: Tue, 16 Apr 2019 09:50:05 GMT
+  recorded_at: Fri, 19 Apr 2019 06:57:23 GMT
 recorded_with: VCR 4.0.0

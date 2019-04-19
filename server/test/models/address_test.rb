@@ -74,7 +74,7 @@ class AddressTest < ActiveSupport::TestCase
     prepare_inauthentic_node_data
 
     VCR.use_cassette("genesis_block") do
-      VCR.use_cassette("blocks/three", match_requests_on: [:body], record: :new_episodes) do
+      VCR.use_cassette("blocks/three") do
         CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
         CkbSync::AuthenticSync.start
 
@@ -106,7 +106,7 @@ class AddressTest < ActiveSupport::TestCase
     SyncInfo.local_authentic_tip_block_number
 
     VCR.use_cassette("genesis_block") do
-      VCR.use_cassette("blocks/three", match_requests_on: [:body], record: :new_episodes) do
+      VCR.use_cassette("blocks/three") do
         CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
         CkbSync::AuthenticSync.start
 
