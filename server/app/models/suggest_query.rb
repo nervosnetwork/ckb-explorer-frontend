@@ -1,4 +1,4 @@
-class Suggestquery
+class SuggestQuery
   def initialize(query_key)
     @query_key = query_key
   end

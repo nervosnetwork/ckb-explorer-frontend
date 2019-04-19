@@ -1,10 +1,10 @@
 module Api
   module V1
-    class SuggestqueriesController < ApplicationController
+    class SuggestQueriesController < ApplicationController
       before_action :validate_query_params
 
       def index
-        json_response = Suggestquery.new(params[:q]).find
+        json_response = SuggestQuery.new(params[:q]).find
 
         render json: json_response
       rescue ActiveRecord::RecordNotFound
