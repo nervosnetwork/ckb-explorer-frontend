@@ -111,7 +111,13 @@ module Api
 
       class SuggestQueryKeyInvalidError < Error
         def initialize
-          super code: 1017, status: 422, title: "query parameter is invalid", detail: "Query parameter should be a block height, block hash, tx hash or address hash", href: "https://github.com/nervosnetwork/ckb-explorer"
+          super code: 1017, status: 422, title: "Query parameter is invalid", detail: "Query parameter should be a block height, block hash, tx hash or address hash", href: "https://github.com/nervosnetwork/ckb-explorer"
+        end
+      end
+
+      class SuggestQueryResultNotFoundError < Error
+        def initialize
+          super code: 1018, status: 404, title: "No matching records found", detail: "No records found by given query key", href: "https://github.com/nervosnetwork/ckb-explorer"
         end
       end
     end
