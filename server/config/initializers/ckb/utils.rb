@@ -25,7 +25,7 @@ module CKB
 
     def self.total_cell_capacity(commit_transactions)
       commit_transactions.reduce(0) do |memo, commit_transaction|
-        memo + commit_transaction["outputs"].reduce(0) { |inside_memo, output| inside_memo + output["capacity"] }
+        memo + commit_transaction["outputs"].reduce(0) { |inside_memo, output| inside_memo + output["capacity"].to_i }
       end
     end
 
@@ -34,11 +34,11 @@ module CKB
     end
 
     def self.miner_reward(cellbase)
-      cellbase["outputs"].first["capacity"]
+      cellbase["outputs"].first["capacity"].to_i
     end
 
     def self.transaction_fee(transaction)
-      output_capacities = transaction["outputs"].map { |output| output["capacity"] }.reduce(0, &:+)
+      output_capacities = transaction["outputs"].map { |output| output["capacity"].to_i }.reduce(0, &:+)
       input_capacities = transaction["inputs"].map { |input| CKB::Utils.cell_input_capacity(input) }.reduce(0, &:+)
       input_capacities.zero? ? 0 : (input_capacities - output_capacities)
     end
@@ -54,7 +54,7 @@ module CKB
 
       while current_from <= to
         current_to = [current_from + 100, to].min
-        cells = CkbSync::Api.instance.get_cells_by_lock_hash(lock_hash, current_from, current_to)
+        cells = CkbSync::Api.instance.get_cells_by_lock_hash(lock_hash, current_from.to_s, current_to.to_s)
         results.concat(cells)
         current_from = current_to + 1
       end
@@ -63,7 +63,7 @@ module CKB
 
     # TODO Can be changed to calculate by local cell
     def self.get_balance(lock_hash)
-      CKB::Utils.get_unspent_cells(lock_hash).reduce(0) { |memo, cell| memo + cell[:capacity] }
+      CKB::Utils.get_unspent_cells(lock_hash).reduce(0) { |memo, cell| memo + cell[:capacity].to_i }
     end
 
     # TODO Can be changed to calculate by local cell
