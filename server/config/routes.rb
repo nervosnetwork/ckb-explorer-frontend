@@ -6,9 +6,10 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :blocks, only: %i(index show)
-      get "/transactions/:id", to: "ckb_transactions#show", as: "ckb_transaction"
       resources :address_transactions, only: :show
       resources :block_transactions, only: :show
+      resources :addresses, only: :show
+      get "/transactions/:id", to: "ckb_transactions#show", as: "ckb_transaction"
       resources :cell_input_lock_scripts, only: :show
       resources :cell_input_type_scripts, only: :show
       resources :cell_input_data, only: :show
