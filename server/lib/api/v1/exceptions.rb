@@ -108,6 +108,12 @@ module Api
           super code: 1016, status: 404, title: "Cell Output Not Found", detail: "No cell output records found by given id", href: "https://github.com/nervosnetwork/ckb-explorer"
         end
       end
+
+      class SuggestQueryKeyInvalidError < Error
+        def initialize
+          super code: 1017, status: 422, title: "query parameter is invalid", detail: "Query parameter should be a block height, block hash, tx hash or address hash", href: "https://github.com/nervosnetwork/ckb-explorer"
+        end
+      end
     end
   end
 end
