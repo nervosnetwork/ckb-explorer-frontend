@@ -23,8 +23,7 @@ class TypeScriptTest < ActiveSupport::TestCase
       if type_script.blank?
         type_script = cell_output.create_type_script(
           args: lock_script.args,
-          binary_hash: lock_script.binary_hash,
-          version: lock_script.version
+          binary_hash: lock_script.binary_hash
         )
       else
         type_script = cell_output.type_script

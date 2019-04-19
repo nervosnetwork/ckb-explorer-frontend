@@ -18,7 +18,7 @@ module CkbSync
         node_tip_block_number = CkbSync::Api.instance.get_tip_block_number
 
         ((local_tip_block_number + 1)..node_tip_block_number).each do |number|
-          block_hash = CkbSync::Api.instance.get_block_hash(number)
+          block_hash = CkbSync::Api.instance.get_block_hash(number.to_s)
 
           SyncInfo.local_inauthentic_tip_block_number = number
           SaveBlockWorker.perform_async(block_hash, "inauthentic")

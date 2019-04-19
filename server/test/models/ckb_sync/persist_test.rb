@@ -134,6 +134,8 @@ module CkbSync
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_block_hash = local_block.attributes.select { |attribute| attribute.in?(%w(difficulty block_hash number parent_hash seal timestamp txs_commit txs_proposal uncles_count uncles_hash version witnesses_root proposal_transactions)) }
         local_block_hash["hash"] = local_block_hash.delete("block_hash")
+        local_block_hash["number"] = local_block_hash["number"].to_s
+        local_block_hash["timestamp"] = local_block_hash["timestamp"].to_s
 
         assert_equal formatted_node_block.sort, local_block_hash.sort
       end
@@ -159,8 +161,12 @@ module CkbSync
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_uncle_blocks =
           local_block.uncle_blocks.map do |uncle_block|
-            uncle_block = uncle_block.attributes.select { |attribute| attribute.in?(%w(difficulty block_hash number parent_hash seal timestamp txs_commit txs_proposal uncles_count uncles_hash version witnesses_root proposal_transactions)) }
+            uncle_block = uncle_block.attributes.select do |attribute|
+              attribute.in?(%w(difficulty block_hash number parent_hash seal timestamp txs_commit txs_proposal uncles_count uncles_hash version witnesses_root proposal_transactions))
+            end
             uncle_block["hash"] = uncle_block.delete("block_hash")
+            uncle_block["number"] = uncle_block["number"].to_s
+            uncle_block["timestamp"] = uncle_block["timestamp"].to_s
             uncle_block.sort
           end
 
@@ -211,7 +217,7 @@ module CkbSync
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_block_commit_transactions = local_block.ckb_transactions
-        local_block_cell_inputs = local_block_commit_transactions.map { |commit_transaciont| commit_transaciont.cell_inputs.map { |cell_input| cell_input.attributes.select { |attribute| attribute.in?(%w(args previous_output)) }.sort } }.flatten
+        local_block_cell_inputs = local_block_commit_transactions.map { |commit_transaciont| commit_transaciont.cell_inputs.map { |cell_input| cell_input.attributes.select { |attribute| attribute.in?(%w(args previous_output valid_since)) }.sort } }.flatten
 
         assert_equal node_block_cell_inputs, local_block_cell_inputs
       end
@@ -226,7 +232,13 @@ module CkbSync
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_block_commit_transactions = local_block.ckb_transactions
-        local_block_cell_outputs = local_block_commit_transactions.map { |commit_transaciont| commit_transaciont.cell_outputs.map { |cell_output| cell_output.attributes.select { |attribute| attribute.in?(%w(capacity data)) }.sort } }.flatten
+        local_block_cell_outputs = local_block_commit_transactions.map do |commit_transaciont|
+          commit_transaciont.cell_outputs.map do |cell_output|
+            attributes = cell_output.attributes
+            attributes["capacity"] = attributes["capacity"].to_i.to_s
+            attributes.select { |attribute| attribute.in?(%w(capacity data)) }.sort
+          end
+        end.flatten
 
         assert_equal node_block_cell_outputs, local_block_cell_outputs
       end
@@ -241,7 +253,7 @@ module CkbSync
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_block_commit_transactions = local_block.ckb_transactions
-        local_block_lock_scripts = local_block_commit_transactions.map { |commit_transaciont| commit_transaciont.cell_outputs.map { |cell_output| cell_output.lock_script.attributes.select { |attribute| attribute.in?(%w(args binary_hash version)) } }.sort }.flatten
+        local_block_lock_scripts = local_block_commit_transactions.map { |commit_transaciont| commit_transaciont.cell_outputs.map { |cell_output| cell_output.lock_script.attributes.select { |attribute| attribute.in?(%w(args binary_hash)) } }.sort }.flatten
 
         assert_equal node_block_lock_scripts, local_block_lock_scripts
       end
@@ -257,7 +269,7 @@ module CkbSync
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_block_commit_transactions = local_block.ckb_transactions
-        local_block_type_scripts = local_block_commit_transactions.map { |commit_transaciont| commit_transaciont.cell_outputs.map { |cell_output| cell_output.type_script.attributes.select { |attribute| attribute.in?(%w(args binary_hash version)) } }.sort }.flatten
+        local_block_type_scripts = local_block_commit_transactions.map { |commit_transaciont| commit_transaciont.cell_outputs.map { |cell_output| cell_output.type_script.attributes.select { |attribute| attribute.in?(%w(args binary_hash)) } }.sort }.flatten
 
         assert_equal node_block_type_scripts, local_block_type_scripts
       end

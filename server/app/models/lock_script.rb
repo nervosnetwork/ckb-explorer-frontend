@@ -21,7 +21,6 @@ end
 #  id             :bigint(8)        not null, primary key
 #  args           :string           is an Array
 #  binary_hash    :binary
-#  version        :integer
 #  cell_output_id :bigint(8)
 #  address_id     :bigint(8)
 #  created_at     :datetime         not null
