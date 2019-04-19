@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.bigint "ckb_transactions_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["address_hash"], name: "index_addresses_on_address_hash", unique: true
+    t.index ["address_hash"], name: "index_addresses_on_address_hash"
   end
 
   create_table "blocks", force: :cascade do |t|
