@@ -5,7 +5,10 @@ module Api
 
       def index
         json_response = Suggestquery.new(params[:q]).find
+
         render json: json_response
+      rescue ActiveRecord::RecordNotFound
+        raise Api::V1::Exceptions::SuggestQueryResultNotFoundError
       end
 
       private

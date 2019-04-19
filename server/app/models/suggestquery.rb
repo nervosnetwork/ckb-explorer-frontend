@@ -16,6 +16,7 @@ class Suggestquery
     result = find_block_by_number if integer_string?
     result = find_by_hex if valid_hex?
 
+    raise ActiveRecord::RecordNotFound if result.blank?
     result
   end
 
