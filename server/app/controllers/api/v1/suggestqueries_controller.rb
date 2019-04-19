@@ -4,7 +4,8 @@ module Api
       before_action :validate_query_params
 
       def index
-        render json: {}
+        json_response = Suggestquery.new(params[:q]).find
+        render json: json_response
       end
 
       private
