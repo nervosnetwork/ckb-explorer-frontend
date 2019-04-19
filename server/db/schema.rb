@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   create_table "cell_inputs", force: :cascade do |t|
     t.jsonb "previous_output"
     t.string "args", array: true
+    t.string "valid_since"
     t.bigint "ckb_transaction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -104,7 +105,6 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   create_table "lock_scripts", force: :cascade do |t|
     t.string "args", array: true
     t.binary "binary_hash"
-    t.integer "version"
     t.bigint "cell_output_id"
     t.bigint "address_id"
     t.datetime "created_at", null: false
@@ -126,7 +126,6 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   create_table "type_scripts", force: :cascade do |t|
     t.string "args", array: true
     t.binary "binary_hash"
-    t.integer "version"
     t.bigint "cell_output_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
