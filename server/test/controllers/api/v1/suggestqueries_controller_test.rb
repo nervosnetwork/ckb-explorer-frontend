@@ -71,6 +71,42 @@ module Api
 
         assert_equal response_json, response.body
       end
+
+      test "should return a block when query key is a exist block height" do
+        block = create(:block)
+        response_json = BlockSerializer.new(block).serialized_json
+
+        valid_get api_v1_suggestqueries_url, params: { q: block.number }
+
+        assert_equal response_json, response.body
+      end
+
+      test "should return a block when query key is a exist block hash" do
+        block = create(:block)
+        response_json = BlockSerializer.new(block).serialized_json
+
+        valid_get api_v1_suggestqueries_url, params: { q: block.block_hash }
+
+        assert_equal response_json, response.body
+      end
+
+      test "should return a ckb transaction when query key is a exist ckb transaction hash" do
+        ckb_transaction = create(:ckb_transaction)
+        response_json = CkbTransactionSerializer.new(ckb_transaction).serialized_json
+
+        valid_get api_v1_suggestqueries_url, params: { q: ckb_transaction.tx_hash }
+
+        assert_equal response_json, response.body
+      end
+
+      test "should return address when query key is a exist address hash" do
+        address = create(:address, :with_lock_script)
+        response_json = AddressSerializer.new(address).serialized_json
+
+        valid_get api_v1_suggestqueries_url, params: { q: address.address_hash }
+
+        assert_equal response_json, response.body
+      end
     end
   end
 end
