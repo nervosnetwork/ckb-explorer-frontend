@@ -1,14 +1,17 @@
 class Address < ApplicationRecord
+  PREFIX_MAINNET = "ckb".freeze
+  PREFIX_TESTNET = "ckt".freeze
+
   has_one :lock_script
   has_many :account_books
   has_many :ckb_transactions, through: :account_books
-  validates_presence_of :address_hash, :balance, :cell_consumed, :ckb_transactions_count
+  validates_presence_of :balance, :cell_consumed, :ckb_transactions_count
   validates :balance, :cell_consumed, :ckb_transactions_count, numericality: { greater_than_or_equal_to: 0 }
 
   attribute :address_hash, :ckb_hash
 
-  def self.find_or_create_address(ckb_transaction, verify_script)
-    address_hash = CKB::Utils.json_script_to_type_hash(verify_script)
+  def self.find_or_create_address(ckb_transaction, lock_script)
+    address_hash = CKB::Utils.generate_address(lock_script)
 
     if Address.where(address_hash: address_hash).exists?
       address = Address.find_by(address_hash: address_hash)
@@ -35,5 +38,5 @@ end
 #
 # Indexes
 #
-#  index_addresses_on_address_hash  (address_hash) UNIQUE
+#  index_addresses_on_address_hash  (address_hash)
 #

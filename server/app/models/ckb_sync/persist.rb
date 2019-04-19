@@ -52,7 +52,7 @@ module CkbSync
       def build_cell_outputs(node_outputs, ckb_transaction, ckb_transaction_and_display_cell_hash)
         node_outputs.each do |output|
           cell_output = build_cell_output(ckb_transaction, output)
-          address = Address.find_or_create_address(ckb_transaction, output["lock"].symbolize_keys)
+          address = Address.find_or_create_address(ckb_transaction, output["lock"])
           build_lock_script(cell_output, output["lock"], address)
           build_type_script(cell_output, output["type"])
           ckb_transaction_and_display_cell_hash[:outputs] << cell_output
