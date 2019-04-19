@@ -4,7 +4,8 @@ module Api
   module V1
     class SuggestqueriesControllerTest < ActionDispatch::IntegrationTest
       test "should get success code when call show" do
-        valid_get api_v1_suggestqueries_url, params: { q: "12" }
+        block = create(:block)
+        valid_get api_v1_suggestqueries_url, params: { q: block.number }
 
         assert_response :success
       end
@@ -121,7 +122,7 @@ module Api
         error_object = Api::V1::Exceptions::SuggestQueryResultNotFoundError.new
         response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
-        valid_get api_v1_suggestqueries_url, params: { q: "0x3b238b3326d10ec000417b6&^&bc715090e86293d6cdbcb3fd8a628ad4a0b756f6" }
+        valid_get api_v1_suggestqueries_url, params: { q: "0x4b238b3326d10ec000417b68bc715f17e86293d6cdbcb3fd8a628ad4a0b756f6" }
 
         assert_equal response_json, response.body
       end
