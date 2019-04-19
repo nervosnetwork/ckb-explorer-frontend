@@ -12,11 +12,15 @@ class Suggestquery
   attr_reader :query_key
 
   def find_record_by_query_key
-    result = nil
-    result = find_block_by_number if integer_string?
-    result = find_by_hex if valid_hex?
+    result =
+      if integer_string?
+        find_block_by_number
+      elsif valid_hex?
+        find_by_hex
+      end
 
     raise ActiveRecord::RecordNotFound if result.blank?
+
     result
   end
 
