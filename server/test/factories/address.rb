@@ -9,6 +9,13 @@ FactoryBot.define do
       transactions_count { 3 }
     end
 
+    trait :with_lock_script do
+      after(:create) do |address, evaluator|
+        cell_output = create(:cell_output, :with_full_transaction)
+        cell_output.lock_script.update(address: address)
+      end
+    end
+
     trait :with_transactions do
       ckb_transactions_count { 3 }
       after(:create) do |address, evaluator|
