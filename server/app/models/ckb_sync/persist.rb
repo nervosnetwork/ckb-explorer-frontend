@@ -92,7 +92,6 @@ module CkbSync
         cell_output.build_type_script(
           args: type_script["args"],
           binary_hash: type_script["binary_hash"],
-          version: type_script["version"]
         )
       end
 
@@ -100,7 +99,6 @@ module CkbSync
         cell_output.build_lock_script(
           args: verify_script["args"],
           binary_hash: verify_script["binary_hash"],
-          version: verify_script["version"],
           address: address
         )
       end
@@ -108,6 +106,7 @@ module CkbSync
       def build_cell_input(ckb_transaction, input)
         ckb_transaction.cell_inputs.build(
           previous_output: input["previous_output"],
+          valid_since: input["valid_since"],
           args: input["args"]
         )
       end
