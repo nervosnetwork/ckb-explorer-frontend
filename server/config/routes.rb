@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       resources :cell_input_type_scripts, only: :show
       resources :cell_input_data, only: :show
       resources :cell_output_lock_scripts, only: :show
+      resources :cell_output_data, only: :show
     end
   end
 end
