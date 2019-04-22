@@ -33,3 +33,4 @@
 /web/build/
 /web/npm-debug.log
 /web/*.log
+/web/src/config.json

@@ -110,17 +110,18 @@ export default () => {
             <TableTitleItem image={MinerIcon} title="Miner" />
             <TableTitleItem image={TimestampIcon} title="Time" />
           </TableTitleRow>
-          {blocksWrappers.map((block: any) => {
-            return (
-              <TableContentRow key={block.attributes.block_hash}>
-                <TableContentItem content={block.attributes.number} to={`block/${block.attributes.number}`} />
-                <TableContentItem content={block.attributes.transactions_count} />
-                <TableContentItem content={block.attributes.cell_consumed} />
-                <TableMinerContentItem content={block.attributes.miner_hash} />
-                <TableContentItem content={parseDate(block.attributes.timestamp)} />
-              </TableContentRow>
-            )
-          })}
+          {blocksWrappers &&
+            blocksWrappers.map((block: any) => {
+              return (
+                <TableContentRow key={block.attributes.block_hash}>
+                  <TableContentItem content={block.attributes.number} to={`block/${block.attributes.number}`} />
+                  <TableContentItem content={block.attributes.transactions_count} />
+                  <TableContentItem content={block.attributes.cell_consumed} />
+                  <TableMinerContentItem content={block.attributes.miner_hash} />
+                  <TableContentItem content={parseDate(block.attributes.timestamp)} />
+                </TableContentRow>
+              )
+            })}
         </ContentTable>
         <TableMorePanel>
           <div>
