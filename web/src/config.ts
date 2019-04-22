@@ -1,3 +1,3 @@
 export default {
-  HOST: process.env.HOST || 'http://192.168.2.16:3000',
+  HOST: process.env.HOST || 'http://localhost:3000',
 }
