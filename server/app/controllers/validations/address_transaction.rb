@@ -25,9 +25,9 @@ module Validations
     attr_accessor :query_key
 
     def query_key_format_must_be_correct
-      unless query_key.start_with?(ENV["DEFAULT_HASH_PREFIX"]) && query_key.length == ENV["DEFAULT_WITH_PREFIX_HASH_LENGTH"].to_i
-        errors.add(:query_key, "query key is invalid")
-      end
+      CKB::Utils.parse_address(query_key)
+    rescue
+      errors.add(:query_key, "query key is invalid")
     end
   end
 end

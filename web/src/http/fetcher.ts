@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from 'axios'
-import { HOST } from '../config.json'
+import CONFIG from '../config'
 import { AddressData, TransactionsData } from './mock/address'
 
-const baseURL = `${HOST}/api/v1/`
+const baseURL = `${CONFIG.HOST}/api/v1/`
 
 export const axiosIns = axios.create({
   baseURL,
