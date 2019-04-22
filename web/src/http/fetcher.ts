@@ -1,13 +1,13 @@
 import axios, { AxiosResponse } from 'axios'
 import ErrorTexts from './errors'
-import { HOST } from '../config.json'
+import CONFIG from '../config'
 import BlocksData from './mock/home'
 import BlockListData from './mock/block_list'
 import { AddressData, TransactionsData } from './mock/address'
 import { BlockData } from './mock/block'
 import { TransactionData, LockScriptData, CellData } from './mock/transaction'
 
-const baseURL = `${HOST}/api/v1/`
+const baseURL = `${CONFIG.HOST}/api/v1/`
 
 export const axiosIns = axios.create({
   baseURL,
