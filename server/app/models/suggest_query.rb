@@ -17,6 +17,8 @@ class SuggestQuery
         find_block_by_number
       elsif valid_hex?
         find_by_hex
+      elsif valid_address?
+        find_address_by_hash
       end
 
     raise ActiveRecord::RecordNotFound if result.blank?
@@ -45,7 +47,7 @@ class SuggestQuery
   end
 
   def find_by_hex
-    find_block_by_hash || find_ckb_transaction_by_hash || find_address_by_hash
+    find_block_by_hash || find_ckb_transaction_by_hash
   end
 
   def integer_string?
@@ -66,5 +68,11 @@ class SuggestQuery
 
   def hex_string?
     !query_key.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])[/\H/]
+  end
+
+  def valid_address?
+    def query_key_format_must_be_correct
+      CKB::Utils.parse_address(query_key) rescue nil
+    end
   end
 end

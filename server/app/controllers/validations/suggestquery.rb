@@ -25,7 +25,7 @@ module Validations
     attr_accessor :query_key
 
     def query_key_format_must_be_correct
-      if query_key.blank? || (!integer_string? && !valid_hex?)
+      if query_key.blank? || (!integer_string? && !valid_hex? && !valid_address?)
         errors.add(:query_key, "query key is invalid")
       end
     end
@@ -48,6 +48,10 @@ module Validations
 
     def hex_string?
       !query_key.delete_prefix(ENV["DEFAULT_HASH_PREFIX"])[/\H/]
+    end
+
+    def valid_address?
+      CKB::Utils.parse_address(query_key) rescue nil
     end
   end
 end
