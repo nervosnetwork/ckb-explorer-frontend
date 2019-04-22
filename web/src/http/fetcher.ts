@@ -1,12 +1,13 @@
 import axios, { AxiosResponse } from 'axios'
 import ErrorTexts from './errors'
+import { HOST } from '../config.json'
 import BlocksData from './mock/home'
 import BlockListData from './mock/block_list'
 import { AddressData, TransactionsData } from './mock/address'
 import { BlockData } from './mock/block'
 import { TransactionData, LockScriptData, CellData } from './mock/transaction'
 
-const baseURL = 'http://localhost:3000/'
+const baseURL = `${HOST}/api/v1/`
 
 export const axiosIns = axios.create({
   baseURL,
@@ -14,6 +15,7 @@ export const axiosIns = axios.create({
     'Content-Type': 'application/vnd.api+json',
     Accept: 'application/vnd.api+json',
   },
+  data: null,
 })
 
 export enum CellType {
