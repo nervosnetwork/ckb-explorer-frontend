@@ -55,20 +55,11 @@ module Api
         assert_equal response_json, response.body
       end
 
-      test "should return error object when id is not a hex start with 0x" do
+      test "should return error object when id is not a address hash" do
         error_object = Api::V1::Exceptions::AddressHashInvalidError.new
         response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
         valid_get api_v1_address_url("9034fwefwef")
-
-        assert_equal response_json, response.body
-      end
-
-      test "should return error object when id is a hex start with 0x but it's length is wrong" do
-        error_object = Api::V1::Exceptions::AddressHashInvalidError.new
-        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
-
-        valid_get api_v1_address_url("0x9034fwefwef")
 
         assert_equal response_json, response.body
       end
@@ -93,7 +84,7 @@ module Api
         error_object = Api::V1::Exceptions::AddressNotFoundError.new
         response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
-        valid_get api_v1_address_url("0x3b238b3326d10ec000417b68bc715f17e86293d6cdbcb3fd8a628ad4a0b756f6")
+        valid_get api_v1_address_url("ckt1q9gry5zgwayze0rtl8g0m8lgtx0cj35hmajzz2r9e6rtnt")
 
         assert_equal response_json, response.body
       end

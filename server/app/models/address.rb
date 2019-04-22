@@ -8,8 +8,6 @@ class Address < ApplicationRecord
   validates_presence_of :balance, :cell_consumed, :ckb_transactions_count
   validates :balance, :cell_consumed, :ckb_transactions_count, numericality: { greater_than_or_equal_to: 0 }
 
-  attribute :address_hash, :ckb_hash
-
   def self.find_or_create_address(ckb_transaction, lock_script)
     address_hash = CKB::Utils.generate_address(lock_script)
 

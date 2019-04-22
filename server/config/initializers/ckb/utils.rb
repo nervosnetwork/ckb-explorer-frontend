@@ -50,7 +50,7 @@ module CKB
 
     def self.parse_address(address_hash)
       decoded_prefix, data = CKB::ConvertAddress.decode(address_hash)
-      raise "Invalid prefix" if decoded_prefix != @prefix
+      raise "Invalid prefix" if decoded_prefix != Address::PREFIX_TESTNET
 
       raise "Invalid type/bin-idx" if data.slice(0..4) != ["0150325048"].pack("H*")
 

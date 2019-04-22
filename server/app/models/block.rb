@@ -15,7 +15,6 @@ class Block < ApplicationRecord
   attribute :txs_commit, :ckb_hash
   attribute :txs_proposal, :ckb_hash
   attribute :uncles_hash, :ckb_hash
-  attribute :miner_hash, :ckb_hash
   attribute :uncle_block_hashes, :ckb_array_hash, hash_length: ENV["DEFAULT_HASH_LENGTH"]
   attribute :proposal_transactions, :ckb_array_hash, hash_length: ENV["DEFAULT_SHORT_HASH_LENGTH"]
 
