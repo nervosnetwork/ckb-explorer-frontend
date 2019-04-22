@@ -21,8 +21,19 @@ set :repository, "https://github.com/shaojunda/ckb-explorer.git"
 set :branch, "develop"
 set :rails_env, "production"
 set :user, "deploy"
-set :sidekiq_pid, -> { "#{fetch(:deploy_to)}/shared/tmp/pids/sidekiq.pid" }
-set :rvm_use_path, '/usr/share/rvm/scripts/rvm'
+set :rvm_use_path, "/usr/share/rvm/scripts/rvm"
+set :puma_socket, "#{fetch(:deploy_to)}/shared/server/tmp/sockets/puma.sock"
+set :puma_pid, "#{fetch(:deploy_to)}/shared/server/tmp/pids/puma.pid"
+set :puma_state, "#{fetch(:deploy_to)}/shared/server/tmp/sockets/puma.state"
+set :puma_stdout, "#{fetch(:deploy_to)}/shared/server/log/puma.log"
+set :puma_stderr, "#{fetch(:deploy_to)}/shared/server/log/puma.log"
+set :pumactl_socket, "#{fetch(:deploy_to)}/shared/server/tmp/sockets/pumactl.sock"
+set :puma_root_path, "#{fetch(:deploy_to)}/current/server"
+set :sidekiq, -> { "#{fetch(:deploy_to)}/current/server/bin/#{fetch(:bundle_bin)} exec sidekiq" }
+set :sidekiq_pid, -> { "#{fetch(:deploy_to)}/shared/server/tmp/pids/sidekiq.pid" }
+set :sidekiqctl, -> { "#{fetch(:deploy_to)}/current/server/bin/#{fetch(:bundle_prefix)} sidekiqctl" }
+set :sidekiq_log, -> { "#{fetch(:deploy_to)}/shared/server/log/sidekiq.log" }
+set :sidekiq_config, -> { "#{fetch(:current_path)}/server/config/sidekiq.yml" }
 # Optional settings:
 # set :user, 'foobar'          # Username in the server to SSH to.
 # set :port, '30000'           # SSH port number.
@@ -35,14 +46,16 @@ set :rvm_use_path, '/usr/share/rvm/scripts/rvm'
 # set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/secrets.yml')
 
 set :shared_dirs, fetch(:shared_dirs, []).push(
-  "log",
-  "tmp"
+  "server/log",
+  "server/public",
+  "server/vendor"
 )
 
 set :shared_files, fetch(:shared_files, []).push(
-  'server/config/database.yml',
-  'server/config/puma.rb',
-  'server/.env'
+  "server/config/database.yml",
+  "server/config/puma.rb",
+  "server/.env",
+  "server/config/master.key"
 )
 
 # This task is the environment that is loaded for all remote run commands, such as
@@ -61,11 +74,11 @@ end
 # All paths in `shared_dirs` and `shared_paths` will be created on their own.
 task :setup do
   # command %{rbenv install 2.3.0 --skip-existing}
-  command %[touch "#{fetch(:shared_path)}/config/database.yml"]
-  command %[touch "#{fetch(:shared_path)}/config/secrets.yml"]
-  command %[touch "#{fetch(:shared_path)}/.env"]
-  command %[touch "#{fetch(:shared_path)}/config/puma.rb"]
-  comment "Be sure to edit '#{fetch(:shared_path)}/config/database.yml', 'secrets.yml', '.env.local' and puma.rb."
+  command %[touch "#{fetch(:shared_path)}/server/config/database.yml"]
+  command %[touch "#{fetch(:shared_path)}/server/.env"]
+  command %[touch "#{fetch(:shared_path)}/server/config/puma.rb"]
+  command %[touch "#{fetch(:shared_path)}/server/config/master.key"]
+  comment "Be sure to edit '#{fetch(:shared_path)}/server/config/database.yml', '.env.local' and puma.rb."
 end
 
 desc "Deploys the current version to the server."
@@ -83,11 +96,7 @@ task :deploy do
     invoke :'deploy:cleanup'
 
     on :launch do
-      # in_path(fetch(:current_path)) do
-      #   invoke :'sidekiq:quiet'
-      #   invoke :'puma:phased_restart'
-      #   invoke :'sidekiq:restart'
-      # end
+      invoke :'puma:phased_restart'
     end
   end
 
