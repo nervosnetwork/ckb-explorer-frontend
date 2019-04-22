@@ -1,11 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
-import ErrorTexts from './errors'
 import { HOST } from '../config.json'
-import BlocksData from './mock/home'
-import BlockListData from './mock/block_list'
 import { AddressData, TransactionsData } from './mock/address'
-import { BlockData } from './mock/block'
-import { TransactionData, LockScriptData, CellData } from './mock/transaction'
 
 const baseURL = `${HOST}/api/v1/`
 
@@ -30,17 +25,18 @@ export enum DataType {
 }
 
 export const fetchBlocks = () => {
-  return new Promise(function(resolve, reject) {
-    resolve(BlocksData.data)
-    if (false) reject()
-  })
+  return axiosIns.get('blocks').then((res: AxiosResponse) => res.data)
 }
 
-export const fetchBlockList = (page: number, size: number) => {
-  return new Promise(function(resolve, reject) {
-    resolve(BlockListData)
-    if (false) reject(new Error(`${page}${size}`))
-  })
+export const fetchBlockList = (page: number, page_size: number) => {
+  return axiosIns
+    .get('blocks', {
+      params: {
+        page,
+        page_size,
+      },
+    })
+    .then((res: AxiosResponse) => res.data)
 }
 
 export const fetchAddressInfo = (address: string) => {
@@ -58,65 +54,45 @@ export const fetchTransactionsByAddress = (address: string, page: number, size: 
 }
 
 export const fetchTransactionByHash = (hash: string) => {
-  return new Promise(function(resolve, reject) {
-    resolve(TransactionData.data.attributes)
-    if (false) reject(hash)
-  })
+  return axiosIns.get(`transactions/${hash}`).then((res: AxiosResponse) => res.data)
 }
 
-export const fetchTransactionsByBlockHash = (blockHash: string, page: number, size: number) => {
-  return new Promise(function(resolve, reject) {
-    resolve(TransactionsData)
-    if (false) reject(new Error(`${blockHash}${page}${size}`))
-  })
+export const fetchTransactionsByBlockHash = (blockHash: string, page: number, page_size: number) => {
+  return axiosIns
+    .get(`/block_transactions/${blockHash}`, {
+      params: {
+        page,
+        page_size,
+      },
+    })
+    .then((res: AxiosResponse) => res.data)
+    .catch(() => {
+      throw new Error(`${blockHash}${page}${page_size}`)
+    })
 }
 
 export const fetchBlockByHash = (hash: string) => {
-  return new Promise(function(resolve, reject) {
-    resolve(BlockData.data.attributes)
-    if (false) reject(hash)
-  })
+  return axiosIns.get(`blocks/${hash}`).then((res: AxiosResponse) => res.data)
 }
 
-export const fetchScript = () => {
-  return new Promise(function(resolve, reject) {
-    resolve(LockScriptData.data.attributes)
-    if (false) reject()
-  })
+export const fetchScript = (cell_type: CellType, script_type: 'lock_scripts' | 'type_scripts', id: string) => {
+  return axiosIns.get(`/cell_${cell_type}_${script_type}/${id}`).then((res: AxiosResponse) => res.data)
 }
 
-export const fetchCellData = () => {
-  return new Promise(function(resolve, reject) {
-    resolve(CellData.data.attributes)
-    if (false) reject()
-  })
+export const fetchCellData = (type: CellType, id: string) => {
+  return axiosIns.get(`/cell_${type}_data/${id}`).then((res: AxiosResponse) => res.data)
 }
 
-export const fetchSearchResult = (q: string) => {
-  return new Promise(function(resolve, reject) {
-    resolve(AddressData.data)
-    if (false) reject(q)
-  })
+export const fetchBlockByNumber = (number: string) => {
+  return axiosIns.get(`blocks/${number}`).then((res: AxiosResponse) => res.data)
 }
 
-export const fetchBlockByNumber = (number: string) =>
-  axiosIns
-    .get(`blocks/${number}`)
-    .then((res: AxiosResponse) => res.data)
-    .catch(() => {
-      throw new Error(ErrorTexts.CACHE_SERVER_NOT_AVAILABLE)
-    })
+export const fetchTransactionsByBlockHeight = (height: number) => {
+  return axiosIns.get(`block_transactions/${height}`).then((res: AxiosResponse) => res.data)
+}
 
-export const fetchTransactionsByBlockHeight = (height: number) =>
-  axiosIns
-    .get(`block_transactions/${height}`)
-    .then((res: AxiosResponse) => res.data)
-    .catch(() => {
-      throw new Error(ErrorTexts.CACHE_SERVER_NOT_AVAILABLE)
-    })
-
-export const fetchCells = (id: number, cellType: CellType, dataType: DataType) =>
-  axiosIns
+export const fetchCells = (id: number, cellType: CellType, dataType: DataType) => {
+  return axiosIns
     .get('block_transactions', {
       params: {
         id: `${id}`,
@@ -125,18 +101,14 @@ export const fetchCells = (id: number, cellType: CellType, dataType: DataType) =
       },
     })
     .then((res: AxiosResponse) => res.data)
-    .catch(() => {
-      throw new Error(ErrorTexts.CACHE_SERVER_NOT_AVAILABLE)
-    })
+}
 
-export const fetchSearchQuery = (param: string) =>
-  axiosIns
-    .get('addresses', {
+export const fetchSearchResult = (param: string) => {
+  return axiosIns
+    .get('suggest_queries', {
       params: {
         q: param,
       },
     })
     .then((res: AxiosResponse) => res.data)
-    .catch(() => {
-      throw new Error(ErrorTexts.CACHE_SERVER_NOT_AVAILABLE)
-    })
+}

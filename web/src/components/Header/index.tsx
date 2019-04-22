@@ -131,17 +131,23 @@ export default ({ search = true }: { search?: boolean }) => {
     if (!q) {
       appContext.toastMessage('Please input valid content', 3000)
     } else {
-      fetchSearchResult(q).then((data: any) => {
-        if (data.type === 'block') {
-          browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
-        } else if (data.type === 'transaction') {
-          browserHistory.push(`/transaction/${(data as TransactionWrapper).attributes.transaction_hash}`)
-        } else if (data.type === 'address') {
-          browserHistory.push(`/address/${(data as AddressWrapper).attributes.address_hash}`)
-        } else {
-          browserHistory.push('/search/fail')
-        }
-      })
+      fetchSearchResult(q)
+        .then((json: any) => {
+          const { data } = json
+          if (data.type === 'block') {
+            browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
+          } else if (data.type === 'ckb_transaction') {
+            // interface here should change by backyard ckb_transaction to transaction
+            browserHistory.push(`/transaction/${(data as TransactionWrapper).attributes.transaction_hash}`)
+          } else if (data.type === 'address') {
+            browserHistory.push(`/address/${(data as AddressWrapper).attributes.address_hash}`)
+          } else {
+            browserHistory.push('/search/fail')
+          }
+        })
+        .catch(() => {
+          browserHistory.push(`/search/fail?q=${q}`)
+        })
     }
   }
 

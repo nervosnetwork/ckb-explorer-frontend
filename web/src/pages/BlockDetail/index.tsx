@@ -35,7 +35,7 @@ import ProofIcon from '../../asserts/proof.png'
 import PreviousBlockIcon from '../../asserts/left_arrow.png'
 import NextBlockIcon from '../../asserts/right_arrow.png'
 import MouseIcon from '../../asserts/block_mouse.png'
-import { Block } from '../../http/response/Block'
+import { Block, BlockWrapper } from '../../http/response/Block'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
@@ -124,21 +124,24 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const [pageNo, setPageNo] = useState(validNumber(page, PageParams.PageNo))
   const [pageSize, setPageSize] = useState(validNumber(size, PageParams.PageSize))
 
-  const getBlockByHash = () => {
-    fetchBlockByHash(hash).then(data => {
-      setBlockData(data as Block)
-    })
-  }
-
-  const getTransactions = (page_p: number, size_p: number) => {
-    fetchTransactionsByBlockHash(hash, page_p, size_p).then(response => {
-      const { data, meta } = response as Response<TransactionWrapper[]>
+  const getTransactions = (block_hash: string, page_p: number, size_p: number) => {
+    fetchTransactionsByBlockHash(block_hash, page_p, size_p).then(json => {
+      const { data, meta } = json as Response<TransactionWrapper[]>
       if (meta) {
         const { total } = meta
         setTotalTransactions(total)
       }
-      const transactions = data.slice((page_p - 1) * size_p, page_p * size_p)
-      setTransactionWrappers(transactions)
+      setTransactionWrappers(data)
+    })
+  }
+
+  const getBlockByHash = () => {
+    fetchBlockByHash(hash).then(json => {
+      const { data } = json as Response<BlockWrapper>
+      setBlockData(data.attributes as Block)
+      const page_p = validNumber(page, PageParams.PageNo)
+      const size_p = validNumber(size, PageParams.PageSize)
+      getTransactions(data.attributes.block_hash, page_p, size_p)
     })
   }
 
@@ -148,7 +151,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     const size_p = validNumber(size, PageParams.PageSize)
     setPageNo(page_p)
     setPageSize(size_p)
-    getTransactions(page_p, size_p)
   }, [search])
 
   const onChange = (page_p: number, size_p: number) => {
@@ -223,11 +225,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       value: `${blockData.proof}`,
     },
   ]
-
   return (
     <Content>
       <BlockDetailPanel width={window.innerWidth} className="container">
-        <BlockDetailTitle hash={hash} />
+        <BlockDetailTitle hash={blockData.block_hash} />
         <BlockOverview value="Overview" />
         <BlockCommonContent>
           <div>

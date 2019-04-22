@@ -47,8 +47,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
         const { total } = meta
         setTotalBlocks(total)
       }
-      const blocks = data.slice((page_p - 1) * size_p, page_p * size_p)
-      setBlockWrappers(blocks)
+      setBlockWrappers(() => data)
     })
   }
 
@@ -82,7 +81,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
           {blockWrappers.map((data: any) => {
             return (
               <TableContentRow key={data.attributes.block_hash}>
-                <TableContentItem content={data.attributes.number} to={`/block/${data.number}`} />
+                <TableContentItem content={data.attributes.number} to={`/block/${data.attributes.number}`} />
                 <TableContentItem content={data.attributes.transactions_count} />
                 <TableContentItem content={data.attributes.cell_consumed} />
                 <TableMinerContentItem content={data.attributes.miner_hash} />

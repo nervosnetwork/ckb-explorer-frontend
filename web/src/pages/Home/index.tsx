@@ -32,6 +32,7 @@ import MoreRightIcon from '../../asserts/more_right.png'
 import browserHistory from '../../routes/history'
 import { fetchBlocks, fetchSearchResult } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
+import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { AddressWrapper } from '../../http/response/Address'
 
@@ -40,8 +41,9 @@ export default () => {
   const initBlockWrappers: BlockWrapper[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
   useEffect(() => {
-    fetchBlocks().then(data => {
-      setBlocksWrappers(data as BlockWrapper[])
+    fetchBlocks().then(json => {
+      const { data } = json as Response<BlockWrapper[]>
+      setBlocksWrappers(data)
     })
   }, [])
 
@@ -49,17 +51,23 @@ export default () => {
     if (!q) {
       appContext.toastMessage('Please input valid content', 3000)
     } else {
-      fetchSearchResult(q).then((data: any) => {
-        if (data.type === 'block') {
-          browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
-        } else if (data.type === 'transaction') {
-          browserHistory.push(`/transaction/${(data as TransactionWrapper).attributes.transaction_hash}`)
-        } else if (data.type === 'address') {
-          browserHistory.push(`/address/${(data as AddressWrapper).attributes.address_hash}`)
-        } else {
-          browserHistory.push('/search/fail')
-        }
-      })
+      fetchSearchResult(q)
+        .then((json: any) => {
+          const { data } = json
+          if (data.type === 'block') {
+            browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
+          } else if (data.type === 'ckb_transaction') {
+            // interface here should change by backyard ckb_transaction to transaction
+            browserHistory.push(`/transaction/${(data as TransactionWrapper).attributes.transaction_hash}`)
+          } else if (data.type === 'address') {
+            browserHistory.push(`/address/${(data as AddressWrapper).attributes.address_hash}`)
+          } else {
+            browserHistory.push('/search/fail')
+          }
+        })
+        .catch(() => {
+          browserHistory.push(`/search/fail?q=${q}`)
+        })
     }
   }
 

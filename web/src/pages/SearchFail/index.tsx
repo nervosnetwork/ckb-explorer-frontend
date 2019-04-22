@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import Content from '../../components/Content'
 import SearchLogo from '../../asserts/search.png'
+import browserHistory from '../../routes/history'
+import AppContext from '../../contexts/App'
+import { fetchSearchResult } from '../../http/fetcher'
+import { BlockWrapper } from '../../http/response/Block'
+import { TransactionWrapper } from '../../http/response/Transaction'
+import { AddressWrapper } from '../../http/response/Address'
 
 const SearchPanel = styled.div`
   margin-top: ${(props: { width: number }) => (350 * props.width) / 1920}px;
@@ -32,7 +38,7 @@ const SearchInput = styled.div`
     }
   }
 
-  > img {
+  > div img {
     position: absolute;
     top: 14px;
     right: 9px;
@@ -55,12 +61,54 @@ const SearchContent = styled.div`
 `
 
 export default () => {
+  const appContext = useContext(AppContext)
+  const handleSearchResult = (q: string) => {
+    if (!q) {
+      appContext.toastMessage('Please input valid content', 3000)
+    } else {
+      fetchSearchResult(q)
+        .then((json: any) => {
+          const { data } = json
+          if (data.type === 'block') {
+            browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
+          } else if (data.type === 'ckb_transaction') {
+            // interface here should change by backyard ckb_transaction to transaction
+            browserHistory.push(`/transaction/${(data as TransactionWrapper).attributes.transaction_hash}`)
+          } else if (data.type === 'address') {
+            browserHistory.push(`/address/${(data as AddressWrapper).attributes.address_hash}`)
+          } else {
+            browserHistory.push('/search/fail')
+          }
+        })
+        .catch(() => {
+          browserHistory.push(`/search/fail?q=${q}`)
+        })
+    }
+  }
   return (
     <Content>
       <SearchPanel width={window.innerWidth} className="container">
         <SearchInput>
-          <input placeholder="Block Heigth / Block Hash / TxHash / Address" />
-          <img src={SearchLogo} alt="search logo" />
+          <input
+            id="search__bar"
+            placeholder="Block Heigth / Block Hash / TxHash / Address"
+            onKeyUp={(event: any) => {
+              if (event.keyCode === 13) {
+                handleSearchResult(event.target.value)
+              }
+            }}
+          />
+          <div
+            role="button"
+            tabIndex={-1}
+            onKeyPress={() => {}}
+            onClick={() => {
+              const searchBar = document.getElementById('search__bar') as HTMLInputElement
+              handleSearchResult(searchBar.value)
+            }}
+          >
+            <img src={SearchLogo} alt="search logo" />
+          </div>
         </SearchInput>
         <SearchContent>Opps! Your search did not match any record. Please try different keywords~</SearchContent>
       </SearchPanel>
