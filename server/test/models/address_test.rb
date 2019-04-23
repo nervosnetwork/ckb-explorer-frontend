@@ -129,7 +129,7 @@ class AddressTest < ActiveSupport::TestCase
         CkbSync::Validator.call(local_block.block_hash)
 
         block = create(:block, :with_block_hash)
-        create(:ckb_transaction, :with_cell_output_and_lock_script, block: block, tx_hash: "0xc30257c81dde7766fc98882ff1e9f8e95abbe79345982e12c6a849de90cbbad1")
+        create(:ckb_transaction, :with_cell_output_and_lock_and_type_script, block: block, tx_hash: "0xc30257c81dde7766fc98882ff1e9f8e95abbe79345982e12c6a849de90cbbad1")
 
         updated_cell_consumed =
           local_block.contained_addresses.map do |address|

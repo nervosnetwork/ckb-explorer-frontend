@@ -31,4 +31,11 @@ class TypeScriptTest < ActiveSupport::TestCase
       assert_equal unpack_attribute(type_script, "binary_hash"), type_script.binary_hash
     end
   end
+
+  test "#to_node_type should return correct hash" do
+    cell_output = create(:cell_output, :with_full_transaction)
+    type_script = cell_output.type_script
+    node_type = { args: type_script.args, binary_hash: type_script.binary_hash }
+    assert_equal node_type, type_script.to_node_type
+  end
 end
