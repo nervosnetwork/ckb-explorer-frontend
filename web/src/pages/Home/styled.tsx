@@ -25,17 +25,19 @@ export const LogoPanel = styled.div`
   flex-direction: row;
   align-items: center;
 
-  > img {
-    width: 156px !important;
-    height: 149px !important;
-  }
-
   > div {
     // line-height: 156px;
     margin-left: 29px;
     color: #46ab81;
-    font-size: 50px;
-    font-weight: bold;
+    font-family: DINPro;
+    height: ${(props: { width: number }) => (134 * props.width) / 1920}px;
+    font-size: ${(props: { width: number }) => (86 * props.width) / 1920}px;
+    padding: ${(props: { width: number }) => (24 * props.width) / 1920}px 0;
+    font-weight: 900;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.56;
+    letter-spacing: 5.2px;
   }
 `
 

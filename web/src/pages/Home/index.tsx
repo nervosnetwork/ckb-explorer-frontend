@@ -19,7 +19,6 @@ import {
   TableContentItem,
   TableMinerContentItem,
 } from '../../components/Table'
-import HomeLogo from '../../asserts/logo_home.png'
 import Search from '../../components/Search'
 import BlockHeightIcon from '../../asserts/block_height.png'
 import TransactionIcon from '../../asserts/transactions.png'
@@ -46,8 +45,7 @@ export default () => {
     <Content>
       <HomeHeaderPanel width={window.innerWidth}>
         <HomeHeader>
-          <LogoPanel>
-            <img src={HomeLogo} alt="home logo" />
+          <LogoPanel width={window.innerWidth}>
             <div>CKB Testnet Explorer</div>
           </LogoPanel>
           <SearchPanel width={window.innerWidth}>
