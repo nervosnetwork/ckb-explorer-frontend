@@ -30,8 +30,8 @@ module CkbSync
       private
 
       def build_ckb_transactions(local_block, commit_transactions, sync_type, ckb_transaction_and_display_cell_hashes)
-        ckb_transaction_and_display_cell_hash = { transaction: nil, inputs: [], outputs: [] }
         commit_transactions.each do |transaction|
+          ckb_transaction_and_display_cell_hash = { transaction: nil, inputs: [], outputs: [] }
           ckb_transaction = build_ckb_transaction(local_block, transaction, sync_type)
           ckb_transaction_and_display_cell_hash[:transaction] = ckb_transaction
 
