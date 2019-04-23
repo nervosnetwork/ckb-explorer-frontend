@@ -15,6 +15,7 @@ import TelegramIcon from '../../asserts/footer_telegram.png'
 import RedditIcon from '../../asserts/footer_reddit.png'
 import YoutubeIcon from '../../asserts/footer_youtube.png'
 import ForumIcon from '../../asserts/footer_forum.png'
+import { getCurrentYear } from '../../utils/date'
 
 const FooterDiv = styled.div`
   width: 100%;
@@ -230,7 +231,7 @@ export default () => {
         </div>
       </div>
       <div className="footer__bottom">
-        Copyright © 2019 CKB Explorer is a project of the Nervos Foundation. All Rights Reserved.
+        {`Copyright © ${getCurrentYear()} CKB Explorer is a project of the Nervos Foundation. All Rights Reserved.`}
       </div>
     </FooterDiv>
   )

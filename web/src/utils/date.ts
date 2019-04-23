@@ -24,7 +24,12 @@ export const parseSimpleDate = (timestamp: number) => {
   )}:${formatData(date.getSeconds())}`
 }
 
+export const getCurrentYear = () => {
+  return new Date().getFullYear()
+}
+
 export default {
   parseDate,
   parseSimpleDate,
+  getCurrentYear,
 }
