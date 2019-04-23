@@ -140,7 +140,7 @@ const orgs = [
         url: 'https://github.com/nervosnetwork/ckb/blob/develop/rpc/doc.md',
       },
       {
-        label: 'Github',
+        label: 'GitHub',
         icon: GithubIcon,
         url: 'https://github.com/nervosnetwork',
       },
@@ -175,7 +175,7 @@ const orgs = [
         url: 'https://www.reddit.com/r/NervosNetwork/',
       },
       {
-        label: 'Youtube',
+        label: 'YouTube',
         icon: YoutubeIcon,
         url: 'https://www.youtube.com/channel/UCONuJGdMzUY0Y6jrPBOzH7A',
       },
@@ -229,7 +229,9 @@ export default () => {
           </div>
         </div>
       </div>
-      <div className="footer__bottom">© CKB Explorer is a project of the Nervos Foundation. All Rights Reserved.</div>
+      <div className="footer__bottom">
+        Copyright © 2019 CKB Explorer is a project of the Nervos Foundation. All Rights Reserved.
+      </div>
     </FooterDiv>
   )
 }
