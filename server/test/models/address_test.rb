@@ -20,7 +20,7 @@ class AddressTest < ActiveSupport::TestCase
       is_greater_than_or_equal_to(0).on(:create)
   end
 
-  test "#address_hash should decodes packed string" do
+  test "address_hash should be nil when transction not use default lock script" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
@@ -30,7 +30,7 @@ class AddressTest < ActiveSupport::TestCase
       block = Block.find_by(block_hash: packed_block_hash)
       address = block.contained_addresses.first
 
-      assert_equal unpack_attribute(address, "address_hash"), address.address_hash
+      assert_nil address.address_hash
     end
   end
 
@@ -124,6 +124,7 @@ class AddressTest < ActiveSupport::TestCase
         CkbSync::Validator.call(local_block.block_hash)
         updated_cell_consumed =
           local_block.contained_addresses.map do |address|
+            address.update(address_hash: "ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf")
             CKB::Utils.address_cell_consumed(address.address_hash) || 0
           end
 

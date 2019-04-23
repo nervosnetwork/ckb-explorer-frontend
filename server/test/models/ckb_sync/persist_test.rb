@@ -364,10 +364,23 @@ module CkbSync
       end
     end
 
-    test ".save_block generated block should has correct miner hash" do
+    test ".save_block generated block's miner hash should be nil when miner doesn't use default lock script" do
       VCR.use_cassette("blocks/10") do
         SyncInfo.local_inauthentic_tip_block_number
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+        local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
+
+        assert_nil local_block.miner_hash
+      end
+    end
+
+    test ".save_block generated block should has correct miner hash when miner use default lock script " do
+      VCR.use_cassette("blocks/10") do
+        SyncInfo.local_inauthentic_tip_block_number
+        node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+        node_block["commit_transactions"].first["outputs"].first["lock"]["args"] = ["0xc30257c81dde7766fc98882ff1e9f8e95abbe79345982e12c6a849de90cbbad1"]
+        node_block["commit_transactions"].first["outputs"].first["lock"]["binary_hash"] = LockScript::SYSTEM_SCRIPT_CELL_HASH
+
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 
         assert_equal CKB::Utils.miner_hash(node_block["commit_transactions"].first), local_block.miner_hash
