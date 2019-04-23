@@ -54,7 +54,7 @@ const SearchPanel = styled.div`
   }
 `
 
-const Search = () => {
+const Search = ({ opacity = false }: { opacity?: boolean }) => {
   const appContext = useContext(AppContext)
 
   const handleSearchResult = (q: string) => {
@@ -81,6 +81,15 @@ const Search = () => {
     }
   }
 
+  const opacityStyle = {
+    opacity: 1,
+    border: '2px solid rgb(24, 50, 93)',
+  }
+
+  const transparentStyle = {
+    opacity: 0.2,
+  }
+
   return (
     <SearchPanel width={window.innerWidth}>
       <input
@@ -91,6 +100,7 @@ const Search = () => {
             handleSearchResult(event.target.value)
           }
         }}
+        style={opacity ? opacityStyle : transparentStyle}
       />
       <div
         role="button"
