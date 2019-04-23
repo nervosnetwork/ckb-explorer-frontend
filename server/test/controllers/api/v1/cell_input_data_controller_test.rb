@@ -107,7 +107,7 @@ module Api
 
         valid_get api_v1_cell_input_datum_url(cell_input.id)
 
-        assert_nil json.dig("data", "attributes", "data")
+        assert_equal [].to_json, json.dig("data", "attributes", "data")
         assert_equal CellOutputDataSerializer.new(cell_output).serialized_json, response.body
       end
     end
