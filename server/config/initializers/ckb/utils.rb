@@ -92,7 +92,7 @@ module CKB
     def self.lock_hash(address_hash)
       return if address_hash.blank?
 
-      lock = CKB::Utils.generate_lock(parse_address(address_hash),  CkbSync::Api.instance.system_script_cell_hash)
+      lock = CKB::Utils.generate_lock(parse_address(address_hash),  LockScript::SYSTEM_SCRIPT_CELL_HASH)
       CKB::Utils.json_script_to_type_hash(lock)
     end
 
@@ -109,8 +109,9 @@ module CKB
       return if address_hash.blank?
 
       lock_hash = lock_hash(address_hash)
+
       outputs =
-        CKB::Utils.get_unspent_cells(lock_hash).map do |cell|
+        CKB::Utils.get_unspent_cells(address_hash).map do |cell|
           out_point = cell[:out_point]
           previous_transaction_hash = out_point[:hash]
           previous_output_index = out_point[:index]

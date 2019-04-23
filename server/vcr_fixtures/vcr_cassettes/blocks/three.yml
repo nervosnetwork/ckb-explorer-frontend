@@ -777,4 +777,152 @@ http_interactions:
 '
     http_version: 
   recorded_at: Fri, 19 Apr 2019 09:51:13 GMT
+- request:
+    method: post
+    uri: http://47.111.175.189:8122/
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"jsonrpc":"2.0","method":"get_cells_by_lock_hash","params":["0x69de066b75d2a15248b27c65809e2264793b09cfd1bc671cc4bebab9ad602294","1","20"]}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.14.0 (Ubuntu)
+      Date:
+      - Tue, 23 Apr 2019 10:07:52 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '37'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","result":[],"id":1}
+
+'
+    http_version: 
+  recorded_at: Tue, 23 Apr 2019 10:07:52 GMT
+- request:
+    method: post
+    uri: http://47.111.175.189:8122/
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"jsonrpc":"2.0","method":"get_cells_by_lock_hash","params":["0x69de066b75d2a15248b27c65809e2264793b09cfd1bc671cc4bebab9ad602294","1","20"]}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.14.0 (Ubuntu)
+      Date:
+      - Tue, 23 Apr 2019 10:09:01 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '37'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","result":[],"id":1}
+
+'
+    http_version: 
+  recorded_at: Tue, 23 Apr 2019 10:09:01 GMT
+- request:
+    method: post
+    uri: http://47.111.175.189:8122/
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"jsonrpc":"2.0","method":"get_cells_by_lock_hash","params":["0x69de066b75d2a15248b27c65809e2264793b09cfd1bc671cc4bebab9ad602294","1","20"]}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.14.0 (Ubuntu)
+      Date:
+      - Tue, 23 Apr 2019 10:09:02 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '37'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","result":[],"id":1}
+
+'
+    http_version: 
+  recorded_at: Tue, 23 Apr 2019 10:09:02 GMT
+- request:
+    method: post
+    uri: http://47.111.175.189:8122/
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"jsonrpc":"2.0","method":"get_cells_by_lock_hash","params":["0x69de066b75d2a15248b27c65809e2264793b09cfd1bc671cc4bebab9ad602294","1","20"]}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.14.0 (Ubuntu)
+      Date:
+      - Tue, 23 Apr 2019 10:09:03 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '37'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","result":[],"id":1}
+
+'
+    http_version: 
+  recorded_at: Tue, 23 Apr 2019 10:09:03 GMT
 recorded_with: VCR 4.0.0

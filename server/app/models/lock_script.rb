@@ -1,4 +1,6 @@
 class LockScript < ApplicationRecord
+  SYSTEM_SCRIPT_CELL_HASH = "0x8bddddc3ae2e09c13106634d012525aa32fc47736456dba11514d352845e561d".freeze
+
   belongs_to :cell_output
   belongs_to :address
 

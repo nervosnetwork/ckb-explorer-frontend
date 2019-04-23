@@ -17,7 +17,7 @@ class CellOutput < ApplicationRecord
       capacity: capacity,
       data: data,
       lock: lock_script.to_node_lock,
-      type: type_script.try(:to_node_lock)
+      type: type_script&.to_node_type
     }
   end
 end

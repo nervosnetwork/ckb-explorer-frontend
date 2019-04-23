@@ -30,8 +30,8 @@ module CkbSync
       private
 
       def build_ckb_transactions(local_block, commit_transactions, sync_type, ckb_transaction_and_display_cell_hashes)
-        ckb_transaction_and_display_cell_hash = { transaction: nil, inputs: [], outputs: [] }
         commit_transactions.each do |transaction|
+          ckb_transaction_and_display_cell_hash = { transaction: nil, inputs: [], outputs: [] }
           ckb_transaction = build_ckb_transaction(local_block, transaction, sync_type)
           ckb_transaction_and_display_cell_hash[:transaction] = ckb_transaction
 
@@ -80,7 +80,7 @@ module CkbSync
           { id: nil, from_cellbase: true, capacity: CellOutput::INITIAL_BLOCK_REWARD, address_hash: nil }
         else
           previous_transacton = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
-          previous_output = previous_transacton.cell_outputs.order(:id).first(previous_output_index).first
+          previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
           address_hash = previous_output.address_hash
           { id: previous_output.id, from_cellbase: false, capacity: previous_output.capacity, address_hash: address_hash }
         end
