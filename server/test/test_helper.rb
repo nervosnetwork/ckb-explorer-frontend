@@ -116,6 +116,17 @@ def prepare_api_wrapper
   end
 end
 
+def previous_cell_output(previous_output)
+  tx_hash = previous_output["hash"]
+  output_index = previous_output["index"]
+
+  raise ActiveRecord::RecordNotFound if CellOutput::BASE_HASH == tx_hash
+
+  previous_transacton = CkbTransaction.find_by!(tx_hash: tx_hash)
+  previous_transacton.cell_outputs.order(:id)[output_index]
+end
+
+
 module RequestHelpers
   def json
     JSON.parse(response.body)
