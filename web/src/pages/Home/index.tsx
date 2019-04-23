@@ -5,6 +5,7 @@ import {
   HomeHeader,
   LogoPanel,
   BlockPanel,
+  SearchPanel,
   ContentTitle,
   ContentTable,
   TableMorePanel,
@@ -49,7 +50,9 @@ export default () => {
             <img src={HomeLogo} alt="home logo" />
             <div>CKB Testnet Explorer</div>
           </LogoPanel>
-          <Search />
+          <SearchPanel width={window.innerWidth}>
+            <Search />
+          </SearchPanel>
         </HomeHeader>
       </HomeHeaderPanel>
 

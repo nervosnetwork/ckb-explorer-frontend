@@ -12,8 +12,8 @@ const SearchPanel = styled.div`
   max-width: 650px;
   width: 100%;
   margin: 0 auto;
-  margin-top: ${(props: { width: number }) => (98 * props.width) / 1920}px;
-  margin-bottom: ${(props: { width: number }) => (98 * props.width) / 1920}px;
+  // margin-top: ${(props: { width: number }) => (98 * props.width) / 1920}px;
+  // margin-bottom: ${(props: { width: number }) => (98 * props.width) / 1920}px;
   height: 65px;
   text-align: center;
   position: relative;

@@ -40,49 +40,8 @@ export const LogoPanel = styled.div`
 `
 
 export const SearchPanel = styled.div`
-  max-width: 650px;
-  width: 100%;
-  margin: 0 auto;
   margin-top: ${(props: { width: number }) => (98 * props.width) / 1920}px;
   margin-bottom: ${(props: { width: number }) => (98 * props.width) / 1920}px;
-  height: 65px;
-  text-align: center;
-  position: relative;
-  > input {
-    position: relative;
-    width: 100%;
-    color: #bababa;
-    height: 65px;
-    font-size: 16px;
-    padding-left: 20px;
-    padding-right: 106px;
-    padding-right: 61px;
-    opacity: 0.2;
-    border-radius: 6px;
-    background-color: #ffffff;
-    &: focus {
-      color: black;
-      opacity: 1;
-    }
-  }
-
-  > div {
-    display: inline-block;
-    position: absolute;
-    top: 14px;
-    right: 9px;
-    width: 41px;
-    height: 41px;
-    opacity: 0.8;
-    &: hover {
-      opacity: 1;
-      cursor: pointer;
-    }
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
 `
 
 export const BlockPanel = styled.div`
