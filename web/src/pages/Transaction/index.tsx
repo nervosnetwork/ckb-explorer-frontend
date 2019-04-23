@@ -21,10 +21,11 @@ import VersionIcon from '../../asserts/version.png'
 import CopyGreenIcon from '../../asserts/copy_green.png'
 import CopyIcon from '../../asserts/copy.png'
 import { parseSimpleDate } from '../../utils/date'
-import { Transaction } from '../../http/response/Transaction'
+import { Response } from '../../http/response/Response'
+import { Transaction, TransactionWrapper } from '../../http/response/Transaction'
 import { Script } from '../../http/response/Script'
 import { Data } from '../../http/response/Data'
-import { fetchTransactionByHash, fetchScript, fetchCellData } from '../../http/fetcher'
+import { CellType, fetchTransactionByHash, fetchScript, fetchCellData } from '../../http/fetcher'
 import { copyDivValue } from '../../utils/util'
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
@@ -35,7 +36,7 @@ const ScriptComponent = ({
   scriptType = null,
   updateCellData,
 }: {
-  cellType: 'input' | 'output'
+  cellType: CellType
   cellInputOutput: any
   scriptType?: 'Lock Script' | 'Type Script' | 'Data' | null
   updateCellData: Function
@@ -77,18 +78,21 @@ const ScriptComponent = ({
                   }
                   newCellInputOutput.select = newCellInputOutput.select === item ? null : item
                   if (item === 'Lock Script') {
-                    fetchScript().then(data => {
-                      setScript(data as Script)
+                    fetchScript(cellType, 'lock_scripts', cellInputOutput.id).then(json => {
+                      const { data } = json as Response<Script>
+                      setScript(data)
                       updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
                     })
                   } else if (item === 'Type Script') {
-                    fetchScript().then(data => {
-                      setScript(data as Script)
+                    fetchScript(cellType, 'type_scripts', cellInputOutput.id).then(json => {
+                      const { data } = json as Response<Script>
+                      setScript(data)
                       updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
                     })
                   } else {
-                    fetchCellData().then(data => {
-                      setCellData(data as Data)
+                    fetchCellData(cellType, cellInputOutput.id).then(json => {
+                      const { data } = json as Response<Data>
+                      setCellData(data)
                       updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
                     })
                   }
@@ -205,8 +209,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   }
 
   const getTransaction = () => {
-    fetchTransactionByHash(hash).then(data => {
-      setTransaction(data as Transaction)
+    fetchTransactionByHash(hash).then(json => {
+      const { data } = json as Response<TransactionWrapper>
+      setTransaction(data.attributes as Transaction)
     })
   }
 
@@ -245,7 +250,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 transaction.display_inputs.map((input: any) => {
                   return (
                     <ScriptComponent
-                      cellType="input"
+                      cellType={CellType.Input}
                       key={input.id}
                       cellInputOutput={input}
                       scriptType={input.select || null}
@@ -265,7 +270,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 transaction.display_outputs.map((ouput: any) => {
                   return (
                     <ScriptComponent
-                      cellType="output"
+                      cellType={CellType.Output}
                       key={ouput.id}
                       cellInputOutput={ouput}
                       scriptType={ouput.select || null}
