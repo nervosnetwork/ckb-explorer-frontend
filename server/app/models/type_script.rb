@@ -5,7 +5,7 @@ class TypeScript < ApplicationRecord
 
   attribute :binary_hash, :ckb_hash
 
-  def to_node_lock
+  def to_node_type
     {
       args: args,
       binary_hash: binary_hash
