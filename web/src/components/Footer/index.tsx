@@ -230,7 +230,7 @@ export default () => {
         </div>
       </div>
       <div className="footer__bottom">
-        Copyright © 2019 CKB Explorer is a project of the Nervos Foundation. All Rights Reserved.
+        Copyright © 2019 Nervos Foundation. All Rights Reserved.
       </div>
     </FooterDiv>
   )
