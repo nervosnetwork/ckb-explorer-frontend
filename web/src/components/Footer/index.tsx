@@ -43,24 +43,62 @@ const FooterDiv = styled.div`
         align-items: center;
         justify-content: center;
         margin: 0 auto;
+        width: ${153 * 2 + 121}px;
       }
       .footer__top__logo {
         img {
+          width: ${(props: { width: number }) => (370 * props.width) / 1920}px;
+          height: auto;
           &:hover {
             transform: scale(1.1, 1.1);
           }
         }
       }
       .footer__top__orgs {
+        flex: 1;
         .footer__top__orgs__item {
           opacity: 0.8;
+          display: flex;
+          align-items: center;
+          margin-top: 25px;
+          margin-bottom: 25px;
           &:hover {
             opacity: 1;
           }
+          > div:nth-child(1) {
+            font-size: 20px;
+            width: 100px;
+            margin-right: 33px;
+            color: rgb(75 188 142);
+          }
+          > div:nth-child(2) {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+          }
           .footer__top__orgs__item__link {
+            margin-left: 25px;
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-decoration: none;
             &:hover {
               transform: scale(1.1, 1.1);
+            }
+            >div: nth-child(1) {
+              width: 32px;
+              height: 32px;
+              img {
+                width: 100%;
+                height: auto;
+              }
+            }
+            >div: nth-child(2) {
+              color: white;
+              width: 80px;
+              margin-top: 7px;
+              text-align: center;
             }
           }
         }
@@ -155,70 +193,18 @@ export default () => {
     <FooterDiv width={window.innerWidth}>
       <div className="footer__top">
         <div className="container">
-          <div
-            className="footer__top__logo"
-            style={{
-              width: 153 * 2 + 121,
-              textAlign: 'center',
-            }}
-          >
+          <div className="footer__top__logo">
             <Link to="/">
-              <img
-                src={LogoIcon}
-                alt="logo"
-                style={{
-                  width: 121,
-                  height: 121,
-                }}
-              />
-              <div
-                style={{
-                  marginTop: 25,
-                  color: '#46ab81',
-                  fontSize: 22,
-                  fontWeight: 'bold',
-                }}
-              >
-                {'CKB Testnet Explorer'}
-              </div>
+              <img src={LogoIcon} alt="logo" />
             </Link>
           </div>
-          <div
-            className="footer__top__orgs"
-            style={{
-              flex: 1,
-            }}
-          >
+          <div className="footer__top__orgs">
             <div>
               {orgs.map((item: any) => {
                 return (
-                  <div
-                    key={item.name}
-                    className="footer__top__orgs__item"
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      marginTop: 25,
-                      marginBottom: 25,
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontSize: 20,
-                        width: 100,
-                        marginRight: 33,
-                        color: 'rgb(75 188 142)',
-                      }}
-                    >
-                      {item.name}
-                    </div>
-                    <div
-                      style={{
-                        flex: 1,
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                      }}
-                    >
+                  <div key={item.name} className="footer__top__orgs__item">
+                    <div>{item.name}</div>
+                    <div>
                       {item.items.map((link: any) => {
                         return (
                           <a
@@ -227,39 +213,11 @@ export default () => {
                             rel="noopener noreferrer"
                             target="_blank"
                             className="footer__top__orgs__item__link"
-                            style={{
-                              marginLeft: 25,
-                              marginTop: 15,
-                              display: 'flex',
-                              flexDirection: 'column',
-                              alignItems: 'center',
-                            }}
                           >
-                            <div
-                              style={{
-                                width: 32,
-                                height: 32,
-                              }}
-                            >
-                              <img
-                                src={link.icon}
-                                style={{
-                                  width: '100%',
-                                  height: 'auto',
-                                }}
-                                alt="orgItemLogo"
-                              />
+                            <div>
+                              <img src={link.icon} alt="orgItemLogo" />
                             </div>
-                            <div
-                              style={{
-                                color: 'white',
-                                width: 80,
-                                marginTop: 7,
-                                textAlign: 'center',
-                              }}
-                            >
-                              {link.label}
-                            </div>
+                            <div>{link.label}</div>
                           </a>
                         )
                       })}

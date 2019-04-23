@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
-import logoIcon from '../../logo.png'
+import logoIcon from '../../asserts/logo.gif'
 
 const HeaderDiv = styled.div`
   width: 100%;
@@ -26,38 +26,38 @@ const HeaderDiv = styled.div`
     flex-wrap: wrap;
   }
   .header__logo {
-    padding-left: ${(props: { width: number }) => (10 * props.width) / 1920}px;
+    padding-left: ${(props: { width: number }) => (7 * props.width) / 1920}px;
     .header__logo__img {
-      width: 78px;
-      height: 75px;
+      width: 215px;
+      height: 84px;
       &:hover {
         transform: scale(1.1, 1.1);
       }
-    }
-    .header__logo__text {
-      padding-left: ${(props: { width: number }) => (14 * props.width) / 1920}px;
-      padding-top: 26px;
-      padding-bottom: 27px;
-      color: #46ab81;
-      font-size: 22px;
-      font-weight: bold;
     }
   }
 
   .header__menus {
     padding-top: 26px;
     padding-bottom: 27px;
+    padding-left: ${(props: { width: number }) => (41 * props.width) / 1920}px;
     min-height: 75px;
     .header__menus__item {
       margin-left: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
       margin-right: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
       font-size: 22px;
-      font-weight: 500;
+      font-weight: 900;
+      font-family: PingFang-SC;
+      line-height: 30px;
       color: #4bbc8e;
       &.header__menus__item--active,&: hover {
         color: white;
       }
     }
+  }
+  .header__search {
+    display: flex;
+    align-items: center;
+    width: ${(props: { width: number }) => (550 * props.width) / 1920}px;
   }
   a {
     text-decoration: none;
@@ -65,16 +65,16 @@ const HeaderDiv = styled.div`
 `
 const menus = [
   {
-    name: 'Wallet',
-    url: '/block',
+    name: 'CKB Wallet',
+    url: 'https://github.com/nervosnetwork/neuron',
   },
   {
-    name: 'Faucet',
-    url: '/transaction',
+    name: 'CKB Faucet',
+    url: '',
   },
   {
     name: 'Docs',
-    url: '/address',
+    url: 'https://github.com/nervosnetwork/docs',
   },
 ]
 
@@ -83,7 +83,6 @@ export default ({ search = true }: { search?: boolean }) => {
     <HeaderDiv width={window.innerWidth}>
       <Link to="/" className="header__logo">
         <img className="header__logo__img" src={logoIcon} alt="logo" />
-        <span className="header__logo__text">CKB Testnet Explorer</span>
       </Link>
       <div className="header__menus">
         {menus.map((d: any) => {
@@ -94,7 +93,11 @@ export default ({ search = true }: { search?: boolean }) => {
           )
         })}
       </div>
-      {search && <Search />}
+      {search && (
+        <div className="header__search">
+          <Search />
+        </div>
+      )}
     </HeaderDiv>
   )
 }
