@@ -15,6 +15,7 @@ import TelegramIcon from '../../asserts/footer_telegram.png'
 import RedditIcon from '../../asserts/footer_reddit.png'
 import YoutubeIcon from '../../asserts/footer_youtube.png'
 import ForumIcon from '../../asserts/footer_forum.png'
+import { getCurrentYear } from '../../utils/date'
 
 const FooterDiv = styled.div`
   width: 100%;
@@ -140,7 +141,7 @@ const orgs = [
         url: 'https://github.com/nervosnetwork/ckb/blob/develop/rpc/doc.md',
       },
       {
-        label: 'Github',
+        label: 'GitHub',
         icon: GithubIcon,
         url: 'https://github.com/nervosnetwork',
       },
@@ -175,7 +176,7 @@ const orgs = [
         url: 'https://www.reddit.com/r/NervosNetwork/',
       },
       {
-        label: 'Youtube',
+        label: 'YouTube',
         icon: YoutubeIcon,
         url: 'https://www.youtube.com/channel/UCONuJGdMzUY0Y6jrPBOzH7A',
       },
@@ -229,7 +230,9 @@ export default () => {
           </div>
         </div>
       </div>
-      <div className="footer__bottom">© CKB Explorer is a project of the Nervos Foundation. All Rights Reserved.</div>
+      <div className="footer__bottom">
+        {`Copyright © ${getCurrentYear()} CKB Explorer is a project of the Nervos Foundation. All Rights Reserved.`}
+      </div>
     </FooterDiv>
   )
 }
