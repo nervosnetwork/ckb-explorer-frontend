@@ -51,7 +51,7 @@ module Validations
     end
 
     def valid_address?
-      CKB::Utils.parse_address(query_key) rescue nil
+      Utils::CkbUtils.parse_address(query_key) rescue nil
     end
   end
 end

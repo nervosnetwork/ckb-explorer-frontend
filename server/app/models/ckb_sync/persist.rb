@@ -139,12 +139,12 @@ module CkbSync
           version: header["version"],
           proposal_transactions: node_block["proposal_transactions"],
           proposal_transactions_count: node_block["proposal_transactions"].count,
-          cell_consumed: CKB::Utils.block_cell_consumed(node_block["commit_transactions"]),
-          total_cell_capacity: CKB::Utils.total_cell_capacity(node_block["commit_transactions"]),
-          miner_hash: CKB::Utils.miner_hash(node_block["commit_transactions"].first),
+          cell_consumed: Utils::CkbUtils.block_cell_consumed(node_block["commit_transactions"]),
+          total_cell_capacity: Utils::CkbUtils.total_cell_capacity(node_block["commit_transactions"]),
+          miner_hash: Utils::CkbUtils.miner_hash(node_block["commit_transactions"].first),
           status: sync_type,
-          reward: CKB::Utils.miner_reward(node_block["commit_transactions"].first),
-          total_transaction_fee: CKB::Utils.total_transaction_fee(node_block["commit_transactions"]),
+          reward: Utils::CkbUtils.miner_reward(node_block["commit_transactions"].first),
+          total_transaction_fee: Utils::CkbUtils.total_transaction_fee(node_block["commit_transactions"]),
           witnesses_root: header["witnesses_root"]
         )
       end
@@ -177,7 +177,7 @@ module CkbSync
           block_number: local_block.number,
           block_timestamp: local_block.timestamp,
           status: sync_type,
-          transaction_fee: CKB::Utils.transaction_fee(transaction),
+          transaction_fee: Utils::CkbUtils.transaction_fee(transaction),
           witnesses: transaction["witnesses"]
         )
       end

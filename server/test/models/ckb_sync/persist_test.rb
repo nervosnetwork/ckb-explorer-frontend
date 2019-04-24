@@ -334,7 +334,7 @@ module CkbSync
         SyncInfo.local_inauthentic_tip_block_number
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
         node_block_commit_transactions = node_block["commit_transactions"]
-        commit_transactions_fee = node_block_commit_transactions.reduce(0) { |memo, commit_transaciont| memo + CKB::Utils.transaction_fee(commit_transaciont) }
+        commit_transactions_fee = node_block_commit_transactions.reduce(0) { |memo, commit_transaciont| memo + Utils::CkbUtils.transaction_fee(commit_transaciont) }
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_ckb_transactions = local_block.ckb_transactions
@@ -350,7 +350,7 @@ module CkbSync
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 
-        assert_equal CKB::Utils.total_transaction_fee(node_block["commit_transactions"]), local_block.total_transaction_fee
+        assert_equal Utils::CkbUtils.total_transaction_fee(node_block["commit_transactions"]), local_block.total_transaction_fee
       end
     end
 
@@ -360,7 +360,7 @@ module CkbSync
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 
-        assert_equal CKB::Utils.total_cell_capacity(node_block["commit_transactions"]), local_block.total_cell_capacity
+        assert_equal Utils::CkbUtils.total_cell_capacity(node_block["commit_transactions"]), local_block.total_cell_capacity
       end
     end
 
@@ -424,7 +424,7 @@ module CkbSync
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 
-        assert_equal CKB::Utils.miner_hash(node_block["commit_transactions"].first), local_block.miner_hash
+        assert_equal Utils::CkbUtils.miner_hash(node_block["commit_transactions"].first), local_block.miner_hash
       end
     end
 
@@ -434,7 +434,7 @@ module CkbSync
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 
-        assert_equal CKB::Utils.miner_reward(node_block["commit_transactions"].first), local_block.reward
+        assert_equal Utils::CkbUtils.miner_reward(node_block["commit_transactions"].first), local_block.reward
       end
     end
 
@@ -444,7 +444,7 @@ module CkbSync
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 
-        assert_equal CKB::Utils.block_cell_consumed(node_block["commit_transactions"]), local_block.cell_consumed
+        assert_equal Utils::CkbUtils.block_cell_consumed(node_block["commit_transactions"]), local_block.cell_consumed
       end
     end
 
