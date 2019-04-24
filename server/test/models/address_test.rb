@@ -20,7 +20,7 @@ class AddressTest < ActiveSupport::TestCase
       is_greater_than_or_equal_to(0).on(:create)
   end
 
-  test "address_hash should be nil when transction not use default lock script" do
+  test "address_hash should be nil when args is empty" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
@@ -34,13 +34,66 @@ class AddressTest < ActiveSupport::TestCase
     end
   end
 
-  test ".find_or_create_address should return the address when the address_hash exists" do
+  test "address_hash should be nil when args is invalid" do
+    VCR.use_cassette("blocks/10") do
+      SyncInfo.local_inauthentic_tip_block_number
+      node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+      tx = node_block["commit_transactions"].first
+      output = tx["outputs"].first
+      output["lock"]["args"] = ["abcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
+
+      CkbSync::Persist.save_block(node_block, "inauthentic")
+      packed_block_hash = DEFAULT_NODE_BLOCK_HASH
+      block = Block.find_by(block_hash: packed_block_hash)
+      address = block.contained_addresses.first
+
+      assert_nil address.address_hash
+    end
+  end
+
+  test "address_hash should be nil when binary_hash is empty" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
       tx = node_block["commit_transactions"].first
       output = tx["outputs"].first
       output["lock"]["args"] = ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
+
+      CkbSync::Persist.save_block(node_block, "inauthentic")
+      packed_block_hash = DEFAULT_NODE_BLOCK_HASH
+      block = Block.find_by(block_hash: packed_block_hash)
+      address = block.contained_addresses.first
+
+      assert_nil address.address_hash
+    end
+  end
+
+  test "address_hash should be nil when binary_hash is not system script cell hash" do
+    VCR.use_cassette("blocks/10") do
+      SyncInfo.local_inauthentic_tip_block_number
+      node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+      tx = node_block["commit_transactions"].first
+      output = tx["outputs"].first
+      output["lock"]["args"] = ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
+      output["lock"]["binary_hash"] = "0xcbcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a7"
+
+      CkbSync::Persist.save_block(node_block, "inauthentic")
+      packed_block_hash = DEFAULT_NODE_BLOCK_HASH
+      block = Block.find_by(block_hash: packed_block_hash)
+      address = block.contained_addresses.first
+
+      assert_nil address.address_hash
+    end
+  end
+
+  test ".find_or_create_address should return the address when the address_hash exists and use default lock script" do
+    VCR.use_cassette("blocks/10") do
+      SyncInfo.local_inauthentic_tip_block_number
+      node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+      tx = node_block["commit_transactions"].first
+      output = tx["outputs"].first
+      output["lock"]["args"] = ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
+      output["lock"]["binary_hash"] = LockScript::SYSTEM_SCRIPT_CELL_HASH
 
       CkbSync::Persist.save_block(node_block, "inauthentic")
 
@@ -67,6 +120,7 @@ class AddressTest < ActiveSupport::TestCase
         tx = node_block["commit_transactions"].first
         output = tx["outputs"].first
         output["lock"]["args"] = ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
+        output["lock"]["binary_hash"] = LockScript::SYSTEM_SCRIPT_CELL_HASH
 
         CkbSync::Persist.save_block(node_block, "inauthentic")
       end
