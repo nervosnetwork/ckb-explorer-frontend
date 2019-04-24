@@ -1,5 +1,5 @@
-module CKB
-  module Utils
+module Utils
+  class CkbUtils
     def self.calculate_cell_min_capacity(output)
       output = output.deep_symbolize_keys
       capacity = 8 + output[:data].bytesize + calculate_script_capacity(output[:lock])
@@ -19,7 +19,7 @@ module CKB
 
     def self.block_cell_consumed(commit_transactions)
       commit_transactions.reduce(0) do |memo, commit_transaction|
-        memo + commit_transaction["outputs"].reduce(0) { |inside_memo, output| inside_memo + CKB::Utils.calculate_cell_min_capacity(output) }
+        memo + commit_transaction["outputs"].reduce(0) { |inside_memo, output| inside_memo + calculate_cell_min_capacity(output) }
       end
     end
 
@@ -35,9 +35,8 @@ module CKB
     end
 
     def self.generate_address(lock_script)
+      return if !use_default_lock_script?(lock_script)
       first_arg = lock_script.stringify_keys["args"].first
-
-      return if first_arg.blank?
 
       target_pubkey_blake160_bin = [CKB::Utils.hex_to_bin(first_arg)].pack("H*")
       target_pubkey_blake160 = CKB::Utils.bin_to_hex(target_pubkey_blake160_bin)
@@ -46,6 +45,15 @@ module CKB
       bin_idx = ["P2PH".each_char.map { |c| c.ord.to_s(16) }.join].pack("H*")
       payload = type + bin_idx + target_pubkey_blake160_bin
       CKB::ConvertAddress.encode(Address::PREFIX_TESTNET, payload)
+    end
+
+    def self.use_default_lock_script?(lock_script)
+      first_arg = lock_script.stringify_keys["args"].first
+      binary_hash = lock_script.stringify_keys["binary_hash"]
+
+      return false if binary_hash.blank?
+
+      binary_hash == LockScript::SYSTEM_SCRIPT_CELL_HASH && CKB::Utils.valid_hex_string?(first_arg)
     end
 
     def self.parse_address(address_hash)
@@ -64,12 +72,12 @@ module CKB
 
     def self.transaction_fee(transaction)
       output_capacities = transaction["outputs"].map { |output| output["capacity"].to_i }.reduce(0, &:+)
-      input_capacities = transaction["inputs"].map { |input| CKB::Utils.cell_input_capacity(input) }.reduce(0, &:+)
+      input_capacities = transaction["inputs"].map { |input| cell_input_capacity(input) }.reduce(0, &:+)
       input_capacities.zero? ? 0 : (input_capacities - output_capacities)
     end
 
     def self.total_transaction_fee(transactions)
-      transactions.reduce(0) { |memo, transaction| memo + CKB::Utils.transaction_fee(transaction) }
+      transactions.reduce(0) { |memo, transaction| memo + transaction_fee(transaction) }
     end
 
     def self.get_unspent_cells(address_hash)
@@ -101,7 +109,7 @@ module CKB
       return if address_hash.blank?
 
       lock_hash = lock_hash(address_hash)
-      CKB::Utils.get_unspent_cells(lock_hash).reduce(0) { |memo, cell| memo + cell[:capacity].to_i }
+      get_unspent_cells(lock_hash).reduce(0) { |memo, cell| memo + cell[:capacity].to_i }
     end
 
     # TODO Can be changed to calculate by local cell
@@ -111,7 +119,7 @@ module CKB
       lock_hash = lock_hash(address_hash)
 
       outputs =
-        CKB::Utils.get_unspent_cells(address_hash).map do |cell|
+        get_unspent_cells(address_hash).map do |cell|
           out_point = cell[:out_point]
           previous_transaction_hash = out_point[:hash]
           previous_output_index = out_point[:index]
@@ -126,7 +134,7 @@ module CKB
           end
         end
 
-      outputs.compact.reduce(0) { |memo, output| memo + CKB::Utils.calculate_cell_min_capacity(output.to_node_cell_output) }
+      outputs.compact.reduce(0) { |memo, output| memo + calculate_cell_min_capacity(output.to_node_cell_output) }
     end
 
     def self.cell_input_capacity(cell_input)

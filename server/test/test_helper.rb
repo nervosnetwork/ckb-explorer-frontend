@@ -110,6 +110,14 @@ def build_display_info_from_node_output(output)
   { id: cell_output.id, capacity: cell_output.capacity.to_s, address_hash: cell_output.address_hash }.stringify_keys
 end
 
+def set_default_lock_params(node_block: block, args: ["0xc30257c81dde7766fc98882ff1e9f8e95abbe79345982e12c6a849de90cbbad1"], binary_hash: "0x#{SecureRandom.hex(32)}")
+  tx = node_block["commit_transactions"].first
+  output = tx["outputs"].first
+  output["lock"]["args"] = args
+  output["lock"]["binary_hash"] = binary_hash
+end
+
+
 def prepare_api_wrapper
   VCR.use_cassette("genesis_block") do
     CkbSync::Api.instance

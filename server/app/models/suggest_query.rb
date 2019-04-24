@@ -72,7 +72,7 @@ class SuggestQuery
 
   def valid_address?
     def query_key_format_must_be_correct
-      CKB::Utils.parse_address(query_key) rescue nil
+      Utils::CkbUtils.parse_address(query_key) rescue nil
     end
   end
 end
