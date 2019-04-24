@@ -51,9 +51,9 @@ module Utils
       first_arg = lock_script.stringify_keys["args"].first
       binary_hash = lock_script.stringify_keys["binary_hash"]
 
-      return false if first_arg.blank? || binary_hash.blank?
+      return false if binary_hash.blank?
 
-      CKB::Utils.valid_hex_string?(first_arg) && binary_hash == LockScript::SYSTEM_SCRIPT_CELL_HASH
+      binary_hash == LockScript::SYSTEM_SCRIPT_CELL_HASH && CKB::Utils.valid_hex_string?(first_arg)
     end
 
     def self.parse_address(address_hash)
