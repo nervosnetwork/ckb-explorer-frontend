@@ -35,9 +35,8 @@ module CKB
     end
 
     def self.generate_address(lock_script)
+      return if !CKB::Utils.use_default_lock_script?(lock_script)
       first_arg = lock_script.stringify_keys["args"].first
-
-      return if first_arg.blank?
 
       target_pubkey_blake160_bin = [CKB::Utils.hex_to_bin(first_arg)].pack("H*")
       target_pubkey_blake160 = CKB::Utils.bin_to_hex(target_pubkey_blake160_bin)
@@ -46,6 +45,15 @@ module CKB
       bin_idx = ["P2PH".each_char.map { |c| c.ord.to_s(16) }.join].pack("H*")
       payload = type + bin_idx + target_pubkey_blake160_bin
       CKB::ConvertAddress.encode(Address::PREFIX_TESTNET, payload)
+    end
+
+    def self.use_default_lock_script?(lock_script)
+      first_arg = lock_script.stringify_keys["args"].first
+      binary_hash = lock_script.stringify_keys["binary_hash"]
+
+      return false if first_arg.blank? || binary_hash.blank?
+
+      CKB::Utils.valid_hex_string?(first_arg) && binary_hash == LockScript::SYSTEM_SCRIPT_CELL_HASH
     end
 
     def self.parse_address(address_hash)
