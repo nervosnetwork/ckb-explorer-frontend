@@ -31,7 +31,8 @@ const SearchPanel = styled.div`
     background-color: #ffffff;
     &: focus {
       color: black;
-      opacity: 1;
+      opacity: 1 !important;
+      outline: none;
     }
   }
 
