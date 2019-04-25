@@ -83,8 +83,8 @@ def format_node_block_cell_output(cell_output)
 end
 
 def fake_node_block_with_type_script(node_block)
-  lock = node_block["commit_transactions"].first["outputs"].first["lock"]
-  node_block["commit_transactions"].first["outputs"].first["type"] = lock
+  lock = node_block["transactions"].first["outputs"].first["lock"]
+  node_block["transactions"].first["outputs"].first["type"] = lock
 end
 
 def build_display_input_from_node_input(input)
@@ -111,7 +111,7 @@ def build_display_info_from_node_output(output)
 end
 
 def set_default_lock_params(node_block: block, args: ["0xc30257c81dde7766fc98882ff1e9f8e95abbe79345982e12c6a849de90cbbad1"], binary_hash: "0x#{SecureRandom.hex(32)}")
-  tx = node_block["commit_transactions"].first
+  tx = node_block["transactions"].first
   output = tx["outputs"].first
   output["lock"]["args"] = args
   output["lock"]["binary_hash"] = binary_hash

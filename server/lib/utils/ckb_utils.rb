@@ -17,15 +17,15 @@ module Utils
       capacity
     end
 
-    def self.block_cell_consumed(commit_transactions)
-      commit_transactions.reduce(0) do |memo, commit_transaction|
-        memo + commit_transaction["outputs"].reduce(0) { |inside_memo, output| inside_memo + calculate_cell_min_capacity(output) }
+    def self.block_cell_consumed(transactions)
+      transactions.reduce(0) do |memo, transaction|
+        memo + transaction["outputs"].reduce(0) { |inside_memo, output| inside_memo + calculate_cell_min_capacity(output) }
       end
     end
 
-    def self.total_cell_capacity(commit_transactions)
-      commit_transactions.reduce(0) do |memo, commit_transaction|
-        memo + commit_transaction["outputs"].reduce(0) { |inside_memo, output| inside_memo + output["capacity"].to_i }
+    def self.total_cell_capacity(transactions)
+      transactions.reduce(0) do |memo, transaction|
+        memo + transaction["outputs"].reduce(0) { |inside_memo, output| inside_memo + output["capacity"].to_i }
       end
     end
 

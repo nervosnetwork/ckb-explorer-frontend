@@ -38,7 +38,7 @@ class AddressTest < ActiveSupport::TestCase
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
-      tx = node_block["commit_transactions"].first
+      tx = node_block["transactions"].first
       output = tx["outputs"].first
       output["lock"]["args"] = ["abcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
 
@@ -55,7 +55,7 @@ class AddressTest < ActiveSupport::TestCase
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
-      tx = node_block["commit_transactions"].first
+      tx = node_block["transactions"].first
       output = tx["outputs"].first
       output["lock"]["args"] = ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
 
@@ -72,7 +72,7 @@ class AddressTest < ActiveSupport::TestCase
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
-      tx = node_block["commit_transactions"].first
+      tx = node_block["transactions"].first
       output = tx["outputs"].first
       output["lock"]["args"] = ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
       output["lock"]["binary_hash"] = "0xcbcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a7"
@@ -90,7 +90,7 @@ class AddressTest < ActiveSupport::TestCase
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
-      tx = node_block["commit_transactions"].first
+      tx = node_block["transactions"].first
       output = tx["outputs"].first
       output["lock"]["args"] = ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
       output["lock"]["binary_hash"] = LockScript::SYSTEM_SCRIPT_CELL_HASH
@@ -117,7 +117,7 @@ class AddressTest < ActiveSupport::TestCase
       address = create(:address, address_hash: "ckt1q9gry5zgh058zypk2277lx776sdjxgfnjcqexkuy", ckb_transactions_count: 1)
       assert_difference -> { address.reload.ckb_transactions_count }, 1 do
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
-        tx = node_block["commit_transactions"].first
+        tx = node_block["transactions"].first
         output = tx["outputs"].first
         output["lock"]["args"] = ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
         output["lock"]["binary_hash"] = LockScript::SYSTEM_SCRIPT_CELL_HASH
