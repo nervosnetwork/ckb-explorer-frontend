@@ -37,8 +37,11 @@ const CellConsumedLabel = ({
   consumed: number
   balance: number
 }) => {
-  let percent = (consumed * 100) / balance
-  percent = percent > 100 ? 100 : percent
+  let percent = 0
+  if (balance !== 0) {
+    percent = (consumed * 100) / balance
+    percent = percent > 100 ? 100 : percent
+  }
   return (
     <LabelItemPanel>
       <img src={image} alt="Cell Consumed" />

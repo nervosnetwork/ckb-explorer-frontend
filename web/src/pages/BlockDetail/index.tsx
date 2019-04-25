@@ -245,23 +245,25 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
             })}
           </div>
-          <span className="block__content__separate" />
           <div>
-            <Link
-              to={{
-                pathname: `/address/${BlockRightItems[0].value}`,
-              }}
-            >
-              <SimpleLabel
-                image={BlockRightItems[0].image}
-                label={BlockRightItems[0].label}
-                value={BlockRightItems[0].value}
-                highLight
-              />
-            </Link>
-            {BlockRightItems.slice(1).map(item => {
-              return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
-            })}
+            <div />
+            <div>
+              <Link
+                to={{
+                  pathname: `/address/${BlockRightItems[0].value}`,
+                }}
+              >
+                <SimpleLabel
+                  image={BlockRightItems[0].image}
+                  label={BlockRightItems[0].label}
+                  value={BlockRightItems[0].value}
+                  highLight
+                />
+              </Link>
+              {BlockRightItems.slice(1).map(item => {
+                return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+              })}
+            </div>
           </div>
         </BlockCommonContent>
         <BlockPreviousNext />
