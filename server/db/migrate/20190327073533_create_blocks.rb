@@ -7,14 +7,14 @@ class CreateBlocks < ActiveRecord::Migration[5.2]
       t.binary :parent_hash
       t.jsonb :seal
       t.bigint :timestamp
-      t.binary :txs_commit
-      t.binary :txs_proposal
+      t.binary :transactions_root
+      t.binary :proposals_root
       t.integer :uncles_count
       t.binary :uncles_hash
       t.binary :uncle_block_hashes
       t.integer :version
-      t.binary :proposal_transactions
-      t.integer :proposal_transactions_count
+      t.binary :proposals
+      t.integer :proposals_count
       t.decimal :cell_consumed, precision: 64, scale: 2
       t.binary :miner_hash
       t.integer :status

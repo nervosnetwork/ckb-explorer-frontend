@@ -41,14 +41,14 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.binary "parent_hash"
     t.jsonb "seal"
     t.bigint "timestamp"
-    t.binary "txs_commit"
-    t.binary "txs_proposal"
+    t.binary "transactions_root"
+    t.binary "proposals_root"
     t.integer "uncles_count"
     t.binary "uncles_hash"
     t.binary "uncle_block_hashes"
     t.integer "version"
-    t.binary "proposal_transactions"
-    t.integer "proposal_transactions_count"
+    t.binary "proposals"
+    t.integer "proposals_count"
     t.decimal "cell_consumed", precision: 64, scale: 2
     t.binary "miner_hash"
     t.integer "status"
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   create_table "cell_inputs", force: :cascade do |t|
     t.jsonb "previous_output"
     t.string "args", array: true
-    t.string "valid_since"
+    t.string "since"
     t.bigint "ckb_transaction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
 
   create_table "lock_scripts", force: :cascade do |t|
     t.string "args", array: true
-    t.binary "binary_hash"
+    t.binary "code_hash"
     t.bigint "cell_output_id"
     t.bigint "address_id"
     t.datetime "created_at", null: false
@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
 
   create_table "type_scripts", force: :cascade do |t|
     t.string "args", array: true
-    t.binary "binary_hash"
+    t.binary "code_hash"
     t.bigint "cell_output_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -139,13 +139,13 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.binary "parent_hash"
     t.jsonb "seal"
     t.bigint "timestamp"
-    t.binary "txs_commit"
-    t.binary "txs_proposal"
+    t.binary "transactions_root"
+    t.binary "proposals_root"
     t.integer "uncles_count"
     t.binary "uncles_hash"
     t.integer "version"
-    t.binary "proposal_transactions"
-    t.integer "proposal_transactions_count"
+    t.binary "proposals"
+    t.integer "proposals_count"
     t.bigint "block_id"
     t.binary "witnesses_root"
     t.datetime "created_at", null: false
