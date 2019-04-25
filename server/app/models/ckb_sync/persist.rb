@@ -20,14 +20,25 @@ module CkbSync
         ApplicationRecord.transaction do
           Block.import! [local_block], recursive: true, batch_size: 1500
           SyncInfo.find_by!(name: sync_tip_block_number_type(sync_type)).update!(status: "synced")
+
           ckb_transactions = assign_display_info_to_ckb_transaction(ckb_transaction_and_display_cell_hashes)
+          calculate_transaction_fee(node_block["commit_transactions"], ckb_transactions)
           CkbTransaction.import! ckb_transactions, batch_size: 1500, on_duplicate_key_update: [:display_inputs, :display_outputs]
+
+          local_block.total_transaction_fee = ckb_transactions.reduce(0) { |memo, ckb_transaction| memo + ckb_transaction.transaction_fee }
+          local_block.save!
         end
 
         local_block
       end
 
       private
+
+      def calculate_transaction_fee(transactions, ckb_transactions)
+        transactions.each_with_index do |transaction, index|
+          ckb_transactions[index].transaction_fee = Utils::CkbUtils.transaction_fee(transaction)
+        end
+      end
 
       def build_ckb_transactions(local_block, commit_transactions, sync_type, ckb_transaction_and_display_cell_hashes)
         commit_transactions.each do |transaction|
@@ -144,7 +155,7 @@ module CkbSync
           miner_hash: Utils::CkbUtils.miner_hash(node_block["commit_transactions"].first),
           status: sync_type,
           reward: Utils::CkbUtils.miner_reward(node_block["commit_transactions"].first),
-          total_transaction_fee: Utils::CkbUtils.total_transaction_fee(node_block["commit_transactions"]),
+          total_transaction_fee: 0,
           witnesses_root: header["witnesses_root"]
         )
       end
@@ -177,7 +188,7 @@ module CkbSync
           block_number: local_block.number,
           block_timestamp: local_block.timestamp,
           status: sync_type,
-          transaction_fee: Utils::CkbUtils.transaction_fee(transaction),
+          transaction_fee: 0,
           witnesses: transaction["witnesses"]
         )
       end
