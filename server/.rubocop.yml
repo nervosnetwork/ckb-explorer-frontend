@@ -3,6 +3,7 @@ inherit_from:
 inherit_mode:
   merge:
     - Exclude
+require: rubocop-performance
 AllCops:
   DisplayCopNames: true
   DisplayStyleGuide: true
