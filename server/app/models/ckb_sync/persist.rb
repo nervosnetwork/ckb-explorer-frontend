@@ -117,7 +117,7 @@ module CkbSync
       def build_cell_input(ckb_transaction, input)
         ckb_transaction.cell_inputs.build(
           previous_output: input["previous_output"],
-          valid_since: input["valid_since"],
+          since: input["since"],
           args: input["args"]
         )
       end
