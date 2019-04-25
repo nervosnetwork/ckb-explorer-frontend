@@ -65,7 +65,6 @@ module Utils
       CKB::Utils.bin_to_hex(data.slice(5..-1))
     end
 
-
     def self.miner_reward(cellbase)
       cellbase["outputs"].first["capacity"].to_i
     end
@@ -74,10 +73,6 @@ module Utils
       output_capacities = transaction["outputs"].map { |output| output["capacity"].to_i }.reduce(0, &:+)
       input_capacities = transaction["inputs"].map { |input| cell_input_capacity(input) }.reduce(0, &:+)
       input_capacities.zero? ? 0 : (input_capacities - output_capacities)
-    end
-
-    def self.total_transaction_fee(transactions)
-      transactions.reduce(0) { |memo, transaction| memo + transaction_fee(transaction) }
     end
 
     def self.get_unspent_cells(address_hash)
