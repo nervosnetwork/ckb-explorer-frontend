@@ -53,7 +53,7 @@ class UncleBlockTest < ActiveSupport::TestCase
     assert_equal unpack_attribute(uncle_block, "uncles_hash"), uncles_hash
   end
 
-  test "#proposal_transactions should decodes packed string" do
+  test "#proposals should decodes packed string" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
@@ -63,25 +63,25 @@ class UncleBlockTest < ActiveSupport::TestCase
       packed_block_hash = DEFAULT_NODE_BLOCK_HASH
       block = Block.find_by(block_hash: packed_block_hash)
       uncle_block = block.uncle_blocks.first
-      proposal_transactions = uncle_block.proposal_transactions
-      assert_equal unpack_array_attribute(uncle_block, "proposal_transactions", uncle_block.proposal_transactions_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), proposal_transactions
+      proposals = uncle_block.proposals
+      assert_equal unpack_array_attribute(uncle_block, "proposals", uncle_block.proposals_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), proposals
     end
   end
 
-  test "#proposal_transactions should return super when proposal transactions is empty" do
+  test "#proposals should return super when proposal transactions is empty" do
     block = create(:block)
     uncle_block = create(:uncle_block, block: block)
-    uncle_block.update(proposal_transactions: [])
-    proposal_transactions = uncle_block.proposal_transactions
-    assert_equal unpack_array_attribute(uncle_block, "proposal_transactions", uncle_block.proposal_transactions_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), proposal_transactions
+    uncle_block.update(proposals: [])
+    proposals = uncle_block.proposals
+    assert_equal unpack_array_attribute(uncle_block, "proposals", uncle_block.proposals_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), proposals
   end
 
-  test "#proposal_transactions= should encode proposal_transactions" do
+  test "#proposals= should encode proposals" do
     block = create(:block)
     uncle_block = create(:uncle_block, block: block)
-    uncle_block.proposal_transactions = ["0xeab419c632", "0xeab410c634"]
-    uncle_block.proposal_transactions_count = uncle_block.proposal_transactions.size
+    uncle_block.proposals = ["0xeab419c632", "0xeab410c634"]
+    uncle_block.proposals_count = uncle_block.proposals.size
     uncle_block.save
-    assert_equal unpack_array_attribute(uncle_block, "proposal_transactions", uncle_block.proposal_transactions_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), uncle_block.proposal_transactions
+    assert_equal unpack_array_attribute(uncle_block, "proposals", uncle_block.proposals_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), uncle_block.proposals
   end
 end

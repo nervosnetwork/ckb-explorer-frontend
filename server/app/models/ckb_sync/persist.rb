@@ -148,8 +148,8 @@ module CkbSync
           uncles_hash: header["uncles_hash"],
           uncle_block_hashes: uncle_block_hashes(node_block["uncles"]),
           version: header["version"],
-          proposal_transactions: node_block["proposal_transactions"],
-          proposal_transactions_count: node_block["proposal_transactions"].count,
+          proposals: node_block["proposals"],
+          proposals_count: node_block["proposals"].count,
           cell_consumed: Utils::CkbUtils.block_cell_consumed(node_block["transactions"]),
           total_cell_capacity: Utils::CkbUtils.total_cell_capacity(node_block["transactions"]),
           miner_hash: Utils::CkbUtils.miner_hash(node_block["transactions"].first),
@@ -174,8 +174,8 @@ module CkbSync
           uncles_count: header["uncles_count"],
           uncles_hash: header["uncles_hash"],
           version: header["version"],
-          proposal_transactions: uncle_block["proposal_transactions"],
-          proposal_transactions_count: uncle_block["proposal_transactions"].count,
+          proposals: uncle_block["proposals"],
+          proposals_count: uncle_block["proposals"].count,
           witnesses_root: header["witnesses_root"]
         )
       end

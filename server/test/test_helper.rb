@@ -70,8 +70,8 @@ end
 
 def format_node_block(node_block)
   header = node_block["header"]
-  proposal_transactions = node_block["proposal_transactions"]
-  header.merge({ proposal_transactions: proposal_transactions }.deep_stringify_keys)
+  proposals = node_block["proposals"]
+  header.merge({ proposals: proposals }.deep_stringify_keys)
 end
 
 def format_node_block_commit_transaction(commit_transaction)

@@ -17,7 +17,7 @@ FactoryBot.define do
     ckb_transactions_count { 1 }
     total_cell_capacity { 50000 }
     uncle_block_hashes {}
-    proposal_transactions {}
+    proposals {}
     status { "inauthentic" }
 
     transient do
@@ -32,9 +32,9 @@ FactoryBot.define do
       block_hash { "0x#{SecureRandom.hex(32)}" }
     end
 
-    trait :with_proposal_transactions do
-      proposal_transactions { ["0xb5658716ac", "0xb5658716ac"] }
-      proposal_transactions_count { (proposal_transactions.size).to_s }
+    trait :with_proposals do
+      proposals { ["0xb5658716ac", "0xb5658716ac"] }
+      proposals_count { (proposals.size).to_s }
     end
 
     trait :with_uncle_block_hashes do
