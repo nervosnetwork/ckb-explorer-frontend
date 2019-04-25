@@ -52,8 +52,8 @@ gem "fast_jsonapi"
 gem "kaminari"
 
 # Deployment
-gem 'mina', require: false
-gem 'mina-multistage', require: false
+gem "mina", require: false
+gem "mina-multistage", require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -80,7 +80,7 @@ group :development do
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "rubocop", require: false
-  gem 'rubocop-performance'
+  gem "rubocop-performance"
   gem "awesome_print"
   gem "annotate"
 end

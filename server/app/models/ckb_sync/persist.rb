@@ -102,7 +102,7 @@ module CkbSync
 
         cell_output.build_type_script(
           args: type_script["args"],
-          code_hash: type_script["code_hash"],
+          code_hash: type_script["code_hash"]
         )
       end
 

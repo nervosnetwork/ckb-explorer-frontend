@@ -3,4 +3,3 @@ set :deploy_to, "/home/deploy/ckb-explorer"
 set :branch, "develop"
 set :user, "root"
 set :rvm_use_path, "/usr/share/rvm/scripts/rvm"
-

@@ -177,9 +177,10 @@ module CkbSync
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_uncle_blocks =
           local_block.uncle_blocks.map do |uncle_block|
-            uncle_block = uncle_block.attributes.select do |attribute|
-              attribute.in?(%w(difficulty block_hash number parent_hash seal timestamp transactions_root proposals_root uncles_count uncles_hash version witnesses_root proposals))
-            end
+            uncle_block =
+              uncle_block.attributes.select do |attribute|
+                attribute.in?(%w(difficulty block_hash number parent_hash seal timestamp transactions_root proposals_root uncles_count uncles_hash version witnesses_root proposals))
+              end
             uncle_block["hash"] = uncle_block.delete("block_hash")
             uncle_block["number"] = uncle_block["number"].to_s
             uncle_block["timestamp"] = uncle_block["timestamp"].to_s
@@ -252,13 +253,13 @@ module CkbSync
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_block_transactions = local_block.ckb_transactions
-        local_block_cell_outputs = local_block_transactions.map do |commit_transaciont|
+        local_block_cell_outputs = local_block_transactions.map { |commit_transaciont|
           commit_transaciont.cell_outputs.map do |cell_output|
             attributes = cell_output.attributes
             attributes["capacity"] = attributes["capacity"].to_i.to_s
             attributes.select { |attribute| attribute.in?(%w(capacity data)) }.sort
           end
-        end.flatten
+        }.flatten
 
         assert_equal node_block_cell_outputs, local_block_cell_outputs
       end

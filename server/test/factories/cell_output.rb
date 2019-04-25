@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :cell_output do
     capacity { 50000 }
-    data { }
+    data {}
 
     trait :with_full_transaction do
       before(:create) do |cell_output, _evaluator|

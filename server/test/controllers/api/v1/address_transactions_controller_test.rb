@@ -72,7 +72,7 @@ module Api
 
         valid_get api_v1_address_transaction_url(address.address_hash)
 
-        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: ckb_transactions, page: page, page_size: page_size).call()
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: ckb_transactions, page: page, page_size: page_size).call
 
         assert_equal CkbTransactionSerializer.new(ckb_transactions, options).serialized_json, response.body
       end
@@ -144,7 +144,7 @@ module Api
 
         valid_get api_v1_address_transaction_url(address.address_hash), params: { page: page }
 
-        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: address_ckb_transactions, page: page, page_size: page_size).call()
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: address_ckb_transactions, page: page, page_size: page_size).call
         response_transaction = CkbTransactionSerializer.new(address_ckb_transactions, options).serialized_json
 
         assert_equal response_transaction, response.body
@@ -159,7 +159,7 @@ module Api
 
         valid_get api_v1_address_transaction_url(address.address_hash), params: { page_size: page_size }
 
-        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: address_ckb_transactions, page: page, page_size: page_size).call()
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: address_ckb_transactions, page: page, page_size: page_size).call
         response_transaction = CkbTransactionSerializer.new(address_ckb_transactions, options).serialized_json
 
         assert_equal response_transaction, response.body
@@ -173,7 +173,7 @@ module Api
         address_ckb_transactions = address.ckb_transactions.order(block_timestamp: :desc).page(page).per(page_size)
 
         valid_get api_v1_address_transaction_url(address.address_hash), params: { page: page, page_size: page_size }
-        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: address_ckb_transactions, page: page, page_size: page_size).call()
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: address_ckb_transactions, page: page, page_size: page_size).call
         response_transaction = CkbTransactionSerializer.new(address_ckb_transactions, options).serialized_json
 
         assert_equal response_transaction, response.body
@@ -187,7 +187,7 @@ module Api
 
         valid_get api_v1_address_transaction_url(address.address_hash), params: { page: page, page_size: page_size }
 
-        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: address_ckb_transactions, page: page, page_size: page_size).call()
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: address_ckb_transactions, page: page, page_size: page_size).call
         response_transaction = CkbTransactionSerializer.new(address_ckb_transactions, options).serialized_json
 
         assert_equal [], json["data"]
@@ -204,7 +204,7 @@ module Api
           first: "#{api_v1_address_transaction_url(address.address_hash)}?page_size=3",
           prev: "#{api_v1_address_transaction_url(address.address_hash)}?page_size=3",
           next: "#{api_v1_address_transaction_url(address.address_hash)}?page=3&page_size=3",
-          last: "#{api_v1_address_transaction_url(address.address_hash)}?page=10&page_size=3",
+          last: "#{api_v1_address_transaction_url(address.address_hash)}?page=10&page_size=3"
         }
 
         valid_get api_v1_address_transaction_url(address.address_hash), params: { page: page, page_size: page_size }
@@ -224,7 +224,7 @@ module Api
         address = create(:address, :with_transactions)
 
         links = {
-          self: "#{api_v1_address_transaction_url(address.address_hash)}?page_size=10",
+          self: "#{api_v1_address_transaction_url(address.address_hash)}?page_size=10"
         }
 
         valid_get api_v1_address_transaction_url(address.address_hash)

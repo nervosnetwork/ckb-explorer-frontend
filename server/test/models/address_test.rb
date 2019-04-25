@@ -174,8 +174,8 @@ class AddressTest < ActiveSupport::TestCase
         CkbSync::AuthenticSync.start
 
         Utils::CkbUtils.stubs(:get_unspent_cells).returns([
-          { capacity: "50000", lock: { args: ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"], code_hash: LockScript::SYSTEM_SCRIPT_CELL_HASH }, out_point: { hash: "0xc30257c81dde7766fc98882ff1e9f8e95abbe79345982e12c6a849de90cbbad1", index: 0 } }
-        ])
+                                                            { capacity: "50000", lock: { args: ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"], code_hash: LockScript::SYSTEM_SCRIPT_CELL_HASH }, out_point: { hash: "0xc30257c81dde7766fc98882ff1e9f8e95abbe79345982e12c6a849de90cbbad1", index: 0 } }
+                                                          ])
         Utils::CkbUtils.stubs(:address_cell_consumed).returns(43)
 
         local_block = Block.find_by(block_hash: DEFAULT_NODE_BLOCK_HASH)

@@ -29,14 +29,14 @@ FactoryBot.define do
     end
 
     trait :with_cell_output_and_lock_script do
-      after(:create) do |ckb_transaction, evaluator|
+      after(:create) do |ckb_transaction, _evaluator|
         cell_outputs = create_list(:cell_output, 3, ckb_transaction: ckb_transaction)
         cell_outputs.map { |cell_output| create(:lock_script, cell_output: cell_output) }
       end
     end
 
     trait :with_cell_output_and_lock_and_type_script do
-      after(:create) do |ckb_transaction, evaluator|
+      after(:create) do |ckb_transaction, _evaluator|
         cell_outputs = create_list(:cell_output, 3, ckb_transaction: ckb_transaction)
         cell_outputs.map do |cell_output|
           create(:lock_script, cell_output: cell_output)

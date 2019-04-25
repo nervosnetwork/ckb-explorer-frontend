@@ -117,7 +117,6 @@ def set_default_lock_params(node_block: block, args: ["0xc30257c81dde7766fc98882
   output["lock"]["code_hash"] = code_hash
 end
 
-
 def prepare_api_wrapper
   VCR.use_cassette("genesis_block") do
     CkbSync::Api.instance
@@ -133,7 +132,6 @@ def previous_cell_output(previous_output)
   previous_transacton = CkbTransaction.find_by!(tx_hash: tx_hash)
   previous_transacton.cell_outputs.order(:id)[output_index]
 end
-
 
 module RequestHelpers
   def json

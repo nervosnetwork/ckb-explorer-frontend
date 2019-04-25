@@ -54,7 +54,7 @@ module Api
 
         valid_get api_v1_blocks_url
 
-        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: page, page_size: page_size).call()
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: page, page_size: page_size).call
 
         assert_equal BlockSerializer.new(blocks, options).serialized_json, response.body
       end
@@ -127,7 +127,7 @@ module Api
 
         valid_get api_v1_blocks_url, params: { page: page }
 
-        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: page, page_size: page_size).call()
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: page, page_size: page_size).call
         response_blocks = BlockSerializer.new(blocks, options).serialized_json
 
         assert_equal response_blocks, response.body
@@ -142,7 +142,7 @@ module Api
         valid_get api_v1_blocks_url, params: { page_size: 12 }
 
         blocks = Block.order(timestamp: :desc).page(page).per(page_size)
-        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: page, page_size: page_size).call()
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: page, page_size: page_size).call
         response_blocks = BlockSerializer.new(blocks, options).serialized_json
 
         assert_equal response_blocks, response.body
@@ -157,7 +157,7 @@ module Api
 
         valid_get api_v1_blocks_url, params: { page: page, page_size: page_size }
 
-        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: page, page_size: page_size).call()
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: page, page_size: page_size).call
         response_blocks = BlockSerializer.new(blocks, options).serialized_json
         assert_equal response_blocks, response.body
       end
@@ -169,7 +169,7 @@ module Api
 
         valid_get api_v1_blocks_url, params: { page: page, page_size: page_size }
 
-        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: page, page_size: page_size).call()
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: page, page_size: page_size).call
         response_blocks = BlockSerializer.new(blocks, options).serialized_json
 
         assert_equal [], json["data"]
@@ -185,7 +185,7 @@ module Api
           first: "#{api_v1_blocks_url}?page_size=3",
           prev: "#{api_v1_blocks_url}?page_size=3",
           next: "#{api_v1_blocks_url}?page=3&page_size=3",
-          last: "#{api_v1_blocks_url}?page=10&page_size=3",
+          last: "#{api_v1_blocks_url}?page=10&page_size=3"
         }
 
         valid_get api_v1_blocks_url, params: { page: page, page_size: page_size }
@@ -202,7 +202,7 @@ module Api
 
       test "should return pagination links that only contain self in response bod when there is no blocks" do
         links = {
-          self: "#{api_v1_blocks_url}?page_size=10",
+          self: "#{api_v1_blocks_url}?page_size=10"
         }
 
         valid_get api_v1_blocks_url

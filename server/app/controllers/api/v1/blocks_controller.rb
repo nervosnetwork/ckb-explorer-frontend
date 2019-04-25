@@ -6,7 +6,7 @@ module Api
 
       def index
         blocks = Block.recent.page(@page).per(@page_size)
-        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: @page, page_size: @page_size).call()
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: @page, page_size: @page_size).call
 
         render json: BlockSerializer.new(blocks, options)
       end
