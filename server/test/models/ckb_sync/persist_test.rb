@@ -378,7 +378,7 @@ module CkbSync
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 
-        assert_equal Utils::CkbUtils.total_transaction_fee(node_block["commit_transactions"]), local_block.total_transaction_fee
+        assert_equal local_block.ckb_transactions.sum(:transaction_fee), local_block.total_transaction_fee
       end
     end
 
