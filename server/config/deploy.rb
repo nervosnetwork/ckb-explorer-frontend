@@ -5,8 +5,6 @@ require "mina/multistage"
 
 # require 'mina/rbenv'  # for rbenv support. (https://rbenv.org)
 require "mina/rvm" # for rvm support. (https://rvm.io)
-require "mina/puma"
-require "mina_sidekiq/tasks"
 
 # Basic settings:
 #   domain       - The hostname to SSH to.
@@ -21,18 +19,6 @@ set :repository, "https://github.com/nervosnetwork/ckb-explorer.git"
 set :branch, "develop"
 set :rails_env, "production"
 set :user, "deploy"
-set :puma_socket, "#{fetch(:deploy_to)}/shared/server/tmp/sockets/puma.sock"
-set :puma_pid, "#{fetch(:deploy_to)}/shared/server/tmp/pids/puma.pid"
-set :puma_state, "#{fetch(:deploy_to)}/shared/server/tmp/sockets/puma.state"
-set :puma_stdout, "#{fetch(:deploy_to)}/shared/server/log/puma.log"
-set :puma_stderr, "#{fetch(:deploy_to)}/shared/server/log/puma.log"
-set :pumactl_socket, "#{fetch(:deploy_to)}/shared/server/tmp/sockets/pumactl.sock"
-set :puma_root_path, "#{fetch(:deploy_to)}/current/server"
-set :sidekiq, -> { "#{fetch(:deploy_to)}/current/server/bin/#{fetch(:bundle_bin)} exec sidekiq" }
-set :sidekiq_pid, -> { "#{fetch(:deploy_to)}/shared/server/tmp/pids/sidekiq.pid" }
-set :sidekiqctl, -> { "#{fetch(:deploy_to)}/current/server/bin/#{fetch(:bundle_prefix)} sidekiqctl" }
-set :sidekiq_log, -> { "#{fetch(:deploy_to)}/shared/server/log/sidekiq.log" }
-set :sidekiq_config, -> { "#{fetch(:current_path)}/server/config/sidekiq.yml" }
 # Optional settings:
 # set :user, 'foobar'          # Username in the server to SSH to.
 # set :port, '30000'           # SSH port number.
@@ -77,7 +63,10 @@ task :setup do
   command %[touch "#{fetch(:shared_path)}/server/.env"]
   command %[touch "#{fetch(:shared_path)}/server/config/puma.rb"]
   command %[touch "#{fetch(:shared_path)}/server/config/master.key"]
-  comment "Be sure to edit '#{fetch(:shared_path)}/server/config/database.yml', '.env.local' and puma.rb."
+  command %[touch "#{fetch(:shared_path)}/server/config/ckb-explorer-puma.service"]
+  command %[touch "#{fetch(:shared_path)}/server/config/ckb-explorer-puma.socket"]
+  command %[touch "#{fetch(:shared_path)}/server/config/ckb-explorer-sidekiq.service"]
+  comment "Be sure to edit '#{fetch(:shared_path)}/server/config/database.yml', '.env.local', 'puma.rb', 'ckb-explorer-puma.service', 'ckb-explorer-puma.socket' and ckb-explorer-sidekiq.service."
 end
 
 desc "Deploys the current version to the server."
@@ -95,7 +84,8 @@ task :deploy do
     invoke :'deploy:cleanup'
 
     on :launch do
-      invoke :'puma:phased_restart'
+      command "systemctl restart ckb-explorer-puma.socket ckb-explorer-puma.service"
+      command "systemctl restart ckb-explorer-sidekiq"
     end
   end
 

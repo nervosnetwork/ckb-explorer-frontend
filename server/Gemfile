@@ -53,9 +53,7 @@ gem "kaminari"
 
 # Deployment
 gem 'mina', require: false
-gem 'mina-puma', require: false
 gem 'mina-multistage', require: false
-gem 'mina-sidekiq', '~> 1.0', '>= 1.0.3', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -82,6 +80,7 @@ group :development do
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "rubocop", require: false
+  gem 'rubocop-performance'
   gem "awesome_print"
   gem "annotate"
 end
