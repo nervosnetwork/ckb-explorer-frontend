@@ -11,7 +11,7 @@ class UncleBlockTest < ActiveSupport::TestCase
     should validate_presence_of(:parent_hash).on(:create)
     should validate_presence_of(:seal).on(:create)
     should validate_presence_of(:timestamp).on(:create)
-    should validate_presence_of(:txs_commit).on(:create)
+    should validate_presence_of(:transactions_root).on(:create)
     should validate_presence_of(:txs_proposal).on(:create)
     should validate_presence_of(:uncles_count).on(:create)
     should validate_presence_of(:uncles_hash).on(:create)
@@ -32,11 +32,11 @@ class UncleBlockTest < ActiveSupport::TestCase
     assert_equal unpack_attribute(uncle_block, "parent_hash"), parent_hash
   end
 
-  test "#txs_commit should decodes packed string" do
+  test "#transactions_root should decodes packed string" do
     block = create(:block)
     uncle_block = create(:uncle_block, block: block)
-    txs_commit = uncle_block.txs_commit
-    assert_equal unpack_attribute(uncle_block, "txs_commit"), txs_commit
+    transactions_root = uncle_block.transactions_root
+    assert_equal unpack_attribute(uncle_block, "transactions_root"), transactions_root
   end
 
   test "#txs_proposal should decodes packed string" do
