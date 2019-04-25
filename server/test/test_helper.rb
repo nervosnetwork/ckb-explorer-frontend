@@ -105,16 +105,16 @@ end
 
 def build_display_info_from_node_output(output)
   lock = output["lock"]
-  lock_script = LockScript.find_by(args: lock["args"], binary_hash: lock["binary_hash"])
+  lock_script = LockScript.find_by(args: lock["args"], code_hash: lock["code_hash"])
   cell_output = lock_script.cell_output
   { id: cell_output.id, capacity: cell_output.capacity.to_s, address_hash: cell_output.address_hash }.stringify_keys
 end
 
-def set_default_lock_params(node_block: block, args: ["0xc30257c81dde7766fc98882ff1e9f8e95abbe79345982e12c6a849de90cbbad1"], binary_hash: "0x#{SecureRandom.hex(32)}")
+def set_default_lock_params(node_block: block, args: ["0xc30257c81dde7766fc98882ff1e9f8e95abbe79345982e12c6a849de90cbbad1"], code_hash: "0x#{SecureRandom.hex(32)}")
   tx = node_block["transactions"].first
   output = tx["outputs"].first
   output["lock"]["args"] = args
-  output["lock"]["binary_hash"] = binary_hash
+  output["lock"]["code_hash"] = code_hash
 end
 
 

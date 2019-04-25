@@ -102,14 +102,14 @@ module CkbSync
 
         cell_output.build_type_script(
           args: type_script["args"],
-          binary_hash: type_script["binary_hash"],
+          code_hash: type_script["code_hash"],
         )
       end
 
       def build_lock_script(cell_output, verify_script, address)
         cell_output.build_lock_script(
           args: verify_script["args"],
-          binary_hash: verify_script["binary_hash"],
+          code_hash: verify_script["code_hash"],
           address: address
         )
       end

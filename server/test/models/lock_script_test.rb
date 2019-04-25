@@ -7,10 +7,10 @@ class LockScriptTest < ActiveSupport::TestCase
   end
 
   context "validations" do
-    should validate_presence_of(:binary_hash)
+    should validate_presence_of(:code_hash)
   end
 
-  test "#binary_hash should decodes packed string" do
+  test "#code_hash should decodes packed string" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
@@ -20,7 +20,7 @@ class LockScriptTest < ActiveSupport::TestCase
       ckb_transaction = block.ckb_transactions.first
       cell_output = ckb_transaction.cell_outputs.first
       lock_script = cell_output.lock_script
-      assert_equal unpack_attribute(lock_script, "binary_hash"), lock_script.binary_hash
+      assert_equal unpack_attribute(lock_script, "code_hash"), lock_script.code_hash
     end
   end
 end

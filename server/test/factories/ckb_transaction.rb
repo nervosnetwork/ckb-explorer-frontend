@@ -17,7 +17,7 @@ FactoryBot.define do
     end
 
     transient do
-      binary_hash { nil }
+      code_hash { nil }
     end
 
     transient do
