@@ -102,11 +102,21 @@ export const BlockCommonContent = styled.div`
   box-shadow: 0px 5px 9px rgb(233, 233, 233);
   display: flex;
   flex-direction: row;
-  .block__content__separate {
-    width: 1px;
-    height: 360px;
-    background: #46ab81;
-    margin: 0 auto;
+
+  > div:nth-child(1) {
+    flex: 1;
+  }
+
+  > div:nth-child(2) {
+    display: flex;
+    flex: 1;
+    > div:nth-child(1) {
+      width: 1px;
+      height: 360px;
+      background: #46ab81;
+      content: '';
+      margin-right: 82px;
+    }
   }
 `
 

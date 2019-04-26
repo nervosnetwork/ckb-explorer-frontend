@@ -25,29 +25,6 @@ const LabelItemPanel = styled.div`
     color: rgb(75, 188, 142);
   }
 `
-const CellConsumedBarDiv = styled.div`
-  height: 20px;
-  width: 160px;
-  border-radius: 50px;
-  border: 1px solid rgb(75, 188, 142);
-  margin-right: 10px;
-
-  > div {
-    width: ${(props: { percent: string }) => props.percent}%;
-    margin-right: 21px;
-    background: rgb(75, 188, 142);
-    height: 100%;
-    border-radius: inherit;
-  }
-`
-
-const CellConsumedBar = ({ percent }: { percent: number }) => {
-  return (
-    <CellConsumedBarDiv percent={`${percent}`}>
-      <div />
-    </CellConsumedBarDiv>
-  )
-}
 
 const CellConsumedLabel = ({
   image,
@@ -60,12 +37,16 @@ const CellConsumedLabel = ({
   consumed: number
   balance: number
 }) => {
+  let percent = 0
+  if (balance !== 0) {
+    percent = (consumed * 100) / balance
+    percent = percent > 100 ? 100 : percent
+  }
   return (
     <LabelItemPanel>
       <img src={image} alt="Cell Consumed" />
-      <span>{label}</span>
-      <CellConsumedBar percent={(consumed * 100) / balance} />
-      <div>{`${consumed}B / ${(consumed * 100) / balance}%`}</div>
+      <span>{`${label}:`}</span>
+      <div>{`${consumed}B / ${percent}%`}</div>
     </LabelItemPanel>
   )
 }
