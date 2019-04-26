@@ -55,9 +55,14 @@ const HeaderDiv = styled.div`
     }
   }
   .header__search {
-    display: flex;
-    align-items: center;
-    width: ${(props: { width: number }) => (550 * props.width) / 1920}px;
+    flex: 1;
+    justify-content: flex-end;
+    > div {
+      display: flex;
+      align-items: center;
+      width: ${(props: { width: number }) => (550 * props.width) / 1920}px;
+      min-width: 320px;
+    }
   }
   a {
     text-decoration: none;
@@ -95,7 +100,9 @@ export default ({ search = true }: { search?: boolean }) => {
       </div>
       {search && (
         <div className="header__search">
-          <Search />
+          <div>
+            <Search />
+          </div>
         </div>
       )}
     </HeaderDiv>

@@ -55,6 +55,42 @@ export const BlockOverviewPanel = styled.div`
     width: 197px;
   }
 `
+export const BlockCommonContentWrap = styled.div`
+  margin-left: -30px;
+  margin-right: -30px;
+  padding-left: 30px;
+  padding-right: 30px;
+  position: relative;
+  &.hasPrev::before {
+    content: '';
+    display: block;
+    box-sizing: border-box;
+    border-radius: 6px 0 0 6px;
+    box-shadow: 0 5px 9px 0 #dfdfdf;
+    background-color: #ffffff;
+    width: 30px;
+    height: 453px;
+    margin: 22px 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  &.hasNext:after {
+    content: '';
+    display: block;
+    box-sizing: border-box;
+    margin: 22px 0;
+    border-radius: 0 6px 6px 0;
+    box-shadow: 0 5px 9px 0 #dfdfdf;
+    background-color: #ffffff;
+    width: 30px;
+    height: 453px;
+    margin: 22px 0;
+    position: absolute;
+    top: 0;
+    right: 0px;
+  }
+`
 export const BlockCommonContent = styled.div`
   overflow-x: auto;
   padding: 72px 88px 56px 88px;
@@ -68,12 +104,12 @@ export const BlockCommonContent = styled.div`
   flex-direction: row;
 
   > div:nth-child(1) {
-    flex-grow: 1;
+    flex: 1;
   }
 
   > div:nth-child(2) {
     display: flex;
-    flex-grow: 1;
+    flex: 1;
     > div:nth-child(1) {
       width: 1px;
       height: 360px;
@@ -90,9 +126,14 @@ export const BlockPreviousNextPanel = styled.div`
   margin-top: 59px;
 
   .block__arrow {
-    width: 83px;
-    height: 19px;
     margin-top: 13px;
+    img {
+      width: 83px;
+      height: 19px;
+    }
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .block__mouse {

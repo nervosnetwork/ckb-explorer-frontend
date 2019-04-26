@@ -72,7 +72,7 @@ export default () => {
             blocksWrappers.map((block: any) => {
               return (
                 <TableContentRow key={block.attributes.block_hash}>
-                  <TableContentItem content={block.attributes.number} to={`block/${block.attributes.number}`} />
+                  <TableContentItem content={block.attributes.number} to={`/block/${block.attributes.number}`} />
                   <TableContentItem content={block.attributes.transactions_count} />
                   <TableContentItem content={block.attributes.cell_consumed} />
                   <TableMinerContentItem content={block.attributes.miner_hash} />

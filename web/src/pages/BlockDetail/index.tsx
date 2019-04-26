@@ -7,6 +7,7 @@ import {
   BlockDetailPanel,
   BlockDetailTitlePanel,
   BlockOverviewPanel,
+  BlockCommonContentWrap,
   BlockCommonContent,
   BlockPreviousNextPanel,
   BlockHightLabel,
@@ -41,6 +42,7 @@ import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchBlockByHash, fetchTransactionsByBlockHash } from '../../http/fetcher'
 import { copyDivValue, validNumber } from '../../utils/util'
+import browserHistory from '../../routes/history'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
@@ -69,12 +71,44 @@ const BlockOverview = ({ value }: { value: string }) => {
   return <BlockOverviewPanel>{value}</BlockOverviewPanel>
 }
 
-const BlockPreviousNext = () => {
+const BlockPreviousNext = ({
+  blockNumber,
+  hasPrev = true,
+  hasNext = true,
+}: {
+  blockNumber: any
+  hasPrev?: boolean
+  hasNext?: boolean
+}) => {
   return (
     <BlockPreviousNextPanel>
-      <img className="block__arrow" src={PreviousBlockIcon} alt="previous block" />
+      {hasPrev ? (
+        <div
+          role="button"
+          tabIndex={-1}
+          className="block__arrow"
+          onClick={() => {
+            browserHistory.push(`/block/${blockNumber - 1}`)
+          }}
+          onKeyUp={() => {}}
+        >
+          <img src={PreviousBlockIcon} alt="previous block" />
+        </div>
+      ) : null}
       <img className="block__mouse" src={MouseIcon} alt="mouse" />
-      <img className="block__arrow" src={NextBlockIcon} alt="next block" />
+      {hasNext ? (
+        <div
+          role="button"
+          tabIndex={-1}
+          className="block__arrow"
+          onClick={() => {
+            browserHistory.push(`/block/${blockNumber + 1}`)
+          }}
+          onKeyUp={() => {}}
+        >
+          <img src={NextBlockIcon} alt="next block" />
+        </div>
+      ) : null}
     </BlockPreviousNextPanel>
   )
 }
@@ -136,13 +170,19 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   }
 
   const getBlockByHash = () => {
-    fetchBlockByHash(hash).then(json => {
-      const { data } = json as Response<BlockWrapper>
-      setBlockData(data.attributes as Block)
-      const page_p = validNumber(page, PageParams.PageNo)
-      const size_p = validNumber(size, PageParams.PageSize)
-      getTransactions(data.attributes.block_hash, page_p, size_p)
-    })
+    fetchBlockByHash(hash)
+      .then(json => {
+        const { data } = json as Response<BlockWrapper>
+        setBlockData(data.attributes as Block)
+        const page_p = validNumber(page, PageParams.PageNo)
+        const size_p = validNumber(size, PageParams.PageSize)
+        getTransactions(data.attributes.block_hash, page_p, size_p)
+      })
+      .catch(() => {
+        setBlockData(initBlock)
+        setTotalTransactions(0)
+        setTransactionWrappers([])
+      })
   }
 
   useEffect(() => {
@@ -151,7 +191,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     const size_p = validNumber(size, PageParams.PageSize)
     setPageNo(page_p)
     setPageSize(size_p)
-  }, [search])
+  }, [search, window.location.href])
 
   const onChange = (page_p: number, size_p: number) => {
     setPageNo(page_p)
@@ -225,48 +265,52 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       value: `${blockData.proof}`,
     },
   ]
+  const hasPrev = blockData && blockData.number > 0
+  const hasNext = blockData && !!blockData.block_hash
   return (
     <Content>
       <BlockDetailPanel width={window.innerWidth} className="container">
         <BlockDetailTitle hash={blockData.block_hash} />
         <BlockOverview value="Overview" />
-        <BlockCommonContent>
-          <div>
-            {BlockLeftItems.slice(0, BlockLeftSeparateIndex).map(item => {
-              return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
-            })}
-            <CellConsumedLabel
-              image={CellConsumedIcon}
-              label="Cell Consumed"
-              consumed={blockData.cell_consumed}
-              balance={blockData.total_cell_capacity}
-            />
-            {BlockLeftItems.slice(BlockLeftSeparateIndex).map(item => {
-              return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
-            })}
-          </div>
-          <div>
-            <div />
+        <BlockCommonContentWrap className={(hasPrev ? 'hasPrev' : '') + (hasNext ? ' hasNext' : '')}>
+          <BlockCommonContent>
             <div>
-              <Link
-                to={{
-                  pathname: `/address/${BlockRightItems[0].value}`,
-                }}
-              >
-                <SimpleLabel
-                  image={BlockRightItems[0].image}
-                  label={BlockRightItems[0].label}
-                  value={BlockRightItems[0].value}
-                  highLight
-                />
-              </Link>
-              {BlockRightItems.slice(1).map(item => {
+              {BlockLeftItems.slice(0, BlockLeftSeparateIndex).map(item => {
+                return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+              })}
+              <CellConsumedLabel
+                image={CellConsumedIcon}
+                label="Cell Consumed"
+                consumed={blockData.cell_consumed}
+                balance={blockData.total_cell_capacity}
+              />
+              {BlockLeftItems.slice(BlockLeftSeparateIndex).map(item => {
                 return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
               })}
             </div>
-          </div>
-        </BlockCommonContent>
-        <BlockPreviousNext />
+            <div>
+              <div />
+              <div>
+                <Link
+                  to={{
+                    pathname: `/address/${BlockRightItems[0].value}`,
+                  }}
+                >
+                  <SimpleLabel
+                    image={BlockRightItems[0].image}
+                    label={BlockRightItems[0].label}
+                    value={BlockRightItems[0].value}
+                    highLight
+                  />
+                </Link>
+                {BlockRightItems.slice(1).map(item => {
+                  return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+                })}
+              </div>
+            </div>
+          </BlockCommonContent>
+        </BlockCommonContentWrap>
+        <BlockPreviousNext blockNumber={blockData.number} hasPrev={hasPrev} hasNext={hasNext} />
         <BlockHightLabel>Block Height</BlockHightLabel>
 
         <BlockTransactionsPanel>
