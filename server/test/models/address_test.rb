@@ -174,16 +174,26 @@ class AddressTest < ActiveSupport::TestCase
         CkbSync::AuthenticSync.start
 
         Utils::CkbUtils.stubs(:get_unspent_cells).returns([
-                                                            { capacity: "50000", lock: { args: ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"], code_hash: LockScript::SYSTEM_SCRIPT_CELL_HASH }, out_point: { hash: "0xc30257c81dde7766fc98882ff1e9f8e95abbe79345982e12c6a849de90cbbad1", index: 0 } }
+                                                            { capacity: "50000", lock: { args: ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"], code_hash: LockScript::SYSTEM_SCRIPT_CELL_HASH }, out_point: { hash: "0x18bd084635d5a1190e6a17b49ae641a08f0805f7c9c7ea68cd325a2e19d9bdea", index: 0 } }
                                                           ])
         Utils::CkbUtils.stubs(:address_cell_consumed).returns(43)
 
+        previous_block = create(:block, :with_block_hash, number: 100)
+        previous_ckb_transaction = create(:ckb_transaction, block: previous_block)
+        previous_ckb_transaction.cell_inputs.create(previous_output: { tx_hash: CellOutput::BASE_HASH, index: 4294967295 })
+        cell_output = previous_ckb_transaction.cell_outputs.create(capacity: 10**8, address: create(:address))
+        cell_output.create_lock_script
+
         local_block = Block.find_by(block_hash: DEFAULT_NODE_BLOCK_HASH)
+
+        ckb_transaction = create(:ckb_transaction, block: local_block)
+        ckb_transaction.cell_inputs.create(previous_output: { tx_hash: previous_ckb_transaction.tx_hash, index: 0 })
+        local_block.ckb_transactions << ckb_transaction
 
         CkbSync::Validator.call(local_block.block_hash)
 
-        block = create(:block, :with_block_hash)
-        create(:ckb_transaction, :with_cell_output_and_lock_and_type_script, block: block, tx_hash: "0xc30257c81dde7766fc98882ff1e9f8e95abbe79345982e12c6a849de90cbbad1")
+        block = create(:block, :with_block_hash, number: 101)
+        create(:ckb_transaction, :with_cell_output_and_lock_and_type_script, block: block, tx_hash: "0x18bd084635d5a1190e6a17b49ae641a08f0805f7c9c7ea68cd325a2e19d9bdea")
 
         updated_cell_consumed =
           local_block.contained_addresses.map do |address|
