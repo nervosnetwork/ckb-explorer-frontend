@@ -22,12 +22,12 @@ end
 #
 # Table name: ckb_transactions
 #
-#  id              :bigint(8)        not null, primary key
+#  id              :bigint           not null, primary key
 #  tx_hash         :binary
 #  deps            :jsonb
-#  block_id        :bigint(8)
-#  block_number    :bigint(8)
-#  block_timestamp :bigint(8)
+#  block_id        :bigint
+#  block_number    :bigint
+#  block_timestamp :bigint
 #  display_inputs  :jsonb
 #  display_outputs :jsonb
 #  status          :integer

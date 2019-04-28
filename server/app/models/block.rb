@@ -64,13 +64,13 @@ end
 #
 # Table name: blocks
 #
-#  id                     :bigint(8)        not null, primary key
+#  id                     :bigint           not null, primary key
 #  difficulty             :string(66)
 #  block_hash             :binary
-#  number                 :bigint(8)
+#  number                 :bigint
 #  parent_hash            :binary
 #  seal                   :jsonb
-#  timestamp              :bigint(8)
+#  timestamp              :bigint
 #  transactions_root      :binary
 #  proposals_root         :binary
 #  uncles_count           :integer
@@ -82,9 +82,9 @@ end
 #  cell_consumed          :decimal(64, 2)
 #  miner_hash             :binary
 #  status                 :integer
-#  reward                 :integer
-#  total_transaction_fee  :integer
-#  ckb_transactions_count :bigint(8)        default(0)
+#  reward                 :decimal(64, 2)
+#  total_transaction_fee  :decimal(64, 2)
+#  ckb_transactions_count :bigint           default(0)
 #  total_cell_capacity    :decimal(64, 2)
 #  witnesses_root         :binary
 #  created_at             :datetime         not null

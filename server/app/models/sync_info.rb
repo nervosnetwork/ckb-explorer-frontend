@@ -34,9 +34,9 @@ end
 #
 # Table name: sync_infos
 #
-#  id         :bigint(8)        not null, primary key
+#  id         :bigint           not null, primary key
 #  name       :string
-#  value      :bigint(8)
+#  value      :bigint
 #  status     :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

@@ -18,8 +18,8 @@ class CreateBlocks < ActiveRecord::Migration[5.2]
       t.decimal :cell_consumed, precision: 64, scale: 2
       t.binary :miner_hash
       t.integer :status
-      t.integer :reward
-      t.integer :total_transaction_fee
+      t.decimal :reward, precision: 64, scale: 2
+      t.decimal :total_transaction_fee, precision: 64, scale: 2
       t.bigint :ckb_transactions_count, default: 0
       t.decimal :total_cell_capacity, precision: 64, scale: 2
       t.binary :witnesses_root

@@ -15,13 +15,13 @@ end
 #
 # Table name: uncle_blocks
 #
-#  id                :bigint(8)        not null, primary key
+#  id                :bigint           not null, primary key
 #  difficulty        :string(66)
 #  block_hash        :binary
-#  number            :bigint(8)
+#  number            :bigint
 #  parent_hash       :binary
 #  seal              :jsonb
-#  timestamp         :bigint(8)
+#  timestamp         :bigint
 #  transactions_root :binary
 #  proposals_root    :binary
 #  uncles_count      :integer
@@ -29,7 +29,7 @@ end
 #  version           :integer
 #  proposals         :binary
 #  proposals_count   :integer
-#  block_id          :bigint(8)
+#  block_id          :bigint
 #  witnesses_root    :binary
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
