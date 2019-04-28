@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_27_074238) do
+ActiveRecord::Schema.define(version: 2019_04_28_084336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.integer "proposals_count"
     t.decimal "cell_consumed", precision: 64, scale: 2
     t.binary "miner_hash"
-    t.integer "status"
+    t.integer "status", limit: 2
     t.decimal "reward", precision: 64, scale: 2
     t.decimal "total_transaction_fee", precision: 64, scale: 2
     t.bigint "ckb_transactions_count", default: 0
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.bigint "ckb_transaction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", limit: 2, default: 0
     t.index ["ckb_transaction_id"], name: "index_cell_outputs_on_ckb_transaction_id"
   end
 
@@ -91,7 +92,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.bigint "block_timestamp"
     t.jsonb "display_inputs"
     t.jsonb "display_outputs"
-    t.integer "status"
+    t.integer "status", limit: 2
     t.decimal "transaction_fee", precision: 64, scale: 2
     t.integer "version"
     t.string "witnesses", array: true
@@ -116,7 +117,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   create_table "sync_infos", force: :cascade do |t|
     t.string "name"
     t.bigint "value"
-    t.integer "status"
+    t.integer "status", limit: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name", "status"], name: "index_sync_infos_on_name_and_status"

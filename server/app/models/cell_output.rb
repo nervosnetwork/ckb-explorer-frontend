@@ -2,6 +2,8 @@ class CellOutput < ApplicationRecord
   BASE_HASH = "0x0000000000000000000000000000000000000000000000000000000000000000".freeze
   INITIAL_BLOCK_REWARD = 50_000
 
+  enum status: { live: 0, dead: 1 }
+
   belongs_to :ckb_transaction
   has_one :lock_script
   has_one :type_script
@@ -32,6 +34,7 @@ end
 #  ckb_transaction_id :bigint
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  status             :integer          default(0)
 #
 # Indexes
 #
