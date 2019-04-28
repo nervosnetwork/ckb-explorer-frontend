@@ -126,7 +126,7 @@ def prepare_api_wrapper
 end
 
 def previous_cell_output(previous_output)
-  tx_hash = previous_output["hash"]
+  tx_hash = previous_output["tx_hash"]
   output_index = previous_output["index"]
 
   raise ActiveRecord::RecordNotFound if CellOutput::BASE_HASH == tx_hash

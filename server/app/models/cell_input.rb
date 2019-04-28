@@ -16,7 +16,7 @@ class CellInput < ApplicationRecord
   private
 
   def previous_cell_output
-    tx_hash = previous_output["hash"]
+    tx_hash = previous_output["tx_hash"]
     output_index = previous_output["index"]
 
     raise ActiveRecord::RecordNotFound if CellOutput::BASE_HASH == tx_hash
