@@ -54,14 +54,14 @@ class UncleBlockTest < ActiveSupport::TestCase
   end
 
   test "#proposals should decodes packed string" do
-    VCR.use_cassette("blocks/10") do
+    VCR.use_cassette("blocks/17") do
       SyncInfo.local_inauthentic_tip_block_number
-      node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+      block_hash = "0x32668a27114813ac98724db206d7d5fd778db42d9c01ac90949b33ebce2fd5aa"
+      node_block = CkbSync::Api.instance.get_block(block_hash).deep_stringify_keys
       set_default_lock_params(node_block: node_block)
 
       CkbSync::Persist.save_block(node_block, "inauthentic")
-      packed_block_hash = DEFAULT_NODE_BLOCK_HASH
-      block = Block.find_by(block_hash: packed_block_hash)
+      block = Block.find_by(block_hash: block_hash)
       uncle_block = block.uncle_blocks.first
       proposals = uncle_block.proposals
       assert_equal unpack_array_attribute(uncle_block, "proposals", uncle_block.proposals_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), proposals
