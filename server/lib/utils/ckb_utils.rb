@@ -79,18 +79,8 @@ module Utils
     def self.get_unspent_cells(address_hash)
       return if address_hash.blank?
 
-      lock_hash = lock_hash(address_hash)
-      to = CkbSync::Api.instance.get_tip_block_number.to_i
-      results = []
-      current_from = 1
-
-      while current_from <= to
-        current_to = [current_from + 100, to].min
-        cells = CkbSync::Api.instance.get_cells_by_lock_hash(lock_hash, current_from.to_s, current_to.to_s)
-        results.concat(cells)
-        current_from = current_to + 1
-      end
-      results
+      address = Address.find_by(address_hash: address_hash)
+      address.cell_outputs.live
     end
 
     def self.lock_hash(address_hash)
@@ -100,37 +90,16 @@ module Utils
       CKB::Utils.json_script_to_type_hash(lock)
     end
 
-    # TODO Can be changed to calculate by local cell
     def self.get_balance(address_hash)
       return if address_hash.blank?
 
-      lock_hash = lock_hash(address_hash)
-      get_unspent_cells(lock_hash).reduce(0) { |memo, cell| memo + cell[:capacity].to_i }
+      get_unspent_cells(address_hash).reduce(0) { |memo, cell| memo + cell.capacity }
     end
 
-    # TODO Can be changed to calculate by local cell
     def self.address_cell_consumed(address_hash)
       return if address_hash.blank?
 
-      lock_hash(address_hash)
-
-      outputs =
-        get_unspent_cells(address_hash).map do |cell|
-          out_point = cell[:out_point]
-          previous_transaction_hash = out_point[:tx_hash]
-          previous_output_index = out_point[:index]
-          if CellOutput::BASE_HASH != previous_transaction_hash
-            previous_transacton = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
-
-            # TODO may be no need to do this. when testnet is repaired, check it.
-            if previous_transacton.present?
-              previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
-              previous_output
-            end
-          end
-        end
-
-      outputs.compact.reduce(0) { |memo, output| memo + calculate_cell_min_capacity(output.to_node_cell_output) }
+      get_unspent_cells(address_hash).reduce(0) { |memo, output| memo + calculate_cell_min_capacity(output.to_node_cell_output) }
     end
 
     def self.cell_input_capacity(cell_input)
