@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   end
 
   create_table "addresses", force: :cascade do |t|
-    t.bigint "balance"
+    t.decimal "balance", precision: 64, scale: 2
     t.binary "address_hash"
     t.decimal "cell_consumed", precision: 64, scale: 2
     t.bigint "ckb_transactions_count", default: 0
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
   end
 
   create_table "cell_outputs", force: :cascade do |t|
-    t.decimal "capacity", precision: 32, scale: 2
+    t.decimal "capacity", precision: 64, scale: 2
     t.binary "data"
     t.bigint "ckb_transaction_id"
     t.datetime "created_at", null: false
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_074238) do
     t.jsonb "display_inputs"
     t.jsonb "display_outputs"
     t.integer "status"
-    t.integer "transaction_fee"
+    t.decimal "transaction_fee", precision: 64, scale: 2
     t.integer "version"
     t.string "witnesses", array: true
     t.datetime "created_at", null: false

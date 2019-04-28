@@ -9,7 +9,7 @@ class CreateCkbTransactions < ActiveRecord::Migration[5.2]
       t.jsonb :display_inputs
       t.jsonb :display_outputs
       t.integer :status
-      t.integer :transaction_fee
+      t.decimal :transaction_fee, precision: 64, scale: 2
       t.integer :version
       t.string :witnesses, array: true
 
