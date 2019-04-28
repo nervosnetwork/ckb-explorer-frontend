@@ -5,7 +5,7 @@ http_interactions:
     uri: http://47.111.175.189:8122/
     body:
       encoding: UTF-8
-      string: '{"id":1,"jsonrpc":"2.0","method":"get_block_hash","params":["8"]}'
+      string: '{"id":1,"jsonrpc":"2.0","method":"get_transaction","params":[null]}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -23,18 +23,19 @@ http_interactions:
       Server:
       - nginx/1.14.0 (Ubuntu)
       Date:
-      - Sun, 28 Apr 2019 04:12:33 GMT
+      - Sun, 28 Apr 2019 04:30:51 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '103'
+      - '147'
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"jsonrpc":"2.0","result":"0x5c8331fffdcf5d127515deaa06814792ddf5e6f6b6c7b60a859b3c6c8622368c","id":1}
+      string: '{"jsonrpc":"2.0","error":{"code":-32602,"message":"Invalid params:
+        invalid type: null, expected a 0x-prefixed hex string with 64 digits."},"id":1}
 
 '
     http_version: 
-  recorded_at: Sun, 28 Apr 2019 04:12:33 GMT
+  recorded_at: Sun, 28 Apr 2019 04:30:51 GMT
 recorded_with: VCR 4.0.0
