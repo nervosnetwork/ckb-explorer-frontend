@@ -8,6 +8,7 @@ module CkbSync
         ApplicationRecord.transaction do
           if local_block.present?
             local_block.verify!(node_block)
+            update_cell_status!(local_block)
             update_address_balance_and_cell_consumed!(local_block)
           else
             CkbSync::Persist.save_block(node_block, "authentic")
@@ -16,6 +17,11 @@ module CkbSync
       end
 
       private
+
+      def update_cell_status!(local_block)
+        cell_inputs = local_block.ckb_transactions.map { |ckb_transaction| ckb_transaction.cell_inputs }.flatten
+        cell_inputs.map { |cell_input| cell_input.find_cell_output!.update(status: :dead) }
+      end
 
       def update_address_balance_and_cell_consumed!(local_block)
         addresses =
