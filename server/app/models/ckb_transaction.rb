@@ -31,7 +31,7 @@ end
 #  display_inputs  :jsonb
 #  display_outputs :jsonb
 #  status          :integer
-#  transaction_fee :integer
+#  transaction_fee :decimal(64, 2)
 #  version         :integer
 #  witnesses       :string           is an Array
 #  created_at      :datetime         not null

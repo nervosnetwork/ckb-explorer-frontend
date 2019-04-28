@@ -3,7 +3,7 @@ class CreateSyncInfos < ActiveRecord::Migration[5.2]
     create_table :sync_infos do |t|
       t.string :name
       t.bigint :value
-      t.integer :status
+      t.integer :status, limit: 2
 
       t.timestamps
     end

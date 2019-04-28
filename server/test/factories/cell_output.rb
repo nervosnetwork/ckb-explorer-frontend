@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :cell_output do
+    address
+
     capacity { 50000 }
     data {}
 

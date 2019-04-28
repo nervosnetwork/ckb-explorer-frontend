@@ -3,6 +3,7 @@ class Address < ApplicationRecord
   PREFIX_TESTNET = "ckt".freeze
 
   has_one :lock_script
+  has_many :cell_outputs
   has_many :account_books
   has_many :ckb_transactions, through: :account_books
   validates_presence_of :balance, :cell_consumed, :ckb_transactions_count
@@ -27,7 +28,7 @@ end
 # Table name: addresses
 #
 #  id                     :bigint           not null, primary key
-#  balance                :bigint
+#  balance                :decimal(64, 2)
 #  address_hash           :binary
 #  cell_consumed          :decimal(64, 2)
 #  ckb_transactions_count :bigint           default(0)

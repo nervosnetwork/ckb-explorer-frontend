@@ -56,7 +56,7 @@ class UncleBlockTest < ActiveSupport::TestCase
   test "#proposals should decodes packed string" do
     VCR.use_cassette("blocks/17") do
       SyncInfo.local_inauthentic_tip_block_number
-      block_hash = "0x32668a27114813ac98724db206d7d5fd778db42d9c01ac90949b33ebce2fd5aa"
+      block_hash = "0xad03a72d1d6af63fa3bcec6ed9eb16da10ea8b78d0266a8c5cec233c759e2827"
       node_block = CkbSync::Api.instance.get_block(block_hash).deep_stringify_keys
       set_default_lock_params(node_block: node_block)
 
