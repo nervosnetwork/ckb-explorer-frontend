@@ -11,21 +11,21 @@ module Utils
 
     def self.calculate_script_capacity(script)
       capacity = 1 + (script[:args] || []).map { |arg| arg.bytesize }.reduce(0, &:+)
-      if script[:binary_hash]
-        capacity += CKB::Utils.hex_to_bin(script[:binary_hash]).bytesize
+      if script[:code_hash]
+        capacity += CKB::Utils.hex_to_bin(script[:code_hash]).bytesize
       end
       capacity
     end
 
-    def self.block_cell_consumed(commit_transactions)
-      commit_transactions.reduce(0) do |memo, commit_transaction|
-        memo + commit_transaction["outputs"].reduce(0) { |inside_memo, output| inside_memo + calculate_cell_min_capacity(output) }
+    def self.block_cell_consumed(transactions)
+      transactions.reduce(0) do |memo, transaction|
+        memo + transaction["outputs"].reduce(0) { |inside_memo, output| inside_memo + calculate_cell_min_capacity(output) }
       end
     end
 
-    def self.total_cell_capacity(commit_transactions)
-      commit_transactions.reduce(0) do |memo, commit_transaction|
-        memo + commit_transaction["outputs"].reduce(0) { |inside_memo, output| inside_memo + output["capacity"].to_i }
+    def self.total_cell_capacity(transactions)
+      transactions.reduce(0) do |memo, transaction|
+        memo + transaction["outputs"].reduce(0) { |inside_memo, output| inside_memo + output["capacity"].to_i }
       end
     end
 
@@ -49,11 +49,11 @@ module Utils
 
     def self.use_default_lock_script?(lock_script)
       first_arg = lock_script.stringify_keys["args"].first
-      binary_hash = lock_script.stringify_keys["binary_hash"]
+      code_hash = lock_script.stringify_keys["code_hash"]
 
-      return false if binary_hash.blank?
+      return false if code_hash.blank?
 
-      binary_hash == LockScript::SYSTEM_SCRIPT_CELL_HASH && CKB::Utils.valid_hex_string?(first_arg)
+      code_hash == LockScript::SYSTEM_SCRIPT_CELL_HASH && CKB::Utils.valid_hex_string?(first_arg)
     end
 
     def self.parse_address(address_hash)
@@ -116,7 +116,7 @@ module Utils
       outputs =
         get_unspent_cells(address_hash).map do |cell|
           out_point = cell[:out_point]
-          previous_transaction_hash = out_point[:hash]
+          previous_transaction_hash = out_point[:tx_hash]
           previous_output_index = out_point[:index]
           if CellOutput::BASE_HASH != previous_transaction_hash
             previous_transacton = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
@@ -134,7 +134,7 @@ module Utils
 
     def self.cell_input_capacity(cell_input)
       outpoint = cell_input["previous_output"]
-      previous_transaction_hash = outpoint["hash"]
+      previous_transaction_hash = outpoint["tx_hash"]
       previous_output_index = outpoint["index"]
       if CellOutput::BASE_HASH == previous_transaction_hash
         0

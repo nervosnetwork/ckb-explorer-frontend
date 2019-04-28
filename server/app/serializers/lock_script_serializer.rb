@@ -1,5 +1,5 @@
 class LockScriptSerializer
   include FastJsonapi::ObjectSerializer
 
-  attributes :args, :binary_hash
+  attributes :args, :code_hash
 end

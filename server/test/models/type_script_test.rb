@@ -6,10 +6,10 @@ class TypeScriptTest < ActiveSupport::TestCase
   end
 
   context "validations" do
-    should validate_presence_of(:binary_hash)
+    should validate_presence_of(:code_hash)
   end
 
-  test "#binary_hash should decodes packed string" do
+  test "#code_hash should decodes packed string" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
@@ -25,19 +25,19 @@ class TypeScriptTest < ActiveSupport::TestCase
       if type_script.blank?
         type_script = cell_output.create_type_script(
           args: lock_script.args,
-          binary_hash: lock_script.binary_hash
+          code_hash: lock_script.code_hash
         )
       else
         type_script = cell_output.type_script
       end
-      assert_equal unpack_attribute(type_script, "binary_hash"), type_script.binary_hash
+      assert_equal unpack_attribute(type_script, "code_hash"), type_script.code_hash
     end
   end
 
   test "#to_node_type should return correct hash" do
     cell_output = create(:cell_output, :with_full_transaction)
     type_script = cell_output.type_script
-    node_type = { args: type_script.args, binary_hash: type_script.binary_hash }
+    node_type = { args: type_script.args, code_hash: type_script.code_hash }
     assert_equal node_type, type_script.to_node_type
   end
 end

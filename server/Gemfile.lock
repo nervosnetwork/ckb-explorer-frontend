@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/nervosnetwork/ckb-sdk-ruby.git
-  revision: 6f346c524141b9d06bea6e357b51c5c08f435a36
+  revision: e487b9f9db1993893c36a1725823282d44b5614a
   branch: develop
   specs:
     ckb-sdk-ruby (0.9.0)
@@ -68,8 +68,8 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
-    annotate (2.7.4)
-      activerecord (>= 3.2, < 6.0)
+    annotate (2.7.5)
+      activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 13.0)
     ansi (1.5.0)
     arel (9.0.0)
@@ -77,7 +77,7 @@ GEM
     awesome_print (1.8.0)
     bitcoin-secp256k1 (0.5.0)
       ffi (>= 1.9.25)
-    bootsnap (1.4.3)
+    bootsnap (1.4.4)
       msgpack (~> 1.0)
     builder (3.2.3)
     coderay (1.1.2)

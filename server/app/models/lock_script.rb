@@ -4,14 +4,14 @@ class LockScript < ApplicationRecord
   belongs_to :cell_output
   belongs_to :address
 
-  validates_presence_of :binary_hash
+  validates_presence_of :code_hash
 
-  attribute :binary_hash, :ckb_hash
+  attribute :code_hash, :ckb_hash
 
   def to_node_lock
     {
       args: args,
-      binary_hash: binary_hash
+      code_hash: code_hash
     }
   end
 end
@@ -20,11 +20,11 @@ end
 #
 # Table name: lock_scripts
 #
-#  id             :bigint(8)        not null, primary key
+#  id             :bigint           not null, primary key
 #  args           :string           is an Array
-#  binary_hash    :binary
-#  cell_output_id :bigint(8)
-#  address_id     :bigint(8)
+#  code_hash      :binary
+#  cell_output_id :bigint
+#  address_id     :bigint
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #

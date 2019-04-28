@@ -26,10 +26,10 @@ end
 #
 # Table name: cell_outputs
 #
-#  id                 :bigint(8)        not null, primary key
+#  id                 :bigint           not null, primary key
 #  capacity           :decimal(32, 2)
 #  data               :binary
-#  ckb_transaction_id :bigint(8)
+#  ckb_transaction_id :bigint
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #

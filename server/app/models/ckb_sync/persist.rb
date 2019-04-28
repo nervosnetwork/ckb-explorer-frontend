@@ -13,7 +13,7 @@ module CkbSync
           build_uncle_block(uncle_block, local_block)
         end
 
-        build_ckb_transactions(local_block, node_block["commit_transactions"], sync_type, ckb_transaction_and_display_cell_hashes)
+        build_ckb_transactions(local_block, node_block["transactions"], sync_type, ckb_transaction_and_display_cell_hashes)
 
         local_block.ckb_transactions_count = ckb_transaction_and_display_cell_hashes.size
 
@@ -22,7 +22,7 @@ module CkbSync
           SyncInfo.find_by!(name: sync_tip_block_number_type(sync_type)).update!(status: "synced")
 
           ckb_transactions = assign_display_info_to_ckb_transaction(ckb_transaction_and_display_cell_hashes)
-          calculate_transaction_fee(node_block["commit_transactions"], ckb_transactions)
+          calculate_transaction_fee(node_block["transactions"], ckb_transactions)
           CkbTransaction.import! ckb_transactions, batch_size: 1500, on_duplicate_key_update: [:display_inputs, :display_outputs]
 
           local_block.total_transaction_fee = ckb_transactions.reduce(0) { |memo, ckb_transaction| memo + ckb_transaction.transaction_fee }
@@ -40,8 +40,8 @@ module CkbSync
         end
       end
 
-      def build_ckb_transactions(local_block, commit_transactions, sync_type, ckb_transaction_and_display_cell_hashes)
-        commit_transactions.each do |transaction|
+      def build_ckb_transactions(local_block, transactions, sync_type, ckb_transaction_and_display_cell_hashes)
+        transactions.each do |transaction|
           ckb_transaction_and_display_cell_hash = { transaction: nil, inputs: [], outputs: [] }
           ckb_transaction = build_ckb_transaction(local_block, transaction, sync_type)
           ckb_transaction_and_display_cell_hash[:transaction] = ckb_transaction
@@ -85,7 +85,7 @@ module CkbSync
 
       def build_display_input(cell_input)
         outpoint = cell_input.previous_output
-        previous_transaction_hash = outpoint["hash"]
+        previous_transaction_hash = outpoint["tx_hash"]
         previous_output_index = outpoint["index"]
         if CellOutput::BASE_HASH == previous_transaction_hash
           { id: nil, from_cellbase: true, capacity: CellOutput::INITIAL_BLOCK_REWARD, address_hash: nil }
@@ -102,14 +102,14 @@ module CkbSync
 
         cell_output.build_type_script(
           args: type_script["args"],
-          binary_hash: type_script["binary_hash"],
+          code_hash: type_script["code_hash"]
         )
       end
 
       def build_lock_script(cell_output, verify_script, address)
         cell_output.build_lock_script(
           args: verify_script["args"],
-          binary_hash: verify_script["binary_hash"],
+          code_hash: verify_script["code_hash"],
           address: address
         )
       end
@@ -117,7 +117,7 @@ module CkbSync
       def build_cell_input(ckb_transaction, input)
         ckb_transaction.cell_inputs.build(
           previous_output: input["previous_output"],
-          valid_since: input["valid_since"],
+          since: input["since"],
           args: input["args"]
         )
       end
@@ -142,19 +142,19 @@ module CkbSync
           parent_hash: header["parent_hash"],
           seal: header["seal"],
           timestamp: header["timestamp"],
-          txs_commit: header["txs_commit"],
-          txs_proposal: header["txs_proposal"],
+          transactions_root: header["transactions_root"],
+          proposals_root: header["proposals_root"],
           uncles_count: header["uncles_count"],
           uncles_hash: header["uncles_hash"],
           uncle_block_hashes: uncle_block_hashes(node_block["uncles"]),
           version: header["version"],
-          proposal_transactions: node_block["proposal_transactions"],
-          proposal_transactions_count: node_block["proposal_transactions"].count,
-          cell_consumed: Utils::CkbUtils.block_cell_consumed(node_block["commit_transactions"]),
-          total_cell_capacity: Utils::CkbUtils.total_cell_capacity(node_block["commit_transactions"]),
-          miner_hash: Utils::CkbUtils.miner_hash(node_block["commit_transactions"].first),
+          proposals: node_block["proposals"],
+          proposals_count: node_block["proposals"].count,
+          cell_consumed: Utils::CkbUtils.block_cell_consumed(node_block["transactions"]),
+          total_cell_capacity: Utils::CkbUtils.total_cell_capacity(node_block["transactions"]),
+          miner_hash: Utils::CkbUtils.miner_hash(node_block["transactions"].first),
           status: sync_type,
-          reward: Utils::CkbUtils.miner_reward(node_block["commit_transactions"].first),
+          reward: Utils::CkbUtils.miner_reward(node_block["transactions"].first),
           total_transaction_fee: 0,
           witnesses_root: header["witnesses_root"]
         )
@@ -169,13 +169,13 @@ module CkbSync
           parent_hash: header["parent_hash"],
           seal: header["seal"],
           timestamp: header["timestamp"],
-          txs_commit: header["txs_commit"],
-          txs_proposal: header["txs_proposal"],
+          transactions_root: header["transactions_root"],
+          proposals_root: header["proposals_root"],
           uncles_count: header["uncles_count"],
           uncles_hash: header["uncles_hash"],
           version: header["version"],
-          proposal_transactions: uncle_block["proposal_transactions"],
-          proposal_transactions_count: uncle_block["proposal_transactions"].count,
+          proposals: uncle_block["proposals"],
+          proposals_count: uncle_block["proposals"].count,
           witnesses_root: header["witnesses_root"]
         )
       end

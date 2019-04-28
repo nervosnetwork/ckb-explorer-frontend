@@ -30,11 +30,11 @@ end
 #
 # Table name: cell_inputs
 #
-#  id                 :bigint(8)        not null, primary key
+#  id                 :bigint           not null, primary key
 #  previous_output    :jsonb
 #  args               :string           is an Array
-#  valid_since        :string
-#  ckb_transaction_id :bigint(8)
+#  since              :string
+#  ckb_transaction_id :bigint
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #

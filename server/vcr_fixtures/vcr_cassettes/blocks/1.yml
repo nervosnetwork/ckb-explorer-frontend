@@ -5,7 +5,7 @@ http_interactions:
     uri: http://47.111.175.189:8122/
     body:
       encoding: UTF-8
-      string: '{"id":1,"jsonrpc":"2.0","method":"get_block","params":["0x0a59c0e01e42aa10be42304f74e59ea67c3579de543f0e933f9f19358107eed9"]}'
+      string: '{"id":1,"jsonrpc":"2.0","method":"get_block","params":["0x6d1f1ce6a156a29f4eb46fb9471e5daf9cb89c210fbb930f688482fdacfc49b3"]}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -23,18 +23,18 @@ http_interactions:
       Server:
       - nginx/1.14.0 (Ubuntu)
       Date:
-      - Fri, 19 Apr 2019 09:51:12 GMT
+      - Sun, 28 Apr 2019 04:12:33 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '1295'
+      - '1288'
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"jsonrpc":"2.0","result":{"commit_transactions":[{"deps":[],"hash":"0xbd9ed8dec5288bdeb2ebbcc4c118a8adb6baab07a44ea79843255ccda6c57915","inputs":[{"args":["0x0100000000000000"],"previous_output":{"hash":"0x0000000000000000000000000000000000000000000000000000000000000000","index":4294967295},"valid_since":"0"}],"outputs":[{"capacity":"50000","data":"0x","lock":{"args":[],"binary_hash":"0x0000000000000000000000000000000000000000000000000000000000000001"},"type":null}],"version":0,"witnesses":[]}],"header":{"difficulty":"0x1000","hash":"0x0a59c0e01e42aa10be42304f74e59ea67c3579de543f0e933f9f19358107eed9","number":"1","parent_hash":"0x298f349c8cdfadf46e8008e72afe6da78b1ea1b7d86470ea71bb0e404c5c9d7f","seal":{"nonce":"14129494462767278820","proof":"0x0d000000aa020000b21900005e1e0000ef23000058250000e44f00007d61000070690000cf7000001d770000d57f0000"},"timestamp":"1555604125497","txs_commit":"0xbd9ed8dec5288bdeb2ebbcc4c118a8adb6baab07a44ea79843255ccda6c57915","txs_proposal":"0x0000000000000000000000000000000000000000000000000000000000000000","uncles_count":0,"uncles_hash":"0x0000000000000000000000000000000000000000000000000000000000000000","version":0,"witnesses_root":"0x0000000000000000000000000000000000000000000000000000000000000000"},"proposal_transactions":[],"uncles":[]},"id":1}
+      string: '{"jsonrpc":"2.0","result":{"header":{"difficulty":"0x1000","hash":"0x6d1f1ce6a156a29f4eb46fb9471e5daf9cb89c210fbb930f688482fdacfc49b3","number":"1","parent_hash":"0xab752e0a1ceb483469d263647fc3e11183d0d60a06f7dfd20b4fd5e2da2584a7","proposals_root":"0x0000000000000000000000000000000000000000000000000000000000000000","seal":{"nonce":"18179542837113283880","proof":"0x91000000780d0000b9110000df240000b8330000583a0000363c0000f43e0000f14200001054000032680000546f0000"},"timestamp":"1556274595207","transactions_root":"0x6f24504fe62752b252390a715fe1ffa984094c2ec0a562ec121a711bfdf9561a","uncles_count":0,"uncles_hash":"0x0000000000000000000000000000000000000000000000000000000000000000","version":0,"witnesses_root":"0x0000000000000000000000000000000000000000000000000000000000000000"},"proposals":[],"transactions":[{"deps":[],"hash":"0x6f24504fe62752b252390a715fe1ffa984094c2ec0a562ec121a711bfdf9561a","inputs":[{"args":["0x0100000000000000"],"previous_output":{"index":4294967295,"tx_hash":"0x0000000000000000000000000000000000000000000000000000000000000000"},"since":"0"}],"outputs":[{"capacity":"5000000000000","data":"0x","lock":{"args":[],"code_hash":"0x0000000000000000000000000000000000000000000000000000000000000001"},"type":null}],"version":0,"witnesses":[]}],"uncles":[]},"id":1}
 
 '
     http_version: 
-  recorded_at: Fri, 19 Apr 2019 09:51:12 GMT
+  recorded_at: Sun, 28 Apr 2019 04:12:33 GMT
 recorded_with: VCR 4.0.0

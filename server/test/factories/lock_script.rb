@@ -3,6 +3,6 @@ FactoryBot.define do
     address
 
     args { ["0x#{SecureRandom.hex(32)}"] }
-    binary_hash { "0x#{SecureRandom.hex(32)}" }
+    code_hash { "0x#{SecureRandom.hex(32)}" }
   end
 end

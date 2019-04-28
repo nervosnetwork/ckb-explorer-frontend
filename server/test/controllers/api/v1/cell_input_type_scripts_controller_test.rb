@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 module Api
   module V1
@@ -78,7 +78,7 @@ module Api
 
         valid_get api_v1_cell_input_type_script_url(cell_input.id)
 
-        assert_equal %w(args binary_hash).sort, json["data"]["attributes"].keys.sort
+        assert_equal %w(args code_hash).sort, json["data"]["attributes"].keys.sort
       end
 
       test "should return error object when no cell input found by id" do

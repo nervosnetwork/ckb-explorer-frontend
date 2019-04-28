@@ -1,6 +1,6 @@
 .DS_Store
 .vscode
-
+.idea/
 # server
 # Ignore bundler config.
 /server/.bundle

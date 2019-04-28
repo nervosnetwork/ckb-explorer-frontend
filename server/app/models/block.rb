@@ -7,16 +7,16 @@ class Block < ApplicationRecord
   has_many :ckb_transactions
   has_many :uncle_blocks
 
-  validates_presence_of :difficulty, :block_hash, :number, :parent_hash, :seal, :timestamp, :txs_commit, :txs_proposal, :uncles_count, :uncles_hash, :version, :cell_consumed, :reward, :total_transaction_fee, :ckb_transactions_count, :total_cell_capacity, :status, on: :create
+  validates_presence_of :difficulty, :block_hash, :number, :parent_hash, :seal, :timestamp, :transactions_root, :proposals_root, :uncles_count, :uncles_hash, :version, :cell_consumed, :reward, :total_transaction_fee, :ckb_transactions_count, :total_cell_capacity, :status, on: :create
   validates :reward, :total_transaction_fee, :ckb_transactions_count, :total_cell_capacity, :cell_consumed, numericality: { greater_than_or_equal_to: 0 }
 
   attribute :block_hash, :ckb_hash
   attribute :parent_hash, :ckb_hash
-  attribute :txs_commit, :ckb_hash
-  attribute :txs_proposal, :ckb_hash
+  attribute :transactions_root, :ckb_hash
+  attribute :proposals_root, :ckb_hash
   attribute :uncles_hash, :ckb_hash
   attribute :uncle_block_hashes, :ckb_array_hash, hash_length: ENV["DEFAULT_HASH_LENGTH"]
-  attribute :proposal_transactions, :ckb_array_hash, hash_length: ENV["DEFAULT_SHORT_HASH_LENGTH"]
+  attribute :proposals, :ckb_array_hash, hash_length: ENV["DEFAULT_SHORT_HASH_LENGTH"]
 
   scope :recent, -> { order(timestamp: :desc) }
 
@@ -64,31 +64,31 @@ end
 #
 # Table name: blocks
 #
-#  id                          :bigint(8)        not null, primary key
-#  difficulty                  :string(66)
-#  block_hash                  :binary
-#  number                      :bigint(8)
-#  parent_hash                 :binary
-#  seal                        :jsonb
-#  timestamp                   :bigint(8)
-#  txs_commit                  :binary
-#  txs_proposal                :binary
-#  uncles_count                :integer
-#  uncles_hash                 :binary
-#  uncle_block_hashes          :binary
-#  version                     :integer
-#  proposal_transactions       :binary
-#  proposal_transactions_count :integer
-#  cell_consumed               :decimal(64, 2)
-#  miner_hash                  :binary
-#  status                      :integer
-#  reward                      :integer
-#  total_transaction_fee       :integer
-#  ckb_transactions_count      :bigint(8)        default(0)
-#  total_cell_capacity         :decimal(64, 2)
-#  witnesses_root              :binary
-#  created_at                  :datetime         not null
-#  updated_at                  :datetime         not null
+#  id                     :bigint           not null, primary key
+#  difficulty             :string(66)
+#  block_hash             :binary
+#  number                 :bigint
+#  parent_hash            :binary
+#  seal                   :jsonb
+#  timestamp              :bigint
+#  transactions_root      :binary
+#  proposals_root         :binary
+#  uncles_count           :integer
+#  uncles_hash            :binary
+#  uncle_block_hashes     :binary
+#  version                :integer
+#  proposals              :binary
+#  proposals_count        :integer
+#  cell_consumed          :decimal(64, 2)
+#  miner_hash             :binary
+#  status                 :integer
+#  reward                 :decimal(64, 2)
+#  total_transaction_fee  :decimal(64, 2)
+#  ckb_transactions_count :bigint           default(0)
+#  total_cell_capacity    :decimal(64, 2)
+#  witnesses_root         :binary
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
 #
 # Indexes
 #

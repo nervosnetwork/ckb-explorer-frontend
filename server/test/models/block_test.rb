@@ -12,8 +12,8 @@ class BlockTest < ActiveSupport::TestCase
     should validate_presence_of(:parent_hash).on(:create)
     should validate_presence_of(:seal).on(:create)
     should validate_presence_of(:timestamp).on(:create)
-    should validate_presence_of(:txs_commit).on(:create)
-    should validate_presence_of(:txs_proposal).on(:create)
+    should validate_presence_of(:transactions_root).on(:create)
+    should validate_presence_of(:proposals_root).on(:create)
     should validate_presence_of(:uncles_count).on(:create)
     should validate_presence_of(:uncles_hash).on(:create)
     should validate_presence_of(:version).on(:create)
@@ -81,16 +81,16 @@ class BlockTest < ActiveSupport::TestCase
     assert_equal unpack_attribute(block, "parent_hash"), parent_hash
   end
 
-  test "#txs_commit should decodes packed string" do
+  test "#transactions_root should decodes packed string" do
     block = create(:block)
-    txs_commit = block.txs_commit
-    assert_equal unpack_attribute(block, "txs_commit"), txs_commit
+    transactions_root = block.transactions_root
+    assert_equal unpack_attribute(block, "transactions_root"), transactions_root
   end
 
-  test "#txs_proposal should decodes packed string" do
+  test "#proposals_root should decodes packed string" do
     block = create(:block)
-    txs_proposal = block.txs_proposal
-    assert_equal unpack_attribute(block, "txs_proposal"), txs_proposal
+    proposals_root = block.proposals_root
+    assert_equal unpack_attribute(block, "proposals_root"), proposals_root
   end
 
   test "#uncles_hash should decodes packed string" do
@@ -117,29 +117,29 @@ class BlockTest < ActiveSupport::TestCase
     assert_equal unpack_array_attribute(block, "uncle_block_hashes", block.uncles_count, ENV["DEFAULT_HASH_LENGTH"]), uncle_block_hashes
   end
 
-  test "#proposal_transactions should decodes packed string" do
+  test "#proposals should decodes packed string" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
       CkbSync::Persist.save_block(node_block, "inauthentic")
       packed_block_hash = DEFAULT_NODE_BLOCK_HASH
       block = Block.find_by(block_hash: packed_block_hash)
-      proposal_transactions = block.proposal_transactions
-      assert_equal unpack_array_attribute(block, "proposal_transactions", block.proposal_transactions_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), proposal_transactions
+      proposals = block.proposals
+      assert_equal unpack_array_attribute(block, "proposals", block.proposals_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), proposals
     end
   end
 
-  test "#proposal_transactions should return super when proposal transactions is empty" do
-    block = create(:block, :with_proposal_transactions)
-    proposal_transactions = block.proposal_transactions
-    assert_equal unpack_array_attribute(block, "proposal_transactions", block.proposal_transactions_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), proposal_transactions
+  test "#proposals should return super when proposal transactions is empty" do
+    block = create(:block, :with_proposals)
+    proposals = block.proposals
+    assert_equal unpack_array_attribute(block, "proposals", block.proposals_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), proposals
   end
 
-  test "#proposal_transactions= should encode proposal_transactions" do
+  test "#proposals= should encode proposals" do
     block = create(:block)
-    block.proposal_transactions = ["0xeab419c632", "0xeab410c634"]
-    block.proposal_transactions_count = block.proposal_transactions.size
+    block.proposals = ["0xeab419c632", "0xeab410c634"]
+    block.proposals_count = block.proposals.size
     block.save
-    assert_equal unpack_array_attribute(block, "proposal_transactions", block.proposal_transactions_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), block.proposal_transactions
+    assert_equal unpack_array_attribute(block, "proposals", block.proposals_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), block.proposals
   end
 end
