@@ -20,7 +20,7 @@ module CkbSync
 
       def update_cell_status!(local_block)
         cell_inputs = local_block.ckb_transactions.map { |ckb_transaction| ckb_transaction.cell_inputs }.flatten
-        cell_inputs.map { |cell_input| cell_input.find_cell_output!.update(status: :dead) }
+        cell_inputs.map { |cell_input| cell_input.previous_cell_output&.update(status: :dead) }
       end
 
       def update_address_balance_and_cell_consumed!(local_block)
