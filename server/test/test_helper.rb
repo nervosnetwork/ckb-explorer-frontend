@@ -13,7 +13,7 @@ Minitest::Reporters.use!
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
-DEFAULT_NODE_BLOCK_HASH = "0x12b1c1c0fb88ff8bd24cae167111e2bb7e6b8775adb08791dacdde3d5d087358".freeze
+DEFAULT_NODE_BLOCK_HASH = "0xba72acae8e31c5e7baed6a7c318d332f5ee168e8e4f342a63f23aa66fe9a7a43".freeze
 
 VCR.configure do |config|
   config.cassette_library_dir = "vcr_fixtures/vcr_cassettes"
@@ -37,14 +37,16 @@ def prepare_inauthentic_node_data
   node_tip_block_number = 10
   ((local_tip_block_number + 1)..node_tip_block_number).each do |number|
     block_hash = nil
-    VCR.use_cassette("block_hashes/#{number}") do
-      block_hash = CkbSync::Api.instance.get_block_hash(number.to_s)
-    end
+    VCR.use_cassette("genesis_block") do
+      VCR.use_cassette("block_hashes/#{number}") do
+        block_hash = CkbSync::Api.instance.get_block_hash(number.to_s)
+      end
 
-    SyncInfo.local_inauthentic_tip_block_number = number
+      SyncInfo.local_inauthentic_tip_block_number = number
 
-    VCR.use_cassette("blocks/#{number}") do
-      SaveBlockWorker.new.perform(block_hash, "inauthentic")
+      VCR.use_cassette("blocks/#{number}") do
+        SaveBlockWorker.new.perform(block_hash, "inauthentic")
+      end
     end
   end
 end
@@ -89,13 +91,13 @@ end
 
 def build_display_input_from_node_input(input)
   outpoint = input["previous_output"]
-  previous_transaction_hash = outpoint["hash"]
+  previous_transaction_hash = outpoint["tx_hash"]
   previous_output_index = outpoint["index"]
 
   if CellOutput::BASE_HASH == previous_transaction_hash
     { id: nil, from_cellbase: true, capacity: CellOutput::INITIAL_BLOCK_REWARD, address_hash: nil }.stringify_keys
   else
-    VCR.use_cassette("blocks/") do
+    VCR.use_cassette("blocks/9") do
       commit_transaction = CkbSync::Api.instance.get_transaction(previous_transaction_hash)
       previous_output = commit_transaction["outputs"][previous_output_index]
       build_display_info_from_node_output(previous_output)

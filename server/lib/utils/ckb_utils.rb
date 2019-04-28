@@ -116,7 +116,7 @@ module Utils
       outputs =
         get_unspent_cells(address_hash).map do |cell|
           out_point = cell[:out_point]
-          previous_transaction_hash = out_point[:hash]
+          previous_transaction_hash = out_point[:tx_hash]
           previous_output_index = out_point[:index]
           if CellOutput::BASE_HASH != previous_transaction_hash
             previous_transacton = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
@@ -134,7 +134,7 @@ module Utils
 
     def self.cell_input_capacity(cell_input)
       outpoint = cell_input["previous_output"]
-      previous_transaction_hash = outpoint["hash"]
+      previous_transaction_hash = outpoint["tx_hash"]
       previous_output_index = outpoint["index"]
       if CellOutput::BASE_HASH == previous_transaction_hash
         0

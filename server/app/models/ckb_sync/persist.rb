@@ -85,7 +85,7 @@ module CkbSync
 
       def build_display_input(cell_input)
         outpoint = cell_input.previous_output
-        previous_transaction_hash = outpoint["hash"]
+        previous_transaction_hash = outpoint["tx_hash"]
         previous_output_index = outpoint["index"]
         if CellOutput::BASE_HASH == previous_transaction_hash
           { id: nil, from_cellbase: true, capacity: CellOutput::INITIAL_BLOCK_REWARD, address_hash: nil }
