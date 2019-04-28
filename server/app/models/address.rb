@@ -3,6 +3,7 @@ class Address < ApplicationRecord
   PREFIX_TESTNET = "ckt".freeze
 
   has_one :lock_script
+  has_many :cell_outputs
   has_many :account_books
   has_many :ckb_transactions, through: :account_books
   validates_presence_of :balance, :cell_consumed, :ckb_transactions_count

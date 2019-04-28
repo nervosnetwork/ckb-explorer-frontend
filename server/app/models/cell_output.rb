@@ -5,6 +5,7 @@ class CellOutput < ApplicationRecord
   enum status: { live: 0, dead: 1 }
 
   belongs_to :ckb_transaction
+  belongs_to :address
   has_one :lock_script
   has_one :type_script
 
@@ -34,7 +35,8 @@ end
 #  ckb_transaction_id :bigint
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  status             :integer          default(0)
+#  status             :integer          default("live")
+#  address_id         :bigint
 #
 # Indexes
 #
