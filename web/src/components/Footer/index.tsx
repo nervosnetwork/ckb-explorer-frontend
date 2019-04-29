@@ -230,9 +230,7 @@ export default () => {
           </div>
         </div>
       </div>
-      <div className="footer__bottom">
-        {`Copyright © ${getCurrentYear()} CKB Explorer is a project of the Nervos Foundation. All Rights Reserved.`}
-      </div>
+      <div className="footer__bottom">{`Copyright © ${getCurrentYear()} Nervos Foundation. All Rights Reserved.`}</div>
     </FooterDiv>
   )
 }

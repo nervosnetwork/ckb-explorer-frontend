@@ -70,11 +70,11 @@ const HeaderDiv = styled.div`
 `
 const menus = [
   {
-    name: 'CKB Wallet',
+    name: 'Wallet',
     url: 'https://github.com/nervosnetwork/neuron',
   },
   {
-    name: 'CKB Faucet',
+    name: 'Faucet',
     url: '',
   },
   {
