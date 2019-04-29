@@ -13,21 +13,8 @@ module CkbSync
         assert_difference "Block.count", 11 do
           VCR.use_cassette("genesis_block") do
             VCR.use_cassette("blocks/two") do
-              CkbSync::InauthenticSync.start
+              CkbSync::InauthenticSync.sync_node_data
             end
-          end
-        end
-      end
-    end
-
-    test "should queueing 11 job" do
-      Sidekiq::Testing.fake!
-      CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(10)
-
-      VCR.use_cassette("genesis_block") do
-        VCR.use_cassette("blocks/two") do
-          assert_changes -> { SaveBlockWorker.jobs.size }, from: 0, to: 11 do
-            CkbSync::InauthenticSync.start
           end
         end
       end
