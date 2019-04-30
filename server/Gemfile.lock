@@ -80,6 +80,10 @@ GEM
     bootsnap (1.4.4)
       msgpack (~> 1.0)
     builder (3.2.3)
+    codecov (0.1.14)
+      json
+      simplecov
+      url
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
     connection_pool (2.2.2)
@@ -267,6 +271,7 @@ GEM
       thread_safe (~> 0.1)
     unicode-display_width (1.5.0)
     unicode_utils (1.4.0)
+    url (0.3.2)
     vcr (4.0.0)
     webmock (3.5.1)
       addressable (>= 2.3.6)
@@ -285,6 +290,7 @@ DEPENDENCIES
   awesome_print
   bootsnap (>= 1.1.0)
   ckb-sdk-ruby!
+  codecov
   daemons (~> 1.2, >= 1.2.6)
   database_cleaner
   dotenv-rails

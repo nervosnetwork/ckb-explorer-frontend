@@ -32,6 +32,10 @@ FactoryBot.define do
       block_hash { "0x#{SecureRandom.hex(32)}" }
     end
 
+    trait :with_block_number do
+      block_hash { Faker::Number.within(100..10000) }
+    end
+
     trait :with_proposals do
       proposals { ["0xb5658716ac", "0xb5658716ac"] }
       proposals_count { (proposals.size).to_s }
