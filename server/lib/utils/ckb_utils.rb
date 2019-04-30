@@ -3,14 +3,14 @@ module Utils
     def self.calculate_cell_min_capacity(output)
       output = output.deep_symbolize_keys
       capacity = 8 + output[:data].bytesize + calculate_script_capacity(output[:lock])
-      if type = output[:type]
-        capacity += calculate_script_capacity(type)
+      if output[:type].present?
+        capacity += calculate_script_capacity(output[:type])
       end
       capacity
     end
 
     def self.calculate_script_capacity(script)
-      capacity = 1 + (script[:args] || []).map { |arg| arg.bytesize }.reduce(0, &:+)
+      capacity = 1 + (script[:args] || []).map(&:bytesize).reduce(0, &:+)
       if script[:code_hash]
         capacity += CKB::Utils.hex_to_bin(script[:code_hash]).bytesize
       end
@@ -35,7 +35,7 @@ module Utils
     end
 
     def self.generate_address(lock_script)
-      return if !use_default_lock_script?(lock_script)
+      return unless use_default_lock_script?(lock_script)
 
       first_arg = lock_script.stringify_keys["args"].first
 
@@ -72,7 +72,7 @@ module Utils
 
     def self.transaction_fee(transaction)
       output_capacities = transaction["outputs"].map { |output| output["capacity"].to_i }.reduce(0, &:+)
-      input_capacities = transaction["inputs"].map { |input| cell_input_capacity(input) }.reduce(0, &:+)
+      input_capacities = transaction["inputs"].map(&method(:cell_input_capacity)).reduce(0, &:+)
       input_capacities.zero? ? 0 : (input_capacities - output_capacities)
     end
 
@@ -81,13 +81,6 @@ module Utils
 
       address = Address.find_by(address_hash: address_hash)
       address.cell_outputs.live
-    end
-
-    def self.lock_hash(address_hash)
-      return if address_hash.blank?
-
-      lock = CKB::Utils.generate_lock(parse_address(address_hash), LockScript::SYSTEM_SCRIPT_CELL_HASH)
-      CKB::Utils.json_script_to_type_hash(lock)
     end
 
     def self.get_balance(address_hash)
