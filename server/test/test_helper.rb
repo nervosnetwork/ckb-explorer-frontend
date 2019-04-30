@@ -37,6 +37,11 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+if ENV["CI"] == "true"
+  require "codecov"
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
+end
+
 def prepare_inauthentic_node_data
   local_tip_block_number = 0
   SyncInfo.local_inauthentic_tip_block_number
