@@ -59,7 +59,7 @@ module CkbSync
         assert_difference "Block.count", 0 do
           VCR.use_cassette("genesis_block") do
             VCR.use_cassette("blocks/two") do
-              assert_changes -> {Block.where(status: "authentic").count}, from: 0, to: 11 do
+              assert_changes -> { Block.where(status: "authentic").count }, from: 0, to: 11 do
                 CkbSync::AuthenticSync.sync_node_data
               end
             end

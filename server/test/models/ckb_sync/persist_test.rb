@@ -207,7 +207,7 @@ module CkbSync
       end
     end
 
-    test ".save_block created ckb_transaction's attribute value should equal with the node commit_transaciont's attribute value" do
+    test ".save_block created ckb_transaction's attribute value should equal with the node commit_transaction's attribute value" do
       VCR.use_cassette("blocks/10") do
         SyncInfo.local_inauthentic_tip_block_number
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
@@ -304,12 +304,12 @@ module CkbSync
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
         set_default_lock_params(node_block: node_block)
         node_block_transactions = node_block["transactions"]
-        node_block_cell_inputs = node_block_transactions.map { |commit_transaciont| commit_transaciont["inputs"] }.flatten
-        node_display_inputs = node_block_cell_inputs.map { |input| build_display_input_from_node_input(input) }
+        node_block_cell_inputs = node_block_transactions.map { |commit_transaction| commit_transaction["inputs"] }.flatten
+        node_display_inputs = node_block_cell_inputs.map(&method(:build_display_input_from_node_input))
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_ckb_transactions = local_block.ckb_transactions
-        local_block_cell_inputs = local_ckb_transactions.map { |ckb_transaction| ckb_transaction.display_inputs }.flatten
+        local_block_cell_inputs = local_ckb_transactions.map(&:display_inputs).flatten
 
         assert_equal node_display_inputs, local_block_cell_inputs
       end
@@ -329,7 +329,7 @@ module CkbSync
 
       local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
       local_ckb_transactions = local_block.ckb_transactions
-      local_block_cell_inputs = local_ckb_transactions.map { |ckb_transaction| ckb_transaction.display_inputs }.flatten
+      local_block_cell_inputs = local_ckb_transactions.map(&:display_inputs).flatten
       previous_output = previous_transaction.cell_outputs.order(:id)[0]
       node_display_inputs = [{ id: previous_output.id, from_cellbase: false, capacity: previous_output.capacity.to_s, address_hash: previous_output.address_hash }.deep_stringify_keys]
 
@@ -345,11 +345,11 @@ module CkbSync
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 
         node_block_transactions = node_block["transactions"]
-        node_block_cell_outputs = node_block_transactions.map { |commit_transaciont| commit_transaciont["outputs"] }.flatten
-        node_display_outputs = node_block_cell_outputs.map { |output| build_display_info_from_node_output(output) }
+        node_block_cell_outputs = node_block_transactions.map { |commit_transaction| commit_transaction["outputs"] }.flatten
+        node_display_outputs = node_block_cell_outputs.map(&method(:build_display_info_from_node_output))
 
         local_ckb_transactions = local_block.ckb_transactions
-        local_block_cell_outputs = local_ckb_transactions.map { |ckb_transaction| ckb_transaction.display_outputs }.flatten
+        local_block_cell_outputs = local_ckb_transactions.map(&:display_outputs).flatten
 
         assert_equal node_display_outputs, local_block_cell_outputs
       end
@@ -361,7 +361,7 @@ module CkbSync
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
         set_default_lock_params(node_block: node_block)
         node_block_transactions = node_block["transactions"]
-        transactions_fee = node_block_transactions.reduce(0) { |memo, commit_transaciont| memo + Utils::CkbUtils.transaction_fee(commit_transaciont) }
+        transactions_fee = node_block_transactions.reduce(0) { |memo, commit_transaction| memo + Utils::CkbUtils.transaction_fee(commit_transaction) }
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_ckb_transactions = local_block.ckb_transactions
