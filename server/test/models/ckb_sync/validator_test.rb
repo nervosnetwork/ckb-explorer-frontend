@@ -51,7 +51,7 @@ module CkbSync
     end
 
     test "should change cell output status from live to dead when it is used" do
-      block = create(:block, :with_block_hash)
+      block = create(:block, :with_block_hash, :with_block_number)
       previous_ckb_transaction = create(:ckb_transaction, block: block)
       previous_ckb_transaction.cell_inputs.create(previous_output: { tx_hash: CellOutput::BASE_HASH, index: 4294967295 })
       cell_output = previous_ckb_transaction.cell_outputs.create(capacity: 10**8, address: create(:address))
@@ -73,6 +73,7 @@ module CkbSync
       assert_changes -> { cell_output.reload.status }, from: "live", to: "dead" do
         VCR.use_cassette("blocks/10") do
           SyncInfo.local_authentic_tip_block_number
+
           CkbSync::Validator.call(node_block.dig("header", "hash"))
         end
       end

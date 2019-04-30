@@ -130,10 +130,6 @@ class AddressTest < ActiveSupport::TestCase
   test "should update related addresses balance after block authenticated" do
     Sidekiq::Testing.inline!
 
-    old_balances = nil
-    updated_balances = nil
-    local_block = nil
-
     prepare_inauthentic_node_data
 
     VCR.use_cassette("genesis_block") do
@@ -160,10 +156,6 @@ class AddressTest < ActiveSupport::TestCase
   test "should update related addresses cell consumed after block authenticated" do
     Sidekiq::Testing.inline!
 
-    old_cell_consumed = nil
-    updated_cell_consumed = nil
-    local_block = nil
-
     prepare_inauthentic_node_data
 
     SyncInfo.local_authentic_tip_block_number
@@ -172,11 +164,6 @@ class AddressTest < ActiveSupport::TestCase
       VCR.use_cassette("blocks/three") do
         CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
         CkbSync::AuthenticSync.sync_node_data
-
-        Utils::CkbUtils.stubs(:get_unspent_cells).returns([
-                                                            { capacity: "50000", lock: { args: ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"], code_hash: LockScript::SYSTEM_SCRIPT_CELL_HASH }, out_point: { hash: "0x18bd084635d5a1190e6a17b49ae641a08f0805f7c9c7ea68cd325a2e19d9bdea", index: 0 } }
-                                                          ])
-        Utils::CkbUtils.stubs(:address_cell_consumed).returns(43)
 
         previous_block = create(:block, :with_block_hash, number: 100)
         previous_ckb_transaction = create(:ckb_transaction, block: previous_block)

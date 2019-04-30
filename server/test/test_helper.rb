@@ -51,7 +51,13 @@ def prepare_inauthentic_node_data
       SyncInfo.local_inauthentic_tip_block_number = number
 
       VCR.use_cassette("blocks/#{number}") do
-        SaveBlockWorker.new.perform(block_hash, "inauthentic")
+        node_block = CkbSync::Api.instance.get_block(block_hash).deep_stringify_keys
+        tx = node_block["transactions"].first
+        output = tx["outputs"].first
+        output["lock"]["args"] = ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
+        output["lock"]["code_hash"] = LockScript::SYSTEM_SCRIPT_CELL_HASH
+
+        CkbSync::Persist.save_block(node_block, "inauthentic")
       end
     end
   end
