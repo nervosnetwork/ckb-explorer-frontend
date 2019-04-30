@@ -86,14 +86,13 @@ module CkbSync
       def build_display_input(cell_input)
         outpoint = cell_input.previous_output
         previous_transaction_hash = outpoint["tx_hash"]
-        previous_output_index = outpoint["index"]
+
         if CellOutput::BASE_HASH == previous_transaction_hash
           { id: nil, from_cellbase: true, capacity: CellOutput::INITIAL_BLOCK_REWARD, address_hash: nil }
         else
-          previous_transacton = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
-          previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
-          address_hash = previous_output.address_hash
-          { id: previous_output.id, from_cellbase: false, capacity: previous_output.capacity, address_hash: address_hash }
+          previous_cell_output = cell_input.previous_cell_output
+          address_hash = previous_cell_output.address_hash
+          { id: previous_cell_output.id, from_cellbase: false, capacity: previous_cell_output.capacity, address_hash: address_hash }
         end
       end
 

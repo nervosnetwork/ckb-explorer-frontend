@@ -12,7 +12,7 @@ class CellOutput < ApplicationRecord
   validates :capacity, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   def address_hash
-    lock_script.address.address_hash
+    address.address_hash
   end
 
   def to_node_cell_output
