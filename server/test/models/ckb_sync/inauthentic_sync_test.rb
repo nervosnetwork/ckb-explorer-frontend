@@ -13,22 +13,27 @@ module CkbSync
         assert_difference "Block.count", 11 do
           VCR.use_cassette("genesis_block") do
             VCR.use_cassette("blocks/two") do
-              CkbSync::InauthenticSync.start
+              CkbSync::InauthenticSync.sync_node_data
             end
           end
         end
       end
     end
 
-    test "should queueing 11 job" do
-      Sidekiq::Testing.fake!
+    test "should return nil when latest round range is executing" do
       CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(10)
+      Rails.cache.stubs(:delete).returns(true)
 
       VCR.use_cassette("genesis_block") do
         VCR.use_cassette("blocks/two") do
-          assert_changes -> { SaveBlockWorker.jobs.size }, from: 0, to: 11 do
-            CkbSync::InauthenticSync.start
-          end
+          CkbSync::InauthenticSync.sync_node_data
+        end
+      end
+
+      VCR.use_cassette("genesis_block") do
+        VCR.use_cassette("blocks/two") do
+          SyncInfo.stubs(:local_inauthentic_tip_block_number).returns(-1)
+          assert_nil CkbSync::InauthenticSync.sync_node_data
         end
       end
     end

@@ -139,7 +139,7 @@ class AddressTest < ActiveSupport::TestCase
     VCR.use_cassette("genesis_block") do
       VCR.use_cassette("blocks/three") do
         CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
-        CkbSync::AuthenticSync.start
+        CkbSync::AuthenticSync.sync_node_data
 
         local_block = Block.find_by(block_hash: DEFAULT_NODE_BLOCK_HASH)
 
@@ -171,7 +171,7 @@ class AddressTest < ActiveSupport::TestCase
     VCR.use_cassette("genesis_block") do
       VCR.use_cassette("blocks/three") do
         CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
-        CkbSync::AuthenticSync.start
+        CkbSync::AuthenticSync.sync_node_data
 
         Utils::CkbUtils.stubs(:get_unspent_cells).returns([
                                                             { capacity: "50000", lock: { args: ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"], code_hash: LockScript::SYSTEM_SCRIPT_CELL_HASH }, out_point: { hash: "0x18bd084635d5a1190e6a17b49ae641a08f0805f7c9c7ea68cd325a2e19d9bdea", index: 0 } }

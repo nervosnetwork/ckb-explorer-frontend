@@ -169,6 +169,7 @@ module ActiveSupport
       super
       DatabaseCleaner.clean
       Sidekiq::Worker.clear_all
+      Rails.cache.clear
     end
   end
 end
