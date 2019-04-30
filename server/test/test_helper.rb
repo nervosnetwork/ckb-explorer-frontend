@@ -3,6 +3,12 @@ SimpleCov.start "rails" do
   add_filter "/app/channels/"
   add_filter "/app/jobs/"
   add_filter "/app/mailers/"
+  add_filter "/lib/api/"
+  add_filter "/lib/fast_jsonapi"
+  add_filter "/lib/ckb_authentic_sync.rb"
+  add_filter "/lib/ckb_inauthentic_sync.rb"
+  add_filter "/app/workers/check_block_worker.rb"
+  add_filter "/app/workers/save_block_worker.rb"
 end
 require "database_cleaner"
 require "minitest/reporters"
