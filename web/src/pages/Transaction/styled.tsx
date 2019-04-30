@@ -188,13 +188,14 @@ export const InputOutputTable = styled.table`
       font-weight: 900;
       td {
         &:nth-child(1) {
-          width: ${1100 - 150 - 300}px;
+          width: ${1100 - 150 - 360}px;
         }
         &:nth-child(2) {
           width: 150px;
         }
         &:nth-child(3) {
-          width: 300px;
+          width: 360px;
+          padding-left: 20px;
         }
       }
     }
@@ -210,12 +211,13 @@ export const InputOutputTable = styled.table`
         }
         td {
           &: nth-child(1) {
-            width: 50px;
+            text-align: center;
+            width: 86px;
             font-size: 18px;
             color: #888888;
           }
           &: nth-child(2) {
-            width: ${1100 - 50 - 150 - 100 * 3}px;
+            width: ${1100 - 86 - 150 - 120 * 3}px;
             font-size: 16px;
             color: #4bbc8e;
           }
@@ -225,7 +227,7 @@ export const InputOutputTable = styled.table`
             color: #888888;
           }
           &: nth-child(4),&: nth-child(5),&: nth-child(6) {
-            width: 100px;
+            width: 120px;
             font-size: 16px;
             color: #4bbc8e;
             font-weight: bold;
@@ -287,6 +289,11 @@ export const InputOutputTable = styled.table`
         text-align: center;
         padding-bottom: 4px;
         border-bottom: 2px solid #4bbc8e;
+      }
+      .td-operatable-disabled {
+        color: grey;
+        opacity: 0.2;
+        cursor: unset;
       }
     }
   }

@@ -55,7 +55,7 @@ const ScriptComponent = ({
   return (
     <>
       <tr className="tr-brief">
-        <td>{`#${cellInputOutput.id}`}</td>
+        <td>{cellInputOutput.from_cellbase ? 'Cellbase' : `#${cellInputOutput.id}`}</td>
         <td>
           <Link to={`/address/${cellInputOutput.address_hash}`}>{cellInputOutput.address_hash}</Link>
         </td>
@@ -65,6 +65,9 @@ const ScriptComponent = ({
           if (cellInputOutput.select === item) {
             className += ' td-operatable-active '
           }
+          if (cellInputOutput.from_cellbase) {
+            className += ' td-operatable-disabled '
+          }
           return (
             <td key={item}>
               <div
@@ -73,6 +76,7 @@ const ScriptComponent = ({
                 className={className}
                 onKeyPress={() => {}}
                 onClick={() => {
+                  if (cellInputOutput.from_cellbase) return
                   const newCellInputOutput = {
                     ...cellInputOutput,
                   }
