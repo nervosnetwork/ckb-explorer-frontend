@@ -1,5 +1,5 @@
 module Validations
-  class Suggestquery
+  class SuggestQuery
     include ActiveModel::Validations
 
     validate :query_key_format_must_be_correct

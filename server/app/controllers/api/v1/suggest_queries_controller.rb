@@ -14,7 +14,7 @@ module Api
       private
 
       def validate_query_params
-        validator = Validations::Suggestquery.new(params)
+        validator = Validations::SuggestQuery.new(params)
 
         if validator.invalid?
           errors = validator.error_object[:errors]
