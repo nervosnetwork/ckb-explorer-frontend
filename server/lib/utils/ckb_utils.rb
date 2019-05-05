@@ -70,14 +70,18 @@ module Utils
       cellbase["outputs"].first["capacity"].to_i
     end
 
-    def self.transaction_fee(transaction)
-      output_capacities = transaction["outputs"].map { |output| output["capacity"].to_i }.reduce(0, &:+)
+    def self.ckb_transaction_fee(ckb_transaction)
+      cell_output_capacities = ckb_transaction.cell_outputs.map(&:capacity)
+      cell_input_capacities = ckb_transaction.cell_inputs.map { |cell_input| cell_input.previous_cell_output&.capacity }
 
+      calculate_transaction_fee(cell_input_capacities, cell_output_capacities)
+    end
+
+    def self.transaction_fee(transaction)
+      cell_output_capacities = transaction["outputs"].map { |output| output["capacity"].to_i }
       cell_input_capacities = transaction["inputs"].map(&method(:cell_input_capacity))
-      if cell_input_capacities.any?(&:present?)
-        input_capacities = cell_input_capacities.reduce(0, &:+)
-        input_capacities.zero? ? 0 : (input_capacities - output_capacities)
-      end
+
+      calculate_transaction_fee(cell_input_capacities, cell_output_capacities)
     end
 
     def self.get_unspent_cells(address_hash)
@@ -112,6 +116,14 @@ module Utils
 
         previous_output = previous_transaction.cell_outputs.order(:id)[previous_output_index]
         previous_output.capacity
+      end
+    end
+
+    def self.calculate_transaction_fee(cell_input_capacities, cell_output_capacities)
+      if cell_input_capacities.any?(&:present?)
+        input_capacities = cell_input_capacities.reduce(0, &:+)
+        output_capacities = cell_output_capacities.reduce(0, &:+)
+        input_capacities.zero? ? 0 : (input_capacities - output_capacities)
       end
     end
   end
