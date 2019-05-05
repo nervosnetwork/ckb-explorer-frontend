@@ -19,7 +19,7 @@ module CkbSync
       private
 
       def update_cell_status!(local_block)
-        cell_inputs = local_block.ckb_transactions.map { |ckb_transaction| ckb_transaction.cell_inputs }.flatten
+        cell_inputs = local_block.ckb_transactions.map(&:cell_inputs).flatten
         cell_inputs.map { |cell_input| cell_input.previous_cell_output&.update(status: :dead) }
       end
 

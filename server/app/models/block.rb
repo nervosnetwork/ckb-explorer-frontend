@@ -30,7 +30,7 @@ class Block < ApplicationRecord
   end
 
   def contained_addresses
-    ckb_transactions.map { |ckb_transaction| ckb_transaction.addresses }.uniq.flatten
+    ckb_transactions.map(&:addresses).uniq.flatten
   end
 
   def self.find_block(query_key)

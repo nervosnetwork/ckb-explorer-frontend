@@ -11,7 +11,7 @@ module FastJsonapi::ErrorSerializer
 
     def initialize(resource, options = {})
       super
-      @with_root_key = options[:with_root_key] != false
+      @with_root_key = options[:with_root_key]
       @message = options[:message]
     end
 

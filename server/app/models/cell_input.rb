@@ -19,8 +19,8 @@ class CellInput < ApplicationRecord
 
     return if CellOutput::BASE_HASH == tx_hash
 
-    previous_transacton = CkbTransaction.find_by!(tx_hash: tx_hash)
-    previous_transacton.cell_outputs.order(:id)[output_index]
+    previous_transaction = CkbTransaction.find_by!(tx_hash: tx_hash)
+    previous_transaction.cell_outputs.order(:id)[output_index]
   end
 
   private
@@ -31,8 +31,8 @@ class CellInput < ApplicationRecord
 
     raise ActiveRecord::RecordNotFound if CellOutput::BASE_HASH == tx_hash
 
-    previous_transacton = CkbTransaction.find_by!(tx_hash: tx_hash)
-    previous_transacton.cell_outputs.order(:id)[output_index]
+    previous_transaction = CkbTransaction.find_by!(tx_hash: tx_hash)
+    previous_transaction.cell_outputs.order(:id)[output_index]
   end
 end
 

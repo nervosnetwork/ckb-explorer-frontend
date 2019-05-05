@@ -11,7 +11,5 @@ class BlockSerializer
     object.seal["proof"]
   end
 
-  attribute :transactions_count do |object|
-    object.ckb_transactions_count
-  end
+  attribute :transactions_count, &:ckb_transactions_count
 end

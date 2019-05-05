@@ -64,7 +64,7 @@ class BlockTest < ActiveSupport::TestCase
     prepare_inauthentic_node_data
     Block.all.each do |block|
       ckb_transactions_under_the_block = block.ckb_transactions
-      addresses = ckb_transactions_under_the_block.map { |ckb_transaction| ckb_transaction.addresses }.uniq.flatten
+      addresses = ckb_transactions_under_the_block.map(&:addresses).uniq.flatten
       assert_equal addresses, block.contained_addresses
     end
   end
