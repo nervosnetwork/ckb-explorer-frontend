@@ -77,7 +77,7 @@ module CkbSync
       def assign_display_info_to_ckb_transaction(ckb_transaction_and_display_cell_hashes)
         ckb_transaction_and_display_cell_hashes.map do |ckb_transaction_and_display_cell_hash|
           transaction = ckb_transaction_and_display_cell_hash[:transaction]
-          transaction.display_inputs = ckb_transaction_and_display_cell_hash[:inputs].map { |input| build_display_input(input) }
+          transaction.display_inputs = ckb_transaction_and_display_cell_hash[:inputs].map(&method(:build_display_input))
           transaction.display_outputs = ckb_transaction_and_display_cell_hash[:outputs].map { |output| { id: output.id, capacity: output.capacity, address_hash: output.address_hash } }
           transaction
         end

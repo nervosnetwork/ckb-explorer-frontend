@@ -34,7 +34,7 @@ module Server
 
     config.autoload_paths += %W(#{config.root}/app/serializers)
     config.autoload_paths += %W(#{config.root}/lib)
-    config.autoload_paths += Dir[Rails.root.join("lib/fast_jsonapi/*.rb")].each { |l| require l }
+    config.autoload_paths += Dir[Rails.root.join("lib/fast_jsonapi/*.rb")].each(&method(:require))
     config.eager_load_paths << Rails.root.join("lib/api")
     config.eager_load_paths << Rails.root.join("lib/fast_jsonapi")
     config.eager_load_paths << Rails.root.join("lib/utils")
