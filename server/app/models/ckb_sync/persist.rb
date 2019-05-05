@@ -23,7 +23,7 @@ module CkbSync
 
           ckb_transactions = assign_display_info_to_ckb_transaction(ckb_transaction_and_display_cell_hashes)
           calculate_transaction_fee(node_block["transactions"], ckb_transactions)
-          CkbTransaction.import! ckb_transactions, batch_size: 1500, on_duplicate_key_update: [:display_inputs, :display_outputs]
+          CkbTransaction.import! ckb_transactions, batch_size: 1500, on_duplicate_key_update: [:transaction_fee, :display_inputs, :display_outputs, :display_inputs_status, :transaction_fee_status]
 
           local_block.total_transaction_fee = ckb_transactions.reduce(0) { |memo, ckb_transaction| memo + ckb_transaction.transaction_fee }
           local_block.save!
@@ -36,7 +36,11 @@ module CkbSync
 
       def calculate_transaction_fee(transactions, ckb_transactions)
         transactions.each_with_index do |transaction, index|
-          ckb_transactions[index].transaction_fee = Utils::CkbUtils.transaction_fee(transaction)
+          transaction_fee = Utils::CkbUtils.transaction_fee(transaction)
+          if transaction_fee.present?
+            ckb_transactions[index].transaction_fee = transaction_fee
+            ckb_transactions[index].transaction_fee_status = "calculated"
+          end
         end
       end
 
@@ -77,7 +81,13 @@ module CkbSync
       def assign_display_info_to_ckb_transaction(ckb_transaction_and_display_cell_hashes)
         ckb_transaction_and_display_cell_hashes.map do |ckb_transaction_and_display_cell_hash|
           transaction = ckb_transaction_and_display_cell_hash[:transaction]
-          transaction.display_inputs = ckb_transaction_and_display_cell_hash[:inputs].map(&method(:build_display_input))
+
+          display_inputs = ckb_transaction_and_display_cell_hash[:inputs].map(&method(:build_display_input))
+          if display_inputs.any?(&:present?)
+            transaction.display_inputs = display_inputs
+            transaction.display_inputs_status = "generated"
+          end
+
           transaction.display_outputs = ckb_transaction_and_display_cell_hash[:outputs].map { |output| { id: output.id, capacity: output.capacity, address_hash: output.address_hash } }
           transaction
         end
@@ -91,6 +101,9 @@ module CkbSync
           { id: nil, from_cellbase: true, capacity: CellOutput::INITIAL_BLOCK_REWARD, address_hash: nil }
         else
           previous_cell_output = cell_input.previous_cell_output
+
+          return if previous_cell_output.blank?
+
           address_hash = previous_cell_output.address_hash
           { id: previous_cell_output.id, from_cellbase: false, capacity: previous_cell_output.capacity, address_hash: address_hash }
         end
