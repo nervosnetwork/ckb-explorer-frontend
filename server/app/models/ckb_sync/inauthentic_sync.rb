@@ -14,8 +14,9 @@ module CkbSync
           SyncInfo.local_inauthentic_tip_block_number = number
 
           CkbSync::Persist.call(block_hash, "inauthentic")
-          Rails.cache.delete("current_inauthentic_sync_round")
         end
+
+        Rails.cache.delete("current_inauthentic_sync_round")
       end
 
       def should_break?(latest_from, latest_to)
@@ -33,7 +34,9 @@ module CkbSync
       end
 
       def current_sync_round(from, to, uuid)
-        Rails.cache.fetch("current_inauthentic_sync_round") { { from: from, to: to, uuid: uuid } }
+        Rails.cache.fetch("current_inauthentic_sync_round", expires_in: 5.minutes) do
+          { from: from, to: to, uuid: uuid }
+        end
       end
     end
   end
