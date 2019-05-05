@@ -32,15 +32,68 @@ module CkbSync
         local_block
       end
 
+      def update_ckb_transaction_display_inputs
+        ckb_transactions =
+          CkbTransaction.ungenerated.map do |ckb_transaction|
+            display_inputs = ckb_transaction.cell_inputs.map(&method(:build_display_input))
+            assign_display_inputs(ckb_transaction, display_inputs)
+
+            ckb_transaction
+          end
+
+        return if ckb_transactions.blank?
+
+        CkbTransaction.import! ckb_transactions, batch_size: 1500, on_duplicate_key_update: [:display_inputs, :display_inputs_status]
+      end
+
+      def update_transaction_fee
+        ckb_transactions =
+          CkbTransaction.uncalculated.map do |ckb_transaction|
+            transaction_fee = Utils::CkbUtils.ckb_transaction_fee(ckb_transaction)
+            assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
+
+            ckb_transaction
+          end
+
+        return if ckb_transactions.blank?
+
+        ApplicationRecord.transaction do
+          CkbTransaction.import! ckb_transactions, batch_size: 1500, on_duplicate_key_update: [:transaction_fee, :transaction_fee_status]
+          block_ids = ckb_transactions.pluck(:block_id)
+          blocks = update_block_total_transaction_fee(block_ids)
+
+          Block.import! blocks, batch_size: 1500, on_duplicate_key_update: [:total_transaction_fee]
+        end
+      end
+
       private
+
+      def update_block_total_transaction_fee(block_ids)
+        Block.where(id: block_ids).map do |block|
+          block.total_transaction_fee = block.ckb_transactions.map(&:transaction_fee).reduce(0, &:+)
+
+          block
+        end
+      end
+
+      def assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
+        if transaction_fee.present?
+          ckb_transaction.transaction_fee = transaction_fee
+          ckb_transaction.transaction_fee_status = "calculated"
+        end
+      end
+
+      def assign_display_inputs(ckb_transaction, display_inputs)
+        if display_inputs.any?(&:present?)
+          ckb_transaction.display_inputs = display_inputs
+          ckb_transaction.display_inputs_status = "generated"
+        end
+      end
 
       def calculate_transaction_fee(transactions, ckb_transactions)
         transactions.each_with_index do |transaction, index|
           transaction_fee = Utils::CkbUtils.transaction_fee(transaction)
-          if transaction_fee.present?
-            ckb_transactions[index].transaction_fee = transaction_fee
-            ckb_transactions[index].transaction_fee_status = "calculated"
-          end
+          assign_ckb_transaction_fee(ckb_transactions[index], transaction_fee)
         end
       end
 
@@ -83,10 +136,7 @@ module CkbSync
           transaction = ckb_transaction_and_display_cell_hash[:transaction]
 
           display_inputs = ckb_transaction_and_display_cell_hash[:inputs].map(&method(:build_display_input))
-          if display_inputs.any?(&:present?)
-            transaction.display_inputs = display_inputs
-            transaction.display_inputs_status = "generated"
-          end
+          assign_display_inputs(transaction, display_inputs)
 
           transaction.display_outputs = ckb_transaction_and_display_cell_hash[:outputs].map { |output| { id: output.id, capacity: output.capacity, address_hash: output.address_hash } }
           transaction
