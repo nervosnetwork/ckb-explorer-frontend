@@ -102,8 +102,8 @@ module Utils
       if CellOutput::BASE_HASH == previous_transaction_hash
         0
       else
-        previous_transacton = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
-        previous_output = previous_transacton.cell_outputs.order(:id)[previous_output_index]
+        previous_transaction = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
+        previous_output = previous_transaction.cell_outputs.order(:id)[previous_output_index]
         previous_output.capacity
       end
     end
