@@ -13,7 +13,7 @@ module CkbSync
           block_hash = CkbSync::Api.instance.get_block_hash(number.to_s)
           SyncInfo.local_authentic_tip_block_number = number
 
-          CkbSync::Validator.call(block_hash)
+          CheckBlockWorker.perform_async(block_hash)
         end
 
         Rails.cache.delete("current_authentic_sync_round")

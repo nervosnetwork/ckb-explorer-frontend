@@ -13,7 +13,7 @@ module CkbSync
           block_hash = CkbSync::Api.instance.get_block_hash(number.to_s)
           SyncInfo.local_inauthentic_tip_block_number = number
 
-          CkbSync::Persist.call(block_hash, "inauthentic")
+          SaveBlockWorker.perform_async(block_hash, "inauthentic")
         end
 
         Rails.cache.delete("current_inauthentic_sync_round")
