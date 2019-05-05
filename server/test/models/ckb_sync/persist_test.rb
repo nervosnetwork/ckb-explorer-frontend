@@ -580,7 +580,7 @@ module CkbSync
       local_ckb_transactions = local_block.ckb_transactions
 
       assert_changes -> { local_ckb_transactions.reload.pluck(:transaction_fee_status).uniq }, from: ["uncalculated"], to: ["calculated"] do
-        CkbSync::Persist.update_ckb_transaction_fee
+        CkbSync::Persist.update_transaction_fee
       end
     end
 

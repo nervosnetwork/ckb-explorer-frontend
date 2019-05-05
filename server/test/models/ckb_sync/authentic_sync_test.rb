@@ -89,5 +89,27 @@ module CkbSync
         end
       end
     end
+
+    test "should queueing update transaction info job" do
+      Sidekiq::Testing.inline! do
+        VCR.use_cassette("genesis_block") do
+          VCR.use_cassette("blocks/four") do
+            CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
+            CkbSync::InauthenticSync.sync_node_data
+          end
+        end
+      end
+
+      Sidekiq::Testing.fake!
+      CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
+
+      VCR.use_cassette("genesis_block") do
+        VCR.use_cassette("blocks/two") do
+          assert_changes -> { UpdateTransactionInfoWorker.jobs.size }, from: 0, to: 1 do
+            CkbSync::AuthenticSync.sync_node_data
+          end
+        end
+      end
+    end
   end
 end
