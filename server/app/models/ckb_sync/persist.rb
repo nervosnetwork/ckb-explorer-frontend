@@ -32,33 +32,39 @@ module CkbSync
         local_block
       end
 
-      def update_ckb_transaction_display_inputs
-        ckb_transactions =
-          CkbTransaction.ungenerated.map do |ckb_transaction|
-            display_inputs = ckb_transaction.cell_inputs.map(&method(:build_display_input))
-            assign_display_inputs(ckb_transaction, display_inputs)
+      def update_ckb_transaction_info_and_fee
+        display_inputs_ckb_transaction_ids = CkbTransaction.ungenerated.ids.each_slice(100).to_a
+        Sidekiq::Client.push_bulk("class" => UpdateTransactionDisplayInputsWorker, "args" => display_inputs_ckb_transaction_ids) if display_inputs_ckb_transaction_ids.present?
 
-            ckb_transaction
-          end
-
-        return if ckb_transactions.blank?
-
-        CkbTransaction.import! ckb_transactions, batch_size: 1500, on_duplicate_key_update: [:display_inputs, :display_inputs_status]
+        transaction_fee_ckb_transaction_ids = CkbTransaction.uncalculated.ids.each_slice(100).to_a
+        Sidekiq::Client.push_bulk("class" => UpdateTransactionFeeWorker, "args" => display_inputs_ckb_transaction_ids) if transaction_fee_ckb_transaction_ids.present?
       end
 
-      def update_transaction_fee
-        ckb_transactions =
-          CkbTransaction.uncalculated.map do |ckb_transaction|
-            transaction_fee = Utils::CkbUtils.ckb_transaction_fee(ckb_transaction)
-            assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
-
-            ckb_transaction
-          end
-
+      def update_ckb_transaction_display_inputs(ckb_transactions)
         return if ckb_transactions.blank?
 
+        ckb_transactions.map do |ckb_transaction|
+          display_inputs = ckb_transaction.cell_inputs.map(&method(:build_display_input))
+          assign_display_inputs(ckb_transaction, display_inputs)
+
+          ckb_transaction
+        end
+
+        CkbTransaction.import! ckb_transactions.to_a, batch_size: 1500, on_duplicate_key_update: [:display_inputs, :display_inputs_status]
+      end
+
+      def update_transaction_fee(ckb_transactions)
+        return if ckb_transactions.blank?
+
+        ckb_transactions.map do |ckb_transaction|
+          transaction_fee = Utils::CkbUtils.ckb_transaction_fee(ckb_transaction)
+          assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
+
+          ckb_transaction
+        end
+
         ApplicationRecord.transaction do
-          CkbTransaction.import! ckb_transactions, batch_size: 1500, on_duplicate_key_update: [:transaction_fee, :transaction_fee_status]
+          CkbTransaction.import! ckb_transactions.to_a, batch_size: 1500, on_duplicate_key_update: [:transaction_fee, :transaction_fee_status]
           block_ids = ckb_transactions.pluck(:block_id)
           blocks = update_block_total_transaction_fee(block_ids)
 

@@ -18,7 +18,7 @@ module CkbSync
 
         Rails.cache.delete("current_authentic_sync_round")
 
-        UpdateTransactionInfoWorker.perform_async
+        CkbSync::Persist.update_ckb_transaction_info_and_fee
       end
 
       def should_break?(latest_from, latest_to)

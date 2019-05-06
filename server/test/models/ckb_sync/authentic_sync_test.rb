@@ -105,7 +105,7 @@ module CkbSync
 
       VCR.use_cassette("genesis_block") do
         VCR.use_cassette("blocks/two") do
-          assert_changes -> { UpdateTransactionInfoWorker.jobs.size }, from: 0, to: 1 do
+          assert_changes -> { UpdateTransactionDisplayInputsWorker.jobs.size }, from: 0, to: 1 do
             CkbSync::AuthenticSync.sync_node_data
           end
         end
