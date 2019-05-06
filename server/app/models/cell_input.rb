@@ -19,7 +19,10 @@ class CellInput < ApplicationRecord
 
     return if CellOutput::BASE_HASH == tx_hash
 
-    previous_transaction = CkbTransaction.find_by!(tx_hash: tx_hash)
+    previous_transaction = CkbTransaction.find_by(tx_hash: tx_hash)
+
+    return if previous_transaction.blank?
+
     previous_transaction.cell_outputs.order(:id)[output_index]
   end
 

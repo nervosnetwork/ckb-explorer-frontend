@@ -11,10 +11,9 @@ class CkbTransactionTest < ActiveSupport::TestCase
   end
 
   context "validations" do
-    should validate_presence_of(:transaction_fee)
     should validate_presence_of(:status)
-    should validate_numericality_of(:transaction_fee).
-      is_greater_than_or_equal_to(0)
+    should validate_presence_of(:display_inputs_status)
+    should validate_presence_of(:transaction_fee_status)
   end
 
   test "#code_hash should decodes packed string" do

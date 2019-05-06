@@ -3,6 +3,8 @@ class CkbTransaction < ApplicationRecord
   max_paginates_per 100
 
   enum status: { inauthentic: 0, authentic: 1, abandoned: 2 }
+  enum display_inputs_status: { ungenerated: 0, generated: 1 }
+  enum transaction_fee_status: { uncalculated: 0, calculated: 1 }
 
   belongs_to :block
   has_many :account_books
@@ -10,8 +12,7 @@ class CkbTransaction < ApplicationRecord
   has_many :cell_inputs
   has_many :cell_outputs
 
-  validates_presence_of :transaction_fee, :status
-  validates :transaction_fee, numericality: { greater_than_or_equal_to: 0 }
+  validates_presence_of :status, :display_inputs_status, :transaction_fee_status
 
   attribute :tx_hash, :ckb_hash
 
@@ -22,24 +23,28 @@ end
 #
 # Table name: ckb_transactions
 #
-#  id              :bigint           not null, primary key
-#  tx_hash         :binary
-#  deps            :jsonb
-#  block_id        :bigint
-#  block_number    :bigint
-#  block_timestamp :bigint
-#  display_inputs  :jsonb
-#  display_outputs :jsonb
-#  status          :integer
-#  transaction_fee :decimal(64, 2)
-#  version         :integer
-#  witnesses       :string           is an Array
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                     :bigint           not null, primary key
+#  tx_hash                :binary
+#  deps                   :jsonb
+#  block_id               :bigint
+#  block_number           :bigint
+#  block_timestamp        :bigint
+#  display_inputs         :jsonb
+#  display_outputs        :jsonb
+#  status                 :integer
+#  transaction_fee        :decimal(64, 2)
+#  version                :integer
+#  witnesses              :string           is an Array
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  display_inputs_status  :integer          default("ungenerated")
+#  transaction_fee_status :integer          default("uncalculated")
 #
 # Indexes
 #
-#  index_ckb_transactions_on_block_id            (block_id)
-#  index_ckb_transactions_on_tx_hash             (tx_hash) UNIQUE
-#  index_ckb_transactions_on_tx_hash_and_status  (tx_hash,status)
+#  index_ckb_transactions_on_block_id                (block_id)
+#  index_ckb_transactions_on_display_inputs_status   (display_inputs_status)
+#  index_ckb_transactions_on_transaction_fee_status  (transaction_fee_status)
+#  index_ckb_transactions_on_tx_hash                 (tx_hash) UNIQUE
+#  index_ckb_transactions_on_tx_hash_and_status      (tx_hash,status)
 #
