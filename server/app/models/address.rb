@@ -11,15 +11,13 @@ class Address < ApplicationRecord
 
   def self.find_or_create_address(ckb_transaction, lock_script)
     address_hash = Utils::CkbUtils.generate_address(lock_script)
+    address = Address.find_by(address_hash: address_hash)
+    address ||= Address.create(address_hash: address_hash, balance: 0, cell_consumed: 0)
 
-    if Address.where(address_hash: address_hash).exists?
-      address = Address.find_by(address_hash: address_hash)
-    else
-      address = Address.create(address_hash: address_hash, balance: 0, cell_consumed: 0)
+    address.with_lock do
+      ckb_transaction.addresses << address.increment!("ckb_transactions_count")
+      address
     end
-
-    ckb_transaction.addresses << address.increment!("ckb_transactions_count")
-    address
   end
 end
 
