@@ -9,11 +9,15 @@ module CkbSync
 
         return if should_break?(from, to)
 
-        (from..to).each do |number|
-          block_hash = CkbSync::Api.instance.get_block_hash(number.to_s)
-          SyncInfo.local_authentic_tip_block_number = number
+        block_hashes =
+          (from..to).map do |number|
+            SyncInfo.local_authentic_tip_block_number = number
+            [CkbSync::Api.instance.get_block_hash(number.to_s)]
+          end
 
-          CheckBlockWorker.perform_async(block_hash)
+        block_hashes_arr = block_hashes.each_slice(1000).to_a
+        block_hashes_arr.each do |block_hashes_arr_item|
+          Sidekiq::Client.push_bulk("class" => CheckBlockWorker, "args" => block_hashes_arr_item)
         end
 
         Rails.cache.delete("current_authentic_sync_round")
