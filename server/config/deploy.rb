@@ -68,6 +68,7 @@ task :setup do
   command %[touch "#{fetch(:shared_path)}/server/config/ckb-explorer-sidekiq.service"]
   command %[touch "#{fetch(:shared_path)}/server/config/ckb-explorer-inauthentic-sync.service"]
   command %[touch "#{fetch(:shared_path)}/server/config/ckb-explorer-authentic-sync.service"]
+  command %[touch "#{fetch(:shared_path)}/server/config/ckb-explorer-ckb-transaction-info-and-fee-updater.service"]
   comment "Be sure to edit '#{fetch(:shared_path)}/server/config/database.yml', '.env.local', 'puma.rb', 'ckb-inauthentic-sync.server', 'ckb-authentic-sync.server', 'ckb-explorer-puma.service', 'ckb-explorer-puma.socket' and ckb-explorer-sidekiq.service."
 end
 
@@ -90,6 +91,7 @@ task :deploy do
       command "systemctl restart ckb-explorer-sidekiq"
       command "systemctl restart ckb-explorer-inauthentic-sync"
       command "systemctl restart ckb-explorer-authentic-sync"
+      command "systemctl restart ckb-explorer-ckb-transaction-info-and-fee-updater"
     end
   end
 
