@@ -16,4 +16,8 @@ const validNumber = (value: any, defaultValue: number) => {
   return value ? parseInt(value, 10) : defaultValue
 }
 
-export { copyDivValue, validNumber }
+const shannonToCkb = (value: number) => {
+  return Math.floor(value / 10 ** 4) / 10 ** 4
+}
+
+export { copyDivValue, validNumber, shannonToCkb }

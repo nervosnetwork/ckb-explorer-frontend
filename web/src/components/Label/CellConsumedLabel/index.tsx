@@ -42,11 +42,12 @@ const CellConsumedLabel = ({
     percent = (consumed * 100) / balance
     percent = percent > 100 ? 100 : percent
   }
+  const percentShow = percent.toFixed(2)
   return (
     <LabelItemPanel>
       <img src={image} alt="Cell Consumed" />
       <span>{`${label}:`}</span>
-      <div>{`${consumed}B / ${percent}%`}</div>
+      <div>{`${consumed}B / ${percentShow}%`}</div>
     </LabelItemPanel>
   )
 }
