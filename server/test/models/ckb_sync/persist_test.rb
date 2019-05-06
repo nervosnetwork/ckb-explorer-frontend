@@ -606,5 +606,17 @@ module CkbSync
 
       assert_equal 10**8 * 5 - 50000, local_block.reload.total_transaction_fee
     end
+
+    test ".update_ckb_transaction_info_and_fee should queuing 10 jobs when has 1000 transaction" do
+      Sidekiq::Testing.fake!
+
+      block = create(:block, :with_block_hash)
+      create_list(:ckb_transaction, 1000, block: block)
+      CkbSync::Persist.update_ckb_transaction_info_and_fee
+
+      assert_equal 20, Sidekiq::Queues["default"].size
+      assert_equal "UpdateTransactionDisplayInputsWorker", Sidekiq::Queues["default"].first["class"]
+      assert_equal "UpdateTransactionFeeWorker", Sidekiq::Queues["default"].last["class"]
+    end
   end
 end
