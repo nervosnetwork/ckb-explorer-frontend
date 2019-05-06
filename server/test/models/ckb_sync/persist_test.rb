@@ -556,7 +556,7 @@ module CkbSync
       local_ckb_transactions = local_block.ckb_transactions
 
       assert_changes -> { local_ckb_transactions.reload.pluck(:display_inputs_status).uniq }, from: ["ungenerated"], to: ["generated"] do
-        CkbSync::Persist.update_ckb_transaction_display_inputs
+        CkbSync::Persist.update_ckb_transaction_display_inputs(local_ckb_transactions)
       end
 
       local_block_cell_inputs = local_ckb_transactions.map(&:display_inputs).flatten
@@ -580,7 +580,7 @@ module CkbSync
       local_ckb_transactions = local_block.ckb_transactions
 
       assert_changes -> { local_ckb_transactions.reload.pluck(:transaction_fee_status).uniq }, from: ["uncalculated"], to: ["calculated"] do
-        CkbSync::Persist.update_transaction_fee
+        CkbSync::Persist.update_transaction_fee(local_ckb_transactions)
       end
     end
 
@@ -601,7 +601,7 @@ module CkbSync
       local_ckb_transactions = local_block.ckb_transactions
 
       assert_changes -> { local_ckb_transactions.reload.sum(:transaction_fee) }, from: 0, to: (10**8 * 5 - 50000) do
-        CkbSync::Persist.update_transaction_fee
+        CkbSync::Persist.update_transaction_fee(local_ckb_transactions)
       end
 
       assert_equal 10**8 * 5 - 50000, local_block.reload.total_transaction_fee
