@@ -5,6 +5,7 @@ jobs:
     - language: ruby
       services:
         - postgresql
+        - redis-server
       addons:
         postgresql: "10"
       rvm:
