@@ -194,7 +194,8 @@ module CkbSync
         ckb_transaction.cell_outputs.build(
           capacity: output["capacity"],
           data: output["data"],
-          address: address
+          address: address,
+          block: ckb_transaction.block
         )
       end
 
