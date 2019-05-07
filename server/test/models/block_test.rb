@@ -4,6 +4,7 @@ class BlockTest < ActiveSupport::TestCase
   context "associations" do
     should have_many(:ckb_transactions)
     should have_many(:uncle_blocks)
+    should have_many(:cell_outputs)
   end
 
   context "validations" do
@@ -51,6 +52,23 @@ class BlockTest < ActiveSupport::TestCase
     block = create(:block, block_hash: "0x419c632366c8eb9635acbb39ea085f7552ae62e1fdd480893375334a0f37d1bx")
     SyncInfo.local_authentic_tip_block_number
     assert_changes -> { block.status }, from: "inauthentic", to: "abandoned" do
+      VCR.use_cassette("blocks/10") do
+        node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+        assert_difference "Block.count", 1 do
+          block.verify!(node_block)
+        end
+      end
+    end
+  end
+
+  test "#verify! change cell outputs under the abandoned block status to abandoned" do
+    Sidekiq::Testing.inline!
+
+    block = create(:block, :with_block_hash)
+    create(:ckb_transaction, :with_cell_output_and_lock_and_type_script, block: block)
+    SyncInfo.local_authentic_tip_block_number
+
+    assert_changes -> { block.cell_outputs.pluck(:status).uniq }, from: ["live"], to: ["abandoned"] do
       VCR.use_cassette("blocks/10") do
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
         assert_difference "Block.count", 1 do
