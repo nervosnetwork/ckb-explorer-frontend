@@ -151,6 +151,11 @@ def previous_cell_output(previous_output)
   previous_transaction.cell_outputs.order(:id)[output_index]
 end
 
+def create_cell_output(trait_type: :with_full_transaction)
+  block = create(:block, :with_block_hash)
+  create(:cell_output, trait_type, block: block)
+end
+
 module RequestHelpers
   def json
     JSON.parse(response.body)

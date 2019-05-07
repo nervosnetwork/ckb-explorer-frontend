@@ -4,7 +4,7 @@ module Api
   module V1
     class CellOutputTypeScriptsControllerTest < ActionDispatch::IntegrationTest
       test "should get success code when call show" do
-        cell_output = create(:cell_output, :with_full_transaction)
+        cell_output = create_cell_output
 
         valid_get api_v1_cell_output_type_script_url(cell_output.id)
 
@@ -12,7 +12,7 @@ module Api
       end
 
       test "should set right content type when call show" do
-        cell_output = create(:cell_output, :with_full_transaction)
+        cell_output = create_cell_output
 
         valid_get api_v1_cell_output_type_script_url(cell_output.id)
 
@@ -20,7 +20,7 @@ module Api
       end
 
       test "should respond with 415 Unsupported Media Type when Content-Type is wrong" do
-        cell_output = create(:cell_output, :with_full_transaction)
+        cell_output = create_cell_output
 
         get api_v1_cell_output_type_script_url(cell_output.id), headers: { "Content-Type": "text/plain" }
 
@@ -28,7 +28,7 @@ module Api
       end
 
       test "should respond with error object when Content-Type is wrong" do
-        cell_output = create(:cell_output, :with_full_transaction)
+        cell_output = create_cell_output
         error_object = Api::V1::Exceptions::WrongContentTypeError.new
         response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
@@ -38,7 +38,7 @@ module Api
       end
 
       test "should respond with 406 Not Acceptable when Accept is wrong" do
-        cell_output = create(:cell_output, :with_full_transaction)
+        cell_output = create_cell_output
 
         get api_v1_cell_output_type_script_url(cell_output.id), headers: { "Content-Type": "application/vnd.api+json", "Accept": "application/json" }
 
@@ -46,7 +46,7 @@ module Api
       end
 
       test "should respond with error object when Accept is wrong" do
-        cell_output = create(:cell_output, :with_full_transaction)
+        cell_output = create_cell_output
         error_object = Api::V1::Exceptions::WrongAcceptError.new
         response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
 
@@ -65,7 +65,7 @@ module Api
       end
 
       test "should return corresponding type script with given cell output id" do
-        cell_output = create(:cell_output, :with_full_transaction)
+        cell_output = create_cell_output
         type_script = cell_output.type_script
 
         valid_get api_v1_cell_output_type_script_url(cell_output.id)
@@ -74,7 +74,7 @@ module Api
       end
 
       test "should contain right keys in the serialized object when call show" do
-        cell_output = create(:cell_output, :with_full_transaction)
+        cell_output = create_cell_output
 
         valid_get api_v1_cell_output_type_script_url(cell_output.id)
 
@@ -91,7 +91,8 @@ module Api
       end
 
       test "should return null when found record hasn't type script" do
-        cell_output = create(:cell_output, :with_full_transaction_but_no_type_script)
+        cell_output = create_cell_output(trait_type: :with_full_transaction_but_no_type_script)
+
         type_script = cell_output.type_script
 
         valid_get api_v1_cell_output_type_script_url(cell_output.id)

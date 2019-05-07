@@ -157,7 +157,7 @@ class AddressTest < ActiveSupport::TestCase
         previous_block = create(:block, :with_block_hash, number: 100)
         previous_ckb_transaction = create(:ckb_transaction, block: previous_block)
         previous_ckb_transaction.cell_inputs.create(previous_output: { tx_hash: CellOutput::BASE_HASH, index: 4294967295 })
-        cell_output = previous_ckb_transaction.cell_outputs.create(capacity: 10**8, address: create(:address))
+        cell_output = previous_ckb_transaction.cell_outputs.create(capacity: 10**8, address: create(:address), block: previous_block)
         cell_output.create_lock_script
 
         local_block = Block.find_by(block_hash: DEFAULT_NODE_BLOCK_HASH)

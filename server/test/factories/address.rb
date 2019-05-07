@@ -11,7 +11,8 @@ FactoryBot.define do
 
     trait :with_lock_script do
       after(:create) do |address, _evaluator|
-        cell_output = create(:cell_output, :with_full_transaction)
+        block = create(:block, :with_block_hash)
+        cell_output = create(:cell_output, :with_full_transaction, block: block)
         cell_output.lock_script.update(address: address)
       end
     end

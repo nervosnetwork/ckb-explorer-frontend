@@ -16,8 +16,9 @@ FactoryBot.define do
 
     trait :with_full_transaction_but_no_type_script do
       before(:create) do |cell_output, _evaluator|
+        block = create(:block, :with_block_hash)
         ckb_transaction = create(:ckb_transaction, :with_cell_output_and_lock_script)
-        cell_output.update(ckb_transaction: ckb_transaction)
+        cell_output.update(ckb_transaction: ckb_transaction, block: block)
         create(:lock_script, cell_output: cell_output)
       end
     end
