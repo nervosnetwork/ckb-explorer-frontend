@@ -35,3 +35,4 @@ server/.rakeTasks
 /web/build/
 /web/npm-debug.log
 /web/*.log
+/web/src/config.ts
