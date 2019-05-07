@@ -23,10 +23,10 @@ import CopyIcon from '../../asserts/copy.png'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { Transaction, TransactionWrapper } from '../../http/response/Transaction'
-import { Script } from '../../http/response/Script'
-import { Data } from '../../http/response/Data'
+import { Script, ScriptWrapper } from '../../http/response/Script'
+import { Data, DataWrapper } from '../../http/response/Data'
 import { CellType, fetchTransactionByHash, fetchScript, fetchCellData } from '../../http/fetcher'
-import { copyDivValue } from '../../utils/util'
+import { copyDivValue, shannonToCkb } from '../../utils/util'
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
 
@@ -59,7 +59,7 @@ const ScriptComponent = ({
         <td>
           <Link to={`/address/${cellInputOutput.address_hash}`}>{cellInputOutput.address_hash}</Link>
         </td>
-        <td>{cellInputOutput.capacity}</td>
+        <td>{shannonToCkb(cellInputOutput.capacity)}</td>
         {ScriptTypeItems.map(item => {
           let className = 'td-operatable'
           if (cellInputOutput.select === item) {
@@ -83,20 +83,20 @@ const ScriptComponent = ({
                   newCellInputOutput.select = newCellInputOutput.select === item ? null : item
                   if (item === 'Lock Script') {
                     fetchScript(cellType, 'lock_scripts', cellInputOutput.id).then(json => {
-                      const { data } = json as Response<Script>
-                      setScript(data)
+                      const { data } = json as Response<ScriptWrapper>
+                      setScript(data? data.attributes : initScript)
                       updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
                     })
                   } else if (item === 'Type Script') {
                     fetchScript(cellType, 'type_scripts', cellInputOutput.id).then(json => {
-                      const { data } = json as Response<Script>
-                      setScript(data)
+                      const { data } = json as Response<ScriptWrapper>
+                      setScript(data? data.attributes : initScript)
                       updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
                     })
                   } else {
                     fetchCellData(cellType, cellInputOutput.id).then(json => {
-                      const { data } = json as Response<Data>
-                      setCellData(data)
+                      const { data } = json as Response<DataWrapper>
+                      setCellData(data? data.attributes : initCellData)
                       updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
                     })
                   }
@@ -234,14 +234,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               <SimpleLabel image={BlockHeightIcon} label="Block Height:" value={transaction.block_number} />
               <SimpleLabel image={TransactionIcon} label="Transaction Fee:" value={transaction.transaction_fee} />
             </div>
-            <span className="block__content__separate" />
             <div>
-              <SimpleLabel
-                image={TimestampIcon}
-                label="Timestamp:"
-                value={parseSimpleDate(transaction.block_timestamp)}
-              />
-              <SimpleLabel image={VersionIcon} label="Version:" value={parseSimpleDate(transaction.version)} />
+              <div />
+              <div>
+                <SimpleLabel
+                  image={TimestampIcon}
+                  label="Timestamp:"
+                  value={parseSimpleDate(transaction.block_timestamp)}
+                />
+                <SimpleLabel image={VersionIcon} label="Version:" value={transaction.version} />
+              </div>
             </div>
           </div>
         </TransactionCommonContent>
