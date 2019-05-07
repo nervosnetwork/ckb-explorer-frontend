@@ -234,14 +234,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               <SimpleLabel image={BlockHeightIcon} label="Block Height:" value={transaction.block_number} />
               <SimpleLabel image={TransactionIcon} label="Transaction Fee:" value={transaction.transaction_fee} />
             </div>
-            <span className="block__content__separate" />
             <div>
-              <SimpleLabel
-                image={TimestampIcon}
-                label="Timestamp:"
-                value={parseSimpleDate(transaction.block_timestamp)}
-              />
-              <SimpleLabel image={VersionIcon} label="Version:" value={transaction.version} />
+              <div />
+              <div>
+                <SimpleLabel
+                  image={TimestampIcon}
+                  label="Timestamp:"
+                  value={parseSimpleDate(transaction.block_timestamp)}
+                />
+                <SimpleLabel image={VersionIcon} label="Version:" value={transaction.version} />
+              </div>
             </div>
           </div>
         </TransactionCommonContent>
