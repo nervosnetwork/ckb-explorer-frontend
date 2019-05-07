@@ -41,7 +41,7 @@ import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchBlockByHash, fetchTransactionsByBlockHash } from '../../http/fetcher'
-import { copyDivValue, validNumber } from '../../utils/util'
+import { copyDivValue, validNumber, shannonToCkb } from '../../utils/util'
 import browserHistory from '../../routes/history'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
@@ -242,17 +242,17 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: BlockRewardIcon,
       label: 'Block Reward:',
-      value: `${blockData.reward}`,
+      value: `${shannonToCkb(blockData.reward)} CKB`,
     },
     {
       image: TransactionFeeIcon,
       label: 'Transaction Fee:',
-      value: `${blockData.total_transaction_fee}`,
+      value: `${shannonToCkb(blockData.total_transaction_fee)} CKB`,
     },
     {
       image: DifficultyIcon,
       label: 'Difficulty:',
-      value: `${blockData.difficulty}`,
+      value: `${parseInt(blockData.difficulty, 16)}`,
     },
     {
       image: NonceIcon,
@@ -281,8 +281,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               <CellConsumedLabel
                 image={CellConsumedIcon}
                 label="Cell Consumed"
-                consumed={blockData.cell_consumed}
-                balance={blockData.total_cell_capacity}
+                consumed={shannonToCkb(blockData.cell_consumed)}
+                balance={shannonToCkb(blockData.total_cell_capacity)}
               />
               {BlockLeftItems.slice(BlockLeftSeparateIndex).map(item => {
                 return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />

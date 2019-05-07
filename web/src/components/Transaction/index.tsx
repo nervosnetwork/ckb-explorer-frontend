@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { TransactionsCell, TransactionsItem } from './styled'
 import { parseDate } from '../../utils/date'
+import { shannonToCkb } from '../../utils/util'
 import InputOutputIcon from '../../asserts/input_arrow_output.png'
 
 const TransactionCell = ({ cell }: { cell: any }) => {
@@ -10,7 +11,7 @@ const TransactionCell = ({ cell }: { cell: any }) => {
       <Link to={`/address/${cell.address_hash}`}>
         <div className="transaction__cell__hash">{cell.address_hash}</div>
       </Link>
-      <div className="transaction__cell__capacity">{`${cell.capacity} CKB`}</div>
+      <div className="transaction__cell__capacity">{`${shannonToCkb(cell.capacity)} CKB`}</div>
     </TransactionsCell>
   )
 }
