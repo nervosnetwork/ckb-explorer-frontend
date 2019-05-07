@@ -6,6 +6,7 @@ class Block < ApplicationRecord
 
   has_many :ckb_transactions
   has_many :uncle_blocks
+  has_many :cell_outputs
 
   validates_presence_of :difficulty, :block_hash, :number, :parent_hash, :seal, :timestamp, :transactions_root, :proposals_root, :uncles_count, :uncles_hash, :version, :cell_consumed, :reward, :total_transaction_fee, :ckb_transactions_count, :total_cell_capacity, :status, on: :create
   validates :reward, :total_transaction_fee, :ckb_transactions_count, :total_cell_capacity, :cell_consumed, numericality: { greater_than_or_equal_to: 0 }
@@ -57,6 +58,7 @@ class Block < ApplicationRecord
   def abandon!
     update!(status: "abandoned")
     ChangeCkbTransactionsStatusWorker.perform_async(id, "abandoned")
+    ChangeCellOutputsStatusWorker.perform_async(id, "abandoned")
   end
 end
 
