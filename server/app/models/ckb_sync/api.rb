@@ -5,7 +5,7 @@ module CkbSync
     METHOD_NAMES = %w(get_tip_header get_tip_block_number get_cells_by_lock_hash get_transaction system_script_out_point system_script_cell_hash send_transaction get_live_cell trace_transaction genesis_block get_transaction_trace set_system_script_cell local_node_info inspect system_script_cell genesis_block_hash get_block uri get_block_hash).freeze
 
     def initialize
-      @hosts = YAML.load_file(Rails.root.join("config", "ckb_node_hosts.yml"))["hosts"]
+      @hosts = Settings.hosts
       @api = CKB::API.new(host: ENV["CKB_NODE_URL"])
     rescue JSON::ParserError
       reassign_api

@@ -10,6 +10,10 @@ server/.rakeTasks
 /server/.env.local
 /server/.env.test
 
+# server config
+/server/config/settings.local.yml
+/server/config/settings/*.local.yml
+
 # Ignore all logfiles and tempfiles.
 /server/log/*
 /server/tmp/*
