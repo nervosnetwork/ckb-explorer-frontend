@@ -22,6 +22,7 @@ server/.rakeTasks
 
 /server/.byebug_history
 /server/config/database.yml
+/server/config/ckb_node_hosts.yml
 
 # Ignore master key for decrypting credentials and more.
 /server/config/master.key
