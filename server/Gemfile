@@ -31,6 +31,9 @@ gem "rack-cors", require: "rack/cors"
 # config ENV by dotenv
 gem "dotenv-rails"
 
+# manage environment specific settings by config
+gem "config"
+
 # daemons
 gem "daemons", "~> 1.2", ">= 1.2.6"
 

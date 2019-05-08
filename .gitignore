@@ -10,6 +10,10 @@ server/.rakeTasks
 /server/.env.local
 /server/.env.test
 
+# server config
+/server/config/settings.local.yml
+/server/config/settings/*.local.yml
+
 # Ignore all logfiles and tempfiles.
 /server/log/*
 /server/tmp/*
@@ -22,6 +26,7 @@ server/.rakeTasks
 
 /server/.byebug_history
 /server/config/database.yml
+/server/config/ckb_node_hosts.yml
 
 # Ignore master key for decrypting credentials and more.
 /server/config/master.key
