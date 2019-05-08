@@ -6,7 +6,6 @@ server/.rakeTasks
 # server
 # Ignore bundler config.
 /server/.bundle
-/server/.env
 /server/.env.local
 /server/.env.test
 
@@ -25,8 +24,6 @@ server/.rakeTasks
 !/server/storage/.keep
 
 /server/.byebug_history
-/server/config/database.yml
-/server/config/ckb_node_hosts.yml
 
 # Ignore master key for decrypting credentials and more.
 /server/config/master.key
