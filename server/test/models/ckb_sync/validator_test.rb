@@ -54,7 +54,7 @@ module CkbSync
       block = create(:block, :with_block_hash, :with_block_number)
       previous_ckb_transaction = create(:ckb_transaction, block: block)
       previous_ckb_transaction.cell_inputs.create(previous_output: { tx_hash: CellOutput::BASE_HASH, index: 4294967295 })
-      cell_output = previous_ckb_transaction.cell_outputs.create(capacity: 10**8, address: create(:address))
+      cell_output = previous_ckb_transaction.cell_outputs.create(capacity: 10**8, address: create(:address), block: block)
       cell_output.create_lock_script
 
       ckb_transaction = create(:ckb_transaction)

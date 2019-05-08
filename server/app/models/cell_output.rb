@@ -2,10 +2,11 @@ class CellOutput < ApplicationRecord
   BASE_HASH = "0x0000000000000000000000000000000000000000000000000000000000000000".freeze
   INITIAL_BLOCK_REWARD = 50_000
 
-  enum status: { live: 0, dead: 1 }
+  enum status: { live: 0, dead: 1, abandoned: 2 }
 
   belongs_to :ckb_transaction
   belongs_to :address
+  belongs_to :block
   has_one :lock_script
   has_one :type_script
 
@@ -37,8 +38,11 @@ end
 #  updated_at         :datetime         not null
 #  status             :integer          default("live")
 #  address_id         :bigint
+#  block_id           :bigint
 #
 # Indexes
 #
+#  index_cell_outputs_on_address_id          (address_id)
+#  index_cell_outputs_on_block_id            (block_id)
 #  index_cell_outputs_on_ckb_transaction_id  (ckb_transaction_id)
 #

@@ -3,6 +3,8 @@ require "test_helper"
 class CellOutputTest < ActiveSupport::TestCase
   context "associations" do
     should belong_to(:ckb_transaction)
+    should belong_to(:address)
+    should belong_to(:block)
     should have_one(:lock_script)
     should have_one(:type_script)
   end
@@ -14,7 +16,8 @@ class CellOutputTest < ActiveSupport::TestCase
   end
 
   test "#to_node_cell_output should return correct hash" do
-    cell_output = create(:cell_output, :with_full_transaction)
+    cell_output = create_cell_output
+
     node_cell_output = { capacity: cell_output.capacity, data: cell_output.data, lock: cell_output.lock_script.to_node_lock, type: cell_output.type_script.to_node_type }
 
     assert_equal node_cell_output, cell_output.to_node_cell_output
