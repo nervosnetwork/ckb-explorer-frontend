@@ -22,4 +22,13 @@ class UpdateTransactionFeeWorkerTest < ActiveSupport::TestCase
     assert_equal 1, Sidekiq::Queues["default"].size
     assert_equal "UpdateTransactionFeeWorker", Sidekiq::Queues["default"].first["class"]
   end
+
+  test "should invoke update_transaction_fee function in CkbSync::Persist" do
+    Sidekiq::Testing.inline! do
+      block = create(:block, :with_block_hash)
+      ckb_transactions = create_list(:ckb_transaction, 10, block: block)
+      CkbSync::Persist.expects(:update_transaction_fee).with(ckb_transactions).once
+      UpdateTransactionFeeWorker.perform_async(ckb_transactions.pluck(:id))
+    end
+  end
 end

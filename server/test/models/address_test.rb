@@ -129,6 +129,7 @@ class AddressTest < ActiveSupport::TestCase
       VCR.use_cassette("blocks/three") do
         CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
         CkbSync::AuthenticSync.sync_node_data
+        create(:sync_info, name: "authentic_tip_block_number", value: 10)
 
         local_block = Block.find_by(block_hash: DEFAULT_NODE_BLOCK_HASH)
 
@@ -157,6 +158,7 @@ class AddressTest < ActiveSupport::TestCase
       VCR.use_cassette("blocks/three") do
         CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
         CkbSync::AuthenticSync.sync_node_data
+        create(:sync_info, name: "authentic_tip_block_number", value: 10)
 
         previous_block = create(:block, :with_block_hash, number: 100)
         previous_ckb_transaction = create(:ckb_transaction, block: previous_block)

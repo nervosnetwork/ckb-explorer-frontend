@@ -4,6 +4,7 @@ module CkbSync
   class ValidatorTest < ActiveSupport::TestCase
     setup do
       create(:sync_info, name: "authentic_tip_block_number", value: 10)
+      create(:sync_info, name: "inauthentic_tip_block_number", value: 10)
     end
 
     test "should creat the block when the local is not saved" do

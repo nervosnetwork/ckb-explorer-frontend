@@ -192,7 +192,6 @@ module ActiveSupport
       DatabaseCleaner.clean
       Sidekiq::Worker.clear_all
       Rails.cache.clear
-      Sidekiq.redis(&:flushdb)
     end
   end
 end
