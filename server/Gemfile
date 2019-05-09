@@ -55,6 +55,8 @@ gem "fast_jsonapi"
 
 gem "kaminari"
 
+gem "concurrent-ruby", require: "concurrent"
+
 # Deployment
 gem "mina", require: false
 gem "mina-multistage", require: false
