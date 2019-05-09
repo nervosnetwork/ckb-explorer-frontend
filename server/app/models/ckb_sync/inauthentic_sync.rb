@@ -9,6 +9,8 @@ module CkbSync
 
         return if should_break?(from, to)
 
+        generate_sync_log(from, to)
+
         worker_args = Concurrent::Array.new
         ivars =
           (from..to).each_slice(1000).map do |numbers|
@@ -19,8 +21,16 @@ module CkbSync
         worker_args_consumer = CkbSync::DataSyncWorkerArgsConsumer.new(worker_args, "SaveBlockWorker")
         worker_args_consumer.consume_worker_args(ivars)
 
-        SyncInfo.local_inauthentic_tip_block_number = to
         Rails.cache.delete("current_inauthentic_sync_round")
+      end
+
+      def generate_sync_log(latest_from, latest_to)
+        sync_infos =
+          (latest_from..latest_to).map do |number|
+            SyncInfo.new(name: "inauthentic_tip_block_number", value: number, status: "syncing")
+          end
+
+        SyncInfo.import sync_infos, batch_size: 1500
       end
 
       def should_break?(latest_from, latest_to)

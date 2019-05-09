@@ -19,7 +19,8 @@ module CkbSync
 
         ApplicationRecord.transaction do
           Block.import! [local_block], recursive: true, batch_size: 1500
-          SyncInfo.find_by!(name: sync_tip_block_number_type(sync_type)).update!(status: "synced")
+
+          SyncInfo.find_by!(name: sync_tip_block_number_type(sync_type), value: local_block.number).update!(status: "synced")
 
           ckb_transactions = assign_display_info_to_ckb_transaction(ckb_transaction_and_display_cell_hashes)
           calculate_transaction_fee(node_block["transactions"], ckb_transactions)

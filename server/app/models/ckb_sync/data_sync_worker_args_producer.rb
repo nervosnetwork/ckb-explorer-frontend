@@ -9,7 +9,6 @@ module CkbSync
 
     def produce_worker_args(numbers)
       numbers.each do |number|
-        # puts "number #{number}"
         @current_worker_args << [CkbSync::Api.instance.get_block_hash(number.to_s)]
       end
     end

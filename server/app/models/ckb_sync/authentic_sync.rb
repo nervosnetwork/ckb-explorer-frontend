@@ -9,6 +9,8 @@ module CkbSync
 
         return if should_break?(from, to)
 
+        generate_sync_log(from, to)
+
         worker_args = Concurrent::Array.new
 
         ivars =
@@ -20,8 +22,16 @@ module CkbSync
         worker_args_consumer.consume_worker_args(ivars)
 
         Rails.cache.delete("current_authentic_sync_round")
-
         CkbSync::Persist.update_ckb_transaction_info_and_fee
+      end
+
+      def generate_sync_log(latest_from, latest_to)
+        sync_infos =
+          (latest_from..latest_to).map do |number|
+            SyncInfo.new(name: "authentic_tip_block_number", value: number, status: "syncing")
+          end
+
+        SyncInfo.import sync_infos, batch_size: 1500
       end
 
       def should_break?(latest_from, latest_to)
