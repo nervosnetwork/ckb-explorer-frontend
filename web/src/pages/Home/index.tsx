@@ -34,11 +34,15 @@ import { Response } from '../../http/response/Response'
 export default () => {
   const initBlockWrappers: BlockWrapper[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
+
+  const BLOCK_POLLING_TIME = 1000
   useEffect(() => {
-    fetchBlocks().then(json => {
-      const { data } = json as Response<BlockWrapper[]>
-      setBlocksWrappers(data)
-    })
+    setInterval(() => {
+      fetchBlocks().then(json => {
+        const { data } = json as Response<BlockWrapper[]>
+        setBlocksWrappers(data)
+      })
+    }, BLOCK_POLLING_TIME)
   }, [])
 
   return (
