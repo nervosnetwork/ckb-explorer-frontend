@@ -40,7 +40,7 @@ import { Block, BlockWrapper } from '../../http/response/Block'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
-import { fetchBlockByHash, fetchTransactionsByBlockHash } from '../../http/fetcher'
+import { fetchBlockByHash, fetchTransactionsByBlockHash, fetchBlockByNumber } from '../../http/fetcher'
 import { copyDivValue, validNumber, shannonToCkb } from '../../utils/util'
 import browserHistory from '../../routes/history'
 
@@ -157,6 +157,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const [totalTransactions, setTotalTransactions] = useState(1)
   const [pageNo, setPageNo] = useState(validNumber(page, PageParams.PageNo))
   const [pageSize, setPageSize] = useState(validNumber(size, PageParams.PageSize))
+  const [hasPrev, setHasPrev] = useState(true)
+  const [hasNext, setHasNext] = useState(true)
 
   const getTransactions = (block_hash: string, page_p: number, size_p: number) => {
     fetchTransactionsByBlockHash(block_hash, page_p, size_p).then(json => {
@@ -169,11 +171,25 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     })
   }
 
+  const updateBlockPrevNext = (blockNumber: number) => {
+    setHasPrev(blockNumber > 0)
+    fetchBlockByNumber(`${blockNumber + 1}`)
+      .then(json => {
+        const { data } = json as Response<BlockWrapper>
+        setHasNext(data.attributes.number > 0)
+      })
+      .catch(() => {
+        setHasNext(false)
+      })
+  }
+
   const getBlockByHash = () => {
     fetchBlockByHash(hash)
       .then(json => {
         const { data } = json as Response<BlockWrapper>
-        setBlockData(data.attributes as Block)
+        const block = data.attributes as Block
+        setBlockData(block)
+        updateBlockPrevNext(block.number)
         const page_p = validNumber(page, PageParams.PageNo)
         const size_p = validNumber(size, PageParams.PageSize)
         getTransactions(data.attributes.block_hash, page_p, size_p)
@@ -265,8 +281,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       value: `${blockData.proof}`,
     },
   ]
-  const hasPrev = blockData && blockData.number > 0
-  const hasNext = blockData && !!blockData.block_hash
+  
   return (
     <Content>
       <BlockDetailPanel width={window.innerWidth} className="container">
