@@ -71,7 +71,7 @@ const AddressScriptLabel = ({ image, label, value }: { image: string; label: str
 
 enum PageParams {
   PageNo = 1,
-  PageSize = 3,
+  PageSize = 10,
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string }>>) => {

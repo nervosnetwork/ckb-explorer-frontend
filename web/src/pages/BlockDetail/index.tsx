@@ -121,7 +121,7 @@ interface BlockItem {
 
 enum PageParams {
   PageNo = 1,
-  PageSize = 3,
+  PageSize = 10,
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
