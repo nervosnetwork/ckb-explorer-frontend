@@ -7,7 +7,7 @@ class CreateSyncInfos < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-    add_index :sync_infos, :name, unique: true
     add_index :sync_infos, [:name, :status]
+    add_index :sync_infos, [:name, :value]
   end
 end

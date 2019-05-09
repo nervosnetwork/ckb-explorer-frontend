@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name", "status"], name: "index_sync_infos_on_name_and_status"
-    t.index ["name"], name: "index_sync_infos_on_name", unique: true
+    t.index ["name", "value"], name: "index_sync_infos_on_name_and_value"
   end
 
   create_table "type_scripts", force: :cascade do |t|
