@@ -20,7 +20,7 @@ module CkbSync
     def call_rpc(method, params: [])
       @api.send(method, *params)
     rescue JSON::ParserError
-      reassign_api
+      reassign_api.send(method, *params)
     end
 
     private
