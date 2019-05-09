@@ -28,7 +28,7 @@ import { Address } from '../../http/response/Address'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
-import { copyDivValue, validNumber } from '../../utils/util'
+import { copyDivValue, validNumber, shannonToCkb } from '../../utils/util'
 
 const AddressTitle = ({ address }: { address: string }) => {
   const appContext = useContext(AppContext)
@@ -143,7 +143,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
             <SimpleLabel
               image={BalanceIcon}
               label="Balance: "
-              value={`${addressData.balance} CKB`}
+              value={`${shannonToCkb(addressData.balance)} CKB`}
               style={{
                 flexGrow: 1,
               }}
