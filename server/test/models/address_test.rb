@@ -1,6 +1,10 @@
 require "test_helper"
 
 class AddressTest < ActiveSupport::TestCase
+  setup do
+    create(:sync_info, name: "inauthentic_tip_block_number", value: 10)
+  end
+
   context "associations" do
     should have_one(:lock_script)
     should have_many(:account_books)

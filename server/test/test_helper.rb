@@ -52,7 +52,8 @@ def prepare_inauthentic_node_data
         block_hash = CkbSync::Api.instance.get_block_hash(number.to_s)
       end
 
-      SyncInfo.local_inauthentic_tip_block_number = number
+      sync_info = SyncInfo.find_by(name: "inauthentic_tip_block_number")
+      sync_info.update(value: number, status: "syncing")
 
       VCR.use_cassette("blocks/#{number}") do
         node_block = CkbSync::Api.instance.get_block(block_hash).deep_stringify_keys

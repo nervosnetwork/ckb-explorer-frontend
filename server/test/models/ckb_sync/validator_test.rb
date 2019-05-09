@@ -2,6 +2,10 @@ require "test_helper"
 
 module CkbSync
   class ValidatorTest < ActiveSupport::TestCase
+    setup do
+      create(:sync_info, name: "authentic_tip_block_number", value: 10)
+    end
+
     test "should creat the block when the local is not saved" do
       VCR.use_cassette("blocks/10") do
         assert_difference "Block.count", 1 do

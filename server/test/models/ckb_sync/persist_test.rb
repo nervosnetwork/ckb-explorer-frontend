@@ -3,6 +3,11 @@ require "minitest/autorun"
 
 module CkbSync
   class PersistTest < ActiveSupport::TestCase
+    setup do
+      Faker::Number.unique.clear
+      create_list(:sync_info, 15, name: "inauthentic_tip_block_number")
+    end
+
     test ".call should invoke save_block method " do
       node_block = nil
       VCR.use_cassette("blocks/10") do

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://47.111.175.189:8122/
+    uri: http://localhost:8114/
     body:
       encoding: UTF-8
       string: '{"id":1,"jsonrpc":"2.0","method":"get_block_hash","params":["8"]}'
@@ -35,6 +35,6 @@ http_interactions:
       string: '{"jsonrpc":"2.0","result":"0x0e45c50efdddb9b53743c00d2a5d3ae4545efad1bc5d162e563f2720d2c6aae5","id":1}
 
 '
-    http_version: 
+    http_version:
   recorded_at: Sun, 28 Apr 2019 11:13:49 GMT
 recorded_with: VCR 4.0.0
