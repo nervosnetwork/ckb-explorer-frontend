@@ -37,12 +37,19 @@ export default () => {
 
   const BLOCK_POLLING_TIME = 1000
   useEffect(() => {
-    setInterval(() => {
-      fetchBlocks().then(json => {
-        const { data } = json as Response<BlockWrapper[]>
-        setBlocksWrappers(data)
-      })
-    }, BLOCK_POLLING_TIME)
+    const listener = setInterval(() => {
+        fetchBlocks().then(json => {
+          const { data } = json as Response<BlockWrapper[]>
+          setBlocksWrappers(data)
+        })
+      }, 
+    BLOCK_POLLING_TIME)
+
+    return () => {
+      if (listener) {
+        clearInterval(listener)
+      }
+    }
   }, [])
 
   return (
