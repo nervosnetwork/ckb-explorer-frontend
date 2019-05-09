@@ -8,7 +8,7 @@ export const AddressData: Response<AddressWrapper> = {
     type: 'address',
     attributes: {
       address_hash: '0xnj7982dd3149da69e05e8867ccebd84eebdddaf947cc2618a1dca7683eadekoi',
-      balance: 1000,
+      balance: 10000000000,
       transactions_count: 100,
       cell_consumed: 50,
       lock_script: {
