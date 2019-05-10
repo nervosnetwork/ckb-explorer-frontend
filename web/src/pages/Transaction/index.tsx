@@ -187,6 +187,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const { params } = match
   const { hash } = params
 
+  const appContext = useContext(AppContext)
+
   const initTransaction: Transaction = {
     transaction_hash: '',
     block_number: '',
@@ -213,10 +215,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   }
 
   const getTransaction = () => {
-    fetchTransactionByHash(hash).then(json => {
-      const { data } = json as Response<TransactionWrapper>
-      setTransaction(data.attributes as Transaction)
-    })
+    appContext.showLoading()
+    fetchTransactionByHash(hash)
+      .then(json => {
+        const { data } = json as Response<TransactionWrapper>
+        setTransaction(data.attributes as Transaction)
+        appContext.hideLoading()
+      })
+      .catch(() => {
+        appContext.hideLoading()
+      })
   }
 
   useEffect(() => {
