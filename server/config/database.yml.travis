@@ -1,8 +1,0 @@
-default: &default
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 25 } %>
-
-test:
-  <<: *default
-  database: ckb_explorer_test
