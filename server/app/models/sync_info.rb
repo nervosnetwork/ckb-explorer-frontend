@@ -6,7 +6,7 @@ class SyncInfo < ApplicationRecord
     def local_inauthentic_tip_block_number
       sync_info = SyncInfo.where(name: "inauthentic_tip_block_number", status: "syncing").recent.first
       if sync_info.blank?
-        sync_info = SyncInfo.create(name: "inauthentic_tip_block_number", value: -1)
+        sync_info = SyncInfo.create(name: "inauthentic_tip_block_number", value: -1, status: "syncing")
       end
 
       sync_info.value
@@ -15,7 +15,7 @@ class SyncInfo < ApplicationRecord
     def local_authentic_tip_block_number
       sync_info = SyncInfo.where(name: "authentic_tip_block_number", status: "syncing").recent.first
       if sync_info.blank?
-        sync_info = SyncInfo.create(name: "authentic_tip_block_number", value: -1)
+        sync_info = SyncInfo.create(name: "authentic_tip_block_number", value: -1, status: "syncing")
       end
 
       sync_info.value
@@ -37,5 +37,5 @@ end
 # Indexes
 #
 #  index_sync_infos_on_name_and_status  (name,status)
-#  index_sync_infos_on_name_and_value   (name,value)
+#  index_sync_infos_on_name_and_value   (name,value) UNIQUE
 #

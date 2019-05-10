@@ -18,10 +18,8 @@ module CkbSync
             worker_args_producer.async.produce_worker_args(numbers)
           end
 
-        worker_args_consumer = CkbSync::DataSyncWorkerArgsConsumer.new(worker_args, "SaveBlockWorker")
+        worker_args_consumer = CkbSync::DataSyncWorkerArgsConsumer.new(worker_args, "SaveBlockWorker", "current_inauthentic_sync_round")
         worker_args_consumer.consume_worker_args(ivars)
-
-        Rails.cache.delete("current_inauthentic_sync_round")
       end
 
       def generate_sync_log(latest_from, latest_to)
@@ -30,10 +28,12 @@ module CkbSync
             SyncInfo.new(name: "inauthentic_tip_block_number", value: number, status: "syncing")
           end
 
-        SyncInfo.import sync_infos, batch_size: 1500
+        SyncInfo.import sync_infos, batch_size: 1500, on_duplicate_key_ignore: true
       end
 
       def should_break?(latest_from, latest_to)
+        return true if latest_from >= latest_to
+
         latest_uuid = SecureRandom.uuid
         cached_current_round = current_sync_round(latest_from, latest_to, latest_uuid)
         current_from = cached_current_round[:from]
