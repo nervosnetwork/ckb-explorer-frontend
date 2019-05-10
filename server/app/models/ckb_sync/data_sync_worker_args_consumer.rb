@@ -1,7 +1,6 @@
 module CkbSync
   class DataSyncWorkerArgsConsumer
     def initialize(current_worker_args, worker_name, current_round_key)
-      super()
       @current_worker_args = current_worker_args
       @worker_name = worker_name
       @current_round_key = current_round_key
