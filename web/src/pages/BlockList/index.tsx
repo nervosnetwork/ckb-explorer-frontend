@@ -53,6 +53,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
           setTotalBlocks(total)
         }
         setBlockWrappers(() => data)
+        appContext.hideLoading()
       })
       .catch(() => {
         appContext.hideLoading()
