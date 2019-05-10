@@ -70,6 +70,7 @@ class BlockTest < ActiveSupport::TestCase
 
     block = create(:block, :with_block_hash)
     create(:ckb_transaction, :with_cell_output_and_lock_and_type_script, block: block)
+    create(:sync_info, name: "authentic_tip_block_number", value: 10)
     SyncInfo.local_authentic_tip_block_number
 
     assert_changes -> { block.cell_outputs.pluck(:status).uniq }, from: ["live"], to: ["abandoned"] do
