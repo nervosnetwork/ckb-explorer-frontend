@@ -60,7 +60,7 @@ def prepare_inauthentic_node_data
         tx = node_block["transactions"].first
         output = tx["outputs"].first
         output["lock"]["args"] = ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
-        output["lock"]["code_hash"] = ENV["SYSTEM_SCRIPT_CELL_HASH"]
+        output["lock"]["code_hash"] = ENV["CODE_HASH"]
 
         CkbSync::Persist.save_block(node_block, "inauthentic")
       end
