@@ -23,7 +23,7 @@ const App = () => {
       return config
     },
     error => {
-      appContext.toastMessage(error.toString(), 2000)
+      console.error(error.toString())
       return Promise.reject(error)
     },
   )
@@ -33,7 +33,7 @@ const App = () => {
       return response
     },
     error => {
-      appContext.toastMessage(error.toString(), 2000)
+      console.error(error.toString())
       return Promise.reject(error)
     },
   )
