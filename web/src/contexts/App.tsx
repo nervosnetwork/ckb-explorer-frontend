@@ -11,14 +11,10 @@ export interface Modal {
   maskTop: number
   maskColor: string
 }
-export interface Loading {
-  maskTop: number
-  maskColor: string
-}
 
 export interface App {
   toast: ToastMessage | null
-  loading: Loading | null
+  show: boolean
   modal: Modal | null
 
   appWidth: number
@@ -34,7 +30,7 @@ export interface App {
 }
 export const initApp: App = {
   toast: null,
-  loading: null,
+  show: false,
   modal: null,
   appWidth: window.innerWidth,
   appHeight: window.innerHeight,

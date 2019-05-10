@@ -133,6 +133,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const parsed = queryString.parse(search)
   const { page, size } = parsed
 
+  const appContext = useContext(AppContext)
+
   const initBlock: Block = {
     block_hash: '',
     number: 0,
@@ -161,14 +163,18 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const [hasNext, setHasNext] = useState(true)
 
   const getTransactions = (block_hash: string, page_p: number, size_p: number) => {
-    fetchTransactionsByBlockHash(block_hash, page_p, size_p).then(json => {
-      const { data, meta } = json as Response<TransactionWrapper[]>
-      if (meta) {
-        const { total } = meta
-        setTotalTransactions(total)
-      }
-      setTransactionWrappers(data)
-    })
+    fetchTransactionsByBlockHash(block_hash, page_p, size_p)
+      .then(json => {
+        const { data, meta } = json as Response<TransactionWrapper[]>
+        if (meta) {
+          const { total } = meta
+          setTotalTransactions(total)
+        }
+        setTransactionWrappers(data)
+      })
+      .catch(() => {
+
+      })
   }
 
   const updateBlockPrevNext = (blockNumber: number) => {
@@ -184,6 +190,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   }
 
   const getBlockByHash = () => {
+    appContext.showLoading()
     fetchBlockByHash(hash)
       .then(json => {
         const { data } = json as Response<BlockWrapper>
@@ -193,11 +200,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         const page_p = validNumber(page, PageParams.PageNo)
         const size_p = validNumber(size, PageParams.PageSize)
         getTransactions(data.attributes.block_hash, page_p, size_p)
+        appContext.hideLoading()
       })
       .catch(() => {
         setBlockData(initBlock)
         setTotalTransactions(0)
         setTransactionWrappers([])
+        appContext.hideLoading()
       })
   }
 

@@ -60,7 +60,7 @@ const App = () => {
         onClose={() => {
           appContext.hideLoading()
         }}
-        data={appContext.loading}
+        show={appContext.show}
       />
       <Toast
         toastMessage={appContext.toast}
