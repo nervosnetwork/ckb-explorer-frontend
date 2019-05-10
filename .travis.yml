@@ -24,7 +24,6 @@ jobs:
         - git clone https://github.com/bitcoin-core/secp256k1.git && cd secp256k1 && ./autogen.sh && ./configure --enable-module-recovery && make && ./tests && sudo make install && cd ..
         - bundle install
       before_script:
-        - cp config/database.yml.travis config/database.yml
         - psql -c 'create database "ckb_explorer_test";' -U postgres
         - cp .env.test.local.travis .env.test.local
       script:

@@ -39,7 +39,7 @@ set :shared_dirs, fetch(:shared_dirs, []).push(
 set :shared_files, fetch(:shared_files, []).push(
   "server/config/database.yml",
   "server/config/puma.rb",
-  "server/.env",
+  "server/.env.local",
   "server/config/master.key"
 )
 
@@ -60,7 +60,7 @@ end
 task :setup do
   # command %{rbenv install 2.3.0 --skip-existing}
   command %[touch "#{fetch(:shared_path)}/server/config/database.yml"]
-  command %[touch "#{fetch(:shared_path)}/server/.env"]
+  command %[touch "#{fetch(:shared_path)}/server/.env.local"]
   command %[touch "#{fetch(:shared_path)}/server/config/puma.rb"]
   command %[touch "#{fetch(:shared_path)}/server/config/master.key"]
   command %[touch "#{fetch(:shared_path)}/server/config/ckb-explorer-puma.service"]
