@@ -11,6 +11,7 @@ class TypeScriptTest < ActiveSupport::TestCase
 
   test "#code_hash should decodes packed string" do
     VCR.use_cassette("blocks/10") do
+      create(:sync_info, name: "inauthentic_tip_block_number", value: 10)
       SyncInfo.local_inauthentic_tip_block_number
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
       set_default_lock_params(node_block: node_block)

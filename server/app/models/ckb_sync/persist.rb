@@ -1,7 +1,7 @@
 module CkbSync
   class Persist
     class << self
-      def call(block_hash, sync_type)
+      def call(block_hash, sync_type = "inauthentic")
         node_block = CkbSync::Api.instance.get_block(block_hash).deep_stringify_keys
         save_block(node_block, sync_type)
       end
@@ -19,7 +19,8 @@ module CkbSync
 
         ApplicationRecord.transaction do
           Block.import! [local_block], recursive: true, batch_size: 1500
-          SyncInfo.find_by!(name: sync_tip_block_number_type(sync_type)).update!(status: "synced")
+
+          SyncInfo.find_by!(name: sync_tip_block_number_type(sync_type), value: local_block.number).update!(status: "synced")
 
           ckb_transactions = assign_display_info_to_ckb_transaction(ckb_transaction_and_display_cell_hashes)
           calculate_transaction_fee(node_block["transactions"], ckb_transactions)

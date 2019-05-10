@@ -38,7 +38,7 @@ Style/TrailingCommaInHashLiteral:
 Metrics/LineLength:
   Enabled: false
 
-Layout/IndentHash:
+Layout/IndentFirstHashElement:
   EnforcedStyle: consistent
 
 Style/BracesAroundHashParameters:

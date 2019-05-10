@@ -1,6 +1,9 @@
 require "test_helper"
 
 class CkbTransactionTest < ActiveSupport::TestCase
+  setup do
+    create(:sync_info, name: "inauthentic_tip_block_number", value: 10)
+  end
   context "associations" do
     should belong_to(:block)
     should have_many(:account_books)
@@ -35,6 +38,7 @@ class CkbTransactionTest < ActiveSupport::TestCase
     ckb_transactions = block.ckb_transactions
 
     assert_changes -> { ckb_transactions.reload.pluck(:status).uniq }, from: ["inauthentic"], to: ["abandoned"] do
+      create(:sync_info, name: "authentic_tip_block_number", value: 10)
       SyncInfo.local_authentic_tip_block_number
       VCR.use_cassette("blocks/10") do
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
@@ -50,6 +54,7 @@ class CkbTransactionTest < ActiveSupport::TestCase
     ckb_transactions = block.ckb_transactions
 
     assert_changes -> { ckb_transactions.reload.pluck(:status).uniq }, from: ["inauthentic"], to: ["authentic"] do
+      create(:sync_info, name: "authentic_tip_block_number", value: 10)
       SyncInfo.local_authentic_tip_block_number
       VCR.use_cassette("blocks/10") do
         SyncInfo.local_inauthentic_tip_block_number

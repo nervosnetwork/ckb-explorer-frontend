@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: https://github.com/stympy/faker.git
-  revision: 59a92644d5583828add1c68351074f6e52c6deb6
+  revision: cc9f09e287fea252339c485046fe99a9ff41df07
   branch: master
   specs:
     faker (1.9.3)
@@ -75,7 +75,7 @@ GEM
     arel (9.0.0)
     ast (2.4.0)
     awesome_print (1.8.0)
-    bitcoin-secp256k1 (0.5.0)
+    bitcoin-secp256k1 (0.5.1)
       ffi (>= 1.9.25)
     bootsnap (1.4.4)
       msgpack (~> 1.0)
@@ -195,7 +195,7 @@ GEM
       mini_portile2 (~> 2.4.0)
     open4 (1.3.4)
     parallel (1.17.0)
-    parser (2.6.2.1)
+    parser (2.6.3.0)
       ast (~> 2.4.0)
     pastel (0.7.2)
       equatable (~> 0.5.0)
@@ -206,7 +206,6 @@ GEM
       method_source (~> 0.9.0)
     pry-nav (0.3.0)
       pry (>= 0.9.10, < 0.13.0)
-    psych (3.1.0)
     public_suffix (3.0.3)
     puma (3.12.1)
     rack (2.0.7)
@@ -246,17 +245,16 @@ GEM
       ffi (~> 1.0)
     rbnacl (6.0.1)
       ffi
-    redis (4.1.0)
-    rubocop (0.67.2)
+    redis (4.1.1)
+    rubocop (0.68.1)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.5, != 2.5.1.1)
-      psych (>= 3.1.0)
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 1.6)
-    rubocop-performance (1.1.0)
-      rubocop (>= 0.67.0)
+    rubocop-performance (1.2.0)
+      rubocop (>= 0.68.0)
     ruby-progressbar (1.10.0)
     ruby_dep (1.5.0)
     safe_yaml (1.0.5)
@@ -328,6 +326,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   ckb-sdk-ruby!
   codecov
+  concurrent-ruby
   config
   daemons (~> 1.2, >= 1.2.6)
   database_cleaner

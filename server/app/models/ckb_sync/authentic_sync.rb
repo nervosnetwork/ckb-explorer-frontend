@@ -9,24 +9,32 @@ module CkbSync
 
         return if should_break?(from, to)
 
-        block_hashes =
-          (from..to).map do |number|
-            SyncInfo.local_authentic_tip_block_number = number
-            [CkbSync::Api.instance.get_block_hash(number.to_s)]
+        generate_sync_log(from, to)
+
+        worker_args = Concurrent::Array.new
+        ivars =
+          (from..to).each_slice(1000).map do |numbers|
+            worker_args_producer = CkbSync::DataSyncWorkerArgsProducer.new(worker_args)
+            worker_args_producer.async.produce_worker_args(numbers)
           end
 
-        block_hashes_arr = block_hashes.each_slice(1000).to_a
-        block_hashes_arr.each do |block_hashes_arr_item|
-          Sidekiq::Client.push_bulk("class" => CheckBlockWorker, "args" => block_hashes_arr_item)
-        end
-
-        Rails.cache.delete("current_authentic_sync_round")
+        worker_args_consumer = CkbSync::DataSyncWorkerArgsConsumer.new(worker_args, "CheckBlockWorker", "current_authentic_sync_round")
+        worker_args_consumer.consume_worker_args(ivars)
 
         CkbSync::Persist.update_ckb_transaction_info_and_fee
       end
 
+      def generate_sync_log(latest_from, latest_to)
+        sync_infos =
+          (latest_from..latest_to).map do |number|
+            SyncInfo.new(name: "authentic_tip_block_number", value: number, status: "syncing")
+          end
+
+        SyncInfo.import sync_infos, batch_size: 1500, on_duplicate_key_ignore: true
+      end
+
       def should_break?(latest_from, latest_to)
-        return true if latest_to < 0
+        return true if latest_to < 0 || latest_from >= latest_to
 
         latest_uuid = SecureRandom.uuid
         cached_current_round = current_sync_round(latest_from, latest_to, latest_uuid)

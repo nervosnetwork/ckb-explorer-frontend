@@ -1,6 +1,10 @@
 require "test_helper"
 
 class AddressTest < ActiveSupport::TestCase
+  setup do
+    create(:sync_info, name: "inauthentic_tip_block_number", value: 10)
+  end
+
   context "associations" do
     should have_one(:lock_script)
     should have_many(:account_books)
@@ -93,7 +97,7 @@ class AddressTest < ActiveSupport::TestCase
       tx = node_block["transactions"].first
       output = tx["outputs"].first
       output["lock"]["args"] = ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
-      output["lock"]["code_hash"] = LockScript::SYSTEM_SCRIPT_CELL_HASH
+      output["lock"]["code_hash"] = ENV["CODE_HASH"]
 
       CkbSync::Persist.save_block(node_block, "inauthentic")
 
@@ -125,6 +129,7 @@ class AddressTest < ActiveSupport::TestCase
       VCR.use_cassette("blocks/three") do
         CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
         CkbSync::AuthenticSync.sync_node_data
+        create(:sync_info, name: "authentic_tip_block_number", value: 10)
 
         local_block = Block.find_by(block_hash: DEFAULT_NODE_BLOCK_HASH)
 
@@ -153,6 +158,7 @@ class AddressTest < ActiveSupport::TestCase
       VCR.use_cassette("blocks/three") do
         CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
         CkbSync::AuthenticSync.sync_node_data
+        create(:sync_info, name: "authentic_tip_block_number", value: 10)
 
         previous_block = create(:block, :with_block_hash, number: 100)
         previous_ckb_transaction = create(:ckb_transaction, block: previous_block)

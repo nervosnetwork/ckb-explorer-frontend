@@ -42,6 +42,8 @@ class BlockTest < ActiveSupport::TestCase
     assert_changes -> { block.status }, from: "inauthentic", to: "authentic" do
       VCR.use_cassette("blocks/10") do
         SyncInfo.local_authentic_tip_block_number
+        create(:sync_info, name: "inauthentic_tip_block_number", value: 10)
+        create(:sync_info, name: "authentic_tip_block_number", value: 10)
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
         block.verify!(node_block)
       end
@@ -50,6 +52,8 @@ class BlockTest < ActiveSupport::TestCase
 
   test "#verify! change block status to abandoned when block is not verified" do
     block = create(:block, block_hash: "0x419c632366c8eb9635acbb39ea085f7552ae62e1fdd480893375334a0f37d1bx")
+    create(:sync_info, name: "authentic_tip_block_number", value: 10)
+
     SyncInfo.local_authentic_tip_block_number
     assert_changes -> { block.status }, from: "inauthentic", to: "abandoned" do
       VCR.use_cassette("blocks/10") do
@@ -66,6 +70,7 @@ class BlockTest < ActiveSupport::TestCase
 
     block = create(:block, :with_block_hash)
     create(:ckb_transaction, :with_cell_output_and_lock_and_type_script, block: block)
+    create(:sync_info, name: "authentic_tip_block_number", value: 10)
     SyncInfo.local_authentic_tip_block_number
 
     assert_changes -> { block.cell_outputs.pluck(:status).uniq }, from: ["live"], to: ["abandoned"] do
@@ -83,6 +88,7 @@ class BlockTest < ActiveSupport::TestCase
     Block.all.each do |block|
       ckb_transactions_under_the_block = block.ckb_transactions
       addresses = ckb_transactions_under_the_block.map(&:addresses).uniq.flatten
+
       assert_equal addresses, block.contained_addresses
     end
   end
@@ -90,41 +96,49 @@ class BlockTest < ActiveSupport::TestCase
   test "#block_hash should decodes packed string" do
     block = create(:block)
     block_hash = block.block_hash
+
     assert_equal unpack_attribute(block, "block_hash"), block_hash
   end
 
   test "#parent_hash should decodes packed string" do
     block = create(:block)
     parent_hash = block.parent_hash
+
     assert_equal unpack_attribute(block, "parent_hash"), parent_hash
   end
 
   test "#transactions_root should decodes packed string" do
     block = create(:block)
     transactions_root = block.transactions_root
+
     assert_equal unpack_attribute(block, "transactions_root"), transactions_root
   end
 
   test "#proposals_root should decodes packed string" do
     block = create(:block)
     proposals_root = block.proposals_root
+
     assert_equal unpack_attribute(block, "proposals_root"), proposals_root
   end
 
   test "#uncles_hash should decodes packed string" do
     block = create(:block)
     uncles_hash = block.uncles_hash
+
     assert_equal unpack_attribute(block, "uncles_hash"), uncles_hash
   end
 
   test "#uncle_block_hashes should decodes packed string" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
+      create(:sync_info, name: "inauthentic_tip_block_number", value: 10)
+
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
       CkbSync::Persist.save_block(node_block, "inauthentic")
       packed_block_hash = DEFAULT_NODE_BLOCK_HASH
       block = Block.find_by(block_hash: packed_block_hash)
       uncle_block_hashes = block.uncle_block_hashes
+
       assert_equal unpack_array_attribute(block, "uncle_block_hashes", block.uncles_count, ENV["DEFAULT_HASH_LENGTH"]), uncle_block_hashes
     end
   end
@@ -132,17 +146,20 @@ class BlockTest < ActiveSupport::TestCase
   test "#uncle_block_hashes should return super when uncle block hashes is empty" do
     block = create(:block, :with_uncle_block_hashes)
     uncle_block_hashes = block.uncle_block_hashes
+
     assert_equal unpack_array_attribute(block, "uncle_block_hashes", block.uncles_count, ENV["DEFAULT_HASH_LENGTH"]), uncle_block_hashes
   end
 
   test "#proposals should decodes packed string" do
     VCR.use_cassette("blocks/10") do
+      create(:sync_info, value: 10, name: "inauthentic_tip_block_number")
       SyncInfo.local_inauthentic_tip_block_number
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
       CkbSync::Persist.save_block(node_block, "inauthentic")
       packed_block_hash = DEFAULT_NODE_BLOCK_HASH
       block = Block.find_by(block_hash: packed_block_hash)
       proposals = block.proposals
+
       assert_equal unpack_array_attribute(block, "proposals", block.proposals_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), proposals
     end
   end
@@ -158,6 +175,7 @@ class BlockTest < ActiveSupport::TestCase
     block.proposals = ["0xeab419c632", "0xeab410c634"]
     block.proposals_count = block.proposals.size
     block.save
+
     assert_equal unpack_array_attribute(block, "proposals", block.proposals_count, ENV["DEFAULT_SHORT_HASH_LENGTH"]), block.proposals
   end
 end

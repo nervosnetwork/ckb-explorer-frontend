@@ -54,7 +54,7 @@ module Utils
 
       return false if code_hash.blank?
 
-      code_hash == LockScript::SYSTEM_SCRIPT_CELL_HASH && CKB::Utils.valid_hex_string?(first_arg)
+      code_hash == ENV["CODE_HASH"] && CKB::Utils.valid_hex_string?(first_arg)
     end
 
     def self.parse_address(address_hash)

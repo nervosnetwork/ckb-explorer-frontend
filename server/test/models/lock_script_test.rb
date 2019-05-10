@@ -13,6 +13,7 @@ class LockScriptTest < ActiveSupport::TestCase
   test "#code_hash should decodes packed string" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
+      create(:sync_info, value: 10, name: "inauthentic_tip_block_number")
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
       CkbSync::Persist.save_block(node_block, "inauthentic")
       packed_block_hash = DEFAULT_NODE_BLOCK_HASH
