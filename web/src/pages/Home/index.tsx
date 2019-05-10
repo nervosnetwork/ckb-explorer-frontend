@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   HomeHeaderPanel,
@@ -12,6 +12,7 @@ import {
 } from './styled'
 import { parseDate } from '../../utils/date'
 import Content from '../../components/Content'
+import AppContext from '../../contexts/App'
 import {
   TableTitleRow,
   TableTitleItem,
@@ -35,8 +36,23 @@ export default () => {
   const initBlockWrappers: BlockWrapper[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
 
+  const appContext = useContext(AppContext)
+  const getLatestBlocks = () => {
+    appContext.showLoading()
+    fetchBlocks()
+      .then(json => {
+        const { data } = json as Response<BlockWrapper[]>
+        setBlocksWrappers(data)
+        appContext.hideLoading()
+      })
+      .catch(() => {
+        appContext.hideLoading()
+      })
+  }
+
   const BLOCK_POLLING_TIME = 1000
   useEffect(() => {
+    getLatestBlocks()
     const listener = setInterval(() => {
         fetchBlocks().then(json => {
           const { data } = json as Response<BlockWrapper[]>

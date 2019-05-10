@@ -138,7 +138,7 @@ const orgs = [
       {
         label: 'API',
         icon: APIIcon,
-        url: 'https://github.com/nervosnetwork/ckb/blob/develop/rpc/doc.md',
+        url: 'https://github.com/nervosnetwork/ckb/blob/develop/rpc/README.md',
       },
       {
         label: 'GitHub',

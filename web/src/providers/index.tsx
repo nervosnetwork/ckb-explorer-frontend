@@ -14,25 +14,20 @@ const withProviders = (Comp: React.ComponentType) => (props: React.Props<any>) =
         }
       })
     },
-    showLoading: (maskColor: string, maskTopPoz: number) => {
+    showLoading: () => {
       setApp((state: any) => {
         return {
           ...state,
-          loading: {
-            show: true,
-            maskColor,
-            maskTopPoz,
-          },
+          show: true,
         }
       })
     },
     hideLoading: () => {
       setApp((state: any) => {
-        const newApp = {
+        return {
           ...state,
+          show: false,
         }
-        delete newApp.loading
-        return newApp
       })
     },
     showModal: (ui: any, uiProps: any) => {

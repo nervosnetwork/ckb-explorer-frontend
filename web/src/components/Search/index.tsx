@@ -62,8 +62,10 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
     if (!q) {
       appContext.toastMessage('Please input valid content', 3000)
     } else {
+      appContext.showLoading()
       fetchSearchResult(q)
         .then((json: any) => {
+          appContext.hideLoading()
           const { data } = json
           if (data.type === 'block') {
             browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
@@ -77,6 +79,7 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
           }
         })
         .catch(() => {
+          appContext.hideLoading()
           browserHistory.push(`/search/fail?q=${q}`)
         })
     }

@@ -19,7 +19,7 @@ export const TransactionsItem = styled.div`
 
     .transaction_hash {
       font-size: 16px;
-      color: rgb(136, 136, 136);
+      color: rgb(75, 188, 142);
     }
 
     .transaction_block {

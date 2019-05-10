@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import loadingImage from './loading.svg'
-import { Loading as LoadingType } from '../../contexts/App'
 
 const LoadingDiv = styled.div`
   position: absolute;
@@ -32,29 +31,31 @@ const LoadingDiv = styled.div`
     -webkit-animation: loadingAnimation 1.6s linear 0ms infinite;
   }
 `
-export default ({ data, onClose }: { data: LoadingType | null; onClose: Function }) => {
-  if (!data) return null
+
+export default ({ show, onClose }: { show: boolean ; onClose: Function }) => {
   return (
-    <LoadingDiv className="loading">
-      <div
-        className="loading__content"
-        style={{
-          marginTop: data.maskTop || 0,
-          backgroundColor: data.maskColor || 'transparent',
-        }}
-      >
-        <img
-          alt="loading"
+    show? (
+      <LoadingDiv className="loading">
+        <div
+          className="loading__content"
           style={{
-            width: 36,
-            height: 36,
+            marginTop: 100,
+            backgroundColor: 'transparent',
           }}
-          src={loadingImage}
-          onDoubleClick={() => {
-            if (onClose) onClose()
-          }}
-        />
-      </div>
-    </LoadingDiv>
+        >
+          <img
+            alt="loading"
+            style={{
+              width: 60,
+              height: 60,
+            }}
+            src={loadingImage}
+            onDoubleClick={() => {
+              if (onClose) onClose()
+            }}
+          />
+        </div>
+      </LoadingDiv>
+    ) : <React.Fragment/>
   )
 }

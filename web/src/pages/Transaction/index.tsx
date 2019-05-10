@@ -82,23 +82,41 @@ const ScriptComponent = ({
                   }
                   newCellInputOutput.select = newCellInputOutput.select === item ? null : item
                   if (item === 'Lock Script') {
-                    fetchScript(cellType, 'lock_scripts', cellInputOutput.id).then(json => {
-                      const { data } = json as Response<ScriptWrapper>
-                      setScript(data? data.attributes : initScript)
-                      updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
-                    })
+                    appContext.showLoading()
+                    fetchScript(cellType, 'lock_scripts', cellInputOutput.id)
+                      .then(json => {
+                        const { data } = json as Response<ScriptWrapper>
+                        setScript(data? data.attributes : initScript)
+                        updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
+                        appContext.hideLoading()
+                      })
+                      .catch(() => {
+                        appContext.hideLoading()
+                      })
                   } else if (item === 'Type Script') {
-                    fetchScript(cellType, 'type_scripts', cellInputOutput.id).then(json => {
-                      const { data } = json as Response<ScriptWrapper>
-                      setScript(data? data.attributes : initScript)
-                      updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
-                    })
+                    appContext.showLoading()
+                    fetchScript(cellType, 'type_scripts', cellInputOutput.id)
+                      .then(json => {
+                        const { data } = json as Response<ScriptWrapper>
+                        setScript(data? data.attributes : initScript)
+                        updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
+                        appContext.hideLoading()
+                      })
+                      .catch(() => {
+                        appContext.hideLoading()
+                      })
                   } else {
-                    fetchCellData(cellType, cellInputOutput.id).then(json => {
-                      const { data } = json as Response<DataWrapper>
-                      setCellData(data? data.attributes : initCellData)
-                      updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
-                    })
+                    appContext.showLoading()
+                    fetchCellData(cellType, cellInputOutput.id)
+                      .then(json => {
+                        const { data } = json as Response<DataWrapper>
+                        setCellData(data? data.attributes : initCellData)
+                        updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
+                        appContext.hideLoading()
+                      })
+                      .catch(() => {
+                        appContext.hideLoading()
+                      })
                   }
                 }}
               >
@@ -187,6 +205,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const { params } = match
   const { hash } = params
 
+  const appContext = useContext(AppContext)
+
   const initTransaction: Transaction = {
     transaction_hash: '',
     block_number: '',
@@ -213,10 +233,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   }
 
   const getTransaction = () => {
-    fetchTransactionByHash(hash).then(json => {
-      const { data } = json as Response<TransactionWrapper>
-      setTransaction(data.attributes as Transaction)
-    })
+    appContext.showLoading()
+    fetchTransactionByHash(hash)
+      .then(json => {
+        const { data } = json as Response<TransactionWrapper>
+        setTransaction(data.attributes as Transaction)
+        appContext.hideLoading()
+      })
+      .catch(() => {
+        appContext.hideLoading()
+      })
   }
 
   useEffect(() => {

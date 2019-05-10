@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
 import queryString from 'query-string'
+import AppContext from '../../contexts/App'
 import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition } from './styled'
 import { parseDate } from '../../utils/date'
 import Content from '../../components/Content'
@@ -34,6 +35,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   const parsed = queryString.parse(search)
   const { page, size } = parsed
 
+  const appContext = useContext(AppContext)
+
   const initBlockWrappers: BlockWrapper[] = []
   const [blockWrappers, setBlockWrappers] = useState(initBlockWrappers)
   const [totalBlocks, setTotalBlocks] = useState(1)
@@ -41,14 +44,20 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   const [pageSize, setPageSize] = useState(validNumber(size, PageParams.PageSize))
 
   const getBlocks = (page_p: number, size_p: number) => {
-    fetchBlockList(page_p, size_p).then(response => {
-      const { data, meta } = response as Response<BlockWrapper[]>
-      if (meta) {
-        const { total } = meta
-        setTotalBlocks(total)
-      }
-      setBlockWrappers(() => data)
-    })
+    appContext.showLoading()
+    fetchBlockList(page_p, size_p)
+      .then(response => {
+        const { data, meta } = response as Response<BlockWrapper[]>
+        if (meta) {
+          const { total } = meta
+          setTotalBlocks(total)
+        }
+        setBlockWrappers(() => data)
+        appContext.hideLoading()
+      })
+      .catch(() => {
+        appContext.hideLoading()
+      })
   }
 
   useEffect(() => {
