@@ -74,10 +74,6 @@ const menus = [
     url: 'https://github.com/nervosnetwork/neuron',
   },
   {
-    name: 'Faucet',
-    url: '',
-  },
-  {
     name: 'Docs',
     url: 'https://github.com/nervosnetwork/docs',
   },
