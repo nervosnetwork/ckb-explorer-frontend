@@ -29,7 +29,7 @@ end
 #
 #  id         :bigint           not null, primary key
 #  name       :string
-#  value      :bigint
+#  value      :decimal(30, )
 #  status     :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

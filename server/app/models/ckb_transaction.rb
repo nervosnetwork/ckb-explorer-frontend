@@ -27,12 +27,12 @@ end
 #  tx_hash                :binary
 #  deps                   :jsonb
 #  block_id               :bigint
-#  block_number           :bigint
-#  block_timestamp        :bigint
+#  block_number           :decimal(30, )
+#  block_timestamp        :decimal(30, )
 #  display_inputs         :jsonb
 #  display_outputs        :jsonb
 #  status                 :integer
-#  transaction_fee        :decimal(64, 2)
+#  transaction_fee        :decimal(30, )
 #  version                :integer
 #  witnesses              :string           is an Array
 #  created_at             :datetime         not null
