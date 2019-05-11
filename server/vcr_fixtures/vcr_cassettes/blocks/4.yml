@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:8114/
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"jsonrpc":"2.0","method":"get_block","params":["0x212c9efcc82cfc33c6cc8ebdcb2f43ad12de4b9b92b7bc314ef8c4a1c7a52e9f"]}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.14.0 (Ubuntu)
+      Date:
+      - Sat, 11 May 2019 11:55:54 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '1231'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","result":{"header":{"difficulty":"0x1000","epoch":"0","hash":"0x212c9efcc82cfc33c6cc8ebdcb2f43ad12de4b9b92b7bc314ef8c4a1c7a52e9f","number":"4","parent_hash":"0x0b17a55e23a1dbde99a5d4da7fcec0365466404f96455fc9962482da98c22aa8","proposals_hash":"0x0000000000000000000000000000000000000000000000000000000000000000","seal":{"nonce":"6678757259964964293","proof":"0x540900006e0f0000f12a00000f2e0000313200009f330000c2390000f94400004c4b0000695c0000846800007d6e0000"},"timestamp":"1557482306107","transactions_root":"0xafcee934c934b11c88fc4f4ffe7b79497af3bc3e946a1657e831f928d3687963","uncles_count":0,"uncles_hash":"0x0000000000000000000000000000000000000000000000000000000000000000","version":0,"witnesses_root":"0x0000000000000000000000000000000000000000000000000000000000000000"},"proposals":[],"transactions":[{"deps":[],"hash":"0xafcee934c934b11c88fc4f4ffe7b79497af3bc3e946a1657e831f928d3687963","inputs":[{"args":["0x0400000000000000"],"previous_output":{"block_hash":null,"cell":null},"since":"0"}],"outputs":[{"capacity":"5000000000000","data":"0x","lock":{"args":[],"code_hash":"0x0000000000000000000000000000000000000000000000000000000000000001"},"type":null}],"version":0,"witnesses":[]}],"uncles":[]},"id":1}
+
+'
+    http_version:
+  recorded_at: Sat, 11 May 2019 11:55:54 GMT
+recorded_with: VCR 4.0.0
