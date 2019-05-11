@@ -95,7 +95,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     },
   }
   const [addressData, setAddressData] = useState(initAddress)
-  const [transactionWrappers, setTrasactionWrappers] = useState(initTransactionWrappers)
+  const [transactionWrappers, setTransactionWrappers] = useState(initTransactionWrappers)
   const [totalTransactions, setTotalTransactions] = useState(1)
   const [pageNo, setPageNo] = useState(validNumber(page, PageParams.PageNo))
   const [pageSize, setPageSize] = useState(validNumber(size, PageParams.PageSize))
@@ -112,15 +112,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   }
 
   const getTransactions = (page_p: number, size_p: number) => {
-    fetchTransactionsByAddress(address, page_p, size_p).then(response => {
-      const { data, meta } = response as Response<TransactionWrapper[]>
-      if (meta) {
-        const { total } = meta
-        setTotalTransactions(total)
-      }
-      const transactions = data.slice((page_p - 1) * size_p, page_p * size_p)
-      setTrasactionWrappers(transactions)
-    })
+    fetchTransactionsByAddress(address, page_p, size_p)
+      .then(json => {
+        const { data, meta } = json as Response<TransactionWrapper[]>
+        if (meta) {
+          const { total } = meta
+          setTotalTransactions(total)
+        }
+        console.log(JSON.stringify(data))
+        setTransactionWrappers(data)
+      })
   }
 
   useEffect(() => {
