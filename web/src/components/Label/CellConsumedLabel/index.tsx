@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { shannonToCkb } from '../../../utils/util'
 
 const LabelItemPanel = styled.div`
   display: flex;
@@ -47,7 +48,7 @@ const CellConsumedLabel = ({
     <LabelItemPanel>
       <img src={image} alt="Cell Consumed" />
       <span>{`${label}:`}</span>
-      <div>{`${consumed}B / ${percentShow}%`}</div>
+      <div>{`${shannonToCkb(consumed)}B / ${percentShow}%`}</div>
     </LabelItemPanel>
   )
 }

@@ -24,7 +24,7 @@ import BalanceIcon from '../../asserts/address_balance.png'
 import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/transactions_green.png'
-import { Address } from '../../http/response/Address'
+import { Address, AddressWrapper } from '../../http/response/Address'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
@@ -101,9 +101,14 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   const [pageSize, setPageSize] = useState(validNumber(size, PageParams.PageSize))
 
   const getAddressInfo = () => {
-    fetchAddressInfo(address).then(data => {
-      setAddressData(data as Address)
-    })
+    fetchAddressInfo(address)
+      .then(json => {
+        const { data } = json as Response<AddressWrapper>
+        setAddressData(data.attributes as Address)
+      })
+      .catch(() => {
+
+      })
   }
 
   const getTransactions = (page_p: number, size_p: number) => {
