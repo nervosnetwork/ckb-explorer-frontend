@@ -40,17 +40,18 @@ export const fetchBlockList = (page: number, page_size: number) => {
 }
 
 export const fetchAddressInfo = (address: string) => {
-  return new Promise(function(resolve, reject) {
-    resolve(AddressData.data.attributes)
-    if (false) reject(address)
-  })
+  return axiosIns.get(`addresses/${address}`).then((res: AxiosResponse) => res.data)
 }
 
 export const fetchTransactionsByAddress = (address: string, page: number, size: number) => {
-  return new Promise(function(resolve, reject) {
-    resolve(TransactionsData)
-    if (false) reject(new Error(`${address}${page}${size}`))
-  })
+  return axiosIns
+    .get(`address_transactions/${address}`, {
+      params: {
+        page,
+        page_size,
+      },
+    })
+    .then((res: AxiosResponse) => res.data)
 }
 
 export const fetchTransactionByHash = (hash: string) => {
