@@ -2,15 +2,15 @@ module CkbSync
   class Persist
     class << self
       def call(block_hash, sync_type = "inauthentic")
-        node_block = CkbSync::Api.instance.get_block(block_hash).deep_stringify_keys
+        node_block = CkbSync::Api.instance.get_block(block_hash).to_h.deep_stringify_keys
         save_block(node_block, sync_type)
       end
 
       def save_block(node_block, sync_type)
         ckb_transaction_and_display_cell_hashes = []
         local_block = build_block(node_block, sync_type)
-        node_block["uncles"].each do |uncle_block|
-          build_uncle_block(uncle_block, local_block)
+        node_block["uncles"].map(&:to_h).map(&:deep_stringify_keys).each do |uncle_block|
+          build_uncle_block(uncle_block.to_h, local_block)
         end
 
         build_ckb_transactions(local_block, node_block["transactions"], sync_type, ckb_transaction_and_display_cell_hashes)
@@ -19,7 +19,6 @@ module CkbSync
 
         ApplicationRecord.transaction do
           Block.import! [local_block], recursive: true, batch_size: 1500
-
           SyncInfo.find_by!(name: sync_tip_block_number_type(sync_type), value: local_block.number).update!(status: "synced")
 
           ckb_transactions = assign_display_info_to_ckb_transaction(ckb_transaction_and_display_cell_hashes)
@@ -151,10 +150,9 @@ module CkbSync
       end
 
       def build_display_input(cell_input)
-        outpoint = cell_input.previous_output
-        previous_transaction_hash = outpoint["tx_hash"]
+        cell = cell_input.previous_output["cell"]
 
-        if CellOutput::BASE_HASH == previous_transaction_hash
+        if cell.blank?
           { id: nil, from_cellbase: true, capacity: CellOutput::INITIAL_BLOCK_REWARD, address_hash: nil }
         else
           previous_cell_output = cell_input.previous_cell_output
@@ -201,7 +199,7 @@ module CkbSync
       end
 
       def uncle_block_hashes(node_block_uncles)
-        node_block_uncles.map { |uncle| uncle.dig("header", "hash") }
+        node_block_uncles.map { |uncle| uncle.to_h.dig("header", "hash") }
       end
 
       def build_block(node_block, sync_type)
@@ -214,7 +212,7 @@ module CkbSync
           seal: header["seal"],
           timestamp: header["timestamp"],
           transactions_root: header["transactions_root"],
-          proposals_root: header["proposals_root"],
+          proposals_hash: header["proposals_hash"],
           uncles_count: header["uncles_count"],
           uncles_hash: header["uncles_hash"],
           uncle_block_hashes: uncle_block_hashes(node_block["uncles"]),
@@ -227,7 +225,8 @@ module CkbSync
           status: sync_type,
           reward: Utils::CkbUtils.miner_reward(node_block["transactions"].first),
           total_transaction_fee: 0,
-          witnesses_root: header["witnesses_root"]
+          witnesses_root: header["witness_root"],
+          epoch: header["epoch"]
         )
       end
 
@@ -241,13 +240,14 @@ module CkbSync
           seal: header["seal"],
           timestamp: header["timestamp"],
           transactions_root: header["transactions_root"],
-          proposals_root: header["proposals_root"],
+          proposals_hash: header["proposals_hash"],
           uncles_count: header["uncles_count"],
           uncles_hash: header["uncles_hash"],
           version: header["version"],
           proposals: uncle_block["proposals"],
           proposals_count: uncle_block["proposals"].count,
-          witnesses_root: header["witnesses_root"]
+          witnesses_root: header["witness_root"],
+          epoch: header["epoch"]
         )
       end
 

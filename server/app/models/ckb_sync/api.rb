@@ -2,7 +2,7 @@ module CkbSync
   class Api
     include Singleton
 
-    METHOD_NAMES = %w(get_tip_header get_tip_block_number get_cells_by_lock_hash get_transaction system_script_out_point system_script_cell_hash send_transaction get_live_cell trace_transaction genesis_block get_transaction_trace set_system_script_cell local_node_info inspect system_script_cell genesis_block_hash get_block uri get_block_hash).freeze
+    METHOD_NAMES = %w(system_script_out_point compute_transaction_hash set_system_script_cell system_script_cell system_script_cell_hash genesis_block get_block_by_number genesis_block_hash inspect get_block_hash get_block get_tip_header get_tip_block_number get_cells_by_lock_hash get_transaction get_live_cell send_transaction local_node_info trace_transaction get_transaction_trace get_current_epoch get_epoch_by_number get_peers tx_pool_info get_blockchain_info get_peers_state rpc).freeze
 
     def initialize
       @hosts = Settings.hosts

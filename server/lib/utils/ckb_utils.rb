@@ -37,11 +37,9 @@ module Utils
     def self.generate_address(lock_script)
       return unless use_default_lock_script?(lock_script)
 
-      first_arg = lock_script.stringify_keys["args"].first
+      blake160 = lock_script.stringify_keys["args"].first
 
-      target_pubkey_blake160_bin = [CKB::Utils.hex_to_bin(first_arg)].pack("H*")
-      target_pubkey_blake160 = CKB::Utils.bin_to_hex(target_pubkey_blake160_bin)
-      target_pubkey_blake160_bin = [target_pubkey_blake160[2..-1]].pack("H*")
+      target_pubkey_blake160_bin = [blake160[2..-1]].pack("H*")
       type = ["01"].pack("H*")
       bin_idx = ["P2PH".each_char.map { |c| c.ord.to_s(16) }.join].pack("H*")
       payload = type + bin_idx + target_pubkey_blake160_bin
@@ -104,12 +102,13 @@ module Utils
     end
 
     def self.cell_input_capacity(cell_input)
-      outpoint = cell_input["previous_output"]
-      previous_transaction_hash = outpoint["tx_hash"]
-      previous_output_index = outpoint["index"]
-      if CellOutput::BASE_HASH == previous_transaction_hash
+      cell = cell_input["previous_output"]["cell"]
+
+      if cell.blank?
         0
       else
+        previous_transaction_hash = cell["tx_hash"]
+        previous_output_index = cell["index"].to_i
         previous_transaction = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
 
         return if previous_transaction.blank?

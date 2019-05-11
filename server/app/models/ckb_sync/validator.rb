@@ -2,7 +2,7 @@ module CkbSync
   class Validator
     class << self
       def call(block_hash)
-        node_block = CkbSync::Api.instance.get_block(block_hash).deep_stringify_keys
+        node_block = CkbSync::Api.instance.get_block(block_hash).to_h.deep_stringify_keys
         local_block = Block.find_by(number: node_block.dig("header", "number"))
 
         ApplicationRecord.transaction do
