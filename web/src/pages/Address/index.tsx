@@ -83,6 +83,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   const parsed = queryString.parse(search)
   const { page, size } = parsed
 
+  const appContext = useContext(AppContext)
+
   const initTransactionWrappers: TransactionWrapper[] = []
   const initAddress: Address = {
     address_hash: '',
@@ -101,26 +103,32 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   const [pageSize, setPageSize] = useState(validNumber(size, PageParams.PageSize))
 
   const getAddressInfo = () => {
+    appContext.showLoading()
     fetchAddressInfo(address)
       .then(json => {
+        appContext.hideLoading()
         const { data } = json as Response<AddressWrapper>
         setAddressData(data.attributes as Address)
       })
       .catch(() => {
-
+        appContext.hideLoading()
       })
   }
 
   const getTransactions = (page_p: number, size_p: number) => {
+    appContext.showLoading()
     fetchTransactionsByAddress(address, page_p, size_p)
       .then(json => {
+        appContext.hideLoading()
         const { data, meta } = json as Response<TransactionWrapper[]>
         if (meta) {
           const { total } = meta
           setTotalTransactions(total)
         }
-        console.log(JSON.stringify(data))
         setTransactionWrappers(data)
+      })
+      .catch(() => {
+        appContext.hideLoading()
       })
   }
 
