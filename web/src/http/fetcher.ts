@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
 import CONFIG from '../config'
-import { AddressData, TransactionsData } from './mock/address'
 
 const baseURL = `${CONFIG.HOST}/api/v1/`
 
@@ -43,7 +42,7 @@ export const fetchAddressInfo = (address: string) => {
   return axiosIns.get(`addresses/${address}`).then((res: AxiosResponse) => res.data)
 }
 
-export const fetchTransactionsByAddress = (address: string, page: number, size: number) => {
+export const fetchTransactionsByAddress = (address: string, page: number, page_size: number) => {
   return axiosIns
     .get(`address_transactions/${address}`, {
       params: {
