@@ -40,6 +40,7 @@ set :shared_files, fetch(:shared_files, []).push(
   "server/config/database.yml",
   "server/config/puma.rb",
   "server/.env.local",
+  "server/config/settings.local.yml",
   "server/config/master.key"
 )
 
@@ -61,6 +62,7 @@ task :setup do
   # command %{rbenv install 2.3.0 --skip-existing}
   command %[touch "#{fetch(:shared_path)}/server/config/database.yml"]
   command %[touch "#{fetch(:shared_path)}/server/.env.local"]
+  command %[touch "#{fetch(:shared_path)}/server/config/settings.local.yml"]
   command %[touch "#{fetch(:shared_path)}/server/config/puma.rb"]
   command %[touch "#{fetch(:shared_path)}/server/config/master.key"]
   command %[touch "#{fetch(:shared_path)}/server/config/ckb-explorer-puma.service"]
@@ -69,7 +71,7 @@ task :setup do
   command %[touch "#{fetch(:shared_path)}/server/config/ckb-explorer-inauthentic-sync.service"]
   command %[touch "#{fetch(:shared_path)}/server/config/ckb-explorer-authentic-sync.service"]
   command %[touch "#{fetch(:shared_path)}/server/config/ckb-explorer-ckb-transaction-info-and-fee-updater.service"]
-  comment "Be sure to edit '#{fetch(:shared_path)}/server/config/database.yml', '.env.local', 'puma.rb', 'ckb-inauthentic-sync.server', 'ckb-authentic-sync.server', 'ckb-explorer-puma.service', 'ckb-explorer-puma.socket' and ckb-explorer-sidekiq.service."
+  comment "Be sure to edit '#{fetch(:shared_path)}/server/config/database.yml', 'settings.local.yml', '.env.local', 'puma.rb', 'ckb-inauthentic-sync.server', 'ckb-authentic-sync.server', 'ckb-explorer-puma.service', 'ckb-explorer-puma.socket' and ckb-explorer-sidekiq.service."
 end
 
 desc "Deploys the current version to the server."
@@ -92,6 +94,7 @@ task :deploy do
       command "systemctl restart ckb-explorer-inauthentic-sync"
       command "systemctl restart ckb-explorer-authentic-sync"
       command "systemctl restart ckb-explorer-ckb-transaction-info-and-fee-updater"
+      command "systemctl daemon-reload"
     end
   end
 
