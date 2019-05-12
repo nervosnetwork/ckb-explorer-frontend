@@ -25,10 +25,10 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
   end
 
   create_table "addresses", force: :cascade do |t|
-    t.decimal "balance", precision: 64, scale: 2
+    t.decimal "balance", precision: 30
     t.binary "address_hash"
-    t.decimal "cell_consumed", precision: 64, scale: 2
-    t.bigint "ckb_transactions_count", default: 0
+    t.decimal "cell_consumed", precision: 30
+    t.decimal "ckb_transactions_count", precision: 30, default: "0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["address_hash"], name: "index_addresses_on_address_hash"
@@ -37,26 +37,27 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
   create_table "blocks", force: :cascade do |t|
     t.string "difficulty", limit: 66
     t.binary "block_hash"
-    t.bigint "number"
+    t.decimal "number", precision: 30
     t.binary "parent_hash"
     t.jsonb "seal"
-    t.bigint "timestamp"
+    t.decimal "timestamp", precision: 30
     t.binary "transactions_root"
-    t.binary "proposals_root"
+    t.binary "proposals_hash"
     t.integer "uncles_count"
     t.binary "uncles_hash"
     t.binary "uncle_block_hashes"
     t.integer "version"
     t.binary "proposals"
     t.integer "proposals_count"
-    t.decimal "cell_consumed", precision: 64, scale: 2
+    t.decimal "cell_consumed", precision: 30
     t.binary "miner_hash"
     t.integer "status", limit: 2
-    t.decimal "reward", precision: 64, scale: 2
-    t.decimal "total_transaction_fee", precision: 64, scale: 2
-    t.bigint "ckb_transactions_count", default: 0
-    t.decimal "total_cell_capacity", precision: 64, scale: 2
+    t.decimal "reward", precision: 30
+    t.decimal "total_transaction_fee", precision: 30
+    t.decimal "ckb_transactions_count", precision: 30, default: "0"
+    t.decimal "total_cell_capacity", precision: 30
     t.binary "witnesses_root"
+    t.decimal "epoch", precision: 30
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["block_hash", "status"], name: "index_blocks_on_block_hash_and_status"
@@ -81,8 +82,8 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", limit: 2, default: 0
-    t.bigint "address_id"
-    t.bigint "block_id"
+    t.decimal "address_id", precision: 30
+    t.decimal "block_id", precision: 30
     t.index ["address_id"], name: "index_cell_outputs_on_address_id"
     t.index ["block_id"], name: "index_cell_outputs_on_block_id"
     t.index ["ckb_transaction_id"], name: "index_cell_outputs_on_ckb_transaction_id"
@@ -92,12 +93,12 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
     t.binary "tx_hash"
     t.jsonb "deps"
     t.bigint "block_id"
-    t.bigint "block_number"
-    t.bigint "block_timestamp"
+    t.decimal "block_number", precision: 30
+    t.decimal "block_timestamp", precision: 30
     t.jsonb "display_inputs"
     t.jsonb "display_outputs"
     t.integer "status", limit: 2
-    t.decimal "transaction_fee", precision: 64, scale: 2
+    t.decimal "transaction_fee", precision: 30
     t.integer "version"
     t.string "witnesses", array: true
     t.datetime "created_at", null: false
@@ -124,7 +125,7 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
 
   create_table "sync_infos", force: :cascade do |t|
     t.string "name"
-    t.bigint "value"
+    t.decimal "value", precision: 30
     t.integer "status", limit: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -144,12 +145,12 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
   create_table "uncle_blocks", force: :cascade do |t|
     t.string "difficulty", limit: 66
     t.binary "block_hash"
-    t.bigint "number"
+    t.decimal "number", precision: 30
     t.binary "parent_hash"
     t.jsonb "seal"
-    t.bigint "timestamp"
+    t.decimal "timestamp", precision: 30
     t.binary "transactions_root"
-    t.binary "proposals_root"
+    t.binary "proposals_hash"
     t.integer "uncles_count"
     t.binary "uncles_hash"
     t.integer "version"
@@ -157,6 +158,7 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
     t.integer "proposals_count"
     t.bigint "block_id"
     t.binary "witnesses_root"
+    t.decimal "epoch", precision: 30
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["block_hash"], name: "index_uncle_blocks_on_block_hash", unique: true

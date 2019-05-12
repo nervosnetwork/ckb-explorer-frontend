@@ -5,7 +5,7 @@ http_interactions:
     uri: http://localhost:8114/
     body:
       encoding: UTF-8
-      string: '{"id":1,"jsonrpc":"2.0","method":"get_block","params":["0x0e45c50efdddb9b53743c00d2a5d3ae4545efad1bc5d162e563f2720d2c6aae5"]}'
+      string: '{"id":1,"jsonrpc":"2.0","method":"get_block","params":["0x8a4e0c18c2d5a4d03824fd6517243eb48474f910b15d8aa240f859b627c2546e"]}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -23,18 +23,18 @@ http_interactions:
       Server:
       - nginx/1.14.0 (Ubuntu)
       Date:
-      - Sun, 28 Apr 2019 11:13:49 GMT
+      - Sat, 11 May 2019 11:55:51 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '1288'
+      - '2013'
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"jsonrpc":"2.0","result":{"header":{"difficulty":"0x1000","hash":"0x0e45c50efdddb9b53743c00d2a5d3ae4545efad1bc5d162e563f2720d2c6aae5","number":"8","parent_hash":"0x9c45ece9f1d8fdc95661733af91e9e151d323c1a769329113b592d6b9ceda685","proposals_root":"0x0000000000000000000000000000000000000000000000000000000000000000","seal":{"nonce":"13176909816081403578","proof":"0x67020000060a00007e110000902200006c2c000066390000d6490000535600000359000062620000ab620000eb7f0000"},"timestamp":"1556448239977","transactions_root":"0xcc0d11042403331e0c7748950aa508ff25797d180f605f4a6529106cae4d9478","uncles_count":0,"uncles_hash":"0x0000000000000000000000000000000000000000000000000000000000000000","version":0,"witnesses_root":"0x0000000000000000000000000000000000000000000000000000000000000000"},"proposals":[],"transactions":[{"deps":[],"hash":"0xcc0d11042403331e0c7748950aa508ff25797d180f605f4a6529106cae4d9478","inputs":[{"args":["0x0800000000000000"],"previous_output":{"index":4294967295,"tx_hash":"0x0000000000000000000000000000000000000000000000000000000000000000"},"since":"0"}],"outputs":[{"capacity":"5000000000000","data":"0x","lock":{"args":[],"code_hash":"0x0000000000000000000000000000000000000000000000000000000000000001"},"type":null}],"version":0,"witnesses":[]}],"uncles":[]},"id":1}
+      string: '{"jsonrpc":"2.0","result":{"header":{"difficulty":"0x1000","epoch":"0","hash":"0x8a4e0c18c2d5a4d03824fd6517243eb48474f910b15d8aa240f859b627c2546e","number":"8","parent_hash":"0x366ff77c0727bf41e6aaf8139bf8e15d18584f303ad7538b2dd5be1cdc96d77e","proposals_hash":"0x0000000000000000000000000000000000000000000000000000000000000000","seal":{"nonce":"8851952542052189941","proof":"0x5500000036040000d0180000f31a000010320000a8320000d54a00002c57000042660000a2660000637400007b7e0000"},"timestamp":"1557482331587","transactions_root":"0x675dbc8aba4592e1c7a4f13d778bf4047e7a3d875e8488c1bcdc0b750fe3dff6","uncles_count":1,"uncles_hash":"0x90c306d392f9cd55ec9dc750cd2736145a1822a414a2961e866a274b2994aa8e","version":0,"witnesses_root":"0x0000000000000000000000000000000000000000000000000000000000000000"},"proposals":[],"transactions":[{"deps":[],"hash":"0x675dbc8aba4592e1c7a4f13d778bf4047e7a3d875e8488c1bcdc0b750fe3dff6","inputs":[{"args":["0x0800000000000000"],"previous_output":{"block_hash":null,"cell":null},"since":"0"}],"outputs":[{"capacity":"5000000000000","data":"0x","lock":{"args":[],"code_hash":"0x0000000000000000000000000000000000000000000000000000000000000001"},"type":null}],"version":0,"witnesses":[]}],"uncles":[{"header":{"difficulty":"0x1000","epoch":"0","hash":"0x5034f55a9165148f4272b07c1efcbf515604d2d9f0b08c2c7e36aec4fb10aad9","number":"6","parent_hash":"0x992d44afe76af73ccd84d429469756ec84cb04c1a3fbd06c439c0467aa0b521b","proposals_hash":"0x0000000000000000000000000000000000000000000000000000000000000000","seal":{"nonce":"9269962566099691003","proof":"0x560000008e0300003e120000c52100001b2c0000603200006f3500008b3b0000fe3f000059510000d25f0000c0640000"},"timestamp":"1557482326979","transactions_root":"0x331f047d595d6a37055934a2a947b62f97ca0aa6c0bbd04eb715d3f9e7f452d2","uncles_count":0,"uncles_hash":"0x0000000000000000000000000000000000000000000000000000000000000000","version":0,"witnesses_root":"0x0000000000000000000000000000000000000000000000000000000000000000"},"proposals":[]}]},"id":1}
 
 '
     http_version:
-  recorded_at: Sun, 28 Apr 2019 11:13:49 GMT
+  recorded_at: Sat, 11 May 2019 11:55:51 GMT
 recorded_with: VCR 4.0.0

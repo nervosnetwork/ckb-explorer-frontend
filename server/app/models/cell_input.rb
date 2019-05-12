@@ -14,11 +14,12 @@ class CellInput < ApplicationRecord
   end
 
   def previous_cell_output
-    tx_hash = previous_output["tx_hash"]
-    output_index = previous_output["index"]
+    cell = previous_output["cell"]
 
-    return if CellOutput::BASE_HASH == tx_hash
+    return if cell.blank?
 
+    tx_hash = cell["tx_hash"]
+    output_index = cell["index"].to_i
     previous_transaction = CkbTransaction.find_by(tx_hash: tx_hash)
 
     return if previous_transaction.blank?
@@ -29,11 +30,12 @@ class CellInput < ApplicationRecord
   private
 
   def previous_cell_output!
-    tx_hash = previous_output["tx_hash"]
-    output_index = previous_output["index"]
+    cell = previous_output["cell"]
 
-    raise ActiveRecord::RecordNotFound if CellOutput::BASE_HASH == tx_hash
+    raise ActiveRecord::RecordNotFound if cell.blank?
 
+    tx_hash = cell["tx_hash"]
+    output_index = cell["index"].to_i
     previous_transaction = CkbTransaction.find_by!(tx_hash: tx_hash)
     previous_transaction.cell_outputs.order(:id)[output_index]
   end

@@ -1,12 +1,12 @@
 class UncleBlock < ApplicationRecord
   belongs_to :block
 
-  validates_presence_of :difficulty, :block_hash, :number, :parent_hash, :seal, :timestamp, :transactions_root, :proposals_root, :uncles_count, :uncles_hash, :version
+  validates_presence_of :difficulty, :block_hash, :number, :parent_hash, :seal, :timestamp, :transactions_root, :proposals_hash, :uncles_count, :uncles_hash, :version
 
   attribute :block_hash, :ckb_hash
   attribute :parent_hash, :ckb_hash
   attribute :transactions_root, :ckb_hash
-  attribute :proposals_root, :ckb_hash
+  attribute :proposals_hash, :ckb_hash
   attribute :uncles_hash, :ckb_hash
   attribute :proposals, :ckb_array_hash, hash_length: ENV["DEFAULT_SHORT_HASH_LENGTH"]
 end
@@ -18,12 +18,12 @@ end
 #  id                :bigint           not null, primary key
 #  difficulty        :string(66)
 #  block_hash        :binary
-#  number            :bigint
+#  number            :decimal(30, )
 #  parent_hash       :binary
 #  seal              :jsonb
-#  timestamp         :bigint
+#  timestamp         :decimal(30, )
 #  transactions_root :binary
-#  proposals_root    :binary
+#  proposals_hash    :binary
 #  uncles_count      :integer
 #  uncles_hash       :binary
 #  version           :integer
@@ -31,6 +31,7 @@ end
 #  proposals_count   :integer
 #  block_id          :bigint
 #  witnesses_root    :binary
+#  epoch             :decimal(30, )
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #

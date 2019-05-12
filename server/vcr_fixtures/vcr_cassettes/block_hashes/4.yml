@@ -23,7 +23,7 @@ http_interactions:
       Server:
       - nginx/1.14.0 (Ubuntu)
       Date:
-      - Sun, 28 Apr 2019 11:13:49 GMT
+      - Sat, 11 May 2019 11:55:54 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -32,9 +32,9 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"jsonrpc":"2.0","result":"0x20716f32adff1d5e807bdff400bee280d27bc6c0dda06b6a0694a49e12180d40","id":1}
+      string: '{"jsonrpc":"2.0","result":"0x212c9efcc82cfc33c6cc8ebdcb2f43ad12de4b9b92b7bc314ef8c4a1c7a52e9f","id":1}
 
 '
     http_version:
-  recorded_at: Sun, 28 Apr 2019 11:13:49 GMT
+  recorded_at: Sat, 11 May 2019 11:55:54 GMT
 recorded_with: VCR 4.0.0

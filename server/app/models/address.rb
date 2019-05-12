@@ -26,10 +26,10 @@ end
 # Table name: addresses
 #
 #  id                     :bigint           not null, primary key
-#  balance                :decimal(64, 2)
+#  balance                :decimal(30, )
 #  address_hash           :binary
-#  cell_consumed          :decimal(64, 2)
-#  ckb_transactions_count :bigint           default(0)
+#  cell_consumed          :decimal(30, )
+#  ckb_transactions_count :decimal(30, )    default(0)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #

@@ -18,7 +18,7 @@ Minitest::Reporters.use!
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
-DEFAULT_NODE_BLOCK_HASH = "0x18bd084635d5a1190e6a17b49ae641a08f0805f7c9c7ea68cd325a2e19d9bdea".freeze
+DEFAULT_NODE_BLOCK_HASH = "0x3c07186493c5da8b91917924253a5ffd35231151649d0c7e2941aa8801815063".freeze
 
 VCR.configure do |config|
   config.cassette_library_dir = "vcr_fixtures/vcr_cassettes"
@@ -56,10 +56,10 @@ def prepare_inauthentic_node_data
       sync_info.update(value: number, status: "syncing")
 
       VCR.use_cassette("blocks/#{number}") do
-        node_block = CkbSync::Api.instance.get_block(block_hash).deep_stringify_keys
+        node_block = CkbSync::Api.instance.get_block(block_hash).to_h.deep_stringify_keys
         tx = node_block["transactions"].first
         output = tx["outputs"].first
-        output["lock"]["args"] = ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
+        output["lock"]["args"] = ["0x36c329ed630d6ce750712a477543672adab57f4c"]
         output["lock"]["code_hash"] = ENV["CODE_HASH"]
 
         CkbSync::Persist.save_block(node_block, "inauthentic")
@@ -89,7 +89,7 @@ end
 
 def format_node_block(node_block)
   header = node_block["header"]
-  proposals = node_block["proposals"]
+  proposals = node_block["proposals"].blank? ? nil : node_block["proposals"]
   header.merge({ proposals: proposals }.deep_stringify_keys)
 end
 
@@ -107,19 +107,28 @@ def fake_node_block_with_type_script(node_block)
 end
 
 def build_display_input_from_node_input(input)
-  outpoint = input["previous_output"]
-  previous_transaction_hash = outpoint["tx_hash"]
-  previous_output_index = outpoint["index"]
+  cell = input["previous_output"]["cell"]
 
-  if CellOutput::BASE_HASH == previous_transaction_hash
-    { id: nil, from_cellbase: true, capacity: CellOutput::INITIAL_BLOCK_REWARD, address_hash: nil }.stringify_keys
+  if cell.blank?
+    { id: nil, from_cellbase: true, capacity: ENV["INITIAL_BLOCK_REWARD"].to_i, address_hash: nil }.stringify_keys
   else
     VCR.use_cassette("blocks/9") do
+      previous_transaction_hash = cell["tx_hash"]
+      previous_output_index = cell["index"].to_i
       commit_transaction = CkbSync::Api.instance.get_transaction(previous_transaction_hash)
       previous_output = commit_transaction["outputs"][previous_output_index]
       build_display_info_from_node_output(previous_output)
     end
   end
+end
+
+def fake_node_block(block_hash="0x3c07186493c5da8b91917924253a5ffd35231151649d0c7e2941aa8801815062")
+  "{\"header\":{\"difficulty\":\"0x1000\",\"epoch\":\"0\",\"hash\":\"#{block_hash}\",\"number\":\"10\",\"parent_hash\":\"0x598315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3\",\"proposals_hash\":\"0x0000000000000000000000000000000000000000000000000000000000000000\",\"seal\":{\"nonce\":\"3241241169132127032\",\"proof\":\"0xd8010000850800001c0d00005c100000983b0000ae3b0000724300003e480000145f00008864000079770000d1780000\"},\"timestamp\":\"1557482351075\",\"transactions_root\":\"0xefb03572314fbb45aba0ef889373d3181117b253664de4dca0934e453b1e6bf3\",\"uncles_count\":0,\"uncles_hash\":\"0x0000000000000000000000000000000000000000000000000000000000000000\",\"version\":0,\"witnesses_root\":\"0x0000000000000000000000000000000000000000000000000000000000000000\"},\"proposals\":[],
+    \"transactions\":[
+      {\"deps\":[],\"hash\":\"0xefb03572314fbb45aba0ef889373d3181117b253664de4dca0934e453b1e6bf3\",\"inputs\":[{\"args\":[\"0x0a00000000000000\"],\"previous_output\":{\"block_hash\":null,\"cell\":{\"tx_hash\": \"0x598315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3\", \"index\": \"0\"}},\"since\":\"0\"}],\"outputs\":[{\"capacity\":\"50000\",\"data\":\"0x\",\"lock\":{\"args\":[],\"code_hash\":\"0x0000000000000000000000000000000000000000000000000000000000000001\"},\"type\":null}],\"version\":0,\"witnesses\":[]},
+      {\"deps\":[],\"hash\":\"0xefb03572314fbb45aba0ef889373d3181117b253664de4dca0934e453b1e6b23\",\"inputs\":[{\"args\":[\"0x0a00000000000000\"],\"previous_output\":{\"block_hash\":null,\"cell\":{\"tx_hash\": \"0x498315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3\", \"index\": \"0\"}},\"since\":\"0\"}],\"outputs\":[{\"capacity\":\"50000\",\"data\":\"0x\",\"lock\":{\"args\":[],\"code_hash\":\"0x0000000000000000000000000000000000000000000000000000000000000001\"},\"type\":null}],\"version\":0,\"witnesses\":[]}
+    ]
+    ,\"uncles\":[]}"
 end
 
 def build_display_info_from_node_output(output)
@@ -129,7 +138,7 @@ def build_display_info_from_node_output(output)
   { id: cell_output.id, capacity: cell_output.capacity.to_s, address_hash: cell_output.address_hash }.stringify_keys
 end
 
-def set_default_lock_params(node_block: block, args: ["0x18bd084635d5a1190e6a17b49ae641a08f0805f7c9c7ea68cd325a2e19d9bdea"], code_hash: "0x#{SecureRandom.hex(32)}")
+def set_default_lock_params(node_block: block, args: ["0x3c07186493c5da8b91917924253a5ffd35231151649d0c7e2941aa8801815063"], code_hash: "0x#{SecureRandom.hex(32)}")
   tx = node_block["transactions"].first
   output = tx["outputs"].first
   output["lock"]["args"] = args
@@ -143,11 +152,12 @@ def prepare_api_wrapper
 end
 
 def previous_cell_output(previous_output)
-  tx_hash = previous_output["tx_hash"]
-  output_index = previous_output["index"]
+  cell = previous_output["cell"]
 
-  raise ActiveRecord::RecordNotFound if CellOutput::BASE_HASH == tx_hash
+  raise ActiveRecord::RecordNotFound if cell.blank?
 
+  tx_hash = cell["tx_hash"]
+  output_index = cell["index"].to_i
   previous_transaction = CkbTransaction.find_by!(tx_hash: tx_hash)
   previous_transaction.cell_outputs.order(:id)[output_index]
 end

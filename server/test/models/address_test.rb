@@ -27,7 +27,7 @@ class AddressTest < ActiveSupport::TestCase
   test "address_hash should be nil when args is empty" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
-      node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+      node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).to_h.deep_stringify_keys
 
       CkbSync::Persist.save_block(node_block, "inauthentic")
       packed_block_hash = DEFAULT_NODE_BLOCK_HASH
@@ -41,7 +41,7 @@ class AddressTest < ActiveSupport::TestCase
   test "address_hash should be nil when args is invalid" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
-      node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+      node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).to_h.deep_stringify_keys
       tx = node_block["transactions"].first
       output = tx["outputs"].first
       output["lock"]["args"] = ["abcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
@@ -58,7 +58,7 @@ class AddressTest < ActiveSupport::TestCase
   test "address_hash should be nil when code_hash is empty" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
-      node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+      node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).to_h.deep_stringify_keys
       tx = node_block["transactions"].first
       output = tx["outputs"].first
       output["lock"]["args"] = ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
@@ -75,7 +75,7 @@ class AddressTest < ActiveSupport::TestCase
   test "address_hash should be nil when code_hash is not system script cell hash" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
-      node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+      node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).to_h.deep_stringify_keys
       tx = node_block["transactions"].first
       output = tx["outputs"].first
       output["lock"]["args"] = ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
@@ -93,7 +93,7 @@ class AddressTest < ActiveSupport::TestCase
   test ".find_or_create_address should return the address when the address_hash exists and use default lock script" do
     VCR.use_cassette("blocks/10") do
       SyncInfo.local_inauthentic_tip_block_number
-      node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).deep_stringify_keys
+      node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).to_h.deep_stringify_keys
       tx = node_block["transactions"].first
       output = tx["outputs"].first
       output["lock"]["args"] = ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"]
@@ -115,7 +115,7 @@ class AddressTest < ActiveSupport::TestCase
   end
 
   test "should update the related address's ckb_transactions_count after block synced" do
-    address = create(:address, address_hash: "ckt1q9gry5zgh058zypk2277lx776sdjxgfnjcqexkuy", ckb_transactions_count: 1)
+    address = create(:address, address_hash: "ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf", ckb_transactions_count: 1)
 
     assert_difference -> { address.reload.ckb_transactions_count }, 10, &method(:prepare_inauthentic_node_data)
   end
@@ -162,7 +162,7 @@ class AddressTest < ActiveSupport::TestCase
 
         previous_block = create(:block, :with_block_hash, number: 100)
         previous_ckb_transaction = create(:ckb_transaction, block: previous_block)
-        previous_ckb_transaction.cell_inputs.create(previous_output: { tx_hash: CellOutput::BASE_HASH, index: 4294967295 })
+        previous_ckb_transaction.cell_inputs.create(previous_output: { cell: nil, block_hash: previous_block.block_hash })
         cell_output = previous_ckb_transaction.cell_outputs.create(capacity: 10**8, address: create(:address), block: previous_block)
         cell_output.create_lock_script
 
@@ -175,7 +175,7 @@ class AddressTest < ActiveSupport::TestCase
         CkbSync::Validator.call(local_block.block_hash)
 
         block = create(:block, :with_block_hash, number: 101)
-        create(:ckb_transaction, :with_cell_output_and_lock_and_type_script, block: block, tx_hash: "0x18bd084635d5a1190e6a17b49ae641a08f0805f7c9c7ea68cd325a2e19d9bdea")
+        create(:ckb_transaction, :with_cell_output_and_lock_and_type_script, block: block, tx_hash: "0x3c07186493c5da8b91917924253a5ffd35231151649d0c7e2941aa8801815063")
 
         updated_cell_consumed =
           local_block.contained_addresses.map do |address|

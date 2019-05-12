@@ -31,6 +31,7 @@ class CkbArrayHashType < ActiveRecord::Type::Binary
     if value.is_a?(String)
       value = ActiveRecord::Base.connection.unescape_bytea(value)
     end
+
     array_size = value.unpack1("S!")
     template = Array.new(array_size || 0).reduce("") { |memo, _item| "#{memo}H#{@hash_length}" }
     template = "S!#{template}"
@@ -39,6 +40,7 @@ class CkbArrayHashType < ActiveRecord::Type::Binary
 
   def serialize(value)
     return if value.nil?
+    return if value.is_a?(Array) && value.all?(&:nil?)
 
     if value.is_a?(Array) && value.all? { |item| item.start_with?("0x") }
       template = Array.new(value.size).reduce("") { |memo, _item| "#{memo}H#{ENV['DEFAULT_HASH_LENGTH']}" }
