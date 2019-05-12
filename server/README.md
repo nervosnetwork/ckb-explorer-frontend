@@ -18,6 +18,7 @@
 $ cd ckb-explorer/server
 $ bin/setup
 $ touch .env.local (overwrite `.env` config if you need in `.env.local`, such as DB_USERNAME, DB_PASSWORD...)
+$ touch config/settings.local.yml (overwrite `config/settings.yml` to config available hosts)
 ```
 
 ## Running Test
@@ -32,16 +33,13 @@ $ bundle exec rails test
 $ bundle exec rails s
 
 # start sync process
-$ bundle exec rails daemons:inauthentic_sync:start
-# run `rails daemons:inauthentic_sync:stop` to stop it
-# run `rails daemons:inauthentic_sync:restart` to restart it
-# run `rails daemons:inauthentic_sync:status` to see status
+$ ruby lib/ckb_inauthentic_sync.rb
 
 # start validator process
-$ bundle exec rails daemons:authentic_sync:start
-# run `rails daemons:authentic_sync:stop` to stop it
-# run `rails daemons:authentic_sync:restart` to restart it
-# run `rails daemons:authentic_sync:status` to see status
+$ ruby lib/ckb_authentic_sync.rb
+
+# strat ckb transaction info and fee process
+$ ruby lib/ckb_transaction_info_and_fee_updater.rb
 ```
 
 ## Deploy
