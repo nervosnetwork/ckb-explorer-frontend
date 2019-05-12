@@ -110,7 +110,7 @@ def build_display_input_from_node_input(input)
   cell = input["previous_output"]["cell"]
 
   if cell.blank?
-    { id: nil, from_cellbase: true, capacity: CellOutput::INITIAL_BLOCK_REWARD, address_hash: nil }.stringify_keys
+    { id: nil, from_cellbase: true, capacity: ENV["INITIAL_BLOCK_REWARD"].to_i, address_hash: nil }.stringify_keys
   else
     VCR.use_cassette("blocks/9") do
       previous_transaction_hash = cell["tx_hash"]

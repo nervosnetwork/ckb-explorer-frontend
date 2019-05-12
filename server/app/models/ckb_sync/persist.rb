@@ -153,7 +153,7 @@ module CkbSync
         cell = cell_input.previous_output["cell"]
 
         if cell.blank?
-          { id: nil, from_cellbase: true, capacity: CellOutput::INITIAL_BLOCK_REWARD, address_hash: nil }
+          { id: nil, from_cellbase: true, capacity: ENV["INITIAL_BLOCK_REWARD"].to_i, address_hash: nil }
         else
           previous_cell_output = cell_input.previous_cell_output
 
