@@ -24,7 +24,7 @@ import BalanceIcon from '../../asserts/address_balance.png'
 import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/transactions_green.png'
-import { Address } from '../../http/response/Address'
+import { Address, AddressWrapper } from '../../http/response/Address'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
@@ -83,6 +83,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   const parsed = queryString.parse(search)
   const { page, size } = parsed
 
+  const appContext = useContext(AppContext)
+
   const initTransactionWrappers: TransactionWrapper[] = []
   const initAddress: Address = {
     address_hash: '',
@@ -95,27 +97,39 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     },
   }
   const [addressData, setAddressData] = useState(initAddress)
-  const [transactionWrappers, setTrasactionWrappers] = useState(initTransactionWrappers)
+  const [transactionWrappers, setTransactionWrappers] = useState(initTransactionWrappers)
   const [totalTransactions, setTotalTransactions] = useState(1)
   const [pageNo, setPageNo] = useState(validNumber(page, PageParams.PageNo))
   const [pageSize, setPageSize] = useState(validNumber(size, PageParams.PageSize))
 
   const getAddressInfo = () => {
-    fetchAddressInfo(address).then(data => {
-      setAddressData(data as Address)
-    })
+    appContext.showLoading()
+    fetchAddressInfo(address)
+      .then(json => {
+        appContext.hideLoading()
+        const { data } = json as Response<AddressWrapper>
+        setAddressData(data.attributes as Address)
+      })
+      .catch(() => {
+        appContext.hideLoading()
+      })
   }
 
   const getTransactions = (page_p: number, size_p: number) => {
-    fetchTransactionsByAddress(address, page_p, size_p).then(response => {
-      const { data, meta } = response as Response<TransactionWrapper[]>
-      if (meta) {
-        const { total } = meta
-        setTotalTransactions(total)
-      }
-      const transactions = data.slice((page_p - 1) * size_p, page_p * size_p)
-      setTrasactionWrappers(transactions)
-    })
+    appContext.showLoading()
+    fetchTransactionsByAddress(address, page_p, size_p)
+      .then(json => {
+        appContext.hideLoading()
+        const { data, meta } = json as Response<TransactionWrapper[]>
+        if (meta) {
+          const { total } = meta
+          setTotalTransactions(total)
+        }
+        setTransactionWrappers(data)
+      })
+      .catch(() => {
+        appContext.hideLoading()
+      })
   }
 
   useEffect(() => {
