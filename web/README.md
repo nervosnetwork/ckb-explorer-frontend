@@ -1,17 +1,21 @@
-# Introduction
-  CKB explorer
+# CKB Explorer Web
 
-# Build Setup
+### Prerequisite
 
-  Prerequisite: nodejs 11.10
+* Node.js 11.10 or later
 
+### Installation
 
 ``` shell
+  git clone https://github.com/nervosnetwork/ckb-explorer.git
+  cd web
+  yarn install   # install dependency libraries
+  yarn start     # run ckb explorer web on localhost
+```
 
-    yarn i
+### Development
 
-    yarn start // # for development
-
-    yarn build // # for build which output to build directory
-
+``` shell
+  yarn build    # build ckb explorer web project
+  yarn test     # run project test cases
 ```
