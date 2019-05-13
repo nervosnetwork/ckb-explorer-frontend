@@ -50,7 +50,7 @@ export const BlockOverviewPanel = styled.div`
     display: block;
     content: '';
     margin: 0 auto;
-    background: #46ab81;
+    background: #3CC68A;
     height: 4px;
     width: 197px;
   }
@@ -113,7 +113,7 @@ export const BlockCommonContent = styled.div`
     > div:nth-child(1) {
       width: 1px;
       height: 360px;
-      background: #46ab81;
+      background: #3CC68A;
       content: '';
       margin-right: 82px;
     }

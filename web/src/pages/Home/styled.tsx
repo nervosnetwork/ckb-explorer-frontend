@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const HomeHeaderPanel = styled.div`
-  min-height: ${(props: { width: number }) => (400 * props.width) / 1920}px;
+  min-height: ${(props: { width: number }) => (500 * props.width) / 1920}px;
   width: 100%;
   background: #424242;
   display: flex;
@@ -41,7 +41,7 @@ export const LogoPanel = styled.div`
 `
 
 export const SearchPanel = styled.div`
-  margin-top: ${(props: { width: number }) => (98 * props.width) / 1920}px;
+  margin-top: ${(props: { width: number }) => (64 * props.width) / 1920}px;
   margin-bottom: ${(props: { width: number }) => (98 * props.width) / 1920}px;
 `
 
@@ -87,7 +87,7 @@ export const TableMorePanel = styled.div`
 
     > img {
       width: 61px;
-      height: 15px;
+      height: 16px;
       margin-top: 9px;
     }
 
@@ -98,7 +98,7 @@ export const TableMorePanel = styled.div`
 
       .table__more {
         font-size: 24px;
-        color: rgb(75, 188, 142);
+        color: #3CC68A;
         overflow: hidden;
         text-overflow: ellipsis;
         text-decoration: none;

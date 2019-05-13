@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 export const TableTitleRow = styled.div`
-  background: rgb(75, 188, 142);
+  background: #3CC68A;
   display: flex;
   height: 78px;
   width: 1200px;
@@ -15,7 +15,7 @@ const TableTitleRowItem = styled.div`
   justify-content: center;
   align-items: center;
   width: 240px;
-  height: 78px;
+  height: 70px;
 
   > img {
     width: 23px;
@@ -45,6 +45,7 @@ export const TableContentRow = styled.div`
 
 const TableContentRowItem = styled.div`
   width: 240px;
+  height: 70px;
   color: #888888;
   display: flex;
   align-items: center;
@@ -54,7 +55,7 @@ const TableContentRowItem = styled.div`
 `
 
 const TableMinerContentPanel = styled.div`
-  height: 78px;
+  height: 70px;
   width: 240px;
     
   .table__miner__content {
