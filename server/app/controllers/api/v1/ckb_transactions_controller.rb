@@ -4,7 +4,7 @@ module Api
       before_action :validate_query_params, only: :show
 
       def show
-        ckb_transaction = CkbTransaction.find_by!(tx_hash: params[:id])
+        ckb_transaction = CkbTransaction.where(tx_hash: params[:id]).available.take!
 
         render json: CkbTransactionSerializer.new(ckb_transaction)
       rescue ActiveRecord::RecordNotFound
