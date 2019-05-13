@@ -91,7 +91,7 @@ export default () => {
           <TableTitleRow>
             <TableTitleItem image={BlockHeightIcon} title="Height" />
             <TableTitleItem image={TransactionIcon} title="Transactions" />
-            <TableTitleItem image={CellConsumedIcon} title="Cell Consumed(B)" />
+            <TableTitleItem image={CellConsumedIcon} title="Cell Consumed(Byte)" />
             <TableTitleItem image={MinerIcon} title="Miner" />
             <TableTitleItem image={TimestampIcon} title="Time" />
           </TableTitleRow>
