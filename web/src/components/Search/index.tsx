@@ -18,7 +18,6 @@ const SearchPanel = styled.div`
   > input {
     position: relative;
     width: 100%;
-    color: #ffbababa;
     height: 65px;
     font-size: 16px;
     padding-left: 20px;
@@ -26,11 +25,15 @@ const SearchPanel = styled.div`
     padding-right: 61px;
     border-radius: 6px;
     border-width: 0px;
-    background: #ffffff;
+    background: rgba(255, 255, 255, .2);
     &: focus {
       color: black;
-      opacity: 1 !important;
+      background: rgba(255, 255, 255, 1)!important;
+      color: #333333 !important;
       outline: none;
+    }
+    &::placeholder {
+      color: #bababa;
     }
   }
 
@@ -89,7 +92,7 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
   }
 
   const transparentStyle = {
-    opacity: 0.2,
+    // opacity: 0.2,
   }
 
   return (
