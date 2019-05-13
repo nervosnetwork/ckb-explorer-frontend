@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 export const TableTitleRow = styled.div`
   background: #3CC68A;
   display: flex;
-  height: 78px;
+  height: 65px;
   width: 1200px;
 `
 
@@ -15,7 +15,7 @@ const TableTitleRowItem = styled.div`
   justify-content: center;
   align-items: center;
   width: 240px;
-  height: 70px;
+  height: 100%;
 
   > img {
     width: 23px;
@@ -45,7 +45,7 @@ export const TableContentRow = styled.div`
 
 const TableContentRowItem = styled.div`
   width: 240px;
-  height: 70px;
+  height: 65px;
   color: #888888;
   display: flex;
   align-items: center;

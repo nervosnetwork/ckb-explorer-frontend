@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const HomeHeaderPanel = styled.div`
-  min-height: ${(props: { width: number }) => (500 * props.width) / 1920}px;
+  min-height: ${(props: { width: number }) => (420 * props.width) / 1920}px;
   width: 100%;
   background: #424242;
   display: flex;
@@ -29,7 +29,7 @@ export const LogoPanel = styled.div`
     margin-left: 29px;
     color: #3CC68A;
     font-family: DINPro;
-    height: ${(props: { width: number }) => (134 * props.width) / 1920}px;
+    line-height: 134px;
     font-size: ${(props: { width: number }) => (86 * props.width) / 1920}px;
     padding: ${(props: { width: number }) => (24 * props.width) / 1920}px 0;
     font-weight: 900;
@@ -41,13 +41,13 @@ export const LogoPanel = styled.div`
 `
 
 export const SearchPanel = styled.div`
-  margin-top: ${(props: { width: number }) => (64 * props.width) / 1920}px;
+  margin-top: ${(props: { width: number }) => (15 * props.width) / 1920}px;
   margin-bottom: ${(props: { width: number }) => (98 * props.width) / 1920}px;
 `
 
 export const BlockPanel = styled.div`
   width: 100%;
-  margin-top: ${(props: { width: number }) => (100 * props.width) / 1920}px;
+  margin-top: ${(props: { width: number }) => (80 * props.width) / 1920}px;
   margin-bottom: ${(props: { width: number }) => (150 * props.width) / 1920}px;
 `
 
