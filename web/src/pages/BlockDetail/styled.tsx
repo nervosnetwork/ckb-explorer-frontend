@@ -4,7 +4,7 @@ import { CommonPagition } from '../BlockList/styled'
 export const BlockDetailPanel = styled.div`
   width: 100%;
   margin-top: ${(props: { width: number }) => (100 * props.width) / 1920}px;
-  margin-bottom: ${(props: { width: number }) => (200 * props.width) / 1920}px;
+  margin-bottom: ${(props: { width: number }) => (150 * props.width) / 1920}px;
 `
 
 export const BlockDetailTitlePanel = styled.div`

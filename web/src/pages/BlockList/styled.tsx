@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 export const BlockListPanel = styled.div`
   width: 100%;
-  margin-top: ${(props: { width: number }) => (150 * props.width) / 1920}px;
-  margin-bottom: ${(props: { width: number }) => (200 * props.width) / 1920}px;
+  margin-top: ${(props: { width: number }) => (100 * props.width) / 1920}px;
+  margin-bottom: ${(props: { width: number }) => (150 * props.width) / 1920}px;
 `
 
 export const ContentTitle = styled.div`

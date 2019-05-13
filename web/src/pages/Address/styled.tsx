@@ -181,7 +181,7 @@ export const AddressTransactionsCell = styled.div`
 `
 
 export const AddressTransactionsPagition = styled(CommonPagition)`
-  margin: 80px 0 200px 0;
+  margin: 80px 0 150px 0;
   width: 100%;
   overflow-x: auto;
 `

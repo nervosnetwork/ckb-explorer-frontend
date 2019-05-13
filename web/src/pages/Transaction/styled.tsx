@@ -4,7 +4,7 @@ export const TransactionDiv = styled.div.attrs({
   className: 'container',
 })`
   padding-top: 100px;
-  padding-bottom: 200px;
+  padding-bottom: 150px;
 `
 export const TransactionTitleDiv = styled.div`
   text-align: center;
