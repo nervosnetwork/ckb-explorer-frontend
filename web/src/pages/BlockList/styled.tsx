@@ -14,7 +14,7 @@ export const ContentTitle = styled.div`
 
   &:after {
     content: '';
-    background: #46ab81;
+    background: #3CC68A;
     height: 4px;
     width: 197px;
     display: block;

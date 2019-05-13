@@ -8,7 +8,7 @@ const HeaderDiv = styled.div`
   width: 100%;
   min-height: ${(props: { width: number }) => (100 * props.width) / 1920}px;
   overflow: hidden;
-  box-shadow: 0 2px 4px 0 #10274d;
+  box-shadow: 0 2px 4px 0 #141414;
   background-color: #424242;
   position: sticky;
   position: -webkit-sticky;

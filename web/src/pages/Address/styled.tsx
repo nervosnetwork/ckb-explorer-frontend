@@ -54,7 +54,7 @@ export const AddressOverviewPanel = styled.div`
     display: block;
     content: '';
     margin: 0 auto;
-    background: #46ab81;
+    background: #3CC68A;
     height: 4px;
     width: 197px;
   }

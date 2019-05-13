@@ -87,7 +87,7 @@ export const TransactionCommonContent = styled.div`
       > div:nth-child(1) {
         width: 1px;
         height: 80px;
-        background: #46ab81;
+        background: #3CC68A;
         content: '';
         margin-right: 82px;
       }
