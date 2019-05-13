@@ -2,7 +2,9 @@
 
 [![TravisCI](https://travis-ci.com/nervosnetwork/ckb-explorer.svg?branch=develop)](https://travis-ci.com/nervosnetwork/ckb-explorer)
 
-CKB block explorer
+CKB Explorer is a [Nervos CKB](https://github.com/nervosnetwork/ckb) blockchain explorer built with React and Ruby on Rails. 
+
+It supports searching block, transaction, address and includes two parts: [web(front-end)](/web/README.md) and [server(back-end)](/server/README.md).
 
 ## License
 
