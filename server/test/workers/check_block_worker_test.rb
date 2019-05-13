@@ -11,11 +11,11 @@ class CheckBlockWorkerTest < ActiveSupport::TestCase
     assert_nil CheckBlockWorker.perform_async(DEFAULT_NODE_BLOCK_HASH)
   end
 
-  test "queuing in the critical" do
+  test "queuing in the authentic_sync" do
     CheckBlockWorker.perform_async(DEFAULT_NODE_BLOCK_HASH)
 
-    assert_equal 1, Sidekiq::Queues["critical"].size
-    assert_equal "CheckBlockWorker", Sidekiq::Queues["critical"].first["class"]
+    assert_equal 1, Sidekiq::Queues["authentic_sync"].size
+    assert_equal "CheckBlockWorker", Sidekiq::Queues["authentic_sync"].first["class"]
   end
 
   test "should invoke call function in CkbSync::Validator" do

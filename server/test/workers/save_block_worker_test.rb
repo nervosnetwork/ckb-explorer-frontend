@@ -11,11 +11,11 @@ class SaveBlockWorkerTest < ActiveSupport::TestCase
     assert_nil SaveBlockWorker.perform_async(DEFAULT_NODE_BLOCK_HASH)
   end
 
-  test "queuing in the critical" do
+  test "queuing in the inauthentic_sync" do
     SaveBlockWorker.perform_async(DEFAULT_NODE_BLOCK_HASH)
 
-    assert_equal 1, Sidekiq::Queues["critical"].size
-    assert_equal "SaveBlockWorker", Sidekiq::Queues["critical"].first["class"]
+    assert_equal 1, Sidekiq::Queues["inauthentic_sync"].size
+    assert_equal "SaveBlockWorker", Sidekiq::Queues["inauthentic_sync"].first["class"]
   end
 
   test "should invoke call function in CkbSync::Persist" do
