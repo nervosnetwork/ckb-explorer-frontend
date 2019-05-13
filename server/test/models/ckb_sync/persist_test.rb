@@ -572,9 +572,9 @@ module CkbSync
       create_list(:ckb_transaction, 1000, block: block)
       CkbSync::Persist.update_ckb_transaction_info_and_fee
 
-      assert_equal 20, Sidekiq::Queues["default"].size
-      assert_equal "UpdateTransactionDisplayInputsWorker", Sidekiq::Queues["default"].first["class"]
-      assert_equal "UpdateTransactionFeeWorker", Sidekiq::Queues["default"].last["class"]
+      assert_equal 20, Sidekiq::Queues["transaction_info_updater"].size
+      assert_equal "UpdateTransactionDisplayInputsWorker", Sidekiq::Queues["transaction_info_updater"].first["class"]
+      assert_equal "UpdateTransactionFeeWorker", Sidekiq::Queues["transaction_info_updater"].last["class"]
     end
   end
 end
