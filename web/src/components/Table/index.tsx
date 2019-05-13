@@ -15,7 +15,7 @@ const TableTitleRowItem = styled.div`
   justify-content: center;
   align-items: center;
   width: 240px;
-  height: 100%;
+  height: 65px;
 
   > img {
     width: 23px;
@@ -59,7 +59,7 @@ const TableMinerContentPanel = styled.div`
   width: 240px;
     
   .table__miner__content {
-    line-height: 78px;
+    line-height: 65px;
     color: #4bbc8e;
     text-decoration: none;
 
