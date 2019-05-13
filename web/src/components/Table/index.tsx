@@ -56,17 +56,26 @@ const TableContentRowItem = styled.div`
 const TableMinerContentPanel = styled.div`
   height: 78px;
   width: 240px;
+    
+  .table__miner__content {
+    line-height: 78px;
+    color: #4bbc8e;
+    text-decoration: none;
 
-  > div {
-    max-width: 90px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0 auto;
+    > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-    .table__miner__content {
-      line-height: 78px;
-      color: #4bbc8e;
-      text-decoration: none;
+      .table__miner__text {
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .table__miner__text__end {
+        margin-left: -8px;
+        width: 60px;
+      }
     }
   }
 `
@@ -102,11 +111,12 @@ export const TableContentItem = ({ content, to }: { content: string; to?: any })
 export const TableMinerContentItem = ({ content }: { content: string }) => {
   return (
     <TableMinerContentPanel>
-      <div>
-        <Link className="table__miner__content" to={`/address/${content}`}>
-          {content}
-        </Link>
-      </div>
+      <Link className="table__miner__content" to={`/address/${content}`}>
+        <div>
+          <div className="table__miner__text">{content}</div>
+          <div className="table__miner__text__end">{content.substr(content.length-8, 8)}</div>
+        </div>
+      </Link>
     </TableMinerContentPanel>
   )
 }
