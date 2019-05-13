@@ -83,7 +83,7 @@ export default () => {
 
       <BlockPanel className="container" width={window.innerWidth}>
         <ContentTitle>
-          <div>Latest Blocks</div>
+          <div>Blocks</div>
           <span />
         </ContentTitle>
 

@@ -98,7 +98,7 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
     <SearchPanel width={window.innerWidth}>
       <input
         id="home__search__bar"
-        placeholder="Block Height / Block Hash / TxHash / Address"
+        placeholder="Block Height / Block Hash / Tx Hash / Address"
         onKeyUp={(event: any) => {
           if (event.keyCode === 13) {
             handleSearchResult(event.target.value)

@@ -48,7 +48,7 @@ const CellConsumedLabel = ({
     <LabelItemPanel>
       <img src={image} alt="Cell Consumed" />
       <span>{`${label}:`}</span>
-      <div>{`${shannonToCkb(consumed)}B / ${percentShow}%`}</div>
+      <div>{`${shannonToCkb(consumed)}Byte / ${percentShow}%`}</div>
     </LabelItemPanel>
   )
 }
