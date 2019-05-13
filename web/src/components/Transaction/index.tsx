@@ -9,7 +9,10 @@ const TransactionCell = ({ cell }: { cell: any }) => {
   return (
     <TransactionsCell>
       <Link to={`/address/${cell.address_hash}`}>
-        <div className="transaction__cell__hash">{cell.address_hash}</div>
+        <div className="transaction__cell">
+          <div className="transaction__cell__hash">{cell.address_hash}</div>
+          <div className="transaction__cell__hash__end">{cell.address_hash && cell.address_hash.substr(cell.address_hash.length-12, 12)}</div>
+        </div>
       </Link>
       <div className="transaction__cell__capacity">{`${shannonToCkb(cell.capacity)} CKB`}</div>
     </TransactionsCell>

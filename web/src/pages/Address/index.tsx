@@ -174,7 +174,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
 
           <CellConsumedLabel
             image={CellConsumedIcon}
-            label="Cell Consumed: "
+            label="Cell Consumed"
             consumed={addressData.cell_consumed}
             balance={addressData.balance}
           />

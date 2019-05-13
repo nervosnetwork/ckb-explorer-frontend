@@ -55,12 +55,24 @@ export const TransactionsCell = styled.div`
   align-items: center;
   height: 22px;
 
-  .transaction__cell__hash {
-    font-size: 16px;
-    color: rgb(75, 188, 142);
-    max-width: 320px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .transaction__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .transaction__cell__hash {
+      font-size: 16px;
+      color: rgb(75, 188, 142);
+      max-width: 240px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .transaction__cell__hash__end {
+      font-size: 16px;
+      color: rgb(75, 188, 142);
+      width: 120px;
+      margin-left: -6px;
+    }
   }
 
   .transaction__cell__capacity {
