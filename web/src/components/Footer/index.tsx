@@ -34,7 +34,7 @@ const FooterDiv = styled.div`
     justify-content: center;
   }
   .footer__top {
-    min-height: ${(props: { width: number }) => (467 * props.width) / 1920}px;
+    min-height: ${(props: { width: number }) => (380 * props.width) / 1920}px;
     .container {
       display: flex;
       flex-wrap: wrap;

@@ -30,7 +30,7 @@ export const LogoPanel = styled.div`
     color: #3CC68A;
     font-family: DINPro;
     line-height: 134px;
-    font-size: ${(props: { width: number }) => (86 * props.width) / 1920}px;
+    font-size: 64px;
     padding: ${(props: { width: number }) => (24 * props.width) / 1920}px 0;
     font-weight: 900;
     font-style: normal;

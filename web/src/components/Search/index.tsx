@@ -18,13 +18,15 @@ const SearchPanel = styled.div`
   > input {
     position: relative;
     width: 100%;
-    color: rgba(186, 186, 186, 100);
+    color: #ffbababa;
     height: 65px;
     font-size: 16px;
     padding-left: 20px;
     padding-right: 106px;
     padding-right: 61px;
     border-radius: 6px;
+    border-width: 0px;
+    background: #ffffff;
     &: focus {
       color: black;
       opacity: 1 !important;
