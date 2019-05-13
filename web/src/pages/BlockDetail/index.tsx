@@ -239,7 +239,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: ProposalTransactionsIcon,
       label: 'Proposal Transactions:',
-      value: `${blockData.proposal_transactions_count}`,
+      value: `${blockData.proposal_transactions_count? blockData.proposal_transactions_count : 0}`,
     },
     {
       image: TimestampIcon,

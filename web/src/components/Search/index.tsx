@@ -12,13 +12,13 @@ const SearchPanel = styled.div`
   max-width: 650px;
   width: 100%;
   margin: 0 auto;
-  height: 65px;
+  height: 60px;
   text-align: center;
   position: relative;
   > input {
     position: relative;
     width: 100%;
-    height: 65px;
+    height: 60px;
     font-size: 16px;
     padding-left: 20px;
     padding-right: 106px;
