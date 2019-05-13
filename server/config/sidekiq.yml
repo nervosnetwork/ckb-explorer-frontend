@@ -1,5 +1,12 @@
 ---
-:concurrency: 4
+:concurrency: 5
 :queues:
-  - [critical, 2]
+  - [inauthentic_sync, 4]
+  - [authentic_sync, 3]
+  - [transaction_info_updater, 2]
   - default
+
+production:
+  :concurrency: 25
+staging:
+  :concurrency: 15

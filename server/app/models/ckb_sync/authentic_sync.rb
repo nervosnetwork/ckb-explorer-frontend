@@ -18,7 +18,7 @@ module CkbSync
             worker_args_producer.async.produce_worker_args(numbers)
           end
 
-        worker_args_consumer = CkbSync::DataSyncWorkerArgsConsumer.new(worker_args, "CheckBlockWorker", "current_authentic_sync_round")
+        worker_args_consumer = CkbSync::DataSyncWorkerArgsConsumer.new(worker_args, "CheckBlockWorker", "authentic_sync", "current_authentic_sync_round")
         worker_args_consumer.consume_worker_args(ivars)
 
         CkbSync::Persist.update_ckb_transaction_info_and_fee

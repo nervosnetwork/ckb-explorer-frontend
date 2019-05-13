@@ -266,6 +266,8 @@ GEM
       rack (>= 1.5.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 5)
+    sidekiq-failures (1.0.0)
+      sidekiq (>= 4.0.0)
     sidekiq-unique-jobs (6.0.13)
       concurrent-ruby (~> 1.0, >= 1.0.5)
       sidekiq (>= 4.0, < 7.0)
@@ -353,6 +355,7 @@ DEPENDENCIES
   shoulda-context
   shoulda-matchers
   sidekiq (~> 5.2, >= 5.2.3)
+  sidekiq-failures
   sidekiq-unique-jobs
   simplecov
   spring
