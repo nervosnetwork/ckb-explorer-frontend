@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import styled from 'styled-components'
-import LogoIcon from '../../logo.png'
+import LogoIcon from '../../asserts/ckb_footer_logo.png'
 
 import AboutIcon from '../../asserts/footer_about.png'
 import FAQIcon from '../../asserts/footer_faq.png'
@@ -20,7 +20,7 @@ import { getCurrentYear } from '../../utils/date'
 const FooterDiv = styled.div`
   width: 100%;
   overflow: hidden;
-  background-color: #18325d;
+  background-color: #424242;
   display: flex;
   flex-direction: column;
   a {
@@ -48,8 +48,8 @@ const FooterDiv = styled.div`
       }
       .footer__top__logo {
         img {
-          width: ${(props: { width: number }) => (370 * props.width) / 1920}px;
-          height: auto;
+          width: ${(props: { width: number }) => (137 * props.width) / 1920}px;
+          height: 150px;
           &:hover {
             transform: scale(1.1, 1.1);
           }
@@ -70,7 +70,7 @@ const FooterDiv = styled.div`
             font-size: 20px;
             width: 100px;
             margin-right: 33px;
-            color: rgb(75 188 142);
+            color: #3cc68a;
           }
           > div:nth-child(2) {
             flex: 1;
