@@ -4,7 +4,7 @@ module Api
       before_action :validate_query_params
 
       def show
-        cell_output = CellOutput.find(params[:id])
+        cell_output = CellOutput.where(id: params[:id]).available.take!
 
         render json: CellOutputDataSerializer.new(cell_output)
       rescue ActiveRecord::RecordNotFound

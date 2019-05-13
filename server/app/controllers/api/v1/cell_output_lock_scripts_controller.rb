@@ -4,7 +4,7 @@ module Api
       before_action :validate_query_params
 
       def show
-        cell_output = CellOutput.find(params[:id])
+        cell_output = CellOutput.where(id: params[:id]).available.take!
         lock_script = cell_output.lock_script
 
         render json: LockScriptSerializer.new(lock_script)
