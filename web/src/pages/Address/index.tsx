@@ -176,7 +176,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
             image={CellConsumedIcon}
             label="Cell Consumed"
             consumed={addressData.cell_consumed}
-            balance={addressData.balance}
           />
           <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " value={addressData.lock_script} />
         </AddressCommonContent>

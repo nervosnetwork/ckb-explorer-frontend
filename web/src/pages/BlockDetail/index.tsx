@@ -306,7 +306,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 image={CellConsumedIcon}
                 label="Cell Consumed"
                 consumed={shannonToCkb(blockData.cell_consumed)}
-                balance={shannonToCkb(blockData.total_cell_capacity)}
               />
               {BlockLeftItems.slice(BlockLeftSeparateIndex).map(item => {
                 return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
