@@ -119,6 +119,21 @@ module Api
         assert_equal 10, json["data"].size
       end
 
+      test "should return available records" do
+        page_size = 30
+        create_list(:block, 15, :with_block_hash)
+        create(:block, status: "abandoned")
+
+        valid_get api_v1_blocks_url, params: { page_size: page_size }
+
+        block_hashes = Block.available.recent.map(&:block_hash)
+        blocks_statuses = Block.available.recent.map(&:status).uniq
+        search_result_block_hashes = json["data"].map { |ckb_transaction| ckb_transaction.dig("attributes", "block_hash") }
+
+        assert_equal block_hashes, search_result_block_hashes
+        assert_equal ["inauthentic"], blocks_statuses
+      end
+
       test "should return corresponding page's records when page is set and page_size is not set" do
         page = 2
         page_size = 10

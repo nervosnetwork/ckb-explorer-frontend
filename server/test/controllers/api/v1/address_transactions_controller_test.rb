@@ -136,6 +136,20 @@ module Api
         assert_equal 10, json["data"].size
       end
 
+      test "should return available records" do
+        page_size = 50
+        address = create(:address, :with_transactions, transactions_count: 30)
+        create(:ckb_transaction, address: address, status: "abandoned")
+
+        valid_get api_v1_address_transaction_url(address.address_hash), params: { page_size: page_size }
+        address_ckb_transaction_hashes = address.ckb_transactions.available.recent.map(&:tx_hash)
+        address_ckb_transaction_statuses = address.ckb_transactions.available.recent.map(&:status).uniq
+        search_result_ckb_transaction_hashes = json["data"].map { |ckb_transaction| ckb_transaction.dig("attributes", "transaction_hash") }
+
+        assert_equal address_ckb_transaction_hashes, search_result_ckb_transaction_hashes
+        assert_equal ["inauthentic"], address_ckb_transaction_statuses
+      end
+
       test "should return corresponding page's records when page is set and page_size is not set" do
         page = 2
         page_size = 10
