@@ -12,23 +12,19 @@ const SearchPanel = styled.div`
   max-width: 650px;
   width: 100%;
   margin: 0 auto;
-  // margin-top: ${(props: { width: number }) => (98 * props.width) / 1920}px;
-  // margin-bottom: ${(props: { width: number }) => (98 * props.width) / 1920}px;
   height: 65px;
   text-align: center;
   position: relative;
   > input {
     position: relative;
     width: 100%;
-    color: #bababa;
+    color: rgba(186, 186, 186, 100);
     height: 65px;
     font-size: 16px;
     padding-left: 20px;
     padding-right: 106px;
     padding-right: 61px;
-    opacity: 0.2;
     border-radius: 6px;
-    background-color: #ffffff;
     &: focus {
       color: black;
       opacity: 1 !important;
@@ -95,7 +91,7 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
   }
 
   return (
-    <SearchPanel width={window.innerWidth}>
+    <SearchPanel>
       <input
         id="home__search__bar"
         placeholder="Block Height / Block Hash / Tx Hash / Address"

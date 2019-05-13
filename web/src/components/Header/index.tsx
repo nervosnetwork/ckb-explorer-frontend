@@ -2,14 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
-import logoIcon from '../../asserts/logo.gif'
+import logoIcon from '../../asserts/ckb_logo.png'
 
 const HeaderDiv = styled.div`
   width: 100%;
-  min-height: ${(props: { width: number }) => (130 * props.width) / 1920}px;
+  min-height: ${(props: { width: number }) => (100 * props.width) / 1920}px;
   overflow: hidden;
   box-shadow: 0 2px 4px 0 #10274d;
-  background-color: #18325d;
+  background-color: #424242;
   position: sticky;
   position: -webkit-sticky;
   top: 0;
@@ -17,7 +17,7 @@ const HeaderDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: ${(props: { width: number }) =>
-    `${(((130 - 78) / 2) * props.width) / 1920}px ${(112 * props.width) / 1920}px`};
+    `${(((100 - 78) / 2) * props.width) / 1920}px ${(82 * props.width) / 1920}px`};
   .header__logo,
   .header__menus,
   .header__search {
@@ -28,8 +28,8 @@ const HeaderDiv = styled.div`
   .header__logo {
     padding-left: ${(props: { width: number }) => (7 * props.width) / 1920}px;
     .header__logo__img {
-      width: 215px;
-      height: 84px;
+      width: 72px;
+      height: 60px;
       &:hover {
         transform: scale(1.1, 1.1);
       }
@@ -60,6 +60,7 @@ const HeaderDiv = styled.div`
     > div {
       display: flex;
       align-items: center;
+      height: 50px;
       width: ${(props: { width: number }) => (550 * props.width) / 1920}px;
       min-width: 320px;
     }
