@@ -187,6 +187,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
             {transactionWrappers.map((transaction: any) => {
               return (
                 <TransactionComponent
+                  address={address}
                   transaction={transaction.attributes}
                   key={transaction.attributes.transaction_hash}
                 />
