@@ -71,21 +71,9 @@ export const CellHash = styled.div`
   font-size: 16px;
   color: rgb(136, 136, 136)};
   max-width: 240px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 `
 export const CellHashHighLight = styled(CellHash)`
-  color: rgb(75, 188, 142);
-`
-export const CellHashEnd = styled.div`
   font-size: 16px;
-  color: rgb(136, 136, 136)};
-  width: 120px;
-  margin-left: -6px;
-`
-export const CellHashEndHighLight = styled.div`
-  font-size: 16px;
+  max-width: 240px;
   color: rgb(75, 188, 142);
-  width: 120px;
-  margin-left: -6px;
 `

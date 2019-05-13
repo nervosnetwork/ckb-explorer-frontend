@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { TransactionsCell, TransactionsItem, CellHash, CellHashHighLight, CellHashEnd, CellHashEndHighLight } from './styled'
+import { TransactionsCell, TransactionsItem, CellHash, CellHashHighLight } from './styled'
 import { parseDate } from '../../utils/date'
-import { shannonToCkb } from '../../utils/util'
+import { shannonToCkb, startEndEllipsis } from '../../utils/util'
 import InputOutputIcon from '../../asserts/input_arrow_output.png'
 
 const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => {
@@ -11,15 +11,11 @@ const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => 
       {
         address === cell.address_hash? (
           <div className="transaction__cell">
-            <CellHash>{cell.address_hash}</CellHash>
-            <CellHashEnd>{cell.address_hash && cell.address_hash.substr(cell.address_hash.length-12, 12)}</CellHashEnd>
+            <CellHash>{cell.address_hash && startEndEllipsis(cell.address_hash)}</CellHash>
           </div>
         ) : (
           <Link to={`/address/${cell.address_hash}`}>
-            <div className="transaction__cell">
-              <CellHashHighLight>{cell.address_hash}</CellHashHighLight>
-              <CellHashEndHighLight>{cell.address_hash && cell.address_hash.substr(cell.address_hash.length-12, 12)}</CellHashEndHighLight>
-            </div>
+            <CellHashHighLight>{cell.address_hash && startEndEllipsis(cell.address_hash)}</CellHashHighLight>
           </Link>
         )
       }

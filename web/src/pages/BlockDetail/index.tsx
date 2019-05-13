@@ -41,7 +41,7 @@ import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchBlockByHash, fetchTransactionsByBlockHash, fetchBlockByNumber } from '../../http/fetcher'
-import { copyDivValue, validNumber, shannonToCkb } from '../../utils/util'
+import { copyDivValue, validNumber, shannonToCkb, startEndEllipsis } from '../../utils/util'
 import browserHistory from '../../routes/history'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
@@ -262,7 +262,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: MinerIcon,
       label: 'Miner:',
-      value: `${blockData.miner_hash}`,
+      value: `${blockData.miner_hash && startEndEllipsis(blockData.miner_hash, 15)}`,
     },
     {
       image: BlockRewardIcon,
