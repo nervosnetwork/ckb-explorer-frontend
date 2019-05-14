@@ -36,7 +36,7 @@ export const AddressTitlePanel = styled.div`
     }
     img {
       margin-left: 19px;
-      width: 24px;
+      width: 21px;
       height: 21px;
     }
   }
@@ -63,7 +63,7 @@ export const AddressOverviewPanel = styled.div`
 export const AddressCommonContent = styled.div`
   width: 100%;
   overflow-x: auto;
-  padding: 72px 88px 56px 88px;
+  padding: 72px 60px 56px 88px;
   margin: 0 auto;
   margin-top: 50px;
   background: white;
@@ -144,7 +144,7 @@ export const AddressScriptLabelPanel = styled.div`
     font-size: 18px;
     color: rgb(77, 77, 77);
     margin-left: 10px;
-    margin-right: 21px;
+    margin-right: 30px;
   }
 `
 
@@ -156,6 +156,7 @@ export const AddressScriptContent = styled.textarea`
   color: #888888;
   min-height: 170px;
   margin-top: 23px;
+  margin-left: 30px;
   background-color: #f9f9f9;
   border-radius: 6px 6px;
 `

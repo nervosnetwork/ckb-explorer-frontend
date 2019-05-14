@@ -169,6 +169,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               value={`${addressData.transactions_count}`}
               style={{
                 flexGrow: 1,
+                marginLeft: 45,
               }}
             />
           </AddressCommonRowPanel>

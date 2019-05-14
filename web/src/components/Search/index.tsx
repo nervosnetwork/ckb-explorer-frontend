@@ -9,19 +9,18 @@ import browserHistory from '../../routes/history'
 import SearchLogo from '../../asserts/search.png'
 
 const SearchPanel = styled.div`
-  max-width: 650px;
+  max-width: 550px;
   width: 100%;
   margin: 0 auto;
-  height: 60px;
+  height: 50px;
   text-align: center;
   position: relative;
   > input {
     position: relative;
     width: 100%;
-    height: 60px;
+    height: 50px;
     font-size: 16px;
     padding-left: 20px;
-    padding-right: 106px;
     padding-right: 61px;
     border-radius: 6px;
     border-width: 0px;
@@ -42,8 +41,8 @@ const SearchPanel = styled.div`
     position: absolute;
     top: 14px;
     right: 9px;
-    width: 41px;
-    height: 41px;
+    width: 30px;
+    height: 30px;
     opacity: 0.8;
     &: hover {
       opacity: 1;
