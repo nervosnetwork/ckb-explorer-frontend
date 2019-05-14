@@ -63,9 +63,6 @@ const FooterDiv = styled.div`
           align-items: center;
           margin-top: 25px;
           margin-bottom: 25px;
-          &:hover {
-            opacity: 1;
-          }
           > div:nth-child(1) {
             font-size: 20px;
             width: 100px;
@@ -84,9 +81,7 @@ const FooterDiv = styled.div`
             flex-direction: column;
             align-items: center;
             text-decoration: none;
-            &:hover {
-              transform: scale(1.1, 1.1);
-            }
+            
             >div: nth-child(1) {
               width: 32px;
               height: 32px;

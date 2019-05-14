@@ -53,7 +53,9 @@ export const BlockPanel = styled.div`
 
 export const ContentTitle = styled.div`
   font-size: 50px;
-  color: black;
+  color: #141414;
+  font-weight: bold;
+  font-family: PingFangSC;
   text-align: center;
   margin: 0 auto;
 

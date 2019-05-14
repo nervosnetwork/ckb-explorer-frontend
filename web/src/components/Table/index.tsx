@@ -8,6 +8,7 @@ export const TableTitleRow = styled.div`
   display: flex;
   height: 65px;
   width: 1200px;
+  border-radius: 6px 6px 0px 0px;
 `
 
 const TableTitleRowItem = styled.div`
@@ -17,7 +18,7 @@ const TableTitleRowItem = styled.div`
   align-items: center;
   width: 240px;
   height: 65px;
-
+  
   > img {
     width: 23px;
     height: 23px;
