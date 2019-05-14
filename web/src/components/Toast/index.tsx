@@ -13,19 +13,18 @@ const ToastDiv = styled.div`
   pointer-events: none;
 `
 const ToastItemDiv = styled.div`
-  width: 80%;
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 2px;
+  width: 100%;
+  background-color: #3cc68a;
+  border-radius: 6px;
   position: absolute;
-  bottom: 30px;
-  padding: 10px;
-  margin-left: 10%;
+  top: 105px;
+  opacity: 0.96;
   z-index: 9999;
-  min-height: 32px;
+  height: 70px;
   .toast__text {
     color: white;
-    font-size: 12px;
-    line-height: 12px;
+    font-size: 20px;
+    line-height: 70px;
     text-align: center;
   }
 `

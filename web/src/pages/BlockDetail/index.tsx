@@ -42,7 +42,7 @@ import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchBlockByHash, fetchTransactionsByBlockHash, fetchBlockByNumber } from '../../http/fetcher'
-import { copyDivValue, validNumber, shannonToCkb, startEndEllipsis } from '../../utils/util'
+import { copyElementValue, validNumber, shannonToCkb, startEndEllipsis } from '../../utils/util'
 import browserHistory from '../../routes/history'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
@@ -57,8 +57,8 @@ const BlockDetailTitle = ({ hash }: { hash: string }) => {
           tabIndex={-1}
           onKeyDown={() => {}}
           onClick={() => {
-            copyDivValue(document.getElementById('block__hash'))
-            appContext.toastMessage('copy success', 3000)
+            copyElementValue(document.getElementById('block__hash'))
+            appContext.toastMessage('Copied', 3000)
           }}
         >
           <img src={CopyIcon} alt="copy" />

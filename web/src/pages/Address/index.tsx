@@ -29,7 +29,7 @@ import { Address, AddressWrapper } from '../../http/response/Address'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
-import { copyDivValue, validNumber, shannonToCkb } from '../../utils/util'
+import { copyElementValue, validNumber, shannonToCkb } from '../../utils/util'
 
 const AddressTitle = ({ address }: { address: string }) => {
   const appContext = useContext(AppContext)
@@ -43,8 +43,8 @@ const AddressTitle = ({ address }: { address: string }) => {
           tabIndex={-1}
           onKeyDown={() => {}}
           onClick={() => {
-            copyDivValue(document.getElementById('address__hash'))
-            appContext.toastMessage('copy success', 3000)
+            copyElementValue(document.getElementById('address__hash'))
+            appContext.toastMessage('Copied', 3000)
           }}
         >
           <img src={CopyIcon} alt="copy" />

@@ -26,7 +26,7 @@ import { Transaction, TransactionWrapper } from '../../http/response/Transaction
 import { Script, ScriptWrapper } from '../../http/response/Script'
 import { Data, DataWrapper } from '../../http/response/Data'
 import { CellType, fetchTransactionByHash, fetchScript, fetchCellData } from '../../http/fetcher'
-import { copyDivValue, shannonToCkb } from '../../utils/util'
+import { copyElementValue, shannonToCkb } from '../../utils/util'
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
 
@@ -145,9 +145,8 @@ const ScriptComponent = ({
                   const textarea = document.getElementById(
                     `textarea-${cellType}${+'-'}${cellInputOutput.id}`,
                   ) as HTMLTextAreaElement
-                  textarea.select()
-                  document.execCommand('copy')
-                  appContext.toastMessage('copy success', 3000)
+                  copyElementValue(textarea)
+                  appContext.toastMessage('Copied', 3000)
                 }}
               >
                 <div>Copy</div>
@@ -173,8 +172,8 @@ const TransactionTitle = ({ hash }: { hash: string }) => {
           tabIndex={-1}
           onKeyDown={() => {}}
           onClick={() => {
-            copyDivValue(document.getElementById('transaction__hash'))
-            appContext.toastMessage('copy success', 3000)
+            copyElementValue(document.getElementById('transaction__hash'))
+            appContext.toastMessage('Copied', 3000)
           }}
         >
           <img src={CopyIcon} alt="copy" />
