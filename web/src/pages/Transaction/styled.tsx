@@ -31,7 +31,7 @@ export const TransactionOverviewLabel = styled.div`
 export const TransactionTitlePanel = styled.div`
   .transaction__title {
     color: rgb(20, 20, 20);
-    font-size: 40pt;
+    font-size: 32pt;
     text-align: center;
     font-family: PingFang-SC-Heavy;
     font-weight: 900;
