@@ -6,7 +6,7 @@ import logoIcon from '../../asserts/ckb_logo.png'
 
 const HeaderDiv = styled.div`
   width: 100%;
-  min-height: 100px;
+  min-height: 80px;
   overflow: hidden;
   box-shadow: 0 2px 4px 0 #141414;
   background-color: #424242;
@@ -16,7 +16,7 @@ const HeaderDiv = styled.div`
   z-index: 1;
   display: flex;
   flex-wrap: wrap;
-  padding: 11px 82px;
+  padding: 1px 82px;
   .header__logo,
   .header__menus,
   .header__search {

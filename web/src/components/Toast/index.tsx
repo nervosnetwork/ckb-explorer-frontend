@@ -17,7 +17,7 @@ const ToastItemDiv = styled.div`
   background-color: #3cc68a;
   border-radius: 6px;
   position: absolute;
-  top: 105px;
+  top: 85px;
   opacity: 0.96;
   z-index: 9999;
   height: 70px;

@@ -28,7 +28,7 @@ export const LogoPanel = styled.div`
   > div {
     margin-left: 29px;
     color: #3CC68A;
-    font-family: DINPro;
+    font-family: Montserrat;
     line-height: 134px;
     font-size: 64px;
     padding: ${(props: { width: number }) => (24 * props.width) / 1920}px 0;
