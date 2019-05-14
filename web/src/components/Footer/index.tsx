@@ -49,7 +49,7 @@ const FooterDiv = styled.div`
       .footer__top__logo {
         img {
           width: ${(props: { width: number }) => (137 * props.width) / 1920}px;
-          height: 150px;
+          height: auto;
           &:hover {
             transform: scale(1.1, 1.1);
           }

@@ -6,7 +6,6 @@ import { shannonToCkb, startEndEllipsis } from '../../utils/util'
 import InputOutputIcon from '../../asserts/input_arrow_output.png'
 
 const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => {
-  console.log(JSON.stringify(cell))
   return (
     <TransactionsCell>
       {
