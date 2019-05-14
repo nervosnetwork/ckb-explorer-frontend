@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
+import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import AppContext from '../../contexts/App'
 import Content from '../../components/Content'
@@ -203,6 +204,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               current={pageNo}
               total={totalTransactions}
               onChange={onChange}
+              locale={localeInfo}
             />
           </AddressTransactionsPagition>
         </AddressTransactionsPanel>

@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
+import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import AppContext from '../../contexts/App'
 import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition } from './styled'
@@ -109,6 +110,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
             current={pageNo}
             total={totalBlocks}
             onChange={onChange}
+            locale={localeInfo}
           />
         </BlocksPagition>
       </BlockListPanel>

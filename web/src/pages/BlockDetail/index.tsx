@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
+import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import {
   BlockDetailPanel,
@@ -358,6 +359,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               current={pageNo}
               total={totalTransactions}
               onChange={onChange}
+              locale={localeInfo}
             />
           </BlockTransactionsPagition>
         </BlockTransactionsPanel>
