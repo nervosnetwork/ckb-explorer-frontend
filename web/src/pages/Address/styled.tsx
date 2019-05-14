@@ -15,7 +15,7 @@ export const AddressTitlePanel = styled.div`
 
   .address__title {
     color: rgb(20, 20, 20);
-    font-size: 40pt;
+    font-size: 32pt;
     text-align: center;
   }
 
@@ -155,6 +155,7 @@ export const AddressScriptContent = styled.textarea`
   font-size: 16px;
   color: #888888;
   min-height: 170px;
+  margin-top: 23px;
   background-color: #f9f9f9;
   border-radius: 6px 6px;
 `
