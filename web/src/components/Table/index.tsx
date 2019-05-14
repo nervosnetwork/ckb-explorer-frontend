@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { startEndEllipsis } from '../../utils/util'
 
 export const TableTitleRow = styled.div`
   background: #3CC68A;
@@ -67,16 +68,7 @@ const TableMinerContentPanel = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
-
-      .table__miner__text {
-        max-width: 120px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .table__miner__text__end {
-        margin-left: -8px;
-        width: 60px;
-      }
+      font-size: 16px;
     }
   }
 `
@@ -113,10 +105,7 @@ export const TableMinerContentItem = ({ content }: { content: string }) => {
   return (
     <TableMinerContentPanel>
       <Link className="table__miner__content" to={`/address/${content}`}>
-        <div>
-          <div className="table__miner__text">{content}</div>
-          <div className="table__miner__text__end">{content.substr(content.length-8, 8)}</div>
-        </div>
+        <div className="table__miner__text">{startEndEllipsis(content)}</div>
       </Link>
     </TableMinerContentPanel>
   )
