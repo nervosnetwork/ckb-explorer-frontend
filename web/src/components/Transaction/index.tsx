@@ -6,12 +6,13 @@ import { shannonToCkb, startEndEllipsis } from '../../utils/util'
 import InputOutputIcon from '../../asserts/input_arrow_output.png'
 
 const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => {
+  console.log(JSON.stringify(cell))
   return (
     <TransactionsCell>
       {
-        address === cell.address_hash? (
+        address === cell.address_hash || cell.from_cellbase? (
           <div className="transaction__cell">
-            <CellHash>{cell.address_hash && startEndEllipsis(cell.address_hash)}</CellHash>
+            <CellHash>{cell.from_cellbase? 'Cellbase' : cell.address_hash && startEndEllipsis(cell.address_hash)}</CellHash>
           </div>
         ) : (
           <Link to={`/address/${cell.address_hash}`}>

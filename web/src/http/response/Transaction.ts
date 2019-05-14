@@ -18,4 +18,5 @@ export interface InputOutput {
   id: number
   address_hash: string
   capacity: number
+  from_cellbase: boolean
 }

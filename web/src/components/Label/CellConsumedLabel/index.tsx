@@ -40,7 +40,7 @@ const CellConsumedLabel = ({
     <LabelItemPanel>
       <img src={image} alt="Cell Consumed" />
       <span>{`${label}:`}</span>
-      <div>{`${shannonToCkb(consumed)}Byte`}</div>
+      <div>{`${shannonToCkb(consumed)} Byte`}</div>
     </LabelItemPanel>
   )
 }

@@ -40,12 +40,20 @@ export const TransactionsItem = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
 
     > img {
       width: 40px;
       height: 40px;
-      margin: auto 0;
+      flex: 1;
+    }
+
+    > div {
+      flex: 13;
+    }
+
+    .transaction__output {
+      display: flex;
+      justify-content: flex-end;
     }
   }
 `
