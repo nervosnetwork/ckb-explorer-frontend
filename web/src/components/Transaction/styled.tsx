@@ -43,8 +43,9 @@ export const TransactionsItem = styled.div`
     justify-content: space-between;
 
     > img {
-      width: 68px;
-      height: 68px;
+      width: 40px;
+      height: 40px;
+      margin: auto 0;
     }
   }
 `
