@@ -38,6 +38,7 @@ export const CommonPagition = styled.div`
     }
     .rc-pagination-item-active {
       background-color: #4bbc8e !important;
+      border-color: #4bbc8e !important;
     }
     .rc-pagination-item {
       &:hover {
