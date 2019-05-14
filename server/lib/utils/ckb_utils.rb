@@ -64,8 +64,8 @@ module Utils
       CKB::Utils.bin_to_hex(data.slice(5..-1))
     end
 
-    def self.miner_reward(cellbase)
-      cellbase["outputs"].first["capacity"].to_i
+    def self.miner_reward(epoch)
+      CkbSync::Api.instance.get_epoch_by_number(epoch).block_reward
     end
 
     def self.ckb_transaction_fee(ckb_transaction)
