@@ -190,7 +190,7 @@ export const InputOutputTable = styled.table`
   thead {
     tr {
       height: 58px;
-      border-bottom: 2px solid #4bbc8e;
+      border-bottom: 1px solid #4bbc8e;
       font-size: 20px;
       font-family: PingFang-SC-Heavy;
       color: #4d4d4d;
@@ -239,7 +239,7 @@ export const InputOutputTable = styled.table`
             width: 120px;
             font-size: 16px;
             color: #4bbc8e;
-            font-weight: bold;
+            font-family: PingFangSC-Semibold;
           }
         }
       }
@@ -301,8 +301,7 @@ export const InputOutputTable = styled.table`
         border-bottom: 2px solid #4bbc8e;
       }
       .td-operatable-disabled {
-        color: grey;
-        opacity: 0.2;
+        color: #888888;
         cursor: unset;
       }
     }
