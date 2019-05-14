@@ -10,8 +10,8 @@ const LabelItemPanel = styled.div`
   margin-bottom: 24px;
 
   > img {
-    width: 28px;
-    height: 28px;
+    width: 20px;
+    height: 20px;
   }
 
   > span {
