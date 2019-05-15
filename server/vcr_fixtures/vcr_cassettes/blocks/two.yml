@@ -23,7 +23,7 @@ http_interactions:
       Server:
       - nginx/1.14.0 (Ubuntu)
       Date:
-      - Sat, 11 May 2019 12:15:17 GMT
+      - Wed, 15 May 2019 10:22:19 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -32,11 +32,11 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"jsonrpc":"2.0","result":"0x89c2752ee8583cfc7342e906e624c1fe15d74e9b5dfd587024302fc3fabfedd1","id":1}
+      string: '{"jsonrpc":"2.0","result":"0xcbdf7ba31715d7269b84d9554b9e1b11ca11cb66880992ad19f8e6ce9f2807a2","id":1}
 
 '
     http_version:
-  recorded_at: Sat, 11 May 2019 12:15:17 GMT
+  recorded_at: Wed, 15 May 2019 10:22:19 GMT
 - request:
     method: post
     uri: http://localhost:8114/
@@ -60,7 +60,7 @@ http_interactions:
       Server:
       - nginx/1.14.0 (Ubuntu)
       Date:
-      - Sat, 11 May 2019 12:42:41 GMT
+      - Wed, 15 May 2019 10:22:22 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -69,194 +69,9 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"jsonrpc":"2.0","result":"0x89c2752ee8583cfc7342e906e624c1fe15d74e9b5dfd587024302fc3fabfedd1","id":1}
+      string: '{"jsonrpc":"2.0","result":"0xcbdf7ba31715d7269b84d9554b9e1b11ca11cb66880992ad19f8e6ce9f2807a2","id":1}
 
 '
     http_version:
-  recorded_at: Sat, 11 May 2019 12:42:41 GMT
-- request:
-    method: post
-    uri: http://localhost:8114/
-    body:
-      encoding: UTF-8
-      string: '{"id":1,"jsonrpc":"2.0","method":"get_block_hash","params":["0"]}'
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Content-Type:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx/1.14.0 (Ubuntu)
-      Date:
-      - Sat, 11 May 2019 12:44:42 GMT
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '103'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"jsonrpc":"2.0","result":"0x89c2752ee8583cfc7342e906e624c1fe15d74e9b5dfd587024302fc3fabfedd1","id":1}
-
-'
-    http_version:
-  recorded_at: Sat, 11 May 2019 12:44:42 GMT
-- request:
-    method: post
-    uri: http://localhost:8114/
-    body:
-      encoding: UTF-8
-      string: '{"id":1,"jsonrpc":"2.0","method":"get_block_hash","params":["0"]}'
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Content-Type:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx/1.14.0 (Ubuntu)
-      Date:
-      - Sat, 11 May 2019 12:50:28 GMT
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '103'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"jsonrpc":"2.0","result":"0x89c2752ee8583cfc7342e906e624c1fe15d74e9b5dfd587024302fc3fabfedd1","id":1}
-
-'
-    http_version:
-  recorded_at: Sat, 11 May 2019 12:50:28 GMT
-- request:
-    method: post
-    uri: http://localhost:8114/
-    body:
-      encoding: UTF-8
-      string: '{"id":1,"jsonrpc":"2.0","method":"get_block_hash","params":["0"]}'
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Content-Type:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx/1.14.0 (Ubuntu)
-      Date:
-      - Sat, 11 May 2019 12:57:30 GMT
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '103'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"jsonrpc":"2.0","result":"0x89c2752ee8583cfc7342e906e624c1fe15d74e9b5dfd587024302fc3fabfedd1","id":1}
-
-'
-    http_version:
-  recorded_at: Sat, 11 May 2019 12:57:30 GMT
-- request:
-    method: post
-    uri: http://localhost:8114/
-    body:
-      encoding: UTF-8
-      string: '{"id":1,"jsonrpc":"2.0","method":"get_block_hash","params":["0"]}'
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Content-Type:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx/1.14.0 (Ubuntu)
-      Date:
-      - Sat, 11 May 2019 13:06:36 GMT
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '103'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"jsonrpc":"2.0","result":"0x89c2752ee8583cfc7342e906e624c1fe15d74e9b5dfd587024302fc3fabfedd1","id":1}
-
-'
-    http_version:
-  recorded_at: Sat, 11 May 2019 13:06:36 GMT
-- request:
-    method: post
-    uri: http://localhost:8114/
-    body:
-      encoding: UTF-8
-      string: '{"id":1,"jsonrpc":"2.0","method":"get_block_hash","params":["0"]}'
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-      Content-Type:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx/1.14.0 (Ubuntu)
-      Date:
-      - Sat, 11 May 2019 13:07:29 GMT
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '103'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"jsonrpc":"2.0","result":"0x89c2752ee8583cfc7342e906e624c1fe15d74e9b5dfd587024302fc3fabfedd1","id":1}
-
-'
-    http_version:
-  recorded_at: Sat, 11 May 2019 13:07:29 GMT
+  recorded_at: Wed, 15 May 2019 10:22:22 GMT
 recorded_with: VCR 4.0.0

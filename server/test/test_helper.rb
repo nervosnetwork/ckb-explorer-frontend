@@ -18,7 +18,7 @@ Minitest::Reporters.use!
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
-DEFAULT_NODE_BLOCK_HASH = "0x3c07186493c5da8b91917924253a5ffd35231151649d0c7e2941aa8801815063".freeze
+DEFAULT_NODE_BLOCK_HASH = "0xe6471b6ba597dc7c0a7d5a5f19a9c67c0386358d21c31514ae617aeb4982acbb".freeze
 
 VCR.configure do |config|
   config.cassette_library_dir = "vcr_fixtures/vcr_cassettes"
@@ -138,7 +138,7 @@ def build_display_info_from_node_output(output)
   { id: cell_output.id, capacity: cell_output.capacity.to_s, address_hash: cell_output.address_hash }.stringify_keys
 end
 
-def set_default_lock_params(node_block: block, args: ["0x3c07186493c5da8b91917924253a5ffd35231151649d0c7e2941aa8801815063"], code_hash: "0x#{SecureRandom.hex(32)}")
+def set_default_lock_params(node_block: block, args: ["0xe6471b6ba597dc7c0a7d5a5f19a9c67c0386358d21c31514ae617aeb4982acbb"], code_hash: "0x#{SecureRandom.hex(32)}")
   tx = node_block["transactions"].first
   output = tx["outputs"].first
   output["lock"]["args"] = args
