@@ -29,9 +29,6 @@ const HeaderDiv = styled.div`
     .header__logo__img {
       width: 72px;
       height: 60px;
-      &:hover {
-        transform: scale(1.1, 1.1);
-      }
     }
   }
 
