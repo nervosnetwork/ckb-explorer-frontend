@@ -10,6 +10,8 @@ const LoadingDiv = styled.div`
   box-sizing: border-box;
   overflow-y: hidden;
   display: flex;
+  background: #ffffff;
+  opacity: 0.4;
   flex-direction: column;
   user-select: none;
   z-index: 1000;
