@@ -55,8 +55,8 @@ export const TransactionTitlePanel = styled.div`
 
     > div {
       > img {
-        margin-left: 19px;
-        width: 24px;
+        margin-left: 15px;
+        width: 21px;
         height: 21px;
       }
     }

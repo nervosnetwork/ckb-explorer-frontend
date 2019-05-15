@@ -1,7 +1,12 @@
 const copyElementValue = (component: any) => {
   if (component) {
-    document.createRange().selectNodeContents(component)
+    const selection = window.getSelection()
+    const range = document.createRange()
+    range.selectNodeContents(component)
+    selection.removeAllRanges()
+    selection.addRange(range)
     document.execCommand('Copy')
+    selection.removeAllRanges()
   }
 }
 
