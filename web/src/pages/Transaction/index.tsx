@@ -55,7 +55,6 @@ const ScriptComponent = ({
   return (
     <>
       <tr className="tr-brief">
-        <td>{cellInputOutput.from_cellbase ? 'Cellbase' : `#${cellInputOutput.id}`}</td>
         <td>
           <Link to={`/address/${cellInputOutput.address_hash}`}>{cellInputOutput.address_hash}</Link>
         </td>
@@ -128,7 +127,6 @@ const ScriptComponent = ({
       </tr>
       {scriptType ? (
         <tr className="tr-detail">
-          <td />
           <td colSpan={5}>
             <textarea
               id={`textarea-${cellType}${+'-'}${cellInputOutput.id}`}
@@ -187,7 +185,7 @@ const InputOutputTableTitle = ({ transactionType }: { transactionType: string })
   return (
     <thead>
       <tr>
-        <td colSpan={2}>{transactionType}</td>
+        <td colSpan={1}>{transactionType}</td>
         <td>
           <div>Capacity</div>
         </td>

@@ -201,6 +201,7 @@ export const InputOutputTable = styled.table`
         }
         &:nth-child(2) {
           width: 150px;
+          text-align:center;
         }
         &:nth-child(3) {
           width: 360px;
@@ -220,22 +221,17 @@ export const InputOutputTable = styled.table`
         }
         td {
           &: nth-child(1) {
-            text-align: center;
-            width: 86px;
-            font-size: 18px;
-            color: #888888;
-          }
-          &: nth-child(2) {
             width: ${1100 - 86 - 150 - 120 * 3}px;
             font-size: 16px;
             color: #4bbc8e;
           }
-          &: nth-child(3) {
+          &: nth-child(2) {
             width: 150px;
             font-size: 16px;
+            text-align:center;
             color: #888888;
           }
-          &: nth-child(4),&: nth-child(5),&: nth-child(6) {
+          &: nth-child(3),&: nth-child(4),&: nth-child(5) {
             width: 120px;
             font-size: 16px;
             color: #4bbc8e;
