@@ -31,7 +31,7 @@ module CkbSync
             address
           end
 
-        Address.import! addresses, on_duplicate_key_update: [:balance, :cell_consumed]
+        Address.import! addresses.select(&:changed?), on_duplicate_key_update: [:balance, :cell_consumed]
       end
     end
   end
