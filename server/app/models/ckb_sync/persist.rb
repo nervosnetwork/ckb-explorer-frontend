@@ -153,7 +153,7 @@ module CkbSync
         cell = cell_input.previous_output["cell"]
 
         if cell.blank?
-          { id: nil, from_cellbase: true, capacity: ENV["INITIAL_BLOCK_REWARD"].to_i, address_hash: nil }
+          { id: nil, from_cellbase: true, capacity: cell_input.ckb_transaction.block.reward, address_hash: nil }
         else
           previous_cell_output = cell_input.previous_cell_output
 
@@ -223,7 +223,7 @@ module CkbSync
           total_cell_capacity: Utils::CkbUtils.total_cell_capacity(node_block["transactions"]),
           miner_hash: Utils::CkbUtils.miner_hash(node_block["transactions"].first),
           status: sync_type,
-          reward: Utils::CkbUtils.miner_reward(node_block["transactions"].first),
+          reward: Utils::CkbUtils.miner_reward(header["epoch"].first),
           total_transaction_fee: 0,
           witnesses_root: header["witness_root"],
           epoch: header["epoch"]

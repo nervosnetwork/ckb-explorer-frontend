@@ -10,7 +10,7 @@ module CkbSync
     end
 
     test "should reassign api when current connected ckb node is down" do
-      VCR.use_cassette("blocks/10", record: :new_episodes) do
+      VCR.use_cassette("blocks/10") do
         CKB::API.expects(:new).raises(JSON::ParserError).twice
         Settings.stubs(:hosts).returns(["http://localhost:8114"])
         ENV["CKB_NODE_URL"] = "http://localhost:8113"
@@ -22,9 +22,9 @@ module CkbSync
 
     test "should reassign api when call rpc the ckb node is down" do
       VCR.use_cassette("genesis_block") do
-        VCR.use_cassette("blocks/10", record: :new_episodes) do
+        VCR.use_cassette("blocks/10") do
           CKB::API.any_instance.expects(:send).raises(JSON::ParserError).twice
-          Settings.stubs(:hosts).returns(["http://11.111.111.111:1111/"])
+          CkbSync::Api.any_instance.stubs(:connectable?).returns(true)
           api = Class.new(CkbSync::Api).instance
 
           assert_raise JSON::ParserError do
