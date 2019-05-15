@@ -24,7 +24,7 @@ const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => 
   )
 }
 
-const TransactionComponent = ({ transaction, address }: { transaction: any; address?: string }) => {
+const TransactionComponent = ({ transaction, address, isBlock = false }: { transaction: any; address?: string; isBlock?: boolean }) => {
   return (
     <TransactionsItem>
       <div>
@@ -32,9 +32,13 @@ const TransactionComponent = ({ transaction, address }: { transaction: any; addr
           <Link to={`/transaction/${transaction.transaction_hash}`}>
             <div className="transaction_hash">{transaction.transaction_hash}</div>
           </Link>
-          <div className="transaction_block">
-            {`(Block ${transaction.block_number})  ${parseDate(transaction.block_timestamp)}`}
-          </div>
+          {
+            !isBlock && (
+              <div className="transaction_block">
+                {`(Block ${transaction.block_number})  ${parseDate(transaction.block_timestamp)}`}
+              </div>
+            )
+          }
         </div>
         <span className="transaction__separate" />
         <div className="transaction__input__output">

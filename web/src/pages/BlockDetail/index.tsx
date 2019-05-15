@@ -355,6 +355,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 <TransactionComponent
                   transaction={transaction.attributes}
                   key={transaction.attributes.transaction_hash}
+                  isBlock
                 />
               )
             })}
