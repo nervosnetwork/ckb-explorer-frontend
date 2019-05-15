@@ -56,7 +56,13 @@ const ScriptComponent = ({
     <>
       <tr className="tr-brief">
         <td>
-          <Link to={`/address/${cellInputOutput.address_hash}`}>{cellInputOutput.address_hash}</Link>
+          {
+            cellInputOutput.address_hash? (
+              <Link to={`/address/${cellInputOutput.address_hash}`}>{cellInputOutput.address_hash}</Link>
+            ) : (
+              <div style={{color: '#888888'}}>Unable to decode address</div>
+            )
+          }
         </td>
         <td>{shannonToCkb(cellInputOutput.capacity)}</td>
         {ScriptTypeItems.map(item => {
@@ -271,7 +277,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   label="Timestamp:"
                   value={parseSimpleDate(transaction.block_timestamp)}
                 />
-                <SimpleLabel image={VersionIcon} label="Version:" value={transaction.version} />
+                <SimpleLabel image={VersionIcon} label="Version:" value={`0x${transaction.version.toString()}`} />
               </div>
             </div>
           </div>
