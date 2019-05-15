@@ -261,7 +261,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               >
                 <SimpleLabel image={BlockHeightIcon} label="Block Height:" value={transaction.block_number} highLight/>
               </Link>
-              <SimpleLabel image={TransactionIcon} label="Transaction Fee:" value={transaction.transaction_fee} />
+              <SimpleLabel image={TransactionIcon} label="Transaction Fee:" value={`${transaction.transaction_fee} CKB`} />
             </div>
             <div>
               <div />
