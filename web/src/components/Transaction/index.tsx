@@ -9,14 +9,20 @@ const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => 
   return (
     <TransactionsCell>
       {
-        address === cell.address_hash || cell.from_cellbase? (
-          <div className="transaction__cell">
-            <CellHash>{cell.from_cellbase? 'Cellbase' : cell.address_hash && startEndEllipsis(cell.address_hash)}</CellHash>
-          </div>
+        cell.address_hash ? (
+          address === cell.address_hash || cell.from_cellbase ? (
+            <div className="transaction__cell">
+              <CellHash>{cell.from_cellbase? 'Cellbase' : startEndEllipsis(cell.address_hash)}</CellHash>
+            </div>
+          ) : (
+            <Link to={`/address/${cell.address_hash}`}>
+              <CellHashHighLight>{startEndEllipsis(cell.address_hash, 16)}</CellHashHighLight>
+            </Link>
+          )
         ) : (
-          <Link to={`/address/${cell.address_hash}`}>
-            <CellHashHighLight>{cell.address_hash && startEndEllipsis(cell.address_hash, 16)}</CellHashHighLight>
-          </Link>
+          <div className="transaction__cell">
+            <CellHash>{cell.from_cellbase? 'Cellbase' : 'Unable to decode address'}</CellHash>
+          </div>
         )
       }
       <div className="transaction__cell__capacity">{`${shannonToCkb(cell.capacity)} CKB`}</div>
