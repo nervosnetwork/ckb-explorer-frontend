@@ -27,7 +27,7 @@ import { validNumber } from '../../utils/util'
 
 enum PageParams {
   PageNo = 1,
-  PageSize = 20,
+  PageSize = 25,
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
