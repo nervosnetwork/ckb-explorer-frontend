@@ -53,7 +53,8 @@ export const TransactionsItem = styled.div`
 
     .transaction__output {
       display: flex;
-      justify-content: flex-end;
+      flex-direction: column;
+      align-items: flex-end;
     }
   }
 `
@@ -73,16 +74,14 @@ export const TransactionsCell = styled.div`
   .transaction__cell__capacity {
     font-size: 16px;
     color: rgb(136, 136, 136);
-    margin-left: 25px;
+    margin-left: 20px;
   }
 `
 export const CellHash = styled.div`
   font-size: 16px;
   color: rgb(136, 136, 136)};
-  max-width: 240px;
 `
 export const CellHashHighLight = styled(CellHash)`
   font-size: 16px;
-  max-width: 240px;
   color: rgb(75, 188, 142);
 `
