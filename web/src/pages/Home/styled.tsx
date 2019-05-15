@@ -28,11 +28,10 @@ export const LogoPanel = styled.div`
   > div {
     margin-left: 29px;
     color: #3CC68A;
-    font-family: Montserrat;
+    font-family: Montserrat, PingFang SC;
     line-height: 134px;
     font-size: 64px;
     padding: ${(props: { width: number }) => (24 * props.width) / 1920}px 0;
-    font-weight: 900;
     font-style: normal;
     font-stretch: normal;
     line-height: 1.56;
@@ -55,7 +54,6 @@ export const ContentTitle = styled.div`
   font-size: 50px;
   color: #141414;
   font-weight: bold;
-  font-family: PingFangSC;
   text-align: center;
   margin: 0 auto;
 

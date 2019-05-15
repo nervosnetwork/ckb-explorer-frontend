@@ -42,7 +42,6 @@ const HeaderDiv = styled.div`
       margin-right: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
       font-size: 22px;
       font-weight: 600;
-      font-family: PingFang-SC;
       line-height: 30px;
       color: #3cc68a;
       &.header__menus__item--active,&: hover {

@@ -104,7 +104,6 @@ const FooterDiv = styled.div`
   .footer__bottom {
     min-height: ${(props: { width: number }) => (102 * props.width) / 1920}px;
     border-top: 1px solid white;
-    font-family: Helvetica;
     font-size: 18px;
     line-height: 22px;
     text-align: center;

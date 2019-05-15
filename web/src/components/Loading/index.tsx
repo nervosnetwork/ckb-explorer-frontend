@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import loadingImage from './loading.svg'
+import loadingImage from '../../asserts/loading.gif'
 
 const LoadingDiv = styled.div`
   position: absolute;
@@ -46,8 +46,8 @@ export default ({ show, onClose }: { show: boolean ; onClose: Function }) => {
           <img
             alt="loading"
             style={{
-              width: 60,
-              height: 60,
+              width: 240,
+              height: 240,
             }}
             src={loadingImage}
             onDoubleClick={() => {

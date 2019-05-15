@@ -87,7 +87,7 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
 
   const opacityStyle = {
     opacity: 1,
-    border: '2px solid rgb(24, 50, 93)',
+    border: '2px solid #606060',
   }
 
   const transparentStyle = {
