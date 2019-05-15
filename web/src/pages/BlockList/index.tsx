@@ -88,7 +88,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
             <TableTitleItem image={MinerIcon} title="Miner" />
             <TableTitleItem image={TimestampIcon} title="Time" />
           </TableTitleRow>
-          {blockWrappers.map((data: any) => {
+          {blockWrappers && blockWrappers.map((data: any) => {
             return (
               <TableContentRow key={data.attributes.block_hash}>
                 <TableContentItem content={data.attributes.number} to={`/block/${data.attributes.number}`} />

@@ -277,7 +277,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <InputOutputTable>
             <InputOutputTableTitle transactionType="Input" />
             <tbody>
-              {transaction &&
+              {transaction && transaction.display_inputs &&
                 transaction.display_inputs.map((input: any) => {
                   return (
                     <ScriptComponent
@@ -297,7 +297,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <InputOutputTable>
             <InputOutputTableTitle transactionType="Output" />
             <tbody>
-              {transaction &&
+              {transaction && transaction.display_outputs &&
                 transaction.display_outputs.map((ouput: any) => {
                   return (
                     <ScriptComponent

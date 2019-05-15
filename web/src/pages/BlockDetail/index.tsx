@@ -340,7 +340,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         <BlockTransactionsPanel>
           <BlockOverview value="Transactions" />
           <div>
-            {transactionWrappers.map((transaction: any) => {
+            {transactionWrappers && transactionWrappers.map((transaction: any) => {
               return (
                 <TransactionComponent
                   transaction={transaction.attributes}

@@ -185,7 +185,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         <AddressTransactionsPanel>
           <AddressOverview value="Transactions" />
           <div>
-            {transactionWrappers.map((transaction: any) => {
+            {transactionWrappers && transactionWrappers.map((transaction: any) => {
               return (
                 <TransactionComponent
                   address={address}

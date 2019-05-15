@@ -38,13 +38,13 @@ const TransactionComponent = ({ transaction, address }: { transaction: any; addr
       <span className="transaction__separate" />
       <div className="transaction__input__output">
         <div className="transaction__input">
-          {transaction.display_inputs.map((cell: any) => {
+          {transaction.display_inputs && transaction.display_inputs.map((cell: any) => {
             return <TransactionCell cell={cell} address={address} key={cell.id} />
           })}
         </div>
         <img src={InputOutputIcon} alt="input and output" />
         <div className="transaction__output">
-          {transaction.display_outputs.map((cell: any) => {
+          {transaction.display_outputs && transaction.display_outputs.map((cell: any) => {
             return <TransactionCell cell={cell} address={address} key={cell.id} />
           })}
         </div>
