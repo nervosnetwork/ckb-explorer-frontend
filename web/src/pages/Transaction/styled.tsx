@@ -9,14 +9,14 @@ export const TransactionDiv = styled.div.attrs({
 export const TransactionTitleDiv = styled.div`
   text-align: center;
   font-size: 40px;
-  font-family: PingFang-SC-Heavy;
+  font-family: PingFangSC-Medium, sans-serif;
   font-weight: 900;
 `
 export const TransactionOverviewLabel = styled.div`
   text-align: center;
   margin-top: 100px;
   font-size: 50px;
-  font-family: PingFang-SC-Heavy;
+  font-family: PingFangSC-Medium, sans-serif;
   font-weight: 900;
   &:after {
     content: '';
@@ -33,7 +33,7 @@ export const TransactionTitlePanel = styled.div`
     color: rgb(20, 20, 20);
     font-size: 32pt;
     text-align: center;
-    font-family: PingFang-SC-Heavy;
+    font-family: PingFangSC-Medium, sans-serif;
     font-weight: 900;
   }
 
@@ -171,7 +171,7 @@ export const BriefInfoDiv = styled(PanelDiv)`
     }
     .brief__key {
       margin-left: 10px;
-      font-family: PingFang-SC-Heavy;
+      font-family: PingFangSC-Medium, sans-serif;
       font-weight: 900;
       font-size: 18px;
       color: #4d4d4d;
@@ -192,7 +192,7 @@ export const InputOutputTable = styled.table`
       height: 58px;
       border-bottom: 1px solid #4bbc8e;
       font-size: 20px;
-      font-family: PingFang-SC-Heavy;
+      font-family: PingFangSC-Medium, sans-serif;
       color: #4d4d4d;
       font-weight: 900;
       td {
@@ -239,7 +239,7 @@ export const InputOutputTable = styled.table`
             width: 120px;
             font-size: 16px;
             color: #4bbc8e;
-            font-family: PingFangSC-Semibold;
+            font-family: PingFangSC-Semibold, sans-serif;
           }
         }
       }
