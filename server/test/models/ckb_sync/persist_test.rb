@@ -454,7 +454,7 @@ module CkbSync
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 
-        assert_equal Utils::CkbUtils.miner_reward(node_block.dig("header", "epoch").first).to_i, local_block.reward
+        assert_equal Utils::CkbUtils.miner_reward(node_block.dig("header", "epoch")).to_i, local_block.reward
       end
     end
 
