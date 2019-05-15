@@ -254,7 +254,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         <TransactionCommonContent>
           <div>
             <div>
-              <SimpleLabel image={BlockHeightIcon} label="Block Height:" value={transaction.block_number} />
+              <Link
+                to={{
+                  pathname: `/block/${transaction.block_number}`,
+                }}
+              >
+                <SimpleLabel image={BlockHeightIcon} label="Block Height:" value={transaction.block_number} highLight/>
+              </Link>
               <SimpleLabel image={TransactionIcon} label="Transaction Fee:" value={transaction.transaction_fee} />
             </div>
             <div>

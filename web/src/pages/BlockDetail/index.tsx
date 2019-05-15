@@ -322,7 +322,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                         pathname: `/address/${BlockRightItems[0].value}`,
                       }}
                     >
-                      <div>{BlockRightItems[0].value === 'null'}</div>
                       <SimpleLabel
                         image={BlockRightItems[0].image}
                         label={BlockRightItems[0].label}
