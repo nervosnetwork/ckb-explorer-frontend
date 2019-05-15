@@ -119,7 +119,7 @@ module Utils
     end
 
     def self.calculate_transaction_fee(cell_input_capacities, cell_output_capacities)
-      if cell_input_capacities.any?(&:present?)
+      if cell_input_capacities.all?(&:present?)
         input_capacities = cell_input_capacities.reduce(0, &:+)
         output_capacities = cell_output_capacities.reduce(0, &:+)
         input_capacities.zero? ? 0 : (input_capacities - output_capacities)
