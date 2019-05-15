@@ -154,6 +154,8 @@ module CkbSync
         local_block_hash = local_block.attributes.select { |attribute| attribute.in?(%w(difficulty block_hash number parent_hash seal timestamp transactions_root proposals_hash uncles_count uncles_hash version witnesses_root proposals epoch)) }
         local_block_hash["hash"] = local_block_hash.delete("block_hash")
         local_block_hash["number"] = local_block_hash["number"].to_s
+        local_block_hash["version"] = local_block_hash["version"].to_s
+        local_block_hash["uncles_count"] = local_block_hash["uncles_count"].to_s
         local_block_hash["epoch"] = local_block_hash["epoch"].to_s
         local_block_hash["timestamp"] = local_block_hash["timestamp"].to_s
 
@@ -228,6 +230,7 @@ module CkbSync
           local_block.ckb_transactions.map do |ckb_transaction|
             ckb_transaction = ckb_transaction.attributes.select { |attribute| attribute.in?(%w(tx_hash deps version witnesses)) }
             ckb_transaction["hash"] = ckb_transaction.delete("tx_hash")
+            ckb_transaction["version"] = ckb_transaction["version"].to_s
             ckb_transaction.sort
           end
 
