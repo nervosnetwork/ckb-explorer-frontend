@@ -66,7 +66,7 @@ export const BlockCommonContentWrap = styled.div`
     display: block;
     box-sizing: border-box;
     border-radius: 6px 0 0 6px;
-    box-shadow: 0 5px 9px 0 #dfdfdf;
+    box-shadow: 0 5px 9px #dfdfdf;
     background-color: #ffffff;
     width: 30px;
     height: 453px;
@@ -81,7 +81,7 @@ export const BlockCommonContentWrap = styled.div`
     box-sizing: border-box;
     margin: 22px 0;
     border-radius: 0 6px 6px 0;
-    box-shadow: 0 5px 9px 0 #dfdfdf;
+    box-shadow: 0 5px 9px #dfdfdf;
     background-color: #ffffff;
     width: 30px;
     height: 453px;
