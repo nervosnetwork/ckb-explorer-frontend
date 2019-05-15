@@ -189,7 +189,7 @@ const InputOutputTableTitle = ({ transactionType }: { transactionType: string })
       <tr>
         <td colSpan={2}>{transactionType}</td>
         <td>
-          <div>Capcity</div>
+          <div>Capacity</div>
         </td>
         <td colSpan={3}>
           <div>Detail</div>
