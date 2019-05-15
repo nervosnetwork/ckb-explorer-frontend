@@ -263,7 +263,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: MinerIcon,
       label: 'Miner:',
-      value: `${blockData.miner_hash && startEndEllipsis(blockData.miner_hash, 15)}`,
+      value: `${blockData.miner_hash ? startEndEllipsis(blockData.miner_hash, 15) : ''}`,
     },
     {
       image: BlockRewardIcon,
@@ -315,18 +315,29 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
             <div>
               <div />
               <div>
-                <Link
-                  to={{
-                    pathname: `/address/${BlockRightItems[0].value}`,
-                  }}
-                >
-                  <SimpleLabel
-                    image={BlockRightItems[0].image}
-                    label={BlockRightItems[0].label}
-                    value={BlockRightItems[0].value}
-                    highLight
-                  />
-                </Link>
+                {
+                  BlockRightItems[0].value && BlockRightItems[0].value.length > 0 ? (
+                    <Link
+                      to={{
+                        pathname: `/address/${BlockRightItems[0].value}`,
+                      }}
+                    >
+                      <div>{BlockRightItems[0].value === 'null'}</div>
+                      <SimpleLabel
+                        image={BlockRightItems[0].image}
+                        label={BlockRightItems[0].label}
+                        value={BlockRightItems[0].value}
+                        highLight
+                      />
+                    </Link>
+                  ) : (
+                    <SimpleLabel
+                      image={BlockRightItems[0].image}
+                      label={BlockRightItems[0].label}
+                      value='Unable to decode address'
+                    />
+                  )
+                }
                 {BlockRightItems.slice(1).map(item => {
                   return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
                 })}
