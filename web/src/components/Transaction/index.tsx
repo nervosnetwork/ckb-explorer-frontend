@@ -27,26 +27,28 @@ const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => 
 const TransactionComponent = ({ transaction, address }: { transaction: any; address?: string }) => {
   return (
     <TransactionsItem>
-      <div className="transaction__hash__panel">
-        <Link to={`/transaction/${transaction.transaction_hash}`}>
-          <div className="transaction_hash">{transaction.transaction_hash}</div>
-        </Link>
-        <div className="transaction_block">
-          {`(Block ${transaction.block_number})  ${parseDate(transaction.block_timestamp)}`}
+      <div>
+        <div className="transaction__hash__panel">
+          <Link to={`/transaction/${transaction.transaction_hash}`}>
+            <div className="transaction_hash">{transaction.transaction_hash}</div>
+          </Link>
+          <div className="transaction_block">
+            {`(Block ${transaction.block_number})  ${parseDate(transaction.block_timestamp)}`}
+          </div>
         </div>
-      </div>
-      <span className="transaction__separate" />
-      <div className="transaction__input__output">
-        <div className="transaction__input">
-          {transaction.display_inputs && transaction.display_inputs.map((cell: any) => {
-            return <TransactionCell cell={cell} address={address} key={cell.id} />
-          })}
-        </div>
-        <img src={InputOutputIcon} alt="input and output" />
-        <div className="transaction__output">
-          {transaction.display_outputs && transaction.display_outputs.map((cell: any) => {
-            return <TransactionCell cell={cell} address={address} key={cell.id} />
-          })}
+        <span className="transaction__separate" />
+        <div className="transaction__input__output">
+          <div className="transaction__input">
+            {transaction.display_inputs && transaction.display_inputs.map((cell: any) => {
+              return <TransactionCell cell={cell} address={address} key={cell.id} />
+            })}
+          </div>
+          <img src={InputOutputIcon} alt="input and output" />
+          <div className="transaction__output">
+            {transaction.display_outputs && transaction.display_outputs.map((cell: any) => {
+              return <TransactionCell cell={cell} address={address} key={cell.id} />
+            })}
+          </div>
         </div>
       </div>
     </TransactionsItem>

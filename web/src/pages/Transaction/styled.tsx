@@ -66,15 +66,16 @@ export const TransactionTitlePanel = styled.div`
 export const TransactionCommonContent = styled.div`
   width: 100%;
   overflow-x: auto;
+  margin-top: 50px;
+  background: white;
+  border: 0px solid white;
+  border-radius: 6px;
+  box-shadow: 0px 5px 9px #dfdfdf;
+
   > div {
     padding: 72px 88px 56px 88px;
     width: 1200px;
     margin: 0 auto;
-    margin-top: 50px;
-    background: white;
-    border: 0px solid white;
-    border-radius: 6px;
-    box-shadow: 0px 5px 9px rgb(233, 233, 233);
     display: flex;
 
     > div:nth-child(1) {

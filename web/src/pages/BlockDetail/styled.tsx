@@ -151,10 +151,6 @@ export const BlockHightLabel = styled.div`
 `
 
 export const BlockTransactionsPanel = styled.div`
-  > div:nth-child(2) {
-    width: 100%;
-    overflow-x: auto;
-  }
 `
 
 export const BlockTransactionsPagition = styled(CommonPagition)`
