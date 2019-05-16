@@ -23,9 +23,9 @@ import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { Transaction, InputOutput, TransactionWrapper } from '../../http/response/Transaction'
 import { Script, ScriptWrapper } from '../../http/response/Script'
-import { Data, DataWrapper } from '../../http/response/Data'
+import { Data } from '../../http/response/Data'
 import { CellType, fetchTransactionByHash, fetchScript, fetchCellData } from '../../http/fetcher'
-import { copyElementValue, shannonToCkb } from '../../utils/util'
+import { copyElementValue, shannonToCkb, hexToUtf8 } from '../../utils/util'
 import browserHistory from '../../routes/history'
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
@@ -113,9 +113,11 @@ const ScriptComponent = ({
                   } else {
                     appContext.showLoading()
                     fetchCellData(cellType, cellInputOutput.id)
-                      .then(json => {
-                        const { data } = json as Response<DataWrapper>
-                        setCellData(data? data.attributes : initCellData)
+                      .then(data => {
+                        if (data && cellInputOutput.isUTF8) {
+                          data.data = hexToUtf8(data.data.substr(2))
+                        }
+                        setCellData(data? data : initCellData)
                         updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
                         appContext.hideLoading()
                       })
@@ -212,7 +214,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
 
   const initTransaction: Transaction = {
     transaction_hash: '',
-    block_number: '',
+    block_number: 0,
     block_timestamp: 0,
     transaction_fee: 0,
     version: 0,
@@ -243,6 +245,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         if (error) {
           browserHistory.push(`/search/fail?q=${hash}`)
         } else {
+          const transaction = data.attributes as Transaction
+          if (transaction.display_outputs && transaction.display_outputs.length > 0) {
+            transaction.display_outputs[0].isUTF8 = (transaction.block_number === 0)
+          } 
           setTransaction(data.attributes as Transaction)
         }
         appContext.hideLoading()

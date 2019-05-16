@@ -80,7 +80,7 @@ export const fetchScript = (cell_type: CellType, script_type: 'lock_scripts' | '
 }
 
 export const fetchCellData = (type: CellType, id: string) => {
-  return axiosIns.get(`/cell_${type}_data/${id}`).then((res: AxiosResponse) => res.data)
+  return axiosIns.get(`/cell_${type}_data/${id}`).then((res: AxiosResponse) => res.data.data.attributes)
 }
 
 export const fetchBlockByNumber = (number: string) => {
