@@ -35,6 +35,7 @@ import DifficultyIcon from '../../asserts/difficulty.png'
 import NonceIcon from '../../asserts/nonce.png'
 import ProofIcon from '../../asserts/proof.png'
 import PreviousBlockIcon from '../../asserts/left_arrow.png'
+import PreviousBlockGreyIcon from '../../asserts/left_arrow_grey.png'
 import NextBlockIcon from '../../asserts/right_arrow.png'
 import NextBlockGreyIcon from '../../asserts/right_arrow_grey.png'
 import MouseIcon from '../../asserts/block_mouse.png'
@@ -96,7 +97,11 @@ const BlockPreviousNext = ({
         >
           <img src={PreviousBlockIcon} alt="previous block" />
         </div>
-      ) : null}
+      ) : (
+        <div className="block__arrow">
+          <img src={PreviousBlockGreyIcon} alt="previous block" />
+        </div>
+      )}
       <img className="block__mouse" src={MouseIcon} alt="mouse" />
       {hasNext ? (
         <div
