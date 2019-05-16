@@ -58,7 +58,8 @@ export const TransactionsItem = styled.div`
       .transaction__output {
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
+        align-items: flex-start;
+        margin-left: 50px;
       }
     }
   }
@@ -69,11 +70,14 @@ export const TransactionsCell = styled.div`
   flex-direction: row;
   align-items: center;
   height: 22px;
+  margin-top: 11px;
+  margin-bottom: 11px;
 
   .transaction__cell {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
+    width: 332px;
   }
 
   .transaction__cell__capacity {
