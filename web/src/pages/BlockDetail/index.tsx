@@ -282,7 +282,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: MinerIcon,
       label: 'Miner:',
-      value: `${blockData.miner_hash}`,
+      value: blockData.miner_hash,
     },
     {
       image: BlockRewardIcon,
@@ -341,6 +341,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                         pathname: `/address/${BlockRightItems[0].value}`,
                       }}
                     >
+                      <div>{BlockRightItems[0].value}</div>
                       <SimpleLabel
                         image={BlockRightItems[0].image}
                         label={BlockRightItems[0].label}
