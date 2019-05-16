@@ -277,7 +277,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: MinerIcon,
       label: 'Miner:',
-      value: `${blockData.miner_hash ? startEndEllipsis(blockData.miner_hash, 15) : ''}`,
+      value: `${blockData.miner_hash}`,
     },
     {
       image: BlockRewardIcon,
@@ -330,7 +330,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               <div />
               <div>
                 {
-                  BlockRightItems[0].value && BlockRightItems[0].value.length > 0 ? (
+                  BlockRightItems[0].value ? (
                     <Link
                       to={{
                         pathname: `/address/${BlockRightItems[0].value}`,
@@ -339,7 +339,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                       <SimpleLabel
                         image={BlockRightItems[0].image}
                         label={BlockRightItems[0].label}
-                        value={BlockRightItems[0].value}
+                        value={startEndEllipsis(BlockRightItems[0].value)}
                         highLight
                       />
                     </Link>
