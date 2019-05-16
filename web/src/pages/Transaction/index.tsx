@@ -27,6 +27,7 @@ import { Script, ScriptWrapper } from '../../http/response/Script'
 import { Data, DataWrapper } from '../../http/response/Data'
 import { CellType, fetchTransactionByHash, fetchScript, fetchCellData } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
+import browserHistory from '../../routes/history'
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
 
@@ -239,12 +240,17 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     appContext.showLoading()
     fetchTransactionByHash(hash)
       .then(json => {
-        const { data } = json as Response<TransactionWrapper>
-        setTransaction(data.attributes as Transaction)
+        const { data, error } = json as Response<TransactionWrapper>
+        if (error) {
+          browserHistory.push(`/search/fail?q=${hash}`)
+        } else {
+          setTransaction(data.attributes as Transaction)
+        }
         appContext.hideLoading()
       })
       .catch(() => {
         appContext.hideLoading()
+        browserHistory.push(`/search/fail?q=${hash}`)
       })
   }
 

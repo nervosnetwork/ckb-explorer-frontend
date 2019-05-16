@@ -213,20 +213,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     appContext.showLoading()
     fetchBlockByHash(hash)
       .then(json => {
-        const { data } = json as Response<BlockWrapper>
-        const block = data.attributes as Block
-        setBlockData(block)
-        updateBlockPrevNext(block.number)
-        const page_p = validNumber(page, PageParams.PageNo)
-        const size_p = validNumber(size, PageParams.PageSize)
-        getTransactions(data.attributes.block_hash, page_p, size_p)
+        const { data, error } = json as Response<BlockWrapper>
+        if (error) {
+          browserHistory.push(`/search/fail?q=${hash}`)
+        } else {
+          const block = data.attributes as Block
+          setBlockData(block)
+          updateBlockPrevNext(block.number)
+          const page_p = validNumber(page, PageParams.PageNo)
+          const size_p = validNumber(size, PageParams.PageSize)
+          getTransactions(data.attributes.block_hash, page_p, size_p)
+        }
         appContext.hideLoading()
       })
       .catch(() => {
-        setBlockData(initBlock)
-        setTotalTransactions(0)
-        setTransactionWrappers([])
         appContext.hideLoading()
+        browserHistory.push(`/search/fail?q=${hash}`)
       })
   }
 
@@ -341,7 +343,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                         pathname: `/address/${BlockRightItems[0].value}`,
                       }}
                     >
-                      <div>{BlockRightItems[0].value}</div>
                       <SimpleLabel
                         image={BlockRightItems[0].image}
                         label={BlockRightItems[0].label}

@@ -5,6 +5,7 @@ import 'rc-pagination/assets/index.css'
 import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import AppContext from '../../contexts/App'
+import browserHistory from '../../routes/history'
 import Content from '../../components/Content'
 import TransactionComponent from '../../components/Transaction'
 import SimpleLabel from '../../components/Label'
@@ -108,11 +109,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     fetchAddressInfo(address)
       .then(json => {
         appContext.hideLoading()
-        const { data } = json as Response<AddressWrapper>
-        setAddressData(data.attributes as Address)
+        const { data, error } = json as Response<AddressWrapper>
+        if (error) {
+          browserHistory.push(`/search/fail?q=${address}`)
+        } else {
+          setAddressData(data.attributes as Address)
+        }
       })
       .catch(() => {
         appContext.hideLoading()
+        browserHistory.push(`/search/fail?q=${address}`)
       })
   }
 
