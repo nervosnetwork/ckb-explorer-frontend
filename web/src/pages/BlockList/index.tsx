@@ -23,7 +23,7 @@ import TimestampIcon from '../../asserts/timestamp.png'
 import { fetchBlockList } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
-import { validNumber } from '../../utils/util'
+import { validNumber } from '../../utils/string'
 
 enum PageParams {
   PageNo = 1,

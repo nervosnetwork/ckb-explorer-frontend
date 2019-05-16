@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { startEndEllipsis } from '../../utils/util'
+import { startEndEllipsis } from '../../utils/string'
 
 export const TableTitleRow = styled.div`
   background: #3CC68A;

@@ -25,7 +25,8 @@ import { Transaction, InputOutput, TransactionWrapper } from '../../http/respons
 import { Script, ScriptWrapper } from '../../http/response/Script'
 import { Data } from '../../http/response/Data'
 import { CellType, fetchTransactionByHash, fetchScript, fetchCellData } from '../../http/fetcher'
-import { copyElementValue, shannonToCkb, hexToUtf8 } from '../../utils/util'
+import { copyElementValue, shannonToCkb } from '../../utils/util'
+import { hexToUtf8 } from '../../utils/string'
 import browserHistory from '../../routes/history'
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']

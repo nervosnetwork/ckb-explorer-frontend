@@ -43,7 +43,8 @@ import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchBlockByHash, fetchTransactionsByBlockHash, fetchBlockByNumber } from '../../http/fetcher'
-import { copyElementValue, validNumber, shannonToCkb, startEndEllipsis } from '../../utils/util'
+import { copyElementValue, shannonToCkb } from '../../utils/util'
+import { validNumber, startEndEllipsis } from '../../utils/string'
 import browserHistory from '../../routes/history'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {

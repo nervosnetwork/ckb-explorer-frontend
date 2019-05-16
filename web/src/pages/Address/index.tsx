@@ -30,7 +30,8 @@ import { Address, AddressWrapper } from '../../http/response/Address'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
-import { copyElementValue, validNumber, shannonToCkb } from '../../utils/util'
+import { copyElementValue, shannonToCkb } from '../../utils/util'
+import { validNumber } from '../../utils/string'
 
 const AddressTitle = ({ address }: { address: string }) => {
   const appContext = useContext(AppContext)
