@@ -183,9 +183,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       })
   }
 
-  const updateBlockPrevNext = (blockNumber: number) => {
-    setHasPrev(blockNumber > 0)
-    fetchBlockByNumber(`${blockNumber + 1}`)
+  const checkBlockByNumber = (blockNumber: string) => {
+    fetchBlockByNumber(blockNumber)
       .then(json => {
         const { data } = json as Response<BlockWrapper>
         setHasNext(data.attributes.number > 0)
@@ -193,6 +192,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       .catch(() => {
         setHasNext(false)
       })
+  }
+
+  const CHECK_BLOCK_TIME = 8000
+  const updateBlockPrevNext = (blockNumber: number) => {
+    setHasPrev(blockNumber > 0)
+    const nextBlockNumber = `${blockNumber + 1}`
+    checkBlockByNumber(nextBlockNumber)
+    setTimeout(() => {
+      checkBlockByNumber(nextBlockNumber)
+      }, CHECK_BLOCK_TIME);
   }
 
   const getBlockByHash = () => {
