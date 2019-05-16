@@ -25,7 +25,10 @@ const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => 
           </div>
         )
       }
-      <div className="transaction__cell__capacity">{`${shannonToCkb(cell.capacity)} CKB`}</div>
+      {
+        !cell.from_cellbase && <div className="transaction__cell__capacity">{`${shannonToCkb(cell.capacity)} CKB`}</div>
+      }
+      
     </TransactionsCell>
   )
 }
