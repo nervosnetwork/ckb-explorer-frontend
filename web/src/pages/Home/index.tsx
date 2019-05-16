@@ -96,9 +96,9 @@ export default () => {
             <TableTitleItem image={TimestampIcon} title="Time" />
           </TableTitleRow>
           {blocksWrappers &&
-            blocksWrappers.map((block: any) => {
+            blocksWrappers.map((block: any, index: number) => {
               return (block && 
-                <TableContentRow key={block.attributes.block_hash}>
+                <TableContentRow key={index}>
                   <TableContentItem content={block.attributes.number} to={`/block/${block.attributes.number}`} />
                   <TableContentItem content={block.attributes.transactions_count} />
                   <TableContentItem content={block.attributes.cell_consumed} />
