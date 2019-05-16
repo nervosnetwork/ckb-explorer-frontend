@@ -69,7 +69,7 @@ export const BlockCommonContentWrap = styled.div`
     box-shadow: 0 5px 9px #dfdfdf;
     background-color: #ffffff;
     width: 30px;
-    height: 453px;
+    height: 393px;
     margin: 22px 0;
     position: absolute;
     left: 0;
@@ -84,7 +84,7 @@ export const BlockCommonContentWrap = styled.div`
     box-shadow: 0 5px 9px #dfdfdf;
     background-color: #ffffff;
     width: 30px;
-    height: 453px;
+    height: 393px;
     margin: 22px 0;
     position: absolute;
     top: 0;
