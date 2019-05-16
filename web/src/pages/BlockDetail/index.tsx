@@ -19,12 +19,10 @@ import AppContext from '../../contexts/App'
 import Content from '../../components/Content'
 import TransactionComponent from '../../components/Transaction'
 import SimpleLabel from '../../components/Label'
-import CellConsumedLabel from '../../components/Label/CellConsumedLabel'
 import CopyIcon from '../../asserts/copy.png'
 import BlockHeightIcon from '../../asserts/block_height_green.png'
 import BlockTransactionIcon from '../../asserts/transactions_green.png'
 import ProposalTransactionsIcon from '../../asserts/proposal_transactions.png'
-import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import TimestampIcon from '../../asserts/timestamp_green.png'
 import UncleCountIcon from '../../asserts/uncle_count.png'
 import MinerIcon from '../../asserts/miner_green.png'
@@ -319,11 +317,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               {BlockLeftItems.slice(0, BlockLeftSeparateIndex).map(item => {
                 return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
               })}
-              <CellConsumedLabel
-                image={CellConsumedIcon}
-                label="Cell Consumed"
-                consumed={shannonToCkb(blockData.cell_consumed)}
-              />
               {BlockLeftItems.slice(BlockLeftSeparateIndex).map(item => {
                 return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
               })}

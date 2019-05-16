@@ -9,7 +9,6 @@ import browserHistory from '../../routes/history'
 import Content from '../../components/Content'
 import TransactionComponent from '../../components/Transaction'
 import SimpleLabel from '../../components/Label'
-import CellConsumedLabel from '../../components/Label/CellConsumedLabel'
 import {
   AddressContentPanel,
   AddressTitlePanel,
@@ -23,7 +22,6 @@ import {
 } from './styled'
 import CopyIcon from '../../asserts/copy.png'
 import BalanceIcon from '../../asserts/address_balance.png'
-import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/transactions_green.png'
 import { Address, AddressWrapper } from '../../http/response/Address'
@@ -180,12 +178,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               }}
             />
           </AddressCommonRowPanel>
-
-          <CellConsumedLabel
-            image={CellConsumedIcon}
-            label="Cell Consumed"
-            consumed={addressData.cell_consumed}
-          />
           <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " value={addressData.lock_script} />
         </AddressCommonContent>
 
