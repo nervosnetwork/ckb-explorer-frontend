@@ -322,7 +322,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <BlockCommonContent>
             <div>
               {BlockLeftItems.slice(0, BlockLeftSeparateIndex).map(item => {
-                return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+                return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
               })}
               <CellConsumedLabel
                 image={CellConsumedIcon}
@@ -330,7 +330,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 consumed={shannonToCkb(blockData.cell_consumed)}
               />
               {BlockLeftItems.slice(BlockLeftSeparateIndex).map(item => {
-                return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+                return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
               })}
             </div>
             <div>
@@ -359,7 +359,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   )
                 }
                 {BlockRightItems.slice(1).map(item => {
-                  return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+                  return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
                 })}
               </div>
             </div>
@@ -372,7 +372,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <BlockOverview value="Transactions" />
           <div>
             {transactionWrappers && transactionWrappers.map((transaction: any) => {
-              return (
+              return (transaction && 
                 <TransactionComponent
                   transaction={transaction.attributes}
                   key={transaction.attributes.transaction_hash}

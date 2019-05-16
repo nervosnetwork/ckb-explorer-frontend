@@ -89,7 +89,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
             <TableTitleItem image={TimestampIcon} title="Time" />
           </TableTitleRow>
           {blockWrappers && blockWrappers.map((data: any) => {
-            return (
+            return (data &&
               <TableContentRow key={data.attributes.block_hash}>
                 <TableContentItem content={data.attributes.number} to={`/block/${data.attributes.number}`} />
                 <TableContentItem content={data.attributes.transactions_count} />

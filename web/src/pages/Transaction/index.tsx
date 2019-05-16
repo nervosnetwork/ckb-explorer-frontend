@@ -295,7 +295,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
             <tbody>
               {transaction && transaction.display_inputs &&
                 transaction.display_inputs.map((input: InputOutput) => {
-                  return 
+                  return input &&
                     <ScriptComponent
                       cellType={CellType.Input}
                       key={input.id}
@@ -313,13 +313,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
             <InputOutputTableTitle transactionType="Output" />
             <tbody>
               {transaction && transaction.display_outputs &&
-                transaction.display_outputs.map((ouput: InputOutput) => {
-                  return (
+                transaction.display_outputs.map((output: InputOutput) => {
+                  return (output &&
                     <ScriptComponent
                       cellType={CellType.Output}
-                      key={ouput.id}
-                      cellInputOutput={ouput}
-                      scriptType={ouput.select || null}
+                      key={output.id}
+                      cellInputOutput={output}
+                      scriptType={output.select || null}
                       updateCellData={updateCellData}
                     />
                   )

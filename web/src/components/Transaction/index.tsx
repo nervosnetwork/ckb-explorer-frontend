@@ -4,6 +4,7 @@ import { TransactionsCell, TransactionsItem, CellHash, CellHashHighLight } from 
 import { parseDate } from '../../utils/date'
 import { shannonToCkb, startEndEllipsis } from '../../utils/util'
 import InputOutputIcon from '../../asserts/input_arrow_output.png'
+import { InputOutput} from '../../http/response/Transaction'
 
 const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => {
   return (
@@ -52,14 +53,14 @@ const TransactionComponent = ({ transaction, address, isBlock = false }: { trans
         <span className="transaction__separate" />
         <div className="transaction__input__output">
           <div className="transaction__input">
-            {transaction.display_inputs && transaction.display_inputs.map((cell: any) => {
-              return <TransactionCell cell={cell} address={address} key={cell.id} />
+            {transaction.display_inputs && transaction.display_inputs.map((cell: InputOutput) => {
+              return cell && <TransactionCell cell={cell} address={address} key={cell.id} />
             })}
           </div>
           <img src={InputOutputIcon} alt="input and output" />
           <div className="transaction__output">
-            {transaction.display_outputs && transaction.display_outputs.map((cell: any) => {
-              return <TransactionCell cell={cell} address={address} key={cell.id} />
+            {transaction.display_outputs && transaction.display_outputs.map((cell: InputOutput) => {
+              return cell && <TransactionCell cell={cell} address={address} key={cell.id} />
             })}
           </div>
         </div>

@@ -97,7 +97,7 @@ export default () => {
           </TableTitleRow>
           {blocksWrappers &&
             blocksWrappers.map((block: any) => {
-              return (
+              return (block && 
                 <TableContentRow key={block.attributes.block_hash}>
                   <TableContentItem content={block.attributes.number} to={`/block/${block.attributes.number}`} />
                   <TableContentItem content={block.attributes.transactions_count} />
