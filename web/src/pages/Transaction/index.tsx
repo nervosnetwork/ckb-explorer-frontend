@@ -22,7 +22,7 @@ import CopyGreenIcon from '../../asserts/copy_green.png'
 import CopyIcon from '../../asserts/copy.png'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
-import { Transaction, TransactionWrapper } from '../../http/response/Transaction'
+import { Transaction, InputOutput, TransactionWrapper } from '../../http/response/Transaction'
 import { Script, ScriptWrapper } from '../../http/response/Script'
 import { Data, DataWrapper } from '../../http/response/Data'
 import { CellType, fetchTransactionByHash, fetchScript, fetchCellData } from '../../http/fetcher'
@@ -38,7 +38,7 @@ const ScriptComponent = ({
 }: {
   cellType: CellType
   cellInputOutput: any
-  scriptType?: 'Lock Script' | 'Type Script' | 'Data' | null
+  scriptType?: string | null
   updateCellData: Function
 }) => {
   const appContext = useContext(AppContext)
@@ -288,8 +288,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
             <InputOutputTableTitle transactionType="Input" />
             <tbody>
               {transaction && transaction.display_inputs &&
-                transaction.display_inputs.map((input: any) => {
-                  return (
+                transaction.display_inputs.map((input: InputOutput) => {
+                  return 
                     <ScriptComponent
                       cellType={CellType.Input}
                       key={input.id}
@@ -297,7 +297,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                       scriptType={input.select || null}
                       updateCellData={updateCellData}
                     />
-                  )
                 })}
             </tbody>
           </InputOutputTable>
@@ -308,7 +307,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
             <InputOutputTableTitle transactionType="Output" />
             <tbody>
               {transaction && transaction.display_outputs &&
-                transaction.display_outputs.map((ouput: any) => {
+                transaction.display_outputs.map((ouput: InputOutput) => {
                   return (
                     <ScriptComponent
                       cellType={CellType.Output}
