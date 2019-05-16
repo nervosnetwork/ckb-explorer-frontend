@@ -112,7 +112,7 @@ export const BlockCommonContent = styled.div`
     flex: 1;
     > div:nth-child(1) {
       width: 1px;
-      height: 360px;
+      height: 300px;
       background: #3CC68A;
       content: '';
       margin-right: 82px;

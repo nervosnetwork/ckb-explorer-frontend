@@ -26,7 +26,6 @@ import BlockTransactionIcon from '../../asserts/transactions_green.png'
 import ProposalTransactionsIcon from '../../asserts/proposal_transactions.png'
 import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import TimestampIcon from '../../asserts/timestamp_green.png'
-import VersionIcon from '../../asserts/version.png'
 import UncleCountIcon from '../../asserts/uncle_count.png'
 import MinerIcon from '../../asserts/miner_green.png'
 import BlockRewardIcon from '../../asserts/block_reward.png'
@@ -267,11 +266,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       image: TimestampIcon,
       label: 'Timestamp:',
       value: `${parseSimpleDate(blockData.timestamp)}`,
-    },
-    {
-      image: VersionIcon,
-      label: 'Version:',
-      value: `${blockData.version}`,
     },
     {
       image: UncleCountIcon,

@@ -17,7 +17,6 @@ import {
 import BlockHeightIcon from '../../asserts/block_height_green.png'
 import TimestampIcon from '../../asserts/timestamp_green.png'
 import TransactionIcon from '../../asserts/transaction_fee.png'
-import VersionIcon from '../../asserts/version.png'
 import CopyGreenIcon from '../../asserts/copy_green.png'
 import CopyIcon from '../../asserts/copy.png'
 import { parseSimpleDate } from '../../utils/date'
@@ -283,7 +282,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   label="Timestamp:"
                   value={parseSimpleDate(transaction.block_timestamp)}
                 />
-                <SimpleLabel image={VersionIcon} label="Version:" value={`0x${transaction.version.toString()}`} />
               </div>
             </div>
           </div>
