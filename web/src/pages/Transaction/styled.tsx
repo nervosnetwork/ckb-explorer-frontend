@@ -230,6 +230,7 @@ export const InputOutputTable = styled.table`
             width: 150px;
             font-size: 16px;
             text-align:center;
+            font-weight: bold;
             color: #888888;
           }
           &: nth-child(3),&: nth-child(4),&: nth-child(5) {
@@ -252,6 +253,7 @@ export const InputOutputTable = styled.table`
             padding: 18px 30px 18px 34px;
             font-size: 16px;
             color: #888888;
+            font-weight: bold;
             margin-top: 5px;
             min-height: 170px;
             background-color: #f9f9f9;

@@ -58,14 +58,20 @@ const ScriptComponent = ({
       <tr className="tr-brief">
         <td>
           {
-            cellInputOutput.address_hash? (
-              <Link to={`/address/${cellInputOutput.address_hash}`}>{cellInputOutput.address_hash}</Link>
+            cellInputOutput.from_cellbase ? (
+              <div style={{color: '#888888', fontWeight: 'bold'}}>Cellbase</div>
             ) : (
-              <div style={{color: '#888888'}}>Unable to decode address</div>
+              cellInputOutput.address_hash? (
+                <Link to={`/address/${cellInputOutput.address_hash}`}>{cellInputOutput.address_hash}</Link>
+              ) : (
+                <div style={{color: '#888888', fontWeight: 'bold'}}>Unable to decode address</div>
+              )
             )
           }
         </td>
-        <td>{shannonToCkb(cellInputOutput.capacity)}</td>
+        {
+          !cellInputOutput.from_cellbase ? <td>{shannonToCkb(cellInputOutput.capacity)}</td> : null
+        }
         {ScriptTypeItems.map(item => {
           let className = 'td-operatable'
           if (cellInputOutput.select === item) {
