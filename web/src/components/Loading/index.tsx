@@ -11,7 +11,7 @@ const LoadingDiv = styled.div`
   overflow-y: hidden;
   display: flex;
   background: #ffffff;
-  opacity: 0.4;
+  opacity: 0.8;
   flex-direction: column;
   user-select: none;
   z-index: 1000;
@@ -48,8 +48,8 @@ export default ({ show, onClose }: { show: boolean ; onClose: Function }) => {
           <img
             alt="loading"
             style={{
-              width: 240,
-              height: 240,
+              width: 172,
+              height: 85,
             }}
             src={loadingImage}
             onDoubleClick={() => {
