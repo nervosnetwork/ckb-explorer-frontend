@@ -44,7 +44,7 @@ const ScriptComponent = ({
 }) => {
   const appContext = useContext(AppContext)
   const initScript: Script = {
-    binary_hash: '',
+    code_hash: '',
     args: [],
   }
   const [script, setScript] = useState(initScript)

@@ -25,6 +25,7 @@ import BalanceIcon from '../../asserts/address_balance.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/transactions_green.png'
 import { Address, AddressWrapper } from '../../http/response/Address'
+import { Script } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
@@ -58,14 +59,27 @@ const AddressOverview = ({ value }: { value: string }) => {
   return <AddressOverviewPanel>{value}</AddressOverviewPanel>
 }
 
-const AddressScriptLabel = ({ image, label, value }: { image: string; label: string; value: any }) => {
+const AddressScriptLabel = ({ image, label, script }: { image: string; label: string; script: Script }) => {
   return (
     <div>
       <AddressScriptLabelPanel>
-        <img src={image} alt={value} />
+        <img src={image} alt='script' />
         <span>{label}</span>
       </AddressScriptLabelPanel>
-      <AddressScriptContent value={JSON.stringify(value, null, 4)} readOnly />
+      <AddressScriptContent>
+        <div>{`Code hash: ${script.code_hash}`}</div>
+        {
+          script.args.map((arg: string, index: number) => {
+            return (
+              index === 0 ? (
+                <div>{`Args: #${index} ${arg}`}</div>
+              ) : (
+                <div className='script__args__others'>{`#${index} ${arg}`}</div>
+              )
+            )
+          })
+        }
+      </AddressScriptContent>
     </div>
   )
 }
@@ -94,7 +108,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     cell_consumed: 0,
     lock_script: {
       args: [],
-      binary_hash: '',
+      code_hash: '',
     },
   }
   const [addressData, setAddressData] = useState(initAddress)
@@ -178,7 +192,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               }}
             />
           </AddressCommonRowPanel>
-          <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " value={addressData.lock_script} />
+          <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " script={addressData.lock_script} />
         </AddressCommonContent>
 
         <AddressTransactionsPanel>
