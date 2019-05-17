@@ -19,6 +19,9 @@ FactoryBot.define do
     uncle_block_hashes {}
     proposals {}
     status { "inauthentic" }
+    epoch { "0" }
+    start_number { "0" }
+    length { "1000" }
 
     transient do
       transactions_count { 10 }
