@@ -188,7 +188,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         setTransactionWrappers(data)
       })
       .catch(() => {
-
+        browserHistory.push(`/404`)
       })
   }
 
@@ -232,7 +232,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       })
       .catch(() => {
         appContext.hideLoading()
-        browserHistory.push(`/search/fail?q=${hash}`)
+        browserHistory.push(`/404`)
       })
   }
 

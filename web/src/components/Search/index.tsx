@@ -63,14 +63,14 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
       appContext.toastMessage('Please input valid content', 3000)
     } else {
       appContext.showLoading()
-      fetchSearchResult(q)
+      const query = q.replace(/^\s+|\s+$/g,"")   // remove front and end blank
+      fetchSearchResult(query)
         .then((json: any) => {
           appContext.hideLoading()
           const { data } = json
           if (data.type === 'block') {
             browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
           } else if (data.type === 'ckb_transaction') {
-            // interface here should change by backyard ckb_transaction to transaction
             browserHistory.push(`/transaction/${(data as TransactionWrapper).attributes.transaction_hash}`)
           } else if (data.type === 'address') {
             browserHistory.push(`/address/${(data as AddressWrapper).attributes.address_hash}`)

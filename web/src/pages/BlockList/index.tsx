@@ -20,6 +20,7 @@ import TransactionIcon from '../../asserts/transactions.png'
 import BlockRewardIcon from '../../asserts/block_reward.png'
 import MinerIcon from '../../asserts/miner.png'
 import TimestampIcon from '../../asserts/timestamp.png'
+import browserHistory from '../../routes/history'
 import { fetchBlockList } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
@@ -59,6 +60,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
       })
       .catch(() => {
         appContext.hideLoading()
+        browserHistory.push(`/404`)
       })
   }
 
