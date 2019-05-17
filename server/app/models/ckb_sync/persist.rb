@@ -6,6 +6,11 @@ module CkbSync
         save_block(node_block, sync_type)
       end
 
+      def sync(block_number)
+        node_block = CkbSync::Api.instance.get_block_by_number(block_number).to_h.deep_stringify_keys
+        save_block(node_block, "inauthentic")
+      end
+
       def save_block(node_block, sync_type)
         ckb_transaction_and_display_cell_hashes = []
         local_block = build_block(node_block, sync_type)
@@ -33,11 +38,11 @@ module CkbSync
       end
 
       def update_ckb_transaction_info_and_fee
-        display_inputs_ckb_transaction_ids = CkbTransaction.ungenerated.ids.each_slice(100).map { |ids| [ids] }
-        Sidekiq::Client.push_bulk("class" => UpdateTransactionDisplayInputsWorker, "args" => display_inputs_ckb_transaction_ids) if display_inputs_ckb_transaction_ids.present?
+        display_inputs_ckb_transaction_ids = CkbTransaction.ungenerated.limit(500).ids.each_slice(100).map { |ids| [ids] }
+        Sidekiq::Client.push_bulk("class" => UpdateTransactionDisplayInputsWorker, "args" => display_inputs_ckb_transaction_ids, "queue" => "transaction_info_updater") if display_inputs_ckb_transaction_ids.present?
 
-        transaction_fee_ckb_transaction_ids = CkbTransaction.uncalculated.ids.each_slice(100).map { |ids| [ids] }
-        Sidekiq::Client.push_bulk("class" => UpdateTransactionFeeWorker, "args" => display_inputs_ckb_transaction_ids) if transaction_fee_ckb_transaction_ids.present?
+        transaction_fee_ckb_transaction_ids = CkbTransaction.uncalculated.limit(500).ids.each_slice(100).map { |ids| [ids] }
+        Sidekiq::Client.push_bulk("class" => UpdateTransactionFeeWorker, "args" => display_inputs_ckb_transaction_ids, "queue" => "transaction_info_updater") if transaction_fee_ckb_transaction_ids.present?
       end
 
       def update_ckb_transaction_display_inputs(ckb_transactions)
