@@ -144,7 +144,7 @@ const ScriptComponent = ({
         <tr className="tr-detail">
           <td colSpan={5}>
             <textarea
-              id="textarea"
+              id={`textarea-${cellType}-${cellInputOutput.id}`}
               value={JSON.stringify(scriptType === 'Data' ? cellData : script, null, 4)}
               readOnly
             />
@@ -155,7 +155,7 @@ const ScriptComponent = ({
                 className="td-operatable"
                 onKeyPress={() => {}}
                 onClick={() => {
-                  const textarea = document.getElementById('textarea') as HTMLTextAreaElement
+                  const textarea = document.getElementById(`textarea-${cellType}-${cellInputOutput.id}`) as HTMLTextAreaElement
                   textarea.select()
                   document.execCommand('Copy')
                   window.getSelection().removeAllRanges()
