@@ -109,7 +109,7 @@ class AddressTest < ActiveSupport::TestCase
       lock_script[:code_hash] = unpack_attribute(cell_output.lock_script, "code_hash")
 
       assert_difference "Address.count", 0 do
-        Address.find_or_create_address(ckb_transaction, lock_script)
+        Address.find_or_create_address(lock_script)
       end
     end
   end

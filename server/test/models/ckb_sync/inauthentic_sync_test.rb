@@ -8,6 +8,8 @@ module CkbSync
 
     test "should return nil when latest round range is executing" do
       CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(10)
+      memory_store = ActiveSupport::Cache.lookup_store(:memory_store)
+      Rails.stubs(:cache).returns(memory_store)
       Rails.cache.stubs(:delete).returns(true)
 
       VCR.use_cassette("genesis_block") do
