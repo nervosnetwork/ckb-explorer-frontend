@@ -202,11 +202,11 @@ export const InputOutputTable = styled.table`
         }
         &:nth-child(2) {
           width: 150px;
-          text-align:center;
+          text-align: center;
         }
         &:nth-child(3) {
           width: 360px;
-          padding-left: 20px;
+          text-align: center;
         }
       }
     }
@@ -229,13 +229,14 @@ export const InputOutputTable = styled.table`
           &: nth-child(2) {
             width: 150px;
             font-size: 16px;
-            text-align:center;
+            text-align: center;
             font-weight: bold;
             color: #888888;
           }
           &: nth-child(3),&: nth-child(4),&: nth-child(5) {
             width: 120px;
             font-size: 16px;
+            text-align: center;
             color: #4bbc8e;
             font-family: PingFangSC-Semibold, sans-serif;
           }

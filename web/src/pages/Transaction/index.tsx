@@ -201,12 +201,12 @@ const InputOutputTableTitle = ({ transactionType, isCellbase }: { transactionTyp
     <thead>
       <tr>
         <td colSpan={1}>{transactionType}</td>
-        <td>
-          {
-            !isCellbase && <div>Capacity</div>
-          }
-        </td>
-        <td colSpan={3}>
+        {
+            !isCellbase && (
+              <td><div>Capacity</div></td>
+            )
+        }
+        <td colSpan={4}>
           <div>Detail</div>
         </td>
       </tr>
