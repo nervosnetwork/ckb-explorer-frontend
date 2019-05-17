@@ -80,7 +80,7 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
         })
         .catch(() => {
           appContext.hideLoading()
-          browserHistory.push(`/search/fail?q=${q}`)
+          browserHistory.push(`/404`)
         })
     }
   }
