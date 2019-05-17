@@ -155,9 +155,10 @@ export const AddressScriptContent = styled.div`
   font-size: 16px;
   font-weight: bold;
   color: #4d4d4d;
-  min-height: 170px;
+  min-height: 100px;
   margin-top: 23px;
   margin-left: 30px;
+  margin-right: 50px;
   background-color: #f9f9f9;
   border-radius: 6px 6px;
 
