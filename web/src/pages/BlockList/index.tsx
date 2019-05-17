@@ -17,13 +17,14 @@ import {
 } from '../../components/Table'
 import BlockHeightIcon from '../../asserts/block_height.png'
 import TransactionIcon from '../../asserts/transactions.png'
-import CellConsumedIcon from '../../asserts/cell_consumed.png'
+import BlockRewardIcon from '../../asserts/block_reward.png'
 import MinerIcon from '../../asserts/miner.png'
 import TimestampIcon from '../../asserts/timestamp.png'
 import { fetchBlockList } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
 import { validNumber } from '../../utils/string'
+import { shannonToCkb } from '../../utils/util'
 
 enum PageParams {
   PageNo = 1,
@@ -84,7 +85,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
           <TableTitleRow>
             <TableTitleItem image={BlockHeightIcon} title="Height" />
             <TableTitleItem image={TransactionIcon} title="Transactions" />
-            <TableTitleItem image={CellConsumedIcon} title="Cell Consumed(Byte)" />
+            <TableTitleItem image={BlockRewardIcon} title="Block Reward (CKB)" />
             <TableTitleItem image={MinerIcon} title="Miner" />
             <TableTitleItem image={TimestampIcon} title="Time" />
           </TableTitleRow>
@@ -93,7 +94,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
               <TableContentRow key={data.attributes.block_hash}>
                 <TableContentItem content={data.attributes.number} to={`/block/${data.attributes.number}`} />
                 <TableContentItem content={data.attributes.transactions_count} />
-                <TableContentItem content={data.attributes.cell_consumed} />
+                <TableContentItem content={`${shannonToCkb(data.attributes.reward)}`} />
                 <TableMinerContentItem content={data.attributes.miner_hash} />
                 <TableContentItem content={parseDate(data.attributes.timestamp)} />
               </TableContentRow>
