@@ -69,15 +69,19 @@ const AddressScriptLabel = ({ image, label, script }: { image: string; label: st
       <AddressScriptContent>
         <div>{`Code hash: ${script.code_hash}`}</div>
         {
-          script.args.map((arg: string, index: number) => {
-            return (
-              index === 0 ? (
-                <div>{`Args: #${index} ${arg}`}</div>
-              ) : (
-                <div className='script__args__others'>{`#${index} ${arg}`}</div>
+          script.args.length === 1 ? (
+            <div>{`Args: ${script.args[0]}`}</div>
+          ) : (
+            script.args.map((arg: string, index: number) => {
+              return (
+                index === 0 ? (
+                  <div>{`Args: #${index} ${arg}`}</div>
+                ) : (
+                  <div className='script__args__others'>{`#${index} ${arg}`}</div>
+                )
               )
-            )
-          })
+            })
+          )
         }
       </AddressScriptContent>
     </div>
