@@ -7,24 +7,6 @@ module CkbSync
       create(:sync_info, name: "inauthentic_tip_block_number", value: 10)
     end
 
-    test "should creat the block when the local is not saved" do
-      VCR.use_cassette("blocks/10") do
-        assert_difference "Block.count", 1 do
-          SyncInfo.local_authentic_tip_block_number
-          CkbSync::Validator.call(DEFAULT_NODE_BLOCK_HASH)
-        end
-      end
-    end
-
-    test "the new synced block's status should be authentic when the local is not saved" do
-      VCR.use_cassette("blocks/10") do
-        SyncInfo.local_authentic_tip_block_number
-        local_block = CkbSync::Validator.call(DEFAULT_NODE_BLOCK_HASH)
-
-        assert_equal "authentic", local_block.status
-      end
-    end
-
     test "should change the existing block status to authentic when it is authenticated" do
       local_block = create(:block)
       VCR.use_cassette("blocks/10") do
