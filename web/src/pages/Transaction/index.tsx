@@ -307,7 +307,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           {
             <InputOutputTableTitle 
               transactionType="Input" 
-              isCellbase={transaction.display_inputs[0] && transaction.display_inputs[0].from_cellbase}
+              isCellbase={transaction.display_inputs && transaction.display_inputs[0] && transaction.display_inputs[0].from_cellbase}
             />
           }
             <tbody>
