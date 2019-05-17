@@ -57,12 +57,11 @@ export default () => {
   useEffect(() => {
     getLatestBlocks()
     const listener = setInterval(() => {
-        fetchBlocks().then(json => {
-          const { data } = json as Response<BlockWrapper[]>
-          setBlocksWrappers(data)
-        })
-      }, 
-    BLOCK_POLLING_TIME)
+      fetchBlocks().then(json => {
+        const { data } = json as Response<BlockWrapper[]>
+        setBlocksWrappers(data)
+      })
+    }, BLOCK_POLLING_TIME)
 
     return () => {
       if (listener) {
@@ -100,14 +99,17 @@ export default () => {
           </TableTitleRow>
           {blocksWrappers &&
             blocksWrappers.map((block: any, index: number) => {
-              return (block && 
-                <TableContentRow key={index}>
-                  <TableContentItem content={block.attributes.number} to={`/block/${block.attributes.number}`} />
-                  <TableContentItem content={block.attributes.transactions_count} />
-                  <TableContentItem content={`${shannonToCkb(block.attributes.reward)}`} />
-                  <TableMinerContentItem content={block.attributes.miner_hash} />
-                  <TableContentItem content={parseDate(block.attributes.timestamp)} />
-                </TableContentRow>
+              const key = index
+              return (
+                block && (
+                  <TableContentRow key={key}>
+                    <TableContentItem content={block.attributes.number} to={`/block/${block.attributes.number}`} />
+                    <TableContentItem content={block.attributes.transactions_count} />
+                    <TableContentItem content={`${shannonToCkb(block.attributes.reward)}`} />
+                    <TableMinerContentItem content={block.attributes.miner_hash} />
+                    <TableContentItem content={parseDate(block.attributes.timestamp)} />
+                  </TableContentRow>
+                )
               )
             })}
         </ContentTable>

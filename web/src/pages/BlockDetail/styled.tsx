@@ -50,7 +50,7 @@ export const BlockOverviewPanel = styled.div`
     display: block;
     content: '';
     margin: 0 auto;
-    background: #3CC68A;
+    background: #3cc68a;
     height: 4px;
     width: 197px;
   }
@@ -113,7 +113,7 @@ export const BlockCommonContent = styled.div`
     > div:nth-child(1) {
       width: 1px;
       height: 360px;
-      background: #3CC68A;
+      background: #3cc68a;
       content: '';
       margin-right: 82px;
     }
@@ -150,8 +150,7 @@ export const BlockHightLabel = styled.div`
   text-align: center;
 `
 
-export const BlockTransactionsPanel = styled.div`
-`
+export const BlockTransactionsPanel = styled.div``
 
 export const BlockTransactionsPagition = styled(CommonPagition)`
   margin: 80px 0 0 0;

@@ -63,26 +63,22 @@ const AddressScriptLabel = ({ image, label, script }: { image: string; label: st
   return (
     <div>
       <AddressScriptLabelPanel>
-        <img src={image} alt='script' />
+        <img src={image} alt="script" />
         <span>{label}</span>
       </AddressScriptLabelPanel>
       <AddressScriptContent>
         <div>{`Code hash: ${script.code_hash}`}</div>
-        {
-          script.args.length === 1 ? (
-            <div>{`Args: ${script.args[0]}`}</div>
-          ) : (
-            script.args.map((arg: string, index: number) => {
-              return (
-                index === 0 ? (
-                  <div>{`Args: #${index} ${arg}`}</div>
-                ) : (
-                  <div className='script__args__others'>{`#${index} ${arg}`}</div>
-                )
-              )
-            })
-          )
-        }
+        {script.args.length === 1 ? (
+          <div>{`Args: ${script.args[0]}`}</div>
+        ) : (
+          script.args.map((arg: string, index: number) => {
+            return index === 0 ? (
+              <div>{`Args: #${index} ${arg}`}</div>
+            ) : (
+              <div className="script__args__others">{`#${index} ${arg}`}</div>
+            )
+          })
+        )}
       </AddressScriptContent>
     </div>
   )
@@ -203,15 +199,18 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         <AddressTransactionsPanel>
           <AddressOverview value="Transactions" />
           <div>
-            {transactionWrappers && transactionWrappers.map((transaction: any) => {
-              return (transaction && 
-                <TransactionComponent
-                  address={address}
-                  transaction={transaction.attributes}
-                  key={transaction.attributes.transaction_hash}
-                />
-              )
-            })}
+            {transactionWrappers &&
+              transactionWrappers.map((transaction: any) => {
+                return (
+                  transaction && (
+                    <TransactionComponent
+                      address={address}
+                      transaction={transaction.attributes}
+                      key={transaction.attributes.transaction_hash}
+                    />
+                  )
+                )
+              })}
           </div>
           <AddressTransactionsPagition>
             <Pagination

@@ -34,30 +34,30 @@ const LoadingDiv = styled.div`
   }
 `
 
-export default ({ show, onClose }: { show: boolean ; onClose: Function }) => {
-  return (
-    show? (
-      <LoadingDiv className="loading">
-        <div
-          className="loading__content"
+export default ({ show, onClose }: { show: boolean; onClose: Function }) => {
+  return show ? (
+    <LoadingDiv className="loading">
+      <div
+        className="loading__content"
+        style={{
+          marginTop: 100,
+          backgroundColor: 'transparent',
+        }}
+      >
+        <img
+          alt="loading"
           style={{
-            marginTop: 100,
-            backgroundColor: 'transparent',
+            width: 172,
+            height: 85,
           }}
-        >
-          <img
-            alt="loading"
-            style={{
-              width: 172,
-              height: 85,
-            }}
-            src={loadingImage}
-            onDoubleClick={() => {
-              if (onClose) onClose()
-            }}
-          />
-        </div>
-      </LoadingDiv>
-    ) : <React.Fragment/>
+          src={loadingImage}
+          onDoubleClick={() => {
+            if (onClose) onClose()
+          }}
+        />
+      </div>
+    </LoadingDiv>
+  ) : (
+    <React.Fragment />
   )
 }

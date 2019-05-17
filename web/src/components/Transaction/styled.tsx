@@ -20,41 +20,41 @@ export const TransactionsItem = styled.div`
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-  
+
       .transaction_hash {
         font-size: 16px;
         color: rgb(75, 188, 142);
       }
-  
+
       .transaction_block {
         font-size: 16px;
         color: rgb(136, 136, 136);
       }
     }
-  
+
     .transaction__separate {
       width: 100%;
       height: 1px;
       margin-top: 30px;
       background: rgb(233, 233, 233);
     }
-  
+
     .transaction__input__output {
       margin-top: 30px;
       display: flex;
       flex-direction: row;
       align-items: center;
-  
+
       > img {
         width: 40px;
         height: 40px;
         flex: 1;
       }
-  
+
       > div {
         flex: 13;
       }
-  
+
       .transaction__output {
         display: flex;
         flex-direction: column;

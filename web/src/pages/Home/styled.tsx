@@ -27,7 +27,7 @@ export const LogoPanel = styled.div`
 
   > div {
     margin-left: 29px;
-    color: #3CC68A;
+    color: #3cc68a;
     font-family: Montserrat, PingFang SC, sans-serif;
     line-height: 134px;
     font-size: 64px;
@@ -60,7 +60,7 @@ export const ContentTitle = styled.div`
   &:after {
     content: '';
     display: block;
-    background: #3CC68A;
+    background: #3cc68a;
     height: 4px;
     width: 197px;
     margin: 0 auto;
@@ -98,7 +98,7 @@ export const TableMorePanel = styled.div`
 
       .table__more {
         font-size: 24px;
-        color: #3CC68A;
+        color: #3cc68a;
         overflow: hidden;
         text-overflow: ellipsis;
         text-decoration: none;

@@ -163,7 +163,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     difficulty: '',
     start_number: 0,
     epoch: 0,
-    length:'',
+    length: '',
     version: 0,
     nonce: 0,
     proof: '',
@@ -210,7 +210,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     checkBlockByNumber(nextBlockNumber)
     setTimeout(() => {
       checkBlockByNumber(nextBlockNumber)
-      }, CHECK_BLOCK_TIME);
+    }, CHECK_BLOCK_TIME)
   }
 
   const getBlockByHash = () => {
@@ -264,7 +264,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: ProposalTransactionsIcon,
       label: 'Proposal Transactions:',
-      value: `${blockData.proposal_transactions_count? blockData.proposal_transactions_count : 0}`,
+      value: `${blockData.proposal_transactions_count ? blockData.proposal_transactions_count : 0}`,
     },
     {
       image: BlockRewardIcon,
@@ -325,7 +325,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       value: `${blockData.proof}`,
     },
   ]
-  
+
   return (
     <Content>
       <BlockDetailPanel width={window.innerWidth} className="container">
@@ -341,30 +341,30 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
             <div>
               <div />
               <div>
-                {
-                  BlockRightItems[0].value ? (
-                    <Link
-                      to={{
-                        pathname: `/address/${BlockRightItems[0].value}`,
-                      }}
-                    >
-                      <SimpleLabel
-                        image={BlockRightItems[0].image}
-                        label={BlockRightItems[0].label}
-                        value={startEndEllipsis(BlockRightItems[0].value)}
-                        highLight
-                      />
-                    </Link>
-                  ) : (
+                {BlockRightItems[0].value ? (
+                  <Link
+                    to={{
+                      pathname: `/address/${BlockRightItems[0].value}`,
+                    }}
+                  >
                     <SimpleLabel
                       image={BlockRightItems[0].image}
                       label={BlockRightItems[0].label}
-                      value='Unable to decode address'
+                      value={startEndEllipsis(BlockRightItems[0].value)}
+                      highLight
                     />
-                  )
-                }
+                  </Link>
+                ) : (
+                  <SimpleLabel
+                    image={BlockRightItems[0].image}
+                    label={BlockRightItems[0].label}
+                    value="Unable to decode address"
+                  />
+                )}
                 {BlockRightItems.slice(1).map(item => {
-                  return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+                  return (
+                    item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+                  )
                 })}
               </div>
             </div>
@@ -376,15 +376,18 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         <BlockTransactionsPanel>
           <BlockOverview value="Transactions" />
           <div>
-            {transactionWrappers && transactionWrappers.map((transaction: any) => {
-              return (transaction && 
-                <TransactionComponent
-                  transaction={transaction.attributes}
-                  key={transaction.attributes.transaction_hash}
-                  isBlock
-                />
-              )
-            })}
+            {transactionWrappers &&
+              transactionWrappers.map((transaction: any) => {
+                return (
+                  transaction && (
+                    <TransactionComponent
+                      transaction={transaction.attributes}
+                      key={transaction.attributes.transaction_hash}
+                      isBlock
+                    />
+                  )
+                )
+              })}
           </div>
           <BlockTransactionsPagition>
             <Pagination

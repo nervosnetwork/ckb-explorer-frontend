@@ -81,14 +81,14 @@ export const TransactionCommonContent = styled.div`
     > div:nth-child(1) {
       flex: 1;
     }
-  
+
     > div:nth-child(2) {
       display: flex;
       flex: 1;
       > div:nth-child(1) {
         width: 1px;
         height: 80px;
-        background: #3CC68A;
+        background: #3cc68a;
         content: '';
         margin-right: 82px;
       }
@@ -259,7 +259,7 @@ export const InputOutputTable = styled.table`
             min-height: 170px;
             background-color: #f9f9f9;
             border-radius: 6px 6px;
-            user-select: none; 
+            user-select: none;
           }
           .tr-detail-td-buttons {
             display: flex;

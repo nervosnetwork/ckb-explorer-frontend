@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import CONFIG from '../config'
 
-const baseURL = `${CONFIG.HOST}/api/v1/`
+const baseURL = `${CONFIG.API_URL}/api/v1/`
 
 export const axiosIns = axios.create({
   baseURL,

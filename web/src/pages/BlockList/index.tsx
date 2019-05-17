@@ -91,17 +91,20 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
             <TableTitleItem image={MinerIcon} title="Miner" />
             <TableTitleItem image={TimestampIcon} title="Time" />
           </TableTitleRow>
-          {blockWrappers && blockWrappers.map((data: any) => {
-            return (data &&
-              <TableContentRow key={data.attributes.block_hash}>
-                <TableContentItem content={data.attributes.number} to={`/block/${data.attributes.number}`} />
-                <TableContentItem content={data.attributes.transactions_count} />
-                <TableContentItem content={`${shannonToCkb(data.attributes.reward)}`} />
-                <TableMinerContentItem content={data.attributes.miner_hash} />
-                <TableContentItem content={parseDate(data.attributes.timestamp)} />
-              </TableContentRow>
-            )
-          })}
+          {blockWrappers &&
+            blockWrappers.map((data: any) => {
+              return (
+                data && (
+                  <TableContentRow key={data.attributes.block_hash}>
+                    <TableContentItem content={data.attributes.number} to={`/block/${data.attributes.number}`} />
+                    <TableContentItem content={data.attributes.transactions_count} />
+                    <TableContentItem content={`${shannonToCkb(data.attributes.reward)}`} />
+                    <TableMinerContentItem content={data.attributes.miner_hash} />
+                    <TableContentItem content={parseDate(data.attributes.timestamp)} />
+                  </TableContentRow>
+                )
+              )
+            })}
         </ContentTable>
         <BlocksPagition>
           <Pagination

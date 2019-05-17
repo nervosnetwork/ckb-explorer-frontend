@@ -78,7 +78,7 @@ const FooterDiv = styled.div`
             flex-direction: column;
             align-items: center;
             text-decoration: none;
-            
+
             >div: nth-child(1) {
               width: 32px;
               height: 32px;

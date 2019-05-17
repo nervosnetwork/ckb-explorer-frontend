@@ -27,15 +27,7 @@ const LabelItemPanel = styled.div`
   }
 `
 
-const CellConsumedLabel = ({
-  image,
-  label,
-  consumed,
-}: {
-  image: string
-  label: string
-  consumed: number
-}) => {
+const CellConsumedLabel = ({ image, label, consumed }: { image: string; label: string; consumed: number }) => {
   return (
     <LabelItemPanel>
       <img src={image} alt="Cell Consumed" />

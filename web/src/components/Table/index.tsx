@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { startEndEllipsis } from '../../utils/string'
 
 export const TableTitleRow = styled.div`
-  background: #3CC68A;
+  background: #3cc68a;
   display: flex;
   height: 65px;
   width: 1200px;
@@ -18,7 +18,7 @@ const TableTitleRowItem = styled.div`
   align-items: center;
   width: 240px;
   height: 65px;
-  
+
   > img {
     width: 23px;
     height: 23px;
@@ -59,7 +59,7 @@ const TableContentRowItem = styled.div`
 const TableMinerContentPanel = styled.div`
   height: 65px;
   width: 240px;
-    
+
   .table__miner__content {
     line-height: 65px;
     color: #4bbc8e;
@@ -80,7 +80,7 @@ const TableMinerContentPanel = styled.div`
     line-height: 65px;
     justify-content: center;
     font-size: 16px;
-    color: #888888
+    color: #888888;
   }
 `
 
@@ -115,15 +115,13 @@ export const TableContentItem = ({ content, to }: { content: string; to?: any })
 export const TableMinerContentItem = ({ content }: { content: string }) => {
   return (
     <TableMinerContentPanel>
-      {
-      content ? (
+      {content ? (
         <Link className="table__miner__content" to={`/address/${content}`}>
           <div className="table__miner__text">{content && startEndEllipsis(content)}</div>
         </Link>
       ) : (
         <div className="table__miner__text__disable">Unable to decode address</div>
-      )
-    }
+      )}
     </TableMinerContentPanel>
   )
 }

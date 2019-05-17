@@ -24,10 +24,10 @@ const SearchPanel = styled.div`
     padding-right: 61px;
     border-radius: 6px;
     border-width: 0px;
-    background: rgba(255, 255, 255, .2);
+    background: rgba(255, 255, 255, 0.2);
     &: focus {
       color: black;
-      background: rgba(255, 255, 255, 1)!important;
+      background: rgba(255, 255, 255, 1) !important;
       color: #333333 !important;
       outline: none;
     }
@@ -59,7 +59,7 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
   const appContext = useContext(AppContext)
 
   const handleSearchResult = (q: string) => {
-    const query = q.replace(/^\s+|\s+$/g,"")   // remove front and end blank
+    const query = q.replace(/^\s+|\s+$/g, '') // remove front and end blank
     if (!query) {
       appContext.toastMessage('Please input valid content', 3000)
     } else {
