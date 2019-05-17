@@ -104,15 +104,38 @@ module CkbSync
       end
 
       def build_ckb_transactions(local_block, transactions, sync_type, ckb_transaction_and_display_cell_hashes)
+        ckb_transaction_count_info = {}
+        addresses = Set.new
+
         transactions.each do |transaction|
           ckb_transaction_and_display_cell_hash = { transaction: nil, inputs: [], outputs: [] }
           ckb_transaction = build_ckb_transaction(local_block, transaction, sync_type)
           ckb_transaction_and_display_cell_hash[:transaction] = ckb_transaction
 
           build_cell_inputs(transaction["inputs"], ckb_transaction, ckb_transaction_and_display_cell_hash)
-          build_cell_outputs(transaction["outputs"], ckb_transaction, ckb_transaction_and_display_cell_hash)
+          build_cell_outputs(transaction["outputs"], ckb_transaction, ckb_transaction_and_display_cell_hash, addresses)
 
           ckb_transaction_and_display_cell_hashes << ckb_transaction_and_display_cell_hash
+
+          addresses_arr = addresses.to_a
+          ckb_transaction.addresses << addresses_arr
+          addresses_arr.each do |address|
+            if ckb_transaction_count_info[address.id].present?
+              ckb_transaction_count = ckb_transaction_count_info[address.id]
+              ckb_transaction_count_info[address.id] = ckb_transaction_count + 1
+            else
+              ckb_transaction_count_info.merge!({ address.id => 1 })
+            end
+          end
+        end
+
+        update_addresses_ckb_transactions_count(ckb_transaction_count_info)
+      end
+
+      def update_addresses_ckb_transactions_count(ckb_transaction_count_info)
+        ckb_transaction_count_info.each do |address_id, ckb_transaction_count|
+          address = Address.find(address_id)
+          address.increment!("ckb_transactions_count", ckb_transaction_count)
         end
       end
 
@@ -123,13 +146,14 @@ module CkbSync
         end
       end
 
-      def build_cell_outputs(node_outputs, ckb_transaction, ckb_transaction_and_display_cell_hash)
+      def build_cell_outputs(node_outputs, ckb_transaction, ckb_transaction_and_display_cell_hash, addresses)
         node_outputs.each do |output|
-          address = Address.find_or_create_address(ckb_transaction, output["lock"])
+          address = Address.find_or_create_address(output["lock"])
           cell_output = build_cell_output(ckb_transaction, output, address)
           build_lock_script(cell_output, output["lock"], address)
           build_type_script(cell_output, output["type"])
           ckb_transaction_and_display_cell_hash[:outputs] << cell_output
+          addresses << address
         end
       end
 
@@ -204,7 +228,7 @@ module CkbSync
 
       def build_block(node_block, sync_type)
         header = node_block["header"]
-        epoch_info = CkbSync::Api.instance.get_epoch_by_number(header["epoch"])
+        epoch_info = Utils::CkbUtils.get_epoch_info(header["epoch"])
         Block.new(
           difficulty: header["difficulty"],
           block_hash: header["hash"],

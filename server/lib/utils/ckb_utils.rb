@@ -65,7 +65,13 @@ module Utils
     end
 
     def self.miner_reward(epoch)
-      CkbSync::Api.instance.get_epoch_by_number(epoch).block_reward
+      get_epoch_info(epoch).block_reward
+    end
+
+    def self.get_epoch_info(epoch)
+      Rails.cache.fetch("epoch_#{epoch}", expires_in: 1.day) do
+        CkbSync::Api.instance.get_epoch_by_number(epoch)
+      end
     end
 
     def self.ckb_transaction_fee(ckb_transaction)
