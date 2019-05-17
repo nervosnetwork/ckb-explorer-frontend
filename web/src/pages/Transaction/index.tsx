@@ -121,7 +121,7 @@ const ScriptComponent = ({
                     appContext.showLoading()
                     fetchCellData(cellType, cellInputOutput.id)
                       .then(data => {
-                        if (data && cellInputOutput.isUTF8) {
+                        if (data && cellInputOutput.isGenesisOutput) {
                           data.data = hexToUtf8(data.data.substr(2))
                         }
                         setCellData(data? data : initCellData)
@@ -196,13 +196,15 @@ const TransactionTitle = ({ hash }: { hash: string }) => {
   )
 }
 
-const InputOutputTableTitle = ({ transactionType }: { transactionType: string }) => {
+const InputOutputTableTitle = ({ transactionType, isGenesis }: { transactionType: string; isGenesis?: boolean }) => {
   return (
     <thead>
       <tr>
         <td colSpan={1}>{transactionType}</td>
         <td>
-          <div>Capacity</div>
+          {
+            !isGenesis && <div>Capacity</div>
+          }
         </td>
         <td colSpan={3}>
           <div>Detail</div>
@@ -252,11 +254,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         if (error) {
           browserHistory.push(`/search/fail?q=${hash}`)
         } else {
-          const transaction = data.attributes as Transaction
-          if (transaction.display_outputs && transaction.display_outputs.length > 0) {
-            transaction.display_outputs[0].isUTF8 = (transaction.block_number === 0)
-          } 
-          setTransaction(data.attributes as Transaction)
+          checkGenesis(data.attributes as Transaction)
         }
         appContext.hideLoading()
       })
@@ -264,6 +262,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         appContext.hideLoading()
         browserHistory.push(`/search/fail?q=${hash}`)
       })
+  }
+
+  const checkGenesis = (transaction: Transaction) => {
+    if (transaction.display_inputs && transaction.display_inputs.length > 0) {
+      transaction.display_inputs[0].isGenesisInput = (transaction.block_number === 0)
+    } 
+    if (transaction.display_outputs && transaction.display_outputs.length > 0) {
+      transaction.display_outputs[0].isGenesisOutput = (transaction.block_number === 0)
+    } 
+    setTransaction(transaction)
   }
 
   useEffect(() => {
@@ -302,7 +310,12 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
 
         <InputPanelDiv>
           <InputOutputTable>
-            <InputOutputTableTitle transactionType="Input" />
+          {
+            <InputOutputTableTitle 
+              transactionType="Input" 
+              isGenesis={transaction.display_inputs[0] && transaction.display_inputs[0].isGenesisInput}
+            />
+          }
             <tbody>
               {transaction && transaction.display_inputs &&
                 transaction.display_inputs.map((input: InputOutput) => {

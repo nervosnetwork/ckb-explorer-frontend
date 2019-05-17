@@ -20,5 +20,6 @@ export interface InputOutput {
   capacity: number
   from_cellbase: boolean
   select: string
-  isUTF8: boolean
+  isGenesisInput: boolean
+  isGenesisOutput: boolean
 }
