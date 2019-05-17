@@ -59,11 +59,11 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
   const appContext = useContext(AppContext)
 
   const handleSearchResult = (q: string) => {
-    if (!q) {
+    const query = q.replace(/^\s+|\s+$/g,"")   // remove front and end blank
+    if (!query) {
       appContext.toastMessage('Please input valid content', 3000)
     } else {
       appContext.showLoading()
-      const query = q.replace(/^\s+|\s+$/g,"")   // remove front and end blank
       fetchSearchResult(query)
         .then((json: any) => {
           appContext.hideLoading()
