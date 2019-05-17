@@ -6,13 +6,11 @@ module CkbSync
         local_block = Block.find_by(number: node_block.dig("header", "number"))
 
         ApplicationRecord.transaction do
-          if local_block.present?
-            local_block.verify!(node_block)
-            update_cell_status!(local_block)
-            update_address_balance_and_cell_consumed!(local_block)
-          else
-            CkbSync::Persist.save_block(node_block, "authentic")
-          end
+          return if local_block.blank?
+
+          local_block.verify!(node_block)
+          update_cell_status!(local_block)
+          update_address_balance_and_cell_consumed!(local_block)
         end
       end
 
