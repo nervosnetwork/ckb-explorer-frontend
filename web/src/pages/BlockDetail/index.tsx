@@ -31,6 +31,9 @@ import TransactionFeeIcon from '../../asserts/transaction_fee.png'
 import DifficultyIcon from '../../asserts/difficulty.png'
 import NonceIcon from '../../asserts/nonce.png'
 import ProofIcon from '../../asserts/proof.png'
+import EpochIcon from '../../asserts/epoch.png'
+import StartNumberIcon from '../../asserts/start_number.png'
+import LengthIcon from '../../asserts/length.png'
 import PreviousBlockIcon from '../../asserts/left_arrow.png'
 import PreviousBlockGreyIcon from '../../asserts/left_arrow_grey.png'
 import NextBlockIcon from '../../asserts/right_arrow.png'
@@ -158,6 +161,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     miner_hash: '',
     timestamp: 0,
     difficulty: '',
+    start_number: 0,
+    epoch: 0,
+    length:'',
     version: 0,
     nonce: 0,
     proof: '',
@@ -244,7 +250,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     props.history.push(`/block/${hash}?page=${page_p}&size=${size_p}`)
   }
 
-  const BlockLeftSeparateIndex = 3
   const BlockLeftItems: BlockItem[] = [
     {
       image: BlockHeightIcon,
@@ -260,6 +265,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       image: ProposalTransactionsIcon,
       label: 'Proposal Transactions:',
       value: `${blockData.proposal_transactions_count? blockData.proposal_transactions_count : 0}`,
+    },
+    {
+      image: BlockRewardIcon,
+      label: 'Block Reward:',
+      value: `${shannonToCkb(blockData.reward)} CKB`,
+    },
+    {
+      image: TransactionFeeIcon,
+      label: 'Transaction Fee:',
+      value: `${shannonToCkb(blockData.total_transaction_fee)} CKB`,
     },
     {
       image: TimestampIcon,
@@ -280,14 +295,19 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       value: blockData.miner_hash,
     },
     {
-      image: BlockRewardIcon,
-      label: 'Block Reward:',
-      value: `${shannonToCkb(blockData.reward)} CKB`,
+      image: EpochIcon,
+      label: 'Epoch:',
+      value: `${blockData.epoch}`,
     },
     {
-      image: TransactionFeeIcon,
-      label: 'Transaction Fee:',
-      value: `${shannonToCkb(blockData.total_transaction_fee)} CKB`,
+      image: StartNumberIcon,
+      label: 'Start Number:',
+      value: `${blockData.start_number}`,
+    },
+    {
+      image: LengthIcon,
+      label: 'Length:',
+      value: blockData.length,
     },
     {
       image: DifficultyIcon,
@@ -314,10 +334,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         <BlockCommonContentWrap className={(hasPrev ? 'hasPrev' : '') + (hasNext ? ' hasNext' : '')}>
           <BlockCommonContent>
             <div>
-              {BlockLeftItems.slice(0, BlockLeftSeparateIndex).map(item => {
-                return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
-              })}
-              {BlockLeftItems.slice(BlockLeftSeparateIndex).map(item => {
+              {BlockLeftItems.map(item => {
                 return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
               })}
             </div>

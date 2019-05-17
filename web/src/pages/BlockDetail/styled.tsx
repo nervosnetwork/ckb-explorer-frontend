@@ -69,7 +69,7 @@ export const BlockCommonContentWrap = styled.div`
     box-shadow: 0 5px 9px #dfdfdf;
     background-color: #ffffff;
     width: 30px;
-    height: 393px;
+    height: 453px;
     margin: 22px 0;
     position: absolute;
     left: 0;
@@ -84,7 +84,7 @@ export const BlockCommonContentWrap = styled.div`
     box-shadow: 0 5px 9px #dfdfdf;
     background-color: #ffffff;
     width: 30px;
-    height: 393px;
+    height: 453px;
     margin: 22px 0;
     position: absolute;
     top: 0;
@@ -112,7 +112,7 @@ export const BlockCommonContent = styled.div`
     flex: 1;
     > div:nth-child(1) {
       width: 1px;
-      height: 300px;
+      height: 360px;
       background: #3CC68A;
       content: '';
       margin-right: 82px;

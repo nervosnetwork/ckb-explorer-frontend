@@ -12,6 +12,9 @@ export interface Block {
   miner_hash: string
   timestamp: number
   difficulty: string
+  epoch: number
+  length: string
+  start_number: number
   version: number
   nonce: number
   proof: string
