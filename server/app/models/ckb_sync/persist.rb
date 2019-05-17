@@ -204,6 +204,7 @@ module CkbSync
 
       def build_block(node_block, sync_type)
         header = node_block["header"]
+        epoch_info = CkbSync::Api.instance.get_epoch_by_number(header["epoch"])
         Block.new(
           difficulty: header["difficulty"],
           block_hash: header["hash"],
@@ -226,7 +227,9 @@ module CkbSync
           reward: Utils::CkbUtils.miner_reward(header["epoch"].first),
           total_transaction_fee: 0,
           witnesses_root: header["witness_root"],
-          epoch: header["epoch"]
+          epoch: header["epoch"],
+          start_number: epoch_info.start_number,
+          length: epoch_info.length
         )
       end
 

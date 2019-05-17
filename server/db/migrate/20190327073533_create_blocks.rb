@@ -24,6 +24,8 @@ class CreateBlocks < ActiveRecord::Migration[5.2]
       t.decimal :total_cell_capacity, precision: 30, scale: 0
       t.binary :witnesses_root
       t.decimal :epoch, precision: 30, scale: 0
+      t.string :start_number
+      t.string :length
 
       t.timestamps
     end

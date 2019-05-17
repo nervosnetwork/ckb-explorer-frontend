@@ -93,6 +93,8 @@ end
 #  total_cell_capacity    :decimal(30, )
 #  witnesses_root         :binary
 #  epoch                  :decimal(30, )
+#  start_number           :string
+#  length                 :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
