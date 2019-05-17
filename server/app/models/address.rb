@@ -9,14 +9,11 @@ class Address < ApplicationRecord
   validates_presence_of :balance, :cell_consumed, :ckb_transactions_count
   validates :balance, :cell_consumed, :ckb_transactions_count, numericality: { greater_than_or_equal_to: 0 }
 
-  def self.find_or_create_address(ckb_transaction, lock_script)
+  def self.find_or_create_address(lock_script)
     address_hash = Utils::CkbUtils.generate_address(lock_script)
-    address = Address.find_by(address_hash: address_hash)
-    address ||= Address.create(address_hash: address_hash, balance: 0, cell_consumed: 0)
 
-    address.with_lock do
-      ckb_transaction.addresses << address.increment!("ckb_transactions_count")
-      address
+    Rails.cache.fetch(address_hash.to_s, expires_in: 1.day) do
+      Address.find_by(address_hash: address_hash) || Address.create(address_hash: address_hash, balance: 0, cell_consumed: 0)
     end
   end
 end
@@ -35,5 +32,5 @@ end
 #
 # Indexes
 #
-#  index_addresses_on_address_hash  (address_hash)
+#  index_addresses_on_address_hash  (address_hash) UNIQUE
 #

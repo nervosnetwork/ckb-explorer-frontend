@@ -1,15 +1,14 @@
 require "sidekiq/web"
 
-redis_conn =
-  proc {
-    $redis
-  }
+redis_config = Rails.application.config_for(:redis)
+redis_url = redis_config["url"]
+redis_password = redis_config["password"]
 
 Sidekiq.configure_server do |config|
-  config.redis = ConnectionPool.new(size: 27, &redis_conn)
+  config.redis = { url: redis_url, driver: :hiredis, password: redis_password }
 end
 Sidekiq.configure_client do |config|
-  config.redis = ConnectionPool.new(size: 10, &redis_conn)
+  config.redis = { url: redis_url, driver: :hiredis, password: redis_password }
 end
 
 # Auth sidekiq user in production env.

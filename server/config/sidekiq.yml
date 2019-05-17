@@ -7,6 +7,6 @@
   - default
 
 production:
-  :concurrency: 25
+  :concurrency: 40
 staging:
   :concurrency: 15
