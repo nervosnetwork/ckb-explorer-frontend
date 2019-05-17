@@ -196,14 +196,14 @@ const TransactionTitle = ({ hash }: { hash: string }) => {
   )
 }
 
-const InputOutputTableTitle = ({ transactionType, isGenesis }: { transactionType: string; isGenesis?: boolean }) => {
+const InputOutputTableTitle = ({ transactionType, isCellbase }: { transactionType: string; isCellbase?: boolean }) => {
   return (
     <thead>
       <tr>
         <td colSpan={1}>{transactionType}</td>
         <td>
           {
-            !isGenesis && <div>Capacity</div>
+            !isCellbase && <div>Capacity</div>
           }
         </td>
         <td colSpan={3}>
@@ -254,7 +254,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         if (error) {
           browserHistory.push(`/search/fail?q=${hash}`)
         } else {
-          checkGenesis(data.attributes as Transaction)
+          const transaction = data.attributes as Transaction
+          if (transaction.display_outputs && transaction.display_outputs.length > 0) {
+            transaction.display_outputs[0].isGenesisOutput = (transaction.block_number === 0)
+          } 
+          setTransaction(transaction)
         }
         appContext.hideLoading()
       })
@@ -262,16 +266,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         appContext.hideLoading()
         browserHistory.push(`/search/fail?q=${hash}`)
       })
-  }
-
-  const checkGenesis = (transaction: Transaction) => {
-    if (transaction.display_inputs && transaction.display_inputs.length > 0) {
-      transaction.display_inputs[0].isGenesisInput = (transaction.block_number === 0)
-    } 
-    if (transaction.display_outputs && transaction.display_outputs.length > 0) {
-      transaction.display_outputs[0].isGenesisOutput = (transaction.block_number === 0)
-    } 
-    setTransaction(transaction)
   }
 
   useEffect(() => {
@@ -313,7 +307,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           {
             <InputOutputTableTitle 
               transactionType="Input" 
-              isGenesis={transaction.display_inputs[0] && transaction.display_inputs[0].isGenesisInput}
+              isCellbase={transaction.display_inputs[0] && transaction.display_inputs[0].from_cellbase}
             />
           }
             <tbody>
