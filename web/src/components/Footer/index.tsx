@@ -50,9 +50,6 @@ const FooterDiv = styled.div`
         img {
           width: ${(props: { width: number }) => (137 * props.width) / 1920}px;
           height: auto;
-          &:hover {
-            transform: scale(1.1, 1.1);
-          }
         }
       }
       .footer__top__orgs {
