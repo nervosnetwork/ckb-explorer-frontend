@@ -58,6 +58,8 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
     t.decimal "total_cell_capacity", precision: 30
     t.binary "witnesses_root"
     t.decimal "epoch", precision: 30
+    t.string "start_number"
+    t.string "length"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["block_hash", "status"], name: "index_blocks_on_block_hash_and_status"
