@@ -70,7 +70,7 @@ const ScriptComponent = ({
           }
         </td>
         {
-          !cellInputOutput.from_cellbase ? <td>{shannonToCkb(cellInputOutput.capacity)}</td> : null
+          !cellInputOutput.from_cellbase ? <td>{shannonToCkb(cellInputOutput.capacity)}</td> : <td></td>
         }
         {ScriptTypeItems.map(item => {
           let className = 'td-operatable'
@@ -202,11 +202,13 @@ const InputOutputTableTitle = ({ transactionType, isCellbase }: { transactionTyp
       <tr>
         <td colSpan={1}>{transactionType}</td>
         {
-            !isCellbase && (
+            !isCellbase ? (
               <td><div>Capacity</div></td>
+            ) : (
+              <td><div></div></td>
             )
         }
-        <td colSpan={4}>
+        <td colSpan={3}>
           <div>Detail</div>
         </td>
       </tr>

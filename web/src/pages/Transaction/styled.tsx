@@ -222,7 +222,7 @@ export const InputOutputTable = styled.table`
         }
         td {
           &: nth-child(1) {
-            width: ${1100 - 86 - 150 - 120 * 3}px;
+            width: ${1100 - 150 - 120 * 3}px;
             font-size: 16px;
             color: #4bbc8e;
           }
