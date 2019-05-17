@@ -10,7 +10,7 @@ module CkbSync
     test "should return nil when round range params to is negative" do
       VCR.use_cassette("genesis_block") do
         VCR.use_cassette("blocks/two") do
-          assert_nil CkbSync::AuthenticSync.sync_node_data
+          assert_nil CkbSync::AuthenticSync.sync_node_data(0..2)
         end
       end
     end
@@ -19,7 +19,7 @@ module CkbSync
       VCR.use_cassette("genesis_block") do
         VCR.use_cassette("blocks/four") do
           CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
-          CkbSync::InauthenticSync.sync_node_data
+          CkbSync::InauthenticSync.sync_node_data(0..4)
         end
       end
 
@@ -27,11 +27,11 @@ module CkbSync
 
       VCR.use_cassette("genesis_block") do
         VCR.use_cassette("blocks/two") do
-          CkbSync::AuthenticSync.sync_node_data
+          CkbSync::AuthenticSync.sync_node_data(0..2)
         end
       end
       SyncInfo.stubs(:local_authentic_tip_block_number).returns(-1)
-      assert_nil CkbSync::AuthenticSync.sync_node_data
+      assert_nil CkbSync::AuthenticSync.sync_node_data(0..2)
     end
   end
 end
