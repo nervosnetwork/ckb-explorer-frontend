@@ -1,12 +1,7 @@
 export interface Response<T> {
   data: T
   meta?: Meta
-  error?: Errors
-}
-
-export interface Errors {
-  message: string
-  errors: Error[]
+  error?: Error[]
 }
 
 export interface Error {

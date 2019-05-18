@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 export const BlockListPanel = styled.div`
   width: 100%;
-  margin-top: ${(props: { width: number }) => (150 * props.width) / 1920}px;
-  margin-bottom: ${(props: { width: number }) => (200 * props.width) / 1920}px;
+  margin-top: ${(props: { width: number }) => (100 * props.width) / 1920}px;
+  margin-bottom: ${(props: { width: number }) => (150 * props.width) / 1920}px;
 `
 
 export const ContentTitle = styled.div`
@@ -14,7 +14,7 @@ export const ContentTitle = styled.div`
 
   &:after {
     content: '';
-    background: #46ab81;
+    background: #3cc68a;
     height: 4px;
     width: 197px;
     display: block;
@@ -38,6 +38,7 @@ export const CommonPagition = styled.div`
     }
     .rc-pagination-item-active {
       background-color: #4bbc8e !important;
+      border-color: #4bbc8e !important;
     }
     .rc-pagination-item {
       &:hover {

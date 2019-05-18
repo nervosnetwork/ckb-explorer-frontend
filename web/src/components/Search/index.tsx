@@ -9,30 +9,30 @@ import browserHistory from '../../routes/history'
 import SearchLogo from '../../asserts/search.png'
 
 const SearchPanel = styled.div`
-  max-width: 650px;
+  max-width: 550px;
   width: 100%;
   margin: 0 auto;
-  // margin-top: ${(props: { width: number }) => (98 * props.width) / 1920}px;
-  // margin-bottom: ${(props: { width: number }) => (98 * props.width) / 1920}px;
-  height: 65px;
+  height: 50px;
   text-align: center;
   position: relative;
   > input {
     position: relative;
     width: 100%;
-    color: #bababa;
-    height: 65px;
+    height: 50px;
     font-size: 16px;
     padding-left: 20px;
-    padding-right: 106px;
     padding-right: 61px;
-    opacity: 0.2;
     border-radius: 6px;
-    background-color: #ffffff;
+    border-width: 0px;
+    background: rgba(255, 255, 255, 0.2);
     &: focus {
       color: black;
-      opacity: 1 !important;
+      background: rgba(255, 255, 255, 1) !important;
+      color: #333333 !important;
       outline: none;
+    }
+    &::placeholder {
+      color: #bababa;
     }
   }
 
@@ -41,8 +41,8 @@ const SearchPanel = styled.div`
     position: absolute;
     top: 14px;
     right: 9px;
-    width: 41px;
-    height: 41px;
+    width: 30px;
+    height: 30px;
     opacity: 0.8;
     &: hover {
       opacity: 1;
@@ -59,18 +59,18 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
   const appContext = useContext(AppContext)
 
   const handleSearchResult = (q: string) => {
-    if (!q) {
+    const query = q.replace(/^\s+|\s+$/g, '') // remove front and end blank
+    if (!query) {
       appContext.toastMessage('Please input valid content', 3000)
     } else {
       appContext.showLoading()
-      fetchSearchResult(q)
+      fetchSearchResult(query)
         .then((json: any) => {
           appContext.hideLoading()
           const { data } = json
           if (data.type === 'block') {
             browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
           } else if (data.type === 'ckb_transaction') {
-            // interface here should change by backyard ckb_transaction to transaction
             browserHistory.push(`/transaction/${(data as TransactionWrapper).attributes.transaction_hash}`)
           } else if (data.type === 'address') {
             browserHistory.push(`/address/${(data as AddressWrapper).attributes.address_hash}`)
@@ -80,22 +80,22 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
         })
         .catch(() => {
           appContext.hideLoading()
-          browserHistory.push(`/search/fail?q=${q}`)
+          browserHistory.push(`/404`)
         })
     }
   }
 
   const opacityStyle = {
     opacity: 1,
-    border: '2px solid rgb(24, 50, 93)',
+    border: '2px solid #606060',
   }
 
   const transparentStyle = {
-    opacity: 0.2,
+    // opacity: 0.2,
   }
 
   return (
-    <SearchPanel width={window.innerWidth}>
+    <SearchPanel>
       <input
         id="home__search__bar"
         placeholder="Block Height / Block Hash / Tx Hash / Address"

@@ -4,19 +4,19 @@ export const TransactionDiv = styled.div.attrs({
   className: 'container',
 })`
   padding-top: 100px;
-  padding-bottom: 200px;
+  padding-bottom: 150px;
 `
 export const TransactionTitleDiv = styled.div`
   text-align: center;
   font-size: 40px;
-  font-family: PingFang-SC-Heavy;
+  font-family: PingFangSC-Medium, sans-serif;
   font-weight: 900;
 `
 export const TransactionOverviewLabel = styled.div`
   text-align: center;
   margin-top: 100px;
   font-size: 50px;
-  font-family: PingFang-SC-Heavy;
+  font-family: PingFangSC-Medium, sans-serif;
   font-weight: 900;
   &:after {
     content: '';
@@ -31,9 +31,9 @@ export const TransactionOverviewLabel = styled.div`
 export const TransactionTitlePanel = styled.div`
   .transaction__title {
     color: rgb(20, 20, 20);
-    font-size: 40pt;
+    font-size: 32pt;
     text-align: center;
-    font-family: PingFang-SC-Heavy;
+    font-family: PingFangSC-Medium, sans-serif;
     font-weight: 900;
   }
 
@@ -55,8 +55,8 @@ export const TransactionTitlePanel = styled.div`
 
     > div {
       > img {
-        margin-left: 19px;
-        width: 24px;
+        margin-left: 15px;
+        width: 21px;
         height: 21px;
       }
     }
@@ -66,28 +66,29 @@ export const TransactionTitlePanel = styled.div`
 export const TransactionCommonContent = styled.div`
   width: 100%;
   overflow-x: auto;
+  margin-top: 50px;
+  background: white;
+  border: 0px solid white;
+  border-radius: 6px;
+  box-shadow: 0px 5px 9px #dfdfdf;
+
   > div {
     padding: 72px 88px 56px 88px;
     width: 1200px;
     margin: 0 auto;
-    margin-top: 50px;
-    background: white;
-    border: 0px solid white;
-    border-radius: 6px;
-    box-shadow: 0px 5px 9px rgb(233, 233, 233);
     display: flex;
 
     > div:nth-child(1) {
       flex: 1;
     }
-  
+
     > div:nth-child(2) {
       display: flex;
       flex: 1;
       > div:nth-child(1) {
         width: 1px;
         height: 80px;
-        background: #46ab81;
+        background: #3cc68a;
         content: '';
         margin-right: 82px;
       }
@@ -171,7 +172,7 @@ export const BriefInfoDiv = styled(PanelDiv)`
     }
     .brief__key {
       margin-left: 10px;
-      font-family: PingFang-SC-Heavy;
+      font-family: PingFangSC-Medium, sans-serif;
       font-weight: 900;
       font-size: 18px;
       color: #4d4d4d;
@@ -190,9 +191,9 @@ export const InputOutputTable = styled.table`
   thead {
     tr {
       height: 58px;
-      border-bottom: 2px solid #4bbc8e;
+      border-bottom: 1px solid #4bbc8e;
       font-size: 20px;
-      font-family: PingFang-SC-Heavy;
+      font-family: PingFangSC-Medium, sans-serif;
       color: #4d4d4d;
       font-weight: 900;
       td {
@@ -201,10 +202,11 @@ export const InputOutputTable = styled.table`
         }
         &:nth-child(2) {
           width: 150px;
+          text-align: center;
         }
         &:nth-child(3) {
           width: 360px;
-          padding-left: 20px;
+          text-align: center;
         }
       }
     }
@@ -220,26 +222,23 @@ export const InputOutputTable = styled.table`
         }
         td {
           &: nth-child(1) {
-            text-align: center;
-            width: 86px;
-            font-size: 18px;
-            color: #888888;
+            width: ${1100 - 150 - 120 * 3}px;
+            font-size: 16px;
+            color: #4bbc8e;
           }
           &: nth-child(2) {
-            width: ${1100 - 86 - 150 - 120 * 3}px;
-            font-size: 16px;
-            color: #4bbc8e;
-          }
-          &: nth-child(3) {
             width: 150px;
             font-size: 16px;
+            text-align: center;
+            font-weight: bold;
             color: #888888;
           }
-          &: nth-child(4),&: nth-child(5),&: nth-child(6) {
+          &: nth-child(3),&: nth-child(4),&: nth-child(5) {
             width: 120px;
             font-size: 16px;
+            text-align: center;
             color: #4bbc8e;
-            font-weight: bold;
+            font-family: PingFangSC-Semibold, sans-serif;
           }
         }
       }
@@ -255,9 +254,12 @@ export const InputOutputTable = styled.table`
             padding: 18px 30px 18px 34px;
             font-size: 16px;
             color: #888888;
+            font-weight: bold;
+            margin-top: 5px;
             min-height: 170px;
             background-color: #f9f9f9;
             border-radius: 6px 6px;
+            user-select: none;
           }
           .tr-detail-td-buttons {
             display: flex;
@@ -300,8 +302,7 @@ export const InputOutputTable = styled.table`
         border-bottom: 2px solid #4bbc8e;
       }
       .td-operatable-disabled {
-        color: grey;
-        opacity: 0.2;
+        color: #888888;
         cursor: unset;
       }
     }

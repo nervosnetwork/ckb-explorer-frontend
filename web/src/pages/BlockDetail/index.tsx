@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
+import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import {
   BlockDetailPanel,
@@ -18,14 +19,11 @@ import AppContext from '../../contexts/App'
 import Content from '../../components/Content'
 import TransactionComponent from '../../components/Transaction'
 import SimpleLabel from '../../components/Label'
-import CellConsumedLabel from '../../components/Label/CellConsumedLabel'
 import CopyIcon from '../../asserts/copy.png'
 import BlockHeightIcon from '../../asserts/block_height_green.png'
 import BlockTransactionIcon from '../../asserts/transactions_green.png'
 import ProposalTransactionsIcon from '../../asserts/proposal_transactions.png'
-import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import TimestampIcon from '../../asserts/timestamp_green.png'
-import VersionIcon from '../../asserts/version.png'
 import UncleCountIcon from '../../asserts/uncle_count.png'
 import MinerIcon from '../../asserts/miner_green.png'
 import BlockRewardIcon from '../../asserts/block_reward.png'
@@ -33,15 +31,21 @@ import TransactionFeeIcon from '../../asserts/transaction_fee.png'
 import DifficultyIcon from '../../asserts/difficulty.png'
 import NonceIcon from '../../asserts/nonce.png'
 import ProofIcon from '../../asserts/proof.png'
+import EpochIcon from '../../asserts/epoch.png'
+import StartNumberIcon from '../../asserts/start_number.png'
+import LengthIcon from '../../asserts/length.png'
 import PreviousBlockIcon from '../../asserts/left_arrow.png'
+import PreviousBlockGreyIcon from '../../asserts/left_arrow_grey.png'
 import NextBlockIcon from '../../asserts/right_arrow.png'
+import NextBlockGreyIcon from '../../asserts/right_arrow_grey.png'
 import MouseIcon from '../../asserts/block_mouse.png'
 import { Block, BlockWrapper } from '../../http/response/Block'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchBlockByHash, fetchTransactionsByBlockHash, fetchBlockByNumber } from '../../http/fetcher'
-import { copyDivValue, validNumber, shannonToCkb } from '../../utils/util'
+import { copyElementValue, shannonToCkb } from '../../utils/util'
+import { validNumber, startEndEllipsis } from '../../utils/string'
 import browserHistory from '../../routes/history'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
@@ -56,8 +60,8 @@ const BlockDetailTitle = ({ hash }: { hash: string }) => {
           tabIndex={-1}
           onKeyDown={() => {}}
           onClick={() => {
-            copyDivValue(document.getElementById('block__hash'))
-            appContext.toastMessage('copy success', 3000)
+            copyElementValue(document.getElementById('block__hash'))
+            appContext.toastMessage('Copied', 3000)
           }}
         >
           <img src={CopyIcon} alt="copy" />
@@ -94,7 +98,11 @@ const BlockPreviousNext = ({
         >
           <img src={PreviousBlockIcon} alt="previous block" />
         </div>
-      ) : null}
+      ) : (
+        <div className="block__arrow">
+          <img src={PreviousBlockGreyIcon} alt="previous block" />
+        </div>
+      )}
       <img className="block__mouse" src={MouseIcon} alt="mouse" />
       {hasNext ? (
         <div
@@ -108,7 +116,11 @@ const BlockPreviousNext = ({
         >
           <img src={NextBlockIcon} alt="next block" />
         </div>
-      ) : null}
+      ) : (
+        <div className="block__arrow">
+          <img src={NextBlockGreyIcon} alt="next block" />
+        </div>
+      )}
     </BlockPreviousNextPanel>
   )
 }
@@ -149,6 +161,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     miner_hash: '',
     timestamp: 0,
     difficulty: '',
+    start_number: 0,
+    epoch: 0,
+    length: '',
     version: 0,
     nonce: 0,
     proof: '',
@@ -173,13 +188,12 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         setTransactionWrappers(data)
       })
       .catch(() => {
-
+        browserHistory.push(`/404`)
       })
   }
 
-  const updateBlockPrevNext = (blockNumber: number) => {
-    setHasPrev(blockNumber > 0)
-    fetchBlockByNumber(`${blockNumber + 1}`)
+  const checkBlockByNumber = (blockNumber: string) => {
+    fetchBlockByNumber(blockNumber)
       .then(json => {
         const { data } = json as Response<BlockWrapper>
         setHasNext(data.attributes.number > 0)
@@ -189,24 +203,36 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       })
   }
 
+  const CHECK_BLOCK_TIME = 8000
+  const updateBlockPrevNext = (blockNumber: number) => {
+    setHasPrev(blockNumber > 0)
+    const nextBlockNumber = `${blockNumber + 1}`
+    checkBlockByNumber(nextBlockNumber)
+    setTimeout(() => {
+      checkBlockByNumber(nextBlockNumber)
+    }, CHECK_BLOCK_TIME)
+  }
+
   const getBlockByHash = () => {
     appContext.showLoading()
     fetchBlockByHash(hash)
       .then(json => {
-        const { data } = json as Response<BlockWrapper>
-        const block = data.attributes as Block
-        setBlockData(block)
-        updateBlockPrevNext(block.number)
-        const page_p = validNumber(page, PageParams.PageNo)
-        const size_p = validNumber(size, PageParams.PageSize)
-        getTransactions(data.attributes.block_hash, page_p, size_p)
+        const { data, error } = json as Response<BlockWrapper>
+        if (error) {
+          browserHistory.push(`/search/fail?q=${hash}`)
+        } else {
+          const block = data.attributes as Block
+          setBlockData(block)
+          updateBlockPrevNext(block.number)
+          const page_p = validNumber(page, PageParams.PageNo)
+          const size_p = validNumber(size, PageParams.PageSize)
+          getTransactions(data.attributes.block_hash, page_p, size_p)
+        }
         appContext.hideLoading()
       })
       .catch(() => {
-        setBlockData(initBlock)
-        setTotalTransactions(0)
-        setTransactionWrappers([])
         appContext.hideLoading()
+        browserHistory.push(`/404`)
       })
   }
 
@@ -224,7 +250,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     props.history.push(`/block/${hash}?page=${page_p}&size=${size_p}`)
   }
 
-  const BlockLeftSeparateIndex = 3
   const BlockLeftItems: BlockItem[] = [
     {
       image: BlockHeightIcon,
@@ -239,17 +264,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: ProposalTransactionsIcon,
       label: 'Proposal Transactions:',
-      value: `${blockData.proposal_transactions_count}`,
+      value: `${blockData.proposal_transactions_count ? blockData.proposal_transactions_count : 0}`,
+    },
+    {
+      image: BlockRewardIcon,
+      label: 'Block Reward:',
+      value: `${shannonToCkb(blockData.reward)} CKB`,
+    },
+    {
+      image: TransactionFeeIcon,
+      label: 'Transaction Fee:',
+      value: `${shannonToCkb(blockData.total_transaction_fee)} CKB`,
     },
     {
       image: TimestampIcon,
       label: 'Timestamp:',
       value: `${parseSimpleDate(blockData.timestamp)}`,
-    },
-    {
-      image: VersionIcon,
-      label: 'Version:',
-      value: `${blockData.version}`,
     },
     {
       image: UncleCountIcon,
@@ -262,17 +292,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: MinerIcon,
       label: 'Miner:',
-      value: `${blockData.miner_hash}`,
+      value: blockData.miner_hash,
     },
     {
-      image: BlockRewardIcon,
-      label: 'Block Reward:',
-      value: `${shannonToCkb(blockData.reward)} CKB`,
+      image: EpochIcon,
+      label: 'Epoch:',
+      value: `${blockData.epoch}`,
     },
     {
-      image: TransactionFeeIcon,
-      label: 'Transaction Fee:',
-      value: `${shannonToCkb(blockData.total_transaction_fee)} CKB`,
+      image: StartNumberIcon,
+      label: 'Start Number:',
+      value: `${blockData.start_number}`,
+    },
+    {
+      image: LengthIcon,
+      label: 'Length:',
+      value: blockData.length,
     },
     {
       image: DifficultyIcon,
@@ -290,7 +325,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       value: `${blockData.proof}`,
     },
   ]
-  
+
   return (
     <Content>
       <BlockDetailPanel width={window.innerWidth} className="container">
@@ -299,36 +334,37 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         <BlockCommonContentWrap className={(hasPrev ? 'hasPrev' : '') + (hasNext ? ' hasNext' : '')}>
           <BlockCommonContent>
             <div>
-              {BlockLeftItems.slice(0, BlockLeftSeparateIndex).map(item => {
-                return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
-              })}
-              <CellConsumedLabel
-                image={CellConsumedIcon}
-                label="Cell Consumed"
-                consumed={shannonToCkb(blockData.cell_consumed)}
-                balance={shannonToCkb(blockData.total_cell_capacity)}
-              />
-              {BlockLeftItems.slice(BlockLeftSeparateIndex).map(item => {
-                return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+              {BlockLeftItems.map(item => {
+                return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
               })}
             </div>
             <div>
               <div />
               <div>
-                <Link
-                  to={{
-                    pathname: `/address/${BlockRightItems[0].value}`,
-                  }}
-                >
+                {BlockRightItems[0].value ? (
+                  <Link
+                    to={{
+                      pathname: `/address/${BlockRightItems[0].value}`,
+                    }}
+                  >
+                    <SimpleLabel
+                      image={BlockRightItems[0].image}
+                      label={BlockRightItems[0].label}
+                      value={startEndEllipsis(BlockRightItems[0].value)}
+                      highLight
+                    />
+                  </Link>
+                ) : (
                   <SimpleLabel
                     image={BlockRightItems[0].image}
                     label={BlockRightItems[0].label}
-                    value={BlockRightItems[0].value}
-                    highLight
+                    value="Unable to decode address"
                   />
-                </Link>
+                )}
                 {BlockRightItems.slice(1).map(item => {
-                  return <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+                  return (
+                    item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+                  )
                 })}
               </div>
             </div>
@@ -340,14 +376,18 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         <BlockTransactionsPanel>
           <BlockOverview value="Transactions" />
           <div>
-            {transactionWrappers.map((transaction: any) => {
-              return (
-                <TransactionComponent
-                  transaction={transaction.attributes}
-                  key={transaction.attributes.transaction_hash}
-                />
-              )
-            })}
+            {transactionWrappers &&
+              transactionWrappers.map((transaction: any) => {
+                return (
+                  transaction && (
+                    <TransactionComponent
+                      transaction={transaction.attributes}
+                      key={transaction.attributes.transaction_hash}
+                      isBlock
+                    />
+                  )
+                )
+              })}
           </div>
           <BlockTransactionsPagition>
             <Pagination
@@ -359,6 +399,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               current={pageNo}
               total={totalTransactions}
               onChange={onChange}
+              locale={localeInfo}
             />
           </BlockTransactionsPagition>
         </BlockTransactionsPanel>

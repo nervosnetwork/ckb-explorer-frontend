@@ -15,7 +15,7 @@ export const AddressTitlePanel = styled.div`
 
   .address__title {
     color: rgb(20, 20, 20);
-    font-size: 40pt;
+    font-size: 32pt;
     text-align: center;
   }
 
@@ -36,7 +36,7 @@ export const AddressTitlePanel = styled.div`
     }
     img {
       margin-left: 19px;
-      width: 24px;
+      width: 21px;
       height: 21px;
     }
   }
@@ -54,7 +54,7 @@ export const AddressOverviewPanel = styled.div`
     display: block;
     content: '';
     margin: 0 auto;
-    background: #46ab81;
+    background: #3cc68a;
     height: 4px;
     width: 197px;
   }
@@ -63,7 +63,7 @@ export const AddressOverviewPanel = styled.div`
 export const AddressCommonContent = styled.div`
   width: 100%;
   overflow-x: auto;
-  padding: 72px 88px 56px 88px;
+  padding: 72px 60px 56px 88px;
   margin: 0 auto;
   margin-top: 50px;
   background: white;
@@ -136,27 +136,39 @@ export const AddressScriptLabelPanel = styled.div`
   height: 28px;
 
   > img {
-    width: 28px;
-    height: 28px;
+    width: 20px;
+    height: 20px;
   }
 
   > span {
     font-size: 18px;
     color: rgb(77, 77, 77);
     margin-left: 10px;
-    margin-right: 21px;
+    margin-right: 30px;
   }
 `
 
-export const AddressScriptContent = styled.textarea`
+export const AddressScriptContent = styled.div`
   border: none;
   width: 100%;
   padding: 18px 30px 18px 34px;
   font-size: 16px;
-  color: #888888;
-  min-height: 170px;
+  font-weight: bold;
+  color: #4d4d4d;
+  min-height: 100px;
+  margin-top: 23px;
+  margin-left: 30px;
+  margin-right: 50px;
   background-color: #f9f9f9;
   border-radius: 6px 6px;
+
+  > div {
+    margin-bottom: 10px;
+  }
+
+  .script__args__others {
+    margin-left: 45px;
+  }
 `
 
 export const AddressTransactionsCell = styled.div`
@@ -181,7 +193,7 @@ export const AddressTransactionsCell = styled.div`
 `
 
 export const AddressTransactionsPagition = styled(CommonPagition)`
-  margin: 80px 0 200px 0;
+  margin: 80px 0 150px 0;
   width: 100%;
   overflow-x: auto;
 `

@@ -10,8 +10,8 @@ const LabelItemPanel = styled.div`
   margin-bottom: 24px;
 
   > img {
-    width: 28px;
-    height: 28px;
+    width: 20px;
+    height: 20px;
   }
 
   > span {
@@ -27,28 +27,12 @@ const LabelItemPanel = styled.div`
   }
 `
 
-const CellConsumedLabel = ({
-  image,
-  label,
-  consumed,
-  balance,
-}: {
-  image: string
-  label: string
-  consumed: number
-  balance: number
-}) => {
-  let percent = 0
-  if (balance !== 0) {
-    percent = (consumed * 100) / balance
-    percent = percent > 100 ? 100 : percent
-  }
-  const percentShow = percent.toFixed(2)
+const CellConsumedLabel = ({ image, label, consumed }: { image: string; label: string; consumed: number }) => {
   return (
     <LabelItemPanel>
       <img src={image} alt="Cell Consumed" />
       <span>{`${label}:`}</span>
-      <div>{`${shannonToCkb(consumed)}Byte / ${percentShow}%`}</div>
+      <div>{`${shannonToCkb(consumed)} Byte`}</div>
     </LabelItemPanel>
   )
 }

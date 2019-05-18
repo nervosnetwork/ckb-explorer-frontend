@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
+import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import AppContext from '../../contexts/App'
 import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition } from './styled'
@@ -16,17 +17,19 @@ import {
 } from '../../components/Table'
 import BlockHeightIcon from '../../asserts/block_height.png'
 import TransactionIcon from '../../asserts/transactions.png'
-import CellConsumedIcon from '../../asserts/cell_consumed.png'
+import BlockRewardIcon from '../../asserts/block_reward.png'
 import MinerIcon from '../../asserts/miner.png'
 import TimestampIcon from '../../asserts/timestamp.png'
+import browserHistory from '../../routes/history'
 import { fetchBlockList } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
-import { validNumber } from '../../utils/util'
+import { validNumber } from '../../utils/string'
+import { shannonToCkb } from '../../utils/util'
 
 enum PageParams {
   PageNo = 1,
-  PageSize = 10,
+  PageSize = 25,
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
@@ -57,6 +60,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
       })
       .catch(() => {
         appContext.hideLoading()
+        browserHistory.push(`/404`)
       })
   }
 
@@ -83,21 +87,24 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
           <TableTitleRow>
             <TableTitleItem image={BlockHeightIcon} title="Height" />
             <TableTitleItem image={TransactionIcon} title="Transactions" />
-            <TableTitleItem image={CellConsumedIcon} title="Cell Consumed(Byte)" />
+            <TableTitleItem image={BlockRewardIcon} title="Block Reward (CKB)" />
             <TableTitleItem image={MinerIcon} title="Miner" />
             <TableTitleItem image={TimestampIcon} title="Time" />
           </TableTitleRow>
-          {blockWrappers.map((data: any) => {
-            return (
-              <TableContentRow key={data.attributes.block_hash}>
-                <TableContentItem content={data.attributes.number} to={`/block/${data.attributes.number}`} />
-                <TableContentItem content={data.attributes.transactions_count} />
-                <TableContentItem content={data.attributes.cell_consumed} />
-                <TableMinerContentItem content={data.attributes.miner_hash} />
-                <TableContentItem content={parseDate(data.attributes.timestamp)} />
-              </TableContentRow>
-            )
-          })}
+          {blockWrappers &&
+            blockWrappers.map((data: any) => {
+              return (
+                data && (
+                  <TableContentRow key={data.attributes.block_hash}>
+                    <TableContentItem content={data.attributes.number} to={`/block/${data.attributes.number}`} />
+                    <TableContentItem content={data.attributes.transactions_count} />
+                    <TableContentItem content={`${shannonToCkb(data.attributes.reward)}`} />
+                    <TableMinerContentItem content={data.attributes.miner_hash} />
+                    <TableContentItem content={parseDate(data.attributes.timestamp)} />
+                  </TableContentRow>
+                )
+              )
+            })}
         </ContentTable>
         <BlocksPagition>
           <Pagination
@@ -109,6 +116,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
             current={pageNo}
             total={totalBlocks}
             onChange={onChange}
+            locale={localeInfo}
           />
         </BlocksPagition>
       </BlockListPanel>

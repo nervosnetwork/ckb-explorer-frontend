@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import loadingImage from './loading.svg'
+import loadingImage from '../../asserts/loading.gif'
 
 const LoadingDiv = styled.div`
   position: absolute;
@@ -10,6 +10,8 @@ const LoadingDiv = styled.div`
   box-sizing: border-box;
   overflow-y: hidden;
   display: flex;
+  background: #ffffff;
+  opacity: 0.8;
   flex-direction: column;
   user-select: none;
   z-index: 1000;
@@ -32,30 +34,30 @@ const LoadingDiv = styled.div`
   }
 `
 
-export default ({ show, onClose }: { show: boolean ; onClose: Function }) => {
-  return (
-    show? (
-      <LoadingDiv className="loading">
-        <div
-          className="loading__content"
+export default ({ show, onClose }: { show: boolean; onClose: Function }) => {
+  return show ? (
+    <LoadingDiv className="loading">
+      <div
+        className="loading__content"
+        style={{
+          marginTop: 100,
+          backgroundColor: 'transparent',
+        }}
+      >
+        <img
+          alt="loading"
           style={{
-            marginTop: 100,
-            backgroundColor: 'transparent',
+            width: 172,
+            height: 85,
           }}
-        >
-          <img
-            alt="loading"
-            style={{
-              width: 60,
-              height: 60,
-            }}
-            src={loadingImage}
-            onDoubleClick={() => {
-              if (onClose) onClose()
-            }}
-          />
-        </div>
-      </LoadingDiv>
-    ) : <React.Fragment/>
+          src={loadingImage}
+          onDoubleClick={() => {
+            if (onClose) onClose()
+          }}
+        />
+      </div>
+    </LoadingDiv>
+  ) : (
+    <React.Fragment />
   )
 }

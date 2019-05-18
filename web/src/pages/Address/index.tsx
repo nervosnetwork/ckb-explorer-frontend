@@ -2,12 +2,13 @@ import React, { useState, useEffect, useContext } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
+import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import AppContext from '../../contexts/App'
+import browserHistory from '../../routes/history'
 import Content from '../../components/Content'
 import TransactionComponent from '../../components/Transaction'
 import SimpleLabel from '../../components/Label'
-import CellConsumedLabel from '../../components/Label/CellConsumedLabel'
 import {
   AddressContentPanel,
   AddressTitlePanel,
@@ -21,14 +22,15 @@ import {
 } from './styled'
 import CopyIcon from '../../asserts/copy.png'
 import BalanceIcon from '../../asserts/address_balance.png'
-import CellConsumedIcon from '../../asserts/address_cell_consumed.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/transactions_green.png'
 import { Address, AddressWrapper } from '../../http/response/Address'
+import { Script } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
-import { copyDivValue, validNumber, shannonToCkb } from '../../utils/util'
+import { copyElementValue, shannonToCkb } from '../../utils/util'
+import { validNumber } from '../../utils/string'
 
 const AddressTitle = ({ address }: { address: string }) => {
   const appContext = useContext(AppContext)
@@ -42,8 +44,8 @@ const AddressTitle = ({ address }: { address: string }) => {
           tabIndex={-1}
           onKeyDown={() => {}}
           onClick={() => {
-            copyDivValue(document.getElementById('address__hash'))
-            appContext.toastMessage('copy success', 3000)
+            copyElementValue(document.getElementById('address__hash'))
+            appContext.toastMessage('Copied', 3000)
           }}
         >
           <img src={CopyIcon} alt="copy" />
@@ -57,14 +59,27 @@ const AddressOverview = ({ value }: { value: string }) => {
   return <AddressOverviewPanel>{value}</AddressOverviewPanel>
 }
 
-const AddressScriptLabel = ({ image, label, value }: { image: string; label: string; value: any }) => {
+const AddressScriptLabel = ({ image, label, script }: { image: string; label: string; script: Script }) => {
   return (
     <div>
       <AddressScriptLabelPanel>
-        <img src={image} alt={value} />
+        <img src={image} alt="script" />
         <span>{label}</span>
       </AddressScriptLabelPanel>
-      <AddressScriptContent value={JSON.stringify(value, null, 4)} readOnly />
+      <AddressScriptContent>
+        <div>{`Code hash: ${script.code_hash}`}</div>
+        {script.args.length === 1 ? (
+          <div>{`Args: ${script.args[0]}`}</div>
+        ) : (
+          script.args.map((arg: string, index: number) => {
+            return index === 0 ? (
+              <div>{`Args: #${index} ${arg}`}</div>
+            ) : (
+              <div className="script__args__others">{`#${index} ${arg}`}</div>
+            )
+          })
+        )}
+      </AddressScriptContent>
     </div>
   )
 }
@@ -93,7 +108,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     cell_consumed: 0,
     lock_script: {
       args: [],
-      binary_hash: '',
+      code_hash: '',
     },
   }
   const [addressData, setAddressData] = useState(initAddress)
@@ -107,11 +122,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     fetchAddressInfo(address)
       .then(json => {
         appContext.hideLoading()
-        const { data } = json as Response<AddressWrapper>
-        setAddressData(data.attributes as Address)
+        const { data, error } = json as Response<AddressWrapper>
+        if (error) {
+          browserHistory.push(`/search/fail?q=${address}`)
+        } else {
+          setAddressData(data.attributes as Address)
+        }
       })
       .catch(() => {
         appContext.hideLoading()
+        browserHistory.push(`/404`)
       })
   }
 
@@ -129,6 +149,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
       })
       .catch(() => {
         appContext.hideLoading()
+        browserHistory.push(`/404`)
       })
   }
 
@@ -168,30 +189,28 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               value={`${addressData.transactions_count}`}
               style={{
                 flexGrow: 1,
+                marginLeft: 45,
               }}
             />
           </AddressCommonRowPanel>
-
-          <CellConsumedLabel
-            image={CellConsumedIcon}
-            label="Cell Consumed: "
-            consumed={addressData.cell_consumed}
-            balance={addressData.balance}
-          />
-          <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " value={addressData.lock_script} />
+          <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " script={addressData.lock_script} />
         </AddressCommonContent>
 
         <AddressTransactionsPanel>
           <AddressOverview value="Transactions" />
           <div>
-            {transactionWrappers.map((transaction: any) => {
-              return (
-                <TransactionComponent
-                  transaction={transaction.attributes}
-                  key={transaction.attributes.transaction_hash}
-                />
-              )
-            })}
+            {transactionWrappers &&
+              transactionWrappers.map((transaction: any) => {
+                return (
+                  transaction && (
+                    <TransactionComponent
+                      address={address}
+                      transaction={transaction.attributes}
+                      key={transaction.attributes.transaction_hash}
+                    />
+                  )
+                )
+              })}
           </div>
           <AddressTransactionsPagition>
             <Pagination
@@ -203,6 +222,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               current={pageNo}
               total={totalTransactions}
               onChange={onChange}
+              locale={localeInfo}
             />
           </AddressTransactionsPagition>
         </AddressTransactionsPanel>

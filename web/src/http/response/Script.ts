@@ -1,5 +1,5 @@
 export interface Script {
-  binary_hash: string
+  code_hash: string
   args: string[]
 }
 

@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { startEndEllipsis } from '../../utils/string'
 
 export const TableTitleRow = styled.div`
-  background: rgb(75, 188, 142);
+  background: #3cc68a;
   display: flex;
-  height: 78px;
+  height: 65px;
   width: 1200px;
+  border-radius: 6px 6px 0px 0px;
 `
 
 const TableTitleRowItem = styled.div`
@@ -15,7 +17,7 @@ const TableTitleRowItem = styled.div`
   justify-content: center;
   align-items: center;
   width: 240px;
-  height: 78px;
+  height: 65px;
 
   > img {
     width: 23px;
@@ -45,6 +47,7 @@ export const TableContentRow = styled.div`
 
 const TableContentRowItem = styled.div`
   width: 240px;
+  height: 65px;
   color: #888888;
   display: flex;
   align-items: center;
@@ -54,20 +57,30 @@ const TableContentRowItem = styled.div`
 `
 
 const TableMinerContentPanel = styled.div`
-  height: 78px;
+  height: 65px;
   width: 240px;
 
-  > div {
-    max-width: 90px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0 auto;
+  .table__miner__content {
+    line-height: 65px;
+    color: #4bbc8e;
+    text-decoration: none;
+  }
 
-    .table__miner__content {
-      line-height: 78px;
-      color: #4bbc8e;
-      text-decoration: none;
-    }
+  .table__miner__text {
+    display: flex;
+    align-items: center;
+    line-height: 65px;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .table__miner__text__disable {
+    display: flex;
+    align-items: center;
+    line-height: 65px;
+    justify-content: center;
+    font-size: 16px;
+    color: #888888;
   }
 `
 
@@ -102,11 +115,13 @@ export const TableContentItem = ({ content, to }: { content: string; to?: any })
 export const TableMinerContentItem = ({ content }: { content: string }) => {
   return (
     <TableMinerContentPanel>
-      <div>
+      {content ? (
         <Link className="table__miner__content" to={`/address/${content}`}>
-          {content}
+          <div className="table__miner__text">{content && startEndEllipsis(content)}</div>
         </Link>
-      </div>
+      ) : (
+        <div className="table__miner__text__disable">Unable to decode address</div>
+      )}
     </TableMinerContentPanel>
   )
 }

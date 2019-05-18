@@ -4,7 +4,7 @@ import { CommonPagition } from '../BlockList/styled'
 export const BlockDetailPanel = styled.div`
   width: 100%;
   margin-top: ${(props: { width: number }) => (100 * props.width) / 1920}px;
-  margin-bottom: ${(props: { width: number }) => (200 * props.width) / 1920}px;
+  margin-bottom: ${(props: { width: number }) => (150 * props.width) / 1920}px;
 `
 
 export const BlockDetailTitlePanel = styled.div`
@@ -50,7 +50,7 @@ export const BlockOverviewPanel = styled.div`
     display: block;
     content: '';
     margin: 0 auto;
-    background: #46ab81;
+    background: #3cc68a;
     height: 4px;
     width: 197px;
   }
@@ -66,7 +66,7 @@ export const BlockCommonContentWrap = styled.div`
     display: block;
     box-sizing: border-box;
     border-radius: 6px 0 0 6px;
-    box-shadow: 0 5px 9px 0 #dfdfdf;
+    box-shadow: 0 5px 9px #dfdfdf;
     background-color: #ffffff;
     width: 30px;
     height: 453px;
@@ -81,7 +81,7 @@ export const BlockCommonContentWrap = styled.div`
     box-sizing: border-box;
     margin: 22px 0;
     border-radius: 0 6px 6px 0;
-    box-shadow: 0 5px 9px 0 #dfdfdf;
+    box-shadow: 0 5px 9px #dfdfdf;
     background-color: #ffffff;
     width: 30px;
     height: 453px;
@@ -113,7 +113,7 @@ export const BlockCommonContent = styled.div`
     > div:nth-child(1) {
       width: 1px;
       height: 360px;
-      background: #46ab81;
+      background: #3cc68a;
       content: '';
       margin-right: 82px;
     }
@@ -150,12 +150,7 @@ export const BlockHightLabel = styled.div`
   text-align: center;
 `
 
-export const BlockTransactionsPanel = styled.div`
-  > div:nth-child(2) {
-    width: 100%;
-    overflow-x: auto;
-  }
-`
+export const BlockTransactionsPanel = styled.div``
 
 export const BlockTransactionsPagition = styled(CommonPagition)`
   margin: 80px 0 0 0;

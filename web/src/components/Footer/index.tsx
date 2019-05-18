@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import styled from 'styled-components'
-import LogoIcon from '../../logo.png'
+import LogoIcon from '../../asserts/ckb_footer_logo.png'
 
 import AboutIcon from '../../asserts/footer_about.png'
 import FAQIcon from '../../asserts/footer_faq.png'
@@ -20,7 +20,7 @@ import { getCurrentYear } from '../../utils/date'
 const FooterDiv = styled.div`
   width: 100%;
   overflow: hidden;
-  background-color: #18325d;
+  background-color: #424242;
   display: flex;
   flex-direction: column;
   a {
@@ -34,7 +34,7 @@ const FooterDiv = styled.div`
     justify-content: center;
   }
   .footer__top {
-    min-height: ${(props: { width: number }) => (467 * props.width) / 1920}px;
+    min-height: ${(props: { width: number }) => (380 * props.width) / 1920}px;
     .container {
       display: flex;
       flex-wrap: wrap;
@@ -48,11 +48,8 @@ const FooterDiv = styled.div`
       }
       .footer__top__logo {
         img {
-          width: ${(props: { width: number }) => (370 * props.width) / 1920}px;
+          width: ${(props: { width: number }) => (137 * props.width) / 1920}px;
           height: auto;
-          &:hover {
-            transform: scale(1.1, 1.1);
-          }
         }
       }
       .footer__top__orgs {
@@ -63,14 +60,11 @@ const FooterDiv = styled.div`
           align-items: center;
           margin-top: 25px;
           margin-bottom: 25px;
-          &:hover {
-            opacity: 1;
-          }
           > div:nth-child(1) {
             font-size: 20px;
             width: 100px;
             margin-right: 33px;
-            color: rgb(75 188 142);
+            color: #3cc68a;
           }
           > div:nth-child(2) {
             flex: 1;
@@ -84,9 +78,7 @@ const FooterDiv = styled.div`
             flex-direction: column;
             align-items: center;
             text-decoration: none;
-            &:hover {
-              transform: scale(1.1, 1.1);
-            }
+
             >div: nth-child(1) {
               width: 32px;
               height: 32px;
@@ -109,7 +101,6 @@ const FooterDiv = styled.div`
   .footer__bottom {
     min-height: ${(props: { width: number }) => (102 * props.width) / 1920}px;
     border-top: 1px solid white;
-    font-family: Helvetica;
     font-size: 18px;
     line-height: 22px;
     text-align: center;

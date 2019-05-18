@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import CONFIG from '../config'
 
-const baseURL = `${CONFIG.HOST}/api/v1/`
+const baseURL = `${CONFIG.API_URL}/api/v1/`
 
 export const axiosIns = axios.create({
   baseURL,
@@ -80,7 +80,7 @@ export const fetchScript = (cell_type: CellType, script_type: 'lock_scripts' | '
 }
 
 export const fetchCellData = (type: CellType, id: string) => {
-  return axiosIns.get(`/cell_${type}_data/${id}`).then((res: AxiosResponse) => res.data)
+  return axiosIns.get(`/cell_${type}_data/${id}`).then((res: AxiosResponse) => res.data.data.attributes)
 }
 
 export const fetchBlockByNumber = (number: string) => {

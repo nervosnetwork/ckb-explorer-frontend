@@ -16,17 +16,18 @@ import {
 
 import BlockHeightIcon from '../../asserts/block_height_green.png'
 import TimestampIcon from '../../asserts/timestamp_green.png'
-import TransactionIcon from '../../asserts/transaction_green.png'
-import VersionIcon from '../../asserts/version.png'
+import TransactionIcon from '../../asserts/transaction_fee.png'
 import CopyGreenIcon from '../../asserts/copy_green.png'
 import CopyIcon from '../../asserts/copy.png'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
-import { Transaction, TransactionWrapper } from '../../http/response/Transaction'
+import { Transaction, InputOutput, TransactionWrapper } from '../../http/response/Transaction'
 import { Script, ScriptWrapper } from '../../http/response/Script'
-import { Data, DataWrapper } from '../../http/response/Data'
+import { Data } from '../../http/response/Data'
 import { CellType, fetchTransactionByHash, fetchScript, fetchCellData } from '../../http/fetcher'
-import { copyDivValue, shannonToCkb } from '../../utils/util'
+import { copyElementValue, shannonToCkb } from '../../utils/util'
+import { hexToUtf8 } from '../../utils/string'
+import browserHistory from '../../routes/history'
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
 
@@ -38,12 +39,12 @@ const ScriptComponent = ({
 }: {
   cellType: CellType
   cellInputOutput: any
-  scriptType?: 'Lock Script' | 'Type Script' | 'Data' | null
+  scriptType?: string | null
   updateCellData: Function
 }) => {
   const appContext = useContext(AppContext)
   const initScript: Script = {
-    binary_hash: '',
+    code_hash: '',
     args: [],
   }
   const [script, setScript] = useState(initScript)
@@ -52,14 +53,39 @@ const ScriptComponent = ({
   }
   const [cellData, setCellData] = useState(initCellData)
 
+  const AddressHashComponent = () => {
+    return cellInputOutput.address_hash ? (
+      <Link to={`/address/${cellInputOutput.address_hash}`}>{cellInputOutput.address_hash}</Link>
+    ) : (
+      <div
+        style={{
+          color: '#888888',
+          fontWeight: 'bold',
+        }}
+      >
+        Unable to decode address
+      </div>
+    )
+  }
+
   return (
     <>
       <tr className="tr-brief">
-        <td>{cellInputOutput.from_cellbase ? 'Cellbase' : `#${cellInputOutput.id}`}</td>
         <td>
-          <Link to={`/address/${cellInputOutput.address_hash}`}>{cellInputOutput.address_hash}</Link>
+          {cellInputOutput.from_cellbase ? (
+            <div
+              style={{
+                color: '#888888',
+                fontWeight: 'bold',
+              }}
+            >
+              Cellbase
+            </div>
+          ) : (
+            <AddressHashComponent />
+          )}
         </td>
-        <td>{shannonToCkb(cellInputOutput.capacity)}</td>
+        {!cellInputOutput.from_cellbase ? <td>{shannonToCkb(cellInputOutput.capacity)}</td> : <td />}
         {ScriptTypeItems.map(item => {
           let className = 'td-operatable'
           if (cellInputOutput.select === item) {
@@ -86,7 +112,7 @@ const ScriptComponent = ({
                     fetchScript(cellType, 'lock_scripts', cellInputOutput.id)
                       .then(json => {
                         const { data } = json as Response<ScriptWrapper>
-                        setScript(data? data.attributes : initScript)
+                        setScript(data ? data.attributes : initScript)
                         updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
                         appContext.hideLoading()
                       })
@@ -98,7 +124,7 @@ const ScriptComponent = ({
                     fetchScript(cellType, 'type_scripts', cellInputOutput.id)
                       .then(json => {
                         const { data } = json as Response<ScriptWrapper>
-                        setScript(data? data.attributes : initScript)
+                        setScript(data ? data.attributes : initScript)
                         updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
                         appContext.hideLoading()
                       })
@@ -108,9 +134,12 @@ const ScriptComponent = ({
                   } else {
                     appContext.showLoading()
                     fetchCellData(cellType, cellInputOutput.id)
-                      .then(json => {
-                        const { data } = json as Response<DataWrapper>
-                        setCellData(data? data.attributes : initCellData)
+                      .then((data: any) => {
+                        const dataValue = data
+                        if (data && cellInputOutput.isGenesisOutput) {
+                          dataValue.data = hexToUtf8(data.data.substr(2))
+                        }
+                        setCellData(dataValue || initCellData)
                         updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
                         appContext.hideLoading()
                       })
@@ -128,10 +157,9 @@ const ScriptComponent = ({
       </tr>
       {scriptType ? (
         <tr className="tr-detail">
-          <td />
           <td colSpan={5}>
             <textarea
-              id={`textarea-${cellType}${+'-'}${cellInputOutput.id}`}
+              id={`textarea-${cellType}-${cellInputOutput.id}`}
               value={JSON.stringify(scriptType === 'Data' ? cellData : script, null, 4)}
               readOnly
             />
@@ -143,11 +171,12 @@ const ScriptComponent = ({
                 onKeyPress={() => {}}
                 onClick={() => {
                   const textarea = document.getElementById(
-                    `textarea-${cellType}${+'-'}${cellInputOutput.id}`,
+                    `textarea-${cellType}-${cellInputOutput.id}`,
                   ) as HTMLTextAreaElement
                   textarea.select()
-                  document.execCommand('copy')
-                  appContext.toastMessage('copy success', 3000)
+                  document.execCommand('Copy')
+                  window.getSelection().removeAllRanges()
+                  appContext.toastMessage('Copied', 3000)
                 }}
               >
                 <div>Copy</div>
@@ -173,8 +202,8 @@ const TransactionTitle = ({ hash }: { hash: string }) => {
           tabIndex={-1}
           onKeyDown={() => {}}
           onClick={() => {
-            copyDivValue(document.getElementById('transaction__hash'))
-            appContext.toastMessage('copy success', 3000)
+            copyElementValue(document.getElementById('transaction__hash'))
+            appContext.toastMessage('Copied', 3000)
           }}
         >
           <img src={CopyIcon} alt="copy" />
@@ -184,14 +213,20 @@ const TransactionTitle = ({ hash }: { hash: string }) => {
   )
 }
 
-const InputOutputTableTitle = ({ transactionType }: { transactionType: string }) => {
+const InputOutputTableTitle = ({ transactionType, isCellbase }: { transactionType: string; isCellbase?: boolean }) => {
   return (
     <thead>
       <tr>
-        <td colSpan={2}>{transactionType}</td>
-        <td>
-          <div>Capcity</div>
-        </td>
+        <td colSpan={1}>{transactionType}</td>
+        {!isCellbase ? (
+          <td>
+            <div>Capacity</div>
+          </td>
+        ) : (
+          <td>
+            <div />
+          </td>
+        )}
         <td colSpan={3}>
           <div>Detail</div>
         </td>
@@ -209,7 +244,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
 
   const initTransaction: Transaction = {
     transaction_hash: '',
-    block_number: '',
+    block_number: 0,
     block_timestamp: 0,
     transaction_fee: 0,
     version: 0,
@@ -236,12 +271,21 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     appContext.showLoading()
     fetchTransactionByHash(hash)
       .then(json => {
-        const { data } = json as Response<TransactionWrapper>
-        setTransaction(data.attributes as Transaction)
+        const { data, error } = json as Response<TransactionWrapper>
+        if (error) {
+          browserHistory.push(`/search/fail?q=${hash}`)
+        } else {
+          const transactionValue = data.attributes as Transaction
+          if (transactionValue.display_outputs && transactionValue.display_outputs.length > 0) {
+            transactionValue.display_outputs[0].isGenesisOutput = transactionValue.block_number === 0
+          }
+          setTransaction(transactionValue)
+        }
         appContext.hideLoading()
       })
       .catch(() => {
         appContext.hideLoading()
+        browserHistory.push(`/search/fail?q=${hash}`)
       })
   }
 
@@ -257,8 +301,18 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         <TransactionCommonContent>
           <div>
             <div>
-              <SimpleLabel image={BlockHeightIcon} label="Block Height:" value={transaction.block_number} />
-              <SimpleLabel image={TransactionIcon} label="Transaction Fee:" value={transaction.transaction_fee} />
+              <Link
+                to={{
+                  pathname: `/block/${transaction.block_number}`,
+                }}
+              >
+                <SimpleLabel image={BlockHeightIcon} label="Block Height:" value={transaction.block_number} highLight />
+              </Link>
+              <SimpleLabel
+                image={TransactionIcon}
+                label="Transaction Fee:"
+                value={`${transaction.transaction_fee} CKB`}
+              />
             </div>
             <div>
               <div />
@@ -268,7 +322,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   label="Timestamp:"
                   value={parseSimpleDate(transaction.block_timestamp)}
                 />
-                <SimpleLabel image={VersionIcon} label="Version:" value={transaction.version} />
               </div>
             </div>
           </div>
@@ -276,18 +329,30 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
 
         <InputPanelDiv>
           <InputOutputTable>
-            <InputOutputTableTitle transactionType="Input" />
+            {
+              <InputOutputTableTitle
+                transactionType="Input"
+                isCellbase={
+                  transaction.display_inputs &&
+                  transaction.display_inputs[0] &&
+                  transaction.display_inputs[0].from_cellbase
+                }
+              />
+            }
             <tbody>
               {transaction &&
-                transaction.display_inputs.map((input: any) => {
+                transaction.display_inputs &&
+                transaction.display_inputs.map((input: InputOutput) => {
                   return (
-                    <ScriptComponent
-                      cellType={CellType.Input}
-                      key={input.id}
-                      cellInputOutput={input}
-                      scriptType={input.select || null}
-                      updateCellData={updateCellData}
-                    />
+                    input && (
+                      <ScriptComponent
+                        cellType={CellType.Input}
+                        key={input.id}
+                        cellInputOutput={input}
+                        scriptType={input.select || null}
+                        updateCellData={updateCellData}
+                      />
+                    )
                   )
                 })}
             </tbody>
@@ -299,15 +364,18 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
             <InputOutputTableTitle transactionType="Output" />
             <tbody>
               {transaction &&
-                transaction.display_outputs.map((ouput: any) => {
+                transaction.display_outputs &&
+                transaction.display_outputs.map((output: InputOutput) => {
                   return (
-                    <ScriptComponent
-                      cellType={CellType.Output}
-                      key={ouput.id}
-                      cellInputOutput={ouput}
-                      scriptType={ouput.select || null}
-                      updateCellData={updateCellData}
-                    />
+                    output && (
+                      <ScriptComponent
+                        cellType={CellType.Output}
+                        key={output.id}
+                        cellInputOutput={output}
+                        scriptType={output.select || null}
+                        updateCellData={updateCellData}
+                      />
+                    )
                   )
                 })}
             </tbody>

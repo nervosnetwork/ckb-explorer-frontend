@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
 export const HomeHeaderPanel = styled.div`
-  min-height: ${(props: { width: number }) => (670 * props.width) / 1920}px;
+  min-height: ${(props: { width: number }) => (420 * props.width) / 1920}px;
   width: 100%;
-  background: rgb(24, 50, 93);
+  background: #424242;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,7 +17,7 @@ export const HomeHeader = styled.div`
 `
 
 export const LogoPanel = styled.div`
-  min-height: 149px;
+  min-height: 134px;
   width: auto;
   justify-content: center;
   dispaly: flex;
@@ -26,14 +26,12 @@ export const LogoPanel = styled.div`
   align-items: center;
 
   > div {
-    // line-height: 156px;
     margin-left: 29px;
-    color: #46ab81;
-    font-family: DINPro;
-    height: ${(props: { width: number }) => (134 * props.width) / 1920}px;
-    font-size: ${(props: { width: number }) => (86 * props.width) / 1920}px;
+    color: #3cc68a;
+    font-family: Montserrat, PingFang SC, sans-serif;
+    line-height: 134px;
+    font-size: 64px;
     padding: ${(props: { width: number }) => (24 * props.width) / 1920}px 0;
-    font-weight: 900;
     font-style: normal;
     font-stretch: normal;
     line-height: 1.56;
@@ -42,26 +40,27 @@ export const LogoPanel = styled.div`
 `
 
 export const SearchPanel = styled.div`
-  margin-top: ${(props: { width: number }) => (98 * props.width) / 1920}px;
+  margin-top: ${(props: { width: number }) => (15 * props.width) / 1920}px;
   margin-bottom: ${(props: { width: number }) => (98 * props.width) / 1920}px;
 `
 
 export const BlockPanel = styled.div`
   width: 100%;
-  margin-top: ${(props: { width: number }) => (150 * props.width) / 1920}px;
-  margin-bottom: ${(props: { width: number }) => (200 * props.width) / 1920}px;
+  margin-top: ${(props: { width: number }) => (80 * props.width) / 1920}px;
+  margin-bottom: ${(props: { width: number }) => (120 * props.width) / 1920}px;
 `
 
 export const ContentTitle = styled.div`
   font-size: 50px;
-  color: black;
+  color: #141414;
+  font-weight: bold;
   text-align: center;
   margin: 0 auto;
 
   &:after {
     content: '';
     display: block;
-    background: #46ab81;
+    background: #3cc68a;
     height: 4px;
     width: 197px;
     margin: 0 auto;
@@ -88,7 +87,7 @@ export const TableMorePanel = styled.div`
 
     > img {
       width: 61px;
-      height: 15px;
+      height: 16px;
       margin-top: 9px;
     }
 
@@ -99,7 +98,7 @@ export const TableMorePanel = styled.div`
 
       .table__more {
         font-size: 24px;
-        color: rgb(75, 188, 142);
+        color: #3cc68a;
         overflow: hidden;
         text-overflow: ellipsis;
         text-decoration: none;
