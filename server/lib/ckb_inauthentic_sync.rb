@@ -17,7 +17,7 @@ loop do
   Rails.logger.info("inauthentic_sync_numbers size: #{inauthentic_sync_numbers.size}")
   local_tip_block_number = SyncInfo.local_inauthentic_tip_block_number
   node_tip_block_number = CkbSync::Api.instance.get_tip_block_number.to_i
-  from = local_tip_block_number + 1
+  from = local_tip_block_number
   to = node_tip_block_number
   current_sync_round_numbers = Concurrent::Set.new
 

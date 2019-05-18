@@ -16,7 +16,7 @@ loop do
   Rails.logger.info("authentic_sync_numbers size: #{authentic_sync_numbers.size}")
   authentic_tip_block_number = SyncInfo.local_authentic_tip_block_number
   inauthentic_tip_block_number = SyncInfo.local_inauthentic_tip_block_number
-  from = authentic_tip_block_number + 1
+  from = authentic_tip_block_number
   to = inauthentic_tip_block_number - ENV["BLOCK_SAFETY_INTERVAL"].to_i
   current_sync_round_numbers = Concurrent::Set.new
 
