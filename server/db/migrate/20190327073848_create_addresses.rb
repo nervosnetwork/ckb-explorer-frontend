@@ -8,6 +8,6 @@ class CreateAddresses < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-    add_index :addresses, :address_hash
+    add_index :addresses, :address_hash, unique: true
   end
 end

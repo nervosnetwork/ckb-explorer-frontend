@@ -73,6 +73,21 @@ module Api
         assert_equal response_json, response.body
       end
 
+      test "should return available records" do
+        page_size = 30
+        block = create(:block, :with_ckb_transactions, transactions_count: 20)
+        create(:ckb_transaction, block: block, status: "abandoned")
+
+        valid_get api_v1_block_transaction_url(block.block_hash), params: { page_size: page_size }
+
+        block_ckb_transaction_hashes = block.ckb_transactions.available.recent.map(&:tx_hash)
+        block_ckb_transaction_statuses = block.ckb_transactions.available.recent.map(&:status).uniq
+        search_result_ckb_transaction_hashes = json["data"].map { |ckb_transaction| ckb_transaction.dig("attributes", "transaction_hash") }
+
+        assert_equal block_ckb_transaction_hashes, search_result_ckb_transaction_hashes
+        assert_equal ["inauthentic"], block_ckb_transaction_statuses
+      end
+
       test "should return corresponding ckb transactions with given block hash" do
         page = 1
         page_size = 10

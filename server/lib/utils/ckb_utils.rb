@@ -64,8 +64,14 @@ module Utils
       CKB::Utils.bin_to_hex(data.slice(5..-1))
     end
 
-    def self.miner_reward(cellbase)
-      cellbase["outputs"].first["capacity"].to_i
+    def self.miner_reward(epoch)
+      get_epoch_info(epoch).block_reward
+    end
+
+    def self.get_epoch_info(epoch)
+      Rails.cache.fetch("epoch_#{epoch}", expires_in: 1.day) do
+        CkbSync::Api.instance.get_epoch_by_number(epoch)
+      end
     end
 
     def self.ckb_transaction_fee(ckb_transaction)
@@ -119,7 +125,7 @@ module Utils
     end
 
     def self.calculate_transaction_fee(cell_input_capacities, cell_output_capacities)
-      if cell_input_capacities.any?(&:present?)
+      if cell_input_capacities.all?(&:present?)
         input_capacities = cell_input_capacities.reduce(0, &:+)
         output_capacities = cell_output_capacities.reduce(0, &:+)
         input_capacities.zero? ? 0 : (input_capacities - output_capacities)

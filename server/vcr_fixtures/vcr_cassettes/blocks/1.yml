@@ -5,7 +5,7 @@ http_interactions:
     uri: http://localhost:8114/
     body:
       encoding: UTF-8
-      string: '{"id":1,"jsonrpc":"2.0","method":"get_block","params":["0xe6d897064291430e334615e6ec4ae212ce9eac8c313f9a7455719be50a3b6257"]}'
+      string: '{"id":1,"jsonrpc":"2.0","method":"get_block","params":["0x5cca21c28881893e86bc1ebcf823b76ff04e70a28c391f430f2ec9387978ebd4"]}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -23,18 +23,92 @@ http_interactions:
       Server:
       - nginx/1.14.0 (Ubuntu)
       Date:
-      - Sat, 11 May 2019 11:55:54 GMT
+      - Wed, 15 May 2019 10:21:07 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '1231'
+      - '1281'
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"jsonrpc":"2.0","result":{"header":{"difficulty":"0x1000","epoch":"0","hash":"0xe6d897064291430e334615e6ec4ae212ce9eac8c313f9a7455719be50a3b6257","number":"1","parent_hash":"0x89c2752ee8583cfc7342e906e624c1fe15d74e9b5dfd587024302fc3fabfedd1","proposals_hash":"0x0000000000000000000000000000000000000000000000000000000000000000","seal":{"nonce":"8489715621322468614","proof":"0x670700006c090000310e0000d6110000c0150000f4160000ef2000002e3500004a5c0000f3620000c86a000006720000"},"timestamp":"1557482278362","transactions_root":"0x4562a11f2581b27fe6a85af2fa0cd068259b5f0f77cfe23db7222a18fefd3d7d","uncles_count":0,"uncles_hash":"0x0000000000000000000000000000000000000000000000000000000000000000","version":0,"witnesses_root":"0x0000000000000000000000000000000000000000000000000000000000000000"},"proposals":[],"transactions":[{"deps":[],"hash":"0x4562a11f2581b27fe6a85af2fa0cd068259b5f0f77cfe23db7222a18fefd3d7d","inputs":[{"args":["0x0100000000000000"],"previous_output":{"block_hash":null,"cell":null},"since":"0"}],"outputs":[{"capacity":"5000000000000","data":"0x","lock":{"args":[],"code_hash":"0x0000000000000000000000000000000000000000000000000000000000000001"},"type":null}],"version":0,"witnesses":[]}],"uncles":[]},"id":1}
+      string: '{"jsonrpc":"2.0","result":{"header":{"difficulty":"0x1000","epoch":"0","hash":"0x5cca21c28881893e86bc1ebcf823b76ff04e70a28c391f430f2ec9387978ebd4","number":"1","parent_hash":"0xcbdf7ba31715d7269b84d9554b9e1b11ca11cb66880992ad19f8e6ce9f2807a2","proposals_hash":"0x0000000000000000000000000000000000000000000000000000000000000000","seal":{"nonce":"1429502127318098593","proof":"0x95030000c9150000741b0000d01c00001832000079380000823800004340000002440000915b0000996600002e7c0000"},"timestamp":"1557849188189","transactions_root":"0x7c5ea9bd28ed1f35eadc463f73abad882fc4db7796d9beb971838a6672892af8","uncles_count":"0","uncles_hash":"0x0000000000000000000000000000000000000000000000000000000000000000","version":"0","witnesses_root":"0x0000000000000000000000000000000000000000000000000000000000000000"},"proposals":[],"transactions":[{"deps":[],"hash":"0x7c5ea9bd28ed1f35eadc463f73abad882fc4db7796d9beb971838a6672892af8","inputs":[{"args":["0x0100000000000000"],"previous_output":{"block_hash":null,"cell":null},"since":"0"}],"outputs":[{"capacity":"5000000000000","data":"0x","lock":{"args":["0xd074c75f81e7f462066498e71c93a476a07d8033"],"code_hash":"0xa6c987e2fbf5ba00cd1a83edbb1a53db088c6d1869f866a5e758a0fb99ff53a1"},"type":null}],"version":"0","witnesses":[]}],"uncles":[]},"id":1}
 
 '
     http_version:
-  recorded_at: Sat, 11 May 2019 11:55:54 GMT
+  recorded_at: Wed, 15 May 2019 10:21:07 GMT
+- request:
+    method: post
+    uri: http://localhost:8114/
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"jsonrpc":"2.0","method":"get_epoch_by_number","params":["0"]}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.14.0 (Ubuntu)
+      Date:
+      - Wed, 15 May 2019 10:21:07 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '265'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","result":{"block_reward":"5000000000000","difficulty":"0x1000","last_block_hash_in_previous_epoch":"0x0000000000000000000000000000000000000000000000000000000000000000","length":"1000","number":"0","remainder_reward":"0","start_number":"0"},"id":1}
+
+'
+    http_version:
+  recorded_at: Wed, 15 May 2019 10:21:07 GMT
+- request:
+    method: post
+    uri: http://localhost:8114/
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"jsonrpc":"2.0","method":"get_epoch_by_number","params":["0"]}'
+    headers:
+      Accept-Encoding:
+        - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+        - "*/*"
+      User-Agent:
+        - Ruby
+      Content-Type:
+        - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+        - nginx/1.14.0 (Ubuntu)
+      Date:
+        - Wed, 15 May 2019 10:04:54 GMT
+      Content-Type:
+        - application/json; charset=utf-8
+      Content-Length:
+        - '265'
+      Connection:
+        - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"jsonrpc":"2.0","result":{"block_reward":"5000000000000","difficulty":"0x1000","last_block_hash_in_previous_epoch":"0x0000000000000000000000000000000000000000000000000000000000000000","length":"1000","number":"0","remainder_reward":"0","start_number":"0"},"id":1}
+
+'
+    http_version:
+  recorded_at: Wed, 15 May 2019 10:04:54 GMT
 recorded_with: VCR 4.0.0

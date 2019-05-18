@@ -18,7 +18,7 @@ Minitest::Reporters.use!
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
-DEFAULT_NODE_BLOCK_HASH = "0x3c07186493c5da8b91917924253a5ffd35231151649d0c7e2941aa8801815063".freeze
+DEFAULT_NODE_BLOCK_HASH = "0xe6471b6ba597dc7c0a7d5a5f19a9c67c0386358d21c31514ae617aeb4982acbb".freeze
 
 VCR.configure do |config|
   config.cassette_library_dir = "vcr_fixtures/vcr_cassettes"
@@ -89,7 +89,7 @@ end
 
 def format_node_block(node_block)
   header = node_block["header"]
-  proposals = node_block["proposals"].blank? ? nil : node_block["proposals"]
+  proposals = node_block["proposals"].presence
   header.merge({ proposals: proposals }.deep_stringify_keys)
 end
 
@@ -122,7 +122,7 @@ def build_display_input_from_node_input(input)
   end
 end
 
-def fake_node_block(block_hash="0x3c07186493c5da8b91917924253a5ffd35231151649d0c7e2941aa8801815062")
+def fake_node_block(block_hash = "0x3c07186493c5da8b91917924253a5ffd35231151649d0c7e2941aa8801815062")
   "{\"header\":{\"difficulty\":\"0x1000\",\"epoch\":\"0\",\"hash\":\"#{block_hash}\",\"number\":\"10\",\"parent_hash\":\"0x598315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3\",\"proposals_hash\":\"0x0000000000000000000000000000000000000000000000000000000000000000\",\"seal\":{\"nonce\":\"3241241169132127032\",\"proof\":\"0xd8010000850800001c0d00005c100000983b0000ae3b0000724300003e480000145f00008864000079770000d1780000\"},\"timestamp\":\"1557482351075\",\"transactions_root\":\"0xefb03572314fbb45aba0ef889373d3181117b253664de4dca0934e453b1e6bf3\",\"uncles_count\":0,\"uncles_hash\":\"0x0000000000000000000000000000000000000000000000000000000000000000\",\"version\":0,\"witnesses_root\":\"0x0000000000000000000000000000000000000000000000000000000000000000\"},\"proposals\":[],
     \"transactions\":[
       {\"deps\":[],\"hash\":\"0xefb03572314fbb45aba0ef889373d3181117b253664de4dca0934e453b1e6bf3\",\"inputs\":[{\"args\":[\"0x0a00000000000000\"],\"previous_output\":{\"block_hash\":null,\"cell\":{\"tx_hash\": \"0x598315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3\", \"index\": \"0\"}},\"since\":\"0\"}],\"outputs\":[{\"capacity\":\"50000\",\"data\":\"0x\",\"lock\":{\"args\":[],\"code_hash\":\"0x0000000000000000000000000000000000000000000000000000000000000001\"},\"type\":null}],\"version\":0,\"witnesses\":[]},
@@ -138,7 +138,7 @@ def build_display_info_from_node_output(output)
   { id: cell_output.id, capacity: cell_output.capacity.to_s, address_hash: cell_output.address_hash }.stringify_keys
 end
 
-def set_default_lock_params(node_block: block, args: ["0x3c07186493c5da8b91917924253a5ffd35231151649d0c7e2941aa8801815063"], code_hash: "0x#{SecureRandom.hex(32)}")
+def set_default_lock_params(node_block: block, args: ["0xe6471b6ba597dc7c0a7d5a5f19a9c67c0386358d21c31514ae617aeb4982acbb"], code_hash: "0x#{SecureRandom.hex(32)}")
   tx = node_block["transactions"].first
   output = tx["outputs"].first
   output["lock"]["args"] = args
@@ -162,9 +162,9 @@ def previous_cell_output(previous_output)
   previous_transaction.cell_outputs.order(:id)[output_index]
 end
 
-def create_cell_output(trait_type: :with_full_transaction)
+def create_cell_output(trait_type: :with_full_transaction, status: "live")
   block = create(:block, :with_block_hash)
-  create(:cell_output, trait_type, block: block)
+  create(:cell_output, trait_type, block: block, status: status)
 end
 
 module RequestHelpers

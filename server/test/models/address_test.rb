@@ -109,7 +109,7 @@ class AddressTest < ActiveSupport::TestCase
       lock_script[:code_hash] = unpack_attribute(cell_output.lock_script, "code_hash")
 
       assert_difference "Address.count", 0 do
-        Address.find_or_create_address(ckb_transaction, lock_script)
+        Address.find_or_create_address(lock_script)
       end
     end
   end
@@ -175,7 +175,7 @@ class AddressTest < ActiveSupport::TestCase
         CkbSync::Validator.call(local_block.block_hash)
 
         block = create(:block, :with_block_hash, number: 101)
-        create(:ckb_transaction, :with_cell_output_and_lock_and_type_script, block: block, tx_hash: "0x3c07186493c5da8b91917924253a5ffd35231151649d0c7e2941aa8801815063")
+        create(:ckb_transaction, :with_cell_output_and_lock_and_type_script, block: block, tx_hash: "0xe6471b6ba597dc7c0a7d5a5f19a9c67c0386358d21c31514ae617aeb4982acbb")
 
         updated_cell_consumed =
           local_block.contained_addresses.map do |address|

@@ -27,17 +27,17 @@ class SuggestQuery
   end
 
   def find_block_by_number
-    block = Block.find_by(number: query_key)
+    block = Block.where(number: query_key).available.first
     BlockSerializer.new(block) if block.present?
   end
 
   def find_block_by_hash
-    block = Block.find_by(block_hash: query_key)
+    block = Block.where(block_hash: query_key).available.first
     BlockSerializer.new(block) if block.present?
   end
 
   def find_ckb_transaction_by_hash
-    ckb_transaction = CkbTransaction.find_by(tx_hash: query_key)
+    ckb_transaction = CkbTransaction.where(tx_hash: query_key).available.first
     CkbTransactionSerializer.new(ckb_transaction) if ckb_transaction.present?
   end
 

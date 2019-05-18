@@ -71,7 +71,7 @@ const menus = [
   },
   {
     name: 'Docs',
-    url: 'https://github.com/nervosnetwork/docs',
+    url: 'https://docs.nervos.org/',
   },
 ]
 

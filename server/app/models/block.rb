@@ -20,6 +20,7 @@ class Block < ApplicationRecord
   attribute :proposals, :ckb_array_hash, hash_length: ENV["DEFAULT_SHORT_HASH_LENGTH"]
 
   scope :recent, -> { order(timestamp: :desc) }
+  scope :available, -> { where("status in (?,?)", statuses[:inauthentic], statuses[:authentic]) }
 
   def verify!(node_block)
     if verified?(node_block.dig("header", "hash"))
@@ -36,9 +37,9 @@ class Block < ApplicationRecord
 
   def self.find_block(query_key)
     if query_key.start_with?(ENV["DEFAULT_HASH_PREFIX"])
-      find_by!(block_hash: query_key)
+      where(block_hash: query_key).available.take!
     else
-      find_by!(number: query_key)
+      where(number: query_key).available.take!
     end
   rescue ActiveRecord::RecordNotFound
     raise Api::V1::Exceptions::BlockNotFoundError
@@ -92,6 +93,8 @@ end
 #  total_cell_capacity    :decimal(30, )
 #  witnesses_root         :binary
 #  epoch                  :decimal(30, )
+#  start_number           :string
+#  length                 :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #

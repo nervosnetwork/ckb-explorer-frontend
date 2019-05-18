@@ -82,6 +82,25 @@ module Api
         assert_equal response_json, response.body
       end
 
+      test "should return available records" do
+        ckb_transaction = create(:ckb_transaction)
+
+        valid_get api_v1_ckb_transaction_url(ckb_transaction.tx_hash)
+
+        assert_equal "inauthentic", ckb_transaction.status
+      end
+
+      test "should return error object when no available ckb transaction found by id" do
+        ckb_transaction = create(:ckb_transaction, status: "abandoned")
+
+        error_object = Api::V1::Exceptions::CkbTransactionNotFoundError.new
+        response_json = RequestErrorSerializer.new([error_object], message: error_object.title).serialized_json
+
+        valid_get api_v1_ckb_transaction_url(ckb_transaction.tx_hash)
+
+        assert_equal response_json, response.body
+      end
+
       test "should return corresponding ckb transaction with given transaction hash" do
         ckb_transaction = create(:ckb_transaction)
 

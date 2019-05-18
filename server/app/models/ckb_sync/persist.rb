@@ -33,10 +33,10 @@ module CkbSync
       end
 
       def update_ckb_transaction_info_and_fee
-        display_inputs_ckb_transaction_ids = CkbTransaction.ungenerated.ids.each_slice(100).to_a
+        display_inputs_ckb_transaction_ids = CkbTransaction.ungenerated.ids.each_slice(100).map { |ids| [ids] }
         Sidekiq::Client.push_bulk("class" => UpdateTransactionDisplayInputsWorker, "args" => display_inputs_ckb_transaction_ids) if display_inputs_ckb_transaction_ids.present?
 
-        transaction_fee_ckb_transaction_ids = CkbTransaction.uncalculated.ids.each_slice(100).to_a
+        transaction_fee_ckb_transaction_ids = CkbTransaction.uncalculated.ids.each_slice(100).map { |ids| [ids] }
         Sidekiq::Client.push_bulk("class" => UpdateTransactionFeeWorker, "args" => display_inputs_ckb_transaction_ids) if transaction_fee_ckb_transaction_ids.present?
       end
 
@@ -104,15 +104,38 @@ module CkbSync
       end
 
       def build_ckb_transactions(local_block, transactions, sync_type, ckb_transaction_and_display_cell_hashes)
+        ckb_transaction_count_info = {}
+        addresses = Set.new
+
         transactions.each do |transaction|
           ckb_transaction_and_display_cell_hash = { transaction: nil, inputs: [], outputs: [] }
           ckb_transaction = build_ckb_transaction(local_block, transaction, sync_type)
           ckb_transaction_and_display_cell_hash[:transaction] = ckb_transaction
 
           build_cell_inputs(transaction["inputs"], ckb_transaction, ckb_transaction_and_display_cell_hash)
-          build_cell_outputs(transaction["outputs"], ckb_transaction, ckb_transaction_and_display_cell_hash)
+          build_cell_outputs(transaction["outputs"], ckb_transaction, ckb_transaction_and_display_cell_hash, addresses)
 
           ckb_transaction_and_display_cell_hashes << ckb_transaction_and_display_cell_hash
+
+          addresses_arr = addresses.to_a
+          ckb_transaction.addresses << addresses_arr
+          addresses_arr.each do |address|
+            if ckb_transaction_count_info[address.id].present?
+              ckb_transaction_count = ckb_transaction_count_info[address.id]
+              ckb_transaction_count_info[address.id] = ckb_transaction_count + 1
+            else
+              ckb_transaction_count_info.merge!({ address.id => 1 })
+            end
+          end
+        end
+
+        update_addresses_ckb_transactions_count(ckb_transaction_count_info)
+      end
+
+      def update_addresses_ckb_transactions_count(ckb_transaction_count_info)
+        ckb_transaction_count_info.each do |address_id, ckb_transaction_count|
+          address = Address.find(address_id)
+          address.increment!("ckb_transactions_count", ckb_transaction_count)
         end
       end
 
@@ -123,13 +146,14 @@ module CkbSync
         end
       end
 
-      def build_cell_outputs(node_outputs, ckb_transaction, ckb_transaction_and_display_cell_hash)
+      def build_cell_outputs(node_outputs, ckb_transaction, ckb_transaction_and_display_cell_hash, addresses)
         node_outputs.each do |output|
-          address = Address.find_or_create_address(ckb_transaction, output["lock"])
+          address = Address.find_or_create_address(output["lock"])
           cell_output = build_cell_output(ckb_transaction, output, address)
           build_lock_script(cell_output, output["lock"], address)
           build_type_script(cell_output, output["type"])
           ckb_transaction_and_display_cell_hash[:outputs] << cell_output
+          addresses << address
         end
       end
 
@@ -153,7 +177,7 @@ module CkbSync
         cell = cell_input.previous_output["cell"]
 
         if cell.blank?
-          { id: nil, from_cellbase: true, capacity: ENV["INITIAL_BLOCK_REWARD"].to_i, address_hash: nil }
+          { id: nil, from_cellbase: true, capacity: cell_input.ckb_transaction.block.reward, address_hash: nil }
         else
           previous_cell_output = cell_input.previous_cell_output
 
@@ -204,6 +228,7 @@ module CkbSync
 
       def build_block(node_block, sync_type)
         header = node_block["header"]
+        epoch_info = Utils::CkbUtils.get_epoch_info(header["epoch"])
         Block.new(
           difficulty: header["difficulty"],
           block_hash: header["hash"],
@@ -223,10 +248,12 @@ module CkbSync
           total_cell_capacity: Utils::CkbUtils.total_cell_capacity(node_block["transactions"]),
           miner_hash: Utils::CkbUtils.miner_hash(node_block["transactions"].first),
           status: sync_type,
-          reward: Utils::CkbUtils.miner_reward(node_block["transactions"].first),
+          reward: Utils::CkbUtils.miner_reward(header["epoch"].first),
           total_transaction_fee: 0,
           witnesses_root: header["witness_root"],
-          epoch: header["epoch"]
+          epoch: header["epoch"],
+          start_number: epoch_info.start_number,
+          length: epoch_info.length
         )
       end
 

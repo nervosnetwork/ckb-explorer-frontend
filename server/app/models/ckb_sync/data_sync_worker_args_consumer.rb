@@ -1,8 +1,9 @@
 module CkbSync
   class DataSyncWorkerArgsConsumer
-    def initialize(current_worker_args, worker_name, current_round_key)
+    def initialize(current_worker_args, worker_name, queue_name, current_round_key)
       @current_worker_args = current_worker_args
       @worker_name = worker_name
+      @queue_name = queue_name
       @current_round_key = current_round_key
     end
 
@@ -15,7 +16,7 @@ module CkbSync
           end
           if @current_worker_args.size >= 1000 || ivars.any?(&:complete?)
             args = @current_worker_args.shift(1000)
-            Sidekiq::Client.push_bulk("class" => @worker_name, "args" => args)
+            Sidekiq::Client.push_bulk("class" => @worker_name, "args" => args, "queue" => @queue_name)
           end
         end
       timer_task.add_observer(TaskObserver.new)

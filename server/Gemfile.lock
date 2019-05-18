@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/nervosnetwork/ckb-sdk-ruby.git
-  revision: 2fc7ed1664c9386c4bf2d124e74b757e312ccdae
+  revision: caffc404f8c3cd897dbae1ab3805eb78b464b8c4
   branch: develop
   specs:
     ckb-sdk-ruby (0.11.0)
@@ -266,6 +266,8 @@ GEM
       rack (>= 1.5.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 5)
+    sidekiq-failures (1.0.0)
+      sidekiq (>= 4.0.0)
     sidekiq-unique-jobs (6.0.13)
       concurrent-ruby (~> 1.0, >= 1.0.5)
       sidekiq (>= 4.0, < 7.0)
@@ -353,6 +355,7 @@ DEPENDENCIES
   shoulda-context
   shoulda-matchers
   sidekiq (~> 5.2, >= 5.2.3)
+  sidekiq-failures
   sidekiq-unique-jobs
   simplecov
   spring

@@ -18,7 +18,7 @@ module CkbSync
             worker_args_producer.async.produce_worker_args(numbers)
           end
 
-        worker_args_consumer = CkbSync::DataSyncWorkerArgsConsumer.new(worker_args, "SaveBlockWorker", "current_inauthentic_sync_round")
+        worker_args_consumer = CkbSync::DataSyncWorkerArgsConsumer.new(worker_args, "SaveBlockWorker", "inauthentic_sync", "current_inauthentic_sync_round")
         worker_args_consumer.consume_worker_args(ivars)
       end
 
