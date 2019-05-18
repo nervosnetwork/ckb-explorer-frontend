@@ -37,7 +37,7 @@ loop do
       authentic_sync_numbers << number
     end
 
-    CkbSync::AuthenticSync.sync_node_data(authentic_sync_numbers)
+    CkbSync::AuthenticSync.sync_node_data_by_number(authentic_sync_numbers)
   else
     Rails.logger.info("authentic there is no new number")
     sync_numbers = current_sync_round_numbers - authentic_sync_numbers
@@ -45,7 +45,7 @@ loop do
       sync_numbers.each do |number|
         authentic_sync_numbers << number
       end
-      CkbSync::AuthenticSync.sync_node_data(sync_numbers)
+      CkbSync::AuthenticSync.sync_node_data_by_number(sync_numbers)
     end
   end
 
