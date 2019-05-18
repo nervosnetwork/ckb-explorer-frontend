@@ -291,7 +291,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
 
   useEffect(() => {
     getTransaction()
-  }, [])
+  }, [window.location.href])
 
   return (
     <Content>
