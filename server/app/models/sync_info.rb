@@ -1,14 +1,14 @@
 class SyncInfo < ApplicationRecord
   enum status: { syncing: 0, synced: 1 }
   scope :recent, -> { order(id: :desc) }
-  scope :tip_inauthentic_infos, -> { where(name: "inauthentic_tip_block_number", status: statuses[:syncing]) }
-  scope :tip_authentic_infos, -> { where(name: "authentic_tip_block_number", status: statuses[:syncing])}
-  scope :inauthentic_syncing, -> { where("name = ? and status = ?", "inauthentic_tip_block_number", statuses[:syncing]) }
-  scope :authentic_syncing, -> { where("name = ? and status = ?", "authentic_tip_block_number", statuses[:syncing]) }
+  scope :tip_inauthentic_syncing, -> { where(name: "inauthentic_tip_block_number", status: statuses[:syncing]) }
+  scope :tip_authentic_syncing, -> { where(name: "authentic_tip_block_number", status: statuses[:syncing]) }
+  scope :tip_inauthentic_synced, -> { where(name: "inauthentic_tip_block_number", status: statuses[:synced]) }
+  scope :tip_authentic_synced, -> { where(name: "authentic_tip_block_number", status: statuses[:synced]) }
 
   class << self
     def local_inauthentic_tip_block_number
-      sync_info = SyncInfo.tip_inauthentic_infos.recent.first
+      sync_info = SyncInfo.tip_inauthentic_syncing.recent.first
       if sync_info.blank?
         sync_info = SyncInfo.create(name: "inauthentic_tip_block_number", value: 0, status: "syncing")
       end
@@ -17,12 +17,16 @@ class SyncInfo < ApplicationRecord
     end
 
     def local_authentic_tip_block_number
-      sync_info = SyncInfo.tip_authentic_infos.recent.first
+      sync_info = SyncInfo.tip_authentic_syncing.recent.first
       if sync_info.blank?
         sync_info = SyncInfo.create(name: "authentic_tip_block_number", value: 0, status: "syncing")
       end
 
       sync_info.value
+    end
+
+    def local_synced_inauthentic_tip_block_number
+      SyncInfo.tip_inauthentic_synced.recent.first.value || 0
     end
   end
 end

@@ -25,7 +25,10 @@ loop do
 
   return if Sidekiq::Queue.new("inauthentic_sync").size > 2000
 
-  sync_info_values = SyncInfo.inauthentic_syncing.recent.limit(1000).pluck(:value)
+  sync_info_values = SyncInfo.tip_inauthentic_syncing.recent.limit(1000).pluck(:value)
+
+  return if sync_info_values.blank?
+
   sync_info_values.each do |number|
     current_sync_round_numbers << number
   end
