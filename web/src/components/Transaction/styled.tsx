@@ -83,7 +83,7 @@ export const TransactionsCell = styled.div`
   .transaction__cell__capacity {
     font-size: 16px;
     color: rgb(136, 136, 136);
-    margin-left: 10px;
+    margin-left: 15px;
   }
 `
 export const CellHash = styled.div`
