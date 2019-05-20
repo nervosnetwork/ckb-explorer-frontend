@@ -46,30 +46,34 @@ module CkbSync
       end
 
       def update_ckb_transaction_display_inputs(ckb_transactions)
-        return if ckb_transactions.blank?
+        return if ckb_transactions.count == 0
 
-        ckb_transactions.map do |ckb_transaction|
-          display_inputs = ckb_transaction.cell_inputs.map(&method(:build_display_input))
+        ckb_transaction_arr = []
+        ckb_transactions.find_each do |ckb_transaction|
+          display_inputs = []
+          ckb_transaction.cell_inputs.find_each do |cell_input|
+            display_inputs << build_display_input(cell_input)
+          end
           assign_display_inputs(ckb_transaction, display_inputs)
 
-          ckb_transaction
+          ckb_transaction_arr << ckb_transaction
         end
 
-        CkbTransaction.import! ckb_transactions.to_a, batch_size: 1500, on_duplicate_key_update: [:display_inputs, :display_inputs_status]
+        CkbTransaction.import! ckb_transaction_arr, batch_size: 1500, on_duplicate_key_update: [:display_inputs, :display_inputs_status]
       end
 
       def update_transaction_fee(ckb_transactions)
-        return if ckb_transactions.blank?
+        return if ckb_transactions.count == 0
 
-        ckb_transactions.map do |ckb_transaction|
+        ckb_transaction_arr = []
+        ckb_transactions.find_each do |ckb_transaction|
           transaction_fee = CkbUtils.ckb_transaction_fee(ckb_transaction)
           assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
 
-          ckb_transaction
+          ckb_transaction_arr << ckb_transaction
         end
-
         ApplicationRecord.transaction do
-          CkbTransaction.import! ckb_transactions.to_a, batch_size: 1500, on_duplicate_key_update: [:transaction_fee, :transaction_fee_status]
+          CkbTransaction.import! ckb_transaction_arr, batch_size: 1500, on_duplicate_key_update: [:transaction_fee, :transaction_fee_status]
           block_ids = ckb_transactions.pluck(:block_id)
           blocks = update_block_total_transaction_fee(block_ids)
 
@@ -80,11 +84,17 @@ module CkbSync
       private
 
       def update_block_total_transaction_fee(block_ids)
-        Block.where(id: block_ids).map do |block|
-          block.total_transaction_fee = block.ckb_transactions.map(&:transaction_fee).reduce(0, &:+)
-
-          block
+        blocks = []
+        Block.where(id: block_ids).find_each do |block|
+          total_transaction_fee = block.total_transaction_fee
+          block.ckb_transactions.find_each do |ckb_transaction|
+            total_transaction_fee += ckb_transaction.transaction_fee
+          end
+          block.total_transaction_fee = total_transaction_fee
+          blocks << block
         end
+
+        blocks
       end
 
       def assign_ckb_transaction_fee(ckb_transaction, transaction_fee)

@@ -75,7 +75,10 @@ class CkbUtils
 
   def self.ckb_transaction_fee(ckb_transaction)
     cell_output_capacities = ckb_transaction.cell_outputs.map(&:capacity)
-    cell_input_capacities = ckb_transaction.cell_inputs.map { |cell_input| cell_input.previous_cell_output&.capacity }
+    cell_input_capacities = []
+    ckb_transaction.cell_inputs.find_each do |cell_input|
+      cell_input_capacities << cell_input.previous_cell_output&.capacity
+    end
 
     calculate_transaction_fee(cell_input_capacities, cell_output_capacities)
   end
@@ -131,4 +134,3 @@ class CkbUtils
     end
   end
 end
-
