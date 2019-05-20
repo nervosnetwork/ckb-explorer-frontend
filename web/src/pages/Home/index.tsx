@@ -10,7 +10,7 @@ import {
   ContentTable,
   TableMorePanel,
 } from './styled'
-import { parseDate } from '../../utils/date'
+import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import AppContext from '../../contexts/App'
 import {
@@ -107,7 +107,7 @@ export default () => {
                     <TableContentItem content={block.attributes.transactions_count} />
                     <TableContentItem content={`${shannonToCkb(block.attributes.reward)}`} />
                     <TableMinerContentItem content={block.attributes.miner_hash} />
-                    <TableContentItem content={parseDate(block.attributes.timestamp)} />
+                    <TableContentItem content={parseSimpleDate(block.attributes.timestamp)} />
                   </TableContentRow>
                 )
               )

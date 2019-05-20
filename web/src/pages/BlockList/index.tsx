@@ -6,7 +6,7 @@ import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import AppContext from '../../contexts/App'
 import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition } from './styled'
-import { parseDate } from '../../utils/date'
+import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import {
   TableTitleRow,
@@ -100,7 +100,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
                     <TableContentItem content={data.attributes.transactions_count} />
                     <TableContentItem content={`${shannonToCkb(data.attributes.reward)}`} />
                     <TableMinerContentItem content={data.attributes.miner_hash} />
-                    <TableContentItem content={parseDate(data.attributes.timestamp)} />
+                    <TableContentItem content={parseSimpleDate(data.attributes.timestamp)} />
                   </TableContentRow>
                 )
               )
