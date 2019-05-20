@@ -37,6 +37,6 @@ end
 #
 # Indexes
 #
-#  index_uncle_blocks_on_block_hash  (block_hash) UNIQUE
-#  index_uncle_blocks_on_block_id    (block_id)
+#  index_uncle_blocks_on_block_hash_and_block_id  (block_hash,block_id) UNIQUE
+#  index_uncle_blocks_on_block_id                 (block_id)
 #

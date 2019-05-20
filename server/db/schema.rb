@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_07_085943) do
+ActiveRecord::Schema.define(version: 2019_05_20_025819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,8 +110,8 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
     t.index ["block_id"], name: "index_ckb_transactions_on_block_id"
     t.index ["display_inputs_status"], name: "index_ckb_transactions_on_display_inputs_status"
     t.index ["transaction_fee_status"], name: "index_ckb_transactions_on_transaction_fee_status"
+    t.index ["tx_hash", "block_id"], name: "index_ckb_transactions_on_tx_hash_and_block_id", unique: true
     t.index ["tx_hash", "status"], name: "index_ckb_transactions_on_tx_hash_and_status"
-    t.index ["tx_hash"], name: "index_ckb_transactions_on_tx_hash", unique: true
   end
 
   create_table "lock_scripts", force: :cascade do |t|
@@ -163,7 +163,7 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
     t.decimal "epoch", precision: 30
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["block_hash"], name: "index_uncle_blocks_on_block_hash", unique: true
+    t.index ["block_hash", "block_id"], name: "index_uncle_blocks_on_block_hash_and_block_id", unique: true
     t.index ["block_id"], name: "index_uncle_blocks_on_block_id"
   end
 
