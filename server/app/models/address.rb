@@ -13,7 +13,9 @@ class Address < ApplicationRecord
     address_hash = Utils::CkbUtils.generate_address(lock_script)
 
     Rails.cache.fetch(address_hash.to_s, expires_in: 1.day) do
-      Address.find_by(address_hash: address_hash) || Address.create(address_hash: address_hash, balance: 0, cell_consumed: 0)
+      transaction(requires_new: true) { Address.create(address_hash: address_hash, balance: 0, cell_consumed: 0) }
+    rescue ActiveRecord::RecordNotUnique
+      Address.find_by(address_hash: address_hash)
     end
   end
 end

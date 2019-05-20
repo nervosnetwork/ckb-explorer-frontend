@@ -1,24 +1,36 @@
 class SyncInfo < ApplicationRecord
   enum status: { syncing: 0, synced: 1 }
   scope :recent, -> { order(id: :desc) }
+  scope :tip_inauthentic_syncing, -> { where(name: "inauthentic_tip_block_number", status: statuses[:syncing]) }
+  scope :tip_authentic_syncing, -> { where(name: "authentic_tip_block_number", status: statuses[:syncing]) }
+  scope :tip_inauthentic_synced, -> { where(name: "inauthentic_tip_block_number", status: statuses[:synced]) }
+  scope :tip_authentic_synced, -> { where(name: "authentic_tip_block_number", status: statuses[:synced]) }
 
   class << self
     def local_inauthentic_tip_block_number
-      sync_info = SyncInfo.where(name: "inauthentic_tip_block_number", status: "syncing").recent.first
-      if sync_info.blank?
-        sync_info = SyncInfo.create(name: "inauthentic_tip_block_number", value: -1, status: "syncing")
+      sync_into = SyncInfo.where(name: "inauthentic_tip_block_number")
+      if sync_into.blank?
+        sync_into = SyncInfo.create(name: "inauthentic_tip_block_number", value: 0, status: "syncing")
+        sync_into.value
+      else
+        sync_into = SyncInfo.where(name: "inauthentic_tip_block_number")
+        sync_into.maximum("value").to_i
       end
-
-      sync_info.value
     end
 
     def local_authentic_tip_block_number
-      sync_info = SyncInfo.where(name: "authentic_tip_block_number", status: "syncing").recent.first
-      if sync_info.blank?
-        sync_info = SyncInfo.create(name: "authentic_tip_block_number", value: -1, status: "syncing")
+      sync_into = SyncInfo.where(name: "authentic_tip_block_number")
+      if sync_into.blank?
+        sync_into = SyncInfo.create(name: "inauthentic_tip_block_number", value: 0, status: "syncing")
+        sync_into.value
+      else
+        sync_into = SyncInfo.where(name: "authentic_tip_block_number")
+        sync_into.maximum("value").to_i
       end
+    end
 
-      sync_info.value
+    def local_synced_inauthentic_tip_block_number
+      SyncInfo.tip_inauthentic_synced.recent.first.value || 0
     end
   end
 end

@@ -10,6 +10,7 @@ module CkbSync
     test "should return nil when round range params to is negative" do
       VCR.use_cassette("genesis_block") do
         VCR.use_cassette("blocks/two") do
+          CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(-2)
           assert_nil CkbSync::AuthenticSync.sync_node_data
         end
       end

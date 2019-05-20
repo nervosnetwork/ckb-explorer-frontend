@@ -1,6 +1,10 @@
 module CkbSync
   class InauthenticSync
     class << self
+      def sync_node_data_by_number(sync_numbers)
+        Sidekiq::Client.push_bulk("class" => "SyncBlockWorker", "args" => sync_numbers.map { |number| [number] }, "queue" => "inauthentic_sync")
+      end
+
       def sync_node_data
         local_tip_block_number = SyncInfo.local_inauthentic_tip_block_number
         node_tip_block_number = CkbSync::Api.instance.get_tip_block_number.to_i
