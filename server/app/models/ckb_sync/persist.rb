@@ -95,7 +95,7 @@ module CkbSync
       end
 
       def assign_display_inputs(ckb_transaction, display_inputs)
-        if display_inputs.any?(&:present?)
+        if display_inputs.all?(&:present?)
           ckb_transaction.display_inputs = display_inputs
           ckb_transaction.display_inputs_status = "generated"
         end

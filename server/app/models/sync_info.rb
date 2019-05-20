@@ -8,11 +8,25 @@ class SyncInfo < ApplicationRecord
 
   class << self
     def local_inauthentic_tip_block_number
-      SyncInfo.where(name: "inauthentic_tip_block_number").maximum("value").to_i
+      sync_into = SyncInfo.where(name: "inauthentic_tip_block_number")
+      if sync_into.blank?
+        sync_into = SyncInfo.create(name: "inauthentic_tip_block_number", value: 0, status: "syncing")
+        sync_into.value
+      else
+        sync_into = SyncInfo.where(name: "inauthentic_tip_block_number")
+        sync_into.maximum("value").to_i
+      end
     end
 
     def local_authentic_tip_block_number
-      SyncInfo.where(name: "authentic_tip_block_number").maximum("value").to_i
+      sync_into = SyncInfo.where(name: "authentic_tip_block_number")
+      if sync_into.blank?
+        sync_into = SyncInfo.create(name: "inauthentic_tip_block_number", value: 0, status: "syncing")
+        sync_into.value
+      else
+        sync_into = SyncInfo.where(name: "authentic_tip_block_number")
+        sync_into.maximum("value").to_i
+      end
     end
 
     def local_synced_inauthentic_tip_block_number
