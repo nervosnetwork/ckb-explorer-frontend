@@ -530,8 +530,8 @@ module CkbSync
         previous_output = previous_transaction.cell_outputs.order(:id)[0]
         previous_output1 = previous_transaction1.cell_outputs.order(:id)[0]
         node_display_inputs = [
-          { id: previous_output.id, from_cellbase: false, capacity: previous_output.capacity.to_s, address_hash: previous_output.address_hash }.deep_stringify_keys,
-          { id: previous_output1.id, from_cellbase: false, capacity: previous_output1.capacity.to_s, address_hash: previous_output1.address_hash }.deep_stringify_keys
+          { id: previous_output1.id, from_cellbase: false, capacity: previous_output1.capacity.to_s, address_hash: previous_output1.address_hash }.sort_by { |k, _v| k }.to_h.deep_stringify_keys,
+          { id: previous_output.id, from_cellbase: false, capacity: previous_output.capacity.to_s, address_hash: previous_output.address_hash }.sort_by { |k, _v| k }.to_h.deep_stringify_keys
         ]
 
         local_ckb_transactions = local_block.ckb_transactions
@@ -540,7 +540,7 @@ module CkbSync
           CkbSync::Persist.update_ckb_transaction_display_inputs(local_ckb_transactions)
         end
 
-        local_block_cell_inputs = local_ckb_transactions.map(&:display_inputs).flatten
+        local_block_cell_inputs = local_ckb_transactions.map { |ckb_transaction| ckb_transaction.display_inputs.map { |display_input| display_input.sort_by { |k, _v| k }.to_h }}.flatten
         assert_equal node_display_inputs, local_block_cell_inputs
       end
     end
