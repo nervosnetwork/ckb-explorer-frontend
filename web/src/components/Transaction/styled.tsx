@@ -77,6 +77,11 @@ export const TransactionsCell = styled.div`
     display: flex;
     align-items: center;
     justify-content: left;
+    width: 240px;
+  }
+
+  .transaction__cell__link {
+    width: 240px;
   }
 
   .transaction__cell__capacity {

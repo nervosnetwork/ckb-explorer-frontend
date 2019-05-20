@@ -14,7 +14,7 @@ const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => 
         <CellHash>{cell.from_cellbase ? 'Cellbase' : startEndEllipsis(cell.address_hash)}</CellHash>
       </div>
     ) : (
-      <Link to={`/address/${cell.address_hash}`}>
+      <Link className="transaction__cell__link" to={`/address/${cell.address_hash}`}>
         <CellHashHighLight>{startEndEllipsis(cell.address_hash)}</CellHashHighLight>
       </Link>
     )
