@@ -70,7 +70,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
     setPageNo(page_p)
     setPageSize(size_p)
     getBlocks(page_p, size_p)
-  }, [search])
+  }, [search, window.location.href])
 
   const onChange = (page_p: number, size_p: number) => {
     setPageNo(page_p)
