@@ -57,7 +57,7 @@ const HeaderDiv = styled.div`
       align-items: center;
       height: 50px;
       width: ${(props: { width: number }) => (550 * props.width) / 1920}px;
-      min-width: 320px;
+      min-width: 420px;
     }
   }
   a {

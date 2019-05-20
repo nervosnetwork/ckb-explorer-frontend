@@ -99,7 +99,7 @@ const BlockPreviousNext = ({
           <img src={PreviousBlockIcon} alt="previous block" />
         </div>
       ) : (
-        <div className="block__arrow">
+        <div className="block__arrow_grey">
           <img src={PreviousBlockGreyIcon} alt="previous block" />
         </div>
       )}
@@ -117,7 +117,7 @@ const BlockPreviousNext = ({
           <img src={NextBlockIcon} alt="next block" />
         </div>
       ) : (
-        <div className="block__arrow">
+        <div className="block__arrow_grey">
           <img src={NextBlockGreyIcon} alt="next block" />
         </div>
       )}
@@ -188,7 +188,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         setTransactionWrappers(data)
       })
       .catch(() => {
-        browserHistory.push(`/404`)
+        browserHistory.push('/search/fail')
       })
   }
 
@@ -203,14 +203,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       })
   }
 
-  const CHECK_BLOCK_TIME = 8000
   const updateBlockPrevNext = (blockNumber: number) => {
     setHasPrev(blockNumber > 0)
     const nextBlockNumber = `${blockNumber + 1}`
     checkBlockByNumber(nextBlockNumber)
-    setTimeout(() => {
-      checkBlockByNumber(nextBlockNumber)
-    }, CHECK_BLOCK_TIME)
   }
 
   const getBlockByHash = () => {
@@ -232,7 +228,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       })
       .catch(() => {
         appContext.hideLoading()
-        browserHistory.push(`/404`)
+        browserHistory.push('/search/fail')
       })
   }
 
@@ -274,7 +270,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: TransactionFeeIcon,
       label: 'Transaction Fee:',
-      value: `${shannonToCkb(blockData.total_transaction_fee)} CKB`,
+      value: `${shannonToCkb(blockData.total_transaction_fee)} Shannon`,
     },
     {
       image: TimestampIcon,

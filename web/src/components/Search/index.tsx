@@ -21,7 +21,7 @@ const SearchPanel = styled.div`
     height: 50px;
     font-size: 16px;
     padding-left: 20px;
-    padding-right: 61px;
+    padding-right: 50px;
     border-radius: 6px;
     border-width: 0px;
     background: rgba(255, 255, 255, 0.2);
@@ -80,7 +80,7 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
         })
         .catch(() => {
           appContext.hideLoading()
-          browserHistory.push(`/404`)
+          browserHistory.push('/search/fail')
         })
     }
   }

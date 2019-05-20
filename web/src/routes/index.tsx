@@ -16,13 +16,13 @@ import SearchFail from '../pages/SearchFail'
 
 export default () => {
   useEffect(() => {
-    let currentPathname = browserHistory.location.pathname
+    let currentUrl = `${browserHistory.location.pathname}${browserHistory.location.search}`
     const unlisten = browserHistory.listen((location: any) => {
-      if (currentPathname !== location.pathname) {
+      if (currentUrl !== `${location.pathname}${location.search}`) {
         const page = document.querySelector('.page') as HTMLDivElement
         page.scrollTop = 0
       }
-      currentPathname = location.pathname
+      currentUrl = `${location.pathname}${location.search}`
     })
     return () => {
       unlisten()

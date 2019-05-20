@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const HomeHeaderPanel = styled.div`
-  min-height: ${(props: { width: number }) => (420 * props.width) / 1920}px;
+  min-height: ${(props: { width: number }) => (340 * props.width) / 1920}px;
   width: 100%;
   background: #424242;
   display: flex;
@@ -41,7 +41,7 @@ export const LogoPanel = styled.div`
 
 export const SearchPanel = styled.div`
   margin-top: ${(props: { width: number }) => (15 * props.width) / 1920}px;
-  margin-bottom: ${(props: { width: number }) => (98 * props.width) / 1920}px;
+  margin-bottom: ${(props: { width: number }) => (50 * props.width) / 1920}px;
 `
 
 export const BlockPanel = styled.div`
