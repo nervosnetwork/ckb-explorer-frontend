@@ -274,7 +274,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: TransactionFeeIcon,
       label: 'Transaction Fee:',
-      value: `${shannonToCkb(blockData.total_transaction_fee)} CKB`,
+      value: `${shannonToCkb(blockData.total_transaction_fee)} Shannon`,
     },
     {
       image: TimestampIcon,
