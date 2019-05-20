@@ -32,13 +32,6 @@ module Server
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-    config.autoload_paths += %W(#{config.root}/app/serializers)
-    config.autoload_paths += %W(#{config.root}/lib)
-    config.autoload_paths += Dir[Rails.root.join("lib/fast_jsonapi/*.rb")].each(&method(:require))
-    config.eager_load_paths << Rails.root.join("lib/api")
-    config.eager_load_paths << Rails.root.join("lib/fast_jsonapi")
-    config.eager_load_paths << Rails.root.join("lib/utils")
-
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins "*"

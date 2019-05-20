@@ -37,8 +37,8 @@ module CkbSync
       def update_address_balance_and_cell_consumed!(local_block)
         addresses =
           local_block.contained_addresses.map do |address|
-            address.balance = Utils::CkbUtils.get_balance(address.address_hash) || 0
-            address.cell_consumed = Utils::CkbUtils.address_cell_consumed(address.address_hash) || 0
+            address.balance = CkbUtils.get_balance(address.address_hash) || 0
+            address.cell_consumed = CkbUtils.address_cell_consumed(address.address_hash) || 0
             address
           end
 

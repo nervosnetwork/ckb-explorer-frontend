@@ -10,7 +10,7 @@ class Address < ApplicationRecord
   validates :balance, :cell_consumed, :ckb_transactions_count, numericality: { greater_than_or_equal_to: 0 }
 
   def self.find_or_create_address(lock_script)
-    address_hash = Utils::CkbUtils.generate_address(lock_script)
+    address_hash = CkbUtils.generate_address(lock_script)
 
     Rails.cache.fetch(address_hash.to_s, expires_in: 1.day) do
       transaction(requires_new: true) { Address.create(address_hash: address_hash, balance: 0, cell_consumed: 0) }

@@ -62,7 +62,7 @@ module CkbSync
         return if ckb_transactions.blank?
 
         ckb_transactions.map do |ckb_transaction|
-          transaction_fee = Utils::CkbUtils.ckb_transaction_fee(ckb_transaction)
+          transaction_fee = CkbUtils.ckb_transaction_fee(ckb_transaction)
           assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
 
           ckb_transaction
@@ -103,7 +103,7 @@ module CkbSync
 
       def calculate_transaction_fee(transactions, ckb_transactions)
         transactions.each_with_index do |transaction, index|
-          transaction_fee = Utils::CkbUtils.transaction_fee(transaction)
+          transaction_fee = CkbUtils.transaction_fee(transaction)
           assign_ckb_transaction_fee(ckb_transactions[index], transaction_fee)
         end
       end
@@ -233,7 +233,7 @@ module CkbSync
 
       def build_block(node_block, sync_type)
         header = node_block["header"]
-        epoch_info = Utils::CkbUtils.get_epoch_info(header["epoch"])
+        epoch_info = CkbUtils.get_epoch_info(header["epoch"])
         Block.new(
           difficulty: header["difficulty"],
           block_hash: header["hash"],
@@ -249,11 +249,11 @@ module CkbSync
           version: header["version"],
           proposals: node_block["proposals"],
           proposals_count: node_block["proposals"].count,
-          cell_consumed: Utils::CkbUtils.block_cell_consumed(node_block["transactions"]),
-          total_cell_capacity: Utils::CkbUtils.total_cell_capacity(node_block["transactions"]),
-          miner_hash: Utils::CkbUtils.miner_hash(node_block["transactions"].first),
+          cell_consumed: CkbUtils.block_cell_consumed(node_block["transactions"]),
+          total_cell_capacity: CkbUtils.total_cell_capacity(node_block["transactions"]),
+          miner_hash: CkbUtils.miner_hash(node_block["transactions"].first),
           status: sync_type,
-          reward: Utils::CkbUtils.miner_reward(header["epoch"].first),
+          reward: CkbUtils.miner_reward(header["epoch"].first),
           total_transaction_fee: 0,
           witnesses_root: header["witness_root"],
           epoch: header["epoch"],

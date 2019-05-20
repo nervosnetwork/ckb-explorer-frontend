@@ -367,7 +367,7 @@ module CkbSync
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).to_h.deep_stringify_keys
         set_default_lock_params(node_block: node_block)
         node_block_transactions = node_block["transactions"]
-        transactions_fee = node_block_transactions.reduce(0) { |memo, commit_transaction| memo + Utils::CkbUtils.transaction_fee(commit_transaction).to_i }
+        transactions_fee = node_block_transactions.reduce(0) { |memo, commit_transaction| memo + CkbUtils.transaction_fee(commit_transaction).to_i }
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_ckb_transactions = local_block.ckb_transactions
@@ -397,7 +397,7 @@ module CkbSync
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 
-        assert_equal Utils::CkbUtils.total_cell_capacity(node_block["transactions"]), local_block.total_cell_capacity
+        assert_equal CkbUtils.total_cell_capacity(node_block["transactions"]), local_block.total_cell_capacity
       end
     end
 
@@ -445,7 +445,7 @@ module CkbSync
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 
-        assert_equal Utils::CkbUtils.miner_hash(node_block["transactions"].first), local_block.miner_hash
+        assert_equal CkbUtils.miner_hash(node_block["transactions"].first), local_block.miner_hash
       end
     end
 
@@ -457,7 +457,7 @@ module CkbSync
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 
-        assert_equal Utils::CkbUtils.miner_reward(node_block.dig("header", "epoch")).to_i, local_block.reward
+        assert_equal CkbUtils.miner_reward(node_block.dig("header", "epoch")).to_i, local_block.reward
       end
     end
 
@@ -469,7 +469,7 @@ module CkbSync
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 
-        assert_equal Utils::CkbUtils.block_cell_consumed(node_block["transactions"]), local_block.cell_consumed
+        assert_equal CkbUtils.block_cell_consumed(node_block["transactions"]), local_block.cell_consumed
       end
     end
 

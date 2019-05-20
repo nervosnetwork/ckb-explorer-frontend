@@ -137,7 +137,7 @@ class AddressTest < ActiveSupport::TestCase
 
         updated_balances =
           local_block.contained_addresses.map do |address|
-            Utils::CkbUtils.get_balance(address.address_hash) || 0
+            CkbUtils.get_balance(address.address_hash) || 0
           end
 
         old_balances = local_block.contained_addresses.pluck(:balance)
@@ -180,7 +180,7 @@ class AddressTest < ActiveSupport::TestCase
         updated_cell_consumed =
           local_block.contained_addresses.map do |address|
             address.update(address_hash: "ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf")
-            Utils::CkbUtils.address_cell_consumed(address.address_hash) || 0
+            CkbUtils.address_cell_consumed(address.address_hash) || 0
           end
 
         old_cell_consumed = local_block.contained_addresses.pluck(:cell_consumed)
