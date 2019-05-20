@@ -1,9 +1,40 @@
 .DS_Store
-node_modules/
-dist/
-npm-debug.log
-*.log
 .vscode
-yarn.lock
+.idea/
+server/.generators
+server/.rakeTasks
+# server
+# Ignore bundler config.
+/server/.bundle
+/server/.env.local
+/server/.env.test
 
-web/build
+# server config
+/server/config/settings.local.yml
+/server/config/settings/*.local.yml
+
+# Ignore all logfiles and tempfiles.
+/server/log/*
+/server/tmp/*
+!/server/log/.keep
+!/server/tmp/.keep
+
+# Ignore uploaded files in development
+/server/storage/*
+!/server/storage/.keep
+
+/server/.byebug_history
+
+# Ignore master key for decrypting credentials and more.
+/server/config/master.key
+/server/.vscode/*
+
+# Ignore coverage results
+/server/coverage/*
+
+# web
+/web/node_modules/
+/web/build/
+/web/npm-debug.log
+/web/*.log
+/web/.env*

@@ -1,0 +1,221 @@
+inherit_from:
+  - .rubocop_thoughtbot.yml
+inherit_mode:
+  merge:
+    - Exclude
+require: rubocop-performance
+AllCops:
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  Exclude:
+    - vendor/**/*
+    - app/controllers/devise/users/registrations_controller.rb
+    - app/javascript/**/*
+    - config/routes/manager.rb
+    - lib/**/*
+    - db/migrate/*
+    - db/seed.rb
+    - node_modules/**/*
+    - bin/*
+  ExtraDetails: true
+  TargetRubyVersion: 2.5
+
+
+# ThoughtBot Overwrite
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: false
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: no_comma
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: no_comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: no_comma
+
+Metrics/LineLength:
+  Enabled: false
+
+Layout/IndentFirstHashElement:
+  EnforcedStyle: consistent
+
+Style/BracesAroundHashParameters:
+  Enabled: false
+
+Style/BlockDelimiters:
+  EnforcedStyle: braces_for_chaining
+
+Style/SymbolArray:
+  Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - spec/**/*
+
+Lint/UselessAssignment:
+  Exclude:
+    - spec/**/*
+
+Naming/VariableNumber:
+  Exclude:
+    - spec/**/*
+
+Rails/DynamicFindBy:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/BlockNesting:
+  Exclude:
+    - app/workers/coins/sync/eth_blocks.rb
+
+Metrics/ModuleLength:
+  Max: 200
+
+Metrics/BlockLength:
+  CountComments: true
+  Max: 25
+  ExcludedMethods: []
+  Exclude:
+    - "test/**/*"
+    - "config/environments/**/*"
+
+Style/For:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Rails:
+  Enabled: true
+
+Rails/FilePath:
+  Enabled: false
+
+Style/AutoResourceCleanup:
+  Enabled: true
+
+Style/BlockDelimiters:
+  EnforcedStyle: braces_for_chaining
+
+Layout/FirstArrayElementLineBreak:
+  Enabled: true
+
+Layout/FirstHashElementLineBreak:
+  Enabled: true
+
+Layout/FirstMethodArgumentLineBreak:
+  Enabled: true
+
+Layout/FirstMethodParameterLineBreak:
+  Enabled: true
+
+Style/MethodCalledOnDoEndBlock:
+  Enabled: true
+
+Layout/MultilineArrayBraceLayout:
+  Enabled: true
+
+Layout/MultilineAssignmentLayout:
+  Enabled: true
+
+Layout/MultilineHashBraceLayout:
+  Enabled: true
+
+Layout/MultilineMethodCallBraceLayout:
+  Enabled: true
+
+Layout/MultilineMethodDefinitionBraceLayout:
+  Enabled: true
+
+Style/OptionHash:
+  Enabled: true
+
+Style/RescueModifier:
+  Enabled: false
+
+Style/SafeNavigation:
+  Enabled: false
+
+Style/Send:
+  Enabled: true
+
+Style/StringMethods:
+  Enabled: true
+
+Style/RedundantSelf:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Rails/ApplicationRecord:
+  Exclude:
+    - 'app/models/withdraw.rb'
+
+Style/BlockComments:
+  Exclude:
+    - 'spec/spec_helper.rb'
+
+Rails/ReversibleMigration:
+  Enabled: false
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Layout/MultilineHashBraceLayout:
+  Enabled: false
+
+Style/EmptyMethod:
+  Enabled: false
+
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+Layout/CaseIndentation:
+  Enabled: false
+
+Style/RedundantReturn:
+  Enabled: false
+
+Style/IdenticalConditionalBranches:
+  Enabled: false
+
+FirstMethodArgumentLineBreak:
+  Enabled: false
+
+SymbolProc:
+  Enabled: false
+
+ParenthesesAroundCondition:
+  Enabled: false
+
+Style/OptionHash:
+  Enabled: false
+
+Style/RedundantParentheses:
+  Enabled: false
+
+Style/Send:
+  Enabled: false
+
+Style/ConditionalAssignment:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Lint/ShadowingOuterLocalVariable:
+  Enabled: false
+
+Style/RescueStandardError:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
