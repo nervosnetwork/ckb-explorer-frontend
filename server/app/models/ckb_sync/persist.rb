@@ -165,8 +165,14 @@ module CkbSync
         node_outputs.each do |output|
           address = Address.find_or_create_address(output["lock"])
           cell_output = build_cell_output(ckb_transaction, output, address)
-          build_lock_script(cell_output, output["lock"], address)
-          build_type_script(cell_output, output["type"])
+          lock_script = build_lock_script(cell_output, output["lock"], address)
+          type_script = build_type_script(cell_output, output["type"])
+          cell_output.node_cell_output = {
+            capacity: cell_output.capacity,
+            data: cell_output.data,
+            lock: lock_script.to_node_lock,
+            type: type_script&.to_node_type
+          }
           ckb_transaction_and_display_cell_hash[:outputs] << cell_output
           addresses << address
         end

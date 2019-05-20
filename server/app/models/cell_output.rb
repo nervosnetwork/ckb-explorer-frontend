@@ -14,15 +14,6 @@ class CellOutput < ApplicationRecord
   def address_hash
     address.address_hash
   end
-
-  def to_node_cell_output
-    {
-      capacity: capacity,
-      data: data,
-      lock: lock_script.to_node_lock,
-      type: type_script&.to_node_type
-    }
-  end
 end
 
 # == Schema Information
@@ -38,6 +29,7 @@ end
 #  status             :integer          default("live")
 #  address_id         :decimal(30, )
 #  block_id           :decimal(30, )
+#  node_cell_output   :jsonb
 #
 # Indexes
 #
