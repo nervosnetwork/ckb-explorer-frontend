@@ -17,7 +17,7 @@ import {
 } from '../../components/Table'
 import BlockHeightIcon from '../../asserts/block_height.png'
 import TransactionIcon from '../../asserts/transactions.png'
-import BlockRewardIcon from '../../asserts/block_reward.png'
+import BlockRewardIcon from '../../asserts/block_reward_white.png'
 import MinerIcon from '../../asserts/miner.png'
 import TimestampIcon from '../../asserts/timestamp.png'
 import browserHistory from '../../routes/history'
