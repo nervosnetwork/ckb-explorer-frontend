@@ -136,6 +136,14 @@ export const BlockPreviousNextPanel = styled.div`
     }
   }
 
+  .block__arrow_grey {
+    margin-top: 13px;
+    img {
+      width: 83px;
+      height: 19px;
+    }
+  }
+
   .block__mouse {
     width: 25px;
     height: 45px;
