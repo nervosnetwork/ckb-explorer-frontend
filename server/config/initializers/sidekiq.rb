@@ -6,6 +6,12 @@ redis_password = redis_config["password"]
 
 Sidekiq.configure_server do |config|
   config.redis = { url: redis_url, driver: :hiredis, password: redis_password }
+
+  if defined?(ActiveRecord::Base)
+    config = Rails.application.config.database_configuration[Rails.env]
+    config["reaping_frequency"] = ENV["DB_REAP_FREQ"] || 10
+    ActiveRecord::Base.establish_connection(config)
+  end
 end
 Sidekiq.configure_client do |config|
   config.redis = { url: redis_url, driver: :hiredis, password: redis_password }
