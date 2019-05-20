@@ -77,13 +77,13 @@ export const TransactionsCell = styled.div`
     display: flex;
     align-items: center;
     justify-content: left;
-    width: 260px;
+    width: 240px;
   }
 
   .transaction__cell__capacity {
     font-size: 16px;
     color: rgb(136, 136, 136);
-    margin-left: 20px;
+    margin-left: 10px;
   }
 `
 export const CellHash = styled.div`
