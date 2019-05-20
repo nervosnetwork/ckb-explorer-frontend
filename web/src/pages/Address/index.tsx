@@ -131,7 +131,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
       })
       .catch(() => {
         appContext.hideLoading()
-        browserHistory.push(`/404`)
+        browserHistory.push('/search/fail')
       })
   }
 
@@ -149,7 +149,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
       })
       .catch(() => {
         appContext.hideLoading()
-        browserHistory.push(`/404`)
+        browserHistory.push('/search/fail')
       })
   }
 
