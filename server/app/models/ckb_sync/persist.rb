@@ -52,7 +52,7 @@ module CkbSync
 
       def update_ckb_transaction_fee
         transaction_fee_ckb_transaction_ids = CkbTransaction.uncalculated.limit(500).ids.map { |ids| [ids] }
-        Sidekiq::Client.push_bulk("class" => UpdateTransactionFeeWorker, "args" => display_inputs_ckb_transaction_ids, "queue" => "transaction_info_updater") if transaction_fee_ckb_transaction_ids.present?
+        Sidekiq::Client.push_bulk("class" => UpdateTransactionFeeWorker, "args" => transaction_fee_ckb_transaction_ids, "queue" => "transaction_info_updater") if transaction_fee_ckb_transaction_ids.present?
       end
 
       def update_ckb_transaction_display_inputs(ckb_transaction)

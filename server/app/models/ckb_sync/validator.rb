@@ -32,17 +32,15 @@ module CkbSync
       def update_cell_status!(local_block)
         cell_inputs = []
         local_block.ckb_transactions.find_each do |ckb_transaction|
-          cell_inputs.concat ckb_transaction.cell_inputs
+          cell_inputs << ckb_transaction.cell_inputs
         end
 
-        cell_outputs = Set.new
-        cell_inputs.each do |cell_input|
-          cell_outputs << cell_input.previous_cell_output
+        cell_output_ids = Set.new
+        cell_inputs.flatten.each do |cell_input|
+          cell_output_ids << cell_input.previous_cell_output&.id
         end
 
-        cell_outputs.delete(nil).each do |cell_output|
-          cell_output.update_attribute(:status, :dead)
-        end
+        CellOutput.where(id: cell_output_ids.delete(nil)).update_all(status: :dead)
       end
 
       def update_address_balance_and_cell_consumed!(local_block)
@@ -58,7 +56,7 @@ module CkbSync
         end
 
         if addresses.size > 0
-          # Sidekiq::Client.push_bulk("class" => UpdateAddressCellConsumedWorker, "args" => address_hashes.map { |hash| [hash] }, "queue" => "address_cell_consumed_updater")
+          Sidekiq::Client.push_bulk("class" => UpdateAddressCellConsumedWorker, "args" => address_hashes.map { |hash| [hash] }, "queue" => "address_cell_consumed_updater")
           Address.import! addresses, on_duplicate_key_update: [:balance, :cell_consumed]
         end
       end
