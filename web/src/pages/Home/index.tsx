@@ -10,7 +10,7 @@ import {
   ContentTable,
   TableMorePanel,
 } from './styled'
-import { parseDate } from '../../utils/date'
+import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import AppContext from '../../contexts/App'
 import {
@@ -24,7 +24,7 @@ import Search from '../../components/Search'
 import browserHistory from '../../routes/history'
 import BlockHeightIcon from '../../asserts/block_height.png'
 import TransactionIcon from '../../asserts/transactions.png'
-import BlockRewardIcon from '../../asserts/block_reward.png'
+import BlockRewardIcon from '../../asserts/block_reward_white.png'
 import MinerIcon from '../../asserts/miner.png'
 import TimestampIcon from '../../asserts/timestamp.png'
 import MoreLeftIcon from '../../asserts/more_left.png'
@@ -49,7 +49,7 @@ export default () => {
       })
       .catch(() => {
         appContext.hideLoading()
-        browserHistory.push(`/404`)
+        browserHistory.push('/search/fail')
       })
   }
 
@@ -107,7 +107,7 @@ export default () => {
                     <TableContentItem content={block.attributes.transactions_count} />
                     <TableContentItem content={`${shannonToCkb(block.attributes.reward)}`} />
                     <TableMinerContentItem content={block.attributes.miner_hash} />
-                    <TableContentItem content={parseDate(block.attributes.timestamp)} />
+                    <TableContentItem content={parseSimpleDate(block.attributes.timestamp)} />
                   </TableContentRow>
                 )
               )

@@ -11,7 +11,7 @@ const copyElementValue = (component: any) => {
 }
 
 const shannonToCkb = (value: number) => {
-  return Math.floor(value / 10 ** 4) / 10 ** 4
+  return value / 10 ** 8
 }
 
 export { copyElementValue, shannonToCkb }

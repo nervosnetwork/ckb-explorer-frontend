@@ -291,7 +291,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
 
   useEffect(() => {
     getTransaction()
-  }, [])
+  }, [window.location.href])
 
   return (
     <Content>
@@ -311,7 +311,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               <SimpleLabel
                 image={TransactionIcon}
                 label="Transaction Fee:"
-                value={`${transaction.transaction_fee} CKB`}
+                value={`${transaction.transaction_fee} Shannon`}
               />
             </div>
             <div>

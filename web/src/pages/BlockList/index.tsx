@@ -6,7 +6,7 @@ import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import AppContext from '../../contexts/App'
 import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition } from './styled'
-import { parseDate } from '../../utils/date'
+import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import {
   TableTitleRow,
@@ -17,7 +17,7 @@ import {
 } from '../../components/Table'
 import BlockHeightIcon from '../../asserts/block_height.png'
 import TransactionIcon from '../../asserts/transactions.png'
-import BlockRewardIcon from '../../asserts/block_reward.png'
+import BlockRewardIcon from '../../asserts/block_reward_white.png'
 import MinerIcon from '../../asserts/miner.png'
 import TimestampIcon from '../../asserts/timestamp.png'
 import browserHistory from '../../routes/history'
@@ -60,7 +60,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
       })
       .catch(() => {
         appContext.hideLoading()
-        browserHistory.push(`/404`)
+        browserHistory.push('/search/fail')
       })
   }
 
@@ -70,7 +70,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
     setPageNo(page_p)
     setPageSize(size_p)
     getBlocks(page_p, size_p)
-  }, [search])
+  }, [search, window.location.href])
 
   const onChange = (page_p: number, size_p: number) => {
     setPageNo(page_p)
@@ -100,7 +100,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
                     <TableContentItem content={data.attributes.transactions_count} />
                     <TableContentItem content={`${shannonToCkb(data.attributes.reward)}`} />
                     <TableMinerContentItem content={data.attributes.miner_hash} />
-                    <TableContentItem content={parseDate(data.attributes.timestamp)} />
+                    <TableContentItem content={parseSimpleDate(data.attributes.timestamp)} />
                   </TableContentRow>
                 )
               )
