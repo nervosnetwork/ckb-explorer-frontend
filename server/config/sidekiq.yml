@@ -4,6 +4,7 @@
   - [inauthentic_sync, 4]
   - [authentic_sync, 3]
   - [transaction_info_updater, 2]
+  - [address_cell_consumed_updater, 1]
   - default
 
 production:

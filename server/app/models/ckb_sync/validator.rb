@@ -47,13 +47,20 @@ module CkbSync
 
       def update_address_balance_and_cell_consumed!(local_block)
         addresses = []
+        address_hashes = []
         local_block.contained_addresses.each do |address|
           address.balance = CkbUtils.get_balance(address.address_hash) || 0
-          address.cell_consumed = CkbUtils.address_cell_consumed(address.address_hash) || 0
-          addresses << address if address.changed?
+
+          if address.changed?
+            addresses << address
+            address_hashes << address.address_hash
+          end
         end
 
-        Address.import! addresses, on_duplicate_key_update: [:balance, :cell_consumed]
+        if addresses.size > 0
+          # Sidekiq::Client.push_bulk("class" => UpdateAddressCellConsumedWorker, "args" => address_hashes.map { |hash| [hash] }, "queue" => "address_cell_consumed_updater")
+          Address.import! addresses, on_duplicate_key_update: [:balance, :cell_consumed]
+        end
       end
     end
   end
