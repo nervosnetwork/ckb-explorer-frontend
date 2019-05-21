@@ -32,12 +32,14 @@ class Block < ApplicationRecord
   end
 
   def contained_addresses
-    addresses = []
+    addresses = Set.new
     ckb_transactions.find_each do |ckb_transaction|
-      addresses.concat ckb_transaction.addresses
+      ckb_transaction.addresses.each do |address|
+        addresses << address
+      end
     end
 
-    addresses.flatten.uniq
+    addresses.to_a.flatten
   end
 
   def self.find_block(query_key)
