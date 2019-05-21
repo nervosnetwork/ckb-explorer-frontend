@@ -101,7 +101,9 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
         placeholder="Block Height / Block Hash / Tx Hash / Address"
         onKeyUp={(event: any) => {
           if (event.keyCode === 13) {
+            const homeSearchBar = document.getElementById('home__search__bar') as HTMLInputElement
             handleSearchResult(event.target.value)
+            homeSearchBar.value = ''
           }
         }}
         style={opacity ? opacityStyle : transparentStyle}
@@ -113,6 +115,7 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
         onClick={() => {
           const homeSearchBar = document.getElementById('home__search__bar') as HTMLInputElement
           handleSearchResult(homeSearchBar.value)
+          homeSearchBar.value = ''
         }}
       >
         <img src={SearchLogo} alt="search logo" />
