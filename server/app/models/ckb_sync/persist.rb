@@ -41,9 +41,16 @@ module CkbSync
       end
 
       def update_ckb_transaction_info_and_fee
+        update_ckb_transaction_info
+        update_ckb_transaction_fee
+      end
+
+      def update_ckb_transaction_info
         display_inputs_ckb_transaction_ids = CkbTransaction.ungenerated.limit(500).ids.map { |ids| [ids] }
         Sidekiq::Client.push_bulk("class" => UpdateTransactionDisplayInputsWorker, "args" => display_inputs_ckb_transaction_ids, "queue" => "transaction_info_updater") if display_inputs_ckb_transaction_ids.present?
+      end
 
+      def update_ckb_transaction_fee
         transaction_fee_ckb_transaction_ids = CkbTransaction.uncalculated.limit(500).ids.map { |ids| [ids] }
         Sidekiq::Client.push_bulk("class" => UpdateTransactionFeeWorker, "args" => display_inputs_ckb_transaction_ids, "queue" => "transaction_info_updater") if transaction_fee_ckb_transaction_ids.present?
       end
