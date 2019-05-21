@@ -1,10 +1,10 @@
 class SyncInfo < ApplicationRecord
   enum status: { syncing: 0, synced: 1 }
   scope :recent, -> { order(id: :desc) }
-  scope :tip_inauthentic_syncing, -> { where(name: "inauthentic_tip_block_number", status: statuses[:syncing]) }
-  scope :tip_authentic_syncing, -> { where(name: "authentic_tip_block_number", status: statuses[:syncing]) }
-  scope :tip_inauthentic_synced, -> { where(name: "inauthentic_tip_block_number", status: statuses[:synced]) }
-  scope :tip_authentic_synced, -> { where(name: "authentic_tip_block_number", status: statuses[:synced]) }
+  scope :tip_inauthentic_syncing, -> { where(name: "inauthentic_tip_block_number", status: :syncing) }
+  scope :tip_authentic_syncing, -> { where(name: "authentic_tip_block_number", status: :syncing) }
+  scope :tip_inauthentic_synced, -> { where(name: "inauthentic_tip_block_number", status: :synced) }
+  scope :tip_authentic_synced, -> { where(name: "authentic_tip_block_number", status: :synced) }
 
   class << self
     def local_inauthentic_tip_block_number
