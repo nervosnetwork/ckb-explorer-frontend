@@ -32,14 +32,7 @@ class Block < ApplicationRecord
   end
 
   def contained_addresses
-    addresses = Set.new
-    ckb_transactions.find_each do |ckb_transaction|
-      ckb_transaction.addresses.each do |address|
-        addresses << address
-      end
-    end
-
-    addresses.to_a.flatten
+    Address.where(id: address_ids)
   end
 
   def self.find_block(query_key)
@@ -104,6 +97,7 @@ end
 #  length                 :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  address_ids            :string           is an Array
 #
 # Indexes
 #

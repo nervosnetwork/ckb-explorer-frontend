@@ -14,11 +14,13 @@ module CkbSync
       def save_block(node_block, sync_type)
         ckb_transaction_and_display_cell_hashes = []
         local_block = build_block(node_block, sync_type)
+        block_contained_addresses = Set.new
+
         node_block["uncles"].map(&:to_h).map(&:deep_stringify_keys).each do |uncle_block|
           build_uncle_block(uncle_block.to_h, local_block)
         end
 
-        build_ckb_transactions(local_block, node_block["transactions"], sync_type, ckb_transaction_and_display_cell_hashes)
+        build_ckb_transactions(local_block, node_block["transactions"], sync_type, ckb_transaction_and_display_cell_hashes, block_contained_addresses)
 
         local_block.ckb_transactions_count = ckb_transaction_and_display_cell_hashes.size
 
@@ -31,6 +33,7 @@ module CkbSync
           CkbTransaction.import! ckb_transactions, batch_size: 1500, on_duplicate_key_update: [:transaction_fee, :display_inputs, :display_outputs, :display_inputs_status, :transaction_fee_status]
 
           local_block.total_transaction_fee = ckb_transactions.reduce(0) { |memo, ckb_transaction| memo + ckb_transaction.transaction_fee }
+          local_block.address_ids = block_contained_addresses.to_a
           local_block.save!
         end
 
@@ -102,7 +105,7 @@ module CkbSync
         end
       end
 
-      def build_ckb_transactions(local_block, transactions, sync_type, ckb_transaction_and_display_cell_hashes)
+      def build_ckb_transactions(local_block, transactions, sync_type, ckb_transaction_and_display_cell_hashes, block_contained_addresses)
         ckb_transaction_count_info = {}
 
         transactions.each do |transaction|
@@ -119,6 +122,7 @@ module CkbSync
           addresses_arr = addresses.to_a
           ckb_transaction.addresses << addresses_arr
           addresses_arr.each do |address|
+            block_contained_addresses << address.id
             if ckb_transaction_count_info[address.id].present?
               ckb_transaction_count = ckb_transaction_count_info[address.id]
               ckb_transaction_count_info[address.id] = ckb_transaction_count + 1
