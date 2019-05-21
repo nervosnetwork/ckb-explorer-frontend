@@ -26,7 +26,7 @@ module CkbSync
 
         ApplicationRecord.transaction do
           Block.import! [local_block], recursive: true, batch_size: 1500
-          SyncInfo.find_by!(name: sync_tip_block_number_type(sync_type), value: local_block.number).update!(status: "synced")
+          SyncInfo.find_by!(name: sync_tip_block_number_type(sync_type), value: local_block.number).update_attribute(:status, "synced")
 
           ckb_transactions = assign_display_info_to_ckb_transaction(ckb_transaction_and_display_cell_hashes)
           calculate_transaction_fee(node_block["transactions"], ckb_transactions)
@@ -49,11 +49,11 @@ module CkbSync
       end
 
       def update_ckb_transaction_display_inputs(ckb_transaction)
-        display_inputs = []
+        display_inputs = Set.new
         ckb_transaction.cell_inputs.find_each do |cell_input|
           display_inputs << build_display_input(cell_input)
         end
-        assign_display_inputs(ckb_transaction, display_inputs)
+        assign_display_inputs(ckb_transaction, display_inputs.to_a)
 
         ckb_transaction.save
       end
@@ -84,15 +84,7 @@ module CkbSync
       end
 
       def assign_display_inputs(ckb_transaction, display_inputs)
-        should_assign = true
-        display_inputs.each do |display_input|
-          if display_input.blank?
-            should_assign = false
-            break
-          end
-        end
-
-        if should_assign
+        if !display_inputs.include?(nil)
           ckb_transaction.display_inputs = display_inputs
           ckb_transaction.display_inputs_status = "generated"
         end
@@ -171,15 +163,26 @@ module CkbSync
       end
 
       def assign_display_info_to_ckb_transaction(ckb_transaction_and_display_cell_hashes)
-        ckb_transaction_and_display_cell_hashes.map do |ckb_transaction_and_display_cell_hash|
+        ckb_transactions = []
+        ckb_transaction_and_display_cell_hashes.each do |ckb_transaction_and_display_cell_hash|
           transaction = ckb_transaction_and_display_cell_hash[:transaction]
 
-          display_inputs = ckb_transaction_and_display_cell_hash[:inputs].map(&method(:build_display_input))
-          assign_display_inputs(transaction, display_inputs)
+          display_inputs = Set.new
+          ckb_transaction_and_display_cell_hash[:inputs].each do |cell_input|
+            display_inputs << build_display_input(cell_input)
+          end
 
-          transaction.display_outputs = ckb_transaction_and_display_cell_hash[:outputs].map { |output| { id: output.id, capacity: output.capacity, address_hash: output.address_hash } }
-          transaction
+          assign_display_inputs(transaction, display_inputs)
+          display_outputs = []
+          ckb_transaction_and_display_cell_hash[:outputs].each do |output|
+            display_outputs << { id: output.id, capacity: output.capacity, address_hash: output.address_hash }
+          end
+
+          transaction.display_outputs = display_outputs
+          ckb_transactions << transaction
         end
+
+        ckb_transactions
       end
 
       def build_display_input(cell_input)
