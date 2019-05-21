@@ -127,7 +127,14 @@ class CkbUtils
   end
 
   def self.calculate_transaction_fee(cell_input_capacities, cell_output_capacities)
-    if cell_input_capacities.all?(&:present?)
+    should_assign = true
+    cell_input_capacities.each do |cell_input_capacity|
+      if cell_input_capacity.blank?
+        should_assign = false
+        break
+      end
+    end
+    if should_assign
       input_capacities = cell_input_capacities.reduce(0, &:+)
       output_capacities = cell_output_capacities.reduce(0, &:+)
       input_capacities.zero? ? 0 : (input_capacities - output_capacities)

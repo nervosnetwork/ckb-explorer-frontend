@@ -38,64 +38,40 @@ module CkbSync
       end
 
       def update_ckb_transaction_info_and_fee
-        display_inputs_ckb_transaction_ids = CkbTransaction.ungenerated.limit(500).ids.each_slice(100).map { |ids| [ids] }
+        display_inputs_ckb_transaction_ids = CkbTransaction.ungenerated.limit(500).ids.map { |ids| [ids] }
         Sidekiq::Client.push_bulk("class" => UpdateTransactionDisplayInputsWorker, "args" => display_inputs_ckb_transaction_ids, "queue" => "transaction_info_updater") if display_inputs_ckb_transaction_ids.present?
 
-        transaction_fee_ckb_transaction_ids = CkbTransaction.uncalculated.limit(500).ids.each_slice(100).map { |ids| [ids] }
+        transaction_fee_ckb_transaction_ids = CkbTransaction.uncalculated.limit(500).ids.map { |ids| [ids] }
         Sidekiq::Client.push_bulk("class" => UpdateTransactionFeeWorker, "args" => display_inputs_ckb_transaction_ids, "queue" => "transaction_info_updater") if transaction_fee_ckb_transaction_ids.present?
       end
 
-      def update_ckb_transaction_display_inputs(ckb_transactions)
-        return if ckb_transactions.count == 0
-
-        ckb_transaction_arr = []
-        ckb_transactions.find_each do |ckb_transaction|
-          display_inputs = []
-          ckb_transaction.cell_inputs.find_each do |cell_input|
-            display_inputs << build_display_input(cell_input)
-          end
-          assign_display_inputs(ckb_transaction, display_inputs)
-
-          ckb_transaction_arr << ckb_transaction
+      def update_ckb_transaction_display_inputs(ckb_transaction)
+        display_inputs = []
+        ckb_transaction.cell_inputs.find_each do |cell_input|
+          display_inputs << build_display_input(cell_input)
         end
+        assign_display_inputs(ckb_transaction, display_inputs)
 
-        CkbTransaction.import! ckb_transaction_arr, batch_size: 1500, on_duplicate_key_update: [:display_inputs, :display_inputs_status]
+        ckb_transaction.save
       end
 
-      def update_transaction_fee(ckb_transactions)
-        return if ckb_transactions.count == 0
+      def update_transaction_fee(ckb_transaction)
+        transaction_fee = CkbUtils.ckb_transaction_fee(ckb_transaction)
+        assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
 
-        ckb_transaction_arr = []
-        ckb_transactions.find_each do |ckb_transaction|
-          transaction_fee = CkbUtils.ckb_transaction_fee(ckb_transaction)
-          assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
-
-          ckb_transaction_arr << ckb_transaction
-        end
         ApplicationRecord.transaction do
-          CkbTransaction.import! ckb_transaction_arr, batch_size: 1500, on_duplicate_key_update: [:transaction_fee, :transaction_fee_status]
-          block_ids = ckb_transactions.pluck(:block_id)
-          blocks = update_block_total_transaction_fee(block_ids)
-
-          Block.import! blocks, batch_size: 1500, on_duplicate_key_update: [:total_transaction_fee]
+          ckb_transaction.save!
+          block = ckb_transaction.block
+          total_transaction_fee = 0
+          block.ckb_transactions.find_each do |transaction|
+            total_transaction_fee += transaction.transaction_fee
+          end
+          block.total_transaction_fee = total_transaction_fee
+          block.save!
         end
       end
 
       private
-
-      def update_block_total_transaction_fee(block_ids)
-        blocks = []
-        Block.where(id: block_ids).find_each do |block|
-          total_transaction_fee = block.total_transaction_fee
-          block.ckb_transactions.find_each do |ckb_transaction|
-            total_transaction_fee += ckb_transaction.transaction_fee
-          end
-          block.total_transaction_fee = total_transaction_fee
-          blocks << block
-        end
-
-        blocks
-      end
 
       def assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
         if transaction_fee.present?
@@ -105,7 +81,15 @@ module CkbSync
       end
 
       def assign_display_inputs(ckb_transaction, display_inputs)
-        if display_inputs.all?(&:present?)
+        should_assign = true
+        display_inputs.each do |display_input|
+          if display_input.blank?
+            should_assign = false
+            break
+          end
+        end
+
+        if should_assign
           ckb_transaction.display_inputs = display_inputs
           ckb_transaction.display_inputs_status = "generated"
         end
