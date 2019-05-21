@@ -34,7 +34,15 @@ module CkbSync
         local_block.ckb_transactions.find_each do |ckb_transaction|
           cell_inputs.concat ckb_transaction.cell_inputs
         end
-        cell_inputs.map { |cell_input| cell_input.previous_cell_output&.update(status: :dead) }
+
+        cell_outputs = Set.new
+        cell_inputs.each do |cell_input|
+          cell_outputs << cell_input.previous_cell_output
+        end
+
+        cell_outputs.delete(nil).each do |cell_output|
+          cell_output.update_attribute(:status, :dead)
+        end
       end
 
       def update_address_balance_and_cell_consumed!(local_block)
