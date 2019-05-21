@@ -20,7 +20,7 @@ class Block < ApplicationRecord
   attribute :proposals, :ckb_array_hash, hash_length: ENV["DEFAULT_SHORT_HASH_LENGTH"]
 
   scope :recent, -> { order(timestamp: :desc) }
-  scope :available, -> { where("status in (?,?)", statuses[:inauthentic], statuses[:authentic]) }
+  scope :available, -> { where(status: [:inauthentic, :authentic]) }
 
   def verify!(node_block)
     if verified?(node_block.dig("header", "hash"))

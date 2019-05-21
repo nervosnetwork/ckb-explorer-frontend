@@ -9,7 +9,7 @@ class CellOutput < ApplicationRecord
 
   validates :capacity, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  scope :available, -> { where("status in (?,?)", statuses[:live], statuses[:dead]) }
+  scope :available, -> { where(status: [:live, :dead]) }
 
   def address_hash
     address.address_hash
