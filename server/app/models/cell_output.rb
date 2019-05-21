@@ -33,7 +33,7 @@ end
 #
 # Indexes
 #
-#  index_cell_outputs_on_address_id          (address_id)
-#  index_cell_outputs_on_block_id            (block_id)
-#  index_cell_outputs_on_ckb_transaction_id  (ckb_transaction_id)
+#  index_cell_outputs_on_address_id_and_status  (address_id,status)
+#  index_cell_outputs_on_block_id               (block_id)
+#  index_cell_outputs_on_ckb_transaction_id     (ckb_transaction_id)
 #
