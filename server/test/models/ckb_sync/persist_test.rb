@@ -526,21 +526,19 @@ module CkbSync
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 
         previous_transaction = create(:ckb_transaction, :with_cell_output_and_lock_script, tx_hash: "0x598315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3")
-        previous_transaction1 = create(:ckb_transaction, :with_cell_output_and_lock_script, tx_hash: "0x498315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3", block: block)
         previous_output = previous_transaction.cell_outputs.order(:id)[0]
-        previous_output1 = previous_transaction1.cell_outputs.order(:id)[0]
+
         node_display_inputs = [
-          { id: previous_output1.id, from_cellbase: false, capacity: previous_output1.capacity.to_s, address_hash: previous_output1.address_hash }.sort_by { |k, _v| k }.to_h.deep_stringify_keys,
           { id: previous_output.id, from_cellbase: false, capacity: previous_output.capacity.to_s, address_hash: previous_output.address_hash }.sort_by { |k, _v| k }.to_h.deep_stringify_keys
         ]
 
-        local_ckb_transactions = local_block.ckb_transactions
+        local_ckb_transaction = local_block.ckb_transactions.first
 
-        assert_changes -> { local_ckb_transactions.reload.pluck(:display_inputs_status).uniq }, from: ["ungenerated"], to: ["generated"] do
-          CkbSync::Persist.update_ckb_transaction_display_inputs(local_ckb_transactions)
+        assert_changes -> { local_ckb_transaction.reload.display_inputs_status }, from: "ungenerated", to: "generated" do
+          CkbSync::Persist.update_ckb_transaction_display_inputs(local_ckb_transaction)
         end
 
-        local_block_cell_inputs = local_ckb_transactions.map { |ckb_transaction| ckb_transaction.display_inputs.map { |display_input| display_input.sort_by { |k, _v| k }.to_h }}.flatten
+        local_block_cell_inputs = local_ckb_transaction.display_inputs.map { |display_input| display_input.sort_by { |k, _v| k }.to_h }
         assert_equal node_display_inputs, local_block_cell_inputs
       end
     end
@@ -556,10 +554,10 @@ module CkbSync
         create(:ckb_transaction, :with_cell_output_and_lock_script, tx_hash: "0x598315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3")
         create(:ckb_transaction, :with_cell_output_and_lock_script, tx_hash: "0x498315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3", block: block)
 
-        local_ckb_transactions = local_block.ckb_transactions
+        local_ckb_transaction = local_block.ckb_transactions.first
 
-        assert_changes -> { local_ckb_transactions.reload.pluck(:transaction_fee_status).uniq }, from: ["uncalculated"], to: ["calculated"] do
-          CkbSync::Persist.update_transaction_fee(local_ckb_transactions)
+        assert_changes -> { local_ckb_transaction.transaction_fee_status }, from: "uncalculated", to: "calculated" do
+          CkbSync::Persist.update_transaction_fee(local_ckb_transaction)
         end
       end
     end
@@ -572,24 +570,24 @@ module CkbSync
 
         create(:ckb_transaction, :with_cell_output_and_lock_script, tx_hash: "0x598315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3", block: local_block)
 
-        local_ckb_transactions = local_block.ckb_transactions
+        local_ckb_transaction = local_block.ckb_transactions.first
 
-        assert_changes -> { local_ckb_transactions.reload.sum(:transaction_fee) }, from: 0, to: (10**8 * 5 - 50000) do
-          CkbSync::Persist.update_transaction_fee(local_ckb_transactions)
+        assert_changes -> { local_ckb_transaction.reload.transaction_fee }, from: 0, to: (10**8 * 5 - 50000) do
+          CkbSync::Persist.update_transaction_fee(local_ckb_transaction)
         end
 
         assert_equal 10**8 * 5 - 50000, local_block.reload.total_transaction_fee
       end
     end
 
-    test ".update_ckb_transaction_info_and_fee should queuing 10 jobs when has 1000 transaction" do
+    test ".update_ckb_transaction_info_and_fee should queuing 1000 jobs when has 1000 transaction" do
       Sidekiq::Testing.fake!
 
       block = create(:block, :with_block_hash)
       create_list(:ckb_transaction, 1000, block: block)
       CkbSync::Persist.update_ckb_transaction_info_and_fee
 
-      assert_equal 10, Sidekiq::Queues["transaction_info_updater"].size
+      assert_equal 1000, Sidekiq::Queues["transaction_info_updater"].size
       assert_equal "UpdateTransactionDisplayInputsWorker", Sidekiq::Queues["transaction_info_updater"].first["class"]
       assert_equal "UpdateTransactionFeeWorker", Sidekiq::Queues["transaction_info_updater"].last["class"]
     end
