@@ -100,13 +100,17 @@ class CkbUtils
   def self.get_balance(address_hash)
     return if address_hash.blank?
 
-    get_unspent_cells(address_hash).reduce(0) { |memo, cell| memo + cell.capacity }
+    get_unspent_cells(address_hash).sum(:capacity)
   end
 
   def self.address_cell_consumed(address_hash)
     return if address_hash.blank?
+    address_cell_consumed = 0
+    get_unspent_cells(address_hash).each do |cell_output|
+      address_cell_consumed += calculate_cell_min_capacity(cell_output.node_cell_output)
+    end
 
-    get_unspent_cells(address_hash).reduce(0) { |memo, output| memo + calculate_cell_min_capacity(output.node_cell_output) }
+    address_cell_consumed
   end
 
   def self.cell_input_capacity(cell_input)
