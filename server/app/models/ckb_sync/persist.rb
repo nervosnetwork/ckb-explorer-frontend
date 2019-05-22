@@ -12,7 +12,6 @@ module CkbSync
       end
 
       def save_block(node_block, sync_type)
-        ckb_transaction_and_display_cell_hashes = []
         local_block = build_block(node_block, sync_type)
         block_contained_addresses = Set.new
 
@@ -20,19 +19,11 @@ module CkbSync
           build_uncle_block(uncle_block.to_h, local_block)
         end
 
-        build_ckb_transactions(local_block, node_block["transactions"], sync_type, ckb_transaction_and_display_cell_hashes, block_contained_addresses)
-
-        local_block.ckb_transactions_count = ckb_transaction_and_display_cell_hashes.size
-
         ApplicationRecord.transaction do
-          Block.import! [local_block], recursive: true, batch_size: 1500
           SyncInfo.find_by!(name: sync_tip_block_number_type(sync_type), value: local_block.number).update_attribute(:status, "synced")
+          ckb_transactions = build_ckb_transactions(local_block, node_block["transactions"], sync_type, block_contained_addresses)
+          Block.import! [local_block], recursive: true
 
-          ckb_transactions = assign_display_info_to_ckb_transaction(ckb_transaction_and_display_cell_hashes)
-          calculate_transaction_fee(node_block["transactions"], ckb_transactions)
-          CkbTransaction.import! ckb_transactions, batch_size: 1500, on_duplicate_key_update: [:transaction_fee, :display_inputs, :display_outputs, :display_inputs_status, :transaction_fee_status]
-
-          local_block.total_transaction_fee = block_total_transaction_fee(ckb_transactions)
           local_block.address_ids = block_contained_addresses.to_a
           local_block.ckb_transactions_count = ckb_transactions.size
           local_block.save!
@@ -48,7 +39,7 @@ module CkbSync
 
       def update_ckb_transaction_info
         display_inputs_ckb_transaction_ids = CkbTransaction.ungenerated.limit(500).ids.map { |ids| [ids] }
-        Sidekiq::Client.push_bulk("class" => "UpdateTransactionDisplayInputsWorker", "args" => display_inputs_ckb_transaction_ids, "queue" => "transaction_info_updater") if display_inputs_ckb_transaction_ids.present?
+        Sidekiq::Client.push_bulk("class" => "UpdateTransactionDisplayInfosWorker", "args" => display_inputs_ckb_transaction_ids, "queue" => "transaction_info_updater") if display_inputs_ckb_transaction_ids.present?
       end
 
       def update_ckb_transaction_fee
@@ -62,6 +53,16 @@ module CkbSync
           display_inputs << build_display_input(cell_input)
         end
         assign_display_inputs(ckb_transaction, display_inputs.to_a)
+
+        ckb_transaction.save
+      end
+
+      def update_ckb_transaction_display_outputs(ckb_transaction)
+        display_outputs = []
+        ckb_transaction.cell_outputs.find_each do |cell_output|
+          display_outputs << { id: cell_output.id, capacity: cell_output.capacity, address_hash: cell_output.address_hash }
+        end
+        ckb_transaction.display_outputs = display_outputs
 
         ckb_transaction.save
       end
@@ -84,15 +85,6 @@ module CkbSync
 
       private
 
-      def block_total_transaction_fee(ckb_transactions)
-        total_transaction_fee = 0
-        ckb_transactions.each do |ckb_transaction|
-          total_transaction_fee += ckb_transaction.transaction_fee
-        end
-
-        total_transaction_fee
-      end
-
       def assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
         if transaction_fee.present?
           ckb_transaction.transaction_fee = transaction_fee
@@ -114,34 +106,37 @@ module CkbSync
         end
       end
 
-      def build_ckb_transactions(local_block, transactions, sync_type, ckb_transaction_and_display_cell_hashes, block_contained_addresses)
+      def build_ckb_transactions(local_block, transactions, sync_type, block_contained_addresses)
         ckb_transaction_count_info = {}
+        ckb_transactions = []
 
         transactions.each do |transaction|
           addresses = Set.new
-          ckb_transaction_and_display_cell_hash = { transaction: nil, inputs: [], outputs: [] }
           ckb_transaction = build_ckb_transaction(local_block, transaction, sync_type)
-          ckb_transaction_and_display_cell_hash[:transaction] = ckb_transaction
+          ckb_transactions << ckb_transaction
 
-          build_cell_inputs(transaction["inputs"], ckb_transaction, ckb_transaction_and_display_cell_hash)
-          build_cell_outputs(transaction["outputs"], ckb_transaction, ckb_transaction_and_display_cell_hash, addresses)
+          build_cell_inputs(transaction["inputs"], ckb_transaction)
+          build_cell_outputs(transaction["outputs"], ckb_transaction, addresses)
 
-          ckb_transaction_and_display_cell_hashes << ckb_transaction_and_display_cell_hash
+          counting_address_transactions(addresses, block_contained_addresses, ckb_transaction, ckb_transaction_count_info)
+        end
+        update_addresses_ckb_transactions_count(ckb_transaction_count_info)
 
-          addresses_arr = addresses.to_a
-          ckb_transaction.addresses << addresses_arr
-          addresses_arr.each do |address|
-            block_contained_addresses << address.id
-            if ckb_transaction_count_info[address.id].present?
-              ckb_transaction_count = ckb_transaction_count_info[address.id]
-              ckb_transaction_count_info[address.id] = ckb_transaction_count + 1
-            else
-              ckb_transaction_count_info.merge!({ address.id => 1 })
-            end
+        ckb_transactions
+      end
+
+      def counting_address_transactions(addresses, block_contained_addresses, ckb_transaction, ckb_transaction_count_info)
+        addresses_arr = addresses.to_a
+        ckb_transaction.addresses << addresses_arr
+        addresses_arr.each do |address|
+          block_contained_addresses << address.id
+          if ckb_transaction_count_info[address.id].present?
+            ckb_transaction_count = ckb_transaction_count_info[address.id]
+            ckb_transaction_count_info[address.id] = ckb_transaction_count + 1
+          else
+            ckb_transaction_count_info.merge!({ address.id => 1 })
           end
         end
-
-        update_addresses_ckb_transactions_count(ckb_transaction_count_info)
       end
 
       def update_addresses_ckb_transactions_count(ckb_transaction_count_info)
@@ -151,55 +146,24 @@ module CkbSync
         end
       end
 
-      def build_cell_inputs(node_inputs, ckb_transaction, ckb_transaction_and_display_cell_hash)
+      def build_cell_inputs(node_inputs, ckb_transaction)
         node_inputs.each do |input|
-          cell_input = build_cell_input(ckb_transaction, input)
-          ckb_transaction_and_display_cell_hash[:inputs] << cell_input
+          build_cell_input(ckb_transaction, input)
         end
       end
 
-      def build_cell_outputs(node_outputs, ckb_transaction, ckb_transaction_and_display_cell_hash, addresses)
+      def build_cell_outputs(node_outputs, ckb_transaction, addresses)
         node_outputs.each do |output|
           address = Address.find_or_create_address(output["lock"])
           cell_output = build_cell_output(ckb_transaction, output, address)
-          lock_script = build_lock_script(cell_output, output["lock"], address)
-          type_script = build_type_script(cell_output, output["type"])
-          cell_output.node_cell_output = {
-            capacity: cell_output.capacity,
-            data: cell_output.data,
-            lock: lock_script.to_node_lock,
-            type: type_script&.to_node_type
-          }
-          ckb_transaction_and_display_cell_hash[:outputs] << cell_output
+          build_lock_script(cell_output, output["lock"], address)
+          build_type_script(cell_output, output["type"])
           addresses << address
         end
       end
 
       def sync_tip_block_number_type(sync_type)
         "#{sync_type}_tip_block_number"
-      end
-
-      def assign_display_info_to_ckb_transaction(ckb_transaction_and_display_cell_hashes)
-        ckb_transactions = []
-        ckb_transaction_and_display_cell_hashes.each do |ckb_transaction_and_display_cell_hash|
-          transaction = ckb_transaction_and_display_cell_hash[:transaction]
-
-          display_inputs = Set.new
-          ckb_transaction_and_display_cell_hash[:inputs].each do |cell_input|
-            display_inputs << build_display_input(cell_input)
-          end
-
-          assign_display_inputs(transaction, display_inputs)
-          display_outputs = []
-          ckb_transaction_and_display_cell_hash[:outputs].each do |output|
-            display_outputs << { id: output.id, capacity: output.capacity, address_hash: output.address_hash }
-          end
-
-          transaction.display_outputs = display_outputs
-          ckb_transactions << transaction
-        end
-
-        ckb_transactions
       end
 
       def build_display_input(cell_input)
