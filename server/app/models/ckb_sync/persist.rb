@@ -153,12 +153,14 @@ module CkbSync
       end
 
       def build_cell_outputs(node_outputs, ckb_transaction, addresses)
+        cell_index = 0
         node_outputs.each do |output|
           address = Address.find_or_create_address(output["lock"])
-          cell_output = build_cell_output(ckb_transaction, output, address)
+          cell_output = build_cell_output(ckb_transaction, output, address, cell_index)
           build_lock_script(cell_output, output["lock"], address)
           build_type_script(cell_output, output["type"])
           addresses << address
+          cell_index += 1
         end
       end
 
@@ -206,12 +208,14 @@ module CkbSync
         )
       end
 
-      def build_cell_output(ckb_transaction, output, address)
+      def build_cell_output(ckb_transaction, output, address, cell_index)
         ckb_transaction.cell_outputs.build(
           capacity: output["capacity"],
           data: output["data"],
           address: address,
-          block: ckb_transaction.block
+          block: ckb_transaction.block,
+          tx_hash: ckb_transaction.tx_hash,
+          cell_index: cell_index
         )
       end
 
