@@ -131,7 +131,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
       })
       .catch(() => {
         appContext.hideLoading()
-        browserHistory.push('/search/fail')
+        appContext.toastMessage('Network exception, please try again later', 3000)
       })
   }
 
@@ -149,7 +149,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
       })
       .catch(() => {
         appContext.hideLoading()
-        browserHistory.push('/search/fail')
+        appContext.toastMessage('Network exception, please try again later', 3000)
       })
   }
 
