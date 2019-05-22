@@ -49,10 +49,13 @@ module CkbSync
 
       def update_ckb_transaction_display_inputs(ckb_transaction)
         display_inputs = Set.new
+        previous_cell_output_id_info = {}
         ckb_transaction.cell_inputs.find_each do |cell_input|
-          display_inputs << build_display_input(cell_input)
+          display_inputs << build_display_input(cell_input, previous_cell_output_id_info)
         end
         assign_display_inputs(ckb_transaction, display_inputs.to_a)
+
+        assign_previous_cell_output_id(previous_cell_output_id_info)
 
         ckb_transaction.save
       end
@@ -74,16 +77,19 @@ module CkbSync
         ApplicationRecord.transaction do
           ckb_transaction.save!
           block = ckb_transaction.block
-          total_transaction_fee = 0
-          block.ckb_transactions.find_each do |transaction|
-            total_transaction_fee += transaction.transaction_fee
-          end
-          block.total_transaction_fee = total_transaction_fee
+          block.total_transaction_fee = block.ckb_transactions.sum(:transaction_fee)
           block.save!
         end
       end
 
       private
+
+      def assign_previous_cell_output_id(previous_cell_output_id_info)
+        previous_cell_output_id_info.each do |cell_input_id, cell_output_id|
+          cell_input = CellInput.find(cell_input_id)
+          cell_input.update(previous_cell_output_id: cell_output_id)
+        end
+      end
 
       def assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
         if transaction_fee.present?
@@ -96,13 +102,6 @@ module CkbSync
         if !display_inputs.include?(nil)
           ckb_transaction.display_inputs = display_inputs
           ckb_transaction.display_inputs_status = "generated"
-        end
-      end
-
-      def calculate_transaction_fee(transactions, ckb_transactions)
-        transactions.each_with_index do |transaction, index|
-          transaction_fee = CkbUtils.transaction_fee(transaction)
-          assign_ckb_transaction_fee(ckb_transactions[index], transaction_fee)
         end
       end
 
@@ -168,7 +167,7 @@ module CkbSync
         "#{sync_type}_tip_block_number"
       end
 
-      def build_display_input(cell_input)
+      def build_display_input(cell_input, previous_cell_output_id_info)
         cell = cell_input.previous_output["cell"]
 
         if cell.blank?
@@ -178,6 +177,7 @@ module CkbSync
 
           return if previous_cell_output.blank?
 
+          previous_cell_output_id_info[cell_input.id] = previous_cell_output.id
           address_hash = previous_cell_output.address_hash
           { id: previous_cell_output.id, from_cellbase: false, capacity: previous_cell_output.capacity, address_hash: address_hash }
         end
