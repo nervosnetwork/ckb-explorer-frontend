@@ -285,7 +285,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       })
       .catch(() => {
         appContext.hideLoading()
-        browserHistory.push(`/search/fail?q=${hash}`)
+        appContext.toastMessage('Network exception, please try again later', 3000)
       })
   }
 

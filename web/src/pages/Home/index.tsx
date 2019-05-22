@@ -21,7 +21,6 @@ import {
   TableMinerContentItem,
 } from '../../components/Table'
 import Search from '../../components/Search'
-import browserHistory from '../../routes/history'
 import BlockHeightIcon from '../../asserts/block_height.png'
 import TransactionIcon from '../../asserts/transactions.png'
 import BlockRewardIcon from '../../asserts/block_reward_white.png'
@@ -49,7 +48,7 @@ export default () => {
       })
       .catch(() => {
         appContext.hideLoading()
-        browserHistory.push('/search/fail')
+        appContext.toastMessage('Network exception, please try again later', 3000)
       })
   }
 
