@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_21_075501) do
+ActiveRecord::Schema.define(version: 2019_05_22_092518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,9 +87,12 @@ ActiveRecord::Schema.define(version: 2019_05_21_075501) do
     t.integer "status", limit: 2, default: 0
     t.decimal "address_id", precision: 30
     t.decimal "block_id", precision: 30
+    t.binary "tx_hash"
+    t.integer "cell_index"
     t.index ["address_id", "status"], name: "index_cell_outputs_on_address_id_and_status"
     t.index ["block_id"], name: "index_cell_outputs_on_block_id"
     t.index ["ckb_transaction_id"], name: "index_cell_outputs_on_ckb_transaction_id"
+    t.index ["tx_hash", "cell_index"], name: "index_cell_outputs_on_tx_hash_and_cell_index"
   end
 
   create_table "ckb_transactions", force: :cascade do |t|

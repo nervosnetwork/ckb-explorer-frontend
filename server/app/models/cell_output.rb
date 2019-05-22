@@ -29,10 +29,13 @@ end
 #  status             :integer          default("live")
 #  address_id         :decimal(30, )
 #  block_id           :decimal(30, )
+#  tx_hash            :binary
+#  cell_index         :integer
 #
 # Indexes
 #
-#  index_cell_outputs_on_address_id_and_status  (address_id,status)
-#  index_cell_outputs_on_block_id               (block_id)
-#  index_cell_outputs_on_ckb_transaction_id     (ckb_transaction_id)
+#  index_cell_outputs_on_address_id_and_status   (address_id,status)
+#  index_cell_outputs_on_block_id                (block_id)
+#  index_cell_outputs_on_ckb_transaction_id      (ckb_transaction_id)
+#  index_cell_outputs_on_tx_hash_and_cell_index  (tx_hash,cell_index)
 #
