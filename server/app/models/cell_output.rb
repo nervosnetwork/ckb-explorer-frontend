@@ -29,7 +29,6 @@ end
 #  status             :integer          default("live")
 #  address_id         :decimal(30, )
 #  block_id           :decimal(30, )
-#  node_cell_output   :jsonb
 #
 # Indexes
 #

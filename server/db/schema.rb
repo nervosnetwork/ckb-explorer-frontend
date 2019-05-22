@@ -87,7 +87,6 @@ ActiveRecord::Schema.define(version: 2019_05_21_075501) do
     t.integer "status", limit: 2, default: 0
     t.decimal "address_id", precision: 30
     t.decimal "block_id", precision: 30
-    t.jsonb "node_cell_output"
     t.index ["address_id", "status"], name: "index_cell_outputs_on_address_id_and_status"
     t.index ["block_id"], name: "index_cell_outputs_on_block_id"
     t.index ["ckb_transaction_id"], name: "index_cell_outputs_on_ckb_transaction_id"
