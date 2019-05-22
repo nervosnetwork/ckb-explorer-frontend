@@ -18,7 +18,7 @@ module FastJsonapi
 
       def hash_for_one_record
         serialized_hash = super[:data][:attributes]
-        return !with_root_key ? serialized_hash : { message: @message,  errors: serialized_hash }
+        return !with_root_key ? serialized_hash : { message: @message, errors: serialized_hash }
       end
 
       def hash_for_collection

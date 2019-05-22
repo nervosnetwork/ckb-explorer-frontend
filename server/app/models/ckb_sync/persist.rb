@@ -32,8 +32,9 @@ module CkbSync
           calculate_transaction_fee(node_block["transactions"], ckb_transactions)
           CkbTransaction.import! ckb_transactions, batch_size: 1500, on_duplicate_key_update: [:transaction_fee, :display_inputs, :display_outputs, :display_inputs_status, :transaction_fee_status]
 
-          local_block.total_transaction_fee = ckb_transactions.reduce(0) { |memo, ckb_transaction| memo + ckb_transaction.transaction_fee }
+          local_block.total_transaction_fee = block_total_transaction_fee(ckb_transactions)
           local_block.address_ids = block_contained_addresses.to_a
+          local_block.ckb_transactions_count = ckb_transactions.size
           local_block.save!
         end
 
@@ -47,12 +48,12 @@ module CkbSync
 
       def update_ckb_transaction_info
         display_inputs_ckb_transaction_ids = CkbTransaction.ungenerated.limit(500).ids.map { |ids| [ids] }
-        Sidekiq::Client.push_bulk("class" => UpdateTransactionDisplayInputsWorker, "args" => display_inputs_ckb_transaction_ids, "queue" => "transaction_info_updater") if display_inputs_ckb_transaction_ids.present?
+        Sidekiq::Client.push_bulk("class" => "UpdateTransactionDisplayInputsWorker", "args" => display_inputs_ckb_transaction_ids, "queue" => "transaction_info_updater") if display_inputs_ckb_transaction_ids.present?
       end
 
       def update_ckb_transaction_fee
         transaction_fee_ckb_transaction_ids = CkbTransaction.uncalculated.limit(500).ids.map { |ids| [ids] }
-        Sidekiq::Client.push_bulk("class" => UpdateTransactionFeeWorker, "args" => transaction_fee_ckb_transaction_ids, "queue" => "transaction_info_updater") if transaction_fee_ckb_transaction_ids.present?
+        Sidekiq::Client.push_bulk("class" => "UpdateTransactionFeeWorker", "args" => transaction_fee_ckb_transaction_ids, "queue" => "transaction_info_updater") if transaction_fee_ckb_transaction_ids.present?
       end
 
       def update_ckb_transaction_display_inputs(ckb_transaction)
@@ -82,6 +83,15 @@ module CkbSync
       end
 
       private
+
+      def block_total_transaction_fee(ckb_transactions)
+        total_transaction_fee = 0
+        ckb_transactions.each do |ckb_transaction|
+          total_transaction_fee += ckb_transaction.transaction_fee
+        end
+
+        total_transaction_fee
+      end
 
       def assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
         if transaction_fee.present?
@@ -137,7 +147,7 @@ module CkbSync
       def update_addresses_ckb_transactions_count(ckb_transaction_count_info)
         ckb_transaction_count_info.each do |address_id, ckb_transaction_count|
           address = Address.find(address_id)
-          address.increment!("ckb_transactions_count", ckb_transaction_count)
+          address.lock!.increment!("ckb_transactions_count", ckb_transaction_count)
         end
       end
 

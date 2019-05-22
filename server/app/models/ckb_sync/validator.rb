@@ -55,8 +55,8 @@ module CkbSync
           end
         end
 
-        if addresses.size > 0
-          Sidekiq::Client.push_bulk("class" => UpdateAddressCellConsumedWorker, "args" => address_hashes.map { |hash| [hash] }, "queue" => "address_cell_consumed_updater")
+        if !addresses.empty?
+          Sidekiq::Client.push_bulk("class" => "UpdateAddressCellConsumedWorker", "args" => address_hashes.map { |hash| [hash] }, "queue" => "address_cell_consumed_updater")
           Address.import! addresses, on_duplicate_key_update: [:balance, :cell_consumed]
         end
       end

@@ -520,7 +520,7 @@ module CkbSync
 
     test ".update_ckb_transaction_display_inputs should update display inputs" do
       SyncInfo.local_inauthentic_tip_block_number
-      block = create(:block, :with_block_hash)
+
       node_block = JSON.parse(fake_node_block)
       VCR.use_cassette("blocks/10") do
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")

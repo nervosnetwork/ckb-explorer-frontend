@@ -105,6 +105,7 @@ class CkbUtils
 
   def self.address_cell_consumed(address_hash)
     return if address_hash.blank?
+
     address_cell_consumed = 0
     get_unspent_cells(address_hash).find_each do |cell_output|
       address_cell_consumed += calculate_cell_min_capacity(cell_output.node_cell_output)
