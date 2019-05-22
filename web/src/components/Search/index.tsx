@@ -55,7 +55,7 @@ const SearchPanel = styled.div`
   }
 `
 
-const Search = ({ opacity = false }: { opacity?: boolean }) => {
+const Search = ({ opacity = false, content }: { opacity?: boolean; content?: string }) => {
   const appContext = useContext(AppContext)
 
   const handleSearchResult = (q: string) => {
@@ -67,6 +67,8 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
       fetchSearchResult(query)
         .then((json: any) => {
           appContext.hideLoading()
+          const homeSearchBar = document.getElementById('home__search__bar') as HTMLInputElement
+          homeSearchBar.value = ''
           const { data } = json
           if (data.type === 'block') {
             browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
@@ -75,12 +77,13 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
           } else if (data.type === 'address') {
             browserHistory.push(`/address/${(data as AddressWrapper).attributes.address_hash}`)
           } else {
-            browserHistory.push('/search/fail')
+            homeSearchBar.value = q
+            browserHistory.push(`/search/fail?q=${query}`)
           }
         })
         .catch(() => {
           appContext.hideLoading()
-          browserHistory.push('/search/fail')
+          browserHistory.push(`/search/fail?q=${query}`)
         })
     }
   }
@@ -94,27 +97,25 @@ const Search = ({ opacity = false }: { opacity?: boolean }) => {
     // opacity: 0.2,
   }
 
+  const searchPlaceholder = 'Block Height / Block Hash / Tx Hash / Address'
+  const handleSearch = (event: any) => {
+    if (event.keyCode === 13) {
+      handleSearchResult(event.target.value)
+    }
+  }
+
   return (
     <SearchPanel>
-      <input
-        id="home__search__bar"
-        placeholder="Block Height / Block Hash / Tx Hash / Address"
-        onKeyUp={(event: any) => {
-          if (event.keyCode === 13) {
-            handleSearchResult(event.target.value)
-          }
-        }}
-        style={opacity ? opacityStyle : transparentStyle}
-      />
-      <div
-        role="button"
-        tabIndex={-1}
-        onKeyPress={() => {}}
-        onClick={() => {
-          const homeSearchBar = document.getElementById('home__search__bar') as HTMLInputElement
-          handleSearchResult(homeSearchBar.value)
-        }}
-      >
+      {
+        <input
+          id="home__search__bar"
+          placeholder={searchPlaceholder}
+          defaultValue={content || ''}
+          onKeyUp={(event: any) => handleSearch(event)}
+          style={opacity ? opacityStyle : transparentStyle}
+        />
+      }
+      <div role="button" tabIndex={-1} onKeyPress={() => {}} onClick={(event: any) => handleSearch(event)}>
         <img src={SearchLogo} alt="search logo" />
       </div>
     </SearchPanel>

@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import queryString from 'query-string'
+import { RouteComponentProps } from 'react-router-dom'
 import Content from '../../components/Content'
 import Search from '../../components/Search'
 
@@ -16,11 +18,16 @@ const SearchContent = styled.div`
   text-align: center;
 `
 
-export default () => {
+export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
+  const { location } = props
+  const { search } = location
+  const parsed = queryString.parse(search)
+  const { q } = parsed
+
   return (
     <Content>
       <SearchPanel width={window.innerWidth} className="container">
-        <Search opacity />
+        <Search opacity content={q as string} />
         <SearchContent>Opps! Your search did not match any record. Please try different keywords~</SearchContent>
       </SearchPanel>
     </Content>
