@@ -10,7 +10,7 @@ module CkbSync
 
           local_block.verify!(node_block)
           update_cell_status!(local_block)
-          update_address_balance_and_cell_consumed!(local_block)
+          update_address_balance!(local_block)
         end
       end
 
@@ -30,17 +30,9 @@ module CkbSync
       private
 
       def update_cell_status!(local_block)
-        cell_inputs = []
-        local_block.ckb_transactions.find_each do |ckb_transaction|
-          cell_inputs << ckb_transaction.cell_inputs
-        end
+        cell_output_ids = CellInput.where(ckb_transaction: local_block.ckb_transactions).select("previous_cell_output_id")
 
-        cell_output_ids = Set.new
-        cell_inputs.flatten.each do |cell_input|
-          cell_output_ids << cell_input.previous_cell_output&.id
-        end
-
-        CellOutput.where(id: cell_output_ids.delete(nil)).update_all(status: :dead)
+        CellOutput.where(id: cell_output_ids).update_all(status: :dead)
       end
 
       def update_address_balance!(local_block)
