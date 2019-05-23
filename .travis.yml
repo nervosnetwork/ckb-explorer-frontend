@@ -19,7 +19,7 @@ jobs:
         - cd server
         - gem install bundler -v 2.0.1
         - sudo apt-get update
-        - sudo apt-get install -y libsecp256k1-dev libsodium-dev
+        - sudo apt-get install -y libsodium-dev
       install:
         - git clone https://github.com/bitcoin-core/secp256k1.git && cd secp256k1 && ./autogen.sh && ./configure --enable-module-recovery && make && ./tests && sudo make install && cd ..
         - bundle install

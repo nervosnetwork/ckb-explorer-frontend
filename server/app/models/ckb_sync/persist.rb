@@ -117,7 +117,7 @@ module CkbSync
           build_cell_outputs(transaction["outputs"], ckb_transaction, addresses)
           addresses_arr = addresses.to_a
           ckb_transaction.addresses << addresses_arr
-          block_contained_addresses << addresses_arr.pluck(:id)
+          addresses_arr.each { |address| block_contained_addresses << address.id }
         end
 
         ckb_transactions
