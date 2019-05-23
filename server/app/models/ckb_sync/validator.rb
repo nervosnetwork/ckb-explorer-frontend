@@ -10,7 +10,7 @@ module CkbSync
 
           local_block.verify!(node_block)
           update_cell_status!(local_block)
-          update_address_balance!(local_block)
+          update_address_balance_and_ckb_transactions_count!(local_block)
         end
       end
 
@@ -23,7 +23,7 @@ module CkbSync
 
           local_block.verify!(node_block)
           update_cell_status!(local_block)
-          update_address_balance!(local_block)
+          update_address_balance_and_ckb_transactions_count!(local_block)
         end
       end
 
@@ -35,10 +35,12 @@ module CkbSync
         CellOutput.where(id: cell_output_ids).update_all(status: :dead)
       end
 
-      def update_address_balance!(local_block)
+      def update_address_balance_and_ckb_transactions_count!(local_block)
         addresses = []
         local_block.contained_addresses.each do |address|
-          address.balance = CkbUtils.get_balance(address.address_hash) || 0
+          address.balance = address.cell_outputs.live.sum(:capacity)
+          address.ckb_transactions_count = CellOutput.where(address: address).select("ckb_transaction_id").distinct.count
+
           addresses << address if address.changed?
         end
 

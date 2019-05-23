@@ -106,7 +106,6 @@ module CkbSync
       end
 
       def build_ckb_transactions(local_block, transactions, sync_type, block_contained_addresses)
-        ckb_transaction_count_info = {}
         ckb_transactions = []
 
         transactions.each do |transaction|
@@ -116,33 +115,12 @@ module CkbSync
 
           build_cell_inputs(transaction["inputs"], ckb_transaction)
           build_cell_outputs(transaction["outputs"], ckb_transaction, addresses)
-
-          counting_address_transactions(addresses, block_contained_addresses, ckb_transaction, ckb_transaction_count_info)
+          addresses_arr = addresses.to_a
+          ckb_transaction.addresses << addresses_arr
+          block_contained_addresses << addresses_arr.pluck(:id)
         end
-        update_addresses_ckb_transactions_count(ckb_transaction_count_info)
 
         ckb_transactions
-      end
-
-      def counting_address_transactions(addresses, block_contained_addresses, ckb_transaction, ckb_transaction_count_info)
-        addresses_arr = addresses.to_a
-        ckb_transaction.addresses << addresses_arr
-        addresses_arr.each do |address|
-          block_contained_addresses << address.id
-          if ckb_transaction_count_info[address.id].present?
-            ckb_transaction_count = ckb_transaction_count_info[address.id]
-            ckb_transaction_count_info[address.id] = ckb_transaction_count + 1
-          else
-            ckb_transaction_count_info.merge!({ address.id => 1 })
-          end
-        end
-      end
-
-      def update_addresses_ckb_transactions_count(ckb_transaction_count_info)
-        ckb_transaction_count_info.each do |address_id, ckb_transaction_count|
-          address = Address.find(address_id)
-          address.lock!.increment!("ckb_transactions_count", ckb_transaction_count)
-        end
       end
 
       def build_cell_inputs(node_inputs, ckb_transaction)
