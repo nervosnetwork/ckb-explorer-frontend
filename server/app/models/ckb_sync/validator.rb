@@ -10,7 +10,7 @@ module CkbSync
 
           local_block.verify!(node_block)
           update_cell_status!(local_block)
-          update_address_balance_and_cell_consumed!(local_block)
+          update_address_balance_and_ckb_transactions_count!(local_block)
         end
       end
 
@@ -23,26 +23,30 @@ module CkbSync
 
           local_block.verify!(node_block)
           update_cell_status!(local_block)
-          update_address_balance_and_cell_consumed!(local_block)
+          update_address_balance_and_ckb_transactions_count!(local_block)
         end
       end
 
       private
 
       def update_cell_status!(local_block)
-        cell_inputs = local_block.ckb_transactions.map(&:cell_inputs).flatten
-        cell_inputs.map { |cell_input| cell_input.previous_cell_output&.update(status: :dead) }
+        cell_output_ids = CellInput.where(ckb_transaction: local_block.ckb_transactions).select("previous_cell_output_id")
+
+        CellOutput.where(id: cell_output_ids).update_all(status: :dead)
       end
 
-      def update_address_balance_and_cell_consumed!(local_block)
-        addresses =
-          local_block.contained_addresses.map do |address|
-            address.balance = Utils::CkbUtils.get_balance(address.address_hash) || 0
-            address.cell_consumed = Utils::CkbUtils.address_cell_consumed(address.address_hash) || 0
-            address
-          end
+      def update_address_balance_and_ckb_transactions_count!(local_block)
+        addresses = []
+        local_block.contained_addresses.each do |address|
+          address.balance = address.cell_outputs.live.sum(:capacity)
+          address.ckb_transactions_count = CellOutput.where(address: address).select("ckb_transaction_id").distinct.count
 
-        Address.import! addresses.select(&:changed?), on_duplicate_key_update: [:balance, :cell_consumed]
+          addresses << address if address.changed?
+        end
+
+        if addresses.present?
+          Address.import! addresses, on_duplicate_key_update: [:balance]
+        end
       end
     end
   end

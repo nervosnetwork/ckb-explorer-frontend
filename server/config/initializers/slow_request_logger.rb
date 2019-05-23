@@ -13,7 +13,7 @@ class SlowRequestLogger
       duration = (finish - start) * 1000
 
       if duration >= MAX_QUERY_DURATION
-        slow_log.info("slow query detected: #{payload[:sql]}, duration: #{duration}")
+        slow_log.info("slow query detected: #{payload[:sql]}, binds: #{payload[:binds].map(&:value)}, duration: #{duration}")
       end
     end
 

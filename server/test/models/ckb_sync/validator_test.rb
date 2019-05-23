@@ -44,8 +44,8 @@ module CkbSync
       cell_output = previous_ckb_transaction.cell_outputs.create(capacity: 10**8, address: create(:address), block: block)
       cell_output.create_lock_script
 
-      ckb_transaction = create(:ckb_transaction)
-      ckb_transaction.cell_inputs.create(previous_output: { cell: { tx_hash: previous_ckb_transaction.tx_hash, index: 0 }, block_hash: block.block_hash })
+      ckb_transaction = create(:ckb_transaction, block: block)
+      ckb_transaction.cell_inputs.create(previous_output: { cell: { tx_hash: previous_ckb_transaction.tx_hash, index: 0 }, block_hash: block.block_hash }, previous_cell_output_id: cell_output.id)
 
       node_block = JSON.parse(fake_node_block(DEFAULT_NODE_BLOCK_HASH))
 

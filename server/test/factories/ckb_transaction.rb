@@ -30,18 +30,26 @@ FactoryBot.define do
 
     trait :with_cell_output_and_lock_script do
       after(:create) do |ckb_transaction, _evaluator|
-        cell_outputs = create_list(:cell_output, 3, ckb_transaction: ckb_transaction, block: ckb_transaction.block)
-        cell_outputs.map { |cell_output| create(:lock_script, cell_output: cell_output) }
+        output1 = create(:cell_output, ckb_transaction: ckb_transaction, block: ckb_transaction.block, tx_hash: ckb_transaction.tx_hash, cell_index: 0)
+        output2 = create(:cell_output, ckb_transaction: ckb_transaction, block: ckb_transaction.block, tx_hash: ckb_transaction.tx_hash, cell_index: 1)
+        output3 = create(:cell_output, ckb_transaction: ckb_transaction, block: ckb_transaction.block, tx_hash: ckb_transaction.tx_hash, cell_index: 2)
+        create(:lock_script, cell_output: output1)
+        create(:lock_script, cell_output: output2)
+        create(:lock_script, cell_output: output3)
       end
     end
 
     trait :with_cell_output_and_lock_and_type_script do
       after(:create) do |ckb_transaction, _evaluator|
-        cell_outputs = create_list(:cell_output, 3, ckb_transaction: ckb_transaction, block: ckb_transaction.block)
-        cell_outputs.map do |cell_output|
-          create(:lock_script, cell_output: cell_output)
-          create(:type_script, cell_output: cell_output)
-        end
+        output1 = create(:cell_output, ckb_transaction: ckb_transaction, block: ckb_transaction.block, tx_hash: ckb_transaction.tx_hash, cell_index: 0)
+        output2 = create(:cell_output, ckb_transaction: ckb_transaction, block: ckb_transaction.block, tx_hash: ckb_transaction.tx_hash, cell_index: 1)
+        output3 = create(:cell_output, ckb_transaction: ckb_transaction, block: ckb_transaction.block, tx_hash: ckb_transaction.tx_hash, cell_index: 2)
+        create(:lock_script, cell_output: output1)
+        create(:type_script, cell_output: output1)
+        create(:lock_script, cell_output: output2)
+        create(:type_script, cell_output: output2)
+        create(:lock_script, cell_output: output3)
+        create(:type_script, cell_output: output3)
       end
     end
   end

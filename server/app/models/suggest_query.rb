@@ -71,6 +71,6 @@ class SuggestQuery
   end
 
   def valid_address?
-    Utils::CkbUtils.parse_address(query_key) rescue nil
+    CkbUtils.parse_address(query_key) rescue nil
   end
 end

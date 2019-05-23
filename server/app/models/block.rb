@@ -32,7 +32,7 @@ class Block < ApplicationRecord
   end
 
   def contained_addresses
-    ckb_transactions.map(&:addresses).flatten.uniq
+    Address.where(id: address_ids)
   end
 
   def self.find_block(query_key)
@@ -53,8 +53,7 @@ class Block < ApplicationRecord
 
   def authenticate!
     update!(status: "authentic")
-    SyncInfo.find_by!(name: "authentic_tip_block_number", value: number).update!(status: "synced")
-    SyncInfo.find_by!(name: "inauthentic_tip_block_number", value: number).update!(status: "synced")
+    SyncInfo.find_by!(name: "authentic_tip_block_number", value: number).update_attribute(:status, "synced")
     ChangeCkbTransactionsStatusWorker.perform_async(id, "authentic")
   end
 
@@ -97,6 +96,7 @@ end
 #  length                 :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  address_ids            :string           is an Array
 #
 # Indexes
 #

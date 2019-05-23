@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_07_085943) do
+ActiveRecord::Schema.define(version: 2019_05_22_093025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
     t.string "length"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "address_ids", array: true
     t.index ["block_hash", "status"], name: "index_blocks_on_block_hash_and_status"
     t.index ["block_hash"], name: "index_blocks_on_block_hash", unique: true
     t.index ["number", "status"], name: "index_blocks_on_number_and_status"
@@ -74,7 +75,9 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
     t.bigint "ckb_transaction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "previous_cell_output_id"
     t.index ["ckb_transaction_id"], name: "index_cell_inputs_on_ckb_transaction_id"
+    t.index ["previous_cell_output_id"], name: "index_cell_inputs_on_previous_cell_output_id"
   end
 
   create_table "cell_outputs", force: :cascade do |t|
@@ -86,9 +89,12 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
     t.integer "status", limit: 2, default: 0
     t.decimal "address_id", precision: 30
     t.decimal "block_id", precision: 30
-    t.index ["address_id"], name: "index_cell_outputs_on_address_id"
+    t.binary "tx_hash"
+    t.integer "cell_index"
+    t.index ["address_id", "status"], name: "index_cell_outputs_on_address_id_and_status"
     t.index ["block_id"], name: "index_cell_outputs_on_block_id"
     t.index ["ckb_transaction_id"], name: "index_cell_outputs_on_ckb_transaction_id"
+    t.index ["tx_hash", "cell_index"], name: "index_cell_outputs_on_tx_hash_and_cell_index"
   end
 
   create_table "ckb_transactions", force: :cascade do |t|
@@ -110,8 +116,8 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
     t.index ["block_id"], name: "index_ckb_transactions_on_block_id"
     t.index ["display_inputs_status"], name: "index_ckb_transactions_on_display_inputs_status"
     t.index ["transaction_fee_status"], name: "index_ckb_transactions_on_transaction_fee_status"
+    t.index ["tx_hash", "block_id"], name: "index_ckb_transactions_on_tx_hash_and_block_id", unique: true
     t.index ["tx_hash", "status"], name: "index_ckb_transactions_on_tx_hash_and_status"
-    t.index ["tx_hash"], name: "index_ckb_transactions_on_tx_hash", unique: true
   end
 
   create_table "lock_scripts", force: :cascade do |t|
@@ -163,7 +169,7 @@ ActiveRecord::Schema.define(version: 2019_05_07_085943) do
     t.decimal "epoch", precision: 30
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["block_hash"], name: "index_uncle_blocks_on_block_hash", unique: true
+    t.index ["block_hash", "block_id"], name: "index_uncle_blocks_on_block_hash_and_block_id", unique: true
     t.index ["block_id"], name: "index_uncle_blocks_on_block_id"
   end
 
