@@ -309,36 +309,17 @@ module CkbSync
       end
     end
 
-    test ".save_block generated transactions should has correct display input" do
+    test ".save_block generated transactions should be nil" do
       VCR.use_cassette("blocks/10") do
         SyncInfo.local_inauthentic_tip_block_number
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).to_h.deep_stringify_keys
         set_default_lock_params(node_block: node_block)
-        node_block_transactions = node_block["transactions"]
-        node_block_cell_inputs = node_block_transactions.map { |commit_transaction| commit_transaction["inputs"] }.flatten
-        node_display_inputs = node_block_cell_inputs.map(&method(:build_display_input_from_node_input))
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_ckb_transactions = local_block.ckb_transactions
         local_block_cell_inputs = local_ckb_transactions.map(&:display_inputs).flatten
 
-        assert_equal node_display_inputs, local_block_cell_inputs
-      end
-    end
-
-    test ".save_block generated transactions should has correct display input when previous_transaction_hash is not base" do
-      SyncInfo.local_inauthentic_tip_block_number
-      previous_transaction = create(:ckb_transaction, :with_cell_output_and_lock_script, tx_hash: "0x598315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3")
-      node_block = JSON.parse(fake_node_block)
-
-      VCR.use_cassette("blocks/10") do
-        local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
-        local_ckb_transactions = local_block.ckb_transactions
-        local_block_cell_inputs = local_ckb_transactions.map(&:display_inputs).flatten.compact
-        previous_output = previous_transaction.cell_outputs.order(:id)[0]
-        node_display_inputs = [{ id: previous_output.id, from_cellbase: false, capacity: previous_output.capacity.to_s, address_hash: previous_output.address_hash }.deep_stringify_keys]
-
-        assert_equal node_display_inputs, local_block_cell_inputs
+        assert_equal [nil], local_block_cell_inputs
       end
     end
 
@@ -350,14 +331,10 @@ module CkbSync
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 
-        node_block_transactions = node_block["transactions"]
-        node_block_cell_outputs = node_block_transactions.map { |commit_transaction| commit_transaction["outputs"] }.flatten
-        node_display_outputs = node_block_cell_outputs.map(&method(:build_display_info_from_node_output))
-
         local_ckb_transactions = local_block.ckb_transactions
         local_block_cell_outputs = local_ckb_transactions.map(&:display_outputs).flatten
 
-        assert_equal node_display_outputs, local_block_cell_outputs
+        assert_equal [nil], local_block_cell_outputs
       end
     end
 
@@ -588,7 +565,7 @@ module CkbSync
       CkbSync::Persist.update_ckb_transaction_info_and_fee
 
       assert_equal 1000, Sidekiq::Queues["transaction_info_updater"].size
-      assert_equal "UpdateTransactionDisplayInputsWorker", Sidekiq::Queues["transaction_info_updater"].first["class"]
+      assert_equal "UpdateTransactionDisplayInfosWorker", Sidekiq::Queues["transaction_info_updater"].first["class"]
       assert_equal "UpdateTransactionFeeWorker", Sidekiq::Queues["transaction_info_updater"].last["class"]
     end
   end

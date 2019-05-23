@@ -146,34 +146,4 @@ class AddressTest < ActiveSupport::TestCase
       end
     end
   end
-
-  test "should update related addresses cell consumed after block authenticated" do
-    Sidekiq::Testing.fake!
-    prepare_inauthentic_node_data
-
-    SyncInfo.local_authentic_tip_block_number
-
-    VCR.use_cassette("genesis_block") do
-      VCR.use_cassette("blocks/three") do
-        CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
-        CkbSync::AuthenticSync.sync_node_data
-        create(:sync_info, name: "authentic_tip_block_number", value: 10)
-
-        previous_block = create(:block, :with_block_hash, number: 100)
-        previous_ckb_transaction = create(:ckb_transaction, block: previous_block)
-        previous_ckb_transaction.cell_inputs.create(previous_output: { cell: nil, block_hash: previous_block.block_hash })
-        cell_output = previous_ckb_transaction.cell_outputs.create(capacity: 10**8, address: create(:address), block: previous_block)
-        cell_output.create_lock_script
-
-        local_block = Block.find_by(block_hash: DEFAULT_NODE_BLOCK_HASH)
-
-        ckb_transaction = create(:ckb_transaction, block: local_block)
-        ckb_transaction.cell_inputs.create(previous_output: { tx_hash: previous_ckb_transaction.tx_hash, index: 0 })
-        local_block.ckb_transactions << ckb_transaction
-        assert_changes -> { UpdateAddressCellConsumedWorker.jobs.size }, from: 0, to: 1 do
-          CkbSync::Validator.call(local_block.block_hash)
-        end
-      end
-    end
-  end
 end

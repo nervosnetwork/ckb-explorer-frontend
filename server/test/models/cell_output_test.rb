@@ -14,12 +14,4 @@ class CellOutputTest < ActiveSupport::TestCase
     should validate_numericality_of(:capacity).
       is_greater_than_or_equal_to(0)
   end
-
-  test "#to_node_cell_output should return correct hash" do
-    cell_output = create_cell_output
-
-    node_cell_output = { capacity: cell_output.capacity.to_s, data: cell_output.data, lock: cell_output.lock_script.to_node_lock, type: cell_output.type_script.to_node_type }.deep_stringify_keys
-
-    assert_equal node_cell_output, cell_output.node_cell_output
-  end
 end
