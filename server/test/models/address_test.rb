@@ -114,12 +114,6 @@ class AddressTest < ActiveSupport::TestCase
     end
   end
 
-  test "should update the related address's ckb_transactions_count after block synced" do
-    address = create(:address, address_hash: "ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf", ckb_transactions_count: 1)
-
-    assert_difference -> { address.reload.ckb_transactions_count }, 10, &method(:prepare_inauthentic_node_data)
-  end
-
   test "should update related addresses balance after block authenticated" do
     Sidekiq::Testing.inline!
 
