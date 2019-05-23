@@ -157,7 +157,7 @@ module CkbSync
 
           previous_cell_output_id_info[cell_input.id] = previous_cell_output.id
           address_hash = previous_cell_output.address_hash
-          { id: previous_cell_output.id, from_cellbase: false, capacity: previous_cell_output.capacity, address_hash: address_hash }
+          { id: cell_input.id, from_cellbase: false, capacity: previous_cell_output.capacity, address_hash: address_hash }
         end
       end
 
