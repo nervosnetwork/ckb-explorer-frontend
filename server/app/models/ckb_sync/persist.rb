@@ -59,7 +59,13 @@ module CkbSync
 
         assign_display_inputs(ckb_transaction, display_inputs.to_a)
         cell_input_address_arr = cell_input_addresses.delete(nil).to_a
-        ckb_transaction.addresses << cell_input_address_arr if cell_input_address_arr.present?
+
+        if cell_input_address_arr.present?
+          ckb_transaction.addresses << cell_input_address_arr
+          block = ckb_transaction.block
+          block.address_ids += cell_input_address_arr
+          block.save
+        end
 
         ckb_transaction.save
       end
