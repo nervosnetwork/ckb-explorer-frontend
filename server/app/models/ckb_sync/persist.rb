@@ -22,7 +22,7 @@ module CkbSync
         ApplicationRecord.transaction do
           SyncInfo.find_by!(name: sync_tip_block_number_type(sync_type), value: local_block.number).update_attribute(:status, "synced")
           ckb_transactions = build_ckb_transactions(local_block, node_block["transactions"], sync_type, block_contained_addresses)
-          Block.import! [local_block], recursive: true
+          Block.import! [local_block], recursive: true, batch_size: 1000, validate: false
 
           local_block.address_ids = block_contained_addresses.to_a
           local_block.ckb_transactions_count = ckb_transactions.size
