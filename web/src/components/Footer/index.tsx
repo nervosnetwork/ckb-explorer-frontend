@@ -48,7 +48,7 @@ const FooterDiv = styled.div`
       }
       .footer__top__logo {
         img {
-          width: ${(props: { width: number }) => (137 * props.width) / 1920}px;
+          width: ${(props: { width: number }) => (160 * props.width) / 1920}px;
           height: auto;
         }
       }
@@ -61,9 +61,10 @@ const FooterDiv = styled.div`
           margin-top: 25px;
           margin-bottom: 25px;
           > div:nth-child(1) {
-            font-size: 20px;
-            width: 100px;
-            margin-right: 33px;
+            font-size: 16px;
+            width: 90px;
+            font-weight: bold;
+            margin-right: 10px;
             color: #3cc68a;
           }
           > div:nth-child(2) {
@@ -72,7 +73,7 @@ const FooterDiv = styled.div`
             flex-wrap: wrap;
           }
           .footer__top__orgs__item__link {
-            margin-left: 25px;
+            margin-left: 15px;
             margin-top: 15px;
             display: flex;
             flex-direction: column;
@@ -89,7 +90,7 @@ const FooterDiv = styled.div`
             }
             >div: nth-child(2) {
               color: white;
-              width: 80px;
+              font-size: 12px;
               margin-top: 7px;
               text-align: center;
             }
@@ -101,7 +102,7 @@ const FooterDiv = styled.div`
   .footer__bottom {
     min-height: ${(props: { width: number }) => (102 * props.width) / 1920}px;
     border-top: 1px solid white;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 22px;
     text-align: center;
     color: #e3e3e3;
