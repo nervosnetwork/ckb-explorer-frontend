@@ -27,6 +27,7 @@ module CkbSync
           local_block.address_ids = block_contained_addresses.to_a
           local_block.ckb_transactions_count = ckb_transactions.size
           local_block.save!
+          update_cell_status!(local_block)
         end
 
         Sidekiq::Client.push_bulk("class" => "UpdateAddressInfoWorker", "args" => local_block.address_ids.map { |ids| [ids] }, "queue" => "address_info_updater") if local_block.address_ids.present?
@@ -98,9 +99,15 @@ module CkbSync
 
       private
 
+      def update_cell_status!(local_block)
+        cell_output_ids = CellInput.where(ckb_transaction: local_block.ckb_transactions).select("previous_cell_output_id")
+
+        CellOutput.where(id: cell_output_ids).update_all(status: :dead)
+      end
+
       def update_block_address_ids(cell_input_address_arr, ckb_transaction)
         block = ckb_transaction.block
-        block.address_ids += cell_input_address_arr
+        block.address_ids += cell_input_address_arr.pluck(:id)
         block.save
 
         Sidekiq::Client.push_bulk("class" => "UpdateAddressInfoWorker", "args" => block.address_ids.map { |ids| [ids] }, "queue" => "address_info_updater")
