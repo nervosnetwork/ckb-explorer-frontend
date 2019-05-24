@@ -29,6 +29,8 @@ module CkbSync
           local_block.save!
         end
 
+        Sidekiq::Client.push_bulk("class" => "UpdateAddressInfoWorker", "args" => local_block.address_ids.map { |ids| [ids] }, "queue" => "address_info_updater") if local_block.address_ids.present?
+
         local_block
       end
 
@@ -80,6 +82,12 @@ module CkbSync
           block.total_transaction_fee = block.ckb_transactions.sum(:transaction_fee)
           block.save!
         end
+      end
+
+      def update_address_balance_and_ckb_transactions_count(address)
+        address.balance = address.cell_outputs.live.sum(:capacity)
+        address.ckb_transactions_count = CellOutput.available.where(address: address).select("ckb_transaction_id").distinct.count
+        address.save
       end
 
       private
