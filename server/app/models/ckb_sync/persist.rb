@@ -62,9 +62,7 @@ module CkbSync
 
         if cell_input_address_arr.present?
           ckb_transaction.addresses << cell_input_address_arr
-          block = ckb_transaction.block
-          block.address_ids += cell_input_address_arr
-          block.save
+          update_block_address_ids(cell_input_address_arr, ckb_transaction)
         end
 
         ckb_transaction.save
@@ -99,6 +97,14 @@ module CkbSync
       end
 
       private
+
+      def update_block_address_ids(cell_input_address_arr, ckb_transaction)
+        block = ckb_transaction.block
+        block.address_ids += cell_input_address_arr
+        block.save
+
+        Sidekiq::Client.push_bulk("class" => "UpdateAddressInfoWorker", "args" => block.address_ids.map { |ids| [ids] }, "queue" => "address_info_updater")
+      end
 
       def assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
         if transaction_fee.present?
