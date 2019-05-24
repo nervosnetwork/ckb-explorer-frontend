@@ -45,7 +45,7 @@ module CkbSync
         end
 
         if addresses.present?
-          Address.import! addresses, on_duplicate_key_update: [:balance], validate: false
+          Address.import! addresses, on_duplicate_key_update: [:balance, :ckb_transactions_count], validate: false
         end
       end
     end
