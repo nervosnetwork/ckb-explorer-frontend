@@ -39,13 +39,13 @@ module CkbSync
         addresses = []
         local_block.contained_addresses.each do |address|
           address.balance = address.cell_outputs.live.sum(:capacity)
-          address.ckb_transactions_count = CellOutput.where(address: address).select("ckb_transaction_id").distinct.count
+          address.ckb_transactions_count = CellOutput.available.where(address: address).select("ckb_transaction_id").distinct.count
 
           addresses << address if address.changed?
         end
 
         if addresses.present?
-          Address.import! addresses, on_duplicate_key_update: [:balance]
+          Address.import! addresses, on_duplicate_key_update: [:balance], validate: false
         end
       end
     end
