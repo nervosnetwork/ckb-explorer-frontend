@@ -505,11 +505,11 @@ module CkbSync
         previous_transaction = create(:ckb_transaction, :with_cell_output_and_lock_script, tx_hash: "0x598315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3")
         previous_output = previous_transaction.cell_outputs.order(:id)[0]
 
-        node_display_inputs = [
-          { id: previous_output.id, from_cellbase: false, capacity: previous_output.capacity.to_s, address_hash: previous_output.address_hash }.sort_by { |k, _v| k }.to_h.deep_stringify_keys
-        ]
-
         local_ckb_transaction = local_block.ckb_transactions.first
+
+        node_display_inputs = [
+          { id: local_ckb_transaction.cell_inputs.first.id, from_cellbase: false, capacity: previous_output.capacity.to_s, address_hash: previous_output.address_hash }.sort_by { |k, _v| k }.to_h.deep_stringify_keys
+        ]
 
         assert_changes -> { local_ckb_transaction.reload.display_inputs_status }, from: "ungenerated", to: "generated" do
           CkbSync::Persist.update_ckb_transaction_display_inputs(local_ckb_transaction)
