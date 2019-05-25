@@ -19,12 +19,10 @@ class CellInput < ApplicationRecord
     return if cell.blank?
 
     tx_hash = cell["tx_hash"]
-    output_index = cell["index"].to_i
-    previous_transaction = CkbTransaction.find_by(tx_hash: tx_hash)
+    cell_index = cell["index"].to_i
 
-    return if previous_transaction.blank?
-
-    previous_transaction.cell_outputs.order(:id)[output_index]
+    cell_output = CellOutput.find_by(tx_hash: tx_hash, cell_index: cell_index)
+    cell_output.presence
   end
 
   private
@@ -35,9 +33,10 @@ class CellInput < ApplicationRecord
     raise ActiveRecord::RecordNotFound if cell.blank?
 
     tx_hash = cell["tx_hash"]
-    output_index = cell["index"].to_i
-    previous_transaction = CkbTransaction.find_by!(tx_hash: tx_hash)
-    previous_transaction.cell_outputs.order(:id)[output_index]
+    cell_index = cell["index"].to_i
+
+    cell_output = CellOutput.find_by!(tx_hash: tx_hash, cell_index: cell_index)
+    cell_output.presence
   end
 end
 
@@ -45,15 +44,17 @@ end
 #
 # Table name: cell_inputs
 #
-#  id                 :bigint           not null, primary key
-#  previous_output    :jsonb
-#  args               :string           is an Array
-#  since              :string
-#  ckb_transaction_id :bigint
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id                      :bigint           not null, primary key
+#  previous_output         :jsonb
+#  args                    :string           is an Array
+#  since                   :string
+#  ckb_transaction_id      :bigint
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  previous_cell_output_id :bigint
 #
 # Indexes
 #
-#  index_cell_inputs_on_ckb_transaction_id  (ckb_transaction_id)
+#  index_cell_inputs_on_ckb_transaction_id       (ckb_transaction_id)
+#  index_cell_inputs_on_previous_cell_output_id  (previous_cell_output_id)
 #

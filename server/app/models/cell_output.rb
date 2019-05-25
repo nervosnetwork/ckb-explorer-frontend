@@ -9,19 +9,12 @@ class CellOutput < ApplicationRecord
 
   validates :capacity, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  scope :available, -> { where("status in (?,?)", statuses[:live], statuses[:dead]) }
+  attribute :tx_hash, :ckb_hash
+
+  scope :available, -> { where(status: [:live, :dead]) }
 
   def address_hash
     address.address_hash
-  end
-
-  def to_node_cell_output
-    {
-      capacity: capacity,
-      data: data,
-      lock: lock_script.to_node_lock,
-      type: type_script&.to_node_type
-    }
   end
 end
 
@@ -38,10 +31,13 @@ end
 #  status             :integer          default("live")
 #  address_id         :decimal(30, )
 #  block_id           :decimal(30, )
+#  tx_hash            :binary
+#  cell_index         :integer
 #
 # Indexes
 #
-#  index_cell_outputs_on_address_id          (address_id)
-#  index_cell_outputs_on_block_id            (block_id)
-#  index_cell_outputs_on_ckb_transaction_id  (ckb_transaction_id)
+#  index_cell_outputs_on_address_id_and_status   (address_id,status)
+#  index_cell_outputs_on_block_id                (block_id)
+#  index_cell_outputs_on_ckb_transaction_id      (ckb_transaction_id)
+#  index_cell_outputs_on_tx_hash_and_cell_index  (tx_hash,cell_index)
 #

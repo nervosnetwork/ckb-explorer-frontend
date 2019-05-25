@@ -25,7 +25,7 @@ module Validations
     attr_accessor :query_key
 
     def query_key_format_must_be_correct
-      Utils::CkbUtils.parse_address(query_key)
+      CkbUtils.parse_address(query_key)
     rescue
       errors.add(:query_key, "query key is invalid")
     end

@@ -17,7 +17,7 @@ class CkbTransaction < ApplicationRecord
   attribute :tx_hash, :ckb_hash
 
   scope :recent, -> { order(block_timestamp: :desc) }
-  scope :available, -> { where("status in (?,?)", statuses[:inauthentic], statuses[:authentic]) }
+  scope :available, -> { where(status: [:inauthentic, :authentic]) }
 end
 
 # == Schema Information
@@ -46,6 +46,6 @@ end
 #  index_ckb_transactions_on_block_id                (block_id)
 #  index_ckb_transactions_on_display_inputs_status   (display_inputs_status)
 #  index_ckb_transactions_on_transaction_fee_status  (transaction_fee_status)
-#  index_ckb_transactions_on_tx_hash                 (tx_hash) UNIQUE
+#  index_ckb_transactions_on_tx_hash_and_block_id    (tx_hash,block_id) UNIQUE
 #  index_ckb_transactions_on_tx_hash_and_status      (tx_hash,status)
 #

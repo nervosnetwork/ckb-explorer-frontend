@@ -114,12 +114,6 @@ class AddressTest < ActiveSupport::TestCase
     end
   end
 
-  test "should update the related address's ckb_transactions_count after block synced" do
-    address = create(:address, address_hash: "ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf", ckb_transactions_count: 1)
-
-    assert_difference -> { address.reload.ckb_transactions_count }, 10, &method(:prepare_inauthentic_node_data)
-  end
-
   test "should update related addresses balance after block authenticated" do
     Sidekiq::Testing.inline!
 
@@ -137,55 +131,12 @@ class AddressTest < ActiveSupport::TestCase
 
         updated_balances =
           local_block.contained_addresses.map do |address|
-            Utils::CkbUtils.get_balance(address.address_hash) || 0
+            CkbUtils.get_balance(address.address_hash) || 0
           end
 
         old_balances = local_block.contained_addresses.pluck(:balance)
 
         assert_equal updated_balances, old_balances
-      end
-    end
-  end
-
-  test "should update related addresses cell consumed after block authenticated" do
-    Sidekiq::Testing.inline!
-
-    prepare_inauthentic_node_data
-
-    SyncInfo.local_authentic_tip_block_number
-
-    VCR.use_cassette("genesis_block") do
-      VCR.use_cassette("blocks/three") do
-        CkbSync::Api.any_instance.stubs(:get_tip_block_number).returns(20)
-        CkbSync::AuthenticSync.sync_node_data
-        create(:sync_info, name: "authentic_tip_block_number", value: 10)
-
-        previous_block = create(:block, :with_block_hash, number: 100)
-        previous_ckb_transaction = create(:ckb_transaction, block: previous_block)
-        previous_ckb_transaction.cell_inputs.create(previous_output: { cell: nil, block_hash: previous_block.block_hash })
-        cell_output = previous_ckb_transaction.cell_outputs.create(capacity: 10**8, address: create(:address), block: previous_block)
-        cell_output.create_lock_script
-
-        local_block = Block.find_by(block_hash: DEFAULT_NODE_BLOCK_HASH)
-
-        ckb_transaction = create(:ckb_transaction, block: local_block)
-        ckb_transaction.cell_inputs.create(previous_output: { tx_hash: previous_ckb_transaction.tx_hash, index: 0 })
-        local_block.ckb_transactions << ckb_transaction
-
-        CkbSync::Validator.call(local_block.block_hash)
-
-        block = create(:block, :with_block_hash, number: 101)
-        create(:ckb_transaction, :with_cell_output_and_lock_and_type_script, block: block, tx_hash: "0xe6471b6ba597dc7c0a7d5a5f19a9c67c0386358d21c31514ae617aeb4982acbb")
-
-        updated_cell_consumed =
-          local_block.contained_addresses.map do |address|
-            address.update(address_hash: "ckt1q9gry5zgxmpjnmtrp4kww5r39frh2sm89tdt2l6v234ygf")
-            Utils::CkbUtils.address_cell_consumed(address.address_hash) || 0
-          end
-
-        old_cell_consumed = local_block.contained_addresses.pluck(:cell_consumed)
-
-        assert_equal updated_cell_consumed, old_cell_consumed
       end
     end
   end
