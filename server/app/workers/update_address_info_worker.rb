@@ -1,6 +1,6 @@
 class UpdateAddressInfoWorker
   include Sidekiq::Worker
-  sidekiq_options queue: "address_info_updater", lock: :until_executed
+  sidekiq_options queue: "address_info_updater"
 
   def perform(address_id)
     address = Address.find(address_id)
