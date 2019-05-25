@@ -13,7 +13,6 @@ module CkbSync
 
       def save_block(node_block, sync_type)
         local_block = build_block(node_block, sync_type)
-        block_contained_addresses = Set.new
 
         node_block["uncles"].map(&:to_h).map(&:deep_stringify_keys).each do |uncle_block|
           build_uncle_block(uncle_block.to_h, local_block)
@@ -21,13 +20,12 @@ module CkbSync
 
         ApplicationRecord.transaction do
           SyncInfo.find_by!(name: sync_tip_block_number_type(sync_type), value: local_block.number).update_attribute(:status, "synced")
-          ckb_transactions = build_ckb_transactions(local_block, node_block["transactions"], sync_type, block_contained_addresses)
+          ckb_transactions = build_ckb_transactions(local_block, node_block["transactions"], sync_type)
           Block.import! [local_block], recursive: true, batch_size: 1000, validate: false
 
-          local_block.address_ids = block_contained_addresses.to_a
-          local_block.ckb_transactions_count = ckb_transactions.size
+          local_block.reload.ckb_transactions_count = ckb_transactions.size
+          local_block.address_ids = AccountBook.where(ckb_transaction: local_block.ckb_transactions).pluck(:address_id).uniq
           local_block.save!
-          update_cell_status!(local_block)
         end
 
         Sidekiq::Client.push_bulk("class" => "UpdateAddressInfoWorker", "args" => local_block.address_ids.map { |ids| [ids] }, "queue" => "address_info_updater") if local_block.address_ids.present?
@@ -61,10 +59,7 @@ module CkbSync
         assign_display_inputs(ckb_transaction, display_inputs.to_a)
         cell_input_address_arr = cell_input_addresses.delete(nil).to_a
 
-        if cell_input_address_arr.present?
-          ckb_transaction.addresses << cell_input_address_arr
-          update_block_address_ids(cell_input_address_arr, ckb_transaction)
-        end
+        ckb_transaction.addresses << cell_input_address_arr if cell_input_address_arr.present?
 
         ckb_transaction.save
       end
@@ -97,20 +92,35 @@ module CkbSync
         address.save
       end
 
+      def update_block_address_ids_and_cell_status(ckb_transaction)
+        update_cell_status(ckb_transaction)
+        update_block_address_ids(ckb_transaction)
+      end
+
       private
 
-      def update_cell_status!(local_block)
-        cell_output_ids = CellInput.where(ckb_transaction: local_block.ckb_transactions).select("previous_cell_output_id")
+      def update_cell_status(ckb_transaction)
+        cell_output_ids = CellInput.where(ckb_transaction: ckb_transaction).select("previous_cell_output_id")
 
         CellOutput.where(id: cell_output_ids).update_all(status: :dead)
       end
 
-      def update_block_address_ids(cell_input_address_arr, ckb_transaction)
-        block = ckb_transaction.block
-        block.address_ids += cell_input_address_arr.pluck(:id)
-        block.save
+      def update_block_address_ids(ckb_transaction)
+        cell_output_ids = CellInput.where(ckb_transaction: ckb_transaction).select("previous_cell_output_id")
+        address_ids = CellOutput.where(id: cell_output_ids).pluck("address_id")
+        return if address_ids.empty?
 
-        Sidekiq::Client.push_bulk("class" => "UpdateAddressInfoWorker", "args" => block.address_ids.map { |ids| [ids] }, "queue" => "address_info_updater")
+        ApplicationRecord.transaction do
+          block_address_ids = Set.new
+          block = ckb_transaction.block
+          block.lock!
+          block_address_ids += block.address_ids
+          block_address_ids += address_ids
+          block.address_ids = block_address_ids.to_a
+          block.save!
+        end
+
+        Sidekiq::Client.push_bulk("class" => "UpdateAddressInfoWorker", "args" => address_ids.map { |ids| [ids] }, "queue" => "address_info_updater")
       end
 
       def assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
@@ -124,6 +134,7 @@ module CkbSync
         if !display_inputs.include?(nil)
           ckb_transaction.display_inputs = display_inputs
           ckb_transaction.display_inputs_status = "generated"
+          UpdateBlockInfoWorker.perform_async(ckb_transaction.id)
         end
       end
 
@@ -135,7 +146,7 @@ module CkbSync
         previous_cell_output.address
       end
 
-      def build_ckb_transactions(local_block, transactions, sync_type, block_contained_addresses)
+      def build_ckb_transactions(local_block, transactions, sync_type)
         ckb_transactions = []
 
         transactions.each do |transaction|
@@ -147,7 +158,6 @@ module CkbSync
           build_cell_outputs(transaction["outputs"], ckb_transaction, addresses)
           addresses_arr = addresses.to_a
           ckb_transaction.addresses << addresses_arr
-          addresses_arr.each { |address| block_contained_addresses << address.id }
         end
 
         ckb_transactions
