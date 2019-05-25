@@ -98,9 +98,11 @@ module CkbSync
       private
 
       def update_cell_status(ckb_transaction)
-        cell_output_ids = CellInput.where(ckb_transaction: ckb_transaction).select("previous_cell_output_id")
-        cell_outputs = CellOutput.where(id: cell_output_ids)
-        cell_outputs.update_all(status: :dead)
+        previous_cell_output_ids = CellInput.where(ckb_transaction: ckb_transaction).select("previous_cell_output_id")
+        previous_cell_outputs = CellOutput.where(id: previous_cell_output_ids)
+        previous_cell_outputs.update_all(status: :dead)
+        cell_output_ids = ckb_transaction.cell_outputs.select("id")
+        cell_outputs = CellOutput.where(id: previous_cell_output_ids + cell_output_ids)
         address_ids = cell_outputs.pluck(:address_id)
 
         Sidekiq::Client.push_bulk("class" => "UpdateAddressInfoWorker", "args" => address_ids.map { |ids| [ids] }, "queue" => "address_info_updater")
