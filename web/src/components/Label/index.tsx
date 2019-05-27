@@ -33,6 +33,7 @@ const LabelPanel = styled.div`
     flex-direction: row;
     align-items: center;
     height: 28px;
+    line-height: 28px;
     margin-bottom: 15px;
 
     > img {
