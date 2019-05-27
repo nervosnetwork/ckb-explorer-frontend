@@ -116,7 +116,7 @@ const BlockPreviousNext = ({
           <img src={NextBlockIcon} alt="next block" />
         </div>
       ) : (
-        <div className="block__arrow_grey">
+        <div role="button" tabIndex={-1} className="block__arrow_grey">
           <img src={NextBlockGreyIcon} alt="next block" />
         </div>
       )}
