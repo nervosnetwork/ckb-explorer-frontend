@@ -16,6 +16,10 @@ export const BlockDetailTitlePanel = styled.div`
     color: rgb(20, 20, 20);
     font-size: 40pt;
     text-align: center;
+
+    @media (max-width: 700px) {
+      font-size: 30pt;
+    }
   }
 
   .address__content {
@@ -27,6 +31,15 @@ export const BlockDetailTitlePanel = styled.div`
       color: rgb(136, 136, 136);
       font-size: 18px;
       height: 25px;
+
+      @media (max-width: 700px) {
+        font-size: 14px;
+        height: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 300px;
+      }
     }
 
     img {
@@ -41,8 +54,13 @@ export const BlockOverviewPanel = styled.div`
   margin: 0 auto;
   text-align: center;
   margin-top: 107px;
-  margin-bottom: 50px;
+  margin-bottom: 70px;
   font-size: 50px;
+  @media (max-width: 700px) {
+    margin-top: 25px;
+    margin-bottom: 5px;
+    font-size: 35px;
+  }
   color: rgb(20, 20, 20);
   height: 70px;
 
@@ -53,6 +71,9 @@ export const BlockOverviewPanel = styled.div`
     background: #3cc68a;
     height: 4px;
     width: 197px;
+    @media (max-width: 700px) {
+      width: 130px;
+    }
   }
 `
 export const BlockCommonContentWrap = styled.div`
@@ -94,8 +115,10 @@ export const BlockCommonContentWrap = styled.div`
 export const BlockCommonContent = styled.div`
   overflow-x: auto;
   padding: 72px 88px 56px 88px;
+  @media (max-width: 700px) {
+    padding: 25px;
+  }
   margin: 0 auto;
-  margin-top: 50px;
   background: white;
   border: 0px solid white;
   border-radius: 6px;
