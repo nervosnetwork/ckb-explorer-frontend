@@ -12,6 +12,7 @@ export const AddressTitlePanel = styled.div`
   dispaly: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0px 12px;
 
   .address__title {
     color: rgb(20, 20, 20);
@@ -93,7 +94,7 @@ export const AddressCommonContent = styled.div`
   @media (max-width: 700px) {
     overflow-x: auto;
     padding: 15px;
-    margin: 0 20px;
+    margin: 15px 20px;
     background: white;
     border: 0px solid white;
     border-radius: 6px;
