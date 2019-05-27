@@ -18,6 +18,9 @@ export const HomeHeader = styled.div`
 
 export const LogoPanel = styled.div`
   min-height: 134px;
+  @media (max-width: 700px) {
+    min-height: 80px;
+  }
   width: auto;
   justify-content: center;
   dispaly: flex;
@@ -26,7 +29,6 @@ export const LogoPanel = styled.div`
   align-items: center;
 
   > div {
-    margin-left: 29px;
     color: #3cc68a;
     font-family: Montserrat, PingFang SC, sans-serif;
     line-height: 134px;
@@ -36,6 +38,11 @@ export const LogoPanel = styled.div`
     font-stretch: normal;
     line-height: 1.56;
     letter-spacing: 5.2px;
+
+    @media (max-width: 700px) {
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
   }
 `
 

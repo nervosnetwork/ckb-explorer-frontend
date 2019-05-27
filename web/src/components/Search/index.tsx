@@ -13,20 +13,21 @@ const SearchPanel = styled.div`
   margin: 0 auto;
   width: 100%;
   @media (max-width: 700px) {
-    max-width: 360px;
     width: auto;
     margin: 0;
   }
   height: 50px;
   text-align: center;
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   > input {
     position: relative;
     width: 100%;
     height: 50px;
 
     @media (max-width: 700px) {
-      width: 280px;
+      width: 320px;
       height: 40px;
     }
 
@@ -49,15 +50,9 @@ const SearchPanel = styled.div`
 
   > div {
     display: inline-block;
-    position: absolute;
-    top: 14px;
-    right: 9px;
-
-    @media (max-width: 700px) {
-      top: 8px;
-    }
     width: 30px;
     height: 30px;
+    margin-left: -35px;
     opacity: 0.8;
     &: hover {
       opacity: 1;
