@@ -54,10 +54,6 @@ const SearchPanel = styled.div`
     height: 30px;
     margin-left: -35px;
     opacity: 0.8;
-    &: hover {
-      opacity: 1;
-      cursor: pointer;
-    }
     img {
       width: 100%;
       height: 100%;
