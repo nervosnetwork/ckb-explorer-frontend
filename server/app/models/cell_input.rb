@@ -57,4 +57,5 @@ end
 #
 #  index_cell_inputs_on_ckb_transaction_id       (ckb_transaction_id)
 #  index_cell_inputs_on_previous_cell_output_id  (previous_cell_output_id)
+#  index_cell_inputs_on_previous_output          (previous_output) USING gin
 #

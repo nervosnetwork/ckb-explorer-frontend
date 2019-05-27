@@ -74,17 +74,24 @@ class CkbUtils
   end
 
   def self.ckb_transaction_fee(ckb_transaction)
-    cell_output_capacities = ckb_transaction.cell_outputs.map(&:capacity)
+    cell_output_capacities = ckb_transaction.cell_outputs.sum(:capacity)
     cell_input_capacities = []
+    # CellInput.where(ckb_transaction: ckb_transaction).where("previous_output @> ?", { cell: nil }.to_json)
+    # CellOutput.where(id: ids)
+
     ckb_transaction.cell_inputs.find_each do |cell_input|
-      cell_input_capacities << cell_input.previous_cell_output&.capacity
+      if cell_input.previous_output["cell"].blank?
+        cell_input_capacities << 0
+      else
+        cell_input_capacities << cell_input.previous_cell_output&.capacity
+      end
     end
 
     calculate_transaction_fee(cell_input_capacities, cell_output_capacities)
   end
 
   def self.transaction_fee(transaction)
-    cell_output_capacities = transaction["outputs"].map { |output| output["capacity"].to_i }
+    cell_output_capacities = transaction["outputs"].sum { |output| output["capacity"].to_i }
     cell_input_capacities = transaction["inputs"].map(&method(:cell_input_capacity))
 
     calculate_transaction_fee(cell_input_capacities, cell_output_capacities)
@@ -122,27 +129,18 @@ class CkbUtils
     else
       previous_transaction_hash = cell["tx_hash"]
       previous_output_index = cell["index"].to_i
-      previous_transaction = CkbTransaction.find_by(tx_hash: previous_transaction_hash)
 
-      return if previous_transaction.blank?
+      previous_output = CellOutput.find_by(tx_hash: previous_transaction_hash, cell_index: previous_output_index)
+      return if previous_output.blank?
 
-      previous_output = previous_transaction.cell_outputs.order(:id)[previous_output_index]
       previous_output.capacity
     end
   end
 
   def self.calculate_transaction_fee(cell_input_capacities, cell_output_capacities)
-    should_assign = true
-    cell_input_capacities.each do |cell_input_capacity|
-      if cell_input_capacity.blank?
-        should_assign = false
-        break
-      end
-    end
-    if should_assign
-      input_capacities = cell_input_capacities.reduce(0, &:+)
-      output_capacities = cell_output_capacities.reduce(0, &:+)
-      input_capacities.zero? ? 0 : (input_capacities - output_capacities)
-    end
+    return if cell_input_capacities.include?(nil)
+
+    input_capacities = cell_input_capacities.reduce(0, &:+)
+    input_capacities.zero? ? 0 : (input_capacities - cell_output_capacities)
   end
 end
