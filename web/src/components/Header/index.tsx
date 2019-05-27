@@ -17,6 +17,9 @@ const HeaderDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 1px 82px;
+  @media (max-width: 700px) {
+    padding: 1px ${(props: { width: number }) => (260 * props.width) / 1920}px;
+  }
   .header__logo,
   .header__menus,
   .header__search {
@@ -64,6 +67,7 @@ const HeaderDiv = styled.div`
     text-decoration: none;
   }
 `
+
 const menus = [
   {
     name: 'Wallet',

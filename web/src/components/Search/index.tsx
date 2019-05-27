@@ -10,8 +10,13 @@ import SearchLogo from '../../asserts/search.png'
 
 const SearchPanel = styled.div`
   max-width: 550px;
-  width: 100%;
   margin: 0 auto;
+  width: 100%;
+  @media (max-width: 700px) {
+    max-width: 360px;
+    width: auto;
+    margin: 0;
+  }
   height: 50px;
   text-align: center;
   position: relative;
@@ -19,6 +24,12 @@ const SearchPanel = styled.div`
     position: relative;
     width: 100%;
     height: 50px;
+
+    @media (max-width: 700px) {
+      width: 280px;
+      height: 40px;
+    }
+
     font-size: 16px;
     padding-left: 20px;
     padding-right: 50px;
@@ -41,6 +52,10 @@ const SearchPanel = styled.div`
     position: absolute;
     top: 14px;
     right: 9px;
+
+    @media (max-width: 700px) {
+      top: 8px;
+    }
     width: 30px;
     height: 30px;
     opacity: 0.8;
@@ -97,7 +112,7 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
     // opacity: 0.2,
   }
 
-  const searchPlaceholder = 'Block Height / Block Hash / Tx Hash / Address'
+  const searchPlaceholder = 'Block / Transaction / Address'
 
   return (
     <SearchPanel>
