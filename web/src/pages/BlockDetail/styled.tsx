@@ -77,47 +77,44 @@ export const BlockOverviewPanel = styled.div`
   }
 `
 export const BlockCommonContentWrap = styled.div`
-  margin-left: -30px;
-  margin-right: -30px;
-  padding-left: 30px;
-  padding-right: 30px;
-  position: relative;
-  &.hasPrev::before {
-    content: '';
-    display: block;
-    box-sizing: border-box;
-    border-radius: 6px 0 0 6px;
-    box-shadow: 0 5px 9px #dfdfdf;
-    background-color: #ffffff;
-    width: 30px;
-    height: 453px;
-    margin: 22px 0;
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-  &.hasNext:after {
-    content: '';
-    display: block;
-    box-sizing: border-box;
-    margin: 22px 0;
-    border-radius: 0 6px 6px 0;
-    box-shadow: 0 5px 9px #dfdfdf;
-    background-color: #ffffff;
-    width: 30px;
-    height: 453px;
-    margin: 22px 0;
-    position: absolute;
-    top: 0;
-    right: 0px;
-  }
+  // margin-left: -30px;
+  // margin-right: -30px;
+  // padding-left: 30px;
+  // padding-right: 30px;
+  // position: relative;
+  // &.hasPrev::before {
+  //   content: '';
+  //   display: block;
+  //   box-sizing: border-box;
+  //   border-radius: 6px 0 0 6px;
+  //   box-shadow: 0 5px 9px #dfdfdf;
+  //   background-color: #ffffff;
+  //   width: 30px;
+  //   height: 453px;
+  //   margin: 22px 0;
+  //   position: absolute;
+  //   left: 0;
+  //   top: 0;
+  // }
+  // &.hasNext:after {
+  //   content: '';
+  //   display: block;
+  //   box-sizing: border-box;
+  //   margin: 22px 0;
+  //   border-radius: 0 6px 6px 0;
+  //   box-shadow: 0 5px 9px #dfdfdf;
+  //   background-color: #ffffff;
+  //   width: 30px;
+  //   height: 453px;
+  //   margin: 22px 0;
+  //   position: absolute;
+  //   top: 0;
+  //   right: 0px;
+  // }
 `
 export const BlockCommonContent = styled.div`
   overflow-x: auto;
   padding: 72px 88px 56px 88px;
-  @media (max-width: 700px) {
-    padding: 25px;
-  }
   margin: 0 auto;
   background: white;
   border: 0px solid white;
@@ -128,17 +125,40 @@ export const BlockCommonContent = styled.div`
 
   > div:nth-child(1) {
     flex: 1;
+    min-width: 350px;
   }
 
   > div:nth-child(2) {
     display: flex;
     flex: 1;
+    min-width: 350px;
     > div:nth-child(1) {
       width: 1px;
       height: 360px;
       background: #3cc68a;
       content: '';
       margin-right: 82px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    overflow-x: auto;
+    padding: 25px;
+    margin: 0 15px;
+    background: white;
+    border: 0px solid white;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+
+    > div:nth-child(1) {
+    }
+
+    > div:nth-child(2) {
+      > div:nth-child(1) {
+        width: 0px;
+        margin-right: 0px;
+      }
     }
   }
 `
