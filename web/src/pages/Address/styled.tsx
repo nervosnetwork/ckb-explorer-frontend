@@ -17,6 +17,10 @@ export const AddressTitlePanel = styled.div`
     color: rgb(20, 20, 20);
     font-size: 32pt;
     text-align: center;
+
+    @media (max-width: 700px) {
+      font-size: 30px;
+    }
   }
 
   .address__content {
@@ -27,6 +31,9 @@ export const AddressTitlePanel = styled.div`
     > div {
       color: rgb(136, 136, 136);
       font-size: 18px;
+      @media (max-width: 700px) {
+        font-size: 14px;
+      }
       height: 25px;
     }
     #address__hash {
@@ -50,6 +57,12 @@ export const AddressOverviewPanel = styled.div`
   height: 70px;
   text-align: center;
 
+  @media (max-width: 700px) {
+    margin-top: 25px;
+    margin-bottom: 5px;
+    font-size: 35px;
+  }
+
   &:after {
     display: block;
     content: '';
@@ -57,6 +70,10 @@ export const AddressOverviewPanel = styled.div`
     background: #3cc68a;
     height: 4px;
     width: 197px;
+
+    @media (max-width: 700px) {
+      width: 130px;
+    }
   }
 `
 
@@ -72,6 +89,17 @@ export const AddressCommonContent = styled.div`
   box-shadow: 0px 5px 9px rgb(233, 233, 233);
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 700px) {
+    overflow-x: auto;
+    padding: 15px;
+    margin: 0 20px;
+    background: white;
+    border: 0px solid white;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+  }
 `
 
 export const AddressTransactionsPanel = styled.div`
@@ -138,10 +166,18 @@ export const AddressScriptLabelPanel = styled.div`
   > img {
     width: 20px;
     height: 20px;
+
+    @media (max-width: 700px) {
+      width: 15px;
+      height: 15px;
+    }
   }
 
   > span {
     font-size: 18px;
+    @media (max-width: 700px) {
+      font-size: 16px;
+    }
     color: rgb(77, 77, 77);
     margin-left: 10px;
     margin-right: 30px;
@@ -161,6 +197,11 @@ export const AddressScriptContent = styled.div`
   margin-right: 50px;
   background-color: #f9f9f9;
   border-radius: 6px 6px;
+
+  @media (max-width: 700px) {
+    font-size: 15px;
+    padding: 18px 30px 18px 15px;
+  }
 
   > div {
     margin-bottom: 10px;
@@ -203,4 +244,16 @@ export const AddressCommonRowPanel = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  > div {
+    flex-grow: 1;
+  }
+
+  > div:nth-child(2) {
+    margin-left: 45px;
+
+    @media (max-width: 700px) {
+      margin-left: 0px;
+    }
+  }
 `

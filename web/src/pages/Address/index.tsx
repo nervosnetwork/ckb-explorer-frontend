@@ -175,23 +175,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         <AddressOverview value="Overview" />
         <AddressCommonContent>
           <AddressCommonRowPanel>
-            <SimpleLabel
-              image={BalanceIcon}
-              label="Balance: "
-              value={`${shannonToCkb(addressData.balance)} CKB`}
-              style={{
-                flexGrow: 1,
-              }}
-            />
-            <SimpleLabel
-              image={TransactionsIcon}
-              label="Transactions : "
-              value={`${addressData.transactions_count}`}
-              style={{
-                flexGrow: 1,
-                marginLeft: 45,
-              }}
-            />
+            <SimpleLabel image={BalanceIcon} label="Balance: " value={`${shannonToCkb(addressData.balance)} CKB`} />
+            <SimpleLabel image={TransactionsIcon} label="Transactions : " value={`${addressData.transactions_count}`} />
           </AddressCommonRowPanel>
           <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " script={addressData.lock_script} />
         </AddressCommonContent>
