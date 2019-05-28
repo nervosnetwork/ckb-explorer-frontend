@@ -205,6 +205,8 @@ export const AddressScriptContent = styled.div`
   @media (max-width: 700px) {
     font-size: 15px;
     padding: 18px 30px 18px 15px;
+    margin: 0px 15px;
+    width: 700px;
   }
 
   > div {
