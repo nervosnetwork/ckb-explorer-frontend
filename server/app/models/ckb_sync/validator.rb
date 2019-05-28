@@ -31,7 +31,7 @@ module CkbSync
         addresses = []
         local_block.contained_addresses.each do |address|
           address.balance = address.cell_outputs.live.sum(:capacity)
-          address.ckb_transactions_count = address.ckb_transactions.distinct.count
+          address.ckb_transactions_count = address.ckb_transactions.available.distinct.count
 
           addresses << address if address.changed?
         end
