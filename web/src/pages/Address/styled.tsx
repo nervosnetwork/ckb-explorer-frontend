@@ -188,6 +188,13 @@ export const AddressScriptLabelPanel = styled.div`
   }
 `
 
+export const AddressScriptContentPanel = styled.div`
+  @media (max-width: 700px) {
+    padding-right: 15px;
+    width: 650px;
+  }
+`
+
 export const AddressScriptContent = styled.div`
   border: none;
   width: 100%;
@@ -206,7 +213,7 @@ export const AddressScriptContent = styled.div`
     font-size: 15px;
     padding: 18px 30px 18px 15px;
     margin: 0px 15px;
-    width: 700px;
+    max-width: 600px;
   }
 
   > div {
