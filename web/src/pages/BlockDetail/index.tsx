@@ -8,7 +8,6 @@ import {
   BlockDetailPanel,
   BlockDetailTitlePanel,
   BlockOverviewPanel,
-  BlockCommonContentWrap,
   BlockCommonContent,
   BlockPreviousNextPanel,
   BlockHightLabel,
@@ -117,7 +116,7 @@ const BlockPreviousNext = ({
           <img src={NextBlockIcon} alt="next block" />
         </div>
       ) : (
-        <div className="block__arrow_grey">
+        <div role="button" tabIndex={-1} className="block__arrow_grey">
           <img src={NextBlockGreyIcon} alt="next block" />
         </div>
       )}
@@ -327,45 +326,41 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       <BlockDetailPanel width={window.innerWidth} className="container">
         <BlockDetailTitle hash={blockData.block_hash} />
         <BlockOverview value="Overview" />
-        <BlockCommonContentWrap className={(hasPrev ? 'hasPrev' : '') + (hasNext ? ' hasNext' : '')}>
-          <BlockCommonContent>
+        <BlockCommonContent>
+          <div>
+            {BlockLeftItems.map(item => {
+              return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+            })}
+          </div>
+          <div>
+            <div />
             <div>
-              {BlockLeftItems.map(item => {
-                return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
-              })}
-            </div>
-            <div>
-              <div />
-              <div>
-                {BlockRightItems[0].value ? (
-                  <Link
-                    to={{
-                      pathname: `/address/${BlockRightItems[0].value}`,
-                    }}
-                  >
-                    <SimpleLabel
-                      image={BlockRightItems[0].image}
-                      label={BlockRightItems[0].label}
-                      value={startEndEllipsis(BlockRightItems[0].value)}
-                      highLight
-                    />
-                  </Link>
-                ) : (
+              {BlockRightItems[0].value ? (
+                <Link
+                  to={{
+                    pathname: `/address/${BlockRightItems[0].value}`,
+                  }}
+                >
                   <SimpleLabel
                     image={BlockRightItems[0].image}
                     label={BlockRightItems[0].label}
-                    value="Unable to decode address"
+                    value={startEndEllipsis(BlockRightItems[0].value)}
+                    highLight
                   />
-                )}
-                {BlockRightItems.slice(1).map(item => {
-                  return (
-                    item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
-                  )
-                })}
-              </div>
+                </Link>
+              ) : (
+                <SimpleLabel
+                  image={BlockRightItems[0].image}
+                  label={BlockRightItems[0].label}
+                  value="Unable to decode address"
+                />
+              )}
+              {BlockRightItems.slice(1).map(item => {
+                return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+              })}
             </div>
-          </BlockCommonContent>
-        </BlockCommonContentWrap>
+          </div>
+        </BlockCommonContent>
         <BlockPreviousNext blockNumber={blockData.number} hasPrev={hasPrev} hasNext={hasNext} />
         <BlockHightLabel>Block Height</BlockHightLabel>
 

@@ -13,6 +13,7 @@ import {
   AddressContentPanel,
   AddressTitlePanel,
   AddressOverviewPanel,
+  AddressScriptContentPanel,
   AddressCommonContent,
   AddressScriptContent,
   AddressScriptLabelPanel,
@@ -66,20 +67,22 @@ const AddressScriptLabel = ({ image, label, script }: { image: string; label: st
         <img src={image} alt="script" />
         <span>{label}</span>
       </AddressScriptLabelPanel>
-      <AddressScriptContent>
-        <div>{`Code hash: ${script.code_hash}`}</div>
-        {script.args.length === 1 ? (
-          <div>{`Args: ${script.args[0]}`}</div>
-        ) : (
-          script.args.map((arg: string, index: number) => {
-            return index === 0 ? (
-              <div>{`Args: #${index} ${arg}`}</div>
-            ) : (
-              <div className="script__args__others">{`#${index} ${arg}`}</div>
-            )
-          })
-        )}
-      </AddressScriptContent>
+      <AddressScriptContentPanel>
+        <AddressScriptContent>
+          <div>{`Code hash: ${script.code_hash}`}</div>
+          {script.args.length === 1 ? (
+            <div>{`Args: ${script.args[0]}`}</div>
+          ) : (
+            script.args.map((arg: string, index: number) => {
+              return index === 0 ? (
+                <div>{`Args: #${index} ${arg}`}</div>
+              ) : (
+                <div className="script__args__others">{`#${index} ${arg}`}</div>
+              )
+            })
+          )}
+        </AddressScriptContent>
+      </AddressScriptContentPanel>
     </div>
   )
 }
@@ -175,23 +178,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         <AddressOverview value="Overview" />
         <AddressCommonContent>
           <AddressCommonRowPanel>
-            <SimpleLabel
-              image={BalanceIcon}
-              label="Balance: "
-              value={`${shannonToCkb(addressData.balance)} CKB`}
-              style={{
-                flexGrow: 1,
-              }}
-            />
-            <SimpleLabel
-              image={TransactionsIcon}
-              label="Transactions : "
-              value={`${addressData.transactions_count}`}
-              style={{
-                flexGrow: 1,
-                marginLeft: 45,
-              }}
-            />
+            <SimpleLabel image={BalanceIcon} label="Balance: " value={`${shannonToCkb(addressData.balance)} CKB`} />
+            <SimpleLabel image={TransactionsIcon} label="Transactions : " value={`${addressData.transactions_count}`} />
           </AddressCommonRowPanel>
           <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " script={addressData.lock_script} />
         </AddressCommonContent>

@@ -17,6 +17,9 @@ const HeaderDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 1px 82px;
+  @media (max-width: 700px) {
+    padding: 1px ${(props: { width: number }) => (150 * props.width) / 1920}px;
+  }
   .header__logo,
   .header__menus,
   .header__search {
@@ -58,12 +61,18 @@ const HeaderDiv = styled.div`
       height: 50px;
       width: ${(props: { width: number }) => (550 * props.width) / 1920}px;
       min-width: 420px;
+
+      @media (max-width: 700px) {
+        width: ${(props: { width: number }) => (400 * props.width) / 1920}px;
+        min-width: 320px;
+      }
     }
   }
   a {
     text-decoration: none;
   }
 `
+
 const menus = [
   {
     name: 'Wallet',
