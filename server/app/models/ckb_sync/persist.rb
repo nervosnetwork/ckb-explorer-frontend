@@ -227,7 +227,7 @@ module CkbSync
           previous_output: input["previous_output"],
           since: input["since"],
           args: input["args"],
-          from_cell_base: input["previous_output"]["cell"].present? ? false : true
+          from_cell_base: input["previous_output"]["cell"].blank?
         )
       end
 
