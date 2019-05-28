@@ -52,6 +52,7 @@ end
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  previous_cell_output_id :bigint
+#  from_cell_base          :boolean          default(FALSE)
 #
 # Indexes
 #

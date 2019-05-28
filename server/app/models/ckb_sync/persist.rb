@@ -74,8 +74,9 @@ module CkbSync
 
       def update_transaction_fee(ckb_transaction)
         transaction_fee = CkbUtils.ckb_transaction_fee(ckb_transaction)
-        assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
+        return if transaction_fee.blank?
 
+        assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
         ApplicationRecord.transaction do
           ckb_transaction.save!
           block = ckb_transaction.block
@@ -225,7 +226,8 @@ module CkbSync
         ckb_transaction.cell_inputs.build(
           previous_output: input["previous_output"],
           since: input["since"],
-          args: input["args"]
+          args: input["args"],
+          from_cell_base: input["previous_output"]["cell"].blank?
         )
       end
 
@@ -266,7 +268,7 @@ module CkbSync
           total_cell_capacity: CkbUtils.total_cell_capacity(node_block["transactions"]),
           miner_hash: CkbUtils.miner_hash(node_block["transactions"].first),
           status: sync_type,
-          reward: CkbUtils.miner_reward(header["epoch"].first),
+          reward: CkbUtils.miner_reward(header["epoch"]),
           total_transaction_fee: 0,
           witnesses_root: header["witness_root"],
           epoch: header["epoch"],
