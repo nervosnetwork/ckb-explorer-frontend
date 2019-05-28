@@ -75,19 +75,16 @@ class CkbUtils
 
   def self.ckb_transaction_fee(ckb_transaction)
     cell_output_capacities = ckb_transaction.cell_outputs.sum(:capacity)
-    cell_input_capacities = []
-    # CellInput.where(ckb_transaction: ckb_transaction).where("previous_output @> ?", { cell: nil }.to_json)
-    # CellOutput.where(id: ids)
+    previous_cell_output_capacities = 0
+    return if CellInput.where(ckb_transaction: ckb_transaction, from_cell_base: false, previous_cell_output_id: nil).exists?
 
-    ckb_transaction.cell_inputs.find_each do |cell_input|
-      if cell_input.previous_output["cell"].blank?
-        cell_input_capacities << 0
-      else
-        cell_input_capacities << cell_input.previous_cell_output&.capacity
-      end
+    previous_cell_output_ids = CellInput.where(ckb_transaction: ckb_transaction, from_cell_base: true).select("previous_cell_output_id")
+
+    if previous_cell_output_ids.exists?
+      previous_cell_output_capacities = CellOutput.where(id: previous_cell_output_ids).sum(:capacity)
     end
 
-    calculate_transaction_fee(cell_input_capacities, cell_output_capacities)
+    previous_cell_output_capacities.zero? ? 0 : (previous_cell_output_capacities - cell_output_capacities)
   end
 
   def self.transaction_fee(transaction)

@@ -52,10 +52,10 @@ end
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  previous_cell_output_id :bigint
+#  from_cell_base          :boolean          default(FALSE)
 #
 # Indexes
 #
 #  index_cell_inputs_on_ckb_transaction_id       (ckb_transaction_id)
 #  index_cell_inputs_on_previous_cell_output_id  (previous_cell_output_id)
-#  index_cell_inputs_on_previous_output          (previous_output) USING gin
 #
