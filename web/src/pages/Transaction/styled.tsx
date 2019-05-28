@@ -309,6 +309,7 @@ export const InputOutputTable = styled.table`
             background-color: #f9f9f9;
             border-radius: 6px 6px;
             user-select: none;
+            transform: translateZ(0);
           }
           .tr-detail-td-buttons {
             display: flex;
