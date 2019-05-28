@@ -21,11 +21,40 @@ const LabelPanel = styled.div`
   }
 
   > div {
-    font-size: 16px;
     color: rgb(136, 136, 136);
-    max-width: 320px;
+    font-size: 16px;
+    max-width: 360px;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  @media (max-width: 700px) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 28px;
+    line-height: 28px;
+    margin-bottom: 15px;
+
+    > img {
+      width: 15px;
+      height: 15px;
+    }
+
+    > span {
+      font-size: 16px;
+      color: rgb(77, 77, 77);
+      margin-left: 10px;
+      margin-right: 21px;
+    }
+
+    > div {
+      font-size: 15px;
+      color: rgb(136, 136, 136);
+      max-width: 360px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 `
 

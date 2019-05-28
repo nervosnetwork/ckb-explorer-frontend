@@ -16,6 +16,10 @@ export const BlockDetailTitlePanel = styled.div`
     color: rgb(20, 20, 20);
     font-size: 40pt;
     text-align: center;
+
+    @media (max-width: 700px) {
+      font-size: 30pt;
+    }
   }
 
   .address__content {
@@ -27,10 +31,22 @@ export const BlockDetailTitlePanel = styled.div`
       color: rgb(136, 136, 136);
       font-size: 18px;
       height: 25px;
+
+      @media (max-width: 700px) {
+        font-size: 14px;
+        height: 20px;
+        overflow: hidden;
+        max-width: 320px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
 
     img {
       margin-left: 19px;
+      @media (max-width: 700px) {
+        margin-left: 8px;
+      }
       width: 24px;
       height: 21px;
     }
@@ -41,8 +57,13 @@ export const BlockOverviewPanel = styled.div`
   margin: 0 auto;
   text-align: center;
   margin-top: 107px;
-  margin-bottom: 50px;
+  margin-bottom: 70px;
   font-size: 50px;
+  @media (max-width: 700px) {
+    margin-top: 25px;
+    margin-bottom: 5px;
+    font-size: 35px;
+  }
   color: rgb(20, 20, 20);
   height: 70px;
 
@@ -53,49 +74,15 @@ export const BlockOverviewPanel = styled.div`
     background: #3cc68a;
     height: 4px;
     width: 197px;
-  }
-`
-export const BlockCommonContentWrap = styled.div`
-  margin-left: -30px;
-  margin-right: -30px;
-  padding-left: 30px;
-  padding-right: 30px;
-  position: relative;
-  &.hasPrev::before {
-    content: '';
-    display: block;
-    box-sizing: border-box;
-    border-radius: 6px 0 0 6px;
-    box-shadow: 0 5px 9px #dfdfdf;
-    background-color: #ffffff;
-    width: 30px;
-    height: 453px;
-    margin: 22px 0;
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-  &.hasNext:after {
-    content: '';
-    display: block;
-    box-sizing: border-box;
-    margin: 22px 0;
-    border-radius: 0 6px 6px 0;
-    box-shadow: 0 5px 9px #dfdfdf;
-    background-color: #ffffff;
-    width: 30px;
-    height: 453px;
-    margin: 22px 0;
-    position: absolute;
-    top: 0;
-    right: 0px;
+    @media (max-width: 700px) {
+      width: 150px;
+    }
   }
 `
 export const BlockCommonContent = styled.div`
   overflow-x: auto;
   padding: 72px 88px 56px 88px;
   margin: 0 auto;
-  margin-top: 50px;
   background: white;
   border: 0px solid white;
   border-radius: 6px;
@@ -105,17 +92,41 @@ export const BlockCommonContent = styled.div`
 
   > div:nth-child(1) {
     flex: 1;
+    min-width: 350px;
   }
 
   > div:nth-child(2) {
     display: flex;
     flex: 1;
+    min-width: 350px;
     > div:nth-child(1) {
       width: 1px;
       height: 360px;
       background: #3cc68a;
       content: '';
       margin-right: 82px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    overflow-x: auto;
+    padding: 15px;
+    margin: 0 20px;
+    background: white;
+    border: 0px solid white;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+
+    > div:nth-child(1) {
+    }
+
+    > div:nth-child(2) {
+      > div:nth-child(1) {
+        width: 0px;
+        height: 0px;
+        margin-right: 0px;
+      }
     }
   }
 `

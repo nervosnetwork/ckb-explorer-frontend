@@ -5,6 +5,11 @@ export const TransactionDiv = styled.div.attrs({
 })`
   padding-top: 100px;
   padding-bottom: 150px;
+
+  @media (max-width: 700px) {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
 `
 export const TransactionTitleDiv = styled.div`
   text-align: center;
@@ -16,6 +21,10 @@ export const TransactionOverviewLabel = styled.div`
   text-align: center;
   margin-top: 100px;
   font-size: 50px;
+  @media (max-width: 700px) {
+    margin-top: 25px;
+    font-size: 35px;
+  }
   font-family: PingFangSC-Medium, sans-serif;
   font-weight: 900;
   &:after {
@@ -35,17 +44,27 @@ export const TransactionTitlePanel = styled.div`
     text-align: center;
     font-family: PingFangSC-Medium, sans-serif;
     font-weight: 900;
+
+    @media (max-width: 700px) {
+      font-weight: 600;
+      font-size: 30px;
+    }
   }
 
   .transaction__content {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin: 0 12px;
 
     > div {
       color: rgb(136, 136, 136);
       font-size: 18px;
       height: 25px;
+
+      @media (max-width: 700px) {
+        font-size: 14px;
+      }
     }
     #transaction__hash {
       overflow: hidden;
@@ -91,6 +110,36 @@ export const TransactionCommonContent = styled.div`
         background: #3cc68a;
         content: '';
         margin-right: 82px;
+      }
+    }
+  }
+
+  @media (max-width: 700px) {
+    overflow-x: auto;
+    padding: 0 15px;
+    width: auto;
+    margin: 15px 15px;
+    background: white;
+    border: 0px solid white;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+
+    > div {
+      padding: 15px;
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+
+      > div:nth-child(1) {
+      }
+
+      > div:nth-child(2) {
+        > div:nth-child(1) {
+          width: 1px;
+          height: 0px;
+          margin-right: 0px;
+        }
       }
     }
   }
@@ -260,6 +309,7 @@ export const InputOutputTable = styled.table`
             background-color: #f9f9f9;
             border-radius: 6px 6px;
             user-select: none;
+            transform: translateZ(0);
           }
           .tr-detail-td-buttons {
             display: flex;

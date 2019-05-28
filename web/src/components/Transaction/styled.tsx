@@ -13,6 +13,9 @@ export const TransactionsItem = styled.div`
     width: 1200px;
     margin: 0 auto;
     padding: 38px 83px 41px 83px;
+    @media (max-width: 700px) {
+      padding: 20px;
+    }
     display: flex;
     flex-direction: column;
 

@@ -18,6 +18,9 @@ export const HomeHeader = styled.div`
 
 export const LogoPanel = styled.div`
   min-height: 134px;
+  @media (max-width: 700px) {
+    min-height: 80px;
+  }
   width: auto;
   justify-content: center;
   dispaly: flex;
@@ -26,7 +29,6 @@ export const LogoPanel = styled.div`
   align-items: center;
 
   > div {
-    margin-left: 29px;
     color: #3cc68a;
     font-family: Montserrat, PingFang SC, sans-serif;
     line-height: 134px;
@@ -36,6 +38,11 @@ export const LogoPanel = styled.div`
     font-stretch: normal;
     line-height: 1.56;
     letter-spacing: 5.2px;
+
+    @media (max-width: 700px) {
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
   }
 `
 
@@ -48,6 +55,11 @@ export const BlockPanel = styled.div`
   width: 100%;
   margin-top: ${(props: { width: number }) => (80 * props.width) / 1920}px;
   margin-bottom: ${(props: { width: number }) => (120 * props.width) / 1920}px;
+
+  @media (max-width: 700px) {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
 `
 
 export const ContentTitle = styled.div`
@@ -55,7 +67,7 @@ export const ContentTitle = styled.div`
   color: #141414;
   font-weight: bold;
   text-align: center;
-  margin: 0 auto;
+  margin-bottom: 58px;
 
   &:after {
     content: '';
@@ -65,10 +77,26 @@ export const ContentTitle = styled.div`
     width: 197px;
     margin: 0 auto;
   }
+
+  @media (max-width: 700px) {
+    font-size: 30px;
+    color: #141414;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+
+    &:after {
+      content: '';
+      display: block;
+      background: #3cc68a;
+      height: 4px;
+      width: 100px;
+      margin: 0 auto;
+    }
+  }
 `
 export const ContentTable = styled.div`
   margin: 0 auto;
-  margin-top: 58px;
   width: 100%;
   overflow-x: auto;
 `
