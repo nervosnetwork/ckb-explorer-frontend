@@ -532,6 +532,7 @@ module CkbSync
         create(:ckb_transaction, :with_cell_output_and_lock_script, tx_hash: "0x498315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3", block: block)
 
         local_ckb_transaction = local_block.ckb_transactions.first
+        CkbSync::Persist.update_ckb_transaction_display_inputs(local_ckb_transaction)
 
         assert_changes -> { local_ckb_transaction.transaction_fee_status }, from: "uncalculated", to: "calculated" do
           CkbSync::Persist.update_transaction_fee(local_ckb_transaction)
@@ -548,6 +549,7 @@ module CkbSync
         create(:ckb_transaction, :with_cell_output_and_lock_script, tx_hash: "0x598315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3", block: local_block)
 
         local_ckb_transaction = local_block.ckb_transactions.first
+        CkbSync::Persist.update_ckb_transaction_display_inputs(local_ckb_transaction)
 
         assert_changes -> { local_ckb_transaction.reload.transaction_fee }, from: 0, to: (10**8 * 5 - 50000) do
           CkbSync::Persist.update_transaction_fee(local_ckb_transaction)

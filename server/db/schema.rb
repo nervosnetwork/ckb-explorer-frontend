@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_22_093025) do
+ActiveRecord::Schema.define(version: 2019_05_28_014728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 2019_05_22_093025) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "previous_cell_output_id"
+    t.boolean "from_cell_base", default: false
     t.index ["ckb_transaction_id"], name: "index_cell_inputs_on_ckb_transaction_id"
     t.index ["previous_cell_output_id"], name: "index_cell_inputs_on_previous_cell_output_id"
   end

@@ -1,6 +1,6 @@
 class ChangeCellOutputsStatusWorker
   include Sidekiq::Worker
-  sidekiq_options lock: :until_executed, lock_expiration: 1.minute
+  sidekiq_options lock: :until_executed
 
   def perform(block_id, status)
     block = Block.find(block_id)
