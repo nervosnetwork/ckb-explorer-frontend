@@ -8,7 +8,7 @@ Sidekiq.configure_server do |config|
   config.redis = { url: redis_url, driver: :hiredis, password: redis_password }
 
   config.death_handlers << ->(job, _ex) do
-    SidekiqUniqueJobs::Digests.del(digest: job['unique_digest']) if job['unique_digest']
+    SidekiqUniqueJobs::Digests.del(digest: job["unique_digest"]) if job["unique_digest"]
   end
 
   if defined?(ActiveRecord::Base)
