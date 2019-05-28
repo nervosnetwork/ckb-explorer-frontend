@@ -44,6 +44,9 @@ export const AddressTitlePanel = styled.div`
     }
     img {
       margin-left: 19px;
+      @media (max-width: 700px) {
+        margin-left: 8px;
+      }
       width: 21px;
       height: 21px;
     }

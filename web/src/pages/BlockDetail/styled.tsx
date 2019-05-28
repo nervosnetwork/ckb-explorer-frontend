@@ -36,14 +36,17 @@ export const BlockDetailTitlePanel = styled.div`
         font-size: 14px;
         height: 20px;
         overflow: hidden;
+        max-width: 320px;
         text-overflow: ellipsis;
         white-space: nowrap;
-        max-width: 300px;
       }
     }
 
     img {
       margin-left: 19px;
+      @media (max-width: 700px) {
+        margin-left: 8px;
+      }
       width: 24px;
       height: 21px;
     }
