@@ -64,7 +64,7 @@ export const AddressOverviewPanel = styled.div`
   @media (max-width: 700px) {
     margin-top: 25px;
     margin-bottom: 5px;
-    font-size: 35px;
+    font-size: 30px;
   }
 
   &:after {
@@ -76,7 +76,7 @@ export const AddressOverviewPanel = styled.div`
     width: 197px;
 
     @media (max-width: 700px) {
-      width: 130px;
+      width: 150px;
     }
   }
 `

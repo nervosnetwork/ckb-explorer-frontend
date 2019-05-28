@@ -75,7 +75,7 @@ export const BlockOverviewPanel = styled.div`
     height: 4px;
     width: 197px;
     @media (max-width: 700px) {
-      width: 130px;
+      width: 150px;
     }
   }
 `
