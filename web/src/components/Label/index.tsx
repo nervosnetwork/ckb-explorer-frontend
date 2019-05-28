@@ -51,7 +51,7 @@ const LabelPanel = styled.div`
     > div {
       font-size: 15px;
       color: rgb(136, 136, 136);
-      max-width: 320px;
+      max-width: 240px;
       overflow: hidden;
       text-overflow: ellipsis;
     }
