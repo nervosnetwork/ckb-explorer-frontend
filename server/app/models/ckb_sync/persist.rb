@@ -268,7 +268,7 @@ module CkbSync
           total_cell_capacity: CkbUtils.total_cell_capacity(node_block["transactions"]),
           miner_hash: CkbUtils.miner_hash(node_block["transactions"].first),
           status: sync_type,
-          reward: CkbUtils.miner_reward(header["epoch"].first),
+          reward: CkbUtils.miner_reward(header["epoch"]),
           total_transaction_fee: 0,
           witnesses_root: header["witness_root"],
           epoch: header["epoch"],
