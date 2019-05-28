@@ -127,7 +127,7 @@ export const TransactionCommonContent = styled.div`
 
     > div {
       padding: 15px;
-      width: 300x;
+      width: 300px;
       display: flex;
       flex-direction: column;
 
