@@ -22,11 +22,11 @@ loop do
 
   generate_sync_log(from, to)
 
-  return if Sidekiq::Queue.new("authentic_sync").size > 1000
+  next if Sidekiq::Queue.new("authentic_sync").size > 1000
 
   sync_info_values = SyncInfo.tip_authentic_syncing.recent.limit(1000).pluck(:value)
 
-  return if sync_info_values.count == 0
+  next if sync_info_values.count == 0
 
   sync_info_values.each do |number|
     current_sync_round_numbers << number
