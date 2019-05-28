@@ -74,8 +74,9 @@ module CkbSync
 
       def update_transaction_fee(ckb_transaction)
         transaction_fee = CkbUtils.ckb_transaction_fee(ckb_transaction)
-        assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
+        return if transaction_fee.blank?
 
+        assign_ckb_transaction_fee(ckb_transaction, transaction_fee)
         ApplicationRecord.transaction do
           ckb_transaction.save!
           block = ckb_transaction.block

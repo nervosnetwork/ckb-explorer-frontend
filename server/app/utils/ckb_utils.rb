@@ -78,7 +78,7 @@ class CkbUtils
     previous_cell_output_capacities = 0
     return if CellInput.where(ckb_transaction: ckb_transaction, from_cell_base: false, previous_cell_output_id: nil).exists?
 
-    previous_cell_output_ids = CellInput.where(ckb_transaction: ckb_transaction, from_cell_base: true).select("previous_cell_output_id")
+    previous_cell_output_ids = CellInput.where(ckb_transaction: ckb_transaction, from_cell_base: false).select("previous_cell_output_id")
 
     if previous_cell_output_ids.exists?
       previous_cell_output_capacities = CellOutput.where(id: previous_cell_output_ids).sum(:capacity)
