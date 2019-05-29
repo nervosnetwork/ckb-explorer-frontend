@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { HomeHeaderPanel, BlockPanel, ContentTitle, ContentTable, TableMorePanel } from './styled'
+import { HomeHeaderPanel, HomeHeaderItemPanel, BlockPanel, ContentTitle, ContentTable, TableMorePanel } from './styled'
 import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import AppContext from '../../contexts/App'
@@ -22,6 +22,15 @@ import { fetchBlocks } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
 import { shannonToCkb } from '../../utils/util'
+
+const BlockchainItem = ({ name, value, image, tip }: { name: string; value: string; image: any; tip?: string }) => {
+  return (
+    <HomeHeaderItemPanel>
+      <div className="blockchain__item__value">{`${value} ${name} ${tip}`}</div>
+      <img src={image} alt="name" />
+    </HomeHeaderItemPanel>
+  )
+}
 
 export default () => {
   const initBlockWrappers: BlockWrapper[] = []
@@ -61,8 +70,12 @@ export default () => {
 
   return (
     <Content>
-      <HomeHeaderPanel width={window.innerWidth} />
-
+      <HomeHeaderPanel width={window.innerWidth}>
+        <BlockchainItem name="Best Block" value="10000" image={BlockHeightIcon} />
+        <BlockchainItem name="Best Block" value="10000" image={BlockHeightIcon} />
+        <BlockchainItem name="Best Block" value="10000" image={BlockHeightIcon} />
+        <BlockchainItem name="Best Block" value="10000" image={BlockHeightIcon} />
+      </HomeHeaderPanel>
       <BlockPanel className="container" width={window.innerWidth}>
         <ContentTitle>
           <div>Blocks</div>

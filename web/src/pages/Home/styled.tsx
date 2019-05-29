@@ -5,6 +5,31 @@ export const HomeHeaderPanel = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  padding: 50px 0px;
+
+  > div:nth-child(n) {
+    margin-left: 20px;
+  }
+
+  > div:nth-child(1) {
+    margin-left: 0px;
+  }
+`
+
+export const HomeHeaderItemPanel = styled.div`
+  width: 285px;
+  height: 180px;
+  background-color: white;
+  border: 0px solid white;
+  border-radius: 6px;
+  box-shadow: 4px 4px 6px #dfdfdf;
+
+  .blockchain__item__value {
+    color: #3cc68a;
+    text-align: center;
+    line-height: 100%;
+    font-size: 26px;
+  }
 `
 
 export const BlockPanel = styled.div`
