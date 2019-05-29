@@ -26,7 +26,8 @@ import { shannonToCkb } from '../../utils/util'
 const BlockchainItem = ({ name, value, image, tip }: { name: string; value: string; image: any; tip?: string }) => {
   return (
     <HomeHeaderItemPanel>
-      <div className="blockchain__item__value">{`${value} ${name} ${tip}`}</div>
+      <div className="blockchain__item__value">{`${value} ${tip}`}</div>
+      <div className="blockchain__item__name">{name}</div>
       <img src={image} alt="name" />
     </HomeHeaderItemPanel>
   )
@@ -70,7 +71,7 @@ export default () => {
 
   return (
     <Content>
-      <HomeHeaderPanel width={window.innerWidth}>
+      <HomeHeaderPanel>
         <BlockchainItem name="Best Block" value="10000" image={BlockHeightIcon} />
         <BlockchainItem name="Best Block" value="10000" image={BlockHeightIcon} />
         <BlockchainItem name="Best Block" value="10000" image={BlockHeightIcon} />

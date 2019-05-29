@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const HomeHeaderPanel = styled.div`
-  min-height: ${(props: { width: number }) => (180 * props.width) / 1920}px;
+  min-height: 180px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -12,13 +12,34 @@ export const HomeHeaderPanel = styled.div`
   }
 
   > div:nth-child(1) {
-    margin-left: 0px;
+    margin: 0px;
+  }
+
+  @media (max-width: 700px) {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 50px 0px;
+
+    > div:nth-child(n) {
+      width: 85%;
+      margin-top: 20px;
+      margin-left: 0px;
+    }
+
+    > div:nth-child(1) {
+      margin: 0px;
+    }
   }
 `
 
 export const HomeHeaderItemPanel = styled.div`
   width: 285px;
   height: 180px;
+  display: flex;
+  flex-direction: column;
+  item-align: center;
   background-color: white;
   border: 0px solid white;
   border-radius: 6px;
@@ -29,6 +50,15 @@ export const HomeHeaderItemPanel = styled.div`
     text-align: center;
     line-height: 100%;
     font-size: 26px;
+    margin-top: 60px;
+  }
+
+  .blockchain__item__name {
+    color: #888888;
+    text-align: center;
+    line-height: 100%;
+    font-size: 16px;
+    margin-top: 12px;
   }
 `
 
