@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import BlockchainTipImage from '../../asserts/blockchain_tip_background.png'
 
 export const HomeHeaderPanel = styled.div`
   min-height: 180px;
@@ -66,7 +67,27 @@ export const HomeHeaderItemPanel = styled.div`
   }
 
   .blockchain__item__tip {
-    background-image: url('../../asserts/blockchain_tip_background.png');
+    margin-top: 8px;
+    opacity: 0;
+    width: 285px;
+    height: 41px;
+    background-image: url(${BlockchainTipImage});
+    background-repeat: no-repeat;
+    background-size: 285px 41px;
+  }
+
+  &:hover .blockchain__item__tip {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .blockchain__item__tip__content {
+    width: 285px;
+    height: 41px;
+    text-align: center;
+    line-height: 41px;
+    color: white;
+    font-size: 12px;
   }
 `
 

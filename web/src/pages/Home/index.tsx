@@ -29,6 +29,7 @@ import BestBlockImage from '../../asserts/best_block_background.png'
 import BlockTimeImage from '../../asserts/block_time_background.png'
 import DifficultyImage from '../../asserts/difficulty_background.png'
 import HashRateImage from '../../asserts/hash_rate_background.png'
+
 import { fetchBlocks } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
@@ -38,7 +39,12 @@ const BlockchainItem = ({ name, value, image, tip }: { name: string; value: stri
   return (
     <HomeHeaderItemPanel image={image}>
       <div className="blockchain__item__value">{value}</div>
-      <div className="blockchain__item__name">{`${name} ${tip}`}</div>
+      <div className="blockchain__item__name">{`${name}`}</div>
+      {tip && (
+        <div className="blockchain__item__tip">
+          <div className="blockchain__item__tip__content">{tip}</div>
+        </div>
+      )}
     </HomeHeaderItemPanel>
   )
 }
@@ -92,6 +98,7 @@ export default () => {
     name: string
     value: string
     image: any
+    tip: string
   }
 
   const BlockchainDatas: BlockchainData[] = [
@@ -99,21 +106,25 @@ export default () => {
       name: 'Best Block',
       value: '10000',
       image: BestBlockImage,
+      tip: '',
     },
     {
       name: 'Difficulty',
       value: '1 874 086 735',
       image: DifficultyImage,
+      tip: 'Average Difficulty of the current Epoch',
     },
     {
       name: 'Hash Rate',
       value: '1 KH/s',
       image: HashRateImage,
+      tip: 'Average Hash Rate of the current Epoch',
     },
     {
       name: 'Average Block Time',
       value: '5.3 s',
       image: BlockTimeImage,
+      tip: 'Average Block Time of the current Epoch',
     },
   ]
 
@@ -122,7 +133,7 @@ export default () => {
       <HomeHeaderPanel>
         {window.innerWidth > 700 &&
           BlockchainDatas.map((data: BlockchainData) => {
-            return <BlockchainItem name={data.name} value={data.value} image={data.image} />
+            return <BlockchainItem name={data.name} value={data.value} image={data.image} tip={data.tip} />
           })}
         {window.innerWidth <= 700 &&
           BlockchainDatas.map((data: BlockchainData) => {
