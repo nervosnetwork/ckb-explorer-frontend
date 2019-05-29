@@ -5,7 +5,7 @@ export const HomeHeaderPanel = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 50px 0px;
+  padding: 100px 0px;
 
   > div:nth-child(n) {
     margin-left: 20px;
@@ -20,16 +20,19 @@ export const HomeHeaderPanel = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 50px 0px;
+    padding-top: 20px;
+    padding-bottom: 10px;
 
-    > div:nth-child(n) {
-      width: 85%;
-      margin-top: 20px;
+    > div:nth-child(even) {
+      margin-left: 15px;
+    }
+
+    > div:nth-child(odd) {
       margin-left: 0px;
     }
 
-    > div:nth-child(1) {
-      margin: 0px;
+    > div:nth-child(n) {
+      margin-bottom: 15px;
     }
   }
 `
@@ -46,7 +49,7 @@ export const HomeHeaderItemPanel = styled.div`
   box-shadow: 4px 4px 6px #dfdfdf;
   background-image: url(${(props: { image: any }) => props.image});
   background-repeat: no-repeat;
-  background-size: 283px 162px;
+  background-size: 297px 192px;
 
   .blockchain__item__value {
     color: #3cc68a;
@@ -67,14 +70,38 @@ export const HomeHeaderItemPanel = styled.div`
   }
 `
 
+export const HomeHeaderItemMobilePanel = styled.div`
+  width: 160px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  item-align: center;
+  background-color: white;
+  border: 0px solid white;
+  border-radius: 6px;
+  box-shadow: 4px 4px 6px #dfdfdf;
+
+  .blockchain__item__value {
+    color: #3cc68a;
+    text-align: center;
+    font-size: 18px;
+    margin-top: 12px;
+  }
+
+  .blockchain__item__name {
+    color: #888888;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+`
+
 export const BlockPanel = styled.div`
   width: 100%;
-  margin-top: ${(props: { width: number }) => (80 * props.width) / 1920}px;
   margin-bottom: ${(props: { width: number }) => (120 * props.width) / 1920}px;
 
   @media (max-width: 700px) {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
 `
 

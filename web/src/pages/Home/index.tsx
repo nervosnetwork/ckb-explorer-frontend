@@ -1,6 +1,13 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { HomeHeaderPanel, HomeHeaderItemPanel, BlockPanel, ContentTitle, ContentTable, TableMorePanel } from './styled'
+import {
+  HomeHeaderPanel,
+  HomeHeaderItemPanel,
+  HomeHeaderItemMobilePanel,
+  BlockPanel,
+  ContentTable,
+  TableMorePanel,
+} from './styled'
 import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import AppContext from '../../contexts/App'
@@ -19,6 +26,9 @@ import TimestampIcon from '../../asserts/timestamp.png'
 import MoreLeftIcon from '../../asserts/more_left.png'
 import MoreRightIcon from '../../asserts/more_right.png'
 import BestBlockImage from '../../asserts/best_block_background.png'
+import BlockTimeImage from '../../asserts/block_time_background.png'
+import DifficultyImage from '../../asserts/difficulty_background.png'
+import HashRateImage from '../../asserts/hash_rate_background.png'
 import { fetchBlocks } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
@@ -30,6 +40,15 @@ const BlockchainItem = ({ name, value, image, tip }: { name: string; value: stri
       <div className="blockchain__item__value">{value}</div>
       <div className="blockchain__item__name">{`${name} ${tip}`}</div>
     </HomeHeaderItemPanel>
+  )
+}
+
+const BlockchainItemMobile = ({ name, value }: { name: string; value: string }) => {
+  return (
+    <HomeHeaderItemMobilePanel>
+      <div className="blockchain__item__value">{value}</div>
+      <div className="blockchain__item__name">{name}</div>
+    </HomeHeaderItemMobilePanel>
   )
 }
 
@@ -69,20 +88,48 @@ export default () => {
     }
   }, [])
 
+  interface BlockchainData {
+    name: string
+    value: string
+    image: any
+  }
+
+  const BlockchainDatas: BlockchainData[] = [
+    {
+      name: 'Best Block',
+      value: '10000',
+      image: BestBlockImage,
+    },
+    {
+      name: 'Difficulty',
+      value: '1 874 086 735',
+      image: DifficultyImage,
+    },
+    {
+      name: 'Hash Rate',
+      value: '1 KH/s',
+      image: HashRateImage,
+    },
+    {
+      name: 'Average Block Time',
+      value: '5.3 s',
+      image: BlockTimeImage,
+    },
+  ]
+
   return (
     <Content>
       <HomeHeaderPanel>
-        <BlockchainItem name="Best Block" value="10000" image={BestBlockImage} />
-        <BlockchainItem name="Difficulty" value="1 874 086 735" image={BestBlockImage} />
-        <BlockchainItem name="Hash Rate" value="1 KH/s" image={BestBlockImage} />
-        <BlockchainItem name="Average Block Time" value="5.3 s" image={BestBlockImage} />
+        {window.innerWidth > 700 &&
+          BlockchainDatas.map((data: BlockchainData) => {
+            return <BlockchainItem name={data.name} value={data.value} image={data.image} />
+          })}
+        {window.innerWidth <= 700 &&
+          BlockchainDatas.map((data: BlockchainData) => {
+            return <BlockchainItemMobile name={data.name} value={data.value} />
+          })}
       </HomeHeaderPanel>
       <BlockPanel className="container" width={window.innerWidth}>
-        <ContentTitle>
-          <div>Blocks</div>
-          <span />
-        </ContentTitle>
-
         <ContentTable>
           <TableTitleRow>
             <TableTitleItem image={BlockHeightIcon} title="Height" />
