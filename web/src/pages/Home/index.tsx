@@ -18,6 +18,7 @@ import MinerIcon from '../../asserts/miner.png'
 import TimestampIcon from '../../asserts/timestamp.png'
 import MoreLeftIcon from '../../asserts/more_left.png'
 import MoreRightIcon from '../../asserts/more_right.png'
+import BestBlockImage from '../../asserts/best_block_background.png'
 import { fetchBlocks } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
@@ -25,10 +26,9 @@ import { shannonToCkb } from '../../utils/util'
 
 const BlockchainItem = ({ name, value, image, tip }: { name: string; value: string; image: any; tip?: string }) => {
   return (
-    <HomeHeaderItemPanel>
-      <div className="blockchain__item__value">{`${value} ${tip}`}</div>
-      <div className="blockchain__item__name">{name}</div>
-      <img src={image} alt="name" />
+    <HomeHeaderItemPanel image={image}>
+      <div className="blockchain__item__value">{value}</div>
+      <div className="blockchain__item__name">{`${name} ${tip}`}</div>
     </HomeHeaderItemPanel>
   )
 }
@@ -72,10 +72,10 @@ export default () => {
   return (
     <Content>
       <HomeHeaderPanel>
-        <BlockchainItem name="Best Block" value="10000" image={BlockHeightIcon} />
-        <BlockchainItem name="Best Block" value="10000" image={BlockHeightIcon} />
-        <BlockchainItem name="Best Block" value="10000" image={BlockHeightIcon} />
-        <BlockchainItem name="Best Block" value="10000" image={BlockHeightIcon} />
+        <BlockchainItem name="Best Block" value="10000" image={BestBlockImage} />
+        <BlockchainItem name="Difficulty" value="1 874 086 735" image={BestBlockImage} />
+        <BlockchainItem name="Hash Rate" value="1 KH/s" image={BestBlockImage} />
+        <BlockchainItem name="Average Block Time" value="5.3 s" image={BestBlockImage} />
       </HomeHeaderPanel>
       <BlockPanel className="container" width={window.innerWidth}>
         <ContentTitle>

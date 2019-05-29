@@ -44,11 +44,13 @@ export const HomeHeaderItemPanel = styled.div`
   border: 0px solid white;
   border-radius: 6px;
   box-shadow: 4px 4px 6px #dfdfdf;
+  background-image: url(${(props: { image: any }) => props.image});
+  background-repeat: no-repeat;
+  background-size: 283px 162px;
 
   .blockchain__item__value {
     color: #3cc68a;
     text-align: center;
-    line-height: 100%;
     font-size: 26px;
     margin-top: 60px;
   }
@@ -56,9 +58,12 @@ export const HomeHeaderItemPanel = styled.div`
   .blockchain__item__name {
     color: #888888;
     text-align: center;
-    line-height: 100%;
     font-size: 16px;
     margin-top: 12px;
+  }
+
+  .blockchain__item__tip {
+    background-image: url('../../asserts/blockchain_tip_background.png');
   }
 `
 
