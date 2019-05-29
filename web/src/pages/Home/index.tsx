@@ -1,15 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import {
-  HomeHeaderPanel,
-  HomeHeader,
-  LogoPanel,
-  BlockPanel,
-  SearchPanel,
-  ContentTitle,
-  ContentTable,
-  TableMorePanel,
-} from './styled'
+import { HomeHeaderPanel, BlockPanel, ContentTitle, ContentTable, TableMorePanel } from './styled'
 import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import AppContext from '../../contexts/App'
@@ -20,7 +11,6 @@ import {
   TableContentItem,
   TableMinerContentItem,
 } from '../../components/Table'
-import Search from '../../components/Search'
 import BlockHeightIcon from '../../asserts/block_height.png'
 import TransactionIcon from '../../asserts/transactions.png'
 import BlockRewardIcon from '../../asserts/block_reward_white.png'
@@ -71,16 +61,7 @@ export default () => {
 
   return (
     <Content>
-      <HomeHeaderPanel width={window.innerWidth}>
-        <HomeHeader>
-          <LogoPanel width={window.innerWidth}>
-            <div>CKB Testnet Explorer</div>
-          </LogoPanel>
-          <SearchPanel width={window.innerWidth}>
-            <Search />
-          </SearchPanel>
-        </HomeHeader>
-      </HomeHeaderPanel>
+      <HomeHeaderPanel width={window.innerWidth} />
 
       <BlockPanel className="container" width={window.innerWidth}>
         <ContentTitle>
