@@ -44,7 +44,7 @@ class BlockTest < ActiveSupport::TestCase
         SyncInfo.local_authentic_tip_block_number
         create(:sync_info, name: "inauthentic_tip_block_number", value: 10)
         create(:sync_info, name: "authentic_tip_block_number", value: 10)
-        node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).to_h.deep_stringify_keys
+        node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH)
         block.verify!(node_block)
       end
     end
@@ -57,7 +57,7 @@ class BlockTest < ActiveSupport::TestCase
     SyncInfo.local_authentic_tip_block_number
     assert_changes -> { block.status }, from: "inauthentic", to: "abandoned" do
       VCR.use_cassette("blocks/10") do
-        node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).to_h.deep_stringify_keys
+        node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH)
         assert_difference "Block.count", 1 do
           block.verify!(node_block)
         end
@@ -75,7 +75,7 @@ class BlockTest < ActiveSupport::TestCase
 
     assert_changes -> { block.cell_outputs.pluck(:status).uniq }, from: ["live"], to: ["abandoned"] do
       VCR.use_cassette("blocks/10") do
-        node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).to_h.deep_stringify_keys
+        node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH)
         assert_difference "Block.count", 1 do
           block.verify!(node_block)
         end
@@ -133,9 +133,7 @@ class BlockTest < ActiveSupport::TestCase
       SyncInfo.local_inauthentic_tip_block_number
       create(:sync_info, name: "inauthentic_tip_block_number", value: 2)
       block_hash = "0x2f8cd9eeb04e2c57c8192e77d6f5cf64630201fd23b1d7c0b89edd73033efbba"
-      node_block = CkbSync::Api.instance.get_block(block_hash).to_h.deep_stringify_keys
-      uncles = node_block["uncles"].map(&:to_h).map(&:deep_stringify_keys)
-      node_block["uncles"] = uncles
+      node_block = CkbSync::Api.instance.get_block(block_hash)
       CkbSync::Persist.save_block(node_block, "inauthentic")
       block = Block.find_by(block_hash: block_hash)
       uncle_block_hashes = block.uncle_block_hashes
@@ -156,8 +154,8 @@ class BlockTest < ActiveSupport::TestCase
       create(:sync_info, name: "inauthentic_tip_block_number", value: 2)
       SyncInfo.local_inauthentic_tip_block_number
       block_hash = "0x2f8cd9eeb04e2c57c8192e77d6f5cf64630201fd23b1d7c0b89edd73033efbba"
-      node_block = CkbSync::Api.instance.get_block(block_hash).to_h.deep_stringify_keys
-      node_block["proposals"] = ["0x98a4e0c18c"]
+      node_block = CkbSync::Api.instance.get_block(block_hash)
+      node_block.instance_variable_set(:@proposals, ["0x98a4e0c18c"])
       CkbSync::Persist.save_block(node_block, "inauthentic")
       block = Block.find_by(block_hash: block_hash)
       proposals = block.proposals
