@@ -36,7 +36,7 @@ class Block < ApplicationRecord
   end
 
   def self.find_block(query_key)
-    if query_key.start_with?(ENV["DEFAULT_HASH_PREFIX"])
+    if QueryKeyUtils.valid_hex?(query_key)
       where(block_hash: query_key).available.take!
     else
       where(number: query_key).available.take!

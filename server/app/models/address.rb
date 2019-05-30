@@ -21,6 +21,18 @@ class Address < ApplicationRecord
       Address.find_by(lock_hash: lock_hash)
     end
   end
+
+  def self.find_address!(query_key)
+    if QueryKeyUtils.valid_hex?(query_key)
+      address = Address.find_by!(lock_hash: query_key)
+      LockHashSerializer.new(address)
+    else
+      address = Address.find_by!(address_hash: query_key)
+      AddressSerializer.new(address)
+    end
+  rescue ActiveRecord::RecordNotFound
+    raise Api::V1::Exceptions::AddressNotFoundError
+  end
 end
 
 # == Schema Information
