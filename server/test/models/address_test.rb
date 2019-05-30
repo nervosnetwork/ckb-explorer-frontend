@@ -109,6 +109,24 @@ class AddressTest < ActiveSupport::TestCase
     end
   end
 
+  test ".find_or_create_address should returned address's lock hash should equal with output's lock hash" do
+    VCR.use_cassette("blocks/10") do
+      SyncInfo.local_inauthentic_tip_block_number
+      node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH)
+      tx = node_block.transactions.first
+      output = tx.outputs.first
+      output.lock.instance_variable_set(:@args, ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"])
+      output.lock.instance_variable_set(:@code_hash, ENV["CODE_HASH"])
+
+      CkbSync::Persist.save_block(node_block, "inauthentic")
+
+      lock_script = node_block.transactions.first.outputs.first.lock
+      address = Address.find_or_create_address(lock_script)
+
+      assert_equal output.lock.to_hash, address.lock_hash
+    end
+  end
+
   test "should update related addresses balance after block authenticated" do
     Sidekiq::Testing.inline!
 
