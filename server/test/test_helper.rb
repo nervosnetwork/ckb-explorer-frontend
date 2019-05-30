@@ -56,11 +56,11 @@ def prepare_inauthentic_node_data
       sync_info.update(value: number, status: "syncing")
 
       VCR.use_cassette("blocks/#{number}") do
-        node_block = CkbSync::Api.instance.get_block(block_hash).to_h.deep_stringify_keys
-        tx = node_block["transactions"].first
-        output = tx["outputs"].first
-        output["lock"]["args"] = ["0x36c329ed630d6ce750712a477543672adab57f4c"]
-        output["lock"]["code_hash"] = ENV["CODE_HASH"]
+        node_block = CkbSync::Api.instance.get_block(block_hash)
+        tx = node_block.transactions.first
+        output = tx.outputs.first
+        output.lock.instance_variable_set(:@args, ["0x36c329ed630d6ce750712a477543672adab57f4c"])
+        output.lock.instance_variable_set(:@code_hash, ENV["CODE_HASH"])
 
         CkbSync::Persist.save_block(node_block, "inauthentic")
       end
@@ -94,7 +94,7 @@ def format_node_block(node_block)
 end
 
 def format_node_block_commit_transaction(commit_transaction)
-  commit_transaction.reject { |key, _value| key.in?(%w(inputs outputs)) }
+  commit_transaction.instance_values.reject { |key, _value| key.in?(%w(inputs outputs)) }
 end
 
 def format_node_block_cell_output(cell_output)
@@ -102,8 +102,9 @@ def format_node_block_cell_output(cell_output)
 end
 
 def fake_node_block_with_type_script(node_block)
-  lock = node_block["transactions"].first["outputs"].first["lock"]
-  node_block["transactions"].first["outputs"].first["type"] = lock
+  output = node_block.transactions.first.outputs.first
+  lock = output.lock
+  output.instance_variable_set(:@type, lock)
 end
 
 def build_display_input_from_node_input(input)
@@ -123,12 +124,13 @@ def build_display_input_from_node_input(input)
 end
 
 def fake_node_block(block_hash = "0x3c07186493c5da8b91917924253a5ffd35231151649d0c7e2941aa8801815062")
-  "{\"header\":{\"difficulty\":\"0x1000\",\"epoch\":\"0\",\"hash\":\"#{block_hash}\",\"number\":\"10\",\"parent_hash\":\"0x598315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3\",\"proposals_hash\":\"0x0000000000000000000000000000000000000000000000000000000000000000\",\"seal\":{\"nonce\":\"3241241169132127032\",\"proof\":\"0xd8010000850800001c0d00005c100000983b0000ae3b0000724300003e480000145f00008864000079770000d1780000\"},\"timestamp\":\"1557482351075\",\"transactions_root\":\"0xefb03572314fbb45aba0ef889373d3181117b253664de4dca0934e453b1e6bf3\",\"uncles_count\":0,\"uncles_hash\":\"0x0000000000000000000000000000000000000000000000000000000000000000\",\"version\":0,\"witnesses_root\":\"0x0000000000000000000000000000000000000000000000000000000000000000\"},\"proposals\":[],
+  json_block = "{\"header\":{\"difficulty\":\"0x1000\",\"epoch\":\"0\",\"hash\":\"#{block_hash}\",\"number\":\"10\",\"parent_hash\":\"0x598315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3\",\"proposals_hash\":\"0x0000000000000000000000000000000000000000000000000000000000000000\",\"seal\":{\"nonce\":\"3241241169132127032\",\"proof\":\"0xd8010000850800001c0d00005c100000983b0000ae3b0000724300003e480000145f00008864000079770000d1780000\"},\"timestamp\":\"1557482351075\",\"transactions_root\":\"0xefb03572314fbb45aba0ef889373d3181117b253664de4dca0934e453b1e6bf3\",\"uncles_count\":0,\"uncles_hash\":\"0x0000000000000000000000000000000000000000000000000000000000000000\",\"version\":0,\"witnesses_root\":\"0x0000000000000000000000000000000000000000000000000000000000000000\"},\"proposals\":[],
     \"transactions\":[
       {\"deps\":[],\"hash\":\"0xefb03572314fbb45aba0ef889373d3181117b253664de4dca0934e453b1e6bf3\",\"inputs\":[{\"args\":[\"0x0a00000000000000\"],\"previous_output\":{\"block_hash\":null,\"cell\":{\"tx_hash\": \"0x598315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3\", \"index\": \"0\"}},\"since\":\"0\"}],\"outputs\":[{\"capacity\":\"50000\",\"data\":\"0x\",\"lock\":{\"args\":[],\"code_hash\":\"0x0000000000000000000000000000000000000000000000000000000000000001\"},\"type\":null}],\"version\":0,\"witnesses\":[]},
       {\"deps\":[],\"hash\":\"0xefb03572314fbb45aba0ef889373d3181117b253664de4dca0934e453b1e6b23\",\"inputs\":[{\"args\":[\"0x0a00000000000000\"],\"previous_output\":{\"block_hash\":null,\"cell\":{\"tx_hash\": \"0x498315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3\", \"index\": \"0\"}},\"since\":\"0\"}],\"outputs\":[{\"capacity\":\"50000\",\"data\":\"0x\",\"lock\":{\"args\":[],\"code_hash\":\"0x0000000000000000000000000000000000000000000000000000000000000001\"},\"type\":null}],\"version\":0,\"witnesses\":[]}
     ]
     ,\"uncles\":[]}"
+  CKB::Types::Block.from_h(JSON.parse(json_block).deep_symbolize_keys)
 end
 
 def build_display_info_from_node_output(output)
@@ -139,10 +141,10 @@ def build_display_info_from_node_output(output)
 end
 
 def set_default_lock_params(node_block: block, args: ["0xe6471b6ba597dc7c0a7d5a5f19a9c67c0386358d21c31514ae617aeb4982acbb"], code_hash: "0x#{SecureRandom.hex(32)}")
-  tx = node_block["transactions"].first
-  output = tx["outputs"].first
-  output["lock"]["args"] = args
-  output["lock"]["code_hash"] = code_hash
+  tx = node_block.transactions.first
+  output = tx.outputs.first
+  output.lock.instance_variable_set(:@args, args)
+  output.lock.instance_variable_set(:@code_hash, code_hash)
 end
 
 def prepare_api_wrapper

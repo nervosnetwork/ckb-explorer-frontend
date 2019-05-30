@@ -23,7 +23,7 @@ class Block < ApplicationRecord
   scope :available, -> { where(status: [:inauthentic, :authentic]) }
 
   def verify!(node_block)
-    if verified?(node_block.dig("header", "hash"))
+    if verified?(node_block.header.hash)
       authenticate!
     else
       abandon!
