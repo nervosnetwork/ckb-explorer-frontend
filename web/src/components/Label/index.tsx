@@ -20,7 +20,12 @@ const LabelPanel = styled.div`
     margin-right: 21px;
   }
 
-  > div {
+  .label__content__full__length {
+    color: rgb(136, 136, 136);
+    font-size: 16px;
+  }
+
+  .label__content__limit__length {
     color: rgb(136, 136, 136);
     font-size: 16px;
     max-width: 360px;
@@ -64,12 +69,14 @@ const SimpleLabel = ({
   value,
   highLight,
   style,
+  lengthNoLimit,
 }: {
   image: string
   label: string
   value: any
   highLight?: boolean
   style?: any
+  lengthNoLimit?: boolean
 }) => {
   const highLightStyle = {
     color: '#4BBC8E',
@@ -77,11 +84,14 @@ const SimpleLabel = ({
   const normalStyle = {
     color: '#888888',
   }
+  const className = lengthNoLimit ? 'label__content__full__length' : 'label__content__limit__length'
   return (
     <LabelPanel style={style}>
       <img src={image} alt={value} />
       <span>{label}</span>
-      <div style={highLight ? highLightStyle : normalStyle}>{value}</div>
+      <div style={highLight ? highLightStyle : normalStyle} className={className}>
+        {value}
+      </div>
     </LabelPanel>
   )
 }
