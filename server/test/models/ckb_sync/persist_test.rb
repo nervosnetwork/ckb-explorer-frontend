@@ -148,7 +148,7 @@ module CkbSync
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH).to_h.deep_stringify_keys
         set_default_lock_params(node_block: node_block)
         formatted_node_block = format_node_block(node_block)
-        formatted_node_block["witnesses_root"] = formatted_node_block.delete("witness_root")
+        formatted_node_block["witnesses_root"] = formatted_node_block.delete("witnesses_root")
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_block_hash = local_block.attributes.select { |attribute| attribute.in?(%w(difficulty block_hash number parent_hash seal timestamp transactions_root proposals_hash uncles_count uncles_hash version witnesses_root proposals epoch)) }
