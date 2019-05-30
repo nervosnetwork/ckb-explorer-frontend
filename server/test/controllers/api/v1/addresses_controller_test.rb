@@ -72,6 +72,14 @@ module Api
         assert_equal AddressSerializer.new(address).serialized_json, response.body
       end
 
+      test "should return corresponding data with given lock hash" do
+        address = create(:address, :with_lock_script)
+
+        valid_get api_v1_address_url(address.lock_hash)
+
+        assert_equal LockHashSerializer.new(address).serialized_json, response.body
+      end
+
       test "should contain right keys in the serialized object when call show" do
         address = create(:address, :with_lock_script)
 
