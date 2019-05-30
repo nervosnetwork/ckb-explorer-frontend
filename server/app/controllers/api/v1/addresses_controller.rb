@@ -4,9 +4,9 @@ module Api
       before_action :validate_query_params
 
       def show
-        address = Address.find_by!(address_hash: params[:id])
+        address = Address.find_address!(params[:id])
 
-        render json: AddressSerializer.new(address)
+        render json: json_response(address)
       rescue ActiveRecord::RecordNotFound
         raise Api::V1::Exceptions::AddressNotFoundError
       end
@@ -21,6 +21,14 @@ module Api
           status = validator.error_object[:status]
 
           render json: errors, status: status
+        end
+      end
+
+      def json_response(address)
+        if QueryKeyUtils.valid_hex?(params[:id])
+          LockHashSerializer.new(address)
+        else
+          AddressSerializer.new(address)
         end
       end
     end

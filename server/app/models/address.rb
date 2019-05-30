@@ -24,14 +24,10 @@ class Address < ApplicationRecord
 
   def self.find_address!(query_key)
     if QueryKeyUtils.valid_hex?(query_key)
-      address = Address.find_by!(lock_hash: query_key)
-      LockHashSerializer.new(address)
+      Address.find_by!(lock_hash: query_key)
     else
-      address = Address.find_by!(address_hash: query_key)
-      AddressSerializer.new(address)
+      Address.find_by!(address_hash: query_key)
     end
-  rescue ActiveRecord::RecordNotFound
-    raise Api::V1::Exceptions::AddressNotFoundError
   end
 end
 

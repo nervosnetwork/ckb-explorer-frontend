@@ -69,7 +69,7 @@ module Api
 
       class AddressNotFoundError < Error
         def initialize
-          super code: 1010, status: 404, title: "Address Not Found", detail: "No address found by given address hash", href: "https://github.com/nervosnetwork/ckb-explorer"
+          super code: 1010, status: 404, title: "Address Not Found", detail: "No address found by given address hash or lock hash", href: "https://github.com/nervosnetwork/ckb-explorer"
         end
       end
 
