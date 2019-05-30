@@ -44,7 +44,7 @@ class AddressTest < ActiveSupport::TestCase
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH)
       tx = node_block.transactions.first
       output = tx.outputs.first
-      output.lock.instance_variable_set(:@args, ["abcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"])
+      output.lock.instance_variable_set(:@args, ["0x"])
 
       CkbSync::Persist.save_block(node_block, "inauthentic")
       packed_block_hash = DEFAULT_NODE_BLOCK_HASH
@@ -61,7 +61,7 @@ class AddressTest < ActiveSupport::TestCase
       node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH)
       tx = node_block.transactions.first
       output = tx.outputs.first
-      output.lock.instance_variable_set(:@args, ["abcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"])
+      output.lock.instance_variable_set(:@args, ["0xabcbce98a758f130d34da522623d7e56705bddfe0dc4781bd2331211134a19a6"])
 
       CkbSync::Persist.save_block(node_block, "inauthentic")
       packed_block_hash = DEFAULT_NODE_BLOCK_HASH
