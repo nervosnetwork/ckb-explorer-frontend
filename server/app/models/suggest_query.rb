@@ -3,15 +3,15 @@ class SuggestQuery
     @query_key = query_key
   end
 
-  def find
-    find_record_by_query_key
+  def find!
+    find_record_by_query_key!
   end
 
   private
 
   attr_reader :query_key
 
-  def find_record_by_query_key
+  def find_record_by_query_key!
     result =
       if integer_string?
         find_block_by_number
