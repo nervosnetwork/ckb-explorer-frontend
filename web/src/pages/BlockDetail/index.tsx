@@ -38,6 +38,8 @@ import PreviousBlockGreyIcon from '../../asserts/left_arrow_grey.png'
 import NextBlockIcon from '../../asserts/right_arrow.png'
 import NextBlockGreyIcon from '../../asserts/right_arrow_grey.png'
 import MouseIcon from '../../asserts/block_mouse.png'
+import TransactionsRootIcon from '../../asserts/transactions_root.png'
+import WitnessRootIcon from '../../asserts/witness_root.png'
 import { Block, BlockWrapper } from '../../http/response/Block'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
@@ -166,6 +168,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     version: 0,
     nonce: 0,
     proof: '',
+    transactions_root: '',
+    witness_root: '',
   }
   const [blockData, setBlockData] = useState(initBlock)
   const initTransactionWrappers: TransactionWrapper[] = []
@@ -277,6 +281,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       value: `${parseSimpleDate(blockData.timestamp)}`,
     },
     {
+      image: TransactionsRootIcon,
+      label: 'Transactions Root:',
+      value: `${blockData.transactions_root}`,
+    },
+    {
       image: UncleCountIcon,
       label: 'Uncle Count:',
       value: `${blockData.uncles_count}`,
@@ -313,6 +322,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       image: NonceIcon,
       label: 'Nonce:',
       value: `${blockData.nonce}`,
+    },
+    {
+      image: WitnessRootIcon,
+      label: 'Witness Root:',
+      value: `${blockData.witness_root}`,
     },
     {
       image: ProofIcon,

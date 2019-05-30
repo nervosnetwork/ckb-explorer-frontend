@@ -18,6 +18,8 @@ export interface Block {
   version: number
   nonce: number
   proof: string
+  transactions_root: string
+  witness_root: string
 }
 
 export interface BlockWrapper {
