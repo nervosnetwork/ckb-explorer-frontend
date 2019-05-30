@@ -32,7 +32,7 @@ export default () => {
     <Router history={browserHistory}>
       <Route
         render={(props: any) => {
-          const hasSearch: boolean = !(props.location.pathname === '/' || props.location.pathname === '/search/fail')
+          const hasSearch: boolean = !(props.location.pathname === '/search/fail')
           return (
             <Page>
               <Header search={hasSearch} />

@@ -2,11 +2,9 @@ import React, { useEffect, useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   HomeHeaderPanel,
-  HomeHeader,
-  LogoPanel,
+  HomeHeaderItemPanel,
+  HomeHeaderItemMobilePanel,
   BlockPanel,
-  SearchPanel,
-  ContentTitle,
   ContentTable,
   TableMorePanel,
 } from './styled'
@@ -20,7 +18,6 @@ import {
   TableContentItem,
   TableMinerContentItem,
 } from '../../components/Table'
-import Search from '../../components/Search'
 import BlockHeightIcon from '../../asserts/block_height.png'
 import TransactionIcon from '../../asserts/transactions.png'
 import BlockRewardIcon from '../../asserts/block_reward_white.png'
@@ -28,10 +25,38 @@ import MinerIcon from '../../asserts/miner.png'
 import TimestampIcon from '../../asserts/timestamp.png'
 import MoreLeftIcon from '../../asserts/more_left.png'
 import MoreRightIcon from '../../asserts/more_right.png'
+import BestBlockImage from '../../asserts/best_block_background.png'
+import BlockTimeImage from '../../asserts/block_time_background.png'
+import DifficultyImage from '../../asserts/difficulty_background.png'
+import HashRateImage from '../../asserts/hash_rate_background.png'
+
 import { fetchBlocks } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
 import { shannonToCkb } from '../../utils/util'
+
+const BlockchainItem = ({ name, value, image, tip }: { name: string; value: string; image: any; tip?: string }) => {
+  return (
+    <HomeHeaderItemPanel image={image}>
+      <div className="blockchain__item__value">{value}</div>
+      <div className="blockchain__item__name">{`${name}`}</div>
+      {tip && (
+        <div className="blockchain__item__tip">
+          <div className="blockchain__item__tip__content">{tip}</div>
+        </div>
+      )}
+    </HomeHeaderItemPanel>
+  )
+}
+
+const BlockchainItemMobile = ({ name, value }: { name: string; value: string }) => {
+  return (
+    <HomeHeaderItemMobilePanel>
+      <div className="blockchain__item__value">{value}</div>
+      <div className="blockchain__item__name">{name}</div>
+    </HomeHeaderItemMobilePanel>
+  )
+}
 
 export default () => {
   const initBlockWrappers: BlockWrapper[] = []
@@ -69,25 +94,53 @@ export default () => {
     }
   }, [])
 
+  interface BlockchainData {
+    name: string
+    value: string
+    image: any
+    tip: string
+  }
+
+  const BlockchainDatas: BlockchainData[] = [
+    {
+      name: 'Best Block',
+      value: '10000',
+      image: BestBlockImage,
+      tip: '',
+    },
+    {
+      name: 'Difficulty',
+      value: '1 874 086 735',
+      image: DifficultyImage,
+      tip: 'Average Difficulty of the current Epoch',
+    },
+    {
+      name: 'Hash Rate',
+      value: '1 KH/s',
+      image: HashRateImage,
+      tip: 'Average Hash Rate of the current Epoch',
+    },
+    {
+      name: 'Average Block Time',
+      value: '5.3 s',
+      image: BlockTimeImage,
+      tip: 'Average Block Time of the current Epoch',
+    },
+  ]
+
   return (
     <Content>
-      <HomeHeaderPanel width={window.innerWidth}>
-        <HomeHeader>
-          <LogoPanel width={window.innerWidth}>
-            <div>CKB Testnet Explorer</div>
-          </LogoPanel>
-          <SearchPanel width={window.innerWidth}>
-            <Search />
-          </SearchPanel>
-        </HomeHeader>
+      <HomeHeaderPanel>
+        {window.innerWidth > 700 &&
+          BlockchainDatas.map((data: BlockchainData) => {
+            return <BlockchainItem name={data.name} value={data.value} image={data.image} tip={data.tip} />
+          })}
+        {window.innerWidth <= 700 &&
+          BlockchainDatas.map((data: BlockchainData) => {
+            return <BlockchainItemMobile name={data.name} value={data.value} />
+          })}
       </HomeHeaderPanel>
-
       <BlockPanel className="container" width={window.innerWidth}>
-        <ContentTitle>
-          <div>Blocks</div>
-          <span />
-        </ContentTitle>
-
         <ContentTable>
           <TableTitleRow>
             <TableTitleItem image={BlockHeightIcon} title="Height" />
