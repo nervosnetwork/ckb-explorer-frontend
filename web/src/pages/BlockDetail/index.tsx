@@ -281,11 +281,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       value: `${parseSimpleDate(blockData.timestamp)}`,
     },
     {
-      image: TransactionsRootIcon,
-      label: 'Transactions Root:',
-      value: `${blockData.transactions_root}`,
-    },
-    {
       image: UncleCountIcon,
       label: 'Uncle Count:',
       value: `${blockData.uncles_count}`,
@@ -324,14 +319,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       value: `${blockData.nonce}`,
     },
     {
-      image: WitnessRootIcon,
-      label: 'Witness Root:',
-      value: `${blockData.witness_root}`,
-    },
-    {
       image: ProofIcon,
       label: 'Proof:',
       value: `${blockData.proof}`,
+    },
+  ]
+
+  const BlockRootInfoItems: BlockItem[] = [
+    {
+      image: TransactionsRootIcon,
+      label: 'Transactions Root:',
+      value: `${blockData.transactions_root}`,
+    },
+    {
+      image: WitnessRootIcon,
+      label: 'Witness Root:',
+      value: `${blockData.witness_root}`,
     },
   ]
 
@@ -342,37 +345,46 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         <BlockOverview value="Overview" />
         <BlockCommonContent>
           <div>
-            {BlockLeftItems.map(item => {
-              return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
-            })}
-          </div>
-          <div>
-            <div />
             <div>
-              {BlockRightItems[0].value ? (
-                <Link
-                  to={{
-                    pathname: `/address/${BlockRightItems[0].value}`,
-                  }}
-                >
-                  <SimpleLabel
-                    image={BlockRightItems[0].image}
-                    label={BlockRightItems[0].label}
-                    value={startEndEllipsis(BlockRightItems[0].value)}
-                    highLight
-                  />
-                </Link>
-              ) : (
-                <SimpleLabel
-                  image={BlockRightItems[0].image}
-                  label={BlockRightItems[0].label}
-                  value="Unable to decode address"
-                />
-              )}
-              {BlockRightItems.slice(1).map(item => {
+              {BlockLeftItems.map(item => {
                 return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
               })}
             </div>
+            <div>
+              <div />
+              <div>
+                {BlockRightItems[0].value ? (
+                  <Link
+                    to={{
+                      pathname: `/address/${BlockRightItems[0].value}`,
+                    }}
+                  >
+                    <SimpleLabel
+                      image={BlockRightItems[0].image}
+                      label={BlockRightItems[0].label}
+                      value={startEndEllipsis(BlockRightItems[0].value)}
+                      highLight
+                    />
+                  </Link>
+                ) : (
+                  <SimpleLabel
+                    image={BlockRightItems[0].image}
+                    label={BlockRightItems[0].label}
+                    value="Unable to decode address"
+                  />
+                )}
+                {BlockRightItems.slice(1).map(item => {
+                  return (
+                    item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+          <div>
+            {BlockRootInfoItems.map(item => {
+              return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+            })}
           </div>
         </BlockCommonContent>
         <BlockPreviousNext blockNumber={blockData.number} hasPrev={hasPrev} hasNext={hasNext} />
