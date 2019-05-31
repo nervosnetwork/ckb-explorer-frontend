@@ -380,7 +380,7 @@ module CkbSync
       VCR.use_cassette("blocks/10") do
         SyncInfo.local_inauthentic_tip_block_number
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH)
-        set_default_lock_params(node_block: node_block, args: ["c30257c81dde7766fc98882ff1e9f8e95abbe79345982e12c6a849de90cbbad1"])
+        set_default_lock_params(node_block: node_block, args: ["0x"])
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_28_014728) do
+ActiveRecord::Schema.define(version: 2019_05_31_030940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,7 +31,9 @@ ActiveRecord::Schema.define(version: 2019_05_28_014728) do
     t.decimal "ckb_transactions_count", precision: 30, default: "0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["address_hash"], name: "index_addresses_on_address_hash", unique: true
+    t.binary "lock_hash"
+    t.index ["address_hash"], name: "index_addresses_on_address_hash"
+    t.index ["lock_hash"], name: "index_addresses_on_lock_hash", unique: true
   end
 
   create_table "blocks", force: :cascade do |t|

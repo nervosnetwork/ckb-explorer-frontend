@@ -25,7 +25,7 @@ module Validations
     attr_accessor :query_key
 
     def query_key_format_must_be_correct
-      if !/\A\d+\z/.match(query_key) && !(query_key.start_with?(ENV["DEFAULT_HASH_PREFIX"]) && query_key.length == ENV["DEFAULT_WITH_PREFIX_HASH_LENGTH"].to_i)
+      if query_key.blank? || (!QueryKeyUtils.integer_string?(query_key) && !QueryKeyUtils.valid_hex?(query_key))
         errors.add(:query_key, "query key is invalid")
       end
     end
