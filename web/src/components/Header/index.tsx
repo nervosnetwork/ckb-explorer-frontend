@@ -45,6 +45,9 @@ const HeaderDiv = styled.div`
       margin-right: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
       font-size: 22px;
       font-weight: 600;
+      @media (max-width: 700px) {
+        font-weight: 500;
+      }
       line-height: 30px;
       color: #3cc68a;
       &.header__menus__item--active,&: hover {
@@ -55,16 +58,44 @@ const HeaderDiv = styled.div`
   .header__search {
     flex: 1;
     justify-content: flex-end;
-    > div {
+
+    @media (max-width: 700px) {
+      flex: 1;
+      justify-content: flex-start;
+    }
+
+    display: flex;
+    .header__search__component {
       display: flex;
       align-items: center;
+      justify-content: left;
       height: 50px;
       width: ${(props: { width: number }) => (550 * props.width) / 1920}px;
       min-width: 420px;
 
       @media (max-width: 700px) {
-        width: ${(props: { width: number }) => (400 * props.width) / 1920}px;
-        min-width: 320px;
+        width: 270px;
+        min-width: 200px;
+      }
+    }
+
+    .header__testnet__flag {
+      height: 50px;
+      width: 120px;
+      border-radius: 0 6px 6px 0;
+      background-color: #3cc68a;
+      color: white;
+      font-size: 16px;
+      text-align: center;
+      line-height: 50px;
+      margin-left: 3px;
+
+      @media (max-width: 700px) {
+        font-size: 14px;
+        width: 75px;
+        height: 40px;
+        line-height: 40px;
+        margin-left: 0;
       }
     }
   }
@@ -101,9 +132,10 @@ export default ({ search = true }: { search?: boolean }) => {
       </div>
       {search && (
         <div className="header__search">
-          <div>
+          <div className="header__search__component">
             <Search />
           </div>
+          <div className="header__testnet__flag">TESTNET</div>
         </div>
       )}
     </HeaderDiv>
