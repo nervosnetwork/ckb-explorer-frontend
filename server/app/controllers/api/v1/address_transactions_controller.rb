@@ -17,7 +17,7 @@ module Api
       private
 
       def validate_query_params
-        validator = Validations::AddressTransaction.new(params)
+        validator = Validations::Address.new(params)
 
         if validator.invalid?
           errors = validator.error_object[:errors]
