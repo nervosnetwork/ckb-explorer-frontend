@@ -5,7 +5,7 @@ module Api
       before_action :validate_pagination_params, :pagination_params
 
       def show
-        address = Address.find_by!(address_hash: params[:id])
+        address = Address.find_address!(params[:id])
         ckb_transactions = address.ckb_transactions.available.recent.distinct.page(@page).per(@page_size)
         options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: ckb_transactions, page: @page, page_size: @page_size).call
 

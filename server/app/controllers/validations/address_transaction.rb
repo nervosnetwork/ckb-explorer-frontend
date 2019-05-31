@@ -25,9 +25,9 @@ module Validations
     attr_accessor :query_key
 
     def query_key_format_must_be_correct
-      CkbUtils.parse_address(query_key)
-    rescue
-      errors.add(:query_key, "query key is invalid")
+      return if QueryKeyUtils.valid_hex?(query_key)
+
+      errors.add(:query_key, "query key is invalid") unless QueryKeyUtils.valid_address?(query_key)
     end
   end
 end
