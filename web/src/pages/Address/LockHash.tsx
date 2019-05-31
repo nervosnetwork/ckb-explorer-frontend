@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { RouteComponentProps, Link } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
 import localeInfo from 'rc-pagination/lib/locale/en_US'
@@ -181,15 +181,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
             <SimpleLabel image={BalanceIcon} label="Balance: " value={`${shannonToCkb(addressData.balance)} CKB`} />
             <SimpleLabel image={TransactionsIcon} label="Transactions: " value={`${addressData.transactions_count}`} />
           </AddressCommonRowPanel>
-          <Link to={`/address/${addressData.address_hash}`}>
-            <SimpleLabel
-              image={TransactionsIcon}
-              label="Address: "
-              value={`${addressData.address_hash}`}
-              lengthNoLimit
-              highLight
-            />
-          </Link>
+          <SimpleLabel image={TransactionsIcon} label="Address: " value={`${addressData.address_hash}`} lengthNoLimit />
           <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " script={addressData.lock_script} />
         </AddressCommonContent>
 
