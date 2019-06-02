@@ -27,7 +27,7 @@ export const BlockDetailTitlePanel = styled.div`
     flex-direction: row;
     justify-content: center;
 
-    > div {
+    > code {
       color: rgb(136, 136, 136);
       font-size: 18px;
       height: 25px;
