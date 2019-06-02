@@ -63,8 +63,8 @@ class CkbUtils
     CKB::Utils.bin_to_hex(data.slice(5..-1))
   end
 
-  def self.miner_reward(epoch)
-    get_epoch_info(epoch).block_reward
+  def self.miner_reward(cellbase)
+    cellbase["outputs"].first["capacity"]
   end
 
   def self.get_epoch_info(epoch)
