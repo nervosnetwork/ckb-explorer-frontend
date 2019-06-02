@@ -431,8 +431,9 @@ module CkbSync
         set_default_lock_params(node_block: node_block)
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
+        cell_base = node_block.transactions.first
 
-        assert_equal CkbUtils.miner_reward(node_block.header.epoch).to_i, local_block.reward
+        assert_equal CkbUtils.miner_reward(cell_base).to_i, local_block.reward
       end
     end
 
