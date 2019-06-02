@@ -216,12 +216,13 @@ export const AddressScriptContent = styled.div`
     max-width: 600px;
   }
 
-  > div {
+  > code {
     margin-bottom: 10px;
+    display: block;
   }
 
   .script__args__others {
-    margin-left: 45px;
+    margin-left: 58px;
   }
 `
 
