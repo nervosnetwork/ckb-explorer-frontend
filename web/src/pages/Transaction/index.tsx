@@ -55,7 +55,9 @@ const ScriptComponent = ({
 
   const AddressHashComponent = () => {
     return cellInputOutput.address_hash ? (
-      <Link to={`/address/${cellInputOutput.address_hash}`}>{cellInputOutput.address_hash}</Link>
+      <Link to={`/address/${cellInputOutput.address_hash}`}>
+        <code>{cellInputOutput.address_hash}</code>
+      </Link>
     ) : (
       <div
         style={{
@@ -196,7 +198,7 @@ const TransactionTitle = ({ hash }: { hash: string }) => {
     <TransactionTitlePanel>
       <div className="transaction__title">Transaction</div>
       <div className="transaction__content">
-        <div id="transaction__hash">{hash}</div>
+        <code id="transaction__hash">{hash}</code>
         <div
           role="button"
           tabIndex={-1}
