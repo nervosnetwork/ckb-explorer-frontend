@@ -39,7 +39,7 @@ const AddressTitle = ({ address }: { address: string }) => {
     <AddressTitlePanel>
       <div className="address__title">Address</div>
       <div className="address__content">
-        <div id="address__hash">{address}</div>
+        <code id="address__hash">{address}</code>
         <div
           role="button"
           tabIndex={-1}

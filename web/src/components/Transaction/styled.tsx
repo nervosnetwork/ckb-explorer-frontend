@@ -80,11 +80,11 @@ export const TransactionsCell = styled.div`
     display: flex;
     align-items: center;
     justify-content: left;
-    width: 240px;
+    width: 260px;
   }
 
   .transaction__cell__link {
-    width: 240px;
+    width: 260px;
   }
 
   .transaction__cell__capacity {
@@ -93,7 +93,7 @@ export const TransactionsCell = styled.div`
     margin-left: 15px;
   }
 `
-export const CellHash = styled.div`
+export const CellHash = styled.code`
   font-size: 16px;
   color: rgb(136, 136, 136)};
 `
