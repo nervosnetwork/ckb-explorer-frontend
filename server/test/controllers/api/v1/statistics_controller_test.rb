@@ -42,4 +42,18 @@ class Api::V1::StatisticsControllerTest < ActionDispatch::IntegrationTest
 
     assert_equal response_json, response.body
   end
+
+  test "the returned statistic info should contain right keys" do
+    valid_get api_v1_statistics_url
+
+    assert_equal %w(average_block_time average_difficulty hash_rate tip_block_number), json.dig("data", "attributes").keys.sort
+  end
+
+  test "should return right statistic info" do
+    statistic_info = StatisticInfo.new
+
+    valid_get api_v1_statistics_url
+
+    assert_equal IndexStatisticSerializer.new(statistic_info).serialized_json, response.body
+  end
 end
