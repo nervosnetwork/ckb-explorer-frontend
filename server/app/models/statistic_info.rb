@@ -1,8 +1,8 @@
 class StatisticInfo
-  def initialize(difficulty_interval: nil, block_time_interval: nil, statistical_interval: nil)
-    @difficulty_interval = difficulty_interval.presence || ENV["STATISTICAL_INTERVAL"]
-    @block_time_interval = block_time_interval.presence || ENV["STATISTICAL_INTERVAL"]
-    @statistical_interval = statistical_interval.presence || ENV["STATISTICAL_INTERVAL"]
+  def initialize(difficulty_interval: nil, block_time_interval: nil, hash_rate_statistical_interval: nil)
+    @difficulty_interval = difficulty_interval.presence || ENV["DIFFICULTY_INTERVAL"]
+    @block_time_interval = block_time_interval.presence || ENV["BLOCK_TIME_INTERVAL"]
+    @hash_rate_statistical_interval = hash_rate_statistical_interval.presence || ENV["HASH_RATE_STATISTICAL_INTERVAL"]
   end
 
   def id
@@ -14,7 +14,10 @@ class StatisticInfo
   end
 
   def average_difficulty
+    blocks = Block.recent.take(difficulty_interval)
+    return if blocks.empty?
 
+    blocks.map { |block| block.difficulty.hex }.reduce(0, &:+) / blocks.size
   end
 
   def average_block_time
@@ -27,5 +30,5 @@ class StatisticInfo
 
   private
 
-  attr_reader :difficulty_interval, :block_time_interval, :statistical_interval
+  attr_reader :difficulty_interval, :block_time_interval, :hash_rate_statistical_interval
 end
