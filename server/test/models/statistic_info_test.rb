@@ -53,8 +53,8 @@ class StatisticInfoTest < ActiveSupport::TestCase
   test ".average_difficulty should return average of the last 500 blocks if use default average interval" do
     statistic_info = StatisticInfo.new
     create_list(:block, 500, :with_block_hash)
-    last_500_blocks = Block.recent.take(ENV["STATISTICAL_INTERVAL"])
-    average_difficulty = last_500_blocks.map { |block| block.difficulty.hex }.reduce(&:+) / ENV["STATISTICAL_INTERVAL"].to_i
+    last_500_blocks = Block.recent.take(ENV["DIFFICULTY_INTERVAL"])
+    average_difficulty = last_500_blocks.map { |block| block.difficulty.hex }.reduce(0, &:+) / ENV["DIFFICULTY_INTERVAL"].to_i
 
     assert_equal average_difficulty, statistic_info.average_difficulty
   end
@@ -92,5 +92,17 @@ class StatisticInfoTest < ActiveSupport::TestCase
     average_block_time = total_block_time.to_d / blocks.size
 
     assert_equal average_block_time, statistic_info.average_block_time
+  end
+
+  test ".hash_rate should return average hash rate of the last 500 blocks" do
+    statistic_info = StatisticInfo.new
+    create_list(:block, 500, :with_block_hash)
+    block_count = ENV["HASH_RATE_STATISTICAL_INTERVAL"]
+    last_500_blocks = Block.recent.take(block_count)
+    total_difficulties = last_500_blocks.map { |block| block.difficulty.hex }.reduce(0, &:+)
+    total_time = last_500_blocks.first.timestamp - last_500_blocks.last.timestamp
+    hash_rate = total_difficulties.to_d / total_time
+
+    assert_equal hash_rate, statistic_info.hash_rate
   end
 end
