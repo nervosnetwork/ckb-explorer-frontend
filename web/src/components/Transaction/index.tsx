@@ -48,7 +48,7 @@ const TransactionComponent = ({
       <div>
         <div className="transaction__hash__panel">
           <Link to={`/transaction/${transaction.transaction_hash}`}>
-            <div className="transaction_hash">{transaction.transaction_hash}</div>
+            <code className="transaction_hash">{transaction.transaction_hash}</code>
           </Link>
           {!isBlock && (
             <div className="transaction_block">

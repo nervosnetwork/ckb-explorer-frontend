@@ -29,7 +29,7 @@ export const AddressTitlePanel = styled.div`
     flex-direction: row;
     justify-content: center;
 
-    > div {
+    > code {
       color: rgb(136, 136, 136);
       font-size: 18px;
       @media (max-width: 700px) {
@@ -216,12 +216,13 @@ export const AddressScriptContent = styled.div`
     max-width: 600px;
   }
 
-  > div {
+  > code {
     margin-bottom: 10px;
+    display: block;
   }
 
   .script__args__others {
-    margin-left: 45px;
+    margin-left: 58px;
   }
 `
 
