@@ -386,7 +386,17 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           </div>
           <div>
             {BlockRootInfoItems.map(item => {
-              return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+              return (
+                item && (
+                  <SimpleLabel
+                    key={item.label}
+                    image={item.image}
+                    label={item.label}
+                    value={item.value}
+                    lengthNoLimit
+                  />
+                )
+              )
             })}
           </div>
         </BlockCommonContent>
