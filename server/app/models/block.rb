@@ -21,6 +21,8 @@ class Block < ApplicationRecord
 
   scope :recent, -> { order(timestamp: :desc) }
   scope :available, -> { where(status: [:inauthentic, :authentic]) }
+  scope :created_after, ->(timestamp) { where("timestamp >= ?", timestamp) }
+  scope :created_before, ->(timestamp) { where("timestamp <= ?", timestamp) }
 
   def verify!(node_block)
     if verified?(node_block.header.hash)
