@@ -169,7 +169,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     nonce: 0,
     proof: '',
     transactions_root: '',
-    witness_root: '',
+    witnesses_root: '',
   }
   const [blockData, setBlockData] = useState(initBlock)
   const initTransactionWrappers: TransactionWrapper[] = []
@@ -333,8 +333,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     },
     {
       image: WitnessRootIcon,
-      label: 'Witness Root:',
-      value: `${blockData.witness_root}`,
+      label: 'Witnesses Root:',
+      value: `${blockData.witnesses_root}`,
     },
   ]
 

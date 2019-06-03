@@ -19,7 +19,7 @@ export interface Block {
   nonce: number
   proof: string
   transactions_root: string
-  witness_root: string
+  witnesses_root: string
 }
 
 export interface BlockWrapper {
