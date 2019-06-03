@@ -71,18 +71,20 @@ class StatisticInfoTest < ActiveSupport::TestCase
 
   test ".average_block_time should return average block time within 24 hours" do
     statistic_info = StatisticInfo.new
+    ended_at = DateTime.now
     10.times do |num|
-      create(:block, :with_block_hash, timestamp: 24.hours.ago.to_i + num)
+      create(:block, :with_block_hash, timestamp: (ended_at - 23.hours).strftime("%Q").to_i + num)
     end
 
-    ended_at = Time.current
     started_at = ended_at - 24.hours
-    blocks = Block.created_after(started_at.to_i).created_before(ended_at.to_i).order(:timestamp)
+    started_at_timestamp = started_at.strftime("%Q").to_i
+    ended_at_timestamp = ended_at.strftime("%Q").to_i
+    blocks = Block.created_after(started_at_timestamp).created_before(ended_at_timestamp).order(:timestamp)
     index = 0
     total_block_time = 0
     blocks.each do
       if index == 0
-        total_block_time = blocks[index].timestamp - started_at.to_i
+        total_block_time = blocks[index].timestamp - started_at_timestamp
       else
         total_block_time += blocks[index].timestamp - blocks[index - 1].timestamp
       end
@@ -90,8 +92,7 @@ class StatisticInfoTest < ActiveSupport::TestCase
     end
 
     average_block_time = total_block_time.to_d / blocks.size
-
-    assert_equal average_block_time, statistic_info.average_block_time
+    assert average_block_time - statistic_info.average_block_time < 3000
   end
 
   test ".hash_rate should return average hash rate of the last 500 blocks" do

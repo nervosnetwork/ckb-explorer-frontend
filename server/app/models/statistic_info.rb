@@ -21,12 +21,14 @@ class StatisticInfo
   end
 
   def average_block_time
-    ended_at = Time.current
+    ended_at = DateTime.now
     started_at = ended_at - block_time_interval.to_i.hours
-    blocks = Block.created_after(started_at.to_i).created_before(ended_at.to_i).order(:timestamp)
+    started_at_timestamp = started_at.strftime("%Q").to_i
+    ended_at_timestamp = ended_at.strftime("%Q").to_i
+    blocks = Block.created_after(started_at_timestamp).created_before(ended_at_timestamp).order(:timestamp)
     return if blocks.blank?
 
-    total_block_time(blocks, started_at) / blocks.size
+    total_block_time(blocks, started_at_timestamp) / blocks.size
   end
 
   def hash_rate
@@ -43,7 +45,7 @@ class StatisticInfo
 
   attr_reader :difficulty_interval, :block_time_interval, :hash_rate_statistical_interval
 
-  def total_block_time(blocks, started_at)
-    (blocks.last.timestamp - started_at.to_i).to_d
+  def total_block_time(blocks, started_at_timestamp)
+    (blocks.last.timestamp - started_at_timestamp).to_d
   end
 end
