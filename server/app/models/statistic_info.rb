@@ -10,7 +10,7 @@ class StatisticInfo
   end
 
   def tip_block_number
-
+    CkbSync::Api.instance.get_tip_block_number
   end
 
   def average_difficulty
