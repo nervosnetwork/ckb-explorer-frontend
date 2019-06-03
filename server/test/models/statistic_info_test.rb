@@ -42,4 +42,11 @@ class StatisticInfoTest < ActiveSupport::TestCase
 
     assert_not_nil statistic_info.id
   end
+
+  test ".tip_block_number should return tip block number of the connected node" do
+    statistic_info = StatisticInfo.new
+    CkbSync::Api.any_instance.expects(:get_tip_block_number).returns(100)
+
+    assert_equal 100, statistic_info.tip_block_number
+  end
 end
