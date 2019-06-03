@@ -30,7 +30,13 @@ class StatisticInfo
   end
 
   def hash_rate
+    blocks = Block.recent.take(hash_rate_statistical_interval)
+    return if blocks.blank?
 
+    total_difficulties = blocks.map { |block| block.difficulty.hex }.reduce(0, &:+)
+    total_time = blocks.first.timestamp - blocks.last.timestamp
+
+    total_difficulties.to_d / total_time
   end
 
   private
