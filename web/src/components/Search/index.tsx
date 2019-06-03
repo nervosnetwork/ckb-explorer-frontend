@@ -33,7 +33,7 @@ const SearchPanel = styled.div`
     border-width: 0px;
 
     @media (max-width: 700px) {
-      width: 320px;
+      width: 250px;
       height: 40px;
       font-size: 14px;
       padding-left: 12px;
