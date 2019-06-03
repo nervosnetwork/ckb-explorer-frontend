@@ -55,7 +55,7 @@ const BlockDetailTitle = ({ hash }: { hash: string }) => {
     <BlockDetailTitlePanel>
       <div className="address__title">Block</div>
       <div className="address__content">
-        <div id="block__hash">{hash}</div>
+        <code id="block__hash">{hash}</code>
         <div
           role="button"
           tabIndex={-1}
@@ -363,6 +363,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                       image={BlockRightItems[0].image}
                       label={BlockRightItems[0].label}
                       value={startEndEllipsis(BlockRightItems[0].value)}
+                      style={{
+                        fontFamily: 'source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace',
+                      }}
                       highLight
                     />
                   </Link>
