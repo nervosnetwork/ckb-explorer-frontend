@@ -15,13 +15,18 @@ class StatisticInfo
 
   def average_difficulty
     blocks = Block.recent.take(difficulty_interval)
-    return if blocks.empty?
+    return if blocks.blank?
 
     blocks.map { |block| block.difficulty.hex }.reduce(0, &:+) / blocks.size
   end
 
   def average_block_time
+    ended_at = Time.current
+    started_at = ended_at - block_time_interval.to_i.hours
+    blocks = Block.created_after(started_at.to_i).created_before(ended_at.to_i).order(:timestamp)
+    return if blocks.blank?
 
+    total_block_time(blocks, started_at) / blocks.size
   end
 
   def hash_rate
@@ -31,4 +36,8 @@ class StatisticInfo
   private
 
   attr_reader :difficulty_interval, :block_time_interval, :hash_rate_statistical_interval
+
+  def total_block_time(blocks, started_at)
+    (blocks.last.timestamp - started_at.to_i).to_d
+  end
 end
