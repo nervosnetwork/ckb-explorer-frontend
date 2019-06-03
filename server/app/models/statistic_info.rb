@@ -21,14 +21,16 @@ class StatisticInfo
   end
 
   def average_block_time
-    ended_at = DateTime.now
-    started_at = ended_at - block_time_interval.to_i.hours
-    started_at_timestamp = started_at.strftime("%Q").to_i
-    ended_at_timestamp = ended_at.strftime("%Q").to_i
-    blocks = Block.created_after(started_at_timestamp).created_before(ended_at_timestamp).order(:timestamp)
-    return if blocks.blank?
+    Rails.cache.fetch("average_block_time", expires_in: 1.hour) do
+      ended_at = DateTime.now
+      started_at = ended_at - block_time_interval.to_i.hours
+      started_at_timestamp = started_at.strftime("%Q").to_i
+      ended_at_timestamp = ended_at.strftime("%Q").to_i
+      blocks = Block.created_after(started_at_timestamp).created_before(ended_at_timestamp).order(:timestamp)
+      return if blocks.blank?
 
-    total_block_time(blocks, started_at_timestamp) / blocks.size
+      total_block_time(blocks, started_at_timestamp) / blocks.size
+    end
   end
 
   def hash_rate
