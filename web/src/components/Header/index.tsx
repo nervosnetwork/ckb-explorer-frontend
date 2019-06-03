@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
 import logoIcon from '../../asserts/ckb_logo.png'
+import testnetTipImage from '../../asserts/testnet_tip.png'
 
 const HeaderDiv = styled.div`
   width: 100%;
@@ -97,6 +98,11 @@ const HeaderDiv = styled.div`
         line-height: 40px;
         margin-left: 0;
       }
+
+      .header__testnet__tip__image {
+        width: 350px;
+        height: 62px;
+      }
     }
   }
   a {
@@ -136,6 +142,9 @@ export default ({ search = true }: { search?: boolean }) => {
             <Search />
           </div>
           <div className="header__testnet__flag">TESTNET</div>
+          <div>
+            <img className="header__testnet__tip__image" src={testnetTipImage} alt="testnet tip" />
+          </div>
         </div>
       )}
     </HeaderDiv>
