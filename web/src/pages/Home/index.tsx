@@ -107,6 +107,10 @@ export default () => {
         const { data } = json as Response<BlockWrapper[]>
         setBlocksWrappers(data)
       })
+      fetchStatistics().then(json => {
+        const { data } = json as Response<StatisticsWrapper>
+        setStatistics(data.attributes)
+      })
     }, BLOCK_POLLING_TIME)
 
     return () => {
