@@ -8,7 +8,6 @@ import {
   ContentTable,
   TableMorePanel,
 } from './styled'
-import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import AppContext from '../../contexts/App'
 import {
@@ -35,6 +34,8 @@ import { BlockWrapper } from '../../http/response/Block'
 import { StatisticsWrapper, Statistics } from '../../http/response/Statistics'
 import { Response } from '../../http/response/Response'
 import { shannonToCkb } from '../../utils/util'
+import { parseTime, parseSimpleDate } from '../../utils/date'
+import { parseHashRate } from '../../utils/number'
 
 const BlockchainItem = ({ name, value, image, tip }: { name: string; value: string; image: any; tip?: string }) => {
   return (
@@ -131,21 +132,21 @@ export default () => {
     },
     {
       name: 'Difficulty',
-      value: `${statistics.average_difficulty}`,
+      value: `${parseInt(`${statistics.average_difficulty}`, 10).toLocaleString()}`,
       image: DifficultyImage,
-      tip: 'Average Difficulty of the current Epoch',
+      tip: 'Average Difficulty of the last 500 blocks',
     },
     {
       name: 'Hash Rate',
-      value: statistics.hash_rate,
+      value: parseHashRate(Number(statistics.hash_rate) * 1000),
       image: HashRateImage,
-      tip: 'Average Hash Rate of the current Epoch',
+      tip: 'Average Hash Rate of the last 500 blocks',
     },
     {
       name: 'Average Block Time',
-      value: statistics.average_block_time,
+      value: parseTime(Number(statistics.average_block_time)),
       image: BlockTimeImage,
-      tip: 'Average Block Time of the current Epoch',
+      tip: 'Average Block Time of the last 500 blocks',
     },
   ]
 
@@ -154,7 +155,9 @@ export default () => {
       <HomeHeaderPanel>
         {window.innerWidth > 700 &&
           BlockchainDatas.map((data: BlockchainData) => {
-            return <BlockchainItem name={data.name} value={data.value} image={data.image} tip={data.tip} />
+            return (
+              <BlockchainItem name={data.name} value={data.value} image={data.image} tip={data.tip} key={data.name} />
+            )
           })}
         {window.innerWidth <= 700 &&
           BlockchainDatas.map((data: BlockchainData) => {
