@@ -65,10 +65,10 @@ export default () => {
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
 
   const initStatistics: Statistics = {
-    tip_block_number: '',
-    average_block_time: '',
+    tip_block_number: '0',
+    average_block_time: '0',
     average_difficulty: 0,
-    hash_rate: '',
+    hash_rate: '0',
   }
   const [statistics, setStatistics] = useState(initStatistics)
 
