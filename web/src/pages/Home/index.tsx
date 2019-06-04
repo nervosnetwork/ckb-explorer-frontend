@@ -30,8 +30,9 @@ import BlockTimeImage from '../../asserts/block_time_background.png'
 import DifficultyImage from '../../asserts/difficulty_background.png'
 import HashRateImage from '../../asserts/hash_rate_background.png'
 
-import { fetchBlocks } from '../../http/fetcher'
+import { fetchBlocks, fetchStatistics } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
+import { StatisticsWrapper, Statistics } from '../../http/response/Statistics'
 import { Response } from '../../http/response/Response'
 import { shannonToCkb } from '../../utils/util'
 
@@ -62,6 +63,14 @@ export default () => {
   const initBlockWrappers: BlockWrapper[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
 
+  const initStatistics: Statistics = {
+    tip_block_number: '',
+    average_block_time: '',
+    average_difficulty: 0,
+    hash_rate: '',
+  }
+  const [statistics, setStatistics] = useState(initStatistics)
+
   const appContext = useContext(AppContext)
   const getLatestBlocks = () => {
     appContext.showLoading()
@@ -77,9 +86,21 @@ export default () => {
       })
   }
 
+  const getStatistics = () => {
+    fetchStatistics()
+      .then(json => {
+        const { data } = json as Response<StatisticsWrapper>
+        setStatistics(data.attributes)
+      })
+      .catch(() => {
+        appContext.toastMessage('Network exception, please try again later', 3000)
+      })
+  }
+
   const BLOCK_POLLING_TIME = 1000
   useEffect(() => {
     getLatestBlocks()
+    getStatistics()
     const listener = setInterval(() => {
       fetchBlocks().then(json => {
         const { data } = json as Response<BlockWrapper[]>
@@ -104,25 +125,25 @@ export default () => {
   const BlockchainDatas: BlockchainData[] = [
     {
       name: 'Best Block',
-      value: '10000',
+      value: statistics.tip_block_number,
       image: BestBlockImage,
       tip: '',
     },
     {
       name: 'Difficulty',
-      value: '1 874 086 735',
+      value: `${statistics.average_difficulty}`,
       image: DifficultyImage,
       tip: 'Average Difficulty of the current Epoch',
     },
     {
       name: 'Hash Rate',
-      value: '1 KH/s',
+      value: statistics.hash_rate,
       image: HashRateImage,
       tip: 'Average Hash Rate of the current Epoch',
     },
     {
       name: 'Average Block Time',
-      value: '5.3 s',
+      value: statistics.average_block_time,
       image: BlockTimeImage,
       tip: 'Average Block Time of the current Epoch',
     },
