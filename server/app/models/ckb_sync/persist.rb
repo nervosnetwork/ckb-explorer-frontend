@@ -152,16 +152,17 @@ module CkbSync
 
       def build_ckb_transactions(local_block, transactions, sync_type)
         ckb_transactions = []
-
+        transaction_index = 0
         transactions.each do |transaction|
           addresses = Set.new
-          ckb_transaction = build_ckb_transaction(local_block, transaction, sync_type)
+          ckb_transaction = build_ckb_transaction(local_block, transaction, sync_type, transaction_index)
           ckb_transactions << ckb_transaction
 
           build_cell_inputs(transaction.inputs, ckb_transaction)
           build_cell_outputs(transaction.outputs, ckb_transaction, addresses)
           addresses_arr = addresses.to_a
           ckb_transaction.addresses << addresses_arr
+          transaction_index += 1
         end
 
         ckb_transactions
@@ -298,7 +299,7 @@ module CkbSync
         )
       end
 
-      def build_ckb_transaction(local_block, transaction, sync_type)
+      def build_ckb_transaction(local_block, transaction, sync_type, transaction_index)
         local_block.ckb_transactions.build(
           tx_hash: transaction.hash,
           deps: transaction.deps,
@@ -307,7 +308,8 @@ module CkbSync
           block_timestamp: local_block.timestamp,
           status: sync_type,
           transaction_fee: 0,
-          witnesses: transaction.witnesses
+          witnesses: transaction.witnesses,
+          is_cellbase: transaction_index.zero?
         )
       end
     end

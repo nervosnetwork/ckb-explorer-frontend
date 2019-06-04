@@ -40,11 +40,13 @@ end
 #  updated_at             :datetime         not null
 #  display_inputs_status  :integer          default("ungenerated")
 #  transaction_fee_status :integer          default("uncalculated")
+#  is_cellbase            :boolean          default(FALSE)
 #
 # Indexes
 #
 #  index_ckb_transactions_on_block_id                (block_id)
 #  index_ckb_transactions_on_display_inputs_status   (display_inputs_status)
+#  index_ckb_transactions_on_is_cellbase             (is_cellbase)
 #  index_ckb_transactions_on_transaction_fee_status  (transaction_fee_status)
 #  index_ckb_transactions_on_tx_hash_and_block_id    (tx_hash,block_id) UNIQUE
 #  index_ckb_transactions_on_tx_hash_and_status      (tx_hash,status)
