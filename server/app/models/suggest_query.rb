@@ -46,7 +46,12 @@ class SuggestQuery
     AddressSerializer.new(address) if address.present?
   end
 
+  def find_address_by_lock_hash
+    address = Address.find_by(lock_hash: query_key)
+    AddressSerializer.new(address) if address.present?
+  end
+
   def find_by_hex
-    find_block_by_hash || find_ckb_transaction_by_hash
+    find_block_by_hash || find_ckb_transaction_by_hash || find_address_by_lock_hash
   end
 end
