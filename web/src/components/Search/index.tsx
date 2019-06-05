@@ -93,6 +93,8 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
             browserHistory.push(`/transaction/${(data as TransactionWrapper).attributes.transaction_hash}`)
           } else if (data.type === 'address') {
             browserHistory.push(`/address/${(data as AddressWrapper).attributes.address_hash}`)
+          } else if (data.type === 'lock_hash') {
+            browserHistory.push(`/lockhash/${(data as AddressWrapper).attributes.lock_hash}`)
           } else {
             homeSearchBar.value = q
             browserHistory.push(`/search/fail?q=${query}`)
