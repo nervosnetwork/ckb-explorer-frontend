@@ -101,18 +101,21 @@ export const HomeHeaderItemMobilePanel = styled.div`
   border: 0px solid white;
   border-radius: 6px;
   box-shadow: 4px 4px 6px #dfdfdf;
+  background-image: url(${(props: { image: any }) => props.image});
+  background-repeat: no-repeat;
+  background-size: calc(100% + 12px) 92px;
 
   .blockchain__item__value {
     color: #3cc68a;
     text-align: center;
-    font-size: 16px;
-    margin-top: 12px;
+    font-size: 14px;
+    margin-top: 20px;
   }
 
   .blockchain__item__name {
     color: #888888;
     text-align: center;
-    font-size: 14px;
+    font-size: 12px;
     margin-top: 5px;
   }
 `

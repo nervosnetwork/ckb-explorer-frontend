@@ -51,9 +51,9 @@ const BlockchainItem = ({ name, value, image, tip }: { name: string; value: stri
   )
 }
 
-const BlockchainItemMobile = ({ name, value }: { name: string; value: string }) => {
+const BlockchainItemMobile = ({ name, value, image }: { name: string; value: string; image: any }) => {
   return (
-    <HomeHeaderItemMobilePanel>
+    <HomeHeaderItemMobilePanel image={image}>
       <div className="blockchain__item__value">{value}</div>
       <div className="blockchain__item__name">{name}</div>
     </HomeHeaderItemMobilePanel>
@@ -165,7 +165,7 @@ export default () => {
           })}
         {window.innerWidth <= 700 &&
           BlockchainDatas.map((data: BlockchainData) => {
-            return <BlockchainItemMobile name={data.name} value={data.value} />
+            return <BlockchainItemMobile name={data.name} value={data.value} image={data.image} key={data.name} />
           })}
       </HomeHeaderPanel>
       <BlockPanel className="container" width={window.innerWidth}>
