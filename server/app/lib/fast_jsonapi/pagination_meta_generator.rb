@@ -6,10 +6,10 @@ module FastJsonapi
     def initialize(request:, records:, page:, page_size:)
       @url = request.base_url + request.path
       @page = page.to_i
-      @page_size = page_size.to_i
+      @page_size = limit_page_size(records, page_size.to_i)
       @total_pages = records.total_pages
       @records = records
-      @hash = { links: {}, meta: { total: records.total_count } }
+      @hash = { links: {}, meta: { total: records.total_count, page_size: @page_size } }
     end
 
     def call
@@ -50,6 +50,14 @@ module FastJsonapi
 
     def include_page?(page)
       (page != 0) && (page != DEFAULT_PAGE)
+    end
+
+    def limit_page_size(records, page_size)
+      if page_size > records.klass::MAX_PAGINATES_PER
+        records.klass::MAX_PAGINATES_PER
+      else
+        page_size
+      end
     end
   end
 end
