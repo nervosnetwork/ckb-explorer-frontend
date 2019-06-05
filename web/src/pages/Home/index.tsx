@@ -94,7 +94,7 @@ export default () => {
         setStatistics(data.attributes)
       })
       .catch(() => {
-        appContext.toastMessage('Network exception, please try again later', 3000)
+        console.error('Statistics network exception')
       })
   }
 
