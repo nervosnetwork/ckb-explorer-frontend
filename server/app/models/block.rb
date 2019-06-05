@@ -1,6 +1,7 @@
 class Block < ApplicationRecord
+  MAX_PAGINATES_PER = 100
   paginates_per 10
-  max_paginates_per 100
+  max_paginates_per MAX_PAGINATES_PER
 
   enum status: { inauthentic: 0, authentic: 1, abandoned: 2 }
 

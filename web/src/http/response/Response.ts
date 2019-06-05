@@ -15,4 +15,5 @@ export interface Error {
 
 export interface Meta {
   total: number
+  page_size: number
 }
