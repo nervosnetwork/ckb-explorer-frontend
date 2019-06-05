@@ -90,6 +90,7 @@ const AddressScriptLabel = ({ image, label, script }: { image: string; label: st
 enum PageParams {
   PageNo = 1,
   PageSize = 10,
+  MaxPageSize = 100,
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string }>>) => {
@@ -119,6 +120,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   const [totalTransactions, setTotalTransactions] = useState(1)
   const [pageNo, setPageNo] = useState(validNumber(page, PageParams.PageNo))
   const [pageSize, setPageSize] = useState(validNumber(size, PageParams.PageSize))
+
+  if (pageSize > PageParams.MaxPageSize) {
+    setPageSize(PageParams.MaxPageSize)
+    props.history.push(`/address/${address}?page=${pageNo}&size=${PageParams.MaxPageSize}`)
+  }
 
   const getAddressInfo = () => {
     appContext.showLoading()

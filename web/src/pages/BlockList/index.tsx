@@ -29,6 +29,7 @@ import { shannonToCkb } from '../../utils/util'
 enum PageParams {
   PageNo = 1,
   PageSize = 25,
+  MaxPageSize = 100,
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
@@ -44,6 +45,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   const [totalBlocks, setTotalBlocks] = useState(1)
   const [pageNo, setPageNo] = useState(validNumber(page, PageParams.PageNo))
   const [pageSize, setPageSize] = useState(validNumber(size, PageParams.PageSize))
+
+  if (pageSize > PageParams.MaxPageSize) {
+    setPageSize(PageParams.MaxPageSize)
+    props.history.push(`/block/list?page=${pageNo}&size=${PageParams.MaxPageSize}`)
+  }
 
   const getBlocks = (page_p: number, size_p: number) => {
     appContext.showLoading()
