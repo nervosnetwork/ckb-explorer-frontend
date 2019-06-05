@@ -9,7 +9,7 @@ module FastJsonapi
       @page_size = page_size.to_i
       @total_pages = records.total_pages
       @records = records
-      @hash = { links: {}, meta: { total: records.total_count } }
+      @hash = { links: {}, meta: { total: meta_total(records) } }
     end
 
     def call
@@ -50,6 +50,15 @@ module FastJsonapi
 
     def include_page?(page)
       (page != 0) && (page != DEFAULT_PAGE)
+    end
+
+    def meta_total(records)
+      total_count = records.total_count
+      if total_count > records.klass::MAX_PAGINATES_PER
+        records.klass::MAX_PAGINATES_PER
+      else
+        total_count
+      end
     end
   end
 end
