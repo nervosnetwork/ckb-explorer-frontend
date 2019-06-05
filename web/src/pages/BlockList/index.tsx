@@ -51,8 +51,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
       .then(response => {
         const { data, meta } = response as Response<BlockWrapper[]>
         if (meta) {
-          const { total } = meta
+          const { total, page_size } = meta
           setTotalBlocks(total)
+          setPageSize(page_size)
         }
         setBlockWrappers(() => data)
         appContext.hideLoading()

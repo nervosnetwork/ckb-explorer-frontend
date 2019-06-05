@@ -145,8 +145,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         appContext.hideLoading()
         const { data, meta } = json as Response<TransactionWrapper[]>
         if (meta) {
-          const { total } = meta
+          const { total, page_size } = meta
           setTotalTransactions(total)
+          setPageSize(page_size)
         }
         setTransactionWrappers(data)
       })
