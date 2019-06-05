@@ -123,7 +123,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
 
   if (pageSize > PageParams.MaxPageSize) {
     setPageSize(PageParams.MaxPageSize)
-    props.history.push(`/address/${address}?page=${pageNo}&size=${PageParams.MaxPageSize}`)
+    props.history.replace(`/address/${address}?page=${pageNo}&size=${PageParams.MaxPageSize}`)
   }
 
   const getAddressInfo = () => {

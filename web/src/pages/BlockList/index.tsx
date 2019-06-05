@@ -48,7 +48,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
 
   if (pageSize > PageParams.MaxPageSize) {
     setPageSize(PageParams.MaxPageSize)
-    props.history.push(`/block/list?page=${pageNo}&size=${PageParams.MaxPageSize}`)
+    props.history.replace(`/block/list?page=${pageNo}&size=${PageParams.MaxPageSize}`)
   }
 
   const getBlocks = (page_p: number, size_p: number) => {
