@@ -77,6 +77,19 @@ module Api
         assert_equal CkbTransactionSerializer.new(ckb_transactions, options).serialized_json, response.body
       end
 
+      test "should return corresponding ckb transactions with given lock hash" do
+        page = 1
+        page_size = 10
+        address = create(:address, :with_transactions)
+        ckb_transactions = address.ckb_transactions.order(block_timestamp: :desc).page(page).per(page_size)
+
+        valid_get api_v1_address_transaction_url(address.lock_hash)
+
+        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: ckb_transactions, page: page, page_size: page_size).call
+
+        assert_equal CkbTransactionSerializer.new(ckb_transactions, options).serialized_json, response.body
+      end
+
       test "should contain right keys in the serialized object when call show" do
         address = create(:address, :with_transactions)
 

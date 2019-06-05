@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_28_014728) do
+ActiveRecord::Schema.define(version: 2019_06_04_062236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,7 +31,9 @@ ActiveRecord::Schema.define(version: 2019_05_28_014728) do
     t.decimal "ckb_transactions_count", precision: 30, default: "0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["address_hash"], name: "index_addresses_on_address_hash", unique: true
+    t.binary "lock_hash"
+    t.index ["address_hash"], name: "index_addresses_on_address_hash"
+    t.index ["lock_hash"], name: "index_addresses_on_lock_hash", unique: true
   end
 
   create_table "blocks", force: :cascade do |t|
@@ -114,8 +116,10 @@ ActiveRecord::Schema.define(version: 2019_05_28_014728) do
     t.datetime "updated_at", null: false
     t.integer "display_inputs_status", limit: 2, default: 0
     t.integer "transaction_fee_status", limit: 2, default: 0
+    t.boolean "is_cellbase", default: false
     t.index ["block_id"], name: "index_ckb_transactions_on_block_id"
     t.index ["display_inputs_status"], name: "index_ckb_transactions_on_display_inputs_status"
+    t.index ["is_cellbase"], name: "index_ckb_transactions_on_is_cellbase"
     t.index ["transaction_fee_status"], name: "index_ckb_transactions_on_transaction_fee_status"
     t.index ["tx_hash", "block_id"], name: "index_ckb_transactions_on_tx_hash_and_block_id", unique: true
     t.index ["tx_hash", "status"], name: "index_ckb_transactions_on_tx_hash_and_status"

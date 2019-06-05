@@ -38,6 +38,8 @@ import PreviousBlockGreyIcon from '../../asserts/left_arrow_grey.png'
 import NextBlockIcon from '../../asserts/right_arrow.png'
 import NextBlockGreyIcon from '../../asserts/right_arrow_grey.png'
 import MouseIcon from '../../asserts/block_mouse.png'
+import TransactionsRootIcon from '../../asserts/transactions_root.png'
+import WitnessRootIcon from '../../asserts/witness_root.png'
 import { Block, BlockWrapper } from '../../http/response/Block'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
@@ -166,6 +168,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     version: 0,
     nonce: 0,
     proof: '',
+    transactions_root: '',
+    witnesses_root: '',
   }
   const [blockData, setBlockData] = useState(initBlock)
   const initTransactionWrappers: TransactionWrapper[] = []
@@ -321,6 +325,19 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     },
   ]
 
+  const BlockRootInfoItems: BlockItem[] = [
+    {
+      image: TransactionsRootIcon,
+      label: 'Transactions Root:',
+      value: `${blockData.transactions_root}`,
+    },
+    {
+      image: WitnessRootIcon,
+      label: 'Witnesses Root:',
+      value: `${blockData.witnesses_root}`,
+    },
+  ]
+
   return (
     <Content>
       <BlockDetailPanel width={window.innerWidth} className="container">
@@ -328,40 +345,59 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         <BlockOverview value="Overview" />
         <BlockCommonContent>
           <div>
-            {BlockLeftItems.map(item => {
-              return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
-            })}
-          </div>
-          <div>
-            <div />
             <div>
-              {BlockRightItems[0].value ? (
-                <Link
-                  to={{
-                    pathname: `/address/${BlockRightItems[0].value}`,
-                  }}
-                >
-                  <SimpleLabel
-                    image={BlockRightItems[0].image}
-                    label={BlockRightItems[0].label}
-                    value={startEndEllipsis(BlockRightItems[0].value)}
-                    style={{
-                      fontFamily: 'source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace',
-                    }}
-                    highLight
-                  />
-                </Link>
-              ) : (
-                <SimpleLabel
-                  image={BlockRightItems[0].image}
-                  label={BlockRightItems[0].label}
-                  value="Unable to decode address"
-                />
-              )}
-              {BlockRightItems.slice(1).map(item => {
+              {BlockLeftItems.map(item => {
                 return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
               })}
             </div>
+            <div>
+              <div />
+              <div>
+                {BlockRightItems[0].value ? (
+                  <Link
+                    to={{
+                      pathname: `/address/${BlockRightItems[0].value}`,
+                    }}
+                  >
+                    <SimpleLabel
+                      image={BlockRightItems[0].image}
+                      label={BlockRightItems[0].label}
+                      value={startEndEllipsis(BlockRightItems[0].value)}
+                      style={{
+                        fontFamily: 'source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace',
+                      }}
+                      highLight
+                    />
+                  </Link>
+                ) : (
+                  <SimpleLabel
+                    image={BlockRightItems[0].image}
+                    label={BlockRightItems[0].label}
+                    value="Unable to decode address"
+                  />
+                )}
+                {BlockRightItems.slice(1).map(item => {
+                  return (
+                    item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+          <div>
+            {BlockRootInfoItems.map(item => {
+              return (
+                item && (
+                  <SimpleLabel
+                    key={item.label}
+                    image={item.image}
+                    label={item.label}
+                    value={item.value}
+                    lengthNoLimit
+                  />
+                )
+              )
+            })}
           </div>
         </BlockCommonContent>
         <BlockPreviousNext blockNumber={blockData.number} hasPrev={hasPrev} hasNext={hasNext} />

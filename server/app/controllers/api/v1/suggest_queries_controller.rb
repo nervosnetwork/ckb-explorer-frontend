@@ -4,7 +4,7 @@ module Api
       before_action :validate_query_params
 
       def index
-        json_response = SuggestQuery.new(params[:q]).find
+        json_response = SuggestQuery.new(params[:q]).find!
 
         render json: json_response
       rescue ActiveRecord::RecordNotFound

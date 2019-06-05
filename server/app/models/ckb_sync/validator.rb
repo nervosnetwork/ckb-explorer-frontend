@@ -2,8 +2,8 @@ module CkbSync
   class Validator
     class << self
       def validate(block_number)
-        node_block = CkbSync::Api.instance.get_block_by_number(block_number).to_h.deep_stringify_keys
-        local_block = Block.find_by(number: node_block.dig("header", "number"))
+        node_block = CkbSync::Api.instance.get_block_by_number(block_number)
+        local_block = Block.find_by(number: node_block.header.number)
 
         ApplicationRecord.transaction do
           return if local_block.blank?
@@ -14,8 +14,8 @@ module CkbSync
       end
 
       def call(block_hash)
-        node_block = CkbSync::Api.instance.get_block(block_hash).to_h.deep_stringify_keys
-        local_block = Block.find_by(number: node_block.dig("header", "number"))
+        node_block = CkbSync::Api.instance.get_block(block_hash)
+        local_block = Block.find_by(number: node_block.header.number)
 
         ApplicationRecord.transaction do
           return if local_block.blank?
@@ -31,7 +31,7 @@ module CkbSync
         addresses = []
         local_block.contained_addresses.each do |address|
           address.balance = address.cell_outputs.live.sum(:capacity)
-          address.ckb_transactions_count = address.ckb_transactions.distinct.count
+          address.ckb_transactions_count = address.ckb_transactions.available.distinct.count
 
           addresses << address if address.changed?
         end

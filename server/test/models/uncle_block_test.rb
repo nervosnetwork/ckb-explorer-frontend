@@ -62,11 +62,9 @@ class UncleBlockTest < ActiveSupport::TestCase
     VCR.use_cassette("blocks/2") do
       SyncInfo.local_inauthentic_tip_block_number
       block_hash = "0x2f8cd9eeb04e2c57c8192e77d6f5cf64630201fd23b1d7c0b89edd73033efbba"
-      node_block = CkbSync::Api.instance.get_block(block_hash).to_h.deep_stringify_keys
-      uncles = node_block["uncles"].map(&:to_h).map(&:deep_stringify_keys)
-      uncles.first["proposals"] = ["0x98a4e0c18c"]
-      node_block["uncles"] = uncles
-      create(:sync_info, name: "inauthentic_tip_block_number", value: node_block.dig("header", "number"))
+      node_block = CkbSync::Api.instance.get_block(block_hash)
+      node_block.uncles.first.instance_variable_set(:@proposals, ["0x98a4e0c18c"])
+      create(:sync_info, name: "inauthentic_tip_block_number", value: node_block.header.number)
       set_default_lock_params(node_block: node_block)
 
       CkbSync::Persist.save_block(node_block, "inauthentic")

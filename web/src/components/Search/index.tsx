@@ -13,6 +13,7 @@ const SearchPanel = styled.div`
   margin: 0 auto;
   width: 100%;
   @media (max-width: 700px) {
+    max-width: 260px;
     width: auto;
     margin: 0;
   }
@@ -25,17 +26,20 @@ const SearchPanel = styled.div`
     position: relative;
     width: 100%;
     height: 50px;
-
-    @media (max-width: 700px) {
-      width: 320px;
-      height: 40px;
-    }
-
     font-size: 16px;
     padding-left: 20px;
     padding-right: 50px;
     border-radius: 6px;
     border-width: 0px;
+
+    @media (max-width: 700px) {
+      width: 250px;
+      height: 40px;
+      font-size: 14px;
+      padding-left: 12px;
+      padding-right: 40px;
+    }
+
     background: rgba(255, 255, 255, 0.2);
     &: focus {
       color: black;
@@ -52,6 +56,13 @@ const SearchPanel = styled.div`
     display: inline-block;
     width: 30px;
     height: 30px;
+
+    @media (max-width: 700px) {
+      width: 25px;
+      height: 25px;
+      margin-left: -30px;
+    }
+
     margin-left: -35px;
     opacity: 0.8;
     img {
@@ -100,7 +111,7 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
   }
 
   const transparentStyle = {
-    // opacity: 0.2,
+    borderRadius: '6px 0 0 6px',
   }
 
   const searchPlaceholder = 'Block / Transaction / Address'

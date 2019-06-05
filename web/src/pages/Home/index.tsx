@@ -2,15 +2,12 @@ import React, { useEffect, useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   HomeHeaderPanel,
-  HomeHeader,
-  LogoPanel,
+  HomeHeaderItemPanel,
+  HomeHeaderItemMobilePanel,
   BlockPanel,
-  SearchPanel,
-  ContentTitle,
   ContentTable,
   TableMorePanel,
 } from './styled'
-import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import AppContext from '../../contexts/App'
 import {
@@ -20,7 +17,6 @@ import {
   TableContentItem,
   TableMinerContentItem,
 } from '../../components/Table'
-import Search from '../../components/Search'
 import BlockHeightIcon from '../../asserts/block_height.png'
 import TransactionIcon from '../../asserts/transactions.png'
 import BlockRewardIcon from '../../asserts/block_reward_white.png'
@@ -28,14 +24,53 @@ import MinerIcon from '../../asserts/miner.png'
 import TimestampIcon from '../../asserts/timestamp.png'
 import MoreLeftIcon from '../../asserts/more_left.png'
 import MoreRightIcon from '../../asserts/more_right.png'
-import { fetchBlocks } from '../../http/fetcher'
+import BestBlockImage from '../../asserts/best_block_background.png'
+import BlockTimeImage from '../../asserts/block_time_background.png'
+import DifficultyImage from '../../asserts/difficulty_background.png'
+import HashRateImage from '../../asserts/hash_rate_background.png'
+
+import { fetchBlocks, fetchStatistics } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
+import { StatisticsWrapper, Statistics } from '../../http/response/Statistics'
 import { Response } from '../../http/response/Response'
 import { shannonToCkb } from '../../utils/util'
+import { parseTime, parseSimpleDate } from '../../utils/date'
+import { parseHashRate } from '../../utils/number'
+
+const BlockchainItem = ({ name, value, image, tip }: { name: string; value: string; image: any; tip?: string }) => {
+  return (
+    <HomeHeaderItemPanel image={image}>
+      <div className="blockchain__item__value">{value}</div>
+      <div className="blockchain__item__name">{`${name}`}</div>
+      {tip && (
+        <div className="blockchain__item__tip">
+          <div className="blockchain__item__tip__content">{tip}</div>
+        </div>
+      )}
+    </HomeHeaderItemPanel>
+  )
+}
+
+const BlockchainItemMobile = ({ name, value }: { name: string; value: string }) => {
+  return (
+    <HomeHeaderItemMobilePanel>
+      <div className="blockchain__item__value">{value}</div>
+      <div className="blockchain__item__name">{name}</div>
+    </HomeHeaderItemMobilePanel>
+  )
+}
 
 export default () => {
   const initBlockWrappers: BlockWrapper[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
+
+  const initStatistics: Statistics = {
+    tip_block_number: '0',
+    average_block_time: '0',
+    average_difficulty: 0,
+    hash_rate: '0',
+  }
+  const [statistics, setStatistics] = useState(initStatistics)
 
   const appContext = useContext(AppContext)
   const getLatestBlocks = () => {
@@ -52,13 +87,29 @@ export default () => {
       })
   }
 
+  const getStatistics = () => {
+    fetchStatistics()
+      .then(json => {
+        const { data } = json as Response<StatisticsWrapper>
+        setStatistics(data.attributes)
+      })
+      .catch(() => {
+        appContext.toastMessage('Network exception, please try again later', 3000)
+      })
+  }
+
   const BLOCK_POLLING_TIME = 1000
   useEffect(() => {
     getLatestBlocks()
+    getStatistics()
     const listener = setInterval(() => {
       fetchBlocks().then(json => {
         const { data } = json as Response<BlockWrapper[]>
         setBlocksWrappers(data)
+      })
+      fetchStatistics().then(json => {
+        const { data } = json as Response<StatisticsWrapper>
+        setStatistics(data.attributes)
       })
     }, BLOCK_POLLING_TIME)
 
@@ -69,25 +120,55 @@ export default () => {
     }
   }, [])
 
+  interface BlockchainData {
+    name: string
+    value: string
+    image: any
+    tip: string
+  }
+
+  const BlockchainDatas: BlockchainData[] = [
+    {
+      name: 'Best Block',
+      value: statistics.tip_block_number,
+      image: BestBlockImage,
+      tip: '',
+    },
+    {
+      name: 'Difficulty',
+      value: `${parseInt(`${statistics.average_difficulty}`, 10).toLocaleString()}`,
+      image: DifficultyImage,
+      tip: 'Average Difficulty of the last 500 blocks',
+    },
+    {
+      name: 'Hash Rate',
+      value: parseHashRate(Number(statistics.hash_rate) * 1000),
+      image: HashRateImage,
+      tip: 'Average Hash Rate of the last 500 blocks',
+    },
+    {
+      name: 'Average Block Time',
+      value: parseTime(Number(statistics.average_block_time)),
+      image: BlockTimeImage,
+      tip: 'Average Block Time of the last 500 blocks',
+    },
+  ]
+
   return (
     <Content>
-      <HomeHeaderPanel width={window.innerWidth}>
-        <HomeHeader>
-          <LogoPanel width={window.innerWidth}>
-            <div>CKB Testnet Explorer</div>
-          </LogoPanel>
-          <SearchPanel width={window.innerWidth}>
-            <Search />
-          </SearchPanel>
-        </HomeHeader>
+      <HomeHeaderPanel>
+        {window.innerWidth > 700 &&
+          BlockchainDatas.map((data: BlockchainData) => {
+            return (
+              <BlockchainItem name={data.name} value={data.value} image={data.image} tip={data.tip} key={data.name} />
+            )
+          })}
+        {window.innerWidth <= 700 &&
+          BlockchainDatas.map((data: BlockchainData) => {
+            return <BlockchainItemMobile name={data.name} value={data.value} />
+          })}
       </HomeHeaderPanel>
-
       <BlockPanel className="container" width={window.innerWidth}>
-        <ContentTitle>
-          <div>Blocks</div>
-          <span />
-        </ContentTitle>
-
         <ContentTable>
           <TableTitleRow>
             <TableTitleItem image={BlockHeightIcon} title="Height" />

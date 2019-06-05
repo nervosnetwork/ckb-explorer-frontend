@@ -4,6 +4,7 @@ FactoryBot.define do
     balance { 0 }
     cell_consumed { 0 }
     ckb_transactions_count { 0 }
+    lock_hash { "0x#{SecureRandom.hex(32)}" }
 
     transient do
       transactions_count { 3 }

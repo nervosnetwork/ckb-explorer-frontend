@@ -22,9 +22,11 @@ class Block < ApplicationRecord
 
   scope :recent, -> { order(timestamp: :desc) }
   scope :available, -> { where(status: [:inauthentic, :authentic]) }
+  scope :created_after, ->(timestamp) { where("timestamp >= ?", timestamp) }
+  scope :created_before, ->(timestamp) { where("timestamp <= ?", timestamp) }
 
   def verify!(node_block)
-    if verified?(node_block.dig("header", "hash"))
+    if verified?(node_block.header.hash)
       authenticate!
     else
       abandon!
@@ -37,7 +39,7 @@ class Block < ApplicationRecord
   end
 
   def self.find_block(query_key)
-    if query_key.start_with?(ENV["DEFAULT_HASH_PREFIX"])
+    if QueryKeyUtils.valid_hex?(query_key)
       where(block_hash: query_key).available.take!
     else
       where(number: query_key).available.take!

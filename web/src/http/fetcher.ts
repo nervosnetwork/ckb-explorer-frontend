@@ -112,3 +112,7 @@ export const fetchSearchResult = (param: string) => {
     })
     .then((res: AxiosResponse) => res.data)
 }
+
+export const fetchStatistics = () => {
+  return axiosIns.get('statistics').then((res: AxiosResponse) => res.data)
+}
