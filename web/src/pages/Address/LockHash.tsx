@@ -25,6 +25,7 @@ import CopyIcon from '../../asserts/copy.png'
 import BalanceIcon from '../../asserts/address_balance.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/transactions_green.png'
+import AddressHashIcon from '../../asserts/lock_hash_address.png'
 import { Address, AddressWrapper } from '../../http/response/Address'
 import { Script } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
@@ -39,7 +40,7 @@ const AddressTitle = ({ lockHash }: { lockHash: string }) => {
     <AddressTitlePanel>
       <div className="address__title">Lock Hash</div>
       <div className="address__content">
-        <div id="address__hash">{lockHash}</div>
+        <code id="address__hash">{lockHash}</code>
         <div
           role="button"
           tabIndex={-1}
@@ -106,6 +107,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const initTransactionWrappers: TransactionWrapper[] = []
   const initAddress: Address = {
     address_hash: '',
+    lock_hash: '',
     balance: 0,
     transactions_count: 0,
     cell_consumed: 0,
@@ -181,7 +183,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
             <SimpleLabel image={BalanceIcon} label="Balance: " value={`${shannonToCkb(addressData.balance)} CKB`} />
             <SimpleLabel image={TransactionsIcon} label="Transactions: " value={`${addressData.transactions_count}`} />
           </AddressCommonRowPanel>
-          <SimpleLabel image={TransactionsIcon} label="Address: " value={`${addressData.address_hash}`} lengthNoLimit />
+          <SimpleLabel image={AddressHashIcon} label="Address: " value={`${addressData.address_hash}`} lengthNoLimit />
           <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " script={addressData.lock_script} />
         </AddressCommonContent>
 

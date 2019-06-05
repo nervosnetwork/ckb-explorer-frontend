@@ -107,6 +107,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   const initTransactionWrappers: TransactionWrapper[] = []
   const initAddress: Address = {
     address_hash: '',
+    lock_hash: '',
     balance: 0,
     transactions_count: 0,
     cell_consumed: 0,
