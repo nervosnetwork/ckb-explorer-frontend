@@ -32,7 +32,7 @@ const HeaderDiv = styled.div`
     padding-left: ${(props: { width: number }) => (7 * props.width) / 1920}px;
     .header__logo__img {
       width: 182px;
-      height: 37px;
+      height: auto;
     }
   }
 

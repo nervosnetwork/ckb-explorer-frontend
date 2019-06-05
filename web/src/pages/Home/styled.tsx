@@ -24,16 +24,9 @@ export const HomeHeaderPanel = styled.div`
     padding-top: 20px;
     padding-bottom: 10px;
 
-    > div:nth-child(even) {
-      margin-left: 15px;
-    }
-
-    > div:nth-child(odd) {
-      margin-left: 0px;
-    }
-
     > div:nth-child(n) {
-      margin-bottom: 15px;
+      margin-left: 0px;
+      margin-bottom: 10px;
     }
   }
 `
@@ -92,7 +85,7 @@ export const HomeHeaderItemPanel = styled.div`
 `
 
 export const HomeHeaderItemMobilePanel = styled.div`
-  width: 160px;
+  width: 85%;
   height: 80px;
   display: flex;
   flex-direction: column;
@@ -105,14 +98,14 @@ export const HomeHeaderItemMobilePanel = styled.div`
   .blockchain__item__value {
     color: #3cc68a;
     text-align: center;
-    font-size: 18px;
+    font-size: 20px;
     margin-top: 12px;
   }
 
   .blockchain__item__name {
     color: #888888;
     text-align: center;
-    font-size: 14px;
+    font-size: 16px;
     margin-top: 5px;
   }
 `
