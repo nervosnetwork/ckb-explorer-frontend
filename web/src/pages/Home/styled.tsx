@@ -166,6 +166,19 @@ export const ContentTable = styled.div`
   margin: 0 auto;
   width: 100%;
   overflow-x: auto;
+  z-index: 2;
+
+  .block__green__background {
+    height: 61px;
+    width: 100%;
+    background-color: #3cc68a;
+    z-index: 1;
+  }
+
+  .block__panel {
+    margin-top: -41px;
+    z-index: 2;
+  }
 `
 
 export const TableMorePanel = styled.div`
