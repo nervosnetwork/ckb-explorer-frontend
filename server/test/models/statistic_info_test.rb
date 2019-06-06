@@ -83,11 +83,9 @@ class StatisticInfoTest < ActiveSupport::TestCase
     index = 0
     total_block_time = 0
     blocks.each do
-      if index == 0
-        total_block_time = blocks[index].timestamp - started_at_timestamp
-      else
-        total_block_time += blocks[index].timestamp - blocks[index - 1].timestamp
-      end
+      next if index == 0
+
+      total_block_time += blocks[index].timestamp - blocks[index - 1].timestamp
       index += 1
     end
 
