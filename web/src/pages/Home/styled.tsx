@@ -199,17 +199,38 @@ export const TableMorePanel = styled.div`
       margin-top: 9px;
     }
 
-    > div {
+    .table__more {
+      font-size: 24px;
+      color: #3cc68a;
       width: 59px;
       height: 33px;
       margin: 0 42px 0 42px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    width: 88%;
+    margin-left: 6%;
+    height: 34px;
+
+    > div {
+      height: 14px;
+      display: flex;
+      item-align: center;
+
+      > img {
+        width: auto;
+        height: 8px;
+        margin-top: 3px;
+      }
 
       .table__more {
-        font-size: 24px;
+        width: auto;
+        height: 14px;
+        line-height: 14px;
+        margin: 0px 18px;
+        font-size: 14px;
         color: #3cc68a;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        text-decoration: none;
       }
     }
   }

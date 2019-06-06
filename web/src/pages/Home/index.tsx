@@ -210,11 +210,9 @@ export default () => {
         <TableMorePanel>
           <div>
             <img src={MoreLeftIcon} alt="more left" />
-            <div>
-              <Link className="table__more" to="/block/list">
-                {`More`}
-              </Link>
-            </div>
+            <Link to="/block/list">
+              <div className="table__more">More</div>
+            </Link>
             <img src={MoreRightIcon} alt="more right" />
           </div>
         </TableMorePanel>
