@@ -34,9 +34,27 @@ class CkbUtils
   end
 
   def self.generate_address(lock_script)
-    return unless use_default_lock_script?(lock_script)
+    if use_default_lock_script?(lock_script)
+      type1_address(lock_script)
+    else
+      type0_address(lock_script)
+    end
+  end
 
+  def self.type0_address(lock_script)
+    pk_hash = lock_script.args.first
+    return if pk_hash.nil?
+
+    pk_hash_bin = [pk_hash[2..-1]].pack("H*")
+    type = ["00"].pack("H*")
+    code_hash = lock_script.code_hash
+    payload = type + code_hash + pk_hash_bin
+    CKB::ConvertAddress.encode(Address::PREFIX_TESTNET, payload)
+  end
+
+  def self.type1_address(lock_script)
     blake160 = lock_script.args.first
+    return if blake160.blank? || !CKB::Utils.valid_hex_string?(blake160)
 
     target_pubkey_blake160_bin = [blake160[2..-1]].pack("H*")
     type = ["01"].pack("H*")
@@ -46,19 +64,16 @@ class CkbUtils
   end
 
   def self.use_default_lock_script?(lock_script)
-    first_arg = lock_script.args.first
     code_hash = lock_script.code_hash
 
     return false if code_hash.blank?
 
-    code_hash == ENV["CODE_HASH"] && CKB::Utils.valid_hex_string?(first_arg)
+    code_hash == ENV["CODE_HASH"]
   end
 
   def self.parse_address(address_hash)
     decoded_prefix, data = CKB::ConvertAddress.decode(address_hash)
     raise "Invalid prefix" if decoded_prefix != Address::PREFIX_TESTNET
-
-    raise "Invalid type/bin-idx" if data.slice(0..4) != ["0150325048"].pack("H*")
 
     CKB::Utils.bin_to_hex(data.slice(5..-1))
   end
