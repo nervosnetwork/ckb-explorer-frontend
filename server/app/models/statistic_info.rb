@@ -29,7 +29,7 @@ class StatisticInfo
       blocks = Block.created_after(started_at_timestamp).created_before(ended_at_timestamp).order(:timestamp)
       return if blocks.blank?
 
-      total_block_time(blocks, started_at_timestamp) / blocks.size
+      total_block_time(blocks) / blocks.size
     end
   end
 
@@ -47,7 +47,7 @@ class StatisticInfo
 
   attr_reader :difficulty_interval, :block_time_interval, :hash_rate_statistical_interval
 
-  def total_block_time(blocks, started_at_timestamp)
-    (blocks.last.timestamp - started_at_timestamp).to_d
+  def total_block_time(blocks)
+    (blocks.last.timestamp - blocks.first.timestamp).to_d
   end
 end
