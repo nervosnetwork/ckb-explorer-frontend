@@ -376,42 +376,6 @@ module CkbSync
       end
     end
 
-    test ".save_block generated block's miner hash should be nil when lock args is invalid" do
-      VCR.use_cassette("blocks/10") do
-        SyncInfo.local_inauthentic_tip_block_number
-        node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH)
-        set_default_lock_params(node_block: node_block, args: ["0x"])
-
-        local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
-
-        assert_nil local_block.miner_hash
-      end
-    end
-
-    test ".save_block generated block's miner hash should be nil when binary hash is empty" do
-      VCR.use_cassette("blocks/10") do
-        SyncInfo.local_inauthentic_tip_block_number
-        node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH)
-        set_default_lock_params(node_block: node_block)
-
-        local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
-
-        assert_nil local_block.miner_hash
-      end
-    end
-
-    test ".save_block generated block's miner hash should be nil when binary hash is invalid" do
-      VCR.use_cassette("blocks/10") do
-        SyncInfo.local_inauthentic_tip_block_number
-        node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH)
-        set_default_lock_params(node_block: node_block, code_hash: "0x598315db9c7ba144cca74d2e9122ac9b3a3da1641b2975ae321d91ec34f1c0e3")
-
-        local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
-
-        assert_nil local_block.miner_hash
-      end
-    end
-
     test ".save_block generated block should has correct miner hash when miner use default lock script " do
       VCR.use_cassette("blocks/10") do
         SyncInfo.local_inauthentic_tip_block_number
