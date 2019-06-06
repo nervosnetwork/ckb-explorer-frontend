@@ -29,14 +29,18 @@ export const getCurrentYear = () => {
 }
 
 export const parseTime = (millisecond: number) => {
-  const second = millisecond / 1000
-  const minute = second / 60
-  const hour = minute / 60
+  let second = millisecond / 1000
+  let minute = second / 60
+  const hour = second / 3600
+
   if (hour >= 1) {
-    return `${hour.toFixed()} h ${minute.toFixed()} m ${second.toFixed(2)} s`
+    minute %= 60
+    second %= 60
+    return `${Math.floor(hour)} h ${Math.floor(minute)} m ${second.toFixed(2)} s`
   }
   if (minute >= 1) {
-    return `${minute.toFixed()} m ${second.toFixed(2)} s`
+    second %= 60
+    return `${Math.floor(minute)} m ${second.toFixed(2)} s`
   }
   return `${second.toFixed(2)} s`
 }
