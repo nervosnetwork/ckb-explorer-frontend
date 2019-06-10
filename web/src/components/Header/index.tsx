@@ -105,6 +105,39 @@ const HeaderDiv = styled.div`
   }
 `
 
+const HeaderMobileDiv = styled.div`
+  width: 100%;
+  height: 42px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px 0 #141414;
+  background-color: #424242;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 1px 25px;
+
+  .header__logo {
+    .header__logo__img {
+      width: 64px;
+      height: auto;
+    }
+  }
+
+  .header__menus {
+    padding-left: 5px;
+    .header__menus__item {
+      margin-left: 31px;
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 100%;
+      color: #3cc68a;
+    }
+  }
+`
+
 const menus = [
   {
     name: 'Wallet',
@@ -117,16 +150,22 @@ const menus = [
 ]
 
 export default ({ search = true }: { search?: boolean }) => {
-  return (
+  return window.innerWidth > 700 ? (
     <HeaderDiv width={window.innerWidth}>
       <Link to="/" className="header__logo">
         <img className="header__logo__img" src={logoIcon} alt="logo" />
       </Link>
       <div className="header__menus">
-        {menus.map((d: any) => {
+        {menus.map((menu: any) => {
           return (
-            <a key={d.name} className="header__menus__item" href={d.url} target="_blank" rel="noopener noreferrer">
-              {d.name}
+            <a
+              key={menu.name}
+              className="header__menus__item"
+              href={menu.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {menu.name}
             </a>
           )
         })}
@@ -143,5 +182,26 @@ export default ({ search = true }: { search?: boolean }) => {
         </div>
       )}
     </HeaderDiv>
+  ) : (
+    <HeaderMobileDiv>
+      <Link to="/" className="header__logo">
+        <img className="header__logo__img" src={logoIcon} alt="logo" />
+      </Link>
+      <div className="header__menus">
+        {menus.map((menu: any) => {
+          return (
+            <a
+              key={menu.name}
+              className="header__menus__item"
+              href={menu.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {menu.name}
+            </a>
+          )
+        })}
+      </div>
+    </HeaderMobileDiv>
   )
 }
