@@ -15,6 +15,7 @@ import {
   TableContentItem,
   TableMinerContentItem,
 } from '../../components/Table'
+import BlockCard from '../../components/Card/BlockCard'
 import BlockHeightIcon from '../../asserts/block_height.png'
 import TransactionIcon from '../../asserts/transactions.png'
 import BlockRewardIcon from '../../asserts/block_reward_white.png'
@@ -89,29 +90,42 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
       <BlockListPanel width={window.innerWidth} className="container">
         <ContentTitle>Blocks</ContentTitle>
 
-        <ContentTable>
-          <TableTitleRow>
-            <TableTitleItem image={BlockHeightIcon} title="Height" />
-            <TableTitleItem image={TransactionIcon} title="Transactions" />
-            <TableTitleItem image={BlockRewardIcon} title="Block Reward (CKB)" />
-            <TableTitleItem image={MinerIcon} title="Miner" />
-            <TableTitleItem image={TimestampIcon} title="Time" />
-          </TableTitleRow>
-          {blockWrappers &&
-            blockWrappers.map((data: any) => {
-              return (
-                data && (
-                  <TableContentRow key={data.attributes.block_hash}>
-                    <TableContentItem content={data.attributes.number} to={`/block/${data.attributes.number}`} />
-                    <TableContentItem content={data.attributes.transactions_count} />
-                    <TableContentItem content={`${shannonToCkb(data.attributes.reward)}`} />
-                    <TableMinerContentItem content={data.attributes.miner_hash} />
-                    <TableContentItem content={parseSimpleDate(data.attributes.timestamp)} />
-                  </TableContentRow>
+        {window.innerWidth > 700 ? (
+          <ContentTable>
+            <TableTitleRow>
+              <TableTitleItem image={BlockHeightIcon} title="Height" />
+              <TableTitleItem image={TransactionIcon} title="Transactions" />
+              <TableTitleItem image={BlockRewardIcon} title="Block Reward (CKB)" />
+              <TableTitleItem image={MinerIcon} title="Miner" />
+              <TableTitleItem image={TimestampIcon} title="Time" />
+            </TableTitleRow>
+            {blockWrappers &&
+              blockWrappers.map((data: any) => {
+                return (
+                  data && (
+                    <TableContentRow key={data.attributes.block_hash}>
+                      <TableContentItem content={data.attributes.number} to={`/block/${data.attributes.number}`} />
+                      <TableContentItem content={data.attributes.transactions_count} />
+                      <TableContentItem content={`${shannonToCkb(data.attributes.reward)}`} />
+                      <TableMinerContentItem content={data.attributes.miner_hash} />
+                      <TableContentItem content={parseSimpleDate(data.attributes.timestamp)} />
+                    </TableContentRow>
+                  )
                 )
-              )
-            })}
-        </ContentTable>
+              })}
+          </ContentTable>
+        ) : (
+          <ContentTable>
+            <div className="block__green__background" />
+            <div className="block__panel">
+              {blockWrappers &&
+                blockWrappers.map((block: any, index: number) => {
+                  const key = index
+                  return block && <BlockCard key={key} block={block.attributes} />
+                })}
+            </div>
+          </ContentTable>
+        )}
         <BlocksPagition>
           <Pagination
             showQuickJumper
