@@ -248,6 +248,9 @@ export const InputOutputTable = styled.table`
       td {
         &:nth-child(1) {
           width: ${1100 - 150 - 360}px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         &:nth-child(2) {
           width: 150px;
