@@ -132,7 +132,7 @@ export default () => {
       name: 'Best Block',
       value: statistics.tip_block_number,
       image: BestBlockImage,
-      tip: '',
+      tip: 'The latest block of the best chain',
     },
     {
       name: 'Difficulty',
