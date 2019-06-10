@@ -150,7 +150,7 @@ export default () => {
       name: 'Average Block Time',
       value: parseTime(Number(statistics.average_block_time)),
       image: BlockTimeImage,
-      tip: 'Average Block Time of the last 500 blocks',
+      tip: 'Average Block Time of the last 24 hours',
     },
   ]
 
