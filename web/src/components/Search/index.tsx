@@ -13,6 +13,9 @@ const SearchPanel = styled.div`
   margin: 0 auto;
   width: 100%;
   height: 50px;
+  @media (max-width: 700px) {
+    height: 30px;
+  }
   text-align: center;
   display: flex;
   align-items: center;
@@ -20,8 +23,11 @@ const SearchPanel = styled.div`
   > input {
     position: relative;
     width: 100%;
-    height: 50px;
+    height: 100%;
     font-size: 16px;
+    @media (max-width: 700px) {
+      font-size: 12px;
+    }
     padding-left: 20px;
     padding-right: 50px;
     border-radius: 6px;
@@ -43,6 +49,12 @@ const SearchPanel = styled.div`
     display: inline-block;
     width: 30px;
     height: 30px;
+
+    @media (max-width: 700px) {
+      width: 14px;
+      height: 14px;
+      margin-left: -20px;
+    }
 
     margin-left: -35px;
     opacity: 0.8;
@@ -88,13 +100,21 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
     }
   }
 
-  const opacityStyle = {
-    opacity: 1,
-    border: '2px solid #606060',
-  }
-
-  const transparentStyle = {
-    borderRadius: '6px 0 0 6px',
+  const fetchStyle = () => {
+    if (opacity) {
+      return {
+        opacity: 1,
+        border: '2px solid #606060',
+      }
+    }
+    if (window.innerWidth < 700) {
+      return {
+        borderRadius: '6px',
+      }
+    }
+    return {
+      borderRadius: '6px 0 0 6px',
+    }
   }
 
   const searchPlaceholder = 'Block / Transaction / Address'
@@ -112,7 +132,7 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
               handleSearchResult(homeSearchBar.value)
             }
           }}
-          style={opacity ? opacityStyle : transparentStyle}
+          style={fetchStyle()}
         />
       }
       <div
