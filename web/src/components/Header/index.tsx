@@ -22,8 +22,7 @@ const HeaderDiv = styled.div`
     padding: 1px ${(props: { width: number }) => (150 * props.width) / 1920}px;
   }
   .header__logo,
-  .header__menus,
-  .header__search {
+  .header__menus {
     display: flex;
     align-items: center;
   }
@@ -57,6 +56,8 @@ const HeaderDiv = styled.div`
   }
   .header__search {
     flex: 1;
+    display: flex;
+    align-items: center;
     justify-content: flex-end;
 
     @media (max-width: 700px) {
@@ -64,11 +65,9 @@ const HeaderDiv = styled.div`
       justify-content: flex-start;
     }
 
-    display: flex;
     .header__search__component {
       display: flex;
       align-items: center;
-      justify-content: left;
       height: 50px;
       width: ${(props: { width: number }) => (550 * props.width) / 1920}px;
       min-width: 420px;
