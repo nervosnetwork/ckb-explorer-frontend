@@ -174,6 +174,13 @@ const HeaderMobileDiv = styled.div`
   }
 `
 
+const HeaderSearchPanel = styled.div`
+  width: 100%;
+  height: 45px;
+  display: flex;
+  align-items: center;
+`
+
 const menus = [
   {
     name: 'Wallet',
@@ -259,6 +266,9 @@ export default ({ search = true }: { search?: boolean }) => {
           </div>
         )}
       </HeaderMobileDiv>
+      <HeaderSearchPanel>
+        <Search />
+      </HeaderSearchPanel>
     </HeaderMobilePanel>
   )
 }
