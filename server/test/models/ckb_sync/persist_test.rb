@@ -241,12 +241,12 @@ module CkbSync
         SyncInfo.local_inauthentic_tip_block_number
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH)
         set_default_lock_params(node_block: node_block)
-        node_block_transactions = node_block.transactions
-        node_block_cell_inputs = node_block_transactions.map { |commit_transaciont| commit_transaciont.to_h.deep_stringify_keys["inputs"].map(&:sort) }.flatten
+        node_transactions = node_block.transactions.map(&:to_h).map(&:deep_stringify_keys)
+        node_block_cell_inputs = node_transactions.map { |commit_transaction| commit_transaction["inputs"].map(&:sort) }.flatten
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_block_transactions = local_block.ckb_transactions
-        local_block_cell_inputs = local_block_transactions.map { |commit_transaciont| commit_transaciont.cell_inputs.map { |cell_input| cell_input.attributes.select { |attribute| attribute.in?(%(args previous_output since)) }.sort } }.flatten
+        local_block_cell_inputs = local_block_transactions.map { |commit_transaction| commit_transaction.cell_inputs.map { |cell_input| cell_input.attributes.select { |attribute| attribute.in?(%(args previous_output since)) }.sort } }.flatten
 
         assert_equal node_block_cell_inputs, local_block_cell_inputs
       end
@@ -258,12 +258,12 @@ module CkbSync
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH)
         set_default_lock_params(node_block: node_block)
         node_block_transactions = node_block.transactions
-        node_block_cell_outputs = node_block_transactions.map { |commit_transaciont| commit_transaciont.to_h.deep_stringify_keys["outputs"].map { |output| format_node_block_cell_output(output).sort } }.flatten
+        node_block_cell_outputs = node_block_transactions.map { |commit_transaction| commit_transaction.to_h.deep_stringify_keys["outputs"].map { |output| format_node_block_cell_output(output).sort } }.flatten
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_block_transactions = local_block.ckb_transactions
-        local_block_cell_outputs = local_block_transactions.map { |commit_transaciont|
-          commit_transaciont.cell_outputs.map do |cell_output|
+        local_block_cell_outputs = local_block_transactions.map { |commit_transaction|
+          commit_transaction.cell_outputs.map do |cell_output|
             attributes = cell_output.attributes
             attributes["capacity"] = attributes["capacity"].to_i.to_s
             attributes.select { |attribute| attribute.in?(%w(capacity data)) }.sort
@@ -280,11 +280,11 @@ module CkbSync
         node_block = CkbSync::Api.instance.get_block(DEFAULT_NODE_BLOCK_HASH)
         set_default_lock_params(node_block: node_block)
         node_block_transactions = node_block.transactions
-        node_block_lock_scripts = node_block_transactions.map { |commit_transaciont| commit_transaciont.to_h.deep_stringify_keys["outputs"].map { |output| output["lock"] }.sort }.flatten
+        node_block_lock_scripts = node_block_transactions.map { |commit_transaction| commit_transaction.to_h.deep_stringify_keys["outputs"].map { |output| output["lock"] }.sort }.flatten
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_block_transactions = local_block.ckb_transactions
-        local_block_lock_scripts = local_block_transactions.map { |commit_transaciont| commit_transaciont.cell_outputs.map { |cell_output| cell_output.lock_script.attributes.select { |attribute| attribute.in?(%w(args code_hash)) } }.sort }.flatten
+        local_block_lock_scripts = local_block_transactions.map { |commit_transaction| commit_transaction.cell_outputs.map { |cell_output| cell_output.lock_script.attributes.select { |attribute| attribute.in?(%w(args code_hash)) } }.sort }.flatten
 
         assert_equal node_block_lock_scripts, local_block_lock_scripts
       end
@@ -297,11 +297,11 @@ module CkbSync
         set_default_lock_params(node_block: node_block)
         fake_node_block_with_type_script(node_block)
         node_block_transactions = node_block.transactions
-        node_block_type_scripts = node_block_transactions.map { |commit_transaciont| commit_transaciont.to_h.deep_stringify_keys["outputs"].map { |output| output["type"] }.sort }.flatten
+        node_block_type_scripts = node_block_transactions.map { |commit_transaction| commit_transaction.to_h.deep_stringify_keys["outputs"].map { |output| output["type"] }.sort }.flatten
 
         local_block = CkbSync::Persist.save_block(node_block, "inauthentic")
         local_block_transactions = local_block.ckb_transactions
-        local_block_type_scripts = local_block_transactions.map { |commit_transaciont| commit_transaciont.cell_outputs.map { |cell_output| cell_output.type_script.attributes.select { |attribute| attribute.in?(%w(args code_hash)) } }.sort }.flatten
+        local_block_type_scripts = local_block_transactions.map { |commit_transaction| commit_transaction.cell_outputs.map { |cell_output| cell_output.type_script.attributes.select { |attribute| attribute.in?(%w(args code_hash)) } }.sort }.flatten
 
         assert_equal node_block_type_scripts, local_block_type_scripts
       end
