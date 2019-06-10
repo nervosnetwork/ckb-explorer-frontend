@@ -18,15 +18,11 @@ const HeaderDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 1px 82px;
-  @media (max-width: 700px) {
-    padding: 1px ${(props: { width: number }) => (150 * props.width) / 1920}px;
-  }
   .header__logo,
   .header__menus,
   .header__search {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
   }
   .header__logo {
     padding-left: ${(props: { width: number }) => (7 * props.width) / 1920}px;
@@ -46,9 +42,6 @@ const HeaderDiv = styled.div`
       margin-right: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
       font-size: 22px;
       font-weight: 600;
-      @media (max-width: 700px) {
-        font-weight: 500;
-      }
       line-height: 30px;
       color: #3cc68a;
       &.header__menus__item--active,&: hover {
@@ -59,12 +52,6 @@ const HeaderDiv = styled.div`
   .header__search {
     flex: 1;
     justify-content: flex-end;
-
-    @media (max-width: 700px) {
-      flex: 1;
-      justify-content: flex-start;
-    }
-
     display: flex;
     .header__search__component {
       display: flex;
@@ -72,12 +59,7 @@ const HeaderDiv = styled.div`
       justify-content: left;
       height: 50px;
       width: ${(props: { width: number }) => (550 * props.width) / 1920}px;
-      min-width: 420px;
-
-      @media (max-width: 700px) {
-        width: 250px;
-        min-width: 200px;
-      }
+      min-width: ${(props: { width: number }) => (380 * props.width) / 1920}px;
     }
 
     .header__testnet__panel {
@@ -92,14 +74,6 @@ const HeaderDiv = styled.div`
         font-size: 16px;
         text-align: center;
         line-height: 50px;
-
-        @media (max-width: 700px) {
-          font-size: 14px;
-          width: 75px;
-          height: 40px;
-          line-height: 40px;
-          margin-left: 0;
-        }
       }
 
       &:hover .header__testnet__tip {
@@ -123,26 +97,6 @@ const HeaderDiv = styled.div`
         padding-top: 3px;
         line-height: 62px;
         text-align: center;
-      }
-
-      @media (max-width: 700px) {
-        margin-left: 0px;
-
-        .header__testnet__flag {
-          font-size: 13px;
-          width: 66px;
-          height: 40px;
-          line-height: 40px;
-          margin-left: 0;
-        }
-
-        &:hover .header__testnet__tip {
-          visibility: hidden;
-        }
-
-        .header__testnet__tip {
-          visibility: hidden;
-        }
       }
     }
   }
