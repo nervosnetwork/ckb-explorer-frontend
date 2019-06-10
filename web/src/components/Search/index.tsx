@@ -12,11 +12,6 @@ const SearchPanel = styled.div`
   max-width: 550px;
   margin: 0 auto;
   width: 100%;
-  @media (max-width: 700px) {
-    max-width: 260px;
-    width: auto;
-    margin: 0;
-  }
   height: 50px;
   text-align: center;
   display: flex;
@@ -31,14 +26,6 @@ const SearchPanel = styled.div`
     padding-right: 50px;
     border-radius: 6px;
     border-width: 0px;
-
-    @media (max-width: 700px) {
-      width: 250px;
-      height: 40px;
-      font-size: 14px;
-      padding-left: 12px;
-      padding-right: 40px;
-    }
 
     background: rgba(255, 255, 255, 0.2);
     &: focus {
@@ -56,12 +43,6 @@ const SearchPanel = styled.div`
     display: inline-block;
     width: 30px;
     height: 30px;
-
-    @media (max-width: 700px) {
-      width: 25px;
-      height: 25px;
-      margin-left: -30px;
-    }
 
     margin-left: -35px;
     opacity: 0.8;
