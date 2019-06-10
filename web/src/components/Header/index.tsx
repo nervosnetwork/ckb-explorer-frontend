@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
@@ -107,6 +107,7 @@ const HeaderDiv = styled.div`
 `
 
 const HeaderMobilePanel = styled.div`
+  height: ${(props: { height: number }) => props.height}px
   overflow: hidden;
   box-shadow: 0 2px 4px 0 #141414;
   background-color: #424242;
@@ -192,12 +193,9 @@ const menus = [
   },
 ]
 
-const searchEvent = () => {
-  const headerDiv: HTMLElement | null = document.getElementById('header__mobile__panel')
-  headerDiv!.style.height = '87px'
-}
-
 export default ({ search = true }: { search?: boolean }) => {
+  const [height, setHeight] = useState(42)
+
   return window.innerWidth > 700 ? (
     <HeaderDiv width={window.innerWidth}>
       <Link to="/" className="header__logo">
@@ -231,7 +229,7 @@ export default ({ search = true }: { search?: boolean }) => {
       )}
     </HeaderDiv>
   ) : (
-    <HeaderMobilePanel id="header__mobile__panel">
+    <HeaderMobilePanel height={height}>
       <HeaderMobileDiv>
         <Link to="/" className="header__logo">
           <img className="header__logo__img" src={logoIcon} alt="logo" />
@@ -256,7 +254,7 @@ export default ({ search = true }: { search?: boolean }) => {
             <div
               className="header__search__component"
               onKeyDown={() => {}}
-              onClick={searchEvent}
+              onClick={() => setHeight(87)}
               role="button"
               tabIndex={-1}
             >
