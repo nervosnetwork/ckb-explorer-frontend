@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
 import logoIcon from '../../asserts/ckb_logo.png'
+import SearchLogo from '../../asserts/search.png'
 import testnetTipImage from '../../asserts/testnet_tip.png'
 
 const HeaderDiv = styled.div`
@@ -105,9 +106,7 @@ const HeaderDiv = styled.div`
   }
 `
 
-const HeaderMobileDiv = styled.div`
-  width: 100%;
-  height: 42px;
+const HeaderMobilePanel = styled.div`
   overflow: hidden;
   box-shadow: 0 2px 4px 0 #141414;
   background-color: #424242;
@@ -115,11 +114,17 @@ const HeaderMobileDiv = styled.div`
   position: -webkit-sticky;
   top: 0;
   z-index: 1;
+  padding: 1px 25px;
+`
+
+const HeaderMobileDiv = styled.div`
+  width: 100%;
+  height: 42px;
   display: flex;
   align-items: center;
-  padding: 1px 25px;
 
   .header__logo {
+    padding-top: 3px;
     .header__logo__img {
       width: 64px;
       height: auto;
@@ -136,6 +141,37 @@ const HeaderMobileDiv = styled.div`
       color: #3cc68a;
     }
   }
+
+  .header__search {
+    display: flex;
+    flex: 1;
+    height: 21px;
+    justify-content: flex-end;
+
+    .header__search__component {
+      width: 29px;
+      height: 21px;
+      border-radius: 6px 0 0 6px;
+      background: rgba(255, 255, 255, 0.2);
+
+      .header__search__image {
+        width: 14px;
+        height: 14px;
+        margin-left: 7.5px;
+        margin-top: 3.5px;
+      }
+    }
+
+    .header__testnet {
+      border-radius: 0 6px 6px 0;
+      background-color: #3cc68a;
+      color: white;
+      font-size: 8px;
+      height: 21px;
+      line-height: 21px;
+      padding: 0 5px;
+    }
+  }
 `
 
 const menus = [
@@ -148,6 +184,11 @@ const menus = [
     url: 'https://docs.nervos.org/',
   },
 ]
+
+const searchEvent = () => {
+  const headerDiv: HTMLElement | null = document.getElementById('header__mobile__panel')
+  headerDiv!.style.height = '87px'
+}
 
 export default ({ search = true }: { search?: boolean }) => {
   return window.innerWidth > 700 ? (
@@ -183,25 +224,41 @@ export default ({ search = true }: { search?: boolean }) => {
       )}
     </HeaderDiv>
   ) : (
-    <HeaderMobileDiv>
-      <Link to="/" className="header__logo">
-        <img className="header__logo__img" src={logoIcon} alt="logo" />
-      </Link>
-      <div className="header__menus">
-        {menus.map((menu: any) => {
-          return (
-            <a
-              key={menu.name}
-              className="header__menus__item"
-              href={menu.url}
-              target="_blank"
-              rel="noopener noreferrer"
+    <HeaderMobilePanel id="header__mobile__panel">
+      <HeaderMobileDiv>
+        <Link to="/" className="header__logo">
+          <img className="header__logo__img" src={logoIcon} alt="logo" />
+        </Link>
+        <div className="header__menus">
+          {menus.map((menu: any) => {
+            return (
+              <a
+                key={menu.name}
+                className="header__menus__item"
+                href={menu.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {menu.name}
+              </a>
+            )
+          })}
+        </div>
+        {search && (
+          <div className="header__search">
+            <div
+              className="header__search__component"
+              onKeyDown={() => {}}
+              onClick={searchEvent}
+              role="button"
+              tabIndex={-1}
             >
-              {menu.name}
-            </a>
-          )
-        })}
-      </div>
-    </HeaderMobileDiv>
+              <img className="header__search__image" src={SearchLogo} alt="search" />
+            </div>
+            <div className="header__testnet">TESTNET</div>
+          </div>
+        )}
+      </HeaderMobileDiv>
+    </HeaderMobilePanel>
   )
 }
