@@ -9,7 +9,6 @@ import browserHistory from '../../routes/history'
 import SearchLogo from '../../asserts/search.png'
 
 const SearchPanel = styled.div`
-  max-width: ${(props: { width: number }) => (550 * props.width) / 1920}px;
   margin: 0 auto;
   width: 100%;
   @media (max-width: 700px) {
@@ -119,7 +118,7 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
   const searchPlaceholder = 'Block / Transaction / Address'
 
   return (
-    <SearchPanel width={window.innerWidth}>
+    <SearchPanel>
       {
         <input
           id="home__search__bar"
