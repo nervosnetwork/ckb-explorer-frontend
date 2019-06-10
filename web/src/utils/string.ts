@@ -15,7 +15,7 @@ export const parseLongAddressHash = (address: string) => {
     if (address.length <= 50) {
       return address
     }
-    return `${address.substr(0, 25)}...${address.substr(address.length - 25, 25)}`
+    return `${address.substr(0, 25)}...${address.substr(address.length - 22, 22)}`
   }
   return ''
 }
