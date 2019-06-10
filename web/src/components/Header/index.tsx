@@ -26,7 +26,6 @@ const HeaderDiv = styled.div`
   .header__search {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
   }
   .header__logo {
     padding-left: ${(props: { width: number }) => (7 * props.width) / 1920}px;
