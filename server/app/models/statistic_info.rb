@@ -27,7 +27,7 @@ class StatisticInfo
       started_at_timestamp = started_at.strftime("%Q").to_i
       ended_at_timestamp = ended_at.strftime("%Q").to_i
       blocks = Block.created_after(started_at_timestamp).created_before(ended_at_timestamp).order(:timestamp)
-      return if blocks.blank?
+      return if blocks.empty?
 
       total_block_time(blocks) / blocks.size
     end
