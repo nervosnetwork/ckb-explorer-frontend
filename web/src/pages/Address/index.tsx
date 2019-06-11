@@ -28,6 +28,7 @@ import BalanceIcon from '../../asserts/address_balance.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/transactions_green.png'
 import ItemPointIcon from '../../asserts/item_point.png'
+import AddressHashIcon from '../../asserts/lock_hash_address.png'
 import { Address, AddressWrapper } from '../../http/response/Address'
 import { Script } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
@@ -36,13 +37,14 @@ import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { validNumber } from '../../utils/string'
 
-const AddressTitle = ({ address }: { address: string }) => {
+const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
   const appContext = useContext(AppContext)
+  const identityHash = address || lockHash
   return (
     <AddressTitlePanel>
-      <div className="address__title">Address</div>
+      <div className="address__title">{address ? 'Address' : 'Lock Hash'}</div>
       <div className="address__content">
-        <code id="address__hash">{address}</code>
+        <code id="address__hash">{identityHash}</code>
         <div
           role="button"
           tabIndex={-1}
@@ -108,10 +110,12 @@ enum PageParams {
   MaxPageSize = 100,
 }
 
-export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string }>>) => {
+export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string; hash: string }>>) => {
   const { match, location } = props
   const { params } = match
-  const { address } = params
+  const { address, hash: lockHash } = params
+
+  const identityHash = address || lockHash
 
   const { search } = location
   const parsed = queryString.parse(search)
@@ -139,12 +143,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
 
   if (pageSize > PageParams.MaxPageSize) {
     setPageSize(PageParams.MaxPageSize)
-    props.history.replace(`/address/${address}?page=${pageNo}&size=${PageParams.MaxPageSize}`)
+    if (address) {
+      props.history.replace(`/address/${address}?page=${pageNo}&size=${PageParams.MaxPageSize}`)
+    } else {
+      props.history.replace(`/lockhash/${lockHash}?page=${pageNo}&size=${PageParams.MaxPageSize}`)
+    }
   }
 
   const getAddressInfo = () => {
     appContext.showLoading()
-    fetchAddressInfo(address)
+    fetchAddressInfo(identityHash)
       .then(json => {
         appContext.hideLoading()
         const { data, error } = json as Response<AddressWrapper>
@@ -162,7 +170,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
 
   const getTransactions = (page_p: number, size_p: number) => {
     appContext.showLoading()
-    fetchTransactionsByAddress(address, page_p, size_p)
+    fetchTransactionsByAddress(identityHash, page_p, size_p)
       .then(json => {
         appContext.hideLoading()
         const { data, meta } = json as Response<TransactionWrapper[]>
@@ -191,19 +199,31 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   const onChange = (page_p: number, size_p: number) => {
     setPageNo(page_p)
     setPageSize(size_p)
-    props.history.push(`/address/${address}?page=${page_p}&size=${size_p}`)
+    if (address) {
+      props.history.replace(`/address/${address}?page=${page_p}&size=${size_p}`)
+    } else {
+      props.history.replace(`/lockhash/${lockHash}?page=${page_p}&size=${size_p}`)
+    }
   }
 
   return (
     <Content>
       <AddressContentPanel width={window.innerWidth} className="container">
-        <AddressTitle address={address} />
+        <AddressTitle address={address} lockHash={lockHash} />
         <AddressOverview value="Overview" />
         <AddressCommonContent>
           <AddressCommonRowPanel>
             <SimpleLabel image={BalanceIcon} label="Balance : " value={`${shannonToCkb(addressData.balance)} CKB`} />
             <SimpleLabel image={TransactionsIcon} label="Transactions : " value={`${addressData.transactions_count}`} />
           </AddressCommonRowPanel>
+          {lockHash && (
+            <SimpleLabel
+              image={AddressHashIcon}
+              label="Address: "
+              value={`${addressData.address_hash}`}
+              lengthNoLimit
+            />
+          )}
           <AddressScriptLabel image={AddressScriptIcon} label="Lock Script : " script={addressData.lock_script} />
         </AddressCommonContent>
 
