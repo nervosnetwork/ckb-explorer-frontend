@@ -21,6 +21,7 @@ import {
   AddressCommonRowPanel,
   AddressTransactionsPagition,
   ScriptLabelItemPanel,
+  ScriptOtherArgs,
 } from './styled'
 import CopyIcon from '../../asserts/copy.png'
 import BalanceIcon from '../../asserts/address_balance.png'
@@ -62,11 +63,11 @@ const AddressOverview = ({ value }: { value: string }) => {
   return <AddressOverviewPanel>{value}</AddressOverviewPanel>
 }
 
-const ScriptLabelItem = ({ name, value }: { name: string; value: string }) => {
+const ScriptLabelItem = ({ name, value, noIcon = false }: { name: string; value: string; noIcon?: boolean }) => {
   return (
     <ScriptLabelItemPanel>
-      <img src={ItemPointIcon} alt="item point" />
-      <div>{`${name} :`}</div>
+      {!noIcon && <img src={ItemPointIcon} alt="item point" />}
+      <div>{name}</div>
       <code>{value}</code>
     </ScriptLabelItemPanel>
   )
@@ -81,15 +82,17 @@ const AddressScriptLabel = ({ image, label, script }: { image: string; label: st
       </AddressScriptLabelPanel>
       <AddressScriptContentPanel>
         <AddressScriptContent>
-          <ScriptLabelItem name="Code Hash" value={script.code_hash} />
+          <ScriptLabelItem name="Code Hash :" value={script.code_hash} />
           {script.args.length === 1 ? (
-            <ScriptLabelItem name="Args" value={script.args[0]} />
+            <ScriptLabelItem name="Args :" value={script.args[0]} />
           ) : (
             script.args.map((arg: string, index: number) => {
               return index === 0 ? (
-                <ScriptLabelItem name="Args: #" value={`${index} ${arg}`} />
+                <ScriptLabelItem name="Args: " value={`#${index}: ${arg}`} />
               ) : (
-                <code className="script__args__others">{`#${index} ${arg}`}</code>
+                <ScriptOtherArgs>
+                  <ScriptLabelItem name="" value={`#${index}: ${arg}`} noIcon />
+                </ScriptOtherArgs>
               )
             })
           )}

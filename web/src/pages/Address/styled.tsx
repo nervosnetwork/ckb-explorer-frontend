@@ -225,16 +225,25 @@ export const ScriptLabelItemPanel = styled.div`
   > div {
     margin-left: 8px;
     color: #888888;
-    white-space: normal;
-    word-wrap: break-word;
   }
 
   > code {
-    width: 100%;
     margin-left: 8px;
     color: #adadad;
     white-space: normal;
     word-wrap: break-word;
+
+    @media (max-width: 700px) {
+      width: 100%;
+    }
+  }
+`
+
+export const ScriptOtherArgs = styled.div`
+  margin-left: 52px;
+
+  @media (max-width: 700px) {
+    margin-left: 0px;
   }
 `
 
