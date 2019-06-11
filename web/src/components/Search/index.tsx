@@ -9,7 +9,6 @@ import browserHistory from '../../routes/history'
 import SearchLogo from '../../asserts/search.png'
 
 const SearchPanel = styled.div`
-  max-width: 550px;
   margin: 0 auto;
   width: 100%;
   height: 50px;

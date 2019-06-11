@@ -26,7 +26,7 @@ import { Script, ScriptWrapper } from '../../http/response/Script'
 import { Data } from '../../http/response/Data'
 import { CellType, fetchTransactionByHash, fetchScript, fetchCellData } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
-import { hexToUtf8 } from '../../utils/string'
+import { hexToUtf8, parseLongAddressHash } from '../../utils/string'
 import browserHistory from '../../routes/history'
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
@@ -56,7 +56,7 @@ const ScriptComponent = ({
   const AddressHashComponent = () => {
     return cellInputOutput.address_hash ? (
       <Link to={`/address/${cellInputOutput.address_hash}`}>
-        <code>{cellInputOutput.address_hash}</code>
+        <code>{parseLongAddressHash(cellInputOutput.address_hash)}</code>
       </Link>
     ) : (
       <div

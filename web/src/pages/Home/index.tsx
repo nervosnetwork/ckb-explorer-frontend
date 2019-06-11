@@ -133,7 +133,7 @@ export default () => {
       name: 'Best Block',
       value: statistics.tip_block_number,
       image: BestBlockImage,
-      tip: '',
+      tip: 'The latest block of the best chain',
     },
     {
       name: 'Difficulty',
@@ -151,7 +151,7 @@ export default () => {
       name: 'Average Block Time',
       value: parseTime(Number(statistics.average_block_time)),
       image: BlockTimeImage,
-      tip: 'Average Block Time of the last 500 blocks',
+      tip: 'Average Block Time of the last 24 hours',
     },
   ]
 
