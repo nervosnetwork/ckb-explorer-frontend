@@ -217,14 +217,17 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
             <SimpleLabel image={BalanceIcon} label="Balance : " value={`${shannonToCkb(addressData.balance)} CKB`} />
             <SimpleLabel image={TransactionsIcon} label="Transactions : " value={`${addressData.transactions_count}`} />
           </AddressCommonRowPanel>
-          {lockHash && (
-            <SimpleLabel
-              image={AddressHashIcon}
-              label="Address: "
-              value={`${addressData.address_hash}`}
-              lengthNoLimit
-            />
-          )}
+          {lockHash &&
+            (addressData.address_hash ? (
+              <SimpleLabel
+                image={AddressHashIcon}
+                label="Address: "
+                value={`${addressData.address_hash}`}
+                lengthNoLimit
+              />
+            ) : (
+              <SimpleLabel image={AddressHashIcon} label="Address: " value="Unable to decode address" lengthNoLimit />
+            ))}
           <AddressScriptLabel image={AddressScriptIcon} label="Lock Script : " script={addressData.lock_script} />
         </AddressCommonContent>
 
