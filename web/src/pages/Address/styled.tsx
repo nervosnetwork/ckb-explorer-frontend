@@ -272,6 +272,10 @@ export const AddressTransactionsPagition = styled(CommonPagition)`
   margin: 80px 0 150px 0;
   width: 100%;
   overflow-x: auto;
+
+  @media (max-width: 700px) {
+    margin: 20px 0 30px 0;
+  }
 `
 
 export const AddressCommonRowPanel = styled.div`
@@ -282,6 +286,12 @@ export const AddressCommonRowPanel = styled.div`
 
   > div {
     flex-grow: 1;
+  }
+
+  > div:nth-child(1) {
+    @media (max-width: 700px) {
+      margin-right: 60px;
+    }
   }
 
   > div:nth-child(2) {
