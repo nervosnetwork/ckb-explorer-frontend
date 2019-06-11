@@ -87,7 +87,7 @@ const SimpleLabel = ({
   const className = lengthNoLimit ? 'label__content__full__length' : 'label__content__limit__length'
   return (
     <LabelPanel style={style}>
-      <img src={image} alt={value} />
+      {window.innerWidth > 700 && <img src={image} alt={value} />}
       <span>{label}</span>
       <div style={highLight ? highLightStyle : normalStyle} className={className}>
         {value}
