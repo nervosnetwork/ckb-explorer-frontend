@@ -20,11 +20,13 @@ import {
   AddressTransactionsPanel,
   AddressCommonRowPanel,
   AddressTransactionsPagition,
+  ScriptLabelItemPanel,
 } from './styled'
 import CopyIcon from '../../asserts/copy.png'
 import BalanceIcon from '../../asserts/address_balance.png'
 import AddressScriptIcon from '../../asserts/address_script.png'
 import TransactionsIcon from '../../asserts/transactions_green.png'
+import ItemPointIcon from '../../asserts/item_point.png'
 import { Address, AddressWrapper } from '../../http/response/Address'
 import { Script } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
@@ -60,6 +62,16 @@ const AddressOverview = ({ value }: { value: string }) => {
   return <AddressOverviewPanel>{value}</AddressOverviewPanel>
 }
 
+const ScriptLabelItem = ({ name, value }: { name: string; value: string }) => {
+  return (
+    <ScriptLabelItemPanel>
+      <img src={ItemPointIcon} alt="item point" />
+      <div>{`${name} :`}</div>
+      <code>{value}</code>
+    </ScriptLabelItemPanel>
+  )
+}
+
 const AddressScriptLabel = ({ image, label, script }: { image: string; label: string; script: Script }) => {
   return (
     <div>
@@ -69,13 +81,13 @@ const AddressScriptLabel = ({ image, label, script }: { image: string; label: st
       </AddressScriptLabelPanel>
       <AddressScriptContentPanel>
         <AddressScriptContent>
-          <code>{`Code hash: ${script.code_hash}`}</code>
+          <ScriptLabelItem name="Code Hash" value={script.code_hash} />
           {script.args.length === 1 ? (
-            <code>{`Args: ${script.args[0]}`}</code>
+            <ScriptLabelItem name="Args" value={script.args[0]} />
           ) : (
             script.args.map((arg: string, index: number) => {
               return index === 0 ? (
-                <code>{`Args: #${index} ${arg}`}</code>
+                <ScriptLabelItem name="Args: #" value={`${index} ${arg}`} />
               ) : (
                 <code className="script__args__others">{`#${index} ${arg}`}</code>
               )

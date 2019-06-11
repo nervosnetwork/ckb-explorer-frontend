@@ -95,9 +95,10 @@ export const AddressCommonContent = styled.div`
   flex-direction: column;
 
   @media (max-width: 700px) {
+    width: 90%;
     overflow-x: auto;
-    padding: 15px;
-    margin: 15px 20px;
+    padding: 10px;
+    margin: 10px 10px;
     background: white;
     border: 0px solid white;
     border-radius: 6px;
@@ -190,32 +191,50 @@ export const AddressScriptLabelPanel = styled.div`
 
 export const AddressScriptContentPanel = styled.div`
   @media (max-width: 700px) {
-    padding-right: 15px;
-    width: 650px;
+    width: 100%;
   }
 `
 
 export const AddressScriptContent = styled.div`
   border: none;
   width: 100%;
-  padding: 18px 30px 18px 34px;
+  padding: 18px 30px 10px 25px;
   font-size: 16px;
   font-weight: bold;
   color: #4d4d4d;
 
   @media (max-width: 700px) {
     font-size: 15px;
-    margin: 0px 15px;
-    max-width: 600px;
+    margin: 0px;
+    padding: 0px 0px 0px 25px;
+  }
+`
+
+export const ScriptLabelItemPanel = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 5px 0;
+  width: 95%;
+
+  > img {
+    width: 9px;
+    height: 9px;
+  }
+
+  > div {
+    margin-left: 8px;
+    color: #888888;
+    white-space: normal;
+    word-wrap: break-word;
   }
 
   > code {
-    margin-bottom: 10px;
-    display: block;
-  }
-
-  .script__args__others {
-    margin-left: 58px;
+    width: 100%;
+    margin-left: 8px;
+    color: #adadad;
+    white-space: normal;
+    word-wrap: break-word;
   }
 `
 
