@@ -25,8 +25,15 @@ export const HomeHeaderPanel = styled.div`
     padding-bottom: 10px;
 
     > div:nth-child(n) {
-      margin-left: 0px;
       margin-bottom: 10px;
+    }
+
+    > div:nth-child(even) {
+      margin-left: 5%;
+    }
+
+    > div:nth-child(odd) {
+      margin-left: 0px;
     }
   }
 `
@@ -85,7 +92,7 @@ export const HomeHeaderItemPanel = styled.div`
 `
 
 export const HomeHeaderItemMobilePanel = styled.div`
-  width: 85%;
+  width: 42%;
   height: 80px;
   display: flex;
   flex-direction: column;
@@ -94,18 +101,21 @@ export const HomeHeaderItemMobilePanel = styled.div`
   border: 0px solid white;
   border-radius: 6px;
   box-shadow: 4px 4px 6px #dfdfdf;
+  background-image: url(${(props: { image: any }) => props.image});
+  background-repeat: no-repeat;
+  background-size: calc(100% + 12px) 92px;
 
   .blockchain__item__value {
     color: #3cc68a;
     text-align: center;
-    font-size: 20px;
-    margin-top: 12px;
+    font-size: 14px;
+    margin-top: 20px;
   }
 
   .blockchain__item__name {
     color: #888888;
     text-align: center;
-    font-size: 16px;
+    font-size: 12px;
     margin-top: 5px;
   }
 `
@@ -156,6 +166,19 @@ export const ContentTable = styled.div`
   margin: 0 auto;
   width: 100%;
   overflow-x: auto;
+  z-index: 2;
+
+  .block__green__background {
+    height: 61px;
+    width: 100%;
+    background-color: #3cc68a;
+    z-index: 1;
+  }
+
+  .block__panel {
+    margin-top: -41px;
+    z-index: 2;
+  }
 `
 
 export const TableMorePanel = styled.div`
@@ -176,17 +199,38 @@ export const TableMorePanel = styled.div`
       margin-top: 9px;
     }
 
-    > div {
+    .table__more {
+      font-size: 24px;
+      color: #3cc68a;
       width: 59px;
       height: 33px;
       margin: 0 42px 0 42px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    width: 88%;
+    margin-left: 6%;
+    height: 34px;
+
+    > div {
+      height: 14px;
+      display: flex;
+      item-align: center;
+
+      > img {
+        width: auto;
+        height: 8px;
+        margin-top: 3px;
+      }
 
       .table__more {
-        font-size: 24px;
+        width: auto;
+        height: 14px;
+        line-height: 14px;
+        margin: 0px 18px;
+        font-size: 14px;
         color: #3cc68a;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        text-decoration: none;
       }
     }
   }

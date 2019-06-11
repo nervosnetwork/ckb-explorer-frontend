@@ -11,12 +11,10 @@ import SearchLogo from '../../asserts/search.png'
 const SearchPanel = styled.div`
   margin: 0 auto;
   width: 100%;
-  @media (max-width: 700px) {
-    max-width: 260px;
-    width: auto;
-    margin: 0;
-  }
   height: 50px;
+  @media (max-width: 700px) {
+    height: 30px;
+  }
   text-align: center;
   display: flex;
   align-items: center;
@@ -24,20 +22,15 @@ const SearchPanel = styled.div`
   > input {
     position: relative;
     width: 100%;
-    height: 50px;
+    height: 100%;
     font-size: 16px;
+    @media (max-width: 700px) {
+      font-size: 12px;
+    }
     padding-left: 20px;
     padding-right: 50px;
     border-radius: 6px;
     border-width: 0px;
-
-    @media (max-width: 700px) {
-      width: 250px;
-      height: 40px;
-      font-size: 14px;
-      padding-left: 12px;
-      padding-right: 40px;
-    }
 
     background: rgba(255, 255, 255, 0.2);
     &: focus {
@@ -57,9 +50,9 @@ const SearchPanel = styled.div`
     height: 30px;
 
     @media (max-width: 700px) {
-      width: 25px;
-      height: 25px;
-      margin-left: -30px;
+      width: 14px;
+      height: 14px;
+      margin-left: -20px;
     }
 
     margin-left: -35px;
@@ -106,13 +99,21 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
     }
   }
 
-  const opacityStyle = {
-    opacity: 1,
-    border: '2px solid #606060',
-  }
-
-  const transparentStyle = {
-    borderRadius: '6px 0 0 6px',
+  const fetchStyle = () => {
+    if (opacity) {
+      return {
+        opacity: 1,
+        border: '2px solid #606060',
+      }
+    }
+    if (window.innerWidth < 700) {
+      return {
+        borderRadius: '6px',
+      }
+    }
+    return {
+      borderRadius: '6px 0 0 6px',
+    }
   }
 
   const searchPlaceholder = 'Block / Transaction / Address'
@@ -130,7 +131,7 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
               handleSearchResult(homeSearchBar.value)
             }
           }}
-          style={opacity ? opacityStyle : transparentStyle}
+          style={fetchStyle()}
         />
       }
       <div

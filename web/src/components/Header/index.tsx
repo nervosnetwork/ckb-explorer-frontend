@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
 import logoIcon from '../../asserts/ckb_logo.png'
+import SearchLogo from '../../asserts/search.png'
 import testnetTipImage from '../../asserts/testnet_tip.png'
 
 const HeaderDiv = styled.div`
@@ -18,9 +19,6 @@ const HeaderDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 1px 82px;
-  @media (max-width: 700px) {
-    padding: 1px ${(props: { width: number }) => (150 * props.width) / 1920}px;
-  }
   .header__logo,
   .header__menus {
     display: flex;
@@ -44,9 +42,6 @@ const HeaderDiv = styled.div`
       margin-right: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
       font-size: 22px;
       font-weight: 600;
-      @media (max-width: 700px) {
-        font-weight: 500;
-      }
       line-height: 30px;
       color: #3cc68a;
       &.header__menus__item--active,&: hover {
@@ -59,23 +54,12 @@ const HeaderDiv = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
-
-    @media (max-width: 700px) {
-      flex: 1;
-      justify-content: flex-start;
-    }
-
     .header__search__component {
       display: flex;
       align-items: center;
       height: 50px;
       width: ${(props: { width: number }) => (550 * props.width) / 1920}px;
-      min-width: 420px;
-
-      @media (max-width: 700px) {
-        width: 250px;
-        min-width: 200px;
-      }
+      min-width: ${(props: { width: number }) => (380 * props.width) / 1920}px;
     }
 
     .header__testnet__panel {
@@ -90,14 +74,6 @@ const HeaderDiv = styled.div`
         font-size: 16px;
         text-align: center;
         line-height: 50px;
-
-        @media (max-width: 700px) {
-          font-size: 14px;
-          width: 75px;
-          height: 40px;
-          line-height: 40px;
-          margin-left: 0;
-        }
       }
 
       &:hover .header__testnet__tip {
@@ -122,31 +98,87 @@ const HeaderDiv = styled.div`
         line-height: 62px;
         text-align: center;
       }
-
-      @media (max-width: 700px) {
-        margin-left: 0px;
-
-        .header__testnet__flag {
-          font-size: 13px;
-          width: 66px;
-          height: 40px;
-          line-height: 40px;
-          margin-left: 0;
-        }
-
-        &:hover .header__testnet__tip {
-          visibility: hidden;
-        }
-
-        .header__testnet__tip {
-          visibility: hidden;
-        }
-      }
     }
   }
   a {
     text-decoration: none;
   }
+`
+
+const HeaderMobilePanel = styled.div`
+  height: ${(props: { height: number }) => props.height}px
+  overflow: hidden;
+  box-shadow: 0 2px 4px 0 #141414;
+  background-color: #424242;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 1;
+  padding: 1px 25px;
+`
+
+const HeaderMobileDiv = styled.div`
+  width: 100%;
+  height: 42px;
+  display: flex;
+  align-items: center;
+
+  .header__logo {
+    padding-top: 3px;
+    .header__logo__img {
+      width: 64px;
+      height: auto;
+    }
+  }
+
+  .header__menus {
+    padding-left: 5px;
+    .header__menus__item {
+      margin-left: 31px;
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 100%;
+      color: #3cc68a;
+    }
+  }
+
+  .header__search {
+    display: flex;
+    flex: 1;
+    height: 21px;
+    justify-content: flex-end;
+
+    .header__search__component {
+      width: 29px;
+      height: 21px;
+      border-radius: 6px 0 0 6px;
+      background: rgba(255, 255, 255, 0.2);
+
+      .header__search__image {
+        width: 14px;
+        height: 14px;
+        margin-left: 7.5px;
+        margin-top: 3.5px;
+      }
+    }
+
+    .header__testnet {
+      border-radius: 0 6px 6px 0;
+      background-color: #3cc68a;
+      color: white;
+      font-size: 8px;
+      height: 21px;
+      line-height: 21px;
+      padding: 0 5px;
+    }
+  }
+`
+
+const HeaderSearchPanel = styled.div`
+  width: 100%;
+  height: 45px;
+  display: flex;
+  align-items: center;
 `
 
 const menus = [
@@ -161,16 +193,24 @@ const menus = [
 ]
 
 export default ({ search = true }: { search?: boolean }) => {
-  return (
+  const [height, setHeight] = useState(42)
+
+  return window.innerWidth > 700 ? (
     <HeaderDiv width={window.innerWidth}>
       <Link to="/" className="header__logo">
         <img className="header__logo__img" src={logoIcon} alt="logo" />
       </Link>
       <div className="header__menus">
-        {menus.map((d: any) => {
+        {menus.map((menu: any) => {
           return (
-            <a key={d.name} className="header__menus__item" href={d.url} target="_blank" rel="noopener noreferrer">
-              {d.name}
+            <a
+              key={menu.name}
+              className="header__menus__item"
+              href={menu.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {menu.name}
             </a>
           )
         })}
@@ -187,5 +227,45 @@ export default ({ search = true }: { search?: boolean }) => {
         </div>
       )}
     </HeaderDiv>
+  ) : (
+    <HeaderMobilePanel height={height}>
+      <HeaderMobileDiv>
+        <Link to="/" className="header__logo">
+          <img className="header__logo__img" src={logoIcon} alt="logo" />
+        </Link>
+        <div className="header__menus">
+          {menus.map((menu: any) => {
+            return (
+              <a
+                key={menu.name}
+                className="header__menus__item"
+                href={menu.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {menu.name}
+              </a>
+            )
+          })}
+        </div>
+        {search && (
+          <div className="header__search">
+            <div
+              className="header__search__component"
+              onKeyDown={() => {}}
+              onClick={() => setHeight(87)}
+              role="button"
+              tabIndex={-1}
+            >
+              <img className="header__search__image" src={SearchLogo} alt="search" />
+            </div>
+            <div className="header__testnet">TESTNET</div>
+          </div>
+        )}
+      </HeaderMobileDiv>
+      <HeaderSearchPanel>
+        <Search />
+      </HeaderSearchPanel>
+    </HeaderMobilePanel>
   )
 }
