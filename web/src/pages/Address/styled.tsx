@@ -29,19 +29,19 @@ export const AddressTitlePanel = styled.div`
     flex-direction: row;
     justify-content: center;
 
-    > code {
+    #address__hash {
       color: rgb(136, 136, 136);
       font-size: 18px;
+
       @media (max-width: 700px) {
         font-size: 14px;
+        height: 40px;
+        width: 85%;
       }
-      height: 25px;
+      white-space: normal;
+      word-wrap: break-word;
     }
-    #address__hash {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+
     img {
       margin-left: 19px;
       @media (max-width: 700px) {
