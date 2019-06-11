@@ -64,7 +64,7 @@ const AddressScriptLabel = ({ image, label, script }: { image: string; label: st
   return (
     <div>
       <AddressScriptLabelPanel>
-        <img src={image} alt="script" />
+        {window.innerWidth > 700 && <img src={image} alt="script" />}
         <span>{label}</span>
       </AddressScriptLabelPanel>
       <AddressScriptContentPanel>
@@ -186,10 +186,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         <AddressOverview value="Overview" />
         <AddressCommonContent>
           <AddressCommonRowPanel>
-            <SimpleLabel image={BalanceIcon} label="Balance: " value={`${shannonToCkb(addressData.balance)} CKB`} />
+            <SimpleLabel image={BalanceIcon} label="Balance : " value={`${shannonToCkb(addressData.balance)} CKB`} />
             <SimpleLabel image={TransactionsIcon} label="Transactions : " value={`${addressData.transactions_count}`} />
           </AddressCommonRowPanel>
-          <AddressScriptLabel image={AddressScriptIcon} label="Lock Script: " script={addressData.lock_script} />
+          <AddressScriptLabel image={AddressScriptIcon} label="Lock Script : " script={addressData.lock_script} />
         </AddressCommonContent>
 
         <AddressTransactionsPanel>

@@ -202,16 +202,9 @@ export const AddressScriptContent = styled.div`
   font-size: 16px;
   font-weight: bold;
   color: #4d4d4d;
-  min-height: 100px;
-  margin-top: 23px;
-  margin-left: 30px;
-  margin-right: 50px;
-  background-color: #f9f9f9;
-  border-radius: 6px 6px;
 
   @media (max-width: 700px) {
     font-size: 15px;
-    padding: 18px 30px 18px 15px;
     margin: 0px 15px;
     max-width: 600px;
   }
