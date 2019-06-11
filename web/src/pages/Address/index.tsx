@@ -36,6 +36,7 @@ import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { validNumber } from '../../utils/string'
+import TransactionCard from '../../components/Card/TransactionCard'
 
 const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
   const appContext = useContext(AppContext)
@@ -230,12 +231,25 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         <AddressTransactionsPanel>
           <AddressOverview value="Transactions" />
           <div>
-            {transactionWrappers &&
+            {window.innerWidth > 700 &&
+              transactionWrappers &&
               transactionWrappers.map((transaction: any) => {
                 return (
                   transaction && (
                     <TransactionComponent
                       address={address}
+                      transaction={transaction.attributes}
+                      key={transaction.attributes.transaction_hash}
+                    />
+                  )
+                )
+              })}
+            {window.innerWidth <= 700 &&
+              transactionWrappers &&
+              transactionWrappers.map((transaction: any) => {
+                return (
+                  transaction && (
+                    <TransactionCard
                       transaction={transaction.attributes}
                       key={transaction.attributes.transaction_hash}
                     />

@@ -3,10 +3,11 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Transaction, InputOutput } from '../../http/response/Transaction'
 import GreenArrowDown from '../../asserts/green_arrow_down.png'
+import { startEndEllipsis } from '../../utils/string'
+import { shannonToCkb } from '../../utils/util'
 
 const CardPanel = styled.div`
   width: 88%;
-  height: 290px;
   background-color: white;
   padding: 20px;
   border: 0px solid white;
@@ -21,6 +22,14 @@ const CardPanel = styled.div`
     width: 100%;
     height: 1px;
     background-color: #dfdfdf;
+  }
+
+  .green__arrow {
+    text-align: center;
+    > img {
+      width: 20px;
+      height: 20px;
+    }
   }
 `
 
@@ -45,7 +54,7 @@ const CardLabelItem = ({ value, to, highLight = false }: { value: string; to?: s
     <CardItemPanel highLight={highLight}>
       {to ? (
         <Link to={to}>
-          <div className="card__value">{value}</div>
+          <code className="card__value">{value}</code>
         </Link>
       ) : (
         <div className="card__value">{value}</div>
@@ -54,31 +63,47 @@ const CardLabelItem = ({ value, to, highLight = false }: { value: string; to?: s
   )
 }
 
+const AddressHashItem = (input: InputOutput) => {
+  if (input.from_cellbase) {
+    return <CardLabelItem value="Cellbase" />
+  }
+  if (input.address_hash) {
+    return (
+      <div key={input.id}>
+        <CardLabelItem
+          value={`${startEndEllipsis(input.address_hash, 16)}`}
+          to={`/address/${input.address_hash}`}
+          highLight
+        />
+        <CardLabelItem value={`${shannonToCkb(input.capacity)} CKB`} />
+      </div>
+    )
+  }
+  return (
+    <div key={input.id}>
+      <CardLabelItem value="Unable to decode address" />
+      <CardLabelItem value={`${shannonToCkb(input.capacity)} CKB`} />
+    </div>
+  )
+}
+
 const TransactionCard = ({ transaction }: { transaction: Transaction }) => {
   return (
     <CardPanel>
       <CardLabelItem
-        value={`${transaction.transaction_hash}`}
+        value={`${startEndEllipsis(transaction.transaction_hash, 16)}`}
         to={`/transaction/${transaction.transaction_hash}`}
         highLight
       />
       <div className="sperate__line" />
       {transaction.display_inputs.map((input: InputOutput) => {
-        return (
-          <div key={input.id}>
-            <CardLabelItem value={`${input.address_hash}`} to={`/address/${input.address_hash}`} highLight />
-            <CardLabelItem value={`${input.capacity}`} />
-          </div>
-        )
+        return AddressHashItem(input)
       })}
-      <img className="green__arrow" src={GreenArrowDown} alt="arrow" />
+      <div className="green__arrow">
+        <img src={GreenArrowDown} alt="arrow" />
+      </div>
       {transaction.display_outputs.map((output: InputOutput) => {
-        return (
-          <div key={output.id}>
-            <CardLabelItem value={`${output.address_hash}`} to={`/address/${output.address_hash}`} highLight />
-            <CardLabelItem value={`${output.capacity}`} />
-          </div>
-        )
+        return AddressHashItem(output)
       })}
     </CardPanel>
   )
