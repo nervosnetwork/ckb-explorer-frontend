@@ -351,7 +351,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               })}
             </div>
             <div>
-              <div />
+              <div className="separate__line" />
               <div>
                 {BlockRightItems[0].value ? (
                   <Link

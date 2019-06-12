@@ -101,9 +101,9 @@ export const BlockCommonContent = styled.div`
       display: flex;
       flex: 1;
       min-width: 350px;
-      > div:nth-child(1) {
+      .separate__line {
         width: 1px;
-        height: 360px;
+        height: 336px;
         background: #3cc68a;
         content: '';
         margin-right: 82px;
