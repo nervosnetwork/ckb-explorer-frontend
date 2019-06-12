@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_04_062236) do
+ActiveRecord::Schema.define(version: 2019_06_12_034620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,8 @@ ActiveRecord::Schema.define(version: 2019_06_04_062236) do
     t.index ["block_hash", "status"], name: "index_blocks_on_block_hash_and_status"
     t.index ["block_hash"], name: "index_blocks_on_block_hash", unique: true
     t.index ["number", "status"], name: "index_blocks_on_number_and_status"
+    t.index ["status"], name: "index_blocks_on_status"
+    t.index ["timestamp"], name: "index_blocks_on_timestamp"
   end
 
   create_table "cell_inputs", force: :cascade do |t|
