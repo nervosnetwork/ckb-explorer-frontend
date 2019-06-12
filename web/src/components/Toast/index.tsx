@@ -27,6 +27,18 @@ const ToastItemDiv = styled.div`
     line-height: 70px;
     text-align: center;
   }
+
+  @media (max-width: 700px) {
+    top: 44px;
+    height: 36px;
+
+    .toast__text {
+      color: white;
+      font-size: 15px;
+      line-height: 36px;
+      text-align: center;
+    }
+  }
 `
 const ToastItem = ({
   data,
