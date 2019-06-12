@@ -101,13 +101,7 @@ export const BlockCommonContent = styled.div`
       display: flex;
       flex: 1;
       min-width: 350px;
-      .separate__line {
-        width: 1px;
-        height: 336px;
-        background: #3cc68a;
-        content: '';
-        margin-right: 82px;
-      }
+      margin-left: 82px;
     }
   }
 
@@ -123,15 +117,8 @@ export const BlockCommonContent = styled.div`
       display: flex;
       flex-direction: column;
 
-      > div:nth-child(1) {
-      }
-
       > div:nth-child(2) {
-        > div:nth-child(1) {
-          width: 0px;
-          height: 0px;
-          margin-right: 0px;
-        }
+        margin-left: 0;
       }
     }
   }
