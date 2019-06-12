@@ -116,7 +116,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
           </ContentTable>
         ) : (
           <ContentTable>
-            <div className="block__green__background" />
             <div className="block__panel">
               {blockWrappers &&
                 blockWrappers.map((block: any, index: number) => {
@@ -127,17 +126,30 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
           </ContentTable>
         )}
         <BlocksPagition>
-          <Pagination
-            showQuickJumper
-            showSizeChanger
-            defaultPageSize={pageSize}
-            pageSize={pageSize}
-            defaultCurrent={pageNo}
-            current={pageNo}
-            total={totalBlocks}
-            onChange={onChange}
-            locale={localeInfo}
-          />
+          {window.innerWidth > 700 ? (
+            <Pagination
+              showQuickJumper
+              showSizeChanger
+              defaultPageSize={pageSize}
+              pageSize={pageSize}
+              defaultCurrent={pageNo}
+              current={pageNo}
+              total={totalBlocks}
+              onChange={onChange}
+              locale={localeInfo}
+            />
+          ) : (
+            <Pagination
+              showSizeChanger
+              defaultPageSize={pageSize}
+              pageSize={pageSize}
+              defaultCurrent={pageNo}
+              current={pageNo}
+              total={totalBlocks}
+              onChange={onChange}
+              locale={localeInfo}
+            />
+          )}
         </BlocksPagition>
       </BlockListPanel>
     </Content>

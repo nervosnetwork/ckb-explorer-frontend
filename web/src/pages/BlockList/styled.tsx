@@ -43,7 +43,6 @@ export const ContentTable = styled.div`
 `
 export const CommonPagition = styled.div`
   .rc-pagination {
-    min-width: 450px;
     height: 40px;
     display: flex;
     justify-content: center;
@@ -74,8 +73,7 @@ export const BlocksPagition = styled(CommonPagition)`
   margin-top: 60px;
   @media (max-width: 700px) {
     margin-top: 15px;
-    margin-left: 10%;
-    width: 80%;
+    margin-left: 3%;
   }
   width: 100%;
   overflow-x: auto;
