@@ -57,13 +57,15 @@ export const BlockOverviewPanel = styled.div`
   margin-top: 107px;
   margin-bottom: 70px;
   font-size: 50px;
+  color: rgb(20, 20, 20);
+  height: 70px;
+
   @media (max-width: 700px) {
     margin-top: 25px;
     margin-bottom: 5px;
     font-size: 26px;
+    height: 50px;
   }
-  color: rgb(20, 20, 20);
-  height: 70px;
 
   &:after {
     display: block;
