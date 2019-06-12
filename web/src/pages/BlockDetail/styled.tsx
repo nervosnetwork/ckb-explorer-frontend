@@ -12,7 +12,7 @@ export const BlockDetailTitlePanel = styled.div`
   flex-direction: column;
   align-items: center;
 
-  .address__title {
+  .block__title {
     color: rgb(20, 20, 20);
     font-size: 40pt;
     text-align: center;
@@ -22,7 +22,7 @@ export const BlockDetailTitlePanel = styled.div`
     }
   }
 
-  .address__content {
+  .block__content {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -118,6 +118,35 @@ export const BlockCommonContent = styled.div`
       > div:nth-child(2) {
         margin-left: 0;
       }
+    }
+  }
+`
+
+export const BlockMultiLinesPanel = styled.div`
+  margin-left: 10px;
+
+  > div {
+    font-size: 16px;
+    color: #606060;
+  }
+
+  > code {
+    font-size: 15px;
+    color: #adadad;
+    height: 40px;
+    width: 85%;
+    white-space: normal;
+    word-wrap: break-word;
+    margin-top: 2px;
+  }
+
+  @media (max-width: 320px) {
+    > div {
+      font-size: 14px;
+    }
+
+    > code {
+      font-size: 13px;
     }
   }
 `

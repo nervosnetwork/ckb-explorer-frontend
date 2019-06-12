@@ -9,6 +9,7 @@ import {
   BlockDetailTitlePanel,
   BlockOverviewPanel,
   BlockCommonContent,
+  BlockMultiLinesPanel,
   BlockPreviousNextPanel,
   BlockHightLabel,
   BlockTransactionsPanel,
@@ -53,8 +54,8 @@ const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
   return (
     <BlockDetailTitlePanel>
-      <div className="address__title">Block</div>
-      <div className="address__content">
+      <div className="block__title">Block</div>
+      <div className="block__content">
         <code id="block__hash">{hash}</code>
         <div
           role="button"
@@ -123,6 +124,15 @@ const BlockPreviousNext = ({
         </div>
       )}
     </BlockPreviousNextPanel>
+  )
+}
+
+const MultiLinesItem = ({ label, value }: { label: string; value: string }) => {
+  return (
+    <BlockMultiLinesPanel>
+      <div>{label}</div>
+      <code>{value}</code>
+    </BlockMultiLinesPanel>
   )
 }
 
@@ -321,7 +331,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: ProofIcon,
       label: 'Proof:',
-      value: `${blockData.proof}`,
+      value: `${window.innerWidth > 700 ? blockData.proof : startEndEllipsis(blockData.proof, 9)}`,
     },
   ]
 
@@ -361,7 +371,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                     <SimpleLabel
                       image={BlockRightItems[0].image}
                       label={BlockRightItems[0].label}
-                      value={startEndEllipsis(BlockRightItems[0].value)}
+                      value={startEndEllipsis(BlockRightItems[0].value, window.innerWidth > 700 ? 8 : 5)}
                       style={{
                         fontFamily: 'source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace',
                       }}
@@ -386,7 +396,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <div>
             {BlockRootInfoItems.map(item => {
               return (
-                item && (
+                item &&
+                (window.innerWidth > 700 ? (
                   <SimpleLabel
                     key={item.label}
                     image={item.image}
@@ -394,7 +405,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                     value={item.value}
                     lengthNoLimit
                   />
-                )
+                ) : (
+                  <MultiLinesItem key={item.label} label={item.label} value={item.value} />
+                ))
               )
             })}
           </div>
