@@ -27,19 +27,17 @@ export const BlockDetailTitlePanel = styled.div`
     flex-direction: row;
     justify-content: center;
 
-    > code {
+    #block__hash {
       color: rgb(136, 136, 136);
       font-size: 18px;
-      height: 25px;
 
       @media (max-width: 700px) {
         font-size: 14px;
-        height: 20px;
-        overflow: hidden;
-        max-width: 320px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        height: 40px;
+        width: 85%;
       }
+      white-space: normal;
+      word-wrap: break-word;
     }
 
     img {
