@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :cell_input do
     previous_output {}
-    args {}
 
     trait :from_cellbase do
       before(:create) do |cell_input, _evaluator|

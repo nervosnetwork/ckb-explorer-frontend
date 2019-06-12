@@ -46,7 +46,6 @@ end
 #
 #  id                      :bigint           not null, primary key
 #  previous_output         :jsonb
-#  args                    :string           is an Array
 #  since                   :string
 #  ckb_transaction_id      :bigint
 #  created_at              :datetime         not null

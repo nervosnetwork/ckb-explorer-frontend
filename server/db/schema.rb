@@ -74,7 +74,6 @@ ActiveRecord::Schema.define(version: 2019_06_12_034620) do
 
   create_table "cell_inputs", force: :cascade do |t|
     t.jsonb "previous_output"
-    t.string "args", array: true
     t.string "since"
     t.bigint "ckb_transaction_id"
     t.datetime "created_at", null: false

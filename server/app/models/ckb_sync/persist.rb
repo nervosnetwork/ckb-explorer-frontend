@@ -227,7 +227,6 @@ module CkbSync
         ckb_transaction.cell_inputs.build(
           previous_output: input.previous_output,
           since: input.since,
-          args: input.args,
           from_cell_base: input.previous_output.cell.blank?
         )
       end
