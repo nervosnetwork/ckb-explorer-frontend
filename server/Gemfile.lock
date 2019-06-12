@@ -193,6 +193,7 @@ GEM
     msgpack (1.2.10)
     net-http-persistent (3.0.1)
       connection_pool (~> 2.2)
+    newrelic_rpm (6.4.0.356)
     nio4r (2.3.1)
     nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
@@ -346,6 +347,7 @@ DEPENDENCIES
   mina-multistage
   minitest-reporters
   mocha
+  newrelic_rpm
   pg (>= 0.18, < 2.0)
   pry
   pry-nav

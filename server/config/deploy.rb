@@ -41,7 +41,8 @@ set :shared_files, fetch(:shared_files, []).push(
   "server/config/puma.rb",
   "server/.env.local",
   "server/config/settings.local.yml",
-  "server/config/master.key"
+  "server/config/master.key",
+  "server/config/newrelic.yml"
 )
 
 # This task is the environment that is loaded for all remote run commands, such as
