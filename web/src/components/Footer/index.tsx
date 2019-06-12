@@ -112,7 +112,7 @@ const FooterDiv = styled.div`
 `
 
 const FooterItemPanel = styled.a`
-  margin-left: 15px;
+  margin-left: 12px;
   margin-top: 15px;
   display: flex;
   flex-direction: column;
@@ -136,11 +136,11 @@ const FooterItemPanel = styled.a`
 
   @media (max-width: 700px) {
     >div: nth-child(1) {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
     }
     >div: nth-child(2) {
-      font-size: 10px;
+      font-size: 8px;
       margin-top: 5px;
     }
   }
