@@ -17,7 +17,7 @@ export const ContentTitle = styled.div`
   text-align: center;
 
   @media (max-width: 700px) {
-    font-size: 30px;
+    font-size: 26px;
   }
 
   &:after {
@@ -29,7 +29,7 @@ export const ContentTitle = styled.div`
     margin: 0 auto;
 
     @media (max-width: 700px) {
-      width: 90px;
+      width: 80px;
     }
   }
 `

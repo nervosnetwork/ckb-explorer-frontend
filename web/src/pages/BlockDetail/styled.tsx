@@ -12,34 +12,32 @@ export const BlockDetailTitlePanel = styled.div`
   flex-direction: column;
   align-items: center;
 
-  .address__title {
+  .block__title {
     color: rgb(20, 20, 20);
     font-size: 40pt;
     text-align: center;
 
     @media (max-width: 700px) {
-      font-size: 30pt;
+      font-size: 26px;
     }
   }
 
-  .address__content {
+  .block__content {
     display: flex;
     flex-direction: row;
     justify-content: center;
 
-    > code {
+    #block__hash {
       color: rgb(136, 136, 136);
       font-size: 18px;
-      height: 25px;
 
       @media (max-width: 700px) {
         font-size: 14px;
-        height: 20px;
-        overflow: hidden;
-        max-width: 320px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        height: 40px;
+        width: 85%;
       }
+      white-space: normal;
+      word-wrap: break-word;
     }
 
     img {
@@ -59,13 +57,15 @@ export const BlockOverviewPanel = styled.div`
   margin-top: 107px;
   margin-bottom: 70px;
   font-size: 50px;
+  color: rgb(20, 20, 20);
+  height: 70px;
+
   @media (max-width: 700px) {
     margin-top: 25px;
     margin-bottom: 5px;
-    font-size: 35px;
+    font-size: 26px;
+    height: 50px;
   }
-  color: rgb(20, 20, 20);
-  height: 70px;
 
   &:after {
     display: block;
@@ -75,7 +75,7 @@ export const BlockOverviewPanel = styled.div`
     height: 4px;
     width: 197px;
     @media (max-width: 700px) {
-      width: 150px;
+      width: 100px;
     }
   }
 `
@@ -124,6 +124,35 @@ export const BlockCommonContent = styled.div`
   }
 `
 
+export const BlockMultiLinesPanel = styled.div`
+  margin-left: 10px;
+
+  > div {
+    font-size: 16px;
+    color: #606060;
+  }
+
+  > code {
+    font-size: 15px;
+    color: #adadad;
+    height: 40px;
+    width: 85%;
+    white-space: normal;
+    word-wrap: break-word;
+    margin-top: 2px;
+  }
+
+  @media (max-width: 320px) {
+    > div {
+      font-size: 14px;
+    }
+
+    > code {
+      font-size: 13px;
+    }
+  }
+`
+
 export const BlockPreviousNextPanel = styled.div`
   display: flex;
   justify-content: center;
@@ -153,6 +182,37 @@ export const BlockPreviousNextPanel = styled.div`
     height: 45px;
     margin: 0 21px 0 21px;
   }
+
+  @media (max-width: 700px) {
+    margin-top: 30px;
+
+    .block__arrow {
+      height: 7px;
+      margin-top: 0;
+      img {
+        width: 43px;
+        height: 10px;
+      }
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .block__arrow_grey {
+      height: 7px;
+      margin-top: 0;
+      img {
+        width: 43px;
+        height: 10px;
+      }
+    }
+
+    .block__mouse {
+      width: 15px;
+      height: 27px;
+      margin: 0 21px 0 21px;
+    }
+  }
 `
 
 export const BlockHightLabel = styled.div`
@@ -168,4 +228,8 @@ export const BlockTransactionsPagition = styled(CommonPagition)`
   margin: 80px 0 0 0;
   width: 100%;
   overflow-x: auto;
+
+  @media (max-width: 700px) {
+    margin: 20px 0 30px 3%;
+  }
 `
