@@ -37,7 +37,8 @@ const CardItemPanel = styled.div`
 
   @media (max-width: 320px) {
     > div {
-      font-size: 13px;
+      font-size: 12px;
+      margin-right: 5px;
     }
 
     .card__value {
