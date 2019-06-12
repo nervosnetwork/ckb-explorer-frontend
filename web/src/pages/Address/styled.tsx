@@ -282,7 +282,7 @@ export const AddressTransactionsPagition = styled(CommonPagition)`
   overflow-x: auto;
 
   @media (max-width: 700px) {
-    margin: 20px 0 30px 0;
+    margin: 20px 0 30px 3%;
   }
 `
 
