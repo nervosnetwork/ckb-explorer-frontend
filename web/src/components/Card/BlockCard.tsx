@@ -77,12 +77,16 @@ const BlockCard = ({ block }: { block: Block }) => {
       <CardItem name="Height :" value={`${block.number}`} to={`/block/${block.number}`} highLight />
       <CardItem name="Transactions :" value={`${block.transactions_count}`} />
       <CardItem name="Block Reward (CKB) :" value={`${shannonToCkb(block.reward)}`} />
-      <CardItem
-        name="Miner :"
-        value={startEndEllipsis(block.miner_hash, 12)}
-        to={`/address/${block.miner_hash}`}
-        highLight
-      />
+      {block.miner_hash ? (
+        <CardItem
+          name="Miner :"
+          value={startEndEllipsis(block.miner_hash, 12)}
+          to={`/address/${block.miner_hash}`}
+          highLight
+        />
+      ) : (
+        <CardItem name="Miner :" value="Unable to decode address" />
+      )}
       <CardItem name="Time :" value={parseSimpleDate(block.timestamp)} />
     </CardPanel>
   )
