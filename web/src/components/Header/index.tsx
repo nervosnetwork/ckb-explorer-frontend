@@ -134,7 +134,7 @@ const HeaderMobileDiv = styled.div`
   .header__menus {
     padding-left: 5px;
     .header__menus__item {
-      margin-left: 31px;
+      margin-left: 16px;
       font-size: 14px;
       font-weight: bold;
       line-height: 100%;

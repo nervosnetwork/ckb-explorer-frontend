@@ -26,13 +26,23 @@ const CardItemPanel = styled.div`
 
   > div {
     color: #606060;
-    font-size: 14px;
+    font-size: 15px;
     margin-right: 8px;
   }
 
   .card__value {
     color: ${(props: { highLight: boolean }) => (props.highLight ? '#3CC68A' : '#888888')};
     font-size: 14px;
+  }
+
+  @media (max-width: 320px) {
+    > div {
+      font-size: 13px;
+    }
+
+    .card__value {
+      font-size: 12px;
+    }
   }
 `
 
@@ -44,15 +54,19 @@ const CardItem = ({
 }: {
   name: string
   value: string
-  to: string
+  to?: string
   highLight?: boolean
 }) => {
   return (
     <CardItemPanel highLight={highLight}>
       <div>{name}</div>
-      <Link to={to}>
+      {to ? (
+        <Link to={to}>
+          <div className="card__value">{value}</div>
+        </Link>
+      ) : (
         <div className="card__value">{value}</div>
-      </Link>
+      )}
     </CardItemPanel>
   )
 }
@@ -60,11 +74,16 @@ const CardItem = ({
 const BlockCard = ({ block }: { block: Block }) => {
   return (
     <CardPanel>
-      <CardItem name="Height :" value={`${block.number}`} to={`${block.number}`} highLight />
-      <CardItem name="Transactions :" value={`${block.transactions_count}`} to={`${block.number}`} />
-      <CardItem name="Block Reward (CKB) :" value={`${shannonToCkb(block.reward)}`} to={`${block.reward}`} />
-      <CardItem name="Miner :" value={startEndEllipsis(block.miner_hash, 12)} to={`${block.number}`} highLight />
-      <CardItem name="Time :" value={parseSimpleDate(block.timestamp)} to={`${block.number}`} />
+      <CardItem name="Height :" value={`${block.number}`} to={`/block/${block.number}`} highLight />
+      <CardItem name="Transactions :" value={`${block.transactions_count}`} />
+      <CardItem name="Block Reward (CKB) :" value={`${shannonToCkb(block.reward)}`} />
+      <CardItem
+        name="Miner :"
+        value={startEndEllipsis(block.miner_hash, 12)}
+        to={`/address/${block.miner_hash}`}
+        highLight
+      />
+      <CardItem name="Time :" value={parseSimpleDate(block.timestamp)} />
     </CardPanel>
   )
 }

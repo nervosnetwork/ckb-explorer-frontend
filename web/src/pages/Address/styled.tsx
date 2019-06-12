@@ -29,19 +29,19 @@ export const AddressTitlePanel = styled.div`
     flex-direction: row;
     justify-content: center;
 
-    > code {
+    #address__hash {
       color: rgb(136, 136, 136);
       font-size: 18px;
+
       @media (max-width: 700px) {
         font-size: 14px;
+        height: 40px;
+        width: 85%;
       }
-      height: 25px;
+      white-space: normal;
+      word-wrap: break-word;
     }
-    #address__hash {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+
     img {
       margin-left: 19px;
       @media (max-width: 700px) {
@@ -95,9 +95,10 @@ export const AddressCommonContent = styled.div`
   flex-direction: column;
 
   @media (max-width: 700px) {
+    width: 90%;
     overflow-x: auto;
-    padding: 15px;
-    margin: 15px 20px;
+    padding: 10px;
+    margin: 10px 10px;
     background: white;
     border: 0px solid white;
     border-radius: 6px;
@@ -181,6 +182,10 @@ export const AddressScriptLabelPanel = styled.div`
     font-size: 18px;
     @media (max-width: 700px) {
       font-size: 16px;
+
+      @media (max-width: 320px) {
+        font-size: 14px;
+      }
     }
     color: rgb(77, 77, 77);
     margin-left: 10px;
@@ -190,39 +195,63 @@ export const AddressScriptLabelPanel = styled.div`
 
 export const AddressScriptContentPanel = styled.div`
   @media (max-width: 700px) {
-    padding-right: 15px;
-    width: 650px;
+    width: 100%;
   }
 `
 
 export const AddressScriptContent = styled.div`
   border: none;
   width: 100%;
-  padding: 18px 30px 18px 34px;
+  padding: 18px 30px 10px 25px;
   font-size: 16px;
   font-weight: bold;
   color: #4d4d4d;
-  min-height: 100px;
-  margin-top: 23px;
-  margin-left: 30px;
-  margin-right: 50px;
-  background-color: #f9f9f9;
-  border-radius: 6px 6px;
 
   @media (max-width: 700px) {
     font-size: 15px;
-    padding: 18px 30px 18px 15px;
-    margin: 0px 15px;
-    max-width: 600px;
+    margin: 0px;
+    padding: 0px 0px 0px 25px;
+
+    @media (max-width: 320px) {
+      font-size: 13px;
+    }
+  }
+`
+
+export const ScriptLabelItemPanel = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 5px 0;
+  width: 95%;
+
+  > img {
+    width: 9px;
+    height: 9px;
+  }
+
+  > div {
+    margin-left: 8px;
+    color: #888888;
   }
 
   > code {
-    margin-bottom: 10px;
-    display: block;
-  }
+    margin-left: 8px;
+    color: #adadad;
+    white-space: normal;
+    word-wrap: break-word;
 
-  .script__args__others {
-    margin-left: 58px;
+    @media (max-width: 700px) {
+      width: 100%;
+    }
+  }
+`
+
+export const ScriptOtherArgs = styled.div`
+  margin-left: 52px;
+
+  @media (max-width: 700px) {
+    margin-left: 0px;
   }
 `
 
@@ -251,6 +280,10 @@ export const AddressTransactionsPagition = styled(CommonPagition)`
   margin: 80px 0 150px 0;
   width: 100%;
   overflow-x: auto;
+
+  @media (max-width: 700px) {
+    margin: 20px 0 30px 0;
+  }
 `
 
 export const AddressCommonRowPanel = styled.div`
