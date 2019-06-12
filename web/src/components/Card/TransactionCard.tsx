@@ -47,6 +47,16 @@ const CardItemPanel = styled.div`
     color: ${(props: { highLight: boolean }) => (props.highLight ? '#3CC68A' : '#888888')};
     font-size: 14px;
   }
+
+  @media (max-width: 320px) {
+    > div {
+      font-size: 13px;
+    }
+
+    .card__value {
+      font-size: 12px;
+    }
+  }
 `
 
 const CardLabelItem = ({ value, to, highLight = false }: { value: string; to?: string; highLight?: boolean }) => {

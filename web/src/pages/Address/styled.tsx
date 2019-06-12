@@ -182,6 +182,10 @@ export const AddressScriptLabelPanel = styled.div`
     font-size: 18px;
     @media (max-width: 700px) {
       font-size: 16px;
+
+      @media (max-width: 320px) {
+        font-size: 14px;
+      }
     }
     color: rgb(77, 77, 77);
     margin-left: 10px;
@@ -207,6 +211,10 @@ export const AddressScriptContent = styled.div`
     font-size: 15px;
     margin: 0px;
     padding: 0px 0px 0px 25px;
+
+    @media (max-width: 320px) {
+      font-size: 13px;
+    }
   }
 `
 
@@ -286,12 +294,6 @@ export const AddressCommonRowPanel = styled.div`
 
   > div {
     flex-grow: 1;
-  }
-
-  > div:nth-child(1) {
-    @media (max-width: 700px) {
-      margin-right: 60px;
-    }
   }
 
   > div:nth-child(2) {
