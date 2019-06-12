@@ -19,6 +19,7 @@ import AppContext from '../../contexts/App'
 import Content from '../../components/Content'
 import TransactionComponent from '../../components/Transaction'
 import SimpleLabel from '../../components/Label'
+import TransactionCard from '../../components/Card/TransactionCard'
 import CopyIcon from '../../asserts/copy.png'
 import BlockHeightIcon from '../../asserts/block_height_green.png'
 import BlockTransactionIcon from '../../asserts/transactions_green.png'
@@ -418,7 +419,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         <BlockTransactionsPanel>
           <BlockOverview value="Transactions" />
           <div>
-            {transactionWrappers &&
+            {window.innerWidth > 700 &&
+              transactionWrappers &&
               transactionWrappers.map((transaction: any) => {
                 return (
                   transaction && (
@@ -426,6 +428,19 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                       transaction={transaction.attributes}
                       key={transaction.attributes.transaction_hash}
                       isBlock
+                    />
+                  )
+                )
+              })}
+
+            {window.innerWidth <= 700 &&
+              transactionWrappers &&
+              transactionWrappers.map((transaction: any) => {
+                return (
+                  transaction && (
+                    <TransactionCard
+                      transaction={transaction.attributes}
+                      key={transaction.attributes.transaction_hash}
                     />
                   )
                 )

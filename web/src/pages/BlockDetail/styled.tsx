@@ -180,6 +180,37 @@ export const BlockPreviousNextPanel = styled.div`
     height: 45px;
     margin: 0 21px 0 21px;
   }
+
+  @media (max-width: 700px) {
+    margin-top: 30px;
+
+    .block__arrow {
+      height: 7px;
+      margin-top: 0;
+      img {
+        width: 43px;
+        height: 10px;
+      }
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .block__arrow_grey {
+      height: 7px;
+      margin-top: 0;
+      img {
+        width: 43px;
+        height: 10px;
+      }
+    }
+
+    .block__mouse {
+      width: 15px;
+      height: 27px;
+      margin: 0 21px 0 21px;
+    }
+  }
 `
 
 export const BlockHightLabel = styled.div`
