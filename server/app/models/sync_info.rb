@@ -28,7 +28,7 @@ class SyncInfo < ApplicationRecord
     end
 
     def local_synced_inauthentic_tip_block_number
-      SyncInfo.tip_inauthentic_synced.recent.first.value || 0
+      SyncInfo.tip_inauthentic_synced.recent.first&.value || 0
     end
   end
 end
