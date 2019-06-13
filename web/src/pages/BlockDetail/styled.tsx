@@ -126,6 +126,7 @@ export const BlockCommonContent = styled.div`
 
 export const BlockMultiLinesPanel = styled.div`
   margin-left: 10px;
+  margin-bottom: 6px;
 
   > div {
     font-size: 16px;
