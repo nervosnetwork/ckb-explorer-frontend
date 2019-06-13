@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import Content from '../../components/Content'
 import NotFoundIcon from '../../asserts/not_found_404.png'
-import browserHistory from '../../routes/history'
 
 const NotFoundPanel = styled.div`
   width: 100%;
@@ -17,22 +16,9 @@ const NotFoundImage = styled.img`
   max-height: 357px;
   display: block;
   margin: 0 auto;
-`
 
-const GoBackButton = styled.div`
-  width: 331px;
-  height: 68px;
-  margin: 0 auto;
-  margin-top: ${(props: { width: number }) => (155 * props.width) / 1920}px;
-  font-size: 30px;
-  text-align: center;
-  line-height: 68px;
-  background: white;
-  border: 2px solid rgb(62, 80, 130);
-  border-radius: 34px;
-  box-shadow: 6px 6px 11px rgb(111, 132, 165);
-  &:hover {
-    cursor: pointer;
+  @media (max-width: 700px) {
+    width: 80%;
   }
 `
 
@@ -41,14 +27,6 @@ export default () => {
     <Content>
       <NotFoundPanel width={window.innerWidth} className="container">
         <NotFoundImage src={NotFoundIcon} alt="404" />
-        <GoBackButton
-          width={window.innerWidth}
-          onClick={() => {
-            browserHistory.goBack()
-          }}
-        >
-          {'GO BACK'}
-        </GoBackButton>
       </NotFoundPanel>
     </Content>
   )
