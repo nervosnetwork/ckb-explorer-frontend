@@ -31,13 +31,13 @@ const CardItemPanel = styled.div`
     margin-right: 5px;
   }
 
+  .card__value__link {
+    height: 23px;
+  }
+
   .card__value {
     color: ${(props: { highLight: boolean }) => (props.highLight ? '#3CC68A' : '#888888')};
     font-size: 12px;
-  }
-
-  code {
-    font-size: 13px !important;
   }
 `
 
@@ -56,7 +56,7 @@ const CardItem = ({
     <CardItemPanel highLight={highLight}>
       <div>{name}</div>
       {to ? (
-        <Link to={to}>
+        <Link to={to} className="card__value__link">
           <code className="card__value">{value}</code>
         </Link>
       ) : (
