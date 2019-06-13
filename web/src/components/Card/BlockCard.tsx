@@ -35,6 +35,10 @@ const CardItemPanel = styled.div`
     color: ${(props: { highLight: boolean }) => (props.highLight ? '#3CC68A' : '#888888')};
     font-size: 12px;
   }
+
+  code {
+    font-size: 13px !important;
+  }
 `
 
 const CardItem = ({
