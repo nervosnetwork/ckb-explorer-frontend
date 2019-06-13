@@ -67,9 +67,16 @@ export const TransactionTitlePanel = styled.div`
       }
     }
     #transaction__hash {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      color: rgb(136, 136, 136);
+      font-size: 18px;
+
+      @media (max-width: 700px) {
+        font-size: 14px;
+        height: 40px;
+        width: 85%;
+      }
+      white-space: normal;
+      word-wrap: break-word;
     }
 
     > div {
