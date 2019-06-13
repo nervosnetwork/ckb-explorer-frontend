@@ -46,17 +46,13 @@ module Api
       end
 
       test "should get serialized objects" do
-        page = 1
-        page_size = 10
         create_list(:block, 15, :with_block_hash)
 
-        blocks = Block.recent.page(page)
+        blocks = Block.recent.limit(Block.default_per_page)
 
         valid_get api_v1_blocks_url
 
-        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: page, page_size: page_size).call
-
-        assert_equal BlockSerializer.new(blocks, options).serialized_json, response.body
+        assert_equal BlockSerializer.new(blocks, {}).serialized_json, response.body
       end
 
       test "serialized objects should in reverse order of timestamp" do
@@ -120,11 +116,12 @@ module Api
       end
 
       test "should return available records" do
+        page = 1
         page_size = 30
         create_list(:block, 15, :with_block_hash)
         create(:block, status: "abandoned")
 
-        valid_get api_v1_blocks_url, params: { page_size: page_size }
+        valid_get api_v1_blocks_url, params: { page: page, page_size: page_size }
 
         block_hashes = Block.available.recent.map(&:block_hash)
         blocks_statuses = Block.available.recent.map(&:status).uniq
@@ -136,32 +133,26 @@ module Api
 
       test "should return corresponding page's records when page is set and page_size is not set" do
         page = 2
-        page_size = 10
         create_list(:block, 15, :with_block_hash)
-        blocks = Block.order(timestamp: :desc).page(page)
+        blocks = Block.order(timestamp: :desc).limit(Block.default_per_page)
 
         valid_get api_v1_blocks_url, params: { page: page }
 
-        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: page, page_size: page_size).call
-        response_blocks = BlockSerializer.new(blocks, options).serialized_json
+        response_blocks = BlockSerializer.new(blocks, {}).serialized_json
 
         assert_equal response_blocks, response.body
-        assert_equal 5, json["data"].size
+        assert_equal 10, json["data"].size
       end
 
       test "should return the corresponding number of blocks when page is not set and page_size is set" do
-        page = 1
-        page_size = 12
         create_list(:block, 15, :with_block_hash)
 
         valid_get api_v1_blocks_url, params: { page_size: 12 }
 
-        blocks = Block.order(timestamp: :desc).page(page).per(page_size)
-        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: page, page_size: page_size).call
-        response_blocks = BlockSerializer.new(blocks, options).serialized_json
-
+        blocks = Block.order(timestamp: :desc).limit(Block.default_per_page)
+        response_blocks = BlockSerializer.new(blocks, {}).serialized_json
         assert_equal response_blocks, response.body
-        assert_equal 12, json["data"].size
+        assert_equal 10, json["data"].size
       end
 
       test "should return the corresponding blocks when page and page_size are set" do
@@ -209,18 +200,22 @@ module Api
       end
 
       test "should return meta that contained total in response body" do
+        page = 1
+        page_size = 30
         create_list(:block, 30, :with_block_hash)
-        valid_get api_v1_blocks_url
+        valid_get api_v1_blocks_url, params: { page: page, page_size: page_size }
 
-        assert_equal 30, json.dig("meta", "total")
+        assert_equal page_size, json.dig("meta", "total")
       end
 
-      test "should return pagination links that only contain self in response bod when there is no blocks" do
+      test "should return pagination links that only contain self in response body when there is no blocks" do
+        page = 1
+        page_size = 10
         links = {
           self: "#{api_v1_blocks_url}?page_size=10"
         }
 
-        valid_get api_v1_blocks_url
+        valid_get api_v1_blocks_url, params: { page: page, page_size: page_size }
         assert_equal links.stringify_keys.sort, json["links"].sort
       end
 
