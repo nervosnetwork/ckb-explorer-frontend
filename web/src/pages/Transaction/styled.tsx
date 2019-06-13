@@ -16,6 +16,11 @@ export const TransactionTitleDiv = styled.div`
   font-size: 40px;
   font-family: PingFangSC-Medium, sans-serif;
   font-weight: 900;
+
+  @media (max-width: 700px) {
+    font-size: 26px;
+    font-weight: 600;
+  }
 `
 export const TransactionOverviewLabel = styled.div`
   text-align: center;
@@ -23,14 +28,15 @@ export const TransactionOverviewLabel = styled.div`
   font-size: 50px;
   @media (max-width: 700px) {
     margin-top: 25px;
-    font-size: 35px;
+    font-size: 26px;
+    font-weight: 600;
   }
   font-family: PingFangSC-Medium, sans-serif;
   font-weight: 900;
   &:after {
     content: '';
     display: block;
-    width: 197px;
+    width: 100px;
     height: 4px;
     margin: 0 auto;
     background-color: #50ba8e;
@@ -47,7 +53,7 @@ export const TransactionTitlePanel = styled.div`
 
     @media (max-width: 700px) {
       font-weight: 600;
-      font-size: 30px;
+      font-size: 26px;
     }
   }
 
@@ -67,9 +73,16 @@ export const TransactionTitlePanel = styled.div`
       }
     }
     #transaction__hash {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      color: rgb(136, 136, 136);
+      font-size: 18px;
+
+      @media (max-width: 700px) {
+        font-size: 14px;
+        height: 40px;
+        width: 85%;
+      }
+      white-space: normal;
+      word-wrap: break-word;
     }
 
     > div {
@@ -116,9 +129,8 @@ export const TransactionCommonContent = styled.div`
 
   @media (max-width: 700px) {
     overflow-x: auto;
-    padding: 0 15px;
-    width: auto;
-    margin: 15px 15px;
+    width: 88%;
+    margin: 15px 6%;
     background: white;
     border: 0px solid white;
     border-radius: 6px;
@@ -127,9 +139,9 @@ export const TransactionCommonContent = styled.div`
 
     > div {
       padding: 15px;
-      width: 300px;
       display: flex;
       flex-direction: column;
+      width: 100%;
 
       > div:nth-child(1) {
       }
@@ -169,6 +181,8 @@ export const PanelDiv = styled.div`
     overflow-x: auto;
   }
 `
+
+export const CellPanel = styled.div``
 
 export const InputPanelDiv = styled(PanelDiv)`
   margin-top: 20px;
