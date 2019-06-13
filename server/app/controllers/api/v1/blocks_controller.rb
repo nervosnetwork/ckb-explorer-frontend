@@ -5,8 +5,13 @@ module Api
       before_action :validate_pagination_params, :pagination_params, only: :index
 
       def index
-        blocks = Block.available.recent.page(@page).per(@page_size)
-        options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: @page, page_size: @page_size).call
+        if from_home_page?
+          blocks = Block.available.recent.limit(Block.default_per_page)
+          options = {}
+        else
+          blocks = Block.available.recent.page(@page).per(@page_size)
+          options = FastJsonapi::PaginationMetaGenerator.new(request: request, records: blocks, page: @page, page_size: @page_size).call
+        end
 
         render json: BlockSerializer.new(blocks, options)
       end
@@ -18,6 +23,10 @@ module Api
       end
 
       private
+
+      def from_home_page?
+        params[:page].blank? || params[:page_size].blank?
+      end
 
       def pagination_params
         @page = params[:page] || 1
