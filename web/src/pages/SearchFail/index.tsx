@@ -16,6 +16,12 @@ const SearchContent = styled.div`
   margin: 0 auto;
   margin-top: 39px;
   text-align: center;
+
+  @media (max-width: 700px) {
+    max-width: 80%;
+    font-size: 12px;
+    margin-top: 15px;
+  }
 `
 
 export default (props: React.PropsWithoutRef<RouteComponentProps>) => {

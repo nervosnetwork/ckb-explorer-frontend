@@ -270,9 +270,7 @@ export default ({ search = true }: { search?: boolean }) => {
           </div>
         )}
       </HeaderMobileDiv>
-      <HeaderSearchPanel>
-        <Search />
-      </HeaderSearchPanel>
+      <HeaderSearchPanel>{search && <Search />}</HeaderSearchPanel>
     </HeaderMobilePanel>
   )
 }
