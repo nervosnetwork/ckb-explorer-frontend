@@ -237,7 +237,7 @@ export const ScriptLabelItemPanel = styled.div`
   }
 
   > code {
-    margin-left: 8px;
+    margin-left: 16px;
     color: #adadad;
     white-space: normal;
     word-wrap: break-word;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
@@ -192,8 +192,15 @@ const menus = [
   },
 ]
 
+const NORMAL_HEIGHT = 42
+const SEARCH_HEIGHT = 87
+
 export default ({ search = true }: { search?: boolean }) => {
-  const [height, setHeight] = useState(42)
+  const [height, setHeight] = useState(NORMAL_HEIGHT)
+
+  useEffect(() => {
+    setHeight(NORMAL_HEIGHT)
+  }, [window.location.href])
 
   return window.innerWidth > 700 ? (
     <HeaderDiv width={window.innerWidth}>
@@ -253,7 +260,7 @@ export default ({ search = true }: { search?: boolean }) => {
             <div
               className="header__search__component"
               onKeyDown={() => {}}
-              onClick={() => setHeight(87)}
+              onClick={() => setHeight(height === NORMAL_HEIGHT ? SEARCH_HEIGHT : NORMAL_HEIGHT)}
               role="button"
               tabIndex={-1}
             >
@@ -263,9 +270,7 @@ export default ({ search = true }: { search?: boolean }) => {
           </div>
         )}
       </HeaderMobileDiv>
-      <HeaderSearchPanel>
-        <Search />
-      </HeaderSearchPanel>
+      <HeaderSearchPanel>{search && <Search />}</HeaderSearchPanel>
     </HeaderMobilePanel>
   )
 }

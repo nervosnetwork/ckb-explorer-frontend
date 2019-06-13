@@ -253,6 +253,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                 return (
                   transaction && (
                     <TransactionCard
+                      address={address}
                       transaction={transaction.attributes}
                       key={transaction.attributes.transaction_hash}
                     />
