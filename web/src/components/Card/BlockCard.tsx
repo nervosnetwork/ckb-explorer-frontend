@@ -26,24 +26,13 @@ const CardItemPanel = styled.div`
 
   > div {
     color: #606060;
-    font-size: 15px;
-    margin-right: 8px;
+    font-size: 13px;
+    margin-right: 5px;
   }
 
   .card__value {
     color: ${(props: { highLight: boolean }) => (props.highLight ? '#3CC68A' : '#888888')};
-    font-size: 14px;
-  }
-
-  @media (max-width: 320px) {
-    > div {
-      font-size: 12px;
-      margin-right: 5px;
-    }
-
-    .card__value {
-      font-size: 11px;
-    }
+    font-size: 12px;
   }
 `
 
@@ -63,7 +52,7 @@ const CardItem = ({
       <div>{name}</div>
       {to ? (
         <Link to={to}>
-          <div className="card__value">{value}</div>
+          <code className="card__value">{value}</code>
         </Link>
       ) : (
         <div className="card__value">{value}</div>
@@ -81,7 +70,7 @@ const BlockCard = ({ block }: { block: Block }) => {
       {block.miner_hash ? (
         <CardItem
           name="Miner :"
-          value={startEndEllipsis(block.miner_hash, 12)}
+          value={startEndEllipsis(block.miner_hash, window.innerWidth > 320 ? 12 : 6)}
           to={`/address/${block.miner_hash}`}
           highLight
         />
