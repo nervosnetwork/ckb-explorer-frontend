@@ -23,6 +23,7 @@ const CardPanel = styled.div`
 const CardItemPanel = styled.div`
   display: flex;
   margin-top: 10px;
+  align-items: center;
 
   > div {
     color: #606060;
