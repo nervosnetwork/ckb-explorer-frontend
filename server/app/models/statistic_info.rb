@@ -37,15 +37,7 @@ class StatisticInfo
     blocks = Block.recent.includes(:uncle_blocks).limit(hash_rate_statistical_interval.to_i)
     return if blocks.blank?
 
-    block_difficulties = blocks.map { |block| block.difficulty.hex }.reduce(0, &:+)
-    uncle_block_difficulties = 0
-    blocks.each do |block|
-      uncle_blocks = block.uncle_blocks
-      next if uncle_blocks.blank?
-
-      uncle_block_difficulties += uncle_blocks.map { |uncle_block| uncle_block.difficulty.hex }.reduce(0, &:+)
-    end
-    total_difficulties = block_difficulties + uncle_block_difficulties
+    total_difficulties = blocks.flat_map { |block| [block, *block.uncle_blocks] }.reduce(0) { |sum, block| sum + block.difficulty.hex }
     total_time = blocks.first.timestamp - blocks.last.timestamp
 
     total_difficulties.to_d / total_time / cycle_rate
@@ -63,6 +55,10 @@ class StatisticInfo
     ((n - l + 1)..n).reduce(1, :*)
   end
 
+  # this formula comes from https://www.youtube.com/watch?v=CLiKX0nOsHE&feature=youtu.be&list=PLvgCPbagiHgqYdVUj-ylqhsXOifWrExiq&t=1242
+  # n and l is Cuckoo's params
+  # on ckb testnet the value of 'n' is 2**15 and the value of 'l' is 12
+  # the value of n and l and this formula are unstable, will change as the POW changes.
   def cycle_rate
     n = 2**15
     l = 12
