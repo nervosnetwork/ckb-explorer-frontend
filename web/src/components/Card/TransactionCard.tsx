@@ -67,7 +67,7 @@ const CardLabelItem = ({ value, to, highLight = false }: { value: string; to?: s
           <code className="card__value">{value}</code>
         </Link>
       ) : (
-        <div className="card__value">{value}</div>
+        <code className="card__value">{value}</code>
       )}
     </CardItemPanel>
   )
