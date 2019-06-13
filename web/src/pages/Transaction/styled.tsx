@@ -23,14 +23,14 @@ export const TransactionOverviewLabel = styled.div`
   font-size: 50px;
   @media (max-width: 700px) {
     margin-top: 25px;
-    font-size: 35px;
+    font-size: 26px;
   }
   font-family: PingFangSC-Medium, sans-serif;
   font-weight: 900;
   &:after {
     content: '';
     display: block;
-    width: 197px;
+    width: 100px;
     height: 4px;
     margin: 0 auto;
     background-color: #50ba8e;
@@ -116,9 +116,8 @@ export const TransactionCommonContent = styled.div`
 
   @media (max-width: 700px) {
     overflow-x: auto;
-    padding: 0 15px;
-    width: auto;
-    margin: 15px 15px;
+    width: 88%;
+    margin: 15px 6%;
     background: white;
     border: 0px solid white;
     border-radius: 6px;
@@ -127,9 +126,9 @@ export const TransactionCommonContent = styled.div`
 
     > div {
       padding: 15px;
-      width: 300px;
       display: flex;
       flex-direction: column;
+      width: 100%;
 
       > div:nth-child(1) {
       }
