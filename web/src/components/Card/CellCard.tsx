@@ -115,6 +115,9 @@ const ScriptPanel = styled.div`
       > div {
         color: white;
         font-szie: 12px;
+        @media (max-width: 320px) {
+          font-size: 11px;
+        }
       }
 
       img {
@@ -131,6 +134,10 @@ const CellOperationButton = styled.div`
   height: 20px;
   font-weight: bold;
   color: ${(props: { color: string }) => props.color};
+
+  @media (max-width: 320px) {
+    font-size: 12px;
+  }
 `
 
 const CardLabelItem = ({

@@ -16,6 +16,11 @@ export const TransactionTitleDiv = styled.div`
   font-size: 40px;
   font-family: PingFangSC-Medium, sans-serif;
   font-weight: 900;
+
+  @media (max-width: 700px) {
+    font-size: 26px;
+    font-weight: 600;
+  }
 `
 export const TransactionOverviewLabel = styled.div`
   text-align: center;
@@ -24,6 +29,7 @@ export const TransactionOverviewLabel = styled.div`
   @media (max-width: 700px) {
     margin-top: 25px;
     font-size: 26px;
+    font-weight: 600;
   }
   font-family: PingFangSC-Medium, sans-serif;
   font-weight: 900;
@@ -47,7 +53,7 @@ export const TransactionTitlePanel = styled.div`
 
     @media (max-width: 700px) {
       font-weight: 600;
-      font-size: 30px;
+      font-size: 26px;
     }
   }
 
