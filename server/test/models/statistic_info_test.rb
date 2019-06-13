@@ -97,10 +97,11 @@ class StatisticInfoTest < ActiveSupport::TestCase
     statistic_info = StatisticInfo.new
     create_list(:block, 500, :with_block_hash)
     block_count = ENV["HASH_RATE_STATISTICAL_INTERVAL"]
-    last_500_blocks = Block.recent.take(block_count)
-    total_difficulties = last_500_blocks.map { |block| block.difficulty.hex }.reduce(0, &:+)
+    last_500_blocks = Block.recent.includes(:uncle_blocks).limit(block_count.to_i)
+    total_difficulties = last_500_blocks.flat_map { |block| [block, *block.uncle_blocks] }.reduce(0) { |sum, block| sum + block.difficulty.hex }
     total_time = last_500_blocks.first.timestamp - last_500_blocks.last.timestamp
-    hash_rate = total_difficulties.to_d / total_time
+    cycle_rate = 0.08308952614941366
+    hash_rate = total_difficulties.to_d / total_time / cycle_rate
 
     assert_equal hash_rate, statistic_info.hash_rate
   end
