@@ -26,7 +26,7 @@ const FooterDiv = styled.div`
 
   .footer__top {
     display: flex;
-    padding: 20px;
+    padding: 20px 12px;
     align-items: center;
     justify-content: center;
     min-height: ${(props: { width: number }) => (380 * props.width) / 1920}px;
@@ -54,7 +54,6 @@ const FooterDiv = styled.div`
         align-items: center;
         justify-content: center;
         margin: 0 auto;
-        width: 276px;
 
         .footer__top__item {
           opacity: 0.8;
@@ -118,6 +117,8 @@ const FooterItemPanel = styled.a`
   flex-direction: column;
   align-items: center;
   text-decoration: none;
+  width: 70px;
+  height: auto;
 
   >div: nth-child(1) {
     width: 32px;
@@ -135,6 +136,8 @@ const FooterItemPanel = styled.a`
   }
 
   @media (max-width: 700px) {
+    width: 30px;
+
     >div: nth-child(1) {
       width: 18px;
       height: 18px;
