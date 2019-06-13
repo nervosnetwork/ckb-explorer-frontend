@@ -73,11 +73,19 @@ const CardLabelItem = ({ value, to, highLight = false }: { value: string; to?: s
   )
 }
 
-const AddressHashItem = (input: InputOutput) => {
+const AddressHashItem = (input: InputOutput, address?: string) => {
   if (input.from_cellbase) {
-    return <CardLabelItem value="Cellbase" />
+    return <CardLabelItem key={input.id} value="Cellbase" />
   }
   if (input.address_hash) {
+    if (address && input.address_hash === address) {
+      return (
+        <div key={input.id}>
+          <CardLabelItem value={`${startEndEllipsis(input.address_hash, 16)}`} />
+          <CardLabelItem value={`${shannonToCkb(input.capacity)} CKB`} />
+        </div>
+      )
+    }
     return (
       <div key={input.id}>
         <CardLabelItem
@@ -97,7 +105,7 @@ const AddressHashItem = (input: InputOutput) => {
   )
 }
 
-const TransactionCard = ({ transaction }: { transaction: Transaction }) => {
+const TransactionCard = ({ transaction, address }: { transaction: Transaction; address?: string }) => {
   return (
     <CardPanel>
       <CardLabelItem
@@ -107,13 +115,13 @@ const TransactionCard = ({ transaction }: { transaction: Transaction }) => {
       />
       <div className="sperate__line" />
       {transaction.display_inputs.map((input: InputOutput) => {
-        return AddressHashItem(input)
+        return AddressHashItem(input, address)
       })}
       <div className="green__arrow">
         <img src={GreenArrowDown} alt="arrow" />
       </div>
       {transaction.display_outputs.map((output: InputOutput) => {
-        return AddressHashItem(output)
+        return AddressHashItem(output, address)
       })}
     </CardPanel>
   )
