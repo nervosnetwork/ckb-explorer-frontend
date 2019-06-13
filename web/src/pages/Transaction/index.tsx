@@ -9,6 +9,7 @@ import {
   TransactionOverviewLabel,
   InputPanelDiv,
   OutputPanelDiv,
+  CellPanel,
   InputOutputTable,
   TransactionTitlePanel,
   TransactionCommonContent,
@@ -28,6 +29,7 @@ import { CellType, fetchTransactionByHash, fetchScript, fetchCellData } from '..
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { hexToUtf8, parseLongAddressHash } from '../../utils/string'
 import browserHistory from '../../routes/history'
+import CellCard from '../../components/Card/CellCard'
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
 
@@ -329,60 +331,75 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           </div>
         </TransactionCommonContent>
 
-        <InputPanelDiv>
-          <InputOutputTable>
-            {
-              <InputOutputTableTitle
-                transactionType="Input"
-                isCellbase={
-                  transaction.display_inputs &&
-                  transaction.display_inputs[0] &&
-                  transaction.display_inputs[0].from_cellbase
+        {window.innerWidth > 700 ? (
+          <CellPanel>
+            <InputPanelDiv>
+              <InputOutputTable>
+                {
+                  <InputOutputTableTitle
+                    transactionType="Input"
+                    isCellbase={
+                      transaction.display_inputs &&
+                      transaction.display_inputs[0] &&
+                      transaction.display_inputs[0].from_cellbase
+                    }
+                  />
                 }
-              />
-            }
-            <tbody>
-              {transaction &&
-                transaction.display_inputs &&
-                transaction.display_inputs.map((input: InputOutput) => {
-                  return (
-                    input && (
-                      <ScriptComponent
-                        cellType={CellType.Input}
-                        key={input.id}
-                        cellInputOutput={input}
-                        scriptType={input.select || null}
-                        updateCellData={updateCellData}
-                      />
-                    )
-                  )
-                })}
-            </tbody>
-          </InputOutputTable>
-        </InputPanelDiv>
+                <tbody>
+                  {transaction &&
+                    transaction.display_inputs &&
+                    transaction.display_inputs.map((input: InputOutput) => {
+                      return (
+                        input && (
+                          <ScriptComponent
+                            cellType={CellType.Input}
+                            key={input.id}
+                            cellInputOutput={input}
+                            scriptType={input.select || null}
+                            updateCellData={updateCellData}
+                          />
+                        )
+                      )
+                    })}
+                </tbody>
+              </InputOutputTable>
+            </InputPanelDiv>
 
-        <OutputPanelDiv>
-          <InputOutputTable>
-            <InputOutputTableTitle transactionType="Output" />
-            <tbody>
-              {transaction &&
-                transaction.display_outputs &&
-                transaction.display_outputs.map((output: InputOutput) => {
-                  return (
-                    output && (
-                      <ScriptComponent
-                        cellType={CellType.Output}
-                        key={output.id}
-                        cellInputOutput={output}
-                        scriptType={output.select || null}
-                        updateCellData={updateCellData}
-                      />
-                    )
-                  )
-                })}
-            </tbody>
-          </InputOutputTable>
-        </OutputPanelDiv>
+            <OutputPanelDiv>
+              <InputOutputTable>
+                <InputOutputTableTitle transactionType="Output" />
+                <tbody>
+                  {transaction &&
+                    transaction.display_outputs &&
+                    transaction.display_outputs.map((output: InputOutput) => {
+                      return (
+                        output && (
+                          <ScriptComponent
+                            cellType={CellType.Output}
+                            key={output.id}
+                            cellInputOutput={output}
+                            scriptType={output.select || null}
+                            updateCellData={updateCellData}
+                          />
+                        )
+                      )
+                    })}
+                </tbody>
+              </InputOutputTable>
+            </OutputPanelDiv>
+          </CellPanel>
+        ) : (
+          <CellPanel>
+            {transaction.display_inputs.map((input: InputOutput, index: number) => {
+              const key = index
+              return <CellCard type={CellType.Input} cell={input} key={key} />
+            })}
+            {transaction.display_outputs.map((output: InputOutput, index: number) => {
+              const key = index
+              return <CellCard type={CellType.Output} cell={output} key={key} />
+            })}
+          </CellPanel>
+        )}
       </TransactionDiv>
     </Content>
   )

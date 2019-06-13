@@ -176,6 +176,8 @@ export const PanelDiv = styled.div`
   }
 `
 
+export const CellPanel = styled.div``
+
 export const InputPanelDiv = styled(PanelDiv)`
   margin-top: 20px;
   min-height: 88px;
