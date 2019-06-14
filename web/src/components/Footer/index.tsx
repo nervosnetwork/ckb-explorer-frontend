@@ -35,7 +35,7 @@ const FooterDiv = styled.div`
       display: flex;
       flex-wrap: wrap;
 
-      @media (max-width: 320px) {
+      @media (max-width: 700px) {
         flex-direction: column;
         flex-wrap: nowrap;
       }
