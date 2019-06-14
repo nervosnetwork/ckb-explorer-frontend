@@ -302,9 +302,14 @@ const CellScriptItem = ({ type, cell }: { type: CellType; cell: InputOutput }) =
             onKeyPress={() => {}}
             onClick={() => {
               const textarea = document.getElementById(`script__textarea__${cell.id}`) as HTMLTextAreaElement
-              textarea.select()
-              document.execCommand('Copy')
-              window.getSelection().removeAllRanges()
+              const range = document.createRange()
+              range.selectNodeContents(textarea)
+              const selection = window.getSelection()
+              selection.removeAllRanges()
+              selection.addRange(range)
+              textarea.setSelectionRange(0, 999999)
+              document.execCommand('copy')
+
               appContext.toastMessage('Copied', 3000)
             }}
           >
