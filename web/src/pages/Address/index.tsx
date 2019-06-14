@@ -216,7 +216,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               <SimpleLabel
                 image={AddressHashIcon}
                 label="Address: "
-                value={`${startEndEllipsis(addressData.address_hash)}`}
+                value={`${startEndEllipsis(addressData.address_hash, 12)}`}
                 lengthNoLimit
               />
             ) : (
