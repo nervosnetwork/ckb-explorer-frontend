@@ -117,8 +117,13 @@ export const BlockCommonContent = styled.div`
       display: flex;
       flex-direction: column;
 
+      > div:nth-child(1) {
+        min-width: 100%;
+      }
+
       > div:nth-child(2) {
         margin-left: 0;
+        min-width: 100%;
       }
     }
   }
