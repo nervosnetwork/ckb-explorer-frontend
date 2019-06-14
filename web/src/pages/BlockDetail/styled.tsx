@@ -34,7 +34,7 @@ export const BlockDetailTitlePanel = styled.div`
       @media (max-width: 700px) {
         font-size: 14px;
         height: 40px;
-        width: 85%;
+        width: 75%;
       }
       white-space: normal;
       word-wrap: break-word;
