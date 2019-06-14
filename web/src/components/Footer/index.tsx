@@ -35,6 +35,11 @@ const FooterDiv = styled.div`
       display: flex;
       flex-wrap: wrap;
 
+      @media (max-width: 320px) {
+        flex-direction: column;
+        flex-wrap: nowrap;
+      }
+
       .footer__top__logo {
         display: flex;
         align-items: center;
@@ -45,10 +50,6 @@ const FooterDiv = styled.div`
         img {
           width: ${(props: { width: number }) => (160 * props.width) / 1920}px;
           height: auto;
-
-          @media (max-width: 320px) {
-            width: 25px;
-          }
         }
       }
 
