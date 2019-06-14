@@ -205,7 +205,6 @@ export const AddressScriptContent = styled.div`
   width: 100%;
   padding: 18px 30px 10px 25px;
   font-size: 16px;
-  font-weight: bold;
   color: #4d4d4d;
 
   @media (max-width: 700px) {
@@ -233,7 +232,7 @@ export const ScriptLabelItemPanel = styled.div`
 
   > div {
     margin-left: 8px;
-    color: #888888;
+    color: rgb(77, 77, 77);
     font-size: 14px;
   }
 
