@@ -142,7 +142,7 @@ export default () => {
     },
     {
       name: 'Hash Rate',
-      value: `${Number(statistics.hash_rate).toFixed()} gps`,
+      value: `${(Number(statistics.hash_rate) * 1000).toFixed()} gps`,
       image: HashRateImage,
       tip: 'Average Hash Rate of the last 500 blocks',
     },
