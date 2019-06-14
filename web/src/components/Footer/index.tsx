@@ -40,7 +40,11 @@ const FooterDiv = styled.div`
         align-items: center;
         justify-content: center;
         margin: 0 auto;
-        width: 300px;
+        width: 320px;
+
+        @media (max-width: 320px) {
+          width: 400px;
+        }
 
         img {
           width: ${(props: { width: number }) => (160 * props.width) / 1920}px;
@@ -111,7 +115,7 @@ const FooterDiv = styled.div`
 `
 
 const FooterItemPanel = styled.a`
-  margin-left: 12px;
+  margin-left: 6px;
   margin-top: 15px;
   display: flex;
   flex-direction: column;
@@ -136,7 +140,7 @@ const FooterItemPanel = styled.a`
   }
 
   @media (max-width: 700px) {
-    width: 30px;
+    width: 35px;
 
     >div: nth-child(1) {
       width: 18px;
