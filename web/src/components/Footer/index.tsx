@@ -40,15 +40,15 @@ const FooterDiv = styled.div`
         align-items: center;
         justify-content: center;
         margin: 0 auto;
-        width: 320px;
-
-        @media (max-width: 320px) {
-          width: 400px;
-        }
+        width: 276px;
 
         img {
           width: ${(props: { width: number }) => (160 * props.width) / 1920}px;
           height: auto;
+
+          @media (max-width: 320px) {
+            width: 25px;
+          }
         }
       }
 
