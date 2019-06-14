@@ -290,14 +290,18 @@ const CellScriptItem = ({ type, cell }: { type: CellType; cell: InputOutput }) =
 
       {showScript && (
         <div className="script__content">
-          <textarea id="script__textarea" value={JSON.stringify(isScript ? script : cellData, null, 4)} readOnly />
+          <textarea
+            id={`script__textarea__${cell.id}`}
+            value={JSON.stringify(isScript ? script : cellData, null, 4)}
+            readOnly
+          />
           <div
             className="script__copy"
             role="button"
             tabIndex={-1}
             onKeyPress={() => {}}
             onClick={() => {
-              const textarea = document.getElementById('script__textarea') as HTMLTextAreaElement
+              const textarea = document.getElementById(`script__textarea__${cell.id}`) as HTMLTextAreaElement
               textarea.select()
               document.execCommand('Copy')
               window.getSelection().removeAllRanges()
