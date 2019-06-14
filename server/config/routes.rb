@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   require "sidekiq_unique_jobs/web"
   mount Sidekiq::Web => "/sidekiq"
 
+  root "application#homepage"
+
   namespace :api do
     namespace :v1 do
       resources :blocks, only: %i(index show)

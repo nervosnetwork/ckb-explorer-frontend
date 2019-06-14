@@ -2,6 +2,10 @@ class ApplicationController < ActionController::API
   before_action :check_header_info
   rescue_from Api::V1::Exceptions::Error, with: :api_error
 
+  def homepage
+    render json: { message: "Please read more API info at https://github.com/nervosnetwork/ckb-explorer/" }
+  end
+
   private
 
   def api_error(error)
