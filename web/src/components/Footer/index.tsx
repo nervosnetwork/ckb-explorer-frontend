@@ -40,7 +40,7 @@ const FooterDiv = styled.div`
         align-items: center;
         justify-content: center;
         margin: 0 auto;
-        width: 276px;
+        width: 300px;
 
         img {
           width: ${(props: { width: number }) => (160 * props.width) / 1920}px;
