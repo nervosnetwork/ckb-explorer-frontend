@@ -234,6 +234,7 @@ export const ScriptLabelItemPanel = styled.div`
   > div {
     margin-left: 8px;
     color: #888888;
+    font-size: 14px;
   }
 
   > code {
