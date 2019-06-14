@@ -114,7 +114,7 @@ const HeaderMobilePanel = styled.div`
   position: -webkit-sticky;
   top: 0;
   z-index: 1;
-  padding: 1px 25px;
+  padding: 1px 20px;
 `
 
 const HeaderMobileDiv = styled.div`
@@ -193,7 +193,7 @@ const menus = [
 ]
 
 const NORMAL_HEIGHT = 42
-const SEARCH_HEIGHT = 87
+const SEARCH_HEIGHT = 95
 
 export default ({ search = true }: { search?: boolean }) => {
   const [height, setHeight] = useState(NORMAL_HEIGHT)
