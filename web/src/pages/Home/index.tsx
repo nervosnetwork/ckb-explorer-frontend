@@ -74,15 +74,12 @@ export default () => {
 
   const appContext = useContext(AppContext)
   const getLatestBlocks = () => {
-    appContext.showLoading()
     fetchBlocks()
       .then(json => {
         const { data } = json as Response<BlockWrapper[]>
         setBlocksWrappers(data)
-        appContext.hideLoading()
       })
       .catch(() => {
-        appContext.hideLoading()
         appContext.toastMessage('Network exception, please try again later', 3000)
       })
   }
