@@ -36,7 +36,6 @@ import { StatisticsWrapper, Statistics } from '../../http/response/Statistics'
 import { Response } from '../../http/response/Response'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
-import { parseHashRate } from '../../utils/number'
 
 const BlockchainItem = ({ name, value, image, tip }: { name: string; value: string; image: any; tip?: string }) => {
   return (
@@ -143,7 +142,7 @@ export default () => {
     },
     {
       name: 'Hash Rate',
-      value: parseHashRate(Number(statistics.hash_rate) * 1000),
+      value: `${Number(statistics.hash_rate).toFixed()} gps`,
       image: HashRateImage,
       tip: 'Average Hash Rate of the last 500 blocks',
     },
