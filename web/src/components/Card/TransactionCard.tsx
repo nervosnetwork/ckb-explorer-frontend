@@ -81,7 +81,7 @@ const AddressHashItem = (input: InputOutput, address?: string) => {
     if (address && input.address_hash === address) {
       return (
         <div key={input.id}>
-          <CardLabelItem value={`${startEndEllipsis(input.address_hash, 16)}`} />
+          <CardLabelItem value={`${startEndEllipsis(input.address_hash, 14)}`} />
           <CardLabelItem value={`${shannonToCkb(input.capacity)} CKB`} />
         </div>
       )
@@ -89,7 +89,7 @@ const AddressHashItem = (input: InputOutput, address?: string) => {
     return (
       <div key={input.id}>
         <CardLabelItem
-          value={`${startEndEllipsis(input.address_hash, 16)}`}
+          value={`${startEndEllipsis(input.address_hash, 14)}`}
           to={`/address/${input.address_hash}`}
           highLight
         />
@@ -109,7 +109,7 @@ const TransactionCard = ({ transaction, address }: { transaction: Transaction; a
   return (
     <CardPanel>
       <CardLabelItem
-        value={`${startEndEllipsis(transaction.transaction_hash, 16)}`}
+        value={`${startEndEllipsis(transaction.transaction_hash, 14)}`}
         to={`/transaction/${transaction.transaction_hash}`}
         highLight
       />
