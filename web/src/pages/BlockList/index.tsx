@@ -53,7 +53,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   }
 
   const getBlocks = (page_p: number, size_p: number) => {
-    appContext.showLoading()
     fetchBlockList(page_p, size_p)
       .then(response => {
         const { data, meta } = response as Response<BlockWrapper[]>
@@ -63,10 +62,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
           setPageSize(page_size)
         }
         setBlockWrappers(() => data)
-        appContext.hideLoading()
       })
       .catch(() => {
-        appContext.hideLoading()
         appContext.toastMessage('Network exception, please try again later', 3000)
       })
   }

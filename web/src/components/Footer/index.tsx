@@ -35,6 +35,11 @@ const FooterDiv = styled.div`
       display: flex;
       flex-wrap: wrap;
 
+      @media (max-width: 700px) {
+        flex-direction: column;
+        flex-wrap: nowrap;
+      }
+
       .footer__top__logo {
         display: flex;
         align-items: center;
@@ -111,7 +116,7 @@ const FooterDiv = styled.div`
 `
 
 const FooterItemPanel = styled.a`
-  margin-left: 12px;
+  margin-left: 6px;
   margin-top: 15px;
   display: flex;
   flex-direction: column;
@@ -136,7 +141,7 @@ const FooterItemPanel = styled.a`
   }
 
   @media (max-width: 700px) {
-    width: 30px;
+    width: 35px;
 
     >div: nth-child(1) {
       width: 18px;

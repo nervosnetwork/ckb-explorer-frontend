@@ -34,7 +34,7 @@ export const BlockDetailTitlePanel = styled.div`
       @media (max-width: 700px) {
         font-size: 14px;
         height: 40px;
-        width: 85%;
+        width: 75%;
       }
       white-space: normal;
       word-wrap: break-word;
@@ -117,8 +117,13 @@ export const BlockCommonContent = styled.div`
       display: flex;
       flex-direction: column;
 
+      > div:nth-child(1) {
+        min-width: 100%;
+      }
+
       > div:nth-child(2) {
         margin-left: 0;
+        min-width: 100%;
       }
     }
   }
@@ -126,6 +131,7 @@ export const BlockCommonContent = styled.div`
 
 export const BlockMultiLinesPanel = styled.div`
   margin-left: 10px;
+  margin-bottom: 6px;
 
   > div {
     font-size: 16px;

@@ -112,44 +112,26 @@ const ScriptComponent = ({
                   }
                   newCellInputOutput.select = newCellInputOutput.select === item ? null : item
                   if (item === 'Lock Script') {
-                    appContext.showLoading()
-                    fetchScript(cellType, 'lock_scripts', cellInputOutput.id)
-                      .then(json => {
-                        const { data } = json as Response<ScriptWrapper>
-                        setScript(data ? data.attributes : initScript)
-                        updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
-                        appContext.hideLoading()
-                      })
-                      .catch(() => {
-                        appContext.hideLoading()
-                      })
+                    fetchScript(cellType, 'lock_scripts', cellInputOutput.id).then(json => {
+                      const { data } = json as Response<ScriptWrapper>
+                      setScript(data ? data.attributes : initScript)
+                      updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
+                    })
                   } else if (item === 'Type Script') {
-                    appContext.showLoading()
-                    fetchScript(cellType, 'type_scripts', cellInputOutput.id)
-                      .then(json => {
-                        const { data } = json as Response<ScriptWrapper>
-                        setScript(data ? data.attributes : initScript)
-                        updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
-                        appContext.hideLoading()
-                      })
-                      .catch(() => {
-                        appContext.hideLoading()
-                      })
+                    fetchScript(cellType, 'type_scripts', cellInputOutput.id).then(json => {
+                      const { data } = json as Response<ScriptWrapper>
+                      setScript(data ? data.attributes : initScript)
+                      updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
+                    })
                   } else {
-                    appContext.showLoading()
-                    fetchCellData(cellType, cellInputOutput.id)
-                      .then((data: any) => {
-                        const dataValue = data
-                        if (data && cellInputOutput.isGenesisOutput) {
-                          dataValue.data = hexToUtf8(data.data.substr(2))
-                        }
-                        setCellData(dataValue || initCellData)
-                        updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
-                        appContext.hideLoading()
-                      })
-                      .catch(() => {
-                        appContext.hideLoading()
-                      })
+                    fetchCellData(cellType, cellInputOutput.id).then((data: any) => {
+                      const dataValue = data
+                      if (data && cellInputOutput.isGenesisOutput) {
+                        dataValue.data = hexToUtf8(data.data.substr(2))
+                      }
+                      setCellData(dataValue || initCellData)
+                      updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
+                    })
                   }
                 }}
               >
@@ -272,7 +254,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   }
 
   const getTransaction = () => {
-    appContext.showLoading()
     fetchTransactionByHash(hash)
       .then(json => {
         const { data, error } = json as Response<TransactionWrapper>
@@ -285,10 +266,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           }
           setTransaction(transactionValue)
         }
-        appContext.hideLoading()
       })
       .catch(() => {
-        appContext.hideLoading()
         appContext.toastMessage('Network exception, please try again later', 3000)
       })
   }

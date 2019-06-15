@@ -7,6 +7,7 @@ export const validNumber = (value: any, defaultValue: number) => {
 
 export const startEndEllipsis = (value: string, length = 8) => {
   if (value === undefined || value === null) return ''
+  if (value.length <= 16) return value
   return `${value.substr(0, 16)}...${value.substr(value.length - length, length)}`
 }
 

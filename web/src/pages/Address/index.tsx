@@ -35,7 +35,7 @@ import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
-import { validNumber } from '../../utils/string'
+import { validNumber, startEndEllipsis } from '../../utils/string'
 import TransactionCard from '../../components/Card/TransactionCard'
 
 const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
@@ -152,10 +152,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   }
 
   const getAddressInfo = () => {
-    appContext.showLoading()
     fetchAddressInfo(identityHash)
       .then(json => {
-        appContext.hideLoading()
         const { data, error } = json as Response<AddressWrapper>
         if (error) {
           browserHistory.push(`/search/fail?q=${address}`)
@@ -164,16 +162,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         }
       })
       .catch(() => {
-        appContext.hideLoading()
         appContext.toastMessage('Network exception, please try again later', 3000)
       })
   }
 
   const getTransactions = (page_p: number, size_p: number) => {
-    appContext.showLoading()
     fetchTransactionsByAddress(identityHash, page_p, size_p)
       .then(json => {
-        appContext.hideLoading()
         const { data, meta } = json as Response<TransactionWrapper[]>
         if (meta) {
           const { total, page_size } = meta
@@ -183,7 +178,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         setTransactionWrappers(data)
       })
       .catch(() => {
-        appContext.hideLoading()
         appContext.toastMessage('Network exception, please try again later', 3000)
       })
   }
@@ -222,7 +216,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               <SimpleLabel
                 image={AddressHashIcon}
                 label="Address: "
-                value={`${addressData.address_hash}`}
+                value={`${startEndEllipsis(addressData.address_hash, 12)}`}
                 lengthNoLimit
               />
             ) : (

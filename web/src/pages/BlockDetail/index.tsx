@@ -224,7 +224,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   }
 
   const getBlockByHash = () => {
-    appContext.showLoading()
     fetchBlockByHash(hash)
       .then(json => {
         const { data, error } = json as Response<BlockWrapper>
@@ -238,10 +237,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           const size_p = validNumber(size, PageParams.PageSize)
           getTransactions(data.attributes.block_hash, page_p, size_p)
         }
-        appContext.hideLoading()
       })
       .catch(() => {
-        appContext.hideLoading()
         appContext.toastMessage('Network exception, please try again later', 3000)
       })
   }

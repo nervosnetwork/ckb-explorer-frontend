@@ -75,10 +75,8 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
     if (!query) {
       appContext.toastMessage('Please input valid content', 3000)
     } else {
-      appContext.showLoading()
       fetchSearchResult(query)
         .then((json: any) => {
-          appContext.hideLoading()
           const homeSearchBar = document.getElementById('home__search__bar') as HTMLInputElement
           homeSearchBar.value = ''
           const { data } = json
@@ -96,7 +94,6 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
           }
         })
         .catch(() => {
-          appContext.hideLoading()
           browserHistory.push(`/search/fail?q=${query}`)
         })
     }
