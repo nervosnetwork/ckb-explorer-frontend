@@ -33,7 +33,7 @@ const App = () => {
     response => {
       if (response.status === 503) {
         const { message } = response.data
-        appContext.errorMessage = message
+        appContext.errorMessage = message || appContext.errorMessage
         browserHistory.replace('/maintain')
       }
       return response
