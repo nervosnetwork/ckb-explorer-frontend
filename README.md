@@ -12,19 +12,27 @@ It supports searching block, transaction, address and includes two parts: [front
 
 * Node.js 11.10 or later
 
+### Edit .env file
+
+You need to edit .env.develop to set your own api url as ckb explorder server.
+
+``` shell
+  REACT_APP_API_URL = 'http://your-api-url'   # Set your own api url 
+```
+
 ### Installation
 
 ``` shell
   git clone https://github.com/nervosnetwork/ckb-explorer-frontend.git
   cd ckb-explorer-frontend
   yarn install   # install dependency libraries
-  yarn start     # run ckb explorer web on localhost
+  yarn start     # run ckb explorer frontend on localhost
 ```
 
 ### Development
 
 ``` shell
-  yarn build    # build ckb explorer web project
+  yarn build    # build ckb explorer frontend project
   yarn test     # run project test cases
 ```
 
