@@ -8,6 +8,7 @@ import Toast from './components/Toast'
 import withProviders from './providers'
 import AppContext from './contexts/App'
 import { axiosIns } from './http/fetcher'
+import browserHistory from './routes/history'
 
 const AppDiv = styled.div`
   width: 100vw;
@@ -33,6 +34,11 @@ const App = () => {
       return response
     },
     error => {
+      if (error.response.status === 503) {
+        const { message } = error.response.data
+        appContext.errorMessage = message || appContext.errorMessage
+        browserHistory.replace('/maintain')
+      }
       console.error(error.toString())
       return Promise.reject(error)
     },

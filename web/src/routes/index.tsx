@@ -13,6 +13,7 @@ import Transaction from '../pages/Transaction'
 import Address from '../pages/Address'
 import NotFoundPage from '../pages/404'
 import SearchFail from '../pages/SearchFail'
+import Maintain from '../pages/Maintain'
 
 export default () => {
   useEffect(() => {
@@ -35,19 +36,29 @@ export default () => {
           const hasSearch: boolean = !(props.location.pathname === '/search/fail')
           return (
             <Page>
-              <Header search={hasSearch} />
-              <Switch location={props.location}>
-                <Route path="/" exact component={Home} />
-                <Route path="/block/list" exact component={BlockList} />
-                <Route path="/block/:hash" exact component={Block} />
-                <Route path="/transaction/:hash" exact component={Transaction} />
-                <Route path="/address/:address" exact component={Address} />
-                <Route path="/lockhash/:hash" exact component={Address} />
-                <Route path="/search/fail" exact component={SearchFail} />
-                <Route path="/404" exact component={NotFoundPage} />
-                <Redirect from="*" to="/404" />
+              <Switch>
+                <Route path="/maintain" exact component={Maintain} />
+                <Route
+                  path="/"
+                  component={() => (
+                    <React.Fragment>
+                      <Header search={hasSearch} />
+                      <Switch location={props.location}>
+                        <Route path="/" exact component={Home} />
+                        <Route path="/block/list" exact component={BlockList} />
+                        <Route path="/block/:hash" exact component={Block} />
+                        <Route path="/transaction/:hash" exact component={Transaction} />
+                        <Route path="/address/:address" exact component={Address} />
+                        <Route path="/lockhash/:hash" exact component={Address} />
+                        <Route path="/search/fail" exact component={SearchFail} />
+                        <Route path="/404" exact component={NotFoundPage} />
+                        <Redirect from="*" to="/404" />
+                      </Switch>
+                      <Footer />
+                    </React.Fragment>
+                  )}
+                />
               </Switch>
-              <Footer />
             </Page>
           )
         }}
