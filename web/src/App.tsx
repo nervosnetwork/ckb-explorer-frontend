@@ -8,6 +8,7 @@ import Toast from './components/Toast'
 import withProviders from './providers'
 import AppContext from './contexts/App'
 import { axiosIns } from './http/fetcher'
+import browserHistory from './routes/history'
 
 const AppDiv = styled.div`
   width: 100vw;
@@ -30,6 +31,11 @@ const App = () => {
 
   axiosIns.interceptors.response.use(
     response => {
+      if (response.status === 503) {
+        const { message } = response.data
+        appContext.errorMessage = message
+        browserHistory.replace('/maintain')
+      }
       return response
     },
     error => {

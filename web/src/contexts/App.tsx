@@ -16,6 +16,7 @@ export interface App {
   toast: ToastMessage | null
   show: boolean
   modal: Modal | null
+  errorMessage: string
 
   appWidth: number
   appHeight: number
@@ -32,6 +33,7 @@ export const initApp: App = {
   toast: null,
   show: false,
   modal: null,
+  errorMessage: '',
   appWidth: window.innerWidth,
   appHeight: window.innerHeight,
   appLanguage: navigator.language || 'en',

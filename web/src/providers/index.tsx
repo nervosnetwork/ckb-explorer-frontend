@@ -5,6 +5,7 @@ const withProviders = (Comp: React.ComponentType) => (props: React.Props<any>) =
   const [app, setApp] = useState(initApp)
   const appValue = {
     ...app,
+    errorMessage: 'The site is temporarily down for maintenance. Please check back soon.',
     resize: (appWidth: number, appHeight: number) => {
       setApp((state: any) => {
         return {
