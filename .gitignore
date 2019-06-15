@@ -6,4 +6,5 @@ node_modules/
 build/
 npm-debug.log
 *.log
-.env*
+.env.develop
+.env.production
