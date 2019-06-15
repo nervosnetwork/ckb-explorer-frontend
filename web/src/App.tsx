@@ -31,14 +31,14 @@ const App = () => {
 
   axiosIns.interceptors.response.use(
     response => {
-      if (response.status === 503) {
-        const { message } = response.data
-        appContext.errorMessage = message || appContext.errorMessage
-        browserHistory.replace('/maintain')
-      }
       return response
     },
     error => {
+      if (error.response.status === 503) {
+        const { message } = error.response.data
+        appContext.errorMessage = message || appContext.errorMessage
+        browserHistory.replace('/maintain')
+      }
       console.error(error.toString())
       return Promise.reject(error)
     },
