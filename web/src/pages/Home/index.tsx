@@ -95,7 +95,8 @@ export default () => {
       })
   }
 
-  const BLOCK_POLLING_TIME = 1000
+  const BLOCK_POLLING_TIME = 4000
+
   useEffect(() => {
     getLatestBlocks()
     getStatistics()
