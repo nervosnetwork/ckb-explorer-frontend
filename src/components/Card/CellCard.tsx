@@ -41,6 +41,7 @@ const CardItemPanel = styled.div`
 
   .card__value {
     color: ${(props: { highLight: boolean }) => (props.highLight ? '#3CC68A' : '#888888')};
+    font-weight: ${(props: { highLight: boolean }) => (props.highLight ? '900' : '450')};
     font-size: 14px;
   }
 
@@ -51,7 +52,6 @@ const CardItemPanel = styled.div`
     }
 
     .card__value {
-      color: ${(props: { highLight: boolean }) => (props.highLight ? '#3CC68A' : '#888888')};
       font-size: 12px;
     }
   }
