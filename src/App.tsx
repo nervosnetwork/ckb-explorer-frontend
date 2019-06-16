@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import Routers from './routes'
 import Loading from './components/Loading'
@@ -16,7 +16,6 @@ const AppDiv = styled.div`
 `
 const App = () => {
   const appContext = useContext(AppContext)
-  let resizeListener: any = null
 
   // global fetch interceptor setting
   axiosIns.interceptors.request.use(
@@ -44,15 +43,6 @@ const App = () => {
     },
   )
 
-  useEffect(() => {
-    resizeListener = () => {
-      appContext.resize(window.innerWidth, window.innerHeight)
-    }
-    window.addEventListener('resize', resizeListener)
-    return () => {
-      if (resizeListener) window.removeEventListener('resize', resizeListener)
-    }
-  }, [])
   return (
     <AppDiv>
       <Routers />
