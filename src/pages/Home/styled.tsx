@@ -118,6 +118,7 @@ export const HomeHeaderItemMobilePanel = styled.div`
     text-align: center;
     font-size: 14px;
     margin-top: 20px;
+    font-weight: 900;
   }
 
   .blockchain__item__name {
@@ -125,6 +126,7 @@ export const HomeHeaderItemMobilePanel = styled.div`
     text-align: center;
     font-size: 12px;
     margin-top: 5px;
+    font-weight: 900;
   }
 `
 
