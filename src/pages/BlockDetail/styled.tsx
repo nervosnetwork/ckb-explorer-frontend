@@ -3,8 +3,13 @@ import { CommonPagition } from '../BlockList/styled'
 
 export const BlockDetailPanel = styled.div`
   width: 100%;
-  margin-top: ${(props: { width: number }) => (100 * props.width) / 1920}px;
-  margin-bottom: ${(props: { width: number }) => (150 * props.width) / 1920}px;
+  margin-top: 60px;
+  margin-bottom: 90px;
+
+  @media (max-width: 700px) {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
 `
 
 export const BlockDetailTitlePanel = styled.div`
@@ -44,6 +49,8 @@ export const BlockDetailTitlePanel = styled.div`
       margin-left: 19px;
       @media (max-width: 700px) {
         margin-left: 8px;
+        width: 20px;
+        height: 17.5px;
       }
       width: 24px;
       height: 21px;
@@ -237,5 +244,17 @@ export const BlockTransactionsPagition = styled(CommonPagition)`
 
   @media (max-width: 700px) {
     margin: 20px 0 30px 3%;
+  }
+`
+
+export const BlockItemPC = styled.div`
+  @media (max-width: 700px) {
+    display: none;
+  }
+`
+
+export const BlockItemMobile = styled.div`
+  @media (min-width: 700px) {
+    display: none;
   }
 `

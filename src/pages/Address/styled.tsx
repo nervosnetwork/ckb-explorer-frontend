@@ -5,7 +5,11 @@ export const AddressContentPanel = styled.div`
   dispaly: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: ${(props: { width: number }) => (98 * props.width) / 1920}px;
+  margin-top: 59px;
+
+  @media (max-width: 700px) {
+    margin-top: 20px;
+  }
 `
 
 export const AddressTitlePanel = styled.div`
@@ -46,6 +50,8 @@ export const AddressTitlePanel = styled.div`
       margin-left: 19px;
       @media (max-width: 700px) {
         margin-left: 8px;
+        width: 18px;
+        height: 18px;
       }
       width: 21px;
       height: 21px;
@@ -96,10 +102,10 @@ export const AddressCommonContent = styled.div`
   flex-direction: column;
 
   @media (max-width: 700px) {
-    width: 90%;
+    width: 88%;
     overflow-x: auto;
     padding: 10px;
-    margin: 10px 10px;
+    margin: 10px 6%;
     background: white;
     border: 0px solid white;
     border-radius: 6px;
@@ -176,6 +182,7 @@ export const AddressScriptLabelPanel = styled.div`
     @media (max-width: 700px) {
       width: 15px;
       height: 15px;
+      display: none;
     }
   }
 
@@ -233,7 +240,11 @@ export const ScriptLabelItemPanel = styled.div`
   > div {
     margin-left: 8px;
     color: rgb(77, 77, 77);
-    font-size: 14px;
+    font-size: 16px;
+
+    @media (max-width: 700px) {
+      font-size: 14px;
+    }
   }
 
   > code {

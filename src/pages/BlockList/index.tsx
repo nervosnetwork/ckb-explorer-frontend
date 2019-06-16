@@ -5,7 +5,7 @@ import 'rc-pagination/assets/index.css'
 import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import AppContext from '../../contexts/App'
-import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition } from './styled'
+import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition, BlockListPC, BlockListMobile } from './styled'
 import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import {
@@ -84,10 +84,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
 
   return (
     <Content>
-      <BlockListPanel width={window.innerWidth} className="container">
+      <BlockListPanel className="container">
         <ContentTitle>Blocks</ContentTitle>
-
-        {window.innerWidth > 700 ? (
+        <BlockListPC>
           <ContentTable>
             <TableTitleRow>
               <TableTitleItem image={BlockHeightIcon} title="Height" />
@@ -111,7 +110,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
                 )
               })}
           </ContentTable>
-        ) : (
+        </BlockListPC>
+        <BlockListMobile>
           <ContentTable>
             <div className="block__panel">
               {blockWrappers &&
@@ -121,32 +121,19 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
                 })}
             </div>
           </ContentTable>
-        )}
+        </BlockListMobile>
         <BlocksPagition>
-          {window.innerWidth > 700 ? (
-            <Pagination
-              showQuickJumper
-              showSizeChanger
-              defaultPageSize={pageSize}
-              pageSize={pageSize}
-              defaultCurrent={pageNo}
-              current={pageNo}
-              total={totalBlocks}
-              onChange={onChange}
-              locale={localeInfo}
-            />
-          ) : (
-            <Pagination
-              showSizeChanger
-              defaultPageSize={pageSize}
-              pageSize={pageSize}
-              defaultCurrent={pageNo}
-              current={pageNo}
-              total={totalBlocks}
-              onChange={onChange}
-              locale={localeInfo}
-            />
-          )}
+          <Pagination
+            showQuickJumper
+            showSizeChanger
+            defaultPageSize={pageSize}
+            pageSize={pageSize}
+            defaultCurrent={pageNo}
+            current={pageNo}
+            total={totalBlocks}
+            onChange={onChange}
+            locale={localeInfo}
+          />
         </BlocksPagition>
       </BlockListPanel>
     </Content>

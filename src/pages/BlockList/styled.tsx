@@ -2,11 +2,12 @@ import styled from 'styled-components'
 
 export const BlockListPanel = styled.div`
   width: 100%;
-  margin-top: ${(props: { width: number }) => (100 * props.width) / 1920}px;
-  margin-bottom: ${(props: { width: number }) => (150 * props.width) / 1920}px;
+  margin-top: 60px;
+  margin-bottom: 90px;
 
   @media (max-width: 700px) {
-    margin 20px 0px;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 `
 
@@ -77,4 +78,16 @@ export const BlocksPagition = styled(CommonPagition)`
   }
   width: 100%;
   overflow-x: auto;
+`
+
+export const BlockListPC = styled.div`
+  @media (max-width: 700px) {
+    display: none;
+  }
+`
+
+export const BlockListMobile = styled.div`
+  @media (min-width: 700px) {
+    display: none;
+  }
 `

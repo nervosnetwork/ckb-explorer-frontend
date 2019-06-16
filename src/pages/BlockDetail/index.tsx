@@ -14,6 +14,8 @@ import {
   BlockHightLabel,
   BlockTransactionsPanel,
   BlockTransactionsPagition,
+  BlockItemPC,
+  BlockItemMobile,
 } from './styled'
 import AppContext from '../../contexts/App'
 import Content from '../../components/Content'
@@ -329,7 +331,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: ProofIcon,
       label: 'Proof:',
-      value: `${window.innerWidth > 700 ? blockData.proof : startEndEllipsis(blockData.proof, 9)}`,
+      value: `${startEndEllipsis(blockData.proof, 9)}`,
     },
   ]
 
@@ -348,7 +350,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
 
   return (
     <Content>
-      <BlockDetailPanel width={window.innerWidth} className="container">
+      <BlockDetailPanel className="container">
         <BlockDetailTitle hash={blockData.block_hash} />
         <BlockOverview value="Overview" />
         <BlockCommonContent>
@@ -369,7 +371,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                     <SimpleLabel
                       image={BlockRightItems[0].image}
                       label={BlockRightItems[0].label}
-                      value={startEndEllipsis(BlockRightItems[0].value, window.innerWidth > 700 ? 8 : 5)}
+                      value={startEndEllipsis(BlockRightItems[0].value, 5)}
                       style={{
                         fontFamily: 'source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace',
                       }}
@@ -394,18 +396,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <div>
             {BlockRootInfoItems.map(item => {
               return (
-                item &&
-                (window.innerWidth > 700 ? (
-                  <SimpleLabel
-                    key={item.label}
-                    image={item.image}
-                    label={item.label}
-                    value={item.value}
-                    lengthNoLimit
-                  />
-                ) : (
-                  <MultiLinesItem key={item.label} label={item.label} value={item.value} />
-                ))
+                item && (
+                  <React.Fragment>
+                    <BlockItemPC>
+                      <SimpleLabel
+                        key={item.label}
+                        image={item.image}
+                        label={item.label}
+                        value={item.value}
+                        lengthNoLimit
+                      />
+                    </BlockItemPC>
+                    <BlockItemMobile>
+                      <MultiLinesItem key={item.label} label={item.label} value={item.value} />
+                    </BlockItemMobile>
+                  </React.Fragment>
+                )
               )
             })}
           </div>
@@ -416,8 +422,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         <BlockTransactionsPanel>
           <BlockOverview value="Transactions" />
           <div>
-            {window.innerWidth > 700 &&
-              transactionWrappers &&
+            {transactionWrappers &&
               transactionWrappers.map((transaction: any) => {
                 return (
                   transaction && (
@@ -430,8 +435,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 )
               })}
 
-            {window.innerWidth <= 700 &&
-              transactionWrappers &&
+            {transactionWrappers &&
               transactionWrappers.map((transaction: any) => {
                 return (
                   transaction && (
@@ -444,30 +448,17 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               })}
           </div>
           <BlockTransactionsPagition>
-            {window.innerWidth > 700 ? (
-              <Pagination
-                showQuickJumper
-                showSizeChanger
-                defaultPageSize={pageSize}
-                pageSize={pageSize}
-                defaultCurrent={pageNo}
-                current={pageNo}
-                total={totalTransactions}
-                onChange={onChange}
-                locale={localeInfo}
-              />
-            ) : (
-              <Pagination
-                showSizeChanger
-                defaultPageSize={pageSize}
-                pageSize={pageSize}
-                defaultCurrent={pageNo}
-                current={pageNo}
-                total={totalTransactions}
-                onChange={onChange}
-                locale={localeInfo}
-              />
-            )}
+            <Pagination
+              showQuickJumper
+              showSizeChanger
+              defaultPageSize={pageSize}
+              pageSize={pageSize}
+              defaultCurrent={pageNo}
+              current={pageNo}
+              total={totalTransactions}
+              onChange={onChange}
+              locale={localeInfo}
+            />
           </BlockTransactionsPagition>
         </BlockTransactionsPanel>
       </BlockDetailPanel>

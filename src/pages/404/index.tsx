@@ -5,8 +5,8 @@ import NotFoundIcon from '../../assets/not_found_404.png'
 
 const NotFoundPanel = styled.div`
   width: 100%;
-  margin-top: ${(props: { width: number }) => (210 * props.width) / 1920}px;
-  margin-bottom: ${(props: { width: number }) => (174 * props.width) / 1920}px;
+  margin-top: 127px;
+  margin-bottom: 105px;
 `
 
 const NotFoundImage = styled.img`
@@ -25,7 +25,7 @@ const NotFoundImage = styled.img`
 export default () => {
   return (
     <Content>
-      <NotFoundPanel width={window.innerWidth} className="container">
+      <NotFoundPanel className="container">
         <NotFoundImage src={NotFoundIcon} alt="404" />
       </NotFoundPanel>
     </Content>
