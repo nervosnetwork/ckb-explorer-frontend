@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
-import logoIcon from '../../asserts/ckb_logo.png'
-import SearchLogo from '../../asserts/search.png'
-import testnetTipImage from '../../asserts/testnet_tip.png'
+import logoIcon from '../../assets/ckb_logo.png'
+import SearchLogo from '../../assets/search.png'
+import testnetTipImage from '../../assets/testnet_tip.png'
 
 const HeaderDiv = styled.div`
   width: 100%;

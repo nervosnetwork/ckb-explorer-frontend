@@ -23,12 +23,12 @@ import {
   ScriptLabelItemPanel,
   ScriptOtherArgs,
 } from './styled'
-import CopyIcon from '../../asserts/copy.png'
-import BalanceIcon from '../../asserts/address_balance.png'
-import AddressScriptIcon from '../../asserts/address_script.png'
-import TransactionsIcon from '../../asserts/transactions_green.png'
-import ItemPointIcon from '../../asserts/item_point.png'
-import AddressHashIcon from '../../asserts/lock_hash_address.png'
+import CopyIcon from '../../assets/copy.png'
+import BalanceIcon from '../../assets/address_balance.png'
+import AddressScriptIcon from '../../assets/address_script.png'
+import TransactionsIcon from '../../assets/transactions_green.png'
+import ItemPointIcon from '../../assets/item_point.png'
+import AddressHashIcon from '../../assets/lock_hash_address.png'
 import { Address, AddressWrapper } from '../../http/response/Address'
 import { Script } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'

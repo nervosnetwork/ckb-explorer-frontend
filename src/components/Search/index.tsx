@@ -6,7 +6,7 @@ import { BlockWrapper } from '../../http/response/Block'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { AddressWrapper } from '../../http/response/Address'
 import browserHistory from '../../routes/history'
-import SearchLogo from '../../asserts/search.png'
+import SearchLogo from '../../assets/search.png'
 
 const SearchPanel = styled.div`
   margin: 0 auto;
