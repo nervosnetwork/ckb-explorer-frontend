@@ -8,7 +8,7 @@ export const AddressContentPanel = styled.div`
   margin-top: 59px;
 
   @media (max-width: 700px) {
-    margin-top: 20px;
+    margin-top: 30px;
   }
 `
 
@@ -68,7 +68,7 @@ export const AddressOverviewPanel = styled.div`
   text-align: center;
 
   @media (max-width: 700px) {
-    margin-top: 25px;
+    margin-top: 30px;
     height: 50px;
     margin-bottom: 5px;
     font-size: 26px;
@@ -105,7 +105,7 @@ export const AddressCommonContent = styled.div`
     width: 88%;
     overflow-x: auto;
     padding: 10px;
-    margin: 10px 6%;
+    margin: 20px 6%;
     background: white;
     border: 0px solid white;
     border-radius: 6px;
@@ -188,6 +188,7 @@ export const AddressScriptLabelPanel = styled.div`
 
   > span {
     font-size: 18px;
+    font-weight: 900;
     @media (max-width: 700px) {
       font-size: 16px;
 
