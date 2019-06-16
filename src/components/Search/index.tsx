@@ -26,7 +26,7 @@ const SearchPanel = styled.div`
     font-size: 16px;
     @media (max-width: 700px) {
       font-size: 12px;
-      width: 80%;
+      width: 100%;
       padding-left: 10px;
       padding-right: 20px;
       border-radius: 6px;
