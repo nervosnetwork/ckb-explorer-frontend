@@ -40,7 +40,7 @@ export default () => {
                 <Route path="/maintain" exact component={Maintain} />
                 <Route
                   path="/"
-                  component={() => (
+                  render={() => (
                     <React.Fragment>
                       <Header search={hasSearch} />
                       <Switch location={props.location}>
