@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Content from '../../components/Content'
-import NotFoundIcon from '../../asserts/not_found_404.png'
+import NotFoundIcon from '../../assets/not_found_404.png'
 
 const NotFoundPanel = styled.div`
   width: 100%;

@@ -15,11 +15,11 @@ import {
   TransactionCommonContent,
 } from './styled'
 
-import BlockHeightIcon from '../../asserts/block_height_green.png'
-import TimestampIcon from '../../asserts/timestamp_green.png'
-import TransactionIcon from '../../asserts/transaction_fee.png'
-import CopyGreenIcon from '../../asserts/copy_green.png'
-import CopyIcon from '../../asserts/copy.png'
+import BlockHeightIcon from '../../assets/block_height_green.png'
+import TimestampIcon from '../../assets/timestamp_green.png'
+import TransactionIcon from '../../assets/transaction_fee.png'
+import CopyGreenIcon from '../../assets/copy_green.png'
+import CopyIcon from '../../assets/copy.png'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { Transaction, InputOutput, TransactionWrapper } from '../../http/response/Transaction'

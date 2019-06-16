@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import BlockchainTipImage from '../../asserts/blockchain_tip_background.png'
+import BlockchainTipImage from '../../assets/blockchain_tip_background.png'
 
 export const HomeHeaderPanel = styled.div`
   min-height: 180px;

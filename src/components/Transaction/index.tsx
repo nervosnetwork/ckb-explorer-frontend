@@ -4,7 +4,7 @@ import { TransactionsCell, TransactionsItem, CellHash, CellHashHighLight } from 
 import { parseDate } from '../../utils/date'
 import { shannonToCkb } from '../../utils/util'
 import { startEndEllipsis } from '../../utils/string'
-import InputOutputIcon from '../../asserts/input_arrow_output.png'
+import InputOutputIcon from '../../assets/input_arrow_output.png'
 import { InputOutput } from '../../http/response/Transaction'
 
 const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => {
