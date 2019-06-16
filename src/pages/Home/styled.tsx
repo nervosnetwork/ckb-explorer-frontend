@@ -59,6 +59,7 @@ export const HomeHeaderItemPanel = styled.div`
     color: #3cc68a;
     text-align: center;
     font-size: 26px;
+    font-weight: 900;
     margin-top: 60px;
   }
 
@@ -67,6 +68,7 @@ export const HomeHeaderItemPanel = styled.div`
     text-align: center;
     font-size: 16px;
     margin-top: 12px;
+    font-weight: 900;
   }
 
   .blockchain__item__tip {
