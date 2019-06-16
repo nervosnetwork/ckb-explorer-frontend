@@ -29,7 +29,7 @@ const FooterDiv = styled.div`
     padding: 20px 12px;
     align-items: center;
     justify-content: center;
-    min-height: ${(props: { width: number }) => (380 * props.width) / 1920}px;
+    min-height: 145px;
 
     .container {
       display: flex;
@@ -48,8 +48,12 @@ const FooterDiv = styled.div`
         width: 276px;
 
         img {
-          width: ${(props: { width: number }) => (160 * props.width) / 1920}px;
+          width: 110px;
           height: auto;
+
+          @media (max-width: 700px) {
+            width: 40px;
+          }
         }
       }
 
@@ -101,7 +105,6 @@ const FooterDiv = styled.div`
     padding: 20px;
     align-items: center;
     justify-content: center;
-    min-height: ${(props: { width: number }) => (102 * props.width) / 1920}px;
     border-top: 1px solid white;
     font-size: 16px;
     line-height: 22px;
@@ -240,7 +243,7 @@ const FooterItem = (link: any) => {
 
 export default () => {
   return (
-    <FooterDiv width={window.innerWidth}>
+    <FooterDiv>
       <div className="footer__top">
         <div className="container">
           <div className="footer__top__logo">

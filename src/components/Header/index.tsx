@@ -7,6 +7,9 @@ import SearchLogo from '../../assets/search.png'
 import testnetTipImage from '../../assets/testnet_tip.png'
 
 const HeaderDiv = styled.div`
+  @media (max-width: 700px) {
+    display: none;
+  }
   width: 100%;
   min-height: 80px;
   overflow: hidden;
@@ -25,7 +28,6 @@ const HeaderDiv = styled.div`
     align-items: center;
   }
   .header__logo {
-    padding-left: ${(props: { width: number }) => (7 * props.width) / 1920}px;
     .header__logo__img {
       width: 182px;
       height: auto;
@@ -35,11 +37,11 @@ const HeaderDiv = styled.div`
   .header__menus {
     padding-top: 26px;
     padding-bottom: 27px;
-    padding-left: ${(props: { width: number }) => (41 * props.width) / 1920}px;
+    padding-left: 30px;
     min-height: 75px;
     .header__menus__item {
-      margin-left: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
-      margin-right: ${(props: { width: number }) => (92 * props.width) / 1920 / 2}px;
+      margin-left: 34px;
+      margin-right: 34px;
       font-size: 22px;
       font-weight: 600;
       line-height: 30px;
@@ -58,8 +60,8 @@ const HeaderDiv = styled.div`
       display: flex;
       align-items: center;
       height: 50px;
-      width: ${(props: { width: number }) => (550 * props.width) / 1920}px;
-      min-width: ${(props: { width: number }) => (380 * props.width) / 1920}px;
+      width: 398px;
+      min-width: 229px;
     }
 
     .header__testnet__panel {
@@ -106,6 +108,9 @@ const HeaderDiv = styled.div`
 `
 
 const HeaderMobilePanel = styled.div`
+  @media(min-width: 700px) {
+    display: none;
+  }
   height: ${(props: { height: number }) => props.height}px
   overflow: hidden;
   box-shadow: 0 2px 4px 0 #141414;
@@ -118,6 +123,9 @@ const HeaderMobilePanel = styled.div`
 `
 
 const HeaderMobileDiv = styled.div`
+  @media (min-width: 700px) {
+    display: none;
+  }
   width: 100%;
   height: 42px;
   display: flex;
@@ -178,6 +186,9 @@ const HeaderMobileDiv = styled.div`
 `
 
 const HeaderSearchPanel = styled.div`
+  @media (min-width: 700px) {
+    display: none;
+  }
   width: 100%;
   height: 45px;
   display: flex;
@@ -205,41 +216,9 @@ export default ({ search = true }: { search?: boolean }) => {
     setHeight(NORMAL_HEIGHT)
   }, [window.location.href])
 
-  return window.innerWidth > 700 ? (
-    <HeaderDiv width={window.innerWidth}>
-      <Link to="/" className="header__logo">
-        <img className="header__logo__img" src={logoIcon} alt="logo" />
-      </Link>
-      <div className="header__menus">
-        {menus.map((menu: any) => {
-          return (
-            <a
-              key={menu.name}
-              className="header__menus__item"
-              href={menu.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {menu.name}
-            </a>
-          )
-        })}
-      </div>
-      {search && (
-        <div className="header__search">
-          <div className="header__search__component">
-            <Search />
-          </div>
-          <div className="header__testnet__panel">
-            <div className="header__testnet__flag">TESTNET</div>
-            <div className="header__testnet__tip">Mainnet is comming</div>
-          </div>
-        </div>
-      )}
-    </HeaderDiv>
-  ) : (
-    <HeaderMobilePanel height={height}>
-      <HeaderMobileDiv>
+  return (
+    <React.Fragment>
+      <HeaderDiv>
         <Link to="/" className="header__logo">
           <img className="header__logo__img" src={logoIcon} alt="logo" />
         </Link>
@@ -260,20 +239,53 @@ export default ({ search = true }: { search?: boolean }) => {
         </div>
         {search && (
           <div className="header__search">
-            <div
-              className="header__search__component"
-              onKeyDown={() => {}}
-              onClick={() => setHeight(height === NORMAL_HEIGHT ? SEARCH_HEIGHT : NORMAL_HEIGHT)}
-              role="button"
-              tabIndex={-1}
-            >
-              <img className="header__search__image" src={SearchLogo} alt="search" />
+            <div className="header__search__component">
+              <Search />
             </div>
-            <div className="header__testnet">TESTNET</div>
+            <div className="header__testnet__panel">
+              <div className="header__testnet__flag">TESTNET</div>
+              <div className="header__testnet__tip">Mainnet is comming</div>
+            </div>
           </div>
         )}
-      </HeaderMobileDiv>
-      <HeaderSearchPanel>{search && <Search />}</HeaderSearchPanel>
-    </HeaderMobilePanel>
+      </HeaderDiv>
+      <HeaderMobilePanel height={height}>
+        <HeaderMobileDiv>
+          <Link to="/" className="header__logo">
+            <img className="header__logo__img" src={logoIcon} alt="logo" />
+          </Link>
+          <div className="header__menus">
+            {menus.map((menu: any) => {
+              return (
+                <a
+                  key={menu.name}
+                  className="header__menus__item"
+                  href={menu.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {menu.name}
+                </a>
+              )
+            })}
+          </div>
+          {search && (
+            <div className="header__search">
+              <div
+                className="header__search__component"
+                onKeyDown={() => {}}
+                onClick={() => setHeight(height === NORMAL_HEIGHT ? SEARCH_HEIGHT : NORMAL_HEIGHT)}
+                role="button"
+                tabIndex={-1}
+              >
+                <img className="header__search__image" src={SearchLogo} alt="search" />
+              </div>
+              <div className="header__testnet">TESTNET</div>
+            </div>
+          )}
+        </HeaderMobileDiv>
+        <HeaderSearchPanel>{search && <Search />}</HeaderSearchPanel>
+      </HeaderMobilePanel>
+    </React.Fragment>
   )
 }

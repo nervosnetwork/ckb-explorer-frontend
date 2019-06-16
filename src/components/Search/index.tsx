@@ -29,11 +29,12 @@ const SearchPanel = styled.div`
       width: 80%;
       padding-left: 10px;
       padding-right: 20px;
+      border-radius: 6px;
     }
     padding-left: 20px;
     padding-right: 50px;
-    border-radius: 6px;
     border-width: 0px;
+    border-radius: 6px 0 0 6px;
 
     background: rgba(255, 255, 255, 0.2);
     &: focus {
@@ -99,21 +100,13 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
     }
   }
 
-  const fetchStyle = () => {
-    if (opacity) {
-      return {
-        opacity: 1,
-        border: '2px solid #606060',
-      }
-    }
-    if (window.innerWidth < 700) {
-      return {
-        borderRadius: '6px',
-      }
-    }
-    return {
-      borderRadius: '6px 0 0 6px',
-    }
+  const opacityStyle = {
+    opacity: 1,
+    border: '2px solid #606060',
+  }
+
+  const noneStyle = {
+    opacity: 0.8,
   }
 
   const searchPlaceholder = 'Block / Transaction / Address'
@@ -131,7 +124,7 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
               handleSearchResult(homeSearchBar.value)
             }
           }}
-          style={fetchStyle()}
+          style={opacity ? opacityStyle : noneStyle}
         />
       }
       <div

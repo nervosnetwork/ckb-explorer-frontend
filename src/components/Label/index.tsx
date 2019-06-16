@@ -40,6 +40,7 @@ const LabelPanel = styled.div`
     margin-bottom: 10px;
 
     > img {
+      display: none;
       width: 15px;
       height: 15px;
     }
@@ -69,6 +70,7 @@ const LabelPanel = styled.div`
     margin-bottom: 8px;
 
     > img {
+      display: none;
       width: 15px;
       height: 15px;
     }
@@ -113,7 +115,7 @@ const SimpleLabel = ({
   const className = lengthNoLimit ? 'label__content__full__length' : 'label__content__limit__length'
   return (
     <LabelPanel style={style}>
-      {window.innerWidth > 700 && <img src={image} alt={value} />}
+      <img src={image} alt={value} />
       <span>{label}</span>
       <div style={highLight ? highLightStyle : normalStyle} className={className}>
         {value}

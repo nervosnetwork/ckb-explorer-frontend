@@ -7,6 +7,8 @@ import {
   BlockPanel,
   ContentTable,
   TableMorePanel,
+  BlockListPC,
+  BlockListMobile,
 } from './styled'
 import Content from '../../components/Content'
 import AppContext from '../../contexts/App'
@@ -155,19 +157,17 @@ export default () => {
   return (
     <Content>
       <HomeHeaderPanel>
-        {window.innerWidth > 700 &&
-          BlockchainDatas.map((data: BlockchainData) => {
-            return (
-              <BlockchainItem name={data.name} value={data.value} image={data.image} tip={data.tip} key={data.name} />
-            )
-          })}
-        {window.innerWidth <= 700 &&
-          BlockchainDatas.map((data: BlockchainData) => {
-            return <BlockchainItemMobile name={data.name} value={data.value} image={data.image} key={data.name} />
-          })}
+        {BlockchainDatas.map((data: BlockchainData) => {
+          return (
+            <BlockchainItem name={data.name} value={data.value} image={data.image} tip={data.tip} key={data.name} />
+          )
+        })}
+        {BlockchainDatas.map((data: BlockchainData) => {
+          return <BlockchainItemMobile name={data.name} value={data.value} image={data.image} key={data.name} />
+        })}
       </HomeHeaderPanel>
-      <BlockPanel className="container" width={window.innerWidth}>
-        {window.innerWidth > 700 ? (
+      <BlockPanel className="container">
+        <BlockListPC>
           <ContentTable>
             <TableTitleRow>
               <TableTitleItem image={BlockHeightIcon} title="Height" />
@@ -192,7 +192,8 @@ export default () => {
                 )
               })}
           </ContentTable>
-        ) : (
+        </BlockListPC>
+        <BlockListMobile>
           <ContentTable>
             <div className="block__green__background" />
             <div className="block__panel">
@@ -203,7 +204,7 @@ export default () => {
                 })}
             </div>
           </ContentTable>
-        )}
+        </BlockListMobile>
         <TableMorePanel>
           <div>
             <img src={MoreLeftIcon} alt="more left" />

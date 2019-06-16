@@ -7,6 +7,10 @@ import { startEndEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
 
 const CardPanel = styled.div`
+  @media (min-width: 700px) {
+    display: none;
+  }
+
   width: 88%;
   background-color: white;
   padding: 20px;

@@ -35,3 +35,11 @@ a {
   font-size: inherit;
   color: inherit;
 }
+
+
+@media(max-width: 700px) {
+  .rc-pagination-options-quick-jumper {
+    display: none;
+  }
+}
+  

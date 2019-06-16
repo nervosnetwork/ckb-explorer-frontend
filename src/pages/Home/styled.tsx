@@ -39,6 +39,9 @@ export const HomeHeaderPanel = styled.div`
 `
 
 export const HomeHeaderItemPanel = styled.div`
+  @media (max-width: 700px) {
+    display: none;
+  }
   width: 285px;
   height: 180px;
   display: flex;
@@ -92,6 +95,9 @@ export const HomeHeaderItemPanel = styled.div`
 `
 
 export const HomeHeaderItemMobilePanel = styled.div`
+  @media (min-width: 700px) {
+    display: none;
+  }
   width: 42%;
   height: 80px;
   display: flex;
@@ -122,7 +128,7 @@ export const HomeHeaderItemMobilePanel = styled.div`
 
 export const BlockPanel = styled.div`
   width: 100%;
-  margin-bottom: ${(props: { width: number }) => (120 * props.width) / 1920}px;
+  margin-bottom: 72px;
 
   @media (max-width: 700px) {
     margin-bottom: 30px;
@@ -233,5 +239,16 @@ export const TableMorePanel = styled.div`
         color: #3cc68a;
       }
     }
+  }
+`
+export const BlockListPC = styled.div`
+  @media (max-width: 700px) {
+    display: none;
+  }
+`
+
+export const BlockListMobile = styled.div`
+  @media (min-width: 700px) {
+    display: none;
   }
 `

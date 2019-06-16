@@ -182,7 +182,17 @@ export const PanelDiv = styled.div`
   }
 `
 
-export const CellPanel = styled.div``
+export const CellPanelPC = styled.div`
+  @media (max-width: 700px) {
+    display: none;
+  }
+`
+
+export const CellPanelMobile = styled.div`
+  @media (min-width: 700px) {
+    display: none;
+  }
+`
 
 export const InputPanelDiv = styled(PanelDiv)`
   margin-top: 20px;
@@ -198,54 +208,6 @@ export const OutputPanelDiv = styled(PanelDiv)`
   padding: 30px 50px;
   width: 100%;
   overflow-x: auto;
-`
-
-export const BriefInfoDiv = styled(PanelDiv)`
-  padding: ${(props: { width: number }) => `60px ${(14 * props.width) / 1920}px`};
-  margin-top: 80px;
-  min-height: 233px;
-  display: flex;
-  flex-wrap: wrap;
-  > div {
-    overflow-x: unset;
-    margin-top: 20px;
-    // margin-bottom: 20px;
-    width: 50%;
-    min-width: 320px;
-    height: 71px;
-    padding-left: ${(props: { width: number }) => `${(74 * props.width) / 1920}px`};
-
-    &:nth-child(1) {
-      // border-right: 2px solid #4bbc8e;
-      position: relative;
-      &:after {
-        content: '';
-        display: block;
-        height: 110px;
-        width: 2px;
-        position: absolute;
-        top: -20px;
-        right: 0;
-        background-color: #4bbc8e;
-      }
-    }
-    .brief__img {
-      width: 28px;
-      height: 28px;
-    }
-    .brief__key {
-      margin-left: 10px;
-      font-family: PingFangSC-Medium, sans-serif;
-      font-weight: 900;
-      font-size: 18px;
-      color: #4d4d4d;
-    }
-    .brief__value {
-      margin-left: 10px;
-      font-size: 16px;
-      color: #888888;
-    }
-  }
 `
 
 export const InputOutputTable = styled.table`

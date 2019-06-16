@@ -80,7 +80,7 @@ const AddressScriptLabel = ({ image, label, script }: { image: string; label: st
   return (
     <div>
       <AddressScriptLabelPanel>
-        {window.innerWidth > 700 && <img src={image} alt="script" />}
+        <img src={image} alt="script" />
         <span>{label}</span>
       </AddressScriptLabelPanel>
       <AddressScriptContentPanel>
@@ -203,7 +203,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
 
   return (
     <Content>
-      <AddressContentPanel width={window.innerWidth} className="container">
+      <AddressContentPanel className="container">
         <AddressTitle address={address} lockHash={lockHash} />
         <AddressOverview value="Overview" />
         <AddressCommonContent>
@@ -228,8 +228,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         <AddressTransactionsPanel>
           <AddressOverview value="Transactions" />
           <div>
-            {window.innerWidth > 700 &&
-              transactionWrappers &&
+            {transactionWrappers &&
               transactionWrappers.map((transaction: any) => {
                 return (
                   transaction && (
@@ -241,8 +240,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                   )
                 )
               })}
-            {window.innerWidth <= 700 &&
-              transactionWrappers &&
+            {transactionWrappers &&
               transactionWrappers.map((transaction: any) => {
                 return (
                   transaction && (
@@ -256,30 +254,17 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               })}
           </div>
           <AddressTransactionsPagition>
-            {window.innerWidth > 700 ? (
-              <Pagination
-                showQuickJumper
-                showSizeChanger
-                defaultPageSize={pageSize}
-                pageSize={pageSize}
-                defaultCurrent={pageNo}
-                current={pageNo}
-                total={totalTransactions}
-                onChange={onChange}
-                locale={localeInfo}
-              />
-            ) : (
-              <Pagination
-                showSizeChanger
-                defaultPageSize={pageSize}
-                pageSize={pageSize}
-                defaultCurrent={pageNo}
-                current={pageNo}
-                total={totalTransactions}
-                onChange={onChange}
-                locale={localeInfo}
-              />
-            )}
+            <Pagination
+              showQuickJumper
+              showSizeChanger
+              defaultPageSize={pageSize}
+              pageSize={pageSize}
+              defaultCurrent={pageNo}
+              current={pageNo}
+              total={totalTransactions}
+              onChange={onChange}
+              locale={localeInfo}
+            />
           </AddressTransactionsPagition>
         </AddressTransactionsPanel>
       </AddressContentPanel>
