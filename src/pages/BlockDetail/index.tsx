@@ -397,15 +397,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
             {BlockRootInfoItems.map(item => {
               return (
                 item && (
-                  <React.Fragment>
+                  <React.Fragment key={item.label}>
                     <BlockItemPC>
-                      <SimpleLabel
-                        key={item.label}
-                        image={item.image}
-                        label={item.label}
-                        value={item.value}
-                        lengthNoLimit
-                      />
+                      <SimpleLabel image={item.image} label={item.label} value={item.value} lengthNoLimit />
                     </BlockItemPC>
                     <BlockItemMobile>
                       <MultiLinesItem key={item.label} label={item.label} value={item.value} />

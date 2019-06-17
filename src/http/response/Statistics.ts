@@ -1,7 +1,7 @@
 export interface Statistics {
   tip_block_number: string
   average_block_time: string
-  average_difficulty: number
+  current_epoch_difficulty: number
   hash_rate: string
 }
 
