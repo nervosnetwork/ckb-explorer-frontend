@@ -151,7 +151,7 @@ export default () => {
       name: 'Difficulty',
       value: `${parseInt(`${statistics.average_difficulty}`, 10).toLocaleString()}`,
       image: DifficultyImage,
-      tip: 'Average Difficulty of the last 500 blocks',
+      tip: 'Difficulty of the lastest Epoch',
     },
     {
       name: 'Hash Rate',
