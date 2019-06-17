@@ -20,8 +20,7 @@ export default () => {
     let currentUrl = `${browserHistory.location.pathname}${browserHistory.location.search}`
     const unlisten = browserHistory.listen((location: any) => {
       if (currentUrl !== `${location.pathname}${location.search}`) {
-        const page = document.querySelector('.page') as HTMLDivElement
-        page.scrollTop = 0
+        window.scrollTo(0, 0)
       }
       currentUrl = `${location.pathname}${location.search}`
     })

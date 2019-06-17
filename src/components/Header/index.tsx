@@ -15,8 +15,7 @@ const HeaderDiv = styled.div`
   overflow: hidden;
   box-shadow: 0 2px 4px 0 #141414;
   background-color: #424242;
-  position: sticky;
-  position: -webkit-sticky;
+  position: fixed;
   top: 0;
   z-index: 1;
   display: flex;
@@ -115,8 +114,8 @@ const HeaderMobilePanel = styled.div`
   overflow: hidden;
   box-shadow: 0 2px 4px 0 #141414;
   background-color: #424242;
-  position: sticky;
-  position: -webkit-sticky;
+  position: fixed;
+  width: 100%;
   top: 0;
   z-index: 1;
   padding: 1px 20px;

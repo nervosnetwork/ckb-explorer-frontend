@@ -11,10 +11,10 @@ import { axiosIns } from './http/fetcher'
 import browserHistory from './routes/history'
 
 const AppDiv = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
+  -webkit-overflow-scrolling: touch; // hack ios
 `
-
 const App = () => {
   const appContext = useContext(AppContext)
 
