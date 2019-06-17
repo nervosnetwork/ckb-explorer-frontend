@@ -8,6 +8,16 @@ import Search from '../../components/Search'
 const SearchPanel = styled.div`
   margin-top: 211px;
   margin-bottom: 266px;
+
+  @media (max-width: 700px) {
+    margin-top: 120px;
+    margin-bottom: 150px;
+  }
+
+  .search__fail__bar {
+    width: 80%;
+    margin-left: 10%;
+  }
 `
 
 const SearchContent = styled.div`
@@ -33,7 +43,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   return (
     <Content>
       <SearchPanel className="container">
-        <Search opacity content={q as string} />
+        <div className="search__fail__bar">
+          <Search opacity content={q as string} />
+        </div>
         <SearchContent>Opps! Your search did not match any record. Please try different keywords~</SearchContent>
       </SearchPanel>
     </Content>
