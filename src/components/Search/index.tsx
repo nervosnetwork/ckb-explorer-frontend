@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import AppContext from '../../contexts/App'
 import { fetchSearchResult } from '../../http/fetcher'
@@ -26,7 +26,7 @@ const SearchPanel = styled.div`
     font-size: 16px;
     @media (max-width: 700px) {
       font-size: 12px;
-      width: 80%;
+      width: 100%;
       padding-left: 10px;
       padding-right: 20px;
       border-radius: 6px;
@@ -70,16 +70,16 @@ const SearchPanel = styled.div`
 
 const Search = ({ opacity = false, content }: { opacity?: boolean; content?: string }) => {
   const appContext = useContext(AppContext)
+  const [searchValue, setSearchValue] = useState(content || '')
 
-  const handleSearchResult = (q: string) => {
-    const query = q.replace(/^\s+|\s+$/g, '') // remove front and end blank
+  const handleSearchResult = () => {
+    const query = searchValue.replace(/^\s+|\s+$/g, '') // remove front and end blank
     if (!query) {
       appContext.toastMessage('Please input valid content', 3000)
     } else {
       fetchSearchResult(query)
         .then((json: any) => {
-          const homeSearchBar = document.getElementById('home__search__bar') as HTMLInputElement
-          homeSearchBar.value = ''
+          setSearchValue('')
           const { data } = json
           if (data.type === 'block') {
             browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
@@ -90,7 +90,7 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
           } else if (data.type === 'lock_hash') {
             browserHistory.push(`/lockhash/${(data as AddressWrapper).attributes.lock_hash}`)
           } else {
-            homeSearchBar.value = q
+            setSearchValue(query)
             browserHistory.push(`/search/fail?q=${query}`)
           }
         })
@@ -117,11 +117,11 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
         <input
           id="home__search__bar"
           placeholder={searchPlaceholder}
-          defaultValue={content || ''}
+          defaultValue={searchValue || ''}
+          onChange={event => setSearchValue(event.target.value)}
           onKeyUp={(event: any) => {
             if (event.keyCode === 13) {
-              const homeSearchBar = document.getElementById('home__search__bar') as HTMLInputElement
-              handleSearchResult(homeSearchBar.value)
+              handleSearchResult()
             }
           }}
           style={opacity ? opacityStyle : noneStyle}
@@ -132,8 +132,7 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
         tabIndex={-1}
         onKeyPress={() => {}}
         onClick={() => {
-          const homeSearchBar = document.getElementById('home__search__bar') as HTMLInputElement
-          handleSearchResult(homeSearchBar.value)
+          handleSearchResult()
         }}
       >
         <img src={SearchLogo} alt="search logo" />
