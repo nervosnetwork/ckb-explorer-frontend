@@ -17,23 +17,23 @@ It supports searching block, transaction, address and includes two parts: [front
 You need to edit .env.develop to set your own api url as ckb explorder server.
 
 ``` shell
-  REACT_APP_API_URL = 'http://your-api-url'   # Set your own api url 
+REACT_APP_API_URL = 'http://your-api-url'   # Set your own api url
 ```
 
 ### Installation
 
 ``` shell
-  git clone https://github.com/nervosnetwork/ckb-explorer-frontend.git
-  cd ckb-explorer-frontend
-  yarn install   # install dependency libraries
-  yarn start     # run ckb explorer frontend on localhost
+git clone https://github.com/nervosnetwork/ckb-explorer-frontend.git
+cd ckb-explorer-frontend
+yarn install   # install dependency libraries
+yarn start     # run ckb explorer frontend on localhost
 ```
 
 ### Development
 
 ``` shell
-  yarn build    # build ckb explorer frontend project
-  yarn test     # run project test cases
+yarn build    # build ckb explorer frontend project
+yarn test     # run project test cases
 ```
 
 ## License
