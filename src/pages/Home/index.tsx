@@ -93,6 +93,13 @@ const getStatistics = ({ setStatistics, appContext }: { setStatistics: any; appC
     })
 }
 
+interface BlockchainData {
+  name: string
+  value: string
+  image: any
+  tip: string
+}
+
 export default () => {
   const initBlockWrappers: BlockWrapper[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
@@ -132,13 +139,6 @@ export default () => {
       }
     }
   }, [setBlocksWrappers, setStatistics, appContext])
-
-  interface BlockchainData {
-    name: string
-    value: string
-    image: any
-    tip: string
-  }
 
   const BlockchainDatas: BlockchainData[] = [
     {
