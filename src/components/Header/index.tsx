@@ -190,7 +190,7 @@ const HeaderSearchPanel = styled.div`
     display: none;
   }
   width: 100%;
-  height: 45px;
+  height: 40px;
   display: flex;
   align-items: center;
 `
