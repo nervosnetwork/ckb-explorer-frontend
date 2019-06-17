@@ -47,10 +47,9 @@ const App = () => {
             browserHistory.replace('/maintain')
             break
           default:
-            appContext.toastMessage('Network exception, please try again later', 3000)
+            console.error(error.toString())
         }
       }
-      console.error(error.toString())
       return Promise.reject(error)
     },
   )

@@ -77,8 +77,8 @@ export default () => {
   const appContext = useContext(AppContext)
   const getLatestBlocks = () => {
     fetchBlocks()
-      .then(json => {
-        const { data } = json as Response<BlockWrapper[]>
+      .then(response => {
+        const { data } = response as Response<BlockWrapper[]>
         setBlocksWrappers(data)
       })
       .catch(() => {
@@ -88,12 +88,12 @@ export default () => {
 
   const getStatistics = () => {
     fetchStatistics()
-      .then(json => {
-        const { data } = json as Response<StatisticsWrapper>
+      .then(response => {
+        const { data } = response as Response<StatisticsWrapper>
         setStatistics(data.attributes)
       })
       .catch(() => {
-        console.error('Statistics network exception')
+        appContext.toastMessage('Network exception, please try again later', 3000)
       })
   }
 
@@ -103,14 +103,18 @@ export default () => {
     getLatestBlocks()
     getStatistics()
     const listener = setInterval(() => {
-      fetchBlocks().then(json => {
-        const { data } = json as Response<BlockWrapper[]>
-        setBlocksWrappers(data)
-      })
-      fetchStatistics().then(json => {
-        const { data } = json as Response<StatisticsWrapper>
-        setStatistics(data.attributes)
-      })
+      fetchBlocks()
+        .then(response => {
+          const { data } = response as Response<BlockWrapper[]>
+          setBlocksWrappers(data)
+        })
+        .catch(err => console.error(err))
+      fetchStatistics()
+        .then(response => {
+          const { data } = response as Response<StatisticsWrapper>
+          setStatistics(data.attributes)
+        })
+        .catch(err => console.error(err))
     }, BLOCK_POLLING_TIME)
 
     return () => {
