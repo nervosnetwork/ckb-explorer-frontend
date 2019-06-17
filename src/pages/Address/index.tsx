@@ -5,7 +5,6 @@ import 'rc-pagination/assets/index.css'
 import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import AppContext from '../../contexts/App'
-import browserHistory from '../../routes/history'
 import Content from '../../components/Content'
 import TransactionComponent from '../../components/Transaction'
 import SimpleLabel from '../../components/Label'
@@ -111,94 +110,131 @@ enum PageParams {
   MaxPageSize = 100,
 }
 
+interface TransactionData {
+  transactionWrappers: TransactionWrapper[]
+  totalTransactions: number
+  pageNo: number
+  pageSize: number
+}
+
+const initAddress: Address = {
+  address_hash: '',
+  lock_hash: '',
+  balance: 0,
+  transactions_count: 0,
+  cell_consumed: 0,
+  lock_script: {
+    args: [],
+    code_hash: '',
+  },
+}
+
+const getAddressInfo = ({
+  hash,
+  setAddressData,
+  appContext,
+}: {
+  hash: string
+  setAddressData: any
+  appContext: any
+}) => {
+  fetchAddressInfo(hash)
+    .then(response => {
+      const { data } = response as Response<AddressWrapper>
+      setAddressData(data.attributes as Address)
+    })
+    .catch(() => {
+      appContext.toastMessage('Network exception, please try again later', 3000)
+    })
+}
+
+const getTransactions = ({
+  hash,
+  transactionData,
+  setTransactionData,
+  appContext,
+}: {
+  hash: string
+  transactionData: TransactionData
+  setTransactionData: any
+  appContext: any
+}) => {
+  const { pageNo, pageSize } = transactionData
+  fetchTransactionsByAddress(hash, pageNo, pageSize)
+    .then(response => {
+      const { data, meta } = response as Response<TransactionWrapper[]>
+      setTransactionData((state: any) => {
+        return {
+          ...state,
+          transactionWrappers: data,
+        }
+      })
+      if (meta) {
+        const { total, page_size } = meta
+        setTransactionData((state: any) => {
+          return {
+            ...state,
+            totalTransactions: total,
+            pageSize: page_size,
+          }
+        })
+      }
+    })
+    .catch(() => {
+      appContext.toastMessage('Network exception, please try again later', 3000)
+    })
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string; hash: string }>>) => {
+  const appContext = useContext(AppContext)
+
   const { match, location } = props
   const { params } = match
   const { address, hash: lockHash } = params
-
   const identityHash = address || lockHash
 
   const { search } = location
   const parsed = queryString.parse(search)
-  const { page, size } = parsed
+  const pageNo: number = validNumber(parsed.page, PageParams.PageNo)
+  const pageSize: number = validNumber(parsed.size, PageParams.PageSize)
 
-  const appContext = useContext(AppContext)
-
-  const initTransactionWrappers: TransactionWrapper[] = []
-  const initAddress: Address = {
-    address_hash: '',
-    lock_hash: '',
-    balance: 0,
-    transactions_count: 0,
-    cell_consumed: 0,
-    lock_script: {
-      args: [],
-      code_hash: '',
-    },
-  }
   const [addressData, setAddressData] = useState(initAddress)
-  const [transactionWrappers, setTransactionWrappers] = useState(initTransactionWrappers)
-  const [totalTransactions, setTotalTransactions] = useState(1)
-  const [pageNo, setPageNo] = useState(validNumber(page, PageParams.PageNo))
-  const [pageSize, setPageSize] = useState(validNumber(size, PageParams.PageSize))
+  const [transactionData, setTransactionData] = useState({
+    transactionWrappers: [],
+    totalTransactions: 1,
+    pageNo,
+    pageSize,
+  })
 
   if (pageSize > PageParams.MaxPageSize) {
-    setPageSize(PageParams.MaxPageSize)
-    if (address) {
-      props.history.replace(`/address/${address}?page=${pageNo}&size=${PageParams.MaxPageSize}`)
-    } else {
-      props.history.replace(`/lockhash/${lockHash}?page=${pageNo}&size=${PageParams.MaxPageSize}`)
-    }
-  }
-
-  const getAddressInfo = () => {
-    fetchAddressInfo(identityHash)
-      .then(json => {
-        const { data, error } = json as Response<AddressWrapper>
-        if (error) {
-          browserHistory.push(`/search/fail?q=${address}`)
-        } else {
-          setAddressData(data.attributes as Address)
-        }
-      })
-      .catch(() => {
-        appContext.toastMessage('Network exception, please try again later', 3000)
-      })
-  }
-
-  const getTransactions = (page_p: number, size_p: number) => {
-    fetchTransactionsByAddress(identityHash, page_p, size_p)
-      .then(json => {
-        const { data, meta } = json as Response<TransactionWrapper[]>
-        if (meta) {
-          const { total, page_size } = meta
-          setTotalTransactions(total)
-          setPageSize(page_size)
-        }
-        setTransactionWrappers(data)
-      })
-      .catch(() => {
-        appContext.toastMessage('Network exception, please try again later', 3000)
-      })
+    props.history.replace(
+      `/${address ? 'address' : 'lockhash'}/${identityHash}?page=${pageNo}&size=${PageParams.MaxPageSize}`,
+    )
   }
 
   useEffect(() => {
-    getAddressInfo()
-    const page_p = validNumber(page, PageParams.PageNo)
-    const size_p = validNumber(size, PageParams.PageSize)
-    setPageNo(page_p)
-    setPageSize(size_p)
-    getTransactions(page_p, size_p)
-  }, [search, window.location.href])
+    getAddressInfo({
+      hash: identityHash,
+      setAddressData,
+      appContext,
+    })
+    getTransactions({
+      hash: identityHash,
+      transactionData,
+      setTransactionData,
+      appContext,
+    })
+  }, [identityHash, setAddressData, setTransactionData, appContext])
 
-  const onChange = (page_p: number, size_p: number) => {
-    setPageNo(page_p)
-    setPageSize(size_p)
-    if (address) {
-      props.history.replace(`/address/${address}?page=${page_p}&size=${size_p}`)
-    } else {
-      props.history.replace(`/lockhash/${lockHash}?page=${page_p}&size=${size_p}`)
-    }
+  const onChange = (page: number, size: number) => {
+    setTransactionData((state: any) => {
+      return {
+        ...state,
+        pageNo: page,
+        pageSize: size,
+      }
+    })
+    props.history.replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${page}&size=${size}`)
   }
 
   return (
@@ -228,8 +264,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         <AddressTransactionsPanel>
           <AddressOverview value="Transactions" />
           <div>
-            {transactionWrappers &&
-              transactionWrappers.map((transaction: any) => {
+            {transactionData.transactionWrappers &&
+              transactionData.transactionWrappers.map((transaction: any) => {
                 return (
                   transaction && (
                     <TransactionComponent
@@ -240,8 +276,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                   )
                 )
               })}
-            {transactionWrappers &&
-              transactionWrappers.map((transaction: any) => {
+            {transactionData.transactionWrappers &&
+              transactionData.transactionWrappers.map((transaction: any) => {
                 return (
                   transaction && (
                     <TransactionCard
@@ -257,11 +293,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
             <Pagination
               showQuickJumper
               showSizeChanger
-              defaultPageSize={pageSize}
-              pageSize={pageSize}
-              defaultCurrent={pageNo}
-              current={pageNo}
-              total={totalTransactions}
+              defaultPageSize={transactionData.pageSize}
+              pageSize={transactionData.pageSize}
+              defaultCurrent={transactionData.pageNo}
+              current={transactionData.pageNo}
+              total={transactionData.totalTransactions}
               onChange={onChange}
               locale={localeInfo}
             />
