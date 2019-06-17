@@ -38,6 +38,7 @@ import { StatisticsWrapper, Statistics } from '../../http/response/Statistics'
 import { Response } from '../../http/response/Response'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
+import CONFIG from '../../config'
 
 const BlockchainItem = ({ name, value, image, tip }: { name: string; value: string; image: any; tip?: string }) => {
   return (
@@ -62,6 +63,43 @@ const BlockchainItemMobile = ({ name, value, image }: { name: string; value: str
   )
 }
 
+const getLatestBlocks = ({ setBlocksWrappers, appContext }: { setBlocksWrappers: any; appContext?: any }) => {
+  fetchBlocks()
+    .then(response => {
+      const { data } = response as Response<BlockWrapper[]>
+      setBlocksWrappers(data)
+    })
+    .catch((err: any) => {
+      if (appContext) {
+        appContext.toastMessage('Network exception, please try again later', 3000)
+      } else {
+        console.error(err)
+      }
+    })
+}
+
+const getStatistics = ({ setStatistics, appContext }: { setStatistics: any; appContext?: any }) => {
+  fetchStatistics()
+    .then(response => {
+      const { data } = response as Response<StatisticsWrapper>
+      setStatistics(data.attributes)
+    })
+    .catch((err: any) => {
+      if (appContext) {
+        appContext.toastMessage('Network exception, please try again later', 3000)
+      } else {
+        console.error(err)
+      }
+    })
+}
+
+interface BlockchainData {
+  name: string
+  value: string
+  image: any
+  tip: string
+}
+
 export default () => {
   const initBlockWrappers: BlockWrapper[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
@@ -75,57 +113,32 @@ export default () => {
   const [statistics, setStatistics] = useState(initStatistics)
 
   const appContext = useContext(AppContext)
-  const getLatestBlocks = () => {
-    fetchBlocks()
-      .then(json => {
-        const { data } = json as Response<BlockWrapper[]>
-        setBlocksWrappers(data)
-      })
-      .catch(() => {
-        appContext.toastMessage('Network exception, please try again later', 3000)
-      })
-  }
-
-  const getStatistics = () => {
-    fetchStatistics()
-      .then(json => {
-        const { data } = json as Response<StatisticsWrapper>
-        setStatistics(data.attributes)
-      })
-      .catch(() => {
-        console.error('Statistics network exception')
-      })
-  }
-
-  const BLOCK_POLLING_TIME = 4000
 
   useEffect(() => {
-    getLatestBlocks()
-    getStatistics()
+    getLatestBlocks({
+      setBlocksWrappers,
+      appContext,
+    })
+    getStatistics({
+      setStatistics,
+      appContext,
+    })
+
     const listener = setInterval(() => {
-      fetchBlocks().then(json => {
-        const { data } = json as Response<BlockWrapper[]>
-        setBlocksWrappers(data)
+      getLatestBlocks({
+        setBlocksWrappers,
       })
-      fetchStatistics().then(json => {
-        const { data } = json as Response<StatisticsWrapper>
-        setStatistics(data.attributes)
+      getStatistics({
+        setStatistics,
       })
-    }, BLOCK_POLLING_TIME)
+    }, CONFIG.BLOCK_POLLING_TIME)
 
     return () => {
       if (listener) {
         clearInterval(listener)
       }
     }
-  }, [])
-
-  interface BlockchainData {
-    name: string
-    value: string
-    image: any
-    tip: string
-  }
+  }, [setBlocksWrappers, setStatistics, appContext])
 
   const BlockchainDatas: BlockchainData[] = [
     {
