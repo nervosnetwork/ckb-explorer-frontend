@@ -38,6 +38,7 @@ import { StatisticsWrapper, Statistics } from '../../http/response/Statistics'
 import { Response } from '../../http/response/Response'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
+import CONFIG from '../../config'
 
 const BlockchainItem = ({ name, value, image, tip }: { name: string; value: string; image: any; tip?: string }) => {
   return (
@@ -97,25 +98,28 @@ export default () => {
       })
   }
 
-  const BLOCK_POLLING_TIME = 4000
+  const listenRequest = () => {
+    fetchBlocks()
+      .then(response => {
+        const { data } = response as Response<BlockWrapper[]>
+        setBlocksWrappers(data)
+      })
+      .catch(err => console.error(err))
+    fetchStatistics()
+      .then(response => {
+        const { data } = response as Response<StatisticsWrapper>
+        setStatistics(data.attributes)
+      })
+      .catch(err => console.error(err))
+  }
 
   useEffect(() => {
     getLatestBlocks()
     getStatistics()
+
     const listener = setInterval(() => {
-      fetchBlocks()
-        .then(response => {
-          const { data } = response as Response<BlockWrapper[]>
-          setBlocksWrappers(data)
-        })
-        .catch(err => console.error(err))
-      fetchStatistics()
-        .then(response => {
-          const { data } = response as Response<StatisticsWrapper>
-          setStatistics(data.attributes)
-        })
-        .catch(err => console.error(err))
-    }, BLOCK_POLLING_TIME)
+      listenRequest()
+    }, CONFIG.BLOCK_POLLING_TIME)
 
     return () => {
       if (listener) {
