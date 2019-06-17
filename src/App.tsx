@@ -14,6 +14,7 @@ const AppDiv = styled.div`
   width: 100vw;
   height: 100vh;
 `
+
 const App = () => {
   const appContext = useContext(AppContext)
 
@@ -33,10 +34,21 @@ const App = () => {
       return response
     },
     error => {
-      if (error.response.status === 503) {
+      if (error && error.response && error.response.data) {
         const { message } = error.response.data
-        appContext.errorMessage = message || appContext.errorMessage
-        browserHistory.replace('/maintain')
+        switch (error.response.status) {
+          case 422:
+            browserHistory.replace('/search/fail')
+            break
+          case 503:
+            if (message) {
+              appContext.errorMessage = message
+            }
+            browserHistory.replace('/maintain')
+            break
+          default:
+            appContext.toastMessage('Network exception, please try again later', 3000)
+        }
       }
       console.error(error.toString())
       return Promise.reject(error)
