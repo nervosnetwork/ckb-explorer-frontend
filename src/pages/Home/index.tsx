@@ -63,6 +63,36 @@ const BlockchainItemMobile = ({ name, value, image }: { name: string; value: str
   )
 }
 
+const getLatestBlocks = ({ setBlocksWrappers, appContext }: { setBlocksWrappers: any; appContext?: any }) => {
+  fetchBlocks()
+    .then(response => {
+      const { data } = response as Response<BlockWrapper[]>
+      setBlocksWrappers(data)
+    })
+    .catch((err: any) => {
+      if (appContext) {
+        appContext.toastMessage('Network exception, please try again later', 3000)
+      } else {
+        console.error(err)
+      }
+    })
+}
+
+const getStatistics = ({ setStatistics, appContext }: { setStatistics: any; appContext?: any }) => {
+  fetchStatistics()
+    .then(response => {
+      const { data } = response as Response<StatisticsWrapper>
+      setStatistics(data.attributes)
+    })
+    .catch((err: any) => {
+      if (appContext) {
+        appContext.toastMessage('Network exception, please try again later', 3000)
+      } else {
+        console.error(err)
+      }
+    })
+}
+
 export default () => {
   const initBlockWrappers: BlockWrapper[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
@@ -76,49 +106,24 @@ export default () => {
   const [statistics, setStatistics] = useState(initStatistics)
 
   const appContext = useContext(AppContext)
-  const getLatestBlocks = () => {
-    fetchBlocks()
-      .then(response => {
-        const { data } = response as Response<BlockWrapper[]>
-        setBlocksWrappers(data)
-      })
-      .catch(() => {
-        appContext.toastMessage('Network exception, please try again later', 3000)
-      })
-  }
-
-  const getStatistics = () => {
-    fetchStatistics()
-      .then(response => {
-        const { data } = response as Response<StatisticsWrapper>
-        setStatistics(data.attributes)
-      })
-      .catch(() => {
-        appContext.toastMessage('Network exception, please try again later', 3000)
-      })
-  }
-
-  const listenRequest = () => {
-    fetchBlocks()
-      .then(response => {
-        const { data } = response as Response<BlockWrapper[]>
-        setBlocksWrappers(data)
-      })
-      .catch(err => console.error(err))
-    fetchStatistics()
-      .then(response => {
-        const { data } = response as Response<StatisticsWrapper>
-        setStatistics(data.attributes)
-      })
-      .catch(err => console.error(err))
-  }
 
   useEffect(() => {
-    getLatestBlocks()
-    getStatistics()
+    getLatestBlocks({
+      setBlocksWrappers,
+      appContext,
+    })
+    getStatistics({
+      setStatistics,
+      appContext,
+    })
 
     const listener = setInterval(() => {
-      listenRequest()
+      getLatestBlocks({
+        setBlocksWrappers,
+      })
+      getStatistics({
+        setStatistics,
+      })
     }, CONFIG.BLOCK_POLLING_TIME)
 
     return () => {
@@ -126,7 +131,7 @@ export default () => {
         clearInterval(listener)
       }
     }
-  }, [])
+  }, [setBlocksWrappers, setStatistics, appContext])
 
   interface BlockchainData {
     name: string
