@@ -73,7 +73,8 @@ module.exports = {
         extensions: ['.ts', '.tsx'],
       },
     ],
-    'react-hooks/rules-of-hooks': 2,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     'camelcase': [
       "error",
       {

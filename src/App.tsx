@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import Routers from './routes'
 import Loading from './components/Loading'
@@ -17,6 +17,7 @@ const AppDiv = styled.div`
 
 const App = () => {
   const appContext = useContext(AppContext)
+  const [showError, setShowError] = useState(false)
 
   // global fetch interceptor setting
   axiosIns.interceptors.request.use(
@@ -31,9 +32,11 @@ const App = () => {
 
   axiosIns.interceptors.response.use(
     response => {
+      setShowError(false)
       return response
     },
     error => {
+      setShowError(false)
       if (error && error.response && error.response.data) {
         const { message } = error.response.data
         switch (error.response.status) {
@@ -47,16 +50,17 @@ const App = () => {
             browserHistory.replace('/maintain')
             break
           default:
-            console.error(error.toString())
+            setShowError(true)
         }
       }
+      setShowError(true)
       return Promise.reject(error)
     },
   )
 
   return (
     <AppDiv>
-      <Routers />
+      <Routers showError={showError} />
       <Modal
         onClose={() => {
           appContext.hideModal()
