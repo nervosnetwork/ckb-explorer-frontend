@@ -1,10 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useReducer, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
 import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
-import AppContext from '../../contexts/App'
 import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition, BlockListPC, BlockListMobile } from './styled'
 import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
@@ -24,7 +23,6 @@ import TimestampIcon from '../../assets/timestamp.png'
 import { fetchBlockList } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
-import { validNumber } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
 
 enum PageParams {
@@ -33,53 +31,105 @@ enum PageParams {
   MaxPageSize = 100,
 }
 
+const Actions = {
+  blocks: 'BLOCKS',
+  total: 'TOTAL',
+  page: 'PAGE_NO',
+  size: 'PAGE_SIZE',
+}
+
+const reducer = (state: any, action: any) => {
+  switch (action.type) {
+    case Actions.blocks:
+      return {
+        ...state,
+        block: action.payload.block,
+      }
+    case Actions.total:
+      return {
+        ...state,
+        total: action.payload.total,
+      }
+    case Actions.page:
+      return {
+        ...state,
+        page: action.payload.page,
+      }
+    case Actions.size:
+      return {
+        ...state,
+        size: action.payload.size,
+      }
+    default:
+      return state
+  }
+}
+
+const getBlocks = (page: string, size: string, dispatch: any) => {
+  fetchBlockList(page, size).then(response => {
+    const { data, meta } = response as Response<BlockWrapper[]>
+    if (meta) {
+      dispatch({
+        type: Actions.total,
+        payload: {
+          total: meta.total,
+        },
+      })
+      dispatch({
+        type: Actions.size,
+        payload: {
+          size: meta.page_size,
+        },
+      })
+    }
+    if (data) {
+      dispatch({
+        type: Actions.blocks,
+        payload: {
+          size: data,
+        },
+      })
+    }
+  })
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   const { location } = props
   const { search } = location
   const parsed = queryString.parse(search)
-  const { page, size } = parsed
 
-  const appContext = useContext(AppContext)
-
-  const initBlockWrappers: BlockWrapper[] = []
-  const [blockWrappers, setBlockWrappers] = useState(initBlockWrappers)
-  const [totalBlocks, setTotalBlocks] = useState(1)
-  const [pageNo, setPageNo] = useState(validNumber(page, PageParams.PageNo))
-  const [pageSize, setPageSize] = useState(validNumber(size, PageParams.PageSize))
-
-  if (pageSize > PageParams.MaxPageSize) {
-    setPageSize(PageParams.MaxPageSize)
-    props.history.replace(`/block/list?page=${pageNo}&size=${PageParams.MaxPageSize}`)
+  const initialState = {
+    blocks: [] as BlockWrapper[],
+    total: 1,
+    page: (parsed.page as string) || PageParams.PageNo,
+    size: (parsed.size as string) || PageParams.PageSize,
   }
+  const [state, dispatch] = useReducer(reducer, initialState)
 
-  const getBlocks = (page_p: number, size_p: number) => {
-    fetchBlockList(page_p, size_p)
-      .then(response => {
-        const { data, meta } = response as Response<BlockWrapper[]>
-        if (meta) {
-          const { total, page_size } = meta
-          setTotalBlocks(total)
-          setPageSize(page_size)
-        }
-        setBlockWrappers(() => data)
-      })
-      .catch(() => {
-        appContext.toastMessage('Network exception, please try again later', 3000)
-      })
+  const { page, size } = state
+
+  if (+state.size > PageParams.MaxPageSize) {
+    props.history.replace(`/block/list?page=${state.page}&size=${PageParams.MaxPageSize}`)
   }
 
   useEffect(() => {
-    const page_p = validNumber(page, PageParams.PageNo)
-    const size_p = validNumber(size, PageParams.PageSize)
-    setPageNo(page_p)
-    setPageSize(size_p)
-    getBlocks(page_p, size_p)
-  }, [search, window.location.href])
+    getBlocks(page, size, dispatch)
+  }, [page, size, dispatch])
 
-  const onChange = (page_p: number, size_p: number) => {
-    setPageNo(page_p)
-    setPageSize(size_p)
-    props.history.push(`/block/list?page=${page_p}&size=${size_p}`)
+  const onChange = (pageNo: number, pageSize: number) => {
+    dispatch({
+      type: Actions.page,
+      payload: {
+        total: pageNo,
+      },
+    })
+    dispatch({
+      type: Actions.size,
+      payload: {
+        size: pageSize,
+      },
+    })
+    props.history.push(`/block/list?page=${pageNo}&size=${pageSize}`)
   }
 
   return (
@@ -95,8 +145,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
               <TableTitleItem image={MinerIcon} title="Miner" />
               <TableTitleItem image={TimestampIcon} title="Time" />
             </TableTitleRow>
-            {blockWrappers &&
-              blockWrappers.map((data: any) => {
+            {state.blocks &&
+              state.blocks.map((data: any) => {
                 return (
                   data && (
                     <TableContentRow key={data.attributes.block_hash}>
@@ -114,8 +164,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
         <BlockListMobile>
           <ContentTable>
             <div className="block__panel">
-              {blockWrappers &&
-                blockWrappers.map((block: any, index: number) => {
+              {state.blocks &&
+                state.blocks.map((block: any, index: number) => {
                   const key = index
                   return block && <BlockCard key={key} block={block.attributes} />
                 })}
@@ -126,11 +176,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
           <Pagination
             showQuickJumper
             showSizeChanger
-            defaultPageSize={pageSize}
-            pageSize={pageSize}
-            defaultCurrent={pageNo}
-            current={pageNo}
-            total={totalBlocks}
+            defaultPageSize={state.size}
+            pageSize={state.size}
+            defaultCurrent={state.page}
+            current={state.page}
+            total={state.total}
             onChange={onChange}
             locale={localeInfo}
           />

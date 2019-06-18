@@ -27,7 +27,7 @@ export const fetchBlocks = () => {
   return axiosIns.get('blocks').then((res: AxiosResponse) => res.data)
 }
 
-export const fetchBlockList = (page: number, page_size: number) => {
+export const fetchBlockList = (page: string, page_size: string) => {
   return axiosIns
     .get('blocks', {
       params: {
