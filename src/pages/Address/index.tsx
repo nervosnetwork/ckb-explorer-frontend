@@ -129,65 +129,45 @@ const initAddress: Address = {
   },
 }
 
-const getAddressInfo = ({
-  hash,
-  setAddressData,
-  appContext,
-}: {
-  hash: string
-  setAddressData: any
-  appContext: any
-}) => {
-  fetchAddressInfo(hash)
-    .then(response => {
-      const { data } = response as Response<AddressWrapper>
-      setAddressData(data.attributes as Address)
-    })
-    .catch(() => {
-      appContext.toastMessage('Network exception, please try again later', 3000)
-    })
+const getAddressInfo = ({ hash, setAddressData }: { hash: string; setAddressData: any }) => {
+  fetchAddressInfo(hash).then(response => {
+    const { data } = response as Response<AddressWrapper>
+    setAddressData(data.attributes as Address)
+  })
 }
 
 const getTransactions = ({
   hash,
   transactionData,
   setTransactionData,
-  appContext,
 }: {
   hash: string
   transactionData: TransactionData
   setTransactionData: any
-  appContext: any
 }) => {
   const { pageNo, pageSize } = transactionData
-  fetchTransactionsByAddress(hash, pageNo, pageSize)
-    .then(response => {
-      const { data, meta } = response as Response<TransactionWrapper[]>
+  fetchTransactionsByAddress(hash, pageNo, pageSize).then(response => {
+    const { data, meta } = response as Response<TransactionWrapper[]>
+    setTransactionData((state: any) => {
+      return {
+        ...state,
+        transactionWrappers: data,
+      }
+    })
+    if (meta) {
+      const { total, page_size } = meta
       setTransactionData((state: any) => {
         return {
           ...state,
-          transactionWrappers: data,
+          totalTransactions: total,
+          pageSize: page_size,
         }
       })
-      if (meta) {
-        const { total, page_size } = meta
-        setTransactionData((state: any) => {
-          return {
-            ...state,
-            totalTransactions: total,
-            pageSize: page_size,
-          }
-        })
-      }
-    })
-    .catch(() => {
-      appContext.toastMessage('Network exception, please try again later', 3000)
-    })
+    }
+  })
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string; hash: string }>>) => {
-  const appContext = useContext(AppContext)
-
   const { match, location } = props
   const { params } = match
   const { address, hash: lockHash } = params
@@ -216,15 +196,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     getAddressInfo({
       hash: identityHash,
       setAddressData,
-      appContext,
     })
     getTransactions({
       hash: identityHash,
       transactionData,
       setTransactionData,
-      appContext,
     })
-  }, [identityHash, setAddressData, setTransactionData, appContext])
+  }, [identityHash, setAddressData, setTransactionData, transactionData])
 
   const onChange = (page: number, size: number) => {
     setTransactionData((state: any) => {
