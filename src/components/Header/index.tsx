@@ -214,7 +214,7 @@ export default ({ search = true }: { search?: boolean }) => {
 
   useEffect(() => {
     setHeight(NORMAL_HEIGHT)
-  }, [window.location.href])
+  }, [setHeight])
 
   return (
     <React.Fragment>

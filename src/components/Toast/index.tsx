@@ -94,7 +94,7 @@ export default ({ toastMessage, style }: { toastMessage: any; style: object }) =
     if (toastMessage) {
       setItems(items.concat(toastMessage))
     }
-  }, [toastMessage])
+  }, [items, setItems, toastMessage])
 
   return items.length === 0 ? null : (
     <ToastDiv className="toast">
