@@ -143,6 +143,7 @@ export const BlockMultiLinesPanel = styled.div`
   > div {
     font-size: 16px;
     color: #606060;
+    font-weight: 900;
   }
 
   > code {
