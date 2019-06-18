@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useEffect, useContext, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import {
   HomeHeaderPanel,
@@ -63,32 +63,28 @@ const BlockchainItemMobile = ({ name, value, image }: { name: string; value: str
   )
 }
 
-const getLatestBlocks = ({ setBlocksWrappers, appContext }: { setBlocksWrappers: any; appContext?: any }) => {
+const getLatestBlocks = ({ setBlocksWrappers, toast }: { setBlocksWrappers: any; toast?: any }) => {
   fetchBlocks()
     .then(response => {
       const { data } = response as Response<BlockWrapper[]>
       setBlocksWrappers(data)
     })
-    .catch((err: any) => {
-      if (appContext) {
-        appContext.toastMessage('Network exception, please try again later', 3000)
-      } else {
-        console.error(err)
+    .catch(() => {
+      if (toast) {
+        toast()
       }
     })
 }
 
-const getStatistics = ({ setStatistics, appContext }: { setStatistics: any; appContext?: any }) => {
+const getStatistics = ({ setStatistics, toast }: { setStatistics: any; toast?: any }) => {
   fetchStatistics()
     .then(response => {
       const { data } = response as Response<StatisticsWrapper>
       setStatistics(data.attributes)
     })
-    .catch((err: any) => {
-      if (appContext) {
-        appContext.toastMessage('Network exception, please try again later', 3000)
-      } else {
-        console.error(err)
+    .catch(() => {
+      if (toast) {
+        toast()
       }
     })
 }
@@ -112,16 +108,19 @@ export default () => {
   }
   const [statistics, setStatistics] = useState(initStatistics)
 
-  const appContext = useContext(AppContext)
+  const { toastMessage } = useContext(AppContext)
+  const toast = useCallback(() => {
+    toastMessage('Network exception, please try again later', 3000)
+  }, [])
 
   useEffect(() => {
     getLatestBlocks({
       setBlocksWrappers,
-      appContext,
+      toast,
     })
     getStatistics({
       setStatistics,
-      appContext,
+      toast,
     })
 
     const listener = setInterval(() => {
@@ -138,7 +137,7 @@ export default () => {
         clearInterval(listener)
       }
     }
-  }, [setBlocksWrappers, setStatistics, appContext])
+  }, [setBlocksWrappers, setStatistics, toast])
 
   const BlockchainDatas: BlockchainData[] = [
     {
