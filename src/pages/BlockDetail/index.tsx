@@ -50,7 +50,7 @@ import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchBlockByHash, fetchTransactionsByBlockHash, fetchBlockByNumber } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
-import { validNumber, startEndEllipsis } from '../../utils/string'
+import { startEndEllipsis } from '../../utils/string'
 import browserHistory from '../../routes/history'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
@@ -227,92 +227,93 @@ const reducer = (state: any, action: any) => {
   }
 }
 
+const getTransactions = (hash: string, pageNo: string, pageSize: string, dispatch: any) => {
+  fetchTransactionsByBlockHash(hash, +pageNo, +pageSize).then(response => {
+    const { data, meta } = response as Response<TransactionWrapper[]>
+    dispatch({
+      type: Actions.transactions,
+      payload: {
+        transactions: data,
+      },
+    })
+    if (meta) {
+      dispatch({
+        type: Actions.total,
+        payload: {
+          total: meta.total,
+        },
+      })
+    }
+  })
+}
+
+const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
+  dispatch({
+    type: Actions.prev,
+    payload: {
+      prev: blockNumber > 0,
+    },
+  })
+  fetchBlockByNumber(`${blockNumber + 1}`)
+    .then(response => {
+      const { data } = response as Response<BlockWrapper>
+      dispatch({
+        type: Actions.next,
+        payload: {
+          next: data.attributes.number > 0,
+        },
+      })
+    })
+    .catch(() => {
+      dispatch({
+        type: Actions.next,
+        payload: false,
+      })
+    })
+}
+
+const getBlockByHash = (blockHash: string, page: string, size: string, dispatch: any) => {
+  fetchBlockByHash(blockHash).then(response => {
+    const { data } = response as Response<BlockWrapper>
+    const block = data.attributes as Block
+    dispatch({
+      type: Actions.block,
+      payload: {
+        block,
+      },
+    })
+    updateBlockPrevNext(block.number, dispatch)
+    getTransactions(block.block_hash, page, size, dispatch)
+  })
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
   const { match, location } = props
   const { params } = match
   const { hash: blockHash } = params
   const { search } = location
   const parsed = queryString.parse(search)
-  const { page, size } = parsed
 
   const initialState = {
     block: initBlock,
     transactions: [] as TransactionWrapper[],
     total: 1,
-    page: validNumber(page, PageParams.PageNo),
-    size: validNumber(size, PageParams.PageSize),
+    page: (parsed.page as string) || PageParams.PageNo,
+    size: (parsed.size as string) || PageParams.PageSize,
     prev: true,
     next: true,
   }
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  if (state.size > PageParams.MaxPageSize) {
-    props.history.replace(`/block/${blockHash}?page=${page}&size=${PageParams.MaxPageSize}`)
+  if (+state.size > PageParams.MaxPageSize) {
+    props.history.replace(`/block/${blockHash}?page=${state.page}&size=${PageParams.MaxPageSize}`)
   }
 
-  const getTransactions = (hash: string, pageNo: number, pageSize: number) => {
-    fetchTransactionsByBlockHash(hash, pageNo, pageSize).then(response => {
-      const { data, meta } = response as Response<TransactionWrapper[]>
-      dispatch({
-        type: Actions.transactions,
-        payload: {
-          transactions: data,
-        },
-      })
-      if (meta) {
-        dispatch({
-          type: Actions.total,
-          payload: {
-            total: meta.total,
-          },
-        })
-      }
-    })
-  }
-
-  const updateBlockPrevNext = (blockNumber: number) => {
-    dispatch({
-      type: Actions.prev,
-      payload: {
-        prev: blockNumber > 0,
-      },
-    })
-    fetchBlockByNumber(`${blockNumber + 1}`)
-      .then(response => {
-        const { data } = response as Response<BlockWrapper>
-        dispatch({
-          type: Actions.next,
-          payload: {
-            next: data.attributes.number > 0,
-          },
-        })
-      })
-      .catch(() => {
-        dispatch({
-          type: Actions.next,
-          payload: false,
-        })
-      })
-  }
-
-  const getBlockByHash = () => {
-    fetchBlockByHash(blockHash).then(response => {
-      const { data } = response as Response<BlockWrapper>
-      const block = data.attributes as Block
-      dispatch({
-        type: Actions.block,
-        payload: {
-          block,
-        },
-      })
-      updateBlockPrevNext(block.number)
-      getTransactions(block.block_hash, state.page, state.size)
-    })
-  }
+  const { page, size } = state
 
   useEffect(() => {
-    getBlockByHash()
-  }, [getBlockByHash])
+    getBlockByHash(blockHash, page, size, dispatch)
+  }, [blockHash, page, dispatch, size])
 
   const onChange = (pageNo: number, pageSize: number) => {
     dispatch({
