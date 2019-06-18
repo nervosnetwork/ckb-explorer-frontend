@@ -188,7 +188,7 @@ export const AddressScriptLabelPanel = styled.div`
 
   > span {
     font-size: 18px;
-    font-weight: 900;
+    font-weight: 450;
     @media (max-width: 700px) {
       font-size: 16px;
 

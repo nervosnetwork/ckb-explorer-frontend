@@ -43,7 +43,7 @@ const HeaderDiv = styled.div`
       margin-left: 34px;
       margin-right: 34px;
       font-size: 22px;
-      font-weight: 600;
+      font-weight: 900;
       line-height: 30px;
       color: #3cc68a;
       &.header__menus__item--active,&: hover {
