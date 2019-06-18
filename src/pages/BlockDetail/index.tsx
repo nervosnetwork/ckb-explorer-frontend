@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useEffect, useContext, useReducer } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import Pagination from 'rc-pagination'
@@ -190,47 +189,46 @@ const reducer = (state: any, action: any) => {
   switch (action.type) {
     case Actions.block:
       return {
-        ...state, 
-        block: action.payload.block
+        ...state,
+        block: action.payload.block,
       }
     case Actions.transactions:
-        return {
-          ...state,
-          transactions: action.payload.transactions
-        }
+      return {
+        ...state,
+        transactions: action.payload.transactions,
+      }
     case Actions.total:
       return {
         ...state,
-        total: action.payload.total
+        total: action.payload.total,
       }
     case Actions.page:
       return {
         ...state,
-        page: action.payload.page
+        page: action.payload.page,
       }
     case Actions.size:
       return {
         ...state,
-        size: action.payload.size
+        size: action.payload.size,
       }
     case Actions.prev:
       return {
         ...state,
-        prev: action.payload.prev
+        prev: action.payload.prev,
       }
     case Actions.next:
       return {
         ...state,
-        next: action.payload.next
+        next: action.payload.next,
       }
     default:
       return state
   }
 }
 
-
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
-  const { match } = props
+  const { match, location } = props
   const { params } = match
   const { hash: blockHash } = params
   const { search } = location
@@ -249,58 +247,87 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const [state, dispatch] = useReducer(reducer, initialState)
 
   if (state.size > PageParams.MaxPageSize) {
-    props.history.replace(
-      `/block/${blockHash}?page=${page}&size=${PageParams.MaxPageSize}`,
-    )
+    props.history.replace(`/block/${blockHash}?page=${page}&size=${PageParams.MaxPageSize}`)
   }
 
-  const getTransactions = (blockHash: string, page: number, size: number) => {
-    fetchTransactionsByBlockHash(blockHash, page, size)
-      .then(response => {
-        const { data, meta } = response as Response<TransactionWrapper[]>
-        dispatch({type: Actions.transactions, payload: {transactions: data}})
-        if (meta) {
-          dispatch({type: Actions.total, payload: {total: meta.total}})
-        }
+  const getTransactions = (hash: string, pageNo: number, pageSize: number) => {
+    fetchTransactionsByBlockHash(hash, pageNo, pageSize).then(response => {
+      const { data, meta } = response as Response<TransactionWrapper[]>
+      dispatch({
+        type: Actions.transactions,
+        payload: {
+          transactions: data,
+        },
       })
+      if (meta) {
+        dispatch({
+          type: Actions.total,
+          payload: {
+            total: meta.total,
+          },
+        })
+      }
+    })
   }
-  
+
   const updateBlockPrevNext = (blockNumber: number) => {
-    dispatch({type: Actions.prev, payload: {prev: blockNumber > 0}})
+    dispatch({
+      type: Actions.prev,
+      payload: {
+        prev: blockNumber > 0,
+      },
+    })
     fetchBlockByNumber(`${blockNumber + 1}`)
       .then(response => {
         const { data } = response as Response<BlockWrapper>
-        dispatch({type: Actions.next, payload: {next: data.attributes.number > 0}})
+        dispatch({
+          type: Actions.next,
+          payload: {
+            next: data.attributes.number > 0,
+          },
+        })
       })
       .catch(() => {
-        dispatch({type: Actions.next, payload: false})
+        dispatch({
+          type: Actions.next,
+          payload: false,
+        })
       })
   }
 
   const getBlockByHash = () => {
-    fetchBlockByHash(blockHash)
-      .then(response => {
-        const { data } = response as Response<BlockWrapper>
-        const block = data.attributes as Block
-        dispatch({
-          type: Actions.block, 
-          payload: { 
-            block: block 
-          }
-        })
-        updateBlockPrevNext(block.number)
-        getTransactions(block.block_hash, state.page, state.size)
+    fetchBlockByHash(blockHash).then(response => {
+      const { data } = response as Response<BlockWrapper>
+      const block = data.attributes as Block
+      dispatch({
+        type: Actions.block,
+        payload: {
+          block,
+        },
       })
+      updateBlockPrevNext(block.number)
+      getTransactions(block.block_hash, state.page, state.size)
+    })
   }
 
   useEffect(() => {
     getBlockByHash()
-  }, [blockHash])
+  }, [getBlockByHash])
 
-  const onChange = (page: number, size: number) => {
-    dispatch({type: Actions.page, payload: {page: page}})
-    dispatch({type: Actions.size, payload: {size: size}})
-    props.history.push(`/block/${blockHash}?page=${page}&size=${size}`)
+  const onChange = (pageNo: number, pageSize: number) => {
+    dispatch({
+      type: Actions.page,
+      payload: {
+        pageNo,
+      },
+    })
+    dispatch({
+      type: Actions.size,
+      payload: {
+        pageSize,
+      },
+    })
+    props.history.push(`/block/${blockHash}?page=${pageSize}&size=${pageSize}`)
   }
 
   const BlockLeftItems: BlockItem[] = [
@@ -443,12 +470,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 item && (
                   <React.Fragment key={item.label}>
                     <BlockItemPC>
-                      <SimpleLabel
-                        image={item.image}
-                        label={item.label}
-                        value={item.value}
-                        lengthNoLimit
-                      />
+                      <SimpleLabel image={item.image} label={item.label} value={item.value} lengthNoLimit />
                     </BlockItemPC>
                     <BlockItemMobile>
                       <MultiLinesItem key={item.label} label={item.label} value={item.value} />
