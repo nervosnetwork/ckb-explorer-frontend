@@ -18,7 +18,7 @@ const LabelPanel = styled.div`
     color: rgb(77, 77, 77);
     margin-left: 10px;
     margin-right: 21px;
-    font-weight: 900;
+    font-weight: 450;
   }
 
   .label__content__full__length {
@@ -109,7 +109,7 @@ const SimpleLabel = ({
 }) => {
   const highLightStyle = {
     color: '#4BBC8E',
-    fontWeight: '900',
+    fontWeight: '450',
   }
   const normalStyle = {
     color: '#888888',
