@@ -15,6 +15,9 @@ const AppDiv = styled.div`
   height: 100vh;
 `
 
+// code: 1004 => "Block Not Found"
+const ConfigErrorCodes = [1004]
+
 const App = () => {
   const appContext = useContext(AppContext)
   const [showError, setShowError] = useState(false)
@@ -36,24 +39,33 @@ const App = () => {
       return response
     },
     error => {
-      setShowError(false)
+      setShowError(true)
       if (error && error.response && error.response.data) {
         const { message } = error.response.data
         switch (error.response.status) {
           case 422:
+            setShowError(false)
             browserHistory.replace('/search/fail')
             break
           case 503:
+            setShowError(false)
             if (message) {
               appContext.errorMessage = message
             }
             browserHistory.replace('/maintain')
             break
+          case 404:
+            setShowError(true)
+            ConfigErrorCodes.forEach(code => {
+              if (code === 1004) {
+                setShowError(false)
+              }
+            })
+            break
           default:
             setShowError(true)
         }
       }
-      setShowError(true)
       return Promise.reject(error)
     },
   )

@@ -50,7 +50,7 @@ import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchBlockByHash, fetchTransactionsByBlockHash, fetchBlockByNumber } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
-import { startEndEllipsis } from '../../utils/string'
+import { startEndEllipsis, validNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
@@ -227,8 +227,8 @@ const reducer = (state: any, action: any) => {
   }
 }
 
-const getTransactions = (hash: string, pageNo: string, pageSize: string, dispatch: any) => {
-  fetchTransactionsByBlockHash(hash, +pageNo, +pageSize).then(response => {
+const getTransactions = (hash: string, page: number, size: number, dispatch: any) => {
+  fetchTransactionsByBlockHash(hash, page, size).then(response => {
     const { data, meta } = response as Response<TransactionWrapper[]>
     dispatch({
       type: Actions.transactions,
@@ -272,7 +272,7 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
     })
 }
 
-const getBlockByHash = (blockHash: string, page: string, size: string, dispatch: any) => {
+const getBlockByHash = (blockHash: string, page: number, size: number, dispatch: any) => {
   fetchBlockByHash(blockHash).then(response => {
     const { data } = response as Response<BlockWrapper>
     const block = data.attributes as Block
@@ -298,22 +298,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     block: initBlock,
     transactions: [] as TransactionWrapper[],
     total: 1,
-    page: (parsed.page as string) || PageParams.PageNo,
-    size: (parsed.size as string) || PageParams.PageSize,
+    page: validNumber(parsed.page, PageParams.PageNo),
+    size: validNumber(parsed.size, PageParams.PageSize),
     prev: true,
     next: true,
   }
   const [state, dispatch] = useReducer(reducer, initialState)
-
-  if (+state.size > PageParams.MaxPageSize) {
-    props.history.replace(`/block/${blockHash}?page=${state.page}&size=${PageParams.MaxPageSize}`)
-  }
-
   const { page, size } = state
+  const { history } = props
+  const { replace } = history
 
   useEffect(() => {
+    if (size > PageParams.MaxPageSize) {
+      replace(`/block/${blockHash}?page=${page}&size=${PageParams.MaxPageSize}`)
+    }
     getBlockByHash(blockHash, page, size, dispatch)
-  }, [blockHash, page, dispatch, size])
+  }, [replace, blockHash, page, size, dispatch])
 
   const onChange = (pageNo: number, pageSize: number) => {
     dispatch({
