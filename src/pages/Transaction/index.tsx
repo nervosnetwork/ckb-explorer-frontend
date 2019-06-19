@@ -29,7 +29,6 @@ import { Data } from '../../http/response/Data'
 import { CellType, fetchTransactionByHash, fetchScript, fetchCellData } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { hexToUtf8, parseLongAddressHash } from '../../utils/string'
-import browserHistory from '../../routes/history'
 import CellCard from '../../components/Card/CellCard'
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
@@ -222,60 +221,50 @@ const InputOutputTableTitle = ({ transactionType, isCellbase }: { transactionTyp
   )
 }
 
+const initTransaction: Transaction = {
+  transaction_hash: '',
+  block_number: 0,
+  block_timestamp: 0,
+  transaction_fee: 0,
+  version: 0,
+  display_inputs: [],
+  display_outputs: [],
+}
+
+const updateCellData = (cellType: string, cellId: number, newCellInputOutput: any, setTransaction: any) => {
+  setTransaction((state: any) => {
+    const newState: any = {
+      ...state,
+    }
+    newState[`display_${cellType}s`].forEach((item: any, i: number) => {
+      if (item.id === cellId) {
+        newState[`display_${cellType}s`][i] = newCellInputOutput
+      }
+    })
+    return newState
+  })
+}
+
+const getTransaction = (hash: string, setTransaction: any) => {
+  fetchTransactionByHash(hash).then(response => {
+    const { data } = response as Response<TransactionWrapper>
+    const transactionValue = data.attributes as Transaction
+    if (transactionValue.display_outputs && transactionValue.display_outputs.length > 0) {
+      transactionValue.display_outputs[0].isGenesisOutput = transactionValue.block_number === 0
+    }
+    setTransaction(transactionValue)
+  })
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
   const { match } = props
   const { params } = match
   const { hash } = params
-
-  const appContext = useContext(AppContext)
-
-  const initTransaction: Transaction = {
-    transaction_hash: '',
-    block_number: 0,
-    block_timestamp: 0,
-    transaction_fee: 0,
-    version: 0,
-    display_inputs: [],
-    display_outputs: [],
-  }
   const [transaction, setTransaction] = useState(initTransaction)
 
-  const updateCellData = (cellType: string, cellId: number, newCellInputOutput: any) => {
-    setTransaction((state: any) => {
-      const newState: any = {
-        ...state,
-      }
-      newState[`display_${cellType}s`].forEach((item: any, i: number) => {
-        if (item.id === cellId) {
-          newState[`display_${cellType}s`][i] = newCellInputOutput
-        }
-      })
-      return newState
-    })
-  }
-
-  const getTransaction = () => {
-    fetchTransactionByHash(hash)
-      .then(json => {
-        const { data, error } = json as Response<TransactionWrapper>
-        if (error) {
-          browserHistory.push(`/search/fail?q=${hash}`)
-        } else {
-          const transactionValue = data.attributes as Transaction
-          if (transactionValue.display_outputs && transactionValue.display_outputs.length > 0) {
-            transactionValue.display_outputs[0].isGenesisOutput = transactionValue.block_number === 0
-          }
-          setTransaction(transactionValue)
-        }
-      })
-      .catch(() => {
-        appContext.toastMessage('Network exception, please try again later', 3000)
-      })
-  }
-
   useEffect(() => {
-    getTransaction()
-  }, [window.location.href])
+    getTransaction(hash, setTransaction)
+  }, [hash, setTransaction])
 
   return (
     <Content>
