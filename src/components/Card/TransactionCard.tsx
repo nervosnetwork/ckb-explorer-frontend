@@ -119,15 +119,19 @@ const TransactionCard = ({ transaction, address }: { transaction: Transaction; a
         highLight
       />
       <div className="sperate__line" />
-      {transaction.display_inputs.map((input: InputOutput) => {
-        return AddressHashItem(input, address)
-      })}
+      {transaction &&
+        transaction.display_inputs &&
+        transaction.display_inputs.map((input: InputOutput) => {
+          return AddressHashItem(input, address)
+        })}
       <div className="green__arrow">
         <img src={GreenArrowDown} alt="arrow" />
       </div>
-      {transaction.display_outputs.map((output: InputOutput) => {
-        return AddressHashItem(output, address)
-      })}
+      {transaction &&
+        transaction.display_outputs &&
+        transaction.display_outputs.map((output: InputOutput) => {
+          return AddressHashItem(output, address)
+        })}
     </CardPanel>
   )
 }

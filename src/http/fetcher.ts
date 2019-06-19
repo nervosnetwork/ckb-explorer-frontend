@@ -27,12 +27,12 @@ export const fetchBlocks = () => {
   return axiosIns.get('blocks').then((res: AxiosResponse) => res.data)
 }
 
-export const fetchBlockList = (page: string, page_size: string) => {
+export const fetchBlockList = (page: number, size: number) => {
   return axiosIns
     .get('blocks', {
       params: {
         page,
-        page_size,
+        page_size: size,
       },
     })
     .then((res: AxiosResponse) => res.data)
