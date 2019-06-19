@@ -24,6 +24,7 @@ import { fetchBlockList } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
 import { shannonToCkb } from '../../utils/util'
+import { validNumber } from '../../utils/string'
 
 enum PageParams {
   PageNo = 1,
@@ -43,7 +44,7 @@ const reducer = (state: any, action: any) => {
     case Actions.blocks:
       return {
         ...state,
-        block: action.payload.block,
+        blocks: action.payload.blocks,
       }
     case Actions.total:
       return {
@@ -86,7 +87,7 @@ const getBlocks = (page: string, size: string, dispatch: any) => {
       dispatch({
         type: Actions.blocks,
         payload: {
-          size: data,
+          blocks: data,
         },
       })
     }
@@ -101,26 +102,24 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   const initialState = {
     blocks: [] as BlockWrapper[],
     total: 1,
-    page: (parsed.page as string) || PageParams.PageNo,
-    size: (parsed.size as string) || PageParams.PageSize,
+    page: validNumber(parsed.page, PageParams.PageNo),
+    size: validNumber(parsed.size, PageParams.PageSize),
   }
   const [state, dispatch] = useReducer(reducer, initialState)
-
   const { page, size } = state
 
-  if (+state.size > PageParams.MaxPageSize) {
-    props.history.replace(`/block/list?page=${state.page}&size=${PageParams.MaxPageSize}`)
-  }
-
   useEffect(() => {
+    if (size > PageParams.MaxPageSize) {
+      props.history.replace(`/block/list?page=${page}&size=${PageParams.MaxPageSize}`)
+    }
     getBlocks(page, size, dispatch)
-  }, [page, size, dispatch])
+  }, [props, page, size, dispatch])
 
   const onChange = (pageNo: number, pageSize: number) => {
     dispatch({
       type: Actions.page,
       payload: {
-        total: pageNo,
+        page: pageNo,
       },
     })
     dispatch({
