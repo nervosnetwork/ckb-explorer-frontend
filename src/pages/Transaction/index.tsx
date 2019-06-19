@@ -231,20 +231,6 @@ const initTransaction: Transaction = {
   display_outputs: [],
 }
 
-const updateCellData = (cellType: string, cellId: number, newCellInputOutput: any, setTransaction: any) => {
-  setTransaction((state: any) => {
-    const newState: any = {
-      ...state,
-    }
-    newState[`display_${cellType}s`].forEach((item: any, i: number) => {
-      if (item.id === cellId) {
-        newState[`display_${cellType}s`][i] = newCellInputOutput
-      }
-    })
-    return newState
-  })
-}
-
 const getTransaction = (hash: string, setTransaction: any) => {
   fetchTransactionByHash(hash).then(response => {
     const { data } = response as Response<TransactionWrapper>
@@ -261,6 +247,20 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const { params } = match
   const { hash } = params
   const [transaction, setTransaction] = useState(initTransaction)
+
+  const updateCellData = (cellType: string, cellId: number, newCellInputOutput: any) => {
+    setTransaction((state: any) => {
+      const newState: any = {
+        ...state,
+      }
+      newState[`display_${cellType}s`].forEach((item: any, i: number) => {
+        if (item.id === cellId) {
+          newState[`display_${cellType}s`][i] = newCellInputOutput
+        }
+      })
+      return newState
+    })
+  }
 
   useEffect(() => {
     getTransaction(hash, setTransaction)
