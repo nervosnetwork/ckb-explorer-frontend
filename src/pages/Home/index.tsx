@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   HomeHeaderPanel,
@@ -11,7 +11,6 @@ import {
   BlockListMobile,
 } from './styled'
 import Content from '../../components/Content'
-import AppContext from '../../contexts/App'
 import {
   TableTitleRow,
   TableTitleItem,
@@ -63,30 +62,18 @@ const BlockchainItemMobile = ({ name, value, image }: { name: string; value: str
   )
 }
 
-const getLatestBlocks = ({ setBlocksWrappers, toast }: { setBlocksWrappers: any; toast?: any }) => {
-  fetchBlocks()
-    .then(response => {
-      const { data } = response as Response<BlockWrapper[]>
-      setBlocksWrappers(data)
-    })
-    .catch(() => {
-      if (toast) {
-        toast()
-      }
-    })
+const getLatestBlocks = ({ setBlocksWrappers }: { setBlocksWrappers: any }) => {
+  fetchBlocks().then(response => {
+    const { data } = response as Response<BlockWrapper[]>
+    setBlocksWrappers(data)
+  })
 }
 
-const getStatistics = ({ setStatistics, toast }: { setStatistics: any; toast?: any }) => {
-  fetchStatistics()
-    .then(response => {
-      const { data } = response as Response<StatisticsWrapper>
-      setStatistics(data.attributes)
-    })
-    .catch(() => {
-      if (toast) {
-        toast()
-      }
-    })
+const getStatistics = ({ setStatistics }: { setStatistics: any }) => {
+  fetchStatistics().then(response => {
+    const { data } = response as Response<StatisticsWrapper>
+    setStatistics(data.attributes)
+  })
 }
 
 interface BlockchainData {
@@ -108,21 +95,7 @@ export default () => {
   }
   const [statistics, setStatistics] = useState(initStatistics)
 
-  const { toastMessage } = useContext(AppContext)
-  const toast = useCallback(() => {
-    toastMessage('Network exception, please try again later', 3000)
-  }, [])
-
   useEffect(() => {
-    getLatestBlocks({
-      setBlocksWrappers,
-      toast,
-    })
-    getStatistics({
-      setStatistics,
-      toast,
-    })
-
     const listener = setInterval(() => {
       getLatestBlocks({
         setBlocksWrappers,
@@ -137,7 +110,7 @@ export default () => {
         clearInterval(listener)
       }
     }
-  }, [setBlocksWrappers, setStatistics, toast])
+  }, [setBlocksWrappers, setStatistics])
 
   const BlockchainDatas: BlockchainData[] = [
     {
