@@ -15,7 +15,8 @@ const AppDiv = styled.div`
   height: 100vh;
 `
 
-const ConfigUrls = ['/blocks/']
+// code: 1004 => "Block Not Found"
+const ConfigErrorCodes = [1004]
 
 const App = () => {
   const appContext = useContext(AppContext)
@@ -38,6 +39,7 @@ const App = () => {
       return response
     },
     error => {
+      setShowError(true)
       if (error && error.response && error.response.data) {
         const { message } = error.response.data
         switch (error.response.status) {
@@ -52,17 +54,17 @@ const App = () => {
             }
             browserHistory.replace('/maintain')
             break
+          case 404:
+            setShowError(true)
+            ConfigErrorCodes.forEach(code => {
+              if (code === 1004) {
+                setShowError(false)
+              }
+            })
+            break
           default:
             setShowError(true)
         }
-      }
-      setShowError(true)
-      if (error && error.config && error.config.url) {
-        ConfigUrls.forEach(url => {
-          if (error.config.url.includes(url)) {
-            setShowError(false)
-          }
-        })
       }
       return Promise.reject(error)
     },
