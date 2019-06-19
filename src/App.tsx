@@ -15,6 +15,8 @@ const AppDiv = styled.div`
   height: 100vh;
 `
 
+const ConfigUrls = ['/blocks/']
+
 const App = () => {
   const appContext = useContext(AppContext)
   const [showError, setShowError] = useState(false)
@@ -36,14 +38,15 @@ const App = () => {
       return response
     },
     error => {
-      setShowError(false)
       if (error && error.response && error.response.data) {
         const { message } = error.response.data
         switch (error.response.status) {
           case 422:
+            setShowError(false)
             browserHistory.replace('/search/fail')
             break
           case 503:
+            setShowError(false)
             if (message) {
               appContext.errorMessage = message
             }
@@ -54,6 +57,13 @@ const App = () => {
         }
       }
       setShowError(true)
+      if (error && error.config && error.config.url) {
+        ConfigUrls.forEach(url => {
+          if (error.config.url.includes(url)) {
+            setShowError(false)
+          }
+        })
+      }
       return Promise.reject(error)
     },
   )
