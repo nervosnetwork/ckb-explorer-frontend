@@ -66,7 +66,7 @@ const reducer = (state: any, action: any) => {
   }
 }
 
-const getBlocks = (page: string, size: string, dispatch: any) => {
+const getBlocks = (page: number, size: number, dispatch: any) => {
   fetchBlockList(page, size).then(response => {
     const { data, meta } = response as Response<BlockWrapper[]>
     if (meta) {
@@ -107,13 +107,15 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   }
   const [state, dispatch] = useReducer(reducer, initialState)
   const { page, size } = state
+  const { history } = props
+  const { replace } = history
 
   useEffect(() => {
     if (size > PageParams.MaxPageSize) {
-      props.history.replace(`/block/list?page=${page}&size=${PageParams.MaxPageSize}`)
+      replace(`/block/list?page=${page}&size=${PageParams.MaxPageSize}`)
     }
     getBlocks(page, size, dispatch)
-  }, [props, page, size, dispatch])
+  }, [replace, page, size, dispatch])
 
   const onChange = (pageNo: number, pageSize: number) => {
     dispatch({
