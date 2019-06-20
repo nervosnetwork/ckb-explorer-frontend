@@ -37,7 +37,8 @@ import { StatisticsWrapper, Statistics } from '../../http/response/Statistics'
 import { Response } from '../../http/response/Response'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
-import { BLOCK_POLLING_TIME } from '../../utils/const'
+import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
+import { storeCachedData, fetchCachedData } from '../../utils/cached'
 
 const BlockchainItem = ({ name, value, image, tip }: { name: string; value: string; image: any; tip?: string }) => {
   return (
@@ -83,24 +84,39 @@ interface BlockchainData {
   tip: string
 }
 
+const initStatistics: Statistics = {
+  tip_block_number: '0',
+  average_block_time: '0',
+  current_epoch_difficulty: 0,
+  hash_rate: '0',
+}
+
 export default () => {
   const initBlockWrappers: BlockWrapper[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
-
-  const initStatistics: Statistics = {
-    tip_block_number: '0',
-    average_block_time: '0',
-    current_epoch_difficulty: 0,
-    hash_rate: '0',
-  }
   const [statistics, setStatistics] = useState(initStatistics)
+
+  useEffect(() => {
+    const cachedBlocks = fetchCachedData<BlockWrapper[]>(CachedKeys.Blocks)
+    if (cachedBlocks) {
+      setBlocksWrappers(cachedBlocks)
+    }
+    const cachedStatistics = fetchCachedData<Statistics>(CachedKeys.Statistics)
+    if (cachedStatistics) {
+      setStatistics(cachedStatistics)
+    }
+  }, [setBlocksWrappers, setStatistics])
+
+  useEffect(() => {
+    storeCachedData(CachedKeys.Blocks, blocksWrappers)
+    storeCachedData(CachedKeys.Statistics, statistics)
+  }, [blocksWrappers, statistics])
 
   useEffect(() => {
     const listener = setInterval(() => {
       getLatestBlocks(setBlocksWrappers)
       getStatistics(setStatistics)
     }, BLOCK_POLLING_TIME)
-
     return () => {
       if (listener) {
         clearInterval(listener)
