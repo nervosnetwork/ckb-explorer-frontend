@@ -3,16 +3,16 @@ import styled from 'styled-components'
 
 const SheetPanel = styled.div`
   width: 100%;
-  height: 70px;
-  background: red;
+  height: 80px;
+  background: #ff7070;
   color: white;
-  font-size: 24px;
+  font-size: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
 
   @media (max-width: 700px) {
-    height: 36px;
+    height: 42px;
     font-size: 14px;
   }
 `
