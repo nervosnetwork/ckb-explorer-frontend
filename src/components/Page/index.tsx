@@ -9,15 +9,7 @@ const PageDiv = styled.div`
   position: relative;
 `
 
-export default ({
-  children,
-  style,
-}: {
-  children: any
-  style?: object
-  onScroll?: Function
-  onScrollEnd?: Function
-}) => {
+export default ({ children, style }: { children: any; style?: object }) => {
   return (
     <PageDiv className="page" style={style}>
       {children}
