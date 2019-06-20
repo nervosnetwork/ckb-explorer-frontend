@@ -15,4 +15,7 @@ export const CachedKeys = {
   // Block Detail
   Block: 'block',
   BlockTransactions: 'block_transactions',
+
+  // Transaction
+  Transaction: 'transaction',
 }

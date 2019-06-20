@@ -30,6 +30,8 @@ import { CellType, fetchTransactionByHash, fetchScript, fetchCellData } from '..
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { hexToUtf8, parseLongAddressHash } from '../../utils/string'
 import CellCard from '../../components/Card/CellCard'
+import { CachedKeys } from '../../utils/const'
+import { fetchCachedData, storeCachedData } from '../../utils/cached'
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
 
@@ -239,6 +241,7 @@ const getTransaction = (hash: string, setTransaction: any) => {
       transactionValue.display_outputs[0].isGenesisOutput = transactionValue.block_number === 0
     }
     setTransaction(transactionValue)
+    storeCachedData(CachedKeys.Transaction, transactionValue)
   })
 }
 
@@ -261,6 +264,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       return newState
     })
   }
+
+  useEffect(() => {
+    const cachedTransaction = fetchCachedData<Transaction>(CachedKeys.Transaction)
+    if (cachedTransaction) {
+      setTransaction(cachedTransaction)
+    }
+  }, [setTransaction])
 
   useEffect(() => {
     getTransaction(hash, setTransaction)
