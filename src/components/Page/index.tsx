@@ -7,7 +7,6 @@ const PageDiv = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch; // hack ios
-  -webkit-transform: translate3d(0,0,0)
   background-color: #f9f9f9;
   box-sizing: border-box;
   position: relative;
