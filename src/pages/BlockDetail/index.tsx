@@ -52,6 +52,8 @@ import { fetchBlockByHash, fetchTransactionsByBlockHash, fetchBlockByNumber } fr
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { startEndEllipsis, validNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
+import { CachedKeys } from '../../utils/const'
+import { storeCachedData, fetchCachedData } from '../../utils/cached'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
@@ -230,6 +232,7 @@ const reducer = (state: any, action: any) => {
 const getTransactions = (hash: string, page: number, size: number, dispatch: any) => {
   fetchTransactionsByBlockHash(hash, page, size).then(response => {
     const { data, meta } = response as Response<TransactionWrapper[]>
+    storeCachedData(CachedKeys.BlockTransactions, data)
     dispatch({
       type: Actions.transactions,
       payload: {
@@ -276,6 +279,7 @@ const getBlockByHash = (blockHash: string, page: number, size: number, dispatch:
   fetchBlockByHash(blockHash).then(response => {
     const { data } = response as Response<BlockWrapper>
     const block = data.attributes as Block
+    storeCachedData(CachedKeys.Block, block)
     dispatch({
       type: Actions.block,
       payload: {
@@ -307,6 +311,27 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const { page, size } = state
   const { history } = props
   const { replace } = history
+
+  useEffect(() => {
+    const cachedBlock = fetchCachedData<Block>(CachedKeys.Block)
+    if (cachedBlock) {
+      dispatch({
+        type: Actions.block,
+        payload: {
+          block: cachedBlock,
+        },
+      })
+    }
+    const cachedTransactions = fetchCachedData<TransactionWrapper[]>(CachedKeys.BlockTransactions)
+    if (cachedTransactions) {
+      dispatch({
+        type: Actions.transactions,
+        payload: {
+          transactions: cachedTransactions,
+        },
+      })
+    }
+  }, [dispatch])
 
   useEffect(() => {
     if (size > PageParams.MaxPageSize) {
