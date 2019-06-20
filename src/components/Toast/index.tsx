@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext, useReducer } from 'react'
 import styled from 'styled-components'
+import AppContext, { ToastMessage } from '../../contexts/App'
 
 const ToastDiv = styled.div`
   position: absolute;
@@ -88,35 +89,67 @@ const ToastItem = ({
     </ToastItemDiv>
   )
 }
-export default ({ toastMessage, style }: { toastMessage: any; style: object }) => {
-  const [items, setItems] = useState([])
-  useEffect(() => {
-    if (toastMessage) {
-      setItems(items.concat(toastMessage))
-    }
-  }, [items, setItems, toastMessage])
 
-  return items.length === 0 ? null : (
+const initialState = {
+  toasts: [] as ToastMessage[],
+  toast: '',
+}
+
+const reducer = (state: any, action: any) => {
+  switch (action.type) {
+    case 'ADD':
+      return {
+        ...state,
+        toasts: state.toasts.concat(action.payload.toast),
+      }
+    case 'REMOVE':
+      return {
+        ...state,
+        toasts: state.toasts.filter((toast: ToastMessage) => {
+          return toast.id !== action.payload.toast.id
+        }),
+      }
+    default:
+      return state
+  }
+}
+
+export default ({ style }: { style: object }) => {
+  const appContext = useContext(AppContext)
+  const { toast } = appContext
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  useEffect(() => {
+    if (toast) {
+      dispatch({
+        type: 'ADD',
+        payload: {
+          toast,
+        },
+      })
+    }
+  }, [dispatch, toast])
+
+  return state.toasts.length === 0 ? null : (
     <ToastDiv className="toast">
-      {items.map((item: any) => {
-        return (
-          <ToastItem
-            willLeave={() => {
-              const newItems: any = items.concat([])
-              for (let i = 0; i < newItems.length; i++) {
-                if (newItems[i].id === item.id) {
-                  newItems.splice(i, 1)
-                  break
-                }
-              }
-              setItems(newItems)
-            }}
-            key={item.id}
-            data={item}
-            style={style}
-          />
-        )
-      })}
+      {state.toasts &&
+        state.toasts.map((item: ToastMessage) => {
+          return (
+            <ToastItem
+              willLeave={() => {
+                dispatch({
+                  type: 'REMOVE',
+                  payload: {
+                    toast: item,
+                  },
+                })
+              }}
+              key={item.id}
+              data={item}
+              style={style}
+            />
+          )
+        })}
     </ToastDiv>
   )
 }

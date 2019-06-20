@@ -86,7 +86,6 @@ const App = () => {
         show={appContext.show}
       />
       <Toast
-        toastMessage={appContext.toast}
         style={{
           bottom: 10,
         }}
