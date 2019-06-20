@@ -37,7 +37,7 @@ import { StatisticsWrapper, Statistics } from '../../http/response/Statistics'
 import { Response } from '../../http/response/Response'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
-import CONFIG from '../../config'
+import { BLOCK_POLLING_TIME } from '../../utils/const'
 
 const BlockchainItem = ({ name, value, image, tip }: { name: string; value: string; image: any; tip?: string }) => {
   return (
@@ -103,7 +103,7 @@ export default () => {
       getStatistics({
         setStatistics,
       })
-    }, CONFIG.BLOCK_POLLING_TIME)
+    }, BLOCK_POLLING_TIME)
 
     return () => {
       if (listener) {
