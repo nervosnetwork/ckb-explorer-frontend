@@ -7,4 +7,8 @@ export const CachedKeys = {
   // Home
   Blocks: 'blocks',
   Statistics: 'statistics',
+
+  // Address
+  Address: 'address',
+  AddressTransactions: 'address_transactions',
 }

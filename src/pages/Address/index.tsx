@@ -36,6 +36,8 @@ import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { validNumber, startEndEllipsis } from '../../utils/string'
 import TransactionCard from '../../components/Card/TransactionCard'
+import { CachedKeys } from '../../utils/const'
+import { storeCachedData, fetchCachedData } from '../../utils/cached'
 
 const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
   const appContext = useContext(AppContext)
@@ -172,6 +174,7 @@ const getAddressInfo = (hash: string, dispatch: any) => {
           address: data.attributes,
         },
       })
+      storeCachedData(CachedKeys.Address, data.attributes)
     }
   })
 }
@@ -186,6 +189,7 @@ const getTransactions = (hash: string, page: number, size: number, dispatch: any
           transactions: data,
         },
       })
+      storeCachedData(CachedKeys.AddressTransactions, data)
     }
     if (meta) {
       dispatch({
@@ -223,6 +227,27 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   }
   const [state, dispatch] = useReducer(reducer, initialState)
   const { page, size } = state
+
+  useEffect(() => {
+    const cachedAddress = fetchCachedData<Address>(CachedKeys.Address)
+    if (cachedAddress) {
+      dispatch({
+        type: Actions.address,
+        payload: {
+          address: cachedAddress,
+        },
+      })
+    }
+    const cachedTransactions = fetchCachedData<TransactionWrapper[]>(CachedKeys.AddressTransactions)
+    if (cachedTransactions) {
+      dispatch({
+        type: Actions.transactions,
+        payload: {
+          transactions: cachedTransactions,
+        },
+      })
+    }
+  }, [dispatch])
 
   useEffect(() => {
     if (size > PageParams.MaxPageSize) {
