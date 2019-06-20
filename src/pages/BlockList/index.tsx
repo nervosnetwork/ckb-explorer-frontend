@@ -44,7 +44,6 @@ const Actions = {
 const reducer = (state: any, action: any) => {
   switch (action.type) {
     case Actions.blocks:
-      storeCachedData(CachedKeys.BlockList, action.payload.blocks)
       return {
         ...state,
         blocks: action.payload.blocks,
@@ -93,6 +92,7 @@ const getBlocks = (page: number, size: number, dispatch: any) => {
           blocks: data,
         },
       })
+      storeCachedData(CachedKeys.BlockList, data)
     }
   })
 }
