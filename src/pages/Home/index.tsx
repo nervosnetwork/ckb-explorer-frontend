@@ -62,14 +62,14 @@ const BlockchainItemMobile = ({ name, value, image }: { name: string; value: str
   )
 }
 
-const getLatestBlocks = ({ setBlocksWrappers }: { setBlocksWrappers: any }) => {
+const getLatestBlocks = (setBlocksWrappers: any) => {
   fetchBlocks().then(response => {
     const { data } = response as Response<BlockWrapper[]>
     setBlocksWrappers(data)
   })
 }
 
-const getStatistics = ({ setStatistics }: { setStatistics: any }) => {
+const getStatistics = (setStatistics: any) => {
   fetchStatistics().then(response => {
     const { data } = response as Response<StatisticsWrapper>
     setStatistics(data.attributes)
@@ -97,12 +97,8 @@ export default () => {
 
   useEffect(() => {
     const listener = setInterval(() => {
-      getLatestBlocks({
-        setBlocksWrappers,
-      })
-      getStatistics({
-        setStatistics,
-      })
+      getLatestBlocks(setBlocksWrappers)
+      getStatistics(setStatistics)
     }, BLOCK_POLLING_TIME)
 
     return () => {
