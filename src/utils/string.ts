@@ -22,5 +22,11 @@ export const parseLongAddressHash = (address: string) => {
 }
 
 export const hexToUtf8 = (value: string) => {
-  return value ? decodeURIComponent(value.replace(/\s+/g, '').replace(/[0-9a-f]{2}/g, '%$&')) : value
+  if (!value) return value
+  const newValue = value.startsWith('0x') ? value.substring(2) : value
+  try {
+    return decodeURIComponent(newValue.replace(/\s+/g, '').replace(/[0-9a-f]{2}/g, '%$&'))
+  } catch (error) {
+    return value
+  }
 }
