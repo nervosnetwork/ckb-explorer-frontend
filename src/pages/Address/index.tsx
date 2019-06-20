@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useReducer, useEffect, useContext } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
@@ -110,13 +110,6 @@ enum PageParams {
   MaxPageSize = 100,
 }
 
-interface TransactionData {
-  transactionWrappers: TransactionWrapper[]
-  totalTransactions: number
-  pageNo: number
-  pageSize: number
-}
-
 const initAddress: Address = {
   address_hash: '',
   lock_hash: '',
@@ -129,39 +122,83 @@ const initAddress: Address = {
   },
 }
 
-const getAddressInfo = ({ hash, setAddressData }: { hash: string; setAddressData: any }) => {
+const Actions = {
+  address: 'ADDRESS',
+  transactions: 'TRANSACTIONS',
+  total: 'TOTAL',
+  page: 'PAGE_NO',
+  size: 'PAGE_SIZE',
+}
+
+const reducer = (state: any, action: any) => {
+  switch (action.type) {
+    case Actions.address:
+      return {
+        ...state,
+        address: action.payload.address,
+      }
+    case Actions.transactions:
+      return {
+        ...state,
+        transactions: action.payload.transactions,
+      }
+    case Actions.total:
+      return {
+        ...state,
+        total: action.payload.total,
+      }
+    case Actions.page:
+      return {
+        ...state,
+        page: action.payload.page,
+      }
+    case Actions.size:
+      return {
+        ...state,
+        size: action.payload.size,
+      }
+    default:
+      return state
+  }
+}
+
+const getAddressInfo = (hash: string, dispatch: any) => {
   fetchAddressInfo(hash).then(response => {
     const { data } = response as Response<AddressWrapper>
-    setAddressData(data.attributes as Address)
+    if (data) {
+      dispatch({
+        type: Actions.address,
+        payload: {
+          address: data.attributes,
+        },
+      })
+    }
   })
 }
 
-const getTransactions = ({
-  hash,
-  transactionData,
-  setTransactionData,
-}: {
-  hash: string
-  transactionData: TransactionData
-  setTransactionData: any
-}) => {
-  const { pageNo, pageSize } = transactionData
-  fetchTransactionsByAddress(hash, pageNo, pageSize).then(response => {
+const getTransactions = (hash: string, page: number, size: number, dispatch: any) => {
+  fetchTransactionsByAddress(hash, page, size).then(response => {
     const { data, meta } = response as Response<TransactionWrapper[]>
-    setTransactionData((state: any) => {
-      return {
-        ...state,
-        transactionWrappers: data,
-      }
-    })
+    if (data) {
+      dispatch({
+        type: Actions.transactions,
+        payload: {
+          transactions: data,
+        },
+      })
+    }
     if (meta) {
-      const { total, page_size } = meta
-      setTransactionData((state: any) => {
-        return {
-          ...state,
-          totalTransactions: total,
-          pageSize: page_size,
-        }
+      dispatch({
+        type: Actions.total,
+        payload: {
+          total: meta.total,
+        },
+      })
+      dispatch({
+        type: Actions.size,
+        payload: {
+          size: meta.page_size,
+        },
       })
     }
   })
@@ -172,47 +209,43 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   const { params } = match
   const { address, hash: lockHash } = params
   const identityHash = address || lockHash
-
   const { search } = location
   const parsed = queryString.parse(search)
-  const pageNo: number = validNumber(parsed.page, PageParams.PageNo)
-  const pageSize: number = validNumber(parsed.size, PageParams.PageSize)
+  const { history } = props
+  const { replace } = history
 
-  const [addressData, setAddressData] = useState(initAddress)
-  const [transactionData, setTransactionData] = useState({
-    transactionWrappers: [],
-    totalTransactions: 1,
-    pageNo,
-    pageSize,
-  })
-
-  if (pageSize > PageParams.MaxPageSize) {
-    props.history.replace(
-      `/${address ? 'address' : 'lockhash'}/${identityHash}?page=${pageNo}&size=${PageParams.MaxPageSize}`,
-    )
+  const initialState = {
+    address: initAddress,
+    transactions: [] as TransactionWrapper[],
+    total: 1,
+    page: validNumber(parsed.page, PageParams.PageNo),
+    size: validNumber(parsed.size, PageParams.PageSize),
   }
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const { page, size } = state
 
   useEffect(() => {
-    getAddressInfo({
-      hash: identityHash,
-      setAddressData,
-    })
-    getTransactions({
-      hash: identityHash,
-      transactionData,
-      setTransactionData,
-    })
-  }, [identityHash, setAddressData, setTransactionData, transactionData])
+    if (size > PageParams.MaxPageSize) {
+      replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${page}&size=${PageParams.MaxPageSize}`)
+    }
+    getAddressInfo(identityHash, dispatch)
+    getTransactions(identityHash, page, size, dispatch)
+  }, [replace, identityHash, page, size, dispatch, address])
 
-  const onChange = (page: number, size: number) => {
-    setTransactionData((state: any) => {
-      return {
-        ...state,
-        pageNo: page,
-        pageSize: size,
-      }
+  const onChange = (pageNo: number, pageSize: number) => {
+    dispatch({
+      type: Actions.page,
+      payload: {
+        page: pageNo,
+      },
     })
-    props.history.replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${page}&size=${size}`)
+    dispatch({
+      type: Actions.size,
+      payload: {
+        size: pageSize,
+      },
+    })
+    replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${pageNo}&size=${pageSize}`)
   }
 
   return (
@@ -222,28 +255,33 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         <AddressOverview value="Overview" />
         <AddressCommonContent>
           <AddressCommonRowPanel>
-            <SimpleLabel image={BalanceIcon} label="Balance : " value={`${shannonToCkb(addressData.balance)} CKB`} />
-            <SimpleLabel image={TransactionsIcon} label="Transactions : " value={`${addressData.transactions_count}`} />
+            <SimpleLabel image={BalanceIcon} label="Balance : " value={`${shannonToCkb(state.address.balance)} CKB`} />
+            <SimpleLabel
+              image={TransactionsIcon}
+              label="Transactions : "
+              value={`${state.address.transactions_count}`}
+            />
           </AddressCommonRowPanel>
           {lockHash &&
-            (addressData.address_hash ? (
+            state.address &&
+            (state.address.address_hash ? (
               <SimpleLabel
                 image={AddressHashIcon}
                 label="Address: "
-                value={`${startEndEllipsis(addressData.address_hash, 12)}`}
+                value={`${startEndEllipsis(state.address.address_hash, 12)}`}
                 lengthNoLimit
               />
             ) : (
               <SimpleLabel image={AddressHashIcon} label="Address: " value="Unable to decode address" lengthNoLimit />
             ))}
-          <AddressScriptLabel image={AddressScriptIcon} label="Lock Script : " script={addressData.lock_script} />
+          <AddressScriptLabel image={AddressScriptIcon} label="Lock Script : " script={state.address.lock_script} />
         </AddressCommonContent>
 
         <AddressTransactionsPanel>
           <AddressOverview value="Transactions" />
           <div>
-            {transactionData.transactionWrappers &&
-              transactionData.transactionWrappers.map((transaction: any) => {
+            {state.transactions &&
+              state.transactions.map((transaction: any) => {
                 return (
                   transaction && (
                     <TransactionComponent
@@ -254,8 +292,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                   )
                 )
               })}
-            {transactionData.transactionWrappers &&
-              transactionData.transactionWrappers.map((transaction: any) => {
+            {state.transactions &&
+              state.transactions.map((transaction: any) => {
                 return (
                   transaction && (
                     <TransactionCard
@@ -271,11 +309,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
             <Pagination
               showQuickJumper
               showSizeChanger
-              defaultPageSize={transactionData.pageSize}
-              pageSize={transactionData.pageSize}
-              defaultCurrent={transactionData.pageNo}
-              current={transactionData.pageNo}
-              total={transactionData.totalTransactions}
+              defaultPageSize={state.size}
+              pageSize={state.size}
+              defaultCurrent={state.page}
+              current={state.page}
+              total={state.total}
               onChange={onChange}
               locale={localeInfo}
             />
