@@ -59,7 +59,7 @@ export const HomeHeaderItemPanel = styled.div`
     color: #3cc68a;
     text-align: center;
     font-size: 26px;
-    font-weight: 900;
+    font-weight: 450;
     margin-top: 60px;
   }
 
@@ -68,7 +68,7 @@ export const HomeHeaderItemPanel = styled.div`
     text-align: center;
     font-size: 16px;
     margin-top: 12px;
-    font-weight: 900;
+    font-weight: 450;
   }
 
   .blockchain__item__tip {
@@ -118,7 +118,7 @@ export const HomeHeaderItemMobilePanel = styled.div`
     text-align: center;
     font-size: 14px;
     margin-top: 20px;
-    font-weight: 900;
+    font-weight: 450;
   }
 
   .blockchain__item__name {
@@ -126,7 +126,7 @@ export const HomeHeaderItemMobilePanel = styled.div`
     text-align: center;
     font-size: 12px;
     margin-top: 5px;
-    font-weight: 900;
+    font-weight: 450;
   }
 `
 

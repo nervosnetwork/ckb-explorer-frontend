@@ -90,7 +90,7 @@ export default () => {
   const initStatistics: Statistics = {
     tip_block_number: '0',
     average_block_time: '0',
-    average_difficulty: 0,
+    current_epoch_difficulty: 0,
     hash_rate: '0',
   }
   const [statistics, setStatistics] = useState(initStatistics)
@@ -121,9 +121,9 @@ export default () => {
     },
     {
       name: 'Difficulty',
-      value: `${parseInt(`${statistics.average_difficulty}`, 10).toLocaleString()}`,
+      value: `${parseInt(`${statistics.current_epoch_difficulty}`, 10).toLocaleString()}`,
       image: DifficultyImage,
-      tip: 'Average Difficulty of the last 500 blocks',
+      tip: 'Difficulty of the lastest Epoch',
     },
     {
       name: 'Hash Rate',
