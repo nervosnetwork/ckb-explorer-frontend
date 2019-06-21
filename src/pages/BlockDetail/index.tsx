@@ -443,10 +443,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                     <SimpleLabel
                       image={BlockRightItems[0].image}
                       label={BlockRightItems[0].label}
-                      value={startEndEllipsis(BlockRightItems[0].value, 5)}
-                      style={{
-                        fontFamily: 'source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace',
-                      }}
+                      value={startEndEllipsis(BlockRightItems[0].value, 7)}
                       highLight
                     />
                   </Link>
@@ -471,7 +468,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 item && (
                   <React.Fragment key={item.label}>
                     <BlockItemPC>
-                      <SimpleLabel image={item.image} label={item.label} value={item.value} lengthNoLimit />
+                      <SimpleLabel image={item.image} label={item.label} value={item.value} />
                     </BlockItemPC>
                     <BlockItemMobile>
                       <MultiLinesItem key={item.label} label={item.label} value={item.value} />

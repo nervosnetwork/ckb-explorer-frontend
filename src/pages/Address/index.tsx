@@ -269,10 +269,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                 image={AddressHashIcon}
                 label="Address: "
                 value={`${startEndEllipsis(state.address.address_hash, 12)}`}
-                lengthNoLimit
               />
             ) : (
-              <SimpleLabel image={AddressHashIcon} label="Address: " value="Unable to decode address" lengthNoLimit />
+              <SimpleLabel image={AddressHashIcon} label="Address: " value="Unable to decode address" />
             ))}
           <AddressScriptLabel image={AddressScriptIcon} label="Lock Script : " script={state.address.lock_script} />
         </AddressCommonContent>

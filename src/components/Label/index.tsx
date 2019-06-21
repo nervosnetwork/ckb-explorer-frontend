@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const LabelPanel = styled.div`
   display: flex;
@@ -21,73 +21,56 @@ const LabelPanel = styled.div`
     font-weight: 450;
   }
 
-  .label__content__full__length {
-    color: rgb(136, 136, 136);
-  }
-
-  .label__content__limit__length {
+  > div {
     color: rgb(136, 136, 136);
     max-width: 320px;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    ${(props: { highLight: boolean }) =>
+      props.highLight &&
+      css`
+      color: #4BBC8E;
+      font-weight: 450;
+      source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    `};
   }
 
   @media (max-width: 700px) {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     height: 24px;
     line-height: 24px;
     margin-bottom: 10px;
 
     > img {
       display: none;
-      width: 15px;
-      height: 15px;
     }
 
     > span {
       font-size: 16px;
-      color: rgb(77, 77, 77);
-      margin-left: 10px;
       margin-right: 10px;
     }
 
     > div {
       font-size: 15px;
-      color: rgb(136, 136, 136);
-      max-width: 320px;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
   }
 
   @media (max-width: 320px) {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     height: 20px;
     line-height: 20px;
     margin-bottom: 8px;
 
     > img {
       display: none;
-      width: 15px;
-      height: 15px;
     }
 
     > span {
       font-size: 14px;
-      color: rgb(77, 77, 77);
-      margin-left: 10px;
       margin-right: 10px;
     }
 
     > div {
       font-size: 13px;
-      color: rgb(136, 136, 136);
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
   }
 `
@@ -98,30 +81,19 @@ const SimpleLabel = ({
   value,
   highLight,
   style,
-  lengthNoLimit,
 }: {
   image: string
   label: string
   value: any
   highLight?: boolean
   style?: any
-  lengthNoLimit?: boolean
 }) => {
-  const highLightStyle = {
-    color: '#4BBC8E',
-    fontWeight: '450',
-  }
-  const normalStyle = {
-    color: '#888888',
-  }
-  const className = lengthNoLimit ? 'label__content__full__length' : 'label__content__limit__length'
+  const highLightFont = !!highLight
   return (
-    <LabelPanel style={style}>
+    <LabelPanel style={style} highLight={highLightFont}>
       <img src={image} alt={value} />
       <span>{label}</span>
-      <div style={highLight ? highLightStyle : normalStyle} className={className}>
-        {value}
-      </div>
+      <div>{value}</div>
     </LabelPanel>
   )
 }
