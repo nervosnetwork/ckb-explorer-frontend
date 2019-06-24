@@ -25,6 +25,8 @@ import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
 import { shannonToCkb } from '../../utils/util'
 import { validNumber } from '../../utils/string'
+import { CachedKeys } from '../../utils/const'
+import { fetchCachedData, storeCachedData } from '../../utils/cached'
 
 enum PageParams {
   PageNo = 1,
@@ -90,6 +92,7 @@ const getBlocks = (page: number, size: number, dispatch: any) => {
           blocks: data,
         },
       })
+      storeCachedData(CachedKeys.BlockList, data)
     }
   })
 }
@@ -109,6 +112,18 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   const { page, size } = state
   const { history } = props
   const { replace } = history
+
+  useEffect(() => {
+    const cachedBlocks = fetchCachedData<BlockWrapper[]>(CachedKeys.BlockList)
+    if (cachedBlocks) {
+      dispatch({
+        type: Actions.blocks,
+        payload: {
+          blocks: cachedBlocks,
+        },
+      })
+    }
+  }, [dispatch])
 
   useEffect(() => {
     if (size > PageParams.MaxPageSize) {
