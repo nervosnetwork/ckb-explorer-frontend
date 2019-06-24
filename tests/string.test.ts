@@ -1,4 +1,4 @@
-import { validNumber, startEndEllipsis, parseLongAddressHash, hexToUtf8, prefixHex } from '../src/utils/string'
+import { validNumber, startEndEllipsis, parseLongAddressHash, hexToUtf8, searchTextCorrection } from '../src/utils/string'
 
 describe('String methods tests', () => {
 
@@ -28,10 +28,22 @@ describe('String methods tests', () => {
     expect(hexToUtf8('6e6572766f73')).toBe('nervos')
   })
 
-  it('add prefix for hex string', async () => {
-    expect(prefixHex("0x6efece8a4bdd583673ac80819cd96dc455f4e39699daf622dd8603552ff89e4e")).toBe("0x6efece8a4bdd583673ac80819cd96dc455f4e39699daf622dd8603552ff89e4e")
-    expect(prefixHex("6efece8a4bdd583673ac80819cd96dc455f4e39699daf622dd8603552ff89e4e")).toBe("0x6efece8a4bdd583673ac80819cd96dc455f4e39699daf622dd8603552ff89e4e")
-    expect(prefixHex("azusa")).toBe("azusa")
-    expect(prefixHex("2233")).toBe("0x2233")
+  it('search text correction', async () => {
+    // block number
+    expect(searchTextCorrection("59003")).toBe("59003")
+    // block hash
+    expect(searchTextCorrection("0x6983738437a6309ebca57186d3ae2f4ec168b4ace4abecd1625f6375633713b8")).toBe("0x6983738437a6309ebca57186d3ae2f4ec168b4ace4abecd1625f6375633713b8")
+    expect(searchTextCorrection("6983738437a6309ebca57186d3ae2f4ec168b4ace4abecd1625f6375633713b8")).toBe("0x6983738437a6309ebca57186d3ae2f4ec168b4ace4abecd1625f6375633713b8")
+    // tx hash
+    expect(searchTextCorrection("0x56dde24a962eb5e0c77c0c0ea99cb5dfb0388012553535d447d105b96a13eeb5")).toBe("0x56dde24a962eb5e0c77c0c0ea99cb5dfb0388012553535d447d105b96a13eeb5")
+    expect(searchTextCorrection("56dde24a962eb5e0c77c0c0ea99cb5dfb0388012553535d447d105b96a13eeb5")).toBe("0x56dde24a962eb5e0c77c0c0ea99cb5dfb0388012553535d447d105b96a13eeb5")
+    // lock hash
+    expect(searchTextCorrection("0x5de8c4d303266934f64be2acc928bbb82d07a34e9932dabcfa64761604fa15e5")).toBe("0x5de8c4d303266934f64be2acc928bbb82d07a34e9932dabcfa64761604fa15e5")
+    expect(searchTextCorrection("5de8c4d303266934f64be2acc928bbb82d07a34e9932dabcfa64761604fa15e5")).toBe("0x5de8c4d303266934f64be2acc928bbb82d07a34e9932dabcfa64761604fa15e5")
+    // address
+    expect(searchTextCorrection("ckt1q9gry5zg8u2h8dzzrr2vz253jxd932rrheq4527rxr7493")).toBe("ckt1q9gry5zg8u2h8dzzrr2vz253jxd932rrheq4527rxr7493")
+    // other
+    expect(searchTextCorrection("azusa")).toBe("azusa")
+    expect(searchTextCorrection("2233")).toBe("2233")
   })
 })
