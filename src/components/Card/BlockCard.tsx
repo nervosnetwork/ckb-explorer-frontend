@@ -77,7 +77,7 @@ const BlockCard = ({ block }: { block: Block }) => {
       {block.miner_hash ? (
         <CardItem
           name="Miner :"
-          value={startEndEllipsis(block.miner_hash, window.innerWidth > 320 ? 12 : 6)}
+          value={startEndEllipsis(block.miner_hash, 7)}
           to={`/address/${block.miner_hash}`}
           highLight
         />
