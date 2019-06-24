@@ -113,6 +113,8 @@ export default () => {
   }, [blocksWrappers, statistics])
 
   useEffect(() => {
+    getLatestBlocks(setBlocksWrappers)
+    getStatistics(setStatistics)
     const listener = setInterval(() => {
       getLatestBlocks(setBlocksWrappers)
       getStatistics(setStatistics)
