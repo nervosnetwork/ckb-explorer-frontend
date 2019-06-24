@@ -1,4 +1,4 @@
-import { validNumber, startEndEllipsis, parseLongAddressHash, hexToUtf8 } from '../src/utils/string'
+import { validNumber, startEndEllipsis, parseLongAddressHash, hexToUtf8, prefixHex } from '../src/utils/string'
 
 describe('String methods tests', () => {
 
@@ -28,4 +28,10 @@ describe('String methods tests', () => {
     expect(hexToUtf8('6e6572766f73')).toBe('nervos')
   })
 
+  it('add prefix for hex string', async () => {
+    expect(prefixHex("0x6efece8a4bdd583673ac80819cd96dc455f4e39699daf622dd8603552ff89e4e")).toBe("0x6efece8a4bdd583673ac80819cd96dc455f4e39699daf622dd8603552ff89e4e")
+    expect(prefixHex("6efece8a4bdd583673ac80819cd96dc455f4e39699daf622dd8603552ff89e4e")).toBe("0x6efece8a4bdd583673ac80819cd96dc455f4e39699daf622dd8603552ff89e4e")
+    expect(prefixHex("azusa")).toBe("azusa")
+    expect(prefixHex("2233")).toBe("0x2233")
+  })
 })

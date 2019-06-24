@@ -30,3 +30,13 @@ export const hexToUtf8 = (value: string) => {
     return value
   }
 }
+
+export const prefixHex = (value: string) => {
+  if (!value) return value
+  if (/\b(0[xX])/.test(value)) return value
+
+  if (/\b[A-Fa-f0-9]+\b/.test(value)) {
+    return `0x${value}`
+  }
+  return value
+}

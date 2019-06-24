@@ -7,6 +7,7 @@ import { TransactionWrapper } from '../../http/response/Transaction'
 import { AddressWrapper } from '../../http/response/Address'
 import browserHistory from '../../routes/history'
 import SearchLogo from '../../assets/search.png'
+import { prefixHex } from '../../utils/string'
 
 const SearchPanel = styled.div`
   margin: 0 auto;
@@ -77,7 +78,7 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
     if (!query) {
       appContext.toastMessage('Please input valid content', 3000)
     } else {
-      fetchSearchResult(query)
+      fetchSearchResult(prefixHex(query))
         .then((json: any) => {
           setSearchValue('')
           const { data } = json
