@@ -334,6 +334,11 @@ export const InputOutputTable = styled.table`
       }
     }
   }
+
+  .address__bold__grey {
+    color: #888888;
+    font-weight: bold;
+  }
 `
 
 export const WithRowDiv = styled.div`

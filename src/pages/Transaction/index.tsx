@@ -61,14 +61,7 @@ const ScriptComponent = ({
         <code>{parseLongAddressHash(cellInputOutput.address_hash)}</code>
       </Link>
     ) : (
-      <div
-        style={{
-          color: '#888888',
-          fontWeight: 'bold',
-        }}
-      >
-        Unable to decode address
-      </div>
+      <div className="address__bold__grey">Unable to decode address</div>
     )
   }
 
@@ -77,14 +70,7 @@ const ScriptComponent = ({
       <tr className="tr-brief">
         <td>
           {cellInputOutput.from_cellbase ? (
-            <div
-              style={{
-                color: '#888888',
-                fontWeight: 'bold',
-              }}
-            >
-              Cellbase
-            </div>
+            <div className="address__bold__grey">Cellbase</div>
           ) : (
             <AddressHashComponent />
           )}
