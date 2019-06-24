@@ -59,12 +59,12 @@ const SearchInputPenal = styled.input`
   border-radius: 6px 0 0 6px;
   opacity: 0.8;
 
-  ${(props: { opacity: boolean }) =>
-    props.opacity &&
+  ${(props: { opacityStyle: boolean }) =>
+    props.opacityStyle &&
     css`
       opacity: 1;
       border: 2px solid #606060;
-    `}
+    `};
 
   background: rgba(255, 255, 255, 0.2);
   &: focus {
@@ -90,9 +90,9 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
       appContext.toastMessage('Please input valid content', 3000)
     } else {
       fetchSearchResult(searchTextCorrection(query))
-        .then((json: any) => {
+        .then((response: any) => {
           setSearchValue('')
-          const { data } = json
+          const { data } = response
           if (data.type === 'block') {
             browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
           } else if (data.type === 'ckb_transaction') {
@@ -114,20 +114,17 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
 
   return (
     <SearchPanel>
-      {
-        <SearchInputPenal
-          opacity={!!opacity}
-          id="home__search__bar"
-          placeholder={SearchPlaceholder}
-          defaultValue={searchValue || ''}
-          onChange={(event: any) => setSearchValue(event.target.value)}
-          onKeyUp={(event: any) => {
-            if (event.keyCode === 13) {
-              handleSearchResult()
-            }
-          }}
-        />
-      }
+      <SearchInputPenal
+        placeholder={SearchPlaceholder}
+        defaultValue={searchValue || ''}
+        opacityStyle={!!opacity}
+        onChange={(event: any) => setSearchValue(event.target.value)}
+        onKeyUp={(event: any) => {
+          if (event.keyCode === 13) {
+            handleSearchResult()
+          }
+        }}
+      />
       <div
         role="button"
         tabIndex={-1}
