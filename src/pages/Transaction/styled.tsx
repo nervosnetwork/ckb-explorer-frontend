@@ -236,6 +236,7 @@ export const InputOutputTable = styled.table`
       }
     }
   }
+
   tbody {
     tr {
       &.tr-brief {
@@ -267,6 +268,7 @@ export const InputOutputTable = styled.table`
           }
         }
       }
+
       &.tr-detail {
         border-bottom: 2px solid #4bbc8e;
         &:last-child {
