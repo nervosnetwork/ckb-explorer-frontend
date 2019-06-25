@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useRef } from 'react'
 import styled, { css } from 'styled-components'
 import AppContext from '../../contexts/App'
 import { fetchSearchResult } from '../../http/fetcher'
@@ -83,6 +83,7 @@ const SearchPlaceholder = 'Block / Transaction / Address'
 const Search = ({ opacity = false, content }: { opacity?: boolean; content?: string }) => {
   const appContext = useContext(AppContext)
   const [searchValue, setSearchValue] = useState(content || '')
+  const inputElement = useRef(null)
 
   const handleSearchResult = () => {
     const query = searchValue.replace(/^\s+|\s+$/g, '') // remove front and end blank
@@ -91,7 +92,8 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
     } else {
       fetchSearchResult(searchTextCorrection(query))
         .then((response: any) => {
-          setSearchValue('')
+          const input: any = inputElement.current!
+          input.value = ''
           const { data } = response
           if (data.type === 'block') {
             browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
@@ -115,6 +117,7 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
   return (
     <SearchPanel>
       <SearchInputPenal
+        ref={inputElement}
         placeholder={SearchPlaceholder}
         defaultValue={searchValue || ''}
         opacityStyle={!!opacity}
