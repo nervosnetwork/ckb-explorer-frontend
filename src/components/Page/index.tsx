@@ -3,7 +3,10 @@ import styled from 'styled-components'
 
 const PageDiv = styled.div`
   width: 100%;
-  min-height: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; // hack ios
   background-color: #f9f9f9;
   box-sizing: border-box;
   position: relative;
