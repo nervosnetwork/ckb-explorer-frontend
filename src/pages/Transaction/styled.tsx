@@ -316,23 +316,25 @@ export const InputOutputTable = styled.table`
         }
       }
     }
-    td {
-      .td-operatable {
-        cursor: pointer;
-        text-align: center;
-        padding-bottom: 4px;
-      }
-      .td-operatable-active {
-        cursor: pointer;
-        text-align: center;
-        padding-bottom: 4px;
-        border-bottom: 2px solid #4bbc8e;
-      }
-      .td-operatable-disabled {
-        color: #888888;
-        cursor: unset;
-      }
-    }
+  }
+
+  .td-operatable {
+    cursor: pointer;
+    text-align: center;
+    padding-bottom: 4px;
+  }
+
+  .td-operatable-active {
+    cursor: pointer;
+    text-align: center;
+    padding-bottom: 4px;
+    border-bottom: 2px solid #4bbc8e;
+  }
+
+  .td-operatable-disabled {
+    color: #888888;
+    text-align: center;
+    cursor: unset;
   }
 
   .address__bold__grey {

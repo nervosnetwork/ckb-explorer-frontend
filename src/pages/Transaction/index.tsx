@@ -134,18 +134,22 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
     appContext.toastMessage('Copied', 3000)
   }
 
-  const handleFetchScript = (item: string) => {
-    if (cellInputOutput.from_cellbase) return
+  const handleCellState = (item: string) => {
     dispatch({
       type: Actions.cellState,
       payload: {
         cellState: getCellState(state, item),
       },
     })
-    switch (state.cellState) {
+  }
+
+  const handleFetchScript = (item: string) => {
+    if (cellInputOutput.from_cellbase) return
+    switch (getCellState(state, item)) {
       case CellState.LOCK:
         fetchScript(cellType, 'lock_scripts', cellInputOutput.id).then(response => {
           const { data } = response as Response<ScriptWrapper>
+          handleCellState(item)
           dispatch({
             type: Actions.lock,
             payload: {
@@ -157,6 +161,7 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
       case CellState.TYPE:
         fetchScript(cellType, 'type_scripts', cellInputOutput.id).then(response => {
           const { data } = response as Response<ScriptWrapper>
+          handleCellState(item)
           dispatch({
             type: Actions.type,
             payload: {
@@ -171,6 +176,7 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
           if (data && cellInputOutput.isGenesisOutput) {
             dataValue.data = hexToUtf8(data.data.substr(2))
           }
+          handleCellState(item)
           dispatch({
             type: Actions.data,
             payload: {
@@ -180,8 +186,20 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
         })
         break
       default:
+        handleCellState(item)
         break
     }
+  }
+
+  const operationClassName = (item: string) => {
+    const cellState = getCellState(state, item)
+    if (cellInputOutput.from_cellbase) {
+      return 'td-operatable-disabled'
+    }
+    if (cellState !== CellState.NONE && state.cellState === cellState) {
+      return 'td-operatable-active'
+    }
+    return 'td-operatable'
   }
 
   return (
@@ -196,19 +214,12 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
         </td>
         {!cellInputOutput.from_cellbase ? <td>{shannonToCkb(cellInputOutput.capacity)}</td> : <td />}
         {ScriptTypeItems.map(item => {
-          let className = 'td-operatable'
-          if (cellInputOutput.select === item) {
-            className += ' td-operatable-active '
-          }
-          if (cellInputOutput.from_cellbase) {
-            className += ' td-operatable-disabled '
-          }
           return (
             <td key={item}>
               <div
                 role="button"
                 tabIndex={-1}
-                className={className}
+                className={operationClassName(item)}
                 onKeyPress={() => {}}
                 onClick={() => handleFetchScript(item)}
               >
