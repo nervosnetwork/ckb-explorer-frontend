@@ -393,7 +393,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: DifficultyIcon,
       label: 'Difficulty:',
-      value: `${parseInt(state.block.difficulty, 16)}`,
+      value: parseInt(state.block.difficulty, 16).toLocaleString(),
     },
     {
       image: NonceIcon,
