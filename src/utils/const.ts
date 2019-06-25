@@ -8,3 +8,6 @@ export const CachedKeys = {
   Blocks: 'blocks',
   Statistics: 'statistics',
 }
+
+export const TRANSACTION_COMPONENT_CELL_PAGE_SIZE = 10
+export const TRANSACTION_COMPONENT_CONFIRMATION_MAX = 1000

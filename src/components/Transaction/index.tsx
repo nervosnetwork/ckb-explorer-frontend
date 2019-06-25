@@ -14,6 +14,7 @@ import {
   TransactionsItem,
   TransactionConfirmationContainer,
 } from './styled'
+import { TRANSACTION_COMPONENT_CELL_PAGE_SIZE, TRANSACTION_COMPONENT_CONFIRMATION_MAX } from '../../utils/const'
 
 const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => {
   const CellbaseAddress = () => {
@@ -91,6 +92,14 @@ const getCapacityChange = (transaction: any, address?: string) => {
   return capacity
 }
 
+const formattorConfirmation = (confirmation: number | undefined) => {
+  if (!confirmation) return '0 Confirmation'
+  if (confirmation! > TRANSACTION_COMPONENT_CONFIRMATION_MAX) {
+    return `${TRANSACTION_COMPONENT_CONFIRMATION_MAX}+ Confirmation`
+  }
+  return `${confirmation} Confirmation`
+}
+
 const TransactionComponent = ({
   transaction,
   address,
@@ -118,16 +127,22 @@ const TransactionComponent = ({
         </div>
         <span className="transaction__separate" />
         <div className="transaction__input__output">
-          <CellContainerComponent cells={transaction.display_inputs} address={address} pageSize={10} />
+          <CellContainerComponent
+            cells={transaction.display_inputs}
+            address={address}
+            pageSize={TRANSACTION_COMPONENT_CELL_PAGE_SIZE}
+          />
           <img src={InputOutputIcon} alt="input and output" />
           <div className="transaction__output">
-            <CellContainerComponent cells={transaction.display_outputs} address={address} pageSize={10} />
+            <CellContainerComponent
+              cells={transaction.display_outputs}
+              address={address}
+              pageSize={TRANSACTION_COMPONENT_CELL_PAGE_SIZE}
+            />
             {address && <span className="transaction__separate" />}
-            {address && confirmation && (
+            {address && (
               <TransactionConfirmationContainer increased={changeInCapacity >= 0}>
-                <div className="confirmation">
-                  {confirmation > 0 ? `${confirmation > 1000 ? '1000+' : confirmation} Confirmation` : `0 Confirmation`}
-                </div>
+                <div className="confirmation">{formattorConfirmation(confirmation)}</div>
                 <div className="capacity">
                   {`${changeInCapacity >= 0 ? '+' : '-'} ${Math.abs(changeInCapacity) / 10 ** 8} CKB`}
                 </div>
