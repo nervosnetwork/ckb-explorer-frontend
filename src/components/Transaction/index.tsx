@@ -15,6 +15,7 @@ import {
   TransactionConfirmationContainer,
 } from './styled'
 import { TRANSACTION_COMPONENT_CELL_PAGE_SIZE, TRANSACTION_COMPONENT_CONFIRMATION_MAX } from '../../utils/const'
+import LoadMoreIcon from '../../assets/transaction_load_more.png'
 
 const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => {
   const CellbaseAddress = () => {
@@ -67,6 +68,7 @@ const CellContainerComponent = ({
       {count < cells.length && (
         <button type="button" onClick={onClickLoadMore}>
           Load More
+          <img src={LoadMoreIcon} alt="load more" />
         </button>
       )}
       {children}

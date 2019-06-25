@@ -89,6 +89,13 @@ export const CellContainer = styled.div`
     font-size: 16px;
     cursor: pointer;
     outline: none;
+
+    > img {
+      width: 16px;
+      height: 9px;
+      flex: 1;
+      margin-left: 10px;
+    }
   }
 `
 
