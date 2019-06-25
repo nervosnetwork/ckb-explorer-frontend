@@ -76,21 +76,19 @@ const CellContainerComponent = ({
   )
 }
 
-const getCapacityChange = (transaction: any, address?: string) => {
+const getCapacityChange = (transaction: { display_inputs: [any]; display_outputs: [any] }, address?: string) => {
   if (!transaction) return 0
   let capacity: number = 0
-  for (let index = 0; index < transaction.display_inputs.length; index++) {
-    const element = transaction.display_inputs[index]
+  transaction.display_inputs.forEach(element => {
     if (element.address_hash === address) {
       capacity -= parseNumber(element.capacity)
     }
-  }
-  for (let index = 0; index < transaction.display_outputs.length; index++) {
-    const element = transaction.display_outputs[index]
+  })
+  transaction.display_outputs.forEach(element => {
     if (element.address_hash === address) {
       capacity += parseNumber(element.capacity)
     }
-  }
+  })
   return capacity
 }
 
