@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
+import HelpIcon from '../../assets/qa_help.png'
 
 const LabelPanel = styled.div`
   display: flex;
@@ -8,12 +9,12 @@ const LabelPanel = styled.div`
   height: 28px;
   margin-bottom: 24px;
 
-  > img {
+  .label__icon {
     width: 20px;
     height: 20px;
   }
 
-  > span {
+  .label__name {
     font-size: 18px;
     color: rgb(77, 77, 77);
     margin-left: 10px;
@@ -21,7 +22,7 @@ const LabelPanel = styled.div`
     font-weight: 450;
   }
 
-  > div {
+  .label__value {
     color: rgb(136, 136, 136);
 
     ${(props: { highLight: boolean }) =>
@@ -38,16 +39,16 @@ const LabelPanel = styled.div`
     line-height: 24px;
     margin-bottom: 10px;
 
-    > img {
+    .label__icon {
       display: none;
     }
 
-    > span {
+    label__name {
       font-size: 16px;
       margin-right: 10px;
     }
 
-    > div {
+    .label__value {
       font-size: 15px;
     }
   }
@@ -57,20 +58,25 @@ const LabelPanel = styled.div`
     line-height: 20px;
     margin-bottom: 8px;
 
-    > img {
+    .label__icon {
       display: none;
     }
 
-    > span {
+    .label__name {
       font-size: 14px;
       margin-right: 10px;
     }
 
-    > div {
+    .label__value {
       font-size: 13px;
     }
   }
 `
+
+export interface Tooltip {
+  status: string
+  tip: string
+}
 
 const SimpleLabel = ({
   image,
@@ -78,19 +84,23 @@ const SimpleLabel = ({
   value,
   highLight,
   style,
+  tooltip,
 }: {
   image: string
   label: string
   value: any
   highLight?: boolean
   style?: any
+  tooltip?: Tooltip
 }) => {
   const highLightFont = !!highLight
   return (
     <LabelPanel style={style} highLight={highLightFont}>
-      <img src={image} alt={value} />
-      <span>{label}</span>
-      <div>{value}</div>
+      <img className="label__icon" src={image} alt={value} />
+      <span className="label__name">{label}</span>
+      <div className="label__value">{value}</div>
+      {tooltip && tooltip.status && <span>{tooltip.status}</span>}
+      {tooltip && tooltip.tip && <img className="label__help" src={HelpIcon} alt="label help" />}
     </LabelPanel>
   )
 }
