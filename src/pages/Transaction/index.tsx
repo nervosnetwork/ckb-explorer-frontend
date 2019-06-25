@@ -100,15 +100,20 @@ const getCell = (state: any) => {
 }
 
 const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
-const getCellState = (state: any, item: string) => {
-  let cellState: CellState = CellState.NONE
+const cellStateWithItem = (item: string) => {
   if (item === ScriptTypeItems[0]) {
-    cellState = CellState.LOCK
-  } else if (item === ScriptTypeItems[1]) {
-    cellState = CellState.TYPE
-  } else if (item === ScriptTypeItems[2]) {
-    cellState = CellState.DATA
+    return CellState.LOCK
   }
+  if (item === ScriptTypeItems[1]) {
+    return CellState.TYPE
+  }
+  if (item === ScriptTypeItems[2]) {
+    return CellState.DATA
+  }
+  return CellState.NONE
+}
+const getCellState = (state: any, item: string) => {
+  const cellState = cellStateWithItem(item)
   return cellState === state.cellState ? CellState.NONE : cellState
 }
 
@@ -192,11 +197,11 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
   }
 
   const operationClassName = (item: string) => {
-    const cellState = getCellState(state, item)
+    const cellState = cellStateWithItem(item)
     if (cellInputOutput.from_cellbase) {
       return 'td-operatable-disabled'
     }
-    if (cellState !== CellState.NONE && state.cellState === cellState) {
+    if (state.cellState === cellState) {
       return 'td-operatable-active'
     }
     return 'td-operatable'
