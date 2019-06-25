@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useContext } from 'react'
+import React, { useReducer, useState, useEffect, useContext } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
@@ -32,10 +32,13 @@ import { Address, AddressWrapper } from '../../http/response/Address'
 import { Script } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
-import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
+import { fetchAddressInfo, fetchTransactionsByAddress, fetchStatistics } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { validNumber, startEndEllipsis } from '../../utils/string'
 import TransactionCard from '../../components/Card/TransactionCard'
+import { StatisticsWrapper, Statistics } from '../../http/response/Statistics'
+import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
+import { storeCachedData, fetchCachedData } from '../../utils/cached'
 
 const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
   const appContext = useContext(AppContext)
@@ -102,6 +105,13 @@ const AddressScriptLabel = ({ image, label, script }: { image: string; label: st
       </AddressScriptContentPanel>
     </div>
   )
+}
+
+const getStatistics = (setStatistics: any) => {
+  fetchStatistics().then(response => {
+    const { data } = response as Response<StatisticsWrapper>
+    setStatistics(data.attributes)
+  })
 }
 
 enum PageParams {
@@ -221,8 +231,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     page: validNumber(parsed.page, PageParams.PageNo),
     size: validNumber(parsed.size, PageParams.PageSize),
   }
+  const initStatistics: Statistics = {
+    tip_block_number: '0',
+    average_block_time: '0',
+    current_epoch_difficulty: 0,
+    hash_rate: '0',
+  }
+
   const [state, dispatch] = useReducer(reducer, initialState)
   const { page, size } = state
+  const [statistics, setStatistics] = useState(initStatistics)
 
   useEffect(() => {
     if (size > PageParams.MaxPageSize) {
@@ -247,6 +265,29 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     })
     replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${pageNo}&size=${pageSize}`)
   }
+
+  useEffect(() => {
+    const cachedStatistics = fetchCachedData<Statistics>(CachedKeys.Statistics)
+    if (cachedStatistics) {
+      setStatistics(cachedStatistics)
+    }
+  }, [setStatistics])
+
+  useEffect(() => {
+    getStatistics(setStatistics)
+    const listener = setInterval(() => {
+      getStatistics(setStatistics)
+    }, BLOCK_POLLING_TIME)
+    return () => {
+      if (listener) {
+        clearInterval(listener)
+      }
+    }
+  }, [setStatistics])
+
+  useEffect(() => {
+    storeCachedData(CachedKeys.Statistics, statistics)
+  }, [statistics])
 
   return (
     <Content>
@@ -285,6 +326,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                   transaction && (
                     <TransactionComponent
                       address={address}
+                      confirmation={parseInt(statistics.tip_block_number, 10) - transaction.attributes.block_number}
                       transaction={transaction.attributes}
                       key={transaction.attributes.transaction_hash}
                     />

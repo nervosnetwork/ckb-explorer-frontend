@@ -46,7 +46,7 @@ export const TransactionsItem = styled.div`
       margin-top: 30px;
       display: flex;
       flex-direction: row;
-      align-items: center;
+      align-items: flex-start;
 
       > img {
         width: 40px;
@@ -63,8 +63,50 @@ export const TransactionsItem = styled.div`
         flex-direction: column;
         align-items: flex-start;
         margin-left: 50px;
+
+        .transaction__separate {
+          margin-top: 10px;
+          margin-bottom: 20px;
+        }
       }
     }
+  }
+`
+
+export const CellContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 13;
+
+  > button {
+    border: none;
+    padding: 10px 0px;
+    color: #888888;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+  }
+`
+
+export const TransactionConfirmationContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .confirmation {
+    font-size: 16px;
+    color: #888888;
+  }
+  .capacity {
+    font-size: 16px;
+    color: ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff7070')};
+    flex-direction: column;
+    align-items: flex-end;
   }
 `
 
@@ -97,6 +139,7 @@ export const CellHash = styled.code`
   font-size: 16px;
   color: rgb(136, 136, 136)};
 `
+
 export const CellHashHighLight = styled(CellHash)`
   font-size: 16px;
   color: rgb(75, 188, 142);
