@@ -41,7 +41,7 @@ const SearchPanel = styled.div`
   }
 `
 
-const SearchInputPenal = styled.input`
+const SearchInputPanel = styled.input`
   position: relative;
   width: 100%;
   height: 100%;
@@ -116,7 +116,7 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
 
   return (
     <SearchPanel>
-      <SearchInputPenal
+      <SearchInputPanel
         ref={inputElement}
         placeholder={SearchPlaceholder}
         defaultValue={searchValue || ''}
