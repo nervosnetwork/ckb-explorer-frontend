@@ -19,6 +19,5 @@ export interface InputOutput {
   address_hash: string
   capacity: number
   from_cellbase: boolean
-  select: string
   isGenesisOutput: boolean
 }
