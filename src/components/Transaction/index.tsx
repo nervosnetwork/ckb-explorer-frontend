@@ -14,7 +14,7 @@ import {
   TransactionsItem,
   TransactionConfirmationContainer,
 } from './styled'
-import { TRANSACTION_COMPONENT_CELL_PAGE_SIZE, TRANSACTION_COMPONENT_CONFIRMATION_MAX } from '../../utils/const'
+import { CELL_PAGE_SIZE, CONFIRMATION_MAX } from './const'
 import LoadMoreIcon from '../../assets/transaction_load_more.png'
 
 const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => {
@@ -94,8 +94,8 @@ const getCapacityChange = (transaction: { display_inputs: [any]; display_outputs
 
 const formattorConfirmation = (confirmation: number | undefined) => {
   if (!confirmation) return '0 Confirmation'
-  if (confirmation! > TRANSACTION_COMPONENT_CONFIRMATION_MAX) {
-    return `${TRANSACTION_COMPONENT_CONFIRMATION_MAX}+ Confirmation`
+  if (confirmation! > CONFIRMATION_MAX) {
+    return `${CONFIRMATION_MAX}+ Confirmation`
   }
   return `${confirmation} Confirmation`
 }
@@ -127,18 +127,10 @@ const TransactionComponent = ({
         </div>
         <span className="transaction__separate" />
         <div className="transaction__input__output">
-          <CellContainerComponent
-            cells={transaction.display_inputs}
-            address={address}
-            pageSize={TRANSACTION_COMPONENT_CELL_PAGE_SIZE}
-          />
+          <CellContainerComponent cells={transaction.display_inputs} address={address} pageSize={CELL_PAGE_SIZE} />
           <img src={InputOutputIcon} alt="input and output" />
           <div className="transaction__output">
-            <CellContainerComponent
-              cells={transaction.display_outputs}
-              address={address}
-              pageSize={TRANSACTION_COMPONENT_CELL_PAGE_SIZE}
-            />
+            <CellContainerComponent cells={transaction.display_outputs} address={address} pageSize={CELL_PAGE_SIZE} />
             {address && <span className="transaction__separate" />}
             {address && (
               <TransactionConfirmationContainer increased={changeInCapacity >= 0}>
