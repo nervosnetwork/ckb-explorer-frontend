@@ -144,7 +144,7 @@ const TransactionComponent = ({
               <TransactionConfirmationContainer increased={changeInCapacity >= 0}>
                 <div className="confirmation">{formattorConfirmation(confirmation)}</div>
                 <div className="capacity">
-                  {`${changeInCapacity >= 0 ? '+' : '-'} ${Math.abs(changeInCapacity) / 10 ** 8} CKB`}
+                  {`${changeInCapacity >= 0 ? '+' : '-'} ${shannonToCkb(Math.abs(changeInCapacity))} CKB`}
                 </div>
               </TransactionConfirmationContainer>
             )}
