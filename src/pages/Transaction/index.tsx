@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useReducer } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import AppContext from '../../contexts/App'
 
@@ -24,36 +24,97 @@ import CopyIcon from '../../assets/copy.png'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { Transaction, InputOutput, TransactionWrapper } from '../../http/response/Transaction'
-import { Script, ScriptWrapper } from '../../http/response/Script'
-import { Data } from '../../http/response/Data'
+import { ScriptWrapper } from '../../http/response/Script'
 import { CellType, fetchTransactionByHash, fetchScript, fetchCellData } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { hexToUtf8, parseLongAddressHash } from '../../utils/string'
 import CellCard from '../../components/Card/CellCard'
 
-const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
-
-const ScriptComponent = ({
-  cellType,
-  cellInputOutput,
-  scriptType = null,
-  updateCellData,
-}: {
-  cellType: CellType
-  cellInputOutput: any
-  scriptType?: string | null
-  updateCellData: Function
-}) => {
-  const appContext = useContext(AppContext)
-  const initScript: Script = {
+enum CellState {
+  NONE,
+  LOCK,
+  TYPE,
+  DATA,
+}
+const initialState = {
+  lock: {
     code_hash: '',
     args: [],
-  }
-  const [script, setScript] = useState(initScript)
-  const initCellData: Data = {
+  },
+  type: {
+    code_hash: '',
+    args: [],
+  },
+  data: {
     data: '',
+  },
+  cellState: CellState.NONE,
+}
+const Actions = {
+  lock: 'LOCK',
+  type: 'TYPE',
+  data: 'DATA',
+  cellState: 'CELL_STATE',
+}
+
+const reducer = (state: any, action: any) => {
+  switch (action.type) {
+    case Actions.lock:
+      return {
+        ...state,
+        lock: action.payload.lock,
+      }
+    case Actions.type:
+      return {
+        ...state,
+        type: action.payload.type,
+      }
+    case Actions.data:
+      return {
+        ...state,
+        data: action.payload.data,
+      }
+    case Actions.cellState:
+      return {
+        ...state,
+        cellState: action.payload.cellState,
+      }
+    default:
+      return state
   }
-  const [cellData, setCellData] = useState(initCellData)
+}
+
+const getCell = (state: any) => {
+  switch (state.cellState) {
+    case CellState.LOCK:
+      return state.lock
+    case CellState.TYPE:
+      return state.type
+    case CellState.DATA:
+      return state.data
+    case CellState.NONE:
+      return ''
+    default:
+      return ''
+  }
+}
+
+const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
+const getCellState = (state: any, item: string) => {
+  let cellState: CellState = CellState.NONE
+  if (item === ScriptTypeItems[0]) {
+    cellState = CellState.LOCK
+  } else if (item === ScriptTypeItems[1]) {
+    cellState = CellState.TYPE
+  } else if (item === ScriptTypeItems[2]) {
+    cellState = CellState.DATA
+  }
+  return cellState === state.cellState ? CellState.NONE : cellState
+}
+
+const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; cellInputOutput: any }) => {
+  const appContext = useContext(AppContext)
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   const AddressHashComponent = () => {
     return cellInputOutput.address_hash ? (
@@ -63,6 +124,64 @@ const ScriptComponent = ({
     ) : (
       <div className="address__bold__grey">Unable to decode address</div>
     )
+  }
+
+  const handleCopy = () => {
+    const textarea = document.getElementById(`textarea-${cellType}-${cellInputOutput.id}`) as HTMLTextAreaElement
+    textarea.select()
+    document.execCommand('Copy')
+    window.getSelection()!.removeAllRanges()
+    appContext.toastMessage('Copied', 3000)
+  }
+
+  const handleFetchScript = (item: string) => {
+    if (cellInputOutput.from_cellbase) return
+    dispatch({
+      type: Actions.cellState,
+      payload: {
+        cellState: getCellState(state, item),
+      },
+    })
+    switch (state.cellState) {
+      case CellState.LOCK:
+        fetchScript(cellType, 'lock_scripts', cellInputOutput.id).then(response => {
+          const { data } = response as Response<ScriptWrapper>
+          dispatch({
+            type: Actions.lock,
+            payload: {
+              lock: data ? data.attributes : initialState.lock,
+            },
+          })
+        })
+        break
+      case CellState.TYPE:
+        fetchScript(cellType, 'type_scripts', cellInputOutput.id).then(response => {
+          const { data } = response as Response<ScriptWrapper>
+          dispatch({
+            type: Actions.type,
+            payload: {
+              type: data ? data.attributes : initialState.type,
+            },
+          })
+        })
+        break
+      case CellState.DATA:
+        fetchCellData(cellType, cellInputOutput.id).then((data: any) => {
+          const dataValue = data
+          if (data && cellInputOutput.isGenesisOutput) {
+            dataValue.data = hexToUtf8(data.data.substr(2))
+          }
+          dispatch({
+            type: Actions.data,
+            payload: {
+              data: dataValue || initialState.data,
+            },
+          })
+        })
+        break
+      default:
+        break
+    }
   }
 
   return (
@@ -91,35 +210,7 @@ const ScriptComponent = ({
                 tabIndex={-1}
                 className={className}
                 onKeyPress={() => {}}
-                onClick={() => {
-                  if (cellInputOutput.from_cellbase) return
-                  const newCellInputOutput = {
-                    ...cellInputOutput,
-                  }
-                  newCellInputOutput.select = newCellInputOutput.select === item ? null : item
-                  if (item === 'Lock Script') {
-                    fetchScript(cellType, 'lock_scripts', cellInputOutput.id).then(json => {
-                      const { data } = json as Response<ScriptWrapper>
-                      setScript(data ? data.attributes : initScript)
-                      updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
-                    })
-                  } else if (item === 'Type Script') {
-                    fetchScript(cellType, 'type_scripts', cellInputOutput.id).then(json => {
-                      const { data } = json as Response<ScriptWrapper>
-                      setScript(data ? data.attributes : initScript)
-                      updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
-                    })
-                  } else {
-                    fetchCellData(cellType, cellInputOutput.id).then((data: any) => {
-                      const dataValue = data
-                      if (data && cellInputOutput.isGenesisOutput) {
-                        dataValue.data = hexToUtf8(data.data.substr(2))
-                      }
-                      setCellData(dataValue || initCellData)
-                      updateCellData(cellType, cellInputOutput.id, newCellInputOutput)
-                    })
-                  }
-                }}
+                onClick={() => handleFetchScript(item)}
               >
                 {item}
               </div>
@@ -127,12 +218,12 @@ const ScriptComponent = ({
           )
         })}
       </tr>
-      {scriptType ? (
+      {state.cellState !== CellState.NONE ? (
         <tr className="tr-detail">
           <td colSpan={5}>
             <textarea
               id={`textarea-${cellType}-${cellInputOutput.id}`}
-              value={JSON.stringify(scriptType === 'Data' ? cellData : script, null, 4)}
+              value={JSON.stringify(getCell(state), null, 4)}
               readOnly
             />
             <div className="tr-detail-td-buttons">
@@ -141,15 +232,7 @@ const ScriptComponent = ({
                 tabIndex={-1}
                 className="td-operatable"
                 onKeyPress={() => {}}
-                onClick={() => {
-                  const textarea = document.getElementById(
-                    `textarea-${cellType}-${cellInputOutput.id}`,
-                  ) as HTMLTextAreaElement
-                  textarea.select()
-                  document.execCommand('Copy')
-                  window.getSelection().removeAllRanges()
-                  appContext.toastMessage('Copied', 3000)
-                }}
+                onClick={() => handleCopy()}
               >
                 <div>Copy</div>
                 <img src={CopyGreenIcon} alt="copy" />
@@ -234,20 +317,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const { hash } = params
   const [transaction, setTransaction] = useState(initTransaction)
 
-  const updateCellData = (cellType: string, cellId: number, newCellInputOutput: any) => {
-    setTransaction((state: any) => {
-      const newState: any = {
-        ...state,
-      }
-      newState[`display_${cellType}s`].forEach((item: any, i: number) => {
-        if (item.id === cellId) {
-          newState[`display_${cellType}s`][i] = newCellInputOutput
-        }
-      })
-      return newState
-    })
-  }
-
   useEffect(() => {
     getTransaction(hash, setTransaction)
   }, [hash, setTransaction])
@@ -303,17 +372,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 {transaction &&
                   transaction.display_inputs &&
                   transaction.display_inputs.map((input: InputOutput) => {
-                    return (
-                      input && (
-                        <ScriptComponent
-                          cellType={CellType.Input}
-                          key={input.id}
-                          cellInputOutput={input}
-                          scriptType={input.select || null}
-                          updateCellData={updateCellData}
-                        />
-                      )
-                    )
+                    return input && <ScriptComponent cellType={CellType.Input} key={input.id} cellInputOutput={input} />
                   })}
               </tbody>
             </InputOutputTable>
@@ -327,15 +386,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   transaction.display_outputs &&
                   transaction.display_outputs.map((output: InputOutput) => {
                     return (
-                      output && (
-                        <ScriptComponent
-                          cellType={CellType.Output}
-                          key={output.id}
-                          cellInputOutput={output}
-                          scriptType={output.select || null}
-                          updateCellData={updateCellData}
-                        />
-                      )
+                      output && <ScriptComponent cellType={CellType.Output} key={output.id} cellInputOutput={output} />
                     )
                   })}
               </tbody>
