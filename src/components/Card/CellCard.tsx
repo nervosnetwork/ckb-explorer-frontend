@@ -5,7 +5,7 @@ import AppContext from '../../contexts/App'
 import CopyGreenIcon from '../../assets/copy_green.png'
 import { InputOutput } from '../../http/response/Transaction'
 import { startEndEllipsis, hexToUtf8 } from '../../utils/string'
-import { shannonToCkb } from '../../utils/util'
+import { shannonToCkb, copyElementValue } from '../../utils/util'
 import { CellType, fetchScript, fetchCellData } from '../../http/fetcher'
 import { ScriptWrapper } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
@@ -83,9 +83,11 @@ const ScriptPanel = styled.div`
     justify-content: center;
     align-items: center;
 
-    textarea {
+    .script__input {
       border: none;
       width: 100%;
+      word-wrap: break-word;
+      white-space: pre-wrap;
       padding: 12px;
       font-size: 12px;
       color: #888888;
@@ -95,7 +97,6 @@ const ScriptPanel = styled.div`
       min-height: 120px;
       background-color: #f9f9f9;
       border-radius: 6px 6px;
-      user-select: none;
       transform: translateZ(0);
     }
 
@@ -281,14 +282,8 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const handleCopy = () => {
-    const textarea = document.getElementById(`script__textarea__${cell.id}`) as HTMLTextAreaElement
-    const range = document.createRange()
-    range.selectNodeContents(textarea)
-    const selection = window.getSelection()
-    selection.removeAllRanges()
-    selection.addRange(range)
-    textarea.setSelectionRange(0, 999999)
-    document.execCommand('copy')
+    const textarea = document.getElementById(`script__textarea__${cell.id}`)
+    copyElementValue(textarea)
     appContext.toastMessage('Copied', 3000)
   }
 
@@ -377,7 +372,9 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
 
       {state.cellState !== CellState.NONE && (
         <div className="script__content">
-          <textarea id={`script__textarea__${cell.id}`} value={JSON.stringify(getCell(state), null, 4)} readOnly />
+          <div className="script__input" id={`script__textarea__${cell.id}`}>
+            {JSON.stringify(getCell(state), null, 4)}
+          </div>
           <div className="script__copy" role="button" tabIndex={-1} onKeyPress={() => {}} onClick={() => handleCopy()}>
             <div>Copy</div>
             <img src={CopyGreenIcon} alt="copy" />
