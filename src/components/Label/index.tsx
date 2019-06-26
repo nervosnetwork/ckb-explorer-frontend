@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import HelpIcon from '../../assets/qa_help.png'
 
 const LabelPanel = styled.div`
@@ -25,14 +25,6 @@ const LabelPanel = styled.div`
   .label__value {
     color: rgb(136, 136, 136);
     font-size: 16px;
-
-    ${(props: { highLight: boolean }) =>
-      props.highLight &&
-      css`
-      color: #4BBC8E;
-      font-weight: 450;
-      source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-    `};
   }
 
   .label__status {
@@ -116,27 +108,38 @@ export interface Tooltip {
   hideValue?: boolean
 }
 
+const highLightStyle = {
+  color: '#4BBC8E',
+  fontWeight: 450,
+  fontFamily: 'source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace',
+}
+
+const noneStyle = {
+  color: '#888888',
+}
+
 const SimpleLabel = ({
   image,
   label,
   value,
   highLight,
-  style,
   tooltip,
 }: {
   image: string
   label: string
   value: any
   highLight?: boolean
-  style?: any
   tooltip?: Tooltip
 }) => {
-  const highLightFont = !!highLight
   return (
-    <LabelPanel style={style} highLight={highLightFont}>
+    <LabelPanel>
       <img className="label__icon" src={image} alt={value} />
       <span className="label__name">{label}</span>
-      {(!tooltip || (tooltip && !tooltip.hideValue)) && <div className="label__value">{value}</div>}
+      {(!tooltip || (tooltip && !tooltip.hideValue)) && (
+        <div className="label__value" style={highLight ? highLightStyle : noneStyle}>
+          {value}
+        </div>
+      )}
       {tooltip && tooltip.status && <span className="label__status">{tooltip.status}</span>}
       {tooltip && tooltip.tip && <img className="label__help" src={HelpIcon} alt="label help" />}
     </LabelPanel>
