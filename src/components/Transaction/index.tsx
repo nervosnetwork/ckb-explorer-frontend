@@ -1,80 +1,64 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { TransactionsCell, TransactionsItem, CellHash, CellHashHighLight } from './styled'
+import InputOutputIcon from '../../assets/input_arrow_output.png'
 import { parseDate } from '../../utils/date'
 import { shannonToCkb } from '../../utils/util'
-import { startEndEllipsis } from '../../utils/string'
-import InputOutputIcon from '../../assets/input_arrow_output.png'
-import { InputOutput } from '../../http/response/Transaction'
+import CellContainer from './CellList'
+import {
+  ConfirmationCapacityContainer,
+  HashBlockContainer,
+  InputOutputContainer,
+  MainContainer,
+  Separate,
+} from './styled'
+import { CELL_PAGE_SIZE } from './utils/const'
+import { formattorConfirmation, getCapacityChange } from './utils/utils'
 
-const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => {
-  const CellbaseAddress = () => {
-    return address === cell.address_hash || cell.from_cellbase ? (
-      <div className="transaction__cell">
-        <CellHash>{cell.from_cellbase ? 'Cellbase' : startEndEllipsis(cell.address_hash)}</CellHash>
-      </div>
-    ) : (
-      <Link className="transaction__cell__link" to={`/address/${cell.address_hash}`}>
-        <CellHashHighLight>{startEndEllipsis(cell.address_hash)}</CellHashHighLight>
-      </Link>
-    )
-  }
-
-  return (
-    <TransactionsCell>
-      {cell.address_hash ? (
-        <CellbaseAddress />
-      ) : (
-        <div className="transaction__cell">
-          <CellHash>{cell.from_cellbase ? 'Cellbase' : 'Unable to decode address'}</CellHash>
-        </div>
-      )}
-      {!cell.from_cellbase && <div className="transaction__cell__capacity">{`${shannonToCkb(cell.capacity)} CKB`}</div>}
-    </TransactionsCell>
-  )
-}
-
-const TransactionComponent = ({
+export default ({
   transaction,
   address,
   isBlock = false,
+  confirmation,
 }: {
   transaction: any
   address?: string
   isBlock?: boolean
+  confirmation?: number
 }) => {
+  const changeInCapacity = getCapacityChange(transaction, address)
   return (
-    <TransactionsItem>
+    <MainContainer>
       <div>
-        <div className="transaction__hash__panel">
+        <HashBlockContainer>
           <Link to={`/transaction/${transaction.transaction_hash}`}>
-            <code className="transaction_hash">{transaction.transaction_hash}</code>
+            <code className="hash">{transaction.transaction_hash}</code>
           </Link>
           {!isBlock && (
-            <div className="transaction_block">
+            <div className="block">
               {`(Block ${transaction.block_number})  ${parseDate(transaction.block_timestamp)}`}
             </div>
           )}
-        </div>
-        <span className="transaction__separate" />
-        <div className="transaction__input__output">
-          <div className="transaction__input">
-            {transaction.display_inputs &&
-              transaction.display_inputs.map((cell: InputOutput) => {
-                return cell && <TransactionCell cell={cell} address={address} key={cell.id} />
-              })}
+        </HashBlockContainer>
+        <Separate marginTop="30px" />
+        <InputOutputContainer>
+          <div className="input">
+            <CellContainer cells={transaction.display_inputs} address={address} pageSize={CELL_PAGE_SIZE} />
           </div>
           <img src={InputOutputIcon} alt="input and output" />
-          <div className="transaction__output">
-            {transaction.display_outputs &&
-              transaction.display_outputs.map((cell: InputOutput) => {
-                return cell && <TransactionCell cell={cell} address={address} key={cell.id} />
-              })}
+          <div className="output">
+            <CellContainer cells={transaction.display_outputs} address={address} pageSize={CELL_PAGE_SIZE} />
+            {address && <Separate marginTop="10px" marginBottom="20px" />}
+            {address && (
+              <ConfirmationCapacityContainer increased={changeInCapacity >= 0}>
+                <div className="confirmation">{formattorConfirmation(confirmation)}</div>
+                <div className="capacity">
+                  {`${changeInCapacity >= 0 ? '+' : '-'} ${shannonToCkb(Math.abs(changeInCapacity))} CKB`}
+                </div>
+              </ConfirmationCapacityContainer>
+            )}
           </div>
-        </div>
+        </InputOutputContainer>
       </div>
-    </TransactionsItem>
+    </MainContainer>
   )
 }
-
-export default TransactionComponent
