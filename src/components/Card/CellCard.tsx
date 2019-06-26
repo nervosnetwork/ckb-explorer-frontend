@@ -1,14 +1,13 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext, useReducer } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import AppContext from '../../contexts/App'
 import CopyGreenIcon from '../../assets/copy_green.png'
 import { InputOutput } from '../../http/response/Transaction'
 import { startEndEllipsis, hexToUtf8 } from '../../utils/string'
-import { shannonToCkb } from '../../utils/util'
+import { shannonToCkb, copyElementValue } from '../../utils/util'
 import { CellType, fetchScript, fetchCellData } from '../../http/fetcher'
-import { Script, ScriptWrapper } from '../../http/response/Script'
-import { Data } from '../../http/response/Data'
+import { ScriptWrapper } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
 
 const CardPanel = styled.div`
@@ -84,9 +83,11 @@ const ScriptPanel = styled.div`
     justify-content: center;
     align-items: center;
 
-    textarea {
+    .script__input {
       border: none;
       width: 100%;
+      word-wrap: break-word;
+      white-space: pre-wrap;
       padding: 12px;
       font-size: 12px;
       color: #888888;
@@ -96,7 +97,6 @@ const ScriptPanel = styled.div`
       min-height: 120px;
       background-color: #f9f9f9;
       border-radius: 6px 6px;
-      user-select: none;
       transform: translateZ(0);
     }
 
@@ -129,9 +129,9 @@ const ScriptPanel = styled.div`
   }
 `
 
-const CellOperationButton = styled.div`
+const CellOperationButtonPanel = styled.div`
   font-size: 14px;
-  height: 20px;
+  height: 25px;
   font-weight: bold;
   color: ${(props: { color: string }) => props.color};
 
@@ -139,6 +139,13 @@ const CellOperationButton = styled.div`
     font-size: 12px;
   }
 `
+
+const bottomLineStyle = {
+  borderBottom: '2px solid #4bbc8e',
+}
+const noneStyle = {
+  border: '0px',
+}
 
 const CardLabelItem = ({
   name,
@@ -197,122 +204,178 @@ const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: InputOu
   )
 }
 
-const CellScriptItem = ({ type, cell }: { type: CellType; cell: InputOutput }) => {
-  const appContext = useContext(AppContext)
-
-  const initScript: Script = {
+enum CellState {
+  NONE,
+  LOCK,
+  TYPE,
+  DATA,
+}
+const initialState = {
+  lock: {
     code_hash: '',
     args: [],
-  }
-  const [script, setScript] = useState(initScript)
-  const initCellData: Data = {
+  },
+  type: {
+    code_hash: '',
+    args: [],
+  },
+  data: {
     data: '',
+  },
+  cellState: CellState.NONE,
+}
+const Actions = {
+  lock: 'LOCK',
+  type: 'TYPE',
+  data: 'DATA',
+  cellState: 'CELL_STATE',
+}
+
+const reducer = (state: any, action: any) => {
+  switch (action.type) {
+    case Actions.lock:
+      return {
+        ...state,
+        lock: action.payload.lock,
+      }
+    case Actions.type:
+      return {
+        ...state,
+        type: action.payload.type,
+      }
+    case Actions.data:
+      return {
+        ...state,
+        data: action.payload.data,
+      }
+    case Actions.cellState:
+      return {
+        ...state,
+        cellState: action.payload.cellState,
+      }
+    default:
+      return state
   }
-  const [cellData, setCellData] = useState(initCellData)
-  const [isScript, setIsScript] = useState(true)
-  const [showScript, setShowScript] = useState(false)
+}
+
+const getCell = (state: any) => {
+  switch (state.cellState) {
+    case CellState.LOCK:
+      return state.lock
+    case CellState.TYPE:
+      return state.type
+    case CellState.DATA:
+      return state.data
+    case CellState.NONE:
+      return ''
+    default:
+      return ''
+  }
+}
+
+const getCellState = (state: any, cellState: CellState) => {
+  return cellState === state.cellState ? CellState.NONE : cellState
+}
+
+const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOutput }) => {
+  const appContext = useContext(AppContext)
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  const handleCopy = () => {
+    const textarea = document.getElementById(`script__textarea__${cell.id}`)
+    copyElementValue(textarea)
+    appContext.toastMessage('Copied', 3000)
+  }
+
+  const handleCellState = (cellState: CellState) => {
+    dispatch({
+      type: Actions.cellState,
+      payload: {
+        cellState: getCellState(state, cellState),
+      },
+    })
+  }
+
+  const handleFetchScript = (cellState: CellState) => {
+    if (cell.from_cellbase) return
+    switch (getCellState(state, cellState)) {
+      case CellState.LOCK:
+        fetchScript(cellType, 'lock_scripts', `${cell.id}`).then(response => {
+          const { data } = response as Response<ScriptWrapper>
+          handleCellState(cellState)
+          dispatch({
+            type: Actions.lock,
+            payload: {
+              lock: data ? data.attributes : initialState.lock,
+            },
+          })
+        })
+        break
+      case CellState.TYPE:
+        fetchScript(cellType, 'type_scripts', `${cell.id}`).then(response => {
+          const { data } = response as Response<ScriptWrapper>
+          handleCellState(cellState)
+          dispatch({
+            type: Actions.type,
+            payload: {
+              type: data ? data.attributes : initialState.type,
+            },
+          })
+        })
+        break
+      case CellState.DATA:
+        fetchCellData(cellType, `${cell.id}`).then((data: any) => {
+          const dataValue = data
+          if (data && cell.isGenesisOutput) {
+            dataValue.data = hexToUtf8(data.data.substr(2))
+          }
+          handleCellState(cellState)
+          dispatch({
+            type: Actions.data,
+            payload: {
+              data: dataValue || initialState.data,
+            },
+          })
+        })
+        break
+      default:
+        handleCellState(cellState)
+        break
+    }
+  }
+
+  const CellOperationButton = ({ value, cellState }: { value: string; cellState: CellState }) => {
+    return (
+      <CellOperationButtonPanel
+        color={cell.from_cellbase ? '#888888' : '#4bbc8e'}
+        style={cellState === state.cellState ? bottomLineStyle : noneStyle}
+        role="button"
+        tabIndex={-1}
+        onKeyPress={() => {}}
+        onClick={() => handleFetchScript(cellState)}
+      >
+        {value}
+      </CellOperationButtonPanel>
+    )
+  }
 
   return (
     <ScriptPanel>
       <div className="script__operation">
         <div className="script__detail">Detail</div>
         <div className="script__buttons">
-          <CellOperationButton
-            color={cell.from_cellbase ? '#888888' : '#4bbc8e'}
-            className="script__button"
-            role="button"
-            tabIndex={-1}
-            onKeyPress={() => {}}
-            onClick={() => {
-              fetchScript(type, 'lock_scripts', `${cell.id}`)
-                .then(json => {
-                  const { data } = json as Response<ScriptWrapper>
-                  setScript(data ? data.attributes : initScript)
-                  setIsScript(true)
-                  setShowScript(true)
-                })
-                .catch(() => {
-                  console.error('Network error')
-                })
-            }}
-          >
-            Lock Script
-          </CellOperationButton>
-
-          <CellOperationButton
-            color={cell.from_cellbase ? '#888888' : '#4bbc8e'}
-            className="script__button"
-            role="button"
-            tabIndex={-1}
-            onKeyPress={() => {}}
-            onClick={() => {
-              fetchScript(type, 'type_scripts', `${cell.id}`)
-                .then(json => {
-                  const { data } = json as Response<ScriptWrapper>
-                  setScript(data ? data.attributes : initScript)
-                  setIsScript(true)
-                  setShowScript(true)
-                })
-                .catch(() => {
-                  console.error('Network error')
-                })
-            }}
-          >
-            Type Script
-          </CellOperationButton>
-
-          <CellOperationButton
-            color={cell.from_cellbase ? '#888888' : '#4bbc8e'}
-            className="script__button"
-            role="button"
-            tabIndex={-1}
-            onKeyPress={() => {}}
-            onClick={() => {
-              fetchCellData(type, `${cell.id}`)
-                .then(data => {
-                  const dataValue = data
-                  if (data && cell.isGenesisOutput) {
-                    dataValue.data = hexToUtf8(data.data.substr(2))
-                  }
-                  setCellData(dataValue || initCellData)
-                  setIsScript(false)
-                  setShowScript(true)
-                })
-                .catch(() => {
-                  console.error('Network error')
-                })
-            }}
-          >
-            Data
-          </CellOperationButton>
+          <CellOperationButton value="Lock Script" cellState={CellState.LOCK} />
+          <CellOperationButton value="Type Script" cellState={CellState.TYPE} />
+          <CellOperationButton value="Data" cellState={CellState.DATA} />
         </div>
       </div>
 
-      {showScript && (
+      {state.cellState !== CellState.NONE && (
         <div className="script__content">
-          <textarea
-            id={`script__textarea__${cell.id}`}
-            value={JSON.stringify(isScript ? script : cellData, null, 4)}
-            readOnly
-          />
-          <div
-            className="script__copy"
-            role="button"
-            tabIndex={-1}
-            onKeyPress={() => {}}
-            onClick={() => {
-              const textarea = document.getElementById(`script__textarea__${cell.id}`) as HTMLTextAreaElement
-              const range = document.createRange()
-              range.selectNodeContents(textarea)
-              const selection = window.getSelection()
-              selection.removeAllRanges()
-              selection.addRange(range)
-              textarea.setSelectionRange(0, 999999)
-              document.execCommand('copy')
-
-              appContext.toastMessage('Copied', 3000)
-            }}
-          >
+          <div className="script__input" id={`script__textarea__${cell.id}`}>
+            {JSON.stringify(getCell(state), null, 4)}
+          </div>
+          <div className="script__copy" role="button" tabIndex={-1} onKeyPress={() => {}} onClick={() => handleCopy()}>
             <div>Copy</div>
             <img src={CopyGreenIcon} alt="copy" />
           </div>
@@ -326,7 +389,7 @@ const CellCard = ({ type, cell }: { type: CellType; cell: InputOutput }) => {
   return (
     <CardPanel>
       <CellAddressCapacityItem type={type} cell={cell} />
-      <CellScriptItem type={type} cell={cell} />
+      <CellScriptItem cellType={type} cell={cell} />
     </CardPanel>
   )
 }
