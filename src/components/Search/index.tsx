@@ -41,7 +41,7 @@ const SearchPanel = styled.div`
   }
 `
 
-const SearchInputPenal = styled.input`
+const SearchInputPanel = styled.input`
   position: relative;
   width: 100%;
   height: 100%;
@@ -90,29 +90,34 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
     if (!query) {
       appContext.toastMessage('Please input valid content', 3000)
     } else {
-      fetchSearchResult(searchTextCorrection(query)).then((response: any) => {
-        const input: any = inputElement.current!
-        input.value = ''
-        const { data } = response
-        if (data.type === 'block') {
-          browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
-        } else if (data.type === 'ckb_transaction') {
-          browserHistory.push(`/transaction/${(data as TransactionWrapper).attributes.transaction_hash}`)
-        } else if (data.type === 'address') {
-          browserHistory.push(`/address/${(data as AddressWrapper).attributes.address_hash}`)
-        } else if (data.type === 'lock_hash') {
-          browserHistory.push(`/lockhash/${(data as AddressWrapper).attributes.lock_hash}`)
-        } else {
+      fetchSearchResult(searchTextCorrection(query))
+        .then((response: any) => {
+          const input: any = inputElement.current!
+          input.value = ''
+          const { data } = response
+          if (data.type === 'block') {
+            browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
+          } else if (data.type === 'ckb_transaction') {
+            browserHistory.push(`/transaction/${(data as TransactionWrapper).attributes.transaction_hash}`)
+          } else if (data.type === 'address') {
+            browserHistory.push(`/address/${(data as AddressWrapper).attributes.address_hash}`)
+          } else if (data.type === 'lock_hash') {
+            browserHistory.push(`/lockhash/${(data as AddressWrapper).attributes.lock_hash}`)
+          } else {
+            setSearchValue(query)
+            browserHistory.push(`/search/fail?q=${query}`)
+          }
+        })
+        .catch(() => {
           setSearchValue(query)
           browserHistory.push(`/search/fail?q=${query}`)
-        }
-      })
+        })
     }
   }
 
   return (
     <SearchPanel>
-      <SearchInputPenal
+      <SearchInputPanel
         ref={inputElement}
         placeholder={SearchPlaceholder}
         defaultValue={searchValue || ''}
