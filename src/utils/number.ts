@@ -27,6 +27,16 @@ export const parseHashRate = (value: number) => {
   return `${value.toFixed(2)} H/s`
 }
 
+export const parseNumber = (value: any) => {
+  if (typeof value === 'number') {
+    return value
+  }
+  if (typeof value === 'string') {
+    return parseFloat(value)
+  }
+  return 0
+}
+
 export default {
   parseHashRate,
 }
