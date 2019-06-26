@@ -1,3 +1,5 @@
+import { stringInsert } from './string'
+
 export const parseHashRate = (value: number) => {
   const kv = value / 1000
   const mv = kv / 1000
@@ -41,7 +43,15 @@ export const parseNumber = (value: any, radix?: number) => {
 }
 
 export const localeNumberString = (value: any, radix?: number) => {
-  return parseNumber(value, radix).toLocaleString()
+  let text = parseNumber(value, radix).toString()
+  if (text === 'NaN') return text
+  const pointIndex = text.indexOf('.')
+  let offset = pointIndex === -1 ? text.length : pointIndex
+  while (offset > 3) {
+    text = stringInsert(text, offset - 3, ',')
+    offset -= 3
+  }
+  return text
 }
 
 export default {
