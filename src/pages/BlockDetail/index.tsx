@@ -20,7 +20,7 @@ import {
 import AppContext from '../../contexts/App'
 import Content from '../../components/Content'
 import TransactionComponent from '../../components/Transaction'
-import SimpleLabel from '../../components/Label'
+import SimpleLabel, { Tooltip } from '../../components/Label'
 import TransactionCard from '../../components/Card/TransactionCard'
 import CopyIcon from '../../assets/copy.png'
 import BlockHeightIcon from '../../assets/block_height_green.png'
@@ -143,6 +143,7 @@ interface BlockItem {
   image: any
   label: string
   value: string
+  tooltip?: Tooltip
 }
 
 enum PageParams {
@@ -351,11 +352,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       image: BlockRewardIcon,
       label: 'Block Reward:',
       value: `${shannonToCkb(state.block.reward)} CKB`,
+      tooltip: {
+        status: 'Pending',
+        tip:
+          'The block reward of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+      },
     },
     {
       image: TransactionFeeIcon,
       label: 'Transaction Fee:',
       value: `${state.block.total_transaction_fee} Shannon`,
+      tooltip: {
+        status: 'Calculating',
+        tip:
+          'The transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+        hideValue: true,
+      },
     },
     {
       image: TimestampIcon,
@@ -429,7 +441,17 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <div>
             <div>
               {BlockLeftItems.map(item => {
-                return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+                return (
+                  item && (
+                    <SimpleLabel
+                      key={item.label}
+                      image={item.image}
+                      label={item.label}
+                      value={item.value}
+                      tooltip={item.tooltip}
+                    />
+                  )
+                )
               })}
             </div>
             <div>
