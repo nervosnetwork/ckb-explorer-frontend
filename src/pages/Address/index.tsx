@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useEffect, useContext } from 'react'
+import React, { useReducer, useEffect, useContext } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
@@ -36,9 +36,7 @@ import { fetchAddressInfo, fetchTransactionsByAddress, fetchStatistics } from '.
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { validNumber, startEndEllipsis } from '../../utils/string'
 import TransactionCard from '../../components/Card/TransactionCard'
-import { StatisticsWrapper, Statistics } from '../../http/response/Statistics'
-import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
-import { storeCachedData, fetchCachedData } from '../../utils/cached'
+import { StatisticsWrapper } from '../../http/response/Statistics'
 
 const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
   const appContext = useContext(AppContext)
@@ -107,13 +105,6 @@ const AddressScriptLabel = ({ image, label, script }: { image: string; label: st
   )
 }
 
-const getStatistics = (setStatistics: any) => {
-  fetchStatistics().then(response => {
-    const { data } = response as Response<StatisticsWrapper>
-    setStatistics(data.attributes)
-  })
-}
-
 enum PageParams {
   PageNo = 1,
   PageSize = 10,
@@ -138,6 +129,7 @@ const Actions = {
   total: 'TOTAL',
   page: 'PAGE_NO',
   size: 'PAGE_SIZE',
+  tipBlockNumber: 'TIP_BLOCK_NUMBER',
 }
 
 const reducer = (state: any, action: any) => {
@@ -166,6 +158,11 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         size: action.payload.size,
+      }
+    case Actions.tipBlockNumber:
+      return {
+        ...state,
+        tipBlockNumber: action.payload.tipBlockNumber,
       }
     default:
       return state
@@ -214,6 +211,20 @@ const getTransactions = (hash: string, page: number, size: number, dispatch: any
   })
 }
 
+const getTipBlockNumber = (dispatch: any) => {
+  fetchStatistics().then(response => {
+    const { data } = response as Response<StatisticsWrapper>
+    if (data) {
+      dispatch({
+        type: Actions.tipBlockNumber,
+        payload: {
+          tipBlockNumber: parseInt(data.attributes.tip_block_number, 10),
+        },
+      })
+    }
+  })
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string; hash: string }>>) => {
   const { match, location } = props
   const { params } = match
@@ -230,17 +241,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     total: 1,
     page: validNumber(parsed.page, PageParams.PageNo),
     size: validNumber(parsed.size, PageParams.PageSize),
-  }
-  const initStatistics: Statistics = {
-    tip_block_number: '0',
-    average_block_time: '0',
-    current_epoch_difficulty: 0,
-    hash_rate: '0',
+    tipBlockNumber: 0,
   }
 
   const [state, dispatch] = useReducer(reducer, initialState)
   const { page, size } = state
-  const [statistics, setStatistics] = useState(initStatistics)
 
   useEffect(() => {
     if (size > PageParams.MaxPageSize) {
@@ -248,6 +253,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     }
     getAddressInfo(identityHash, dispatch)
     getTransactions(identityHash, page, size, dispatch)
+    getTipBlockNumber(dispatch)
   }, [replace, identityHash, page, size, dispatch, address])
 
   const onChange = (pageNo: number, pageSize: number) => {
@@ -265,29 +271,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     })
     replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${pageNo}&size=${pageSize}`)
   }
-
-  useEffect(() => {
-    const cachedStatistics = fetchCachedData<Statistics>(CachedKeys.Statistics)
-    if (cachedStatistics) {
-      setStatistics(cachedStatistics)
-    }
-  }, [setStatistics])
-
-  useEffect(() => {
-    getStatistics(setStatistics)
-    const listener = setInterval(() => {
-      getStatistics(setStatistics)
-    }, BLOCK_POLLING_TIME)
-    return () => {
-      if (listener) {
-        clearInterval(listener)
-      }
-    }
-  }, [setStatistics])
-
-  useEffect(() => {
-    storeCachedData(CachedKeys.Statistics, statistics)
-  }, [statistics])
 
   return (
     <Content>
@@ -326,7 +309,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                   transaction && (
                     <TransactionComponent
                       address={address}
-                      confirmation={parseInt(statistics.tip_block_number, 10) - transaction.attributes.block_number}
+                      confirmation={state.tipBlockNumber - transaction.attributes.block_number}
                       transaction={transaction.attributes}
                       key={transaction.attributes.transaction_hash}
                     />
