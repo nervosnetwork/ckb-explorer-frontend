@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const TransactionsItem = styled.div`
+export const MainContainer = styled.div`
   @media (max-width: 700px) {
     display: none;
   }
@@ -18,88 +18,68 @@ export const TransactionsItem = styled.div`
     padding: 38px 83px 41px 83px;
     display: flex;
     flex-direction: column;
-
-    .transaction__hash__panel {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-
-      .transaction_hash {
-        font-size: 16px;
-        color: rgb(75, 188, 142);
-      }
-
-      .transaction_block {
-        font-size: 16px;
-        color: rgb(136, 136, 136);
-      }
-    }
-
-    .transaction__separate {
-      width: 100%;
-      height: 1px;
-      margin-top: 30px;
-      background: rgb(233, 233, 233);
-    }
-
-    .transaction__input__output {
-      margin-top: 30px;
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-
-      > img {
-        width: 40px;
-        height: 40px;
-        flex: 1;
-      }
-
-      > div {
-        flex: 13;
-      }
-
-      .transaction__output {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        margin-left: 50px;
-
-        .transaction__separate {
-          margin-top: 10px;
-          margin-bottom: 20px;
-        }
-      }
-    }
   }
 `
 
-export const CellContainer = styled.div`
+interface SeparateProps {
+  marginTop?: string
+  marginBottom?: string
+}
+
+export const Separate = styled.span`
+  width: 100%;
+  height: 1px;
+  margin-top: ${({ marginTop }: SeparateProps) => marginTop || '0px'};
+  margin-bottom: ${({ marginBottom }: SeparateProps) => marginBottom || '0px'};
+  background: rgb(233, 233, 233);
+`
+
+export const HashBlockContainer = styled.div`
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  flex: 13;
+  flex-direction: row;
+  justify-content: space-between;
 
-  > button {
-    border: none;
-    padding: 10px 0px;
-    color: #888888;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+  .hash {
     font-size: 16px;
-    cursor: pointer;
-    outline: none;
+    color: rgb(75, 188, 142);
+  }
 
-    > img {
-      width: 16px;
-      height: 9px;
-      flex: 1;
-      margin-left: 10px;
-    }
+  .block {
+    font-size: 16px;
+    color: rgb(136, 136, 136);
   }
 `
 
-export const TransactionConfirmationContainer = styled.div`
+export const InputOutputContainer = styled.div`
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  > img {
+    width: 40px;
+    height: 40px;
+    flex: 1;
+  }
+
+  > div {
+    flex: 13;
+  }
+
+  .input {
+    margin-right: 40px;
+  }
+
+  .output {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 40px;
+  }
+`
+
+export const ConfirmationCapacityContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -115,39 +95,4 @@ export const TransactionConfirmationContainer = styled.div`
     flex-direction: column;
     align-items: flex-end;
   }
-`
-
-export const TransactionsCell = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 22px;
-  margin-top: 11px;
-  margin-bottom: 11px;
-
-  .transaction__cell {
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    width: 260px;
-  }
-
-  .transaction__cell__link {
-    width: 260px;
-  }
-
-  .transaction__cell__capacity {
-    font-size: 16px;
-    color: rgb(136, 136, 136);
-    margin-left: 15px;
-  }
-`
-export const CellHash = styled.code`
-  font-size: 16px;
-  color: rgb(136, 136, 136)};
-`
-
-export const CellHashHighLight = styled(CellHash)`
-  font-size: 16px;
-  color: rgb(75, 188, 142);
 `
