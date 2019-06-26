@@ -16,7 +16,8 @@ const AppDiv = styled.div`
 `
 
 // code: 1004 => "Block Not Found"
-const ConfigErrorCodes = [1004]
+// code: 1018 => "No records found by given query key"
+const ConfigErrorCodes = [1004, 1018]
 
 const App = () => {
   const appContext = useContext(AppContext)
@@ -42,14 +43,12 @@ const App = () => {
       setShowError(true)
       if (error && error.response && error.response.data) {
         const { message } = error.response.data
+        const codes: number[] = error.response.data.map((data: any) => {
+          return data.code
+        })
         switch (error.response.status) {
           case 422:
             setShowError(false)
-            if (error.config && error.config.params && error.config.params.q) {
-              browserHistory.push(`/search/fail?q=${error.config.params.q}`)
-            } else {
-              browserHistory.push('/search/fail')
-            }
             break
           case 503:
             setShowError(false)
@@ -60,14 +59,17 @@ const App = () => {
             break
           case 404:
             setShowError(true)
-            ConfigErrorCodes.forEach(code => {
-              if (code === 1004) {
-                setShowError(false)
-              }
+            ConfigErrorCodes.forEach(errorCode => {
+              codes.forEach(code => {
+                if (errorCode === code) {
+                  setShowError(false)
+                }
+              })
             })
             break
           default:
             setShowError(true)
+            break
         }
       }
       return Promise.reject(error)
