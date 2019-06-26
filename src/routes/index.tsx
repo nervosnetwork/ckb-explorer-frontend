@@ -14,14 +14,14 @@ import Address from '../pages/Address'
 import NotFoundPage from '../pages/404'
 import SearchFail from '../pages/SearchFail'
 import Maintain from '../pages/Maintain'
+import Sheet from '../components/Sheet'
 
-export default () => {
+export default ({ showError = false }: { showError?: boolean }) => {
   useEffect(() => {
     let currentUrl = `${browserHistory.location.pathname}${browserHistory.location.search}`
     const unlisten = browserHistory.listen((location: any) => {
       if (currentUrl !== `${location.pathname}${location.search}`) {
-        const page = document.querySelector('.page') as HTMLDivElement
-        page.scrollTop = 0
+        window.scrollTo(0, 0)
       }
       currentUrl = `${location.pathname}${location.search}`
     })
@@ -43,6 +43,7 @@ export default () => {
                   render={() => (
                     <React.Fragment>
                       <Header search={hasSearch} />
+                      <Sheet show={showError} />
                       <Switch location={props.location}>
                         <Route path="/" exact component={Home} />
                         <Route path="/block/list" exact component={BlockList} />

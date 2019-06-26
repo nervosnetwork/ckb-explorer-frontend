@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   HomeHeaderPanel,
@@ -11,7 +11,6 @@ import {
   BlockListMobile,
 } from './styled'
 import Content from '../../components/Content'
-import AppContext from '../../contexts/App'
 import {
   TableTitleRow,
   TableTitleItem,
@@ -38,7 +37,8 @@ import { StatisticsWrapper, Statistics } from '../../http/response/Statistics'
 import { Response } from '../../http/response/Response'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
-import CONFIG from '../../config'
+import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
+import { storeCachedData, fetchCachedData } from '../../utils/cached'
 
 const BlockchainItem = ({ name, value, image, tip }: { name: string; value: string; image: any; tip?: string }) => {
   return (
@@ -63,30 +63,18 @@ const BlockchainItemMobile = ({ name, value, image }: { name: string; value: str
   )
 }
 
-const getLatestBlocks = ({ setBlocksWrappers, toast }: { setBlocksWrappers: any; toast?: any }) => {
-  fetchBlocks()
-    .then(response => {
-      const { data } = response as Response<BlockWrapper[]>
-      setBlocksWrappers(data)
-    })
-    .catch(() => {
-      if (toast) {
-        toast()
-      }
-    })
+const getLatestBlocks = (setBlocksWrappers: any) => {
+  fetchBlocks().then(response => {
+    const { data } = response as Response<BlockWrapper[]>
+    setBlocksWrappers(data)
+  })
 }
 
-const getStatistics = ({ setStatistics, toast }: { setStatistics: any; toast?: any }) => {
-  fetchStatistics()
-    .then(response => {
-      const { data } = response as Response<StatisticsWrapper>
-      setStatistics(data.attributes)
-    })
-    .catch(() => {
-      if (toast) {
-        toast()
-      }
-    })
+const getStatistics = (setStatistics: any) => {
+  fetchStatistics().then(response => {
+    const { data } = response as Response<StatisticsWrapper>
+    setStatistics(data.attributes)
+  })
 }
 
 interface BlockchainData {
@@ -96,48 +84,47 @@ interface BlockchainData {
   tip: string
 }
 
+const initStatistics: Statistics = {
+  tip_block_number: '0',
+  average_block_time: '0',
+  current_epoch_difficulty: 0,
+  hash_rate: '0',
+}
+
 export default () => {
   const initBlockWrappers: BlockWrapper[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
-
-  const initStatistics: Statistics = {
-    tip_block_number: '0',
-    average_block_time: '0',
-    current_epoch_difficulty: 0,
-    hash_rate: '0',
-  }
   const [statistics, setStatistics] = useState(initStatistics)
 
-  const { toastMessage } = useContext(AppContext)
-  const toast = useCallback(() => {
-    toastMessage('Network exception, please try again later', 3000)
-  }, [])
+  useEffect(() => {
+    const cachedBlocks = fetchCachedData<BlockWrapper[]>(CachedKeys.Blocks)
+    if (cachedBlocks) {
+      setBlocksWrappers(cachedBlocks)
+    }
+    const cachedStatistics = fetchCachedData<Statistics>(CachedKeys.Statistics)
+    if (cachedStatistics) {
+      setStatistics(cachedStatistics)
+    }
+  }, [setBlocksWrappers, setStatistics])
 
   useEffect(() => {
-    getLatestBlocks({
-      setBlocksWrappers,
-      toast,
-    })
-    getStatistics({
-      setStatistics,
-      toast,
-    })
+    storeCachedData(CachedKeys.Blocks, blocksWrappers)
+    storeCachedData(CachedKeys.Statistics, statistics)
+  }, [blocksWrappers, statistics])
 
+  useEffect(() => {
+    getLatestBlocks(setBlocksWrappers)
+    getStatistics(setStatistics)
     const listener = setInterval(() => {
-      getLatestBlocks({
-        setBlocksWrappers,
-      })
-      getStatistics({
-        setStatistics,
-      })
-    }, CONFIG.BLOCK_POLLING_TIME)
-
+      getLatestBlocks(setBlocksWrappers)
+      getStatistics(setStatistics)
+    }, BLOCK_POLLING_TIME)
     return () => {
       if (listener) {
         clearInterval(listener)
       }
     }
-  }, [setBlocksWrappers, setStatistics, toast])
+  }, [setBlocksWrappers, setStatistics])
 
   const BlockchainDatas: BlockchainData[] = [
     {

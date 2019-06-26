@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import Routers from './routes'
 import Loading from './components/Loading'
@@ -15,8 +15,13 @@ const AppDiv = styled.div`
   height: 100vh;
 `
 
+// code: 1004 => "Block Not Found"
+// code: 1018 => "No records found by given query key"
+const ConfigErrorCodes = [1004, 1018]
+
 const App = () => {
   const appContext = useContext(AppContext)
+  const [showError, setShowError] = useState(false)
 
   // global fetch interceptor setting
   axiosIns.interceptors.request.use(
@@ -31,23 +36,40 @@ const App = () => {
 
   axiosIns.interceptors.response.use(
     response => {
+      setShowError(false)
       return response
     },
     error => {
+      setShowError(true)
       if (error && error.response && error.response.data) {
         const { message } = error.response.data
+        const codes: number[] = error.response.data.map((data: any) => {
+          return data.code
+        })
         switch (error.response.status) {
           case 422:
-            browserHistory.replace('/search/fail')
+            setShowError(false)
             break
           case 503:
+            setShowError(false)
             if (message) {
               appContext.errorMessage = message
             }
             browserHistory.replace('/maintain')
             break
+          case 404:
+            setShowError(true)
+            ConfigErrorCodes.forEach(errorCode => {
+              codes.forEach(code => {
+                if (errorCode === code) {
+                  setShowError(false)
+                }
+              })
+            })
+            break
           default:
-            console.error(error.toString())
+            setShowError(true)
+            break
         }
       }
       return Promise.reject(error)
@@ -56,7 +78,7 @@ const App = () => {
 
   return (
     <AppDiv>
-      <Routers />
+      <Routers showError={showError} />
       <Modal
         onClose={() => {
           appContext.hideModal()
@@ -70,7 +92,6 @@ const App = () => {
         show={appContext.show}
       />
       <Toast
-        toastMessage={appContext.toast}
         style={{
           bottom: 10,
         }}
