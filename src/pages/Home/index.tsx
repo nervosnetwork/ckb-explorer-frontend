@@ -179,8 +179,6 @@ export default () => {
             {blocksWrappers &&
               blocksWrappers.map((block: any, index: number) => {
                 const key = index
-                console.log(block.attributes)
-
                 return (
                   block && (
                     <TableContentRow key={key}>
