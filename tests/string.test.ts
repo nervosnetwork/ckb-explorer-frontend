@@ -1,4 +1,4 @@
-import { validNumber, startEndEllipsis, parseLongAddressHash, hexToUtf8, searchTextCorrection } from '../src/utils/string'
+import { validNumber, startEndEllipsis, parseLongAddressHash, hexToUtf8, searchTextCorrection, stringInsert } from '../src/utils/string'
 
 describe('String methods tests', () => {
 
@@ -45,5 +45,13 @@ describe('String methods tests', () => {
     // other
     expect(searchTextCorrection("azusa")).toBe("azusa")
     expect(searchTextCorrection("2233")).toBe("2233")
+  })
+
+  it('string insert', async () => {
+    expect(stringInsert("azusa", 3, "_")).toBe("azu_sa")
+    expect(stringInsert("azusa", 8, "_")).toBe("azusa_")
+    expect(stringInsert("azusa", 0, "_")).toBe("_azusa")
+    expect(stringInsert("azusa", -1, "_")).toBe("azus_a")
+    expect(stringInsert("azusa", -8, "_")).toBe("_azusa")
   })
 })
