@@ -27,14 +27,21 @@ export const parseHashRate = (value: number) => {
   return `${value.toFixed(2)} H/s`
 }
 
-export const parseNumber = (value: any) => {
+export const parseNumber = (value: any, radix?: number) => {
   if (typeof value === 'number') {
     return value
   }
   if (typeof value === 'string') {
+    if (radix) {
+      return parseInt(value, radix)
+    }
     return parseFloat(value)
   }
-  return 0
+  return NaN
+}
+
+export const localeNumberString = (value: any, radix?: number) => {
+  return parseNumber(value, radix).toLocaleString()
 }
 
 export default {
