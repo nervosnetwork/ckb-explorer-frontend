@@ -13,6 +13,7 @@ import {
 } from './styled'
 import { CELL_PAGE_SIZE } from './utils/const'
 import { formattorConfirmation, getCapacityChange } from './utils/utils'
+import { localeNumberString } from '../../utils/number'
 
 export default ({
   transaction,
@@ -52,7 +53,9 @@ export default ({
               <ConfirmationCapacityContainer increased={changeInCapacity >= 0}>
                 <div className="confirmation">{formattorConfirmation(confirmation)}</div>
                 <div className="capacity">
-                  {`${changeInCapacity >= 0 ? '+' : '-'} ${shannonToCkb(Math.abs(changeInCapacity))} CKB`}
+                  {`${changeInCapacity >= 0 ? '+' : '-'} ${localeNumberString(
+                    shannonToCkb(Math.abs(changeInCapacity)),
+                  )} CKB`}
                 </div>
               </ConfirmationCapacityContainer>
             )}
