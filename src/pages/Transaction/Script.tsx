@@ -212,7 +212,7 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
           )
         })}
       </tr>
-      {state.cellState !== CellState.NONE ? (
+      {state.cellState !== CellState.NONE && (
         <tr className="tr-detail">
           <td colSpan={5}>
             <textarea
@@ -234,7 +234,7 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
             </div>
           </td>
         </tr>
-      ) : null}
+      )}
     </>
   )
 }
