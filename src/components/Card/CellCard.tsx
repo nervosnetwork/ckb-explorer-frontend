@@ -131,7 +131,7 @@ const ScriptPanel = styled.div`
 
 const CellOperationButtonPanel = styled.div`
   font-size: 14px;
-  height: 20px;
+  height: 25px;
   font-weight: bold;
   color: ${(props: { color: string }) => props.color};
 
