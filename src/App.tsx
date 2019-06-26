@@ -45,7 +45,11 @@ const App = () => {
         switch (error.response.status) {
           case 422:
             setShowError(false)
-            browserHistory.replace('/search/fail')
+            if (error.config && error.config.params && error.config.params.q) {
+              browserHistory.push(`/search/fail?q=${error.config.params.q}`)
+            } else {
+              browserHistory.push('/search/fail')
+            }
             break
           case 503:
             setShowError(false)
