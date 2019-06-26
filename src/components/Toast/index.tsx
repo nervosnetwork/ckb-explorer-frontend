@@ -10,6 +10,7 @@ const ToastDiv = styled.div`
   box-sizing: border-box;
   overflow-y: hidden;
   display: flex;
+  z-index: 9998;
   flex-direction: column;
   pointer-events: none;
 `
