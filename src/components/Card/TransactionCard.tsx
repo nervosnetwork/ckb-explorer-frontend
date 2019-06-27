@@ -6,7 +6,8 @@ import GreenArrowDown from '../../assets/green_arrow_down.png'
 import { startEndEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
 import PaginationList from '../Transaction/PaginationList'
-import { CELL_PAGE_SIZE } from '../Transaction'
+
+export const CELL_PAGE_SIZE = 10
 
 const CardPanel = styled.div`
   @media (min-width: 700px) {

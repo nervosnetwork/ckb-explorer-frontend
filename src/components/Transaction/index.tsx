@@ -14,7 +14,7 @@ import {
 import TransactionCell from './Cell'
 import { parseNumber } from '../../utils/number'
 
-export const CELL_PAGE_SIZE = 10
+const CELL_PAGE_SIZE = 10
 
 const getCapacityChange = (transaction: { display_inputs: [any]; display_outputs: [any] }, address?: string) => {
   if (!transaction) return 0
