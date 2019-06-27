@@ -32,31 +32,9 @@ const LabelPanel = styled.div`
       display: none;
     }
 
-    label__name {
+    .label__name {
       font-size: 16px;
       margin-right: 10px;
-    }
-
-    .label__status {
-      font-size: 13px;
-    }
-
-    .label__help {
-      width: 14px;
-      height: 20px;
-
-      .label__help__image {
-        width: 14px;
-        height: 14px;
-      }
-    }
-
-    .label__status__tip:hover .label__tip__content {
-      visibility: hidden;
-    }
-
-    .label__help__tip:hover .label__tip__content {
-      visibility: hidden;
     }
   }
 
@@ -72,28 +50,6 @@ const LabelPanel = styled.div`
     .label__name {
       font-size: 14px;
       margin-right: 10px;
-    }
-
-    .label__status {
-      font-size: 13px;
-    }
-
-    .label__help {
-      width: 14px;
-      height: 20px;
-
-      .label__help__image {
-        width: 14px;
-        height: 14px;
-      }
-    }
-
-    .label__status__tip:hover .label__tip__content {
-      visibility: hidden;
-    }
-
-    .label__help__tip:hover .label__tip__content {
-      visibility: hidden;
     }
   }
 `
@@ -151,6 +107,55 @@ const LableTipPanel = styled.div`
     background-repeat: no-repeat;
     background-size: 300px 112px;
   }
+
+  @media (max-width: 700px) {
+
+    .label__status {
+      font-size: 13px;
+    }
+
+    .label__help {
+      width: 14px;
+      height: 20px;
+
+      .label__help__image {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    .label__status__tip:hover .label__tip__content {
+      visibility: hidden;
+    }
+
+    .label__help__tip:hover .label__tip__content {
+      visibility: hidden;
+    }
+  }
+
+  @media (max-width: 320px) {
+
+    .label__status {
+      font-size: 13px;
+    }
+
+    .label__help {
+      width: 14px;
+      height: 20px;
+
+      .label__help__image {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    .label__status__tip:hover .label__tip__content {
+      visibility: hidden;
+    }
+
+    .label__help__tip:hover .label__tip__content {
+      visibility: hidden;
+    }
 `
 
 export interface Tooltip {
