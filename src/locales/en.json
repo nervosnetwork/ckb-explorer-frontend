@@ -1,0 +1,11 @@
+{
+  "translation": {
+    "navbar": {
+      "wallet": "Wallet",
+      "docs": "Docs",
+      "search_placeholder": "Block / Transaction / Address",
+      "button_text": "TESTNET",
+      "button_extra": "Mainnet is comming"
+    }
+  }
+}
