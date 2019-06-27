@@ -58,8 +58,9 @@ const LabelValuePanel = styled.div`
   font-size: 16px;
   margin-right: 10px;
   display: ${(props: { tooltip: Tooltip | undefined }) =>
-      props.tooltip && props.tooltip.hideValue ? 'none' : 'inline'}
-    @media (max-width: 700px) {
+    props.tooltip && props.tooltip.hideValue ? 'none' : 'inline'};
+
+  @media (max-width: 700px) {
     font-size: 15px;
     display: ${(props: { tooltip: Tooltip | undefined }) =>
       props.tooltip && props.tooltip.status ? 'none' : 'inline'};
