@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from 'react'
 import LoadMoreIcon from '../../../assets/transaction_load_more.png'
+import ShowLessIcon from '../../../assets/transaction_show_less.png'
 import Container from './styled'
 
 interface PaginationListProps {
@@ -30,7 +31,7 @@ export default ({ data, pageSize, render, children }: PaginationListProps) => {
       {count === data.length && (
         <button type="button" onClick={onClickShowLess}>
           Show Less
-          <img src={LoadMoreIcon} alt="load more" />
+          <img src={ShowLessIcon} alt="show less" />
         </button>
       )}
       {children}
