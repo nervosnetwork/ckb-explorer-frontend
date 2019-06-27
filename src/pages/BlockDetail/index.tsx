@@ -44,7 +44,7 @@ import NextBlockGreyIcon from '../../assets/right_arrow_grey.png'
 import MouseIcon from '../../assets/block_mouse.png'
 import TransactionsRootIcon from '../../assets/transactions_root.png'
 import WitnessRootIcon from '../../assets/witness_root.png'
-import { Block, BlockWrapper } from '../../http/response/Block'
+import { Block, BlockWrapper, RewardStatus, TransactionFeeStatus } from '../../http/response/Block'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
@@ -160,6 +160,9 @@ const initBlock: Block = {
   uncles_count: 0,
   uncle_block_hashes: [],
   reward: 0,
+  reward_status: RewardStatus.issued,
+  received_tx_fee: 0,
+  received_tx_fee_status: TransactionFeeStatus.calculated,
   total_transaction_fee: 0,
   cell_consumed: 0,
   total_cell_capacity: 0,
@@ -288,6 +291,18 @@ const getBlockByHash = (blockHash: string, page: number, size: number, dispatch:
   })
 }
 
+const BlockRewardTip: Tooltip = {
+  status: 'Pending',
+  tip: 'The block reward of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+}
+
+const TransactionFeeTip: Tooltip = {
+  status: 'Calculating',
+  tip:
+    'The transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+  hideValue: true,
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
   const { match, location } = props
   const { params } = match
@@ -352,22 +367,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       image: BlockRewardIcon,
       label: 'Block Reward:',
       value: `${shannonToCkb(state.block.reward)} CKB`,
-      tooltip: {
-        status: 'Pending',
-        tip:
-          'The block reward of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
-      },
+      tooltip: state.block.reward_status === RewardStatus.pending ? BlockRewardTip : undefined,
     },
     {
       image: TransactionFeeIcon,
       label: 'Transaction Fee:',
-      value: `${state.block.total_transaction_fee} Shannon`,
-      tooltip: {
-        status: 'Calculating',
-        tip:
-          'The transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
-        hideValue: true,
-      },
+      value: `${state.block.received_tx_fee} Shannon`,
+      tooltip: state.block.received_tx_fee_status === TransactionFeeStatus.calculating ? TransactionFeeTip : undefined,
     },
     {
       image: TimestampIcon,
