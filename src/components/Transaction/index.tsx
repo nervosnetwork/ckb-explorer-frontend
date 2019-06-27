@@ -13,10 +13,11 @@ import {
 } from './styled'
 import TransactionCell from './Cell'
 import { parseNumber } from '../../utils/number'
+import { Transaction } from '../../http/response/Transaction'
 
 const CELL_PAGE_SIZE = 10
 
-const getCapacityChange = (transaction: { display_inputs: [any]; display_outputs: [any] }, address?: string) => {
+const getCapacityChange = (transaction: Transaction, address?: string) => {
   if (!transaction) return 0
   let capacity: number = 0
   transaction.display_inputs.forEach(element => {
