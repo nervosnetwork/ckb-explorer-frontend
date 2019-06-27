@@ -7,7 +7,7 @@ import queryString from 'query-string'
 import AppContext from '../../contexts/App'
 import Content from '../../components/Content'
 import TransactionComponent from '../../components/Transaction'
-import SimpleLabel from '../../components/Label'
+import SimpleLabel, { Tooltip } from '../../components/Label'
 import {
   AddressContentPanel,
   AddressTitlePanel,
@@ -28,6 +28,7 @@ import AddressScriptIcon from '../../assets/address_script.png'
 import TransactionsIcon from '../../assets/transactions_green.png'
 import ItemPointIcon from '../../assets/item_point.png'
 import AddressHashIcon from '../../assets/lock_hash_address.png'
+import BlockPendingRewardIcon from '../../assets/block_pending_reward.png'
 import { Address, AddressWrapper } from '../../http/response/Address'
 import { Script } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
@@ -204,6 +205,12 @@ const getTransactions = (hash: string, page: number, size: number, dispatch: any
   })
 }
 
+const PendingRewardTooltip: Tooltip = {
+  tip:
+    'The block reward and transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+  haveHelpIcon: true,
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string; hash: string }>>) => {
   const { match, location } = props
   const { params } = match
@@ -262,6 +269,12 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               value={`${state.address.transactions_count}`}
             />
           </AddressCommonRowPanel>
+          <SimpleLabel
+            image={BlockPendingRewardIcon}
+            label="Pending Reward : "
+            value={`${state.address.transactions_count}`}
+            tooltip={PendingRewardTooltip}
+          />
           {lockHash &&
             state.address &&
             (state.address.address_hash ? (

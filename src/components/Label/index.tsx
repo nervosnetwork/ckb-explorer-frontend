@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import TooltipImage from '../../assets/tooltip_background.png'
+import HelpIcon from '../../assets/qa_help.png'
 
 const LabelPanel = styled.div`
   display: flex;
@@ -114,10 +115,42 @@ const LableTipPanel = styled.div`
       visibility: hidden;
     }
   }
+`
 
-  @media (max-width: 320px) {
-    .label__status {
-      font-size: 13px;
+const LableHelpPanel = styled.div`
+  height: 25px;
+  position: relative;
+
+  .label__help__image {
+    margin-top: 3px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover .label__help__content {
+    visibility: visible;
+  }
+
+  .label__help__content {
+    width: 300px;
+    height: 120px;
+    position: absolute;
+    margin-left: -190px;
+    padding: 20px 20px 17px 20px;
+    z-index: 1;
+    color: white;
+    font-weight: 450;
+    visibility: hidden;
+    font-size: 13px;
+    background-image: url(${TooltipImage});
+    background-repeat: no-repeat;
+    background-size: 300px 112px;
+  }
+
+  @media (max-width: 700px) {
+    .label__help__image {
+      width: 14px;
+      height: 14px;
     }
 
     label__status:hover .label__tip__content {
@@ -127,9 +160,10 @@ const LableTipPanel = styled.div`
 `
 
 export interface Tooltip {
-  status: string
+  status?: string
   tip: string
   hideValue?: boolean
+  haveHelpIcon?: boolean
 }
 
 const highLightStyle = {
@@ -169,6 +203,12 @@ const SimpleLabel = ({
             <div className="label__tip__content">{tooltip.tip}</div>
           </div>
         </LableTipPanel>
+      )}
+      {tooltip && tooltip.haveHelpIcon && (
+        <LableHelpPanel>
+          <img className="label__help__image" alt="label help" src={HelpIcon} />
+          <div className="label__help__content">{tooltip.tip}</div>
+        </LableHelpPanel>
       )}
     </LabelPanel>
   )
