@@ -1,31 +1,35 @@
 import React, { ReactNode, useState } from 'react'
 import LoadMoreIcon from '../../../assets/transaction_load_more.png'
-import { InputOutput } from '../../../http/response/Transaction'
-import TransactionCell from '../Cell'
 import Container from './styled'
 
 interface Props {
-  cells: [any]
-  address?: string
+  data: any[]
   pageSize: number
+  render: (item: any) => ReactNode
   children?: ReactNode
 }
 
-export default ({ cells, address, pageSize, children }: Props) => {
+export default ({ data, pageSize, render, children }: Props) => {
   const [count, setCount] = useState(pageSize)
   const onClickLoadMore = () => {
-    setCount(Math.min(cells.length, count + pageSize))
+    setCount(Math.min(data.length, count + pageSize))
   }
+  const onClickShowLess = () => {
+    setCount(pageSize)
+  }
+
   return (
     <Container>
-      {cells &&
-        cells.map(
-          (cell: InputOutput, idx: number) =>
-            idx < count && cell && <TransactionCell cell={cell} address={address} key={cell.id} />,
-        )}
-      {count < cells.length && (
+      {data && data.map((item, idx) => idx < count && render(item))}
+      {count < data.length && (
         <button type="button" onClick={onClickLoadMore}>
           Load More
+          <img src={LoadMoreIcon} alt="load more" />
+        </button>
+      )}
+      {count === data.length && (
+        <button type="button" onClick={onClickShowLess}>
+          Show Less
           <img src={LoadMoreIcon} alt="load more" />
         </button>
       )}

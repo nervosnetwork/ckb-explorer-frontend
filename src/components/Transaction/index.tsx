@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import InputOutputIcon from '../../assets/input_arrow_output.png'
 import { parseDate } from '../../utils/date'
 import { shannonToCkb } from '../../utils/util'
-import CellContainer from './CellList'
+import PaginationList from './PaginationList'
 import {
   ConfirmationCapacityContainer,
   HashBlockContainer,
@@ -13,6 +13,7 @@ import {
 } from './styled'
 import { CELL_PAGE_SIZE } from './utils/const'
 import { formattorConfirmation, getCapacityChange } from './utils/utils'
+import TransactionCell from './Cell'
 
 export default ({
   transaction,
@@ -42,11 +43,19 @@ export default ({
         <Separate marginTop="30px" />
         <InputOutputContainer>
           <div className="input">
-            <CellContainer cells={transaction.display_inputs} address={address} pageSize={CELL_PAGE_SIZE} />
+            <PaginationList
+              data={transaction.display_inputs}
+              pageSize={CELL_PAGE_SIZE}
+              render={item => <TransactionCell cell={item} address={address} key={item.id} />}
+            />
           </div>
           <img src={InputOutputIcon} alt="input and output" />
           <div className="output">
-            <CellContainer cells={transaction.display_outputs} address={address} pageSize={CELL_PAGE_SIZE} />
+            <PaginationList
+              data={transaction.display_outputs}
+              pageSize={CELL_PAGE_SIZE}
+              render={item => <TransactionCell cell={item} address={address} key={item.id} />}
+            />
             {address && <Separate marginTop="10px" marginBottom="20px" />}
             {address && (
               <ConfirmationCapacityContainer increased={changeInCapacity >= 0}>

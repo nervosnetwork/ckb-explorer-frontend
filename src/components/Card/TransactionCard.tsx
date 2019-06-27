@@ -5,6 +5,8 @@ import { Transaction, InputOutput } from '../../http/response/Transaction'
 import GreenArrowDown from '../../assets/green_arrow_down.png'
 import { startEndEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
+import PaginationList from '../Transaction/PaginationList'
+import { CELL_PAGE_SIZE } from '../Transaction/utils/const'
 
 const CardPanel = styled.div`
   @media (min-width: 700px) {
@@ -119,19 +121,23 @@ const TransactionCard = ({ transaction, address }: { transaction: Transaction; a
         highLight
       />
       <div className="sperate__line" />
-      {transaction &&
-        transaction.display_inputs &&
-        transaction.display_inputs.map((input: InputOutput) => {
-          return AddressHashItem(input, address)
-        })}
+      {transaction && transaction.display_inputs && (
+        <PaginationList
+          data={transaction.display_inputs}
+          pageSize={CELL_PAGE_SIZE}
+          render={item => AddressHashItem(item, address)}
+        />
+      )}
       <div className="green__arrow">
         <img src={GreenArrowDown} alt="arrow" />
       </div>
-      {transaction &&
-        transaction.display_outputs &&
-        transaction.display_outputs.map((output: InputOutput) => {
-          return AddressHashItem(output, address)
-        })}
+      {transaction && transaction.display_outputs && (
+        <PaginationList
+          data={transaction.display_outputs}
+          pageSize={CELL_PAGE_SIZE}
+          render={item => AddressHashItem(item, address)}
+        />
+      )}
     </CardPanel>
   )
 }
