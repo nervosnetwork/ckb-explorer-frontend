@@ -1,17 +1,38 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { TransactionsCell, TransactionsItem, CellHash, CellHashHighLight } from './styled'
+import { TransactionsCell, TransactionsItem, CellHash, CellHashHighLight, CellbasePanel } from './styled'
 import { parseDate } from '../../utils/date'
 import { shannonToCkb } from '../../utils/util'
 import { startEndEllipsis } from '../../utils/string'
 import InputOutputIcon from '../../assets/input_arrow_output.png'
 import { InputOutput } from '../../http/response/Transaction'
+import HelpIcon from '../../assets/qa_help.png'
 
-const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => {
+const Cellbase = ({ blockHeight }: { blockHeight: number }) => {
+  return (
+    <CellbasePanel>
+      <div className="cellbase__content">Cellbase for Block</div>
+      <Link to={`/block/${blockHeight}`}>
+        <CellHashHighLight>{blockHeight}</CellHashHighLight>
+      </Link>
+      <div className="cellbase__help">
+        <img alt="cellbase help" src={HelpIcon} />
+        <div className="cellbase__help__content">
+          The cellbase transaction of block N is send to the miner of block N-11 as reward. The reward is consist of
+          Base Reward, Commit Reward and Proposal Reward, learn more from our Consensus Protocol
+        </div>
+      </div>
+    </CellbasePanel>
+  )
+}
+
+const TransactionCell = ({ cell, blockNumber, address }: { cell: any; blockNumber: number; address?: string }) => {
   const CellbaseAddress = () => {
     return address === cell.address_hash || cell.from_cellbase ? (
       <div className="transaction__cell">
-        <CellHash>{cell.from_cellbase ? 'Cellbase' : startEndEllipsis(cell.address_hash)}</CellHash>
+        <CellHash>
+          {cell.from_cellbase ? <Cellbase blockHeight={blockNumber} /> : startEndEllipsis(cell.address_hash)}
+        </CellHash>
       </div>
     ) : (
       <Link className="transaction__cell__link" to={`/address/${cell.address_hash}`}>
@@ -26,7 +47,9 @@ const TransactionCell = ({ cell, address }: { cell: any; address?: string }) => 
         <CellbaseAddress />
       ) : (
         <div className="transaction__cell">
-          <CellHash>{cell.from_cellbase ? 'Cellbase' : 'Unable to decode address'}</CellHash>
+          <CellHash>
+            {cell.from_cellbase ? <Cellbase blockHeight={blockNumber} /> : 'Unable to decode address'}
+          </CellHash>
         </div>
       )}
       {!cell.from_cellbase && <div className="transaction__cell__capacity">{`${shannonToCkb(cell.capacity)} CKB`}</div>}
@@ -61,14 +84,32 @@ const TransactionComponent = ({
           <div className="transaction__input">
             {transaction.display_inputs &&
               transaction.display_inputs.map((cell: InputOutput) => {
-                return cell && <TransactionCell cell={cell} address={address} key={cell.id} />
+                return (
+                  cell && (
+                    <TransactionCell
+                      cell={cell}
+                      blockNumber={transaction.block_number}
+                      address={address}
+                      key={cell.id}
+                    />
+                  )
+                )
               })}
           </div>
           <img src={InputOutputIcon} alt="input and output" />
           <div className="transaction__output">
             {transaction.display_outputs &&
               transaction.display_outputs.map((cell: InputOutput) => {
-                return cell && <TransactionCell cell={cell} address={address} key={cell.id} />
+                return (
+                  cell && (
+                    <TransactionCell
+                      cell={cell}
+                      blockNumber={transaction.block_number}
+                      address={address}
+                      key={cell.id}
+                    />
+                  )
+                )
               })}
           </div>
         </div>
