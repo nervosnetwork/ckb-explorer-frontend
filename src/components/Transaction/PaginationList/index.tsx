@@ -2,14 +2,14 @@ import React, { ReactNode, useState } from 'react'
 import LoadMoreIcon from '../../../assets/transaction_load_more.png'
 import Container from './styled'
 
-interface Props {
+interface PaginationListProps {
   data: any[]
   pageSize: number
   render: (item: any) => ReactNode
   children?: ReactNode
 }
 
-export default ({ data, pageSize, render, children }: Props) => {
+export default ({ data, pageSize, render, children }: PaginationListProps) => {
   const [count, setCount] = useState(pageSize)
   const onClickLoadMore = () => {
     setCount(Math.min(data.length, count + pageSize))
