@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import InputOutputIcon from '../../assets/input_arrow_output.png'
 import { parseDate } from '../../utils/date'
-import { shannonToCkb } from '../../utils/util'
+import { shannonToCkb, formattorConfirmation } from '../../utils/util'
 import PaginationList from './PaginationList'
 import {
   ConfirmationCapacityContainer,
@@ -15,7 +15,6 @@ import TransactionCell from './Cell'
 import { parseNumber } from '../../utils/number'
 
 export const CELL_PAGE_SIZE = 10
-export const CONFIRMATION_MAX = 1000
 
 const getCapacityChange = (transaction: { display_inputs: [any]; display_outputs: [any] }, address?: string) => {
   if (!transaction) return 0
@@ -31,14 +30,6 @@ const getCapacityChange = (transaction: { display_inputs: [any]; display_outputs
     }
   })
   return capacity
-}
-
-const formattorConfirmation = (confirmation: number | undefined) => {
-  if (!confirmation) return '0 Confirmation'
-  if (confirmation! > CONFIRMATION_MAX) {
-    return `${CONFIRMATION_MAX}+ Confirmation`
-  }
-  return `${confirmation} Confirmation`
 }
 
 export default ({

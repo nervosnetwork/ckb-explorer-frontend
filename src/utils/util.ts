@@ -1,3 +1,5 @@
+import { CONFIRMATION_MAX } from './const'
+
 const copyElementValue = (component: any) => {
   if (component) {
     const selection = window.getSelection()
@@ -15,3 +17,11 @@ const shannonToCkb = (value: number) => {
 }
 
 export { copyElementValue, shannonToCkb }
+
+export const formattorConfirmation = (confirmation: number | undefined) => {
+  if (!confirmation) return '0 Confirmation'
+  if (confirmation! > CONFIRMATION_MAX) {
+    return `${CONFIRMATION_MAX}+ Confirmation`
+  }
+  return `${confirmation} Confirmation`
+}
