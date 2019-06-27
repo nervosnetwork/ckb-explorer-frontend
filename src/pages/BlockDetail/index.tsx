@@ -52,6 +52,7 @@ import { fetchBlockByHash, fetchTransactionsByBlockHash, fetchBlockByNumber } fr
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { startEndEllipsis, validNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
+import { localeNumberString } from '../../utils/number'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
@@ -335,22 +336,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: BlockHeightIcon,
       label: 'Block Height:',
-      value: `${state.block.number}`,
+      value: localeNumberString(state.block.number),
     },
     {
       image: BlockTransactionIcon,
       label: 'Transactions:',
-      value: `${state.block.transactions_count}`,
+      value: localeNumberString(state.block.transactions_count),
     },
     {
       image: ProposalTransactionsIcon,
       label: 'Proposal Transactions:',
-      value: `${state.block.proposal_transactions_count ? state.block.proposal_transactions_count : 0}`,
+      value: localeNumberString(state.block.proposal_transactions_count ? state.block.proposal_transactions_count : 0),
     },
     {
       image: BlockRewardIcon,
       label: 'Block Reward:',
-      value: `${shannonToCkb(state.block.reward)} CKB`,
+      value: `${localeNumberString(shannonToCkb(state.block.reward))} CKB`,
     },
     {
       image: TransactionFeeIcon,
@@ -378,22 +379,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: EpochIcon,
       label: 'Epoch:',
-      value: `${state.block.epoch}`,
+      value: localeNumberString(state.block.epoch),
     },
     {
       image: StartNumberIcon,
       label: 'Epoch Start Number:',
-      value: `${state.block.start_number}`,
+      value: localeNumberString(state.block.start_number),
     },
     {
       image: LengthIcon,
       label: 'Epoch Length:',
-      value: state.block.length,
+      value: localeNumberString(state.block.length),
     },
     {
       image: DifficultyIcon,
       label: 'Difficulty:',
-      value: parseInt(state.block.difficulty, 16).toLocaleString(),
+      value: localeNumberString(state.block.difficulty, 16),
     },
     {
       image: NonceIcon,
