@@ -1,0 +1,11 @@
+{
+  "translation": {
+    "navbar": {
+      "wallet": "钱包",
+      "docs": "文档",
+      "search_placeholder": "Block / Transaction / Address",
+      "button_text": "测试网",
+      "button_extra": "Mainnet is comming"
+    }
+  }
+}
