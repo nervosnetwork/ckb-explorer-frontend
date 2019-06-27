@@ -356,7 +356,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         status: 'Pending',
         tip:
           'The block reward of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
-        hideValue: true,
       },
     },
     {
