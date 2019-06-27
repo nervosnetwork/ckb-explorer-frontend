@@ -5,6 +5,7 @@ import Search from '../Search'
 import logoIcon from '../../assets/ckb_logo.png'
 import SearchLogo from '../../assets/search.png'
 import testnetTipImage from '../../assets/testnet_tip.png'
+import i18n from '../../utils/i18n'
 
 const HeaderDiv = styled.div`
   @media (max-width: 700px) {
@@ -197,11 +198,11 @@ const HeaderSearchPanel = styled.div`
 
 const menus = [
   {
-    name: 'Wallet',
+    name: i18n.t('navbar.wallet'),
     url: 'https://github.com/nervosnetwork/neuron',
   },
   {
-    name: 'Docs',
+    name: i18n.t('navbar.docs'),
     url: 'https://docs.nervos.org/',
   },
 ]
@@ -243,8 +244,8 @@ export default ({ search = true }: { search?: boolean }) => {
               <Search />
             </div>
             <div className="header__testnet__panel">
-              <div className="header__testnet__flag">TESTNET</div>
-              <div className="header__testnet__tip">Mainnet is comming</div>
+              <div className="header__testnet__flag">{i18n.t('navbar.button_text')}</div>
+              <div className="header__testnet__tip">{i18n.t('navbar.button_extra')}</div>
             </div>
           </div>
         )}
@@ -280,7 +281,7 @@ export default ({ search = true }: { search?: boolean }) => {
               >
                 <img className="header__search__image" src={SearchLogo} alt="search" />
               </div>
-              <div className="header__testnet">TESTNET</div>
+              <div className="header__testnet">{i18n.t('navbar.button_text')}</div>
             </div>
           )}
         </HeaderMobileDiv>
