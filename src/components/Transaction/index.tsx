@@ -5,7 +5,7 @@ import { parseDate } from '../../utils/date'
 import { shannonToCkb } from '../../utils/util'
 import { startEndEllipsis } from '../../utils/string'
 import InputOutputIcon from '../../assets/input_arrow_output.png'
-import { InputOutput } from '../../http/response/Transaction'
+import { InputOutput, Transaction } from '../../http/response/Transaction'
 import HelpIcon from '../../assets/qa_help.png'
 
 const Cellbase = ({ blockHeight }: { blockHeight: number }) => {
@@ -57,12 +57,36 @@ const TransactionCell = ({ cell, blockNumber, address }: { cell: any; blockNumbe
   )
 }
 
+const BlockReward = ({ name, capacity }: { name: string; capacity: number }) => {
+  return (
+    <TransactionsCell>
+      <div className="transaction__cell">{name}</div>
+      <div className="transaction__cell__capacity">{`${shannonToCkb(capacity)} CKB`}</div>
+    </TransactionsCell>
+  )
+}
+
+const BlockRewards = [
+  {
+    name: 'Base Reward',
+    capacity: 300,
+  },
+  {
+    name: 'Commit Reward',
+    capacity: 300,
+  },
+  {
+    name: 'Proposal Reward',
+    capacity: 300,
+  },
+]
+
 const TransactionComponent = ({
   transaction,
   address,
   isBlock = false,
 }: {
-  transaction: any
+  transaction: Transaction
   address?: string
   isBlock?: boolean
 }) => {
@@ -102,12 +126,19 @@ const TransactionComponent = ({
               transaction.display_outputs.map((cell: InputOutput) => {
                 return (
                   cell && (
-                    <TransactionCell
-                      cell={cell}
-                      blockNumber={transaction.block_number}
-                      address={address}
-                      key={cell.id}
-                    />
+                    <div key={cell.id}>
+                      <TransactionCell cell={cell} blockNumber={transaction.block_number} address={address} />
+                      {transaction.block_number > 0 &&
+                        BlockRewards.map(blockReward => {
+                          return (
+                            <BlockReward
+                              name={blockReward.name}
+                              capacity={blockReward.capacity}
+                              key={blockReward.name}
+                            />
+                          )
+                        })}
+                    </div>
                   )
                 )
               })}

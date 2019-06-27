@@ -16,7 +16,7 @@ export const TransactionsItem = styled.div`
   > div {
     width: 1200px;
     margin: 0 auto;
-    padding: 38px 83px 41px 83px;
+    padding: 38px 75px 41px 75px;
     display: flex;
     flex-direction: column;
 
@@ -39,15 +39,15 @@ export const TransactionsItem = styled.div`
     .transaction__separate {
       width: 100%;
       height: 1px;
-      margin-top: 30px;
+      margin-top: 35px;
       background: rgb(233, 233, 233);
     }
 
     .transaction__input__output {
-      margin-top: 30px;
+      margin-top: 20px;
       display: flex;
       flex-direction: row;
-      align-items: center;
+      align-items: flex-start;
 
       > img {
         width: 40px;
@@ -60,9 +60,10 @@ export const TransactionsItem = styled.div`
       }
 
       .transaction__output {
+        margin-left: 40px;
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
+        align-items: flex-between;
       }
     }
   }
@@ -71,15 +72,14 @@ export const TransactionsItem = styled.div`
 export const TransactionsCell = styled.div`
   display: flex;
   align-items: center;
-  height: 22px;
-  margin-top: 11px;
-  margin-bottom: 11px;
+  height: 35px;
   justify-content: space-between;
 
   .transaction__cell {
     display: flex;
     align-items: center;
     justify-content: left;
+    color: rgb(136, 136, 136);
   }
 
   .transaction__cell__capacity {
