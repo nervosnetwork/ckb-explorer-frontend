@@ -8,6 +8,7 @@ import { AddressWrapper } from '../../http/response/Address'
 import browserHistory from '../../routes/history'
 import SearchLogo from '../../assets/search.png'
 import { searchTextCorrection } from '../../utils/string'
+import i18n from '../../utils/i18n'
 
 const SearchPanel = styled.div`
   margin: 0 auto;
@@ -78,7 +79,7 @@ const SearchInputPanel = styled.input`
   }
 `
 
-const SearchPlaceholder = 'Block / Transaction / Address'
+const SearchPlaceholder = i18n.t('navbar.search_placeholder')
 
 const Search = ({ opacity = false, content }: { opacity?: boolean; content?: string }) => {
   const appContext = useContext(AppContext)
