@@ -119,7 +119,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
 
   useEffect(() => {
     getTipBlockNumber(setTipBlockNumber)
-  }, [])
+  }, [setTipBlockNumber])
 
   return (
     <Content>
