@@ -43,9 +43,14 @@ const App = () => {
       setShowError(true)
       if (error && error.response && error.response.data) {
         const { message } = error.response.data
-        const codes: number[] = error.response.data.map((data: any) => {
-          return data.code
-        })
+        const codes: number[] = []
+        if (error.response.data instanceof Array) {
+          codes.concat(
+            error.response.data.map((data: any) => {
+              return data.code
+            }),
+          )
+        }
         switch (error.response.status) {
           case 422:
             setShowError(false)
