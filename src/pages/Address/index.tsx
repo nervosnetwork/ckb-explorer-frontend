@@ -116,6 +116,7 @@ const initAddress: Address = {
   lock_hash: '',
   balance: 0,
   transactions_count: 0,
+  pending_reward_blocks_count: 0,
   cell_consumed: 0,
   lock_script: {
     args: [],
@@ -272,7 +273,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
           <SimpleLabel
             image={BlockPendingRewardIcon}
             label="Pending Reward : "
-            value={`${state.address.transactions_count}`}
+            value={`${state.address.pending_reward_blocks_count} blocks`}
             tooltip={PendingRewardTooltip}
           />
           {lockHash &&
