@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { TransactionsItem } from './styled'
-import { parseDate } from '../../utils/date'
-import InputOutputIcon from '../../assets/input_arrow_output.png'
-import { InputOutput, Transaction } from '../../http/response/Transaction'
-import TransactionCell from './TransactionCell/index'
-import TransactionReward from './TransactionReward/index'
+import { parseDate } from '../../../utils/date'
+import InputOutputIcon from '../../../assets/input_arrow_output.png'
+import { InputOutput, Transaction } from '../../../http/response/Transaction'
+import TransactionCell from '../TransactionCell/index'
+import TransactionReward from '../TransactionReward/index'
 
-const TransactionComponent = ({
+const TransactionItem = ({
   transaction,
   address,
   isBlock = false,
@@ -66,4 +66,4 @@ const TransactionComponent = ({
   )
 }
 
-export default TransactionComponent
+export default TransactionItem

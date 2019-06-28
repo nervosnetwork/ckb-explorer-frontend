@@ -6,7 +6,7 @@ import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import AppContext from '../../contexts/App'
 import Content from '../../components/Content'
-import TransactionComponent from '../../components/Transaction'
+import TransactionItem from '../../components/Transaction/TransactionItem/index'
 import SimpleLabel, { Tooltip } from '../../components/Label'
 import {
   AddressContentPanel,
@@ -300,7 +300,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               state.transactions.map((transaction: any) => {
                 return (
                   transaction && (
-                    <TransactionComponent
+                    <TransactionItem
                       address={address}
                       transaction={transaction.attributes}
                       key={transaction.attributes.transaction_hash}

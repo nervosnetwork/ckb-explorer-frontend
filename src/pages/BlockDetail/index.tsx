@@ -19,7 +19,7 @@ import {
 } from './styled'
 import AppContext from '../../contexts/App'
 import Content from '../../components/Content'
-import TransactionComponent from '../../components/Transaction'
+import TransactionItem from '../../components/Transaction/TransactionItem/index'
 import SimpleLabel, { Tooltip } from '../../components/Label'
 import TransactionCard from '../../components/Transaction/TransactionCard/index'
 import CopyIcon from '../../assets/copy.png'
@@ -518,7 +518,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 return (
                   transaction && (
                     <div key={transaction.attributes.transaction_hash}>
-                      <TransactionComponent transaction={transaction.attributes} isBlock />
+                      <TransactionItem transaction={transaction.attributes} isBlock />
                       <TransactionCard transaction={transaction.attributes} />
                     </div>
                   )
