@@ -4,6 +4,7 @@ import AppContext from '../../contexts/App'
 
 import Content from '../../components/Content'
 import SimpleLabel from '../../components/Label'
+import i18n from '../../utils/i18n'
 import {
   TransactionDiv,
   TransactionOverviewLabel,
@@ -33,7 +34,7 @@ const TransactionTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
   return (
     <TransactionTitlePanel>
-      <div className="transaction__title">Transaction</div>
+      <div className="transaction__title">{i18n.t('transaction.transaction')}</div>
       <div className="transaction__content">
         <code id="transaction__hash">{hash}</code>
         <div
@@ -42,7 +43,7 @@ const TransactionTitle = ({ hash }: { hash: string }) => {
           onKeyDown={() => {}}
           onClick={() => {
             copyElementValue(document.getElementById('transaction__hash'))
-            appContext.toastMessage('Copied', 3000)
+            appContext.toastMessage(i18n.t('common.copied'), 3000)
           }}
         >
           <img src={CopyIcon} alt="copy" />
@@ -67,7 +68,7 @@ const InputOutputTableTitle = ({ transactionType, isCellbase }: { transactionTyp
           </td>
         )}
         <td colSpan={3}>
-          <div>Detail</div>
+          <div>{i18n.t('common.detail')}</div>
         </td>
       </tr>
     </thead>
@@ -109,7 +110,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     <Content>
       <TransactionDiv className="container">
         <TransactionTitle hash={hash} />
-        <TransactionOverviewLabel>Overview</TransactionOverviewLabel>
+        <TransactionOverviewLabel>{i18n.t('common.overview')}</TransactionOverviewLabel>
         <TransactionCommonContent>
           <div>
             <div>
@@ -120,14 +121,14 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               >
                 <SimpleLabel
                   image={BlockHeightIcon}
-                  label="Block Height:"
+                  label={`${i18n.t('common.blockheight')}:`}
                   value={localeNumberString(transaction.block_number)}
                   highLight
                 />
               </Link>
               <SimpleLabel
                 image={TransactionIcon}
-                label="Transaction Fee:"
+                label={`${i18n.t('common.transactionfee')}:`}
                 value={`${transaction.transaction_fee} Shannon`}
               />
             </div>
@@ -136,7 +137,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               <div>
                 <SimpleLabel
                   image={TimestampIcon}
-                  label="Timestamp:"
+                  label={`${i18n.t('common.timestamp')}:`}
                   value={parseSimpleDate(transaction.block_timestamp)}
                 />
               </div>
@@ -149,7 +150,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
             <InputOutputTable>
               {
                 <InputOutputTableTitle
-                  transactionType="Input"
+                  transactionType={i18n.t('transaction.input')}
                   isCellbase={
                     transaction.display_inputs &&
                     transaction.display_inputs[0] &&
@@ -169,7 +170,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
 
           <OutputPanelDiv>
             <InputOutputTable>
-              <InputOutputTableTitle transactionType="Output" />
+              <InputOutputTableTitle transactionType={i18n.t('transaction.output')} />
               <tbody>
                 {transaction &&
                   transaction.display_outputs &&
