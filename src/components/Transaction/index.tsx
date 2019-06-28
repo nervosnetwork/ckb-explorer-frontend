@@ -5,7 +5,7 @@ import { parseDate } from '../../utils/date'
 import { shannonToCkb } from '../../utils/util'
 import InputOutputIcon from '../../assets/input_arrow_output.png'
 import { InputOutput, Transaction } from '../../http/response/Transaction'
-import CellLabelItem from './CellLabel/CellLabelItem'
+import TransactionCellItem from './TransactionCellItem'
 
 const BlockReward = ({ name, capacity }: { name: string; capacity: number }) => {
   return (
@@ -48,7 +48,12 @@ const TransactionComponent = ({
               transaction.display_inputs.map((cell: InputOutput) => {
                 return (
                   cell && (
-                    <CellLabelItem cell={cell} blockNumber={cell.target_block_number} address={address} key={cell.id} />
+                    <TransactionCellItem
+                      cell={cell}
+                      blockNumber={cell.target_block_number}
+                      address={address}
+                      key={cell.id}
+                    />
                   )
                 )
               })}
@@ -60,7 +65,7 @@ const TransactionComponent = ({
                 return (
                   cell && (
                     <div key={cell.id}>
-                      <CellLabelItem cell={cell} blockNumber={transaction.block_number} address={address} />
+                      <TransactionCellItem cell={cell} blockNumber={transaction.block_number} address={address} />
                       {showBlockReward(transaction) && (
                         <div>
                           <BlockReward name="Base Reward" capacity={cell.block_reward} />

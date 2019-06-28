@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Transaction, InputOutput } from '../../../http/response/Transaction'
-import GreenArrowDown from '../../../assets/green_arrow_down.png'
-import { startEndEllipsis } from '../../../utils/string'
-import { shannonToCkb } from '../../../utils/util'
-import HelpIcon from '../../../assets/qa_help.png'
-import ItemPoint from '../../../assets/item_point.png'
+import { Transaction, InputOutput } from '../../http/response/Transaction'
+import GreenArrowDown from '../../assets/green_arrow_down.png'
+import { startEndEllipsis } from '../../utils/string'
+import { shannonToCkb } from '../../utils/util'
+import HelpIcon from '../../assets/qa_help.png'
+import ItemPoint from '../../assets/item_point.png'
 
 const CardPanel = styled.div`
   @media (min-width: 700px) {

@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { InputOutput } from '../../../http/response/Transaction'
-import { startEndEllipsis } from '../../../utils/string'
-import { shannonToCkb } from '../../../utils/util'
-import TooltipCellbaseImage from '../../../assets/tooltip_cellbase.png'
-import HelpIcon from '../../../assets/qa_help.png'
+import { InputOutput } from '../../http/response/Transaction'
+import { startEndEllipsis } from '../../utils/string'
+import { shannonToCkb } from '../../utils/util'
+import TooltipCellbaseImage from '../../assets/tooltip_cellbase.png'
+import HelpIcon from '../../assets/qa_help.png'
 
-export const TransactionCellItem = styled.div`
+export const TransactionCellPanel = styled.div`
   display: flex;
   align-items: center;
   height: 35px;
@@ -97,7 +97,7 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
   )
 }
 
-const CellLabelItem = ({
+const TransactionCellItem = ({
   cell,
   blockNumber,
   address,
@@ -121,7 +121,7 @@ const CellLabelItem = ({
   }
 
   return (
-    <TransactionCellItem>
+    <TransactionCellPanel>
       {cell.address_hash ? (
         <CellbaseAddress />
       ) : (
@@ -132,8 +132,8 @@ const CellLabelItem = ({
         </div>
       )}
       {!cell.from_cellbase && <div className="transaction__cell__capacity">{`${shannonToCkb(cell.capacity)} CKB`}</div>}
-    </TransactionCellItem>
+    </TransactionCellPanel>
   )
 }
 
-export default CellLabelItem
+export default TransactionCellItem
