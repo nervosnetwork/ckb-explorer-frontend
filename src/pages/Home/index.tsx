@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import {
   HomeHeaderPanel,
   HomeHeaderItemPanel,
@@ -96,6 +97,7 @@ export default () => {
   const initBlockWrappers: BlockWrapper[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
   const [statistics, setStatistics] = useState(initStatistics)
+  const [t] = useTranslation()
 
   useEffect(() => {
     const cachedBlocks = fetchCachedData<BlockWrapper[]>(CachedKeys.Blocks)
@@ -129,28 +131,28 @@ export default () => {
 
   const BlockchainDatas: BlockchainData[] = [
     {
-      name: 'Best Block',
+      name: t('blockchaindata.bestblock'),
       value: localeNumberString(statistics.tip_block_number),
       image: BestBlockImage,
-      tip: 'The latest block of the best chain',
+      tip: t('blockchaindata.bestblock_extra'),
     },
     {
-      name: 'Difficulty',
+      name: t('blockchaindata.difficulty'),
       value: `${parseInt(`${statistics.current_epoch_difficulty}`, 10).toLocaleString()}`,
       image: DifficultyImage,
-      tip: 'Difficulty of the lastest Epoch',
+      tip: t('blockchaindata.difficulty_extra'),
     },
     {
-      name: 'Hash Rate',
+      name: t('blockchaindata.hashrate'),
       value: `${parseInt((Number(statistics.hash_rate) * 1000).toFixed(), 10).toLocaleString()} gps`,
       image: HashRateImage,
-      tip: 'Average Hash Rate of the last 500 blocks',
+      tip: t('blockchaindata.hashrate_extra'),
     },
     {
-      name: 'Average Block Time',
+      name: t('blockchaindata.averageblocktime'),
       value: parseTime(Number(statistics.average_block_time)),
       image: BlockTimeImage,
-      tip: 'Average Block Time of the last 24 hours',
+      tip: t('blockchaindata.averageblocktime_extra'),
     },
   ]
 
@@ -170,11 +172,11 @@ export default () => {
         <BlockListPC>
           <ContentTable>
             <TableTitleRow>
-              <TableTitleItem image={BlockHeightIcon} title="Height" />
-              <TableTitleItem image={TransactionIcon} title="Transactions" />
-              <TableTitleItem image={BlockRewardIcon} title="Block Reward (CKB)" />
-              <TableTitleItem image={MinerIcon} title="Miner" />
-              <TableTitleItem image={TimestampIcon} title="Time" />
+              <TableTitleItem image={BlockHeightIcon} title={t('home_common.height')} />
+              <TableTitleItem image={TransactionIcon} title={t('home_common.transactions')} />
+              <TableTitleItem image={BlockRewardIcon} title={t('home_common.blockreward')} />
+              <TableTitleItem image={MinerIcon} title={t('home_common.miner')} />
+              <TableTitleItem image={TimestampIcon} title={t('home_common.time')} />
             </TableTitleRow>
             {blocksWrappers &&
               blocksWrappers.map((block: any, index: number) => {
@@ -212,7 +214,7 @@ export default () => {
           <div>
             <img src={MoreLeftIcon} alt="more left" />
             <Link to="/block/list">
-              <div className="table__more">More</div>
+              <div className="table__more">{t('home_common.more')}</div>
             </Link>
             <img src={MoreRightIcon} alt="more right" />
           </div>

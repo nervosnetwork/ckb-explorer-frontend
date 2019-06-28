@@ -16,6 +16,7 @@ import RedditIcon from '../../assets/footer_reddit.png'
 import YoutubeIcon from '../../assets/footer_youtube.png'
 import ForumIcon from '../../assets/footer_forum.png'
 import { getCurrentYear } from '../../utils/date'
+import i18n from '../../utils/i18n'
 
 const FooterDiv = styled.div`
   width: 100%;
@@ -159,70 +160,70 @@ const FooterItemPanel = styled.a`
 
 const footers = [
   {
-    name: 'Nervos Foundation',
+    name: i18n.t('footer.nervos_foundation'),
     items: [
       {
-        label: 'About Us',
+        label: i18n.t('footer.aboutus'),
         icon: AboutIcon,
         url: 'https://www.nervos.org/',
       },
       {
-        label: 'FAQ',
+        label: i18n.t('footer.faq'),
         icon: FAQIcon,
         url: 'https://www.nervos.org/faq.html',
       },
     ],
   },
   {
-    name: 'Developer',
+    name: i18n.t('footer.developer'),
     items: [
       {
-        label: 'API',
+        label: i18n.t('footer.api'),
         icon: APIIcon,
         url: 'https://github.com/nervosnetwork/ckb/blob/develop/rpc/README.md',
       },
       {
-        label: 'GitHub',
+        label: i18n.t('footer.gitHub'),
         icon: GithubIcon,
         url: 'https://github.com/nervosnetwork',
       },
       {
-        label: 'Whitepaper',
+        label: i18n.t('footer.whitepaper'),
         icon: WhitepaperIcon,
         url: 'https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0002-ckb/0002-ckb.md',
       },
     ],
   },
   {
-    name: 'Community',
+    name: i18n.t('footer.community'),
     items: [
       {
-        label: 'Twitter',
+        label: i18n.t('footer.twitter'),
         icon: TwitterIcon,
         url: 'https://twitter.com/nervosnetwork',
       },
       {
-        label: 'Blog',
+        label: i18n.t('footer.blog'),
         icon: BlogIcon,
         url: 'https://medium.com/nervosnetwork',
       },
       {
-        label: 'Telegram',
+        label: i18n.t('footer.telegram'),
         icon: TelegramIcon,
         url: 'https://t.me/nervosnetwork',
       },
       {
-        label: 'Reddit',
+        label: i18n.t('footer.reddit'),
         icon: RedditIcon,
         url: 'https://www.reddit.com/r/NervosNetwork/',
       },
       {
-        label: 'YouTube',
+        label: i18n.t('footer.youtube'),
         icon: YoutubeIcon,
         url: 'https://www.youtube.com/channel/UCONuJGdMzUY0Y6jrPBOzH7A',
       },
       {
-        label: 'Forum',
+        label: i18n.t('footer.forum'),
         icon: ForumIcon,
         url: 'https://talk.nervos.org/',
       },
