@@ -6,7 +6,7 @@ import GreenArrowDown from '../../assets/green_arrow_down.png'
 import { startEndEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
 import HelpIcon from '../../assets/qa_help.png'
-import ItemPoint from '../../assets/item_point.png'
+import ItemPoint from '../../assets/grey_point.png'
 
 const CardPanel = styled.div`
   @media (min-width: 700px) {
