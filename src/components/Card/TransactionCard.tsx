@@ -219,7 +219,7 @@ const TransactionCard = ({ transaction, address }: { transaction: Transaction; a
       {transaction &&
         transaction.display_inputs &&
         transaction.display_inputs.map((input: InputOutput) => {
-          return AddressHashItem(input, address)
+          return <div key={input.id}>{AddressHashItem(input, address)}</div>
         })}
       <div className="green__arrow">
         <img src={GreenArrowDown} alt="arrow" />
@@ -228,7 +228,7 @@ const TransactionCard = ({ transaction, address }: { transaction: Transaction; a
         transaction.display_outputs &&
         transaction.display_outputs.map((output: InputOutput) => {
           return (
-            <div>
+            <div key={output.id}>
               {AddressHashItem(output, address)}
               {showBlockReward(transaction) && (
                 <TransactionsRewardPanel>

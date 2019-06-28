@@ -517,23 +517,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               state.transactions.map((transaction: any) => {
                 return (
                   transaction && (
-                    <TransactionComponent
-                      transaction={transaction.attributes}
-                      key={transaction.attributes.transaction_hash}
-                      isBlock
-                    />
-                  )
-                )
-              })}
-
-            {state.transactions &&
-              state.transactions.map((transaction: any) => {
-                return (
-                  transaction && (
-                    <TransactionCard
-                      transaction={transaction.attributes}
-                      key={transaction.attributes.transaction_hash}
-                    />
+                    <div key={transaction.attributes.transaction_hash}>
+                      <TransactionComponent transaction={transaction.attributes} isBlock />
+                      <TransactionCard transaction={transaction.attributes} />
+                    </div>
                   )
                 )
               })}
