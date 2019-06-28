@@ -4,6 +4,7 @@ export interface Transaction {
   block_timestamp: number
   transaction_fee: number
   is_cellbase: boolean
+  target_block_number: number
   version: number
   display_inputs: InputOutput[]
   display_outputs: InputOutput[]

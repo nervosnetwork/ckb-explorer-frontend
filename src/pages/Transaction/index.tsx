@@ -79,6 +79,7 @@ const initTransaction: Transaction = {
   block_timestamp: 0,
   transaction_fee: 0,
   is_cellbase: false,
+  target_block_number: 0,
   version: 0,
   display_inputs: [],
   display_outputs: [],
