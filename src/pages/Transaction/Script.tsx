@@ -8,6 +8,7 @@ import { CellType, fetchScript, fetchCellData } from '../../http/fetcher'
 import { shannonToCkb } from '../../utils/util'
 import { hexToUtf8, parseLongAddressHash } from '../../utils/string'
 import { localeNumberString } from '../../utils/number'
+import i18n from '../../utils/i18n'
 
 enum CellState {
   NONE,
@@ -78,7 +79,7 @@ const getCell = (state: any) => {
   }
 }
 
-const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
+const ScriptTypeItems = [i18n.t('transaction.lockscript'), i18n.t('transaction.typescript'), i18n.t('transaction.data')]
 const cellStateWithItem = (item: string) => {
   if (item === ScriptTypeItems[0]) {
     return CellState.LOCK

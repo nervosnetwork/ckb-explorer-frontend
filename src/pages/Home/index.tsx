@@ -137,7 +137,7 @@ export default () => {
       tip: t('blockchaindata.bestblock_extra'),
     },
     {
-      name: t('blockchaindata.difficulty'),
+      name: t('common.difficulty'),
       value: `${parseInt(`${statistics.current_epoch_difficulty}`, 10).toLocaleString()}`,
       image: DifficultyImage,
       tip: t('blockchaindata.difficulty_extra'),
@@ -175,7 +175,7 @@ export default () => {
               <TableTitleItem image={BlockHeightIcon} title={t('home_common.height')} />
               <TableTitleItem image={TransactionIcon} title={t('home_common.transactions')} />
               <TableTitleItem image={BlockRewardIcon} title={t('home_common.blockreward')} />
-              <TableTitleItem image={MinerIcon} title={t('home_common.miner')} />
+              <TableTitleItem image={MinerIcon} title={t('common.miner')} />
               <TableTitleItem image={TimestampIcon} title={t('home_common.time')} />
             </TableTitleRow>
             {blocksWrappers &&
