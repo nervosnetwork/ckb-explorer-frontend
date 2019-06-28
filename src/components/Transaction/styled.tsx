@@ -68,7 +68,7 @@ export const TransactionsItem = styled.div`
   }
 `
 
-export const TransactionsCell = styled.div`
+export const TransactionsReward = styled.div`
   display: flex;
   align-items: center;
   height: 35px;
@@ -86,12 +86,4 @@ export const TransactionsCell = styled.div`
     color: rgb(136, 136, 136);
     margin-left: 15px;
   }
-`
-export const CellHash = styled.code`
-  font-size: 16px;
-  color: rgb(136, 136, 136)};
-`
-export const CellHashHighLight = styled(CellHash)`
-  font-size: 16px;
-  color: rgb(75, 188, 142);
 `

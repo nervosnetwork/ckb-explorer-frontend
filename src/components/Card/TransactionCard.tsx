@@ -40,10 +40,10 @@ const CardPanel = styled.div`
   }
 `
 
-const TransactionsCellPanel = styled.div`
+const TransactionsRewardPanel = styled.div`
   margin-top: 10px;
 `
-const TransactionsCell = styled.div`
+const TransactionsReward = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -129,13 +129,13 @@ const CellHashHighLight = styled.div`
 
 const BlockReward = ({ name, capacity }: { name: string; capacity: number }) => {
   return (
-    <TransactionsCell>
+    <TransactionsReward>
       <div className="transaction__cell__name">
         <img alt="cell point" src={ItemPoint} />
         <div className="transaction__cell">{name}</div>
       </div>
       <div className="transaction__cell__capacity">{`${shannonToCkb(capacity)} CKB`}</div>
-    </TransactionsCell>
+    </TransactionsReward>
   )
 }
 
@@ -231,11 +231,11 @@ const TransactionCard = ({ transaction, address }: { transaction: Transaction; a
             <div>
               {AddressHashItem(output, address)}
               {showBlockReward(transaction) && (
-                <TransactionsCellPanel>
+                <TransactionsRewardPanel>
                   <BlockReward name="Base Reward" capacity={output.block_reward} />
                   <BlockReward name="Commit Reward" capacity={output.commit_reward} />
                   <BlockReward name="Proposal Reward" capacity={output.proposal_reward} />
-                </TransactionsCellPanel>
+                </TransactionsRewardPanel>
               )}
             </div>
           )

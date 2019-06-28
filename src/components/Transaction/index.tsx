@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { TransactionsItem, TransactionsCell } from './styled'
+import { TransactionsItem, TransactionsReward } from './styled'
 import { parseDate } from '../../utils/date'
 import { shannonToCkb } from '../../utils/util'
 import InputOutputIcon from '../../assets/input_arrow_output.png'
@@ -9,10 +9,10 @@ import TransactionCellItem from './TransactionCellItem'
 
 const BlockReward = ({ name, capacity }: { name: string; capacity: number }) => {
   return (
-    <TransactionsCell>
+    <TransactionsReward>
       <div className="transaction__cell">{name}</div>
       <div className="transaction__cell__capacity">{`${shannonToCkb(capacity)} CKB`}</div>
-    </TransactionsCell>
+    </TransactionsReward>
   )
 }
 
