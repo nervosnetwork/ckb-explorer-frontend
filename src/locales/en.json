@@ -2,7 +2,16 @@
   "translation": {
     "common": {
       "unabledecode": "Unable to decode address",
-      "copied": "Copied"
+      "copied": "Copied",
+      "detail": "Detail",
+      "overview": "Overview",
+      "block": "Block",
+      "blockheight": "Block Height",
+      "transactions": "Transactions",
+      "transactionfee": "Transaction Fee",
+      "timestamp": "Timestamp",
+      "miner": "Miner",
+      "difficulty": "Difficulty"
     },
     "navbar": {
       "wallet": "Wallet",
@@ -14,7 +23,6 @@
     "blockchaindata": {
       "bestblock": "Best Block",
       "bestblock_extra": "The latest block of the best chain",
-      "difficulty": "Difficulty",
       "difficulty_extra": "Difficulty of the lastest Epoch",
       "hashrate": "Hash Rate",
       "hashrate_extra": "Average Hash Rate of the last 500 blocks",
@@ -25,7 +33,6 @@
       "height": "Height",
       "transactions": "Transactions",
       "blockreward": "Block Reward (CKB)",
-      "miner": "Miner",
       "time": "Time",
       "more": "More"
     },
@@ -50,13 +57,31 @@
     "details": {
       "address": "Address",
       "lockhash": "Lock Hash",
-      "overview": "Overview",
       "balance": "Balance",
-      "transactions": "Transactions",
       "codehash": "Code Hash",
       "args": "Args",
-      "block": "Block",
       "confirmation": "Confirmation"
+    },
+    "transaction": {
+      "transaction": "Transaction",
+      "input": "Input",
+      "output": "Output",
+      "lockscript": "Lock Script",
+      "typescript": "Type Script",
+      "data": "Data"
+    },
+    "block": {
+      "proposal_transactions": "Proposal Transactions",
+      "blockreward": "Block Reward",
+      "unclecount": "Uncle Count",
+      "epoch": "Epoch",
+      "epoch_start_number": "Epoch Start Number",
+      "epochlength": "Epoch Length",
+      "nonce": "Nonce",
+      "proof": "Proof",
+      "transactionsroot": "Transactions Root",
+      "witnessesroot": "Witnesses Root"
+
     }
   }
 }

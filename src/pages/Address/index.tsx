@@ -278,7 +278,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     <Content>
       <AddressContentPanel className="container">
         <AddressTitle address={address} lockHash={lockHash} />
-        <AddressOverview value={i18n.t('details.overview')} />
+        <AddressOverview value={i18n.t('common.overview')} />
         <AddressCommonContent>
           <AddressCommonRowPanel>
             <SimpleLabel
@@ -288,7 +288,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
             />
             <SimpleLabel
               image={TransactionsIcon}
-              label={`${i18n.t('details.transactions')} : `}
+              label={`${i18n.t('common.transactions')} : `}
               value={localeNumberString(state.address.transactions_count)}
             />
           </AddressCommonRowPanel>
@@ -315,7 +315,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         </AddressCommonContent>
 
         <AddressTransactionsPanel>
-          <AddressOverview value={i18n.t('details.transactions')} />
+          <AddressOverview value={i18n.t('common.transactions')} />
           <div>
             {state.transactions &&
               state.transactions.map((transaction: any) => {

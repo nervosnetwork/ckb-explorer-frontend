@@ -53,12 +53,13 @@ import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { startEndEllipsis, validNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
 import { localeNumberString } from '../../utils/number'
+import i18n from '../../utils/i18n'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
   return (
     <BlockDetailTitlePanel>
-      <div className="block__title">Block</div>
+      <div className="block__title">{i18n.t('common.block')}</div>
       <div className="block__content">
         <code id="block__hash">{hash}</code>
         <div
@@ -67,7 +68,7 @@ const BlockDetailTitle = ({ hash }: { hash: string }) => {
           onKeyDown={() => {}}
           onClick={() => {
             copyElementValue(document.getElementById('block__hash'))
-            appContext.toastMessage('Copied', 3000)
+            appContext.toastMessage(i18n.t('common.copied'), 3000)
           }}
         >
           <img src={CopyIcon} alt="copy" />
@@ -335,37 +336,37 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const BlockLeftItems: BlockItem[] = [
     {
       image: BlockHeightIcon,
-      label: 'Block Height:',
+      label: `${i18n.t('common.blockheight')}:`,
       value: localeNumberString(state.block.number),
     },
     {
       image: BlockTransactionIcon,
-      label: 'Transactions:',
+      label: `${i18n.t('common.transactions')}:`,
       value: localeNumberString(state.block.transactions_count),
     },
     {
       image: ProposalTransactionsIcon,
-      label: 'Proposal Transactions:',
+      label: `${i18n.t('block.proposal_transactions')}:`,
       value: localeNumberString(state.block.proposal_transactions_count ? state.block.proposal_transactions_count : 0),
     },
     {
       image: BlockRewardIcon,
-      label: 'Block Reward:',
+      label: `${i18n.t('block.blockreward')}:`,
       value: `${localeNumberString(shannonToCkb(state.block.reward))} CKB`,
     },
     {
       image: TransactionFeeIcon,
-      label: 'Transaction Fee:',
+      label: `${i18n.t('common.transactionfee')}:`,
       value: `${state.block.total_transaction_fee} Shannon`,
     },
     {
       image: TimestampIcon,
-      label: 'Timestamp:',
+      label: `${i18n.t('common.timestamp')}:`,
       value: `${parseSimpleDate(state.block.timestamp)}`,
     },
     {
       image: UncleCountIcon,
-      label: 'Uncle Count:',
+      label: `${i18n.t('block.unclecount')}:`,
       value: `${state.block.uncles_count}`,
     },
   ]
@@ -373,37 +374,37 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const BlockRightItems: BlockItem[] = [
     {
       image: MinerIcon,
-      label: 'Miner:',
+      label: `${i18n.t('common.miner')}:`,
       value: state.block.miner_hash,
     },
     {
       image: EpochIcon,
-      label: 'Epoch:',
+      label: `${i18n.t('block.epoch')}:`,
       value: localeNumberString(state.block.epoch),
     },
     {
       image: StartNumberIcon,
-      label: 'Epoch Start Number:',
+      label: `${i18n.t('block.epoch_start_number')}:`,
       value: localeNumberString(state.block.start_number),
     },
     {
       image: LengthIcon,
-      label: 'Epoch Length:',
+      label: `${i18n.t('block.epochlength')}:`,
       value: localeNumberString(state.block.length),
     },
     {
       image: DifficultyIcon,
-      label: 'Difficulty:',
+      label: `${i18n.t('common.difficulty')}:`,
       value: localeNumberString(state.block.difficulty, 16),
     },
     {
       image: NonceIcon,
-      label: 'Nonce:',
+      label: `${i18n.t('block.nonce')}:`,
       value: `${state.block.nonce}`,
     },
     {
       image: ProofIcon,
-      label: 'Proof:',
+      label: `${i18n.t('block.proof')}:`,
       value: `${startEndEllipsis(state.block.proof, 9)}`,
     },
   ]
@@ -411,12 +412,12 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const BlockRootInfoItems: BlockItem[] = [
     {
       image: TransactionsRootIcon,
-      label: 'Transactions Root:',
+      label: `${i18n.t('block.transactionsroot')}:`,
       value: `${state.block.transactions_root}`,
     },
     {
       image: WitnessRootIcon,
-      label: 'Witnesses Root:',
+      label: `${i18n.t('block.witnessesroot')}:`,
       value: `${state.block.witnesses_root}`,
     },
   ]
@@ -425,7 +426,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     <Content>
       <BlockDetailPanel className="container">
         <BlockDetailTitle hash={state.block.block_hash} />
-        <BlockOverview value="Overview" />
+        <BlockOverview value={i18n.t('common.overview')} />
         <BlockCommonContent>
           <div>
             <div>
@@ -481,10 +482,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           </div>
         </BlockCommonContent>
         <BlockPreviousNext blockNumber={state.block.number} hasPrev={state.prev} hasNext={state.next} />
-        <BlockHightLabel>Block Height</BlockHightLabel>
+        <BlockHightLabel>{i18n.t('common.blockheight')}</BlockHightLabel>
 
         <BlockTransactionsPanel>
-          <BlockOverview value="Transactions" />
+          <BlockOverview value={i18n.t('common.transactions')} />
           <div>
             {state.transactions &&
               state.transactions.map((transaction: any) => {

@@ -84,13 +84,13 @@ const BlockCard = ({ block }: { block: Block }) => {
       <CardItem name={`${t('home_common.blockreward')} :`} value={localeNumberString(shannonToCkb(block.reward))} />
       {block.miner_hash ? (
         <CardItem
-          name={`${t('home_common.miner')} :`}
+          name={`${t('common.miner')} :`}
           value={startEndEllipsis(block.miner_hash, 7)}
           to={`/address/${block.miner_hash}`}
           highLight
         />
       ) : (
-        <CardItem name={`${t('home_common.miner')} :`} value={t('common.unabledecode')} />
+        <CardItem name={`${t('common.miner')} :`} value={t('common.unabledecode')} />
       )}
       <CardItem name={`${t('home_common.time')} :`} value={parseSimpleDate(block.timestamp)} />
     </CardPanel>
