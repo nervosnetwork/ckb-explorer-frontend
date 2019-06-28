@@ -1,10 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Transaction, InputOutput } from '../../http/response/Transaction'
-import GreenArrowDown from '../../assets/green_arrow_down.png'
-import { startEndEllipsis } from '../../utils/string'
-import { shannonToCkb } from '../../utils/util'
+import { Transaction, InputOutput } from '../../../http/response/Transaction'
+import GreenArrowDown from '../../../assets/green_arrow_down.png'
+import { startEndEllipsis } from '../../../utils/string'
+import { shannonToCkb } from '../../../utils/util'
+import HelpIcon from '../../../assets/qa_help.png'
+import ItemPoint from '../../../assets/item_point.png'
 
 const CardPanel = styled.div`
   @media (min-width: 700px) {
@@ -30,10 +32,45 @@ const CardPanel = styled.div`
 
   .green__arrow {
     text-align: center;
+    margin: 10px 0;
     > img {
       width: 20px;
       height: 20px;
     }
+  }
+`
+
+const TransactionsCellPanel = styled.div`
+  margin-top: 10px;
+`
+const TransactionsCell = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 25px;
+
+  .transaction__cell__name {
+    display: flex;
+    align-items: center;
+    > img {
+      width: 5px;
+      height: 5px;
+      margin-right: 10px;
+    }
+
+    .transaction__cell {
+      display: flex;
+      align-items: center;
+      justify-content: left;
+      font-size: 14px;
+      color: rgb(136, 136, 136);
+    }
+  }
+
+  .transaction__cell__capacity {
+    font-size: 14px;
+    color: rgb(136, 136, 136);
+    margin-left: 15px;
   }
 `
 
@@ -64,6 +101,44 @@ const CardItemPanel = styled.div`
   }
 `
 
+export const CellbasePanel = styled.div`
+  display: flex;
+  margin-top: 10px;
+
+  .cellbase__content {
+    color: #888888;
+    font-size: 14px;
+    margin-right: 10px;
+  }
+
+  .cellbase__help {
+    margin-left: 10px;
+
+    > img {
+      margin-top: 3px;
+      width: 14px;
+      height: 14px;
+    }
+  }
+`
+
+const CellHashHighLight = styled.div`
+  font-size: 14px;
+  color: rgb(75, 188, 142);
+`
+
+const BlockReward = ({ name, capacity }: { name: string; capacity: number }) => {
+  return (
+    <TransactionsCell>
+      <div className="transaction__cell__name">
+        <img alt="cell point" src={ItemPoint} />
+        <div className="transaction__cell">{name}</div>
+      </div>
+      <div className="transaction__cell__capacity">{`${shannonToCkb(capacity)} CKB`}</div>
+    </TransactionsCell>
+  )
+}
+
 const CardLabelItem = ({ value, to, highLight = false }: { value: string; to?: string; highLight?: boolean }) => {
   return (
     <CardItemPanel highLight={highLight}>
@@ -78,8 +153,27 @@ const CardLabelItem = ({ value, to, highLight = false }: { value: string; to?: s
   )
 }
 
+const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
+  return blockHeight && blockHeight > 0 ? (
+    <CellbasePanel>
+      <div className="cellbase__content">Cellbase for Block</div>
+      <Link to={`/block/${blockHeight}`}>
+        <CellHashHighLight>{blockHeight}</CellHashHighLight>
+      </Link>
+      <div className="cellbase__help">
+        <img alt="cellbase help" src={HelpIcon} />
+      </div>
+    </CellbasePanel>
+  ) : (
+    <span>Cellbase</span>
+  )
+}
+
 const AddressHashItem = (input: InputOutput, address?: string) => {
   if (input.from_cellbase) {
+    if (input.target_block_number && input.target_block_number > 0) {
+      return <Cellbase blockHeight={input.target_block_number} />
+    }
     return <CardLabelItem key={input.id} value="Cellbase" />
   }
   if (input.address_hash) {
@@ -110,6 +204,9 @@ const AddressHashItem = (input: InputOutput, address?: string) => {
   )
 }
 
+// genesis block and no cellbase transaction doesn't show block reward
+const showBlockReward = (transaction: Transaction): boolean => transaction.block_number > 0 && transaction.is_cellbase
+
 const TransactionCard = ({ transaction, address }: { transaction: Transaction; address?: string }) => {
   return (
     <CardPanel>
@@ -130,7 +227,18 @@ const TransactionCard = ({ transaction, address }: { transaction: Transaction; a
       {transaction &&
         transaction.display_outputs &&
         transaction.display_outputs.map((output: InputOutput) => {
-          return AddressHashItem(output, address)
+          return (
+            <div>
+              {AddressHashItem(output, address)}
+              {showBlockReward(transaction) && (
+                <TransactionsCellPanel>
+                  <BlockReward name="Base Reward" capacity={output.block_reward} />
+                  <BlockReward name="Commit Reward" capacity={output.commit_reward} />
+                  <BlockReward name="Proposal Reward" capacity={output.proposal_reward} />
+                </TransactionsCellPanel>
+              )}
+            </div>
+          )
         })}
     </CardPanel>
   )

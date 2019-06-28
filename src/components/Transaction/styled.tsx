@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import TooltipCellbaseImage from '../../assets/tooltip_cellbase.png'
 
 export const TransactionsItem = styled.div`
   @media (max-width: 700px) {
@@ -95,44 +94,4 @@ export const CellHash = styled.code`
 export const CellHashHighLight = styled(CellHash)`
   font-size: 16px;
   color: rgb(75, 188, 142);
-`
-
-export const CellbasePanel = styled.div`
-  display: flex;
-
-  .cellbase__content {
-    color: #888888;
-    font-size: 16px;
-    margin-right: 10px;
-  }
-
-  .cellbase__help {
-    margin-left: 10px;
-
-    > img {
-      width: 20px;
-      height: 20px;
-    }
-
-    &:hover .cellbase__help__content {
-      visibility: visible;
-    }
-
-    .cellbase__help__content {
-      width: 300px;
-      height: 150px;
-      position: absolute;
-      margin-left: -78px;
-      padding: 28px 20px 17px 20px;
-      white-space: pre-wrap;
-      z-index: 1;
-      color: white;
-      font-weight: 450;
-      visibility: hidden;
-      font-size: 13px;
-      background-image: url(${TooltipCellbaseImage});
-      background-repeat: no-repeat;
-      background-size: 300px 150px;
-    }
-  }
 `
