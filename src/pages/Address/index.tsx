@@ -270,12 +270,15 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               value={`${state.address.transactions_count}`}
             />
           </AddressCommonRowPanel>
-          <SimpleLabel
-            image={BlockPendingRewardIcon}
-            label="Pending Reward : "
-            value={`${state.address.pending_reward_blocks_count} blocks`}
-            tooltip={PendingRewardTooltip}
-          />
+          {state.address.pending_reward_blocks_count ? (
+            <SimpleLabel
+              image={BlockPendingRewardIcon}
+              label="Pending Reward : "
+              value={`${state.address.pending_reward_blocks_count} 
+                ${state.address.pending_reward_blocks_count > 1 ? 'blocks' : 'block'}`}
+              tooltip={PendingRewardTooltip}
+            />
+          ) : null}
           {lockHash &&
             state.address &&
             (state.address.address_hash ? (
