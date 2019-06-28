@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Transaction, InputOutput } from '../../http/response/Transaction'
-import GreenArrowDown from '../../assets/green_arrow_down.png'
-import { startEndEllipsis } from '../../utils/string'
-import { shannonToCkb } from '../../utils/util'
-import HelpIcon from '../../assets/qa_help.png'
-import ItemPoint from '../../assets/grey_point.png'
+import { Transaction, InputOutput } from '../../../http/response/Transaction'
+import GreenArrowDown from '../../../assets/green_arrow_down.png'
+import { startEndEllipsis } from '../../../utils/string'
+import { shannonToCkb } from '../../../utils/util'
+import HelpIcon from '../../../assets/qa_help.png'
+import TransactionReward from '../TransactionReward'
 
 const CardPanel = styled.div`
   @media (min-width: 700px) {
@@ -37,40 +37,6 @@ const CardPanel = styled.div`
       width: 20px;
       height: 20px;
     }
-  }
-`
-
-const TransactionsRewardPanel = styled.div`
-  margin-top: 10px;
-`
-const TransactionsReward = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 25px;
-
-  .transaction__cell__name {
-    display: flex;
-    align-items: center;
-    > img {
-      width: 5px;
-      height: 5px;
-      margin-right: 10px;
-    }
-
-    .transaction__cell {
-      display: flex;
-      align-items: center;
-      justify-content: left;
-      font-size: 14px;
-      color: rgb(136, 136, 136);
-    }
-  }
-
-  .transaction__cell__capacity {
-    font-size: 14px;
-    color: rgb(136, 136, 136);
-    margin-left: 15px;
   }
 `
 
@@ -126,18 +92,6 @@ const CellHashHighLight = styled.div`
   font-size: 14px;
   color: rgb(75, 188, 142);
 `
-
-const BlockReward = ({ name, capacity }: { name: string; capacity: number }) => {
-  return (
-    <TransactionsReward>
-      <div className="transaction__cell__name">
-        <img alt="cell point" src={ItemPoint} />
-        <div className="transaction__cell">{name}</div>
-      </div>
-      <div className="transaction__cell__capacity">{`${shannonToCkb(capacity)} CKB`}</div>
-    </TransactionsReward>
-  )
-}
 
 const CardLabelItem = ({ value, to, highLight = false }: { value: string; to?: string; highLight?: boolean }) => {
   return (
@@ -204,9 +158,6 @@ const AddressHashItem = (input: InputOutput, address?: string) => {
   )
 }
 
-// genesis block and no cellbase transaction doesn't show block reward
-const showBlockReward = (transaction: Transaction): boolean => transaction.block_number > 0 && transaction.is_cellbase
-
 const TransactionCard = ({ transaction, address }: { transaction: Transaction; address?: string }) => {
   return (
     <CardPanel>
@@ -230,13 +181,7 @@ const TransactionCard = ({ transaction, address }: { transaction: Transaction; a
           return (
             <div key={output.id}>
               {AddressHashItem(output, address)}
-              {showBlockReward(transaction) && (
-                <TransactionsRewardPanel>
-                  <BlockReward name="Base Reward" capacity={output.block_reward} />
-                  <BlockReward name="Commit Reward" capacity={output.commit_reward} />
-                  <BlockReward name="Proposal Reward" capacity={output.proposal_reward} />
-                </TransactionsRewardPanel>
-              )}
+              <TransactionReward transaction={transaction} cell={output} />
             </div>
           )
         })}

@@ -1,23 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { TransactionsItem, TransactionsReward } from './styled'
+import { TransactionsItem } from './styled'
 import { parseDate } from '../../utils/date'
-import { shannonToCkb } from '../../utils/util'
 import InputOutputIcon from '../../assets/input_arrow_output.png'
 import { InputOutput, Transaction } from '../../http/response/Transaction'
-import TransactionCellItem from './TransactionCellItem'
-
-const BlockReward = ({ name, capacity }: { name: string; capacity: number }) => {
-  return (
-    <TransactionsReward>
-      <div className="transaction__cell">{name}</div>
-      <div className="transaction__cell__capacity">{`${shannonToCkb(capacity)} CKB`}</div>
-    </TransactionsReward>
-  )
-}
-
-// genesis block and no cellbase transaction doesn't show block reward
-const showBlockReward = (transaction: Transaction): boolean => transaction.block_number > 0 && transaction.is_cellbase
+import TransactionCell from './TransactionCell/index'
+import TransactionReward from './TransactionReward/index'
 
 const TransactionComponent = ({
   transaction,
@@ -48,7 +36,7 @@ const TransactionComponent = ({
               transaction.display_inputs.map((cell: InputOutput) => {
                 return (
                   cell && (
-                    <TransactionCellItem
+                    <TransactionCell
                       cell={cell}
                       blockNumber={cell.target_block_number}
                       address={address}
@@ -65,14 +53,8 @@ const TransactionComponent = ({
                 return (
                   cell && (
                     <div key={cell.id}>
-                      <TransactionCellItem cell={cell} blockNumber={transaction.block_number} address={address} />
-                      {showBlockReward(transaction) && (
-                        <div>
-                          <BlockReward name="Base Reward" capacity={cell.block_reward} />
-                          <BlockReward name="Commit Reward" capacity={cell.commit_reward} />
-                          <BlockReward name="Proposal Reward" capacity={cell.proposal_reward} />
-                        </div>
-                      )}
+                      <TransactionCell cell={cell} blockNumber={transaction.block_number} address={address} />
+                      <TransactionReward transaction={transaction} cell={cell} />
                     </div>
                   )
                 )

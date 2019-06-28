@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { InputOutput } from '../../http/response/Transaction'
-import { startEndEllipsis } from '../../utils/string'
-import { shannonToCkb } from '../../utils/util'
-import TooltipCellbaseImage from '../../assets/tooltip_cellbase.png'
-import HelpIcon from '../../assets/qa_help.png'
+import { InputOutput } from '../../../http/response/Transaction'
+import { startEndEllipsis } from '../../../utils/string'
+import { shannonToCkb } from '../../../utils/util'
+import TooltipCellbaseImage from '../../../assets/tooltip_cellbase.png'
+import HelpIcon from '../../../assets/qa_help.png'
 
 export const TransactionCellPanel = styled.div`
   display: flex;
@@ -97,7 +97,7 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
   )
 }
 
-const TransactionCellItem = ({
+const TransactionCell = ({
   cell,
   blockNumber,
   address,
@@ -136,4 +136,4 @@ const TransactionCellItem = ({
   )
 }
 
-export default TransactionCellItem
+export default TransactionCell
