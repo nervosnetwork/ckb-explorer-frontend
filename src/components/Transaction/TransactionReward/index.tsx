@@ -62,7 +62,7 @@ const TransactionReward = ({ transaction, cell }: { transaction: Transaction; ce
       {showBlockReward &&
         Rewards.map(reward => {
           return (
-            <RewardPenal>
+            <RewardPenal key={reward.name}>
               <div className="reward__name__point">
                 <img alt="reward point" src={ItemPoint} />
                 <div className="reward__name">{reward.name}</div>
