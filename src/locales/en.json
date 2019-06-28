@@ -1,11 +1,62 @@
 {
   "translation": {
+    "common": {
+      "unabledecode": "Unable to decode address",
+      "copied": "Copied"
+    },
     "navbar": {
       "wallet": "Wallet",
       "docs": "Docs",
       "search_placeholder": "Block / Transaction / Address",
       "button_text": "TESTNET",
       "button_extra": "Mainnet is comming"
+    },
+    "blockchaindata": {
+      "bestblock": "Best Block",
+      "bestblock_extra": "The latest block of the best chain",
+      "difficulty": "Difficulty",
+      "difficulty_extra": "Difficulty of the lastest Epoch",
+      "hashrate": "Hash Rate",
+      "hashrate_extra": "Average Hash Rate of the last 500 blocks",
+      "averageblocktime": "Average Block Time",
+      "averageblocktime_extra": "Average Block Time of the last 24 hours"
+    },
+    "home_common": {
+      "height": "Height",
+      "transactions": "Transactions",
+      "blockreward": "Block Reward (CKB)",
+      "miner": "Miner",
+      "time": "Time",
+      "more": "More"
+    },
+    "footer": {
+      "nervos_foundation": "Nervos Foundation",
+      "aboutus": "About Us",
+      "faq": "FAQ",
+
+      "developer": "Developer",
+      "api": "API",
+      "gitHub": "GitHub",
+      "whitepaper": "Whitepaper",
+
+      "community": "Community",
+      "twitter": "Twitter",
+      "blog": "Blog",
+      "telegram": "Telegram",
+      "reddit": "Reddit",
+      "youtube": "YouTube",
+      "forum": "forum"
+    },
+    "details": {
+      "address": "Address",
+      "lockhash": "Lock Hash",
+      "overview": "Overview",
+      "balance": "Balance",
+      "transactions": "Transactions",
+      "codehash": "Code Hash",
+      "args": "Args",
+      "block": "Block",
+      "confirmation": "Confirmation"
     }
   }
 }

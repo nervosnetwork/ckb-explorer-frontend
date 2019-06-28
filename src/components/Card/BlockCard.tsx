@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Block } from '../../http/response/Block'
 import { startEndEllipsis } from '../../utils/string'
 import { parseSimpleDate } from '../../utils/date'
@@ -70,22 +71,28 @@ const CardItem = ({
 }
 
 const BlockCard = ({ block }: { block: Block }) => {
+  const [t] = useTranslation()
   return (
     <CardPanel>
-      <CardItem name="Height :" value={localeNumberString(block.number)} to={`/block/${block.number}`} highLight />
-      <CardItem name="Transactions :" value={localeNumberString(block.transactions_count)} />
-      <CardItem name="Block Reward (CKB) :" value={localeNumberString(shannonToCkb(block.reward))} />
+      <CardItem
+        name={`${t('home_common.height')} :`}
+        value={localeNumberString(block.number)}
+        to={`/block/${block.number}`}
+        highLight
+      />
+      <CardItem name={`${t('home_common.height')} :`} value={localeNumberString(block.transactions_count)} />
+      <CardItem name={`${t('home_common.blockreward')} :`} value={localeNumberString(shannonToCkb(block.reward))} />
       {block.miner_hash ? (
         <CardItem
-          name="Miner :"
+          name={`${t('home_common.miner')} :`}
           value={startEndEllipsis(block.miner_hash, 7)}
           to={`/address/${block.miner_hash}`}
           highLight
         />
       ) : (
-        <CardItem name="Miner :" value="Unable to decode address" />
+        <CardItem name={`${t('home_common.miner')} :`} value={t('common.unabledecode')} />
       )}
-      <CardItem name="Time :" value={parseSimpleDate(block.timestamp)} />
+      <CardItem name={`${t('home_common.time')} :`} value={parseSimpleDate(block.timestamp)} />
     </CardPanel>
   )
 }
