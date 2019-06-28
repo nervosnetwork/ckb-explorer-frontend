@@ -122,7 +122,7 @@ const LableHelpPanel = styled.div`
   position: relative;
 
   .label__help__image {
-    margin-top: 3px;
+    margin-top: 4px;
     width: 18px;
     height: 18px;
   }
