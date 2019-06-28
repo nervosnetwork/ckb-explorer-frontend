@@ -1,11 +1,87 @@
 {
   "translation": {
+    "common": {
+      "unabledecode": "Unable to decode address(zh)",
+      "copied": "Copied(zh)",
+      "detail": "Detail(zh)",
+      "overview": "Overview(zh)",
+      "block": "Block(zh)",
+      "blockheight": "Block Height(zh)",
+      "transactions": "Transactions(zh)",
+      "transactionfee": "Transaction Fee(zh)",
+      "timestamp": "Timestamp(zh)",
+      "miner": "Miner(zh)",
+      "difficulty": "Difficulty(zh)"
+    },
     "navbar": {
-      "wallet": "钱包",
-      "docs": "文档",
-      "search_placeholder": "Block / Transaction / Address",
-      "button_text": "测试网",
-      "button_extra": "Mainnet is comming"
+      "wallet": "Wallet(zh)",
+      "docs": "Docs(zh)",
+      "search_placeholder": "Block / Transaction / Address(zh)",
+      "button_text": "TESTNET(zh)",
+      "button_extra": "Mainnet is comming(zh)"
+    },
+    "blockchaindata": {
+      "bestblock": "Best Block(zh)",
+      "bestblock_extra": "The latest block of the best chain(zh)",
+      "difficulty_extra": "Difficulty of the lastest Epoch(zh)",
+      "hashrate": "Hash Rate(zh)",
+      "hashrate_extra": "Average Hash Rate of the last 500 blocks(zh)",
+      "averageblocktime": "Average Block Time(zh)",
+      "averageblocktime_extra": "Average Block Time of the last 24 hours(zh)"
+    },
+    "home_common": {
+      "height": "Height(zh)",
+      "transactions": "Transactions(zh)",
+      "blockreward": "Block Reward (CKB)(zh)",
+      "time": "Time(zh)",
+      "more": "More(zh)"
+    },
+    "footer": {
+      "nervos_foundation": "Nervos Foundation(zh)",
+      "aboutus": "About Us(zh)",
+      "faq": "FAQ(zh)",
+
+      "developer": "Developer(zh)",
+      "api": "API(zh)",
+      "gitHub": "GitHub(zh)",
+      "whitepaper": "Whitepaper(zh)",
+
+      "community": "Community(zh)",
+      "twitter": "Twitter(zh)",
+      "blog": "Blog(zh)",
+      "telegram": "Telegram(zh)",
+      "reddit": "Reddit(zh)",
+      "youtube": "YouTube(zh)",
+      "forum": "forum(zh)"
+    },
+    "details": {
+      "address": "Address(zh)",
+      "lockhash": "Lock Hash(zh)",
+      "balance": "Balance(zh)",
+      "codehash": "Code Hash(zh)",
+      "args": "Args(zh)",
+      "confirmation": "Confirmation(zh)"
+    },
+    "transaction": {
+      "transaction": "Transaction(zh)",
+      "input": "Input(zh)",
+      "output": "Output(zh)",
+      "lockscript": "Lock Script(zh)",
+      "typescript": "Type Script(zh)",
+      "data": "Data(zh)"
+    },
+    "block": {
+      "proposal_transactions": "Proposal Transactions(zh)",
+      "blockreward": "Block Reward(zh)",
+      "unclecount": "Uncle Count(zh)",
+      "epoch": "Epoch(zh)",
+      "epoch_start_number": "Epoch Start Number(zh)",
+      "epochlength": "Epoch Length(zh)",
+      "nonce": "Nonce(zh)",
+      "proof": "Proof(zh)",
+      "transactionsroot": "Transactions Root(zh)",
+      "witnessesroot": "Witnesses Root(zh)"
+
     }
   }
 }
