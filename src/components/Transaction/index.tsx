@@ -97,7 +97,7 @@ const TransactionComponent = ({
                   cell && (
                     <TransactionCell
                       cell={cell}
-                      blockNumber={transaction.block_number}
+                      blockNumber={cell.target_block_number}
                       address={address}
                       key={cell.id}
                     />
