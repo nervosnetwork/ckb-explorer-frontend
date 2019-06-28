@@ -93,7 +93,7 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
       </div>
     </CellbasePanel>
   ) : (
-    <span>Cellbase</span>
+    <div>Cellbase</div>
   )
 }
 
@@ -127,7 +127,7 @@ const TransactionCellItem = ({
       ) : (
         <div className="transaction__cell">
           <CellHash>
-            {cell.from_cellbase && blockNumber ? <Cellbase blockHeight={blockNumber} /> : 'Unable to decode address'}
+            {cell.from_cellbase ? <Cellbase blockHeight={blockNumber} /> : 'Unable to decode address'}
           </CellHash>
         </div>
       )}
