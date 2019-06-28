@@ -66,21 +66,6 @@ const BlockReward = ({ name, capacity }: { name: string; capacity: number }) => 
   )
 }
 
-const BlockRewards = [
-  {
-    name: 'Base Reward',
-    capacity: 300,
-  },
-  {
-    name: 'Commit Reward',
-    capacity: 300,
-  },
-  {
-    name: 'Proposal Reward',
-    capacity: 300,
-  },
-]
-
 const TransactionComponent = ({
   transaction,
   address,
@@ -128,16 +113,13 @@ const TransactionComponent = ({
                   cell && (
                     <div key={cell.id}>
                       <TransactionCell cell={cell} blockNumber={transaction.block_number} address={address} />
-                      {transaction.block_number > 0 &&
-                        BlockRewards.map(blockReward => {
-                          return (
-                            <BlockReward
-                              name={blockReward.name}
-                              capacity={blockReward.capacity}
-                              key={blockReward.name}
-                            />
-                          )
-                        })}
+                      {transaction.block_number > 0 && transaction.is_cellbase && (
+                        <div>
+                          <BlockReward name="Base Reward" capacity={cell.block_reward} />
+                          <BlockReward name="Commit Reward" capacity={cell.commit_reward} />
+                          <BlockReward name="Proposal Reward" capacity={cell.proposal_reward} />
+                        </div>
+                      )}
                     </div>
                   )
                 )
