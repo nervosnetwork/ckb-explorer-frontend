@@ -453,7 +453,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   <SimpleLabel
                     image={BlockRightItems[0].image}
                     label={BlockRightItems[0].label}
-                    value="Unable to decode address"
+                    value={i18n.t('common.unabledecode')}
                   />
                 )}
                 {BlockRightItems.slice(1).map(item => {

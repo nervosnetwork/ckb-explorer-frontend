@@ -4,6 +4,7 @@ import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import { CellHash, CellHashHighLight, Container } from './styled'
 import { localeNumberString } from '../../../utils/number'
+import i18n from '../../../utils/i18n'
 
 export default ({ cell, address }: { cell: any; address?: string }) => {
   const CellbaseAddress = () => {
@@ -24,7 +25,7 @@ export default ({ cell, address }: { cell: any; address?: string }) => {
         <CellbaseAddress />
       ) : (
         <div className="cell">
-          <CellHash>{cell.from_cellbase ? 'Cellbase' : 'Unable to decode address'}</CellHash>
+          <CellHash>{cell.from_cellbase ? 'Cellbase' : i18n.t('common.unabledecode')}</CellHash>
         </div>
       )}
       {!cell.from_cellbase && (

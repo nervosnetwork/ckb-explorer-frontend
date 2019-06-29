@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { startEndEllipsis } from '../../utils/string'
+import i18n from '../../utils/i18n'
 
 export const TableTitleRow = styled.div`
   background: #3cc68a;
@@ -120,7 +121,7 @@ export const TableMinerContentItem = ({ content }: { content: string }) => {
           <code className="table__miner__text">{content && startEndEllipsis(content)}</code>
         </Link>
       ) : (
-        <div className="table__miner__text__disable">Unable to decode address</div>
+        <div className="table__miner__text__disable">{i18n.t('common.unabledecode')}</div>
       )}
     </TableMinerContentPanel>
   )
