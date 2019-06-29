@@ -6,6 +6,7 @@ import GreenArrowDown from '../../../assets/green_arrow_down.png'
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import TransactionReward from '../TransactionReward'
+import i18n from '../../../utils/i18n'
 
 const CardPanel = styled.div`
   @media (min-width: 700px) {
@@ -130,7 +131,7 @@ const AddressHashItem = (input: InputOutput, address?: string) => {
   }
   return (
     <div key={input.id}>
-      <CardLabelItem value="Unable to decode address" />
+      <CardLabelItem value={i18n.t('common.unabledecode')} />
       <CardLabelItem value={`${shannonToCkb(input.capacity)} CKB`} />
     </div>
   )

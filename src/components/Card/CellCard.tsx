@@ -10,6 +10,7 @@ import { CellType, fetchScript, fetchCellData } from '../../http/fetcher'
 import { ScriptWrapper } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
 import { localeNumberString } from '../../utils/number'
+import i18n from '../../utils/i18n'
 
 const CardPanel = styled.div`
   width: 88%;
@@ -200,7 +201,7 @@ const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: InputOu
   }
   return (
     <div key={cell.id}>
-      <CardLabelItem name={name} value="Unable to decode address" />
+      <CardLabelItem name={name} value={i18n.t('common.unabledecode')} />
       <Capacity />
     </div>
   )
@@ -366,9 +367,9 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
       <div className="script__operation">
         <div className="script__detail">Detail</div>
         <div className="script__buttons">
-          <CellOperationButton value="Lock Script" cellState={CellState.LOCK} />
-          <CellOperationButton value="Type Script" cellState={CellState.TYPE} />
-          <CellOperationButton value="Data" cellState={CellState.DATA} />
+          <CellOperationButton value={i18n.t('transaction.lockscript')} cellState={CellState.LOCK} />
+          <CellOperationButton value={i18n.t('transaction.typescript')} cellState={CellState.TYPE} />
+          <CellOperationButton value={i18n.t('transaction.data')} cellState={CellState.DATA} />
         </div>
       </div>
 

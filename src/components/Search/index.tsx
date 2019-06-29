@@ -89,7 +89,7 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
   const handleSearchResult = () => {
     const query = searchValue.replace(/^\s+|\s+$/g, '') // remove front and end blank
     if (!query) {
-      appContext.toastMessage('Please input valid content', 3000)
+      appContext.toastMessage(i18n.t('toast.invalid_content'), 3000)
     } else {
       fetchSearchResult(searchTextCorrection(query))
         .then((response: any) => {

@@ -13,6 +13,10 @@
       "miner": "Miner",
       "difficulty": "Difficulty"
     },
+    "toast": {
+      "invalid_content": "Please input valid content",
+      "invalid_network": "Network exception, please try again later"
+    },
     "navbar": {
       "wallet": "Wallet",
       "docs": "Docs",

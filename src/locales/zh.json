@@ -13,6 +13,9 @@
       "miner": "Miner(zh)",
       "difficulty": "Difficulty(zh)"
     },
+    "toast": {
+      "invalid_content": "Please input valid content(zh)"
+    },
     "navbar": {
       "wallet": "Wallet(zh)",
       "docs": "Docs(zh)",
