@@ -58,6 +58,10 @@ export const TransactionsItem = styled.div`
         flex: 15;
       }
 
+      .transaction__input {
+        margin-right: 40px;
+      }
+
       .transaction__output {
         margin-left: 40px;
         display: flex;
