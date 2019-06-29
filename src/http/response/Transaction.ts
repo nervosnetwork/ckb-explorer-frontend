@@ -3,6 +3,8 @@ export interface Transaction {
   block_number: number
   block_timestamp: number
   transaction_fee: number
+  is_cellbase: boolean
+  target_block_number: number
   version: number
   display_inputs: InputOutput[]
   display_outputs: InputOutput[]
@@ -19,5 +21,9 @@ export interface InputOutput {
   address_hash: string
   capacity: number
   from_cellbase: boolean
+  target_block_number: number
+  block_reward: number
+  commit_reward: number
+  proposal_reward: number
   isGenesisOutput: boolean
 }

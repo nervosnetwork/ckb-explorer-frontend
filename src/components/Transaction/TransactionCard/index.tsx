@@ -1,10 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { Transaction, InputOutput } from '../../http/response/Transaction'
-import GreenArrowDown from '../../assets/green_arrow_down.png'
-import { startEndEllipsis } from '../../utils/string'
-import { shannonToCkb } from '../../utils/util'
+import { Transaction, InputOutput } from '../../../http/response/Transaction'
+import GreenArrowDown from '../../../assets/green_arrow_down.png'
+import { startEndEllipsis } from '../../../utils/string'
+import { shannonToCkb } from '../../../utils/util'
+import HelpIcon from '../../../assets/qa_help.png'
+import TransactionReward from '../TransactionReward'
 
 const CardPanel = styled.div`
   @media (min-width: 700px) {
@@ -30,6 +32,7 @@ const CardPanel = styled.div`
 
   .green__arrow {
     text-align: center;
+    margin: 10px 0;
     > img {
       width: 20px;
       height: 20px;
@@ -64,6 +67,32 @@ const CardItemPanel = styled.div`
   }
 `
 
+export const CellbasePanel = styled.div`
+  display: flex;
+  margin-top: 10px;
+
+  .cellbase__content {
+    color: #888888;
+    font-size: 14px;
+    margin-right: 10px;
+  }
+
+  .cellbase__help {
+    margin-left: 10px;
+
+    > img {
+      margin-top: 3px;
+      width: 14px;
+      height: 14px;
+    }
+  }
+`
+
+const CellHashHighLight = styled.div`
+  font-size: 14px;
+  color: rgb(75, 188, 142);
+`
+
 const CardLabelItem = ({ value, to, highLight = false }: { value: string; to?: string; highLight?: boolean }) => {
   return (
     <CardItemPanel highLight={highLight}>
@@ -78,8 +107,27 @@ const CardLabelItem = ({ value, to, highLight = false }: { value: string; to?: s
   )
 }
 
+const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
+  return blockHeight && blockHeight > 0 ? (
+    <CellbasePanel>
+      <div className="cellbase__content">Cellbase for Block</div>
+      <Link to={`/block/${blockHeight}`}>
+        <CellHashHighLight>{blockHeight}</CellHashHighLight>
+      </Link>
+      <div className="cellbase__help">
+        <img alt="cellbase help" src={HelpIcon} />
+      </div>
+    </CellbasePanel>
+  ) : (
+    <span>Cellbase</span>
+  )
+}
+
 const AddressHashItem = (input: InputOutput, address?: string) => {
   if (input.from_cellbase) {
+    if (input.target_block_number && input.target_block_number > 0) {
+      return <Cellbase blockHeight={input.target_block_number} />
+    }
     return <CardLabelItem key={input.id} value="Cellbase" />
   }
   if (input.address_hash) {
@@ -122,7 +170,7 @@ const TransactionCard = ({ transaction, address }: { transaction: Transaction; a
       {transaction &&
         transaction.display_inputs &&
         transaction.display_inputs.map((input: InputOutput) => {
-          return AddressHashItem(input, address)
+          return <div key={input.id}>{AddressHashItem(input, address)}</div>
         })}
       <div className="green__arrow">
         <img src={GreenArrowDown} alt="arrow" />
@@ -130,7 +178,12 @@ const TransactionCard = ({ transaction, address }: { transaction: Transaction; a
       {transaction &&
         transaction.display_outputs &&
         transaction.display_outputs.map((output: InputOutput) => {
-          return AddressHashItem(output, address)
+          return (
+            <div key={output.id}>
+              {AddressHashItem(output, address)}
+              <TransactionReward transaction={transaction} cell={output} />
+            </div>
+          )
         })}
     </CardPanel>
   )
