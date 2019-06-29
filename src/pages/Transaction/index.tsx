@@ -78,6 +78,8 @@ const initTransaction: Transaction = {
   block_number: 0,
   block_timestamp: 0,
   transaction_fee: 0,
+  is_cellbase: false,
+  target_block_number: 0,
   version: 0,
   display_inputs: [],
   display_outputs: [],
@@ -177,14 +179,18 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           </OutputPanelDiv>
         </CellPanelPC>
         <CellPanelMobile>
-          {transaction.display_inputs.map((input: InputOutput, index: number) => {
-            const key = index
-            return <CellCard type={CellType.Input} cell={input} key={key} />
-          })}
-          {transaction.display_outputs.map((output: InputOutput, index: number) => {
-            const key = index
-            return <CellCard type={CellType.Output} cell={output} key={key} />
-          })}
+          {transaction &&
+            transaction.display_inputs &&
+            transaction.display_inputs.map((input: InputOutput, index: number) => {
+              const key = index
+              return <CellCard type={CellType.Input} cell={input} key={key} />
+            })}
+          {transaction &&
+            transaction.display_outputs &&
+            transaction.display_outputs.map((output: InputOutput, index: number) => {
+              const key = index
+              return <CellCard type={CellType.Output} cell={output} key={key} />
+            })}
         </CellPanelMobile>
       </TransactionDiv>
     </Content>

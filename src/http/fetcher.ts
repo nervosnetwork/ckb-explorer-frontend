@@ -66,9 +66,6 @@ export const fetchTransactionsByBlockHash = (blockHash: string, page: number, pa
       },
     })
     .then((res: AxiosResponse) => res.data)
-    .catch(() => {
-      throw new Error(`${blockHash}${page}${page_size}`)
-    })
 }
 
 export const fetchBlockByHash = (hash: string) => {
