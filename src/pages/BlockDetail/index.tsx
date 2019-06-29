@@ -303,6 +303,13 @@ const TransactionFeeTip: Tooltip = {
   hideValue: true,
 }
 
+const transactionFee = (block: Block) => {
+  if (block.received_tx_fee_status === TransactionFeeStatus.calculating && block.number > 0) {
+    return TransactionFeeTip
+  }
+  return undefined
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
   const { match, location } = props
   const { params } = match
@@ -373,7 +380,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
       image: TransactionFeeIcon,
       label: 'Transaction Fee:',
       value: `${state.block.received_tx_fee} Shannon`,
-      tooltip: state.block.received_tx_fee_status === TransactionFeeStatus.calculating ? TransactionFeeTip : undefined,
+      tooltip: transactionFee(state.block),
     },
     {
       image: TimestampIcon,
