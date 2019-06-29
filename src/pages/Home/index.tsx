@@ -39,6 +39,7 @@ import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
 import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
 import { storeCachedData, fetchCachedData } from '../../utils/cached'
+import { localeNumberString } from '../../utils/number'
 
 const BlockchainItem = ({ name, value, image, tip }: { name: string; value: string; image: any; tip?: string }) => {
   return (
@@ -129,7 +130,7 @@ export default () => {
   const BlockchainDatas: BlockchainData[] = [
     {
       name: 'Best Block',
-      value: statistics.tip_block_number,
+      value: localeNumberString(statistics.tip_block_number),
       image: BestBlockImage,
       tip: 'The latest block of the best chain',
     },
@@ -181,9 +182,12 @@ export default () => {
                 return (
                   block && (
                     <TableContentRow key={key}>
-                      <TableContentItem content={block.attributes.number} to={`/block/${block.attributes.number}`} />
+                      <TableContentItem
+                        content={localeNumberString(block.attributes.number)}
+                        to={`/block/${block.attributes.number}`}
+                      />
                       <TableContentItem content={block.attributes.transactions_count} />
-                      <TableContentItem content={`${shannonToCkb(block.attributes.reward)}`} />
+                      <TableContentItem content={localeNumberString(shannonToCkb(block.attributes.reward))} />
                       <TableMinerContentItem content={block.attributes.miner_hash} />
                       <TableContentItem content={parseSimpleDate(block.attributes.timestamp)} />
                     </TableContentRow>

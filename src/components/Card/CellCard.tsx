@@ -9,6 +9,7 @@ import { shannonToCkb, copyElementValue } from '../../utils/util'
 import { CellType, fetchScript, fetchCellData } from '../../http/fetcher'
 import { ScriptWrapper } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
+import { localeNumberString } from '../../utils/number'
 
 const CardPanel = styled.div`
   width: 88%;
@@ -174,12 +175,13 @@ const CardLabelItem = ({
 
 const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: InputOutput }) => {
   const name = type === CellType.Input ? 'Input' : 'Output'
+  const Capacity = () => <CardLabelItem name="Capacity" value={localeNumberString(shannonToCkb(cell.capacity))} />
 
   if (cell.from_cellbase) {
     return (
       <div key={cell.id}>
         <CardLabelItem name={name} value="Cellbase" />
-        <CardLabelItem name="Capacity" value={`${shannonToCkb(cell.capacity)}`} />
+        <Capacity />
       </div>
     )
   }
@@ -192,14 +194,14 @@ const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: InputOu
           to={`/address/${cell.address_hash}`}
           highLight
         />
-        <CardLabelItem name="Capacity" value={`${shannonToCkb(cell.capacity)}`} />
+        <Capacity />
       </div>
     )
   }
   return (
     <div key={cell.id}>
       <CardLabelItem name={name} value="Unable to decode address" />
-      <CardLabelItem name="Capacity" value={`${shannonToCkb(cell.capacity)}`} />
+      <Capacity />
     </div>
   )
 }

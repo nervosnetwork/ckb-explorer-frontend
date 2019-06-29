@@ -47,3 +47,7 @@ export const searchTextCorrection = (value: string) => {
   }
   return value
 }
+
+export const stringInsert = (string: string, index: number, substring: string) => {
+  return string.slice(0, index) + substring + string.slice(index)
+}

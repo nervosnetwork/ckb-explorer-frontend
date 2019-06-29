@@ -5,6 +5,7 @@ import { Block } from '../../http/response/Block'
 import { startEndEllipsis } from '../../utils/string'
 import { parseSimpleDate } from '../../utils/date'
 import { shannonToCkb } from '../../utils/util'
+import { localeNumberString } from '../../utils/number'
 
 const CardPanel = styled.div`
   width: 88%;
@@ -71,9 +72,9 @@ const CardItem = ({
 const BlockCard = ({ block }: { block: Block }) => {
   return (
     <CardPanel>
-      <CardItem name="Height :" value={`${block.number}`} to={`/block/${block.number}`} highLight />
-      <CardItem name="Transactions :" value={`${block.transactions_count}`} />
-      <CardItem name="Block Reward (CKB) :" value={`${shannonToCkb(block.reward)}`} />
+      <CardItem name="Height :" value={localeNumberString(block.number)} to={`/block/${block.number}`} highLight />
+      <CardItem name="Transactions :" value={localeNumberString(block.transactions_count)} />
+      <CardItem name="Block Reward (CKB) :" value={localeNumberString(shannonToCkb(block.reward))} />
       {block.miner_hash ? (
         <CardItem
           name="Miner :"
