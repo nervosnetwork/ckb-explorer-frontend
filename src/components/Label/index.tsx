@@ -149,6 +149,7 @@ const LableHelpPanel = styled.div`
 
   @media (max-width: 700px) {
     .label__help__image {
+      margin-top: 6px;
       width: 14px;
       height: 14px;
     }
