@@ -79,3 +79,22 @@ export const TransactionsReward = styled.div`
     margin-left: 15px;
   }
 `
+
+export const TransactionConfirmation = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 15px;
+
+  .confirmation {
+    font-size: 16px;
+    color: #888888;
+  }
+  .capacity {
+    font-size: 16px;
+    color: ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff7070')};
+    flex-direction: column;
+    align-items: flex-end;
+  }
+`

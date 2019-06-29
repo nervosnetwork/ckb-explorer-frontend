@@ -1,13 +1,14 @@
-import React, { ReactNode, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import LoadMoreIcon from '../../../assets/transaction_load_more.png'
-import { InputOutput } from '../../../http/response/Transaction'
+import { InputOutput, Transaction } from '../../../http/response/Transaction'
 import TransactionCell from '../TransactionCell/index'
+import TransactionReward from '../TransactionReward/index'
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: space-between;
   flex: 13;
   width: 100%;
   > button {
@@ -31,7 +32,17 @@ const Container = styled.div`
 
 const MAX_CELL_SHOW_SIZE = 10
 
-export default ({ cells, address, children }: { cells: InputOutput[]; address?: string; children?: ReactNode }) => {
+export default ({
+  cells,
+  transaction,
+  address,
+  isOuput = false,
+}: {
+  cells: InputOutput[]
+  transaction: Transaction
+  address?: string
+  isOuput?: boolean
+}) => {
   const [count, setCount] = useState(MAX_CELL_SHOW_SIZE)
   const onClickLoadMore = () => {
     setCount(Math.min(cells.length, count + MAX_CELL_SHOW_SIZE))
@@ -41,7 +52,13 @@ export default ({ cells, address, children }: { cells: InputOutput[]; address?: 
       {cells &&
         cells.map(
           (cell: InputOutput, index: number) =>
-            index < count && cell && <TransactionCell cell={cell} address={address} key={cell.id} />,
+            index < count &&
+            cell && (
+              <div key={cell.id}>
+                <TransactionCell cell={cell} blockNumber={transaction.block_number} address={address} />
+                {isOuput && <TransactionReward transaction={transaction} cell={cell} />}
+              </div>
+            ),
         )}
       {count < cells.length && (
         <button type="button" onClick={onClickLoadMore}>
@@ -49,7 +66,6 @@ export default ({ cells, address, children }: { cells: InputOutput[]; address?: 
           <img src={LoadMoreIcon} alt="load more" />
         </button>
       )}
-      {children}
     </Container>
   )
 }

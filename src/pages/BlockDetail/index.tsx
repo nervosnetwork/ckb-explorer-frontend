@@ -525,7 +525,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 return (
                   transaction && (
                     <div key={transaction.attributes.transaction_hash}>
-                      <TransactionItem transaction={transaction.attributes} isBlock />
+                      <TransactionItem transaction={transaction.attributes} confirmation={10} isBlock />
                       <TransactionCard transaction={transaction.attributes} />
                     </div>
                   )

@@ -303,6 +303,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                     <TransactionItem
                       address={address}
                       transaction={transaction.attributes}
+                      confirmation={10}
                       key={transaction.attributes.transaction_hash}
                     />
                   )
