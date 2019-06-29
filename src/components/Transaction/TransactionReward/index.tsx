@@ -34,6 +34,10 @@ export const RewardPenal = styled.div`
       @media (max-width: 700px) {
         font-size: 14px;
       }
+
+      @media (max-width: 320px) {
+        font-size: 13px;
+      }
     }
   }
 
@@ -44,6 +48,10 @@ export const RewardPenal = styled.div`
 
     @media (max-width: 700px) {
       font-size: 14px;
+    }
+
+    @media (max-width: 320px) {
+      font-size: 12px;
     }
   }
 `
