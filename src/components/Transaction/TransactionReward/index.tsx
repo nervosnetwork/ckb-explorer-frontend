@@ -28,7 +28,12 @@ export const RewardPenal = styled.div`
       display: flex;
       align-items: center;
       justify-content: left;
+      font-size: 16px;
       color: rgb(136, 136, 136);
+
+      @media (max-width: 700px) {
+        font-size: 14px;
+      }
     }
   }
 
@@ -36,6 +41,10 @@ export const RewardPenal = styled.div`
     font-size: 16px;
     color: rgb(136, 136, 136);
     margin-left: 15px;
+
+    @media (max-width: 700px) {
+      font-size: 14px;
+    }
   }
 `
 
