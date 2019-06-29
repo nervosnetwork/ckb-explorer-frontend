@@ -9,11 +9,11 @@ export const RewardPenal = styled.div`
   align-items: center;
   height: 30px;
   justify-content: space-between;
+  margin-top: 10px;
 
   .reward__name__point {
     display: flex;
     align-items: center;
-    margin-top: 10px;
 
     > img {
       @media (min-width: 700px) {

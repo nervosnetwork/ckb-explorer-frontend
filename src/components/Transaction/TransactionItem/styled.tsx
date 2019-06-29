@@ -51,7 +51,6 @@ export const TransactionsItem = styled.div`
       > img {
         width: 40px;
         height: 40px;
-        flex: 1;
       }
 
       > div {
