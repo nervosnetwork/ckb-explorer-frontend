@@ -1,0 +1,95 @@
+{
+  "translation": {
+    "common": {
+      "copied": "Copied",
+      "detail": "Detail",
+      "overview": "Overview"
+    },
+    "toast": {
+      "invalid_content": "Please input valid content",
+      "invalid_network": "Network exception, please try again later"
+    },
+    "navbar": {
+      "wallet": "Wallet",
+      "docs": "Docs",
+      "search_placeholder": "Block / Transaction / Address",
+      "network": "TESTNET",
+      "network_tooltip": "Mainnet is comming"
+    },
+    "blockchain": {
+      "best_block": "Best Block",
+      "best_block_tooltip": "The latest block of the best chain",
+      "difficulty_tooltip": "Difficulty of the latest Epoch",
+      "hash_rate": "Hash Rate",
+      "hash_rate_tooltip": "Average Hash Rate of the last 500 blocks",
+      "average_block_time": "Average Block Time",
+      "average_block_time_tooltip": "Average Block Time of the last 24 hours"
+    },
+    "home": {
+      "height": "Height",
+      "transactions": "Transactions",
+      "block_reward": "Block Reward (CKB)",
+      "time": "Time",
+      "more": "More"
+    },
+    "footer": {
+      "nervos_foundation": "Nervos Foundation",
+      "about_us": "About Us",
+      "faq": "FAQ",
+      "developer": "Developer",
+      "api": "API",
+      "gitHub": "GitHub",
+      "whitepaper": "Whitepaper",
+      "community": "Community",
+      "twitter": "Twitter",
+      "blog": "Blog",
+      "telegram": "Telegram",
+      "reddit": "Reddit",
+      "youtube": "YouTube",
+      "forum": "forum"
+    },
+    "address": {
+      "address": "Address",
+      "lock_hash": "Lock Hash",
+      "balance": "Balance",
+      "pending_reward": "Pending Reward",
+      "code_hash": "Code Hash",
+      "args": "Args",
+      "confirmation": "Confirmation",
+      "unable_decode_address": "Unable to decode address",
+      "pending_reward_tooltip": "The block reward and transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol"
+    },
+    "transaction": {
+      "transaction": "Transaction",
+      "transactions": "Transactions",
+      "transaction_fee": "Transaction Fee",
+      "input": "Input",
+      "output": "Output",
+      "lock_script": "Lock Script",
+      "type_script": "Type Script",
+      "data": "Data",
+      "base_reward": "Base Reward",
+      "commit_reward": "Commit Reward",
+      "proposal_reward": "Proposal Reward",
+      "cellbase_help_tooltip": "The cellbase transaction of block N is send to the miner of block N-11 as reward. The reward is consist of Base Reward, Commit Reward and Proposal Reward, learn more from our Consensus Protocol"
+    },
+    "block": {
+      "block": "Block",
+      "block_height": "Block Height",
+      "proposal_transactions": "Proposal Transactions",
+      "block_reward": "Block Reward",
+      "uncle_count": "Uncle Count",
+      "epoch": "Epoch",
+      "epoch_start_number": "Epoch Start Number",
+      "epoch_length": "Epoch Length",
+      "nonce": "Nonce",
+      "proof": "Proof",
+      "timestamp": "Timestamp",
+      "miner": "Miner",
+      "difficulty": "Difficulty",
+      "transactions_root": "Transactions Root",
+      "witnesses_root": "Witnesses Root"
+    }
+  }
+}
+
