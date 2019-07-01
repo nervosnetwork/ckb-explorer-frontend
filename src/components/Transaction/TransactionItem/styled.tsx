@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const TransactionsItem = styled.div`
+export const TransactionPanel = styled.div`
   @media (max-width: 700px) {
     display: none;
   }

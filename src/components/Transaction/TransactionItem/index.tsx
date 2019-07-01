@@ -13,7 +13,7 @@ import {
   SeparationLine,
   TransactionHashBlockPanel,
   TransactionInputOutputPanel,
-  TransactionsItem,
+  TransactionPanel,
 } from './styled'
 
 const MAX_CELL_SHOW_SIZE = 10
@@ -30,7 +30,7 @@ const TransactionItem = ({
   isBlock?: boolean
 }) => {
   return (
-    <TransactionsItem>
+    <TransactionPanel>
       <div>
         <TransactionHashBlockPanel>
           <Link to={`/transaction/${transaction.transaction_hash}`}>
@@ -75,7 +75,7 @@ const TransactionItem = ({
           </div>
         </TransactionInputOutputPanel>
       </div>
-    </TransactionsItem>
+    </TransactionPanel>
   )
 }
 
