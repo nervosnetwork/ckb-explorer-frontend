@@ -7,6 +7,7 @@ import { ScriptWrapper } from '../../http/response/Script'
 import { CellType, fetchScript, fetchCellData } from '../../http/fetcher'
 import { shannonToCkb } from '../../utils/util'
 import { hexToUtf8, parseLongAddressHash } from '../../utils/string'
+import { localeNumberString } from '../../utils/number'
 
 enum CellState {
   NONE,
@@ -195,7 +196,11 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
             <AddressHashComponent />
           )}
         </td>
-        {!cellInputOutput.from_cellbase ? <td>{shannonToCkb(cellInputOutput.capacity)}</td> : <td />}
+        {!cellInputOutput.from_cellbase ? (
+          <td>{localeNumberString(shannonToCkb(cellInputOutput.capacity))}</td>
+        ) : (
+          <td />
+        )}
         {ScriptTypeItems.map(item => {
           return (
             <td key={item}>

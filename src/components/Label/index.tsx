@@ -23,9 +23,6 @@ const LabelPanel = styled.div`
 
   > div {
     color: rgb(136, 136, 136);
-    max-width: 320px;
-    overflow: hidden;
-    text-overflow: ellipsis;
 
     ${(props: { highLight: boolean }) =>
       props.highLight &&

@@ -29,6 +29,7 @@ import { copyElementValue, formattorConfirmation } from '../../utils/util'
 import CellCard from '../../components/Card/CellCard'
 import ScriptComponent from './Script'
 import { StatisticsWrapper } from '../../http/response/Statistics'
+import { localeNumberString } from '../../utils/number'
 
 const TransactionTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
@@ -134,7 +135,12 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   pathname: `/block/${transaction.block_number}`,
                 }}
               >
-                <SimpleLabel image={BlockHeightIcon} label="Block Height:" value={transaction.block_number} highLight />
+                <SimpleLabel
+                  image={BlockHeightIcon}
+                  label="Block Height:"
+                  value={localeNumberString(transaction.block_number)}
+                  highLight
+                />
               </Link>
               <SimpleLabel
                 image={TransactionIcon}

@@ -6,6 +6,7 @@ import GreenArrowDown from '../../assets/green_arrow_down.png'
 import { startEndEllipsis } from '../../utils/string'
 import { shannonToCkb, getCapacityChange } from '../../utils/util'
 import { PaginationList, ConfirmationCapacityContainer } from '../Transaction'
+import { localeNumberString } from '../../utils/number'
 
 export const CELL_PAGE_SIZE = 10
 
@@ -93,12 +94,14 @@ const AddressHashItem = (input: InputOutput, address?: string) => {
   if (input.from_cellbase) {
     return <CardLabelItem key={input.id} value="Cellbase" />
   }
+  const Capacity = () => <CardLabelItem value={`${localeNumberString(shannonToCkb(input.capacity))} CKB`} />
+
   if (input.address_hash) {
     if (address && input.address_hash === address) {
       return (
         <div key={input.id}>
           <CardLabelItem value={`${startEndEllipsis(input.address_hash, 14)}`} />
-          <CardLabelItem value={`${shannonToCkb(input.capacity)} CKB`} />
+          <Capacity />
         </div>
       )
     }
@@ -109,14 +112,14 @@ const AddressHashItem = (input: InputOutput, address?: string) => {
           to={`/address/${input.address_hash}`}
           highLight
         />
-        <CardLabelItem value={`${shannonToCkb(input.capacity)} CKB`} />
+        <Capacity />
       </div>
     )
   }
   return (
     <div key={input.id}>
       <CardLabelItem value="Unable to decode address" />
-      <CardLabelItem value={`${shannonToCkb(input.capacity)} CKB`} />
+      <Capacity />
     </div>
   )
 }
