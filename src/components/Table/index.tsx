@@ -121,7 +121,7 @@ export const TableMinerContentItem = ({ content }: { content: string }) => {
           <code className="table__miner__text">{content && startEndEllipsis(content)}</code>
         </Link>
       ) : (
-        <div className="table__miner__text__disable">{i18n.t('common.unabledecode')}</div>
+        <div className="table__miner__text__disable">{i18n.t('address.unable_decode_address')}</div>
       )}
     </TableMinerContentPanel>
   )

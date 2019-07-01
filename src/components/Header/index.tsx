@@ -245,7 +245,7 @@ export default ({ search = true }: { search?: boolean }) => {
             </div>
             <div className="header__testnet__panel">
               <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-              <div className="header__testnet__tip">{i18n.t('navbar.network_extra')}</div>
+              <div className="header__testnet__tip">{i18n.t('navbar.network_tooltip')}</div>
             </div>
           </div>
         )}

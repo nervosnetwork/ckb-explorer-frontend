@@ -88,7 +88,7 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
       </Link>
       <div className="cellbase__help">
         <img alt="cellbase help" src={HelpIcon} />
-        <div className="cellbase__help__content">{i18n.t('transaction.cellbase_help_content')}</div>
+        <div className="cellbase__help__content">{i18n.t('transaction.cellbase_help_tooltip')}</div>
       </div>
     </CellbasePanel>
   ) : (

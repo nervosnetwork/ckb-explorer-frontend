@@ -28,7 +28,7 @@ const handleCapacityChange = (transaction: Transaction, address?: string) => {
 }
 
 const formatConfirmation = (confirmation: number | undefined) => {
-  const confirm: string = i18n.t('details.confirmation')
+  const confirm: string = i18n.t('address.confirmation')
   if (!confirmation) {
     return `0 ${confirm}`
   }

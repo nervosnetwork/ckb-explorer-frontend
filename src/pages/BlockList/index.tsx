@@ -157,11 +157,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
         <BlockListPC>
           <ContentTable>
             <TableTitleRow>
-              <TableTitleItem image={BlockHeightIcon} title={t('home_common.height')} />
-              <TableTitleItem image={TransactionIcon} title={t('home_common.transactions')} />
-              <TableTitleItem image={BlockRewardIcon} title={t('home_common.block_reward')} />
-              <TableTitleItem image={MinerIcon} title={t('common.miner')} />
-              <TableTitleItem image={TimestampIcon} title={t('home_common.time')} />
+              <TableTitleItem image={BlockHeightIcon} title={t('home.height')} />
+              <TableTitleItem image={TransactionIcon} title={t('home.transactions')} />
+              <TableTitleItem image={BlockRewardIcon} title={t('home.block_reward')} />
+              <TableTitleItem image={MinerIcon} title={t('block.miner')} />
+              <TableTitleItem image={TimestampIcon} title={t('home.time')} />
             </TableTitleRow>
             {state.blocks &&
               state.blocks.map((data: any) => {

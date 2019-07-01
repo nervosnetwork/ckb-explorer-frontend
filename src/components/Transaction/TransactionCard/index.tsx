@@ -131,7 +131,7 @@ const AddressHashItem = (input: InputOutput, address?: string) => {
   }
   return (
     <div key={input.id}>
-      <CardLabelItem value={i18n.t('common.unabledecode')} />
+      <CardLabelItem value={i18n.t('address.unable_decode_address')} />
       <CardLabelItem value={`${shannonToCkb(input.capacity)} CKB`} />
     </div>
   )

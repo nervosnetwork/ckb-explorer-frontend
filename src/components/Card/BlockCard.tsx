@@ -75,24 +75,24 @@ const BlockCard = ({ block }: { block: Block }) => {
   return (
     <CardPanel>
       <CardItem
-        name={`${t('home_common.height')} :`}
+        name={`${t('home.height')} :`}
         value={localeNumberString(block.number)}
         to={`/block/${block.number}`}
         highLight
       />
-      <CardItem name={`${t('home_common.height')} :`} value={localeNumberString(block.transactions_count)} />
-      <CardItem name={`${t('home_common.block_reward')} :`} value={localeNumberString(shannonToCkb(block.reward))} />
+      <CardItem name={`${t('home.height')} :`} value={localeNumberString(block.transactions_count)} />
+      <CardItem name={`${t('home.block_reward')} :`} value={localeNumberString(shannonToCkb(block.reward))} />
       {block.miner_hash ? (
         <CardItem
-          name={`${t('common.miner')} :`}
+          name={`${t('block.miner')} :`}
           value={startEndEllipsis(block.miner_hash, 7)}
           to={`/address/${block.miner_hash}`}
           highLight
         />
       ) : (
-        <CardItem name={`${t('common.miner')} :`} value={t('common.unabledecode')} />
+        <CardItem name={`${t('block.miner')} :`} value={t('address.unable_decode_address')} />
       )}
-      <CardItem name={`${t('home_common.time')} :`} value={parseSimpleDate(block.timestamp)} />
+      <CardItem name={`${t('home.time')} :`} value={parseSimpleDate(block.timestamp)} />
     </CardPanel>
   )
 }

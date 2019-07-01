@@ -201,7 +201,7 @@ const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: InputOu
   }
   return (
     <div key={cell.id}>
-      <CardLabelItem name={name} value={i18n.t('common.unabledecode')} />
+      <CardLabelItem name={name} value={i18n.t('address.unable_decode_address')} />
       <Capacity />
     </div>
   )

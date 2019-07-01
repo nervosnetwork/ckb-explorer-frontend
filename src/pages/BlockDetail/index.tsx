@@ -58,7 +58,7 @@ const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
   return (
     <BlockDetailTitlePanel>
-      <div className="block__title">{i18n.t('common.block')}</div>
+      <div className="block__title">{i18n.t('block.block')}</div>
       <div className="block__content">
         <code id="block__hash">{hash}</code>
         <div
@@ -360,12 +360,12 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const BlockLeftItems: BlockItem[] = [
     {
       image: BlockHeightIcon,
-      label: `${i18n.t('common.block_height')}:`,
+      label: `${i18n.t('block.block_height')}:`,
       value: `${state.block.number}`,
     },
     {
       image: BlockTransactionIcon,
-      label: `${i18n.t('common.transactions')}:`,
+      label: `${i18n.t('transaction.transactions')}:`,
       value: `${state.block.transactions_count}`,
     },
     {
@@ -381,13 +381,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     },
     {
       image: TransactionFeeIcon,
-      label: `${i18n.t('common.transaction_fee')}:`,
+      label: `${i18n.t('transaction.transaction_fee')}:`,
       value: `${state.block.received_tx_fee} Shannon`,
       tooltip: transactionFee(state.block),
     },
     {
       image: TimestampIcon,
-      label: `${i18n.t('common.timestamp')}:`,
+      label: `${i18n.t('block.timestamp')}:`,
       value: `${parseSimpleDate(state.block.timestamp)}`,
     },
     {
@@ -400,7 +400,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const BlockRightItems: BlockItem[] = [
     {
       image: MinerIcon,
-      label: `${i18n.t('common.miner')}:`,
+      label: `${i18n.t('block.miner')}:`,
       value: state.block.miner_hash,
     },
     {
@@ -420,7 +420,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     },
     {
       image: DifficultyIcon,
-      label: `${i18n.t('common.difficulty')}:`,
+      label: `${i18n.t('block.difficulty')}:`,
       value: parseInt(state.block.difficulty, 16).toLocaleString(),
     },
     {
@@ -489,7 +489,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   <SimpleLabel
                     image={BlockRightItems[0].image}
                     label={BlockRightItems[0].label}
-                    value={i18n.t('common.unabledecode')}
+                    value={i18n.t('address.unable_decode_address')}
                   />
                 )}
                 {BlockRightItems.slice(1).map(item => {
@@ -518,10 +518,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           </div>
         </BlockCommonContent>
         <BlockPreviousNext blockNumber={state.block.number} hasPrev={state.prev} hasNext={state.next} />
-        <BlockHightLabel>{i18n.t('common.block_height')}</BlockHightLabel>
+        <BlockHightLabel>{i18n.t('block.block_height')}</BlockHightLabel>
 
         <BlockTransactionsPanel>
-          <BlockOverview value={i18n.t('common.transactions')} />
+          <BlockOverview value={i18n.t('transaction.transactions')} />
           <div>
             {state.transactions &&
               state.transactions.map((transaction: any) => {

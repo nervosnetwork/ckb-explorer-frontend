@@ -111,7 +111,7 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
         <code>{parseLongAddressHash(cellInputOutput.address_hash)}</code>
       </Link>
     ) : (
-      <div className="address__bold__grey">{i18n.t('common.unabledecode')}</div>
+      <div className="address__bold__grey">{i18n.t('address.unable_decode_address')}</div>
     )
   }
 

@@ -123,14 +123,14 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               >
                 <SimpleLabel
                   image={BlockHeightIcon}
-                  label={`${i18n.t('common.block_height')}:`}
+                  label={`${i18n.t('block.block_height')}:`}
                   value={localeNumberString(transaction.block_number)}
                   highLight
                 />
               </Link>
               <SimpleLabel
                 image={TransactionIcon}
-                label={`${i18n.t('common.transaction_fee')}:`}
+                label={`${i18n.t('transaction.transaction_fee')}:`}
                 value={`${transaction.transaction_fee} Shannon`}
               />
             </div>
@@ -139,7 +139,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               <div>
                 <SimpleLabel
                   image={TimestampIcon}
-                  label={`${i18n.t('common.timestamp')}:`}
+                  label={`${i18n.t('block.timestamp')}:`}
                   value={parseSimpleDate(transaction.block_timestamp)}
                 />
               </div>
