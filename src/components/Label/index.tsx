@@ -8,6 +8,7 @@ export interface Tooltip {
   tip: string
   hideValue?: boolean
   haveHelpIcon?: boolean
+  offset?: number
 }
 
 const highLightStyle = {
@@ -45,6 +46,9 @@ const SimpleLabel = ({
 }) => {
   const [showStatusTip, setShowStatusTip] = useState(false)
   const [showHelpTip, setShowHelpTip] = useState(false)
+  if (tooltip && tooltip.offset) {
+    helpTargetSize.offset = tooltip.offset
+  }
   return (
     <LabelPanel>
       <img className="label__icon" src={image} alt={value} />
