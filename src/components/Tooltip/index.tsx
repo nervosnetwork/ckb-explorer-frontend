@@ -30,6 +30,7 @@ const TooltipPanel = styled.div`
     left: ${(props: { targetSize: TargetSize }) => props.targetSize.width / 2 - 90}px;
   }
 
+  
   &:: after {
     content: '';
     width: 10px;
