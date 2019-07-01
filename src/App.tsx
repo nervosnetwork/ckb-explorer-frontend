@@ -15,10 +15,6 @@ const AppDiv = styled.div`
   height: 100vh;
 `
 
-// code: 1004 => "Block Not Found"
-// code: 1018 => "No records found by given query key"
-const ConfigErrorCodes = [1004, 1018]
-
 const App = () => {
   const appContext = useContext(AppContext)
   const [showError, setShowError] = useState(false)
@@ -43,9 +39,6 @@ const App = () => {
       setShowError(true)
       if (error && error.response && error.response.data) {
         const { message } = error.response.data
-        const codes: number[] = error.response.data.map((data: any) => {
-          return data.code
-        })
         switch (error.response.status) {
           case 422:
             setShowError(false)
@@ -58,14 +51,7 @@ const App = () => {
             browserHistory.replace('/maintain')
             break
           case 404:
-            setShowError(true)
-            ConfigErrorCodes.forEach(errorCode => {
-              codes.forEach(code => {
-                if (errorCode === code) {
-                  setShowError(false)
-                }
-              })
-            })
+            setShowError(false)
             break
           default:
             setShowError(true)

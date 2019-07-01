@@ -19,9 +19,9 @@ import {
 } from './styled'
 import AppContext from '../../contexts/App'
 import Content from '../../components/Content'
-import TransactionComponent from '../../components/Transaction'
-import SimpleLabel from '../../components/Label'
-import TransactionCard from '../../components/Card/TransactionCard'
+import TransactionItem from '../../components/Transaction/TransactionItem/index'
+import SimpleLabel, { Tooltip } from '../../components/Label'
+import TransactionCard from '../../components/Transaction/TransactionCard/index'
 import CopyIcon from '../../assets/copy.png'
 import BlockHeightIcon from '../../assets/block_height_green.png'
 import BlockTransactionIcon from '../../assets/transactions_green.png'
@@ -44,7 +44,7 @@ import NextBlockGreyIcon from '../../assets/right_arrow_grey.png'
 import MouseIcon from '../../assets/block_mouse.png'
 import TransactionsRootIcon from '../../assets/transactions_root.png'
 import WitnessRootIcon from '../../assets/witness_root.png'
-import { Block, BlockWrapper } from '../../http/response/Block'
+import { Block, BlockWrapper, RewardStatus, TransactionFeeStatus } from '../../http/response/Block'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
@@ -52,7 +52,6 @@ import { fetchBlockByHash, fetchTransactionsByBlockHash, fetchBlockByNumber } fr
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { startEndEllipsis, validNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
-import { localeNumberString } from '../../utils/number'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
@@ -144,6 +143,7 @@ interface BlockItem {
   image: any
   label: string
   value: string
+  tooltip?: Tooltip
 }
 
 enum PageParams {
@@ -160,6 +160,9 @@ const initBlock: Block = {
   uncles_count: 0,
   uncle_block_hashes: [],
   reward: 0,
+  reward_status: RewardStatus.issued,
+  received_tx_fee: 0,
+  received_tx_fee_status: TransactionFeeStatus.calculated,
   total_transaction_fee: 0,
   cell_consumed: 0,
   total_cell_capacity: 0,
@@ -268,7 +271,9 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
     .catch(() => {
       dispatch({
         type: Actions.next,
-        payload: false,
+        payload: {
+          next: false,
+        },
       })
     })
 }
@@ -286,6 +291,25 @@ const getBlockByHash = (blockHash: string, page: number, size: number, dispatch:
     updateBlockPrevNext(block.number, dispatch)
     getTransactions(block.block_hash, page, size, dispatch)
   })
+}
+
+const BlockRewardTip: Tooltip = {
+  status: 'Pending',
+  tip: 'The block reward of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+}
+
+const TransactionFeeTip: Tooltip = {
+  status: 'Calculating',
+  tip:
+    'The transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+  hideValue: true,
+}
+
+const transactionFee = (block: Block) => {
+  if (block.received_tx_fee_status === TransactionFeeStatus.calculating && block.number > 0) {
+    return TransactionFeeTip
+  }
+  return undefined
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
@@ -336,27 +360,29 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: BlockHeightIcon,
       label: 'Block Height:',
-      value: localeNumberString(state.block.number),
+      value: `${state.block.number}`,
     },
     {
       image: BlockTransactionIcon,
       label: 'Transactions:',
-      value: localeNumberString(state.block.transactions_count),
+      value: `${state.block.transactions_count}`,
     },
     {
       image: ProposalTransactionsIcon,
       label: 'Proposal Transactions:',
-      value: localeNumberString(state.block.proposal_transactions_count ? state.block.proposal_transactions_count : 0),
+      value: `${state.block.proposal_transactions_count ? state.block.proposal_transactions_count : 0}`,
     },
     {
       image: BlockRewardIcon,
       label: 'Block Reward:',
-      value: `${localeNumberString(shannonToCkb(state.block.reward))} CKB`,
+      value: `${shannonToCkb(state.block.reward)} CKB`,
+      tooltip: state.block.reward_status === RewardStatus.pending ? BlockRewardTip : undefined,
     },
     {
       image: TransactionFeeIcon,
       label: 'Transaction Fee:',
-      value: `${state.block.total_transaction_fee} Shannon`,
+      value: `${state.block.received_tx_fee} Shannon`,
+      tooltip: transactionFee(state.block),
     },
     {
       image: TimestampIcon,
@@ -379,22 +405,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: EpochIcon,
       label: 'Epoch:',
-      value: localeNumberString(state.block.epoch),
+      value: `${state.block.epoch}`,
     },
     {
       image: StartNumberIcon,
       label: 'Epoch Start Number:',
-      value: localeNumberString(state.block.start_number),
+      value: `${state.block.start_number}`,
     },
     {
       image: LengthIcon,
       label: 'Epoch Length:',
-      value: localeNumberString(state.block.length),
+      value: state.block.length,
     },
     {
       image: DifficultyIcon,
       label: 'Difficulty:',
-      value: localeNumberString(state.block.difficulty, 16),
+      value: parseInt(state.block.difficulty, 16).toLocaleString(),
     },
     {
       image: NonceIcon,
@@ -430,7 +456,17 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <div>
             <div>
               {BlockLeftItems.map(item => {
-                return item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
+                return (
+                  item && (
+                    <SimpleLabel
+                      key={item.label}
+                      image={item.image}
+                      label={item.label}
+                      value={item.value}
+                      tooltip={item.tooltip}
+                    />
+                  )
+                )
               })}
             </div>
             <div>
@@ -490,23 +526,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               state.transactions.map((transaction: any) => {
                 return (
                   transaction && (
-                    <TransactionComponent
-                      transaction={transaction.attributes}
-                      key={transaction.attributes.transaction_hash}
-                      isBlock
-                    />
-                  )
-                )
-              })}
-
-            {state.transactions &&
-              state.transactions.map((transaction: any) => {
-                return (
-                  transaction && (
-                    <TransactionCard
-                      transaction={transaction.attributes}
-                      key={transaction.attributes.transaction_hash}
-                    />
+                    <div key={transaction.attributes.transaction_hash}>
+                      <TransactionItem transaction={transaction.attributes} confirmation={10} isBlock />
+                      <TransactionCard transaction={transaction.attributes} />
+                    </div>
                   )
                 )
               })}

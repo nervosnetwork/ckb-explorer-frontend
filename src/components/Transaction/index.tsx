@@ -4,7 +4,7 @@ import InputOutputIcon from '../../assets/input_arrow_output.png'
 import { parseDate } from '../../utils/date'
 import PaginationList from './PaginationList'
 import { HashBlockContainer, InputOutputContainer, MainContainer, Separate } from './styled'
-import TransactionCell from './Cell'
+import TransactionCell from './TransactionCell'
 import ConfirmationCapacityContainer from './ConfirmationCapacity'
 import { getCapacityChange } from '../../utils/util'
 

@@ -6,8 +6,8 @@ import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import AppContext from '../../contexts/App'
 import Content from '../../components/Content'
-import TransactionComponent from '../../components/Transaction'
-import SimpleLabel from '../../components/Label'
+import TransactionItem from '../../components/Transaction/TransactionItem/index'
+import SimpleLabel, { Tooltip } from '../../components/Label'
 import {
   AddressContentPanel,
   AddressTitlePanel,
@@ -28,16 +28,15 @@ import AddressScriptIcon from '../../assets/address_script.png'
 import TransactionsIcon from '../../assets/transactions_green.png'
 import ItemPointIcon from '../../assets/item_point.png'
 import AddressHashIcon from '../../assets/lock_hash_address.png'
+import BlockPendingRewardIcon from '../../assets/block_pending_reward.png'
 import { Address, AddressWrapper } from '../../http/response/Address'
 import { Script } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
-import { fetchAddressInfo, fetchTransactionsByAddress, fetchStatistics } from '../../http/fetcher'
+import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { validNumber, startEndEllipsis } from '../../utils/string'
-import TransactionCard from '../../components/Card/TransactionCard'
-import { StatisticsWrapper } from '../../http/response/Statistics'
-import { localeNumberString } from '../../utils/number'
+import TransactionCard from '../../components/Transaction/TransactionCard/index'
 
 const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
   const appContext = useContext(AppContext)
@@ -117,6 +116,7 @@ const initAddress: Address = {
   lock_hash: '',
   balance: 0,
   transactions_count: 0,
+  pending_reward_blocks_count: 0,
   cell_consumed: 0,
   lock_script: {
     args: [],
@@ -130,7 +130,6 @@ const Actions = {
   total: 'TOTAL',
   page: 'PAGE_NO',
   size: 'PAGE_SIZE',
-  tipBlockNumber: 'TIP_BLOCK_NUMBER',
 }
 
 const reducer = (state: any, action: any) => {
@@ -159,11 +158,6 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         size: action.payload.size,
-      }
-    case Actions.tipBlockNumber:
-      return {
-        ...state,
-        tipBlockNumber: action.payload.tipBlockNumber,
       }
     default:
       return state
@@ -212,18 +206,10 @@ const getTransactions = (hash: string, page: number, size: number, dispatch: any
   })
 }
 
-const getTipBlockNumber = (dispatch: any) => {
-  fetchStatistics().then(response => {
-    const { data } = response as Response<StatisticsWrapper>
-    if (data) {
-      dispatch({
-        type: Actions.tipBlockNumber,
-        payload: {
-          tipBlockNumber: parseInt(data.attributes.tip_block_number, 10),
-        },
-      })
-    }
-  })
+const PendingRewardTooltip: Tooltip = {
+  tip:
+    'The block reward and transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+  haveHelpIcon: true,
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string; hash: string }>>) => {
@@ -242,9 +228,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     total: 1,
     page: validNumber(parsed.page, PageParams.PageNo),
     size: validNumber(parsed.size, PageParams.PageSize),
-    tipBlockNumber: 0,
   }
-
   const [state, dispatch] = useReducer(reducer, initialState)
   const { page, size } = state
 
@@ -254,7 +238,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     }
     getAddressInfo(identityHash, dispatch)
     getTransactions(identityHash, page, size, dispatch)
-    getTipBlockNumber(dispatch)
   }, [replace, identityHash, page, size, dispatch, address])
 
   const onChange = (pageNo: number, pageSize: number) => {
@@ -280,17 +263,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         <AddressOverview value="Overview" />
         <AddressCommonContent>
           <AddressCommonRowPanel>
-            <SimpleLabel
-              image={BalanceIcon}
-              label="Balance : "
-              value={`${localeNumberString(shannonToCkb(state.address.balance))} CKB`}
-            />
+            <SimpleLabel image={BalanceIcon} label="Balance : " value={`${shannonToCkb(state.address.balance)} CKB`} />
             <SimpleLabel
               image={TransactionsIcon}
               label="Transactions : "
-              value={localeNumberString(state.address.transactions_count)}
+              value={`${state.address.transactions_count}`}
             />
           </AddressCommonRowPanel>
+          {state.address.pending_reward_blocks_count ? (
+            <SimpleLabel
+              image={BlockPendingRewardIcon}
+              label="Pending Reward : "
+              value={`${state.address.pending_reward_blocks_count} 
+                ${state.address.pending_reward_blocks_count > 1 ? 'blocks' : 'block'}`}
+              tooltip={PendingRewardTooltip}
+            />
+          ) : null}
           {lockHash &&
             state.address &&
             (state.address.address_hash ? (
@@ -312,10 +300,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               state.transactions.map((transaction: any) => {
                 return (
                   transaction && (
-                    <TransactionComponent
+                    <TransactionItem
                       address={address}
-                      confirmation={state.tipBlockNumber - transaction.attributes.block_number}
                       transaction={transaction.attributes}
+                      confirmation={10}
                       key={transaction.attributes.transaction_hash}
                     />
                   )
