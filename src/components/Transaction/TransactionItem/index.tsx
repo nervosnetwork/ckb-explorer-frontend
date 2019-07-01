@@ -28,11 +28,11 @@ const handleCapacityChange = (transaction: Transaction, address?: string) => {
 }
 
 const formatConfirmation = (confirmation: number | undefined) => {
-  const unit: string = i18n.t('details.confirmation')
+  const confirm: string = i18n.t('details.confirmation')
   if (!confirmation) {
-    return `0 ${unit}`
+    return `0 ${confirm}`
   }
-  return confirmation > MAX_CONFIRMATION ? `${MAX_CONFIRMATION}+ ${unit}` : `${confirmation} ${unit}`
+  return confirmation > MAX_CONFIRMATION ? `${MAX_CONFIRMATION}+ ${confirm}` : `${confirmation} ${confirm}`
 }
 
 const TransactionItem = ({
