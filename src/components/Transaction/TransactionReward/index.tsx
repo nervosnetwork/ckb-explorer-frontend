@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { shannonToCkb } from '../../../utils/util'
 import { Transaction, InputOutput } from '../../../http/response/Transaction'
 import ItemPoint from '../../../assets/grey_point.png'
+import i18n from '../../../utils/i18n'
 
 export const RewardPenal = styled.div`
   display: flex;
@@ -62,15 +63,15 @@ const TransactionReward = ({ transaction, cell }: { transaction: Transaction; ce
 
   const Rewards = [
     {
-      name: 'Base Reward',
+      name: i18n.t('transaction.basereward'),
       capacity: cell.block_reward,
     },
     {
-      name: 'Commit Reward',
+      name: i18n.t('transaction.commitreward'),
       capacity: cell.commit_reward,
     },
     {
-      name: 'Proposal Reward',
+      name: i18n.t('transaction.proposalreward'),
       capacity: cell.proposal_reward,
     },
   ]

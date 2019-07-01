@@ -74,7 +74,11 @@
       "output": "Output",
       "lockscript": "Lock Script",
       "typescript": "Type Script",
-      "data": "Data"
+      "data": "Data",
+      "basereward": "Base Reward",
+      "commitreward": "Commit Reward",
+      "proposalreward": "Proposal Reward",
+      "cellbase_help_content": "The cellbase transaction of block N is send to the miner of block N-11 as reward. The reward is consist of Base Reward, Commit Reward and Proposal Reward, learn more from our Consensus Protocol"
     },
     "block": {
       "proposal_transactions": "Proposal Transactions",

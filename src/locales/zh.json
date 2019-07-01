@@ -73,7 +73,11 @@
       "output": "Output(zh)",
       "lockscript": "Lock Script(zh)",
       "typescript": "Type Script(zh)",
-      "data": "Data(zh)"
+      "data": "Data(zh)",
+      "basereward": "Base Reward(zh)",
+      "commitreward": "Commit Reward(zh)",
+      "proposalreward": "Proposal Reward(zh)",
+      "cellbase_help_content": "The cellbase transaction of block N is send to the miner of block N-11 as reward. The reward is consist of Base Reward, Commit Reward and Proposal Reward, learn more from our Consensus Protocol(zh)"
     },
     "block": {
       "proposal_transactions": "Proposal Transactions(zh)",
