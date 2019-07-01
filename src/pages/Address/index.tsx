@@ -33,7 +33,7 @@ import { Address, AddressWrapper } from '../../http/response/Address'
 import { Script } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
-import { fetchAddressInfo, fetchTransactionsByAddress, fetchStatistics } from '../../http/fetcher'
+import { fetchAddressInfo, fetchTransactionsByAddress, fetchTipBlockByNumber } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { validNumber, startEndEllipsis } from '../../utils/string'
 import TransactionCard from '../../components/Transaction/TransactionCard/index'
@@ -216,7 +216,7 @@ const getTransactions = (hash: string, page: number, size: number, dispatch: any
 }
 
 const getTipBlockNumber = (dispatch: any) => {
-  fetchStatistics().then(response => {
+  fetchTipBlockByNumber().then(response => {
     const { data } = response as Response<StatisticsWrapper>
     if (data) {
       dispatch({

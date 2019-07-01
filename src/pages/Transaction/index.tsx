@@ -25,7 +25,7 @@ import StatusIcon from '../../assets/transcation_status.png'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { Transaction, InputOutput, TransactionWrapper } from '../../http/response/Transaction'
-import { CellType, fetchTransactionByHash, fetchStatistics } from '../../http/fetcher'
+import { CellType, fetchTransactionByHash, fetchTipBlockByNumber } from '../../http/fetcher'
 import { copyElementValue, formatConfirmation } from '../../utils/util'
 import CellCard from '../../components/Card/CellCard'
 import ScriptComponent from './Script'
@@ -101,7 +101,7 @@ const getTransaction = (hash: string, setTransaction: any) => {
 }
 
 const getTipBlockNumber = (setTipBlockNumber: any) => {
-  fetchStatistics().then(response => {
+  fetchTipBlockByNumber().then(response => {
     const { data } = response as Response<StatisticsWrapper>
     if (data) {
       setTipBlockNumber(parseInt(data.attributes.tip_block_number, 10))
