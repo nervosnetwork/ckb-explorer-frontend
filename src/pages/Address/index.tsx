@@ -263,17 +263,21 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         <AddressOverview value={i18n.t('common.overview')} />
         <AddressCommonContent>
           <AddressCommonRowPanel>
-            <SimpleLabel image={BalanceIcon} label={i18n.t('details.balance') + " : "} value={`${shannonToCkb(state.address.balance)} CKB`} />
+            <SimpleLabel
+              image={BalanceIcon}
+              label={`${i18n.t('details.balance')} : `}
+              value={`${shannonToCkb(state.address.balance)} CKB`}
+            />
             <SimpleLabel
               image={TransactionsIcon}
-              label={i18n.t('common.Transactions') + " : "}
+              label={`${i18n.t('common.transactions')} : `}
               value={`${state.address.transactions_count}`}
             />
           </AddressCommonRowPanel>
           {state.address.pending_reward_blocks_count ? (
             <SimpleLabel
               image={BlockPendingRewardIcon}
-              label={i18n.t('details.pendingreward') + " : "}
+              label={`${i18n.t('details.pendingreward')} : `}
               value={`${state.address.pending_reward_blocks_count} 
                 ${state.address.pending_reward_blocks_count > 1 ? 'blocks' : 'block'}`}
               tooltip={PendingRewardTooltip}

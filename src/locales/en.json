@@ -65,9 +65,28 @@
       "pendingreward": "Pending Reward",
       "codehash": "Code Hash",
       "args": "Args",
-      "block": "Block",
       "confirmation": "Confirmation",
       "pending_reward_tool_tip": "The block reward and transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol"
+    },
+    "transaction": {
+      "transaction": "Transaction",
+      "input": "Input",
+      "output": "Output",
+      "lockscript": "Lock Script",
+      "typescript": "Type Script",
+      "data": "Data"
+    },
+    "block": {
+      "proposal_transactions": "Proposal Transactions",
+      "blockreward": "Block Reward",
+      "unclecount": "Uncle Count",
+      "epoch": "Epoch",
+      "epoch_start_number": "Epoch Start Number",
+      "epochlength": "Epoch Length",
+      "nonce": "Nonce",
+      "proof": "Proof",
+      "transactionsroot": "Transactions Root",
+      "witnessesroot": "Witnesses Root"
     }
   }
 }

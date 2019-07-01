@@ -61,9 +61,11 @@
       "address": "Address(zh)",
       "lockhash": "Lock Hash(zh)",
       "balance": "Balance(zh)",
+      "pendingreward": "Pending Reward(zh)",
       "codehash": "Code Hash(zh)",
       "args": "Args(zh)",
-      "confirmation": "Confirmation(zh)"
+      "confirmation": "Confirmation(zh)",
+      "pending_reward_tool_tip": "The block reward and transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol(zh)"
     },
     "transaction": {
       "transaction": "Transaction(zh)",
@@ -84,7 +86,6 @@
       "proof": "Proof(zh)",
       "transactionsroot": "Transactions Root(zh)",
       "witnessesroot": "Witnesses Root(zh)"
-
     }
   }
 }
