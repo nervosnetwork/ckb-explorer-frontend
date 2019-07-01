@@ -67,6 +67,16 @@ export const CellbasePanel = styled.div`
     font-size: 14px;
     margin-right: 10px;
   }
+
+  .cellbase__help {
+    margin-left: 10px;
+    position: relative;
+    > img {
+      margin-top: 3px;
+      width: 14px;
+      height: 14px;
+    }
+  }
 `
 
 export const CellHashHighLight = styled.div`
