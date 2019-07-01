@@ -19,7 +19,7 @@
     "blockchain": {
       "best_block": "Best Block",
       "best_block_tooltip": "The latest block of the best chain",
-      "difficulty_tooltip": "Difficulty of the lastest Epoch",
+      "difficulty_tooltip": "Difficulty of the latest Epoch",
       "hash_rate": "Hash Rate",
       "hash_rate_tooltip": "Average Hash Rate of the last 500 blocks",
       "average_block_time": "Average Block Time",

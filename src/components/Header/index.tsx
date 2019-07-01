@@ -281,7 +281,7 @@ export default ({ search = true }: { search?: boolean }) => {
               >
                 <img className="header__search__image" src={SearchLogo} alt="search" />
               </div>
-              <div className="header__testnet">{i18n.t('navbar.button_text')}</div>
+              <div className="header__testnet">{i18n.t('navbar.network')}</div>
             </div>
           )}
         </HeaderMobileDiv>
