@@ -4,7 +4,7 @@ import InputOutputIcon from '../../../assets/input_arrow_output.png'
 import { Transaction } from '../../../http/response/Transaction'
 import { parseDate } from '../../../utils/date'
 import { handleCapacityChange } from '../../../utils/util'
-import PaginationList from '../TransactionCellList'
+import TransactionCellList from '../TransactionCellList'
 import TransactionCell from '../TransactionCell'
 import TransactionConfirmation from '../TransactionConfirmation'
 import TransactionReward from '../TransactionReward'
@@ -45,7 +45,7 @@ const TransactionItem = ({
         <SeparationLine marginTop="30px" />
         <TransactionInputOutputPanel>
           <div className="transaction_item__input">
-            <PaginationList
+            <TransactionCellList
               data={transaction.display_inputs}
               pageSize={MAX_CELL_SHOW_SIZE}
               render={item => {
@@ -55,7 +55,7 @@ const TransactionItem = ({
           </div>
           <img src={InputOutputIcon} alt="input and output" />
           <div className="transaction_item__output">
-            <PaginationList
+            <TransactionCellList
               data={transaction.display_outputs}
               pageSize={MAX_CELL_SHOW_SIZE}
               render={item => (

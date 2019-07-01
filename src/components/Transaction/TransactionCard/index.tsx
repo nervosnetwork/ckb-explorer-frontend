@@ -4,7 +4,7 @@ import { Transaction, InputOutput } from '../../../http/response/Transaction'
 import GreenArrowDown from '../../../assets/green_arrow_down.png'
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb, handleCapacityChange } from '../../../utils/util'
-import PaginationList from '../TransactionCellList'
+import TransactionCellList from '../TransactionCellList'
 import ConfirmationCapacityContainer from '../TransactionConfirmation'
 import { localeNumberString } from '../../../utils/number'
 import TransactionReward from '../TransactionReward'
@@ -95,7 +95,7 @@ const TransactionCard = ({
       />
       <div className="sperate__line_top" />
       {transaction && transaction.display_inputs && (
-        <PaginationList
+        <TransactionCellList
           data={transaction.display_inputs}
           pageSize={MAX_CELL_SHOW_SIZE}
           render={input => <div key={input.id}>{AddressHashItem(input, address)}</div>}
@@ -105,7 +105,7 @@ const TransactionCard = ({
         <img src={GreenArrowDown} alt="arrow" />
       </div>
       {transaction && transaction.display_outputs && (
-        <PaginationList
+        <TransactionCellList
           data={transaction.display_outputs}
           pageSize={MAX_CELL_SHOW_SIZE}
           render={output => {

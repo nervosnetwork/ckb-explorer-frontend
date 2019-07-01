@@ -1,15 +1,15 @@
 import React, { ReactNode, useState } from 'react'
 import LoadMoreIcon from '../../../assets/transaction_load_more.png'
 import ShowLessIcon from '../../../assets/transaction_show_less.png'
-import PaginationListPanel from './styled'
+import TransactionCellListPanel from './styled'
 
-interface PaginationListProps {
+interface TransactionCellListProps {
   data: any[]
   pageSize: number
   render: (item: any) => ReactNode
 }
 
-export default ({ data, pageSize, render }: PaginationListProps) => {
+export default ({ data, pageSize, render }: TransactionCellListProps) => {
   const [count, setCount] = useState(pageSize)
   const onClickLoadMore = () => {
     setCount(Math.min(data.length, count + pageSize))
@@ -18,7 +18,7 @@ export default ({ data, pageSize, render }: PaginationListProps) => {
     setCount(pageSize)
   }
   return (
-    <PaginationListPanel>
+    <TransactionCellListPanel>
       {data && data.map((item, idx) => idx < count && render(item))}
       {count < data.length && (
         <button type="button" onClick={onClickLoadMore}>
@@ -32,6 +32,6 @@ export default ({ data, pageSize, render }: PaginationListProps) => {
           <img src={ShowLessIcon} alt="show less" />
         </button>
       )}
-    </PaginationListPanel>
+    </TransactionCellListPanel>
   )
 }
