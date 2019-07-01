@@ -6,6 +6,7 @@ import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import TooltipCellbaseImage from '../../../assets/tooltip_cellbase.png'
 import HelpIcon from '../../../assets/qa_help.png'
+import { localeNumberString } from '../../../utils/number'
 import i18n from '../../../utils/i18n'
 
 export const TransactionCellPanel = styled.div`
@@ -30,7 +31,7 @@ export const TransactionCellPanel = styled.div`
 
 const CellHash = styled.code`
   font-size: 16px;
-  color: rgb(136, 136, 136)};
+  color: rgb(136, 136, 136);
 `
 
 export const CellHashHighLight = styled(CellHash)`
@@ -130,7 +131,9 @@ const TransactionCell = ({
           </CellHash>
         </div>
       )}
-      {!cell.from_cellbase && <div className="transaction__cell__capacity">{`${shannonToCkb(cell.capacity)} CKB`}</div>}
+      {!cell.from_cellbase && (
+        <div className="transaction__cell__capacity">{`${localeNumberString(shannonToCkb(cell.capacity))} CKB`}</div>
+      )}
     </TransactionCellPanel>
   )
 }

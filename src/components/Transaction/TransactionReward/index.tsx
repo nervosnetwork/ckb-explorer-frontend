@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { shannonToCkb } from '../../../utils/util'
 import { Transaction, InputOutput } from '../../../http/response/Transaction'
 import ItemPoint from '../../../assets/grey_point.png'
+import { localeNumberString } from '../../../utils/number'
 import i18n from '../../../utils/i18n'
 
 export const RewardPenal = styled.div`
@@ -85,7 +86,7 @@ const TransactionReward = ({ transaction, cell }: { transaction: Transaction; ce
                 <img alt="reward point" src={ItemPoint} />
                 <div className="reward__name">{reward.name}</div>
               </div>
-              <div className="reward__capacity">{`${shannonToCkb(reward.capacity)} CKB`}</div>
+              <div className="reward__capacity">{`${localeNumberString(shannonToCkb(reward.capacity))} CKB`}</div>
             </RewardPenal>
           )
         })}

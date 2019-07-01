@@ -33,10 +33,12 @@ import { Address, AddressWrapper } from '../../http/response/Address'
 import { Script } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
-import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
+import { fetchAddressInfo, fetchTransactionsByAddress, fetchStatistics } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { validNumber, startEndEllipsis } from '../../utils/string'
 import TransactionCard from '../../components/Transaction/TransactionCard/index'
+import { StatisticsWrapper } from '../../http/response/Statistics'
+import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
 
 const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
@@ -131,6 +133,7 @@ const Actions = {
   total: 'TOTAL',
   page: 'PAGE_NO',
   size: 'PAGE_SIZE',
+  tipBlockNumber: 'TIP_BLOCK_NUMBER',
 }
 
 const reducer = (state: any, action: any) => {
@@ -159,6 +162,11 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         size: action.payload.size,
+      }
+    case Actions.tipBlockNumber:
+      return {
+        ...state,
+        tipBlockNumber: action.payload.tipBlockNumber,
       }
     default:
       return state
@@ -207,6 +215,20 @@ const getTransactions = (hash: string, page: number, size: number, dispatch: any
   })
 }
 
+const getTipBlockNumber = (dispatch: any) => {
+  fetchStatistics().then(response => {
+    const { data } = response as Response<StatisticsWrapper>
+    if (data) {
+      dispatch({
+        type: Actions.tipBlockNumber,
+        payload: {
+          tipBlockNumber: parseInt(data.attributes.tip_block_number, 10),
+        },
+      })
+    }
+  })
+}
+
 const PendingRewardTooltip: Tooltip = {
   tip: i18n.t('address.pending_reward_tooltip'),
   haveHelpIcon: true,
@@ -228,6 +250,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     total: 1,
     page: validNumber(parsed.page, PageParams.PageNo),
     size: validNumber(parsed.size, PageParams.PageSize),
+    tipBlockNumber: 0,
   }
   const [state, dispatch] = useReducer(reducer, initialState)
   const { page, size } = state
@@ -238,6 +261,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     }
     getAddressInfo(identityHash, dispatch)
     getTransactions(identityHash, page, size, dispatch)
+    getTipBlockNumber(dispatch)
   }, [replace, identityHash, page, size, dispatch, address])
 
   const onChange = (pageNo: number, pageSize: number) => {
@@ -266,12 +290,12 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
             <SimpleLabel
               image={BalanceIcon}
               label={`${i18n.t('address.balance')} : `}
-              value={`${shannonToCkb(state.address.balance)} CKB`}
+              value={`${localeNumberString(shannonToCkb(state.address.balance))} CKB`}
             />
             <SimpleLabel
               image={TransactionsIcon}
               label={`${i18n.t('transaction.transactions')} : `}
-              value={`${state.address.transactions_count}`}
+              value={localeNumberString(state.address.transactions_count)}
             />
           </AddressCommonRowPanel>
           {state.address.pending_reward_blocks_count ? (
@@ -315,7 +339,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                     <TransactionItem
                       address={address}
                       transaction={transaction.attributes}
-                      confirmation={10}
+                      confirmation={state.tipBlockNumber - transaction.attributes.block_number}
                       key={transaction.attributes.transaction_hash}
                     />
                   )
@@ -327,6 +351,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                   transaction && (
                     <TransactionCard
                       address={address}
+                      confirmation={state.tipBlockNumber - transaction.attributes.block_number}
                       transaction={transaction.attributes}
                       key={transaction.attributes.transaction_hash}
                     />

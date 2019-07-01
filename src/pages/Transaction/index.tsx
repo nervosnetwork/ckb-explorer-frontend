@@ -21,13 +21,15 @@ import BlockHeightIcon from '../../assets/block_height_green.png'
 import TimestampIcon from '../../assets/timestamp_green.png'
 import TransactionIcon from '../../assets/transaction_fee.png'
 import CopyIcon from '../../assets/copy.png'
+import StatusIcon from '../../assets/transcation_status.png'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { Transaction, InputOutput, TransactionWrapper } from '../../http/response/Transaction'
-import { CellType, fetchTransactionByHash } from '../../http/fetcher'
-import { copyElementValue } from '../../utils/util'
+import { CellType, fetchTransactionByHash, fetchStatistics } from '../../http/fetcher'
+import { copyElementValue, formatConfirmation } from '../../utils/util'
 import CellCard from '../../components/Card/CellCard'
 import ScriptComponent from './Script'
+import { StatisticsWrapper } from '../../http/response/Statistics'
 import { localeNumberString } from '../../utils/number'
 
 const TransactionTitle = ({ hash }: { hash: string }) => {
@@ -98,15 +100,30 @@ const getTransaction = (hash: string, setTransaction: any) => {
   })
 }
 
+const getTipBlockNumber = (setTipBlockNumber: any) => {
+  fetchStatistics().then(response => {
+    const { data } = response as Response<StatisticsWrapper>
+    if (data) {
+      setTipBlockNumber(parseInt(data.attributes.tip_block_number, 10))
+    }
+  })
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
   const { match } = props
   const { params } = match
   const { hash } = params
   const [transaction, setTransaction] = useState(initTransaction)
+  const [tipBlockNumber, setTipBlockNumber] = useState(0)
+  const confirmation = tipBlockNumber - transaction.block_number
 
   useEffect(() => {
     getTransaction(hash, setTransaction)
   }, [hash, setTransaction])
+
+  useEffect(() => {
+    getTipBlockNumber(setTipBlockNumber)
+  }, [setTipBlockNumber])
 
   return (
     <Content>
@@ -142,6 +159,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   label={`${i18n.t('block.timestamp')}:`}
                   value={parseSimpleDate(transaction.block_timestamp)}
                 />
+                {confirmation > 0 && (
+                  <SimpleLabel image={StatusIcon} label="Status:" value={formatConfirmation(confirmation)} />
+                )}
               </div>
             </div>
           </div>
