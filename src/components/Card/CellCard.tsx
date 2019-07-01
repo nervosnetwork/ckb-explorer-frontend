@@ -367,8 +367,8 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
       <div className="script__operation">
         <div className="script__detail">Detail</div>
         <div className="script__buttons">
-          <CellOperationButton value={i18n.t('transaction.lockscript')} cellState={CellState.LOCK} />
-          <CellOperationButton value={i18n.t('transaction.typescript')} cellState={CellState.TYPE} />
+          <CellOperationButton value={i18n.t('transaction.lock_script')} cellState={CellState.LOCK} />
+          <CellOperationButton value={i18n.t('transaction.type_script')} cellState={CellState.TYPE} />
           <CellOperationButton value={i18n.t('transaction.data')} cellState={CellState.DATA} />
         </div>
       </div>

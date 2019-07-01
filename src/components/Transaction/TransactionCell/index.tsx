@@ -6,6 +6,7 @@ import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import TooltipCellbaseImage from '../../../assets/tooltip_cellbase.png'
 import HelpIcon from '../../../assets/qa_help.png'
+import i18n from '../../../utils/i18n'
 
 export const TransactionCellPanel = styled.div`
   display: flex;
@@ -87,10 +88,7 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
       </Link>
       <div className="cellbase__help">
         <img alt="cellbase help" src={HelpIcon} />
-        <div className="cellbase__help__content">
-          The cellbase transaction of block N is send to the miner of block N-11 as reward. The reward is consist of
-          Base Reward, Commit Reward and Proposal Reward, learn more from our Consensus Protocol
-        </div>
+        <div className="cellbase__help__content">{i18n.t('transaction.cellbase_help_content')}</div>
       </div>
     </CellbasePanel>
   ) : (

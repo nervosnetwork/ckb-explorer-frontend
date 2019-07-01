@@ -163,7 +163,7 @@ const footers = [
     name: i18n.t('footer.nervos_foundation'),
     items: [
       {
-        label: i18n.t('footer.aboutus'),
+        label: i18n.t('footer.about_us'),
         icon: AboutIcon,
         url: 'https://www.nervos.org/',
       },

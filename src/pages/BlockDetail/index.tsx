@@ -360,7 +360,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const BlockLeftItems: BlockItem[] = [
     {
       image: BlockHeightIcon,
-      label: `${i18n.t('common.blockheight')}:`,
+      label: `${i18n.t('common.block_height')}:`,
       value: `${state.block.number}`,
     },
     {
@@ -375,13 +375,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     },
     {
       image: BlockRewardIcon,
-      label: `${i18n.t('block.blockreward')}:`,
+      label: `${i18n.t('block.block_reward')}:`,
       value: `${shannonToCkb(state.block.reward)} CKB`,
       tooltip: state.block.reward_status === RewardStatus.pending ? BlockRewardTip : undefined,
     },
     {
       image: TransactionFeeIcon,
-      label: `${i18n.t('common.transactionfee')}:`,
+      label: `${i18n.t('common.transaction_fee')}:`,
       value: `${state.block.received_tx_fee} Shannon`,
       tooltip: transactionFee(state.block),
     },
@@ -392,7 +392,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     },
     {
       image: UncleCountIcon,
-      label: `${i18n.t('block.unclecount')}:`,
+      label: `${i18n.t('block.uncle_count')}:`,
       value: `${state.block.uncles_count}`,
     },
   ]
@@ -415,7 +415,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     },
     {
       image: LengthIcon,
-      label: `${i18n.t('block.epochlength')}:`,
+      label: `${i18n.t('block.epoch_length')}:`,
       value: state.block.length,
     },
     {
@@ -438,12 +438,12 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const BlockRootInfoItems: BlockItem[] = [
     {
       image: TransactionsRootIcon,
-      label: `${i18n.t('block.transactionsroot')}:`,
+      label: `${i18n.t('block.transactions_root')}:`,
       value: `${state.block.transactions_root}`,
     },
     {
       image: WitnessRootIcon,
-      label: `${i18n.t('block.witnessesroot')}:`,
+      label: `${i18n.t('block.witnesses_root')}:`,
       value: `${state.block.witnesses_root}`,
     },
   ]
@@ -518,7 +518,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           </div>
         </BlockCommonContent>
         <BlockPreviousNext blockNumber={state.block.number} hasPrev={state.prev} hasNext={state.next} />
-        <BlockHightLabel>{i18n.t('common.blockheight')}</BlockHightLabel>
+        <BlockHightLabel>{i18n.t('common.block_height')}</BlockHightLabel>
 
         <BlockTransactionsPanel>
           <BlockOverview value={i18n.t('common.transactions')} />

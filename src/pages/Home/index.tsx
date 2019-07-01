@@ -131,28 +131,28 @@ export default () => {
 
   const BlockchainDatas: BlockchainData[] = [
     {
-      name: t('blockchaindata.bestblock'),
+      name: t('blockchain_data.best_block'),
       value: localeNumberString(statistics.tip_block_number),
       image: BestBlockImage,
-      tip: t('blockchaindata.bestblock_extra'),
+      tip: t('blockchain_data.bestblock_extra'),
     },
     {
       name: t('common.difficulty'),
       value: `${parseInt(`${statistics.current_epoch_difficulty}`, 10).toLocaleString()}`,
       image: DifficultyImage,
-      tip: t('blockchaindata.difficulty_extra'),
+      tip: t('blockchain_data.difficulty_extra'),
     },
     {
-      name: t('blockchaindata.hashrate'),
+      name: t('blockchain_data.hash_rate'),
       value: `${parseInt((Number(statistics.hash_rate) * 1000).toFixed(), 10).toLocaleString()} gps`,
       image: HashRateImage,
-      tip: t('blockchaindata.hashrate_extra'),
+      tip: t('blockchain_data.hash_rate_extra'),
     },
     {
-      name: t('blockchaindata.averageblocktime'),
+      name: t('blockchain_data.average_block_time'),
       value: parseTime(Number(statistics.average_block_time)),
       image: BlockTimeImage,
-      tip: t('blockchaindata.averageblocktime_extra'),
+      tip: t('blockchain_data.average_block_time_extra'),
     },
   ]
 
@@ -174,7 +174,7 @@ export default () => {
             <TableTitleRow>
               <TableTitleItem image={BlockHeightIcon} title={t('home_common.height')} />
               <TableTitleItem image={TransactionIcon} title={t('home_common.transactions')} />
-              <TableTitleItem image={BlockRewardIcon} title={t('home_common.blockreward')} />
+              <TableTitleItem image={BlockRewardIcon} title={t('home_common.block_reward')} />
               <TableTitleItem image={MinerIcon} title={t('common.miner')} />
               <TableTitleItem image={TimestampIcon} title={t('home_common.time')} />
             </TableTitleRow>

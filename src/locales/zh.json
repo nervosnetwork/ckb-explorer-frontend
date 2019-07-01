@@ -6,42 +6,43 @@
       "detail": "Detail(zh)",
       "overview": "Overview(zh)",
       "block": "Block(zh)",
-      "blockheight": "Block Height(zh)",
+      "block_height": "Block Height(zh)",
       "transactions": "Transactions(zh)",
-      "transactionfee": "Transaction Fee(zh)",
+      "transaction_fee": "Transaction Fee(zh)",
       "timestamp": "Timestamp(zh)",
       "miner": "Miner(zh)",
       "difficulty": "Difficulty(zh)"
     },
     "toast": {
-      "invalid_content": "Please input valid content(zh)"
+      "invalid_content": "Please input valid content(zh)",
+      "invalid_network": "Network exception, please try again later(zh)"
     },
     "navbar": {
       "wallet": "Wallet(zh)",
       "docs": "Docs(zh)",
       "search_placeholder": "Block / Transaction / Address(zh)",
-      "button_text": "TESTNET(zh)",
-      "button_extra": "Mainnet is comming(zh)"
+      "network": "TESTNET(zh)",
+      "network_extra": "Mainnet is comming(zh)"
     },
-    "blockchaindata": {
-      "bestblock": "Best Block(zh)",
+    "blockchain_data": {
+      "best_block": "Best Block(zh)",
       "bestblock_extra": "The latest block of the best chain(zh)",
       "difficulty_extra": "Difficulty of the lastest Epoch(zh)",
-      "hashrate": "Hash Rate(zh)",
-      "hashrate_extra": "Average Hash Rate of the last 500 blocks(zh)",
-      "averageblocktime": "Average Block Time(zh)",
-      "averageblocktime_extra": "Average Block Time of the last 24 hours(zh)"
+      "hash_rate": "Hash Rate(zh)",
+      "hash_rate_extra": "Average Hash Rate of the last 500 blocks(zh)",
+      "average_block_time": "Average Block Time(zh)",
+      "average_block_time_extra": "Average Block Time of the last 24 hours(zh)"
     },
     "home_common": {
       "height": "Height(zh)",
       "transactions": "Transactions(zh)",
-      "blockreward": "Block Reward (CKB)(zh)",
+      "block_reward": "Block Reward (CKB)(zh)",
       "time": "Time(zh)",
       "more": "More(zh)"
     },
     "footer": {
       "nervos_foundation": "Nervos Foundation(zh)",
-      "aboutus": "About Us(zh)",
+      "about_us": "About Us(zh)",
       "faq": "FAQ(zh)",
 
       "developer": "Developer(zh)",
@@ -59,10 +60,10 @@
     },
     "details": {
       "address": "Address(zh)",
-      "lockhash": "Lock Hash(zh)",
+      "lock_hash": "Lock Hash(zh)",
       "balance": "Balance(zh)",
-      "pendingreward": "Pending Reward(zh)",
-      "codehash": "Code Hash(zh)",
+      "pending_reward": "Pending Reward(zh)",
+      "code_hash": "Code Hash(zh)",
       "args": "Args(zh)",
       "confirmation": "Confirmation(zh)",
       "pending_reward_tool_tip": "The block reward and transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol(zh)"
@@ -71,25 +72,25 @@
       "transaction": "Transaction(zh)",
       "input": "Input(zh)",
       "output": "Output(zh)",
-      "lockscript": "Lock Script(zh)",
-      "typescript": "Type Script(zh)",
+      "lock_script": "Lock Script(zh)",
+      "type_script": "Type Script(zh)",
       "data": "Data(zh)",
-      "basereward": "Base Reward(zh)",
-      "commitreward": "Commit Reward(zh)",
-      "proposalreward": "Proposal Reward(zh)",
+      "base_reward": "Base Reward(zh)",
+      "commit_reward": "Commit Reward(zh)",
+      "proposal_reward": "Proposal Reward(zh)",
       "cellbase_help_content": "The cellbase transaction of block N is send to the miner of block N-11 as reward. The reward is consist of Base Reward, Commit Reward and Proposal Reward, learn more from our Consensus Protocol(zh)"
     },
     "block": {
       "proposal_transactions": "Proposal Transactions(zh)",
-      "blockreward": "Block Reward(zh)",
-      "unclecount": "Uncle Count(zh)",
+      "block_reward": "Block Reward(zh)",
+      "uncle_count": "Uncle Count(zh)",
       "epoch": "Epoch(zh)",
       "epoch_start_number": "Epoch Start Number(zh)",
-      "epochlength": "Epoch Length(zh)",
+      "epoch_length": "Epoch Length(zh)",
       "nonce": "Nonce(zh)",
       "proof": "Proof(zh)",
-      "transactionsroot": "Transactions Root(zh)",
-      "witnessesroot": "Witnesses Root(zh)"
+      "transactions_root": "Transactions Root(zh)",
+      "witnesses_root": "Witnesses Root(zh)"
     }
   }
 }

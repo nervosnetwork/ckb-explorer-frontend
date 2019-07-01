@@ -6,9 +6,9 @@
       "detail": "Detail",
       "overview": "Overview",
       "block": "Block",
-      "blockheight": "Block Height",
+      "block_height": "Block Height",
       "transactions": "Transactions",
-      "transactionfee": "Transaction Fee",
+      "transaction_fee": "Transaction Fee",
       "timestamp": "Timestamp",
       "miner": "Miner",
       "difficulty": "Difficulty"
@@ -21,28 +21,28 @@
       "wallet": "Wallet",
       "docs": "Docs",
       "search_placeholder": "Block / Transaction / Address",
-      "button_text": "TESTNET",
-      "button_extra": "Mainnet is comming"
+      "network": "TESTNET",
+      "network_extra": "Mainnet is comming"
     },
-    "blockchaindata": {
-      "bestblock": "Best Block",
+    "blockchain_data": {
+      "best_block": "Best Block",
       "bestblock_extra": "The latest block of the best chain",
       "difficulty_extra": "Difficulty of the lastest Epoch",
-      "hashrate": "Hash Rate",
-      "hashrate_extra": "Average Hash Rate of the last 500 blocks",
-      "averageblocktime": "Average Block Time",
-      "averageblocktime_extra": "Average Block Time of the last 24 hours"
+      "hash_rate": "Hash Rate",
+      "hash_rate_extra": "Average Hash Rate of the last 500 blocks",
+      "average_block_time": "Average Block Time",
+      "average_block_time_extra": "Average Block Time of the last 24 hours"
     },
     "home_common": {
       "height": "Height",
       "transactions": "Transactions",
-      "blockreward": "Block Reward (CKB)",
+      "block_reward": "Block Reward (CKB)",
       "time": "Time",
       "more": "More"
     },
     "footer": {
       "nervos_foundation": "Nervos Foundation",
-      "aboutus": "About Us",
+      "about_us": "About Us",
       "faq": "FAQ",
 
       "developer": "Developer",
@@ -60,10 +60,10 @@
     },
     "details": {
       "address": "Address",
-      "lockhash": "Lock Hash",
+      "lock_hash": "Lock Hash",
       "balance": "Balance",
-      "pendingreward": "Pending Reward",
-      "codehash": "Code Hash",
+      "pending_reward": "Pending Reward",
+      "code_hash": "Code Hash",
       "args": "Args",
       "confirmation": "Confirmation",
       "pending_reward_tool_tip": "The block reward and transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol"
@@ -72,25 +72,25 @@
       "transaction": "Transaction",
       "input": "Input",
       "output": "Output",
-      "lockscript": "Lock Script",
-      "typescript": "Type Script",
+      "lock_script": "Lock Script",
+      "type_script": "Type Script",
       "data": "Data",
-      "basereward": "Base Reward",
-      "commitreward": "Commit Reward",
-      "proposalreward": "Proposal Reward",
+      "base_reward": "Base Reward",
+      "commit_reward": "Commit Reward",
+      "proposal_reward": "Proposal Reward",
       "cellbase_help_content": "The cellbase transaction of block N is send to the miner of block N-11 as reward. The reward is consist of Base Reward, Commit Reward and Proposal Reward, learn more from our Consensus Protocol"
     },
     "block": {
       "proposal_transactions": "Proposal Transactions",
-      "blockreward": "Block Reward",
-      "unclecount": "Uncle Count",
+      "block_reward": "Block Reward",
+      "uncle_count": "Uncle Count",
       "epoch": "Epoch",
       "epoch_start_number": "Epoch Start Number",
-      "epochlength": "Epoch Length",
+      "epoch_length": "Epoch Length",
       "nonce": "Nonce",
       "proof": "Proof",
-      "transactionsroot": "Transactions Root",
-      "witnessesroot": "Witnesses Root"
+      "transactions_root": "Transactions Root",
+      "witnesses_root": "Witnesses Root"
     }
   }
 }

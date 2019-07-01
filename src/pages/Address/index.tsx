@@ -44,7 +44,7 @@ const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string
   const identityHash = address || lockHash
   return (
     <AddressTitlePanel>
-      <div className="address__title">{address ? i18n.t('details.address') : i18n.t('details.lockhash')}</div>
+      <div className="address__title">{address ? i18n.t('details.address') : i18n.t('details.lock_hash')}</div>
       <div className="address__content">
         <code id="address__hash">{identityHash}</code>
         <div
@@ -86,7 +86,7 @@ const AddressScriptLabel = ({ image, label, script }: { image: string; label: st
       </AddressScriptLabelPanel>
       <AddressScriptContentPanel>
         <AddressScriptContent>
-          <ScriptLabelItem name={`${i18n.t('details.codehash')} :`} value={script.code_hash} />
+          <ScriptLabelItem name={`${i18n.t('details.code_hash')} :`} value={script.code_hash} />
           {script.args.length === 1 ? (
             <ScriptLabelItem name={`${i18n.t('details.args')} :`} value={script.args[0]} />
           ) : (
@@ -277,7 +277,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
           {state.address.pending_reward_blocks_count ? (
             <SimpleLabel
               image={BlockPendingRewardIcon}
-              label={`${i18n.t('details.pendingreward')} : `}
+              label={`${i18n.t('details.pending_reward')} : `}
               value={`${state.address.pending_reward_blocks_count} 
                 ${state.address.pending_reward_blocks_count > 1 ? 'blocks' : 'block'}`}
               tooltip={PendingRewardTooltip}
@@ -300,7 +300,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
             ))}
           <AddressScriptLabel
             image={AddressScriptIcon}
-            label={`${i18n.t('details.lockhash')} : `}
+            label={`${i18n.t('details.lock_hash')} : `}
             script={state.address.lock_script}
           />
         </AddressCommonContent>

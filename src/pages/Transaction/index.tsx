@@ -123,14 +123,14 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               >
                 <SimpleLabel
                   image={BlockHeightIcon}
-                  label={`${i18n.t('common.blockheight')}:`}
+                  label={`${i18n.t('common.block_height')}:`}
                   value={localeNumberString(transaction.block_number)}
                   highLight
                 />
               </Link>
               <SimpleLabel
                 image={TransactionIcon}
-                label={`${i18n.t('common.transactionfee')}:`}
+                label={`${i18n.t('common.transaction_fee')}:`}
                 value={`${transaction.transaction_fee} Shannon`}
               />
             </div>

@@ -63,15 +63,15 @@ const TransactionReward = ({ transaction, cell }: { transaction: Transaction; ce
 
   const Rewards = [
     {
-      name: i18n.t('transaction.basereward'),
+      name: i18n.t('transaction.base_reward'),
       capacity: cell.block_reward,
     },
     {
-      name: i18n.t('transaction.commitreward'),
+      name: i18n.t('transaction.commit_reward'),
       capacity: cell.commit_reward,
     },
     {
-      name: i18n.t('transaction.proposalreward'),
+      name: i18n.t('transaction.proposal_reward'),
       capacity: cell.proposal_reward,
     },
   ]

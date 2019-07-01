@@ -159,7 +159,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
             <TableTitleRow>
               <TableTitleItem image={BlockHeightIcon} title={t('home_common.height')} />
               <TableTitleItem image={TransactionIcon} title={t('home_common.transactions')} />
-              <TableTitleItem image={BlockRewardIcon} title={t('home_common.blockreward')} />
+              <TableTitleItem image={BlockRewardIcon} title={t('home_common.block_reward')} />
               <TableTitleItem image={MinerIcon} title={t('common.miner')} />
               <TableTitleItem image={TimestampIcon} title={t('home_common.time')} />
             </TableTitleRow>

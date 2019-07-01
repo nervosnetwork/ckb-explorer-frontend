@@ -79,7 +79,11 @@ const getCell = (state: any) => {
   }
 }
 
-const ScriptTypeItems = [i18n.t('transaction.lockscript'), i18n.t('transaction.typescript'), i18n.t('transaction.data')]
+const ScriptTypeItems = [
+  i18n.t('transaction.lock_script'),
+  i18n.t('transaction.type_script'),
+  i18n.t('transaction.data'),
+]
 const cellStateWithItem = (item: string) => {
   if (item === ScriptTypeItems[0]) {
     return CellState.LOCK

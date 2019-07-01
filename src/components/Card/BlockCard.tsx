@@ -81,7 +81,7 @@ const BlockCard = ({ block }: { block: Block }) => {
         highLight
       />
       <CardItem name={`${t('home_common.height')} :`} value={localeNumberString(block.transactions_count)} />
-      <CardItem name={`${t('home_common.blockreward')} :`} value={localeNumberString(shannonToCkb(block.reward))} />
+      <CardItem name={`${t('home_common.block_reward')} :`} value={localeNumberString(shannonToCkb(block.reward))} />
       {block.miner_hash ? (
         <CardItem
           name={`${t('common.miner')} :`}
