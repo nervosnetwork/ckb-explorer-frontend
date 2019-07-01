@@ -5,7 +5,6 @@ import { Transaction, InputOutput } from '../../../http/response/Transaction'
 import GreenArrowDown from '../../../assets/green_arrow_down.png'
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
-import HelpIcon from '../../../assets/qa_help.png'
 import TransactionReward from '../TransactionReward'
 
 const CardPanel = styled.div`
@@ -68,14 +67,6 @@ export const CellbasePanel = styled.div`
     font-size: 14px;
     margin-right: 10px;
   }
-  .cellbase__help {
-    margin-left: 10px;
-    > img {
-      margin-top: 3px;
-      width: 14px;
-      height: 14px;
-    }
-  }
 `
 
 const CellHashHighLight = styled.div`
@@ -104,9 +95,6 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
       <Link to={`/block/${blockHeight}`}>
         <CellHashHighLight>{blockHeight}</CellHashHighLight>
       </Link>
-      <div className="cellbase__help">
-        <img alt="cellbase help" src={HelpIcon} />
-      </div>
     </CellbasePanel>
   ) : (
     <span>Cellbase</span>

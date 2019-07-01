@@ -271,7 +271,9 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
     .catch(() => {
       dispatch({
         type: Actions.next,
-        payload: false,
+        payload: {
+          next: false,
+        },
       })
     })
 }

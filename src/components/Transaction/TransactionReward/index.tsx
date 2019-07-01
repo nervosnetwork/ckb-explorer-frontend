@@ -9,11 +9,11 @@ export const RewardPenal = styled.div`
   align-items: center;
   height: 30px;
   justify-content: space-between;
+  margin-top: 10px;
 
   .reward__name__point {
     display: flex;
     align-items: center;
-    margin-top: 10px;
 
     > img {
       @media (min-width: 700px) {
@@ -34,6 +34,10 @@ export const RewardPenal = styled.div`
       @media (max-width: 700px) {
         font-size: 14px;
       }
+
+      @media (max-width: 320px) {
+        font-size: 13px;
+      }
     }
   }
 
@@ -44,6 +48,10 @@ export const RewardPenal = styled.div`
 
     @media (max-width: 700px) {
       font-size: 14px;
+    }
+
+    @media (max-width: 320px) {
+      font-size: 12px;
     }
   }
 `

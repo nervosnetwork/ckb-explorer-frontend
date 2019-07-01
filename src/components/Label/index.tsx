@@ -111,7 +111,7 @@ const LableTipPanel = styled.div`
       font-size: 13px;
     }
 
-    label__status:hover .label__tip__content {
+    .label__status:hover .label__tip__content {
       visibility: hidden;
     }
   }
@@ -149,12 +149,17 @@ const LableHelpPanel = styled.div`
 
   @media (max-width: 700px) {
     .label__help__image {
+      margin-top: 6px;
       width: 14px;
       height: 14px;
     }
 
-    label__status:hover .label__tip__content {
+    &:hover .label__help__content {
       visibility: hidden;
+    }
+
+    .label__help__content {
+      display: none;
     }
   }
 `
