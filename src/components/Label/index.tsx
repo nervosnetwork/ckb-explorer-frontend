@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import TooltipImage from '../../assets/tooltip_background.png'
 import HelpIcon from '../../assets/qa_help.png'
+import Tooltip, { TargetSize } from '../Tooltip'
 
 const LabelPanel = styled.div`
   display: flex;
@@ -86,33 +86,9 @@ const LableTipPanel = styled.div`
     font-weight: 450;
   }
 
-  .label__status:hover .label__tip__content {
-    visibility: visible;
-  }
-
-  .label__tip__content {
-    width: 300px;
-    height: 112px;
-    position: absolute;
-    margin-left: -170px;
-    padding: 28px 20px 17px 20px;
-    z-index: 1;
-    color: white;
-    font-weight: 450;
-    visibility: hidden;
-    font-size: 13px;
-    background-image: url(${TooltipImage});
-    background-repeat: no-repeat;
-    background-size: 300px 112px;
-  }
-
   @media (max-width: 700px) {
     .label__status {
       font-size: 13px;
-    }
-
-    .label__status:hover .label__tip__content {
-      visibility: hidden;
     }
   }
 `
@@ -127,39 +103,11 @@ const LableHelpPanel = styled.div`
     height: 18px;
   }
 
-  &:hover .label__help__content {
-    visibility: visible;
-  }
-
-  .label__help__content {
-    width: 300px;
-    height: 120px;
-    position: absolute;
-    margin-left: -190px;
-    padding: 20px 20px 17px 20px;
-    z-index: 1;
-    color: white;
-    font-weight: 450;
-    visibility: hidden;
-    font-size: 13px;
-    background-image: url(${TooltipImage});
-    background-repeat: no-repeat;
-    background-size: 300px 112px;
-  }
-
   @media (max-width: 700px) {
     .label__help__image {
       margin-top: 6px;
       width: 14px;
       height: 14px;
-    }
-
-    &:hover .label__help__content {
-      visibility: hidden;
-    }
-
-    .label__help__content {
-      display: none;
     }
   }
 `
@@ -181,6 +129,16 @@ const noneStyle = {
   color: '#888888',
 }
 
+const statusTargetSize: TargetSize = {
+  width: 60,
+  height: 30,
+}
+
+const helpTargetSize: TargetSize = {
+  width: 20,
+  height: 36,
+}
+
 const SimpleLabel = ({
   image,
   label,
@@ -194,6 +152,8 @@ const SimpleLabel = ({
   highLight?: boolean
   tooltip?: Tooltip
 }) => {
+  const [showStatusTip, setShowStatusTip] = useState(false)
+  const [showHelpTip, setShowHelpTip] = useState(false)
   return (
     <LabelPanel>
       <img className="label__icon" src={image} alt={value} />
@@ -203,16 +163,27 @@ const SimpleLabel = ({
       </LabelValuePanel>
       {tooltip && tooltip.status && (
         <LableTipPanel>
-          <div className="label__status">
+          <div
+            className="label__status"
+            tabIndex={-1}
+            onFocus={() => {}}
+            onMouseOver={() => setShowStatusTip(true)}
+            onMouseLeave={() => setShowStatusTip(false)}
+          >
             {tooltip.status}
-            <div className="label__tip__content">{tooltip.tip}</div>
+            <Tooltip show={showStatusTip} targetSize={statusTargetSize} message={tooltip.tip} />
           </div>
         </LableTipPanel>
       )}
       {tooltip && tooltip.haveHelpIcon && (
-        <LableHelpPanel>
+        <LableHelpPanel
+          tabIndex={-1}
+          onFocus={() => {}}
+          onMouseOver={() => setShowHelpTip(true)}
+          onMouseLeave={() => setShowHelpTip(false)}
+        >
           <img className="label__help__image" alt="label help" src={HelpIcon} />
-          <div className="label__help__content">{tooltip.tip}</div>
+          <Tooltip show={showHelpTip} targetSize={helpTargetSize} message={tooltip.tip} />
         </LableHelpPanel>
       )}
     </LabelPanel>
