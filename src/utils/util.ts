@@ -3,8 +3,9 @@ import { MAX_CONFIRMATION } from './const'
 import i18n from './i18n'
 
 const copyElementValue = (component: any) => {
-  if (component) {
-    const selection = window.getSelection()
+  if (!component) return
+  const selection = window.getSelection()
+  if (selection) {
     const range = document.createRange()
     range.selectNodeContents(component)
     selection.removeAllRanges()
