@@ -29,7 +29,7 @@ export const TransactionCellPanel = styled.div`
 
 const CellHash = styled.code`
   font-size: 16px;
-  color: rgb(136, 136, 136)};
+  color: rgb(136, 136, 136);
 `
 
 export const CellHashHighLight = styled(CellHash)`
