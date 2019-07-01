@@ -38,6 +38,7 @@ import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { validNumber, startEndEllipsis } from '../../utils/string'
 import TransactionCard from '../../components/Transaction/TransactionCard/index'
 import { StatisticsWrapper } from '../../http/response/Statistics'
+import { localeNumberString } from '../../utils/number'
 
 const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
   const appContext = useContext(AppContext)
@@ -286,11 +287,15 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         <AddressOverview value="Overview" />
         <AddressCommonContent>
           <AddressCommonRowPanel>
-            <SimpleLabel image={BalanceIcon} label="Balance : " value={`${shannonToCkb(state.address.balance)} CKB`} />
+            <SimpleLabel
+              image={BalanceIcon}
+              label="Balance : "
+              value={`${localeNumberString(shannonToCkb(state.address.balance))} CKB`}
+            />
             <SimpleLabel
               image={TransactionsIcon}
               label="Transactions : "
-              value={`${state.address.transactions_count}`}
+              value={localeNumberString(state.address.transactions_count)}
             />
           </AddressCommonRowPanel>
           {state.address.pending_reward_blocks_count ? (
