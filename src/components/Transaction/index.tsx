@@ -2,36 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import InputOutputIcon from '../../assets/input_arrow_output.png'
 import { parseDate } from '../../utils/date'
-import { shannonToCkb, formattorConfirmation } from '../../utils/util'
 import PaginationList from './PaginationList'
-import {
-  ConfirmationCapacityContainer,
-  HashBlockContainer,
-  InputOutputContainer,
-  MainContainer,
-  Separate,
-} from './styled'
+import { HashBlockContainer, InputOutputContainer, MainContainer, Separate } from './styled'
 import TransactionCell from './Cell'
-import { parseNumber } from '../../utils/number'
-import { Transaction } from '../../http/response/Transaction'
+import ConfirmationCapacityContainer from './ConfirmationCapacity'
+import { getCapacityChange } from '../../utils/util'
 
 const CELL_PAGE_SIZE = 10
-
-const getCapacityChange = (transaction: Transaction, address?: string) => {
-  if (!transaction) return 0
-  let capacity: number = 0
-  transaction.display_inputs.forEach(element => {
-    if (element.address_hash === address) {
-      capacity -= parseNumber(element.capacity)
-    }
-  })
-  transaction.display_outputs.forEach(element => {
-    if (element.address_hash === address) {
-      capacity += parseNumber(element.capacity)
-    }
-  })
-  return capacity
-}
 
 export default ({
   transaction,
@@ -44,7 +21,6 @@ export default ({
   isBlock?: boolean
   confirmation?: number
 }) => {
-  const changeInCapacity = getCapacityChange(transaction, address)
   return (
     <MainContainer>
       <div>
@@ -76,12 +52,10 @@ export default ({
             />
             {address && <Separate marginTop="10px" marginBottom="20px" />}
             {address && (
-              <ConfirmationCapacityContainer increased={changeInCapacity >= 0}>
-                <div className="confirmation">{formattorConfirmation(confirmation)}</div>
-                <div className="capacity">
-                  {`${changeInCapacity >= 0 ? '+' : '-'} ${shannonToCkb(Math.abs(changeInCapacity))} CKB`}
-                </div>
-              </ConfirmationCapacityContainer>
+              <ConfirmationCapacityContainer
+                confirmation={confirmation}
+                capacity={getCapacityChange(transaction, address)}
+              />
             )}
           </div>
         </InputOutputContainer>
@@ -89,3 +63,5 @@ export default ({
     </MainContainer>
   )
 }
+
+export { ConfirmationCapacityContainer, PaginationList }

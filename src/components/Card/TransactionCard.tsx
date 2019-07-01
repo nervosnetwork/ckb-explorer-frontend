@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import { Transaction, InputOutput } from '../../http/response/Transaction'
 import GreenArrowDown from '../../assets/green_arrow_down.png'
 import { startEndEllipsis } from '../../utils/string'
-import { shannonToCkb } from '../../utils/util'
-import PaginationList from '../Transaction/PaginationList'
+import { shannonToCkb, getCapacityChange } from '../../utils/util'
+import { PaginationList, ConfirmationCapacityContainer } from '../Transaction'
 
 export const CELL_PAGE_SIZE = 10
 
@@ -67,6 +67,14 @@ const CardItemPanel = styled.div`
   }
 `
 
+export const Separate = styled.span`
+  width: 100%;
+  height: 1px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background: rgb(233, 233, 233);
+`
+
 const CardLabelItem = ({ value, to, highLight = false }: { value: string; to?: string; highLight?: boolean }) => {
   return (
     <CardItemPanel highLight={highLight}>
@@ -113,7 +121,15 @@ const AddressHashItem = (input: InputOutput, address?: string) => {
   )
 }
 
-const TransactionCard = ({ transaction, address }: { transaction: Transaction; address?: string }) => {
+const TransactionCard = ({
+  transaction,
+  address,
+  confirmation,
+}: {
+  transaction: Transaction
+  address?: string
+  confirmation?: number
+}) => {
   return (
     <CardPanel>
       <CardLabelItem
@@ -138,6 +154,10 @@ const TransactionCard = ({ transaction, address }: { transaction: Transaction; a
           pageSize={CELL_PAGE_SIZE}
           render={item => AddressHashItem(item, address)}
         />
+      )}
+      {confirmation && <Separate />}
+      {confirmation && (
+        <ConfirmationCapacityContainer confirmation={confirmation} capacity={getCapacityChange(transaction, address)} />
       )}
     </CardPanel>
   )

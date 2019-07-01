@@ -322,6 +322,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                   transaction && (
                     <TransactionCard
                       address={address}
+                      confirmation={state.tipBlockNumber - transaction.attributes.block_number}
                       transaction={transaction.attributes}
                       key={transaction.attributes.transaction_hash}
                     />
