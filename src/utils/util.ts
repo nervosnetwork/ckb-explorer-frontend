@@ -1,5 +1,6 @@
 import { Transaction, InputOutput } from '../http/response/Transaction'
 import { MAX_CONFIRMATION } from './const'
+import i18n from './i18n'
 
 const copyElementValue = (component: any) => {
   if (component) {
@@ -37,8 +38,9 @@ export const handleCapacityChange = (transaction: Transaction, address?: string)
 }
 
 export const formatConfirmation = (confirmation: number | undefined) => {
+  const confirm: string = i18n.t('address.confirmation')
   if (!confirmation) {
-    return '0 Confirmation'
+    return `0 ${confirm}`
   }
-  return confirmation > MAX_CONFIRMATION ? `${MAX_CONFIRMATION}+ Confirmation` : `${confirmation} Confirmation`
+  return confirmation > MAX_CONFIRMATION ? `${MAX_CONFIRMATION}+ ${confirm}` : `${confirmation} ${confirm}`
 }
