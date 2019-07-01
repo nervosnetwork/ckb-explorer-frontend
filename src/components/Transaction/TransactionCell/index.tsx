@@ -6,6 +6,7 @@ import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import TooltipCellbaseImage from '../../../assets/tooltip_cellbase.png'
 import HelpIcon from '../../../assets/qa_help.png'
+import { localeNumberString } from '../../../utils/number'
 
 export const TransactionCellPanel = styled.div`
   display: flex;
@@ -132,7 +133,9 @@ const TransactionCell = ({
           </CellHash>
         </div>
       )}
-      {!cell.from_cellbase && <div className="transaction__cell__capacity">{`${shannonToCkb(cell.capacity)} CKB`}</div>}
+      {!cell.from_cellbase && (
+        <div className="transaction__cell__capacity">{`${localeNumberString(shannonToCkb(cell.capacity))} CKB`}</div>
+      )}
     </TransactionCellPanel>
   )
 }
