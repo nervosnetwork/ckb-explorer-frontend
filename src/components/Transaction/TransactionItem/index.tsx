@@ -6,6 +6,7 @@ import InputOutputIcon from '../../../assets/input_arrow_output.png'
 import { Transaction, InputOutput } from '../../../http/response/Transaction'
 import TransactionCellList from '../TransactionCellList/index'
 import { shannonToCkb } from '../../../utils/util'
+import i18n from '../../../utils/i18n'
 
 const MAX_CONFIRMATION = 1000
 
@@ -27,10 +28,11 @@ const handleCapacityChange = (transaction: Transaction, address?: string) => {
 }
 
 const formatConfirmation = (confirmation: number | undefined) => {
+  const confirm: string = i18n.t('address.confirmation')
   if (!confirmation) {
-    return '0 Confirmation'
+    return `0 ${confirm}`
   }
-  return confirmation > MAX_CONFIRMATION ? `${MAX_CONFIRMATION}+ Confirmation` : `${confirmation} Confirmation`
+  return confirmation > MAX_CONFIRMATION ? `${MAX_CONFIRMATION}+ ${confirm}` : `${confirmation} ${confirm}`
 }
 
 const TransactionItem = ({

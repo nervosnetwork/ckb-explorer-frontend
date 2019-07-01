@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import i18n from '../../utils/i18n'
 
 const SheetPanel = styled.div`
   width: 100%;
@@ -16,7 +17,7 @@ const SheetPanel = styled.div`
     font-size: 14px;
   }
 `
-const networkError = 'Network exception, please try again later'
+const networkError = i18n.t('toast.invalid_network')
 
 const Sheet = ({ show = false, text = networkError }: { show?: boolean; text?: string }) => {
   return <React.Fragment>{show && <SheetPanel>{text}</SheetPanel>}</React.Fragment>
