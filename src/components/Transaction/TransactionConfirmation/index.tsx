@@ -5,7 +5,7 @@ import { localeNumberString } from '../../../utils/number'
 
 export default ({ confirmation, capacity }: { confirmation?: number; capacity: number }) => {
   return (
-    <Container increased={false}>
+    <Container increased={capacity > 0}>
       {confirmation !== undefined && (
         <div className="transaction_item__confirmation">{formatConfirmation(confirmation)}</div>
       )}
