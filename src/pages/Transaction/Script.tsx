@@ -8,6 +8,7 @@ import { CellType, fetchScript, fetchCellData } from '../../http/fetcher'
 import { shannonToCkb } from '../../utils/util'
 import { hexToUtf8, parseLongAddressHash } from '../../utils/string'
 import { localeNumberString } from '../../utils/number'
+import i18n from '../../utils/i18n'
 
 enum CellState {
   NONE,
@@ -78,7 +79,11 @@ const getCell = (state: any) => {
   }
 }
 
-const ScriptTypeItems = ['Lock Script', 'Type Script', 'Data']
+const ScriptTypeItems = [
+  i18n.t('transaction.lock_script'),
+  i18n.t('transaction.type_script'),
+  i18n.t('transaction.data'),
+]
 const cellStateWithItem = (item: string) => {
   if (item === ScriptTypeItems[0]) {
     return CellState.LOCK
@@ -106,7 +111,7 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
         <code>{parseLongAddressHash(cellInputOutput.address_hash)}</code>
       </Link>
     ) : (
-      <div className="address__bold__grey">Unable to decode address</div>
+      <div className="address__bold__grey">{i18n.t('address.unable_decode_address')}</div>
     )
   }
 

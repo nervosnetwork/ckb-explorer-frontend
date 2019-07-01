@@ -9,6 +9,7 @@ import ConfirmationCapacityContainer from '../TransactionConfirmation'
 import { localeNumberString } from '../../../utils/number'
 import TransactionReward from '../TransactionReward'
 import { CardPanel, CellbasePanel, CellHashHighLight, CardItemPanel } from './styled'
+import i18n from '../../../utils/i18n'
 
 const MAX_CELL_SHOW_SIZE = 10
 
@@ -70,7 +71,7 @@ const AddressHashItem = (input: InputOutput, address?: string) => {
   }
   return (
     <div key={input.id}>
-      <CardLabelItem value="Unable to decode address" />
+      <CardLabelItem value={i18n.t('address.unable_decode_address')} />
       <Capacity />
     </div>
   )

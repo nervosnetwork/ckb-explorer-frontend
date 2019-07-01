@@ -39,13 +39,14 @@ import { validNumber, startEndEllipsis } from '../../utils/string'
 import TransactionCard from '../../components/Transaction/TransactionCard/index'
 import { StatisticsWrapper } from '../../http/response/Statistics'
 import { localeNumberString } from '../../utils/number'
+import i18n from '../../utils/i18n'
 
 const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
   const appContext = useContext(AppContext)
   const identityHash = address || lockHash
   return (
     <AddressTitlePanel>
-      <div className="address__title">{address ? 'Address' : 'Lock Hash'}</div>
+      <div className="address__title">{address ? i18n.t('address.address') : i18n.t('address.lock_hash')}</div>
       <div className="address__content">
         <code id="address__hash">{identityHash}</code>
         <div
@@ -54,7 +55,7 @@ const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string
           onKeyDown={() => {}}
           onClick={() => {
             copyElementValue(document.getElementById('address__hash'))
-            appContext.toastMessage('Copied', 3000)
+            appContext.toastMessage(i18n.t('common.copied'), 3000)
           }}
         >
           <img src={CopyIcon} alt="copy" />
@@ -87,13 +88,13 @@ const AddressScriptLabel = ({ image, label, script }: { image: string; label: st
       </AddressScriptLabelPanel>
       <AddressScriptContentPanel>
         <AddressScriptContent>
-          <ScriptLabelItem name="Code Hash :" value={script.code_hash} />
+          <ScriptLabelItem name={`${i18n.t('address.code_hash')} :`} value={script.code_hash} />
           {script.args.length === 1 ? (
-            <ScriptLabelItem name="Args :" value={script.args[0]} />
+            <ScriptLabelItem name={`${i18n.t('address.args')} :`} value={script.args[0]} />
           ) : (
             script.args.map((arg: string, index: number) => {
               return index === 0 ? (
-                <ScriptLabelItem name="Args: " value={`#${index}: ${arg}`} />
+                <ScriptLabelItem name={`${i18n.t('address.args')} :`} value={`#${index}: ${arg}`} />
               ) : (
                 <ScriptOtherArgs>
                   <ScriptLabelItem name="" value={`#${index}: ${arg}`} noIcon />
@@ -229,8 +230,7 @@ const getTipBlockNumber = (dispatch: any) => {
 }
 
 const PendingRewardTooltip: Tooltip = {
-  tip:
-    'The block reward and transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+  tip: i18n.t('address.pending_reward_tooltip'),
   haveHelpIcon: true,
 }
 
@@ -284,24 +284,24 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     <Content>
       <AddressContentPanel className="container">
         <AddressTitle address={address} lockHash={lockHash} />
-        <AddressOverview value="Overview" />
+        <AddressOverview value={i18n.t('common.overview')} />
         <AddressCommonContent>
           <AddressCommonRowPanel>
             <SimpleLabel
               image={BalanceIcon}
-              label="Balance : "
+              label={`${i18n.t('address.balance')} : `}
               value={`${localeNumberString(shannonToCkb(state.address.balance))} CKB`}
             />
             <SimpleLabel
               image={TransactionsIcon}
-              label="Transactions : "
+              label={`${i18n.t('transaction.transactions')} : `}
               value={localeNumberString(state.address.transactions_count)}
             />
           </AddressCommonRowPanel>
           {state.address.pending_reward_blocks_count ? (
             <SimpleLabel
               image={BlockPendingRewardIcon}
-              label="Pending Reward : "
+              label={`${i18n.t('address.pending_reward')} : `}
               value={`${state.address.pending_reward_blocks_count} 
                 ${state.address.pending_reward_blocks_count > 1 ? 'blocks' : 'block'}`}
               tooltip={PendingRewardTooltip}
@@ -312,17 +312,25 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
             (state.address.address_hash ? (
               <SimpleLabel
                 image={AddressHashIcon}
-                label="Address: "
+                label={`${i18n.t('address.address')} :`}
                 value={`${startEndEllipsis(state.address.address_hash, 12)}`}
               />
             ) : (
-              <SimpleLabel image={AddressHashIcon} label="Address: " value="Unable to decode address" />
+              <SimpleLabel
+                image={AddressHashIcon}
+                label={`${i18n.t('address.address')} :`}
+                value={i18n.t('address.unable_decode_address')}
+              />
             ))}
-          <AddressScriptLabel image={AddressScriptIcon} label="Lock Script : " script={state.address.lock_script} />
+          <AddressScriptLabel
+            image={AddressScriptIcon}
+            label={`${i18n.t('address.lock_hash')} : `}
+            script={state.address.lock_script}
+          />
         </AddressCommonContent>
 
         <AddressTransactionsPanel>
-          <AddressOverview value="Transactions" />
+          <AddressOverview value={i18n.t('transaction.transactions')} />
           <div>
             {state.transactions &&
               state.transactions.map((transaction: any) => {

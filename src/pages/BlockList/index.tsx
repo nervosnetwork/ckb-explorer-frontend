@@ -4,6 +4,7 @@ import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
 import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
+import { useTranslation } from 'react-i18next'
 import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition, BlockListPC, BlockListMobile } from './styled'
 import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
@@ -101,6 +102,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   const { location } = props
   const { search } = location
   const parsed = queryString.parse(search)
+  const [t] = useTranslation()
 
   const initialState = {
     blocks: [] as BlockWrapper[],
@@ -155,11 +157,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
         <BlockListPC>
           <ContentTable>
             <TableTitleRow>
-              <TableTitleItem image={BlockHeightIcon} title="Height" />
-              <TableTitleItem image={TransactionIcon} title="Transactions" />
-              <TableTitleItem image={BlockRewardIcon} title="Block Reward (CKB)" />
-              <TableTitleItem image={MinerIcon} title="Miner" />
-              <TableTitleItem image={TimestampIcon} title="Time" />
+              <TableTitleItem image={BlockHeightIcon} title={t('home.height')} />
+              <TableTitleItem image={TransactionIcon} title={t('home.transactions')} />
+              <TableTitleItem image={BlockRewardIcon} title={t('home.block_reward')} />
+              <TableTitleItem image={MinerIcon} title={t('block.miner')} />
+              <TableTitleItem image={TimestampIcon} title={t('home.time')} />
             </TableTitleRow>
             {state.blocks &&
               state.blocks.map((data: any) => {
