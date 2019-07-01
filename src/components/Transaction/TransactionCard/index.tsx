@@ -117,11 +117,13 @@ const TransactionCard = ({
           }}
         />
       )}
-      <div className="sperate__line_bottom" />
-      <ConfirmationCapacityContainer
-        confirmation={confirmation}
-        capacity={handleCapacityChange(transaction, address)}
-      />
+      {address && <div className="sperate__line_bottom" />}
+      {address && (
+        <ConfirmationCapacityContainer
+          confirmation={confirmation}
+          capacity={handleCapacityChange(transaction, address)}
+        />
+      )}
     </CardPanel>
   )
 }
