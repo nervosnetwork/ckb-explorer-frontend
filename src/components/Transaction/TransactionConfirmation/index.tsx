@@ -6,8 +6,10 @@ import { localeNumberString } from '../../../utils/number'
 export default ({ confirmation, capacity }: { confirmation?: number; capacity: number }) => {
   return (
     <Container increased={false}>
-      {confirmation !== undefined && <div className="confirmation">{formatConfirmation(confirmation)}</div>}
-      <div className="capacity">
+      {confirmation !== undefined && (
+        <div className="transaction_item__confirmation">{formatConfirmation(confirmation)}</div>
+      )}
+      <div className="transaction_item__capacity">
         {`${capacity >= 0 ? '+' : '-'} ${localeNumberString(shannonToCkb(Math.abs(capacity)))} CKB`}
       </div>
     </Container>

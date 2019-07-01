@@ -56,12 +56,12 @@ export const TransactionHashBlockPanel = styled.div`
   flex-direction: row;
   justify-content: space-between;
 
-  .hash {
+  .transaction_item__hash {
     font-size: 16px;
     color: rgb(75, 188, 142);
   }
 
-  .block {
+  .transaction_item__block {
     font-size: 16px;
     color: rgb(136, 136, 136);
   }
@@ -83,11 +83,11 @@ export const TransactionInputOutputPanel = styled.div`
     flex: 15;
   }
 
-  .input {
+  .transaction__input {
     margin-right: 40px;
   }
 
-  .output {
+  .transaction__output {
     display: flex;
     flex-direction: column;
     align-items: flex-start;

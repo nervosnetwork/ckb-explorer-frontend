@@ -34,17 +34,17 @@ const TransactionItem = ({
       <div>
         <TransactionHashBlockPanel>
           <Link to={`/transaction/${transaction.transaction_hash}`}>
-            <code className="hash">{transaction.transaction_hash}</code>
+            <code className="transaction_item__hash">{transaction.transaction_hash}</code>
           </Link>
           {!isBlock && (
-            <div className="block">
+            <div className="transaction_item__block">
               {`(Block ${transaction.block_number})  ${parseDate(transaction.block_timestamp)}`}
             </div>
           )}
         </TransactionHashBlockPanel>
         <SeparationLine marginTop="30px" />
         <TransactionInputOutputPanel>
-          <div className="input">
+          <div className="transaction_item__input">
             <PaginationList
               data={transaction.display_inputs}
               pageSize={MAX_CELL_SHOW_SIZE}
@@ -54,7 +54,7 @@ const TransactionItem = ({
             />
           </div>
           <img src={InputOutputIcon} alt="input and output" />
-          <div className="output">
+          <div className="transaction_item__output">
             <PaginationList
               data={transaction.display_outputs}
               pageSize={MAX_CELL_SHOW_SIZE}

@@ -6,7 +6,7 @@ export default styled.div`
   flex-direction: row;
   justify-content: space-between;
 
-  .confirmation {
+  .transaction_item__confirmation {
     @media (max-width: 700px) {
       font-size: 12px;
     }
@@ -14,7 +14,7 @@ export default styled.div`
     font-size: 16px;
     color: #888888;
   }
-  .capacity {
+  .transaction_item__capacity {
     @media (max-width: 700px) {
       font-size: 12px;
     }
