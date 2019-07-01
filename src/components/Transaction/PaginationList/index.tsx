@@ -7,10 +7,9 @@ interface PaginationListProps {
   data: any[]
   pageSize: number
   render: (item: any) => ReactNode
-  children?: ReactNode
 }
 
-export default ({ data, pageSize, render, children }: PaginationListProps) => {
+export default ({ data, pageSize, render }: PaginationListProps) => {
   const [count, setCount] = useState(pageSize)
   const onClickLoadMore = () => {
     setCount(Math.min(data.length, count + pageSize))
@@ -18,7 +17,6 @@ export default ({ data, pageSize, render, children }: PaginationListProps) => {
   const onClickShowLess = () => {
     setCount(pageSize)
   }
-
   return (
     <Container>
       {data && data.map((item, idx) => idx < count && render(item))}
@@ -34,7 +32,6 @@ export default ({ data, pageSize, render, children }: PaginationListProps) => {
           <img src={ShowLessIcon} alt="show less" />
         </button>
       )}
-      {children}
     </Container>
   )
 }

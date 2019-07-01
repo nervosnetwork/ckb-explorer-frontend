@@ -9,4 +9,4 @@ export const CachedKeys = {
   Statistics: 'statistics',
 }
 
-export const CONFIRMATION_MAX = 1000
+export const MAX_CONFIRMATION = 1000

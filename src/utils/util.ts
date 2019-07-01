@@ -1,6 +1,5 @@
-import { CONFIRMATION_MAX } from './const'
-import { parseNumber } from './number'
-import { Transaction } from '../http/response/Transaction'
+import { Transaction, InputOutput } from '../http/response/Transaction'
+import { MAX_CONFIRMATION } from './const'
 
 const copyElementValue = (component: any) => {
   if (component) {
@@ -20,26 +19,26 @@ const shannonToCkb = (value: number) => {
 
 export { copyElementValue, shannonToCkb }
 
-export const formattorConfirmation = (confirmation: number | undefined) => {
-  if (!confirmation) return '0 Confirmation'
-  if (confirmation! > CONFIRMATION_MAX) {
-    return `${CONFIRMATION_MAX}+ Confirmation`
-  }
-  return `${confirmation} Confirmation`
+const handleCellCapacity = (cells: InputOutput[], address?: string) => {
+  if (!cells || cells.length === 0) return 0
+  return cells
+    .filter((cell: InputOutput) => cell.address_hash === address)
+    .map((cell: InputOutput) => cell.capacity)
+    .reduce((previous: number, current: number) => {
+      return previous + current
+    }, 0)
 }
 
-export const getCapacityChange = (transaction: Transaction, address?: string) => {
+export const handleCapacityChange = (transaction: Transaction, address?: string) => {
   if (!transaction) return 0
-  let capacity: number = 0
-  transaction.display_inputs.forEach(element => {
-    if (element.address_hash === address) {
-      capacity -= parseNumber(element.capacity)
-    }
-  })
-  transaction.display_outputs.forEach(element => {
-    if (element.address_hash === address) {
-      capacity += parseNumber(element.capacity)
-    }
-  })
-  return capacity
+  return (
+    handleCellCapacity(transaction.display_outputs, address) - handleCellCapacity(transaction.display_inputs, address)
+  )
+}
+
+export const formatConfirmation = (confirmation: number | undefined) => {
+  if (!confirmation) {
+    return '0 Confirmation'
+  }
+  return confirmation > MAX_CONFIRMATION ? `${MAX_CONFIRMATION}+ Confirmation` : `${confirmation} Confirmation`
 }

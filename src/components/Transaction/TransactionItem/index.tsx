@@ -1,37 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { TransactionsItem, TransactionConfirmation } from './styled'
-import { parseDate } from '../../../utils/date'
 import InputOutputIcon from '../../../assets/input_arrow_output.png'
-import { Transaction, InputOutput } from '../../../http/response/Transaction'
-import TransactionCellList from '../TransactionCellList/index'
-import { shannonToCkb } from '../../../utils/util'
+import { Transaction } from '../../../http/response/Transaction'
+import { parseDate } from '../../../utils/date'
+import { handleCapacityChange } from '../../../utils/util'
+import PaginationList from '../PaginationList'
+import TransactionCell from '../TransactionCell'
+import TransactionConfirmation from '../TransactionConfirmation'
+import TransactionReward from '../TransactionReward'
+import {
+  FullPanel,
+  SeparationLine,
+  TransactionHashBlockPanel,
+  TransactionInputOutputPanel,
+  TransactionsItem,
+} from './styled'
 
-const MAX_CONFIRMATION = 1000
-
-const handleCellCapacity = (cells: InputOutput[], address?: string) => {
-  if (!cells || cells.length === 0) return 0
-  return cells
-    .filter((cell: InputOutput) => cell.address_hash === address)
-    .map((cell: InputOutput) => cell.capacity)
-    .reduce((previous: number, current: number) => {
-      return previous + current
-    }, 0)
-}
-
-const handleCapacityChange = (transaction: Transaction, address?: string) => {
-  if (!transaction) return 0
-  return (
-    handleCellCapacity(transaction.display_outputs, address) - handleCellCapacity(transaction.display_inputs, address)
-  )
-}
-
-const formatConfirmation = (confirmation: number | undefined) => {
-  if (!confirmation) {
-    return '0 Confirmation'
-  }
-  return confirmation > MAX_CONFIRMATION ? `${MAX_CONFIRMATION}+ Confirmation` : `${confirmation} Confirmation`
-}
+const MAX_CELL_SHOW_SIZE = 10
 
 const TransactionItem = ({
   transaction,
@@ -44,44 +29,51 @@ const TransactionItem = ({
   confirmation: number
   isBlock?: boolean
 }) => {
-  const capacityChangeValue = handleCapacityChange(transaction, address)
-
   return (
     <TransactionsItem>
       <div>
-        <div className="transaction__hash__panel">
+        <TransactionHashBlockPanel>
           <Link to={`/transaction/${transaction.transaction_hash}`}>
-            <code className="transaction_hash">{transaction.transaction_hash}</code>
+            <code className="hash">{transaction.transaction_hash}</code>
           </Link>
           {!isBlock && (
-            <div className="transaction_block">
+            <div className="block">
               {`(Block ${transaction.block_number})  ${parseDate(transaction.block_timestamp)}`}
             </div>
           )}
-        </div>
-        <span className="transaction__separate" />
-        <div className="transaction__input__output">
-          <div className="transaction__input">
-            <TransactionCellList cells={transaction.display_inputs} transaction={transaction} address={address} />
+        </TransactionHashBlockPanel>
+        <SeparationLine marginTop="30px" />
+        <TransactionInputOutputPanel>
+          <div className="input">
+            <PaginationList
+              data={transaction.display_inputs}
+              pageSize={MAX_CELL_SHOW_SIZE}
+              render={item => {
+                return <TransactionCell cell={item} blockNumber={transaction.block_number} address={address} />
+              }}
+            />
           </div>
           <img src={InputOutputIcon} alt="input and output" />
-          <div className="transaction__output">
-            <TransactionCellList
-              cells={transaction.display_outputs}
-              transaction={transaction}
-              address={address}
-              isOuput
+          <div className="output">
+            <PaginationList
+              data={transaction.display_outputs}
+              pageSize={MAX_CELL_SHOW_SIZE}
+              render={item => (
+                <FullPanel>
+                  <TransactionCell cell={item} blockNumber={transaction.block_number} address={address} />
+                  <TransactionReward transaction={transaction} cell={item} />
+                </FullPanel>
+              )}
             />
+            {address && <SeparationLine marginTop="10px" marginBottom="20px" />}
             {address && (
-              <TransactionConfirmation increased={capacityChangeValue >= 0}>
-                <div className="confirmation">{formatConfirmation(confirmation)}</div>
-                <div className="capacity">
-                  {`${capacityChangeValue >= 0 ? '+' : '-'} ${shannonToCkb(Math.abs(capacityChangeValue))} CKB`}
-                </div>
-              </TransactionConfirmation>
+              <TransactionConfirmation
+                confirmation={confirmation}
+                capacity={handleCapacityChange(transaction, address)}
+              />
             )}
           </div>
-        </div>
+        </TransactionInputOutputPanel>
       </div>
     </TransactionsItem>
   )

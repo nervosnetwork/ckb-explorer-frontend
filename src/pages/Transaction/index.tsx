@@ -25,7 +25,7 @@ import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { Transaction, InputOutput, TransactionWrapper } from '../../http/response/Transaction'
 import { CellType, fetchTransactionByHash, fetchStatistics } from '../../http/fetcher'
-import { copyElementValue, formattorConfirmation } from '../../utils/util'
+import { copyElementValue, formatConfirmation } from '../../utils/util'
 import CellCard from '../../components/Card/CellCard'
 import ScriptComponent from './Script'
 import { StatisticsWrapper } from '../../http/response/Statistics'
@@ -159,7 +159,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   value={parseSimpleDate(transaction.block_timestamp)}
                 />
                 {confirmation > 0 && (
-                  <SimpleLabel image={StatusIcon} label="Status:" value={formattorConfirmation(confirmation)} />
+                  <SimpleLabel image={StatusIcon} label="Status:" value={formatConfirmation(confirmation)} />
                 )}
               </div>
             </div>

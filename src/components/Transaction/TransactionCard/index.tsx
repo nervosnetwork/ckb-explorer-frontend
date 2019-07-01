@@ -1,90 +1,16 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Transaction, InputOutput } from '../../../http/response/Transaction'
 import GreenArrowDown from '../../../assets/green_arrow_down.png'
 import { startEndEllipsis } from '../../../utils/string'
-import { shannonToCkb, getCapacityChange } from '../../../utils/util'
-// import { PaginationList, ConfirmationCapacityContainer } from '../Transaction'
+import { shannonToCkb, handleCapacityChange } from '../../../utils/util'
 import PaginationList from '../PaginationList'
-import ConfirmationCapacityContainer from '../ConfirmationCapacity'
+import ConfirmationCapacityContainer from '../TransactionConfirmation'
 import { localeNumberString } from '../../../utils/number'
 import TransactionReward from '../TransactionReward'
+import { CardPanel, CellbasePanel, CellHashHighLight, CardItemPanel } from './styled'
 
-export const CELL_PAGE_SIZE = 10
-
-const CardPanel = styled.div`
-  @media (min-width: 700px) {
-    display: none;
-  }
-  width: 88%;
-  background-color: white;
-  padding: 10px 6% 20px 6%;
-  border: 0px solid white;
-  border-radius: 3px;
-  box-shadow: 2px 2px 6px #eaeaea;
-  display: flex;
-  margin-bottom: 10px;
-  margin-left: 6%;
-  flex-direction: column;
-  .sperate__line_top {
-    width: 100%;
-    height: 1px;
-    background-color: #dfdfdf;
-  }
-  .green__arrow {
-    text-align: center;
-    margin: 10px 0;
-    > img {
-      width: 20px;
-      height: 20px;
-    }
-  }
-  .sperate__line_bottom {
-    width: 100%;
-    height: 1px;
-    background-color: #dfdfdf;
-    margin-bottom: 10px;
-  }
-`
-
-const CardItemPanel = styled.div`
-  display: flex;
-  margin-top: 10px;
-  > div {
-    color: #606060;
-    font-size: 14px;
-    margin-right: 8px;
-  }
-  .card__value {
-    color: ${(props: { highLight: boolean }) => (props.highLight ? '#3CC68A' : '#888888')};
-    font-weight: 450;
-    font-size: 14px;
-  }
-  @media (max-width: 320px) {
-    > div {
-      font-size: 13px;
-    }
-    .card__value {
-      font-size: 12px;
-    }
-  }
-`
-
-export const CellbasePanel = styled.div`
-  display: flex;
-  margin-top: 10px;
-  .cellbase__content {
-    color: #888888;
-    font-size: 14px;
-    margin-right: 10px;
-  }
-`
-
-const CellHashHighLight = styled.div`
-  font-size: 14px;
-  color: rgb(75, 188, 142);
-`
+const MAX_CELL_SHOW_SIZE = 10
 
 const CardLabelItem = ({ value, to, highLight = false }: { value: string; to?: string; highLight?: boolean }) => {
   return (
@@ -170,7 +96,7 @@ const TransactionCard = ({
       {transaction && transaction.display_inputs && (
         <PaginationList
           data={transaction.display_inputs}
-          pageSize={CELL_PAGE_SIZE}
+          pageSize={MAX_CELL_SHOW_SIZE}
           render={input => <div key={input.id}>{AddressHashItem(input, address)}</div>}
         />
       )}
@@ -180,7 +106,7 @@ const TransactionCard = ({
       {transaction && transaction.display_outputs && (
         <PaginationList
           data={transaction.display_outputs}
-          pageSize={CELL_PAGE_SIZE}
+          pageSize={MAX_CELL_SHOW_SIZE}
           render={output => {
             return (
               <div key={output.id}>
@@ -192,7 +118,10 @@ const TransactionCard = ({
         />
       )}
       <div className="sperate__line_bottom" />
-      <ConfirmationCapacityContainer confirmation={confirmation} capacity={getCapacityChange(transaction, address)} />
+      <ConfirmationCapacityContainer
+        confirmation={confirmation}
+        capacity={handleCapacityChange(transaction, address)}
+      />
     </CardPanel>
   )
 }
