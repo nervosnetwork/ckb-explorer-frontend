@@ -24,24 +24,9 @@ const LabelPanel = styled.div`
   }
 
   @media (max-width: 700px) {
-    height: 24px;
-    line-height: 24px;
-    margin-bottom: 10px;
-
-    .label__icon {
-      display: none;
-    }
-
-    .label__name {
-      font-size: 16px;
-      margin-right: 10px;
-    }
-  }
-
-  @media (max-width: 320px) {
     height: 20px;
     line-height: 20px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 
     .label__icon {
       display: none;
@@ -62,7 +47,7 @@ const LabelValuePanel = styled.div`
     props.tooltip && props.tooltip.hideValue ? 'none' : 'inline'};
 
   @media (max-width: 700px) {
-    font-size: 15px;
+    font-size: 14px;
     display: ${(props: { tooltip: Tooltip | undefined }) =>
       props.tooltip && props.tooltip.status ? 'none' : 'inline'};
   }

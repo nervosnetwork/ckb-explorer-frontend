@@ -18,6 +18,7 @@ export const CardPanel = styled.div`
     width: 100%;
     height: 1px;
     background-color: #dfdfdf;
+    margin-top: 10px;
   }
   .green__arrow {
     text-align: center;
