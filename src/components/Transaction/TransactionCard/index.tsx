@@ -32,7 +32,7 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
     <CellbasePanel>
       <div className="cellbase__content">Cellbase for Block</div>
       <Link to={`/block/${blockHeight}`}>
-        <CellHashHighLight>{blockHeight}</CellHashHighLight>
+        <CellHashHighLight>{localeNumberString(blockHeight)}</CellHashHighLight>
       </Link>
     </CellbasePanel>
   ) : (
