@@ -8,24 +8,11 @@ import TransactionCellList from '../TransactionCellList'
 import ConfirmationCapacityContainer from '../TransactionConfirmation'
 import { localeNumberString } from '../../../utils/number'
 import TransactionReward from '../TransactionReward'
-import { CardPanel, CellbasePanel, CellHashHighLight, CardItemPanel, FullPanel } from './styled'
+import { CardPanel, CellbasePanel, CellHashHighLight, FullPanel, CardHashBlockPanel, CardCellPanel } from './styled'
 import i18n from '../../../utils/i18n'
+import { parseDate } from '../../../utils/date'
 
 const MAX_CELL_SHOW_SIZE = 10
-
-const CardLabelItem = ({ value, to, highLight = false }: { value: string; to?: string; highLight?: boolean }) => {
-  return (
-    <CardItemPanel highLight={highLight}>
-      {to ? (
-        <Link to={to}>
-          <code className="card__value">{value}</code>
-        </Link>
-      ) : (
-        <code className="card__value">{value}</code>
-      )}
-    </CardItemPanel>
-  )
-}
 
 const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
   return blockHeight && blockHeight > 0 ? (
@@ -36,44 +23,29 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
       </Link>
     </CellbasePanel>
   ) : (
-    <span>Cellbase</span>
+    <CellbasePanel>Cellbase</CellbasePanel>
   )
 }
 
-const AddressHashItem = (input: InputOutput, address?: string) => {
+const CardCell = ({ input, address }: { input: InputOutput; address?: string }) => {
   if (input.from_cellbase) {
-    if (input.target_block_number && input.target_block_number > 0) {
-      return <Cellbase blockHeight={input.target_block_number} />
-    }
-    return <CardLabelItem key={input.id} value="Cellbase" />
+    return <Cellbase blockHeight={input.target_block_number} />
   }
-  const Capacity = () => <CardLabelItem value={`${localeNumberString(shannonToCkb(input.capacity))} CKB`} />
-
+  let addressText = i18n.t('address.unable_decode_address')
+  let highLight = false
   if (input.address_hash) {
-    if (address && input.address_hash === address) {
-      return (
-        <div key={input.id}>
-          <CardLabelItem value={`${startEndEllipsis(input.address_hash, 14)}`} />
-          <Capacity />
-        </div>
-      )
+    addressText = startEndEllipsis(input.address_hash, 16)
+    if (address && input.address_hash !== address) {
+      highLight = true
     }
-    return (
-      <div key={input.id}>
-        <CardLabelItem
-          value={`${startEndEllipsis(input.address_hash, 14)}`}
-          to={`/address/${input.address_hash}`}
-          highLight
-        />
-        <Capacity />
-      </div>
-    )
   }
   return (
-    <div key={input.id}>
-      <CardLabelItem value={i18n.t('address.unable_decode_address')} />
-      <Capacity />
-    </div>
+    <CardCellPanel highLight={highLight} key={input.id}>
+      <div className="card__cell_address">
+        <span>{addressText}</span>
+      </div>
+      <div className="card__cell_capacity">{`${localeNumberString(shannonToCkb(input.capacity))} CKB`}</div>
+    </CardCellPanel>
   )
 }
 
@@ -88,17 +60,18 @@ const TransactionCard = ({
 }) => {
   return (
     <CardPanel>
-      <CardLabelItem
-        value={`${startEndEllipsis(transaction.transaction_hash, 14)}`}
-        to={`/transaction/${transaction.transaction_hash}`}
-        highLight
-      />
+      <CardHashBlockPanel>
+        <div className="card__hash">{transaction.transaction_hash}</div>
+        <div className="card__block_date">
+          {`(Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}
+        </div>
+      </CardHashBlockPanel>
       <div className="sperate__line_top" />
       {transaction && transaction.display_inputs && (
         <TransactionCellList
           data={transaction.display_inputs}
           pageSize={MAX_CELL_SHOW_SIZE}
-          render={input => <div key={input.id}>{AddressHashItem(input, address)}</div>}
+          render={input => <CardCell key={input.id} input={input} address={address} />}
         />
       )}
       <div className="green__arrow">
@@ -111,7 +84,7 @@ const TransactionCard = ({
           render={output => {
             return (
               <FullPanel key={output.id}>
-                {AddressHashItem(output, address)}
+                <CardCell input={output} address={address} />
                 <TransactionReward transaction={transaction} cell={output} />
               </FullPanel>
             )

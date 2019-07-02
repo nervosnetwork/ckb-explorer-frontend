@@ -20,13 +20,13 @@ export default ({ data, pageSize, render }: TransactionCellListProps) => {
   return (
     <TransactionCellListPanel>
       {data && data.map((item, idx) => idx < count && render(item))}
-      {count < data.length && (
+      {data && count < data.length && (
         <button type="button" onClick={onClickLoadMore}>
           Load More
           <img src={LoadMoreIcon} alt="load more" />
         </button>
       )}
-      {count === data.length && (
+      {data && count === data.length && (
         <button type="button" onClick={onClickShowLess}>
           Show Less
           <img src={ShowLessIcon} alt="show less" />
