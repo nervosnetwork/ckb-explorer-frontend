@@ -7,11 +7,16 @@ import { localeNumberString } from '../../../utils/number'
 import i18n from '../../../utils/i18n'
 
 export const RewardPenal = styled.div`
+  @media (max-width: 700px) {
+    height: 17px;
+    margin-top: 5px;
+  }
+
   display: flex;
   align-items: center;
-  height: 30px;
+  height: 22px;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 18px;
 
   .reward__name__point {
     display: flex;
