@@ -60,7 +60,7 @@ const CardCell = ({ input, address }: { input: InputOutput; address?: string }) 
     }
   }
   return (
-    <CardCellPanel highLight={highLight} key={input.id}>
+    <CardCellPanel highLight={highLight}>
       <div className="card__cell_address">
         <span>{addressText}</span>
       </div>
