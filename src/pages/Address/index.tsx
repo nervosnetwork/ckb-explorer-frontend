@@ -216,7 +216,7 @@ const getTransactions = (hash: string, page: number, size: number, dispatch: any
 }
 
 const getTipBlockNumber = (dispatch: any) => {
-  fetchTipBlockByNumber().then(response => {
+  fetchTipBlockNumber().then(response => {
     const { data } = response as Response<StatisticsWrapper>
     if (data) {
       dispatch({
