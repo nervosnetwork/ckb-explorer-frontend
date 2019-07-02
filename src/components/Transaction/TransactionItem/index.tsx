@@ -50,7 +50,9 @@ const TransactionItem = ({
               data={transaction.display_inputs}
               pageSize={MAX_CELL_SHOW_SIZE}
               render={item => {
-                return <TransactionCell cell={item} blockNumber={transaction.block_number} address={address} />
+                return (
+                  <TransactionCell key={item.id} cell={item} blockNumber={transaction.block_number} address={address} />
+                )
               }}
             />
           </div>
