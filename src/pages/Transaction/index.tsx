@@ -101,7 +101,7 @@ const getTransaction = (hash: string, setTransaction: any) => {
 }
 
 const getTipBlockNumber = (setTipBlockNumber: any) => {
-  fetchTipBlockByNumber().then(response => {
+  fetchTipBlockNumber().then(response => {
     const { data } = response as Response<StatisticsWrapper>
     if (data) {
       setTipBlockNumber(parseInt(data.attributes.tip_block_number, 10))
