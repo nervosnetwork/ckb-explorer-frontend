@@ -19,7 +19,7 @@ const HeaderDiv = styled.div`
   position: sticky;
   position: -webkit-sticky;
   top: 0;
-  z-index: 1;
+  z-index: 10;
   display: flex;
   flex-wrap: wrap;
   padding: 1px 82px;

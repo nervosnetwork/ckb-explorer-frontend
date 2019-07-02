@@ -14,7 +14,7 @@ const TooltipPanel = styled.div`
   border-radius: 6px;
   position: absolute;
   word-break: break-word;
-  z-index: 100;
+  z-index: 2;
   top: ${(props: { targetSize: TargetSize }) => props.targetSize.height}px;
   left: ${(props: { targetSize: TargetSize }) => (props.targetSize.width - 300) * 0.5}px;
 
