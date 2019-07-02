@@ -51,9 +51,9 @@ export const HomeHeaderItemPanel = styled.div`
   border: 0px solid white;
   border-radius: 6px;
   box-shadow: 4px 4px 6px #dfdfdf;
-  background-image: url(${(props: { image: any }) => props.image});
-  background-repeat: no-repeat;
-  background-size: 297px 192px;
+  // background-image: url(${(props: { image: any }) => props.image});
+  // background-repeat: no-repeat;
+  // background-size: 297px 192px;
 
   .blockchain__item__value {
     color: #3cc68a;
