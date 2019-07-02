@@ -82,6 +82,10 @@ export const LableTipPanel = styled.div`
     font-size: 16px;
     height: 18px;
     font-weight: 450;
+
+    &:focus {
+      outline: 0;
+    }
   }
 
   @media (max-width: 700px) {
@@ -94,6 +98,9 @@ export const LableTipPanel = styled.div`
 export const LableHelpPanel = styled.div`
   height: 25px;
   position: relative;
+  &:focus {
+    outline: 0;
+  }
 
   .label__help__image {
     margin-top: 4px;

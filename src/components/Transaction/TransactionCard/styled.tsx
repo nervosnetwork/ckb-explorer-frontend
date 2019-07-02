@@ -71,6 +71,10 @@ export const CellbasePanel = styled.div`
   .cellbase__help {
     margin-left: 10px;
     position: relative;
+    &:focus {
+      outline: 0;
+    }
+
     > img {
       margin-top: 3px;
       width: 14px;

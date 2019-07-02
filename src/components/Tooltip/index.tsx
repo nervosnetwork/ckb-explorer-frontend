@@ -31,10 +31,14 @@ const TooltipPanel = styled.div`
     height: 10px;
     background-color: inherit;
     top: -5px;
-    left: calc(
-      ${(props: { targetSize: TargetSize }) => (props.targetSize.offset ? `${props.targetSize.offset * 100}%` : '50%')} -
-        5px
-    );
+    left: calc(50% - 5px);
+
+    @media (max-width: 700px) {
+      left: calc(
+        ${(props: { targetSize: TargetSize }) =>
+            props.targetSize.offset ? `${props.targetSize.offset * 100}%` : '50%'} - 5px
+      );
+    }
     position: absolute;
     transform: rotate(45deg);
   }
