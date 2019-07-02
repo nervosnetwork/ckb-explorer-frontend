@@ -8,7 +8,7 @@ import TransactionCellList from '../TransactionCellList'
 import ConfirmationCapacityContainer from '../TransactionConfirmation'
 import { localeNumberString } from '../../../utils/number'
 import TransactionReward from '../TransactionReward'
-import { CardPanel, CellbasePanel, CellHashHighLight, CardItemPanel } from './styled'
+import { CardPanel, CellbasePanel, CellHashHighLight, CardItemPanel, FullPanel } from './styled'
 import i18n from '../../../utils/i18n'
 
 const MAX_CELL_SHOW_SIZE = 10
@@ -110,10 +110,10 @@ const TransactionCard = ({
           pageSize={MAX_CELL_SHOW_SIZE}
           render={output => {
             return (
-              <div key={output.id}>
+              <FullPanel key={output.id}>
                 {AddressHashItem(output, address)}
                 <TransactionReward transaction={transaction} cell={output} />
-              </div>
+              </FullPanel>
             )
           }}
         />

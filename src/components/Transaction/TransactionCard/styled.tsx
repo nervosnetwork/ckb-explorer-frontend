@@ -6,7 +6,9 @@ export const CardPanel = styled.div`
   }
   width: 88%;
   background-color: white;
-  padding: 10px 6% 20px 6%;
+  padding: 20px;
+  margin: 10px 6% 20px 6%;
+
   border: 0px solid white;
   border-radius: 3px;
   box-shadow: 2px 2px 6px #eaeaea;
@@ -72,4 +74,8 @@ export const CellbasePanel = styled.div`
 export const CellHashHighLight = styled.div`
   font-size: 14px;
   color: rgb(75, 188, 142);
+`
+
+export const FullPanel = styled.div`
+  width: 100%;
 `

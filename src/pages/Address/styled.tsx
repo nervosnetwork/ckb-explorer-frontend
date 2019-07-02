@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { CommonPagition } from '../BlockList/styled'
 
 export const AddressContentPanel = styled.div`
-  dispaly: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 59px;
@@ -13,7 +13,7 @@ export const AddressContentPanel = styled.div`
 `
 
 export const AddressTitlePanel = styled.div`
-  dispaly: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0px 12px;
@@ -115,10 +115,8 @@ export const AddressCommonContent = styled.div`
 `
 
 export const AddressTransactionsPanel = styled.div`
-  >div: nth-child(2) {
-    width: 100%;
-    overflow-x: auto;
-  }
+  width: 100%;
+  overflow-x: auto;
 `
 
 export const AddressTransactionsItem = styled.div`
