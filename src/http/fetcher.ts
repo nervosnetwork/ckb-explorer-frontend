@@ -118,6 +118,6 @@ export const fetchStatisticInfo = (infoName: string) => {
   return axiosIns.get(`statistics/${infoName}`).then((res: AxiosResponse) => res.data)
 }
 
-export const fetchTipBlockByNumber = () => {
+export const fetchTipBlockNumber = () => {
   return fetchStatisticInfo('tip_block_number')
 }
