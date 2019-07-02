@@ -76,11 +76,10 @@ export const TransactionInputOutputPanel = styled.div`
   > img {
     width: 40px;
     height: 40px;
-    flex: 1;
   }
 
   > div {
-    flex: 15;
+    flex: 1;
   }
 
   .transaction_item__input {

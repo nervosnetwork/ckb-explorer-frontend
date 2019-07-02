@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Transaction, InputOutput } from '../../../http/response/Transaction'
 import GreenArrowDown from '../../../assets/green_arrow_down.png'
@@ -10,6 +10,8 @@ import { localeNumberString } from '../../../utils/number'
 import TransactionReward from '../TransactionReward'
 import { CardPanel, CellbasePanel, CellHashHighLight, CardItemPanel } from './styled'
 import i18n from '../../../utils/i18n'
+import HelpIcon from '../../../assets/qa_help.png'
+import Tooltip, { TargetSize } from '../../Tooltip'
 
 const MAX_CELL_SHOW_SIZE = 10
 
@@ -27,13 +29,31 @@ const CardLabelItem = ({ value, to, highLight = false }: { value: string; to?: s
   )
 }
 
+const targetSize: TargetSize = {
+  width: 14,
+  height: 30,
+}
+const TooltipContent =
+  'The cellbase transaction of block N is send to the miner of block N-11 as reward. The reward is consist of Base Reward, Commit Reward and Proposal Reward, learn more from our Consensus Protocol.'
+
 const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
+  const [show, setShow] = useState(false)
   return blockHeight && blockHeight > 0 ? (
     <CellbasePanel>
       <div className="cellbase__content">Cellbase for Block</div>
       <Link to={`/block/${blockHeight}`}>
         <CellHashHighLight>{blockHeight}</CellHashHighLight>
       </Link>
+      <div
+        className="cellbase__help"
+        tabIndex={-1}
+        onFocus={() => {}}
+        onMouseOver={() => setShow(true)}
+        onMouseLeave={() => setShow(false)}
+      >
+        <img alt="cellbase help" src={HelpIcon} />
+        <Tooltip show={show} targetSize={targetSize} message={TooltipContent} />
+      </div>
     </CellbasePanel>
   ) : (
     <span>Cellbase</span>
