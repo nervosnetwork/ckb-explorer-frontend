@@ -124,7 +124,7 @@ export const HomeHeaderItemMobilePanel = styled.div`
   .blockchain__item__name {
     color: #888888;
     text-align: center;
-    font-size: 12px;
+    font-size: 8px;
     margin-top: 5px;
     font-weight: 450;
   }
@@ -132,10 +132,10 @@ export const HomeHeaderItemMobilePanel = styled.div`
 
 export const BlockPanel = styled.div`
   width: 100%;
-  margin-bottom: 72px;
+  margin-bottom: 60px;
 
   @media (max-width: 700px) {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 `
 
