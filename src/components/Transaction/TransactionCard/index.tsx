@@ -54,7 +54,7 @@ const CardCell = ({ input, address }: { input: InputOutput; address?: string }) 
   let addressText = i18n.t('address.unable_decode_address')
   let highLight = false
   if (input.address_hash) {
-    addressText = startEndEllipsis(input.address_hash, 16)
+    addressText = startEndEllipsis(input.address_hash, 12)
     if (address && input.address_hash !== address) {
       highLight = true
     }

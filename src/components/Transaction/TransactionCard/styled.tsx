@@ -57,7 +57,7 @@ export const CardCellPanel = styled.div`
   .card__cell_address {
     font-size: 13px;
     color: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '#4bbc8e' : '#888888')};
-    white-space: nowrap;
+    font-family: monospace;
   }
   .card__cell_capacity {
     font-size: 12px;
