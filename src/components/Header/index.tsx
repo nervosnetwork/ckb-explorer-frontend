@@ -117,7 +117,7 @@ const HeaderMobilePanel = styled.div`
   position: sticky;
   position: -webkit-sticky;
   top: 0;
-  z-index: 1;
+  z-index: 10;
   padding: 1px 20px;
 `
 
