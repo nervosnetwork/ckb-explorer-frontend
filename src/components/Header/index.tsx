@@ -36,8 +36,6 @@ const HeaderDiv = styled.div`
   }
 
   .header__menus {
-    padding-top: 26px;
-    padding-bottom: 27px;
     padding-left: 30px;
     min-height: 75px;
     .header__menus__item {
