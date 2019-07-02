@@ -83,11 +83,11 @@ export const TransactionInputOutputPanel = styled.div`
     flex: 15;
   }
 
-  .transaction__input {
+  .transaction_item__input {
     margin-right: 40px;
   }
 
-  .transaction__output {
+  .transaction_item__output {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
