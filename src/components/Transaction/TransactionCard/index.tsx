@@ -10,10 +10,10 @@ import { localeNumberString } from '../../../utils/number'
 import TransactionReward from '../TransactionReward'
 import { CardPanel, CellbasePanel, CellHashHighLight, CardItemPanel } from './styled'
 import i18n from '../../../utils/i18n'
-
-const MAX_CELL_SHOW_SIZE = 10
 import HelpIcon from '../../../assets/qa_help.png'
 import Tooltip, { TargetSize } from '../../Tooltip'
+
+const MAX_CELL_SHOW_SIZE = 10
 
 const CardLabelItem = ({ value, to, highLight = false }: { value: string; to?: string; highLight?: boolean }) => {
   return (
