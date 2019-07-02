@@ -15,6 +15,7 @@ import {
   TransactionInputOutputPanel,
   TransactionPanel,
 } from './styled'
+import { localeNumberString } from '../../../utils/number'
 
 const MAX_CELL_SHOW_SIZE = 10
 
@@ -38,7 +39,7 @@ const TransactionItem = ({
           </Link>
           {!isBlock && (
             <div className="transaction_item__block">
-              {`(Block ${transaction.block_number})  ${parseDate(transaction.block_timestamp)}`}
+              {`(Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}
             </div>
           )}
         </TransactionHashBlockPanel>

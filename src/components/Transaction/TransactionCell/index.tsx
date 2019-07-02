@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { InputOutput } from '../../../http/response/Transaction'
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
-import TooltipCellbaseImage from '../../../assets/tooltip_cellbase.png'
 import HelpIcon from '../../../assets/qa_help.png'
 import { localeNumberString } from '../../../utils/number'
 import i18n from '../../../utils/i18n'
+import Tooltip, { TargetSize } from '../../Tooltip/index'
 
 export const TransactionCellPanel = styled.div`
   display: flex;
@@ -50,46 +50,38 @@ export const CellbasePanel = styled.div`
 
   .cellbase__help {
     margin-left: 10px;
+    position: relative;
 
     > img {
       margin-top: -1px;
       width: 20px;
       height: 20px;
     }
-
-    &:hover .cellbase__help__content {
-      visibility: visible;
-    }
-
-    .cellbase__help__content {
-      width: 300px;
-      height: 150px;
-      position: absolute;
-      margin-left: -78px;
-      padding: 28px 20px 17px 20px;
-      white-space: pre-wrap;
-      z-index: 1;
-      color: white;
-      font-weight: 450;
-      visibility: hidden;
-      font-size: 13px;
-      background-image: url(${TooltipCellbaseImage});
-      background-repeat: no-repeat;
-      background-size: 300px 150px;
-    }
   }
 `
 
 const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
+  const [show, setShow] = useState(false)
+  const targetSize: TargetSize = {
+    width: 20,
+    height: 30,
+  }
+
   return blockHeight && blockHeight > 0 ? (
     <CellbasePanel>
       <div className="cellbase__content">Cellbase for Block</div>
       <Link to={`/block/${blockHeight}`}>
-        <CellHashHighLight>{blockHeight}</CellHashHighLight>
+        <CellHashHighLight>{localeNumberString(blockHeight)}</CellHashHighLight>
       </Link>
-      <div className="cellbase__help">
+      <div
+        className="cellbase__help"
+        tabIndex={-1}
+        onFocus={() => {}}
+        onMouseOver={() => setShow(true)}
+        onMouseLeave={() => setShow(false)}
+      >
         <img alt="cellbase help" src={HelpIcon} />
-        <div className="cellbase__help__content">{i18n.t('transaction.cellbase_help_tooltip')}</div>
+        <Tooltip message={i18n.t('transaction.cellbase_help_tooltip')} show={show} targetSize={targetSize} />
       </div>
     </CellbasePanel>
   ) : (

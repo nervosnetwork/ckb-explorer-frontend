@@ -14,20 +14,15 @@ const TooltipPanel = styled.div`
   border-radius: 6px;
   position: absolute;
   word-break: break-word;
-  z-index: 100;
+  z-index: 2;
   top: ${(props: { targetSize: TargetSize }) => props.targetSize.height}px;
-  left: ${(props: { targetSize: TargetSize }) => props.targetSize.width / 2 - 150}px;
+  left: ${(props: { targetSize: TargetSize }) => (props.targetSize.width - 300) * 0.5}px;
 
   @media (max-width: 700px) {
-    width: 260px;
+    width: 200px;
     font-size: 12px;
-    left: ${(props: { targetSize: TargetSize }) => props.targetSize.width / 2 - 130}px;
-  }
-
-  @media (max-width: 320px) {
-    width: 180px;
-    font-size: 11px;
-    left: ${(props: { targetSize: TargetSize }) => props.targetSize.width / 2 - 90}px;
+    left: ${(props: { targetSize: TargetSize }) =>
+      (props.targetSize.width - 200) * (props.targetSize.offset ? props.targetSize.offset + 0.04 : 0.5)}px;
   }
 
   &:: after {
@@ -37,6 +32,13 @@ const TooltipPanel = styled.div`
     background-color: inherit;
     top: -5px;
     left: calc(50% - 5px);
+
+    @media (max-width: 700px) {
+      left: calc(
+        ${(props: { targetSize: TargetSize }) =>
+            props.targetSize.offset ? `${props.targetSize.offset * 100}%` : '50%'} - 5px
+      );
+    }
     position: absolute;
     transform: rotate(45deg);
   }
@@ -45,9 +47,11 @@ const TooltipPanel = styled.div`
 export interface TargetSize {
   width: number
   height: number
+  offset?: number
 }
 
 const Tooltip = ({ show = false, message, targetSize }: { show: boolean; message: string; targetSize: TargetSize }) => {
+  console.log(JSON.stringify(targetSize))
   return <React.Fragment>{show && <TooltipPanel targetSize={targetSize}>{message}</TooltipPanel>}</React.Fragment>
 }
 
