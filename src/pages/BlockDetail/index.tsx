@@ -53,6 +53,7 @@ import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { startEndEllipsis, validNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
+import { localeNumberString } from '../../utils/number'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
@@ -361,22 +362,24 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: BlockHeightIcon,
       label: `${i18n.t('block.block_height')}:`,
-      value: `${state.block.number}`,
+      value: localeNumberString(state.block.number),
     },
     {
       image: BlockTransactionIcon,
       label: `${i18n.t('transaction.transactions')}:`,
-      value: `${state.block.transactions_count}`,
+      value: localeNumberString(state.block.transactions_count),
     },
     {
       image: ProposalTransactionsIcon,
       label: `${i18n.t('block.proposal_transactions')}:`,
-      value: `${state.block.proposal_transactions_count ? state.block.proposal_transactions_count : 0}`,
+      value: `${
+        state.block.proposal_transactions_count ? localeNumberString(state.block.proposal_transactions_count) : 0
+      }`,
     },
     {
       image: BlockRewardIcon,
       label: `${i18n.t('block.block_reward')}:`,
-      value: `${shannonToCkb(state.block.reward)} CKB`,
+      value: `${localeNumberString(shannonToCkb(state.block.reward))} CKB`,
       tooltip: state.block.reward_status === RewardStatus.pending ? BlockRewardTip : undefined,
     },
     {
@@ -406,22 +409,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: EpochIcon,
       label: `${i18n.t('block.epoch')}:`,
-      value: `${state.block.epoch}`,
+      value: localeNumberString(state.block.epoch),
     },
     {
       image: StartNumberIcon,
       label: `${i18n.t('block.epoch_start_number')}:`,
-      value: `${state.block.start_number}`,
+      value: localeNumberString(state.block.start_number),
     },
     {
       image: LengthIcon,
       label: `${i18n.t('block.epoch_length')}:`,
-      value: state.block.length,
+      value: localeNumberString(state.block.length),
     },
     {
       image: DifficultyIcon,
       label: `${i18n.t('block.difficulty')}:`,
-      value: parseInt(state.block.difficulty, 16).toLocaleString(),
+      value: localeNumberString(state.block.difficulty, 16),
     },
     {
       image: NonceIcon,
