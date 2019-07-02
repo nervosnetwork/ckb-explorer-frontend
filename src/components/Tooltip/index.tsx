@@ -51,7 +51,6 @@ export interface TargetSize {
 }
 
 const Tooltip = ({ show = false, message, targetSize }: { show: boolean; message: string; targetSize: TargetSize }) => {
-  console.log(JSON.stringify(targetSize))
   return <React.Fragment>{show && <TooltipPanel targetSize={targetSize}>{message}</TooltipPanel>}</React.Fragment>
 }
 
