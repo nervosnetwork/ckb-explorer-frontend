@@ -51,7 +51,7 @@ const TransactionItem = ({
               showSize={MAX_CELL_SHOW_SIZE}
               transaction={transaction}
               render={cell => {
-                return <TransactionCell cell={cell} blockNumber={transaction.block_number} address={address} />
+                return <TransactionCell cell={cell} address={address} key={cell.id} />
               }}
             />
           </div>
@@ -62,8 +62,8 @@ const TransactionItem = ({
               showSize={MAX_CELL_SHOW_SIZE}
               transaction={transaction}
               render={cell => (
-                <FullPanel>
-                  <TransactionCell cell={cell} blockNumber={transaction.block_number} address={address} />
+                <FullPanel key={cell.id}>
+                  <TransactionCell cell={cell} address={address} />
                   <TransactionReward transaction={transaction} cell={cell} />
                 </FullPanel>
               )}
