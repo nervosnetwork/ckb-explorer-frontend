@@ -4,7 +4,7 @@ import TransactionCellListPanel from './styled'
 import { Transaction, InputOutput } from '../../../http/response/Transaction'
 
 interface TransactionCellListProps {
-  items: InputOutput[]
+  cells: InputOutput[]
   showSize: number
   transaction: Transaction
   render: (item: InputOutput) => ReactNode
