@@ -10,11 +10,11 @@ interface TransactionCellListProps {
   render: (item: InputOutput) => ReactNode
 }
 
-export default ({ items, showSize, transaction, render }: TransactionCellListProps) => {
+export default ({ cells, showSize, transaction, render }: TransactionCellListProps) => {
   return (
     <TransactionCellListPanel>
-      {items && items.map((item, idx) => idx < showSize && render(item))}
-      {showSize < items.length && <Link to={`/transaction/${transaction.transaction_hash}`}>View All</Link>}
+      {cells && cells.map((cell, idx) => idx < showSize && render(cell))}
+      {showSize < cells.length && <Link to={`/transaction/${transaction.transaction_hash}`}>View All</Link>}
     </TransactionCellListPanel>
   )
 }
