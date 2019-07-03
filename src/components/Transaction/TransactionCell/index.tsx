@@ -102,7 +102,11 @@ const TransactionCell = ({
     return address === cell.address_hash || cell.from_cellbase ? (
       <div className="transaction__cell">
         <CellHash>
-          {cell.address_hash ? startEndEllipsis(cell.address_hash) : <Cellbase blockHeight={blockNumber} />}
+          {cell.address_hash ? (
+            startEndEllipsis(cell.address_hash)
+          ) : (
+            <Cellbase blockHeight={cell.target_block_number} />
+          )}
         </CellHash>
       </div>
     ) : (
