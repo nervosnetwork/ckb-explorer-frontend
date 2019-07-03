@@ -116,8 +116,9 @@ const TransactionCard = ({
       <div className="sperate__line_top" />
       {transaction && transaction.display_inputs && (
         <TransactionCellList
-          data={transaction.display_inputs}
-          pageSize={MAX_CELL_SHOW_SIZE}
+          cells={transaction.display_inputs}
+          showSize={MAX_CELL_SHOW_SIZE}
+          transaction={transaction}
           render={input => <div key={input.id}>{AddressHashItem(input, address)}</div>}
         />
       )}
@@ -126,8 +127,9 @@ const TransactionCard = ({
       </div>
       {transaction && transaction.display_outputs && (
         <TransactionCellList
-          data={transaction.display_outputs}
-          pageSize={MAX_CELL_SHOW_SIZE}
+          cells={transaction.display_outputs}
+          showSize={MAX_CELL_SHOW_SIZE}
+          transaction={transaction}
           render={output => {
             return (
               <div key={output.id}>
