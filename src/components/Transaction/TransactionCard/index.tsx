@@ -62,7 +62,7 @@ const CardCell = ({ input, address }: { input: InputOutput; address?: string }) 
   return (
     <CardCellPanel highLight={highLight}>
       <div className="card__cell_address">
-        <span>{addressText}</span>
+        {highLight ? <Link to={`/address/${input.address_hash}`}>{addressText}</Link> : <span>{addressText}</span>}
       </div>
       <div className="card__cell_capacity">{`${localeNumberString(shannonToCkb(input.capacity))} CKB`}</div>
     </CardCellPanel>
@@ -81,7 +81,9 @@ const TransactionCard = ({
   return (
     <CardPanel>
       <CardHashBlockPanel>
-        <div className="card__hash">{transaction.transaction_hash}</div>
+        <div className="card__hash">
+          <Link to={`/transaction/${transaction.transaction_hash}`}>{transaction.transaction_hash}</Link>
+        </div>
         <div className="card__block_date">
           {`(Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}
         </div>
