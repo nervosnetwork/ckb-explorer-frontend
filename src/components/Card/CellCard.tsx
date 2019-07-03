@@ -174,15 +174,17 @@ const CardLabelItem = ({
   )
 }
 
+const Capacity = ({ cell }: { cell: InputOutput }) => (
+  <CardLabelItem name="Capacity" value={localeNumberString(shannonToCkb(cell.capacity))} />
+)
 const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: InputOutput }) => {
   const name = type === CellType.Input ? 'Input' : 'Output'
-  const Capacity = () => <CardLabelItem name="Capacity" value={localeNumberString(shannonToCkb(cell.capacity))} />
 
   if (cell.from_cellbase) {
     return (
       <div key={cell.id}>
         <CardLabelItem name={name} value="Cellbase" />
-        <Capacity />
+        <Capacity cell={cell} />
       </div>
     )
   }
@@ -195,14 +197,14 @@ const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: InputOu
           to={`/address/${cell.address_hash}`}
           highLight
         />
-        <Capacity />
+        <Capacity cell={cell} />
       </div>
     )
   }
   return (
     <div key={cell.id}>
       <CardLabelItem name={name} value={i18n.t('address.unable_decode_address')} />
-      <Capacity />
+      <Capacity cell={cell} />
     </div>
   )
 }
