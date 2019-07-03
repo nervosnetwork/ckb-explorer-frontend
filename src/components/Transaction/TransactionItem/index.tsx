@@ -47,7 +47,7 @@ const TransactionItem = ({
         <TransactionInputOutputPanel>
           <div className="transaction_item__input">
             <TransactionCellList
-              data={transaction.display_inputs}
+              items={transaction.display_inputs}
               showSize={MAX_CELL_SHOW_SIZE}
               transaction={transaction}
               render={item => {
@@ -58,7 +58,7 @@ const TransactionItem = ({
           <img src={InputOutputIcon} alt="input and output" />
           <div className="transaction_item__output">
             <TransactionCellList
-              data={transaction.display_outputs}
+              items={transaction.display_outputs}
               showSize={MAX_CELL_SHOW_SIZE}
               transaction={transaction}
               render={item => (

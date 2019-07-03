@@ -1,20 +1,20 @@
 import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import TransactionCellListPanel from './styled'
-import { Transaction } from '../../../http/response/Transaction'
+import { Transaction, InputOutput } from '../../../http/response/Transaction'
 
 interface TransactionCellListProps {
-  data: any[]
+  items: InputOutput[]
   showSize: number
   transaction: Transaction
-  render: (item: any) => ReactNode
+  render: (item: InputOutput) => ReactNode
 }
 
-export default ({ data, showSize, transaction, render }: TransactionCellListProps) => {
+export default ({ items, showSize, transaction, render }: TransactionCellListProps) => {
   return (
     <TransactionCellListPanel>
-      {data && data.map((item, idx) => idx < showSize && render(item))}
-      {showSize < data.length && <Link to={`/transaction/${transaction.transaction_hash}`}>View All</Link>}
+      {items && items.map((item, idx) => idx < showSize && render(item))}
+      {showSize < items.length && <Link to={`/transaction/${transaction.transaction_hash}`}>View All</Link>}
     </TransactionCellListPanel>
   )
 }
