@@ -115,7 +115,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const { hash } = params
   const [transaction, setTransaction] = useState(initTransaction)
   const [tipBlockNumber, setTipBlockNumber] = useState(0)
-  const confirmation = tipBlockNumber - transaction.block_number
+  let confirmation = 0
+  if (tipBlockNumber && transaction.block_number) {
+    confirmation = tipBlockNumber - transaction.block_number
+  }
 
   useEffect(() => {
     getTransaction(hash, setTransaction)
