@@ -232,6 +232,7 @@ const getTipBlockNumber = (dispatch: any) => {
 const PendingRewardTooltip: Tooltip = {
   tip: i18n.t('address.pending_reward_tooltip'),
   haveHelpIcon: true,
+  offset: 0.7,
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string; hash: string }>>) => {
