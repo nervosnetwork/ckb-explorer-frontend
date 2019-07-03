@@ -58,7 +58,7 @@ const SearchInputPanel = styled.input`
   padding-left: 20px;
   padding-right: 50px;
   border-width: 0px;
-  border-radius: 6px;
+  border-radius: 6px 0 0 6px;
   opacity: 0.8;
 
   ${(props: { opacityStyle: boolean }) =>
@@ -66,6 +66,7 @@ const SearchInputPanel = styled.input`
     css`
       opacity: 1;
       border: 2px solid #606060;
+      border-radius: 6px;
     `};
 
   background: rgba(255, 255, 255, 0.2);
