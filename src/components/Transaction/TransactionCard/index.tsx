@@ -117,7 +117,8 @@ const TransactionCard = ({
       {transaction && transaction.display_inputs && (
         <TransactionCellList
           data={transaction.display_inputs}
-          pageSize={MAX_CELL_SHOW_SIZE}
+          showSize={MAX_CELL_SHOW_SIZE}
+          transaction={transaction}
           render={input => <div key={input.id}>{AddressHashItem(input, address)}</div>}
         />
       )}
@@ -127,7 +128,8 @@ const TransactionCard = ({
       {transaction && transaction.display_outputs && (
         <TransactionCellList
           data={transaction.display_outputs}
-          pageSize={MAX_CELL_SHOW_SIZE}
+          showSize={MAX_CELL_SHOW_SIZE}
+          transaction={transaction}
           render={output => {
             return (
               <div key={output.id}>

@@ -1,37 +1,20 @@
-import React, { ReactNode, useState } from 'react'
-import LoadMoreIcon from '../../../assets/transaction_load_more.png'
-import ShowLessIcon from '../../../assets/transaction_show_less.png'
+import React, { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import TransactionCellListPanel from './styled'
+import { Transaction } from '../../../http/response/Transaction'
 
 interface TransactionCellListProps {
   data: any[]
-  pageSize: number
+  showSize: number
+  transaction: Transaction
   render: (item: any) => ReactNode
 }
 
-export default ({ data, pageSize, render }: TransactionCellListProps) => {
-  const [count, setCount] = useState(pageSize)
-  const onClickLoadMore = () => {
-    setCount(Math.min(data.length, count + pageSize))
-  }
-  const onClickShowLess = () => {
-    setCount(pageSize)
-  }
+export default ({ data, showSize, transaction, render }: TransactionCellListProps) => {
   return (
     <TransactionCellListPanel>
-      {data && data.map((item, idx) => idx < count && render(item))}
-      {count < data.length && (
-        <button type="button" onClick={onClickLoadMore}>
-          Load More
-          <img src={LoadMoreIcon} alt="load more" />
-        </button>
-      )}
-      {count === data.length && (
-        <button type="button" onClick={onClickShowLess}>
-          Show Less
-          <img src={ShowLessIcon} alt="show less" />
-        </button>
-      )}
+      {data && data.map((item, idx) => idx < showSize && render(item))}
+      {showSize < data.length && <Link to={`/transaction/${transaction.transaction_hash}`}>View All</Link>}
     </TransactionCellListPanel>
   )
 }

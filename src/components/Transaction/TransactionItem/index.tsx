@@ -48,7 +48,8 @@ const TransactionItem = ({
           <div className="transaction_item__input">
             <TransactionCellList
               data={transaction.display_inputs}
-              pageSize={MAX_CELL_SHOW_SIZE}
+              showSize={MAX_CELL_SHOW_SIZE}
+              transaction={transaction}
               render={item => {
                 return <TransactionCell cell={item} blockNumber={transaction.block_number} address={address} />
               }}
@@ -58,7 +59,8 @@ const TransactionItem = ({
           <div className="transaction_item__output">
             <TransactionCellList
               data={transaction.display_outputs}
-              pageSize={MAX_CELL_SHOW_SIZE}
+              showSize={MAX_CELL_SHOW_SIZE}
+              transaction={transaction}
               render={item => (
                 <FullPanel>
                   <TransactionCell cell={item} blockNumber={transaction.block_number} address={address} />
