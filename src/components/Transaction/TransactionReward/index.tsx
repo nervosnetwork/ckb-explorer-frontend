@@ -3,17 +3,24 @@ import styled from 'styled-components'
 import { shannonToCkb } from '../../../utils/util'
 import { Transaction, InputOutput } from '../../../http/response/Transaction'
 import ItemPoint from '../../../assets/grey_point.png'
+import { localeNumberString } from '../../../utils/number'
+import i18n from '../../../utils/i18n'
 
 export const RewardPenal = styled.div`
+  @media (max-width: 700px) {
+    height: 17px;
+    margin-top: 5px;
+  }
+
   display: flex;
   align-items: center;
-  height: 30px;
+  height: 22px;
   justify-content: space-between;
+  margin-top: 18px;
 
   .reward__name__point {
     display: flex;
     align-items: center;
-    margin-top: 10px;
 
     > img {
       @media (min-width: 700px) {
@@ -34,6 +41,10 @@ export const RewardPenal = styled.div`
       @media (max-width: 700px) {
         font-size: 14px;
       }
+
+      @media (max-width: 320px) {
+        font-size: 13px;
+      }
     }
   }
 
@@ -45,6 +56,10 @@ export const RewardPenal = styled.div`
     @media (max-width: 700px) {
       font-size: 14px;
     }
+
+    @media (max-width: 320px) {
+      font-size: 12px;
+    }
   }
 `
 
@@ -54,15 +69,15 @@ const TransactionReward = ({ transaction, cell }: { transaction: Transaction; ce
 
   const Rewards = [
     {
-      name: 'Base Reward',
+      name: i18n.t('transaction.base_reward'),
       capacity: cell.block_reward,
     },
     {
-      name: 'Commit Reward',
+      name: i18n.t('transaction.commit_reward'),
       capacity: cell.commit_reward,
     },
     {
-      name: 'Proposal Reward',
+      name: i18n.t('transaction.proposal_reward'),
       capacity: cell.proposal_reward,
     },
   ]
@@ -76,7 +91,7 @@ const TransactionReward = ({ transaction, cell }: { transaction: Transaction; ce
                 <img alt="reward point" src={ItemPoint} />
                 <div className="reward__name">{reward.name}</div>
               </div>
-              <div className="reward__capacity">{`${shannonToCkb(reward.capacity)} CKB`}</div>
+              <div className="reward__capacity">{`${localeNumberString(shannonToCkb(reward.capacity))} CKB`}</div>
             </RewardPenal>
           )
         })}

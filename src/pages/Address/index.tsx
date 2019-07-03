@@ -33,17 +33,20 @@ import { Address, AddressWrapper } from '../../http/response/Address'
 import { Script } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
-import { fetchAddressInfo, fetchTransactionsByAddress } from '../../http/fetcher'
+import { fetchAddressInfo, fetchTransactionsByAddress, fetchTipBlockNumber } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { validNumber, startEndEllipsis } from '../../utils/string'
 import TransactionCard from '../../components/Transaction/TransactionCard/index'
+import { StatisticsWrapper } from '../../http/response/Statistics'
+import { localeNumberString } from '../../utils/number'
+import i18n from '../../utils/i18n'
 
 const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
   const appContext = useContext(AppContext)
   const identityHash = address || lockHash
   return (
     <AddressTitlePanel>
-      <div className="address__title">{address ? 'Address' : 'Lock Hash'}</div>
+      <div className="address__title">{address ? i18n.t('address.address') : i18n.t('address.lock_hash')}</div>
       <div className="address__content">
         <code id="address__hash">{identityHash}</code>
         <div
@@ -52,7 +55,7 @@ const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string
           onKeyDown={() => {}}
           onClick={() => {
             copyElementValue(document.getElementById('address__hash'))
-            appContext.toastMessage('Copied', 3000)
+            appContext.toastMessage(i18n.t('common.copied'), 3000)
           }}
         >
           <img src={CopyIcon} alt="copy" />
@@ -85,13 +88,13 @@ const AddressScriptLabel = ({ image, label, script }: { image: string; label: st
       </AddressScriptLabelPanel>
       <AddressScriptContentPanel>
         <AddressScriptContent>
-          <ScriptLabelItem name="Code Hash :" value={script.code_hash} />
+          <ScriptLabelItem name={`${i18n.t('address.code_hash')} :`} value={script.code_hash} />
           {script.args.length === 1 ? (
-            <ScriptLabelItem name="Args :" value={script.args[0]} />
+            <ScriptLabelItem name={`${i18n.t('address.args')} :`} value={script.args[0]} />
           ) : (
             script.args.map((arg: string, index: number) => {
               return index === 0 ? (
-                <ScriptLabelItem name="Args: " value={`#${index}: ${arg}`} />
+                <ScriptLabelItem name={`${i18n.t('address.args')} :`} value={`#${index}: ${arg}`} />
               ) : (
                 <ScriptOtherArgs>
                   <ScriptLabelItem name="" value={`#${index}: ${arg}`} noIcon />
@@ -130,6 +133,7 @@ const Actions = {
   total: 'TOTAL',
   page: 'PAGE_NO',
   size: 'PAGE_SIZE',
+  tipBlockNumber: 'TIP_BLOCK_NUMBER',
 }
 
 const reducer = (state: any, action: any) => {
@@ -158,6 +162,11 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         size: action.payload.size,
+      }
+    case Actions.tipBlockNumber:
+      return {
+        ...state,
+        tipBlockNumber: action.payload.tipBlockNumber,
       }
     default:
       return state
@@ -206,10 +215,24 @@ const getTransactions = (hash: string, page: number, size: number, dispatch: any
   })
 }
 
+const getTipBlockNumber = (dispatch: any) => {
+  fetchTipBlockNumber().then(response => {
+    const { data } = response as Response<StatisticsWrapper>
+    if (data) {
+      dispatch({
+        type: Actions.tipBlockNumber,
+        payload: {
+          tipBlockNumber: parseInt(data.attributes.tip_block_number, 10),
+        },
+      })
+    }
+  })
+}
+
 const PendingRewardTooltip: Tooltip = {
-  tip:
-    'The block reward and transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+  tip: i18n.t('address.pending_reward_tooltip'),
   haveHelpIcon: true,
+  offset: 0.7,
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string; hash: string }>>) => {
@@ -228,6 +251,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     total: 1,
     page: validNumber(parsed.page, PageParams.PageNo),
     size: validNumber(parsed.size, PageParams.PageSize),
+    tipBlockNumber: 0,
   }
   const [state, dispatch] = useReducer(reducer, initialState)
   const { page, size } = state
@@ -238,6 +262,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     }
     getAddressInfo(identityHash, dispatch)
     getTransactions(identityHash, page, size, dispatch)
+    getTipBlockNumber(dispatch)
   }, [replace, identityHash, page, size, dispatch, address])
 
   const onChange = (pageNo: number, pageSize: number) => {
@@ -260,20 +285,24 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     <Content>
       <AddressContentPanel className="container">
         <AddressTitle address={address} lockHash={lockHash} />
-        <AddressOverview value="Overview" />
+        <AddressOverview value={i18n.t('common.overview')} />
         <AddressCommonContent>
           <AddressCommonRowPanel>
-            <SimpleLabel image={BalanceIcon} label="Balance : " value={`${shannonToCkb(state.address.balance)} CKB`} />
+            <SimpleLabel
+              image={BalanceIcon}
+              label={`${i18n.t('address.balance')} : `}
+              value={`${localeNumberString(shannonToCkb(state.address.balance))} CKB`}
+            />
             <SimpleLabel
               image={TransactionsIcon}
-              label="Transactions : "
-              value={`${state.address.transactions_count}`}
+              label={`${i18n.t('transaction.transactions')} : `}
+              value={localeNumberString(state.address.transactions_count)}
             />
           </AddressCommonRowPanel>
           {state.address.pending_reward_blocks_count ? (
             <SimpleLabel
               image={BlockPendingRewardIcon}
-              label="Pending Reward : "
+              label={`${i18n.t('address.pending_reward')} : `}
               value={`${state.address.pending_reward_blocks_count} 
                 ${state.address.pending_reward_blocks_count > 1 ? 'blocks' : 'block'}`}
               tooltip={PendingRewardTooltip}
@@ -284,17 +313,25 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
             (state.address.address_hash ? (
               <SimpleLabel
                 image={AddressHashIcon}
-                label="Address: "
+                label={`${i18n.t('address.address')} :`}
                 value={`${startEndEllipsis(state.address.address_hash, 12)}`}
               />
             ) : (
-              <SimpleLabel image={AddressHashIcon} label="Address: " value="Unable to decode address" />
+              <SimpleLabel
+                image={AddressHashIcon}
+                label={`${i18n.t('address.address')} :`}
+                value={i18n.t('address.unable_decode_address')}
+              />
             ))}
-          <AddressScriptLabel image={AddressScriptIcon} label="Lock Script : " script={state.address.lock_script} />
+          <AddressScriptLabel
+            image={AddressScriptIcon}
+            label={`${i18n.t('address.lock_hash')} : `}
+            script={state.address.lock_script}
+          />
         </AddressCommonContent>
 
         <AddressTransactionsPanel>
-          <AddressOverview value="Transactions" />
+          <AddressOverview value={i18n.t('transaction.transactions')} />
           <div>
             {state.transactions &&
               state.transactions.map((transaction: any) => {
@@ -303,6 +340,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                     <TransactionItem
                       address={address}
                       transaction={transaction.attributes}
+                      confirmation={state.tipBlockNumber - transaction.attributes.block_number}
                       key={transaction.attributes.transaction_hash}
                     />
                   )
@@ -314,6 +352,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                   transaction && (
                     <TransactionCard
                       address={address}
+                      confirmation={state.tipBlockNumber - transaction.attributes.block_number}
                       transaction={transaction.attributes}
                       key={transaction.attributes.transaction_hash}
                     />
