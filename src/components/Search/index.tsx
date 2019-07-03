@@ -52,6 +52,7 @@ const SearchInputPanel = styled.input`
     width: 100%;
     padding-left: 10px;
     padding-right: 20px;
+    border: 1px solid #606060;
     border-radius: 6px;
   }
   padding-left: 20px;
@@ -65,6 +66,7 @@ const SearchInputPanel = styled.input`
     css`
       opacity: 1;
       border: 2px solid #606060;
+      border-radius: 6px;
     `};
 
   background: rgba(255, 255, 255, 0.2);

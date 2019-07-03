@@ -48,6 +48,9 @@
       "youtube": "YouTube",
       "forum": "forum"
     },
+    "search": {
+      "empty_result": "Opps! Your search did not match any record. Please try different keywords~"
+    },
     "address": {
       "address": "Address",
       "lock_hash": "Lock Hash",
@@ -88,7 +91,9 @@
       "miner": "Miner",
       "difficulty": "Difficulty",
       "transactions_root": "Transactions Root",
-      "witnesses_root": "Witnesses Root"
+      "witnesses_root": "Witnesses Root",
+      "pending_tip": "The block reward of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol",
+      "calculating_tip": "The transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol"
     }
   }
 }
