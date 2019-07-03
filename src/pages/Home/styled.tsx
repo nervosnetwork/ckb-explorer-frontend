@@ -6,14 +6,13 @@ export const HomeHeaderPanel = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 100px 0px;
+  padding: 70px 0px;
 
-  > div:nth-child(n) {
-    margin-left: 20px;
-  }
-
-  > div:nth-child(1) {
-    margin: 0px;
+  .blockchain__item__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 1200px;
   }
 
   @media (max-width: 700px) {
@@ -44,6 +43,7 @@ export const HomeHeaderItemPanel = styled.div`
   }
   width: 285px;
   height: 180px;
+  margin: 10px 0px;
   display: flex;
   flex-direction: column;
   item-align: center;

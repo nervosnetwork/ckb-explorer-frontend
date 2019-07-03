@@ -159,11 +159,13 @@ export default () => {
   return (
     <Content>
       <HomeHeaderPanel>
-        {BlockchainDatas.map((data: BlockchainData) => {
-          return (
-            <BlockchainItem name={data.name} value={data.value} image={data.image} tip={data.tip} key={data.name} />
-          )
-        })}
+        <div className="blockchain__item__container">
+          {BlockchainDatas.map((data: BlockchainData) => {
+            return (
+              <BlockchainItem name={data.name} value={data.value} image={data.image} tip={data.tip} key={data.name} />
+            )
+          })}
+        </div>
         {BlockchainDatas.map((data: BlockchainData) => {
           return <BlockchainItemMobile name={data.name} value={data.value} image={data.image} key={data.name} />
         })}
