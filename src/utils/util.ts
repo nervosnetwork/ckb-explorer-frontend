@@ -1,6 +1,7 @@
 import { Transaction, InputOutput } from '../http/response/Transaction'
 import { MAX_CONFIRMATION } from './const'
 import i18n from './i18n'
+import { parseNumber } from './number'
 
 const copyElementValue = (component: any) => {
   if (!component) return
@@ -25,7 +26,7 @@ const handleCellCapacity = (cells: InputOutput[], address?: string) => {
   if (!cells || cells.length === 0) return 0
   return cells
     .filter((cell: InputOutput) => cell.address_hash === address)
-    .map((cell: InputOutput) => cell.capacity)
+    .map((cell: InputOutput) => parseNumber(cell.capacity))
     .reduce((previous: number, current: number) => {
       return previous + current
     }, 0)
