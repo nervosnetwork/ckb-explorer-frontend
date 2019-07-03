@@ -47,22 +47,24 @@ const TransactionItem = ({
         <TransactionInputOutputPanel>
           <div className="transaction_item__input">
             <TransactionCellList
-              data={transaction.display_inputs}
-              pageSize={MAX_CELL_SHOW_SIZE}
-              render={item => {
-                return <TransactionCell cell={item} blockNumber={transaction.block_number} address={address} />
+              cells={transaction.display_inputs}
+              showSize={MAX_CELL_SHOW_SIZE}
+              transaction={transaction}
+              render={cell => {
+                return <TransactionCell cell={cell} blockNumber={transaction.block_number} address={address} />
               }}
             />
           </div>
           <img src={InputOutputIcon} alt="input and output" />
           <div className="transaction_item__output">
             <TransactionCellList
-              data={transaction.display_outputs}
-              pageSize={MAX_CELL_SHOW_SIZE}
-              render={item => (
+              cells={transaction.display_outputs}
+              showSize={MAX_CELL_SHOW_SIZE}
+              transaction={transaction}
+              render={cell => (
                 <FullPanel>
-                  <TransactionCell cell={item} blockNumber={transaction.block_number} address={address} />
-                  <TransactionReward transaction={transaction} cell={item} />
+                  <TransactionCell cell={cell} blockNumber={transaction.block_number} address={address} />
+                  <TransactionReward transaction={transaction} cell={cell} />
                 </FullPanel>
               )}
             />
