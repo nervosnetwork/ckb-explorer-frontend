@@ -56,4 +56,6 @@ export const localeNumberString = (value: any, radix?: number) => {
 
 export default {
   parseHashRate,
+  parseNumber,
+  localeNumberString,
 }
