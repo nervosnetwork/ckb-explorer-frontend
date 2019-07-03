@@ -2,7 +2,7 @@ import { Transaction, InputOutput } from '../http/response/Transaction'
 import { MAX_CONFIRMATION } from './const'
 import i18n from './i18n'
 
-const copyElementValue = (component: any) => {
+export const copyElementValue = (component: any) => {
   if (!component) return
   const selection = window.getSelection()
   if (selection) {
@@ -15,11 +15,9 @@ const copyElementValue = (component: any) => {
   }
 }
 
-const shannonToCkb = (value: number) => {
+export const shannonToCkb = (value: number) => {
   return value / 10 ** 8
 }
-
-export { copyElementValue, shannonToCkb }
 
 const handleCellCapacity = (cells: InputOutput[], address?: string) => {
   if (!cells || cells.length === 0) return 0
@@ -44,4 +42,11 @@ export const formatConfirmation = (confirmation: number | undefined) => {
     return `0 ${confirm}`
   }
   return confirmation > MAX_CONFIRMATION ? `${MAX_CONFIRMATION}+ ${confirm}` : `${confirmation} ${confirm}`
+}
+
+export default {
+  copyElementValue,
+  shannonToCkb,
+  handleCapacityChange,
+  formatConfirmation,
 }
