@@ -60,18 +60,18 @@ export const CellbasePanel = styled.div`
   }
 `
 
-const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
+const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
   const [show, setShow] = useState(false)
   const targetSize: TargetSize = {
     width: 20,
     height: 30,
   }
 
-  return blockHeight && blockHeight > 0 ? (
+  return targetBlockNumber && targetBlockNumber > 0 ? (
     <CellbasePanel>
       <div className="cellbase__content">Cellbase for Block</div>
-      <Link to={`/block/${blockHeight}`}>
-        <CellHashHighLight>{localeNumberString(blockHeight)}</CellHashHighLight>
+      <Link to={`/block/${targetBlockNumber}`}>
+        <CellHashHighLight>{localeNumberString(targetBlockNumber)}</CellHashHighLight>
       </Link>
       <div
         className="cellbase__help"
@@ -89,15 +89,7 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
   )
 }
 
-const TransactionCell = ({
-  cell,
-  blockNumber,
-  address,
-}: {
-  cell: InputOutput
-  blockNumber?: number
-  address?: string
-}) => {
+const TransactionCell = ({ cell, address }: { cell: InputOutput; address?: string }) => {
   const CellbaseAddress = () => {
     return address === cell.address_hash || cell.from_cellbase ? (
       <div className="transaction__cell">
@@ -105,7 +97,7 @@ const TransactionCell = ({
           {cell.address_hash ? (
             startEndEllipsis(cell.address_hash)
           ) : (
-            <Cellbase blockHeight={cell.target_block_number} />
+            <Cellbase targetBlockNumber={cell.target_block_number} />
           )}
         </CellHash>
       </div>
@@ -123,7 +115,11 @@ const TransactionCell = ({
       ) : (
         <div className="transaction__cell">
           <CellHash>
-            {cell.from_cellbase ? <Cellbase blockHeight={blockNumber} /> : 'Unable to decode address'}
+            {cell.from_cellbase ? (
+              <Cellbase targetBlockNumber={cell.target_block_number} />
+            ) : (
+              'Unable to decode address'
+            )}
           </CellHash>
         </div>
       )}
