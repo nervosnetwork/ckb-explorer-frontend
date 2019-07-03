@@ -51,7 +51,7 @@ const TransactionItem = ({
               showSize={MAX_CELL_SHOW_SIZE}
               transaction={transaction}
               render={cell => {
-                return <TransactionCell cell={item} blockNumber={transaction.block_number} address={address} />
+                return <TransactionCell cell={cell} blockNumber={transaction.block_number} address={address} />
               }}
             />
           </div>
