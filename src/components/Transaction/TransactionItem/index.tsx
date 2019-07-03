@@ -50,7 +50,7 @@ const TransactionItem = ({
               data={transaction.display_inputs}
               pageSize={MAX_CELL_SHOW_SIZE}
               render={item => {
-                return <TransactionCell cell={item} blockNumber={transaction.block_number} address={address} />
+                return <TransactionCell cell={item} address={address} key={item.id} />
               }}
             />
           </div>
@@ -60,8 +60,8 @@ const TransactionItem = ({
               data={transaction.display_outputs}
               pageSize={MAX_CELL_SHOW_SIZE}
               render={item => (
-                <FullPanel>
-                  <TransactionCell cell={item} blockNumber={transaction.block_number} address={address} />
+                <FullPanel key={item.id}>
+                  <TransactionCell cell={item} address={address} />
                   <TransactionReward transaction={transaction} cell={item} />
                 </FullPanel>
               )}
