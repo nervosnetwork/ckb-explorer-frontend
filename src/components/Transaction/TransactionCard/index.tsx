@@ -127,7 +127,7 @@ const TransactionCard = ({
       </div>
       {transaction && transaction.display_outputs && (
         <TransactionCellList
-          items={transaction.display_outputs}
+          cells={transaction.display_outputs}
           showSize={MAX_CELL_SHOW_SIZE}
           transaction={transaction}
           render={output => {
