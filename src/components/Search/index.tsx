@@ -52,12 +52,13 @@ const SearchInputPanel = styled.input`
     width: 100%;
     padding-left: 10px;
     padding-right: 20px;
+    border: 1px solid #606060;
     border-radius: 6px;
   }
   padding-left: 20px;
   padding-right: 50px;
   border-width: 0px;
-  border-radius: 6px 0 0 6px;
+  border-radius: 6px;
   opacity: 0.8;
 
   ${(props: { opacityStyle: boolean }) =>

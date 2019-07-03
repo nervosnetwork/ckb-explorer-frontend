@@ -22,15 +22,17 @@ const SearchPanel = styled.div`
 
 const SearchContent = styled.div`
   font-size: 20px;
-  max-width: 423px;
+  font-weight: bold;
+  color: #606060;
+  max-width: 434px;
   margin: 0 auto;
   margin-top: 39px;
   text-align: center;
 
   @media (max-width: 700px) {
     max-width: 80%;
-    font-size: 12px;
-    margin-top: 15px;
+    font-size: 8px;
+    margin-top: 18px;
   }
 `
 
