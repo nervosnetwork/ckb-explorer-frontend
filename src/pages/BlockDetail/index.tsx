@@ -297,13 +297,12 @@ const getBlockByHash = (blockHash: string, page: number, size: number, dispatch:
 
 const BlockRewardTip: Tooltip = {
   status: 'Pending',
-  tip: 'The block reward of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+  tip: i18n.t('block.pending_tip'),
 }
 
 const TransactionFeeTip: Tooltip = {
   status: 'Calculating',
-  tip:
-    'The transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+  tip: i18n.t('block.calculating_tip'),
   hideValue: true,
 }
 

@@ -29,7 +29,7 @@ const CardItemPanel = styled.div`
 
   > div {
     color: #606060;
-    font-size: 13px;
+    font-size: 14px;
     margin-right: 5px;
     font-weight: 450;
   }
@@ -40,8 +40,8 @@ const CardItemPanel = styled.div`
 
   .card__value {
     color: ${(props: { highLight: boolean }) => (props.highLight ? '#3CC68A' : '#888888')};
-    font-weight: 450;
-    font-size: 12px;
+    font-weight: bold;
+    font-size: 14px;
   }
 `
 
@@ -80,7 +80,7 @@ const BlockCard = ({ block }: { block: Block }) => {
         to={`/block/${block.number}`}
         highLight
       />
-      <CardItem name={`${t('home.height')} :`} value={localeNumberString(block.transactions_count)} />
+      <CardItem name={`${t('home.transactions')} :`} value={localeNumberString(block.transactions_count)} />
       <CardItem name={`${t('home.block_reward')} :`} value={localeNumberString(shannonToCkb(block.reward))} />
       {block.miner_hash ? (
         <CardItem
