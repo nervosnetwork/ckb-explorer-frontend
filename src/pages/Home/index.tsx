@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import {
   HomeHeaderPanel,
   HomeHeaderItemPanel,
-  HomeHeaderItemMobilePanel,
   BlockPanel,
   ContentTable,
   TableMorePanel,
@@ -27,11 +26,6 @@ import MinerIcon from '../../assets/miner.png'
 import TimestampIcon from '../../assets/timestamp.png'
 import MoreLeftIcon from '../../assets/more_left.png'
 import MoreRightIcon from '../../assets/more_right.png'
-import BestBlockImage from '../../assets/best_block_background.png'
-import BlockTimeImage from '../../assets/block_time_background.png'
-import DifficultyImage from '../../assets/difficulty_background.png'
-import HashRateImage from '../../assets/hash_rate_background.png'
-
 import { fetchBlocks, fetchStatistics } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { StatisticsWrapper, Statistics } from '../../http/response/Statistics'
@@ -42,9 +36,9 @@ import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
 import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
 
-const BlockchainItem = ({ name, value, image, tip }: { name: string; value: string; image: any; tip?: string }) => {
+const BlockchainItem = ({ name, value, tip }: { name: string; value: string; tip?: string }) => {
   return (
-    <HomeHeaderItemPanel image={image}>
+    <HomeHeaderItemPanel>
       <div className="blockchain__item__value">{value}</div>
       <div className="blockchain__item__name">{`${name}`}</div>
       {tip && (
@@ -53,15 +47,6 @@ const BlockchainItem = ({ name, value, image, tip }: { name: string; value: stri
         </div>
       )}
     </HomeHeaderItemPanel>
-  )
-}
-
-const BlockchainItemMobile = ({ name, value, image }: { name: string; value: string; image: any }) => {
-  return (
-    <HomeHeaderItemMobilePanel image={image}>
-      <div className="blockchain__item__value">{value}</div>
-      <div className="blockchain__item__name">{name}</div>
-    </HomeHeaderItemMobilePanel>
   )
 }
 
@@ -82,7 +67,6 @@ const getStatistics = (setStatistics: any) => {
 interface BlockchainData {
   name: string
   value: string
-  image: any
   tip: string
 }
 
@@ -133,25 +117,21 @@ export default () => {
     {
       name: t('blockchain.best_block'),
       value: localeNumberString(statistics.tip_block_number),
-      image: BestBlockImage,
       tip: t('blockchain.best_block_tooltip'),
     },
     {
       name: t('block.difficulty'),
       value: `${parseInt(`${statistics.current_epoch_difficulty}`, 10).toLocaleString()}`,
-      image: DifficultyImage,
       tip: t('blockchain.difficulty_tooltip'),
     },
     {
       name: t('blockchain.hash_rate'),
       value: `${parseInt((Number(statistics.hash_rate) * 1000).toFixed(), 10).toLocaleString()} gps`,
-      image: HashRateImage,
       tip: t('blockchain.hash_rate_tooltip'),
     },
     {
       name: t('blockchain.average_block_time'),
       value: parseTime(Number(statistics.average_block_time)),
-      image: BlockTimeImage,
       tip: t('blockchain.average_block_time_tooltip'),
     },
   ]
@@ -161,14 +141,9 @@ export default () => {
       <HomeHeaderPanel>
         <div className="blockchain__item__container">
           {BlockchainDatas.map((data: BlockchainData) => {
-            return (
-              <BlockchainItem name={data.name} value={data.value} image={data.image} tip={data.tip} key={data.name} />
-            )
+            return <BlockchainItem name={data.name} value={data.value} tip={data.tip} key={data.name} />
           })}
         </div>
-        {BlockchainDatas.map((data: BlockchainData) => {
-          return <BlockchainItemMobile name={data.name} value={data.value} image={data.image} key={data.name} />
-        })}
       </HomeHeaderPanel>
       <BlockPanel className="container">
         <BlockListPC>
