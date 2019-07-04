@@ -46,7 +46,3 @@ export const formatConfirmation = (confirmation: number | undefined) => {
   }
   return confirmation > MAX_CONFIRMATION ? `${MAX_CONFIRMATION}+ ${confirm}` : `${confirmation} ${confirm}`
 }
-
-export const isCkbAddress = (address: string) => {
-  return address.startsWith('ckb') || address.startsWith('ckt')
-}
