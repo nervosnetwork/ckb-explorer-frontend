@@ -28,6 +28,7 @@ import { shannonToCkb } from '../../utils/util'
 import { validNumber } from '../../utils/string'
 import { CachedKeys } from '../../utils/const'
 import { fetchCachedData, storeCachedData } from '../../utils/cached'
+import { localeNumberString } from '../../utils/number'
 
 enum PageParams {
   PageNo = 1,
@@ -168,9 +169,12 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
                 return (
                   data && (
                     <TableContentRow key={data.attributes.block_hash}>
-                      <TableContentItem content={data.attributes.number} to={`/block/${data.attributes.number}`} />
+                      <TableContentItem
+                        content={localeNumberString(data.attributes.number)}
+                        to={`/block/${data.attributes.number}`}
+                      />
                       <TableContentItem content={data.attributes.transactions_count} />
-                      <TableContentItem content={`${shannonToCkb(data.attributes.reward)}`} />
+                      <TableContentItem content={`${localeNumberString(shannonToCkb(data.attributes.reward))}`} />
                       <TableMinerContentItem content={data.attributes.miner_hash} />
                       <TableContentItem content={parseSimpleDate(data.attributes.timestamp)} />
                     </TableContentRow>
