@@ -359,7 +359,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         size: pageSize,
       },
     })
-    history.push(`/block/${blockHash}?page=${pageSize}&size=${pageSize}`)
+    history.push(`/block/${blockHash}?page=${pageNo}&size=${pageSize}`)
   }
 
   const BlockLeftItems: BlockItem[] = [
