@@ -76,7 +76,6 @@ export const CellbasePanel = styled.div`
     }
 
     > img {
-      margin-top: 1px;
       width: 14px;
       height: 14px;
     }
