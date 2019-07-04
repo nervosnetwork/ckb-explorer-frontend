@@ -62,8 +62,20 @@ const SimpleLabel = ({
             className="label__status"
             tabIndex={-1}
             onFocus={() => {}}
-            onMouseOver={() => setShowStatusTip(true)}
-            onMouseLeave={() => setShowStatusTip(false)}
+            onMouseEnter={() => {
+              setShowStatusTip(true)
+              const p = document.querySelector('.page') as HTMLElement
+              if (p) {
+                p.setAttribute('tabindex', '-1')
+              }
+            }}
+            onMouseLeave={() => {
+              setShowStatusTip(false)
+              const p = document.querySelector('.page') as HTMLElement
+              if (p) {
+                p.removeAttribute('tabindex')
+              }
+            }}
           >
             {tooltip.status}
             <Tooltip show={showStatusTip} targetSize={statusTargetSize} message={tooltip.tip} />
@@ -74,7 +86,7 @@ const SimpleLabel = ({
         <LableHelpPanel
           tabIndex={-1}
           onFocus={() => {}}
-          onMouseOver={() => setShowHelpTip(true)}
+          onMouseEnter={() => setShowHelpTip(true)}
           onMouseLeave={() => setShowHelpTip(false)}
         >
           <img className="label__help__image" alt="label help" src={HelpIcon} />
