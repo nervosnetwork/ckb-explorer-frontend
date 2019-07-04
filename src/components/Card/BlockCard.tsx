@@ -80,7 +80,7 @@ const BlockCard = ({ block }: { block: Block }) => {
         to={`/block/${block.number}`}
         highLight
       />
-      <CardItem name={`${t('home.height')} :`} value={localeNumberString(block.transactions_count)} />
+      <CardItem name={`${t('home.transactions')} :`} value={localeNumberString(block.transactions_count)} />
       <CardItem name={`${t('home.block_reward')} :`} value={localeNumberString(shannonToCkb(block.reward))} />
       {block.miner_hash ? (
         <CardItem
