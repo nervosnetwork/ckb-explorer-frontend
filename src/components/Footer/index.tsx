@@ -170,7 +170,7 @@ const footers = [
       {
         label: i18n.t('footer.faq'),
         icon: FAQIcon,
-        url: 'https://www.nervos.org/faq.html',
+        url: 'https://www.nervos.org/faq',
       },
     ],
   },
