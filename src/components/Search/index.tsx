@@ -9,6 +9,7 @@ import browserHistory from '../../routes/history'
 import SearchLogo from '../../assets/search.png'
 import { searchTextCorrection } from '../../utils/string'
 import i18n from '../../utils/i18n'
+import { isCkbAddress } from '../../utils/util'
 
 const SearchPanel = styled.div`
   margin: 0 auto;
@@ -110,8 +111,12 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
           }
         })
         .catch(() => {
-          setSearchValue(query)
-          browserHistory.push(`/search/fail?q=${query}`)
+          if (isCkbAddress(query)) {
+            browserHistory.push(`/address/${query}`)
+          } else {
+            setSearchValue(query)
+            browserHistory.push(`/search/fail?q=${query}`)
+          }
         })
     }
   }
