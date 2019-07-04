@@ -86,8 +86,20 @@ const SimpleLabel = ({
         <LableHelpPanel
           tabIndex={-1}
           onFocus={() => {}}
-          onMouseEnter={() => setShowHelpTip(true)}
-          onMouseLeave={() => setShowHelpTip(false)}
+          onMouseEnter={() => {
+            setShowHelpTip(true)
+            const p = document.querySelector('.page') as HTMLElement
+            if (p) {
+              p.setAttribute('tabindex', '-1')
+            }
+          }}
+          onMouseLeave={() => {
+            setShowHelpTip(false)
+            const p = document.querySelector('.page') as HTMLElement
+            if (p) {
+              p.removeAttribute('tabindex')
+            }
+          }}
         >
           <img className="label__help__image" alt="label help" src={HelpIcon} />
           <Tooltip show={showHelpTip} targetSize={helpTargetSize} message={tooltip.tip} />
