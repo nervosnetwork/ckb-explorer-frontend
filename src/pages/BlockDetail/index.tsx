@@ -280,19 +280,23 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
     })
 }
 
-const getBlockByHash = (blockHash: string, page: number, size: number, dispatch: any) => {
-  fetchBlockByHash(blockHash).then(response => {
-    const { data } = response as Response<BlockWrapper>
-    const block = data.attributes as Block
-    dispatch({
-      type: Actions.block,
-      payload: {
-        block,
-      },
+const getBlockByHash = (blockHash: string, page: number, size: number, dispatch: any, replace: any) => {
+  fetchBlockByHash(blockHash)
+    .then(response => {
+      const { data } = response as Response<BlockWrapper>
+      const block = data.attributes as Block
+      dispatch({
+        type: Actions.block,
+        payload: {
+          block,
+        },
+      })
+      updateBlockPrevNext(block.number, dispatch)
+      getTransactions(block.block_hash, page, size, dispatch)
     })
-    updateBlockPrevNext(block.number, dispatch)
-    getTransactions(block.block_hash, page, size, dispatch)
-  })
+    .catch(() => {
+      replace(`/search/fail?q=${blockHash}`)
+    })
 }
 
 const BlockRewardTip: Tooltip = {
@@ -339,7 +343,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     if (size > PageParams.MaxPageSize) {
       replace(`/block/${blockHash}?page=${page}&size=${PageParams.MaxPageSize}`)
     }
-    getBlockByHash(blockHash, page, size, dispatch)
+    getBlockByHash(blockHash, page, size, dispatch, replace)
   }, [replace, blockHash, page, size, dispatch])
 
   const onChange = (pageNo: number, pageSize: number) => {
@@ -355,7 +359,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         pageSize,
       },
     })
-    props.history.push(`/block/${blockHash}?page=${pageSize}&size=${pageSize}`)
+    history.push(`/block/${blockHash}?page=${pageSize}&size=${pageSize}`)
   }
 
   const BlockLeftItems: BlockItem[] = [
