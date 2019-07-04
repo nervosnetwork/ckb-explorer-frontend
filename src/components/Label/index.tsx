@@ -62,7 +62,7 @@ const SimpleLabel = ({
             className="label__status"
             tabIndex={-1}
             onFocus={() => {}}
-            onMouseEnter={() => {
+            onMouseOver={() => {
               setShowStatusTip(true)
               const p = document.querySelector('.page') as HTMLElement
               if (p) {
@@ -86,7 +86,7 @@ const SimpleLabel = ({
         <LableHelpPanel
           tabIndex={-1}
           onFocus={() => {}}
-          onMouseEnter={() => {
+          onMouseOver={() => {
             setShowHelpTip(true)
             const p = document.querySelector('.page') as HTMLElement
             if (p) {

@@ -46,7 +46,7 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
         className="cellbase__help"
         tabIndex={-1}
         onFocus={() => {}}
-        onMouseEnter={() => {
+        onMouseOver={() => {
           setShow(true)
           const p = document.querySelector('.page') as HTMLElement
           if (p) {
