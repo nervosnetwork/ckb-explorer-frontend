@@ -40,9 +40,14 @@ export const handleCapacityChange = (transaction: Transaction, address?: string)
 }
 
 export const formatConfirmation = (confirmation: number | undefined) => {
-  const confirm: string = i18n.t('address.confirmation')
-  if (!confirmation) {
-    return `0 ${confirm}`
+  if (!confirmation || confirmation < 0) {
+    return ``
   }
-  return confirmation > MAX_CONFIRMATION ? `${MAX_CONFIRMATION}+ ${confirm}` : `${confirmation} ${confirm}`
+  if (confirmation > MAX_CONFIRMATION) {
+    return `${MAX_CONFIRMATION}+ ${i18n.t('address.confirmations')}`
+  }
+  if (confirmation > 1) {
+    return `${confirmation} ${i18n.t('address.confirmations')}`
+  }
+  return `${confirmation} ${i18n.t('address.confirmation')}`
 }

@@ -56,6 +56,7 @@
       "code_hash": "Code Hash",
       "args": "Args",
       "confirmation": "Confirmation",
+      "confirmations": "Confirmations",
       "unable_decode_address": "Unable to decode address",
       "pending_reward_tooltip": "The block reward and transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol"
     },
