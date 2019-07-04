@@ -33,8 +33,6 @@ const targetSize: TargetSize = {
   width: 14,
   height: 30,
 }
-const TooltipContent =
-  'The cellbase transaction of block N is send to the miner of block N-11 as reward. The reward is consist of Base Reward, Commit Reward and Proposal Reward, learn more from our Consensus Protocol.'
 
 const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
   const [show, setShow] = useState(false)
@@ -52,7 +50,7 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
         onMouseLeave={() => setShow(false)}
       >
         <img alt="cellbase help" src={HelpIcon} />
-        <Tooltip show={show} targetSize={targetSize} message={TooltipContent} />
+        <Tooltip show={show} targetSize={targetSize} message={i18n.t('transaction.cellbase_help_tooltip')} />
       </div>
     </CellbasePanel>
   ) : (
