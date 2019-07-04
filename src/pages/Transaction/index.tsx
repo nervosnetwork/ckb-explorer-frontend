@@ -122,7 +122,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const [tipBlockNumber, setTipBlockNumber] = useState(0)
   let confirmation = 0
   if (tipBlockNumber && transaction.block_number) {
-    confirmation = tipBlockNumber - transaction.block_number
+    confirmation = tipBlockNumber - transaction.block_number + 1
   }
 
   useEffect(() => {
