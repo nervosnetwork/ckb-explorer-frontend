@@ -8,3 +8,5 @@ export const CachedKeys = {
   Blocks: 'blocks',
   Statistics: 'statistics',
 }
+
+export const MAX_CONFIRMATION = 1000

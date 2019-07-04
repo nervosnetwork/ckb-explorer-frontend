@@ -9,6 +9,8 @@ import { shannonToCkb, copyElementValue } from '../../utils/util'
 import { CellType, fetchScript, fetchCellData } from '../../http/fetcher'
 import { ScriptWrapper } from '../../http/response/Script'
 import { Response } from '../../http/response/Response'
+import { localeNumberString } from '../../utils/number'
+import i18n from '../../utils/i18n'
 
 const CardPanel = styled.div`
   width: 88%;
@@ -174,12 +176,13 @@ const CardLabelItem = ({
 
 const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: InputOutput }) => {
   const name = type === CellType.Input ? 'Input' : 'Output'
+  const Capacity = () => <CardLabelItem name="Capacity" value={localeNumberString(shannonToCkb(cell.capacity))} />
 
   if (cell.from_cellbase) {
     return (
       <div key={cell.id}>
         <CardLabelItem name={name} value="Cellbase" />
-        <CardLabelItem name="Capacity" value={`${shannonToCkb(cell.capacity)}`} />
+        <Capacity />
       </div>
     )
   }
@@ -192,14 +195,14 @@ const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: InputOu
           to={`/address/${cell.address_hash}`}
           highLight
         />
-        <CardLabelItem name="Capacity" value={`${shannonToCkb(cell.capacity)}`} />
+        <Capacity />
       </div>
     )
   }
   return (
     <div key={cell.id}>
-      <CardLabelItem name={name} value="Unable to decode address" />
-      <CardLabelItem name="Capacity" value={`${shannonToCkb(cell.capacity)}`} />
+      <CardLabelItem name={name} value={i18n.t('address.unable_decode_address')} />
+      <Capacity />
     </div>
   )
 }
@@ -364,9 +367,9 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
       <div className="script__operation">
         <div className="script__detail">Detail</div>
         <div className="script__buttons">
-          <CellOperationButton value="Lock Script" cellState={CellState.LOCK} />
-          <CellOperationButton value="Type Script" cellState={CellState.TYPE} />
-          <CellOperationButton value="Data" cellState={CellState.DATA} />
+          <CellOperationButton value={i18n.t('transaction.lock_script')} cellState={CellState.LOCK} />
+          <CellOperationButton value={i18n.t('transaction.type_script')} cellState={CellState.TYPE} />
+          <CellOperationButton value={i18n.t('transaction.data')} cellState={CellState.DATA} />
         </div>
       </div>
 

@@ -52,12 +52,14 @@ import { fetchBlockByHash, fetchTransactionsByBlockHash, fetchBlockByNumber } fr
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { startEndEllipsis, validNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
+import i18n from '../../utils/i18n'
+import { localeNumberString } from '../../utils/number'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
   return (
     <BlockDetailTitlePanel>
-      <div className="block__title">Block</div>
+      <div className="block__title">{i18n.t('block.block')}</div>
       <div className="block__content">
         <code id="block__hash">{hash}</code>
         <div
@@ -66,7 +68,7 @@ const BlockDetailTitle = ({ hash }: { hash: string }) => {
           onKeyDown={() => {}}
           onClick={() => {
             copyElementValue(document.getElementById('block__hash'))
-            appContext.toastMessage('Copied', 3000)
+            appContext.toastMessage(i18n.t('common.copied'), 3000)
           }}
         >
           <img src={CopyIcon} alt="copy" />
@@ -278,19 +280,23 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
     })
 }
 
-const getBlockByHash = (blockHash: string, page: number, size: number, dispatch: any) => {
-  fetchBlockByHash(blockHash).then(response => {
-    const { data } = response as Response<BlockWrapper>
-    const block = data.attributes as Block
-    dispatch({
-      type: Actions.block,
-      payload: {
-        block,
-      },
+const getBlockByHash = (blockHash: string, page: number, size: number, dispatch: any, replace: any) => {
+  fetchBlockByHash(blockHash)
+    .then(response => {
+      const { data } = response as Response<BlockWrapper>
+      const block = data.attributes as Block
+      dispatch({
+        type: Actions.block,
+        payload: {
+          block,
+        },
+      })
+      updateBlockPrevNext(block.number, dispatch)
+      getTransactions(block.block_hash, page, size, dispatch)
     })
-    updateBlockPrevNext(block.number, dispatch)
-    getTransactions(block.block_hash, page, size, dispatch)
-  })
+    .catch(() => {
+      replace(`/search/fail?q=${blockHash}`)
+    })
 }
 
 const BlockRewardTip: Tooltip = {
@@ -337,61 +343,63 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     if (size > PageParams.MaxPageSize) {
       replace(`/block/${blockHash}?page=${page}&size=${PageParams.MaxPageSize}`)
     }
-    getBlockByHash(blockHash, page, size, dispatch)
+    getBlockByHash(blockHash, page, size, dispatch, replace)
   }, [replace, blockHash, page, size, dispatch])
 
   const onChange = (pageNo: number, pageSize: number) => {
     dispatch({
       type: Actions.page,
       payload: {
-        pageNo,
+        page: pageNo,
       },
     })
     dispatch({
       type: Actions.size,
       payload: {
-        pageSize,
+        size: pageSize,
       },
     })
-    props.history.push(`/block/${blockHash}?page=${pageSize}&size=${pageSize}`)
+    history.push(`/block/${blockHash}?page=${pageNo}&size=${pageSize}`)
   }
 
   const BlockLeftItems: BlockItem[] = [
     {
       image: BlockHeightIcon,
-      label: 'Block Height:',
-      value: `${state.block.number}`,
+      label: `${i18n.t('block.block_height')}:`,
+      value: localeNumberString(state.block.number),
     },
     {
       image: BlockTransactionIcon,
-      label: 'Transactions:',
-      value: `${state.block.transactions_count}`,
+      label: `${i18n.t('transaction.transactions')}:`,
+      value: localeNumberString(state.block.transactions_count),
     },
     {
       image: ProposalTransactionsIcon,
-      label: 'Proposal Transactions:',
-      value: `${state.block.proposal_transactions_count ? state.block.proposal_transactions_count : 0}`,
+      label: `${i18n.t('block.proposal_transactions')}:`,
+      value: `${
+        state.block.proposal_transactions_count ? localeNumberString(state.block.proposal_transactions_count) : 0
+      }`,
     },
     {
       image: BlockRewardIcon,
-      label: 'Block Reward:',
-      value: `${shannonToCkb(state.block.reward)} CKB`,
+      label: `${i18n.t('block.block_reward')}:`,
+      value: `${localeNumberString(shannonToCkb(state.block.reward))} CKB`,
       tooltip: state.block.reward_status === RewardStatus.pending ? BlockRewardTip : undefined,
     },
     {
       image: TransactionFeeIcon,
-      label: 'Transaction Fee:',
+      label: `${i18n.t('transaction.transaction_fee')}:`,
       value: `${state.block.received_tx_fee} Shannon`,
       tooltip: transactionFee(state.block),
     },
     {
       image: TimestampIcon,
-      label: 'Timestamp:',
+      label: `${i18n.t('block.timestamp')}:`,
       value: `${parseSimpleDate(state.block.timestamp)}`,
     },
     {
       image: UncleCountIcon,
-      label: 'Uncle Count:',
+      label: `${i18n.t('block.uncle_count')}:`,
       value: `${state.block.uncles_count}`,
     },
   ]
@@ -399,37 +407,37 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const BlockRightItems: BlockItem[] = [
     {
       image: MinerIcon,
-      label: 'Miner:',
+      label: `${i18n.t('block.miner')}:`,
       value: state.block.miner_hash,
     },
     {
       image: EpochIcon,
-      label: 'Epoch:',
-      value: `${state.block.epoch}`,
+      label: `${i18n.t('block.epoch')}:`,
+      value: localeNumberString(state.block.epoch),
     },
     {
       image: StartNumberIcon,
-      label: 'Epoch Start Number:',
-      value: `${state.block.start_number}`,
+      label: `${i18n.t('block.epoch_start_number')}:`,
+      value: localeNumberString(state.block.start_number),
     },
     {
       image: LengthIcon,
-      label: 'Epoch Length:',
-      value: state.block.length,
+      label: `${i18n.t('block.epoch_length')}:`,
+      value: localeNumberString(state.block.length),
     },
     {
       image: DifficultyIcon,
-      label: 'Difficulty:',
-      value: parseInt(state.block.difficulty, 16).toLocaleString(),
+      label: `${i18n.t('block.difficulty')}:`,
+      value: localeNumberString(state.block.difficulty, 16),
     },
     {
       image: NonceIcon,
-      label: 'Nonce:',
+      label: `${i18n.t('block.nonce')}:`,
       value: `${state.block.nonce}`,
     },
     {
       image: ProofIcon,
-      label: 'Proof:',
+      label: `${i18n.t('block.proof')}:`,
       value: `${startEndEllipsis(state.block.proof, 9)}`,
     },
   ]
@@ -437,12 +445,12 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   const BlockRootInfoItems: BlockItem[] = [
     {
       image: TransactionsRootIcon,
-      label: 'Transactions Root:',
+      label: `${i18n.t('block.transactions_root')}:`,
       value: `${state.block.transactions_root}`,
     },
     {
       image: WitnessRootIcon,
-      label: 'Witnesses Root:',
+      label: `${i18n.t('block.witnesses_root')}:`,
       value: `${state.block.witnesses_root}`,
     },
   ]
@@ -451,7 +459,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     <Content>
       <BlockDetailPanel className="container">
         <BlockDetailTitle hash={state.block.block_hash} />
-        <BlockOverview value="Overview" />
+        <BlockOverview value={i18n.t('common.overview')} />
         <BlockCommonContent>
           <div>
             <div>
@@ -488,7 +496,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   <SimpleLabel
                     image={BlockRightItems[0].image}
                     label={BlockRightItems[0].label}
-                    value="Unable to decode address"
+                    value={i18n.t('address.unable_decode_address')}
                   />
                 )}
                 {BlockRightItems.slice(1).map(item => {
@@ -517,17 +525,17 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           </div>
         </BlockCommonContent>
         <BlockPreviousNext blockNumber={state.block.number} hasPrev={state.prev} hasNext={state.next} />
-        <BlockHightLabel>Block Height</BlockHightLabel>
+        <BlockHightLabel>{i18n.t('block.block_height')}</BlockHightLabel>
 
         <BlockTransactionsPanel>
-          <BlockOverview value="Transactions" />
+          <BlockOverview value={i18n.t('transaction.transactions')} />
           <div>
             {state.transactions &&
               state.transactions.map((transaction: any) => {
                 return (
                   transaction && (
                     <div key={transaction.attributes.transaction_hash}>
-                      <TransactionItem transaction={transaction.attributes} isBlock />
+                      <TransactionItem transaction={transaction.attributes} confirmation={10} isBlock />
                       <TransactionCard transaction={transaction.attributes} />
                     </div>
                   )
