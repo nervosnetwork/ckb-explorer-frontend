@@ -350,16 +350,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     dispatch({
       type: Actions.page,
       payload: {
-        pageNo,
+        page: pageNo,
       },
     })
     dispatch({
       type: Actions.size,
       payload: {
-        pageSize,
+        size: pageSize,
       },
     })
-    history.push(`/block/${blockHash}?page=${pageSize}&size=${pageSize}`)
+    history.push(`/block/${blockHash}?page=${pageNo}&size=${pageSize}`)
   }
 
   const BlockLeftItems: BlockItem[] = [
