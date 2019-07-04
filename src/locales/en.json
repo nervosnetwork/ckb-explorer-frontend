@@ -71,7 +71,7 @@
       "base_reward": "Base Reward",
       "commit_reward": "Commit Reward",
       "proposal_reward": "Proposal Reward",
-      "cellbase_help_tooltip": "The cellbase transaction of block N is send to the miner of block N-11 as reward. The reward is consist of Base Reward, Commit Reward and Proposal Reward, learn more from our Consensus Protocol"
+      "cellbase_help_tooltip": "The cellbase transaction of block N is send to the miner of block N-11 as reward, learn more from our Consensus Protocol"
     },
     "block": {
       "block": "Block",
