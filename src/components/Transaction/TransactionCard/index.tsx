@@ -46,8 +46,20 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
         className="cellbase__help"
         tabIndex={-1}
         onFocus={() => {}}
-        onMouseOver={() => setShow(true)}
-        onMouseLeave={() => setShow(false)}
+        onMouseOver={() => {
+          setShow(true)
+          const p = document.querySelector('.page') as HTMLElement
+          if (p) {
+            p.setAttribute('tabindex', '-1')
+          }
+        }}
+        onMouseLeave={() => {
+          setShow(false)
+          const p = document.querySelector('.page') as HTMLElement
+          if (p) {
+            p.removeAttribute('tabindex')
+          }
+        }}
       >
         <img alt="cellbase help" src={HelpIcon} />
         <Tooltip show={show} targetSize={targetSize} message={i18n.t('transaction.cellbase_help_tooltip')} />
