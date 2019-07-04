@@ -89,15 +89,19 @@ const initTransaction: Transaction = {
   display_outputs: [],
 }
 
-const getTransaction = (hash: string, setTransaction: any) => {
-  fetchTransactionByHash(hash).then(response => {
-    const { data } = response as Response<TransactionWrapper>
-    const transactionValue = data.attributes as Transaction
-    if (transactionValue.display_outputs && transactionValue.display_outputs.length > 0) {
-      transactionValue.display_outputs[0].isGenesisOutput = transactionValue.block_number === 0
-    }
-    setTransaction(transactionValue)
-  })
+const getTransaction = (hash: string, setTransaction: any, replace: any) => {
+  fetchTransactionByHash(hash)
+    .then(response => {
+      const { data } = response as Response<TransactionWrapper>
+      const transactionValue = data.attributes as Transaction
+      if (transactionValue.display_outputs && transactionValue.display_outputs.length > 0) {
+        transactionValue.display_outputs[0].isGenesisOutput = transactionValue.block_number === 0
+      }
+      setTransaction(transactionValue)
+    })
+    .catch(() => {
+      replace(`/search/fail?q=${hash}`)
+    })
 }
 
 const getTipBlockNumber = (setTipBlockNumber: any) => {
@@ -110,9 +114,10 @@ const getTipBlockNumber = (setTipBlockNumber: any) => {
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
-  const { match } = props
+  const { match, history } = props
   const { params } = match
   const { hash } = params
+  const { replace } = history
   const [transaction, setTransaction] = useState(initTransaction)
   const [tipBlockNumber, setTipBlockNumber] = useState(0)
   let confirmation = 0
@@ -121,8 +126,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   }
 
   useEffect(() => {
-    getTransaction(hash, setTransaction)
-  }, [hash, setTransaction])
+    getTransaction(hash, setTransaction, replace)
+  }, [hash, setTransaction, replace])
 
   useEffect(() => {
     getTipBlockNumber(setTipBlockNumber)
