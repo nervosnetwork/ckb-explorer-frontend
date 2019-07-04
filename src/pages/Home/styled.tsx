@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import BlockchainTipImage from '../../assets/blockchain_tip_background.png'
 
 export const HomeHeaderPanel = styled.div`
   min-height: 180px;
@@ -75,6 +76,9 @@ export const HomeHeaderItemPanel = styled.div`
     opacity: 0;
     width: 285px;
     height: 41px;
+    background-image: url(${BlockchainTipImage});
+    background-repeat: no-repeat;
+    background-size: 285px 41px;
   }
 
   &:hover .blockchain__item__tip {
