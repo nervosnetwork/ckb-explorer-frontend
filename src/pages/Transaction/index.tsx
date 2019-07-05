@@ -168,7 +168,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   value={parseSimpleDate(transaction.block_timestamp)}
                 />
                 {confirmation > 0 && (
-                  <SimpleLabel image={StatusIcon} label="Status:" value={formatConfirmation(confirmation)} />
+                  <SimpleLabel
+                    image={StatusIcon}
+                    label={`${i18n.t('transaction.status')}:`}
+                    value={formatConfirmation(confirmation)}
+                  />
                 )}
               </div>
             </div>
