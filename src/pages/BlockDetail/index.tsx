@@ -185,8 +185,6 @@ const Actions = {
   block: 'BLOCK',
   transactions: 'TRANSACTIONS',
   total: 'TOTAL',
-  page: 'PAGE_NO',
-  size: 'PAGE_SIZE',
   prev: 'PREV',
   next: 'NEXT',
 }
@@ -207,16 +205,6 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         total: action.payload.total,
-      }
-    case Actions.page:
-      return {
-        ...state,
-        page: action.payload.page,
-      }
-    case Actions.size:
-      return {
-        ...state,
-        size: action.payload.size,
       }
     case Actions.prev:
       return {
@@ -299,6 +287,14 @@ const getBlockByHash = (blockHash: string, page: number, size: number, dispatch:
     })
 }
 
+const initialState = {
+  block: initBlock,
+  transactions: [] as TransactionWrapper[],
+  total: 1,
+  prev: true,
+  next: true,
+}
+
 const BlockRewardTip: Tooltip = {
   status: 'Pending',
   tip: i18n.t('block.pending_tip'),
@@ -318,25 +314,16 @@ const transactionFee = (block: Block) => {
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
-  const { match, location } = props
+  const { match, location, history } = props
   const { params } = match
   const { hash: blockHash } = params
   const { search } = location
-  const parsed = queryString.parse(search)
-
-  const initialState = {
-    block: initBlock,
-    transactions: [] as TransactionWrapper[],
-    total: 1,
-    page: parsePageNumber(parsed.page, PageParams.PageNo),
-    size: parsePageNumber(parsed.size, PageParams.PageSize),
-    prev: true,
-    next: true,
-  }
-  const [state, dispatch] = useReducer(reducer, initialState)
-  const [page, size] = state
-  const { history } = props
   const { replace } = history
+  const parsed = queryString.parse(search)
+  const page = parsePageNumber(parsed.page, PageParams.PageNo)
+  const size = parsePageNumber(parsed.size, PageParams.PageSize)
+
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
     if (size > PageParams.MaxPageSize) {
@@ -533,10 +520,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
             <Pagination
               showQuickJumper
               showSizeChanger
-              defaultPageSize={state.size}
-              pageSize={state.size}
-              defaultCurrent={state.page}
-              current={state.page}
+              defaultPageSize={size}
+              pageSize={size}
+              defaultCurrent={page}
+              current={page}
               total={state.total}
               onChange={onChange}
               locale={localeInfo}
