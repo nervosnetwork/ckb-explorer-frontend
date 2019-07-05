@@ -340,7 +340,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                     <TransactionItem
                       address={address}
                       transaction={transaction.attributes}
-                      confirmation={state.tipBlockNumber - transaction.attributes.block_number}
+                      confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
                       key={transaction.attributes.transaction_hash}
                     />
                   )
@@ -352,7 +352,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                   transaction && (
                     <TransactionCard
                       address={address}
-                      confirmation={state.tipBlockNumber - transaction.attributes.block_number}
+                      confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
                       transaction={transaction.attributes}
                       key={transaction.attributes.transaction_hash}
                     />
