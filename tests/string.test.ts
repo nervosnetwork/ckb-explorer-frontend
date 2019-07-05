@@ -3,8 +3,7 @@ import { parsePageNumber, startEndEllipsis, parseLongAddressHash, hexToUtf8, sea
 describe('String methods tests', () => {
 
   it('parse valid number', async () => {
-    const a = undefined
-    expect(parsePageNumber(a, 10)).toBe(10)
+    expect(parsePageNumber('a', 10)).toBe(10)
     expect(parsePageNumber(2, 10)).toBe(10)
     expect(parsePageNumber('2', 10)).toBe(2)
     expect(parsePageNumber('0', 10)).toBe(10)
