@@ -1,67 +1,13 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import HelpIcon from '../../../assets/qa_help.png'
 import { InputOutput } from '../../../http/response/Transaction'
+import i18n from '../../../utils/i18n'
+import { localeNumberString } from '../../../utils/number'
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
-import HelpIcon from '../../../assets/qa_help.png'
-import { localeNumberString } from '../../../utils/number'
-import i18n from '../../../utils/i18n'
 import Tooltip, { TargetSize } from '../../Tooltip/index'
-
-export const TransactionCellPanel = styled.div`
-  display: flex;
-  align-items: center;
-  height: 35px;
-  justify-content: space-between;
-
-  .transaction__cell {
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    color: rgb(136, 136, 136);
-  }
-
-  .transaction__cell__capacity {
-    font-size: 16px;
-    color: rgb(136, 136, 136);
-    margin-left: 15px;
-  }
-`
-
-const CellHash = styled.code`
-  font-size: 16px;
-  color: rgb(136, 136, 136);
-`
-
-export const CellHashHighLight = styled(CellHash)`
-  font-size: 16px;
-  color: rgb(75, 188, 142);
-`
-
-export const CellbasePanel = styled.div`
-  display: flex;
-
-  .cellbase__content {
-    color: #888888;
-    font-size: 16px;
-    margin-right: 10px;
-  }
-
-  .cellbase__help {
-    margin-left: 10px;
-    position: relative;
-    &:focus {
-      outline: 0;
-    }
-
-    > img {
-      margin-top: -1px;
-      width: 20px;
-      height: 20px;
-    }
-  }
-`
+import { CellbasePanel, CellHash, CellHashHighLight, TransactionCellPanel } from './styled'
 
 const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
   const [show, setShow] = useState(false)
@@ -73,9 +19,7 @@ const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
   return targetBlockNumber && targetBlockNumber > 0 ? (
     <CellbasePanel>
       <div className="cellbase__content">Cellbase for Block</div>
-      <Link to={`/block/${targetBlockNumber}`}>
-        <CellHashHighLight>{localeNumberString(targetBlockNumber)}</CellHashHighLight>
-      </Link>
+      <Link to={`/block/${targetBlockNumber}`}>{localeNumberString(targetBlockNumber)}</Link>
       <div
         className="cellbase__help"
         tabIndex={-1}
@@ -100,7 +44,9 @@ const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
       </div>
     </CellbasePanel>
   ) : (
-    <div>Cellbase</div>
+    <CellbasePanel>
+      <div className="cellbase__content">Cellbase</div>
+    </CellbasePanel>
   )
 }
 const CellbaseAddress = ({ cell, address }: { cell: InputOutput; address?: string }) => {
