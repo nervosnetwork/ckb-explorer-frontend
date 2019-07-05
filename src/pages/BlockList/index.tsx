@@ -39,8 +39,6 @@ enum PageParams {
 const Actions = {
   blocks: 'BLOCKS',
   total: 'TOTAL',
-  page: 'PAGE_NO',
-  size: 'PAGE_SIZE',
 }
 
 const reducer = (state: any, action: any) => {
@@ -54,16 +52,6 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         total: action.payload.total,
-      }
-    case Actions.page:
-      return {
-        ...state,
-        page: action.payload.page,
-      }
-    case Actions.size:
-      return {
-        ...state,
-        size: action.payload.size,
       }
     default:
       return state
@@ -80,12 +68,6 @@ const getBlocks = (page: number, size: number, dispatch: any) => {
           total: meta.total,
         },
       })
-      dispatch({
-        type: Actions.size,
-        payload: {
-          size: meta.page_size,
-        },
-      })
     }
     if (data) {
       dispatch({
@@ -99,22 +81,22 @@ const getBlocks = (page: number, size: number, dispatch: any) => {
   })
 }
 
+const initialState = {
+  blocks: [] as BlockWrapper[],
+  total: 1,
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
-  const { location } = props
+  const { location, history } = props
   const { search } = location
+  const { replace } = history
   const parsed = queryString.parse(search)
   const [t] = useTranslation()
 
-  const initialState = {
-    blocks: [] as BlockWrapper[],
-    total: 1,
-    page: parsePageNumber(parsed.page, PageParams.PageNo),
-    size: parsePageNumber(parsed.size, PageParams.PageSize),
-  }
+  const page = parsePageNumber(parsed.page, PageParams.PageNo)
+  const size = parsePageNumber(parsed.size, PageParams.PageSize)
+
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { page, size } = state
-  const { history } = props
-  const { replace } = history
 
   useEffect(() => {
     const cachedBlocks = fetchCachedData<BlockWrapper[]>(CachedKeys.BlockList)
@@ -136,18 +118,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   }, [replace, page, size, dispatch])
 
   const onChange = (pageNo: number, pageSize: number) => {
-    dispatch({
-      type: Actions.page,
-      payload: {
-        page: pageNo,
-      },
-    })
-    dispatch({
-      type: Actions.size,
-      payload: {
-        size: pageSize,
-      },
-    })
     props.history.push(`/block/list?page=${pageNo}&size=${pageSize}`)
   }
 
@@ -198,10 +168,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
           <Pagination
             showQuickJumper
             showSizeChanger
-            defaultPageSize={state.size}
-            pageSize={state.size}
-            defaultCurrent={state.page}
-            current={state.page}
+            defaultPageSize={size}
+            pageSize={size}
+            defaultCurrent={page}
+            current={page}
             total={state.total}
             onChange={onChange}
             locale={localeInfo}
