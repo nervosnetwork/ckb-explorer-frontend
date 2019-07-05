@@ -50,7 +50,7 @@ import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchBlockByHash, fetchTransactionsByBlockHash, fetchBlockByNumber } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
-import { startEndEllipsis, validNumber } from '../../utils/string'
+import { startEndEllipsis, parsePageNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
@@ -328,13 +328,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     block: initBlock,
     transactions: [] as TransactionWrapper[],
     total: 1,
-    page: validNumber(parsed.page, PageParams.PageNo),
-    size: validNumber(parsed.size, PageParams.PageSize),
+    page: parsePageNumber(parsed.page, PageParams.PageNo),
+    size: parsePageNumber(parsed.size, PageParams.PageSize),
     prev: true,
     next: true,
   }
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { page, size } = state
+  const [page, size] = state
   const { history } = props
   const { replace } = history
 
@@ -346,18 +346,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
   }, [replace, blockHash, page, size, dispatch])
 
   const onChange = (pageNo: number, pageSize: number) => {
-    dispatch({
-      type: Actions.page,
-      payload: {
-        page: pageNo,
-      },
-    })
-    dispatch({
-      type: Actions.size,
-      payload: {
-        size: pageSize,
-      },
-    })
     history.push(`/block/${blockHash}?page=${pageNo}&size=${pageSize}`)
   }
 

@@ -35,7 +35,7 @@ import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress, fetchTipBlockNumber } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
-import { validNumber, startEndEllipsis } from '../../utils/string'
+import { parsePageNumber, startEndEllipsis } from '../../utils/string'
 import TransactionCard from '../../components/Transaction/TransactionCard/index'
 import { StatisticsWrapper } from '../../http/response/Statistics'
 import { localeNumberString } from '../../utils/number'
@@ -249,8 +249,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     address: initAddress,
     transactions: [] as TransactionWrapper[],
     total: 1,
-    page: validNumber(parsed.page, PageParams.PageNo),
-    size: validNumber(parsed.size, PageParams.PageSize),
+    page: parsePageNumber(parsed.page, PageParams.PageNo),
+    size: parsePageNumber(parsed.size, PageParams.PageSize),
     tipBlockNumber: 0,
   }
   const [state, dispatch] = useReducer(reducer, initialState)

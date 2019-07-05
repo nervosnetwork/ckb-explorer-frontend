@@ -25,7 +25,7 @@ import { fetchBlockList } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
 import { shannonToCkb } from '../../utils/util'
-import { validNumber } from '../../utils/string'
+import { parsePageNumber } from '../../utils/string'
 import { CachedKeys } from '../../utils/const'
 import { fetchCachedData, storeCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
@@ -108,8 +108,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   const initialState = {
     blocks: [] as BlockWrapper[],
     total: 1,
-    page: validNumber(parsed.page, PageParams.PageNo),
-    size: validNumber(parsed.size, PageParams.PageSize),
+    page: parsePageNumber(parsed.page, PageParams.PageNo),
+    size: parsePageNumber(parsed.size, PageParams.PageSize),
   }
   const [state, dispatch] = useReducer(reducer, initialState)
   const { page, size } = state
