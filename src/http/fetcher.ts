@@ -113,3 +113,11 @@ export const fetchSearchResult = (param: string) => {
 export const fetchStatistics = () => {
   return axiosIns.get('statistics').then((res: AxiosResponse) => res.data)
 }
+
+export const fetchStatisticInfo = (infoName: string) => {
+  return axiosIns.get(`statistics/${infoName}`).then((res: AxiosResponse) => res.data)
+}
+
+export const fetchTipBlockNumber = () => {
+  return fetchStatisticInfo('tip_block_number')
+}
