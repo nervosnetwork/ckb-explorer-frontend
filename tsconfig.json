@@ -22,6 +22,7 @@
     "noUnusedLocals": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
+    "sourceMap": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "allowJs": false,
@@ -30,7 +31,7 @@
     "jsx": "preserve",
     "typeRoots": [
       "./types",
-      "node_modules/@types",
+      "node_modules/@types"
     ]
   },
   "include": [

@@ -9,6 +9,7 @@ const TooltipPanel = styled.div`
   border-bottom-color: #676767;
   color: #ffffff;
   font-size: 13px;
+  font-family: PingFangSC-Semibold;
   line-height: 18px;
   box-sizing: border-box;
   border-radius: 6px;

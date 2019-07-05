@@ -20,8 +20,6 @@ const targetSize: TargetSize = {
   width: 14,
   height: 30,
 }
-const TooltipContent =
-  'The cellbase transaction of block N is send to the miner of block N-11 as reward. The reward is consist of Base Reward, Commit Reward and Proposal Reward, learn more from our Consensus Protocol.'
 
 const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
   const [show, setShow] = useState(false)
@@ -35,11 +33,23 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
         className="cellbase__help"
         tabIndex={-1}
         onFocus={() => {}}
-        onMouseOver={() => setShow(true)}
-        onMouseLeave={() => setShow(false)}
+        onMouseOver={() => {
+          setShow(true)
+          const p = document.querySelector('.page') as HTMLElement
+          if (p) {
+            p.setAttribute('tabindex', '-1')
+          }
+        }}
+        onMouseLeave={() => {
+          setShow(false)
+          const p = document.querySelector('.page') as HTMLElement
+          if (p) {
+            p.removeAttribute('tabindex')
+          }
+        }}
       >
         <img alt="cellbase help" src={HelpIcon} />
-        <Tooltip show={show} targetSize={targetSize} message={TooltipContent} />
+        <Tooltip show={show} targetSize={targetSize} message={i18n.t('transaction.cellbase_help_tooltip')} />
       </div>
     </CellbasePanel>
   ) : (
@@ -91,8 +101,9 @@ const TransactionCard = ({
       <div className="sperate__line_top" />
       {transaction && transaction.display_inputs && (
         <TransactionCellList
-          data={transaction.display_inputs}
-          pageSize={MAX_CELL_SHOW_SIZE}
+          cells={transaction.display_inputs}
+          showSize={MAX_CELL_SHOW_SIZE}
+          transaction={transaction}
           render={input => <CardCell key={input.id} input={input} address={address} />}
         />
       )}
@@ -101,8 +112,9 @@ const TransactionCard = ({
       </div>
       {transaction && transaction.display_outputs && (
         <TransactionCellList
-          data={transaction.display_outputs}
-          pageSize={MAX_CELL_SHOW_SIZE}
+          cells={transaction.display_outputs}
+          showSize={MAX_CELL_SHOW_SIZE}
+          transaction={transaction}
           render={output => {
             return (
               <FullPanel key={output.id}>
