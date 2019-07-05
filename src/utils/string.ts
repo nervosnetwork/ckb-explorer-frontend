@@ -1,8 +1,9 @@
-export const validNumber = (value: any, defaultValue: number) => {
+export const parsePageNumber = (value: any, defaultValue: number) => {
   if (typeof value !== 'string') {
     return defaultValue
   }
-  return value ? parseInt(value, 10) : defaultValue
+  const result = value ? parseInt(value, 10) : defaultValue
+  return result === 0 ? defaultValue : result
 }
 
 export const startEndEllipsis = (value: string, length = 8) => {
