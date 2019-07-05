@@ -53,6 +53,7 @@ import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { startEndEllipsis, validNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
+import { localeNumberString } from '../../utils/number'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
@@ -279,30 +280,33 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
     })
 }
 
-const getBlockByHash = (blockHash: string, page: number, size: number, dispatch: any) => {
-  fetchBlockByHash(blockHash).then(response => {
-    const { data } = response as Response<BlockWrapper>
-    const block = data.attributes as Block
-    dispatch({
-      type: Actions.block,
-      payload: {
-        block,
-      },
+const getBlockByHash = (blockHash: string, page: number, size: number, dispatch: any, replace: any) => {
+  fetchBlockByHash(blockHash)
+    .then(response => {
+      const { data } = response as Response<BlockWrapper>
+      const block = data.attributes as Block
+      dispatch({
+        type: Actions.block,
+        payload: {
+          block,
+        },
+      })
+      updateBlockPrevNext(block.number, dispatch)
+      getTransactions(block.block_hash, page, size, dispatch)
     })
-    updateBlockPrevNext(block.number, dispatch)
-    getTransactions(block.block_hash, page, size, dispatch)
-  })
+    .catch(() => {
+      replace(`/search/fail?q=${blockHash}`)
+    })
 }
 
 const BlockRewardTip: Tooltip = {
   status: 'Pending',
-  tip: 'The block reward of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+  tip: i18n.t('block.pending_tip'),
 }
 
 const TransactionFeeTip: Tooltip = {
   status: 'Calculating',
-  tip:
-    'The transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+  tip: i18n.t('block.calculating_tip'),
   hideValue: true,
 }
 
@@ -338,45 +342,47 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     if (size > PageParams.MaxPageSize) {
       replace(`/block/${blockHash}?page=${page}&size=${PageParams.MaxPageSize}`)
     }
-    getBlockByHash(blockHash, page, size, dispatch)
+    getBlockByHash(blockHash, page, size, dispatch, replace)
   }, [replace, blockHash, page, size, dispatch])
 
   const onChange = (pageNo: number, pageSize: number) => {
     dispatch({
       type: Actions.page,
       payload: {
-        pageNo,
+        page: pageNo,
       },
     })
     dispatch({
       type: Actions.size,
       payload: {
-        pageSize,
+        size: pageSize,
       },
     })
-    props.history.push(`/block/${blockHash}?page=${pageSize}&size=${pageSize}`)
+    history.push(`/block/${blockHash}?page=${pageNo}&size=${pageSize}`)
   }
 
   const BlockLeftItems: BlockItem[] = [
     {
       image: BlockHeightIcon,
       label: `${i18n.t('block.block_height')}:`,
-      value: `${state.block.number}`,
+      value: localeNumberString(state.block.number),
     },
     {
       image: BlockTransactionIcon,
       label: `${i18n.t('transaction.transactions')}:`,
-      value: `${state.block.transactions_count}`,
+      value: localeNumberString(state.block.transactions_count),
     },
     {
       image: ProposalTransactionsIcon,
       label: `${i18n.t('block.proposal_transactions')}:`,
-      value: `${state.block.proposal_transactions_count ? state.block.proposal_transactions_count : 0}`,
+      value: `${
+        state.block.proposal_transactions_count ? localeNumberString(state.block.proposal_transactions_count) : 0
+      }`,
     },
     {
       image: BlockRewardIcon,
       label: `${i18n.t('block.block_reward')}:`,
-      value: `${shannonToCkb(state.block.reward)} CKB`,
+      value: `${localeNumberString(shannonToCkb(state.block.reward))} CKB`,
       tooltip: state.block.reward_status === RewardStatus.pending ? BlockRewardTip : undefined,
     },
     {
@@ -406,22 +412,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: EpochIcon,
       label: `${i18n.t('block.epoch')}:`,
-      value: `${state.block.epoch}`,
+      value: localeNumberString(state.block.epoch),
     },
     {
       image: StartNumberIcon,
       label: `${i18n.t('block.epoch_start_number')}:`,
-      value: `${state.block.start_number}`,
+      value: localeNumberString(state.block.start_number),
     },
     {
       image: LengthIcon,
       label: `${i18n.t('block.epoch_length')}:`,
-      value: state.block.length,
+      value: localeNumberString(state.block.length),
     },
     {
       image: DifficultyIcon,
       label: `${i18n.t('block.difficulty')}:`,
-      value: parseInt(state.block.difficulty, 16).toLocaleString(),
+      value: localeNumberString(state.block.difficulty, 16),
     },
     {
       image: NonceIcon,

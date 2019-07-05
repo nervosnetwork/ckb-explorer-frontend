@@ -6,14 +6,13 @@ export const HomeHeaderPanel = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 100px 0px;
+  padding: 70px 0px;
 
-  > div:nth-child(n) {
-    margin-left: 20px;
-  }
-
-  > div:nth-child(1) {
-    margin: 0px;
+  .blockchain__item__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 1200px;
   }
 
   @media (max-width: 700px) {
@@ -24,26 +23,30 @@ export const HomeHeaderPanel = styled.div`
     padding-top: 20px;
     padding-bottom: 10px;
 
-    > div:nth-child(n) {
-      margin-bottom: 10px;
-    }
+    .blockchain__item__container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
 
-    > div:nth-child(even) {
-      margin-left: 5%;
-    }
+      > div:nth-child(n) {
+        margin-bottom: 10px;
+      }
 
-    > div:nth-child(odd) {
-      margin-left: 0px;
+      > div:nth-child(even) {
+        margin-left: 5%;
+      }
+
+      > div:nth-child(odd) {
+        margin-left: 0px;
+      }
     }
   }
 `
 
 export const HomeHeaderItemPanel = styled.div`
-  @media (max-width: 700px) {
-    display: none;
-  }
   width: 285px;
   height: 180px;
+  margin: 10px 0px;
   display: flex;
   flex-direction: column;
   item-align: center;
@@ -51,9 +54,6 @@ export const HomeHeaderItemPanel = styled.div`
   border: 0px solid white;
   border-radius: 6px;
   box-shadow: 4px 4px 6px #dfdfdf;
-  background-image: url(${(props: { image: any }) => props.image});
-  background-repeat: no-repeat;
-  background-size: 297px 192px;
 
   .blockchain__item__value {
     color: #3cc68a;
@@ -94,48 +94,54 @@ export const HomeHeaderItemPanel = styled.div`
     color: white;
     font-size: 12px;
   }
-`
 
-export const HomeHeaderItemMobilePanel = styled.div`
-  @media (min-width: 700px) {
-    display: none;
-  }
-  width: 42%;
-  height: 80px;
-  display: flex;
-  flex-direction: column;
-  item-align: center;
-  background-color: white;
-  border: 0px solid white;
-  border-radius: 6px;
-  box-shadow: 4px 4px 6px #dfdfdf;
-  background-image: url(${(props: { image: any }) => props.image});
-  background-repeat: no-repeat;
-  background-size: calc(100% + 12px) 92px;
+  @media (max-width: 700px) {
+    width: 42%;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    item-align: center;
+    background-color: white;
+    border: 0px solid white;
+    border-radius: 6px;
+    box-shadow: 4px 4px 6px #dfdfdf;
 
-  .blockchain__item__value {
-    color: #3cc68a;
-    text-align: center;
-    font-size: 14px;
-    margin-top: 20px;
-    font-weight: 450;
-  }
+    .blockchain__item__value {
+      color: #3cc68a;
+      text-align: center;
+      font-size: 14px;
+      margin-top: 20px;
+      font-weight: 450;
+    }
 
-  .blockchain__item__name {
-    color: #888888;
-    text-align: center;
-    font-size: 12px;
-    margin-top: 5px;
-    font-weight: 450;
+    .blockchain__item__name {
+      color: #888888;
+      text-align: center;
+      font-size: 12px;
+      margin-top: 5px;
+      font-weight: 450;
+    }
+
+    .blockchain__item__tip {
+      display: none;
+    }
+
+    &:hover .blockchain__item__tip {
+      display: none;
+    }
+
+    .blockchain__item__tip__content {
+      display: none;
+    }
   }
 `
 
 export const BlockPanel = styled.div`
   width: 100%;
-  margin-bottom: 72px;
+  margin-bottom: 60px;
 
   @media (max-width: 700px) {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 `
 

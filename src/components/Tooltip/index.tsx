@@ -9,6 +9,7 @@ const TooltipPanel = styled.div`
   border-bottom-color: #676767;
   color: #ffffff;
   font-size: 13px;
+  font-family: PingFangSC-Semibold;
   line-height: 18px;
   box-sizing: border-box;
   border-radius: 6px;
@@ -51,7 +52,6 @@ export interface TargetSize {
 }
 
 const Tooltip = ({ show = false, message, targetSize }: { show: boolean; message: string; targetSize: TargetSize }) => {
-  console.log(JSON.stringify(targetSize))
   return <React.Fragment>{show && <TooltipPanel targetSize={targetSize}>{message}</TooltipPanel>}</React.Fragment>
 }
 

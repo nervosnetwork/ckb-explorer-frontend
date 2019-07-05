@@ -19,11 +19,12 @@ export const BlockDetailTitlePanel = styled.div`
 
   .block__title {
     color: rgb(20, 20, 20);
-    font-size: 40pt;
+    font-size: 40px;
+    font-weight: 900;
     text-align: center;
 
     @media (max-width: 700px) {
-      font-size: 26px;
+      font-size: 20px;
     }
   }
 
@@ -37,7 +38,7 @@ export const BlockDetailTitlePanel = styled.div`
       font-size: 18px;
 
       @media (max-width: 700px) {
-        font-size: 14px;
+        font-size: 10px;
         height: 40px;
         width: 75%;
       }
@@ -64,13 +65,14 @@ export const BlockOverviewPanel = styled.div`
   margin-top: 107px;
   margin-bottom: 70px;
   font-size: 50px;
+  font-weight: 900;
   color: rgb(20, 20, 20);
   height: 70px;
 
   @media (max-width: 700px) {
     margin-top: 25px;
     margin-bottom: 5px;
-    font-size: 26px;
+    font-size: 18px;
     height: 50px;
   }
 
@@ -83,6 +85,7 @@ export const BlockOverviewPanel = styled.div`
     width: 197px;
     @media (max-width: 700px) {
       width: 100px;
+      height: 2px;
     }
   }
 `
@@ -234,6 +237,9 @@ export const BlockHightLabel = styled.div`
   font-size: 16px;
   color: #979797;
   text-align: center;
+  @media (max-width: 700px) {
+    font-size: 8px;
+  }
 `
 
 export const BlockTransactionsPanel = styled.div``
