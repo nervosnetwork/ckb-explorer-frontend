@@ -51,6 +51,9 @@ export const CellbasePanel = styled.div`
   .cellbase__help {
     margin-left: 10px;
     position: relative;
+    &:focus {
+      outline: 0;
+    }
 
     > img {
       margin-top: -1px;
@@ -60,25 +63,37 @@ export const CellbasePanel = styled.div`
   }
 `
 
-const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
+const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
   const [show, setShow] = useState(false)
   const targetSize: TargetSize = {
     width: 20,
     height: 30,
   }
 
-  return blockHeight && blockHeight > 0 ? (
+  return targetBlockNumber && targetBlockNumber > 0 ? (
     <CellbasePanel>
       <div className="cellbase__content">Cellbase for Block</div>
-      <Link to={`/block/${blockHeight}`}>
-        <CellHashHighLight>{localeNumberString(blockHeight)}</CellHashHighLight>
+      <Link to={`/block/${targetBlockNumber}`}>
+        <CellHashHighLight>{localeNumberString(targetBlockNumber)}</CellHashHighLight>
       </Link>
       <div
         className="cellbase__help"
         tabIndex={-1}
         onFocus={() => {}}
-        onMouseOver={() => setShow(true)}
-        onMouseLeave={() => setShow(false)}
+        onMouseOver={() => {
+          setShow(true)
+          const p = document.querySelector('.page') as HTMLElement
+          if (p) {
+            p.setAttribute('tabindex', '-1')
+          }
+        }}
+        onMouseLeave={() => {
+          setShow(false)
+          const p = document.querySelector('.page') as HTMLElement
+          if (p) {
+            p.removeAttribute('tabindex')
+          }
+        }}
       >
         <img alt="cellbase help" src={HelpIcon} />
         <Tooltip message={i18n.t('transaction.cellbase_help_tooltip')} show={show} targetSize={targetSize} />
@@ -89,20 +104,16 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
   )
 }
 
-const TransactionCell = ({
-  cell,
-  blockNumber,
-  address,
-}: {
-  cell: InputOutput
-  blockNumber?: number
-  address?: string
-}) => {
+const TransactionCell = ({ cell, address }: { cell: InputOutput; address?: string }) => {
   const CellbaseAddress = () => {
     return address === cell.address_hash || cell.from_cellbase ? (
       <div className="transaction__cell">
         <CellHash>
-          {cell.address_hash ? startEndEllipsis(cell.address_hash) : <Cellbase blockHeight={blockNumber} />}
+          {cell.address_hash ? (
+            startEndEllipsis(cell.address_hash)
+          ) : (
+            <Cellbase targetBlockNumber={cell.target_block_number} />
+          )}
         </CellHash>
       </div>
     ) : (
@@ -119,7 +130,11 @@ const TransactionCell = ({
       ) : (
         <div className="transaction__cell">
           <CellHash>
-            {cell.from_cellbase ? <Cellbase blockHeight={blockNumber} /> : 'Unable to decode address'}
+            {cell.from_cellbase ? (
+              <Cellbase targetBlockNumber={cell.target_block_number} />
+            ) : (
+              'Unable to decode address'
+            )}
           </CellHash>
         </div>
       )}
