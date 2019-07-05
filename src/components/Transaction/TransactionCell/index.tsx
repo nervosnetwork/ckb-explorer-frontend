@@ -103,30 +103,28 @@ const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
     <div>Cellbase</div>
   )
 }
-
+const CellbaseAddress = ({ cell, address }: { cell: InputOutput; address?: string }) => {
+  return address === cell.address_hash || cell.from_cellbase ? (
+    <div className="transaction__cell">
+      <CellHash>
+        {cell.address_hash ? (
+          startEndEllipsis(cell.address_hash)
+        ) : (
+          <Cellbase targetBlockNumber={cell.target_block_number} />
+        )}
+      </CellHash>
+    </div>
+  ) : (
+    <Link className="transaction__cell__link" to={`/address/${cell.address_hash}`}>
+      <CellHashHighLight>{startEndEllipsis(cell.address_hash)}</CellHashHighLight>
+    </Link>
+  )
+}
 const TransactionCell = ({ cell, address }: { cell: InputOutput; address?: string }) => {
-  const CellbaseAddress = () => {
-    return address === cell.address_hash || cell.from_cellbase ? (
-      <div className="transaction__cell">
-        <CellHash>
-          {cell.address_hash ? (
-            startEndEllipsis(cell.address_hash)
-          ) : (
-            <Cellbase targetBlockNumber={cell.target_block_number} />
-          )}
-        </CellHash>
-      </div>
-    ) : (
-      <Link className="transaction__cell__link" to={`/address/${cell.address_hash}`}>
-        <CellHashHighLight>{startEndEllipsis(cell.address_hash)}</CellHashHighLight>
-      </Link>
-    )
-  }
-
   return (
     <TransactionCellPanel>
       {cell.address_hash ? (
-        <CellbaseAddress />
+        <CellbaseAddress cell={cell} address={address} />
       ) : (
         <div className="transaction__cell">
           <CellHash>

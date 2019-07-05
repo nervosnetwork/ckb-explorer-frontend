@@ -101,19 +101,19 @@ const getCellState = (state: any, item: string) => {
   return cellState === state.cellState ? CellState.NONE : cellState
 }
 
+const AddressHashComponent = ({ cellInputOutput }: { cellInputOutput: any }) => {
+  return cellInputOutput.address_hash ? (
+    <Link to={`/address/${cellInputOutput.address_hash}`}>
+      <code>{parseLongAddressHash(cellInputOutput.address_hash)}</code>
+    </Link>
+  ) : (
+    <div className="address__bold__grey">{i18n.t('address.unable_decode_address')}</div>
+  )
+}
+
 const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; cellInputOutput: any }) => {
   const appContext = useContext(AppContext)
   const [state, dispatch] = useReducer(reducer, initialState)
-
-  const AddressHashComponent = () => {
-    return cellInputOutput.address_hash ? (
-      <Link to={`/address/${cellInputOutput.address_hash}`}>
-        <code>{parseLongAddressHash(cellInputOutput.address_hash)}</code>
-      </Link>
-    ) : (
-      <div className="address__bold__grey">{i18n.t('address.unable_decode_address')}</div>
-    )
-  }
 
   const handleCopy = () => {
     const textarea = document.getElementById(`textarea-${cellType}-${cellInputOutput.id}`) as HTMLTextAreaElement
@@ -198,7 +198,7 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
           {cellInputOutput.from_cellbase ? (
             <div className="address__bold__grey">Cellbase</div>
           ) : (
-            <AddressHashComponent />
+            <AddressHashComponent cellInputOutput={cellInputOutput} />
           )}
         </td>
         {!cellInputOutput.from_cellbase ? (
