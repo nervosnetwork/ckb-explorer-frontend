@@ -6,28 +6,17 @@ export const TransactionCellPanel = styled.div`
   height: 35px;
   justify-content: space-between;
 
-  .transaction__cell {
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    color: rgb(136, 136, 136);
+  .transaction__cell_address {
+    color: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '#4bbc8e' : '#888888')};
+    font-size: 16px;
+    font-family: monospace;
   }
 
-  .transaction__cell__capacity {
+  .transaction__cell_capacity {
     font-size: 16px;
     color: rgb(136, 136, 136);
     margin-left: 15px;
   }
-`
-
-export const CellHash = styled.code`
-  font-size: 16px;
-  color: rgb(136, 136, 136);
-`
-
-export const CellHashHighLight = styled(CellHash)`
-  font-size: 16px;
-  color: rgb(75, 188, 142);
 `
 
 export const CellbasePanel = styled.div`
