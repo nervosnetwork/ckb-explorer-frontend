@@ -8,6 +8,7 @@ describe('String methods tests', () => {
     expect(parsePageNumber(2, 10)).toBe(10)
     expect(parsePageNumber('2', 10)).toBe(2)
     expect(parsePageNumber('0', 10)).toBe(10)
+    expect(parsePageNumber(undefined, 10)).toBe(10)
   })
 
   it('end ellipsis', async () => {
