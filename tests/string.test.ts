@@ -1,12 +1,13 @@
-import { validNumber, startEndEllipsis, parseLongAddressHash, hexToUtf8, searchTextCorrection, stringInsert } from '../src/utils/string'
+import { parsePageNumber, startEndEllipsis, parseLongAddressHash, hexToUtf8, searchTextCorrection, stringInsert } from '../src/utils/string'
 
 describe('String methods tests', () => {
 
   it('parse valid number', async () => {
     const a = undefined
-    expect(validNumber(a, 10)).toBe(10)
-    expect(validNumber(2, 10)).toBe(10)
-    expect(validNumber('2', 10)).toBe(2)
+    expect(parsePageNumber(a, 10)).toBe(10)
+    expect(parsePageNumber(2, 10)).toBe(10)
+    expect(parsePageNumber('2', 10)).toBe(2)
+    expect(parsePageNumber('0', 10)).toBe(10)
   })
 
   it('end ellipsis', async () => {

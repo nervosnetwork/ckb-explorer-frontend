@@ -3,7 +3,7 @@ export const parsePageNumber = (value: any, defaultValue: number) => {
     return defaultValue
   }
   const result = value ? parseInt(value, 10) : defaultValue
-  return result === 0 ? 1 : result
+  return result === 0 ? defaultValue : result
 }
 
 export const startEndEllipsis = (value: string, length = 8) => {
