@@ -21,6 +21,11 @@ const noneStyle = {
   color: '#888888',
 }
 
+export interface TransactionFee {
+  symbol?: string
+  fee: any
+}
+
 const statusTargetSize: TargetSize = {
   width: 60,
   height: 30,
@@ -37,25 +42,58 @@ const SimpleLabel = ({
   value,
   highLight,
   tooltip,
+  transactionFeeSymbol,
 }: {
   image: string
   label: string
   value: any
   highLight?: boolean
   tooltip?: Tooltip
+  transactionFeeSymbol?: string
 }) => {
+  let transactionFee: TransactionFee = {
+    symbol: transactionFeeSymbol,
+    fee: value,
+  }
   const [showStatusTip, setShowStatusTip] = useState(false)
   const [showHelpTip, setShowHelpTip] = useState(false)
+  const [transactionFeeType, setTransactionFeeType] = useState(transactionFee)
   if (tooltip && tooltip.offset) {
     helpTargetSize.offset = tooltip.offset
+  }
+  const switchTransactionFeeSymbol = () => {
+    if (transactionFeeType.symbol === 'CKB') {
+      transactionFee = {
+        symbol: 'Shannon',
+        fee: value * 10 ** 8,
+      }
+      setTransactionFeeType(transactionFee)
+    } else {
+      transactionFee = {
+        symbol: 'CKB',
+        fee: value,
+      }
+      setTransactionFeeType(transactionFee)
+    }
   }
   return (
     <LabelPanel>
       <img className="label__icon" src={image} alt={value} />
       <span className="label__name">{label}</span>
-      <LabelValuePanel style={highLight ? highLightStyle : noneStyle} tooltip={tooltip}>
-        {value}
-      </LabelValuePanel>
+      {!transactionFeeSymbol && (
+        <LabelValuePanel style={highLight ? highLightStyle : noneStyle} tooltip={tooltip}>
+          {value}
+        </LabelValuePanel>
+      )}
+      {transactionFeeSymbol && (
+        <LabelValuePanel
+          style={highLight ? highLightStyle : noneStyle}
+          tooltip={tooltip}
+          onClick={() => switchTransactionFeeSymbol()}
+        >
+          {`${transactionFeeType.fee} ${transactionFeeType.symbol}`}
+        </LabelValuePanel>
+      )}
       {tooltip && tooltip.status && (
         <LableTipPanel>
           <div

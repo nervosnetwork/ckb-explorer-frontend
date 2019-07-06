@@ -153,11 +153,19 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   highLight
                 />
               </Link>
-              <SimpleLabel
-                image={TransactionIcon}
-                label={`${i18n.t('transaction.transaction_fee')}:`}
-                value={`${transaction.transaction_fee} Shannon`}
-              />
+              <Link
+                to={{
+                  pathname: ``,
+                }}
+              >
+                <SimpleLabel
+                  image={TransactionIcon}
+                  label={`${i18n.t('transaction.transaction_fee')}:`}
+                  value={`${transaction.transaction_fee / 10 ** 8}`}
+                  highLight
+                  transactionFeeSymbol="CKB"
+                />
+              </Link>
             </div>
             <div>
               <div />
