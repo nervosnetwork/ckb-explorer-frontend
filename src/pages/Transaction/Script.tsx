@@ -9,6 +9,8 @@ import { shannonToCkb, copyElementValue } from '../../utils/util'
 import { hexToUtf8, parseLongAddressHash } from '../../utils/string'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
+import { InputOutput } from '../../http/response/Transaction'
+import { Data } from '../../http/response/Data'
 
 enum CellState {
   NONE,
@@ -97,22 +99,22 @@ const getCellState = (state: any, item: string) => {
   return cellState === state.cellState ? CellState.NONE : cellState
 }
 
-const AddressHashComponent = ({ cellInputOutput }: { cellInputOutput: any }) => {
-  return cellInputOutput.address_hash ? (
-    <Link to={`/address/${cellInputOutput.address_hash}`}>
-      <code>{parseLongAddressHash(cellInputOutput.address_hash)}</code>
+const AddressHashComponent = ({ cell }: { cell: InputOutput }) => {
+  return cell.address_hash ? (
+    <Link to={`/address/${cell.address_hash}`}>
+      <code>{parseLongAddressHash(cell.address_hash)}</code>
     </Link>
   ) : (
     <div className="address__bold__grey">{i18n.t('address.unable_decode_address')}</div>
   )
 }
 
-const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; cellInputOutput: any }) => {
+const ScriptComponent = ({ cellType, cell }: { cellType: CellType; cell: InputOutput }) => {
   const appContext = useContext(AppContext)
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const handleCopy = () => {
-    copyElementValue(document.getElementById(`textarea-${cellType}-${cellInputOutput.id}`))
+    copyElementValue(document.getElementById(`textarea-${cellType}-${cell.id}`))
     appContext.toastMessage(i18n.t('common.copied'), 3000)
   }
 
@@ -126,10 +128,10 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
   }
 
   const handleFetchScript = (item: string) => {
-    if (cellInputOutput.from_cellbase) return
+    if (cell.from_cellbase) return
     switch (getCellState(state, item)) {
       case CellState.LOCK:
-        fetchScript(cellType, 'lock_scripts', cellInputOutput.id).then(response => {
+        fetchScript(cellType, 'lock_scripts', `${cell.id}`).then(response => {
           const { data } = response as Response<ScriptWrapper>
           handleCellState(item)
           dispatch({
@@ -141,7 +143,7 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
         })
         break
       case CellState.TYPE:
-        fetchScript(cellType, 'type_scripts', cellInputOutput.id).then(response => {
+        fetchScript(cellType, 'type_scripts', `${cell.id}`).then(response => {
           const { data } = response as Response<ScriptWrapper>
           handleCellState(item)
           dispatch({
@@ -153,9 +155,9 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
         })
         break
       case CellState.DATA:
-        fetchCellData(cellType, cellInputOutput.id).then((data: any) => {
+        fetchCellData(cellType, `${cell.id}`).then((data: Data) => {
           const dataValue = data
-          if (data && cellInputOutput.isGenesisOutput) {
+          if (data && cell.isGenesisOutput) {
             dataValue.data = hexToUtf8(data.data.substr(2))
           }
           handleCellState(item)
@@ -175,7 +177,7 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
 
   const operationClassName = (item: string) => {
     const cellState = cellStateWithItem(item)
-    if (cellInputOutput.from_cellbase) {
+    if (cell.from_cellbase) {
       return 'td-operatable-disabled'
     }
     if (state.cellState === cellState) {
@@ -188,17 +190,13 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
     <>
       <tr className="tr-brief">
         <td>
-          {cellInputOutput.from_cellbase ? (
+          {cell.from_cellbase ? (
             <div className="address__bold__grey">Cellbase</div>
           ) : (
-            <AddressHashComponent cellInputOutput={cellInputOutput} />
+            <AddressHashComponent cell={cell} />
           )}
         </td>
-        {!cellInputOutput.from_cellbase ? (
-          <td>{localeNumberString(shannonToCkb(cellInputOutput.capacity))}</td>
-        ) : (
-          <td />
-        )}
+        {!cell.from_cellbase ? <td>{localeNumberString(shannonToCkb(cell.capacity))}</td> : <td />}
         {ScriptTypeItems.map(item => {
           return (
             <td key={item}>
@@ -218,7 +216,7 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
       {state.cellState !== CellState.NONE && (
         <tr className="tr-detail">
           <td colSpan={5}>
-            <div className="script__input" id={`textarea-${cellType}-${cellInputOutput.id}`}>
+            <div className="script__input" id={`textarea-${cellType}-${cell.id}`}>
               {JSON.stringify(getCell(state), null, 4)}
             </div>
             <div className="tr-detail-td-buttons">
