@@ -14,16 +14,12 @@ export interface Tooltip {
 const highLightStyle = {
   color: '#4BBC8E',
   fontWeight: 450,
+  cursor: 'pointer',
   fontFamily: 'source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace',
 }
 
 const noneStyle = {
   color: '#888888',
-}
-
-export interface TransactionFee {
-  symbol?: string
-  fee: any
 }
 
 const statusTargetSize: TargetSize = {
@@ -42,56 +38,44 @@ const SimpleLabel = ({
   value,
   highLight,
   tooltip,
-  transactionFeeSymbol,
+  extraValue,
 }: {
   image: string
   label: string
   value: any
   highLight?: boolean
   tooltip?: Tooltip
-  transactionFeeSymbol?: string
+  extraValue?: string
 }) => {
-  let transactionFee: TransactionFee = {
-    symbol: transactionFeeSymbol,
-    fee: value,
-  }
   const [showStatusTip, setShowStatusTip] = useState(false)
   const [showHelpTip, setShowHelpTip] = useState(false)
-  const [transactionFeeType, setTransactionFeeType] = useState(transactionFee)
+  const [showCKBSymbol, setShowCKBSymbol] = useState(true)
   if (tooltip && tooltip.offset) {
     helpTargetSize.offset = tooltip.offset
   }
   const switchTransactionFeeSymbol = () => {
-    if (transactionFeeType.symbol === 'CKB') {
-      transactionFee = {
-        symbol: 'Shannon',
-        fee: value * 10 ** 8,
-      }
-      setTransactionFeeType(transactionFee)
+    if (showCKBSymbol) {
+      setShowCKBSymbol(false)
     } else {
-      transactionFee = {
-        symbol: 'CKB',
-        fee: value,
-      }
-      setTransactionFeeType(transactionFee)
+      setShowCKBSymbol(true)
     }
   }
   return (
     <LabelPanel>
       <img className="label__icon" src={image} alt={value} />
       <span className="label__name">{label}</span>
-      {!transactionFeeSymbol && (
+      {!extraValue && (
         <LabelValuePanel style={highLight ? highLightStyle : noneStyle} tooltip={tooltip}>
           {value}
         </LabelValuePanel>
       )}
-      {transactionFeeSymbol && (
+      {extraValue && (
         <LabelValuePanel
           style={highLight ? highLightStyle : noneStyle}
           tooltip={tooltip}
           onClick={() => switchTransactionFeeSymbol()}
         >
-          {`${transactionFeeType.fee} ${transactionFeeType.symbol}`}
+          {showCKBSymbol ? value : extraValue}
         </LabelValuePanel>
       )}
       {tooltip && tooltip.status && (

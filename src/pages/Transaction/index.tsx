@@ -26,7 +26,7 @@ import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { Transaction, InputOutput, TransactionWrapper } from '../../http/response/Transaction'
 import { CellType, fetchTransactionByHash, fetchTipBlockNumber } from '../../http/fetcher'
-import { copyElementValue, formatConfirmation } from '../../utils/util'
+import { copyElementValue, formatConfirmation, shannonToCkb } from '../../utils/util'
 import CellCard from '../../components/Card/CellCard'
 import ScriptComponent from './Script'
 import { StatisticsWrapper } from '../../http/response/Statistics'
@@ -153,19 +153,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   highLight
                 />
               </Link>
-              <Link
-                to={{
-                  pathname: ``,
-                }}
-              >
-                <SimpleLabel
-                  image={TransactionIcon}
-                  label={`${i18n.t('transaction.transaction_fee')}:`}
-                  value={`${transaction.transaction_fee / 10 ** 8}`}
-                  highLight
-                  transactionFeeSymbol="CKB"
-                />
-              </Link>
+              <SimpleLabel
+                image={TransactionIcon}
+                label={`${i18n.t('transaction.transaction_fee')}:`}
+                value={`${shannonToCkb(transaction.transaction_fee)} CKB`}
+                highLight
+                extraValue={`${transaction.transaction_fee} Shannon`}
+              />
             </div>
             <div>
               <div />
