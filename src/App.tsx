@@ -14,7 +14,7 @@ const AppDiv = styled.div`
   width: 100vw;
   height: 100vh;
 `
-const resizeLatency = 500
+const RESIZE_LATENCY = 500
 let resizeTimer: any = null
 
 const App = () => {
@@ -25,7 +25,7 @@ const App = () => {
     resizeTimer = setTimeout(() => {
       appContext.resize(window.innerWidth, window.innerHeight)
       resizeTimer = null
-    }, resizeLatency)
+    }, RESIZE_LATENCY)
   }
   useEffect(() => {
     // global fetch interceptor setting
