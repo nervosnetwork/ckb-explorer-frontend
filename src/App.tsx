@@ -18,7 +18,9 @@ const AppDiv = styled.div`
 const App = () => {
   const appContext = useContext(AppContext)
   const [showError, setShowError] = useState(false)
-
+  const resizeListener: any = () => {
+    appContext.resize(window.innerWidth, window.innerHeight)
+  }
   useEffect(() => {
     // global fetch interceptor setting
     axiosIns.interceptors.request.use(
@@ -61,6 +63,10 @@ const App = () => {
         return Promise.reject(error)
       },
     )
+    window.addEventListener('resize', resizeListener)
+    return () => {
+      if (resizeListener) window.removeEventListener('resize', resizeListener)
+    }
     // eslint-disable-next-line
   }, [])
   return (
