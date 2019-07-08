@@ -8,9 +8,6 @@ import testnetTipImage from '../../assets/testnet_tip.png'
 import i18n from '../../utils/i18n'
 
 const HeaderDiv = styled.div`
-  @media (max-width: 700px) {
-    display: none;
-  }
   width: 100%;
   min-height: 80px;
   overflow: hidden;
@@ -107,9 +104,6 @@ const HeaderDiv = styled.div`
 `
 
 const HeaderMobilePanel = styled.div`
-  @media(min-width: 700px) {
-    display: none;
-  }
   height: ${(props: { height: number }) => props.height}px
   overflow: hidden;
   box-shadow: 0 2px 4px 0 #141414;
@@ -122,9 +116,6 @@ const HeaderMobilePanel = styled.div`
 `
 
 const HeaderMobileDiv = styled.div`
-  @media (min-width: 700px) {
-    display: none;
-  }
   width: 100%;
   height: 42px;
   display: flex;
@@ -185,9 +176,6 @@ const HeaderMobileDiv = styled.div`
 `
 
 const HeaderSearchPanel = styled.div`
-  @media (min-width: 700px) {
-    display: none;
-  }
   width: 100%;
   height: 40px;
   display: flex;
@@ -214,9 +202,51 @@ export default ({ search = true }: { search?: boolean }) => {
   useEffect(() => {
     setHeight(NORMAL_HEIGHT)
   }, [setHeight])
-
+  if (window.innerWidth < 700) {
+    return (
+      <>
+        <HeaderMobilePanel height={height}>
+          <HeaderMobileDiv>
+            <Link to="/" className="header__logo">
+              <img className="header__logo__img" src={logoIcon} alt="logo" />
+            </Link>
+            <div className="header__menus">
+              {menus.map((menu: any) => {
+                return (
+                  <a
+                    key={menu.name}
+                    className="header__menus__item"
+                    href={menu.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {menu.name}
+                  </a>
+                )
+              })}
+            </div>
+            {search && (
+              <div className="header__search">
+                <div
+                  className="header__search__component"
+                  onKeyDown={() => {}}
+                  onClick={() => setHeight(height === NORMAL_HEIGHT ? SEARCH_HEIGHT : NORMAL_HEIGHT)}
+                  role="button"
+                  tabIndex={-1}
+                >
+                  <img className="header__search__image" src={SearchLogo} alt="search" />
+                </div>
+                <div className="header__testnet">{i18n.t('navbar.network')}</div>
+              </div>
+            )}
+          </HeaderMobileDiv>
+          <HeaderSearchPanel>{search && <Search />}</HeaderSearchPanel>
+        </HeaderMobilePanel>
+      </>
+    )
+  }
   return (
-    <React.Fragment>
+    <>
       <HeaderDiv>
         <Link to="/" className="header__logo">
           <img className="header__logo__img" src={logoIcon} alt="logo" />
@@ -248,43 +278,6 @@ export default ({ search = true }: { search?: boolean }) => {
           </div>
         )}
       </HeaderDiv>
-      <HeaderMobilePanel height={height}>
-        <HeaderMobileDiv>
-          <Link to="/" className="header__logo">
-            <img className="header__logo__img" src={logoIcon} alt="logo" />
-          </Link>
-          <div className="header__menus">
-            {menus.map((menu: any) => {
-              return (
-                <a
-                  key={menu.name}
-                  className="header__menus__item"
-                  href={menu.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {menu.name}
-                </a>
-              )
-            })}
-          </div>
-          {search && (
-            <div className="header__search">
-              <div
-                className="header__search__component"
-                onKeyDown={() => {}}
-                onClick={() => setHeight(height === NORMAL_HEIGHT ? SEARCH_HEIGHT : NORMAL_HEIGHT)}
-                role="button"
-                tabIndex={-1}
-              >
-                <img className="header__search__image" src={SearchLogo} alt="search" />
-              </div>
-              <div className="header__testnet">{i18n.t('navbar.network')}</div>
-            </div>
-          )}
-        </HeaderMobileDiv>
-        <HeaderSearchPanel>{search && <Search />}</HeaderSearchPanel>
-      </HeaderMobilePanel>
-    </React.Fragment>
+    </>
   )
 }

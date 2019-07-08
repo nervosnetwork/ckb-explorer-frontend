@@ -14,11 +14,19 @@ const AppDiv = styled.div`
   width: 100vw;
   height: 100vh;
 `
+const RESIZE_LATENCY = 500
+let resizeTimer: any = null
 
 const App = () => {
   const appContext = useContext(AppContext)
   const [showError, setShowError] = useState(false)
-
+  const resizeListener = () => {
+    if (resizeTimer) clearTimeout(resizeTimer)
+    resizeTimer = setTimeout(() => {
+      appContext.resize(window.innerWidth, window.innerHeight)
+      resizeTimer = null
+    }, RESIZE_LATENCY)
+  }
   useEffect(() => {
     // global fetch interceptor setting
     axiosIns.interceptors.request.use(
@@ -61,6 +69,10 @@ const App = () => {
         return Promise.reject(error)
       },
     )
+    window.addEventListener('resize', resizeListener)
+    return () => {
+      if (resizeListener) window.removeEventListener('resize', resizeListener)
+    }
     // eslint-disable-next-line
   }, [])
   return (
