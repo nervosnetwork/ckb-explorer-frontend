@@ -65,7 +65,7 @@ const CardCell = ({ input, address }: { input: InputOutput; address?: string }) 
   let highLight = false
   if (input.address_hash) {
     addressText = startEndEllipsis(input.address_hash, 12)
-    if (address && input.address_hash !== address) {
+    if (input.address_hash !== address) {
       highLight = true
     }
   }

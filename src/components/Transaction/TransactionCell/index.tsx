@@ -61,14 +61,16 @@ const TransactionCell = ({ cell, address }: { cell: InputOutput; address?: strin
   let highLight = false
   if (cell.address_hash) {
     addressText = startEndEllipsis(cell.address_hash)
-    if (address && cell.address_hash !== address) {
+    if (cell.address_hash !== address) {
       highLight = true
     }
   }
 
   return (
     <TransactionCellPanel highLight={highLight}>
-      <div className="transaction__cell_address">{addressText}</div>
+      <div className="transaction__cell_address">
+        {highLight ? <Link to={`/address/${cell.address_hash}`}>{addressText}</Link> : addressText}
+      </div>
       <div className="transaction__cell_capacity">{`${localeNumberString(shannonToCkb(cell.capacity))} CKB`}</div>
     </TransactionCellPanel>
   )
