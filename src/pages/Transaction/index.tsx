@@ -157,8 +157,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 image={TransactionIcon}
                 label={`${i18n.t('transaction.transaction_fee')}:`}
                 value={`${shannonToCkb(transaction.transaction_fee)} CKB`}
-                highLight
-                extraValue={`${transaction.transaction_fee} Shannon`}
               />
             </div>
             <div>

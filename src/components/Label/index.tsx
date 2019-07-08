@@ -14,7 +14,6 @@ export interface Tooltip {
 const highLightStyle = {
   color: '#4BBC8E',
   fontWeight: 450,
-  cursor: 'pointer',
   fontFamily: 'source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace',
 }
 
@@ -38,46 +37,25 @@ const SimpleLabel = ({
   value,
   highLight,
   tooltip,
-  extraValue,
 }: {
   image: string
   label: string
   value: any
   highLight?: boolean
   tooltip?: Tooltip
-  extraValue?: string
 }) => {
   const [showStatusTip, setShowStatusTip] = useState(false)
   const [showHelpTip, setShowHelpTip] = useState(false)
-  const [showCKBSymbol, setShowCKBSymbol] = useState(true)
   if (tooltip && tooltip.offset) {
     helpTargetSize.offset = tooltip.offset
-  }
-  const switchTransactionFeeSymbol = () => {
-    if (showCKBSymbol) {
-      setShowCKBSymbol(false)
-    } else {
-      setShowCKBSymbol(true)
-    }
   }
   return (
     <LabelPanel>
       <img className="label__icon" src={image} alt={value} />
       <span className="label__name">{label}</span>
-      {!extraValue && (
-        <LabelValuePanel style={highLight ? highLightStyle : noneStyle} tooltip={tooltip}>
-          {value}
-        </LabelValuePanel>
-      )}
-      {extraValue && (
-        <LabelValuePanel
-          style={highLight ? highLightStyle : noneStyle}
-          tooltip={tooltip}
-          onClick={() => switchTransactionFeeSymbol()}
-        >
-          {showCKBSymbol ? value : extraValue}
-        </LabelValuePanel>
-      )}
+      <LabelValuePanel style={highLight ? highLightStyle : noneStyle} tooltip={tooltip}>
+        {value}
+      </LabelValuePanel>
       {tooltip && tooltip.status && (
         <LableTipPanel>
           <div
