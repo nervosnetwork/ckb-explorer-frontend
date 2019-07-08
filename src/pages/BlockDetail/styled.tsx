@@ -13,7 +13,7 @@ export const BlockDetailPanel = styled.div`
 `
 
 export const BlockDetailTitlePanel = styled.div`
-  dispaly: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
 
