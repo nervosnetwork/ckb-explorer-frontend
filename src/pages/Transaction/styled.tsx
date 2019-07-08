@@ -275,9 +275,11 @@ export const InputOutputTable = styled.table`
           border-bottom: 0;
         }
         td {
-          textarea {
+          .script__input {
             border: none;
             width: 100%;
+            word-wrap: break-word;
+            white-space: pre-wrap;
             padding: 18px 30px 18px 34px;
             font-size: 16px;
             color: #888888;
@@ -287,8 +289,6 @@ export const InputOutputTable = styled.table`
             min-height: 170px;
             background-color: #f9f9f9;
             border-radius: 6px 6px;
-            user-select: none;
-            transform: translateZ(0);
           }
           .tr-detail-td-buttons {
             display: flex;

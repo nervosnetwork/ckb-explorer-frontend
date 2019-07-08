@@ -5,7 +5,7 @@ import CopyGreenIcon from '../../assets/copy_green.png'
 import { Response } from '../../http/response/Response'
 import { ScriptWrapper } from '../../http/response/Script'
 import { CellType, fetchScript, fetchCellData } from '../../http/fetcher'
-import { shannonToCkb } from '../../utils/util'
+import { shannonToCkb, copyElementValue } from '../../utils/util'
 import { hexToUtf8, parseLongAddressHash } from '../../utils/string'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
@@ -112,10 +112,7 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const handleCopy = () => {
-    const textarea = document.getElementById(`textarea-${cellType}-${cellInputOutput.id}`) as HTMLTextAreaElement
-    textarea.select()
-    document.execCommand('Copy')
-    window.getSelection()!.removeAllRanges()
+    copyElementValue(document.getElementById(`textarea-${cellType}-${cellInputOutput.id}`))
     appContext.toastMessage(i18n.t('common.copied'), 3000)
   }
 
@@ -221,11 +218,9 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
       {state.cellState !== CellState.NONE && (
         <tr className="tr-detail">
           <td colSpan={5}>
-            <textarea
-              id={`textarea-${cellType}-${cellInputOutput.id}`}
-              value={JSON.stringify(getCell(state), null, 4)}
-              readOnly
-            />
+            <div className="script__input" id={`textarea-${cellType}-${cellInputOutput.id}`}>
+              {JSON.stringify(getCell(state), null, 4)}
+            </div>
             <div className="tr-detail-td-buttons">
               <div
                 role="button"
