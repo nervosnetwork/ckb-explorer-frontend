@@ -68,8 +68,9 @@ export const fetchTransactionsByBlockHash = (blockHash: string, page: number, pa
     .then((res: AxiosResponse) => res.data)
 }
 
-export const fetchBlockByHash = (hash: string) => {
-  return axiosIns.get(`blocks/${hash}`).then((res: AxiosResponse) => res.data)
+// blockParam: block hash or block number
+export const fetchBlock = (blockParam: string) => {
+  return axiosIns.get(`blocks/${blockParam}`).then((res: AxiosResponse) => res.data)
 }
 
 export const fetchScript = (cell_type: CellType, script_type: 'lock_scripts' | 'type_scripts', id: string) => {
@@ -78,10 +79,6 @@ export const fetchScript = (cell_type: CellType, script_type: 'lock_scripts' | '
 
 export const fetchCellData = (type: CellType, id: string) => {
   return axiosIns.get(`/cell_${type}_data/${id}`).then((res: AxiosResponse) => res.data.data.attributes)
-}
-
-export const fetchBlockByNumber = (number: string) => {
-  return axiosIns.get(`blocks/${number}`).then((res: AxiosResponse) => res.data)
 }
 
 export const fetchTransactionsByBlockHeight = (height: number) => {
