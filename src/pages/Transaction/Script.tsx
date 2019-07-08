@@ -225,11 +225,9 @@ const ScriptComponent = ({ cellType, cellInputOutput }: { cellType: CellType; ce
       {state.cellState !== CellState.NONE && (
         <tr className="tr-detail">
           <td colSpan={5}>
-            <textarea
-              id={`textarea-${cellType}-${cellInputOutput.id}`}
-              value={JSON.stringify(getCell(state), null, 4)}
-              readOnly
-            />
+            <div className="script__input" id={`textarea-${cellType}-${cellInputOutput.id}`}>
+              {JSON.stringify(getCell(state), null, 4)}
+            </div>
             <div className="tr-detail-td-buttons">
               <div
                 role="button"

@@ -275,9 +275,11 @@ export const InputOutputTable = styled.table`
           border-bottom: 0;
         }
         td {
-          textarea {
+          .script__input {
             border: none;
             width: 100%;
+            word-wrap: break-word;
+            white-space: pre-wrap;
             padding: 18px 30px 18px 34px;
             font-size: 16px;
             color: #888888;
