@@ -48,7 +48,7 @@ import { Block, BlockWrapper, RewardStatus, TransactionFeeStatus } from '../../h
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
-import { fetchBlockByHash, fetchTransactionsByBlockHash, fetchBlockByNumber } from '../../http/fetcher'
+import { fetchBlock, fetchTransactionsByBlockHash } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { startEndEllipsis, parsePageNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
@@ -248,7 +248,7 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
       prev: blockNumber > 0,
     },
   })
-  fetchBlockByNumber(`${blockNumber + 1}`)
+  fetchBlock(`${blockNumber + 1}`)
     .then(response => {
       const { data } = response as Response<BlockWrapper>
       dispatch({
@@ -268,8 +268,9 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
     })
 }
 
-const getBlockByHash = (blockHash: string, page: number, size: number, dispatch: any, replace: any) => {
-  fetchBlockByHash(blockHash)
+// blockParam: block hash or block number
+const getBlock = (blockParam: string, page: number, size: number, dispatch: any, replace: any) => {
+  fetchBlock(blockParam)
     .then(response => {
       const { data } = response as Response<BlockWrapper>
       const block = data.attributes as Block
@@ -283,7 +284,7 @@ const getBlockByHash = (blockHash: string, page: number, size: number, dispatch:
       getTransactions(block.block_hash, page, size, dispatch)
     })
     .catch(() => {
-      replace(`/search/fail?q=${blockHash}`)
+      replace(`/search/fail?q=${blockParam}`)
     })
 }
 
@@ -313,10 +314,11 @@ const transactionFee = (block: Block) => {
   return undefined
 }
 
-export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
+export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string }>>) => {
   const { match, location, history } = props
   const { params } = match
-  const { hash: blockHash } = params
+  // blockParam: block hash or block number
+  const { param: blockParam } = params
   const { search } = location
   const { replace } = history
   const parsed = queryString.parse(search)
@@ -327,13 +329,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
 
   useEffect(() => {
     if (size > PageParams.MaxPageSize) {
-      replace(`/block/${blockHash}?page=${page}&size=${PageParams.MaxPageSize}`)
+      replace(`/block/${blockParam}?page=${page}&size=${PageParams.MaxPageSize}`)
     }
-    getBlockByHash(blockHash, page, size, dispatch, replace)
-  }, [replace, blockHash, page, size, dispatch])
+    getBlock(blockParam, page, size, dispatch, replace)
+  }, [replace, blockParam, page, size, dispatch])
 
   const onChange = (pageNo: number, pageSize: number) => {
-    history.push(`/block/${blockHash}?page=${pageNo}&size=${pageSize}`)
+    history.push(`/block/${blockParam}?page=${pageNo}&size=${pageSize}`)
   }
 
   const BlockLeftItems: BlockItem[] = [
