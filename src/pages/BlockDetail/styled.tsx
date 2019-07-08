@@ -19,8 +19,7 @@ export const BlockDetailTitlePanel = styled.div`
 
   .block__title {
     color: rgb(20, 20, 20);
-    font-size: 40px;
-    font-weight: 900;
+    font-size: 50px;
     text-align: center;
 
     @media (max-width: 700px) {
@@ -65,7 +64,6 @@ export const BlockOverviewPanel = styled.div`
   margin-top: 107px;
   margin-bottom: 70px;
   font-size: 50px;
-  font-weight: 900;
   color: rgb(20, 20, 20);
   height: 70px;
 

@@ -20,7 +20,7 @@ export const AddressTitlePanel = styled.div`
 
   .address__title {
     color: rgb(20, 20, 20);
-    font-size: 32pt;
+    font-size: 50px;
     text-align: center;
 
     @media (max-width: 700px) {
