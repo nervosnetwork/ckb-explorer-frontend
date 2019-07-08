@@ -289,7 +289,7 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
   const handleCopy = () => {
     const textarea = document.getElementById(`script__textarea__${cell.id}`)
     copyElementValue(textarea)
-    appContext.toastMessage('Copied', 3000)
+    appContext.toastMessage(i18n.t('common.copied'), 3000)
   }
 
   const handleCellState = (cellState: CellState) => {

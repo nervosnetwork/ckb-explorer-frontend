@@ -13,8 +13,8 @@ interface TransactionCellListProps {
 export default ({ cells, showSize, transaction, render }: TransactionCellListProps) => {
   return (
     <TransactionCellListPanel>
-      {cells && cells.map((cell, idx) => idx < showSize && render(cell))}
-      {showSize < cells.length && <Link to={`/transaction/${transaction.transaction_hash}`}>View All</Link>}
+      {cells && cells.map((cell, index) => index < showSize && render(cell))}
+      {cells && showSize < cells.length && <Link to={`/transaction/${transaction.transaction_hash}`}>View All</Link>}
     </TransactionCellListPanel>
   )
 }
