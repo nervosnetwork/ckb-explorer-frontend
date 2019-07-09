@@ -1,9 +1,6 @@
 import styled from 'styled-components'
 
 export const CardPanel = styled.div`
-  @media (min-width: 700px) {
-    display: none;
-  }
   width: 88%;
   background-color: white;
   padding: 20px;
