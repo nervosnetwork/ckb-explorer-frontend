@@ -16,6 +16,10 @@ import SearchFail from '../pages/SearchFail'
 import Maintain from '../pages/Maintain'
 import Sheet from '../components/Sheet'
 
+const hasSearch = (pathname: string) => {
+  return pathname !== '/search/fail' && pathname !== '/maintain'
+}
+
 export default ({ showError = false }: { showError?: boolean }) => {
   useEffect(() => {
     let currentUrl = `${browserHistory.location.pathname}${browserHistory.location.search}`
@@ -33,33 +37,25 @@ export default ({ showError = false }: { showError?: boolean }) => {
     <Router history={browserHistory}>
       <Route
         render={(props: any) => {
-          const hasSearch: boolean = !(props.location.pathname === '/search/fail')
           return (
             <Page>
-              <Switch>
-                <Route path="/maintain" exact component={Maintain} />
-                <Route
-                  path="/"
-                  render={() => (
-                    <React.Fragment>
-                      <Header search={hasSearch} />
-                      <Sheet show={showError} />
-                      <Switch location={props.location}>
-                        <Route path="/" exact component={Home} />
-                        <Route path="/block/list" exact component={BlockList} />
-                        <Route path="/block/:param" exact component={Block} />
-                        <Route path="/transaction/:hash" exact component={Transaction} />
-                        <Route path="/address/:address" exact component={Address} />
-                        <Route path="/lockhash/:hash" exact component={Address} />
-                        <Route path="/search/fail" exact component={SearchFail} />
-                        <Route path="/404" exact component={NotFoundPage} />
-                        <Redirect from="*" to="/404" />
-                      </Switch>
-                      <Footer />
-                    </React.Fragment>
-                  )}
-                />
-              </Switch>
+              <React.Fragment>
+                <Header search={hasSearch(props.location.pathname)} />
+                <Sheet show={showError} />
+                <Switch location={props.location}>
+                  <Route path="/" exact component={Home} />
+                  <Route path="/block/list" exact component={BlockList} />
+                  <Route path="/block/:param" exact component={Block} />
+                  <Route path="/transaction/:hash" exact component={Transaction} />
+                  <Route path="/address/:address" exact component={Address} />
+                  <Route path="/lockhash/:hash" exact component={Address} />
+                  <Route path="/search/fail" exact component={SearchFail} />
+                  <Route path="/maintain" exact component={Maintain} />
+                  <Route path="/404" exact component={NotFoundPage} />
+                  <Redirect from="*" to="/404" />
+                </Switch>
+                <Footer />
+              </React.Fragment>
             </Page>
           )
         }}
