@@ -40,7 +40,7 @@ import TransactionCard from '../../components/Transaction/TransactionCard/index'
 import { StatisticsWrapper } from '../../http/response/Statistics'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
-import isMobile from '../../utils/screen'
+import { isMobile } from '../../utils/screen'
 
 const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
   const appContext = useContext(AppContext)

@@ -2,4 +2,11 @@ export const isMobile = (): boolean => {
   return window.innerWidth <= 700
 }
 
-export default isMobile
+export const isSmallMobile = (): boolean => {
+  return window.innerWidth <= 320
+}
+
+export default {
+  isMobile,
+  isSmallMobile,
+}
