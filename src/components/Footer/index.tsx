@@ -27,10 +27,8 @@ const FooterDiv = styled.div`
 
   .footer__top {
     display: flex;
-    padding: 20px 12px;
     align-items: center;
     justify-content: center;
-    min-height: 145px;
 
     .container {
       display: flex;
@@ -64,13 +62,15 @@ const FooterDiv = styled.div`
         align-items: center;
         justify-content: center;
         margin: 0 auto;
+        padding-top: 20px;
+        padding-bottom: 25px;
 
         .footer__top__item {
           opacity: 0.8;
           display: flex;
           align-items: center;
-          margin-top: 25px;
-          margin-bottom: 25px;
+          margin-top: 10px;
+          margin-bottom: 10px;
 
           > div:nth-child(1) {
             font-size: 16px;
@@ -121,7 +121,7 @@ const FooterDiv = styled.div`
 
 const FooterItemPanel = styled.a`
   margin-left: 6px;
-  margin-top: 15px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -140,7 +140,7 @@ const FooterItemPanel = styled.a`
   >div: nth-child(2) {
     color: white;
     font-size: 12px;
-    margin-top: 7px;
+    margin-top: 5px;
     text-align: center;
   }
 
