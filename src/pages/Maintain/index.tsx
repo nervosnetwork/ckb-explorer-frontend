@@ -32,7 +32,7 @@ const MaintainPanel = styled.div`
     font-size: 26px;
     font-weight: bold;
     color: #606060;
-    marin-top: 20px;
+    margin-top: 20px;
     margin-bottom: 250px;
 
     @media (max-width: 700px) {
