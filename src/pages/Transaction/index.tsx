@@ -10,8 +10,6 @@ import {
   TransactionOverviewLabel,
   InputPanelDiv,
   OutputPanelDiv,
-  CellPanelPC,
-  CellPanelMobile,
   InputOutputTable,
   TransactionTitlePanel,
   TransactionCommonContent,
@@ -31,6 +29,7 @@ import CellCard from '../../components/Card/CellCard'
 import ScriptComponent from './Script'
 import { StatisticsWrapper } from '../../http/response/Statistics'
 import { localeNumberString } from '../../utils/number'
+import { isMobile } from '../../utils/screen'
 
 const TransactionTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
@@ -179,56 +178,59 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           </div>
         </TransactionCommonContent>
 
-        <CellPanelPC>
-          <InputPanelDiv>
-            <InputOutputTable>
-              {
-                <InputOutputTableTitle
-                  transactionType={i18n.t('transaction.input')}
-                  isCellbase={
+        {isMobile() ? (
+          <div>
+            {transaction &&
+              transaction.display_inputs &&
+              transaction.display_inputs.map((input: InputOutput, index: number) => {
+                const key = index
+                return <CellCard type={CellType.Input} cell={input} key={key} />
+              })}
+            {transaction &&
+              transaction.display_outputs &&
+              transaction.display_outputs.map((output: InputOutput, index: number) => {
+                const key = index
+                return <CellCard type={CellType.Output} cell={output} key={key} />
+              })}
+          </div>
+        ) : (
+          <div>
+            <InputPanelDiv>
+              <InputOutputTable>
+                {
+                  <InputOutputTableTitle
+                    transactionType={i18n.t('transaction.input')}
+                    isCellbase={
+                      transaction.display_inputs &&
+                      transaction.display_inputs[0] &&
+                      transaction.display_inputs[0].from_cellbase
+                    }
+                  />
+                }
+                <tbody>
+                  {transaction &&
                     transaction.display_inputs &&
-                    transaction.display_inputs[0] &&
-                    transaction.display_inputs[0].from_cellbase
-                  }
-                />
-              }
-              <tbody>
-                {transaction &&
-                  transaction.display_inputs &&
-                  transaction.display_inputs.map((input: InputOutput) => {
-                    return input && <ScriptComponent cellType={CellType.Input} key={input.id} cell={input} />
-                  })}
-              </tbody>
-            </InputOutputTable>
-          </InputPanelDiv>
+                    transaction.display_inputs.map((input: InputOutput) => {
+                      return input && <ScriptComponent cellType={CellType.Input} key={input.id} cell={input} />
+                    })}
+                </tbody>
+              </InputOutputTable>
+            </InputPanelDiv>
 
-          <OutputPanelDiv>
-            <InputOutputTable>
-              <InputOutputTableTitle transactionType={i18n.t('transaction.output')} />
-              <tbody>
-                {transaction &&
-                  transaction.display_outputs &&
-                  transaction.display_outputs.map((output: InputOutput) => {
-                    return output && <ScriptComponent cellType={CellType.Output} key={output.id} cell={output} />
-                  })}
-              </tbody>
-            </InputOutputTable>
-          </OutputPanelDiv>
-        </CellPanelPC>
-        <CellPanelMobile>
-          {transaction &&
-            transaction.display_inputs &&
-            transaction.display_inputs.map((input: InputOutput, index: number) => {
-              const key = index
-              return <CellCard type={CellType.Input} cell={input} key={key} />
-            })}
-          {transaction &&
-            transaction.display_outputs &&
-            transaction.display_outputs.map((output: InputOutput, index: number) => {
-              const key = index
-              return <CellCard type={CellType.Output} cell={output} key={key} />
-            })}
-        </CellPanelMobile>
+            <OutputPanelDiv>
+              <InputOutputTable>
+                <InputOutputTableTitle transactionType={i18n.t('transaction.output')} />
+                <tbody>
+                  {transaction &&
+                    transaction.display_outputs &&
+                    transaction.display_outputs.map((output: InputOutput) => {
+                      return output && <ScriptComponent cellType={CellType.Output} key={output.id} cell={output} />
+                    })}
+                </tbody>
+              </InputOutputTable>
+            </OutputPanelDiv>
+          </div>
+        )}
       </TransactionDiv>
     </Content>
   )
