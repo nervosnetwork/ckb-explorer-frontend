@@ -30,6 +30,10 @@ const FooterDiv = styled.div`
     align-items: center;
     justify-content: center;
 
+    @media (max-width: 700px) {
+      padding: 20px 15px;
+    }
+
     .container {
       display: flex;
       flex-wrap: wrap;
@@ -65,12 +69,15 @@ const FooterDiv = styled.div`
         padding-top: 20px;
         padding-bottom: 25px;
 
+        @media (max-width: 700px) {
+          padding: 0;
+        }
+
         .footer__top__item {
           opacity: 0.8;
           display: flex;
           align-items: center;
-          margin-top: 10px;
-          margin-bottom: 10px;
+          margin: 10px 0;
 
           > div:nth-child(1) {
             font-size: 16px;
@@ -87,8 +94,7 @@ const FooterDiv = styled.div`
           }
 
           @media (max-width: 700px) {
-            margin-top: 15px;
-            margin-bottom: 15px;
+            margin: 5px 0;
 
             > div:nth-child(1) {
               font-size: 14px;
