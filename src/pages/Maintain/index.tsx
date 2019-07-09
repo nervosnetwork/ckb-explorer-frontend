@@ -23,7 +23,7 @@ const MaintainPanel = styled.div`
 
     @media (max-width: 700px) {
       width: 216px;
-      hieght: 206px;
+      hieght: 106px;
       margin-top: 120px;
     }
   }
