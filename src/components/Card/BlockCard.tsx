@@ -43,6 +43,16 @@ const CardItemPanel = styled.div`
     font-weight: bold;
     font-size: 14px;
   }
+
+  @media (max-width: 320px) {
+    > div {
+      font-size: 13px;
+    }
+
+    .card__value {
+      font-size: 12px;
+    }
+  }
 `
 
 const CardItem = ({
