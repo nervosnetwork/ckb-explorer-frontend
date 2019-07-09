@@ -46,7 +46,7 @@ const MaintainPanel = styled.div`
 
 const fetchTipBlockNumber = (replace: any) => {
   return axiosIns
-    .get('statistics/tip_block_numbe')
+    .get('statistics/tip_block_number')
     .then((res: AxiosResponse) => {
       if (res.status === 200) {
         replace('/')
