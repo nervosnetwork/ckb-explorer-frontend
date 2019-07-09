@@ -40,6 +40,7 @@ import TransactionCard from '../../components/Transaction/TransactionCard/index'
 import { StatisticsWrapper } from '../../http/response/Statistics'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
+import { isMobile } from '../../utils/screen'
 
 const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
   const appContext = useContext(AppContext)
@@ -217,6 +218,10 @@ const PendingRewardTooltip: Tooltip = {
   offset: 0.7,
 }
 
+const addressContent = (address: Address) => {
+  return address.address_hash ? startEndEllipsis(address.address_hash, 12) : i18n.t('address.unable_decode_address')
+}
+
 const initialState = {
   address: initAddress,
   transactions: [] as TransactionWrapper[],
@@ -278,21 +283,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               tooltip={PendingRewardTooltip}
             />
           ) : null}
-          {lockHash &&
-            state.address &&
-            (state.address.address_hash ? (
-              <SimpleLabel
-                image={AddressHashIcon}
-                label={`${i18n.t('address.address')} :`}
-                value={`${startEndEllipsis(state.address.address_hash, 12)}`}
-              />
-            ) : (
-              <SimpleLabel
-                image={AddressHashIcon}
-                label={`${i18n.t('address.address')} :`}
-                value={i18n.t('address.unable_decode_address')}
-              />
-            ))}
+          {lockHash && state.address && (
+            <SimpleLabel
+              image={AddressHashIcon}
+              label={`${i18n.t('address.address')} :`}
+              value={addressContent(state.address)}
+            />
+          )}
           <AddressScriptLabel
             image={AddressScriptIcon}
             label={`${i18n.t('address.lock_hash')} : `}
@@ -306,27 +303,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
             {state.transactions &&
               state.transactions.map((transaction: any) => {
                 return (
-                  transaction && (
-                    <TransactionItem
-                      address={address}
-                      transaction={transaction.attributes}
-                      confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
-                      key={transaction.attributes.transaction_hash}
-                    />
-                  )
-                )
-              })}
-            {state.transactions &&
-              state.transactions.map((transaction: any) => {
-                return (
-                  transaction && (
+                  transaction &&
+                  (isMobile() ? (
                     <TransactionCard
                       address={address}
                       confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
                       transaction={transaction.attributes}
                       key={transaction.attributes.transaction_hash}
                     />
-                  )
+                  ) : (
+                    <TransactionItem
+                      address={address}
+                      transaction={transaction.attributes}
+                      confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
+                      key={transaction.attributes.transaction_hash}
+                    />
+                  ))
                 )
               })}
           </div>

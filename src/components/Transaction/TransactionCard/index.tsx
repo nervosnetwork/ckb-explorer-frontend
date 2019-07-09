@@ -13,6 +13,7 @@ import i18n from '../../../utils/i18n'
 import HelpIcon from '../../../assets/qa_help.png'
 import Tooltip, { TargetSize } from '../../Tooltip'
 import { parseDate } from '../../../utils/date'
+import { isSmallMobile } from '../../../utils/screen'
 
 const MAX_CELL_SHOW_SIZE = 10
 
@@ -92,7 +93,9 @@ const TransactionCard = ({
     <CardPanel>
       <CardHashBlockPanel>
         <div className="card__hash">
-          <Link to={`/transaction/${transaction.transaction_hash}`}>{transaction.transaction_hash}</Link>
+          <Link to={`/transaction/${transaction.transaction_hash}`}>
+            {startEndEllipsis(transaction.transaction_hash, isSmallMobile() ? 8 : 14)}
+          </Link>
         </div>
         <div className="card__block_date">
           {`(Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}

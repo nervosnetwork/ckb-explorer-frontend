@@ -173,18 +173,6 @@ export const PanelDiv = styled.div`
   }
 `
 
-export const CellPanelPC = styled.div`
-  @media (max-width: 700px) {
-    display: none;
-  }
-`
-
-export const CellPanelMobile = styled.div`
-  @media (min-width: 700px) {
-    display: none;
-  }
-`
-
 export const InputPanelDiv = styled(PanelDiv)`
   margin-top: 20px;
   min-height: 88px;

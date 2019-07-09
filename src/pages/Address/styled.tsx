@@ -40,7 +40,12 @@ export const AddressTitlePanel = styled.div`
       @media (max-width: 700px) {
         font-size: 14px;
         height: 40px;
-        width: 75%;
+        width: 70%;
+      }
+      @media (max-width: 320px) {
+        font-size: 14px;
+        height: 40px;
+        width: 60%;
       }
       white-space: normal;
       word-wrap: break-word;

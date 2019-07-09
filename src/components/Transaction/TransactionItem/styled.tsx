@@ -1,9 +1,6 @@
 import styled from 'styled-components'
 
 export const TransactionPanel = styled.div`
-  @media (max-width: 700px) {
-    display: none;
-  }
   width: 100%;
   overflow-x: auto;
   margin-top: 10px;
