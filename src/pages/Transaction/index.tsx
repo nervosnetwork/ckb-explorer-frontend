@@ -20,7 +20,6 @@ import {
 import BlockHeightIcon from '../../assets/block_height_green.png'
 import TimestampIcon from '../../assets/timestamp_green.png'
 import TransactionIcon from '../../assets/transaction_fee.png'
-import CopyIcon from '../../assets/copy.png'
 import StatusIcon from '../../assets/transcation_status.png'
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
@@ -37,19 +36,17 @@ const TransactionTitle = ({ hash }: { hash: string }) => {
   return (
     <TransactionTitlePanel>
       <div className="transaction__title">{i18n.t('transaction.transaction')}</div>
-      <div className="transaction__content">
-        <code id="transaction__hash">{hash}</code>
-        <div
-          role="button"
-          tabIndex={-1}
-          onKeyDown={() => {}}
-          onClick={() => {
-            copyElementValue(document.getElementById('transaction__hash'))
-            appContext.toastMessage(i18n.t('common.copied'), 3000)
-          }}
-        >
-          <img src={CopyIcon} alt="copy" />
-        </div>
+      <div
+        id="transaction__hash"
+        role="button"
+        tabIndex={-1}
+        onKeyDown={() => {}}
+        onClick={() => {
+          copyElementValue(document.getElementById('transaction__hash'))
+          appContext.toastMessage(i18n.t('common.copied'), 3000)
+        }}
+      >
+        {hash}
       </div>
     </TransactionTitlePanel>
   )

@@ -11,14 +11,7 @@ export const TransactionDiv = styled.div.attrs({
     padding-bottom: 20px;
   }
 `
-export const TransactionTitleDiv = styled.div`
-  text-align: center;
-  font-size: 50px;
 
-  @media (max-width: 700px) {
-    font-size: 26px;
-  }
-`
 export const TransactionOverviewLabel = styled.div`
   text-align: center;
   margin-top: 100px;
@@ -38,6 +31,10 @@ export const TransactionOverviewLabel = styled.div`
 `
 
 export const TransactionTitlePanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   .transaction__title {
     color: rgb(20, 20, 20);
     font-size: 50px;
@@ -48,41 +45,19 @@ export const TransactionTitlePanel = styled.div`
     }
   }
 
-  .transaction__content {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin: 0 12px;
+  #transaction__hash {
+    color: rgb(136, 136, 136);
+    font-size: 18px;
+    cursor: pointer;
+    font-family: monospace;
 
-    > code {
-      color: rgb(136, 136, 136);
-      font-size: 18px;
-      height: 25px;
-
-      @media (max-width: 700px) {
-        font-size: 14px;
-      }
+    @media (max-width: 700px) {
+      font-size: 14px;
+      height: 40px;
+      width: 75%;
     }
-    #transaction__hash {
-      color: rgb(136, 136, 136);
-      font-size: 18px;
-
-      @media (max-width: 700px) {
-        font-size: 14px;
-        height: 40px;
-        width: 75%;
-      }
-      white-space: normal;
-      word-wrap: break-word;
-    }
-
-    > div {
-      > img {
-        margin-left: 15px;
-        width: 21px;
-        height: 21px;
-      }
-    }
+    white-space: normal;
+    word-wrap: break-word;
   }
 `
 
