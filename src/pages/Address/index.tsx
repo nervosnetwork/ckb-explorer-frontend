@@ -22,7 +22,6 @@ import {
   ScriptLabelItemPanel,
   ScriptOtherArgs,
 } from './styled'
-import CopyIcon from '../../assets/copy.png'
 import BalanceIcon from '../../assets/address_balance.png'
 import AddressScriptIcon from '../../assets/address_script.png'
 import TransactionsIcon from '../../assets/transactions_green.png'
@@ -47,19 +46,17 @@ const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string
   return (
     <AddressTitlePanel>
       <div className="address__title">{address ? i18n.t('address.address') : i18n.t('address.lock_hash')}</div>
-      <div className="address__content">
-        <code id="address__hash">{identityHash}</code>
-        <div
-          role="button"
-          tabIndex={-1}
-          onKeyDown={() => {}}
-          onClick={() => {
-            copyElementValue(document.getElementById('address__hash'))
-            appContext.toastMessage(i18n.t('common.copied'), 3000)
-          }}
-        >
-          <img src={CopyIcon} alt="copy" />
-        </div>
+      <div
+        id="address__hash"
+        role="button"
+        tabIndex={-1}
+        onKeyDown={() => {}}
+        onClick={() => {
+          copyElementValue(document.getElementById('address__hash'))
+          appContext.toastMessage(i18n.t('common.copied'), 3000)
+        }}
+      >
+        {identityHash}
       </div>
     </AddressTitlePanel>
   )

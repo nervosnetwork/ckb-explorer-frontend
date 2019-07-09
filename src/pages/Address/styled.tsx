@@ -28,34 +28,19 @@ export const AddressTitlePanel = styled.div`
     }
   }
 
-  .address__content {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  #address__hash {
+    color: rgb(136, 136, 136);
+    font-size: 18px;
+    cursor: pointer;
+    font-family: monospace;
 
-    #address__hash {
-      color: rgb(136, 136, 136);
-      font-size: 18px;
-
-      @media (max-width: 700px) {
-        font-size: 14px;
-        height: 40px;
-        width: 75%;
-      }
-      white-space: normal;
-      word-wrap: break-word;
+    @media (max-width: 700px) {
+      font-size: 14px;
+      height: 40px;
+      width: 75%;
     }
-
-    img {
-      margin-left: 19px;
-      @media (max-width: 700px) {
-        margin-left: 8px;
-        width: 18px;
-        height: 18px;
-      }
-      width: 21px;
-      height: 21px;
-    }
+    white-space: normal;
+    word-wrap: break-word;
   }
 `
 
