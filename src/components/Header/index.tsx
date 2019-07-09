@@ -5,6 +5,7 @@ import logoIcon from '../../assets/ckb_logo.png'
 import SearchLogo from '../../assets/search.png'
 import i18n from '../../utils/i18n'
 import { HeaderDiv, HeaderMobileDiv, HeaderMobilePanel, HeaderSearchPanel } from './styled'
+import isMobile from '../../utils/screen'
 
 const menus = [
   {
@@ -27,7 +28,7 @@ export default ({ search = true }: { search?: boolean }) => {
     setHeight(NORMAL_HEIGHT)
   }, [setHeight])
 
-  if (window.innerWidth < 700) {
+  if (isMobile()) {
     return (
       <>
         <HeaderMobilePanel height={height}>
