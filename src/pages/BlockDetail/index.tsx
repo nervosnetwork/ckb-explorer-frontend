@@ -512,7 +512,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
                       {isMobile() ? (
                         <TransactionCard transaction={transaction.attributes} />
                       ) : (
-                        <TransactionItem transaction={transaction.attributes} confirmation={10} isBlock />
+                        <TransactionItem transaction={transaction.attributes} isBlock />
                       )}
                     </div>
                   )
