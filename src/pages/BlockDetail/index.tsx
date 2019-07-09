@@ -14,8 +14,6 @@ import {
   BlockHightLabel,
   BlockTransactionsPanel,
   BlockTransactionsPagition,
-  BlockItemPC,
-  BlockItemMobile,
 } from './styled'
 import AppContext from '../../contexts/App'
 import Content from '../../components/Content'
@@ -54,6 +52,7 @@ import { startEndEllipsis, parsePageNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
+import { isMobile } from '../../utils/screen'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
@@ -488,12 +487,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
               return (
                 item && (
                   <React.Fragment key={item.label}>
-                    <BlockItemPC>
+                    {isMobile() ? (
+                      <MultiLinesItem label={item.label} value={item.value} />
+                    ) : (
                       <SimpleLabel image={item.image} label={item.label} value={item.value} />
-                    </BlockItemPC>
-                    <BlockItemMobile>
-                      <MultiLinesItem key={item.label} label={item.label} value={item.value} />
-                    </BlockItemMobile>
+                    )}
                   </React.Fragment>
                 )
               )
@@ -511,8 +509,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
                 return (
                   transaction && (
                     <div key={transaction.attributes.transaction_hash}>
-                      <TransactionItem transaction={transaction.attributes} confirmation={10} isBlock />
-                      <TransactionCard transaction={transaction.attributes} />
+                      {isMobile() ? (
+                        <TransactionCard transaction={transaction.attributes} />
+                      ) : (
+                        <TransactionItem transaction={transaction.attributes} confirmation={10} isBlock />
+                      )}
                     </div>
                   )
                 )

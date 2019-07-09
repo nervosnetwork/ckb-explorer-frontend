@@ -251,15 +251,3 @@ export const BlockTransactionsPagition = styled(CommonPagition)`
     margin: 20px 0 30px 3%;
   }
 `
-
-export const BlockItemPC = styled.div`
-  @media (max-width: 700px) {
-    display: none;
-  }
-`
-
-export const BlockItemMobile = styled.div`
-  @media (min-width: 700px) {
-    display: none;
-  }
-`
