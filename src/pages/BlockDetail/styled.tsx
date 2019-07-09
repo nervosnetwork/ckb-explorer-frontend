@@ -27,34 +27,19 @@ export const BlockDetailTitlePanel = styled.div`
     }
   }
 
-  .block__content {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  #block__hash {
+    color: rgb(136, 136, 136);
+    font-size: 18px;
+    cursor: pointer;
+    font-family: monospace;
 
-    #block__hash {
-      color: rgb(136, 136, 136);
-      font-size: 18px;
-
-      @media (max-width: 700px) {
-        font-size: 10px;
-        height: 40px;
-        width: 75%;
-      }
-      white-space: normal;
-      word-wrap: break-word;
+    @media (max-width: 700px) {
+      font-size: 10px;
+      height: 40px;
+      width: 75%;
     }
-
-    img {
-      margin-left: 19px;
-      @media (max-width: 700px) {
-        margin-left: 8px;
-        width: 20px;
-        height: 17.5px;
-      }
-      width: 24px;
-      height: 21px;
-    }
+    white-space: normal;
+    word-wrap: break-word;
   }
 `
 

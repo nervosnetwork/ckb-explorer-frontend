@@ -22,7 +22,6 @@ import Content from '../../components/Content'
 import TransactionItem from '../../components/Transaction/TransactionItem/index'
 import SimpleLabel, { Tooltip } from '../../components/Label'
 import TransactionCard from '../../components/Transaction/TransactionCard/index'
-import CopyIcon from '../../assets/copy.png'
 import BlockHeightIcon from '../../assets/block_height_green.png'
 import BlockTransactionIcon from '../../assets/transactions_green.png'
 import ProposalTransactionsIcon from '../../assets/proposal_transactions.png'
@@ -60,19 +59,17 @@ const BlockDetailTitle = ({ hash }: { hash: string }) => {
   return (
     <BlockDetailTitlePanel>
       <div className="block__title">{i18n.t('block.block')}</div>
-      <div className="block__content">
-        <code id="block__hash">{hash}</code>
-        <div
-          role="button"
-          tabIndex={-1}
-          onKeyDown={() => {}}
-          onClick={() => {
-            copyElementValue(document.getElementById('block__hash'))
-            appContext.toastMessage(i18n.t('common.copied'), 3000)
-          }}
-        >
-          <img src={CopyIcon} alt="copy" />
-        </div>
+      <div
+        id="block__hash"
+        role="button"
+        tabIndex={-1}
+        onKeyDown={() => {}}
+        onClick={() => {
+          copyElementValue(document.getElementById('block__hash'))
+          appContext.toastMessage(i18n.t('common.copied'), 3000)
+        }}
+      >
+        {hash}
       </div>
     </BlockDetailTitlePanel>
   )
