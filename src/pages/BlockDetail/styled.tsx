@@ -31,15 +31,16 @@ export const BlockDetailTitlePanel = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
+    width: 100%;
 
     #block__hash {
       color: rgb(136, 136, 136);
       font-size: 18px;
 
       @media (max-width: 700px) {
-        font-size: 10px;
+        font-size: 14px;
         height: 40px;
-        width: 75%;
+        width: 80%;
       }
       white-space: normal;
       word-wrap: break-word;
