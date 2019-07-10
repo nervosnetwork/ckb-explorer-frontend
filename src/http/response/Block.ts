@@ -2,7 +2,7 @@ export interface Block {
   block_hash: string
   number: number
   transactions_count: number
-  proposal_transactions_count: number
+  proposals_count: number
   uncles_count: number
   uncle_block_hashes: string[]
   reward: number
