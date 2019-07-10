@@ -17,13 +17,13 @@ const MaintainPanel = styled.div`
 
   > img {
     width: 750px;
-    hieght: 364px;
+    height: 364px;
     display: block;
     margin-top: 220px;
 
     @media (max-width: 700px) {
       width: 216px;
-      hieght: 206px;
+      height: 106px;
       margin-top: 120px;
     }
   }
