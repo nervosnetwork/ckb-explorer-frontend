@@ -37,6 +37,7 @@ const App = () => {
   const appContext = useContext(AppContext)
   const [errors, setErrors] = useState([] as string[])
   const [alerts, setAlerts] = useState([] as string[])
+
   const resizeListener = () => {
     if (resizeTimer) clearTimeout(resizeTimer)
     resizeTimer = setTimeout(() => {
@@ -44,8 +45,8 @@ const App = () => {
       resizeTimer = null
     }, RESIZE_LATENCY)
   }
+
   useEffect(() => {
-    // global fetch interceptor setting
     axiosIns.interceptors.request.use(
       config => {
         return config

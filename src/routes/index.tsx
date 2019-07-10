@@ -41,7 +41,7 @@ export default ({ contexts = [] }: { contexts?: string[] }) => {
             <Page>
               <React.Fragment>
                 <Header search={hasSearch(props.location.pathname)} />
-                <Sheet show={contexts.length > 0} />
+                <Sheet show={contexts.length > 0} contexts={contexts} />
                 <Switch location={props.location}>
                   <Route path="/" exact component={Home} />
                   <Route path="/block/list" exact component={BlockList} />
