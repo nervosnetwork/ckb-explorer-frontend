@@ -4,6 +4,7 @@ import Routers from './routes'
 import Loading from './components/Loading'
 import Modal from './components/Modal'
 import Toast from './components/Toast'
+import Sheet from './components/Sheet'
 
 import withProviders from './providers'
 import AppContext from './contexts/App'
@@ -23,7 +24,7 @@ let resizeTimer: any = null
 
 const NetworkError = i18n.t('toast.invalid_network')
 
-const alertNotEmpty = (response: BlockchainInfoWrapper) => {
+const alertNotEmpty = (response: BlockchainInfoWrapper): boolean => {
   return (
     response &&
     response.attributes &&
@@ -98,7 +99,10 @@ const App = () => {
     const listen = setInterval(() => {
       fetchBlockchainInfo().then((response: BlockchainInfoWrapper) => {
         if (alertNotEmpty(response)) {
-          setAlerts(response.attributes.blockchain_info.alerts)
+          const alertMessages = response.attributes.blockchain_info.alerts.map(alert => {
+            return alert.message
+          })
+          setAlerts(alertMessages)
         } else {
           setAlerts([])
         }
@@ -109,7 +113,8 @@ const App = () => {
 
   return (
     <AppDiv>
-      <Routers contexts={alerts.concat(errors)} />
+      <Routers />
+      <Sheet show={alerts.concat(errors).length > 0} contexts={alerts.concat(errors)} />
       <Modal
         onClose={() => {
           appContext.hideModal()

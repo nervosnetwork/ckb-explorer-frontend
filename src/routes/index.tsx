@@ -14,13 +14,12 @@ import Address from '../pages/Address'
 import NotFoundPage from '../pages/404'
 import SearchFail from '../pages/SearchFail'
 import Maintain from '../pages/Maintain'
-import Sheet from '../components/Sheet'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
 }
 
-export default ({ contexts = [] }: { contexts?: string[] }) => {
+export default () => {
   useEffect(() => {
     let currentUrl = `${browserHistory.location.pathname}${browserHistory.location.search}`
     const unlisten = browserHistory.listen((location: any) => {
@@ -41,7 +40,6 @@ export default ({ contexts = [] }: { contexts?: string[] }) => {
             <Page>
               <React.Fragment>
                 <Header search={hasSearch(props.location.pathname)} />
-                <Sheet show={contexts.length > 0} contexts={contexts} />
                 <Switch location={props.location}>
                   <Route path="/" exact component={Home} />
                   <Route path="/block/list" exact component={BlockList} />
