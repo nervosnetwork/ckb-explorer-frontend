@@ -306,14 +306,14 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                   transaction &&
                   (isMobile() ? (
                     <TransactionCard
-                      address={address}
+                      address={state.address.address_hash}
                       confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
                       transaction={transaction.attributes}
                       key={transaction.attributes.transaction_hash}
                     />
                   ) : (
                     <TransactionItem
-                      address={address}
+                      address={state.address.address_hash}
                       transaction={transaction.attributes}
                       confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
                       key={transaction.attributes.transaction_hash}
