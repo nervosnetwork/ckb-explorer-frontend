@@ -4,7 +4,14 @@ export interface BlockchainInfo {
   difficulty: string
   median_time: string
   chain: string
-  alerts: string[]
+  alerts: Alert[]
+}
+
+export interface Alert {
+  id: string
+  message: string
+  notice_until: string
+  priority: string
 }
 
 export interface BlockchainInfoWrapper {

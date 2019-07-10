@@ -120,5 +120,5 @@ export const fetchTipBlockNumber = () => {
 }
 
 export const fetchBlockchainInfo = () => {
-  return fetchStatisticInfo('blockchain_info')
+  return fetchStatisticInfo('blockchain_info').then((res: AxiosResponse) => res.data)
 }
