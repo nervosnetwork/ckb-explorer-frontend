@@ -18,7 +18,7 @@ const SheetItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: left;
-  mergin-top: 5px;
+  margin-top: 5px;
 
   @media (max-width: 700px) {
     font-size: 14px;
