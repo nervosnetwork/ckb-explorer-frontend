@@ -157,7 +157,7 @@ const initBlock: Block = {
   block_hash: '',
   number: 0,
   transactions_count: 0,
-  proposal_transactions_count: 0,
+  proposals_count: 0,
   uncles_count: 0,
   uncle_block_hashes: [],
   reward: 0,
@@ -351,9 +351,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
     {
       image: ProposalTransactionsIcon,
       label: `${i18n.t('block.proposal_transactions')}:`,
-      value: `${
-        state.block.proposal_transactions_count ? localeNumberString(state.block.proposal_transactions_count) : 0
-      }`,
+      value: `${state.block.proposals_count ? localeNumberString(state.block.proposals_count) : 0}`,
     },
     {
       image: BlockRewardIcon,
