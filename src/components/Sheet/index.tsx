@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import i18n from '../../utils/i18n'
 
 const SheetPanel = styled.div`
   position: absolute;
@@ -60,10 +59,8 @@ const SheetPointPanel = styled.div`
   }
 `
 
-const NetworkError = i18n.t('toast.invalid_network')
-
-const Sheet = ({ show = false, contexts = [NetworkError] }: { show?: boolean; contexts?: string[] }) => {
-  return show ? (
+const Sheet = ({ contexts = [] }: { contexts?: string[] }) => {
+  return contexts.length > 0 ? (
     <SheetPanel>
       <div>
         {contexts.map((context: string, index: number) => {

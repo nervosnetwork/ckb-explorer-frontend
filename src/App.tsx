@@ -114,7 +114,7 @@ const App = () => {
   return (
     <AppDiv>
       <Routers />
-      <Sheet show={alerts.concat(errors).length > 0} contexts={alerts.concat(errors)} />
+      <Sheet contexts={alerts.concat(errors)} />
       <Modal
         onClose={() => {
           appContext.hideModal()
