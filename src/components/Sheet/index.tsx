@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
+import AppContext from '../../contexts/App'
 
 const SheetPanel = styled.div`
   position: sticky;
@@ -57,15 +58,18 @@ const SheetPointPanel = styled.div`
   }
 `
 
-const Sheet = ({ contexts = [] }: { contexts?: string[] }) => {
-  return contexts.length > 0 ? (
+const Sheet = () => {
+  const appContext = useContext(AppContext)
+  const messages: string[] = appContext.appErrors[1].message.concat(appContext.appErrors[0].message)
+
+  return messages.length > 0 ? (
     <SheetPanel>
       <div>
-        {contexts.map((context: string, index: number) => {
+        {messages.map((context: string, index: number) => {
           const key = index
           return (
-            <SheetPointPanel key={key} isSingle={contexts.length === 1}>
-              {contexts.length > 1 && <span>·</span>}
+            <SheetPointPanel key={key} isSingle={messages.length === 1}>
+              {messages.length > 1 && <span>·</span>}
               <SheetItem>{context}</SheetItem>
             </SheetPointPanel>
           )

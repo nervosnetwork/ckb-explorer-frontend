@@ -1,11 +1,9 @@
-import React, { useContext, useEffect, useReducer } from 'react'
+import React, { useContext, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
 import Routers from './routes'
-import Loading from './components/Loading'
-import Modal from './components/Modal'
 import Toast from './components/Toast'
 import withProviders from './providers'
-import AppContext from './contexts/App'
+import AppContext, { AppError } from './contexts/App'
 import { axiosIns, fetchBlockchainInfo } from './http/fetcher'
 import browserHistory from './routes/history'
 import { BLOCKCHAIN_ALERT_POLLING_TIME } from './utils/const'
@@ -32,117 +30,99 @@ const alertNotEmpty = (response: BlockchainInfoWrapper): boolean => {
   )
 }
 
-const Actions = {
-  ERRORS: 'errors',
-  ALERTS: 'alerts',
-}
-
-const initialState = {
-  errors: [] as string[],
-  alerts: [] as string[],
-}
-
-const reducer = (state: any, action: any) => {
-  switch (action.type) {
-    case Actions.ERRORS:
-      return {
-        ...state,
-        errors: action.payload.errors,
-      }
-    case Actions.ALERTS:
-      return {
-        ...state,
-        alerts: action.payload.alerts,
-      }
-    default:
-      return state
-  }
-}
+let initInterceptors = false
 
 const App = () => {
-  const appContext = useContext(AppContext)
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const appContext: any = useContext(AppContext)
+  console.log('app')
 
-  axiosIns.interceptors.request.use(
-    config => {
-      return config
+  const updateAppErrors = useCallback(
+    (appError: AppError) => {
+      appContext.dispatch({
+        type: 'updateError',
+        payload: {
+          appError,
+        },
+      })
     },
-    error => {
-      return Promise.reject(error)
-    },
+    [appContext],
   )
 
-  axiosIns.interceptors.response.use(
-    response => {
-      dispatch({
-        action: Actions.ERRORS,
-        payload: {
-          errors: [],
-        },
-      })
-      return response
-    },
-    error => {
-      dispatch({
-        action: Actions.ERRORS,
-        payload: {
-          errors: [NetworkError],
-        },
-      })
-      if (error && error.response && error.response.data) {
-        const { message } = error.response.data
-        switch (error.response.status) {
-          case 422:
-            dispatch({
-              action: Actions.ERRORS,
-              payload: {
-                errors: [],
-              },
-            })
-            break
-          case 503:
-            dispatch({
-              action: Actions.ERRORS,
-              payload: {
-                errors: [],
-              },
-            })
-            if (message) {
-              appContext.errorMessage = message
-            }
-            browserHistory.replace('/maintain')
-            break
-          case 404:
-            dispatch({
-              action: Actions.ERRORS,
-              payload: {
-                errors: [],
-              },
-            })
-            break
-          default:
-            dispatch({
-              action: Actions.ERRORS,
-              payload: {
-                errors: [NetworkError],
-              },
-            })
-            break
+  if (!initInterceptors) {
+    initInterceptors = true
+
+    axiosIns.interceptors.request.use(
+      config => {
+        return config
+      },
+      error => {
+        return Promise.reject(error)
+      },
+    )
+
+    axiosIns.interceptors.response.use(
+      response => {
+        updateAppErrors({
+          type: 'Network',
+          message: [],
+        })
+        return response
+      },
+      error => {
+        console.log(JSON.stringify(error.response))
+        updateAppErrors({
+          type: 'Network',
+          message: [NetworkError],
+        })
+        if (error && error.response && error.response.data) {
+          const { message }: { message: string } = error.response.data
+          switch (error.response.status) {
+            case 422:
+              updateAppErrors({
+                type: 'Network',
+                message: [],
+              })
+              break
+            case 503:
+              updateAppErrors({
+                type: 'Network',
+                message: [],
+              })
+              if (message) {
+                updateAppErrors({
+                  type: 'Maintain',
+                  message: [message],
+                })
+              }
+              browserHistory.replace('/maintain')
+              break
+            case 404:
+              updateAppErrors({
+                type: 'Network',
+                message: [],
+              })
+              break
+            default:
+              updateAppErrors({
+                type: 'Network',
+                message: [NetworkError],
+              })
+              break
+          }
         }
-      }
-      return Promise.reject(error)
-    },
-  )
-
-  const resizeListener = () => {
-    if (resizeTimer) clearTimeout(resizeTimer)
-    resizeTimer = setTimeout(() => {
-      appContext.resize(window.innerWidth, window.innerHeight)
-      resizeTimer = null
-    }, RESIZE_LATENCY)
+        return Promise.reject(error)
+      },
+    )
   }
 
   useEffect(() => {
+    const resizeListener = () => {
+      if (resizeTimer) clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(() => {
+        // appContext.resize(window.innerWidth, window.innerHeight)
+        resizeTimer = null
+      }, RESIZE_LATENCY)
+    }
     window.addEventListener('resize', resizeListener)
     return () => {
       if (resizeListener) window.removeEventListener('resize', resizeListener)
@@ -157,40 +137,24 @@ const App = () => {
           const alertMessages = response.attributes.blockchain_info.alerts.map(alert => {
             return alert.message
           })
-          dispatch({
-            action: Actions.ALERTS,
-            payload: {
-              alerts: alertMessages,
-            },
+          updateAppErrors({
+            type: 'ChainAlert',
+            message: alertMessages,
           })
         } else {
-          dispatch({
-            action: Actions.ALERTS,
-            payload: {
-              alerts: [],
-            },
+          updateAppErrors({
+            type: 'ChainAlert',
+            message: [],
           })
         }
       })
     }, BLOCKCHAIN_ALERT_POLLING_TIME)
     return () => clearInterval(listen)
-  }, [])
+  }, [updateAppErrors])
 
   return (
     <AppDiv>
-      <Routers contexts={state.alerts.concat(state.errors)} />
-      <Modal
-        onClose={() => {
-          appContext.hideModal()
-        }}
-        data={appContext.modal}
-      />
-      <Loading
-        onClose={() => {
-          appContext.hideLoading()
-        }}
-        show={appContext.show}
-      />
+      <Routers />
       <Toast
         style={{
           bottom: 10,
