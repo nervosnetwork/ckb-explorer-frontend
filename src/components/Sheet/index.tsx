@@ -2,14 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 
 const SheetPanel = styled.div`
-  position: absolute;
-  top: 0;
-  z-index: 10000;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 80px;
+  z-index: 9000;
 
   > div {
-    position: fixed;
-    top: 80px;
-    z-index: 10001;
     width: 100%;
     background: #ff7070;
     display: flex;

@@ -4,8 +4,6 @@ import Routers from './routes'
 import Loading from './components/Loading'
 import Modal from './components/Modal'
 import Toast from './components/Toast'
-import Sheet from './components/Sheet'
-
 import withProviders from './providers'
 import AppContext from './contexts/App'
 import { axiosIns, fetchBlockchainInfo } from './http/fetcher'
@@ -113,8 +111,7 @@ const App = () => {
 
   return (
     <AppDiv>
-      <Routers />
-      <Sheet contexts={alerts.concat(errors)} />
+      <Routers contexts={alerts.concat(errors)} />
       <Modal
         onClose={() => {
           appContext.hideModal()
