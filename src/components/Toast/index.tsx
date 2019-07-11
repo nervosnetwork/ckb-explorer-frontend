@@ -53,9 +53,9 @@ const ToastItem = ({
   disappearDuration?: number
   willLeave: Function
 }) => {
-  let animationFun: any = null
   const [opacity, setOpacity] = useState(1)
   useEffect(() => {
+    let animationFun: any = null
     const requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame
     animationFun = setTimeout(() => {
       const maxFrame: number = ((disappearDuration || 2000) / 1000) * 40 // suppose fps = 40
@@ -77,6 +77,7 @@ const ToastItem = ({
         cancelAnimationFrame(animationFun)
       }
     }
+    // eslint-disable-next-line
   }, [])
   return (
     <ToastItemDiv

@@ -28,6 +28,7 @@ const TableTitleRowItem = styled.div`
   > div {
     color: white;
     font-size: 20px;
+    font-weight: 450;
     margin-left: 10px;
   }
 `
@@ -50,6 +51,7 @@ const TableContentRowItem = styled.div`
   width: 240px;
   height: 65px;
   color: #888888;
+  font-weight: 450;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -73,6 +75,7 @@ const TableMinerContentPanel = styled.div`
     line-height: 65px;
     justify-content: center;
     font-size: 16px;
+    font-weight: 450;
   }
 
   .table__miner__text__disable {

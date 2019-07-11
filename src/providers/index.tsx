@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import AppContext, { initApp } from '../contexts/App'
+import i18n from '../utils/i18n'
 
 const withProviders = (Comp: React.ComponentType) => (props: React.Props<any>) => {
   const [app, setApp] = useState(initApp)
   const appValue = {
     ...app,
-    errorMessage: 'The site is temporarily down for maintenance. Please check back soon.',
+    errorMessage: i18n.t('error.maintenance'),
     resize: (appWidth: number, appHeight: number) => {
       setApp((state: any) => {
         return {

@@ -79,15 +79,3 @@ export const BlocksPagition = styled(CommonPagition)`
   width: 100%;
   overflow-x: auto;
 `
-
-export const BlockListPC = styled.div`
-  @media (max-width: 700px) {
-    display: none;
-  }
-`
-
-export const BlockListMobile = styled.div`
-  @media (min-width: 700px) {
-    display: none;
-  }
-`

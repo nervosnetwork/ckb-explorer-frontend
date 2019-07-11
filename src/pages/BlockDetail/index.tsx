@@ -14,8 +14,6 @@ import {
   BlockHightLabel,
   BlockTransactionsPanel,
   BlockTransactionsPagition,
-  BlockItemPC,
-  BlockItemMobile,
 } from './styled'
 import AppContext from '../../contexts/App'
 import Content from '../../components/Content'
@@ -48,12 +46,13 @@ import { Block, BlockWrapper, RewardStatus, TransactionFeeStatus } from '../../h
 import { parseSimpleDate } from '../../utils/date'
 import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
-import { fetchBlockByHash, fetchTransactionsByBlockHash, fetchBlockByNumber } from '../../http/fetcher'
+import { fetchBlock, fetchTransactionsByBlockHash } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
-import { startEndEllipsis, validNumber } from '../../utils/string'
+import { startEndEllipsis, parsePageNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
+import { isMobile } from '../../utils/screen'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
@@ -158,7 +157,7 @@ const initBlock: Block = {
   block_hash: '',
   number: 0,
   transactions_count: 0,
-  proposal_transactions_count: 0,
+  proposals_count: 0,
   uncles_count: 0,
   uncle_block_hashes: [],
   reward: 0,
@@ -185,8 +184,6 @@ const Actions = {
   block: 'BLOCK',
   transactions: 'TRANSACTIONS',
   total: 'TOTAL',
-  page: 'PAGE_NO',
-  size: 'PAGE_SIZE',
   prev: 'PREV',
   next: 'NEXT',
 }
@@ -207,16 +204,6 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         total: action.payload.total,
-      }
-    case Actions.page:
-      return {
-        ...state,
-        page: action.payload.page,
-      }
-    case Actions.size:
-      return {
-        ...state,
-        size: action.payload.size,
       }
     case Actions.prev:
       return {
@@ -260,7 +247,7 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
       prev: blockNumber > 0,
     },
   })
-  fetchBlockByNumber(`${blockNumber + 1}`)
+  fetchBlock(`${blockNumber + 1}`)
     .then(response => {
       const { data } = response as Response<BlockWrapper>
       dispatch({
@@ -280,8 +267,9 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
     })
 }
 
-const getBlockByHash = (blockHash: string, page: number, size: number, dispatch: any, replace: any) => {
-  fetchBlockByHash(blockHash)
+// blockParam: block hash or block number
+const getBlock = (blockParam: string, page: number, size: number, dispatch: any, replace: any) => {
+  fetchBlock(blockParam)
     .then(response => {
       const { data } = response as Response<BlockWrapper>
       const block = data.attributes as Block
@@ -295,19 +283,26 @@ const getBlockByHash = (blockHash: string, page: number, size: number, dispatch:
       getTransactions(block.block_hash, page, size, dispatch)
     })
     .catch(() => {
-      replace(`/search/fail?q=${blockHash}`)
+      replace(`/search/fail?q=${blockParam}`)
     })
+}
+
+const initialState = {
+  block: initBlock,
+  transactions: [] as TransactionWrapper[],
+  total: 1,
+  prev: true,
+  next: true,
 }
 
 const BlockRewardTip: Tooltip = {
   status: 'Pending',
-  tip: 'The block reward of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+  tip: i18n.t('block.pending_tip'),
 }
 
 const TransactionFeeTip: Tooltip = {
   status: 'Calculating',
-  tip:
-    'The transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol',
+  tip: i18n.t('block.calculating_tip'),
   hideValue: true,
 }
 
@@ -318,48 +313,28 @@ const transactionFee = (block: Block) => {
   return undefined
 }
 
-export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
-  const { match, location } = props
+export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string }>>) => {
+  const { match, location, history } = props
   const { params } = match
-  const { hash: blockHash } = params
+  // blockParam: block hash or block number
+  const { param: blockParam } = params
   const { search } = location
-  const parsed = queryString.parse(search)
-
-  const initialState = {
-    block: initBlock,
-    transactions: [] as TransactionWrapper[],
-    total: 1,
-    page: validNumber(parsed.page, PageParams.PageNo),
-    size: validNumber(parsed.size, PageParams.PageSize),
-    prev: true,
-    next: true,
-  }
-  const [state, dispatch] = useReducer(reducer, initialState)
-  const { page, size } = state
-  const { history } = props
   const { replace } = history
+  const parsed = queryString.parse(search)
+  const page = parsePageNumber(parsed.page, PageParams.PageNo)
+  const size = parsePageNumber(parsed.size, PageParams.PageSize)
+
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
     if (size > PageParams.MaxPageSize) {
-      replace(`/block/${blockHash}?page=${page}&size=${PageParams.MaxPageSize}`)
+      replace(`/block/${blockParam}?page=${page}&size=${PageParams.MaxPageSize}`)
     }
-    getBlockByHash(blockHash, page, size, dispatch, replace)
-  }, [replace, blockHash, page, size, dispatch])
+    getBlock(blockParam, page, size, dispatch, replace)
+  }, [replace, blockParam, page, size, dispatch])
 
   const onChange = (pageNo: number, pageSize: number) => {
-    dispatch({
-      type: Actions.page,
-      payload: {
-        page: pageNo,
-      },
-    })
-    dispatch({
-      type: Actions.size,
-      payload: {
-        size: pageSize,
-      },
-    })
-    history.push(`/block/${blockHash}?page=${pageNo}&size=${pageSize}`)
+    history.push(`/block/${blockParam}?page=${pageNo}&size=${pageSize}`)
   }
 
   const BlockLeftItems: BlockItem[] = [
@@ -376,9 +351,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
     {
       image: ProposalTransactionsIcon,
       label: `${i18n.t('block.proposal_transactions')}:`,
-      value: `${
-        state.block.proposal_transactions_count ? localeNumberString(state.block.proposal_transactions_count) : 0
-      }`,
+      value: `${state.block.proposals_count ? localeNumberString(state.block.proposals_count) : 0}`,
     },
     {
       image: BlockRewardIcon,
@@ -512,12 +485,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               return (
                 item && (
                   <React.Fragment key={item.label}>
-                    <BlockItemPC>
+                    {isMobile() ? (
+                      <MultiLinesItem label={item.label} value={item.value} />
+                    ) : (
                       <SimpleLabel image={item.image} label={item.label} value={item.value} />
-                    </BlockItemPC>
-                    <BlockItemMobile>
-                      <MultiLinesItem key={item.label} label={item.label} value={item.value} />
-                    </BlockItemMobile>
+                    )}
                   </React.Fragment>
                 )
               )
@@ -535,8 +507,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 return (
                   transaction && (
                     <div key={transaction.attributes.transaction_hash}>
-                      <TransactionItem transaction={transaction.attributes} confirmation={10} isBlock />
-                      <TransactionCard transaction={transaction.attributes} />
+                      {isMobile() ? (
+                        <TransactionCard transaction={transaction.attributes} />
+                      ) : (
+                        <TransactionItem transaction={transaction.attributes} isBlock />
+                      )}
                     </div>
                   )
                 )
@@ -546,10 +521,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
             <Pagination
               showQuickJumper
               showSizeChanger
-              defaultPageSize={state.size}
-              pageSize={state.size}
-              defaultCurrent={state.page}
-              current={state.page}
+              defaultPageSize={size}
+              pageSize={size}
+              defaultCurrent={page}
+              current={page}
               total={state.total}
               onChange={onChange}
               locale={localeInfo}

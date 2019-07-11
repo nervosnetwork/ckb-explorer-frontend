@@ -5,7 +5,7 @@ import 'rc-pagination/assets/index.css'
 import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import { useTranslation } from 'react-i18next'
-import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition, BlockListPC, BlockListMobile } from './styled'
+import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition } from './styled'
 import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import {
@@ -25,10 +25,11 @@ import { fetchBlockList } from '../../http/fetcher'
 import { BlockWrapper } from '../../http/response/Block'
 import { Response } from '../../http/response/Response'
 import { shannonToCkb } from '../../utils/util'
-import { validNumber } from '../../utils/string'
+import { parsePageNumber } from '../../utils/string'
 import { CachedKeys } from '../../utils/const'
 import { fetchCachedData, storeCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
+import { isMobile } from '../../utils/screen'
 
 enum PageParams {
   PageNo = 1,
@@ -39,8 +40,6 @@ enum PageParams {
 const Actions = {
   blocks: 'BLOCKS',
   total: 'TOTAL',
-  page: 'PAGE_NO',
-  size: 'PAGE_SIZE',
 }
 
 const reducer = (state: any, action: any) => {
@@ -54,16 +53,6 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         total: action.payload.total,
-      }
-    case Actions.page:
-      return {
-        ...state,
-        page: action.payload.page,
-      }
-    case Actions.size:
-      return {
-        ...state,
-        size: action.payload.size,
       }
     default:
       return state
@@ -80,12 +69,6 @@ const getBlocks = (page: number, size: number, dispatch: any) => {
           total: meta.total,
         },
       })
-      dispatch({
-        type: Actions.size,
-        payload: {
-          size: meta.page_size,
-        },
-      })
     }
     if (data) {
       dispatch({
@@ -99,22 +82,22 @@ const getBlocks = (page: number, size: number, dispatch: any) => {
   })
 }
 
+const initialState = {
+  blocks: [] as BlockWrapper[],
+  total: 1,
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
-  const { location } = props
+  const { location, history } = props
   const { search } = location
+  const { replace } = history
   const parsed = queryString.parse(search)
   const [t] = useTranslation()
 
-  const initialState = {
-    blocks: [] as BlockWrapper[],
-    total: 1,
-    page: validNumber(parsed.page, PageParams.PageNo),
-    size: validNumber(parsed.size, PageParams.PageSize),
-  }
+  const page = parsePageNumber(parsed.page, PageParams.PageNo)
+  const size = parsePageNumber(parsed.size, PageParams.PageSize)
+
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { page, size } = state
-  const { history } = props
-  const { replace } = history
 
   useEffect(() => {
     const cachedBlocks = fetchCachedData<BlockWrapper[]>(CachedKeys.BlockList)
@@ -136,18 +119,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   }, [replace, page, size, dispatch])
 
   const onChange = (pageNo: number, pageSize: number) => {
-    dispatch({
-      type: Actions.page,
-      payload: {
-        page: pageNo,
-      },
-    })
-    dispatch({
-      type: Actions.size,
-      payload: {
-        size: pageSize,
-      },
-    })
     props.history.push(`/block/list?page=${pageNo}&size=${pageSize}`)
   }
 
@@ -155,35 +126,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
     <Content>
       <BlockListPanel className="container">
         <ContentTitle>Blocks</ContentTitle>
-        <BlockListPC>
-          <ContentTable>
-            <TableTitleRow>
-              <TableTitleItem image={BlockHeightIcon} title={t('home.height')} />
-              <TableTitleItem image={TransactionIcon} title={t('home.transactions')} />
-              <TableTitleItem image={BlockRewardIcon} title={t('home.block_reward')} />
-              <TableTitleItem image={MinerIcon} title={t('block.miner')} />
-              <TableTitleItem image={TimestampIcon} title={t('home.time')} />
-            </TableTitleRow>
-            {state.blocks &&
-              state.blocks.map((data: any) => {
-                return (
-                  data && (
-                    <TableContentRow key={data.attributes.block_hash}>
-                      <TableContentItem
-                        content={localeNumberString(data.attributes.number)}
-                        to={`/block/${data.attributes.number}`}
-                      />
-                      <TableContentItem content={data.attributes.transactions_count} />
-                      <TableContentItem content={`${localeNumberString(shannonToCkb(data.attributes.reward))}`} />
-                      <TableMinerContentItem content={data.attributes.miner_hash} />
-                      <TableContentItem content={parseSimpleDate(data.attributes.timestamp)} />
-                    </TableContentRow>
-                  )
-                )
-              })}
-          </ContentTable>
-        </BlockListPC>
-        <BlockListMobile>
+        {isMobile() ? (
           <ContentTable>
             <div className="block__panel">
               {state.blocks &&
@@ -193,15 +136,42 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
                 })}
             </div>
           </ContentTable>
-        </BlockListMobile>
+        ) : (
+          <ContentTable>
+            <TableTitleRow>
+              <TableTitleItem image={BlockHeightIcon} title={t('home.height')} />
+              <TableTitleItem image={TransactionIcon} title={t('home.transactions')} />
+              <TableTitleItem image={BlockRewardIcon} title={t('home.block_reward')} />
+              <TableTitleItem image={MinerIcon} title={t('block.miner')} />
+              <TableTitleItem image={TimestampIcon} title={t('home.time')} />
+            </TableTitleRow>
+            {state.blocks &&
+              state.blocks.map((data: BlockWrapper) => {
+                return (
+                  data && (
+                    <TableContentRow key={data.attributes.block_hash}>
+                      <TableContentItem
+                        content={localeNumberString(data.attributes.number)}
+                        to={`/block/${data.attributes.number}`}
+                      />
+                      <TableContentItem content={`${data.attributes.transactions_count}`} />
+                      <TableContentItem content={`${localeNumberString(shannonToCkb(data.attributes.reward))}`} />
+                      <TableMinerContentItem content={data.attributes.miner_hash} />
+                      <TableContentItem content={parseSimpleDate(data.attributes.timestamp)} />
+                    </TableContentRow>
+                  )
+                )
+              })}
+          </ContentTable>
+        )}
         <BlocksPagition>
           <Pagination
             showQuickJumper
             showSizeChanger
-            defaultPageSize={state.size}
-            pageSize={state.size}
-            defaultCurrent={state.page}
-            current={state.page}
+            defaultPageSize={size}
+            pageSize={size}
+            defaultCurrent={page}
+            current={page}
             total={state.total}
             onChange={onChange}
             locale={localeInfo}

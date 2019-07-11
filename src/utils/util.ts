@@ -3,7 +3,7 @@ import { MAX_CONFIRMATION } from './const'
 import i18n from './i18n'
 import { parseNumber } from './number'
 
-const copyElementValue = (component: any) => {
+export const copyElementValue = (component: any) => {
   if (!component) return
   const selection = window.getSelection()
   if (selection) {
@@ -16,11 +16,9 @@ const copyElementValue = (component: any) => {
   }
 }
 
-const shannonToCkb = (value: number) => {
+export const shannonToCkb = (value: number) => {
   return value / 10 ** 8
 }
-
-export { copyElementValue, shannonToCkb }
 
 const handleCellCapacity = (cells: InputOutput[], address?: string) => {
   if (!cells || cells.length === 0) return 0
@@ -50,4 +48,11 @@ export const formatConfirmation = (confirmation: number | undefined) => {
     return `${confirmation} ${i18n.t('address.confirmations')}`
   }
   return `${confirmation} ${i18n.t('address.confirmation')}`
+}
+
+export default {
+  copyElementValue,
+  shannonToCkb,
+  handleCapacityChange,
+  formatConfirmation,
 }

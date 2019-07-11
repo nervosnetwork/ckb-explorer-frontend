@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import {
-  HomeHeaderPanel,
-  HomeHeaderItemPanel,
-  BlockPanel,
-  ContentTable,
-  TableMorePanel,
-  BlockListPC,
-  BlockListMobile,
-} from './styled'
+import { HomeHeaderPanel, HomeHeaderItemPanel, BlockPanel, ContentTable, TableMorePanel } from './styled'
 import Content from '../../components/Content'
 import {
   TableTitleRow,
@@ -35,6 +27,7 @@ import { parseTime, parseSimpleDate } from '../../utils/date'
 import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
 import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
+import { isMobile } from '../../utils/screen'
 
 const BlockchainItem = ({ name, value, tip }: { name: string; value: string; tip?: string }) => {
   return (
@@ -146,7 +139,18 @@ export default () => {
         </div>
       </HomeHeaderPanel>
       <BlockPanel className="container">
-        <BlockListPC>
+        {isMobile() ? (
+          <ContentTable>
+            <div className="block__green__background" />
+            <div className="block__panel">
+              {blocksWrappers &&
+                blocksWrappers.map((block: any, index: number) => {
+                  const key = index
+                  return block && <BlockCard key={key} block={block.attributes} />
+                })}
+            </div>
+          </ContentTable>
+        ) : (
           <ContentTable>
             <TableTitleRow>
               <TableTitleItem image={BlockHeightIcon} title={t('home.height')} />
@@ -174,19 +178,7 @@ export default () => {
                 )
               })}
           </ContentTable>
-        </BlockListPC>
-        <BlockListMobile>
-          <ContentTable>
-            <div className="block__green__background" />
-            <div className="block__panel">
-              {blocksWrappers &&
-                blocksWrappers.map((block: any, index: number) => {
-                  const key = index
-                  return block && <BlockCard key={key} block={block.attributes} />
-                })}
-            </div>
-          </ContentTable>
-        </BlockListMobile>
+        )}
         <TableMorePanel>
           <div>
             <img src={MoreLeftIcon} alt="more left" />

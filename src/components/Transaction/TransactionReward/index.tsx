@@ -39,11 +39,7 @@ export const RewardPenal = styled.div`
       color: rgb(136, 136, 136);
 
       @media (max-width: 700px) {
-        font-size: 14px;
-      }
-
-      @media (max-width: 320px) {
-        font-size: 13px;
+        font-size: 12px;
       }
     }
   }
@@ -54,10 +50,6 @@ export const RewardPenal = styled.div`
     margin-left: 15px;
 
     @media (max-width: 700px) {
-      font-size: 14px;
-    }
-
-    @media (max-width: 320px) {
       font-size: 12px;
     }
   }
