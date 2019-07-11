@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useReducer } from 'react'
 import styled from 'styled-components'
 import Routers from './routes'
 import Loading from './components/Loading'
@@ -32,10 +32,107 @@ const alertNotEmpty = (response: BlockchainInfoWrapper): boolean => {
   )
 }
 
+const Actions = {
+  ERRORS: 'errors',
+  ALERTS: 'alerts',
+}
+
+const initialState = {
+  errors: [] as string[],
+  alerts: [] as string[],
+}
+
+const reducer = (state: any, action: any) => {
+  switch (action.type) {
+    case Actions.ERRORS:
+      return {
+        ...state,
+        errors: action.payload.errors,
+      }
+    case Actions.ALERTS:
+      return {
+        ...state,
+        alerts: action.payload.alerts,
+      }
+    default:
+      return state
+  }
+}
+
 const App = () => {
   const appContext = useContext(AppContext)
-  const [errors, setErrors] = useState([] as string[])
-  const [alerts, setAlerts] = useState([] as string[])
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  axiosIns.interceptors.request.use(
+    config => {
+      return config
+    },
+    error => {
+      return Promise.reject(error)
+    },
+  )
+
+  axiosIns.interceptors.response.use(
+    response => {
+      dispatch({
+        action: Actions.ERRORS,
+        payload: {
+          errors: [],
+        },
+      })
+      return response
+    },
+    error => {
+      dispatch({
+        action: Actions.ERRORS,
+        payload: {
+          errors: [NetworkError],
+        },
+      })
+      if (error && error.response && error.response.data) {
+        const { message } = error.response.data
+        switch (error.response.status) {
+          case 422:
+            dispatch({
+              action: Actions.ERRORS,
+              payload: {
+                errors: [],
+              },
+            })
+            break
+          case 503:
+            dispatch({
+              action: Actions.ERRORS,
+              payload: {
+                errors: [],
+              },
+            })
+            if (message) {
+              appContext.errorMessage = message
+            }
+            browserHistory.replace('/maintain')
+            break
+          case 404:
+            dispatch({
+              action: Actions.ERRORS,
+              payload: {
+                errors: [],
+              },
+            })
+            break
+          default:
+            dispatch({
+              action: Actions.ERRORS,
+              payload: {
+                errors: [NetworkError],
+              },
+            })
+            break
+        }
+      }
+      return Promise.reject(error)
+    },
+  )
 
   const resizeListener = () => {
     if (resizeTimer) clearTimeout(resizeTimer)
@@ -46,46 +143,6 @@ const App = () => {
   }
 
   useEffect(() => {
-    axiosIns.interceptors.request.use(
-      config => {
-        return config
-      },
-      error => {
-        return Promise.reject(error)
-      },
-    )
-
-    axiosIns.interceptors.response.use(
-      response => {
-        setErrors([])
-        return response
-      },
-      error => {
-        setErrors([NetworkError])
-        if (error && error.response && error.response.data) {
-          const { message } = error.response.data
-          switch (error.response.status) {
-            case 422:
-              setErrors([])
-              break
-            case 503:
-              setErrors([])
-              if (message) {
-                appContext.errorMessage = message
-              }
-              browserHistory.replace('/maintain')
-              break
-            case 404:
-              setErrors([])
-              break
-            default:
-              setErrors([NetworkError])
-              break
-          }
-        }
-        return Promise.reject(error)
-      },
-    )
     window.addEventListener('resize', resizeListener)
     return () => {
       if (resizeListener) window.removeEventListener('resize', resizeListener)
@@ -100,9 +157,19 @@ const App = () => {
           const alertMessages = response.attributes.blockchain_info.alerts.map(alert => {
             return alert.message
           })
-          setAlerts(alertMessages)
+          dispatch({
+            action: Actions.ALERTS,
+            payload: {
+              alerts: alertMessages,
+            },
+          })
         } else {
-          setAlerts([])
+          dispatch({
+            action: Actions.ALERTS,
+            payload: {
+              alerts: [],
+            },
+          })
         }
       })
     }, BLOCKCHAIN_ALERT_POLLING_TIME)
@@ -111,7 +178,7 @@ const App = () => {
 
   return (
     <AppDiv>
-      <Routers contexts={alerts.concat(errors)} />
+      <Routers contexts={state.alerts.concat(state.errors)} />
       <Modal
         onClose={() => {
           appContext.hideModal()
