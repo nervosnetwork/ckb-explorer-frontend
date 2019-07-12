@@ -8,6 +8,10 @@ const SheetPanel = styled.div`
   top: 80px;
   z-index: 9000;
 
+  @media (max-width: 700px) {
+    top: 44px;
+  }
+
   > div {
     width: 100%;
     background: #ff7070;
@@ -18,7 +22,6 @@ const SheetPanel = styled.div`
     padding: 20px 0 25px 0;
 
     @media (max-width: 700px) {
-      top: 44px;
       padding: 10px 0 15px 0;
     }
   }

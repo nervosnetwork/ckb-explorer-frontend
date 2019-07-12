@@ -100,7 +100,7 @@ export const useAxiosInterceptors = () => {
             case 422:
               appContext.updateAppErrors({
                 type: 'Network',
-                message: [NetworkError],
+                message: [],
               })
               break
             case 503:
