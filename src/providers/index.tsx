@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import AppContext, { initApp, AppError } from '../contexts/App'
-import i18n from '../utils/i18n'
 
 const withProviders = (Comp: React.ComponentType) => () => {
   const [app, setApp] = useState(initApp)
   const appValue = {
     ...app,
-    errorMessage: i18n.t('error.maintenance'),
     resize: (appWidth: number, appHeight: number) => {
       setApp((state: any) => {
         return {
