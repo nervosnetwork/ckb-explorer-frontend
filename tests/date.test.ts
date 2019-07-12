@@ -8,9 +8,10 @@ describe('Date methods tests', () => {
   })
 
   it('parse time', async () => {
-    expect(parseTime(5500000)).toBe("1 h 31 m 40.00 s")
-    expect(parseTime(1000000)).toBe('16 m 40.00 s')
-    expect(parseTime(10000)).toBe('10.00 s')
+    expect(parseTime(5500000)).toBe("1 h 31 m 40 s")
+    expect(parseTime(1000000)).toBe('16 m 40 s')
+    expect(parseTime(60000)).toBe('1 m 0 s')
+    expect(parseTime(12233)).toBe('12.23 s')
   })
 
 })

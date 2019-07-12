@@ -13,13 +13,10 @@ export const TransactionDiv = styled.div.attrs({
 `
 export const TransactionTitleDiv = styled.div`
   text-align: center;
-  font-size: 40px;
-  font-family: PingFangSC-Medium, sans-serif;
-  font-weight: 900;
+  font-size: 50px;
 
   @media (max-width: 700px) {
     font-size: 26px;
-    font-weight: 450;
   }
 `
 export const TransactionOverviewLabel = styled.div`
@@ -29,10 +26,7 @@ export const TransactionOverviewLabel = styled.div`
   @media (max-width: 700px) {
     margin-top: 25px;
     font-size: 26px;
-    font-weight: 450;
   }
-  font-family: PingFangSC-Medium, sans-serif;
-  font-weight: 900;
   &:after {
     content: '';
     display: block;
@@ -46,13 +40,10 @@ export const TransactionOverviewLabel = styled.div`
 export const TransactionTitlePanel = styled.div`
   .transaction__title {
     color: rgb(20, 20, 20);
-    font-size: 32pt;
+    font-size: 50px;
     text-align: center;
-    font-family: PingFangSC-Medium, sans-serif;
-    font-weight: 900;
 
     @media (max-width: 700px) {
-      font-weight: 450;
       font-size: 26px;
     }
   }
@@ -182,18 +173,6 @@ export const PanelDiv = styled.div`
   }
 `
 
-export const CellPanelPC = styled.div`
-  @media (max-width: 700px) {
-    display: none;
-  }
-`
-
-export const CellPanelMobile = styled.div`
-  @media (min-width: 700px) {
-    display: none;
-  }
-`
-
 export const InputPanelDiv = styled(PanelDiv)`
   margin-top: 20px;
   min-height: 88px;
@@ -220,7 +199,7 @@ export const InputOutputTable = styled.table`
       font-size: 20px;
       font-family: PingFangSC-Medium, sans-serif;
       color: #4d4d4d;
-      font-weight: 900;
+      font-weight: 450;
       td {
         &:nth-child(1) {
           width: ${1100 - 150 - 360}px;
@@ -275,9 +254,11 @@ export const InputOutputTable = styled.table`
           border-bottom: 0;
         }
         td {
-          textarea {
+          .script__input {
             border: none;
             width: 100%;
+            word-wrap: break-word;
+            white-space: pre-wrap;
             padding: 18px 30px 18px 34px;
             font-size: 16px;
             color: #888888;
@@ -287,8 +268,6 @@ export const InputOutputTable = styled.table`
             min-height: 170px;
             background-color: #f9f9f9;
             border-radius: 6px 6px;
-            user-select: none;
-            transform: translateZ(0);
           }
           .tr-detail-td-buttons {
             display: flex;

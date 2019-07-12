@@ -35,11 +35,12 @@ import { Response } from '../../http/response/Response'
 import { TransactionWrapper } from '../../http/response/Transaction'
 import { fetchAddressInfo, fetchTransactionsByAddress, fetchTipBlockNumber } from '../../http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
-import { validNumber, startEndEllipsis } from '../../utils/string'
+import { parsePageNumber, startEndEllipsis } from '../../utils/string'
 import TransactionCard from '../../components/Transaction/TransactionCard/index'
 import { StatisticsWrapper } from '../../http/response/Statistics'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
+import { isMobile } from '../../utils/screen'
 
 const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
   const appContext = useContext(AppContext)
@@ -131,8 +132,6 @@ const Actions = {
   address: 'ADDRESS',
   transactions: 'TRANSACTIONS',
   total: 'TOTAL',
-  page: 'PAGE_NO',
-  size: 'PAGE_SIZE',
   tipBlockNumber: 'TIP_BLOCK_NUMBER',
 }
 
@@ -152,16 +151,6 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         total: action.payload.total,
-      }
-    case Actions.page:
-      return {
-        ...state,
-        page: action.payload.page,
-      }
-    case Actions.size:
-      return {
-        ...state,
-        size: action.payload.size,
       }
     case Actions.tipBlockNumber:
       return {
@@ -205,12 +194,6 @@ const getTransactions = (hash: string, page: number, size: number, dispatch: any
           total: meta.total,
         },
       })
-      dispatch({
-        type: Actions.size,
-        payload: {
-          size: meta.page_size,
-        },
-      })
     }
   })
 }
@@ -235,26 +218,31 @@ const PendingRewardTooltip: Tooltip = {
   offset: 0.7,
 }
 
+const addressContent = (address: Address) => {
+  const addressText = isMobile() ? startEndEllipsis(address.address_hash, 10) : address.address_hash
+  return address.address_hash ? addressText : i18n.t('address.unable_decode_address')
+}
+
+const initialState = {
+  address: initAddress,
+  transactions: [] as TransactionWrapper[],
+  total: 1,
+  tipBlockNumber: 0,
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string; hash: string }>>) => {
-  const { match, location } = props
+  const { match, location, history } = props
   const { params } = match
   const { address, hash: lockHash } = params
   const identityHash = address || lockHash
   const { search } = location
   const parsed = queryString.parse(search)
-  const { history } = props
   const { replace } = history
 
-  const initialState = {
-    address: initAddress,
-    transactions: [] as TransactionWrapper[],
-    total: 1,
-    page: validNumber(parsed.page, PageParams.PageNo),
-    size: validNumber(parsed.size, PageParams.PageSize),
-    tipBlockNumber: 0,
-  }
+  const page = parsePageNumber(parsed.page, PageParams.PageNo)
+  const size = parsePageNumber(parsed.size, PageParams.PageSize)
+
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { page, size } = state
 
   useEffect(() => {
     if (size > PageParams.MaxPageSize) {
@@ -266,18 +254,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   }, [replace, identityHash, page, size, dispatch, address])
 
   const onChange = (pageNo: number, pageSize: number) => {
-    dispatch({
-      type: Actions.page,
-      payload: {
-        page: pageNo,
-      },
-    })
-    dispatch({
-      type: Actions.size,
-      payload: {
-        size: pageSize,
-      },
-    })
     replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${pageNo}&size=${pageSize}`)
   }
 
@@ -308,21 +284,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               tooltip={PendingRewardTooltip}
             />
           ) : null}
-          {lockHash &&
-            state.address &&
-            (state.address.address_hash ? (
-              <SimpleLabel
-                image={AddressHashIcon}
-                label={`${i18n.t('address.address')} :`}
-                value={`${startEndEllipsis(state.address.address_hash, 12)}`}
-              />
-            ) : (
-              <SimpleLabel
-                image={AddressHashIcon}
-                label={`${i18n.t('address.address')} :`}
-                value={i18n.t('address.unable_decode_address')}
-              />
-            ))}
+          {lockHash && state.address && (
+            <SimpleLabel
+              image={AddressHashIcon}
+              label={`${i18n.t('address.address')} :`}
+              value={addressContent(state.address)}
+            />
+          )}
           <AddressScriptLabel
             image={AddressScriptIcon}
             label={`${i18n.t('address.lock_hash')} : `}
@@ -336,27 +304,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
             {state.transactions &&
               state.transactions.map((transaction: any) => {
                 return (
-                  transaction && (
-                    <TransactionItem
-                      address={address}
-                      transaction={transaction.attributes}
-                      confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
-                      key={transaction.attributes.transaction_hash}
-                    />
-                  )
-                )
-              })}
-            {state.transactions &&
-              state.transactions.map((transaction: any) => {
-                return (
-                  transaction && (
+                  transaction &&
+                  (isMobile() ? (
                     <TransactionCard
-                      address={address}
+                      address={state.address.address_hash}
                       confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
                       transaction={transaction.attributes}
                       key={transaction.attributes.transaction_hash}
                     />
-                  )
+                  ) : (
+                    <TransactionItem
+                      address={state.address.address_hash}
+                      transaction={transaction.attributes}
+                      confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
+                      key={transaction.attributes.transaction_hash}
+                    />
+                  ))
                 )
               })}
           </div>
@@ -364,10 +327,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
             <Pagination
               showQuickJumper
               showSizeChanger
-              defaultPageSize={state.size}
-              pageSize={state.size}
-              defaultCurrent={state.page}
-              current={state.page}
+              defaultPageSize={size}
+              pageSize={size}
+              defaultCurrent={page}
+              current={page}
               total={state.total}
               onChange={onChange}
               locale={localeInfo}

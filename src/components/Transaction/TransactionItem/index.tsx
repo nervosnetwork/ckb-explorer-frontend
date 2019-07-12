@@ -27,7 +27,7 @@ const TransactionItem = ({
 }: {
   transaction: Transaction
   address?: string
-  confirmation: number
+  confirmation?: number
   isBlock?: boolean
 }) => {
   return (
@@ -68,12 +68,14 @@ const TransactionItem = ({
                 </FullPanel>
               )}
             />
-            {address && <SeparationLine marginTop="10px" marginBottom="20px" />}
-            {address && (
-              <TransactionConfirmation
-                confirmation={confirmation}
-                capacity={handleCapacityChange(transaction, address)}
-              />
+            {confirmation && (
+              <>
+                <SeparationLine marginTop="10px" marginBottom="20px" />
+                <TransactionConfirmation
+                  confirmation={confirmation}
+                  capacity={handleCapacityChange(transaction, address)}
+                />
+              </>
             )}
           </div>
         </TransactionInputOutputPanel>

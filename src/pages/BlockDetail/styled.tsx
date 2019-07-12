@@ -13,17 +13,17 @@ export const BlockDetailPanel = styled.div`
 `
 
 export const BlockDetailTitlePanel = styled.div`
-  dispaly: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
 
   .block__title {
     color: rgb(20, 20, 20);
-    font-size: 40pt;
+    font-size: 50px;
     text-align: center;
 
     @media (max-width: 700px) {
-      font-size: 26px;
+      font-size: 20px;
     }
   }
 
@@ -31,6 +31,7 @@ export const BlockDetailTitlePanel = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
+    width: 100%;
 
     #block__hash {
       color: rgb(136, 136, 136);
@@ -39,7 +40,7 @@ export const BlockDetailTitlePanel = styled.div`
       @media (max-width: 700px) {
         font-size: 14px;
         height: 40px;
-        width: 75%;
+        width: 80%;
       }
       white-space: normal;
       word-wrap: break-word;
@@ -70,7 +71,7 @@ export const BlockOverviewPanel = styled.div`
   @media (max-width: 700px) {
     margin-top: 25px;
     margin-bottom: 5px;
-    font-size: 26px;
+    font-size: 18px;
     height: 50px;
   }
 
@@ -83,6 +84,7 @@ export const BlockOverviewPanel = styled.div`
     width: 197px;
     @media (max-width: 700px) {
       width: 100px;
+      height: 2px;
     }
   }
 `
@@ -234,6 +236,9 @@ export const BlockHightLabel = styled.div`
   font-size: 16px;
   color: #979797;
   text-align: center;
+  @media (max-width: 700px) {
+    font-size: 8px;
+  }
 `
 
 export const BlockTransactionsPanel = styled.div``
@@ -245,17 +250,5 @@ export const BlockTransactionsPagition = styled(CommonPagition)`
 
   @media (max-width: 700px) {
     margin: 20px 0 30px 3%;
-  }
-`
-
-export const BlockItemPC = styled.div`
-  @media (max-width: 700px) {
-    display: none;
-  }
-`
-
-export const BlockItemMobile = styled.div`
-  @media (min-width: 700px) {
-    display: none;
   }
 `

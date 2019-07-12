@@ -138,10 +138,10 @@ export const HomeHeaderItemPanel = styled.div`
 
 export const BlockPanel = styled.div`
   width: 100%;
-  margin-bottom: 72px;
+  margin-bottom: 60px;
 
   @media (max-width: 700px) {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 `
 
@@ -249,16 +249,5 @@ export const TableMorePanel = styled.div`
         color: #3cc68a;
       }
     }
-  }
-`
-export const BlockListPC = styled.div`
-  @media (max-width: 700px) {
-    display: none;
-  }
-`
-
-export const BlockListMobile = styled.div`
-  @media (min-width: 700px) {
-    display: none;
   }
 `

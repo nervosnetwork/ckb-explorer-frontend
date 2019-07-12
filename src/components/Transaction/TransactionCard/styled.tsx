@@ -1,27 +1,25 @@
 import styled from 'styled-components'
 
 export const CardPanel = styled.div`
-  @media (min-width: 700px) {
-    display: none;
-  }
   width: 88%;
   background-color: white;
-  padding: 10px 6% 20px 6%;
+  padding: 20px;
+  margin: 10px 6% 10px 6%;
   border: 0px solid white;
   border-radius: 3px;
   box-shadow: 2px 2px 6px #eaeaea;
   display: flex;
-  margin-bottom: 10px;
-  margin-left: 6%;
   flex-direction: column;
   .sperate__line_top {
     width: 100%;
     height: 1px;
     background-color: #dfdfdf;
+    margin-top: 10px;
   }
   .green__arrow {
     text-align: center;
-    margin: 10px 0;
+    margin-top: 10px;
+    height: 20px;
     > img {
       width: 20px;
       height: 20px;
@@ -36,26 +34,32 @@ export const CardPanel = styled.div`
   }
 `
 
-export const CardItemPanel = styled.div`
-  display: flex;
+export const CardHashBlockPanel = styled.div`
+  .card__hash {
+    font-size: 14px;
+    color: #4bbc8e;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-family: monospace;
+  }
+  .card__block_date {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #888888;
+  }
+`
+export const CardCellPanel = styled.div`
   margin-top: 10px;
-  > div {
-    color: #606060;
-    font-size: 14px;
-    margin-right: 8px;
+  .card__cell_address {
+    font-size: 13px;
+    color: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '#4bbc8e' : '#888888')};
+    font-family: monospace;
   }
-  .card__value {
-    color: ${(props: { highLight: boolean }) => (props.highLight ? '#3CC68A' : '#888888')};
-    font-weight: 450;
-    font-size: 14px;
-  }
-  @media (max-width: 320px) {
-    > div {
-      font-size: 13px;
-    }
-    .card__value {
-      font-size: 12px;
-    }
+  .card__cell_capacity {
+    font-size: 12px;
+    color: #888888;
+    margin-top: 5px;
   }
 `
 
@@ -64,7 +68,7 @@ export const CellbasePanel = styled.div`
   margin-top: 10px;
   .cellbase__content {
     color: #888888;
-    font-size: 14px;
+    font-size: 13px;
     margin-right: 10px;
   }
 
@@ -85,4 +89,8 @@ export const CellbasePanel = styled.div`
 export const CellHashHighLight = styled.div`
   font-size: 14px;
   color: rgb(75, 188, 142);
+`
+
+export const FullPanel = styled.div`
+  width: 100%;
 `

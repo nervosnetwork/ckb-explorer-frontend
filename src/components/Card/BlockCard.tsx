@@ -29,7 +29,7 @@ const CardItemPanel = styled.div`
 
   > div {
     color: #606060;
-    font-size: 13px;
+    font-size: 14px;
     margin-right: 5px;
     font-weight: 450;
   }
@@ -40,8 +40,18 @@ const CardItemPanel = styled.div`
 
   .card__value {
     color: ${(props: { highLight: boolean }) => (props.highLight ? '#3CC68A' : '#888888')};
-    font-weight: 450;
-    font-size: 12px;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  @media (max-width: 320px) {
+    > div {
+      font-size: 13px;
+    }
+
+    .card__value {
+      font-size: 12px;
+    }
   }
 `
 
