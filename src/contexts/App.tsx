@@ -12,11 +12,20 @@ export interface Modal {
   maskColor: string
 }
 
+export interface AppError {
+  type: 'Network' | 'ChainAlert' | 'Maintain'
+  message: string[]
+}
+
 export interface App {
   toast: ToastMessage | null
   show: boolean
   modal: Modal | null
-  errorMessage: string
+  appErrors: [
+    { type: 'Network'; message: string[] },
+    { type: 'ChainAlert'; message: string[] },
+    { type: 'Maintain'; message: string[] },
+  ]
 
   appWidth: number
   appHeight: number
@@ -28,12 +37,26 @@ export interface App {
   hideLoading: Function
   showModal: Function
   hideModal: Function
+  updateAppErrors: (appError: AppError) => void
 }
 export const initApp: App = {
   toast: null,
   show: false,
   modal: null,
-  errorMessage: '',
+  appErrors: [
+    {
+      type: 'Network',
+      message: [],
+    },
+    {
+      type: 'ChainAlert',
+      message: [],
+    },
+    {
+      type: 'Maintain',
+      message: [],
+    },
+  ],
   appWidth: window.innerWidth,
   appHeight: window.innerHeight,
   appLanguage: navigator.language || 'en',
@@ -44,6 +67,7 @@ export const initApp: App = {
   hideLoading: () => {},
   showModal: () => {},
   hideModal: () => {},
+  updateAppErrors: () => {},
 }
 
 const AppContext = createContext<App>(initApp)
