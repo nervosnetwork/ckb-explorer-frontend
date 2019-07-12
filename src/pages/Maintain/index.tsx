@@ -5,6 +5,7 @@ import { AxiosResponse } from 'axios'
 import AppContext from '../../contexts/App'
 import { axiosIns } from '../../http/fetcher'
 import MaintainImage from '../../assets/maintain.png'
+import i18n from '../../utils/i18n'
 
 const MaintainPanel = styled.div`
   width: 100%;
@@ -69,7 +70,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   return (
     <MaintainPanel>
       <img src={MaintainImage} alt="maintain" />
-      <div>{appContext.errorMessage}</div>
+      <div>{appContext.appErrors[2].message[0] || i18n.t('error.maintain')}</div>
     </MaintainPanel>
   )
 }

@@ -7,6 +7,8 @@ const PageDiv = styled.div`
   background-color: #f9f9f9;
   box-sizing: border-box;
   position: relative;
+  display: flex;
+  flex-direction: column;
 `
 
 export default ({ children, style }: { children: any; style?: object }) => {

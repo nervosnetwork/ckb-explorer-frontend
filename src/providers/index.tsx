@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
-import AppContext, { initApp } from '../contexts/App'
-import i18n from '../utils/i18n'
+import AppContext, { initApp, AppError } from '../contexts/App'
 
-const withProviders = (Comp: React.ComponentType) => (props: React.Props<any>) => {
+const withProviders = (Comp: React.ComponentType) => () => {
   const [app, setApp] = useState(initApp)
   const appValue = {
     ...app,
-    errorMessage: i18n.t('error.maintenance'),
     resize: (appWidth: number, appHeight: number) => {
       setApp((state: any) => {
         return {
@@ -64,10 +62,24 @@ const withProviders = (Comp: React.ComponentType) => (props: React.Props<any>) =
         }
       })
     },
+    updateAppErrors: (appError: AppError) => {
+      setApp((state: any) => {
+        return {
+          ...state,
+          appErrors: state.appErrors.map((error: AppError) => {
+            if (appError.type === error.type) {
+              return appError
+            }
+            return error
+          }),
+        }
+      })
+    },
   }
+
   return (
     <AppContext.Provider value={appValue}>
-      <Comp {...props} />
+      <Comp />
     </AppContext.Provider>
   )
 }

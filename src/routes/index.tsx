@@ -20,7 +20,7 @@ const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
 }
 
-export default ({ contexts }: { contexts?: string[] }) => {
+export default () => {
   useEffect(() => {
     let currentUrl = `${browserHistory.location.pathname}${browserHistory.location.search}`
     const unlisten = browserHistory.listen((location: any) => {
@@ -41,7 +41,7 @@ export default ({ contexts }: { contexts?: string[] }) => {
             <Page>
               <React.Fragment>
                 <Header search={hasSearch(props.location.pathname)} />
-                <Sheet contexts={contexts} />
+                <Sheet />
                 <Switch location={props.location}>
                   <Route path="/" exact component={Home} />
                   <Route path="/block/list" exact component={BlockList} />
