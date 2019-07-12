@@ -39,7 +39,8 @@ export const useBlockchainAlerts = () => {
       })
     }, BLOCKCHAIN_ALERT_POLLING_TIME)
     return () => clearInterval(listen)
-  }, [appContext, appContext.updateAppErrors])
+    // eslint-disable-next-line
+  }, [])
 }
 
 const RESIZE_LATENCY = 500
