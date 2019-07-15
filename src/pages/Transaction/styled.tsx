@@ -256,8 +256,8 @@ export const InputOutputTable = styled.table`
         td {
           .script__input {
             border: none;
-            width: 100%;
-            word-wrap: break-word;
+            width: 1100px;
+            overflow-wrap: break-word;
             white-space: pre-wrap;
             padding: 18px 30px 18px 34px;
             font-size: 16px;
