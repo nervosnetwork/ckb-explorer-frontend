@@ -256,11 +256,12 @@ export const InputOutputTable = styled.table`
         td {
           .script__input {
             border: none;
-            width: 1100px;
+            width: 100%;
             max-height: 400px;
             overflow-y: auto;
             overflow-wrap: break-word;
             white-space: pre-wrap;
+            word-break: break-all;
             padding: 18px 30px 18px 34px;
             font-size: 16px;
             color: #888888;

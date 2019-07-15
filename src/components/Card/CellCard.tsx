@@ -92,6 +92,7 @@ const ScriptPanel = styled.div`
       overflow-y: auto;
       word-wrap: break-word;
       white-space: pre-wrap;
+      word-break: break-all;
       padding: 12px;
       font-size: 12px;
       color: #888888;
