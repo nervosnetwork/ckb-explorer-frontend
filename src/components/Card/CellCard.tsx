@@ -8,6 +8,7 @@ import { startEndEllipsis, hexToUtf8 } from '../../utils/string'
 import { shannonToCkb, copyElementValue } from '../../utils/util'
 import { CellType, fetchScript, fetchCellData } from '../../http/fetcher'
 import { ScriptWrapper } from '../../http/response/Script'
+import { Data } from '../../http/response/Data'
 import { Response } from '../../http/response/Response'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
@@ -88,15 +89,17 @@ const ScriptPanel = styled.div`
     .script__input {
       border: none;
       width: 100%;
+      max-height: 400px;
+      overflow-y: auto;
       word-wrap: break-word;
       white-space: pre-wrap;
+      word-break: break-all;
       padding: 12px;
       font-size: 12px;
       color: #888888;
       font-weight: bold;
       font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
       margin-top: 6px;
-      min-height: 120px;
       background-color: #f9f9f9;
       border-radius: 6px 6px;
       transform: translateZ(0);
@@ -209,13 +212,15 @@ const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: InputOu
   )
 }
 
+const MAX_DATA_SIZE = 10 * 1024
+
 enum CellState {
   NONE,
   LOCK,
   TYPE,
   DATA,
 }
-const initialState = {
+const initScriptContent = {
   lock: {
     code_hash: '',
     args: [],
@@ -227,32 +232,16 @@ const initialState = {
   data: {
     data: '',
   },
+}
+const initialState = {
   cellState: CellState.NONE,
 }
 const Actions = {
-  lock: 'LOCK',
-  type: 'TYPE',
-  data: 'DATA',
   cellState: 'CELL_STATE',
 }
 
 const reducer = (state: any, action: any) => {
   switch (action.type) {
-    case Actions.lock:
-      return {
-        ...state,
-        lock: action.payload.lock,
-      }
-    case Actions.type:
-      return {
-        ...state,
-        type: action.payload.type,
-      }
-    case Actions.data:
-      return {
-        ...state,
-        data: action.payload.data,
-      }
     case Actions.cellState:
       return {
         ...state,
@@ -260,21 +249,6 @@ const reducer = (state: any, action: any) => {
       }
     default:
       return state
-  }
-}
-
-const getCell = (state: any) => {
-  switch (state.cellState) {
-    case CellState.LOCK:
-      return state.lock
-    case CellState.TYPE:
-      return state.type
-    case CellState.DATA:
-      return state.data
-    case CellState.NONE:
-      return ''
-    default:
-      return ''
   }
 }
 
@@ -301,6 +275,13 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
     })
   }
 
+  const showScriptContent = (content: any) => {
+    const element = document.getElementById(`script__textarea__${cell.id}`)
+    if (element) {
+      element.innerHTML = JSON.stringify(content, null, 4)
+    }
+  }
+
   const handleFetchScript = (cellState: CellState) => {
     if (cell.from_cellbase) return
     switch (getCellState(state, cellState)) {
@@ -308,39 +289,28 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
         fetchScript(cellType, 'lock_scripts', `${cell.id}`).then(response => {
           const { data } = response as Response<ScriptWrapper>
           handleCellState(cellState)
-          dispatch({
-            type: Actions.lock,
-            payload: {
-              lock: data ? data.attributes : initialState.lock,
-            },
-          })
+          showScriptContent(data ? data.attributes : initScriptContent.lock)
         })
         break
       case CellState.TYPE:
         fetchScript(cellType, 'type_scripts', `${cell.id}`).then(response => {
           const { data } = response as Response<ScriptWrapper>
           handleCellState(cellState)
-          dispatch({
-            type: Actions.type,
-            payload: {
-              type: data ? data.attributes : initialState.type,
-            },
-          })
+          showScriptContent(data ? data.attributes : initScriptContent.type)
         })
         break
       case CellState.DATA:
-        fetchCellData(cellType, `${cell.id}`).then((data: any) => {
-          const dataValue = data
-          if (data && cell.isGenesisOutput) {
-            dataValue.data = hexToUtf8(data.data.substr(2))
+        fetchCellData(cellType, `${cell.id}`).then((data: Data) => {
+          if (data.data.length < MAX_DATA_SIZE) {
+            const dataValue: Data = data
+            if (data && cell.isGenesisOutput) {
+              dataValue.data = hexToUtf8(data.data.substr(2))
+            }
+            handleCellState(cellState)
+            showScriptContent(dataValue || initScriptContent.data)
+          } else {
+            appContext.toastMessage(i18n.t('toast.data_too_large'), 3000)
           }
-          handleCellState(cellState)
-          dispatch({
-            type: Actions.data,
-            payload: {
-              data: dataValue || initialState.data,
-            },
-          })
         })
         break
       default:
@@ -377,9 +347,7 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
 
       {state.cellState !== CellState.NONE && (
         <div className="script__content">
-          <div className="script__input" id={`script__textarea__${cell.id}`}>
-            {JSON.stringify(getCell(state), null, 4)}
-          </div>
+          <div className="script__input" id={`script__textarea__${cell.id}`} />
           <div className="script__copy" role="button" tabIndex={-1} onKeyPress={() => {}} onClick={() => handleCopy()}>
             <div>Copy</div>
             <img src={CopyGreenIcon} alt="copy" />

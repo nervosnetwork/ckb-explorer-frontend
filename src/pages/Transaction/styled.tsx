@@ -257,15 +257,17 @@ export const InputOutputTable = styled.table`
           .script__input {
             border: none;
             width: 100%;
-            word-wrap: break-word;
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-wrap: break-word;
             white-space: pre-wrap;
+            word-break: break-all;
             padding: 18px 30px 18px 34px;
             font-size: 16px;
             color: #888888;
             font-weight: bold;
             font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
             margin-top: 5px;
-            min-height: 170px;
             background-color: #f9f9f9;
             border-radius: 6px 6px;
           }
