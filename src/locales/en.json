@@ -7,7 +7,8 @@
     },
     "toast": {
       "invalid_content": "Please input valid content",
-      "invalid_network": "Network exception, please try again later"
+      "invalid_network": "Network exception, please try again later",
+      "data_too_large": "The data is too large, please view on PC browser"
     },
     "navbar": {
       "wallet": "Wallet",

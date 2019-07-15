@@ -8,6 +8,7 @@ import { startEndEllipsis, hexToUtf8 } from '../../utils/string'
 import { shannonToCkb, copyElementValue } from '../../utils/util'
 import { CellType, fetchScript, fetchCellData } from '../../http/fetcher'
 import { ScriptWrapper } from '../../http/response/Script'
+import { Data } from '../../http/response/Data'
 import { Response } from '../../http/response/Response'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
@@ -211,6 +212,8 @@ const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: InputOu
   )
 }
 
+const MAX_DATA_SIZE = 10 * 1024
+
 enum CellState {
   NONE,
   LOCK,
@@ -297,13 +300,17 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
         })
         break
       case CellState.DATA:
-        fetchCellData(cellType, `${cell.id}`).then((data: any) => {
-          const dataValue = data
-          if (data && cell.isGenesisOutput) {
-            dataValue.data = hexToUtf8(data.data.substr(2))
+        fetchCellData(cellType, `${cell.id}`).then((data: Data) => {
+          if (data.data.length < MAX_DATA_SIZE) {
+            const dataValue: Data = data
+            if (data && cell.isGenesisOutput) {
+              dataValue.data = hexToUtf8(data.data.substr(2))
+            }
+            handleCellState(cellState)
+            showScriptContent(dataValue || initScriptContent.data)
+          } else {
+            appContext.toastMessage(i18n.t('toast.data_too_large'), 3000)
           }
-          handleCellState(cellState)
-          showScriptContent(dataValue || initScriptContent.data)
         })
         break
       default:
