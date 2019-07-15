@@ -293,7 +293,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
           )}
           <AddressScriptLabel
             image={AddressScriptIcon}
-            label={`${i18n.t('address.lock_hash')} : `}
+            label={`${i18n.t('address.lock_script')} : `}
             script={state.address.lock_script}
           />
         </AddressCommonContent>
