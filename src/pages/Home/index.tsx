@@ -70,6 +70,10 @@ const initStatistics: Statistics = {
   hash_rate: '0',
 }
 
+const parseHashRate = (hashRate: string | undefined) => {
+  return hashRate ? `${localeNumberString((Number(hashRate) * 1000).toFixed(), 10)} gps` : '- -'
+}
+
 export default () => {
   const initBlockWrappers: BlockWrapper[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
@@ -114,17 +118,17 @@ export default () => {
     },
     {
       name: t('block.difficulty'),
-      value: `${parseInt(`${statistics.current_epoch_difficulty}`, 10).toLocaleString()}`,
+      value: localeNumberString(statistics.current_epoch_difficulty, 10),
       tip: t('blockchain.difficulty_tooltip'),
     },
     {
       name: t('blockchain.hash_rate'),
-      value: `${parseInt((Number(statistics.hash_rate) * 1000).toFixed(), 10).toLocaleString()} gps`,
+      value: parseHashRate(statistics.hash_rate),
       tip: t('blockchain.hash_rate_tooltip'),
     },
     {
       name: t('blockchain.average_block_time'),
-      value: parseTime(Number(statistics.average_block_time)),
+      value: statistics.average_block_time ? parseTime(Number(statistics.average_block_time)) : '- -',
       tip: t('blockchain.average_block_time_tooltip'),
     },
   ]
