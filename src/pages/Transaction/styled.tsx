@@ -257,6 +257,8 @@ export const InputOutputTable = styled.table`
           .script__input {
             border: none;
             width: 1100px;
+            max-height: 400px;
+            overflow-y: auto;
             overflow-wrap: break-word;
             white-space: pre-wrap;
             padding: 18px 30px 18px 34px;
@@ -265,7 +267,6 @@ export const InputOutputTable = styled.table`
             font-weight: bold;
             font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
             margin-top: 5px;
-            min-height: 170px;
             background-color: #f9f9f9;
             border-radius: 6px 6px;
           }
