@@ -17,7 +17,6 @@ const ToastDiv = styled.div`
 const ToastItemDiv = styled.div`
   width: 100%;
   background-color: #3cc68a;
-  border-radius: 6px;
   position: fixed;
   top: 85px;
   opacity: 0.96;
@@ -35,10 +34,17 @@ const ToastItemDiv = styled.div`
     height: 36px;
 
     .toast__text {
-      color: white;
-      font-size: 15px;
+      font-size: 14px;
       line-height: 36px;
-      text-align: center;
+    }
+  }
+
+  @media (max-width: 320px) {
+    top: 44px;
+    height: 36px;
+    .toast__text {
+      font-size: 12px;
+      line-height: 36px;
     }
   }
 `
