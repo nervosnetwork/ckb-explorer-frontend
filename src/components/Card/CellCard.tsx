@@ -215,7 +215,7 @@ enum CellState {
   TYPE,
   DATA,
 }
-const initialState = {
+const initScriptContent = {
   lock: {
     code_hash: '',
     args: [],
@@ -227,32 +227,16 @@ const initialState = {
   data: {
     data: '',
   },
+}
+const initialState = {
   cellState: CellState.NONE,
 }
 const Actions = {
-  lock: 'LOCK',
-  type: 'TYPE',
-  data: 'DATA',
   cellState: 'CELL_STATE',
 }
 
 const reducer = (state: any, action: any) => {
   switch (action.type) {
-    case Actions.lock:
-      return {
-        ...state,
-        lock: action.payload.lock,
-      }
-    case Actions.type:
-      return {
-        ...state,
-        type: action.payload.type,
-      }
-    case Actions.data:
-      return {
-        ...state,
-        data: action.payload.data,
-      }
     case Actions.cellState:
       return {
         ...state,
@@ -260,21 +244,6 @@ const reducer = (state: any, action: any) => {
       }
     default:
       return state
-  }
-}
-
-const getCell = (state: any) => {
-  switch (state.cellState) {
-    case CellState.LOCK:
-      return state.lock
-    case CellState.TYPE:
-      return state.type
-    case CellState.DATA:
-      return state.data
-    case CellState.NONE:
-      return ''
-    default:
-      return ''
   }
 }
 
@@ -301,6 +270,13 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
     })
   }
 
+  const showScriptContent = (content: any) => {
+    const element = document.getElementById(`script__textarea__${cell.id}`)
+    if (element) {
+      element.innerHTML = JSON.stringify(content, null, 4)
+    }
+  }
+
   const handleFetchScript = (cellState: CellState) => {
     if (cell.from_cellbase) return
     switch (getCellState(state, cellState)) {
@@ -308,24 +284,14 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
         fetchScript(cellType, 'lock_scripts', `${cell.id}`).then(response => {
           const { data } = response as Response<ScriptWrapper>
           handleCellState(cellState)
-          dispatch({
-            type: Actions.lock,
-            payload: {
-              lock: data ? data.attributes : initialState.lock,
-            },
-          })
+          showScriptContent(data ? data.attributes : initScriptContent.lock)
         })
         break
       case CellState.TYPE:
         fetchScript(cellType, 'type_scripts', `${cell.id}`).then(response => {
           const { data } = response as Response<ScriptWrapper>
           handleCellState(cellState)
-          dispatch({
-            type: Actions.type,
-            payload: {
-              type: data ? data.attributes : initialState.type,
-            },
-          })
+          showScriptContent(data ? data.attributes : initScriptContent.type)
         })
         break
       case CellState.DATA:
@@ -335,12 +301,7 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
             dataValue.data = hexToUtf8(data.data.substr(2))
           }
           handleCellState(cellState)
-          dispatch({
-            type: Actions.data,
-            payload: {
-              data: dataValue || initialState.data,
-            },
-          })
+          showScriptContent(dataValue || initScriptContent.data)
         })
         break
       default:
@@ -377,9 +338,7 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
 
       {state.cellState !== CellState.NONE && (
         <div className="script__content">
-          <div className="script__input" id={`script__textarea__${cell.id}`}>
-            {JSON.stringify(getCell(state), null, 4)}
-          </div>
+          <div className="script__input" id={`script__textarea__${cell.id}`} />
           <div className="script__copy" role="button" tabIndex={-1} onKeyPress={() => {}} onClick={() => handleCopy()}>
             <div>Copy</div>
             <img src={CopyGreenIcon} alt="copy" />
