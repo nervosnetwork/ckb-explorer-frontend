@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Routers from './routes'
 import Toast from './components/Toast'
 import withProviders from './providers'
-import { useBlockchainAlert, useAxiosInterceptors, useWindowResize } from './hooks/hook'
+import { useBlockchainAlert, useAxiosInterceptors, useWindowResize } from './contexts/hook'
 
 const AppDiv = styled.div`
   width: 100vw;

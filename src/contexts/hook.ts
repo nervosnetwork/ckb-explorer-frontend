@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, useContext } from 'react'
 import { initAxiosInterceptors } from '../service/http/interceptors'
 import { handleBlockchainAlert } from '../service/app/blockchain'
 import { RESIZE_LATENCY, BLOCKCHAIN_ALERT_POLLING_TIME } from '../utils/const'
-import AppContext from '../contexts/App'
+import AppContext from './App'
 
 export const useInterval = (callback: () => void, delay: number) => {
   const savedCallback = useRef(() => {})
