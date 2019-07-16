@@ -266,19 +266,18 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     <AddressContentPanel className="container">
       <AddressHashPanel>
         <div className="address__title">{address ? i18n.t('address.address') : i18n.t('address.lock_hash')}</div>
-        <div className="address__content">
-          <span>{address || lockHash}</span>
-          <div
-            role="button"
-            tabIndex={-1}
-            onKeyDown={() => {}}
-            onClick={() => {
-              copyElementValue(document.getElementById('address__hash'))
-              appContext.toastMessage(i18n.t('common.copied'), 3000)
-            }}
-          >
-            <img src={CopyIcon} alt="copy" />
-          </div>
+        <div className="address__hash">{address || lockHash}</div>
+        <div
+          className="address__copy_iocn"
+          role="button"
+          tabIndex={-1}
+          onKeyDown={() => {}}
+          onClick={() => {
+            copyElementValue(document.getElementById('address__hash'))
+            appContext.toastMessage(i18n.t('common.copied'), 3000)
+          }}
+        >
+          <img src={CopyIcon} alt="copy" />
         </div>
       </AddressHashPanel>
       <AddressTitlePanel>{i18n.t('common.overview')}</AddressTitlePanel>

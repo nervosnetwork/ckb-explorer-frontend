@@ -23,7 +23,6 @@ export const AddressHashPanel = styled.div`
 
   display: flex;
   flex-direction: row;
-  /* align-items: center; */
   align-items: flex-end;
 
   .address__title {
@@ -32,33 +31,27 @@ export const AddressHashPanel = styled.div`
     font-size: 30px;
     font-weight: 600;
     color: #606060;
-    /* padding: 0; */
     height: 36px;
   }
 
-  .address__content {
+  .address__hash {
     margin-left: 20px;
-    display: flex;
-    align-items: center;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 600;
+    color: #606060;
+    height: 26px;
+  }
 
-    > span {
-      font-family: Montserrat;
-      font-size: 20px;
-      font-weight: 600;
-      color: #606060;
-      height: 26px;
-    }
+  .address__copy_iocn {
+    width: 21px;
+    height: 24px;
+    cursor: pointer;
+    margin-left: 20px;
 
-    img {
-      margin-left: 20px;
-      @media (max-width: 700px) {
-        margin-left: 8px;
-        width: 18px;
-        height: 18px;
-      }
-      width: 21px;
-      height: 21px;
-      cursor: pointer;
+    > img {
+      width: 100%;
+      height: 100%;
     }
   }
 `
