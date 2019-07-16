@@ -31,7 +31,7 @@ export const useWindowResize = () => {
     }
     window.addEventListener('resize', resizeListener)
     return () => {
-      if (resizeListener) window.removeEventListener('resize', resizeListener)
+      window.removeEventListener('resize', resizeListener)
     }
     // eslint-disable-next-line
   }, [])
