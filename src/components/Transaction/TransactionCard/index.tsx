@@ -25,7 +25,7 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
   const [show, setShow] = useState(false)
   return blockHeight && blockHeight > 0 ? (
     <CellbasePanel>
-      <div className="cellbase__content">Cellbase for State.Block</div>
+      <div className="cellbase__content">Cellbase for Block</div>
       <Link to={`/block/${blockHeight}`}>
         <CellHashHighLight>{localeNumberString(blockHeight)}</CellHashHighLight>
       </Link>
@@ -97,7 +97,7 @@ const TransactionCard = ({
           </Link>
         </div>
         <div className="card__block_date">
-          {`(State.Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}
+          {`(Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}
         </div>
       </CardHashBlockPanel>
       <div className="sperate__line_top" />

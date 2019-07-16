@@ -48,7 +48,7 @@ const reducer = (state: any, action: any) => {
   }
 }
 
-const ScriptTypeItems = ['Lock State.Script', 'Type State.Script', 'State.Data']
+const ScriptTypeItems = ['LockScript', 'Type Script', 'Data']
 const cellStateWithItem = (item: string) => {
   if (item === ScriptTypeItems[0]) {
     return CellState.LOCK

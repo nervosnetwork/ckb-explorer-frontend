@@ -38,9 +38,7 @@ const TransactionItem = ({
           </Link>
           {!isBlock && (
             <div className="transaction_item__block">
-              {`(State.Block ${localeNumberString(transaction.block_number)})  ${parseDate(
-                transaction.block_timestamp,
-              )}`}
+              {`(Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}
             </div>
           )}
         </TransactionHashBlockPanel>

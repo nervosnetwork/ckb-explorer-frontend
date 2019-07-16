@@ -23,7 +23,7 @@ const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
   }
   return (
     <CellbasePanel>
-      <div className="cellbase__content">Cellbase for State.Block</div>
+      <div className="cellbase__content">Cellbase for Block</div>
       <Link to={`/block/${targetBlockNumber}`}>{localeNumberString(targetBlockNumber)}</Link>
       <div
         className="cellbase__help"
