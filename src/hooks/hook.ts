@@ -1,5 +1,8 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useContext } from 'react'
 import { initAxiosInterceptors } from '../service/http/interceptors'
+import { handleBlockchainAlert } from '../service/app/blockchain'
+import { RESIZE_LATENCY, BLOCKCHAIN_ALERT_POLLING_TIME } from '../utils/const'
+import AppContext from '../contexts/App'
 
 export const useInterval = (callback: () => void, delay: number) => {
   const savedCallback = useRef(() => {})
@@ -15,23 +18,34 @@ export const useInterval = (callback: () => void, delay: number) => {
   }, [delay])
 }
 
-export const useWindowResize = (callback: () => void) => {
-  const savedCallback = useRef(() => {})
-  useEffect(() => {
-    savedCallback.current = callback
-  })
+let resizeTimer: any = null
+export const useWindowResize = () => {
+  const appContext = useContext(AppContext)
   useEffect(() => {
     const resizeListener = () => {
-      savedCallback.current()
+      if (resizeTimer) clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(() => {
+        appContext.resize(window.innerWidth, window.innerHeight)
+        resizeTimer = null
+      }, RESIZE_LATENCY)
     }
     window.addEventListener('resize', resizeListener)
     return () => {
       if (resizeListener) window.removeEventListener('resize', resizeListener)
     }
+    // eslint-disable-next-line
   }, [])
 }
 
-export const useAxiosInterceptors = (appContext: any) => {
+export const useBlockchainAlert = () => {
+  const appContext = useContext(AppContext)
+  useInterval(() => {
+    handleBlockchainAlert(appContext)
+  }, BLOCKCHAIN_ALERT_POLLING_TIME)
+}
+
+export const useAxiosInterceptors = () => {
+  const appContext = useContext(AppContext)
   const [initInterceptors, setInitInterceptors] = useState(false)
   if (!initInterceptors) {
     setInitInterceptors(true)
