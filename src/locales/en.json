@@ -20,11 +20,11 @@
     "blockchain": {
       "best_block": "Best Block",
       "best_block_tooltip": "The latest block of the best chain",
-      "difficulty_tooltip": "Difficulty of the latest Epoch",
+      "difficulty_tooltip": "Difficulty of the latest epoch",
       "hash_rate": "Hash Rate",
       "hash_rate_tooltip": "Average Hash Rate of the last 500 blocks",
       "average_block_time": "Average Block Time",
-      "average_block_time_tooltip": "Average Block Time of the last 24 hours"
+      "average_block_time_tooltip": "Average Block Time of the latest epoch"
     },
     "home": {
       "height": "Height",
@@ -55,6 +55,7 @@
     "address": {
       "address": "Address",
       "lock_hash": "Lock Hash",
+      "lock_script": "Lock Script",
       "balance": "Balance",
       "pending_reward": "Pending Reward",
       "code_hash": "Code Hash",
@@ -89,7 +90,7 @@
       "epoch_start_number": "Epoch Start Number",
       "epoch_length": "Epoch Length",
       "nonce": "Nonce",
-      "proof": "Proof",
+      "proof": "PoW Proof",
       "timestamp": "Timestamp",
       "miner": "Miner",
       "difficulty": "Difficulty",
