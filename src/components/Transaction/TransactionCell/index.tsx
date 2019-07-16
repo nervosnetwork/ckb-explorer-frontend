@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import HelpIcon from '../../../assets/qa_help.png'
-import { InputOutput } from '../../../http/response/Transaction'
+import { InputOutput } from '../../../service/response/Transaction'
 import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
 import { startEndEllipsis } from '../../../utils/string'

@@ -1,7 +1,7 @@
 import { useEffect, useContext, useState } from 'react'
-import { fetchBlockchainInfo, axiosIns } from '../http/fetcher'
+import { fetchBlockchainInfo, axiosIns } from '../service/fetcher'
 import { BLOCKCHAIN_ALERT_POLLING_TIME } from '../utils/const'
-import { BlockchainInfoWrapper } from '../http/response/BlockchainInfo'
+import { BlockchainInfoWrapper } from '../service/response/BlockchainInfo'
 import AppContext from '../contexts/App'
 
 import browserHistory from '../routes/history'
