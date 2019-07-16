@@ -6,7 +6,6 @@ import CopyGreenIcon from '../../assets/copy_green.png'
 import { startEndEllipsis, hexToUtf8 } from '../../utils/string'
 import { shannonToCkb, copyElementValue } from '../../utils/util'
 import { CellType, fetchScript, fetchCellData } from '../../service/http/fetcher'
-import { Response, Wrapper } from '../../service/http/Response'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
 
@@ -283,17 +282,15 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: State.In
     if (cell.from_cellbase) return
     switch (getCellState(state, cellState)) {
       case CellState.LOCK:
-        fetchScript(cellType, 'lock_scripts', `${cell.id}`).then(response => {
-          const { data } = response as Response<Wrapper<State.Script>>
+        fetchScript(cellType, 'lock_scripts', `${cell.id}`).then((script: State.Script) => {
           handleCellState(cellState)
-          showScriptContent(data ? data.attributes : initScriptContent.lock)
+          showScriptContent(script || initScriptContent.lock)
         })
         break
       case CellState.TYPE:
-        fetchScript(cellType, 'type_scripts', `${cell.id}`).then(response => {
-          const { data } = response as Response<Wrapper<State.Script>>
+        fetchScript(cellType, 'type_scripts', `${cell.id}`).then((script: State.Script) => {
           handleCellState(cellState)
-          showScriptContent(data ? data.attributes : initScriptContent.type)
+          showScriptContent(script || initScriptContent.type)
         })
         break
       case CellState.DATA:

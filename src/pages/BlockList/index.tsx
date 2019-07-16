@@ -22,7 +22,6 @@ import BlockRewardIcon from '../../assets/block_reward_white.png'
 import MinerIcon from '../../assets/miner.png'
 import TimestampIcon from '../../assets/timestamp.png'
 import { fetchBlockList } from '../../service/http/fetcher'
-import { Response, Wrapper } from '../../service/http/Response'
 import { shannonToCkb } from '../../utils/util'
 import { parsePageNumber } from '../../utils/string'
 import { CachedKeys } from '../../utils/const'
@@ -60,7 +59,7 @@ const reducer = (state: any, action: any) => {
 
 const getBlocks = (page: number, size: number, dispatch: any) => {
   fetchBlockList(page, size).then(response => {
-    const { data, meta } = response as Response<Wrapper<State.Block>[]>
+    const { data, meta } = response as Response.Response<Response.Wrapper<State.Block>[]>
     if (meta) {
       dispatch({
         type: Actions.total,
@@ -82,7 +81,7 @@ const getBlocks = (page: number, size: number, dispatch: any) => {
 }
 
 const initialState = {
-  blocks: [] as Wrapper<State.Block>[],
+  blocks: [] as Response.Wrapper<State.Block>[],
   total: 1,
 }
 
@@ -99,7 +98,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
-    const cachedBlocks = fetchCachedData<Wrapper<State.Block>[]>(CachedKeys.BlockList)
+    const cachedBlocks = fetchCachedData<Response.Wrapper<State.Block>[]>(CachedKeys.BlockList)
     if (cachedBlocks) {
       dispatch({
         type: Actions.blocks,
@@ -145,7 +144,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
               <TableTitleItem image={TimestampIcon} title={t('home.time')} />
             </TableTitleRow>
             {state.blocks &&
-              state.blocks.map((data: Wrapper<State.Block>) => {
+              state.blocks.map((data: Response.Wrapper<State.Block>) => {
                 return (
                   data && (
                     <TableContentRow key={data.attributes.block_hash}>

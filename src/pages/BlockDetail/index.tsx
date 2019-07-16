@@ -43,7 +43,6 @@ import MouseIcon from '../../assets/block_mouse.png'
 import TransactionsRootIcon from '../../assets/transactions_root.png'
 import WitnessRootIcon from '../../assets/witness_root.png'
 import { parseSimpleDate } from '../../utils/date'
-import { Response, Wrapper } from '../../service/http/Response'
 
 import { fetchBlock, fetchTransactionsByBlockHash } from '../../service/http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
@@ -221,7 +220,7 @@ const reducer = (state: any, action: any) => {
 
 const getTransactions = (hash: string, page: number, size: number, dispatch: any) => {
   fetchTransactionsByBlockHash(hash, page, size).then(response => {
-    const { data, meta } = response as Response<Wrapper<State.Transaction>[]>
+    const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
     dispatch({
       type: Actions.transactions,
       payload: {
@@ -248,7 +247,7 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
   })
   fetchBlock(`${blockNumber + 1}`)
     .then(response => {
-      const { data } = response as Response<Wrapper<State.Block>>
+      const { data } = response as Response.Response<Response.Wrapper<State.Block>>
       dispatch({
         type: Actions.next,
         payload: {
@@ -270,7 +269,7 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
 const getBlock = (blockParam: string, page: number, size: number, dispatch: any, replace: any) => {
   fetchBlock(blockParam)
     .then(response => {
-      const { data } = response as Response<Wrapper<State.Block>>
+      const { data } = response as Response.Response<Response.Wrapper<State.Block>>
       const block = data.attributes as State.Block
       dispatch({
         type: Actions.block,
@@ -288,7 +287,7 @@ const getBlock = (blockParam: string, page: number, size: number, dispatch: any,
 
 const initialState = {
   block: initBlock,
-  transactions: [] as Wrapper<State.Transaction>[],
+  transactions: [] as Response.Wrapper<State.Transaction>[],
   total: 1,
   prev: true,
   next: true,

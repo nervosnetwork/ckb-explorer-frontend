@@ -1,7 +1,6 @@
-import { Wrapper } from '../http/Response'
 import { fetchBlockchainInfo } from '../http/fetcher'
 
-const alertNotEmpty = (response: Wrapper<State.BlockchainInfo>): boolean => {
+const alertNotEmpty = (response: Response.Wrapper<State.BlockchainInfo>): boolean => {
   return (
     response &&
     response.attributes &&
@@ -12,7 +11,7 @@ const alertNotEmpty = (response: Wrapper<State.BlockchainInfo>): boolean => {
 }
 
 export const handleBlockchainAlert = (appContext: any) => {
-  fetchBlockchainInfo().then((response: Wrapper<State.BlockchainInfo>) => {
+  fetchBlockchainInfo().then((response: Response.Wrapper<State.BlockchainInfo>) => {
     if (alertNotEmpty(response)) {
       appContext.updateAppErrors({
         type: 'ChainAlert',

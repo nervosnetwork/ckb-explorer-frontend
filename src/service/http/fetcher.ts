@@ -74,7 +74,7 @@ export const fetchBlock = (blockParam: string) => {
 }
 
 export const fetchScript = (cell_type: CellType, script_type: 'lock_scripts' | 'type_scripts', id: string) => {
-  return axiosIns.get(`/cell_${cell_type}_${script_type}/${id}`).then((res: AxiosResponse) => res.data)
+  return axiosIns.get(`/cell_${cell_type}_${script_type}/${id}`).then((res: AxiosResponse) => res.data.data.attributes)
 }
 
 export const fetchCellData = (type: CellType, id: string) => {

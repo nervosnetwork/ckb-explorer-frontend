@@ -29,7 +29,6 @@ import TransactionsIcon from '../../assets/transactions_green.png'
 import ItemPointIcon from '../../assets/item_point.png'
 import AddressHashIcon from '../../assets/lock_hash_address.png'
 import BlockPendingRewardIcon from '../../assets/block_pending_reward.png'
-import { Wrapper, Response } from '../../service/http/Response'
 
 import { fetchAddressInfo, fetchTransactionsByAddress, fetchTipBlockNumber } from '../../service/http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
@@ -161,7 +160,7 @@ const reducer = (state: any, action: any) => {
 
 const getAddressInfo = (hash: string, dispatch: any) => {
   fetchAddressInfo(hash).then(response => {
-    const { data } = response as Response<Wrapper<State.Address>>
+    const { data } = response as Response.Response<Response.Wrapper<State.Address>>
     if (data) {
       dispatch({
         type: Actions.address,
@@ -175,7 +174,7 @@ const getAddressInfo = (hash: string, dispatch: any) => {
 
 const getTransactions = (hash: string, page: number, size: number, dispatch: any) => {
   fetchTransactionsByAddress(hash, page, size).then(response => {
-    const { data, meta } = response as Response<Wrapper<State.Transaction>[]>
+    const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
     if (data) {
       dispatch({
         type: Actions.transactions,
@@ -197,7 +196,7 @@ const getTransactions = (hash: string, page: number, size: number, dispatch: any
 
 const getTipBlockNumber = (dispatch: any) => {
   fetchTipBlockNumber().then(response => {
-    const { data } = response as Response<Wrapper<State.Statistics>>
+    const { data } = response as Response.Response<Response.Wrapper<State.Statistics>>
     if (data) {
       dispatch({
         type: Actions.tipBlockNumber,
@@ -222,7 +221,7 @@ const addressContent = (address: State.Address) => {
 
 const initialState = {
   address: initAddress,
-  transactions: [] as Wrapper<State.Transaction>[],
+  transactions: [] as Response.Wrapper<State.Transaction>[],
   total: 1,
   tipBlockNumber: 0,
 }

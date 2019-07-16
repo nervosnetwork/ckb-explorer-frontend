@@ -2,7 +2,6 @@ import React, { useContext, useReducer } from 'react'
 import { Link } from 'react-router-dom'
 import AppContext from '../../contexts/App'
 import CopyGreenIcon from '../../assets/copy_green.png'
-import { Response, Wrapper } from '../../service/http/Response'
 import { CellType, fetchScript, fetchCellData } from '../../service/http/fetcher'
 import { shannonToCkb, copyElementValue } from '../../utils/util'
 import { hexToUtf8, parseLongAddressHash } from '../../utils/string'
@@ -106,14 +105,14 @@ const ScriptComponent = ({ cellType, cell }: { cellType: CellType; cell: State.I
     switch (getCellState(state, item)) {
       case CellState.LOCK:
         fetchScript(cellType, 'lock_scripts', `${cell.id}`).then(response => {
-          const { data } = response as Response<Wrapper<State.Script>>
+          const { data } = response as Response.Response<Response.Wrapper<State.Script>>
           handleCellState(item)
           showScriptContent(data ? data.attributes : initScriptContent.lock)
         })
         break
       case CellState.TYPE:
         fetchScript(cellType, 'type_scripts', `${cell.id}`).then(response => {
-          const { data } = response as Response<Wrapper<State.Script>>
+          const { data } = response as Response.Response<Response.Wrapper<State.Script>>
           handleCellState(item)
           showScriptContent(data ? data.attributes : initScriptContent.type)
         })

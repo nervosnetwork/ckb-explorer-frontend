@@ -21,7 +21,6 @@ import TransactionIcon from '../../assets/transaction_fee.png'
 import CopyIcon from '../../assets/copy.png'
 import StatusIcon from '../../assets/transcation_status.png'
 import { parseSimpleDate } from '../../utils/date'
-import { Response, Wrapper } from '../../service/http/Response'
 
 import { CellType, fetchTransactionByHash, fetchTipBlockNumber } from '../../service/http/fetcher'
 import { copyElementValue, formatConfirmation, shannonToCkb } from '../../utils/util'
@@ -90,7 +89,7 @@ const initTransaction: State.Transaction = {
 const getTransaction = (hash: string, setTransaction: any, replace: any) => {
   fetchTransactionByHash(hash)
     .then(response => {
-      const { data } = response as Response<Wrapper<State.Transaction>>
+      const { data } = response as Response.Response<Response.Wrapper<State.Transaction>>
       const transactionValue = data.attributes as State.Transaction
       if (transactionValue.display_outputs && transactionValue.display_outputs.length > 0) {
         transactionValue.display_outputs[0].isGenesisOutput = transactionValue.block_number === 0
@@ -104,7 +103,7 @@ const getTransaction = (hash: string, setTransaction: any, replace: any) => {
 
 const getTipBlockNumber = (setTipBlockNumber: any) => {
   fetchTipBlockNumber().then(response => {
-    const { data } = response as Response<Wrapper<State.Statistics>>
+    const { data } = response as Response.Response<Response.Wrapper<State.Statistics>>
     if (data) {
       setTipBlockNumber(parseInt(data.attributes.tip_block_number, 10))
     }
