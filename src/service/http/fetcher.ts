@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import CONFIG from '../config'
+import CONFIG from '../../config'
 
 const baseURL = `${CONFIG.API_URL}/api/v1/`
 
@@ -74,7 +74,7 @@ export const fetchBlock = (blockParam: string) => {
 }
 
 export const fetchScript = (cell_type: CellType, script_type: 'lock_scripts' | 'type_scripts', id: string) => {
-  return axiosIns.get(`/cell_${cell_type}_${script_type}/${id}`).then((res: AxiosResponse) => res.data)
+  return axiosIns.get(`/cell_${cell_type}_${script_type}/${id}`).then((res: AxiosResponse) => res.data.data.attributes)
 }
 
 export const fetchCellData = (type: CellType, id: string) => {

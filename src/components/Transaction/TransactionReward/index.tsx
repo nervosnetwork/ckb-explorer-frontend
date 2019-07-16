@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { shannonToCkb } from '../../../utils/util'
-import { Transaction, InputOutput } from '../../../http/response/Transaction'
 import ItemPoint from '../../../assets/grey_point.png'
 import { localeNumberString } from '../../../utils/number'
 import i18n from '../../../utils/i18n'
@@ -55,7 +54,7 @@ export const RewardPenal = styled.div`
   }
 `
 
-const TransactionReward = ({ transaction, cell }: { transaction: Transaction; cell: InputOutput }) => {
+const TransactionReward = ({ transaction, cell }: { transaction: State.Transaction; cell: State.InputOutput }) => {
   // [0, 11] block doesn't show block reward and only cellbase show block reward
   const showBlockReward = transaction.block_number > 0 && transaction.is_cellbase && cell.target_block_number > 0
 

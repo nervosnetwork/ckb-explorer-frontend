@@ -3,13 +3,9 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import AppContext from '../../contexts/App'
 import CopyGreenIcon from '../../assets/copy_green.png'
-import { InputOutput } from '../../http/response/Transaction'
 import { startEndEllipsis, hexToUtf8 } from '../../utils/string'
 import { shannonToCkb, copyElementValue } from '../../utils/util'
-import { CellType, fetchScript, fetchCellData } from '../../http/fetcher'
-import { ScriptWrapper } from '../../http/response/Script'
-import { Data } from '../../http/response/Data'
-import { Response } from '../../http/response/Response'
+import { CellType, fetchScript, fetchCellData } from '../../service/http/fetcher'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
 
@@ -177,10 +173,10 @@ const CardLabelItem = ({
   )
 }
 
-const Capacity = ({ cell }: { cell: InputOutput }) => (
+const Capacity = ({ cell }: { cell: State.InputOutput }) => (
   <CardLabelItem name="Capacity" value={localeNumberString(shannonToCkb(cell.capacity))} />
 )
-const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: InputOutput }) => {
+const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: State.InputOutput }) => {
   const name = type === CellType.Input ? 'Input' : 'Output'
 
   if (cell.from_cellbase) {
@@ -256,7 +252,7 @@ const getCellState = (state: any, cellState: CellState) => {
   return cellState === state.cellState ? CellState.NONE : cellState
 }
 
-const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOutput }) => {
+const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: State.InputOutput }) => {
   const appContext = useContext(AppContext)
   const [state, dispatch] = useReducer(reducer, initialState)
 
@@ -286,23 +282,21 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
     if (cell.from_cellbase) return
     switch (getCellState(state, cellState)) {
       case CellState.LOCK:
-        fetchScript(cellType, 'lock_scripts', `${cell.id}`).then(response => {
-          const { data } = response as Response<ScriptWrapper>
+        fetchScript(cellType, 'lock_scripts', `${cell.id}`).then((script: State.Script) => {
           handleCellState(cellState)
-          showScriptContent(data ? data.attributes : initScriptContent.lock)
+          showScriptContent(script || initScriptContent.lock)
         })
         break
       case CellState.TYPE:
-        fetchScript(cellType, 'type_scripts', `${cell.id}`).then(response => {
-          const { data } = response as Response<ScriptWrapper>
+        fetchScript(cellType, 'type_scripts', `${cell.id}`).then((script: State.Script) => {
           handleCellState(cellState)
-          showScriptContent(data ? data.attributes : initScriptContent.type)
+          showScriptContent(script || initScriptContent.type)
         })
         break
       case CellState.DATA:
-        fetchCellData(cellType, `${cell.id}`).then((data: Data) => {
+        fetchCellData(cellType, `${cell.id}`).then((data: State.Data) => {
           if (data.data.length < MAX_DATA_SIZE) {
-            const dataValue: Data = data
+            const dataValue: State.Data = data
             if (data && cell.isGenesisOutput) {
               dataValue.data = hexToUtf8(data.data.substr(2))
             }
@@ -358,7 +352,7 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
   )
 }
 
-const CellCard = ({ type, cell }: { type: CellType; cell: InputOutput }) => {
+const CellCard = ({ type, cell }: { type: CellType; cell: State.InputOutput }) => {
   return (
     <CardPanel>
       <CellAddressCapacityItem type={type} cell={cell} />
