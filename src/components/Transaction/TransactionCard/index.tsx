@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Transaction, InputOutput } from '../../../service/response/Transaction'
+import { Transaction, InputOutput } from '../../../types/App/index'
 import GreenArrowDown from '../../../assets/green_arrow_down.png'
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb, handleCapacityChange } from '../../../utils/util'

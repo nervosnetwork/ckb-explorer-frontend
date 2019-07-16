@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import InputOutputIcon from '../../../assets/input_arrow_output.png'
-import { Transaction } from '../../../service/response/Transaction'
+import { Transaction } from '../../../types/App/index'
 import { parseDate } from '../../../utils/date'
 import { handleCapacityChange } from '../../../utils/util'
 import TransactionCellList from '../TransactionCellList'

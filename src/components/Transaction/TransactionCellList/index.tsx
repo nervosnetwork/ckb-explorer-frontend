@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import TransactionCellListPanel from './styled'
-import { Transaction, InputOutput } from '../../../service/response/Transaction'
+import { Transaction, InputOutput } from '../../../types/App/index'
 
 interface TransactionCellListProps {
   cells: InputOutput[]

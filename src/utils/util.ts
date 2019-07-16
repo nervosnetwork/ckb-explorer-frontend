@@ -1,4 +1,4 @@
-import { Transaction, InputOutput } from '../service/response/Transaction'
+import { Transaction, InputOutput } from '../types/App/index'
 import { MAX_CONFIRMATION } from './const'
 import i18n from './i18n'
 import { parseNumber } from './number'

@@ -29,15 +29,12 @@ import TransactionsIcon from '../../assets/transactions_green.png'
 import ItemPointIcon from '../../assets/item_point.png'
 import AddressHashIcon from '../../assets/lock_hash_address.png'
 import BlockPendingRewardIcon from '../../assets/block_pending_reward.png'
-import { Address, AddressWrapper } from '../../service/response/Address'
-import { Script } from '../../service/response/Script'
-import { Response } from '../../service/response/Response'
-import { TransactionWrapper } from '../../service/response/Transaction'
+import { Script, Transaction, Address, Statistics, Wrapper } from '../../types/App/index'
+import { Response } from '../../types/App/Response'
 import { fetchAddressInfo, fetchTransactionsByAddress, fetchTipBlockNumber } from '../../service/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { parsePageNumber, startEndEllipsis } from '../../utils/string'
 import TransactionCard from '../../components/Transaction/TransactionCard/index'
-import { StatisticsWrapper } from '../../service/response/Statistics'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
@@ -164,7 +161,7 @@ const reducer = (state: any, action: any) => {
 
 const getAddressInfo = (hash: string, dispatch: any) => {
   fetchAddressInfo(hash).then(response => {
-    const { data } = response as Response<AddressWrapper>
+    const { data } = response as Response<Wrapper<Address>>
     if (data) {
       dispatch({
         type: Actions.address,
@@ -178,7 +175,7 @@ const getAddressInfo = (hash: string, dispatch: any) => {
 
 const getTransactions = (hash: string, page: number, size: number, dispatch: any) => {
   fetchTransactionsByAddress(hash, page, size).then(response => {
-    const { data, meta } = response as Response<TransactionWrapper[]>
+    const { data, meta } = response as Response<Wrapper<Transaction>[]>
     if (data) {
       dispatch({
         type: Actions.transactions,
@@ -200,7 +197,7 @@ const getTransactions = (hash: string, page: number, size: number, dispatch: any
 
 const getTipBlockNumber = (dispatch: any) => {
   fetchTipBlockNumber().then(response => {
-    const { data } = response as Response<StatisticsWrapper>
+    const { data } = response as Response<Wrapper<Statistics>>
     if (data) {
       dispatch({
         type: Actions.tipBlockNumber,
@@ -225,7 +222,7 @@ const addressContent = (address: Address) => {
 
 const initialState = {
   address: initAddress,
-  transactions: [] as TransactionWrapper[],
+  transactions: [] as Wrapper<Transaction>[],
   total: 1,
   tipBlockNumber: 0,
 }

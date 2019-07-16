@@ -3,13 +3,11 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import AppContext from '../../contexts/App'
 import CopyGreenIcon from '../../assets/copy_green.png'
-import { InputOutput } from '../../service/response/Transaction'
+import { InputOutput, Script, Data, Wrapper } from '../../types/App/index'
 import { startEndEllipsis, hexToUtf8 } from '../../utils/string'
 import { shannonToCkb, copyElementValue } from '../../utils/util'
 import { CellType, fetchScript, fetchCellData } from '../../service/fetcher'
-import { ScriptWrapper } from '../../service/response/Script'
-import { Data } from '../../service/response/Data'
-import { Response } from '../../service/response/Response'
+import { Response } from '../../types/App/Response'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
 
@@ -287,14 +285,14 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: InputOut
     switch (getCellState(state, cellState)) {
       case CellState.LOCK:
         fetchScript(cellType, 'lock_scripts', `${cell.id}`).then(response => {
-          const { data } = response as Response<ScriptWrapper>
+          const { data } = response as Response<Wrapper<Script>>
           handleCellState(cellState)
           showScriptContent(data ? data.attributes : initScriptContent.lock)
         })
         break
       case CellState.TYPE:
         fetchScript(cellType, 'type_scripts', `${cell.id}`).then(response => {
-          const { data } = response as Response<ScriptWrapper>
+          const { data } = response as Response<Wrapper<Script>>
           handleCellState(cellState)
           showScriptContent(data ? data.attributes : initScriptContent.type)
         })

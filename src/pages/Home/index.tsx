@@ -19,9 +19,8 @@ import TimestampIcon from '../../assets/timestamp.png'
 import MoreLeftIcon from '../../assets/more_left.png'
 import MoreRightIcon from '../../assets/more_right.png'
 import { fetchBlocks, fetchStatistics } from '../../service/fetcher'
-import { BlockWrapper } from '../../service/response/Block'
-import { StatisticsWrapper, Statistics } from '../../service/response/Statistics'
-import { Response } from '../../service/response/Response'
+import { Block, Statistics, Wrapper } from '../../types/App/index'
+import { Response } from '../../types/App/Response'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
 import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
@@ -45,14 +44,14 @@ const BlockchainItem = ({ name, value, tip }: { name: string; value: string; tip
 
 const getLatestBlocks = (setBlocksWrappers: any) => {
   fetchBlocks().then(response => {
-    const { data } = response as Response<BlockWrapper[]>
+    const { data } = response as Response<Wrapper<Block>[]>
     setBlocksWrappers(data)
   })
 }
 
 const getStatistics = (setStatistics: any) => {
   fetchStatistics().then(response => {
-    const { data } = response as Response<StatisticsWrapper>
+    const { data } = response as Response<Wrapper<Statistics>>
     setStatistics(data.attributes)
   })
 }
@@ -75,13 +74,13 @@ const parseHashRate = (hashRate: string | undefined) => {
 }
 
 export default () => {
-  const initBlockWrappers: BlockWrapper[] = []
+  const initBlockWrappers: Wrapper<Block>[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
   const [statistics, setStatistics] = useState(initStatistics)
   const [t] = useTranslation()
 
   useEffect(() => {
-    const cachedBlocks = fetchCachedData<BlockWrapper[]>(CachedKeys.Blocks)
+    const cachedBlocks = fetchCachedData<Wrapper<Block>[]>(CachedKeys.Blocks)
     if (cachedBlocks) {
       setBlocksWrappers(cachedBlocks)
     }

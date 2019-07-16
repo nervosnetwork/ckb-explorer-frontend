@@ -21,13 +21,12 @@ import TransactionIcon from '../../assets/transaction_fee.png'
 import CopyIcon from '../../assets/copy.png'
 import StatusIcon from '../../assets/transcation_status.png'
 import { parseSimpleDate } from '../../utils/date'
-import { Response } from '../../service/response/Response'
-import { Transaction, InputOutput, TransactionWrapper } from '../../service/response/Transaction'
+import { Response } from '../../types/App/Response'
+import { Transaction, InputOutput, Statistics, Wrapper } from '../../types/App/index'
 import { CellType, fetchTransactionByHash, fetchTipBlockNumber } from '../../service/fetcher'
 import { copyElementValue, formatConfirmation, shannonToCkb } from '../../utils/util'
 import CellCard from '../../components/Card/CellCard'
 import ScriptComponent from './Script'
-import { StatisticsWrapper } from '../../service/response/Statistics'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 
@@ -91,7 +90,7 @@ const initTransaction: Transaction = {
 const getTransaction = (hash: string, setTransaction: any, replace: any) => {
   fetchTransactionByHash(hash)
     .then(response => {
-      const { data } = response as Response<TransactionWrapper>
+      const { data } = response as Response<Wrapper<Transaction>>
       const transactionValue = data.attributes as Transaction
       if (transactionValue.display_outputs && transactionValue.display_outputs.length > 0) {
         transactionValue.display_outputs[0].isGenesisOutput = transactionValue.block_number === 0
@@ -105,7 +104,7 @@ const getTransaction = (hash: string, setTransaction: any, replace: any) => {
 
 const getTipBlockNumber = (setTipBlockNumber: any) => {
   fetchTipBlockNumber().then(response => {
-    const { data } = response as Response<StatisticsWrapper>
+    const { data } = response as Response<Wrapper<Statistics>>
     if (data) {
       setTipBlockNumber(parseInt(data.attributes.tip_block_number, 10))
     }

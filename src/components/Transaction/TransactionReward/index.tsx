@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { shannonToCkb } from '../../../utils/util'
-import { Transaction, InputOutput } from '../../../service/response/Transaction'
+import { Transaction, InputOutput } from '../../../types/App/index'
 import ItemPoint from '../../../assets/grey_point.png'
 import { localeNumberString } from '../../../utils/number'
 import i18n from '../../../utils/i18n'

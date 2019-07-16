@@ -2,15 +2,13 @@ import React, { useContext, useReducer } from 'react'
 import { Link } from 'react-router-dom'
 import AppContext from '../../contexts/App'
 import CopyGreenIcon from '../../assets/copy_green.png'
-import { Response } from '../../service/response/Response'
-import { ScriptWrapper } from '../../service/response/Script'
+import { Response } from '../../types/App/Response'
+import { Script, InputOutput, Data, Wrapper } from '../../types/App/index'
 import { CellType, fetchScript, fetchCellData } from '../../service/fetcher'
 import { shannonToCkb, copyElementValue } from '../../utils/util'
 import { hexToUtf8, parseLongAddressHash } from '../../utils/string'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
-import { InputOutput } from '../../service/response/Transaction'
-import { Data } from '../../service/response/Data'
 
 enum CellState {
   NONE,
@@ -109,14 +107,14 @@ const ScriptComponent = ({ cellType, cell }: { cellType: CellType; cell: InputOu
     switch (getCellState(state, item)) {
       case CellState.LOCK:
         fetchScript(cellType, 'lock_scripts', `${cell.id}`).then(response => {
-          const { data } = response as Response<ScriptWrapper>
+          const { data } = response as Response<Wrapper<Script>>
           handleCellState(item)
           showScriptContent(data ? data.attributes : initScriptContent.lock)
         })
         break
       case CellState.TYPE:
         fetchScript(cellType, 'type_scripts', `${cell.id}`).then(response => {
-          const { data } = response as Response<ScriptWrapper>
+          const { data } = response as Response<Wrapper<Script>>
           handleCellState(item)
           showScriptContent(data ? data.attributes : initScriptContent.type)
         })

@@ -42,10 +42,10 @@ import NextBlockGreyIcon from '../../assets/right_arrow_grey.png'
 import MouseIcon from '../../assets/block_mouse.png'
 import TransactionsRootIcon from '../../assets/transactions_root.png'
 import WitnessRootIcon from '../../assets/witness_root.png'
-import { Block, BlockWrapper, RewardStatus, TransactionFeeStatus } from '../../service/response/Block'
+import { RewardStatus, TransactionFeeStatus } from '../../utils/const'
 import { parseSimpleDate } from '../../utils/date'
-import { Response } from '../../service/response/Response'
-import { TransactionWrapper } from '../../service/response/Transaction'
+import { Response } from '../../types/App/Response'
+import { Transaction, Block, Wrapper } from '../../types/App/index'
 import { fetchBlock, fetchTransactionsByBlockHash } from '../../service/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { startEndEllipsis, parsePageNumber } from '../../utils/string'
@@ -222,7 +222,7 @@ const reducer = (state: any, action: any) => {
 
 const getTransactions = (hash: string, page: number, size: number, dispatch: any) => {
   fetchTransactionsByBlockHash(hash, page, size).then(response => {
-    const { data, meta } = response as Response<TransactionWrapper[]>
+    const { data, meta } = response as Response<Wrapper<Transaction>[]>
     dispatch({
       type: Actions.transactions,
       payload: {
@@ -249,7 +249,7 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
   })
   fetchBlock(`${blockNumber + 1}`)
     .then(response => {
-      const { data } = response as Response<BlockWrapper>
+      const { data } = response as Response<Wrapper<Block>>
       dispatch({
         type: Actions.next,
         payload: {
@@ -271,7 +271,7 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
 const getBlock = (blockParam: string, page: number, size: number, dispatch: any, replace: any) => {
   fetchBlock(blockParam)
     .then(response => {
-      const { data } = response as Response<BlockWrapper>
+      const { data } = response as Response<Wrapper<Block>>
       const block = data.attributes as Block
       dispatch({
         type: Actions.block,
@@ -289,7 +289,7 @@ const getBlock = (blockParam: string, page: number, size: number, dispatch: any,
 
 const initialState = {
   block: initBlock,
-  transactions: [] as TransactionWrapper[],
+  transactions: [] as Wrapper<Transaction>[],
   total: 1,
   prev: true,
   next: true,
