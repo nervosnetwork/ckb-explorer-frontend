@@ -1,11 +1,11 @@
 import { useEffect, useContext, useState } from 'react'
 import { fetchBlockchainInfo, axiosIns } from '../http/fetcher'
-import { BLOCKCHAIN_ALERT_POLLING_TIME } from './const'
+import { BLOCKCHAIN_ALERT_POLLING_TIME } from '../utils/const'
 import { BlockchainInfoWrapper } from '../http/response/BlockchainInfo'
 import AppContext from '../contexts/App'
 
 import browserHistory from '../routes/history'
-import i18n from './i18n'
+import i18n from '../utils/i18n'
 
 const alertNotEmpty = (response: BlockchainInfoWrapper): boolean => {
   return (
