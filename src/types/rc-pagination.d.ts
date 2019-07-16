@@ -39,3 +39,4 @@ declare module 'rc-pagination' {
   const Pagination: React.SFC<PaginationProps> = (props: PaginationProps) => {}
   export default Pagination
 }
+declare module 'rc-pagination/lib/locale/en_US'
