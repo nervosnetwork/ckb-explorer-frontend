@@ -2,19 +2,24 @@ import styled from 'styled-components'
 
 export const TransactionPanel = styled.div`
   width: 100%;
-  overflow-x: auto;
-  margin-top: 10px;
-  background: white;
+  /* overflow-x: auto; */
+  margin-top: 5px;
+
+  /* background: white;
   border: 0px solid white;
   border-radius: 6px;
-  box-shadow: 0px 5px 9px #dfdfdf;
-  > div {
-    width: 1200px;
-    margin: 0 auto;
-    padding: 38px 75px 41px 75px;
-    display: flex;
-    flex-direction: column;
-  }
+  box-shadow: 0px 5px 9px #dfdfdf; */
+  border-radius: 0px 0px 0px 0px;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  background-color: #ffffff;
+
+  /* > div { */
+  /* width: 1200px; */
+  /* margin: 0 auto; */
+  padding: 20px 40px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  /* } */
 `
 
 export const TransactionsReward = styled.div`

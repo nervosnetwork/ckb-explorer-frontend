@@ -41,6 +41,7 @@ import { StatisticsWrapper } from '../../http/response/Statistics'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
+import NewAddress from './New'
 
 const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
   const appContext = useContext(AppContext)
@@ -230,7 +231,9 @@ const initialState = {
   tipBlockNumber: 0,
 }
 
-export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string; hash: string }>>) => {
+export default NewAddress
+
+export const Azusa = (props: React.PropsWithoutRef<RouteComponentProps<{ address: string; hash: string }>>) => {
   const { match, location, history } = props
   const { params } = match
   const { address, hash: lockHash } = params
