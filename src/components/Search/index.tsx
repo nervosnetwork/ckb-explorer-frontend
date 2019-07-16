@@ -1,8 +1,8 @@
 import React, { useContext, useState, useRef } from 'react'
 import styled, { css } from 'styled-components'
 import AppContext from '../../contexts/App'
-import { fetchSearchResult } from '../../service/fetcher'
-import { Block, Address, Transaction, Wrapper } from '../../types/App/index'
+import { fetchSearchResult } from '../../service/http/fetcher'
+import { Wrapper } from '../../service/http/Response'
 import browserHistory from '../../routes/history'
 import SearchLogo from '../../assets/search.png'
 import { searchTextCorrection } from '../../utils/string'
@@ -97,13 +97,13 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
           input.value = ''
           const { data } = response
           if (data.type === 'block') {
-            browserHistory.push(`/block/${(data as Wrapper<Block>).attributes.block_hash}`)
+            browserHistory.push(`/block/${(data as Wrapper<State.Block>).attributes.block_hash}`)
           } else if (data.type === 'ckb_transaction') {
-            browserHistory.push(`/transaction/${(data as Wrapper<Transaction>).attributes.transaction_hash}`)
+            browserHistory.push(`/transaction/${(data as Wrapper<State.Transaction>).attributes.transaction_hash}`)
           } else if (data.type === 'address') {
-            browserHistory.push(`/address/${(data as Wrapper<Address>).attributes.address_hash}`)
+            browserHistory.push(`/address/${(data as Wrapper<State.Address>).attributes.address_hash}`)
           } else if (data.type === 'lock_hash') {
-            browserHistory.push(`/lockhash/${(data as Wrapper<Address>).attributes.lock_hash}`)
+            browserHistory.push(`/lockhash/${(data as Wrapper<State.Address>).attributes.lock_hash}`)
           } else {
             setSearchValue(query)
             browserHistory.push(`/search/fail?q=${query}`)

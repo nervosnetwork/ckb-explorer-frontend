@@ -1,13 +1,13 @@
 import { useEffect, useContext, useState } from 'react'
-import { fetchBlockchainInfo, axiosIns } from '../service/fetcher'
+import { fetchBlockchainInfo, axiosIns } from '../service/http/fetcher'
 import { BLOCKCHAIN_ALERT_POLLING_TIME } from '../utils/const'
-import { BlockchainInfo, Wrapper } from '../types/App/index'
+import { Wrapper } from '../service/http/Response'
 import AppContext from '../contexts/App'
 
 import browserHistory from '../routes/history'
 import i18n from '../utils/i18n'
 
-const alertNotEmpty = (response: Wrapper<BlockchainInfo>): boolean => {
+const alertNotEmpty = (response: Wrapper<State.BlockchainInfo>): boolean => {
   return (
     response &&
     response.attributes &&
@@ -22,7 +22,7 @@ export const useBlockchainAlerts = () => {
 
   useEffect(() => {
     const listen = setInterval(() => {
-      fetchBlockchainInfo().then((response: Wrapper<BlockchainInfo>) => {
+      fetchBlockchainInfo().then((response: Wrapper<State.BlockchainInfo>) => {
         if (alertNotEmpty(response)) {
           appContext.updateAppErrors({
             type: 'ChainAlert',

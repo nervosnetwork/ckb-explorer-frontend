@@ -17,3 +17,9 @@ export interface Meta {
   total: number
   page_size: number
 }
+
+export interface Wrapper<T> {
+  id: number
+  type: string
+  attributes: T
+}

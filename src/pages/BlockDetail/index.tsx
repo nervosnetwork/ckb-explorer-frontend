@@ -42,11 +42,10 @@ import NextBlockGreyIcon from '../../assets/right_arrow_grey.png'
 import MouseIcon from '../../assets/block_mouse.png'
 import TransactionsRootIcon from '../../assets/transactions_root.png'
 import WitnessRootIcon from '../../assets/witness_root.png'
-import { RewardStatus, TransactionFeeStatus } from '../../utils/const'
 import { parseSimpleDate } from '../../utils/date'
-import { Response } from '../../types/App/Response'
-import { Transaction, Block, Wrapper } from '../../types/App/index'
-import { fetchBlock, fetchTransactionsByBlockHash } from '../../service/fetcher'
+import { Response, Wrapper } from '../../service/http/Response'
+
+import { fetchBlock, fetchTransactionsByBlockHash } from '../../service/http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { startEndEllipsis, parsePageNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
@@ -153,7 +152,7 @@ enum PageParams {
   MaxPageSize = 100,
 }
 
-const initBlock: Block = {
+const initBlock: State.Block = {
   block_hash: '',
   number: 0,
   transactions_count: 0,
@@ -161,9 +160,9 @@ const initBlock: Block = {
   uncles_count: 0,
   uncle_block_hashes: [],
   reward: 0,
-  reward_status: RewardStatus.issued,
+  reward_status: 'issued',
   received_tx_fee: 0,
-  received_tx_fee_status: TransactionFeeStatus.calculated,
+  received_tx_fee_status: 'calculated',
   total_transaction_fee: 0,
   cell_consumed: 0,
   total_cell_capacity: 0,
@@ -222,7 +221,7 @@ const reducer = (state: any, action: any) => {
 
 const getTransactions = (hash: string, page: number, size: number, dispatch: any) => {
   fetchTransactionsByBlockHash(hash, page, size).then(response => {
-    const { data, meta } = response as Response<Wrapper<Transaction>[]>
+    const { data, meta } = response as Response<Wrapper<State.Transaction>[]>
     dispatch({
       type: Actions.transactions,
       payload: {
@@ -249,7 +248,7 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
   })
   fetchBlock(`${blockNumber + 1}`)
     .then(response => {
-      const { data } = response as Response<Wrapper<Block>>
+      const { data } = response as Response<Wrapper<State.Block>>
       dispatch({
         type: Actions.next,
         payload: {
@@ -271,8 +270,8 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
 const getBlock = (blockParam: string, page: number, size: number, dispatch: any, replace: any) => {
   fetchBlock(blockParam)
     .then(response => {
-      const { data } = response as Response<Wrapper<Block>>
-      const block = data.attributes as Block
+      const { data } = response as Response<Wrapper<State.Block>>
+      const block = data.attributes as State.Block
       dispatch({
         type: Actions.block,
         payload: {
@@ -289,7 +288,7 @@ const getBlock = (blockParam: string, page: number, size: number, dispatch: any,
 
 const initialState = {
   block: initBlock,
-  transactions: [] as Wrapper<Transaction>[],
+  transactions: [] as Wrapper<State.Transaction>[],
   total: 1,
   prev: true,
   next: true,
@@ -306,8 +305,8 @@ const TransactionFeeTip: Tooltip = {
   hideValue: true,
 }
 
-const transactionFee = (block: Block) => {
-  if (block.received_tx_fee_status === TransactionFeeStatus.calculating && block.number > 0) {
+const transactionFee = (block: State.Block) => {
+  if (block.received_tx_fee_status === 'calculating' && block.number > 0) {
     return TransactionFeeTip
   }
   return undefined
@@ -357,7 +356,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
       image: BlockRewardIcon,
       label: `${i18n.t('block.block_reward')}:`,
       value: `${localeNumberString(shannonToCkb(state.block.reward))} CKB`,
-      tooltip: state.block.reward_status === RewardStatus.pending ? BlockRewardTip : undefined,
+      tooltip: state.block.reward_status === 'pending' ? BlockRewardTip : undefined,
     },
     {
       image: TransactionFeeIcon,

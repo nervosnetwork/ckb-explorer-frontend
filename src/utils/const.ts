@@ -10,13 +10,3 @@ export const CachedKeys = {
   Blocks: 'blocks',
   Statistics: 'statistics',
 }
-
-export enum TransactionFeeStatus {
-  calculating = 'calculating',
-  calculated = 'calculated',
-}
-
-export enum RewardStatus {
-  pending = 'pending',
-  issued = 'issued',
-}

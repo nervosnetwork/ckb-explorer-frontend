@@ -29,9 +29,9 @@ import TransactionsIcon from '../../assets/transactions_green.png'
 import ItemPointIcon from '../../assets/item_point.png'
 import AddressHashIcon from '../../assets/lock_hash_address.png'
 import BlockPendingRewardIcon from '../../assets/block_pending_reward.png'
-import { Script, Transaction, Address, Statistics, Wrapper } from '../../types/App/index'
-import { Response } from '../../types/App/Response'
-import { fetchAddressInfo, fetchTransactionsByAddress, fetchTipBlockNumber } from '../../service/fetcher'
+import { Wrapper, Response } from '../../service/http/Response'
+
+import { fetchAddressInfo, fetchTransactionsByAddress, fetchTipBlockNumber } from '../../service/http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { parsePageNumber, startEndEllipsis } from '../../utils/string'
 import TransactionCard from '../../components/Transaction/TransactionCard/index'
@@ -77,7 +77,7 @@ const ScriptLabelItem = ({ name, value, noIcon = false }: { name: string; value:
   )
 }
 
-const AddressScriptLabel = ({ image, label, script }: { image: string; label: string; script: Script }) => {
+const AddressScriptLabel = ({ image, label, script }: { image: string; label: string; script: State.Script }) => {
   return (
     <div>
       <AddressScriptLabelPanel>
@@ -112,7 +112,7 @@ enum PageParams {
   MaxPageSize = 100,
 }
 
-const initAddress: Address = {
+const initAddress: State.Address = {
   address_hash: '',
   lock_hash: '',
   balance: 0,
@@ -161,7 +161,7 @@ const reducer = (state: any, action: any) => {
 
 const getAddressInfo = (hash: string, dispatch: any) => {
   fetchAddressInfo(hash).then(response => {
-    const { data } = response as Response<Wrapper<Address>>
+    const { data } = response as Response<Wrapper<State.Address>>
     if (data) {
       dispatch({
         type: Actions.address,
@@ -175,7 +175,7 @@ const getAddressInfo = (hash: string, dispatch: any) => {
 
 const getTransactions = (hash: string, page: number, size: number, dispatch: any) => {
   fetchTransactionsByAddress(hash, page, size).then(response => {
-    const { data, meta } = response as Response<Wrapper<Transaction>[]>
+    const { data, meta } = response as Response<Wrapper<State.Transaction>[]>
     if (data) {
       dispatch({
         type: Actions.transactions,
@@ -197,7 +197,7 @@ const getTransactions = (hash: string, page: number, size: number, dispatch: any
 
 const getTipBlockNumber = (dispatch: any) => {
   fetchTipBlockNumber().then(response => {
-    const { data } = response as Response<Wrapper<Statistics>>
+    const { data } = response as Response<Wrapper<State.Statistics>>
     if (data) {
       dispatch({
         type: Actions.tipBlockNumber,
@@ -215,14 +215,14 @@ const PendingRewardTooltip: Tooltip = {
   offset: 0.7,
 }
 
-const addressContent = (address: Address) => {
+const addressContent = (address: State.Address) => {
   const addressText = isMobile() ? startEndEllipsis(address.address_hash, 10) : address.address_hash
   return address.address_hash ? addressText : i18n.t('address.unable_decode_address')
 }
 
 const initialState = {
   address: initAddress,
-  transactions: [] as Wrapper<Transaction>[],
+  transactions: [] as Wrapper<State.Transaction>[],
   total: 1,
   tipBlockNumber: 0,
 }

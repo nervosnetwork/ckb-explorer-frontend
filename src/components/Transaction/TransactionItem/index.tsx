@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import InputOutputIcon from '../../../assets/input_arrow_output.png'
-import { Transaction } from '../../../types/App/index'
 import { parseDate } from '../../../utils/date'
 import { handleCapacityChange } from '../../../utils/util'
 import TransactionCellList from '../TransactionCellList'
@@ -25,7 +24,7 @@ const TransactionItem = ({
   confirmation,
   isBlock = false,
 }: {
-  transaction: Transaction
+  transaction: State.Transaction
   address?: string
   confirmation?: number
   isBlock?: boolean
@@ -39,7 +38,9 @@ const TransactionItem = ({
           </Link>
           {!isBlock && (
             <div className="transaction_item__block">
-              {`(Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}
+              {`(State.Block ${localeNumberString(transaction.block_number)})  ${parseDate(
+                transaction.block_timestamp,
+              )}`}
             </div>
           )}
         </TransactionHashBlockPanel>

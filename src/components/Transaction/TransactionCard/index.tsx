@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Transaction, InputOutput } from '../../../types/App/index'
 import GreenArrowDown from '../../../assets/green_arrow_down.png'
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb, handleCapacityChange } from '../../../utils/util'
@@ -26,7 +25,7 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
   const [show, setShow] = useState(false)
   return blockHeight && blockHeight > 0 ? (
     <CellbasePanel>
-      <div className="cellbase__content">Cellbase for Block</div>
+      <div className="cellbase__content">Cellbase for State.Block</div>
       <Link to={`/block/${blockHeight}`}>
         <CellHashHighLight>{localeNumberString(blockHeight)}</CellHashHighLight>
       </Link>
@@ -58,7 +57,7 @@ const Cellbase = ({ blockHeight }: { blockHeight?: number }) => {
   )
 }
 
-const CardCell = ({ input, address }: { input: InputOutput; address?: string }) => {
+const CardCell = ({ input, address }: { input: State.InputOutput; address?: string }) => {
   if (input.from_cellbase) {
     return <Cellbase blockHeight={input.target_block_number} />
   }
@@ -85,7 +84,7 @@ const TransactionCard = ({
   address,
   confirmation,
 }: {
-  transaction: Transaction
+  transaction: State.Transaction
   address?: string
   confirmation?: number
 }) => {
@@ -98,7 +97,7 @@ const TransactionCard = ({
           </Link>
         </div>
         <div className="card__block_date">
-          {`(Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}
+          {`(State.Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}
         </div>
       </CardHashBlockPanel>
       <div className="sperate__line_top" />

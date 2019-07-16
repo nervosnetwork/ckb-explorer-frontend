@@ -1,13 +1,12 @@
 import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import TransactionCellListPanel from './styled'
-import { Transaction, InputOutput } from '../../../types/App/index'
 
 interface TransactionCellListProps {
-  cells: InputOutput[]
+  cells: State.InputOutput[]
   showSize: number
-  transaction: Transaction
-  render: (item: InputOutput) => ReactNode
+  transaction: State.Transaction
+  render: (item: State.InputOutput) => ReactNode
 }
 
 export default ({ cells, showSize, transaction, render }: TransactionCellListProps) => {
