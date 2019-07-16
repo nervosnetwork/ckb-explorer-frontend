@@ -18,10 +18,7 @@ import MinerIcon from '../../assets/miner.png'
 import TimestampIcon from '../../assets/timestamp.png'
 import MoreLeftIcon from '../../assets/more_left.png'
 import MoreRightIcon from '../../assets/more_right.png'
-import { fetchBlocks, fetchStatistics } from '../../http/fetcher'
-import { BlockWrapper } from '../../http/response/Block'
-import { StatisticsWrapper, Statistics } from '../../http/response/Statistics'
-import { Response } from '../../http/response/Response'
+import { fetchBlocks, fetchStatistics } from '../../service/http/fetcher'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
 import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
@@ -45,14 +42,14 @@ const BlockchainItem = ({ name, value, tip }: { name: string; value: string; tip
 
 const getLatestBlocks = (setBlocksWrappers: any) => {
   fetchBlocks().then(response => {
-    const { data } = response as Response<BlockWrapper[]>
+    const { data } = response as Response.Response<Response.Wrapper<State.Block>[]>
     setBlocksWrappers(data)
   })
 }
 
 const getStatistics = (setStatistics: any) => {
   fetchStatistics().then(response => {
-    const { data } = response as Response<StatisticsWrapper>
+    const { data } = response as Response.Response<Response.Wrapper<State.Statistics>>
     setStatistics(data.attributes)
   })
 }
@@ -63,7 +60,7 @@ interface BlockchainData {
   tip: string
 }
 
-const initStatistics: Statistics = {
+const initStatistics: State.Statistics = {
   tip_block_number: '0',
   average_block_time: '0',
   current_epoch_difficulty: 0,
@@ -75,17 +72,17 @@ const parseHashRate = (hashRate: string | undefined) => {
 }
 
 export default () => {
-  const initBlockWrappers: BlockWrapper[] = []
+  const initBlockWrappers: Response.Wrapper<State.Block>[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
   const [statistics, setStatistics] = useState(initStatistics)
   const [t] = useTranslation()
 
   useEffect(() => {
-    const cachedBlocks = fetchCachedData<BlockWrapper[]>(CachedKeys.Blocks)
+    const cachedBlocks = fetchCachedData<Response.Wrapper<State.Block>[]>(CachedKeys.Blocks)
     if (cachedBlocks) {
       setBlocksWrappers(cachedBlocks)
     }
-    const cachedStatistics = fetchCachedData<Statistics>(CachedKeys.Statistics)
+    const cachedStatistics = fetchCachedData<State.Statistics>(CachedKeys.Statistics)
     if (cachedStatistics) {
       setStatistics(cachedStatistics)
     }

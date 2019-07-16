@@ -21,13 +21,11 @@ import TransactionIcon from '../../assets/transaction_fee.png'
 import CopyIcon from '../../assets/copy.png'
 import StatusIcon from '../../assets/transcation_status.png'
 import { parseSimpleDate } from '../../utils/date'
-import { Response } from '../../http/response/Response'
-import { Transaction, InputOutput, TransactionWrapper } from '../../http/response/Transaction'
-import { CellType, fetchTransactionByHash, fetchTipBlockNumber } from '../../http/fetcher'
+
+import { CellType, fetchTransactionByHash, fetchTipBlockNumber } from '../../service/http/fetcher'
 import { copyElementValue, formatConfirmation, shannonToCkb } from '../../utils/util'
 import CellCard from '../../components/Card/CellCard'
 import ScriptComponent from './Script'
-import { StatisticsWrapper } from '../../http/response/Statistics'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 
@@ -76,7 +74,7 @@ const InputOutputTableTitle = ({ transactionType, isCellbase }: { transactionTyp
   )
 }
 
-const initTransaction: Transaction = {
+const initTransaction: State.Transaction = {
   transaction_hash: '',
   block_number: 0,
   block_timestamp: 0,
@@ -91,8 +89,8 @@ const initTransaction: Transaction = {
 const getTransaction = (hash: string, setTransaction: any, replace: any) => {
   fetchTransactionByHash(hash)
     .then(response => {
-      const { data } = response as Response<TransactionWrapper>
-      const transactionValue = data.attributes as Transaction
+      const { data } = response as Response.Response<Response.Wrapper<State.Transaction>>
+      const transactionValue = data.attributes as State.Transaction
       if (transactionValue.display_outputs && transactionValue.display_outputs.length > 0) {
         transactionValue.display_outputs[0].isGenesisOutput = transactionValue.block_number === 0
       }
@@ -105,7 +103,7 @@ const getTransaction = (hash: string, setTransaction: any, replace: any) => {
 
 const getTipBlockNumber = (setTipBlockNumber: any) => {
   fetchTipBlockNumber().then(response => {
-    const { data } = response as Response<StatisticsWrapper>
+    const { data } = response as Response.Response<Response.Wrapper<State.Statistics>>
     if (data) {
       setTipBlockNumber(parseInt(data.attributes.tip_block_number, 10))
     }
@@ -182,13 +180,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
           <div>
             {transaction &&
               transaction.display_inputs &&
-              transaction.display_inputs.map((input: InputOutput, index: number) => {
+              transaction.display_inputs.map((input: State.InputOutput, index: number) => {
                 const key = index
                 return <CellCard type={CellType.Input} cell={input} key={key} />
               })}
             {transaction &&
               transaction.display_outputs &&
-              transaction.display_outputs.map((output: InputOutput, index: number) => {
+              transaction.display_outputs.map((output: State.InputOutput, index: number) => {
                 const key = index
                 return <CellCard type={CellType.Output} cell={output} key={key} />
               })}
@@ -210,7 +208,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 <tbody>
                   {transaction &&
                     transaction.display_inputs &&
-                    transaction.display_inputs.map((input: InputOutput) => {
+                    transaction.display_inputs.map((input: State.InputOutput) => {
                       return input && <ScriptComponent cellType={CellType.Input} key={input.id} cell={input} />
                     })}
                 </tbody>
@@ -223,7 +221,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                 <tbody>
                   {transaction &&
                     transaction.display_outputs &&
-                    transaction.display_outputs.map((output: InputOutput) => {
+                    transaction.display_outputs.map((output: State.InputOutput) => {
                       return output && <ScriptComponent cellType={CellType.Output} key={output.id} cell={output} />
                     })}
                 </tbody>

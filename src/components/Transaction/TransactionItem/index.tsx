@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import InputOutputIcon from '../../../assets/input_arrow_output.png'
-import { Transaction } from '../../../http/response/Transaction'
 import { parseDate } from '../../../utils/date'
 import { handleCapacityChange } from '../../../utils/util'
 import TransactionCellList from '../TransactionCellList'
@@ -25,7 +24,7 @@ const TransactionItem = ({
   confirmation,
   isBlock = false,
 }: {
-  transaction: Transaction
+  transaction: State.Transaction
   address?: string
   confirmation?: number
   isBlock?: boolean
