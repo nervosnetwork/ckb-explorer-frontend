@@ -13,23 +13,23 @@
     "navbar": {
       "wallet": "Wallet",
       "docs": "Docs",
-      "search_placeholder": "State.Block / State.Transaction / State.Address",
+      "search_placeholder": "Block / Transaction / Address",
       "network": "TESTNET",
       "network_tooltip": "Mainnet is comming"
     },
     "blockchain": {
-      "best_block": "Best State.Block",
+      "best_block": "Best Block",
       "best_block_tooltip": "The latest block of the best chain",
       "difficulty_tooltip": "Difficulty of the latest epoch",
       "hash_rate": "Hash Rate",
       "hash_rate_tooltip": "Average Hash Rate of the last 500 blocks",
-      "average_block_time": "Average State.Block Time",
-      "average_block_time_tooltip": "Average State.Block Time of the latest epoch"
+      "average_block_time": "Average Block Time",
+      "average_block_time_tooltip": "Average Block Time of the latest epoch"
     },
     "home": {
       "height": "Height",
       "transactions": "Transactions",
-      "block_reward": "State.Block Reward (CKB)",
+      "block_reward": "Block Reward (CKB)",
       "time": "Time",
       "more": "More"
     },
@@ -53,9 +53,9 @@
       "empty_result": "Opps! Your search did not match any record. Please try different keywords~"
     },
     "address": {
-      "address": "State.Address",
+      "address": "Address",
       "lock_hash": "Lock Hash",
-      "lock_script": "Lock State.Script",
+      "lock_script": "Lock Script",
       "balance": "Balance",
       "pending_reward": "Pending Reward",
       "code_hash": "Code Hash",
@@ -66,25 +66,25 @@
       "pending_reward_tooltip": "The block reward and transaction fee of this block will send to the miner after 11 blocks，learn more from our Consensus Protocol"
     },
     "transaction": {
-      "transaction": "State.Transaction",
+      "transaction": "Transaction",
       "transactions": "Transactions",
-      "transaction_fee": "State.Transaction Fee",
+      "transaction_fee": "Transaction Fee",
       "status": "Status",
       "input": "Input",
       "output": "Output",
-      "lock_script": "Lock State.Script",
-      "type_script": "Type State.Script",
-      "data": "State.Data",
+      "lock_script": "Lock Script",
+      "type_script": "Type Script",
+      "data": "Data",
       "base_reward": "Base Reward",
       "commit_reward": "Commit Reward",
       "proposal_reward": "Proposal Reward",
       "cellbase_help_tooltip": "The cellbase transaction of block N is send to the miner of block N-11 as reward, learn more from our Consensus Protocol"
     },
     "block": {
-      "block": "State.Block",
-      "block_height": "State.Block Height",
+      "block": "Block",
+      "block_height": "Block Height",
       "proposal_transactions": "Proposal Transactions",
-      "block_reward": "State.Block Reward",
+      "block_reward": "Block Reward",
       "uncle_count": "Uncle Count",
       "epoch": "Epoch",
       "epoch_start_number": "Epoch Start Number",
