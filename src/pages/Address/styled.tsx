@@ -15,6 +15,13 @@ export const AddressContentPanel = styled.div`
   }
 `
 
+export const AddressLockScriptPanel = styled.div`
+  width: 100%;
+  .address__lock_script_title {
+    font-weight: 500;
+  }
+`
+
 export const AddressLockScriptItemPanel = styled.div`
   display: flex;
   flex-direction: row;

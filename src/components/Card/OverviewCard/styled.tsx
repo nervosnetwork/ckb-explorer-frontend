@@ -55,6 +55,7 @@ export const OverviewItemPanel = styled.div`
   align-items: center;
   height: 40px;
   width: 100%;
+  justify-content: space-between;
 
   .overview_item__title {
     font-weight: 500;
@@ -63,8 +64,4 @@ export const OverviewItemPanel = styled.div`
   .overview_item__value {
     margin-left: 15px;
   }
-`
-
-export const OverviewItemShortPanel = styled(OverviewItemPanel)`
-  justify-content: space-between;
 `

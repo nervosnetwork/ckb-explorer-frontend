@@ -15,12 +15,13 @@ import { isMobile } from '../../utils/screen'
 import { parsePageNumber, startEndEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
 import AddressHashCard from '../../components/Card/AddressHashCard'
-import OverviewCard, { OverviewItem } from '../../components/Card/OverviewCard'
+import OverviewCard from '../../components/Card/OverviewCard'
 import {
   AddressContentPanel,
   AddressLockScriptItemPanel,
   AddressTransactionsPagition,
   AddressTransactionsPanel,
+  AddressLockScriptPanel,
 } from './styled'
 import TitleCard from '../../components/Card/TitleCard'
 
@@ -157,6 +158,24 @@ const AddressLockScriptItem = ({ title, children }: { title: string; children?: 
   )
 }
 
+const AddressLockScript = ({ script }: { script: State.Script }) => {
+  return (
+    <AddressLockScriptPanel>
+      <div className="address__lock_script_title">{`${i18n.t('address.lock_script')} : `}</div>
+      <AddressLockScriptItem title={`${i18n.t('address.code_hash')} :`}>
+        <span>{script.code_hash}</span>
+      </AddressLockScriptItem>
+      <AddressLockScriptItem title={`${i18n.t('address.args')} :`}>
+        {script.args.length === 1 ? (
+          <span>{script.args[0]}</span>
+        ) : (
+          script.args.map((arg: string, index: number) => <span>{`#${index}: ${arg}`}</span>)
+        )}
+      </AddressLockScriptItem>
+    </AddressLockScriptPanel>
+  )
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string; hash: string }>>) => {
   const { match, location, history } = props
   const { params } = match
@@ -220,17 +239,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         />
         <TitleCard title={i18n.t('common.overview')} />
         <OverviewCard items={items}>
-          <OverviewItem title={`${i18n.t('address.lock_script')} : `} />
-          <AddressLockScriptItem title={`${i18n.t('address.code_hash')} :`}>
-            <span>{state.address.lock_script.code_hash}</span>
-          </AddressLockScriptItem>
-          <AddressLockScriptItem title={`${i18n.t('address.args')} :`}>
-            {state.address.lock_script.args.length === 1 ? (
-              <span>{state.address.lock_script.args[0]}</span>
-            ) : (
-              state.address.lock_script.args.map((arg: string, index: number) => <span>{`#${index}: ${arg}`}</span>)
-            )}
-          </AddressLockScriptItem>
+          <AddressLockScript script={state.address.lock_script} />
         </OverviewCard>
         <TitleCard title={i18n.t('transaction.transactions')} />
         <AddressTransactionsPanel>
