@@ -1,11 +1,15 @@
 import queryString from 'query-string'
 import Pagination from 'rc-pagination'
 import localeInfo from 'rc-pagination/lib/locale/en_US'
-import React, { ReactNode, useEffect, useReducer } from 'react'
+import React, { ReactNode, useEffect, useReducer, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import ItemPointIcon from '../../assets/item_point.png'
+import HelpIcon from '../../assets/qa_help.png'
+import AddressHashCard from '../../components/Card/AddressHashCard'
+import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
+import TitleCard from '../../components/Card/TitleCard'
 import Content from '../../components/Content'
-import { Tooltip } from '../../components/Label'
+import Tooltip from '../../components/Tooltip'
 import TransactionCard from '../../components/Transaction/TransactionCard/index'
 import TransactionItem from '../../components/Transaction/TransactionItem/index'
 import { fetchAddressInfo, fetchTipBlockNumber, fetchTransactionsByAddress } from '../../service/http/fetcher'
@@ -14,16 +18,14 @@ import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import { parsePageNumber, startEndEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
-import AddressHashCard from '../../components/Card/AddressHashCard'
-import OverviewCard from '../../components/Card/OverviewCard'
 import {
   AddressContentPanel,
   AddressLockScriptItemPanel,
+  AddressLockScriptPanel,
+  AddressPendingRewardTitlePanel,
   AddressTransactionsPagition,
   AddressTransactionsPanel,
-  AddressLockScriptPanel,
 } from './styled'
-import TitleCard from '../../components/Card/TitleCard'
 
 enum PageParams {
   PageNo = 1,
@@ -128,12 +130,6 @@ const getTipBlockNumber = (dispatch: any) => {
   })
 }
 
-export const PendingRewardTooltip: Tooltip = {
-  tip: i18n.t('address.pending_reward_tooltip'),
-  haveHelpIcon: true,
-  offset: 0.7,
-}
-
 const addressContent = (address: State.Address) => {
   const addressText = isMobile() ? startEndEllipsis(address.address_hash, 10) : address.address_hash
   return address.address_hash ? addressText : i18n.t('address.unable_decode_address')
@@ -144,6 +140,32 @@ const initialState = {
   transactions: [] as Response.Wrapper<State.Transaction>[],
   total: 1,
   tipBlockNumber: 0,
+}
+
+const AddressPendingRewardTitle = () => {
+  const [show, setShow] = useState(false)
+  return (
+    <AddressPendingRewardTitlePanel>
+      {`${i18n.t('address.pending_reward')}`}
+      <div
+        className="address__pending_reward_help"
+        tabIndex={-1}
+        onFocus={() => {}}
+        onMouseOver={() => setShow(true)}
+        onMouseLeave={() => setShow(false)}
+      >
+        <img src={HelpIcon} alt="Pending Reward Help" />
+        <Tooltip
+          message={i18n.t('address.pending_reward_tooltip')}
+          show={show}
+          targetSize={{
+            width: 20,
+            height: 30,
+          }}
+        />
+      </div>
+    </AddressPendingRewardTitlePanel>
+  )
 }
 
 const AddressLockScriptItem = ({ title, children }: { title: string; children?: ReactNode }) => {
@@ -201,23 +223,22 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${pageNo}&size=${pageSize}`)
   }
 
-  const items = [
+  const items: OverviewItemData[] = [
     {
+      key: 'balance',
       title: i18n.t('address.balance'),
       content: `${localeNumberString(shannonToCkb(state.address.balance))} CKB`,
     },
     {
+      key: 'transactions',
       title: i18n.t('transaction.transactions'),
       content: localeNumberString(state.address.transactions_count),
-    },
-    {
-      title: 'Pending Reward',
-      content: '2 blocks',
     },
   ]
   if (state.address.pending_reward_blocks_count) {
     items.push({
-      title: i18n.t('address.pending_reward'),
+      key: 'pending_reward',
+      title: <AddressPendingRewardTitle />,
       content: `${state.address.pending_reward_blocks_count} ${
         state.address.pending_reward_blocks_count > 1 ? 'blocks' : 'block'
       }`,
@@ -225,7 +246,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   }
   if (lockHash && state.address) {
     items.push({
-      title: `${i18n.t('address.address')} :`,
+      key: 'address',
+      title: i18n.t('address.address'),
       content: addressContent(state.address),
     })
   }

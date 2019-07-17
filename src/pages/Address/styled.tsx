@@ -15,6 +15,21 @@ export const AddressContentPanel = styled.div`
   }
 `
 
+export const AddressPendingRewardTitlePanel = styled.div`
+  display: flex;
+  align-items: center;
+
+  .address__pending_reward_help {
+    margin-left: 20px;
+    transform: translateY(2px);
+    position: relative;
+    > img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+`
+
 export const AddressLockScriptPanel = styled.div`
   width: 100%;
   .address__lock_script_title {

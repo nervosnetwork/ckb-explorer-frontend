@@ -2,11 +2,12 @@ import React, { ReactNode } from 'react'
 import { OverviewCardPanel, OverviewContentPanel, OverviewItemPanel } from './styled'
 
 export interface OverviewItemData {
-  title: string
+  key: string
+  title: ReactNode
   content: ReactNode
 }
 
-const OverviewItem = ({ title, content }: { title?: string; content?: ReactNode }) => {
+const OverviewItem = ({ title, content }: { title?: ReactNode; content?: ReactNode }) => {
   return (
     <OverviewItemPanel>
       <div className="overview_item__title">{title}</div>
@@ -30,13 +31,13 @@ export default ({ items, children }: { items: OverviewItemData[]; children?: Rea
       <OverviewContentPanel length={leftItems.length}>
         <div className="overview_content__left_items">
           {leftItems.map(item => (
-            <OverviewItem key={item.title} title={item.title} content={item.content} />
+            <OverviewItem key={item.key} title={item.title} content={item.content} />
           ))}
         </div>
         <span />
         <div className="overview_content__right_items">
           {rightItems.map(item => (
-            <OverviewItem key={item.title} title={item.title} content={item.content} />
+            <OverviewItem key={item.key} title={item.title} content={item.content} />
           ))}
         </div>
       </OverviewContentPanel>
