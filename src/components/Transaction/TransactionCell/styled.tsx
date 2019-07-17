@@ -22,6 +22,8 @@ export const TransactionCellPanel = styled.div`
 
 export const CellbasePanel = styled.div`
   display: flex;
+  align-items: center;
+  height: 35px;
 
   .cellbase__content {
     color: #000000;

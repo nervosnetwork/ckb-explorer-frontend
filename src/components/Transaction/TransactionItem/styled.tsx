@@ -67,14 +67,15 @@ export const TransactionHashBlockPanel = styled.div`
 `
 
 export const TransactionInputOutputPanel = styled.div`
-  margin-top: 20px;
+  margin-top: 12px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 
   > img {
-    width: 40px;
-    height: 40px;
+    margin-top: 8px;
+    width: 19px;
+    height: 19px;
   }
 
   > div {
