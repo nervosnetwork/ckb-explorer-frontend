@@ -27,7 +27,6 @@ export const OverviewContentPanel = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  overflow: auto;
 
   > span {
     width: 1px;
@@ -38,23 +37,24 @@ export const OverviewContentPanel = styled.div`
 
   .overview_content__left_items {
     margin-right: 45px;
-    flex: 1;
-  }
-
-  .overview_content__right_items {
     display: flex;
     flex: 1;
     flex-direction: column;
-    align-items: flex-start;
+  }
+
+  .overview_content__right_items {
     margin-left: 45px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
   }
 `
 
 export const OverviewItemPanel = styled.div`
   display: flex;
-  align-items: center;
-  height: 40px;
   width: 100%;
+  height: 40px;
+  align-items: center;
   justify-content: space-between;
 
   .overview_item__title {

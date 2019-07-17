@@ -1,6 +1,7 @@
+import React from 'react'
 import styled from 'styled-components'
 
-export default styled.div`
+const TitleCardPanel = styled.div`
   width: 100%;
   border-radius: 6px 6px 0px 0px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
@@ -24,3 +25,7 @@ export default styled.div`
     box-shadow: 1px 1px 3px 0 #dfdfdf;
   }
 `
+
+export default ({ title }: { title: string }) => {
+  return <TitleCardPanel>{title}</TitleCardPanel>
+}
