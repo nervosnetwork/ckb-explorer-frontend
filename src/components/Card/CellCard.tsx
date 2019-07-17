@@ -282,28 +282,33 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: State.In
     if (cell.from_cellbase) return
     switch (getCellState(state, cellState)) {
       case CellState.LOCK:
-        fetchScript(cellType, 'lock_scripts', `${cell.id}`).then((script: State.Script) => {
+        fetchScript(cellType, 'lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
           handleCellState(cellState)
-          showScriptContent(script || initScriptContent.lock)
+          showScriptContent(wrapper ? wrapper.attributes : initScriptContent.lock)
         })
         break
       case CellState.TYPE:
-        fetchScript(cellType, 'type_scripts', `${cell.id}`).then((script: State.Script) => {
+        fetchScript(cellType, 'type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
           handleCellState(cellState)
-          showScriptContent(script || initScriptContent.type)
+          showScriptContent(wrapper ? wrapper.attributes : initScriptContent.type)
         })
         break
       case CellState.DATA:
-        fetchCellData(cellType, `${cell.id}`).then((data: State.Data) => {
-          if (data.data.length < MAX_DATA_SIZE) {
-            const dataValue: State.Data = data
-            if (data && cell.isGenesisOutput) {
-              dataValue.data = hexToUtf8(data.data.substr(2))
+        fetchCellData(cellType, `${cell.id}`).then((wrapper: Response.Wrapper<State.Data>) => {
+          if (wrapper && wrapper.attributes) {
+            if (wrapper.attributes.data.length < MAX_DATA_SIZE) {
+              const dataValue: State.Data = wrapper.attributes
+              if (dataValue && cell.isGenesisOutput) {
+                dataValue.data = hexToUtf8(dataValue.data.substr(2))
+              }
+              handleCellState(cellState)
+              showScriptContent(dataValue)
+            } else {
+              appContext.toastMessage(i18n.t('toast.data_too_large'), 3000)
             }
-            handleCellState(cellState)
-            showScriptContent(dataValue || initScriptContent.data)
           } else {
-            appContext.toastMessage(i18n.t('toast.data_too_large'), 3000)
+            handleCellState(cellState)
+            showScriptContent(initScriptContent.data)
           }
         })
         break
