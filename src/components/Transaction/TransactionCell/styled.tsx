@@ -7,14 +7,15 @@ export const TransactionCellPanel = styled.div`
   justify-content: space-between;
 
   .transaction__cell_address {
-    color: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '#4bbc8e' : '#888888')};
+    color: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '#3cc68a' : '#000000')};
     font-size: 16px;
     font-family: monospace;
+    font-weight: 600;
   }
 
   .transaction__cell_capacity {
     font-size: 16px;
-    color: rgb(136, 136, 136);
+    color: #000000;
     margin-left: 15px;
   }
 `
@@ -23,14 +24,15 @@ export const CellbasePanel = styled.div`
   display: flex;
 
   .cellbase__content {
-    color: #888888;
+    color: #000000;
     font-size: 16px;
     margin-right: 10px;
   }
 
   > a {
     font-size: 16px;
-    color: rgb(75, 188, 142);
+    font-weight: 500;
+    color: #3cc68a;
   }
 
   .cellbase__help {
