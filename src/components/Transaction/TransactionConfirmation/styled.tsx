@@ -11,11 +11,11 @@ export default styled.div`
   font-size: 16px;
   font-weight: 500;
 
-  .transaction_item__confirmation {
+  .transaction__confirmation {
     flex: 1;
     padding-right: 20px;
 
-    .transaction_item__confirmation_value {
+    .transaction__confirmation_value {
       min-width: 280px;
       height: 40px;
       background: white;
@@ -32,19 +32,19 @@ export default styled.div`
     }
   }
 
-  .transaction_item__capacity {
+  .transaction__capacity {
     flex: 1;
     padding-left: 20px;
 
     > div {
       float: left;
     }
-    .transaction_item__capacity_left {
+    .transaction__capacity_left {
       border: 20px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
       background: white;
       border-left: 10px solid transparent;
     }
-    .transaction_item__capacity_value {
+    .transaction__capacity_value {
       min-width: 200px;
       height: 40px;
       background: ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
@@ -55,7 +55,7 @@ export default styled.div`
         width: 100%;
       }
     }
-    .transaction_item__capacity_right {
+    .transaction__capacity_right {
       border: 20px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
       border-right: 10px solid transparent;
       background: white;
