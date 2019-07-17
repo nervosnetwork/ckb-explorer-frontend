@@ -17,14 +17,16 @@ const TransactionItem = ({
   address,
   confirmation,
   isBlock = false,
+  isEndItem = false,
 }: {
   transaction: State.Transaction
   address?: string
   confirmation?: number
   isBlock?: boolean
+  isEndItem?: boolean
 }) => {
   return (
-    <TransactionPanel>
+    <TransactionPanel isEndItem={isEndItem}>
       <TransactionHashBlockPanel>
         <Link to={`/transaction/${transaction.transaction_hash}`}>
           <code className="transaction_item__hash">{transaction.transaction_hash}</code>
