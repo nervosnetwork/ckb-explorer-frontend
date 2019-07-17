@@ -7,13 +7,7 @@ import TransactionCellList from '../TransactionCellList'
 import TransactionCell from '../TransactionCell'
 import TransactionConfirmation from '../TransactionConfirmation'
 import TransactionReward from '../TransactionReward'
-import {
-  FullPanel,
-  SeparationLine,
-  TransactionHashBlockPanel,
-  TransactionInputOutputPanel,
-  TransactionPanel,
-} from './styled'
+import { FullPanel, TransactionHashBlockPanel, TransactionInputOutputPanel, TransactionPanel } from './styled'
 import { localeNumberString } from '../../../utils/number'
 
 const MAX_CELL_SHOW_SIZE = 10
@@ -41,7 +35,7 @@ const TransactionItem = ({
           </div>
         )}
       </TransactionHashBlockPanel>
-      <SeparationLine marginTop="20px" />
+      <div className="sperate__line_top" />
       <TransactionInputOutputPanel>
         <div className="transaction_item__input">
           <TransactionCellList
@@ -70,7 +64,7 @@ const TransactionItem = ({
       </TransactionInputOutputPanel>
       {confirmation && (
         <>
-          <SeparationLine marginTop="10px" marginBottom="20px" />
+          <div className="sperate__line_bottom" />
           <TransactionConfirmation confirmation={confirmation} capacity={handleCapacityChange(transaction, address)} />
         </>
       )}

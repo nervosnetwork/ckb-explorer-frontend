@@ -2,24 +2,31 @@ import styled from 'styled-components'
 
 export const TransactionPanel = styled.div`
   width: 100%;
-  /* overflow-x: auto; */
   margin-top: 5px;
-
-  /* background: white;
-  border: 0px solid white;
-  border-radius: 6px;
-  box-shadow: 0px 5px 9px #dfdfdf; */
   border-radius: 0px 0px 0px 0px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
-
-  /* > div { */
-  /* width: 1200px; */
-  /* margin: 0 auto; */
   padding: 20px 40px 20px 40px;
   display: flex;
   flex-direction: column;
-  /* } */
+
+  /* common */
+  font-family: Montserrat;
+
+  .sperate__line_top {
+    width: 100%;
+    height: 1px;
+    margin-top: 20px;
+    background: #dfdfdf;
+  }
+
+  .sperate__line_bottom {
+    width: 100%;
+    height: 1px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background: #dfdfdf;
+  }
 `
 
 export const TransactionsReward = styled.div`
@@ -39,18 +46,6 @@ export const TransactionsReward = styled.div`
     margin-left: 15px;
   }
 `
-interface SeparationLineProps {
-  marginTop?: string
-  marginBottom?: string
-}
-
-export const SeparationLine = styled.span`
-  width: 100%;
-  height: 1px;
-  margin-top: ${({ marginTop }: SeparationLineProps) => marginTop || '0px'};
-  margin-bottom: ${({ marginBottom }: SeparationLineProps) => marginBottom || '0px'};
-  background: rgb(233, 233, 233);
-`
 
 export const TransactionHashBlockPanel = styled.div`
   width: 100%;
@@ -60,17 +55,19 @@ export const TransactionHashBlockPanel = styled.div`
 
   .transaction_item__hash {
     font-size: 16px;
-    color: rgb(75, 188, 142);
+    color: #3cc68a;
+    font-weight: 500;
   }
 
   .transaction_item__block {
     font-size: 16px;
-    color: rgb(136, 136, 136);
+    font-weight: 500;
+    color: #000000;
   }
 `
 
 export const TransactionInputOutputPanel = styled.div`
-  margin-top: 30px;
+  margin-top: 20px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
