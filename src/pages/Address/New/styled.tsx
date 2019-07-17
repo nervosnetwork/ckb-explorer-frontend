@@ -29,8 +29,8 @@ export const AddressHashPanel = styled.div`
     margin-left: 40px;
     font-family: Montserrat;
     font-size: 30px;
-    font-weight: 600;
-    color: #606060;
+    font-weight: 500;
+    color: #000000;
     height: 36px;
   }
 
@@ -38,9 +38,8 @@ export const AddressHashPanel = styled.div`
     margin-left: 20px;
     font-family: Montserrat;
     font-size: 20px;
-    font-weight: 600;
-    color: #606060;
-    height: 26px;
+    color: #000000;
+    height: 24px;
   }
 
   .address__copy_iocn {
@@ -66,10 +65,10 @@ export const AddressTitlePanel = styled.div`
 
   margin-top: 20px;
 
-  color: #888888;
+  color: #000000;
   font-family: Montserrat;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1;
   text-align: center;
 `
@@ -84,7 +83,7 @@ export const AddressOverviewPanel = styled.div`
 
   .address_overview__lock_script_title {
     margin-top: 10px;
-    color: #888888;
+    color: #000000;
     font-family: Montserrat;
     font-size: 16px;
     font-weight: 500;
@@ -100,12 +99,12 @@ export const AddressOverviewContentPanel = styled.div`
   > span {
     width: 1px;
     height: ${`${2 * 40 - 20}px`};
-    background: #dfdfdf;
+    background: #e2e2e2;
     margin: 10px 0px 10px 0px;
   }
 
   .address_overview_content__left_items {
-    margin-right: 40px;
+    margin-right: 45px;
     flex: 1;
   }
 
@@ -114,7 +113,7 @@ export const AddressOverviewContentPanel = styled.div`
     flex: 1;
     flex-direction: column;
     align-items: flex-start;
-    margin-left: 40px;
+    margin-left: 45px;
   }
 `
 
@@ -126,7 +125,7 @@ export const AddressOverviewItemPanel = styled.div`
   width: 100%;
 
   .address_overview_item__title {
-    color: #888888;
+    color: #000000;
     font-family: Montserrat;
     font-size: 16px;
     font-weight: 500;
@@ -135,8 +134,7 @@ export const AddressOverviewItemPanel = styled.div`
   .address_overview_item__value {
     font-family: Montserrat;
     font-size: 16px;
-    font-weight: 500;
-    color: #606060;
+    color: #000000;
     margin-left: 15px;
   }
 `
@@ -146,7 +144,6 @@ export const AddressLockScriptItemPanel = styled.div`
   flex-direction: row;
   align-items: center;
   align-items: flex-start;
-  /* height: 28px; */
   margin-top: 10px;
 
   .address_lock_script__title {
@@ -160,18 +157,16 @@ export const AddressLockScriptItemPanel = styled.div`
       font-family: Montserrat;
       font-size: 16px;
       font-weight: 500;
-      color: #888888;
+      color: #000000;
     }
   }
 
   .address_lock_script__content {
-    /* background: red; */
     flex: 1;
     margin-left: 20px;
     font-family: Montserrat;
     font-size: 16px;
-    font-weight: 500;
-    color: #606060;
+    color: #000000;
     display: flex;
     flex-direction: column;
   }
