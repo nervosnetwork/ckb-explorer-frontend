@@ -6,7 +6,7 @@ export const HomeHeaderPanel = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 70px 0px;
+  padding: 40px 0px;
 
   .blockchain__item__container {
     display: flex;
@@ -46,29 +46,29 @@ export const HomeHeaderPanel = styled.div`
 export const HomeHeaderItemPanel = styled.div`
   width: 285px;
   height: 180px;
-  margin: 10px 0px;
+  margin: 0px 0px;
   display: flex;
   flex-direction: column;
-  item-align: center;
+  align-items: center;
   background-color: white;
   border: 0px solid white;
   border-radius: 6px;
-  box-shadow: 4px 4px 6px #dfdfdf;
+  box-shadow: 2px 2px 4px #b3b3b3;
 
   .blockchain__item__value {
-    color: #3cc68a;
+    color: #000000;
     text-align: center;
     font-size: 26px;
-    font-weight: 450;
+    font-weight: 500;
     margin-top: 60px;
   }
 
   .blockchain__item__name {
-    color: #888888;
+    color: #000000;
     text-align: center;
     font-size: 16px;
     margin-top: 12px;
-    font-weight: 450;
+    font-weight: normal;
   }
 
   .blockchain__item__tip {
@@ -90,8 +90,10 @@ export const HomeHeaderItemPanel = styled.div`
     width: 285px;
     height: 41px;
     text-align: center;
+    font-family: Montserrat;
+    font-weight: 500;
     line-height: 41px;
-    color: white;
+    color: #ffffff;
     font-size: 12px;
   }
 
@@ -100,7 +102,7 @@ export const HomeHeaderItemPanel = styled.div`
     height: 80px;
     display: flex;
     flex-direction: column;
-    item-align: center;
+    align-items: center;
     background-color: white;
     border: 0px solid white;
     border-radius: 6px;
@@ -232,7 +234,7 @@ export const TableMorePanel = styled.div`
     > div {
       height: 14px;
       display: flex;
-      item-align: center;
+      align-items: center;
 
       > img {
         width: auto;

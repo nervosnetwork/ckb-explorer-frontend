@@ -10,6 +10,7 @@ export const TableTitleRow = styled.div`
   height: 65px;
   width: 1200px;
   border-radius: 6px 6px 0px 0px;
+  padding-right: 12px;
 `
 
 const TableTitleRowItem = styled.div`
@@ -17,38 +18,35 @@ const TableTitleRowItem = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 240px;
+  width: ${({ width }: { width: string }) => `${width}`};
   height: 65px;
-
-  > img {
-    width: 23px;
-    height: 23px;
-  }
 
   > div {
     color: white;
     font-size: 20px;
     font-weight: 450;
+    text-align: center;
     margin-left: 10px;
   }
+`
+
+export const DivideLine = styled.div`
+  position: relative;
+  width: 95%;
+  height: 1px;
+  left: 30px;
+  background: #d8d8d8;
 `
 
 export const TableContentRow = styled.div`
   display: flex;
   width: 1200px;
-  &:nth-child(odd) {
-    background-color: transparent;
-  }
-  &:nth-child(even) {
-    background-color: white;
-  }
-  &:hover {
-    // background-color: transparent;
-  }
+  background-color: white;
+  padding-right: 12px;
 `
 
 const TableContentRowItem = styled.div`
-  width: 240px;
+  width: ${({ width }: { width: string }) => `${width}`};
   height: 65px;
   color: #888888;
   font-weight: 450;
@@ -57,11 +55,13 @@ const TableContentRowItem = styled.div`
   justify-content: center;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
+  font-family: Montserrat;
 `
 
 const TableMinerContentPanel = styled.div`
   height: 65px;
-  width: 240px;
+  width: ${({ width }: { width: string }) => `${width}`};
 
   .table__miner__content {
     line-height: 65px;
@@ -88,23 +88,22 @@ const TableMinerContentPanel = styled.div`
   }
 `
 
-export const TableTitleItem = ({ image, title }: { image: string; title: string }) => {
+export const TableTitleItem = ({ width, title }: { width: string; title: string }) => {
   return (
-    <TableTitleRowItem>
-      <img src={image} alt={title} />
+    <TableTitleRowItem width={width}>
       <div>{title}</div>
     </TableTitleRowItem>
   )
 }
 
-export const TableContentItem = ({ content, to }: { content: string; to?: any }) => {
+export const TableContentItem = ({ width, content, to }: { width: string; content: string; to?: any }) => {
   const highLightStyle = {
     color: '#4BBC8E',
     textDecoration: 'none',
   }
   const highLight = to !== undefined
   return (
-    <TableContentRowItem>
+    <TableContentRowItem width={width}>
       {highLight ? (
         <Link style={highLightStyle} to={to}>
           {content}
@@ -116,12 +115,12 @@ export const TableContentItem = ({ content, to }: { content: string; to?: any })
   )
 }
 
-export const TableMinerContentItem = ({ content }: { content: string }) => {
+export const TableMinerContentItem = ({ width, content }: { width: string; content: string }) => {
   return (
-    <TableMinerContentPanel>
+    <TableMinerContentPanel width={width}>
       {content ? (
         <Link className="table__miner__content" to={`/address/${content}`}>
-          <code className="table__miner__text">{content && startEndEllipsis(content)}</code>
+          <code className="table__miner__text">{content && startEndEllipsis(content, 20)}</code>
         </Link>
       ) : (
         <div className="table__miner__text__disable">{i18n.t('address.unable_decode_address')}</div>
