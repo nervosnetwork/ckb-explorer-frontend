@@ -13,8 +13,8 @@ const menus = [
     url: 'https://github.com/nervosnetwork/neuron',
   },
   {
-    name: i18n.t('navbar.docs'),
-    url: 'https://docs.nervos.org/',
+    name: i18n.t('navbar.charts'),
+    url: '/charts',
   },
 ]
 
@@ -37,19 +37,12 @@ export default ({ search = true }: { search?: boolean }) => {
               <img className="header__logo__img" src={logoIcon} alt="logo" />
             </Link>
             <div className="header__menus">
-              {menus.map((menu: any) => {
-                return (
-                  <a
-                    key={menu.name}
-                    className="header__menus__item"
-                    href={menu.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {menu.name}
-                  </a>
-                )
-              })}
+              <a className="header__menus__item" href={menus[0].url} target="_blank" rel="noopener noreferrer">
+                {menus[0].name}
+              </a>
+              <Link className="header__menus__item" to={menus[1].url}>
+                {menus[1].name}
+              </Link>
             </div>
             {search && (
               <div className="header__search">
@@ -78,19 +71,12 @@ export default ({ search = true }: { search?: boolean }) => {
           <img className="header__logo__img" src={logoIcon} alt="logo" />
         </Link>
         <div className="header__menus">
-          {menus.map((menu: any) => {
-            return (
-              <a
-                key={menu.name}
-                className="header__menus__item"
-                href={menu.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {menu.name}
-              </a>
-            )
-          })}
+          <a className="header__menus__item" href={menus[0].url} target="_blank" rel="noopener noreferrer">
+            {menus[0].name}
+          </a>
+          <Link className="header__menus__item" to={menus[1].url}>
+            {menus[1].name}
+          </Link>
         </div>
         {search && (
           <div className="header__search">

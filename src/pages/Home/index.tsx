@@ -28,15 +28,22 @@ import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
 import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
+import browserHistory from '../../routes/history'
 
-const BlockchainItem = ({ name, value, tip }: { name: string; value: string; tip?: string }) => {
+const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   return (
-    <HomeHeaderItemPanel>
-      <div className="blockchain__item__value">{value}</div>
-      <div className="blockchain__item__name">{`${name}`}</div>
-      {tip && (
+    <HomeHeaderItemPanel
+      clickable={!!blockchain.clickable}
+      onKeyPress={() => {}}
+      onClick={() => {
+        if (blockchain.clickable) browserHistory.push('./charts')
+      }}
+    >
+      <div className="blockchain__item__value">{blockchain.value}</div>
+      <div className="blockchain__item__name">{blockchain.name}</div>
+      {blockchain.tip && (
         <div className="blockchain__item__tip">
-          <div className="blockchain__item__tip__content">{tip}</div>
+          <div className="blockchain__item__tip__content">{blockchain.tip}</div>
         </div>
       )}
     </HomeHeaderItemPanel>
@@ -61,6 +68,7 @@ interface BlockchainData {
   name: string
   value: string
   tip: string
+  clickable?: boolean
 }
 
 const initStatistics: Statistics = {
@@ -116,11 +124,13 @@ export default () => {
       name: t('block.difficulty'),
       value: `${parseInt(`${statistics.current_epoch_difficulty}`, 10).toLocaleString()}`,
       tip: t('blockchain.difficulty_tooltip'),
+      clickable: true,
     },
     {
       name: t('blockchain.hash_rate'),
       value: `${parseInt((Number(statistics.hash_rate) * 1000).toFixed(), 10).toLocaleString()} gps`,
       tip: t('blockchain.hash_rate_tooltip'),
+      clickable: true,
     },
     {
       name: t('blockchain.average_block_time'),
@@ -134,7 +144,7 @@ export default () => {
       <HomeHeaderPanel>
         <div className="blockchain__item__container">
           {BlockchainDatas.map((data: BlockchainData) => {
-            return <BlockchainItem name={data.name} value={data.value} tip={data.tip} key={data.name} />
+            return <BlockchainItem blockchain={data} key={data.name} />
           })}
         </div>
       </HomeHeaderPanel>

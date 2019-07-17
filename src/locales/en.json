@@ -11,6 +11,7 @@
     },
     "navbar": {
       "wallet": "Wallet",
+      "charts": "Charts",
       "docs": "Docs",
       "search_placeholder": "Block / Transaction / Address",
       "network": "TESTNET",
