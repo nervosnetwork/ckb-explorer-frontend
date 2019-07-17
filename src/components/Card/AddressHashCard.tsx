@@ -13,10 +13,9 @@ const AddressHashCardPanel = styled.div`
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
   height: 80px;
-  padding: 0px 0px 24px 0px;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
 
   @media (max-width: 700px) {
     height: 50px;
@@ -46,6 +45,7 @@ const AddressHashCardPanel = styled.div`
     font-size: 20px;
     color: #000000;
     height: 24px;
+    transform: translateY(4px);
 
     @media (max-width: 700px) {
       font-size: 14px;
@@ -56,14 +56,13 @@ const AddressHashCardPanel = styled.div`
   }
 
   .address_hash__copy_iocn {
-    width: 21px;
-    height: 24px;
     cursor: pointer;
     margin-left: 20px;
+    transform: translateY(8px);
 
     > img {
-      width: 100%;
-      height: 100%;
+      width: 21px;
+      height: 24px;
     }
 
     @media (max-width: 700px) {
