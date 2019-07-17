@@ -50,7 +50,7 @@ export default () => {
                   <Route path="/transaction/:hash" exact component={Transaction} />
                   <Route path="/address/:address" exact component={Address} />
                   <Route path="/lockhash/:hash" exact component={Address} />
-                  <Route path="/chart/" exact component={StatisticsChart} />
+                  <Route path="/charts/" exact component={StatisticsChart} />
                   <Route path="/search/fail" exact component={SearchFail} />
                   <Route path="/maintain" exact component={Maintain} />
                   <Route path="/404" exact component={NotFoundPage} />
