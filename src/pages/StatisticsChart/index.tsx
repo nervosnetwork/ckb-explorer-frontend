@@ -6,7 +6,8 @@ import { fetchStatisticsChart } from '../../http/fetcher'
 import { StatisticsChartWrapper } from '../../http/response/StatisticsChart'
 
 const ChartPanel = styled.div`
-  margin: 30px 10% 30px 10%;
+  margin: 20px 10% 30px 10%;
+  background: white;
 `
 
 interface StatisticsData {
@@ -19,8 +20,8 @@ const scale = {
   difficulty: {
     min: 0,
   },
-  waiting: {
-    hash_rate: 0,
+  hashRate: {
+    min: 0,
   },
 }
 
@@ -45,10 +46,20 @@ export default () => {
   return (
     <Content>
       <ChartPanel>
-        <Chart height={window.innerHeight} scale={scale} forceFit data={statisticsDatas} padding={[50, 100, 100, 50]}>
+        <Chart
+          height={window.innerHeight * 0.8}
+          scale={scale}
+          forceFit
+          data={statisticsDatas}
+          padding={[50, 150, 100, 150]}
+        >
           <Legend
             custom
             allowAllCanceled
+            textStyle={{
+              fontSize: '15',
+              fontWeight: 'bold',
+            }}
             items={[
               {
                 value: 'Difficulty',
@@ -62,7 +73,7 @@ export default () => {
                 value: 'Hash Rate',
                 marker: {
                   symbol: 'hyphen',
-                  stroke: '#ffae6b',
+                  stroke: '#66CC99',
                   radius: 5,
                   lineWidth: 3,
                 },
@@ -70,11 +81,22 @@ export default () => {
             ]}
           />
           <Axis
-            name="Difficulty"
+            name="difficulty"
             grid={null}
             label={{
               textStyle: {
-                fill: '#fdae6b',
+                fill: '#3182bd',
+                fontWeight: 'bold',
+              },
+            }}
+          />
+          <Axis
+            name="hashRate"
+            grid={null}
+            label={{
+              textStyle: {
+                fill: '#66CC99',
+                fontWeight: 'bold',
               },
             }}
           />
@@ -82,8 +104,8 @@ export default () => {
           <Geom type="line" position="blockNumber*difficulty" color="#3182bd" size={3} shape="line" />
           <Geom type="point" position="blockNumber*difficulty" color="#3182bd" size={3} shape="circle" />
 
-          <Geom type="line" position="blockNumber*hashRate" color="#fdae6b" size={3} shape="line" />
-          <Geom type="point" position="blockNumber*hashRate" color="#fdae6b" size={3} shape="circle" />
+          <Geom type="line" position="blockNumber*hashRate" color="#66CC99" size={3} shape="line" />
+          <Geom type="point" position="blockNumber*hashRate" color="#66CC99" size={3} shape="circle" />
         </Chart>
       </ChartPanel>
     </Content>
