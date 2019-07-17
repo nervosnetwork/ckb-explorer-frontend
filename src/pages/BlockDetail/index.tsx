@@ -246,12 +246,11 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
     },
   })
   fetchBlock(`${blockNumber + 1}`)
-    .then(response => {
-      const { data } = response as Response.Response<Response.Wrapper<State.Block>>
+    .then((wrapper: Response.Wrapper<State.Block>) => {
       dispatch({
         type: Actions.next,
         payload: {
-          next: data.attributes.number > 0,
+          next: wrapper ? wrapper.attributes.number > 0 : false,
         },
       })
     })
@@ -268,17 +267,20 @@ const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
 // blockParam: block hash or block number
 const getBlock = (blockParam: string, page: number, size: number, dispatch: any, replace: any) => {
   fetchBlock(blockParam)
-    .then(response => {
-      const { data } = response as Response.Response<Response.Wrapper<State.Block>>
-      const block = data.attributes as State.Block
-      dispatch({
-        type: Actions.block,
-        payload: {
-          block,
-        },
-      })
-      updateBlockPrevNext(block.number, dispatch)
-      getTransactions(block.block_hash, page, size, dispatch)
+    .then((wrapper: Response.Wrapper<State.Block>) => {
+      if (wrapper) {
+        const block = wrapper.attributes
+        dispatch({
+          type: Actions.block,
+          payload: {
+            block,
+          },
+        })
+        updateBlockPrevNext(block.number, dispatch)
+        getTransactions(block.block_hash, page, size, dispatch)
+      } else {
+        replace(`/search/fail?q=${blockParam}`)
+      }
     })
     .catch(() => {
       replace(`/search/fail?q=${blockParam}`)

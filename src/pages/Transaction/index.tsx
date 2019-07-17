@@ -88,13 +88,16 @@ const initTransaction: State.Transaction = {
 
 const getTransaction = (hash: string, setTransaction: any, replace: any) => {
   fetchTransactionByHash(hash)
-    .then(response => {
-      const { data } = response as Response.Response<Response.Wrapper<State.Transaction>>
-      const transactionValue = data.attributes as State.Transaction
-      if (transactionValue.display_outputs && transactionValue.display_outputs.length > 0) {
-        transactionValue.display_outputs[0].isGenesisOutput = transactionValue.block_number === 0
+    .then((wrapper: Response.Wrapper<State.Transaction>) => {
+      if (wrapper) {
+        const transactionValue = wrapper.attributes
+        if (transactionValue.display_outputs && transactionValue.display_outputs.length > 0) {
+          transactionValue.display_outputs[0].isGenesisOutput = transactionValue.block_number === 0
+        }
+        setTransaction(transactionValue)
+      } else {
+        replace(`/search/fail?q=${hash}`)
       }
-      setTransaction(transactionValue)
     })
     .catch(() => {
       replace(`/search/fail?q=${hash}`)
@@ -102,10 +105,9 @@ const getTransaction = (hash: string, setTransaction: any, replace: any) => {
 }
 
 const getTipBlockNumber = (setTipBlockNumber: any) => {
-  fetchTipBlockNumber().then(response => {
-    const { data } = response as Response.Response<Response.Wrapper<State.Statistics>>
-    if (data) {
-      setTipBlockNumber(parseInt(data.attributes.tip_block_number, 10))
+  fetchTipBlockNumber().then((wrapper: Response.Wrapper<State.Statistics>) => {
+    if (wrapper) {
+      setTipBlockNumber(parseInt(wrapper.attributes.tip_block_number, 10))
     }
   })
 }

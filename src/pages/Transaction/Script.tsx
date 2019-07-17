@@ -104,24 +104,22 @@ const ScriptComponent = ({ cellType, cell }: { cellType: CellType; cell: State.I
     if (cell.from_cellbase) return
     switch (getCellState(state, item)) {
       case CellState.LOCK:
-        fetchScript(cellType, 'lock_scripts', `${cell.id}`).then(response => {
-          const { data } = response as Response.Response<Response.Wrapper<State.Script>>
+        fetchScript(cellType, 'lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
           handleCellState(item)
-          showScriptContent(data ? data.attributes : initScriptContent.lock)
+          showScriptContent(wrapper ? wrapper.attributes : initScriptContent.lock)
         })
         break
       case CellState.TYPE:
-        fetchScript(cellType, 'type_scripts', `${cell.id}`).then(response => {
-          const { data } = response as Response.Response<Response.Wrapper<State.Script>>
+        fetchScript(cellType, 'type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
           handleCellState(item)
-          showScriptContent(data ? data.attributes : initScriptContent.type)
+          showScriptContent(wrapper ? wrapper.attributes : initScriptContent.type)
         })
         break
       case CellState.DATA:
-        fetchCellData(cellType, `${cell.id}`).then((data: State.Data) => {
-          const dataValue = data
-          if (data && cell.isGenesisOutput) {
-            dataValue.data = hexToUtf8(data.data.substr(2))
+        fetchCellData(cellType, `${cell.id}`).then((wrapper: Response.Wrapper<State.Data>) => {
+          const dataValue: State.Data = wrapper.attributes
+          if (wrapper && cell.isGenesisOutput) {
+            dataValue.data = hexToUtf8(wrapper.attributes.data.substr(2))
           }
           handleCellState(item)
           showScriptContent(dataValue || initScriptContent.data)

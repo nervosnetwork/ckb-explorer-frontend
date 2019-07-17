@@ -159,13 +159,12 @@ const reducer = (state: any, action: any) => {
 }
 
 const getAddressInfo = (hash: string, dispatch: any) => {
-  fetchAddressInfo(hash).then(response => {
-    const { data } = response as Response.Response<Response.Wrapper<State.Address>>
-    if (data) {
+  fetchAddressInfo(hash).then((wrapper: Response.Wrapper<State.Address>) => {
+    if (wrapper) {
       dispatch({
         type: Actions.address,
         payload: {
-          address: data.attributes,
+          address: wrapper.attributes,
         },
       })
     }
@@ -195,13 +194,12 @@ const getTransactions = (hash: string, page: number, size: number, dispatch: any
 }
 
 const getTipBlockNumber = (dispatch: any) => {
-  fetchTipBlockNumber().then(response => {
-    const { data } = response as Response.Response<Response.Wrapper<State.Statistics>>
-    if (data) {
+  fetchTipBlockNumber().then((wrapper: Response.Wrapper<State.Statistics>) => {
+    if (wrapper) {
       dispatch({
         type: Actions.tipBlockNumber,
         payload: {
-          tipBlockNumber: parseInt(data.attributes.tip_block_number, 10),
+          tipBlockNumber: parseInt(wrapper.attributes.tip_block_number, 10),
         },
       })
     }
