@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
+import styled from 'styled-components'
 import CopyIcon from '../../assets/copy.png'
 import AppContext from '../../contexts/App'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
 import { startEndEllipsis } from '../../utils/string'
 import { copyElementValue } from '../../utils/util'
-import styled from 'styled-components'
 
 const AddressHashCardPanel = styled.div`
   width: 100%;
