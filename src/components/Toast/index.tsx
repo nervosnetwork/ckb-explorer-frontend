@@ -50,12 +50,10 @@ const ToastItemDiv = styled.div`
 `
 const ToastItem = ({
   data,
-  style,
   disappearDuration,
   willLeave,
 }: {
   data: any
-  style: object
   disappearDuration?: number
   willLeave: Function
 }) => {
@@ -89,7 +87,6 @@ const ToastItem = ({
     <ToastItemDiv
       key={`toast${data.id}`}
       style={{
-        ...style,
         opacity,
       }}
     >
@@ -122,7 +119,7 @@ const reducer = (state: any, action: any) => {
   }
 }
 
-export default ({ style }: { style: object }) => {
+export default () => {
   const appContext = useContext(AppContext)
   const { toast } = appContext
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -154,7 +151,6 @@ export default ({ style }: { style: object }) => {
               }}
               key={item.id}
               data={item}
-              style={style}
             />
           )
         })}

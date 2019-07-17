@@ -17,11 +17,7 @@ const App = () => {
   return (
     <AppDiv>
       <Routers />
-      <Toast
-        style={{
-          bottom: 10,
-        }}
-      />
+      <Toast />
     </AppDiv>
   )
 }

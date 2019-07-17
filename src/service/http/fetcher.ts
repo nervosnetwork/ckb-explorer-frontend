@@ -39,7 +39,7 @@ export const fetchBlockList = (page: number, size: number) => {
 }
 
 export const fetchAddressInfo = (address: string) => {
-  return axiosIns.get(`addresses/${address}`).then((res: AxiosResponse) => res.data)
+  return axiosIns.get(`addresses/${address}`).then((res: AxiosResponse) => res.data.data)
 }
 
 export const fetchTransactionsByAddress = (address: string, page: number, page_size: number) => {
@@ -54,7 +54,7 @@ export const fetchTransactionsByAddress = (address: string, page: number, page_s
 }
 
 export const fetchTransactionByHash = (hash: string) => {
-  return axiosIns.get(`transactions/${hash}`).then((res: AxiosResponse) => res.data)
+  return axiosIns.get(`transactions/${hash}`).then((res: AxiosResponse) => res.data.data)
 }
 
 export const fetchTransactionsByBlockHash = (blockHash: string, page: number, page_size: number) => {
@@ -70,31 +70,15 @@ export const fetchTransactionsByBlockHash = (blockHash: string, page: number, pa
 
 // blockParam: block hash or block number
 export const fetchBlock = (blockParam: string) => {
-  return axiosIns.get(`blocks/${blockParam}`).then((res: AxiosResponse) => res.data)
+  return axiosIns.get(`blocks/${blockParam}`).then((res: AxiosResponse) => res.data.data)
 }
 
 export const fetchScript = (cell_type: CellType, script_type: 'lock_scripts' | 'type_scripts', id: string) => {
-  return axiosIns.get(`/cell_${cell_type}_${script_type}/${id}`).then((res: AxiosResponse) => res.data.data.attributes)
+  return axiosIns.get(`/cell_${cell_type}_${script_type}/${id}`).then((res: AxiosResponse) => res.data.data)
 }
 
 export const fetchCellData = (type: CellType, id: string) => {
-  return axiosIns.get(`/cell_${type}_data/${id}`).then((res: AxiosResponse) => res.data.data.attributes)
-}
-
-export const fetchTransactionsByBlockHeight = (height: number) => {
-  return axiosIns.get(`block_transactions/${height}`).then((res: AxiosResponse) => res.data)
-}
-
-export const fetchCells = (id: number, cellType: CellType, dataType: DataType) => {
-  return axiosIns
-    .get('block_transactions', {
-      params: {
-        id: `${id}`,
-        cell_type: cellType,
-        data_type: dataType,
-      },
-    })
-    .then((res: AxiosResponse) => res.data)
+  return axiosIns.get(`/cell_${type}_data/${id}`).then((res: AxiosResponse) => res.data.data)
 }
 
 export const fetchSearchResult = (param: string) => {
@@ -108,7 +92,7 @@ export const fetchSearchResult = (param: string) => {
 }
 
 export const fetchStatistics = () => {
-  return axiosIns.get('statistics').then((res: AxiosResponse) => res.data)
+  return axiosIns.get('statistics').then((res: AxiosResponse) => res.data.data)
 }
 
 export const fetchStatisticInfo = (infoName: string) => {
@@ -116,9 +100,9 @@ export const fetchStatisticInfo = (infoName: string) => {
 }
 
 export const fetchTipBlockNumber = () => {
-  return fetchStatisticInfo('tip_block_number')
+  return fetchStatisticInfo('tip_block_number').then(wrapper => wrapper.data)
 }
 
 export const fetchBlockchainInfo = () => {
-  return fetchStatisticInfo('blockchain_info').then((res: AxiosResponse) => res.data)
+  return fetchStatisticInfo('blockchain_info').then(wrapper => wrapper.data)
 }

@@ -48,9 +48,10 @@ const getLatestBlocks = (setBlocksWrappers: any) => {
 }
 
 const getStatistics = (setStatistics: any) => {
-  fetchStatistics().then(response => {
-    const { data } = response as Response.Response<Response.Wrapper<State.Statistics>>
-    setStatistics(data.attributes)
+  fetchStatistics().then((wrapper: Response.Wrapper<State.Statistics>) => {
+    if (wrapper) {
+      setStatistics(wrapper.attributes)
+    }
   })
 }
 
