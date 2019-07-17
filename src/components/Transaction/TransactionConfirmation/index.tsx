@@ -7,11 +7,9 @@ export default ({ confirmation, capacity }: { confirmation?: number; capacity: n
   return (
     <TransactiomConfirmationContainer increased={capacity >= 0}>
       <div className="transaction_item__confirmation">
-        <div className="transaction_item__confirmation_right" />
         <div className="transaction_item__confirmation_value">
           <span>{confirmation && formatConfirmation(confirmation)}</span>
         </div>
-        <div className="transaction_item__confirmation_left" />
       </div>
       <div className="transaction_item__capacity">
         <div className="transaction_item__capacity_left" />

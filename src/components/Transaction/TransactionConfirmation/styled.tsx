@@ -15,29 +15,20 @@ export default styled.div`
     flex: 1;
     padding-right: 20px;
 
-    > div {
-      float: right;
-    }
-    .transaction_item__confirmation_left {
-      border: 20px solid #f7f7f7;
-      background: white;
-      border-left: 10px solid transparent;
-    }
     .transaction_item__confirmation_value {
-      min-width: 200px;
+      min-width: 280px;
       height: 40px;
-      background: #f7f7f7;
+      background: white;
       align-items: center;
       display: flex;
       color: #000000;
+      border: 20px solid #f7f7f7;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      float: right;
       > span {
         width: 100%;
       }
-    }
-    .transaction_item__confirmation_right {
-      border: 20px solid #f7f7f7;
-      border-right: 10px solid transparent;
-      background: white;
     }
   }
 
