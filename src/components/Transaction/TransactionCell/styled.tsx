@@ -9,8 +9,8 @@ export const TransactionCellPanel = styled.div`
   .transaction__cell_address {
     color: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '#3cc68a' : '#000000')};
     font-size: 16px;
-    font-family: monospace;
-    font-weight: 600;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
+    font-weight: 500;
   }
 
   .transaction__cell_capacity {
