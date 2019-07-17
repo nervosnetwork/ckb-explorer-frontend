@@ -260,7 +260,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                     transaction={transaction.attributes}
                     confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
                     key={transaction.attributes.transaction_hash}
-                    isEndItem={index === state.transactions.length - 1}
+                    isLastItem={index === state.transactions.length - 1}
                   />
                 ))
               )
