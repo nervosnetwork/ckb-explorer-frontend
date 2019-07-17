@@ -206,22 +206,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   const { search } = location
   const parsed = queryString.parse(search)
   const { replace } = history
+
   const page = parsePageNumber(parsed.page, PageParams.PageNo)
   const size = parsePageNumber(parsed.size, PageParams.PageSize)
+
   const [state, dispatch] = useReducer(reducer, initialState)
-
-  useEffect(() => {
-    if (size > PageParams.MaxPageSize) {
-      replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${page}&size=${PageParams.MaxPageSize}`)
-    }
-    getAddressInfo(identityHash, dispatch)
-    getTransactions(identityHash, page, size, dispatch)
-    getTipBlockNumber(dispatch)
-  }, [replace, identityHash, page, size, dispatch, address])
-
-  const onChange = (pageNo: number, pageSize: number) => {
-    replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${pageNo}&size=${pageSize}`)
-  }
 
   const items: OverviewItemData[] = [
     {
@@ -250,6 +239,19 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
       title: i18n.t('address.address'),
       content: addressContent(state.address),
     })
+  }
+
+  useEffect(() => {
+    if (size > PageParams.MaxPageSize) {
+      replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${page}&size=${PageParams.MaxPageSize}`)
+    }
+    getAddressInfo(identityHash, dispatch)
+    getTransactions(identityHash, page, size, dispatch)
+    getTipBlockNumber(dispatch)
+  }, [replace, identityHash, page, size, dispatch, address])
+
+  const onChange = (pageNo: number, pageSize: number) => {
+    replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${pageNo}&size=${pageSize}`)
   }
 
   return (
