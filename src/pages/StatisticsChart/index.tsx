@@ -40,8 +40,8 @@ const LoadingPanel = styled.div`
 
 interface StatisticsData {
   blockNumber: number
-  difficulty: number
-  hashRate: number
+  difficulty?: number
+  hashRate?: number
 }
 
 const scale = {
@@ -69,20 +69,38 @@ export default () => {
 
   useEffect(() => {
     fetchStatisticsChart().then((wrapper: StatisticsChartWrapper) => {
-      if (wrapper) {
-        const { hash_rate: hashRates, difficulty: difficulties } = wrapper.attributes
-        if (hashRates && difficulties) {
-          const length = Math.min(hashRates.length, difficulties.length)
-          const datas: StatisticsData[] = []
-          for (let index = 0; index < length; index++) {
-            datas.push({
-              blockNumber: hashRates[index].block_number,
-              hashRate: Number((Number(hashRates[index].hash_rate) * 1000).toFixed(0)),
-              difficulty: difficulties[index].difficulty,
-            })
-          }
-          setStatisticsDatas(datas)
+      if (!wrapper) return
+      const { hash_rate: hashRates, difficulty: difficulties } = wrapper.attributes
+      if (!hashRates && !difficulties) return
+      if (hashRates && difficulties) {
+        const length = Math.min(hashRates.length, difficulties.length)
+        const datas: StatisticsData[] = []
+        for (let index = 0; index < length; index++) {
+          datas.push({
+            blockNumber: hashRates[index].block_number,
+            hashRate: Number((Number(hashRates[index].hash_rate) * 1000).toFixed(0)),
+            difficulty: difficulties[index].difficulty,
+          })
         }
+        setStatisticsDatas(datas)
+      } else if (hashRates) {
+        setStatisticsDatas(
+          hashRates.map(hashRate => {
+            return {
+              blockNumber: hashRate.block_number,
+              hashRate: Number((Number(hashRate.hash_rate) * 1000).toFixed(0)),
+            }
+          }),
+        )
+      } else {
+        setStatisticsDatas(
+          difficulties.map(difficulty => {
+            return {
+              blockNumber: difficulty.block_number,
+              difficulty: difficulty.difficulty,
+            }
+          }),
+        )
       }
     })
   }, [])
