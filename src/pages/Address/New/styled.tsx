@@ -7,135 +7,11 @@ export const AddressContentPanel = styled.div`
   align-items: center;
   margin-top: 40px;
   margin-bottom: 40px;
+  width: 100%;
 
   @media (max-width: 700px) {
     margin-top: 30px;
-  }
-`
-
-export const AddressHashPanel = styled.div`
-  height: 80px;
-  width: 100%;
-  border-radius: 6px;
-  box-shadow: 2px 2px 6px 0 #dfdfdf;
-  background-color: #ffffff;
-  padding: 0px 0px 24px 0px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-
-  .address__title {
-    margin-left: 40px;
-    font-family: Montserrat;
-    font-size: 30px;
-    font-weight: 500;
-    color: #000000;
-    height: 36px;
-  }
-
-  .address__hash {
-    margin-left: 20px;
-    font-family: Montserrat;
-    font-size: 20px;
-    color: #000000;
-    height: 24px;
-  }
-
-  .address__copy_iocn {
-    width: 21px;
-    height: 24px;
-    cursor: pointer;
-    margin-left: 20px;
-
-    > img {
-      width: 100%;
-      height: 100%;
-    }
-  }
-`
-
-export const AddressTitlePanel = styled.div`
-  width: 100%;
-  height: 50px;
-  padding: 15px 0px;
-  border-radius: 6px 6px 0px 0px;
-  box-shadow: 2px 2px 6px 0 #dfdfdf;
-  background-color: #ffffff;
-
-  margin-top: 20px;
-
-  color: #000000;
-  font-family: Montserrat;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1;
-  text-align: center;
-`
-
-export const AddressOverviewPanel = styled.div`
-  margin-top: 5px;
-  width: 100%;
-  padding: 22px 40px 30px 40px;
-  border-radius: 0px 0px 6px 6px;
-  box-shadow: 2px 2px 6px 0 #dfdfdf;
-  background-color: #ffffff;
-
-  .address_overview__lock_script_title {
-    margin-top: 10px;
-    color: #000000;
-    font-family: Montserrat;
-    font-size: 16px;
-    font-weight: 500;
-  }
-`
-
-export const AddressOverviewContentPanel = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  overflow: auto;
-
-  > span {
-    width: 1px;
-    height: ${`${2 * 40 - 20}px`};
-    background: #e2e2e2;
-    margin: 10px 0px 10px 0px;
-  }
-
-  .address_overview_content__left_items {
-    margin-right: 45px;
-    flex: 1;
-  }
-
-  .address_overview_content__right_items {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-left: 45px;
-  }
-`
-
-export const AddressOverviewItemPanel = styled.div`
-  display: flex;
-  align-items: center;
-  height: 40px;
-  justify-content: space-between;
-  width: 100%;
-
-  .address_overview_item__title {
-    color: #000000;
-    font-family: Montserrat;
-    font-size: 16px;
-    font-weight: 500;
-  }
-
-  .address_overview_item__value {
-    font-family: Montserrat;
-    font-size: 16px;
-    color: #000000;
-    margin-left: 15px;
+    padding: 0px 20px 20px 20px;
   }
 `
 
@@ -174,13 +50,11 @@ export const AddressLockScriptItemPanel = styled.div`
 
 export const AddressTransactionsPanel = styled.div`
   width: 100%;
-  /* overflow-x: auto; */
 `
 
 export const AddressTransactionsPagition = styled(CommonPagition)`
-  margin: 80px 0 150px 0;
+  margin: 40px 0 0px 0;
   width: 100%;
-  /* overflow-x: auto; */
 
   @media (max-width: 700px) {
     margin: 20px 0 30px 3%;
