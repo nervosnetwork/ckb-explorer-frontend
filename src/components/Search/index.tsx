@@ -88,7 +88,7 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
   const inputElement = useRef(null)
 
   const handleSearchResult = () => {
-    const query = searchValue.replace(/^\s+|\s+$/g, '') // remove front and end blank
+    const query = searchValue.replace(/^\s+|\s+$/g, '').replace(',', '') // remove front and end blank and ','
     if (!query) {
       appContext.toastMessage(i18n.t('toast.invalid_content'), 3000)
     } else {
