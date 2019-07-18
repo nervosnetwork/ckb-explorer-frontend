@@ -26,7 +26,6 @@ const AddressHashCardPanel = styled.div`
 
   .address_hash__title {
     margin-left: 40px;
-    font-family: Montserrat;
     font-size: 30px;
     font-weight: 500;
     color: #000000;
@@ -41,7 +40,6 @@ const AddressHashCardPanel = styled.div`
 
   #address_hash__hash {
     margin-left: 20px;
-    font-family: Montserrat;
     font-size: 20px;
     color: #000000;
     height: 24px;

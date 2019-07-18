@@ -52,7 +52,6 @@ export const AddressLockScriptItemPanel = styled.div`
 
     > span {
       margin-left: 10px;
-      font-family: Montserrat;
       font-size: 16px;
       font-weight: 500;
       color: #000000;
@@ -62,7 +61,6 @@ export const AddressLockScriptItemPanel = styled.div`
   .address_lock_script__content {
     flex: 1;
     margin-left: 20px;
-    font-family: Montserrat;
     font-size: 16px;
     color: #000000;
     display: flex;

@@ -10,7 +10,6 @@ const TitleCardPanel = styled.div`
   margin-top: 20px;
   padding: 15px 0px;
   color: #000000;
-  font-family: Montserrat;
   font-size: 20px;
   font-weight: 500;
   line-height: 1;

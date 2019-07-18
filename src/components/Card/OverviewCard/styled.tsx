@@ -11,7 +11,6 @@ export const OverviewCardPanel = styled.div`
 
   /* common */
   color: #000000;
-  font-family: Montserrat;
   font-size: 16px;
 
   @media (max-width: 700px) {
