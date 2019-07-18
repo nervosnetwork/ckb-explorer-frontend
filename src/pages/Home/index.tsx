@@ -12,8 +12,6 @@ import {
   DivideLine,
 } from '../../components/Table'
 import BlockCard from '../../components/Card/BlockCard'
-import MoreLeftIcon from '../../assets/more_left.png'
-import MoreRightIcon from '../../assets/more_right.png'
 import { fetchBlocks, fetchStatistics } from '../../service/http/fetcher'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
@@ -185,11 +183,9 @@ export default () => {
         )}
         <TableMorePanel>
           <div>
-            <img src={MoreLeftIcon} alt="more left" />
             <Link to="/block/list">
               <div className="table__more">{t('home.more')}</div>
             </Link>
-            <img src={MoreRightIcon} alt="more right" />
           </div>
         </TableMorePanel>
       </BlockPanel>

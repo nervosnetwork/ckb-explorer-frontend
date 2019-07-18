@@ -41,13 +41,14 @@ export const DivideLine = styled.div`
 export const TableContentRow = styled.div`
   display: flex;
   width: 1200px;
+  height: 60px;
   background-color: white;
   padding-right: 12px;
 `
 
 const TableContentRowItem = styled.div`
   width: ${({ width }: { width: string }) => `${width}`};
-  height: 65px;
+  height: 60px;
   color: #888888;
   font-weight: 450;
   display: flex;
@@ -60,11 +61,11 @@ const TableContentRowItem = styled.div`
 `
 
 const TableMinerContentPanel = styled.div`
-  height: 65px;
+  height: 60px;
   width: ${({ width }: { width: string }) => `${width}`};
 
   .table__miner__content {
-    line-height: 65px;
+    line-height: 60px;
     color: #4bbc8e;
     text-decoration: none;
   }
@@ -72,7 +73,7 @@ const TableMinerContentPanel = styled.div`
   .table__miner__text {
     display: flex;
     align-items: center;
-    line-height: 65px;
+    line-height: 60px;
     justify-content: center;
     font-size: 16px;
     font-weight: 450;
@@ -81,7 +82,7 @@ const TableMinerContentPanel = styled.div`
   .table__miner__text__disable {
     display: flex;
     align-items: center;
-    line-height: 65px;
+    line-height: 60px;
     justify-content: center;
     font-size: 16px;
     color: #888888;

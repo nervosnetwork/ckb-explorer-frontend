@@ -140,7 +140,10 @@ export const HomeHeaderItemPanel = styled.div`
 
 export const BlockPanel = styled.div`
   width: 100%;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
+  box-shadow: 0px 2px 8px #b3b3b3;
+  border: 0px solid white;
+  border-radius: 6px;
 
   @media (max-width: 700px) {
     margin-bottom: 20px;
@@ -200,29 +203,26 @@ export const ContentTable = styled.div`
 `
 
 export const TableMorePanel = styled.div`
-  height: 78px;
+  height: 65px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   background: white;
+  border: 0px solid white;
+  border-radius: 6px;
 
   > div {
     height: 33px;
     display: flex;
 
-    > img {
-      width: 61px;
-      height: 16px;
-      margin-top: 9px;
-    }
-
     .table__more {
       font-size: 24px;
+      font-weight: 500;
+      font-family: Montserrat;
       color: #3cc68a;
       width: 59px;
       height: 33px;
-      margin: 0 42px 0 42px;
     }
   }
 
@@ -235,12 +235,6 @@ export const TableMorePanel = styled.div`
       height: 14px;
       display: flex;
       align-items: center;
-
-      > img {
-        width: auto;
-        height: 8px;
-        margin-top: 3px;
-      }
 
       .table__more {
         width: auto;
