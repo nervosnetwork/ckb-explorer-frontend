@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import CopyIcon from '../../assets/copy.png'
 import AppContext from '../../contexts/App'
 import i18n from '../../utils/i18n'
-import { isMobile } from '../../utils/screen'
+import { isSmallMobile, isMediumMobile, isLargeMobile } from '../../utils/screen'
 import { startEndEllipsis } from '../../utils/string'
 import { copyElementValue } from '../../utils/util'
 
@@ -73,10 +73,18 @@ const AddressHashCardPanel = styled.div`
 
 export default ({ title, hash }: { title: string; hash: string }) => {
   const appContext = useContext(AppContext)
+  let hashText = hash
+  if (isSmallMobile()) {
+    hashText = startEndEllipsis(hash, 4)
+  } else if (isMediumMobile()) {
+    hashText = startEndEllipsis(hash, 11)
+  } else if (isLargeMobile()) {
+    hashText = startEndEllipsis(hash, 16)
+  }
   return (
     <AddressHashCardPanel>
       <div className="address_hash__title">{title}</div>
-      <div id="address_hash__hash">{isMobile() ? startEndEllipsis(hash, 10) : hash}</div>
+      <div id="address_hash__hash">{hashText}</div>
       <div
         className="address_hash__copy_iocn"
         role="button"
