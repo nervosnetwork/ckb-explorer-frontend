@@ -2,18 +2,22 @@ import styled from 'styled-components'
 
 export default styled.div`
   width: 100%;
-  height: 40px;
   display: flex;
   flex-direction: row;
   align-items: center;
-
   text-align: center;
-  font-size: 16px;
   font-weight: 500;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+  }
 
   .transaction__confirmation {
     flex: 1;
     padding-right: 20px;
+    @media (max-width: 700px) {
+      padding: 0px;
+    }
 
     .transaction__confirmation_value {
       min-width: 280px;
@@ -29,6 +33,14 @@ export default styled.div`
       > span {
         width: 100%;
       }
+
+      @media (max-width: 700px) {
+        min-width: 190px;
+        height: 30px;
+        border: 15px solid #f7f7f7;
+        border-left: 7.5px solid transparent;
+        border-right: 7.5px solid transparent;
+      }
     }
   }
 
@@ -36,16 +48,26 @@ export default styled.div`
     flex: 1;
     padding-left: 20px;
 
+    @media (max-width: 700px) {
+      padding: 0px;
+      margin-top: 10px;
+    }
+
     > div {
       float: left;
     }
     .transaction__capacity_left {
       border: 20px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
-      background: white;
       border-left: 10px solid transparent;
+      background: white;
+
+      @media (max-width: 700px) {
+        border: 15px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
+        border-left: 7.5px solid transparent;
+      }
     }
     .transaction__capacity_value {
-      min-width: 200px;
+      min-width: 220px;
       height: 40px;
       background: ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
       align-items: center;
@@ -54,11 +76,21 @@ export default styled.div`
       > span {
         width: 100%;
       }
+
+      @media (max-width: 700px) {
+        min-width: 130px;
+        height: 30px;
+      }
     }
     .transaction__capacity_right {
       border: 20px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
       border-right: 10px solid transparent;
       background: white;
+
+      @media (max-width: 700px) {
+        border: 15px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
+        border-right: 7.5px solid transparent;
+      }
     }
   }
 `
