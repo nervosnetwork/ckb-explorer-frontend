@@ -23,6 +23,7 @@ const CardPanel = styled.div`
 
 const CardItemPanel = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   margin: 10px 0px 8px 0px;
 
@@ -38,9 +39,19 @@ const CardItemPanel = styled.div`
   }
 
   .card__value {
-    color: ${(props: { highLight: boolean }) => (props.highLight ? '#3CC68A' : '#888888')};
+    color: ${(props: { highLight: boolean; name: string }) => (props.highLight ? '#3CC68A' : '#888888')};
     font-weight: bold;
     font-size: 13px;
+  }
+
+  ::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    top: 125%;
+    background-color: ${(props: { highLight: boolean; name: string }) =>
+      props.name === i18n.t('home.time') ? '#ffffff' : '#f7f7f7'};
   }
 
   @media (max-width: 320px) {
@@ -52,16 +63,6 @@ const CardItemPanel = styled.div`
       font-size: 12px;
     }
   }
-`
-
-const BlockLine = styled.div`
-  position: relative;
-  width: 95%;
-  height: 1px;
-  left: 0px;
-  top: 10px;
-  border-radius: 3px;
-  background-color: #f7f7f7;
 `
 
 const CardItem = ({
@@ -76,7 +77,7 @@ const CardItem = ({
   highLight?: boolean
 }) => {
   return (
-    <CardItemPanel highLight={highLight}>
+    <CardItemPanel highLight={highLight} name={name}>
       <div>{name}</div>
       {to ? (
         <Link to={to} className="card__value__link">
@@ -85,7 +86,6 @@ const CardItem = ({
       ) : (
         <div className="card__value">{value}</div>
       )}
-      <BlockLine hidden={name === i18n.t('home.time')} />
     </CardItemPanel>
   )
 }
