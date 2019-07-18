@@ -34,7 +34,7 @@ export const DivideLine = styled.div`
   position: relative;
   width: 95%;
   height: 1px;
-  left: 30px;
+  left: 2.5%;
   background: #d8d8d8;
 `
 
@@ -57,7 +57,6 @@ const TableContentRowItem = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 16px;
-  font-family: Montserrat;
 `
 
 const TableMinerContentPanel = styled.div`
