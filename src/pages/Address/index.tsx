@@ -1,109 +1,31 @@
-import React, { useReducer, useEffect, useContext } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
-import Pagination from 'rc-pagination'
-import 'rc-pagination/assets/index.css'
-import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
-import AppContext from '../../contexts/App'
+import Pagination from 'rc-pagination'
+import localeInfo from 'rc-pagination/lib/locale/en_US'
+import React, { ReactNode, useEffect, useReducer, useState } from 'react'
+import { RouteComponentProps } from 'react-router-dom'
+import ItemPointIcon from '../../assets/item_point.png'
+import HelpIcon from '../../assets/qa_help.png'
+import AddressHashCard from '../../components/Card/AddressHashCard'
+import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
+import TitleCard from '../../components/Card/TitleCard'
 import Content from '../../components/Content'
+import Tooltip from '../../components/Tooltip'
+import TransactionCard from '../../components/Transaction/TransactionCard/index'
 import TransactionItem from '../../components/Transaction/TransactionItem/index'
-import SimpleLabel, { Tooltip } from '../../components/Label'
+import { fetchAddressInfo, fetchTipBlockNumber, fetchTransactionsByAddress } from '../../service/http/fetcher'
+import i18n from '../../utils/i18n'
+import { localeNumberString } from '../../utils/number'
+import { isMobile } from '../../utils/screen'
+import { parsePageNumber, startEndEllipsis } from '../../utils/string'
+import { shannonToCkb } from '../../utils/util'
 import {
   AddressContentPanel,
-  AddressTitlePanel,
-  AddressOverviewPanel,
-  AddressScriptContentPanel,
-  AddressCommonContent,
-  AddressScriptContent,
-  AddressScriptLabelPanel,
-  AddressTransactionsPanel,
-  AddressCommonRowPanel,
+  AddressLockScriptItemPanel,
+  AddressLockScriptPanel,
+  AddressPendingRewardTitlePanel,
   AddressTransactionsPagition,
-  ScriptLabelItemPanel,
-  ScriptOtherArgs,
+  AddressTransactionsPanel,
 } from './styled'
-import CopyIcon from '../../assets/copy.png'
-import BalanceIcon from '../../assets/address_balance.png'
-import AddressScriptIcon from '../../assets/address_script.png'
-import TransactionsIcon from '../../assets/transactions_green.png'
-import ItemPointIcon from '../../assets/item_point.png'
-import AddressHashIcon from '../../assets/lock_hash_address.png'
-import BlockPendingRewardIcon from '../../assets/block_pending_reward.png'
-
-import { fetchAddressInfo, fetchTransactionsByAddress, fetchTipBlockNumber } from '../../service/http/fetcher'
-import { copyElementValue, shannonToCkb } from '../../utils/util'
-import { parsePageNumber, startEndEllipsis } from '../../utils/string'
-import TransactionCard from '../../components/Transaction/TransactionCard/index'
-import { localeNumberString } from '../../utils/number'
-import i18n from '../../utils/i18n'
-import { isMobile } from '../../utils/screen'
-
-const AddressTitle = ({ address, lockHash }: { address: string; lockHash: string }) => {
-  const appContext = useContext(AppContext)
-  const identityHash = address || lockHash
-  return (
-    <AddressTitlePanel>
-      <div className="address__title">{address ? i18n.t('address.address') : i18n.t('address.lock_hash')}</div>
-      <div className="address__content">
-        <code id="address__hash">{identityHash}</code>
-        <div
-          role="button"
-          tabIndex={-1}
-          onKeyDown={() => {}}
-          onClick={() => {
-            copyElementValue(document.getElementById('address__hash'))
-            appContext.toastMessage(i18n.t('common.copied'), 3000)
-          }}
-        >
-          <img src={CopyIcon} alt="copy" />
-        </div>
-      </div>
-    </AddressTitlePanel>
-  )
-}
-
-const AddressOverview = ({ value }: { value: string }) => {
-  return <AddressOverviewPanel>{value}</AddressOverviewPanel>
-}
-
-const ScriptLabelItem = ({ name, value, noIcon = false }: { name: string; value: string; noIcon?: boolean }) => {
-  return (
-    <ScriptLabelItemPanel>
-      {!noIcon && <img src={ItemPointIcon} alt="item point" />}
-      <div>{name}</div>
-      <code>{value}</code>
-    </ScriptLabelItemPanel>
-  )
-}
-
-const AddressScriptLabel = ({ image, label, script }: { image: string; label: string; script: State.Script }) => {
-  return (
-    <div>
-      <AddressScriptLabelPanel>
-        <img src={image} alt="script" />
-        <span>{label}</span>
-      </AddressScriptLabelPanel>
-      <AddressScriptContentPanel>
-        <AddressScriptContent>
-          <ScriptLabelItem name={`${i18n.t('address.code_hash')} :`} value={script.code_hash} />
-          {script.args.length === 1 ? (
-            <ScriptLabelItem name={`${i18n.t('address.args')} :`} value={script.args[0]} />
-          ) : (
-            script.args.map((arg: string, index: number) => {
-              return index === 0 ? (
-                <ScriptLabelItem name={`${i18n.t('address.args')} :`} value={`#${index}: ${arg}`} />
-              ) : (
-                <ScriptOtherArgs>
-                  <ScriptLabelItem name="" value={`#${index}: ${arg}`} noIcon />
-                </ScriptOtherArgs>
-              )
-            })
-          )}
-        </AddressScriptContent>
-      </AddressScriptContentPanel>
-    </div>
-  )
-}
 
 enum PageParams {
   PageNo = 1,
@@ -206,12 +128,6 @@ const getTipBlockNumber = (dispatch: any) => {
   })
 }
 
-const PendingRewardTooltip: Tooltip = {
-  tip: i18n.t('address.pending_reward_tooltip'),
-  haveHelpIcon: true,
-  offset: 0.7,
-}
-
 const addressContent = (address: State.Address) => {
   const addressText = isMobile() ? startEndEllipsis(address.address_hash, 10) : address.address_hash
   return address.address_hash ? addressText : i18n.t('address.unable_decode_address')
@@ -222,6 +138,62 @@ const initialState = {
   transactions: [] as Response.Wrapper<State.Transaction>[],
   total: 1,
   tipBlockNumber: 0,
+}
+
+const AddressPendingRewardTitle = () => {
+  const [show, setShow] = useState(false)
+  return (
+    <AddressPendingRewardTitlePanel>
+      {`${i18n.t('address.pending_reward')}`}
+      <div
+        className="address__pending_reward_help"
+        tabIndex={-1}
+        onFocus={() => {}}
+        onMouseOver={() => setShow(true)}
+        onMouseLeave={() => setShow(false)}
+      >
+        <img src={HelpIcon} alt="Pending Reward Help" />
+        <Tooltip
+          message={i18n.t('address.pending_reward_tooltip')}
+          show={show}
+          targetSize={{
+            width: 20,
+            height: 30,
+          }}
+        />
+      </div>
+    </AddressPendingRewardTitlePanel>
+  )
+}
+
+const AddressLockScriptItem = ({ title, children }: { title: string; children?: ReactNode }) => {
+  return (
+    <AddressLockScriptItemPanel>
+      <div className="address_lock_script__title">
+        <img src={ItemPointIcon} alt="point" />
+        <span>{title}</span>
+      </div>
+      <div className="address_lock_script__content">{children}</div>
+    </AddressLockScriptItemPanel>
+  )
+}
+
+const AddressLockScript = ({ script }: { script: State.Script }) => {
+  return (
+    <AddressLockScriptPanel>
+      <div className="address__lock_script_title">{`${i18n.t('address.lock_script')} : `}</div>
+      <AddressLockScriptItem title={`${i18n.t('address.code_hash')} :`}>
+        <span>{script.code_hash}</span>
+      </AddressLockScriptItem>
+      <AddressLockScriptItem title={`${i18n.t('address.args')} :`}>
+        {script.args.length === 1 ? (
+          <span>{script.args[0]}</span>
+        ) : (
+          script.args.map((arg: string, index: number) => <span>{`#${index}: ${arg}`}</span>)
+        )}
+      </AddressLockScriptItem>
+    </AddressLockScriptPanel>
+  )
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string; hash: string }>>) => {
@@ -237,6 +209,35 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   const size = parsePageNumber(parsed.size, PageParams.PageSize)
 
   const [state, dispatch] = useReducer(reducer, initialState)
+
+  const items: OverviewItemData[] = [
+    {
+      key: 'balance',
+      title: i18n.t('address.balance'),
+      content: `${localeNumberString(shannonToCkb(state.address.balance))} CKB`,
+    },
+    {
+      key: 'transactions',
+      title: i18n.t('transaction.transactions'),
+      content: localeNumberString(state.address.transactions_count),
+    },
+  ]
+  if (state.address.pending_reward_blocks_count) {
+    items.push({
+      key: 'pending_reward',
+      title: <AddressPendingRewardTitle />,
+      content: `${state.address.pending_reward_blocks_count} ${
+        state.address.pending_reward_blocks_count > 1 ? 'blocks' : 'block'
+      }`,
+    })
+  }
+  if (lockHash && state.address) {
+    items.push({
+      key: 'address',
+      title: i18n.t('address.address'),
+      content: addressContent(state.address),
+    })
+  }
 
   useEffect(() => {
     if (size > PageParams.MaxPageSize) {
@@ -254,69 +255,38 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   return (
     <Content>
       <AddressContentPanel className="container">
-        <AddressTitle address={address} lockHash={lockHash} />
-        <AddressOverview value={i18n.t('common.overview')} />
-        <AddressCommonContent>
-          <AddressCommonRowPanel>
-            <SimpleLabel
-              image={BalanceIcon}
-              label={`${i18n.t('address.balance')} : `}
-              value={`${localeNumberString(shannonToCkb(state.address.balance))} CKB`}
-            />
-            <SimpleLabel
-              image={TransactionsIcon}
-              label={`${i18n.t('transaction.transactions')} : `}
-              value={localeNumberString(state.address.transactions_count)}
-            />
-          </AddressCommonRowPanel>
-          {state.address.pending_reward_blocks_count ? (
-            <SimpleLabel
-              image={BlockPendingRewardIcon}
-              label={`${i18n.t('address.pending_reward')} : `}
-              value={`${state.address.pending_reward_blocks_count} 
-                ${state.address.pending_reward_blocks_count > 1 ? 'blocks' : 'block'}`}
-              tooltip={PendingRewardTooltip}
-            />
-          ) : null}
-          {lockHash && state.address && (
-            <SimpleLabel
-              image={AddressHashIcon}
-              label={`${i18n.t('address.address')} :`}
-              value={addressContent(state.address)}
-            />
-          )}
-          <AddressScriptLabel
-            image={AddressScriptIcon}
-            label={`${i18n.t('address.lock_script')} : `}
-            script={state.address.lock_script}
-          />
-        </AddressCommonContent>
-
+        <AddressHashCard
+          title={address ? i18n.t('address.address') : i18n.t('address.lock_hash')}
+          hash={address || lockHash}
+        />
+        <TitleCard title={i18n.t('common.overview')} />
+        <OverviewCard items={items}>
+          <AddressLockScript script={state.address.lock_script} />
+        </OverviewCard>
+        <TitleCard title={i18n.t('transaction.transactions')} />
         <AddressTransactionsPanel>
-          <AddressOverview value={i18n.t('transaction.transactions')} />
-          <div>
-            {state.transactions &&
-              state.transactions.map((transaction: any) => {
-                return (
-                  transaction &&
-                  (isMobile() ? (
-                    <TransactionCard
-                      address={state.address.address_hash}
-                      confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
-                      transaction={transaction.attributes}
-                      key={transaction.attributes.transaction_hash}
-                    />
-                  ) : (
-                    <TransactionItem
-                      address={state.address.address_hash}
-                      transaction={transaction.attributes}
-                      confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
-                      key={transaction.attributes.transaction_hash}
-                    />
-                  ))
-                )
-              })}
-          </div>
+          {state.transactions &&
+            state.transactions.map((transaction: any, index: number) => {
+              return (
+                transaction &&
+                (isMobile() ? (
+                  <TransactionCard
+                    address={state.address.address_hash}
+                    confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
+                    transaction={transaction.attributes}
+                    key={transaction.attributes.transaction_hash}
+                  />
+                ) : (
+                  <TransactionItem
+                    address={state.address.address_hash}
+                    transaction={transaction.attributes}
+                    confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
+                    key={transaction.attributes.transaction_hash}
+                    isLastItem={index === state.transactions.length - 1}
+                  />
+                ))
+              )
+            })}
           <AddressTransactionsPagition>
             <Pagination
               showQuickJumper

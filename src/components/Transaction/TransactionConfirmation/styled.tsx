@@ -2,26 +2,63 @@ import styled from 'styled-components'
 
 export default styled.div`
   width: 100%;
+  height: 40px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  align-items: center;
 
-  .transaction_item__confirmation {
-    @media (max-width: 700px) {
-      font-size: 12px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+
+  .transaction__confirmation {
+    flex: 1;
+    padding-right: 20px;
+
+    .transaction__confirmation_value {
+      min-width: 280px;
+      height: 40px;
+      background: white;
+      align-items: center;
+      display: flex;
+      color: #000000;
+      border: 20px solid #f7f7f7;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      float: right;
+      > span {
+        width: 100%;
+      }
     }
-
-    font-size: 16px;
-    color: #888888;
   }
-  .transaction_item__capacity {
-    @media (max-width: 700px) {
-      font-size: 12px;
-    }
 
-    font-size: 16px;
-    color: ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff7070')};
-    flex-direction: column;
-    align-items: flex-end;
+  .transaction__capacity {
+    flex: 1;
+    padding-left: 20px;
+
+    > div {
+      float: left;
+    }
+    .transaction__capacity_left {
+      border: 20px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
+      background: white;
+      border-left: 10px solid transparent;
+    }
+    .transaction__capacity_value {
+      min-width: 200px;
+      height: 40px;
+      background: ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
+      align-items: center;
+      display: flex;
+      color: #ffffff;
+      > span {
+        width: 100%;
+      }
+    }
+    .transaction__capacity_right {
+      border: 20px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
+      border-right: 10px solid transparent;
+      background: white;
+    }
   }
 `

@@ -68,7 +68,13 @@ const TransactionCell = ({ cell, address }: { cell: State.InputOutput; address?:
   return (
     <TransactionCellPanel highLight={highLight}>
       <div className="transaction__cell_address">
-        {highLight ? <Link to={`/address/${cell.address_hash}`}>{addressText}</Link> : addressText}
+        {highLight ? (
+          <Link to={`/address/${cell.address_hash}`}>
+            <code>{addressText}</code>
+          </Link>
+        ) : (
+          <code>{addressText}</code>
+        )}
       </div>
       <div className="transaction__cell_capacity">{`${localeNumberString(shannonToCkb(cell.capacity))} CKB`}</div>
     </TransactionCellPanel>

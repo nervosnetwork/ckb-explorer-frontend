@@ -13,9 +13,9 @@ export const RewardPenal = styled.div`
 
   display: flex;
   align-items: center;
-  height: 22px;
+  height: 20px;
   justify-content: space-between;
-  margin-top: 18px;
+  margin-top: 20px;
 
   .reward__name__point {
     display: flex;
@@ -35,7 +35,8 @@ export const RewardPenal = styled.div`
       align-items: center;
       justify-content: left;
       font-size: 16px;
-      color: rgb(136, 136, 136);
+      color: #000000;
+      font-weight: 500;
 
       @media (max-width: 700px) {
         font-size: 12px;
@@ -45,7 +46,7 @@ export const RewardPenal = styled.div`
 
   .reward__capacity {
     font-size: 16px;
-    color: rgb(136, 136, 136);
+    color: #000000;
     margin-left: 15px;
 
     @media (max-width: 700px) {
