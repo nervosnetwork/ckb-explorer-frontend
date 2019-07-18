@@ -110,3 +110,7 @@ export const fetchBlockchainInfo = () => {
 export const fetchStatisticsChart = () => {
   return axiosIns('/statistic_info_charts').then((res: AxiosResponse) => res.data.data)
 }
+
+export const fetchNodeVersion = () => {
+  return axiosIns('/nets/version').then((res: AxiosResponse) => res.data.data)
+}
