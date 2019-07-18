@@ -182,13 +182,13 @@ const AddressLockScript = ({ script }: { script: State.Script }) => {
     <AddressLockScriptPanel>
       <div className="address__lock_script_title">{i18n.t('address.lock_script')}</div>
       <AddressLockScriptItem title={i18n.t('address.code_hash')}>
-        <span>{script.code_hash}</span>
+        <code>{script.code_hash}</code>
       </AddressLockScriptItem>
       <AddressLockScriptItem title={i18n.t('address.args')}>
         {script.args.length === 1 ? (
-          <span>{script.args[0]}</span>
+          <code>{script.args[0]}</code>
         ) : (
-          script.args.map((arg: string, index: number) => <span>{`#${index}: ${arg}`}</span>)
+          script.args.map((arg: string, index: number) => <code>{`#${index}: ${arg}`}</code>)
         )}
       </AddressLockScriptItem>
     </AddressLockScriptPanel>

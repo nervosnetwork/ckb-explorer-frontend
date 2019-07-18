@@ -42,7 +42,7 @@ const AddressHashCardPanel = styled.div`
     transform: translateY(3px);
 
     @media (max-width: 700px) {
-      font-size: 14px;
+      font-size: 13px;
       margin-left: 10px;
       font-weight: 500;
       transform: translateY(1px);
@@ -75,16 +75,18 @@ export default ({ title, hash }: { title: string; hash: string }) => {
   const appContext = useContext(AppContext)
   let hashText = hash
   if (isSmallMobile()) {
-    hashText = startEndEllipsis(hash, 4)
+    hashText = startEndEllipsis(hash, 7, 10)
   } else if (isMediumMobile()) {
-    hashText = startEndEllipsis(hash, 11)
+    hashText = startEndEllipsis(hash, 8)
   } else if (isLargeMobile()) {
-    hashText = startEndEllipsis(hash, 16)
+    hashText = startEndEllipsis(hash, 13)
   }
   return (
     <AddressHashCardPanel>
       <div className="address_hash__title">{title}</div>
-      <div id="address_hash__hash">{hashText}</div>
+      <div id="address_hash__hash">
+        <code>{hashText}</code>
+      </div>
       <div
         className="address_hash__copy_iocn"
         role="button"
