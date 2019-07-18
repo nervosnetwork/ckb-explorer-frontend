@@ -30,20 +30,24 @@ const TableTitleRowItem = styled.div`
   }
 `
 
-export const DivideLine = styled.div`
-  position: relative;
-  width: 95%;
-  height: 1px;
-  left: 2.5%;
-  background: #d8d8d8;
-`
-
 export const TableContentRow = styled.div`
+  position: relative;
   display: flex;
   width: 1200px;
   height: 60px;
   background-color: white;
   padding-right: 12px;
+
+  ::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 95%;
+    height: 1px;
+    left: 2.5%;
+    bottom: 1px;
+    background: #d8d8d8;
+  }
 `
 
 const TableContentRowItem = styled.div`

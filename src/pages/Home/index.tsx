@@ -9,7 +9,6 @@ import {
   TableContentRow,
   TableContentItem,
   TableMinerContentItem,
-  DivideLine,
 } from '../../components/Table'
 import BlockCard from '../../components/Card/BlockCard'
 import { fetchBlocks, fetchStatistics } from '../../service/http/fetcher'
@@ -170,23 +169,20 @@ export default () => {
                 const key = index
                 return (
                   block && (
-                    <>
-                      <TableContentRow key={key}>
-                        <TableContentItem
-                          width="14%"
-                          content={localeNumberString(block.attributes.number)}
-                          to={`/block/${block.attributes.number}`}
-                        />
-                        <TableContentItem width="14%" content={block.attributes.transactions_count} />
-                        <TableContentItem
-                          width="20%"
-                          content={localeNumberString(shannonToCkb(block.attributes.reward))}
-                        />
-                        <TableMinerContentItem width="37%" content={block.attributes.miner_hash} />
-                        <TableContentItem width="15%" content={parseSimpleDate(block.attributes.timestamp)} />
-                      </TableContentRow>
-                      <DivideLine />
-                    </>
+                    <TableContentRow key={key}>
+                      <TableContentItem
+                        width="14%"
+                        content={localeNumberString(block.attributes.number)}
+                        to={`/block/${block.attributes.number}`}
+                      />
+                      <TableContentItem width="14%" content={block.attributes.transactions_count} />
+                      <TableContentItem
+                        width="20%"
+                        content={localeNumberString(shannonToCkb(block.attributes.reward))}
+                      />
+                      <TableMinerContentItem width="37%" content={block.attributes.miner_hash} />
+                      <TableContentItem width="15%" content={parseSimpleDate(block.attributes.timestamp)} />
+                    </TableContentRow>
                   )
                 )
               })}
