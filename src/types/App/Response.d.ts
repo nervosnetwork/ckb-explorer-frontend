@@ -7,7 +7,7 @@ declare namespace Response {
 
   export interface Error {
     id: string
-    code: string
+    code: number
     status: number
     title: string
     detail: string

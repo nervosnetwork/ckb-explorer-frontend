@@ -1,11 +1,13 @@
 import React, { useContext, useState, useRef } from 'react'
 import styled, { css } from 'styled-components'
+import { AxiosError } from 'axios'
 import AppContext from '../../contexts/App'
 import { fetchSearchResult } from '../../service/http/fetcher'
 import browserHistory from '../../routes/history'
 import SearchLogo from '../../assets/search.png'
 import { searchTextCorrection } from '../../utils/string'
 import i18n from '../../utils/i18n'
+import { HttpErrorCode } from '../../utils/const'
 
 const SearchPanel = styled.div`
   margin: 0 auto;
@@ -110,9 +112,22 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
             browserHistory.push(`/search/fail?q=${query}`)
           }
         })
-        .catch(() => {
-          setSearchValue(query)
-          browserHistory.push(`/search/fail?q=${query}`)
+        .catch((error: AxiosError) => {
+          if (error.response && error.response.data) {
+            if (
+              (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
+                return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
+              })
+            ) {
+              browserHistory.push(`/address/${query}`)
+            } else {
+              setSearchValue(query)
+              browserHistory.push(`/search/fail?q=${query}`)
+            }
+          } else {
+            setSearchValue(query)
+            browserHistory.push(`/search/fail?q=${query}`)
+          }
         })
     }
   }

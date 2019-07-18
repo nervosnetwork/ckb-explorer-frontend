@@ -1,8 +1,21 @@
+import { AxiosError } from 'axios'
 import { axiosIns } from './fetcher'
 import i18n from '../../utils/i18n'
 import browserHistory from '../../routes/history'
+import { lastPathOfUrl } from '../../utils/uri'
+import { HttpErrorCode } from '../../utils/const'
 
 const NetworkError = i18n.t('toast.invalid_network')
+
+const urlParam = (error: AxiosError) => {
+  if (error.config.params && error.config.params.q) {
+    return error.config.params.q
+  }
+  if (error.config.url) {
+    return lastPathOfUrl(error.config.url)
+  }
+  return undefined
+}
 
 export const initAxiosInterceptors = (appContext: any) => {
   axiosIns.interceptors.request.use(
@@ -22,7 +35,7 @@ export const initAxiosInterceptors = (appContext: any) => {
       })
       return response
     },
-    error => {
+    (error: AxiosError) => {
       appContext.updateAppErrors({
         type: 'Network',
         message: [NetworkError],
@@ -50,6 +63,17 @@ export const initAxiosInterceptors = (appContext: any) => {
             browserHistory.replace('/maintain')
             break
           case 404:
+            if (error.response && error.response.data) {
+              if (
+                (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
+                  return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
+                })
+              ) {
+                if (urlParam(error)) {
+                  browserHistory.push(`/address/${urlParam(error)}`)
+                }
+              }
+            }
             appContext.updateAppErrors({
               type: 'Network',
               message: [],
