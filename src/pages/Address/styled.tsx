@@ -44,27 +44,43 @@ export const AddressLockScriptItemPanel = styled.div`
   align-items: flex-start;
   margin-top: 10px;
 
+  @media (max-width: 700px) {
+    flex-direction: column;
+  }
+
   .address_lock_script__title {
     > img {
       width: 9px;
       height: 9px;
+
+      @media (max-width: 700px) {
+        width: 5px;
+        height: 5px;
+        transform: translateY(-2px);
+      }
     }
 
     > span {
       margin-left: 10px;
-      font-size: 16px;
       font-weight: 500;
-      color: #000000;
+
+      @media (max-width: 700px) {
+        margin-left: 5px;
+      }
     }
   }
 
   .address_lock_script__content {
     flex: 1;
     margin-left: 20px;
-    font-size: 16px;
-    color: #000000;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 700px) {
+      margin-left: 10px;
+      word-wrap: break-word;
+      word-break: break-all;
+    }
   }
 `
 
