@@ -17,6 +17,13 @@ const urlParam = (error: AxiosError) => {
   return undefined
 }
 
+const updateNetworkError = (appContext: any, occurError: boolean) => {
+  appContext.updateAppErrors({
+    type: 'Network',
+    message: occurError ? [NetworkError] : [],
+  })
+}
+
 export const initAxiosInterceptors = (appContext: any) => {
   axiosIns.interceptors.request.use(
     config => {
@@ -29,31 +36,19 @@ export const initAxiosInterceptors = (appContext: any) => {
 
   axiosIns.interceptors.response.use(
     response => {
-      appContext.updateAppErrors({
-        type: 'Network',
-        message: [],
-      })
+      updateNetworkError(appContext, false)
       return response
     },
     (error: AxiosError) => {
-      appContext.updateAppErrors({
-        type: 'Network',
-        message: [NetworkError],
-      })
+      updateNetworkError(appContext, true)
       if (error && error.response && error.response.data) {
         const { message }: { message: string } = error.response.data
         switch (error.response.status) {
           case 422:
-            appContext.updateAppErrors({
-              type: 'Network',
-              message: [],
-            })
+            updateNetworkError(appContext, false)
             break
           case 503:
-            appContext.updateAppErrors({
-              type: 'Network',
-              message: [],
-            })
+            updateNetworkError(appContext, false)
             if (message) {
               appContext.updateAppErrors({
                 type: 'Maintain',
@@ -63,6 +58,7 @@ export const initAxiosInterceptors = (appContext: any) => {
             browserHistory.replace('/maintain')
             break
           case 404:
+            updateNetworkError(appContext, false)
             if (error.response && error.response.data) {
               if (
                 (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
@@ -74,16 +70,9 @@ export const initAxiosInterceptors = (appContext: any) => {
                 }
               }
             }
-            appContext.updateAppErrors({
-              type: 'Network',
-              message: [],
-            })
             break
           default:
-            appContext.updateAppErrors({
-              type: 'Network',
-              message: [NetworkError],
-            })
+            updateNetworkError(appContext, true)
             break
         }
       }
