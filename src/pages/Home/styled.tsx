@@ -46,10 +46,9 @@ export const HomeHeaderPanel = styled.div`
 export const HomeHeaderItemPanel = styled.div`
   width: 285px;
   height: 180px;
-  margin: 0px 0px;
+  margin: 10px 5px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   background-color: white;
   border: 0px solid white;
   border-radius: 6px;
@@ -85,6 +84,10 @@ export const HomeHeaderItemPanel = styled.div`
   &:hover .blockchain__item__tip {
     visibility: visible;
     opacity: 1;
+  }
+
+  &:hover {
+    box-shadow: 4px 4px 8px 0 #b3b3b3;
   }
 
   .blockchain__item__tip__content {
