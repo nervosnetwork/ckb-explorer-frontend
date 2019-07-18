@@ -11,6 +11,7 @@ export const AddressContentPanel = styled.div`
 
   @media (max-width: 700px) {
     margin-top: 30px;
+    margin-bottom: 0px;
     padding: 0px 20px 20px 20px;
   }
 `
@@ -111,6 +112,6 @@ export const AddressTransactionsPagition = styled(CommonPagition)`
   width: 100%;
 
   @media (max-width: 700px) {
-    margin: 20px 0 30px 3%;
+    margin: 20px 0 0px 0;
   }
 `
