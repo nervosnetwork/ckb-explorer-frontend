@@ -87,7 +87,7 @@ declare namespace State {
 
   export interface Statistics {
     tip_block_number: string
-    average_block_time: string
+    current_epoch_average_block_time: string
     current_epoch_difficulty: number
     hash_rate: string
   }

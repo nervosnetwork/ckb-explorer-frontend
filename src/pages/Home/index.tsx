@@ -71,13 +71,17 @@ interface BlockchainData {
 
 const initStatistics: State.Statistics = {
   tip_block_number: '0',
-  average_block_time: '0',
+  current_epoch_average_block_time: '0',
   current_epoch_difficulty: 0,
   hash_rate: '0',
 }
 
 const parseHashRate = (hashRate: string | undefined) => {
   return hashRate ? `${localeNumberString((Number(hashRate) * 1000).toFixed(), 10)} gps` : '- -'
+}
+
+const parseBlockTime = (blockTime: string | undefined) => {
+  return blockTime ? parseTime(Number(blockTime)) : '- -'
 }
 
 export default () => {
@@ -136,7 +140,7 @@ export default () => {
     },
     {
       name: t('blockchain.average_block_time'),
-      value: statistics.average_block_time ? parseTime(Number(statistics.average_block_time)) : '- -',
+      value: parseBlockTime(statistics.current_epoch_average_block_time),
       tip: t('blockchain.average_block_time_tooltip'),
     },
   ]
