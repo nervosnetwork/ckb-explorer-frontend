@@ -6,7 +6,7 @@ export const TransactionPanel = styled.div`
   border-radius: ${({ isLastItem }: { isLastItem?: boolean }) => (isLastItem ? '0px 0px 6px 6px' : '0px 0px 0px 0px')};
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
-  padding: 20px 40px 20px 40px;
+  padding: 20px 40px 25px 40px;
   display: flex;
   flex-direction: column;
   font-size: 16px;
@@ -14,30 +14,6 @@ export const TransactionPanel = styled.div`
   @media (max-width: 700px) {
     padding: 15px 20px 15px 20px;
     font-size: 13px;
-  }
-
-  .sperate__line_top {
-    width: 100%;
-    height: 1px;
-    margin-top: 20px;
-    background: #e2e2e2;
-
-    @media (max-width: 700px) {
-      margin-top: 10px;
-    }
-  }
-
-  .sperate__line_bottom {
-    width: 100%;
-    height: 1px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    background: #e2e2e2;
-
-    @media (max-width: 700px) {
-      margin-top: 15px;
-      margin-bottom: 15px;
-    }
   }
 `
 
@@ -62,25 +38,45 @@ export const TransactionsReward = styled.div`
 export const TransactionHashBlockPanel = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
 
-  @media (max-width: 700px) {
-    flex-direction: column;
-    justify-content: normal;
+  .transaction_item__content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    @media (max-width: 700px) {
+      flex-direction: column;
+      justify-content: normal;
+    }
+
+    .transaction_item__hash {
+      color: #3cc68a;
+      font-weight: 500;
+    }
+
+    .transaction_item__block {
+      font-weight: 500;
+      color: #000000;
+
+      @media (max-width: 700px) {
+        font-weight: normal;
+      }
+    }
   }
 
-  .transaction_item__hash {
-    color: #3cc68a;
-    font-weight: 500;
-  }
-
-  .transaction_item__block {
-    font-weight: 500;
-    color: #000000;
+  &:after {
+    content: '';
+    background: #e2e2e2;
+    height: 1px;
+    width: 100%;
+    display: block;
+    margin: 20px 0px 10px 0px;
 
     @media (max-width: 700px) {
       font-weight: normal;
+      margin: 10px 0px 0px 0px;
     }
   }
 `
@@ -103,7 +99,6 @@ export const TransactionInputOutputPanel = styled.div`
 
     @media (max-width: 700px) {
       margin-top: 10px;
-      /* margin-bottom: 5px; */
     }
   }
 

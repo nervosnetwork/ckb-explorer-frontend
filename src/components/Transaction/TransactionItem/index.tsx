@@ -39,16 +39,17 @@ const TransactionItem = ({
   return (
     <TransactionPanel isLastItem={isLastItem}>
       <TransactionHashBlockPanel>
-        <Link to={`/transaction/${transaction.transaction_hash}`}>
-          <code className="transaction_item__hash">{transactionHash}</code>
-        </Link>
-        {!isBlock && (
-          <div className="transaction_item__block">
-            {`(Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}
-          </div>
-        )}
+        <div className="transaction_item__content">
+          <Link to={`/transaction/${transaction.transaction_hash}`}>
+            <code className="transaction_item__hash">{transactionHash}</code>
+          </Link>
+          {!isBlock && (
+            <div className="transaction_item__block">
+              {`(Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}
+            </div>
+          )}
+        </div>
       </TransactionHashBlockPanel>
-      <div className="sperate__line_top" />
       <TransactionInputOutputPanel>
         <div className="transaction_item__input">
           <TransactionCellList
@@ -76,10 +77,7 @@ const TransactionItem = ({
         </div>
       </TransactionInputOutputPanel>
       {confirmation && (
-        <>
-          <div className="sperate__line_bottom" />
-          <TransactionConfirmation confirmation={confirmation} capacity={handleCapacityChange(transaction, address)} />
-        </>
+        <TransactionConfirmation confirmation={confirmation} capacity={handleCapacityChange(transaction, address)} />
       )}
     </TransactionPanel>
   )
