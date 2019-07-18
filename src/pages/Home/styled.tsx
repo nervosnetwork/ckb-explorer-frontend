@@ -54,6 +54,7 @@ export const HomeHeaderItemPanel = styled.div`
   border: 0px solid white;
   border-radius: 6px;
   box-shadow: 2px 2px 4px #b3b3b3;
+  cursor: ${(props: { clickable: boolean }) => (props.clickable ? 'pointer' : 'default')};
 
   .blockchain__item__value {
     color: #000000;

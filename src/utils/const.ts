@@ -10,4 +10,7 @@ export const CachedKeys = {
   // Home
   Blocks: 'blocks',
   Statistics: 'statistics',
+
+  // Statistics Chart
+  StatisticsChart: 'statistics_chart',
 }
