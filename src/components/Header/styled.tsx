@@ -12,6 +12,7 @@ export const HeaderDiv = styled.div`
   top: 0;
   z-index: 10;
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   padding: 1px 82px;
   .header__logo,
@@ -127,10 +128,14 @@ export const HeaderMobileDiv = styled.div`
     padding-left: 5px;
     .header__menus__item {
       margin-left: 35px;
-      @media (max-width: 320px) {
-        margin-left: 20px;
-      }
       font-size: 14px;
+      @media (max-width: 700px) {
+        margin-left: 15px;
+      }
+      @media (max-width: 320px) {
+        margin-left: 8px;
+        font-size: 12px;
+      }
       font-weight: bold;
       line-height: 100%;
       color: #3cc68a;
@@ -174,4 +179,15 @@ export const HeaderSearchPanel = styled.div`
   height: 40px;
   display: flex;
   align-items: center;
+`
+
+export const HeaderVerionPanel = styled.div`
+  color: white;
+  font-size: 16px;
+  margin-left: 15px;
+
+  @media (max-width: 700px) {
+    font-size: 10px;
+    margin-left: 6px;
+  }
 `

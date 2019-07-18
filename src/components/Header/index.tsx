@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
 import logoIcon from '../../assets/ckb_logo.png'
 import SearchLogo from '../../assets/search.png'
 import i18n from '../../utils/i18n'
-import { HeaderDiv, HeaderMobileDiv, HeaderMobilePanel, HeaderSearchPanel } from './styled'
+import { HeaderDiv, HeaderMobileDiv, HeaderMobilePanel, HeaderSearchPanel, HeaderVerionPanel } from './styled'
 import { isMobile } from '../../utils/screen'
+import AppContext from '../../contexts/App'
 
 const menus = [
   {
@@ -21,8 +22,16 @@ const menus = [
 const NORMAL_HEIGHT = 42
 const SEARCH_HEIGHT = 95
 
+const handleVersion = (appContext: any) => {
+  if (appContext.nodeVersion.indexOf('(') !== -1) {
+    return `v${appContext.nodeVersion.slice(0, appContext.nodeVersion.indexOf('('))}`
+  }
+  return appContext.nodeVersion
+}
+
 export default ({ search = true }: { search?: boolean }) => {
   const [height, setHeight] = useState(NORMAL_HEIGHT)
+  const appContext = useContext(AppContext)
 
   useEffect(() => {
     setHeight(NORMAL_HEIGHT)
@@ -58,6 +67,7 @@ export default ({ search = true }: { search?: boolean }) => {
                 <div className="header__testnet">{i18n.t('navbar.network')}</div>
               </div>
             )}
+            <HeaderVerionPanel>{handleVersion(appContext)}</HeaderVerionPanel>
           </HeaderMobileDiv>
           <HeaderSearchPanel>{search && <Search />}</HeaderSearchPanel>
         </HeaderMobilePanel>
@@ -89,6 +99,7 @@ export default ({ search = true }: { search?: boolean }) => {
             </div>
           </div>
         )}
+        <HeaderVerionPanel>{handleVersion(appContext)}</HeaderVerionPanel>
       </HeaderDiv>
     </>
   )
