@@ -2,15 +2,11 @@ import React, { useContext, useReducer } from 'react'
 import { Link } from 'react-router-dom'
 import AppContext from '../../contexts/App'
 import CopyGreenIcon from '../../assets/copy_green.png'
-import { Response } from '../../http/response/Response'
-import { ScriptWrapper } from '../../http/response/Script'
-import { CellType, fetchScript, fetchCellData } from '../../http/fetcher'
+import { CellType, fetchScript, fetchCellData } from '../../service/http/fetcher'
 import { shannonToCkb, copyElementValue } from '../../utils/util'
 import { hexToUtf8, parseLongAddressHash } from '../../utils/string'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
-import { InputOutput } from '../../http/response/Transaction'
-import { Data } from '../../http/response/Data'
 
 enum CellState {
   NONE,
@@ -18,7 +14,7 @@ enum CellState {
   TYPE,
   DATA,
 }
-const initialState = {
+const initScriptContent = {
   lock: {
     code_hash: '',
     args: [],
@@ -30,32 +26,17 @@ const initialState = {
   data: {
     data: '',
   },
+}
+
+const initialState = {
   cellState: CellState.NONE,
 }
 const Actions = {
-  lock: 'LOCK',
-  type: 'TYPE',
-  data: 'DATA',
   cellState: 'CELL_STATE',
 }
 
 const reducer = (state: any, action: any) => {
   switch (action.type) {
-    case Actions.lock:
-      return {
-        ...state,
-        lock: action.payload.lock,
-      }
-    case Actions.type:
-      return {
-        ...state,
-        type: action.payload.type,
-      }
-    case Actions.data:
-      return {
-        ...state,
-        data: action.payload.data,
-      }
     case Actions.cellState:
       return {
         ...state,
@@ -63,21 +44,6 @@ const reducer = (state: any, action: any) => {
       }
     default:
       return state
-  }
-}
-
-const getCell = (state: any) => {
-  switch (state.cellState) {
-    case CellState.LOCK:
-      return state.lock
-    case CellState.TYPE:
-      return state.type
-    case CellState.DATA:
-      return state.data
-    case CellState.NONE:
-      return ''
-    default:
-      return ''
   }
 }
 
@@ -99,7 +65,7 @@ const getCellState = (state: any, item: string) => {
   return cellState === state.cellState ? CellState.NONE : cellState
 }
 
-const AddressHashComponent = ({ cell }: { cell: InputOutput }) => {
+const AddressHashComponent = ({ cell }: { cell: State.InputOutput }) => {
   return cell.address_hash ? (
     <Link to={`/address/${cell.address_hash}`}>
       <code>{parseLongAddressHash(cell.address_hash)}</code>
@@ -109,7 +75,7 @@ const AddressHashComponent = ({ cell }: { cell: InputOutput }) => {
   )
 }
 
-const ScriptComponent = ({ cellType, cell }: { cellType: CellType; cell: InputOutput }) => {
+const ScriptComponent = ({ cellType, cell }: { cellType: CellType; cell: State.InputOutput }) => {
   const appContext = useContext(AppContext)
   const [state, dispatch] = useReducer(reducer, initialState)
 
@@ -127,46 +93,36 @@ const ScriptComponent = ({ cellType, cell }: { cellType: CellType; cell: InputOu
     })
   }
 
+  const showScriptContent = (content: any) => {
+    const element = document.getElementById(`textarea-${cellType}-${cell.id}`)
+    if (element) {
+      element.innerHTML = JSON.stringify(content, null, 4)
+    }
+  }
+
   const handleFetchScript = (item: string) => {
     if (cell.from_cellbase) return
     switch (getCellState(state, item)) {
       case CellState.LOCK:
-        fetchScript(cellType, 'lock_scripts', `${cell.id}`).then(response => {
-          const { data } = response as Response<ScriptWrapper>
+        fetchScript(cellType, 'lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
           handleCellState(item)
-          dispatch({
-            type: Actions.lock,
-            payload: {
-              lock: data ? data.attributes : initialState.lock,
-            },
-          })
+          showScriptContent(wrapper ? wrapper.attributes : initScriptContent.lock)
         })
         break
       case CellState.TYPE:
-        fetchScript(cellType, 'type_scripts', `${cell.id}`).then(response => {
-          const { data } = response as Response<ScriptWrapper>
+        fetchScript(cellType, 'type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
           handleCellState(item)
-          dispatch({
-            type: Actions.type,
-            payload: {
-              type: data ? data.attributes : initialState.type,
-            },
-          })
+          showScriptContent(wrapper ? wrapper.attributes : initScriptContent.type)
         })
         break
       case CellState.DATA:
-        fetchCellData(cellType, `${cell.id}`).then((data: Data) => {
-          const dataValue = data
-          if (data && cell.isGenesisOutput) {
-            dataValue.data = hexToUtf8(data.data.substr(2))
+        fetchCellData(cellType, `${cell.id}`).then((wrapper: Response.Wrapper<State.Data>) => {
+          const dataValue: State.Data = wrapper.attributes
+          if (wrapper && cell.isGenesisOutput) {
+            dataValue.data = hexToUtf8(wrapper.attributes.data.substr(2))
           }
           handleCellState(item)
-          dispatch({
-            type: Actions.data,
-            payload: {
-              data: dataValue || initialState.data,
-            },
-          })
+          showScriptContent(dataValue || initScriptContent.data)
         })
         break
       default:
@@ -216,9 +172,7 @@ const ScriptComponent = ({ cellType, cell }: { cellType: CellType; cell: InputOu
       {state.cellState !== CellState.NONE && (
         <tr className="tr-detail">
           <td colSpan={5}>
-            <div className="script__input" id={`textarea-${cellType}-${cell.id}`}>
-              {JSON.stringify(getCell(state), null, 4)}
-            </div>
+            <div className="script__input" id={`textarea-${cellType}-${cell.id}`} />
             <div className="tr-detail-td-buttons">
               <div
                 role="button"

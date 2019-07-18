@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import HelpIcon from '../../../assets/qa_help.png'
-import { InputOutput } from '../../../http/response/Transaction'
 import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
 import { startEndEllipsis } from '../../../utils/string'
@@ -52,7 +51,7 @@ const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
   )
 }
 
-const TransactionCell = ({ cell, address }: { cell: InputOutput; address?: string }) => {
+const TransactionCell = ({ cell, address }: { cell: State.InputOutput; address?: string }) => {
   if (cell.from_cellbase) {
     return <Cellbase targetBlockNumber={cell.target_block_number} />
   }

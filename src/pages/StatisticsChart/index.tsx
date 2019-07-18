@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Chart, Geom, Axis, Tooltip, Legend } from 'bizcharts'
 import Content from '../../components/Content'
-import { fetchStatisticsChart } from '../../http/fetcher'
-import { StatisticsChartWrapper } from '../../http/response/StatisticsChart'
+import { fetchStatisticsChart } from '../../service/http/fetcher'
 import { CachedKeys } from '../../utils/const'
 import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import Loading from '../../assets/loading.gif'
@@ -84,7 +83,7 @@ export default () => {
   }, [statisticsDatas])
 
   useEffect(() => {
-    fetchStatisticsChart().then((wrapper: StatisticsChartWrapper) => {
+    fetchStatisticsChart().then((wrapper: Response.Wrapper<State.StatisticsChart>) => {
       if (!wrapper) return
       const { hash_rate: hashRates, difficulty: difficulties } = wrapper.attributes
       if (!hashRates && !difficulties) return
