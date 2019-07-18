@@ -19,7 +19,6 @@ const AddressHashCardPanel = styled.div`
 
   @media (max-width: 700px) {
     height: 50px;
-    padding: 0px 0px 17px 0px;
     border-radius: 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
   }
@@ -29,12 +28,10 @@ const AddressHashCardPanel = styled.div`
     font-size: 30px;
     font-weight: 500;
     color: #000000;
-    height: 36px;
 
     @media (max-width: 700px) {
       font-size: 15px;
       margin-left: 20px;
-      height: 16px;
     }
   }
 
@@ -42,14 +39,13 @@ const AddressHashCardPanel = styled.div`
     margin-left: 20px;
     font-size: 20px;
     color: #000000;
-    height: 24px;
     transform: translateY(4px);
 
     @media (max-width: 700px) {
       font-size: 14px;
       margin-left: 10px;
-      height: 16px;
       font-weight: 500;
+      transform: translateY(2px);
     }
   }
 
@@ -58,15 +54,19 @@ const AddressHashCardPanel = styled.div`
     margin-left: 20px;
     transform: translateY(8px);
 
+    @media (max-width: 700px) {
+      margin-left: 10px;
+      transform: translateY(4px);
+    }
+
     > img {
       width: 21px;
       height: 24px;
-    }
 
-    @media (max-width: 700px) {
-      margin-left: 10px;
-      width: 16px;
-      height: 18px;
+      @media (max-width: 700px) {
+        width: 16px;
+        height: 18px;
+      }
     }
   }
 `
