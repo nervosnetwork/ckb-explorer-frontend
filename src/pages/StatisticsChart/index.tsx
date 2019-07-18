@@ -87,32 +87,25 @@ export default () => {
     fetchStatisticsChart().then((wrapper: StatisticsChartWrapper) => {
       if (!wrapper) return
       const { hash_rate: hashRates, difficulty: difficulties } = wrapper.attributes
-      if (!hashRates && !difficulties) return
-      if (hashRates && difficulties) {
-        const length = Math.min(hashRates.length, difficulties.length)
-        const datas: StatisticsData[] = []
-        for (let index = 0; index < length; index++) {
-          datas.push({
-            blockNumber: hashRates[index].block_number,
-            hashRate: Number((Number(hashRates[index].hash_rate) * 1000).toFixed(0)),
-            difficulty: difficulties[index].difficulty,
-          })
-        }
-        setStatisticsDatas(datas)
-      } else if (hashRates) {
+      const hashRatesLength = hashRates ? hashRates.length : 0
+      const difficultiesLength = difficulties ? difficulties.length : 0
+      if (hashRatesLength === 0 && difficultiesLength === 0) return
+      if (hashRatesLength > difficultiesLength) {
         setStatisticsDatas(
-          hashRates.map(hashRate => {
+          hashRates.map((hashRate, index) => {
             return {
               blockNumber: hashRate.block_number,
-              hashRate: Number((Number(hashRate.hash_rate) * 1000).toFixed(0)),
+              hashRate: Number((Number(hashRates[index].hash_rate) * 1000).toFixed(0)),
+              difficulty: difficulties[index] ? difficulties[index].difficulty : undefined,
             }
           }),
         )
       } else {
         setStatisticsDatas(
-          difficulties.map(difficulty => {
+          difficulties.map((difficulty, index) => {
             return {
               blockNumber: difficulty.block_number,
+              hashRate: hashRates[index] ? Number((Number(hashRates[index].hash_rate) * 1000).toFixed(0)) : undefined,
               difficulty: difficulty.difficulty,
             }
           }),
