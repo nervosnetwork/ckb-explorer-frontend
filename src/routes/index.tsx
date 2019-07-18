@@ -15,6 +15,7 @@ import NotFoundPage from '../pages/404'
 import SearchFail from '../pages/SearchFail'
 import Maintain from '../pages/Maintain'
 import Sheet from '../components/Sheet'
+import StatisticsChart from '../pages/StatisticsChart'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -49,6 +50,7 @@ export default () => {
                   <Route path="/transaction/:hash" exact component={Transaction} />
                   <Route path="/address/:address" exact component={Address} />
                   <Route path="/lockhash/:hash" exact component={Address} />
+                  <Route path="/charts/" exact component={StatisticsChart} />
                   <Route path="/search/fail" exact component={SearchFail} />
                   <Route path="/maintain" exact component={Maintain} />
                   <Route path="/404" exact component={NotFoundPage} />

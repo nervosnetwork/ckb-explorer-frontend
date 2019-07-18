@@ -106,3 +106,7 @@ export const fetchTipBlockNumber = () => {
 export const fetchBlockchainInfo = () => {
   return fetchStatisticInfo('blockchain_info').then(wrapper => wrapper.data)
 }
+
+export const fetchStatisticsChart = () => {
+  return axiosIns('/statistic_info_charts').then((res: AxiosResponse) => res.data.data)
+}
