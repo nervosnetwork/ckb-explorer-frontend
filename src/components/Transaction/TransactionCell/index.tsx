@@ -7,12 +7,19 @@ import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import Tooltip, { TargetSize } from '../../Tooltip/index'
 import { CellbasePanel, TransactionCellPanel } from './styled'
+import { isMediumMobile, isLargeMobile, isMobile, isSmallMobile } from '../../../utils/screen'
 
 const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
   const [show, setShow] = useState(false)
-  const targetSize: TargetSize = {
+  let targetSize: TargetSize = {
     width: 20,
     height: 30,
+  }
+  if (isMobile()) {
+    targetSize = {
+      width: 14,
+      height: 30,
+    }
   }
   if (!targetBlockNumber || targetBlockNumber <= 0) {
     return (
@@ -60,6 +67,13 @@ const TransactionCell = ({ cell, address }: { cell: State.InputOutput; address?:
   let highLight = false
   if (cell.address_hash) {
     addressText = startEndEllipsis(cell.address_hash)
+    if (isSmallMobile()) {
+      addressText = startEndEllipsis(cell.address_hash, 12)
+    } else if (isMediumMobile()) {
+      addressText = startEndEllipsis(cell.address_hash, 19)
+    } else if (isLargeMobile()) {
+      addressText = startEndEllipsis(cell.address_hash, 24)
+    }
     if (cell.address_hash !== address) {
       highLight = true
     }
