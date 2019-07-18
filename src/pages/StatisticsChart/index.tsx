@@ -9,11 +9,25 @@ import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import Loading from '../../assets/loading.gif'
 
 const ChartPanel = styled.div`
-  margin: 20px 10% 30px 10%;
+  margin: 0 10% 30px 10%;
   background: white;
 
   @media (max-width: 700px) {
-    margin: 20px 4% 30px 4%;
+    margin: 0 4% 30px 4%;
+  }
+`
+
+const ChartTitle = styled.div`
+  color: #66666;
+  background: white;
+  margin: 20px 10% 0 10%;
+  padding-top: 10px;
+  font-size: 24px;
+  text-align: center;
+
+  @media (max-width: 700px) {
+    margin: 20px 4% 0 4%;
+    font-size: 16px;
   }
 `
 
@@ -39,17 +53,19 @@ const LoadingPanel = styled.div`
 `
 
 interface StatisticsData {
-  BlockNumber: number
-  Difficulty?: number
-  HashRate?: number
+  blockNumber: number
+  difficulty?: number
+  hashRate?: number
 }
 
 const scale = {
-  Difficulty: {
+  difficulty: {
     min: 0,
+    alias: 'Difficulty',
   },
-  HashRate: {
+  hashRate: {
     min: 0,
+    alias: 'Hash Rate(gps)',
   },
 }
 
@@ -77,9 +93,9 @@ export default () => {
         const datas: StatisticsData[] = []
         for (let index = 0; index < length; index++) {
           datas.push({
-            BlockNumber: hashRates[index].block_number,
-            HashRate: Number((Number(hashRates[index].hash_rate) * 1000).toFixed(0)),
-            Difficulty: difficulties[index].difficulty,
+            blockNumber: hashRates[index].block_number,
+            hashRate: Number((Number(hashRates[index].hash_rate) * 1000).toFixed(0)),
+            difficulty: difficulties[index].difficulty,
           })
         }
         setStatisticsDatas(datas)
@@ -87,8 +103,8 @@ export default () => {
         setStatisticsDatas(
           hashRates.map(hashRate => {
             return {
-              BlockNumber: hashRate.block_number,
-              HashRate: Number((Number(hashRate.hash_rate) * 1000).toFixed(0)),
+              blockNumber: hashRate.block_number,
+              hashRate: Number((Number(hashRate.hash_rate) * 1000).toFixed(0)),
             }
           }),
         )
@@ -96,8 +112,8 @@ export default () => {
         setStatisticsDatas(
           difficulties.map(difficulty => {
             return {
-              BlockNumber: difficulty.block_number,
-              Difficulty: difficulty.difficulty,
+              blockNumber: difficulty.block_number,
+              difficulty: difficulty.difficulty,
             }
           }),
         )
@@ -107,6 +123,7 @@ export default () => {
 
   return (
     <Content>
+      <ChartTitle>Difficulty & Hash Rate</ChartTitle>
       {statisticsDatas.length > 1 ? (
         <ChartPanel>
           <Chart
@@ -137,7 +154,7 @@ export default () => {
                   },
                 },
                 {
-                  value: 'Hash Rate',
+                  value: 'Hash Rate(gps)',
                   fill: '#66CC99',
                   marker: {
                     symbol: 'hyphen',
@@ -169,8 +186,8 @@ export default () => {
               }}
             />
             <Tooltip />
-            <Geom type="line" position="BlockNumber*Difficulty" color="#3182bd" size={2} shape="line" />
-            <Geom type="line" position="BlockNumber*HashRate" color="#66CC99" size={2} shape="line" />
+            <Geom type="line" position="blockNumber*difficulty" color="#3182bd" size={2} shape="line" />
+            <Geom type="line" position="blockNumber*hashRate" color="#66CC99" size={2} shape="line" />
           </Chart>
         </ChartPanel>
       ) : (
