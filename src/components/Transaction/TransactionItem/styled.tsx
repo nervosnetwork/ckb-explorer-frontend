@@ -10,9 +10,6 @@ export const TransactionPanel = styled.div`
   display: flex;
   flex-direction: column;
 
-  /* common */
-  font-family: Montserrat;
-
   .sperate__line_top {
     width: 100%;
     height: 1px;
