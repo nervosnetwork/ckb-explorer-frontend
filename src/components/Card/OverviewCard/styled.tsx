@@ -6,7 +6,7 @@ export const OverviewCardPanel = styled.div`
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
   margin-top: 5px;
-  padding: 22px 40px 30px 40px;
+  padding: 10px 40px 30px 40px;
   background-color: #ffffff;
 
   /* common */
@@ -16,7 +16,7 @@ export const OverviewCardPanel = styled.div`
   @media (max-width: 700px) {
     border-radius: 0px 0px 3px 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
-    padding: 15px 20px 15px 20px;
+    padding: 5px 20px 20px 20px;
 
     font-size: 13px;
   }
@@ -35,7 +35,7 @@ export const OverviewContentPanel = styled.div`
     width: 1px;
     height: ${({ length }: { length: number }) => `${length * 40 - 20}px`};
     background: #e2e2e2;
-    margin: 10px 0px 10px 0px;
+    margin: 20px 0px 0px 0px;
 
     @media (max-width: 700px) {
       display: none;
@@ -74,10 +74,12 @@ export const OverviewItemPanel = styled.div`
   justify-content: space-between;
 
   @media (min-width: 700px) {
-    height: 40px;
+    height: 20px;
+    margin-top: 20px;
   }
 
   @media (max-width: 700px) {
+    margin-top: 10px;
     justify-content: normal;
     flex-direction: column;
     align-items: flex-start;
@@ -88,7 +90,7 @@ export const OverviewItemPanel = styled.div`
       height: 1px;
       width: 100%;
       display: block;
-      margin: 10px 0px;
+      margin: 10px 0px 0px 0px;
     }
   }
 

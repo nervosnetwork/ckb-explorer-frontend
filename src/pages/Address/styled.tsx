@@ -32,8 +32,21 @@ export const AddressPendingRewardTitlePanel = styled.div`
 
 export const AddressLockScriptPanel = styled.div`
   width: 100%;
+  margin-top: 20px;
+
+  @media (max-width: 700px) {
+    margin-top: 10px;
+  }
+
   .address__lock_script_title {
     font-weight: 500;
+    height: 25px;
+    padding: 0px 0px 5px 0px;
+
+    @media (max-width: 700px) {
+      height: 16px;
+      padding: 0px;
+    }
   }
 `
 
@@ -44,6 +57,10 @@ export const AddressLockScriptItemPanel = styled.div`
   align-items: flex-start;
   margin-top: 10px;
 
+  @media (min-width: 700px) {
+    height: 20px;
+  }
+
   @media (max-width: 700px) {
     flex-direction: column;
   }
@@ -52,6 +69,7 @@ export const AddressLockScriptItemPanel = styled.div`
     > img {
       width: 9px;
       height: 9px;
+      transform: translateY(-1px);
 
       @media (max-width: 700px) {
         width: 5px;
