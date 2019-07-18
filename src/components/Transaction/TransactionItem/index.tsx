@@ -1,14 +1,17 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import InputOutputIcon from '../../../assets/input_arrow_output.png'
+import RightArrowIcon from '../../../assets/input_arrow_output.png'
+import DownArrowIcon from '../../../assets/input_arrow_output_down.png'
 import { parseDate } from '../../../utils/date'
+import { localeNumberString } from '../../../utils/number'
+import { isLargeMobile, isMediumMobile, isMobile, isSmallMobile } from '../../../utils/screen'
+import { startEndEllipsis } from '../../../utils/string'
 import { handleCapacityChange } from '../../../utils/util'
-import TransactionCellList from '../TransactionCellList'
 import TransactionCell from '../TransactionCell'
+import TransactionCellList from '../TransactionCellList'
 import TransactionConfirmation from '../TransactionConfirmation'
 import TransactionReward from '../TransactionReward'
 import { FullPanel, TransactionHashBlockPanel, TransactionInputOutputPanel, TransactionPanel } from './styled'
-import { localeNumberString } from '../../../utils/number'
 
 const MAX_CELL_SHOW_SIZE = 10
 
@@ -25,11 +28,19 @@ const TransactionItem = ({
   isBlock?: boolean
   isLastItem?: boolean
 }) => {
+  let transactionHash = transaction.transaction_hash
+  if (isSmallMobile()) {
+    transactionHash = startEndEllipsis(transaction.transaction_hash, 12)
+  } else if (isMediumMobile()) {
+    transactionHash = startEndEllipsis(transaction.transaction_hash, 19)
+  } else if (isLargeMobile()) {
+    transactionHash = startEndEllipsis(transaction.transaction_hash, 24)
+  }
   return (
     <TransactionPanel isLastItem={isLastItem}>
       <TransactionHashBlockPanel>
         <Link to={`/transaction/${transaction.transaction_hash}`}>
-          <code className="transaction_item__hash">{transaction.transaction_hash}</code>
+          <code className="transaction_item__hash">{transactionHash}</code>
         </Link>
         {!isBlock && (
           <div className="transaction_item__block">
@@ -49,7 +60,7 @@ const TransactionItem = ({
             }}
           />
         </div>
-        <img src={InputOutputIcon} alt="input and output" />
+        <img src={isMobile() ? DownArrowIcon : RightArrowIcon} alt="input and output" />
         <div className="transaction_item__output">
           <TransactionCellList
             cells={transaction.display_outputs}

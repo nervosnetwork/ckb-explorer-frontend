@@ -9,12 +9,22 @@ export const TransactionPanel = styled.div`
   padding: 20px 40px 20px 40px;
   display: flex;
   flex-direction: column;
+  font-size: 16px;
+
+  @media (max-width: 700px) {
+    padding: 15px 20px 15px 20px;
+    font-size: 13px;
+  }
 
   .sperate__line_top {
     width: 100%;
     height: 1px;
     margin-top: 20px;
-    background: #dfdfdf;
+    background: #e2e2e2;
+
+    @media (max-width: 700px) {
+      margin-top: 10px;
+    }
   }
 
   .sperate__line_bottom {
@@ -22,7 +32,12 @@ export const TransactionPanel = styled.div`
     height: 1px;
     margin-top: 20px;
     margin-bottom: 20px;
-    background: #dfdfdf;
+    background: #e2e2e2;
+
+    @media (max-width: 700px) {
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
   }
 `
 
@@ -50,16 +65,23 @@ export const TransactionHashBlockPanel = styled.div`
   flex-direction: row;
   justify-content: space-between;
 
+  @media (max-width: 700px) {
+    flex-direction: column;
+    justify-content: normal;
+  }
+
   .transaction_item__hash {
-    font-size: 16px;
     color: #3cc68a;
     font-weight: 500;
   }
 
   .transaction_item__block {
-    font-size: 16px;
     font-weight: 500;
     color: #000000;
+
+    @media (max-width: 700px) {
+      font-weight: normal;
+    }
   }
 `
 
@@ -69,25 +91,45 @@ export const TransactionInputOutputPanel = styled.div`
   flex-direction: row;
   align-items: flex-start;
 
+  @media (max-width: 700px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
   > img {
     margin-top: 8px;
     width: 19px;
     height: 19px;
-  }
 
-  > div {
-    flex: 1;
+    @media (max-width: 700px) {
+      margin-top: 10px;
+      /* margin-bottom: 5px; */
+    }
   }
 
   .transaction_item__input {
     margin-right: 40px;
+    flex: 1;
+
+    @media (max-width: 700px) {
+      margin: 0px;
+      flex: none;
+      width: 100%;
+    }
   }
 
   .transaction_item__output {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-left: 40px;
+
+    @media (max-width: 700px) {
+      margin: 0px;
+      flex: none;
+      width: 100%;
+    }
   }
 `
 
