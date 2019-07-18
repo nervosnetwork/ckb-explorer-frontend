@@ -3,6 +3,7 @@ import { initAxiosInterceptors } from '../service/http/interceptors'
 import { handleBlockchainAlert } from '../service/app/blockchain'
 import { RESIZE_LATENCY, BLOCKCHAIN_ALERT_POLLING_TIME } from '../utils/const'
 import AppContext from './App'
+import { handleNodeVersion } from '../service/app/nodeInfo'
 
 export const useInterval = (callback: () => void, delay: number) => {
   const savedCallback = useRef(() => {})
@@ -37,18 +38,16 @@ export const useWindowResize = () => {
   }, [])
 }
 
-export const useBlockchainAlert = () => {
+export const useInitApp = () => {
   const appContext = useContext(AppContext)
+  const [init, setInit] = useState(false)
+  if (!init) {
+    setInit(true)
+    initAxiosInterceptors(appContext)
+    handleNodeVersion(appContext)
+  }
+
   useInterval(() => {
     handleBlockchainAlert(appContext)
   }, BLOCKCHAIN_ALERT_POLLING_TIME)
-}
-
-export const useAxiosInterceptors = () => {
-  const appContext = useContext(AppContext)
-  const [initInterceptors, setInitInterceptors] = useState(false)
-  if (!initInterceptors) {
-    setInitInterceptors(true)
-    initAxiosInterceptors(appContext)
-  }
 }
