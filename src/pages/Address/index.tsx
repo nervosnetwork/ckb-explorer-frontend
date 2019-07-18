@@ -10,7 +10,6 @@ import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCa
 import TitleCard from '../../components/Card/TitleCard'
 import Content from '../../components/Content'
 import Tooltip from '../../components/Tooltip'
-import TransactionCard from '../../components/Transaction/TransactionCard/index'
 import TransactionItem from '../../components/Transaction/TransactionItem/index'
 import { fetchAddressInfo, fetchTipBlockNumber, fetchTransactionsByAddress } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
@@ -268,15 +267,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
           {state.transactions &&
             state.transactions.map((transaction: any, index: number) => {
               return (
-                transaction &&
-                (isMobile() ? (
-                  <TransactionCard
-                    address={state.address.address_hash}
-                    confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
-                    transaction={transaction.attributes}
-                    key={transaction.attributes.transaction_hash}
-                  />
-                ) : (
+                transaction && (
                   <TransactionItem
                     address={state.address.address_hash}
                     transaction={transaction.attributes}
@@ -284,7 +275,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                     key={transaction.attributes.transaction_hash}
                     isLastItem={index === state.transactions.length - 1}
                   />
-                ))
+                )
               )
             })}
           <AddressTransactionsPagition>
