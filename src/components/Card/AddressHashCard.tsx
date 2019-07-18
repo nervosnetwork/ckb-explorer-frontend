@@ -39,24 +39,24 @@ const AddressHashCardPanel = styled.div`
     margin-left: 20px;
     font-size: 20px;
     color: #000000;
-    transform: translateY(4px);
+    transform: translateY(3px);
 
     @media (max-width: 700px) {
       font-size: 14px;
       margin-left: 10px;
       font-weight: 500;
-      transform: translateY(2px);
+      transform: translateY(1px);
     }
   }
 
   .address_hash__copy_iocn {
     cursor: pointer;
     margin-left: 20px;
-    transform: translateY(8px);
+    transform: translateY(6px);
 
     @media (max-width: 700px) {
       margin-left: 10px;
-      transform: translateY(4px);
+      transform: translateY(3px);
     }
 
     > img {
