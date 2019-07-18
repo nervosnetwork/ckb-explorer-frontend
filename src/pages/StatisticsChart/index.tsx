@@ -39,16 +39,16 @@ const LoadingPanel = styled.div`
 `
 
 interface StatisticsData {
-  blockNumber: number
-  difficulty?: number
-  hashRate?: number
+  BlockNumber: number
+  Difficulty?: number
+  HashRate?: number
 }
 
 const scale = {
-  difficulty: {
+  Difficulty: {
     min: 0,
   },
-  hashRate: {
+  HashRate: {
     min: 0,
   },
 }
@@ -77,9 +77,9 @@ export default () => {
         const datas: StatisticsData[] = []
         for (let index = 0; index < length; index++) {
           datas.push({
-            blockNumber: hashRates[index].block_number,
-            hashRate: Number((Number(hashRates[index].hash_rate) * 1000).toFixed(0)),
-            difficulty: difficulties[index].difficulty,
+            BlockNumber: hashRates[index].block_number,
+            HashRate: Number((Number(hashRates[index].hash_rate) * 1000).toFixed(0)),
+            Difficulty: difficulties[index].difficulty,
           })
         }
         setStatisticsDatas(datas)
@@ -87,8 +87,8 @@ export default () => {
         setStatisticsDatas(
           hashRates.map(hashRate => {
             return {
-              blockNumber: hashRate.block_number,
-              hashRate: Number((Number(hashRate.hash_rate) * 1000).toFixed(0)),
+              BlockNumber: hashRate.block_number,
+              HashRate: Number((Number(hashRate.hash_rate) * 1000).toFixed(0)),
             }
           }),
         )
@@ -96,8 +96,8 @@ export default () => {
         setStatisticsDatas(
           difficulties.map(difficulty => {
             return {
-              blockNumber: difficulty.block_number,
-              difficulty: difficulty.difficulty,
+              BlockNumber: difficulty.block_number,
+              Difficulty: difficulty.difficulty,
             }
           }),
         )
@@ -119,21 +119,26 @@ export default () => {
             <Legend
               custom
               allowAllCanceled
+              clickable={false}
               textStyle={{
                 fontSize: '15',
                 fontWeight: 'bold',
+                fill: '#666666',
               }}
               items={[
                 {
                   value: 'Difficulty',
+                  fill: '#3182bd',
                   marker: {
-                    symbol: 'square',
-                    fill: '#3182bd',
+                    symbol: 'hyphen',
+                    stroke: '#3182bd',
                     radius: 5,
+                    lineWidth: 3,
                   },
                 },
                 {
                   value: 'Hash Rate',
+                  fill: '#66CC99',
                   marker: {
                     symbol: 'hyphen',
                     stroke: '#66CC99',
@@ -144,7 +149,7 @@ export default () => {
               ]}
             />
             <Axis
-              name="difficulty"
+              name="Difficulty"
               grid={null}
               label={{
                 textStyle: {
@@ -154,7 +159,7 @@ export default () => {
               }}
             />
             <Axis
-              name="hashRate"
+              name="Hash Rate"
               grid={null}
               label={{
                 textStyle: {
@@ -164,9 +169,8 @@ export default () => {
               }}
             />
             <Tooltip />
-            <Geom type="line" position="blockNumber*difficulty" color="#3182bd" size={2} shape="line" />
-
-            <Geom type="line" position="blockNumber*hashRate" color="#66CC99" size={2} shape="line" />
+            <Geom type="line" position="BlockNumber*Difficulty" color="#3182bd" size={2} shape="line" />
+            <Geom type="line" position="BlockNumber*HashRate" color="#66CC99" size={2} shape="line" />
           </Chart>
         </ChartPanel>
       ) : (
