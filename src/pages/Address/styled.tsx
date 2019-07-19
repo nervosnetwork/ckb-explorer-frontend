@@ -24,9 +24,23 @@ export const AddressPendingRewardTitlePanel = styled.div`
     margin-left: 20px;
     transform: translateY(2px);
     position: relative;
+    z-index: 1;
+
+    @media (max-width: 700px) {
+      margin-left: 10px;
+    }
+
     > img {
       width: 20px;
       height: 20px;
+
+      @media (max-width: 700px) {
+        width: 16px;
+        height: 16px;
+      }
+    }
+    &:focus {
+      outline: 0;
     }
   }
 `
