@@ -68,7 +68,7 @@ const handleAddressText = (address: string) => {
   if (isLargeMobile()) {
     return startEndEllipsis(address, 24)
   }
-  return address
+  return startEndEllipsis(address)
 }
 
 const TransactionCell = ({ cell, address }: { cell: State.InputOutput; address?: string }) => {
