@@ -51,7 +51,7 @@ export const TableContentRow = styled.div`
 `
 
 const TableContentRowItem = styled.div`
-  width: ${({ width }: { width: string }) => `${width}`};
+  width: ${({ width }: { width: string }) => width };
   height: 60px;
   color: #888888;
   font-weight: 450;
