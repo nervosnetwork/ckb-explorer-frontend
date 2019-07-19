@@ -7,6 +7,7 @@ import { StatisticsChartWrapper } from '../../http/response/StatisticsChart'
 import { CachedKeys } from '../../utils/const'
 import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import Loading from '../../assets/loading.gif'
+import { isMobile } from '../../utils/screen'
 
 const ChartPanel = styled.div`
   margin: 0 10% 30px 10%;
@@ -54,6 +55,7 @@ const LoadingPanel = styled.div`
 
 interface StatisticsData {
   blockNumber: number
+  type: 'Difficulty' | 'HashRate'
   difficulty?: number
   hashRate?: number
 }
@@ -67,6 +69,20 @@ const scale = {
     min: 0,
     alias: 'Hash Rate(gps)',
   },
+}
+
+const findHashRate = (hashRates: { hash_rate: string; block_number: number }[], blockNumber: number) => {
+  const result = hashRates.find(hashRate => {
+    return hashRate.block_number === blockNumber
+  })
+  return result ? Number((Number(result.hash_rate) * 1000).toFixed(0)) : undefined
+}
+
+const findDifficulty = (difficulties: { difficulty: number; block_number: number }[], blockNumber: number) => {
+  const result = difficulties.find(difficulty => {
+    return difficulty.block_number === blockNumber
+  })
+  return result ? result.difficulty : undefined
 }
 
 export default () => {
@@ -87,30 +103,38 @@ export default () => {
     fetchStatisticsChart().then((wrapper: StatisticsChartWrapper) => {
       if (!wrapper) return
       const { hash_rate: hashRates, difficulty: difficulties } = wrapper.attributes
-      const hashRatesLength = hashRates ? hashRates.length : 0
-      const difficultiesLength = difficulties ? difficulties.length : 0
-      if (hashRatesLength === 0 && difficultiesLength === 0) return
-      if (hashRatesLength > difficultiesLength) {
-        setStatisticsDatas(
-          hashRates.map((hashRate, index) => {
-            return {
-              blockNumber: hashRate.block_number,
-              hashRate: Number((Number(hashRates[index].hash_rate) * 1000).toFixed(0)),
-              difficulty: difficulties[index] ? difficulties[index].difficulty : undefined,
-            }
-          }),
-        )
-      } else {
-        setStatisticsDatas(
-          difficulties.map((difficulty, index) => {
-            return {
-              blockNumber: difficulty.block_number,
-              hashRate: hashRates[index] ? Number((Number(hashRates[index].hash_rate) * 1000).toFixed(0)) : undefined,
-              difficulty: difficulty.difficulty,
-            }
-          }),
-        )
+      if (!hashRates && !difficulties) return
+
+      let blockNumbers: number[] = []
+      if (hashRates) {
+        blockNumbers = blockNumbers.concat(hashRates.map(hashRate => hashRate.block_number))
       }
+      if (difficulties) {
+        blockNumbers = blockNumbers.concat(difficulties.map(difficulty => difficulty.block_number))
+      }
+      blockNumbers = Array.from(new Set(blockNumbers)).sort((item1: number, item2: number) => {
+        return item1 - item2
+      })
+      const datas: StatisticsData[] = []
+      blockNumbers.forEach(blockNumber => {
+        if (findHashRate(hashRates, blockNumber)) {
+          datas.push({
+            blockNumber,
+            type: 'HashRate',
+            hashRate: findHashRate(hashRates, blockNumber),
+            difficulty: findDifficulty(difficulties, blockNumber),
+          })
+        }
+        if (findDifficulty(difficulties, blockNumber)) {
+          datas.push({
+            blockNumber,
+            type: 'Difficulty',
+            hashRate: findHashRate(hashRates, blockNumber),
+            difficulty: findDifficulty(difficulties, blockNumber),
+          })
+        }
+      })
+      setStatisticsDatas(datas)
     })
   }, [])
 
@@ -124,7 +148,7 @@ export default () => {
             scale={scale}
             forceFit
             data={statisticsDatas}
-            padding={[50, 90, 100, 90]}
+            padding={isMobile() ? [40, 90, 80, 90] : [80, 90, 100, 90]}
           >
             <Legend
               custom
@@ -159,8 +183,8 @@ export default () => {
               ]}
             />
             <Axis
-              name="Difficulty"
-              grid={null}
+              name="difficulty"
+              title={!isMobile()}
               label={{
                 textStyle: {
                   fill: '#3182bd',
@@ -169,8 +193,8 @@ export default () => {
               }}
             />
             <Axis
-              name="Hash Rate"
-              grid={null}
+              name="hashRate"
+              title={!isMobile()}
               label={{
                 textStyle: {
                   fill: '#66CC99',
@@ -179,8 +203,8 @@ export default () => {
               }}
             />
             <Tooltip />
-            <Geom type="line" position="blockNumber*difficulty" color="#3182bd" size={2} shape="line" />
-            <Geom type="line" position="blockNumber*hashRate" color="#66CC99" size={2} shape="line" />
+            <Geom type="line" position="blockNumber*difficulty" color="type" size={1} shape="hv" />
+            <Geom type="line" position="blockNumber*hashRate" color="type" size={1} shape="line" />
           </Chart>
         </ChartPanel>
       ) : (
