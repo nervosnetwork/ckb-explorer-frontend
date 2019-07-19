@@ -86,7 +86,7 @@ export const OverviewItemPanel = styled.div`
 
     &:after {
       content: '';
-      background: #f7f7f7;
+      background: #e2e2e2;
       height: 1px;
       width: 100%;
       display: block;
