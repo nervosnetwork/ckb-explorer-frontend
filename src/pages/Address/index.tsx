@@ -10,7 +10,6 @@ import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCa
 import TitleCard from '../../components/Card/TitleCard'
 import Content from '../../components/Content'
 import Tooltip from '../../components/Tooltip'
-import TransactionCard from '../../components/Transaction/TransactionCard/index'
 import TransactionItem from '../../components/Transaction/TransactionItem/index'
 import { fetchAddressInfo, fetchTipBlockNumber, fetchTransactionsByAddress } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
@@ -181,15 +180,15 @@ const AddressLockScriptItem = ({ title, children }: { title: string; children?: 
 const AddressLockScript = ({ script }: { script: State.Script }) => {
   return (
     <AddressLockScriptPanel>
-      <div className="address__lock_script_title">{`${i18n.t('address.lock_script')} : `}</div>
-      <AddressLockScriptItem title={`${i18n.t('address.code_hash')} :`}>
-        <span>{script.code_hash}</span>
+      <div className="address__lock_script_title">{i18n.t('address.lock_script')}</div>
+      <AddressLockScriptItem title={i18n.t('address.code_hash')}>
+        <code>{script.code_hash}</code>
       </AddressLockScriptItem>
-      <AddressLockScriptItem title={`${i18n.t('address.args')} :`}>
+      <AddressLockScriptItem title={i18n.t('address.args')}>
         {script.args.length === 1 ? (
-          <span>{script.args[0]}</span>
+          <code>{script.args[0]}</code>
         ) : (
-          script.args.map((arg: string, index: number) => <span>{`#${index}: ${arg}`}</span>)
+          script.args.map((arg: string, index: number) => <code>{`#${index}: ${arg}`}</code>)
         )}
       </AddressLockScriptItem>
     </AddressLockScriptPanel>
@@ -268,15 +267,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
           {state.transactions &&
             state.transactions.map((transaction: any, index: number) => {
               return (
-                transaction &&
-                (isMobile() ? (
-                  <TransactionCard
-                    address={state.address.address_hash}
-                    confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
-                    transaction={transaction.attributes}
-                    key={transaction.attributes.transaction_hash}
-                  />
-                ) : (
+                transaction && (
                   <TransactionItem
                     address={state.address.address_hash}
                     transaction={transaction.attributes}
@@ -284,7 +275,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                     key={transaction.attributes.transaction_hash}
                     isLastItem={index === state.transactions.length - 1}
                   />
-                ))
+                )
               )
             })}
           <AddressTransactionsPagition>

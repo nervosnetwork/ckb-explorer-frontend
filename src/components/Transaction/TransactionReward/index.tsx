@@ -6,16 +6,20 @@ import { localeNumberString } from '../../../utils/number'
 import i18n from '../../../utils/i18n'
 
 export const RewardPenal = styled.div`
-  @media (max-width: 700px) {
-    height: 17px;
-    margin-top: 5px;
-  }
-
   display: flex;
   align-items: center;
   height: 20px;
   justify-content: space-between;
   margin-top: 20px;
+  color: #000000;
+
+  @media (max-width: 700px) {
+    height: 32px;
+    margin-top: 10px;
+    justify-content: normal;
+    align-items: flex-start;
+    flex-direction: column;
+  }
 
   .reward__name__point {
     display: flex;
@@ -34,23 +38,15 @@ export const RewardPenal = styled.div`
       display: flex;
       align-items: center;
       justify-content: left;
-      font-size: 16px;
-      color: #000000;
       font-weight: 500;
-
-      @media (max-width: 700px) {
-        font-size: 12px;
-      }
     }
   }
 
   .reward__capacity {
-    font-size: 16px;
-    color: #000000;
     margin-left: 15px;
 
     @media (max-width: 700px) {
-      font-size: 12px;
+      margin-left: 13px;
     }
   }
 `
