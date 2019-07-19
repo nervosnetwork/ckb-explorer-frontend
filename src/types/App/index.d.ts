@@ -102,4 +102,8 @@ declare namespace State {
       difficulty: number
     }[]
   }
+
+  export interface NodeVersion {
+    version: string
+  }
 }
