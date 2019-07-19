@@ -65,7 +65,7 @@ const TableContentRowItem = styled.div`
 
 const TableMinerContentPanel = styled.div`
   height: 60px;
-  width: ${({ width }: { width: string }) => `${width}`};
+  width: ${({ width }: { width: string }) => width };
 
   .table__miner__content {
     line-height: 60px;
