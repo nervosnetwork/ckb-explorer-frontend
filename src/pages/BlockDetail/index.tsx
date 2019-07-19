@@ -8,10 +8,8 @@ import {
   BlockDetailPanel,
   BlockCommonContent,
   BlockMultiLinesPanel,
-  BlockPreviousNextPanel,
-  BlockHightLabel,
-  BlockTransactionsPanel,
   BlockTransactionsPagition,
+  BlockRootInfoItemPanel,
 } from './styled'
 import Content from '../../components/Content'
 import TransactionItem from '../../components/Transaction/TransactionItem/index'
@@ -30,74 +28,23 @@ import ProofIcon from '../../assets/proof.png'
 import EpochIcon from '../../assets/epoch.png'
 import StartNumberIcon from '../../assets/start_number.png'
 import LengthIcon from '../../assets/length.png'
-import PreviousBlockIcon from '../../assets/left_arrow.png'
-import PreviousBlockGreyIcon from '../../assets/left_arrow_grey.png'
-import NextBlockIcon from '../../assets/right_arrow.png'
-import NextBlockGreyIcon from '../../assets/right_arrow_grey.png'
-import MouseIcon from '../../assets/block_mouse.png'
+// import PreviousBlockIcon from '../../assets/left_arrow.png'
+// import PreviousBlockGreyIcon from '../../assets/left_arrow_grey.png'
+// import NextBlockIcon from '../../assets/right_arrow.png'
+// import NextBlockGreyIcon from '../../assets/right_arrow_grey.png'
+// import MouseIcon from '../../assets/block_mouse.png'
 import TransactionsRootIcon from '../../assets/transactions_root.png'
 import WitnessRootIcon from '../../assets/witness_root.png'
 import { parseSimpleDate } from '../../utils/date'
 import { fetchBlock, fetchTransactionsByBlockHash } from '../../service/http/fetcher'
 import { shannonToCkb } from '../../utils/util'
 import { startEndEllipsis, parsePageNumber } from '../../utils/string'
-import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import AddressHashCard from '../../components/Card/AddressHashCard'
 import TitleCard from '../../components/Card/TitleCard'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-
-const BlockPreviousNext = ({
-  blockNumber,
-  hasPrev = true,
-  hasNext = true,
-}: {
-  blockNumber: any
-  hasPrev?: boolean
-  hasNext?: boolean
-}) => {
-  return (
-    <BlockPreviousNextPanel>
-      {hasPrev ? (
-        <div
-          role="button"
-          tabIndex={-1}
-          className="block__arrow"
-          onClick={() => {
-            browserHistory.push(`/block/${blockNumber - 1}`)
-          }}
-          onKeyUp={() => {}}
-        >
-          <img src={PreviousBlockIcon} alt="previous block" />
-        </div>
-      ) : (
-        <div className="block__arrow_grey">
-          <img src={PreviousBlockGreyIcon} alt="previous block" />
-        </div>
-      )}
-      <img className="block__mouse" src={MouseIcon} alt="mouse" />
-      {hasNext ? (
-        <div
-          role="button"
-          tabIndex={-1}
-          className="block__arrow"
-          onClick={() => {
-            browserHistory.push(`/block/${blockNumber + 1}`)
-          }}
-          onKeyUp={() => {}}
-        >
-          <img src={NextBlockIcon} alt="next block" />
-        </div>
-      ) : (
-        <div role="button" tabIndex={-1} className="block__arrow_grey">
-          <img src={NextBlockGreyIcon} alt="next block" />
-        </div>
-      )}
-    </BlockPreviousNextPanel>
-  )
-}
 
 const MultiLinesItem = ({ label, value }: { label: string; value: string }) => {
   return (
@@ -388,36 +335,72 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
   const BlockRootInfoItems: BlockItem[] = [
     {
       image: TransactionsRootIcon,
-      label: `${i18n.t('block.transactions_root')}:`,
+      label: i18n.t('block.transactions_root'),
       value: `${state.block.transactions_root}`,
     },
     {
       image: WitnessRootIcon,
-      label: `${i18n.t('block.witnesses_root')}:`,
+      label: i18n.t('block.witnesses_root'),
       value: `${state.block.witnesses_root}`,
     },
   ]
 
   const items: OverviewItemData[] = [
     {
-      key: 'block_height',
       title: i18n.t('block.block_height'),
       content: localeNumberString(state.block.number),
     },
     {
-      key: 'miner',
       title: i18n.t('block.miner'),
       content: state.block.miner_hash,
     },
     {
-      key: 'transactions',
       title: i18n.t('transaction.transactions'),
       content: localeNumberString(state.block.transactions_count),
     },
     {
-      key: 'epoch',
       title: i18n.t('block.epoch'),
       content: localeNumberString(state.block.epoch),
+    },
+    {
+      title: i18n.t('block.proposal_transactions'),
+      content: state.block.proposals_count ? localeNumberString(state.block.proposals_count) : 0,
+    },
+    {
+      title: i18n.t('block.epoch_start_number'),
+      content: localeNumberString(state.block.start_number),
+    },
+    {
+      title: i18n.t('block.block_reward'),
+      content: `${localeNumberString(shannonToCkb(state.block.reward))} CKB`,
+    },
+    {
+      title: i18n.t('block.epoch_length'),
+      content: localeNumberString(state.block.length),
+    },
+    {
+      title: i18n.t('transaction.transaction_fee'),
+      content: `${state.block.received_tx_fee} Shannon`,
+    },
+    {
+      title: i18n.t('block.difficulty'),
+      content: localeNumberString(state.block.difficulty, 16),
+    },
+    {
+      title: i18n.t('block.timestamp'),
+      content: `${parseSimpleDate(state.block.timestamp)}`,
+    },
+    {
+      title: i18n.t('block.nonce'),
+      content: `${state.block.nonce}`,
+    },
+    {
+      title: i18n.t('block.uncle_count'),
+      content: `${state.block.uncles_count}`,
+    },
+    {
+      title: i18n.t('block.proof'),
+      content: `${startEndEllipsis(state.block.proof, 9)}`,
     },
   ]
 
@@ -426,7 +409,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
       <BlockDetailPanel className="container">
         <AddressHashCard title={i18n.t('block.block')} hash={state.block.block_hash} />
         <TitleCard title={i18n.t('common.overview')} />
-        <OverviewCard items={items} />
+        <OverviewCard items={items}>
+          {BlockRootInfoItems.map(item => {
+            return (
+              <BlockRootInfoItemPanel>
+                <div className="block__root_info_title">{item.label}</div>
+                <div className="block__root_info_value">{item.value}</div>
+              </BlockRootInfoItemPanel>
+            )
+          })}
+        </OverviewCard>
         <BlockCommonContent>
           <div>
             <div>
@@ -490,38 +482,34 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
             })}
           </div>
         </BlockCommonContent>
-        <BlockPreviousNext blockNumber={state.block.number} hasPrev={state.prev} hasNext={state.next} />
-        <BlockHightLabel>{i18n.t('block.block_height')}</BlockHightLabel>
-
         <TitleCard title={i18n.t('transaction.transactions')} />
-        <BlockTransactionsPanel>
-          {/* <BlockOverview value={i18n.t('transaction.transactions')} /> */}
-          <div>
-            {state.transactions &&
-              state.transactions.map((transaction: any) => {
-                return (
-                  transaction && (
-                    <div key={transaction.attributes.transaction_hash}>
-                      <TransactionItem transaction={transaction.attributes} isBlock />
-                    </div>
-                  )
-                )
-              })}
-          </div>
-          <BlockTransactionsPagition>
-            <Pagination
-              showQuickJumper
-              showSizeChanger
-              defaultPageSize={size}
-              pageSize={size}
-              defaultCurrent={page}
-              current={page}
-              total={state.total}
-              onChange={onChange}
-              locale={localeInfo}
-            />
-          </BlockTransactionsPagition>
-        </BlockTransactionsPanel>
+        {state.transactions &&
+          state.transactions.map((transaction: any, index: number) => {
+            return (
+              transaction && (
+                <div key={transaction.attributes.transaction_hash}>
+                  <TransactionItem
+                    transaction={transaction.attributes}
+                    isBlock
+                    isLastItem={index === state.transactions.length - 1}
+                  />
+                </div>
+              )
+            )
+          })}
+        <BlockTransactionsPagition>
+          <Pagination
+            showQuickJumper
+            showSizeChanger
+            defaultPageSize={size}
+            pageSize={size}
+            defaultCurrent={page}
+            current={page}
+            total={state.total}
+            onChange={onChange}
+            locale={localeInfo}
+          />
+        </BlockTransactionsPagition>
       </BlockDetailPanel>
     </Content>
   )

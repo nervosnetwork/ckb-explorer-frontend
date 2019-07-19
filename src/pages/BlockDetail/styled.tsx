@@ -3,12 +3,31 @@ import { CommonPagition } from '../BlockList/styled'
 
 export const BlockDetailPanel = styled.div`
   width: 100%;
-  margin-top: 60px;
-  margin-bottom: 90px;
+  margin-top: 40px;
+  margin-bottom: 40px;
 
   @media (max-width: 700px) {
     margin-top: 20px;
     margin-bottom: 20px;
+  }
+`
+
+export const BlockRootInfoItemPanel = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  @media (min-width: 700px) {
+    height: 20px;
+    margin-top: 20px;
+  }
+
+  .block__root_info_title {
+    font-weight: 500;
+  }
+  .block__root_info_value {
+    flex: 1;
+    margin-left: 20px;
   }
 `
 
@@ -93,86 +112,11 @@ export const BlockMultiLinesPanel = styled.div`
   }
 `
 
-export const BlockPreviousNextPanel = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 59px;
-
-  .block__arrow {
-    margin-top: 13px;
-    img {
-      width: 83px;
-      height: 19px;
-    }
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
-  .block__arrow_grey {
-    margin-top: 13px;
-    img {
-      width: 83px;
-      height: 19px;
-    }
-  }
-
-  .block__mouse {
-    width: 25px;
-    height: 45px;
-    margin: 0 21px 0 21px;
-  }
-
-  @media (max-width: 700px) {
-    margin-top: 30px;
-
-    .block__arrow {
-      height: 7px;
-      margin-top: 0;
-      img {
-        width: 43px;
-        height: 10px;
-      }
-      &:hover {
-        cursor: pointer;
-      }
-    }
-
-    .block__arrow_grey {
-      height: 7px;
-      margin-top: 0;
-      img {
-        width: 43px;
-        height: 10px;
-      }
-    }
-
-    .block__mouse {
-      width: 15px;
-      height: 27px;
-      margin: 0 21px 0 21px;
-    }
-  }
-`
-
-export const BlockHightLabel = styled.div`
-  margin-top: 17px;
-  font-size: 16px;
-  color: #979797;
-  text-align: center;
-  @media (max-width: 700px) {
-    font-size: 8px;
-  }
-`
-
-export const BlockTransactionsPanel = styled.div``
-
 export const BlockTransactionsPagition = styled(CommonPagition)`
-  margin: 80px 0 0 0;
+  margin: 40px 0 0px 0;
   width: 100%;
-  overflow-x: auto;
 
   @media (max-width: 700px) {
-    margin: 20px 0 30px 3%;
+    margin: 20px 0 0px 0;
   }
 `
