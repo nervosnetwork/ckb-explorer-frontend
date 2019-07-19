@@ -12,86 +12,10 @@ export const BlockDetailPanel = styled.div`
   }
 `
 
-export const BlockDetailTitlePanel = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .block__title {
-    color: rgb(20, 20, 20);
-    font-size: 50px;
-    text-align: center;
-
-    @media (max-width: 700px) {
-      font-size: 20px;
-    }
-  }
-
-  .block__content {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-
-    #block__hash {
-      color: rgb(136, 136, 136);
-      font-size: 18px;
-
-      @media (max-width: 700px) {
-        font-size: 14px;
-        height: 40px;
-        width: 80%;
-      }
-      white-space: normal;
-      word-wrap: break-word;
-    }
-
-    img {
-      margin-left: 19px;
-      @media (max-width: 700px) {
-        margin-left: 8px;
-        width: 20px;
-        height: 17.5px;
-      }
-      width: 24px;
-      height: 21px;
-    }
-  }
-`
-
-export const BlockOverviewPanel = styled.div`
-  margin: 0 auto;
-  text-align: center;
-  margin-top: 107px;
-  margin-bottom: 70px;
-  font-size: 50px;
-  color: rgb(20, 20, 20);
-  height: 70px;
-
-  @media (max-width: 700px) {
-    margin-top: 25px;
-    margin-bottom: 5px;
-    font-size: 18px;
-    height: 50px;
-  }
-
-  &:after {
-    display: block;
-    content: '';
-    margin: 0 auto;
-    background: #3cc68a;
-    height: 4px;
-    width: 197px;
-    @media (max-width: 700px) {
-      width: 100px;
-      height: 2px;
-    }
-  }
-`
 export const BlockCommonContent = styled.div`
   overflow-x: auto;
   padding: 72px 88px 56px 88px;
-  margin: 0 auto;
+  margin: 10px auto;
   background: white;
   border: 0px solid white;
   border-radius: 6px;

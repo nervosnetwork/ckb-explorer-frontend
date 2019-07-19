@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useReducer } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
@@ -6,8 +6,6 @@ import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import {
   BlockDetailPanel,
-  BlockDetailTitlePanel,
-  BlockOverviewPanel,
   BlockCommonContent,
   BlockMultiLinesPanel,
   BlockPreviousNextPanel,
@@ -15,12 +13,10 @@ import {
   BlockTransactionsPanel,
   BlockTransactionsPagition,
 } from './styled'
-import AppContext from '../../contexts/App'
 import Content from '../../components/Content'
 import TransactionItem from '../../components/Transaction/TransactionItem/index'
 import SimpleLabel, { Tooltip } from '../../components/Label'
 import TransactionCard from '../../components/Transaction/TransactionCard/index'
-import CopyIcon from '../../assets/copy.png'
 import BlockHeightIcon from '../../assets/block_height_green.png'
 import BlockTransactionIcon from '../../assets/transactions_green.png'
 import ProposalTransactionsIcon from '../../assets/proposal_transactions.png'
@@ -43,41 +39,16 @@ import MouseIcon from '../../assets/block_mouse.png'
 import TransactionsRootIcon from '../../assets/transactions_root.png'
 import WitnessRootIcon from '../../assets/witness_root.png'
 import { parseSimpleDate } from '../../utils/date'
-
 import { fetchBlock, fetchTransactionsByBlockHash } from '../../service/http/fetcher'
-import { copyElementValue, shannonToCkb } from '../../utils/util'
+import { shannonToCkb } from '../../utils/util'
 import { startEndEllipsis, parsePageNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
-
-const BlockDetailTitle = ({ hash }: { hash: string }) => {
-  const appContext = useContext(AppContext)
-  return (
-    <BlockDetailTitlePanel>
-      <div className="block__title">{i18n.t('block.block')}</div>
-      <div className="block__content">
-        <code id="block__hash">{hash}</code>
-        <div
-          role="button"
-          tabIndex={-1}
-          onKeyDown={() => {}}
-          onClick={() => {
-            copyElementValue(document.getElementById('block__hash'))
-            appContext.toastMessage(i18n.t('common.copied'), 3000)
-          }}
-        >
-          <img src={CopyIcon} alt="copy" />
-        </div>
-      </div>
-    </BlockDetailTitlePanel>
-  )
-}
-
-const BlockOverview = ({ value }: { value: string }) => {
-  return <BlockOverviewPanel>{value}</BlockOverviewPanel>
-}
+import AddressHashCard from '../../components/Card/AddressHashCard'
+import TitleCard from '../../components/Card/TitleCard'
+import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 
 const BlockPreviousNext = ({
   blockNumber,
@@ -428,11 +399,35 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
     },
   ]
 
+  const items: OverviewItemData[] = [
+    {
+      key: 'block_height',
+      title: i18n.t('block.block_height'),
+      content: localeNumberString(state.block.number),
+    },
+    {
+      key: 'miner',
+      title: i18n.t('block.miner'),
+      content: state.block.miner_hash,
+    },
+    {
+      key: 'transactions',
+      title: i18n.t('transaction.transactions'),
+      content: localeNumberString(state.block.transactions_count),
+    },
+    {
+      key: 'epoch',
+      title: i18n.t('block.epoch'),
+      content: localeNumberString(state.block.epoch),
+    },
+  ]
+
   return (
     <Content>
       <BlockDetailPanel className="container">
-        <BlockDetailTitle hash={state.block.block_hash} />
-        <BlockOverview value={i18n.t('common.overview')} />
+        <AddressHashCard title={i18n.t('block.block')} hash={state.block.block_hash} />
+        <TitleCard title={i18n.t('common.overview')} />
+        <OverviewCard items={items} />
         <BlockCommonContent>
           <div>
             <div>
@@ -499,8 +494,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
         <BlockPreviousNext blockNumber={state.block.number} hasPrev={state.prev} hasNext={state.next} />
         <BlockHightLabel>{i18n.t('block.block_height')}</BlockHightLabel>
 
+        <TitleCard title={i18n.t('transaction.transactions')} />
         <BlockTransactionsPanel>
-          <BlockOverview value={i18n.t('transaction.transactions')} />
+          {/* <BlockOverview value={i18n.t('transaction.transactions')} /> */}
           <div>
             {state.transactions &&
               state.transactions.map((transaction: any) => {
