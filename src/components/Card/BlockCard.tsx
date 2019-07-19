@@ -14,9 +14,9 @@ const CardPanel = styled.div`
   padding: 0px 20px 20px 20px;
   border: 0px solid white;
   border-radius: 3px;
-  box-shadow: 2px 2px 6px #eaeaea;
+  box-shadow: 1px 1px 3px 0 #dfdfdf;
   display: flex;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   margin-left: 6%;
   flex-direction: column;
 `
@@ -39,8 +39,7 @@ const CardItemPanel = styled.div`
   }
 
   .card__value {
-    color: ${(props: { highLight: boolean; name: string }) => (props.highLight ? '#3CC68A' : '#888888')};
-    font-weight: bold;
+    color: ${(props: { highLight: boolean; name: string }) => (props.highLight ? '#3CC68A' : '#000000')};
     font-size: 13px;
   }
 
@@ -52,16 +51,6 @@ const CardItemPanel = styled.div`
     top: 125%;
     background-color: ${(props: { highLight: boolean; name: string }) =>
       props.name === i18n.t('home.time') ? '#ffffff' : '#f7f7f7'};
-  }
-
-  @media (max-width: 320px) {
-    > div {
-      font-size: 13px;
-    }
-
-    .card__value {
-      font-size: 12px;
-    }
   }
 `
 
