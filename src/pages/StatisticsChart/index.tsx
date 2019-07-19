@@ -208,7 +208,7 @@ export default () => {
                 },
               }}
             />
-            <Tooltip />
+            <Tooltip itemTpl='<li data-index={index}><span style="background-color:{color};width:5px;height:5px;border-radius:50%;display:inline-block;margin-right:8px;"></span>{name}: {value}</li>' />
             <Geom type="line" position="blockNumber*difficulty" color="type" size={1} shape="hv" />
             <Geom type="line" position="blockNumber*hashRate" color="type" size={1} shape="line" />
           </Chart>
