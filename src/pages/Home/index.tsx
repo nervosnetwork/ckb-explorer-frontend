@@ -12,13 +12,13 @@ import {
 } from '../../components/Table'
 import BlockCard from '../../components/Card/BlockCard'
 import { fetchBlocks, fetchStatistics } from '../../service/http/fetcher'
-import { shannonToCkb } from '../../utils/util'
-import { parseTime, parseSimpleDate } from '../../utils/date'
+import { parseTime } from '../../utils/date'
 import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
 import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import browserHistory from '../../routes/history'
+import { TableTitleData, TableTitleDatas, getTableContentDatas, TableContentData } from '../BlockList/index'
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   return (
@@ -158,11 +158,9 @@ export default () => {
         ) : (
           <ContentTable>
             <TableTitleRow>
-              <TableTitleItem width="14%" title={t('home.height')} />
-              <TableTitleItem width="14%" title={t('home.transactions')} />
-              <TableTitleItem width="20%" title={t('home.block_reward')} />
-              <TableTitleItem width="37%" title={t('block.miner')} />
-              <TableTitleItem width="15%" title={t('home.time')} />
+              {TableTitleDatas.map((data: TableTitleData) => {
+                return <TableTitleItem width={data.width} title={data.title} />
+              })}
             </TableTitleRow>
             {blocksWrappers &&
               blocksWrappers.map((block: any, index: number) => {
@@ -170,18 +168,20 @@ export default () => {
                 return (
                   block && (
                     <TableContentRow key={key}>
-                      <TableContentItem
-                        width="14%"
-                        content={localeNumberString(block.attributes.number)}
-                        to={`/block/${block.attributes.number}`}
-                      />
-                      <TableContentItem width="14%" content={block.attributes.transactions_count} />
-                      <TableContentItem
-                        width="20%"
-                        content={localeNumberString(shannonToCkb(block.attributes.reward))}
-                      />
-                      <TableMinerContentItem width="37%" content={block.attributes.miner_hash} />
-                      <TableContentItem width="15%" content={parseSimpleDate(block.attributes.timestamp)} />
+                      {getTableContentDatas(block).map((tableContentData: TableContentData) => {
+                        if (tableContentData.content === block.attributes.miner_hash) {
+                          return (
+                            <TableMinerContentItem width={tableContentData.width} content={tableContentData.content} />
+                          )
+                        }
+                        return (
+                          <TableContentItem
+                            width={tableContentData.width}
+                            content={tableContentData.content}
+                            to={tableContentData.to}
+                          />
+                        )
+                      })}
                     </TableContentRow>
                   )
                 )
