@@ -172,13 +172,6 @@ export const ContentTitle = styled.div`
       height: 4px;
       width: 100px;
       margin: 0 auto;
-
-      @media (-webkit-min-device-pixel-ratio: 2) {
-        transform: scaleY(0.5);
-      }
-      @media (-webkit-min-device-pixel-ratio: 3) {
-        transform: scaleY(0.33);
-      }
     }
   }
 `
