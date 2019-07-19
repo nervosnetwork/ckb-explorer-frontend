@@ -18,9 +18,7 @@ export default ({ confirmation, capacity }: { confirmation?: number; capacity: n
         </div>
         <div className="transaction__capacity">
           <TransactionCapacityValuePanel increased={capacity >= 0}>
-            <div className="transaction__capacity_value">
-              <span>{`${capacity >= 0 ? '+' : '-'} ${localeNumberString(shannonToCkb(Math.abs(capacity)))} CKB`}</span>
-            </div>
+            <span>{`${capacity >= 0 ? '+' : '-'} ${localeNumberString(shannonToCkb(Math.abs(capacity)))} CKB`}</span>
           </TransactionCapacityValuePanel>
         </div>
       </div>

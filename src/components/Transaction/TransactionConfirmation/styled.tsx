@@ -72,47 +72,18 @@ export const TransactionConfirmationValuePanel = styled.div`
   }
 `
 
-export const TransactionCapacityValuePanel = styled.div`
+export const TransactionCapacityValuePanel = styled(TransactionConfirmationValuePanel)`
   float: left;
-  display: flex;
-  flex-direction: row;
+  color: #ffffff;
+  border: 20px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  padding: 0px 20px 0px 20px;
 
-  .transaction__capacity_value:before {
-    content: '';
-    border: 20px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
-    border-left: 10px solid transparent;
-    background: white;
-
-    @media (max-width: 700px) {
-      border: 15px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
-      border-left: 7.5px solid transparent;
-    }
-  }
-  .transaction__capacity_value {
-    min-width: 280px;
-    height: 40px;
-    background: ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
-    align-items: center;
-    display: flex;
-    color: #ffffff;
-    > span {
-      width: 100%;
-    }
-
-    @media (max-width: 700px) {
-      min-width: 130px;
-      height: 30px;
-    }
-  }
-  .transaction__capacity_value:after {
-    content: '';
-    border: 20px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
-    border-right: 10px solid transparent;
-    background: white;
-
-    @media (max-width: 700px) {
-      border: 15px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
-      border-right: 7.5px solid transparent;
-    }
+  @media (max-width: 700px) {
+    border: 15px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
+    border-left: 7.5px solid transparent;
+    border-right: 7.5px solid transparent;
+    padding: 0px 15px 0px 15px;
   }
 `
