@@ -18,7 +18,7 @@ const TableTitleRowItem = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: ${({ width }: { width: string }) => width };
+  width: ${({ width }: { width: string }) => width};
   height: 65px;
 
   > div {
@@ -47,11 +47,17 @@ export const TableContentRow = styled.div`
     left: 2.5%;
     bottom: 1px;
     background: #d8d8d8;
+    @media (-webkit-min-device-pixel-ratio: 2) {
+      transform: scaleY(0.5);
+    }
+    @media (-webkit-min-device-pixel-ratio: 3) {
+      transform: scaleY(0.33);
+    }
   }
 `
 
 const TableContentRowItem = styled.div`
-  width: ${({ width }: { width: string }) => width };
+  width: ${({ width }: { width: string }) => width};
   height: 60px;
   color: #888888;
   font-weight: 450;
@@ -65,7 +71,7 @@ const TableContentRowItem = styled.div`
 
 const TableMinerContentPanel = styled.div`
   height: 60px;
-  width: ${({ width }: { width: string }) => width };
+  width: ${({ width }: { width: string }) => width};
 
   .table__miner__content {
     line-height: 60px;

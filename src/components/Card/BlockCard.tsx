@@ -51,6 +51,12 @@ const CardItemPanel = styled.div`
     top: 125%;
     background-color: ${(props: { highLight: boolean; name: string }) =>
       props.name === i18n.t('home.time') ? '#ffffff' : '#f7f7f7'};
+    @media (-webkit-min-device-pixel-ratio: 2) {
+      transform: scaleY(0.5);
+    }
+    @media (-webkit-min-device-pixel-ratio: 3) {
+      transform: scaleY(0.33);
+    }
   }
 `
 
