@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import BlockchainTipImage from '../../assets/blockchain_tip_background.png'
 
 export const HomeHeaderPanel = styled.div`
   min-height: 180px;
@@ -37,6 +36,8 @@ export const HomeHeaderItemPanel = styled.div`
   border: 0px solid white;
   border-radius: 6px;
   box-shadow: 2px 2px 4px #b3b3b3;
+  overflow: hidden;
+
   cursor: ${(props: { clickable: boolean }) => (props.clickable ? 'pointer' : 'default')};
 
   .blockchain__item__value {
@@ -68,24 +69,17 @@ export const HomeHeaderItemPanel = styled.div`
 
   .blockchain__item__tip__content {
     width: 100%;
-    height: 40px;
+    height: 42px;
     opacity: 0;
     text-align: center;
     font-weight: 500;
-    line-height: 40px;
+    line-height: 42px;
     color: #ffffff;
     font-size: 12px;
-
-    background-image: url(${BlockchainTipImage});
-    background-repeat: no-repeat;
-    background-size: 100% 40px;
-
+    background: #3cc68a;
     margin-top: 10px;
   }
 
-  /* @media (max-width: 1200px) {
-    margin: 10px 20px;
-  } */
   @media (max-width: 700px) {
     width: 48%;
     height: 80px;
