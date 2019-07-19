@@ -112,7 +112,7 @@ const handleStatistics = (wrapper: StatisticsChartWrapper) => {
   blockNumbers.forEach(blockNumber => {
     const hashRate = findHashRate(hashRates, blockNumber)
     const difficulty = findDifficulty(difficulties, blockNumber)
-    if (hashRate) {
+    if (hashRate !== undefined) {
       datas.push({
         blockNumber,
         type: 'HashRate',
@@ -121,7 +121,7 @@ const handleStatistics = (wrapper: StatisticsChartWrapper) => {
         epochNumber: difficulty ? difficulty.epoch_number : undefined,
       })
     }
-    if (findDifficulty(difficulties, blockNumber)) {
+    if (difficulty !== undefined) {
       const index = datas.findIndex(data => {
         return data.blockNumber === blockNumber
       })
