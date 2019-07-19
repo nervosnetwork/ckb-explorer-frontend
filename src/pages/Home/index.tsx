@@ -32,11 +32,7 @@ const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
     >
       <div className="blockchain__item__value">{blockchain.value}</div>
       <div className="blockchain__item__name">{blockchain.name}</div>
-      {blockchain.tip && (
-        <div className="blockchain__item__tip">
-          <div className="blockchain__item__tip__content">{blockchain.tip}</div>
-        </div>
-      )}
+      {blockchain.tip && <div className="blockchain__item__tip__content">{blockchain.tip}</div>}
     </HomeHeaderItemPanel>
   )
 }

@@ -28,9 +28,9 @@ export const HomeHeaderPanel = styled.div`
 `
 
 export const HomeHeaderItemPanel = styled.div`
-  width: 291px;
+  width: 290px;
   height: 148px;
-  margin: 10px 6px;
+  margin: 0px 6px;
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -44,7 +44,7 @@ export const HomeHeaderItemPanel = styled.div`
     text-align: center;
     font-size: 26px;
     font-weight: 500;
-    margin-top: 60px;
+    margin-top: 35px;
   }
 
   .blockchain__item__name {
@@ -55,37 +55,37 @@ export const HomeHeaderItemPanel = styled.div`
     font-weight: normal;
   }
 
-  .blockchain__item__tip {
-    margin-top: 8px;
-    opacity: 0;
-    width: 285px;
-    height: 41px;
-    background-image: url(${BlockchainTipImage});
-    background-repeat: no-repeat;
-    background-size: 285px 41px;
-  }
-
-  &:hover .blockchain__item__tip {
-    visibility: visible;
-    opacity: 1;
-  }
-
   &:hover {
     box-shadow: 4px 4px 8px 0 #b3b3b3;
+    .blockchain__item__tip__content {
+      visibility: visible;
+      opacity: 1;
+    }
+    .blockchain__item__value {
+      margin-top: 25px;
+    }
   }
 
   .blockchain__item__tip__content {
-    width: 285px;
-    height: 41px;
+    width: 100%;
+    height: 40px;
+    opacity: 0;
     text-align: center;
     font-weight: 500;
-    line-height: 41px;
+    line-height: 40px;
     color: #ffffff;
     font-size: 12px;
+
+    background-image: url(${BlockchainTipImage});
+    background-repeat: no-repeat;
+    background-size: 100% 40px;
+
+    margin-top: 10px;
   }
-  @media (max-width: 1200px) {
+
+  /* @media (max-width: 1200px) {
     margin: 10px 20px;
-  }
+  } */
   @media (max-width: 700px) {
     width: 48%;
     height: 80px;
