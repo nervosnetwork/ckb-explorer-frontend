@@ -11,6 +11,7 @@ export const AddressContentPanel = styled.div`
 
   @media (max-width: 700px) {
     margin-top: 30px;
+    margin-bottom: 0px;
     padding: 0px 20px 20px 20px;
   }
 `
@@ -23,17 +24,44 @@ export const AddressPendingRewardTitlePanel = styled.div`
     margin-left: 20px;
     transform: translateY(2px);
     position: relative;
+    z-index: 1;
+
+    @media (max-width: 700px) {
+      margin-left: 10px;
+    }
+
     > img {
       width: 20px;
       height: 20px;
+
+      @media (max-width: 700px) {
+        width: 16px;
+        height: 16px;
+      }
+    }
+    &:focus {
+      outline: 0;
     }
   }
 `
 
 export const AddressLockScriptPanel = styled.div`
   width: 100%;
+  margin-top: 20px;
+
+  @media (max-width: 700px) {
+    margin-top: 10px;
+  }
+
   .address__lock_script_title {
     font-weight: 500;
+    height: 25px;
+    padding: 0px 0px 5px 0px;
+
+    @media (max-width: 700px) {
+      height: 16px;
+      padding: 0px;
+    }
   }
 `
 
@@ -44,27 +72,48 @@ export const AddressLockScriptItemPanel = styled.div`
   align-items: flex-start;
   margin-top: 10px;
 
+  @media (min-width: 700px) {
+    height: 20px;
+  }
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+  }
+
   .address_lock_script__title {
     > img {
       width: 9px;
       height: 9px;
+      transform: translateY(-1px);
+
+      @media (max-width: 700px) {
+        width: 5px;
+        height: 5px;
+        transform: translateY(-2px);
+      }
     }
 
     > span {
       margin-left: 10px;
-      font-size: 16px;
       font-weight: 500;
-      color: #000000;
+
+      @media (max-width: 700px) {
+        margin-left: 5px;
+      }
     }
   }
 
   .address_lock_script__content {
     flex: 1;
     margin-left: 20px;
-    font-size: 16px;
-    color: #000000;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 700px) {
+      margin-left: 10px;
+      word-wrap: break-word;
+      word-break: break-all;
+    }
   }
 `
 
@@ -77,6 +126,6 @@ export const AddressTransactionsPagition = styled(CommonPagition)`
   width: 100%;
 
   @media (max-width: 700px) {
-    margin: 20px 0 30px 3%;
+    margin: 20px 0 0px 0;
   }
 `

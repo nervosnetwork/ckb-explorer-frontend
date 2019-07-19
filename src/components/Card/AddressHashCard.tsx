@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import CopyIcon from '../../assets/copy.png'
 import AppContext from '../../contexts/App'
 import i18n from '../../utils/i18n'
-import { isMobile } from '../../utils/screen'
+import { isSmallMobile, isMediumMobile, isLargeMobile } from '../../utils/screen'
 import { startEndEllipsis } from '../../utils/string'
 import { copyElementValue } from '../../utils/util'
 
@@ -19,7 +19,6 @@ const AddressHashCardPanel = styled.div`
 
   @media (max-width: 700px) {
     height: 50px;
-    padding: 0px 0px 17px 0px;
     border-radius: 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
   }
@@ -29,12 +28,10 @@ const AddressHashCardPanel = styled.div`
     font-size: 30px;
     font-weight: 500;
     color: #000000;
-    height: 36px;
 
     @media (max-width: 700px) {
       font-size: 15px;
       margin-left: 20px;
-      height: 16px;
     }
   }
 
@@ -42,41 +39,59 @@ const AddressHashCardPanel = styled.div`
     margin-left: 20px;
     font-size: 20px;
     color: #000000;
-    height: 24px;
-    transform: translateY(4px);
+    transform: translateY(3px);
 
     @media (max-width: 700px) {
-      font-size: 14px;
+      font-size: 13px;
       margin-left: 10px;
-      height: 16px;
       font-weight: 500;
+      transform: translateY(1px);
     }
   }
 
   .address_hash__copy_iocn {
     cursor: pointer;
     margin-left: 20px;
-    transform: translateY(8px);
+    transform: translateY(6px);
+
+    @media (max-width: 700px) {
+      margin-left: 10px;
+      transform: translateY(3px);
+    }
 
     > img {
       width: 21px;
       height: 24px;
-    }
 
-    @media (max-width: 700px) {
-      margin-left: 10px;
-      width: 16px;
-      height: 18px;
+      @media (max-width: 700px) {
+        width: 16px;
+        height: 18px;
+      }
     }
   }
 `
+
+const handleHashText = (hash: string) => {
+  if (isSmallMobile()) {
+    return startEndEllipsis(hash, 7, 10)
+  }
+  if (isMediumMobile()) {
+    return startEndEllipsis(hash, 8)
+  }
+  if (isLargeMobile()) {
+    return startEndEllipsis(hash, 13)
+  }
+  return hash
+}
 
 export default ({ title, hash }: { title: string; hash: string }) => {
   const appContext = useContext(AppContext)
   return (
     <AddressHashCardPanel>
       <div className="address_hash__title">{title}</div>
-      <div id="address_hash__hash">{isMobile() ? startEndEllipsis(hash, 10) : hash}</div>
+      <div id="address_hash__hash">
+        <code>{handleHashText(hash)}</code>
+      </div>
       <div
         className="address_hash__copy_iocn"
         role="button"

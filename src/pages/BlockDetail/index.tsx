@@ -16,7 +16,6 @@ import {
 import Content from '../../components/Content'
 import TransactionItem from '../../components/Transaction/TransactionItem/index'
 import SimpleLabel, { Tooltip } from '../../components/Label'
-import TransactionCard from '../../components/Transaction/TransactionCard/index'
 import BlockHeightIcon from '../../assets/block_height_green.png'
 import BlockTransactionIcon from '../../assets/transactions_green.png'
 import ProposalTransactionsIcon from '../../assets/proposal_transactions.png'
@@ -503,11 +502,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
                 return (
                   transaction && (
                     <div key={transaction.attributes.transaction_hash}>
-                      {isMobile() ? (
-                        <TransactionCard transaction={transaction.attributes} />
-                      ) : (
-                        <TransactionItem transaction={transaction.attributes} isBlock />
-                      )}
+                      <TransactionItem transaction={transaction.attributes} isBlock />
                     </div>
                   )
                 )

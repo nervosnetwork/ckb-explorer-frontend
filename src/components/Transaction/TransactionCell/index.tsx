@@ -7,12 +7,19 @@ import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import Tooltip, { TargetSize } from '../../Tooltip/index'
 import { CellbasePanel, TransactionCellPanel } from './styled'
+import { isMediumMobile, isLargeMobile, isMobile, isSmallMobile } from '../../../utils/screen'
 
 const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
   const [show, setShow] = useState(false)
-  const targetSize: TargetSize = {
+  let targetSize: TargetSize = {
     width: 20,
     height: 30,
+  }
+  if (isMobile()) {
+    targetSize = {
+      width: 14,
+      height: 30,
+    }
   }
   if (!targetBlockNumber || targetBlockNumber <= 0) {
     return (
@@ -51,6 +58,19 @@ const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
   )
 }
 
+const handleAddressText = (address: string) => {
+  if (isSmallMobile()) {
+    return startEndEllipsis(address, 12)
+  }
+  if (isMediumMobile()) {
+    return startEndEllipsis(address, 19)
+  }
+  if (isLargeMobile()) {
+    return startEndEllipsis(address, 24)
+  }
+  return startEndEllipsis(address)
+}
+
 const TransactionCell = ({ cell, address }: { cell: State.InputOutput; address?: string }) => {
   if (cell.from_cellbase) {
     return <Cellbase targetBlockNumber={cell.target_block_number} />
@@ -59,7 +79,7 @@ const TransactionCell = ({ cell, address }: { cell: State.InputOutput; address?:
   let addressText = i18n.t('address.unable_decode_address')
   let highLight = false
   if (cell.address_hash) {
-    addressText = startEndEllipsis(cell.address_hash)
+    addressText = handleAddressText(cell.address_hash)
     if (cell.address_hash !== address) {
       highLight = true
     }

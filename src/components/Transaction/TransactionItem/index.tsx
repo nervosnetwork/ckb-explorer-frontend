@@ -1,16 +1,32 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import InputOutputIcon from '../../../assets/input_arrow_output.png'
+import RightArrowIcon from '../../../assets/input_arrow_output.png'
+import DownArrowIcon from '../../../assets/input_arrow_output_down.png'
 import { parseDate } from '../../../utils/date'
+import { localeNumberString } from '../../../utils/number'
+import { isLargeMobile, isMediumMobile, isMobile, isSmallMobile } from '../../../utils/screen'
+import { startEndEllipsis } from '../../../utils/string'
 import { handleCapacityChange } from '../../../utils/util'
-import TransactionCellList from '../TransactionCellList'
 import TransactionCell from '../TransactionCell'
+import TransactionCellList from '../TransactionCellList'
 import TransactionConfirmation from '../TransactionConfirmation'
 import TransactionReward from '../TransactionReward'
 import { FullPanel, TransactionHashBlockPanel, TransactionInputOutputPanel, TransactionPanel } from './styled'
-import { localeNumberString } from '../../../utils/number'
 
 const MAX_CELL_SHOW_SIZE = 10
+
+const handleTransactionHashText = (transactionHash: string) => {
+  if (isSmallMobile()) {
+    return startEndEllipsis(transactionHash, 12)
+  }
+  if (isMediumMobile()) {
+    return startEndEllipsis(transactionHash, 19)
+  }
+  if (isLargeMobile()) {
+    return startEndEllipsis(transactionHash, 24)
+  }
+  return transactionHash
+}
 
 const TransactionItem = ({
   transaction,
@@ -28,16 +44,17 @@ const TransactionItem = ({
   return (
     <TransactionPanel isLastItem={isLastItem}>
       <TransactionHashBlockPanel>
-        <Link to={`/transaction/${transaction.transaction_hash}`}>
-          <code className="transaction_item__hash">{transaction.transaction_hash}</code>
-        </Link>
-        {!isBlock && (
-          <div className="transaction_item__block">
-            {`(Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}
-          </div>
-        )}
+        <div className="transaction_item__content">
+          <Link to={`/transaction/${transaction.transaction_hash}`}>
+            <code className="transaction_item__hash">{handleTransactionHashText(transaction.transaction_hash)}</code>
+          </Link>
+          {!isBlock && (
+            <div className="transaction_item__block">
+              {`(Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}
+            </div>
+          )}
+        </div>
       </TransactionHashBlockPanel>
-      <div className="sperate__line_top" />
       <TransactionInputOutputPanel>
         <div className="transaction_item__input">
           <TransactionCellList
@@ -49,7 +66,7 @@ const TransactionItem = ({
             }}
           />
         </div>
-        <img src={InputOutputIcon} alt="input and output" />
+        <img src={isMobile() ? DownArrowIcon : RightArrowIcon} alt="input and output" />
         <div className="transaction_item__output">
           <TransactionCellList
             cells={transaction.display_outputs}
@@ -65,10 +82,7 @@ const TransactionItem = ({
         </div>
       </TransactionInputOutputPanel>
       {confirmation && (
-        <>
-          <div className="sperate__line_bottom" />
-          <TransactionConfirmation confirmation={confirmation} capacity={handleCapacityChange(transaction, address)} />
-        </>
+        <TransactionConfirmation confirmation={confirmation} capacity={handleCapacityChange(transaction, address)} />
       )}
     </TransactionPanel>
   )
