@@ -4,7 +4,7 @@ import Search from '../Search'
 import logoIcon from '../../assets/ckb_logo.png'
 import SearchLogo from '../../assets/search.png'
 import i18n from '../../utils/i18n'
-import { HeaderDiv, HeaderMobileDiv, HeaderMobilePanel, HeaderSearchPanel, HeaderVerionPanel } from './styled'
+import { HeaderDiv, HeaderMobileDiv, HeaderMobilePanel, HeaderSearchPanel, HeaderVersionPanel } from './styled'
 import { isMobile } from '../../utils/screen'
 import AppContext from '../../contexts/App'
 
@@ -67,7 +67,7 @@ export default ({ search = true }: { search?: boolean }) => {
                 <div className="header__testnet">{i18n.t('navbar.network')}</div>
               </div>
             )}
-            <HeaderVerionPanel>{handleVersion(appContext)}</HeaderVerionPanel>
+            <HeaderVersionPanel>{handleVersion(appContext)}</HeaderVersionPanel>
           </HeaderMobileDiv>
           <HeaderSearchPanel>{search && <Search />}</HeaderSearchPanel>
         </HeaderMobilePanel>
@@ -99,7 +99,7 @@ export default ({ search = true }: { search?: boolean }) => {
             </div>
           </div>
         )}
-        <HeaderVerionPanel>{handleVersion(appContext)}</HeaderVerionPanel>
+        <HeaderVersionPanel>{handleVersion(appContext)}</HeaderVersionPanel>
       </HeaderDiv>
     </>
   )

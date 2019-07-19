@@ -181,7 +181,7 @@ export const HeaderSearchPanel = styled.div`
   align-items: center;
 `
 
-export const HeaderVerionPanel = styled.div`
+export const HeaderVersionPanel = styled.div`
   color: white;
   font-size: 16px;
   margin-left: 15px;
