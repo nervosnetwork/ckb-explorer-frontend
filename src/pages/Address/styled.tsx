@@ -84,7 +84,7 @@ export const AddressLockScriptItemPanel = styled.div`
     > img {
       width: 9px;
       height: 9px;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
 
       @media (max-width: 700px) {
         width: 5px;
@@ -108,11 +108,13 @@ export const AddressLockScriptItemPanel = styled.div`
     margin-left: 20px;
     display: flex;
     flex-direction: column;
+    transform: translateY(2px);
 
     @media (max-width: 700px) {
       margin-left: 10px;
       word-wrap: break-word;
       word-break: break-all;
+      transform: translateY(0px);
     }
   }
 `
