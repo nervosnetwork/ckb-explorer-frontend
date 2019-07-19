@@ -89,7 +89,7 @@ export const TransactionCapacityValuePanel = styled.div`
     }
   }
   .transaction__capacity_value {
-    min-width: 220px;
+    min-width: 280px;
     height: 40px;
     background: ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
     align-items: center;
