@@ -41,19 +41,21 @@ export const HomeHeaderItemPanel = styled.div`
   cursor: ${(props: { clickable: boolean }) => (props.clickable ? 'pointer' : 'default')};
 
   .blockchain__item__value {
+    margin-top: 45px;
+    height: 32px;
     color: #000000;
     text-align: center;
     font-size: 26px;
     font-weight: 500;
-    margin-top: 35px;
   }
 
   .blockchain__item__name {
+    margin-top: 8px;
     color: #000000;
     text-align: center;
     font-size: 16px;
-    margin-top: 12px;
     font-weight: normal;
+    height: 19px;
   }
 
   &:hover {
@@ -63,21 +65,21 @@ export const HomeHeaderItemPanel = styled.div`
       opacity: 1;
     }
     .blockchain__item__value {
-      margin-top: 25px;
+      margin-top: 35px;
     }
   }
 
   .blockchain__item__tip__content {
     width: 100%;
-    height: 42px;
+    height: 40px;
     opacity: 0;
     text-align: center;
     font-weight: 500;
-    line-height: 42px;
+    line-height: 40px;
     color: #ffffff;
     font-size: 12px;
     background: #3cc68a;
-    margin-top: 10px;
+    margin-top: 14px;
   }
 
   @media (max-width: 700px) {
