@@ -15,6 +15,19 @@ import { FullPanel, TransactionHashBlockPanel, TransactionInputOutputPanel, Tran
 
 const MAX_CELL_SHOW_SIZE = 10
 
+const handleTransactionHashText = (transactionHash: string) => {
+  if (isSmallMobile()) {
+    return startEndEllipsis(transactionHash, 12)
+  }
+  if (isMediumMobile()) {
+    return startEndEllipsis(transactionHash, 19)
+  }
+  if (isLargeMobile()) {
+    return startEndEllipsis(transactionHash, 24)
+  }
+  return transactionHash
+}
+
 const TransactionItem = ({
   transaction,
   address,
@@ -28,20 +41,12 @@ const TransactionItem = ({
   isBlock?: boolean
   isLastItem?: boolean
 }) => {
-  let transactionHash = transaction.transaction_hash
-  if (isSmallMobile()) {
-    transactionHash = startEndEllipsis(transaction.transaction_hash, 12)
-  } else if (isMediumMobile()) {
-    transactionHash = startEndEllipsis(transaction.transaction_hash, 19)
-  } else if (isLargeMobile()) {
-    transactionHash = startEndEllipsis(transaction.transaction_hash, 24)
-  }
   return (
     <TransactionPanel isLastItem={isLastItem}>
       <TransactionHashBlockPanel>
         <div className="transaction_item__content">
           <Link to={`/transaction/${transaction.transaction_hash}`}>
-            <code className="transaction_item__hash">{transactionHash}</code>
+            <code className="transaction_item__hash">{handleTransactionHashText(transaction.transaction_hash)}</code>
           </Link>
           {!isBlock && (
             <div className="transaction_item__block">

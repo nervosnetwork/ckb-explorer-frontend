@@ -71,21 +71,26 @@ const AddressHashCardPanel = styled.div`
   }
 `
 
+const handleHashText = (hash: string) => {
+  if (isSmallMobile()) {
+    return startEndEllipsis(hash, 7, 10)
+  }
+  if (isMediumMobile()) {
+    return startEndEllipsis(hash, 8)
+  }
+  if (isLargeMobile()) {
+    return startEndEllipsis(hash, 13)
+  }
+  return hash
+}
+
 export default ({ title, hash }: { title: string; hash: string }) => {
   const appContext = useContext(AppContext)
-  let hashText = hash
-  if (isSmallMobile()) {
-    hashText = startEndEllipsis(hash, 7, 10)
-  } else if (isMediumMobile()) {
-    hashText = startEndEllipsis(hash, 8)
-  } else if (isLargeMobile()) {
-    hashText = startEndEllipsis(hash, 13)
-  }
   return (
     <AddressHashCardPanel>
       <div className="address_hash__title">{title}</div>
       <div id="address_hash__hash">
-        <code>{hashText}</code>
+        <code>{handleHashText(hash)}</code>
       </div>
       <div
         className="address_hash__copy_iocn"

@@ -58,6 +58,19 @@ const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
   )
 }
 
+const handleAddressText = (address: string) => {
+  if (isSmallMobile()) {
+    return startEndEllipsis(address, 12)
+  }
+  if (isMediumMobile()) {
+    return startEndEllipsis(address, 19)
+  }
+  if (isLargeMobile()) {
+    return startEndEllipsis(address, 24)
+  }
+  return address
+}
+
 const TransactionCell = ({ cell, address }: { cell: State.InputOutput; address?: string }) => {
   if (cell.from_cellbase) {
     return <Cellbase targetBlockNumber={cell.target_block_number} />
@@ -66,14 +79,7 @@ const TransactionCell = ({ cell, address }: { cell: State.InputOutput; address?:
   let addressText = i18n.t('address.unable_decode_address')
   let highLight = false
   if (cell.address_hash) {
-    addressText = startEndEllipsis(cell.address_hash)
-    if (isSmallMobile()) {
-      addressText = startEndEllipsis(cell.address_hash, 12)
-    } else if (isMediumMobile()) {
-      addressText = startEndEllipsis(cell.address_hash, 19)
-    } else if (isLargeMobile()) {
-      addressText = startEndEllipsis(cell.address_hash, 24)
-    }
+    addressText = handleAddressText(cell.address_hash)
     if (cell.address_hash !== address) {
       highLight = true
     }
