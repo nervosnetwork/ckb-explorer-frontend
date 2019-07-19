@@ -126,12 +126,18 @@ export default () => {
           })
         }
         if (findDifficulty(difficulties, blockNumber)) {
+          const index = datas.findIndex(data => {
+            return data.blockNumber === blockNumber
+          })
           datas.push({
             blockNumber,
             type: 'Difficulty',
-            hashRate: findHashRate(hashRates, blockNumber),
+            hashRate: index === -1 ? findHashRate(hashRates, blockNumber) : undefined,
             difficulty: findDifficulty(difficulties, blockNumber),
           })
+          if (index !== -1) {
+            datas[index].difficulty = undefined
+          }
         }
       })
       setStatisticsDatas(datas)
