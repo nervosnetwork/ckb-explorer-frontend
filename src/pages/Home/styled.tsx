@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const HomeHeaderPanel = styled.div`
-  min-height: 180px;
+  min-height: 170px;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -30,6 +30,7 @@ export const HomeHeaderItemPanel = styled.div`
   width: 290px;
   height: 148px;
   margin: 0px 6px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -51,21 +52,23 @@ export const HomeHeaderItemPanel = styled.div`
 
   .blockchain__item__name {
     margin-top: 8px;
+    height: 19px;
     color: #000000;
     text-align: center;
     font-size: 16px;
     font-weight: normal;
-    height: 19px;
   }
 
   &:hover {
-    box-shadow: 4px 4px 8px 0 #b3b3b3;
-    .blockchain__item__tip__content {
-      visibility: visible;
-      opacity: 1;
-    }
-    .blockchain__item__value {
-      margin-top: 35px;
+    @media (min-width: 700px) {
+      box-shadow: 4px 4px 8px 0 #b3b3b3;
+      .blockchain__item__tip__content {
+        visibility: visible;
+        opacity: 1;
+      }
+      .blockchain__item__value {
+        margin-top: 35px;
+      }
     }
   }
 
@@ -95,22 +98,20 @@ export const HomeHeaderItemPanel = styled.div`
     margin: 10px 0;
 
     .blockchain__item__value {
+      margin-top: 23px;
+      height: 18px;
       color: #000000;
       text-align: center;
       font-size: 14px;
-      margin-top: 20px;
       font-weight: 600;
     }
 
     .blockchain__item__name {
+      margin-top: 5px;
+      height: 10px;
       color: #000000;
       text-align: center;
       font-size: 8px;
-      margin-top: 5px;
-    }
-
-    .blockchain__item__tip {
-      display: none;
     }
 
     &:hover .blockchain__item__tip {
