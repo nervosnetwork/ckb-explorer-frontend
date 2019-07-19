@@ -6,6 +6,7 @@ export interface StatisticsChart {
   difficulty: {
     block_number: number
     difficulty: number
+    epoch_number: number
   }[]
 }
 
