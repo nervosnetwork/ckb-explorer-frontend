@@ -18,7 +18,7 @@ const TableTitleRowItem = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: ${({ width }: { width: string }) => `${width}`};
+  width: ${({ width }: { width: string }) => width };
   height: 65px;
 
   > div {
