@@ -1,8 +1,7 @@
 import styled from 'styled-components'
-import BlockchainTipImage from '../../assets/blockchain_tip_background.png'
 
 export const HomeHeaderPanel = styled.div`
-  min-height: 180px;
+  min-height: 170px;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -28,64 +27,64 @@ export const HomeHeaderPanel = styled.div`
 `
 
 export const HomeHeaderItemPanel = styled.div`
-  width: 291px;
+  width: 290px;
   height: 148px;
-  margin: 10px 6px;
+  margin: 0px 6px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   background-color: white;
   border: 0px solid white;
   border-radius: 6px;
   box-shadow: 2px 2px 4px #b3b3b3;
+  overflow: hidden;
+
   cursor: ${(props: { clickable: boolean }) => (props.clickable ? 'pointer' : 'default')};
 
   .blockchain__item__value {
+    margin-top: 45px;
+    height: 32px;
     color: #000000;
     text-align: center;
     font-size: 26px;
     font-weight: 500;
-    margin-top: 60px;
   }
 
   .blockchain__item__name {
+    margin-top: 8px;
+    height: 19px;
     color: #000000;
     text-align: center;
     font-size: 16px;
-    margin-top: 12px;
     font-weight: normal;
   }
 
-  .blockchain__item__tip {
-    margin-top: 8px;
-    opacity: 0;
-    width: 285px;
-    height: 41px;
-    background-image: url(${BlockchainTipImage});
-    background-repeat: no-repeat;
-    background-size: 285px 41px;
-  }
-
-  &:hover .blockchain__item__tip {
-    visibility: visible;
-    opacity: 1;
-  }
-
   &:hover {
-    box-shadow: 4px 4px 8px 0 #b3b3b3;
+    @media (min-width: 700px) {
+      box-shadow: 4px 4px 8px 0 #b3b3b3;
+      .blockchain__item__tip__content {
+        visibility: visible;
+        opacity: 1;
+      }
+      .blockchain__item__value {
+        margin-top: 35px;
+      }
+    }
   }
 
   .blockchain__item__tip__content {
-    width: 285px;
-    height: 41px;
+    width: 100%;
+    height: 40px;
+    opacity: 0;
     text-align: center;
     font-weight: 500;
-    line-height: 41px;
+    line-height: 40px;
     color: #ffffff;
     font-size: 12px;
+    background: #3cc68a;
+    margin-top: 14px;
   }
-  @media (max-width: 1200px) {
-    margin: 10px 20px;
-  }
+
   @media (max-width: 700px) {
     width: 48%;
     height: 80px;
@@ -99,22 +98,20 @@ export const HomeHeaderItemPanel = styled.div`
     margin: 10px 0;
 
     .blockchain__item__value {
+      margin-top: 23px;
+      height: 18px;
       color: #000000;
       text-align: center;
       font-size: 14px;
-      margin-top: 20px;
       font-weight: 600;
     }
 
     .blockchain__item__name {
+      margin-top: 5px;
+      height: 10px;
       color: #000000;
       text-align: center;
       font-size: 8px;
-      margin-top: 5px;
-    }
-
-    .blockchain__item__tip {
-      display: none;
     }
 
     &:hover .blockchain__item__tip {
