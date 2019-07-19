@@ -58,6 +58,7 @@ interface StatisticsData {
   type: 'Difficulty' | 'HashRate'
   difficulty?: number
   hashRate?: number
+  epochNumber?: number
 }
 
 const scale = {
@@ -69,6 +70,10 @@ const scale = {
     min: 0,
     alias: 'Hash Rate(gps)',
   },
+  epochNumber: {
+    min: 0,
+    alias: 'Epoch Number',
+  },
 }
 
 const findHashRate = (hashRates: { hash_rate: string; block_number: number }[], blockNumber: number) => {
@@ -78,11 +83,61 @@ const findHashRate = (hashRates: { hash_rate: string; block_number: number }[], 
   return result ? Number((Number(result.hash_rate) * 1000).toFixed(0)) : undefined
 }
 
-const findDifficulty = (difficulties: { difficulty: number; block_number: number }[], blockNumber: number) => {
+const findDifficulty = (
+  difficulties: { difficulty: number; block_number: number; epoch_number: number }[],
+  blockNumber: number,
+) => {
   const result = difficulties.find(difficulty => {
     return difficulty.block_number === blockNumber
   })
-  return result ? result.difficulty : undefined
+  return result || undefined
+}
+
+const handleStatistics = (wrapper: StatisticsChartWrapper) => {
+  if (!wrapper) return []
+  const { hash_rate: hashRates, difficulty: difficulties } = wrapper.attributes
+  if (!hashRates && !difficulties) return []
+
+  let blockNumbers: number[] = []
+  if (hashRates) {
+    blockNumbers = blockNumbers.concat(hashRates.map(hashRate => hashRate.block_number))
+  }
+  if (difficulties) {
+    blockNumbers = blockNumbers.concat(difficulties.map(difficulty => difficulty.block_number))
+  }
+  blockNumbers = Array.from(new Set(blockNumbers)).sort((item1: number, item2: number) => {
+    return item1 - item2
+  })
+  const datas: StatisticsData[] = []
+  blockNumbers.forEach(blockNumber => {
+    const hashRate = findHashRate(hashRates, blockNumber)
+    const difficulty = findDifficulty(difficulties, blockNumber)
+    if (hashRate) {
+      datas.push({
+        blockNumber,
+        type: 'HashRate',
+        hashRate,
+        difficulty: difficulty ? difficulty.difficulty : undefined,
+        epochNumber: difficulty ? difficulty.epoch_number : undefined,
+      })
+    }
+    if (findDifficulty(difficulties, blockNumber)) {
+      const index = datas.findIndex(data => {
+        return data.blockNumber === blockNumber
+      })
+      datas.push({
+        blockNumber,
+        type: 'Difficulty',
+        hashRate: index === -1 ? hashRate : undefined,
+        difficulty: difficulty ? difficulty.difficulty : undefined,
+        epochNumber: difficulty ? difficulty.epoch_number : undefined,
+      })
+      if (index !== -1) {
+        datas[index].difficulty = undefined
+      }
+    }
+  })
+  return datas
 }
 
 export default () => {
@@ -101,46 +156,10 @@ export default () => {
 
   useEffect(() => {
     fetchStatisticsChart().then((wrapper: StatisticsChartWrapper) => {
-      if (!wrapper) return
-      const { hash_rate: hashRates, difficulty: difficulties } = wrapper.attributes
-      if (!hashRates && !difficulties) return
-
-      let blockNumbers: number[] = []
-      if (hashRates) {
-        blockNumbers = blockNumbers.concat(hashRates.map(hashRate => hashRate.block_number))
+      const datas = handleStatistics(wrapper)
+      if (datas && datas.length > 0) {
+        setStatisticsDatas(datas)
       }
-      if (difficulties) {
-        blockNumbers = blockNumbers.concat(difficulties.map(difficulty => difficulty.block_number))
-      }
-      blockNumbers = Array.from(new Set(blockNumbers)).sort((item1: number, item2: number) => {
-        return item1 - item2
-      })
-      const datas: StatisticsData[] = []
-      blockNumbers.forEach(blockNumber => {
-        if (findHashRate(hashRates, blockNumber)) {
-          datas.push({
-            blockNumber,
-            type: 'HashRate',
-            hashRate: findHashRate(hashRates, blockNumber),
-            difficulty: findDifficulty(difficulties, blockNumber),
-          })
-        }
-        if (findDifficulty(difficulties, blockNumber)) {
-          const index = datas.findIndex(data => {
-            return data.blockNumber === blockNumber
-          })
-          datas.push({
-            blockNumber,
-            type: 'Difficulty',
-            hashRate: index === -1 ? findHashRate(hashRates, blockNumber) : undefined,
-            difficulty: findDifficulty(difficulties, blockNumber),
-          })
-          if (index !== -1) {
-            datas[index].difficulty = undefined
-          }
-        }
-      })
-      setStatisticsDatas(datas)
     })
   }, [])
 
@@ -208,9 +227,11 @@ export default () => {
                 },
               }}
             />
+            <Axis name="epochNumber" visible={false} />
             <Tooltip itemTpl='<li data-index={index}><span style="background-color:{color};width:5px;height:5px;border-radius:50%;display:inline-block;margin-right:8px;"></span>{name}: {value}</li>' />
             <Geom type="line" position="blockNumber*difficulty" color="type" size={1} shape="hv" />
             <Geom type="line" position="blockNumber*hashRate" color="type" size={1} shape="line" />
+            <Geom position="blockNumber*epochNumber" size={0} />
           </Chart>
         </ChartPanel>
       ) : (
