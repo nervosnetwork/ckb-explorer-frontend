@@ -35,12 +35,12 @@ const Actions = {
   total: 'TOTAL',
 }
 
-export interface TableTitleData {
+interface TableTitleData {
   title: string
   width: string
 }
 
-export interface TableContentData {
+interface TableContentData {
   width: string
   to?: any
   content: string
@@ -91,7 +91,7 @@ const initialState = {
   total: 1,
 }
 
-export const TableTitleDatas: TableTitleData[] = [
+const TableTitleDatas: TableTitleData[] = [
   {
     title: i18n.t('home.height'),
     width: '14%',
@@ -114,7 +114,7 @@ export const TableTitleDatas: TableTitleData[] = [
   },
 ]
 
-export const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
+const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
   const tableContentDatas: TableContentData[] = [
     {
       width: '14%',
