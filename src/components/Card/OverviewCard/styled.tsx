@@ -91,6 +91,13 @@ export const OverviewItemPanel = styled.div`
       width: 100%;
       display: block;
       margin: 10px 0px 0px 0px;
+
+      @media (-webkit-min-device-pixel-ratio: 2) {
+        transform: scaleY(0.5);
+      }
+      @media (-webkit-min-device-pixel-ratio: 3) {
+        transform: scaleY(0.33);
+      }
     }
   }
 
