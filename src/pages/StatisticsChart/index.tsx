@@ -6,6 +6,7 @@ import { fetchStatisticsChart } from '../../service/http/fetcher'
 import { CachedKeys } from '../../utils/const'
 import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import Loading from '../../assets/loading.gif'
+import { isMobile } from '../../utils/screen'
 
 const ChartPanel = styled.div`
   margin: 0 10% 30px 10%;
@@ -53,8 +54,10 @@ const LoadingPanel = styled.div`
 
 interface StatisticsData {
   blockNumber: number
+  type: 'Difficulty' | 'HashRate' | 'EpochNumber'
   difficulty?: number
   hashRate?: number
+  epochNumber?: number
 }
 
 const scale = {
@@ -66,6 +69,49 @@ const scale = {
     min: 0,
     alias: 'Hash Rate(gps)',
   },
+  epochNumber: {
+    min: 0,
+    alias: 'Epoch Number',
+  },
+}
+
+const findDifficulty = (
+  difficulties: { difficulty: number; block_number: number; epoch_number: number }[],
+  blockNumber: number,
+) => {
+  const result = difficulties.find(difficulty => {
+    return difficulty.block_number === blockNumber
+  })
+  return result || undefined
+}
+
+const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
+  if (!wrapper) return []
+  const { hash_rate: hashRates, difficulty: difficulties } = wrapper.attributes
+  if (!hashRates && !difficulties) return []
+
+  const datas: StatisticsData[] = []
+  hashRates.forEach(hashRate => {
+    datas.push({
+      type: 'HashRate',
+      blockNumber: hashRate.block_number,
+      hashRate: Number((Number(hashRate.hash_rate) * 1000).toFixed(0)),
+    })
+    const difficulty = findDifficulty(difficulties, hashRate.block_number)
+    if (difficulty !== undefined) {
+      datas.push({
+        type: 'Difficulty',
+        blockNumber: difficulty.block_number,
+        difficulty: difficulty.difficulty,
+      })
+      datas.push({
+        type: 'EpochNumber',
+        blockNumber: difficulty.block_number,
+        difficulty: difficulty.epoch_number,
+      })
+    }
+  })
+  return datas
 }
 
 export default () => {
@@ -84,38 +130,9 @@ export default () => {
 
   useEffect(() => {
     fetchStatisticsChart().then((wrapper: Response.Wrapper<State.StatisticsChart>) => {
-      if (!wrapper) return
-      const { hash_rate: hashRates, difficulty: difficulties } = wrapper.attributes
-      if (!hashRates && !difficulties) return
-      if (hashRates && difficulties) {
-        const length = Math.min(hashRates.length, difficulties.length)
-        const datas: StatisticsData[] = []
-        for (let index = 0; index < length; index++) {
-          datas.push({
-            blockNumber: hashRates[index].block_number,
-            hashRate: Number((Number(hashRates[index].hash_rate) * 1000).toFixed(0)),
-            difficulty: difficulties[index].difficulty,
-          })
-        }
+      const datas = handleStatistics(wrapper)
+      if (datas && datas.length > 0) {
         setStatisticsDatas(datas)
-      } else if (hashRates) {
-        setStatisticsDatas(
-          hashRates.map(hashRate => {
-            return {
-              blockNumber: hashRate.block_number,
-              hashRate: Number((Number(hashRate.hash_rate) * 1000).toFixed(0)),
-            }
-          }),
-        )
-      } else {
-        setStatisticsDatas(
-          difficulties.map(difficulty => {
-            return {
-              blockNumber: difficulty.block_number,
-              difficulty: difficulty.difficulty,
-            }
-          }),
-        )
       }
     })
   }, [])
@@ -130,7 +147,7 @@ export default () => {
             scale={scale}
             forceFit
             data={statisticsDatas}
-            padding={[50, 90, 100, 90]}
+            padding={isMobile() ? [40, 90, 80, 90] : [80, 90, 100, 90]}
           >
             <Legend
               custom
@@ -165,8 +182,8 @@ export default () => {
               ]}
             />
             <Axis
-              name="Difficulty"
-              grid={null}
+              name="difficulty"
+              title={!isMobile()}
               label={{
                 textStyle: {
                   fill: '#3182bd',
@@ -175,8 +192,8 @@ export default () => {
               }}
             />
             <Axis
-              name="Hash Rate"
-              grid={null}
+              name="hashRate"
+              title={!isMobile()}
               label={{
                 textStyle: {
                   fill: '#66CC99',
@@ -184,9 +201,11 @@ export default () => {
                 },
               }}
             />
+            <Axis name="epochNumber" visible={false} />
             <Tooltip />
-            <Geom type="line" position="blockNumber*difficulty" color="#3182bd" size={2} shape="line" />
-            <Geom type="line" position="blockNumber*hashRate" color="#66CC99" size={2} shape="line" />
+            <Geom type="line" position="blockNumber*difficulty" color={['type', ['#3182bd']]} size={1} shape="hv" />
+            <Geom type="line" position="blockNumber*hashRate" color={['type', ['#66CC99']]} size={1} shape="line" />
+            <Geom position="blockNumber*epochNumber" color={['type', ['#888888']]} size={0} />
           </Chart>
         </ChartPanel>
       ) : (

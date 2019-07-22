@@ -100,6 +100,7 @@ declare namespace State {
     difficulty: {
       block_number: number
       difficulty: number
+      epoch_number: number
     }[]
   }
 
