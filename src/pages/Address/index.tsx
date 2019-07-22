@@ -9,7 +9,6 @@ import AddressHashCard from '../../components/Card/AddressHashCard'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TitleCard from '../../components/Card/TitleCard'
 import Content from '../../components/Content'
-import Tooltip from '../../components/Tooltip'
 import TransactionItem from '../../components/Transaction/TransactionItem/index'
 import { fetchAddressInfo, fetchTipBlockNumber, fetchTransactionsByAddress } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
@@ -17,6 +16,7 @@ import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import { parsePageNumber, startEndEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
+import Tooltip from '../BlockDetail/NewTooltip'
 import {
   AddressContentPanel,
   AddressLockScriptItemPanel,
@@ -145,22 +145,24 @@ const AddressPendingRewardTitle = () => {
     <AddressPendingRewardTitlePanel>
       {`${i18n.t('address.pending_reward')}`}
       <div
-        className="address__pending_reward_help"
+        id="address__pending_reward_help"
         tabIndex={-1}
         onFocus={() => {}}
         onMouseOver={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
       >
         <img src={HelpIcon} alt="Pending Reward Help" />
-        <Tooltip
-          message={i18n.t('address.pending_reward_tooltip')}
-          show={show}
-          targetSize={{
-            width: 20,
-            height: 30,
-          }}
-        />
       </div>
+      <Tooltip
+        show={show}
+        targetElementId="address__pending_reward_help"
+        offset={{
+          x: 0,
+          y: isMobile() ? 28 : 32,
+        }}
+      >
+        {i18n.t('address.pending_reward_tooltip')}
+      </Tooltip>
     </AddressPendingRewardTitlePanel>
   )
 }
@@ -221,6 +223,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
       content: localeNumberString(state.address.transactions_count),
     },
   ]
+  state.address.pending_reward_blocks_count = 4
   if (state.address.pending_reward_blocks_count) {
     items.push({
       key: 'pending_reward',

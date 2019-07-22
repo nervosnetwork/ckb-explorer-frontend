@@ -13,7 +13,6 @@ import {
 } from './styled'
 import Content from '../../components/Content'
 import TransactionItem from '../../components/Transaction/TransactionItem/index'
-// import SimpleLabel, { Tooltip } from '../../components/Label'
 // import BlockHeightIcon from '../../assets/block_height_green.png'
 // import BlockTransactionIcon from '../../assets/transactions_green.png'
 // import ProposalTransactionsIcon from '../../assets/proposal_transactions.png'
@@ -45,8 +44,7 @@ import { isMobile, isSmallMobile, isMediumMobile, isLargeMobile } from '../../ut
 import AddressHashCard from '../../components/Card/AddressHashCard'
 import TitleCard from '../../components/Card/TitleCard'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-// import Tooltip from '../../components/Tooltip'
-import NewTooltip from './NewTooltip'
+import Tooltip from './NewTooltip'
 
 enum PageParams {
   PageNo = 1,
@@ -236,9 +234,9 @@ const BlockOverviewItemContent = ({ value, tip, message }: { value?: string; tip
           onMouseLeave={() => setShow(false)}
         >
           {tip}
-          <NewTooltip show={show} targetElementId={tip}>
+          <Tooltip show={show} targetElementId={tip}>
             {message}
-          </NewTooltip>
+          </Tooltip>
         </div>
       )}
     </BlockOverviewItemContentPanel>

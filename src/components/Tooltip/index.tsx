@@ -26,7 +26,7 @@ const TooltipPanel = styled.div`
       (props.targetSize.width - 200) * (props.targetSize.offset ? props.targetSize.offset + 0.04 : 0.5)}px;
   }
 
-  &:: after {
+  &::after {
     content: '';
     width: 10px;
     height: 10px;

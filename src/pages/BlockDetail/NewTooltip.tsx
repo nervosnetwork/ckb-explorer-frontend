@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 interface TooltipPanelProps {
   width: string
-  offset: number
+  offset?: { x: number; y: number }
   arrowOffset: number
 }
 
@@ -16,20 +16,21 @@ const TooltipPanel = styled.div`
   word-break: break-word;
   color: #ffffff;
   left: 0px;
-  transform: translate(${(props: TooltipPanelProps) => `${props.offset}px`}, 10px);
-
+  transform: translate(
+    ${(props: TooltipPanelProps) => (props.offset ? `${props.offset.x}px` : '0px')},
+    ${(props: TooltipPanelProps) => (props.offset ? `${props.offset.y}px` : '10px')}
+  );
   position: absolute;
   z-index: 2;
 
   &::after {
     content: '';
-    width: 10px;
-    height: 10px;
-    background-color: inherit;
-    top: -5px;
-    left: ${(props: TooltipPanelProps) => `${props.arrowOffset}px`};
+    left: ${(props: TooltipPanelProps) => `${props.arrowOffset - 16}px`};
     position: absolute;
-    transform: rotate(45deg);
+    top: -6px;
+    border: 16px solid transparent;
+    border-bottom: 10px solid #676767;
+    border-top: 0;
   }
 `
 
@@ -37,11 +38,11 @@ interface TooltipProps {
   show: boolean
   targetElementId: string
   width?: string
-  offset?: number
+  offset?: { x: number; y: number }
   children?: ReactNode
 }
 
-export default ({ show, targetElementId, width = '100%', offset = 0, children }: TooltipProps) => {
+export default ({ show, targetElementId, width = '100%', offset, children }: TooltipProps) => {
   const [arrowOffset, setArrowOffset] = useState(0)
   useLayoutEffect(() => {
     const currentElement = document.getElementById('TooltipPanel')

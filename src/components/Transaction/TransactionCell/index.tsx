@@ -5,22 +5,12 @@ import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
-import Tooltip, { TargetSize } from '../../Tooltip/index'
 import { CellbasePanel, TransactionCellPanel } from './styled'
-import { isMediumMobile, isLargeMobile, isMobile, isSmallMobile } from '../../../utils/screen'
+import { isMediumMobile, isLargeMobile, isSmallMobile, isMobile } from '../../../utils/screen'
+import Tooltip from '../../../pages/BlockDetail/NewTooltip'
 
 const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
   const [show, setShow] = useState(false)
-  let targetSize: TargetSize = {
-    width: 20,
-    height: 30,
-  }
-  if (isMobile()) {
-    targetSize = {
-      width: 14,
-      height: 30,
-    }
-  }
   if (!targetBlockNumber || targetBlockNumber <= 0) {
     return (
       <CellbasePanel>
@@ -33,6 +23,7 @@ const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
       <div className="cellbase__content">Cellbase for Block</div>
       <Link to={`/block/${targetBlockNumber}`}>{localeNumberString(targetBlockNumber)}</Link>
       <div
+        id={`cellbase__help_${targetBlockNumber}`}
         className="cellbase__help"
         tabIndex={-1}
         onFocus={() => {}}
@@ -52,8 +43,17 @@ const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
         }}
       >
         <img alt="cellbase help" src={HelpIcon} />
-        <Tooltip message={i18n.t('transaction.cellbase_help_tooltip')} show={show} targetSize={targetSize} />
       </div>
+      <Tooltip
+        show={show}
+        targetElementId={`cellbase__help_${targetBlockNumber}`}
+        offset={{
+          x: 0,
+          y: isMobile() ? 60 : 58,
+        }}
+      >
+        {i18n.t('transaction.cellbase_help_tooltip')}
+      </Tooltip>
     </CellbasePanel>
   )
 }
