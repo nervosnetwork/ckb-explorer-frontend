@@ -72,6 +72,7 @@ export const OverviewItemPanel = styled.div`
   width: 100%;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 
   @media (min-width: 700px) {
     height: 20px;

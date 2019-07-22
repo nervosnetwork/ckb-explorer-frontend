@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
@@ -6,61 +6,47 @@ import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
 import {
   BlockDetailPanel,
-  BlockCommonContent,
-  BlockMultiLinesPanel,
   BlockTransactionsPagition,
   BlockRootInfoItemPanel,
+  BlockMinerPanel,
+  BlockOverviewItemContentPanel,
 } from './styled'
 import Content from '../../components/Content'
 import TransactionItem from '../../components/Transaction/TransactionItem/index'
-import SimpleLabel, { Tooltip } from '../../components/Label'
-import BlockHeightIcon from '../../assets/block_height_green.png'
-import BlockTransactionIcon from '../../assets/transactions_green.png'
-import ProposalTransactionsIcon from '../../assets/proposal_transactions.png'
-import TimestampIcon from '../../assets/timestamp_green.png'
-import UncleCountIcon from '../../assets/uncle_count.png'
-import MinerIcon from '../../assets/miner_green.png'
-import BlockRewardIcon from '../../assets/block_reward.png'
-import TransactionFeeIcon from '../../assets/transaction_fee.png'
-import DifficultyIcon from '../../assets/difficulty.png'
-import NonceIcon from '../../assets/nonce.png'
-import ProofIcon from '../../assets/proof.png'
-import EpochIcon from '../../assets/epoch.png'
-import StartNumberIcon from '../../assets/start_number.png'
-import LengthIcon from '../../assets/length.png'
+// import SimpleLabel, { Tooltip } from '../../components/Label'
+// import BlockHeightIcon from '../../assets/block_height_green.png'
+// import BlockTransactionIcon from '../../assets/transactions_green.png'
+// import ProposalTransactionsIcon from '../../assets/proposal_transactions.png'
+// import TimestampIcon from '../../assets/timestamp_green.png'
+// import UncleCountIcon from '../../assets/uncle_count.png'
+// import MinerIcon from '../../assets/miner_green.png'
+// import BlockRewardIcon from '../../assets/block_reward.png'
+// import TransactionFeeIcon from '../../assets/transaction_fee.png'
+// import DifficultyIcon from '../../assets/difficulty.png'
+// import NonceIcon from '../../assets/nonce.png'
+// import ProofIcon from '../../assets/proof.png'
+// import EpochIcon from '../../assets/epoch.png'
+// import StartNumberIcon from '../../assets/start_number.png'
+// import LengthIcon from '../../assets/length.png'
 // import PreviousBlockIcon from '../../assets/left_arrow.png'
 // import PreviousBlockGreyIcon from '../../assets/left_arrow_grey.png'
 // import NextBlockIcon from '../../assets/right_arrow.png'
 // import NextBlockGreyIcon from '../../assets/right_arrow_grey.png'
 // import MouseIcon from '../../assets/block_mouse.png'
-import TransactionsRootIcon from '../../assets/transactions_root.png'
-import WitnessRootIcon from '../../assets/witness_root.png'
+// import TransactionsRootIcon from '../../assets/transactions_root.png'
+// import WitnessRootIcon from '../../assets/witness_root.png'
 import { parseSimpleDate } from '../../utils/date'
 import { fetchBlock, fetchTransactionsByBlockHash } from '../../service/http/fetcher'
 import { shannonToCkb } from '../../utils/util'
 import { startEndEllipsis, parsePageNumber } from '../../utils/string'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
+import { isMobile, isSmallMobile, isMediumMobile, isLargeMobile } from '../../utils/screen'
 import AddressHashCard from '../../components/Card/AddressHashCard'
 import TitleCard from '../../components/Card/TitleCard'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-
-const MultiLinesItem = ({ label, value }: { label: string; value: string }) => {
-  return (
-    <BlockMultiLinesPanel>
-      <div>{label}</div>
-      <code>{value}</code>
-    </BlockMultiLinesPanel>
-  )
-}
-
-interface BlockItem {
-  image: any
-  label: string
-  value: string
-  tooltip?: Tooltip
-}
+// import Tooltip from '../../components/Tooltip'
+import NewTooltip from './NewTooltip'
 
 enum PageParams {
   PageNo = 1,
@@ -212,22 +198,51 @@ const initialState = {
   next: true,
 }
 
-const BlockRewardTip: Tooltip = {
-  status: 'Pending',
-  tip: i18n.t('block.pending_tip'),
-}
-
-const TransactionFeeTip: Tooltip = {
-  status: 'Calculating',
-  tip: i18n.t('block.calculating_tip'),
-  hideValue: true,
-}
-
-const transactionFee = (block: State.Block) => {
-  if (block.received_tx_fee_status === 'calculating' && block.number > 0) {
-    return TransactionFeeTip
+const handleMinerText = (address: string) => {
+  if (isSmallMobile()) {
+    return startEndEllipsis(address, 11)
   }
-  return undefined
+  if (isMediumMobile()) {
+    return startEndEllipsis(address, 18)
+  }
+  if (isLargeMobile()) {
+    return startEndEllipsis(address, 23)
+  }
+  return startEndEllipsis(address)
+}
+
+const BlockMiner = ({ miner }: { miner: string }) => {
+  return (
+    <BlockMinerPanel>
+      <Link to={`/address/${miner}`}>
+        <code>{handleMinerText(miner)}</code>
+      </Link>
+    </BlockMinerPanel>
+  )
+}
+
+const BlockOverviewItemContent = ({ value, tip, message }: { value?: string; tip?: string; message?: string }) => {
+  const [show, setShow] = useState(false)
+  return (
+    <BlockOverviewItemContentPanel>
+      {value && <div className="block__overview_item_value">{value}</div>}
+      {tip && (
+        <div
+          id={tip}
+          className="block__overview_item_tip"
+          tabIndex={-1}
+          onFocus={() => {}}
+          onMouseOver={() => setShow(true)}
+          onMouseLeave={() => setShow(false)}
+        >
+          {tip}
+          <NewTooltip show={show} targetElementId={tip}>
+            {message}
+          </NewTooltip>
+        </div>
+      )}
+    </BlockOverviewItemContentPanel>
+  )
 }
 
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string }>>) => {
@@ -242,6 +257,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
   const size = parsePageNumber(parsed.size, PageParams.PageSize)
 
   const [state, dispatch] = useReducer(reducer, initialState)
+  const [showAllOverview, setShowAllOverview] = useState(false)
 
   useEffect(() => {
     if (size > PageParams.MaxPageSize) {
@@ -254,105 +270,28 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
     history.push(`/block/${blockParam}?page=${pageNo}&size=${pageSize}`)
   }
 
-  const BlockLeftItems: BlockItem[] = [
+  state.block.reward_status = 'pending'
+  state.block.received_tx_fee_status = 'calculating'
+  const receivedTxFee = `${localeNumberString(shannonToCkb(state.block.received_tx_fee))} CKB`
+  const rootInfoItems = [
     {
-      image: BlockHeightIcon,
-      label: `${i18n.t('block.block_height')}:`,
-      value: localeNumberString(state.block.number),
+      title: i18n.t('block.transactions_root'),
+      content: `${state.block.transactions_root}`,
     },
     {
-      image: BlockTransactionIcon,
-      label: `${i18n.t('transaction.transactions')}:`,
-      value: localeNumberString(state.block.transactions_count),
-    },
-    {
-      image: ProposalTransactionsIcon,
-      label: `${i18n.t('block.proposal_transactions')}:`,
-      value: `${state.block.proposals_count ? localeNumberString(state.block.proposals_count) : 0}`,
-    },
-    {
-      image: BlockRewardIcon,
-      label: `${i18n.t('block.block_reward')}:`,
-      value: `${localeNumberString(shannonToCkb(state.block.reward))} CKB`,
-      tooltip: state.block.reward_status === 'pending' ? BlockRewardTip : undefined,
-    },
-    {
-      image: TransactionFeeIcon,
-      label: `${i18n.t('transaction.transaction_fee')}:`,
-      value: `${state.block.received_tx_fee} Shannon`,
-      tooltip: transactionFee(state.block),
-    },
-    {
-      image: TimestampIcon,
-      label: `${i18n.t('block.timestamp')}:`,
-      value: `${parseSimpleDate(state.block.timestamp)}`,
-    },
-    {
-      image: UncleCountIcon,
-      label: `${i18n.t('block.uncle_count')}:`,
-      value: `${state.block.uncles_count}`,
+      title: i18n.t('block.witnesses_root'),
+      content: `${state.block.witnesses_root}`,
     },
   ]
 
-  const BlockRightItems: BlockItem[] = [
-    {
-      image: MinerIcon,
-      label: `${i18n.t('block.miner')}:`,
-      value: state.block.miner_hash,
-    },
-    {
-      image: EpochIcon,
-      label: `${i18n.t('block.epoch')}:`,
-      value: localeNumberString(state.block.epoch),
-    },
-    {
-      image: StartNumberIcon,
-      label: `${i18n.t('block.epoch_start_number')}:`,
-      value: localeNumberString(state.block.start_number),
-    },
-    {
-      image: LengthIcon,
-      label: `${i18n.t('block.epoch_length')}:`,
-      value: localeNumberString(state.block.length),
-    },
-    {
-      image: DifficultyIcon,
-      label: `${i18n.t('block.difficulty')}:`,
-      value: localeNumberString(state.block.difficulty, 16),
-    },
-    {
-      image: NonceIcon,
-      label: `${i18n.t('block.nonce')}:`,
-      value: `${state.block.nonce}`,
-    },
-    {
-      image: ProofIcon,
-      label: `${i18n.t('block.proof')}:`,
-      value: `${startEndEllipsis(state.block.proof, 9)}`,
-    },
-  ]
-
-  const BlockRootInfoItems: BlockItem[] = [
-    {
-      image: TransactionsRootIcon,
-      label: i18n.t('block.transactions_root'),
-      value: `${state.block.transactions_root}`,
-    },
-    {
-      image: WitnessRootIcon,
-      label: i18n.t('block.witnesses_root'),
-      value: `${state.block.witnesses_root}`,
-    },
-  ]
-
-  const items: OverviewItemData[] = [
+  let overviewItems: OverviewItemData[] = [
     {
       title: i18n.t('block.block_height'),
       content: localeNumberString(state.block.number),
     },
     {
       title: i18n.t('block.miner'),
-      content: state.block.miner_hash,
+      content: <BlockMiner miner={state.block.miner_hash} />,
     },
     {
       title: i18n.t('transaction.transactions'),
@@ -372,7 +311,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
     },
     {
       title: i18n.t('block.block_reward'),
-      content: `${localeNumberString(shannonToCkb(state.block.reward))} CKB`,
+      content: (
+        <BlockOverviewItemContent
+          value={`${localeNumberString(shannonToCkb(state.block.reward))} CKB`}
+          tip={state.block.reward_status === 'pending' ? 'Pending' : undefined}
+          message={i18n.t('block.pending_tip')}
+        />
+      ),
     },
     {
       title: i18n.t('block.epoch_length'),
@@ -380,7 +325,17 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
     },
     {
       title: i18n.t('transaction.transaction_fee'),
-      content: `${state.block.received_tx_fee} Shannon`,
+      content: (
+        <BlockOverviewItemContent
+          value={
+            state.block.received_tx_fee_status === 'calculating' && state.block.number > 0 ? undefined : receivedTxFee
+          }
+          tip={
+            state.block.received_tx_fee_status === 'calculating' && state.block.number > 0 ? 'Calculating' : undefined
+          }
+          message={i18n.t('block.calculating_tip')}
+        />
+      ),
     },
     {
       title: i18n.t('block.difficulty'),
@@ -403,97 +358,46 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
       content: `${startEndEllipsis(state.block.proof, 9)}`,
     },
   ]
+  if (isMobile()) {
+    const newItems: OverviewItemData[] = []
+    overviewItems.forEach((item, idx) => (idx % 2 === 0 ? newItems.push(item) : null))
+    overviewItems.forEach((item, idx) => (idx % 2 !== 0 ? newItems.push(item) : null))
+    overviewItems = newItems.concat(rootInfoItems)
+    if (!showAllOverview) {
+      overviewItems.splice(11, overviewItems.length - 11)
+    }
+  }
 
   return (
     <Content>
       <BlockDetailPanel className="container">
         <AddressHashCard title={i18n.t('block.block')} hash={state.block.block_hash} />
         <TitleCard title={i18n.t('common.overview')} />
-        <OverviewCard items={items}>
-          {BlockRootInfoItems.map(item => {
-            return (
-              <BlockRootInfoItemPanel>
-                <div className="block__root_info_title">{item.label}</div>
-                <div className="block__root_info_value">{item.value}</div>
-              </BlockRootInfoItemPanel>
-            )
-          })}
-        </OverviewCard>
-        <BlockCommonContent>
-          <div>
-            <div>
-              {BlockLeftItems.map(item => {
-                return (
-                  item && (
-                    <SimpleLabel
-                      key={item.label}
-                      image={item.image}
-                      label={item.label}
-                      value={item.value}
-                      tooltip={item.tooltip}
-                    />
-                  )
-                )
-              })}
-            </div>
-            <div>
-              <div>
-                {BlockRightItems[0].value ? (
-                  <Link
-                    to={{
-                      pathname: `/address/${BlockRightItems[0].value}`,
-                    }}
-                  >
-                    <SimpleLabel
-                      image={BlockRightItems[0].image}
-                      label={BlockRightItems[0].label}
-                      value={startEndEllipsis(BlockRightItems[0].value, 7)}
-                      highLight
-                    />
-                  </Link>
-                ) : (
-                  <SimpleLabel
-                    image={BlockRightItems[0].image}
-                    label={BlockRightItems[0].label}
-                    value={i18n.t('address.unable_decode_address')}
-                  />
-                )}
-                {BlockRightItems.slice(1).map(item => {
-                  return (
-                    item && <SimpleLabel key={item.label} image={item.image} label={item.label} value={item.value} />
-                  )
-                })}
-              </div>
-            </div>
-          </div>
-          <div>
-            {BlockRootInfoItems.map(item => {
+        <OverviewCard items={overviewItems}>
+          {isMobile() ? (
+            <button type="button" title="ShowAll" onClick={() => setShowAllOverview(!showAllOverview)} />
+          ) : (
+            rootInfoItems.map(item => {
               return (
-                item && (
-                  <React.Fragment key={item.label}>
-                    {isMobile() ? (
-                      <MultiLinesItem label={item.label} value={item.value} />
-                    ) : (
-                      <SimpleLabel image={item.image} label={item.label} value={item.value} />
-                    )}
-                  </React.Fragment>
-                )
+                <BlockRootInfoItemPanel key={item.title}>
+                  <div className="block__root_info_title">{item.title}</div>
+                  <div className="block__root_info_value">{item.content}</div>
+                </BlockRootInfoItemPanel>
               )
-            })}
-          </div>
-        </BlockCommonContent>
+            })
+          )}
+        </OverviewCard>
         <TitleCard title={i18n.t('transaction.transactions')} />
         {state.transactions &&
           state.transactions.map((transaction: any, index: number) => {
             return (
               transaction && (
-                <div key={transaction.attributes.transaction_hash}>
-                  <TransactionItem
-                    transaction={transaction.attributes}
-                    isBlock
-                    isLastItem={index === state.transactions.length - 1}
-                  />
-                </div>
+                <TransactionItem
+                  key={transaction.attributes.transaction_hash}
+                  transaction={transaction.attributes}
+                  isBlock
+                  isLastItem={index === state.transactions.length - 1}
+                />
               )
             )
           })}
