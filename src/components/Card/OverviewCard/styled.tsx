@@ -110,6 +110,8 @@ export const OverviewItemPanel = styled.div`
 
     @media (max-width: 700px) {
       margin-left: 0px;
+      word-wrap: break-word;
+      word-break: break-all;
     }
   }
 `
