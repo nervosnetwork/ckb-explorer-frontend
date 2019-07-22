@@ -21,6 +21,7 @@ import {
   AddressTransactionsPagition,
   ScriptLabelItemPanel,
   ScriptOtherArgs,
+  AddressEmptyTransactions,
 } from './styled'
 import CopyIcon from '../../assets/copy.png'
 import BalanceIcon from '../../assets/address_balance.png'
@@ -159,38 +160,50 @@ const reducer = (state: any, action: any) => {
 }
 
 const getAddressInfo = (hash: string, dispatch: any) => {
-  fetchAddressInfo(hash).then((wrapper: Response.Wrapper<State.Address>) => {
-    if (wrapper) {
+  fetchAddressInfo(hash)
+    .then((wrapper: Response.Wrapper<State.Address>) => {
       dispatch({
         type: Actions.address,
         payload: {
-          address: wrapper.attributes,
+          address: wrapper ? wrapper.attributes : initAddress,
         },
       })
-    }
-  })
+    })
+    .catch(() => {
+      dispatch({
+        type: Actions.address,
+        payload: {
+          address: initAddress,
+        },
+      })
+    })
 }
 
 const getTransactions = (hash: string, page: number, size: number, dispatch: any) => {
-  fetchTransactionsByAddress(hash, page, size).then(response => {
-    const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
-    if (data) {
+  fetchTransactionsByAddress(hash, page, size)
+    .then(response => {
+      const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
       dispatch({
         type: Actions.transactions,
         payload: {
-          transactions: data,
+          transactions: data || [],
         },
       })
-    }
-    if (meta) {
       dispatch({
         type: Actions.total,
         payload: {
-          total: meta.total,
+          total: meta ? meta.total : 0,
         },
       })
-    }
-  })
+    })
+    .catch(() => {
+      dispatch({
+        type: Actions.transactions,
+        payload: {
+          transactions: [],
+        },
+      })
+    })
 }
 
 const getTipBlockNumber = (dispatch: any) => {
@@ -292,11 +305,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
           />
         </AddressCommonContent>
 
-        <AddressTransactionsPanel>
-          <AddressOverview value={i18n.t('transaction.transactions')} />
-          <div>
-            {state.transactions &&
-              state.transactions.map((transaction: any) => {
+        {state.transactions && state.transactions.length > 0 ? (
+          <AddressTransactionsPanel>
+            <AddressOverview value={i18n.t('transaction.transactions')} />
+            <div>
+              {state.transactions.map((transaction: any) => {
                 return (
                   transaction &&
                   (isMobile() ? (
@@ -316,21 +329,24 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                   ))
                 )
               })}
-          </div>
-          <AddressTransactionsPagition>
-            <Pagination
-              showQuickJumper
-              showSizeChanger
-              defaultPageSize={size}
-              pageSize={size}
-              defaultCurrent={page}
-              current={page}
-              total={state.total}
-              onChange={onChange}
-              locale={localeInfo}
-            />
-          </AddressTransactionsPagition>
-        </AddressTransactionsPanel>
+            </div>
+            <AddressTransactionsPagition>
+              <Pagination
+                showQuickJumper
+                showSizeChanger
+                defaultPageSize={size}
+                pageSize={size}
+                defaultCurrent={page}
+                current={page}
+                total={state.total}
+                onChange={onChange}
+                locale={localeInfo}
+              />
+            </AddressTransactionsPagition>
+          </AddressTransactionsPanel>
+        ) : (
+          <AddressEmptyTransactions />
+        )}
       </AddressContentPanel>
     </Content>
   )
