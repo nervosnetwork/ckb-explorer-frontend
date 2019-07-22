@@ -59,7 +59,7 @@ export const initAxiosInterceptors = (appContext: any) => {
             break
           case 404:
             updateNetworkError(appContext, false)
-            if (error.response && error.response.data) {
+            if (error.response && error.response.data && Array.isArray(error.response.data)) {
               if (
                 (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
                   return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
