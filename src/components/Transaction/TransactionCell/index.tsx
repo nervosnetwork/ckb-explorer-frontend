@@ -60,13 +60,13 @@ const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
 
 const handleAddressText = (address: string) => {
   if (isSmallMobile()) {
-    return startEndEllipsis(address, 12)
+    return startEndEllipsis(address, 11)
   }
   if (isMediumMobile()) {
-    return startEndEllipsis(address, 19)
+    return startEndEllipsis(address, 18)
   }
   if (isLargeMobile()) {
-    return startEndEllipsis(address, 24)
+    return startEndEllipsis(address, 23)
   }
   return startEndEllipsis(address)
 }
