@@ -1,14 +1,13 @@
 import React, { useContext, useState, useRef } from 'react'
 import styled, { css } from 'styled-components'
+import { AxiosError } from 'axios'
 import AppContext from '../../contexts/App'
-import { fetchSearchResult } from '../../http/fetcher'
-import { BlockWrapper } from '../../http/response/Block'
-import { TransactionWrapper } from '../../http/response/Transaction'
-import { AddressWrapper } from '../../http/response/Address'
+import { fetchSearchResult } from '../../service/http/fetcher'
 import browserHistory from '../../routes/history'
 import SearchLogo from '../../assets/search.png'
 import { searchTextCorrection } from '../../utils/string'
 import i18n from '../../utils/i18n'
+import { HttpErrorCode } from '../../utils/const'
 
 const SearchPanel = styled.div`
   margin: 0 auto;
@@ -89,7 +88,7 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
   const inputElement = useRef(null)
 
   const handleSearchResult = () => {
-    const query = searchValue.replace(/^\s+|\s+$/g, '') // remove front and end blank
+    const query = searchValue.replace(/^\s+|\s+$/g, '').replace(',', '') // remove front and end blank and ','
     if (!query) {
       appContext.toastMessage(i18n.t('toast.invalid_content'), 3000)
     } else {
@@ -99,21 +98,36 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
           input.value = ''
           const { data } = response
           if (data.type === 'block') {
-            browserHistory.push(`/block/${(data as BlockWrapper).attributes.block_hash}`)
+            browserHistory.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.block_hash}`)
           } else if (data.type === 'ckb_transaction') {
-            browserHistory.push(`/transaction/${(data as TransactionWrapper).attributes.transaction_hash}`)
+            browserHistory.push(
+              `/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transaction_hash}`,
+            )
           } else if (data.type === 'address') {
-            browserHistory.push(`/address/${(data as AddressWrapper).attributes.address_hash}`)
+            browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.address_hash}`)
           } else if (data.type === 'lock_hash') {
-            browserHistory.push(`/lockhash/${(data as AddressWrapper).attributes.lock_hash}`)
+            browserHistory.push(`/lockhash/${(data as Response.Wrapper<State.Address>).attributes.lock_hash}`)
           } else {
             setSearchValue(query)
             browserHistory.push(`/search/fail?q=${query}`)
           }
         })
-        .catch(() => {
-          setSearchValue(query)
-          browserHistory.push(`/search/fail?q=${query}`)
+        .catch((error: AxiosError) => {
+          if (error.response && error.response.data) {
+            if (
+              (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
+                return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
+              })
+            ) {
+              browserHistory.push(`/address/${query}`)
+            } else {
+              setSearchValue(query)
+              browserHistory.push(`/search/fail?q=${query}`)
+            }
+          } else {
+            setSearchValue(query)
+            browserHistory.push(`/search/fail?q=${query}`)
+          }
         })
     }
   }

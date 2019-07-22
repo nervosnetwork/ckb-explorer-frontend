@@ -18,10 +18,7 @@ import MinerIcon from '../../assets/miner.png'
 import TimestampIcon from '../../assets/timestamp.png'
 import MoreLeftIcon from '../../assets/more_left.png'
 import MoreRightIcon from '../../assets/more_right.png'
-import { fetchBlocks, fetchStatistics } from '../../http/fetcher'
-import { BlockWrapper } from '../../http/response/Block'
-import { StatisticsWrapper, Statistics } from '../../http/response/Statistics'
-import { Response } from '../../http/response/Response'
+import { fetchBlocks, fetchStatistics } from '../../service/http/fetcher'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
 import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
@@ -52,15 +49,16 @@ const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
 
 const getLatestBlocks = (setBlocksWrappers: any) => {
   fetchBlocks().then(response => {
-    const { data } = response as Response<BlockWrapper[]>
+    const { data } = response as Response.Response<Response.Wrapper<State.Block>[]>
     setBlocksWrappers(data)
   })
 }
 
 const getStatistics = (setStatistics: any) => {
-  fetchStatistics().then(response => {
-    const { data } = response as Response<StatisticsWrapper>
-    setStatistics(data.attributes)
+  fetchStatistics().then((wrapper: Response.Wrapper<State.Statistics>) => {
+    if (wrapper) {
+      setStatistics(wrapper.attributes)
+    }
   })
 }
 
@@ -71,25 +69,33 @@ interface BlockchainData {
   clickable?: boolean
 }
 
-const initStatistics: Statistics = {
+const initStatistics: State.Statistics = {
   tip_block_number: '0',
-  average_block_time: '0',
+  current_epoch_average_block_time: '0',
   current_epoch_difficulty: 0,
   hash_rate: '0',
 }
 
+const parseHashRate = (hashRate: string | undefined) => {
+  return hashRate ? `${localeNumberString((Number(hashRate) * 1000).toFixed(), 10)} gps` : '- -'
+}
+
+const parseBlockTime = (blockTime: string | undefined) => {
+  return blockTime ? parseTime(Number(blockTime)) : '- -'
+}
+
 export default () => {
-  const initBlockWrappers: BlockWrapper[] = []
+  const initBlockWrappers: Response.Wrapper<State.Block>[] = []
   const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
   const [statistics, setStatistics] = useState(initStatistics)
   const [t] = useTranslation()
 
   useEffect(() => {
-    const cachedBlocks = fetchCachedData<BlockWrapper[]>(CachedKeys.Blocks)
+    const cachedBlocks = fetchCachedData<Response.Wrapper<State.Block>[]>(CachedKeys.Blocks)
     if (cachedBlocks) {
       setBlocksWrappers(cachedBlocks)
     }
-    const cachedStatistics = fetchCachedData<Statistics>(CachedKeys.Statistics)
+    const cachedStatistics = fetchCachedData<State.Statistics>(CachedKeys.Statistics)
     if (cachedStatistics) {
       setStatistics(cachedStatistics)
     }
@@ -122,19 +128,19 @@ export default () => {
     },
     {
       name: t('block.difficulty'),
-      value: `${parseInt(`${statistics.current_epoch_difficulty}`, 10).toLocaleString()}`,
+      value: localeNumberString(statistics.current_epoch_difficulty, 10),
       tip: t('blockchain.difficulty_tooltip'),
       clickable: true,
     },
     {
       name: t('blockchain.hash_rate'),
-      value: `${parseInt((Number(statistics.hash_rate) * 1000).toFixed(), 10).toLocaleString()} gps`,
+      value: parseHashRate(statistics.hash_rate),
       tip: t('blockchain.hash_rate_tooltip'),
       clickable: true,
     },
     {
       name: t('blockchain.average_block_time'),
-      value: parseTime(Number(statistics.average_block_time)),
+      value: parseBlockTime(statistics.current_epoch_average_block_time),
       tip: t('blockchain.average_block_time_tooltip'),
     },
   ]

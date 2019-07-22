@@ -29,15 +29,11 @@ import TransactionsIcon from '../../assets/transactions_green.png'
 import ItemPointIcon from '../../assets/item_point.png'
 import AddressHashIcon from '../../assets/lock_hash_address.png'
 import BlockPendingRewardIcon from '../../assets/block_pending_reward.png'
-import { Address, AddressWrapper } from '../../http/response/Address'
-import { Script } from '../../http/response/Script'
-import { Response } from '../../http/response/Response'
-import { TransactionWrapper } from '../../http/response/Transaction'
-import { fetchAddressInfo, fetchTransactionsByAddress, fetchTipBlockNumber } from '../../http/fetcher'
+
+import { fetchAddressInfo, fetchTransactionsByAddress, fetchTipBlockNumber } from '../../service/http/fetcher'
 import { copyElementValue, shannonToCkb } from '../../utils/util'
 import { parsePageNumber, startEndEllipsis } from '../../utils/string'
 import TransactionCard from '../../components/Transaction/TransactionCard/index'
-import { StatisticsWrapper } from '../../http/response/Statistics'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
@@ -80,7 +76,7 @@ const ScriptLabelItem = ({ name, value, noIcon = false }: { name: string; value:
   )
 }
 
-const AddressScriptLabel = ({ image, label, script }: { image: string; label: string; script: Script }) => {
+const AddressScriptLabel = ({ image, label, script }: { image: string; label: string; script: State.Script }) => {
   return (
     <div>
       <AddressScriptLabelPanel>
@@ -115,7 +111,7 @@ enum PageParams {
   MaxPageSize = 100,
 }
 
-const initAddress: Address = {
+const initAddress: State.Address = {
   address_hash: '',
   lock_hash: '',
   balance: 0,
@@ -163,13 +159,12 @@ const reducer = (state: any, action: any) => {
 }
 
 const getAddressInfo = (hash: string, dispatch: any) => {
-  fetchAddressInfo(hash).then(response => {
-    const { data } = response as Response<AddressWrapper>
-    if (data) {
+  fetchAddressInfo(hash).then((wrapper: Response.Wrapper<State.Address>) => {
+    if (wrapper) {
       dispatch({
         type: Actions.address,
         payload: {
-          address: data.attributes,
+          address: wrapper.attributes,
         },
       })
     }
@@ -178,7 +173,7 @@ const getAddressInfo = (hash: string, dispatch: any) => {
 
 const getTransactions = (hash: string, page: number, size: number, dispatch: any) => {
   fetchTransactionsByAddress(hash, page, size).then(response => {
-    const { data, meta } = response as Response<TransactionWrapper[]>
+    const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
     if (data) {
       dispatch({
         type: Actions.transactions,
@@ -199,13 +194,12 @@ const getTransactions = (hash: string, page: number, size: number, dispatch: any
 }
 
 const getTipBlockNumber = (dispatch: any) => {
-  fetchTipBlockNumber().then(response => {
-    const { data } = response as Response<StatisticsWrapper>
-    if (data) {
+  fetchTipBlockNumber().then((wrapper: Response.Wrapper<State.Statistics>) => {
+    if (wrapper) {
       dispatch({
         type: Actions.tipBlockNumber,
         payload: {
-          tipBlockNumber: parseInt(data.attributes.tip_block_number, 10),
+          tipBlockNumber: parseInt(wrapper.attributes.tip_block_number, 10),
         },
       })
     }
@@ -218,14 +212,14 @@ const PendingRewardTooltip: Tooltip = {
   offset: 0.7,
 }
 
-const addressContent = (address: Address) => {
+const addressContent = (address: State.Address) => {
   const addressText = isMobile() ? startEndEllipsis(address.address_hash, 10) : address.address_hash
   return address.address_hash ? addressText : i18n.t('address.unable_decode_address')
 }
 
 const initialState = {
   address: initAddress,
-  transactions: [] as TransactionWrapper[],
+  transactions: [] as Response.Wrapper<State.Transaction>[],
   total: 1,
   tipBlockNumber: 0,
 }
@@ -293,7 +287,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
           )}
           <AddressScriptLabel
             image={AddressScriptIcon}
-            label={`${i18n.t('address.lock_hash')} : `}
+            label={`${i18n.t('address.lock_script')} : `}
             script={state.address.lock_script}
           />
         </AddressCommonContent>

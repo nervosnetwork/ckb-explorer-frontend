@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
 import { AxiosResponse } from 'axios'
 import AppContext from '../../contexts/App'
-import { axiosIns } from '../../http/fetcher'
+import { axiosIns } from '../../service/http/fetcher'
 import MaintainImage from '../../assets/maintain.png'
 import i18n from '../../utils/i18n'
 

@@ -30,7 +30,7 @@
     "skipLibCheck": true,
     "jsx": "preserve",
     "typeRoots": [
-      "./types",
+      "src/types",
       "node_modules/@types"
     ]
   },
