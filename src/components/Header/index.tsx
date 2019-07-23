@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
 import logoIcon from '../../assets/ckb_logo.png'
@@ -21,75 +21,77 @@ const menus = [
 const NORMAL_HEIGHT = 42
 const SEARCH_HEIGHT = 95
 
-export default ({ search = true }: { search?: boolean }) => {
+export default ({ search = true, width = window.innerWidth }: { search?: boolean; width?: number }) => {
   const [height, setHeight] = useState(NORMAL_HEIGHT)
 
   useEffect(() => {
     setHeight(NORMAL_HEIGHT)
   }, [setHeight])
-
-  if (isMobile()) {
+  return useMemo(() => {
+    // console.log("normally rerender will not occur with useMemo")
+    if (isMobile(width)) {
+      return (
+        <>
+          <HeaderMobilePanel height={height}>
+            <HeaderMobileDiv>
+              <Link to="/" className="header__logo">
+                <img className="header__logo__img" src={logoIcon} alt="logo" />
+              </Link>
+              <div className="header__menus">
+                <a className="header__menus__item" href={menus[0].url} target="_blank" rel="noopener noreferrer">
+                  {menus[0].name}
+                </a>
+                <Link className="header__menus__item" to={menus[1].url}>
+                  {menus[1].name}
+                </Link>
+              </div>
+              {search && (
+                <div className="header__search">
+                  <div
+                    className="header__search__component"
+                    onKeyDown={() => {}}
+                    onClick={() => setHeight(height === NORMAL_HEIGHT ? SEARCH_HEIGHT : NORMAL_HEIGHT)}
+                    role="button"
+                    tabIndex={-1}
+                  >
+                    <img className="header__search__image" src={SearchLogo} alt="search" />
+                  </div>
+                  <div className="header__testnet">{i18n.t('navbar.network')}</div>
+                </div>
+              )}
+            </HeaderMobileDiv>
+            <HeaderSearchPanel>{search && <Search />}</HeaderSearchPanel>
+          </HeaderMobilePanel>
+        </>
+      )
+    }
     return (
       <>
-        <HeaderMobilePanel height={height}>
-          <HeaderMobileDiv>
-            <Link to="/" className="header__logo">
-              <img className="header__logo__img" src={logoIcon} alt="logo" />
+        <HeaderDiv>
+          <Link to="/" className="header__logo">
+            <img className="header__logo__img" src={logoIcon} alt="logo" />
+          </Link>
+          <div className="header__menus">
+            <a className="header__menus__item" href={menus[0].url} target="_blank" rel="noopener noreferrer">
+              {menus[0].name}
+            </a>
+            <Link className="header__menus__item" to={menus[1].url}>
+              {menus[1].name}
             </Link>
-            <div className="header__menus">
-              <a className="header__menus__item" href={menus[0].url} target="_blank" rel="noopener noreferrer">
-                {menus[0].name}
-              </a>
-              <Link className="header__menus__item" to={menus[1].url}>
-                {menus[1].name}
-              </Link>
-            </div>
-            {search && (
-              <div className="header__search">
-                <div
-                  className="header__search__component"
-                  onKeyDown={() => {}}
-                  onClick={() => setHeight(height === NORMAL_HEIGHT ? SEARCH_HEIGHT : NORMAL_HEIGHT)}
-                  role="button"
-                  tabIndex={-1}
-                >
-                  <img className="header__search__image" src={SearchLogo} alt="search" />
-                </div>
-                <div className="header__testnet">{i18n.t('navbar.network')}</div>
+          </div>
+          {search && (
+            <div className="header__search">
+              <div className="header__search__component">
+                <Search />
               </div>
-            )}
-          </HeaderMobileDiv>
-          <HeaderSearchPanel>{search && <Search />}</HeaderSearchPanel>
-        </HeaderMobilePanel>
+              <div className="header__testnet__panel">
+                <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
+                <div className="header__testnet__tip">{i18n.t('navbar.network_tooltip')}</div>
+              </div>
+            </div>
+          )}
+        </HeaderDiv>
       </>
     )
-  }
-  return (
-    <>
-      <HeaderDiv>
-        <Link to="/" className="header__logo">
-          <img className="header__logo__img" src={logoIcon} alt="logo" />
-        </Link>
-        <div className="header__menus">
-          <a className="header__menus__item" href={menus[0].url} target="_blank" rel="noopener noreferrer">
-            {menus[0].name}
-          </a>
-          <Link className="header__menus__item" to={menus[1].url}>
-            {menus[1].name}
-          </Link>
-        </div>
-        {search && (
-          <div className="header__search">
-            <div className="header__search__component">
-              <Search />
-            </div>
-            <div className="header__testnet__panel">
-              <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-              <div className="header__testnet__tip">{i18n.t('navbar.network_tooltip')}</div>
-            </div>
-          </div>
-        )}
-      </HeaderDiv>
-    </>
-  )
+  }, [search, width, height])
 }
