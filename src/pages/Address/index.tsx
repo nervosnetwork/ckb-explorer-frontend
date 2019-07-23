@@ -86,7 +86,7 @@ const AddressScriptLabel = ({ image, label, script }: { image: string; label: st
       </AddressScriptLabelPanel>
       <AddressScriptContentPanel>
         <AddressScriptContent>
-          <ScriptLabelItem name={`${i18n.t('address.code_hash')} :`} value={script.code_hash} />
+          {script.code_hash && <ScriptLabelItem name={`${i18n.t('address.code_hash')} :`} value={script.code_hash} />}
           {script.args.length === 1 ? (
             <ScriptLabelItem name={`${i18n.t('address.args')} :`} value={script.args[0]} />
           ) : (
