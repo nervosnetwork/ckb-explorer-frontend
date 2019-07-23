@@ -225,6 +225,119 @@ const BlockOverviewItemContent = ({ value, tip, message }: { value?: string; tip
   )
 }
 
+const BlockOverview = ({ block }: { block: State.Block }) => {
+  const [showAllOverview, setShowAllOverview] = useState(false)
+  const receivedTxFee = `${localeNumberString(shannonToCkb(block.received_tx_fee))} CKB`
+  const rootInfoItems = [
+    {
+      title: i18n.t('block.transactions_root'),
+      content: `${block.transactions_root}`,
+    },
+    {
+      title: i18n.t('block.witnesses_root'),
+      content: `${block.witnesses_root}`,
+    },
+  ]
+  let overviewItems: OverviewItemData[] = [
+    {
+      title: i18n.t('block.block_height'),
+      content: localeNumberString(block.number),
+    },
+    {
+      title: i18n.t('block.miner'),
+      content: <BlockMiner miner={block.miner_hash} />,
+    },
+    {
+      title: i18n.t('transaction.transactions'),
+      content: localeNumberString(block.transactions_count),
+    },
+    {
+      title: i18n.t('block.epoch'),
+      content: localeNumberString(block.epoch),
+    },
+    {
+      title: i18n.t('block.proposal_transactions'),
+      content: block.proposals_count ? localeNumberString(block.proposals_count) : 0,
+    },
+    {
+      title: i18n.t('block.epoch_start_number'),
+      content: localeNumberString(block.start_number),
+    },
+    {
+      title: i18n.t('block.block_reward'),
+      content: (
+        <BlockOverviewItemContent
+          value={`${localeNumberString(shannonToCkb(block.reward))} CKB`}
+          tip={block.reward_status === 'pending' ? 'Pending' : undefined}
+          message={i18n.t('block.pending_tip')}
+        />
+      ),
+    },
+    {
+      title: i18n.t('block.epoch_length'),
+      content: localeNumberString(block.length),
+    },
+    {
+      title: i18n.t('transaction.transaction_fee'),
+      content: (
+        <BlockOverviewItemContent
+          value={block.received_tx_fee_status === 'calculating' && block.number > 0 ? undefined : receivedTxFee}
+          tip={block.received_tx_fee_status === 'calculating' && block.number > 0 ? 'Calculating' : undefined}
+          message={i18n.t('block.calculating_tip')}
+        />
+      ),
+    },
+    {
+      title: i18n.t('block.difficulty'),
+      content: localeNumberString(block.difficulty, 16),
+    },
+    {
+      title: i18n.t('block.timestamp'),
+      content: `${parseSimpleDate(block.timestamp)}`,
+    },
+    {
+      title: i18n.t('block.nonce'),
+      content: `${block.nonce}`,
+    },
+    {
+      title: i18n.t('block.uncle_count'),
+      content: `${block.uncles_count}`,
+    },
+    {
+      title: i18n.t('block.proof'),
+      content: `${startEndEllipsis(block.proof, 9)}`,
+    },
+  ]
+
+  if (isMobile()) {
+    const newItems: OverviewItemData[] = []
+    overviewItems.forEach((item, idx) => (idx % 2 === 0 ? newItems.push(item) : null))
+    overviewItems.forEach((item, idx) => (idx % 2 !== 0 ? newItems.push(item) : null))
+    overviewItems = newItems.concat(rootInfoItems)
+    if (!showAllOverview) {
+      overviewItems.splice(11, overviewItems.length - 11)
+    }
+  }
+  return (
+    <OverviewCard items={overviewItems}>
+      {isMobile() ? (
+        <BlockOverviewDisplayControlPanel onClick={() => setShowAllOverview(!showAllOverview)}>
+          <img src={showAllOverview ? PackUpIcon : DropDownIcon} alt={showAllOverview ? 'show' : 'hide'} />
+        </BlockOverviewDisplayControlPanel>
+      ) : (
+        rootInfoItems.map(item => {
+          return (
+            <BlockRootInfoItemPanel key={item.title}>
+              <div className="block__root_info_title">{item.title}</div>
+              <div className="block__root_info_value">{item.content}</div>
+            </BlockRootInfoItemPanel>
+          )
+        })
+      )}
+    </OverviewCard>
+  )
+}
+
 export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string }>>) => {
   const { match, location, history } = props
   const { params } = match
@@ -237,7 +350,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
   const size = parsePageNumber(parsed.size, PageParams.PageSize)
 
   const [state, dispatch] = useReducer(reducer, initialState)
-  const [showAllOverview, setShowAllOverview] = useState(false)
 
   useEffect(() => {
     if (size > PageParams.MaxPageSize) {
@@ -250,123 +362,12 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
     history.push(`/block/${blockParam}?page=${pageNo}&size=${pageSize}`)
   }
 
-  const receivedTxFee = `${localeNumberString(shannonToCkb(state.block.received_tx_fee))} CKB`
-  const rootInfoItems = [
-    {
-      title: i18n.t('block.transactions_root'),
-      content: `${state.block.transactions_root}`,
-    },
-    {
-      title: i18n.t('block.witnesses_root'),
-      content: `${state.block.witnesses_root}`,
-    },
-  ]
-
-  let overviewItems: OverviewItemData[] = [
-    {
-      title: i18n.t('block.block_height'),
-      content: localeNumberString(state.block.number),
-    },
-    {
-      title: i18n.t('block.miner'),
-      content: <BlockMiner miner={state.block.miner_hash} />,
-    },
-    {
-      title: i18n.t('transaction.transactions'),
-      content: localeNumberString(state.block.transactions_count),
-    },
-    {
-      title: i18n.t('block.epoch'),
-      content: localeNumberString(state.block.epoch),
-    },
-    {
-      title: i18n.t('block.proposal_transactions'),
-      content: state.block.proposals_count ? localeNumberString(state.block.proposals_count) : 0,
-    },
-    {
-      title: i18n.t('block.epoch_start_number'),
-      content: localeNumberString(state.block.start_number),
-    },
-    {
-      title: i18n.t('block.block_reward'),
-      content: (
-        <BlockOverviewItemContent
-          value={`${localeNumberString(shannonToCkb(state.block.reward))} CKB`}
-          tip={state.block.reward_status === 'pending' ? 'Pending' : undefined}
-          message={i18n.t('block.pending_tip')}
-        />
-      ),
-    },
-    {
-      title: i18n.t('block.epoch_length'),
-      content: localeNumberString(state.block.length),
-    },
-    {
-      title: i18n.t('transaction.transaction_fee'),
-      content: (
-        <BlockOverviewItemContent
-          value={
-            state.block.received_tx_fee_status === 'calculating' && state.block.number > 0 ? undefined : receivedTxFee
-          }
-          tip={
-            state.block.received_tx_fee_status === 'calculating' && state.block.number > 0 ? 'Calculating' : undefined
-          }
-          message={i18n.t('block.calculating_tip')}
-        />
-      ),
-    },
-    {
-      title: i18n.t('block.difficulty'),
-      content: localeNumberString(state.block.difficulty, 16),
-    },
-    {
-      title: i18n.t('block.timestamp'),
-      content: `${parseSimpleDate(state.block.timestamp)}`,
-    },
-    {
-      title: i18n.t('block.nonce'),
-      content: `${state.block.nonce}`,
-    },
-    {
-      title: i18n.t('block.uncle_count'),
-      content: `${state.block.uncles_count}`,
-    },
-    {
-      title: i18n.t('block.proof'),
-      content: `${startEndEllipsis(state.block.proof, 9)}`,
-    },
-  ]
-  if (isMobile()) {
-    const newItems: OverviewItemData[] = []
-    overviewItems.forEach((item, idx) => (idx % 2 === 0 ? newItems.push(item) : null))
-    overviewItems.forEach((item, idx) => (idx % 2 !== 0 ? newItems.push(item) : null))
-    overviewItems = newItems.concat(rootInfoItems)
-    if (!showAllOverview) {
-      overviewItems.splice(11, overviewItems.length - 11)
-    }
-  }
-
   return (
     <Content>
       <BlockDetailPanel className="container">
         <AddressHashCard title={i18n.t('block.block')} hash={state.block.block_hash} />
         <TitleCard title={i18n.t('common.overview')} />
-        <OverviewCard items={overviewItems}>
-          {isMobile() ? (
-            <BlockOverviewDisplayControlPanel onClick={() => setShowAllOverview(!showAllOverview)}>
-              <img src={showAllOverview ? PackUpIcon : DropDownIcon} alt={showAllOverview ? 'show' : 'hide'} />
-            </BlockOverviewDisplayControlPanel>
-          ) : (
-            rootInfoItems.map(item => {
-              return (
-                <BlockRootInfoItemPanel key={item.title}>
-                  <div className="block__root_info_title">{item.title}</div>
-                  <div className="block__root_info_value">{item.content}</div>
-                </BlockRootInfoItemPanel>
-              )
-            })
-          )}
-        </OverviewCard>
+        <BlockOverview block={state.block} />
         <TitleCard title={i18n.t('transaction.transactions')} />
         {state.transactions &&
           state.transactions.map((transaction: any, index: number) => {
