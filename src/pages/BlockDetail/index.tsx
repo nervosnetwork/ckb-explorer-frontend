@@ -10,6 +10,7 @@ import {
   BlockRootInfoItemPanel,
   BlockMinerPanel,
   BlockOverviewItemContentPanel,
+  BlockOverviewDisplayControlPanel,
 } from './styled'
 import Content from '../../components/Content'
 import TransactionItem from '../../components/Transaction/TransactionItem/index'
@@ -24,6 +25,8 @@ import AddressHashCard from '../../components/Card/AddressHashCard'
 import TitleCard from '../../components/Card/TitleCard'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import Tooltip from '../../components/Tooltip'
+import DropDownIcon from '../../assets/block_detail_drop_down.png'
+import PackUpIcon from '../../assets/block_detail_pack_up.png'
 
 enum PageParams {
   PageNo = 1,
@@ -352,7 +355,9 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
         <TitleCard title={i18n.t('common.overview')} />
         <OverviewCard items={overviewItems}>
           {isMobile() ? (
-            <button type="button" title="ShowAll" onClick={() => setShowAllOverview(!showAllOverview)} />
+            <BlockOverviewDisplayControlPanel onClick={() => setShowAllOverview(!showAllOverview)}>
+              <img src={showAllOverview ? PackUpIcon : DropDownIcon} alt={showAllOverview ? 'show' : 'hide'} />
+            </BlockOverviewDisplayControlPanel>
           ) : (
             rootInfoItems.map(item => {
               return (

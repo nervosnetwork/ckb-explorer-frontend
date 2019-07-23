@@ -59,6 +59,21 @@ export const BlockOverviewItemContentPanel = styled.div`
   }
 `
 
+export const BlockOverviewDisplayControlPanel = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 8px;
+  transform: translateY(10px);
+
+  > img {
+    margin: auto auto;
+    width: 21px;
+    height: 8px;
+  }
+`
+
 export const BlockTransactionsPagition = styled(CommonPagition)`
   margin: 40px 0px 0px 0px;
   width: 100%;
