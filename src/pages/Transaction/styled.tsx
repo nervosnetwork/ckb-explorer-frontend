@@ -17,6 +17,40 @@ export const TransactionBlockHeightPanel = styled.div`
   color: #3cc68a;
 `
 
+export const TransactionCellListTitlePanel = styled.div``
+
+export const TransactionCellListPanel = styled.div`
+  width: 100%;
+  height: 200px;
+  border-radius: 6px;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  background-color: #ffffff;
+  margin-top: 20px;
+
+  .transaction__cell_list_titles {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    font-size: 20px;
+    font-weight: 500;
+    color: #000000;
+
+    > span {
+      margin-top: 20px;
+      flex: 0.333;
+      text-align: center;
+    }
+  }
+
+  /* .transaction__cell_list_titles:after {
+    content: '';
+    background: red;
+    height: 1px;
+    width: 100%;
+  } */
+`
+
 export const PanelDiv = styled.div`
   border-radius: 6px;
   box-shadow: 0 5px 9px 0 #dfdfdf;
