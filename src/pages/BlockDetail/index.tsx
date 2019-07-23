@@ -50,7 +50,7 @@ import { startEndEllipsis, parsePageNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
+import { isMobile, isSmallMobile } from '../../utils/screen'
 
 const BlockDetailTitle = ({ hash }: { hash: string }) => {
   const appContext = useContext(AppContext)
@@ -411,7 +411,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
     {
       image: ProofIcon,
       label: `${i18n.t('block.proof')}:`,
-      value: `${startEndEllipsis(state.block.proof, 9)}`,
+      value: `${startEndEllipsis(state.block.proof, isSmallMobile() ? 5 : 9)}`,
     },
   ]
 
