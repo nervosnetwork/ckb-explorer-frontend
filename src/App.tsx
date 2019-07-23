@@ -2,23 +2,23 @@ import React from 'react'
 import styled from 'styled-components'
 import Routers from './routes'
 import Toast from './components/Toast'
-import withProviders from './providers'
-import { useInitApp, useWindowResize } from './contexts/hook'
+import withProviders from './contexts/providers'
+import { useInitApp, useWindowResize } from './contexts/providers/hook'
 
 const AppDiv = styled.div`
   width: 100vw;
   height: 100vh;
 `
-const App = () => {
-  useInitApp()
-  useWindowResize()
+const App = withProviders(({ dispatch }: any) => {
+  useInitApp(dispatch)
+  useWindowResize(dispatch)
 
   return (
     <AppDiv>
-      <Routers />
+      <Routers dispatch={dispatch} />
       <Toast />
     </AppDiv>
   )
-}
+})
 
-export default withProviders(App)
+export default App
