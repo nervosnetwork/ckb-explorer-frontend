@@ -219,7 +219,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
       content: localeNumberString(state.address.transactions_count),
     },
   ]
-  state.address.pending_reward_blocks_count = 4
   if (state.address.pending_reward_blocks_count) {
     items.push({
       title: <AddressPendingRewardTitle />,
