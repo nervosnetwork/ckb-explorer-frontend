@@ -16,7 +16,7 @@ import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import { parsePageNumber, startEndEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
-import Tooltip from '../BlockDetail/NewTooltip'
+import Tooltip from '../../components/Tooltip'
 import {
   AddressContentPanel,
   AddressLockScriptItemPanel,

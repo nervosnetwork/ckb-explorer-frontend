@@ -44,7 +44,7 @@ import { isMobile, isSmallMobile, isMediumMobile, isLargeMobile } from '../../ut
 import AddressHashCard from '../../components/Card/AddressHashCard'
 import TitleCard from '../../components/Card/TitleCard'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import Tooltip from './NewTooltip'
+import Tooltip from '../../components/Tooltip'
 
 enum PageParams {
   PageNo = 1,

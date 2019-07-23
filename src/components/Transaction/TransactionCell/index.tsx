@@ -7,7 +7,7 @@ import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import { CellbasePanel, TransactionCellPanel } from './styled'
 import { isMediumMobile, isLargeMobile, isSmallMobile, isMobile } from '../../../utils/screen'
-import Tooltip from '../../../pages/BlockDetail/NewTooltip'
+import Tooltip from '../../Tooltip'
 
 const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
   const [show, setShow] = useState(false)
