@@ -45,7 +45,7 @@ export const triggerTransactionByHash = ({
           transactionValue.display_outputs[0].isGenesisOutput = transactionValue.block_number === 0
         }
         dispatch({
-          type: PageActions.TriggerTransaction,
+          type: PageActions.UpdateTransaction,
           payload: {
             transaction: transactionValue,
           },

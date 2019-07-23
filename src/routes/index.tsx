@@ -85,7 +85,7 @@ export const containers: CustomRouter.Route[] = [
   },
 ]
 
-export default ({ dispatch }: React.PropsWithoutRef<{ dispatch: AppDispatch }>) => {
+export default ({ dispatch }: { dispatch: AppDispatch }) => {
   useEffect(() => {
     let currentUrl = `${browserHistory.location.pathname}${browserHistory.location.search}`
     const unlisten = browserHistory.listen((location: any) => {
@@ -98,16 +98,20 @@ export default ({ dispatch }: React.PropsWithoutRef<{ dispatch: AppDispatch }>) 
       unlisten()
     }
   }, [])
+
+  useEffect(() => {
+    dispatch({
+      type: ComponentActions.HaveSearchBar,
+      payload: {
+        haveSearchBar: hasSearch(browserHistory.location.pathname),
+      },
+    })
+  }, [dispatch])
+
   return (
     <Router history={browserHistory}>
       <Route
         render={(props: any) => {
-          dispatch({
-            type: ComponentActions.HaveSearchBar,
-            payload: {
-              haveSearchBar: hasSearch(props.location.pathname),
-            },
-          })
           return (
             <Page>
               <React.Fragment>

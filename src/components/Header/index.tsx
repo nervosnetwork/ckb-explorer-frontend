@@ -24,7 +24,7 @@ const NORMAL_HEIGHT = 42
 const SEARCH_HEIGHT = 95
 
 const handleVersion = (appContext: any) => {
-  if (appContext.nodeVersion.indexOf('(') !== -1) {
+  if (appContext.nodeVersion && appContext.nodeVersion.indexOf('(') !== -1) {
     return `v${appContext.nodeVersion.slice(0, appContext.nodeVersion.indexOf('('))}`
   }
   return appContext.nodeVersion

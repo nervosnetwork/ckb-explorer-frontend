@@ -117,7 +117,7 @@ export const reducer = (
     // PageActions
     case PageActions.TriggerHome:
       triggerLatestBlocks(payload.dispatch)
-      triggerStatistics(payload)
+      triggerStatistics(payload.dispatch)
       return state
     case PageActions.UpdateHomeBlocks:
       return {

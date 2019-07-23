@@ -1,8 +1,7 @@
-import { useEffect, useState, useRef, useContext } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { initAxiosInterceptors } from '../../service/http/interceptors'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
 import { RESIZE_LATENCY, BLOCKCHAIN_ALERT_POLLING_TIME } from '../../utils/const'
-import { AppContext } from './index'
 import { handleNodeVersion } from '../../service/app/nodeInfo'
 import { AppDispatch, AppActions } from './reducer'
 
@@ -45,15 +44,14 @@ export const useWindowResize = (dispatch: AppDispatch) => {
 }
 
 export const useInitApp = (dispatch: AppDispatch) => {
-  const appContext = useContext(AppContext)
   const [init, setInit] = useState(false)
   if (!init) {
     setInit(true)
-    initAxiosInterceptors(appContext)
+    initAxiosInterceptors(dispatch)
     handleNodeVersion(dispatch)
   }
 
   useInterval(() => {
-    handleBlockchainAlert(appContext)
+    handleBlockchainAlert(dispatch)
   }, BLOCKCHAIN_ALERT_POLLING_TIME)
 }
