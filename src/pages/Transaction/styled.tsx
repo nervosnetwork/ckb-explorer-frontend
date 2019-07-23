@@ -3,165 +3,18 @@ import styled from 'styled-components'
 export const TransactionDiv = styled.div.attrs({
   className: 'container',
 })`
-  padding-top: 100px;
-  padding-bottom: 150px;
-
-  @media (max-width: 700px) {
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-`
-export const TransactionTitleDiv = styled.div`
-  text-align: center;
-  font-size: 50px;
-
-  @media (max-width: 700px) {
-    font-size: 26px;
-  }
-`
-export const TransactionOverviewLabel = styled.div`
-  text-align: center;
-  margin-top: 100px;
-  font-size: 50px;
-  @media (max-width: 700px) {
-    margin-top: 25px;
-    font-size: 26px;
-  }
-  &:after {
-    content: '';
-    display: block;
-    width: 100px;
-    height: 4px;
-    margin: 0 auto;
-    background-color: #50ba8e;
-  }
-`
-
-export const TransactionTitlePanel = styled.div`
-  .transaction__title {
-    color: rgb(20, 20, 20);
-    font-size: 50px;
-    text-align: center;
-
-    @media (max-width: 700px) {
-      font-size: 26px;
-    }
-  }
-
-  .transaction__content {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin: 0 12px;
-
-    > code {
-      color: rgb(136, 136, 136);
-      font-size: 18px;
-      height: 25px;
-
-      @media (max-width: 700px) {
-        font-size: 14px;
-      }
-    }
-    #transaction__hash {
-      color: rgb(136, 136, 136);
-      font-size: 18px;
-
-      @media (max-width: 700px) {
-        font-size: 14px;
-        height: 40px;
-        width: 75%;
-      }
-      white-space: normal;
-      word-wrap: break-word;
-    }
-
-    > div {
-      > img {
-        margin-left: 15px;
-        width: 21px;
-        height: 21px;
-      }
-    }
-  }
-`
-
-export const TransactionCommonContent = styled.div`
   width: 100%;
-  overflow-x: auto;
-  margin-top: 50px;
-  background: white;
-  border: 0px solid white;
-  border-radius: 6px;
-  box-shadow: 0px 5px 9px #dfdfdf;
-
-  > div {
-    padding: 72px 88px 56px 88px;
-    width: 1200px;
-    margin: 0 auto;
-    display: flex;
-
-    > div:nth-child(1) {
-      flex: 1;
-    }
-
-    > div:nth-child(2) {
-      display: flex;
-      flex: 1;
-      > div:nth-child(1) {
-        width: 1px;
-        height: 80px;
-        background: #3cc68a;
-        content: '';
-        margin-right: 82px;
-      }
-    }
-  }
+  margin-top: 60px;
+  margin-bottom: 90px;
 
   @media (max-width: 700px) {
-    overflow-x: auto;
-    width: 88%;
-    margin: 15px 6%;
-    background: white;
-    border: 0px solid white;
-    border-radius: 6px;
-    display: flex;
-    flex-direction: column;
-
-    > div {
-      padding: 15px;
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-
-      > div:nth-child(1) {
-      }
-
-      > div:nth-child(2) {
-        > div:nth-child(1) {
-          width: 1px;
-          height: 0px;
-          margin-right: 0px;
-        }
-      }
-    }
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 `
 
-export const TransactionHashDiv = styled.div`
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  color: #888888;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  #transaction__hash {
-    height: 56px;
-    line-height: 56px;
-  }
+export const TransactionBlockHeightPanel = styled.div`
+  color: #3cc68a;
 `
 
 export const PanelDiv = styled.div`
