@@ -4,6 +4,9 @@ export const BlockListPanel = styled.div`
   width: 100%;
   margin-top: 60px;
   margin-bottom: 40px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px 0 rgba(77, 77, 77, 0.21);
+  overflow: hidden;
 
   @media (max-width: 700px) {
     margin-top: 20px;
