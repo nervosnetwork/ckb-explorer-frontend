@@ -48,7 +48,7 @@ import { startEndEllipsis, parsePageNumber } from '../../utils/string'
 import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
+import { isMobile, isSmallMobile } from '../../utils/screen'
 import { PageParams } from '../../utils/const'
 import { StateWithDispatch, PageActions, AppDispatch, AppActions } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers/index'
@@ -280,7 +280,7 @@ export default ({
     {
       image: ProofIcon,
       label: `${i18n.t('block.proof')}:`,
-      value: `${startEndEllipsis(blockState.block.proof, 9)}`,
+      value: `${startEndEllipsis(blockState.block.proof, isSmallMobile() ? 5 : 9)}`,
     },
   ]
 
