@@ -3,13 +3,11 @@ import Pagination from 'rc-pagination'
 import localeInfo from 'rc-pagination/lib/locale/en_US'
 import React, { ReactNode, useEffect, useReducer, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import ItemPointIcon from '../../assets/item_point.png'
 import HelpIcon from '../../assets/qa_help.png'
 import AddressHashCard from '../../components/Card/AddressHashCard'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TitleCard from '../../components/Card/TitleCard'
 import Content from '../../components/Content'
-import Tooltip from '../../components/Tooltip'
 import TransactionItem from '../../components/Transaction/TransactionItem/index'
 import { fetchAddressInfo, fetchTipBlockNumber, fetchTransactionsByAddress } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
@@ -17,6 +15,7 @@ import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import { parsePageNumber, startEndEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
+import Tooltip from '../../components/Tooltip'
 import {
   AddressContentPanel,
   AddressLockScriptItemPanel,
@@ -145,22 +144,24 @@ const AddressPendingRewardTitle = () => {
     <AddressPendingRewardTitlePanel>
       {`${i18n.t('address.pending_reward')}`}
       <div
-        className="address__pending_reward_help"
+        id="address__pending_reward_help"
         tabIndex={-1}
         onFocus={() => {}}
         onMouseOver={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
       >
         <img src={HelpIcon} alt="Pending Reward Help" />
-        <Tooltip
-          message={i18n.t('address.pending_reward_tooltip')}
-          show={show}
-          targetSize={{
-            width: 20,
-            height: 30,
-          }}
-        />
       </div>
+      <Tooltip
+        show={show}
+        targetElementId="address__pending_reward_help"
+        offset={{
+          x: 0,
+          y: isMobile() ? 28 : 32,
+        }}
+      >
+        {i18n.t('address.pending_reward_tooltip')}
+      </Tooltip>
     </AddressPendingRewardTitlePanel>
   )
 }
@@ -169,7 +170,6 @@ const AddressLockScriptItem = ({ title, children }: { title: string; children?: 
   return (
     <AddressLockScriptItemPanel>
       <div className="address_lock_script__title">
-        <img src={ItemPointIcon} alt="point" />
         <span>{title}</span>
       </div>
       <div className="address_lock_script__content">{children}</div>
@@ -211,19 +211,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
 
   const items: OverviewItemData[] = [
     {
-      key: 'balance',
       title: i18n.t('address.balance'),
       content: `${localeNumberString(shannonToCkb(state.address.balance))} CKB`,
     },
     {
-      key: 'transactions',
       title: i18n.t('transaction.transactions'),
       content: localeNumberString(state.address.transactions_count),
     },
   ]
   if (state.address.pending_reward_blocks_count) {
     items.push({
-      key: 'pending_reward',
       title: <AddressPendingRewardTitle />,
       content: `${state.address.pending_reward_blocks_count} ${
         state.address.pending_reward_blocks_count > 1 ? 'blocks' : 'block'
@@ -232,7 +229,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   }
   if (lockHash && state.address) {
     items.push({
-      key: 'address',
       title: i18n.t('address.address'),
       content: addressContent(state.address),
     })
@@ -278,6 +274,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                 )
               )
             })}
+        </AddressTransactionsPanel>
+        {state.total > 1 && (
           <AddressTransactionsPagition>
             <Pagination
               showQuickJumper
@@ -291,7 +289,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               locale={localeInfo}
             />
           </AddressTransactionsPagition>
-        </AddressTransactionsPanel>
+        )}
       </AddressContentPanel>
     </Content>
   )

@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { shannonToCkb } from '../../../utils/util'
-import ItemPoint from '../../../assets/grey_point.png'
 import { localeNumberString } from '../../../utils/number'
 import i18n from '../../../utils/i18n'
 
@@ -25,13 +24,18 @@ export const RewardPenal = styled.div`
     display: flex;
     align-items: center;
 
-    > img {
-      @media (min-width: 700px) {
-        display: none;
-      }
+    &:before {
+      content: '';
       width: 5px;
       height: 5px;
       margin-right: 8px;
+      border-radius: 50% 50%;
+      background: #424242;
+      display: none;
+
+      @media (max-width: 700px) {
+        display: flex;
+      }
     }
 
     .reward__name {
@@ -76,7 +80,6 @@ const TransactionReward = ({ transaction, cell }: { transaction: State.Transacti
           return (
             <RewardPenal key={reward.name}>
               <div className="reward__name__point">
-                <img alt="reward point" src={ItemPoint} />
                 <div className="reward__name">{reward.name}</div>
               </div>
               <div className="reward__capacity">{`${localeNumberString(shannonToCkb(reward.capacity))} CKB`}</div>

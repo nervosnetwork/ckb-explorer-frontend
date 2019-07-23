@@ -72,6 +72,7 @@ export const OverviewItemPanel = styled.div`
   width: 100%;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 
   @media (min-width: 700px) {
     height: 20px;
@@ -110,6 +111,8 @@ export const OverviewItemPanel = styled.div`
 
     @media (max-width: 700px) {
       margin-left: 0px;
+      word-wrap: break-word;
+      word-break: break-all;
     }
   }
 `

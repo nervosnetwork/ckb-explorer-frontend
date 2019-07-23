@@ -33,7 +33,9 @@ export const TransactionCellPanel = styled.div`
 export const CellbasePanel = styled.div`
   display: flex;
   align-items: center;
-  height: 16px;
+  height: 35px;
+  position: relative;
+  width: 100%;
 
   .cellbase__content {
     color: #000000;
@@ -47,7 +49,6 @@ export const CellbasePanel = styled.div`
 
   .cellbase__help {
     margin-left: 10px;
-    position: relative;
     transform: translateY(2px);
 
     &:focus {
