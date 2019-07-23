@@ -1,9 +1,10 @@
 import { useEffect, useState, useRef, useContext } from 'react'
-import { initAxiosInterceptors } from '../service/http/interceptors'
-import { handleBlockchainAlert } from '../service/app/blockchain'
-import { RESIZE_LATENCY, BLOCKCHAIN_ALERT_POLLING_TIME } from '../utils/const'
-import AppContext from './App'
-import { handleNodeVersion } from '../service/app/nodeInfo'
+import { initAxiosInterceptors } from '../../service/http/interceptors'
+import { handleBlockchainAlert } from '../../service/app/blockchain'
+import { RESIZE_LATENCY, BLOCKCHAIN_ALERT_POLLING_TIME } from '../../utils/const'
+import { AppContext } from './index'
+import { handleNodeVersion } from '../../service/app/nodeInfo'
+import { AppDispatch, AppActions } from './reducer'
 
 export const useInterval = (callback: () => void, delay: number) => {
   const savedCallback = useRef(() => {})
@@ -20,13 +21,18 @@ export const useInterval = (callback: () => void, delay: number) => {
 }
 
 let resizeTimer: any = null
-export const useWindowResize = () => {
-  const appContext = useContext(AppContext)
+export const useWindowResize = (dispatch: AppDispatch) => {
   useEffect(() => {
     const resizeListener = () => {
       if (resizeTimer) clearTimeout(resizeTimer)
       resizeTimer = setTimeout(() => {
-        appContext.resize(window.innerWidth, window.innerHeight)
+        dispatch({
+          type: AppActions.ResizeWindow,
+          payload: {
+            appWidth: window.innerWidth,
+            appHeight: window.innerHeight,
+          },
+        })
         resizeTimer = null
       }, RESIZE_LATENCY)
     }
@@ -38,13 +44,13 @@ export const useWindowResize = () => {
   }, [])
 }
 
-export const useInitApp = () => {
+export const useInitApp = (dispatch: AppDispatch) => {
   const appContext = useContext(AppContext)
   const [init, setInit] = useState(false)
   if (!init) {
     setInit(true)
     initAxiosInterceptors(appContext)
-    handleNodeVersion(appContext)
+    handleNodeVersion(dispatch)
   }
 
   useInterval(() => {
