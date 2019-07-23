@@ -1,9 +1,14 @@
 import { fetchNodeVersion } from '../http/fetcher'
-import { App } from '../../contexts/App'
+import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
 
-export const handleNodeVersion = (appContext: App) => {
+export const handleNodeVersion = (dispatch: AppDispatch) => {
   fetchNodeVersion().then((wrapper: Response.Wrapper<State.NodeVersion>) => {
-    appContext.updateNodeVersion(wrapper ? wrapper.attributes.version : '')
+    dispatch({
+      type: AppActions.UpdateNodeVersion,
+      payload: {
+        nodeVersion: wrapper ? wrapper.attributes.version : '',
+      },
+    })
   })
 }
 
