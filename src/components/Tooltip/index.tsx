@@ -25,6 +25,7 @@ const TooltipPanel = styled.div`
   z-index: 2;
 
   @media (max-width: 700px) {
+    font-size: 11px;
     padding: 10px 15px 10px 15px;
   }
 
