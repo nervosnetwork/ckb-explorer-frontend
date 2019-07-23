@@ -36,8 +36,10 @@ export const BlockRootInfoItemPanel = styled.div`
 `
 
 export const BlockMinerPanel = styled.div`
-  font-weight: 500;
-  color: #3cc68a;
+  > code {
+    font-weight: 500;
+    color: #3cc68a;
+  }
 `
 
 export const BlockOverviewItemContentPanel = styled.div`
