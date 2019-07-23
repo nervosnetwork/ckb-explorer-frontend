@@ -2,14 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import Content from '../../components/Content'
 import i18n from '../../utils/i18n'
-import {
-  TransactionDiv,
-  InputPanelDiv,
-  OutputPanelDiv,
-  InputOutputTable,
-  TransactionBlockHeightPanel,
-  TransactionCellListPanel,
-} from './styled'
+import { TransactionDiv, InputPanelDiv, OutputPanelDiv, InputOutputTable, TransactionBlockHeightPanel } from './styled'
 // import BlockHeightIcon from '../../assets/block_height_green.png'
 // import TimestampIcon from '../../assets/timestamp_green.png'
 // import TransactionIcon from '../../assets/transaction_fee.png'
@@ -24,6 +17,7 @@ import { isMobile } from '../../utils/screen'
 import AddressHashCard from '../../components/Card/AddressHashCard'
 import TitleCard from '../../components/Card/TitleCard'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
+import TransactionCellList from './TransactionCellList'
 
 const InputOutputTableTitle = ({ transactionType, isCellbase }: { transactionType: string; isCellbase?: boolean }) => {
   return (
@@ -143,13 +137,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         <TitleCard title={i18n.t('common.overview')} />
         <OverviewCard items={overviewItems} />
 
-        <TransactionCellListPanel>
-          <div className="transaction__cell_list_titles">
-            <span>Input</span>
-            <span>Capacity</span>
-            <span>Detail</span>
-          </div>
-        </TransactionCellListPanel>
+        <TransactionCellList />
 
         {isMobile() ? (
           <div>
