@@ -2,10 +2,11 @@ import React, { useContext, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
 import { AxiosResponse } from 'axios'
-import AppContext from '../../contexts/App'
+import { AppContext } from '../../contexts/providers/index'
 import { axiosIns } from '../../service/http/fetcher'
 import MaintainImage from '../../assets/maintain.png'
 import i18n from '../../utils/i18n'
+import { StateWithDispatch } from '../../contexts/providers/reducer'
 
 const MaintainPanel = styled.div`
   width: 100%;
@@ -58,10 +59,8 @@ const fetchTipBlockNumber = (replace: any) => {
     })
 }
 
-export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
-  const appContext = useContext(AppContext)
-  const { history } = props
-  const { replace } = history
+export default ({ history: { replace } }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
+  const { app } = useContext(AppContext)
 
   useEffect(() => {
     fetchTipBlockNumber(replace)
@@ -70,7 +69,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   return (
     <MaintainPanel>
       <img src={MaintainImage} alt="maintain" />
-      <div>{appContext.appErrors[2].message[0] || i18n.t('error.maintain')}</div>
+      <div>{app.appErrors[2].message[0] || i18n.t('error.maintain')}</div>
     </MaintainPanel>
   )
 }

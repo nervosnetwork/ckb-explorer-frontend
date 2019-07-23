@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
-import AppContext from '../../contexts/App'
+import { AppContext } from '../../contexts/providers/index'
 
 import Content from '../../components/Content'
 import SimpleLabel from '../../components/Label'
@@ -22,15 +22,15 @@ import CopyIcon from '../../assets/copy.png'
 import StatusIcon from '../../assets/transcation_status.png'
 import { parseSimpleDate } from '../../utils/date'
 
-import { CellType, fetchTransactionByHash, fetchTipBlockNumber } from '../../service/http/fetcher'
 import { copyElementValue, formatConfirmation, shannonToCkb } from '../../utils/util'
 import CellCard from '../../components/Card/CellCard'
 import ScriptComponent from './Script'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
+import { StateWithDispatch, PageActions, AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import { CellType } from '../../utils/const'
 
-const TransactionTitle = ({ hash }: { hash: string }) => {
-  const appContext = useContext(AppContext)
+const TransactionTitle = ({ hash, dispatch }: { hash: string; dispatch: AppDispatch }) => {
   return (
     <TransactionTitlePanel>
       <div className="transaction__title">{i18n.t('transaction.transaction')}</div>
@@ -42,7 +42,13 @@ const TransactionTitle = ({ hash }: { hash: string }) => {
           onKeyDown={() => {}}
           onClick={() => {
             copyElementValue(document.getElementById('transaction__hash'))
-            appContext.toastMessage(i18n.t('common.copied'), 3000)
+            dispatch({
+              type: AppActions.ShowToastMessage,
+              payload: {
+                text: i18n.t('common.copied'),
+                timeout: 3000,
+              },
+            })
           }}
         >
           <img src={CopyIcon} alt="copy" />
@@ -74,68 +80,34 @@ const InputOutputTableTitle = ({ transactionType, isCellbase }: { transactionTyp
   )
 }
 
-const initTransaction: State.Transaction = {
-  transaction_hash: '',
-  block_number: 0,
-  block_timestamp: 0,
-  transaction_fee: 0,
-  is_cellbase: false,
-  target_block_number: 0,
-  version: 0,
-  display_inputs: [],
-  display_outputs: [],
-}
-
-const getTransaction = (hash: string, setTransaction: any, replace: any) => {
-  fetchTransactionByHash(hash)
-    .then((wrapper: Response.Wrapper<State.Transaction>) => {
-      if (wrapper) {
-        const transactionValue = wrapper.attributes
-        if (transactionValue.display_outputs && transactionValue.display_outputs.length > 0) {
-          transactionValue.display_outputs[0].isGenesisOutput = transactionValue.block_number === 0
-        }
-        setTransaction(transactionValue)
-      } else {
-        replace(`/search/fail?q=${hash}`)
-      }
-    })
-    .catch(() => {
-      replace(`/search/fail?q=${hash}`)
-    })
-}
-
-const getTipBlockNumber = (setTipBlockNumber: any) => {
-  fetchTipBlockNumber().then((wrapper: Response.Wrapper<State.Statistics>) => {
-    if (wrapper) {
-      setTipBlockNumber(parseInt(wrapper.attributes.tip_block_number, 10))
-    }
-  })
-}
-
-export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
-  const { match, history } = props
-  const { params } = match
+export default ({
+  dispatch,
+  history: { replace },
+  match: { params },
+}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ hash: string }>>) => {
   const { hash } = params
-  const { replace } = history
-  const [transaction, setTransaction] = useState(initTransaction)
-  const [tipBlockNumber, setTipBlockNumber] = useState(0)
+  const { transaction, tipBlockNumber } = useContext(AppContext)
+
   let confirmation = 0
   if (tipBlockNumber && transaction.block_number) {
     confirmation = tipBlockNumber - transaction.block_number + 1
   }
 
   useEffect(() => {
-    getTransaction(hash, setTransaction, replace)
-  }, [hash, setTransaction, replace])
-
-  useEffect(() => {
-    getTipBlockNumber(setTipBlockNumber)
-  }, [setTipBlockNumber])
+    dispatch({
+      type: PageActions.TriggerTransaction,
+      payload: {
+        hash,
+        replace,
+        dispatch,
+      },
+    })
+  }, [hash, replace, dispatch])
 
   return (
     <Content>
       <TransactionDiv className="container">
-        <TransactionTitle hash={hash} />
+        <TransactionTitle hash={hash} dispatch={dispatch} />
         <TransactionOverviewLabel>{i18n.t('common.overview')}</TransactionOverviewLabel>
         <TransactionCommonContent>
           <div>
@@ -184,13 +156,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               transaction.display_inputs &&
               transaction.display_inputs.map((input: State.InputOutput, index: number) => {
                 const key = index
-                return <CellCard type={CellType.Input} cell={input} key={key} />
+                return <CellCard type={CellType.Input} cell={input} dispatch={dispatch} key={key} />
               })}
             {transaction &&
               transaction.display_outputs &&
               transaction.display_outputs.map((output: State.InputOutput, index: number) => {
                 const key = index
-                return <CellCard type={CellType.Output} cell={output} key={key} />
+                return <CellCard type={CellType.Output} cell={output} dispatch={dispatch} key={key} />
               })}
           </div>
         ) : (
@@ -211,7 +183,11 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   {transaction &&
                     transaction.display_inputs &&
                     transaction.display_inputs.map((input: State.InputOutput) => {
-                      return input && <ScriptComponent cellType={CellType.Input} key={input.id} cell={input} />
+                      return (
+                        input && (
+                          <ScriptComponent cellType={CellType.Input} key={input.id} cell={input} dispatch={dispatch} />
+                        )
+                      )
                     })}
                 </tbody>
               </InputOutputTable>
@@ -224,7 +200,16 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
                   {transaction &&
                     transaction.display_outputs &&
                     transaction.display_outputs.map((output: State.InputOutput) => {
-                      return output && <ScriptComponent cellType={CellType.Output} key={output.id} cell={output} />
+                      return (
+                        output && (
+                          <ScriptComponent
+                            cellType={CellType.Output}
+                            key={output.id}
+                            cell={output}
+                            dispatch={dispatch}
+                          />
+                        )
+                      )
                     })}
                 </tbody>
               </InputOutputTable>

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useContext } from 'react'
+import { Link, RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { HomeHeaderPanel, HomeHeaderItemPanel, BlockPanel, ContentTable, TableMorePanel } from './styled'
 import Content from '../../components/Content'
@@ -18,7 +18,6 @@ import MinerIcon from '../../assets/miner.png'
 import TimestampIcon from '../../assets/timestamp.png'
 import MoreLeftIcon from '../../assets/more_left.png'
 import MoreRightIcon from '../../assets/more_right.png'
-import { fetchBlocks, fetchStatistics } from '../../service/http/fetcher'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
 import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
@@ -26,6 +25,8 @@ import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import browserHistory from '../../routes/history'
+import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
+import { AppContext } from '../../contexts/providers'
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   return (
@@ -47,33 +48,11 @@ const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   )
 }
 
-const getLatestBlocks = (setBlocksWrappers: any) => {
-  fetchBlocks().then(response => {
-    const { data } = response as Response.Response<Response.Wrapper<State.Block>[]>
-    setBlocksWrappers(data)
-  })
-}
-
-const getStatistics = (setStatistics: any) => {
-  fetchStatistics().then((wrapper: Response.Wrapper<State.Statistics>) => {
-    if (wrapper) {
-      setStatistics(wrapper.attributes)
-    }
-  })
-}
-
 interface BlockchainData {
   name: string
   value: string
   tip: string
   clickable?: boolean
-}
-
-const initStatistics: State.Statistics = {
-  tip_block_number: '0',
-  current_epoch_average_block_time: '0',
-  current_epoch_difficulty: 0,
-  hash_rate: '0',
 }
 
 const parseHashRate = (hashRate: string | undefined) => {
@@ -84,41 +63,57 @@ const parseBlockTime = (blockTime: string | undefined) => {
   return blockTime ? parseTime(Number(blockTime)) : '- -'
 }
 
-export default () => {
-  const initBlockWrappers: Response.Wrapper<State.Block>[] = []
-  const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
-  const [statistics, setStatistics] = useState(initStatistics)
+export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
+  const { homeBlocks, statistics } = useContext(AppContext)
   const [t] = useTranslation()
 
   useEffect(() => {
     const cachedBlocks = fetchCachedData<Response.Wrapper<State.Block>[]>(CachedKeys.Blocks)
     if (cachedBlocks) {
-      setBlocksWrappers(cachedBlocks)
+      dispatch({
+        type: PageActions.UpdateHomeBlocks,
+        payload: {
+          homeBlocks: cachedBlocks,
+        },
+      })
     }
     const cachedStatistics = fetchCachedData<State.Statistics>(CachedKeys.Statistics)
     if (cachedStatistics) {
-      setStatistics(cachedStatistics)
+      dispatch({
+        type: PageActions.UpdateStatistics,
+        payload: {
+          statistics: cachedStatistics,
+        },
+      })
     }
-  }, [setBlocksWrappers, setStatistics])
+  }, [dispatch])
 
   useEffect(() => {
-    storeCachedData(CachedKeys.Blocks, blocksWrappers)
+    storeCachedData(CachedKeys.Blocks, homeBlocks)
     storeCachedData(CachedKeys.Statistics, statistics)
-  }, [blocksWrappers, statistics])
+  }, [homeBlocks, statistics])
 
   useEffect(() => {
-    getLatestBlocks(setBlocksWrappers)
-    getStatistics(setStatistics)
+    dispatch({
+      type: PageActions.TriggerHome,
+      payload: {
+        dispatch,
+      },
+    })
     const listener = setInterval(() => {
-      getLatestBlocks(setBlocksWrappers)
-      getStatistics(setStatistics)
+      dispatch({
+        type: PageActions.TriggerHome,
+        payload: {
+          dispatch,
+        },
+      })
     }, BLOCK_POLLING_TIME)
     return () => {
       if (listener) {
         clearInterval(listener)
       }
     }
-  }, [setBlocksWrappers, setStatistics])
+  }, [dispatch])
 
   const BlockchainDatas: BlockchainData[] = [
     {
@@ -159,8 +154,8 @@ export default () => {
           <ContentTable>
             <div className="block__green__background" />
             <div className="block__panel">
-              {blocksWrappers &&
-                blocksWrappers.map((block: any, index: number) => {
+              {homeBlocks &&
+                homeBlocks.map((block: any, index: number) => {
                   const key = index
                   return block && <BlockCard key={key} block={block.attributes} />
                 })}
@@ -175,8 +170,8 @@ export default () => {
               <TableTitleItem image={MinerIcon} title={t('block.miner')} />
               <TableTitleItem image={TimestampIcon} title={t('home.time')} />
             </TableTitleRow>
-            {blocksWrappers &&
-              blocksWrappers.map((block: any, index: number) => {
+            {homeBlocks &&
+              homeBlocks.map((block: any, index: number) => {
                 const key = index
                 return (
                   block && (
