@@ -4,6 +4,7 @@ import LeftBlack from '../../assets/pagination-black-left.png'
 import RightBlack from '../../assets/pagination-black-right.png'
 import LeftGreen from '../../assets/pagination-green-left.png'
 import RightGreen from '../../assets/pagination-green-right.png'
+import i18n from '../../utils/i18n'
 
 const pageSize: number = 25
 
@@ -59,7 +60,7 @@ const PageFirstItem = ({
   return (
     <PaginationItem isFirstPage={isFirstPage()} isLastPage={isLastPage()}>
       <button type="button" className="first" onClick={() => goFirstPage()}>
-        Fitst
+        {i18n.t('Pagination.first')}
       </button>
       <button type="button" className="leftImage" onClick={() => goPrev()}>
         <img src={isFirstPage() ? LeftBlack : LeftGreen} alt="left" />
@@ -74,9 +75,9 @@ const PageFirstItem = ({
         <img src={isLastPage() ? RightBlack : RightGreen} alt="right" />
       </button>
       <button type="button" className="last" onClick={() => goLastPage()}>
-        Last
+        {i18n.t('Pagination.last')}
       </button>
-      <div className="page">Page</div>
+      <div className="page">{i18n.t('Pagination.page')}</div>
       <PageInput
         value={inputValue}
         onChange={(event: any) => setInputValue(event.target.value)}
@@ -87,7 +88,7 @@ const PageFirstItem = ({
         }}
       />
       <button type="button" className="goto" onClick={() => jumpPage()}>
-        Goto
+        {i18n.t('Pagination.goto')}
       </button>
     </PaginationItem>
   )
