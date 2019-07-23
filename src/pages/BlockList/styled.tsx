@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const BlockListPanel = styled.div`
   width: 100%;
-  margin-top: 60px;
+  margin-top: 40px;
   margin-bottom: 40px;
   border-radius: 6px;
   box-shadow: 0 2px 6px 0 rgba(77, 77, 77, 0.21);
@@ -39,7 +39,6 @@ export const ContentTitle = styled.div`
 `
 
 export const ContentTable = styled.div`
-  margin-top: 58px;
   @media (max-width: 700px) {
     margin-top: 30px;
   }

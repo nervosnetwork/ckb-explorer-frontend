@@ -2,7 +2,7 @@ import React, { useReducer, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import 'rc-pagination/assets/index.css'
 import queryString from 'query-string'
-import { BlockListPanel, ContentTitle, ContentTable } from './styled'
+import { BlockListPanel, ContentTable } from './styled'
 import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import {
@@ -177,7 +177,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   return (
     <Content>
       <BlockListPanel className="container">
-        <ContentTitle>Blocks</ContentTitle>
         {isMobile() ? (
           <ContentTable>
             <div className="block__panel">
