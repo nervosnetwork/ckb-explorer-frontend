@@ -250,8 +250,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
     history.push(`/block/${blockParam}?page=${pageNo}&size=${pageSize}`)
   }
 
-  state.block.reward_status = 'pending'
-  state.block.received_tx_fee_status = 'calculating'
   const receivedTxFee = `${localeNumberString(shannonToCkb(state.block.received_tx_fee))} CKB`
   const rootInfoItems = [
     {
