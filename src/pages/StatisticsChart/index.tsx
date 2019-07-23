@@ -205,7 +205,7 @@ export default () => {
             <Tooltip />
             <Geom type="line" position="blockNumber*difficulty" color={['type', ['#3182bd']]} size={1} shape="hv" />
             <Geom type="line" position="blockNumber*hashRate" color={['type', ['#66CC99']]} size={1} shape="line" />
-            <Geom position="blockNumber*epochNumber" color={['type', ['#888888']]} size={0} />
+            <Geom position="blockNumber*epochNumber" color={['type', ['#3182bd']]} size={0} />
           </Chart>
         </ChartPanel>
       ) : (
