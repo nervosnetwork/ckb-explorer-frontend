@@ -213,12 +213,10 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
 
   const items: OverviewItemData[] = [
     {
-      key: 'balance',
       title: i18n.t('address.balance'),
       content: `${localeNumberString(shannonToCkb(state.address.balance))} CKB`,
     },
     {
-      key: 'transactions',
       title: i18n.t('transaction.transactions'),
       content: localeNumberString(state.address.transactions_count),
     },
@@ -226,7 +224,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   state.address.pending_reward_blocks_count = 4
   if (state.address.pending_reward_blocks_count) {
     items.push({
-      key: 'pending_reward',
       title: <AddressPendingRewardTitle />,
       content: `${state.address.pending_reward_blocks_count} ${
         state.address.pending_reward_blocks_count > 1 ? 'blocks' : 'block'
@@ -235,7 +232,6 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
   }
   if (lockHash && state.address) {
     items.push({
-      key: 'address',
       title: i18n.t('address.address'),
       content: addressContent(state.address),
     })

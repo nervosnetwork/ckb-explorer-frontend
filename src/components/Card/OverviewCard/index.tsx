@@ -3,7 +3,6 @@ import { OverviewCardPanel, OverviewContentPanel, OverviewItemPanel } from './st
 import { isMobile } from '../../../utils/screen'
 
 export interface OverviewItemData {
-  key?: string
   title: ReactNode
   content: ReactNode
 }

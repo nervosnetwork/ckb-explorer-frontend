@@ -49,7 +49,6 @@ export const CellbasePanel = styled.div`
 
   .cellbase__help {
     margin-left: 10px;
-    /* position: relative; */
     transform: translateY(2px);
 
     &:focus {
