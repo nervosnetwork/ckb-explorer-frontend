@@ -177,15 +177,14 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   return (
     <Content>
       <BlockListPanel className="container">
+        <div className="block__green__background" />
         {isMobile() ? (
           <ContentTable>
-            <div className="block__panel">
-              {state.blocks &&
-                state.blocks.map((block: any, index: number) => {
-                  const key = index
-                  return block && <BlockCard key={key} block={block.attributes} />
-                })}
-            </div>
+            {state.blocks &&
+              state.blocks.map((block: any, index: number) => {
+                const key = index
+                return block && <BlockCard key={key} block={block.attributes} />
+              })}
           </ContentTable>
         ) : (
           <ContentTable>

@@ -1,15 +1,5 @@
 import styled from 'styled-components'
 
-export const BasePagePanel = styled.div`
-  display: flex;
-  background: white;
-  width: 100%;
-  height: 80px;
-  @media (max-width: 700px) {
-    margin-left: 6%;
-  }
-`
-
 export const PageInput = styled.input`
   width: 120px;
   height: 40px;
@@ -25,6 +15,8 @@ export const PageInput = styled.input`
 export const PaginationItem = styled.div`
   display: flex;
   width: 100%;
+  height: 80px;
+  background: white;
   font-size: 16px;
   text-align: center;
   color: #000000;
@@ -102,29 +94,31 @@ export const PaginationItem = styled.div`
   }
 
   @media (max-width: 700px) {
-    width: 88%;
+    width: 100%;
     height: 50px;
 
     > button {
+      font-size: 8px;
       height: 20px;
+      width: 30px;
+      background: red;
       > img {
         width: 6px;
         height: 10px;
       }
     }
 
+    .leftImage {
+      width: 16px;
+      margin-top: 15px;
+      margin-left: 20px;
+    }
     .first {
       display: none;
     }
 
     .last {
       display: none;
-    }
-
-    .leftImage {
-      width: 16px;
-      margin-top: 15px;
-      margin-left: 20px;
     }
   }
 `

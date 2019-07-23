@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BasePagePanel, PaginationItem, PageInput } from './styled'
+import { PaginationItem, PageInput } from './styled'
 import LeftBlack from '../../assets/pagination-black-left.png'
 import RightBlack from '../../assets/pagination-black-right.png'
 import LeftGreen from '../../assets/pagination-green-left.png'
@@ -103,9 +103,5 @@ export default ({
   total: number
   onChange: (page: number, pageSize: number) => void
 }) => {
-  return (
-    <BasePagePanel>
-      <PageFirstItem currentPage={currentPage} total={total} defautInput="1" onChange={onChange} />
-    </BasePagePanel>
-  )
+  return <PageFirstItem currentPage={currentPage} total={total} defautInput="1" onChange={onChange} />
 }

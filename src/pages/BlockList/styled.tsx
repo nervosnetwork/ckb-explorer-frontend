@@ -5,12 +5,20 @@ export const BlockListPanel = styled.div`
   margin-top: 40px;
   margin-bottom: 40px;
   border-radius: 6px;
-  box-shadow: 0 2px 6px 0 rgba(77, 77, 77, 0.21);
   overflow: hidden;
 
   @media (max-width: 700px) {
-    margin-top: 20px;
+    margin-top: 0px;
     margin-bottom: 20px;
+    padding: 0px 20px 0px 20px;
+
+    .block__green__background {
+      margin-left: -20px;
+      height: 61px;
+      width: calc(100% + 40px);
+      background-color: #3cc68a;
+      z-index: 1;
+    }
   }
 `
 
@@ -40,7 +48,8 @@ export const ContentTitle = styled.div`
 
 export const ContentTable = styled.div`
   @media (max-width: 700px) {
-    margin-top: 30px;
+    margin-top: -41px;
+    z-index: 2;
   }
   overflow-x: auto;
 `
