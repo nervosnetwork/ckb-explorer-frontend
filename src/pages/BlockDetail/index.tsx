@@ -382,19 +382,21 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
               )
             )
           })}
-        <BlockTransactionsPagition>
-          <Pagination
-            showQuickJumper
-            showSizeChanger
-            defaultPageSize={size}
-            pageSize={size}
-            defaultCurrent={page}
-            current={page}
-            total={state.total}
-            onChange={onChange}
-            locale={localeInfo}
-          />
-        </BlockTransactionsPagition>
+        {state.total > 1 && (
+          <BlockTransactionsPagition>
+            <Pagination
+              showQuickJumper
+              showSizeChanger
+              defaultPageSize={size}
+              pageSize={size}
+              defaultCurrent={page}
+              current={page}
+              total={state.total}
+              onChange={onChange}
+              locale={localeInfo}
+            />
+          </BlockTransactionsPagition>
+        )}
       </BlockDetailPanel>
     </Content>
   )

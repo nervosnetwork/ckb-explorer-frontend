@@ -275,6 +275,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
                 )
               )
             })}
+        </AddressTransactionsPanel>
+        {state.total > 1 && (
           <AddressTransactionsPagition>
             <Pagination
               showQuickJumper
@@ -288,7 +290,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               locale={localeInfo}
             />
           </AddressTransactionsPagition>
-        </AddressTransactionsPanel>
+        )}
       </AddressContentPanel>
     </Content>
   )
