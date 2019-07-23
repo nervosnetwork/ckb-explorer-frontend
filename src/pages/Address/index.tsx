@@ -3,7 +3,6 @@ import Pagination from 'rc-pagination'
 import localeInfo from 'rc-pagination/lib/locale/en_US'
 import React, { ReactNode, useEffect, useReducer, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import ItemPointIcon from '../../assets/item_point.png'
 import HelpIcon from '../../assets/qa_help.png'
 import AddressHashCard from '../../components/Card/AddressHashCard'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
@@ -171,7 +170,6 @@ const AddressLockScriptItem = ({ title, children }: { title: string; children?: 
   return (
     <AddressLockScriptItemPanel>
       <div className="address_lock_script__title">
-        <img src={ItemPointIcon} alt="point" />
         <span>{title}</span>
       </div>
       <div className="address_lock_script__content">{children}</div>
