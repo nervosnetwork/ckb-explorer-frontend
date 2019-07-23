@@ -9,12 +9,13 @@ interface TooltipPanelProps {
 
 const TooltipPanel = styled.div`
   width: ${(props: TooltipPanelProps) => props.width};
-  padding: 15px;
+  padding: 20px 30px 20px 30px;
   background-color: #676767;
   border-radius: 6px;
   box-shadow: 2px 2px 6px 0 #b3b3b3;
   word-break: break-word;
   color: #ffffff;
+  font-size: 13px;
   left: 0px;
   transform: translate(
     ${(props: TooltipPanelProps) => (props.offset ? `${props.offset.x}px` : '0px')},
@@ -22,6 +23,10 @@ const TooltipPanel = styled.div`
   );
   position: absolute;
   z-index: 2;
+
+  @media (max-width: 700px) {
+    padding: 10px 15px 10px 15px;
+  }
 
   &::after {
     content: '';
