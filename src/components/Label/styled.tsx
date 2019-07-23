@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Tooltip } from './index'
 
 export const LabelPanel = styled.div`
   display: flex;
@@ -56,19 +55,13 @@ export const LabelValuePanel = styled.div`
   color: rgb(136, 136, 136);
   font-size: 16px;
   margin-right: 10px;
-  display: ${(props: { tooltip: Tooltip | undefined }) =>
-    props.tooltip && props.tooltip.hideValue ? 'none' : 'inline'};
 
   @media (max-width: 700px) {
     font-size: 15px;
-    display: ${(props: { tooltip: Tooltip | undefined }) =>
-      props.tooltip && props.tooltip.status ? 'none' : 'inline'};
   }
 
   @media (max-width: 320px) {
     font-size: 12px;
-    display: ${(props: { tooltip: Tooltip | undefined }) =>
-      props.tooltip && props.tooltip.status ? 'none' : 'inline'};
   }
 `
 
