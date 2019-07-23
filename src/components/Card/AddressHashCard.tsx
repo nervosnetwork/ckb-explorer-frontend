@@ -73,13 +73,13 @@ const AddressHashCardPanel = styled.div`
 
 const handleHashText = (hash: string) => {
   if (isSmallMobile()) {
-    return startEndEllipsis(hash, 7, 10)
+    return startEndEllipsis(hash, 8, 10)
   }
   if (isMediumMobile()) {
-    return startEndEllipsis(hash, 8)
+    return startEndEllipsis(hash, 9)
   }
   if (isLargeMobile()) {
-    return startEndEllipsis(hash, 13)
+    return startEndEllipsis(hash, 14)
   }
   return hash
 }
