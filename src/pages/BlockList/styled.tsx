@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const BlockListPanel = styled.div`
   width: 100%;
   margin-top: 60px;
-  margin-bottom: 90px;
+  margin-bottom: 40px;
 
   @media (max-width: 700px) {
     margin-top: 20px;

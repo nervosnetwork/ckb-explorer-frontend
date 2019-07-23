@@ -1,10 +1,8 @@
 import React, { useReducer, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
-import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
-import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition } from './styled'
+import { BlockListPanel, ContentTitle, ContentTable } from './styled'
 import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import {
@@ -23,6 +21,7 @@ import { fetchCachedData, storeCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import i18n from '../../utils/i18n'
+import DividePage from '../../components/Pagination'
 
 enum PageParams {
   PageNo = 1,
@@ -221,19 +220,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
               })}
           </ContentTable>
         )}
-        <BlocksPagition>
-          <Pagination
-            showQuickJumper
-            showSizeChanger
-            defaultPageSize={size}
-            pageSize={size}
-            defaultCurrent={page}
-            current={page}
-            total={state.total}
-            onChange={onChange}
-            locale={localeInfo}
-          />
-        </BlocksPagition>
+        <DividePage currentPage={page} total={size} onChange={onChange} />
       </BlockListPanel>
     </Content>
   )
