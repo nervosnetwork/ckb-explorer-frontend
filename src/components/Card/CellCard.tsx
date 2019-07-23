@@ -1,13 +1,16 @@
-import React, { useContext, useReducer } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import AppContext from '../../contexts/App'
+import { AppContext } from '../../contexts/providers/index'
 import CopyGreenIcon from '../../assets/copy_green.png'
 import { startEndEllipsis, hexToUtf8 } from '../../utils/string'
 import { shannonToCkb, copyElementValue } from '../../utils/util'
-import { CellType, fetchScript, fetchCellData } from '../../service/http/fetcher'
+import { fetchScript, fetchCellData } from '../../service/http/fetcher'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
+import { ScriptState, CellType } from '../../utils/const'
+import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
+import initCell from '../../contexts/states/components/cell'
 
 const CardPanel = styled.div`
   width: 88%;
@@ -210,63 +213,38 @@ const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: State.I
 
 const MAX_DATA_SIZE = 10 * 1024
 
-enum CellState {
-  NONE,
-  LOCK,
-  TYPE,
-  DATA,
-}
-const initScriptContent = {
-  lock: {
-    code_hash: '',
-    args: [],
-  },
-  type: {
-    code_hash: '',
-    args: [],
-  },
-  data: {
-    data: '',
-  },
-}
-const initialState = {
-  cellState: CellState.NONE,
-}
-const Actions = {
-  cellState: 'CELL_STATE',
+const getScriptState = (state: Components.Cell, scriptState: ScriptState) => {
+  return scriptState === state.scriptState ? ScriptState.NONE : scriptState
 }
 
-const reducer = (state: any, action: any) => {
-  switch (action.type) {
-    case Actions.cellState:
-      return {
-        ...state,
-        cellState: action.payload.cellState,
-      }
-    default:
-      return state
-  }
-}
-
-const getCellState = (state: any, cellState: CellState) => {
-  return cellState === state.cellState ? CellState.NONE : cellState
-}
-
-const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: State.InputOutput }) => {
-  const appContext = useContext(AppContext)
-  const [state, dispatch] = useReducer(reducer, initialState)
+const CellScriptItem = ({
+  cellType,
+  cell,
+  dispatch,
+}: {
+  cellType: CellType
+  cell: State.InputOutput
+  dispatch: AppDispatch
+}) => {
+  const { cellState } = useContext(AppContext)
 
   const handleCopy = () => {
     const textarea = document.getElementById(`script__textarea__${cell.id}`)
     copyElementValue(textarea)
-    appContext.toastMessage(i18n.t('common.copied'), 3000)
+    dispatch({
+      type: AppActions.ShowToastMessage,
+      payload: {
+        text: i18n.t('common.copied'),
+        timeout: 3000,
+      },
+    })
   }
 
-  const handleCellState = (cellState: CellState) => {
+  const handleScriptState = (scriptState: ScriptState) => {
     dispatch({
-      type: Actions.cellState,
+      type: ComponentActions.CellScript,
       payload: {
-        cellState: getCellState(state, cellState),
+        cellState: getScriptState(cellState, scriptState),
       },
     })
   }
@@ -278,22 +256,22 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: State.In
     }
   }
 
-  const handleFetchScript = (cellState: CellState) => {
+  const handleFetchScript = (scriptState: ScriptState) => {
     if (cell.from_cellbase) return
-    switch (getCellState(state, cellState)) {
-      case CellState.LOCK:
+    switch (getScriptState(cellState, scriptState)) {
+      case ScriptState.LOCK:
         fetchScript(cellType, 'lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
-          handleCellState(cellState)
-          showScriptContent(wrapper ? wrapper.attributes : initScriptContent.lock)
+          handleScriptState(scriptState)
+          showScriptContent(wrapper ? wrapper.attributes : initCell.lock)
         })
         break
-      case CellState.TYPE:
+      case ScriptState.TYPE:
         fetchScript(cellType, 'type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
-          handleCellState(cellState)
-          showScriptContent(wrapper ? wrapper.attributes : initScriptContent.type)
+          handleScriptState(scriptState)
+          showScriptContent(wrapper ? wrapper.attributes : initCell.type)
         })
         break
-      case CellState.DATA:
+      case ScriptState.DATA:
         fetchCellData(cellType, `${cell.id}`).then((wrapper: Response.Wrapper<State.Data>) => {
           if (wrapper && wrapper.attributes) {
             if (wrapper.attributes.data.length < MAX_DATA_SIZE) {
@@ -301,32 +279,38 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: State.In
               if (dataValue && cell.isGenesisOutput) {
                 dataValue.data = hexToUtf8(dataValue.data.substr(2))
               }
-              handleCellState(cellState)
+              handleScriptState(scriptState)
               showScriptContent(dataValue)
             } else {
-              appContext.toastMessage(i18n.t('toast.data_too_large'), 3000)
+              dispatch({
+                type: AppActions.ShowToastMessage,
+                payload: {
+                  text: i18n.t('toast.data_too_large'),
+                  timeout: 3000,
+                },
+              })
             }
           } else {
-            handleCellState(cellState)
-            showScriptContent(initScriptContent.data)
+            handleScriptState(scriptState)
+            showScriptContent(initCell.data)
           }
         })
         break
       default:
-        handleCellState(cellState)
+        handleScriptState(scriptState)
         break
     }
   }
 
-  const CellOperationButton = ({ value, cellState }: { value: string; cellState: CellState }) => {
+  const CellOperationButton = ({ value, scriptState }: { value: string; scriptState: ScriptState }) => {
     return (
       <CellOperationButtonPanel
         color={cell.from_cellbase ? '#888888' : '#4bbc8e'}
-        style={cellState === state.cellState ? bottomLineStyle : noneStyle}
+        style={scriptState === cellState.scriptState ? bottomLineStyle : noneStyle}
         role="button"
         tabIndex={-1}
         onKeyPress={() => {}}
-        onClick={() => handleFetchScript(cellState)}
+        onClick={() => handleFetchScript(scriptState)}
       >
         {value}
       </CellOperationButtonPanel>
@@ -338,13 +322,13 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: State.In
       <div className="script__operation">
         <div className="script__detail">Detail</div>
         <div className="script__buttons">
-          <CellOperationButton value={i18n.t('transaction.lock_script')} cellState={CellState.LOCK} />
-          <CellOperationButton value={i18n.t('transaction.type_script')} cellState={CellState.TYPE} />
-          <CellOperationButton value={i18n.t('transaction.data')} cellState={CellState.DATA} />
+          <CellOperationButton value={i18n.t('transaction.lock_script')} scriptState={ScriptState.LOCK} />
+          <CellOperationButton value={i18n.t('transaction.type_script')} scriptState={ScriptState.TYPE} />
+          <CellOperationButton value={i18n.t('transaction.data')} scriptState={ScriptState.DATA} />
         </div>
       </div>
 
-      {state.cellState !== CellState.NONE && (
+      {cellState.scriptState !== ScriptState.NONE && (
         <div className="script__content">
           <div className="script__input" id={`script__textarea__${cell.id}`} />
           <div className="script__copy" role="button" tabIndex={-1} onKeyPress={() => {}} onClick={() => handleCopy()}>
@@ -357,11 +341,11 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: State.In
   )
 }
 
-const CellCard = ({ type, cell }: { type: CellType; cell: State.InputOutput }) => {
+const CellCard = ({ type, cell, dispatch }: { type: CellType; cell: State.InputOutput; dispatch: AppDispatch }) => {
   return (
     <CardPanel>
       <CellAddressCapacityItem type={type} cell={cell} />
-      <CellScriptItem cellType={type} cell={cell} />
+      <CellScriptItem cellType={type} cell={cell} dispatch={dispatch} />
     </CardPanel>
   )
 }

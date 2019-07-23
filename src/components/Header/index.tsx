@@ -6,7 +6,8 @@ import SearchLogo from '../../assets/search.png'
 import i18n from '../../utils/i18n'
 import { HeaderDiv, HeaderMobileDiv, HeaderMobilePanel, HeaderSearchPanel, HeaderVersionPanel } from './styled'
 import { isMobile } from '../../utils/screen'
-import AppContext from '../../contexts/App'
+import { AppContext } from '../../contexts/providers/index'
+import { AppDispatch } from '../../contexts/providers/reducer'
 
 const menus = [
   {
@@ -29,9 +30,10 @@ const handleVersion = (appContext: any) => {
   return appContext.nodeVersion
 }
 
-export default ({ search = true }: { search?: boolean }) => {
+export default ({ dispatch }: { dispatch: AppDispatch }) => {
   const [height, setHeight] = useState(NORMAL_HEIGHT)
   const appContext = useContext(AppContext)
+  const { haveSearchBar } = appContext.header
 
   useEffect(() => {
     setHeight(NORMAL_HEIGHT)
@@ -53,7 +55,7 @@ export default ({ search = true }: { search?: boolean }) => {
                 {menus[1].name}
               </Link>
             </div>
-            {search && (
+            {haveSearchBar && (
               <div className="header__search">
                 <div
                   className="header__search__component"
@@ -69,7 +71,7 @@ export default ({ search = true }: { search?: boolean }) => {
             )}
             <HeaderVersionPanel>{handleVersion(appContext)}</HeaderVersionPanel>
           </HeaderMobileDiv>
-          <HeaderSearchPanel>{search && <Search />}</HeaderSearchPanel>
+          <HeaderSearchPanel>{haveSearchBar && <Search dispatch={dispatch} />}</HeaderSearchPanel>
         </HeaderMobilePanel>
       </>
     )
@@ -88,10 +90,10 @@ export default ({ search = true }: { search?: boolean }) => {
             {menus[1].name}
           </Link>
         </div>
-        {search && (
+        {haveSearchBar && (
           <div className="header__search">
             <div className="header__search__component">
-              <Search />
+              <Search dispatch={dispatch} />
             </div>
             <div className="header__testnet__panel">
               <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
