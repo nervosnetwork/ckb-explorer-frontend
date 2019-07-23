@@ -107,7 +107,7 @@ const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
       datas.push({
         type: 'EpochNumber',
         blockNumber: difficulty.block_number,
-        difficulty: difficulty.epoch_number,
+        epochNumber: difficulty.epoch_number,
       })
     }
   })
