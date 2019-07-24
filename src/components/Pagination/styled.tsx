@@ -74,12 +74,13 @@ export const PaginationLeftItem = styled.div`
   }
 
   @media (max-width: 700px) {
-    width: 100%;
+    width: 60%;
     height: 50px;
 
     > button {
       font-size: 8px;
       height: 20px;
+      border-radius: 3px;
       > img {
         width: 6px;
         height: 10px;
@@ -147,6 +148,19 @@ export const PaginationRightItem = styled.div`
     font-size: 16px;
     margin-top: 20px;
     margin-right: 20px;
+    @media (max-width: 700px) {
+      width: 60px;
+      height: 20px;
+      margin-top: 15px;
+      margin-right: 10px;
+      font-size: 12px;
+      border-radius: 3px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    width: 40%;
+    height: 50px;
   }
 
   > button {
@@ -161,12 +175,22 @@ export const PaginationRightItem = styled.div`
       width: 12px;
       height: 20px;
     }
+    @media (max-width: 700px) {
+      height: 20px;
+      border-radius: 3px;
+    }
   }
 
   .goto {
     width: 90px;
     margin-top: 20px;
     margin-right: 80px;
+    @media (max-width: 700px) {
+      width: 40px;
+      margin-top: 15px;
+      margin-right: 20px;
+      font-size: 12px;
+    }
   }
 
   .page {
@@ -176,5 +200,8 @@ export const PaginationRightItem = styled.div`
     font-size: 16px;
     line-height: 80px;
     margin-right: 20px;
+    @media (max-width: 700px) {
+      display: none;
+    }
   }
 `
