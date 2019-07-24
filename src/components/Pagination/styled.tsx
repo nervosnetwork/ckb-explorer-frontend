@@ -2,9 +2,12 @@ import styled from 'styled-components'
 
 export const PaginationPanel = styled.div`
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
-  height: 80px;
+  height: auto;
+  background: white;
   flex-direction: row;
+  justify-content: center;
 
   @media (max-width: 700px) {
     height: 50px;
@@ -16,7 +19,7 @@ export const PaginationPanel = styled.div`
 
 export const PaginationLeftItem = styled.div`
   display: flex;
-  width: 65%;
+  flex: 1;
   height: 80px;
   background: white;
   font-size: 16px;
@@ -132,11 +135,10 @@ export const PaginationLeftItem = styled.div`
 export const PaginationRightItem = styled.div`
   flex-direction: row-reverse;
   display: flex;
-  width: 35%;
+  width: 452px;
   height: 80px;
   background: white;
   font-size: 16px;
-  text-align: center;
   color: #000000;
   line-height: 40px;
   border: none;
@@ -164,7 +166,6 @@ export const PaginationRightItem = styled.div`
   }
 
   @media (max-width: 700px) {
-    width: 40%;
     height: 50px;
   }
 
