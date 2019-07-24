@@ -46,6 +46,7 @@ export const initAxiosInterceptors = (appContext: any) => {
         switch (error.response.status) {
           case 422:
             updateNetworkError(appContext, false)
+            browserHistory.replace(`/search/fail?q=${urlParam(error)}`)
             break
           case 503:
             updateNetworkError(appContext, false)
