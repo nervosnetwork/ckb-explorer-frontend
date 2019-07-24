@@ -61,7 +61,7 @@ const PageFirstItem = ({
     <PaginationPanel>
       <PaginationLeftItem isFirstPage={isFirstPage()} isLastPage={isLastPage()}>
         <button type="button" className="first" onClick={() => goFirstPage()}>
-          {i18n.t('Pagination.first')}
+          {i18n.t('pagination.first')}
         </button>
         <button type="button" className="leftImage" onClick={() => goPrev()}>
           <img src={isFirstPage() ? LeftBlack : LeftGreen} alt="left" />
@@ -76,12 +76,12 @@ const PageFirstItem = ({
           <img src={isLastPage() ? RightBlack : RightGreen} alt="right" />
         </button>
         <button type="button" className="last" onClick={() => goLastPage()}>
-          {i18n.t('Pagination.last')}
+          {i18n.t('pagination.last')}
         </button>
       </PaginationLeftItem>
       <PaginationRightItem>
         <button type="button" className="goto" onClick={() => jumpPage()}>
-          {i18n.t('Pagination.goto')}
+          {i18n.t('pagination.goto')}
         </button>
         <input
           value={inputValue}
@@ -92,7 +92,7 @@ const PageFirstItem = ({
             }
           }}
         />
-        <div className="page">{i18n.t('Pagination.page')}</div>
+        <div className="page">{i18n.t('pagination.page')}</div>
       </PaginationRightItem>
     </PaginationPanel>
   )
