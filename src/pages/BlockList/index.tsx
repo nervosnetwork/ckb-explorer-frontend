@@ -21,7 +21,7 @@ import { fetchCachedData, storeCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import i18n from '../../utils/i18n'
-import DividePage from '../../components/Pagination'
+import Pagination from '../../components/Pagination'
 
 enum PageParams {
   PageNo = 1,
@@ -170,8 +170,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
     getBlocks(page, size, dispatch)
   }, [replace, page, size, dispatch])
 
-  const onChange = (pageNo: number, pageSize: number) => {
-    props.history.push(`/block/list?page=${pageNo}&size=${pageSize}`)
+  const onChange = (pageNo: number) => {
+    props.history.push(`/block/list?page=${pageNo}&size=${size}`)
   }
 
   return (
@@ -218,7 +218,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
               })}
           </ContentTable>
         )}
-        <DividePage currentPage={page} total={size} onChange={onChange} />
+        <Pagination currentPage={page} total={state.total} onChange={onChange} />
       </BlockListPanel>
     </Content>
   )
