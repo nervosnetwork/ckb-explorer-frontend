@@ -5,7 +5,7 @@ declare namespace Components {
   }
 
   export interface Cell {
-    scriptState: number
+    cellState: number
     lock: State.Script
     type: State.Script
     data: State.Data

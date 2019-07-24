@@ -1,7 +1,7 @@
-import { ScriptState } from '../../../utils/const'
+import { CellState } from '../../../utils/const'
 
 export const initCell: Components.Cell = {
-  scriptState: ScriptState.NONE,
+  cellState: CellState.NONE,
   lock: {
     code_hash: '',
     args: [],

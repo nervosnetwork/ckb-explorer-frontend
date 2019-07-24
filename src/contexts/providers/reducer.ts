@@ -34,8 +34,6 @@ export enum PageActions {
 export enum ComponentActions {
   HeaderHeight = 'headerHeight',
   HaveSearchBar = 'haveSearchBar',
-
-  CellScript = 'cellScript',
 }
 
 export type StateActions = AppActions | PageActions | ComponentActions
@@ -231,14 +229,6 @@ export const reducer = (
         header: {
           ...state.header,
           haveSearchBar: payload.haveSearchBar,
-        },
-      }
-    case ComponentActions.CellScript:
-      return {
-        ...state,
-        cellState: {
-          ...state.cellState,
-          scriptState: payload.scriptState,
         },
       }
     default:

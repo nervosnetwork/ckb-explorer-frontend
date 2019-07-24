@@ -19,7 +19,7 @@ export const CachedKeys = {
   StatisticsChart: 'statistics_chart',
 }
 
-export enum ScriptState {
+export enum CellState {
   NONE = 0,
   LOCK = 1,
   TYPE = 2,

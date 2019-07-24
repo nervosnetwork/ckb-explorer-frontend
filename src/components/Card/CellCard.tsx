@@ -1,15 +1,14 @@
-import React, { useContext } from 'react'
+import React, { useReducer } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { AppContext } from '../../contexts/providers/index'
 import CopyGreenIcon from '../../assets/copy_green.png'
 import { startEndEllipsis, hexToUtf8 } from '../../utils/string'
 import { shannonToCkb, copyElementValue } from '../../utils/util'
 import { fetchScript, fetchCellData } from '../../service/http/fetcher'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
-import { ScriptState, CellType } from '../../utils/const'
-import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
+import { CellType, CellState } from '../../utils/const'
+import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
 import initCell from '../../contexts/states/components/cell'
 
 const CardPanel = styled.div`
@@ -29,29 +28,24 @@ const CardItemPanel = styled.div`
   display: flex;
   margin-top: 10px;
   align-items: center;
-
   .card__name {
     color: #888888;
     font-size: 14px;
     margin-right: 8px;
   }
-
   .card__value__link {
     height: 23px;
   }
-
   .card__value {
     color: ${(props: { highLight: boolean }) => (props.highLight ? '#3CC68A' : '#888888')};
     font-weight: 450;
     font-size: 14px;
   }
-
   @media (max-width: 320px) {
     .card__name {
       font-size: 13px;
       margin-right: 6px;
     }
-
     .card__value {
       font-size: 12px;
     }
@@ -60,31 +54,26 @@ const CardItemPanel = styled.div`
 
 const ScriptPanel = styled.div`
   margin-top: 10px;
-
   .script__operation {
     display: flex;
     width: 100%;
-
     .script__detail {
       font-size: 14px;
       color: #888888;
       height: 20px;
       flex: 1;
     }
-
     .script__buttons {
       display: flex;
       flex: 3;
       justify-content: space-between;
     }
   }
-
   .script__content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     .script__input {
       border: none;
       width: 100%;
@@ -103,7 +92,6 @@ const ScriptPanel = styled.div`
       border-radius: 6px 6px;
       transform: translateZ(0);
     }
-
     .script__copy {
       width: 90px;
       height: 25px;
@@ -115,7 +103,6 @@ const ScriptPanel = styled.div`
       background-color: #4bbc8e;
       justify-content: center;
       align-items: center;
-
       > div {
         color: white;
         font-szie: 12px;
@@ -123,7 +110,6 @@ const ScriptPanel = styled.div`
           font-size: 11px;
         }
       }
-
       img {
         margin-left: 5px;
         width: 14px;
@@ -138,7 +124,6 @@ const CellOperationButtonPanel = styled.div`
   height: 25px;
   font-weight: bold;
   color: ${(props: { color: string }) => props.color};
-
   @media (max-width: 320px) {
     font-size: 12px;
   }
@@ -213,25 +198,44 @@ const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: State.I
 
 const MAX_DATA_SIZE = 10 * 1024
 
-const getScriptState = (state: Components.Cell, scriptState: ScriptState) => {
-  return scriptState === state.scriptState ? ScriptState.NONE : scriptState
+const initialState = {
+  cellState: CellState.NONE,
+}
+const Actions = {
+  cellState: 'CELL_STATE',
+}
+
+const reducer = (state: any, action: any) => {
+  switch (action.type) {
+    case Actions.cellState:
+      return {
+        ...state,
+        cellState: action.payload.cellState,
+      }
+    default:
+      return state
+  }
+}
+
+const getCellState = (state: any, cellState: CellState) => {
+  return cellState === state.cellState ? CellState.NONE : cellState
 }
 
 const CellScriptItem = ({
   cellType,
   cell,
-  dispatch,
+  appDispatch,
 }: {
   cellType: CellType
   cell: State.InputOutput
-  dispatch: AppDispatch
+  appDispatch: AppDispatch
 }) => {
-  const { cellState } = useContext(AppContext)
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   const handleCopy = () => {
     const textarea = document.getElementById(`script__textarea__${cell.id}`)
     copyElementValue(textarea)
-    dispatch({
+    appDispatch({
       type: AppActions.ShowToastMessage,
       payload: {
         text: i18n.t('common.copied'),
@@ -240,11 +244,11 @@ const CellScriptItem = ({
     })
   }
 
-  const handleScriptState = (scriptState: ScriptState) => {
+  const handleCellState = (cellState: CellState) => {
     dispatch({
-      type: ComponentActions.CellScript,
+      type: Actions.cellState,
       payload: {
-        cellState: getScriptState(cellState, scriptState),
+        cellState: getCellState(state, cellState),
       },
     })
   }
@@ -256,22 +260,22 @@ const CellScriptItem = ({
     }
   }
 
-  const handleFetchScript = (scriptState: ScriptState) => {
+  const handleFetchScript = (cellState: CellState) => {
     if (cell.from_cellbase) return
-    switch (getScriptState(cellState, scriptState)) {
-      case ScriptState.LOCK:
+    switch (getCellState(state, cellState)) {
+      case CellState.LOCK:
         fetchScript(cellType, 'lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
-          handleScriptState(scriptState)
+          handleCellState(cellState)
           showScriptContent(wrapper ? wrapper.attributes : initCell.lock)
         })
         break
-      case ScriptState.TYPE:
+      case CellState.TYPE:
         fetchScript(cellType, 'type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
-          handleScriptState(scriptState)
+          handleCellState(cellState)
           showScriptContent(wrapper ? wrapper.attributes : initCell.type)
         })
         break
-      case ScriptState.DATA:
+      case CellState.DATA:
         fetchCellData(cellType, `${cell.id}`).then((wrapper: Response.Wrapper<State.Data>) => {
           if (wrapper && wrapper.attributes) {
             if (wrapper.attributes.data.length < MAX_DATA_SIZE) {
@@ -279,38 +283,38 @@ const CellScriptItem = ({
               if (dataValue && cell.isGenesisOutput) {
                 dataValue.data = hexToUtf8(dataValue.data.substr(2))
               }
-              handleScriptState(scriptState)
+              handleCellState(cellState)
               showScriptContent(dataValue)
             } else {
-              dispatch({
+              appDispatch({
                 type: AppActions.ShowToastMessage,
                 payload: {
-                  text: i18n.t('toast.data_too_large'),
+                  text: i18n.t('oast.data_too_large'),
                   timeout: 3000,
                 },
               })
             }
           } else {
-            handleScriptState(scriptState)
+            handleCellState(cellState)
             showScriptContent(initCell.data)
           }
         })
         break
       default:
-        handleScriptState(scriptState)
+        handleCellState(cellState)
         break
     }
   }
 
-  const CellOperationButton = ({ value, scriptState }: { value: string; scriptState: ScriptState }) => {
+  const CellOperationButton = ({ value, cellState }: { value: string; cellState: CellState }) => {
     return (
       <CellOperationButtonPanel
         color={cell.from_cellbase ? '#888888' : '#4bbc8e'}
-        style={scriptState === cellState.scriptState ? bottomLineStyle : noneStyle}
+        style={cellState === state.cellState ? bottomLineStyle : noneStyle}
         role="button"
         tabIndex={-1}
         onKeyPress={() => {}}
-        onClick={() => handleFetchScript(scriptState)}
+        onClick={() => handleFetchScript(cellState)}
       >
         {value}
       </CellOperationButtonPanel>
@@ -322,13 +326,13 @@ const CellScriptItem = ({
       <div className="script__operation">
         <div className="script__detail">Detail</div>
         <div className="script__buttons">
-          <CellOperationButton value={i18n.t('transaction.lock_script')} scriptState={ScriptState.LOCK} />
-          <CellOperationButton value={i18n.t('transaction.type_script')} scriptState={ScriptState.TYPE} />
-          <CellOperationButton value={i18n.t('transaction.data')} scriptState={ScriptState.DATA} />
+          <CellOperationButton value={i18n.t('transaction.lock_script')} cellState={CellState.LOCK} />
+          <CellOperationButton value={i18n.t('transaction.type_script')} cellState={CellState.TYPE} />
+          <CellOperationButton value={i18n.t('transaction.data')} cellState={CellState.DATA} />
         </div>
       </div>
 
-      {cellState.scriptState !== ScriptState.NONE && (
+      {state.cellState !== CellState.NONE && (
         <div className="script__content">
           <div className="script__input" id={`script__textarea__${cell.id}`} />
           <div className="script__copy" role="button" tabIndex={-1} onKeyPress={() => {}} onClick={() => handleCopy()}>
@@ -345,7 +349,7 @@ const CellCard = ({ type, cell, dispatch }: { type: CellType; cell: State.InputO
   return (
     <CardPanel>
       <CellAddressCapacityItem type={type} cell={cell} />
-      <CellScriptItem cellType={type} cell={cell} dispatch={dispatch} />
+      <CellScriptItem cellType={type} cell={cell} appDispatch={dispatch} />
     </CardPanel>
   )
 }

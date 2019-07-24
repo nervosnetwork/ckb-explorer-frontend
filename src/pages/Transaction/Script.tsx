@@ -6,28 +6,9 @@ import { shannonToCkb, copyElementValue } from '../../utils/util'
 import { hexToUtf8, parseLongAddressHash } from '../../utils/string'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
-import { CellType } from '../../utils/const'
+import { CellType, CellState } from '../../utils/const'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
-
-enum CellState {
-  NONE,
-  LOCK,
-  TYPE,
-  DATA,
-}
-const initScriptContent = {
-  lock: {
-    code_hash: '',
-    args: [],
-  },
-  type: {
-    code_hash: '',
-    args: [],
-  },
-  data: {
-    data: '',
-  },
-}
+import initCell from '../../contexts/states/components/cell'
 
 const initialState = {
   cellState: CellState.NONE,
@@ -120,13 +101,13 @@ const ScriptComponent = ({
       case CellState.LOCK:
         fetchScript(cellType, 'lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
           handleCellState(item)
-          showScriptContent(wrapper ? wrapper.attributes : initScriptContent.lock)
+          showScriptContent(wrapper ? wrapper.attributes : initCell.lock)
         })
         break
       case CellState.TYPE:
         fetchScript(cellType, 'type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
           handleCellState(item)
-          showScriptContent(wrapper ? wrapper.attributes : initScriptContent.type)
+          showScriptContent(wrapper ? wrapper.attributes : initCell.type)
         })
         break
       case CellState.DATA:
@@ -136,7 +117,7 @@ const ScriptComponent = ({
             dataValue.data = hexToUtf8(wrapper.attributes.data.substr(2))
           }
           handleCellState(item)
-          showScriptContent(dataValue || initScriptContent.data)
+          showScriptContent(dataValue || initCell.data)
         })
         break
       default:
