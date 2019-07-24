@@ -179,7 +179,12 @@ export default ({
                     transaction.display_inputs.map((input: State.InputOutput) => {
                       return (
                         input && (
-                          <ScriptComponent cellType={CellType.Input} key={input.id} cell={input} dispatch={dispatch} />
+                          <ScriptComponent
+                            cellType={CellType.Input}
+                            key={input.id}
+                            cell={input}
+                            appDispatch={dispatch}
+                          />
                         )
                       )
                     })}
@@ -200,7 +205,7 @@ export default ({
                             cellType={CellType.Output}
                             key={output.id}
                             cell={output}
-                            dispatch={dispatch}
+                            appDispatch={dispatch}
                           />
                         )
                       )
