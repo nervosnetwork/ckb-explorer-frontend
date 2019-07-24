@@ -170,8 +170,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
     getBlocks(page, size, dispatch)
   }, [replace, page, size, dispatch])
 
-  const onChange = (pageNo: number) => {
-    props.history.push(`/block/list?page=${pageNo}&size=${size}`)
+  const onChange = (pageNo: number, pageSize: number) => {
+    props.history.push(`/block/list?page=${pageNo}&size=${pageSize}`)
   }
 
   return (
@@ -218,7 +218,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
               })}
           </ContentTable>
         )}
-        <Pagination currentPage={page} total={state.total} onChange={onChange} />
+        <Pagination currentPage={page} total={state.total} pageSize={size} onChange={onChange} />
       </BlockListPanel>
     </Content>
   )

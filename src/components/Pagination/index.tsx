@@ -9,41 +9,43 @@ import i18n from '../../utils/i18n'
 const PageFirstItem = ({
   currentPage,
   total,
+  pageSize,
   defautJumpPage,
   onChange,
 }: {
   currentPage: number
   total: number
+  pageSize: number
   defautJumpPage: string
-  onChange: (page: number) => void
+  onChange: (page: number, pageSize: number) => void
 }) => {
   const [inputValue, setInputValue] = useState(defautJumpPage || '')
-
+  const totalPage = Math.ceil(total / pageSize)
   const goFirstPage = () => {
     const page: number = 1
-    onChange(page)
+    onChange(page, pageSize)
   }
 
   const goLastPage = () => {
-    onChange(total)
+    onChange(totalPage, pageSize)
   }
 
   const goPrev = () => {
     if (currentPage !== 1 && currentPage > 0) {
-      onChange(currentPage - 1)
+      onChange(currentPage - 1, pageSize)
     }
   }
 
   const goNext = () => {
-    if (currentPage < total) {
-      onChange(currentPage + 1)
+    if (currentPage < totalPage) {
+      onChange(currentPage + 1, pageSize)
     }
   }
 
   const jumpPage = () => {
     const inputValueNumber = Number(inputValue)
-    if (!Number.isNaN(inputValueNumber) && inputValueNumber <= total && inputValueNumber >= 1) {
-      onChange(inputValueNumber)
+    if (!Number.isNaN(inputValueNumber) && inputValueNumber <= totalPage && inputValueNumber >= 1) {
+      onChange(inputValueNumber, pageSize)
     }
   }
 
@@ -52,7 +54,7 @@ const PageFirstItem = ({
   }
 
   const isLastPage = () => {
-    return currentPage === total
+    return currentPage === totalPage
   }
 
   return (
@@ -64,12 +66,7 @@ const PageFirstItem = ({
         <button type="button" className="leftimage" onClick={() => goPrev()}>
           <img src={isFirstPage() ? LeftBlack : LeftGreen} alt="left" />
         </button>
-        <div className="middlelabel">
-          Page
-          {currentPage}
-          of
-          {total}
-        </div>
+        <div className="middlelabel">{`Page ${currentPage} of ${totalPage}`}</div>
         <button type="button" className="rightimage" onClick={() => goNext()}>
           <img src={isLastPage() ? RightBlack : RightGreen} alt="right" />
         </button>
@@ -99,11 +96,15 @@ const PageFirstItem = ({
 export default ({
   currentPage,
   total,
+  pageSize,
   onChange,
 }: {
   currentPage: number
   total: number
-  onChange: (page: number) => void
+  pageSize: number
+  onChange: (page: number, pageSize: number) => void
 }) => {
-  return <PageFirstItem currentPage={currentPage} total={total} defautJumpPage="1" onChange={onChange} />
+  return (
+    <PageFirstItem currentPage={currentPage} total={total} pageSize={pageSize} defautJumpPage="1" onChange={onChange} />
+  )
 }

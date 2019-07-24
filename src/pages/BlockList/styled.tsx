@@ -10,7 +10,6 @@ export const BlockListPanel = styled.div`
 
   @media (max-width: 700px) {
     margin-top: 0px;
-    margin-bottom: 0px;
     padding: 0px 20px 0px 20px;
 
     .block__green__background {
