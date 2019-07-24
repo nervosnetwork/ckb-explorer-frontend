@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { PaginationItem, PageInput } from './styled'
+import { PaginationLeftItem, PaginationRightItem, PaginationPanel } from './styled'
 import LeftBlack from '../../assets/pagination-black-left.png'
 import RightBlack from '../../assets/pagination-black-right.png'
 import LeftGreen from '../../assets/pagination-green-left.png'
@@ -58,39 +58,43 @@ const PageFirstItem = ({
   }
 
   return (
-    <PaginationItem isFirstPage={isFirstPage()} isLastPage={isLastPage()}>
-      <button type="button" className="first" onClick={() => goFirstPage()}>
-        {i18n.t('Pagination.first')}
-      </button>
-      <button type="button" className="leftImage" onClick={() => goPrev()}>
-        <img src={isFirstPage() ? LeftBlack : LeftGreen} alt="left" />
-      </button>
-      <div className="middleLabel">
-        Page
-        {currentPage}
-        of
-        {total}
-      </div>
-      <button type="button" className="rightImage" onClick={() => goNext()}>
-        <img src={isLastPage() ? RightBlack : RightGreen} alt="right" />
-      </button>
-      <button type="button" className="last" onClick={() => goLastPage()}>
-        {i18n.t('Pagination.last')}
-      </button>
-      <div className="page">{i18n.t('Pagination.page')}</div>
-      <PageInput
-        value={inputValue}
-        onChange={(event: any) => setInputValue(event.target.value)}
-        onKeyUp={(event: any) => {
-          if (event.keyCode === 13) {
-            jumpPage()
-          }
-        }}
-      />
-      <button type="button" className="goto" onClick={() => jumpPage()}>
-        {i18n.t('Pagination.goto')}
-      </button>
-    </PaginationItem>
+    <PaginationPanel>
+      <PaginationLeftItem isFirstPage={isFirstPage()} isLastPage={isLastPage()}>
+        <button type="button" className="first" onClick={() => goFirstPage()}>
+          {i18n.t('Pagination.first')}
+        </button>
+        <button type="button" className="leftImage" onClick={() => goPrev()}>
+          <img src={isFirstPage() ? LeftBlack : LeftGreen} alt="left" />
+        </button>
+        <div className="middleLabel">
+          Page
+          {currentPage}
+          of
+          {total}
+        </div>
+        <button type="button" className="rightImage" onClick={() => goNext()}>
+          <img src={isLastPage() ? RightBlack : RightGreen} alt="right" />
+        </button>
+        <button type="button" className="last" onClick={() => goLastPage()}>
+          {i18n.t('Pagination.last')}
+        </button>
+      </PaginationLeftItem>
+      <PaginationRightItem>
+        <button type="button" className="goto" onClick={() => jumpPage()}>
+          {i18n.t('Pagination.goto')}
+        </button>
+        <input
+          value={inputValue}
+          onChange={(event: any) => setInputValue(event.target.value)}
+          onKeyUp={(event: any) => {
+            if (event.keyCode === 13) {
+              jumpPage()
+            }
+          }}
+        />
+        <div className="page">{i18n.t('Pagination.page')}</div>
+      </PaginationRightItem>
+    </PaginationPanel>
   )
 }
 

@@ -1,27 +1,15 @@
 import styled from 'styled-components'
 
-export const PageInput = styled.input`
-  width: 120px;
-  height: 40px;
-  border: none;
-  border-radius: 6px;
-  background-color: #f5f5f5;
-  color: grey;
-  font-size: 16px;
-  margin-top: 20px;
-  margin-left: 12px;
-
-  @media (max-width: 700px) {
-    width: 60px;
-    height: 20px;
-    margin-top: 15px;
-    margin-left: 18%;
-  }
-`
-
-export const PaginationItem = styled.div`
+export const PaginationPanel = styled.div`
   display: flex;
   width: 100%;
+  height: 80px;
+  flex-direction: row;
+`
+
+export const PaginationLeftItem = styled.div`
+  display: flex;
+  width: 65%;
   height: 80px;
   background: white;
   font-size: 16px;
@@ -85,24 +73,6 @@ export const PaginationItem = styled.div`
     cursor: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? 'not-allowed' : 'pointer')};
   }
 
-  .goto {
-    width: 90px;
-    margin-top: 20px;
-
-    @media (min-width: 700px) {
-      margin-left: 20px;
-    }
-  }
-
-  .page {
-    width: 42px;
-    height: 17px;
-    font-family: Montserrat;
-    font-size: 16px;
-    line-height: 80px;
-    margin-left: 190px;
-  }
-
   @media (max-width: 700px) {
     width: 100%;
     height: 50px;
@@ -152,16 +122,59 @@ export const PaginationItem = styled.div`
       margin-left: 10px;
       order: 0;
     }
+  }
+`
 
-    .page {
-      display: none;
-    }
+export const PaginationRightItem = styled.div`
+  flex-direction: row-reverse;
+  display: flex;
+  width: 35%;
+  height: 80px;
+  background: white;
+  font-size: 16px;
+  text-align: center;
+  color: #000000;
+  line-height: 40px;
+  border: none;
 
-    .goto {
-      width: 40px;
-      margin-top: 15px;
-      margin-right: 20px;
-      order: 2;
+  > input {
+    width: 120px;
+    height: 40px;
+    border: none;
+    border-radius: 6px;
+    background-color: #f5f5f5;
+    color: grey;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-right: 20px;
+  }
+
+  > button {
+    font-size: 16px;
+    height: 40px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #f5f5f5;
+    > img {
+      width: 12px;
+      height: 20px;
     }
+  }
+
+  .goto {
+    width: 90px;
+    margin-top: 20px;
+    margin-right: 80px;
+  }
+
+  .page {
+    width: 42px;
+    height: 17px;
+    font-family: Montserrat;
+    font-size: 16px;
+    line-height: 80px;
+    margin-right: 20px;
   }
 `
