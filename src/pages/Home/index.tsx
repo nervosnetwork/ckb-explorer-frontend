@@ -27,6 +27,8 @@ import { isMobile } from '../../utils/screen'
 import browserHistory from '../../routes/history'
 import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
+import { getLatestBlocks } from '../../service/app/block'
+import getStatistics from '../../service/app/statistics'
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   return (
@@ -94,19 +96,11 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
   }, [homeBlocks, statistics])
 
   useEffect(() => {
-    dispatch({
-      type: PageActions.TriggerHome,
-      payload: {
-        dispatch,
-      },
-    })
+    getLatestBlocks(dispatch)
+    getStatistics(dispatch)
     const listener = setInterval(() => {
-      dispatch({
-        type: PageActions.TriggerHome,
-        payload: {
-          dispatch,
-        },
-      })
+      getLatestBlocks(dispatch)
+      getStatistics(dispatch)
     }, BLOCK_POLLING_TIME)
     return () => {
       if (listener) {

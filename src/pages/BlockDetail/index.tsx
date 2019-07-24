@@ -50,8 +50,9 @@ import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
 import { isMobile, isSmallMobile } from '../../utils/screen'
 import { PageParams } from '../../utils/const'
-import { StateWithDispatch, PageActions, AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import { StateWithDispatch, AppDispatch, AppActions } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers/index'
+import { getBlock } from '../../service/app/block'
 
 const BlockDetailTitle = ({ hash, dispatch }: { hash: string; dispatch: AppDispatch }) => {
   return (
@@ -187,19 +188,7 @@ export default ({
     if (size > PageParams.MaxPageSize) {
       replace(`/block/${blockParam}?page=${page}&size=${PageParams.MaxPageSize}`)
     }
-    const payload = {
-      blockParam,
-      page,
-      size,
-      dispatch,
-      replace,
-    }
-    dispatch({
-      type: PageActions.TriggerBlock,
-      payload: {
-        ...payload,
-      },
-    })
+    getBlock(blockParam, page, size, dispatch, replace)
   }, [replace, blockParam, page, size, dispatch])
 
   const onChange = (pageNo: number, pageSize: number) => {

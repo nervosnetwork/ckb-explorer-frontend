@@ -27,8 +27,9 @@ import CellCard from '../../components/Card/CellCard'
 import ScriptComponent from './Script'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
-import { StateWithDispatch, PageActions, AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import { StateWithDispatch, AppDispatch, AppActions } from '../../contexts/providers/reducer'
 import { CellType } from '../../utils/const'
+import { getTransactionByHash } from '../../service/app/transaction'
 
 const TransactionTitle = ({ hash, dispatch }: { hash: string; dispatch: AppDispatch }) => {
   return (
@@ -94,14 +95,7 @@ export default ({
   }
 
   useEffect(() => {
-    dispatch({
-      type: PageActions.TriggerTransaction,
-      payload: {
-        hash,
-        replace,
-        dispatch,
-      },
-    })
+    getTransactionByHash(hash, replace, dispatch)
   }, [hash, replace, dispatch])
 
   return (

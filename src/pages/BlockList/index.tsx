@@ -29,6 +29,7 @@ import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
+import { getBlocks } from '../../service/app/block'
 
 export default ({
   dispatch,
@@ -59,17 +60,7 @@ export default ({
     if (size > BlockListPageParams.MaxPageSize) {
       replace(`/block/list?page=${page}&size=${BlockListPageParams.MaxPageSize}`)
     }
-    const payload = {
-      page,
-      size,
-      dispatch,
-    }
-    dispatch({
-      type: PageActions.TriggerBlockList,
-      payload: {
-        ...payload,
-      },
-    })
+    getBlocks(page, size, dispatch)
   }, [replace, page, size, dispatch])
 
   const onChange = (pageNo: number, pageSize: number) => {

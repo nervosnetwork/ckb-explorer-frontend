@@ -1,7 +1,7 @@
 import { fetchStatistics } from '../http/fetcher'
 import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
 
-export const triggerStatistics = (dispatch: AppDispatch) => {
+export const getStatistics = (dispatch: AppDispatch) => {
   fetchStatistics().then((wrapper: Response.Wrapper<State.Statistics>) => {
     if (wrapper) {
       dispatch({
@@ -14,4 +14,4 @@ export const triggerStatistics = (dispatch: AppDispatch) => {
   })
 }
 
-export default triggerStatistics
+export default getStatistics

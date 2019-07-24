@@ -1,8 +1,3 @@
-import { triggerAddress } from '../../service/app/address'
-import { triggerTransactionByHash } from '../../service/app/transaction'
-import { triggerBlock, triggerBlocks, triggerLatestBlocks } from '../../service/app/block'
-import { triggerStatistics } from '../../service/app/statistics'
-
 export enum AppActions {
   ResizeWindow = 'resizeWindow',
   UpdateLoading = 'updateLoading',
@@ -13,26 +8,21 @@ export enum AppActions {
 }
 
 export enum PageActions {
-  TriggerAddress = 'triggerAddress',
   UpdateAddress = 'updateAddress',
   UpdateAddressTransactions = 'updateAddressTransactions',
   UpdateAddressTotal = 'updateAddressTotal',
 
-  TriggerHome = 'triggerHome',
   UpdateHomeBlocks = 'updateHomeBlocks',
 
-  TriggerBlockList = 'triggerBlockList',
   UpdateBlockList = 'updateBlockList',
   UpdateBlockListTotal = 'updateBlockListTotal',
 
-  TriggerBlock = 'triggerBlock',
   UpdateBlock = 'updateBlock',
   UpdateBlockTransactions = 'updateBlockTransactions',
   UpdateBlockTotal = 'updateBlockTotal',
   UpdateBlockPrev = 'updateBlockPrev',
   UpdateBlockNext = 'updateBlockNext',
 
-  TriggerTransaction = 'triggerTransaction',
   UpdateTransaction = 'updateTransaction',
   UpdateTipBlockNumber = 'updateTipBlockNumber',
 
@@ -115,19 +105,12 @@ export const reducer = (
       }
 
     // PageActions
-    case PageActions.TriggerHome:
-      triggerLatestBlocks(payload.dispatch)
-      triggerStatistics(payload.dispatch)
-      return state
     case PageActions.UpdateHomeBlocks:
       return {
         ...state,
         homeBlocks: payload.homeBlocks,
       }
 
-    case PageActions.TriggerBlockList:
-      triggerBlocks(payload)
-      return state
     case PageActions.UpdateBlockList:
       return {
         ...state,
@@ -145,9 +128,6 @@ export const reducer = (
         },
       }
 
-    case PageActions.TriggerAddress:
-      triggerAddress(payload)
-      return state
     case PageActions.UpdateAddress:
       return {
         ...state,
@@ -173,9 +153,6 @@ export const reducer = (
         },
       }
 
-    case PageActions.TriggerBlock:
-      triggerBlock(payload)
-      return state
     case PageActions.UpdateBlock:
       return {
         ...state,
@@ -217,9 +194,6 @@ export const reducer = (
         },
       }
 
-    case PageActions.TriggerTransaction:
-      triggerTransactionByHash(payload)
-      return state
     case PageActions.UpdateTransaction:
       return {
         ...state,

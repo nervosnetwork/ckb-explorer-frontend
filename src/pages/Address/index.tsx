@@ -37,8 +37,9 @@ import TransactionCard from '../../components/Transaction/TransactionCard/index'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
-import { StateWithDispatch, PageActions, AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import { StateWithDispatch, AppDispatch, AppActions } from '../../contexts/providers/reducer'
 import { PageParams } from '../../utils/const'
+import { getAddress } from '../../service/app/address'
 
 const AddressTitle = ({
   address,
@@ -153,15 +154,7 @@ export const Address = ({
     if (size > PageParams.MaxPageSize) {
       replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${page}&size=${PageParams.MaxPageSize}`)
     }
-    dispatch({
-      type: PageActions.TriggerAddress,
-      payload: {
-        identityHash,
-        page,
-        size,
-        dispatch,
-      },
-    })
+    getAddress(identityHash, page, size, dispatch)
   }, [replace, identityHash, page, size, dispatch, address])
 
   const onChange = (pageNo: number, pageSize: number) => {

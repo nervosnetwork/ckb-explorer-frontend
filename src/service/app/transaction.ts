@@ -1,7 +1,7 @@
 import { fetchTransactionsByAddress, fetchTransactionByHash } from '../http/fetcher'
 import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 
-export const triggerTransactionsByAddress = (hash: string, page: number, size: number, dispatch: any) => {
+export const getTransactionsByAddress = (hash: string, page: number, size: number, dispatch: any) => {
   fetchTransactionsByAddress(hash, page, size)
     .then(response => {
       const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
@@ -28,15 +28,7 @@ export const triggerTransactionsByAddress = (hash: string, page: number, size: n
     })
 }
 
-export const triggerTransactionByHash = ({
-  hash,
-  replace,
-  dispatch,
-}: {
-  hash: string
-  replace: any
-  dispatch: AppDispatch
-}) => {
+export const getTransactionByHash = (hash: string, replace: any, dispatch: AppDispatch) => {
   fetchTransactionByHash(hash)
     .then((wrapper: Response.Wrapper<State.Transaction>) => {
       if (wrapper) {
