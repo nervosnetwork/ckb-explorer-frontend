@@ -2,11 +2,14 @@ import styled from 'styled-components'
 
 export const BlockListPanel = styled.div`
   width: 100%;
-  margin-top: 40px;
-  margin-bottom: 40px;
   border-radius: 6px;
   overflow: hidden;
   box-shadow: 0 2px 6px 0 rgba(77, 77, 77, 0.21);
+
+  @media (min-width: 700px) {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
 
   @media (max-width: 700px) {
     margin-top: 0px;

@@ -9,6 +9,11 @@ export const PaginationPanel = styled.div`
   flex-direction: row;
   justify-content: center;
 
+  @media (min-width: 700px) {
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+
   @media (max-width: 700px) {
     height: 50px;
     margin-bottom: 20px;
@@ -20,13 +25,17 @@ export const PaginationPanel = styled.div`
 export const PaginationLeftItem = styled.div`
   display: flex;
   flex: 1;
-  height: 80px;
   background: white;
   font-size: 16px;
   text-align: center;
   color: #000000;
   line-height: 40px;
   border: none;
+
+  @media (min-width: 700px) {
+    align-items: center;
+    justify-content: center;
+  }
 
   > button {
     font-size: 16px;
@@ -44,8 +53,6 @@ export const PaginationLeftItem = styled.div`
 
   .first {
     width: 90px;
-    margin-top: 20px;
-    margin-left: 134px;
     color: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? '#000000' : '#3cc68a')};
     cursor: ${(props: { isFirstPage: boolean; isLastPage: boolean }) =>
       props.isFirstPage ? 'not-allowed' : 'pointer'};
@@ -54,7 +61,6 @@ export const PaginationLeftItem = styled.div`
   .leftimage {
     width: 30px;
     margin-left: 20px;
-    margin-top: 20px;
     cursor: ${(props: { isFirstPage: boolean; isLastPage: boolean }) =>
       props.isFirstPage ? 'not-allowed' : 'pointer'};
   }
@@ -65,19 +71,16 @@ export const PaginationLeftItem = styled.div`
     background: #f5f5f5;
     border-radius: 6px;
     margin-left: 20px;
-    margin-top: 20px;
   }
 
   .rightimage {
     width: 30px;
     margin-left: 20px;
-    margin-top: 20px;
     cursor: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? 'not-allowed' : 'pointer')};
   }
 
   .last {
     width: 90px;
-    margin-top: 20px;
     margin-left: 20px;
     color: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? '#000000' : '#3cc68a')};
     cursor: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? 'not-allowed' : 'pointer')};
@@ -135,14 +138,19 @@ export const PaginationLeftItem = styled.div`
 export const PaginationRightItem = styled.div`
   flex-direction: row-reverse;
   display: flex;
-  width: 452px;
-  height: 80px;
+
   background: white;
   font-size: 16px;
   color: #000000;
-  line-height: 40px;
   border: none;
 
+  @media (min-width: 700px) {
+    width: 452px;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
   > input {
     width: 120px;
     height: 40px;
@@ -151,7 +159,6 @@ export const PaginationRightItem = styled.div`
     background-color: #f5f5f5;
     color: grey;
     font-size: 16px;
-    margin-top: 20px;
     margin-right: 20px;
     padding-left: 10px;
 
@@ -189,7 +196,6 @@ export const PaginationRightItem = styled.div`
 
   .goto {
     width: 90px;
-    margin-top: 20px;
     margin-right: 80px;
     @media (max-width: 700px) {
       width: 40px;
@@ -201,10 +207,8 @@ export const PaginationRightItem = styled.div`
 
   .page {
     width: 42px;
-    height: 17px;
     font-family: Montserrat;
     font-size: 16px;
-    line-height: 80px;
     margin-right: 20px;
     @media (max-width: 700px) {
       display: none;
