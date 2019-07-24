@@ -87,10 +87,6 @@ export const PaginationLeftItem = styled.div`
       }
     }
 
-    > input {
-      order: 2;
-    }
-
     .leftImage {
       width: 16px;
       margin-top: 15px;
