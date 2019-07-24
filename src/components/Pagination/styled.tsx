@@ -144,6 +144,8 @@ export const PaginationRightItem = styled.div`
     font-size: 16px;
     margin-top: 20px;
     margin-right: 20px;
+    padding-left: 10px;
+
     @media (max-width: 700px) {
       width: 60px;
       height: 20px;
