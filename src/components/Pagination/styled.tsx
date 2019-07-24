@@ -41,7 +41,7 @@ export const PaginationLeftItem = styled.div`
       props.isFirstPage ? 'not-allowed' : 'pointer'};
   }
 
-  .leftImage {
+  .leftimage {
     width: 30px;
     margin-left: 20px;
     margin-top: 20px;
@@ -49,7 +49,7 @@ export const PaginationLeftItem = styled.div`
       props.isFirstPage ? 'not-allowed' : 'pointer'};
   }
 
-  .middleLabel {
+  .middlelabel {
     width: 180px;
     height: 40px;
     background: #f5f5f5;
@@ -58,7 +58,7 @@ export const PaginationLeftItem = styled.div`
     margin-top: 20px;
   }
 
-  .rightImage {
+  .rightimage {
     width: 30px;
     margin-left: 20px;
     margin-top: 20px;
@@ -87,7 +87,7 @@ export const PaginationLeftItem = styled.div`
       }
     }
 
-    .leftImage {
+    .leftimage {
       width: 16px;
       margin-top: 15px;
       margin-left: 20px;
@@ -102,7 +102,7 @@ export const PaginationLeftItem = styled.div`
       display: none;
     }
 
-    .middleLabel {
+    .middlelabel {
       line-height: 16px;
       font-size: 12px;
       background: #ffffff;
@@ -113,7 +113,7 @@ export const PaginationLeftItem = styled.div`
       order: 1;
     }
 
-    .rightImage {
+    .rightimage {
       width: 16px;
       margin-top: 15px;
       margin-left: 10px;
