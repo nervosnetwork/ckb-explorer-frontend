@@ -1,7 +1,7 @@
 import React from 'react'
 import { TransactionCellListPanel, TransactionCellListTitlePanel } from './styled'
 import TransactionCell from '../TransactionCell'
-import { CellType } from '../TransactionDetail'
+import { CellType } from '../TransactionCellDetail'
 
 export default ({ inputs, outputs }: { inputs?: State.InputOutput[]; outputs?: State.InputOutput[] }) => {
   const cells = inputs || outputs || []

@@ -9,7 +9,7 @@ import {
   TransactionCellHashPanel,
   TransactionCellDetailPanel,
 } from './styled'
-import TransactionDetail, { TransactionDetailType, CellType } from '../TransactionDetail'
+import TransactionDetail, { TransactionDetailType, CellType } from '../TransactionCellDetail'
 import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkb } from '../../../utils/util'
