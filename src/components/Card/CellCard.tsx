@@ -289,7 +289,7 @@ const CellScriptItem = ({
               appDispatch({
                 type: AppActions.ShowToastMessage,
                 payload: {
-                  text: i18n.t('oast.data_too_large'),
+                  text: i18n.t('toast.data_too_large'),
                   timeout: 3000,
                 },
               })
