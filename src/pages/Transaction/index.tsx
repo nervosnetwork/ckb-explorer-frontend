@@ -109,22 +109,18 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
 
   const overviewItems: OverviewItemData[] = [
     {
-      key: '',
       title: i18n.t('block.block_height'),
       content: <TransactionBlockHeight blockNumber={transaction.block_number} />,
     },
     {
-      key: '',
       title: i18n.t('block.timestamp'),
       content: parseSimpleDate(transaction.block_timestamp),
     },
     {
-      key: '',
       title: i18n.t('transaction.transaction_fee'),
       content: `${shannonToCkb(transaction.transaction_fee)} CKB`,
     },
     {
-      key: '',
       title: i18n.t('transaction.status'),
       content: formatConfirmation(confirmation),
     },
@@ -136,8 +132,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         <AddressHashCard title={i18n.t('transaction.transaction')} hash={hash} />
         <TitleCard title={i18n.t('common.overview')} />
         <OverviewCard items={overviewItems} />
-
-        <TransactionCellList />
+        <TransactionCellList inputs={transaction.display_inputs} />
+        <TransactionCellList outputs={transaction.display_outputs} />
 
         {isMobile() ? (
           <div>
