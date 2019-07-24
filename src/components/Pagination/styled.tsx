@@ -5,6 +5,13 @@ export const PaginationPanel = styled.div`
   width: 100%;
   height: 80px;
   flex-direction: row;
+
+  @media (max-width: 700px) {
+    height: 50px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px 0 #dfdfdf;
+  }
 `
 
 export const PaginationLeftItem = styled.div`

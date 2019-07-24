@@ -127,7 +127,6 @@ export const HomeHeaderItemPanel = styled.div`
 export const BlockPanel = styled.div`
   width: 100%;
   margin-bottom: 40px;
-  padding: 0px 20px 0px 20px;
   @media (min-width: 700px) {
     box-shadow: 0px 2px 8px #b3b3b3;
     border: 0px solid white;
@@ -135,6 +134,7 @@ export const BlockPanel = styled.div`
   }
 
   @media (max-width: 700px) {
+    padding: 0px 20px 0px 20px;
     margin-bottom: 24px;
   }
 `
