@@ -27,6 +27,8 @@ export enum PageActions {
   UpdateTipBlockNumber = 'updateTipBlockNumber',
 
   UpdateStatistics = 'updateStatistics',
+
+  UpdateStatisticsChartData = 'updateStatisticsChartData',
 }
 
 export enum ComponentActions {
@@ -208,6 +210,11 @@ export const reducer = (
       return {
         ...state,
         statistics: payload.statistics,
+      }
+    case PageActions.UpdateStatisticsChartData:
+      return {
+        ...state,
+        statisticsChartDatas: payload.statisticsChartDatas,
       }
 
     case ComponentActions.HeaderHeight:

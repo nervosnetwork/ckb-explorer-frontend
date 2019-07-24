@@ -8,6 +8,7 @@ import initCell from './components/cell'
 import initSearch from './components/search'
 
 const initHomeBlocks = [] as Response.Wrapper<State.Block>[]
+const initStatisticsChartDatas = [] as State.StatisticsChartData[]
 
 const initState: State.AppState = {
   app: initApp,
@@ -16,6 +17,7 @@ const initState: State.AppState = {
   addressState: initAddressState,
   transaction: initTransaction,
   statistics: initStatistics,
+  statisticsChartDatas: initStatisticsChartDatas,
   homeBlocks: initHomeBlocks,
   tipBlockNumber: 0,
 

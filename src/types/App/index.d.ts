@@ -125,6 +125,13 @@ declare namespace State {
     }[]
   }
 
+  export interface StatisticsChartData {
+    blockNumber: number
+    hashRate: string
+    difficulty: number
+    epochnumber: number
+  }
+
   export interface App {
     toast: State.ToastMessage | null
     loading: boolean
@@ -170,6 +177,7 @@ declare namespace State {
     transaction: Transaction
     tipBlockNumber: number
     statistics: Statistics
+    statisticsChartDatas: StatisticsChartDatas
 
     header: Components.Header
     cellState: Components.Cell
