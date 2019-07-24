@@ -10,6 +10,13 @@ export const PageInput = styled.input`
   font-size: 16px;
   margin-top: 20px;
   margin-left: 12px;
+
+  @media (max-width: 700px) {
+    width: 60px;
+    height: 20px;
+    margin-top: 15px;
+    margin-left: 18%;
+  }
 `
 
 export const PaginationItem = styled.div`
@@ -81,7 +88,10 @@ export const PaginationItem = styled.div`
   .goto {
     width: 90px;
     margin-top: 20px;
-    margin-left: 20px;
+
+    @media (min-width: 700px) {
+      margin-left: 20px;
+    }
   }
 
   .page {
@@ -100,25 +110,58 @@ export const PaginationItem = styled.div`
     > button {
       font-size: 8px;
       height: 20px;
-      width: 30px;
-      background: red;
       > img {
         width: 6px;
         height: 10px;
       }
     }
 
+    > input {
+      order: 2;
+    }
+
     .leftImage {
       width: 16px;
       margin-top: 15px;
       margin-left: 20px;
+      order: 0;
     }
+
     .first {
       display: none;
     }
 
     .last {
       display: none;
+    }
+
+    .middleLabel {
+      line-height: 16px;
+      font-size: 12px;
+      background: #ffffff;
+      width: auto;
+      height: 16px;
+      margin-top: 17px;
+      margin-left: 10px;
+      order: 1;
+    }
+
+    .rightImage {
+      width: 16px;
+      margin-top: 15px;
+      margin-left: 10px;
+      order: 0;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .goto {
+      width: 40px;
+      margin-top: 15px;
+      margin-right: 20px;
+      order: 2;
     }
   }
 `
