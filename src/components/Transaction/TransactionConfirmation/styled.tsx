@@ -1,27 +1,95 @@
 import styled from 'styled-components'
 
-export default styled.div`
+export const TransactiomConfirmationPanel = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 
-  .transaction_item__confirmation {
+  .transaction__confirmation_content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    font-weight: 500;
+
     @media (max-width: 700px) {
-      font-size: 12px;
+      flex-direction: column;
     }
 
-    font-size: 16px;
-    color: #888888;
+    .transaction__confirmation {
+      flex: 1;
+      padding-right: 20px;
+      @media (max-width: 700px) {
+        padding: 0px;
+      }
+    }
+    .transaction__capacity {
+      flex: 1;
+      padding-left: 20px;
+
+      @media (max-width: 700px) {
+        padding: 0px;
+        margin-top: 10px;
+      }
+    }
   }
-  .transaction_item__capacity {
-    @media (max-width: 700px) {
-      font-size: 12px;
-    }
 
-    font-size: 16px;
-    color: ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff7070')};
-    flex-direction: column;
-    align-items: flex-end;
+  &:before {
+    content: '';
+    background: #e2e2e2;
+    height: 1px;
+    width: 100%;
+    display: block;
+    margin: 20px 0px 25px 0px;
+
+    @media (max-width: 700px) {
+      font-weight: normal;
+      margin: 15px 0px 15px 0px;
+    }
+    @media (-webkit-min-device-pixel-ratio: 2) {
+      transform: scaleY(0.5);
+    }
+    @media (-webkit-min-device-pixel-ratio: 3) {
+      transform: scaleY(0.33);
+    }
+  }
+`
+
+export const TransactionConfirmationValuePanel = styled.div`
+  min-width: 280px;
+  height: 40px;
+  background: white;
+  align-items: center;
+  display: flex;
+  color: #000000;
+  border: 20px solid #f7f7f7;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  float: right;
+  > span {
+    width: 100%;
+  }
+
+  @media (max-width: 700px) {
+    min-width: 190px;
+    height: 30px;
+    border: 15px solid #f7f7f7;
+    border-left: 7.5px solid transparent;
+    border-right: 7.5px solid transparent;
+  }
+`
+
+export const TransactionCapacityValuePanel = styled(TransactionConfirmationValuePanel)`
+  float: left;
+  color: #ffffff;
+  border: 20px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  padding: 0px 20px 0px 20px;
+
+  @media (max-width: 700px) {
+    border: 15px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
+    border-left: 7.5px solid transparent;
+    border-right: 7.5px solid transparent;
+    padding: 0px 15px 0px 15px;
   }
 `

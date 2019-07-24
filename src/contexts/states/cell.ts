@@ -1,7 +1,4 @@
-import { CellState } from '../../../utils/const'
-
-export const initCell: Components.Cell = {
-  cellState: CellState.NONE,
+export const initCell = {
   lock: {
     code_hash: '',
     args: [],

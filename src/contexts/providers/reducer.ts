@@ -31,12 +31,7 @@ export enum PageActions {
   UpdateStatisticsChartData = 'updateStatisticsChartData',
 }
 
-export enum ComponentActions {
-  HeaderHeight = 'headerHeight',
-  HaveSearchBar = 'haveSearchBar',
-}
-
-export type StateActions = AppActions | PageActions | ComponentActions
+export type StateActions = AppActions | PageActions
 
 export type AppDispatch = React.Dispatch<{ type: StateActions; payload: any }> // TODO: add type of payload
 export type StateWithDispatch = State.AppState & { dispatch: AppDispatch }
@@ -213,23 +208,6 @@ export const reducer = (
       return {
         ...state,
         statisticsChartDatas: payload.statisticsChartDatas,
-      }
-
-    case ComponentActions.HeaderHeight:
-      return {
-        ...state,
-        header: {
-          ...state.header,
-          normalHeight: payload.normalHeight,
-        },
-      }
-    case ComponentActions.HaveSearchBar:
-      return {
-        ...state,
-        header: {
-          ...state.header,
-          haveSearchBar: payload.haveSearchBar,
-        },
       }
     default:
       return state

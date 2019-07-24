@@ -5,10 +5,10 @@ export const parsePageNumber = (value: any, defaultValue: number) => {
   return parseInt(value, 10) || defaultValue
 }
 
-export const startEndEllipsis = (value: string, length = 8) => {
+export const startEndEllipsis = (value: string, endLength = 8, startLength = 16) => {
   if (value === undefined || value === null) return ''
-  if (value.length <= 16) return value
-  return `${value.substr(0, 16)}...${value.substr(value.length - length, length)}`
+  if (value.length <= startLength) return value
+  return `${value.substr(0, startLength)}...${value.substr(value.length - endLength, endLength)}`
 }
 
 export const parseLongAddressHash = (address: string) => {

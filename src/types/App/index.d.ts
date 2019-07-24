@@ -178,10 +178,6 @@ declare namespace State {
     tipBlockNumber: number
     statistics: Statistics
     statisticsChartDatas: StatisticsChartDatas
-
-    header: Components.Header
-    cellState: Components.Cell
-    search: Components.Search
   }
 }
 

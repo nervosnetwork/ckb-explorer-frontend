@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
 import logoIcon from '../../assets/ckb_logo.png'
@@ -23,86 +23,97 @@ const menus = [
 const NORMAL_HEIGHT = 42
 const SEARCH_HEIGHT = 95
 
-const handleVersion = (appContext: any) => {
-  if (appContext.nodeVersion && appContext.nodeVersion.indexOf('(') !== -1) {
-    return `v${appContext.nodeVersion.slice(0, appContext.nodeVersion.indexOf('('))}`
+const handleVersion = (nodeVersion: string) => {
+  if (nodeVersion && nodeVersion.indexOf('(') !== -1) {
+    return `v${nodeVersion.slice(0, nodeVersion.indexOf('('))}`
   }
-  return appContext.nodeVersion
+  return nodeVersion
 }
 
-export default ({ dispatch }: { dispatch: AppDispatch }) => {
+export default ({
+  search,
+  width = window.innerWidth,
+  dispatch,
+}: {
+  search?: boolean
+  width?: number
+  dispatch: AppDispatch
+}) => {
   const [height, setHeight] = useState(NORMAL_HEIGHT)
-  const appContext = useContext(AppContext)
-  const { haveSearchBar } = appContext.header
+  const { app } = useContext(AppContext)
+  const { nodeVersion } = app
 
   useEffect(() => {
     setHeight(NORMAL_HEIGHT)
   }, [setHeight])
 
-  if (isMobile()) {
+  return useMemo(() => {
+    // normally rerender will not occur with useMemo
+    if (isMobile(width)) {
+      return (
+        <>
+          <HeaderMobilePanel height={height}>
+            <HeaderMobileDiv>
+              <Link to="/" className="header__logo">
+                <img className="header__logo__img" src={logoIcon} alt="logo" />
+              </Link>
+              <div className="header__menus">
+                <a className="header__menus__item" href={menus[0].url} target="_blank" rel="noopener noreferrer">
+                  {menus[0].name}
+                </a>
+                <Link className="header__menus__item" to={menus[1].url}>
+                  {menus[1].name}
+                </Link>
+              </div>
+              {search && (
+                <div className="header__search">
+                  <div
+                    className="header__search__component"
+                    onKeyDown={() => {}}
+                    onClick={() => setHeight(height === NORMAL_HEIGHT ? SEARCH_HEIGHT : NORMAL_HEIGHT)}
+                    role="button"
+                    tabIndex={-1}
+                  >
+                    <img className="header__search__image" src={SearchLogo} alt="search" />
+                  </div>
+                  <div className="header__testnet">{i18n.t('navbar.network')}</div>
+                </div>
+              )}
+              <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+            </HeaderMobileDiv>
+            <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
+          </HeaderMobilePanel>
+        </>
+      )
+    }
     return (
       <>
-        <HeaderMobilePanel height={height}>
-          <HeaderMobileDiv>
-            <Link to="/" className="header__logo">
-              <img className="header__logo__img" src={logoIcon} alt="logo" />
+        <HeaderDiv>
+          <Link to="/" className="header__logo">
+            <img className="header__logo__img" src={logoIcon} alt="logo" />
+          </Link>
+          <div className="header__menus">
+            <a className="header__menus__item" href={menus[0].url} target="_blank" rel="noopener noreferrer">
+              {menus[0].name}
+            </a>
+            <Link className="header__menus__item" to={menus[1].url}>
+              {menus[1].name}
             </Link>
-            <div className="header__menus">
-              <a className="header__menus__item" href={menus[0].url} target="_blank" rel="noopener noreferrer">
-                {menus[0].name}
-              </a>
-              <Link className="header__menus__item" to={menus[1].url}>
-                {menus[1].name}
-              </Link>
-            </div>
-            {haveSearchBar && (
-              <div className="header__search">
-                <div
-                  className="header__search__component"
-                  onKeyDown={() => {}}
-                  onClick={() => setHeight(height === NORMAL_HEIGHT ? SEARCH_HEIGHT : NORMAL_HEIGHT)}
-                  role="button"
-                  tabIndex={-1}
-                >
-                  <img className="header__search__image" src={SearchLogo} alt="search" />
-                </div>
-                <div className="header__testnet">{i18n.t('navbar.network')}</div>
+          </div>
+          {search && (
+            <div className="header__search">
+              <div className="header__search__component">
+                <Search dispatch={dispatch} />
               </div>
-            )}
-            <HeaderVersionPanel>{handleVersion(appContext)}</HeaderVersionPanel>
-          </HeaderMobileDiv>
-          <HeaderSearchPanel>{haveSearchBar && <Search dispatch={dispatch} />}</HeaderSearchPanel>
-        </HeaderMobilePanel>
+              <div className="header__testnet__panel">
+                <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
+                <div className="header__testnet__tip">{i18n.t('navbar.network_tooltip')}</div>
+              </div>
+            </div>
+          )}
+          <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+        </HeaderDiv>
       </>
     )
-  }
-  return (
-    <>
-      <HeaderDiv>
-        <Link to="/" className="header__logo">
-          <img className="header__logo__img" src={logoIcon} alt="logo" />
-        </Link>
-        <div className="header__menus">
-          <a className="header__menus__item" href={menus[0].url} target="_blank" rel="noopener noreferrer">
-            {menus[0].name}
-          </a>
-          <Link className="header__menus__item" to={menus[1].url}>
-            {menus[1].name}
-          </Link>
-        </div>
-        {haveSearchBar && (
-          <div className="header__search">
-            <div className="header__search__component">
-              <Search dispatch={dispatch} />
-            </div>
-            <div className="header__testnet__panel">
-              <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-              <div className="header__testnet__tip">{i18n.t('navbar.network_tooltip')}</div>
-            </div>
-          </div>
-        )}
-        <HeaderVersionPanel>{handleVersion(appContext)}</HeaderVersionPanel>
-      </HeaderDiv>
-    </>
-  )
+  }, [dispatch, nodeVersion, search, width, height])
 }

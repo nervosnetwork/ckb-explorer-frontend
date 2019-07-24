@@ -3,9 +3,6 @@ import initAddressState from './address'
 import { initBlockState, initBlockListState } from './block'
 import initStatistics from './statistics'
 import initTransaction from './transaction'
-import initHeader from './components/header'
-import initCell from './components/cell'
-import initSearch from './components/search'
 
 const initHomeBlocks = [] as Response.Wrapper<State.Block>[]
 const initStatisticsChartDatas = [] as State.StatisticsChartData[]
@@ -20,10 +17,6 @@ const initState: State.AppState = {
   statisticsChartDatas: initStatisticsChartDatas,
   homeBlocks: initHomeBlocks,
   tipBlockNumber: 0,
-
-  header: initHeader,
-  cellState: initCell,
-  search: initSearch,
 }
 
 export default initState

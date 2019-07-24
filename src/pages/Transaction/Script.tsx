@@ -8,7 +8,7 @@ import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
 import { CellType, CellState } from '../../utils/const'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
-import initCell from '../../contexts/states/components/cell'
+import initCell from '../../contexts/states/cell'
 
 const initialState = {
   cellState: CellState.NONE,

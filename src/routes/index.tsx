@@ -16,7 +16,7 @@ import SearchFail from '../pages/SearchFail'
 import Maintain from '../pages/Maintain'
 import Sheet from '../components/Sheet'
 import StatisticsChart from '../pages/StatisticsChart'
-import { ComponentActions, AppDispatch } from '../contexts/providers/reducer'
+import { AppDispatch } from '../contexts/providers/reducer'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -99,15 +99,6 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
     }
   }, [])
 
-  useEffect(() => {
-    dispatch({
-      type: ComponentActions.HaveSearchBar,
-      payload: {
-        haveSearchBar: hasSearch(browserHistory.location.pathname),
-      },
-    })
-  }, [dispatch])
-
   return (
     <Router history={browserHistory}>
       <Route
@@ -115,7 +106,7 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
           return (
             <Page>
               <React.Fragment>
-                <Header dispatch={dispatch} />
+                <Header search={hasSearch(browserHistory.location.pathname)} dispatch={dispatch} />
                 <Sheet />
                 <Switch location={props.location}>
                   {containers.map(container => {

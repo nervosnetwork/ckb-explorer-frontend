@@ -11,13 +11,6 @@ import {
   TableMinerContentItem,
 } from '../../components/Table'
 import BlockCard from '../../components/Card/BlockCard'
-import BlockHeightIcon from '../../assets/block_height.png'
-import TransactionIcon from '../../assets/transactions.png'
-import BlockRewardIcon from '../../assets/block_reward_white.png'
-import MinerIcon from '../../assets/miner.png'
-import TimestampIcon from '../../assets/timestamp.png'
-import MoreLeftIcon from '../../assets/more_left.png'
-import MoreRightIcon from '../../assets/more_right.png'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
 import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
@@ -29,6 +22,7 @@ import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer
 import { AppContext } from '../../contexts/providers'
 import { getLatestBlocks } from '../../service/app/block'
 import getStatistics from '../../service/app/statistics'
+import i18n from '../../utils/i18n'
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   return (
@@ -41,13 +35,20 @@ const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
     >
       <div className="blockchain__item__value">{blockchain.value}</div>
       <div className="blockchain__item__name">{blockchain.name}</div>
-      {blockchain.tip && (
-        <div className="blockchain__item__tip">
-          <div className="blockchain__item__tip__content">{blockchain.tip}</div>
-        </div>
-      )}
+      {blockchain.tip && <div className="blockchain__item__tip__content">{blockchain.tip}</div>}
     </HomeHeaderItemPanel>
   )
+}
+
+interface TableTitleData {
+  title: string
+  width: string
+}
+
+interface TableContentData {
+  width: string
+  to?: any
+  content: string
 }
 
 interface BlockchainData {
@@ -59,6 +60,56 @@ interface BlockchainData {
 
 const parseHashRate = (hashRate: string | undefined) => {
   return hashRate ? `${localeNumberString((Number(hashRate) * 1000).toFixed(), 10)} gps` : '- -'
+}
+
+const TableTitleDatas: TableTitleData[] = [
+  {
+    title: i18n.t('home.height'),
+    width: '14%',
+  },
+  {
+    title: i18n.t('home.transactions'),
+    width: '14%',
+  },
+  {
+    title: i18n.t('home.block_reward'),
+    width: '20%',
+  },
+  {
+    title: i18n.t('block.miner'),
+    width: '37%',
+  },
+  {
+    title: i18n.t('home.time'),
+    width: '15%',
+  },
+]
+
+const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
+  const tableContentDatas: TableContentData[] = [
+    {
+      width: '14%',
+      to: `/block/${data.attributes.number}`,
+      content: localeNumberString(data.attributes.number),
+    },
+    {
+      width: '14%',
+      content: `${data.attributes.transactions_count}`,
+    },
+    {
+      width: '20%',
+      content: localeNumberString(shannonToCkb(data.attributes.reward)),
+    },
+    {
+      width: '37%',
+      content: data.attributes.miner_hash,
+    },
+    {
+      width: '15%',
+      content: parseSimpleDate(data.attributes.timestamp),
+    },
+  ]
+  return tableContentDatas
 }
 
 const parseBlockTime = (blockTime: string | undefined) => {
@@ -158,11 +209,9 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
         ) : (
           <ContentTable>
             <TableTitleRow>
-              <TableTitleItem image={BlockHeightIcon} title={t('home.height')} />
-              <TableTitleItem image={TransactionIcon} title={t('home.transactions')} />
-              <TableTitleItem image={BlockRewardIcon} title={t('home.block_reward')} />
-              <TableTitleItem image={MinerIcon} title={t('block.miner')} />
-              <TableTitleItem image={TimestampIcon} title={t('home.time')} />
+              {TableTitleDatas.map((data: TableTitleData) => {
+                return <TableTitleItem width={data.width} title={data.title} key={data.title} />
+              })}
             </TableTitleRow>
             {homeBlocks &&
               homeBlocks.map((block: any, index: number) => {
@@ -170,14 +219,25 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
                 return (
                   block && (
                     <TableContentRow key={key}>
-                      <TableContentItem
-                        content={localeNumberString(block.attributes.number)}
-                        to={`/block/${block.attributes.number}`}
-                      />
-                      <TableContentItem content={block.attributes.transactions_count} />
-                      <TableContentItem content={localeNumberString(shannonToCkb(block.attributes.reward))} />
-                      <TableMinerContentItem content={block.attributes.miner_hash} />
-                      <TableContentItem content={parseSimpleDate(block.attributes.timestamp)} />
+                      {getTableContentDatas(block).map((tableContentData: TableContentData) => {
+                        if (tableContentData.content === block.attributes.miner_hash) {
+                          return (
+                            <TableMinerContentItem
+                              width={tableContentData.width}
+                              content={tableContentData.content}
+                              key={tableContentData.content}
+                            />
+                          )
+                        }
+                        return (
+                          <TableContentItem
+                            width={tableContentData.width}
+                            content={tableContentData.content}
+                            to={tableContentData.to}
+                            key={tableContentData.content}
+                          />
+                        )
+                      })}
                     </TableContentRow>
                   )
                 )
@@ -186,11 +246,9 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
         )}
         <TableMorePanel>
           <div>
-            <img src={MoreLeftIcon} alt="more left" />
             <Link to="/block/list">
               <div className="table__more">{t('home.more')}</div>
             </Link>
-            <img src={MoreRightIcon} alt="more right" />
           </div>
         </TableMorePanel>
       </BlockPanel>
