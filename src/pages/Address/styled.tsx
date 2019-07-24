@@ -18,13 +18,10 @@ export const AddressContentPanel = styled.div`
 
 export const AddressPendingRewardTitlePanel = styled.div`
   display: flex;
-  align-items: center;
 
-  .address__pending_reward_help {
+  #address__pending_reward_help {
     margin-left: 20px;
     transform: translateY(2px);
-    position: relative;
-    z-index: 1;
 
     @media (max-width: 700px) {
       margin-left: 10px;
@@ -81,15 +78,20 @@ export const AddressLockScriptItemPanel = styled.div`
   }
 
   .address_lock_script__title {
-    > img {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &:before {
+      content: ' ';
       width: 9px;
       height: 9px;
-      transform: translateY(-2px);
+      border-radius: 50% 50%;
+      background: #3cc68a;
 
       @media (max-width: 700px) {
         width: 5px;
         height: 5px;
-        transform: translateY(-2px);
       }
     }
 
