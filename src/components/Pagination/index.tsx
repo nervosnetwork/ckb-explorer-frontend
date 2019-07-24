@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import { PaginationLeftItem, PaginationRightItem, PaginationPanel } from './styled'
 import LeftBlack from '../../assets/pagination_black_left.png'
 import RightBlack from '../../assets/pagination_black_right.png'
-import LeftGreen from '../../assets/pagination_green_left.png'
-import RightGreen from '../../assets/pagination_green_right.png'
 import i18n from '../../utils/i18n'
 
 const PageFirstItem = ({
@@ -64,11 +62,11 @@ const PageFirstItem = ({
           {i18n.t('pagination.first')}
         </button>
         <button type="button" className="leftimage" onClick={() => goPrev()}>
-          <img src={isFirstPage() ? LeftBlack : LeftGreen} alt="left" />
+          <img src={LeftBlack} alt="left" />
         </button>
         <div className="middlelabel">{`Page ${currentPage} of ${totalPage}`}</div>
         <button type="button" className="rightimage" onClick={() => goNext()}>
-          <img src={isLastPage() ? RightBlack : RightGreen} alt="right" />
+          <img src={RightBlack} alt="right" />
         </button>
         <button type="button" className="last" onClick={() => goLastPage()}>
           {i18n.t('pagination.last')}
@@ -79,6 +77,7 @@ const PageFirstItem = ({
           {i18n.t('pagination.goto')}
         </button>
         <input
+          className="jumppageinput"
           value={inputValue}
           onChange={(event: any) => setInputValue(event.target.value)}
           onKeyUp={(event: any) => {

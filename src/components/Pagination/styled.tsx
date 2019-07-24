@@ -49,20 +49,25 @@ export const PaginationLeftItem = styled.div`
       width: 12px;
       height: 20px;
     }
+    &:hover {
+      font-weight: bold;
+    }
+    &:active {
+      background: #3cc68a;
+    }
   }
 
   .first {
     width: 90px;
-    color: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? '#000000' : '#3cc68a')};
-    cursor: ${(props: { isFirstPage: boolean; isLastPage: boolean }) =>
-      props.isFirstPage ? 'not-allowed' : 'pointer'};
+    opacity: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? '0.5' : '1')};
+    pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? 'none' : 'auto')};
   }
 
   .leftimage {
     width: 30px;
     margin-left: 20px;
-    cursor: ${(props: { isFirstPage: boolean; isLastPage: boolean }) =>
-      props.isFirstPage ? 'not-allowed' : 'pointer'};
+    opacity: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? '0.5' : '1')};
+    pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? 'none' : 'auto')};
   }
 
   .middlelabel {
@@ -76,14 +81,15 @@ export const PaginationLeftItem = styled.div`
   .rightimage {
     width: 30px;
     margin-left: 20px;
-    cursor: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? 'not-allowed' : 'pointer')};
+    opacity: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? '0.5' : '1')};
+    pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? 'none' : 'auto')};
   }
 
   .last {
     width: 90px;
     margin-left: 20px;
-    color: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? '#000000' : '#3cc68a')};
-    cursor: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? 'not-allowed' : 'pointer')};
+    opacity: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? '0.5' : '1')};
+    pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? 'none' : 'auto')};
   }
 
   @media (max-width: 700px) {
@@ -151,7 +157,8 @@ export const PaginationRightItem = styled.div`
     padding-bottom: 10px;
     padding-top: 10px;
   }
-  > input {
+
+  .jumppageinput {
     width: 120px;
     height: 40px;
     border: none;
@@ -187,6 +194,9 @@ export const PaginationRightItem = styled.div`
     > img {
       width: 12px;
       height: 20px;
+    }
+    &:active {
+      background: #3cc68a;
     }
     @media (max-width: 700px) {
       height: 20px;
