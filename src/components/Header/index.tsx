@@ -28,7 +28,7 @@ export default ({ search = true, width = window.innerWidth }: { search?: boolean
     setHeight(NORMAL_HEIGHT)
   }, [setHeight])
   return useMemo(() => {
-    // console.log("normally rerender will not occur with useMemo")
+    // normally rerender will not occur with useMemo
     if (isMobile(width)) {
       return (
         <>

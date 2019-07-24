@@ -102,7 +102,7 @@ const FooterItem = (link: any) => {
 
 export default () => {
   return useMemo(() => {
-    // console.log("normally rerender will not occur with useMemo")
+    // normally rerender will not occur with useMemo
     return (
       <FooterDiv>
         <div className="footer__top">
