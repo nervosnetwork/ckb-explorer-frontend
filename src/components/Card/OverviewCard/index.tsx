@@ -53,23 +53,23 @@ export default ({ items, children }: { items: OverviewItemData[]; children?: Rea
     <OverviewCardPanel>
       <OverviewContentPanel length={leftItems.length}>
         <div className="overview_content__left_items">
-          {leftItems.map((item, idx) => (
+          {leftItems.map((item, index) => (
             <OverviewItem
               key={items.indexOf(item)}
               title={item.title}
               content={item.content}
-              hiddenLine={!isValidReactNode(children) && idx === leftItems.length - 1}
+              hiddenLine={!isValidReactNode(children) && index === leftItems.length - 1}
             />
           ))}
         </div>
         <span />
         <div className="overview_content__right_items">
-          {rightItems.map((item, idx) => (
+          {rightItems.map((item, index) => (
             <OverviewItem
               key={items.indexOf(item)}
               title={item.title}
               content={item.content}
-              hiddenLine={!isValidReactNode(children) && idx === rightItems.length - 1}
+              hiddenLine={!isValidReactNode(children) && index === rightItems.length - 1}
             />
           ))}
         </div>

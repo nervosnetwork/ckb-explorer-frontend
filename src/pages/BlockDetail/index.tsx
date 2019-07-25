@@ -181,8 +181,8 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
 
   if (isMobile()) {
     const newItems: OverviewItemData[] = []
-    overviewItems.forEach((item, idx) => (idx % 2 === 0 ? newItems.push(item) : null))
-    overviewItems.forEach((item, idx) => (idx % 2 !== 0 ? newItems.push(item) : null))
+    overviewItems.forEach((item, index) => (index % 2 === 0 ? newItems.push(item) : null))
+    overviewItems.forEach((item, index) => (index % 2 !== 0 ? newItems.push(item) : null))
     overviewItems = newItems.concat(rootInfoItems)
     if (!showAllOverview) {
       overviewItems.splice(11, overviewItems.length - 11)
