@@ -17,7 +17,7 @@
     "husky": "^3.0.0",
     "i18next": "17.0.6",
     "query-string": "6.8.1",
-    "rc-pagination": "^1.17.11",
+    "rc-pagination": "^1.20.3",
     "react": "^16.8.4",
     "react-app-rewired": "^2.1.0",
     "react-dom": "^16.8.4",
@@ -26,7 +26,8 @@
     "react-scripts": "3.0.1",
     "styled-components": "^4.3.2",
     "ts-jest": "^24.0.2",
-    "typescript": "3.5.2"
+    "typescript": "3.5.2",
+    "uri-js": "^4.2.2"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "1.11.0",

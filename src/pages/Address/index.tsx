@@ -1,20 +1,15 @@
-import queryString from 'query-string'
+import React, { useEffect, useContext, useState, ReactNode } from 'react'
+import { RouteComponentProps } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import localeInfo from 'rc-pagination/lib/locale/en_US'
-import React, { ReactNode, useEffect, useReducer, useState } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import queryString from 'query-string'
+import { AppContext } from '../../contexts/providers/index'
 import HelpIcon from '../../assets/qa_help.png'
 import AddressHashCard from '../../components/Card/AddressHashCard'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TitleCard from '../../components/Card/TitleCard'
 import Content from '../../components/Content'
 import TransactionItem from '../../components/Transaction/TransactionItem/index'
-import { fetchAddressInfo, fetchTipBlockNumber, fetchTransactionsByAddress } from '../../service/http/fetcher'
-import i18n from '../../utils/i18n'
-import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
-import { parsePageNumber, startEndEllipsis } from '../../utils/string'
-import { shannonToCkb } from '../../utils/util'
 import Tooltip from '../../components/Tooltip'
 import {
   AddressContentPanel,
@@ -25,117 +20,18 @@ import {
   AddressTransactionsPanel,
 } from './styled'
 
-enum PageParams {
-  PageNo = 1,
-  PageSize = 10,
-  MaxPageSize = 100,
-}
-
-const initAddress: State.Address = {
-  address_hash: '',
-  lock_hash: '',
-  balance: 0,
-  transactions_count: 0,
-  pending_reward_blocks_count: 0,
-  cell_consumed: 0,
-  lock_script: {
-    args: [],
-    code_hash: '',
-  },
-}
-
-const Actions = {
-  address: 'ADDRESS',
-  transactions: 'TRANSACTIONS',
-  total: 'TOTAL',
-  tipBlockNumber: 'TIP_BLOCK_NUMBER',
-}
-
-const reducer = (state: any, action: any) => {
-  switch (action.type) {
-    case Actions.address:
-      return {
-        ...state,
-        address: action.payload.address,
-      }
-    case Actions.transactions:
-      return {
-        ...state,
-        transactions: action.payload.transactions,
-      }
-    case Actions.total:
-      return {
-        ...state,
-        total: action.payload.total,
-      }
-    case Actions.tipBlockNumber:
-      return {
-        ...state,
-        tipBlockNumber: action.payload.tipBlockNumber,
-      }
-    default:
-      return state
-  }
-}
-
-const getAddressInfo = (hash: string, dispatch: any) => {
-  fetchAddressInfo(hash).then((wrapper: Response.Wrapper<State.Address>) => {
-    if (wrapper) {
-      dispatch({
-        type: Actions.address,
-        payload: {
-          address: wrapper.attributes,
-        },
-      })
-    }
-  })
-}
-
-const getTransactions = (hash: string, page: number, size: number, dispatch: any) => {
-  fetchTransactionsByAddress(hash, page, size).then(response => {
-    const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
-    if (data) {
-      dispatch({
-        type: Actions.transactions,
-        payload: {
-          transactions: data,
-        },
-      })
-    }
-    if (meta) {
-      dispatch({
-        type: Actions.total,
-        payload: {
-          total: meta.total,
-        },
-      })
-    }
-  })
-}
-
-const getTipBlockNumber = (dispatch: any) => {
-  fetchTipBlockNumber().then((wrapper: Response.Wrapper<State.Statistics>) => {
-    if (wrapper) {
-      dispatch({
-        type: Actions.tipBlockNumber,
-        payload: {
-          tipBlockNumber: parseInt(wrapper.attributes.tip_block_number, 10),
-        },
-      })
-    }
-  })
-}
+import { shannonToCkb } from '../../utils/util'
+import { parsePageNumber, startEndEllipsis } from '../../utils/string'
+import { localeNumberString } from '../../utils/number'
+import i18n from '../../utils/i18n'
+import { isMobile } from '../../utils/screen'
+import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { PageParams } from '../../utils/const'
+import { getAddress } from '../../service/app/address'
 
 const addressContent = (address: State.Address) => {
   const addressText = isMobile() ? startEndEllipsis(address.address_hash, 10) : address.address_hash
   return address.address_hash ? addressText : i18n.t('address.unable_decode_address')
-}
-
-const initialState = {
-  address: initAddress,
-  transactions: [] as Response.Wrapper<State.Transaction>[],
-  total: 1,
-  tipBlockNumber: 0,
 }
 
 const AddressPendingRewardTitle = () => {
@@ -195,42 +91,44 @@ const AddressLockScript = ({ script }: { script: State.Script }) => {
   )
 }
 
-export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: string; hash: string }>>) => {
-  const { match, location, history } = props
-  const { params } = match
+export const Address = ({
+  dispatch,
+  history: { replace },
+  location: { search },
+  match: { params },
+}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ address: string; hash: string }>>) => {
   const { address, hash: lockHash } = params
   const identityHash = address || lockHash
-  const { search } = location
   const parsed = queryString.parse(search)
-  const { replace } = history
 
   const page = parsePageNumber(parsed.page, PageParams.PageNo)
   const size = parsePageNumber(parsed.size, PageParams.PageSize)
 
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const { addressState, app } = useContext(AppContext)
+  const { tipBlockNumber } = app
 
   const items: OverviewItemData[] = [
     {
       title: i18n.t('address.balance'),
-      content: `${localeNumberString(shannonToCkb(state.address.balance))} CKB`,
+      content: `${localeNumberString(shannonToCkb(addressState.address.balance))} CKB`,
     },
     {
       title: i18n.t('transaction.transactions'),
-      content: localeNumberString(state.address.transactions_count),
+      content: localeNumberString(addressState.address.transactions_count),
     },
   ]
-  if (state.address.pending_reward_blocks_count) {
+  if (addressState.address.pending_reward_blocks_count) {
     items.push({
       title: <AddressPendingRewardTitle />,
-      content: `${state.address.pending_reward_blocks_count} ${
-        state.address.pending_reward_blocks_count > 1 ? 'blocks' : 'block'
+      content: `${addressState.address.pending_reward_blocks_count} ${
+        addressState.address.pending_reward_blocks_count > 1 ? 'blocks' : 'block'
       }`,
     })
   }
-  if (lockHash && state.address) {
+  if (lockHash && addressState.address) {
     items.push({
       title: i18n.t('address.address'),
-      content: addressContent(state.address),
+      content: addressContent(addressState.address),
     })
   }
 
@@ -238,9 +136,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     if (size > PageParams.MaxPageSize) {
       replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${page}&size=${PageParams.MaxPageSize}`)
     }
-    getAddressInfo(identityHash, dispatch)
-    getTransactions(identityHash, page, size, dispatch)
-    getTipBlockNumber(dispatch)
+    getAddress(identityHash, page, size, dispatch)
   }, [replace, identityHash, page, size, dispatch, address])
 
   const onChange = (pageNo: number, pageSize: number) => {
@@ -253,29 +149,30 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
         <AddressHashCard
           title={address ? i18n.t('address.address') : i18n.t('address.lock_hash')}
           hash={address || lockHash}
+          dispatch={dispatch}
         />
         <TitleCard title={i18n.t('common.overview')} />
         <OverviewCard items={items}>
-          <AddressLockScript script={state.address.lock_script} />
+          <AddressLockScript script={addressState.address.lock_script} />
         </OverviewCard>
         <TitleCard title={i18n.t('transaction.transactions')} />
         <AddressTransactionsPanel>
-          {state.transactions &&
-            state.transactions.map((transaction: any, index: number) => {
+          {addressState.transactions &&
+            addressState.transactions.map((transaction: any, index: number) => {
               return (
                 transaction && (
                   <TransactionItem
-                    address={state.address.address_hash}
+                    address={addressState.address.address_hash}
                     transaction={transaction.attributes}
-                    confirmation={state.tipBlockNumber - transaction.attributes.block_number + 1}
+                    confirmation={tipBlockNumber - transaction.attributes.block_number + 1}
                     key={transaction.attributes.transaction_hash}
-                    isLastItem={index === state.transactions.length - 1}
+                    isLastItem={index === addressState.transactions.length - 1}
                   />
                 )
               )
             })}
         </AddressTransactionsPanel>
-        {state.total > 1 && (
+        {addressState.total > 1 && (
           <AddressTransactionsPagition>
             <Pagination
               showQuickJumper
@@ -284,7 +181,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
               pageSize={size}
               defaultCurrent={page}
               current={page}
-              total={state.total}
+              total={addressState.total}
               onChange={onChange}
               locale={localeInfo}
             />
@@ -294,3 +191,5 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ address: stri
     </Content>
   )
 }
+
+export default Address

@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import CopyIcon from '../../assets/copy.png'
-import AppContext from '../../contexts/App'
 import i18n from '../../utils/i18n'
 import { isSmallMobile, isMediumMobile, isLargeMobile } from '../../utils/screen'
 import { startEndEllipsis } from '../../utils/string'
 import { copyElementValue } from '../../utils/util'
+import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
 
 const AddressHashCardPanel = styled.div`
   width: 100%;
@@ -84,8 +84,7 @@ const handleHashText = (hash: string) => {
   return hash
 }
 
-export default ({ title, hash }: { title: string; hash: string }) => {
-  const appContext = useContext(AppContext)
+export default ({ title, hash, dispatch }: { title: string; hash: string; dispatch: AppDispatch }) => {
   return (
     <AddressHashCardPanel>
       <div className="address_hash__title">{title}</div>
@@ -99,7 +98,13 @@ export default ({ title, hash }: { title: string; hash: string }) => {
         onKeyDown={() => {}}
         onClick={() => {
           copyElementValue(document.getElementById('address_hash__hash'))
-          appContext.toastMessage(i18n.t('common.copied'), 3000)
+          dispatch({
+            type: AppActions.ShowToastMessage,
+            payload: {
+              text: i18n.t('common.copied'),
+              timeout: 3000,
+            },
+          })
         }}
       >
         <img src={CopyIcon} alt="copy" />

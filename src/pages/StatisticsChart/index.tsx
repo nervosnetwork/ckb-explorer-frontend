@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import { Chart, Geom, Axis, Tooltip, Legend } from 'bizcharts'
 import Content from '../../components/Content'
-import { fetchStatisticsChart } from '../../service/http/fetcher'
-import { CachedKeys } from '../../utils/const'
-import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import Loading from '../../assets/loading.gif'
+import { isMobile } from '../../utils/screen'
+import { getStatisticsChart } from '../../service/app/statisticsChart'
+import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { AppContext } from '../../contexts/providers'
 
 const ChartPanel = styled.div`
   margin: 0 10% 30px 10%;
@@ -51,12 +52,6 @@ const LoadingPanel = styled.div`
   }
 `
 
-interface StatisticsData {
-  blockNumber: number
-  difficulty?: number
-  hashRate?: number
-}
-
 const scale = {
   difficulty: {
     min: 0,
@@ -66,71 +61,30 @@ const scale = {
     min: 0,
     alias: 'Hash Rate(gps)',
   },
+  epochNumber: {
+    min: 0,
+    alias: 'Epoch Number',
+  },
 }
 
-export default () => {
-  const [statisticsDatas, setStatisticsDatas] = useState([] as StatisticsData[])
+export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+  const { statisticsChartDatas } = useContext(AppContext)
 
   useEffect(() => {
-    const cachedStatisticsChart = fetchCachedData<StatisticsData[]>(CachedKeys.StatisticsChart)
-    if (cachedStatisticsChart) {
-      setStatisticsDatas(cachedStatisticsChart)
-    }
-  }, [])
-
-  useEffect(() => {
-    storeCachedData(CachedKeys.StatisticsChart, statisticsDatas)
-  }, [statisticsDatas])
-
-  useEffect(() => {
-    fetchStatisticsChart().then((wrapper: Response.Wrapper<State.StatisticsChart>) => {
-      if (!wrapper) return
-      const { hash_rate: hashRates, difficulty: difficulties } = wrapper.attributes
-      if (!hashRates && !difficulties) return
-      if (hashRates && difficulties) {
-        const length = Math.min(hashRates.length, difficulties.length)
-        const datas: StatisticsData[] = []
-        for (let index = 0; index < length; index++) {
-          datas.push({
-            blockNumber: hashRates[index].block_number,
-            hashRate: Number((Number(hashRates[index].hash_rate) * 1000).toFixed(0)),
-            difficulty: difficulties[index].difficulty,
-          })
-        }
-        setStatisticsDatas(datas)
-      } else if (hashRates) {
-        setStatisticsDatas(
-          hashRates.map(hashRate => {
-            return {
-              blockNumber: hashRate.block_number,
-              hashRate: Number((Number(hashRate.hash_rate) * 1000).toFixed(0)),
-            }
-          }),
-        )
-      } else {
-        setStatisticsDatas(
-          difficulties.map(difficulty => {
-            return {
-              blockNumber: difficulty.block_number,
-              difficulty: difficulty.difficulty,
-            }
-          }),
-        )
-      }
-    })
-  }, [])
+    getStatisticsChart(dispatch)
+  }, [dispatch])
 
   return (
     <Content>
       <ChartTitle>Difficulty & Hash Rate</ChartTitle>
-      {statisticsDatas.length > 1 ? (
+      {statisticsChartDatas.length > 1 ? (
         <ChartPanel>
           <Chart
             height={window.innerHeight * 0.7}
             scale={scale}
             forceFit
-            data={statisticsDatas}
-            padding={[50, 90, 100, 90]}
+            data={statisticsChartDatas}
+            padding={isMobile() ? [40, 90, 80, 90] : [80, 90, 100, 90]}
           >
             <Legend
               custom
@@ -165,8 +119,8 @@ export default () => {
               ]}
             />
             <Axis
-              name="Difficulty"
-              grid={null}
+              name="difficulty"
+              title={!isMobile()}
               label={{
                 textStyle: {
                   fill: '#3182bd',
@@ -175,8 +129,8 @@ export default () => {
               }}
             />
             <Axis
-              name="Hash Rate"
-              grid={null}
+              name="hashRate"
+              title={!isMobile()}
               label={{
                 textStyle: {
                   fill: '#66CC99',
@@ -184,9 +138,11 @@ export default () => {
                 },
               }}
             />
+            <Axis name="epochNumber" visible={false} />
             <Tooltip />
-            <Geom type="line" position="blockNumber*difficulty" color="#3182bd" size={2} shape="line" />
-            <Geom type="line" position="blockNumber*hashRate" color="#66CC99" size={2} shape="line" />
+            <Geom type="line" position="blockNumber*difficulty" color={['type', ['#3182bd']]} size={1} shape="hv" />
+            <Geom type="line" position="blockNumber*hashRate" color={['type', ['#66CC99']]} size={1} shape="line" />
+            <Geom position="blockNumber*epochNumber" color={['type', ['#3182bd']]} size={0} />
           </Chart>
         </ChartPanel>
       ) : (

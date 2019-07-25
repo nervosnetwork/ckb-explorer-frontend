@@ -5,6 +5,7 @@ import { RouteComponentProps } from 'react-router-dom'
 import Content from '../../components/Content'
 import Search from '../../components/Search'
 import i18n from '../../utils/i18n'
+import { StateWithDispatch } from '../../contexts/providers/reducer'
 
 const SearchPanel = styled.div`
   margin-top: 211px;
@@ -37,9 +38,7 @@ const SearchContent = styled.div`
   }
 `
 
-export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
-  const { location } = props
-  const { search } = location
+export default ({ dispatch, location: { search } }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
   const parsed = queryString.parse(search)
   const { q } = parsed
 
@@ -47,7 +46,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
     <Content>
       <SearchPanel className="container">
         <div className="search__fail__bar">
-          <Search opacity content={q as string} />
+          <Search opacity content={q as string} dispatch={dispatch} />
         </div>
         <SearchContent>{i18n.t('search.empty_result')}</SearchContent>
       </SearchPanel>

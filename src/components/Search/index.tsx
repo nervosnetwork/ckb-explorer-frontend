@@ -1,11 +1,13 @@
-import React, { useContext, useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import styled, { css } from 'styled-components'
-import AppContext from '../../contexts/App'
+import { AxiosError } from 'axios'
 import { fetchSearchResult } from '../../service/http/fetcher'
 import browserHistory from '../../routes/history'
 import SearchLogo from '../../assets/search.png'
 import { searchTextCorrection } from '../../utils/string'
 import i18n from '../../utils/i18n'
+import { HttpErrorCode } from '../../utils/const'
+import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
 
 const SearchPanel = styled.div`
   margin: 0 auto;
@@ -80,15 +82,20 @@ const SearchInputPanel = styled.input`
 
 const SearchPlaceholder = i18n.t('navbar.search_placeholder')
 
-const Search = ({ opacity = false, content }: { opacity?: boolean; content?: string }) => {
-  const appContext = useContext(AppContext)
+const Search = ({ dispatch, opacity, content }: { dispatch: AppDispatch; opacity?: boolean; content?: string }) => {
   const [searchValue, setSearchValue] = useState(content || '')
   const inputElement = useRef(null)
 
   const handleSearchResult = () => {
-    const query = searchValue.replace(/^\s+|\s+$/g, '') // remove front and end blank
+    const query = searchValue.replace(/^\s+|\s+$/g, '').replace(',', '') // remove front and end blank and ','
     if (!query) {
-      appContext.toastMessage(i18n.t('toast.invalid_content'), 3000)
+      dispatch({
+        type: AppActions.ShowToastMessage,
+        payload: {
+          text: i18n.t('toast.invalid_content'),
+          timeout: 3000,
+        },
+      })
     } else {
       fetchSearchResult(searchTextCorrection(query))
         .then((response: any) => {
@@ -110,9 +117,22 @@ const Search = ({ opacity = false, content }: { opacity?: boolean; content?: str
             browserHistory.push(`/search/fail?q=${query}`)
           }
         })
-        .catch(() => {
-          setSearchValue(query)
-          browserHistory.push(`/search/fail?q=${query}`)
+        .catch((error: AxiosError) => {
+          if (error.response && error.response.data) {
+            if (
+              (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
+                return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
+              })
+            ) {
+              browserHistory.push(`/address/${query}`)
+            } else {
+              setSearchValue(query)
+              browserHistory.push(`/search/fail?q=${query}`)
+            }
+          } else {
+            setSearchValue(query)
+            browserHistory.push(`/search/fail?q=${query}`)
+          }
         })
     }
   }
