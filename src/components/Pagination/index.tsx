@@ -8,16 +8,16 @@ const PageFirstItem = ({
   currentPage,
   total,
   pageSize,
-  defautJumpPage,
+  defaultJumpPage,
   onChange,
 }: {
   currentPage: number
   total: number
   pageSize: number
-  defautJumpPage: string
+  defaultJumpPage: number
   onChange: (page: number, pageSize: number) => void
 }) => {
-  const [inputValue, setInputValue] = useState(defautJumpPage || '')
+  const [inputValue, setInputValue] = useState(defaultJumpPage)
   const totalPage = Math.ceil(total / pageSize)
   const goFirstPage = () => {
     const page: number = 1
@@ -41,9 +41,8 @@ const PageFirstItem = ({
   }
 
   const jumpPage = () => {
-    const inputValueNumber = Number(inputValue)
-    if (!Number.isNaN(inputValueNumber) && inputValueNumber <= totalPage && inputValueNumber >= 1) {
-      onChange(inputValueNumber, pageSize)
+    if (inputValue && inputValue <= totalPage && inputValue >= 1) {
+      onChange(inputValue, pageSize)
     }
   }
 
@@ -113,6 +112,12 @@ export default ({
   onChange: (page: number, pageSize: number) => void
 }) => {
   return (
-    <PageFirstItem currentPage={currentPage} total={total} pageSize={pageSize} defautJumpPage="1" onChange={onChange} />
+    <PageFirstItem
+      currentPage={currentPage}
+      total={total}
+      pageSize={pageSize}
+      defaultJumpPage={1}
+      onChange={onChange}
+    />
   )
 }
