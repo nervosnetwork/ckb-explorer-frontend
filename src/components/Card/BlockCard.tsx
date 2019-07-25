@@ -8,7 +8,7 @@ import { shannonToCkb } from '../../utils/util'
 import { localeNumberString } from '../../utils/number'
 
 const CardPanel = styled.div`
-  width: 88%;
+  width: 100%;
   height: 273px;
   background-color: white;
   padding: 0px 20px 20px 20px;
@@ -17,7 +17,6 @@ const CardPanel = styled.div`
   box-shadow: 1px 1px 3px 0 #dfdfdf;
   display: flex;
   margin-bottom: 5px;
-  margin-left: 6%;
   flex-direction: column;
 `
 

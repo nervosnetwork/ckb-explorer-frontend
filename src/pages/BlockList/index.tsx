@@ -1,10 +1,8 @@
 import React, { useEffect, useContext } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import Pagination from 'rc-pagination'
-import 'rc-pagination/assets/index.css'
-import localeInfo from 'rc-pagination/lib/locale/en_US'
 import queryString from 'query-string'
-import { BlockListPanel, ContentTitle, ContentTable, BlocksPagition } from './styled'
+import { parseSimpleDate } from '../../utils/date'
+import { BlockListPanel, ContentTable } from './styled'
 import Content from '../../components/Content'
 import {
   TableTitleRow,
@@ -21,8 +19,9 @@ import { fetchCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
-import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
+import Pagination from '../../components/Pagination'
+
 import { AppContext } from '../../contexts/providers'
 import { getBlocks } from '../../service/app/block'
 
@@ -125,7 +124,7 @@ export default ({
   return (
     <Content>
       <BlockListPanel className="container">
-        <ContentTitle>Blocks</ContentTitle>
+        <div className="block__green__background" />
         {isMobile() ? (
           <ContentTable>
             <div className="block__panel">
@@ -168,19 +167,7 @@ export default ({
               })}
           </ContentTable>
         )}
-        <BlocksPagition>
-          <Pagination
-            showQuickJumper
-            showSizeChanger
-            defaultPageSize={size}
-            pageSize={size}
-            defaultCurrent={page}
-            current={page}
-            total={blockListState.total}
-            onChange={onChange}
-            locale={localeInfo}
-          />
-        </BlocksPagition>
+        <Pagination currentPage={page} total={blockListState.total} pageSize={size} onChange={onChange} />
       </BlockListPanel>
     </Content>
   )
