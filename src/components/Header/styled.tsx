@@ -126,7 +126,7 @@ export const HeaderTestnetPanel = styled.div`
   justify-content: flex-end;
 
   ${(props: { search: boolean }) =>
-    props.search &&
+    !props.search &&
     css`
       flex: 1;
     `}
