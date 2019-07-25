@@ -78,6 +78,7 @@ export default ({
                   >
                     <img className="header__search__image" src={SearchLogo} alt="search" />
                   </div>
+                  <div className="header__search__separate" />
                 </div>
               )}
               <HeaderTestnetPanel search={!!search}>

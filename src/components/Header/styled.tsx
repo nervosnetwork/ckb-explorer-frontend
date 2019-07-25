@@ -108,8 +108,6 @@ export const HeaderMobileDiv = styled.div`
     .header__search__component {
       width: 29px;
       height: 21px;
-      border-radius: 6px 0 0 6px;
-      background: rgba(255, 255, 255, 0.2);
 
       .header__search__image {
         width: 14px;
@@ -117,6 +115,14 @@ export const HeaderMobileDiv = styled.div`
         margin-left: 7.5px;
         margin-top: 3.5px;
       }
+    }
+
+    .header__search__separate {
+      align-items: center;
+      height: 14px;
+      width: 1px;
+      background: white;
+      margin: 3px 4px 0 0;
     }
   }
 `
