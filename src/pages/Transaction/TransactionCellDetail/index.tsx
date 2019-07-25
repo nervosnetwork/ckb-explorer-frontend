@@ -1,46 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import TransactionDetailPanel from './styled'
-import { CellType, fetchScript, fetchCellData } from '../../../service/http/fetcher'
+import { fetchScript, fetchCellData } from '../../../service/http/fetcher'
 import { hexToUtf8 } from '../../../utils/string'
+import { CellType, CellState } from '../../../utils/const'
+import initScriptContent from '../../../contexts/states/cell'
 
-export enum TransactionDetailType {
-  lockScript = 'lock_scripts',
-  typeScript = 'type_scripts',
-  data = 'data',
-}
-
-const initScriptContent = {
-  lock: {
-    code_hash: '',
-    args: [],
-  },
-  type: {
-    code_hash: '',
-    args: [],
-  },
-  data: {
-    data: '',
-  },
-}
-
-const handleFetchScript = (
-  cell: State.InputOutput,
-  cellType: CellType,
-  detailType: TransactionDetailType,
-  dispatch: any,
-) => {
-  switch (detailType) {
-    case TransactionDetailType.lockScript:
+const handleFetchScript = (cell: State.InputOutput, cellType: CellType, state: CellState, dispatch: any) => {
+  switch (state) {
+    case CellState.LOCK:
       fetchScript(cellType, 'lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
         dispatch(wrapper ? wrapper.attributes : initScriptContent.lock)
       })
       break
-    case TransactionDetailType.typeScript:
+    case CellState.TYPE:
       fetchScript(cellType, 'type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
         dispatch(wrapper ? wrapper.attributes : initScriptContent.type)
       })
       break
-    case TransactionDetailType.data:
+    case CellState.DATA:
       fetchCellData(cellType, `${cell.id}`).then((wrapper: Response.Wrapper<State.Data>) => {
         const dataValue: State.Data = wrapper.attributes
         if (wrapper && cell.isGenesisOutput) {
@@ -54,22 +31,12 @@ const handleFetchScript = (
   }
 }
 
-export { CellType }
-
-export default ({
-  cell,
-  cellType,
-  detailType,
-}: {
-  cell: State.InputOutput
-  cellType: CellType
-  detailType: TransactionDetailType
-}) => {
+export default ({ cell, cellType, state }: { cell: State.InputOutput; cellType: CellType; state: CellState }) => {
   const [content, setContent] = useState(undefined as any)
 
   useEffect(() => {
-    handleFetchScript(cell, cellType, detailType, setContent)
-  }, [cell, cellType, detailType])
+    handleFetchScript(cell, cellType, state, setContent)
+  }, [cell, cellType, state])
 
   return (
     <TransactionDetailPanel hidden={!content}>

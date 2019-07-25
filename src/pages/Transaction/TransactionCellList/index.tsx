@@ -1,7 +1,8 @@
 import React from 'react'
 import { TransactionCellListPanel, TransactionCellListTitlePanel } from './styled'
 import TransactionCell from '../TransactionCell'
-import { CellType } from '../TransactionCellDetail'
+import { CellType } from '../../../utils/const'
+import i18n from '../../../utils/i18n'
 
 export default ({ inputs, outputs }: { inputs?: State.InputOutput[]; outputs?: State.InputOutput[] }) => {
   const cells = inputs || outputs || []
@@ -9,9 +10,9 @@ export default ({ inputs, outputs }: { inputs?: State.InputOutput[]; outputs?: S
     <TransactionCellListPanel>
       <TransactionCellListTitlePanel>
         <div className="transaction__cell_list_titles">
-          <span>{inputs ? 'Input' : 'Output'}</span>
-          <span>Capacity</span>
-          <span>Detail</span>
+          <span>{inputs ? i18n.t('transaction.input') : i18n.t('transaction.output')}</span>
+          <span>{i18n.t('transaction.capacity')}</span>
+          <span>{i18n.t('transaction.detail')}</span>
         </div>
       </TransactionCellListTitlePanel>
       {cells.map(cell => (

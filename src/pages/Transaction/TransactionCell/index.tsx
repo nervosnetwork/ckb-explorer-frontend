@@ -9,7 +9,8 @@ import {
   TransactionCellHashPanel,
   TransactionCellDetailPanel,
 } from './styled'
-import TransactionDetail, { TransactionDetailType, CellType } from '../TransactionCellDetail'
+import TransactionDetail from '../TransactionCellDetail'
+import { CellType, CellState } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkb } from '../../../utils/util'
@@ -34,41 +35,41 @@ export const TransactionCellDetail = ({
   onChange,
 }: {
   highLight: boolean
-  onChange: (type: TransactionDetailType | undefined) => void
+  onChange: (type: CellState) => void
 }) => {
-  const [type, setType] = useState(undefined as TransactionDetailType | undefined)
-  const changeType = (newType: TransactionDetailType) => {
+  const [state, setState] = useState(CellState.NONE as CellState)
+  const changeType = (newState: CellState) => {
     if (!highLight) return
-    setType(type !== newType ? newType : undefined)
-    onChange(type !== newType ? newType : undefined)
+    setState(state !== newState ? newState : CellState.NONE)
+    onChange(state !== newState ? newState : CellState.NONE)
   }
   return (
     <TransactionCellDetailPanel>
       <div className="transaction__cell_lock_script">
         <TransactionCellDetailLockScriptPanel
           highLight={highLight}
-          selected={type === TransactionDetailType.lockScript}
-          onClick={() => changeType(TransactionDetailType.lockScript)}
+          selected={state === CellState.LOCK}
+          onClick={() => changeType(CellState.LOCK)}
         >
-          {'Lock Script'}
+          {i18n.t('transaction.lock_script')}
         </TransactionCellDetailLockScriptPanel>
       </div>
       <div className="transaction__cell_type_script">
         <TransactionCellDetailTypeScriptPanel
           highLight={highLight}
-          selected={type === TransactionDetailType.typeScript}
-          onClick={() => changeType(TransactionDetailType.typeScript)}
+          selected={state === CellState.TYPE}
+          onClick={() => changeType(CellState.TYPE)}
         >
-          {'TypeScript'}
+          {i18n.t('transaction.type_script')}
         </TransactionCellDetailTypeScriptPanel>
       </div>
       <div className="transaction__cell_data">
         <TransactionCellDetailDataPanel
           highLight={highLight}
-          selected={type === TransactionDetailType.data}
-          onClick={() => changeType(TransactionDetailType.data)}
+          selected={state === CellState.DATA}
+          onClick={() => changeType(CellState.DATA)}
         >
-          {'Data'}
+          {i18n.t('transaction.data')}
         </TransactionCellDetailDataPanel>
       </div>
     </TransactionCellDetailPanel>
@@ -80,25 +81,25 @@ export default ({ cell, cellType }: { cell: State.InputOutput; cellType: CellTyp
   if (cell.address_hash && cell.address_hash.length > 0) {
     highLight = true
   }
-  const [detailType, setDetailType] = useState(undefined as TransactionDetailType | undefined)
+  const [state, setState] = useState(CellState.NONE as CellState)
 
   if (isMobile()) {
     const items: OverviewItemData[] = [
       {
-        title: cellType === CellType.Input ? 'Input' : 'Output',
+        title: cellType === CellType.Input ? i18n.t('transaction.input') : i18n.t('transaction.output'),
         content: <TransactionCellHash cell={cell} />,
       },
     ]
     if (cell.capacity) {
       items.push({
-        title: 'Capacity',
+        title: i18n.t('transaction.capacity'),
         content: cell.capacity && localeNumberString(shannonToCkb(cell.capacity)),
       })
     }
     return (
       <OverviewCard items={items}>
-        {highLight && <TransactionCellDetail highLight={highLight} onChange={type => setDetailType(type)} />}
-        {detailType !== undefined && <TransactionDetail cell={cell} cellType={cellType} detailType={detailType} />}
+        {highLight && <TransactionCellDetail highLight={highLight} onChange={newState => setState(newState)} />}
+        {state !== CellState.NONE && <TransactionDetail cell={cell} cellType={cellType} state={state} />}
       </OverviewCard>
     )
   }
@@ -113,10 +114,10 @@ export default ({ cell, cellType }: { cell: State.InputOutput; cellType: CellTyp
           {cell.capacity && localeNumberString(shannonToCkb(cell.capacity))}
         </div>
         <div className="transaction__cell_detail">
-          <TransactionCellDetail highLight={highLight} onChange={type => setDetailType(type)} />
+          <TransactionCellDetail highLight={highLight} onChange={newState => setState(newState)} />
         </div>
       </TransactionCellContentPanel>
-      {detailType && <TransactionDetail cell={cell} cellType={cellType} detailType={detailType} />}
+      {state !== CellState.NONE && <TransactionDetail cell={cell} cellType={cellType} state={state} />}
     </TransactionCellPanel>
   )
 }
