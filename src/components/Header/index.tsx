@@ -79,9 +79,9 @@ export default ({
                   >
                     <img className="header__search__image" src={SearchLogo} alt="search" />
                   </div>
-                  <div className="header__testnet">{i18n.t('navbar.network')}</div>
                 </div>
               )}
+              <div className="header__testnet">{i18n.t('navbar.network')}</div>
               <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
             </HeaderMobileDiv>
             <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
@@ -101,13 +101,13 @@ export default ({
               <div className="header__search__component">
                 <Search dispatch={dispatch} />
               </div>
-              <div className="header__testnet__panel">
-                <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-                <div className="header__testnet__tip">{i18n.t('navbar.network_tooltip')}</div>
-              </div>
             </div>
           )}
-          <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+          <div className="header__testnet__panel">
+            <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
+            <div className="header__testnet__tip">{i18n.t('navbar.network_tooltip')}</div>
+            <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+          </div>
         </HeaderDiv>
       </>
     )

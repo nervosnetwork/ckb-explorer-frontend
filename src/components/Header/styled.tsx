@@ -14,13 +14,16 @@ export const HeaderDiv = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  padding: 1px 150px;
-  .header__logo,
+  padding: 1px 120px;
+
   .header__menus {
     display: flex;
     align-items: center;
   }
+
   .header__logo {
+    display: flex;
+    align-items: center;
     .header__logo__img {
       width: 180px;
       height: auto;
@@ -30,6 +33,7 @@ export const HeaderDiv = styled.div`
   .header__menus {
     padding-left: 30px;
     min-height: 75px;
+
     .header__menus__item {
       margin-left: 35px;
       margin-right: 35px;
@@ -37,11 +41,13 @@ export const HeaderDiv = styled.div`
       color: white;
     }
   }
+
   .header__search {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
     .header__search__component {
       display: flex;
       align-items: center;
@@ -49,43 +55,43 @@ export const HeaderDiv = styled.div`
       width: 398px;
       min-width: 229px;
     }
-
-    .header__testnet__panel {
-      .header__testnet__flag {
-        height: 50px;
-        color: white;
-        font-size: 24px;
-        text-align: center;
-        line-height: 50px;
-        font-family: Montserrat-SemiBold;
-      }
-
-      &:hover .header__testnet__tip {
-        visibility: visible;
-      }
-
-      .header__testnet__tip {
-        width: 350px;
-        height: 62px;
-        position: fixed;
-        z-index: 1100;
-        right: 180px;
-        top: 85px;
-        background-image: url(${testnetTipImage});
-        background-repeat: no-repeat;
-        background-size: 350px 62px;
-        visibility: hidden;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        padding-top: 3px;
-        line-height: 62px;
-        text-align: center;
-      }
-    }
   }
-  a {
-    text-decoration: none;
+
+  .header__testnet__panel {
+    display: flex;
+    justify-content: flex-end;
+
+    .header__testnet__flag {
+      height: 50px;
+      color: white;
+      font-size: 24px;
+      text-align: center;
+      line-height: 50px;
+      font-family: Montserrat-SemiBold;
+    }
+
+    &:hover .header__testnet__tip {
+      visibility: visible;
+    }
+
+    .header__testnet__tip {
+      width: 350px;
+      height: 62px;
+      position: fixed;
+      z-index: 1100;
+      right: 180px;
+      top: 85px;
+      background-image: url(${testnetTipImage});
+      background-repeat: no-repeat;
+      background-size: 350px 62px;
+      visibility: hidden;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      padding-top: 3px;
+      line-height: 62px;
+      text-align: center;
+    }
   }
 `
 
@@ -175,7 +181,9 @@ export const HeaderSearchPanel = styled.div`
 export const HeaderVersionPanel = styled.div`
   color: white;
   font-size: 12px;
-  margin-left: 4px;
+  margin: 20px 0 0 4px;
+  align-items: flex-end;
+  height: 19px;
 
   @media (max-width: 700px) {
     font-size: 10px;
