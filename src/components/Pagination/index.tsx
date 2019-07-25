@@ -73,20 +73,29 @@ const PageFirstItem = ({
         </button>
       </PaginationLeftItem>
       <PaginationRightItem>
-        <button type="button" className="goto" onClick={() => jumpPage()}>
-          {i18n.t('pagination.goto')}
-        </button>
+        <div className="page">{i18n.t('pagination.page')}</div>
         <input
+          type="number"
           className="jumppageinput"
           value={inputValue}
-          onChange={(event: any) => setInputValue(event.target.value)}
+          onChange={(event: any) => {
+            if (event.target.value > 0 && event.target.value < totalPage) {
+              setInputValue(event.target.value)
+            } else if (event.target.value >= totalPage) {
+              let { value } = event.target
+              value = totalPage
+              setInputValue(value)
+            }
+          }}
           onKeyUp={(event: any) => {
             if (event.keyCode === 13) {
               jumpPage()
             }
           }}
         />
-        <div className="page">{i18n.t('pagination.page')}</div>
+        <button type="button" className="goto" onClick={() => jumpPage()}>
+          {i18n.t('pagination.goto')}
+        </button>
       </PaginationRightItem>
     </PaginationPanel>
   )

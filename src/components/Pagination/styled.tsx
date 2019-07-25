@@ -45,6 +45,7 @@ export const PaginationLeftItem = styled.div`
     outline: none;
     cursor: pointer;
     background: #f5f5f5;
+    letter-spacing: 1px;
     > img {
       width: 12px;
       height: 20px;
@@ -59,7 +60,7 @@ export const PaginationLeftItem = styled.div`
 
   .first {
     width: 90px;
-    opacity: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? '0.5' : '1')};
+    color: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? '#888888' : '#000000')};
     pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? 'none' : 'auto')};
   }
 
@@ -88,7 +89,7 @@ export const PaginationLeftItem = styled.div`
   .last {
     width: 90px;
     margin-left: 20px;
-    opacity: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? '0.5' : '1')};
+    color: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? '#888888' : '#000000')};
     pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? 'none' : 'auto')};
   }
 
@@ -142,9 +143,8 @@ export const PaginationLeftItem = styled.div`
 `
 
 export const PaginationRightItem = styled.div`
-  flex-direction: row-reverse;
+  flex-direction: row;
   display: flex;
-
   background: white;
   font-size: 16px;
   color: #000000;
@@ -154,8 +154,11 @@ export const PaginationRightItem = styled.div`
     width: 452px;
     align-items: center;
     justify-content: center;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    padding: 10px 0px 10px 80px;
+  }
+
+  @media (max-width: 700px) {
+    height: 50px;
   }
 
   .jumppageinput {
@@ -168,6 +171,9 @@ export const PaginationRightItem = styled.div`
     font-size: 16px;
     margin-right: 20px;
     padding-left: 10px;
+    &:focus + .goto {
+      font-weight: 600;
+    }
 
     @media (max-width: 700px) {
       width: 60px;
@@ -179,10 +185,6 @@ export const PaginationRightItem = styled.div`
     }
   }
 
-  @media (max-width: 700px) {
-    height: 50px;
-  }
-
   > button {
     font-size: 16px;
     height: 40px;
@@ -191,6 +193,7 @@ export const PaginationRightItem = styled.div`
     outline: none;
     cursor: pointer;
     background: #f5f5f5;
+    letter-spacing: 1px;
     > img {
       width: 12px;
       height: 20px;
