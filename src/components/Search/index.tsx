@@ -23,20 +23,15 @@ const SearchPanel = styled.div`
 
   > div {
     display: inline-block;
-    width: 30px;
-    height: 30px;
 
-    @media (max-width: 700px) {
-      width: 14px;
-      height: 14px;
-      margin-left: -20px;
-    }
-
-    margin-left: -35px;
-    opacity: 0.8;
     img {
-      width: 100%;
-      height: 100%;
+      width: 36px;
+      height: 36px;
+
+      @media (max-width: 700px) {
+        width: 14px;
+        height: 14px;
+      }
     }
   }
 `
@@ -46,6 +41,28 @@ const SearchInputPanel = styled.input`
   width: 100%;
   height: 100%;
   font-size: 16px;
+  padding-left: 20px;
+  padding-right: 50px;
+  background: rgba(255, 255, 255, 0);
+  border: 0 solid #606060;
+  border-radius: 0;
+
+  ${(props: { hasBorder: boolean }) =>
+    props.hasBorder &&
+    css`
+      opacity: 1;
+      border: 2px solid #606060;
+      border-radius: 6px;
+    `};
+
+  &: focus {
+    color: #bababa;
+    outline: none;
+  }
+  &::placeholder {
+    color: #bababa;
+  }
+
   @media (max-width: 700px) {
     font-size: 12px;
     width: 100%;
@@ -54,35 +71,11 @@ const SearchInputPanel = styled.input`
     border: 1px solid #606060;
     border-radius: 6px;
   }
-  padding-left: 20px;
-  padding-right: 50px;
-  border-width: 0px;
-  border-radius: 6px 0 0 6px;
-  opacity: 0.8;
-
-  ${(props: { opacityStyle: boolean }) =>
-    props.opacityStyle &&
-    css`
-      opacity: 1;
-      border: 2px solid #606060;
-      border-radius: 6px;
-    `};
-
-  background: rgba(255, 255, 255, 0.2);
-  &: focus {
-    color: black;
-    background: rgba(255, 255, 255, 1) !important;
-    color: #333333 !important;
-    outline: none;
-  }
-  &::placeholder {
-    color: #bababa;
-  }
 `
 
 const SearchPlaceholder = i18n.t('navbar.search_placeholder')
 
-const Search = ({ dispatch, opacity, content }: { dispatch: AppDispatch; opacity?: boolean; content?: string }) => {
+const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBorder?: boolean; content?: string }) => {
   const [searchValue, setSearchValue] = useState(content || '')
   const inputElement = useRef(null)
 
@@ -139,18 +132,6 @@ const Search = ({ dispatch, opacity, content }: { dispatch: AppDispatch; opacity
 
   return (
     <SearchPanel>
-      <SearchInputPanel
-        ref={inputElement}
-        placeholder={SearchPlaceholder}
-        defaultValue={searchValue || ''}
-        opacityStyle={!!opacity}
-        onChange={(event: any) => setSearchValue(event.target.value)}
-        onKeyUp={(event: any) => {
-          if (event.keyCode === 13) {
-            handleSearchResult()
-          }
-        }}
-      />
       <div
         role="button"
         tabIndex={-1}
@@ -161,6 +142,18 @@ const Search = ({ dispatch, opacity, content }: { dispatch: AppDispatch; opacity
       >
         <img src={SearchLogo} alt="search logo" />
       </div>
+      <SearchInputPanel
+        ref={inputElement}
+        placeholder={SearchPlaceholder}
+        defaultValue={searchValue || ''}
+        hasBorder={!!hasBorder}
+        onChange={(event: any) => setSearchValue(event.target.value)}
+        onKeyUp={(event: any) => {
+          if (event.keyCode === 13) {
+            handleSearchResult()
+          }
+        }}
+      />
     </SearchPanel>
   )
 }

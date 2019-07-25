@@ -14,12 +14,7 @@ export const HeaderDiv = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  padding: 1px 120px;
-
-  .header__menus {
-    display: flex;
-    align-items: center;
-  }
+  padding: 1px 150px;
 
   .header__logo {
     display: flex;
@@ -31,6 +26,8 @@ export const HeaderDiv = styled.div`
   }
 
   .header__menus {
+    display: flex;
+    align-items: center;
     padding-left: 30px;
     min-height: 75px;
 
@@ -52,7 +49,7 @@ export const HeaderDiv = styled.div`
       display: flex;
       align-items: center;
       height: 50px;
-      width: 398px;
+      width: 430px;
       min-width: 229px;
     }
   }

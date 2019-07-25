@@ -46,7 +46,7 @@ export default ({ dispatch, location: { search } }: React.PropsWithoutRef<StateW
     <Content>
       <SearchPanel className="container">
         <div className="search__fail__bar">
-          <Search opacity content={q as string} dispatch={dispatch} />
+          <Search hasBorder content={q as string} dispatch={dispatch} />
         </div>
         <SearchContent>{i18n.t('search.empty_result')}</SearchContent>
       </SearchPanel>
