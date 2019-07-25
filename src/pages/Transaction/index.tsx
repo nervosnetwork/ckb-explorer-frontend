@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import { AppContext } from '../../contexts/providers/index'
-
 import Content from '../../components/Content'
 import SimpleLabel from '../../components/Label'
 import i18n from '../../utils/i18n'
@@ -30,6 +29,7 @@ import { isMobile } from '../../utils/screen'
 import { StateWithDispatch, AppDispatch, AppActions } from '../../contexts/providers/reducer'
 import { CellType } from '../../utils/const'
 import { getTransactionByHash } from '../../service/app/transaction'
+import { getTipBlockNumber } from '../../service/app/address'
 
 const TransactionTitle = ({ hash, dispatch }: { hash: string; dispatch: AppDispatch }) => {
   return (
@@ -97,6 +97,7 @@ export default ({
 
   useEffect(() => {
     getTransactionByHash(hash, replace, dispatch)
+    getTipBlockNumber(dispatch)
   }, [hash, replace, dispatch])
 
   return (

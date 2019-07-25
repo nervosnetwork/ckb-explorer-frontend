@@ -21,8 +21,6 @@ export enum PageActions {
   UpdateBlock = 'updateBlock',
   UpdateBlockTransactions = 'updateBlockTransactions',
   UpdateBlockTotal = 'updateBlockTotal',
-  UpdateBlockPrev = 'updateBlockPrev',
-  UpdateBlockNext = 'updateBlockNext',
 
   UpdateTransaction = 'updateTransaction',
 
@@ -178,22 +176,6 @@ export const reducer = (
         blockState: {
           ...state.blockState,
           total: payload.total,
-        },
-      }
-    case PageActions.UpdateBlockPrev:
-      return {
-        ...state,
-        blockState: {
-          ...state.blockState,
-          prev: payload.prev,
-        },
-      }
-    case PageActions.UpdateBlockNext:
-      return {
-        ...state,
-        blockState: {
-          ...state.blockState,
-          next: payload.next,
         },
       }
 
