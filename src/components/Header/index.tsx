@@ -9,16 +9,26 @@ import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers/index'
 import { AppDispatch } from '../../contexts/providers/reducer'
 
-const menus = [
-  {
-    name: i18n.t('navbar.wallet'),
-    url: 'https://github.com/nervosnetwork/neuron',
-  },
+const MenuDatas = [
   {
     name: i18n.t('navbar.charts'),
     url: '/charts',
   },
 ]
+
+const Menus = () => {
+  return (
+    <div className="header__menus">
+      {MenuDatas.map(menu => {
+        return (
+          <Link className="header__menus__item" to={menu.url}>
+            {menu.name}
+          </Link>
+        )
+      })}
+    </div>
+  )
+}
 
 const NORMAL_HEIGHT = 42
 const SEARCH_HEIGHT = 95
@@ -57,14 +67,7 @@ export default ({
               <Link to="/" className="header__logo">
                 <img className="header__logo__img" src={logoIcon} alt="logo" />
               </Link>
-              <div className="header__menus">
-                <a className="header__menus__item" href={menus[0].url} target="_blank" rel="noopener noreferrer">
-                  {menus[0].name}
-                </a>
-                <Link className="header__menus__item" to={menus[1].url}>
-                  {menus[1].name}
-                </Link>
-              </div>
+              <Menus />
               {search && (
                 <div className="header__search">
                   <div
@@ -92,14 +95,7 @@ export default ({
           <Link to="/" className="header__logo">
             <img className="header__logo__img" src={logoIcon} alt="logo" />
           </Link>
-          <div className="header__menus">
-            <a className="header__menus__item" href={menus[0].url} target="_blank" rel="noopener noreferrer">
-              {menus[0].name}
-            </a>
-            <Link className="header__menus__item" to={menus[1].url}>
-              {menus[1].name}
-            </Link>
-          </div>
+          <Menus />
           {search && (
             <div className="header__search">
               <div className="header__search__component">

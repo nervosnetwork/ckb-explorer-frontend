@@ -22,7 +22,7 @@ export const HeaderDiv = styled.div`
   }
   .header__logo {
     .header__logo__img {
-      width: 182px;
+      width: 180px;
       height: auto;
     }
   }
@@ -31,15 +31,10 @@ export const HeaderDiv = styled.div`
     padding-left: 30px;
     min-height: 75px;
     .header__menus__item {
-      margin-left: 34px;
-      margin-right: 34px;
-      font-size: 22px;
-      font-weight: 450;
-      line-height: 30px;
-      color: #3cc68a;
-      &.header__menus__item--active,&: hover {
-        color: white;
-      }
+      margin-left: 35px;
+      margin-right: 35px;
+      font-size: 24px;
+      color: white;
     }
   }
   .header__search {
