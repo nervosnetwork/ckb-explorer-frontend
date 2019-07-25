@@ -2,44 +2,48 @@ import React, { useState, useEffect } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import Content from '../../components/Content'
 import i18n from '../../utils/i18n'
-import { TransactionDiv, InputPanelDiv, OutputPanelDiv, InputOutputTable, TransactionBlockHeightPanel } from './styled'
+import {
+  TransactionDiv,
+  // InputPanelDiv, OutputPanelDiv, InputOutputTable,
+  TransactionBlockHeightPanel,
+} from './styled'
 // import BlockHeightIcon from '../../assets/block_height_green.png'
 // import TimestampIcon from '../../assets/timestamp_green.png'
 // import TransactionIcon from '../../assets/transaction_fee.png'
 // import StatusIcon from '../../assets/transcation_status.png'
 import { parseSimpleDate } from '../../utils/date'
-import { CellType, fetchTransactionByHash, fetchTipBlockNumber } from '../../service/http/fetcher'
+import { fetchTransactionByHash, fetchTipBlockNumber } from '../../service/http/fetcher'
 import { formatConfirmation, shannonToCkb } from '../../utils/util'
-import CellCard from '../../components/Card/CellCard'
-import ScriptComponent from './Script'
+// import CellCard from '../../components/Card/CellCard'
+// import ScriptComponent from './Script'
 import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
+// import { isMobile } from '../../utils/screen'
 import AddressHashCard from '../../components/Card/AddressHashCard'
 import TitleCard from '../../components/Card/TitleCard'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionCellList from './TransactionCellList'
 
-const InputOutputTableTitle = ({ transactionType, isCellbase }: { transactionType: string; isCellbase?: boolean }) => {
-  return (
-    <thead>
-      <tr>
-        <td colSpan={1}>{transactionType}</td>
-        {!isCellbase ? (
-          <td>
-            <div>Capacity</div>
-          </td>
-        ) : (
-          <td>
-            <div />
-          </td>
-        )}
-        <td colSpan={3}>
-          <div>{i18n.t('common.detail')}</div>
-        </td>
-      </tr>
-    </thead>
-  )
-}
+// const InputOutputTableTitle = ({ transactionType, isCellbase }: { transactionType: string; isCellbase?: boolean }) => {
+//   return (
+//     <thead>
+//       <tr>
+//         <td colSpan={1}>{transactionType}</td>
+//         {!isCellbase ? (
+//           <td>
+//             <div>Capacity</div>
+//           </td>
+//         ) : (
+//           <td>
+//             <div />
+//           </td>
+//         )}
+//         <td colSpan={3}>
+//           <div>{i18n.t('common.detail')}</div>
+//         </td>
+//       </tr>
+//     </thead>
+//   )
+// }
 
 const initTransaction: State.Transaction = {
   transaction_hash: '',
@@ -135,7 +139,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
         <TransactionCellList inputs={transaction.display_inputs} />
         <TransactionCellList outputs={transaction.display_outputs} />
 
-        {isMobile() ? (
+        {/* {isMobile() ? (
           <div>
             {transaction &&
               transaction.display_inputs &&
@@ -187,7 +191,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string 
               </InputOutputTable>
             </OutputPanelDiv>
           </div>
-        )}
+        )} */}
       </TransactionDiv>
     </Content>
   )
