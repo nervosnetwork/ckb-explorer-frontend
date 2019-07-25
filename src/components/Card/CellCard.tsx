@@ -1,13 +1,15 @@
-import React, { useContext, useReducer } from 'react'
+import React, { useReducer } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import AppContext from '../../contexts/App'
 import CopyGreenIcon from '../../assets/copy_green.png'
 import { startEndEllipsis, hexToUtf8 } from '../../utils/string'
 import { shannonToCkb, copyElementValue } from '../../utils/util'
-import { CellType, fetchScript, fetchCellData } from '../../service/http/fetcher'
+import { fetchScript, fetchCellData } from '../../service/http/fetcher'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
+import { CellType, CellState } from '../../utils/const'
+import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import initCell from '../../contexts/states/cell'
 
 const CardPanel = styled.div`
   width: 88%;
@@ -26,29 +28,24 @@ const CardItemPanel = styled.div`
   display: flex;
   margin-top: 10px;
   align-items: center;
-
   .card__name {
     color: #888888;
     font-size: 14px;
     margin-right: 8px;
   }
-
   .card__value__link {
     height: 23px;
   }
-
   .card__value {
     color: ${(props: { highLight: boolean }) => (props.highLight ? '#3CC68A' : '#888888')};
     font-weight: 450;
     font-size: 14px;
   }
-
   @media (max-width: 320px) {
     .card__name {
       font-size: 13px;
       margin-right: 6px;
     }
-
     .card__value {
       font-size: 12px;
     }
@@ -57,31 +54,26 @@ const CardItemPanel = styled.div`
 
 const ScriptPanel = styled.div`
   margin-top: 10px;
-
   .script__operation {
     display: flex;
     width: 100%;
-
     .script__detail {
       font-size: 14px;
       color: #888888;
       height: 20px;
       flex: 1;
     }
-
     .script__buttons {
       display: flex;
       flex: 3;
       justify-content: space-between;
     }
   }
-
   .script__content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     .script__input {
       border: none;
       width: 100%;
@@ -100,7 +92,6 @@ const ScriptPanel = styled.div`
       border-radius: 6px 6px;
       transform: translateZ(0);
     }
-
     .script__copy {
       width: 90px;
       height: 25px;
@@ -112,7 +103,6 @@ const ScriptPanel = styled.div`
       background-color: #4bbc8e;
       justify-content: center;
       align-items: center;
-
       > div {
         color: white;
         font-szie: 12px;
@@ -120,7 +110,6 @@ const ScriptPanel = styled.div`
           font-size: 11px;
         }
       }
-
       img {
         margin-left: 5px;
         width: 14px;
@@ -135,7 +124,6 @@ const CellOperationButtonPanel = styled.div`
   height: 25px;
   font-weight: bold;
   color: ${(props: { color: string }) => props.color};
-
   @media (max-width: 320px) {
     font-size: 12px;
   }
@@ -210,25 +198,6 @@ const CellAddressCapacityItem = ({ type, cell }: { type: CellType; cell: State.I
 
 const MAX_DATA_SIZE = 10 * 1024
 
-enum CellState {
-  NONE,
-  LOCK,
-  TYPE,
-  DATA,
-}
-const initScriptContent = {
-  lock: {
-    code_hash: '',
-    args: [],
-  },
-  type: {
-    code_hash: '',
-    args: [],
-  },
-  data: {
-    data: '',
-  },
-}
 const initialState = {
   cellState: CellState.NONE,
 }
@@ -252,14 +221,27 @@ const getCellState = (state: any, cellState: CellState) => {
   return cellState === state.cellState ? CellState.NONE : cellState
 }
 
-const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: State.InputOutput }) => {
-  const appContext = useContext(AppContext)
+const CellScriptItem = ({
+  cellType,
+  cell,
+  appDispatch,
+}: {
+  cellType: CellType
+  cell: State.InputOutput
+  appDispatch: AppDispatch
+}) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const handleCopy = () => {
     const textarea = document.getElementById(`script__textarea__${cell.id}`)
     copyElementValue(textarea)
-    appContext.toastMessage(i18n.t('common.copied'), 3000)
+    appDispatch({
+      type: AppActions.ShowToastMessage,
+      payload: {
+        text: i18n.t('common.copied'),
+        timeout: 3000,
+      },
+    })
   }
 
   const handleCellState = (cellState: CellState) => {
@@ -284,13 +266,13 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: State.In
       case CellState.LOCK:
         fetchScript(cellType, 'lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
           handleCellState(cellState)
-          showScriptContent(wrapper ? wrapper.attributes : initScriptContent.lock)
+          showScriptContent(wrapper ? wrapper.attributes : initCell.lock)
         })
         break
       case CellState.TYPE:
         fetchScript(cellType, 'type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
           handleCellState(cellState)
-          showScriptContent(wrapper ? wrapper.attributes : initScriptContent.type)
+          showScriptContent(wrapper ? wrapper.attributes : initCell.type)
         })
         break
       case CellState.DATA:
@@ -304,11 +286,17 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: State.In
               handleCellState(cellState)
               showScriptContent(dataValue)
             } else {
-              appContext.toastMessage(i18n.t('toast.data_too_large'), 3000)
+              appDispatch({
+                type: AppActions.ShowToastMessage,
+                payload: {
+                  text: i18n.t('toast.data_too_large'),
+                  timeout: 3000,
+                },
+              })
             }
           } else {
             handleCellState(cellState)
-            showScriptContent(initScriptContent.data)
+            showScriptContent(initCell.data)
           }
         })
         break
@@ -357,11 +345,11 @@ const CellScriptItem = ({ cellType, cell }: { cellType: CellType; cell: State.In
   )
 }
 
-const CellCard = ({ type, cell }: { type: CellType; cell: State.InputOutput }) => {
+const CellCard = ({ type, cell, dispatch }: { type: CellType; cell: State.InputOutput; dispatch: AppDispatch }) => {
   return (
     <CardPanel>
       <CellAddressCapacityItem type={type} cell={cell} />
-      <CellScriptItem cellType={type} cell={cell} />
+      <CellScriptItem cellType={type} cell={cell} appDispatch={dispatch} />
     </CardPanel>
   )
 }

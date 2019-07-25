@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
@@ -15,7 +15,6 @@ import {
 import Content from '../../components/Content'
 import TransactionItem from '../../components/Transaction/TransactionItem/index'
 import { parseSimpleDate } from '../../utils/date'
-import { fetchBlock, fetchTransactionsByBlockHash } from '../../service/http/fetcher'
 import { shannonToCkb } from '../../utils/util'
 import { startEndEllipsis, parsePageNumber } from '../../utils/string'
 import i18n from '../../utils/i18n'
@@ -27,156 +26,10 @@ import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCa
 import Tooltip from '../../components/Tooltip'
 import DropDownIcon from '../../assets/block_detail_drop_down.png'
 import PackUpIcon from '../../assets/block_detail_pack_up.png'
-
-enum PageParams {
-  PageNo = 1,
-  PageSize = 10,
-  MaxPageSize = 100,
-}
-
-const initBlock: State.Block = {
-  block_hash: '',
-  number: 0,
-  transactions_count: 0,
-  proposals_count: 0,
-  uncles_count: 0,
-  uncle_block_hashes: [],
-  reward: 0,
-  reward_status: 'issued',
-  received_tx_fee: 0,
-  received_tx_fee_status: 'calculated',
-  total_transaction_fee: 0,
-  cell_consumed: 0,
-  total_cell_capacity: 0,
-  miner_hash: '',
-  timestamp: 0,
-  difficulty: '',
-  start_number: 0,
-  epoch: 0,
-  length: '',
-  version: 0,
-  nonce: 0,
-  proof: '',
-  transactions_root: '',
-  witnesses_root: '',
-}
-
-const Actions = {
-  block: 'BLOCK',
-  transactions: 'TRANSACTIONS',
-  total: 'TOTAL',
-  prev: 'PREV',
-  next: 'NEXT',
-}
-
-const reducer = (state: any, action: any) => {
-  switch (action.type) {
-    case Actions.block:
-      return {
-        ...state,
-        block: action.payload.block,
-      }
-    case Actions.transactions:
-      return {
-        ...state,
-        transactions: action.payload.transactions,
-      }
-    case Actions.total:
-      return {
-        ...state,
-        total: action.payload.total,
-      }
-    case Actions.prev:
-      return {
-        ...state,
-        prev: action.payload.prev,
-      }
-    case Actions.next:
-      return {
-        ...state,
-        next: action.payload.next,
-      }
-    default:
-      return state
-  }
-}
-
-const getTransactions = (hash: string, page: number, size: number, dispatch: any) => {
-  fetchTransactionsByBlockHash(hash, page, size).then(response => {
-    const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
-    dispatch({
-      type: Actions.transactions,
-      payload: {
-        transactions: data,
-      },
-    })
-    if (meta) {
-      dispatch({
-        type: Actions.total,
-        payload: {
-          total: meta.total,
-        },
-      })
-    }
-  })
-}
-
-const updateBlockPrevNext = (blockNumber: number, dispatch: any) => {
-  dispatch({
-    type: Actions.prev,
-    payload: {
-      prev: blockNumber > 0,
-    },
-  })
-  fetchBlock(`${blockNumber + 1}`)
-    .then((wrapper: Response.Wrapper<State.Block>) => {
-      dispatch({
-        type: Actions.next,
-        payload: {
-          next: wrapper ? wrapper.attributes.number > 0 : false,
-        },
-      })
-    })
-    .catch(() => {
-      dispatch({
-        type: Actions.next,
-        payload: {
-          next: false,
-        },
-      })
-    })
-}
-
-// blockParam: block hash or block number
-const getBlock = (blockParam: string, page: number, size: number, dispatch: any, replace: any) => {
-  fetchBlock(blockParam)
-    .then((wrapper: Response.Wrapper<State.Block>) => {
-      if (wrapper) {
-        const block = wrapper.attributes
-        dispatch({
-          type: Actions.block,
-          payload: {
-            block,
-          },
-        })
-        updateBlockPrevNext(block.number, dispatch)
-        getTransactions(block.block_hash, page, size, dispatch)
-      } else {
-        replace(`/search/fail?q=${blockParam}`)
-      }
-    })
-    .catch(() => {
-      replace(`/search/fail?q=${blockParam}`)
-    })
-}
-
-const initialState = {
-  block: initBlock,
-  transactions: [] as Response.Wrapper<State.Transaction>[],
-  total: 1,
-  prev: true,
-  next: true,
-}
+import { PageParams } from '../../utils/const'
+import { getBlock } from '../../service/app/block'
+import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { AppContext } from '../../contexts/providers'
 
 const handleMinerText = (address: string) => {
   if (isSmallMobile()) {
@@ -342,18 +195,19 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
   )
 }
 
-export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string }>>) => {
-  const { match, location, history } = props
-  const { params } = match
+export default ({
+  dispatch,
+  history: { replace, push },
+  match: { params },
+  location: { search },
+}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ param: string }>>) => {
   // blockParam: block hash or block number
   const { param: blockParam } = params
-  const { search } = location
-  const { replace } = history
   const parsed = queryString.parse(search)
   const page = parsePageNumber(parsed.page, PageParams.PageNo)
   const size = parsePageNumber(parsed.size, PageParams.PageSize)
 
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const { blockState } = useContext(AppContext)
 
   useEffect(() => {
     if (size > PageParams.MaxPageSize) {
@@ -363,30 +217,30 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
   }, [replace, blockParam, page, size, dispatch])
 
   const onChange = (pageNo: number, pageSize: number) => {
-    history.push(`/block/${blockParam}?page=${pageNo}&size=${pageSize}`)
+    push(`/block/${blockParam}?page=${pageNo}&size=${pageSize}`)
   }
 
   return (
     <Content>
       <BlockDetailPanel className="container">
-        <AddressHashCard title={i18n.t('block.block')} hash={state.block.block_hash} />
+        <AddressHashCard title={i18n.t('block.block')} hash={blockState.block.block_hash} dispatch={dispatch} />
         <TitleCard title={i18n.t('common.overview')} />
-        <BlockOverview block={state.block} />
+        <BlockOverview block={blockState.block} />
         <TitleCard title={i18n.t('transaction.transactions')} />
-        {state.transactions &&
-          state.transactions.map((transaction: any, index: number) => {
+        {blockState.transactions &&
+          blockState.transactions.map((transaction: any, index: number) => {
             return (
               transaction && (
                 <TransactionItem
                   key={transaction.attributes.transaction_hash}
                   transaction={transaction.attributes}
                   isBlock
-                  isLastItem={index === state.transactions.length - 1}
+                  isLastItem={index === blockState.transactions.length - 1}
                 />
               )
             )
           })}
-        {state.total > 1 && (
+        {blockState.total > 1 && (
           <BlockTransactionsPagition>
             <Pagination
               showQuickJumper
@@ -395,7 +249,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps<{ param: string
               pageSize={size}
               defaultCurrent={page}
               current={page}
-              total={state.total}
+              total={blockState.total}
               onChange={onChange}
               locale={localeInfo}
             />
