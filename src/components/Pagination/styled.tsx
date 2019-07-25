@@ -64,14 +64,14 @@ export const PaginationLeftItem = styled.div`
     pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? 'none' : 'auto')};
   }
 
-  .leftimage {
+  .left_image {
     width: 30px;
     margin-left: 20px;
     opacity: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? '0.5' : '1')};
     pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? 'none' : 'auto')};
   }
 
-  .middlelabel {
+  .middle_label {
     width: 180px;
     height: 40px;
     background: #f5f5f5;
@@ -79,7 +79,7 @@ export const PaginationLeftItem = styled.div`
     margin-left: 20px;
   }
 
-  .rightimage {
+  .right_image {
     width: 30px;
     margin-left: 20px;
     opacity: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? '0.5' : '1')};
@@ -107,7 +107,7 @@ export const PaginationLeftItem = styled.div`
       }
     }
 
-    .leftimage {
+    .left_image {
       width: 16px;
       margin-top: 15px;
       margin-left: 20px;
@@ -122,7 +122,7 @@ export const PaginationLeftItem = styled.div`
       display: none;
     }
 
-    .middlelabel {
+    .middle_label {
       line-height: 16px;
       font-size: 12px;
       background: #ffffff;
@@ -133,7 +133,7 @@ export const PaginationLeftItem = styled.div`
       order: 1;
     }
 
-    .rightimage {
+    .right_image {
       width: 16px;
       margin-top: 15px;
       margin-left: 10px;
@@ -161,7 +161,7 @@ export const PaginationRightItem = styled.div`
     height: 50px;
   }
 
-  .jumppageinput {
+  .jump_page_input {
     width: 120px;
     height: 40px;
     border: none;
@@ -207,7 +207,7 @@ export const PaginationRightItem = styled.div`
     }
   }
 
-  .goto {
+  .go_to {
     width: 90px;
     margin-right: 80px;
     @media (max-width: 700px) {

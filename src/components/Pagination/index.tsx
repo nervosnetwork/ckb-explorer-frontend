@@ -4,7 +4,7 @@ import LeftBlack from '../../assets/pagination_black_left.png'
 import RightBlack from '../../assets/pagination_black_right.png'
 import i18n from '../../utils/i18n'
 
-const PageFirstItem = ({
+const PagiNationItem = ({
   currentPage,
   total,
   pageSize,
@@ -60,11 +60,11 @@ const PageFirstItem = ({
         <button type="button" className="first" onClick={() => goFirstPage()}>
           {i18n.t('pagination.first')}
         </button>
-        <button type="button" className="leftimage" onClick={() => goPrev()}>
+        <button type="button" className="left_image" onClick={() => goPrev()}>
           <img src={LeftBlack} alt="left" />
         </button>
-        <div className="middlelabel">{`Page ${currentPage} of ${totalPage}`}</div>
-        <button type="button" className="rightimage" onClick={() => goNext()}>
+        <div className="middle_label">{`Page ${currentPage} of ${totalPage}`}</div>
+        <button type="button" className="right_image" onClick={() => goNext()}>
           <img src={RightBlack} alt="right" />
         </button>
         <button type="button" className="last" onClick={() => goLastPage()}>
@@ -75,7 +75,7 @@ const PageFirstItem = ({
         <div className="page">{i18n.t('pagination.page')}</div>
         <input
           type="number"
-          className="jumppageinput"
+          className="jump_page_input"
           value={inputValue}
           onChange={(event: any) => {
             if (event.target.value > 0 && event.target.value < totalPage) {
@@ -92,7 +92,7 @@ const PageFirstItem = ({
             }
           }}
         />
-        <button type="button" className="goto" onClick={() => jumpPage()}>
+        <button type="button" className="go_to" onClick={() => jumpPage()}>
           {i18n.t('pagination.goto')}
         </button>
       </PaginationRightItem>
@@ -112,7 +112,7 @@ export default ({
   onChange: (page: number, pageSize: number) => void
 }) => {
   return (
-    <PageFirstItem
+    <PagiNationItem
       currentPage={currentPage}
       total={total}
       pageSize={pageSize}
