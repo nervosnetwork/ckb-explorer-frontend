@@ -10,11 +10,11 @@ import { getTransactionByHash } from '../../service/app/transaction'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
+import { isLargeMobile, isMediumMobile, isSmallMobile } from '../../utils/screen'
+import { startEndEllipsis } from '../../utils/string'
 import { formatConfirmation, shannonToCkb } from '../../utils/util'
 import { TransactionBlockHeightPanel, TransactionDiv } from './styled'
 import TransactionCellList from './TransactionCellList'
-import { isSmallMobile, isMediumMobile, isLargeMobile } from '../../utils/screen'
-import { startEndEllipsis } from '../../utils/string'
 
 const handleHashText = (hash: string) => {
   if (isSmallMobile()) {

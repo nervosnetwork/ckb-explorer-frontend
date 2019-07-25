@@ -1,35 +1,35 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { RouteComponentProps, Link } from 'react-router-dom'
+import queryString from 'query-string'
 import Pagination from 'rc-pagination'
 import 'rc-pagination/assets/index.css'
 import localeInfo from 'rc-pagination/lib/locale/en_US'
-import queryString from 'query-string'
-import {
-  BlockDetailPanel,
-  BlockTransactionsPagition,
-  BlockRootInfoItemPanel,
-  BlockMinerPanel,
-  BlockOverviewItemContentPanel,
-  BlockOverviewDisplayControlPanel,
-} from './styled'
-import Content from '../../components/Content'
-import TransactionItem from '../../components/Transaction/TransactionItem/index'
-import { parseSimpleDate } from '../../utils/date'
-import { shannonToCkb } from '../../utils/util'
-import { startEndEllipsis, parsePageNumber } from '../../utils/string'
-import i18n from '../../utils/i18n'
-import { localeNumberString } from '../../utils/number'
-import { isMobile, isSmallMobile, isMediumMobile, isLargeMobile } from '../../utils/screen'
-import AddressHashCard from '../../components/Card/AddressHashCard'
-import TitleCard from '../../components/Card/TitleCard'
-import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import Tooltip from '../../components/Tooltip'
+import React, { useContext, useEffect, useState } from 'react'
+import { Link, RouteComponentProps } from 'react-router-dom'
 import DropDownIcon from '../../assets/block_detail_drop_down.png'
 import PackUpIcon from '../../assets/block_detail_pack_up.png'
-import { PageParams } from '../../utils/const'
-import { getBlock } from '../../service/app/block'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
+import AddressHashCard from '../../components/Card/AddressHashCard'
+import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
+import TitleCard from '../../components/Card/TitleCard'
+import Content from '../../components/Content'
+import Tooltip from '../../components/Tooltip'
+import TransactionItem from '../../components/Transaction/TransactionItem/index'
 import { AppContext } from '../../contexts/providers'
+import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { getBlock } from '../../service/app/block'
+import { PageParams } from '../../utils/const'
+import { parseSimpleDate } from '../../utils/date'
+import i18n from '../../utils/i18n'
+import { localeNumberString } from '../../utils/number'
+import { isLargeMobile, isMediumMobile, isMobile, isSmallMobile } from '../../utils/screen'
+import { parsePageNumber, startEndEllipsis } from '../../utils/string'
+import { shannonToCkb } from '../../utils/util'
+import {
+  BlockDetailPanel,
+  BlockMinerPanel,
+  BlockOverviewDisplayControlPanel,
+  BlockOverviewItemContentPanel,
+  BlockRootInfoItemPanel,
+  BlockTransactionsPagition,
+} from './styled'
 
 const handleHashText = (hash: string) => {
   if (isSmallMobile()) {
