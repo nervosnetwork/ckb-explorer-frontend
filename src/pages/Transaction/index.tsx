@@ -68,11 +68,13 @@ export default ({
       title: i18n.t('transaction.transaction_fee'),
       content: `${shannonToCkb(transaction.transaction_fee)} CKB`,
     },
-    {
+  ]
+  if (confirmation > 0) {
+    overviewItems.push({
       title: i18n.t('transaction.status'),
       content: formatConfirmation(confirmation),
-    },
-  ]
+    })
+  }
 
   return (
     <Content>
