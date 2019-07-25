@@ -14,7 +14,7 @@ export const HeaderDiv = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  padding: 1px 82px;
+  padding: 1px 150px;
   .header__logo,
   .header__menus {
     display: flex;
@@ -51,17 +51,13 @@ export const HeaderDiv = styled.div`
     }
 
     .header__testnet__panel {
-      border-radius: 0 6px 6px 0;
-      background-color: #3cc68a;
-      margin-left: 3px;
-
       .header__testnet__flag {
         height: 50px;
-        width: 120px;
         color: white;
-        font-size: 16px;
+        font-size: 24px;
         text-align: center;
         line-height: 50px;
+        font-family: Montserrat-SemiBold;
       }
 
       &:hover .header__testnet__tip {
@@ -73,8 +69,8 @@ export const HeaderDiv = styled.div`
         height: 62px;
         position: fixed;
         z-index: 1100;
-        right: 90px;
-        top: 75px;
+        right: 180px;
+        top: 85px;
         background-image: url(${testnetTipImage});
         background-repeat: no-repeat;
         background-size: 350px 62px;
@@ -178,11 +174,10 @@ export const HeaderSearchPanel = styled.div`
 
 export const HeaderVersionPanel = styled.div`
   color: white;
-  font-size: 16px;
-  margin-left: 15px;
+  font-size: 12px;
+  margin-left: 4px;
 
   @media (max-width: 700px) {
     font-size: 10px;
-    margin-left: 6px;
   }
 `
