@@ -133,11 +133,3 @@ export const AddressTransactionsPagition = styled(CommonPagition)`
     margin: 20px 0 0px 0;
   }
 `
-export const AddressEmptyTransactions = styled.div`
-  width: 100%;
-  height: 100px;
-
-  @media (max-width: 700px) {
-    height: 50px;
-  }
-`
