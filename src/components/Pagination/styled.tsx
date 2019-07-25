@@ -171,7 +171,7 @@ export const PaginationRightItem = styled.div`
     font-size: 16px;
     margin-right: 20px;
     padding-left: 10px;
-    &:focus + .goto {
+    &:focus + .go_to {
       font-weight: 600;
     }
 
