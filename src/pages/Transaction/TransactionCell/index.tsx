@@ -7,7 +7,7 @@ import { localeNumberString } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
-import TransactionDetail from '../TransactionCellDetail'
+import TransactionCellDetail from '../TransactionCellDetail'
 import {
   TransactionCellContentPanel,
   TransactionCellDetailDataPanel,
@@ -30,7 +30,7 @@ const TransactionCellHash = ({ cell }: { cell: State.InputOutput }) => {
   )
 }
 
-export const TransactionCellDetail = ({
+const TransactionCellDetailButtons = ({
   highLight,
   onChange,
 }: {
@@ -98,8 +98,8 @@ export default ({ cell, cellType }: { cell: State.InputOutput; cellType: CellTyp
     }
     return (
       <OverviewCard items={items}>
-        {highLight && <TransactionCellDetail highLight={highLight} onChange={newState => setState(newState)} />}
-        {state !== CellState.NONE && <TransactionDetail cell={cell} cellType={cellType} state={state} />}
+        {highLight && <TransactionCellDetailButtons highLight={highLight} onChange={newState => setState(newState)} />}
+        {state !== CellState.NONE && <TransactionCellDetail cell={cell} cellType={cellType} state={state} />}
       </OverviewCard>
     )
   }
@@ -114,10 +114,10 @@ export default ({ cell, cellType }: { cell: State.InputOutput; cellType: CellTyp
           {cell.capacity && localeNumberString(shannonToCkb(cell.capacity))}
         </div>
         <div className="transaction__cell_detail">
-          <TransactionCellDetail highLight={highLight} onChange={newState => setState(newState)} />
+          <TransactionCellDetailButtons highLight={highLight} onChange={newState => setState(newState)} />
         </div>
       </TransactionCellContentPanel>
-      {state !== CellState.NONE && <TransactionDetail cell={cell} cellType={cellType} state={state} />}
+      {state !== CellState.NONE && <TransactionCellDetail cell={cell} cellType={cellType} state={state} />}
     </TransactionCellPanel>
   )
 }
