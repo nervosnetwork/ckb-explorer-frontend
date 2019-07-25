@@ -5,7 +5,7 @@ import {
   fetchBlockList,
   fetchTipBlockNumber,
 } from '../http/fetcher'
-import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
+import { PageActions, AppDispatch, AppActions } from '../../contexts/providers/reducer'
 import { storeCachedData } from '../../utils/cached'
 import { CachedKeys } from '../../utils/const'
 
@@ -117,7 +117,7 @@ export const getTipBlockNumber = (dispatch: AppDispatch) => {
   fetchTipBlockNumber().then((wrapper: Response.Wrapper<State.Statistics>) => {
     if (wrapper) {
       dispatch({
-        type: PageActions.UpdateTipBlockNumber,
+        type: AppActions.UpdateTipBlockNumber,
         payload: {
           tipBlockNumber: parseInt(wrapper.attributes.tip_block_number, 10),
         },

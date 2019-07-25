@@ -142,6 +142,7 @@ declare namespace State {
       { type: 'Maintain'; message: string[] },
     ]
     nodeVersion: string
+    tipBlockNumber: number
 
     appWidth: number
     appHeight: number
@@ -175,7 +176,6 @@ declare namespace State {
     homeBlocks: Response.Wrapper<Block>[]
     blockListState: BlockListState
     transaction: Transaction
-    tipBlockNumber: number
     statistics: Statistics
     statisticsChartDatas: StatisticsChartDatas
   }

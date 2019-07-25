@@ -5,6 +5,7 @@ export enum AppActions {
   ShowToastMessage = 'showToastMessage',
   UpdateAppErrors = 'updateAppErrors',
   UpdateNodeVersion = 'updateNodeVersion',
+  UpdateTipBlockNumber = 'updateTipBlockNumber',
 }
 
 export enum PageActions {
@@ -24,7 +25,6 @@ export enum PageActions {
   UpdateBlockNext = 'updateBlockNext',
 
   UpdateTransaction = 'updateTransaction',
-  UpdateTipBlockNumber = 'updateTipBlockNumber',
 
   UpdateStatistics = 'updateStatistics',
 
@@ -96,6 +96,14 @@ export const reducer = (
         app: {
           ...state.app,
           nodeVersion: payload.nodeVersion,
+        },
+      }
+    case AppActions.UpdateTipBlockNumber:
+      return {
+        ...state,
+        app: {
+          ...state.app,
+          tipBlockNumber: payload.tipBlockNumber,
         },
       }
 
@@ -193,11 +201,6 @@ export const reducer = (
       return {
         ...state,
         transaction: payload.transaction,
-      }
-    case PageActions.UpdateTipBlockNumber:
-      return {
-        ...state,
-        tipBlockNumber: payload.tipBlockNumber,
       }
     case PageActions.UpdateStatistics:
       return {

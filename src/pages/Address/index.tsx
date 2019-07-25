@@ -104,7 +104,8 @@ export const Address = ({
   const page = parsePageNumber(parsed.page, PageParams.PageNo)
   const size = parsePageNumber(parsed.size, PageParams.PageSize)
 
-  const { addressState, tipBlockNumber } = useContext(AppContext)
+  const { addressState, app } = useContext(AppContext)
+  const { tipBlockNumber } = app
 
   const items: OverviewItemData[] = [
     {

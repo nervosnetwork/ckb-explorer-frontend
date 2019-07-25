@@ -17,6 +17,7 @@ export const initApp: State.App = {
     },
   ],
   nodeVersion: '',
+  tipBlockNumber: 0,
   appWidth: window.innerWidth,
   appHeight: window.innerHeight,
   appLanguage: navigator.language || 'en',

@@ -16,7 +16,6 @@ const initState: State.AppState = {
   statistics: initStatistics,
   statisticsChartDatas: initStatisticsChartDatas,
   homeBlocks: initHomeBlocks,
-  tipBlockNumber: 0,
 }
 
 export default initState

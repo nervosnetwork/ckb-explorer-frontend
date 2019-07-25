@@ -87,7 +87,8 @@ export default ({
   match: { params },
 }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ hash: string }>>) => {
   const { hash } = params
-  const { transaction, tipBlockNumber } = useContext(AppContext)
+  const { transaction, app } = useContext(AppContext)
+  const { tipBlockNumber } = app
 
   let confirmation = 0
   if (tipBlockNumber && transaction.block_number) {
