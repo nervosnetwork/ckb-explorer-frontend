@@ -29,7 +29,7 @@ const PageFirstItem = ({
   }
 
   const goPrev = () => {
-    if (currentPage !== 1 && currentPage > 0) {
+    if (currentPage > 1) {
       onChange(currentPage - 1, pageSize)
     }
   }
