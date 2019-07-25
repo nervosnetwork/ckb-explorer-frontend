@@ -1,9 +1,8 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import 'rc-pagination/assets/index.css'
 import queryString from 'query-string'
-import { BlockListPanel, ContentTable } from './styled'
 import { parseSimpleDate } from '../../utils/date'
+import { BlockListPanel, ContentTable } from './styled'
 import Content from '../../components/Content'
 import {
   TableTitleRow,
@@ -13,26 +12,18 @@ import {
   TableMinerContentItem,
 } from '../../components/Table'
 import BlockCard from '../../components/Card/BlockCard'
-import { fetchBlockList } from '../../service/http/fetcher'
 import { shannonToCkb } from '../../utils/util'
 import { parsePageNumber } from '../../utils/string'
-import { CachedKeys } from '../../utils/const'
-import { fetchCachedData, storeCachedData } from '../../utils/cached'
+import { CachedKeys, BlockListPageParams } from '../../utils/const'
+import { fetchCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
+import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
 import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
 
-enum PageParams {
-  PageNo = 1,
-  PageSize = 25,
-  MaxPageSize = 100,
-}
-
-const Actions = {
-  blocks: 'BLOCKS',
-  total: 'TOTAL',
-}
+import { AppContext } from '../../contexts/providers'
+import { getBlocks } from '../../service/app/block'
 
 interface TableTitleData {
   title: string
@@ -43,51 +34,6 @@ interface TableContentData {
   width: string
   to?: any
   content: string
-}
-
-const reducer = (state: any, action: any) => {
-  switch (action.type) {
-    case Actions.blocks:
-      return {
-        ...state,
-        blocks: action.payload.blocks,
-      }
-    case Actions.total:
-      return {
-        ...state,
-        total: action.payload.total,
-      }
-    default:
-      return state
-  }
-}
-
-const getBlocks = (page: number, size: number, dispatch: any) => {
-  fetchBlockList(page, size).then(response => {
-    const { data, meta } = response as Response.Response<Response.Wrapper<State.Block>[]>
-    if (meta) {
-      dispatch({
-        type: Actions.total,
-        payload: {
-          total: meta.total,
-        },
-      })
-    }
-    if (data) {
-      dispatch({
-        type: Actions.blocks,
-        payload: {
-          blocks: data,
-        },
-      })
-      storeCachedData(CachedKeys.BlockList, data)
-    }
-  })
-}
-
-const initialState = {
-  blocks: [] as Response.Wrapper<State.Block>[],
-  total: 1,
 }
 
 const TableTitleDatas: TableTitleData[] = [
@@ -140,22 +86,23 @@ const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
   return tableContentDatas
 }
 
-export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
-  const { location, history } = props
-  const { search } = location
-  const { replace } = history
+export default ({
+  dispatch,
+  history: { replace, push },
+  location: { search },
+}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
   const parsed = queryString.parse(search)
 
-  const page = parsePageNumber(parsed.page, PageParams.PageNo)
-  const size = parsePageNumber(parsed.size, PageParams.PageSize)
+  const page = parsePageNumber(parsed.page, BlockListPageParams.PageNo)
+  const size = parsePageNumber(parsed.size, BlockListPageParams.PageSize)
 
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const { blockListState } = useContext(AppContext)
 
   useEffect(() => {
     const cachedBlocks = fetchCachedData<Response.Wrapper<State.Block>[]>(CachedKeys.BlockList)
     if (cachedBlocks) {
       dispatch({
-        type: Actions.blocks,
+        type: PageActions.UpdateBlockList,
         payload: {
           blocks: cachedBlocks,
         },
@@ -164,14 +111,14 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
   }, [dispatch])
 
   useEffect(() => {
-    if (size > PageParams.MaxPageSize) {
-      replace(`/block/list?page=${page}&size=${PageParams.MaxPageSize}`)
+    if (size > BlockListPageParams.MaxPageSize) {
+      replace(`/block/list?page=${page}&size=${BlockListPageParams.MaxPageSize}`)
     }
     getBlocks(page, size, dispatch)
   }, [replace, page, size, dispatch])
 
   const onChange = (pageNo: number, pageSize: number) => {
-    props.history.push(`/block/list?page=${pageNo}&size=${pageSize}`)
+    push(`/block/list?page=${pageNo}&size=${pageSize}`)
   }
 
   return (
@@ -180,11 +127,13 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
         <div className="block__green__background" />
         {isMobile() ? (
           <ContentTable>
-            {state.blocks &&
-              state.blocks.map((block: any, index: number) => {
-                const key = index
-                return block && <BlockCard key={key} block={block.attributes} />
-              })}
+            <div className="block__panel">
+              {blockListState.blocks &&
+                blockListState.blocks.map((block: any, index: number) => {
+                  const key = index
+                  return block && <BlockCard key={key} block={block.attributes} />
+                })}
+            </div>
           </ContentTable>
         ) : (
           <ContentTable>
@@ -193,8 +142,8 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
                 return <TableTitleItem width={data.width} title={data.title} />
               })}
             </TableTitleRow>
-            {state.blocks &&
-              state.blocks.map((data: Response.Wrapper<State.Block>) => {
+            {blockListState.blocks &&
+              blockListState.blocks.map((data: Response.Wrapper<State.Block>) => {
                 return (
                   data && (
                     <TableContentRow key={data.attributes.block_hash}>
@@ -218,7 +167,7 @@ export default (props: React.PropsWithoutRef<RouteComponentProps>) => {
               })}
           </ContentTable>
         )}
-        <Pagination currentPage={page} total={state.total} pageSize={size} onChange={onChange} />
+        <Pagination currentPage={page} total={blockListState.total} pageSize={size} onChange={onChange} />
       </BlockListPanel>
     </Content>
   )

@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
 import logoIcon from '../../assets/ckb_logo.png'
 import SearchLogo from '../../assets/search.png'
 import i18n from '../../utils/i18n'
-import { HeaderDiv, HeaderMobileDiv, HeaderMobilePanel, HeaderSearchPanel } from './styled'
+import { HeaderDiv, HeaderMobileDiv, HeaderMobilePanel, HeaderSearchPanel, HeaderVersionPanel } from './styled'
 import { isMobile } from '../../utils/screen'
+import { AppContext } from '../../contexts/providers/index'
+import { AppDispatch } from '../../contexts/providers/reducer'
 
 const menus = [
   {
@@ -21,12 +23,30 @@ const menus = [
 const NORMAL_HEIGHT = 42
 const SEARCH_HEIGHT = 95
 
-export default ({ search = true, width = window.innerWidth }: { search?: boolean; width?: number }) => {
+const handleVersion = (nodeVersion: string) => {
+  if (nodeVersion && nodeVersion.indexOf('(') !== -1) {
+    return `v${nodeVersion.slice(0, nodeVersion.indexOf('('))}`
+  }
+  return nodeVersion
+}
+
+export default ({
+  search,
+  width = window.innerWidth,
+  dispatch,
+}: {
+  search?: boolean
+  width?: number
+  dispatch: AppDispatch
+}) => {
   const [height, setHeight] = useState(NORMAL_HEIGHT)
+  const { app } = useContext(AppContext)
+  const { nodeVersion } = app
 
   useEffect(() => {
     setHeight(NORMAL_HEIGHT)
   }, [setHeight])
+
   return useMemo(() => {
     // normally rerender will not occur with useMemo
     if (isMobile(width)) {
@@ -59,8 +79,9 @@ export default ({ search = true, width = window.innerWidth }: { search?: boolean
                   <div className="header__testnet">{i18n.t('navbar.network')}</div>
                 </div>
               )}
+              <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
             </HeaderMobileDiv>
-            <HeaderSearchPanel>{search && <Search />}</HeaderSearchPanel>
+            <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
           </HeaderMobilePanel>
         </>
       )
@@ -82,7 +103,7 @@ export default ({ search = true, width = window.innerWidth }: { search?: boolean
           {search && (
             <div className="header__search">
               <div className="header__search__component">
-                <Search />
+                <Search dispatch={dispatch} />
               </div>
               <div className="header__testnet__panel">
                 <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
@@ -90,8 +111,9 @@ export default ({ search = true, width = window.innerWidth }: { search?: boolean
               </div>
             </div>
           )}
+          <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
         </HeaderDiv>
       </>
     )
-  }, [search, width, height])
+  }, [dispatch, nodeVersion, search, width, height])
 }

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useContext } from 'react'
+import { Link, RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { HomeHeaderPanel, HomeHeaderItemPanel, BlockPanel, ContentTable, TableMorePanel } from './styled'
 import Content from '../../components/Content'
@@ -11,7 +11,6 @@ import {
   TableMinerContentItem,
 } from '../../components/Table'
 import BlockCard from '../../components/Card/BlockCard'
-import { fetchBlocks, fetchStatistics } from '../../service/http/fetcher'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
 import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
@@ -19,6 +18,10 @@ import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import browserHistory from '../../routes/history'
+import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
+import { AppContext } from '../../contexts/providers'
+import { getLatestBlocks } from '../../service/app/block'
+import getStatistics from '../../service/app/statistics'
 import i18n from '../../utils/i18n'
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
@@ -37,21 +40,6 @@ const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   )
 }
 
-const getLatestBlocks = (setBlocksWrappers: any) => {
-  fetchBlocks().then(response => {
-    const { data } = response as Response.Response<Response.Wrapper<State.Block>[]>
-    setBlocksWrappers(data)
-  })
-}
-
-const getStatistics = (setStatistics: any) => {
-  fetchStatistics().then((wrapper: Response.Wrapper<State.Statistics>) => {
-    if (wrapper) {
-      setStatistics(wrapper.attributes)
-    }
-  })
-}
-
 interface TableTitleData {
   title: string
   width: string
@@ -68,13 +56,6 @@ interface BlockchainData {
   value: string
   tip: string
   clickable?: boolean
-}
-
-const initStatistics: State.Statistics = {
-  tip_block_number: '0',
-  average_block_time: '0',
-  current_epoch_difficulty: 0,
-  hash_rate: '0',
 }
 
 const parseHashRate = (hashRate: string | undefined) => {
@@ -131,41 +112,53 @@ const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
   return tableContentDatas
 }
 
-export default () => {
-  const initBlockWrappers: Response.Wrapper<State.Block>[] = []
-  const [blocksWrappers, setBlocksWrappers] = useState(initBlockWrappers)
-  const [statistics, setStatistics] = useState(initStatistics)
+const parseBlockTime = (blockTime: string | undefined) => {
+  return blockTime ? parseTime(Number(blockTime)) : '- -'
+}
+
+export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
+  const { homeBlocks, statistics } = useContext(AppContext)
   const [t] = useTranslation()
 
   useEffect(() => {
     const cachedBlocks = fetchCachedData<Response.Wrapper<State.Block>[]>(CachedKeys.Blocks)
     if (cachedBlocks) {
-      setBlocksWrappers(cachedBlocks)
+      dispatch({
+        type: PageActions.UpdateHomeBlocks,
+        payload: {
+          homeBlocks: cachedBlocks,
+        },
+      })
     }
     const cachedStatistics = fetchCachedData<State.Statistics>(CachedKeys.Statistics)
     if (cachedStatistics) {
-      setStatistics(cachedStatistics)
+      dispatch({
+        type: PageActions.UpdateStatistics,
+        payload: {
+          statistics: cachedStatistics,
+        },
+      })
     }
-  }, [setBlocksWrappers, setStatistics])
+  }, [dispatch])
 
   useEffect(() => {
-    storeCachedData(CachedKeys.Blocks, blocksWrappers)
+    storeCachedData(CachedKeys.Blocks, homeBlocks)
     storeCachedData(CachedKeys.Statistics, statistics)
-  }, [blocksWrappers, statistics])
+  }, [homeBlocks, statistics])
 
   useEffect(() => {
-    getLatestBlocks(setBlocksWrappers)
-    getStatistics(setStatistics)
+    getLatestBlocks(dispatch)
+    getStatistics(dispatch)
     const listener = setInterval(() => {
-      getLatestBlocks(setBlocksWrappers)
-      getStatistics(setStatistics)
+      getLatestBlocks(dispatch)
+      getStatistics(dispatch)
     }, BLOCK_POLLING_TIME)
     return () => {
       if (listener) {
         clearInterval(listener)
       }
     }
-  }, [setBlocksWrappers, setStatistics])
+  }, [dispatch])
 
   const BlockchainDatas: BlockchainData[] = [
     {
@@ -187,7 +180,7 @@ export default () => {
     },
     {
       name: t('blockchain.average_block_time'),
-      value: statistics.average_block_time ? parseTime(Number(statistics.average_block_time)) : '- -',
+      value: parseBlockTime(statistics.current_epoch_average_block_time),
       tip: t('blockchain.average_block_time_tooltip'),
     },
   ]
@@ -206,8 +199,8 @@ export default () => {
           <ContentTable>
             <div className="block__green__background" />
             <div className="block__panel">
-              {blocksWrappers &&
-                blocksWrappers.map((block: any, index: number) => {
+              {homeBlocks &&
+                homeBlocks.map((block: any, index: number) => {
                   const key = index
                   return block && <BlockCard key={key} block={block.attributes} />
                 })}
@@ -217,11 +210,11 @@ export default () => {
           <ContentTable>
             <TableTitleRow>
               {TableTitleDatas.map((data: TableTitleData) => {
-                return <TableTitleItem width={data.width} title={data.title} />
+                return <TableTitleItem width={data.width} title={data.title} key={data.title} />
               })}
             </TableTitleRow>
-            {blocksWrappers &&
-              blocksWrappers.map((block: any, index: number) => {
+            {homeBlocks &&
+              homeBlocks.map((block: any, index: number) => {
                 const key = index
                 return (
                   block && (
@@ -229,7 +222,11 @@ export default () => {
                       {getTableContentDatas(block).map((tableContentData: TableContentData) => {
                         if (tableContentData.content === block.attributes.miner_hash) {
                           return (
-                            <TableMinerContentItem width={tableContentData.width} content={tableContentData.content} />
+                            <TableMinerContentItem
+                              width={tableContentData.width}
+                              content={tableContentData.content}
+                              key={tableContentData.content}
+                            />
                           )
                         }
                         return (
@@ -237,6 +234,7 @@ export default () => {
                             width={tableContentData.width}
                             content={tableContentData.content}
                             to={tableContentData.to}
+                            key={tableContentData.content}
                           />
                         )
                       })}

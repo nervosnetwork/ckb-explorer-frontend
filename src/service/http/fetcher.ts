@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import CONFIG from '../../config'
+import { CellType } from '../../utils/const'
 
 const baseURL = `${CONFIG.API_URL}/api/v1/`
 
@@ -11,17 +12,6 @@ export const axiosIns = axios.create({
   },
   data: null,
 })
-
-export enum CellType {
-  Input = 'input',
-  Output = 'output',
-}
-
-export enum DataType {
-  LockScript = 'lock_script',
-  TypeScript = 'type_script',
-  Data = 'data',
-}
 
 export const fetchBlocks = () => {
   return axiosIns.get('blocks').then((res: AxiosResponse) => res.data)
@@ -109,4 +99,8 @@ export const fetchBlockchainInfo = () => {
 
 export const fetchStatisticsChart = () => {
   return axiosIns('/statistic_info_charts').then((res: AxiosResponse) => res.data.data)
+}
+
+export const fetchNodeVersion = () => {
+  return axiosIns('/nets/version').then((res: AxiosResponse) => res.data.data)
 }
