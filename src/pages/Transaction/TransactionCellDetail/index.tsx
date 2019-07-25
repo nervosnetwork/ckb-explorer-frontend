@@ -40,7 +40,7 @@ export default ({ cell, cellType, state }: { cell: State.InputOutput; cellType: 
 
   return (
     <TransactionDetailPanel hidden={!content}>
-      <div className="transaction_detail__content">{JSON.stringify(content, null, 4)}</div>
+      <div className="transaction__detail_content">{JSON.stringify(content, null, 4)}</div>
     </TransactionDetailPanel>
   )
 }

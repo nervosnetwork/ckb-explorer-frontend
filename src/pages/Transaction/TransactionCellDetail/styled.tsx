@@ -9,7 +9,7 @@ export default styled.div`
     margin-top: 10px;
   }
 
-  .transaction_detail__content {
+  .transaction__detail_content {
     border: none;
     width: 100%;
     max-height: 400px;
@@ -33,7 +33,7 @@ export default styled.div`
     }
   }
 
-  .transaction_detail__copy {
+  .transaction__detail_copy {
     width: 150px;
     height: 40px;
   }
