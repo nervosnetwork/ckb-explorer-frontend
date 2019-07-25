@@ -1,4 +1,8 @@
 import styled from 'styled-components'
+import LeftBlack from '../../assets/pagination_black_left.png'
+import LeftWhite from '../../assets/pagination_white_left.png'
+import RightBlack from '../../assets/pagination_black_right.png'
+import RightWhite from '../../assets/pagination_white_right.png'
 
 export const PaginationPanel = styled.div`
   display: flex;
@@ -46,15 +50,12 @@ export const PaginationLeftItem = styled.div`
     cursor: pointer;
     background: #f5f5f5;
     letter-spacing: 1px;
-    > img {
-      width: 12px;
-      height: 20px;
-    }
     &:hover {
       font-weight: bold;
     }
     &:active {
       background: #3cc68a;
+      color: white;
     }
   }
 
@@ -64,11 +65,21 @@ export const PaginationLeftItem = styled.div`
     pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? 'none' : 'auto')};
   }
 
-  .left_image {
+  .left_button {
     width: 30px;
     margin-left: 20px;
+    background-image: url(${LeftBlack});
+    background-position: center;
+    background-size: 12px 20px;
+    background-repeat: no-repeat;
     opacity: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? '0.5' : '1')};
     pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? 'none' : 'auto')};
+    &:active {
+      background-image: url(${LeftWhite});
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 12px 20px;
+    }
   }
 
   .middle_label {
@@ -79,11 +90,21 @@ export const PaginationLeftItem = styled.div`
     margin-left: 20px;
   }
 
-  .right_image {
+  .right_button {
     width: 30px;
     margin-left: 20px;
+    background-image: url(${RightBlack});
+    background-position: center;
+    background-size: 12px 20px;
+    background-repeat: no-repeat;
     opacity: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? '0.5' : '1')};
     pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? 'none' : 'auto')};
+    &:active {
+      background-image: url(${RightWhite});
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 12px 20px;
+    }
   }
 
   .last {
@@ -101,16 +122,16 @@ export const PaginationLeftItem = styled.div`
       font-size: 8px;
       height: 20px;
       border-radius: 3px;
-      > img {
-        width: 6px;
-        height: 10px;
-      }
     }
 
-    .left_image {
+    .left_button {
       width: 16px;
       margin-top: 15px;
       margin-left: 20px;
+      background-image: url(${LeftBlack});
+      background-position: center;
+      background-size: 6px 10px;
+      background-repeat: no-repeat;
       order: 0;
     }
 
@@ -133,10 +154,14 @@ export const PaginationLeftItem = styled.div`
       order: 1;
     }
 
-    .right_image {
+    .right_button {
       width: 16px;
       margin-top: 15px;
       margin-left: 10px;
+      background-image: url(${RightBlack});
+      background-position: center;
+      background-size: 6px 10px;
+      background-repeat: no-repeat;
       order: 0;
     }
   }
@@ -202,12 +227,9 @@ export const PaginationRightItem = styled.div`
     cursor: pointer;
     background: #f5f5f5;
     letter-spacing: 1px;
-    > img {
-      width: 12px;
-      height: 20px;
-    }
     &:active {
       background: #3cc68a;
+      color: white;
     }
     @media (max-width: 700px) {
       height: 20px;

@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import { PaginationLeftItem, PaginationRightItem, PaginationPanel } from './styled'
-import LeftBlack from '../../assets/pagination_black_left.png'
-import RightBlack from '../../assets/pagination_black_right.png'
 import i18n from '../../utils/i18n'
 
 const PaginationItem = ({
@@ -59,13 +57,9 @@ const PaginationItem = ({
         <button type="button" className="first" onClick={() => goFirstPage()}>
           {i18n.t('pagination.first')}
         </button>
-        <button type="button" className="left_image" onClick={() => goPrev()}>
-          <img src={LeftBlack} alt="left" />
-        </button>
+        <button type="button" className="left_button" onClick={() => goPrev()} />
         <div className="middle_label">{`Page ${currentPage} of ${totalPage}`}</div>
-        <button type="button" className="right_image" onClick={() => goNext()}>
-          <img src={RightBlack} alt="right" />
-        </button>
+        <button type="button" className="right_button" onClick={() => goNext()} />
         <button type="button" className="last" onClick={() => goLastPage()}>
           {i18n.t('pagination.last')}
         </button>
