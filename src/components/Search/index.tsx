@@ -4,6 +4,7 @@ import { AxiosError } from 'axios'
 import { fetchSearchResult } from '../../service/http/fetcher'
 import browserHistory from '../../routes/history'
 import SearchLogo from '../../assets/search.png'
+import GreenSearchLogo from '../../assets/search_green.png'
 import { searchTextCorrection } from '../../utils/string'
 import i18n from '../../utils/i18n'
 import { HttpErrorCode } from '../../utils/const'
@@ -20,18 +21,20 @@ const SearchPanel = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`
 
-  > div {
-    display: inline-block;
+const SearchImage = styled.div`
+  display: inline-block;
+  margin-left: ${(props: { greenIcon: boolean }) => (props.greenIcon ? '-45px' : '0')};
+  z-index: 2;
 
-    img {
-      width: 36px;
-      height: 36px;
+  img {
+    width: 32px;
+    height: 32px;
 
-      @media (max-width: 700px) {
-        width: 14px;
-        height: 14px;
-      }
+    @media (max-width: 700px) {
+      width: 14px;
+      height: 14px;
     }
   }
 `
@@ -46,19 +49,27 @@ const SearchInputPanel = styled.input`
   background: rgba(255, 255, 255, 0);
   border: 0 solid #606060;
   border-radius: 0;
+  color: #bababa;
+
+  &: focus {
+    color: #bababa;
+    outline: none;
+  }
 
   ${(props: { hasBorder: boolean }) =>
     props.hasBorder &&
     css`
       opacity: 1;
       border: 2px solid #606060;
+      color: #666666;
       border-radius: 6px;
+
+      &: focus {
+        color: #666666;
+        outline: none;
+      }
     `};
 
-  &: focus {
-    color: #bababa;
-    outline: none;
-  }
   &::placeholder {
     color: #bababa;
   }
@@ -130,18 +141,25 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
     }
   }
 
-  return (
-    <SearchPanel>
-      <div
+  const SearchIconButton = ({ greenIcon }: { greenIcon?: boolean }) => {
+    return (
+      <SearchImage
+        greenIcon={!!greenIcon}
         role="button"
         tabIndex={-1}
         onKeyPress={() => {}}
         onClick={() => {
-          handleSearchResult()
+          if (greenIcon) handleSearchResult()
         }}
       >
-        <img src={SearchLogo} alt="search logo" />
-      </div>
+        <img src={greenIcon ? GreenSearchLogo : SearchLogo} alt="search logo" />
+      </SearchImage>
+    )
+  }
+
+  return (
+    <SearchPanel>
+      {!hasBorder && <SearchIconButton />}
       <SearchInputPanel
         ref={inputElement}
         placeholder={SearchPlaceholder}
@@ -154,6 +172,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
           }
         }}
       />
+      {hasBorder && <SearchIconButton greenIcon />}
     </SearchPanel>
   )
 }
