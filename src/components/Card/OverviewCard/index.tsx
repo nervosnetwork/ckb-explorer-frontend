@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import { OverviewCardPanel, OverviewContentPanel, OverviewItemPanel } from './styled'
 import { isMobile } from '../../../utils/screen'
+import { isValidReactNode } from '../../../utils/util'
 
 export interface OverviewItemData {
   title: ReactNode
@@ -27,14 +28,6 @@ const handleOverviewItems = (items: OverviewItemData[]) => {
     leftItems,
     rightItems,
   }
-}
-
-const isValidReactNode = (node: ReactNode) => {
-  if (node === undefined || node === null) return false
-  if (node instanceof Array) {
-    return node.reduce((current, item) => (current ? true : !!item))
-  }
-  return true
 }
 
 const OverviewItem = ({
