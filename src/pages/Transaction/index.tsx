@@ -13,6 +13,21 @@ import { localeNumberString } from '../../utils/number'
 import { formatConfirmation, shannonToCkb } from '../../utils/util'
 import { TransactionBlockHeightPanel, TransactionDiv } from './styled'
 import TransactionCellList from './TransactionCellList'
+import { isSmallMobile, isMediumMobile, isLargeMobile } from '../../utils/screen'
+import { startEndEllipsis } from '../../utils/string'
+
+const handleHashText = (hash: string) => {
+  if (isSmallMobile()) {
+    return startEndEllipsis(hash, 5, 8)
+  }
+  if (isMediumMobile()) {
+    return startEndEllipsis(hash, 8, 12)
+  }
+  if (isLargeMobile()) {
+    return startEndEllipsis(hash, 9)
+  }
+  return hash
+}
 
 const TransactionBlockHeight = ({ blockNumber }: { blockNumber: number }) => {
   return (
@@ -62,7 +77,11 @@ export default ({
   return (
     <Content>
       <TransactionDiv className="container">
-        <AddressHashCard title={i18n.t('transaction.transaction')} hash={hash} dispatch={dispatch} />
+        <AddressHashCard
+          title={i18n.t('transaction.transaction')}
+          hashText={handleHashText(hash)}
+          dispatch={dispatch}
+        />
         <TitleCard title={i18n.t('common.overview')} />
         <OverviewCard items={overviewItems} />
         <TransactionCellList inputs={transaction.display_inputs} />
