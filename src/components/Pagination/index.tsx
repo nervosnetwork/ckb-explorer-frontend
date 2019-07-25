@@ -20,8 +20,7 @@ const PaginationItem = ({
   const [inputValue, setInputValue] = useState(defaultJumpPage)
   const totalPage = Math.ceil(total / pageSize)
   const goFirstPage = () => {
-    const page: number = 1
-    onChange(page, pageSize)
+    onChange(1, pageSize)
   }
 
   const goLastPage = () => {
@@ -40,7 +39,7 @@ const PaginationItem = ({
     }
   }
 
-  const jumpPage = () => {
+  const gotoPage = () => {
     if (inputValue && inputValue <= totalPage && inputValue >= 1) {
       onChange(inputValue, pageSize)
     }
@@ -81,18 +80,16 @@ const PaginationItem = ({
             if (event.target.value > 0 && event.target.value < totalPage) {
               setInputValue(event.target.value)
             } else if (event.target.value >= totalPage) {
-              let { value } = event.target
-              value = totalPage
-              setInputValue(value)
+              setInputValue(totalPage)
             }
           }}
           onKeyUp={(event: any) => {
             if (event.keyCode === 13) {
-              jumpPage()
+              gotoPage()
             }
           }}
         />
-        <button type="button" className="go_to" onClick={() => jumpPage()}>
+        <button type="button" className="go_to" onClick={() => gotoPage()}>
           {i18n.t('pagination.goto')}
         </button>
       </PaginationRightItem>
