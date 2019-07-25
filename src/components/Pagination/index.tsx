@@ -4,7 +4,7 @@ import LeftBlack from '../../assets/pagination_black_left.png'
 import RightBlack from '../../assets/pagination_black_right.png'
 import i18n from '../../utils/i18n'
 
-const PagiNationItem = ({
+const PaginationItem = ({
   currentPage,
   total,
   pageSize,
@@ -112,7 +112,7 @@ export default ({
   onChange: (page: number, pageSize: number) => void
 }) => {
   return (
-    <PagiNationItem
+    <PaginationItem
       currentPage={currentPage}
       total={total}
       pageSize={pageSize}
