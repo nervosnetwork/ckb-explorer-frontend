@@ -9,18 +9,27 @@ import { searchTextCorrection } from '../../utils/string'
 import i18n from '../../utils/i18n'
 import { HttpErrorCode } from '../../utils/const'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import { isMobile } from '../../utils/screen'
 
 const SearchPanel = styled.div`
   margin: 0 auto;
   width: 100%;
   height: 50px;
   @media (max-width: 700px) {
-    height: 30px;
+    height: 42px;
   }
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  .search__icon__separate {
+    align-items: center;
+    height: 14px;
+    width: 1px;
+    background: white;
+    margin: 0 0 0 8px;
+  }
 `
 
 const SearchImage = styled.div`
@@ -83,8 +92,6 @@ const SearchInputPanel = styled.input`
     width: 100%;
     padding-left: 10px;
     padding-right: 20px;
-    border: 1px solid #606060;
-    border-radius: 6px;
   }
 `
 
@@ -164,6 +171,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
   return (
     <SearchPanel>
       {!hasBorder && <SearchIconButton />}
+      {isMobile() && <div className="search__icon__separate" />}
       <SearchInputPanel
         ref={inputElement}
         placeholder={SearchPlaceholder}

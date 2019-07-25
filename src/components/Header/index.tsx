@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
 import logoIcon from '../../assets/ckb_logo.png'
@@ -53,6 +53,7 @@ export default ({
   width?: number
   dispatch: AppDispatch
 }) => {
+  const [editable, setEditable] = useState(false)
   const { app } = useContext(AppContext)
   const { nodeVersion } = app
 
@@ -61,33 +62,41 @@ export default ({
     if (isMobile(width)) {
       return (
         <>
-          <HeaderMobilePanel>
-            <HeaderMobileDiv>
-              <Link to="/" className="header__logo">
-                <img className="header__logo__img" src={logoIcon} alt="logo" />
-              </Link>
-              <Menus />
-              {search && (
-                <div className="header__search">
-                  <div
-                    className="header__search__component"
-                    onKeyDown={() => {}}
-                    onClick={() => {}}
-                    role="button"
-                    tabIndex={-1}
-                  >
-                    <img className="header__search__image" src={SearchLogo} alt="search" />
+          {editable ? (
+            <HeaderMobilePanel>
+              <Search dispatch={dispatch} />
+            </HeaderMobilePanel>
+          ) : (
+            <HeaderMobilePanel>
+              <HeaderMobileDiv>
+                <Link to="/" className="header__logo">
+                  <img className="header__logo__img" src={logoIcon} alt="logo" />
+                </Link>
+                <Menus />
+                {search && (
+                  <div className="header__search">
+                    <div
+                      className="header__search__component"
+                      onKeyDown={() => {}}
+                      onClick={() => {
+                        setEditable(true)
+                      }}
+                      role="button"
+                      tabIndex={-1}
+                    >
+                      <img className="header__search__image" src={SearchLogo} alt="search" />
+                    </div>
+                    <div className="header__search__separate" />
                   </div>
-                  <div className="header__search__separate" />
-                </div>
-              )}
-              <HeaderTestnetPanel search={!!search}>
-                <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-                <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
-              </HeaderTestnetPanel>
-            </HeaderMobileDiv>
-            <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
-          </HeaderMobilePanel>
+                )}
+                <HeaderTestnetPanel search={!!search}>
+                  <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
+                  <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+                </HeaderTestnetPanel>
+              </HeaderMobileDiv>
+              <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
+            </HeaderMobilePanel>
+          )}
         </>
       )
     }
@@ -113,5 +122,5 @@ export default ({
         </HeaderDiv>
       </>
     )
-  }, [dispatch, nodeVersion, search, width])
+  }, [dispatch, nodeVersion, search, width, editable])
 }

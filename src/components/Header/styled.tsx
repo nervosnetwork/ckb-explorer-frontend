@@ -74,7 +74,6 @@ export const HeaderMobileDiv = styled.div`
   align-items: center;
 
   .header__logo {
-    padding-top: 3px;
     .header__logo__img {
       width: 64px;
       height: auto;
