@@ -16,7 +16,7 @@ export default ({ inputs, outputs }: { inputs?: State.InputOutput[]; outputs?: S
         </div>
       </TransactionCellListTitlePanel>
       {cells.map(cell => (
-        <TransactionCell cell={cell} cellType={inputs ? CellType.Input : CellType.Output} />
+        <TransactionCell key={cell.address_hash} cell={cell} cellType={inputs ? CellType.Input : CellType.Output} />
       ))}
     </TransactionCellListPanel>
   )
