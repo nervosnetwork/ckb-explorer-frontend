@@ -4,7 +4,7 @@ import OverviewCard, { OverviewItemData } from '../../../components/Card/Overvie
 import { CellState, CellType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
-import { isMobile } from '../../../utils/screen'
+import { isMobile, isLargeMobile, isMediumMobile, isSmallMobile } from '../../../utils/screen'
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import TransactionCellDetail from '../TransactionCellDetail'
@@ -18,11 +18,24 @@ import {
   TransactionCellPanel,
 } from './styled'
 
+const handleAddressHashText = (hash: string) => {
+  if (isSmallMobile()) {
+    return startEndEllipsis(hash, 16)
+  }
+  if (isMediumMobile()) {
+    return startEndEllipsis(hash, 23)
+  }
+  if (isLargeMobile()) {
+    return startEndEllipsis(hash, 29)
+  }
+  return hash
+}
+
 const TransactionCellHash = ({ cell }: { cell: State.InputOutput }) => {
   return (
     <TransactionCellHashPanel highLight={cell.address_hash !== null}>
       {cell.address_hash ? (
-        <Link to={`/address/${cell.address_hash}`}>{startEndEllipsis(cell.address_hash, 18)}</Link>
+        <Link to={`/address/${cell.address_hash}`}>{handleAddressHashText(cell.address_hash)}</Link>
       ) : (
         <span>{cell.from_cellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}</span>
       )}
