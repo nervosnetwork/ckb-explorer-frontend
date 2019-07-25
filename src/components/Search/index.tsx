@@ -28,6 +28,10 @@ const SearchImage = styled.div`
   margin-left: ${(props: { greenIcon: boolean }) => (props.greenIcon ? '-45px' : '0')};
   z-index: 2;
 
+  @media (max-width: 700px) {
+    margin-left: ${(props: { greenIcon: boolean }) => (props.greenIcon ? '-25px' : '0')};
+  }
+
   img {
     width: 32px;
     height: 32px;

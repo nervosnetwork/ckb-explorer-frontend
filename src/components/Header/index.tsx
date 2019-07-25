@@ -1,10 +1,17 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
 import logoIcon from '../../assets/ckb_logo.png'
 import SearchLogo from '../../assets/search.png'
 import i18n from '../../utils/i18n'
-import { HeaderDiv, HeaderMobileDiv, HeaderMobilePanel, HeaderSearchPanel, HeaderVersionPanel } from './styled'
+import {
+  HeaderDiv,
+  HeaderMobileDiv,
+  HeaderMobilePanel,
+  HeaderSearchPanel,
+  HeaderVersionPanel,
+  HeaderTestnetPanel,
+} from './styled'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers/index'
 import { AppDispatch } from '../../contexts/providers/reducer'
@@ -30,9 +37,6 @@ const Menus = () => {
   )
 }
 
-const NORMAL_HEIGHT = 42
-const SEARCH_HEIGHT = 95
-
 const handleVersion = (nodeVersion: string) => {
   if (nodeVersion && nodeVersion.indexOf('(') !== -1) {
     return `v${nodeVersion.slice(0, nodeVersion.indexOf('('))}`
@@ -49,20 +53,15 @@ export default ({
   width?: number
   dispatch: AppDispatch
 }) => {
-  const [height, setHeight] = useState(NORMAL_HEIGHT)
   const { app } = useContext(AppContext)
   const { nodeVersion } = app
-
-  useEffect(() => {
-    setHeight(NORMAL_HEIGHT)
-  }, [setHeight])
 
   return useMemo(() => {
     // normally rerender will not occur with useMemo
     if (isMobile(width)) {
       return (
         <>
-          <HeaderMobilePanel height={height}>
+          <HeaderMobilePanel>
             <HeaderMobileDiv>
               <Link to="/" className="header__logo">
                 <img className="header__logo__img" src={logoIcon} alt="logo" />
@@ -73,7 +72,7 @@ export default ({
                   <div
                     className="header__search__component"
                     onKeyDown={() => {}}
-                    onClick={() => setHeight(height === NORMAL_HEIGHT ? SEARCH_HEIGHT : NORMAL_HEIGHT)}
+                    onClick={() => {}}
                     role="button"
                     tabIndex={-1}
                   >
@@ -81,8 +80,10 @@ export default ({
                   </div>
                 </div>
               )}
-              <div className="header__testnet">{i18n.t('navbar.network')}</div>
-              <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+              <HeaderTestnetPanel search>
+                <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
+                <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+              </HeaderTestnetPanel>
             </HeaderMobileDiv>
             <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
           </HeaderMobilePanel>
@@ -103,13 +104,13 @@ export default ({
               </div>
             </div>
           )}
-          <div className="header__testnet__panel">
+          <HeaderTestnetPanel search>
             <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
             <div className="header__testnet__tip">{i18n.t('navbar.network_tooltip')}</div>
             <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
-          </div>
+          </HeaderTestnetPanel>
         </HeaderDiv>
       </>
     )
-  }, [dispatch, nodeVersion, search, width, height])
+  }, [dispatch, nodeVersion, search, width])
 }
