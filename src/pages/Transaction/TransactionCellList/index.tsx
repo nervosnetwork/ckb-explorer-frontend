@@ -1,8 +1,8 @@
 import React from 'react'
-import { TransactionCellListPanel, TransactionCellListTitlePanel } from './styled'
-import TransactionCell from '../TransactionCell'
 import { CellType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
+import TransactionCell from '../TransactionCell'
+import { TransactionCellListPanel, TransactionCellListTitlePanel } from './styled'
 
 export default ({ inputs, outputs }: { inputs?: State.InputOutput[]; outputs?: State.InputOutput[] }) => {
   const cells = inputs || outputs || []

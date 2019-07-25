@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import TransactionDetailPanel from './styled'
-import { fetchScript, fetchCellData } from '../../../service/http/fetcher'
-import { hexToUtf8 } from '../../../utils/string'
-import { CellType, CellState } from '../../../utils/const'
+import React, { useEffect, useState } from 'react'
 import initScriptContent from '../../../contexts/states/cell'
+import { fetchCellData, fetchScript } from '../../../service/http/fetcher'
+import { CellState, CellType } from '../../../utils/const'
+import { hexToUtf8 } from '../../../utils/string'
+import TransactionDetailPanel from './styled'
 
 const handleFetchScript = (cell: State.InputOutput, cellType: CellType, state: CellState, dispatch: any) => {
   switch (state) {

@@ -1,22 +1,22 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import {
-  TransactionCellPanel,
-  TransactionCellContentPanel,
-  TransactionCellDetailDataPanel,
-  TransactionCellDetailTypeScriptPanel,
-  TransactionCellDetailLockScriptPanel,
-  TransactionCellHashPanel,
-  TransactionCellDetailPanel,
-} from './styled'
-import TransactionDetail from '../TransactionCellDetail'
-import { CellType, CellState } from '../../../utils/const'
+import OverviewCard, { OverviewItemData } from '../../../components/Card/OverviewCard'
+import { CellState, CellType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
-import { shannonToCkb } from '../../../utils/util'
-import { startEndEllipsis } from '../../../utils/string'
 import { isMobile } from '../../../utils/screen'
-import OverviewCard, { OverviewItemData } from '../../../components/Card/OverviewCard'
+import { startEndEllipsis } from '../../../utils/string'
+import { shannonToCkb } from '../../../utils/util'
+import TransactionDetail from '../TransactionCellDetail'
+import {
+  TransactionCellContentPanel,
+  TransactionCellDetailDataPanel,
+  TransactionCellDetailLockScriptPanel,
+  TransactionCellDetailPanel,
+  TransactionCellDetailTypeScriptPanel,
+  TransactionCellHashPanel,
+  TransactionCellPanel,
+} from './styled'
 
 const TransactionCellHash = ({ cell }: { cell: State.InputOutput }) => {
   return (
