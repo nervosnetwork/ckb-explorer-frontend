@@ -27,8 +27,6 @@ export const initBlockState: State.BlockState = {
   },
   transactions: [] as State.Transaction[],
   total: 0,
-  prev: false,
-  next: false,
 }
 
 export const initBlockListState: State.BlockListState = {

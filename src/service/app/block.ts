@@ -29,32 +29,6 @@ export const getBlockTransactions = (hash: string, page: number, size: number, d
   })
 }
 
-export const getBlockPrevNext = (blockNumber: number, dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateBlockPrev,
-    payload: {
-      prev: blockNumber > 0,
-    },
-  })
-  fetchBlock(`${blockNumber + 1}`)
-    .then((wrapper: Response.Wrapper<State.Block>) => {
-      dispatch({
-        type: PageActions.UpdateBlockNext,
-        payload: {
-          next: wrapper ? wrapper.attributes.number > 0 : false,
-        },
-      })
-    })
-    .catch(() => {
-      dispatch({
-        type: PageActions.UpdateBlockNext,
-        payload: {
-          next: false,
-        },
-      })
-    })
-}
-
 // blockParam: block hash or block number
 export const getBlock = (blockParam: string, page: number, size: number, dispatch: AppDispatch, replace: any) => {
   fetchBlock(blockParam)
@@ -67,7 +41,6 @@ export const getBlock = (blockParam: string, page: number, size: number, dispatc
             block,
           },
         })
-        getBlockPrevNext(block.number, dispatch)
         getBlockTransactions(block.block_hash, page, size, dispatch)
       } else {
         replace(`/search/fail?q=${blockParam}`)

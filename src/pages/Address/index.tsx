@@ -107,6 +107,17 @@ export const Address = ({
   const { addressState, app } = useContext(AppContext)
   const { tipBlockNumber } = app
 
+  useEffect(() => {
+    if (size > PageParams.MaxPageSize) {
+      replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${page}&size=${PageParams.MaxPageSize}`)
+    }
+    getAddress(identityHash, page, size, dispatch)
+  }, [replace, identityHash, page, size, dispatch, address])
+
+  const onChange = (pageNo: number, pageSize: number) => {
+    replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${pageNo}&size=${pageSize}`)
+  }
+
   const items: OverviewItemData[] = [
     {
       title: i18n.t('address.balance'),
@@ -130,17 +141,6 @@ export const Address = ({
       title: i18n.t('address.address'),
       content: addressContent(addressState.address),
     })
-  }
-
-  useEffect(() => {
-    if (size > PageParams.MaxPageSize) {
-      replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${page}&size=${PageParams.MaxPageSize}`)
-    }
-    getAddress(identityHash, page, size, dispatch)
-  }, [replace, identityHash, page, size, dispatch, address])
-
-  const onChange = (pageNo: number, pageSize: number) => {
-    replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${pageNo}&size=${pageSize}`)
   }
 
   return (
