@@ -57,9 +57,9 @@ const PaginationItem = ({
         <button type="button" className="first" onClick={() => goFirstPage()}>
           {i18n.t('pagination.first')}
         </button>
-        <button type="button" className="left_button" onClick={() => goPrev()} />
-        <div className="middle_label">{`Page ${currentPage} of ${totalPage}`}</div>
-        <button type="button" className="right_button" onClick={() => goNext()} />
+        <button type="button" className="left__button" onClick={() => goPrev()} />
+        <div className="middle__label">{`Page ${currentPage} of ${totalPage}`}</div>
+        <button type="button" className="right__button" onClick={() => goNext()} />
         <button type="button" className="last" onClick={() => goLastPage()}>
           {i18n.t('pagination.last')}
         </button>
@@ -68,7 +68,7 @@ const PaginationItem = ({
         <div className="page">{i18n.t('pagination.page')}</div>
         <input
           type="number"
-          className="jump_page_input"
+          className="jump__page__input"
           value={inputValue}
           onChange={(event: any) => {
             if (event.target.value > 0 && event.target.value < totalPage) {
@@ -83,7 +83,7 @@ const PaginationItem = ({
             }
           }}
         />
-        <button type="button" className="go_to" onClick={() => gotoPage()}>
+        <button type="button" className="go__to" onClick={() => gotoPage()}>
           {i18n.t('pagination.goto')}
         </button>
       </PaginationRightItem>
