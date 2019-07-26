@@ -2,6 +2,7 @@ declare namespace State {
   export interface Script {
     code_hash: string
     args: string[]
+    hash_type: string
   }
 
   export interface Data {
