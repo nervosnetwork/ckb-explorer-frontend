@@ -16,7 +16,7 @@ import { getAddress } from '../../service/app/address'
 import { PageParams } from '../../utils/const'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
-import { isLargeMobile, isMediumMobile, isMobile, isSmallMobile } from '../../utils/screen'
+import { isMobile } from '../../utils/screen'
 import { parsePageNumber, startEndEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
 import {
@@ -27,19 +27,6 @@ import {
   AddressTransactionsPagition,
   AddressTransactionsPanel,
 } from './styled'
-
-const handleHashText = (hash: string) => {
-  if (isSmallMobile()) {
-    return startEndEllipsis(hash, 7, 10)
-  }
-  if (isMediumMobile()) {
-    return startEndEllipsis(hash, 8)
-  }
-  if (isLargeMobile()) {
-    return startEndEllipsis(hash, 12)
-  }
-  return hash
-}
 
 const addressContent = (address: State.Address) => {
   const addressText = isMobile() ? startEndEllipsis(address.address_hash, 10) : address.address_hash
@@ -160,7 +147,7 @@ export const Address = ({
       <AddressContentPanel className="container">
         <AddressHashCard
           title={address ? i18n.t('address.address') : i18n.t('address.lock_hash')}
-          hashText={handleHashText(address || lockHash)}
+          hash={address || lockHash}
           dispatch={dispatch}
         />
         <TitleCard title={i18n.t('common.overview')} />
