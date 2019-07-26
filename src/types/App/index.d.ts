@@ -159,8 +159,6 @@ declare namespace State {
     block: Block
     transactions: Transaction[]
     total: number
-    prev: boolean
-    next: boolean
   }
 
   export interface BlockListState {

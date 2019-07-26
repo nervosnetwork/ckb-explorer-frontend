@@ -6,6 +6,7 @@ import TitleCard from '../../components/Card/TitleCard'
 import Content from '../../components/Content'
 import { AppContext } from '../../contexts/providers/index'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { getTipBlockNumber } from '../../service/app/address'
 import { getTransactionByHash } from '../../service/app/transaction'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
@@ -48,6 +49,7 @@ export default ({
 
   useEffect(() => {
     getTransactionByHash(hash, replace, dispatch)
+    getTipBlockNumber(dispatch)
   }, [hash, replace, dispatch])
 
   let confirmation = 0

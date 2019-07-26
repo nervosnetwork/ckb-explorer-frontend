@@ -127,7 +127,6 @@ export const HomeHeaderItemPanel = styled.div`
 export const BlockPanel = styled.div`
   width: 100%;
   margin-bottom: 40px;
-
   @media (min-width: 700px) {
     box-shadow: 0px 2px 8px #b3b3b3;
     border: 0px solid white;
@@ -135,6 +134,7 @@ export const BlockPanel = styled.div`
   }
 
   @media (max-width: 700px) {
+    padding: 0px 20px 0px 20px;
     margin-bottom: 24px;
   }
 `
@@ -175,12 +175,12 @@ export const ContentTitle = styled.div`
 export const ContentTable = styled.div`
   margin: 0 auto;
   width: 100%;
-  overflow-x: auto;
   z-index: 2;
 
   .block__green__background {
+    margin-left: -20px;
     height: 61px;
-    width: 100%;
+    width: calc(100% + 40px);
     background-color: #3cc68a;
     z-index: 1;
   }
@@ -215,8 +215,7 @@ export const TableMorePanel = styled.div`
   }
 
   @media (max-width: 700px) {
-    width: 88%;
-    margin-left: 6%;
+    width: 100%;
     height: 46px;
     border: 0px solid white;
     border-radius: 3px;
