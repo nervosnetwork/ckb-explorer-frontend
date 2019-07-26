@@ -76,9 +76,9 @@ const AddressHashCardPanel = styled.div`
   }
 `
 
-const handleHashText = (hash: string, isMobileDeivce: boolean, dispatch: Dispatch<SetStateAction<string>>) => {
+const handleHashText = (hash: string, isMobileDeivce: boolean, setHashText: Dispatch<SetStateAction<string>>) => {
   if (!isMobileDeivce) {
-    dispatch(hash)
+    setHashText(hash)
     return
   }
   const contentElement = document.getElementById('address_hash_content')
@@ -90,7 +90,7 @@ const handleHashText = (hash: string, isMobileDeivce: boolean, dispatch: Dispatc
     const textLength = Math.round(textWidth / 8.0)
     const startLength = Math.round(textLength / 2)
     const text = startEndEllipsis(hash, textLength - startLength, startLength)
-    dispatch(text)
+    setHashText(text)
   }
 }
 
