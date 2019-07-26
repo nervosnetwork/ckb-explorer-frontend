@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
 import logoIcon from '../../assets/ckb_logo.png'
@@ -11,10 +11,11 @@ import {
   HeaderSearchPanel,
   HeaderVersionPanel,
   HeaderTestnetPanel,
+  HeaderSearchMobilePanel,
 } from './styled'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers/index'
-import { AppDispatch } from '../../contexts/providers/reducer'
+import { AppDispatch, ComponentActions } from '../../contexts/providers/reducer'
 
 const MenuDatas = [
   {
@@ -28,7 +29,7 @@ const Menus = () => {
     <div className="header__menus">
       {MenuDatas.map(menu => {
         return (
-          <Link className="header__menus__item" to={menu.url}>
+          <Link className="header__menus__item" to={menu.url} key={menu.name}>
             {menu.name}
           </Link>
         )
@@ -53,50 +54,52 @@ export default ({
   width?: number
   dispatch: AppDispatch
 }) => {
-  const [editable, setEditable] = useState(false)
-  const { app } = useContext(AppContext)
+  const { app, components } = useContext(AppContext)
   const { nodeVersion } = app
+  const { searchBarEditable } = components
 
   return useMemo(() => {
     // normally rerender will not occur with useMemo
     if (isMobile(width)) {
       return (
         <>
-          {editable ? (
-            <HeaderMobilePanel>
-              <Search dispatch={dispatch} />
-            </HeaderMobilePanel>
-          ) : (
-            <HeaderMobilePanel>
-              <HeaderMobileDiv>
-                <Link to="/" className="header__logo">
-                  <img className="header__logo__img" src={logoIcon} alt="logo" />
-                </Link>
-                <Menus />
-                {search && (
-                  <div className="header__search">
-                    <div
-                      className="header__search__component"
-                      onKeyDown={() => {}}
-                      onClick={() => {
-                        setEditable(true)
-                      }}
-                      role="button"
-                      tabIndex={-1}
-                    >
-                      <img className="header__search__image" src={SearchLogo} alt="search" />
-                    </div>
-                    <div className="header__search__separate" />
+          <HeaderSearchMobilePanel searchBarEditable={searchBarEditable}>
+            <Search dispatch={dispatch} />
+          </HeaderSearchMobilePanel>
+          <HeaderMobilePanel searchBarEditable={searchBarEditable}>
+            <HeaderMobileDiv>
+              <Link to="/" className="header__logo">
+                <img className="header__logo__img" src={logoIcon} alt="logo" />
+              </Link>
+              <Menus />
+              {search && (
+                <div className="header__search">
+                  <div
+                    className="header__search__component"
+                    onKeyDown={() => {}}
+                    onClick={() => {
+                      dispatch({
+                        type: ComponentActions.UpdateHeaderSearchEditable,
+                        payload: {
+                          searchBarEditable: true,
+                        },
+                      })
+                    }}
+                    role="button"
+                    tabIndex={-1}
+                  >
+                    <img className="header__search__image" src={SearchLogo} alt="search" />
                   </div>
-                )}
-                <HeaderTestnetPanel search={!!search}>
-                  <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-                  <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
-                </HeaderTestnetPanel>
-              </HeaderMobileDiv>
-              <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
-            </HeaderMobilePanel>
-          )}
+                  <div className="header__search__separate" />
+                </div>
+              )}
+              <HeaderTestnetPanel search={!!search}>
+                <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
+                <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+              </HeaderTestnetPanel>
+            </HeaderMobileDiv>
+            <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
+          </HeaderMobilePanel>
         </>
       )
     }
@@ -122,5 +125,5 @@ export default ({
         </HeaderDiv>
       </>
     )
-  }, [dispatch, nodeVersion, search, width, editable])
+  }, [dispatch, nodeVersion, search, width, searchBarEditable])
 }

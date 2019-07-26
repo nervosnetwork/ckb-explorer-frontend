@@ -55,8 +55,9 @@ export const HeaderDiv = styled.div`
   }
 `
 
-export const HeaderMobilePanel = styled.div`
+const HeaderMobileCommonPanel = styled.div`
   height: 42px;
+  width: 100vw;
   overflow: hidden;
   box-shadow: 0 2px 4px 0 #141414;
   background-color: #424242;
@@ -65,6 +66,14 @@ export const HeaderMobilePanel = styled.div`
   top: 0;
   z-index: 10;
   padding: 1px 20px;
+`
+
+export const HeaderMobilePanel = styled(HeaderMobileCommonPanel)`
+  display: ${({ searchBarEditable }: { searchBarEditable: boolean }) => (searchBarEditable ? 'none' : 'block')};
+`
+
+export const HeaderSearchMobilePanel = styled(HeaderMobileCommonPanel)`
+  display: ${({ searchBarEditable }: { searchBarEditable: boolean }) => (searchBarEditable ? 'block' : 'none')};
 `
 
 export const HeaderMobileDiv = styled.div`
