@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState, Dispatch, SetStateAction } from 'react'
 import styled from 'styled-components'
 import CopyIcon from '../../assets/copy.png'
 import i18n from '../../utils/i18n'
@@ -76,26 +76,30 @@ const AddressHashCardPanel = styled.div`
   }
 `
 
+const handleHashText = (hash: string, dispatch: Dispatch<SetStateAction<string>>) => {
+  if (!isMobile()) {
+    dispatch(hash)
+    return
+  }
+  const contentElement = document.getElementById('address_hash_content')
+  const hashElement = document.getElementById('address_hash__text')
+  if (hashElement && contentElement) {
+    const contentReact = contentElement.getBoundingClientRect()
+    const hashReact = hashElement.getBoundingClientRect()
+    const textWidth = contentReact.width - hashReact.left - 16 - 20
+    const textLength = Math.round(textWidth / 8.0)
+    const startLength = Math.round(textLength / 2)
+    const text = startEndEllipsis(hash, textLength - startLength, startLength)
+    dispatch(text)
+  }
+}
+
 export default ({ title, hash, dispatch }: { title: string; hash: string; dispatch: AppDispatch }) => {
   const [hashText, setHashText] = useState(hash)
   const isMobileDeivce = isMobile()
 
   useLayoutEffect(() => {
-    if (!isMobile()) {
-      setHashText(hash)
-      return
-    }
-    const contentElement = document.getElementById('address_hash_content')
-    const hashElement = document.getElementById('address_hash__text')
-    if (hashElement && contentElement) {
-      const contentReact = contentElement.getBoundingClientRect()
-      const hashReact = hashElement.getBoundingClientRect()
-      const textWidth = contentReact.width - hashReact.left - 16 - 20
-      const textLength = Math.round(textWidth / 8.0)
-      const startLength = Math.round(textLength / 2)
-      const text = startEndEllipsis(hash, textLength - startLength, startLength)
-      setHashText(text)
-    }
+    handleHashText(hash, setHashText)
   }, [hash, isMobileDeivce])
 
   return (
