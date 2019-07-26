@@ -35,6 +35,8 @@ export const HeaderDiv = styled.div`
       margin-left: 35px;
       margin-right: 35px;
       font-size: 24px;
+      letter-spacing: 2px;
+      font-weight: 600;
       color: white;
     }
   }
@@ -94,6 +96,11 @@ export const HeaderMobileDiv = styled.div`
     .header__menus__item {
       margin-left: 35px;
       font-size: 14px;
+      font-family: Montserrat;
+      font-weight: bold;
+      line-height: 100%;
+      color: white;
+
       @media (max-width: 700px) {
         margin-left: 15px;
       }
@@ -101,9 +108,6 @@ export const HeaderMobileDiv = styled.div`
         margin-left: 8px;
         font-size: 12px;
       }
-      font-weight: bold;
-      line-height: 100%;
-      color: white;
     }
   }
 
@@ -151,7 +155,9 @@ export const HeaderTestnetPanel = styled.div`
     font-size: 24px;
     text-align: center;
     line-height: 50px;
-    font-family: Montserrat-SemiBold;
+    letter-spacing: 2px;
+    font-weight: 600;
+    font-family: Montserrat;
   }
 
   &:hover .header__testnet__tip {
@@ -186,6 +192,7 @@ export const HeaderTestnetPanel = styled.div`
       font-size: 12px;
       height: 42px;
       line-height: 42px;
+      letter-spacing: normal;
       font-family: Montserrat-SemiBold;
     }
   }
