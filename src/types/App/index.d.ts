@@ -64,6 +64,7 @@ declare namespace State {
     from_cellbase: boolean
     target_block_number: number
     block_reward: number
+    secondary_reward: number
     commit_reward: number
     proposal_reward: number
     isGenesisOutput: boolean

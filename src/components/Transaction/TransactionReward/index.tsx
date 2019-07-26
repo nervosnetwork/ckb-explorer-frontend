@@ -64,6 +64,10 @@ const TransactionReward = ({ transaction, cell }: { transaction: State.Transacti
       capacity: cell.block_reward,
     },
     {
+      name: i18n.t('transaction.secondary_reward'),
+      capacity: cell.secondary_reward,
+    },
+    {
       name: i18n.t('transaction.commit_reward'),
       capacity: cell.commit_reward,
     },
