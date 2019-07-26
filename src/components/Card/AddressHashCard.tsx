@@ -36,7 +36,7 @@ const AddressHashCardPanel = styled.div`
     }
   }
 
-  #address_hash__value {
+  #address_hash__text {
     margin-left: 20px;
     font-size: 20px;
     color: #000000;
@@ -50,7 +50,7 @@ const AddressHashCardPanel = styled.div`
     }
   }
 
-  .address_hash__copy_iocn {
+  .address_hash__copy_icon {
     cursor: pointer;
     margin-left: 20px;
     transform: translateY(6px);
@@ -71,7 +71,7 @@ const AddressHashCardPanel = styled.div`
     }
   }
 
-  #address_hash__hash {
+  #address_hash__value {
     color: #ffffff;
   }
 `
@@ -86,7 +86,7 @@ export default ({ title, hash, dispatch }: { title: string; hash: string; dispat
       return
     }
     const contentElement = document.getElementById('address_hash_content')
-    const hashElement = document.getElementById('address_hash__value')
+    const hashElement = document.getElementById('address_hash__text')
     if (hashElement && contentElement) {
       const contentReact = contentElement.getBoundingClientRect()
       const hashReact = hashElement.getBoundingClientRect()
@@ -101,16 +101,16 @@ export default ({ title, hash, dispatch }: { title: string; hash: string; dispat
   return (
     <AddressHashCardPanel id="address_hash_content">
       <div className="address_hash__title">{title}</div>
-      <div id="address_hash__value">
+      <div id="address_hash__text">
         <code>{hashText}</code>
       </div>
       <div
-        className="address_hash__copy_iocn"
+        className="address_hash__copy_icon"
         role="button"
         tabIndex={-1}
         onKeyDown={() => {}}
         onClick={() => {
-          copyElementValue(document.getElementById('address_hash__hash'))
+          copyElementValue(document.getElementById('address_hash__value'))
           dispatch({
             type: AppActions.ShowToastMessage,
             payload: {
@@ -122,7 +122,7 @@ export default ({ title, hash, dispatch }: { title: string; hash: string; dispat
       >
         <img src={CopyIcon} alt="copy" />
       </div>
-      <div id="address_hash__hash">{hash}</div>
+      <div id="address_hash__value">{hash}</div>
     </AddressHashCardPanel>
   )
 }
