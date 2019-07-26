@@ -77,10 +77,10 @@ export const BlockOverviewDisplayControlPanel = styled.div`
 `
 
 export const BlockTransactionsPagition = styled(CommonPagition)`
-  margin: 40px 0px 0px 0px;
+  margin: 20px 0px 0px 0px;
   width: 100%;
 
   @media (max-width: 700px) {
-    margin: 20px 0px 0px 0px;
+    margin: 10px 0px 0px 0px;
   }
 `

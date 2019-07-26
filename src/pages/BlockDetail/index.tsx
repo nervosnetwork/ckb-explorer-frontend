@@ -1,9 +1,7 @@
 import queryString from 'query-string'
-import Pagination from 'rc-pagination'
-import 'rc-pagination/assets/index.css'
-import localeInfo from 'rc-pagination/lib/locale/en_US'
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
+import Pagination from '../../components/Pagination'
 import DropDownIcon from '../../assets/block_detail_drop_down.png'
 import PackUpIcon from '../../assets/block_detail_pack_up.png'
 import AddressHashCard from '../../components/Card/AddressHashCard'
@@ -217,20 +215,21 @@ export default ({
   // blockParam: block hash or block number
   const { param: blockParam } = params
   const parsed = queryString.parse(search)
-  const page = parsePageNumber(parsed.page, PageParams.PageNo)
-  const size = parsePageNumber(parsed.size, PageParams.PageSize)
-
   const { blockState } = useContext(AppContext)
 
-  useEffect(() => {
-    if (size > PageParams.MaxPageSize) {
-      replace(`/block/${blockParam}?page=${page}&size=${PageParams.MaxPageSize}`)
-    }
-    getBlock(blockParam, page, size, dispatch, replace)
-  }, [replace, blockParam, page, size, dispatch])
+  const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
+  const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
+  const totalPages = Math.ceil(blockState.total / pageSize)
 
-  const onChange = (pageNo: number, pageSize: number) => {
-    push(`/block/${blockParam}?page=${pageNo}&size=${pageSize}`)
+  useEffect(() => {
+    if (pageSize > PageParams.MaxPageSize) {
+      replace(`/block/${blockParam}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
+    }
+    getBlock(blockParam, currentPage, pageSize, dispatch, replace)
+  }, [replace, blockParam, currentPage, pageSize, dispatch])
+
+  const onChange = (page: number) => {
+    push(`/block/${blockParam}?page=${page}&size=${pageSize}`)
   }
 
   return (
@@ -257,19 +256,9 @@ export default ({
               )
             )
           })}
-        {blockState.total > 1 && (
+        {totalPages > 1 && (
           <BlockTransactionsPagition>
-            <Pagination
-              showQuickJumper
-              showSizeChanger
-              defaultPageSize={size}
-              pageSize={size}
-              defaultCurrent={page}
-              current={page}
-              total={blockState.total}
-              onChange={onChange}
-              locale={localeInfo}
-            />
+            <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
           </BlockTransactionsPagition>
         )}
       </BlockDetailPanel>

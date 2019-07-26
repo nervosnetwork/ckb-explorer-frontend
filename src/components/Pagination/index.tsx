@@ -4,63 +4,26 @@ import i18n from '../../utils/i18n'
 
 const PaginationItem = ({
   currentPage,
-  total,
-  pageSize,
-  defaultJumpPage,
+  totalPages,
+  gotoPage,
   onChange,
 }: {
   currentPage: number
-  total: number
-  pageSize: number
-  defaultJumpPage: number
-  onChange: (page: number, pageSize: number) => void
+  totalPages: number
+  gotoPage: number
+  onChange: (page: number) => void
 }) => {
-  const [inputValue, setInputValue] = useState(defaultJumpPage)
-  const totalPage = Math.ceil(total / pageSize)
-  const goFirstPage = () => {
-    onChange(1, pageSize)
-  }
-
-  const goLastPage = () => {
-    onChange(totalPage, pageSize)
-  }
-
-  const goPrev = () => {
-    if (currentPage > 1) {
-      onChange(currentPage - 1, pageSize)
-    }
-  }
-
-  const goNext = () => {
-    if (currentPage < totalPage) {
-      onChange(currentPage + 1, pageSize)
-    }
-  }
-
-  const gotoPage = () => {
-    if (inputValue && inputValue <= totalPage && inputValue >= 1) {
-      onChange(inputValue, pageSize)
-    }
-  }
-
-  const isFirstPage = () => {
-    return currentPage === 1
-  }
-
-  const isLastPage = () => {
-    return currentPage === totalPage
-  }
-
+  const [inputValue, setInputValue] = useState(gotoPage)
   return (
     <PaginationPanel>
-      <PaginationLeftItem isFirstPage={isFirstPage()} isLastPage={isLastPage()}>
-        <button type="button" className="first" onClick={() => goFirstPage()}>
+      <PaginationLeftItem isFirstPage={currentPage === 1} isLastPage={currentPage === totalPages}>
+        <button type="button" className="first" onClick={() => onChange(1)}>
           {i18n.t('pagination.first')}
         </button>
-        <button type="button" className="left__button" onClick={() => goPrev()} />
-        <div className="middle__label">{`Page ${currentPage} of ${totalPage}`}</div>
-        <button type="button" className="right__button" onClick={() => goNext()} />
-        <button type="button" className="last" onClick={() => goLastPage()}>
+        <button type="button" className="left__button" onClick={() => onChange(currentPage - 1)} />
+        <div className="middle__label">{`Page ${currentPage} of ${totalPages}`}</div>
+        <button type="button" className="right__button" onClick={() => onChange(currentPage + 1)} />
+        <button type="button" className="last" onClick={() => onChange(totalPages)}>
           {i18n.t('pagination.last')}
         </button>
       </PaginationLeftItem>
@@ -71,19 +34,19 @@ const PaginationItem = ({
           className="jump__page__input"
           value={inputValue}
           onChange={(event: any) => {
-            if (event.target.value > 0 && event.target.value < totalPage) {
+            if (event.target.value > 0 && event.target.value < totalPages) {
               setInputValue(event.target.value)
-            } else if (event.target.value >= totalPage) {
-              setInputValue(totalPage)
+            } else if (event.target.value >= totalPages) {
+              setInputValue(totalPages)
             }
           }}
           onKeyUp={(event: any) => {
             if (event.keyCode === 13) {
-              gotoPage()
+              onChange(inputValue)
             }
           }}
         />
-        <button type="button" className="go__to" onClick={() => gotoPage()}>
+        <button type="button" className="go__to" onClick={() => onChange(inputValue)}>
           {i18n.t('pagination.goto')}
         </button>
       </PaginationRightItem>
@@ -93,22 +56,12 @@ const PaginationItem = ({
 
 export default ({
   currentPage,
-  total,
-  pageSize,
+  totalPages,
   onChange,
 }: {
   currentPage: number
-  total: number
-  pageSize: number
-  onChange: (page: number, pageSize: number) => void
+  totalPages: number
+  onChange: (page: number) => void
 }) => {
-  return (
-    <PaginationItem
-      currentPage={currentPage}
-      total={total}
-      pageSize={pageSize}
-      defaultJumpPage={1}
-      onChange={onChange}
-    />
-  )
+  return <PaginationItem currentPage={currentPage} totalPages={totalPages} gotoPage={1} onChange={onChange} />
 }
