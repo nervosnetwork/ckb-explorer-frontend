@@ -122,6 +122,7 @@ const initAddress: State.Address = {
   lock_script: {
     args: [],
     code_hash: '',
+    hash_type: '',
   },
 }
 
