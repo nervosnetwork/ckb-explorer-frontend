@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import styled from 'styled-components'
 import CopyIcon from '../../assets/copy.png'
 import i18n from '../../utils/i18n'
-import { isSmallMobile, isMediumMobile, isLargeMobile } from '../../utils/screen'
+import { isMobile } from '../../utils/screen'
 import { startEndEllipsis } from '../../utils/string'
 import { copyElementValue } from '../../utils/util'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
@@ -16,6 +16,7 @@ const AddressHashCardPanel = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  overflow-x: hidden;
 
   @media (max-width: 700px) {
     height: 50px;
@@ -35,7 +36,7 @@ const AddressHashCardPanel = styled.div`
     }
   }
 
-  #address_hash__hash {
+  #address_hash__value {
     margin-left: 20px;
     font-size: 20px;
     color: #000000;
@@ -69,27 +70,39 @@ const AddressHashCardPanel = styled.div`
       }
     }
   }
+
+  #address_hash__hash {
+    color: #ffffff;
+  }
 `
 
-const handleHashText = (hash: string) => {
-  if (isSmallMobile()) {
-    return startEndEllipsis(hash, 8, 10)
-  }
-  if (isMediumMobile()) {
-    return startEndEllipsis(hash, 9)
-  }
-  if (isLargeMobile()) {
-    return startEndEllipsis(hash, 14)
-  }
-  return hash
-}
-
 export default ({ title, hash, dispatch }: { title: string; hash: string; dispatch: AppDispatch }) => {
+  const [hashText, setHashText] = useState(hash)
+  const isMobileDeivce = isMobile()
+
+  useLayoutEffect(() => {
+    if (!isMobile()) {
+      setHashText(hash)
+      return
+    }
+    const contentElement = document.getElementById('address_hash_content')
+    const hashElement = document.getElementById('address_hash__value')
+    if (hashElement && contentElement) {
+      const contentReact = contentElement.getBoundingClientRect()
+      const hashReact = hashElement.getBoundingClientRect()
+      const textWidth = contentReact.width - hashReact.left - 16 - 20
+      const textLength = Math.round(textWidth / 8.0)
+      const startLength = Math.round(textLength / 2)
+      const text = startEndEllipsis(hash, textLength - startLength, startLength)
+      setHashText(text)
+    }
+  }, [hash, isMobileDeivce])
+
   return (
-    <AddressHashCardPanel>
+    <AddressHashCardPanel id="address_hash_content">
       <div className="address_hash__title">{title}</div>
-      <div id="address_hash__hash">
-        <code>{handleHashText(hash)}</code>
+      <div id="address_hash__value">
+        <code>{hashText}</code>
       </div>
       <div
         className="address_hash__copy_iocn"
@@ -109,6 +122,7 @@ export default ({ title, hash, dispatch }: { title: string; hash: string; dispat
       >
         <img src={CopyIcon} alt="copy" />
       </div>
+      <div id="address_hash__hash">{hash}</div>
     </AddressHashCardPanel>
   )
 }
