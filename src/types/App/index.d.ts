@@ -132,6 +132,11 @@ declare namespace State {
     epochnumber: number
   }
 
+  export interface Components {
+    // mobile header search state
+    searchBarEditable: boolean
+  }
+
   export interface App {
     toast: State.ToastMessage | null
     loading: boolean
@@ -178,6 +183,8 @@ declare namespace State {
     transaction: Transaction
     statistics: Statistics
     statisticsChartDatas: StatisticsChartDatas
+
+    components: Components
   }
 }
 
