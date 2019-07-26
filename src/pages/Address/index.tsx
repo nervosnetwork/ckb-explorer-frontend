@@ -1,8 +1,7 @@
 import queryString from 'query-string'
-import Pagination from 'rc-pagination'
-import localeInfo from 'rc-pagination/lib/locale/en_US'
 import React, { ReactNode, useContext, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
+import Pagination from '../../components/Pagination'
 import HelpIcon from '../../assets/qa_help.png'
 import AddressHashCard from '../../components/Card/AddressHashCard'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
@@ -99,22 +98,22 @@ export const Address = ({
   const { address, hash: lockHash } = params
   const identityHash = address || lockHash
   const parsed = queryString.parse(search)
-
-  const page = parsePageNumber(parsed.page, PageParams.PageNo)
-  const size = parsePageNumber(parsed.size, PageParams.PageSize)
-
   const { addressState, app } = useContext(AppContext)
   const { tipBlockNumber } = app
 
-  useEffect(() => {
-    if (size > PageParams.MaxPageSize) {
-      replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${page}&size=${PageParams.MaxPageSize}`)
-    }
-    getAddress(identityHash, page, size, dispatch)
-  }, [replace, identityHash, page, size, dispatch, address])
+  const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
+  const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
+  const totalPages = Math.ceil(addressState.total / pageSize)
 
-  const onChange = (pageNo: number, pageSize: number) => {
-    replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${pageNo}&size=${pageSize}`)
+  useEffect(() => {
+    if (pageSize > PageParams.MaxPageSize) {
+      replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
+    }
+    getAddress(identityHash, currentPage, pageSize, dispatch)
+  }, [replace, identityHash, currentPage, pageSize, dispatch, address])
+
+  const onChange = (page: number) => {
+    replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${page}&size=${pageSize}`)
   }
 
   const items: OverviewItemData[] = [
@@ -171,19 +170,9 @@ export const Address = ({
               )
             })}
         </AddressTransactionsPanel>
-        {addressState.total > 1 && (
+        {totalPages > 1 && (
           <AddressTransactionsPagition>
-            <Pagination
-              showQuickJumper
-              showSizeChanger
-              defaultPageSize={size}
-              pageSize={size}
-              defaultCurrent={page}
-              current={page}
-              total={addressState.total}
-              onChange={onChange}
-              locale={localeInfo}
-            />
+            <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
           </AddressTransactionsPagition>
         )}
       </AddressContentPanel>

@@ -126,10 +126,10 @@ export const AddressTransactionsPanel = styled.div`
 `
 
 export const AddressTransactionsPagition = styled(CommonPagition)`
-  margin: 40px 0 0px 0;
+  margin: 20px 0 0px 0;
   width: 100%;
 
   @media (max-width: 700px) {
-    margin: 20px 0 0px 0;
+    margin: 10px 0 0px 0;
   }
 `

@@ -2,65 +2,35 @@ import React, { useState } from 'react'
 import { PaginationLeftItem, PaginationRightItem, PaginationPanel } from './styled'
 import i18n from '../../utils/i18n'
 
-const PaginationItem = ({
+const Pagination = ({
   currentPage,
-  total,
-  pageSize,
-  defaultJumpPage,
+  totalPages,
+  gotoPage = 1,
   onChange,
 }: {
   currentPage: number
-  total: number
-  pageSize: number
-  defaultJumpPage: number
-  onChange: (page: number, pageSize: number) => void
+  totalPages: number
+  gotoPage?: number
+  onChange: (page: number) => void
 }) => {
-  const [inputValue, setInputValue] = useState(defaultJumpPage)
-  const totalPage = Math.ceil(total / pageSize)
-  const goFirstPage = () => {
-    onChange(1, pageSize)
+  const [inputValue, setInputValue] = useState(gotoPage)
+  const total = Math.max(totalPages, 1)
+  const current = Math.min(Math.max(currentPage, 1), totalPages)
+  const changePage = (page: number) => {
+    if (page < 1) onChange(1)
+    if (page > total) onChange(total)
+    onChange(page)
   }
-
-  const goLastPage = () => {
-    onChange(totalPage, pageSize)
-  }
-
-  const goPrev = () => {
-    if (currentPage > 1) {
-      onChange(currentPage - 1, pageSize)
-    }
-  }
-
-  const goNext = () => {
-    if (currentPage < totalPage) {
-      onChange(currentPage + 1, pageSize)
-    }
-  }
-
-  const gotoPage = () => {
-    if (inputValue && inputValue <= totalPage && inputValue >= 1) {
-      onChange(inputValue, pageSize)
-    }
-  }
-
-  const isFirstPage = () => {
-    return currentPage === 1
-  }
-
-  const isLastPage = () => {
-    return currentPage === totalPage
-  }
-
   return (
     <PaginationPanel>
-      <PaginationLeftItem isFirstPage={isFirstPage()} isLastPage={isLastPage()}>
-        <button type="button" className="first" onClick={() => goFirstPage()}>
+      <PaginationLeftItem isFirstPage={current === 1} isLastPage={current === total}>
+        <button type="button" className="first" onClick={() => changePage(1)}>
           {i18n.t('pagination.first')}
         </button>
-        <button type="button" className="left__button" onClick={() => goPrev()} />
-        <div className="middle__label">{`Page ${currentPage} of ${totalPage}`}</div>
-        <button type="button" className="right__button" onClick={() => goNext()} />
-        <button type="button" className="last" onClick={() => goLastPage()}>
+        <button type="button" className="left__button" onClick={() => changePage(current - 1)} />
+        <div className="middle__label">{`Page ${current} of ${total}`}</div>
+        <button type="button" className="right__button" onClick={() => changePage(current + 1)} />
+        <button type="button" className="last" onClick={() => changePage(total)}>
           {i18n.t('pagination.last')}
         </button>
       </PaginationLeftItem>
@@ -71,19 +41,19 @@ const PaginationItem = ({
           className="jump__page__input"
           value={inputValue}
           onChange={(event: any) => {
-            if (event.target.value > 0 && event.target.value < totalPage) {
+            if (event.target.value > 0 && event.target.value < total) {
               setInputValue(event.target.value)
-            } else if (event.target.value >= totalPage) {
-              setInputValue(totalPage)
+            } else if (event.target.value >= total) {
+              setInputValue(total)
             }
           }}
           onKeyUp={(event: any) => {
             if (event.keyCode === 13) {
-              gotoPage()
+              changePage(inputValue)
             }
           }}
         />
-        <button type="button" className="go__to" onClick={() => gotoPage()}>
+        <button type="button" className="go__to" onClick={() => changePage(inputValue)}>
           {i18n.t('pagination.goto')}
         </button>
       </PaginationRightItem>
@@ -91,24 +61,4 @@ const PaginationItem = ({
   )
 }
 
-export default ({
-  currentPage,
-  total,
-  pageSize,
-  onChange,
-}: {
-  currentPage: number
-  total: number
-  pageSize: number
-  onChange: (page: number, pageSize: number) => void
-}) => {
-  return (
-    <PaginationItem
-      currentPage={currentPage}
-      total={total}
-      pageSize={pageSize}
-      defaultJumpPage={1}
-      onChange={onChange}
-    />
-  )
-}
+export default Pagination

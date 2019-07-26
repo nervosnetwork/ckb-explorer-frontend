@@ -92,11 +92,11 @@ export default ({
   location: { search },
 }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
   const parsed = queryString.parse(search)
-
-  const page = parsePageNumber(parsed.page, BlockListPageParams.PageNo)
-  const size = parsePageNumber(parsed.size, BlockListPageParams.PageSize)
-
   const { blockListState } = useContext(AppContext)
+
+  const currentPage = parsePageNumber(parsed.page, BlockListPageParams.PageNo)
+  const pageSize = parsePageNumber(parsed.size, BlockListPageParams.PageSize)
+  const totalPages = Math.ceil(blockListState.total / pageSize)
 
   useEffect(() => {
     const cachedBlocks = fetchCachedData<Response.Wrapper<State.Block>[]>(CachedKeys.BlockList)
@@ -111,14 +111,14 @@ export default ({
   }, [dispatch])
 
   useEffect(() => {
-    if (size > BlockListPageParams.MaxPageSize) {
-      replace(`/block/list?page=${page}&size=${BlockListPageParams.MaxPageSize}`)
+    if (pageSize > BlockListPageParams.MaxPageSize) {
+      replace(`/block/list?page=${currentPage}&size=${BlockListPageParams.MaxPageSize}`)
     }
-    getBlocks(page, size, dispatch)
-  }, [replace, page, size, dispatch])
+    getBlocks(currentPage, pageSize, dispatch)
+  }, [replace, currentPage, pageSize, dispatch])
 
-  const onChange = (pageNo: number, pageSize: number) => {
-    push(`/block/list?page=${pageNo}&size=${pageSize}`)
+  const onChange = (page: number) => {
+    push(`/block/list?page=${page}&size=${pageSize}`)
   }
 
   return (
@@ -167,7 +167,7 @@ export default ({
               })}
           </ContentTable>
         )}
-        <Pagination currentPage={page} total={blockListState.total} pageSize={size} onChange={onChange} />
+        <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
       </BlockListPanel>
     </Content>
   )
