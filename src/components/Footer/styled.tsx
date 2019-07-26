@@ -116,8 +116,10 @@ export const FooterItemPanel = styled.a`
   text-decoration: none;
   width: 70px;
   height: auto;
+  word-wrap: break-word;
+  word-break: break-all;
 
-  >div: nth-child(1) {
+  > div:nth-child(1) {
     width: 32px;
     height: 32px;
     img {
@@ -125,7 +127,7 @@ export const FooterItemPanel = styled.a`
       height: auto;
     }
   }
-  >div: nth-child(2) {
+  > div:nth-child(2) {
     color: white;
     font-size: 12px;
     margin-top: 5px;
@@ -133,14 +135,14 @@ export const FooterItemPanel = styled.a`
   }
 
   @media (max-width: 700px) {
-    width: 35px;
+    width: 40px;
 
-    >div: nth-child(1) {
+    > div:nth-child(1) {
       width: 18px;
       height: 18px;
     }
-    >div: nth-child(2) {
-      font-size: 8px;
+    > div:nth-child(2) {
+      font-size: 7px;
       margin-top: 5px;
     }
   }
