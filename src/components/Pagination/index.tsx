@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { PaginationLeftItem, PaginationRightItem, PaginationPanel } from './styled'
 import i18n from '../../utils/i18n'
 
-const PaginationItem = ({
+const Pagination = ({
   currentPage,
   totalPages,
   gotoPage = 1,
@@ -61,4 +61,4 @@ const PaginationItem = ({
   )
 }
 
-export default PaginationItem
+export default Pagination
