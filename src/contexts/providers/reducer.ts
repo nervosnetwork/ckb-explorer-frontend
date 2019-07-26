@@ -29,7 +29,11 @@ export enum PageActions {
   UpdateStatisticsChartData = 'updateStatisticsChartData',
 }
 
-export type StateActions = AppActions | PageActions
+export enum ComponentActions {
+  UpdateHeaderSearchEditable = 'updateHeaderSearchEditable',
+}
+
+export type StateActions = AppActions | PageActions | ComponentActions
 
 export type AppDispatch = React.Dispatch<{ type: StateActions; payload: any }> // TODO: add type of payload
 export type StateWithDispatch = State.AppState & { dispatch: AppDispatch }
@@ -193,6 +197,13 @@ export const reducer = (
       return {
         ...state,
         statisticsChartDatas: payload.statisticsChartDatas,
+      }
+    case ComponentActions.UpdateHeaderSearchEditable:
+      return {
+        ...state,
+        components: {
+          searchBarEditable: payload.searchBarEditable,
+        },
       }
     default:
       return state

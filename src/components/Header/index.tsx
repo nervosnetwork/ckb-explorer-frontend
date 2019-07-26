@@ -1,27 +1,42 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
 import logoIcon from '../../assets/ckb_logo.png'
 import SearchLogo from '../../assets/search.png'
 import i18n from '../../utils/i18n'
-import { HeaderDiv, HeaderMobileDiv, HeaderMobilePanel, HeaderSearchPanel, HeaderVersionPanel } from './styled'
+import {
+  HeaderDiv,
+  HeaderMobileDiv,
+  HeaderMobilePanel,
+  HeaderSearchPanel,
+  HeaderVersionPanel,
+  HeaderTestnetPanel,
+  HeaderSearchMobilePanel,
+} from './styled'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers/index'
-import { AppDispatch } from '../../contexts/providers/reducer'
+import { AppDispatch, ComponentActions } from '../../contexts/providers/reducer'
 
-const menus = [
-  {
-    name: i18n.t('navbar.wallet'),
-    url: 'https://github.com/nervosnetwork/neuron',
-  },
+const MenuDatas = [
   {
     name: i18n.t('navbar.charts'),
     url: '/charts',
   },
 ]
 
-const NORMAL_HEIGHT = 42
-const SEARCH_HEIGHT = 95
+const Menus = () => {
+  return (
+    <div className="header__menus">
+      {MenuDatas.map(menu => {
+        return (
+          <Link className="header__menus__item" to={menu.url} key={menu.name}>
+            {menu.name}
+          </Link>
+        )
+      })}
+    </div>
+  )
+}
 
 const handleVersion = (nodeVersion: string) => {
   if (nodeVersion && nodeVersion.indexOf('(') !== -1) {
@@ -39,47 +54,49 @@ export default ({
   width?: number
   dispatch: AppDispatch
 }) => {
-  const [height, setHeight] = useState(NORMAL_HEIGHT)
-  const { app } = useContext(AppContext)
+  const { app, components } = useContext(AppContext)
   const { nodeVersion } = app
-
-  useEffect(() => {
-    setHeight(NORMAL_HEIGHT)
-  }, [setHeight])
+  const { searchBarEditable } = components
 
   return useMemo(() => {
     // normally rerender will not occur with useMemo
     if (isMobile(width)) {
       return (
         <>
-          <HeaderMobilePanel height={height}>
+          <HeaderSearchMobilePanel searchBarEditable={searchBarEditable}>
+            <Search dispatch={dispatch} />
+          </HeaderSearchMobilePanel>
+          <HeaderMobilePanel searchBarEditable={searchBarEditable}>
             <HeaderMobileDiv>
               <Link to="/" className="header__logo">
                 <img className="header__logo__img" src={logoIcon} alt="logo" />
               </Link>
-              <div className="header__menus">
-                <a className="header__menus__item" href={menus[0].url} target="_blank" rel="noopener noreferrer">
-                  {menus[0].name}
-                </a>
-                <Link className="header__menus__item" to={menus[1].url}>
-                  {menus[1].name}
-                </Link>
-              </div>
+              <Menus />
               {search && (
                 <div className="header__search">
                   <div
                     className="header__search__component"
                     onKeyDown={() => {}}
-                    onClick={() => setHeight(height === NORMAL_HEIGHT ? SEARCH_HEIGHT : NORMAL_HEIGHT)}
+                    onClick={() => {
+                      dispatch({
+                        type: ComponentActions.UpdateHeaderSearchEditable,
+                        payload: {
+                          searchBarEditable: true,
+                        },
+                      })
+                    }}
                     role="button"
                     tabIndex={-1}
                   >
                     <img className="header__search__image" src={SearchLogo} alt="search" />
                   </div>
-                  <div className="header__testnet">{i18n.t('navbar.network')}</div>
+                  <div className="header__search__separate" />
                 </div>
               )}
-              <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+              <HeaderTestnetPanel search={!!search}>
+                <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
+                <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+              </HeaderTestnetPanel>
             </HeaderMobileDiv>
             <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
           </HeaderMobilePanel>
@@ -92,28 +109,21 @@ export default ({
           <Link to="/" className="header__logo">
             <img className="header__logo__img" src={logoIcon} alt="logo" />
           </Link>
-          <div className="header__menus">
-            <a className="header__menus__item" href={menus[0].url} target="_blank" rel="noopener noreferrer">
-              {menus[0].name}
-            </a>
-            <Link className="header__menus__item" to={menus[1].url}>
-              {menus[1].name}
-            </Link>
-          </div>
+          <Menus />
           {search && (
             <div className="header__search">
               <div className="header__search__component">
                 <Search dispatch={dispatch} />
               </div>
-              <div className="header__testnet__panel">
-                <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-                <div className="header__testnet__tip">{i18n.t('navbar.network_tooltip')}</div>
-              </div>
             </div>
           )}
-          <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+          <HeaderTestnetPanel search={!!search}>
+            <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
+            <div className="header__testnet__tip">{i18n.t('navbar.network_tooltip')}</div>
+            <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+          </HeaderTestnetPanel>
         </HeaderDiv>
       </>
     )
-  }, [dispatch, nodeVersion, search, width, height])
+  }, [dispatch, nodeVersion, search, width, searchBarEditable])
 }
