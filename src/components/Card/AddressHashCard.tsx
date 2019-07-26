@@ -76,8 +76,8 @@ const AddressHashCardPanel = styled.div`
   }
 `
 
-const handleHashText = (hash: string, dispatch: Dispatch<SetStateAction<string>>) => {
-  if (!isMobile()) {
+const handleHashText = (hash: string, isMobileDeivce: boolean, dispatch: Dispatch<SetStateAction<string>>) => {
+  if (!isMobileDeivce) {
     dispatch(hash)
     return
   }
@@ -99,7 +99,7 @@ export default ({ title, hash, dispatch }: { title: string; hash: string; dispat
   const isMobileDeivce = isMobile()
 
   useLayoutEffect(() => {
-    handleHashText(hash, setHashText)
+    handleHashText(hash, isMobileDeivce, setHashText)
   }, [hash, isMobileDeivce])
 
   return (
