@@ -2,8 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import CopyIcon from '../../assets/copy.png'
 import i18n from '../../utils/i18n'
-import { isSmallMobile, isMediumMobile, isLargeMobile } from '../../utils/screen'
-import { startEndEllipsis } from '../../utils/string'
 import { copyElementValue } from '../../utils/util'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
 
@@ -71,25 +69,12 @@ const AddressHashCardPanel = styled.div`
   }
 `
 
-const handleHashText = (hash: string) => {
-  if (isSmallMobile()) {
-    return startEndEllipsis(hash, 8, 10)
-  }
-  if (isMediumMobile()) {
-    return startEndEllipsis(hash, 9)
-  }
-  if (isLargeMobile()) {
-    return startEndEllipsis(hash, 14)
-  }
-  return hash
-}
-
-export default ({ title, hash, dispatch }: { title: string; hash: string; dispatch: AppDispatch }) => {
+export default ({ title, hashText, dispatch }: { title: string; hashText: string; dispatch: AppDispatch }) => {
   return (
     <AddressHashCardPanel>
       <div className="address_hash__title">{title}</div>
       <div id="address_hash__hash">
-        <code>{handleHashText(hash)}</code>
+        <code>{hashText}</code>
       </div>
       <div
         className="address_hash__copy_iocn"

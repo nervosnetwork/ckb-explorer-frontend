@@ -16,7 +16,7 @@ export const OverviewCardPanel = styled.div`
   @media (max-width: 700px) {
     border-radius: 0px 0px 3px 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
-    padding: 5px 20px 20px 20px;
+    padding: 5px 20px 15px 20px;
 
     font-size: 13px;
   }
@@ -90,7 +90,7 @@ export const OverviewItemPanel = styled.div`
       background: #e2e2e2;
       height: 1px;
       width: 100%;
-      display: block;
+      display: ${({ hiddenLine }: { hiddenLine: boolean }) => (hiddenLine ? 'none' : 'block')};
       margin: 10px 0px 0px 0px;
 
       @media (-webkit-min-device-pixel-ratio: 2) {
@@ -104,6 +104,10 @@ export const OverviewItemPanel = styled.div`
 
   .overview_item__title {
     font-weight: 500;
+
+    @media (max-width: 700px) {
+      width: 100%;
+    }
   }
 
   .overview_item__value {
@@ -113,6 +117,7 @@ export const OverviewItemPanel = styled.div`
       margin-left: 0px;
       word-wrap: break-word;
       word-break: break-all;
+      width: 100%;
     }
   }
 `
