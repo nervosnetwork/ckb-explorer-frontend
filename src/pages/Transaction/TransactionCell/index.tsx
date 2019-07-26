@@ -99,10 +99,6 @@ export default ({
   cellType: CellType
   dispatch: AppDispatch
 }) => {
-  let highLight = false
-  if (cell.address_hash && cell.address_hash.length > 0) {
-    highLight = true
-  }
   const [state, setState] = useState(CellState.NONE as CellState)
 
   if (isMobile()) {
@@ -120,7 +116,9 @@ export default ({
     }
     return (
       <OverviewCard items={items}>
-        {highLight && <TransactionCellDetailButtons highLight={highLight} onChange={newState => setState(newState)} />}
+        {!cell.from_cellbase && (
+          <TransactionCellDetailButtons highLight={!cell.from_cellbase} onChange={newState => setState(newState)} />
+        )}
         {state !== CellState.NONE && (
           <TransactionCellDetail cell={cell} cellType={cellType} state={state} dispatch={dispatch} />
         )}
@@ -138,7 +136,7 @@ export default ({
           {cell.capacity && localeNumberString(shannonToCkb(cell.capacity))}
         </div>
         <div className="transaction__cell_detail">
-          <TransactionCellDetailButtons highLight={highLight} onChange={newState => setState(newState)} />
+          <TransactionCellDetailButtons highLight={!cell.from_cellbase} onChange={newState => setState(newState)} />
         </div>
       </TransactionCellContentPanel>
       {state !== CellState.NONE && (
