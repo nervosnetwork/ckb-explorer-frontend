@@ -31,19 +31,6 @@ import {
   BlockTransactionsPagition,
 } from './styled'
 
-const handleHashText = (hash: string) => {
-  if (isSmallMobile()) {
-    return startEndEllipsis(hash, 9, 10)
-  }
-  if (isMediumMobile()) {
-    return startEndEllipsis(hash, 10)
-  }
-  if (isLargeMobile()) {
-    return startEndEllipsis(hash, 15)
-  }
-  return hash
-}
-
 const handleMinerText = (address: string) => {
   if (isSmallMobile()) {
     return startEndEllipsis(address, 11)
@@ -236,11 +223,7 @@ export default ({
   return (
     <Content>
       <BlockDetailPanel className="container">
-        <AddressHashCard
-          title={i18n.t('block.block')}
-          hashText={handleHashText(blockState.block.block_hash)}
-          dispatch={dispatch}
-        />
+        <AddressHashCard title={i18n.t('block.block')} hash={blockState.block.block_hash} dispatch={dispatch} />
         <TitleCard title={i18n.t('common.overview')} />
         <BlockOverview block={blockState.block} />
         <TitleCard title={i18n.t('transaction.transactions')} />

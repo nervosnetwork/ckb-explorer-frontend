@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useLayoutEffect, useState, Dispatch, SetStateAction } from 'react'
 import styled from 'styled-components'
 import CopyIcon from '../../assets/copy.png'
 import i18n from '../../utils/i18n'
+import { isMobile } from '../../utils/screen'
+import { startEndEllipsis } from '../../utils/string'
 import { copyElementValue } from '../../utils/util'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
 
@@ -14,6 +16,7 @@ const AddressHashCardPanel = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  overflow-x: hidden;
 
   @media (max-width: 700px) {
     height: 50px;
@@ -33,7 +36,7 @@ const AddressHashCardPanel = styled.div`
     }
   }
 
-  #address_hash__hash {
+  #address_hash__text {
     margin-left: 20px;
     font-size: 20px;
     color: #000000;
@@ -47,7 +50,7 @@ const AddressHashCardPanel = styled.div`
     }
   }
 
-  .address_hash__copy_iocn {
+  .address_hash__copy_icon {
     cursor: pointer;
     margin-left: 20px;
     transform: translateY(6px);
@@ -67,22 +70,51 @@ const AddressHashCardPanel = styled.div`
       }
     }
   }
+
+  #address_hash__value {
+    color: #ffffff;
+  }
 `
 
-export default ({ title, hashText, dispatch }: { title: string; hashText: string; dispatch: AppDispatch }) => {
+const handleHashText = (hash: string, isMobileDeivce: boolean, setHashText: Dispatch<SetStateAction<string>>) => {
+  if (!isMobileDeivce) {
+    setHashText(hash)
+    return
+  }
+  const contentElement = document.getElementById('address_hash_content')
+  const hashElement = document.getElementById('address_hash__text')
+  if (hashElement && contentElement) {
+    const contentReact = contentElement.getBoundingClientRect()
+    const hashReact = hashElement.getBoundingClientRect()
+    const textWidth = contentReact.width - hashReact.left - 16 - 20
+    const textLength = Math.round(textWidth / 8.0)
+    const startLength = Math.round(textLength / 2)
+    const text = startEndEllipsis(hash, textLength - startLength, startLength)
+    setHashText(text)
+  }
+}
+
+export default ({ title, hash, dispatch }: { title: string; hash: string; dispatch: AppDispatch }) => {
+  const [hashText, setHashText] = useState(hash)
+  const isMobileDeivce = isMobile()
+
+  useLayoutEffect(() => {
+    handleHashText(hash, isMobileDeivce, setHashText)
+  }, [hash, isMobileDeivce])
+
   return (
-    <AddressHashCardPanel>
+    <AddressHashCardPanel id="address_hash_content">
       <div className="address_hash__title">{title}</div>
-      <div id="address_hash__hash">
+      <div id="address_hash__text">
         <code>{hashText}</code>
       </div>
       <div
-        className="address_hash__copy_iocn"
+        className="address_hash__copy_icon"
         role="button"
         tabIndex={-1}
         onKeyDown={() => {}}
         onClick={() => {
-          copyElementValue(document.getElementById('address_hash__hash'))
+          copyElementValue(document.getElementById('address_hash__value'))
           dispatch({
             type: AppActions.ShowToastMessage,
             payload: {
@@ -94,6 +126,7 @@ export default ({ title, hashText, dispatch }: { title: string; hashText: string
       >
         <img src={CopyIcon} alt="copy" />
       </div>
+      <div id="address_hash__value">{hash}</div>
     </AddressHashCardPanel>
   )
 }
