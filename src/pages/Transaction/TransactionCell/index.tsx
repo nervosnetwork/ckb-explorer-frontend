@@ -108,10 +108,12 @@ export default ({
         content: <TransactionCellHash cell={cell} />,
       },
     ]
-    items.push({
-      title: i18n.t('transaction.capacity'),
-      content: localeNumberString(shannonToCkb(cell.capacity || 0)),
-    })
+    if (cell.capacity) {
+      items.push({
+        title: i18n.t('transaction.capacity'),
+        content: cell.capacity && localeNumberString(shannonToCkb(cell.capacity)),
+      })
+    }
     return (
       <OverviewCard items={items}>
         {!cell.from_cellbase && (
