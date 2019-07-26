@@ -207,12 +207,14 @@ export const HeaderSearchPanel = styled.div`
 
 export const HeaderVersionPanel = styled.div`
   color: white;
+  width: 70px;
   font-size: 12px;
   margin: 20px 0 0 4px;
   align-items: flex-end;
   height: 19px;
 
   @media (max-width: 700px) {
+    width: 40px;
     margin: 18px 0 0 3px;
     font-size: 8px;
   }
