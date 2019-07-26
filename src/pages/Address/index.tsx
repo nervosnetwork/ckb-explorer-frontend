@@ -227,7 +227,7 @@ const PendingRewardTooltip: Tooltip = {
 }
 
 const addressContent = (address: State.Address) => {
-  const addressText = isMobile() ? startEndEllipsis(address.address_hash, 10) : address.address_hash
+  const addressText = isMobile() ? startEndEllipsis(address.address_hash, 8) : address.address_hash
   return address.address_hash ? addressText : i18n.t('address.unable_decode_address')
 }
 
