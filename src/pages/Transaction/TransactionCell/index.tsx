@@ -8,6 +8,7 @@ import { isMobile, isLargeMobile, isMediumMobile, isSmallMobile } from '../../..
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import TransactionCellDetail from '../TransactionCellDetail'
+import { AppDispatch } from '../../../contexts/providers/reducer'
 import {
   TransactionCellContentPanel,
   TransactionCellDetailDataPanel,
@@ -28,7 +29,7 @@ const handleAddressHashText = (hash: string) => {
   if (isLargeMobile()) {
     return startEndEllipsis(hash, 29)
   }
-  return hash
+  return startEndEllipsis(hash, 24)
 }
 
 const TransactionCellHash = ({ cell }: { cell: State.InputOutput }) => {
@@ -89,7 +90,15 @@ const TransactionCellDetailButtons = ({
   )
 }
 
-export default ({ cell, cellType }: { cell: State.InputOutput; cellType: CellType }) => {
+export default ({
+  cell,
+  cellType,
+  dispatch,
+}: {
+  cell: State.InputOutput
+  cellType: CellType
+  dispatch: AppDispatch
+}) => {
   let highLight = false
   if (cell.address_hash && cell.address_hash.length > 0) {
     highLight = true
@@ -112,7 +121,9 @@ export default ({ cell, cellType }: { cell: State.InputOutput; cellType: CellTyp
     return (
       <OverviewCard items={items}>
         {highLight && <TransactionCellDetailButtons highLight={highLight} onChange={newState => setState(newState)} />}
-        {state !== CellState.NONE && <TransactionCellDetail cell={cell} cellType={cellType} state={state} />}
+        {state !== CellState.NONE && (
+          <TransactionCellDetail cell={cell} cellType={cellType} state={state} dispatch={dispatch} />
+        )}
       </OverviewCard>
     )
   }
@@ -130,7 +141,9 @@ export default ({ cell, cellType }: { cell: State.InputOutput; cellType: CellTyp
           <TransactionCellDetailButtons highLight={highLight} onChange={newState => setState(newState)} />
         </div>
       </TransactionCellContentPanel>
-      {state !== CellState.NONE && <TransactionCellDetail cell={cell} cellType={cellType} state={state} />}
+      {state !== CellState.NONE && (
+        <TransactionCellDetail cell={cell} cellType={cellType} state={state} dispatch={dispatch} />
+      )}
     </TransactionCellPanel>
   )
 }

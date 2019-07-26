@@ -9,7 +9,7 @@ export default styled.div`
     margin-top: 10px;
   }
 
-  .transaction__detail_content {
+  #transaction__detail_content {
     border: none;
     width: 100%;
     max-height: 400px;
@@ -34,7 +34,31 @@ export default styled.div`
   }
 
   .transaction__detail_copy {
-    width: 150px;
-    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%;
+
+    @media (max-width: 700px) {
+      margin-top: 10px;
+    }
+  }
+`
+
+export const TransactionCellDetailCopyButtonPanel = styled.div`
+  margin: auto;
+  cursor: pointer;
+  width: 150px;
+  height: 40px;
+
+  @media (max-width: 700px) {
+    width: 75px;
+    height: 20px;
+  }
+
+  > img {
+    width: 100%;
+    height: 100%;
   }
 `

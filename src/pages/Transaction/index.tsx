@@ -86,8 +86,8 @@ export default ({
         />
         <TitleCard title={i18n.t('common.overview')} />
         <OverviewCard items={overviewItems} />
-        <TransactionCellList inputs={transaction.display_inputs} />
-        <TransactionCellList outputs={transaction.display_outputs} />
+        <TransactionCellList inputs={transaction.display_inputs} dispatch={dispatch} />
+        <TransactionCellList outputs={transaction.display_outputs} dispatch={dispatch} />
       </TransactionDiv>
     </Content>
   )

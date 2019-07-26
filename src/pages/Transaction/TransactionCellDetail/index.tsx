@@ -3,7 +3,11 @@ import initScriptContent from '../../../contexts/states/cell'
 import { fetchCellData, fetchScript } from '../../../service/http/fetcher'
 import { CellState, CellType } from '../../../utils/const'
 import { hexToUtf8 } from '../../../utils/string'
-import TransactionDetailPanel from './styled'
+import TransactionDetailPanel, { TransactionCellDetailCopyButtonPanel } from './styled'
+import CopyIcon from '../../../assets/transaction_detail_copy.png'
+import i18n from '../../../utils/i18n'
+import { copyElementValue } from '../../../utils/util'
+import { AppDispatch, AppActions } from '../../../contexts/providers/reducer'
 
 const handleFetchScript = (cell: State.InputOutput, cellType: CellType, state: CellState, dispatch: any) => {
   switch (state) {
@@ -31,16 +35,42 @@ const handleFetchScript = (cell: State.InputOutput, cellType: CellType, state: C
   }
 }
 
-export default ({ cell, cellType, state }: { cell: State.InputOutput; cellType: CellType; state: CellState }) => {
+export default ({
+  cell,
+  cellType,
+  state,
+  dispatch,
+}: {
+  cell: State.InputOutput
+  cellType: CellType
+  state: CellState
+  dispatch: AppDispatch
+}) => {
   const [content, setContent] = useState(undefined as any)
 
   useEffect(() => {
     handleFetchScript(cell, cellType, state, setContent)
   }, [cell, cellType, state])
 
+  const onClickCopy = () => {
+    copyElementValue(document.getElementById('transaction__detail_content'))
+    dispatch({
+      type: AppActions.ShowToastMessage,
+      payload: {
+        text: i18n.t('common.copied'),
+        timeout: 3000,
+      },
+    })
+  }
+
   return (
     <TransactionDetailPanel hidden={!content}>
-      <div className="transaction__detail_content">{JSON.stringify(content, null, 4)}</div>
+      <div id="transaction__detail_content">{JSON.stringify(content, null, 4)}</div>
+      <div className="transaction__detail_copy">
+        <TransactionCellDetailCopyButtonPanel onClick={onClickCopy}>
+          <img src={CopyIcon} alt="copy" />
+        </TransactionCellDetailCopyButtonPanel>
+      </div>
     </TransactionDetailPanel>
   )
 }
