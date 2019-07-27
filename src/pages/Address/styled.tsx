@@ -315,3 +315,11 @@ export const AddressCommonRowPanel = styled.div`
     }
   }
 `
+export const AddressEmptyTransactions = styled.div`
+  width: 100%;
+  height: 100px;
+
+  @media (max-width: 700px) {
+    height: 50px;
+  }
+`

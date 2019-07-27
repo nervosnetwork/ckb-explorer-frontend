@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Block } from '../../http/response/Block'
 import { startEndEllipsis } from '../../utils/string'
 import { parseSimpleDate } from '../../utils/date'
 import { shannonToCkb } from '../../utils/util'
@@ -80,7 +79,7 @@ const CardItem = ({
   )
 }
 
-const BlockCard = ({ block }: { block: Block }) => {
+const BlockCard = ({ block }: { block: State.Block }) => {
   const [t] = useTranslation()
   return (
     <CardPanel>

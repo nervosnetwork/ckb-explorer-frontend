@@ -26,6 +26,7 @@ export interface App {
     { type: 'ChainAlert'; message: string[] },
     { type: 'Maintain'; message: string[] },
   ]
+  nodeVersion: string
 
   appWidth: number
   appHeight: number
@@ -38,6 +39,7 @@ export interface App {
   showModal: Function
   hideModal: Function
   updateAppErrors: (appError: AppError) => void
+  updateNodeVersion: (version: string) => void
 }
 export const initApp: App = {
   toast: null,
@@ -57,6 +59,7 @@ export const initApp: App = {
       message: [],
     },
   ],
+  nodeVersion: '',
   appWidth: window.innerWidth,
   appHeight: window.innerHeight,
   appLanguage: navigator.language || 'en',
@@ -68,6 +71,7 @@ export const initApp: App = {
   showModal: () => {},
   hideModal: () => {},
   updateAppErrors: () => {},
+  updateNodeVersion: () => {},
 }
 
 const AppContext = createContext<App>(initApp)

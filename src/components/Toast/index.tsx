@@ -4,6 +4,7 @@ import AppContext, { ToastMessage } from '../../contexts/App'
 
 const ToastDiv = styled.div`
   position: absolute;
+  position: -webkit-absolute;
   top: 0;
   width: 100%;
   height: 100%;
@@ -17,8 +18,8 @@ const ToastDiv = styled.div`
 const ToastItemDiv = styled.div`
   width: 100%;
   background-color: #3cc68a;
-  border-radius: 6px;
   position: fixed;
+  position: -webkit-fixed;
   top: 85px;
   opacity: 0.96;
   z-index: 9999;
@@ -35,21 +36,26 @@ const ToastItemDiv = styled.div`
     height: 36px;
 
     .toast__text {
-      color: white;
-      font-size: 15px;
+      font-size: 14px;
       line-height: 36px;
-      text-align: center;
+    }
+  }
+
+  @media (max-width: 320px) {
+    top: 44px;
+    height: 36px;
+    .toast__text {
+      font-size: 12px;
+      line-height: 36px;
     }
   }
 `
 const ToastItem = ({
   data,
-  style,
   disappearDuration,
   willLeave,
 }: {
   data: any
-  style: object
   disappearDuration?: number
   willLeave: Function
 }) => {
@@ -83,7 +89,6 @@ const ToastItem = ({
     <ToastItemDiv
       key={`toast${data.id}`}
       style={{
-        ...style,
         opacity,
       }}
     >
@@ -116,7 +121,7 @@ const reducer = (state: any, action: any) => {
   }
 }
 
-export default ({ style }: { style: object }) => {
+export default () => {
   const appContext = useContext(AppContext)
   const { toast } = appContext
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -148,7 +153,6 @@ export default ({ style }: { style: object }) => {
               }}
               key={item.id}
               data={item}
-              style={style}
             />
           )
         })}

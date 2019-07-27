@@ -75,6 +75,14 @@ const withProviders = (Comp: React.ComponentType) => () => {
         }
       })
     },
+    updateNodeVersion: (nodeVersion: string) => {
+      setApp((state: any) => {
+        return {
+          ...state,
+          nodeVersion,
+        }
+      })
+    },
   }
 
   return (
