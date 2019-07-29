@@ -7,7 +7,7 @@ import { localeNumberString } from '../../../utils/number'
 import { isMobile, isLargeMobile, isMediumMobile, isSmallMobile } from '../../../utils/screen'
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
-import TransactionCellDetail from '../TransactionCellDetail'
+import TransactionCellDetail from '../TransactionCellScript'
 import { AppDispatch } from '../../../contexts/providers/reducer'
 import {
   TransactionCellContentPanel,
