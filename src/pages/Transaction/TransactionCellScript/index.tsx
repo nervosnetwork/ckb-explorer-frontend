@@ -47,13 +47,14 @@ export default ({
   dispatch: AppDispatch
 }) => {
   const [content, setContent] = useState(undefined as any)
+  const contentElementId = `transaction__detail_content:${cell.id}`
 
   useEffect(() => {
     handleFetchScript(cell, cellType, state, setContent)
   }, [cell, cellType, state])
 
   const onClickCopy = () => {
-    copyElementValue(document.getElementById('transaction__detail_content'))
+    copyElementValue(document.getElementById(contentElementId))
     dispatch({
       type: AppActions.ShowToastMessage,
       payload: {
@@ -65,7 +66,9 @@ export default ({
 
   return (
     <TransactionDetailPanel hidden={!content}>
-      <div id="transaction__detail_content">{JSON.stringify(content, null, 4)}</div>
+      <div className="transaction__detail_content" id={contentElementId}>
+        {JSON.stringify(content, null, 4)}
+      </div>
       <div className="transaction__detail_copy">
         <TransactionCellDetailCopyButtonPanel onClick={onClickCopy}>
           <img src={CopyIcon} alt="copy" />
