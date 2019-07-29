@@ -9,7 +9,7 @@ import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCa
 import TitleCard from '../../components/Card/TitleCard'
 import Content from '../../components/Content'
 import Tooltip from '../../components/Tooltip'
-import TransactionItem from '../../components/Transaction/TransactionItem/index'
+import TransactionItem from '../../components/TransactionItem/index'
 import { AppContext } from '../../contexts/providers'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { getBlock } from '../../service/app/block'
