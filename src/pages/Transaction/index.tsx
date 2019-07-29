@@ -70,10 +70,10 @@ export default ({
           <OverviewCard items={overviewItems} />
         </div>
         <div className="transaction__inputs">
-          <TransactionCellList inputs={transaction.display_inputs} dispatch={dispatch} />
+          {transaction && <TransactionCellList inputs={transaction.display_inputs} dispatch={dispatch} />}
         </div>
         <div className="transaction__outputs">
-          <TransactionCellList outputs={transaction.display_outputs} dispatch={dispatch} />
+          {transaction && <TransactionCellList outputs={transaction.display_outputs} dispatch={dispatch} />}
         </div>
       </TransactionDiv>
     </Content>
