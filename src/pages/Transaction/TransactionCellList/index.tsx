@@ -26,7 +26,7 @@ export default ({
       </TransactionCellListTitlePanel>
       {cells.map(cell => (
         <TransactionCell
-          key={cell.address_hash}
+          key={cell.id}
           cell={cell}
           cellType={inputs ? CellType.Input : CellType.Output}
           dispatch={dispatch}
