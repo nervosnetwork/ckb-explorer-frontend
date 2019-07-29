@@ -29,6 +29,7 @@ const AddressHashCardPanel = styled.div`
     font-size: 30px;
     font-weight: 500;
     color: #000000;
+    white-space: nowrap;
 
     @media (max-width: 700px) {
       font-size: 15px;
