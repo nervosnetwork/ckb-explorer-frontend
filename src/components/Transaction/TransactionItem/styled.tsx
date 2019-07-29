@@ -72,7 +72,7 @@ export const TransactionHashBlockPanel = styled.div`
     height: 1px;
     width: 100%;
     display: block;
-    margin: 20px 0px 10px 0px;
+    margin: 20px 0px 0px 0px;
 
     @media (max-width: 700px) {
       font-weight: normal;
@@ -88,7 +88,6 @@ export const TransactionHashBlockPanel = styled.div`
 `
 
 export const TransactionInputOutputPanel = styled.div`
-  margin-top: 12px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -99,7 +98,7 @@ export const TransactionInputOutputPanel = styled.div`
   }
 
   > img {
-    margin-top: 8px;
+    margin-top: 20px;
     width: 19px;
     height: 19px;
 

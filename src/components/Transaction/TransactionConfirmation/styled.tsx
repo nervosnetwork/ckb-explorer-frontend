@@ -67,6 +67,8 @@ export const TransactionConfirmationValuePanel = styled.div`
   float: right;
   > span {
     width: 100%;
+    height: 40px;
+    padding: 10px 0px 10px 0px;
   }
 
   @media (max-width: 700px) {

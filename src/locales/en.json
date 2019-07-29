@@ -80,7 +80,7 @@
       "secondary_reward": "Secondary Reward",
       "commit_reward": "Commit Reward",
       "proposal_reward": "Proposal Reward",
-      "cellbase_help_tooltip": "The cellbase transaction of block N is send to the miner of block N-11 as reward, learn more from our Consensus Protocol",
+      "cellbase_help_tooltip": "The cellbase transaction of block N is sent to the miner of block N-11 as reward, learn more from our Consensus Protocol",
       "capacity": "Capacity",
       "detail": "Detail"
     },
