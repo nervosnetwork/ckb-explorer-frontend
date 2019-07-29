@@ -153,7 +153,7 @@ export const Address = ({
         <OverviewCard items={items}>
           <AddressLockScript script={addressState.address.lock_script} />
         </OverviewCard>
-        <TitleCard title={i18n.t('transaction.transactions')} />
+        {addressState.transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
         <AddressTransactionsPanel>
           {addressState.transactions &&
             addressState.transactions.map((transaction: any, index: number) => {
