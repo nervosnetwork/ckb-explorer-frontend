@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components'
-import testnetTipImage from '../../assets/testnet_tip.png'
 
 export const HeaderDiv = styled.div`
   width: 100%;
@@ -158,29 +157,6 @@ export const HeaderTestnetPanel = styled.div`
     letter-spacing: 2px;
     font-weight: 600;
     font-family: Montserrat;
-  }
-
-  &:hover .header__testnet__tip {
-    visibility: visible;
-  }
-
-  .header__testnet__tip {
-    width: 350px;
-    height: 62px;
-    position: fixed;
-    z-index: 1100;
-    right: 180px;
-    top: 85px;
-    background-image: url(${testnetTipImage});
-    background-repeat: no-repeat;
-    background-size: 350px 62px;
-    visibility: hidden;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    padding-top: 3px;
-    line-height: 62px;
-    text-align: center;
   }
 
   @media (max-width: 700px) {
