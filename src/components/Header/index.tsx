@@ -119,7 +119,6 @@ export default ({
           )}
           <HeaderTestnetPanel search={!!search}>
             <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-            <div className="header__testnet__tip">{i18n.t('navbar.network_tooltip')}</div>
             <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
           </HeaderTestnetPanel>
         </HeaderDiv>
