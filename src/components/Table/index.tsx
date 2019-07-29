@@ -60,7 +60,6 @@ const TableContentRowItem = styled.div`
   width: ${({ width }: { width: string }) => width};
   height: 60px;
   color: #000000;
-  font-weight: 450;
   display: flex;
   align-items: center;
   justify-content: center;
