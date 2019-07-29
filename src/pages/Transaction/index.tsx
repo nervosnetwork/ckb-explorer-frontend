@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 import AddressHashCard from '../../components/Card/AddressHashCard'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import TitleCard from '../../components/Card/TitleCard'
 import Content from '../../components/Content'
 import { AppContext } from '../../contexts/providers/index'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
@@ -67,7 +66,6 @@ export default ({
     <Content>
       <TransactionDiv className="container">
         <AddressHashCard title={i18n.t('transaction.transaction')} hash={hash} dispatch={dispatch} />
-        <TitleCard title={i18n.t('common.overview')} />
         <div className="transaction__overview">
           <OverviewCard items={overviewItems} />
         </div>
