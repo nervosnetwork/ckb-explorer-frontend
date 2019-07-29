@@ -15,10 +15,13 @@ const findDifficulty = (
   difficulties: { difficulty: number; block_number: number; epoch_number: number }[],
   blockNumber: number,
 ) => {
-  const result = difficulties.find(difficulty => {
-    return difficulty.block_number === blockNumber
-  })
-  return result || undefined
+  if (difficulties && difficulties.length > 0) {
+    const result = difficulties.find(difficulty => {
+      return difficulty.block_number === blockNumber
+    })
+    return result || undefined
+  }
+  return undefined
 }
 
 const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
@@ -26,14 +29,29 @@ const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
   if (!hashRates && !difficulties) return []
 
   const datas: StatisticsData[] = []
-  hashRates.forEach(hashRate => {
-    datas.push({
-      type: 'HashRate',
-      blockNumber: hashRate.block_number,
-      hashRate: Number((Number(hashRate.hash_rate) * 1000).toFixed(0)),
+  if (hashRates && hashRates.length > 0) {
+    hashRates.forEach(hashRate => {
+      datas.push({
+        type: 'HashRate',
+        blockNumber: hashRate.block_number,
+        hashRate: Number((Number(hashRate.hash_rate) * 1000).toFixed(0)),
+      })
+      const difficulty = findDifficulty(difficulties, hashRate.block_number)
+      if (difficulty !== undefined) {
+        datas.push({
+          type: 'Difficulty',
+          blockNumber: difficulty.block_number,
+          difficulty: difficulty.difficulty,
+        })
+        datas.push({
+          type: 'EpochNumber',
+          blockNumber: difficulty.block_number,
+          epochNumber: difficulty.epoch_number,
+        })
+      }
     })
-    const difficulty = findDifficulty(difficulties, hashRate.block_number)
-    if (difficulty !== undefined) {
+  } else if (difficulties && difficulties.length > 0) {
+    difficulties.forEach(difficulty => {
       datas.push({
         type: 'Difficulty',
         blockNumber: difficulty.block_number,
@@ -44,8 +62,9 @@ const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
         blockNumber: difficulty.block_number,
         epochNumber: difficulty.epoch_number,
       })
-    }
-  })
+    })
+  }
+
   return datas
 }
 
