@@ -3,8 +3,9 @@ import styled from 'styled-components'
 export const TransactionCellPanel = styled.div`
   display: flex;
   align-items: center;
-  height: 35px;
+  height: 20px;
   justify-content: space-between;
+  margin-top: 20px;
 
   @media (max-width: 700px) {
     justify-content: normal;
@@ -33,9 +34,14 @@ export const TransactionCellPanel = styled.div`
 export const CellbasePanel = styled.div`
   display: flex;
   align-items: center;
-  height: 35px;
+  height: 20px;
   position: relative;
   width: 100%;
+  margin-top: 20px;
+
+  @media (max-width: 700px) {
+    margin-top: 10px;
+  }
 
   .cellbase__content {
     color: #000000;
