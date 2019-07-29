@@ -2,18 +2,18 @@ import styled from 'styled-components'
 
 export const TransactionPanel = styled.div`
   width: 100%;
-  overflow-x: auto;
-  margin-top: 10px;
-  background: white;
-  border: 0px solid white;
-  border-radius: 6px;
-  box-shadow: 0px 5px 9px #dfdfdf;
-  > div {
-    width: 1200px;
-    margin: 0 auto;
-    padding: 38px 75px 41px 75px;
-    display: flex;
-    flex-direction: column;
+  margin-top: 5px;
+  border-radius: ${({ isLastItem }: { isLastItem?: boolean }) => (isLastItem ? '0px 0px 6px 6px' : '0px 0px 0px 0px')};
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  background-color: #ffffff;
+  padding: 20px 40px 25px 40px;
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+
+  @media (max-width: 700px) {
+    padding: 15px 20px 15px 20px;
+    font-size: 13px;
   }
 `
 
@@ -34,60 +34,103 @@ export const TransactionsReward = styled.div`
     margin-left: 15px;
   }
 `
-interface SeparationLineProps {
-  marginTop?: string
-  marginBottom?: string
-}
-
-export const SeparationLine = styled.span`
-  width: 100%;
-  height: 1px;
-  margin-top: ${({ marginTop }: SeparationLineProps) => marginTop || '0px'};
-  margin-bottom: ${({ marginBottom }: SeparationLineProps) => marginBottom || '0px'};
-  background: rgb(233, 233, 233);
-`
 
 export const TransactionHashBlockPanel = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
 
-  .transaction_item__hash {
-    font-size: 16px;
-    color: rgb(75, 188, 142);
+  .transaction_item__content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    @media (max-width: 700px) {
+      flex-direction: column;
+      justify-content: normal;
+    }
+
+    .transaction_item__hash {
+      color: #3cc68a;
+      font-weight: 500;
+    }
+
+    .transaction_item__block {
+      font-weight: 500;
+      color: #000000;
+
+      @media (max-width: 700px) {
+        font-weight: normal;
+      }
+    }
   }
 
-  .transaction_item__block {
-    font-size: 16px;
-    color: rgb(136, 136, 136);
+  &:after {
+    content: '';
+    background: #e2e2e2;
+    height: 1px;
+    width: 100%;
+    display: block;
+    margin: 20px 0px 10px 0px;
+
+    @media (max-width: 700px) {
+      font-weight: normal;
+      margin: 10px 0px 0px 0px;
+    }
+    @media (-webkit-min-device-pixel-ratio: 2) {
+      transform: scaleY(0.5);
+    }
+    @media (-webkit-min-device-pixel-ratio: 3) {
+      transform: scaleY(0.33);
+    }
   }
 `
 
 export const TransactionInputOutputPanel = styled.div`
-  margin-top: 30px;
+  margin-top: 12px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 
-  > img {
-    width: 40px;
-    height: 40px;
+  @media (max-width: 700px) {
+    flex-direction: column;
+    align-items: center;
   }
 
-  > div {
-    flex: 1;
+  > img {
+    margin-top: 8px;
+    width: 19px;
+    height: 19px;
+
+    @media (max-width: 700px) {
+      margin-top: 10px;
+    }
   }
 
   .transaction_item__input {
     margin-right: 40px;
+    flex: 1;
+
+    @media (max-width: 700px) {
+      margin: 0px;
+      flex: none;
+      width: 100%;
+    }
   }
 
   .transaction_item__output {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-left: 40px;
+
+    @media (max-width: 700px) {
+      margin: 0px;
+      flex: none;
+      width: 100%;
+    }
   }
 `
 

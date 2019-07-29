@@ -1,55 +1,60 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
+import i18n from '../../utils/i18n'
 import { startEndEllipsis } from '../../utils/string'
 import { parseSimpleDate } from '../../utils/date'
 import { shannonToCkb } from '../../utils/util'
 import { localeNumberString } from '../../utils/number'
 
 const CardPanel = styled.div`
-  width: 88%;
-  height: 180px;
+  width: 100%;
+  height: 273px;
   background-color: white;
-  padding: 10px 20px 20px 20px;
+  padding: 0px 20px 20px 20px;
   border: 0px solid white;
   border-radius: 3px;
-  box-shadow: 2px 2px 6px #eaeaea;
+  box-shadow: 1px 1px 3px 0 #dfdfdf;
   display: flex;
-  margin-bottom: 10px;
-  margin-left: 6%;
+  margin-bottom: 5px;
   flex-direction: column;
 `
 
 const CardItemPanel = styled.div`
   display: flex;
-  margin-top: 10px;
-  align-items: center;
+  position: relative;
+  flex-direction: column;
+  margin: 10px 0px 8px 0px;
 
   > div {
-    color: #606060;
-    font-size: 14px;
-    margin-right: 5px;
-    font-weight: 450;
+    color: #000000;
+    font-size: 13px;
+    font-weight: 500;
   }
 
   .card__value__link {
-    height: 23px;
+    height: 16px;
+    font-family: Menlo;
   }
 
   .card__value {
-    color: ${(props: { highLight: boolean }) => (props.highLight ? '#3CC68A' : '#888888')};
-    font-weight: bold;
-    font-size: 14px;
+    color: ${(props: { highLight: boolean; name: string }) => (props.highLight ? '#3CC68A' : '#000000')};
+    font-size: 13px;
   }
 
-  @media (max-width: 320px) {
-    > div {
-      font-size: 13px;
+  ::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    top: 125%;
+    background-color: ${(props: { highLight: boolean; name: string }) =>
+      props.name === i18n.t('home.time') ? '#ffffff' : '#f7f7f7'};
+    @media (-webkit-min-device-pixel-ratio: 2) {
+      transform: scaleY(0.5);
     }
-
-    .card__value {
-      font-size: 12px;
+    @media (-webkit-min-device-pixel-ratio: 3) {
+      transform: scaleY(0.33);
     }
   }
 `
@@ -66,11 +71,11 @@ const CardItem = ({
   highLight?: boolean
 }) => {
   return (
-    <CardItemPanel highLight={highLight}>
+    <CardItemPanel highLight={highLight} name={name}>
       <div>{name}</div>
       {to ? (
         <Link to={to} className="card__value__link">
-          <code className="card__value">{value}</code>
+          <div className="card__value">{value}</div>
         </Link>
       ) : (
         <div className="card__value">{value}</div>
@@ -80,28 +85,27 @@ const CardItem = ({
 }
 
 const BlockCard = ({ block }: { block: State.Block }) => {
-  const [t] = useTranslation()
   return (
     <CardPanel>
       <CardItem
-        name={`${t('home.height')} :`}
+        name={`${i18n.t('home.height')}`}
         value={localeNumberString(block.number)}
         to={`/block/${block.number}`}
         highLight
       />
-      <CardItem name={`${t('home.transactions')} :`} value={localeNumberString(block.transactions_count)} />
-      <CardItem name={`${t('home.block_reward')} :`} value={localeNumberString(shannonToCkb(block.reward))} />
+      <CardItem name={`${i18n.t('home.transactions')}`} value={localeNumberString(block.transactions_count)} />
+      <CardItem name={`${i18n.t('home.block_reward')}`} value={localeNumberString(shannonToCkb(block.reward))} />
       {block.miner_hash ? (
         <CardItem
-          name={`${t('block.miner')} :`}
-          value={startEndEllipsis(block.miner_hash, 7)}
+          name={`${i18n.t('block.miner')}`}
+          value={startEndEllipsis(block.miner_hash, 13)}
           to={`/address/${block.miner_hash}`}
           highLight
         />
       ) : (
-        <CardItem name={`${t('block.miner')} :`} value={t('address.unable_decode_address')} />
+        <CardItem name={`${i18n.t('block.miner')}`} value={i18n.t('address.unable_decode_address')} />
       )}
-      <CardItem name={`${t('home.time')} :`} value={parseSimpleDate(block.timestamp)} />
+      <CardItem name={`${i18n.t('home.time')}`} value={parseSimpleDate(block.timestamp)} />
     </CardPanel>
   )
 }

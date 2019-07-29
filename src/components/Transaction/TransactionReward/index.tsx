@@ -1,55 +1,56 @@
 import React from 'react'
 import styled from 'styled-components'
 import { shannonToCkb } from '../../../utils/util'
-import ItemPoint from '../../../assets/grey_point.png'
 import { localeNumberString } from '../../../utils/number'
 import i18n from '../../../utils/i18n'
 
 export const RewardPenal = styled.div`
-  @media (max-width: 700px) {
-    height: 17px;
-    margin-top: 5px;
-  }
-
   display: flex;
   align-items: center;
-  height: 22px;
+  height: 20px;
   justify-content: space-between;
-  margin-top: 18px;
+  margin-top: 20px;
+  color: #000000;
+
+  @media (max-width: 700px) {
+    height: 32px;
+    margin-top: 10px;
+    justify-content: normal;
+    align-items: flex-start;
+    flex-direction: column;
+  }
 
   .reward__name__point {
     display: flex;
     align-items: center;
 
-    > img {
-      @media (min-width: 700px) {
-        display: none;
-      }
+    &:before {
+      content: '';
       width: 5px;
       height: 5px;
       margin-right: 8px;
+      border-radius: 50% 50%;
+      background: #424242;
+      display: none;
+
+      @media (max-width: 700px) {
+        display: flex;
+      }
     }
 
     .reward__name {
       display: flex;
       align-items: center;
       justify-content: left;
-      font-size: 16px;
-      color: rgb(136, 136, 136);
-
-      @media (max-width: 700px) {
-        font-size: 12px;
-      }
+      font-weight: 500;
     }
   }
 
   .reward__capacity {
-    font-size: 16px;
-    color: rgb(136, 136, 136);
     margin-left: 15px;
 
     @media (max-width: 700px) {
-      font-size: 12px;
+      margin-left: 13px;
     }
   }
 `
@@ -83,7 +84,6 @@ const TransactionReward = ({ transaction, cell }: { transaction: State.Transacti
           return (
             <RewardPenal key={reward.name}>
               <div className="reward__name__point">
-                <img alt="reward point" src={ItemPoint} />
                 <div className="reward__name">{reward.name}</div>
               </div>
               <div className="reward__capacity">{`${localeNumberString(shannonToCkb(reward.capacity))} CKB`}</div>

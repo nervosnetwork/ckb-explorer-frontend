@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Modal as ModalType } from '../../contexts/App'
 
 const ModalDiv = styled.div`
   position: absolute;
@@ -50,7 +49,7 @@ const ModalDiv = styled.div`
     outline: none;
   }
 `
-export default ({ data, onClose }: { data: ModalType | null; onClose: Function }) => {
+export default ({ data, onClose }: { data: State.Modal | null; onClose: Function }) => {
   if (!data || !data.ui) return null
   return (
     <ModalDiv
