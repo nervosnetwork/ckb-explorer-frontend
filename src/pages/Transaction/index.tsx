@@ -68,9 +68,15 @@ export default ({
       <TransactionDiv className="container">
         <AddressHashCard title={i18n.t('transaction.transaction')} hash={hash} dispatch={dispatch} />
         <TitleCard title={i18n.t('common.overview')} />
-        <OverviewCard items={overviewItems} />
-        <TransactionCellList inputs={transaction.display_inputs} dispatch={dispatch} />
-        <TransactionCellList outputs={transaction.display_outputs} dispatch={dispatch} />
+        <div className="transaction__overview">
+          <OverviewCard items={overviewItems} />
+        </div>
+        <div className="transaction__inputs">
+          <TransactionCellList inputs={transaction.display_inputs} dispatch={dispatch} />
+        </div>
+        <div className="transaction__outputs">
+          <TransactionCellList outputs={transaction.display_outputs} dispatch={dispatch} />
+        </div>
       </TransactionDiv>
     </Content>
   )
