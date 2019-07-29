@@ -1,4 +1,5 @@
 import { fetchBlockchainInfo } from '../http/fetcher'
+import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
 
 const alertNotEmpty = (wrapper: Response.Wrapper<State.BlockchainInfo>): boolean => {
   return (
@@ -10,19 +11,29 @@ const alertNotEmpty = (wrapper: Response.Wrapper<State.BlockchainInfo>): boolean
   )
 }
 
-export const handleBlockchainAlert = (appContext: any) => {
+export const handleBlockchainAlert = (dispatch: AppDispatch) => {
   fetchBlockchainInfo().then((wrapper: Response.Wrapper<State.BlockchainInfo>) => {
     if (alertNotEmpty(wrapper)) {
-      appContext.updateAppErrors({
-        type: 'ChainAlert',
-        message: wrapper.attributes.blockchain_info.alerts.map(alert => {
-          return alert.message
-        }),
+      dispatch({
+        type: AppActions.UpdateAppErrors,
+        payload: {
+          appError: {
+            type: 'ChainAlert',
+            message: wrapper.attributes.blockchain_info.alerts.map(alert => {
+              return alert.message
+            }),
+          },
+        },
       })
     } else {
-      appContext.updateAppErrors({
-        type: 'ChainAlert',
-        message: [],
+      dispatch({
+        type: AppActions.UpdateAppErrors,
+        payload: {
+          appError: {
+            type: 'ChainAlert',
+            message: [],
+          },
+        },
       })
     }
   })

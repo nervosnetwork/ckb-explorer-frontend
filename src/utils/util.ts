@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { MAX_CONFIRMATION } from './const'
 import i18n from './i18n'
 import { parseNumber } from './number'
@@ -49,9 +50,18 @@ export const formatConfirmation = (confirmation: number | undefined) => {
   return `${confirmation} ${i18n.t('address.confirmation')}`
 }
 
+export const isValidReactNode = (node: ReactNode) => {
+  if (node === undefined || node === null) return false
+  if (node instanceof Array) {
+    return node.reduce((current, item) => (current ? true : !!item))
+  }
+  return true
+}
+
 export default {
   copyElementValue,
   shannonToCkb,
   handleCapacityChange,
   formatConfirmation,
+  isValidReactNode,
 }

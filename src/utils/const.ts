@@ -18,3 +18,33 @@ export const CachedKeys = {
   // Statistics Chart
   StatisticsChart: 'statistics_chart',
 }
+
+export enum CellState {
+  NONE = 0,
+  LOCK = 1,
+  TYPE = 2,
+  DATA = 3,
+}
+
+export enum CellType {
+  Input = 'input',
+  Output = 'output',
+}
+
+export enum DataType {
+  LockScript = 'lock_script',
+  TypeScript = 'type_script',
+  Data = 'data',
+}
+
+export enum PageParams {
+  PageNo = 1,
+  PageSize = 10,
+  MaxPageSize = 100,
+}
+
+export enum BlockListPageParams {
+  PageNo = 1,
+  PageSize = 25,
+  MaxPageSize = 100,
+}

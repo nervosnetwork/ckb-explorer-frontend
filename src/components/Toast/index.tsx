@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useReducer } from 'react'
 import styled from 'styled-components'
-import AppContext, { ToastMessage } from '../../contexts/App'
+import { AppContext } from '../../contexts/providers/index'
 
 const ToastDiv = styled.div`
   position: absolute;
@@ -98,7 +98,7 @@ const ToastItem = ({
 }
 
 const initialState = {
-  toasts: [] as ToastMessage[],
+  toasts: [] as State.ToastMessage[],
   toast: '',
 }
 
@@ -112,7 +112,7 @@ const reducer = (state: any, action: any) => {
     case 'REMOVE':
       return {
         ...state,
-        toasts: state.toasts.filter((toast: ToastMessage) => {
+        toasts: state.toasts.filter((toast: State.ToastMessage) => {
           return toast.id !== action.payload.toast.id
         }),
       }
@@ -122,25 +122,24 @@ const reducer = (state: any, action: any) => {
 }
 
 export default () => {
-  const appContext = useContext(AppContext)
-  const { toast } = appContext
+  const { app } = useContext(AppContext)
   const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
-    if (toast) {
+    if (app.toast) {
       dispatch({
         type: 'ADD',
         payload: {
-          toast,
+          toast: app.toast,
         },
       })
     }
-  }, [dispatch, toast])
+  }, [dispatch, app.toast])
 
   return state.toasts.length === 0 ? null : (
     <ToastDiv className="toast">
       {state.toasts &&
-        state.toasts.map((item: ToastMessage) => {
+        state.toasts.map((item: State.ToastMessage) => {
           return (
             <ToastItem
               willLeave={() => {
