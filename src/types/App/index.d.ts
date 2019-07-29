@@ -2,6 +2,7 @@ declare namespace State {
   export interface Script {
     code_hash: string
     args: string[]
+    hash_type: string
   }
 
   export interface Data {
@@ -36,6 +37,7 @@ declare namespace State {
     from_cellbase: boolean
     target_block_number: number
     block_reward: number
+    secondary_reward: number
     commit_reward: number
     proposal_reward: number
     isGenesisOutput: boolean
