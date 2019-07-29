@@ -13,7 +13,11 @@ export default ({ cells, showSize, transaction, render }: TransactionCellListPro
   return (
     <TransactionCellListPanel>
       {cells && cells.map((cell, index) => index < showSize && render(cell))}
-      {cells && showSize < cells.length && <Link to={`/transaction/${transaction.transaction_hash}`}>View All</Link>}
+      {cells && showSize < cells.length && (
+        <div className="transaction_item__view_all">
+          <Link to={`/transaction/${transaction.transaction_hash}`}>View All</Link>
+        </div>
+      )}
     </TransactionCellListPanel>
   )
 }
