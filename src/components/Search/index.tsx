@@ -102,6 +102,7 @@ const handleInputFocus = (searchBarEditable: boolean, inputElement: any, dispatc
 
 const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBorder?: boolean; content?: string }) => {
   const [searchValue, setSearchValue] = useState(content || '')
+  const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
   const inputElement = useRef(null)
   const { components } = useContext(AppContext)
   const { searchBarEditable } = components
@@ -139,10 +140,16 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
       {isMobile() && <div className="search__icon__separate" />}
       <SearchInputPanel
         ref={inputElement}
-        placeholder={SearchPlaceholder}
+        placeholder={placeholder}
         defaultValue={searchValue || ''}
         hasBorder={!!hasBorder}
-        onChange={(event: any) => setSearchValue(event.target.value)}
+        onFocus={() => setPlaceholder('')}
+        onChange={(event: any) => {
+          if (!event.target.value) {
+            setPlaceholder(SearchPlaceholder)
+          }
+          setSearchValue(event.target.value)
+        }}
         onKeyUp={(event: any) => {
           if (event.keyCode === 13) {
             handleSearchResult({
