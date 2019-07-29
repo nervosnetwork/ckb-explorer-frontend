@@ -39,7 +39,7 @@ const handleMinerText = (address: string) => {
   if (isLargeMobile()) {
     return startEndEllipsis(address, 23)
   }
-  return startEndEllipsis(address)
+  return startEndEllipsis(address, 27)
 }
 
 const BlockMiner = ({ miner }: { miner: string }) => {
