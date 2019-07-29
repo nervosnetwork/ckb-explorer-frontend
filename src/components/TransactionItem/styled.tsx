@@ -45,10 +45,12 @@ export const TransactionHashBlockPanel = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 20px;
 
     @media (max-width: 700px) {
       flex-direction: column;
       justify-content: normal;
+      margin-bottom: 10px;
     }
 
     .transaction_item__hash {
@@ -72,12 +74,7 @@ export const TransactionHashBlockPanel = styled.div`
     height: 1px;
     width: 100%;
     display: block;
-    margin: 20px 0px 0px 0px;
 
-    @media (max-width: 700px) {
-      font-weight: normal;
-      margin: 10px 0px 0px 0px;
-    }
     @media (-webkit-min-device-pixel-ratio: 2) {
       transform: scaleY(0.5);
     }
