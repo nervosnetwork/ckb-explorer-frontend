@@ -59,8 +59,7 @@ export const TableContentRow = styled.div`
 const TableContentRowItem = styled.div`
   width: ${({ width }: { width: string }) => width};
   height: 60px;
-  color: #888888;
-  font-weight: 450;
+  color: #000000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,7 +93,7 @@ const TableMinerContentPanel = styled.div`
     line-height: 60px;
     justify-content: center;
     font-size: 16px;
-    color: #888888;
+    color: #000000;
   }
 `
 
