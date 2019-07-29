@@ -48,6 +48,7 @@ export const HomeHeaderItemPanel = styled.div`
     text-align: center;
     font-size: 26px;
     font-weight: 500;
+    transition: margin-top 200ms ease-in-out;
   }
 
   .blockchain__item__name {
@@ -83,6 +84,7 @@ export const HomeHeaderItemPanel = styled.div`
     font-size: 12px;
     background: #3cc68a;
     margin-top: 14px;
+    transition: opacity 200ms linear;
   }
 
   @media (max-width: 700px) {
