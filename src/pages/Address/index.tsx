@@ -151,7 +151,7 @@ export const Address = ({
         />
         <TitleCard title={i18n.t('common.overview')} />
         <OverviewCard items={items}>
-          {addressState && addressState.address && addressState.address.lock_hash && (
+          {addressState && addressState.address && addressState.address.lock_script && (
             <AddressLockScript script={addressState.address.lock_script} />
           )}
         </OverviewCard>
