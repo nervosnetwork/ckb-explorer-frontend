@@ -95,7 +95,6 @@ export const HeaderMobileDiv = styled.div`
     .header__menus__item {
       margin-left: 35px;
       font-size: 14px;
-      font-family: Montserrat;
       font-weight: bold;
       line-height: 100%;
       color: white;
@@ -156,7 +155,6 @@ export const HeaderTestnetPanel = styled.div`
     line-height: 50px;
     letter-spacing: 2px;
     font-weight: 600;
-    font-family: Montserrat;
   }
 
   @media (max-width: 700px) {
@@ -169,7 +167,6 @@ export const HeaderTestnetPanel = styled.div`
       height: 42px;
       line-height: 42px;
       letter-spacing: normal;
-      font-family: Montserrat-SemiBold;
     }
   }
 `
