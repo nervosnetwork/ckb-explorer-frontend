@@ -227,8 +227,11 @@ export default ({
         )}
         <TitleCard title={i18n.t('common.overview')} />
         {blockState && <BlockOverview block={blockState.block} />}
-        {blockState && blockState.transactions && blockState.transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
-        {blockState && blockState.transactions &&
+        {blockState && blockState.transactions && blockState.transactions.length > 0 && (
+          <TitleCard title={i18n.t('transaction.transactions')} />
+        )}
+        {blockState &&
+          blockState.transactions &&
           blockState.transactions.map((transaction: any, index: number) => {
             return (
               transaction && (

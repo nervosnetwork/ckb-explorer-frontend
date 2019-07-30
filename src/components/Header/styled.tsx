@@ -13,7 +13,7 @@ export const HeaderDiv = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  padding: 1px 150px;
+  padding: 1px 10vw;
 
   .header__logo {
     display: flex;
@@ -27,12 +27,12 @@ export const HeaderDiv = styled.div`
   .header__menus {
     display: flex;
     align-items: center;
-    padding-left: 30px;
+    padding-left: 20px;
     min-height: 75px;
 
     .header__menus__item {
-      margin-left: 35px;
-      margin-right: 35px;
+      margin-left: 30px;
+      margin-right: 30px;
       font-size: 24px;
       letter-spacing: 2px;
       font-weight: 600;
@@ -50,7 +50,7 @@ export const HeaderDiv = styled.div`
       display: flex;
       align-items: center;
       height: 50px;
-      width: 430px;
+      width: 420px;
       min-width: 229px;
     }
   }
