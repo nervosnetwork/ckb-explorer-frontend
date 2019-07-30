@@ -85,8 +85,8 @@ export const HeaderMobileDiv = styled.div`
 
   .header__logo {
     .header__logo__img {
-      width: 64px;
-      height: auto;
+      width: auto;
+      height: 16px;
     }
   }
 
@@ -95,7 +95,6 @@ export const HeaderMobileDiv = styled.div`
     .header__menus__item {
       margin-left: 35px;
       font-size: 14px;
-      font-family: Montserrat;
       font-weight: bold;
       line-height: 100%;
       color: white;
@@ -155,8 +154,7 @@ export const HeaderTestnetPanel = styled.div`
     text-align: center;
     line-height: 50px;
     letter-spacing: 2px;
-    font-weight: 600;
-    font-family: Montserrat;
+    font-weight: bold;
   }
 
   @media (max-width: 700px) {
@@ -169,7 +167,6 @@ export const HeaderTestnetPanel = styled.div`
       height: 42px;
       line-height: 42px;
       letter-spacing: normal;
-      font-family: Montserrat-SemiBold;
     }
   }
 `
@@ -191,7 +188,7 @@ export const HeaderVersionPanel = styled.div`
 
   @media (max-width: 700px) {
     width: 40px;
-    margin: 18px 0 0 3px;
+    margin: 16px 0 0 3px;
     font-size: 8px;
   }
 `
