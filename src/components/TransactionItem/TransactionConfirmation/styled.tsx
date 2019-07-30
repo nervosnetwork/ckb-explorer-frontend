@@ -77,6 +77,11 @@ export const TransactionConfirmationValuePanel = styled.div`
     border: 15px solid #f7f7f7;
     border-left: 7.5px solid transparent;
     border-right: 7.5px solid transparent;
+
+    > span {
+      height: 30px;
+      padding: 7px 0px 7px 0px;
+    }
   }
 `
 
