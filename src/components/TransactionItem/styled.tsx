@@ -59,7 +59,6 @@ export const TransactionHashBlockPanel = styled.div`
     }
 
     .transaction_item__block {
-      font-weight: 500;
       color: #000000;
 
       @media (max-width: 700px) {
