@@ -144,10 +144,8 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
         defaultValue={searchValue || ''}
         hasBorder={!!hasBorder}
         onFocus={() => setPlaceholder('')}
+        onBlur={() => setPlaceholder(SearchPlaceholder)}
         onChange={(event: any) => {
-          if (!event.target.value) {
-            setPlaceholder(SearchPlaceholder)
-          }
           setSearchValue(event.target.value)
         }}
         onKeyUp={(event: any) => {
