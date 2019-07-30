@@ -16,7 +16,8 @@ const AddressHashCardPanel = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  overflow-x: hidden;
+  overflow: hidden;
+  position: relative;
 
   @media (max-width: 700px) {
     height: 50px;
@@ -74,7 +75,8 @@ const AddressHashCardPanel = styled.div`
 
   #address_hash__value {
     color: #ffffff;
-    visibility: hidden;
+    position: absolute;
+    bottom: -30px;
   }
 `
 
