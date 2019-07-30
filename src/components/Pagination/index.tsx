@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { PaginationLeftItem, PaginationRightItem, PaginationPanel } from './styled'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
@@ -20,12 +20,9 @@ const Pagination = ({
   const changePage = (page: number) => {
     if (page && page >= 1 && page <= total) {
       onChange(page)
+      setInputValue(Math.min(page + 1, totalPages))
     }
   }
-
-  useEffect(() => {
-    setInputValue(Math.min(currentPage + 1, totalPages))
-  }, [currentPage, totalPages])
 
   return (
     <PaginationPanel>
