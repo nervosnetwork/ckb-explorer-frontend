@@ -41,8 +41,20 @@ const AddressPendingRewardTitle = () => {
         id="address__pending_reward_help"
         tabIndex={-1}
         onFocus={() => {}}
-        onMouseOver={() => setShow(true)}
-        onMouseLeave={() => setShow(false)}
+        onMouseOver={() => {
+          setShow(true)
+          const p = document.querySelector('.page') as HTMLElement
+          if (p) {
+            p.setAttribute('tabindex', '-1')
+          }
+        }}
+        onMouseLeave={() => {
+          setShow(false)
+          const p = document.querySelector('.page') as HTMLElement
+          if (p) {
+            p.removeAttribute('tabindex')
+          }
+        }}
       >
         <img src={HelpIcon} alt="Pending Reward Help" />
       </div>
