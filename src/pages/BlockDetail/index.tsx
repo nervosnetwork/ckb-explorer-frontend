@@ -222,11 +222,13 @@ export default ({
   return (
     <Content>
       <BlockDetailPanel className="container">
-        <AddressHashCard title={i18n.t('block.block')} hash={blockState.block.block_hash} dispatch={dispatch} />
+        {blockState && blockState.block && (
+          <AddressHashCard title={i18n.t('block.block')} hash={blockState.block.block_hash} dispatch={dispatch} />
+        )}
         <TitleCard title={i18n.t('common.overview')} />
-        <BlockOverview block={blockState.block} />
-        {blockState.transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
-        {blockState.transactions &&
+        {blockState && <BlockOverview block={blockState.block} />}
+        {blockState && blockState.transactions && blockState.transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
+        {blockState && blockState.transactions &&
           blockState.transactions.map((transaction: any, index: number) => {
             return (
               transaction && (

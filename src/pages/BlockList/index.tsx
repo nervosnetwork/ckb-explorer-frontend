@@ -128,7 +128,8 @@ export default ({
         {isMobile() ? (
           <ContentTable>
             <div className="block__panel">
-              {blockListState.blocks &&
+              {blockListState &&
+                blockListState.blocks &&
                 blockListState.blocks.map((block: any, index: number) => {
                   const key = index
                   return block && <BlockCard key={key} block={block.attributes} />
@@ -142,7 +143,8 @@ export default ({
                 return <TableTitleItem width={data.width} title={data.title} />
               })}
             </TableTitleRow>
-            {blockListState.blocks &&
+            {blockListState &&
+              blockListState.blocks &&
               blockListState.blocks.map((data: Response.Wrapper<State.Block>) => {
                 return (
                   data && (

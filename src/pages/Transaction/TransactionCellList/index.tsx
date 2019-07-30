@@ -24,14 +24,15 @@ export default ({
           <span>{i18n.t('transaction.detail')}</span>
         </div>
       </TransactionCellListTitlePanel>
-      {cells.map(cell => (
-        <TransactionCell
-          key={cell.id}
-          cell={cell}
-          cellType={inputs ? CellType.Input : CellType.Output}
-          dispatch={dispatch}
-        />
-      ))}
+      {cells &&
+        cells.map(cell => (
+          <TransactionCell
+            key={cell.id}
+            cell={cell}
+            cellType={inputs ? CellType.Input : CellType.Output}
+            dispatch={dispatch}
+          />
+        ))}
     </TransactionCellListPanel>
   )
 }
