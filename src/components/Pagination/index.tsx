@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { PaginationLeftItem, PaginationRightItem, PaginationPanel } from './styled'
 import i18n from '../../utils/i18n'
+import { isMobile } from '../../utils/screen'
 
 const Pagination = ({
   currentPage,
@@ -29,7 +30,7 @@ const Pagination = ({
           {i18n.t('pagination.first')}
         </button>
         <button type="button" className="left__button" onClick={() => changePage(current - 1)} />
-        <div className="middle__label">{`Page ${current} of ${total}`}</div>
+        <div className="middle__label">{isMobile ? `Total page ${total}` : `Page ${current} of ${total}`}</div>
         <button type="button" className="right__button" onClick={() => changePage(current + 1)} />
         <button type="button" className="last" onClick={() => changePage(total)}>
           {i18n.t('pagination.last')}

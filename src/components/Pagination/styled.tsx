@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 import LeftBlack from '../../assets/pagination_black_left.png'
 import LeftWhite from '../../assets/pagination_white_left.png'
+import LeftGreen from '../../assets/pagination_green_left.png'
 import RightBlack from '../../assets/pagination_black_right.png'
 import RightWhite from '../../assets/pagination_white_right.png'
+import RightGreen from '../../assets/pagination_green_right.png'
 
 export const PaginationPanel = styled.div`
   display: flex;
@@ -128,7 +130,7 @@ export const PaginationLeftItem = styled.div`
       width: 16px;
       margin-top: 15px;
       margin-left: 20px;
-      background-image: url(${LeftBlack});
+      background-image: url(${LeftGreen});
       background-position: center;
       background-size: 6px 10px;
       background-repeat: no-repeat;
@@ -158,7 +160,7 @@ export const PaginationLeftItem = styled.div`
       width: 16px;
       margin-top: 15px;
       margin-left: 10px;
-      background-image: url(${RightBlack});
+      background-image: url(${RightGreen});
       background-position: center;
       background-size: 6px 10px;
       background-repeat: no-repeat;
