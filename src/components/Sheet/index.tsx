@@ -9,7 +9,7 @@ const SheetPanel = styled.div`
   z-index: 9000;
 
   @media (max-width: 700px) {
-    top: 44px;
+    top: 42px;
   }
 
   > div {
