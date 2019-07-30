@@ -9,7 +9,6 @@ const ToastDiv = styled.div`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  overflow-y: hidden;
   display: flex;
   z-index: 9998;
   flex-direction: column;
