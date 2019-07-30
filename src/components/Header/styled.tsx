@@ -154,7 +154,7 @@ export const HeaderTestnetPanel = styled.div`
     text-align: center;
     line-height: 50px;
     letter-spacing: 2px;
-    font-weight: 600;
+    font-weight: bold;
   }
 
   @media (max-width: 700px) {
