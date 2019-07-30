@@ -32,7 +32,7 @@ const ToastItemDiv = styled.div`
   }
 
   @media (max-width: 700px) {
-    top: 44px;
+    top: 42px;
     height: 36px;
 
     .toast__text {
@@ -42,7 +42,7 @@ const ToastItemDiv = styled.div`
   }
 
   @media (max-width: 320px) {
-    top: 44px;
+    top: 42px;
     height: 36px;
     .toast__text {
       font-size: 12px;
