@@ -69,17 +69,12 @@ export const TransactionHashBlockPanel = styled.div`
 
   &:after {
     content: '';
-    background: #e2e2e2;
-    height: 1px;
-    width: 100%;
-    display: block;
-
-    @media (-webkit-min-device-pixel-ratio: 2) {
-      transform: scaleY(0.5);
-    }
-    @media (-webkit-min-device-pixel-ratio: 3) {
-      transform: scaleY(0.33);
-    }
+    background-image: linear-gradient(to top, transparent 50%, #e2e2e2 50%);
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    background-position: top center;
+    border-top: 0 none;
+    padding-top: 1px;
   }
 `
 
