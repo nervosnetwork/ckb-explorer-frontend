@@ -188,14 +188,6 @@ export const PaginationRightItem = styled.div`
     height: 50px;
   }
 
-  > input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none !important;
-  }
-  > input[type='number'] {
-    -moz-appearance: textfield;
-  }
-
   .jump__page__input {
     width: 120px;
     height: 40px;
