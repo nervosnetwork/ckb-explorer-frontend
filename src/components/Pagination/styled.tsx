@@ -51,7 +51,7 @@ export const PaginationLeftItem = styled.div`
     background: #f5f5f5;
     letter-spacing: 1px;
     &:hover {
-      font-weight: bold;
+      font-weight: 600;
     }
     &:active {
       background: #3cc68a;

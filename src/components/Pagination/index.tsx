@@ -5,7 +5,7 @@ import i18n from '../../utils/i18n'
 const Pagination = ({
   currentPage,
   totalPages,
-  gotoPage = 1,
+  gotoPage = currentPage + 1,
   onChange,
 }: {
   currentPage: number
@@ -17,9 +17,10 @@ const Pagination = ({
   const total = Math.max(totalPages, 1)
   const current = Math.min(Math.max(currentPage, 1), totalPages)
   const changePage = (page: number) => {
-    if (page < 1) onChange(1)
-    if (page > total) onChange(total)
-    onChange(page)
+    if (page && page >= 1 && page <= total) {
+      onChange(page)
+      if (page < total) setInputValue(page + 1)
+    }
   }
   return (
     <PaginationPanel>
@@ -45,15 +46,17 @@ const Pagination = ({
               setInputValue(event.target.value)
             } else if (event.target.value >= total) {
               setInputValue(total)
+            } else if (!event.target.value || event.target.value <= 0) {
+              setInputValue(event.target.value)
             }
           }}
           onKeyUp={(event: any) => {
             if (event.keyCode === 13) {
-              changePage(inputValue)
+              changePage(Number(inputValue))
             }
           }}
         />
-        <button type="button" className="go__to" onClick={() => changePage(inputValue)}>
+        <button type="button" className="go__to" onClick={() => changePage(Number(inputValue))}>
           {i18n.t('pagination.goto')}
         </button>
       </PaginationRightItem>
