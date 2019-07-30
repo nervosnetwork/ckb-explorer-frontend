@@ -20,9 +20,10 @@ const Pagination = ({
   const changePage = (page: number) => {
     if (page && page >= 1 && page <= total) {
       onChange(page)
-      if (page < total) setInputValue(page + 1)
+      setInputValue(Math.min(page + 1, totalPages))
     }
   }
+
   return (
     <PaginationPanel>
       <PaginationLeftItem isFirstPage={current === 1} isLastPage={current === total}>
@@ -39,7 +40,8 @@ const Pagination = ({
       <PaginationRightItem>
         <div className="page">{i18n.t('pagination.page')}</div>
         <input
-          type="number"
+          type="text"
+          pattern="[0-9]*"
           className="jump__page__input"
           value={inputValue}
           onChange={(event: any) => {
