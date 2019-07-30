@@ -67,8 +67,20 @@ const BlockOverviewItemContent = ({ value, tip, message }: { value?: string; tip
           className="block__overview_item_tip"
           tabIndex={-1}
           onFocus={() => {}}
-          onMouseOver={() => setShow(true)}
-          onMouseLeave={() => setShow(false)}
+          onMouseOver={() => {
+            setShow(true)
+            const p = document.querySelector('.page') as HTMLElement
+            if (p) {
+              p.setAttribute('tabindex', '-1')
+            }
+          }}
+          onMouseLeave={() => {
+            setShow(false)
+            const p = document.querySelector('.page') as HTMLElement
+            if (p) {
+              p.removeAttribute('tabindex')
+            }
+          }}
         >
           {tip}
           <Tooltip show={show} targetElementId={tip}>
