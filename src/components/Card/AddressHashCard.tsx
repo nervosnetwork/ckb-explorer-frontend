@@ -74,6 +74,7 @@ const AddressHashCardPanel = styled.div`
 
   #address_hash__value {
     color: #ffffff;
+    visibility: hidden;
   }
 `
 
