@@ -85,8 +85,8 @@ export const HeaderMobileDiv = styled.div`
 
   .header__logo {
     .header__logo__img {
-      width: 64px;
-      height: auto;
+      width: auto;
+      height: 16px;
     }
   }
 
@@ -188,7 +188,7 @@ export const HeaderVersionPanel = styled.div`
 
   @media (max-width: 700px) {
     width: 40px;
-    margin: 18px 0 0 3px;
+    margin: 16px 0 0 3px;
     font-size: 8px;
   }
 `
