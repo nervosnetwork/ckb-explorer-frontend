@@ -47,12 +47,7 @@ export const TableContentRow = styled.div`
     left: 2.5%;
     bottom: 1px;
     background: #d8d8d8;
-    @media (-webkit-min-device-pixel-ratio: 2) {
-      transform: scaleY(0.5);
-    }
-    @media (-webkit-min-device-pixel-ratio: 3) {
-      transform: scaleY(0.33);
-    }
+    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 `
 

@@ -45,12 +45,7 @@ export const TransactiomConfirmationPanel = styled.div`
       font-weight: normal;
       margin: 15px 0px 15px 0px;
     }
-    @media (-webkit-min-device-pixel-ratio: 2) {
-      transform: scaleY(0.5);
-    }
-    @media (-webkit-min-device-pixel-ratio: 3) {
-      transform: scaleY(0.33);
-    }
+    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 `
 
