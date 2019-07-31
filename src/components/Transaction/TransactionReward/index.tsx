@@ -62,7 +62,7 @@ const TransactionReward = ({ transaction, cell }: { transaction: State.Transacti
   const Rewards = [
     {
       name: i18n.t('transaction.base_reward'),
-      capacity: cell.block_reward,
+      capacity: cell.base_reward,
     },
     {
       name: i18n.t('transaction.secondary_reward'),
