@@ -40,6 +40,7 @@ const CardItemPanel = styled.div`
   .card__value {
     color: ${(props: { highLight: boolean; name: string }) => (props.highLight ? '#3CC68A' : '#000000')};
     font-size: 13px;
+    font-weight: normal;
   }
 
   ::after {
