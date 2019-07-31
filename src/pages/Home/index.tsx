@@ -102,7 +102,7 @@ const TableTitleDatas: TableTitleData[] = [
 ]
 
 const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
-  const tableContentDatas: TableContentData[] = [
+  return [
     {
       width: '14%',
       to: `/block/${data.attributes.number}`,
@@ -124,8 +124,7 @@ const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
       width: '15%',
       content: parseSimpleDate(data.attributes.timestamp),
     },
-  ]
-  return tableContentDatas
+  ] as TableContentData[]
 }
 
 const parseBlockTime = (blockTime: string | undefined) => {
@@ -202,7 +201,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
   ]
 
   const BlockCardItems = (block: State.Block) => {
-    const items: OverviewItemData[] = [
+    return [
       {
         title: i18n.t('home.height'),
         content: <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
@@ -223,8 +222,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
         title: i18n.t('home.time'),
         content: parseSimpleDate(block.timestamp),
       },
-    ]
-    return items
+    ] as OverviewItemData[]
   }
 
   return (
@@ -259,13 +257,14 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
                 return (
                   block && (
                     <TableContentRow key={block.attributes.number}>
-                      {getTableContentDatas(block).map((tableContentData: TableContentData) => {
+                      {getTableContentDatas(block).map((tableContentData: TableContentData, index: number) => {
+                        const key = index
                         if (tableContentData.content === block.attributes.miner_hash) {
                           return (
                             <TableMinerContentItem
                               width={tableContentData.width}
                               content={tableContentData.content}
-                              key={block.attributes.number}
+                              key={key}
                             />
                           )
                         }
@@ -274,7 +273,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
                             width={tableContentData.width}
                             content={tableContentData.content}
                             to={tableContentData.to}
-                            key={block.attributes.number}
+                            key={key}
                           />
                         )
                       })}

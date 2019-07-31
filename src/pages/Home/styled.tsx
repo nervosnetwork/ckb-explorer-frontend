@@ -223,6 +223,7 @@ export const TableMorePanel = styled.div`
     border-radius: 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
     background-color: #ffffff;
+    margin-top: 5px;
 
     > div {
       height: 14px;
