@@ -180,7 +180,7 @@ export default ({
               blockListState.blocks.map((data: Response.Wrapper<State.Block>) => {
                 return (
                   data && (
-                    <TableContentRow key={data.attributes.block_hash}>
+                    <TableContentRow key={data.attributes.number}>
                       {getTableContentDatas(data).map((tableContentData: TableContentData) => {
                         if (tableContentData.content === data.attributes.miner_hash) {
                           return (

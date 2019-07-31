@@ -255,18 +255,17 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
               })}
             </TableTitleRow>
             {homeBlocks &&
-              homeBlocks.map((block: any, index: number) => {
-                const key = index
+              homeBlocks.map((block: any) => {
                 return (
                   block && (
-                    <TableContentRow key={key}>
+                    <TableContentRow key={block.attributes.number}>
                       {getTableContentDatas(block).map((tableContentData: TableContentData) => {
                         if (tableContentData.content === block.attributes.miner_hash) {
                           return (
                             <TableMinerContentItem
                               width={tableContentData.width}
                               content={tableContentData.content}
-                              key={tableContentData.content}
+                              key={block.attributes.number}
                             />
                           )
                         }
@@ -275,7 +274,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
                             width={tableContentData.width}
                             content={tableContentData.content}
                             to={tableContentData.to}
-                            key={tableContentData.content}
+                            key={block.attributes.number}
                           />
                         )
                       })}
