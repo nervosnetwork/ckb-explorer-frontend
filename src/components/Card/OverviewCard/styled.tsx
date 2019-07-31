@@ -36,7 +36,7 @@ export const OverviewContentPanel = styled.div`
     height: ${({ length }: { length: number }) => `${length * 40 - 20}px`};
     background: #e2e2e2;
     margin: 20px 0px 0px 0px;
-    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
+    transform: ${() => `scaleX(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
 
     @media (max-width: 700px) {
       display: none;
