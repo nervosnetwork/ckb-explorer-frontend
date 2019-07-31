@@ -67,7 +67,7 @@ const TableTitleDatas: TableTitleData[] = [
 ]
 
 const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
-  const tableContentDatas: TableContentData[] = [
+  return [
     {
       width: '14%',
       to: `/block/${data.attributes.number}`,
@@ -89,12 +89,11 @@ const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
       width: '15%',
       content: parseSimpleDate(data.attributes.timestamp),
     },
-  ]
-  return tableContentDatas
+  ] as TableContentData[]
 }
 
 const BlockCardItems = (block: State.Block) => {
-  const items: OverviewItemData[] = [
+  return [
     {
       title: i18n.t('home.height'),
       content: <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
@@ -115,8 +114,7 @@ const BlockCardItems = (block: State.Block) => {
       title: i18n.t('home.time'),
       content: parseSimpleDate(block.timestamp),
     },
-  ]
-  return items
+  ] as OverviewItemData[]
 }
 
 export default ({
@@ -181,10 +179,15 @@ export default ({
                 return (
                   data && (
                     <TableContentRow key={data.attributes.number}>
-                      {getTableContentDatas(data).map((tableContentData: TableContentData) => {
+                      {getTableContentDatas(data).map((tableContentData: TableContentData, index: number) => {
+                        const key = index
                         if (tableContentData.content === data.attributes.miner_hash) {
                           return (
-                            <TableMinerContentItem width={tableContentData.width} content={tableContentData.content} />
+                            <TableMinerContentItem
+                              width={tableContentData.width}
+                              content={tableContentData.content}
+                              key={key}
+                            />
                           )
                         }
                         return (
@@ -192,6 +195,7 @@ export default ({
                             width={tableContentData.width}
                             content={tableContentData.content}
                             to={tableContentData.to}
+                            key={key}
                           />
                         )
                       })}
