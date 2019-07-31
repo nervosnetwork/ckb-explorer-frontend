@@ -18,24 +18,23 @@ export const AddressContentPanel = styled.div`
 
 export const AddressPendingRewardTitlePanel = styled.div`
   display: flex;
+  flex-direction: row;
+  align-items: center;
 
   #address__pending_reward_help {
     margin-left: 20px;
-    transform: translateY(2px);
+    width: 20px;
+    height: 20px;
 
     @media (max-width: 700px) {
       margin-left: 10px;
-      transform: translateY(1px);
+      width: 16px;
+      height: 16px;
     }
 
     > img {
-      width: 20px;
-      height: 20px;
-
-      @media (max-width: 700px) {
-        width: 16px;
-        height: 16px;
-      }
+      width: 100%;
+      height: 100%;
     }
     &:focus {
       outline: 0;
