@@ -85,7 +85,7 @@ export const HeaderMobileDiv = styled.div`
 
   .header__logo {
     .header__logo__img {
-      width: auto;
+      width: 80px;
       height: 16px;
     }
   }
