@@ -30,7 +30,7 @@
     "home": {
       "height": "Height",
       "transactions": "Transactions",
-      "block_reward": "Block Reward (CKB)",
+      "block_reward": "Reward (CKB)",
       "time": "Time",
       "more": "More"
     },

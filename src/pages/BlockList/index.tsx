@@ -1,8 +1,8 @@
 import React, { useEffect, useContext } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, Link } from 'react-router-dom'
 import queryString from 'query-string'
 import { parseSimpleDate } from '../../utils/date'
-import { BlockListPanel, ContentTable } from './styled'
+import { BlockListPanel, ContentTable, HighLightValue } from './styled'
 import Content from '../../components/Content'
 import {
   TableTitleRow,
@@ -11,9 +11,8 @@ import {
   TableContentItem,
   TableMinerContentItem,
 } from '../../components/Table'
-import BlockCard from '../../components/Card/BlockCard'
 import { shannonToCkb } from '../../utils/util'
-import { parsePageNumber } from '../../utils/string'
+import { parsePageNumber, startEndEllipsis } from '../../utils/string'
 import { CachedKeys, BlockListPageParams } from '../../utils/const'
 import { fetchCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
@@ -21,9 +20,17 @@ import { isMobile } from '../../utils/screen'
 import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
 import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
-
+import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { AppContext } from '../../contexts/providers'
 import { getBlocks } from '../../service/app/block'
+
+const BlockValueItem = ({ value, to }: { value: string; to: string }) => {
+  return (
+    <HighLightValue>
+      <Link to={to}>{value}</Link>
+    </HighLightValue>
+  )
+}
 
 interface TableTitleData {
   title: string
@@ -60,7 +67,7 @@ const TableTitleDatas: TableTitleData[] = [
 ]
 
 const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
-  const tableContentDatas: TableContentData[] = [
+  return [
     {
       width: '14%',
       to: `/block/${data.attributes.number}`,
@@ -82,8 +89,32 @@ const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
       width: '15%',
       content: parseSimpleDate(data.attributes.timestamp),
     },
-  ]
-  return tableContentDatas
+  ] as TableContentData[]
+}
+
+const BlockCardItems = (block: State.Block) => {
+  return [
+    {
+      title: i18n.t('home.height'),
+      content: <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
+    },
+    {
+      title: i18n.t('home.transactions'),
+      content: localeNumberString(block.transactions_count),
+    },
+    {
+      title: i18n.t('home.block_reward'),
+      content: localeNumberString(shannonToCkb(block.reward)),
+    },
+    {
+      title: i18n.t('block.miner'),
+      content: <BlockValueItem value={startEndEllipsis(block.miner_hash, 13)} to={`/address/${block.miner_hash}`} />,
+    },
+    {
+      title: i18n.t('home.time'),
+      content: parseSimpleDate(block.timestamp),
+    },
+  ] as OverviewItemData[]
 }
 
 export default ({
@@ -130,9 +161,8 @@ export default ({
             <div className="block__panel">
               {blockListState &&
                 blockListState.blocks &&
-                blockListState.blocks.map((block: any, index: number) => {
-                  const key = index
-                  return block && <BlockCard key={key} block={block.attributes} />
+                blockListState.blocks.map((block: any) => {
+                  return <OverviewCard key={block.attributes.number} items={BlockCardItems(block.attributes)} />
                 })}
             </div>
           </ContentTable>
@@ -148,11 +178,16 @@ export default ({
               blockListState.blocks.map((data: Response.Wrapper<State.Block>) => {
                 return (
                   data && (
-                    <TableContentRow key={data.attributes.block_hash}>
-                      {getTableContentDatas(data).map((tableContentData: TableContentData) => {
+                    <TableContentRow key={data.attributes.number}>
+                      {getTableContentDatas(data).map((tableContentData: TableContentData, index: number) => {
+                        const key = index
                         if (tableContentData.content === data.attributes.miner_hash) {
                           return (
-                            <TableMinerContentItem width={tableContentData.width} content={tableContentData.content} />
+                            <TableMinerContentItem
+                              width={tableContentData.width}
+                              content={tableContentData.content}
+                              key={key}
+                            />
                           )
                         }
                         return (
@@ -160,6 +195,7 @@ export default ({
                             width={tableContentData.width}
                             content={tableContentData.content}
                             to={tableContentData.to}
+                            key={key}
                           />
                         )
                       })}

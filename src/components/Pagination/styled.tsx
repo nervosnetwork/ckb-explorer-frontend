@@ -195,6 +195,7 @@ export const PaginationRightItem = styled.div`
     border-radius: 6px;
     background-color: #f5f5f5;
     color: grey;
+    outline: none;
     font-size: 16px;
     margin-right: 20px;
     padding-left: 10px;

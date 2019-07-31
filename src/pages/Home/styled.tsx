@@ -52,7 +52,7 @@ export const HomeHeaderItemPanel = styled.div`
   }
 
   .blockchain__item__name {
-    margin-top: 8px;
+    margin-top: 12px;
     height: 19px;
     color: #000000;
     text-align: center;
@@ -113,7 +113,7 @@ export const HomeHeaderItemPanel = styled.div`
       height: 10px;
       color: #000000;
       text-align: center;
-      font-size: 8px;
+      font-size: 12px;
     }
 
     &:hover .blockchain__item__tip {
@@ -223,6 +223,7 @@ export const TableMorePanel = styled.div`
     border-radius: 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
     background-color: #ffffff;
+    margin-top: 5px;
 
     > div {
       height: 14px;
@@ -239,4 +240,11 @@ export const TableMorePanel = styled.div`
       }
     }
   }
+`
+
+export const HighLightValue = styled.div`
+  color: #3cc68a;
+  font-size: 13px;
+  height: 16px;
+  font-family: Menlo;
 `
