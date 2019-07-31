@@ -84,8 +84,9 @@ export const HeaderMobileDiv = styled.div`
   align-items: center;
 
   .header__logo {
+    height: 16px;
     .header__logo__img {
-      width: auto;
+      width: 80px;
       height: 16px;
     }
   }
@@ -140,6 +141,7 @@ export const HeaderMobileDiv = styled.div`
 export const HeaderTestnetPanel = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 
   ${(props: { search: boolean }) =>
     !props.search &&
@@ -148,11 +150,9 @@ export const HeaderTestnetPanel = styled.div`
     `}
 
   .header__testnet__flag {
-    height: 50px;
     color: white;
     font-size: 24px;
     text-align: center;
-    line-height: 50px;
     letter-spacing: 2px;
     font-weight: bold;
   }
@@ -164,8 +164,6 @@ export const HeaderTestnetPanel = styled.div`
     .header__testnet__flag {
       color: white;
       font-size: 12px;
-      height: 42px;
-      line-height: 42px;
       letter-spacing: normal;
     }
   }
@@ -179,16 +177,16 @@ export const HeaderSearchPanel = styled.div`
 `
 
 export const HeaderVersionPanel = styled.div`
-  color: white;
   width: 70px;
+  margin-top: 8px;
+  color: white;
   font-size: 12px;
-  margin: 20px 0 0 4px;
-  align-items: flex-end;
-  height: 19px;
+  margin-left: 4px;
 
   @media (max-width: 700px) {
     width: 40px;
-    margin: 16px 0 0 3px;
+    margin-top: 5px;
     font-size: 8px;
+    margin-left: 4px;
   }
 `
