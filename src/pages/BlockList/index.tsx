@@ -1,8 +1,8 @@
 import React, { useEffect, useContext } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, Link } from 'react-router-dom'
 import queryString from 'query-string'
 import { parseSimpleDate } from '../../utils/date'
-import { BlockListPanel, ContentTable } from './styled'
+import { BlockListPanel, ContentTable, HighLightValue } from './styled'
 import Content from '../../components/Content'
 import {
   TableTitleRow,
@@ -11,9 +11,9 @@ import {
   TableContentItem,
   TableMinerContentItem,
 } from '../../components/Table'
-import BlockCard from '../../components/Card/BlockCard'
 import { shannonToCkb } from '../../utils/util'
-import { parsePageNumber } from '../../utils/string'
+import { parsePageNumber, startEndEllipsis } from '../../utils/string'
+
 import { CachedKeys, BlockListPageParams } from '../../utils/const'
 import { fetchCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
@@ -21,9 +21,17 @@ import { isMobile } from '../../utils/screen'
 import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
 import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
-
+import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { AppContext } from '../../contexts/providers'
 import { getBlocks } from '../../service/app/block'
+
+const BlockValueItem = ({ value, to }: { value: string; to: string }) => {
+  return (
+    <HighLightValue>
+      <Link to={to}>{value}</Link>
+    </HighLightValue>
+  )
+}
 
 interface TableTitleData {
   title: string
@@ -86,6 +94,32 @@ const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
   return tableContentDatas
 }
 
+const BlockCardItems = (block: State.Block) => {
+  const items: OverviewItemData[] = [
+    {
+      title: i18n.t('home.height'),
+      content: <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
+    },
+    {
+      title: i18n.t('home.transactions'),
+      content: localeNumberString(block.transactions_count),
+    },
+    {
+      title: i18n.t('home.block_reward'),
+      content: localeNumberString(shannonToCkb(block.reward)),
+    },
+    {
+      title: i18n.t('block.miner'),
+      content: <BlockValueItem value={startEndEllipsis(block.miner_hash, 13)} to={`/address/${block.miner_hash}`} />,
+    },
+    {
+      title: i18n.t('home.time'),
+      content: parseSimpleDate(block.timestamp),
+    },
+  ]
+  return items
+}
+
 export default ({
   dispatch,
   history: { replace, push },
@@ -130,9 +164,8 @@ export default ({
             <div className="block__panel">
               {blockListState &&
                 blockListState.blocks &&
-                blockListState.blocks.map((block: any, index: number) => {
-                  const key = index
-                  return block && <BlockCard key={key} block={block.attributes} />
+                blockListState.blocks.map((block: any) => {
+                  return <OverviewCard key={block.attributes.number} items={BlockCardItems(block.attributes)} />
                 })}
             </div>
           </ContentTable>
