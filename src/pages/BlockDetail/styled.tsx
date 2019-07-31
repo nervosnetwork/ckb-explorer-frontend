@@ -55,6 +55,9 @@ export const BlockOverviewItemContentPanel = styled.div`
     &:focus {
       outline: 0;
     }
+    @media (max-width: 700px) {
+      margin-left: 10px;
+    }
   }
   > div:nth-child(1) {
     margin-left: 0px;

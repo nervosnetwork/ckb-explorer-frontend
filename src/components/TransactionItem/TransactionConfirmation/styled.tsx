@@ -53,17 +53,20 @@ export const TransactionConfirmationValuePanel = styled.div`
   min-width: 280px;
   height: 40px;
   background: white;
-  align-items: center;
   display: flex;
   color: #000000;
   border: 20px solid #f7f7f7;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   float: right;
+  position: relative;
+
   > span {
+    position: absolute;
     width: 100%;
-    height: 40px;
-    padding: 10px 0px 10px 0px;
+    height: 20px;
+    bottom: -10px;
+    padding: 0px 10px 0px 10px;
   }
 
   @media (max-width: 700px) {
@@ -74,8 +77,8 @@ export const TransactionConfirmationValuePanel = styled.div`
     border-right: 7.5px solid transparent;
 
     > span {
-      height: 30px;
-      padding: 7px 0px 7px 0px;
+      height: 16px;
+      bottom: -7px;
     }
   }
 `
@@ -86,12 +89,10 @@ export const TransactionCapacityValuePanel = styled(TransactionConfirmationValue
   border: 20px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  padding: 0px 20px 0px 20px;
 
   @media (max-width: 700px) {
     border: 15px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
     border-left: 7.5px solid transparent;
     border-right: 7.5px solid transparent;
-    padding: 0px 15px 0px 15px;
   }
 `

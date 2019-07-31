@@ -51,12 +51,23 @@ export const TransactionCellDetailPanel = styled.div`
   .transaction__cell_lock_script {
     flex: 0.34;
     align-items: flex-start;
+
+    @media (max-width: 700px) {
+      flex: none;
+    }
   }
   .transaction__cell_type_script {
     flex: 0.33;
+    @media (max-width: 700px) {
+      flex: 1;
+    }
   }
   .transaction__cell_data {
     flex: 0.33;
+
+    @media (max-width: 700px) {
+      flex: none;
+    }
   }
 `
 

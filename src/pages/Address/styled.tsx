@@ -25,6 +25,7 @@ export const AddressPendingRewardTitlePanel = styled.div`
 
     @media (max-width: 700px) {
       margin-left: 10px;
+      transform: translateY(1px);
     }
 
     > img {
