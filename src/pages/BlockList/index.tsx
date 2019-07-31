@@ -13,7 +13,6 @@ import {
 } from '../../components/Table'
 import { shannonToCkb } from '../../utils/util'
 import { parsePageNumber, startEndEllipsis } from '../../utils/string'
-
 import { CachedKeys, BlockListPageParams } from '../../utils/const'
 import { fetchCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
