@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components'
-import testnetTipImage from '../../assets/testnet_tip.png'
 
 export const HeaderDiv = styled.div`
   width: 100%;
@@ -14,7 +13,7 @@ export const HeaderDiv = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  padding: 1px 150px;
+  padding: 1px 10vw;
 
   .header__logo {
     display: flex;
@@ -28,12 +27,12 @@ export const HeaderDiv = styled.div`
   .header__menus {
     display: flex;
     align-items: center;
-    padding-left: 30px;
+    padding-left: 20px;
     min-height: 75px;
 
     .header__menus__item {
-      margin-left: 35px;
-      margin-right: 35px;
+      margin-left: 30px;
+      margin-right: 30px;
       font-size: 24px;
       letter-spacing: 2px;
       font-weight: 600;
@@ -51,7 +50,7 @@ export const HeaderDiv = styled.div`
       display: flex;
       align-items: center;
       height: 50px;
-      width: 430px;
+      width: 420px;
       min-width: 229px;
     }
   }
@@ -85,20 +84,22 @@ export const HeaderMobileDiv = styled.div`
   align-items: center;
 
   .header__logo {
+    height: 16px;
     .header__logo__img {
-      width: 64px;
-      height: auto;
+      width: 80px;
+      height: 16px;
     }
   }
 
   .header__menus {
     padding-left: 5px;
+    display: flex;
+    align-items: center;
+
     .header__menus__item {
       margin-left: 35px;
       font-size: 14px;
-      font-family: Montserrat;
       font-weight: bold;
-      line-height: 100%;
       color: white;
 
       @media (max-width: 700px) {
@@ -134,7 +135,7 @@ export const HeaderMobileDiv = styled.div`
       height: 14px;
       width: 1px;
       background: white;
-      margin: 3px 4px 0 0;
+      margin: 3px 6px 0 0;
     }
   }
 `
@@ -142,6 +143,7 @@ export const HeaderMobileDiv = styled.div`
 export const HeaderTestnetPanel = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 
   ${(props: { search: boolean }) =>
     !props.search &&
@@ -150,50 +152,18 @@ export const HeaderTestnetPanel = styled.div`
     `}
 
   .header__testnet__flag {
-    height: 50px;
     color: white;
     font-size: 24px;
     text-align: center;
-    line-height: 50px;
     letter-spacing: 2px;
-    font-weight: 600;
-    font-family: Montserrat;
-  }
-
-  &:hover .header__testnet__tip {
-    visibility: visible;
-  }
-
-  .header__testnet__tip {
-    width: 350px;
-    height: 62px;
-    position: fixed;
-    z-index: 1100;
-    right: 180px;
-    top: 85px;
-    background-image: url(${testnetTipImage});
-    background-repeat: no-repeat;
-    background-size: 350px 62px;
-    visibility: hidden;
-    color: white;
-    font-size: 16px;
     font-weight: bold;
-    padding-top: 3px;
-    line-height: 62px;
-    text-align: center;
   }
 
   @media (max-width: 700px) {
-    display: flex;
-    justify-content: flex-end;
-
     .header__testnet__flag {
       color: white;
       font-size: 12px;
-      height: 42px;
-      line-height: 42px;
       letter-spacing: normal;
-      font-family: Montserrat-SemiBold;
     }
   }
 `
@@ -206,16 +176,20 @@ export const HeaderSearchPanel = styled.div`
 `
 
 export const HeaderVersionPanel = styled.div`
-  color: white;
   width: 70px;
+  color: white;
   font-size: 12px;
-  margin: 20px 0 0 4px;
-  align-items: flex-end;
-  height: 19px;
+  margin-left: 4px;
+  > div {
+    margin-top: 8px;
+  }
 
   @media (max-width: 700px) {
     width: 40px;
-    margin: 18px 0 0 3px;
     font-size: 8px;
+    margin-left: 4px;
+    > div {
+      margin-top: 3px;
+    }
   }
 `

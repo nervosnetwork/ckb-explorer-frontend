@@ -45,10 +45,12 @@ export const TransactionHashBlockPanel = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 20px;
 
     @media (max-width: 700px) {
       flex-direction: column;
       justify-content: normal;
+      margin-bottom: 10px;
     }
 
     .transaction_item__hash {
@@ -57,7 +59,6 @@ export const TransactionHashBlockPanel = styled.div`
     }
 
     .transaction_item__block {
-      font-weight: 500;
       color: #000000;
 
       @media (max-width: 700px) {
@@ -72,23 +73,11 @@ export const TransactionHashBlockPanel = styled.div`
     height: 1px;
     width: 100%;
     display: block;
-    margin: 20px 0px 10px 0px;
-
-    @media (max-width: 700px) {
-      font-weight: normal;
-      margin: 10px 0px 0px 0px;
-    }
-    @media (-webkit-min-device-pixel-ratio: 2) {
-      transform: scaleY(0.5);
-    }
-    @media (-webkit-min-device-pixel-ratio: 3) {
-      transform: scaleY(0.33);
-    }
+    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 `
 
 export const TransactionInputOutputPanel = styled.div`
-  margin-top: 12px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -99,7 +88,7 @@ export const TransactionInputOutputPanel = styled.div`
   }
 
   > img {
-    margin-top: 8px;
+    margin-top: 20px;
     width: 19px;
     height: 19px;
 

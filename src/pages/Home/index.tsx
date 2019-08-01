@@ -1,7 +1,14 @@
 import React, { useEffect, useContext } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { HomeHeaderPanel, HomeHeaderItemPanel, BlockPanel, ContentTable, TableMorePanel } from './styled'
+import {
+  HomeHeaderPanel,
+  HomeHeaderItemPanel,
+  BlockPanel,
+  ContentTable,
+  TableMorePanel,
+  HighLightValue,
+} from './styled'
 import Content from '../../components/Content'
 import {
   TableTitleRow,
@@ -10,12 +17,12 @@ import {
   TableContentItem,
   TableMinerContentItem,
 } from '../../components/Table'
-import BlockCard from '../../components/Card/BlockCard'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
 import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
 import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import { localeNumberString } from '../../utils/number'
+import { startEndEllipsis } from '../../utils/string'
 import { isMobile } from '../../utils/screen'
 import browserHistory from '../../routes/history'
 import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
@@ -23,6 +30,7 @@ import { AppContext } from '../../contexts/providers'
 import { getLatestBlocks } from '../../service/app/block'
 import getStatistics from '../../service/app/statistics'
 import i18n from '../../utils/i18n'
+import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   return (
@@ -37,6 +45,14 @@ const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
       <div className="blockchain__item__name">{blockchain.name}</div>
       {blockchain.tip && <div className="blockchain__item__tip__content">{blockchain.tip}</div>}
     </HomeHeaderItemPanel>
+  )
+}
+
+const BlockValueItem = ({ value, to }: { value: string; to: string }) => {
+  return (
+    <HighLightValue>
+      <Link to={to}>{value}</Link>
+    </HighLightValue>
   )
 }
 
@@ -86,7 +102,7 @@ const TableTitleDatas: TableTitleData[] = [
 ]
 
 const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
-  const tableContentDatas: TableContentData[] = [
+  return [
     {
       width: '14%',
       to: `/block/${data.attributes.number}`,
@@ -108,8 +124,7 @@ const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
       width: '15%',
       content: parseSimpleDate(data.attributes.timestamp),
     },
-  ]
-  return tableContentDatas
+  ] as TableContentData[]
 }
 
 const parseBlockTime = (blockTime: string | undefined) => {
@@ -185,6 +200,31 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
     },
   ]
 
+  const BlockCardItems = (block: State.Block) => {
+    return [
+      {
+        title: i18n.t('home.height'),
+        content: <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
+      },
+      {
+        title: i18n.t('home.transactions'),
+        content: localeNumberString(block.transactions_count),
+      },
+      {
+        title: i18n.t('home.block_reward'),
+        content: localeNumberString(shannonToCkb(block.reward)),
+      },
+      {
+        title: i18n.t('block.miner'),
+        content: <BlockValueItem value={startEndEllipsis(block.miner_hash, 13)} to={`/address/${block.miner_hash}`} />,
+      },
+      {
+        title: i18n.t('home.time'),
+        content: parseSimpleDate(block.timestamp),
+      },
+    ] as OverviewItemData[]
+  }
+
   return (
     <Content>
       <HomeHeaderPanel>
@@ -200,9 +240,8 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
             <div className="block__green__background" />
             <div className="block__panel">
               {homeBlocks &&
-                homeBlocks.map((block: any, index: number) => {
-                  const key = index
-                  return block && <BlockCard key={key} block={block.attributes} />
+                homeBlocks.map((block: any) => {
+                  return <OverviewCard key={block.attributes.number} items={BlockCardItems(block.attributes)} />
                 })}
             </div>
           </ContentTable>
@@ -214,18 +253,18 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
               })}
             </TableTitleRow>
             {homeBlocks &&
-              homeBlocks.map((block: any, index: number) => {
-                const key = index
+              homeBlocks.map((block: any) => {
                 return (
                   block && (
-                    <TableContentRow key={key}>
-                      {getTableContentDatas(block).map((tableContentData: TableContentData) => {
+                    <TableContentRow key={block.attributes.number}>
+                      {getTableContentDatas(block).map((tableContentData: TableContentData, index: number) => {
+                        const key = index
                         if (tableContentData.content === block.attributes.miner_hash) {
                           return (
                             <TableMinerContentItem
                               width={tableContentData.width}
                               content={tableContentData.content}
-                              key={tableContentData.content}
+                              key={key}
                             />
                           )
                         }
@@ -234,7 +273,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
                             width={tableContentData.width}
                             content={tableContentData.content}
                             to={tableContentData.to}
-                            key={tableContentData.content}
+                            key={key}
                           />
                         )
                       })}

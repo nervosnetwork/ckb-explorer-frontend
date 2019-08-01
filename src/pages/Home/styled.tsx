@@ -5,13 +5,16 @@ export const HomeHeaderPanel = styled.div`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 0px;
+  padding: 30px 0px 40px 0px;
 
   .blockchain__item__container {
     min-width: 100%;
     display: flex;
     flex-wrap: wrap;
-    margin: 0 -6px;
+
+    @media (min-width: 700px) {
+      margin: 0 -6px;
+    }
   }
   @media (max-width: 1200px) {
     .blockchain__item__container {
@@ -19,7 +22,7 @@ export const HomeHeaderPanel = styled.div`
     }
   }
   @media (max-width: 700px) {
-    padding: 20px 6% 10px 6%;
+    padding: 10px 20px 20px 20px;
     .blockchain__item__container {
       justify-content: space-between;
     }
@@ -48,10 +51,11 @@ export const HomeHeaderItemPanel = styled.div`
     text-align: center;
     font-size: 26px;
     font-weight: 500;
+    transition: margin-top 200ms ease-in-out;
   }
 
   .blockchain__item__name {
-    margin-top: 8px;
+    margin-top: 12px;
     height: 19px;
     color: #000000;
     text-align: center;
@@ -83,26 +87,27 @@ export const HomeHeaderItemPanel = styled.div`
     font-size: 12px;
     background: #3cc68a;
     margin-top: 14px;
+    transition: opacity 200ms linear;
   }
 
   @media (max-width: 700px) {
-    width: 48%;
+    width: calc(50% - 5px);
     height: 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: white;
     border: 0px solid white;
-    border-radius: 6px;
-    box-shadow: 3px 3px 5px #dfdfdf;
-    margin: 10px 0;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px #dfdfdf;
+    margin: 10px 0px 0px 0px;
 
     .blockchain__item__value {
       margin-top: 23px;
       height: 18px;
       color: #000000;
       text-align: center;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 600;
     }
 
@@ -111,7 +116,7 @@ export const HomeHeaderItemPanel = styled.div`
       height: 10px;
       color: #000000;
       text-align: center;
-      font-size: 8px;
+      font-size: 12px;
     }
 
     &:hover .blockchain__item__tip {
@@ -221,6 +226,7 @@ export const TableMorePanel = styled.div`
     border-radius: 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
     background-color: #ffffff;
+    margin-top: 5px;
 
     > div {
       height: 14px;
@@ -237,4 +243,11 @@ export const TableMorePanel = styled.div`
       }
     }
   }
+`
+
+export const HighLightValue = styled.div`
+  color: #3cc68a;
+  font-size: 13px;
+  height: 16px;
+  font-family: Menlo;
 `

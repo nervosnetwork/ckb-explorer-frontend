@@ -35,8 +35,8 @@ export const SearchImage = styled.div`
     height: 32px;
 
     @media (max-width: 700px) {
-      width: 14px;
-      height: 14px;
+      width: 18px;
+      height: 18px;
     }
   }
 `

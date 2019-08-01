@@ -55,6 +55,9 @@ export const BlockOverviewItemContentPanel = styled.div`
     &:focus {
       outline: 0;
     }
+    @media (max-width: 700px) {
+      margin-left: 10px;
+    }
   }
   > div:nth-child(1) {
     margin-left: 0px;
@@ -68,6 +71,10 @@ export const BlockOverviewDisplayControlPanel = styled.div`
   width: 100%;
   height: 8px;
   transform: translateY(10px);
+
+  @media (max-width: 700px) {
+    transform: translateY(7.5px);
+  }
 
   > img {
     margin: auto auto;

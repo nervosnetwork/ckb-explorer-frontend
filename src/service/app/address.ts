@@ -6,10 +6,17 @@ import { getTransactionsByAddress } from './transaction'
 export const getAddressInfo = (hash: string, dispatch: any) => {
   fetchAddressInfo(hash)
     .then((wrapper: Response.Wrapper<State.Address>) => {
+      let { address } = initAddress
+      if (wrapper) {
+        address = {
+          ...wrapper.attributes,
+          type: wrapper.type === 'lock_hash' ? 'LockHash' : 'Address',
+        }
+      }
       dispatch({
         type: PageActions.UpdateAddress,
         payload: {
-          address: wrapper ? wrapper.attributes : initAddress,
+          address,
         },
       })
     })
@@ -17,7 +24,7 @@ export const getAddressInfo = (hash: string, dispatch: any) => {
       dispatch({
         type: PageActions.UpdateAddress,
         payload: {
-          address: initAddress,
+          address: initAddress.address,
         },
       })
     })

@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 import LeftBlack from '../../assets/pagination_black_left.png'
 import LeftWhite from '../../assets/pagination_white_left.png'
+import LeftGreen from '../../assets/pagination_green_left.png'
 import RightBlack from '../../assets/pagination_black_right.png'
 import RightWhite from '../../assets/pagination_white_right.png'
+import RightGreen from '../../assets/pagination_green_right.png'
 
 export const PaginationPanel = styled.div`
   display: flex;
@@ -51,7 +53,7 @@ export const PaginationLeftItem = styled.div`
     background: #f5f5f5;
     letter-spacing: 1px;
     &:hover {
-      font-weight: bold;
+      font-weight: 600;
     }
     &:active {
       background: #3cc68a;
@@ -128,7 +130,7 @@ export const PaginationLeftItem = styled.div`
       width: 16px;
       margin-top: 15px;
       margin-left: 20px;
-      background-image: url(${LeftBlack});
+      background-image: url(${LeftGreen});
       background-position: center;
       background-size: 6px 10px;
       background-repeat: no-repeat;
@@ -158,7 +160,7 @@ export const PaginationLeftItem = styled.div`
       width: 16px;
       margin-top: 15px;
       margin-left: 10px;
-      background-image: url(${RightBlack});
+      background-image: url(${RightGreen});
       background-position: center;
       background-size: 6px 10px;
       background-repeat: no-repeat;
@@ -186,14 +188,6 @@ export const PaginationRightItem = styled.div`
     height: 50px;
   }
 
-  > input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none !important;
-  }
-  > input[type='number'] {
-    -moz-appearance: textfield;
-  }
-
   .jump__page__input {
     width: 120px;
     height: 40px;
@@ -201,6 +195,7 @@ export const PaginationRightItem = styled.div`
     border-radius: 6px;
     background-color: #f5f5f5;
     color: grey;
+    outline: none;
     font-size: 16px;
     margin-right: 20px;
     padding-left: 10px;
