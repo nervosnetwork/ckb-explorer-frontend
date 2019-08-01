@@ -72,6 +72,10 @@ export const BlockOverviewDisplayControlPanel = styled.div`
   height: 8px;
   transform: translateY(10px);
 
+  @media (max-width: 700px) {
+    transform: translateY(7.5px);
+  }
+
   > img {
     margin: auto auto;
     width: 21px;
