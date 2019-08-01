@@ -93,11 +93,13 @@ export const HeaderMobileDiv = styled.div`
 
   .header__menus {
     padding-left: 5px;
+    display: flex;
+    align-items: center;
+
     .header__menus__item {
       margin-left: 35px;
       font-size: 14px;
       font-weight: bold;
-      line-height: 100%;
       color: white;
 
       @media (max-width: 700px) {
