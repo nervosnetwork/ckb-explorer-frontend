@@ -104,7 +104,7 @@ export const HomeHeaderItemPanel = styled.div`
       height: 18px;
       color: #000000;
       text-align: center;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 600;
     }
 
