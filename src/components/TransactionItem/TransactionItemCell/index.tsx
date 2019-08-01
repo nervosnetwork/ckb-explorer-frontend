@@ -6,7 +6,7 @@ import { localeNumberString } from '../../../utils/number'
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import { CellbasePanel, TransactionCellPanel } from './styled'
-import { isMediumMobile, isLargeMobile, isSmallMobile, isMobile } from '../../../utils/screen'
+import { isMediumMobile, isLargeMobile, isSmallMobile } from '../../../utils/screen'
 import Tooltip from '../../Tooltip'
 
 const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
@@ -44,14 +44,7 @@ const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
       >
         <img alt="cellbase help" src={HelpIcon} />
       </div>
-      <Tooltip
-        show={show}
-        targetElementId={`cellbase__help_${targetBlockNumber}`}
-        offset={{
-          x: 0,
-          y: isMobile() ? 60 : 58,
-        }}
-      >
+      <Tooltip show={show} targetElementId={`cellbase__help_${targetBlockNumber}`}>
         {i18n.t('transaction.cellbase_help_tooltip')}
       </Tooltip>
     </CellbasePanel>

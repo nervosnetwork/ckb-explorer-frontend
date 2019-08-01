@@ -45,12 +45,7 @@ export const TransactiomConfirmationPanel = styled.div`
       font-weight: normal;
       margin: 15px 0px 15px 0px;
     }
-    @media (-webkit-min-device-pixel-ratio: 2) {
-      transform: scaleY(0.5);
-    }
-    @media (-webkit-min-device-pixel-ratio: 3) {
-      transform: scaleY(0.33);
-    }
+    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 `
 
@@ -58,15 +53,21 @@ export const TransactionConfirmationValuePanel = styled.div`
   min-width: 280px;
   height: 40px;
   background: white;
-  align-items: center;
   display: flex;
   color: #000000;
   border: 20px solid #f7f7f7;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   float: right;
+  align-items: center;
+
   > span {
     width: 100%;
+    height: 20px;
+    padding: 0px 10px 0px 10px;
+    background: #f7f7f7;
+    font-size: 16px;
+    font-weight: 500;
   }
 
   @media (max-width: 700px) {
@@ -75,6 +76,12 @@ export const TransactionConfirmationValuePanel = styled.div`
     border: 15px solid #f7f7f7;
     border-left: 7.5px solid transparent;
     border-right: 7.5px solid transparent;
+
+    > span {
+      height: 16px;
+      font-size: 13px;
+      line-height: 1.23;
+    }
   }
 `
 
@@ -84,12 +91,14 @@ export const TransactionCapacityValuePanel = styled(TransactionConfirmationValue
   border: 20px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  padding: 0px 20px 0px 20px;
+
+  > span {
+    background: ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
+  }
 
   @media (max-width: 700px) {
     border: 15px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
     border-left: 7.5px solid transparent;
     border-right: 7.5px solid transparent;
-    padding: 0px 15px 0px 15px;
   }
 `

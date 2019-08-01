@@ -1,7 +1,8 @@
 import React, { useContext, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
-import logoIcon from '../../assets/ckb_logo.png'
+import LogoIcon from '../../assets/ckb_logo.png'
+import MobileLogoIcon from '../../assets/mobile_ckb_logo.png'
 import SearchLogo from '../../assets/search.png'
 import i18n from '../../utils/i18n'
 import {
@@ -69,7 +70,7 @@ export default ({
           <HeaderMobilePanel searchBarEditable={searchBarEditable}>
             <HeaderMobileDiv>
               <Link to="/" className="header__logo">
-                <img className="header__logo__img" src={logoIcon} alt="logo" />
+                <img className="header__logo__img" src={MobileLogoIcon} alt="logo" />
               </Link>
               <Menus />
               {search && (
@@ -95,7 +96,9 @@ export default ({
               )}
               <HeaderTestnetPanel search={!!search}>
                 <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-                <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+                <HeaderVersionPanel>
+                  <div>{handleVersion(nodeVersion)}</div>
+                </HeaderVersionPanel>
               </HeaderTestnetPanel>
             </HeaderMobileDiv>
             <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
@@ -107,7 +110,7 @@ export default ({
       <>
         <HeaderDiv>
           <Link to="/" className="header__logo">
-            <img className="header__logo__img" src={logoIcon} alt="logo" />
+            <img className="header__logo__img" src={LogoIcon} alt="logo" />
           </Link>
           <Menus />
           {search && (
@@ -119,8 +122,9 @@ export default ({
           )}
           <HeaderTestnetPanel search={!!search}>
             <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-            <div className="header__testnet__tip">{i18n.t('navbar.network_tooltip')}</div>
-            <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+            <HeaderVersionPanel>
+              <div>{handleVersion(nodeVersion)}</div>
+            </HeaderVersionPanel>
           </HeaderTestnetPanel>
         </HeaderDiv>
       </>

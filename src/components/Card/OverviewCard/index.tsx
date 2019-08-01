@@ -51,7 +51,7 @@ export default ({ items, children }: { items: OverviewItemData[]; children?: Rea
   const { leftItems, rightItems } = handleOverviewItems(items)
   return (
     <OverviewCardPanel>
-      <OverviewContentPanel length={leftItems.length}>
+      <OverviewContentPanel length={rightItems.length}>
         <div className="overview_content__left_items">
           {leftItems.map((item, index) => (
             <OverviewItem

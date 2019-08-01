@@ -58,7 +58,7 @@ export const FooterDiv = styled.div`
         .footer__top__item {
           opacity: 0.8;
           display: flex;
-          align-items: center;
+          align-items: flex-end;
           margin: 10px 0;
 
           > div:nth-child(1) {
@@ -114,7 +114,7 @@ export const FooterItemPanel = styled.a`
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  width: 70px;
+  width: 75px;
   height: auto;
 
   >div: nth-child(1) {

@@ -7,7 +7,7 @@ import { localeNumberString } from '../../../utils/number'
 import { isMobile, isLargeMobile, isMediumMobile, isSmallMobile } from '../../../utils/screen'
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
-import TransactionCellDetail from '../TransactionCellDetail'
+import TransactionCellDetail from '../TransactionCellScript'
 import { AppDispatch } from '../../../contexts/providers/reducer'
 import {
   TransactionCellContentPanel,
@@ -29,14 +29,16 @@ const handleAddressHashText = (hash: string) => {
   if (isLargeMobile()) {
     return startEndEllipsis(hash, 29)
   }
-  return startEndEllipsis(hash, 24)
+  return startEndEllipsis(hash, 18)
 }
 
 const TransactionCellHash = ({ cell }: { cell: State.InputOutput }) => {
   return (
     <TransactionCellHashPanel highLight={cell.address_hash !== null}>
       {cell.address_hash ? (
-        <Link to={`/address/${cell.address_hash}`}>{handleAddressHashText(cell.address_hash)}</Link>
+        <Link to={`/address/${cell.address_hash}`}>
+          <code>{handleAddressHashText(cell.address_hash)}</code>
+        </Link>
       ) : (
         <span>{cell.from_cellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}</span>
       )}

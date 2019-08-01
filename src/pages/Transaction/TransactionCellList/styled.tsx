@@ -28,13 +28,7 @@ export const TransactionCellListTitlePanel = styled.div`
     background: #e2e2e2;
     height: 1px;
     margin-top: 20px;
-
-    @media (-webkit-min-device-pixel-ratio: 2) {
-      transform: scaleY(0.5);
-    }
-    @media (-webkit-min-device-pixel-ratio: 3) {
-      transform: scaleY(0.33);
-    }
+    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 `
 
@@ -45,11 +39,6 @@ export const TransactionCellListPanel = styled.div`
     border-radius: 6px;
     box-shadow: 2px 2px 6px 0 #dfdfdf;
     background-color: #ffffff;
-    margin-top: 20px;
     padding: 20px 40px 20px 40px;
-  }
-
-  @media (max-width: 700px) {
-    margin-top: 5px;
   }
 `

@@ -2,14 +2,13 @@ import styled from 'styled-components'
 
 export default styled.div`
   width: 100%;
-  max-height: 400px;
   margin-top: 20px;
 
   @media (max-width: 700px) {
     margin-top: 10px;
   }
 
-  #transaction__detail_content {
+  .transaction__detail_content {
     border: none;
     width: 100%;
     max-height: 400px;

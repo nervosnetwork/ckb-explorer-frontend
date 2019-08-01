@@ -9,7 +9,7 @@ import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCa
 import TitleCard from '../../components/Card/TitleCard'
 import Content from '../../components/Content'
 import Tooltip from '../../components/Tooltip'
-import TransactionItem from '../../components/Transaction/TransactionItem/index'
+import TransactionItem from '../../components/TransactionItem/index'
 import { AppContext } from '../../contexts/providers'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { getBlock } from '../../service/app/block'
@@ -39,7 +39,7 @@ const handleMinerText = (address: string) => {
   if (isLargeMobile()) {
     return startEndEllipsis(address, 23)
   }
-  return startEndEllipsis(address)
+  return startEndEllipsis(address, 27)
 }
 
 const BlockMiner = ({ miner }: { miner: string }) => {
@@ -67,8 +67,20 @@ const BlockOverviewItemContent = ({ value, tip, message }: { value?: string; tip
           className="block__overview_item_tip"
           tabIndex={-1}
           onFocus={() => {}}
-          onMouseOver={() => setShow(true)}
-          onMouseLeave={() => setShow(false)}
+          onMouseOver={() => {
+            setShow(true)
+            const p = document.querySelector('.page') as HTMLElement
+            if (p) {
+              p.setAttribute('tabindex', '-1')
+            }
+          }}
+          onMouseLeave={() => {
+            setShow(false)
+            const p = document.querySelector('.page') as HTMLElement
+            if (p) {
+              p.removeAttribute('tabindex')
+            }
+          }}
         >
           {tip}
           <Tooltip show={show} targetElementId={tip}>
@@ -222,11 +234,16 @@ export default ({
   return (
     <Content>
       <BlockDetailPanel className="container">
-        <AddressHashCard title={i18n.t('block.block')} hash={blockState.block.block_hash} dispatch={dispatch} />
+        {blockState && blockState.block && (
+          <AddressHashCard title={i18n.t('block.block')} hash={blockState.block.block_hash} dispatch={dispatch} />
+        )}
         <TitleCard title={i18n.t('common.overview')} />
-        <BlockOverview block={blockState.block} />
-        <TitleCard title={i18n.t('transaction.transactions')} />
-        {blockState.transactions &&
+        {blockState && <BlockOverview block={blockState.block} />}
+        {blockState && blockState.transactions && blockState.transactions.length > 0 && (
+          <TitleCard title={i18n.t('transaction.transactions')} />
+        )}
+        {blockState &&
+          blockState.transactions &&
           blockState.transactions.map((transaction: any, index: number) => {
             return (
               transaction && (

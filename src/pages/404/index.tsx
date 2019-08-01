@@ -12,14 +12,14 @@ const NotFoundPanel = styled.div`
 const NotFoundImage = styled.img`
   width: 100%;
   height: auto;
-  width: 700px;
-  height: 386px;
+  width: 780px;
+  height: 484px;
   display: block;
   margin: 0 auto;
 
   @media (max-width: 700px) {
-    width: 216px;
-    height: 120px;
+    width: 220px;
+    height: 136px;
   }
 `
 

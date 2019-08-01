@@ -4,17 +4,18 @@ export default styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  flex: 13;
   width: 100%;
 
-  > a {
+  .transaction_item__view_all {
     font-size: 16px;
-    color: #888888;
-    margin-top: 18px;
+    color: #3cc68a;
+    margin-top: 20px;
+    height: 20px;
 
     @media (max-width: 700px) {
       font-size: 14px;
-      margin-top: 10px;
+      margin-top: 15px;
+      height: 16px;
     }
   }
 `

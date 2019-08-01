@@ -42,12 +42,6 @@ export const containers: CustomRouter.Route[] = [
     comp: Address,
   },
   {
-    name: 'LockHash',
-    path: '/lockhash/:hash',
-    exact: true,
-    comp: Address,
-  },
-  {
     name: 'Block',
     path: '/block/:param',
     exact: true,

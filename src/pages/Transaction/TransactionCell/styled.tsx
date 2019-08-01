@@ -51,12 +51,23 @@ export const TransactionCellDetailPanel = styled.div`
   .transaction__cell_lock_script {
     flex: 0.34;
     align-items: flex-start;
+
+    @media (max-width: 700px) {
+      flex: none;
+    }
   }
   .transaction__cell_type_script {
     flex: 0.33;
+    @media (max-width: 700px) {
+      flex: 1;
+    }
   }
   .transaction__cell_data {
     flex: 0.33;
+
+    @media (max-width: 700px) {
+      flex: none;
+    }
   }
 `
 
@@ -75,9 +86,14 @@ export const TransactionCellDetailItemPanel = styled.div`
   &:after {
     content: '';
     background: #3cc68a;
-    width: calc(100% - 8px);
+    width: calc(100% - 4px);
     height: 2px;
     display: ${({ selected }: { highLight?: boolean; selected: boolean }) => (selected ? 'block' : 'none')};
+
+    @media (max-width: 700px) {
+      height: 1px;
+      width: calc(100% - 2px);
+    }
   }
 `
 
@@ -86,7 +102,7 @@ export const TransactionCellDetailLockScriptPanel = styled(TransactionCellDetail
   float: left;
 
   @media (max-width: 700px) {
-    width: 74px;
+    width: 72px;
   }
 `
 
@@ -95,7 +111,7 @@ export const TransactionCellDetailTypeScriptPanel = styled(TransactionCellDetail
   margin: 0px auto;
 
   @media (max-width: 700px) {
-    width: 74px;
+    width: 72px;
   }
 `
 
@@ -104,6 +120,6 @@ export const TransactionCellDetailDataPanel = styled(TransactionCellDetailItemPa
   float: right;
 
   @media (max-width: 700px) {
-    width: 32px;
+    width: 30px;
   }
 `

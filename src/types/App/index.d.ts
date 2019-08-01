@@ -51,6 +51,7 @@ declare namespace State {
     cell_consumed: number
     lock_script: Script
     pending_reward_blocks_count: number
+    type: 'Address' | 'LockHash' | ''
   }
 
   export interface Block {

@@ -11,6 +11,7 @@ export const initAddressState: State.AddressState = {
       code_hash: '',
       hash_type: '',
     },
+    type: '',
   },
   transactions: [] as State.Transaction[],
   total: 0,

@@ -59,7 +59,7 @@ const handleSearchResult = ({
         } else if (data.type === 'address') {
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.address_hash}`)
         } else if (data.type === 'lock_hash') {
-          browserHistory.push(`/lockhash/${(data as Response.Wrapper<State.Address>).attributes.lock_hash}`)
+          browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lock_hash}`)
         } else {
           setSearchValue(query)
           browserHistory.push(`/search/fail?q=${query}`)
@@ -102,6 +102,7 @@ const handleInputFocus = (searchBarEditable: boolean, inputElement: any, dispatc
 
 const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBorder?: boolean; content?: string }) => {
   const [searchValue, setSearchValue] = useState(content || '')
+  const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
   const inputElement = useRef(null)
   const { components } = useContext(AppContext)
   const { searchBarEditable } = components
@@ -139,10 +140,14 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
       {isMobile() && <div className="search__icon__separate" />}
       <SearchInputPanel
         ref={inputElement}
-        placeholder={SearchPlaceholder}
+        placeholder={placeholder}
         defaultValue={searchValue || ''}
         hasBorder={!!hasBorder}
-        onChange={(event: any) => setSearchValue(event.target.value)}
+        onFocus={() => setPlaceholder('')}
+        onBlur={() => setPlaceholder(SearchPlaceholder)}
+        onChange={(event: any) => {
+          setSearchValue(event.target.value)
+        }}
         onKeyUp={(event: any) => {
           if (event.keyCode === 13) {
             handleSearchResult({
