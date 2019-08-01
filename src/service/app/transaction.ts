@@ -25,6 +25,12 @@ export const getTransactionsByAddress = (hash: string, page: number, size: numbe
           transactions: [],
         },
       })
+      dispatch({
+        type: PageActions.UpdateAddressTotal,
+        payload: {
+          total: 0,
+        },
+      })
     })
 }
 
