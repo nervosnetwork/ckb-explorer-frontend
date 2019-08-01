@@ -158,9 +158,6 @@ export const HeaderTestnetPanel = styled.div`
   }
 
   @media (max-width: 700px) {
-    display: flex;
-    justify-content: flex-end;
-
     .header__testnet__flag {
       color: white;
       font-size: 12px;
@@ -178,15 +175,19 @@ export const HeaderSearchPanel = styled.div`
 
 export const HeaderVersionPanel = styled.div`
   width: 70px;
-  margin-top: 8px;
   color: white;
   font-size: 12px;
   margin-left: 4px;
+  > div {
+    margin-top: 8px;
+  }
 
   @media (max-width: 700px) {
     width: 40px;
-    margin-top: 5px;
     font-size: 8px;
     margin-left: 4px;
+    > div {
+      margin-top: 3px;
+    }
   }
 `
