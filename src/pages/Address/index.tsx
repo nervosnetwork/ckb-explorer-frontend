@@ -58,14 +58,7 @@ const AddressPendingRewardTitle = () => {
       >
         <img src={HelpIcon} alt="Pending Reward Help" />
       </div>
-      <Tooltip
-        show={show}
-        targetElementId="address__pending_reward_help"
-        offset={{
-          x: 0,
-          y: isMobile() ? 52 : 56,
-        }}
-      >
+      <Tooltip show={show} targetElementId="address__pending_reward_help">
         {i18n.t('address.pending_reward_tooltip')}
       </Tooltip>
     </AddressPendingRewardTitlePanel>
