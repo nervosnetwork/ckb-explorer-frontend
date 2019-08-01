@@ -245,7 +245,6 @@ export const PaginationRightItem = styled.div`
 
   .page {
     width: 42px;
-    font-family: Montserrat;
     font-size: 16px;
     margin-right: 20px;
     @media (max-width: 700px) {

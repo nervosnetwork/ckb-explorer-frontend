@@ -249,5 +249,4 @@ export const HighLightValue = styled.div`
   color: #3cc68a;
   font-size: 13px;
   height: 16px;
-  font-family: Menlo;
 `
