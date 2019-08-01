@@ -133,7 +133,7 @@ export const HeaderMobileDiv = styled.div`
       height: 14px;
       width: 1px;
       background: white;
-      margin: 3px 4px 0 0;
+      margin: 3px 6px 0 0;
     }
   }
 `
