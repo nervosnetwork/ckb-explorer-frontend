@@ -16,6 +16,7 @@ const TooltipPanel = styled.div`
   word-break: break-word;
   color: #ffffff;
   font-size: 13px;
+  font-weight: 500;
   left: 0px;
   transform: translate(
     ${(props: TooltipPanelProps) => (props.offset ? `${props.offset.x}px` : '0px')},

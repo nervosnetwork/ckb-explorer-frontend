@@ -89,6 +89,11 @@ export const TransactionCellDetailItemPanel = styled.div`
     width: calc(100% - 8px);
     height: 2px;
     display: ${({ selected }: { highLight?: boolean; selected: boolean }) => (selected ? 'block' : 'none')};
+
+    @media (max-width: 700px) {
+      height: 1px;
+      width: calc(100% - 4px);
+    }
   }
 `
 
