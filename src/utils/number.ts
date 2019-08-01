@@ -29,22 +29,18 @@ export const parseHashRate = (value: number) => {
   return `${value.toFixed(2)} H/s`
 }
 
-export const parseNumber = (value: any, radix?: number) => {
-  if (typeof value === 'number') {
-    return value
-  }
+export const parseNumber = (value: number | string, radix?: number) => {
   if (typeof value === 'string') {
     if (radix) {
-      return parseInt(value, radix)
+      return Number.isNaN(parseInt(value, radix)) ? 0 : parseInt(value, radix)
     }
-    return parseFloat(value)
+    return Number.isNaN(parseFloat(value)) ? 0 : parseFloat(value)
   }
-  return NaN
+  return value
 }
 
-export const localeNumberString = (value: any, radix?: number) => {
+export const localeNumberString = (value: number | string, radix?: number) => {
   let text = parseNumber(value, radix).toString()
-  if (text === 'NaN') return text
   const pointIndex = text.indexOf('.')
   let offset = pointIndex === -1 ? text.length : pointIndex
   while (offset > 3) {
