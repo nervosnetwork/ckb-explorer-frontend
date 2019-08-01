@@ -96,7 +96,9 @@ export default ({
               )}
               <HeaderTestnetPanel search={!!search}>
                 <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-                <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+                <HeaderVersionPanel>
+                  <div>{handleVersion(nodeVersion)}</div>
+                </HeaderVersionPanel>
               </HeaderTestnetPanel>
             </HeaderMobileDiv>
             <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
@@ -120,7 +122,9 @@ export default ({
           )}
           <HeaderTestnetPanel search={!!search}>
             <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-            <HeaderVersionPanel>{handleVersion(nodeVersion)}</HeaderVersionPanel>
+            <HeaderVersionPanel>
+              <div>{handleVersion(nodeVersion)}</div>
+            </HeaderVersionPanel>
           </HeaderTestnetPanel>
         </HeaderDiv>
       </>
