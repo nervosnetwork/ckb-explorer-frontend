@@ -32,8 +32,8 @@ const SearchContent = styled.div`
   text-align: center;
 
   @media (max-width: 700px) {
-    max-width: 80%;
-    font-size: 8px;
+    max-width: 70%;
+    font-size: 12px;
     margin-top: 18px;
   }
 `
