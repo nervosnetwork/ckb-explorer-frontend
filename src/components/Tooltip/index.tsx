@@ -19,10 +19,11 @@ const TooltipPanel = styled.div`
   left: 0px;
   transform: translate(
     ${(props: TooltipPanelProps) => (props.offset ? `${props.offset.x}px` : '0px')},
-    ${(props: TooltipPanelProps) => (props.offset ? `${props.offset.y}px` : '10px')}
+    ${(props: TooltipPanelProps) => (props.offset ? `${props.offset.y}px` : '0px')}
   );
   position: absolute;
   z-index: 2;
+  opacity: ${(props: TooltipPanelProps) => (props.offset !== undefined ? '1.0' : '0.01')};
 
   @media (max-width: 700px) {
     font-size: 11px;
@@ -49,10 +50,7 @@ interface TooltipProps {
 
 export default ({ show, targetElementId, width = '100%', children }: TooltipProps) => {
   const [arrowOffset, setArrowOffset] = useState(0)
-  const [offset, setOffset] = useState({
-    x: 0,
-    y: 0,
-  })
+  const [offset, setOffset] = useState(undefined as undefined | { x: number; y: number })
   useLayoutEffect(() => {
     const currentElement = document.getElementById('TooltipPanel')
     if (currentElement) {
@@ -62,8 +60,8 @@ export default ({ show, targetElementId, width = '100%', children }: TooltipProp
         const targetReact = targetElement.getBoundingClientRect()
         setArrowOffset(targetReact.left - currentReact.left + targetReact.width / 2)
 
-        const yOffset = targetReact.bottom + 12 - currentReact.top
-        if (yOffset !== 0) {
+        const yOffset = targetReact.bottom + 8 - currentReact.top
+        if (yOffset !== 0 || !offset) {
           setOffset({
             x: 0,
             y: yOffset,
@@ -71,7 +69,7 @@ export default ({ show, targetElementId, width = '100%', children }: TooltipProp
         }
       }
     }
-  }, [show, targetElementId])
+  }, [show, targetElementId, offset])
   return (
     <React.Fragment>
       {show && (
