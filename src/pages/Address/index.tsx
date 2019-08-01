@@ -106,9 +106,8 @@ export const Address = ({
   history: { replace },
   location: { search },
   match: { params },
-}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ address: string; hash: string }>>) => {
-  const { address, hash: lockHash } = params
-  const identityHash = address || lockHash
+}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ address: string }>>) => {
+  const { address } = params
   const parsed = queryString.parse(search)
   const { addressState, app } = useContext(AppContext)
   const { tipBlockNumber } = app
@@ -119,13 +118,13 @@ export const Address = ({
 
   useEffect(() => {
     if (pageSize > PageParams.MaxPageSize) {
-      replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
+      replace(`/address/${address}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
     }
-    getAddress(identityHash, currentPage, pageSize, dispatch)
-  }, [replace, identityHash, currentPage, pageSize, dispatch, address])
+    getAddress(address, currentPage, pageSize, dispatch)
+  }, [replace, address, currentPage, pageSize, dispatch])
 
   const onChange = (page: number) => {
-    replace(`/${address ? 'address' : 'lockhash'}/${identityHash}?page=${page}&size=${pageSize}`)
+    replace(`/address/${address}?page=${page}&size=${pageSize}`)
   }
 
   const items: OverviewItemData[] = [
@@ -146,7 +145,7 @@ export const Address = ({
       }`,
     })
   }
-  if (lockHash && addressState.address) {
+  if (addressState.address.type === 'LockHash' && addressState.address) {
     items.push({
       title: i18n.t('address.address'),
       content: addressContent(addressState.address),
@@ -157,8 +156,8 @@ export const Address = ({
     <Content>
       <AddressContentPanel className="container">
         <AddressHashCard
-          title={address ? i18n.t('address.address') : i18n.t('address.lock_hash')}
-          hash={address || lockHash}
+          title={addressState.address.type === 'LockHash' ? i18n.t('address.lock_hash') : i18n.t('address.address')}
+          hash={address}
           dispatch={dispatch}
         />
         <TitleCard title={i18n.t('common.overview')} />

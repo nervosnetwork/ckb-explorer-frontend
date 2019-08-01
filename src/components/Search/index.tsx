@@ -59,7 +59,7 @@ const handleSearchResult = ({
         } else if (data.type === 'address') {
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.address_hash}`)
         } else if (data.type === 'lock_hash') {
-          browserHistory.push(`/lockhash/${(data as Response.Wrapper<State.Address>).attributes.lock_hash}`)
+          browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lock_hash}`)
         } else {
           setSearchValue(query)
           browserHistory.push(`/search/fail?q=${query}`)
