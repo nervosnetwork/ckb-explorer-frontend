@@ -18,14 +18,14 @@ const MaintainPanel = styled.div`
   align-items: center;
 
   > img {
-    width: 750px;
-    height: 364px;
+    width: 780px;
+    height: 484px;
     display: block;
     margin-top: 220px;
 
     @media (max-width: 700px) {
-      width: 216px;
-      height: 106px;
+      width: 220px;
+      height: 136px;
       margin-top: 120px;
     }
   }
