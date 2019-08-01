@@ -4,6 +4,7 @@ import { AppContext } from '../../contexts/providers/index'
 
 const ToastDiv = styled.div`
   position: absolute;
+  position: -webkit-absolute;
   top: 0;
   width: 100%;
   height: 100%;
@@ -18,6 +19,7 @@ const ToastItemDiv = styled.div`
   width: 100%;
   background-color: #3cc68a;
   position: fixed;
+  position: -webkit-fixed;
   top: 85px;
   opacity: 0.96;
   z-index: 9999;

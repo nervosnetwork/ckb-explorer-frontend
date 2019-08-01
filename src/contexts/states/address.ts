@@ -9,6 +9,7 @@ export const initAddressState: State.AddressState = {
     lock_script: {
       args: [],
       code_hash: '',
+      hash_type: '',
     },
   },
   transactions: [] as State.Transaction[],
