@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import { Chart, Geom, Axis, Tooltip, Legend } from 'bizcharts'
 import Content from '../../components/Content'
-import { fetchStatisticsChart } from '../../service/http/fetcher'
-import { CachedKeys } from '../../utils/const'
-import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import Loading from '../../assets/loading.gif'
 import { isMobile } from '../../utils/screen'
+import { getStatisticsChart } from '../../service/app/statisticsChart'
+import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { AppContext } from '../../contexts/providers'
 
 const ChartPanel = styled.div`
   margin: 0 10% 30px 10%;
@@ -52,14 +52,6 @@ const LoadingPanel = styled.div`
   }
 `
 
-interface StatisticsData {
-  blockNumber: number
-  type: 'Difficulty' | 'HashRate' | 'EpochNumber'
-  difficulty?: number
-  hashRate?: number
-  epochNumber?: number
-}
-
 const scale = {
   difficulty: {
     min: 0,
@@ -75,78 +67,23 @@ const scale = {
   },
 }
 
-const findDifficulty = (
-  difficulties: { difficulty: number; block_number: number; epoch_number: number }[],
-  blockNumber: number,
-) => {
-  const result = difficulties.find(difficulty => {
-    return difficulty.block_number === blockNumber
-  })
-  return result || undefined
-}
-
-const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
-  if (!wrapper) return []
-  const { hash_rate: hashRates, difficulty: difficulties } = wrapper.attributes
-  if (!hashRates && !difficulties) return []
-
-  const datas: StatisticsData[] = []
-  hashRates.forEach(hashRate => {
-    datas.push({
-      type: 'HashRate',
-      blockNumber: hashRate.block_number,
-      hashRate: Number((Number(hashRate.hash_rate) * 1000).toFixed(0)),
-    })
-    const difficulty = findDifficulty(difficulties, hashRate.block_number)
-    if (difficulty !== undefined) {
-      datas.push({
-        type: 'Difficulty',
-        blockNumber: difficulty.block_number,
-        difficulty: difficulty.difficulty,
-      })
-      datas.push({
-        type: 'EpochNumber',
-        blockNumber: difficulty.block_number,
-        epochNumber: difficulty.epoch_number,
-      })
-    }
-  })
-  return datas
-}
-
-export default () => {
-  const [statisticsDatas, setStatisticsDatas] = useState([] as StatisticsData[])
+export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+  const { statisticsChartDatas } = useContext(AppContext)
 
   useEffect(() => {
-    const cachedStatisticsChart = fetchCachedData<StatisticsData[]>(CachedKeys.StatisticsChart)
-    if (cachedStatisticsChart) {
-      setStatisticsDatas(cachedStatisticsChart)
-    }
-  }, [])
-
-  useEffect(() => {
-    storeCachedData(CachedKeys.StatisticsChart, statisticsDatas)
-  }, [statisticsDatas])
-
-  useEffect(() => {
-    fetchStatisticsChart().then((wrapper: Response.Wrapper<State.StatisticsChart>) => {
-      const datas = handleStatistics(wrapper)
-      if (datas && datas.length > 0) {
-        setStatisticsDatas(datas)
-      }
-    })
-  }, [])
+    getStatisticsChart(dispatch)
+  }, [dispatch])
 
   return (
     <Content>
       <ChartTitle>Difficulty & Hash Rate</ChartTitle>
-      {statisticsDatas.length > 1 ? (
+      {statisticsChartDatas.length > 1 ? (
         <ChartPanel>
           <Chart
             height={window.innerHeight * 0.7}
             scale={scale}
             forceFit
-            data={statisticsDatas}
+            data={statisticsChartDatas}
             padding={isMobile() ? [40, 90, 80, 90] : [80, 90, 100, 90]}
           >
             <Legend

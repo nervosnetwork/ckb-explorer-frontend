@@ -1,5 +1,4 @@
-import styled from 'styled-components'
-import testnetTipImage from '../../assets/testnet_tip.png'
+import styled, { css } from 'styled-components'
 
 export const HeaderDiv = styled.div`
   width: 100%;
@@ -14,92 +13,52 @@ export const HeaderDiv = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  padding: 1px 82px;
-  .header__logo,
-  .header__menus {
+  padding: 1px 10vw;
+
+  .header__logo {
     display: flex;
     align-items: center;
-  }
-  .header__logo {
     .header__logo__img {
-      width: 182px;
+      width: 180px;
       height: auto;
     }
   }
 
   .header__menus {
-    padding-left: 30px;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
     min-height: 75px;
+
     .header__menus__item {
-      margin-left: 34px;
-      margin-right: 34px;
-      font-size: 22px;
-      font-weight: 450;
-      line-height: 30px;
-      color: #3cc68a;
-      &.header__menus__item--active,&: hover {
-        color: white;
-      }
+      margin-left: 30px;
+      margin-right: 30px;
+      font-size: 24px;
+      letter-spacing: 2px;
+      font-weight: 600;
+      color: white;
     }
   }
+
   .header__search {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
     .header__search__component {
       display: flex;
       align-items: center;
       height: 50px;
-      width: 398px;
+      width: 420px;
       min-width: 229px;
     }
-
-    .header__testnet__panel {
-      border-radius: 0 6px 6px 0;
-      background-color: #3cc68a;
-      margin-left: 3px;
-
-      .header__testnet__flag {
-        height: 50px;
-        width: 120px;
-        color: white;
-        font-size: 16px;
-        text-align: center;
-        line-height: 50px;
-      }
-
-      &:hover .header__testnet__tip {
-        visibility: visible;
-      }
-
-      .header__testnet__tip {
-        width: 350px;
-        height: 62px;
-        position: fixed;
-        z-index: 1100;
-        right: 90px;
-        top: 75px;
-        background-image: url(${testnetTipImage});
-        background-repeat: no-repeat;
-        background-size: 350px 62px;
-        visibility: hidden;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        padding-top: 3px;
-        line-height: 62px;
-        text-align: center;
-      }
-    }
-  }
-  a {
-    text-decoration: none;
   }
 `
 
-export const HeaderMobilePanel = styled.div`
-  height: ${(props: { height: number }) => props.height}px
+const HeaderMobileCommonPanel = styled.div`
+  height: 42px;
+  width: 100vw;
   overflow: hidden;
   box-shadow: 0 2px 4px 0 #141414;
   background-color: #424242;
@@ -110,6 +69,14 @@ export const HeaderMobilePanel = styled.div`
   padding: 1px 20px;
 `
 
+export const HeaderMobilePanel = styled(HeaderMobileCommonPanel)`
+  display: ${({ searchBarEditable }: { searchBarEditable: boolean }) => (searchBarEditable ? 'none' : 'block')};
+`
+
+export const HeaderSearchMobilePanel = styled(HeaderMobileCommonPanel)`
+  display: ${({ searchBarEditable }: { searchBarEditable: boolean }) => (searchBarEditable ? 'block' : 'none')};
+`
+
 export const HeaderMobileDiv = styled.div`
   width: 100%;
   height: 42px;
@@ -117,18 +84,24 @@ export const HeaderMobileDiv = styled.div`
   align-items: center;
 
   .header__logo {
-    padding-top: 3px;
+    height: 16px;
     .header__logo__img {
-      width: 64px;
-      height: auto;
+      width: 80px;
+      height: 16px;
     }
   }
 
   .header__menus {
     padding-left: 5px;
+    display: flex;
+    align-items: center;
+
     .header__menus__item {
       margin-left: 35px;
       font-size: 14px;
+      font-weight: bold;
+      color: white;
+
       @media (max-width: 700px) {
         margin-left: 15px;
       }
@@ -136,9 +109,6 @@ export const HeaderMobileDiv = styled.div`
         margin-left: 8px;
         font-size: 12px;
       }
-      font-weight: bold;
-      line-height: 100%;
-      color: #3cc68a;
     }
   }
 
@@ -151,8 +121,6 @@ export const HeaderMobileDiv = styled.div`
     .header__search__component {
       width: 29px;
       height: 21px;
-      border-radius: 6px 0 0 6px;
-      background: rgba(255, 255, 255, 0.2);
 
       .header__search__image {
         width: 14px;
@@ -162,14 +130,40 @@ export const HeaderMobileDiv = styled.div`
       }
     }
 
-    .header__testnet {
-      border-radius: 0 6px 6px 0;
-      background-color: #3cc68a;
+    .header__search__separate {
+      align-items: center;
+      height: 14px;
+      width: 1px;
+      background: white;
+      margin: 3px 6px 0 0;
+    }
+  }
+`
+
+export const HeaderTestnetPanel = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  ${(props: { search: boolean }) =>
+    !props.search &&
+    css`
+      flex: 1;
+    `}
+
+  .header__testnet__flag {
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 2px;
+    font-weight: bold;
+  }
+
+  @media (max-width: 700px) {
+    .header__testnet__flag {
       color: white;
-      font-size: 8px;
-      height: 21px;
-      line-height: 21px;
-      padding: 0 5px;
+      font-size: 12px;
+      letter-spacing: normal;
     }
   }
 `
@@ -182,12 +176,20 @@ export const HeaderSearchPanel = styled.div`
 `
 
 export const HeaderVersionPanel = styled.div`
+  width: 70px;
   color: white;
-  font-size: 16px;
-  margin-left: 15px;
+  font-size: 12px;
+  margin-left: 4px;
+  > div {
+    margin-top: 8px;
+  }
 
   @media (max-width: 700px) {
-    font-size: 10px;
-    margin-left: 6px;
+    width: 40px;
+    font-size: 8px;
+    margin-left: 4px;
+    > div {
+      margin-top: 3px;
+    }
   }
 `

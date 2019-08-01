@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useReducer } from 'react'
 import styled from 'styled-components'
-import AppContext, { ToastMessage } from '../../contexts/App'
+import { AppContext } from '../../contexts/providers/index'
 
 const ToastDiv = styled.div`
   position: absolute;
@@ -9,7 +9,6 @@ const ToastDiv = styled.div`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  overflow-y: hidden;
   display: flex;
   z-index: 9998;
   flex-direction: column;
@@ -20,7 +19,7 @@ const ToastItemDiv = styled.div`
   background-color: #3cc68a;
   position: fixed;
   position: -webkit-fixed;
-  top: 85px;
+  top: 82px;
   opacity: 0.96;
   z-index: 9999;
   height: 70px;
@@ -32,7 +31,7 @@ const ToastItemDiv = styled.div`
   }
 
   @media (max-width: 700px) {
-    top: 44px;
+    top: 42px;
     height: 36px;
 
     .toast__text {
@@ -42,7 +41,7 @@ const ToastItemDiv = styled.div`
   }
 
   @media (max-width: 320px) {
-    top: 44px;
+    top: 42px;
     height: 36px;
     .toast__text {
       font-size: 12px;
@@ -98,7 +97,7 @@ const ToastItem = ({
 }
 
 const initialState = {
-  toasts: [] as ToastMessage[],
+  toasts: [] as State.ToastMessage[],
   toast: '',
 }
 
@@ -112,7 +111,7 @@ const reducer = (state: any, action: any) => {
     case 'REMOVE':
       return {
         ...state,
-        toasts: state.toasts.filter((toast: ToastMessage) => {
+        toasts: state.toasts.filter((toast: State.ToastMessage) => {
           return toast.id !== action.payload.toast.id
         }),
       }
@@ -122,25 +121,24 @@ const reducer = (state: any, action: any) => {
 }
 
 export default () => {
-  const appContext = useContext(AppContext)
-  const { toast } = appContext
+  const { app } = useContext(AppContext)
   const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
-    if (toast) {
+    if (app.toast) {
       dispatch({
         type: 'ADD',
         payload: {
-          toast,
+          toast: app.toast,
         },
       })
     }
-  }, [dispatch, toast])
+  }, [dispatch, app.toast])
 
   return state.toasts.length === 0 ? null : (
     <ToastDiv className="toast">
       {state.toasts &&
-        state.toasts.map((item: ToastMessage) => {
+        state.toasts.map((item: State.ToastMessage) => {
           return (
             <ToastItem
               willLeave={() => {

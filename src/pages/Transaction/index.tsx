@@ -1,236 +1,80 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { RouteComponentProps, Link } from 'react-router-dom'
-import AppContext from '../../contexts/App'
-
+import React, { useContext, useEffect } from 'react'
+import { Link, RouteComponentProps } from 'react-router-dom'
+import AddressHashCard from '../../components/Card/AddressHashCard'
+import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import Content from '../../components/Content'
-import SimpleLabel from '../../components/Label'
-import i18n from '../../utils/i18n'
-import {
-  TransactionDiv,
-  TransactionOverviewLabel,
-  InputPanelDiv,
-  OutputPanelDiv,
-  InputOutputTable,
-  TransactionTitlePanel,
-  TransactionCommonContent,
-} from './styled'
-
-import BlockHeightIcon from '../../assets/block_height_green.png'
-import TimestampIcon from '../../assets/timestamp_green.png'
-import TransactionIcon from '../../assets/transaction_fee.png'
-import CopyIcon from '../../assets/copy.png'
-import StatusIcon from '../../assets/transcation_status.png'
+import { AppContext } from '../../contexts/providers/index'
+import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { getTipBlockNumber } from '../../service/app/address'
+import { getTransactionByHash } from '../../service/app/transaction'
 import { parseSimpleDate } from '../../utils/date'
-
-import { CellType, fetchTransactionByHash, fetchTipBlockNumber } from '../../service/http/fetcher'
-import { copyElementValue, formatConfirmation, shannonToCkb } from '../../utils/util'
-import CellCard from '../../components/Card/CellCard'
-import ScriptComponent from './Script'
+import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
+import { formatConfirmation, shannonToCkb } from '../../utils/util'
+import { TransactionBlockHeightPanel, TransactionDiv } from './styled'
+import TransactionCellList from './TransactionCellList'
 
-const TransactionTitle = ({ hash }: { hash: string }) => {
-  const appContext = useContext(AppContext)
+const TransactionBlockHeight = ({ blockNumber }: { blockNumber: number }) => {
   return (
-    <TransactionTitlePanel>
-      <div className="transaction__title">{i18n.t('transaction.transaction')}</div>
-      <div className="transaction__content">
-        <code id="transaction__hash">{hash}</code>
-        <div
-          role="button"
-          tabIndex={-1}
-          onKeyDown={() => {}}
-          onClick={() => {
-            copyElementValue(document.getElementById('transaction__hash'))
-            appContext.toastMessage(i18n.t('common.copied'), 3000)
-          }}
-        >
-          <img src={CopyIcon} alt="copy" />
-        </div>
-      </div>
-    </TransactionTitlePanel>
+    <TransactionBlockHeightPanel>
+      <Link to={`/block/${blockNumber}`}>{localeNumberString(blockNumber)}</Link>
+    </TransactionBlockHeightPanel>
   )
 }
 
-const InputOutputTableTitle = ({ transactionType, isCellbase }: { transactionType: string; isCellbase?: boolean }) => {
-  return (
-    <thead>
-      <tr>
-        <td colSpan={1}>{transactionType}</td>
-        {!isCellbase ? (
-          <td>
-            <div>Capacity</div>
-          </td>
-        ) : (
-          <td>
-            <div />
-          </td>
-        )}
-        <td colSpan={3}>
-          <div>{i18n.t('common.detail')}</div>
-        </td>
-      </tr>
-    </thead>
-  )
-}
-
-const initTransaction: State.Transaction = {
-  transaction_hash: '',
-  block_number: 0,
-  block_timestamp: 0,
-  transaction_fee: 0,
-  is_cellbase: false,
-  target_block_number: 0,
-  version: 0,
-  display_inputs: [],
-  display_outputs: [],
-}
-
-const getTransaction = (hash: string, setTransaction: any, replace: any) => {
-  fetchTransactionByHash(hash)
-    .then((wrapper: Response.Wrapper<State.Transaction>) => {
-      if (wrapper) {
-        const transactionValue = wrapper.attributes
-        if (transactionValue.display_outputs && transactionValue.display_outputs.length > 0) {
-          transactionValue.display_outputs[0].isGenesisOutput = transactionValue.block_number === 0
-        }
-        setTransaction(transactionValue)
-      } else {
-        replace(`/search/fail?q=${hash}`)
-      }
-    })
-    .catch(() => {
-      replace(`/search/fail?q=${hash}`)
-    })
-}
-
-const getTipBlockNumber = (setTipBlockNumber: any) => {
-  fetchTipBlockNumber().then((wrapper: Response.Wrapper<State.Statistics>) => {
-    if (wrapper) {
-      setTipBlockNumber(parseInt(wrapper.attributes.tip_block_number, 10))
-    }
-  })
-}
-
-export default (props: React.PropsWithoutRef<RouteComponentProps<{ hash: string }>>) => {
-  const { match, history } = props
-  const { params } = match
+export default ({
+  dispatch,
+  history: { replace },
+  match: { params },
+}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ hash: string }>>) => {
   const { hash } = params
-  const { replace } = history
-  const [transaction, setTransaction] = useState(initTransaction)
-  const [tipBlockNumber, setTipBlockNumber] = useState(0)
+  const { transaction, app } = useContext(AppContext)
+  const { tipBlockNumber } = app
+
+  useEffect(() => {
+    getTransactionByHash(hash, replace, dispatch)
+    getTipBlockNumber(dispatch)
+  }, [hash, replace, dispatch])
+
   let confirmation = 0
   if (tipBlockNumber && transaction.block_number) {
     confirmation = tipBlockNumber - transaction.block_number + 1
   }
 
-  useEffect(() => {
-    getTransaction(hash, setTransaction, replace)
-  }, [hash, setTransaction, replace])
-
-  useEffect(() => {
-    getTipBlockNumber(setTipBlockNumber)
-  }, [setTipBlockNumber])
+  const overviewItems: OverviewItemData[] = [
+    {
+      title: i18n.t('block.block_height'),
+      content: <TransactionBlockHeight blockNumber={transaction.block_number} />,
+    },
+    {
+      title: i18n.t('block.timestamp'),
+      content: parseSimpleDate(transaction.block_timestamp),
+    },
+    {
+      title: i18n.t('transaction.transaction_fee'),
+      content: `${shannonToCkb(transaction.transaction_fee)} CKB`,
+    },
+  ]
+  if (confirmation > 0) {
+    overviewItems.push({
+      title: i18n.t('transaction.status'),
+      content: formatConfirmation(confirmation),
+    })
+  }
 
   return (
     <Content>
       <TransactionDiv className="container">
-        <TransactionTitle hash={hash} />
-        <TransactionOverviewLabel>{i18n.t('common.overview')}</TransactionOverviewLabel>
-        <TransactionCommonContent>
-          <div>
-            <div>
-              <Link
-                to={{
-                  pathname: `/block/${transaction.block_number}`,
-                }}
-              >
-                <SimpleLabel
-                  image={BlockHeightIcon}
-                  label={`${i18n.t('block.block_height')}:`}
-                  value={localeNumberString(transaction.block_number)}
-                  highLight
-                />
-              </Link>
-              <SimpleLabel
-                image={TransactionIcon}
-                label={`${i18n.t('transaction.transaction_fee')}:`}
-                value={`${shannonToCkb(transaction.transaction_fee)} CKB`}
-              />
-            </div>
-            <div>
-              <div />
-              <div>
-                <SimpleLabel
-                  image={TimestampIcon}
-                  label={`${i18n.t('block.timestamp')}:`}
-                  value={parseSimpleDate(transaction.block_timestamp)}
-                />
-                {confirmation > 0 && (
-                  <SimpleLabel
-                    image={StatusIcon}
-                    label={`${i18n.t('transaction.status')}:`}
-                    value={formatConfirmation(confirmation)}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        </TransactionCommonContent>
-
-        {isMobile() ? (
-          <div>
-            {transaction &&
-              transaction.display_inputs &&
-              transaction.display_inputs.map((input: State.InputOutput, index: number) => {
-                const key = index
-                return <CellCard type={CellType.Input} cell={input} key={key} />
-              })}
-            {transaction &&
-              transaction.display_outputs &&
-              transaction.display_outputs.map((output: State.InputOutput, index: number) => {
-                const key = index
-                return <CellCard type={CellType.Output} cell={output} key={key} />
-              })}
-          </div>
-        ) : (
-          <div>
-            <InputPanelDiv>
-              <InputOutputTable>
-                {
-                  <InputOutputTableTitle
-                    transactionType={i18n.t('transaction.input')}
-                    isCellbase={
-                      transaction.display_inputs &&
-                      transaction.display_inputs[0] &&
-                      transaction.display_inputs[0].from_cellbase
-                    }
-                  />
-                }
-                <tbody>
-                  {transaction &&
-                    transaction.display_inputs &&
-                    transaction.display_inputs.map((input: State.InputOutput) => {
-                      return input && <ScriptComponent cellType={CellType.Input} key={input.id} cell={input} />
-                    })}
-                </tbody>
-              </InputOutputTable>
-            </InputPanelDiv>
-
-            <OutputPanelDiv>
-              <InputOutputTable>
-                <InputOutputTableTitle transactionType={i18n.t('transaction.output')} />
-                <tbody>
-                  {transaction &&
-                    transaction.display_outputs &&
-                    transaction.display_outputs.map((output: State.InputOutput) => {
-                      return output && <ScriptComponent cellType={CellType.Output} key={output.id} cell={output} />
-                    })}
-                </tbody>
-              </InputOutputTable>
-            </OutputPanelDiv>
-          </div>
-        )}
+        <AddressHashCard title={i18n.t('transaction.transaction')} hash={hash} dispatch={dispatch} />
+        <div className="transaction__overview">
+          <OverviewCard items={overviewItems} />
+        </div>
+        <div className="transaction__inputs">
+          {transaction && <TransactionCellList inputs={transaction.display_inputs} dispatch={dispatch} />}
+        </div>
+        <div className="transaction__outputs">
+          {transaction && <TransactionCellList outputs={transaction.display_outputs} dispatch={dispatch} />}
+        </div>
       </TransactionDiv>
     </Content>
   )

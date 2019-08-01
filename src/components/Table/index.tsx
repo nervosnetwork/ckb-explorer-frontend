@@ -7,9 +7,9 @@ import i18n from '../../utils/i18n'
 export const TableTitleRow = styled.div`
   background: #3cc68a;
   display: flex;
-  height: 65px;
-  width: 1200px;
+  min-height: 65px;
   border-radius: 6px 6px 0px 0px;
+  padding-right: 12px;
 `
 
 const TableTitleRowItem = styled.div`
@@ -17,94 +17,92 @@ const TableTitleRowItem = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 240px;
-  height: 65px;
-
-  > img {
-    width: 23px;
-    height: 23px;
-  }
+  width: ${({ width }: { width: string }) => width};
+  min-height: 65px;
 
   > div {
     color: white;
     font-size: 20px;
     font-weight: 450;
+    text-align: center;
     margin-left: 10px;
   }
 `
 
 export const TableContentRow = styled.div`
+  position: relative;
   display: flex;
-  width: 1200px;
-  &:nth-child(odd) {
-    background-color: transparent;
-  }
-  &:nth-child(even) {
-    background-color: white;
-  }
-  &:hover {
-    // background-color: transparent;
+  min-height: 60px;
+  background-color: white;
+  padding-right: 12px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  ::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 95%;
+    height: 1px;
+    left: 2.5%;
+    bottom: 1px;
+    background: #d8d8d8;
+    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 `
 
 const TableContentRowItem = styled.div`
-  width: 240px;
-  height: 65px;
-  color: #888888;
-  font-weight: 450;
-  display: flex;
+  width: ${({ width }: { width: string }) => width};
+  color: #000000;
   align-items: center;
+  text-align: center;
   justify-content: center;
-  overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px;
 `
 
 const TableMinerContentPanel = styled.div`
-  height: 65px;
-  width: 240px;
-
+  width: ${({ width }: { width: string }) => width};
+  line-height: 20px;
+  align-items: center;
   .table__miner__content {
-    line-height: 65px;
     color: #4bbc8e;
     text-decoration: none;
   }
 
   .table__miner__text {
-    display: flex;
-    align-items: center;
-    line-height: 65px;
+    width: 100%
     justify-content: center;
     font-size: 16px;
     font-weight: 450;
+    word-wrap: break-word;
   }
 
   .table__miner__text__disable {
     display: flex;
     align-items: center;
-    line-height: 65px;
     justify-content: center;
     font-size: 16px;
-    color: #888888;
+    color: #000000;
   }
 `
 
-export const TableTitleItem = ({ image, title }: { image: string; title: string }) => {
+export const TableTitleItem = ({ width, title }: { width: string; title: string }) => {
   return (
-    <TableTitleRowItem>
-      <img src={image} alt={title} />
+    <TableTitleRowItem width={width}>
       <div>{title}</div>
     </TableTitleRowItem>
   )
 }
 
-export const TableContentItem = ({ content, to }: { content: string; to?: any }) => {
+export const TableContentItem = ({ width, content, to }: { width: string; content: string; to?: any }) => {
   const highLightStyle = {
     color: '#4BBC8E',
     textDecoration: 'none',
   }
   const highLight = to !== undefined
   return (
-    <TableContentRowItem>
+    <TableContentRowItem width={width}>
       {highLight ? (
         <Link style={highLightStyle} to={to}>
           {content}
@@ -116,12 +114,12 @@ export const TableContentItem = ({ content, to }: { content: string; to?: any })
   )
 }
 
-export const TableMinerContentItem = ({ content }: { content: string }) => {
+export const TableMinerContentItem = ({ width, content }: { width: string; content: string }) => {
   return (
-    <TableMinerContentPanel>
+    <TableMinerContentPanel width={width}>
       {content ? (
         <Link className="table__miner__content" to={`/address/${content}`}>
-          <code className="table__miner__text">{content && startEndEllipsis(content)}</code>
+          <code className="table__miner__text">{content && startEndEllipsis(content, 25)}</code>
         </Link>
       ) : (
         <div className="table__miner__text__disable">{i18n.t('address.unable_decode_address')}</div>

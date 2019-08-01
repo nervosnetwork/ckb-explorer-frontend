@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import LogoIcon from '../../assets/ckb_footer_logo.png'
 import AboutIcon from '../../assets/footer_about.png'
@@ -28,7 +28,7 @@ const Footers = [
       {
         label: i18n.t('footer.faq'),
         icon: FAQIcon,
-        url: 'https://www.nervos.org/faq',
+        url: 'https://docs.nervos.org/references/faq',
       },
     ],
   },
@@ -101,34 +101,37 @@ const FooterItem = (link: any) => {
 }
 
 export default () => {
-  return (
-    <FooterDiv>
-      <div className="footer__top">
-        <div className="container">
-          <div className="footer__top__logo">
-            <Link to="/">
-              <img src={LogoIcon} alt="logo" />
-            </Link>
-          </div>
-          <div className="footer__top__items">
-            <div>
-              {Footers.map((item: any) => {
-                return (
-                  <div key={item.name} className="footer__top__item">
-                    <div>{item.name}</div>
-                    <div>
-                      {item.items.map((link: any) => {
-                        return FooterItem(link)
-                      })}
+  return useMemo(() => {
+    // normally rerender will not occur with useMemo
+    return (
+      <FooterDiv>
+        <div className="footer__top">
+          <div className="container">
+            <div className="footer__top__logo">
+              <Link to="/">
+                <img src={LogoIcon} alt="logo" />
+              </Link>
+            </div>
+            <div className="footer__top__items">
+              <div>
+                {Footers.map((item: any) => {
+                  return (
+                    <div key={item.name} className="footer__top__item">
+                      <div>{item.name}</div>
+                      <div>
+                        {item.items.map((link: any) => {
+                          return FooterItem(link)
+                        })}
+                      </div>
                     </div>
-                  </div>
-                )
-              })}
+                  )
+                })}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="footer__copyright">{`Copyright © ${getCurrentYear()} Nervos Foundation. All Rights Reserved.`}</div>
-    </FooterDiv>
-  )
+        <div className="footer__copyright">{`Copyright © ${getCurrentYear()} Nervos Foundation. All Rights Reserved.`}</div>
+      </FooterDiv>
+    )
+  }, [])
 }

@@ -16,12 +16,70 @@ import SearchFail from '../pages/SearchFail'
 import Maintain from '../pages/Maintain'
 import Sheet from '../components/Sheet'
 import StatisticsChart from '../pages/StatisticsChart'
+import { AppDispatch } from '../contexts/providers/reducer'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
 }
 
-export default () => {
+export const containers: CustomRouter.Route[] = [
+  {
+    name: 'Home',
+    path: '/',
+    exact: true,
+    comp: Home,
+  },
+  {
+    name: 'BlockList',
+    path: '/block/list',
+    exact: true,
+    comp: BlockList,
+  },
+  {
+    name: 'Address',
+    path: '/address/:address',
+    exact: true,
+    comp: Address,
+  },
+  {
+    name: 'Block',
+    path: '/block/:param',
+    exact: true,
+    comp: Block,
+  },
+  {
+    name: 'Transaction',
+    path: '/transaction/:hash',
+    exact: true,
+    comp: Transaction,
+  },
+  {
+    name: 'Charts',
+    path: '/charts',
+    exact: true,
+    comp: StatisticsChart,
+  },
+  {
+    name: 'SearchFail',
+    path: '/search/fail',
+    exact: true,
+    comp: SearchFail,
+  },
+  {
+    name: 'Maintain',
+    path: '/maintain',
+    exact: true,
+    comp: Maintain,
+  },
+  {
+    name: '404',
+    path: '/404',
+    exact: true,
+    comp: NotFoundPage,
+  },
+]
+
+export default ({ dispatch }: { dispatch: AppDispatch }) => {
   useEffect(() => {
     let currentUrl = `${browserHistory.location.pathname}${browserHistory.location.search}`
     const unlisten = browserHistory.listen((location: any) => {
@@ -34,6 +92,7 @@ export default () => {
       unlisten()
     }
   }, [])
+
   return (
     <Router history={browserHistory}>
       <Route
@@ -41,19 +100,18 @@ export default () => {
           return (
             <Page>
               <React.Fragment>
-                <Header search={hasSearch(props.location.pathname)} />
+                <Header search={hasSearch(browserHistory.location.pathname)} dispatch={dispatch} />
                 <Sheet />
                 <Switch location={props.location}>
-                  <Route path="/" exact component={Home} />
-                  <Route path="/block/list" exact component={BlockList} />
-                  <Route path="/block/:param" exact component={Block} />
-                  <Route path="/transaction/:hash" exact component={Transaction} />
-                  <Route path="/address/:address" exact component={Address} />
-                  <Route path="/lockhash/:hash" exact component={Address} />
-                  <Route path="/charts/" exact component={StatisticsChart} />
-                  <Route path="/search/fail" exact component={SearchFail} />
-                  <Route path="/maintain" exact component={Maintain} />
-                  <Route path="/404" exact component={NotFoundPage} />
+                  {containers.map(container => {
+                    return (
+                      <Route
+                        {...container}
+                        key={container.name}
+                        render={routeProps => <container.comp {...routeProps} dispatch={dispatch} />}
+                      />
+                    )
+                  })}
                   <Redirect from="*" to="/404" />
                 </Switch>
                 <Footer />
