@@ -22,6 +22,7 @@ const TitleCardPanel = styled.div`
     font-size: 16px;
     border-radius: 3px 3px 0px 0px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
+    line-height: 1.25;
   }
 `
 
