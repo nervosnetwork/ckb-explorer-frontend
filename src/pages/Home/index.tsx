@@ -51,7 +51,9 @@ const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => {
   return (
     <HighLightValue>
-      <Link to={to}>{value}</Link>
+      <Link to={to}>
+        <code>{value}</code>
+      </Link>
     </HighLightValue>
   )
 }
