@@ -114,7 +114,7 @@ export const FooterItemPanel = styled.a`
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  width: 70px;
+  width: 75px;
   height: auto;
 
   >div: nth-child(1) {
