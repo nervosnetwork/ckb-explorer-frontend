@@ -5,13 +5,16 @@ export const HomeHeaderPanel = styled.div`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 0px;
+  padding: 30px 0px 40px 0px;
 
   .blockchain__item__container {
     min-width: 100%;
     display: flex;
     flex-wrap: wrap;
-    margin: 0 -6px;
+
+    @media (min-width: 700px) {
+      margin: 0 -6px;
+    }
   }
   @media (max-width: 1200px) {
     .blockchain__item__container {
@@ -19,7 +22,7 @@ export const HomeHeaderPanel = styled.div`
     }
   }
   @media (max-width: 700px) {
-    padding: 20px 6% 10px 6%;
+    padding: 10px 20px 20px 20px;
     .blockchain__item__container {
       justify-content: space-between;
     }
@@ -88,16 +91,16 @@ export const HomeHeaderItemPanel = styled.div`
   }
 
   @media (max-width: 700px) {
-    width: 48%;
+    width: calc(50% - 5px);
     height: 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: white;
     border: 0px solid white;
-    border-radius: 6px;
-    box-shadow: 3px 3px 5px #dfdfdf;
-    margin: 10px 0;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px #dfdfdf;
+    margin: 10px 0px 0px 0px;
 
     .blockchain__item__value {
       margin-top: 23px;
