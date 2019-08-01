@@ -66,6 +66,8 @@ export const TransactionConfirmationValuePanel = styled.div`
     height: 20px;
     padding: 0px 10px 0px 10px;
     background: #f7f7f7;
+    font-size: 16px;
+    font-weight: 500;
   }
 
   @media (max-width: 700px) {
@@ -77,6 +79,8 @@ export const TransactionConfirmationValuePanel = styled.div`
 
     > span {
       height: 16px;
+      font-size: 13px;
+      line-height: 1.23;
     }
   }
 `
