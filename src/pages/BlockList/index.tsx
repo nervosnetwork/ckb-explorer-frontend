@@ -172,7 +172,7 @@ export default ({
           <ContentTable>
             <TableTitleRow>
               {TableTitleDatas.map((data: TableTitleData) => {
-                return <TableTitleItem width={data.width} title={data.title} />
+                return <TableTitleItem width={data.width} title={data.title} key={data.title} />
               })}
             </TableTitleRow>
             {blockListState &&
