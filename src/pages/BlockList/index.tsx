@@ -67,28 +67,28 @@ const TableTitleDatas: TableTitleData[] = [
   },
 ]
 
-const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
+const getTableContentDatas = (block: State.Block) => {
   return [
     {
       width: '14%',
-      to: `/block/${data.attributes.number}`,
-      content: localeNumberString(data.attributes.number),
+      to: `/block/${block.number}`,
+      content: localeNumberString(block.number),
     },
     {
       width: '14%',
-      content: `${data.attributes.transactions_count}`,
+      content: `${block.transactions_count}`,
     },
     {
       width: '20%',
-      content: localeNumberString(shannonToCkb(data.attributes.reward)),
+      content: localeNumberString(shannonToCkb(block.reward)),
     },
     {
       width: '37%',
-      content: data.attributes.miner_hash,
+      content: block.miner_hash,
     },
     {
       width: '15%',
-      content: parseSimpleDate(data.attributes.timestamp),
+      content: parseSimpleDate(block.timestamp),
     },
   ] as TableContentData[]
 }
@@ -150,8 +150,8 @@ export default ({
             <div className="block__panel">
               {blockListState &&
                 blockListState.blocks &&
-                blockListState.blocks.map((block: any) => {
-                  return <OverviewCard key={block.attributes.number} items={BlockCardItems(block.attributes)} />
+                blockListState.blocks.map((block: State.Block) => {
+                  return <OverviewCard key={block.number} items={BlockCardItems(block)} />
                 })}
             </div>
           </ContentTable>
@@ -164,13 +164,13 @@ export default ({
             </TableTitleRow>
             {blockListState &&
               blockListState.blocks &&
-              blockListState.blocks.map((data: Response.Wrapper<State.Block>) => {
+              blockListState.blocks.map((block: State.Block) => {
                 return (
-                  data && (
-                    <TableContentRow key={data.attributes.number}>
-                      {getTableContentDatas(data).map((tableContentData: TableContentData, index: number) => {
+                  block && (
+                    <TableContentRow key={block.number}>
+                      {getTableContentDatas(block).map((tableContentData: TableContentData, index: number) => {
                         const key = index
-                        if (tableContentData.content === data.attributes.miner_hash) {
+                        if (tableContentData.content === block.miner_hash) {
                           return (
                             <TableMinerContentItem
                               width={tableContentData.width}

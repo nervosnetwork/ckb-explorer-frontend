@@ -5,7 +5,7 @@ import initStatistics from './statistics'
 import initTransaction from './transaction'
 import initComponents from './components'
 
-const initHomeBlocks = [] as Response.Wrapper<State.Block>[]
+const initHomeBlocks = [] as State.Block[]
 const initStatisticsChartDatas = [] as State.StatisticsChartData[]
 
 const initState: State.AppState = {

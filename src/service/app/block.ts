@@ -49,7 +49,7 @@ export const getBlock = (blockParam: string, page: number, size: number, dispatc
 
 // home page
 export const getLatestBlocks = (dispatch: AppDispatch) => {
-  const cachedBlocks = fetchCachedData<Response.Wrapper<State.Block>[]>(CachedKeys.Blocks)
+  const cachedBlocks = fetchCachedData<State.Block[]>(CachedKeys.Blocks)
   if (cachedBlocks) {
     dispatch({
       type: PageActions.UpdateHomeBlocks,
@@ -61,20 +61,23 @@ export const getLatestBlocks = (dispatch: AppDispatch) => {
   fetchBlocks().then(response => {
     const { data } = response as Response.Response<Response.Wrapper<State.Block>[]>
     if (data) {
+      const blocks = data.map((wrapper: Response.Wrapper<State.Block>) => {
+        return wrapper.attributes
+      })
       dispatch({
         type: PageActions.UpdateHomeBlocks,
         payload: {
-          homeBlocks: data,
+          homeBlocks: blocks,
         },
       })
-      storeCachedData(CachedKeys.Blocks, data)
+      storeCachedData(CachedKeys.Blocks, blocks)
     }
   })
 }
 
 // block list page
 export const getBlocks = (page: number, size: number, dispatch: AppDispatch) => {
-  const cachedBlocks = fetchCachedData<Response.Wrapper<State.Block>[]>(CachedKeys.BlockList)
+  const cachedBlocks = fetchCachedData<State.Block[]>(CachedKeys.BlockList)
   if (cachedBlocks) {
     dispatch({
       type: PageActions.UpdateBlockList,
@@ -94,13 +97,16 @@ export const getBlocks = (page: number, size: number, dispatch: AppDispatch) => 
       })
     }
     if (data) {
+      const blocks = data.map((wrapper: Response.Wrapper<State.Block>) => {
+        return wrapper.attributes
+      })
       dispatch({
         type: PageActions.UpdateBlockList,
         payload: {
-          blocks: data,
+          blocks,
         },
       })
-      storeCachedData(CachedKeys.BlockList, data)
+      storeCachedData(CachedKeys.BlockList, blocks)
     }
   })
 }
