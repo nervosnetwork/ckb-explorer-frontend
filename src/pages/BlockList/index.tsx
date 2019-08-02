@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, Fragment } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import queryString from 'query-string'
 import { parseSimpleDate } from '../../utils/date'
@@ -168,24 +168,16 @@ export default ({
                 return (
                   block && (
                     <TableContentRow key={block.number}>
-                      {getTableContentDatas(block).map((tableContentData: TableContentData, index: number) => {
+                      {getTableContentDatas(block).map((data: TableContentData, index: number) => {
                         const key = index
-                        if (tableContentData.content === block.miner_hash) {
-                          return (
-                            <TableMinerContentItem
-                              width={tableContentData.width}
-                              content={tableContentData.content}
-                              key={key}
-                            />
-                          )
-                        }
                         return (
-                          <TableContentItem
-                            width={tableContentData.width}
-                            content={tableContentData.content}
-                            to={tableContentData.to}
-                            key={key}
-                          />
+                          <Fragment key={key}>
+                            {data.content === block.miner_hash ? (
+                              <TableMinerContentItem width={data.width} content={data.content} />
+                            ) : (
+                              <TableContentItem width={data.width} content={data.content} to={data.to} />
+                            )}
+                          </Fragment>
                         )
                       })}
                     </TableContentRow>
