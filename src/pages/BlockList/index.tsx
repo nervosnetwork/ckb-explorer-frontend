@@ -207,7 +207,9 @@ export default ({
               })}
           </ContentTable>
         )}
-        <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
+        <div className="block_list__pagination">
+          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
+        </div>
       </BlockListPanel>
     </Content>
   )
