@@ -31,12 +31,10 @@ export const PaginationPanel = styled.div`
 export const PaginationLeftItem = styled.div`
   display: flex;
   flex: 1;
-  background: white;
   font-size: 16px;
   text-align: center;
   color: #000000;
   line-height: 40px;
-  border: none;
 
   @media (min-width: 700px) {
     align-items: center;
@@ -172,10 +170,8 @@ export const PaginationLeftItem = styled.div`
 export const PaginationRightItem = styled.div`
   flex-direction: row;
   display: flex;
-  background: white;
   font-size: 16px;
   color: #000000;
-  border: none;
 
   @media (min-width: 700px) {
     width: 452px;

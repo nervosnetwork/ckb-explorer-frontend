@@ -218,7 +218,7 @@ export default ({
 
   const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
   const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
-  const totalPages = Math.ceil(blockState.total / pageSize)
+  const totalPages = Math.ceil(blockState.total / pageSize) + 1
 
   useEffect(() => {
     if (pageSize > PageParams.MaxPageSize) {
