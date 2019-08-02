@@ -19,13 +19,12 @@ import {
 } from '../../components/Table'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
-import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
-import { storeCachedData, fetchCachedData } from '../../utils/cached'
+import { BLOCK_POLLING_TIME } from '../../utils/const'
 import { localeNumberString } from '../../utils/number'
 import { startEndEllipsis } from '../../utils/string'
 import { isMobile } from '../../utils/screen'
 import browserHistory from '../../routes/history'
-import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
+import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import { getLatestBlocks } from '../../service/app/block'
 import getStatistics from '../../service/app/statistics'
@@ -136,32 +135,6 @@ const parseBlockTime = (blockTime: string | undefined) => {
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
   const { homeBlocks, statistics } = useContext(AppContext)
   const [t] = useTranslation()
-
-  useEffect(() => {
-    const cachedBlocks = fetchCachedData<Response.Wrapper<State.Block>[]>(CachedKeys.Blocks)
-    if (cachedBlocks) {
-      dispatch({
-        type: PageActions.UpdateHomeBlocks,
-        payload: {
-          homeBlocks: cachedBlocks,
-        },
-      })
-    }
-    const cachedStatistics = fetchCachedData<State.Statistics>(CachedKeys.Statistics)
-    if (cachedStatistics) {
-      dispatch({
-        type: PageActions.UpdateStatistics,
-        payload: {
-          statistics: cachedStatistics,
-        },
-      })
-    }
-  }, [dispatch])
-
-  useEffect(() => {
-    storeCachedData(CachedKeys.Blocks, homeBlocks)
-    storeCachedData(CachedKeys.Statistics, statistics)
-  }, [homeBlocks, statistics])
 
   useEffect(() => {
     getLatestBlocks(dispatch)

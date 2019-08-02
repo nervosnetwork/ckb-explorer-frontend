@@ -13,11 +13,10 @@ import {
 } from '../../components/Table'
 import { shannonToCkb } from '../../utils/util'
 import { parsePageNumber, startEndEllipsis } from '../../utils/string'
-import { CachedKeys, BlockListPageParams } from '../../utils/const'
-import { fetchCachedData } from '../../utils/cached'
+import { BlockListPageParams } from '../../utils/const'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
-import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
+import { StateWithDispatch } from '../../contexts/providers/reducer'
 import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
@@ -130,18 +129,6 @@ export default ({
   const currentPage = parsePageNumber(parsed.page, BlockListPageParams.PageNo)
   const pageSize = parsePageNumber(parsed.size, BlockListPageParams.PageSize)
   const totalPages = Math.ceil(blockListState.total / pageSize)
-
-  useEffect(() => {
-    const cachedBlocks = fetchCachedData<Response.Wrapper<State.Block>[]>(CachedKeys.BlockList)
-    if (cachedBlocks) {
-      dispatch({
-        type: PageActions.UpdateBlockList,
-        payload: {
-          blocks: cachedBlocks,
-        },
-      })
-    }
-  }, [dispatch])
 
   useEffect(() => {
     if (pageSize > BlockListPageParams.MaxPageSize) {
