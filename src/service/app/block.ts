@@ -9,7 +9,9 @@ export const getBlockTransactions = (hash: string, page: number, size: number, d
     dispatch({
       type: PageActions.UpdateBlockTransactions,
       payload: {
-        transactions: data,
+        transactions: data.map((wrapper: Response.Wrapper<State.Transaction>) => {
+          return wrapper.attributes
+        }),
       },
     })
     if (meta) {

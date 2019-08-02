@@ -163,14 +163,14 @@ export const Address = ({
         <AddressTransactionsPanel>
           {addressState &&
             addressState.transactions &&
-            addressState.transactions.map((transaction: any, index: number) => {
+            addressState.transactions.map((transaction: State.Transaction, index: number) => {
               return (
                 transaction && (
                   <TransactionItem
                     address={addressState.address.address_hash}
-                    transaction={transaction.attributes}
-                    confirmation={tipBlockNumber - transaction.attributes.block_number + 1}
-                    key={transaction.attributes.transaction_hash}
+                    transaction={transaction}
+                    confirmation={tipBlockNumber - transaction.block_number + 1}
+                    key={transaction.transaction_hash}
                     isLastItem={index === addressState.transactions.length - 1}
                   />
                 )
