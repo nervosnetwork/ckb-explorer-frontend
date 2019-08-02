@@ -239,17 +239,15 @@ export default ({
         )}
         <TitleCard title={i18n.t('common.overview')} />
         {blockState && <BlockOverview block={blockState.block} />}
-        {blockState && blockState.transactions && blockState.transactions.length > 0 && (
-          <TitleCard title={i18n.t('transaction.transactions')} />
-        )}
+        <TitleCard title={i18n.t('transaction.transactions')} />
         {blockState &&
           blockState.transactions &&
-          blockState.transactions.map((transaction: any, index: number) => {
+          blockState.transactions.map((transaction: State.Transaction, index: number) => {
             return (
               transaction && (
                 <TransactionItem
-                  key={transaction.attributes.transaction_hash}
-                  transaction={transaction.attributes}
+                  key={transaction.transaction_hash}
+                  transaction={transaction}
                   isBlock
                   isLastItem={index === blockState.transactions.length - 1}
                 />
