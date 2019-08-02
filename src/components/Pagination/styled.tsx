@@ -188,7 +188,7 @@ export const PaginationRightItem = styled.div`
     height: 50px;
   }
 
-  .jump__page__input {
+  .input__page {
     width: 120px;
     height: 40px;
     border: none;
@@ -199,7 +199,7 @@ export const PaginationRightItem = styled.div`
     font-size: 16px;
     margin-right: 20px;
     padding-left: 10px;
-    &:focus + .go__to {
+    &:focus + .goto__page {
       font-weight: 600;
     }
 
@@ -232,7 +232,7 @@ export const PaginationRightItem = styled.div`
     }
   }
 
-  .go__to {
+  .goto__page {
     width: 90px;
     margin-right: 80px;
     @media (max-width: 700px) {
