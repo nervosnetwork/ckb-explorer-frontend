@@ -45,10 +45,11 @@ const Pagination = ({
           className="input__page"
           value={inputPage}
           onChange={(event: any) => {
-            if (event.target.value && event.target.value >= total) {
-              setInputPage(total)
-            } else {
+            const pageNo: number = parseInt(event.target.value, 10)
+            if (Number.isNaN(pageNo)) {
               setInputPage(event.target.value)
+            } else {
+              setInputPage(Math.min(pageNo, total))
             }
           }}
           onKeyUp={(event: any) => {
