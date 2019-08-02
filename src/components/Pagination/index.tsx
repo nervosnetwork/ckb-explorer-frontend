@@ -14,13 +14,13 @@ const Pagination = ({
   gotoPage?: number
   onChange: (page: number) => void
 }) => {
-  const [inputValue, setInputValue] = useState(gotoPage)
+  const [inputPage, setInputPage] = useState(gotoPage)
   const total = Math.max(totalPages, 1)
   const current = Math.min(Math.max(currentPage, 1), totalPages)
   const changePage = (page: number) => {
     if (page && page >= 1 && page <= total) {
       onChange(page)
-      setInputValue(Math.min(page + 1, totalPages))
+      setInputPage(Math.min(page + 1, totalPages))
     }
   }
 
@@ -42,24 +42,22 @@ const Pagination = ({
         <input
           type="text"
           pattern="[0-9]*"
-          className="jump__page__input"
-          value={inputValue}
+          className="input__page"
+          value={inputPage}
           onChange={(event: any) => {
-            if (event.target.value > 0 && event.target.value < total) {
-              setInputValue(event.target.value)
-            } else if (event.target.value >= total) {
-              setInputValue(total)
-            } else if (!event.target.value || event.target.value <= 0) {
-              setInputValue(event.target.value)
+            if (event.target.value && event.target.value >= total) {
+              setInputPage(total)
+            } else {
+              setInputPage(event.target.value)
             }
           }}
           onKeyUp={(event: any) => {
             if (event.keyCode === 13) {
-              changePage(Number(inputValue))
+              changePage(inputPage)
             }
           }}
         />
-        <button type="button" className="go__to" onClick={() => changePage(Number(inputValue))}>
+        <button type="button" className="goto__page" onClick={() => changePage(inputPage)}>
           {i18n.t('pagination.goto')}
         </button>
       </PaginationRightItem>
