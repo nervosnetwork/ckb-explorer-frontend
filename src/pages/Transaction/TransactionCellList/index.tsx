@@ -15,12 +15,13 @@ export default ({
   dispatch: AppDispatch
 }) => {
   const cells = inputs || outputs || []
+  const hideCapacityTitle = inputs && inputs.length > 0 && inputs[0].from_cellbase
   return (
     <TransactionCellListPanel>
       <TransactionCellListTitlePanel>
         <div className="transaction__cell_list_titles">
           <span>{inputs ? i18n.t('transaction.input') : i18n.t('transaction.output')}</span>
-          <span>{i18n.t('transaction.capacity')}</span>
+          <span>{hideCapacityTitle ? '' : i18n.t('transaction.capacity')}</span>
           <span>{i18n.t('transaction.detail')}</span>
         </div>
       </TransactionCellListTitlePanel>
