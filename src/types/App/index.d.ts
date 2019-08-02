@@ -179,7 +179,7 @@ declare namespace State {
 
     addressState: AddressState
     blockState: BlockState
-    homeBlocks: Response.Wrapper<Block>[]
+    homeBlocks: Block[]
     blockListState: BlockListState
     transaction: Transaction
     statistics: Statistics
