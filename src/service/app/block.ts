@@ -45,18 +45,32 @@ export const getBlock = (blockParam: string, page: number, size: number, dispatc
     })
 }
 
+// home page
 export const getLatestBlocks = (dispatch: AppDispatch) => {
-  fetchBlocks().then(response => {
-    const { data } = response as Response.Response<Response.Wrapper<State.Block>[]>
+  const cachedBlocks = fetchCachedData<Response.Wrapper<State.Block>[]>(CachedKeys.Blocks)
+  if (cachedBlocks) {
     dispatch({
       type: PageActions.UpdateHomeBlocks,
       payload: {
-        homeBlocks: data,
+        homeBlocks: cachedBlocks,
       },
     })
+  }
+  fetchBlocks().then(response => {
+    const { data } = response as Response.Response<Response.Wrapper<State.Block>[]>
+    if (data) {
+      dispatch({
+        type: PageActions.UpdateHomeBlocks,
+        payload: {
+          homeBlocks: data,
+        },
+      })
+      storeCachedData(CachedKeys.Blocks, data)
+    }
   })
 }
 
+// block list page
 export const getBlocks = (page: number, size: number, dispatch: AppDispatch) => {
   const cachedBlocks = fetchCachedData<Response.Wrapper<State.Block>[]>(CachedKeys.BlockList)
   if (cachedBlocks) {
