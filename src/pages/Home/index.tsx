@@ -103,7 +103,6 @@ const TableTitleDatas: TableTitleData[] = [
 ]
 
 const getTableContentDatas = (block: State.Block) => {
-  console.log(JSON.stringify(block))
   return [
     {
       width: '14%',

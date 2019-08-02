@@ -30,7 +30,7 @@ export const initBlockState: State.BlockState = {
 }
 
 export const initBlockListState: State.BlockListState = {
-  blocks: [] as Response.Wrapper<State.Block>[],
+  blocks: [] as State.Block[],
   total: 0,
 }
 

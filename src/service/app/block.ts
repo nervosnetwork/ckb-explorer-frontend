@@ -75,7 +75,7 @@ export const getLatestBlocks = (dispatch: AppDispatch) => {
 
 // block list page
 export const getBlocks = (page: number, size: number, dispatch: AppDispatch) => {
-  const cachedBlocks = fetchCachedData<Response.Wrapper<State.Block>[]>(CachedKeys.BlockList)
+  const cachedBlocks = fetchCachedData<State.Block[]>(CachedKeys.BlockList)
   if (cachedBlocks) {
     dispatch({
       type: PageActions.UpdateBlockList,
@@ -95,13 +95,16 @@ export const getBlocks = (page: number, size: number, dispatch: AppDispatch) => 
       })
     }
     if (data) {
+      const blocks = data.map((wrapper: Response.Wrapper<State.Block>) => {
+        return wrapper.attributes
+      })
       dispatch({
         type: PageActions.UpdateBlockList,
         payload: {
-          blocks: data,
+          blocks,
         },
       })
-      storeCachedData(CachedKeys.BlockList, data)
+      storeCachedData(CachedKeys.BlockList, blocks)
     }
   })
 }

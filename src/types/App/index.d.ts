@@ -170,7 +170,7 @@ declare namespace State {
   }
 
   export interface BlockListState {
-    blocks: Response.Wrapper<Block>[]
+    blocks: Block[]
     total: number
   }
 
