@@ -53,7 +53,7 @@ const ToastItemDiv = styled.div`
 const ANIMATION_DISAPPEAR_TIME = 2000
 const MAX_FRAME: number = (ANIMATION_DISAPPEAR_TIME / 1000) * 40 // suppose fps = 40
 
-export const useToastTimeout = (callback: () => void, clearFunction: () => void, delay: number) => {
+export const useTimeout = (callback: () => void, clearFunction: () => void, delay: number) => {
   const savedCallback = useRef(() => {})
   const clearCallback = useRef(() => {})
   useEffect(() => {
@@ -75,7 +75,7 @@ export const useToastTimeout = (callback: () => void, clearFunction: () => void,
 const ToastItem = ({ data, willLeave }: { data: State.ToastMessage; willLeave: Function }) => {
   const [opacity, setOpacity] = useState(1)
   let animationId: number = 0
-  useToastTimeout(
+  useTimeout(
     () => {
       const requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame
       let count: number = 0
