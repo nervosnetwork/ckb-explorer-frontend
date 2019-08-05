@@ -52,6 +52,7 @@ const ToastItemDiv = styled.div`
 
 const ANIMATION_DISAPPEAR_TIME = 2000
 const MAX_FRAME: number = (ANIMATION_DISAPPEAR_TIME / 1000) * 40 // suppose fps = 40
+const DEFAULT_TOAST_DURATION = 3000
 
 export const useTimeout = (callback: () => void, clearFunction: () => void, delay: number) => {
   const savedCallback = useRef(() => {})
@@ -80,7 +81,8 @@ const ToastItem = ({ data, willLeave }: { data: State.ToastMessage; willLeave: F
       const requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame
       let count: number = 0
       const updateOpacity = () => {
-        setOpacity(1 - ++count / MAX_FRAME)
+        count++
+        setOpacity(1 - count / MAX_FRAME)
         if (count < MAX_FRAME) {
           requestAnimationFrame(updateOpacity)
         } else {
@@ -95,7 +97,7 @@ const ToastItem = ({ data, willLeave }: { data: State.ToastMessage; willLeave: F
         cancelAnimationFrame(animationId)
       }
     },
-    data.duration,
+    data.duration || DEFAULT_TOAST_DURATION,
   )
 
   return (

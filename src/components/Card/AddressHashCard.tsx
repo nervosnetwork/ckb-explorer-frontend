@@ -123,7 +123,6 @@ export default ({ title, hash, dispatch }: { title: string; hash: string; dispat
             type: AppActions.ShowToastMessage,
             payload: {
               message: i18n.t('common.copied'),
-              duration: 3000,
             },
           })
         }}

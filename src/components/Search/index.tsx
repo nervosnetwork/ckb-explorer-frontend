@@ -33,7 +33,6 @@ const handleSearchResult = ({
       type: AppActions.ShowToastMessage,
       payload: {
         message: i18n.t('toast.invalid_content'),
-        duration: 3000,
       },
     })
   } else {

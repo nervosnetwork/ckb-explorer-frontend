@@ -59,7 +59,6 @@ export default ({
       type: AppActions.ShowToastMessage,
       payload: {
         message: i18n.t('common.copied'),
-        duration: 3000,
       },
     })
   }

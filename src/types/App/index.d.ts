@@ -15,7 +15,7 @@ declare namespace State {
 
   export interface ToastMessage {
     message: string
-    duration: number
+    duration?: number
     id: number
   }
 
