@@ -1,7 +1,7 @@
 import { fetchNodeVersion } from '../http/fetcher'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
 
-export const handleNodeVersion = (dispatch: AppDispatch) => {
+export const initNodeVersion = (dispatch: AppDispatch) => {
   fetchNodeVersion().then((wrapper: Response.Wrapper<State.NodeVersion>) => {
     dispatch({
       type: AppActions.UpdateNodeVersion,
@@ -13,5 +13,5 @@ export const handleNodeVersion = (dispatch: AppDispatch) => {
 }
 
 export default {
-  handleNodeVersion,
+  initNodeVersion,
 }
