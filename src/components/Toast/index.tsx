@@ -62,10 +62,7 @@ export const useTimeout = (callback: () => void, clearFunction: () => void, dela
     clearCallback.current = clearFunction
   })
   useEffect(() => {
-    const tick = () => {
-      savedCallback.current()
-    }
-    const listener = setTimeout(tick, delay)
+    const listener = setTimeout(savedCallback.current, delay)
     return () => {
       clearTimeout(listener)
       clearCallback.current()
