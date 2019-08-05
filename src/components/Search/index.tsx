@@ -32,8 +32,7 @@ const handleSearchResult = ({
     dispatch({
       type: AppActions.ShowToastMessage,
       payload: {
-        text: i18n.t('toast.invalid_content'),
-        timeout: 3000,
+        message: i18n.t('toast.invalid_content'),
       },
     })
   } else {

@@ -14,8 +14,8 @@ declare namespace State {
   }
 
   export interface ToastMessage {
-    text: string
-    timeout: number
+    message: string
+    duration?: number
     id: number
   }
 
