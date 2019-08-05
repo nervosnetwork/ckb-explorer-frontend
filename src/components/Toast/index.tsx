@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useReducer } from 'react'
+import React, { useState, useEffect, useContext, useReducer, useRef } from 'react'
 import styled from 'styled-components'
 import { AppContext } from '../../contexts/providers/index'
 
@@ -49,49 +49,62 @@ const ToastItemDiv = styled.div`
     }
   }
 `
-const ToastItem = ({
-  data,
-  disappearDuration,
-  willLeave,
-}: {
-  data: any
-  disappearDuration?: number
-  willLeave: Function
-}) => {
-  const [opacity, setOpacity] = useState(1)
+
+const ANIMATION_DISAPPEAR_TIME = 2000
+const MAX_FRAME: number = (ANIMATION_DISAPPEAR_TIME / 1000) * 40 // suppose fps = 40
+
+export const useToastTimeout = (callback: () => void, clearFunction: () => void, delay: number) => {
+  const savedCallback = useRef(() => {})
+  const clearCallback = useRef(() => {})
   useEffect(() => {
-    let animationFun: any = null
-    const requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame
-    animationFun = setTimeout(() => {
-      const maxFrame: number = ((disappearDuration || 2000) / 1000) * 40 // suppose fps = 40
+    savedCallback.current = callback
+    clearCallback.current = clearFunction
+  })
+  useEffect(() => {
+    const tick = () => {
+      savedCallback.current()
+    }
+    const listener = setTimeout(tick, delay)
+    return () => {
+      clearTimeout(listener)
+      clearCallback.current()
+    }
+  }, [delay])
+}
+
+const ToastItem = ({ data, willLeave }: { data: State.ToastMessage; willLeave: Function }) => {
+  const [opacity, setOpacity] = useState(1)
+  let animationId: number = 0
+  useToastTimeout(
+    () => {
+      const requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame
       let count: number = 0
-      const update = () => {
-        count++
-        setOpacity(1 - count / maxFrame)
-        if (count < maxFrame) {
-          animationFun = requestAnimationFrame(update)
+      const updateOpacity = () => {
+        setOpacity(1 - ++count / MAX_FRAME)
+        if (count < MAX_FRAME) {
+          requestAnimationFrame(updateOpacity)
         } else {
           willLeave()
         }
       }
-      update()
-    }, data.timeout)
-    return () => {
-      if (animationFun) {
+      animationId = requestAnimationFrame(updateOpacity)
+    },
+    () => {
+      if (animationId) {
         const cancelAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame
-        cancelAnimationFrame(animationFun)
+        cancelAnimationFrame(animationId)
       }
-    }
-    // eslint-disable-next-line
-  }, [])
+    },
+    data.duration,
+  )
+
   return (
     <ToastItemDiv
-      key={`toast${data.id}`}
       style={{
         opacity,
       }}
     >
-      <div className="toast__text">{data.text}</div>
+      <div className="toast__text">{data.message}</div>
     </ToastItemDiv>
   )
 }

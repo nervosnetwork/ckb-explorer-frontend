@@ -74,8 +74,8 @@ export const reducer = (
           ...state.app,
           toast: {
             id: new Date().getTime(),
-            text: payload.text,
-            timeout: payload.timeout,
+            message: payload.message,
+            duration: payload.duration,
           },
         },
       }

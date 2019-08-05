@@ -58,8 +58,8 @@ export default ({
     dispatch({
       type: AppActions.ShowToastMessage,
       payload: {
-        text: i18n.t('common.copied'),
-        timeout: 3000,
+        message: i18n.t('common.copied'),
+        duration: 3000,
       },
     })
   }
