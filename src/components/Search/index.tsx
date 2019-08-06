@@ -14,6 +14,13 @@ import { AppContext } from '../../contexts/providers'
 
 const SearchPlaceholder = i18n.t('navbar.search_placeholder')
 
+enum SearchResultType {
+  Block = 'block',
+  Transaction = 'ckb_transaction',
+  Address = 'address',
+  LockHash = 'lock_hash',
+}
+
 const handleSearchResult = ({
   searchValue,
   setSearchValue,
@@ -49,15 +56,15 @@ const handleSearchResult = ({
         const input: any = inputElement.current!
         input.value = ''
         const { data } = response
-        if (data.type === 'block') {
+        if (data.type === SearchResultType.Block) {
           browserHistory.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.block_hash}`)
-        } else if (data.type === 'ckb_transaction') {
+        } else if (data.type === SearchResultType.Transaction) {
           browserHistory.push(
             `/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transaction_hash}`,
           )
-        } else if (data.type === 'address') {
+        } else if (data.type === SearchResultType.Address) {
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.address_hash}`)
-        } else if (data.type === 'lock_hash') {
+        } else if (data.type === SearchResultType.LockHash) {
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lock_hash}`)
         } else {
           setSearchValue(query)
@@ -84,31 +91,18 @@ const handleSearchResult = ({
   }
 }
 
-const handleInputFocus = (searchBarEditable: boolean, inputElement: any, dispatch: AppDispatch) => {
-  if (searchBarEditable) {
-    const input: HTMLInputElement = inputElement.current!
-    input.focus()
-    input.addEventListener('focusout', () => {
-      dispatch({
-        type: ComponentActions.UpdateHeaderSearchEditable,
-        payload: {
-          searchBarEditable: false,
-        },
-      })
-    })
-  }
-}
-
 const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBorder?: boolean; content?: string }) => {
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
-  const inputElement = useRef(null)
+  const inputElement = useRef<HTMLInputElement>(null)
   const { components } = useContext(AppContext)
   const { searchBarEditable } = components
 
   useEffect(() => {
-    handleInputFocus(searchBarEditable, inputElement, dispatch)
-  }, [searchBarEditable, dispatch])
+    if (searchBarEditable && inputElement.current) {
+      inputElement.current.focus()
+    }
+  }, [searchBarEditable])
 
   const SearchIconButton = ({ greenIcon }: { greenIcon?: boolean }) => {
     return (
@@ -143,7 +137,17 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
         defaultValue={searchValue || ''}
         hasBorder={!!hasBorder}
         onFocus={() => setPlaceholder('')}
-        onBlur={() => setPlaceholder(SearchPlaceholder)}
+        onBlur={() => {
+          setPlaceholder(SearchPlaceholder)
+          if (searchBarEditable) {
+            dispatch({
+              type: ComponentActions.UpdateHeaderSearchEditable,
+              payload: {
+                searchBarEditable: false,
+              },
+            })
+          }
+        }}
         onChange={(event: any) => {
           setSearchValue(event.target.value)
         }}
