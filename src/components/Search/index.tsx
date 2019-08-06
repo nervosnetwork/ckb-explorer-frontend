@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from 'react'
+import React, { useState, useRef, useContext } from 'react'
 import { AxiosError } from 'axios'
 import { SearchImage, SearchInputPanel, SearchPanel } from './styled'
 import { fetchSearchResult } from '../../service/http/fetcher'
@@ -84,31 +84,12 @@ const handleSearchResult = ({
   }
 }
 
-const handleInputFocus = (searchBarEditable: boolean, inputElement: any, dispatch: AppDispatch) => {
-  if (searchBarEditable) {
-    const input: HTMLInputElement = inputElement.current!
-    input.focus()
-    input.addEventListener('focusout', () => {
-      dispatch({
-        type: ComponentActions.UpdateHeaderSearchEditable,
-        payload: {
-          searchBarEditable: false,
-        },
-      })
-    })
-  }
-}
-
 const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBorder?: boolean; content?: string }) => {
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
   const inputElement = useRef(null)
   const { components } = useContext(AppContext)
   const { searchBarEditable } = components
-
-  useEffect(() => {
-    handleInputFocus(searchBarEditable, inputElement, dispatch)
-  }, [searchBarEditable, dispatch])
 
   const SearchIconButton = ({ greenIcon }: { greenIcon?: boolean }) => {
     return (
@@ -143,7 +124,17 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
         defaultValue={searchValue || ''}
         hasBorder={!!hasBorder}
         onFocus={() => setPlaceholder('')}
-        onBlur={() => setPlaceholder(SearchPlaceholder)}
+        onBlur={() => {
+          setPlaceholder(SearchPlaceholder)
+          if (searchBarEditable) {
+            dispatch({
+              type: ComponentActions.UpdateHeaderSearchEditable,
+              payload: {
+                searchBarEditable: false,
+              },
+            })
+          }
+        }}
         onChange={(event: any) => {
           setSearchValue(event.target.value)
         }}
