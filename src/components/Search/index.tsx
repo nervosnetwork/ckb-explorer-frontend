@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import { AxiosError } from 'axios'
 import { SearchImage, SearchInputPanel, SearchPanel } from './styled'
 import { fetchSearchResult } from '../../service/http/fetcher'
@@ -100,7 +100,8 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
 
   useEffect(() => {
     if (searchBarEditable) {
-      ;(inputElement.current! as HTMLInputElement).focus()
+      const input: HTMLInputElement = inputElement.current!
+      input.focus()
     }
   }, [searchBarEditable])
 
