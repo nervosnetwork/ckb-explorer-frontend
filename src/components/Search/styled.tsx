@@ -4,6 +4,7 @@ export const SearchPanel = styled.div`
   margin: 0 auto;
   width: 100%;
   height: 50px;
+  position: relative;
   @media (max-width: 700px) {
     height: 42px;
   }
@@ -42,7 +43,7 @@ export const SearchImage = styled.div`
 `
 
 export const SearchInputPanel = styled.input`
-  position: relative;
+  z-index: 100;
   width: 100%;
   height: 100%;
   font-size: 16px;
@@ -82,4 +83,68 @@ export const SearchInputPanel = styled.input`
     padding-left: 10px;
     padding-right: 20px;
   }
+`
+
+export const SuggestionsPanel = styled.div`
+  position: absolute;
+  top: 66px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  background: #fff;
+  border: 1px solid grey;
+  border-radius: 1px;
+`
+
+export const SuggestionHeading = styled.div`
+  color: black;
+  text-align: left;
+  font-weight: bold;
+  padding: 6px 18px 3px;
+`
+
+export const SuggestionButton = styled.button`
+  border: 0;
+  background: transparent;
+  font-size: 14px;
+  text-align: left;
+  padding: 4px 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: grey;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+`
+
+export const SuggestionExpand = styled.button`
+  text-align: center;
+  padding: 4px 18px;
+  border: 0;
+  background: transparent;
+  color: #3bc78a;
+  font-size: 14px;
+  font-weight: bold;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+`
+
+export const SuggestionValue = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
+export const SuggestionBalance = styled.div`
+  white-space: nowrap;
 `

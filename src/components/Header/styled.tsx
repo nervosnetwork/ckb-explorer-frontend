@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components'
 export const HeaderDiv = styled.div`
   width: 100%;
   min-height: 80px;
-  overflow: hidden;
   box-shadow: 0 2px 4px 0 #141414;
   background-color: #424242;
   position: sticky;
@@ -14,7 +13,6 @@ export const HeaderDiv = styled.div`
   align-items: center;
   flex-wrap: wrap;
   padding: 1px 10vw;
-
   .header__logo {
     display: flex;
     align-items: center;
@@ -59,7 +57,6 @@ export const HeaderDiv = styled.div`
 const HeaderMobileCommonPanel = styled.div`
   height: 42px;
   width: 100vw;
-  overflow: hidden;
   box-shadow: 0 2px 4px 0 #141414;
   background-color: #424242;
   position: sticky;
@@ -71,10 +68,6 @@ const HeaderMobileCommonPanel = styled.div`
 
 export const HeaderMobilePanel = styled(HeaderMobileCommonPanel)`
   display: ${({ searchBarEditable }: { searchBarEditable: boolean }) => (searchBarEditable ? 'none' : 'block')};
-`
-
-export const HeaderSearchMobilePanel = styled(HeaderMobileCommonPanel)`
-  display: ${({ searchBarEditable }: { searchBarEditable: boolean }) => (searchBarEditable ? 'block' : 'none')};
 `
 
 export const HeaderMobileDiv = styled.div`
@@ -149,9 +142,7 @@ export const HeaderTestnetPanel = styled.div`
     !props.search &&
     css`
       flex: 1;
-    `}
-
-  .header__testnet__flag {
+    `} .header__testnet__flag {
     color: white;
     font-size: 24px;
     text-align: center;
@@ -166,13 +157,6 @@ export const HeaderTestnetPanel = styled.div`
       letter-spacing: normal;
     }
   }
-`
-
-export const HeaderSearchPanel = styled.div`
-  width: 100%;
-  height: 40px;
-  display: flex;
-  align-items: center;
 `
 
 export const HeaderVersionPanel = styled.div`

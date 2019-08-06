@@ -1,13 +1,31 @@
 import React, { useState, useRef, useEffect, useContext } from 'react'
 import { AxiosError } from 'axios'
-import { SearchImage, SearchInputPanel, SearchPanel } from './styled'
-import { fetchSearchResult } from '../../service/http/fetcher'
+import {
+  SearchImage,
+  SearchInputPanel,
+  SearchPanel,
+  SuggestionsPanel,
+  SuggestionHeading,
+  SuggestionButton,
+  SuggestionExpand,
+  SuggestionBalance,
+  SuggestionValue,
+} from './styled'
+import { fetchSearchResult, fetchTipBlockNumber } from '../../service/http/fetcher'
 import browserHistory from '../../routes/history'
 import SearchLogo from '../../assets/search.png'
 import GreenSearchLogo from '../../assets/search_green.png'
-import { searchTextCorrection } from '../../utils/string'
+import { searchTextCorrection, parseLongAddressHashMobile } from '../../utils/string'
+import {
+  generateBlockHeightSuggestions,
+  generateTransactionSuggestion,
+  generateAddressSuggestion,
+  generateLockHashSuggestion,
+  generateBlockHashSuggestion,
+} from '../../utils/util'
+
 import i18n from '../../utils/i18n'
-import { HttpErrorCode } from '../../utils/const'
+import { HttpErrorCode, BLOCK_POLLING_TIME, SEARCH_DEBOUNCE_INTERVAL } from '../../utils/const'
 import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers'
@@ -84,31 +102,74 @@ const handleSearchResult = ({
   }
 }
 
-const handleInputFocus = (searchBarEditable: boolean, inputElement: any, dispatch: AppDispatch) => {
-  if (searchBarEditable) {
-    const input: HTMLInputElement = inputElement.current!
-    input.focus()
-    input.addEventListener('focusout', () => {
-      dispatch({
-        type: ComponentActions.UpdateHeaderSearchEditable,
-        payload: {
-          searchBarEditable: false,
-        },
-      })
-    })
-  }
-}
-
 const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBorder?: boolean; content?: string }) => {
+  const defaultSearchSuggestions: SearchSuggestion[] = []
   const [searchValue, setSearchValue] = useState(content || '')
+  const [searchSuggestions, setSearchSuggestions] = useState(defaultSearchSuggestions)
+  const [expandSuggestions, setExpandSuggestions] = useState(false)
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
-  const inputElement = useRef(null)
+  const [maximumBlockHeight, setMaximumBlockHeight] = useState(0)
+  const inputElement = useRef<HTMLInputElement>(null)
   const { components } = useContext(AppContext)
   const { searchBarEditable } = components
 
   useEffect(() => {
-    handleInputFocus(searchBarEditable, inputElement, dispatch)
-  }, [searchBarEditable, dispatch])
+    const tipBlockNumberInterval = setInterval(async () => {
+      const { attributes } = await fetchTipBlockNumber()
+      setMaximumBlockHeight(attributes.tip_block_number)
+    }, BLOCK_POLLING_TIME)
+
+    return () => clearInterval(tipBlockNumberInterval)
+  }, [])
+
+  useEffect(() => {
+    if (inputElement.current) {
+      inputElement.current.focus()
+    }
+  }, [searchBarEditable])
+
+  useEffect(() => {
+    const searchQueryTimeout = setTimeout(async () => {
+      try {
+        if (searchValue) {
+          const correctedSearchValue = searchTextCorrection(searchValue)
+          const { data } = await fetchSearchResult(correctedSearchValue)
+
+          if (data.type.toLowerCase() === 'block') {
+            if (correctedSearchValue.slice(0, 2) === '0x') {
+              const blockHash = generateBlockHashSuggestion(correctedSearchValue)
+              setSearchSuggestions([blockHash])
+            } else {
+              const blockHeights = generateBlockHeightSuggestions(
+                parseInt(correctedSearchValue, 10),
+                maximumBlockHeight,
+              )
+              setSearchSuggestions(blockHeights)
+            }
+          } else if (data.type.toLowerCase() === 'ckb_transaction') {
+            const transactionSuggestion = generateTransactionSuggestion(correctedSearchValue)
+            setSearchSuggestions([transactionSuggestion])
+          } else if (data.type.toLowerCase() === 'address' && data.attributes.balance) {
+            const addressSuggestion = generateAddressSuggestion(correctedSearchValue, data.attributes.balance)
+            setSearchSuggestions([addressSuggestion])
+          } else if (data.type.toLowerCase() === 'lock_hash') {
+            const lockHashSuggestion = generateLockHashSuggestion(correctedSearchValue)
+            setSearchSuggestions([lockHashSuggestion])
+          }
+        } else {
+          setSearchSuggestions([])
+        }
+      } catch (error) {
+        setSearchSuggestions([
+          {
+            type: 'Error',
+          },
+        ])
+      }
+    }, SEARCH_DEBOUNCE_INTERVAL)
+
+    return () => clearTimeout(searchQueryTimeout)
+  }, [searchValue, maximumBlockHeight])
 
   const SearchIconButton = ({ greenIcon }: { greenIcon?: boolean }) => {
     return (
@@ -133,18 +194,35 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
       </SearchImage>
     )
   }
+
+  const onSuggestionSelect = (suggestion: SearchSuggestion) => {
+    if (suggestion.path && suggestion.type !== 'Error') {
+      setSearchValue('')
+      browserHistory.push(suggestion.path)
+    }
+  }
+
   return (
     <SearchPanel>
       {!hasBorder && <SearchIconButton />}
       {isMobile() && <div className="search__icon__separate" />}
       <SearchInputPanel
-        ref={inputElement}
         placeholder={placeholder}
-        defaultValue={searchValue || ''}
+        value={searchValue}
         hasBorder={!!hasBorder}
         onFocus={() => setPlaceholder('')}
-        onBlur={() => setPlaceholder(SearchPlaceholder)}
-        onChange={(event: any) => {
+        ref={inputElement}
+        // onBlur={() => { // causes a race condition with onSuggestionSelect
+        // 	setPlaceholder(SearchPlaceholder);
+        // 	dispatch({
+        // 		type: ComponentActions.UpdateHeaderSearchEditable,
+        // 		payload: {
+        // 			searchBarEditable: false
+        // 		}
+        // 	});
+        // }}
+        onChange={async (event: any) => {
+          setExpandSuggestions(false)
           setSearchValue(event.target.value)
         }}
         onKeyUp={(event: any) => {
@@ -159,9 +237,80 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
           }
         }}
       />
+
       {hasBorder && <SearchIconButton greenIcon />}
+
+      {searchSuggestions.length > 0 && searchValue ? (
+        <SuggestionsDropdown
+          suggestions={searchSuggestions}
+          onSuggestionSelect={onSuggestionSelect}
+          expandSuggestions={expandSuggestions}
+          setExpandSuggestions={setExpandSuggestions}
+        />
+      ) : null}
     </SearchPanel>
   )
 }
+
+interface SearchSuggestion {
+  value?: string
+  balance?: number
+  path?: string
+  type: string
+}
+
+const generateSuggestionValue = (suggestion: SearchSuggestion) => {
+  if (isMobile() && suggestion.type !== 'Block Height' && suggestion.value) {
+    return parseLongAddressHashMobile(suggestion.value)
+  }
+  return suggestion.value
+}
+
+const generateFormattedBalance = (suggestion: SearchSuggestion) => {
+  if (suggestion.balance) {
+    return `${(suggestion.balance / 10 ** 8).toFixed(3)} ckb`
+  }
+  return ''
+}
+
+const SuggestionsDropdown = ({
+  suggestions = [],
+  onSuggestionSelect,
+  expandSuggestions,
+  setExpandSuggestions,
+}: {
+  suggestions: SearchSuggestion[]
+  onSuggestionSelect: any
+  expandSuggestions: boolean
+  setExpandSuggestions: any
+}) => (
+  <SuggestionsPanel>
+    <SuggestionHeading>{suggestions.length > 0 && suggestions[0].type}</SuggestionHeading>
+    {suggestions
+      .slice(0, expandSuggestions ? suggestions.length : 3)
+      .filter(suggestion => suggestion.type !== 'Error')
+      .map(suggestion => {
+        return (
+          <SuggestionButton
+            key={`${suggestion.value}${suggestions.findIndex(s => s.value === suggestion.value)}`}
+            type="button"
+            onClick={() => onSuggestionSelect(suggestion)}
+          >
+            <SuggestionValue>{generateSuggestionValue(suggestion)}</SuggestionValue>
+            <SuggestionBalance>{generateFormattedBalance(suggestion)}</SuggestionBalance>
+          </SuggestionButton>
+        )
+      })}
+    {suggestions.length > 3 && !expandSuggestions && (
+      <SuggestionExpand
+        onClick={() => {
+          setExpandSuggestions(true)
+        }}
+      >
+        More
+      </SuggestionExpand>
+    )}
+  </SuggestionsPanel>
+)
 
 export default Search

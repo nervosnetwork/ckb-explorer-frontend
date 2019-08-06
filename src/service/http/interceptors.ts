@@ -52,7 +52,8 @@ export const initAxiosInterceptors = (dispatch: AppDispatch) => {
         switch (error.response.status) {
           case 422:
             updateNetworkError(dispatch, false)
-            browserHistory.replace(`/search/fail?q=${urlParam(error)}`)
+            // if bad params, causes a redirect
+            // browserHistory.replace(`/search/fail?q=${urlParam(error)}`);
             break
           case 503:
             updateNetworkError(dispatch, false)

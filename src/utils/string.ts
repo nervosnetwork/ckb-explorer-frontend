@@ -21,6 +21,15 @@ export const parseLongAddressHash = (address: string) => {
   return ''
 }
 
+export const parseLongAddressHashMobile = (address: string) => {
+  if (address) {
+    if (address.length <= 30) {
+      return address
+    }
+  }
+  return `${address.slice(0, 8)}...${address.slice(address.length - 8, address.length)}`
+}
+
 export const hexToUtf8 = (value: string) => {
   if (!value) return value
   const newValue = value.startsWith('0x') ? value.substring(2) : value

@@ -58,10 +58,63 @@ export const isValidReactNode = (node: ReactNode) => {
   return true
 }
 
+export const generateBlockHeightSuggestions = (n: number, maxBlockHeight: number) => {
+  const possibleBlockHeights = []
+  if (n <= maxBlockHeight) {
+    possibleBlockHeights.push({
+      value: n.toString(),
+      path: `/block/${n}`,
+      type: 'Block Height',
+    })
+  }
+
+  for (let i = 0; i <= 9; i++) {
+    const possibleBlockHeight = n * 10 + i
+    if (possibleBlockHeight <= maxBlockHeight) {
+      possibleBlockHeights.push({
+        value: possibleBlockHeight.toString(),
+        path: `/block/${possibleBlockHeight}`,
+        type: 'Block Height',
+      })
+    }
+  }
+
+  return possibleBlockHeights
+}
+
+export const generateTransactionSuggestion = (tx: string) => ({
+  value: tx,
+  path: `/transaction/${tx}`,
+  type: 'Transaction',
+})
+
+export const generateAddressSuggestion = (address: string, balance: number) => ({
+  value: address,
+  balance,
+  path: `/address/${address}`,
+  type: 'Address',
+})
+
+export const generateLockHashSuggestion = (hash: string) => ({
+  value: hash,
+  path: `/address/${hash}`,
+  type: 'Lock Hash',
+})
+
+export const generateBlockHashSuggestion = (hash: string) => ({
+  value: hash,
+  path: `/block/${hash}`,
+  type: 'Block Hash',
+})
+
 export default {
   copyElementValue,
   shannonToCkb,
   handleCapacityChange,
   formatConfirmation,
   isValidReactNode,
+  generateBlockHeightSuggestions,
+  generateTransactionSuggestion,
+  generateAddressSuggestion,
+  generateLockHashSuggestion,
 }

@@ -5,15 +5,7 @@ import LogoIcon from '../../assets/ckb_logo.png'
 import MobileLogoIcon from '../../assets/mobile_ckb_logo.png'
 import SearchLogo from '../../assets/search.png'
 import i18n from '../../utils/i18n'
-import {
-  HeaderDiv,
-  HeaderMobileDiv,
-  HeaderMobilePanel,
-  HeaderSearchPanel,
-  HeaderVersionPanel,
-  HeaderTestnetPanel,
-  HeaderSearchMobilePanel,
-} from './styled'
+import { HeaderDiv, HeaderMobileDiv, HeaderMobilePanel, HeaderVersionPanel, HeaderTestnetPanel } from './styled'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers/index'
 import { AppDispatch, ComponentActions } from '../../contexts/providers/reducer'
@@ -64,9 +56,9 @@ export default ({
     if (isMobile(width)) {
       return (
         <>
-          <HeaderSearchMobilePanel searchBarEditable={searchBarEditable}>
+          <HeaderMobilePanel searchBarEditable={!searchBarEditable}>
             <Search dispatch={dispatch} />
-          </HeaderSearchMobilePanel>
+          </HeaderMobilePanel>
           <HeaderMobilePanel searchBarEditable={searchBarEditable}>
             <HeaderMobileDiv>
               <Link to="/" className="header__logo">
@@ -77,7 +69,8 @@ export default ({
                 <div className="header__search">
                   <div
                     className="header__search__component"
-                    onKeyDown={() => {}}
+                    role="button"
+                    tabIndex={-1}
                     onClick={() => {
                       dispatch({
                         type: ComponentActions.UpdateHeaderSearchEditable,
@@ -86,8 +79,14 @@ export default ({
                         },
                       })
                     }}
-                    role="button"
-                    tabIndex={-1}
+                    onKeyDown={() => {
+                      dispatch({
+                        type: ComponentActions.UpdateHeaderSearchEditable,
+                        payload: {
+                          searchBarEditable: true,
+                        },
+                      })
+                    }}
                   >
                     <img className="header__search__image" src={SearchLogo} alt="search" />
                   </div>
@@ -101,7 +100,6 @@ export default ({
                 </HeaderVersionPanel>
               </HeaderTestnetPanel>
             </HeaderMobileDiv>
-            <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
           </HeaderMobilePanel>
         </>
       )
