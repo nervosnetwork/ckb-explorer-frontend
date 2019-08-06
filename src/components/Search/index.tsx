@@ -94,14 +94,13 @@ const handleSearchResult = ({
 const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBorder?: boolean; content?: string }) => {
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
-  const inputElement = useRef(null)
+  const inputElement = useRef<HTMLInputElement>(null)
   const { components } = useContext(AppContext)
   const { searchBarEditable } = components
 
   useEffect(() => {
-    if (searchBarEditable) {
-      const input: HTMLInputElement = inputElement.current!
-      input.focus()
+    if (searchBarEditable && inputElement.current) {
+      inputElement.current.focus()
     }
   }, [searchBarEditable])
 
