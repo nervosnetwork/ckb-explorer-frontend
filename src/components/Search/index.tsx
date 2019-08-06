@@ -32,6 +32,13 @@ import { AppContext } from '../../contexts/providers'
 
 const SearchPlaceholder = i18n.t('navbar.search_placeholder')
 
+enum SearchResultType {
+  Block = 'block',
+  Transaction = 'ckb_transaction',
+  Address = 'address',
+  LockHash = 'lock_hash',
+}
+
 const handleSearchResult = ({
   searchValue,
   setSearchValue,
@@ -67,15 +74,15 @@ const handleSearchResult = ({
         const input: any = inputElement.current!
         input.value = ''
         const { data } = response
-        if (data.type === 'block') {
+        if (data.type === SearchResultType.Block) {
           browserHistory.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.block_hash}`)
-        } else if (data.type === 'ckb_transaction') {
+        } else if (data.type === SearchResultType.Transaction) {
           browserHistory.push(
             `/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transaction_hash}`,
           )
-        } else if (data.type === 'address') {
+        } else if (data.type === SearchResultType.Address) {
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.address_hash}`)
-        } else if (data.type === 'lock_hash') {
+        } else if (data.type === SearchResultType.LockHash) {
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lock_hash}`)
         } else {
           setSearchValue(query)
