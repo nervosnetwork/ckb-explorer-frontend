@@ -73,9 +73,6 @@ export default ({
     if (isMobile(width)) {
       return (
         <>
-          <HeaderSearchMobilePanel searchBarEditable={!searchBarEditable}>
-            <Search dispatch={dispatch} />
-          </HeaderSearchMobilePanel>
           <HeaderMobilePanel searchBarEditable={searchBarEditable}>
             <HeaderMobileDiv>
               <Link to="/" className="header__logo">
@@ -104,6 +101,10 @@ export default ({
               </HeaderTestnetPanel>
             </HeaderMobileDiv>
           </HeaderMobilePanel>
+
+          <HeaderSearchMobilePanel searchBarEditable={!searchBarEditable}>
+            <Search dispatch={dispatch} />
+          </HeaderSearchMobilePanel>
         </>
       )
     }

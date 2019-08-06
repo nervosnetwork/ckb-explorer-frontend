@@ -62,7 +62,7 @@ const HeaderMobileCommonPanel = styled.div`
   position: sticky;
   position: -webkit-sticky;
   top: 0;
-  z-index: 10;
+  z-index: 4;
   padding: 1px 20px;
 `
 

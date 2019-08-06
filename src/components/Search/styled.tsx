@@ -97,6 +97,10 @@ export const SuggestionsPanel = styled.div`
   background: #fff;
   border: 1px solid grey;
   border-radius: 1px;
+
+  @media (max-width: 631px) {
+    top: 42px;
+  }
 `
 
 export const SuggestionHeading = styled.div`
