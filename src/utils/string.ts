@@ -22,11 +22,10 @@ export const parseLongAddressHash = (address: string) => {
 }
 
 export const parseLongAddressHashMobile = (address: string) => {
-  if (address) {
-    if (address.length <= 30) {
-      return address
-    }
+  if (address.length <= 30) {
+    return address
   }
+
   return `${address.slice(0, 8)}...${address.slice(address.length - 8, address.length)}`
 }
 

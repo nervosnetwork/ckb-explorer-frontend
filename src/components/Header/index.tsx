@@ -1,11 +1,18 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useMemo, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
 import LogoIcon from '../../assets/ckb_logo.png'
 import MobileLogoIcon from '../../assets/mobile_ckb_logo.png'
 import SearchLogo from '../../assets/search.png'
 import i18n from '../../utils/i18n'
-import { HeaderDiv, HeaderMobileDiv, HeaderMobilePanel, HeaderVersionPanel, HeaderTestnetPanel } from './styled'
+import {
+  HeaderDiv,
+  HeaderMobileDiv,
+  HeaderMobilePanel,
+  HeaderSearchMobilePanel,
+  HeaderVersionPanel,
+  HeaderTestnetPanel,
+} from './styled'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers/index'
 import { AppDispatch, ComponentActions } from '../../contexts/providers/reducer'
@@ -48,6 +55,16 @@ export default ({
   dispatch: AppDispatch
 }) => {
   const { app, components } = useContext(AppContext)
+  const memoizedDispatch = useCallback(
+    () =>
+      dispatch({
+        type: ComponentActions.UpdateHeaderSearchEditable,
+        payload: {
+          searchBarEditable: true,
+        },
+      }),
+    [dispatch],
+  )
   const { nodeVersion } = app
   const { searchBarEditable } = components
 
@@ -56,9 +73,9 @@ export default ({
     if (isMobile(width)) {
       return (
         <>
-          <HeaderMobilePanel searchBarEditable={!searchBarEditable}>
+          <HeaderSearchMobilePanel searchBarEditable={!searchBarEditable}>
             <Search dispatch={dispatch} />
-          </HeaderMobilePanel>
+          </HeaderSearchMobilePanel>
           <HeaderMobilePanel searchBarEditable={searchBarEditable}>
             <HeaderMobileDiv>
               <Link to="/" className="header__logo">
@@ -71,22 +88,8 @@ export default ({
                     className="header__search__component"
                     role="button"
                     tabIndex={-1}
-                    onClick={() => {
-                      dispatch({
-                        type: ComponentActions.UpdateHeaderSearchEditable,
-                        payload: {
-                          searchBarEditable: true,
-                        },
-                      })
-                    }}
-                    onKeyDown={() => {
-                      dispatch({
-                        type: ComponentActions.UpdateHeaderSearchEditable,
-                        payload: {
-                          searchBarEditable: true,
-                        },
-                      })
-                    }}
+                    onClick={memoizedDispatch}
+                    onKeyDown={memoizedDispatch}
                   >
                     <img className="header__search__image" src={SearchLogo} alt="search" />
                   </div>
@@ -127,5 +130,5 @@ export default ({
         </HeaderDiv>
       </>
     )
-  }, [dispatch, nodeVersion, search, width, searchBarEditable])
+  }, [width, search, dispatch, nodeVersion, searchBarEditable, memoizedDispatch])
 }

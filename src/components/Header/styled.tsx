@@ -70,6 +70,10 @@ export const HeaderMobilePanel = styled(HeaderMobileCommonPanel)`
   display: ${({ searchBarEditable }: { searchBarEditable: boolean }) => (searchBarEditable ? 'none' : 'block')};
 `
 
+export const HeaderSearchMobilePanel = styled(HeaderMobileCommonPanel)`
+  display: ${({ searchBarEditable }: { searchBarEditable: boolean }) => (searchBarEditable ? 'block' : 'none')};
+`
+
 export const HeaderMobileDiv = styled.div`
   width: 100%;
   height: 42px;
@@ -142,7 +146,9 @@ export const HeaderTestnetPanel = styled.div`
     !props.search &&
     css`
       flex: 1;
-    `} .header__testnet__flag {
+    `}
+
+  .header__testnet__flag {
     color: white;
     font-size: 24px;
     text-align: center;

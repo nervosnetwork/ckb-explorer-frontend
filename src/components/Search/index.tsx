@@ -25,7 +25,7 @@ import {
 } from '../../utils/util'
 
 import i18n from '../../utils/i18n'
-import { HttpErrorCode, BLOCK_POLLING_TIME, SEARCH_DEBOUNCE_INTERVAL } from '../../utils/const'
+import { HttpErrorCode, SEARCH_DEBOUNCE_INTERVAL } from '../../utils/const'
 import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers'
@@ -103,9 +103,8 @@ const handleSearchResult = ({
 }
 
 const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBorder?: boolean; content?: string }) => {
-  const defaultSearchSuggestions: SearchSuggestion[] = []
   const [searchValue, setSearchValue] = useState(content || '')
-  const [searchSuggestions, setSearchSuggestions] = useState(defaultSearchSuggestions)
+  const [searchSuggestions, setSearchSuggestions] = useState([] as SearchSuggestion[])
   const [expandSuggestions, setExpandSuggestions] = useState(false)
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
   const [maximumBlockHeight, setMaximumBlockHeight] = useState(0)
@@ -114,19 +113,17 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
   const { searchBarEditable } = components
 
   useEffect(() => {
-    const tipBlockNumberInterval = setInterval(async () => {
+    ;(async () => {
       const { attributes } = await fetchTipBlockNumber()
       setMaximumBlockHeight(attributes.tip_block_number)
-    }, BLOCK_POLLING_TIME)
-
-    return () => clearInterval(tipBlockNumberInterval)
+    })()
   }, [])
 
   useEffect(() => {
     if (inputElement.current) {
       inputElement.current.focus()
     }
-  }, [searchBarEditable])
+  }, [])
 
   useEffect(() => {
     const searchQueryTimeout = setTimeout(async () => {
@@ -162,7 +159,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
       } catch (error) {
         setSearchSuggestions([
           {
-            type: 'Error',
+            type: 'Searching fail !',
           },
         ])
       }
@@ -196,7 +193,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
   }
 
   const onSuggestionSelect = (suggestion: SearchSuggestion) => {
-    if (suggestion.path && suggestion.type !== 'Error') {
+    if (suggestion.path && suggestion.type !== 'Searching fail !') {
       setSearchValue('')
       browserHistory.push(suggestion.path)
     }
@@ -210,7 +207,11 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
         placeholder={placeholder}
         value={searchValue}
         hasBorder={!!hasBorder}
-        onFocus={() => setPlaceholder('')}
+        onFocus={async () => {
+          setPlaceholder('')
+          const { attributes } = await fetchTipBlockNumber()
+          setMaximumBlockHeight(attributes.tip_block_number)
+        }}
         ref={inputElement}
         // onBlur={() => { // causes a race condition with onSuggestionSelect
         // 	setPlaceholder(SearchPlaceholder);
@@ -268,7 +269,7 @@ const generateSuggestionValue = (suggestion: SearchSuggestion) => {
 
 const generateFormattedBalance = (suggestion: SearchSuggestion) => {
   if (suggestion.balance) {
-    return `${(suggestion.balance / 10 ** 8).toFixed(3)} ckb`
+    return `${(suggestion.balance / 10 ** 8).toFixed(3)} CKB`
   }
   return ''
 }
@@ -288,7 +289,7 @@ const SuggestionsDropdown = ({
     <SuggestionHeading>{suggestions.length > 0 && suggestions[0].type}</SuggestionHeading>
     {suggestions
       .slice(0, expandSuggestions ? suggestions.length : 3)
-      .filter(suggestion => suggestion.type !== 'Error')
+      .filter(suggestion => suggestion.type !== 'Searching fail!')
       .map(suggestion => {
         return (
           <SuggestionButton
@@ -302,13 +303,7 @@ const SuggestionsDropdown = ({
         )
       })}
     {suggestions.length > 3 && !expandSuggestions && (
-      <SuggestionExpand
-        onClick={() => {
-          setExpandSuggestions(true)
-        }}
-      >
-        More
-      </SuggestionExpand>
+      <SuggestionExpand onClick={() => setExpandSuggestions(true)}>More</SuggestionExpand>
     )}
   </SuggestionsPanel>
 )

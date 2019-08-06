@@ -113,7 +113,7 @@ export const SuggestionButton = styled.button`
   text-align: left;
   padding: 4px 18px;
   overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap;
   color: grey;
   display: flex;
   flex-flow: row;
