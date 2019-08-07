@@ -64,8 +64,8 @@
       "pending_reward": "待发奖励",
       "code_hash": "Code Hash",
       "args": "Args",
-      "confirmation": "确认数",
-      "confirmations": "确认数",
+      "confirmation": "确认区块",
+      "confirmations": "确认区块",
       "unable_decode_address": "地址解析失败",
       "pending_reward_tooltip": "区块奖励与交易费将在11个区块后发送给矿工，阅读共识协议了解更多信息！"
     },
