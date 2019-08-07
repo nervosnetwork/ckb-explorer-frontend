@@ -11,7 +11,7 @@ describe('Number methods tests', () => {
       data_name: 'hello',
       data_value: 'world'
     }
-    const result: Data = toCamelcase(data)
+    const result: Data | null = toCamelcase(data)
     expect(result).toStrictEqual({"dataName": "hello", "dataValue": "world"})
   })
 
@@ -30,7 +30,7 @@ describe('Number methods tests', () => {
         b_value: 'b',
       }
     }
-    const result: Data = toCamelcase(data)
+    const result: Data | null = toCamelcase(data)
     expect(result).toStrictEqual({"dataName": "hello", "dataValue": {"aValue": "a", "bValue": "b"}})
   })
 })
