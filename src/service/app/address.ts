@@ -36,7 +36,7 @@ export const getTipBlockNumber = (dispatch: AppDispatch) => {
       dispatch({
         type: AppActions.UpdateTipBlockNumber,
         payload: {
-          tipBlockNumber: parseInt(wrapper.attributes.tip_block_number, 10),
+          tipBlockNumber: parseInt(wrapper.attributes.tipBlockNumber, 10),
         },
       })
     }

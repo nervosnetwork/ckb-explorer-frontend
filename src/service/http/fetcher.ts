@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import CONFIG from '../../config'
 import { CellType } from '../../utils/const'
+import { toCamelcase } from '../../utils/util'
 
 const baseURL = `${CONFIG.API_URL}/api/v1/`
 
@@ -14,7 +15,9 @@ export const axiosIns = axios.create({
 })
 
 export const fetchBlocks = () => {
-  return axiosIns.get('blocks').then((res: AxiosResponse) => res.data)
+  return axiosIns
+    .get('blocks')
+    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Block>[]>(res.data.data))
 }
 
 export const fetchBlockList = (page: number, size: number) => {
@@ -82,7 +85,9 @@ export const fetchSearchResult = (param: string) => {
 }
 
 export const fetchStatistics = () => {
-  return axiosIns.get('statistics').then((res: AxiosResponse) => res.data.data)
+  return axiosIns
+    .get('statistics')
+    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Statistics>>(res.data.data))
 }
 
 export const fetchStatisticInfo = (infoName: string) => {

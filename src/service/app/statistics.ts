@@ -13,7 +13,7 @@ export const getStatistics = (dispatch: AppDispatch) => {
       },
     })
   }
-  fetchStatistics().then((wrapper: Response.Wrapper<State.Statistics>) => {
+  fetchStatistics().then((wrapper: Response.Wrapper<State.Statistics> | null) => {
     if (wrapper) {
       dispatch({
         type: PageActions.UpdateStatistics,
