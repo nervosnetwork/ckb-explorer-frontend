@@ -31,7 +31,7 @@ export const getAddressInfo = (hash: string, dispatch: any) => {
 }
 
 export const getTipBlockNumber = (dispatch: AppDispatch) => {
-  fetchTipBlockNumber().then((wrapper: Response.Wrapper<State.Statistics>) => {
+  fetchTipBlockNumber().then((wrapper: Response.Wrapper<State.Statistics> | null) => {
     if (wrapper) {
       dispatch({
         type: AppActions.UpdateTipBlockNumber,

@@ -95,15 +95,15 @@ declare namespace State {
 
   export interface BlockchainInfo {
     blockchain_info: {
-      is_initial_block_download: boolean
+      isInitialBlockDownload: boolean
       epoch: string
       difficulty: string
-      median_time: string
+      medianTime: string
       chain: string
       alerts: {
         id: string
         message: string
-        notice_until: string
+        noticeNntil: string
         priority: string
       }[]
     }
@@ -117,14 +117,14 @@ declare namespace State {
   }
 
   export interface StatisticsChart {
-    hash_rate: {
-      block_number: number
-      hash_rate: string
+    hashRate: {
+      blockNumber: number
+      hashRate: string
     }[]
     difficulty: {
-      block_number: number
+      blockNumber: number
       difficulty: number
-      epoch_number: number
+      epochNumber: number
     }[]
   }
 

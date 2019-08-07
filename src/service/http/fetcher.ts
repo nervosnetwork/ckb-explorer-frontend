@@ -101,17 +101,25 @@ export const fetchStatisticInfo = (infoName: string) => {
 }
 
 export const fetchTipBlockNumber = () => {
-  return fetchStatisticInfo('tip_block_number').then(wrapper => wrapper.data)
+  return fetchStatisticInfo('tip_block_number').then(wrapper =>
+    toCamelcase<Response.Wrapper<State.Statistics>>(wrapper.data),
+  )
 }
 
 export const fetchBlockchainInfo = () => {
-  return fetchStatisticInfo('blockchain_info').then(wrapper => wrapper.data)
+  return fetchStatisticInfo('blockchain_info').then(wrapper =>
+    toCamelcase<Response.Wrapper<State.BlockchainInfo>>(wrapper.data),
+  )
 }
 
 export const fetchStatisticsChart = () => {
-  return axiosIns('/statistic_info_charts').then((res: AxiosResponse) => res.data.data)
+  return axiosIns('/statistic_info_charts').then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticsChart>>(res.data.data),
+  )
 }
 
 export const fetchNodeVersion = () => {
-  return axiosIns('/nets/version').then((res: AxiosResponse) => res.data.data)
+  return axiosIns('/nets/version').then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.NodeVersion>>(res.data.data),
+  )
 }

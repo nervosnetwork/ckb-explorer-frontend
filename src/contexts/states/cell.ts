@@ -1,13 +1,13 @@
 export const initCell = {
   lock: {
-    code_hash: '',
+    codeHash: '',
     args: [],
-    hash_type: '',
+    hashType: '',
   },
   type: {
-    code_hash: '',
+    codeHash: '',
     args: [],
-    hash_type: '',
+    hashType: '',
   },
   data: {
     data: '',
