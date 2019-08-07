@@ -49,3 +49,11 @@ export enum BlockListPageParams {
   PageSize = 25,
   MaxPageSize = 100,
 }
+
+export enum SuggestionType {
+  Address = 'Address',
+  BlockHash = 'Block Hash',
+  LockHash = 'Lock Hash',
+  Transaction = 'Transaction',
+  Error = 'Searching fail !',
+}
