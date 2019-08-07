@@ -5,6 +5,7 @@ export const parseNumber = (value: number | string, radix?: number) => {
     }
     return Number.isNaN(parseFloat(value)) ? 0 : parseFloat(value)
   }
+  if (!value) return 0
   return value
 }
 
