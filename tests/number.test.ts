@@ -1,4 +1,4 @@
-import { parseHashRate, parseNumber, localeNumberString } from '../src/utils/number'
+import { parseNumber, localeNumberString } from '../src/utils/number'
 
 describe('Number methods tests', () => {
 
