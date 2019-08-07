@@ -23,7 +23,7 @@ import {
   generateLockHashSuggestion,
   generateBlockHashSuggestion,
 } from '../../utils/util'
-
+import { addPrefixForHash } from '../../utils/string'
 import i18n from '../../utils/i18n'
 import { HttpErrorCode, SearchSuggestionType, SEARCH_DEBOUNCE_INTERVAL } from '../../utils/const'
 import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
@@ -69,7 +69,7 @@ const handleSearchResult = ({
         },
       })
     }
-    fetchSearchResult(searchTextCorrection(query))
+    fetchSearchResult(addPrefixForHash(query))
       .then((response: any) => {
         const input: any = inputElement.current!
         input.value = ''
