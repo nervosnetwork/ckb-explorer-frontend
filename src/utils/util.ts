@@ -33,11 +33,10 @@ export const formatConfirmation = (confirmation: number | undefined) => {
 }
 
 export const isValidReactNode = (node: ReactNode) => {
-  if (node === undefined || node === null) return false
   if (node instanceof Array) {
-    return node.reduce((current, item) => (current ? true : !!item))
+    return node.findIndex(item => !!item) > -1
   }
-  return true
+  return !!node
 }
 
 export default {
