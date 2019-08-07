@@ -4,7 +4,9 @@
       "copied": "已复制",
       "detail": "详情",
       "overview": "总概",
-      "view_all": "查看全部"
+      "view_all": "查看全部",
+      "minute": "分钟",
+      "second_ago": "秒以前"
     },
     "toast": {
       "invalid_content": "请输入有效内容",

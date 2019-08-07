@@ -4,7 +4,9 @@
       "copied": "Copied",
       "detail": "Detail",
       "overview": "Overview",
-      "view_all": "View All"
+      "view_all": "View All",
+      "minute": "minutes",
+      "second_ago": "second ago"
     },
     "toast": {
       "invalid_content": "Please input valid content",
