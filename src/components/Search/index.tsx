@@ -5,7 +5,7 @@ import { fetchSearchResult } from '../../service/http/fetcher'
 import browserHistory from '../../routes/history'
 import SearchLogo from '../../assets/search.png'
 import GreenSearchLogo from '../../assets/search_green.png'
-import { searchTextCorrection } from '../../utils/string'
+import { addPrefixForHash } from '../../utils/string'
 import i18n from '../../utils/i18n'
 import { HttpErrorCode } from '../../utils/const'
 import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
@@ -51,7 +51,7 @@ const handleSearchResult = ({
         },
       })
     }
-    fetchSearchResult(searchTextCorrection(query))
+    fetchSearchResult(addPrefixForHash(query))
       .then((response: any) => {
         const input: any = inputElement.current!
         input.value = ''

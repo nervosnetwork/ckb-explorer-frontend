@@ -1,5 +1,3 @@
-import { stringInsert } from './string'
-
 export const parseHashRate = (value: number) => {
   const kv = value / 1000
   const mv = kv / 1000
@@ -44,7 +42,10 @@ export const localeNumberString = (value: number | string, radix?: number) => {
   const pointIndex = text.indexOf('.')
   let offset = pointIndex === -1 ? text.length : pointIndex
   while (offset > 3) {
-    text = stringInsert(text, offset - 3, ',')
+    text = text
+      .slice(0, offset - 3)
+      .concat(',')
+      .concat(text.slice(offset - 3))
     offset -= 3
   }
   return text
