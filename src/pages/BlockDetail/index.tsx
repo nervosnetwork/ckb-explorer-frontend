@@ -246,7 +246,7 @@ export default ({
             return (
               transaction && (
                 <TransactionItem
-                  key={transaction.transaction_hash}
+                  key={transaction.transactionHash}
                   transaction={transaction}
                   isBlock
                   isLastItem={index === blockState.transactions.length - 1}

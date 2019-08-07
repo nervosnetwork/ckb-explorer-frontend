@@ -32,14 +32,14 @@ declare namespace State {
 
   interface InputOutput {
     id: number
-    address_hash: string
+    addressHash: string
     capacity: number
-    from_cellbase: boolean
-    target_block_number: number
-    base_reward: number
-    secondary_reward: number
-    commit_reward: number
-    proposal_reward: number
+    fromCellbase: boolean
+    targetBlockNumber: number
+    baseReward: number
+    secondaryReward: number
+    commitReward: number
+    proposalReward: number
     isGenesisOutput: boolean
   }
 
@@ -82,15 +82,15 @@ declare namespace State {
   }
 
   export interface Transaction {
-    transaction_hash: string
-    block_number: number
-    block_timestamp: number
-    transaction_fee: number
-    is_cellbase: boolean
-    target_block_number: number
+    transactionHash: string
+    blockNumber: number
+    blockTimestamp: number
+    transactionFee: number
+    isCellbase: boolean
+    targetBlockNumber: number
     version: number
-    display_inputs: InputOutput[]
-    display_outputs: InputOutput[]
+    displayInputs: InputOutput[]
+    displayOutputs: InputOutput[]
   }
 
   export interface BlockchainInfo {

@@ -60,7 +60,7 @@ const handleSearchResult = ({
           browserHistory.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.blockHash}`)
         } else if (data.type === SearchResultType.Transaction) {
           browserHistory.push(
-            `/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transaction_hash}`,
+            `/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transactionHash}`,
           )
         } else if (data.type === SearchResultType.Address) {
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.addressHash}`)

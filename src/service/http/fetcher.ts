@@ -45,11 +45,13 @@ export const fetchTransactionsByAddress = (address: string, page: number, page_s
         page_size,
       },
     })
-    .then((res: AxiosResponse) => res.data)
+    .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 }
 
 export const fetchTransactionByHash = (hash: string) => {
-  return axiosIns.get(`transactions/${hash}`).then((res: AxiosResponse) => res.data.data)
+  return axiosIns
+    .get(`transactions/${hash}`)
+    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Transaction>>(res.data.data))
 }
 
 export const fetchTransactionsByBlockHash = (blockHash: string, page: number, page_size: number) => {
@@ -60,7 +62,7 @@ export const fetchTransactionsByBlockHash = (blockHash: string, page: number, pa
         page_size,
       },
     })
-    .then((res: AxiosResponse) => res.data)
+    .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 }
 
 // blockParam: block hash or block number
