@@ -87,7 +87,7 @@ export const fetchSearchResult = (param: string) => {
         q: param,
       },
     })
-    .then((res: AxiosResponse) => res.data)
+    .then((res: AxiosResponse) => toCamelcase<any>(res.data))
 }
 
 export const fetchStatistics = () => {
