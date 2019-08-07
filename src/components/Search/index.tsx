@@ -63,9 +63,9 @@ const handleSearchResult = ({
             `/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transaction_hash}`,
           )
         } else if (data.type === SearchResultType.Address) {
-          browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.address_hash}`)
+          browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.addressHash}`)
         } else if (data.type === SearchResultType.LockHash) {
-          browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lock_hash}`)
+          browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lockHash}`)
         } else {
           setSearchValue(query)
           browserHistory.push(`/search/fail?q=${query}`)

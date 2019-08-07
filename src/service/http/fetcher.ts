@@ -32,7 +32,9 @@ export const fetchBlockList = (page: number, size: number) => {
 }
 
 export const fetchAddressInfo = (address: string) => {
-  return axiosIns.get(`addresses/${address}`).then((res: AxiosResponse) => res.data.data)
+  return axiosIns
+    .get(`addresses/${address}`)
+    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Address>>(res.data.data))
 }
 
 export const fetchTransactionsByAddress = (address: string, page: number, page_size: number) => {

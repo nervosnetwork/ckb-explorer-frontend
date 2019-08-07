@@ -5,7 +5,7 @@ import { getTransactionsByAddress } from './transaction'
 
 export const getAddressInfo = (hash: string, dispatch: any) => {
   fetchAddressInfo(hash)
-    .then((wrapper: Response.Wrapper<State.Address>) => {
+    .then((wrapper: Response.Wrapper<State.Address> | null) => {
       let { address } = initAddress
       if (wrapper) {
         address = {

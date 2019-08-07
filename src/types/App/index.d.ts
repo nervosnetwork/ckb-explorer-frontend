@@ -1,8 +1,8 @@
 declare namespace State {
   export interface Script {
-    code_hash: string
+    codeHash: string
     args: string[]
-    hash_type: string
+    hashType: string
   }
 
   export interface Data {
@@ -44,13 +44,13 @@ declare namespace State {
   }
 
   export interface Address {
-    address_hash: string
-    lock_hash: string
+    addressHash: string
+    lockHash: string
     balance: number
-    transactions_count: number
-    cell_consumed: number
-    lock_script: Script
-    pending_reward_blocks_count: number
+    transactionsCount: number
+    cellConsumed: number
+    lockScript: Script
+    pendingRewardBlocksCount: number
     type: 'Address' | 'LockHash' | ''
   }
 
