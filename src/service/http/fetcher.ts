@@ -63,7 +63,9 @@ export const fetchTransactionsByBlockHash = (blockHash: string, page: number, pa
 
 // blockParam: block hash or block number
 export const fetchBlock = (blockParam: string) => {
-  return axiosIns.get(`blocks/${blockParam}`).then((res: AxiosResponse) => res.data.data)
+  return axiosIns
+    .get(`blocks/${blockParam}`)
+    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Block>>(res.data.data))
 }
 
 export const fetchScript = (cell_type: CellType, script_type: 'lock_scripts' | 'type_scripts', id: string) => {
