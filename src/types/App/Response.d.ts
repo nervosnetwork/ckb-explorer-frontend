@@ -16,7 +16,7 @@ declare namespace Response {
 
   export interface Meta {
     total: number
-    page_size: number
+    pageSize: number
   }
 
   export interface Wrapper<T> {

@@ -28,7 +28,7 @@ export const fetchBlockList = (page: number, size: number) => {
         page_size: size,
       },
     })
-    .then((res: AxiosResponse) => res.data)
+    .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Block>[]>>(res.data))
 }
 
 export const fetchAddressInfo = (address: string) => {
