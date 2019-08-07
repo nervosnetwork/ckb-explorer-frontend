@@ -3,7 +3,8 @@
     "common": {
       "copied": "Copied",
       "detail": "Detail",
-      "overview": "Overview"
+      "overview": "Overview",
+      "view_all": "View All"
     },
     "toast": {
       "invalid_content": "Please input valid content",
