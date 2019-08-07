@@ -11,16 +11,6 @@ export const startEndEllipsis = (value: string, endLength = 8, startLength = 16)
   return `${value.substr(0, startLength)}...${value.substr(value.length - endLength, endLength)}`
 }
 
-export const parseLongAddressHash = (address: string) => {
-  if (address) {
-    if (address.length <= 50) {
-      return address
-    }
-    return `${address.substr(0, 25)}...${address.substr(address.length - 22, 22)}`
-  }
-  return ''
-}
-
 export const hexToUtf8 = (value: string) => {
   if (!value) return value
   const newValue = value.startsWith('0x') ? value.substring(2) : value
