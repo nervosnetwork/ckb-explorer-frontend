@@ -120,16 +120,14 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
   const { searchBarEditable } = components
 
   useEffect(() => {
+    if (inputElement.current) {
+      inputElement.current.focus()
+    }
+
     ;(async () => {
       const { attributes } = await fetchTipBlockNumber()
       setMaximumBlockHeight(attributes.tip_block_number)
     })()
-  }, [])
-
-  useEffect(() => {
-    if (inputElement.current) {
-      inputElement.current.focus()
-    }
   }, [])
 
   useEffect(() => {
@@ -296,7 +294,7 @@ const SuggestionsDropdown = ({
     <SuggestionHeading>{suggestions.length > 0 && suggestions[0].type}</SuggestionHeading>
     {suggestions
       .slice(0, expandSuggestions ? suggestions.length : 3)
-      .filter(suggestion => suggestion.type !== 'Searching fail!')
+      .filter(suggestion => suggestion.type !== 'Searching fail !')
       .map(suggestion => {
         return (
           <SuggestionButton
