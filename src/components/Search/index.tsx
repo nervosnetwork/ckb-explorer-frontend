@@ -15,7 +15,7 @@ import { fetchSearchResult, fetchTipBlockNumber } from '../../service/http/fetch
 import browserHistory from '../../routes/history'
 import SearchLogo from '../../assets/search.png'
 import GreenSearchLogo from '../../assets/search_green.png'
-import { searchTextCorrection, parseLongAddressHashMobile } from '../../utils/string'
+import { addPrefixForHash, parseLongAddressHashMobile } from '../../utils/string'
 import {
   generateBlockHeightSuggestions,
   generateTransactionSuggestion,
@@ -23,7 +23,6 @@ import {
   generateLockHashSuggestion,
   generateBlockHashSuggestion,
 } from '../../utils/util'
-import { addPrefixForHash } from '../../utils/string'
 import i18n from '../../utils/i18n'
 import { HttpErrorCode, SearchSuggestionType, SEARCH_DEBOUNCE_INTERVAL } from '../../utils/const'
 import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
@@ -134,7 +133,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
     const searchQueryTimeout = setTimeout(async () => {
       try {
         if (searchValue) {
-          const correctedSearchValue = searchTextCorrection(searchValue)
+          const correctedSearchValue = addPrefixForHash(searchValue)
           const { data } = await fetchSearchResult(correctedSearchValue)
 
           if (data.type.toLowerCase() === 'block') {
