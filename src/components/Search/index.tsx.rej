@@ -1,0 +1,159 @@
+diff a/src/components/Search/index.tsx b/src/components/Search/index.tsx	(rejected hunks)
+@@ -27,5 +27,5 @@ import {
+-import i18n from '../../utils/i18n';
+-import { HttpErrorCode, SuggestionType, SEARCH_DEBOUNCE_INTERVAL } from '../../utils/const';
+-import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer';
+-import { isMobile } from '../../utils/screen';
+-import { AppContext } from '../../contexts/providers';
++import i18n from '../../utils/i18n'
++import { HttpErrorCode, SuggestionType, SEARCH_DEBOUNCE_INTERVAL } from '../../utils/const'
++import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
++import { isMobile } from '../../utils/screen'
++import { AppContext } from '../../contexts/providers'
+@@ -156,35 +140,32 @@ const Search = ({
+-						if (data.type.toLowerCase() === 'block') {
+-							if (correctedSearchValue.slice(0, 2) === '0x') {
+-								const blockHash = generateBlockHashSuggestion(correctedSearchValue);
+-								setSearchSuggestions([ blockHash ]);
+-							} else {
+-								const blockHeights = generateBlockHeightSuggestions(
+-									parseInt(correctedSearchValue, 10),
+-									maximumBlockHeight
+-								);
+-								setSearchSuggestions(blockHeights);
+-							}
+-						} else if (data.type.toLowerCase() === 'ckb_transaction') {
+-							const transactionSuggestion = generateTransactionSuggestion(correctedSearchValue);
+-							setSearchSuggestions([ transactionSuggestion ]);
+-						} else if (data.type.toLowerCase() === 'address' && data.attributes.balance) {
+-							const addressSuggestion = generateAddressSuggestion(
+-								correctedSearchValue,
+-								data.attributes.balance
+-							);
+-							setSearchSuggestions([ addressSuggestion ]);
+-						} else if (data.type.toLowerCase() === 'lock_hash') {
+-							const lockHashSuggestion = generateLockHashSuggestion(correctedSearchValue);
+-							setSearchSuggestions([ lockHashSuggestion ]);
+-						}
+-					} else {
+-						setSearchSuggestions([]);
+-					}
+-				} catch (error) {
+-					setSearchSuggestions([
+-						{
+-							type: 'Searching fail !'
+-						}
+-					]);
+-				}
+-			}, SEARCH_DEBOUNCE_INTERVAL);
++          if (data.type.toLowerCase() === 'block') {
++            if (correctedSearchValue.slice(0, 2) === '0x') {
++              const blockHash = generateBlockHashSuggestion(correctedSearchValue)
++              setSearchSuggestions([blockHash])
++            } else {
++              const blockHeights = generateBlockHeightSuggestions(
++                parseInt(correctedSearchValue, 10),
++                maximumBlockHeight,
++              )
++              setSearchSuggestions(blockHeights)
++            }
++          } else if (data.type.toLowerCase() === 'ckb_transaction') {
++            const transactionSuggestion = generateTransactionSuggestion(correctedSearchValue)
++            setSearchSuggestions([transactionSuggestion])
++          } else if (data.type.toLowerCase() === 'address' && data.attributes.balance) {
++            const addressSuggestion = generateAddressSuggestion(correctedSearchValue, data.attributes.balance)
++            setSearchSuggestions([addressSuggestion])
++          } else if (data.type.toLowerCase() === 'lock_hash') {
++            const lockHashSuggestion = generateLockHashSuggestion(correctedSearchValue)
++            setSearchSuggestions([lockHashSuggestion])
++          }
++        } else {
++          setSearchSuggestions([])
++        }
++      } catch (error) {
++        setSearchSuggestions([
++          {
++            type: 'Searching fail !',
++          },
++        ])
++      }
++    }, SEARCH_DEBOUNCE_INTERVAL)
+@@ -221,6 +200,6 @@ const Search = ({
+-	const onSuggestionSelect = (suggestion: SearchSuggestion) => {
+-		if (suggestion.path && suggestion.type !== SuggestionType.Error) {
+-			setSearchValue('');
+-			browserHistory.push(suggestion.path);
+-		}
+-	};
++  const onSuggestionSelect = (suggestion: SearchSuggestion) => {
++    if (suggestion.path && suggestion.type !== SuggestionType.Error) {
++      setSearchValue('')
++      browserHistory.push(suggestion.path)
++    }
++  }
+@@ -283,4 +262,4 @@ interface SearchSuggestion {
+-	value?: string;
+-	balance?: number;
+-	path?: string;
+-	type: SuggestionType;
++  value?: string
++  balance?: number
++  path?: string
++  type: SuggestionType
+@@ -290,5 +269,5 @@ const generateSuggestionValue = (suggestion: SearchSuggestion) => {
+-	if (isMobile() && suggestion.type !== SuggestionType.BlockHash && suggestion.value) {
+-		return parseLongAddressHashMobile(suggestion.value);
+-	}
+-	return suggestion.value;
+-};
++  if (isMobile() && suggestion.type !== SuggestionType.BlockHash && suggestion.value) {
++    return parseLongAddressHashMobile(suggestion.value)
++  }
++  return suggestion.value
++}
+@@ -314,23 +293,22 @@ const SuggestionsDropdown = ({
+-	<SuggestionsPanel>
+-		<SuggestionHeading>{suggestions.length > 0 && suggestions[0].type}</SuggestionHeading>
+-		{suggestions
+-			.slice(0, expandSuggestions ? suggestions.length : 3)
+-			.filter((suggestion) => suggestion.type !== SuggestionType.Error)
+-			.map((suggestion) => {
+-				return (
+-					<SuggestionButton
+-						key={`${suggestion.value}${suggestions.findIndex((s) => s.value === suggestion.value)}`}
+-						type='button'
+-						onClick={() => onSuggestionSelect(suggestion)}
+-					>
+-						<SuggestionValue>{generateSuggestionValue(suggestion)}</SuggestionValue>
+-						<SuggestionBalance>{generateFormattedBalance(suggestion)}</SuggestionBalance>
+-					</SuggestionButton>
+-				);
+-			})}
+-		{suggestions.length > 3 &&
+-		!expandSuggestions && (
+-			<SuggestionExpand onClick={() => setExpandSuggestions(true)}>More</SuggestionExpand>
+-		)}
+-	</SuggestionsPanel>
+-);
++  <SuggestionsPanel>
++    <SuggestionHeading>{suggestions.length > 0 && suggestions[0].type}</SuggestionHeading>
++    {suggestions
++      .slice(0, expandSuggestions ? suggestions.length : 3)
++      .filter(suggestion => suggestion.type !== SuggestionType.Error)
++      .map(suggestion => {
++        return (
++          <SuggestionButton
++            key={`${suggestion.value}${suggestions.findIndex(s => s.value === suggestion.value)}`}
++            type="button"
++            onClick={() => onSuggestionSelect(suggestion)}
++          >
++            <SuggestionValue>{generateSuggestionValue(suggestion)}</SuggestionValue>
++            <SuggestionBalance>{generateFormattedBalance(suggestion)}</SuggestionBalance>
++          </SuggestionButton>
++        )
++      })}
++    {suggestions.length > 3 && !expandSuggestions && (
++      <SuggestionExpand onClick={() => setExpandSuggestions(true)}>More</SuggestionExpand>
++    )}
++  </SuggestionsPanel>
++)

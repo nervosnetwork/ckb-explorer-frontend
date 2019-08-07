@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { MAX_CONFIRMATION } from './const'
+import { MAX_CONFIRMATION, SearchSuggestionType } from './const'
 import i18n from './i18n'
 import { parseNumber } from './number'
 
@@ -64,7 +64,7 @@ export const generateBlockHeightSuggestions = (n: number, maxBlockHeight: number
     possibleBlockHeights.push({
       value: n.toString(),
       path: `/block/${n}`,
-      type: 'Block Height',
+      type: SearchSuggestionType.BlockHeight,
     })
   }
 
@@ -74,7 +74,7 @@ export const generateBlockHeightSuggestions = (n: number, maxBlockHeight: number
       possibleBlockHeights.push({
         value: possibleBlockHeight.toString(),
         path: `/block/${possibleBlockHeight}`,
-        type: 'Block Height',
+        type: SearchSuggestionType.BlockHeight,
       })
     }
   }
@@ -85,26 +85,26 @@ export const generateBlockHeightSuggestions = (n: number, maxBlockHeight: number
 export const generateTransactionSuggestion = (tx: string) => ({
   value: tx,
   path: `/transaction/${tx}`,
-  type: 'Transaction',
+  type: SearchSuggestionType.Transaction,
 })
 
 export const generateAddressSuggestion = (address: string, balance: number) => ({
   value: address,
   balance,
   path: `/address/${address}`,
-  type: 'Address',
+  type: SearchSuggestionType.Address,
 })
 
 export const generateLockHashSuggestion = (hash: string) => ({
   value: hash,
   path: `/address/${hash}`,
-  type: 'Lock Hash',
+  type: SearchSuggestionType.LockHash,
 })
 
 export const generateBlockHashSuggestion = (hash: string) => ({
   value: hash,
   path: `/block/${hash}`,
-  type: 'Block Hash',
+  type: SearchSuggestionType.BlockHash,
 })
 
 export default {

@@ -1,0 +1,12 @@
+diff a/src/utils/const.ts b/src/utils/const.ts	(rejected hunks)
+@@ -54,5 +54,5 @@ export enum SuggestionType {
+-	Address = 'Address',
+-	BlockHash = 'Block Hash',
+-	LockHash = 'Lock Hash',
+-	Transaction = 'Transaction',
+-	Error = 'Searching fail !'
++  Address = 'Address',
++  BlockHash = 'Block Hash',
++  LockHash = 'Lock Hash',
++  Transaction = 'Transaction',
++  Error = 'Searching fail !',

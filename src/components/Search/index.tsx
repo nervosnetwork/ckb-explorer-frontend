@@ -25,7 +25,7 @@ import {
 } from '../../utils/util'
 
 import i18n from '../../utils/i18n'
-import { HttpErrorCode, SuggestionType, SEARCH_DEBOUNCE_INTERVAL } from '../../utils/const'
+import { HttpErrorCode, SearchSuggestionType, SEARCH_DEBOUNCE_INTERVAL } from '../../utils/const'
 import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers'
@@ -164,7 +164,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
       } catch (error) {
         setSearchSuggestions([
           {
-            type: 'Searching fail !',
+            type: SearchSuggestionType.Error,
           },
         ])
       }
@@ -198,7 +198,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
   }
 
   const onSuggestionSelect = (suggestion: SearchSuggestion) => {
-    if (suggestion.path && suggestion.type !== SuggestionType.Error) {
+    if (suggestion.path && suggestion.type !== SearchSuggestionType.Error) {
       setSearchValue('')
       browserHistory.push(suggestion.path)
     }
@@ -262,11 +262,11 @@ interface SearchSuggestion {
   value?: string
   balance?: number
   path?: string
-  type: SuggestionType
+  type: SearchSuggestionType
 }
 
 const generateSuggestionValue = (suggestion: SearchSuggestion) => {
-  if (isMobile() && suggestion.type !== SuggestionType.BlockHash && suggestion.value) {
+  if (isMobile() && suggestion.type !== SearchSuggestionType.BlockHash && suggestion.value) {
     return parseLongAddressHashMobile(suggestion.value)
   }
   return suggestion.value
@@ -294,7 +294,7 @@ const SuggestionsDropdown = ({
     <SuggestionHeading>{suggestions.length > 0 && suggestions[0].type}</SuggestionHeading>
     {suggestions
       .slice(0, expandSuggestions ? suggestions.length : 3)
-      .filter(suggestion => suggestion.type !== SuggestionType.Error)
+      .filter(suggestion => suggestion.type !== SearchSuggestionType.Error)
       .map(suggestion => {
         return (
           <SuggestionButton
