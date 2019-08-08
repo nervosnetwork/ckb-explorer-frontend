@@ -193,3 +193,36 @@ export const HeaderVersionPanel = styled.div`
     }
   }
 `
+
+export const HeaderLanguagePanel = styled.div`
+  width: 75px;
+  height: 31px;
+  padding: 0 8px;
+  margin-left: 35px;
+  border-radius: 7px;
+  box-shadow: 0 2px 4px 0 rgba(43, 43, 43, 0.3);
+  border: solid 1px #888888;
+
+  .current__language {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    > div {
+      color: white;
+      font-size: 14px;
+    }
+
+    > img {
+      width: 8px;
+      height: 6px;
+    }
+  }
+
+  .select__language {
+    > div {
+      color: white;
+      font-size: 14px;
+    }
+  }
+`

@@ -13,6 +13,7 @@ import {
   HeaderVersionPanel,
   HeaderTestnetPanel,
   HeaderSearchMobilePanel,
+  HeaderLanguagePanel,
 } from './styled'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers/index'
@@ -125,6 +126,14 @@ export default ({
             <HeaderVersionPanel>
               <div>{handleVersion(nodeVersion)}</div>
             </HeaderVersionPanel>
+            <HeaderLanguagePanel>
+              <div className="current__language">
+                <div>EN</div>
+              </div>
+              <div className="select__language">
+                <div>中（简）</div>
+              </div>
+            </HeaderLanguagePanel>
           </HeaderTestnetPanel>
         </HeaderDiv>
       </>
