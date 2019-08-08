@@ -57,11 +57,6 @@ export const TransactionCellDetailCopyButtonPanel = styled.div`
   justify-content: space-around;
   padding: 0 20px;
 
-  @media (max-width: 700px) {
-    width: 75px;
-    height: 20px;
-  }
-
   > div {
     color: white;
     font-size: 20px;
@@ -70,5 +65,20 @@ export const TransactionCellDetailCopyButtonPanel = styled.div`
   > img {
     width: 24px;
     height: 24px;
+  }
+
+  @media (max-width: 700px) {
+    width: 75px;
+    height: 20px;
+    padding: 0 10px;
+
+    > div {
+      font-size: 12px;
+    }
+
+    > img {
+      width: 14px;
+      height: 14px;
+    }
   }
 `
