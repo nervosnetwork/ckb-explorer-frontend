@@ -4,6 +4,7 @@ import Search from '../Search'
 import LogoIcon from '../../assets/ckb_logo.png'
 import MobileLogoIcon from '../../assets/mobile_ckb_logo.png'
 import SearchLogo from '../../assets/search.png'
+import SelectIcon from '../../assets/current_selected.png'
 import i18n from '../../utils/i18n'
 import {
   HeaderDiv,
@@ -129,9 +130,10 @@ export default ({
             <HeaderLanguagePanel>
               <div className="current__language">
                 <div>EN</div>
+                <img src={SelectIcon} alt="select icon" />
               </div>
               <div className="select__language">
-                <div>中（简）</div>
+                <div>中(简)</div>
               </div>
             </HeaderLanguagePanel>
           </HeaderTestnetPanel>

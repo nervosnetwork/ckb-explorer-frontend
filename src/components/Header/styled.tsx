@@ -196,14 +196,17 @@ export const HeaderVersionPanel = styled.div`
 
 export const HeaderLanguagePanel = styled.div`
   width: 75px;
-  height: 31px;
   padding: 0 8px;
   margin-left: 35px;
   border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   box-shadow: 0 2px 4px 0 rgba(43, 43, 43, 0.3);
   border: solid 1px #888888;
 
   .current__language {
+    height: 31px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -220,6 +223,10 @@ export const HeaderLanguagePanel = styled.div`
   }
 
   .select__language {
+    height: 31px;
+    line-height: 31px;
+    display: none;
+    border-top: 1px solid #f7f7f7;
     > div {
       color: white;
       font-size: 14px;
