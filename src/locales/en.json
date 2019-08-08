@@ -114,7 +114,11 @@
       "first": "First",
       "last": "Last",
       "goto": "Goto",
-      "page": "Page"
+      "page": "Page",
+      "total_page": "Total Page",
+      "end_page": "",
+      "current_page": "Page",
+      "of_page": "of"
     }
   }
 }

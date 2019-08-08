@@ -114,7 +114,11 @@
       "first": "首页",
       "last": "尾页",
       "goto": "前往",
-      "page": "页"
+      "page": "页",
+      "total_page": "共",
+      "end_page": "页",
+      "current_page": "第",
+      "of_page": "页，共"
     }
   }
 }
