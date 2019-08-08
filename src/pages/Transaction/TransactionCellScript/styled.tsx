@@ -50,14 +50,25 @@ export const TransactionCellDetailCopyButtonPanel = styled.div`
   cursor: pointer;
   width: 150px;
   height: 40px;
+  background: #3cc68a;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 20px;
 
   @media (max-width: 700px) {
     width: 75px;
     height: 20px;
   }
 
+  > div {
+    color: white;
+    font-size: 20px;
+  }
+
   > img {
-    width: 100%;
-    height: 100%;
+    width: 24px;
+    height: 24px;
   }
 `

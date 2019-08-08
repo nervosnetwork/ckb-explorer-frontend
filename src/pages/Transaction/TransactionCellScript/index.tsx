@@ -3,7 +3,7 @@ import { fetchCellData, fetchScript } from '../../../service/http/fetcher'
 import { CellState, CellType } from '../../../utils/const'
 import { hexToUtf8 } from '../../../utils/string'
 import TransactionDetailPanel, { TransactionCellDetailCopyButtonPanel } from './styled'
-import CopyIcon from '../../../assets/transaction_detail_copy.png'
+import CopyIcon from '../../../assets/copy_green.png'
 import i18n from '../../../utils/i18n'
 import { copyElementValue } from '../../../utils/util'
 import { AppDispatch, AppActions } from '../../../contexts/providers/reducer'
@@ -85,6 +85,7 @@ export default ({
       </div>
       <div className="transaction__detail_copy">
         <TransactionCellDetailCopyButtonPanel onClick={onClickCopy}>
+          <div>{i18n.t('common.copy')}</div>
           <img src={CopyIcon} alt="copy" />
         </TransactionCellDetailCopyButtonPanel>
       </div>
