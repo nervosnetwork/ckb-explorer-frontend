@@ -39,11 +39,11 @@ export const getTransactionsByAddress = (hash: string, page: number, size: numbe
 
 export const getTransactionByHash = (hash: string, replace: any, dispatch: AppDispatch) => {
   fetchTransactionByHash(hash)
-    .then((wrapper: Response.Wrapper<State.Transaction>) => {
+    .then((wrapper: Response.Wrapper<State.Transaction> | null) => {
       if (wrapper) {
         const transactionValue = wrapper.attributes
-        if (transactionValue.display_outputs && transactionValue.display_outputs.length > 0) {
-          transactionValue.display_outputs[0].isGenesisOutput = transactionValue.block_number === 0
+        if (transactionValue.displayOutputs && transactionValue.displayOutputs.length > 0) {
+          transactionValue.displayOutputs[0].isGenesisOutput = transactionValue.blockNumber === 0
         }
         dispatch({
           type: PageActions.UpdateTransaction,

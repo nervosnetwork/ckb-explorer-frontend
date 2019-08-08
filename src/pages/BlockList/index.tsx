@@ -76,7 +76,7 @@ const getTableContentDatas = (block: State.Block) => {
     },
     {
       width: '14%',
-      content: `${block.transactions_count}`,
+      content: `${block.transactionsCount}`,
     },
     {
       width: '20%',
@@ -84,7 +84,7 @@ const getTableContentDatas = (block: State.Block) => {
     },
     {
       width: '37%',
-      content: block.miner_hash,
+      content: block.minerHash,
     },
     {
       width: '15%',
@@ -101,7 +101,7 @@ const BlockCardItems = (block: State.Block) => {
     },
     {
       title: i18n.t('home.transactions'),
-      content: localeNumberString(block.transactions_count),
+      content: localeNumberString(block.transactionsCount),
     },
     {
       title: i18n.t('home.block_reward'),
@@ -109,7 +109,7 @@ const BlockCardItems = (block: State.Block) => {
     },
     {
       title: i18n.t('block.miner'),
-      content: <BlockValueItem value={startEndEllipsis(block.miner_hash, 13)} to={`/address/${block.miner_hash}`} />,
+      content: <BlockValueItem value={startEndEllipsis(block.minerHash, 13)} to={`/address/${block.minerHash}`} />,
     },
     {
       title: i18n.t('home.time'),
@@ -172,7 +172,7 @@ export default ({
                         const key = index
                         return (
                           <Fragment key={key}>
-                            {data.content === block.miner_hash ? (
+                            {data.content === block.minerHash ? (
                               <TableMinerContentItem width={data.width} content={data.content} />
                             ) : (
                               <TableContentItem width={data.width} content={data.content} to={data.to} />

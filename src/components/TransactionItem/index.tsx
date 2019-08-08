@@ -30,7 +30,7 @@ const handleTransactionHashText = (transactionHash: string) => {
 const handleCellCapacity = (cells: State.InputOutput[], address?: string) => {
   if (!cells || cells.length === 0) return 0
   return cells
-    .filter((cell: State.InputOutput) => cell.address_hash === address)
+    .filter((cell: State.InputOutput) => cell.addressHash === address)
     .map((cell: State.InputOutput) => parseNumber(cell.capacity))
     .reduce((previous: number, current: number) => {
       return previous + current
@@ -40,7 +40,7 @@ const handleCellCapacity = (cells: State.InputOutput[], address?: string) => {
 const handleCapacityChange = (transaction: State.Transaction, address?: string) => {
   if (!transaction) return 0
   return (
-    handleCellCapacity(transaction.display_outputs, address) - handleCellCapacity(transaction.display_inputs, address)
+    handleCellCapacity(transaction.displayOutputs, address) - handleCellCapacity(transaction.displayInputs, address)
   )
 }
 
@@ -61,12 +61,12 @@ const TransactionItem = ({
     <TransactionPanel isLastItem={isLastItem}>
       <TransactionHashBlockPanel>
         <div className="transaction_item__content">
-          <Link to={`/transaction/${transaction.transaction_hash}`}>
-            <code className="transaction_item__hash">{handleTransactionHashText(transaction.transaction_hash)}</code>
+          <Link to={`/transaction/${transaction.transactionHash}`}>
+            <code className="transaction_item__hash">{handleTransactionHashText(transaction.transactionHash)}</code>
           </Link>
           {!isBlock && (
             <div className="transaction_item__block">
-              {`(Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}
+              {`(Block ${localeNumberString(transaction.blockNumber)})  ${parseDate(transaction.blockTimestamp)}`}
             </div>
           )}
         </div>
@@ -74,7 +74,7 @@ const TransactionItem = ({
       <TransactionInputOutputPanel>
         <div className="transaction_item__input">
           <TransactionCellList
-            cells={transaction.display_inputs}
+            cells={transaction.displayInputs}
             showSize={MAX_CELL_SHOW_SIZE}
             transaction={transaction}
             render={cell => {
@@ -85,7 +85,7 @@ const TransactionItem = ({
         <img src={isMobile() ? DownArrowIcon : RightArrowIcon} alt="input and output" />
         <div className="transaction_item__output">
           <TransactionCellList
-            cells={transaction.display_outputs}
+            cells={transaction.displayOutputs}
             showSize={MAX_CELL_SHOW_SIZE}
             transaction={transaction}
             render={cell => (

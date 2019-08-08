@@ -23,4 +23,5 @@ describe('Number methods tests', () => {
     expect(localeNumberString('aswqda')).toBe('0')
     expect(localeNumberString('false')).toBe('0')
   })
+
 })

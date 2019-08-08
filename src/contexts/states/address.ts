@@ -1,15 +1,15 @@
 export const initAddressState: State.AddressState = {
   address: {
-    address_hash: '',
-    lock_hash: '',
+    addressHash: '',
+    lockHash: '',
     balance: 0,
-    transactions_count: 0,
-    pending_reward_blocks_count: 0,
-    cell_consumed: 0,
-    lock_script: {
+    transactionsCount: 0,
+    pendingRewardBlocksCount: 0,
+    cellConsumed: 0,
+    lockScript: {
       args: [],
-      code_hash: '',
-      hash_type: '',
+      codeHash: '',
+      hashType: '',
     },
     type: '',
   },

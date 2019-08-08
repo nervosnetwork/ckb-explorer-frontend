@@ -15,7 +15,7 @@ export default ({
   dispatch: AppDispatch
 }) => {
   const cells = inputs || outputs || []
-  const hideCapacityTitle = inputs && inputs.length > 0 && inputs[0].from_cellbase
+  const hideCapacityTitle = inputs && inputs.length > 0 && inputs[0].fromCellbase
   return (
     <TransactionCellListPanel>
       <TransactionCellListTitlePanel>

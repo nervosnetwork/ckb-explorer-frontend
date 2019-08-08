@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import camelcaseKeys from 'camelcase-keys'
 import { MAX_CONFIRMATION } from './const'
 import i18n from './i18n'
 
@@ -17,6 +18,21 @@ export const copyElementValue = (component: any) => {
 
 export const shannonToCkb = (value: number) => {
   return value / 10 ** 8
+}
+
+export const toCamelcase = <T>(object: any): T | null => {
+  try {
+    return JSON.parse(
+      JSON.stringify(
+        camelcaseKeys(object, {
+          deep: true,
+        }),
+      ),
+    ) as T
+  } catch (error) {
+    console.error(error)
+  }
+  return null
 }
 
 export const formatConfirmation = (confirmation: number | undefined) => {
@@ -42,6 +58,7 @@ export const isValidReactNode = (node: ReactNode) => {
 export default {
   copyElementValue,
   shannonToCkb,
+  toCamelcase,
   formatConfirmation,
   isValidReactNode,
 }

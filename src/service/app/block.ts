@@ -28,7 +28,7 @@ export const getBlockTransactions = (hash: string, page: number, size: number, d
 // blockParam: block hash or block number
 export const getBlock = (blockParam: string, page: number, size: number, dispatch: AppDispatch, replace: any) => {
   fetchBlock(blockParam)
-    .then((wrapper: Response.Wrapper<State.Block>) => {
+    .then((wrapper: Response.Wrapper<State.Block> | null) => {
       if (wrapper) {
         const block = wrapper.attributes
         dispatch({
@@ -37,7 +37,7 @@ export const getBlock = (blockParam: string, page: number, size: number, dispatc
             block,
           },
         })
-        getBlockTransactions(block.block_hash, page, size, dispatch)
+        getBlockTransactions(block.blockHash, page, size, dispatch)
       } else {
         replace(`/search/fail?q=${blockParam}`)
       }
@@ -58,10 +58,9 @@ export const getLatestBlocks = (dispatch: AppDispatch) => {
       },
     })
   }
-  fetchBlocks().then(response => {
-    const { data } = response as Response.Response<Response.Wrapper<State.Block>[]>
-    if (data) {
-      const blocks = data.map((wrapper: Response.Wrapper<State.Block>) => {
+  fetchBlocks().then((wrappers: Response.Wrapper<State.Block>[] | null) => {
+    if (wrappers) {
+      const blocks = wrappers.map((wrapper: Response.Wrapper<State.Block>) => {
         return wrapper.attributes
       })
       dispatch({

@@ -57,15 +57,15 @@ const handleSearchResult = ({
         input.value = ''
         const { data } = response
         if (data.type === SearchResultType.Block) {
-          browserHistory.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.block_hash}`)
+          browserHistory.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.blockHash}`)
         } else if (data.type === SearchResultType.Transaction) {
           browserHistory.push(
-            `/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transaction_hash}`,
+            `/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transactionHash}`,
           )
         } else if (data.type === SearchResultType.Address) {
-          browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.address_hash}`)
+          browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.addressHash}`)
         } else if (data.type === SearchResultType.LockHash) {
-          browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lock_hash}`)
+          browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lockHash}`)
         } else {
           setSearchValue(query)
           browserHistory.push(`/search/fail?q=${query}`)

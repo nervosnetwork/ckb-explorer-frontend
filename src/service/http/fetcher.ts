@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import CONFIG from '../../config'
 import { CellType } from '../../utils/const'
+import { toCamelcase } from '../../utils/util'
 
 const baseURL = `${CONFIG.API_URL}/api/v1/`
 
@@ -14,7 +15,9 @@ export const axiosIns = axios.create({
 })
 
 export const fetchBlocks = () => {
-  return axiosIns.get('blocks').then((res: AxiosResponse) => res.data)
+  return axiosIns
+    .get('blocks')
+    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Block>[]>(res.data.data))
 }
 
 export const fetchBlockList = (page: number, size: number) => {
@@ -25,11 +28,13 @@ export const fetchBlockList = (page: number, size: number) => {
         page_size: size,
       },
     })
-    .then((res: AxiosResponse) => res.data)
+    .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Block>[]>>(res.data))
 }
 
 export const fetchAddressInfo = (address: string) => {
-  return axiosIns.get(`addresses/${address}`).then((res: AxiosResponse) => res.data.data)
+  return axiosIns
+    .get(`addresses/${address}`)
+    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Address>>(res.data.data))
 }
 
 export const fetchTransactionsByAddress = (address: string, page: number, page_size: number) => {
@@ -40,11 +45,13 @@ export const fetchTransactionsByAddress = (address: string, page: number, page_s
         page_size,
       },
     })
-    .then((res: AxiosResponse) => res.data)
+    .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 }
 
 export const fetchTransactionByHash = (hash: string) => {
-  return axiosIns.get(`transactions/${hash}`).then((res: AxiosResponse) => res.data.data)
+  return axiosIns
+    .get(`transactions/${hash}`)
+    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Transaction>>(res.data.data))
 }
 
 export const fetchTransactionsByBlockHash = (blockHash: string, page: number, page_size: number) => {
@@ -55,12 +62,14 @@ export const fetchTransactionsByBlockHash = (blockHash: string, page: number, pa
         page_size,
       },
     })
-    .then((res: AxiosResponse) => res.data)
+    .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 }
 
 // blockParam: block hash or block number
 export const fetchBlock = (blockParam: string) => {
-  return axiosIns.get(`blocks/${blockParam}`).then((res: AxiosResponse) => res.data.data)
+  return axiosIns
+    .get(`blocks/${blockParam}`)
+    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Block>>(res.data.data))
 }
 
 export const fetchScript = (cell_type: CellType, script_type: 'lock_scripts' | 'type_scripts', id: string) => {
@@ -78,11 +87,13 @@ export const fetchSearchResult = (param: string) => {
         q: param,
       },
     })
-    .then((res: AxiosResponse) => res.data)
+    .then((res: AxiosResponse) => toCamelcase<any>(res.data))
 }
 
 export const fetchStatistics = () => {
-  return axiosIns.get('statistics').then((res: AxiosResponse) => res.data.data)
+  return axiosIns
+    .get('statistics')
+    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Statistics>>(res.data.data))
 }
 
 export const fetchStatisticInfo = (infoName: string) => {
@@ -90,17 +101,25 @@ export const fetchStatisticInfo = (infoName: string) => {
 }
 
 export const fetchTipBlockNumber = () => {
-  return fetchStatisticInfo('tip_block_number').then(wrapper => wrapper.data)
+  return fetchStatisticInfo('tip_block_number').then(wrapper =>
+    toCamelcase<Response.Wrapper<State.Statistics>>(wrapper.data),
+  )
 }
 
 export const fetchBlockchainInfo = () => {
-  return fetchStatisticInfo('blockchain_info').then(wrapper => wrapper.data)
+  return fetchStatisticInfo('blockchain_info').then(wrapper =>
+    toCamelcase<Response.Wrapper<State.BlockchainInfo>>(wrapper.data),
+  )
 }
 
 export const fetchStatisticsChart = () => {
-  return axiosIns('/statistic_info_charts').then((res: AxiosResponse) => res.data.data)
+  return axiosIns('/statistic_info_charts').then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticsChart>>(res.data.data),
+  )
 }
 
 export const fetchNodeVersion = () => {
-  return axiosIns('/nets/version').then((res: AxiosResponse) => res.data.data)
+  return axiosIns('/nets/version').then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.NodeVersion>>(res.data.data),
+  )
 }

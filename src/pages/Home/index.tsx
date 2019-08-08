@@ -111,7 +111,7 @@ const getTableContentDatas = (block: State.Block) => {
     },
     {
       width: '14%',
-      content: `${block.transactions_count}`,
+      content: `${block.transactionsCount}`,
     },
     {
       width: '20%',
@@ -119,7 +119,7 @@ const getTableContentDatas = (block: State.Block) => {
     },
     {
       width: '37%',
-      content: block.miner_hash,
+      content: block.minerHash,
     },
     {
       width: '15%',
@@ -136,24 +136,24 @@ const blockchainDatas = (statistics: State.Statistics) => {
   return [
     {
       name: i18n.t('blockchain.best_block'),
-      value: localeNumberString(statistics.tip_block_number),
+      value: localeNumberString(statistics.tipBlockNumber),
       tip: i18n.t('blockchain.best_block_tooltip'),
     },
     {
       name: i18n.t('block.difficulty'),
-      value: localeNumberString(statistics.current_epoch_difficulty, 10),
+      value: localeNumberString(statistics.currentEpochDifficulty, 10),
       tip: i18n.t('blockchain.difficulty_tooltip'),
       clickable: true,
     },
     {
       name: i18n.t('blockchain.hash_rate'),
-      value: parseHashRate(statistics.hash_rate),
+      value: parseHashRate(statistics.hashRate),
       tip: i18n.t('blockchain.hash_rate_tooltip'),
       clickable: true,
     },
     {
       name: i18n.t('blockchain.average_block_time'),
-      value: parseBlockTime(statistics.current_epoch_average_block_time),
+      value: parseBlockTime(statistics.currentEpochAverageBlockTime),
       tip: i18n.t('blockchain.average_block_time_tooltip'),
     },
   ]
@@ -167,7 +167,7 @@ const blockCardItems = (block: State.Block) => {
     },
     {
       title: i18n.t('home.transactions'),
-      content: localeNumberString(block.transactions_count),
+      content: localeNumberString(block.transactionsCount),
     },
     {
       title: i18n.t('home.block_reward'),
@@ -175,7 +175,7 @@ const blockCardItems = (block: State.Block) => {
     },
     {
       title: i18n.t('block.miner'),
-      content: <BlockValueItem value={startEndEllipsis(block.miner_hash, 13)} to={`/address/${block.miner_hash}`} />,
+      content: <BlockValueItem value={startEndEllipsis(block.minerHash, 13)} to={`/address/${block.minerHash}`} />,
     },
     {
       title: i18n.t('home.time'),
@@ -238,7 +238,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
                         const key = index
                         return (
                           <React.Fragment key={key}>
-                            {data.content === block.miner_hash ? (
+                            {data.content === block.minerHash ? (
                               <TableMinerContentItem width={data.width} content={data.content} />
                             ) : (
                               <TableContentItem width={data.width} content={data.content} to={data.to} />
