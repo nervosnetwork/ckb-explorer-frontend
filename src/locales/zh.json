@@ -4,7 +4,7 @@
       "copied": "已复制",
       "copy": "复制",
       "detail": "详情",
-      "overview": "总概",
+      "overview": "概况",
       "view_all": "查看全部",
       "minute": "分钟",
       "second_ago": "秒以前"
@@ -27,7 +27,7 @@
       "best_block_tooltip": "最长链的最新区块",
       "difficulty_tooltip": "当下 Epoch 的难度",
       "hash_rate": "算力",
-      "hash_rate_tooltip": "最近500区块的平均算力",
+      "hash_rate_tooltip": "最近500个区块的平均算力",
       "average_block_time": "平均出块时间",
       "average_block_time_tooltip": "当下 Epoch 的平均出块时间"
     },
@@ -35,13 +35,13 @@
       "height": "高度",
       "transactions": "交易",
       "block_reward": "奖励 (CKB)",
-      "time": "时间",
+      "time": "时间戳",
       "more": "更多"
     },
     "footer": {
       "nervos_foundation": "Nervos 基金会",
       "about_us": "关于我们",
-      "faq": "常问问题",
+      "faq": "问答中心",
       "developer": "开发者",
       "api": "API",
       "gitHub": "GitHub",
@@ -52,7 +52,7 @@
       "telegram": "Telegram",
       "reddit": "Reddit",
       "youtube": "YouTube",
-      "forum": "论坛"
+      "forum": "Forum"
     },
     "search": {
       "empty_result": "哎呀！搜索失败，请尝试不同的关键字〜"
@@ -79,13 +79,13 @@
       "output": "输出",
       "lock_script": "Lock Script",
       "type_script": "Type Script",
-      "data": "数据",
+      "data": "Data",
       "base_reward": "基础奖励",
       "secondary_reward": "二级奖励",
       "commit_reward": "提交奖励",
       "proposal_reward": "提案奖励",
       "cellbase_help_tooltip": "区块 N 的 Cellbase 交易将作为奖励发送给区块 N-11 的出块矿工，阅读共识协议了解更多信息",
-      "capacity": "容量",
+      "capacity": "Capacity",
       "detail": "详情"
     },
     "block": {
@@ -114,7 +114,7 @@
       "first": "首页",
       "last": "尾页",
       "goto": "前往",
-      "page": "页",
+      "page": "页面",
       "total_page": "共",
       "end_page": "页",
       "current_page": "第",
