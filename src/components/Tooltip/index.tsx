@@ -52,8 +52,9 @@ interface TooltipProps {
 export default ({ show, targetElementId, width = '100%', children }: TooltipProps) => {
   const [arrowOffset, setArrowOffset] = useState(0)
   const [offset, setOffset] = useState(undefined as undefined | { x: number; y: number })
+
   useLayoutEffect(() => {
-    if (show) {
+    if (show && !offset) {
       const currentElement = document.getElementById('TooltipPanel')
       const targetElement = document.getElementById(targetElementId)
       if (currentElement && targetElement) {
@@ -61,13 +62,10 @@ export default ({ show, targetElementId, width = '100%', children }: TooltipProp
         const targetReact = targetElement.getBoundingClientRect()
         if (currentReact && targetReact) {
           setArrowOffset(targetReact.left - currentReact.left + targetReact.width / 2)
-          const yOffset = targetReact.bottom + 8 - currentReact.top
-          if (yOffset !== 0 || !offset) {
-            setOffset({
-              x: 0,
-              y: yOffset,
-            })
-          }
+          setOffset({
+            x: 0,
+            y: targetReact.bottom + 8 - currentReact.top,
+          })
         }
       }
     }
