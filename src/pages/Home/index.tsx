@@ -79,28 +79,30 @@ const parseHashRate = (hashRate: string | undefined) => {
   return hashRate ? `${localeNumberString((Number(hashRate) * 1000).toFixed(), 10)} gps` : '- -'
 }
 
-const TableTitleDatas: TableTitleData[] = [
-  {
-    title: i18n.t('home.height'),
-    width: '14%',
-  },
-  {
-    title: i18n.t('home.transactions'),
-    width: '14%',
-  },
-  {
-    title: i18n.t('home.block_reward'),
-    width: '20%',
-  },
-  {
-    title: i18n.t('block.miner'),
-    width: '37%',
-  },
-  {
-    title: i18n.t('home.time'),
-    width: '15%',
-  },
-]
+const tableTitles = () => {
+  return [
+    {
+      title: i18n.t('home.height'),
+      width: '14%',
+    },
+    {
+      title: i18n.t('home.transactions'),
+      width: '14%',
+    },
+    {
+      title: i18n.t('home.block_reward'),
+      width: '20%',
+    },
+    {
+      title: i18n.t('block.miner'),
+      width: '37%',
+    },
+    {
+      title: i18n.t('home.time'),
+      width: '15%',
+    },
+  ]
+}
 
 const getTableContentDatas = (block: State.Block) => {
   return [
@@ -225,7 +227,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
         ) : (
           <ContentTable>
             <TableTitleRow>
-              {TableTitleDatas.map((data: TableTitleData) => {
+              {tableTitles().map((data: TableTitleData) => {
                 return <TableTitleItem width={data.width} title={data.title} key={data.title} />
               })}
             </TableTitleRow>

@@ -8,10 +8,19 @@ i18n.use(initReactI18next).init({
     en,
     zh,
   },
-  fallbackLng: 'zh',
+  fallbackLng: 'en',
   interpolation: {
     escapeValue: false,
   },
 })
+
+export const changeLanguage = (lan: 'en' | 'zh') => {
+  console.log(lan)
+  if (lan.indexOf('zh') !== -1) {
+    i18n.changeLanguage('zh')
+  } else {
+    i18n.changeLanguage('en')
+  }
+}
 
 export default i18n
