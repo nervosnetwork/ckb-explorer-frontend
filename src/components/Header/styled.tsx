@@ -67,6 +67,10 @@ const HeaderMobileCommonPanel = styled.div`
   top: 0;
   z-index: 10;
   padding: 1px 20px;
+
+  @media (max-width: 320px) {
+    padding: 1px 12px;
+  }
 `
 
 export const HeaderMobilePanel = styled(HeaderMobileCommonPanel)`
@@ -189,6 +193,7 @@ export const HeaderVersionPanel = styled.div`
     width: 40px;
     font-size: 8px;
     margin-left: 4px;
+    margin-right: 40px;
     > div {
       margin-top: 3px;
     }

@@ -48,6 +48,45 @@ export const HeaderLanguagePanel = styled.div`
       font-size: 14px;
     }
   }
+
+  @media (max-width: 700px) {
+    width: 43px;
+    padding: 0 4px;
+    margin-left: 8px;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px 0 rgba(43, 43, 43, 0.3);
+    right: 20px;
+    top: 12px;
+
+    @media (max-width: 320px) {
+      right: 12px;
+    }
+
+    .current__language {
+      height: 18px;
+
+      > div {
+        color: white;
+        font-size: 9px;
+      }
+
+      > img {
+        width: 6px;
+        height: 4px;
+      }
+    }
+
+    .select__language {
+      height: 19px;
+      line-height: 19px;
+      display: ${(props: { showDropdown: boolean }) => (props.showDropdown ? 'inherit' : 'none')};
+      border-top: 1px solid #f7f7f7;
+      > div {
+        color: white;
+        font-size: 9px;
+      }
+    }
+  }
 `
 
 const showLanguage = (lan: 'en' | 'zh') => {

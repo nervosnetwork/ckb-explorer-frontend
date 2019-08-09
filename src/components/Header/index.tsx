@@ -101,6 +101,7 @@ export default ({
                 <HeaderVersionPanel>
                   <div>{handleVersion(nodeVersion)}</div>
                 </HeaderVersionPanel>
+                <Dropdown dispatch={dispatch} />
               </HeaderTestnetPanel>
             </HeaderMobileDiv>
             <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
