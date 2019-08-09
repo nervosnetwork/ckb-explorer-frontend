@@ -4,7 +4,6 @@ import Search from '../Search'
 import LogoIcon from '../../assets/ckb_logo.png'
 import MobileLogoIcon from '../../assets/mobile_ckb_logo.png'
 import SearchLogo from '../../assets/search.png'
-import SelectIcon from '../../assets/current_selected.png'
 import i18n from '../../utils/i18n'
 import {
   HeaderDiv,
@@ -14,23 +13,25 @@ import {
   HeaderVersionPanel,
   HeaderTestnetPanel,
   HeaderSearchMobilePanel,
-  HeaderLanguagePanel,
 } from './styled'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers/index'
 import { AppDispatch, ComponentActions } from '../../contexts/providers/reducer'
+import Dropdown from './Dropdown'
 
-const MenuDatas = [
-  {
-    name: i18n.t('navbar.charts'),
-    url: '/charts',
-  },
-]
+const menuDatas = () => {
+  return [
+    {
+      name: i18n.t('navbar.charts'),
+      url: '/charts',
+    },
+  ]
+}
 
 const Menus = () => {
   return (
     <div className="header__menus">
-      {MenuDatas.map(menu => {
+      {menuDatas().map(menu => {
         return (
           <Link className="header__menus__item" to={menu.url} key={menu.name}>
             {menu.name}
@@ -62,7 +63,6 @@ export default ({
   const { searchBarEditable } = components
 
   return useMemo(() => {
-    // normally rerender will not occur with useMemo
     if (isMobile(width)) {
       return (
         <>
@@ -127,15 +127,7 @@ export default ({
             <HeaderVersionPanel>
               <div>{handleVersion(nodeVersion)}</div>
             </HeaderVersionPanel>
-            <HeaderLanguagePanel>
-              <div className="current__language">
-                <div>EN</div>
-                <img src={SelectIcon} alt="select icon" />
-              </div>
-              <div className="select__language">
-                <div>中(简)</div>
-              </div>
-            </HeaderLanguagePanel>
+            <Dropdown dispatch={dispatch} />
           </HeaderTestnetPanel>
         </HeaderDiv>
       </>

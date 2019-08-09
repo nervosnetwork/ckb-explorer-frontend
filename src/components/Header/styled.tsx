@@ -180,6 +180,7 @@ export const HeaderVersionPanel = styled.div`
   color: white;
   font-size: 12px;
   margin-left: 4px;
+  margin-right: 90px;
   > div {
     margin-top: 8px;
   }
@@ -190,46 +191,6 @@ export const HeaderVersionPanel = styled.div`
     margin-left: 4px;
     > div {
       margin-top: 3px;
-    }
-  }
-`
-
-export const HeaderLanguagePanel = styled.div`
-  width: 75px;
-  padding: 0 8px;
-  margin-left: 35px;
-  border-radius: 7px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  box-shadow: 0 2px 4px 0 rgba(43, 43, 43, 0.3);
-  border: solid 1px #888888;
-
-  .current__language {
-    height: 31px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    > div {
-      color: white;
-      font-size: 14px;
-    }
-
-    > img {
-      width: 8px;
-      height: 6px;
-    }
-  }
-
-  .select__language {
-    height: 31px;
-    line-height: 31px;
-    display: none;
-    border-top: 1px solid #f7f7f7;
-    > div {
-      color: white;
-      font-size: 14px;
     }
   }
 `

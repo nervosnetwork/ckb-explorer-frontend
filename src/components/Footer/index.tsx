@@ -16,79 +16,6 @@ import { getCurrentYear } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { FooterDiv, FooterItemPanel } from './styled'
 
-const Footers = [
-  {
-    name: i18n.t('footer.nervos_foundation'),
-    items: [
-      {
-        label: i18n.t('footer.about_us'),
-        icon: AboutIcon,
-        url: 'https://www.nervos.org/',
-      },
-      {
-        label: i18n.t('footer.faq'),
-        icon: FAQIcon,
-        url: 'https://docs.nervos.org/references/faq',
-      },
-    ],
-  },
-  {
-    name: i18n.t('footer.developer'),
-    items: [
-      {
-        label: i18n.t('footer.api'),
-        icon: APIIcon,
-        url: 'https://github.com/nervosnetwork/ckb/blob/develop/rpc/README.md',
-      },
-      {
-        label: i18n.t('footer.gitHub'),
-        icon: GithubIcon,
-        url: 'https://github.com/nervosnetwork',
-      },
-      {
-        label: i18n.t('footer.whitepaper'),
-        icon: WhitepaperIcon,
-        url: 'https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0002-ckb/0002-ckb.md',
-      },
-    ],
-  },
-  {
-    name: i18n.t('footer.community'),
-    items: [
-      {
-        label: i18n.t('footer.twitter'),
-        icon: TwitterIcon,
-        url: 'https://twitter.com/nervosnetwork',
-      },
-      {
-        label: i18n.t('footer.blog'),
-        icon: BlogIcon,
-        url: 'https://medium.com/nervosnetwork',
-      },
-      {
-        label: i18n.t('footer.telegram'),
-        icon: TelegramIcon,
-        url: 'https://t.me/nervosnetwork',
-      },
-      {
-        label: i18n.t('footer.reddit'),
-        icon: RedditIcon,
-        url: 'https://www.reddit.com/r/NervosNetwork/',
-      },
-      {
-        label: i18n.t('footer.youtube'),
-        icon: YoutubeIcon,
-        url: 'https://www.youtube.com/channel/UCONuJGdMzUY0Y6jrPBOzH7A',
-      },
-      {
-        label: i18n.t('footer.forum'),
-        icon: ForumIcon,
-        url: 'https://talk.nervos.org/',
-      },
-    ],
-  },
-]
-
 const FooterItem = (link: any) => {
   return (
     <FooterItemPanel key={link.label} href={link.url} rel="noopener noreferrer" target="_blank">
@@ -101,8 +28,80 @@ const FooterItem = (link: any) => {
 }
 
 export default () => {
+  const Footers = [
+    {
+      name: i18n.t('footer.nervos_foundation'),
+      items: [
+        {
+          label: i18n.t('footer.about_us'),
+          icon: AboutIcon,
+          url: 'https://www.nervos.org/',
+        },
+        {
+          label: i18n.t('footer.faq'),
+          icon: FAQIcon,
+          url: 'https://docs.nervos.org/references/faq',
+        },
+      ],
+    },
+    {
+      name: i18n.t('footer.developer'),
+      items: [
+        {
+          label: i18n.t('footer.api'),
+          icon: APIIcon,
+          url: 'https://github.com/nervosnetwork/ckb/blob/develop/rpc/README.md',
+        },
+        {
+          label: i18n.t('footer.gitHub'),
+          icon: GithubIcon,
+          url: 'https://github.com/nervosnetwork',
+        },
+        {
+          label: i18n.t('footer.whitepaper'),
+          icon: WhitepaperIcon,
+          url: 'https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0002-ckb/0002-ckb.md',
+        },
+      ],
+    },
+    {
+      name: i18n.t('footer.community'),
+      items: [
+        {
+          label: i18n.t('footer.twitter'),
+          icon: TwitterIcon,
+          url: 'https://twitter.com/nervosnetwork',
+        },
+        {
+          label: i18n.t('footer.blog'),
+          icon: BlogIcon,
+          url: 'https://medium.com/nervosnetwork',
+        },
+        {
+          label: i18n.t('footer.telegram'),
+          icon: TelegramIcon,
+          url: 'https://t.me/nervosnetwork',
+        },
+        {
+          label: i18n.t('footer.reddit'),
+          icon: RedditIcon,
+          url: 'https://www.reddit.com/r/NervosNetwork/',
+        },
+        {
+          label: i18n.t('footer.youtube'),
+          icon: YoutubeIcon,
+          url: 'https://www.youtube.com/channel/UCONuJGdMzUY0Y6jrPBOzH7A',
+        },
+        {
+          label: i18n.t('footer.forum'),
+          icon: ForumIcon,
+          url: 'https://talk.nervos.org/',
+        },
+      ],
+    },
+  ]
+
   return useMemo(() => {
-    // normally rerender will not occur with useMemo
     return (
       <FooterDiv>
         <div className="footer__top">
@@ -133,5 +132,5 @@ export default () => {
         <div className="footer__copyright">{`Copyright © ${getCurrentYear()} Nervos Foundation. All Rights Reserved.`}</div>
       </FooterDiv>
     )
-  }, [])
+  }, [Footers])
 }
