@@ -154,7 +154,7 @@ declare namespace State {
 
     appWidth: number
     appHeight: number
-    appLanguage: string
+    language: 'en' | 'zh'
   }
 
   export interface AddressState {
