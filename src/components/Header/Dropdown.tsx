@@ -7,7 +7,6 @@ import DropdownIcon from '../../assets/dropdown.png'
 
 export const HeaderLanguagePanel = styled.div`
   width: 75px;
-  padding: 0 8px;
   margin-left: 35px;
   border-radius: 7px;
   display: flex;
@@ -22,6 +21,7 @@ export const HeaderLanguagePanel = styled.div`
   top: 24px;
 
   .current__language {
+    padding: 0 8px;
     height: 32px;
     display: flex;
     align-items: center;
@@ -40,21 +40,39 @@ export const HeaderLanguagePanel = styled.div`
 
   .select__language {
     height: 33px;
-    line-height: 31px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     display: ${(props: { showDropdown: boolean }) => (props.showDropdown ? 'inherit' : 'none')};
-    border-top: 1px solid #f7f7f7;
-    > div {
+
+    .select__separate {
+      height: 1px;
+      width: 85%;
+      background: #f7f7f7;
+    }
+
+    .select__language__text {
+      display: flex;
+      height: 32px;
+      align-items: center;
       color: white;
       font-size: 14px;
+      width: 100%;
+      padding: 0 8px;
+      margin: 4px 0;
+    }
+
+    &: hover {
+      .select__language__text {
+        background-color: #848484;
+      }
     }
   }
 
   @media (max-width: 700px) {
     width: 43px;
-    padding: 0 4px;
     margin-left: 8px;
     border-radius: 3px;
-    box-shadow: 0 2px 4px 0 rgba(43, 43, 43, 0.3);
     right: 20px;
     top: 12px;
 
@@ -63,6 +81,7 @@ export const HeaderLanguagePanel = styled.div`
     }
 
     .current__language {
+      padding: 0 4px;
       height: 18px;
 
       > div {
@@ -78,12 +97,18 @@ export const HeaderLanguagePanel = styled.div`
 
     .select__language {
       height: 19px;
-      line-height: 19px;
-      display: ${(props: { showDropdown: boolean }) => (props.showDropdown ? 'inherit' : 'none')};
-      border-top: 1px solid #f7f7f7;
-      > div {
-        color: white;
+      padding: 3px 0;
+
+      .select__language__text {
+        padding: 0 4px;
         font-size: 9px;
+        margin: 0;
+      }
+
+      &: hover {
+        .select__language__text {
+          background-color: #848484;
+        }
       }
     }
   }
@@ -162,7 +187,8 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
         role="button"
         tabIndex={-1}
       >
-        <div>{showLanguage(languages.select)}</div>
+        <div className="select__separate" />
+        <div className="select__language__text">{showLanguage(languages.select)}</div>
       </div>
     </HeaderLanguagePanel>
   )
