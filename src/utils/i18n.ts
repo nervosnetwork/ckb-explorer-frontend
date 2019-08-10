@@ -15,7 +15,6 @@ i18n.use(initReactI18next).init({
 })
 
 export const changeLanguage = (lan: 'en' | 'zh') => {
-  console.log(lan)
   if (lan.indexOf('zh') !== -1) {
     i18n.changeLanguage('zh')
   } else {
