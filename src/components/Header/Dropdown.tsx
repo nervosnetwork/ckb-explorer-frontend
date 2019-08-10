@@ -16,7 +16,8 @@ export const HeaderLanguagePanel = styled.div`
   box-shadow: 0 2px 4px 0 rgba(43, 43, 43, 0.3);
   border: solid 1px #888888;
   position: fixed;
-  z-index: 100;
+  position: -webkit-fixed;
+  z-index: 1000;
   right: 10vw;
   top: 24px;
 
@@ -40,26 +41,25 @@ export const HeaderLanguagePanel = styled.div`
 
   .select__language {
     height: 33px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    display: ${(props: { showDropdown: boolean }) => (props.showDropdown ? 'inherit' : 'none')};
+    background-color: #424242;
+    display: ${(props: { showDropdown: boolean }) => (props.showDropdown ? 'block' : 'none')};
 
     .select__separate {
       height: 1px;
-      width: 85%;
+      width: 86%;
+      margin-left: 7%;
       background: #f7f7f7;
     }
 
     .select__language__text {
       display: flex;
-      height: 32px;
+      height: 26px;
       align-items: center;
       color: white;
       font-size: 14px;
       width: 100%;
       padding: 0 8px;
-      margin: 4px 0;
+      margin: 3px 0;
     }
 
     &: hover {
@@ -97,18 +97,14 @@ export const HeaderLanguagePanel = styled.div`
 
     .select__language {
       height: 19px;
-      padding: 3px 0;
+      background-color: #424242;
 
       .select__language__text {
-        padding: 0 4px;
+        height: 18px;
+        line-height: 18px;
         font-size: 9px;
+        padding: 0 4px;
         margin: 0;
-      }
-
-      &: hover {
-        .select__language__text {
-          background-color: #848484;
-        }
       }
     }
   }
