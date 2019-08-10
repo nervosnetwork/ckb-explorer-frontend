@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import Search from '../Search'
 import LogoIcon from '../../assets/ckb_logo.png'
@@ -49,22 +49,14 @@ const handleVersion = (nodeVersion: string) => {
   return nodeVersion
 }
 
-export default ({
-  search,
-  width = window.innerWidth,
-  dispatch,
-}: {
-  search?: boolean
-  width?: number
-  dispatch: AppDispatch
-}) => {
+export default ({ search, dispatch }: { search?: boolean; dispatch: AppDispatch }) => {
   const { app, components } = useContext(AppContext)
-  const { nodeVersion } = app
+  const { nodeVersion, language } = app
   const { searchBarEditable } = components
 
-  return useMemo(() => {
-    if (isMobile(width)) {
-      return (
+  return (
+    <React.Fragment>
+      {isMobile() ? (
         <>
           <HeaderSearchMobilePanel searchBarEditable={searchBarEditable}>
             <Search dispatch={dispatch} />
@@ -106,32 +98,45 @@ export default ({
             </HeaderMobileDiv>
             <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
           </HeaderMobilePanel>
+          <div
+            style={{
+              display: 'none',
+            }}
+          >
+            {language}
+          </div>
         </>
-      )
-    }
-    return (
-      <>
-        <HeaderDiv>
-          <Link to="/" className="header__logo">
-            <img className="header__logo__img" src={LogoIcon} alt="logo" />
-          </Link>
-          <Menus />
-          {search && (
-            <div className="header__search">
-              <div className="header__search__component">
-                <Search dispatch={dispatch} />
+      ) : (
+        <>
+          <HeaderDiv>
+            <Link to="/" className="header__logo">
+              <img className="header__logo__img" src={LogoIcon} alt="logo" />
+            </Link>
+            <Menus />
+            {search && (
+              <div className="header__search">
+                <div className="header__search__component">
+                  <Search dispatch={dispatch} />
+                </div>
               </div>
-            </div>
-          )}
-          <HeaderTestnetPanel search={!!search}>
-            <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-            <HeaderVersionPanel>
-              <div>{handleVersion(nodeVersion)}</div>
-            </HeaderVersionPanel>
-            <Dropdown dispatch={dispatch} />
-          </HeaderTestnetPanel>
-        </HeaderDiv>
-      </>
-    )
-  }, [dispatch, nodeVersion, search, width, searchBarEditable])
+            )}
+            <HeaderTestnetPanel search={!!search}>
+              <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
+              <HeaderVersionPanel>
+                <div>{handleVersion(nodeVersion)}</div>
+              </HeaderVersionPanel>
+              <Dropdown dispatch={dispatch} />
+            </HeaderTestnetPanel>
+          </HeaderDiv>
+          <div
+            style={{
+              display: 'none',
+            }}
+          >
+            {language}
+          </div>
+        </>
+      )}
+    </React.Fragment>
+  )
 }
