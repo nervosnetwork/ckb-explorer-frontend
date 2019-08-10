@@ -1,5 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import Search from '../Search'
 import LogoIcon from '../../assets/ckb_logo.png'
 import MobileLogoIcon from '../../assets/mobile_ckb_logo.png'
@@ -19,19 +20,20 @@ import { AppContext } from '../../contexts/providers/index'
 import { AppDispatch, ComponentActions } from '../../contexts/providers/reducer'
 import Dropdown from './Dropdown'
 
-const menuDatas = () => {
-  return [
-    {
-      name: i18n.t('navbar.charts'),
-      url: '/charts',
-    },
-  ]
-}
-
 const Menus = () => {
+  const [t] = useTranslation()
+  const MenuDatas = useMemo(() => {
+    return [
+      {
+        name: t('navbar.charts'),
+        url: '/charts',
+      },
+    ]
+  }, [t])
+
   return (
     <div className="header__menus">
-      {menuDatas().map(menu => {
+      {MenuDatas.map(menu => {
         return (
           <Link className="header__menus__item" to={menu.url} key={menu.name}>
             {menu.name}
