@@ -51,7 +51,7 @@ const handleVersion = (nodeVersion: string) => {
 
 export default ({ search, dispatch }: { search?: boolean; dispatch: AppDispatch }) => {
   const { app, components } = useContext(AppContext)
-  const { nodeVersion, language } = app
+  const { nodeVersion } = app
   const { searchBarEditable } = components
 
   return (
@@ -98,13 +98,6 @@ export default ({ search, dispatch }: { search?: boolean; dispatch: AppDispatch 
             </HeaderMobileDiv>
             <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
           </HeaderMobilePanel>
-          <div
-            style={{
-              display: 'none',
-            }}
-          >
-            {language}
-          </div>
         </>
       ) : (
         <>
@@ -128,13 +121,6 @@ export default ({ search, dispatch }: { search?: boolean; dispatch: AppDispatch 
               <Dropdown dispatch={dispatch} />
             </HeaderTestnetPanel>
           </HeaderDiv>
-          <div
-            style={{
-              display: 'none',
-            }}
-          >
-            {language}
-          </div>
         </>
       )}
     </React.Fragment>
