@@ -31,12 +31,10 @@ export const PaginationPanel = styled.div`
 export const PaginationLeftItem = styled.div`
   display: flex;
   flex: 1;
-  background: white;
   font-size: 16px;
   text-align: center;
   color: #000000;
   line-height: 40px;
-  border: none;
 
   @media (min-width: 700px) {
     align-items: center;
@@ -172,10 +170,8 @@ export const PaginationLeftItem = styled.div`
 export const PaginationRightItem = styled.div`
   flex-direction: row;
   display: flex;
-  background: white;
   font-size: 16px;
   color: #000000;
-  border: none;
 
   @media (min-width: 700px) {
     width: 452px;
@@ -188,7 +184,7 @@ export const PaginationRightItem = styled.div`
     height: 50px;
   }
 
-  .jump__page__input {
+  .input__page {
     width: 120px;
     height: 40px;
     border: none;
@@ -199,7 +195,7 @@ export const PaginationRightItem = styled.div`
     font-size: 16px;
     margin-right: 20px;
     padding-left: 10px;
-    &:focus + .go__to {
+    &:focus + .goto__page {
       font-weight: 600;
     }
 
@@ -232,7 +228,7 @@ export const PaginationRightItem = styled.div`
     }
   }
 
-  .go__to {
+  .goto__page {
     width: 90px;
     margin-right: 80px;
     @media (max-width: 700px) {
@@ -245,7 +241,6 @@ export const PaginationRightItem = styled.div`
 
   .page {
     width: 42px;
-    font-family: Montserrat;
     font-size: 16px;
     margin-right: 20px;
     @media (max-width: 700px) {

@@ -1,28 +1,43 @@
 import React, { useEffect, useState } from 'react'
-import initScriptContent from '../../../contexts/states/cell'
 import { fetchCellData, fetchScript } from '../../../service/http/fetcher'
 import { CellState, CellType } from '../../../utils/const'
 import { hexToUtf8 } from '../../../utils/string'
 import TransactionDetailPanel, { TransactionCellDetailCopyButtonPanel } from './styled'
-import CopyIcon from '../../../assets/transaction_detail_copy.png'
+import CopyIcon from '../../../assets/copy_green.png'
 import i18n from '../../../utils/i18n'
 import { copyElementValue } from '../../../utils/util'
 import { AppDispatch, AppActions } from '../../../contexts/providers/reducer'
 
+const initScriptContent = {
+  lock: {
+    code_hash: '',
+    args: [],
+    hash_type: '',
+  },
+  type: {
+    code_hash: '',
+    args: [],
+    hash_type: '',
+  },
+  data: {
+    data: '',
+  },
+}
+
 const handleFetchScript = (cell: State.InputOutput, cellType: CellType, state: CellState, dispatch: any) => {
   switch (state) {
     case CellState.LOCK:
-      fetchScript(cellType, 'lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
+      fetchScript(cellType, 'lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<any>) => {
         dispatch(wrapper ? wrapper.attributes : initScriptContent.lock)
       })
       break
     case CellState.TYPE:
-      fetchScript(cellType, 'type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script>) => {
+      fetchScript(cellType, 'type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<any>) => {
         dispatch(wrapper ? wrapper.attributes : initScriptContent.type)
       })
       break
     case CellState.DATA:
-      fetchCellData(cellType, `${cell.id}`).then((wrapper: Response.Wrapper<State.Data>) => {
+      fetchCellData(cellType, `${cell.id}`).then((wrapper: Response.Wrapper<any>) => {
         const dataValue: State.Data = wrapper.attributes
         if (wrapper && cell.isGenesisOutput) {
           dataValue.data = hexToUtf8(wrapper.attributes.data.substr(2))
@@ -58,8 +73,7 @@ export default ({
     dispatch({
       type: AppActions.ShowToastMessage,
       payload: {
-        text: i18n.t('common.copied'),
-        timeout: 3000,
+        message: i18n.t('common.copied'),
       },
     })
   }
@@ -71,6 +85,7 @@ export default ({
       </div>
       <div className="transaction__detail_copy">
         <TransactionCellDetailCopyButtonPanel onClick={onClickCopy}>
+          <div>{i18n.t('common.copy')}</div>
           <img src={CopyIcon} alt="copy" />
         </TransactionCellDetailCopyButtonPanel>
       </div>

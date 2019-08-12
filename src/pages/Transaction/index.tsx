@@ -37,22 +37,22 @@ export default ({
   }, [hash, replace, dispatch])
 
   let confirmation = 0
-  if (tipBlockNumber && transaction.block_number) {
-    confirmation = tipBlockNumber - transaction.block_number + 1
+  if (tipBlockNumber && transaction.blockNumber) {
+    confirmation = tipBlockNumber - transaction.blockNumber + 1
   }
 
   const overviewItems: OverviewItemData[] = [
     {
       title: i18n.t('block.block_height'),
-      content: <TransactionBlockHeight blockNumber={transaction.block_number} />,
+      content: <TransactionBlockHeight blockNumber={transaction.blockNumber} />,
     },
     {
       title: i18n.t('block.timestamp'),
-      content: parseSimpleDate(transaction.block_timestamp),
+      content: parseSimpleDate(transaction.blockTimestamp),
     },
     {
       title: i18n.t('transaction.transaction_fee'),
-      content: `${shannonToCkb(transaction.transaction_fee)} CKB`,
+      content: `${shannonToCkb(transaction.transactionFee)} CKB`,
     },
   ]
   if (confirmation > 0) {
@@ -70,10 +70,10 @@ export default ({
           <OverviewCard items={overviewItems} />
         </div>
         <div className="transaction__inputs">
-          {transaction && <TransactionCellList inputs={transaction.display_inputs} dispatch={dispatch} />}
+          {transaction && <TransactionCellList inputs={transaction.displayInputs} dispatch={dispatch} />}
         </div>
         <div className="transaction__outputs">
-          {transaction && <TransactionCellList outputs={transaction.display_outputs} dispatch={dispatch} />}
+          {transaction && <TransactionCellList outputs={transaction.displayOutputs} dispatch={dispatch} />}
         </div>
       </TransactionDiv>
     </Content>

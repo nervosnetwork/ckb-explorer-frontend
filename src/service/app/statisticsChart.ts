@@ -12,12 +12,12 @@ export interface StatisticsData {
 }
 
 const findDifficulty = (
-  difficulties: { difficulty: number; block_number: number; epoch_number: number }[],
+  difficulties: { difficulty: number; blockNumber: number; epochNumber: number }[],
   blockNumber: number,
 ) => {
   if (difficulties && difficulties.length > 0) {
     const result = difficulties.find(difficulty => {
-      return difficulty.block_number === blockNumber
+      return difficulty.blockNumber === blockNumber
     })
     return result || undefined
   }
@@ -25,7 +25,7 @@ const findDifficulty = (
 }
 
 const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
-  const { hash_rate: hashRates, difficulty: difficulties } = wrapper.attributes
+  const { hashRate: hashRates, difficulty: difficulties } = wrapper.attributes
   if (!hashRates && !difficulties) return []
 
   const datas: StatisticsData[] = []
@@ -33,20 +33,20 @@ const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
     hashRates.forEach(hashRate => {
       datas.push({
         type: 'HashRate',
-        blockNumber: hashRate.block_number,
-        hashRate: Number((Number(hashRate.hash_rate) * 1000).toFixed(0)),
+        blockNumber: hashRate.blockNumber,
+        hashRate: Number((Number(hashRate.hashRate) * 1000).toFixed(0)),
       })
-      const difficulty = findDifficulty(difficulties, hashRate.block_number)
+      const difficulty = findDifficulty(difficulties, hashRate.blockNumber)
       if (difficulty !== undefined) {
         datas.push({
           type: 'Difficulty',
-          blockNumber: difficulty.block_number,
+          blockNumber: difficulty.blockNumber,
           difficulty: difficulty.difficulty,
         })
         datas.push({
           type: 'EpochNumber',
-          blockNumber: difficulty.block_number,
-          epochNumber: difficulty.epoch_number,
+          blockNumber: difficulty.blockNumber,
+          epochNumber: difficulty.epochNumber,
         })
       }
     })
@@ -54,13 +54,13 @@ const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
     difficulties.forEach(difficulty => {
       datas.push({
         type: 'Difficulty',
-        blockNumber: difficulty.block_number,
+        blockNumber: difficulty.blockNumber,
         difficulty: difficulty.difficulty,
       })
       datas.push({
         type: 'EpochNumber',
-        blockNumber: difficulty.block_number,
-        epochNumber: difficulty.epoch_number,
+        blockNumber: difficulty.blockNumber,
+        epochNumber: difficulty.epochNumber,
       })
     })
   }
@@ -78,7 +78,7 @@ export const getStatisticsChart = (dispatch: AppDispatch) => {
       },
     })
   }
-  fetchStatisticsChart().then((wrapper: Response.Wrapper<State.StatisticsChart>) => {
+  fetchStatisticsChart().then((wrapper: Response.Wrapper<State.StatisticsChart> | null) => {
     if (wrapper) {
       const statisticsChartDatas = handleStatistics(wrapper)
       if (statisticsChartDatas && statisticsChartDatas.length > 0) {

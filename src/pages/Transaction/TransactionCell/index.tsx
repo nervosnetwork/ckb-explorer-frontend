@@ -34,13 +34,13 @@ const handleAddressHashText = (hash: string) => {
 
 const TransactionCellHash = ({ cell }: { cell: State.InputOutput }) => {
   return (
-    <TransactionCellHashPanel highLight={cell.address_hash !== null}>
-      {cell.address_hash ? (
-        <Link to={`/address/${cell.address_hash}`}>
-          <code>{handleAddressHashText(cell.address_hash)}</code>
+    <TransactionCellHashPanel highLight={cell.addressHash !== null}>
+      {cell.addressHash ? (
+        <Link to={`/address/${cell.addressHash}`}>
+          <code>{handleAddressHashText(cell.addressHash)}</code>
         </Link>
       ) : (
-        <span>{cell.from_cellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}</span>
+        <span>{cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}</span>
       )}
     </TransactionCellHashPanel>
   )
@@ -118,8 +118,8 @@ export default ({
     }
     return (
       <OverviewCard items={items}>
-        {!cell.from_cellbase && (
-          <TransactionCellDetailButtons highLight={!cell.from_cellbase} onChange={newState => setState(newState)} />
+        {!cell.fromCellbase && (
+          <TransactionCellDetailButtons highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
         )}
         {state !== CellState.NONE && (
           <TransactionCellDetail cell={cell} cellType={cellType} state={state} dispatch={dispatch} />
@@ -138,7 +138,7 @@ export default ({
           {cell.capacity && localeNumberString(shannonToCkb(cell.capacity))}
         </div>
         <div className="transaction__cell_detail">
-          <TransactionCellDetailButtons highLight={!cell.from_cellbase} onChange={newState => setState(newState)} />
+          <TransactionCellDetailButtons highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
         </div>
       </TransactionCellContentPanel>
       {state !== CellState.NONE && (

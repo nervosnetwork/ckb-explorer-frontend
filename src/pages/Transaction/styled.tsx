@@ -11,9 +11,8 @@ export const TransactionDiv = styled.div.attrs({
   width: 100%;
 
   @media (max-width: 700px) {
-    margin-top: 30px;
-    margin-bottom: 0px;
-    padding: 0px 20px 20px 20px;
+    margin: 0px;
+    padding: 20px;
   }
 
   .transaction__overview {

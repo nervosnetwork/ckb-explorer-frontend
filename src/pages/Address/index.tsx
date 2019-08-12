@@ -28,8 +28,8 @@ import {
 } from './styled'
 
 const addressContent = (address: State.Address) => {
-  const addressText = isMobile() ? startEndEllipsis(address.address_hash, 10) : address.address_hash
-  return address.address_hash ? addressText : i18n.t('address.unable_decode_address')
+  const addressText = isMobile() ? startEndEllipsis(address.addressHash, 10) : address.addressHash
+  return address.addressHash ? addressText : i18n.t('address.unable_decode_address')
 }
 
 const AddressPendingRewardTitle = () => {
@@ -81,7 +81,7 @@ const AddressLockScript = ({ script }: { script: State.Script }) => {
     <AddressLockScriptPanel>
       <div className="address__lock_script_title">{i18n.t('address.lock_script')}</div>
       <AddressLockScriptItem title={i18n.t('address.code_hash')}>
-        <code>{script.code_hash}</code>
+        <code>{script.codeHash}</code>
       </AddressLockScriptItem>
       <AddressLockScriptItem title={i18n.t('address.args')}>
         {script.args.length === 1 ? (
@@ -127,14 +127,14 @@ export const Address = ({
     },
     {
       title: i18n.t('transaction.transactions'),
-      content: localeNumberString(addressState.address.transactions_count),
+      content: localeNumberString(addressState.address.transactionsCount),
     },
   ]
-  if (addressState.address.pending_reward_blocks_count) {
+  if (addressState.address.pendingRewardBlocksCount) {
     items.push({
       title: <AddressPendingRewardTitle />,
-      content: `${addressState.address.pending_reward_blocks_count} ${
-        addressState.address.pending_reward_blocks_count > 1 ? 'blocks' : 'block'
+      content: `${addressState.address.pendingRewardBlocksCount} ${
+        addressState.address.pendingRewardBlocksCount > 1 ? 'blocks' : 'block'
       }`,
     })
   }
@@ -155,22 +155,22 @@ export const Address = ({
         />
         <TitleCard title={i18n.t('common.overview')} />
         <OverviewCard items={items}>
-          {addressState && addressState.address && addressState.address.lock_script && (
-            <AddressLockScript script={addressState.address.lock_script} />
+          {addressState && addressState.address && addressState.address.lockScript && (
+            <AddressLockScript script={addressState.address.lockScript} />
           )}
         </OverviewCard>
         {addressState.transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
         <AddressTransactionsPanel>
           {addressState &&
             addressState.transactions &&
-            addressState.transactions.map((transaction: any, index: number) => {
+            addressState.transactions.map((transaction: State.Transaction, index: number) => {
               return (
                 transaction && (
                   <TransactionItem
-                    address={addressState.address.address_hash}
-                    transaction={transaction.attributes}
-                    confirmation={tipBlockNumber - transaction.attributes.block_number + 1}
-                    key={transaction.attributes.transaction_hash}
+                    address={addressState.address.addressHash}
+                    transaction={transaction}
+                    confirmation={tipBlockNumber - transaction.blockNumber + 1}
+                    key={transaction.transactionHash}
                     isLastItem={index === addressState.transactions.length - 1}
                   />
                 )

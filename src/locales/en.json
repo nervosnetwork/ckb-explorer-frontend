@@ -2,8 +2,12 @@
   "translation": {
     "common": {
       "copied": "Copied",
+      "copy": "Copy",
       "detail": "Detail",
-      "overview": "Overview"
+      "overview": "Overview",
+      "view_all": "View All",
+      "minute": "minutes",
+      "second_ago": "second ago"
     },
     "toast": {
       "invalid_content": "Please input valid content",
@@ -92,12 +96,15 @@
       "uncle_count": "Uncle Count",
       "epoch": "Epoch",
       "epoch_start_number": "Epoch Start Number",
+      "epoch_number": "Epoch Number",
       "epoch_length": "Epoch Length",
       "nonce": "Nonce",
       "proof": "PoW Proof",
       "timestamp": "Timestamp",
       "miner": "Miner",
       "difficulty": "Difficulty",
+      "hash_rate_gps": "Hash Rate(gps)",
+      "hash_rate": "Hash Rate",
       "transactions_root": "Transactions Root",
       "witnesses_root": "Witnesses Root",
       "pending_tip": "The block reward of this block will be sent to the miner after 11 blocks，learn more from our Consensus Protocol",
@@ -110,7 +117,11 @@
       "first": "First",
       "last": "Last",
       "goto": "Goto",
-      "page": "Page"
+      "page": "Page",
+      "total_page": "Total Page",
+      "end_page": "",
+      "current_page": "Page",
+      "of_page": "of"
     }
   }
 }
