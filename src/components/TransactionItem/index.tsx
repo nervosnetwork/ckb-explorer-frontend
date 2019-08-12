@@ -11,6 +11,7 @@ import TransactionCellList from './TransactionItemCellList'
 import TransactionConfirmation from './TransactionConfirmation'
 import TransactionReward from './TransactionReward'
 import { FullPanel, TransactionHashBlockPanel, TransactionInputOutputPanel, TransactionPanel } from './styled'
+import i18n from '../../utils/i18n'
 
 const MAX_CELL_SHOW_SIZE = 10
 
@@ -66,7 +67,9 @@ const TransactionItem = ({
           </Link>
           {!isBlock && (
             <div className="transaction_item__block">
-              {`(Block ${localeNumberString(transaction.blockNumber)})  ${parseDate(transaction.blockTimestamp)}`}
+              {`(${i18n.t('block.block')} ${localeNumberString(transaction.blockNumber)})  ${parseDate(
+                transaction.blockTimestamp,
+              )}`}
             </div>
           )}
         </div>

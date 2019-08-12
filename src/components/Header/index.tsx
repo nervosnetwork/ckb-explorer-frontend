@@ -1,5 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import Search from '../Search'
 import LogoIcon from '../../assets/ckb_logo.png'
 import MobileLogoIcon from '../../assets/mobile_ckb_logo.png'
@@ -17,15 +18,19 @@ import {
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers/index'
 import { AppDispatch, ComponentActions } from '../../contexts/providers/reducer'
-
-const MenuDatas = [
-  {
-    name: i18n.t('navbar.charts'),
-    url: '/charts',
-  },
-]
+import Dropdown from './Dropdown'
 
 const Menus = () => {
+  const [t] = useTranslation()
+  const MenuDatas = useMemo(() => {
+    return [
+      {
+        name: t('navbar.charts'),
+        url: '/charts',
+      },
+    ]
+  }, [t])
+
   return (
     <div className="header__menus">
       {MenuDatas.map(menu => {
@@ -46,23 +51,14 @@ const handleVersion = (nodeVersion: string) => {
   return nodeVersion
 }
 
-export default ({
-  search,
-  width = window.innerWidth,
-  dispatch,
-}: {
-  search?: boolean
-  width?: number
-  dispatch: AppDispatch
-}) => {
+export default ({ search, dispatch }: { search?: boolean; dispatch: AppDispatch }) => {
   const { app, components } = useContext(AppContext)
   const { nodeVersion } = app
   const { searchBarEditable } = components
 
-  return useMemo(() => {
-    // normally rerender will not occur with useMemo
-    if (isMobile(width)) {
-      return (
+  return (
+    <React.Fragment>
+      {isMobile() ? (
         <>
           <HeaderSearchMobilePanel searchBarEditable={searchBarEditable}>
             <Search dispatch={dispatch} />
@@ -99,35 +95,36 @@ export default ({
                 <HeaderVersionPanel>
                   <div>{handleVersion(nodeVersion)}</div>
                 </HeaderVersionPanel>
+                <Dropdown dispatch={dispatch} />
               </HeaderTestnetPanel>
             </HeaderMobileDiv>
             <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
           </HeaderMobilePanel>
         </>
-      )
-    }
-    return (
-      <>
-        <HeaderDiv>
-          <Link to="/" className="header__logo">
-            <img className="header__logo__img" src={LogoIcon} alt="logo" />
-          </Link>
-          <Menus />
-          {search && (
-            <div className="header__search">
-              <div className="header__search__component">
-                <Search dispatch={dispatch} />
+      ) : (
+        <>
+          <HeaderDiv>
+            <Link to="/" className="header__logo">
+              <img className="header__logo__img" src={LogoIcon} alt="logo" />
+            </Link>
+            <Menus />
+            {search && (
+              <div className="header__search">
+                <div className="header__search__component">
+                  <Search dispatch={dispatch} />
+                </div>
               </div>
-            </div>
-          )}
-          <HeaderTestnetPanel search={!!search}>
-            <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-            <HeaderVersionPanel>
-              <div>{handleVersion(nodeVersion)}</div>
-            </HeaderVersionPanel>
-          </HeaderTestnetPanel>
-        </HeaderDiv>
-      </>
-    )
-  }, [dispatch, nodeVersion, search, width, searchBarEditable])
+            )}
+            <HeaderTestnetPanel search={!!search}>
+              <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
+              <HeaderVersionPanel>
+                <div>{handleVersion(nodeVersion)}</div>
+              </HeaderVersionPanel>
+              <Dropdown dispatch={dispatch} />
+            </HeaderTestnetPanel>
+          </HeaderDiv>
+        </>
+      )}
+    </React.Fragment>
+  )
 }

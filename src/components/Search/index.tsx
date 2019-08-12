@@ -11,8 +11,7 @@ import { HttpErrorCode } from '../../utils/const'
 import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers'
-
-const SearchPlaceholder = i18n.t('navbar.search_placeholder')
+import { useInterval } from '../../contexts/providers/hook'
 
 enum SearchResultType {
   Block = 'block',
@@ -91,12 +90,19 @@ const handleSearchResult = ({
   }
 }
 
+const PLACEHOLDER_LANGUAGE_REFRESH = 200
+
 const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBorder?: boolean; content?: string }) => {
+  const SearchPlaceholder = i18n.t('navbar.search_placeholder')
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
   const inputElement = useRef<HTMLInputElement>(null)
   const { components } = useContext(AppContext)
   const { searchBarEditable } = components
+
+  useInterval(() => {
+    setPlaceholder(SearchPlaceholder)
+  }, PLACEHOLDER_LANGUAGE_REFRESH)
 
   useEffect(() => {
     if (searchBarEditable && inputElement.current) {
