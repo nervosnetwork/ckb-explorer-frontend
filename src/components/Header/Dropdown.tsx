@@ -41,7 +41,6 @@ export const HeaderLanguagePanel = styled.div`
 
   .select__language {
     height: 33px;
-    background-color: #424242;
     display: ${(props: { showDropdown: boolean }) => (props.showDropdown ? 'block' : 'none')};
 
     .select__separate {
