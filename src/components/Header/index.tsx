@@ -98,7 +98,7 @@ export default ({ search, dispatch }: { search?: boolean; dispatch: AppDispatch 
                 <Dropdown dispatch={dispatch} />
               </HeaderTestnetPanel>
             </HeaderMobileDiv>
-            <HeaderSearchPanel>{search && <Search dispatch={dispatch} />}</HeaderSearchPanel>
+            <HeaderSearchPanel>{search && searchBarEditable && <Search dispatch={dispatch} />}</HeaderSearchPanel>
           </HeaderMobilePanel>
         </>
       ) : (
