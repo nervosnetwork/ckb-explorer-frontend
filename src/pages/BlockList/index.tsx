@@ -1,6 +1,7 @@
-import React, { useEffect, useContext, Fragment } from 'react'
+import React, { useEffect, useContext, Fragment, useMemo } from 'react'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import queryString from 'query-string'
+import { useTranslation } from 'react-i18next'
 import { parseSimpleDate } from '../../utils/date'
 import { BlockListPanel, ContentTable, HighLightValue } from './styled'
 import Content from '../../components/Content'
@@ -43,29 +44,6 @@ interface TableContentData {
   to?: any
   content: string
 }
-
-const TableTitleDatas: TableTitleData[] = [
-  {
-    title: i18n.t('home.height'),
-    width: '14%',
-  },
-  {
-    title: i18n.t('home.transactions'),
-    width: '14%',
-  },
-  {
-    title: i18n.t('home.block_reward'),
-    width: '20%',
-  },
-  {
-    title: i18n.t('block.miner'),
-    width: '37%',
-  },
-  {
-    title: i18n.t('home.time'),
-    width: '15%',
-  },
-]
 
 const getTableContentDatas = (block: State.Block) => {
   return [
@@ -123,6 +101,32 @@ export default ({
   history: { replace, push },
   location: { search },
 }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
+  const [t] = useTranslation()
+  const TableTitles = useMemo(() => {
+    return [
+      {
+        title: t('home.height'),
+        width: '14%',
+      },
+      {
+        title: t('home.transactions'),
+        width: '14%',
+      },
+      {
+        title: t('home.block_reward'),
+        width: '20%',
+      },
+      {
+        title: t('block.miner'),
+        width: '37%',
+      },
+      {
+        title: t('home.time'),
+        width: '15%',
+      },
+    ]
+  }, [t])
+
   const parsed = queryString.parse(search)
   const { blockListState } = useContext(AppContext)
 
@@ -158,7 +162,7 @@ export default ({
         ) : (
           <ContentTable>
             <TableTitleRow>
-              {TableTitleDatas.map((data: TableTitleData) => {
+              {TableTitles.map((data: TableTitleData) => {
                 return <TableTitleItem width={data.width} title={data.title} key={data.title} />
               })}
             </TableTitleRow>

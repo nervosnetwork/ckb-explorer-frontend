@@ -87,7 +87,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
             scale={scale()}
             forceFit
             data={statisticsChartDatas}
-            padding={isMobile() ? [40, 90, 80, 90] : [80, 90, 100, 90]}
+            padding={isMobile() ? [40, 90, 100, 90] : [80, 90, 100, 90]}
           >
             <Legend
               custom

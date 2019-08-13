@@ -1,11 +1,12 @@
 import { useEffect, useState, useRef, useContext } from 'react'
 import { initAxiosInterceptors } from '../../service/http/interceptors'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
-import { BLOCKCHAIN_ALERT_POLLING_TIME, RESIZE_LATENCY } from '../../utils/const'
+import { BLOCKCHAIN_ALERT_POLLING_TIME, RESIZE_LATENCY, CachedKeys } from '../../utils/const'
 import { initNodeVersion } from '../../service/app/nodeInfo'
 import { AppDispatch, AppActions } from './reducer'
+import { fetchCachedData } from '../../utils/cached'
 import { changeLanguage } from '../../utils/i18n'
-import { AppContext } from './index'
+import { AppContext } from '.'
 
 export const useInterval = (callback: () => void, delay: number) => {
   const savedCallback = useRef(() => {})
@@ -51,12 +52,19 @@ export const useInitApp = (dispatch: AppDispatch) => {
     setInit(true)
     initAxiosInterceptors(dispatch)
     initNodeVersion(dispatch)
+
+    const language = fetchCachedData<'zh' | 'en'>(CachedKeys.AppLanguage)
+    if (language && language !== app.language) {
+      dispatch({
+        type: AppActions.UpdateAppLanguage,
+        payload: {
+          language,
+        },
+      })
+      changeLanguage(language)
+    }
   }
   useWindowResize(dispatch)
-
-  useEffect(() => {
-    changeLanguage(app.language)
-  }, [app.language])
 
   useInterval(() => {
     handleBlockchainAlert(dispatch)

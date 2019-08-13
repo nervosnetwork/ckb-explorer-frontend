@@ -135,7 +135,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       content: (
         <BlockOverviewItemContent
           value={`${localeNumberString(shannonToCkb(block.reward))} CKB`}
-          tip={block.rewardStatus === 'pending' ? 'Pending' : undefined}
+          tip={block.rewardStatus === 'pending' ? i18n.t('block.pending') : undefined}
           message={i18n.t('block.pending_tip')}
         />
       ),
@@ -149,7 +149,9 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       content: (
         <BlockOverviewItemContent
           value={block.receivedTxFeeStatus === 'calculating' && block.number > 0 ? undefined : receivedTxFee}
-          tip={block.receivedTxFeeStatus === 'calculating' && block.number > 0 ? 'Calculating' : undefined}
+          tip={
+            block.receivedTxFeeStatus === 'calculating' && block.number > 0 ? i18n.t('block.calculating') : undefined
+          }
           message={i18n.t('block.calculating_tip')}
         />
       ),

@@ -211,7 +211,7 @@ export const TableMorePanel = styled.div`
     display: flex;
 
     .table__more {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 500;
       color: #3cc68a;
       width: 59px;
