@@ -34,8 +34,8 @@ export const HeaderLanguagePanel = styled.div`
     }
 
     > img {
-      width: 8px;
-      height: 6px;
+      width: ${(props: { showDropdown: boolean }) => (props.showDropdown ? '6px' : '8px')};
+      height: ${(props: { showDropdown: boolean }) => (props.showDropdown ? '8px' : '6px')};
     }
   }
 
@@ -161,7 +161,7 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
         tabIndex={-1}
       >
         <div>{showLanguage(languages.current)}</div>
-        <img src={showLanguageDropdown ? DropdownIcon : SelectIcon} alt="select icon" />
+        <img src={showLanguageDropdown ? SelectIcon : DropdownIcon} alt="select icon" />
       </div>
       <div
         className="select__language"
