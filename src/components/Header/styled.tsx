@@ -3,11 +3,10 @@ import styled, { css } from 'styled-components'
 export const HeaderDiv = styled.div`
   width: 100%;
   min-height: 80px;
-  overflow: hidden;
   box-shadow: 0 2px 4px 0 #141414;
   background-color: #424242;
-  position: sticky;
-  position: -webkit-sticky;
+  position: fixed;
+  position: -webkit-fixed;
   overflow: visible;
   top: 0;
   z-index: 10;
