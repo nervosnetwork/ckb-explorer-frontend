@@ -7,8 +7,8 @@ const ContentDiv = styled.div`
   flex: 1;
   margin-top: 80px;
 
-  media(max-width) {
-    margin-top: 42px;
+  @media (max-width: 700px) {
+    margin-top: 0;
   }
 `
 export default ({ children, style }: { children: any; style?: any }) => {
