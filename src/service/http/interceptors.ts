@@ -6,8 +6,6 @@ import { lastPathOfUrl } from '../../utils/uri'
 import { HttpErrorCode } from '../../utils/const'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
 
-const NetworkError = i18n.t('toast.invalid_network')
-
 const urlParam = (error: AxiosError) => {
   if (error.config.params && error.config.params.q) {
     return error.config.params.q
@@ -24,7 +22,7 @@ const updateNetworkError = (dispatch: AppDispatch, occurError: boolean) => {
     payload: {
       appError: {
         type: 'Network',
-        message: occurError ? [NetworkError] : [],
+        message: occurError ? [i18n.t('toast.invalid_network')] : [],
       },
     },
   })
