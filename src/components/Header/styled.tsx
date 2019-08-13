@@ -8,6 +8,7 @@ export const HeaderDiv = styled.div`
   background-color: #424242;
   position: sticky;
   position: -webkit-sticky;
+  overflow: visible;
   top: 0;
   z-index: 10;
   display: flex;
