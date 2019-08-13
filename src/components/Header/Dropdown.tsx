@@ -4,6 +4,7 @@ import { AppContext } from '../../contexts/providers'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
 import SelectIcon from '../../assets/current_selected.png'
 import DropdownIcon from '../../assets/dropdown.png'
+import { changeLanguage } from '../../utils/i18n'
 
 export const HeaderLanguagePanel = styled.div`
   width: 75px;
@@ -112,42 +113,22 @@ export const HeaderLanguagePanel = styled.div`
 const showLanguage = (lan: 'en' | 'zh') => {
   return lan === 'en' ? 'EN' : '中(简)'
 }
-const Languages: { current: 'en' | 'zh'; select: 'en' | 'zh' } = {
-  current: 'en',
-  select: 'zh',
-}
 
 export default ({ dispatch }: { dispatch: AppDispatch }) => {
-  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false)
-  const [languages, setLanguages] = useState(Languages)
   const { app } = useContext(AppContext)
   const { language } = app
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false)
+  const [languages, setLanguages] = useState({
+    current: language === 'zh' ? 'zh' : 'en',
+    select: language === 'zh' ? 'en' : 'zh',
+  } as { current: 'en' | 'zh'; select: 'en' | 'zh' })
 
   useEffect(() => {
-    if (language.indexOf('zh') !== -1) {
-      dispatch({
-        type: AppActions.UpdateAppLanguage,
-        payload: {
-          language: 'zh',
-        },
-      })
-      setLanguages({
-        current: 'zh',
-        select: 'en',
-      })
-    } else {
-      dispatch({
-        type: AppActions.UpdateAppLanguage,
-        payload: {
-          language: 'en',
-        },
-      })
-      setLanguages({
-        current: 'en',
-        select: 'zh',
-      })
-    }
-  }, [language, dispatch])
+    setLanguages({
+      current: language === 'zh' ? 'zh' : 'en',
+      select: language === 'zh' ? 'en' : 'zh',
+    })
+  }, [language])
 
   return (
     <HeaderLanguagePanel showDropdown={showLanguageDropdown}>
@@ -167,13 +148,14 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
         className="select__language"
         onKeyDown={() => {}}
         onClick={() => {
-          setShowLanguageDropdown(!showLanguageDropdown)
           dispatch({
             type: AppActions.UpdateAppLanguage,
             payload: {
               language: languages.select,
             },
           })
+          changeLanguage(languages.select)
+          setShowLanguageDropdown(!showLanguageDropdown)
           setLanguages({
             current: languages.select,
             select: languages.current,
