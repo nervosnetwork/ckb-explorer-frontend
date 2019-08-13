@@ -8,7 +8,7 @@ const ContentDiv = styled.div`
   margin-top: 80px;
 
   @media (max-width: 700px) {
-    margin-top: 0;
+    margin-top: 42px;
   }
 `
 export default ({ children, style }: { children: any; style?: any }) => {
