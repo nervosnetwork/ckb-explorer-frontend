@@ -53,7 +53,8 @@ export const useInitApp = (dispatch: AppDispatch) => {
     initAxiosInterceptors(dispatch)
     initNodeVersion(dispatch)
 
-    const language = fetchCachedData<'zh' | 'en'>(CachedKeys.AppLanguage)
+    const language =
+      fetchCachedData<'zh' | 'en'>(CachedKeys.AppLanguage) || navigator.language.includes('zh') ? 'zh' : 'en'
     if (language && language !== app.language) {
       dispatch({
         type: AppActions.UpdateAppLanguage,
