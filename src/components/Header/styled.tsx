@@ -15,6 +15,10 @@ export const HeaderDiv = styled.div`
   flex-wrap: wrap;
   padding: 1px 10vw;
 
+  @media (max-width: 1200px) {
+    padding: 1px 5vw;
+  }
+
   .header__logo {
     display: flex;
     align-items: center;
@@ -50,7 +54,7 @@ export const HeaderDiv = styled.div`
       display: flex;
       align-items: center;
       height: 50px;
-      width: 420px;
+      width: 440px;
       min-width: 229px;
     }
   }

@@ -22,6 +22,10 @@ export const HeaderLanguagePanel = styled.div`
   right: 10vw;
   top: 24px;
 
+  @media (max-width: 1200px) {
+    right: 5vw;
+  }
+
   .current__language {
     padding: 0 8px;
     height: 32px;
