@@ -64,7 +64,7 @@ const TableContentRowItem = styled.div`
 const TableMinerContentPanel = styled.div`
   width: ${({ width }: { width: string }) => width};
   line-height: 20px;
-  align-items: center;
+  text-align: center;
   .table__miner__content {
     color: #4bbc8e;
     text-decoration: none;
