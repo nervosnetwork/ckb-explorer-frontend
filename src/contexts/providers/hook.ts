@@ -6,7 +6,7 @@ import { initNodeVersion } from '../../service/app/nodeInfo'
 import { AppDispatch, AppActions } from './reducer'
 import { fetchCachedData } from '../../utils/cached'
 import { changeLanguage } from '../../utils/i18n'
-import { AppContext } from '.'
+import { AppContext } from './index'
 
 export const useInterval = (callback: () => void, delay: number) => {
   const savedCallback = useRef(() => {})
@@ -53,9 +53,8 @@ export const useInitApp = (dispatch: AppDispatch) => {
     initAxiosInterceptors(dispatch)
     initNodeVersion(dispatch)
 
-    const language =
-      fetchCachedData<'zh' | 'en'>(CachedKeys.AppLanguage) || navigator.language.includes('zh') ? 'zh' : 'en'
-    if (language && language !== app.language) {
+    const language = fetchCachedData<'zh' | 'en'>(CachedKeys.AppLanguage) || app.language
+    if (language) {
       dispatch({
         type: AppActions.UpdateAppLanguage,
         payload: {
