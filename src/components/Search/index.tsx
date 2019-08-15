@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect, useContext } from 'react'
+import React, { useState, useRef, useEffect, useContext, useMemo } from 'react'
 import { AxiosError } from 'axios'
+import { useTranslation } from 'react-i18next'
 import { SearchImage, SearchInputPanel, SearchPanel } from './styled'
 import { fetchSearchResult } from '../../service/http/fetcher'
 import browserHistory from '../../routes/history'
@@ -11,7 +12,6 @@ import { HttpErrorCode } from '../../utils/const'
 import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers'
-import { useInterval } from '../../contexts/providers/hook'
 
 enum SearchResultType {
   Block = 'block',
@@ -90,19 +90,20 @@ const handleSearchResult = ({
   }
 }
 
-const PLACEHOLDER_LANGUAGE_REFRESH = 200
-
 const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBorder?: boolean; content?: string }) => {
-  const SearchPlaceholder = i18n.t('navbar.search_placeholder')
+  const [t] = useTranslation()
+  const SearchPlaceholder = useMemo(() => {
+    return t('navbar.search_placeholder')
+  }, [t])
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
   const inputElement = useRef<HTMLInputElement>(null)
   const { components } = useContext(AppContext)
   const { searchBarEditable } = components
 
-  useInterval(() => {
+  useEffect(() => {
     setPlaceholder(SearchPlaceholder)
-  }, PLACEHOLDER_LANGUAGE_REFRESH)
+  }, [SearchPlaceholder])
 
   useEffect(() => {
     if (searchBarEditable && inputElement.current) {
