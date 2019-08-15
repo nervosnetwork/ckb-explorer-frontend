@@ -94,8 +94,8 @@ export const HeaderLanguagePanel = styled.div`
       }
 
       > img {
-        width: 6px;
-        height: 4px;
+        width: ${(props: { showDropdown: boolean }) => (props.showDropdown ? '4px' : '6px')};
+        height: ${(props: { showDropdown: boolean }) => (props.showDropdown ? '6px' : '4px')};
       }
     }
 
