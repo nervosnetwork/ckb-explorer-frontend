@@ -83,11 +83,11 @@ export const PaginationLeftItem = styled.div`
   }
 
   .middle__label {
-    width: 180px;
     height: 40px;
     background: #f5f5f5;
     border-radius: 6px;
     margin-left: 20px;
+    padding: 0 6px;
   }
 
   .right__button {
