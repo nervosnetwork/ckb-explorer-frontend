@@ -8,10 +8,11 @@ import SearchLogo from '../../assets/search.png'
 import GreenSearchLogo from '../../assets/search_green.png'
 import { addPrefixForHash } from '../../utils/string'
 import i18n from '../../utils/i18n'
-import { HttpErrorCode } from '../../utils/const'
+import { HttpErrorCode, CachedKeys } from '../../utils/const'
 import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers'
+import { fetchCachedData, storeCachedData } from '../../utils/cached'
 
 enum SearchResultType {
   Block = 'block',
@@ -101,10 +102,31 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
   const { components } = useContext(AppContext)
   const { searchBarEditable } = components
 
+  // fetch searching data when refreshing search fail page
+  useEffect(() => {
+    const visitedCount: number = fetchCachedData(CachedKeys.SearchFailVisitedCount) || 0
+    if (visitedCount > 0 && searchValue) {
+      handleSearchResult({
+        searchValue,
+        setSearchValue,
+        inputElement,
+        searchBarEditable,
+        dispatch,
+      })
+    }
+    if (hasBorder) {
+      storeCachedData(CachedKeys.SearchFailVisitedCount, visitedCount + 1)
+    } else {
+      storeCachedData(CachedKeys.SearchFailVisitedCount, 0)
+    }
+  }, [hasBorder, searchValue, setSearchValue, searchBarEditable, dispatch])
+
+  // update input placeholder when language change
   useEffect(() => {
     setPlaceholder(SearchPlaceholder)
   }, [SearchPlaceholder])
 
+  // set input focus when mobile search bar state change
   useEffect(() => {
     if (searchBarEditable && inputElement.current) {
       inputElement.current.focus()
