@@ -13,10 +13,10 @@ export const HeaderDiv = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  padding: 1px 10vw;
+  padding: 1px 8vw;
 
-  @media (max-width: 1200px) {
-    padding: 1px 5vw;
+  @media (max-width: 1300px) {
+    padding: 1px 3vw;
   }
 
   .header__logo {
