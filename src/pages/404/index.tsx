@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import Content from '../../components/Content'
-import NotFoundIcon from '../../assets/404.png'
+import PCNotFoundIcon from '../../assets/pc_404.png'
+import MobileNotFoundIcon from '../../assets/mobile_404.png'
+import { isMobile } from '../../utils/screen'
 
 const NotFoundPanel = styled.div`
   width: 100%;
@@ -12,14 +14,14 @@ const NotFoundPanel = styled.div`
 const NotFoundImage = styled.img`
   width: 100%;
   height: auto;
-  width: 780px;
-  height: 484px;
+  width: 1038px;
+  height: 480px;
   display: block;
   margin: 0 auto;
 
   @media (max-width: 700px) {
-    width: 220px;
-    height: 136px;
+    width: 282px;
+    height: 130px;
   }
 `
 
@@ -27,7 +29,7 @@ export default () => {
   return (
     <Content>
       <NotFoundPanel className="container">
-        <NotFoundImage src={NotFoundIcon} alt="404" />
+        <NotFoundImage src={isMobile() ? MobileNotFoundIcon : PCNotFoundIcon} alt="404" />
       </NotFoundPanel>
     </Content>
   )

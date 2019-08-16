@@ -4,9 +4,11 @@ import styled from 'styled-components'
 import { AxiosResponse } from 'axios'
 import { AppContext } from '../../contexts/providers/index'
 import { axiosIns } from '../../service/http/fetcher'
-import MaintainImage from '../../assets/maintain.png'
+import PCMaintainImage from '../../assets/pc_maintain.png'
+import MobileMaintainImage from '../../assets/mobile_maintain.png'
 import i18n from '../../utils/i18n'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { isMobile } from '../../utils/screen'
 
 const MaintainPanel = styled.div`
   width: 100%;
@@ -18,14 +20,14 @@ const MaintainPanel = styled.div`
   align-items: center;
 
   > img {
-    width: 780px;
-    height: 484px;
+    width: 1038px;
+    height: 480px;
     display: block;
     margin-top: 220px;
 
     @media (max-width: 700px) {
-      width: 220px;
-      height: 136px;
+      width: 282px;
+      height: 130px;
       margin-top: 120px;
     }
   }
@@ -68,7 +70,7 @@ export default ({ history: { replace } }: React.PropsWithoutRef<StateWithDispatc
 
   return (
     <MaintainPanel>
-      <img src={MaintainImage} alt="maintain" />
+      <img src={isMobile() ? MobileMaintainImage : PCMaintainImage} alt="maintain" />
       <div>{app.appErrors[2].message[0] || i18n.t('error.maintain')}</div>
     </MaintainPanel>
   )
