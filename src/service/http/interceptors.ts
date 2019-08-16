@@ -2,19 +2,7 @@ import { AxiosError } from 'axios'
 import { axiosIns } from './fetcher'
 import i18n from '../../utils/i18n'
 import browserHistory from '../../routes/history'
-import { lastPathOfUrl } from '../../utils/uri'
-import { HttpErrorCode } from '../../utils/const'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
-
-const urlParam = (error: AxiosError) => {
-  if (error.config.params && error.config.params.q) {
-    return error.config.params.q
-  }
-  if (error.config.url) {
-    return lastPathOfUrl(error.config.url)
-  }
-  return undefined
-}
 
 const updateNetworkError = (dispatch: AppDispatch, occurError: boolean) => {
   dispatch({
@@ -48,10 +36,6 @@ export const initAxiosInterceptors = (dispatch: AppDispatch) => {
       if (error && error.response && error.response.data) {
         const { message }: { message: string } = error.response.data
         switch (error.response.status) {
-          case 422:
-            updateNetworkError(dispatch, false)
-            browserHistory.replace(`/search/fail?q=${urlParam(error)}`)
-            break
           case 503:
             updateNetworkError(dispatch, false)
             if (message) {
@@ -67,19 +51,9 @@ export const initAxiosInterceptors = (dispatch: AppDispatch) => {
             }
             browserHistory.replace('/maintain')
             break
+          case 422:
           case 404:
             updateNetworkError(dispatch, false)
-            if (error.response && error.response.data && Array.isArray(error.response.data)) {
-              if (
-                (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
-                  return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
-                })
-              ) {
-                if (urlParam(error)) {
-                  browserHistory.push(`/address/${urlParam(error)}`)
-                }
-              }
-            }
             break
           default:
             updateNetworkError(dispatch, true)

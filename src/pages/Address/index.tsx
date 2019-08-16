@@ -3,6 +3,7 @@ import React, { ReactNode, useContext, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import Pagination from '../../components/Pagination'
 import HelpIcon from '../../assets/qa_help.png'
+import Loading from '../../assets/loading.gif'
 import AddressHashCard from '../../components/Card/AddressHashCard'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TitleCard from '../../components/Card/TitleCard'
@@ -153,35 +154,44 @@ export const Address = ({
           hash={address}
           dispatch={dispatch}
         />
-        <TitleCard title={i18n.t('common.overview')} />
-        <OverviewCard items={items}>
-          {addressState && addressState.address && addressState.address.lockScript && (
-            <AddressLockScript script={addressState.address.lockScript} />
-          )}
-        </OverviewCard>
-        {addressState.transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
-        <AddressTransactionsPanel>
-          {addressState &&
-            addressState.transactions &&
-            addressState.transactions.map((transaction: State.Transaction, index: number) => {
-              return (
-                transaction && (
-                  <TransactionItem
-                    address={addressState.address.addressHash}
-                    transaction={transaction}
-                    confirmation={tipBlockNumber - transaction.blockNumber + 1}
-                    key={transaction.transactionHash}
-                    isLastItem={index === addressState.transactions.length - 1}
-                  />
-                )
-              )
-            })}
-        </AddressTransactionsPanel>
-        {totalPages > 1 && (
-          <AddressTransactionsPagition>
-            <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
-          </AddressTransactionsPagition>
+        {addressState.address ? (
+          <div />
+        ) : (
+          <div>
+            <img src={Loading} alt="loading" />
+          </div>
         )}
+        <>
+          <TitleCard title={i18n.t('common.overview')} />
+          <OverviewCard items={items}>
+            {addressState && addressState.address && addressState.address.lockScript && (
+              <AddressLockScript script={addressState.address.lockScript} />
+            )}
+          </OverviewCard>
+          {addressState.transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
+          <AddressTransactionsPanel>
+            {addressState &&
+              addressState.transactions &&
+              addressState.transactions.map((transaction: State.Transaction, index: number) => {
+                return (
+                  transaction && (
+                    <TransactionItem
+                      address={addressState.address.addressHash}
+                      transaction={transaction}
+                      confirmation={tipBlockNumber - transaction.blockNumber + 1}
+                      key={transaction.transactionHash}
+                      isLastItem={index === addressState.transactions.length - 1}
+                    />
+                  )
+                )
+              })}
+          </AddressTransactionsPanel>
+          {totalPages > 1 && (
+            <AddressTransactionsPagition>
+              <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
+            </AddressTransactionsPagition>
+          )}
+        </>
       </AddressContentPanel>
     </Content>
   )

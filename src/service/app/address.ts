@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { AppActions, AppDispatch, PageActions } from '../../contexts/providers/reducer'
 import initAddress from '../../contexts/states/address'
 import { fetchAddressInfo, fetchTipBlockNumber } from '../http/fetcher'
@@ -20,11 +21,11 @@ export const getAddressInfo = (hash: string, dispatch: any) => {
         },
       })
     })
-    .catch(() => {
+    .catch((error: AxiosError) => {
       dispatch({
         type: PageActions.UpdateAddress,
         payload: {
-          address: initAddress.address,
+          address: error && error.response && error.response.status === 404 ? initAddress.address : undefined,
         },
       })
     })
