@@ -3,7 +3,9 @@ import styled from 'styled-components'
 import PCDataNotFoundImage from '../../assets/pc_data_not_found.png'
 
 const ErrorPanel = styled.div`
-  margin-top: 60px @media (max-width: 700px) {
+  margin-top: 60px;
+
+  @media (max-width: 700px) {
     margin-top: 30px;
   }
 

@@ -37,7 +37,7 @@ export const getAddressInfo = (hash: string, dispatch: any) => {
       dispatch({
         type: PageActions.UpdateAddressStatus,
         payload: {
-          status: error && error.response && error.response.status === 404 ? 'none' : 'error',
+          status: error && error.response && error.response.status === 404 ? 'empty' : 'error',
         },
       })
     })
