@@ -13,6 +13,7 @@ export enum PageActions {
   UpdateAddress = 'updateAddress',
   UpdateAddressTransactions = 'updateAddressTransactions',
   UpdateAddressTotal = 'updateAddressTotal',
+  UpdateAddressStatus = 'updateAddressStatus',
 
   UpdateHomeBlocks = 'updateHomeBlocks',
 
@@ -164,6 +165,14 @@ export const reducer = (
         addressState: {
           ...state.addressState,
           total: payload.total,
+        },
+      }
+    case PageActions.UpdateAddressStatus:
+      return {
+        ...state,
+        addressState: {
+          ...state.addressState,
+          status: payload.status,
         },
       }
 

@@ -161,6 +161,7 @@ declare namespace State {
     address: Address
     transactions: Transaction[]
     total: number
+    status: 'ok' | 'error' | 'none'
   }
 
   export interface BlockState {

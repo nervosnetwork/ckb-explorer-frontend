@@ -20,12 +20,24 @@ export const getAddressInfo = (hash: string, dispatch: any) => {
           address,
         },
       })
+      dispatch({
+        type: PageActions.UpdateAddressStatus,
+        payload: {
+          status: 'ok',
+        },
+      })
     })
     .catch((error: AxiosError) => {
       dispatch({
         type: PageActions.UpdateAddress,
         payload: {
-          address: error && error.response && error.response.status === 404 ? initAddress.address : undefined,
+          address: initAddress.address,
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateAddressStatus,
+        payload: {
+          status: error && error.response && error.response.status === 404 ? 'none' : 'error',
         },
       })
     })

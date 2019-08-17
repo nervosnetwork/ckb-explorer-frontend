@@ -3,10 +3,11 @@ import React, { ReactNode, useContext, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import Pagination from '../../components/Pagination'
 import HelpIcon from '../../assets/qa_help.png'
-import Loading from '../../assets/loading.gif'
+import Loading from '../../components/Loading'
 import AddressHashCard from '../../components/Card/AddressHashCard'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TitleCard from '../../components/Card/TitleCard'
+import Error from '../../components/Error'
 import Content from '../../components/Content'
 import Tooltip from '../../components/Tooltip'
 import TransactionItem from '../../components/TransactionItem/index'
@@ -95,6 +96,36 @@ const AddressLockScript = ({ script }: { script: State.Script }) => {
   )
 }
 
+const getAddressInfo = (addressState: any) => {
+  const items: OverviewItemData[] = [
+    {
+      title: i18n.t('address.balance'),
+      content: `${localeNumberString(shannonToCkb(addressState.address.balance))} CKB`,
+    },
+    {
+      title: i18n.t('transaction.transactions'),
+      content: localeNumberString(addressState.address.transactionsCount),
+    },
+  ]
+
+  if (addressState.address.pendingRewardBlocksCount) {
+    items.push({
+      title: <AddressPendingRewardTitle />,
+      content: `${addressState.address.pendingRewardBlocksCount} ${
+        addressState.address.pendingRewardBlocksCount > 1 ? 'blocks' : 'block'
+      }`,
+    })
+  }
+  if (addressState.address.type === 'LockHash' && addressState.address) {
+    items.push({
+      title: i18n.t('address.address'),
+      content: addressContent(addressState.address),
+    })
+  }
+
+  return items
+}
+
 export const Address = ({
   dispatch,
   history: { replace },
@@ -121,31 +152,6 @@ export const Address = ({
     replace(`/address/${address}?page=${page}&size=${pageSize}`)
   }
 
-  const items: OverviewItemData[] = [
-    {
-      title: i18n.t('address.balance'),
-      content: `${localeNumberString(shannonToCkb(addressState.address.balance))} CKB`,
-    },
-    {
-      title: i18n.t('transaction.transactions'),
-      content: localeNumberString(addressState.address.transactionsCount),
-    },
-  ]
-  if (addressState.address.pendingRewardBlocksCount) {
-    items.push({
-      title: <AddressPendingRewardTitle />,
-      content: `${addressState.address.pendingRewardBlocksCount} ${
-        addressState.address.pendingRewardBlocksCount > 1 ? 'blocks' : 'block'
-      }`,
-    })
-  }
-  if (addressState.address.type === 'LockHash' && addressState.address) {
-    items.push({
-      title: i18n.t('address.address'),
-      content: addressContent(addressState.address),
-    })
-  }
-
   return (
     <Content>
       <AddressContentPanel className="container">
@@ -154,44 +160,42 @@ export const Address = ({
           hash={address}
           dispatch={dispatch}
         />
-        {addressState.address ? (
-          <div />
-        ) : (
-          <div>
-            <img src={Loading} alt="loading" />
-          </div>
-        )}
-        <>
-          <TitleCard title={i18n.t('common.overview')} />
-          <OverviewCard items={items}>
-            {addressState && addressState.address && addressState.address.lockScript && (
-              <AddressLockScript script={addressState.address.lockScript} />
-            )}
-          </OverviewCard>
-          {addressState.transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
-          <AddressTransactionsPanel>
-            {addressState &&
-              addressState.transactions &&
-              addressState.transactions.map((transaction: State.Transaction, index: number) => {
-                return (
-                  transaction && (
-                    <TransactionItem
-                      address={addressState.address.addressHash}
-                      transaction={transaction}
-                      confirmation={tipBlockNumber - transaction.blockNumber + 1}
-                      key={transaction.transactionHash}
-                      isLastItem={index === addressState.transactions.length - 1}
-                    />
+        {addressState.status === 'error' && <Error />}
+        {addressState.status === 'ok' ? (
+          <>
+            <TitleCard title={i18n.t('common.overview')} />
+            <OverviewCard items={getAddressInfo(addressState)}>
+              {addressState && addressState.address && addressState.address.lockScript && (
+                <AddressLockScript script={addressState.address.lockScript} />
+              )}
+            </OverviewCard>
+            {addressState.transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
+            <AddressTransactionsPanel>
+              {addressState &&
+                addressState.transactions &&
+                addressState.transactions.map((transaction: State.Transaction, index: number) => {
+                  return (
+                    transaction && (
+                      <TransactionItem
+                        address={addressState.address.addressHash}
+                        transaction={transaction}
+                        confirmation={tipBlockNumber - transaction.blockNumber + 1}
+                        key={transaction.transactionHash}
+                        isLastItem={index === addressState.transactions.length - 1}
+                      />
+                    )
                   )
-                )
-              })}
-          </AddressTransactionsPanel>
-          {totalPages > 1 && (
-            <AddressTransactionsPagition>
-              <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
-            </AddressTransactionsPagition>
-          )}
-        </>
+                })}
+            </AddressTransactionsPanel>
+            {totalPages > 1 && (
+              <AddressTransactionsPagition>
+                <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
+              </AddressTransactionsPagition>
+            )}
+          </>
+        ) : (
+          <Loading />
+        )}
       </AddressContentPanel>
     </Content>
   )
