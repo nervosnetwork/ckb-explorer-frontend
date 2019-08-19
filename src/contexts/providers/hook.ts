@@ -1,9 +1,12 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useContext } from 'react'
 import { initAxiosInterceptors } from '../../service/http/interceptors'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
-import { RESIZE_LATENCY, BLOCKCHAIN_ALERT_POLLING_TIME } from '../../utils/const'
-import { handleNodeVersion } from '../../service/app/nodeInfo'
+import { BLOCKCHAIN_ALERT_POLLING_TIME, RESIZE_LATENCY, CachedKeys } from '../../utils/const'
+import { initNodeVersion } from '../../service/app/nodeInfo'
 import { AppDispatch, AppActions } from './reducer'
+import { fetchCachedData } from '../../utils/cached'
+import { changeLanguage } from '../../utils/i18n'
+import { AppContext } from './index'
 
 export const useInterval = (callback: () => void, delay: number) => {
   const savedCallback = useRef(() => {})
@@ -19,9 +22,9 @@ export const useInterval = (callback: () => void, delay: number) => {
   }, [delay])
 }
 
-let resizeTimer: any = null
-export const useWindowResize = (dispatch: AppDispatch) => {
+const useWindowResize = (dispatch: AppDispatch) => {
   useEffect(() => {
+    let resizeTimer: any = null
     const resizeListener = () => {
       if (resizeTimer) clearTimeout(resizeTimer)
       resizeTimer = setTimeout(() => {
@@ -39,17 +42,29 @@ export const useWindowResize = (dispatch: AppDispatch) => {
     return () => {
       window.removeEventListener('resize', resizeListener)
     }
-    // eslint-disable-next-line
-  }, [])
+  }, [dispatch])
 }
 
 export const useInitApp = (dispatch: AppDispatch) => {
   const [init, setInit] = useState(false)
+  const { app } = useContext(AppContext)
   if (!init) {
     setInit(true)
     initAxiosInterceptors(dispatch)
-    handleNodeVersion(dispatch)
+    initNodeVersion(dispatch)
+
+    const language = fetchCachedData<'zh' | 'en'>(CachedKeys.AppLanguage) || app.language
+    if (language) {
+      dispatch({
+        type: AppActions.UpdateAppLanguage,
+        payload: {
+          language,
+        },
+      })
+      changeLanguage(language)
+    }
   }
+  useWindowResize(dispatch)
 
   useInterval(() => {
     handleBlockchainAlert(dispatch)

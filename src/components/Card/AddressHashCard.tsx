@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, Dispatch, SetStateAction } from 'react'
+import React, { useLayoutEffect, useState, Dispatch, SetStateAction, useContext } from 'react'
 import styled from 'styled-components'
 import CopyIcon from '../../assets/copy.png'
 import i18n from '../../utils/i18n'
@@ -6,6 +6,7 @@ import { isMobile } from '../../utils/screen'
 import { startEndEllipsis } from '../../utils/string'
 import { copyElementValue } from '../../utils/util'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import { AppContext } from '../../contexts/providers'
 
 const AddressHashCardPanel = styled.div`
   width: 100%;
@@ -101,10 +102,13 @@ const handleHashText = (hash: string, isMobileDeivce: boolean, setHashText: Disp
 export default ({ title, hash, dispatch }: { title: string; hash: string; dispatch: AppDispatch }) => {
   const [hashText, setHashText] = useState(hash)
   const isMobileDeivce = isMobile()
+  const { app } = useContext(AppContext)
 
   useLayoutEffect(() => {
-    handleHashText(hash, isMobileDeivce, setHashText)
-  }, [hash, isMobileDeivce])
+    if (app.language) {
+      handleHashText(hash, isMobileDeivce, setHashText)
+    }
+  }, [app.language, hash, isMobileDeivce])
 
   return (
     <AddressHashCardPanel id="address_hash_content">
@@ -122,8 +126,7 @@ export default ({ title, hash, dispatch }: { title: string; hash: string; dispat
           dispatch({
             type: AppActions.ShowToastMessage,
             payload: {
-              text: i18n.t('common.copied'),
-              timeout: 3000,
+              message: i18n.t('common.copied'),
             },
           })
         }}

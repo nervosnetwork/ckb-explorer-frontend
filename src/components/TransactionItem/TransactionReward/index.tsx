@@ -57,24 +57,24 @@ export const RewardPenal = styled.div`
 
 const TransactionReward = ({ transaction, cell }: { transaction: State.Transaction; cell: State.InputOutput }) => {
   // [0, 11] block doesn't show block reward and only cellbase show block reward
-  const showBlockReward = transaction.block_number > 0 && transaction.is_cellbase && cell.target_block_number > 0
+  const showBlockReward = transaction.blockNumber > 0 && transaction.isCellbase && cell.targetBlockNumber > 0
 
   const Rewards = [
     {
       name: i18n.t('transaction.base_reward'),
-      capacity: cell.base_reward,
+      capacity: cell.baseReward,
     },
     {
       name: i18n.t('transaction.secondary_reward'),
-      capacity: cell.secondary_reward,
+      capacity: cell.secondaryReward,
     },
     {
       name: i18n.t('transaction.commit_reward'),
-      capacity: cell.commit_reward,
+      capacity: cell.commitReward,
     },
     {
       name: i18n.t('transaction.proposal_reward'),
-      capacity: cell.proposal_reward,
+      capacity: cell.proposalReward,
     },
   ]
   return (

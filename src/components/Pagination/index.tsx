@@ -14,15 +14,20 @@ const Pagination = ({
   gotoPage?: number
   onChange: (page: number) => void
 }) => {
-  const [inputValue, setInputValue] = useState(gotoPage)
+  const [inputPage, setInputPage] = useState(gotoPage)
   const total = Math.max(totalPages, 1)
   const current = Math.min(Math.max(currentPage, 1), totalPages)
   const changePage = (page: number) => {
     if (page && page >= 1 && page <= total) {
       onChange(page)
-      setInputValue(Math.min(page + 1, totalPages))
+      setInputPage(Math.min(page + 1, totalPages))
     }
   }
+
+  const MobilePagination = `${i18n.t('pagination.total_page')} ${total} ${i18n.t('pagination.end_page')}`
+  const PCPagination = `${i18n.t('pagination.current_page')} ${current} ${i18n.t(
+    'pagination.of_page',
+  )} ${total} ${i18n.t('pagination.end_page')}`
 
   return (
     <PaginationPanel>
@@ -31,7 +36,7 @@ const Pagination = ({
           {i18n.t('pagination.first')}
         </button>
         <button type="button" className="left__button" onClick={() => changePage(current - 1)} />
-        <div className="middle__label">{isMobile() ? `Total Page ${total}` : `Page ${current} of ${total}`}</div>
+        <div className="middle__label">{isMobile() ? MobilePagination : PCPagination}</div>
         <button type="button" className="right__button" onClick={() => changePage(current + 1)} />
         <button type="button" className="last" onClick={() => changePage(total)}>
           {i18n.t('pagination.last')}
@@ -42,24 +47,23 @@ const Pagination = ({
         <input
           type="text"
           pattern="[0-9]*"
-          className="jump__page__input"
-          value={inputValue}
+          className="input__page"
+          value={inputPage}
           onChange={(event: any) => {
-            if (event.target.value > 0 && event.target.value < total) {
-              setInputValue(event.target.value)
-            } else if (event.target.value >= total) {
-              setInputValue(total)
-            } else if (!event.target.value || event.target.value <= 0) {
-              setInputValue(event.target.value)
+            const pageNo: number = parseInt(event.target.value, 10)
+            if (Number.isNaN(pageNo)) {
+              setInputPage(event.target.value)
+            } else {
+              setInputPage(Math.min(pageNo, total))
             }
           }}
           onKeyUp={(event: any) => {
             if (event.keyCode === 13) {
-              changePage(Number(inputValue))
+              changePage(inputPage)
             }
           }}
         />
-        <button type="button" className="go__to" onClick={() => changePage(Number(inputValue))}>
+        <button type="button" className="goto__page" onClick={() => changePage(inputPage)}>
           {i18n.t('pagination.goto')}
         </button>
       </PaginationRightItem>

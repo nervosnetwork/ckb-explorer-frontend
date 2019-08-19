@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useMemo } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
@@ -19,13 +19,12 @@ import {
 } from '../../components/Table'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
-import { BLOCK_POLLING_TIME, CachedKeys } from '../../utils/const'
-import { storeCachedData, fetchCachedData } from '../../utils/cached'
+import { BLOCK_POLLING_TIME } from '../../utils/const'
 import { localeNumberString } from '../../utils/number'
 import { startEndEllipsis } from '../../utils/string'
 import { isMobile } from '../../utils/screen'
 import browserHistory from '../../routes/history'
-import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
+import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import { getLatestBlocks } from '../../service/app/block'
 import getStatistics from '../../service/app/statistics'
@@ -51,7 +50,9 @@ const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => {
   return (
     <HighLightValue>
-      <Link to={to}>{value}</Link>
+      <Link to={to}>
+        <code>{value}</code>
+      </Link>
     </HighLightValue>
   )
 }
@@ -78,51 +79,28 @@ const parseHashRate = (hashRate: string | undefined) => {
   return hashRate ? `${localeNumberString((Number(hashRate) * 1000).toFixed(), 10)} gps` : '- -'
 }
 
-const TableTitleDatas: TableTitleData[] = [
-  {
-    title: i18n.t('home.height'),
-    width: '14%',
-  },
-  {
-    title: i18n.t('home.transactions'),
-    width: '14%',
-  },
-  {
-    title: i18n.t('home.block_reward'),
-    width: '20%',
-  },
-  {
-    title: i18n.t('block.miner'),
-    width: '37%',
-  },
-  {
-    title: i18n.t('home.time'),
-    width: '15%',
-  },
-]
-
-const getTableContentDatas = (data: Response.Wrapper<State.Block>) => {
+const getTableContentDatas = (block: State.Block) => {
   return [
     {
       width: '14%',
-      to: `/block/${data.attributes.number}`,
-      content: localeNumberString(data.attributes.number),
+      to: `/block/${block.number}`,
+      content: localeNumberString(block.number),
     },
     {
       width: '14%',
-      content: `${data.attributes.transactions_count}`,
+      content: `${block.transactionsCount}`,
     },
     {
       width: '20%',
-      content: localeNumberString(shannonToCkb(data.attributes.reward)),
+      content: localeNumberString(shannonToCkb(block.reward)),
     },
     {
       width: '37%',
-      content: data.attributes.miner_hash,
+      content: block.minerHash,
     },
     {
       width: '15%',
-      content: parseSimpleDate(data.attributes.timestamp),
+      content: parseSimpleDate(block.timestamp),
     },
   ] as TableContentData[]
 }
@@ -131,35 +109,86 @@ const parseBlockTime = (blockTime: string | undefined) => {
   return blockTime ? parseTime(Number(blockTime)) : '- -'
 }
 
+const blockchainDatas = (statistics: State.Statistics) => {
+  return [
+    {
+      name: i18n.t('blockchain.best_block'),
+      value: localeNumberString(statistics.tipBlockNumber),
+      tip: i18n.t('blockchain.best_block_tooltip'),
+    },
+    {
+      name: i18n.t('block.difficulty'),
+      value: localeNumberString(statistics.currentEpochDifficulty, 10),
+      tip: i18n.t('blockchain.difficulty_tooltip'),
+      clickable: true,
+    },
+    {
+      name: i18n.t('blockchain.hash_rate'),
+      value: parseHashRate(statistics.hashRate),
+      tip: i18n.t('blockchain.hash_rate_tooltip'),
+      clickable: true,
+    },
+    {
+      name: i18n.t('blockchain.average_block_time'),
+      value: parseBlockTime(statistics.currentEpochAverageBlockTime),
+      tip: i18n.t('blockchain.average_block_time_tooltip'),
+    },
+  ]
+}
+
+const blockCardItems = (block: State.Block) => {
+  return [
+    {
+      title: i18n.t('home.height'),
+      content: <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
+    },
+    {
+      title: i18n.t('home.transactions'),
+      content: localeNumberString(block.transactionsCount),
+    },
+    {
+      title: i18n.t('home.block_reward'),
+      content: localeNumberString(shannonToCkb(block.reward)),
+    },
+    {
+      title: i18n.t('block.miner'),
+      content: <BlockValueItem value={startEndEllipsis(block.minerHash, 13)} to={`/address/${block.minerHash}`} />,
+    },
+    {
+      title: i18n.t('home.time'),
+      content: parseSimpleDate(block.timestamp),
+    },
+  ] as OverviewItemData[]
+}
+
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
   const { homeBlocks, statistics } = useContext(AppContext)
   const [t] = useTranslation()
 
-  useEffect(() => {
-    const cachedBlocks = fetchCachedData<Response.Wrapper<State.Block>[]>(CachedKeys.Blocks)
-    if (cachedBlocks) {
-      dispatch({
-        type: PageActions.UpdateHomeBlocks,
-        payload: {
-          homeBlocks: cachedBlocks,
-        },
-      })
-    }
-    const cachedStatistics = fetchCachedData<State.Statistics>(CachedKeys.Statistics)
-    if (cachedStatistics) {
-      dispatch({
-        type: PageActions.UpdateStatistics,
-        payload: {
-          statistics: cachedStatistics,
-        },
-      })
-    }
-  }, [dispatch])
-
-  useEffect(() => {
-    storeCachedData(CachedKeys.Blocks, homeBlocks)
-    storeCachedData(CachedKeys.Statistics, statistics)
-  }, [homeBlocks, statistics])
+  const TableTitles = useMemo(() => {
+    return [
+      {
+        title: t('home.height'),
+        width: '14%',
+      },
+      {
+        title: t('home.transactions'),
+        width: '14%',
+      },
+      {
+        title: t('home.block_reward'),
+        width: '20%',
+      },
+      {
+        title: t('block.miner'),
+        width: '37%',
+      },
+      {
+        title: t('home.time'),
+        width: '15%',
+      },
+    ]
+  }, [t])
 
   useEffect(() => {
     getLatestBlocks(dispatch)
@@ -175,61 +204,11 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
     }
   }, [dispatch])
 
-  const BlockchainDatas: BlockchainData[] = [
-    {
-      name: t('blockchain.best_block'),
-      value: localeNumberString(statistics.tip_block_number),
-      tip: t('blockchain.best_block_tooltip'),
-    },
-    {
-      name: t('block.difficulty'),
-      value: localeNumberString(statistics.current_epoch_difficulty, 10),
-      tip: t('blockchain.difficulty_tooltip'),
-      clickable: true,
-    },
-    {
-      name: t('blockchain.hash_rate'),
-      value: parseHashRate(statistics.hash_rate),
-      tip: t('blockchain.hash_rate_tooltip'),
-      clickable: true,
-    },
-    {
-      name: t('blockchain.average_block_time'),
-      value: parseBlockTime(statistics.current_epoch_average_block_time),
-      tip: t('blockchain.average_block_time_tooltip'),
-    },
-  ]
-
-  const BlockCardItems = (block: State.Block) => {
-    return [
-      {
-        title: i18n.t('home.height'),
-        content: <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
-      },
-      {
-        title: i18n.t('home.transactions'),
-        content: localeNumberString(block.transactions_count),
-      },
-      {
-        title: i18n.t('home.block_reward'),
-        content: localeNumberString(shannonToCkb(block.reward)),
-      },
-      {
-        title: i18n.t('block.miner'),
-        content: <BlockValueItem value={startEndEllipsis(block.miner_hash, 13)} to={`/address/${block.miner_hash}`} />,
-      },
-      {
-        title: i18n.t('home.time'),
-        content: parseSimpleDate(block.timestamp),
-      },
-    ] as OverviewItemData[]
-  }
-
   return (
     <Content>
       <HomeHeaderPanel>
         <div className="blockchain__item__container">
-          {BlockchainDatas.map((data: BlockchainData) => {
+          {blockchainDatas(statistics).map((data: BlockchainData) => {
             return <BlockchainItem blockchain={data} key={data.name} />
           })}
         </div>
@@ -240,41 +219,33 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
             <div className="block__green__background" />
             <div className="block__panel">
               {homeBlocks &&
-                homeBlocks.map((block: any) => {
-                  return <OverviewCard key={block.attributes.number} items={BlockCardItems(block.attributes)} />
+                homeBlocks.map((block: State.Block) => {
+                  return <OverviewCard key={block.number} items={blockCardItems(block)} />
                 })}
             </div>
           </ContentTable>
         ) : (
           <ContentTable>
             <TableTitleRow>
-              {TableTitleDatas.map((data: TableTitleData) => {
+              {TableTitles.map((data: TableTitleData) => {
                 return <TableTitleItem width={data.width} title={data.title} key={data.title} />
               })}
             </TableTitleRow>
             {homeBlocks &&
-              homeBlocks.map((block: any) => {
+              homeBlocks.map((block: State.Block) => {
                 return (
                   block && (
-                    <TableContentRow key={block.attributes.number}>
-                      {getTableContentDatas(block).map((tableContentData: TableContentData, index: number) => {
+                    <TableContentRow key={block.number}>
+                      {getTableContentDatas(block).map((data: TableContentData, index: number) => {
                         const key = index
-                        if (tableContentData.content === block.attributes.miner_hash) {
-                          return (
-                            <TableMinerContentItem
-                              width={tableContentData.width}
-                              content={tableContentData.content}
-                              key={key}
-                            />
-                          )
-                        }
                         return (
-                          <TableContentItem
-                            width={tableContentData.width}
-                            content={tableContentData.content}
-                            to={tableContentData.to}
-                            key={key}
-                          />
+                          <React.Fragment key={key}>
+                            {data.content === block.minerHash ? (
+                              <TableMinerContentItem width={data.width} content={data.content} />
+                            ) : (
+                              <TableContentItem width={data.width} content={data.content} to={data.to} />
+                            )}
+                          </React.Fragment>
                         )
                       })}
                     </TableContentRow>

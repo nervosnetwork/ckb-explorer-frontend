@@ -94,15 +94,15 @@ const BlockOverviewItemContent = ({ value, tip, message }: { value?: string; tip
 
 const BlockOverview = ({ block }: { block: State.Block }) => {
   const [showAllOverview, setShowAllOverview] = useState(false)
-  const receivedTxFee = `${localeNumberString(shannonToCkb(block.received_tx_fee))} CKB`
+  const receivedTxFee = `${localeNumberString(shannonToCkb(block.receivedTxFee))} CKB`
   const rootInfoItems = [
     {
       title: i18n.t('block.transactions_root'),
-      content: `${block.transactions_root}`,
+      content: `${block.transactionsRoot}`,
     },
     {
       title: i18n.t('block.witnesses_root'),
-      content: `${block.witnesses_root}`,
+      content: `${block.witnessesRoot}`,
     },
   ]
   let overviewItems: OverviewItemData[] = [
@@ -112,11 +112,11 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     },
     {
       title: i18n.t('block.miner'),
-      content: <BlockMiner miner={block.miner_hash} />,
+      content: <BlockMiner miner={block.minerHash} />,
     },
     {
       title: i18n.t('transaction.transactions'),
-      content: localeNumberString(block.transactions_count),
+      content: localeNumberString(block.transactionsCount),
     },
     {
       title: i18n.t('block.epoch'),
@@ -124,18 +124,18 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     },
     {
       title: i18n.t('block.proposal_transactions'),
-      content: block.proposals_count ? localeNumberString(block.proposals_count) : 0,
+      content: block.proposalsCount ? localeNumberString(block.proposalsCount) : 0,
     },
     {
       title: i18n.t('block.epoch_start_number'),
-      content: localeNumberString(block.start_number),
+      content: localeNumberString(block.startNumber),
     },
     {
       title: i18n.t('block.block_reward'),
       content: (
         <BlockOverviewItemContent
           value={`${localeNumberString(shannonToCkb(block.reward))} CKB`}
-          tip={block.reward_status === 'pending' ? 'Pending' : undefined}
+          tip={block.rewardStatus === 'pending' ? i18n.t('block.pending') : undefined}
           message={i18n.t('block.pending_tip')}
         />
       ),
@@ -148,8 +148,10 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       title: i18n.t('transaction.transaction_fee'),
       content: (
         <BlockOverviewItemContent
-          value={block.received_tx_fee_status === 'calculating' && block.number > 0 ? undefined : receivedTxFee}
-          tip={block.received_tx_fee_status === 'calculating' && block.number > 0 ? 'Calculating' : undefined}
+          value={block.receivedTxFeeStatus === 'calculating' && block.number > 0 ? undefined : receivedTxFee}
+          tip={
+            block.receivedTxFeeStatus === 'calculating' && block.number > 0 ? i18n.t('block.calculating') : undefined
+          }
           message={i18n.t('block.calculating_tip')}
         />
       ),
@@ -168,7 +170,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     },
     {
       title: i18n.t('block.uncle_count'),
-      content: `${block.uncles_count}`,
+      content: `${block.unclesCount}`,
     },
     {
       title: i18n.t('block.proof'),
@@ -235,21 +237,19 @@ export default ({
     <Content>
       <BlockDetailPanel className="container">
         {blockState && blockState.block && (
-          <AddressHashCard title={i18n.t('block.block')} hash={blockState.block.block_hash} dispatch={dispatch} />
+          <AddressHashCard title={i18n.t('block.block')} hash={blockState.block.blockHash} dispatch={dispatch} />
         )}
         <TitleCard title={i18n.t('common.overview')} />
         {blockState && <BlockOverview block={blockState.block} />}
-        {blockState && blockState.transactions && blockState.transactions.length > 0 && (
-          <TitleCard title={i18n.t('transaction.transactions')} />
-        )}
+        <TitleCard title={i18n.t('transaction.transactions')} />
         {blockState &&
           blockState.transactions &&
-          blockState.transactions.map((transaction: any, index: number) => {
+          blockState.transactions.map((transaction: State.Transaction, index: number) => {
             return (
               transaction && (
                 <TransactionItem
-                  key={transaction.attributes.transaction_hash}
-                  transaction={transaction.attributes}
+                  key={transaction.transactionHash}
+                  transaction={transaction}
                   isBlock
                   isLastItem={index === blockState.transactions.length - 1}
                 />

@@ -65,15 +65,15 @@ const handleAddressText = (address: string) => {
 }
 
 const TransactionCell = ({ cell, address }: { cell: State.InputOutput; address?: string }) => {
-  if (cell.from_cellbase) {
-    return <Cellbase targetBlockNumber={cell.target_block_number} />
+  if (cell.fromCellbase) {
+    return <Cellbase targetBlockNumber={cell.targetBlockNumber} />
   }
 
   let addressText = i18n.t('address.unable_decode_address')
   let highLight = false
-  if (cell.address_hash) {
-    addressText = handleAddressText(cell.address_hash)
-    if (cell.address_hash !== address) {
+  if (cell.addressHash) {
+    addressText = handleAddressText(cell.addressHash)
+    if (cell.addressHash !== address) {
       highLight = true
     }
   }
@@ -82,7 +82,7 @@ const TransactionCell = ({ cell, address }: { cell: State.InputOutput; address?:
     <TransactionCellPanel highLight={highLight}>
       <div className="transaction__cell_address">
         {highLight ? (
-          <Link to={`/address/${cell.address_hash}`}>
+          <Link to={`/address/${cell.addressHash}`}>
             <code>{addressText}</code>
           </Link>
         ) : (

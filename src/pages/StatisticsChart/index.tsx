@@ -7,6 +7,7 @@ import { isMobile } from '../../utils/screen'
 import { getStatisticsChart } from '../../service/app/statisticsChart'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
+import i18n from '../../utils/i18n'
 
 const ChartPanel = styled.div`
   margin: 0 10% 30px 10%;
@@ -52,19 +53,21 @@ const LoadingPanel = styled.div`
   }
 `
 
-const scale = {
-  difficulty: {
-    min: 0,
-    alias: 'Difficulty',
-  },
-  hashRate: {
-    min: 0,
-    alias: 'Hash Rate(gps)',
-  },
-  epochNumber: {
-    min: 0,
-    alias: 'Epoch Number',
-  },
+const scale = () => {
+  return {
+    difficulty: {
+      min: 0,
+      alias: i18n.t('block.difficulty'),
+    },
+    hashRate: {
+      min: 0,
+      alias: i18n.t('block.hash_rate_gps'),
+    },
+    epochNumber: {
+      min: 0,
+      alias: i18n.t('block.epoch_number'),
+    },
+  }
 }
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
@@ -76,15 +79,15 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
 
   return (
     <Content>
-      <ChartTitle>Difficulty & Hash Rate</ChartTitle>
+      <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}</ChartTitle>
       {statisticsChartDatas.length > 1 ? (
         <ChartPanel>
           <Chart
             height={window.innerHeight * 0.7}
-            scale={scale}
+            scale={scale()}
             forceFit
             data={statisticsChartDatas}
-            padding={isMobile() ? [40, 90, 80, 90] : [80, 90, 100, 90]}
+            padding={isMobile() ? [40, 90, 100, 90] : [80, 90, 100, 90]}
           >
             <Legend
               custom
@@ -97,7 +100,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
               }}
               items={[
                 {
-                  value: 'Difficulty',
+                  value: i18n.t('block.difficulty'),
                   fill: '#3182bd',
                   marker: {
                     symbol: 'hyphen',
@@ -107,7 +110,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
                   },
                 },
                 {
-                  value: 'Hash Rate(gps)',
+                  value: i18n.t('block.hash_rate_gps'),
                   fill: '#66CC99',
                   marker: {
                     symbol: 'hyphen',

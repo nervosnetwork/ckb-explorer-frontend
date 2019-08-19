@@ -3,17 +3,21 @@ import styled, { css } from 'styled-components'
 export const HeaderDiv = styled.div`
   width: 100%;
   min-height: 80px;
-  overflow: hidden;
   box-shadow: 0 2px 4px 0 #141414;
   background-color: #424242;
-  position: sticky;
-  position: -webkit-sticky;
+  position: fixed;
+  position: -webkit-fixed;
+  overflow: visible;
   top: 0;
   z-index: 10;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  padding: 1px 10vw;
+  padding: 1px 8vw;
+
+  @media (max-width: 1300px) {
+    padding: 1px 3vw;
+  }
 
   .header__logo {
     display: flex;
@@ -50,7 +54,7 @@ export const HeaderDiv = styled.div`
       display: flex;
       align-items: center;
       height: 50px;
-      width: 420px;
+      width: 440px;
       min-width: 229px;
     }
   }
@@ -62,11 +66,16 @@ const HeaderMobileCommonPanel = styled.div`
   overflow: hidden;
   box-shadow: 0 2px 4px 0 #141414;
   background-color: #424242;
-  position: sticky;
-  position: -webkit-sticky;
+  position: fixed;
+  position: -webkit-fixed;
+  overflow: visible;
   top: 0;
   z-index: 10;
   padding: 1px 20px;
+
+  @media (max-width: 320px) {
+    padding: 1px 12px;
+  }
 `
 
 export const HeaderMobilePanel = styled(HeaderMobileCommonPanel)`
@@ -180,6 +189,7 @@ export const HeaderVersionPanel = styled.div`
   color: white;
   font-size: 12px;
   margin-left: 4px;
+  margin-right: 90px;
   > div {
     margin-top: 8px;
   }
@@ -188,6 +198,7 @@ export const HeaderVersionPanel = styled.div`
     width: 40px;
     font-size: 8px;
     margin-left: 4px;
+    margin-right: 40px;
     > div {
       margin-top: 3px;
     }

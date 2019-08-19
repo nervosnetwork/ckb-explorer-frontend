@@ -17,6 +17,8 @@ export const CachedKeys = {
 
   // Statistics Chart
   StatisticsChart: 'statistics_chart',
+
+  AppLanguage: 'appLanguage',
 }
 
 export enum CellState {

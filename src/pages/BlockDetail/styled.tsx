@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { CommonPagition } from '../BlockList/styled'
 
 export const BlockDetailPanel = styled.div`
   display: flex;
@@ -10,9 +9,8 @@ export const BlockDetailPanel = styled.div`
   width: 100%;
 
   @media (max-width: 700px) {
-    margin-top: 30px;
-    margin-bottom: 0px;
-    padding: 0px 20px 20px 20px;
+    margin: 0px;
+    padding: 20px;
   }
 `
 
@@ -83,7 +81,7 @@ export const BlockOverviewDisplayControlPanel = styled.div`
   }
 `
 
-export const BlockTransactionsPagition = styled(CommonPagition)`
+export const BlockTransactionsPagition = styled.div`
   margin: 20px 0px 0px 0px;
   width: 100%;
 

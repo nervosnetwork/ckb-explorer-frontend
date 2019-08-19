@@ -20,7 +20,7 @@ export const initApp: State.App = {
   tipBlockNumber: 0,
   appWidth: window.innerWidth,
   appHeight: window.innerHeight,
-  appLanguage: navigator.language || 'en',
+  language: navigator.language.includes('zh') ? 'zh' : 'en',
 }
 
 export default initApp

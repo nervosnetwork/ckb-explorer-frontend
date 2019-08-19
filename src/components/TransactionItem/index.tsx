@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom'
 import RightArrowIcon from '../../assets/input_arrow_output.png'
 import DownArrowIcon from '../../assets/input_arrow_output_down.png'
 import { parseDate } from '../../utils/date'
-import { localeNumberString } from '../../utils/number'
+import { localeNumberString, parseNumber } from '../../utils/number'
 import { isLargeMobile, isMediumMobile, isMobile, isSmallMobile } from '../../utils/screen'
 import { startEndEllipsis } from '../../utils/string'
-import { handleCapacityChange } from '../../utils/util'
 import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
 import TransactionConfirmation from './TransactionConfirmation'
 import TransactionReward from './TransactionReward'
 import { FullPanel, TransactionHashBlockPanel, TransactionInputOutputPanel, TransactionPanel } from './styled'
+import i18n from '../../utils/i18n'
 
 const MAX_CELL_SHOW_SIZE = 10
 
@@ -26,6 +26,23 @@ const handleTransactionHashText = (transactionHash: string) => {
     return startEndEllipsis(transactionHash, 24)
   }
   return transactionHash
+}
+
+const handleCellCapacity = (cells: State.InputOutput[], address?: string) => {
+  if (!cells || cells.length === 0) return 0
+  return cells
+    .filter((cell: State.InputOutput) => cell.addressHash === address)
+    .map((cell: State.InputOutput) => parseNumber(cell.capacity))
+    .reduce((previous: number, current: number) => {
+      return previous + current
+    }, 0)
+}
+
+const handleCapacityChange = (transaction: State.Transaction, address?: string) => {
+  if (!transaction) return 0
+  return (
+    handleCellCapacity(transaction.displayOutputs, address) - handleCellCapacity(transaction.displayInputs, address)
+  )
 }
 
 const TransactionItem = ({
@@ -45,12 +62,14 @@ const TransactionItem = ({
     <TransactionPanel isLastItem={isLastItem}>
       <TransactionHashBlockPanel>
         <div className="transaction_item__content">
-          <Link to={`/transaction/${transaction.transaction_hash}`}>
-            <code className="transaction_item__hash">{handleTransactionHashText(transaction.transaction_hash)}</code>
+          <Link to={`/transaction/${transaction.transactionHash}`}>
+            <code className="transaction_item__hash">{handleTransactionHashText(transaction.transactionHash)}</code>
           </Link>
           {!isBlock && (
             <div className="transaction_item__block">
-              {`(Block ${localeNumberString(transaction.block_number)})  ${parseDate(transaction.block_timestamp)}`}
+              {`(${i18n.t('block.block')} ${localeNumberString(transaction.blockNumber)})  ${parseDate(
+                transaction.blockTimestamp,
+              )}`}
             </div>
           )}
         </div>
@@ -58,7 +77,7 @@ const TransactionItem = ({
       <TransactionInputOutputPanel>
         <div className="transaction_item__input">
           <TransactionCellList
-            cells={transaction.display_inputs}
+            cells={transaction.displayInputs}
             showSize={MAX_CELL_SHOW_SIZE}
             transaction={transaction}
             render={cell => {
@@ -69,7 +88,7 @@ const TransactionItem = ({
         <img src={isMobile() ? DownArrowIcon : RightArrowIcon} alt="input and output" />
         <div className="transaction_item__output">
           <TransactionCellList
-            cells={transaction.display_outputs}
+            cells={transaction.displayOutputs}
             showSize={MAX_CELL_SHOW_SIZE}
             transaction={transaction}
             render={cell => (
