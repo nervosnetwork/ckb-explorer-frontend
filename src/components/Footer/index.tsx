@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, Suspense } from 'react'
 import { Link } from 'react-router-dom'
 import LogoIcon from '../../assets/ckb_footer_logo.png'
 import AboutIcon from '../../assets/footer_about.png'
@@ -15,6 +15,7 @@ import ForumIcon from '../../assets/footer_forum.png'
 import { getCurrentYear } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { FooterDiv, FooterItemPanel } from './styled'
+import Loading from '../Loading'
 
 const FooterItem = (link: any) => {
   return (
@@ -130,6 +131,11 @@ export default () => {
           </div>
         </div>
         <div className="footer__copyright">{`Copyright © ${getCurrentYear()} Nervos Foundation. All Rights Reserved.`}</div>
+        <Suspense fallback={null}>
+          <div hidden>
+            <Loading />
+          </div>
+        </Suspense>
       </FooterDiv>
     )
   }, [Footers])

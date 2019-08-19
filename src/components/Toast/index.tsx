@@ -54,7 +54,7 @@ const ANIMATION_DISAPPEAR_TIME = 2000
 const MAX_FRAME: number = (ANIMATION_DISAPPEAR_TIME / 1000) * 40 // suppose fps = 40
 const DEFAULT_TOAST_DURATION = 3000
 
-export const useTimeout = (callback: () => void, clearFunction: () => void, delay: number) => {
+const useTimeout = (callback: () => void, clearFunction: () => void, delay: number) => {
   const savedCallback = useRef(() => {})
   const clearCallback = useRef(() => {})
   useEffect(() => {

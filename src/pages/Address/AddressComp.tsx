@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect, useState } from 'react'
+import React, { ReactNode, useContext, useState } from 'react'
 import Pagination from '../../components/Pagination'
 import HelpIcon from '../../assets/qa_help.png'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
@@ -6,7 +6,6 @@ import TitleCard from '../../components/Card/TitleCard'
 import Tooltip from '../../components/Tooltip'
 import TransactionItem from '../../components/TransactionItem/index'
 import { AppContext } from '../../contexts/providers/index'
-import { PageParams } from '../../utils/const'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
@@ -131,12 +130,6 @@ export const AddressComp = ({
   const { tipBlockNumber } = app
 
   const totalPages = Math.ceil(addressState.total / pageSize)
-
-  useEffect(() => {
-    if (pageSize > PageParams.MaxPageSize) {
-      browserHistory.replace(`/address/${address}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
-    }
-  }, [address, currentPage, pageSize])
 
   const onChange = (page: number) => {
     browserHistory.replace(`/address/${address}?page=${page}&size=${pageSize}`)

@@ -22,6 +22,20 @@ export const useInterval = (callback: () => void, delay: number) => {
   }, [delay])
 }
 
+export const useTimeout = (callback: () => void, delay: number) => {
+  const savedCallback = useRef(() => {})
+  useEffect(() => {
+    savedCallback.current = callback
+  })
+  useEffect(() => {
+    const tick = () => {
+      savedCallback.current()
+    }
+    const listener = setTimeout(tick, delay)
+    return () => clearTimeout(listener)
+  }, [delay])
+}
+
 const useWindowResize = (dispatch: AppDispatch) => {
   useEffect(() => {
     let resizeTimer: any = null
