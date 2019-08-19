@@ -27,13 +27,13 @@ const AddressStateComp = ({
 }) => {
   const { addressState } = useContext(AppContext)
   switch (addressState.status) {
-    case 'error':
+    case 'Error':
       return <Error />
-    case 'ok':
+    case 'OK':
       return <AddressComp currentPage={currentPage} pageSize={pageSize} address={address} />
-    case 'keep_none':
+    case 'KeepNone':
       return <Loading />
-    case 'none':
+    case 'None':
     default:
       return null
   }
@@ -60,18 +60,18 @@ export const Address = ({
       dispatch({
         type: PageActions.UpdateAddressStatus,
         payload: {
-          status: 'none',
+          status: 'None',
         },
       })
     }
   }, [address, currentPage, pageSize, dispatch])
 
   useTimeout(() => {
-    if (addressState.status === 'none') {
+    if (addressState.status === 'None') {
       dispatch({
         type: PageActions.UpdateAddressStatus,
         payload: {
-          status: 'keep_none',
+          status: 'KeepNone',
         },
       })
     }
