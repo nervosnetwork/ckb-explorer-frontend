@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import PCDataNotFoundImage from '../../assets/pc_data_not_found.png'
+import MobileDataNotFoundImage from '../../assets/mobile_data_not_found.png'
 import { isMobile } from '../../utils/screen'
 
 const ErrorPanel = styled.div`
@@ -32,7 +33,7 @@ const ErrorPanel = styled.div`
 export default ({ message }: { message: string }) => {
   return (
     <ErrorPanel>
-      <img alt="data not fonund" src={PCDataNotFoundImage} />
+      <img alt="data not fonund" src={isMobile() ? MobileDataNotFoundImage : PCDataNotFoundImage} />
       {!isMobile() && <div>{message}</div>}
     </ErrorPanel>
   )
