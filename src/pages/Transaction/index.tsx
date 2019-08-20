@@ -1,80 +1,73 @@
-import React, { useContext, useEffect } from 'react'
-import { Link, RouteComponentProps } from 'react-router-dom'
+import React, { useEffect, useContext } from 'react'
+import { RouteComponentProps } from 'react-router-dom'
 import AddressHashCard from '../../components/Card/AddressHashCard'
-import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import Content from '../../components/Content'
-import { AppContext } from '../../contexts/providers/index'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { StateWithDispatch, AppDispatch, PageActions } from '../../contexts/providers/reducer'
 import { getTipBlockNumber } from '../../service/app/address'
 import { getTransactionByHash } from '../../service/app/transaction'
-import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
-import { localeNumberString } from '../../utils/number'
-import { formatConfirmation, shannonToCkb } from '../../utils/util'
-import { TransactionBlockHeightPanel, TransactionDiv } from './styled'
-import TransactionCellList from './TransactionCellList'
+import { TransactionDiv } from './styled'
+import TransactionComp from './TransactionComp'
+import { AppContext } from '../../contexts/providers'
+import Loading from '../../components/Loading'
+import Error from '../../components/Error'
+import { useTimeoutWithUnmount } from '../../utils/hook'
+import { LOADING_WAITING_TIME } from '../../utils/const'
 
-const TransactionBlockHeight = ({ blockNumber }: { blockNumber: number }) => {
-  return (
-    <TransactionBlockHeightPanel>
-      <Link to={`/block/${blockNumber}`}>{localeNumberString(blockNumber)}</Link>
-    </TransactionBlockHeightPanel>
-  )
+const TransactionStateComp = ({ dispatch }: { dispatch: AppDispatch }) => {
+  const { transactionState } = useContext(AppContext)
+  switch (transactionState.status) {
+    case 'Error':
+      return <Error />
+    case 'OK':
+      return <TransactionComp dispatch={dispatch} />
+    case 'KeepNone':
+      return <Loading />
+    case 'None':
+    default:
+      return null
+  }
 }
 
 export default ({
   dispatch,
-  history: { replace },
   match: { params },
 }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ hash: string }>>) => {
   const { hash } = params
-  const { transaction, app } = useContext(AppContext)
-  const { tipBlockNumber } = app
+  const { transactionState } = useContext(AppContext)
 
   useEffect(() => {
-    getTransactionByHash(hash, replace, dispatch)
+    getTransactionByHash(hash, dispatch)
     getTipBlockNumber(dispatch)
-  }, [hash, replace, dispatch])
+  }, [hash, dispatch])
 
-  let confirmation = 0
-  if (tipBlockNumber && transaction.blockNumber) {
-    confirmation = tipBlockNumber - transaction.blockNumber + 1
-  }
-
-  const overviewItems: OverviewItemData[] = [
-    {
-      title: i18n.t('block.block_height'),
-      content: <TransactionBlockHeight blockNumber={transaction.blockNumber} />,
+  useTimeoutWithUnmount(
+    () => {
+      if (transactionState.status === 'None') {
+        dispatch({
+          type: PageActions.UpdateTransactionStatus,
+          payload: {
+            status: 'KeepNone',
+          },
+        })
+      }
     },
-    {
-      title: i18n.t('block.timestamp'),
-      content: parseSimpleDate(transaction.blockTimestamp),
+    () => {
+      dispatch({
+        type: PageActions.UpdateTransactionStatus,
+        payload: {
+          status: 'None',
+        },
+      })
     },
-    {
-      title: i18n.t('transaction.transaction_fee'),
-      content: `${shannonToCkb(transaction.transactionFee)} CKB`,
-    },
-  ]
-  if (confirmation > 0) {
-    overviewItems.push({
-      title: i18n.t('transaction.status'),
-      content: formatConfirmation(confirmation),
-    })
-  }
+    LOADING_WAITING_TIME,
+  )
 
   return (
     <Content>
       <TransactionDiv className="container">
         <AddressHashCard title={i18n.t('transaction.transaction')} hash={hash} dispatch={dispatch} />
-        <div className="transaction__overview">
-          <OverviewCard items={overviewItems} />
-        </div>
-        <div className="transaction__inputs">
-          {transaction && <TransactionCellList inputs={transaction.displayInputs} dispatch={dispatch} />}
-        </div>
-        <div className="transaction__outputs">
-          {transaction && <TransactionCellList outputs={transaction.displayOutputs} dispatch={dispatch} />}
-        </div>
+        <TransactionStateComp dispatch={dispatch} />
       </TransactionDiv>
     </Content>
   )

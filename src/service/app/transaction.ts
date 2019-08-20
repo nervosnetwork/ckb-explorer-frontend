@@ -1,5 +1,6 @@
 import { fetchTransactionsByAddress, fetchTransactionByHash } from '../http/fetcher'
-import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
+import { PageActions, AppDispatchType } from '../../contexts/providers/reducer'
+import { FetchStatus } from '../../contexts/states'
 
 export const getTransactionsByAddress = (hash: string, page: number, size: number, dispatch: any) => {
   fetchTransactionsByAddress(hash, page, size)
@@ -37,7 +38,10 @@ export const getTransactionsByAddress = (hash: string, page: number, size: numbe
     })
 }
 
-export const getTransactionByHash = (hash: string, replace: any, dispatch: AppDispatch) => {
+export const getTransactionByHash = (
+  hash: string,
+  dispatch: AppDispatchType<{ transaction?: State.Transaction; status?: FetchStatus }>,
+) => {
   fetchTransactionByHash(hash)
     .then((wrapper: Response.Wrapper<State.Transaction> | null) => {
       if (wrapper) {
@@ -51,11 +55,27 @@ export const getTransactionByHash = (hash: string, replace: any, dispatch: AppDi
             transaction: transactionValue,
           },
         })
+        dispatch({
+          type: PageActions.UpdateTransactionStatus,
+          payload: {
+            status: 'OK',
+          },
+        })
       } else {
-        replace(`/search/fail?q=${hash}`)
+        dispatch({
+          type: PageActions.UpdateTransactionStatus,
+          payload: {
+            status: 'Error',
+          },
+        })
       }
     })
     .catch(() => {
-      replace(`/search/fail?q=${hash}`)
+      dispatch({
+        type: PageActions.UpdateTransactionStatus,
+        payload: {
+          status: 'Error',
+        },
+      })
     })
 }

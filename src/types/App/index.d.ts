@@ -183,6 +183,11 @@ declare namespace State {
     total: number
   }
 
+  export interface TransactionState {
+    transaction: Transaction
+    status: keyof FetchStatus
+  }
+
   export interface AppState {
     app: App
 
@@ -190,7 +195,7 @@ declare namespace State {
     blockState: BlockState
     homeBlocks: Block[]
     blockListState: BlockListState
-    transaction: Transaction
+    transactionState: TransactionState
     statistics: Statistics
     statisticsChartDatas: StatisticsChartDatas
 
