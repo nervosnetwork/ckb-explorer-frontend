@@ -140,6 +140,13 @@ declare namespace State {
     searchBarEditable: boolean
   }
 
+  export interface FetchStatus {
+    OK: string
+    Error: string
+    None: string
+    KeepNone: string
+  }
+
   export interface App {
     toast: State.ToastMessage | null
     loading: boolean
@@ -161,7 +168,7 @@ declare namespace State {
     address: Address
     transactions: Transaction[]
     total: number
-    status: 'OK' | 'Error' | 'None' | 'KeepNone'
+    status: keyof FetchStatus
   }
 
   export interface BlockState {

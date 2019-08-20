@@ -6,7 +6,7 @@ import AddressHashCard from '../../components/Card/AddressHashCard'
 import Error from '../../components/Error'
 import Content from '../../components/Content'
 import { AppContext } from '../../contexts/providers/index'
-import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
+import { PageActions, StateWithDispatchType } from '../../contexts/providers/reducer'
 import { getAddress } from '../../service/app/address'
 import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
@@ -15,6 +15,7 @@ import { AddressContentPanel } from './styled'
 import AddressComp from './AddressComp'
 import { useTimeout } from '../../contexts/providers/hook'
 import browserHistory from '../../routes/history'
+import { FetchStatus } from '../../contexts/states'
 
 const AddressStateComp = ({
   currentPage,
@@ -43,7 +44,9 @@ export const Address = ({
   dispatch,
   location: { search },
   match: { params },
-}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ address: string }>>) => {
+}: React.PropsWithoutRef<
+  StateWithDispatchType<{ status: FetchStatus }> & RouteComponentProps<{ address: string }>
+>) => {
   const { address } = params
   const parsed = queryString.parse(search)
   const { addressState } = useContext(AppContext)

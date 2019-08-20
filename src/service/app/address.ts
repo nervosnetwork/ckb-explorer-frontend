@@ -3,6 +3,7 @@ import { AppActions, AppDispatch, PageActions } from '../../contexts/providers/r
 import initAddress from '../../contexts/states/address'
 import { fetchAddressInfo, fetchTipBlockNumber } from '../http/fetcher'
 import { getTransactionsByAddress } from './transaction'
+import { FetchStatus } from '../../contexts/states'
 
 export const getAddressInfo = (hash: string, dispatch: AppDispatch) => {
   fetchAddressInfo(hash)
@@ -23,7 +24,7 @@ export const getAddressInfo = (hash: string, dispatch: AppDispatch) => {
       dispatch({
         type: PageActions.UpdateAddressStatus,
         payload: {
-          status: 'OK',
+          status: 'OK' as FetchStatus,
         },
       })
     })

@@ -5,6 +5,8 @@ import initStatistics from './statistics'
 import initTransaction from './transaction'
 import initComponents from './components'
 
+export type FetchStatus = keyof State.FetchStatus
+
 const initHomeBlocks = [] as State.Block[]
 const initStatisticsChartDatas = [] as State.StatisticsChartData[]
 

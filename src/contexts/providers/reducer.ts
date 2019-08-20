@@ -40,6 +40,9 @@ export type StateActions = AppActions | PageActions | ComponentActions
 export type AppDispatch = React.Dispatch<{ type: StateActions; payload: any }> // TODO: add type of payload
 export type StateWithDispatch = State.AppState & { dispatch: AppDispatch }
 
+export type AppDispatchType<T> = React.Dispatch<{ type: StateActions; payload: T }>
+export type StateWithDispatchType<T> = State.AppState & { dispatch: AppDispatchType<T> }
+
 export const reducer = (
   state: State.AppState,
   { type, payload }: { type: StateActions; payload: any },
