@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useContext } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { initAxiosInterceptors } from '../../service/http/interceptors'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
 import { BLOCKCHAIN_ALERT_POLLING_TIME, RESIZE_LATENCY, CachedKeys } from '../../utils/const'
@@ -7,34 +7,7 @@ import { AppDispatch, AppActions } from './reducer'
 import { fetchCachedData } from '../../utils/cached'
 import { changeLanguage } from '../../utils/i18n'
 import { AppContext } from './index'
-
-export const useInterval = (callback: () => void, delay: number) => {
-  const savedCallback = useRef(() => {})
-  useEffect(() => {
-    savedCallback.current = callback
-  })
-  useEffect(() => {
-    const tick = () => {
-      savedCallback.current()
-    }
-    const listener = setInterval(tick, delay)
-    return () => clearInterval(listener)
-  }, [delay])
-}
-
-export const useTimeout = (callback: () => void, delay: number) => {
-  const savedCallback = useRef(() => {})
-  useEffect(() => {
-    savedCallback.current = callback
-  })
-  useEffect(() => {
-    const tick = () => {
-      savedCallback.current()
-    }
-    const listener = setTimeout(tick, delay)
-    return () => clearTimeout(listener)
-  }, [delay])
-}
+import { useInterval } from '../../utils/hook'
 
 const useWindowResize = (dispatch: AppDispatch) => {
   useEffect(() => {
@@ -59,6 +32,19 @@ const useWindowResize = (dispatch: AppDispatch) => {
   }, [dispatch])
 }
 
+const initAppLanguage = (app: State.App, dispatch: AppDispatch) => {
+  const language = fetchCachedData<'zh' | 'en'>(CachedKeys.AppLanguage) || app.language
+  if (language) {
+    dispatch({
+      type: AppActions.UpdateAppLanguage,
+      payload: {
+        language,
+      },
+    })
+    changeLanguage(language)
+  }
+}
+
 export const useInitApp = (dispatch: AppDispatch) => {
   const [init, setInit] = useState(false)
   const { app } = useContext(AppContext)
@@ -66,17 +52,7 @@ export const useInitApp = (dispatch: AppDispatch) => {
     setInit(true)
     initAxiosInterceptors(dispatch)
     initNodeVersion(dispatch)
-
-    const language = fetchCachedData<'zh' | 'en'>(CachedKeys.AppLanguage) || app.language
-    if (language) {
-      dispatch({
-        type: AppActions.UpdateAppLanguage,
-        payload: {
-          language,
-        },
-      })
-      changeLanguage(language)
-    }
+    initAppLanguage(app, dispatch)
   }
   useWindowResize(dispatch)
 
@@ -84,3 +60,5 @@ export const useInitApp = (dispatch: AppDispatch) => {
     handleBlockchainAlert(dispatch)
   }, BLOCKCHAIN_ALERT_POLLING_TIME)
 }
+
+export default useInitApp

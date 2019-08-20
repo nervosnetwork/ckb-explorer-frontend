@@ -175,6 +175,7 @@ declare namespace State {
     block: Block
     transactions: Transaction[]
     total: number
+    status: keyof FetchStatus
   }
 
   export interface BlockListState {

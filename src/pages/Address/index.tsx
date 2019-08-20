@@ -13,9 +13,9 @@ import i18n from '../../utils/i18n'
 import { parsePageNumber } from '../../utils/string'
 import { AddressContentPanel } from './styled'
 import AddressComp from './AddressComp'
-import { useTimeout } from '../../contexts/providers/hook'
 import browserHistory from '../../routes/history'
 import { FetchStatus } from '../../contexts/states'
+import { useTimeoutWithUnmount } from '../../utils/hook'
 
 const AddressStateComp = ({
   currentPage,
@@ -59,26 +59,29 @@ export const Address = ({
       browserHistory.replace(`/address/${address}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
     }
     getAddress(address, currentPage, pageSize, dispatch)
-    return () => {
+  }, [address, currentPage, pageSize, dispatch])
+
+  useTimeoutWithUnmount(
+    () => {
+      if (addressState.status === 'None') {
+        dispatch({
+          type: PageActions.UpdateAddressStatus,
+          payload: {
+            status: 'KeepNone',
+          },
+        })
+      }
+    },
+    () => {
       dispatch({
         type: PageActions.UpdateAddressStatus,
         payload: {
           status: 'None',
         },
       })
-    }
-  }, [address, currentPage, pageSize, dispatch])
-
-  useTimeout(() => {
-    if (addressState.status === 'None') {
-      dispatch({
-        type: PageActions.UpdateAddressStatus,
-        payload: {
-          status: 'KeepNone',
-        },
-      })
-    }
-  }, LOADING_WAITING_TIME)
+    },
+    LOADING_WAITING_TIME,
+  )
 
   return (
     <Content>

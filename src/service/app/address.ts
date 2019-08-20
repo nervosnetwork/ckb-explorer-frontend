@@ -1,11 +1,14 @@
 import { AxiosError } from 'axios'
-import { AppActions, AppDispatch, PageActions } from '../../contexts/providers/reducer'
+import { AppActions, AppDispatch, PageActions, AppDispatchType } from '../../contexts/providers/reducer'
 import initAddress from '../../contexts/states/address'
 import { fetchAddressInfo, fetchTipBlockNumber } from '../http/fetcher'
 import { getTransactionsByAddress } from './transaction'
 import { FetchStatus } from '../../contexts/states'
 
-export const getAddressInfo = (hash: string, dispatch: AppDispatch) => {
+export const getAddressInfo = (
+  hash: string,
+  dispatch: AppDispatchType<{ address?: State.Address; status?: FetchStatus }>,
+) => {
   fetchAddressInfo(hash)
     .then((wrapper: Response.Wrapper<State.Address> | null) => {
       let { address } = initAddress
