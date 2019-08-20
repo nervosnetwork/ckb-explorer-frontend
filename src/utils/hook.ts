@@ -6,10 +6,7 @@ export const useInterval = (callback: () => void, delay: number) => {
     savedCallback.current = callback
   })
   useEffect(() => {
-    const tick = () => {
-      savedCallback.current()
-    }
-    const listener = setInterval(tick, delay)
+    const listener = setInterval(savedCallback.current, delay)
     return () => clearInterval(listener)
   }, [delay])
 }
