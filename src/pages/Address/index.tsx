@@ -29,7 +29,7 @@ const AddressStateComp = ({
   const { addressState } = useContext(AppContext)
   switch (addressState.status) {
     case 'Error':
-      return <Error />
+      return <Error message={i18n.t('address.address_not_found')} />
     case 'OK':
       return <AddressComp currentPage={currentPage} pageSize={pageSize} address={address} />
     case 'KeepNone':

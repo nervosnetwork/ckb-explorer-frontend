@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import PCDataNotFoundImage from '../../assets/pc_data_not_found.png'
+import { isMobile } from '../../utils/screen'
 
 const ErrorPanel = styled.div`
-  margin-top: 60px;
+  margin: 112px 0 243px 0;
 
   @media (max-width: 700px) {
-    margin-top: 30px;
+    margin: 120px 0 130px 0;
   }
 
   > img {
@@ -19,12 +20,20 @@ const ErrorPanel = styled.div`
       height: 130px;
     }
   }
+
+  > div {
+    font-size: 26px;
+    text-align: center;
+    color: #000000;
+    margin-top: 13px;
+  }
 `
 
-export default () => {
+export default ({ message }: { message: string }) => {
   return (
     <ErrorPanel>
       <img alt="data not fonund" src={PCDataNotFoundImage} />
+      {!isMobile() && <div>{message}</div>}
     </ErrorPanel>
   )
 }
