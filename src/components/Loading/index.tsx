@@ -126,6 +126,5 @@ const Loading = styled.div`
 `
 
 export default () => {
-  console.log('loading')
   return <Loading />
 }
