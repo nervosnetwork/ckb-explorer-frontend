@@ -29,6 +29,7 @@ export const HeaderLanguagePanel = styled.div`
   .current__language {
     padding: 0 8px;
     height: 32px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -46,6 +47,7 @@ export const HeaderLanguagePanel = styled.div`
 
   .select__language {
     height: 33px;
+    cursor: pointer;
     display: ${(props: { showDropdown: boolean }) => (props.showDropdown ? 'block' : 'none')};
 
     .select__separate {
