@@ -15,7 +15,7 @@ import { AddressContentPanel } from './styled'
 import AddressComp from './AddressComp'
 import browserHistory from '../../routes/history'
 import { FetchStatus } from '../../contexts/states'
-import { useTimeoutWithUnmount } from '../../utils/hook'
+import { useTimeout } from '../../utils/hook'
 
 const AddressStateComp = ({
   currentPage,
@@ -61,27 +61,16 @@ export const Address = ({
     getAddress(address, currentPage, pageSize, dispatch)
   }, [address, currentPage, pageSize, dispatch])
 
-  useTimeoutWithUnmount(
-    () => {
-      if (addressState.status === 'None') {
-        dispatch({
-          type: PageActions.UpdateAddressStatus,
-          payload: {
-            status: 'KeepNone',
-          },
-        })
-      }
-    },
-    () => {
+  useTimeout(() => {
+    if (addressState.status === 'None') {
       dispatch({
         type: PageActions.UpdateAddressStatus,
         payload: {
-          status: 'None',
+          status: 'KeepNone',
         },
       })
-    },
-    LOADING_WAITING_TIME,
-  )
+    }
+  }, LOADING_WAITING_TIME)
 
   return (
     <Content>

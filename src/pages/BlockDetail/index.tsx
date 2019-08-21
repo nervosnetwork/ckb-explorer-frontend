@@ -13,7 +13,7 @@ import { parsePageNumber } from '../../utils/string'
 import { BlockDetailPanel } from './styled'
 import BlockComp from './BlockComp'
 import Loading from '../../components/Loading'
-import { useTimeoutWithUnmount } from '../../utils/hook'
+import { useTimeout } from '../../utils/hook'
 
 const BlockStateComp = ({
   currentPage,
@@ -57,29 +57,26 @@ export default ({
       replace(`/block/${blockParam}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
     }
     getBlock(blockParam, currentPage, pageSize, dispatch)
-  }, [replace, blockParam, currentPage, pageSize, dispatch])
-
-  useTimeoutWithUnmount(
-    () => {
-      if (blockState.status === 'None') {
-        dispatch({
-          type: PageActions.UpdateBlockStatus,
-          payload: {
-            status: 'KeepNone',
-          },
-        })
-      }
-    },
-    () => {
+    return () => {
       dispatch({
         type: PageActions.UpdateBlockStatus,
         payload: {
           status: 'None',
         },
       })
-    },
-    LOADING_WAITING_TIME,
-  )
+    }
+  }, [replace, blockParam, currentPage, pageSize, dispatch])
+
+  useTimeout(() => {
+    if (blockState.status === 'None') {
+      dispatch({
+        type: PageActions.UpdateBlockStatus,
+        payload: {
+          status: 'KeepNone',
+        },
+      })
+    }
+  }, LOADING_WAITING_TIME)
 
   return (
     <Content>

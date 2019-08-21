@@ -11,8 +11,8 @@ import TransactionComp from './TransactionComp'
 import { AppContext } from '../../contexts/providers'
 import Loading from '../../components/Loading'
 import Error from '../../components/Error'
-import { useTimeoutWithUnmount } from '../../utils/hook'
 import { LOADING_WAITING_TIME } from '../../utils/const'
+import { useTimeout } from '../../utils/hook'
 
 const TransactionStateComp = ({ dispatch }: { dispatch: AppDispatch }) => {
   const { transactionState } = useContext(AppContext)
@@ -39,29 +39,27 @@ export default ({
   useEffect(() => {
     getTransactionByHash(hash, dispatch)
     getTipBlockNumber(dispatch)
-  }, [hash, dispatch])
 
-  useTimeoutWithUnmount(
-    () => {
-      if (transactionState.status === 'None') {
-        dispatch({
-          type: PageActions.UpdateTransactionStatus,
-          payload: {
-            status: 'KeepNone',
-          },
-        })
-      }
-    },
-    () => {
+    return () => {
       dispatch({
         type: PageActions.UpdateTransactionStatus,
         payload: {
           status: 'None',
         },
       })
-    },
-    LOADING_WAITING_TIME,
-  )
+    }
+  }, [hash, dispatch])
+
+  useTimeout(() => {
+    if (transactionState.status === 'None') {
+      dispatch({
+        type: PageActions.UpdateTransactionStatus,
+        payload: {
+          status: 'KeepNone',
+        },
+      })
+    }
+  }, LOADING_WAITING_TIME)
 
   return (
     <Content>

@@ -55,6 +55,7 @@ export const getTransactionByHash = (
             transaction: transactionValue,
           },
         })
+        console.log('fetch ok')
         dispatch({
           type: PageActions.UpdateTransactionStatus,
           payload: {
