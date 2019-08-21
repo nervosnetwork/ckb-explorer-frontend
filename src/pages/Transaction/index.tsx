@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useRef } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import AddressHashCard from '../../components/Card/AddressHashCard'
 import Content from '../../components/Content'
@@ -12,7 +12,6 @@ import { AppContext } from '../../contexts/providers'
 import Loading from '../../components/Loading'
 import Error from '../../components/Error'
 import { LOADING_WAITING_TIME } from '../../utils/const'
-import { useTimeout } from '../../utils/hook'
 
 const TransactionStateComp = ({ dispatch }: { dispatch: AppDispatch }) => {
   const { transactionState } = useContext(AppContext)
@@ -36,21 +35,7 @@ export default ({
   const { hash } = params
   const { transactionState } = useContext(AppContext)
 
-  useEffect(() => {
-    getTransactionByHash(hash, dispatch)
-    getTipBlockNumber(dispatch)
-
-    return () => {
-      dispatch({
-        type: PageActions.UpdateTransactionStatus,
-        payload: {
-          status: 'None',
-        },
-      })
-    }
-  }, [hash, dispatch])
-
-  useTimeout(() => {
+  const savedCallback = useRef(() => {
     if (transactionState.status === 'None') {
       dispatch({
         type: PageActions.UpdateTransactionStatus,
@@ -59,7 +44,26 @@ export default ({
         },
       })
     }
-  }, LOADING_WAITING_TIME)
+  })
+
+  useEffect(() => {
+    const listener = setTimeout(savedCallback.current, LOADING_WAITING_TIME)
+
+    getTransactionByHash(hash, dispatch, () => {
+      if (listener) clearTimeout(listener)
+    })
+    getTipBlockNumber(dispatch)
+
+    return () => {
+      if (listener) clearTimeout(listener)
+      dispatch({
+        type: PageActions.UpdateTransactionStatus,
+        payload: {
+          status: 'None',
+        },
+      })
+    }
+  }, [hash, dispatch])
 
   return (
     <Content>

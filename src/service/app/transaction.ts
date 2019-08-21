@@ -41,9 +41,11 @@ export const getTransactionsByAddress = (hash: string, page: number, size: numbe
 export const getTransactionByHash = (
   hash: string,
   dispatch: AppDispatchType<{ transaction?: State.Transaction; status?: FetchStatus }>,
+  callback: Function,
 ) => {
   fetchTransactionByHash(hash)
     .then((wrapper: Response.Wrapper<State.Transaction> | null) => {
+      callback()
       if (wrapper) {
         const transactionValue = wrapper.attributes
         if (transactionValue.displayOutputs && transactionValue.displayOutputs.length > 0) {
@@ -55,7 +57,6 @@ export const getTransactionByHash = (
             transaction: transactionValue,
           },
         })
-        console.log('fetch ok')
         dispatch({
           type: PageActions.UpdateTransactionStatus,
           payload: {
@@ -72,6 +73,7 @@ export const getTransactionByHash = (
       }
     })
     .catch(() => {
+      callback()
       dispatch({
         type: PageActions.UpdateTransactionStatus,
         payload: {
