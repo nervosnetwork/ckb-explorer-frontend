@@ -20,13 +20,24 @@ import { AppContext } from '../../contexts/providers/index'
 import { AppDispatch, ComponentActions } from '../../contexts/providers/reducer'
 import Dropdown from './Dropdown'
 
+enum LinkType {
+  Inner,
+  Outer,
+}
+
 const Menus = () => {
   const [t] = useTranslation()
   const MenuDatas = useMemo(() => {
     return [
       {
+        type: LinkType.Inner,
         name: t('navbar.charts'),
         url: '/charts',
+      },
+      {
+        type: LinkType.Outer,
+        name: t('navbar.faucet'),
+        url: 'https://faucet.nervos.org',
       },
     ]
   }, [t])
@@ -34,10 +45,14 @@ const Menus = () => {
   return (
     <div className="header__menus">
       {MenuDatas.map(menu => {
-        return (
+        return menu.type === LinkType.Inner ? (
           <Link className="header__menus__item" to={menu.url} key={menu.name}>
             {menu.name}
           </Link>
+        ) : (
+          <a className="header__menus__item" href={menu.url} target="_blank" rel="noopener noreferrer" key={menu.name}>
+            {menu.name}
+          </a>
         )
       })}
     </div>
