@@ -50,7 +50,7 @@ const Menus = () => {
             {menu.name}
           </Link>
         ) : (
-          <a className="header__menus__item" href={menu.url} key={menu.name}>
+          <a className="header__menus__item" href={menu.url} target="_blank" rel="noopener noreferrer" key={menu.name}>
             {menu.name}
           </a>
         )
