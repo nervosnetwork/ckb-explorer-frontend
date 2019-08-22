@@ -27,6 +27,7 @@ export const initBlockState: State.BlockState = {
   },
   transactions: [] as State.Transaction[],
   total: 0,
+  status: 'None',
 }
 
 export const initBlockListState: State.BlockListState = {

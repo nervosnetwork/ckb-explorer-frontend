@@ -1,32 +1,59 @@
 import { fetchTransactionsByBlockHash, fetchBlock, fetchBlocks, fetchBlockList } from '../http/fetcher'
-import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
+import { PageActions, AppDispatch, AppActions } from '../../contexts/providers/reducer'
 import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import { CachedKeys } from '../../utils/const'
 
 export const getBlockTransactions = (hash: string, page: number, size: number, dispatch: AppDispatch) => {
-  fetchTransactionsByBlockHash(hash, page, size).then(response => {
-    const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
-    dispatch({
-      type: PageActions.UpdateBlockTransactions,
-      payload: {
-        transactions: data.map((wrapper: Response.Wrapper<State.Transaction>) => {
-          return wrapper.attributes
-        }),
-      },
-    })
-    if (meta) {
+  fetchTransactionsByBlockHash(hash, page, size)
+    .then(response => {
+      const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
       dispatch({
-        type: PageActions.UpdateBlockTotal,
+        type: PageActions.UpdateBlockTransactions,
         payload: {
-          total: meta.total,
+          transactions: data.map((wrapper: Response.Wrapper<State.Transaction>) => {
+            return wrapper.attributes
+          }),
         },
       })
-    }
-  })
+      dispatch({
+        type: PageActions.UpdateBlockStatus,
+        payload: {
+          status: 'OK',
+        },
+      })
+      dispatch({
+        type: AppActions.UpdateLoading,
+        payload: {
+          loading: false,
+        },
+      })
+      if (meta) {
+        dispatch({
+          type: PageActions.UpdateBlockTotal,
+          payload: {
+            total: meta.total,
+          },
+        })
+      }
+    })
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateBlockStatus,
+        payload: {
+          status: 'Error',
+        },
+      })
+      dispatch({
+        type: AppActions.UpdateLoading,
+        payload: {
+          loading: false,
+        },
+      })
+    })
 }
 
 // blockParam: block hash or block number
-export const getBlock = (blockParam: string, page: number, size: number, dispatch: AppDispatch, replace: any) => {
+export const getBlock = (blockParam: string, page: number, size: number, dispatch: AppDispatch) => {
   fetchBlock(blockParam)
     .then((wrapper: Response.Wrapper<State.Block> | null) => {
       if (wrapper) {
@@ -39,11 +66,33 @@ export const getBlock = (blockParam: string, page: number, size: number, dispatc
         })
         getBlockTransactions(block.blockHash, page, size, dispatch)
       } else {
-        replace(`/search/fail?q=${blockParam}`)
+        dispatch({
+          type: PageActions.UpdateBlockStatus,
+          payload: {
+            status: 'Error',
+          },
+        })
+        dispatch({
+          type: AppActions.UpdateLoading,
+          payload: {
+            loading: false,
+          },
+        })
       }
     })
     .catch(() => {
-      replace(`/search/fail?q=${blockParam}`)
+      dispatch({
+        type: PageActions.UpdateBlockStatus,
+        payload: {
+          status: 'Error',
+        },
+      })
+      dispatch({
+        type: AppActions.UpdateLoading,
+        payload: {
+          loading: false,
+        },
+      })
     })
 }
 

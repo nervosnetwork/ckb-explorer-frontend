@@ -1,9 +1,10 @@
+import { AxiosError } from 'axios'
 import { AppActions, AppDispatch, PageActions } from '../../contexts/providers/reducer'
 import initAddress from '../../contexts/states/address'
 import { fetchAddressInfo, fetchTipBlockNumber } from '../http/fetcher'
 import { getTransactionsByAddress } from './transaction'
 
-export const getAddressInfo = (hash: string, dispatch: any) => {
+export const getAddressInfo = (hash: string, dispatch: AppDispatch) => {
   fetchAddressInfo(hash)
     .then((wrapper: Response.Wrapper<State.Address> | null) => {
       let { address } = initAddress
@@ -19,12 +20,36 @@ export const getAddressInfo = (hash: string, dispatch: any) => {
           address,
         },
       })
+      dispatch({
+        type: PageActions.UpdateAddressStatus,
+        payload: {
+          status: 'OK',
+        },
+      })
+      dispatch({
+        type: AppActions.UpdateLoading,
+        payload: {
+          loading: false,
+        },
+      })
     })
-    .catch(() => {
+    .catch((error: AxiosError) => {
       dispatch({
         type: PageActions.UpdateAddress,
         payload: {
           address: initAddress.address,
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateAddressStatus,
+        payload: {
+          status: error && error.response && error.response.status === 404 ? 'OK' : 'Error',
+        },
+      })
+      dispatch({
+        type: AppActions.UpdateLoading,
+        payload: {
+          loading: false,
         },
       })
     })
