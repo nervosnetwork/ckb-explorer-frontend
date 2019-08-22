@@ -1,17 +1,9 @@
 import { fetchTransactionsByBlockHash, fetchBlock, fetchBlocks, fetchBlockList } from '../http/fetcher'
-import { PageActions, AppDispatch, AppDispatchType } from '../../contexts/providers/reducer'
+import { PageActions, AppDispatch, AppActions } from '../../contexts/providers/reducer'
 import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import { CachedKeys } from '../../utils/const'
-import { FetchStatus } from '../../contexts/states'
 
-type BlockTransactionType = { transactions?: State.Transaction[]; total?: number; status?: FetchStatus }
-
-export const getBlockTransactions = (
-  hash: string,
-  page: number,
-  size: number,
-  dispatch: AppDispatchType<BlockTransactionType>,
-) => {
+export const getBlockTransactions = (hash: string, page: number, size: number, dispatch: AppDispatch) => {
   fetchTransactionsByBlockHash(hash, page, size)
     .then(response => {
       const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
@@ -27,6 +19,12 @@ export const getBlockTransactions = (
         type: PageActions.UpdateBlockStatus,
         payload: {
           status: 'OK',
+        },
+      })
+      dispatch({
+        type: AppActions.UpdateLoading,
+        payload: {
+          loading: false,
         },
       })
       if (meta) {
@@ -45,16 +43,17 @@ export const getBlockTransactions = (
           status: 'Error',
         },
       })
+      dispatch({
+        type: AppActions.UpdateLoading,
+        payload: {
+          loading: false,
+        },
+      })
     })
 }
 
 // blockParam: block hash or block number
-export const getBlock = (
-  blockParam: string,
-  page: number,
-  size: number,
-  dispatch: AppDispatchType<{ block?: State.Block; status?: FetchStatus }>,
-) => {
+export const getBlock = (blockParam: string, page: number, size: number, dispatch: AppDispatch) => {
   fetchBlock(blockParam)
     .then((wrapper: Response.Wrapper<State.Block> | null) => {
       if (wrapper) {
@@ -73,6 +72,12 @@ export const getBlock = (
             status: 'Error',
           },
         })
+        dispatch({
+          type: AppActions.UpdateLoading,
+          payload: {
+            loading: false,
+          },
+        })
       }
     })
     .catch(() => {
@@ -80,6 +85,12 @@ export const getBlock = (
         type: PageActions.UpdateBlockStatus,
         payload: {
           status: 'Error',
+        },
+      })
+      dispatch({
+        type: AppActions.UpdateLoading,
+        payload: {
+          loading: false,
         },
       })
     })

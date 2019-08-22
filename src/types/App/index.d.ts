@@ -144,7 +144,6 @@ declare namespace State {
     OK: string
     Error: string
     None: string
-    KeepNone: string
   }
 
   export interface App {

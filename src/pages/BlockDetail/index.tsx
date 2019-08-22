@@ -5,7 +5,7 @@ import AddressHashCard from '../../components/Card/AddressHashCard'
 import Content from '../../components/Content'
 import Error from '../../components/Error'
 import { AppContext } from '../../contexts/providers'
-import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
+import { StateWithDispatch, PageActions, AppActions } from '../../contexts/providers/reducer'
 import { getBlock } from '../../service/app/block'
 import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
@@ -13,7 +13,7 @@ import { parsePageNumber } from '../../utils/string'
 import { BlockDetailPanel } from './styled'
 import BlockComp from './BlockComp'
 import Loading from '../../components/Loading'
-import { useTimeout } from '../../utils/hook'
+import { useTimeoutWithUnmount } from '../../utils/hook'
 
 const BlockStateComp = ({
   currentPage,
@@ -30,11 +30,9 @@ const BlockStateComp = ({
       return <Error message={i18n.t('block.block_not_found')} />
     case 'OK':
       return <BlockComp currentPage={currentPage} pageSize={pageSize} blockParam={blockParam} />
-    case 'KeepNone':
-      return <Loading />
     case 'None':
     default:
-      return null
+      return <Loading />
   }
 }
 
@@ -57,26 +55,29 @@ export default ({
       replace(`/block/${blockParam}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
     }
     getBlock(blockParam, currentPage, pageSize, dispatch)
-    return () => {
+  }, [replace, blockParam, currentPage, pageSize, dispatch])
+
+  useTimeoutWithUnmount(
+    () => {
+      if (blockState.status === 'None') {
+        dispatch({
+          type: AppActions.UpdateLoading,
+          payload: {
+            loading: true,
+          },
+        })
+      }
+    },
+    () => {
       dispatch({
         type: PageActions.UpdateBlockStatus,
         payload: {
           status: 'None',
         },
       })
-    }
-  }, [replace, blockParam, currentPage, pageSize, dispatch])
-
-  useTimeout(() => {
-    if (blockState.status === 'None') {
-      dispatch({
-        type: PageActions.UpdateBlockStatus,
-        payload: {
-          status: 'KeepNone',
-        },
-      })
-    }
-  }, LOADING_WAITING_TIME)
+    },
+    LOADING_WAITING_TIME,
+  )
 
   return (
     <Content>

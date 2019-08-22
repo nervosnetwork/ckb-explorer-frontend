@@ -6,7 +6,7 @@ import AddressHashCard from '../../components/Card/AddressHashCard'
 import Error from '../../components/Error'
 import Content from '../../components/Content'
 import { AppContext } from '../../contexts/providers/index'
-import { PageActions, StateWithDispatchType } from '../../contexts/providers/reducer'
+import { PageActions, AppActions, StateWithDispatch } from '../../contexts/providers/reducer'
 import { getAddress } from '../../service/app/address'
 import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
@@ -14,8 +14,7 @@ import { parsePageNumber } from '../../utils/string'
 import { AddressContentPanel } from './styled'
 import AddressComp from './AddressComp'
 import browserHistory from '../../routes/history'
-import { FetchStatus } from '../../contexts/states'
-import { useTimeout } from '../../utils/hook'
+import { useTimeoutWithUnmount } from '../../utils/hook'
 
 const AddressStateComp = ({
   currentPage,
@@ -32,11 +31,9 @@ const AddressStateComp = ({
       return <Error message={i18n.t('address.address_not_found')} />
     case 'OK':
       return <AddressComp currentPage={currentPage} pageSize={pageSize} address={address} />
-    case 'KeepNone':
-      return <Loading />
     case 'None':
     default:
-      return null
+      return <Loading />
   }
 }
 
@@ -44,9 +41,7 @@ export const Address = ({
   dispatch,
   location: { search },
   match: { params },
-}: React.PropsWithoutRef<
-  StateWithDispatchType<{ status: FetchStatus }> & RouteComponentProps<{ address: string }>
->) => {
+}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ address: string }>>) => {
   const { address } = params
   const parsed = queryString.parse(search)
   const { addressState } = useContext(AppContext)
@@ -61,16 +56,25 @@ export const Address = ({
     getAddress(address, currentPage, pageSize, dispatch)
   }, [address, currentPage, pageSize, dispatch])
 
-  useTimeout(() => {
-    if (addressState.status === 'None') {
+  useTimeoutWithUnmount(
+    () => {
+      dispatch({
+        type: AppActions.UpdateLoading,
+        payload: {
+          loading: true,
+        },
+      })
+    },
+    () => {
       dispatch({
         type: PageActions.UpdateAddressStatus,
         payload: {
-          status: 'KeepNone',
+          status: 'None',
         },
       })
-    }
-  }, LOADING_WAITING_TIME)
+    },
+    LOADING_WAITING_TIME,
+  )
 
   return (
     <Content>

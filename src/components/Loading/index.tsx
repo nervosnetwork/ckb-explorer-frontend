@@ -6,9 +6,6 @@ const Animation = keyframes`
   0% {
     background-position:  -10px -10px;
   }
-  2.78% {
-    background-position:  -10px -10px;
-  }
   5.56% {
     background-position: -430px -10px;
   }
@@ -121,8 +118,8 @@ const Loading = styled.div`
   height: 200px;
   background-repeat: no-repeat;
   background-image: url(${LoadingImage});
-  -webkit-animation: ${Animation} 10s steps(1, end) both infinite;
-  animation: ${Animation} 10s steps(1, end) both infinite;
+  -webkit-animation: ${Animation} 5s steps(1, end) both infinite;
+  animation: ${Animation} 5s steps(1, end) both infinite;
 `
 
 export default () => {
