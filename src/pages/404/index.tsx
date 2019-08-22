@@ -12,8 +12,6 @@ const NotFoundPanel = styled.div`
 `
 
 const NotFoundImage = styled.img`
-  width: 100%;
-  height: auto;
   width: 1038px;
   height: 480px;
   display: block;

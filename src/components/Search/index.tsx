@@ -74,6 +74,7 @@ const handleSearchResult = ({
       .catch((error: AxiosError) => {
         if (error.response && error.response.data) {
           if (
+            error.response.status === 404 &&
             (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
               return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
             })

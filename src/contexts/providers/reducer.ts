@@ -13,6 +13,7 @@ export enum PageActions {
   UpdateAddress = 'updateAddress',
   UpdateAddressTransactions = 'updateAddressTransactions',
   UpdateAddressTotal = 'updateAddressTotal',
+  UpdateAddressStatus = 'updateAddressStatus',
 
   UpdateHomeBlocks = 'updateHomeBlocks',
 
@@ -22,8 +23,10 @@ export enum PageActions {
   UpdateBlock = 'updateBlock',
   UpdateBlockTransactions = 'updateBlockTransactions',
   UpdateBlockTotal = 'updateBlockTotal',
+  UpdateBlockStatus = 'updateBlockStatus',
 
   UpdateTransaction = 'updateTransaction',
+  UpdateTransactionStatus = 'updateTransactionStatus',
 
   UpdateStatistics = 'updateStatistics',
 
@@ -166,6 +169,14 @@ export const reducer = (
           total: payload.total,
         },
       }
+    case PageActions.UpdateAddressStatus:
+      return {
+        ...state,
+        addressState: {
+          ...state.addressState,
+          status: payload.status,
+        },
+      }
 
     case PageActions.UpdateBlock:
       return {
@@ -191,12 +202,32 @@ export const reducer = (
           total: payload.total,
         },
       }
+    case PageActions.UpdateBlockStatus:
+      return {
+        ...state,
+        blockState: {
+          ...state.blockState,
+          status: payload.status,
+        },
+      }
 
     case PageActions.UpdateTransaction:
       return {
         ...state,
-        transaction: payload.transaction,
+        transactionState: {
+          ...state.transactionState,
+          transaction: payload.transaction,
+        },
       }
+    case PageActions.UpdateTransactionStatus:
+      return {
+        ...state,
+        transactionState: {
+          ...state.transactionState,
+          status: payload.status,
+        },
+      }
+
     case PageActions.UpdateStatistics:
       return {
         ...state,

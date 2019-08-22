@@ -1,63 +1,29 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import loadingImage from '../../assets/loading.gif'
+import LoadingImage from '../../assets/loading.gif'
+import { AppContext } from '../../contexts/providers'
 
-const LoadingDiv = styled.div`
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  overflow-y: hidden;
-  display: flex;
-  background: #ffffff;
-  opacity: 0.8;
-  flex-direction: column;
-  user-select: none;
-  z-index: 1000;
-
-  .loading__content {
-    flex: 1;
-    overflow-x: hidden;
-    overflow-y: auto;
-    width: 100%;
-    box-sizing: border-box;
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+const Loading = styled.div`
+  margin: 100px 0;
+  > img {
+    width: 270px;
+    height: 78px;
   }
-  .loading__content > div > img {
-    -webkit-transform: rotate(360deg);
-    -webkit-animation: loadingAnimation 1.6s linear 0ms infinite;
+
+  @media (max-width: 700px) {
+    margin: 60px 0;
+    > img {
+      width: 135px;
+      height: 39px;
+    }
   }
 `
 
-export default ({ show, onClose }: { show: boolean; onClose: Function }) => {
-  return show ? (
-    <LoadingDiv className="loading">
-      <div
-        className="loading__content"
-        style={{
-          marginTop: 100,
-          backgroundColor: 'transparent',
-        }}
-      >
-        <img
-          alt="loading"
-          style={{
-            width: 172,
-            height: 85,
-          }}
-          src={loadingImage}
-          onDoubleClick={() => {
-            if (onClose) onClose()
-          }}
-        />
-      </div>
-    </LoadingDiv>
-  ) : (
-    <React.Fragment />
-  )
+export default () => {
+  const { app } = useContext(AppContext)
+  return app.loading ? (
+    <Loading>
+      <img src={LoadingImage} alt="loading" />
+    </Loading>
+  ) : null
 }

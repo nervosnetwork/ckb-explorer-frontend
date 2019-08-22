@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useContext, useReducer, useRef } from 'react'
+import React, { useState, useEffect, useContext, useReducer } from 'react'
 import styled from 'styled-components'
 import { AppContext } from '../../contexts/providers/index'
+import { useTimeoutWithUnmount } from '../../utils/hook'
 
 const ToastDiv = styled.div`
   position: absolute;
@@ -54,26 +55,10 @@ const ANIMATION_DISAPPEAR_TIME = 2000
 const MAX_FRAME: number = (ANIMATION_DISAPPEAR_TIME / 1000) * 40 // suppose fps = 40
 const DEFAULT_TOAST_DURATION = 3000
 
-export const useTimeout = (callback: () => void, clearFunction: () => void, delay: number) => {
-  const savedCallback = useRef(() => {})
-  const clearCallback = useRef(() => {})
-  useEffect(() => {
-    savedCallback.current = callback
-    clearCallback.current = clearFunction
-  })
-  useEffect(() => {
-    const listener = setTimeout(savedCallback.current, delay)
-    return () => {
-      clearTimeout(listener)
-      clearCallback.current()
-    }
-  }, [delay])
-}
-
 const ToastItem = ({ data, willLeave }: { data: State.ToastMessage; willLeave: Function }) => {
   const [opacity, setOpacity] = useState(1)
   let animationId: number = 0
-  useTimeout(
+  useTimeoutWithUnmount(
     () => {
       const requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame
       let count: number = 0

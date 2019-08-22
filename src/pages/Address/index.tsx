@@ -1,149 +1,80 @@
 import queryString from 'query-string'
-import React, { ReactNode, useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import Pagination from '../../components/Pagination'
-import HelpIcon from '../../assets/qa_help.png'
+import Loading from '../../components/Loading'
 import AddressHashCard from '../../components/Card/AddressHashCard'
-import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import TitleCard from '../../components/Card/TitleCard'
+import Error from '../../components/Error'
 import Content from '../../components/Content'
-import Tooltip from '../../components/Tooltip'
-import TransactionItem from '../../components/TransactionItem/index'
 import { AppContext } from '../../contexts/providers/index'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { PageActions, AppActions, StateWithDispatch } from '../../contexts/providers/reducer'
 import { getAddress } from '../../service/app/address'
-import { PageParams } from '../../utils/const'
+import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
-import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
-import { parsePageNumber, startEndEllipsis } from '../../utils/string'
-import { shannonToCkb } from '../../utils/util'
-import {
-  AddressContentPanel,
-  AddressLockScriptItemPanel,
-  AddressLockScriptPanel,
-  AddressPendingRewardTitlePanel,
-  AddressTransactionsPagition,
-  AddressTransactionsPanel,
-} from './styled'
+import { parsePageNumber } from '../../utils/string'
+import { AddressContentPanel } from './styled'
+import AddressComp from './AddressComp'
+import browserHistory from '../../routes/history'
+import { useTimeoutWithUnmount } from '../../utils/hook'
 
-const addressContent = (address: State.Address) => {
-  const addressText = isMobile() ? startEndEllipsis(address.addressHash, 10) : address.addressHash
-  return address.addressHash ? addressText : i18n.t('address.unable_decode_address')
-}
-
-const AddressPendingRewardTitle = () => {
-  const [show, setShow] = useState(false)
-  return (
-    <AddressPendingRewardTitlePanel>
-      {`${i18n.t('address.pending_reward')}`}
-      <div
-        id="address__pending_reward_help"
-        tabIndex={-1}
-        onFocus={() => {}}
-        onMouseOver={() => {
-          setShow(true)
-          const p = document.querySelector('.page') as HTMLElement
-          if (p) {
-            p.setAttribute('tabindex', '-1')
-          }
-        }}
-        onMouseLeave={() => {
-          setShow(false)
-          const p = document.querySelector('.page') as HTMLElement
-          if (p) {
-            p.removeAttribute('tabindex')
-          }
-        }}
-      >
-        <img src={HelpIcon} alt="Pending Reward Help" />
-      </div>
-      <Tooltip show={show} targetElementId="address__pending_reward_help">
-        {i18n.t('address.pending_reward_tooltip')}
-      </Tooltip>
-    </AddressPendingRewardTitlePanel>
-  )
-}
-
-const AddressLockScriptItem = ({ title, children }: { title: string; children?: ReactNode }) => {
-  return (
-    <AddressLockScriptItemPanel>
-      <div className="address_lock_script__title">
-        <span>{title}</span>
-      </div>
-      <div className="address_lock_script__content">{children}</div>
-    </AddressLockScriptItemPanel>
-  )
-}
-
-const AddressLockScript = ({ script }: { script: State.Script }) => {
-  return (
-    <AddressLockScriptPanel>
-      <div className="address__lock_script_title">{i18n.t('address.lock_script')}</div>
-      <AddressLockScriptItem title={i18n.t('address.code_hash')}>
-        <code>{script.codeHash}</code>
-      </AddressLockScriptItem>
-      <AddressLockScriptItem title={i18n.t('address.args')}>
-        {script.args.length === 1 ? (
-          <code>{script.args[0]}</code>
-        ) : (
-          script.args.map((arg: string, index: number) => <code>{`#${index}: ${arg}`}</code>)
-        )}
-      </AddressLockScriptItem>
-    </AddressLockScriptPanel>
-  )
+const AddressStateComp = ({
+  currentPage,
+  pageSize,
+  address,
+}: {
+  currentPage: number
+  pageSize: number
+  address: string
+}) => {
+  const { addressState } = useContext(AppContext)
+  switch (addressState.status) {
+    case 'Error':
+      return <Error message={i18n.t('address.address_not_found')} />
+    case 'OK':
+      return <AddressComp currentPage={currentPage} pageSize={pageSize} address={address} />
+    case 'None':
+    default:
+      return <Loading />
+  }
 }
 
 export const Address = ({
   dispatch,
-  history: { replace },
   location: { search },
   match: { params },
 }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ address: string }>>) => {
   const { address } = params
   const parsed = queryString.parse(search)
-  const { addressState, app } = useContext(AppContext)
-  const { tipBlockNumber } = app
+  const { addressState } = useContext(AppContext)
 
   const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
   const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
-  const totalPages = Math.ceil(addressState.total / pageSize)
 
   useEffect(() => {
     if (pageSize > PageParams.MaxPageSize) {
-      replace(`/address/${address}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
+      browserHistory.replace(`/address/${address}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
     }
     getAddress(address, currentPage, pageSize, dispatch)
-  }, [replace, address, currentPage, pageSize, dispatch])
+  }, [address, currentPage, pageSize, dispatch])
 
-  const onChange = (page: number) => {
-    replace(`/address/${address}?page=${page}&size=${pageSize}`)
-  }
-
-  const items: OverviewItemData[] = [
-    {
-      title: i18n.t('address.balance'),
-      content: `${localeNumberString(shannonToCkb(addressState.address.balance))} CKB`,
+  useTimeoutWithUnmount(
+    () => {
+      dispatch({
+        type: AppActions.UpdateLoading,
+        payload: {
+          loading: true,
+        },
+      })
     },
-    {
-      title: i18n.t('transaction.transactions'),
-      content: localeNumberString(addressState.address.transactionsCount),
+    () => {
+      dispatch({
+        type: PageActions.UpdateAddressStatus,
+        payload: {
+          status: 'None',
+        },
+      })
     },
-  ]
-  if (addressState.address.pendingRewardBlocksCount) {
-    items.push({
-      title: <AddressPendingRewardTitle />,
-      content: `${addressState.address.pendingRewardBlocksCount} ${
-        addressState.address.pendingRewardBlocksCount > 1 ? 'blocks' : 'block'
-      }`,
-    })
-  }
-  if (addressState.address.type === 'LockHash' && addressState.address) {
-    items.push({
-      title: i18n.t('address.address'),
-      content: addressContent(addressState.address),
-    })
-  }
+    LOADING_WAITING_TIME,
+  )
 
   return (
     <Content>
@@ -153,35 +84,7 @@ export const Address = ({
           hash={address}
           dispatch={dispatch}
         />
-        <TitleCard title={i18n.t('common.overview')} />
-        <OverviewCard items={items}>
-          {addressState && addressState.address && addressState.address.lockScript && (
-            <AddressLockScript script={addressState.address.lockScript} />
-          )}
-        </OverviewCard>
-        {addressState.transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
-        <AddressTransactionsPanel>
-          {addressState &&
-            addressState.transactions &&
-            addressState.transactions.map((transaction: State.Transaction, index: number) => {
-              return (
-                transaction && (
-                  <TransactionItem
-                    address={addressState.address.addressHash}
-                    transaction={transaction}
-                    confirmation={tipBlockNumber - transaction.blockNumber + 1}
-                    key={transaction.transactionHash}
-                    isLastItem={index === addressState.transactions.length - 1}
-                  />
-                )
-              )
-            })}
-        </AddressTransactionsPanel>
-        {totalPages > 1 && (
-          <AddressTransactionsPagition>
-            <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
-          </AddressTransactionsPagition>
-        )}
+        <AddressStateComp currentPage={currentPage} pageSize={pageSize} address={address} />
       </AddressContentPanel>
     </Content>
   )

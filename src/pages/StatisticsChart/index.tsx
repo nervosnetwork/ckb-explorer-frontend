@@ -2,12 +2,12 @@ import React, { useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import { Chart, Geom, Axis, Tooltip, Legend } from 'bizcharts'
 import Content from '../../components/Content'
-import Loading from '../../assets/loading.gif'
 import { isMobile } from '../../utils/screen'
 import { getStatisticsChart } from '../../service/app/statisticsChart'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
+import Loading from '../../components/Loading'
 
 const ChartPanel = styled.div`
   margin: 0 10% 30px 10%;
@@ -150,7 +150,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
         </ChartPanel>
       ) : (
         <LoadingPanel>
-          <img src={Loading} alt="loading" />
+          <Loading />
         </LoadingPanel>
       )}
     </Content>
