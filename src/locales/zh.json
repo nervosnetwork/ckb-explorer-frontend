@@ -17,6 +17,7 @@
     "navbar": {
       "wallet": "钱包",
       "charts": "图表",
+      "faucet": "水龙头",
       "docs": "文档",
       "search_placeholder": "区块 / 交易 / 地址 / 锁定脚本哈希",
       "network": "测试网",
@@ -127,4 +128,3 @@
     }
   }
 }
-

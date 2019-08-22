@@ -17,6 +17,7 @@
     "navbar": {
       "wallet": "Wallet",
       "charts": "Charts",
+      "faucet": "Faucet",
       "docs": "Docs",
       "search_placeholder": "Block / Transaction / Address / Lock Hash",
       "network": "TESTNET",
@@ -127,4 +128,3 @@
     }
   }
 }
-
