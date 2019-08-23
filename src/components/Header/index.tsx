@@ -75,9 +75,11 @@ export default ({ search, dispatch }: { search?: boolean; dispatch: AppDispatch 
     <React.Fragment>
       {isMobile() ? (
         <>
-          <HeaderSearchMobilePanel searchBarEditable={searchBarEditable}>
-            <Search dispatch={dispatch} />
-          </HeaderSearchMobilePanel>
+          {search && (
+            <HeaderSearchMobilePanel searchBarEditable={searchBarEditable}>
+              <Search dispatch={dispatch} />
+            </HeaderSearchMobilePanel>
+          )}
           <HeaderMobilePanel searchBarEditable={searchBarEditable}>
             <HeaderMobileDiv>
               <Link to="/" className="header__logo">
