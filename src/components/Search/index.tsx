@@ -99,12 +99,15 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
   }, [t])
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
+  const [isFirst, setIsFirst] = useState(true)
   const inputElement = useRef<HTMLInputElement>(null)
   const { components } = useContext(AppContext)
   const { searchBarEditable } = components
 
   // fetch searching data when refreshing search fail page
   useEffect(() => {
+    if (!isFirst) return
+    setIsFirst(false)
     const visitedCount: number = fetchCachedData(CachedKeys.SearchFailVisitedCount) || 0
     if (visitedCount > 0 && searchValue) {
       handleSearchResult({
@@ -120,7 +123,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
     } else {
       storeCachedData(CachedKeys.SearchFailVisitedCount, 0)
     }
-  }, [hasBorder, searchValue, setSearchValue, searchBarEditable, dispatch])
+  }, [hasBorder, searchValue, setSearchValue, searchBarEditable, dispatch, isFirst])
 
   // update input placeholder when language change
   useEffect(() => {
