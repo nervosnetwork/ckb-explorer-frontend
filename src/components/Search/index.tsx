@@ -27,19 +27,12 @@ const clearSearchInput = (inputElement: any) => {
   input.blur()
 }
 
-const handleSearchResult = ({
-  searchValue,
-  setSearchValue,
-  inputElement,
-  searchBarEditable,
-  dispatch,
-}: {
-  searchValue: string
-  setSearchValue: any
-  inputElement: any
-  searchBarEditable: boolean
-  dispatch: AppDispatch
-}) => {
+const handleSearchResult = (
+  searchValue: string,
+  inputElement: any,
+  searchBarEditable: boolean,
+  dispatch: AppDispatch,
+) => {
   const query = searchValue.replace(/^\s+|\s+$/g, '').replace(',', '') // remove front and end blank and ','
   if (!query) {
     dispatch({
@@ -59,8 +52,12 @@ const handleSearchResult = ({
     }
     fetchSearchResult(addPrefixForHash(query))
       .then((response: any) => {
-        clearSearchInput(inputElement)
         const { data } = response
+        if (!response || !data.type) {
+          browserHistory.push(`/search/fail?q=${query}`)
+          return
+        }
+        clearSearchInput(inputElement)
         if (data.type === SearchResultType.Block) {
           browserHistory.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.blockHash}`)
         } else if (data.type === SearchResultType.Transaction) {
@@ -71,9 +68,6 @@ const handleSearchResult = ({
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.addressHash}`)
         } else if (data.type === SearchResultType.LockHash) {
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lockHash}`)
-        } else {
-          setSearchValue(query)
-          browserHistory.push(`/search/fail?q=${query}`)
         }
       })
       .catch((error: AxiosError) => {
@@ -87,11 +81,9 @@ const handleSearchResult = ({
             clearSearchInput(inputElement)
             browserHistory.push(`/address/${query}`)
           } else {
-            setSearchValue(query)
             browserHistory.push(`/search/fail?q=${query}`)
           }
         } else {
-          setSearchValue(query)
           browserHistory.push(`/search/fail?q=${query}`)
         }
       })
@@ -116,13 +108,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
     setIsFirst(false)
     const visitedCount: number = fetchCachedData(CachedKeys.SearchFailVisitedCount) || 0
     if (visitedCount > 0 && searchValue) {
-      handleSearchResult({
-        searchValue,
-        setSearchValue,
-        inputElement,
-        searchBarEditable,
-        dispatch,
-      })
+      handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)
     }
     if (hasBorder) {
       storeCachedData(CachedKeys.SearchFailVisitedCount, visitedCount + 1)
@@ -152,13 +138,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
         onKeyPress={() => {}}
         onClick={() => {
           if (greenIcon) {
-            handleSearchResult({
-              searchValue,
-              setSearchValue,
-              inputElement,
-              searchBarEditable,
-              dispatch,
-            })
+            handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)
           }
         }}
       >
@@ -195,13 +175,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
         }}
         onKeyUp={(event: any) => {
           if (event.keyCode === 13) {
-            handleSearchResult({
-              searchValue,
-              setSearchValue,
-              inputElement,
-              searchBarEditable,
-              dispatch,
-            })
+            handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)
           }
         }}
       />
