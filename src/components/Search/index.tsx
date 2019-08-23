@@ -177,6 +177,9 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
         hasBorder={!!hasBorder}
         onFocus={() => setPlaceholder('')}
         onBlur={() => {
+          if (!hasBorder) {
+            clearSearchInput(inputElement)
+          }
           setPlaceholder(SearchPlaceholder)
           if (searchBarEditable) {
             dispatch({
