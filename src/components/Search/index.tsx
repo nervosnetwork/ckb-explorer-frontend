@@ -22,7 +22,7 @@ enum SearchResultType {
 }
 
 const clearSearchInput = (inputElement: any) => {
-  const input: HTMLInputElement = inputElement.current!
+  const input: HTMLInputElement = inputElement.current
   input.value = ''
   input.blur()
 }
