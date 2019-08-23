@@ -21,6 +21,12 @@ enum SearchResultType {
   LockHash = 'lock_hash',
 }
 
+const clearSearchInput = (inputElement: any) => {
+  const input: HTMLInputElement = inputElement.current!
+  input.value = ''
+  input.blur()
+}
+
 const handleSearchResult = ({
   searchValue,
   setSearchValue,
@@ -53,8 +59,7 @@ const handleSearchResult = ({
     }
     fetchSearchResult(addPrefixForHash(query))
       .then((response: any) => {
-        const input: any = inputElement.current!
-        input.value = ''
+        clearSearchInput(inputElement)
         const { data } = response
         if (data.type === SearchResultType.Block) {
           browserHistory.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.blockHash}`)
@@ -79,6 +84,7 @@ const handleSearchResult = ({
               return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
             })
           ) {
+            clearSearchInput(inputElement)
             browserHistory.push(`/address/${query}`)
           } else {
             setSearchValue(query)
