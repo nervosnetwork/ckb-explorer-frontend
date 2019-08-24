@@ -104,11 +104,12 @@ export default ({ title, hash, dispatch }: { title: string; hash: string; dispat
   const isMobileDeivce = isMobile()
   const { app } = useContext(AppContext)
 
+  // render again when language and title change
   useLayoutEffect(() => {
-    if (app.language) {
+    if (app.language && title) {
       handleHashText(hash, isMobileDeivce, setHashText)
     }
-  }, [app.language, hash, isMobileDeivce])
+  }, [app.language, hash, title, isMobileDeivce])
 
   return (
     <AddressHashCardPanel id="address_hash_content">
