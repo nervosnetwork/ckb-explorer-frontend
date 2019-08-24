@@ -172,10 +172,6 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       title: i18n.t('block.uncle_count'),
       content: `${block.unclesCount}`,
     },
-    {
-      title: i18n.t('block.proof'),
-      content: `${startEndEllipsis(block.proof, 9)}`,
-    },
   ]
 
   if (isMobile()) {

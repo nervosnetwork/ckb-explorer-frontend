@@ -21,7 +21,6 @@ export const initBlockState: State.BlockState = {
     length: '',
     version: 0,
     nonce: 0,
-    proof: '',
     transactionsRoot: '',
     witnessesRoot: '',
   },

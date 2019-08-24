@@ -76,7 +76,6 @@ declare namespace State {
     startNumber: number
     version: number
     nonce: number
-    proof: string
     transactionsRoot: string
     witnessesRoot: string
   }
