@@ -104,6 +104,7 @@ export default ({ title, hash, dispatch }: { title: string; hash: string; dispat
   const isMobileDeivce = isMobile()
   const { app } = useContext(AppContext)
 
+  // render again when language and title change
   useLayoutEffect(() => {
     if (app.language && title) {
       handleHashText(hash, isMobileDeivce, setHashText)
