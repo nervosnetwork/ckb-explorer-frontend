@@ -80,6 +80,6 @@ export const SearchInputPanel = styled.input`
     font-size: 12px;
     width: 100%;
     padding-left: 10px;
-    padding-right: 20px;
+    padding-right: 30px;
   }
 `

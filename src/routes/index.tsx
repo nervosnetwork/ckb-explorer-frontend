@@ -100,7 +100,7 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
           return (
             <Page>
               <React.Fragment>
-                <Header search={hasSearch(browserHistory.location.pathname)} dispatch={dispatch} />
+                <Header hasSearch={hasSearch(browserHistory.location.pathname)} dispatch={dispatch} />
                 <Sheet />
                 <Switch location={props.location}>
                   {containers.map(container => {

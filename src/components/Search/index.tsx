@@ -8,10 +8,11 @@ import SearchLogo from '../../assets/search.png'
 import GreenSearchLogo from '../../assets/search_green.png'
 import { addPrefixForHash } from '../../utils/string'
 import i18n from '../../utils/i18n'
-import { HttpErrorCode } from '../../utils/const'
+import { HttpErrorCode, CachedKeys } from '../../utils/const'
 import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers'
+import { fetchCachedData, storeCachedData } from '../../utils/cached'
 
 enum SearchResultType {
   Block = 'block',
@@ -20,19 +21,18 @@ enum SearchResultType {
   LockHash = 'lock_hash',
 }
 
-const handleSearchResult = ({
-  searchValue,
-  setSearchValue,
-  inputElement,
-  searchBarEditable,
-  dispatch,
-}: {
-  searchValue: string
-  setSearchValue: any
-  inputElement: any
-  searchBarEditable: boolean
-  dispatch: AppDispatch
-}) => {
+const clearSearchInput = (inputElement: any) => {
+  const input: HTMLInputElement = inputElement.current
+  input.value = ''
+  input.blur()
+}
+
+const handleSearchResult = (
+  searchValue: string,
+  inputElement: any,
+  searchBarEditable: boolean,
+  dispatch: AppDispatch,
+) => {
   const query = searchValue.replace(/^\s+|\s+$/g, '').replace(',', '') // remove front and end blank and ','
   if (!query) {
     dispatch({
@@ -52,9 +52,12 @@ const handleSearchResult = ({
     }
     fetchSearchResult(addPrefixForHash(query))
       .then((response: any) => {
-        const input: any = inputElement.current!
-        input.value = ''
         const { data } = response
+        if (!response || !data.type) {
+          browserHistory.push(`/search/fail?q=${query}`)
+          return
+        }
+        clearSearchInput(inputElement)
         if (data.type === SearchResultType.Block) {
           browserHistory.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.blockHash}`)
         } else if (data.type === SearchResultType.Transaction) {
@@ -65,25 +68,22 @@ const handleSearchResult = ({
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.addressHash}`)
         } else if (data.type === SearchResultType.LockHash) {
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lockHash}`)
-        } else {
-          setSearchValue(query)
-          browserHistory.push(`/search/fail?q=${query}`)
         }
       })
       .catch((error: AxiosError) => {
         if (error.response && error.response.data) {
           if (
+            error.response.status === 404 &&
             (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
               return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
             })
           ) {
+            clearSearchInput(inputElement)
             browserHistory.push(`/address/${query}`)
           } else {
-            setSearchValue(query)
             browserHistory.push(`/search/fail?q=${query}`)
           }
         } else {
-          setSearchValue(query)
           browserHistory.push(`/search/fail?q=${query}`)
         }
       })
@@ -97,14 +97,32 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
   }, [t])
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
+  const [isFirst, setIsFirst] = useState(true)
   const inputElement = useRef<HTMLInputElement>(null)
   const { components } = useContext(AppContext)
   const { searchBarEditable } = components
 
+  // fetch searching data when refreshing search fail page
+  useEffect(() => {
+    if (!isFirst) return
+    setIsFirst(false)
+    const visitedCount: number = fetchCachedData(CachedKeys.SearchFailVisitedCount) || 0
+    if (visitedCount > 0 && searchValue) {
+      handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)
+    }
+    if (hasBorder) {
+      storeCachedData(CachedKeys.SearchFailVisitedCount, visitedCount + 1)
+    } else {
+      storeCachedData(CachedKeys.SearchFailVisitedCount, 0)
+    }
+  }, [hasBorder, searchValue, setSearchValue, searchBarEditable, dispatch, isFirst])
+
+  // update input placeholder when language change
   useEffect(() => {
     setPlaceholder(SearchPlaceholder)
   }, [SearchPlaceholder])
 
+  // set input focus when mobile search bar state change
   useEffect(() => {
     if (searchBarEditable && inputElement.current) {
       inputElement.current.focus()
@@ -120,13 +138,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
         onKeyPress={() => {}}
         onClick={() => {
           if (greenIcon) {
-            handleSearchResult({
-              searchValue,
-              setSearchValue,
-              inputElement,
-              searchBarEditable,
-              dispatch,
-            })
+            handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)
           }
         }}
       >
@@ -145,6 +157,9 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
         hasBorder={!!hasBorder}
         onFocus={() => setPlaceholder('')}
         onBlur={() => {
+          if (!hasBorder) {
+            clearSearchInput(inputElement)
+          }
           setPlaceholder(SearchPlaceholder)
           if (searchBarEditable) {
             dispatch({
@@ -160,13 +175,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
         }}
         onKeyUp={(event: any) => {
           if (event.keyCode === 13) {
-            handleSearchResult({
-              searchValue,
-              setSearchValue,
-              inputElement,
-              searchBarEditable,
-              dispatch,
-            })
+            handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)
           }
         }}
       />

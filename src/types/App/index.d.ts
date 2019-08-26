@@ -139,6 +139,12 @@ declare namespace State {
     searchBarEditable: boolean
   }
 
+  export interface FetchStatus {
+    OK: string
+    Error: string
+    None: string
+  }
+
   export interface App {
     toast: State.ToastMessage | null
     loading: boolean
@@ -160,17 +166,24 @@ declare namespace State {
     address: Address
     transactions: Transaction[]
     total: number
+    status: keyof FetchStatus
   }
 
   export interface BlockState {
     block: Block
     transactions: Transaction[]
     total: number
+    status: keyof FetchStatus
   }
 
   export interface BlockListState {
     blocks: Block[]
     total: number
+  }
+
+  export interface TransactionState {
+    transaction: Transaction
+    status: keyof FetchStatus
   }
 
   export interface AppState {
@@ -180,7 +193,7 @@ declare namespace State {
     blockState: BlockState
     homeBlocks: Block[]
     blockListState: BlockListState
-    transaction: Transaction
+    transactionState: TransactionState
     statistics: Statistics
     statisticsChartDatas: StatisticsChartDatas
 

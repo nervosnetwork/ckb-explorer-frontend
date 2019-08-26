@@ -33,7 +33,7 @@ export const BlockRootInfoItemPanel = styled.div`
   }
 `
 
-export const BlockMinerPanel = styled.div`
+export const BlockLinkPanel = styled.div`
   > a {
     font-weight: 500;
     color: #3cc68a;

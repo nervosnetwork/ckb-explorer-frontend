@@ -66,7 +66,7 @@ const handleVersion = (nodeVersion: string) => {
   return nodeVersion
 }
 
-export default ({ search, dispatch }: { search?: boolean; dispatch: AppDispatch }) => {
+export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDispatch }) => {
   const { app, components } = useContext(AppContext)
   const { nodeVersion } = app
   const { searchBarEditable } = components
@@ -75,16 +75,18 @@ export default ({ search, dispatch }: { search?: boolean; dispatch: AppDispatch 
     <React.Fragment>
       {isMobile() ? (
         <>
-          <HeaderSearchMobilePanel searchBarEditable={searchBarEditable}>
-            <Search dispatch={dispatch} />
-          </HeaderSearchMobilePanel>
+          {hasSearch && (
+            <HeaderSearchMobilePanel searchBarEditable={searchBarEditable}>
+              <Search dispatch={dispatch} />
+            </HeaderSearchMobilePanel>
+          )}
           <HeaderMobilePanel searchBarEditable={searchBarEditable}>
             <HeaderMobileDiv>
               <Link to="/" className="header__logo">
                 <img className="header__logo__img" src={MobileLogoIcon} alt="logo" />
               </Link>
               <Menus />
-              {search && (
+              {hasSearch && (
                 <div className="header__search">
                   <div
                     className="header__search__component"
@@ -105,7 +107,7 @@ export default ({ search, dispatch }: { search?: boolean; dispatch: AppDispatch 
                   <div className="header__search__separate" />
                 </div>
               )}
-              <HeaderTestnetPanel search={!!search}>
+              <HeaderTestnetPanel search={!!hasSearch}>
                 <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
                 <HeaderVersionPanel>
                   <div>{handleVersion(nodeVersion)}</div>
@@ -113,7 +115,7 @@ export default ({ search, dispatch }: { search?: boolean; dispatch: AppDispatch 
                 <Dropdown dispatch={dispatch} />
               </HeaderTestnetPanel>
             </HeaderMobileDiv>
-            <HeaderSearchPanel>{search && searchBarEditable && <Search dispatch={dispatch} />}</HeaderSearchPanel>
+            <HeaderSearchPanel>{hasSearch && searchBarEditable && <Search dispatch={dispatch} />}</HeaderSearchPanel>
           </HeaderMobilePanel>
         </>
       ) : (
@@ -123,14 +125,14 @@ export default ({ search, dispatch }: { search?: boolean; dispatch: AppDispatch 
               <img className="header__logo__img" src={LogoIcon} alt="logo" />
             </Link>
             <Menus />
-            {search && (
+            {hasSearch && (
               <div className="header__search">
                 <div className="header__search__component">
                   <Search dispatch={dispatch} />
                 </div>
               </div>
             )}
-            <HeaderTestnetPanel search={!!search}>
+            <HeaderTestnetPanel search={!!hasSearch}>
               <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
               <HeaderVersionPanel>
                 <div>{handleVersion(nodeVersion)}</div>
