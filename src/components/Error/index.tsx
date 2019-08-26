@@ -5,7 +5,7 @@ import MobileDataNotFoundImage from '../../assets/mobile_data_not_found.png'
 import { isMobile } from '../../utils/screen'
 
 const ErrorPanel = styled.div`
-  margin: 112px 0 243px 0;
+  margin: 112px 0 203px 0;
 
   @media (max-width: 700px) {
     margin: 120px 0 130px 0;
