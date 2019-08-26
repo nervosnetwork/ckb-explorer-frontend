@@ -7,6 +7,7 @@ import CopyIcon from '../../../assets/copy_green.png'
 import i18n from '../../../utils/i18n'
 import { copyElementValue } from '../../../utils/util'
 import { AppDispatch, AppActions } from '../../../contexts/providers/reducer'
+import SmallLoading from '../../../components/Loading/SmallLoading'
 
 const initScriptContent = {
   lock: {
@@ -79,16 +80,19 @@ export default ({
   }
 
   return (
-    <TransactionDetailPanel hidden={!content}>
-      <div className="transaction__detail_content" id={contentElementId}>
-        {JSON.stringify(content, null, 4)}
-      </div>
-      <div className="transaction__detail_copy">
-        <TransactionCellDetailCopyButtonPanel onClick={onClickCopy}>
-          <div>{i18n.t('common.copy')}</div>
-          <img src={CopyIcon} alt="copy" />
-        </TransactionCellDetailCopyButtonPanel>
-      </div>
-    </TransactionDetailPanel>
+    <>
+      <TransactionDetailPanel hidden={!content}>
+        <div className="transaction__detail_content" id={contentElementId}>
+          {JSON.stringify(content, null, 4)}
+        </div>
+        <div className="transaction__detail_copy">
+          <TransactionCellDetailCopyButtonPanel onClick={onClickCopy}>
+            <div>{i18n.t('common.copy')}</div>
+            <img src={CopyIcon} alt="copy" />
+          </TransactionCellDetailCopyButtonPanel>
+        </div>
+      </TransactionDetailPanel>
+      {!content && <SmallLoading />}
+    </>
   )
 }
