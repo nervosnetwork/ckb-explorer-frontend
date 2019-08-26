@@ -15,7 +15,7 @@ import { isLargeMobile, isMediumMobile, isMobile, isSmallMobile } from '../../ut
 import { startEndEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
 import {
-  BlockMinerPanel,
+  BlockLinkPanel,
   BlockOverviewDisplayControlPanel,
   BlockOverviewItemContentPanel,
   BlockRootInfoItemPanel,
@@ -38,7 +38,7 @@ const handleMinerText = (address: string) => {
 
 const BlockMiner = ({ miner }: { miner: string }) => {
   return (
-    <BlockMinerPanel>
+    <BlockLinkPanel>
       {miner ? (
         <Link to={`/address/${miner}`}>
           <code>{handleMinerText(miner)}</code>
@@ -46,7 +46,7 @@ const BlockMiner = ({ miner }: { miner: string }) => {
       ) : (
         i18n.t('address.unable_decode_address')
       )}
-    </BlockMinerPanel>
+    </BlockLinkPanel>
   )
 }
 
@@ -86,6 +86,14 @@ const BlockOverviewItemContent = ({ value, tip, message }: { value?: string; tip
   )
 }
 
+const EpochNumberLink = ({ epochNumber }: { epochNumber: number }) => {
+  return (
+    <BlockLinkPanel>
+      <Link to={`/block/${epochNumber}`}>{localeNumberString(epochNumber)}</Link>
+    </BlockLinkPanel>
+  )
+}
+
 const BlockOverview = ({ block }: { block: State.Block }) => {
   const [showAllOverview, setShowAllOverview] = useState(false)
   const receivedTxFee = `${localeNumberString(shannonToCkb(block.receivedTxFee))} CKB`
@@ -122,7 +130,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     },
     {
       title: i18n.t('block.epoch_start_number'),
-      content: localeNumberString(block.startNumber),
+      content: <EpochNumberLink epochNumber={block.startNumber} />,
     },
     {
       title: i18n.t('block.block_reward'),
@@ -165,10 +173,6 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     {
       title: i18n.t('block.uncle_count'),
       content: `${block.unclesCount}`,
-    },
-    {
-      title: i18n.t('block.proof'),
-      content: `${startEndEllipsis(block.proof, 9)}`,
     },
   ]
 

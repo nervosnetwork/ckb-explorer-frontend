@@ -15,7 +15,7 @@ export const HeaderDiv = styled.div`
   flex-wrap: wrap;
   padding: 1px 8vw;
 
-  @media (max-width: 1300px) {
+  @media (max-width: 1440px) {
     padding: 1px 3vw;
   }
 
@@ -35,8 +35,8 @@ export const HeaderDiv = styled.div`
     min-height: 75px;
 
     .header__menus__item {
-      margin-left: 30px;
-      margin-right: 30px;
+      margin-left: 16px;
+      margin-right: 16px;
       font-size: 24px;
       letter-spacing: 2px;
       font-weight: 600;
@@ -73,8 +73,8 @@ const HeaderMobileCommonPanel = styled.div`
   z-index: 10;
   padding: 1px 20px;
 
-  @media (max-width: 320px) {
-    padding: 1px 12px;
+  @media (max-width: 400px) {
+    padding: 1px 10px;
   }
 `
 
@@ -106,16 +106,13 @@ export const HeaderMobileDiv = styled.div`
     align-items: center;
 
     .header__menus__item {
-      margin-left: 35px;
+      margin-left: 10px;
       font-size: 14px;
       font-weight: bold;
       color: white;
 
-      @media (max-width: 700px) {
-        margin-left: 15px;
-      }
-      @media (max-width: 320px) {
-        margin-left: 8px;
+      @media (max-width: 400px) {
+        margin-left: 6px;
         font-size: 12px;
       }
     }

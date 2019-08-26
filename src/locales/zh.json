@@ -17,6 +17,7 @@
     "navbar": {
       "wallet": "钱包",
       "charts": "图表",
+      "faucet": "水龙头",
       "docs": "文档",
       "search_placeholder": "区块 / 交易 / 地址 / 锁定脚本哈希",
       "network": "测试网",
@@ -68,8 +69,7 @@
       "confirmation": "确认区块",
       "confirmations": "确认区块",
       "unable_decode_address": "地址解析失败",
-      "pending_reward_tooltip": "区块奖励与交易费将在 11 个区块后发送给矿工，阅读共识协议了解更多信息",
-      "address_not_found": "地址没有找到"
+      "pending_reward_tooltip": "区块奖励与交易费将在 11 个区块后发送给矿工，阅读共识协议了解更多信息"
     },
     "transaction": {
       "transaction": "交易",
@@ -87,8 +87,7 @@
       "proposal_reward": "提案奖励",
       "cellbase_help_tooltip": "区块 N 的 Cellbase 交易将作为奖励发送给区块 N-11 的出块矿工，阅读共识协议了解更多信息",
       "capacity": "Capacity",
-      "detail": "详情",
-      "transaction_not_found": "交易没有找到"
+      "detail": "详情"
     },
     "block": {
       "block": "区块",
@@ -112,8 +111,7 @@
       "pending": "发放中",
       "calculating": "计算中",
       "pending_tip": "区块奖励将在 11 个区块后发送给矿工，阅读共识协议了解更多信息",
-      "calculating_tip": "交易费将在 11 个区块后发送给矿工，阅读共识协议了解更多信息",
-      "block_not_found": "区块没有找到"
+      "calculating_tip": "交易费将在 11 个区块后发送给矿工，阅读共识协议了解更多信息"
     },
     "error": {
       "maintain": "网络维护中，请稍后再试"
@@ -130,4 +128,3 @@
     }
   }
 }
-
