@@ -2,8 +2,10 @@ import React from 'react'
 import { CellType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
 import TransactionCell from '../TransactionCell'
-import { TransactionCellListPanel, TransactionCellListTitlePanel } from './styled'
+import { TransactionCellListPanel, TransactionCellListTitlePanel, TransactionCellsPanel } from './styled'
 import { AppDispatch } from '../../../contexts/providers/reducer'
+
+const MAX_CELL_COUNT = 200
 
 export default ({
   inputs,
@@ -25,15 +27,19 @@ export default ({
           <span>{i18n.t('transaction.detail')}</span>
         </div>
       </TransactionCellListTitlePanel>
-      {cells &&
-        cells.map(cell => (
-          <TransactionCell
-            key={cell.id}
-            cell={cell}
-            cellType={inputs ? CellType.Input : CellType.Output}
-            dispatch={dispatch}
-          />
-        ))}
+      <TransactionCellsPanel isScroll={cells.length >= MAX_CELL_COUNT}>
+        <div className="transaction__cell_list_container">
+          {cells &&
+            cells.map(cell => (
+              <TransactionCell
+                key={cell.id}
+                cell={cell}
+                cellType={inputs ? CellType.Input : CellType.Output}
+                dispatch={dispatch}
+              />
+            ))}
+        </div>
+      </TransactionCellsPanel>
     </TransactionCellListPanel>
   )
 }

@@ -23,6 +23,9 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
   const { transaction } = transactionState
   const { tipBlockNumber } = app
 
+  const inputs = transaction.displayInputs.slice(0, 200)
+  const outputs = transaction.displayOutputs.slice(0, 200)
+
   let confirmation = 0
   if (tipBlockNumber && transaction.blockNumber) {
     confirmation = tipBlockNumber - transaction.blockNumber + 1
@@ -55,10 +58,10 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
         <OverviewCard items={overviewItems} />
       </div>
       <div className="transaction__inputs">
-        {transaction && <TransactionCellList inputs={transaction.displayInputs} dispatch={dispatch} />}
+        {transaction && <TransactionCellList inputs={inputs} dispatch={dispatch} />}
       </div>
       <div className="transaction__outputs">
-        {transaction && <TransactionCellList outputs={transaction.displayOutputs} dispatch={dispatch} />}
+        {transaction && <TransactionCellList outputs={outputs} dispatch={dispatch} />}
       </div>
     </>
   )
