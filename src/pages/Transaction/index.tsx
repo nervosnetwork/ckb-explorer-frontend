@@ -18,7 +18,7 @@ const TransactionStateComp = ({ dispatch }: { dispatch: AppDispatch }) => {
   const { transactionState } = useContext(AppContext)
   switch (transactionState.status) {
     case 'Error':
-      return <Error message={i18n.t('transaction.transaction_not_found')} />
+      return <Error />
     case 'OK':
       return <TransactionComp dispatch={dispatch} />
     case 'None':

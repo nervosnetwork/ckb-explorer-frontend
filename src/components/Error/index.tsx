@@ -21,20 +21,12 @@ const ErrorPanel = styled.div`
       height: 130px;
     }
   }
-
-  > div {
-    font-size: 26px;
-    text-align: center;
-    color: #000000;
-    margin-top: 13px;
-  }
 `
 
-export default ({ message }: { message: string }) => {
+export default () => {
   return (
     <ErrorPanel>
       <img alt="data not fonund" src={isMobile() ? MobileDataNotFoundImage : PCDataNotFoundImage} />
-      {!isMobile() && <div>{message}</div>}
     </ErrorPanel>
   )
 }
