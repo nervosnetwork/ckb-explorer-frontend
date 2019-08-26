@@ -27,7 +27,7 @@ const BlockStateComp = ({
   const { blockState } = useContext(AppContext)
   switch (blockState.status) {
     case 'Error':
-      return <Error message={i18n.t('block.block_not_found')} />
+      return <Error />
     case 'OK':
       return <BlockComp currentPage={currentPage} pageSize={pageSize} blockParam={blockParam} />
     case 'None':
