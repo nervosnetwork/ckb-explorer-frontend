@@ -46,6 +46,10 @@ export const TransactionCellListPanel = styled.div`
 export const TransactionCellsPanel = styled.div`
   .transaction__cell_list_container {
     padding-right: 10px;
+
+    @media (max-width: 700px) {
+      padding-right: 0;
+    }
   }
 
   ${(props: { isScroll: boolean }) =>
@@ -57,6 +61,10 @@ export const TransactionCellsPanel = styled.div`
         max-height: 600px;
         overflow-y: scroll;
         padding-right: 10px;
+
+        @media (max-width: 700px) {
+          padding-right: 0;
+        }
       }
     `};
 `
