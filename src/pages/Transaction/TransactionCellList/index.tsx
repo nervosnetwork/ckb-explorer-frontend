@@ -19,7 +19,7 @@ export default ({
   outputs?: State.InputOutput[]
   dispatch: AppDispatch
 }) => {
-  const [offset, setOffset] = useState(0)
+  const [offset, setOffset] = useState(PAGE_CELL_COUNT)
   const cells = inputs || outputs || []
   const hideCapacityTitle = inputs && inputs.length > 0 && inputs[0].fromCellbase
   const isScroll = cells.length >= PAGE_CELL_COUNT
@@ -50,7 +50,7 @@ export default ({
         <div className="transaction__cell_list_container" onScroll={(event: any) => handleScroll(event)}>
           {cells &&
             cells
-              .slice(0, offset + PAGE_CELL_COUNT)
+              .slice(0, offset)
               .map(cell => (
                 <TransactionCell
                   key={cell.id}
