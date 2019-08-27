@@ -10,7 +10,7 @@ import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
 import TransactionConfirmation from './TransactionConfirmation'
 import TransactionReward from './TransactionReward'
-import { FullPanel, TransactionHashBlockPanel, TransactionInputOutputPanel, TransactionPanel } from './styled'
+import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import i18n from '../../utils/i18n'
 
 const MAX_CELL_SHOW_SIZE = 10
@@ -28,11 +28,11 @@ const handleTransactionHashText = (transactionHash: string) => {
   return transactionHash
 }
 
-const handleCellCapacity = (cells: State.InputOutput[], address?: string) => {
+const handleCellCapacity = (cells: State.Cell[], address?: string) => {
   if (!cells || cells.length === 0) return 0
   return cells
-    .filter((cell: State.InputOutput) => cell.addressHash === address)
-    .map((cell: State.InputOutput) => parseNumber(cell.capacity))
+    .filter((cell: State.Cell) => cell.addressHash === address)
+    .map((cell: State.Cell) => parseNumber(cell.capacity))
     .reduce((previous: number, current: number) => {
       return previous + current
     }, 0)
@@ -73,7 +73,7 @@ const TransactionItem = ({
           )}
         </div>
       </TransactionHashBlockPanel>
-      <TransactionInputOutputPanel>
+      <TransactionCellPanel>
         <div className="transaction_item__input">
           <TransactionCellList
             cells={transaction.displayInputs}
@@ -98,7 +98,7 @@ const TransactionItem = ({
             )}
           />
         </div>
-      </TransactionInputOutputPanel>
+      </TransactionCellPanel>
       {confirmation && (
         <TransactionConfirmation confirmation={confirmation} capacity={handleCapacityChange(transaction, address)} />
       )}
