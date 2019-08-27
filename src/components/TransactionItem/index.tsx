@@ -40,9 +40,8 @@ const handleCellCapacity = (cells: State.InputOutput[], address?: string) => {
 
 const handleCapacityChange = (transaction: State.Transaction, address?: string) => {
   if (!transaction) return 0
-  return (
-    handleCellCapacity(transaction.displayOutputs, address) - handleCellCapacity(transaction.displayInputs, address)
-  )
+  const { displayInputs, displayOutputs } = transaction
+  return handleCellCapacity(displayOutputs, address) - handleCellCapacity(displayInputs, address)
 }
 
 const TransactionItem = ({
