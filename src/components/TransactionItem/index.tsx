@@ -13,8 +13,6 @@ import TransactionReward from './TransactionReward'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import i18n from '../../utils/i18n'
 
-const MAX_CELL_SHOW_SIZE = 10
-
 const handleTransactionHashText = (transactionHash: string) => {
   if (isSmallMobile()) {
     return startEndEllipsis(transactionHash, 12)
@@ -77,18 +75,14 @@ const TransactionItem = ({
         <div className="transaction_item__input">
           <TransactionCellList
             cells={transaction.displayInputs}
-            showSize={MAX_CELL_SHOW_SIZE}
             transaction={transaction}
-            render={cell => {
-              return <TransactionCell cell={cell} address={address} key={cell.id} />
-            }}
+            render={cell => <TransactionCell cell={cell} address={address} key={cell.id} />}
           />
         </div>
         <img src={isMobile() ? DownArrowIcon : RightArrowIcon} alt="input and output" />
         <div className="transaction_item__output">
           <TransactionCellList
             cells={transaction.displayOutputs}
-            showSize={MAX_CELL_SHOW_SIZE}
             transaction={transaction}
             render={cell => (
               <FullPanel key={cell.id}>
