@@ -7,7 +7,7 @@ import {
 import { shannonToCkb, formatConfirmation } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 
-export default ({ confirmation, capacity }: { confirmation?: number; capacity: number }) => {
+export default ({ confirmation, income }: { confirmation?: number; income: number }) => {
   return (
     <TransactiomConfirmationPanel>
       <div className="transaction__confirmation_content">
@@ -17,8 +17,8 @@ export default ({ confirmation, capacity }: { confirmation?: number; capacity: n
           </TransactionConfirmationValuePanel>
         </div>
         <div className="transaction__capacity">
-          <TransactionCapacityValuePanel increased={capacity >= 0}>
-            <span>{`${capacity >= 0 ? '+' : '-'} ${localeNumberString(shannonToCkb(Math.abs(capacity)))} CKB`}</span>
+          <TransactionCapacityValuePanel increased={income >= 0}>
+            <span>{`${income >= 0 ? '+' : '-'} ${localeNumberString(shannonToCkb(Math.abs(income)))} CKB`}</span>
           </TransactionCapacityValuePanel>
         </div>
       </div>

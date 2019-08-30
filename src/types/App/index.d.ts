@@ -85,6 +85,7 @@ declare namespace State {
     blockNumber: number
     blockTimestamp: number
     transactionFee: number
+    income: number
     isCellbase: boolean
     targetBlockNumber: number
     version: number
