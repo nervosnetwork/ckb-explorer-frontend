@@ -32,7 +32,7 @@ const handleAddressHashText = (hash: string) => {
   return startEndEllipsis(hash, 18)
 }
 
-const TransactionCellHash = ({ cell }: { cell: State.InputOutput }) => {
+const TransactionCellHash = ({ cell }: { cell: State.Cell }) => {
   return (
     <TransactionCellHashPanel highLight={cell.addressHash !== null}>
       {cell.addressHash ? (
@@ -92,15 +92,7 @@ const TransactionCellDetailButtons = ({
   )
 }
 
-export default ({
-  cell,
-  cellType,
-  dispatch,
-}: {
-  cell: State.InputOutput
-  cellType: CellType
-  dispatch: AppDispatch
-}) => {
+export default ({ cell, cellType, dispatch }: { cell: State.Cell; cellType: CellType; dispatch: AppDispatch }) => {
   const [state, setState] = useState(CellState.NONE as CellState)
 
   if (isMobile()) {

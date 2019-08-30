@@ -30,7 +30,7 @@ declare namespace State {
     message: string[]
   }
 
-  interface InputOutput {
+  interface Cell {
     id: number
     addressHash: string
     capacity: number
@@ -85,11 +85,12 @@ declare namespace State {
     blockNumber: number
     blockTimestamp: number
     transactionFee: number
+    income: number
     isCellbase: boolean
     targetBlockNumber: number
     version: number
-    displayInputs: InputOutput[]
-    displayOutputs: InputOutput[]
+    displayInputs: Cell[]
+    displayOutputs: Cell[]
   }
 
   export interface BlockchainInfo {
