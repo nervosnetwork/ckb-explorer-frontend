@@ -20,12 +20,17 @@ export default ({
   dispatch: AppDispatch
 }) => {
   const [offset, setOffset] = useState(PAGE_CELL_COUNT)
+  const [isEnd, setIsEnd] = useState(false)
   const cells = inputs || outputs || []
   const hideCapacityTitle = inputs && inputs.length > 0 && inputs[0].fromCellbase
-  const isScroll = cells.length >= PAGE_CELL_COUNT
+  const isScroll = cells.length > PAGE_CELL_COUNT
 
   const handleScroll = useCallback(
     (event: Event) => {
+      if (cells.length <= offset) {
+        setIsEnd(true)
+        return
+      }
       const element = event.target as HTMLDivElement
       const { scrollHeight, scrollTop, offsetHeight } = element
       if (scrollHeight - scrollTop - offsetHeight < SCROLL_BOTTOM_OFFSET) {
@@ -34,7 +39,7 @@ export default ({
         }, SCROLL_LOADING_TIME)
       }
     },
-    [offset],
+    [offset, cells.length],
   )
 
   return (
@@ -59,7 +64,7 @@ export default ({
                   dispatch={dispatch}
                 />
               ))}
-          {isScroll && <SmallLoading />}
+          {isScroll && !isEnd && <SmallLoading />}
         </div>
       </TransactionCellsPanel>
     </TransactionCellListPanel>
