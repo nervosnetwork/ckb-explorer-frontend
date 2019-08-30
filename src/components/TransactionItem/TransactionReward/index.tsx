@@ -55,7 +55,7 @@ export const RewardPenal = styled.div`
   }
 `
 
-const TransactionReward = ({ transaction, cell }: { transaction: State.Transaction; cell: State.InputOutput }) => {
+const TransactionReward = ({ transaction, cell }: { transaction: State.Transaction; cell: State.Cell }) => {
   // [0, 11] block doesn't show block reward and only cellbase show block reward
   const showBlockReward = transaction.blockNumber > 0 && transaction.isCellbase && cell.targetBlockNumber > 0
 

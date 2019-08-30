@@ -77,7 +77,7 @@ export const TransactionHashBlockPanel = styled.div`
   }
 `
 
-export const TransactionInputOutputPanel = styled.div`
+export const TransactionCellPanel = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;

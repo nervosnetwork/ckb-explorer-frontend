@@ -64,7 +64,7 @@ const handleAddressText = (address: string) => {
   return startEndEllipsis(address)
 }
 
-const TransactionCell = ({ cell, address }: { cell: State.InputOutput; address?: string }) => {
+const TransactionCell = ({ cell, address }: { cell: State.Cell; address?: string }) => {
   if (cell.fromCellbase) {
     return <Cellbase targetBlockNumber={cell.targetBlockNumber} />
   }

@@ -15,8 +15,8 @@ export default ({
   outputs,
   dispatch,
 }: {
-  inputs?: State.InputOutput[]
-  outputs?: State.InputOutput[]
+  inputs?: State.Cell[]
+  outputs?: State.Cell[]
   dispatch: AppDispatch
 }) => {
   const [offset, setOffset] = useState(PAGE_CELL_COUNT)

@@ -25,7 +25,7 @@ const initScriptContent = {
   },
 }
 
-const handleFetchScript = (cell: State.InputOutput, cellType: CellType, state: CellState, dispatch: any) => {
+const handleFetchScript = (cell: State.Cell, cellType: CellType, state: CellState, dispatch: any) => {
   switch (state) {
     case CellState.LOCK:
       fetchScript(cellType, 'lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<any>) => {
@@ -57,7 +57,7 @@ export default ({
   state,
   dispatch,
 }: {
-  cell: State.InputOutput
+  cell: State.Cell
   cellType: CellType
   state: CellState
   dispatch: AppDispatch
