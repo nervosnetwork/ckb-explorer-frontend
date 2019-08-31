@@ -25,6 +25,8 @@ describe('Number methods tests', () => {
   })
 
   it('parse hash rate', async () => {
+    expect(handleHashRate(12345)).toBe("12.35 KH/s")
+    expect(handleHashRate(123454669)).toBe("123.45 MH/s")
     expect(handleHashRate(1234546698945)).toBe("1.23 TH/s")
     expect(handleHashRate(100003439)).toBe("100.00 MH/s")
   })
