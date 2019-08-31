@@ -1,4 +1,4 @@
-import { parseNumber, localeNumberString } from '../src/utils/number'
+import { parseNumber, localeNumberString, handleHashRate } from '../src/utils/number'
 
 describe('Number methods tests', () => {
 
@@ -22,6 +22,14 @@ describe('Number methods tests', () => {
     expect(localeNumberString('0x66ccff', 16)).toBe('6,737,151')
     expect(localeNumberString('aswqda')).toBe('0')
     expect(localeNumberString('false')).toBe('0')
+  })
+
+  it('parse hash rate', async () => {
+    expect(handleHashRate(123)).toBe("123.00 H/s")
+    expect(handleHashRate(12345)).toBe("12.35 KH/s")
+    expect(handleHashRate(123454669)).toBe("123.45 MH/s")
+    expect(handleHashRate(1234546698945)).toBe("1.23 TH/s")
+    expect(handleHashRate(100003439)).toBe("100.00 MH/s")
   })
 
 })

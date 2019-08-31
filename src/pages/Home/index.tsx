@@ -20,7 +20,7 @@ import {
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
 import { BLOCK_POLLING_TIME } from '../../utils/const'
-import { localeNumberString } from '../../utils/number'
+import { localeNumberString, handleHashRate } from '../../utils/number'
 import { startEndEllipsis } from '../../utils/string'
 import { isMobile } from '../../utils/screen'
 import browserHistory from '../../routes/history'
@@ -76,7 +76,7 @@ interface BlockchainData {
 }
 
 const parseHashRate = (hashRate: string | undefined) => {
-  return hashRate ? `${localeNumberString((Number(hashRate) * 1000).toFixed(), 10)} gps` : '- -'
+  return hashRate ? handleHashRate(Number(hashRate) * 1000) : '- -'
 }
 
 const getTableContentDatas = (block: State.Block) => {
