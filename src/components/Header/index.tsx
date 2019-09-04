@@ -36,10 +36,8 @@ const Menus = () => {
       },
       {
         type: LinkType.Outer,
-        // name: t('navbar.faucet'),
-        // url: 'https://faucet.nervos.org',
-        name: '',
-        url: '',
+        name: t('navbar.faucet'),
+        url: 'https://faucet.nervos.org',
       },
     ]
   }, [t])
