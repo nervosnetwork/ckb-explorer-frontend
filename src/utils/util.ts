@@ -17,7 +17,17 @@ export const copyElementValue = (component: any) => {
 }
 
 export const shannonToCkb = (value: number) => {
-  return value / 10 ** 8
+  const num = value / 10 ** 8
+  if (num < 10 ** -8) {
+    return '0'
+  }
+  if (num < 10 ** -6) {
+    if (value % 10 === 0) {
+      return num.toFixed(7)
+    }
+    return num.toFixed(8)
+  }
+  return `${num}`
 }
 
 export const toCamelcase = <T>(object: any): T | null => {
