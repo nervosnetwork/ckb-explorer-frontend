@@ -10,6 +10,7 @@ export const parseNumber = (value: number | string, radix?: number) => {
 }
 
 export const localeNumberString = (value: number | string, radix?: number) => {
+  if (Number(value) < 1 && Number(value) > 0) return `${value}`
   let text = parseNumber(value, radix).toString()
   const pointIndex = text.indexOf('.')
   let offset = pointIndex === -1 ? text.length : pointIndex

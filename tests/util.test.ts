@@ -1,5 +1,5 @@
 
-import {toCamelcase} from '../src/utils/util'
+import {toCamelcase, shannonToCkb} from '../src/utils/util'
 
 describe('Number methods tests', () => {
   it('pasre simple object to camelcase', async () => {
@@ -32,5 +32,17 @@ describe('Number methods tests', () => {
     }
     const result: Data | null = toCamelcase(data)
     expect(result).toStrictEqual({"dataName": "hello", "dataValue": {"aValue": "a", "bValue": "b"}})
+  })
+
+  it('convert shannon to ckb', async () => {
+    expect(shannonToCkb(222333)).toBe('0.00222333')
+    expect(shannonToCkb(2223232333)).toBe('22.23232333')
+    expect(shannonToCkb(2223)).toBe('0.00002223')
+    expect(shannonToCkb(2200)).toBe('0.000022')
+    expect(shannonToCkb(23)).toBe('0.00000023')
+    expect(shannonToCkb(20)).toBe('0.0000002')
+    expect(shannonToCkb(3)).toBe('0.00000003')
+    expect(shannonToCkb(0.3)).toBe('0')
+    expect(shannonToCkb(0)).toBe('0')
   })
 })

@@ -13,6 +13,9 @@ describe('Number methods tests', () => {
   })
 
   it('local number string', async () => {
+    expect(localeNumberString('0')).toBe('0')
+    expect(localeNumberString('0.00000004')).toBe('0.00000004')
+    expect(localeNumberString('0.00034')).toBe('0.00034')
     expect(localeNumberString('222333')).toBe('222,333')
     expect(localeNumberString('2223333')).toBe('2,223,333')
     expect(localeNumberString('22223333')).toBe('22,223,333')
