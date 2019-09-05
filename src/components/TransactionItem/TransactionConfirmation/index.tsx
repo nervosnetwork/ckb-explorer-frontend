@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  TransactiomConfirmationPanel,
+  TransactionConfirmationPanel,
   TransactionConfirmationValuePanel,
   TransactionCapacityValuePanel,
 } from './styled'
@@ -9,7 +9,7 @@ import { localeNumberString } from '../../../utils/number'
 
 export default ({ confirmation, income }: { confirmation?: number; income: number }) => {
   return (
-    <TransactiomConfirmationPanel>
+    <TransactionConfirmationPanel>
       <div className="transaction__confirmation_content">
         <div className="transaction__confirmation">
           <TransactionConfirmationValuePanel>
@@ -22,6 +22,6 @@ export default ({ confirmation, income }: { confirmation?: number; income: numbe
           </TransactionCapacityValuePanel>
         </div>
       </div>
-    </TransactiomConfirmationPanel>
+    </TransactionConfirmationPanel>
   )
 }
