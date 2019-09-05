@@ -23,37 +23,51 @@ export const localeNumberString = (value: number | string, radix?: number) => {
   return text
 }
 
-export const handleHashRate = (value: number) => {
+export const handleDifficulty = (value: number) => {
+  const MIN_VALUE = 10 ** 3
   const kv = value / 1000
   const mv = kv / 1000
   const gv = mv / 1000
   const tv = gv / 1000
   const pv = tv / 1000
   const ev = pv / 1000
+  const zv = ev / 1000
+  const yv = zv / 1000
 
-  if (ev >= 1) {
-    return `${ev.toFixed(2)} EH/s`
+  if (yv >= MIN_VALUE) {
+    return `${yv.toFixed(2)} YH`
   }
-  if (pv >= 1) {
-    return `${pv.toFixed(2)} PH/s`
+  if (zv >= MIN_VALUE) {
+    return `${zv.toFixed(2)} ZH`
   }
-  if (tv >= 1) {
-    return `${tv.toFixed(2)} TH/s`
+  if (ev >= MIN_VALUE) {
+    return `${ev.toFixed(2)} EH`
   }
-  if (gv >= 1) {
-    return `${gv.toFixed(2)} GH/s`
+  if (pv >= MIN_VALUE) {
+    return `${pv.toFixed(2)} PH`
   }
-  if (mv >= 1) {
-    return `${mv.toFixed(2)} MH/s`
+  if (tv >= MIN_VALUE) {
+    return `${tv.toFixed(2)} TH`
   }
-  if (kv >= 1) {
-    return `${kv.toFixed(2)} KH/s`
+  if (gv >= MIN_VALUE) {
+    return `${gv.toFixed(2)} GH`
   }
-  return `${value.toFixed(2)} H/s`
+  if (mv >= MIN_VALUE) {
+    return `${mv.toFixed(2)} MH`
+  }
+  if (kv >= MIN_VALUE) {
+    return `${kv.toFixed(2)} KH`
+  }
+  return `${value.toFixed(2)} H`
+}
+
+export const handleHashRate = (value: number) => {
+  return `${handleDifficulty(value)}/s`
 }
 
 export default {
   parseNumber,
   localeNumberString,
+  handleDifficulty,
   handleHashRate,
 }
