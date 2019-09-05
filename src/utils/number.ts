@@ -35,30 +35,30 @@ export const handleDifficulty = (value: number) => {
   const yv = zv / 1000
 
   if (yv >= MIN_VALUE) {
-    return `${yv.toFixed(2)} YH`
+    return `${localeNumberString(yv.toFixed(2))} YH`
   }
   if (zv >= MIN_VALUE) {
-    return `${zv.toFixed(2)} ZH`
+    return `${localeNumberString(zv.toFixed(2))} ZH`
   }
   if (ev >= MIN_VALUE) {
-    return `${ev.toFixed(2)} EH`
+    return `${localeNumberString(ev.toFixed(2))} EH`
   }
   if (pv >= MIN_VALUE) {
-    return `${pv.toFixed(2)} PH`
+    return `${localeNumberString(pv.toFixed(2))} PH`
   }
   if (tv >= MIN_VALUE) {
-    return `${tv.toFixed(2)} TH`
+    return `${localeNumberString(tv.toFixed(2))} TH`
   }
   if (gv >= MIN_VALUE) {
-    return `${gv.toFixed(2)} GH`
+    return `${localeNumberString(gv.toFixed(2))} GH`
   }
   if (mv >= MIN_VALUE) {
-    return `${mv.toFixed(2)} MH`
+    return `${localeNumberString(mv.toFixed(2))} MH`
   }
   if (kv >= MIN_VALUE) {
-    return `${kv.toFixed(2)} KH`
+    return `${localeNumberString(kv.toFixed(2))} KH`
   }
-  return `${value.toFixed(2)} H`
+  return `${localeNumberString(value.toFixed(2))} H`
 }
 
 export const handleHashRate = (value: number) => {

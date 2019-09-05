@@ -20,7 +20,7 @@ import {
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
 import { BLOCK_POLLING_TIME } from '../../utils/const'
-import { localeNumberString, handleHashRate } from '../../utils/number'
+import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
 import { startEndEllipsis } from '../../utils/string'
 import { isMobile } from '../../utils/screen'
 import browserHistory from '../../routes/history'
@@ -118,7 +118,7 @@ const blockchainDatas = (statistics: State.Statistics) => {
     },
     {
       name: i18n.t('block.difficulty'),
-      value: localeNumberString(statistics.currentEpochDifficulty, 10),
+      value: handleDifficulty(statistics.currentEpochDifficulty),
       tip: i18n.t('blockchain.difficulty_tooltip'),
       clickable: true,
     },

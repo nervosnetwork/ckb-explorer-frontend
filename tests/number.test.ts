@@ -25,18 +25,18 @@ describe('Number methods tests', () => {
   })
 
   it('parse hash rate', async () => {
-    expect(handleHashRate(123)).toBe("123.00 H/s")
-    expect(handleHashRate(12345)).toBe("12345.00 H/s")
-    expect(handleHashRate(123454669)).toBe("123454.67 KH/s")
-    expect(handleHashRate(1234546698945)).toBe("1234.55 GH/s")
-    expect(handleHashRate(100003439)).toBe("100003.44 KH/s")
+    expect(handleHashRate(123)).toBe("123 H/s")
+    expect(handleHashRate(12345)).toBe("12,345 H/s")
+    expect(handleHashRate(123454669)).toBe("123,454.67 KH/s")
+    expect(handleHashRate(1234546698945)).toBe("1,234.55 GH/s")
+    expect(handleHashRate(100003439)).toBe("100,003.44 KH/s")
   })
 
   it('parse difficulty', async () => {
-      expect(handleDifficulty(123)).toBe("123.00 H")
-      expect(handleDifficulty(12345)).toBe("12345.00 H")
-      expect(handleDifficulty(123454669)).toBe("123454.67 KH")
-      expect(handleDifficulty(1234546698945)).toBe("1234.55 GH")
-      expect(handleDifficulty(100003439)).toBe("100003.44 KH")
+      expect(handleDifficulty(123)).toBe("123 H")
+      expect(handleDifficulty(12345)).toBe("12,345 H")
+      expect(handleDifficulty(123454669)).toBe("123,454.67 KH")
+      expect(handleDifficulty(1234546698945)).toBe("1,234.55 GH")
+      expect(handleDifficulty(100003439)).toBe("100,003.44 KH")
     })
 })
