@@ -23,8 +23,8 @@ export const localeNumberString = (value: number | string, radix?: number) => {
   return text
 }
 
+const MIN_VALUE = 10 ** 3
 export const handleDifficulty = (value: number) => {
-  const MIN_VALUE = 10 ** 3
   const kv = value / 1000
   const mv = kv / 1000
   const gv = mv / 1000
