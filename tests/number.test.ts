@@ -1,4 +1,4 @@
-import { parseNumber, localeNumberString, handleHashRate } from '../src/utils/number'
+import { parseNumber, localeNumberString, handleHashRate, handleDifficulty } from '../src/utils/number'
 
 describe('Number methods tests', () => {
 
@@ -25,11 +25,18 @@ describe('Number methods tests', () => {
   })
 
   it('parse hash rate', async () => {
-    expect(handleHashRate(123)).toBe("123.00 H/s")
-    expect(handleHashRate(12345)).toBe("12.35 KH/s")
-    expect(handleHashRate(123454669)).toBe("123.45 MH/s")
-    expect(handleHashRate(1234546698945)).toBe("1.23 TH/s")
-    expect(handleHashRate(100003439)).toBe("100.00 MH/s")
+    expect(handleHashRate(123)).toBe("123 H/s")
+    expect(handleHashRate(12345)).toBe("12,345 H/s")
+    expect(handleHashRate(123454669)).toBe("123,454.67 KH/s")
+    expect(handleHashRate(1234546698945)).toBe("1,234.55 GH/s")
+    expect(handleHashRate(100003439)).toBe("100,003.44 KH/s")
   })
 
+  it('parse difficulty', async () => {
+      expect(handleDifficulty(123)).toBe("123 H")
+      expect(handleDifficulty(12345)).toBe("12,345 H")
+      expect(handleDifficulty(123454669)).toBe("123,454.67 KH")
+      expect(handleDifficulty(1234546698945)).toBe("1,234.55 GH")
+      expect(handleDifficulty(100003439)).toBe("100,003.44 KH")
+    })
 })
