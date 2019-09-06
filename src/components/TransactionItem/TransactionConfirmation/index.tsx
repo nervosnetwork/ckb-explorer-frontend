@@ -23,9 +23,7 @@ export default ({ confirmation, income }: { confirmation?: number; income: strin
         </div>
         <div className="transaction__capacity">
           <TransactionCapacityValuePanel increased={bigIncome.isGreaterThanOrEqualTo(0)}>
-            <span>
-              {`${bigIncome.isNegative() ? '-' : '+'} ${localeNumberString(shannonToCkb(bigIncome.abs()))} CKB`}
-            </span>
+            <span>{`${bigIncome.isNegative() ? '-' : '+'} ${localeNumberString(shannonToCkb(bigIncome))} CKB`}</span>
           </TransactionCapacityValuePanel>
         </div>
       </div>

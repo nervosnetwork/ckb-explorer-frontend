@@ -22,7 +22,7 @@ export const shannonToCkb = (value: BigNumber | string | number): string => {
   if (bigValue.isNaN()) {
     return '0'
   }
-  const num = bigValue.dividedBy(new BigNumber('1e8'))
+  const num = bigValue.dividedBy(new BigNumber('1e8')).abs()
   if (num.isLessThan(new BigNumber('1e-8'))) {
     return '0'
   }

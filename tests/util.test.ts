@@ -42,6 +42,7 @@ describe('Number methods tests', () => {
     expect(shannonToCkb(23)).toBe('0.00000023')
     expect(shannonToCkb(20)).toBe('0.0000002')
     expect(shannonToCkb(3)).toBe('0.00000003')
+    expect(shannonToCkb(-3)).toBe('0.00000003')
     expect(shannonToCkb(0.3)).toBe('0')
     expect(shannonToCkb(0)).toBe('0')
     expect(shannonToCkb('0x66ccff')).toBe('0.06737151')
