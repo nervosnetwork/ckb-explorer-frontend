@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const TransactiomConfirmationPanel = styled.div`
+export const TransactionConfirmationPanel = styled.div`
   width: 100%;
 
   .transaction__confirmation_content {

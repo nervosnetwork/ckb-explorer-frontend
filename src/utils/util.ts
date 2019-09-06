@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import camelcaseKeys from 'camelcase-keys'
+import BigNumber from 'bignumber.js'
 import { MAX_CONFIRMATION } from './const'
 import i18n from './i18n'
 
@@ -17,7 +18,17 @@ export const copyElementValue = (component: any) => {
 }
 
 export const shannonToCkb = (value: number) => {
-  return value / 10 ** 8
+  const num = new BigNumber(value).dividedBy(new BigNumber('1e8'))
+  if (num.isLessThan(new BigNumber('1e-8'))) {
+    return '0'
+  }
+  if (num.isLessThan(new BigNumber('1e-6'))) {
+    if (value % 10 === 0) {
+      return num.toFixed(7)
+    }
+    return num.toFixed(8)
+  }
+  return `${num}`
 }
 
 export const toCamelcase = <T>(object: any): T | null => {
