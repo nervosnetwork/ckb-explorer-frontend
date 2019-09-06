@@ -9,7 +9,10 @@ import { shannonToCkb, formatConfirmation } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 
 export default ({ confirmation, income }: { confirmation?: number; income: string }) => {
-  const bigIncome = new BigNumber(income)
+  let bigIncome = new BigNumber(income)
+  if (bigIncome.isNaN()) {
+    bigIncome = new BigNumber(0)
+  }
   return (
     <TransactionConfirmationPanel>
       <div className="transaction__confirmation_content">
@@ -21,9 +24,7 @@ export default ({ confirmation, income }: { confirmation?: number; income: strin
         <div className="transaction__capacity">
           <TransactionCapacityValuePanel increased={bigIncome.isGreaterThanOrEqualTo(0)}>
             <span>
-              {`${bigIncome.isGreaterThanOrEqualTo(0) ? '+' : '-'} ${localeNumberString(
-                shannonToCkb(bigIncome.abs()),
-              )} CKB`}
+              {`${bigIncome.isNegative() ? '-' : '+'} ${localeNumberString(shannonToCkb(bigIncome.abs()))} CKB`}
             </span>
           </TransactionCapacityValuePanel>
         </div>

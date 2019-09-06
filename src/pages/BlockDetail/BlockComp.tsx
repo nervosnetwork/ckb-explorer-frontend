@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import BigNumber from 'bignumber.js'
 import Pagination from '../../components/Pagination'
 import DropDownIcon from '../../assets/block_detail_drop_down.png'
 import PackUpIcon from '../../assets/block_detail_pack_up.png'
@@ -137,7 +136,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       title: i18n.t('block.block_reward'),
       content: (
         <BlockOverviewItemContent
-          value={`${localeNumberString(shannonToCkb(new BigNumber(block.reward)))} CKB`}
+          value={`${localeNumberString(shannonToCkb(block.reward))} CKB`}
           tip={block.rewardStatus === 'pending' ? i18n.t('block.pending') : undefined}
           message={i18n.t('block.pending_tip')}
         />

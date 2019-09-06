@@ -18,16 +18,16 @@ export const copyElementValue = (component: any) => {
 }
 
 export const shannonToCkb = (value: BigNumber | string | number): string => {
-  const originValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
-  if (originValue.isNaN()) {
+  const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  if (bigValue.isNaN()) {
     return '0'
   }
-  const num = originValue.dividedBy(new BigNumber('1e8'))
+  const num = bigValue.dividedBy(new BigNumber('1e8'))
   if (num.isLessThan(new BigNumber('1e-8'))) {
     return '0'
   }
   if (num.isLessThan(new BigNumber('1e-6'))) {
-    if (originValue.mod(10).isEqualTo(0)) {
+    if (bigValue.mod(10).isEqualTo(0)) {
       return num.toFixed(7)
     }
     return num.toFixed(8)

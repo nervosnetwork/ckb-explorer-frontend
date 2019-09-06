@@ -24,6 +24,8 @@ describe('Number methods tests', () => {
     expect(handleHashRate(123454669)).toBe("123,454.67 KH/s")
     expect(handleHashRate(1234546698945)).toBe("1,234.55 GH/s")
     expect(handleHashRate(100003439)).toBe("100,003.44 KH/s")
+    expect(handleHashRate(100000)).toBe("100,000 H/s")
+    expect(handleHashRate(1000000)).toBe("1,000 KH/s")
     expect(handleHashRate('0x66ccff')).toBe('6,737.15 KH/s')
     expect(handleHashRate('aswqda')).toBe("0 H/s")
     expect(handleHashRate('false')).toBe("0 H/s")

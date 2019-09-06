@@ -1,9 +1,14 @@
 import BigNumber from 'bignumber.js'
 
 export const localeNumberString = (value: BigNumber | string | number): string => {
-  const originValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
-  if (originValue.abs().isLessThan(1) && originValue.abs().isGreaterThan(0)) return `${value}`
-  let text = originValue.isNaN() ? '0' : originValue.toString(10)
+  const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  if (bigValue.isNaN()) {
+    return '0'
+  }
+  if (bigValue.abs().isLessThan(1) && bigValue.abs().isGreaterThan(0)) {
+    return `${value}`
+  }
+  let text = bigValue.toString(10)
   const pointIndex = text.indexOf('.')
   let offset = pointIndex === -1 ? text.length : pointIndex
   while (offset > 3) {
@@ -18,8 +23,8 @@ export const localeNumberString = (value: BigNumber | string | number): string =
 
 const MIN_VALUE = new BigNumber(10 ** 3)
 export const handleDifficulty = (value: BigNumber | string | number) => {
-  const originValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
-  const kv = originValue.dividedBy(1000)
+  const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  const kv = bigValue.dividedBy(1000)
   const mv = kv.dividedBy(1000)
   const gv = mv.dividedBy(1000)
   const tv = gv.dividedBy(1000)
@@ -52,7 +57,7 @@ export const handleDifficulty = (value: BigNumber | string | number) => {
   if (kv.isGreaterThanOrEqualTo(MIN_VALUE)) {
     return `${localeNumberString(kv.toFixed(2))} KH`
   }
-  return `${localeNumberString(originValue.toFixed(2))} H`
+  return `${localeNumberString(bigValue.toFixed(2))} H`
 }
 
 export const handleHashRate = (value: BigNumber | string | number) => {
