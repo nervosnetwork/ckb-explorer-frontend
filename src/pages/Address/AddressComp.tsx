@@ -87,7 +87,7 @@ const AddressLockScript = ({ script }: { script: State.Script }) => {
   )
 }
 
-const getAddressInfo = (addressState: any) => {
+const getAddressInfo = (addressState: State.AddressState) => {
   const items: OverviewItemData[] = [
     {
       title: i18n.t('address.balance'),
