@@ -17,13 +17,17 @@ export const copyElementValue = (component: any) => {
   }
 }
 
-export const shannonToCkb = (value: number) => {
-  const num = new BigNumber(value).dividedBy(new BigNumber('1e8'))
+export const shannonToCkb = (value: BigNumber | string | number): string => {
+  const originValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  if (originValue.isNaN()) {
+    return '0'
+  }
+  const num = originValue.dividedBy(new BigNumber('1e8'))
   if (num.isLessThan(new BigNumber('1e-8'))) {
     return '0'
   }
   if (num.isLessThan(new BigNumber('1e-6'))) {
-    if (value % 10 === 0) {
+    if (originValue.mod(10).isEqualTo(0)) {
       return num.toFixed(7)
     }
     return num.toFixed(8)
