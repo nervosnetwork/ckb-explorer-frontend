@@ -33,22 +33,21 @@ declare namespace State {
   interface Cell {
     id: number
     addressHash: string
-    capacity: number
+    capacity: string
     fromCellbase: boolean
     targetBlockNumber: number
-    baseReward: number
-    secondaryReward: number
-    commitReward: number
-    proposalReward: number
+    baseReward: string
+    secondaryReward: string
+    commitReward: string
+    proposalReward: string
     isGenesisOutput: boolean
   }
 
   export interface Address {
     addressHash: string
     lockHash: string
-    balance: number
+    balance: string
     transactionsCount: number
-    cellConsumed: number
     lockScript: Script
     pendingRewardBlocksCount: number
     type: 'Address' | 'LockHash' | ''
@@ -61,13 +60,12 @@ declare namespace State {
     proposalsCount: number
     unclesCount: number
     uncleBlockHashes: string[]
-    reward: number
+    reward: string
     rewardStatus: 'pending' | 'issued'
-    totalTransactionFee: number
-    receivedTxFee: number
+    totalTransactionFee: string
+    receivedTxFee: string
     receivedTxFeeStatus: 'calculating' | 'calculated'
-    cellConsumed: number
-    totalCellCapacity: number
+    totalCellCapacity: string
     minerHash: string
     timestamp: number
     difficulty: string
@@ -75,7 +73,7 @@ declare namespace State {
     length: string
     startNumber: number
     version: number
-    nonce: number
+    nonce: string
     transactionsRoot: string
     witnessesRoot: string
   }
@@ -84,8 +82,8 @@ declare namespace State {
     transactionHash: string
     blockNumber: number
     blockTimestamp: number
-    transactionFee: number
-    income: number
+    transactionFee: string
+    income: string
     isCellbase: boolean
     targetBlockNumber: number
     version: number
@@ -112,7 +110,7 @@ declare namespace State {
   export interface Statistics {
     tipBlockNumber: string
     currentEpochAverageBlockTime: string
-    currentEpochDifficulty: number
+    currentEpochDifficulty: string
     hashRate: string
   }
 
@@ -123,7 +121,7 @@ declare namespace State {
     }[]
     difficulty: {
       blockNumber: number
-      difficulty: number
+      difficulty: string
       epochNumber: number
     }[]
   }
@@ -131,7 +129,7 @@ declare namespace State {
   export interface StatisticsChartData {
     blockNumber: number
     hashRate: string
-    difficulty: number
+    difficulty: string
     epochnumber: number
   }
 
