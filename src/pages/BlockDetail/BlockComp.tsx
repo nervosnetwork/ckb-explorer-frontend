@@ -136,7 +136,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       title: i18n.t('block.block_reward'),
       content: (
         <BlockOverviewItemContent
-          value={`${localeNumberString(shannonToCkb(block.reward))} CKB`}
+          value={block.rewardStatus === 'pending' ? '' : `${localeNumberString(shannonToCkb(block.reward))} CKB`}
           tip={block.rewardStatus === 'pending' ? i18n.t('block.pending') : undefined}
           message={i18n.t('block.pending_tip')}
         />
