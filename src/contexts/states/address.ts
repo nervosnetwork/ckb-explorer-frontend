@@ -14,7 +14,8 @@ export const initAddressState: State.AddressState = {
   },
   transactions: [] as State.Transaction[],
   total: 0,
-  status: 'None',
+  addressStatus: 'None',
+  transactionsStatus: 'None',
 }
 
 export default initAddressState
