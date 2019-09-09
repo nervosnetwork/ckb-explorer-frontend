@@ -1,41 +1,5 @@
-import { fetchTransactionsByAddress, fetchTransactionByHash } from '../http/fetcher'
+import { fetchTransactionByHash } from '../http/fetcher'
 import { PageActions, AppActions, AppDispatch } from '../../contexts/providers/reducer'
-
-export const getTransactionsByAddress = (hash: string, page: number, size: number, dispatch: any) => {
-  fetchTransactionsByAddress(hash, page, size)
-    .then(response => {
-      const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
-      dispatch({
-        type: PageActions.UpdateAddressTransactions,
-        payload: {
-          transactions:
-            data.map((wrapper: Response.Wrapper<State.Transaction>) => {
-              return wrapper.attributes
-            }) || [],
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateAddressTotal,
-        payload: {
-          total: meta ? meta.total : 0,
-        },
-      })
-    })
-    .catch(() => {
-      dispatch({
-        type: PageActions.UpdateAddressTransactions,
-        payload: {
-          transactions: [],
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateAddressTotal,
-        payload: {
-          total: 0,
-        },
-      })
-    })
-}
 
 export const getTransactionByHash = (hash: string, dispatch: AppDispatch) => {
   fetchTransactionByHash(hash)
@@ -87,3 +51,5 @@ export const getTransactionByHash = (hash: string, dispatch: AppDispatch) => {
       })
     })
 }
+
+export default getTransactionByHash

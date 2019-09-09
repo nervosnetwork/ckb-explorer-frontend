@@ -15,7 +15,7 @@ import { useTimeoutWithUnmount } from '../../utils/hook'
 import { LOADING_WAITING_TIME } from '../../utils/const'
 
 const TransactionStateComp = ({ dispatch }: { dispatch: AppDispatch }) => {
-  const { transactionState } = useContext(AppContext)
+  const { transactionState, app } = useContext(AppContext)
   switch (transactionState.status) {
     case 'Error':
       return <Error />
@@ -23,7 +23,7 @@ const TransactionStateComp = ({ dispatch }: { dispatch: AppDispatch }) => {
       return <TransactionComp dispatch={dispatch} />
     case 'None':
     default:
-      return <Loading />
+      return <Loading show={app.loading} />
   }
 }
 

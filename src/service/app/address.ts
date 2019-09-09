@@ -1,8 +1,7 @@
 import { AxiosError } from 'axios'
 import { AppActions, AppDispatch, PageActions } from '../../contexts/providers/reducer'
 import initAddress from '../../contexts/states/address'
-import { fetchAddressInfo, fetchTipBlockNumber } from '../http/fetcher'
-import { getTransactionsByAddress } from './transaction'
+import { fetchAddressInfo, fetchTipBlockNumber, fetchTransactionsByAddress } from '../http/fetcher'
 
 export const getAddressInfo = (hash: string, dispatch: AppDispatch) => {
   fetchAddressInfo(hash)
@@ -23,7 +22,7 @@ export const getAddressInfo = (hash: string, dispatch: AppDispatch) => {
       dispatch({
         type: PageActions.UpdateAddressStatus,
         payload: {
-          status: 'OK',
+          addressStatus: 'OK',
         },
       })
       dispatch({
@@ -43,13 +42,73 @@ export const getAddressInfo = (hash: string, dispatch: AppDispatch) => {
       dispatch({
         type: PageActions.UpdateAddressStatus,
         payload: {
-          status: error && error.response && error.response.status === 404 ? 'OK' : 'Error',
+          addressStatus: error && error.response && error.response.status === 404 ? 'OK' : 'Error',
         },
       })
       dispatch({
         type: AppActions.UpdateLoading,
         payload: {
           loading: false,
+        },
+      })
+    })
+}
+
+export const getTransactionsByAddress = (hash: string, page: number, size: number, dispatch: any) => {
+  fetchTransactionsByAddress(hash, page, size)
+    .then(response => {
+      const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
+      dispatch({
+        type: PageActions.UpdateAddressTransactions,
+        payload: {
+          transactions:
+            data.map((wrapper: Response.Wrapper<State.Transaction>) => {
+              return wrapper.attributes
+            }) || [],
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateAddressTransactionsStatus,
+        payload: {
+          transactionsStatus: 'OK',
+        },
+      })
+      dispatch({
+        type: AppActions.UpdateSecondLoading,
+        payload: {
+          secondLoading: false,
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateAddressTotal,
+        payload: {
+          total: meta ? meta.total : 0,
+        },
+      })
+    })
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateAddressTransactions,
+        payload: {
+          transactions: [],
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateAddressTotal,
+        payload: {
+          total: 0,
+        },
+      })
+      dispatch({
+        type: AppActions.UpdateSecondLoading,
+        payload: {
+          secondLoading: false,
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateAddressTransactionsStatus,
+        payload: {
+          transactionsStatus: 'Error',
         },
       })
     })

@@ -71,7 +71,7 @@ const scale = () => {
 }
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
-  const { statisticsChartDatas } = useContext(AppContext)
+  const { statisticsChartDatas, app } = useContext(AppContext)
 
   useEffect(() => {
     getStatisticsChart(dispatch)
@@ -150,7 +150,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
         </ChartPanel>
       ) : (
         <LoadingPanel>
-          <Loading />
+          <Loading show={app.loading} />
         </LoadingPanel>
       )}
     </Content>
