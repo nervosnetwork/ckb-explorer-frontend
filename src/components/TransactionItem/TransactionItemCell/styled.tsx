@@ -30,6 +30,7 @@ export const TransactionCellPanel = styled.div`
   .transaction__cell_capacity {
     color: #000000;
     margin-left: 15px;
+    display: flex;
     height: 20px;
 
     @media (max-width: 700px) {
@@ -37,6 +38,19 @@ export const TransactionCellPanel = styled.div`
       margin-top: 5px;
       height: 16px;
     }
+  }
+
+  img {
+    width: 16px;
+    height: 12px;
+  }
+
+  .transaction__cell_left_arrow {
+    margin: 8px 7px 0 0;
+  }
+
+  .transaction__cell_right_arrow {
+    margin: 5px 0 0 7px;
   }
 `
 
