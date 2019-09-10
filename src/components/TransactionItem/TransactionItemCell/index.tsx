@@ -91,12 +91,12 @@ const TransactionCell = ({
 
   return (
     <TransactionCellPanel highLight={highLight}>
-      {isInput && cell.generatedTxHash && (
-        <Link to={`/transaction/${cell.generatedTxHash}`}>
-          <img className="transaction__cell_left_arrow" src={LeftArrow} alt="left arrow" />
-        </Link>
-      )}
       <div className="transaction__cell_address">
+        {isInput && cell.generatedTxHash && (
+          <Link to={`/transaction/${cell.generatedTxHash}`}>
+            <img className="transaction__cell_left_arrow" src={LeftArrow} alt="left arrow" />
+          </Link>
+        )}
         {highLight ? (
           <Link to={`/address/${cell.addressHash}`}>
             <code>{addressText}</code>

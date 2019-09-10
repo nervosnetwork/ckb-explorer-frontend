@@ -24,6 +24,7 @@ export const TransactionCellPanel = styled.div`
 
     @media (max-width: 700px) {
       height: 16px;
+      display: flex;
     }
   }
 
@@ -37,6 +38,8 @@ export const TransactionCellPanel = styled.div`
       margin-left: 0px;
       margin-top: 5px;
       height: 16px;
+      width: 100%;
+      justify-content: space-between;
     }
   }
 
@@ -47,10 +50,18 @@ export const TransactionCellPanel = styled.div`
 
   .transaction__cell_left_arrow {
     margin: 8px 7px 0 0;
+
+    @media (max-width: 700px) {
+      margin: 0 7px 0 0;
+    }
   }
 
   .transaction__cell_right_arrow {
     margin: 5px 0 0 7px;
+
+    @media (max-width: 700px) {
+      margin: 0 5px 0 7px;
+    }
   }
 `
 
