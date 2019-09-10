@@ -29,6 +29,7 @@ export const TransactionCellContentPanel = styled.div`
 export const TransactionCellHashPanel = styled.div`
   color: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '#3cc68a' : '#000000')};
   text-align: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? 'left' : 'center')};
+  display: flex;
 
   @media (max-width: 700px) {
     text-align: left;
@@ -39,6 +40,27 @@ export const TransactionCellHashPanel = styled.div`
 
   @media (min-width: 700px) {
     font-weight: 500;
+  }
+
+  img {
+    width: 16px;
+    height: 12px;
+  }
+
+  .transaction__cell_left_arrow {
+    margin: 0 7px 0 0;
+
+    @media (max-width: 700px) {
+      margin: 4px 10px 0 0;
+    }
+  }
+
+  .transaction__cell_right_arrow {
+    margin: 5px 0 0 7px;
+
+    @media (max-width: 700px) {
+      margin: 5px 5px 0 7px;
+    }
   }
 `
 

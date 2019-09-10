@@ -18,6 +18,9 @@ import {
   TransactionCellHashPanel,
   TransactionCellPanel,
 } from './styled'
+import LeftArrow from '../../../assets/left_arrow.png'
+import RightHighlightArrow from '../../../assets/right_green_arrow.png'
+import RightNormalArrow from '../../../assets/right_grey_arrow.png'
 
 const handleAddressHashText = (hash: string) => {
   if (isSmallMobile()) {
@@ -32,9 +35,15 @@ const handleAddressHashText = (hash: string) => {
   return startEndEllipsis(hash, 18)
 }
 
-const TransactionCellHash = ({ cell }: { cell: State.Cell }) => {
+const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
   return (
     <TransactionCellHashPanel highLight={cell.addressHash !== null}>
+      {cellType === CellType.Input && cell.generatedTxHash && (
+        <Link to={`/transaction/${cell.generatedTxHash}`}>
+          <img className="transaction__cell_left_arrow" src={LeftArrow} alt="left arrow" />
+        </Link>
+      )}
+
       {cell.addressHash ? (
         <Link to={`/address/${cell.addressHash}`}>
           <code>{handleAddressHashText(cell.addressHash)}</code>
@@ -42,6 +51,15 @@ const TransactionCellHash = ({ cell }: { cell: State.Cell }) => {
       ) : (
         <span>{cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}</span>
       )}
+
+      {cellType === CellType.Output &&
+        (cell.status === 'dead' ? (
+          <Link to={`/transaction/${cell.consumedTxHash}`}>
+            <img className="transaction__cell_right_arrow" src={RightHighlightArrow} alt="right arrow" />
+          </Link>
+        ) : (
+          <img className="transaction__cell_right_arrow" src={RightNormalArrow} alt="right arrow" />
+        ))}
     </TransactionCellHashPanel>
   )
 }
@@ -99,7 +117,7 @@ export default ({ cell, cellType, dispatch }: { cell: State.Cell; cellType: Cell
     const items: OverviewItemData[] = [
       {
         title: cellType === CellType.Input ? i18n.t('transaction.input') : i18n.t('transaction.output'),
-        content: <TransactionCellHash cell={cell} />,
+        content: <TransactionCellHash cell={cell} cellType={cellType} />,
       },
     ]
     if (cell.capacity) {
@@ -122,11 +140,13 @@ export default ({ cell, cellType, dispatch }: { cell: State.Cell; cellType: Cell
     <TransactionCellPanel>
       <TransactionCellContentPanel>
         <div className="transaction__cell_hash">
-          <TransactionCellHash cell={cell} />
+          <TransactionCellHash cell={cell} cellType={cellType} />
         </div>
+
         <div className="transaction__cell_capacity">
           {cell.capacity && localeNumberString(shannonToCkb(cell.capacity))}
         </div>
+
         <div className="transaction__cell_detail">
           <TransactionCellDetailButtons highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
         </div>
