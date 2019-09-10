@@ -147,6 +147,7 @@ declare namespace State {
   export interface App {
     toast: State.ToastMessage | null
     loading: boolean
+    secondLoading: boolean
     modal: State.Modal | null
     appErrors: [
       { type: 'Network'; message: string[] },
@@ -165,7 +166,8 @@ declare namespace State {
     address: Address
     transactions: Transaction[]
     total: number
-    status: keyof FetchStatus
+    addressStatus: keyof FetchStatus
+    transactionsStatus: keyof FetchStatus
   }
 
   export interface BlockState {

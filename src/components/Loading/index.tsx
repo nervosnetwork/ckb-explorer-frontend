@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import LoadingImage from '../../assets/loading.gif'
-import { AppContext } from '../../contexts/providers'
 
 const Loading = styled.div`
   margin: 100px 0;
@@ -19,9 +18,8 @@ const Loading = styled.div`
   }
 `
 
-export default () => {
-  const { app } = useContext(AppContext)
-  return app.loading ? (
+export default ({ show }: { show: boolean }) => {
+  return show ? (
     <Loading>
       <img src={LoadingImage} alt="loading" />
     </Loading>

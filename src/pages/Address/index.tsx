@@ -12,11 +12,24 @@ import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
 import { parsePageNumber } from '../../utils/string'
 import { AddressContentPanel } from './styled'
-import AddressComp from './AddressComp'
+import { AddressOverview, AddressTransactions } from './AddressComp'
 import browserHistory from '../../routes/history'
 import { useTimeoutWithUnmount } from '../../utils/hook'
 
-const AddressStateComp = ({
+const AddressStateOverview = () => {
+  const { addressState, app } = useContext(AppContext)
+  switch (addressState.addressStatus) {
+    case 'Error':
+      return <Error />
+    case 'OK':
+      return <AddressOverview />
+    case 'None':
+    default:
+      return <Loading show={app.loading} />
+  }
+}
+
+const AddressStateTransactions = ({
   currentPage,
   pageSize,
   address,
@@ -25,15 +38,15 @@ const AddressStateComp = ({
   pageSize: number
   address: string
 }) => {
-  const { addressState } = useContext(AppContext)
-  switch (addressState.status) {
+  const { addressState, app } = useContext(AppContext)
+  switch (addressState.transactionsStatus) {
     case 'Error':
       return <Error />
     case 'OK':
-      return <AddressComp currentPage={currentPage} pageSize={pageSize} address={address} />
+      return <AddressTransactions currentPage={currentPage} pageSize={pageSize} address={address} />
     case 'None':
     default:
-      return <Loading />
+      return <Loading show={app.secondLoading} />
   }
 }
 
@@ -64,12 +77,24 @@ export const Address = ({
           loading: true,
         },
       })
+      dispatch({
+        type: AppActions.UpdateSecondLoading,
+        payload: {
+          secondLoading: true,
+        },
+      })
     },
     () => {
       dispatch({
         type: PageActions.UpdateAddressStatus,
         payload: {
-          status: 'None',
+          addressStatus: 'None',
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateAddressTransactionsStatus,
+        payload: {
+          transactionsStatus: 'None',
         },
       })
     },
@@ -84,7 +109,8 @@ export const Address = ({
           hash={address}
           dispatch={dispatch}
         />
-        <AddressStateComp currentPage={currentPage} pageSize={pageSize} address={address} />
+        <AddressStateOverview />
+        <AddressStateTransactions currentPage={currentPage} pageSize={pageSize} address={address} />
       </AddressContentPanel>
     </Content>
   )
