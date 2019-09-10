@@ -18,9 +18,7 @@ import {
   TransactionCellHashPanel,
   TransactionCellPanel,
 } from './styled'
-import LeftArrow from '../../../assets/left_arrow.png'
-import RightHighlightArrow from '../../../assets/right_green_arrow.png'
-import RightNormalArrow from '../../../assets/right_grey_arrow.png'
+import TransactionCellArrow from '../TransactionCellArrow'
 
 const handleAddressHashText = (hash: string) => {
   if (isSmallMobile()) {
@@ -38,12 +36,7 @@ const handleAddressHashText = (hash: string) => {
 const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
   return (
     <TransactionCellHashPanel highLight={cell.addressHash !== null}>
-      {cellType === CellType.Input && cell.generatedTxHash && (
-        <Link to={`/transaction/${cell.generatedTxHash}`}>
-          <img className="transaction__cell_left_arrow" src={LeftArrow} alt="left arrow" />
-        </Link>
-      )}
-
+      {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
       {cell.addressHash ? (
         <Link to={`/address/${cell.addressHash}`}>
           <code>{handleAddressHashText(cell.addressHash)}</code>
@@ -51,15 +44,7 @@ const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: C
       ) : (
         <span>{cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}</span>
       )}
-
-      {cellType === CellType.Output &&
-        (cell.status === 'dead' ? (
-          <Link to={`/transaction/${cell.consumedTxHash}`}>
-            <img className="transaction__cell_right_arrow" src={RightHighlightArrow} alt="right arrow" />
-          </Link>
-        ) : (
-          <img className="transaction__cell_right_arrow" src={RightNormalArrow} alt="right arrow" />
-        ))}
+      {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
     </TransactionCellHashPanel>
   )
 }

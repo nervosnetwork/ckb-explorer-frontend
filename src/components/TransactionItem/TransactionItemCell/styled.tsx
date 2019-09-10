@@ -42,27 +42,6 @@ export const TransactionCellPanel = styled.div`
       justify-content: space-between;
     }
   }
-
-  img {
-    width: 16px;
-    height: 12px;
-  }
-
-  .transaction__cell_left_arrow {
-    margin: 8px 7px 0 0;
-
-    @media (max-width: 700px) {
-      margin: 0 7px 0 0;
-    }
-  }
-
-  .transaction__cell_right_arrow {
-    margin: 5px 0 0 7px;
-
-    @media (max-width: 700px) {
-      margin: 0 5px 0 7px;
-    }
-  }
 `
 
 export const CellbasePanel = styled.div`

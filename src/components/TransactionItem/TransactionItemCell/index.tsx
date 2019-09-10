@@ -8,9 +8,8 @@ import { shannonToCkb } from '../../../utils/util'
 import { CellbasePanel, TransactionCellPanel } from './styled'
 import { isMediumMobile, isLargeMobile, isSmallMobile } from '../../../utils/screen'
 import Tooltip from '../../Tooltip'
-import LeftArrow from '../../../assets/left_arrow.png'
-import RightHighlightArrow from '../../../assets/right_green_arrow.png'
-import RightNormalArrow from '../../../assets/right_grey_arrow.png'
+import { CellType } from '../../../utils/const'
+import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
 
 const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
   const [show, setShow] = useState(false)
@@ -67,15 +66,7 @@ const handleAddressText = (address: string) => {
   return startEndEllipsis(address)
 }
 
-const TransactionCell = ({
-  cell,
-  address,
-  isInput = true,
-}: {
-  cell: State.Cell
-  address?: string
-  isInput?: boolean
-}) => {
+const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; address?: string; cellType: CellType }) => {
   if (cell.fromCellbase) {
     return <Cellbase targetBlockNumber={cell.targetBlockNumber} />
   }
@@ -92,11 +83,7 @@ const TransactionCell = ({
   return (
     <TransactionCellPanel highLight={highLight}>
       <div className="transaction__cell_address">
-        {isInput && cell.generatedTxHash && (
-          <Link to={`/transaction/${cell.generatedTxHash}`}>
-            <img className="transaction__cell_left_arrow" src={LeftArrow} alt="left arrow" />
-          </Link>
-        )}
+        {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
         {highLight ? (
           <Link to={`/address/${cell.addressHash}`}>
             <code>{addressText}</code>
@@ -107,14 +94,7 @@ const TransactionCell = ({
       </div>
       <div className="transaction__cell_capacity">
         {`${localeNumberString(shannonToCkb(cell.capacity))} CKB`}
-        {!isInput &&
-          (cell.status === 'dead' ? (
-            <Link to={`/transaction/${cell.consumedTxHash}`}>
-              <img className="transaction__cell_right_arrow" src={RightHighlightArrow} alt="right arrow" />
-            </Link>
-          ) : (
-            <img className="transaction__cell_right_arrow" src={RightNormalArrow} alt="right arrow" />
-          ))}
+        {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
       </div>
     </TransactionCellPanel>
   )
