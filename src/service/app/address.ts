@@ -3,6 +3,36 @@ import { AppActions, AppDispatch, PageActions } from '../../contexts/providers/r
 import initAddress from '../../contexts/states/address'
 import { fetchAddressInfo, fetchTipBlockNumber, fetchTransactionsByAddress } from '../http/fetcher'
 
+const handleAddressResponseStatus = (dispatch: AppDispatch, isOK: boolean | undefined) => {
+  dispatch({
+    type: PageActions.UpdateAddressStatus,
+    payload: {
+      addressStatus: isOK ? 'OK' : 'Error',
+    },
+  })
+  dispatch({
+    type: AppActions.UpdateLoading,
+    payload: {
+      loading: false,
+    },
+  })
+}
+
+const handleTransactionResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
+  dispatch({
+    type: PageActions.UpdateAddressTransactionsStatus,
+    payload: {
+      transactionsStatus: isOK ? 'OK' : 'Error',
+    },
+  })
+  dispatch({
+    type: AppActions.UpdateSecondLoading,
+    payload: {
+      loading: false,
+    },
+  })
+}
+
 export const getAddressInfo = (hash: string, dispatch: AppDispatch) => {
   fetchAddressInfo(hash)
     .then((wrapper: Response.Wrapper<State.Address> | null) => {
@@ -19,18 +49,7 @@ export const getAddressInfo = (hash: string, dispatch: AppDispatch) => {
           address,
         },
       })
-      dispatch({
-        type: PageActions.UpdateAddressStatus,
-        payload: {
-          addressStatus: 'OK',
-        },
-      })
-      dispatch({
-        type: AppActions.UpdateLoading,
-        payload: {
-          loading: false,
-        },
-      })
+      handleAddressResponseStatus(dispatch, true)
     })
     .catch((error: AxiosError) => {
       dispatch({
@@ -39,18 +58,7 @@ export const getAddressInfo = (hash: string, dispatch: AppDispatch) => {
           address: initAddress.address,
         },
       })
-      dispatch({
-        type: PageActions.UpdateAddressStatus,
-        payload: {
-          addressStatus: error && error.response && error.response.status === 404 ? 'OK' : 'Error',
-        },
-      })
-      dispatch({
-        type: AppActions.UpdateLoading,
-        payload: {
-          loading: false,
-        },
-      })
+      handleAddressResponseStatus(dispatch, error && error.response && error.response.status === 404)
     })
 }
 
@@ -68,23 +76,12 @@ export const getTransactionsByAddress = (hash: string, page: number, size: numbe
         },
       })
       dispatch({
-        type: PageActions.UpdateAddressTransactionsStatus,
-        payload: {
-          transactionsStatus: 'OK',
-        },
-      })
-      dispatch({
-        type: AppActions.UpdateSecondLoading,
-        payload: {
-          secondLoading: false,
-        },
-      })
-      dispatch({
         type: PageActions.UpdateAddressTotal,
         payload: {
           total: meta ? meta.total : 0,
         },
       })
+      handleTransactionResponseStatus(dispatch, true)
     })
     .catch(() => {
       dispatch({
@@ -99,18 +96,7 @@ export const getTransactionsByAddress = (hash: string, page: number, size: numbe
           total: 0,
         },
       })
-      dispatch({
-        type: AppActions.UpdateSecondLoading,
-        payload: {
-          secondLoading: false,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateAddressTransactionsStatus,
-        payload: {
-          transactionsStatus: 'Error',
-        },
-      })
+      handleTransactionResponseStatus(dispatch, false)
     })
 }
 

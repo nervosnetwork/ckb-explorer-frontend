@@ -1,6 +1,21 @@
 import { fetchTransactionByHash } from '../http/fetcher'
 import { PageActions, AppActions, AppDispatch } from '../../contexts/providers/reducer'
 
+const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
+  dispatch({
+    type: PageActions.UpdateTransactionStatus,
+    payload: {
+      status: isOK ? 'OK' : 'Error',
+    },
+  })
+  dispatch({
+    type: AppActions.UpdateLoading,
+    payload: {
+      loading: false,
+    },
+  })
+}
+
 export const getTransactionByHash = (hash: string, dispatch: AppDispatch) => {
   fetchTransactionByHash(hash)
     .then((wrapper: Response.Wrapper<State.Transaction> | null) => {
@@ -15,40 +30,13 @@ export const getTransactionByHash = (hash: string, dispatch: AppDispatch) => {
             transaction: transactionValue,
           },
         })
-        dispatch({
-          type: PageActions.UpdateTransactionStatus,
-          payload: {
-            status: 'OK',
-          },
-        })
-        dispatch({
-          type: AppActions.UpdateLoading,
-          payload: {
-            loading: false,
-          },
-        })
+        handleResponseStatus(dispatch, true)
       } else {
-        dispatch({
-          type: PageActions.UpdateTransactionStatus,
-          payload: {
-            status: 'Error',
-          },
-        })
-        dispatch({
-          type: AppActions.UpdateLoading,
-          payload: {
-            loading: false,
-          },
-        })
+        handleResponseStatus(dispatch, false)
       }
     })
     .catch(() => {
-      dispatch({
-        type: PageActions.UpdateTransactionStatus,
-        payload: {
-          status: 'Error',
-        },
-      })
+      handleResponseStatus(dispatch, false)
     })
 }
 
