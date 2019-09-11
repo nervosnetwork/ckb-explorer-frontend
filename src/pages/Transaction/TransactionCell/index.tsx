@@ -113,9 +113,7 @@ export default ({ cell, cellType, dispatch }: { cell: State.Cell; cellType: Cell
         {!cell.fromCellbase && (
           <TransactionCellDetailButtons highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
         )}
-        {state !== CellState.NONE && (
-          <TransactionCellDetail cell={cell} cellType={cellType} state={state} dispatch={dispatch} />
-        )}
+        {state !== CellState.NONE && <TransactionCellDetail cell={cell} state={state} dispatch={dispatch} />}
       </OverviewCard>
     )
   }
@@ -133,9 +131,7 @@ export default ({ cell, cellType, dispatch }: { cell: State.Cell; cellType: Cell
           <TransactionCellDetailButtons highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
         </div>
       </TransactionCellContentPanel>
-      {state !== CellState.NONE && (
-        <TransactionCellDetail cell={cell} cellType={cellType} state={state} dispatch={dispatch} />
-      )}
+      {state !== CellState.NONE && <TransactionCellDetail cell={cell} state={state} dispatch={dispatch} />}
     </TransactionCellPanel>
   )
 }
