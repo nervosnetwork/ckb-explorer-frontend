@@ -11,7 +11,15 @@ import Tooltip from '../../Tooltip'
 import { CellType } from '../../../utils/const'
 import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
 
-const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
+const Cellbase = ({
+  cell,
+  cellType,
+  targetBlockNumber,
+}: {
+  cell: State.Cell
+  cellType: CellType
+  targetBlockNumber?: number
+}) => {
   const [show, setShow] = useState(false)
   if (!targetBlockNumber || targetBlockNumber <= 0) {
     return (
@@ -22,6 +30,7 @@ const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
   }
   return (
     <CellbasePanel>
+      {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
       <div className="cellbase__content">Cellbase for Block</div>
       <Link to={`/block/${targetBlockNumber}`}>{localeNumberString(targetBlockNumber)}</Link>
       <div
@@ -68,7 +77,7 @@ const handleAddressText = (address: string) => {
 
 const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; address?: string; cellType: CellType }) => {
   if (cell.fromCellbase) {
-    return <Cellbase targetBlockNumber={cell.targetBlockNumber} />
+    return <Cellbase targetBlockNumber={cell.targetBlockNumber} cell={cell} cellType={cellType} />
   }
 
   let addressText = i18n.t('address.unable_decode_address')
