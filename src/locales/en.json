@@ -104,7 +104,7 @@
       "timestamp": "Timestamp",
       "miner": "Miner",
       "difficulty": "Difficulty",
-      "hash_rate_gps": "Hash Rate(gps)",
+      "hash_rate_hps": "Hash Rate(H/s)",
       "hash_rate": "Hash Rate",
       "transactions_root": "Transactions Root",
       "witnesses_root": "Witnesses Root",
