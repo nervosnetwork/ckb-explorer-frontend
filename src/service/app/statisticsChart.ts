@@ -7,8 +7,8 @@ import { CachedKeys } from '../../utils/const'
 export interface StatisticsData {
   blockNumber: number
   type: 'Difficulty' | 'HashRate' | 'EpochNumber'
-  difficulty?: string
-  hashRate?: string
+  difficulty?: number
+  hashRate?: number
   epochNumber?: number
 }
 
@@ -35,14 +35,14 @@ const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
       datas.push({
         type: 'HashRate',
         blockNumber: hashRate.blockNumber,
-        hashRate: new BigNumber(hashRate.hashRate).multipliedBy(1000).toFixed(0),
+        hashRate: new BigNumber(hashRate.hashRate).multipliedBy(1000).toNumber(),
       })
       const difficulty = findDifficulty(difficulties, hashRate.blockNumber)
       if (difficulty !== undefined) {
         datas.push({
           type: 'Difficulty',
           blockNumber: difficulty.blockNumber,
-          difficulty: difficulty.difficulty,
+          difficulty: Number(difficulty.difficulty),
         })
         datas.push({
           type: 'EpochNumber',
@@ -56,7 +56,7 @@ const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
       datas.push({
         type: 'Difficulty',
         blockNumber: difficulty.blockNumber,
-        difficulty: difficulty.difficulty,
+        difficulty: Number(difficulty.difficulty),
       })
       datas.push({
         type: 'EpochNumber',
