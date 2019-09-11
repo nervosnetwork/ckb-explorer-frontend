@@ -82,8 +82,8 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
 
   return (
     <TransactionCellPanel highLight={highLight}>
-      {!isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
       <div className="transaction__cell_address">
+        {!isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
         {highLight ? (
           <Link to={`/address/${cell.addressHash}`}>
             <code>{addressText}</code>
