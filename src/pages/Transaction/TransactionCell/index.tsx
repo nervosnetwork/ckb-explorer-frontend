@@ -36,7 +36,7 @@ const handleAddressHashText = (hash: string) => {
 const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
   return (
     <TransactionCellHashPanel highLight={cell.addressHash !== null}>
-      {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
+      {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} haveMarginTop />}
       {cell.addressHash ? (
         <Link to={`/address/${cell.addressHash}`}>
           <code>{handleAddressHashText(cell.addressHash)}</code>
@@ -44,7 +44,7 @@ const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: C
       ) : (
         <span>{cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}</span>
       )}
-      {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
+      {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} haveMarginTop />}
     </TransactionCellHashPanel>
   )
 }

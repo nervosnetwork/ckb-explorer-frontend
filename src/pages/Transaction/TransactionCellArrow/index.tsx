@@ -9,10 +9,10 @@ import RightNormalArrow from '../../../assets/right_grey_arrow.png'
 const LeftArrowImage = styled.img`
   width: 16px;
   height: 12px;
-  margin: 0 7px 0 0;
+  margin: 6px 7px 0 0;
 
   @media (max-width: 700px) {
-    margin: 4px 10px 0 0;
+    margin: ${({ marginTop }: { marginTop: boolean }) => (marginTop ? '5px 10px 0 0' : '3px 10px 0 0')};
   }
 `
 
@@ -22,23 +22,46 @@ const RightArrowImage = styled.img`
   margin: 5px 0 0 7px;
 
   @media (max-width: 700px) {
-    margin: 5px 5px 0 7px;
+    margin: ${({ marginTop }: { marginTop: boolean }) => (marginTop ? '5px 5px 0 7px' : '0px 5px 0 7px')};
   }
 `
 
-export default ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
+export default ({
+  cell,
+  cellType,
+  haveMarginTop,
+}: {
+  cell: State.Cell
+  cellType: CellType
+  haveMarginTop?: boolean
+}) => {
   if (cellType === CellType.Input) {
     return cell.generatedTxHash ? (
       <Link to={`/transaction/${cell.generatedTxHash}`}>
-        <LeftArrowImage className="transaction__cell_left_arrow" src={LeftArrow} alt="left arrow" />
+        <LeftArrowImage
+          className="transaction__cell_left_arrow"
+          src={LeftArrow}
+          alt="left arrow"
+          marginTop={haveMarginTop!!}
+        />
       </Link>
     ) : null
   }
   return cell.status === 'dead' ? (
     <Link to={`/transaction/${cell.consumedTxHash}`}>
-      <RightArrowImage className="transaction__cell_right_arrow" src={RightHighlightArrow} alt="right arrow" />
+      <RightArrowImage
+        className="transaction__cell_right_arrow"
+        src={RightHighlightArrow}
+        alt="right arrow"
+        marginTop={haveMarginTop!!}
+      />
     </Link>
   ) : (
-    <RightArrowImage className="transaction__cell_right_arrow" src={RightNormalArrow} alt="right arrow" />
+    <RightArrowImage
+      className="transaction__cell_right_arrow"
+      src={RightNormalArrow}
+      alt="right arrow"
+      marginTop={haveMarginTop!!}
+    />
   )
 }

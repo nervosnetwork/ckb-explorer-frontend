@@ -5,8 +5,8 @@ import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
-import { CellbasePanel, TransactionCellPanel } from './styled'
-import { isMediumMobile, isLargeMobile, isSmallMobile } from '../../../utils/screen'
+import { CellbasePanel, TransactionCellPanel, TransactionCellCapacity } from './styled'
+import { isMediumMobile, isLargeMobile, isSmallMobile, isMobile } from '../../../utils/screen'
 import Tooltip from '../../Tooltip'
 import { CellType } from '../../../utils/const'
 import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
@@ -82,8 +82,8 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
 
   return (
     <TransactionCellPanel highLight={highLight}>
+      {!isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
       <div className="transaction__cell_address">
-        {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
         {highLight ? (
           <Link to={`/address/${cell.addressHash}`}>
             <code>{addressText}</code>
@@ -92,10 +92,11 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
           <code>{addressText}</code>
         )}
       </div>
-      <div className="transaction__cell_capacity">
+      <TransactionCellCapacity fullWidth={cellType === CellType.Output}>
+        {isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
         {`${localeNumberString(shannonToCkb(cell.capacity))} CKB`}
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
-      </div>
+      </TransactionCellCapacity>
     </TransactionCellPanel>
   )
 }
