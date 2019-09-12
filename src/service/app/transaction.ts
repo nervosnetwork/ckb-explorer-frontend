@@ -16,9 +16,10 @@ const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
   })
 }
 
-export const getTransactionByHash = (hash: string, dispatch: AppDispatch) => {
+export const getTransactionByHash = (hash: string, dispatch: AppDispatch, callback: Function) => {
   fetchTransactionByHash(hash)
     .then((wrapper: Response.Wrapper<State.Transaction> | null) => {
+      callback()
       if (wrapper) {
         const transactionValue = wrapper.attributes
         if (transactionValue.displayOutputs && transactionValue.displayOutputs.length > 0) {
@@ -36,6 +37,7 @@ export const getTransactionByHash = (hash: string, dispatch: AppDispatch) => {
       }
     })
     .catch(() => {
+      callback()
       handleResponseStatus(dispatch, false)
     })
 }

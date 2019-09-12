@@ -7,6 +7,7 @@ import { startEndEllipsis } from '../../utils/string'
 import { copyElementValue } from '../../utils/util'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
+import SmallLoading from '../Loading/SmallLoading'
 
 const AddressHashCardPanel = styled.div`
   width: 100%;
@@ -99,7 +100,17 @@ const handleHashText = (hash: string, isMobileDeivce: boolean, setHashText: Disp
   }
 }
 
-export default ({ title, hash, dispatch }: { title: string; hash: string; dispatch: AppDispatch }) => {
+export default ({
+  title,
+  hash,
+  dispatch,
+  loading,
+}: {
+  title: string
+  hash: string
+  dispatch: AppDispatch
+  loading?: boolean
+}) => {
   const [hashText, setHashText] = useState(hash)
   const isMobileDeivce = isMobile()
   const { app } = useContext(AppContext)
@@ -114,9 +125,19 @@ export default ({ title, hash, dispatch }: { title: string; hash: string; dispat
   return (
     <AddressHashCardPanel id="address_hash_content">
       <div className="address_hash__title">{title}</div>
-      <div id="address_hash__text">
-        <code>{hashText}</code>
-      </div>
+      {loading ? (
+        <div
+          style={{
+            width: '100%',
+          }}
+        >
+          <SmallLoading />
+        </div>
+      ) : (
+        <div id="address_hash__text">
+          <code>{hashText}</code>
+        </div>
+      )}
       <div
         className="address_hash__copy_icon"
         role="button"
@@ -132,7 +153,7 @@ export default ({ title, hash, dispatch }: { title: string; hash: string; dispat
           })
         }}
       >
-        <img src={CopyIcon} alt="copy" />
+        {!loading && <img src={CopyIcon} alt="copy" />}
       </div>
       <div id="address_hash__value">{hash}</div>
     </AddressHashCardPanel>
