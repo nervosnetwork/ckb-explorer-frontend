@@ -42,7 +42,7 @@ export default ({
           className="transaction__cell_left_arrow"
           src={LeftArrow}
           alt="left arrow"
-          marginTop={haveMarginTop!!}
+          marginTop={!!haveMarginTop}
         />
       </Link>
     ) : null
@@ -53,7 +53,7 @@ export default ({
         className="transaction__cell_right_arrow"
         src={RightHighlightArrow}
         alt="right arrow"
-        marginTop={haveMarginTop!!}
+        marginTop={!!haveMarginTop}
       />
     </Link>
   ) : (
@@ -61,7 +61,7 @@ export default ({
       className="transaction__cell_right_arrow"
       src={RightNormalArrow}
       alt="right arrow"
-      marginTop={haveMarginTop!!}
+      marginTop={!!haveMarginTop}
     />
   )
 }
