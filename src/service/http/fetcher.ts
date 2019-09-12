@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
 import CONFIG from '../../config'
-import { CellType } from '../../utils/const'
 import { toCamelcase } from '../../utils/util'
 
 const baseURL = `${CONFIG.API_URL}/api/v1/`
@@ -72,12 +71,12 @@ export const fetchBlock = (blockParam: string) => {
     .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Block>>(res.data.data))
 }
 
-export const fetchScript = (cell_type: CellType, script_type: 'lock_scripts' | 'type_scripts', id: string) => {
-  return axiosIns.get(`/cell_${cell_type}_${script_type}/${id}`).then((res: AxiosResponse) => res.data.data)
+export const fetchScript = (script_type: 'lock_scripts' | 'type_scripts', id: string) => {
+  return axiosIns.get(`/cell_output_${script_type}/${id}`).then((res: AxiosResponse) => res.data.data)
 }
 
-export const fetchCellData = (type: CellType, id: string) => {
-  return axiosIns.get(`/cell_${type}_data/${id}`).then((res: AxiosResponse) => res.data.data)
+export const fetchCellData = (id: string) => {
+  return axiosIns.get(`/cell_output_data/${id}`).then((res: AxiosResponse) => res.data.data)
 }
 
 export const fetchSearchResult = (param: string) => {
