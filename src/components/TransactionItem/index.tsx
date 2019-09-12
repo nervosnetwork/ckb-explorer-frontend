@@ -12,6 +12,7 @@ import TransactionConfirmation from './TransactionConfirmation'
 import TransactionReward from './TransactionReward'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import i18n from '../../utils/i18n'
+import { CellType } from '../../utils/const'
 
 const handleTransactionHashText = (transactionHash: string) => {
   if (isSmallMobile()) {
@@ -60,7 +61,7 @@ const TransactionItem = ({
           <TransactionCellList
             cells={transaction.displayInputs}
             transaction={transaction}
-            render={cell => <TransactionCell cell={cell} address={address} key={cell.id} />}
+            render={cell => <TransactionCell cell={cell} address={address} cellType={CellType.Input} key={cell.id} />}
           />
         </div>
         <img src={isMobile() ? DownArrowIcon : RightArrowIcon} alt="input and output" />
@@ -70,7 +71,7 @@ const TransactionItem = ({
             transaction={transaction}
             render={cell => (
               <FullPanel key={cell.id}>
-                <TransactionCell cell={cell} address={address} />
+                <TransactionCell cell={cell} address={address} cellType={CellType.Output} />
                 <TransactionReward transaction={transaction} cell={cell} />
               </FullPanel>
             )}

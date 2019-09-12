@@ -35,11 +35,14 @@ declare namespace State {
     addressHash: string
     capacity: string
     fromCellbase: boolean
+    generatedTxHash: string
     targetBlockNumber: number
     baseReward: string
     secondaryReward: string
     commitReward: string
     proposalReward: string
+    consumedTxHash: string
+    status: 'live' | 'dead'
     isGenesisOutput: boolean
   }
 

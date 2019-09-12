@@ -29,6 +29,7 @@ export const TransactionCellContentPanel = styled.div`
 export const TransactionCellHashPanel = styled.div`
   color: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '#3cc68a' : '#000000')};
   text-align: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? 'left' : 'center')};
+  display: flex;
 
   @media (max-width: 700px) {
     text-align: left;
