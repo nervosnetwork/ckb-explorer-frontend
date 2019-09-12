@@ -82,6 +82,10 @@ const AddressHashCardPanel = styled.div`
   }
 `
 
+const LoadingPanel = styled.div`
+  width: 100%;
+`
+
 const handleHashText = (hash: string, isMobileDeivce: boolean, setHashText: Dispatch<SetStateAction<string>>) => {
   if (!isMobileDeivce) {
     setHashText(hash)
@@ -126,13 +130,9 @@ export default ({
     <AddressHashCardPanel id="address_hash_content">
       <div className="address_hash__title">{title}</div>
       {loading ? (
-        <div
-          style={{
-            width: '100%',
-          }}
-        >
+        <LoadingPanel>
           <SmallLoading />
-        </div>
+        </LoadingPanel>
       ) : (
         <div id="address_hash__text">
           <code>{hashText}</code>
