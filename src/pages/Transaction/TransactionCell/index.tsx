@@ -21,13 +21,13 @@ import {
 
 const handleAddressHashText = (hash: string) => {
   if (isSmallMobile()) {
-    return startEndEllipsis(hash, 16)
+    return startEndEllipsis(hash, 12)
   }
   if (isMediumMobile()) {
-    return startEndEllipsis(hash, 23)
+    return startEndEllipsis(hash, 15)
   }
   if (isLargeMobile()) {
-    return startEndEllipsis(hash, 29)
+    return startEndEllipsis(hash, 20)
   }
   return startEndEllipsis(hash, 18)
 }
