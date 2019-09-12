@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { fetchStatisticsChart } from '../http/fetcher'
 import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
 import { fetchCachedData, storeCachedData } from '../../utils/cached'
@@ -12,7 +13,7 @@ export interface StatisticsData {
 }
 
 const findDifficulty = (
-  difficulties: { difficulty: number; blockNumber: number; epochNumber: number }[],
+  difficulties: { difficulty: string; blockNumber: number; epochNumber: number }[],
   blockNumber: number,
 ) => {
   if (difficulties && difficulties.length > 0) {
@@ -34,14 +35,14 @@ const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
       datas.push({
         type: 'HashRate',
         blockNumber: hashRate.blockNumber,
-        hashRate: Number((Number(hashRate.hashRate) * 1000).toFixed(0)),
+        hashRate: new BigNumber(hashRate.hashRate).multipliedBy(1000).toNumber(),
       })
       const difficulty = findDifficulty(difficulties, hashRate.blockNumber)
       if (difficulty !== undefined) {
         datas.push({
           type: 'Difficulty',
           blockNumber: difficulty.blockNumber,
-          difficulty: difficulty.difficulty,
+          difficulty: Number(difficulty.difficulty),
         })
         datas.push({
           type: 'EpochNumber',
@@ -55,7 +56,7 @@ const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
       datas.push({
         type: 'Difficulty',
         blockNumber: difficulty.blockNumber,
-        difficulty: difficulty.difficulty,
+        difficulty: Number(difficulty.difficulty),
       })
       datas.push({
         type: 'EpochNumber',

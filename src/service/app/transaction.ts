@@ -1,45 +1,25 @@
-import { fetchTransactionsByAddress, fetchTransactionByHash } from '../http/fetcher'
+import { fetchTransactionByHash } from '../http/fetcher'
 import { PageActions, AppActions, AppDispatch } from '../../contexts/providers/reducer'
 
-export const getTransactionsByAddress = (hash: string, page: number, size: number, dispatch: any) => {
-  fetchTransactionsByAddress(hash, page, size)
-    .then(response => {
-      const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
-      dispatch({
-        type: PageActions.UpdateAddressTransactions,
-        payload: {
-          transactions:
-            data.map((wrapper: Response.Wrapper<State.Transaction>) => {
-              return wrapper.attributes
-            }) || [],
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateAddressTotal,
-        payload: {
-          total: meta ? meta.total : 0,
-        },
-      })
-    })
-    .catch(() => {
-      dispatch({
-        type: PageActions.UpdateAddressTransactions,
-        payload: {
-          transactions: [],
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateAddressTotal,
-        payload: {
-          total: 0,
-        },
-      })
-    })
+const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
+  dispatch({
+    type: PageActions.UpdateTransactionStatus,
+    payload: {
+      status: isOK ? 'OK' : 'Error',
+    },
+  })
+  dispatch({
+    type: AppActions.UpdateLoading,
+    payload: {
+      loading: false,
+    },
+  })
 }
 
-export const getTransactionByHash = (hash: string, dispatch: AppDispatch) => {
+export const getTransactionByHash = (hash: string, dispatch: AppDispatch, callback: Function) => {
   fetchTransactionByHash(hash)
     .then((wrapper: Response.Wrapper<State.Transaction> | null) => {
+      callback()
       if (wrapper) {
         const transactionValue = wrapper.attributes
         if (transactionValue.displayOutputs && transactionValue.displayOutputs.length > 0) {
@@ -51,39 +31,15 @@ export const getTransactionByHash = (hash: string, dispatch: AppDispatch) => {
             transaction: transactionValue,
           },
         })
-        dispatch({
-          type: PageActions.UpdateTransactionStatus,
-          payload: {
-            status: 'OK',
-          },
-        })
-        dispatch({
-          type: AppActions.UpdateLoading,
-          payload: {
-            loading: false,
-          },
-        })
+        handleResponseStatus(dispatch, true)
       } else {
-        dispatch({
-          type: PageActions.UpdateTransactionStatus,
-          payload: {
-            status: 'Error',
-          },
-        })
-        dispatch({
-          type: AppActions.UpdateLoading,
-          payload: {
-            loading: false,
-          },
-        })
+        handleResponseStatus(dispatch, false)
       }
     })
     .catch(() => {
-      dispatch({
-        type: PageActions.UpdateTransactionStatus,
-        payload: {
-          status: 'Error',
-        },
-      })
+      callback()
+      handleResponseStatus(dispatch, false)
     })
 }
+
+export default getTransactionByHash

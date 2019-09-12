@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import { Chart, Geom, Axis, Tooltip, Legend } from 'bizcharts'
+import BigNumber from 'bignumber.js'
 import Content from '../../components/Content'
 import { isMobile } from '../../utils/screen'
 import { getStatisticsChart } from '../../service/app/statisticsChart'
@@ -53,6 +54,44 @@ const LoadingPanel = styled.div`
   }
 `
 
+const handleAxios = (value: BigNumber) => {
+  if (value.isNaN() || value.isZero()) return '0'
+  const kv = value.dividedBy(1000)
+  const mv = kv.dividedBy(1000)
+  const gv = mv.dividedBy(1000)
+  const tv = gv.dividedBy(1000)
+  const pv = tv.dividedBy(1000)
+  const ev = pv.dividedBy(1000)
+  const zv = ev.dividedBy(1000)
+  const yv = zv.dividedBy(1000)
+
+  if (yv.isGreaterThanOrEqualTo(1)) {
+    return `${yv.toFixed()}Y`
+  }
+  if (zv.isGreaterThanOrEqualTo(1)) {
+    return `${zv.toFixed()}Z`
+  }
+  if (ev.isGreaterThanOrEqualTo(1)) {
+    return `${ev.toFixed()}E`
+  }
+  if (pv.isGreaterThanOrEqualTo(1)) {
+    return `${pv.toFixed()}P`
+  }
+  if (tv.isGreaterThanOrEqualTo(1)) {
+    return `${tv.toFixed()}T`
+  }
+  if (gv.isGreaterThanOrEqualTo(1)) {
+    return `${gv.toFixed()}G`
+  }
+  if (mv.isGreaterThanOrEqualTo(1)) {
+    return `${mv.toFixed()}M`
+  }
+  if (kv.isGreaterThanOrEqualTo(1)) {
+    return `${kv.toFixed()}K`
+  }
+  return `${value.toFixed()}`
+}
+
 const scale = () => {
   return {
     difficulty: {
@@ -61,7 +100,7 @@ const scale = () => {
     },
     hashRate: {
       min: 0,
-      alias: i18n.t('block.hash_rate_gps'),
+      alias: i18n.t('block.hash_rate_hps'),
     },
     epochNumber: {
       min: 0,
@@ -87,7 +126,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
             scale={scale()}
             forceFit
             data={statisticsChartDatas}
-            padding={isMobile() ? [40, 90, 100, 90] : [80, 90, 100, 90]}
+            padding={isMobile() ? [40, 45, 80, 45] : [40, 80, 80, 80]}
           >
             <Legend
               custom
@@ -110,7 +149,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
                   },
                 },
                 {
-                  value: i18n.t('block.hash_rate_gps'),
+                  value: i18n.t('block.hash_rate_hps'),
                   fill: '#66CC99',
                   marker: {
                     symbol: 'hyphen',
@@ -129,6 +168,9 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
                   fill: '#3182bd',
                   fontWeight: 'bold',
                 },
+                formatter: (text: string) => {
+                  return handleAxios(new BigNumber(text))
+                },
               }}
             />
             <Axis
@@ -138,6 +180,9 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
                 textStyle: {
                   fill: '#66CC99',
                   fontWeight: 'bold',
+                },
+                formatter: (text: string) => {
+                  return handleAxios(new BigNumber(text))
                 },
               }}
             />
@@ -150,7 +195,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
         </ChartPanel>
       ) : (
         <LoadingPanel>
-          <Loading />
+          <Loading show />
         </LoadingPanel>
       )}
     </Content>

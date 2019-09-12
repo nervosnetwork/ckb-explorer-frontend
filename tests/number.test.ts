@@ -1,16 +1,6 @@
-import { parseNumber, localeNumberString, handleHashRate, handleDifficulty } from '../src/utils/number'
+import { localeNumberString, handleHashRate, handleDifficulty } from '../src/utils/number'
 
 describe('Number methods tests', () => {
-
-  it('parse number', async () => {
-    expect(parseNumber('222333')).toBe(222333)
-    expect(parseNumber('222333', 16)).toBe(2237235)
-    expect(parseNumber('2223333.0')).toBe(2223333)
-    expect(parseNumber('223.33')).toBe(223.33)
-    expect(parseNumber('223.33', 10)).toBe(223)
-    expect(parseNumber('0x66ccff', 16)).toBe(6737151)
-    expect(parseNumber('aswqda')).toBe(0)
-  })
 
   it('local number string', async () => {
     expect(localeNumberString('0')).toBe('0')
@@ -22,9 +12,10 @@ describe('Number methods tests', () => {
     expect(localeNumberString('2223333.0')).toBe('2,223,333')
     expect(localeNumberString('223.33')).toBe('223.33')
     expect(localeNumberString('777777223.33454')).toBe('777,777,223.33454')
-    expect(localeNumberString('0x66ccff', 16)).toBe('6,737,151')
+    expect(localeNumberString('0x66ccff')).toBe('6,737,151')
     expect(localeNumberString('aswqda')).toBe('0')
     expect(localeNumberString('false')).toBe('0')
+    expect(localeNumberString('#￥@#￥@')).toBe('0')
   })
 
   it('parse hash rate', async () => {
@@ -33,6 +24,12 @@ describe('Number methods tests', () => {
     expect(handleHashRate(123454669)).toBe("123,454.67 KH/s")
     expect(handleHashRate(1234546698945)).toBe("1,234.55 GH/s")
     expect(handleHashRate(100003439)).toBe("100,003.44 KH/s")
+    expect(handleHashRate(100000)).toBe("100,000 H/s")
+    expect(handleHashRate(1000000)).toBe("1,000 KH/s")
+    expect(handleHashRate('0x66ccff')).toBe('6,737.15 KH/s')
+    expect(handleHashRate('aswqda')).toBe("0 H/s")
+    expect(handleHashRate('false')).toBe("0 H/s")
+    expect(handleHashRate('#￥@#￥@')).toBe("0 H/s")
   })
 
   it('parse difficulty', async () => {
@@ -41,5 +38,9 @@ describe('Number methods tests', () => {
       expect(handleDifficulty(123454669)).toBe("123,454.67 KH")
       expect(handleDifficulty(1234546698945)).toBe("1,234.55 GH")
       expect(handleDifficulty(100003439)).toBe("100,003.44 KH")
+      expect(handleDifficulty('0x66ccff')).toBe('6,737.15 KH')
+      expect(handleDifficulty('aswqda')).toBe('0 H')
+      expect(handleDifficulty('false')).toBe('0 H')
+      expect(handleDifficulty('#￥@#￥@')).toBe('0 H')
     })
 })

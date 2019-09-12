@@ -1,17 +1,14 @@
-export const parseNumber = (value: number | string, radix?: number) => {
-  if (typeof value === 'string') {
-    if (radix) {
-      return Number.isNaN(parseInt(value, radix)) ? 0 : parseInt(value, radix)
-    }
-    return Number.isNaN(parseFloat(value)) ? 0 : parseFloat(value)
-  }
-  if (!value) return 0
-  return value
-}
+import BigNumber from 'bignumber.js'
 
-export const localeNumberString = (value: number | string, radix?: number) => {
-  if (Number(value) < 1 && Number(value) > 0) return `${value}`
-  let text = parseNumber(value, radix).toString()
+export const localeNumberString = (value: BigNumber | string | number): string => {
+  const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  if (bigValue.isNaN()) {
+    return '0'
+  }
+  if (bigValue.abs().isLessThan(1) && bigValue.abs().isGreaterThan(0)) {
+    return `${value}`
+  }
+  let text = bigValue.toString(10)
   const pointIndex = text.indexOf('.')
   let offset = pointIndex === -1 ? text.length : pointIndex
   while (offset > 3) {
@@ -24,50 +21,50 @@ export const localeNumberString = (value: number | string, radix?: number) => {
   return text
 }
 
-const MIN_VALUE = 10 ** 3
-export const handleDifficulty = (value: number) => {
-  const kv = value / 1000
-  const mv = kv / 1000
-  const gv = mv / 1000
-  const tv = gv / 1000
-  const pv = tv / 1000
-  const ev = pv / 1000
-  const zv = ev / 1000
-  const yv = zv / 1000
+const MIN_VALUE = new BigNumber(10 ** 3)
+export const handleDifficulty = (value: BigNumber | string | number) => {
+  const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  const kv = bigValue.dividedBy(1000)
+  const mv = kv.dividedBy(1000)
+  const gv = mv.dividedBy(1000)
+  const tv = gv.dividedBy(1000)
+  const pv = tv.dividedBy(1000)
+  const ev = pv.dividedBy(1000)
+  const zv = ev.dividedBy(1000)
+  const yv = zv.dividedBy(1000)
 
-  if (yv >= MIN_VALUE) {
+  if (yv.isGreaterThanOrEqualTo(MIN_VALUE)) {
     return `${localeNumberString(yv.toFixed(2))} YH`
   }
-  if (zv >= MIN_VALUE) {
+  if (zv.isGreaterThanOrEqualTo(MIN_VALUE)) {
     return `${localeNumberString(zv.toFixed(2))} ZH`
   }
-  if (ev >= MIN_VALUE) {
+  if (ev.isGreaterThanOrEqualTo(MIN_VALUE)) {
     return `${localeNumberString(ev.toFixed(2))} EH`
   }
-  if (pv >= MIN_VALUE) {
+  if (pv.isGreaterThanOrEqualTo(MIN_VALUE)) {
     return `${localeNumberString(pv.toFixed(2))} PH`
   }
-  if (tv >= MIN_VALUE) {
+  if (tv.isGreaterThanOrEqualTo(MIN_VALUE)) {
     return `${localeNumberString(tv.toFixed(2))} TH`
   }
-  if (gv >= MIN_VALUE) {
+  if (gv.isGreaterThanOrEqualTo(MIN_VALUE)) {
     return `${localeNumberString(gv.toFixed(2))} GH`
   }
-  if (mv >= MIN_VALUE) {
+  if (mv.isGreaterThanOrEqualTo(MIN_VALUE)) {
     return `${localeNumberString(mv.toFixed(2))} MH`
   }
-  if (kv >= MIN_VALUE) {
+  if (kv.isGreaterThanOrEqualTo(MIN_VALUE)) {
     return `${localeNumberString(kv.toFixed(2))} KH`
   }
-  return `${localeNumberString(value.toFixed(2))} H`
+  return `${localeNumberString(bigValue.toFixed(2))} H`
 }
 
-export const handleHashRate = (value: number) => {
+export const handleHashRate = (value: BigNumber | string | number) => {
   return `${handleDifficulty(value)}/s`
 }
 
 export default {
-  parseNumber,
   localeNumberString,
   handleDifficulty,
   handleHashRate,

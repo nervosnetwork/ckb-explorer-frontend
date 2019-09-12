@@ -160,7 +160,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     },
     {
       title: i18n.t('block.difficulty'),
-      content: localeNumberString(block.difficulty, 16),
+      content: localeNumberString(block.difficulty),
     },
     {
       title: i18n.t('block.timestamp'),

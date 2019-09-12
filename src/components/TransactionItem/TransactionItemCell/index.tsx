@@ -5,11 +5,21 @@ import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
 import { startEndEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
-import { CellbasePanel, TransactionCellPanel } from './styled'
-import { isMediumMobile, isLargeMobile, isSmallMobile } from '../../../utils/screen'
+import { CellbasePanel, TransactionCellPanel, TransactionCellCapacity } from './styled'
+import { isMediumMobile, isLargeMobile, isSmallMobile, isMobile } from '../../../utils/screen'
 import Tooltip from '../../Tooltip'
+import { CellType } from '../../../utils/const'
+import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
 
-const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
+const Cellbase = ({
+  cell,
+  cellType,
+  targetBlockNumber,
+}: {
+  cell: State.Cell
+  cellType: CellType
+  targetBlockNumber?: number
+}) => {
   const [show, setShow] = useState(false)
   if (!targetBlockNumber || targetBlockNumber <= 0) {
     return (
@@ -20,6 +30,7 @@ const Cellbase = ({ targetBlockNumber }: { targetBlockNumber?: number }) => {
   }
   return (
     <CellbasePanel>
+      {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
       <div className="cellbase__content">Cellbase for Block</div>
       <Link to={`/block/${targetBlockNumber}`}>{localeNumberString(targetBlockNumber)}</Link>
       <div
@@ -64,9 +75,9 @@ const handleAddressText = (address: string) => {
   return startEndEllipsis(address)
 }
 
-const TransactionCell = ({ cell, address }: { cell: State.Cell; address?: string }) => {
+const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; address?: string; cellType: CellType }) => {
   if (cell.fromCellbase) {
-    return <Cellbase targetBlockNumber={cell.targetBlockNumber} />
+    return <Cellbase targetBlockNumber={cell.targetBlockNumber} cell={cell} cellType={cellType} />
   }
 
   let addressText = i18n.t('address.unable_decode_address')
@@ -81,6 +92,7 @@ const TransactionCell = ({ cell, address }: { cell: State.Cell; address?: string
   return (
     <TransactionCellPanel highLight={highLight}>
       <div className="transaction__cell_address">
+        {!isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
         {highLight ? (
           <Link to={`/address/${cell.addressHash}`}>
             <code>{addressText}</code>
@@ -89,7 +101,11 @@ const TransactionCell = ({ cell, address }: { cell: State.Cell; address?: string
           <code>{addressText}</code>
         )}
       </div>
-      <div className="transaction__cell_capacity">{`${localeNumberString(shannonToCkb(cell.capacity))} CKB`}</div>
+      <TransactionCellCapacity fullWidth={cellType === CellType.Output}>
+        {isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
+        {`${localeNumberString(shannonToCkb(cell.capacity))} CKB`}
+        {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
+      </TransactionCellCapacity>
     </TransactionCellPanel>
   )
 }

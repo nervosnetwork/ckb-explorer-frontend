@@ -1,6 +1,7 @@
 export const initApp: State.App = {
   toast: null,
   loading: false,
+  secondLoading: false,
   modal: null,
   appErrors: [
     {

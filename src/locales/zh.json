@@ -104,7 +104,7 @@
       "timestamp": "时间戳",
       "miner": "矿工",
       "difficulty": "难度",
-      "hash_rate_gps": "哈希率(gps)",
+      "hash_rate_hps": "哈希率(H/s)",
       "hash_rate": "哈希率",
       "transactions_root": "Transactions Root",
       "witnesses_root": "Witnesses Root",

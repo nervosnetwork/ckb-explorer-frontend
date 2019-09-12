@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useState, useRef } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import AddressHashCard from '../../components/Card/AddressHashCard'
 import Content from '../../components/Content'
@@ -15,7 +15,7 @@ import { useTimeoutWithUnmount } from '../../utils/hook'
 import { LOADING_WAITING_TIME } from '../../utils/const'
 
 const TransactionStateComp = ({ dispatch }: { dispatch: AppDispatch }) => {
-  const { transactionState } = useContext(AppContext)
+  const { transactionState, app } = useContext(AppContext)
   switch (transactionState.status) {
     case 'Error':
       return <Error />
@@ -23,20 +23,26 @@ const TransactionStateComp = ({ dispatch }: { dispatch: AppDispatch }) => {
       return <TransactionComp dispatch={dispatch} />
     case 'None':
     default:
-      return <Loading />
+      return <Loading show={app.loading} />
   }
 }
 
 export default ({
   dispatch,
+  history: { location },
   match: { params },
 }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ hash: string }>>) => {
+  const [showLoading, setShowLoading] = useState(false)
+  const pathRef = useRef(location.pathname)
   const { hash } = params
 
   useEffect(() => {
-    getTransactionByHash(hash, dispatch)
+    setShowLoading(location.pathname.startsWith('/transaction') && pathRef.current !== location.pathname)
+    getTransactionByHash(hash, dispatch, () => {
+      setShowLoading(false)
+    })
     getTipBlockNumber(dispatch)
-  }, [hash, dispatch])
+  }, [hash, dispatch, location.pathname])
 
   useTimeoutWithUnmount(
     () => {
@@ -61,7 +67,12 @@ export default ({
   return (
     <Content>
       <TransactionDiv className="container">
-        <AddressHashCard title={i18n.t('transaction.transaction')} hash={hash} dispatch={dispatch} />
+        <AddressHashCard
+          title={i18n.t('transaction.transaction')}
+          hash={hash}
+          dispatch={dispatch}
+          loading={showLoading}
+        />
         <TransactionStateComp dispatch={dispatch} />
       </TransactionDiv>
     </Content>
