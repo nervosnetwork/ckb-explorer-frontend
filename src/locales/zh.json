@@ -108,6 +108,7 @@
       "hash_rate": "哈希率",
       "transactions_root": "Transactions Root",
       "witnesses_root": "Witnesses Root",
+      "chain_root": "Chain Root",
       "pending": "发放中",
       "calculating": "计算中",
       "pending_tip": "区块奖励将在 11 个区块后发送给矿工，阅读共识协议了解更多信息",

@@ -106,6 +106,10 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       title: i18n.t('block.witnesses_root'),
       content: `${block.witnessesRoot}`,
     },
+    {
+      title: i18n.t('block.chain_root'),
+      content: `${block.chainRoot}`,
+    },
   ]
   let overviewItems: OverviewItemData[] = [
     {

@@ -108,6 +108,7 @@
       "hash_rate": "Hash Rate",
       "transactions_root": "Transactions Root",
       "witnesses_root": "Witnesses Root",
+      "chain_root": "Chain Root",
       "pending": "Pending",
       "calculating": "Calculating",
       "pending_tip": "The block reward of this block will be sent to the miner after 11 blocks，learn more from our Consensus Protocol",
