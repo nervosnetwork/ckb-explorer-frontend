@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { fetchCellData, fetchScript } from '../../../service/http/fetcher'
-import { CellState, CellType } from '../../../utils/const'
+import { CellState } from '../../../utils/const'
 import { hexToUtf8 } from '../../../utils/string'
 import TransactionDetailPanel, { TransactionCellDetailCopyButtonPanel } from './styled'
 import CopyIcon from '../../../assets/copy_green.png'
@@ -25,20 +25,20 @@ const initScriptContent = {
   },
 }
 
-const handleFetchScript = (cell: State.Cell, cellType: CellType, state: CellState, dispatch: any) => {
+const handleFetchScript = (cell: State.Cell, state: CellState, dispatch: any) => {
   switch (state) {
     case CellState.LOCK:
-      fetchScript(cellType, 'lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<any>) => {
+      fetchScript('lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<any>) => {
         dispatch(wrapper ? wrapper.attributes : initScriptContent.lock)
       })
       break
     case CellState.TYPE:
-      fetchScript(cellType, 'type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<any>) => {
+      fetchScript('type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<any>) => {
         dispatch(wrapper ? wrapper.attributes : initScriptContent.type)
       })
       break
     case CellState.DATA:
-      fetchCellData(cellType, `${cell.id}`).then((wrapper: Response.Wrapper<any>) => {
+      fetchCellData(`${cell.id}`).then((wrapper: Response.Wrapper<any>) => {
         const dataValue: State.Data = wrapper.attributes
         if (wrapper && cell.isGenesisOutput) {
           dataValue.data = hexToUtf8(wrapper.attributes.data.substr(2))
@@ -51,23 +51,13 @@ const handleFetchScript = (cell: State.Cell, cellType: CellType, state: CellStat
   }
 }
 
-export default ({
-  cell,
-  cellType,
-  state,
-  dispatch,
-}: {
-  cell: State.Cell
-  cellType: CellType
-  state: CellState
-  dispatch: AppDispatch
-}) => {
+export default ({ cell, state, dispatch }: { cell: State.Cell; state: CellState; dispatch: AppDispatch }) => {
   const [content, setContent] = useState(undefined as any)
   const contentElementId = `transaction__detail_content:${cell.id}`
 
   useEffect(() => {
-    handleFetchScript(cell, cellType, state, setContent)
-  }, [cell, cellType, state])
+    handleFetchScript(cell, state, setContent)
+  }, [cell, state])
 
   const onClickCopy = () => {
     copyElementValue(document.getElementById(contentElementId))

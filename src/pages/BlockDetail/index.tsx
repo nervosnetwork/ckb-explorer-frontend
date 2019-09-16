@@ -24,7 +24,7 @@ const BlockStateComp = ({
   pageSize: number
   blockParam: string
 }) => {
-  const { blockState } = useContext(AppContext)
+  const { blockState, app } = useContext(AppContext)
   switch (blockState.status) {
     case 'Error':
       return <Error />
@@ -32,7 +32,7 @@ const BlockStateComp = ({
       return <BlockComp currentPage={currentPage} pageSize={pageSize} blockParam={blockParam} />
     case 'None':
     default:
-      return <Loading />
+      return <Loading show={app.loading} />
   }
 }
 

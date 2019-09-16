@@ -87,7 +87,7 @@ const AddressLockScript = ({ script }: { script: State.Script }) => {
   )
 }
 
-const getAddressInfo = (addressState: any) => {
+const getAddressInfo = (addressState: State.AddressState) => {
   const items: OverviewItemData[] = [
     {
       title: i18n.t('address.balance'),
@@ -117,7 +117,21 @@ const getAddressInfo = (addressState: any) => {
   return items
 }
 
-export const AddressComp = ({
+export const AddressOverview = () => {
+  const { addressState } = useContext(AppContext)
+  return (
+    <>
+      <TitleCard title={i18n.t('common.overview')} />
+      <OverviewCard items={getAddressInfo(addressState)}>
+        {addressState && addressState.address && addressState.address.lockScript && (
+          <AddressLockScript script={addressState.address.lockScript} />
+        )}
+      </OverviewCard>
+    </>
+  )
+}
+
+export const AddressTransactions = ({
   currentPage,
   pageSize,
   address,
@@ -137,12 +151,6 @@ export const AddressComp = ({
 
   return (
     <>
-      <TitleCard title={i18n.t('common.overview')} />
-      <OverviewCard items={getAddressInfo(addressState)}>
-        {addressState && addressState.address && addressState.address.lockScript && (
-          <AddressLockScript script={addressState.address.lockScript} />
-        )}
-      </OverviewCard>
       {addressState.transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
       <AddressTransactionsPanel>
         {addressState &&
@@ -170,4 +178,7 @@ export const AddressComp = ({
   )
 }
 
-export default AddressComp
+export default {
+  AddressOverview,
+  AddressTransactions,
+}

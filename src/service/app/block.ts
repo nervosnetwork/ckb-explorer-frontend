@@ -3,6 +3,21 @@ import { PageActions, AppDispatch, AppActions } from '../../contexts/providers/r
 import { storeCachedData, fetchCachedData } from '../../utils/cached'
 import { CachedKeys } from '../../utils/const'
 
+const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
+  dispatch({
+    type: PageActions.UpdateBlockStatus,
+    payload: {
+      status: isOK ? 'OK' : 'Error',
+    },
+  })
+  dispatch({
+    type: AppActions.UpdateLoading,
+    payload: {
+      loading: false,
+    },
+  })
+}
+
 export const getBlockTransactions = (hash: string, page: number, size: number, dispatch: AppDispatch) => {
   fetchTransactionsByBlockHash(hash, page, size)
     .then(response => {
@@ -15,18 +30,6 @@ export const getBlockTransactions = (hash: string, page: number, size: number, d
           }),
         },
       })
-      dispatch({
-        type: PageActions.UpdateBlockStatus,
-        payload: {
-          status: 'OK',
-        },
-      })
-      dispatch({
-        type: AppActions.UpdateLoading,
-        payload: {
-          loading: false,
-        },
-      })
       if (meta) {
         dispatch({
           type: PageActions.UpdateBlockTotal,
@@ -35,20 +38,10 @@ export const getBlockTransactions = (hash: string, page: number, size: number, d
           },
         })
       }
+      handleResponseStatus(dispatch, true)
     })
     .catch(() => {
-      dispatch({
-        type: PageActions.UpdateBlockStatus,
-        payload: {
-          status: 'Error',
-        },
-      })
-      dispatch({
-        type: AppActions.UpdateLoading,
-        payload: {
-          loading: false,
-        },
-      })
+      handleResponseStatus(dispatch, false)
     })
 }
 
@@ -66,33 +59,11 @@ export const getBlock = (blockParam: string, page: number, size: number, dispatc
         })
         getBlockTransactions(block.blockHash, page, size, dispatch)
       } else {
-        dispatch({
-          type: PageActions.UpdateBlockStatus,
-          payload: {
-            status: 'Error',
-          },
-        })
-        dispatch({
-          type: AppActions.UpdateLoading,
-          payload: {
-            loading: false,
-          },
-        })
+        handleResponseStatus(dispatch, false)
       }
     })
     .catch(() => {
-      dispatch({
-        type: PageActions.UpdateBlockStatus,
-        payload: {
-          status: 'Error',
-        },
-      })
-      dispatch({
-        type: AppActions.UpdateLoading,
-        payload: {
-          loading: false,
-        },
-      })
+      handleResponseStatus(dispatch, false)
     })
 }
 

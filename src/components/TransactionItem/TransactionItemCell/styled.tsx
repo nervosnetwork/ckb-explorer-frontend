@@ -24,19 +24,23 @@ export const TransactionCellPanel = styled.div`
 
     @media (max-width: 700px) {
       height: 16px;
+      display: flex;
     }
   }
+`
 
-  .transaction__cell_capacity {
-    color: #000000;
-    margin-left: 15px;
-    height: 20px;
+export const TransactionCellCapacity = styled.div`
+  color: #000000;
+  margin-left: 15px;
+  display: flex;
+  height: 20px;
 
-    @media (max-width: 700px) {
-      margin-left: 0px;
-      margin-top: 5px;
-      height: 16px;
-    }
+  @media (max-width: 700px) {
+    margin-left: 0px;
+    margin-top: 5px;
+    height: 16px;
+    width: ${({ fullWidth = false }: { fullWidth?: boolean }) => (fullWidth ? '100%' : 'auto')};
+    justify-content: space-between;
   }
 `
 

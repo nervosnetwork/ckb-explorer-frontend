@@ -1,6 +1,7 @@
 export enum AppActions {
   ResizeWindow = 'resizeWindow',
   UpdateLoading = 'updateLoading',
+  UpdateSecondLoading = 'updateSecondLoading',
   UpdateModal = 'updateModal',
   ShowToastMessage = 'showToastMessage',
   UpdateAppErrors = 'updateAppErrors',
@@ -14,6 +15,7 @@ export enum PageActions {
   UpdateAddressTransactions = 'updateAddressTransactions',
   UpdateAddressTotal = 'updateAddressTotal',
   UpdateAddressStatus = 'updateAddressStatus',
+  UpdateAddressTransactionsStatus = 'updateAddressTransactionsStatus',
 
   UpdateHomeBlocks = 'updateHomeBlocks',
 
@@ -62,6 +64,14 @@ export const reducer = (
         app: {
           ...state.app,
           loading: payload.loading,
+        },
+      }
+    case AppActions.UpdateSecondLoading:
+      return {
+        ...state,
+        app: {
+          ...state.app,
+          secondLoading: payload.secondLoading,
         },
       }
     case AppActions.UpdateModal:
@@ -174,7 +184,15 @@ export const reducer = (
         ...state,
         addressState: {
           ...state.addressState,
-          status: payload.status,
+          addressStatus: payload.addressStatus,
+        },
+      }
+    case PageActions.UpdateAddressTransactionsStatus:
+      return {
+        ...state,
+        addressState: {
+          ...state.addressState,
+          transactionsStatus: payload.transactionsStatus,
         },
       }
 
