@@ -200,7 +200,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
           return (
             <BlockRootInfoItemPanel key={item.title}>
               <div className="block__root_info_title">{item.title}</div>
-              <div className="block__root_info_value">{item.content}</div>
+              <code className="block__root_info_value">{item.content}</code>
             </BlockRootInfoItemPanel>
           )
         })

@@ -26,6 +26,7 @@ export const BlockRootInfoItemPanel = styled.div`
 
   .block__root_info_title {
     font-weight: 500;
+    width: 150px;
   }
   .block__root_info_value {
     flex: 1;
