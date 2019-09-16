@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { startEndEllipsis } from '../../utils/string'
 import i18n from '../../utils/i18n'
+import EllipsisText from '../EllipsisText'
 
 export const TableTitleRow = styled.div`
   background: #3cc68a;
@@ -75,7 +75,6 @@ const TableMinerContentPanel = styled.div`
     justify-content: center;
     font-size: 16px;
     font-weight: 450;
-    word-wrap: break-word;
   }
 
   .table__miner__text__disable {
@@ -119,7 +118,9 @@ export const TableMinerContentItem = ({ width, content }: { width: string; conte
     <TableMinerContentPanel width={width}>
       {content ? (
         <Link className="table__miner__content" to={`/address/${content}`}>
-          <code className="table__miner__text">{content && startEndEllipsis(content, 25)}</code>
+          <div className="table__miner__text">
+            <EllipsisText text={content} />
+          </div>
         </Link>
       ) : (
         <div className="table__miner__text__disable">{i18n.t('address.unable_decode_address')}</div>
