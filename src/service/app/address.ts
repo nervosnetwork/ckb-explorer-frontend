@@ -83,7 +83,7 @@ export const getTransactionsByAddress = (hash: string, page: number, size: numbe
       })
       handleTransactionResponseStatus(dispatch, true)
     })
-    .catch(() => {
+    .catch(error => {
       dispatch({
         type: PageActions.UpdateAddressTransactions,
         payload: {
@@ -96,7 +96,7 @@ export const getTransactionsByAddress = (hash: string, page: number, size: numbe
           total: 0,
         },
       })
-      handleTransactionResponseStatus(dispatch, false)
+      handleTransactionResponseStatus(dispatch, error && error.response && error.response.status === 404)
     })
 }
 
