@@ -58,7 +58,8 @@ export const getAddressInfo = (hash: string, dispatch: AppDispatch) => {
           address: initAddress.address,
         },
       })
-      handleAddressResponseStatus(dispatch, error && error.response && error.response.status === 404)
+      const isEmptyAddress = error && error.response && error.response.status === 404
+      handleAddressResponseStatus(dispatch, isEmptyAddress)
     })
 }
 
@@ -83,7 +84,7 @@ export const getTransactionsByAddress = (hash: string, page: number, size: numbe
       })
       handleTransactionResponseStatus(dispatch, true)
     })
-    .catch(() => {
+    .catch(error => {
       dispatch({
         type: PageActions.UpdateAddressTransactions,
         payload: {
@@ -96,7 +97,8 @@ export const getTransactionsByAddress = (hash: string, page: number, size: numbe
           total: 0,
         },
       })
-      handleTransactionResponseStatus(dispatch, false)
+      const isEmptyAddress = error && error.response && error.response.status === 404
+      handleTransactionResponseStatus(dispatch, isEmptyAddress)
     })
 }
 
