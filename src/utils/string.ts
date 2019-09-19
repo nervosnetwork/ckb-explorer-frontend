@@ -23,14 +23,12 @@ export const adaptMobileEllipsis = (value: string, length = 8) => {
   return value
 }
 
-export const adaptPCEllipsis = (value: string, length = 8) => {
-  if (window.innerWidth <= 800) {
-    return startEndEllipsis(value, length, length)
+export const adaptPCEllipsis = (value: string, length = 8, factor = 40) => {
+  if (window.innerWidth < 700) {
+    return value
   }
-  if (window.innerWidth <= 1000) {
-    return startEndEllipsis(value, length + 3, length + 3)
-  }
-  const step = (window.innerWidth - 1000) / 20 + 3
+  const width = window.innerWidth > 1200 ? 1200 : window.innerWidth
+  const step = (width - 700) / factor
   return startEndEllipsis(value, length + step, length + step)
 }
 
