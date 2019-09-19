@@ -4,8 +4,8 @@ import OverviewCard, { OverviewItemData } from '../../../components/Card/Overvie
 import { CellState, CellType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
-import { isMobile, isLargeMobile, isMediumMobile, isSmallMobile } from '../../../utils/screen'
-import { startEndEllipsis } from '../../../utils/string'
+import { isMobile } from '../../../utils/screen'
+import { adaptPCEllipsis, adaptMobileEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import TransactionCellDetail from '../TransactionCellScript'
 import { AppDispatch } from '../../../contexts/providers/reducer'
@@ -21,16 +21,10 @@ import {
 import TransactionCellArrow from '../TransactionCellArrow'
 
 const handleAddressHashText = (hash: string) => {
-  if (isSmallMobile()) {
-    return startEndEllipsis(hash, 12)
+  if (isMobile()) {
+    return adaptMobileEllipsis(hash, 11)
   }
-  if (isMediumMobile()) {
-    return startEndEllipsis(hash, 15)
-  }
-  if (isLargeMobile()) {
-    return startEndEllipsis(hash, 20)
-  }
-  return startEndEllipsis(hash, 18)
+  return adaptPCEllipsis(hash, 8, 50)
 }
 
 const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {

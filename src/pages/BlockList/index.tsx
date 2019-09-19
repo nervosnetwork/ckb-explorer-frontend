@@ -13,7 +13,7 @@ import {
   TableMinerContentItem,
 } from '../../components/Table'
 import { shannonToCkb } from '../../utils/util'
-import { parsePageNumber, startEndEllipsis } from '../../utils/string'
+import { parsePageNumber, adaptMobileEllipsis } from '../../utils/string'
 import { BlockListPageParams } from '../../utils/const'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
@@ -87,7 +87,7 @@ const BlockCardItems = (block: State.Block) => {
     },
     {
       title: i18n.t('block.miner'),
-      content: <BlockValueItem value={startEndEllipsis(block.minerHash, 13)} to={`/address/${block.minerHash}`} />,
+      content: <BlockValueItem value={adaptMobileEllipsis(block.minerHash, 13)} to={`/address/${block.minerHash}`} />,
     },
     {
       title: i18n.t('home.time'),
