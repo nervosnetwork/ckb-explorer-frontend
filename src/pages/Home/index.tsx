@@ -21,7 +21,7 @@ import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
 import { BLOCK_POLLING_TIME } from '../../utils/const'
 import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
-import { startEndEllipsis } from '../../utils/string'
+import { adaptMobileEllipsis } from '../../utils/string'
 import { isMobile } from '../../utils/screen'
 import browserHistory from '../../routes/history'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
@@ -152,7 +152,7 @@ const blockCardItems = (block: State.Block) => {
     },
     {
       title: i18n.t('block.miner'),
-      content: <BlockValueItem value={startEndEllipsis(block.minerHash, 13)} to={`/address/${block.minerHash}`} />,
+      content: <BlockValueItem value={adaptMobileEllipsis(block.minerHash, 13)} to={`/address/${block.minerHash}`} />,
     },
     {
       title: i18n.t('home.time'),

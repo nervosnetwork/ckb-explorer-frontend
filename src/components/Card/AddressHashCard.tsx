@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import CopyIcon from '../../assets/copy.png'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
-import { startEndEllipsis } from '../../utils/string'
+import { startEndEllipsis, adaptPCEllipsis } from '../../utils/string'
 import { copyElementValue } from '../../utils/util'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
@@ -135,7 +135,7 @@ export default ({
         </LoadingPanel>
       ) : (
         <div id="address_hash__text">
-          <code>{hashText}</code>
+          <code>{adaptPCEllipsis(hashText, 20, 40)}</code>
         </div>
       )}
       <div

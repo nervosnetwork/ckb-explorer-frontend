@@ -4,8 +4,8 @@ import RightArrowIcon from '../../assets/input_arrow_output.png'
 import DownArrowIcon from '../../assets/input_arrow_output_down.png'
 import { parseDate } from '../../utils/date'
 import { localeNumberString } from '../../utils/number'
-import { isLargeMobile, isMediumMobile, isMobile, isSmallMobile } from '../../utils/screen'
-import { startEndEllipsis } from '../../utils/string'
+import { isMobile } from '../../utils/screen'
+import { adaptMobileEllipsis } from '../../utils/string'
 import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
 import TransactionConfirmation from './TransactionConfirmation'
@@ -13,19 +13,6 @@ import TransactionReward from './TransactionReward'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import i18n from '../../utils/i18n'
 import { CellType } from '../../utils/const'
-
-const handleTransactionHashText = (transactionHash: string) => {
-  if (isSmallMobile()) {
-    return startEndEllipsis(transactionHash, 12)
-  }
-  if (isMediumMobile()) {
-    return startEndEllipsis(transactionHash, 19)
-  }
-  if (isLargeMobile()) {
-    return startEndEllipsis(transactionHash, 24)
-  }
-  return transactionHash
-}
 
 const TransactionItem = ({
   transaction,
@@ -45,7 +32,7 @@ const TransactionItem = ({
       <TransactionHashBlockPanel>
         <div className="transaction_item__content">
           <Link to={`/transaction/${transaction.transactionHash}`}>
-            <code className="transaction_item__hash">{handleTransactionHashText(transaction.transactionHash)}</code>
+            <code className="transaction_item__hash">{adaptMobileEllipsis(transaction.transactionHash, 13)}</code>
           </Link>
           {!isBlock && (
             <div className="transaction_item__block">
