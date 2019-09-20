@@ -7,7 +7,7 @@ export const parsePageNumber = (value: any, defaultValue: number) => {
 
 export const startEndEllipsis = (value: string, endLength = 8, startLength = 16) => {
   if (value === undefined || value === null) return ''
-  if (value.length <= startLength) return value
+  if (endLength < 0 || startLength < 0) return value
   if (value.length <= startLength + endLength) return value
   return `${value.substr(0, startLength)}...${value.substr(value.length - endLength, endLength)}`
 }
