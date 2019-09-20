@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import HelpIcon from '../../../assets/qa_help.png'
 import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
-import { startEndEllipsis } from '../../../utils/string'
+import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import { CellbasePanel, TransactionCellPanel, TransactionCellCapacity } from './styled'
-import { isMediumMobile, isLargeMobile, isSmallMobile, isMobile } from '../../../utils/screen'
+import { isMobile } from '../../../utils/screen'
 import Tooltip from '../../Tooltip'
 import { CellType } from '../../../utils/const'
 import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
@@ -63,16 +63,10 @@ const Cellbase = ({
 }
 
 const handleAddressText = (address: string) => {
-  if (isSmallMobile()) {
-    return startEndEllipsis(address, 11)
+  if (isMobile()) {
+    return adaptMobileEllipsis(address, 13)
   }
-  if (isMediumMobile()) {
-    return startEndEllipsis(address, 18)
-  }
-  if (isLargeMobile()) {
-    return startEndEllipsis(address, 23)
-  }
-  return startEndEllipsis(address)
+  return adaptPCEllipsis(address, 5, 80)
 }
 
 const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; address?: string; cellType: CellType }) => {

@@ -11,8 +11,8 @@ import { AppContext } from '../../contexts/providers'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
-import { isLargeMobile, isMediumMobile, isMobile, isSmallMobile } from '../../utils/screen'
-import { startEndEllipsis } from '../../utils/string'
+import { isMobile } from '../../utils/screen'
+import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
 import {
   BlockLinkPanel,
@@ -24,16 +24,10 @@ import {
 import browserHistory from '../../routes/history'
 
 const handleMinerText = (address: string) => {
-  if (isSmallMobile()) {
-    return startEndEllipsis(address, 11)
+  if (isMobile()) {
+    return adaptMobileEllipsis(address, 13)
   }
-  if (isMediumMobile()) {
-    return startEndEllipsis(address, 18)
-  }
-  if (isLargeMobile()) {
-    return startEndEllipsis(address, 23)
-  }
-  return startEndEllipsis(address, 27)
+  return adaptPCEllipsis(address, 12, 50)
 }
 
 const BlockMiner = ({ miner }: { miner: string }) => {
@@ -168,7 +162,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     },
     {
       title: i18n.t('block.nonce'),
-      content: `${block.nonce}`,
+      content: localeNumberString(block.nonce),
     },
     {
       title: i18n.t('block.uncle_count'),
