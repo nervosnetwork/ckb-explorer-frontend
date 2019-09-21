@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState, useRef } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import AddressHashCard from '../../components/Card/AddressHashCard'
+import TransactionHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
 import { StateWithDispatch, AppDispatch, PageActions, AppActions } from '../../contexts/providers/reducer'
 import { getTipBlockNumber } from '../../service/app/address'
@@ -67,7 +67,7 @@ export default ({
   return (
     <Content>
       <TransactionDiv className="container">
-        <AddressHashCard
+        <TransactionHashCard
           title={i18n.t('transaction.transaction')}
           hash={hash}
           dispatch={dispatch}
