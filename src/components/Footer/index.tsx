@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import LogoIcon from '../../assets/ckb_footer_logo.png'
 import AboutIcon from '../../assets/footer_about.png'
 import FAQIcon from '../../assets/footer_faq.png'
-import APIIcon from '../../assets/footer_api.png'
 import GithubIcon from '../../assets/footer_github.png'
 import WhitepaperIcon from '../../assets/footer_whitepaper.png'
+import DocsIcon from '../../assets/footer_docs.png'
 import TwitterIcon from '../../assets/footer_twitter.png'
 import BlogIcon from '../../assets/footer_blog.png'
 import TelegramIcon from '../../assets/footer_telegram.png'
@@ -48,9 +48,9 @@ export default () => {
       name: i18n.t('footer.developer'),
       items: [
         {
-          label: i18n.t('footer.api'),
-          icon: APIIcon,
-          url: 'https://github.com/nervosnetwork/ckb/blob/develop/rpc/README.md',
+          label: i18n.t('footer.docs'),
+          icon: DocsIcon,
+          url: 'https://docs.nervos.org',
         },
         {
           label: i18n.t('footer.gitHub'),

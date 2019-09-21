@@ -1,6 +1,8 @@
 # CKB Explorer
 
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/nervosnetwork/ckb-explorer-frontend/blob/develop/COPYING)
 [![TravisCI](https://travis-ci.com/nervosnetwork/ckb-explorer-frontend.svg?branch=develop)](https://travis-ci.com/nervosnetwork/ckb-explorer-frontend)
+[![Telegram Group](https://cdn.rawgit.com/Patrolavia/telegram-badge/8fe3382b/chat.svg)](https://t.me/nervos_ckb_dev)
 
 CKB Explorer is a [Nervos CKB](https://github.com/nervosnetwork/ckb) blockchain explorer built with React and Ruby on Rails.
 
@@ -10,19 +12,19 @@ It supports searching block, transaction, address and includes two parts: [front
 
 ### Prerequisite
 
-* Node.js 11.10 or later
+- Node.js 11.10 or later
 
 ### Edit .env file
 
 You need to edit .env.develop to set your own api url as ckb explorder server.
 
-``` shell
+```shell
 REACT_APP_API_URL = 'http://your-api-url'   # Set your own api url
 ```
 
 ### Installation
 
-``` shell
+```shell
 git clone https://github.com/nervosnetwork/ckb-explorer-frontend.git
 cd ckb-explorer-frontend
 yarn install   # install dependency libraries
@@ -31,7 +33,7 @@ yarn start     # run ckb explorer frontend on localhost
 
 ### Development
 
-``` shell
+```shell
 yarn build    # build ckb explorer frontend project
 yarn test     # run project test cases
 ```
