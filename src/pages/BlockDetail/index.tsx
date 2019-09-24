@@ -1,7 +1,7 @@
 import queryString from 'query-string'
 import React, { useContext, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import AddressHashCard from '../../components/Card/AddressHashCard'
+import BlockHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
 import Error from '../../components/Error'
 import { AppContext } from '../../contexts/providers'
@@ -82,7 +82,7 @@ export default ({
   return (
     <Content>
       <BlockDetailPanel className="container">
-        <AddressHashCard
+        <BlockHashCard
           title={i18n.t('block.block')}
           hash={blockState.status === 'OK' ? blockState.block.blockHash : blockParam}
           dispatch={dispatch}
