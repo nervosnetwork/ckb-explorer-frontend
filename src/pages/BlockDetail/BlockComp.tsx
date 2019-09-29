@@ -160,6 +160,10 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       title: i18n.t('block.nonce'),
       content: localeNumberString(block.nonce),
     },
+    {
+      title: i18n.t('block.uncle_count'),
+      content: `${block.unclesCount}`,
+    },
   ]
 
   if (isMobile()) {

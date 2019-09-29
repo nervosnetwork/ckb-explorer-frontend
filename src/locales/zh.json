@@ -94,6 +94,7 @@
       "block_height": "高度",
       "proposal_transactions": "提案交易",
       "block_reward": "区块奖励",
+      "uncle_count": "叔块数",
       "epoch": "Epoch",
       "epoch_start_number": "Epoch 开始区块",
       "epoch_number": "Epoch 区块",

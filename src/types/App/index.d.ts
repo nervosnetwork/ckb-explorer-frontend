@@ -61,6 +61,7 @@ declare namespace State {
     number: number
     transactionsCount: number
     proposalsCount: number
+    unclesCount: number
     uncleBlockHashes: string[]
     reward: string
     rewardStatus: 'pending' | 'issued'

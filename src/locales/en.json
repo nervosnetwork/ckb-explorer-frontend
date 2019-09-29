@@ -94,6 +94,7 @@
       "block_height": "Block Height",
       "proposal_transactions": "Proposal Transactions",
       "block_reward": "Block Reward",
+      "uncle_count": "Uncle Count",
       "epoch": "Epoch",
       "epoch_start_number": "Epoch Start Number",
       "epoch_number": "Epoch Number",

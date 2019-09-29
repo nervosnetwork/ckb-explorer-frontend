@@ -4,6 +4,7 @@ export const initBlockState: State.BlockState = {
     number: 0,
     transactionsCount: 0,
     proposalsCount: 0,
+    unclesCount: 0,
     uncleBlockHashes: [],
     reward: '0',
     rewardStatus: 'issued',
