@@ -44,6 +44,11 @@ declare namespace State {
     consumedTxHash: string
     status: 'live' | 'dead'
     isGenesisOutput: boolean
+    cellType: 'normal' | 'dao'
+    startedBlockNumber: number
+    endedBlockNumber: number
+    subsidy: number
+    daoTypeHash: string
   }
 
   export interface Address {
