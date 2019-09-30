@@ -78,7 +78,6 @@ declare namespace State {
     version: number
     nonce: string
     transactionsRoot: string
-    witnessesRoot: string
   }
 
   export interface Transaction {
