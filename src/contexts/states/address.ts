@@ -6,7 +6,7 @@ export const initAddressState: State.AddressState = {
     transactionsCount: 0,
     pendingRewardBlocksCount: 0,
     lockScript: {
-      args: [],
+      args: '',
       codeHash: '',
       hashType: '',
     },

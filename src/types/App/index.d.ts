@@ -1,7 +1,7 @@
 declare namespace State {
   export interface Script {
     codeHash: string
-    args: string[]
+    args: string
     hashType: string
   }
 
