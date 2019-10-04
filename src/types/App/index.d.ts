@@ -1,7 +1,7 @@
 declare namespace State {
   export interface Script {
     codeHash: string
-    args: string[]
+    args: string
     hashType: string
   }
 
@@ -78,7 +78,6 @@ declare namespace State {
     version: number
     nonce: string
     transactionsRoot: string
-    witnessesRoot: string
   }
 
   export interface Transaction {

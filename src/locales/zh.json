@@ -107,7 +107,6 @@
       "hash_rate_hps": "哈希率(H/s)",
       "hash_rate": "哈希率",
       "transactions_root": "Transactions Root",
-      "witnesses_root": "Witnesses Root",
       "pending": "发放中",
       "calculating": "计算中",
       "pending_tip": "区块奖励将在 11 个区块后发送给矿工，阅读共识协议了解更多信息",
