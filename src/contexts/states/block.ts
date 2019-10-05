@@ -21,7 +21,6 @@ export const initBlockState: State.BlockState = {
     version: 0,
     nonce: '0',
     transactionsRoot: '',
-    witnessesRoot: '',
   },
   transactions: [] as State.Transaction[],
   total: 0,

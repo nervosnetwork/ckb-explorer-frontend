@@ -53,16 +53,20 @@ const TransactionItem = ({
         </div>
         <img src={isMobile() ? DownArrowIcon : RightArrowIcon} alt="input and output" />
         <div className="transaction_item__output">
-          <TransactionCellList
-            cells={transaction.displayOutputs}
-            transaction={transaction}
-            render={cell => (
-              <FullPanel key={cell.id}>
-                <TransactionCell cell={cell} address={address} cellType={CellType.Output} />
-                <TransactionReward transaction={transaction} cell={cell} />
-              </FullPanel>
-            )}
-          />
+          {transaction.displayOutputs && transaction.displayOutputs.length !== 0 ? (
+            <TransactionCellList
+              cells={transaction.displayOutputs}
+              transaction={transaction}
+              render={cell => (
+                <FullPanel key={cell.id}>
+                  <TransactionCell cell={cell} address={address} cellType={CellType.Output} />
+                  <TransactionReward transaction={transaction} cell={cell} />
+                </FullPanel>
+              )}
+            />
+          ) : (
+            <div className="transaction_item__output__empty">{i18n.t('transaction.empty_output')}</div>
+          )}
         </div>
       </TransactionCellPanel>
       {confirmation && <TransactionConfirmation confirmation={confirmation} income={transaction.income} />}

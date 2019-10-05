@@ -77,11 +77,7 @@ const AddressLockScript = ({ script }: { script: State.Script }) => {
         <code>{script.codeHash}</code>
       </AddressLockScriptItem>
       <AddressLockScriptItem title={i18n.t('address.args')}>
-        {script.args.length === 1 ? (
-          <code>{script.args[0]}</code>
-        ) : (
-          script.args.map((arg: string, index: number) => <code>{`#${index}: ${arg}`}</code>)
-        )}
+        <code>{script.args}</code>
       </AddressLockScriptItem>
     </AddressLockScriptPanel>
   )

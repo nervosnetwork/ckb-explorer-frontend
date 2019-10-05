@@ -87,7 +87,8 @@
       "proposal_reward": "Proposal Reward",
       "cellbase_help_tooltip": "The cellbase transaction of block N is sent to the miner of block N-11 as reward, learn more from our Consensus Protocol",
       "capacity": "Capacity",
-      "detail": "Detail"
+      "detail": "Detail",
+      "empty_output": "No cell output target"
     },
     "block": {
       "block": "Block",
@@ -107,7 +108,6 @@
       "hash_rate_hps": "Hash Rate(H/s)",
       "hash_rate": "Hash Rate",
       "transactions_root": "Transactions Root",
-      "witnesses_root": "Witnesses Root",
       "pending": "Pending",
       "calculating": "Calculating",
       "pending_tip": "The block reward of this block will be sent to the miner after 11 blocks，learn more from our Consensus Protocol",
