@@ -65,7 +65,7 @@ const TransactionItem = ({
               )}
             />
           ) : (
-            <div className="transaction_item__output__empty">No cell output target</div>
+            <div className="transaction_item__output__empty">{i18n.t('transaction.empty_output')}</div>
           )}
         </div>
       </TransactionCellPanel>
