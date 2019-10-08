@@ -121,6 +121,16 @@ export const TransactionCellPanel = styled.div`
       width: 100%;
     }
   }
+
+  .transaction_item__output__empty {
+    font-size: 16px;
+    color: #666666;
+    margin-top: 18px;
+
+    @media (max-width: 700px) {
+      font-size: 13px;
+    }
+  }
 `
 
 export const FullPanel = styled.div`
