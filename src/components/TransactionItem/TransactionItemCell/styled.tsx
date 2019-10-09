@@ -18,7 +18,8 @@ export const TransactionCellPanel = styled.div`
   }
 
   .transaction__cell_address {
-    color: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '#3cc68a' : '#000000')};
+    color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) =>
+      highLight ? `${theme.main}` : '#000000'};
     font-weight: 500;
     height: 20px;
 
@@ -64,7 +65,7 @@ export const CellbasePanel = styled.div`
 
   > a {
     font-weight: 500;
-    color: #3cc68a;
+    color: ${props => props.theme.main};
   }
 
   .cellbase__help {

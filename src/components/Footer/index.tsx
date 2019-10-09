@@ -100,7 +100,6 @@ export default () => {
       ],
     },
   ]
-
   return useMemo(() => {
     return (
       <FooterDiv>

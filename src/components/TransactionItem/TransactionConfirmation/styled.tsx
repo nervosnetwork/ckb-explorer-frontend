@@ -88,16 +88,18 @@ export const TransactionConfirmationValuePanel = styled.div`
 export const TransactionCapacityValuePanel = styled(TransactionConfirmationValuePanel)`
   float: left;
   color: #ffffff;
-  border: 20px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
+  border: 20px solid
+    ${(props: { increased: boolean; theme: any }) => (props.increased ? `${props.theme.main}` : '#ff5757')};
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
 
   > span {
-    background: ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
+    background: ${(props: { increased: boolean; theme: any }) => (props.increased ? `${props.theme.main}` : '#ff5757')};
   }
 
   @media (max-width: 700px) {
-    border: 15px solid ${(props: { increased: boolean }) => (props.increased ? '#3cc68a' : '#ff5757')};
+    border: 15px solid
+      ${(props: { increased: boolean; theme: any }) => (props.increased ? `${props.theme.main}` : '#ff5757')};
     border-left: 7.5px solid transparent;
     border-right: 7.5px solid transparent;
   }

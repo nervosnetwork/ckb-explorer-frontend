@@ -66,7 +66,7 @@ export const FooterDiv = styled.div`
             width: 90px;
             font-weight: bold;
             margin-right: 10px;
-            color: #3cc68a;
+            color: ${prop => prop.theme.main};
           }
 
           > div:nth-child(2) {

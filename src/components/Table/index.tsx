@@ -5,7 +5,7 @@ import i18n from '../../utils/i18n'
 import { adaptPCEllipsis } from '../../utils/string'
 
 export const TableTitleRow = styled.div`
-  background: #3cc68a;
+  background: ${props => props.theme.main};
   display: flex;
   min-height: 65px;
   border-radius: 6px 6px 0px 0px;
@@ -62,11 +62,11 @@ const TableContentRowItem = styled.div`
 `
 
 const TableMinerContentPanel = styled.div`
-  width: ${({ width }: { width: string }) => width};
+  width: ${(props: { width: string }) => props.width};
   line-height: 20px;
   text-align: center;
   .table__miner__content {
-    color: #4bbc8e;
+    color: ${(props: { theme: any }) => props.theme.main};
     text-decoration: none;
   }
 
@@ -86,6 +86,11 @@ const TableMinerContentPanel = styled.div`
   }
 `
 
+const HighlightLink = styled(Link)`
+  color: ${props => props.theme.main}
+  text-decoration: none;
+`
+
 export const TableTitleItem = ({ width, title }: { width: string; title: string }) => {
   return (
     <TableTitleRowItem width={width}>
@@ -95,20 +100,10 @@ export const TableTitleItem = ({ width, title }: { width: string; title: string 
 }
 
 export const TableContentItem = ({ width, content, to }: { width: string; content: string; to?: any }) => {
-  const highLightStyle = {
-    color: '#4BBC8E',
-    textDecoration: 'none',
-  }
   const highLight = to !== undefined
   return (
     <TableContentRowItem width={width}>
-      {highLight ? (
-        <Link style={highLightStyle} to={to}>
-          {content}
-        </Link>
-      ) : (
-        content
-      )}
+      {highLight ? <HighlightLink to={to}>{content}</HighlightLink> : content}
     </TableContentRowItem>
   )
 }

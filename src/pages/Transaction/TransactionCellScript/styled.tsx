@@ -50,7 +50,7 @@ export const TransactionCellDetailCopyButtonPanel = styled.div`
   cursor: pointer;
   width: 150px;
   height: 40px;
-  background: #3cc68a;
+  background: ${props => props.theme.main};
   border-radius: 6px;
   display: flex;
   align-items: center;
