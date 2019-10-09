@@ -4,6 +4,10 @@ export const BLOCKCHAIN_ALERT_POLLING_TIME = 10000
 export const RESIZE_LATENCY = 500
 export const LOADING_WAITING_TIME = 500
 
+// TODO: change mainnet and testnet theme color
+export const MAINNET_THEME_COLOR = '#617bbd'
+export const TESTNET_THEME_COLOR = '#3cc68a'
+
 export const HttpErrorCode = {
   NOT_FOUND_ADDRESS: 1010,
 }
@@ -22,6 +26,8 @@ export const CachedKeys = {
   AppLanguage: 'appLanguage',
 
   SearchFailVisitedCount: 'SearchFailVisitedCount',
+
+  IsMainnet: 'IsMainnet',
 }
 
 export enum CellState {
