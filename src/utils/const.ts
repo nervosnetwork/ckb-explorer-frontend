@@ -4,7 +4,7 @@ export const BLOCKCHAIN_ALERT_POLLING_TIME = 10000
 export const RESIZE_LATENCY = 500
 export const LOADING_WAITING_TIME = 500
 
-// TODO: change mainnet and testnet theme color
+// TODO: exchange mainnet and testnet theme color
 export const MAINNET_THEME_COLOR = '#617bbd'
 export const TESTNET_THEME_COLOR = '#3cc68a'
 
