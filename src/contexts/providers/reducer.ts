@@ -8,6 +8,7 @@ export enum AppActions {
   UpdateNodeVersion = 'updateNodeVersion',
   UpdateTipBlockNumber = 'updateTipBlockNumber',
   UpdateAppLanguage = 'updateAppLanguage',
+  UpdateIsMainnet = 'updateIsMainnet',
 }
 
 export enum PageActions {
@@ -128,6 +129,14 @@ export const reducer = (
         app: {
           ...state.app,
           language: payload.language,
+        },
+      }
+    case AppActions.UpdateIsMainnet:
+      return {
+        ...state,
+        app: {
+          ...state.app,
+          isMainnet: payload.isMainnet,
         },
       }
 
