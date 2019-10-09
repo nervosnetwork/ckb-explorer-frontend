@@ -4,7 +4,12 @@ import Routers from './routes'
 import Toast from './components/Toast'
 import withProviders, { AppContext } from './contexts/providers'
 import useInitApp from './contexts/providers/hook'
-import { MAINNET_THEME_COLOR, TESTNET_THEME_COLOR } from './utils/const'
+import {
+  MAINNET_PRIMARY_THEME_COLOR,
+  MAINNET_SECONDARY_THEME_COLOR,
+  TESTNET_PRIMARY_THEME_COLOR,
+  TESTNET_SECONDARY_THEME_COLOR,
+} from './utils/const'
 
 const AppDiv = styled.div`
   width: 100vw;
@@ -13,7 +18,8 @@ const AppDiv = styled.div`
 const App = withProviders(({ dispatch }: any) => {
   const { app } = useContext(AppContext)
   const theme = {
-    main: app.isMainnet ? MAINNET_THEME_COLOR : TESTNET_THEME_COLOR,
+    primary: app.isMainnet ? MAINNET_PRIMARY_THEME_COLOR : TESTNET_PRIMARY_THEME_COLOR,
+    secondary: app.isMainnet ? MAINNET_SECONDARY_THEME_COLOR : TESTNET_SECONDARY_THEME_COLOR,
   }
 
   useInitApp(dispatch)

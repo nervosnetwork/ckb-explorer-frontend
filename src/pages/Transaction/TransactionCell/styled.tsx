@@ -28,7 +28,7 @@ export const TransactionCellContentPanel = styled.div`
 
 export const TransactionCellHashPanel = styled.div`
   color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) =>
-    highLight ? `${theme.main}` : '#000000'};
+    highLight ? `${theme.primary}` : '#000000'};
   text-align: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? 'left' : 'center')};
   display: flex;
   justify-content: space-between;
@@ -78,7 +78,7 @@ export const TransactionCellDetailItemPanel = styled.div`
   cursor: ${(props: { highLight?: boolean; theme: any }) => (props.highLight ? 'pointer' : 'default')};
   display: flex;
   flex-direction: column;
-  color: ${(props: { highLight?: boolean; theme: any }) => (props.highLight ? `${props.theme.main}` : '#000000')};
+  color: ${(props: { highLight?: boolean; theme: any }) => (props.highLight ? `${props.theme.primary}` : '#000000')};
   font-weight: 500;
   align-items: center;
 
@@ -88,7 +88,7 @@ export const TransactionCellDetailItemPanel = styled.div`
 
   &:after {
     content: '';
-    background: ${(props: { highLight?: boolean; theme: any }) => `${props.theme.main}`};
+    background: ${(props: { highLight?: boolean; theme: any }) => `${props.theme.primary}`};
     width: calc(100% - 4px);
     height: 2px;
     display: ${(props: { highLight?: boolean; theme: any; selected: boolean }) => (props.selected ? 'block' : 'none')};

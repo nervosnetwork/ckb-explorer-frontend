@@ -36,7 +36,7 @@ export const BlockRootInfoItemPanel = styled.div`
 export const BlockLinkPanel = styled.div`
   > a {
     font-weight: 500;
-    color: ${props => props.theme.main};
+    color: ${props => props.theme.primary};
   }
 `
 

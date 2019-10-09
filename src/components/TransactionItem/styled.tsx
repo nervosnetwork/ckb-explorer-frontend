@@ -54,7 +54,7 @@ export const TransactionHashBlockPanel = styled.div`
     }
 
     .transaction_item__hash {
-      color: ${props => props.theme.main};
+      color: ${props => props.theme.primary};
       font-weight: 500;
     }
 

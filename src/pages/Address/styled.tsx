@@ -86,7 +86,7 @@ export const AddressLockScriptItemPanel = styled.div`
       width: 9px;
       height: 9px;
       border-radius: 50% 50%;
-      background: ${prop => prop.theme.main};
+      background: ${prop => prop.theme.primary};
 
       @media (max-width: 700px) {
         width: 5px;

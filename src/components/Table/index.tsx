@@ -5,7 +5,7 @@ import i18n from '../../utils/i18n'
 import { adaptPCEllipsis } from '../../utils/string'
 
 export const TableTitleRow = styled.div`
-  background: ${props => props.theme.main};
+  background: ${props => props.theme.primary};
   display: flex;
   min-height: 65px;
   border-radius: 6px 6px 0px 0px;
@@ -66,7 +66,7 @@ const TableMinerContentPanel = styled.div`
   line-height: 20px;
   text-align: center;
   .table__miner__content {
-    color: ${(props: { theme: any }) => props.theme.main};
+    color: ${(props: { theme: any }) => props.theme.primary};
     text-decoration: none;
   }
 
@@ -87,7 +87,7 @@ const TableMinerContentPanel = styled.div`
 `
 
 const HighlightLink = styled(Link)`
-  color: ${props => props.theme.main}
+  color: ${props => props.theme.primary}
   text-decoration: none;
 `
 

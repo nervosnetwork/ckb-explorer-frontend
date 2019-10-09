@@ -40,5 +40,5 @@ export const TransactionDiv = styled.div.attrs({
 `
 
 export const TransactionBlockHeightPanel = styled.div`
-  color: ${props => props.theme.main};
+  color: ${props => props.theme.primary};
 `

@@ -54,7 +54,7 @@ export const PaginationLeftItem = styled.div`
       font-weight: 600;
     }
     &:active {
-      background: ${props => props.theme.main};
+      background: ${props => props.theme.primary};
       color: white;
     }
   }
@@ -219,7 +219,7 @@ export const PaginationRightItem = styled.div`
     background: #f5f5f5;
     letter-spacing: 1px;
     &:active {
-      background: ${props => props.theme.main};
+      background: ${props => props.theme.primary};
       color: white;
     }
     @media (max-width: 700px) {

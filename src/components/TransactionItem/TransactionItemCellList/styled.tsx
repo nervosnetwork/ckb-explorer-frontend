@@ -8,7 +8,7 @@ export default styled.div`
 
   .transaction_item__view_all {
     font-size: 16px;
-    color: ${props => props.theme.main};
+    color: ${props => props.theme.primary};
     margin-top: 20px;
     height: 20px;
 
