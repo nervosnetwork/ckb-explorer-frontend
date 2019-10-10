@@ -1,9 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import Content from '../../components/Content'
-import PCNotFoundIcon from '../../assets/pc_404.png'
-import MobileNotFoundIcon from '../../assets/mobile_404.png'
+import PC404mage from '../../assets/pc_404.png'
+import Mobile404Image from '../../assets/mobile_404.png'
+import PCBlue404Image from '../../assets/blue_pc_404.png'
+import MobileBlue404Image from '../../assets/blue_mobile_404.png'
 import { isMobile } from '../../utils/screen'
+import { isMainnet } from '../../utils/chain'
 
 const NotFoundPanel = styled.div`
   width: 100%;
@@ -23,11 +26,18 @@ const NotFoundImage = styled.img`
   }
 `
 
+const get404Image = () => {
+  if (isMainnet()) {
+    return isMobile() ? Mobile404Image : PC404mage
+  }
+  return isMobile() ? MobileBlue404Image : PCBlue404Image
+}
+
 export default () => {
   return (
     <Content>
       <NotFoundPanel className="container">
-        <NotFoundImage src={isMobile() ? MobileNotFoundIcon : PCNotFoundIcon} alt="404" />
+        <NotFoundImage src={get404Image()} alt="404" />
       </NotFoundPanel>
     </Content>
   )
