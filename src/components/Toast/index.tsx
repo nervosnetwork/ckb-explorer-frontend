@@ -17,7 +17,7 @@ const ToastDiv = styled.div`
 `
 const ToastItemDiv = styled.div`
   width: 100%;
-  background-color: #3cc68a;
+  background-color: ${props => props.theme.primary};
   position: fixed;
   position: -webkit-fixed;
   top: 82px;
