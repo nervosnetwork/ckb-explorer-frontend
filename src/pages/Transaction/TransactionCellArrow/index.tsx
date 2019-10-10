@@ -4,7 +4,10 @@ import styled from 'styled-components'
 import { CellType } from '../../../utils/const'
 import LeftArrow from '../../../assets/left_arrow.png'
 import RightHighlightArrow from '../../../assets/right_green_arrow.png'
+import LeftBlueArrow from '../../../assets/left_blue_arrow.png'
+import RightHighlightBlueArrow from '../../../assets/right_blue_arrow.png'
 import RightNormalArrow from '../../../assets/right_grey_arrow.png'
+import { isMainnet } from '../../../utils/chain'
 
 const LeftArrowImage = styled.img`
   width: 16px;
@@ -40,7 +43,7 @@ export default ({
       <Link to={`/transaction/${cell.generatedTxHash}`}>
         <LeftArrowImage
           className="transaction__cell_left_arrow"
-          src={LeftArrow}
+          src={isMainnet() ? LeftArrow : LeftBlueArrow}
           alt="left arrow"
           marginTop={!!haveMarginTop}
         />
@@ -51,7 +54,7 @@ export default ({
     <Link to={`/transaction/${cell.consumedTxHash}`}>
       <RightArrowImage
         className="transaction__cell_right_arrow"
-        src={RightHighlightArrow}
+        src={isMainnet() ? RightHighlightArrow : RightHighlightBlueArrow}
         alt="right arrow"
         marginTop={!!haveMarginTop}
       />

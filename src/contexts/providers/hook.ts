@@ -4,7 +4,7 @@ import { handleBlockchainAlert } from '../../service/app/blockchain'
 import { BLOCKCHAIN_ALERT_POLLING_TIME, RESIZE_LATENCY, CachedKeys } from '../../utils/const'
 import { initNodeVersion } from '../../service/app/nodeInfo'
 import { AppDispatch, AppActions } from './reducer'
-import { fetchCachedData, storeCachedData } from '../../utils/cached'
+import { fetchCachedData } from '../../utils/cached'
 import { changeLanguage } from '../../utils/i18n'
 import { AppContext } from './index'
 import { useInterval } from '../../utils/hook'
@@ -45,17 +45,6 @@ const initAppLanguage = (app: State.App, dispatch: AppDispatch) => {
   }
 }
 
-const initIsMainnet = (app: State.App, dispatch: AppDispatch) => {
-  const isMainnet = fetchCachedData<boolean>(CachedKeys.IsMainnet) || app.isMainnet
-  dispatch({
-    type: AppActions.UpdateIsMainnet,
-    payload: {
-      isMainnet,
-    },
-  })
-  storeCachedData(CachedKeys.IsMainnet, isMainnet)
-}
-
 export const useInitApp = (dispatch: AppDispatch) => {
   const [init, setInit] = useState(false)
   const { app } = useContext(AppContext)
@@ -64,7 +53,6 @@ export const useInitApp = (dispatch: AppDispatch) => {
     initAxiosInterceptors(dispatch)
     initNodeVersion(dispatch)
     initAppLanguage(app, dispatch)
-    initIsMainnet(app, dispatch)
   }
   useWindowResize(dispatch)
 

@@ -4,10 +4,12 @@ import { CellState } from '../../../utils/const'
 import { hexToUtf8 } from '../../../utils/string'
 import TransactionDetailPanel, { TransactionCellDetailCopyButtonPanel } from './styled'
 import CopyIcon from '../../../assets/copy_green.png'
+import CopyBlueIcon from '../../../assets/copy_blue.png'
 import i18n from '../../../utils/i18n'
 import { copyElementValue } from '../../../utils/util'
 import { AppDispatch, AppActions } from '../../../contexts/providers/reducer'
 import SmallLoading from '../../../components/Loading/SmallLoading'
+import { isMainnet } from '../../../utils/chain'
 
 const initScriptContent = {
   lock: {
@@ -78,7 +80,7 @@ export default ({ cell, state, dispatch }: { cell: State.Cell; state: CellState;
         <div className="transaction__detail_copy">
           <TransactionCellDetailCopyButtonPanel onClick={onClickCopy}>
             <div>{i18n.t('common.copy')}</div>
-            <img src={CopyIcon} alt="copy" />
+            <img src={isMainnet() ? CopyIcon : CopyBlueIcon} alt="copy" />
           </TransactionCellDetailCopyButtonPanel>
         </div>
       </TransactionDetailPanel>

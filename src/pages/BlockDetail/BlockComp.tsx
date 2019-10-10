@@ -1,8 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Pagination from '../../components/Pagination'
-import DropDownIcon from '../../assets/block_detail_drop_down.png'
-import PackUpIcon from '../../assets/block_detail_pack_up.png'
+import DropDownIcon from '../../assets/content_drop_down.png'
+import PackUpIcon from '../../assets/content_pack_up.png'
+import DropDownBlueIcon from '../../assets/content_blue_drop_down.png'
+import PackUpBlueIcon from '../../assets/content_blue_pack_up.png'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TitleCard from '../../components/Card/TitleCard'
 import Tooltip from '../../components/Tooltip'
@@ -22,6 +24,7 @@ import {
   BlockTransactionsPagition,
 } from './styled'
 import browserHistory from '../../routes/history'
+import { isMainnet } from '../../utils/chain'
 
 const handleMinerText = (address: string) => {
   if (isMobile()) {
@@ -175,11 +178,18 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       overviewItems.splice(11, overviewItems.length - 11)
     }
   }
+
+  const getDropdownIcon = () => {
+    if (isMainnet()) {
+      return showAllOverview ? PackUpIcon : DropDownIcon
+    }
+    return showAllOverview ? PackUpBlueIcon : DropDownBlueIcon
+  }
   return (
     <OverviewCard items={overviewItems}>
       {isMobile() ? (
         <BlockOverviewDisplayControlPanel onClick={() => setShowAllOverview(!showAllOverview)}>
-          <img src={showAllOverview ? PackUpIcon : DropDownIcon} alt={showAllOverview ? 'show' : 'hide'} />
+          <img src={getDropdownIcon()} alt={showAllOverview ? 'show' : 'hide'} />
         </BlockOverviewDisplayControlPanel>
       ) : (
         rootInfoItems.map(item => {
