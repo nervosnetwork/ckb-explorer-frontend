@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import LoadingImage from '../../assets/loading.gif'
+import LoadingBlueImage from '../../assets/blue_loading.gif'
+import { isMainnet } from '../../utils/chain'
 
 const Loading = styled.div`
   margin: 15px 0;
@@ -23,7 +25,7 @@ const Loading = styled.div`
 export default () => {
   return (
     <Loading>
-      <img src={LoadingImage} alt="loading" />
+      <img src={isMainnet() ? LoadingImage : LoadingBlueImage} alt="loading" />
     </Loading>
   )
 }
