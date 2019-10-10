@@ -162,7 +162,6 @@ declare namespace State {
     appWidth: number
     appHeight: number
     language: 'en' | 'zh'
-    isMainnet: boolean
   }
 
   export interface AddressState {
