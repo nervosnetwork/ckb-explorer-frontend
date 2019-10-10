@@ -17,7 +17,6 @@
     "navbar": {
       "wallet": "Wallet",
       "charts": "Charts",
-      "faucet": "Faucet",
       "docs": "Docs",
       "search_placeholder": "Block / Transaction / Address / Lock Hash",
       "network": "TESTNET",
@@ -47,6 +46,7 @@
       "docs": "Docs",
       "gitHub": "GitHub",
       "whitepaper": "Whitepaper",
+      "faucet": "Faucet",
       "community": "Community",
       "twitter": "Twitter",
       "blog": "Blog",
