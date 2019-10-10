@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import Routers from './routes'
 import Toast from './components/Toast'
-import withProviders, { AppContext } from './contexts/providers'
+import withProviders from './contexts/providers'
 import useInitApp from './contexts/providers/hook'
 import {
   MAINNET_PRIMARY_THEME_COLOR,
@@ -10,16 +10,16 @@ import {
   TESTNET_PRIMARY_THEME_COLOR,
   TESTNET_SECONDARY_THEME_COLOR,
 } from './utils/const'
+import { isMainnet } from './utils/chain'
 
 const AppDiv = styled.div`
   width: 100vw;
   height: 100vh;
 `
 const App = withProviders(({ dispatch }: any) => {
-  const { app } = useContext(AppContext)
   const theme = {
-    primary: app.isMainnet ? MAINNET_PRIMARY_THEME_COLOR : TESTNET_PRIMARY_THEME_COLOR,
-    secondary: app.isMainnet ? MAINNET_SECONDARY_THEME_COLOR : TESTNET_SECONDARY_THEME_COLOR,
+    primary: isMainnet() ? MAINNET_PRIMARY_THEME_COLOR : TESTNET_PRIMARY_THEME_COLOR,
+    secondary: isMainnet() ? MAINNET_SECONDARY_THEME_COLOR : TESTNET_SECONDARY_THEME_COLOR,
   }
 
   useInitApp(dispatch)
