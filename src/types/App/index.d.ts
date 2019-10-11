@@ -67,7 +67,7 @@ declare namespace State {
     rewardStatus: 'pending' | 'issued'
     totalTransactionFee: string
     receivedTxFee: string
-    receivedTxFeeStatus: 'calculating' | 'calculated'
+    receivedTxFeeStatus: 'pending' | 'calculated'
     totalCellCapacity: string
     minerHash: string
     timestamp: number
