@@ -44,14 +44,24 @@ const BlockMiner = ({ miner }: { miner: string }) => {
   )
 }
 
-const BlockOverviewItemContent = ({ value, tip, message }: { value?: string; tip?: string; message?: string }) => {
+const BlockOverviewItemContent = ({
+  type,
+  value,
+  tip,
+  message,
+}: {
+  type: string
+  value?: string
+  tip?: string
+  message?: string
+}) => {
   const [show, setShow] = useState(false)
   return (
     <BlockOverviewItemContentPanel>
       {value && <div className="block__overview_item_value">{value}</div>}
       {tip && (
         <div
-          id={tip}
+          id={type}
           className="block__overview_item_tip"
           tabIndex={-1}
           onFocus={() => {}}
@@ -71,7 +81,7 @@ const BlockOverviewItemContent = ({ value, tip, message }: { value?: string; tip
           }}
         >
           {tip}
-          <Tooltip show={show} targetElementId={tip}>
+          <Tooltip show={show} targetElementId={type}>
             {message}
           </Tooltip>
         </div>
@@ -126,6 +136,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       title: i18n.t('block.block_reward'),
       content: (
         <BlockOverviewItemContent
+          type="block_reward"
           value={block.rewardStatus === 'pending' ? '' : `${localeNumberString(shannonToCkb(block.reward))} CKB`}
           tip={block.rewardStatus === 'pending' ? i18n.t('block.pending') : undefined}
           message={i18n.t('block.pending_tip')}
@@ -140,10 +151,9 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       title: i18n.t('transaction.transaction_fee'),
       content: (
         <BlockOverviewItemContent
-          value={block.receivedTxFeeStatus === 'calculating' && block.number > 0 ? undefined : receivedTxFee}
-          tip={
-            block.receivedTxFeeStatus === 'calculating' && block.number > 0 ? i18n.t('block.calculating') : undefined
-          }
+          type="transaction_fee"
+          value={block.receivedTxFeeStatus === 'pending' && block.number > 0 ? undefined : receivedTxFee}
+          tip={block.receivedTxFeeStatus === 'pending' && block.number > 0 ? i18n.t('block.calculating') : undefined}
           message={i18n.t('block.calculating_tip')}
         />
       ),
