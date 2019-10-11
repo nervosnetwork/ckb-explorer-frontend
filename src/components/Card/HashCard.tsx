@@ -9,7 +9,7 @@ import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import SmallLoading from '../Loading/SmallLoading'
 
-const AddressHashCardPanel = styled.div`
+const HashCardPanel = styled.div`
   width: 100%;
   border-radius: 6px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
@@ -127,7 +127,7 @@ export default ({
   }, [app.language, hash, title, isMobileDeivce])
 
   return (
-    <AddressHashCardPanel id="address_hash_content">
+    <HashCardPanel id="address_hash_content">
       <div className="address_hash__title">{title}</div>
       {loading ? (
         <LoadingPanel>
@@ -135,7 +135,7 @@ export default ({
         </LoadingPanel>
       ) : (
         <div id="address_hash__text">
-          <code>{adaptPCEllipsis(hashText, 18, 40)}</code>
+          <code>{adaptPCEllipsis(hashText, 18, 30)}</code>
         </div>
       )}
       <div
@@ -156,6 +156,6 @@ export default ({
         {!loading && <img src={CopyIcon} alt="copy" />}
       </div>
       <div id="address_hash__value">{hash}</div>
-    </AddressHashCardPanel>
+    </HashCardPanel>
   )
 }
