@@ -144,10 +144,8 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       title: i18n.t('transaction.transaction_fee'),
       content: (
         <BlockOverviewItemContent
-          value={block.receivedTxFeeStatus === 'calculating' && block.number > 0 ? undefined : receivedTxFee}
-          tip={
-            block.receivedTxFeeStatus === 'calculating' && block.number > 0 ? i18n.t('block.calculating') : undefined
-          }
+          value={block.receivedTxFeeStatus === 'pending' && block.number > 0 ? undefined : receivedTxFee}
+          tip={block.receivedTxFeeStatus === 'pending' && block.number > 0 ? i18n.t('block.pending') : undefined}
           message={i18n.t('block.calculating_tip')}
         />
       ),
