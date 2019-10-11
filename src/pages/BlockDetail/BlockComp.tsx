@@ -145,7 +145,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       content: (
         <BlockOverviewItemContent
           value={block.receivedTxFeeStatus === 'pending' && block.number > 0 ? undefined : receivedTxFee}
-          tip={block.receivedTxFeeStatus === 'pending' && block.number > 0 ? i18n.t('block.pending') : undefined}
+          tip={block.receivedTxFeeStatus === 'pending' && block.number > 0 ? i18n.t('block.calculating') : undefined}
           message={i18n.t('block.calculating_tip')}
         />
       ),
