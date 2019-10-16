@@ -224,7 +224,7 @@ declare namespace State {
     statistics: Statistics
     statisticsChartDatas: StatisticsChartData[]
     statisticsUncleRates: StatisticsUncleRateChart[]
-    nervosDaoState: NervosDao
+    nervosDao: NervosDao
 
     components: Components
   }

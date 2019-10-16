@@ -122,3 +122,9 @@ export const fetchNodeVersion = () => {
     toCamelcase<Response.Wrapper<State.NodeVersion>>(res.data.data),
   )
 }
+
+export const fetchNervosDao = () => {
+  return axiosIns('/contracts/dao_contract').then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.NervosDao>>(res.data.data),
+  )
+}
