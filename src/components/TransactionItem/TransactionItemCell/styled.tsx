@@ -28,6 +28,11 @@ export const TransactionCellPanel = styled.div`
       display: flex;
     }
   }
+
+  .transaction__cell_dao {
+    color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) =>
+      highLight ? `${theme.primary}` : '#000000'};
+  }
 `
 
 export const TransactionCellCapacity = styled.div`
