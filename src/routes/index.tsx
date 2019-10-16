@@ -11,6 +11,7 @@ import Block from '../pages/BlockDetail'
 import BlockList from '../pages/BlockList'
 import Transaction from '../pages/Transaction'
 import Address from '../pages/Address'
+import NervosDao from '../pages/NervosDao'
 import NotFoundPage from '../pages/404'
 import SearchFail from '../pages/SearchFail'
 import Maintain from '../pages/Maintain'
@@ -52,6 +53,12 @@ export const containers: CustomRouter.Route[] = [
     path: '/transaction/:hash',
     exact: true,
     comp: Transaction,
+  },
+  {
+    name: 'NervosDao',
+    path: '/nervosdao',
+    exact: true,
+    comp: NervosDao,
   },
   {
     name: 'Charts',
