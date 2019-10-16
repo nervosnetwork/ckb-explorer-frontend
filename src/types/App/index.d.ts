@@ -114,6 +114,16 @@ declare namespace State {
     }
   }
 
+  export interface NervosDao {
+    totalDeposit: number
+    subsidyGranted: number
+    depositTransactionsCount: number
+    withdrawTransactionsCount: number
+    depositorsCount: number
+    totalDepositorsCount: number
+    daoTypeHash: string
+  }
+
   export interface Statistics {
     tipBlockNumber: string
     currentEpochAverageBlockTime: string
@@ -214,6 +224,7 @@ declare namespace State {
     statistics: Statistics
     statisticsChartDatas: StatisticsChartData[]
     statisticsUncleRates: StatisticsUncleRateChart[]
+    nervosDaoState: NervosDao
 
     components: Components
   }
