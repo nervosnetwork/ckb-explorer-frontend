@@ -10,18 +10,10 @@ import { AppDispatch, AppActions } from '../../../contexts/providers/reducer'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 
 const initScriptContent = {
-  lock: {
-    code_hash: '',
-    args: [],
-    hash_type: '',
-  },
-  type: {
-    code_hash: '',
-    args: [],
-    hash_type: '',
-  },
+  lock: 'null',
+  type: 'null',
   data: {
-    data: '',
+    data: '0x',
   },
 }
 
