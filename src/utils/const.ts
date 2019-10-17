@@ -5,10 +5,10 @@ export const RESIZE_LATENCY = 500
 export const LOADING_WAITING_TIME = 500
 
 // TODO: exchange mainnet and testnet theme color
-export const MAINNET_PRIMARY_THEME_COLOR = '#617bbd'
-export const MAINNET_SECONDARY_THEME_COLOR = '#85A1EA'
-export const TESTNET_PRIMARY_THEME_COLOR = '#3cc68a'
-export const TESTNET_SECONDARY_THEME_COLOR = '#3cc68a'
+export const MAINNET_PRIMARY_THEME_COLOR = '#3cc68a'
+export const MAINNET_SECONDARY_THEME_COLOR = '#3cc68a'
+export const TESTNET_PRIMARY_THEME_COLOR = '#617bbd'
+export const TESTNET_SECONDARY_THEME_COLOR = '#85A1EA'
 
 export const HttpErrorCode = {
   NOT_FOUND_ADDRESS: 1010,
