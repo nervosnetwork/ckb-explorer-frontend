@@ -124,6 +124,12 @@ declare namespace State {
     daoTypeHash: string
   }
 
+  export interface nervosDaoState {
+    nervosDao: NervosDao
+    transactions: Transaction[]
+    total: number
+  }
+
   export interface Statistics {
     tipBlockNumber: string
     currentEpochAverageBlockTime: string
@@ -224,7 +230,7 @@ declare namespace State {
     statistics: Statistics
     statisticsChartDatas: StatisticsChartData[]
     statisticsUncleRates: StatisticsUncleRateChart[]
-    nervosDao: NervosDao
+    nervosDaoState: nervosDaoState
 
     components: Components
   }

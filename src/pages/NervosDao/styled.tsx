@@ -14,4 +14,11 @@ export const DaoContentPanel = styled.div`
   }
 `
 
-export default DaoContentPanel
+export const TransactionsPagition = styled.div`
+  margin: 20px 0px 0px 0px;
+  width: 100%;
+
+  @media (max-width: 700px) {
+    margin: 10px 0px 0px 0px;
+  }
+`

@@ -8,8 +8,9 @@ import { DaoContentPanel } from './styled'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
-import getNervosDao from '../../service/app/nervosDao'
+import { getNervosDao, getNervosDaoTransactions } from '../../service/app/nervosDao'
 import { shannonToCkb } from '../../utils/util'
+import DaoTransactions from './DaoTransactions'
 
 const DervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
   const overviewItems: OverviewItemData[] = [
@@ -41,17 +42,23 @@ const DervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
 }
 
 export const NervosDao = ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
-  const { nervosDao } = useContext(AppContext)
+  const { nervosDaoState } = useContext(AppContext)
 
   useEffect(() => {
     getNervosDao(dispatch)
+    getNervosDaoTransactions(dispatch)
   }, [dispatch])
 
   return (
     <Content>
       <DaoContentPanel className="container">
-        <HashCard title={i18n.t('nervos_dao.nervos_dao')} hash={nervosDao.daoTypeHash} dispatch={dispatch} />
-        <DervosDaoOverview nervosDao={nervosDao} />
+        <HashCard
+          title={i18n.t('nervos_dao.nervos_dao')}
+          hash={nervosDaoState.nervosDao.daoTypeHash}
+          dispatch={dispatch}
+        />
+        <DervosDaoOverview nervosDao={nervosDaoState.nervosDao} />
+        <DaoTransactions />
       </DaoContentPanel>
     </Content>
   )

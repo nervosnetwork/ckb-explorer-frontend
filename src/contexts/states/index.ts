@@ -18,7 +18,7 @@ const initState: State.AppState = {
   statisticsChartDatas: [],
   statisticsUncleRates: [],
   homeBlocks: [],
-  nervosDao: initNervosDaoState,
+  nervosDaoState: initNervosDaoState,
 
   components: initComponents,
 }
