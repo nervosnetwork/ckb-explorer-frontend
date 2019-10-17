@@ -9,20 +9,21 @@ import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCa
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import getNervosDao from '../../service/app/nervosDao'
+import { shannonToCkb } from '../../utils/util'
 
 const DervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
   const overviewItems: OverviewItemData[] = [
     {
       title: i18n.t('nervos_dao.total_deposit'),
-      content: localeNumberString(nervosDao.totalDeposit),
+      content: `${localeNumberString(shannonToCkb(nervosDao.totalDeposit))} CKB`,
     },
     {
-      title: i18n.t('nervos_dao.transactins'),
+      title: i18n.t('nervos_dao.transactions'),
       content: localeNumberString(nervosDao.depositTransactionsCount + nervosDao.withdrawTransactionsCount),
     },
     {
       title: i18n.t('nervos_dao.subsidy_granted'),
-      content: localeNumberString(nervosDao.subsidyGranted),
+      content: `${localeNumberString(shannonToCkb(nervosDao.subsidyGranted))} CKB`,
     },
     {
       title: i18n.t('nervos_dao.depositor'),
