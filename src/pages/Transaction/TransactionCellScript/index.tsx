@@ -12,18 +12,10 @@ import SmallLoading from '../../../components/Loading/SmallLoading'
 import { isMainnet } from '../../../utils/chain'
 
 const initScriptContent = {
-  lock: {
-    code_hash: '',
-    args: [],
-    hash_type: '',
-  },
-  type: {
-    code_hash: '',
-    args: [],
-    hash_type: '',
-  },
+  lock: 'null',
+  type: 'null',
   data: {
-    data: '',
+    data: '0x',
   },
 }
 
