@@ -3,6 +3,7 @@ import {
   fetchNervosDaoTransactions,
   fetchNervosDaoTransactionsByHash,
   fetchNervosDaoTransactionsByAddress,
+  fetchNervosDaoDepositors,
 } from '../http/fetcher'
 import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
 import { addPrefixForHash } from '../../utils/string'
@@ -76,4 +77,18 @@ export const searchNervosDaoTransactions = (keyword: string, dispatch: AppDispat
         callback(false)
       })
   }
+}
+
+export const getNervosDaoDepositors = (dispatch: AppDispatch) => {
+  fetchNervosDaoDepositors().then((response: any) => {
+    const { data } = response as Response.Response<Response.Wrapper<State.NervosDaoDepositor>[]>
+    dispatch({
+      type: PageActions.UpdateNervosDaoDepositors,
+      payload: {
+        depositors: data.map((wrapper: Response.Wrapper<State.NervosDaoDepositor>) => {
+          return wrapper.attributes
+        }),
+      },
+    })
+  })
 }

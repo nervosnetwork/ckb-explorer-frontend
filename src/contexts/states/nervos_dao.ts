@@ -1,4 +1,4 @@
-export const initNervosDaoState: State.nervosDaoState = {
+export const initNervosDaoState: State.NervosDaoState = {
   nervosDao: {
     totalDeposit: 0,
     subsidyGranted: 0,
@@ -10,6 +10,7 @@ export const initNervosDaoState: State.nervosDaoState = {
   },
   transactions: [] as State.Transaction[],
   total: 0,
+  depositors: [] as State.NervosDaoDepositor[],
 }
 
 export default initNervosDaoState

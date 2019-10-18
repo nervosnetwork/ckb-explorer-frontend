@@ -124,10 +124,16 @@ declare namespace State {
     daoTypeHash: string
   }
 
-  export interface nervosDaoState {
+  export interface NervosDaoDepositor {
+    addressHash: string
+    daoDeposit: number
+  }
+
+  export interface NervosDaoState {
     nervosDao: NervosDao
     transactions: Transaction[]
     total: number
+    depositors: NervosDaoDepositor[]
   }
 
   export interface Statistics {
