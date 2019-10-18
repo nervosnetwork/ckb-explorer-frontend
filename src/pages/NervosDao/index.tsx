@@ -8,10 +8,11 @@ import { DaoContentPanel, DaoTabBarPanel } from './styled'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
-import { getNervosDao, getNervosDaoTransactions } from '../../service/app/nervosDao'
+import { getNervosDao, getNervosDaoTransactions, getNervosDaoDepositors } from '../../service/app/nervosDao'
 import { shannonToCkb } from '../../utils/util'
 import DaoTransactions from './DaoTransactions'
 import DaoSearch from '../../components/Search/DaoSearch'
+import DepositorRank from './DepositorRank'
 
 enum DaoTab {
   Transactions,
@@ -54,6 +55,7 @@ export const NervosDao = ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>
   useEffect(() => {
     getNervosDao(dispatch)
     getNervosDaoTransactions(dispatch)
+    getNervosDaoDepositors(dispatch)
   }, [dispatch])
 
   return (
@@ -75,7 +77,7 @@ export const NervosDao = ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>
               className={daoTab === DaoTab.Transactions ? 'tab_bar_selected' : 'tab_bar_normal'}
               onClick={() => setDaoTab(DaoTab.Transactions)}
             >
-              Transactions
+              {i18n.t('nervos_dao.dao_tab_transactions')}
             </div>
             <div
               role="button"
@@ -84,13 +86,13 @@ export const NervosDao = ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>
               className={daoTab === DaoTab.Depositor ? 'tab_bar_selected' : 'tab_bar_normal'}
               onClick={() => setDaoTab(DaoTab.Depositor)}
             >
-              Depositor
+              {i18n.t('nervos_dao.dao_tab_depositors')}
             </div>
           </div>
           {daoTab === DaoTab.Transactions && <DaoSearch dispatch={dispatch} />}
         </DaoTabBarPanel>
 
-        {daoTab === DaoTab.Transactions ? <DaoTransactions /> : <div>Rank</div>}
+        {daoTab === DaoTab.Transactions ? <DaoTransactions /> : <DepositorRank />}
       </DaoContentPanel>
     </Content>
   )
