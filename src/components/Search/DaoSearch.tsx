@@ -170,7 +170,7 @@ const DaoSearch = ({ dispatch, content }: { dispatch: AppDispatch; content?: str
             getNervosDaoTransactions(dispatch)
           }}
         >
-          Reset
+          {i18n.t('nervos_dao.dao_search_reset')}
         </ResetButtonPanel>
       )}
       <SearchInputPanel
