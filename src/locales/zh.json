@@ -12,7 +12,8 @@
     "toast": {
       "invalid_content": "请输入有效内容",
       "invalid_network": "网络出错，请稍后再试",
-      "data_too_large": "数据过大，请在 PC 上查看"
+      "data_too_large": "数据过大，请在 PC 上查看",
+      "result_not_found": "没有找到搜索结果"
     },
     "navbar": {
       "wallet": "钱包",
@@ -121,7 +122,8 @@
       "total_deposit": "Total Deposit",
       "transactions": "Transactions",
       "depositor": "Depositor",
-      "subsidy_granted": "Subsidy Granted"
+      "subsidy_granted": "Subsidy Granted",
+      "dao_search_placeholder": "交易 / 地址"
     },
     "error": {
       "maintain": "网络维护中，请稍后再试"
