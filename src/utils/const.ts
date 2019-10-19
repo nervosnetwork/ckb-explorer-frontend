@@ -18,6 +18,7 @@ export const CachedKeys = {
 
   // Statistics Chart
   StatisticsChart: 'statistics_chart',
+  StatisticsUncleRateChart: 'statistics_uncle_rate_chart',
 
   AppLanguage: 'appLanguage',
 
