@@ -248,6 +248,9 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
                   fill: '#66CC99',
                   fontWeight: 'bold',
                 },
+                formatter: (text: string) => {
+                  return `${new BigNumber(text).multipliedBy(100).toString()}%`
+                },
               }}
             />
             <Tooltip />
