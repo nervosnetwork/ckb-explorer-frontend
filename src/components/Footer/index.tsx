@@ -5,6 +5,7 @@ import AboutIcon from '../../assets/footer_about.png'
 import FAQIcon from '../../assets/footer_faq.png'
 import GithubIcon from '../../assets/footer_github.png'
 import WhitepaperIcon from '../../assets/footer_whitepaper.png'
+import FaucetIcon from '../../assets/footer_faucet.png'
 import DocsIcon from '../../assets/footer_docs.png'
 import TwitterIcon from '../../assets/footer_twitter.png'
 import BlogIcon from '../../assets/footer_blog.png'
@@ -61,6 +62,11 @@ export default () => {
           label: i18n.t('footer.whitepaper'),
           icon: WhitepaperIcon,
           url: 'https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0002-ckb/0002-ckb.md',
+        },
+        {
+          label: i18n.t('footer.faucet'),
+          icon: FaucetIcon,
+          url: 'https://faucet.nervos.org/',
         },
       ],
     },
