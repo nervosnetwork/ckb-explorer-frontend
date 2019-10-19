@@ -22,7 +22,7 @@ const ChartPanel = styled.div`
 const ChartTitle = styled.div`
   color: #66666;
   background: white;
-  margin: 20px 10% 0 10%;
+  margin: 30px 10% 0 10%;
   padding-top: 10px;
   font-size: 24px;
   text-align: center;
@@ -109,8 +109,17 @@ const scale = () => {
   }
 }
 
+const uncleRateScale = () => {
+  return {
+    uncleRate: {
+      min: 0,
+      alias: i18n.t('block.uncle_rate'),
+    },
+  }
+}
+
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
-  const { statisticsChartDatas } = useContext(AppContext)
+  const { statisticsChartDatas, statisticsUncleRates } = useContext(AppContext)
 
   useEffect(() => {
     getStatisticsChart(dispatch)
@@ -191,6 +200,58 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
             <Geom type="line" position="blockNumber*difficulty" color={['type', ['#3182bd']]} size={1} shape="hv" />
             <Geom type="line" position="blockNumber*hashRate" color={['type', ['#66CC99']]} size={1} shape="line" />
             <Geom position="blockNumber*epochNumber" color={['type', ['#3182bd']]} size={0} />
+          </Chart>
+        </ChartPanel>
+      ) : (
+        <LoadingPanel>
+          <Loading show />
+        </LoadingPanel>
+      )}
+
+      <ChartTitle>{`${i18n.t('block.uncle_rate')}`}</ChartTitle>
+      {statisticsUncleRates.length > 1 ? (
+        <ChartPanel>
+          <Chart
+            height={window.innerHeight * 0.7}
+            scale={uncleRateScale()}
+            forceFit
+            data={statisticsUncleRates}
+            padding={isMobile() ? [40, 45, 80, 45] : [40, 80, 80, 80]}
+          >
+            <Legend
+              custom
+              allowAllCanceled
+              clickable={false}
+              textStyle={{
+                fontSize: '15',
+                fontWeight: 'bold',
+                fill: '#666666',
+              }}
+              items={[
+                {
+                  value: i18n.t('block.uncle_rate'),
+                  fill: '#66CC99',
+                  marker: {
+                    symbol: 'hyphen',
+                    stroke: '#66CC99',
+                    radius: 5,
+                    lineWidth: 3,
+                  },
+                },
+              ]}
+            />
+            <Axis
+              name="uncleRate"
+              title={!isMobile()}
+              label={{
+                textStyle: {
+                  fill: '#66CC99',
+                  fontWeight: 'bold',
+                },
+              }}
+            />
+            <Tooltip />
+            <Geom type="line" position="epochNumber*uncleRate" color="#66CC99" size={1} shape="line" />
           </Chart>
         </ChartPanel>
       ) : (

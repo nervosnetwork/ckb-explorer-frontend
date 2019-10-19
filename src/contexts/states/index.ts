@@ -7,9 +7,6 @@ import initComponents from './components'
 
 export type FetchStatus = keyof State.FetchStatus
 
-const initHomeBlocks = [] as State.Block[]
-const initStatisticsChartDatas = [] as State.StatisticsChartData[]
-
 const initState: State.AppState = {
   app: initApp,
   blockState: initBlockState,
@@ -17,8 +14,9 @@ const initState: State.AppState = {
   addressState: initAddressState,
   transactionState: initTransactionState,
   statistics: initStatistics,
-  statisticsChartDatas: initStatisticsChartDatas,
-  homeBlocks: initHomeBlocks,
+  statisticsChartDatas: [] as State.StatisticsChartData[],
+  statisticsUncleRates: [] as State.StatisticsUncleRateChart[],
+  homeBlocks: [] as State.Block[],
 
   components: initComponents,
 }

@@ -12,6 +12,11 @@ export interface StatisticsData {
   epochNumber?: number
 }
 
+export interface StatisticsUncleRate {
+  uncleRate: number
+  epochNumber: number
+}
+
 const findDifficulty = (
   difficulties: { difficulty: string; blockNumber: number; epochNumber: number }[],
   blockNumber: number,
@@ -69,6 +74,20 @@ const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
   return datas
 }
 
+const handleStatisticsUnlceRate = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
+  const { uncleRate: uncleRates } = wrapper.attributes
+  if (!uncleRates) return []
+  return uncleRates.map(uncleRate => {
+    return {
+      ...uncleRate,
+      uncleRate: new BigNumber(uncleRate.uncleRate)
+        .multipliedBy(1000)
+        .dividedBy(1000)
+        .toNumber(),
+    }
+  })
+}
+
 export const getStatisticsChart = (dispatch: AppDispatch) => {
   const cachedStatisticsChartDatas = fetchCachedData<StatisticsData>(CachedKeys.StatisticsChart)
   if (cachedStatisticsChartDatas) {
@@ -79,15 +98,36 @@ export const getStatisticsChart = (dispatch: AppDispatch) => {
       },
     })
   }
+  const cachedStatisticsUncleRates = fetchCachedData<StatisticsUncleRate>(CachedKeys.StatisticsUncleRateChart)
+  if (cachedStatisticsUncleRates) {
+    dispatch({
+      type: PageActions.UpdateStatisticsUncleRate,
+      payload: {
+        statisticsUncleRates: cachedStatisticsUncleRates,
+      },
+    })
+  }
   fetchStatisticsChart().then((wrapper: Response.Wrapper<State.StatisticsChart> | null) => {
     if (wrapper) {
       const statisticsChartDatas = handleStatistics(wrapper)
+      const statisticsUncleRates = handleStatisticsUnlceRate(wrapper)
+
       if (statisticsChartDatas && statisticsChartDatas.length > 0) {
         storeCachedData(CachedKeys.StatisticsChart, statisticsChartDatas)
         dispatch({
           type: PageActions.UpdateStatisticsChartData,
           payload: {
             statisticsChartDatas,
+          },
+        })
+      }
+
+      if (statisticsUncleRates && statisticsUncleRates.length > 0) {
+        storeCachedData(CachedKeys.StatisticsUncleRateChart, statisticsUncleRates)
+        dispatch({
+          type: PageActions.UpdateStatisticsUncleRate,
+          payload: {
+            statisticsUncleRates,
           },
         })
       }

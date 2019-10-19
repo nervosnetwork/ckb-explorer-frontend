@@ -33,6 +33,7 @@ export enum PageActions {
   UpdateStatistics = 'updateStatistics',
 
   UpdateStatisticsChartData = 'updateStatisticsChartData',
+  UpdateStatisticsUncleRate = 'updateStatisticsUncleRate',
 }
 
 export enum ComponentActions {
@@ -255,6 +256,11 @@ export const reducer = (
       return {
         ...state,
         statisticsChartDatas: payload.statisticsChartDatas,
+      }
+    case PageActions.UpdateStatisticsUncleRate:
+      return {
+        ...state,
+        statisticsUncleRates: payload.statisticsUncleRates,
       }
     case ComponentActions.UpdateHeaderSearchEditable:
       return {
