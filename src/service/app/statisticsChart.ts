@@ -80,10 +80,7 @@ const handleStatisticsUnlceRate = (wrapper: Response.Wrapper<State.StatisticsCha
   return uncleRates.map(uncleRate => {
     return {
       ...uncleRate,
-      uncleRate: new BigNumber(uncleRate.uncleRate)
-        .multipliedBy(1000)
-        .dividedBy(1000)
-        .toNumber(),
+      uncleRate: Number(uncleRate.uncleRate.toFixed(4)),
     }
   })
 }
