@@ -75,8 +75,7 @@ const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
 }
 
 const handleStatisticsUnlceRate = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
-  const { uncleRate: uncleRates } = wrapper.attributes
-  if (!uncleRates) return []
+  const { uncleRate: uncleRates = [] } = wrapper.attributes
   return uncleRates.map(uncleRate => {
     return {
       ...uncleRate,

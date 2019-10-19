@@ -14,9 +14,9 @@ const initState: State.AppState = {
   addressState: initAddressState,
   transactionState: initTransactionState,
   statistics: initStatistics,
-  statisticsChartDatas: [] as State.StatisticsChartData[],
-  statisticsUncleRates: [] as State.StatisticsUncleRateChart[],
-  homeBlocks: [] as State.Block[],
+  statisticsChartDatas: [],
+  statisticsUncleRates: [],
+  homeBlocks: [],
 
   components: initComponents,
 }
