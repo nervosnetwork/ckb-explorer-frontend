@@ -146,18 +146,22 @@ export const HeaderMobileDiv = styled.div`
   }
 `
 
-export const HeaderTestnetPanel = styled.div`
+export const HeaderBlockchainPanel = styled.div`
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-
   ${(props: { search: boolean }) =>
     !props.search &&
     css`
       flex: 1;
     `}
 
-  .header__testnet__flag {
+  .header__blockchain__flag {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .header__blockchain__content {
     color: white;
     font-size: 24px;
     text-align: center;
@@ -166,7 +170,7 @@ export const HeaderTestnetPanel = styled.div`
   }
 
   @media (max-width: 700px) {
-    .header__testnet__flag {
+    .header__blockchain__content {
       color: white;
       font-size: 12px;
       letter-spacing: normal;
@@ -182,22 +186,33 @@ export const HeaderSearchPanel = styled.div`
 `
 
 export const HeaderVersionPanel = styled.div`
-  width: 70px;
+  width: 85px;
   color: white;
   font-size: 12px;
-  margin-left: 4px;
   margin-right: 90px;
+  display: flex;
+
   > div {
     margin-top: 8px;
   }
 
+  img {
+    margin: 8px 0 0 5px;
+    width: 15px;
+    height: 9px;
+  }
+
   @media (max-width: 700px) {
-    width: 40px;
+    width: 50px;
     font-size: 8px;
-    margin-left: 4px;
     margin-right: 40px;
     > div {
-      margin-top: 3px;
+      margin-top: 5px;
+    }
+    img {
+      margin: 5px 0 0 5px;
+      width: 10px;
+      height: 6px;
     }
   }
 `
