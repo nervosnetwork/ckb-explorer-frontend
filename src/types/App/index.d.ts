@@ -126,12 +126,21 @@ declare namespace State {
       difficulty: string
       epochNumber: number
     }[]
+    uncleRate: {
+      uncleRate: number
+      epochNumber: number
+    }[]
   }
 
   export interface StatisticsChartData {
     blockNumber: number
     hashRate: string
     difficulty: string
+    epochnumber: number
+  }
+
+  export interface StatisticsUncleRateChart {
+    uncleRate: number
     epochnumber: number
   }
 
@@ -198,7 +207,8 @@ declare namespace State {
     blockListState: BlockListState
     transactionState: TransactionState
     statistics: Statistics
-    statisticsChartDatas: StatisticsChartDatas
+    statisticsChartDatas: StatisticsChartData[]
+    statisticsUncleRates: StatisticsUncleRateChart[]
 
     components: Components
   }

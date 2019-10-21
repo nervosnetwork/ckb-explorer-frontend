@@ -107,6 +107,7 @@
       "difficulty": "难度",
       "hash_rate_hps": "哈希率(H/s)",
       "hash_rate": "哈希率",
+      "uncle_rate": "叔块率",
       "transactions_root": "Transactions Root",
       "witnesses_root": "Witnesses Root",
       "pending": "待发放",

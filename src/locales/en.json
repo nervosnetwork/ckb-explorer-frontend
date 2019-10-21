@@ -107,6 +107,7 @@
       "difficulty": "Difficulty",
       "hash_rate_hps": "Hash Rate(H/s)",
       "hash_rate": "Hash Rate",
+      "uncle_rate": "Uncle Rate",
       "transactions_root": "Transactions Root",
       "pending": "Pending",
       "calculating": "Pending",
