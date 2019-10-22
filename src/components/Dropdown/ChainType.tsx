@@ -14,12 +14,8 @@ export const ChainTypePanel = styled.div`
   position: fixed;
   position: -webkit-fixed;
   z-index: 1000;
-  right: 14.6vw;
+  left: ${(props: { left: number }) => props.left}px;
   top: 70px;
-
-  @media (max-width: 1440px) {
-    right: 11.5vw;
-  }
 
   .chain_type_selected {
     width: 100%;
@@ -27,6 +23,7 @@ export const ChainTypePanel = styled.div`
     height: 44px;
     line-height: 44px;
     text-align: center;
+    font-weight: bold;
     color: ${props => props.theme.primary};
   }
   .chain_type_normal {
@@ -35,6 +32,7 @@ export const ChainTypePanel = styled.div`
     height: 44px;
     line-height: 44px;
     text-align: center;
+    font-weight: bold;
     color: #676767;
   }
   .chain_type_separate {
@@ -46,28 +44,29 @@ export const ChainTypePanel = styled.div`
   @media (max-width: 700px) {
     width: 106px;
     height: 75px;
-    right: 15vw;
+    left: ${(props: { left: number }) => props.left - 5}px;
     top: 35px;
 
     .chain_type_selected {
-      font-size: 12px;
+      font-size: 11px;
       height: 37px;
       line-height: 37px;
     }
     .chain_type_normal {
-      font-size: 12px;
+      font-size: 11px;
       height: 37px;
       line-height: 37px;
     }
   }
 `
 
-export default ({ setShowChainDropdown }: { setShowChainDropdown: Function }) => {
+export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function; left: number }) => {
   const { app } = useContext(AppContext)
   const { chainType } = app
 
   return (
     <ChainTypePanel
+      left={left}
       onMouseLeave={() => {
         setShowChainDropdown(false)
       }}
@@ -81,7 +80,7 @@ export default ({ setShowChainDropdown }: { setShowChainDropdown: Function }) =>
           setShowChainDropdown(false)
         }}
       >
-        {chainType === 'main' ? 'MAINNET' : 'Coming..'}
+        {chainType === 'main' ? 'MAINNET' : 'MAINNET Coming'}
       </div>
       <div className="chain_type_separate" />
       <div

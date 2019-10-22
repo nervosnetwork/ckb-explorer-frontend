@@ -149,6 +149,8 @@ export const HeaderMobileDiv = styled.div`
 export const HeaderBlockchainPanel = styled.div`
   display: flex;
   align-items: center;
+  color: ${(props: { showChainDropdown: boolean; theme: any; search: boolean }) =>
+    props.showChainDropdown ? 'white' : props.theme.secondary};
   ${(props: { search: boolean }) =>
     !props.search &&
     css`
@@ -162,7 +164,6 @@ export const HeaderBlockchainPanel = styled.div`
   }
 
   .header__blockchain__content {
-    color: white;
     font-size: 24px;
     text-align: center;
     letter-spacing: 2px;
@@ -171,7 +172,6 @@ export const HeaderBlockchainPanel = styled.div`
 
   @media (max-width: 700px) {
     .header__blockchain__content {
-      color: white;
       font-size: 12px;
       letter-spacing: normal;
     }
@@ -187,7 +187,6 @@ export const HeaderSearchPanel = styled.div`
 
 export const HeaderVersionPanel = styled.div`
   width: 85px;
-  color: white;
   font-size: 12px;
   margin-right: 90px;
   display: flex;

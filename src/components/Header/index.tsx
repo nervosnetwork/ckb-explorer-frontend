@@ -1,11 +1,13 @@
-import React, { useContext, useMemo, useState } from 'react'
+import React, { useContext, useMemo, useState, useLayoutEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Search from '../Search'
 import LogoIcon from '../../assets/ckb_logo.png'
 import MobileLogoIcon from '../../assets/mobile_ckb_logo.png'
 import SearchLogo from '../../assets/search.png'
-import WhiteDropdownIcon from '../../assets/white_drop_down.png'
+import WhiteDropdownIcon from '../../assets/white_dropdown.png'
+import BlueDropdownIcon from '../../assets/blue_dropdown.png'
+import GreenDropdownIcon from '../../assets/green_dropdown.png'
 import i18n from '../../utils/i18n'
 import {
   HeaderDiv,
@@ -21,6 +23,7 @@ import { AppContext } from '../../contexts/providers/index'
 import { AppDispatch, ComponentActions } from '../../contexts/providers/reducer'
 import LanDropdown from '../Dropdown/Language'
 import ChainDropdown from '../Dropdown/ChainType'
+import { isMainnet } from '../../utils/chain'
 
 enum LinkType {
   Inner,
@@ -76,10 +79,28 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
   const { nodeVersion } = app
   const { searchBarEditable } = components
   const [showChainDropdown, setShowChainDropdown] = useState(false)
+  const [chainDropdownLeft, setChainDropdownLeft] = useState(0)
+
+  useLayoutEffect(() => {
+    if (showChainDropdown) {
+      const chainDropdownComp = document.getElementById('header__blockchain__panel')
+      if (chainDropdownComp) {
+        const chainDropdownReact = chainDropdownComp.getBoundingClientRect()
+        if (chainDropdownReact) {
+          setChainDropdownLeft(chainDropdownReact.left)
+        }
+      }
+    }
+  }, [showChainDropdown])
 
   const BlockchainComp = () => {
+    const getDropdownIcon = () => {
+      if (showChainDropdown) return WhiteDropdownIcon
+      return isMainnet() ? GreenDropdownIcon : BlueDropdownIcon
+    }
+
     return (
-      <HeaderBlockchainPanel search={!!hasSearch}>
+      <HeaderBlockchainPanel search={!!hasSearch} showChainDropdown={showChainDropdown} id="header__blockchain__panel">
         <div
           className="header__blockchain__flag"
           role="button"
@@ -92,10 +113,10 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
           <div className="header__blockchain__content">{i18n.t('navbar.network')}</div>
           <HeaderVersionPanel>
             <div>{handleVersion(nodeVersion)}</div>
-            <img src={WhiteDropdownIcon} alt="dropdown icon" />
+            <img src={getDropdownIcon()} alt="dropdown icon" />
           </HeaderVersionPanel>
         </div>
-        {showChainDropdown && <ChainDropdown setShowChainDropdown={setShowChainDropdown} />}
+        {showChainDropdown && <ChainDropdown setShowChainDropdown={setShowChainDropdown} left={chainDropdownLeft} />}
         <LanDropdown dispatch={dispatch} />
       </HeaderBlockchainPanel>
     )
