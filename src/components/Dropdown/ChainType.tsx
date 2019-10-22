@@ -44,7 +44,6 @@ export const ChainTypePanel = styled.div`
   @media (max-width: 700px) {
     width: 106px;
     height: 75px;
-    left: ${(props: { left: number }) => props.left - 5}px;
     top: 35px;
 
     .chain_type_selected {

@@ -76,22 +76,26 @@ const handleVersion = (nodeVersion: string) => {
 
 export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDispatch }) => {
   const { app, components } = useContext(AppContext)
-  const { nodeVersion } = app
+  const { nodeVersion, language } = app
   const { searchBarEditable } = components
   const [showChainDropdown, setShowChainDropdown] = useState(false)
   const [chainDropdownLeft, setChainDropdownLeft] = useState(0)
 
   useLayoutEffect(() => {
-    if (showChainDropdown) {
+    if (showChainDropdown && language) {
       const chainDropdownComp = document.getElementById('header__blockchain__panel')
       if (chainDropdownComp) {
         const chainDropdownReact = chainDropdownComp.getBoundingClientRect()
         if (chainDropdownReact) {
-          setChainDropdownLeft(chainDropdownReact.left)
+          if (isMobile()) {
+            setChainDropdownLeft(chainDropdownReact.left - (language === 'en' ? 5 : 15))
+          } else {
+            setChainDropdownLeft(chainDropdownReact.left - (language === 'en' ? 0 : 20))
+          }
         }
       }
     }
-  }, [showChainDropdown])
+  }, [showChainDropdown, language])
 
   const BlockchainComp = () => {
     const getDropdownIcon = () => {
