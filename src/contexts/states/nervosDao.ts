@@ -8,9 +8,9 @@ export const initNervosDaoState: State.NervosDaoState = {
     totalDepositorsCount: 0,
     daoTypeHash: '',
   },
-  transactions: [] as State.Transaction[],
+  transactions: [],
   total: 0,
-  depositors: [] as State.NervosDaoDepositor[],
+  depositors: [],
 }
 
 export default initNervosDaoState

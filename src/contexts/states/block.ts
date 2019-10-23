@@ -22,13 +22,13 @@ export const initBlockState: State.BlockState = {
     nonce: '0',
     transactionsRoot: '',
   },
-  transactions: [] as State.Transaction[],
+  transactions: [],
   total: 0,
   status: 'None',
 }
 
 export const initBlockListState: State.BlockListState = {
-  blocks: [] as State.Block[],
+  blocks: [],
   total: 0,
 }
 

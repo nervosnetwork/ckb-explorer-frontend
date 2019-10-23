@@ -35,7 +35,7 @@ const handleSearchResult = (
   searchBarEditable: boolean,
   dispatch: AppDispatch,
 ) => {
-  const query = searchValue.replace(/^\s+|\s+$/g, '').replace(',', '') // remove front and end blank and ','
+  const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
   if (!query) {
     dispatch({
       type: AppActions.ShowToastMessage,
@@ -163,7 +163,6 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
         placeholder={placeholder}
         defaultValue={searchValue || ''}
         hasBorder={!!hasBorder}
-        onFocus={() => setPlaceholder('')}
         onBlur={() => {
           if (!hasBorder) {
             clearSearchInput(inputElement)
