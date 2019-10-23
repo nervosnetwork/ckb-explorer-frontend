@@ -31,7 +31,7 @@
       "hash_rate_tooltip": "Average Hash Rate of the last 500 blocks",
       "average_block_time": "Average Block Time",
       "average_block_time_tooltip": "Average Block Time of the latest epoch",
-      "nervos_dao": "NervosDAO"
+      "nervos_dao": "NervosDAO",
       "mainnet": "MAINNET",
       "mainnet_coming": "MAINNET Coming",
       "testnet": "TESTNET"
