@@ -93,7 +93,7 @@ export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function
           setShowChainDropdown(false)
         }}
       >
-        {chainType === 'ckb_test' ? i18n.t('blockchain.tesnet') : i18n.t('blockchain.tesnet')}
+        {chainType === 'ckb_test' ? i18n.t('blockchain.testnet') : i18n.t('blockchain.testnet')}
       </div>
     </ChainTypePanel>
   )
