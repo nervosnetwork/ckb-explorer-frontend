@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { AppContext } from '../../contexts/providers'
+import i18n from '../../utils/i18n'
 
 export const ChainTypePanel = styled.div`
   width: 184px;
@@ -63,6 +64,7 @@ export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function
   const { app } = useContext(AppContext)
   const { chainType } = app
 
+  // TODO: add mainnet and testnet explorer url. For example: <a href="https://testnet-url">TESTNET</a>
   return (
     <ChainTypePanel
       left={left}
@@ -79,7 +81,7 @@ export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function
           setShowChainDropdown(false)
         }}
       >
-        {chainType === 'main' ? 'MAINNET' : 'MAINNET Coming'}
+        {chainType === 'main' ? i18n.t('blockchain.mainnet') : i18n.t('blockchain.mainnet_coming')}
       </div>
       <div className="chain_type_separate" />
       <div
@@ -91,7 +93,7 @@ export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function
           setShowChainDropdown(false)
         }}
       >
-        {chainType === 'ckb_test' ? 'TESTNET' : <a href="https://nervos.org">TESTNET</a>}
+        {chainType === 'ckb_test' ? i18n.t('blockchain.tesnet') : i18n.t('blockchain.tesnet')}
       </div>
     </ChainTypePanel>
   )
