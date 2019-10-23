@@ -80,6 +80,8 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
     addressText = handleAddressText(cell.addressHash)
     if (cell.addressHash !== address) {
       highLight = true
+    } else if (cell.cellType === 'dao') {
+      highLight = true
     }
   }
 
@@ -88,8 +90,13 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
       <div className="transaction__cell_address">
         {!isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
         {highLight ? (
-          <Link to={`/address/${cell.addressHash}`}>
-            <code>{addressText}</code>
+          <Link to={cell.cellType === 'dao' ? '/nervosdao' : `/address/${cell.addressHash}`}>
+            <>
+              {cell.cellType === 'dao' && (
+                <span className="transaction__cell_dao">{i18n.t('blockchain.nervos_dao')}</span>
+              )}
+              {cell.cellType !== 'dao' && <code>{addressText}</code>}
+            </>
           </Link>
         ) : (
           <code>{addressText}</code>

@@ -122,3 +122,33 @@ export const fetchNodeVersion = () => {
     toCamelcase<Response.Wrapper<State.NodeVersion>>(res.data.data),
   )
 }
+
+export const fetchNervosDao = () => {
+  return axiosIns('/contracts/dao').then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.NervosDao>>(res.data.data),
+  )
+}
+
+export const fetchNervosDaoTransactions = () => {
+  return axiosIns('/contract_transactions/dao').then((res: AxiosResponse) =>
+    toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data),
+  )
+}
+
+export const fetchNervosDaoTransactionsByHash = (hash: string) => {
+  return axiosIns(`/dao_contract_transactions/${hash}`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.Transaction>>(res.data.data),
+  )
+}
+
+export const fetchNervosDaoTransactionsByAddress = (address: string) => {
+  return axiosIns(`/address_dao_transactions/${address}`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data),
+  )
+}
+
+export const fetchNervosDaoDepositors = () => {
+  return axiosIns(`/dao_depositors`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Response<Response.Wrapper<State.NervosDaoDepositor>[]>>(res.data),
+  )
+}

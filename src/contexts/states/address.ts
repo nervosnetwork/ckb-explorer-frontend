@@ -12,7 +12,7 @@ export const initAddressState: State.AddressState = {
     },
     type: '',
   },
-  transactions: [] as State.Transaction[],
+  transactions: [],
   total: 0,
   addressStatus: 'None',
   transactionsStatus: 'None',

@@ -35,6 +35,11 @@ export enum PageActions {
 
   UpdateStatisticsChartData = 'updateStatisticsChartData',
   UpdateStatisticsUncleRate = 'updateStatisticsUncleRate',
+
+  UpdateNervosDao = 'updateNervosDao',
+  UpdateNervosDaoTransactions = 'updateNervosDaoTransactions',
+  UpdateNervosDaoTransactionsTotal = 'updateNervosDaoTransactionsTotal',
+  UpdateNervosDaoDepositors = 'updateNervosDaoDepositors',
 }
 
 export enum ComponentActions {
@@ -271,6 +276,39 @@ export const reducer = (
         ...state,
         statisticsUncleRates: payload.statisticsUncleRates,
       }
+    case PageActions.UpdateNervosDao:
+      return {
+        ...state,
+        nervosDaoState: {
+          ...state.nervosDaoState,
+          nervosDao: payload.nervosDao,
+        },
+      }
+    case PageActions.UpdateNervosDaoTransactions:
+      return {
+        ...state,
+        nervosDaoState: {
+          ...state.nervosDaoState,
+          transactions: payload.transactions,
+        },
+      }
+    case PageActions.UpdateNervosDaoTransactionsTotal:
+      return {
+        ...state,
+        nervosDaoState: {
+          ...state.nervosDaoState,
+          total: payload.total,
+        },
+      }
+    case PageActions.UpdateNervosDaoDepositors:
+      return {
+        ...state,
+        nervosDaoState: {
+          ...state.nervosDaoState,
+          depositors: payload.depositors,
+        },
+      }
+
     case ComponentActions.UpdateHeaderSearchEditable:
       return {
         ...state,

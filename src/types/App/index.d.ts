@@ -44,6 +44,11 @@ declare namespace State {
     consumedTxHash: string
     status: 'live' | 'dead'
     isGenesisOutput: boolean
+    cellType: 'normal' | 'dao'
+    startedBlockNumber: number
+    endedBlockNumber: number
+    subsidy: number
+    daoTypeHash: string
   }
 
   export interface Address {
@@ -107,6 +112,28 @@ declare namespace State {
         priority: string
       }[]
     }
+  }
+
+  export interface NervosDao {
+    totalDeposit: number
+    subsidyGranted: number
+    depositTransactionsCount: number
+    withdrawTransactionsCount: number
+    depositorsCount: number
+    totalDepositorsCount: number
+    daoTypeHash: string
+  }
+
+  export interface NervosDaoDepositor {
+    addressHash: string
+    daoDeposit: number
+  }
+
+  export interface NervosDaoState {
+    nervosDao: NervosDao
+    transactions: Transaction[]
+    total: number
+    depositors: NervosDaoDepositor[]
   }
 
   export interface Statistics {
@@ -210,6 +237,7 @@ declare namespace State {
     statistics: Statistics
     statisticsChartDatas: StatisticsChartData[]
     statisticsUncleRates: StatisticsUncleRateChart[]
+    nervosDaoState: nervosDaoState
 
     components: Components
   }
