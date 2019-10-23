@@ -1,10 +1,13 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useMemo, useState, useLayoutEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Search from '../Search'
 import LogoIcon from '../../assets/ckb_logo.png'
 import MobileLogoIcon from '../../assets/mobile_ckb_logo.png'
 import SearchLogo from '../../assets/search.png'
+import WhiteDropdownIcon from '../../assets/white_dropdown.png'
+import BlueDropdownIcon from '../../assets/blue_dropdown.png'
+import GreenDropdownIcon from '../../assets/green_dropdown.png'
 import i18n from '../../utils/i18n'
 import {
   HeaderDiv,
@@ -12,13 +15,15 @@ import {
   HeaderMobilePanel,
   HeaderSearchPanel,
   HeaderVersionPanel,
-  HeaderTestnetPanel,
   HeaderSearchMobilePanel,
+  HeaderBlockchainPanel,
 } from './styled'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers/index'
 import { AppDispatch, ComponentActions } from '../../contexts/providers/reducer'
-import Dropdown from './Dropdown'
+import LanDropdown from '../Dropdown/Language'
+import ChainDropdown from '../Dropdown/ChainType'
+import { isMainnet } from '../../utils/chain'
 
 enum LinkType {
   Inner,
@@ -54,6 +59,14 @@ const Menus = () => {
   )
 }
 
+const LogoComp = () => {
+  return (
+    <Link to="/" className="header__logo">
+      <img className="header__logo__img" src={isMobile() ? MobileLogoIcon : LogoIcon} alt="logo" />
+    </Link>
+  )
+}
+
 const handleVersion = (nodeVersion: string) => {
   if (nodeVersion && nodeVersion.indexOf('(') !== -1) {
     return `v${nodeVersion.slice(0, nodeVersion.indexOf('('))}`
@@ -63,8 +76,55 @@ const handleVersion = (nodeVersion: string) => {
 
 export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDispatch }) => {
   const { app, components } = useContext(AppContext)
-  const { nodeVersion } = app
+  const { nodeVersion, language } = app
   const { searchBarEditable } = components
+  const [showChainDropdown, setShowChainDropdown] = useState(false)
+  const [chainDropdownLeft, setChainDropdownLeft] = useState(0)
+
+  useLayoutEffect(() => {
+    if (showChainDropdown && language) {
+      const chainDropdownComp = document.getElementById('header__blockchain__panel')
+      if (chainDropdownComp) {
+        const chainDropdownReact = chainDropdownComp.getBoundingClientRect()
+        if (chainDropdownReact) {
+          if (isMobile()) {
+            setChainDropdownLeft(chainDropdownReact.left - (language === 'en' ? 5 : 15))
+          } else {
+            setChainDropdownLeft(chainDropdownReact.left - (language === 'en' ? 0 : 20))
+          }
+        }
+      }
+    }
+  }, [showChainDropdown, language])
+
+  const BlockchainComp = () => {
+    const getDropdownIcon = () => {
+      if (showChainDropdown) return WhiteDropdownIcon
+      return isMainnet() ? GreenDropdownIcon : BlueDropdownIcon
+    }
+
+    return (
+      <HeaderBlockchainPanel search={!!hasSearch} showChainDropdown={showChainDropdown} id="header__blockchain__panel">
+        <div
+          className="header__blockchain__flag"
+          role="button"
+          tabIndex={-1}
+          onKeyDown={() => {}}
+          onClick={() => {
+            setShowChainDropdown(true)
+          }}
+        >
+          <div className="header__blockchain__content">{i18n.t('navbar.network')}</div>
+          <HeaderVersionPanel>
+            <div>{handleVersion(nodeVersion)}</div>
+            <img src={getDropdownIcon()} alt="dropdown icon" />
+          </HeaderVersionPanel>
+        </div>
+        {showChainDropdown && <ChainDropdown setShowChainDropdown={setShowChainDropdown} left={chainDropdownLeft} />}
+        <LanDropdown dispatch={dispatch} />
+      </HeaderBlockchainPanel>
+    )
+  }
 
   return (
     <React.Fragment>
@@ -77,9 +137,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
           )}
           <HeaderMobilePanel searchBarEditable={searchBarEditable}>
             <HeaderMobileDiv>
-              <Link to="/" className="header__logo">
-                <img className="header__logo__img" src={MobileLogoIcon} alt="logo" />
-              </Link>
+              <LogoComp />
               <Menus />
               {hasSearch && (
                 <div className="header__search">
@@ -102,13 +160,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
                   <div className="header__search__separate" />
                 </div>
               )}
-              <HeaderTestnetPanel search={!!hasSearch}>
-                <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-                <HeaderVersionPanel>
-                  <div>{handleVersion(nodeVersion)}</div>
-                </HeaderVersionPanel>
-                <Dropdown dispatch={dispatch} />
-              </HeaderTestnetPanel>
+              <BlockchainComp />
             </HeaderMobileDiv>
             <HeaderSearchPanel>{hasSearch && searchBarEditable && <Search dispatch={dispatch} />}</HeaderSearchPanel>
           </HeaderMobilePanel>
@@ -116,9 +168,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
       ) : (
         <>
           <HeaderDiv>
-            <Link to="/" className="header__logo">
-              <img className="header__logo__img" src={LogoIcon} alt="logo" />
-            </Link>
+            <LogoComp />
             <Menus />
             {hasSearch && (
               <div className="header__search">
@@ -127,13 +177,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
                 </div>
               </div>
             )}
-            <HeaderTestnetPanel search={!!hasSearch}>
-              <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-              <HeaderVersionPanel>
-                <div>{handleVersion(nodeVersion)}</div>
-              </HeaderVersionPanel>
-              <Dropdown dispatch={dispatch} />
-            </HeaderTestnetPanel>
+            <BlockchainComp />
           </HeaderDiv>
         </>
       )}

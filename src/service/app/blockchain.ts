@@ -40,6 +40,20 @@ export const handleBlockchainAlert = (dispatch: AppDispatch) => {
   })
 }
 
+export const getChainType = (dispatch: AppDispatch) => {
+  fetchBlockchainInfo().then((wrapper: Response.Wrapper<State.BlockchainInfo> | null) => {
+    if (wrapper && wrapper.attributes.blockchain_info) {
+      dispatch({
+        type: AppActions.UpdateChainType,
+        payload: {
+          chainType: wrapper.attributes.blockchain_info.chain,
+        },
+      })
+    }
+  })
+}
+
 export default {
   handleBlockchainAlert,
+  getChainType,
 }

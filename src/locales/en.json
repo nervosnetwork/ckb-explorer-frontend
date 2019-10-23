@@ -29,7 +29,10 @@
       "hash_rate": "Hash Rate",
       "hash_rate_tooltip": "Average Hash Rate of the last 500 blocks",
       "average_block_time": "Average Block Time",
-      "average_block_time_tooltip": "Average Block Time of the latest epoch"
+      "average_block_time_tooltip": "Average Block Time of the latest epoch",
+      "mainnet": "MAINNET",
+      "mainnet_coming": "MAINNET Coming",
+      "testnet": "TESTNET"
     },
     "home": {
       "height": "Height",
