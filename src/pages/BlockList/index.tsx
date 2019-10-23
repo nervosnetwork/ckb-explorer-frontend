@@ -45,7 +45,7 @@ interface TableContentData {
   content: string
 }
 
-const getTableContentDatas = (block: State.Block) => {
+const getTableContentDataList = (block: State.Block) => {
   return [
     {
       width: '14%',
@@ -129,6 +129,7 @@ export default ({
 
   const parsed = queryString.parse(search)
   const { blockListState } = useContext(AppContext)
+  const { blocks = [] } = blockListState
 
   const currentPage = parsePageNumber(parsed.page, BlockListPageParams.PageNo)
   const pageSize = parsePageNumber(parsed.size, BlockListPageParams.PageSize)
@@ -152,11 +153,9 @@ export default ({
         {isMobile() ? (
           <ContentTable>
             <div className="block__panel">
-              {blockListState &&
-                blockListState.blocks &&
-                blockListState.blocks.map((block: State.Block) => {
-                  return <OverviewCard key={block.number} items={BlockCardItems(block)} />
-                })}
+              {blocks.map((block: State.Block) => {
+                return <OverviewCard key={block.number} items={BlockCardItems(block)} />
+              })}
             </div>
           </ContentTable>
         ) : (
@@ -166,28 +165,26 @@ export default ({
                 return <TableTitleItem width={data.width} title={data.title} key={data.title} />
               })}
             </TableTitleRow>
-            {blockListState &&
-              blockListState.blocks &&
-              blockListState.blocks.map((block: State.Block) => {
-                return (
-                  block && (
-                    <TableContentRow key={block.number}>
-                      {getTableContentDatas(block).map((data: TableContentData, index: number) => {
-                        const key = index
-                        return (
-                          <Fragment key={key}>
-                            {data.content === block.minerHash ? (
-                              <TableMinerContentItem width={data.width} content={data.content} />
-                            ) : (
-                              <TableContentItem width={data.width} content={data.content} to={data.to} />
-                            )}
-                          </Fragment>
-                        )
-                      })}
-                    </TableContentRow>
-                  )
+            {blocks.map((block: State.Block) => {
+              return (
+                block && (
+                  <TableContentRow key={block.number}>
+                    {getTableContentDataList(block).map((data: TableContentData, index: number) => {
+                      const key = index
+                      return (
+                        <Fragment key={key}>
+                          {data.content === block.minerHash ? (
+                            <TableMinerContentItem width={data.width} content={data.content} />
+                          ) : (
+                            <TableContentItem width={data.width} content={data.content} to={data.to} />
+                          )}
+                        </Fragment>
+                      )
+                    })}
+                  </TableContentRow>
                 )
-              })}
+              )
+            })}
           </ContentTable>
         )}
         <div className="block_list__pagination">

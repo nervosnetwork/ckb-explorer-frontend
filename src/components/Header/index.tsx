@@ -32,7 +32,7 @@ enum LinkType {
 
 const Menus = () => {
   const [t] = useTranslation()
-  const MenuDatas = useMemo(() => {
+  const MenuDataList = useMemo(() => {
     return [
       {
         type: LinkType.Inner,
@@ -44,7 +44,7 @@ const Menus = () => {
 
   return (
     <div className="header__menus">
-      {MenuDatas.map(menu => {
+      {MenuDataList.map(menu => {
         return menu.type === LinkType.Inner ? (
           <Link className="header__menus__item" to={menu.url} key={menu.name}>
             {menu.name}

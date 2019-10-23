@@ -115,7 +115,7 @@ const DaoSearch = ({ dispatch, content }: { dispatch: AppDispatch; content?: str
   const inputElement = useRef<HTMLInputElement>(null)
 
   const handleSearchResult = () => {
-    const query = searchValue.replace(/^\s+|\s+$/g, '').replace(',', '') // remove front and end blank and ','
+    const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
     if (!query) {
       dispatch({
         type: AppActions.ShowToastMessage,
@@ -178,7 +178,6 @@ const DaoSearch = ({ dispatch, content }: { dispatch: AppDispatch; content?: str
         showReset={showReset}
         placeholder={placeholder}
         defaultValue={searchValue || ''}
-        onFocus={() => setPlaceholder('')}
         onBlur={() => {
           setPlaceholder(SearchPlaceholder)
         }}

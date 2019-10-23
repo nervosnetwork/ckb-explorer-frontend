@@ -235,7 +235,7 @@ declare namespace State {
     blockListState: BlockListState
     transactionState: TransactionState
     statistics: Statistics
-    statisticsChartDatas: StatisticsChartData[]
+    statisticsChartData: StatisticsChartData[]
     statisticsUncleRates: StatisticsUncleRateChart[]
     nervosDaoState: nervosDaoState
 

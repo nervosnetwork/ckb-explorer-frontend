@@ -79,7 +79,7 @@ const parseHashRate = (hashRate: string | undefined) => {
   return hashRate ? handleHashRate(Number(hashRate) * 1000) : '- -'
 }
 
-const getTableContentDatas = (block: State.Block) => {
+const getTableContentDataList = (block: State.Block) => {
   return [
     {
       width: '14%',
@@ -109,7 +109,7 @@ const parseBlockTime = (blockTime: string | undefined) => {
   return blockTime ? parseTime(Number(blockTime)) : '- -'
 }
 
-const blockchainDatas = (statistics: State.Statistics) => {
+const blockchainDataList = (statistics: State.Statistics) => {
   return [
     {
       name: i18n.t('blockchain.best_block'),
@@ -162,7 +162,7 @@ const blockCardItems = (block: State.Block) => {
 }
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
-  const { homeBlocks, statistics } = useContext(AppContext)
+  const { homeBlocks = [], statistics } = useContext(AppContext)
   const [t] = useTranslation()
 
   const TableTitles = useMemo(() => {
@@ -208,7 +208,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
     <Content>
       <HomeHeaderPanel>
         <div className="blockchain__item__container">
-          {blockchainDatas(statistics).map((data: BlockchainData) => {
+          {blockchainDataList(statistics).map((data: BlockchainData) => {
             return <BlockchainItem blockchain={data} key={data.name} />
           })}
         </div>
@@ -218,10 +218,9 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
           <ContentTable>
             <div className="block__green__background" />
             <div className="block__panel">
-              {homeBlocks &&
-                homeBlocks.map((block: State.Block) => {
-                  return <OverviewCard key={block.number} items={blockCardItems(block)} />
-                })}
+              {homeBlocks.map((block: State.Block) => {
+                return <OverviewCard key={block.number} items={blockCardItems(block)} />
+              })}
             </div>
           </ContentTable>
         ) : (
@@ -231,27 +230,26 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
                 return <TableTitleItem width={data.width} title={data.title} key={data.title} />
               })}
             </TableTitleRow>
-            {homeBlocks &&
-              homeBlocks.map((block: State.Block) => {
-                return (
-                  block && (
-                    <TableContentRow key={block.number}>
-                      {getTableContentDatas(block).map((data: TableContentData, index: number) => {
-                        const key = index
-                        return (
-                          <React.Fragment key={key}>
-                            {data.content === block.minerHash ? (
-                              <TableMinerContentItem width={data.width} content={data.content} />
-                            ) : (
-                              <TableContentItem width={data.width} content={data.content} to={data.to} />
-                            )}
-                          </React.Fragment>
-                        )
-                      })}
-                    </TableContentRow>
-                  )
+            {homeBlocks.map((block: State.Block) => {
+              return (
+                block && (
+                  <TableContentRow key={block.number}>
+                    {getTableContentDataList(block).map((data: TableContentData, index: number) => {
+                      const key = index
+                      return (
+                        <React.Fragment key={key}>
+                          {data.content === block.minerHash ? (
+                            <TableMinerContentItem width={data.width} content={data.content} />
+                          ) : (
+                            <TableContentItem width={data.width} content={data.content} to={data.to} />
+                          )}
+                        </React.Fragment>
+                      )
+                    })}
+                  </TableContentRow>
                 )
-              })}
+              )
+            })}
           </ContentTable>
         )}
         <TableMorePanel>
