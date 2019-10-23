@@ -15,7 +15,7 @@ import {
   AddressLockScriptItemPanel,
   AddressLockScriptPanel,
   AddressPendingRewardTitlePanel,
-  AddressTransactionsPagition,
+  AddressTransactionsPagination,
   AddressTransactionsPanel,
 } from './styled'
 import browserHistory from '../../routes/history'
@@ -138,6 +138,7 @@ export const AddressTransactions = ({
 }) => {
   const { addressState, app } = useContext(AppContext)
   const { tipBlockNumber } = app
+  const { transactions = [] } = addressState
 
   const totalPages = Math.ceil(addressState.total / pageSize)
 
@@ -147,28 +148,26 @@ export const AddressTransactions = ({
 
   return (
     <>
-      {addressState.transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
+      {transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
       <AddressTransactionsPanel>
-        {addressState &&
-          addressState.transactions &&
-          addressState.transactions.map((transaction: State.Transaction, index: number) => {
-            return (
-              transaction && (
-                <TransactionItem
-                  address={addressState.address.addressHash}
-                  transaction={transaction}
-                  confirmation={tipBlockNumber - transaction.blockNumber + 1}
-                  key={transaction.transactionHash}
-                  isLastItem={index === addressState.transactions.length - 1}
-                />
-              )
+        {addressState.transactions.map((transaction: State.Transaction, index: number) => {
+          return (
+            transaction && (
+              <TransactionItem
+                address={addressState.address.addressHash}
+                transaction={transaction}
+                confirmation={tipBlockNumber - transaction.blockNumber + 1}
+                key={transaction.transactionHash}
+                isLastItem={index === addressState.transactions.length - 1}
+              />
             )
-          })}
+          )
+        })}
       </AddressTransactionsPanel>
       {totalPages > 1 && (
-        <AddressTransactionsPagition>
+        <AddressTransactionsPagination>
           <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
-        </AddressTransactionsPagition>
+        </AddressTransactionsPagination>
       )}
     </>
   )

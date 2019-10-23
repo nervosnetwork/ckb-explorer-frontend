@@ -21,7 +21,7 @@ import {
   BlockOverviewDisplayControlPanel,
   BlockOverviewItemContentPanel,
   BlockRootInfoItemPanel,
-  BlockTransactionsPagition,
+  BlockTransactionsPagination,
 } from './styled'
 import browserHistory from '../../routes/history'
 import { isMainnet } from '../../utils/chain'
@@ -225,6 +225,7 @@ export default ({
   blockParam: string
 }) => {
   const { blockState } = useContext(AppContext)
+  const { transactions = [] } = blockState
 
   const totalPages = Math.ceil(blockState.total / pageSize)
 
@@ -237,24 +238,22 @@ export default ({
       <TitleCard title={i18n.t('common.overview')} />
       {blockState && <BlockOverview block={blockState.block} />}
       <TitleCard title={i18n.t('transaction.transactions')} />
-      {blockState &&
-        blockState.transactions &&
-        blockState.transactions.map((transaction: State.Transaction, index: number) => {
-          return (
-            transaction && (
-              <TransactionItem
-                key={transaction.transactionHash}
-                transaction={transaction}
-                isBlock
-                isLastItem={index === blockState.transactions.length - 1}
-              />
-            )
+      {transactions.map((transaction: State.Transaction, index: number) => {
+        return (
+          transaction && (
+            <TransactionItem
+              key={transaction.transactionHash}
+              transaction={transaction}
+              isBlock
+              isLastItem={index === blockState.transactions.length - 1}
+            />
           )
-        })}
+        )
+      })}
       {totalPages > 1 && (
-        <BlockTransactionsPagition>
+        <BlockTransactionsPagination>
           <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
-        </BlockTransactionsPagition>
+        </BlockTransactionsPagination>
       )}
     </>
   )

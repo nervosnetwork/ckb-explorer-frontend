@@ -26,7 +26,7 @@ const ErrorPanel = styled.div`
 export default () => {
   return (
     <ErrorPanel>
-      <img alt="data not fonund" src={isMobile() ? MobileDataNotFoundImage : PCDataNotFoundImage} />
+      <img alt="data not found" src={isMobile() ? MobileDataNotFoundImage : PCDataNotFoundImage} />
     </ErrorPanel>
   )
 }

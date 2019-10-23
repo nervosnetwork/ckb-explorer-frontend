@@ -81,7 +81,7 @@ export const BlockOverviewDisplayControlPanel = styled.div`
   }
 `
 
-export const BlockTransactionsPagition = styled.div`
+export const BlockTransactionsPagination = styled.div`
   margin: 20px 0px 0px 0px;
   width: 100%;
 

@@ -86,8 +86,8 @@ const LoadingPanel = styled.div`
   width: 100%;
 `
 
-const handleHashText = (hash: string, isMobileDeivce: boolean, setHashText: Dispatch<SetStateAction<string>>) => {
-  if (!isMobileDeivce) {
+const handleHashText = (hash: string, isMobileDevice: boolean, setHashText: Dispatch<SetStateAction<string>>) => {
+  if (!isMobileDevice) {
     setHashText(hash)
     return
   }
@@ -116,15 +116,15 @@ export default ({
   loading?: boolean
 }) => {
   const [hashText, setHashText] = useState(hash)
-  const isMobileDeivce = isMobile()
+  const isMobileDevice = isMobile()
   const { app } = useContext(AppContext)
 
   // render again when language and title change
   useLayoutEffect(() => {
     if (app.language && title) {
-      handleHashText(hash, isMobileDeivce, setHashText)
+      handleHashText(hash, isMobileDevice, setHashText)
     }
-  }, [app.language, hash, title, isMobileDeivce])
+  }, [app.language, hash, title, isMobileDevice])
 
   return (
     <HashCardPanel id="address_hash_content">

@@ -62,7 +62,7 @@ export const DaoTabBarPanel = styled.div`
   }
 `
 
-export const TransactionsPagition = styled.div`
+export const TransactionsPagination = styled.div`
   margin: 20px 0px 0px 0px;
   width: 100%;
 

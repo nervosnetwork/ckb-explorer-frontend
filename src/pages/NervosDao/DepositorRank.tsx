@@ -67,7 +67,7 @@ const AddressText = ({ address }: { address: string }) => {
 
 export default () => {
   const { nervosDaoState } = useContext(AppContext)
-  const { depositors } = nervosDaoState
+  const { depositors = [] } = nervosDaoState
 
   return (
     <DepositorRankPanel>

@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import browserHistory from '../../routes/history'
 import { AppContext } from '../../contexts/providers'
 import TransactionItem from '../../components/TransactionItem'
-import { TransactionsPagition } from './styled'
+import { TransactionsPagination } from './styled'
 import Pagination from '../../components/Pagination'
 import { PageParams } from '../../utils/const'
 
@@ -30,9 +30,9 @@ export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPa
         )
       })}
       {totalPages > 1 && (
-        <TransactionsPagition>
+        <TransactionsPagination>
           <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
-        </TransactionsPagition>
+        </TransactionsPagination>
       )}
     </>
   )

@@ -269,7 +269,7 @@ export const reducer = (
     case PageActions.UpdateStatisticsChartData:
       return {
         ...state,
-        statisticsChartDatas: payload.statisticsChartDatas,
+        statisticsChartData: payload.statisticsChartData,
       }
     case PageActions.UpdateStatisticsUncleRate:
       return {
