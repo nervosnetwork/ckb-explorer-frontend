@@ -198,6 +198,7 @@ declare namespace State {
     appWidth: number
     appHeight: number
     language: 'en' | 'zh'
+    chainType: 'main' | 'ckb_test'
   }
 
   export interface AddressState {
