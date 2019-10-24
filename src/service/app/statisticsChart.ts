@@ -74,7 +74,7 @@ const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
   return dataList
 }
 
-const handleStatisticsUnlceRate = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
+const handleStatisticsUncleRate = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
   const { uncleRate: uncleRates = [] } = wrapper.attributes
   return uncleRates.map(uncleRate => {
     return {
@@ -106,7 +106,7 @@ export const getStatisticsChart = (dispatch: AppDispatch) => {
   fetchStatisticsChart().then((wrapper: Response.Wrapper<State.StatisticsChart> | null) => {
     if (wrapper) {
       const statisticsChartData = handleStatistics(wrapper)
-      const statisticsUncleRates = handleStatisticsUnlceRate(wrapper)
+      const statisticsUncleRates = handleStatisticsUncleRate(wrapper)
 
       if (statisticsChartData && statisticsChartData.length > 0) {
         storeCachedData(CachedKeys.StatisticsChart, statisticsChartData)
