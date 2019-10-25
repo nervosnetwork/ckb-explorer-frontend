@@ -159,16 +159,17 @@ declare namespace State {
     }[]
   }
 
-  export interface StatisticsChartData {
+  export interface StatisticsBaseData {
     blockNumber: number
-    hashRate: string
-    difficulty: string
-    epochnumber: number
+    type: 'Difficulty' | 'HashRate' | 'EpochNumber'
+    difficulty?: number
+    hashRate?: number
+    epochNumber?: number
   }
 
-  export interface StatisticsUncleRateChart {
+  export interface StatisticsUncleRate {
     uncleRate: number
-    epochnumber: number
+    epochNumber: number
   }
 
   export interface Components {
@@ -235,7 +236,7 @@ declare namespace State {
     blockListState: BlockListState
     transactionState: TransactionState
     statistics: Statistics
-    statisticsChartData: StatisticsChartData[]
+    statisticsChartData: StatisticsBaseData[]
     statisticsUncleRates: StatisticsUncleRateChart[]
     nervosDaoState: nervosDaoState
 

@@ -22,6 +22,7 @@ export const DaoTabBarPanel = styled.div`
   margin: 20px 0 5px 0;
   align-items: center;
   justify-content: space-between;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
   padding: 0 40px;
 
   @media (max-width: 700px) {
@@ -53,11 +54,13 @@ export const DaoTabBarPanel = styled.div`
 
     .tab_bar_normal {
       color: #000000;
+      font-weight: bold;
     }
 
     .tab_bar_selected {
       color: ${props => props.theme.primary};
-      border-bottom: 1px solid ${props => props.theme.primary};
+      font-weight: bold;
+      border-bottom: 2px solid ${props => props.theme.primary};
     }
   }
 `
