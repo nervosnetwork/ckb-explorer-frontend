@@ -4,19 +4,6 @@ import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
 import { fetchCachedData, storeCachedData } from '../../utils/cached'
 import { CachedKeys } from '../../utils/const'
 
-export interface StatisticsData {
-  blockNumber: number
-  type: 'Difficulty' | 'HashRate' | 'EpochNumber'
-  difficulty?: number
-  hashRate?: number
-  epochNumber?: number
-}
-
-export interface StatisticsUncleRate {
-  uncleRate: number
-  epochNumber: number
-}
-
 const findDifficulty = (
   difficulties: { difficulty: string; blockNumber: number; epochNumber: number }[],
   blockNumber: number,
@@ -34,7 +21,7 @@ const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
   const { hashRate: hashRates, difficulty: difficulties } = wrapper.attributes
   if (!hashRates && !difficulties) return []
 
-  const dataList: StatisticsData[] = []
+  const dataList: State.StatisticsBaseData[] = []
   if (hashRates && hashRates.length > 0) {
     hashRates.forEach(hashRate => {
       dataList.push({
@@ -85,7 +72,7 @@ const handleStatisticsUncleRate = (wrapper: Response.Wrapper<State.StatisticsCha
 }
 
 export const getStatisticsChart = (dispatch: AppDispatch) => {
-  const cachedStatisticsChartData = fetchCachedData<StatisticsData>(CachedKeys.StatisticsChart)
+  const cachedStatisticsChartData = fetchCachedData<State.StatisticsBaseData>(CachedKeys.StatisticsChart)
   if (cachedStatisticsChartData) {
     dispatch({
       type: PageActions.UpdateStatisticsChartData,
@@ -94,7 +81,7 @@ export const getStatisticsChart = (dispatch: AppDispatch) => {
       },
     })
   }
-  const cachedStatisticsUncleRates = fetchCachedData<StatisticsUncleRate>(CachedKeys.StatisticsUncleRateChart)
+  const cachedStatisticsUncleRates = fetchCachedData<State.StatisticsUncleRate>(CachedKeys.StatisticsUncleRateChart)
   if (cachedStatisticsUncleRates) {
     dispatch({
       type: PageActions.UpdateStatisticsUncleRate,
@@ -130,3 +117,5 @@ export const getStatisticsChart = (dispatch: AppDispatch) => {
     }
   })
 }
+
+export default getStatisticsChart
