@@ -135,7 +135,7 @@ export default ({
         </LoadingPanel>
       ) : (
         <div id="address_hash__text">
-          <code>{adaptPCEllipsis(hashText, 18, 30)}</code>
+          <span id="monospace">{adaptPCEllipsis(hashText, 18, 30)}</span>
         </div>
       )}
       <div

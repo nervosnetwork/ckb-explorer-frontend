@@ -38,7 +38,7 @@ const BlockMiner = ({ miner }: { miner: string }) => {
     <BlockLinkPanel>
       {miner ? (
         <Link to={`/address/${miner}`}>
-          <code>{handleMinerText(miner)}</code>
+          <span id="monospace">{handleMinerText(miner)}</span>
         </Link>
       ) : (
         i18n.t('address.unable_decode_address')

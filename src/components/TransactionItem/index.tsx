@@ -32,7 +32,9 @@ const TransactionItem = ({
       <TransactionHashBlockPanel>
         <div className="transaction_item__content">
           <Link to={`/transaction/${transaction.transactionHash}`}>
-            <code className="transaction_item__hash">{adaptMobileEllipsis(transaction.transactionHash, 13)}</code>
+            <span id="monospace" className="transaction_item__hash">
+              {adaptMobileEllipsis(transaction.transactionHash, 13)}
+            </span>
           </Link>
           {!isBlock && (
             <div className="transaction_item__block">

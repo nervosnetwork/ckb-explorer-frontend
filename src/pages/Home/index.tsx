@@ -51,7 +51,7 @@ const BlockValueItem = ({ value, to }: { value: string; to: string }) => {
   return (
     <HighLightValue>
       <Link to={to}>
-        <code>{value}</code>
+        <span id="monospace">{value}</span>
       </Link>
     </HighLightValue>
   )

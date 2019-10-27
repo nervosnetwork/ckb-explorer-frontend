@@ -1,10 +1,10 @@
 body {
   margin: 0;
   padding: 0;
-  font-family:  Montserrat, Montserrat-Regular, PingFang SC, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Noto Sans CJK SC', 
-    'Noto Sans CJK', 'Source Han Sans', source-han-sans-simplified-c,
-    sans-serif;
+  font-family: Montserrat, Montserrat-Regular, PingFang SC, -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Noto Sans CJK SC',
+    'Noto Sans CJK', 'Source Han Sans', source-han-sans-simplified-c, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -12,6 +12,10 @@ body {
 }
 
 code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
+}
+
+#monospace {
   font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
 }
 
@@ -38,8 +42,7 @@ a {
   color: inherit;
 }
 
-
-@media(max-width: 700px) {
+@media (max-width: 700px) {
   .rc-pagination-options-quick-jumper {
     display: none;
   }

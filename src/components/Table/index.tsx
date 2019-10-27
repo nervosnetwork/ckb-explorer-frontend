@@ -113,7 +113,9 @@ export const TableMinerContentItem = ({ width, content }: { width: string; conte
     <TableMinerContentPanel width={width}>
       {content ? (
         <Link className="table__miner__content" to={`/address/${content}`}>
-          <code className="table__miner__text">{adaptPCEllipsis(content, 10, 50)}</code>
+          <span id="monospace" className="table__miner__text">
+            {adaptPCEllipsis(content, 10, 50)}
+          </span>
         </Link>
       ) : (
         <div className="table__miner__text__disable">{i18n.t('address.unable_decode_address')}</div>
