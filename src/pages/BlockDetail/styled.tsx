@@ -30,6 +30,7 @@ export const BlockRootInfoItemPanel = styled.div`
   .block__root_info_value {
     flex: 1;
     margin-left: 20px;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
   }
 `
 
