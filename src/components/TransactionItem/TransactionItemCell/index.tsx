@@ -95,11 +95,11 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
               {cell.cellType === 'dao' && (
                 <span className="transaction__cell_dao">{i18n.t('blockchain.nervos_dao')}</span>
               )}
-              {cell.cellType !== 'dao' && <span id="monospace">{addressText}</span>}
+              {cell.cellType !== 'dao' && <span className="address">{addressText}</span>}
             </>
           </Link>
         ) : (
-          <span id="monospace">{addressText}</span>
+          <span className="address">{addressText}</span>
         )}
       </div>
       <TransactionCellCapacity fullWidth={cellType === CellType.Output}>
