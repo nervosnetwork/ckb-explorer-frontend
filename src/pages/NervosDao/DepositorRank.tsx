@@ -60,7 +60,7 @@ const AddressPanel = styled(Link)`
 const AddressText = ({ address }: { address: string }) => {
   return (
     <AddressPanel to={`/address/${address}`}>
-      <code>{address}</code>
+      <span className="address">{address}</span>
     </AddressPanel>
   )
 }

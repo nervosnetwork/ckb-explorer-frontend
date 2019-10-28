@@ -35,7 +35,7 @@ const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: C
       )}
       {cell.addressHash ? (
         <Link to={`/address/${cell.addressHash}`}>
-          <code>{handleAddressHashText(cell.addressHash)}</code>
+          <span className="address">{handleAddressHashText(cell.addressHash)}</span>
         </Link>
       ) : (
         <span>{cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}</span>

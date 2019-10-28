@@ -27,7 +27,7 @@ const HashCardPanel = styled.div`
     box-shadow: 1px 1px 3px 0 #dfdfdf;
   }
 
-  .address_hash__title {
+  .hash__title {
     margin-left: 40px;
     font-size: 30px;
     font-weight: 500;
@@ -40,11 +40,15 @@ const HashCardPanel = styled.div`
     }
   }
 
-  #address_hash__text {
+  #hash__text {
     margin-left: 20px;
     font-size: 20px;
     color: #000000;
     transform: translateY(3px);
+
+    span {
+      font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
+    }
 
     @media (max-width: 700px) {
       font-size: 13px;
@@ -54,7 +58,7 @@ const HashCardPanel = styled.div`
     }
   }
 
-  .address_hash__copy_icon {
+  .hash__copy_icon {
     cursor: pointer;
     margin-left: 20px;
     transform: translateY(6px);
@@ -75,7 +79,7 @@ const HashCardPanel = styled.div`
     }
   }
 
-  #address_hash__value {
+  #hash__value {
     color: #ffffff;
     position: absolute;
     bottom: -30px;
@@ -127,24 +131,24 @@ export default ({
   }, [app.language, hash, title, isMobileDevice])
 
   return (
-    <HashCardPanel id="address_hash_content">
-      <div className="address_hash__title">{title}</div>
+    <HashCardPanel id="hash_content">
+      <div className="hash__title">{title}</div>
       {loading ? (
         <LoadingPanel>
           <SmallLoading />
         </LoadingPanel>
       ) : (
-        <div id="address_hash__text">
-          <code>{adaptPCEllipsis(hashText, 18, 30)}</code>
+        <div id="hash__text">
+          <span>{adaptPCEllipsis(hashText, 18, 30)}</span>
         </div>
       )}
       <div
-        className="address_hash__copy_icon"
+        className="hash__copy_icon"
         role="button"
         tabIndex={-1}
         onKeyDown={() => {}}
         onClick={() => {
-          copyElementValue(document.getElementById('address_hash__value'))
+          copyElementValue(document.getElementById('hash__value'))
           dispatch({
             type: AppActions.ShowToastMessage,
             payload: {
@@ -155,7 +159,7 @@ export default ({
       >
         {!loading && <img src={CopyIcon} alt="copy" />}
       </div>
-      <div id="address_hash__value">{hash}</div>
+      <div id="hash__value">{hash}</div>
     </HashCardPanel>
   )
 }
