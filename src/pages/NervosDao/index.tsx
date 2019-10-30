@@ -38,12 +38,12 @@ const DervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
       content: localeNumberString(nervosDao.withdrawTransactionsCount),
     },
     {
-      title: i18n.t('nervos_dao.total_depositors'),
-      content: `${localeNumberString(nervosDao.totalDepositorsCount)}`,
-    },
-    {
       title: i18n.t('nervos_dao.current_depositors'),
       content: localeNumberString(nervosDao.depositorsCount),
+    },
+    {
+      title: i18n.t('nervos_dao.total_depositors'),
+      content: `${localeNumberString(nervosDao.totalDepositorsCount)}`,
     },
   ]
 
