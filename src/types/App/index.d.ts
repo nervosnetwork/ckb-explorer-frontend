@@ -59,6 +59,8 @@ declare namespace State {
     lockScript: Script
     pendingRewardBlocksCount: number
     type: 'Address' | 'LockHash' | ''
+    daoDeposit: number
+    subsidy: number
   }
 
   export interface Block {

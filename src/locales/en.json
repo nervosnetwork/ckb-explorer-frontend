@@ -68,6 +68,8 @@
       "lock_hash": "Lock Hash",
       "lock_script": "Lock Script",
       "balance": "Balance",
+      "dao_deposit": "NervosDAO Deposit",
+      "subsidy": "Subsidy Received",
       "pending_reward": "Pending Reward",
       "code_hash": "Code Hash",
       "args": "Args",

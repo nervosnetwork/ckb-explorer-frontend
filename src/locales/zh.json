@@ -68,6 +68,8 @@
       "lock_hash": "Lock Hash",
       "lock_script": "Lock Script",
       "balance": "余额",
+      "dao_deposit": "NervosDAO 存款金额",
+      "subsidy": "NervosDAO 补贴金额",
       "pending_reward": "待发奖励",
       "code_hash": "Code Hash",
       "args": "Args",
