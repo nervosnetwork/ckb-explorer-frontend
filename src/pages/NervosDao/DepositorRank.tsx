@@ -80,7 +80,7 @@ export default () => {
       {depositors.map((depositor: State.NervosDaoDepositor, index: number) => {
         return (
           <DepositorRankItem>
-            <div>{index}</div>
+            <div>{index + 1}</div>
             <AddressText address={depositor.addressHash} />
             <div>{`${localeNumberString(shannonToCkb(depositor.daoDeposit))} CKB`}</div>
           </DepositorRankItem>
