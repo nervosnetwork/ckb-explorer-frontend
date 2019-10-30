@@ -122,9 +122,11 @@
     "nervos_dao": {
       "nervos_dao": "NervosDAO",
       "total_deposit": "Total Deposit",
-      "transactions": "Transactions",
+      "deposit_transactions_count": "Deposit Transactions Count",
+      "withdraw_transactions_count": "Withdraw Transactions Count",
       "depositor": "Depositor",
       "subsidy_granted": "Subsidy Granted",
+      "total_depositors": "Total Depositors",
       "dao_search_placeholder": "Transaction / Address",
       "dao_search_reset": "Reset",
       "dao_tab_transactions": "Transactions",

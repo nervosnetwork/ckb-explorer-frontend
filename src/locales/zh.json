@@ -123,9 +123,11 @@
     "nervos_dao": {
       "nervos_dao": "NervosDAO",
       "total_deposit": "提现总额",
-      "transactions": "交易数量",
+      "deposit_transactions_count": "存款交易数量",
+      "withdraw_transactions_count": "提现交易数量",
       "depositor": "提现地址数量",
       "subsidy_granted": "补贴金额",
+      "total_depositors": "存款总额",
       "dao_search_placeholder": "交易 / 地址",
       "dao_search_reset": "复位",
       "dao_tab_transactions": "交易列表",
