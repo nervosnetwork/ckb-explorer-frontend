@@ -47,7 +47,7 @@ declare namespace State {
     cellType: 'normal' | 'dao'
     startedBlockNumber: number
     endedBlockNumber: number
-    subsidy: number
+    interest: number
     daoTypeHash: string
   }
 
@@ -60,7 +60,7 @@ declare namespace State {
     pendingRewardBlocksCount: number
     type: 'Address' | 'LockHash' | ''
     daoDeposit: number
-    subsidy: number
+    interest: number
   }
 
   export interface Block {
@@ -118,7 +118,7 @@ declare namespace State {
 
   export interface NervosDao {
     totalDeposit: number
-    subsidyGranted: number
+    interestGranted: number
     depositTransactionsCount: number
     withdrawTransactionsCount: number
     depositorsCount: number

@@ -30,8 +30,8 @@ const DervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
       content: localeNumberString(nervosDao.depositTransactionsCount),
     },
     {
-      title: i18n.t('nervos_dao.subsidy_granted'),
-      content: `${localeNumberString(shannonToCkb(nervosDao.subsidyGranted))} CKB`,
+      title: i18n.t('nervos_dao.interest_granted'),
+      content: `${localeNumberString(shannonToCkb(nervosDao.interestGranted))} CKB`,
     },
     {
       title: i18n.t('nervos_dao.withdraw_transactions_count'),

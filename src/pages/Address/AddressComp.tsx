@@ -98,8 +98,8 @@ const getAddressInfo = (addressState: State.AddressState) => {
       content: `${localeNumberString(shannonToCkb(addressState.address.daoDeposit))} CKB`,
     },
     {
-      title: i18n.t('address.subsidy'),
-      content: `${localeNumberString(shannonToCkb(addressState.address.subsidy))} CKB`,
+      title: i18n.t('address.interest'),
+      content: `${localeNumberString(shannonToCkb(addressState.address.interest))} CKB`,
     },
   ]
 
