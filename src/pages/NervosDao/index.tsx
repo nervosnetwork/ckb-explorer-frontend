@@ -26,16 +26,24 @@ const DervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
       content: `${localeNumberString(shannonToCkb(nervosDao.totalDeposit))} CKB`,
     },
     {
-      title: i18n.t('nervos_dao.transactions'),
-      content: localeNumberString(nervosDao.depositTransactionsCount + nervosDao.withdrawTransactionsCount),
+      title: i18n.t('nervos_dao.deposit_transactions_count'),
+      content: localeNumberString(nervosDao.depositTransactionsCount),
     },
     {
       title: i18n.t('nervos_dao.subsidy_granted'),
       content: `${localeNumberString(shannonToCkb(nervosDao.subsidyGranted))} CKB`,
     },
     {
-      title: i18n.t('nervos_dao.depositor'),
+      title: i18n.t('nervos_dao.withdraw_transactions_count'),
+      content: localeNumberString(nervosDao.withdrawTransactionsCount),
+    },
+    {
+      title: i18n.t('nervos_dao.current_depositors'),
       content: localeNumberString(nervosDao.depositorsCount),
+    },
+    {
+      title: i18n.t('nervos_dao.total_depositors'),
+      content: `${localeNumberString(nervosDao.totalDepositorsCount)}`,
     },
   ]
 
