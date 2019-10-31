@@ -1,7 +1,7 @@
 export const initNervosDaoState: State.NervosDaoState = {
   nervosDao: {
     totalDeposit: 0,
-    subsidyGranted: 0,
+    interestGranted: 0,
     depositTransactionsCount: 0,
     withdrawTransactionsCount: 0,
     depositorsCount: 0,

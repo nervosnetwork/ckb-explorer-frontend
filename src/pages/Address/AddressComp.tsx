@@ -93,6 +93,14 @@ const getAddressInfo = (addressState: State.AddressState) => {
       title: i18n.t('transaction.transactions'),
       content: localeNumberString(addressState.address.transactionsCount),
     },
+    {
+      title: i18n.t('address.dao_deposit'),
+      content: `${localeNumberString(shannonToCkb(addressState.address.daoDeposit))} CKB`,
+    },
+    {
+      title: i18n.t('address.interest'),
+      content: `${localeNumberString(shannonToCkb(addressState.address.interest))} CKB`,
+    },
   ]
 
   if (addressState.address.pendingRewardBlocksCount) {
