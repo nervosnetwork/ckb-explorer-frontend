@@ -19,8 +19,8 @@ export const parseDate = (timestamp: number) => {
   )}:${formatData(date.getSeconds())}`
 }
 
-export const parseSimpleDate = (timestamp: number) => {
-  const date = new Date(timestamp)
+export const parseSimpleDate = (timestamp: number | string) => {
+  const date = new Date(Number(timestamp))
   return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${formatData(date.getHours())}:${formatData(
     date.getMinutes(),
   )}:${formatData(date.getSeconds())}`
