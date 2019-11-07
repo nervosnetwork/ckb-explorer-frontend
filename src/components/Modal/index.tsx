@@ -87,7 +87,7 @@ export default ({ data, onClose }: { data: State.Modal | null; onClose: Function
               if (onClose) onClose()
             }}
           >
-            {'x'}
+            x
           </div>
         </div>
       </div>

@@ -130,3 +130,5 @@ export const getStatisticsChart = (dispatch: AppDispatch) => {
     }
   })
 }
+
+export default getStatisticsChart
