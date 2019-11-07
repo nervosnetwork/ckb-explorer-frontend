@@ -73,6 +73,7 @@
       "pending_reward": "Pending Reward",
       "code_hash": "Code Hash",
       "args": "Args",
+      "hash_type": "Hash Type",
       "confirmation": "Confirmation",
       "confirmations": "Confirmations",
       "unable_decode_address": "Unable to decode address",
