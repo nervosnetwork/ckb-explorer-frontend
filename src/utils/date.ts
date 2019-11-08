@@ -4,6 +4,13 @@ export const formatData = (data: number) => {
   return data < 10 ? `0${data}` : data
 }
 
+export const parseSimpleDate = (timestamp: number | string) => {
+  const date = new Date(Number(timestamp))
+  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${formatData(date.getHours())}:${formatData(
+    date.getMinutes(),
+  )}:${formatData(date.getSeconds())}`
+}
+
 export const parseDate = (timestamp: number | string) => {
   const now = new Date().getTime()
   const diff = (now - Number(timestamp)) / 1000
@@ -13,17 +20,7 @@ export const parseDate = (timestamp: number | string) => {
   if (diff < 3600) {
     return `${Math.floor(diff / 60)} ${i18n.t('common.minute')} ${Math.floor(diff % 60)} ${i18n.t('common.second_ago')}`
   }
-  const date = new Date(Number(timestamp))
-  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${formatData(date.getHours())}:${formatData(
-    date.getMinutes(),
-  )}:${formatData(date.getSeconds())}`
-}
-
-export const parseSimpleDate = (timestamp: number | string) => {
-  const date = new Date(Number(timestamp))
-  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${formatData(date.getHours())}:${formatData(
-    date.getMinutes(),
-  )}:${formatData(date.getSeconds())}`
+  return parseSimpleDate(timestamp)
 }
 
 export const getCurrentYear = () => {
