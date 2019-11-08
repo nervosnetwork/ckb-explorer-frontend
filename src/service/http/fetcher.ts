@@ -124,13 +124,13 @@ export const fetchNodeVersion = () => {
 }
 
 export const fetchNervosDao = () => {
-  return axiosIns('/contracts/dao').then((res: AxiosResponse) =>
+  return axiosIns('/contracts/nervos_dao').then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.NervosDao>>(res.data.data),
   )
 }
 
 export const fetchNervosDaoTransactions = () => {
-  return axiosIns('/contract_transactions/dao').then((res: AxiosResponse) =>
+  return axiosIns('/contract_transactions/nervos_dao').then((res: AxiosResponse) =>
     toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data),
   )
 }
