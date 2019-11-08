@@ -69,6 +69,10 @@ const handleAddressText = (address: string) => {
   return adaptPCEllipsis(address, 5, 80)
 }
 
+const isDaoCell = (cellType: string) => {
+  return cellType === 'nervos_dao_deposit' || cellType === 'nervos_dao_withdrawing'
+}
+
 const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; address?: string; cellType: CellType }) => {
   if (cell.fromCellbase) {
     return <Cellbase targetBlockNumber={cell.targetBlockNumber} cell={cell} cellType={cellType} />
@@ -80,7 +84,7 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
     addressText = handleAddressText(cell.addressHash)
     if (cell.addressHash !== address) {
       highLight = true
-    } else if (cell.cellType === 'dao') {
+    } else if (isDaoCell(cell.cellType)) {
       highLight = true
     }
   }
@@ -90,12 +94,12 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
       <div className="transaction__cell_address">
         {!isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
         {highLight ? (
-          <Link to={cell.cellType === 'dao' ? '/nervosdao' : `/address/${cell.addressHash}`}>
+          <Link to={isDaoCell(cell.cellType) ? '/nervosdao' : `/address/${cell.addressHash}`}>
             <>
-              {cell.cellType === 'dao' && (
+              {isDaoCell(cell.cellType) && (
                 <span className="transaction__cell_dao">{i18n.t('blockchain.nervos_dao')}</span>
               )}
-              {cell.cellType !== 'dao' && <span className="address">{addressText}</span>}
+              {!isDaoCell(cell.cellType) && <span className="address">{addressText}</span>}
             </>
           </Link>
         ) : (
