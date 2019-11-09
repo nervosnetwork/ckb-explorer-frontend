@@ -1,7 +1,9 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { createBrowserHistory } from 'history'
 import { AppContext } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
+import CONFIG from '../../config'
 
 export const ChainTypePanel = styled.div`
   width: 184px;
@@ -63,8 +65,8 @@ export const ChainTypePanel = styled.div`
 export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function; left: number }) => {
   const { app } = useContext(AppContext)
   const { chainType } = app
+  const browserHistory = createBrowserHistory()
 
-  // TODO: add mainnet and testnet explorer url. For example: <a href="https://testnet-url">TESTNET</a>
   return (
     <ChainTypePanel
       left={left}
@@ -79,9 +81,12 @@ export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function
         onKeyDown={() => {}}
         onClick={() => {
           setShowChainDropdown(false)
+          if (chainType === 'ckb_test') {
+            browserHistory.push('/')
+          }
         }}
       >
-        {chainType === 'main' ? i18n.t('blockchain.mainnet') : i18n.t('blockchain.mainnet_coming')}
+        {i18n.t('blockchain.mainnet')}
       </div>
       <div className="chain_type_separate" />
       <div
@@ -91,9 +96,12 @@ export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function
         onKeyDown={() => {}}
         onClick={() => {
           setShowChainDropdown(false)
+          if (chainType === 'main') {
+            browserHistory.push(`/${CONFIG.CHAIN_NAME}`)
+          }
         }}
       >
-        {chainType === 'ckb_test' ? i18n.t('blockchain.testnet') : i18n.t('blockchain.testnet')}
+        {i18n.t('blockchain.testnet')}
       </div>
     </ChainTypePanel>
   )
