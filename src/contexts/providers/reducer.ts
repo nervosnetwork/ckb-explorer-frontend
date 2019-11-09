@@ -8,7 +8,6 @@ export enum AppActions {
   UpdateNodeVersion = 'updateNodeVersion',
   UpdateTipBlockNumber = 'updateTipBlockNumber',
   UpdateAppLanguage = 'updateAppLanguage',
-  UpdateChainType = 'updateChainType',
 }
 
 export enum PageActions {
@@ -135,14 +134,6 @@ export const reducer = (
         app: {
           ...state.app,
           language: payload.language,
-        },
-      }
-    case AppActions.UpdateChainType:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          chainType: payload.chainType,
         },
       }
 
