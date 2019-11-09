@@ -204,7 +204,7 @@ export const HeaderVersionPanel = styled.div`
   }
 
   @media (max-width: 700px) {
-    width: 65px;
+    width: 60px;
     font-size: 8px;
     margin-right: 40px;
     > div {
