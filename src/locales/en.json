@@ -20,7 +20,8 @@
       "charts": "Charts",
       "docs": "Docs",
       "search_placeholder": "Block / Transaction / Address / Lock Hash",
-      "network": "TESTNET",
+      "network_mainnet": "MAINNET",
+      "network_testnet": "TESTNET",
       "network_tooltip": "Mainnet is comming"
     },
     "blockchain": {

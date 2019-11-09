@@ -26,12 +26,14 @@ export const ChainTypePanel = styled.div`
     line-height: 44px;
     text-align: center;
     font-weight: bold;
+    cursor: pointer;
     color: ${props => props.theme.primary};
   }
   .chain_type_normal {
     width: 100%;
     font-size: 14px;
     height: 44px;
+    cursor: pointer;
     line-height: 44px;
     text-align: center;
     font-weight: bold;
