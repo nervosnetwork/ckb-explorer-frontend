@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { createBrowserHistory } from 'history'
+import { Link } from 'react-router-dom'
 import { AppContext } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import CONFIG from '../../config'
@@ -65,7 +65,6 @@ export const ChainTypePanel = styled.div`
 export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function; left: number }) => {
   const { app } = useContext(AppContext)
   const { chainType } = app
-  const browserHistory = createBrowserHistory()
 
   return (
     <ChainTypePanel
@@ -74,35 +73,33 @@ export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function
         setShowChainDropdown(false)
       }}
     >
-      <div
-        className={`chain_type_${chainType === 'main' ? 'selected' : 'normal'}`}
-        role="button"
-        tabIndex={-1}
-        onKeyDown={() => {}}
-        onClick={() => {
-          setShowChainDropdown(false)
-          if (chainType === 'ckb_test') {
-            browserHistory.push('/')
-          }
-        }}
-      >
-        {i18n.t('blockchain.mainnet')}
-      </div>
+      <Link to="/">
+        <div
+          className={`chain_type_${chainType === 'main' ? 'selected' : 'normal'}`}
+          role="button"
+          tabIndex={-1}
+          onKeyDown={() => {}}
+          onClick={() => {
+            setShowChainDropdown(false)
+          }}
+        >
+          {i18n.t('blockchain.mainnet')}
+        </div>
+      </Link>
       <div className="chain_type_separate" />
-      <div
-        className={`chain_type_${chainType !== 'main' ? 'selected' : 'normal'}`}
-        role="button"
-        tabIndex={-1}
-        onKeyDown={() => {}}
-        onClick={() => {
-          setShowChainDropdown(false)
-          if (chainType === 'main') {
-            browserHistory.push(`/${CONFIG.CHAIN_NAME}`)
-          }
-        }}
-      >
-        {i18n.t('blockchain.testnet')}
-      </div>
+      <Link to={`/${CONFIG.CHAIN_NAME}`}>
+        <div
+          className={`chain_type_${chainType !== 'main' ? 'selected' : 'normal'}`}
+          role="button"
+          tabIndex={-1}
+          onKeyDown={() => {}}
+          onClick={() => {
+            setShowChainDropdown(false)
+          }}
+        >
+          {i18n.t('blockchain.testnet')}
+        </div>
+      </Link>
     </ChainTypePanel>
   )
 }
