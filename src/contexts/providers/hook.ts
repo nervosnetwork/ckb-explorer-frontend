@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from 'react'
 import { initAxiosInterceptors } from '../../service/http/interceptors'
-import { getChainType, handleBlockchainAlert } from '../../service/app/blockchain'
+import { handleBlockchainAlert } from '../../service/app/blockchain'
 import { BLOCKCHAIN_ALERT_POLLING_TIME, RESIZE_LATENCY, CachedKeys } from '../../utils/const'
 import { initNodeVersion } from '../../service/app/nodeInfo'
 import { AppDispatch, AppActions } from './reducer'
@@ -53,7 +53,6 @@ export const useInitApp = (dispatch: AppDispatch) => {
     initAxiosInterceptors(dispatch)
     initNodeVersion(dispatch)
     initAppLanguage(app, dispatch)
-    getChainType(dispatch)
   }
   useWindowResize(dispatch)
 

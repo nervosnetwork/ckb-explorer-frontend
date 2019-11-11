@@ -168,6 +168,7 @@ export const HeaderBlockchainPanel = styled.div`
     text-align: center;
     letter-spacing: 2px;
     font-weight: bold;
+    cursor: pointer;
   }
 
   @media (max-width: 700px) {
@@ -186,10 +187,11 @@ export const HeaderSearchPanel = styled.div`
 `
 
 export const HeaderVersionPanel = styled.div`
-  width: 85px;
+  width: 90px;
   font-size: 12px;
   margin-right: 90px;
   display: flex;
+  cursor: pointer;
 
   > div {
     margin-top: 8px;
@@ -202,7 +204,7 @@ export const HeaderVersionPanel = styled.div`
   }
 
   @media (max-width: 700px) {
-    width: 50px;
+    width: 60px;
     font-size: 8px;
     margin-right: 40px;
     > div {

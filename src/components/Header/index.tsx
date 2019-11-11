@@ -114,7 +114,9 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
             setShowChainDropdown(true)
           }}
         >
-          <div className="header__blockchain__content">{i18n.t('navbar.network')}</div>
+          <div className="header__blockchain__content">
+            {isMainnet() ? i18n.t('navbar.network_mainnet') : i18n.t('navbar.network_testnet')}
+          </div>
           <HeaderVersionPanel>
             <div>{handleVersion(nodeVersion)}</div>
             <img src={getDropdownIcon()} alt="dropdown icon" />

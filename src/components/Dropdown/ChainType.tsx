@@ -1,7 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { AppContext } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
+import CONFIG from '../../config'
+import { isMainnet } from '../../utils/chain'
 
 export const ChainTypePanel = styled.div`
   width: 184px;
@@ -25,12 +26,14 @@ export const ChainTypePanel = styled.div`
     line-height: 44px;
     text-align: center;
     font-weight: bold;
+    cursor: pointer;
     color: ${props => props.theme.primary};
   }
   .chain_type_normal {
     width: 100%;
     font-size: 14px;
     height: 44px;
+    cursor: pointer;
     line-height: 44px;
     text-align: center;
     font-weight: bold;
@@ -61,10 +64,7 @@ export const ChainTypePanel = styled.div`
 `
 
 export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function; left: number }) => {
-  const { app } = useContext(AppContext)
-  const { chainType } = app
-
-  // TODO: add mainnet and testnet explorer url. For example: <a href="https://testnet-url">TESTNET</a>
+  const testnetUrl = `${CONFIG.MAINNET_URL}/${CONFIG.TESTNET_NAME}`
   return (
     <ChainTypePanel
       left={left}
@@ -73,7 +73,7 @@ export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function
       }}
     >
       <div
-        className={`chain_type_${chainType === 'main' ? 'selected' : 'normal'}`}
+        className={`chain_type_${isMainnet() ? 'selected' : 'normal'}`}
         role="button"
         tabIndex={-1}
         onKeyDown={() => {}}
@@ -81,11 +81,11 @@ export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function
           setShowChainDropdown(false)
         }}
       >
-        {chainType === 'main' ? i18n.t('blockchain.mainnet') : i18n.t('blockchain.mainnet_coming')}
+        <a href={CONFIG.MAINNET_URL}>{i18n.t('blockchain.mainnet')}</a>
       </div>
       <div className="chain_type_separate" />
       <div
-        className={`chain_type_${chainType !== 'main' ? 'selected' : 'normal'}`}
+        className={`chain_type_${!isMainnet() ? 'selected' : 'normal'}`}
         role="button"
         tabIndex={-1}
         onKeyDown={() => {}}
@@ -93,7 +93,7 @@ export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function
           setShowChainDropdown(false)
         }}
       >
-        {chainType === 'ckb_test' ? i18n.t('blockchain.testnet') : i18n.t('blockchain.testnet')}
+        <a href={testnetUrl}>{i18n.t('blockchain.testnet')}</a>
       </div>
     </ChainTypePanel>
   )
