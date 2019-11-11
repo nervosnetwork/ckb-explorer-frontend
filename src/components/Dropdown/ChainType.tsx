@@ -64,6 +64,7 @@ export const ChainTypePanel = styled.div`
 `
 
 export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function; left: number }) => {
+  const testnetUrl = `${CONFIG.MAINNET_URL}/${CONFIG.TESTNET_NAME}`
   return (
     <ChainTypePanel
       left={left}
@@ -92,7 +93,7 @@ export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function
           setShowChainDropdown(false)
         }}
       >
-        <a href={`${CONFIG.MAINNET_URL}/${CONFIG.TESTNET_NAME}`}>{i18n.t('blockchain.testnet')}</a>
+        <a href={testnetUrl}>{i18n.t('blockchain.testnet')}</a>
       </div>
     </ChainTypePanel>
   )
