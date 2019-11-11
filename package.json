@@ -50,7 +50,6 @@
     "start": "env-cmd -f ./.env.develop react-app-rewired start",
     "lint": "eslint src/**/*.{ts,tsx} --fix",
     "build": "env-cmd -f ./.env.production react-app-rewired build",
-    "build:test": "env-cmd -f ./.env.production react-app-rewired build && cp deploy_testnet.sh ./build && cd ./build && sh deploy_testnet.sh",
     "test": "jest",
     "eject": "react-app-rewired eject",
     "precommit": "lint-staged"
