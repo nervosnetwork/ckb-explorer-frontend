@@ -135,7 +135,7 @@
       "dao_search_placeholder": "交易 / 地址",
       "dao_search_reset": "复位",
       "dao_tab_transactions": "交易列表",
-      "dao_tab_depositors": "提现地址",
+      "dao_tab_depositors": "存款地址",
       "dao_title_rank": "排名",
       "dao_title_address": "地址",
       "dao_title_deposit_capacity": "提现金额"
