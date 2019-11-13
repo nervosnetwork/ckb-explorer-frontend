@@ -36,8 +36,8 @@ export const getNervosDao = (dispatch: AppDispatch) => {
   })
 }
 
-export const getNervosDaoTransactions = (dispatch: AppDispatch) => {
-  fetchNervosDaoTransactions().then((response: any) => {
+export const getNervosDaoTransactions = (dispatch: AppDispatch, page: number, pageSize: number) => {
+  fetchNervosDaoTransactions(page, pageSize).then((response: any) => {
     const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
     handleTransactionsResponse(
       dispatch,

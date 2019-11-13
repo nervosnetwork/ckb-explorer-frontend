@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
+import queryString from 'query-string'
+import { RouteComponentProps } from 'react-router'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import Content from '../../components/Content'
@@ -13,6 +15,8 @@ import { shannonToCkb } from '../../utils/util'
 import DaoTransactions from './DaoTransactions'
 import DaoSearch from '../../components/Search/DaoSearch'
 import DepositorRank from './DepositorRank'
+import { parsePageNumber } from '../../utils/string'
+import { PageParams } from '../../utils/const'
 
 enum DaoTab {
   Transactions,
@@ -56,15 +60,23 @@ const DervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
   return <OverviewCard items={overviewItems} />
 }
 
-export const NervosDao = ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+export const NervosDao = ({
+  location: { search },
+  dispatch,
+}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
+  const parsed = queryString.parse(search)
+
+  const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
+  const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
+
   const { nervosDaoState } = useContext(AppContext)
   const [daoTab, setDaoTab] = useState(DaoTab.Transactions)
 
   useEffect(() => {
     getNervosDao(dispatch)
-    getNervosDaoTransactions(dispatch)
+    getNervosDaoTransactions(dispatch, currentPage, pageSize)
     getNervosDaoDepositors(dispatch)
-  }, [dispatch])
+  }, [dispatch, currentPage, pageSize])
 
   return (
     <Content>
@@ -100,7 +112,11 @@ export const NervosDao = ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>
           {daoTab === DaoTab.Transactions && <DaoSearch dispatch={dispatch} />}
         </DaoTabBarPanel>
 
-        {daoTab === DaoTab.Transactions ? <DaoTransactions /> : <DepositorRank />}
+        {daoTab === DaoTab.Transactions ? (
+          <DaoTransactions currentPage={currentPage} pageSize={pageSize} />
+        ) : (
+          <DepositorRank />
+        )}
       </DaoContentPanel>
     </Content>
   )
