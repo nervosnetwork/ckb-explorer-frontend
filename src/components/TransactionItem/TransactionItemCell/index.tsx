@@ -69,8 +69,16 @@ const handleAddressText = (address: string) => {
   return adaptPCEllipsis(address, 5, 80)
 }
 
+const isDaoDepositCell = (cellType: string) => {
+  return cellType === 'nervos_dao_deposit'
+}
+
+const isDaoWithdrawCell = (cellType: string) => {
+  return cellType === 'nervos_dao_withdrawing'
+}
+
 const isDaoCell = (cellType: string) => {
-  return cellType === 'nervos_dao_deposit' || cellType === 'nervos_dao_withdrawing'
+  return isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
 }
 
 const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; address?: string; cellType: CellType }) => {
