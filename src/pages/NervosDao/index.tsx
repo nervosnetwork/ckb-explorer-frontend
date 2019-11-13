@@ -23,7 +23,7 @@ enum DaoTab {
   Depositor,
 }
 
-const DervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
+const NervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
   const overviewItems: OverviewItemData[] = [
     {
       title: i18n.t('nervos_dao.total_deposit'),
@@ -86,9 +86,9 @@ export const NervosDao = ({
           hash={nervosDaoState.nervosDao.daoTypeHash}
           dispatch={dispatch}
         />
-        <DervosDaoOverview nervosDao={nervosDaoState.nervosDao} />
+        <NervosDaoOverview nervosDao={nervosDaoState.nervosDao} />
 
-        <DaoTabBarPanel>
+        <DaoTabBarPanel containSearchBar={daoTab === DaoTab.Transactions}>
           <div className="nervos_dao_tab_bar">
             <div
               role="button"

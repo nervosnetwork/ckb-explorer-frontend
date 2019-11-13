@@ -26,7 +26,7 @@ export const DaoTabBarPanel = styled.div`
   padding: 0 40px;
 
   @media (max-width: 700px) {
-    height: 90px;
+    height: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '90px' : '60px')};
     flex-direction: column;
     justify-content: center;
   }
@@ -37,7 +37,7 @@ export const DaoTabBarPanel = styled.div`
     cursor: pointer;
 
     @media (max-width: 700px) {
-      margin-bottom: 23px;
+      margin-bottom: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '23px' : '0px')};
     }
 
     .div {

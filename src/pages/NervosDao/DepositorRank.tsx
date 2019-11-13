@@ -71,31 +71,31 @@ const AddressText = ({ address }: { address: string }) => {
   )
 }
 
+const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
+  return [
+    {
+      title: i18n.t('nervos_dao.dao_title_rank'),
+      content: index + 1,
+    },
+    {
+      title: i18n.t('nervos_dao.dao_title_address'),
+      content: <AddressText address={depositor.addressHash} />,
+    },
+    {
+      title: i18n.t('nervos_dao.dao_title_deposit_capacity'),
+      content: `${localeNumberString(shannonToCkb(depositor.daoDeposit))} CKB`,
+    },
+  ]
+}
+
 export default () => {
   const { nervosDaoState } = useContext(AppContext)
   const { depositors = [] } = nervosDaoState
 
-  const depositRanks = (depositor: State.NervosDaoDepositor) => {
-    return [
-      {
-        title: i18n.t('nervos_dao.dao_title_rank'),
-        content: depositors.indexOf(depositor) + 1,
-      },
-      {
-        title: i18n.t('nervos_dao.dao_title_address'),
-        content: <AddressText address={depositor.addressHash} />,
-      },
-      {
-        title: i18n.t('nervos_dao.dao_title_deposit_capacity'),
-        content: `${localeNumberString(shannonToCkb(depositor.daoDeposit))} CKB`,
-      },
-    ]
-  }
-
   return isMobile() ? (
     <DepositorRankCardPanel>
-      {depositors.map((depositor: State.NervosDaoDepositor) => {
-        return <OverviewCard key={depositors.indexOf(depositor)} items={depositRanks(depositor)} />
+      {depositors.map((depositor: State.NervosDaoDepositor, index: number) => {
+        return <OverviewCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index)} />
       })}
     </DepositorRankCardPanel>
   ) : (
