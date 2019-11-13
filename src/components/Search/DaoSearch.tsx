@@ -104,6 +104,8 @@ const clearSearchInput = (inputElement: any) => {
   input.blur()
 }
 
+const DEPOSIT_RANK_COUNT = 100
+
 const DaoSearch = ({ dispatch, content }: { dispatch: AppDispatch; content?: string }) => {
   const [t] = useTranslation()
   const SearchPlaceholder = useMemo(() => {
@@ -167,7 +169,7 @@ const DaoSearch = ({ dispatch, content }: { dispatch: AppDispatch; content?: str
         <ResetButtonPanel
           onClick={() => {
             setShowReset(false)
-            getNervosDaoTransactions(dispatch)
+            getNervosDaoTransactions(dispatch, 1, DEPOSIT_RANK_COUNT)
           }}
         >
           {i18n.t('nervos_dao.dao_search_reset')}

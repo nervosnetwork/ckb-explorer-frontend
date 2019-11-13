@@ -6,7 +6,7 @@ import { TransactionsPagination } from './styled'
 import Pagination from '../../components/Pagination'
 import { PageParams } from '../../utils/const'
 
-export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPage?: number; pageSize?: number }) => {
+export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPage: number; pageSize: number }) => {
   const { nervosDaoState } = useContext(AppContext)
   const { transactions = [], total } = nervosDaoState
 
