@@ -124,22 +124,26 @@ export const WithdrawInfoPanel = styled.div`
     'Source Han Sans', source-han-sans-simplified-c, sans-serif;
 
   > div {
-    margin: 5px;
+    margin: 10px;
     display: flex;
+
+    @media (max-width: 700px) {
+      margin: 5px;
+    }
 
     .withdraw__info_title {
       font-size: 14px;
       font-weight: 450;
-      width: 150px;
+      width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '130px' : '70px')};
 
       @media (max-width: 700px) {
         font-size: 10px;
-        width: 100px;
+        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '90px' : '50px')};
       }
 
       @media (max-width: 375px) {
         font-size: 9px;
-        width: 90px;
+        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '80px' : '45px')};
       }
     }
 

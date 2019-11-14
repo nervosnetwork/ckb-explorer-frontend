@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Popover } from 'antd'
 import 'antd/dist/antd.css'
@@ -13,6 +13,7 @@ import { isMobile } from '../../../utils/screen'
 import Tooltip from '../../Tooltip'
 import { CellType } from '../../../utils/const'
 import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
+import { AppContext } from '../../../contexts/providers'
 
 const Cellbase = ({
   cell,
@@ -85,26 +86,27 @@ const isDaoCell = (cellType: string) => {
 }
 
 const NervosDAOAddress = ({ cell, address }: { cell: State.Cell; address: string }) => {
+  const { app } = useContext(AppContext)
   const WithdrawInfo = (
-    <WithdrawInfoPanel>
+    <WithdrawInfoPanel longTitle={app.language === 'en'}>
       <div>
-        <div className="withdraw__info_title">Deposit Capacity: </div>
+        <div className="withdraw__info_title">{`${i18n.t('nervos_dao.deposit_capacity')}: `}</div>
         <div className="withdraw__info_content">
           <span>{localeNumberString(shannonToCkb(cell.capacity))}</span>
           <span> CKB</span>
         </div>
       </div>
       <div>
-        <div className="withdraw__info_title">NervosDAO Subsidy: </div>
+        <div className="withdraw__info_title">{`${i18n.t('nervos_dao.compensation')}: `}</div>
         <div className="withdraw__info_content">
           <span>{localeNumberString(shannonToCkb(cell.interest))}</span>
           <span> CKB</span>
         </div>
       </div>
       <div>
-        <div className="withdraw__info_title">Deposit Period: </div>
+        <div className="withdraw__info_title">{`${i18n.t('nervos_dao.deposit_period')}: `}</div>
         <div className="withdraw__info_content">
-          <span>Block </span>
+          <span>{`${i18n.t('block.block')}`}</span>
           <Link to={`/block/${cell.startedBlockNumber}`}>
             <span>{localeNumberString(cell.startedBlockNumber)}</span>
           </Link>

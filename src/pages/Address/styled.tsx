@@ -17,7 +17,6 @@ export const AddressContentPanel = styled.div`
 export const AddressPendingRewardTitlePanel = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
 
   #address__pending_reward_help {
     margin-left: 20px;

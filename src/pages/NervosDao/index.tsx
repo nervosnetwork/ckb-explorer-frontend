@@ -34,7 +34,7 @@ const NervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
       content: localeNumberString(nervosDao.depositTransactionsCount),
     },
     {
-      title: i18n.t('nervos_dao.interest_granted'),
+      title: i18n.t('nervos_dao.compensation'),
       content: `${localeNumberString(shannonToCkb(nervosDao.interestGranted))} CKB`,
     },
     {
