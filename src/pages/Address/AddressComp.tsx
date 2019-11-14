@@ -90,7 +90,7 @@ const getAddressInfo = (addressState: State.AddressState) => {
   const items: OverviewItemData[] = [
     {
       title: i18n.t('address.balance'),
-      content: `${localeNumberString(shannonToCkb(addressState.address.balance))} CKB`,
+      content: `${localeNumberString(shannonToCkb(addressState.address.balance))} ${i18n.t('common.ckb_unit')}`,
     },
     {
       title: i18n.t('transaction.transactions'),
@@ -98,11 +98,11 @@ const getAddressInfo = (addressState: State.AddressState) => {
     },
     {
       title: i18n.t('address.dao_deposit'),
-      content: `${localeNumberString(shannonToCkb(addressState.address.daoDeposit))} CKB`,
+      content: `${localeNumberString(shannonToCkb(addressState.address.daoDeposit))} ${i18n.t('common.ckb_unit')}`,
     },
     {
       title: i18n.t('address.compensation'),
-      content: `${localeNumberString(shannonToCkb(addressState.address.interest))} CKB`,
+      content: `${localeNumberString(shannonToCkb(addressState.address.interest))} ${i18n.t('common.ckb_unit')}`,
     },
   ]
 

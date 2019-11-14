@@ -93,14 +93,14 @@ const NervosDAOAddress = ({ cell, address }: { cell: State.Cell; address: string
         <div className="withdraw__info_title">{`${i18n.t('nervos_dao.deposit_capacity')}: `}</div>
         <div className="withdraw__info_content">
           <span>{localeNumberString(shannonToCkb(cell.capacity))}</span>
-          <span> CKB</span>
+          <span>{` ${i18n.t('common.ckb_unit')}`}</span>
         </div>
       </div>
       <div>
         <div className="withdraw__info_title">{`${i18n.t('nervos_dao.compensation')}: `}</div>
         <div className="withdraw__info_content">
           <span>{localeNumberString(shannonToCkb(cell.interest))}</span>
-          <span> CKB</span>
+          <span>{` ${i18n.t('common.ckb_unit')}`}</span>
         </div>
       </div>
       <div>
@@ -171,7 +171,7 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
       </div>
       <TransactionCellCapacity fullWidth={cellType === CellType.Output}>
         {isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
-        {`${localeNumberString(shannonToCkb(cell.capacity))} CKB`}
+        {`${localeNumberString(shannonToCkb(cell.capacity))} ${i18n.t('common.ckb_unit')}`}
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
       </TransactionCellCapacity>
     </TransactionCellPanel>

@@ -7,7 +7,8 @@
       "overview": "概况",
       "view_all": "查看全部",
       "minute": "分钟",
-      "second_ago": "秒以前"
+      "second_ago": "秒以前",
+      "ckb_unit": "CKB"
     },
     "toast": {
       "invalid_content": "请输入有效内容",

@@ -7,7 +7,8 @@
       "overview": "Overview",
       "view_all": "View All",
       "minute": "minutes",
-      "second_ago": "second ago"
+      "second_ago": "second ago",
+      "ckb_unit": "CKB"
     },
     "toast": {
       "invalid_content": "Please input valid content",
