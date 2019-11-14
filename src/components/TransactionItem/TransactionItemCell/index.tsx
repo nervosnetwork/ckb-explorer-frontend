@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Popover } from 'antd'
+import 'antd/dist/antd.css'
 import HelpIcon from '../../../assets/qa_help.png'
+import DetailIcon from '../../../assets/detail.png'
 import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
-import { CellbasePanel, TransactionCellPanel, TransactionCellCapacity } from './styled'
+import { CellbasePanel, TransactionCellPanel, TransactionCellCapacity, WithdrawInfoPanel } from './styled'
 import { isMobile } from '../../../utils/screen'
 import Tooltip from '../../Tooltip'
 import { CellType } from '../../../utils/const'
@@ -81,6 +84,63 @@ const isDaoCell = (cellType: string) => {
   return isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
 }
 
+const NervosDAOAddress = ({ cell, address }: { cell: State.Cell; address: string }) => {
+  const WithdrawInfo = (
+    <WithdrawInfoPanel>
+      <div>
+        <div className="withdraw__info_title">Deposit Capacity: </div>
+        <div className="withdraw__info_content">
+          <span>{localeNumberString(shannonToCkb(cell.capacity))}</span>
+          <span> CKB</span>
+        </div>
+      </div>
+      <div>
+        <div className="withdraw__info_title">NervosDAO Subsidy: </div>
+        <div className="withdraw__info_content">
+          <span>{localeNumberString(shannonToCkb(cell.interest))}</span>
+          <span> CKB</span>
+        </div>
+      </div>
+      <div>
+        <div className="withdraw__info_title">Deposit Period: </div>
+        <div className="withdraw__info_content">
+          <span>Block </span>
+          <Link to={`/block/${cell.startedBlockNumber}`}>
+            <span>{localeNumberString(cell.startedBlockNumber)}</span>
+          </Link>
+          <span> - </span>
+          <span>{localeNumberString(cell.endedBlockNumber)}</span>
+        </div>
+      </div>
+    </WithdrawInfoPanel>
+  )
+
+  if (isDaoCell(cell.cellType)) {
+    if (isDaoWithdrawCell(cell.cellType)) {
+      return (
+        <div className="transaction__cell_withdraw">
+          <Link to="/nervosdao">
+            <span className="transaction__cell_dao">{i18n.t('blockchain.nervos_dao')}</span>
+          </Link>
+          <Popover placement="right" title="" content={WithdrawInfo} trigger="click">
+            <img src={DetailIcon} className="nervos__dao__withdraw_help" alt="nervos dao withdraw" />
+          </Popover>
+        </div>
+      )
+    }
+    return (
+      <Link to="/nervosdao">
+        <span className="transaction__cell_dao">{i18n.t('blockchain.nervos_dao')}</span>
+      </Link>
+    )
+  }
+  return (
+    <Link to={`/address/${cell.addressHash}`}>
+      <span className="address">{address}</span>
+    </Link>
+  )
+}
+
 const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; address?: string; cellType: CellType }) => {
   if (cell.fromCellbase) {
     return <Cellbase targetBlockNumber={cell.targetBlockNumber} cell={cell} cellType={cellType} />
@@ -102,14 +162,7 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
       <div className="transaction__cell_address">
         {!isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
         {highLight ? (
-          <Link to={isDaoCell(cell.cellType) ? '/nervosdao' : `/address/${cell.addressHash}`}>
-            <>
-              {isDaoCell(cell.cellType) && (
-                <span className="transaction__cell_dao">{i18n.t('blockchain.nervos_dao')}</span>
-              )}
-              {!isDaoCell(cell.cellType) && <span className="address">{addressText}</span>}
-            </>
-          </Link>
+          <NervosDAOAddress cell={cell} address={addressText} />
         ) : (
           <span className="address">{addressText}</span>
         )}

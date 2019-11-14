@@ -18,6 +18,7 @@ export const copyElementValue = (component: any) => {
 }
 
 export const shannonToCkb = (value: BigNumber | string | number): string => {
+  if (!value) return '0'
   const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
   if (bigValue.isNaN()) {
     return '0'
