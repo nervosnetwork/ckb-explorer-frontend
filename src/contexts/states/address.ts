@@ -13,6 +13,11 @@ export const initAddressState: State.AddressState = {
       hashType: '',
     },
     type: '',
+    lockInfo: {
+      status: 'unlocked',
+      epochNumber: '0',
+      epochIndex: '0',
+    },
   },
   transactions: [],
   total: 0,

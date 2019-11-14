@@ -18,4 +18,12 @@ export default styled.div`
       height: 16px;
     }
   }
+
+  a {
+    color: ${props => props.theme.primary};
+  }
+
+  a:hover {
+    color: ${props => props.theme.primary};
+  }
 `

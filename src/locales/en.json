@@ -73,6 +73,8 @@
       "dao_deposit": "NervosDAO Deposit",
       "compensation": "NervosDAO Compensation",
       "pending_reward": "Pending Reward",
+      "lock_until": "Lock Until",
+      "epoch": "Epoch",
       "code_hash": "Code Hash",
       "args": "Args",
       "hash_type": "Hash Type",

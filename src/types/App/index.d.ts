@@ -51,6 +51,12 @@ declare namespace State {
     daoTypeHash: string
   }
 
+  export interface LockInfo {
+    status: 'locked' | 'unlocked'
+    epochNumber: string
+    epochIndex: string
+  }
+
   export interface Address {
     addressHash: string
     lockHash: string
@@ -61,6 +67,7 @@ declare namespace State {
     type: 'Address' | 'LockHash' | ''
     daoDeposit: number
     interest: number
+    lockInfo: LockInfo
   }
 
   export interface Block {
