@@ -87,37 +87,43 @@ const AddressLockScript = ({ script }: { script: State.Script }) => {
 }
 
 const getAddressInfo = (addressState: State.AddressState) => {
+  const { address } = addressState
   const items: OverviewItemData[] = [
     {
       title: i18n.t('address.balance'),
-      content: `${localeNumberString(shannonToCkb(addressState.address.balance))} ${i18n.t('common.ckb_unit')}`,
+      content: `${localeNumberString(shannonToCkb(address.balance))} ${i18n.t('common.ckb_unit')}`,
     },
     {
       title: i18n.t('transaction.transactions'),
-      content: localeNumberString(addressState.address.transactionsCount),
+      content: localeNumberString(address.transactionsCount),
     },
     {
       title: i18n.t('address.dao_deposit'),
-      content: `${localeNumberString(shannonToCkb(addressState.address.daoDeposit))} ${i18n.t('common.ckb_unit')}`,
+      content: `${localeNumberString(shannonToCkb(address.daoDeposit))} ${i18n.t('common.ckb_unit')}`,
     },
     {
       title: i18n.t('address.compensation'),
-      content: `${localeNumberString(shannonToCkb(addressState.address.interest))} ${i18n.t('common.ckb_unit')}`,
+      content: `${localeNumberString(shannonToCkb(address.interest))} ${i18n.t('common.ckb_unit')}`,
     },
   ]
 
-  if (addressState.address.pendingRewardBlocksCount) {
+  if (address.pendingRewardBlocksCount) {
     items.push({
       title: <AddressPendingRewardTitle />,
-      content: `${addressState.address.pendingRewardBlocksCount} ${
-        addressState.address.pendingRewardBlocksCount > 1 ? 'blocks' : 'block'
-      }`,
+      content: `${address.pendingRewardBlocksCount} ${address.pendingRewardBlocksCount > 1 ? 'blocks' : 'block'}`,
     })
   }
-  if (addressState.address.type === 'LockHash' && addressState.address) {
+  if (address.type === 'LockHash' && address) {
     items.push({
       title: i18n.t('address.address'),
-      content: addressContent(addressState.address),
+      content: addressContent(address),
+    })
+  }
+  const { lockInfo } = address
+  if (lockInfo && lockInfo.epochNumber) {
+    items.push({
+      title: i18n.t('address.lock_until'),
+      content: `${lockInfo.epochNumber} ${i18n.t('address.epoch')}`,
     })
   }
 
