@@ -30,7 +30,11 @@ export const TransactionCellPanel = styled.div`
       height: 16px;
     }
 
-    > a {
+    a {
+      color: ${({ theme }: { theme: any }) => `${theme.primary}`};
+    }
+
+    a:hover {
       color: ${({ theme }: { theme: any }) => `${theme.primary}`};
     }
 
@@ -92,8 +96,12 @@ export const CellbasePanel = styled.div`
     margin-right: 10px;
   }
 
-  > a {
+  a {
     font-weight: 500;
+    color: ${props => props.theme.primary};
+  }
+
+  a:hover {
     color: ${props => props.theme.primary};
   }
 
@@ -161,6 +169,10 @@ export const WithdrawInfoPanel = styled.div`
 
     a {
       color: ${({ theme }: { theme: any }) => theme.primary};
+    }
+
+    a:hover {
+      color: ${({ theme }: { theme: any }) => `${theme.primary}`};
     }
   }
 `

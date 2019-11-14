@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import CopyIcon from '../../assets/copy.png'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
-import { startEndEllipsis, adaptPCEllipsis } from '../../utils/string'
+import { startEndEllipsis, adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
 import { copyElementValue } from '../../utils/util'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
@@ -75,6 +75,7 @@ const HashCardPanel = styled.div`
       @media (max-width: 700px) {
         width: 16px;
         height: 18px;
+        margin-bottom: 3px;
       }
     }
   }
@@ -139,7 +140,7 @@ export default ({
         </LoadingPanel>
       ) : (
         <div id="hash__text">
-          <span>{adaptPCEllipsis(hashText, 18, 30)}</span>
+          <span>{isMobile() ? adaptMobileEllipsis(hashText, 6) : adaptPCEllipsis(hashText, 18, 30)}</span>
         </div>
       )}
       <div

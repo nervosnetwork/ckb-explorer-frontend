@@ -250,7 +250,12 @@ export const HighLightValue = styled.div`
   font-size: 13px;
   height: 16px;
 
-  span {
+  a {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    color: ${props => props.theme.primary};
+  }
+
+  a:hover {
+    color: ${props => props.theme.primary};
   }
 `

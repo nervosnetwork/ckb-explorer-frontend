@@ -28,7 +28,7 @@ import { isMainnet } from '../../utils/chain'
 
 const handleMinerText = (address: string) => {
   if (isMobile()) {
-    return adaptMobileEllipsis(address, 13)
+    return adaptMobileEllipsis(address, 12)
   }
   return adaptPCEllipsis(address, 12, 50)
 }
