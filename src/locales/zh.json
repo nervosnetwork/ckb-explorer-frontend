@@ -7,7 +7,8 @@
       "overview": "概况",
       "view_all": "查看全部",
       "minute": "分钟",
-      "second_ago": "秒以前"
+      "second_ago": "秒以前",
+      "ckb_unit": "CKB"
     },
     "toast": {
       "invalid_content": "请输入有效内容",
@@ -70,7 +71,7 @@
       "lock_script": "Lock Script",
       "balance": "余额",
       "dao_deposit": "NervosDAO 存款金额",
-      "interest": "NervosDAO 利息",
+      "compensation": "NervosDAO 锁定补贴",
       "pending_reward": "待发奖励",
       "code_hash": "Code Hash",
       "args": "Args",
@@ -131,7 +132,9 @@
       "withdraw_transactions_count": "提现交易",
       "current_depositors": "当前存款地址",
       "total_depositors": "所有历史存款地址",
-      "interest_granted": "利息",
+      "compensation": "锁定补贴",
+      "deposit_period": "存款周期",
+      "deposit_capacity": "存款金额",
       "dao_search_placeholder": "交易 / 地址",
       "dao_search_reset": "复位",
       "dao_tab_transactions": "交易列表",

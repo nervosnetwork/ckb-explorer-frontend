@@ -59,6 +59,14 @@ const TableContentRowItem = styled.div`
   justify-content: center;
   text-overflow: ellipsis;
   font-size: 16px;
+
+  a {
+    color: ${props => props.theme.primary};
+  }
+
+  a:hover {
+    color: ${props => props.theme.primary};
+  }
 `
 
 const TableMinerContentPanel = styled.div`

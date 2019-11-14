@@ -47,3 +47,9 @@ a {
     display: none;
   }
 }
+
+@media (max-width: 700px) {
+  .ant-popover-inner-content {
+    padding: 5px !important;
+  }
+}

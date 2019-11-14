@@ -12,7 +12,7 @@ import { isMainnet } from '../../../utils/chain'
 const LeftArrowImage = styled.img`
   width: 16px;
   height: 12px;
-  margin: 6px 7px 0 0;
+  margin: 0px 7px 0 0;
 
   @media (max-width: 700px) {
     margin: ${({ marginTop }: { marginTop: boolean }) => (marginTop ? '5px 10px 0 0' : '3px 10px 0 0')};
@@ -22,7 +22,7 @@ const LeftArrowImage = styled.img`
 const RightArrowImage = styled.img`
   width: 16px;
   height: 12px;
-  margin: 5px 0 0 7px;
+  margin: 0px 0 0 7px;
 
   @media (max-width: 700px) {
     margin: ${({ marginTop }: { marginTop: boolean }) => (marginTop ? '5px 5px 0 7px' : '0px 5px 0 7px')};

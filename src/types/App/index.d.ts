@@ -47,7 +47,7 @@ declare namespace State {
     cellType: 'normal' | 'dao'
     startedBlockNumber: number
     endedBlockNumber: number
-    interest: number
+    interest: string
     daoTypeHash: string
   }
 
@@ -101,7 +101,7 @@ declare namespace State {
   }
 
   export interface BlockchainInfo {
-    blockchain_info: {
+    blockchainInfo: {
       isInitialBlockDownload: boolean
       epoch: string
       difficulty: string

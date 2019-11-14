@@ -83,7 +83,7 @@ const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
     },
     {
       title: i18n.t('nervos_dao.dao_title_deposit_capacity'),
-      content: `${localeNumberString(shannonToCkb(depositor.daoDeposit))} CKB`,
+      content: `${localeNumberString(shannonToCkb(depositor.daoDeposit))} ${i18n.t('common.ckb_unit')}`,
     },
   ]
 }
@@ -111,7 +111,7 @@ export default () => {
           <DepositorRankItem>
             <div>{index + 1}</div>
             <AddressText address={depositor.addressHash} />
-            <div>{`${localeNumberString(shannonToCkb(depositor.daoDeposit))} CKB`}</div>
+            <div>{`${localeNumberString(shannonToCkb(depositor.daoDeposit))} ${i18n.t('common.ckb_unit')}`}</div>
           </DepositorRankItem>
         )
       })}

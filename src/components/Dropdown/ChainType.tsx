@@ -28,6 +28,14 @@ export const ChainTypePanel = styled.div`
     font-weight: bold;
     cursor: pointer;
     color: ${props => props.theme.primary};
+
+    a {
+      color: ${props => props.theme.primary};
+    }
+
+    a:hover {
+      color: ${props => props.theme.primary};
+    }
   }
   .chain_type_normal {
     width: 100%;
@@ -38,6 +46,13 @@ export const ChainTypePanel = styled.div`
     text-align: center;
     font-weight: bold;
     color: #676767;
+
+    a {
+      color: #676767;
+    }
+    a:hover {
+      color: #676767;
+    }
   }
   .chain_type_separate {
     width: 100%;

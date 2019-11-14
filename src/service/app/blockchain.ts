@@ -6,9 +6,9 @@ const alertNotEmpty = (wrapper: Response.Wrapper<State.BlockchainInfo> | null): 
     wrapper !== null &&
     wrapper !== undefined &&
     wrapper.attributes &&
-    wrapper.attributes.blockchain_info &&
-    wrapper.attributes.blockchain_info.alerts &&
-    wrapper.attributes.blockchain_info.alerts.length > 0
+    wrapper.attributes.blockchainInfo &&
+    wrapper.attributes.blockchainInfo.alerts &&
+    wrapper.attributes.blockchainInfo.alerts.length > 0
   )
 }
 
@@ -20,7 +20,7 @@ export const handleBlockchainAlert = (dispatch: AppDispatch) => {
         payload: {
           appError: {
             type: 'ChainAlert',
-            message: wrapper!.attributes.blockchain_info.alerts.map(alert => {
+            message: wrapper!.attributes.blockchainInfo.alerts.map(alert => {
               return alert.message
             }),
           },

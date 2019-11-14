@@ -27,15 +27,15 @@ const NervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
   const overviewItems: OverviewItemData[] = [
     {
       title: i18n.t('nervos_dao.total_deposit'),
-      content: `${localeNumberString(shannonToCkb(nervosDao.totalDeposit))} CKB`,
+      content: `${localeNumberString(shannonToCkb(nervosDao.totalDeposit))} ${i18n.t('common.ckb_unit')}`,
     },
     {
       title: i18n.t('nervos_dao.deposit_transactions_count'),
       content: localeNumberString(nervosDao.depositTransactionsCount),
     },
     {
-      title: i18n.t('nervos_dao.interest_granted'),
-      content: `${localeNumberString(shannonToCkb(nervosDao.interestGranted))} CKB`,
+      title: i18n.t('nervos_dao.compensation'),
+      content: `${localeNumberString(shannonToCkb(nervosDao.interestGranted))} ${i18n.t('common.ckb_unit')}`,
     },
     {
       title: i18n.t('nervos_dao.withdraw_transactions_count'),

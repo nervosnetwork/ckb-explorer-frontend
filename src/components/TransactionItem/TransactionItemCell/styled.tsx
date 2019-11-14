@@ -20,13 +20,40 @@ export const TransactionCellPanel = styled.div`
   .transaction__cell_address {
     color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) =>
       highLight ? `${theme.primary}` : '#000000'};
+
     font-weight: 500;
     height: 20px;
+    display: flex;
+    align-items: center;
 
     @media (max-width: 700px) {
       height: 16px;
-      display: flex;
     }
+
+    a {
+      color: ${({ theme }: { theme: any }) => `${theme.primary}`};
+    }
+
+    a:hover {
+      color: ${({ theme }: { theme: any }) => `${theme.primary}`};
+    }
+
+    .nervos__dao__withdraw_help {
+      margin-left: 5px;
+      width: 18px;
+      height: 18px;
+
+      @media (max-width: 700px) {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+
+  .transaction__cell_withdraw {
+    display: flex;
+    align-items: center;
+    margin-top: 2px;
   }
 
   .transaction__cell_dao {
@@ -40,6 +67,7 @@ export const TransactionCellCapacity = styled.div`
   margin-left: 15px;
   display: flex;
   height: 20px;
+  align-items: center;
 
   @media (max-width: 700px) {
     margin-left: 0px;
@@ -68,8 +96,12 @@ export const CellbasePanel = styled.div`
     margin-right: 10px;
   }
 
-  > a {
+  a {
     font-weight: 500;
+    color: ${props => props.theme.primary};
+  }
+
+  a:hover {
     color: ${props => props.theme.primary};
   }
 
@@ -84,11 +116,63 @@ export const CellbasePanel = styled.div`
     > img {
       width: 20px;
       height: 20px;
+      margin-bottom: 3px;
 
       @media (max-width: 700px) {
         width: 16px;
         height: 16px;
       }
+    }
+  }
+`
+
+export const WithdrawInfoPanel = styled.div`
+  font-family: Montserrat, Montserrat-Regular, PingFang SC, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Noto Sans CJK SC', 'Noto Sans CJK',
+    'Source Han Sans', source-han-sans-simplified-c, sans-serif;
+
+  > div {
+    margin: 10px;
+    display: flex;
+
+    @media (max-width: 700px) {
+      margin: 5px;
+    }
+
+    .withdraw__info_title {
+      font-size: 14px;
+      font-weight: 450;
+      width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '130px' : '70px')};
+
+      @media (max-width: 700px) {
+        font-size: 10px;
+        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '90px' : '50px')};
+      }
+
+      @media (max-width: 375px) {
+        font-size: 9px;
+        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '80px' : '45px')};
+      }
+    }
+
+    .withdraw__info_content {
+      font-size: 14px;
+
+      @media (max-width: 700px) {
+        font-size: 10px;
+      }
+
+      @media (max-width: 375px) {
+        font-size: 9px;
+      }
+    }
+
+    a {
+      color: ${({ theme }: { theme: any }) => theme.primary};
+    }
+
+    a:hover {
+      color: ${({ theme }: { theme: any }) => `${theme.primary}`};
     }
   }
 `

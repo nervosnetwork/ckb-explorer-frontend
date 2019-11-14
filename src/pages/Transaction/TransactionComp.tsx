@@ -39,7 +39,7 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
     },
     {
       title: i18n.t('transaction.transaction_fee'),
-      content: `${shannonToCkb(transaction.transactionFee)} CKB`,
+      content: `${shannonToCkb(transaction.transactionFee)} ${i18n.t('common.ckb_unit')}`,
     },
   ]
   if (confirmation > 0) {

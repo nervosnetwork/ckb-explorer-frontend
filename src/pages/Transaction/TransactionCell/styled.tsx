@@ -24,6 +24,12 @@ export const TransactionCellContentPanel = styled.div`
   .transaction__cell_detail {
     flex: 0.33;
   }
+  a {
+    color: ${props => props.theme.primary};
+  }
+  a:hover {
+    color: ${props => props.theme.primary};
+  }
 `
 
 export const TransactionCellHashPanel = styled.div`

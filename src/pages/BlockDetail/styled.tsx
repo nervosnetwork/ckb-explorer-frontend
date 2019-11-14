@@ -35,8 +35,12 @@ export const BlockRootInfoItemPanel = styled.div`
 `
 
 export const BlockLinkPanel = styled.div`
-  > a {
+  a {
     font-weight: 500;
+    color: ${props => props.theme.primary};
+  }
+
+  a:hover {
     color: ${props => props.theme.primary};
   }
 `

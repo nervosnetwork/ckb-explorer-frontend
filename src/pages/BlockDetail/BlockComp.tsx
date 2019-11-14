@@ -28,7 +28,7 @@ import { isMainnet } from '../../utils/chain'
 
 const handleMinerText = (address: string) => {
   if (isMobile()) {
-    return adaptMobileEllipsis(address, 13)
+    return adaptMobileEllipsis(address, 12)
   }
   return adaptPCEllipsis(address, 12, 50)
 }
@@ -103,7 +103,8 @@ const EpochNumberLink = ({ epochNumber }: { epochNumber: number }) => {
 
 const BlockOverview = ({ block }: { block: State.Block }) => {
   const [showAllOverview, setShowAllOverview] = useState(false)
-  const receivedTxFee = `${localeNumberString(shannonToCkb(block.receivedTxFee))} CKB`
+  const receivedTxFee = `${localeNumberString(shannonToCkb(block.receivedTxFee))} ${i18n.t('common.ckb_unit')}`
+  const blockReward = `${localeNumberString(shannonToCkb(block.reward))} ${i18n.t('common.ckb_unit')}`
   const rootInfoItems = [
     {
       title: i18n.t('block.transactions_root'),
@@ -140,7 +141,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       content: (
         <BlockOverviewItemContent
           type="block_reward"
-          value={block.rewardStatus === 'pending' ? '' : `${localeNumberString(shannonToCkb(block.reward))} CKB`}
+          value={block.rewardStatus === 'pending' ? '' : blockReward}
           tip={block.rewardStatus === 'pending' ? i18n.t('block.pending') : undefined}
           message={i18n.t('block.pending_tip')}
         />

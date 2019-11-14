@@ -115,5 +115,13 @@ export const OverviewItemPanel = styled.div`
       word-break: break-all;
       width: 100%;
     }
+
+    a {
+      color: ${props => props.theme.primary};
+    }
+
+    a:hover {
+      color: ${props => props.theme.primary};
+    }
   }
 `
