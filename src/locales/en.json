@@ -13,7 +13,7 @@
     "toast": {
       "invalid_content": "Please input valid content",
       "invalid_network": "Network exception, please try again later",
-      "data_too_large": "The data is too large, please view on PC browser",
+      "data_too_large": "The data is too large, not available for download",
       "result_not_found": "Search result not found"
     },
     "navbar": {
