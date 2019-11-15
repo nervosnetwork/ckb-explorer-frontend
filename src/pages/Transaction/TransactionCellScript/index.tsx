@@ -50,6 +50,7 @@ const handleFetchScript = (cell: State.Cell, state: CellState, setContent: any, 
                 type: AppActions.ShowToastMessage,
                 payload: {
                   message: i18n.t('toast.data_too_large'),
+                  type: 'warning',
                 },
               })
             }
