@@ -77,6 +77,11 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
         )
       }),
     })
+  } else {
+    transactionInfo.push({
+      title: i18n.t('transaction.cell_deps'),
+      content: [],
+    })
   }
   if (headerDeps) {
     transactionInfo.push({
@@ -109,6 +114,11 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
           </TransactionInfoContentPanel>
         )
       }),
+    })
+  } else {
+    transactionInfo.push({
+      title: i18n.t('transaction.witnesses'),
+      content: [],
     })
   }
 
