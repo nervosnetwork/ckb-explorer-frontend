@@ -52,13 +52,13 @@ export const TransactionBlockHeightPanel = styled.div`
 export const TransactionInfoItemPanel = styled.div`
   flex: 1;
 
-  @media (min-width: 700px) {
+  @media (max-width: 700px) {
     height: 20px;
     margin-top: 20px;
   }
 
   .transaction__info_title {
-    margin-top: 0px;
+    margin-top: 10px;
     font-weight: 500;
 
     @media (max-width: 700px) {
