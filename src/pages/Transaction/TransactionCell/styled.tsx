@@ -38,6 +38,7 @@ export const TransactionCellHashPanel = styled.div`
   text-align: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? 'left' : 'center')};
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   @media (max-width: 700px) {
     text-align: left;
