@@ -42,7 +42,7 @@ export const TransactionCellPanel = styled.div`
       margin-left: 5px;
       width: 18px;
       height: 18px;
-
+      cursor: pointer;
       @media (max-width: 700px) {
         width: 14px;
         height: 14px;

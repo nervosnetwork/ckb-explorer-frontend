@@ -106,12 +106,14 @@ const NervosDAOAddress = ({ cell, address }: { cell: State.Cell; address: string
       <div>
         <div className="withdraw__info_title">{`${i18n.t('nervos_dao.deposit_period')}: `}</div>
         <div className="withdraw__info_content">
-          <span>{`${i18n.t('block.block')}`}</span>
+          <span>{`${i18n.t('block.block')} `}</span>
           <Link to={`/block/${cell.startedBlockNumber}`}>
             <span>{localeNumberString(cell.startedBlockNumber)}</span>
           </Link>
           <span> - </span>
-          <span>{localeNumberString(cell.endedBlockNumber)}</span>
+          <Link to={`/block/${cell.endedBlockNumber}`}>
+            <span>{localeNumberString(cell.endedBlockNumber)}</span>
+          </Link>
         </div>
       </div>
     </WithdrawInfoPanel>
