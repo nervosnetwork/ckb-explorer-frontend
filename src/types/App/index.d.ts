@@ -94,6 +94,14 @@ declare namespace State {
     transactionsRoot: string
   }
 
+  export interface CellDep {
+    depType: string
+    outPoint: {
+      index: string
+      txHash: string
+    }
+  }
+
   export interface Transaction {
     transactionHash: string
     blockNumber: number
@@ -105,6 +113,9 @@ declare namespace State {
     version: number
     displayInputs: Cell[]
     displayOutputs: Cell[]
+    cellDeps: CellDep[]
+    headerDeps: string[]
+    witnesses: string[]
   }
 
   export interface BlockchainInfo {

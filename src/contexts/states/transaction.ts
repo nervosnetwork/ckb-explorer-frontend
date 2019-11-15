@@ -10,6 +10,9 @@ export const initTransactionState: State.TransactionState = {
     version: 0,
     displayInputs: [],
     displayOutputs: [],
+    cellDeps: [],
+    headerDeps: [],
+    witnesses: [],
   },
   status: 'None',
 }
