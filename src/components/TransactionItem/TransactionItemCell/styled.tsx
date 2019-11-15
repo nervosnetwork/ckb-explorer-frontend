@@ -142,16 +142,16 @@ export const WithdrawInfoPanel = styled.div`
     .withdraw__info_title {
       font-size: 14px;
       font-weight: 450;
-      width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '130px' : '70px')};
+      width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '160px' : '80px')};
 
       @media (max-width: 700px) {
         font-size: 10px;
-        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '90px' : '50px')};
+        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '110px' : '60px')};
       }
 
       @media (max-width: 375px) {
         font-size: 9px;
-        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '80px' : '45px')};
+        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '100px' : '50px')};
       }
     }
 

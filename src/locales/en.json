@@ -19,6 +19,8 @@
     "navbar": {
       "wallet": "Wallet",
       "charts": "Charts",
+      "nervos_dao": "NervosDAO",
+      "dao": "DAO",
       "docs": "Docs",
       "search_placeholder": "Block / Transaction / Address / Lock Hash",
       "network_mainnet": "MAINNET",
