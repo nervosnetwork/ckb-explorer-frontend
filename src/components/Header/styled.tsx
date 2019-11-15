@@ -35,9 +35,9 @@ export const HeaderDiv = styled.div`
     min-height: 75px;
 
     .header__menus__item {
-      margin-left: 16px;
-      margin-right: 16px;
-      font-size: 24px;
+      margin-left: 10px;
+      margin-right: 10px;
+      font-size: 18px;
       letter-spacing: 2px;
       font-weight: 600;
       color: white;
@@ -172,7 +172,7 @@ export const HeaderBlockchainPanel = styled.div`
   .header__blockchain__content {
     font-size: 24px;
     text-align: center;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     font-weight: bold;
   }
 

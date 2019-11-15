@@ -137,7 +137,7 @@
       "calculating_tip": "The transaction fee of this block will be sent to the miner after 11 blocks，learn more from our Consensus Protocol"
     },
     "nervos_dao": {
-      "nervos_dao": "NervosDAO",
+      "nervos_dao": "Nervos DAO",
       "total_deposit": "Total Deposit",
       "current_depositors": "Deposit Addresses",
       "compensation": "Issued Compensation",
