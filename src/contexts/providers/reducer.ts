@@ -95,6 +95,7 @@ export const reducer = (
           toast: {
             id: new Date().getTime(),
             message: payload.message,
+            type: payload.type,
             duration: payload.duration,
           },
         },

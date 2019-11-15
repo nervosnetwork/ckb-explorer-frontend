@@ -17,7 +17,6 @@ const ToastDiv = styled.div`
 `
 const ToastItemDiv = styled.div`
   width: 100%;
-  background-color: ${props => props.theme.primary};
   position: fixed;
   position: -webkit-fixed;
   top: 82px;
@@ -50,6 +49,19 @@ const ToastItemDiv = styled.div`
     }
   }
 `
+
+const getColor = (type: 'success' | 'warning' | 'danger') => {
+  switch (type) {
+    case 'success':
+      return '#3cc68a'
+    case 'warning':
+      return '#ffae42'
+    case 'danger':
+      return '#ff7070'
+    default:
+      return '#3cc68a'
+  }
+}
 
 const ANIMATION_DISAPPEAR_TIME = 2000
 const MAX_FRAME: number = (ANIMATION_DISAPPEAR_TIME / 1000) * 40 // suppose fps = 40
@@ -86,6 +98,7 @@ const ToastItem = ({ data, willLeave }: { data: State.ToastMessage; willLeave: F
     <ToastItemDiv
       style={{
         opacity,
+        background: getColor(data.type),
       }}
     >
       <div className="toast__text">{data.message}</div>

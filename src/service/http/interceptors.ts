@@ -55,6 +55,9 @@ export const initAxiosInterceptors = (dispatch: AppDispatch) => {
           case 404:
             updateNetworkError(dispatch, false)
             break
+          case 400:
+            updateNetworkError(dispatch, false)
+            break
           default:
             updateNetworkError(dispatch, true)
             break
