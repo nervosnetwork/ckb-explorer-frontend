@@ -128,7 +128,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
   return (
     <Content>
       <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}</ChartTitle>
-      {statisticsChartData.length > 1 ? (
+      {statisticsChartData.length > 0 ? (
         <ChartPanel>
           <Chart
             height={window.innerHeight * 0.7}
@@ -209,7 +209,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
       )}
 
       <ChartTitle>{`${i18n.t('block.uncle_rate')}`}</ChartTitle>
-      {statisticsUncleRates.length > 1 ? (
+      {statisticsUncleRates.length > 0 ? (
         <ChartPanel>
           <Chart
             height={window.innerHeight * 0.7}
