@@ -15,7 +15,7 @@ const LeftArrowImage = styled.img`
   margin: 0px 7px 0 0;
 
   @media (max-width: 700px) {
-    margin: ${({ marginTop }: { marginTop: boolean }) => (marginTop ? '5px 10px 0 0' : '3px 10px 0 0')};
+    margin: ${({ marginTop }: { marginTop: boolean }) => (marginTop ? '0px 10px 0 0' : '0px 10px 0 0')};
   }
 `
 
@@ -25,7 +25,7 @@ const RightArrowImage = styled.img`
   margin: 0px 0 0 7px;
 
   @media (max-width: 700px) {
-    margin: ${({ marginTop }: { marginTop: boolean }) => (marginTop ? '5px 5px 0 7px' : '0px 5px 0 7px')};
+    margin: ${({ marginTop }: { marginTop: boolean }) => (marginTop ? '0px 5px 0 7px' : '0px 5px 0 7px')};
   }
 `
 
