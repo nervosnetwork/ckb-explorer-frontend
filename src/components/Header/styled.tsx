@@ -97,6 +97,7 @@ export const HeaderMobileDiv = styled.div`
     .header__logo__img {
       width: 80px;
       height: 16px;
+      margin-bottom: 5px;
     }
   }
 
@@ -120,6 +121,7 @@ export const HeaderMobileDiv = styled.div`
 
   .header__search {
     display: flex;
+    align-items: center;
     flex: 1;
     height: 21px;
     justify-content: flex-end;
@@ -132,7 +134,6 @@ export const HeaderMobileDiv = styled.div`
         width: 14px;
         height: 14px;
         margin-left: 7.5px;
-        margin-top: 3.5px;
       }
     }
 
@@ -161,6 +162,7 @@ export const HeaderBlockchainPanel = styled.div`
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-top: 2px;
   }
 
   .header__blockchain__content {
