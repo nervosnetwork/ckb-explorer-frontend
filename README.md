@@ -12,11 +12,14 @@ It supports searching block, transaction, address and includes two parts: [front
 
 ### Prerequisite
 
-- Node.js 11.10 or later
+- Node: install version 11.10 or greater.
+- Yarn: See [Yarn website for installation instructions](https://yarnpkg.com/lang/en/docs/install/). (needs 1.13.0 or greater).
+- A fork of the repo (for any contributions).
+- A clone of the `ckb-explorer-frontend` repo.
 
 ### Edit .env file
 
-You need to edit .env.develop to set your own api url as ckb explorder server.
+You need to edit .env.develop and .env.production to set your own api url as ckb explorer server.
 
 ```shell
 REACT_APP_API_URL = 'http://your-api-url'   # Set your own api url
@@ -28,16 +31,20 @@ REACT_APP_API_URL = 'http://your-api-url'   # Set your own api url
 git clone https://github.com/nervosnetwork/ckb-explorer-frontend.git
 cd ckb-explorer-frontend
 yarn install   # install dependency libraries
-yarn start     # run ckb explorer frontend on localhost
 ```
 
-### Development
+### Running locally
+
+- `yarn start` to start the development server (or `npm start`, if not using Yarn).
+- open `http://localhost:3000/` to open the site in your favorite browser.
+
+### Building production
 
 ```shell
 yarn build    # build ckb explorer frontend project
 yarn test     # run project test cases
 ```
 
-## License
+### License
 
 CKB Explorer Frontend is released under the terms of the MIT license. See [COPYING](COPYING) for more information or see [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT).
