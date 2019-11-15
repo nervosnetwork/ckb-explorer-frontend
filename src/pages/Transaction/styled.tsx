@@ -58,12 +58,22 @@ export const TransactionInfoItemPanel = styled.div`
   }
 
   .transaction__info_title {
+    margin-top: 0px;
     font-weight: 500;
+
+    @media (max-width: 700px) {
+      margin-top: 5px;
+    }
   }
   .transaction__info_value {
     margin-left: 20px;
     margin-top: 10px;
     font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
+
+    @media (max-width: 700px) {
+      margin-left: 0px;
+      margin-top: 2px;
+    }
   }
 `
 
@@ -91,6 +101,10 @@ export const TransactionInfoContentPanel = styled.div`
     width: 200px;
     color: #333333;
     font-size: 14px;
+
+    @media (max-width: 700px) {
+      font-size: 12px;
+    }
   }
 
   .transaction__info__content_value {
@@ -99,5 +113,9 @@ export const TransactionInfoContentPanel = styled.div`
     width: 100%;
     word-wrap: break-word;
     word-break: break-all;
+
+    @media (max-width: 700px) {
+      font-size: 12px;
+    }
   }
 `
