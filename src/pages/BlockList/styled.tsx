@@ -19,7 +19,7 @@ export const BlockListPanel = styled.div`
       margin-left: -20px;
       height: 61px;
       width: calc(100% + 40px);
-      background-color: #3cc68a;
+      background-color: ${props => props.theme.primary};
       z-index: 1;
     }
   }
@@ -43,7 +43,7 @@ export const ContentTitle = styled.div`
 
   &:after {
     content: '';
-    background: #3cc68a;
+    background: ${props => props.theme.primary};
     height: 4px;
     width: 197px;
     display: block;
@@ -63,7 +63,11 @@ export const ContentTable = styled.div`
 `
 
 export const HighLightValue = styled.div`
-  color: #3cc68a;
+  color: ${props => props.theme.primary};
   font-size: 13px;
   height: 16px;
+
+  span {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  }
 `

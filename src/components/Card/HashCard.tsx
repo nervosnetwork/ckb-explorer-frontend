@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import CopyIcon from '../../assets/copy.png'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
-import { startEndEllipsis, adaptPCEllipsis } from '../../utils/string'
+import { startEndEllipsis, adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
 import { copyElementValue } from '../../utils/util'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
@@ -27,7 +27,7 @@ const HashCardPanel = styled.div`
     box-shadow: 1px 1px 3px 0 #dfdfdf;
   }
 
-  .address_hash__title {
+  .hash__title {
     margin-left: 40px;
     font-size: 30px;
     font-weight: 500;
@@ -40,11 +40,15 @@ const HashCardPanel = styled.div`
     }
   }
 
-  #address_hash__text {
+  #hash__text {
     margin-left: 20px;
     font-size: 20px;
     color: #000000;
     transform: translateY(3px);
+
+    span {
+      font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
+    }
 
     @media (max-width: 700px) {
       font-size: 13px;
@@ -54,7 +58,7 @@ const HashCardPanel = styled.div`
     }
   }
 
-  .address_hash__copy_icon {
+  .hash__copy_icon {
     cursor: pointer;
     margin-left: 20px;
     transform: translateY(6px);
@@ -71,11 +75,12 @@ const HashCardPanel = styled.div`
       @media (max-width: 700px) {
         width: 16px;
         height: 18px;
+        margin-bottom: 3px;
       }
     }
   }
 
-  #address_hash__value {
+  #hash__value {
     color: #ffffff;
     position: absolute;
     bottom: -30px;
@@ -86,8 +91,8 @@ const LoadingPanel = styled.div`
   width: 100%;
 `
 
-const handleHashText = (hash: string, isMobileDeivce: boolean, setHashText: Dispatch<SetStateAction<string>>) => {
-  if (!isMobileDeivce) {
+const handleHashText = (hash: string, isMobileDevice: boolean, setHashText: Dispatch<SetStateAction<string>>) => {
+  if (!isMobileDevice) {
     setHashText(hash)
     return
   }
@@ -116,35 +121,35 @@ export default ({
   loading?: boolean
 }) => {
   const [hashText, setHashText] = useState(hash)
-  const isMobileDeivce = isMobile()
+  const isMobileDevice = isMobile()
   const { app } = useContext(AppContext)
 
   // render again when language and title change
   useLayoutEffect(() => {
     if (app.language && title) {
-      handleHashText(hash, isMobileDeivce, setHashText)
+      handleHashText(hash, isMobileDevice, setHashText)
     }
-  }, [app.language, hash, title, isMobileDeivce])
+  }, [app.language, hash, title, isMobileDevice])
 
   return (
-    <HashCardPanel id="address_hash_content">
-      <div className="address_hash__title">{title}</div>
+    <HashCardPanel id="hash_content">
+      <div className="hash__title">{title}</div>
       {loading ? (
         <LoadingPanel>
           <SmallLoading />
         </LoadingPanel>
       ) : (
-        <div id="address_hash__text">
-          <code>{adaptPCEllipsis(hashText, 18, 30)}</code>
+        <div id="hash__text">
+          <span>{isMobile() ? adaptMobileEllipsis(hashText, 6) : adaptPCEllipsis(hashText, 18, 30)}</span>
         </div>
       )}
       <div
-        className="address_hash__copy_icon"
+        className="hash__copy_icon"
         role="button"
         tabIndex={-1}
         onKeyDown={() => {}}
         onClick={() => {
-          copyElementValue(document.getElementById('address_hash__value'))
+          copyElementValue(document.getElementById('hash__value'))
           dispatch({
             type: AppActions.ShowToastMessage,
             payload: {
@@ -155,7 +160,7 @@ export default ({
       >
         {!loading && <img src={CopyIcon} alt="copy" />}
       </div>
-      <div id="address_hash__value">{hash}</div>
+      <div id="hash__value">{hash}</div>
     </HashCardPanel>
   )
 }

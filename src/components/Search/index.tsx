@@ -6,6 +6,7 @@ import { fetchSearchResult } from '../../service/http/fetcher'
 import browserHistory from '../../routes/history'
 import SearchLogo from '../../assets/search.png'
 import GreenSearchLogo from '../../assets/search_green.png'
+import BlueSearchLogo from '../../assets/search_blue.png'
 import { addPrefixForHash } from '../../utils/string'
 import i18n from '../../utils/i18n'
 import { HttpErrorCode, CachedKeys } from '../../utils/const'
@@ -13,6 +14,7 @@ import { AppDispatch, AppActions, ComponentActions } from '../../contexts/provid
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers'
 import { fetchCachedData, storeCachedData } from '../../utils/cached'
+import { isMainnet } from '../../utils/chain'
 
 enum SearchResultType {
   Block = 'block',
@@ -33,7 +35,7 @@ const handleSearchResult = (
   searchBarEditable: boolean,
   dispatch: AppDispatch,
 ) => {
-  const query = searchValue.replace(/^\s+|\s+$/g, '').replace(',', '') // remove front and end blank and ','
+  const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
   if (!query) {
     dispatch({
       type: AppActions.ShowToastMessage,
@@ -129,20 +131,26 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
     }
   }, [searchBarEditable])
 
-  const SearchIconButton = ({ greenIcon }: { greenIcon?: boolean }) => {
+  const SearchIconButton = ({ highlightIcon }: { highlightIcon?: boolean }) => {
+    const getSearchIcon = () => {
+      if (isMainnet()) {
+        return highlightIcon ? GreenSearchLogo : SearchLogo
+      }
+      return highlightIcon ? BlueSearchLogo : SearchLogo
+    }
     return (
       <SearchImage
-        greenIcon={!!greenIcon}
+        highlightIcon={!!highlightIcon}
         role="button"
         tabIndex={-1}
         onKeyPress={() => {}}
         onClick={() => {
-          if (greenIcon) {
+          if (highlightIcon) {
             handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)
           }
         }}
       >
-        <img src={greenIcon ? GreenSearchLogo : SearchLogo} alt="search logo" />
+        <img src={getSearchIcon()} alt="search logo" />
       </SearchImage>
     )
   }
@@ -155,7 +163,6 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
         placeholder={placeholder}
         defaultValue={searchValue || ''}
         hasBorder={!!hasBorder}
-        onFocus={() => setPlaceholder('')}
         onBlur={() => {
           if (!hasBorder) {
             clearSearchInput(inputElement)
@@ -179,7 +186,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
           }
         }}
       />
-      {hasBorder && <SearchIconButton greenIcon />}
+      {hasBorder && <SearchIconButton highlightIcon />}
     </SearchPanel>
   )
 }

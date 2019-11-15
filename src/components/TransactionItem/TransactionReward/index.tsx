@@ -86,7 +86,9 @@ const TransactionReward = ({ transaction, cell }: { transaction: State.Transacti
               <div className="reward__name__point">
                 <div className="reward__name">{reward.name}</div>
               </div>
-              <div className="reward__capacity">{`${localeNumberString(shannonToCkb(reward.capacity))} CKB`}</div>
+              <div className="reward__capacity">
+                {`${localeNumberString(shannonToCkb(reward.capacity))} ${i18n.t('common.ckb_unit')}`}
+              </div>
             </RewardPenal>
           )
         })}

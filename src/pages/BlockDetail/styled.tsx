@@ -30,13 +30,18 @@ export const BlockRootInfoItemPanel = styled.div`
   .block__root_info_value {
     flex: 1;
     margin-left: 20px;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
   }
 `
 
 export const BlockLinkPanel = styled.div`
-  > a {
+  a {
     font-weight: 500;
-    color: #3cc68a;
+    color: ${props => props.theme.primary};
+  }
+
+  a:hover {
+    color: ${props => props.theme.primary};
   }
 `
 
@@ -81,7 +86,7 @@ export const BlockOverviewDisplayControlPanel = styled.div`
   }
 `
 
-export const BlockTransactionsPagition = styled.div`
+export const BlockTransactionsPagination = styled.div`
   margin: 20px 0px 0px 0px;
   width: 100%;
 

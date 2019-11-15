@@ -6,9 +6,12 @@ import { AppContext } from '../../contexts/providers/index'
 import { axiosIns } from '../../service/http/fetcher'
 import PCMaintainImage from '../../assets/pc_maintain.png'
 import MobileMaintainImage from '../../assets/mobile_maintain.png'
+import PCBlueMaintainImage from '../../assets/blue_pc_maintain.png'
+import MobileBlueMaintainImage from '../../assets/blue_mobile_maintain.png'
 import i18n from '../../utils/i18n'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { isMobile } from '../../utils/screen'
+import { isMainnet } from '../../utils/chain'
 
 const MaintainPanel = styled.div`
   width: 100%;
@@ -61,6 +64,13 @@ const fetchTipBlockNumber = (replace: any) => {
     })
 }
 
+const getMaintainImage = () => {
+  if (isMainnet()) {
+    return isMobile() ? MobileMaintainImage : PCMaintainImage
+  }
+  return isMobile() ? MobileBlueMaintainImage : PCBlueMaintainImage
+}
+
 export default ({ history: { replace } }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
   const { app } = useContext(AppContext)
 
@@ -70,7 +80,7 @@ export default ({ history: { replace } }: React.PropsWithoutRef<StateWithDispatc
 
   return (
     <MaintainPanel>
-      <img src={isMobile() ? MobileMaintainImage : PCMaintainImage} alt="maintain" />
+      <img src={getMaintainImage()} alt="maintain" />
       <div>{app.appErrors[2].message[0] || i18n.t('error.maintain')}</div>
     </MaintainPanel>
   )

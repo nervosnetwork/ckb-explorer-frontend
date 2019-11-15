@@ -7,20 +7,24 @@
       "overview": "概况",
       "view_all": "查看全部",
       "minute": "分钟",
-      "second_ago": "秒以前"
+      "second_ago": "秒以前",
+      "ckb_unit": "CKB"
     },
     "toast": {
       "invalid_content": "请输入有效内容",
       "invalid_network": "网络出错，请稍后再试",
-      "data_too_large": "数据过大，请在 PC 上查看"
+      "data_too_large": "数据过大，不支持下载",
+      "result_not_found": "没有找到搜索结果"
     },
     "navbar": {
       "wallet": "钱包",
       "charts": "图表",
-      "faucet": "水龙头",
+      "nervos_dao": "NervosDAO",
+      "dao": "DAO",
       "docs": "文档",
       "search_placeholder": "区块 / 交易 / 地址 / 锁定脚本哈希",
-      "network": "测试网",
+      "network_mainnet": "主网",
+      "network_testnet": "测试网",
       "network_tooltip": "主网即将上线！"
     },
     "blockchain": {
@@ -30,7 +34,11 @@
       "hash_rate": "算力",
       "hash_rate_tooltip": "最近 500 个区块的平均算力",
       "average_block_time": "平均出块时间",
-      "average_block_time_tooltip": "当下 Epoch 的平均出块时间"
+      "average_block_time_tooltip": "当下 Epoch 的平均出块时间",
+      "nervos_dao": "NervosDAO",
+      "mainnet": "MAINNET",
+      "mainnet_coming": "MAINNET Coming",
+      "testnet": "TESTNET"
     },
     "home": {
       "height": "高度",
@@ -47,6 +55,7 @@
       "docs": "文档",
       "gitHub": "GitHub",
       "whitepaper": "白皮书",
+      "faucet": "水龙头",
       "community": "社区",
       "twitter": "Twitter",
       "blog": "Blog",
@@ -63,7 +72,11 @@
       "lock_hash": "Lock Hash",
       "lock_script": "Lock Script",
       "balance": "余额",
+      "dao_deposit": "NervosDAO 存款金额",
+      "compensation": "NervosDAO 锁定补贴",
       "pending_reward": "待发奖励",
+      "lock_until": "锁定到期",
+      "epoch": "Epoch",
       "code_hash": "Code Hash",
       "args": "Args",
       "hash_type": "Hash Type",
@@ -76,6 +89,14 @@
       "transaction": "交易",
       "transactions": "交易",
       "transaction_fee": "交易费",
+      "cell_deps": "CellDeps",
+      "out_point_tx_hash": "OutPoint.TxHash",
+      "out_point_index": "OutPoint.Index",
+      "dep_type": "DepType",
+      "header_deps": "HeaderDeps",
+      "header_dep": "HeaderDep",
+      "witnesses": "Witnesses",
+      "witness": "Witness",
       "status": "状态",
       "input": "输入",
       "output": "输出",
@@ -115,6 +136,24 @@
       "calculating": "待计算",
       "pending_tip": "区块奖励将在 11 个区块后发送给矿工，阅读共识协议了解更多信息",
       "calculating_tip": "交易费将在 11 个区块后发送给矿工，阅读共识协议了解更多信息"
+    },
+    "nervos_dao": {
+      "nervos_dao": "NervosDAO",
+      "total_deposit": "当前存款总额",
+      "deposit_transactions_count": "待补贴存单",
+      "withdraw_transactions_count": "已补贴存单",
+      "current_depositors": "当前存款地址",
+      "total_depositors": "所有历史存款地址",
+      "compensation": "已发放补贴",
+      "deposit_period": "存款周期",
+      "deposit_capacity": "存款金额",
+      "dao_search_placeholder": "交易 / 地址",
+      "dao_search_reset": "复位",
+      "dao_tab_transactions": "交易列表",
+      "dao_tab_depositors": "存款地址",
+      "dao_title_rank": "排名",
+      "dao_title_address": "地址",
+      "dao_title_deposit_capacity": "提现金额"
     },
     "error": {
       "maintain": "网络维护中，请稍后再试"

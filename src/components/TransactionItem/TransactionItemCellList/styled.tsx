@@ -8,7 +8,7 @@ export default styled.div`
 
   .transaction_item__view_all {
     font-size: 16px;
-    color: #3cc68a;
+    color: ${props => props.theme.primary};
     margin-top: 20px;
     height: 20px;
 
@@ -17,5 +17,13 @@ export default styled.div`
       margin-top: 15px;
       height: 16px;
     }
+  }
+
+  a {
+    color: ${props => props.theme.primary};
+  }
+
+  a:hover {
+    color: ${props => props.theme.primary};
   }
 `

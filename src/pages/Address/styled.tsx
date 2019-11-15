@@ -17,7 +17,6 @@ export const AddressContentPanel = styled.div`
 export const AddressPendingRewardTitlePanel = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
 
   #address__pending_reward_help {
     margin-left: 20px;
@@ -80,13 +79,14 @@ export const AddressLockScriptItemPanel = styled.div`
     flex-direction: row;
     align-items: center;
     width: 130px;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 
     &:before {
       content: ' ';
       width: 9px;
       height: 9px;
       border-radius: 50% 50%;
-      background: #3cc68a;
+      background: ${prop => prop.theme.primary};
 
       @media (max-width: 700px) {
         width: 5px;
@@ -110,6 +110,7 @@ export const AddressLockScriptItemPanel = styled.div`
     display: flex;
     flex-direction: column;
     transform: translateY(2px);
+    font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
 
     @media (max-width: 700px) {
       margin-left: 10px;
@@ -124,7 +125,7 @@ export const AddressTransactionsPanel = styled.div`
   width: 100%;
 `
 
-export const AddressTransactionsPagition = styled.div`
+export const AddressTransactionsPagination = styled.div`
   margin: 20px 0 0px 0;
   width: 100%;
 

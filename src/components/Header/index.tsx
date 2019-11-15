@@ -12,13 +12,14 @@ import {
   HeaderMobilePanel,
   HeaderSearchPanel,
   HeaderVersionPanel,
-  HeaderTestnetPanel,
   HeaderSearchMobilePanel,
+  HeaderBlockchainPanel,
 } from './styled'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers/index'
 import { AppDispatch, ComponentActions } from '../../contexts/providers/reducer'
-import Dropdown from './Dropdown'
+import LanDropdown from '../Dropdown/Language'
+import { isMainnet } from '../../utils/chain'
 
 enum LinkType {
   Inner,
@@ -27,7 +28,7 @@ enum LinkType {
 
 const Menus = () => {
   const [t] = useTranslation()
-  const MenuDatas = useMemo(() => {
+  const MenuDataList = useMemo(() => {
     return [
       {
         type: LinkType.Inner,
@@ -35,16 +36,16 @@ const Menus = () => {
         url: '/charts',
       },
       {
-        type: LinkType.Outer,
-        name: t('navbar.faucet'),
-        url: 'https://faucet.nervos.org',
+        type: LinkType.Inner,
+        name: isMobile() ? t('navbar.dao') : t('navbar.nervos_dao'),
+        url: '/nervosdao',
       },
     ]
   }, [t])
 
   return (
     <div className="header__menus">
-      {MenuDatas.map(menu => {
+      {MenuDataList.map(menu => {
         return menu.type === LinkType.Inner ? (
           <Link className="header__menus__item" to={menu.url} key={menu.name}>
             {menu.name}
@@ -56,6 +57,14 @@ const Menus = () => {
         )
       })}
     </div>
+  )
+}
+
+const LogoComp = () => {
+  return (
+    <Link to="/" className="header__logo">
+      <img className="header__logo__img" src={isMobile() ? MobileLogoIcon : LogoIcon} alt="logo" />
+    </Link>
   )
 }
 
@@ -71,6 +80,22 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
   const { nodeVersion } = app
   const { searchBarEditable } = components
 
+  const BlockchainComp = () => {
+    return (
+      <HeaderBlockchainPanel search={!!hasSearch} showChainDropdown={false} id="header__blockchain__panel">
+        <div className="header__blockchain__flag">
+          <div className="header__blockchain__content">
+            {isMainnet() ? i18n.t('navbar.network_mainnet') : i18n.t('navbar.network_testnet')}
+          </div>
+          <HeaderVersionPanel>
+            <div>{handleVersion(nodeVersion)}</div>
+          </HeaderVersionPanel>
+        </div>
+        <LanDropdown dispatch={dispatch} />
+      </HeaderBlockchainPanel>
+    )
+  }
+
   return (
     <React.Fragment>
       {isMobile() ? (
@@ -82,9 +107,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
           )}
           <HeaderMobilePanel searchBarEditable={searchBarEditable}>
             <HeaderMobileDiv>
-              <Link to="/" className="header__logo">
-                <img className="header__logo__img" src={MobileLogoIcon} alt="logo" />
-              </Link>
+              <LogoComp />
               <Menus />
               {hasSearch && (
                 <div className="header__search">
@@ -107,13 +130,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
                   <div className="header__search__separate" />
                 </div>
               )}
-              <HeaderTestnetPanel search={!!hasSearch}>
-                <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-                <HeaderVersionPanel>
-                  <div>{handleVersion(nodeVersion)}</div>
-                </HeaderVersionPanel>
-                <Dropdown dispatch={dispatch} />
-              </HeaderTestnetPanel>
+              <BlockchainComp />
             </HeaderMobileDiv>
             <HeaderSearchPanel>{hasSearch && searchBarEditable && <Search dispatch={dispatch} />}</HeaderSearchPanel>
           </HeaderMobilePanel>
@@ -121,9 +138,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
       ) : (
         <>
           <HeaderDiv>
-            <Link to="/" className="header__logo">
-              <img className="header__logo__img" src={LogoIcon} alt="logo" />
-            </Link>
+            <LogoComp />
             <Menus />
             {hasSearch && (
               <div className="header__search">
@@ -132,13 +147,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
                 </div>
               </div>
             )}
-            <HeaderTestnetPanel search={!!hasSearch}>
-              <div className="header__testnet__flag">{i18n.t('navbar.network')}</div>
-              <HeaderVersionPanel>
-                <div>{handleVersion(nodeVersion)}</div>
-              </HeaderVersionPanel>
-              <Dropdown dispatch={dispatch} />
-            </HeaderTestnetPanel>
+            <BlockchainComp />
           </HeaderDiv>
         </>
       )}

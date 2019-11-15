@@ -15,6 +15,7 @@ declare namespace State {
 
   export interface ToastMessage {
     message: string
+    type: 'success' | 'warning' | 'danger'
     duration?: number
     id: number
   }
@@ -44,6 +45,17 @@ declare namespace State {
     consumedTxHash: string
     status: 'live' | 'dead'
     isGenesisOutput: boolean
+    cellType: 'normal' | 'dao'
+    startedBlockNumber: number
+    endedBlockNumber: number
+    interest: string
+    daoTypeHash: string
+  }
+
+  export interface LockInfo {
+    status: 'locked' | 'unlocked'
+    epochNumber: string
+    epochIndex: string
   }
 
   export interface Address {
@@ -54,6 +66,9 @@ declare namespace State {
     lockScript: Script
     pendingRewardBlocksCount: number
     type: 'Address' | 'LockHash' | ''
+    daoDeposit: number
+    interest: number
+    lockInfo: LockInfo
   }
 
   export interface Block {
@@ -80,6 +95,14 @@ declare namespace State {
     transactionsRoot: string
   }
 
+  export interface CellDep {
+    depType: string
+    outPoint: {
+      index: string
+      txHash: string
+    }
+  }
+
   export interface Transaction {
     transactionHash: string
     blockNumber: number
@@ -91,10 +114,13 @@ declare namespace State {
     version: number
     displayInputs: Cell[]
     displayOutputs: Cell[]
+    cellDeps: CellDep[]
+    headerDeps: string[]
+    witnesses: string[]
   }
 
   export interface BlockchainInfo {
-    blockchain_info: {
+    blockchainInfo: {
       isInitialBlockDownload: boolean
       epoch: string
       difficulty: string
@@ -107,6 +133,28 @@ declare namespace State {
         priority: string
       }[]
     }
+  }
+
+  export interface NervosDao {
+    totalDeposit: number
+    interestGranted: number
+    depositTransactionsCount: number
+    withdrawTransactionsCount: number
+    depositorsCount: number
+    totalDepositorsCount: number
+    daoTypeHash: string
+  }
+
+  export interface NervosDaoDepositor {
+    addressHash: string
+    daoDeposit: number
+  }
+
+  export interface NervosDaoState {
+    nervosDao: NervosDao
+    transactions: Transaction[]
+    total: number
+    depositors: NervosDaoDepositor[]
   }
 
   export interface Statistics {
@@ -132,16 +180,17 @@ declare namespace State {
     }[]
   }
 
-  export interface StatisticsChartData {
+  export interface StatisticsBaseData {
     blockNumber: number
-    hashRate: string
-    difficulty: string
-    epochnumber: number
+    type: 'Difficulty' | 'HashRate' | 'EpochNumber'
+    difficulty?: number
+    hashRate?: number
+    epochNumber?: number
   }
 
-  export interface StatisticsUncleRateChart {
+  export interface StatisticsUncleRate {
     uncleRate: number
-    epochnumber: number
+    epochNumber: number
   }
 
   export interface Components {
@@ -207,8 +256,9 @@ declare namespace State {
     blockListState: BlockListState
     transactionState: TransactionState
     statistics: Statistics
-    statisticsChartDatas: StatisticsChartData[]
+    statisticsChartData: StatisticsBaseData[]
     statisticsUncleRates: StatisticsUncleRateChart[]
+    nervosDaoState: NervosDaoState
 
     components: Components
   }

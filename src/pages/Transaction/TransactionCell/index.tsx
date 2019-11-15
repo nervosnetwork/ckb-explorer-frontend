@@ -35,7 +35,7 @@ const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: C
       )}
       {cell.addressHash ? (
         <Link to={`/address/${cell.addressHash}`}>
-          <code>{handleAddressHashText(cell.addressHash)}</code>
+          <span className="address">{handleAddressHashText(cell.addressHash)}</span>
         </Link>
       ) : (
         <span>{cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}</span>
@@ -112,7 +112,9 @@ export default ({ cell, cellType, dispatch }: { cell: State.Cell; cellType: Cell
         {!cell.fromCellbase && (
           <TransactionCellDetailButtons highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
         )}
-        {state !== CellState.NONE && <TransactionCellDetail cell={cell} state={state} dispatch={dispatch} />}
+        {state !== CellState.NONE && (
+          <TransactionCellDetail cell={cell} state={state} dispatch={dispatch} setState={setState} />
+        )}
       </OverviewCard>
     )
   }
@@ -132,7 +134,9 @@ export default ({ cell, cellType, dispatch }: { cell: State.Cell; cellType: Cell
           <TransactionCellDetailButtons highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
         </div>
       </TransactionCellContentPanel>
-      {state !== CellState.NONE && <TransactionCellDetail cell={cell} state={state} dispatch={dispatch} />}
+      {state !== CellState.NONE && (
+        <TransactionCellDetail cell={cell} state={state} dispatch={dispatch} setState={setState} />
+      )}
     </TransactionCellPanel>
   )
 }

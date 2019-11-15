@@ -85,7 +85,7 @@ export const HomeHeaderItemPanel = styled.div`
     line-height: 40px;
     color: #ffffff;
     font-size: 12px;
-    background: #3cc68a;
+    background: ${props => props.theme.primary};
     margin-top: 14px;
     transition: opacity 200ms linear;
   }
@@ -154,7 +154,7 @@ export const ContentTitle = styled.div`
   &:after {
     content: '';
     display: block;
-    background: #3cc68a;
+    background: ${props => props.theme.primary};
     height: 4px;
     width: 197px;
     margin: 0 auto;
@@ -170,7 +170,7 @@ export const ContentTitle = styled.div`
     &:after {
       content: '';
       display: block;
-      background: #3cc68a;
+      background: ${props => props.theme.primary};
       height: 4px;
       width: 100px;
       margin: 0 auto;
@@ -186,7 +186,7 @@ export const ContentTable = styled.div`
     margin-left: -20px;
     height: 61px;
     width: calc(100% + 40px);
-    background-color: #3cc68a;
+    background-color: ${props => props.theme.primary};
     z-index: 1;
   }
 
@@ -213,7 +213,7 @@ export const TableMorePanel = styled.div`
     .table__more {
       font-size: 20px;
       font-weight: 500;
-      color: #3cc68a;
+      color: ${props => props.theme.primary};
       width: 59px;
       height: 33px;
     }
@@ -239,14 +239,23 @@ export const TableMorePanel = styled.div`
         line-height: 14px;
         margin: 5px 18px;
         font-size: 14px;
-        color: #3cc68a;
+        color: ${props => props.theme.primary};
       }
     }
   }
 `
 
 export const HighLightValue = styled.div`
-  color: #3cc68a;
+  color: ${props => props.theme.primary};
   font-size: 13px;
   height: 16px;
+
+  a {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    color: ${props => props.theme.primary};
+  }
+
+  a:hover {
+    color: ${props => props.theme.primary};
+  }
 `

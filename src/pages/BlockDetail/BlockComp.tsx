@@ -1,8 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Pagination from '../../components/Pagination'
-import DropDownIcon from '../../assets/block_detail_drop_down.png'
-import PackUpIcon from '../../assets/block_detail_pack_up.png'
+import DropDownIcon from '../../assets/content_drop_down.png'
+import PackUpIcon from '../../assets/content_pack_up.png'
+import DropDownBlueIcon from '../../assets/content_blue_drop_down.png'
+import PackUpBlueIcon from '../../assets/content_blue_pack_up.png'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TitleCard from '../../components/Card/TitleCard'
 import Tooltip from '../../components/Tooltip'
@@ -19,13 +21,14 @@ import {
   BlockOverviewDisplayControlPanel,
   BlockOverviewItemContentPanel,
   BlockRootInfoItemPanel,
-  BlockTransactionsPagition,
+  BlockTransactionsPagination,
 } from './styled'
 import browserHistory from '../../routes/history'
+import { isMainnet } from '../../utils/chain'
 
 const handleMinerText = (address: string) => {
   if (isMobile()) {
-    return adaptMobileEllipsis(address, 13)
+    return adaptMobileEllipsis(address, 12)
   }
   return adaptPCEllipsis(address, 12, 50)
 }
@@ -35,7 +38,7 @@ const BlockMiner = ({ miner }: { miner: string }) => {
     <BlockLinkPanel>
       {miner ? (
         <Link to={`/address/${miner}`}>
-          <code>{handleMinerText(miner)}</code>
+          <span className="address">{handleMinerText(miner)}</span>
         </Link>
       ) : (
         i18n.t('address.unable_decode_address')
@@ -100,7 +103,8 @@ const EpochNumberLink = ({ epochNumber }: { epochNumber: number }) => {
 
 const BlockOverview = ({ block }: { block: State.Block }) => {
   const [showAllOverview, setShowAllOverview] = useState(false)
-  const receivedTxFee = `${localeNumberString(shannonToCkb(block.receivedTxFee))} CKB`
+  const receivedTxFee = `${localeNumberString(shannonToCkb(block.receivedTxFee))} ${i18n.t('common.ckb_unit')}`
+  const blockReward = `${localeNumberString(shannonToCkb(block.reward))} ${i18n.t('common.ckb_unit')}`
   const rootInfoItems = [
     {
       title: i18n.t('block.transactions_root'),
@@ -137,7 +141,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       content: (
         <BlockOverviewItemContent
           type="block_reward"
-          value={block.rewardStatus === 'pending' ? '' : `${localeNumberString(shannonToCkb(block.reward))} CKB`}
+          value={block.rewardStatus === 'pending' ? '' : blockReward}
           tip={block.rewardStatus === 'pending' ? i18n.t('block.pending') : undefined}
           message={i18n.t('block.pending_tip')}
         />
@@ -185,11 +189,18 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       overviewItems.splice(11, overviewItems.length - 11)
     }
   }
+
+  const getDropdownIcon = () => {
+    if (isMainnet()) {
+      return showAllOverview ? PackUpIcon : DropDownIcon
+    }
+    return showAllOverview ? PackUpBlueIcon : DropDownBlueIcon
+  }
   return (
     <OverviewCard items={overviewItems}>
       {isMobile() ? (
         <BlockOverviewDisplayControlPanel onClick={() => setShowAllOverview(!showAllOverview)}>
-          <img src={showAllOverview ? PackUpIcon : DropDownIcon} alt={showAllOverview ? 'show' : 'hide'} />
+          <img src={getDropdownIcon()} alt={showAllOverview ? 'show' : 'hide'} />
         </BlockOverviewDisplayControlPanel>
       ) : (
         rootInfoItems.map(item => {
@@ -215,6 +226,7 @@ export default ({
   blockParam: string
 }) => {
   const { blockState } = useContext(AppContext)
+  const { transactions = [] } = blockState
 
   const totalPages = Math.ceil(blockState.total / pageSize)
 
@@ -227,24 +239,22 @@ export default ({
       <TitleCard title={i18n.t('common.overview')} />
       {blockState && <BlockOverview block={blockState.block} />}
       <TitleCard title={i18n.t('transaction.transactions')} />
-      {blockState &&
-        blockState.transactions &&
-        blockState.transactions.map((transaction: State.Transaction, index: number) => {
-          return (
-            transaction && (
-              <TransactionItem
-                key={transaction.transactionHash}
-                transaction={transaction}
-                isBlock
-                isLastItem={index === blockState.transactions.length - 1}
-              />
-            )
+      {transactions.map((transaction: State.Transaction, index: number) => {
+        return (
+          transaction && (
+            <TransactionItem
+              key={transaction.transactionHash}
+              transaction={transaction}
+              isBlock
+              isLastItem={index === blockState.transactions.length - 1}
+            />
           )
-        })}
+        )
+      })}
       {totalPages > 1 && (
-        <BlockTransactionsPagition>
+        <BlockTransactionsPagination>
           <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
-        </BlockTransactionsPagition>
+        </BlockTransactionsPagination>
       )}
     </>
   )

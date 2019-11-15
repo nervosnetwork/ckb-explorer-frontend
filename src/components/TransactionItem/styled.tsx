@@ -54,8 +54,9 @@ export const TransactionHashBlockPanel = styled.div`
     }
 
     .transaction_item__hash {
-      color: #3cc68a;
+      color: ${props => props.theme.primary};
       font-weight: 500;
+      font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
     }
 
     .transaction_item__block {

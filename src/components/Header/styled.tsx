@@ -97,6 +97,11 @@ export const HeaderMobileDiv = styled.div`
     .header__logo__img {
       width: 80px;
       height: 16px;
+      margin-bottom: 5px;
+    }
+
+    @media (max-width: 400px) {
+      margin-bottom: 4px;
     }
   }
 
@@ -120,6 +125,7 @@ export const HeaderMobileDiv = styled.div`
 
   .header__search {
     display: flex;
+    align-items: center;
     flex: 1;
     height: 21px;
     justify-content: flex-end;
@@ -132,7 +138,6 @@ export const HeaderMobileDiv = styled.div`
         width: 14px;
         height: 14px;
         margin-left: 7.5px;
-        margin-top: 3.5px;
       }
     }
 
@@ -146,19 +151,25 @@ export const HeaderMobileDiv = styled.div`
   }
 `
 
-export const HeaderTestnetPanel = styled.div`
+export const HeaderBlockchainPanel = styled.div`
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-
+  color: ${(props: { showChainDropdown: boolean; theme: any; search: boolean }) =>
+    props.showChainDropdown ? 'white' : props.theme.secondary};
   ${(props: { search: boolean }) =>
     !props.search &&
     css`
       flex: 1;
     `}
 
-  .header__testnet__flag {
-    color: white;
+  .header__blockchain__flag {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 2px;
+  }
+
+  .header__blockchain__content {
     font-size: 24px;
     text-align: center;
     letter-spacing: 2px;
@@ -166,8 +177,7 @@ export const HeaderTestnetPanel = styled.div`
   }
 
   @media (max-width: 700px) {
-    .header__testnet__flag {
-      color: white;
+    .header__blockchain__content {
       font-size: 12px;
       letter-spacing: normal;
     }
@@ -182,22 +192,32 @@ export const HeaderSearchPanel = styled.div`
 `
 
 export const HeaderVersionPanel = styled.div`
-  width: 70px;
-  color: white;
+  width: 90px;
   font-size: 12px;
-  margin-left: 4px;
   margin-right: 90px;
+  display: flex;
+
   > div {
     margin-top: 8px;
   }
 
+  img {
+    margin: 8px 0 0 5px;
+    width: 15px;
+    height: 9px;
+  }
+
   @media (max-width: 700px) {
-    width: 40px;
+    width: 60px;
     font-size: 8px;
-    margin-left: 4px;
     margin-right: 40px;
     > div {
-      margin-top: 3px;
+      margin-top: 5px;
+    }
+    img {
+      margin: 5px 0 0 5px;
+      width: 10px;
+      height: 6px;
     }
   }
 `

@@ -4,7 +4,7 @@ import { Chart, Geom, Axis, Tooltip, Legend } from 'bizcharts'
 import BigNumber from 'bignumber.js'
 import Content from '../../components/Content'
 import { isMobile } from '../../utils/screen'
-import { getStatisticsChart } from '../../service/app/statisticsChart'
+import getStatisticsChart from '../../service/app/statisticsChart'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
@@ -119,7 +119,7 @@ const uncleRateScale = () => {
 }
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
-  const { statisticsChartDatas, statisticsUncleRates } = useContext(AppContext)
+  const { statisticsChartData, statisticsUncleRates } = useContext(AppContext)
 
   useEffect(() => {
     getStatisticsChart(dispatch)
@@ -128,13 +128,13 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
   return (
     <Content>
       <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}</ChartTitle>
-      {statisticsChartDatas.length > 1 ? (
+      {statisticsChartData.length > 1 ? (
         <ChartPanel>
           <Chart
             height={window.innerHeight * 0.7}
             scale={scale()}
             forceFit
-            data={statisticsChartDatas}
+            data={statisticsChartData}
             padding={isMobile() ? [40, 45, 80, 45] : [40, 80, 80, 80]}
           >
             <Legend

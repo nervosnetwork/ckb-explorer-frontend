@@ -15,7 +15,7 @@ import {
   AddressLockScriptItemPanel,
   AddressLockScriptPanel,
   AddressPendingRewardTitlePanel,
-  AddressTransactionsPagition,
+  AddressTransactionsPagination,
   AddressTransactionsPanel,
 } from './styled'
 import browserHistory from '../../routes/history'
@@ -74,10 +74,10 @@ const AddressLockScript = ({ script }: { script: State.Script }) => {
     <AddressLockScriptPanel>
       <div className="address__lock_script_title">{i18n.t('address.lock_script')}</div>
       <AddressLockScriptItem title={i18n.t('address.code_hash')}>
-        <code>{script.codeHash}</code>
+        <span>{script.codeHash}</span>
       </AddressLockScriptItem>
       <AddressLockScriptItem title={i18n.t('address.args')}>
-        <code>{script.args}</code>
+        <span>{script.args}</span>
       </AddressLockScriptItem>
       <AddressLockScriptItem title={i18n.t('address.hash_type')}>
         <code>{script.hashType}</code>
@@ -87,29 +87,43 @@ const AddressLockScript = ({ script }: { script: State.Script }) => {
 }
 
 const getAddressInfo = (addressState: State.AddressState) => {
+  const { address } = addressState
   const items: OverviewItemData[] = [
     {
       title: i18n.t('address.balance'),
-      content: `${localeNumberString(shannonToCkb(addressState.address.balance))} CKB`,
+      content: `${localeNumberString(shannonToCkb(address.balance))} ${i18n.t('common.ckb_unit')}`,
     },
     {
       title: i18n.t('transaction.transactions'),
-      content: localeNumberString(addressState.address.transactionsCount),
+      content: localeNumberString(address.transactionsCount),
+    },
+    {
+      title: i18n.t('address.dao_deposit'),
+      content: `${localeNumberString(shannonToCkb(address.daoDeposit))} ${i18n.t('common.ckb_unit')}`,
+    },
+    {
+      title: i18n.t('address.compensation'),
+      content: `${localeNumberString(shannonToCkb(address.interest))} ${i18n.t('common.ckb_unit')}`,
     },
   ]
 
-  if (addressState.address.pendingRewardBlocksCount) {
+  if (address.pendingRewardBlocksCount) {
     items.push({
       title: <AddressPendingRewardTitle />,
-      content: `${addressState.address.pendingRewardBlocksCount} ${
-        addressState.address.pendingRewardBlocksCount > 1 ? 'blocks' : 'block'
-      }`,
+      content: `${address.pendingRewardBlocksCount} ${address.pendingRewardBlocksCount > 1 ? 'blocks' : 'block'}`,
     })
   }
-  if (addressState.address.type === 'LockHash' && addressState.address) {
+  if (address.type === 'LockHash' && address) {
     items.push({
       title: i18n.t('address.address'),
-      content: addressContent(addressState.address),
+      content: addressContent(address),
+    })
+  }
+  const { lockInfo } = address
+  if (lockInfo && lockInfo.epochNumber) {
+    items.push({
+      title: i18n.t('address.lock_until'),
+      content: `${lockInfo.epochNumber} ${i18n.t('address.epoch')}`,
     })
   }
 
@@ -141,6 +155,7 @@ export const AddressTransactions = ({
 }) => {
   const { addressState, app } = useContext(AppContext)
   const { tipBlockNumber } = app
+  const { transactions = [] } = addressState
 
   const totalPages = Math.ceil(addressState.total / pageSize)
 
@@ -150,28 +165,26 @@ export const AddressTransactions = ({
 
   return (
     <>
-      {addressState.transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
+      {transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
       <AddressTransactionsPanel>
-        {addressState &&
-          addressState.transactions &&
-          addressState.transactions.map((transaction: State.Transaction, index: number) => {
-            return (
-              transaction && (
-                <TransactionItem
-                  address={addressState.address.addressHash}
-                  transaction={transaction}
-                  confirmation={tipBlockNumber - transaction.blockNumber + 1}
-                  key={transaction.transactionHash}
-                  isLastItem={index === addressState.transactions.length - 1}
-                />
-              )
+        {addressState.transactions.map((transaction: State.Transaction, index: number) => {
+          return (
+            transaction && (
+              <TransactionItem
+                address={addressState.address.addressHash}
+                transaction={transaction}
+                confirmation={tipBlockNumber - transaction.blockNumber + 1}
+                key={transaction.transactionHash}
+                isLastItem={index === addressState.transactions.length - 1}
+              />
             )
-          })}
+          )
+        })}
       </AddressTransactionsPanel>
       {totalPages > 1 && (
-        <AddressTransactionsPagition>
+        <AddressTransactionsPagination>
           <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
-        </AddressTransactionsPagition>
+        </AddressTransactionsPagination>
       )}
     </>
   )
