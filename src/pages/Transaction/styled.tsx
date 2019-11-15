@@ -53,8 +53,7 @@ export const TransactionInfoItemPanel = styled.div`
   flex: 1;
 
   @media (max-width: 700px) {
-    height: 20px;
-    margin-top: 20px;
+    margin-top: 3px;
   }
 
   .transaction__info_title {
@@ -67,7 +66,7 @@ export const TransactionInfoItemPanel = styled.div`
   }
   .transaction__info_value {
     margin-left: 20px;
-    margin-top: 10px;
+    margin-top: 5px;
     font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
 
     @media (max-width: 700px) {
