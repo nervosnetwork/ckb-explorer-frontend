@@ -65,7 +65,7 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
       title: i18n.t('transaction.cell_deps'),
       content: cellDeps.map(cellDep => {
         return (
-          <TransactionInfoContentPanel>
+          <TransactionInfoContentPanel key={`${cellDep.outPoint.txHash}${cellDep.outPoint.index}`}>
             <TransactionInfoComp
               title={i18n.t('transaction.out_point_tx_hash')}
               value={cellDep.outPoint.txHash}
@@ -88,7 +88,7 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
       title: i18n.t('transaction.header_deps'),
       content: headerDeps.map(headerDep => {
         return (
-          <TransactionInfoContentPanel>
+          <TransactionInfoContentPanel key={headerDep}>
             <TransactionInfoComp
               title={i18n.t('transaction.header_dep')}
               value={headerDep}
@@ -109,7 +109,7 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
       title: i18n.t('transaction.witnesses'),
       content: witnesses.map(witness => {
         return (
-          <TransactionInfoContentPanel>
+          <TransactionInfoContentPanel key={witness}>
             <TransactionInfoComp title="Witness" value={witness} />
           </TransactionInfoContentPanel>
         )

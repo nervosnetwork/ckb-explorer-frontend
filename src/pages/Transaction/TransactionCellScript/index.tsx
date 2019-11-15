@@ -19,39 +19,65 @@ const initScriptContent = {
   },
 }
 
-const handleFetchScript = (cell: State.Cell, state: CellState, dispatch: any) => {
+const handleFetchScript = (cell: State.Cell, state: CellState, setContent: any, setState: any, dispatch: any) => {
   switch (state) {
     case CellState.LOCK:
       fetchScript('lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<any>) => {
-        dispatch(wrapper ? wrapper.attributes : initScriptContent.lock)
+        setContent(wrapper ? wrapper.attributes : initScriptContent.lock)
       })
       break
     case CellState.TYPE:
       fetchScript('type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<any>) => {
-        dispatch(wrapper ? wrapper.attributes : initScriptContent.type)
+        setContent(wrapper ? wrapper.attributes : initScriptContent.type)
       })
       break
     case CellState.DATA:
-      fetchCellData(`${cell.id}`).then((wrapper: Response.Wrapper<any>) => {
-        const dataValue: State.Data = wrapper.attributes
-        if (wrapper && cell.isGenesisOutput) {
-          dataValue.data = hexToUtf8(wrapper.attributes.data.substr(2))
-        }
-        dispatch(dataValue || initScriptContent.data)
-      })
+      fetchCellData(`${cell.id}`)
+        .then((wrapper: Response.Wrapper<State.Data>) => {
+          const dataValue: State.Data = wrapper.attributes
+          if (wrapper && cell.isGenesisOutput) {
+            dataValue.data = hexToUtf8(wrapper.attributes.data.substr(2))
+          }
+          setContent(dataValue || initScriptContent.data)
+        })
+        .catch(error => {
+          if (error.response && error.response.data && error.response.data[0]) {
+            const err = error.response.data[0]
+            if (err.status === 400 && err.code === 1022) {
+              setContent(null)
+              setState(CellState.NONE)
+              dispatch({
+                type: AppActions.ShowToastMessage,
+                payload: {
+                  message: i18n.t('toast.data_too_large'),
+                },
+              })
+            }
+          }
+        })
       break
     default:
       break
   }
 }
 
-export default ({ cell, state, dispatch }: { cell: State.Cell; state: CellState; dispatch: AppDispatch }) => {
+export default ({
+  cell,
+  state,
+  setState,
+  dispatch,
+}: {
+  cell: State.Cell
+  state: CellState
+  setState: any
+  dispatch: AppDispatch
+}) => {
   const [content, setContent] = useState(undefined as any)
   const contentElementId = `transaction__detail_content:${cell.id}`
 
   useEffect(() => {
-    handleFetchScript(cell, state, setContent)
-  }, [cell, state])
+    handleFetchScript(cell, state, setContent, setState, dispatch)
+  }, [cell, state, setState, dispatch])
 
   const onClickCopy = () => {
     copyElementValue(document.getElementById(contentElementId))
