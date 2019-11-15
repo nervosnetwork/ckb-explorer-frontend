@@ -99,6 +99,10 @@ export const HeaderMobileDiv = styled.div`
       height: 16px;
       margin-bottom: 5px;
     }
+
+    @media (max-width: 400px) {
+      margin-bottom: 4px;
+    }
   }
 
   .header__menus {
