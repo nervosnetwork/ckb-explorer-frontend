@@ -19,7 +19,7 @@
     "navbar": {
       "wallet": "Wallet",
       "charts": "Charts",
-      "nervos_dao": "NervosDAO",
+      "nervos_dao": "Nervos DAO",
       "dao": "DAO",
       "docs": "Docs",
       "search_placeholder": "Block / Transaction / Address / Lock Hash",
@@ -137,12 +137,9 @@
       "calculating_tip": "The transaction fee of this block will be sent to the miner after 11 blocks，learn more from our Consensus Protocol"
     },
     "nervos_dao": {
-      "nervos_dao": "NervosDAO",
+      "nervos_dao": "Nervos DAO",
       "total_deposit": "Total Deposit",
-      "deposit_transactions_count": "Deposit Receipts",
-      "withdraw_transactions_count": "Withdraw Invoices",
-      "current_depositors": "Current Depositors",
-      "total_depositors": "All Historical Depositors",
+      "current_depositors": "Deposit Addresses",
       "compensation": "Issued Compensation",
       "deposit_period": "Deposit Period",
       "deposit_capacity": "Deposit Capacity",
