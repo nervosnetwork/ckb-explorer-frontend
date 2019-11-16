@@ -8,6 +8,7 @@ import {
   ContentTable,
   TableMorePanel,
   HighLightValue,
+  BlockRewardContainer,
 } from './styled'
 import Content from '../../components/Content'
 import {
@@ -77,8 +78,16 @@ const parseHashRate = (hashRate: string | undefined) => {
   return hashRate ? handleHashRate(Number(hashRate) * 1000) : '- -'
 }
 
+const blockRewardContainer = (blockReward: String, index: number) => {
+  return index <= DELAY_BLOCK_NUMBER ? (
+    <BlockRewardContainer className="reward__container">{blockReward}</BlockRewardContainer>
+  ) : (
+    blockReward
+  )
+}
+
 const getTableContentDataList = (block: State.Block, index: number) => {
-  const blockReward = `${localeNumberString(shannonToCkb(block.reward))}${index <= DELAY_BLOCK_NUMBER ? ' +' : ''}`
+  const blockReward = localeNumberString(shannonToCkb(block.reward))
   return [
     {
       width: '14%',
@@ -91,7 +100,7 @@ const getTableContentDataList = (block: State.Block, index: number) => {
     },
     {
       width: '20%',
-      content: blockReward,
+      content: blockRewardContainer(blockReward, index),
     },
     {
       width: '37%',
@@ -136,7 +145,7 @@ const blockchainDataList = (statistics: State.Statistics) => {
 }
 
 const blockCardItems = (block: State.Block, index: number) => {
-  const blockReward = `${localeNumberString(shannonToCkb(block.reward))}${index <= DELAY_BLOCK_NUMBER ? ' +' : ''}`
+  const blockReward = localeNumberString(shannonToCkb(block.reward))
 
   return [
     {
@@ -149,7 +158,7 @@ const blockCardItems = (block: State.Block, index: number) => {
     },
     {
       title: i18n.t('home.block_reward'),
-      content: blockReward,
+      content: blockRewardContainer(blockReward, index),
     },
     {
       title: i18n.t('block.miner'),

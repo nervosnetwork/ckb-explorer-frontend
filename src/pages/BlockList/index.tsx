@@ -23,6 +23,7 @@ import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { AppContext } from '../../contexts/providers'
 import { getBlocks } from '../../service/app/block'
+import { BlockRewardContainer } from '../Home/styled'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => {
   return (
@@ -45,8 +46,16 @@ interface TableContentData {
   content: string
 }
 
+const blockRewardContainer = (blockReward: String, index: number) => {
+  return index <= DELAY_BLOCK_NUMBER ? (
+    <BlockRewardContainer className="reward__container">{blockReward}</BlockRewardContainer>
+  ) : (
+    blockReward
+  )
+}
+
 const getTableContentDataList = (block: State.Block, index: number) => {
-  const blockReward = `${localeNumberString(shannonToCkb(block.reward))}${index <= DELAY_BLOCK_NUMBER ? ' +' : ''}`
+  const blockReward = localeNumberString(shannonToCkb(block.reward))
   return [
     {
       width: '14%',
@@ -59,7 +68,7 @@ const getTableContentDataList = (block: State.Block, index: number) => {
     },
     {
       width: '20%',
-      content: blockReward,
+      content: blockRewardContainer(blockReward, index),
     },
     {
       width: '37%',
@@ -73,7 +82,7 @@ const getTableContentDataList = (block: State.Block, index: number) => {
 }
 
 const BlockCardItems = (block: State.Block, index: number) => {
-  const blockReward = `${localeNumberString(shannonToCkb(block.reward))}${index <= DELAY_BLOCK_NUMBER ? ' +' : ''}`
+  const blockReward = localeNumberString(shannonToCkb(block.reward))
   return [
     {
       title: i18n.t('home.height'),
@@ -85,7 +94,7 @@ const BlockCardItems = (block: State.Block, index: number) => {
     },
     {
       title: i18n.t('home.block_reward'),
-      content: blockReward,
+      content: blockRewardContainer(blockReward, index),
     },
     {
       title: i18n.t('block.miner'),

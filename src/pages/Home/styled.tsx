@@ -259,3 +259,12 @@ export const HighLightValue = styled.div`
     color: ${props => props.theme.primary};
   }
 `
+
+export const BlockRewardContainer = styled.div`
+  &.reward__container:after {
+    display: inline;
+    content: '+';
+    color: #7f7d7d;
+    font-size: 13px;
+  }
+`
