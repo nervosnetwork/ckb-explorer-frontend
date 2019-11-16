@@ -261,7 +261,7 @@ export const HighLightValue = styled.div`
 `
 
 export const BlockRewardContainer = styled.div`
-  &.reward__container:after {
+  :after {
     display: inline;
     content: '+';
     color: #7f7d7d;
