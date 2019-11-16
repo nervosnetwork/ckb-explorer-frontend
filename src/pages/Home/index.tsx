@@ -231,7 +231,12 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
             {homeBlocks.map((block: State.Block) => {
               return (
                 block && (
-                  <TableContentRow key={block.number}>
+                  <TableContentRow
+                    key={block.number}
+                    onClick={() => {
+                      browserHistory.push(`/block/${block.blockHash}`)
+                    }}
+                  >
                     {getTableContentDataList(block).map((data: TableContentData, index: number) => {
                       const key = index
                       return (

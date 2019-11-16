@@ -168,7 +168,7 @@ export default ({
             {blocks.map((block: State.Block) => {
               return (
                 block && (
-                  <TableContentRow key={block.number}>
+                  <TableContentRow key={block.number} onClick={() => push(`/block/${block.blockHash}`)}>
                     {getTableContentDataList(block).map((data: TableContentData, index: number) => {
                       const key = index
                       return (

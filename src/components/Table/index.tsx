@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
 import { adaptPCEllipsis } from '../../utils/string'
 
@@ -37,6 +38,7 @@ export const TableContentRow = styled.div`
   padding-right: 12px;
   padding-top: 20px;
   padding-bottom: 20px;
+  cursor: pointer;
 
   ::after {
     content: '';
@@ -48,6 +50,10 @@ export const TableContentRow = styled.div`
     bottom: 1px;
     background: #d8d8d8;
     transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
+  }
+
+  :active {
+    background: rgba(0, 0, 0, 0.05);
   }
 `
 
@@ -120,7 +126,15 @@ export const TableMinerContentItem = ({ width, content }: { width: string; conte
   return (
     <TableMinerContentPanel width={width}>
       {content ? (
-        <Link className="table__miner__content" to={`/address/${content}`}>
+        <Link
+          className="table__miner__content"
+          to={`/address/${content}`}
+          onClick={event => {
+            event.stopPropagation()
+            browserHistory.push(`/address/${content}`)
+            event.preventDefault()
+          }}
+        >
           <span className="table__miner__text address">{adaptPCEllipsis(content, 10, 50)}</span>
         </Link>
       ) : (
