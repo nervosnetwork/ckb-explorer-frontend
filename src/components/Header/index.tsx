@@ -37,7 +37,7 @@ const Menus = () => {
       },
       {
         type: LinkType.Inner,
-        name: isMobile() ? t('navbar.dao') : t('navbar.nervos_dao'),
+        name: t('navbar.nervos_dao'),
         url: '/nervosdao',
       },
     ]
