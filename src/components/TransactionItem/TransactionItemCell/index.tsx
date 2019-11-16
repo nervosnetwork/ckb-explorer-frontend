@@ -14,6 +14,7 @@ import Tooltip from '../../Tooltip'
 import { CellType } from '../../../utils/const'
 import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
 import { AppContext } from '../../../contexts/providers'
+import DecimalCapacity from '../../DecimalCapacity'
 
 const Cellbase = ({
   cell,
@@ -92,15 +93,13 @@ const NervosDAOAddress = ({ cell, address }: { cell: State.Cell; address: string
       <div>
         <div className="withdraw__info_title">{`${i18n.t('nervos_dao.deposit_capacity')}: `}</div>
         <div className="withdraw__info_content">
-          <span>{localeNumberString(shannonToCkb(cell.capacity))}</span>
-          <span>{` ${i18n.t('common.ckb_unit')}`}</span>
+          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} fontSize="11px" color="#999999" />
         </div>
       </div>
       <div>
         <div className="withdraw__info_title">{`${i18n.t('nervos_dao.compensation')}: `}</div>
         <div className="withdraw__info_content">
-          <span>{localeNumberString(shannonToCkb(cell.interest))}</span>
-          <span>{` ${i18n.t('common.ckb_unit')}`}</span>
+          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.interest))} fontSize="11px" color="#999999" />
         </div>
       </div>
       <div>
@@ -173,7 +172,7 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
       </div>
       <TransactionCellCapacity fullWidth={cellType === CellType.Output}>
         {isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
-        {`${localeNumberString(shannonToCkb(cell.capacity))} ${i18n.t('common.ckb_unit')}`}
+        <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} fontSize="11px" color="#999999" />
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
       </TransactionCellCapacity>
     </TransactionCellPanel>

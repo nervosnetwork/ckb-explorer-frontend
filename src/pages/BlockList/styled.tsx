@@ -68,6 +68,19 @@ export const HighLightValue = styled.div`
   height: 16px;
 
   span {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+`
+
+export const BlockRewardContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+
+  :after {
+    display: inline;
+    content: '+';
+    color: #7f7d7d;
+    font-size: 13px;
   }
 `

@@ -95,15 +95,6 @@ export const TransactionCapacityValuePanel = styled(TransactionConfirmationValue
   text-align: center;
   justify-content: center;
 
-  > div {
-    display: flex;
-    text-align: center;
-
-    > span {
-      margin-left: 5px;
-    }
-  }
-
   > span {
     background: ${(props: { increased: boolean; theme: any }) =>
       props.increased ? `${props.theme.primary}` : '#ff5757'};

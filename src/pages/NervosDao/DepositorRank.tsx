@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React, {useContext} from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { AppContext } from '../../contexts/providers'
-import { localeNumberString } from '../../utils/number'
-import { shannonToCkb } from '../../utils/util'
+import {Link} from 'react-router-dom'
+import {AppContext} from '../../contexts/providers'
+import {localeNumberString} from '../../utils/number'
+import {shannonToCkb} from '../../utils/util'
 import i18n from '../../utils/i18n'
-import { isMobile } from '../../utils/screen'
+import {isMobile} from '../../utils/screen'
 import OverviewCard from '../../components/Card/OverviewCard'
 
 const DepositorRankPanel = styled.div`
@@ -63,7 +63,7 @@ const AddressPanel = styled(Link)`
   text-align: center;
 `
 
-const AddressText = ({ address }: { address: string }) => {
+const AddressText = ({address}: {address: string}) => {
   return (
     <AddressPanel to={`/address/${address}`}>
       <span className="address">{address}</span>
@@ -83,19 +83,26 @@ const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
     },
     {
       title: i18n.t('nervos_dao.dao_title_deposit_capacity'),
-      content: `${localeNumberString(shannonToCkb(depositor.daoDeposit))} ${i18n.t('common.ckb_unit')}`,
+      content: `${localeNumberString(
+        shannonToCkb(depositor.daoDeposit),
+      )} ${i18n.t('common.ckb_unit')}`,
     },
   ]
 }
 
 export default () => {
-  const { nervosDaoState } = useContext(AppContext)
-  const { depositors = [] } = nervosDaoState
+  const {nervosDaoState} = useContext(AppContext)
+  const {depositors = []} = nervosDaoState
 
   return isMobile() ? (
     <DepositorRankCardPanel>
       {depositors.map((depositor: State.NervosDaoDepositor, index: number) => {
-        return <OverviewCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index)} />
+        return (
+          <OverviewCard
+            key={depositors.indexOf(depositor)}
+            items={depositRanks(depositor, index)}
+          />
+        )
       })}
     </DepositorRankCardPanel>
   ) : (
@@ -111,7 +118,9 @@ export default () => {
           <DepositorRankItem>
             <div>{index + 1}</div>
             <AddressText address={depositor.addressHash} />
-            <div>{`${localeNumberString(shannonToCkb(depositor.daoDeposit))} ${i18n.t('common.ckb_unit')}`}</div>
+            <div>{`${localeNumberString(
+              shannonToCkb(depositor.daoDeposit),
+            )} ${i18n.t('common.ckb_unit')}`}</div>
           </DepositorRankItem>
         )
       })}

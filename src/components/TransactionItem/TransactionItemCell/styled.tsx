@@ -76,6 +76,10 @@ export const TransactionCellCapacity = styled.div`
     width: ${({ fullWidth = false }: { fullWidth?: boolean }) => (fullWidth ? '100%' : 'auto')};
     justify-content: space-between;
   }
+
+  > span {
+    margin-left: 5px;
+  }
 `
 
 export const CellbasePanel = styled.div`

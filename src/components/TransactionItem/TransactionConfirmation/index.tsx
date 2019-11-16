@@ -7,8 +7,7 @@ import {
 } from './styled'
 import { shannonToCkb, formatConfirmation } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
-import i18n from '../../../utils/i18n'
-import DecimalText from '../../DecimalText'
+import DecimalCapacity from '../../DecimalCapacity'
 
 export default ({ confirmation, income }: { confirmation?: number; income: string }) => {
   let bigIncome = new BigNumber(income)
@@ -26,14 +25,10 @@ export default ({ confirmation, income }: { confirmation?: number; income: strin
         <div className="transaction__capacity">
           <TransactionCapacityValuePanel increased={bigIncome.isGreaterThanOrEqualTo(0)}>
             <div>
-              <DecimalText
+              <DecimalCapacity
                 value={`${bigIncome.isNegative() ? '-' : '+'}${localeNumberString(shannonToCkb(bigIncome))}`}
-                decimalParams={{
-                  decimalColor: 'white',
-                  decimalFontSize: '11px',
-                }}
+                fontSize="11px"
               />
-              <span>{i18n.t('common.ckb_unit')}</span>
             </div>
           </TransactionCapacityValuePanel>
         </div>

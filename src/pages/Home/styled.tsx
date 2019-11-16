@@ -42,7 +42,8 @@ export const HomeHeaderItemPanel = styled.div`
   box-shadow: 2px 2px 4px #b3b3b3;
   overflow: hidden;
 
-  cursor: ${(props: { clickable: boolean }) => (props.clickable ? 'pointer' : 'default')};
+  cursor: ${(props: {clickable: boolean}) =>
+    props.clickable ? 'pointer' : 'default'};
 
   .blockchain__item__value {
     margin-top: 45px;
@@ -254,7 +255,8 @@ export const HighLightValue = styled.div`
   height: 16px;
 
   a {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
     color: ${props => props.theme.primary};
   }
 
@@ -264,6 +266,9 @@ export const HighLightValue = styled.div`
 `
 
 export const BlockRewardContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+
   :after {
     display: inline;
     content: '+';

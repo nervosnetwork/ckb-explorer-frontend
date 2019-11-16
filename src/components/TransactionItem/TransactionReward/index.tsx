@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { shannonToCkb } from '../../../utils/util'
-import { localeNumberString } from '../../../utils/number'
+import {shannonToCkb} from '../../../utils/util'
+import {localeNumberString} from '../../../utils/number'
 import i18n from '../../../utils/i18n'
+import DecimalCapacity from '../../DecimalCapacity'
 
 export const RewardPenal = styled.div`
   display: flex;
@@ -11,6 +12,7 @@ export const RewardPenal = styled.div`
   justify-content: space-between;
   margin-top: 20px;
   color: #000000;
+  margin-right: 22px;
 
   @media (max-width: 700px) {
     height: 32px;
@@ -52,12 +54,25 @@ export const RewardPenal = styled.div`
     @media (max-width: 700px) {
       margin-left: 13px;
     }
+
+    > span {
+      margin-left: 5px;
+    }
   }
 `
 
-const TransactionReward = ({ transaction, cell }: { transaction: State.Transaction; cell: State.Cell }) => {
+const TransactionReward = ({
+  transaction,
+  cell,
+}: {
+  transaction: State.Transaction
+  cell: State.Cell
+}) => {
   // [0, 11] block doesn't show block reward and only cellbase show block reward
-  const showBlockReward = transaction.blockNumber > 0 && transaction.isCellbase && cell.targetBlockNumber > 0
+  const showBlockReward =
+    transaction.blockNumber > 0 &&
+    transaction.isCellbase &&
+    cell.targetBlockNumber > 0
 
   const Rewards = [
     {
@@ -87,7 +102,11 @@ const TransactionReward = ({ transaction, cell }: { transaction: State.Transacti
                 <div className="reward__name">{reward.name}</div>
               </div>
               <div className="reward__capacity">
-                {`${localeNumberString(shannonToCkb(reward.capacity))} ${i18n.t('common.ckb_unit')}`}
+                <DecimalCapacity
+                  value={localeNumberString(shannonToCkb(reward.capacity))}
+                  fontSize="11px"
+                  color="#999999"
+                />
               </div>
             </RewardPenal>
           )
