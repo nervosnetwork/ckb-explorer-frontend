@@ -263,11 +263,13 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
             })}
           </ContentTable>
         )}
-        <TableMorePanel>
+        <TableMorePanel
+          onClick={() => {
+            browserHistory.push(`/block/list`)
+          }}
+        >
           <div>
-            <Link to="/block/list">
-              <div className="table__more">{t('home.more')}</div>
-            </Link>
+            <div className="table__more">{t('home.more')}</div>
           </div>
         </TableMorePanel>
       </BlockPanel>

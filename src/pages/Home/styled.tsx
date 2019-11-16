@@ -205,7 +205,10 @@ export const TableMorePanel = styled.div`
   background: white;
   border: 0px solid white;
   border-radius: 6px;
-
+  cursor: pointer;
+  :hover {
+    background: #f8f9fa;
+  }
   > div {
     height: 33px;
     display: flex;
