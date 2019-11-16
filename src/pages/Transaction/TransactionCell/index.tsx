@@ -91,7 +91,17 @@ const TransactionCellDetailButtons = ({
   )
 }
 
-export default ({ cell, cellType, dispatch }: { cell: State.Cell; cellType: CellType; dispatch: AppDispatch }) => {
+export default ({
+  cell,
+  cellType,
+  dispatch,
+  index,
+}: {
+  cell: State.Cell
+  cellType: CellType
+  dispatch: AppDispatch
+  index: Number
+}) => {
   const [state, setState] = useState(CellState.NONE as CellState)
 
   if (isMobile()) {
@@ -122,6 +132,7 @@ export default ({ cell, cellType, dispatch }: { cell: State.Cell; cellType: Cell
   return (
     <TransactionCellPanel>
       <TransactionCellContentPanel>
+        <div className="transaction__cell_index">{cellType && cellType === CellType.Output ? `#${index}` : ' '}</div>
         <div className="transaction__cell_hash">
           <TransactionCellHash cell={cell} cellType={cellType} />
         </div>
