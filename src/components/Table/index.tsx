@@ -52,8 +52,8 @@ export const TableContentRow = styled.div`
     transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 
-  :active {
-    background: rgba(0, 0, 0, 0.05);
+  :hover {
+    background: #f8f9fa;
   }
 `
 
