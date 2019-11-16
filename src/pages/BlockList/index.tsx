@@ -47,7 +47,7 @@ interface TableContentData {
 }
 
 const blockRewardContainer = (blockReward: String, index: number) => {
-  return index <= DELAY_BLOCK_NUMBER ? <BlockRewardContainer>{blockReward}</BlockRewardContainer> : blockReward
+  return index < DELAY_BLOCK_NUMBER ? <BlockRewardContainer>{blockReward}</BlockRewardContainer> : blockReward
 }
 
 const getTableContentDataList = (block: State.Block, index: number) => {
