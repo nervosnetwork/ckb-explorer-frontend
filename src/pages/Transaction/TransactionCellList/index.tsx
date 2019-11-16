@@ -42,11 +42,23 @@ export default ({
     [offset, cells.length],
   )
 
+  const cellsCount = () => {
+    if (inputs) {
+      return inputs.length
+    }
+    return outputs ? outputs.length : 0
+  }
+
+  const cellTitle = () => {
+    const title = inputs ? i18n.t('transaction.input') : i18n.t('transaction.output')
+    return `${title}(${cellsCount()})`
+  }
+
   return (
     <TransactionCellListPanel>
       <TransactionCellListTitlePanel>
         <div className="transaction__cell_list_titles">
-          <span>{inputs ? i18n.t('transaction.input') : i18n.t('transaction.output')}</span>
+          <span>{cellTitle()}</span>
           <span>{hideCapacityTitle ? '' : i18n.t('transaction.capacity')}</span>
           <span>{i18n.t('transaction.detail')}</span>
         </div>
@@ -56,11 +68,12 @@ export default ({
           {cells &&
             cells
               .slice(0, offset)
-              .map(cell => (
+              .map((cell, index) => (
                 <TransactionCell
                   key={cell.id}
                   cell={cell}
                   cellType={inputs ? CellType.Input : CellType.Output}
+                  index={index}
                   dispatch={dispatch}
                 />
               ))}

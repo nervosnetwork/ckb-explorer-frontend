@@ -14,12 +14,15 @@ export const TransactionCellContentPanel = styled.div`
   font-size: 16px;
   color: #000000;
   text-align: center;
-
+  .transaction__cell_index {
+    margin-right: 3px;
+    color: #666666;
+  }
   .transaction__cell_hash {
     flex: 0.33;
   }
   .transaction__cell_capacity {
-    flex: 0.34;
+    flex: 0.3;
   }
   .transaction__cell_detail {
     flex: 0.33;
