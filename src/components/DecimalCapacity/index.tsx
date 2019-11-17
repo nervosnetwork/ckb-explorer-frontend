@@ -8,7 +8,6 @@ const DecimalPanel = styled.div`
   align-items: flex-end;
 
   .decimal__zeros {
-    color: rgb(0, 0, 0, 0);
     margin-bottom: 2px;
   }
 
