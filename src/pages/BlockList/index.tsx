@@ -3,7 +3,7 @@ import { RouteComponentProps, Link } from 'react-router-dom'
 import queryString from 'query-string'
 import { useTranslation } from 'react-i18next'
 import { parseSimpleDate } from '../../utils/date'
-import { BlockListPanel, ContentTable, HighLightValue } from './styled'
+import { BlockListPanel, ContentTable, HighLightValue, BlockRewardContainer, BlockRewardPanel } from './styled'
 import Content from '../../components/Content'
 import {
   TableTitleRow,
@@ -23,7 +23,7 @@ import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { AppContext } from '../../contexts/providers'
 import { getBlocks } from '../../service/app/block'
-import { BlockRewardContainer } from '../Home/styled'
+import DecimalCapacity from '../../components/DecimalCapacity'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => {
   return (
@@ -46,12 +46,18 @@ interface TableContentData {
   content: string
 }
 
-const blockRewardContainer = (blockReward: String, index: number) => {
-  return index < DELAY_BLOCK_NUMBER ? <BlockRewardContainer>{blockReward}</BlockRewardContainer> : blockReward
-}
+const getTableContentDataList = (block: State.Block, index: number, page: number) => {
+  const blockReward =
+    index < DELAY_BLOCK_NUMBER && page === 1 ? (
+      <BlockRewardContainer>
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+      </BlockRewardContainer>
+    ) : (
+      <BlockRewardPanel>
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+      </BlockRewardPanel>
+    )
 
-const getTableContentDataList = (block: State.Block, index: number) => {
-  const blockReward = localeNumberString(shannonToCkb(block.reward))
   return [
     {
       width: '14%',
@@ -64,7 +70,7 @@ const getTableContentDataList = (block: State.Block, index: number) => {
     },
     {
       width: '20%',
-      content: blockRewardContainer(blockReward, index),
+      content: blockReward,
     },
     {
       width: '37%',
@@ -77,8 +83,17 @@ const getTableContentDataList = (block: State.Block, index: number) => {
   ] as TableContentData[]
 }
 
-const BlockCardItems = (block: State.Block, index: number) => {
-  const blockReward = localeNumberString(shannonToCkb(block.reward))
+const BlockCardItems = (block: State.Block, index: number, page: number) => {
+  const blockReward =
+    index < DELAY_BLOCK_NUMBER && page === 1 ? (
+      <BlockRewardContainer>
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+      </BlockRewardContainer>
+    ) : (
+      <BlockRewardPanel>
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+      </BlockRewardPanel>
+    )
   return [
     {
       title: i18n.t('home.height'),
@@ -90,7 +105,7 @@ const BlockCardItems = (block: State.Block, index: number) => {
     },
     {
       title: i18n.t('home.block_reward'),
-      content: blockRewardContainer(blockReward, index),
+      content: blockReward,
     },
     {
       title: i18n.t('block.miner'),
@@ -161,7 +176,7 @@ export default ({
           <ContentTable>
             <div className="block__panel">
               {blocks.map((block: State.Block, index: number) => {
-                return <OverviewCard key={block.number} items={BlockCardItems(block, index)} />
+                return <OverviewCard key={block.number} items={BlockCardItems(block, index, currentPage)} />
               })}
             </div>
           </ContentTable>
@@ -176,18 +191,20 @@ export default ({
               return (
                 block && (
                   <TableContentRow key={block.number} onClick={() => push(`/block/${block.blockHash}`)}>
-                    {getTableContentDataList(block, blockIndex).map((data: TableContentData, index: number) => {
-                      const key = index
-                      return (
-                        <Fragment key={key}>
-                          {data.content === block.minerHash ? (
-                            <TableMinerContentItem width={data.width} content={data.content} />
-                          ) : (
-                            <TableContentItem width={data.width} content={data.content} to={data.to} />
-                          )}
-                        </Fragment>
-                      )
-                    })}
+                    {getTableContentDataList(block, blockIndex, currentPage).map(
+                      (data: TableContentData, index: number) => {
+                        const key = index
+                        return (
+                          <Fragment key={key}>
+                            {data.content === block.minerHash ? (
+                              <TableMinerContentItem width={data.width} content={data.content} />
+                            ) : (
+                              <TableContentItem width={data.width} content={data.content} to={data.to} />
+                            )}
+                          </Fragment>
+                        )
+                      },
+                    )}
                   </TableContentRow>
                 )
               )

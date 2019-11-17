@@ -56,7 +56,7 @@ export const DaoTabBarPanel = styled.div`
 
     .tab_bar_normal {
       color: #000000;
-      font-weight: bold;
+      font-weight: normal;
     }
 
     .tab_bar_selected {

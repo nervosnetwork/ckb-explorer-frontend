@@ -264,10 +264,25 @@ export const HighLightValue = styled.div`
 `
 
 export const BlockRewardContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  @media (max-width: 700px) {
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+
   :after {
     display: inline;
     content: '+';
     color: #7f7d7d;
     font-size: 13px;
   }
+`
+
+export const BlockRewardPanel = styled.div`
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
 `

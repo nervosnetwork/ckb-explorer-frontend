@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import browserHistory from '../../routes/history'
@@ -113,7 +113,7 @@ export const TableTitleItem = ({ width, title }: { width: string; title: string 
   )
 }
 
-export const TableContentItem = ({ width, content, to }: { width: string; content: string; to?: any }) => {
+export const TableContentItem = ({ width, content, to }: { width: string; content: string | ReactNode; to?: any }) => {
   const highLight = to !== undefined
   return (
     <TableContentRowItem width={width}>

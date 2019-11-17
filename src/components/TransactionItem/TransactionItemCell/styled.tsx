@@ -73,8 +73,13 @@ export const TransactionCellCapacity = styled.div`
     margin-left: 0px;
     margin-top: 5px;
     height: 16px;
-    width: ${({ fullWidth = false }: { fullWidth?: boolean }) => (fullWidth ? '100%' : 'auto')};
-    justify-content: space-between;
+    width: ${({ isOutput = false }: { isOutput?: boolean }) => (isOutput ? '100%' : '100%')};
+    justify-content: ${({ isOutput }: { isOutput?: boolean }) => (isOutput ? 'flex-end' : 'space-between')};
+    padding-right: ${({ isOutput }: { isOutput?: boolean }) => (isOutput ? '0px' : '28px')};
+  }
+
+  > span {
+    margin-left: 5px;
   }
 `
 

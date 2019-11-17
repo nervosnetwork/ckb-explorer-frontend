@@ -19,6 +19,7 @@ import {
   AddressTransactionsPanel,
 } from './styled'
 import browserHistory from '../../routes/history'
+import DecimalCapacity from '../../components/DecimalCapacity'
 
 const addressContent = (address: State.Address) => {
   const addressText = isMobile() ? startEndEllipsis(address.addressHash, 10) : address.addressHash
@@ -91,7 +92,7 @@ const getAddressInfo = (addressState: State.AddressState) => {
   const items: OverviewItemData[] = [
     {
       title: i18n.t('address.balance'),
-      content: `${localeNumberString(shannonToCkb(address.balance))} ${i18n.t('common.ckb_unit')}`,
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} />,
     },
     {
       title: i18n.t('transaction.transactions'),
@@ -99,11 +100,11 @@ const getAddressInfo = (addressState: State.AddressState) => {
     },
     {
       title: i18n.t('address.dao_deposit'),
-      content: `${localeNumberString(shannonToCkb(address.daoDeposit))} ${i18n.t('common.ckb_unit')}`,
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoDeposit))} />,
     },
     {
       title: i18n.t('address.compensation'),
-      content: `${localeNumberString(shannonToCkb(address.interest))} ${i18n.t('common.ckb_unit')}`,
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.interest))} />,
     },
   ]
 

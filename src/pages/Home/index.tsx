@@ -9,6 +9,7 @@ import {
   TableMorePanel,
   HighLightValue,
   BlockRewardContainer,
+  BlockRewardPanel,
 } from './styled'
 import Content from '../../components/Content'
 import {
@@ -31,6 +32,7 @@ import { getLatestBlocks } from '../../service/app/block'
 import getStatistics from '../../service/app/statistics'
 import i18n from '../../utils/i18n'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
+import DecimalCapacity from '../../components/DecimalCapacity'
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   return (
@@ -78,12 +80,17 @@ const parseHashRate = (hashRate: string | undefined) => {
   return hashRate ? handleHashRate(Number(hashRate) * 1000) : '- -'
 }
 
-const blockRewardContainer = (blockReward: String, index: number) => {
-  return index < DELAY_BLOCK_NUMBER ? <BlockRewardContainer>{blockReward}</BlockRewardContainer> : blockReward
-}
-
 const getTableContentDataList = (block: State.Block, index: number) => {
-  const blockReward = localeNumberString(shannonToCkb(block.reward))
+  const blockReward =
+    index < DELAY_BLOCK_NUMBER ? (
+      <BlockRewardContainer>
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+      </BlockRewardContainer>
+    ) : (
+      <BlockRewardPanel>
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+      </BlockRewardPanel>
+    )
   return [
     {
       width: '14%',
@@ -96,7 +103,7 @@ const getTableContentDataList = (block: State.Block, index: number) => {
     },
     {
       width: '20%',
-      content: blockRewardContainer(blockReward, index),
+      content: blockReward,
     },
     {
       width: '37%',
@@ -141,7 +148,16 @@ const blockchainDataList = (statistics: State.Statistics) => {
 }
 
 const blockCardItems = (block: State.Block, index: number) => {
-  const blockReward = localeNumberString(shannonToCkb(block.reward))
+  const blockReward =
+    index < DELAY_BLOCK_NUMBER ? (
+      <BlockRewardContainer>
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+      </BlockRewardContainer>
+    ) : (
+      <BlockRewardPanel>
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+      </BlockRewardPanel>
+    )
 
   return [
     {
@@ -154,7 +170,7 @@ const blockCardItems = (block: State.Block, index: number) => {
     },
     {
       title: i18n.t('home.block_reward'),
-      content: blockRewardContainer(blockReward, index),
+      content: blockReward,
     },
     {
       title: i18n.t('block.miner'),

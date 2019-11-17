@@ -108,6 +108,7 @@ export const OverviewItemPanel = styled.div`
 
   .overview_item__value {
     margin-left: 15px;
+    display: flex;
 
     @media (max-width: 700px) {
       margin-left: 0px;

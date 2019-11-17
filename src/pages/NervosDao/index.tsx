@@ -17,6 +17,7 @@ import DaoSearch from '../../components/Search/DaoSearch'
 import DepositorRank from './DepositorRank'
 import { parsePageNumber } from '../../utils/string'
 import { PageParams } from '../../utils/const'
+import DecimalCapacity from '../../components/DecimalCapacity'
 
 enum DaoTab {
   Transactions,
@@ -27,11 +28,11 @@ const NervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
   const overviewItems: OverviewItemData[] = [
     {
       title: i18n.t('nervos_dao.total_deposit'),
-      content: `${localeNumberString(shannonToCkb(nervosDao.totalDeposit))} ${i18n.t('common.ckb_unit')}`,
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(nervosDao.totalDeposit))} />,
     },
     {
       title: i18n.t('nervos_dao.compensation'),
-      content: `${localeNumberString(shannonToCkb(nervosDao.interestGranted))} ${i18n.t('common.ckb_unit')}`,
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(nervosDao.interestGranted))} />,
     },
     {
       title: i18n.t('nervos_dao.current_depositors'),

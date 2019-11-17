@@ -22,7 +22,7 @@
       "nervos_dao": "Nervos DAO",
       "docs": "Docs",
       "search_placeholder": "Block / Transaction / Address / Lock Hash",
-      "network_mainnet": "MAINNET",
+      "network_mainnet": "LINA",
       "network_testnet": "TESTNET",
       "network_tooltip": "Mainnet is comming"
     },
@@ -34,7 +34,7 @@
       "hash_rate_tooltip": "Average Hash Rate of the last 500 blocks",
       "average_block_time": "Average Block Time",
       "average_block_time_tooltip": "Average Block Time of the latest epoch",
-      "nervos_dao": "NervosDAO",
+      "nervos_dao": "Nervos DAO",
       "mainnet": "MAINNET",
       "mainnet_coming": "MAINNET Coming",
       "testnet": "TESTNET"
