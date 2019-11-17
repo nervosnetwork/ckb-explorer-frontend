@@ -9,6 +9,7 @@ import { localeNumberString } from '../../utils/number'
 import { formatConfirmation, shannonToCkb } from '../../utils/util'
 import { TransactionBlockHeightPanel, TransactionInfoItemPanel, TransactionInfoContentPanel } from './styled'
 import TransactionCellList from './TransactionCellList'
+import DecimalCapacity from '../../components/DecimalCapacity'
 
 const TransactionBlockHeight = ({ blockNumber }: { blockNumber: number }) => {
   return (
@@ -49,7 +50,7 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
     },
     {
       title: i18n.t('transaction.transaction_fee'),
-      content: `${localeNumberString(shannonToCkb(transaction.transactionFee))} ${i18n.t('common.ckb_unit')}`,
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.transactionFee))} />,
     },
   ]
   if (confirmation > 0) {

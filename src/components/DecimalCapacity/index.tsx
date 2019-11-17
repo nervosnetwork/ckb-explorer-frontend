@@ -9,6 +9,7 @@ const DecimalPanel = styled.div`
 
   .decimal__zeros {
     color: rgb(0, 0, 0, 0);
+    margin-bottom: 2px;
   }
 
   .decimal__decimal {
@@ -60,7 +61,7 @@ export default ({
       <span
         className="decimal__decimal"
         style={{
-          fontSize: fontSize || '11px',
+          fontSize: fontSize || '12px',
           color: color || '#999999',
         }}
       >
@@ -69,7 +70,8 @@ export default ({
       <span
         className="decimal__zeros"
         style={{
-          fontSize: fontSize || '11px',
+          fontSize: fontSize || '12px',
+          color: color || '#999999',
         }}
       >
         {zeros}
