@@ -108,7 +108,7 @@ export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function
           setShowChainDropdown(false)
         }}
       >
-        <a href={testnetUrl}>{i18n.t('blockchain.testnet')}</a>
+        <a href={testnetUrl}>{`${CONFIG.TESTNET_NAME.toUpperCase()} ${i18n.t('blockchain.testnet')}`}</a>
       </div>
     </ChainTypePanel>
   )

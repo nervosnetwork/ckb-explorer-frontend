@@ -23,9 +23,8 @@
       "dao": "DAO",
       "docs": "文档",
       "search_placeholder": "区块 / 交易 / 地址 / 锁定脚本哈希",
-      "network_mainnet": "主网",
-      "network_testnet": "测试网",
-      "network_tooltip": "主网即将上线！"
+      "mainnet": "LINA",
+      "testnet": "测试网"
     },
     "blockchain": {
       "best_block": "最高块",
@@ -36,8 +35,7 @@
       "average_block_time": "平均出块时间",
       "average_block_time_tooltip": "当下 Epoch 的平均出块时间",
       "nervos_dao": "NervosDAO",
-      "mainnet": "MAINNET",
-      "mainnet_coming": "MAINNET Coming",
+      "mainnet": "LINA MAINNET",
       "testnet": "TESTNET"
     },
     "home": {

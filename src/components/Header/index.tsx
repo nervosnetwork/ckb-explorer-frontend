@@ -24,6 +24,7 @@ import { AppDispatch, ComponentActions } from '../../contexts/providers/reducer'
 import LanDropdown from '../Dropdown/Language'
 import ChainDropdown from '../Dropdown/ChainType'
 import { isMainnet } from '../../utils/chain'
+import CONFIG from '../../config'
 
 enum LinkType {
   Inner,
@@ -120,7 +121,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
           }}
         >
           <div className="header__blockchain__content">
-            {isMainnet() ? i18n.t('navbar.network_mainnet') : i18n.t('navbar.network_testnet')}
+            {isMainnet() ? i18n.t('navbar.mainnet') : CONFIG.TESTNET_NAME.toUpperCase()}
           </div>
           <HeaderVersionPanel>
             <div>{handleVersion(nodeVersion)}</div>

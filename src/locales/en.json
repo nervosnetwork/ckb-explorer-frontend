@@ -23,9 +23,8 @@
       "dao": "DAO",
       "docs": "Docs",
       "search_placeholder": "Block / Transaction / Address / Lock Hash",
-      "network_mainnet": "MAINNET",
-      "network_testnet": "TESTNET",
-      "network_tooltip": "Mainnet is comming"
+      "mainnet": "LINA",
+      "testnet": "TESTNET"
     },
     "blockchain": {
       "best_block": "Best Block",
@@ -36,8 +35,7 @@
       "average_block_time": "Average Block Time",
       "average_block_time_tooltip": "Average Block Time of the latest epoch",
       "nervos_dao": "NervosDAO",
-      "mainnet": "MAINNET",
-      "mainnet_coming": "MAINNET Coming",
+      "mainnet": " LINA MAINNET",
       "testnet": "TESTNET"
     },
     "home": {
