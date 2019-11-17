@@ -93,11 +93,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
       if (chainDropdownComp) {
         const chainDropdownReact = chainDropdownComp.getBoundingClientRect()
         if (chainDropdownReact) {
-          if (isMobile()) {
-            setChainDropdownLeft(chainDropdownReact.left - (language === 'en' ? 5 : 15))
-          } else {
-            setChainDropdownLeft(chainDropdownReact.left - (language === 'en' ? 0 : 20))
-          }
+          setChainDropdownLeft(chainDropdownReact.left - 10)
         }
       }
     }
@@ -110,7 +106,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
 
   const BlockchainComp = () => {
     return (
-      <HeaderBlockchainPanel search={!!hasSearch} showChainDropdown={false} id="header__blockchain__panel">
+      <HeaderBlockchainPanel search={!!hasSearch} showChainDropdown={showChainDropdown} id="header__blockchain__panel">
         <div
           className="header__blockchain__flag"
           role="button"

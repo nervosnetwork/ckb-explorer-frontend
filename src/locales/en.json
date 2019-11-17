@@ -35,8 +35,8 @@
       "average_block_time": "Average Block Time",
       "average_block_time_tooltip": "Average Block Time of the latest epoch",
       "nervos_dao": "NervosDAO",
-      "mainnet": " LINA MAINNET",
-      "testnet": "TESTNET"
+      "mainnet": " Lina Mainnet",
+      "testnet": "Testnet"
     },
     "home": {
       "height": "Height",

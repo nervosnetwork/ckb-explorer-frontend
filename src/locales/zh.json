@@ -35,8 +35,8 @@
       "average_block_time": "平均出块时间",
       "average_block_time_tooltip": "当下 Epoch 的平均出块时间",
       "nervos_dao": "NervosDAO",
-      "mainnet": "LINA MAINNET",
-      "testnet": "TESTNET"
+      "mainnet": "Lina Mainnet",
+      "testnet": "Testnet"
     },
     "home": {
       "height": "高度",
