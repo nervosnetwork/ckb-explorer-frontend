@@ -63,6 +63,11 @@ const AddressPanel = styled(Link)`
   width: 60%;
   text-align: center;
 
+  @media (max-width: 700px) {
+    width: 100%;
+    text-align: start;
+  }
+
   :hover {
     color: ${props => props.theme.primary};
   }
@@ -88,7 +93,7 @@ const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
     },
     {
       title: i18n.t('nervos_dao.dao_title_deposit_capacity'),
-      content: `${localeNumberString(shannonToCkb(depositor.daoDeposit))} ${i18n.t('common.ckb_unit')}`,
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />,
     },
   ]
 }
