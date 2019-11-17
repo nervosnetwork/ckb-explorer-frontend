@@ -13,6 +13,7 @@ const DecimalPanel = styled.div`
 
   .decimal__unit {
     margin-left: 5px;
+    margin-bottom: 2px;
   }
 `
 
@@ -48,6 +49,7 @@ export default ({
         style={{
           fontSize: fontSize || '11px',
           color: color || '#999999',
+          marginBottom: '2px',
         }}
       >
         {decimal}

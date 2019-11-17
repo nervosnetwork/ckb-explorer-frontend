@@ -56,6 +56,8 @@ const getTableContentDataList = (block: State.Block, index: number) => {
       <div
         style={{
           marginRight: '8px',
+          display: 'flex',
+          justifyContent: 'center',
         }}
       >
         <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
