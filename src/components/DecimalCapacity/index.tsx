@@ -58,6 +58,7 @@ export default ({
         className="decimal__zeros"
         style={{
           fontSize: fontSize || '11px',
+          marginBottom: '2px',
         }}
       >
         {zeros}

@@ -170,7 +170,7 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
           <span className="address">{addressText}</span>
         )}
       </div>
-      <TransactionCellCapacity fullWidth={cellType === CellType.Output}>
+      <TransactionCellCapacity isOutput={cellType === CellType.Output}>
         {isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
         <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}

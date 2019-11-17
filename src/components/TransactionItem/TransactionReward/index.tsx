@@ -53,6 +53,8 @@ export const RewardPenal = styled.div`
 
     @media (max-width: 700px) {
       margin-left: 13px;
+      width: 100%;
+      padding-right: 18px;
     }
 
     > span {

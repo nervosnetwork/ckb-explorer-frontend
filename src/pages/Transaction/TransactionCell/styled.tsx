@@ -23,6 +23,8 @@ export const TransactionCellContentPanel = styled.div`
   }
   .transaction__cell_capacity {
     flex: 0.3;
+    display: flex;
+    justify-content: center;
   }
   .transaction__cell_detail {
     flex: 0.33;

@@ -115,7 +115,7 @@ export default ({
     if (cell.capacity) {
       items.push({
         title: i18n.t('transaction.capacity'),
-        content: <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} hideUnit />,
+        content: <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />,
       })
     }
     return (
@@ -139,7 +139,7 @@ export default ({
         </div>
 
         <div className="transaction__cell_capacity">
-          {cell.capacity && <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} hideUnit />}
+          {cell.capacity && <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />}
         </div>
 
         <div className="transaction__cell_detail">
