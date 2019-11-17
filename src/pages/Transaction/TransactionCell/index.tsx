@@ -19,6 +19,7 @@ import {
   TransactionCellPanel,
 } from './styled'
 import TransactionCellArrow from '../TransactionCellArrow'
+import DecimalCapacity from '../../../components/DecimalCapacity'
 
 const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
@@ -100,7 +101,7 @@ export default ({
   cell: State.Cell
   cellType: CellType
   dispatch: AppDispatch
-  index: Number
+  index: number
 }) => {
   const [state, setState] = useState(CellState.NONE as CellState)
 
@@ -114,7 +115,14 @@ export default ({
     if (cell.capacity) {
       items.push({
         title: i18n.t('transaction.capacity'),
-        content: cell.capacity && localeNumberString(shannonToCkb(cell.capacity)),
+        content: (
+          <DecimalCapacity
+            value={localeNumberString(shannonToCkb(cell.capacity))}
+            fontSize="11px"
+            color="#999999"
+            hideUnit
+          />
+        ),
       })
     }
     return (
@@ -138,7 +146,14 @@ export default ({
         </div>
 
         <div className="transaction__cell_capacity">
-          {cell.capacity && localeNumberString(shannonToCkb(cell.capacity))}
+          {cell.capacity && (
+            <DecimalCapacity
+              value={localeNumberString(shannonToCkb(cell.capacity))}
+              fontSize="11px"
+              color="#999999"
+              hideUnit
+            />
+          )}
         </div>
 
         <div className="transaction__cell_detail">

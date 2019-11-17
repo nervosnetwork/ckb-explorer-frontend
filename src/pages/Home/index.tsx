@@ -1,6 +1,6 @@
-import React, {useEffect, useContext, useMemo} from 'react'
-import {Link, RouteComponentProps} from 'react-router-dom'
-import {useTranslation} from 'react-i18next'
+import React, { useEffect, useContext, useMemo } from 'react'
+import { Link, RouteComponentProps } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import {
   HomeHeaderPanel,
   HomeHeaderItemPanel,
@@ -18,28 +18,22 @@ import {
   TableContentItem,
   TableMinerContentItem,
 } from '../../components/Table'
-import {shannonToCkb} from '../../utils/util'
-import {parseTime, parseSimpleDate} from '../../utils/date'
-import {BLOCK_POLLING_TIME, DELAY_BLOCK_NUMBER} from '../../utils/const'
-import {
-  localeNumberString,
-  handleHashRate,
-  handleDifficulty,
-} from '../../utils/number'
-import {adaptMobileEllipsis} from '../../utils/string'
-import {isMobile} from '../../utils/screen'
+import { shannonToCkb } from '../../utils/util'
+import { parseTime, parseSimpleDate } from '../../utils/date'
+import { BLOCK_POLLING_TIME, DELAY_BLOCK_NUMBER } from '../../utils/const'
+import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
+import { adaptMobileEllipsis } from '../../utils/string'
+import { isMobile } from '../../utils/screen'
 import browserHistory from '../../routes/history'
-import {StateWithDispatch} from '../../contexts/providers/reducer'
-import {AppContext} from '../../contexts/providers'
-import {getLatestBlocks} from '../../service/app/block'
+import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { AppContext } from '../../contexts/providers'
+import { getLatestBlocks } from '../../service/app/block'
 import getStatistics from '../../service/app/statistics'
 import i18n from '../../utils/i18n'
-import OverviewCard, {
-  OverviewItemData,
-} from '../../components/Card/OverviewCard'
+import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import DecimalCapacity from '../../components/DecimalCapacity'
 
-const BlockchainItem = ({blockchain}: {blockchain: BlockchainData}) => {
+const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   return (
     <HomeHeaderItemPanel
       clickable={!!blockchain.clickable}
@@ -50,14 +44,12 @@ const BlockchainItem = ({blockchain}: {blockchain: BlockchainData}) => {
     >
       <div className="blockchain__item__value">{blockchain.value}</div>
       <div className="blockchain__item__name">{blockchain.name}</div>
-      {blockchain.tip && (
-        <div className="blockchain__item__tip__content">{blockchain.tip}</div>
-      )}
+      {blockchain.tip && <div className="blockchain__item__tip__content">{blockchain.tip}</div>}
     </HomeHeaderItemPanel>
   )
 }
 
-const BlockValueItem = ({value, to}: {value: string; to: string}) => {
+const BlockValueItem = ({ value, to }: { value: string; to: string }) => {
   return (
     <HighLightValue>
       <Link to={to}>{value}</Link>
@@ -99,7 +91,18 @@ const getTableContentDataList = (block: State.Block, index: number) => {
         />
       </BlockRewardContainer>
     ) : (
-      block.reward
+      <div
+        style={{
+          marginRight: '8px',
+        }}
+      >
+        <DecimalCapacity
+          value={localeNumberString(shannonToCkb(block.reward))}
+          fontSize="11px"
+          color="#999999"
+          hideUnit
+        />
+      </div>
     )
   return [
     {
@@ -169,18 +172,24 @@ const blockCardItems = (block: State.Block, index: number) => {
         />
       </BlockRewardContainer>
     ) : (
-      block.reward
+      <div
+        style={{
+          marginRight: '8px',
+        }}
+      >
+        <DecimalCapacity
+          value={localeNumberString(shannonToCkb(block.reward))}
+          fontSize="11px"
+          color="#999999"
+          hideUnit
+        />
+      </div>
     )
 
   return [
     {
       title: i18n.t('home.height'),
-      content: (
-        <BlockValueItem
-          value={localeNumberString(block.number)}
-          to={`/block/${block.number}`}
-        />
-      ),
+      content: <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
     },
     {
       title: i18n.t('home.transactions'),
@@ -192,12 +201,7 @@ const blockCardItems = (block: State.Block, index: number) => {
     },
     {
       title: i18n.t('block.miner'),
-      content: (
-        <BlockValueItem
-          value={adaptMobileEllipsis(block.minerHash, 12)}
-          to={`/address/${block.minerHash}`}
-        />
-      ),
+      content: <BlockValueItem value={adaptMobileEllipsis(block.minerHash, 12)} to={`/address/${block.minerHash}`} />,
     },
     {
       title: i18n.t('home.time'),
@@ -206,10 +210,8 @@ const blockCardItems = (block: State.Block, index: number) => {
   ] as OverviewItemData[]
 }
 
-export default ({
-  dispatch,
-}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
-  const {homeBlocks = [], statistics} = useContext(AppContext)
+export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
+  const { homeBlocks = [], statistics } = useContext(AppContext)
   const [t] = useTranslation()
 
   const TableTitles = useMemo(() => {
@@ -266,12 +268,7 @@ export default ({
             <div className="block__green__background" />
             <div className="block__panel">
               {homeBlocks.map((block: State.Block, index: number) => {
-                return (
-                  <OverviewCard
-                    key={block.number}
-                    items={blockCardItems(block, index)}
-                  />
-                )
+                return <OverviewCard key={block.number} items={blockCardItems(block, index)} />
               })}
             </div>
           </ContentTable>
@@ -279,13 +276,7 @@ export default ({
           <ContentTable>
             <TableTitleRow>
               {TableTitles.map((data: TableTitleData) => {
-                return (
-                  <TableTitleItem
-                    width={data.width}
-                    title={data.title}
-                    key={data.title}
-                  />
-                )
+                return <TableTitleItem width={data.width} title={data.title} key={data.title} />
               })}
             </TableTitleRow>
             {homeBlocks.map((block: State.Block, blockIndex: number) => {
@@ -297,27 +288,18 @@ export default ({
                       browserHistory.push(`/block/${block.blockHash}`)
                     }}
                   >
-                    {getTableContentDataList(block, blockIndex).map(
-                      (data: TableContentData, index: number) => {
-                        const key = index
-                        return (
-                          <React.Fragment key={key}>
-                            {data.content === block.minerHash ? (
-                              <TableMinerContentItem
-                                width={data.width}
-                                content={data.content}
-                              />
-                            ) : (
-                              <TableContentItem
-                                width={data.width}
-                                content={data.content}
-                                to={data.to}
-                              />
-                            )}
-                          </React.Fragment>
-                        )
-                      },
-                    )}
+                    {getTableContentDataList(block, blockIndex).map((data: TableContentData, index: number) => {
+                      const key = index
+                      return (
+                        <React.Fragment key={key}>
+                          {data.content === block.minerHash ? (
+                            <TableMinerContentItem width={data.width} content={data.content} />
+                          ) : (
+                            <TableContentItem width={data.width} content={data.content} to={data.to} />
+                          )}
+                        </React.Fragment>
+                      )
+                    })}
                   </TableContentRow>
                 )
               )
