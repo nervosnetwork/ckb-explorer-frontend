@@ -46,9 +46,9 @@ interface TableContentData {
   content: string
 }
 
-const getTableContentDataList = (block: State.Block, index: number) => {
+const getTableContentDataList = (block: State.Block, index: number, page: number) => {
   const blockReward =
-    index < DELAY_BLOCK_NUMBER ? (
+    index < DELAY_BLOCK_NUMBER && page === 1 ? (
       <BlockRewardContainer>
         <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
       </BlockRewardContainer>
@@ -201,18 +201,20 @@ export default ({
               return (
                 block && (
                   <TableContentRow key={block.number} onClick={() => push(`/block/${block.blockHash}`)}>
-                    {getTableContentDataList(block, blockIndex).map((data: TableContentData, index: number) => {
-                      const key = index
-                      return (
-                        <Fragment key={key}>
-                          {data.content === block.minerHash ? (
-                            <TableMinerContentItem width={data.width} content={data.content} />
-                          ) : (
-                            <TableContentItem width={data.width} content={data.content} to={data.to} />
-                          )}
-                        </Fragment>
-                      )
-                    })}
+                    {getTableContentDataList(block, blockIndex, currentPage).map(
+                      (data: TableContentData, index: number) => {
+                        const key = index
+                        return (
+                          <Fragment key={key}>
+                            {data.content === block.minerHash ? (
+                              <TableMinerContentItem width={data.width} content={data.content} />
+                            ) : (
+                              <TableContentItem width={data.width} content={data.content} to={data.to} />
+                            )}
+                          </Fragment>
+                        )
+                      },
+                    )}
                   </TableContentRow>
                 )
               )
