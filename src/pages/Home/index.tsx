@@ -9,6 +9,7 @@ import {
   TableMorePanel,
   HighLightValue,
   BlockRewardContainer,
+  BlockRewardPanel,
 } from './styled'
 import Content from '../../components/Content'
 import {
@@ -86,13 +87,9 @@ const getTableContentDataList = (block: State.Block, index: number) => {
         <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
       </BlockRewardContainer>
     ) : (
-      <div
-        style={{
-          marginRight: '8px',
-        }}
-      >
+      <BlockRewardPanel>
         <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
-      </div>
+      </BlockRewardPanel>
     )
   return [
     {
@@ -157,15 +154,9 @@ const blockCardItems = (block: State.Block, index: number) => {
         <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
       </BlockRewardContainer>
     ) : (
-      <div
-        style={{
-          marginRight: '8px',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
+      <BlockRewardPanel>
         <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
-      </div>
+      </BlockRewardPanel>
     )
 
   return [

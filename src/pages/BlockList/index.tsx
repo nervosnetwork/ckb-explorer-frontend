@@ -3,7 +3,7 @@ import { RouteComponentProps, Link } from 'react-router-dom'
 import queryString from 'query-string'
 import { useTranslation } from 'react-i18next'
 import { parseSimpleDate } from '../../utils/date'
-import { BlockListPanel, ContentTable, HighLightValue, BlockRewardContainer } from './styled'
+import { BlockListPanel, ContentTable, HighLightValue, BlockRewardContainer, BlockRewardPanel } from './styled'
 import Content from '../../components/Content'
 import {
   TableTitleRow,
@@ -53,15 +53,9 @@ const getTableContentDataList = (block: State.Block, index: number, page: number
         <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
       </BlockRewardContainer>
     ) : (
-      <div
-        style={{
-          marginRight: '8px',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
+      <BlockRewardPanel>
         <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
-      </div>
+      </BlockRewardPanel>
     )
 
   return [
@@ -89,20 +83,16 @@ const getTableContentDataList = (block: State.Block, index: number, page: number
   ] as TableContentData[]
 }
 
-const BlockCardItems = (block: State.Block, index: number) => {
+const BlockCardItems = (block: State.Block, index: number, page: number) => {
   const blockReward =
-    index < DELAY_BLOCK_NUMBER ? (
+    index < DELAY_BLOCK_NUMBER && page === 1 ? (
       <BlockRewardContainer>
         <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
       </BlockRewardContainer>
     ) : (
-      <div
-        style={{
-          marginRight: '8px',
-        }}
-      >
+      <BlockRewardPanel>
         <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
-      </div>
+      </BlockRewardPanel>
     )
   return [
     {
@@ -186,7 +176,7 @@ export default ({
           <ContentTable>
             <div className="block__panel">
               {blocks.map((block: State.Block, index: number) => {
-                return <OverviewCard key={block.number} items={BlockCardItems(block, index)} />
+                return <OverviewCard key={block.number} items={BlockCardItems(block, index, currentPage)} />
               })}
             </div>
           </ContentTable>

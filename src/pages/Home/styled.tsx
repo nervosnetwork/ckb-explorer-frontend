@@ -280,3 +280,9 @@ export const BlockRewardContainer = styled.div`
     font-size: 13px;
   }
 `
+
+export const BlockRewardPanel = styled.div`
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
+`
