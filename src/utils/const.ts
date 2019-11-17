@@ -15,13 +15,6 @@ export const HttpErrorCode = {
 }
 
 export const CachedKeys = {
-  // Block List
-  BlockList: 'block_list',
-
-  // Home
-  Blocks: 'blocks',
-  Statistics: 'statistics',
-
   // Statistics Chart
   StatisticsChart: 'statistics_chart',
   StatisticsUncleRateChart: 'statistics_uncle_rate_chart',

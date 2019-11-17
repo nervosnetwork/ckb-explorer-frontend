@@ -1,7 +1,5 @@
 import { fetchTransactionsByBlockHash, fetchBlock, fetchBlocks, fetchBlockList } from '../http/fetcher'
 import { PageActions, AppDispatch, AppActions } from '../../contexts/providers/reducer'
-import { storeCachedData, fetchCachedData } from '../../utils/cached'
-import { CachedKeys } from '../../utils/const'
 
 const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
   dispatch({
@@ -69,15 +67,6 @@ export const getBlock = (blockParam: string, page: number, size: number, dispatc
 
 // home page
 export const getLatestBlocks = (dispatch: AppDispatch) => {
-  const cachedBlocks = fetchCachedData<State.Block[]>(CachedKeys.Blocks)
-  if (cachedBlocks) {
-    dispatch({
-      type: PageActions.UpdateHomeBlocks,
-      payload: {
-        homeBlocks: cachedBlocks,
-      },
-    })
-  }
   fetchBlocks().then((wrappers: Response.Wrapper<State.Block>[] | null) => {
     if (wrappers) {
       const blocks = wrappers.map((wrapper: Response.Wrapper<State.Block>) => {
@@ -89,22 +78,12 @@ export const getLatestBlocks = (dispatch: AppDispatch) => {
           homeBlocks: blocks,
         },
       })
-      storeCachedData(CachedKeys.Blocks, blocks)
     }
   })
 }
 
 // block list page
 export const getBlocks = (page: number, size: number, dispatch: AppDispatch) => {
-  const cachedBlocks = fetchCachedData<State.Block[]>(CachedKeys.BlockList)
-  if (cachedBlocks) {
-    dispatch({
-      type: PageActions.UpdateBlockList,
-      payload: {
-        blocks: cachedBlocks,
-      },
-    })
-  }
   fetchBlockList(page, size).then(response => {
     const { data, meta } = response as Response.Response<Response.Wrapper<State.Block>[]>
     if (meta) {
@@ -125,7 +104,6 @@ export const getBlocks = (page: number, size: number, dispatch: AppDispatch) => 
           blocks,
         },
       })
-      storeCachedData(CachedKeys.BlockList, blocks)
     }
   })
 }
