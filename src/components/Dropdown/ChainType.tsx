@@ -5,7 +5,7 @@ import CONFIG from '../../config'
 import { isMainnet } from '../../utils/chain'
 
 export const ChainTypePanel = styled.div`
-  width: 184px;
+  width: 150px;
   height: 89px;
   background: white;
   border-radius: 5px;
@@ -31,6 +31,7 @@ export const ChainTypePanel = styled.div`
 
     a {
       color: ${props => props.theme.primary};
+      text-transform: capitalize;
     }
 
     a:hover {
@@ -49,6 +50,7 @@ export const ChainTypePanel = styled.div`
 
     a {
       color: #676767;
+      text-transform: capitalize;
     }
     a:hover {
       color: #676767;
@@ -61,17 +63,17 @@ export const ChainTypePanel = styled.div`
   }
 
   @media (max-width: 700px) {
-    width: 106px;
+    width: 96px;
     height: 75px;
     top: 35px;
 
     .chain_type_selected {
-      font-size: 11px;
+      font-size: 10px;
       height: 37px;
       line-height: 37px;
     }
     .chain_type_normal {
-      font-size: 11px;
+      font-size: 10px;
       height: 37px;
       line-height: 37px;
     }
@@ -108,7 +110,7 @@ export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function
           setShowChainDropdown(false)
         }}
       >
-        <a href={testnetUrl}>{i18n.t('blockchain.testnet')}</a>
+        <a href={testnetUrl}>{`${CONFIG.TESTNET_NAME} ${i18n.t('blockchain.testnet')}`}</a>
       </div>
     </ChainTypePanel>
   )

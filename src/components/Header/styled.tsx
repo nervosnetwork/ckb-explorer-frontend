@@ -174,6 +174,7 @@ export const HeaderBlockchainPanel = styled.div`
     text-align: center;
     letter-spacing: 1px;
     font-weight: bold;
+    cursor: pointer;
   }
 
   @media (max-width: 700px) {
@@ -197,6 +198,7 @@ export const HeaderVersionPanel = styled.div`
   font-size: 12px;
   margin-right: 90px;
   display: flex;
+  cursor: pointer;
 
   > div {
     margin-top: 8px;
