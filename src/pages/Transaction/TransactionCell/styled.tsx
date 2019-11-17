@@ -17,6 +17,10 @@ export const TransactionCellContentPanel = styled.div`
   .transaction__cell_index {
     margin-right: 3px;
     color: #666666;
+    > div {
+      width: 60px;
+      text-align: start;
+    }
   }
   .transaction__cell_hash {
     flex: 0.33;

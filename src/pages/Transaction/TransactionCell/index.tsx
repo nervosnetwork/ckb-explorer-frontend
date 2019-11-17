@@ -133,7 +133,9 @@ export default ({
   return (
     <TransactionCellPanel>
       <TransactionCellContentPanel>
-        <div className="transaction__cell_index">{cellType && cellType === CellType.Output ? `#${index}` : ' '}</div>
+        <div className="transaction__cell_index">
+          {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
+        </div>
         <div className="transaction__cell_hash">
           <TransactionCellHash cell={cell} cellType={cellType} />
         </div>
