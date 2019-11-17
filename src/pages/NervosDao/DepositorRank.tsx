@@ -7,6 +7,7 @@ import { shannonToCkb } from '../../utils/util'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
 import OverviewCard from '../../components/Card/OverviewCard'
+import DecimalCapacity from '../../components/DecimalCapacity'
 
 const DepositorRankPanel = styled.div`
   width: 1200px;
@@ -24,17 +25,17 @@ const DepositorRankTitle = styled.div`
   font-size: 18px;
   height: 40px;
 
-  div {
+  > div {
     text-align: center;
   }
 
-  div: nth-child(1) {
+  >div: nth-child(1) {
     width: 20%;
   }
-  div: nth-child(2) {
+  >div: nth-child(2) {
     width: 60%;
   }
-  div: nth-child(3) {
+  >div: nth-child(3) {
     width: 20%;
   }
 `
@@ -52,7 +53,7 @@ const DepositorRankItem = styled.div`
   font-size: 16px;
   height: 40px;
 
-  div {
+  > div {
     text-align: center;
     width: 20%;
   }
@@ -61,6 +62,15 @@ const AddressPanel = styled(Link)`
   color: ${props => props.theme.primary};
   width: 60%;
   text-align: center;
+
+  @media (max-width: 700px) {
+    width: 100%;
+    text-align: start;
+  }
+
+  :hover {
+    color: ${props => props.theme.primary};
+  }
 `
 
 const AddressText = ({ address }: { address: string }) => {
@@ -72,6 +82,7 @@ const AddressText = ({ address }: { address: string }) => {
 }
 
 const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
+  const daoDeposit = localeNumberString(shannonToCkb(depositor.daoDeposit))
   return [
     {
       title: i18n.t('nervos_dao.dao_title_rank'),
@@ -83,7 +94,11 @@ const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
     },
     {
       title: i18n.t('nervos_dao.dao_title_deposit_capacity'),
-      content: `${localeNumberString(shannonToCkb(depositor.daoDeposit))} ${i18n.t('common.ckb_unit')}`,
+      content: daoDeposit.includes('.') ? (
+        <DecimalCapacity value={daoDeposit} />
+      ) : (
+        `${daoDeposit} ${i18n.t('common.ckb_unit')}`
+      ),
     },
   ]
 }
@@ -111,7 +126,9 @@ export default () => {
           <DepositorRankItem>
             <div>{index + 1}</div>
             <AddressText address={depositor.addressHash} />
-            <div>{`${localeNumberString(shannonToCkb(depositor.daoDeposit))} ${i18n.t('common.ckb_unit')}`}</div>
+            <div>
+              <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />
+            </div>
           </DepositorRankItem>
         )
       })}

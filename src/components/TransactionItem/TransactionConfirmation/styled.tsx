@@ -92,6 +92,8 @@ export const TransactionCapacityValuePanel = styled(TransactionConfirmationValue
     ${(props: { increased: boolean; theme: any }) => (props.increased ? `${props.theme.primary}` : '#ff5757')};
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
+  text-align: center;
+  justify-content: center;
 
   > span {
     background: ${(props: { increased: boolean; theme: any }) =>

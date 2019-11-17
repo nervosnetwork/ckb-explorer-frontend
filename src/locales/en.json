@@ -20,7 +20,6 @@
       "wallet": "Wallet",
       "charts": "Charts",
       "nervos_dao": "Nervos DAO",
-      "dao": "DAO",
       "docs": "Docs",
       "search_placeholder": "Block / Transaction / Address / Lock Hash",
       "mainnet": "LINA",
@@ -34,8 +33,8 @@
       "hash_rate_tooltip": "Average Hash Rate of the last 500 blocks",
       "average_block_time": "Average Block Time",
       "average_block_time_tooltip": "Average Block Time of the latest epoch",
-      "nervos_dao": "NervosDAO",
-      "mainnet": " Lina Mainnet",
+      "nervos_dao": "Nervos DAO",
+      "mainnet": "Lina Mainnet",
       "testnet": "Testnet"
     },
     "home": {

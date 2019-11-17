@@ -67,6 +67,8 @@ export const TransactionInfoItemPanel = styled.div`
   .transaction__info_value {
     margin-left: 20px;
     margin-top: 5px;
+    max-height: 200px;
+    overflow-y: scroll;
     font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
 
     @media (max-width: 700px) {

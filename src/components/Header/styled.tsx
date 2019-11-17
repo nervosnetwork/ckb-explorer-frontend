@@ -97,7 +97,7 @@ export const HeaderMobileDiv = styled.div`
     .header__logo__img {
       width: 80px;
       height: 16px;
-      margin-bottom: 5px;
+      margin-bottom: 7px;
     }
 
     @media (max-width: 400px) {
@@ -111,14 +111,14 @@ export const HeaderMobileDiv = styled.div`
     align-items: center;
 
     .header__menus__item {
-      margin-left: 10px;
-      font-size: 14px;
+      margin-left: 6px;
+      font-size: 10px;
       font-weight: bold;
       color: white;
 
       @media (max-width: 400px) {
-        margin-left: 6px;
-        font-size: 12px;
+        margin-left: 4px;
+        font-size: 8px;
       }
     }
   }
@@ -179,7 +179,7 @@ export const HeaderBlockchainPanel = styled.div`
 
   @media (max-width: 700px) {
     .header__blockchain__content {
-      font-size: 12px;
+      font-size: 10px;
       letter-spacing: normal;
       margin-top: 3px;
     }

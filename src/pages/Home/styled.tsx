@@ -205,7 +205,10 @@ export const TableMorePanel = styled.div`
   background: white;
   border: 0px solid white;
   border-radius: 6px;
-
+  cursor: pointer;
+  :hover {
+    background: #f8f9fa;
+  }
   > div {
     height: 33px;
     display: flex;
@@ -258,4 +261,28 @@ export const HighLightValue = styled.div`
   a:hover {
     color: ${props => props.theme.primary};
   }
+`
+
+export const BlockRewardContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  @media (max-width: 700px) {
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+
+  :after {
+    display: inline;
+    content: '+';
+    color: #7f7d7d;
+    font-size: 13px;
+  }
+`
+
+export const BlockRewardPanel = styled.div`
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
 `

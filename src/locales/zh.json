@@ -20,7 +20,6 @@
       "wallet": "钱包",
       "charts": "图表",
       "nervos_dao": "Nervos DAO",
-      "dao": "DAO",
       "docs": "文档",
       "search_placeholder": "区块 / 交易 / 地址 / 锁定脚本哈希",
       "mainnet": "LINA",
@@ -34,7 +33,7 @@
       "hash_rate_tooltip": "最近 500 个区块的平均算力",
       "average_block_time": "平均出块时间",
       "average_block_time_tooltip": "当下 Epoch 的平均出块时间",
-      "nervos_dao": "NervosDAO",
+      "nervos_dao": "Nervos DAO",
       "mainnet": "Lina Mainnet",
       "testnet": "Testnet"
     },

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import Pagination from '../../components/Pagination'
 import DropDownIcon from '../../assets/content_drop_down.png'
@@ -25,6 +25,7 @@ import {
 } from './styled'
 import browserHistory from '../../routes/history'
 import { isMainnet } from '../../utils/chain'
+import DecimalCapacity from '../../components/DecimalCapacity'
 
 const handleMinerText = (address: string) => {
   if (isMobile()) {
@@ -54,7 +55,7 @@ const BlockOverviewItemContent = ({
   message,
 }: {
   type: string
-  value?: string
+  value?: string | ReactNode
   tip?: string
   message?: string
 }) => {
@@ -103,8 +104,8 @@ const EpochNumberLink = ({ epochNumber }: { epochNumber: number }) => {
 
 const BlockOverview = ({ block }: { block: State.Block }) => {
   const [showAllOverview, setShowAllOverview] = useState(false)
-  const receivedTxFee = `${localeNumberString(shannonToCkb(block.receivedTxFee))} ${i18n.t('common.ckb_unit')}`
-  const blockReward = `${localeNumberString(shannonToCkb(block.reward))} ${i18n.t('common.ckb_unit')}`
+  const receivedTxFee = <DecimalCapacity value={localeNumberString(shannonToCkb(block.receivedTxFee))} />
+  const blockReward = <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} />
   const rootInfoItems = [
     {
       title: i18n.t('block.transactions_root'),

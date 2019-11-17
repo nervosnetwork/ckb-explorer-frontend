@@ -8,6 +8,8 @@ import {
   ContentTable,
   TableMorePanel,
   HighLightValue,
+  BlockRewardContainer,
+  BlockRewardPanel,
 } from './styled'
 import Content from '../../components/Content'
 import {
@@ -19,7 +21,7 @@ import {
 } from '../../components/Table'
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate } from '../../utils/date'
-import { BLOCK_POLLING_TIME } from '../../utils/const'
+import { BLOCK_POLLING_TIME, DELAY_BLOCK_NUMBER } from '../../utils/const'
 import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
 import { adaptMobileEllipsis } from '../../utils/string'
 import { isMobile } from '../../utils/screen'
@@ -30,6 +32,7 @@ import { getLatestBlocks } from '../../service/app/block'
 import getStatistics from '../../service/app/statistics'
 import i18n from '../../utils/i18n'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
+import DecimalCapacity from '../../components/DecimalCapacity'
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   return (
@@ -77,7 +80,17 @@ const parseHashRate = (hashRate: string | undefined) => {
   return hashRate ? handleHashRate(Number(hashRate) * 1000) : '- -'
 }
 
-const getTableContentDataList = (block: State.Block) => {
+const getTableContentDataList = (block: State.Block, index: number) => {
+  const blockReward =
+    index < DELAY_BLOCK_NUMBER ? (
+      <BlockRewardContainer>
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+      </BlockRewardContainer>
+    ) : (
+      <BlockRewardPanel>
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+      </BlockRewardPanel>
+    )
   return [
     {
       width: '14%',
@@ -90,7 +103,7 @@ const getTableContentDataList = (block: State.Block) => {
     },
     {
       width: '20%',
-      content: localeNumberString(shannonToCkb(block.reward)),
+      content: blockReward,
     },
     {
       width: '37%',
@@ -134,7 +147,18 @@ const blockchainDataList = (statistics: State.Statistics) => {
   ]
 }
 
-const blockCardItems = (block: State.Block) => {
+const blockCardItems = (block: State.Block, index: number) => {
+  const blockReward =
+    index < DELAY_BLOCK_NUMBER ? (
+      <BlockRewardContainer>
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+      </BlockRewardContainer>
+    ) : (
+      <BlockRewardPanel>
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+      </BlockRewardPanel>
+    )
+
   return [
     {
       title: i18n.t('home.height'),
@@ -146,7 +170,7 @@ const blockCardItems = (block: State.Block) => {
     },
     {
       title: i18n.t('home.block_reward'),
-      content: localeNumberString(shannonToCkb(block.reward)),
+      content: blockReward,
     },
     {
       title: i18n.t('block.miner'),
@@ -216,8 +240,8 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
           <ContentTable>
             <div className="block__green__background" />
             <div className="block__panel">
-              {homeBlocks.map((block: State.Block) => {
-                return <OverviewCard key={block.number} items={blockCardItems(block)} />
+              {homeBlocks.map((block: State.Block, index: number) => {
+                return <OverviewCard key={block.number} items={blockCardItems(block, index)} />
               })}
             </div>
           </ContentTable>
@@ -228,11 +252,16 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
                 return <TableTitleItem width={data.width} title={data.title} key={data.title} />
               })}
             </TableTitleRow>
-            {homeBlocks.map((block: State.Block) => {
+            {homeBlocks.map((block: State.Block, blockIndex: number) => {
               return (
                 block && (
-                  <TableContentRow key={block.number}>
-                    {getTableContentDataList(block).map((data: TableContentData, index: number) => {
+                  <TableContentRow
+                    key={block.number}
+                    onClick={() => {
+                      browserHistory.push(`/block/${block.blockHash}`)
+                    }}
+                  >
+                    {getTableContentDataList(block, blockIndex).map((data: TableContentData, index: number) => {
                       const key = index
                       return (
                         <React.Fragment key={key}>
@@ -250,11 +279,13 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
             })}
           </ContentTable>
         )}
-        <TableMorePanel>
+        <TableMorePanel
+          onClick={() => {
+            browserHistory.push(`/block/list`)
+          }}
+        >
           <div>
-            <Link to="/block/list">
-              <div className="table__more">{t('home.more')}</div>
-            </Link>
+            <div className="table__more">{t('home.more')}</div>
           </div>
         </TableMorePanel>
       </BlockPanel>
