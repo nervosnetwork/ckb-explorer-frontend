@@ -50,6 +50,7 @@ export const ChainTypePanel = styled.div`
 
     a {
       color: #676767;
+      text-transform: capitalize;
     }
     a:hover {
       color: #676767;
