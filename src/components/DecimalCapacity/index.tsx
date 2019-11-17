@@ -8,11 +8,11 @@ const DecimalPanel = styled.div`
   align-items: flex-end;
 
   .decimal__zeros {
-    margin-bottom: 2px;
+    margin-bottom: 1px;
   }
 
   .decimal__decimal {
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 
     @media (max-width: 700px) {
       margin-bottom: 0px;
@@ -21,7 +21,7 @@ const DecimalPanel = styled.div`
 
   .decimal__unit {
     margin-left: 5px;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 
     @media (max-width: 700px) {
       margin-bottom: 0px;
