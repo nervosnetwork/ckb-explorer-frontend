@@ -75,6 +75,7 @@ export const TransactionCellCapacity = styled.div`
     height: 16px;
     width: ${({ isOutput = false }: { isOutput?: boolean }) => (isOutput ? '100%' : '100%')};
     justify-content: ${({ isOutput }: { isOutput?: boolean }) => (isOutput ? 'flex-end' : 'space-between')};
+    padding-right: ${({ isOutput }: { isOutput?: boolean }) => (isOutput ? '0px' : '28px')};
   }
 
   > span {
