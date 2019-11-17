@@ -8,11 +8,11 @@ const DecimalPanel = styled.div`
   align-items: flex-end;
 
   .decimal__zeros {
-    color: rgb(0, 0, 0, 0);
+    margin-bottom: 1px;
   }
 
   .decimal__decimal {
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 
     @media (max-width: 700px) {
       margin-bottom: 0px;
@@ -21,7 +21,7 @@ const DecimalPanel = styled.div`
 
   .decimal__unit {
     margin-left: 5px;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 
     @media (max-width: 700px) {
       margin-bottom: 0px;
@@ -60,7 +60,7 @@ export default ({
       <span
         className="decimal__decimal"
         style={{
-          fontSize: fontSize || '11px',
+          fontSize: fontSize || '12px',
           color: color || '#999999',
         }}
       >
@@ -69,7 +69,8 @@ export default ({
       <span
         className="decimal__zeros"
         style={{
-          fontSize: fontSize || '11px',
+          fontSize: fontSize || '12px',
+          color: color || '#999999',
         }}
       >
         {zeros}
