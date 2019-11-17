@@ -28,23 +28,11 @@ const NervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
   const overviewItems: OverviewItemData[] = [
     {
       title: i18n.t('nervos_dao.total_deposit'),
-      content: (
-        <DecimalCapacity
-          value={localeNumberString(shannonToCkb(nervosDao.totalDeposit))}
-          fontSize="11px"
-          color="#999999"
-        />
-      ),
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(nervosDao.totalDeposit))} />,
     },
     {
       title: i18n.t('nervos_dao.compensation'),
-      content: (
-        <DecimalCapacity
-          value={localeNumberString(shannonToCkb(nervosDao.interestGranted))}
-          fontSize="11px"
-          color="#999999"
-        />
-      ),
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(nervosDao.interestGranted))} />,
     },
     {
       title: i18n.t('nervos_dao.current_depositors'),

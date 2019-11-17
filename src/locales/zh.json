@@ -34,7 +34,7 @@
       "hash_rate_tooltip": "最近 500 个区块的平均算力",
       "average_block_time": "平均出块时间",
       "average_block_time_tooltip": "当下 Epoch 的平均出块时间",
-      "nervos_dao": "NervosDAO",
+      "nervos_dao": "Nervos DAO",
       "mainnet": "MAINNET",
       "mainnet_coming": "MAINNET Coming",
       "testnet": "TESTNET"

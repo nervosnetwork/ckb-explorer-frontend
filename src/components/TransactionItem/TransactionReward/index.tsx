@@ -93,11 +93,7 @@ const TransactionReward = ({ transaction, cell }: { transaction: State.Transacti
                 <div className="reward__name">{reward.name}</div>
               </div>
               <div className="reward__capacity">
-                <DecimalCapacity
-                  value={localeNumberString(shannonToCkb(reward.capacity))}
-                  fontSize="11px"
-                  color="#999999"
-                />
+                <DecimalCapacity value={localeNumberString(shannonToCkb(reward.capacity))} />
               </div>
             </RewardPenal>
           )

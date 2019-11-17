@@ -93,13 +93,13 @@ const NervosDAOAddress = ({ cell, address }: { cell: State.Cell; address: string
       <div>
         <div className="withdraw__info_title">{`${i18n.t('nervos_dao.deposit_capacity')}: `}</div>
         <div className="withdraw__info_content">
-          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} fontSize="11px" color="#999999" />
+          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
         </div>
       </div>
       <div>
         <div className="withdraw__info_title">{`${i18n.t('nervos_dao.compensation')}: `}</div>
         <div className="withdraw__info_content">
-          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.interest))} fontSize="11px" color="#999999" />
+          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.interest))} />
         </div>
       </div>
       <div>
@@ -172,7 +172,7 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
       </div>
       <TransactionCellCapacity fullWidth={cellType === CellType.Output}>
         {isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
-        <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} fontSize="11px" color="#999999" />
+        <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
       </TransactionCellCapacity>
     </TransactionCellPanel>

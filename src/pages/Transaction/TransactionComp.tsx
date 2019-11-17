@@ -50,13 +50,7 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
     },
     {
       title: i18n.t('transaction.transaction_fee'),
-      content: (
-        <DecimalCapacity
-          value={localeNumberString(shannonToCkb(transaction.transactionFee))}
-          fontSize="11px"
-          color="#999999"
-        />
-      ),
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.transactionFee))} />,
     },
   ]
   if (confirmation > 0) {

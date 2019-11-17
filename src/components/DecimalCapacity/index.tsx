@@ -3,7 +3,9 @@ import styled from 'styled-components'
 import i18n from '../../utils/i18n'
 
 const DecimalPanel = styled.div`
-  display: inner-block;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 
   .decimal__zeros {
     color: rgb(0, 0, 0, 0);
@@ -25,28 +27,27 @@ export default ({
   color?: string
   hideUnit?: boolean
 }) => {
-  let integer = value.split('.')[0] || '0'
+  const integer = value.split('.')[0] || '0'
   let decimal = value.split('.')[1] || ''
   let zeros = ''
 
   if (decimal.length < 8) {
     zeros = '0'.repeat(8 - decimal.length)
   }
-  decimal = integer.length > 0 && decimal.length > 0 ? `.${decimal}` : ''
-
-  if (value === '0') {
-    integer = '0'
-    decimal = ''
+  if (decimal.length === 0) {
     zeros = `.${'0'.repeat(8)}`
+  } else if (decimal.length < 8) {
+    zeros = '0'.repeat(8 - decimal.length)
   }
+  decimal = decimal.length > 0 ? `.${decimal}` : ''
 
   return (
     <DecimalPanel>
       <span>{integer}</span>
       <span
         style={{
-          fontSize: fontSize || 'inherit',
-          color,
+          fontSize: fontSize || '11px',
+          color: color || '#999999',
         }}
       >
         {decimal}
@@ -54,7 +55,7 @@ export default ({
       <span
         className="decimal__zeros"
         style={{
-          fontSize: fontSize || 'inherit',
+          fontSize: fontSize || '11px',
         }}
       >
         {zeros}

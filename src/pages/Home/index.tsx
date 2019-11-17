@@ -83,12 +83,7 @@ const getTableContentDataList = (block: State.Block, index: number) => {
   const blockReward =
     index < DELAY_BLOCK_NUMBER ? (
       <BlockRewardContainer>
-        <DecimalCapacity
-          value={localeNumberString(shannonToCkb(block.reward))}
-          fontSize="11px"
-          color="#999999"
-          hideUnit
-        />
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
       </BlockRewardContainer>
     ) : (
       <div
@@ -96,12 +91,7 @@ const getTableContentDataList = (block: State.Block, index: number) => {
           marginRight: '8px',
         }}
       >
-        <DecimalCapacity
-          value={localeNumberString(shannonToCkb(block.reward))}
-          fontSize="11px"
-          color="#999999"
-          hideUnit
-        />
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
       </div>
     )
   return [
@@ -164,12 +154,7 @@ const blockCardItems = (block: State.Block, index: number) => {
   const blockReward =
     index < DELAY_BLOCK_NUMBER ? (
       <BlockRewardContainer>
-        <DecimalCapacity
-          value={localeNumberString(shannonToCkb(block.reward))}
-          fontSize="11px"
-          color="#999999"
-          hideUnit
-        />
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
       </BlockRewardContainer>
     ) : (
       <div
@@ -177,12 +162,7 @@ const blockCardItems = (block: State.Block, index: number) => {
           marginRight: '8px',
         }}
       >
-        <DecimalCapacity
-          value={localeNumberString(shannonToCkb(block.reward))}
-          fontSize="11px"
-          color="#999999"
-          hideUnit
-        />
+        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
       </div>
     )
 

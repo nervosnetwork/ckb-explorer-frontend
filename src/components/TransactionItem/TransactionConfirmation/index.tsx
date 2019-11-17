@@ -27,7 +27,7 @@ export default ({ confirmation, income }: { confirmation?: number; income: strin
             <div>
               <DecimalCapacity
                 value={`${bigIncome.isNegative() ? '-' : '+'}${localeNumberString(shannonToCkb(bigIncome))}`}
-                fontSize="11px"
+                color="inherit"
               />
             </div>
           </TransactionCapacityValuePanel>

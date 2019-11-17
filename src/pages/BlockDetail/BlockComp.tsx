@@ -104,12 +104,8 @@ const EpochNumberLink = ({ epochNumber }: { epochNumber: number }) => {
 
 const BlockOverview = ({ block }: { block: State.Block }) => {
   const [showAllOverview, setShowAllOverview] = useState(false)
-  const receivedTxFee = (
-    <DecimalCapacity value={localeNumberString(shannonToCkb(block.receivedTxFee))} fontSize="11px" color="#999999" />
-  )
-  const blockReward = (
-    <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} fontSize="11px" color="#999999" />
-  )
+  const receivedTxFee = <DecimalCapacity value={localeNumberString(shannonToCkb(block.receivedTxFee))} />
+  const blockReward = <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} />
   const rootInfoItems = [
     {
       title: i18n.t('block.transactions_root'),

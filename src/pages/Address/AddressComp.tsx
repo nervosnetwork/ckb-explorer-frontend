@@ -92,9 +92,7 @@ const getAddressInfo = (addressState: State.AddressState) => {
   const items: OverviewItemData[] = [
     {
       title: i18n.t('address.balance'),
-      content: (
-        <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} fontSize="11px" color="#999999" />
-      ),
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} />,
     },
     {
       title: i18n.t('transaction.transactions'),
@@ -102,15 +100,11 @@ const getAddressInfo = (addressState: State.AddressState) => {
     },
     {
       title: i18n.t('address.dao_deposit'),
-      content: (
-        <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoDeposit))} fontSize="11px" color="#999999" />
-      ),
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoDeposit))} />,
     },
     {
       title: i18n.t('address.compensation'),
-      content: (
-        <DecimalCapacity value={localeNumberString(shannonToCkb(address.interest))} fontSize="11px" color="#999999" />
-      ),
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.interest))} />,
     },
   ]
 
