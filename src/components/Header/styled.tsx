@@ -181,6 +181,7 @@ export const HeaderBlockchainPanel = styled.div`
     .header__blockchain__content {
       font-size: 12px;
       letter-spacing: normal;
+      margin-top: 3px;
     }
   }
 `

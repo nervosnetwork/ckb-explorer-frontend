@@ -24,6 +24,7 @@ import { AppDispatch, ComponentActions } from '../../contexts/providers/reducer'
 import LanDropdown from '../Dropdown/Language'
 import ChainDropdown from '../Dropdown/ChainType'
 import { isMainnet } from '../../utils/chain'
+import CONFIG from '../../config'
 
 enum LinkType {
   Inner,
@@ -92,11 +93,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
       if (chainDropdownComp) {
         const chainDropdownReact = chainDropdownComp.getBoundingClientRect()
         if (chainDropdownReact) {
-          if (isMobile()) {
-            setChainDropdownLeft(chainDropdownReact.left - (language === 'en' ? 5 : 15))
-          } else {
-            setChainDropdownLeft(chainDropdownReact.left - (language === 'en' ? 0 : 20))
-          }
+          setChainDropdownLeft(chainDropdownReact.left - 10)
         }
       }
     }
@@ -109,7 +106,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
 
   const BlockchainComp = () => {
     return (
-      <HeaderBlockchainPanel search={!!hasSearch} showChainDropdown={false} id="header__blockchain__panel">
+      <HeaderBlockchainPanel search={!!hasSearch} showChainDropdown={showChainDropdown} id="header__blockchain__panel">
         <div
           className="header__blockchain__flag"
           role="button"
@@ -120,7 +117,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
           }}
         >
           <div className="header__blockchain__content">
-            {isMainnet() ? i18n.t('navbar.network_mainnet') : i18n.t('navbar.network_testnet')}
+            {isMainnet() ? i18n.t('navbar.mainnet') : CONFIG.TESTNET_NAME.toUpperCase()}
           </div>
           <HeaderVersionPanel>
             <div>{handleVersion(nodeVersion)}</div>
