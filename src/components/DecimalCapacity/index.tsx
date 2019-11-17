@@ -59,9 +59,7 @@ export default ({
       >
         {zeros}
       </span>
-      {!hideUnit && (
-        <span className="decimal__unit">{i18n.t('common.ckb_unit')}</span>
-      )}
+      {!hideUnit && <span className="decimal__unit">{i18n.t('common.ckb_unit')}</span>}
     </DecimalPanel>
   )
 }

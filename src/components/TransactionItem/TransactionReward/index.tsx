@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import {shannonToCkb} from '../../../utils/util'
-import {localeNumberString} from '../../../utils/number'
+import { shannonToCkb } from '../../../utils/util'
+import { localeNumberString } from '../../../utils/number'
 import i18n from '../../../utils/i18n'
 import DecimalCapacity from '../../DecimalCapacity'
 
@@ -61,18 +61,9 @@ export const RewardPenal = styled.div`
   }
 `
 
-const TransactionReward = ({
-  transaction,
-  cell,
-}: {
-  transaction: State.Transaction
-  cell: State.Cell
-}) => {
+const TransactionReward = ({ transaction, cell }: { transaction: State.Transaction; cell: State.Cell }) => {
   // [0, 11] block doesn't show block reward and only cellbase show block reward
-  const showBlockReward =
-    transaction.blockNumber > 0 &&
-    transaction.isCellbase &&
-    cell.targetBlockNumber > 0
+  const showBlockReward = transaction.blockNumber > 0 && transaction.isCellbase && cell.targetBlockNumber > 0
 
   const Rewards = [
     {
