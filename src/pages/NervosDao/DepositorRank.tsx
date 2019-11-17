@@ -82,6 +82,7 @@ const AddressText = ({ address }: { address: string }) => {
 }
 
 const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
+  const daoDeposit = localeNumberString(shannonToCkb(depositor.daoDeposit))
   return [
     {
       title: i18n.t('nervos_dao.dao_title_rank'),
@@ -93,7 +94,11 @@ const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
     },
     {
       title: i18n.t('nervos_dao.dao_title_deposit_capacity'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />,
+      content: daoDeposit.includes('.') ? (
+        <DecimalCapacity value={daoDeposit} />
+      ) : (
+        `${daoDeposit} ${i18n.t('common.ckb_unit')}`
+      ),
     },
   ]
 }
