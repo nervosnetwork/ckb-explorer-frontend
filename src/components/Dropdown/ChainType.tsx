@@ -31,6 +31,7 @@ export const ChainTypePanel = styled.div`
 
     a {
       color: ${props => props.theme.primary};
+      text-transform: capitalize;
     }
 
     a:hover {
@@ -78,11 +79,6 @@ export const ChainTypePanel = styled.div`
   }
 `
 
-const parseTestnetName = (name: string) => {
-  if (!name) return ''
-  return `${name.substring(0, 1).toUpperCase()}${name.substring(1)}`
-}
-
 export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function; left: number }) => {
   const testnetUrl = `${CONFIG.MAINNET_URL}/${CONFIG.TESTNET_NAME}`
   return (
@@ -113,7 +109,7 @@ export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function
           setShowChainDropdown(false)
         }}
       >
-        <a href={testnetUrl}>{`${parseTestnetName(CONFIG.TESTNET_NAME)} ${i18n.t('blockchain.testnet')}`}</a>
+        <a href={testnetUrl}>{`${CONFIG.TESTNET_NAME} ${i18n.t('blockchain.testnet')}`}</a>
       </div>
     </ChainTypePanel>
   )
