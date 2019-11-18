@@ -67,6 +67,8 @@ export const NervosDao = ({
     getNervosDaoDepositors(dispatch)
   }, [dispatch, currentPage, pageSize])
 
+  console.log(`hash ${nervosDaoState.nervosDao.daoTypeHash}`)
+
   return (
     <Content>
       <DaoContentPanel className="container">

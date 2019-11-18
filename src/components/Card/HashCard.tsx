@@ -1,12 +1,11 @@
-import React, { useLayoutEffect, useState, Dispatch, SetStateAction, useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import CopyIcon from '../../assets/copy.png'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
-import { startEndEllipsis, adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
+import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
 import { copyElementValue } from '../../utils/util'
 import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
-import { AppContext } from '../../contexts/providers'
 import SmallLoading from '../Loading/SmallLoading'
 
 const HashCardPanel = styled.div`
@@ -91,24 +90,6 @@ const LoadingPanel = styled.div`
   width: 100%;
 `
 
-const handleHashText = (hash: string, isMobileDevice: boolean, setHashText: Dispatch<SetStateAction<string>>) => {
-  if (!isMobileDevice) {
-    setHashText(hash)
-    return
-  }
-  const contentElement = document.getElementById('address_hash_content')
-  const hashElement = document.getElementById('address_hash__text')
-  if (hashElement && contentElement) {
-    const contentReact = contentElement.getBoundingClientRect()
-    const hashReact = hashElement.getBoundingClientRect()
-    const textWidth = contentReact.width - hashReact.left - 16 - 20
-    const textLength = Math.round(textWidth / 8.0)
-    const startLength = Math.round(textLength / 2)
-    const text = startEndEllipsis(hash, textLength - startLength, startLength)
-    setHashText(text)
-  }
-}
-
 export default ({
   title,
   hash,
@@ -120,17 +101,6 @@ export default ({
   dispatch: AppDispatch
   loading?: boolean
 }) => {
-  const [hashText, setHashText] = useState(hash)
-  const isMobileDevice = isMobile()
-  const { app } = useContext(AppContext)
-
-  // render again when language and title change
-  useLayoutEffect(() => {
-    if (app.language && title) {
-      handleHashText(hash, isMobileDevice, setHashText)
-    }
-  }, [app.language, hash, title, isMobileDevice])
-
   return (
     <HashCardPanel id="hash_content">
       <div className="hash__title">{title}</div>
@@ -140,7 +110,7 @@ export default ({
         </LoadingPanel>
       ) : (
         <div id="hash__text">
-          <span>{isMobile() ? adaptMobileEllipsis(hashText, 6) : adaptPCEllipsis(hashText, 15, 25)}</span>
+          <span>{isMobile() ? adaptMobileEllipsis(hash, 6) : adaptPCEllipsis(hash, 15, 25)}</span>
         </div>
       )}
       <div

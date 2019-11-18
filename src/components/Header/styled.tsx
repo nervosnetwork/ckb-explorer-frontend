@@ -96,8 +96,8 @@ export const HeaderMobileDiv = styled.div`
     height: 16px;
     .header__logo__img {
       width: 80px;
-      height: 16px;
-      margin-bottom: 7px;
+      height: 15px;
+      margin-bottom: 3px;
     }
 
     @media (max-width: 400px) {
