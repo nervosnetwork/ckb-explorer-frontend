@@ -140,7 +140,7 @@ export default ({
         </LoadingPanel>
       ) : (
         <div id="hash__text">
-          <span>{isMobile() ? adaptMobileEllipsis(hashText, 6) : adaptPCEllipsis(hashText, 18, 30)}</span>
+          <span>{isMobile() ? adaptMobileEllipsis(hashText, 6) : adaptPCEllipsis(hashText, 15, 25)}</span>
         </div>
       )}
       <div
