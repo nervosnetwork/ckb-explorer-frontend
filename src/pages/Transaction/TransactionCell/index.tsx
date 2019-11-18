@@ -25,7 +25,7 @@ const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
     return adaptMobileEllipsis(hash, 11)
   }
-  return adaptPCEllipsis(hash, 8, 50)
+  return adaptPCEllipsis(hash, 6, 50)
 }
 
 const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
@@ -141,7 +141,7 @@ export default ({
         </div>
 
         <div className="transaction__cell_capacity">
-          {cell.capacity && <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />}
+          <div>{cell.capacity && <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />}</div>
         </div>
 
         <div className="transaction__cell_detail">
