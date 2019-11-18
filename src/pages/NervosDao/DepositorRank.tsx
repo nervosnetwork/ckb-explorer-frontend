@@ -8,9 +8,10 @@ import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
 import OverviewCard from '../../components/Card/OverviewCard'
 import DecimalCapacity from '../../components/DecimalCapacity'
+import { adaptPCEllipsis } from '../../utils/string'
 
 const DepositorRankPanel = styled.div`
-  width: 1200px;
+  width: 100%;
   background: white;
   padding: 20px 40px;
 `
@@ -30,13 +31,13 @@ const DepositorRankTitle = styled.div`
   }
 
   >div: nth-child(1) {
-    width: 20%;
+    width: 10%;
   }
   >div: nth-child(2) {
-    width: 60%;
+    width: 65%;
   }
   >div: nth-child(3) {
-    width: 20%;
+    width: 25%;
   }
 `
 
@@ -53,9 +54,22 @@ const DepositorRankItem = styled.div`
   font-size: 16px;
   height: 40px;
 
+  @media (max-width: 1000px) {
+    font-size: 14px;
+  }
+
   > div {
     text-align: center;
-    width: 20%;
+  }
+
+  >div: nth-child(1) {
+    width: 10%;
+  }
+  >div: nth-child(2) {
+    width: 65%;
+  }
+  >div: nth-child(3) {
+    width: 25%;
   }
 `
 const AddressPanel = styled(Link)`
@@ -123,9 +137,9 @@ export default () => {
       <DepositorSeparate />
       {depositors.map((depositor: State.NervosDaoDepositor, index: number) => {
         return (
-          <DepositorRankItem>
+          <DepositorRankItem key={depositor.addressHash}>
             <div>{index + 1}</div>
-            <AddressText address={depositor.addressHash} />
+            <AddressText address={adaptPCEllipsis(depositor.addressHash, 10, 40)} />
             <div>
               <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />
             </div>
