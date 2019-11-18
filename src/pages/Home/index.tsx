@@ -141,7 +141,7 @@ const blockchainDataList = (statistics: State.Statistics) => {
     },
     {
       name: i18n.t('blockchain.average_block_time'),
-      value: parseBlockTime(statistics.currentEpochAverageBlockTime),
+      value: parseBlockTime(statistics.averageBlockTime),
       tip: i18n.t('blockchain.average_block_time_tooltip'),
     },
   ]

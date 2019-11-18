@@ -159,7 +159,7 @@ declare namespace State {
 
   export interface Statistics {
     tipBlockNumber: string
-    currentEpochAverageBlockTime: string
+    averageBlockTime: string
     currentEpochDifficulty: string
     hashRate: string
   }
