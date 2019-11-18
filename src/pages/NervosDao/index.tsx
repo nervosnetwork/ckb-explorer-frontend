@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import queryString from 'query-string'
 import { RouteComponentProps } from 'react-router'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { StateWithDispatch, PageActions, AppActions } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import Content from '../../components/Content'
 import HashCard from '../../components/Card/HashCard'
@@ -16,8 +16,11 @@ import DaoTransactions from './DaoTransactions'
 import DaoSearch from '../../components/Search/DaoSearch'
 import DepositorRank from './DepositorRank'
 import { parsePageNumber } from '../../utils/string'
-import { PageParams } from '../../utils/const'
+import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import DecimalCapacity from '../../components/DecimalCapacity'
+import Error from '../../components/Error'
+import Loading from '../../components/Loading'
+import { useTimeoutWithUnmount } from '../../utils/hook'
 
 enum DaoTab {
   Transactions,
@@ -49,6 +52,31 @@ const NervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
   return <OverviewCard items={overviewItems} />
 }
 
+const NervosDAOStateComp = ({
+  daoTab,
+  currentPage,
+  pageSize,
+}: {
+  daoTab: DaoTab
+  currentPage: number
+  pageSize: number
+}) => {
+  const { nervosDaoState, app } = useContext(AppContext)
+  switch (nervosDaoState.status) {
+    case 'Error':
+      return <Error />
+    case 'OK':
+      return daoTab === DaoTab.Transactions ? (
+        <DaoTransactions currentPage={currentPage} pageSize={pageSize} />
+      ) : (
+        <DepositorRank />
+      )
+    case 'None':
+    default:
+      return <Loading show={app.loading} />
+  }
+}
+
 export const NervosDao = ({
   location: { search },
   dispatch,
@@ -66,6 +94,28 @@ export const NervosDao = ({
     getNervosDaoTransactions(dispatch, currentPage, pageSize)
     getNervosDaoDepositors(dispatch)
   }, [dispatch, currentPage, pageSize])
+
+  useTimeoutWithUnmount(
+    () => {
+      if (nervosDaoState.status === 'None') {
+        dispatch({
+          type: AppActions.UpdateLoading,
+          payload: {
+            loading: true,
+          },
+        })
+      }
+    },
+    () => {
+      dispatch({
+        type: PageActions.UpdateNervosDaoStatus,
+        payload: {
+          status: 'None',
+        },
+      })
+    },
+    LOADING_WAITING_TIME,
+  )
 
   return (
     <Content>
@@ -101,11 +151,7 @@ export const NervosDao = ({
           {daoTab === DaoTab.Transactions && <DaoSearch dispatch={dispatch} />}
         </DaoTabBarPanel>
 
-        {daoTab === DaoTab.Transactions ? (
-          <DaoTransactions currentPage={currentPage} pageSize={pageSize} />
-        ) : (
-          <DepositorRank />
-        )}
+        <NervosDAOStateComp daoTab={daoTab} currentPage={currentPage} pageSize={pageSize} />
       </DaoContentPanel>
     </Content>
   )
