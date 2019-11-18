@@ -14,7 +14,7 @@ export const OverviewCardPanel = styled.div`
   font-size: 16px;
 
   @media (max-width: 1000px) {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   @media (max-width: 700px) {
