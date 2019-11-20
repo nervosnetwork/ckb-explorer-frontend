@@ -86,7 +86,7 @@ const isDaoCell = (cellType: string) => {
   return isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
 }
 
-const NervosDAOAddress = ({ cell, address }: { cell: State.Cell; address: string }) => {
+const NervosDAOAddress = ({ cell, cellType, address }: { cell: State.Cell; cellType: CellType; address: string }) => {
   const { app } = useContext(AppContext)
   const WithdrawInfo = (
     <WithdrawInfoPanel longTitle={app.language === 'en'}>
@@ -119,7 +119,7 @@ const NervosDAOAddress = ({ cell, address }: { cell: State.Cell; address: string
   )
 
   if (isDaoCell(cell.cellType)) {
-    if (isDaoWithdrawCell(cell.cellType)) {
+    if (isDaoWithdrawCell(cell.cellType) && cellType === CellType.Input) {
       return (
         <div className="transaction__cell_withdraw">
           <Link to="/nervosdao">
@@ -165,7 +165,7 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
       <div className="transaction__cell_address">
         {!isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
         {highLight ? (
-          <NervosDAOAddress cell={cell} address={addressText} />
+          <NervosDAOAddress cell={cell} cellType={cellType} address={addressText} />
         ) : (
           <span className="address">{addressText}</span>
         )}
