@@ -54,7 +54,7 @@ export const HeaderDiv = styled.div`
       display: flex;
       align-items: center;
       height: 50px;
-      width: 450px;
+      width: 456px;
       min-width: 229px;
     }
   }
