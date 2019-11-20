@@ -1,3 +1,5 @@
+import CONFIG from '../config'
+
 export const BLOCK_POLLING_TIME = 4000
 export const MAX_CONFIRMATION = 1000
 export const BLOCKCHAIN_ALERT_POLLING_TIME = 10000
@@ -15,15 +17,8 @@ export const HttpErrorCode = {
 }
 
 export const CachedKeys = {
-  // Statistics Chart
-  StatisticsChart: 'statistics_chart',
-  StatisticsUncleRateChart: 'statistics_uncle_rate_chart',
-
-  AppLanguage: 'appLanguage',
-
-  SearchFailVisitedCount: 'SearchFailVisitedCount',
-
-  IsMainnet: 'IsMainnet',
+  AppLanguage: `${CONFIG.CHAIN_TYPE}-AppLanguage`,
+  SearchFailVisitedCount: `${CONFIG.CHAIN_TYPE}-SearchFailVisitedCount`,
 }
 
 export enum CellState {

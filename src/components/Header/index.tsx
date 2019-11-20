@@ -86,6 +86,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
   const { searchBarEditable } = components
   const [showChainDropdown, setShowChainDropdown] = useState(false)
   const [chainDropdownLeft, setChainDropdownLeft] = useState(0)
+  const [chainDropdownTop, setChainDropdownTop] = useState(0)
 
   useLayoutEffect(() => {
     if (showChainDropdown && language) {
@@ -94,6 +95,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
         const chainDropdownReact = chainDropdownComp.getBoundingClientRect()
         if (chainDropdownReact) {
           setChainDropdownLeft(chainDropdownReact.left - 10)
+          setChainDropdownTop(chainDropdownReact.bottom)
         }
       }
     }
@@ -124,7 +126,9 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
             <img src={getDropdownIcon()} alt="dropdown icon" />
           </HeaderVersionPanel>
         </div>
-        {showChainDropdown && <ChainDropdown setShowChainDropdown={setShowChainDropdown} left={chainDropdownLeft} />}
+        {showChainDropdown && (
+          <ChainDropdown setShowChainDropdown={setShowChainDropdown} left={chainDropdownLeft} top={chainDropdownTop} />
+        )}
         <LanDropdown dispatch={dispatch} />
       </HeaderBlockchainPanel>
     )

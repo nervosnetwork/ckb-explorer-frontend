@@ -155,6 +155,7 @@ declare namespace State {
     transactions: Transaction[]
     total: number
     depositors: NervosDaoDepositor[]
+    status: keyof FetchStatus
   }
 
   export interface Statistics {

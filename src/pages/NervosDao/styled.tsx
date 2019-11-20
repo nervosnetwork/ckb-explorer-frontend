@@ -37,6 +37,7 @@ export const DaoTabBarPanel = styled.div`
     display: flex;
     height: 30px;
     cursor: pointer;
+    margin-right: 15px;
 
     @media (max-width: 700px) {
       margin-bottom: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '15px' : '0px')};

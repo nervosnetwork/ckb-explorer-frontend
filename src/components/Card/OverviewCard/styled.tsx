@@ -13,6 +13,10 @@ export const OverviewCardPanel = styled.div`
   color: #000000;
   font-size: 16px;
 
+  @media (max-width: 1000px) {
+    font-size: 13px;
+  }
+
   @media (max-width: 700px) {
     border-radius: 0px 0px 3px 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;

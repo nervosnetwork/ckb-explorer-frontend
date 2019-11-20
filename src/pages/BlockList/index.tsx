@@ -65,7 +65,7 @@ const getTableContentDataList = (block: State.Block, index: number, page: number
       content: localeNumberString(block.number),
     },
     {
-      width: '14%',
+      width: '8%',
       content: `${block.transactionsCount}`,
     },
     {
@@ -73,7 +73,7 @@ const getTableContentDataList = (block: State.Block, index: number, page: number
       content: blockReward,
     },
     {
-      width: '37%',
+      width: '43%',
       content: block.minerHash,
     },
     {
@@ -132,7 +132,7 @@ export default ({
       },
       {
         title: t('home.transactions'),
-        width: '14%',
+        width: '8%',
       },
       {
         title: t('home.block_reward'),
@@ -140,7 +140,7 @@ export default ({
       },
       {
         title: t('block.miner'),
-        width: '37%',
+        width: '43%',
       },
       {
         title: t('home.time'),

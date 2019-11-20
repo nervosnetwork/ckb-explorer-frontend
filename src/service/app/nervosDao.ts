@@ -5,8 +5,23 @@ import {
   fetchNervosDaoTransactionsByAddress,
   fetchNervosDaoDepositors,
 } from '../http/fetcher'
-import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
+import { AppDispatch, PageActions, AppActions } from '../../contexts/providers/reducer'
 import { addPrefixForHash } from '../../utils/string'
+
+const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
+  dispatch({
+    type: PageActions.UpdateNervosDaoStatus,
+    payload: {
+      status: isOK ? 'OK' : 'Error',
+    },
+  })
+  dispatch({
+    type: AppActions.UpdateLoading,
+    payload: {
+      loading: false,
+    },
+  })
+}
 
 const handleTransactionsResponse = (dispatch: AppDispatch, transactions: State.Transaction[], total: number) => {
   dispatch({
@@ -37,16 +52,21 @@ export const getNervosDao = (dispatch: AppDispatch) => {
 }
 
 export const getNervosDaoTransactions = (dispatch: AppDispatch, page: number, pageSize: number) => {
-  fetchNervosDaoTransactions(page, pageSize).then((response: any) => {
-    const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
-    handleTransactionsResponse(
-      dispatch,
-      data.map((wrapper: Response.Wrapper<State.Transaction>) => {
-        return wrapper.attributes
-      }),
-      meta === undefined ? 1 : meta.total,
-    )
-  })
+  fetchNervosDaoTransactions(page, pageSize)
+    .then((response: any) => {
+      const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
+      handleTransactionsResponse(
+        dispatch,
+        data.map((wrapper: Response.Wrapper<State.Transaction>) => {
+          return wrapper.attributes
+        }),
+        meta === undefined ? 1 : meta.total,
+      )
+      handleResponseStatus(dispatch, true)
+    })
+    .catch(() => {
+      handleResponseStatus(dispatch, false)
+    })
 }
 
 export const searchNervosDaoTransactions = (keyword: string, dispatch: AppDispatch, callback: Function) => {

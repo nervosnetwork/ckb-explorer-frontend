@@ -98,7 +98,7 @@ const getTableContentDataList = (block: State.Block, index: number) => {
       content: localeNumberString(block.number),
     },
     {
-      width: '14%',
+      width: '8%',
       content: `${block.transactionsCount}`,
     },
     {
@@ -106,7 +106,7 @@ const getTableContentDataList = (block: State.Block, index: number) => {
       content: blockReward,
     },
     {
-      width: '37%',
+      width: '43%',
       content: block.minerHash,
     },
     {
@@ -195,7 +195,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
       },
       {
         title: t('home.transactions'),
-        width: '14%',
+        width: '8%',
       },
       {
         title: t('home.block_reward'),
@@ -203,7 +203,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
       },
       {
         title: t('block.miner'),
-        width: '37%',
+        width: '43%',
       },
       {
         title: t('home.time'),
