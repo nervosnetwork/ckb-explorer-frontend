@@ -5,7 +5,7 @@ import DownArrowIcon from '../../assets/input_arrow_output_down.png'
 import { parseDate } from '../../utils/date'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
-import { adaptMobileEllipsis } from '../../utils/string'
+import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
 import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
 import TransactionConfirmation from './TransactionConfirmation'
@@ -27,12 +27,15 @@ const TransactionItem = ({
   isBlock?: boolean
   isLastItem?: boolean
 }) => {
+  const txHashMobile = adaptMobileEllipsis(transaction.transactionHash, 12)
+  const txHashPC = adaptPCEllipsis(transaction.transactionHash, 16, 40)
+
   return (
     <TransactionPanel isLastItem={isLastItem}>
       <TransactionHashBlockPanel>
         <div className="transaction_item__content">
           <Link to={`/transaction/${transaction.transactionHash}`}>
-            <span className="transaction_item__hash">{adaptMobileEllipsis(transaction.transactionHash, 12)}</span>
+            <span className="transaction_item__hash">{isMobile() ? txHashMobile : txHashPC}</span>
           </Link>
           {!isBlock && (
             <div className="transaction_item__block">

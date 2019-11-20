@@ -1,11 +1,13 @@
 import BigNumber from 'bignumber.js'
 import { fetchStatisticsChart } from '../http/fetcher'
 import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
-import { fetchCachedData, storeCachedData } from '../../utils/cached'
-import { CachedKeys } from '../../utils/const'
 
 const findDifficulty = (
-  difficulties: { difficulty: string; blockNumber: number; epochNumber: number }[],
+  difficulties: {
+    difficulty: string
+    blockNumber: number
+    epochNumber: number
+  }[],
   blockNumber: number,
 ) => {
   if (difficulties && difficulties.length > 0) {
@@ -72,31 +74,12 @@ const handleStatisticsUncleRate = (wrapper: Response.Wrapper<State.StatisticsCha
 }
 
 export const getStatisticsChart = (dispatch: AppDispatch) => {
-  const cachedStatisticsChartData = fetchCachedData<State.StatisticsBaseData>(CachedKeys.StatisticsChart)
-  if (cachedStatisticsChartData) {
-    dispatch({
-      type: PageActions.UpdateStatisticsChartData,
-      payload: {
-        statisticsChartData: cachedStatisticsChartData,
-      },
-    })
-  }
-  const cachedStatisticsUncleRates = fetchCachedData<State.StatisticsUncleRate>(CachedKeys.StatisticsUncleRateChart)
-  if (cachedStatisticsUncleRates) {
-    dispatch({
-      type: PageActions.UpdateStatisticsUncleRate,
-      payload: {
-        statisticsUncleRates: cachedStatisticsUncleRates,
-      },
-    })
-  }
   fetchStatisticsChart().then((wrapper: Response.Wrapper<State.StatisticsChart> | null) => {
     if (wrapper) {
       const statisticsChartData = handleStatistics(wrapper)
       const statisticsUncleRates = handleStatisticsUncleRate(wrapper)
 
       if (statisticsChartData && statisticsChartData.length > 0) {
-        storeCachedData(CachedKeys.StatisticsChart, statisticsChartData)
         dispatch({
           type: PageActions.UpdateStatisticsChartData,
           payload: {
@@ -106,7 +89,6 @@ export const getStatisticsChart = (dispatch: AppDispatch) => {
       }
 
       if (statisticsUncleRates && statisticsUncleRates.length > 0) {
-        storeCachedData(CachedKeys.StatisticsUncleRateChart, statisticsUncleRates)
         dispatch({
           type: PageActions.UpdateStatisticsUncleRate,
           payload: {

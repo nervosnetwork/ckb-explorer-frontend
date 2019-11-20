@@ -54,7 +54,7 @@ export const HeaderDiv = styled.div`
       display: flex;
       align-items: center;
       height: 50px;
-      width: 440px;
+      width: 456px;
       min-width: 229px;
     }
   }
@@ -96,8 +96,8 @@ export const HeaderMobileDiv = styled.div`
     height: 16px;
     .header__logo__img {
       width: 80px;
-      height: 16px;
-      margin-bottom: 7px;
+      height: 15px;
+      margin-bottom: 3px;
     }
 
     @media (max-width: 400px) {
@@ -196,7 +196,7 @@ export const HeaderSearchPanel = styled.div`
 export const HeaderVersionPanel = styled.div`
   width: 90px;
   font-size: 12px;
-  margin-right: 90px;
+  margin-right: 70px;
   display: flex;
   cursor: pointer;
 
