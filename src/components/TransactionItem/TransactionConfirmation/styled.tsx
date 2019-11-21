@@ -1,8 +1,19 @@
 import styled from 'styled-components'
 import FlagGreenPCImage from '../../../assets/flag_green_pc.png'
+import FlagBluePCImage from '../../../assets/flag_blue_pc.png'
+import FlagBlueMobileImage from '../../../assets/flag_blue_mobile.png'
 import FlagRedPCImage from '../../../assets/flag_red_pc.png'
 import FlagGreenMobileImage from '../../../assets/flag_green_mobile.png'
 import FlagRedMobileImage from '../../../assets/flag_red_mobile.png'
+import { MAINNET_PRIMARY_THEME_COLOR } from '../../../utils/const'
+
+const getCapacityFlagImage = (primary: string) => {
+  return primary === MAINNET_PRIMARY_THEME_COLOR ? FlagGreenPCImage : FlagBluePCImage
+}
+
+const getCapacityMobileFlagImage = (primary: string) => {
+  return primary === MAINNET_PRIMARY_THEME_COLOR ? FlagGreenMobileImage : FlagBlueMobileImage
+}
 
 export const TransactionConfirmationPanel = styled.div`
   width: 100%;
@@ -54,7 +65,7 @@ export const TransactionConfirmationPanel = styled.div`
 `
 
 export const TransactionConfirmationValuePanel = styled.div`
-  min-width: 280px;
+  width: 283px;
   height: 40px;
   background: white;
   display: flex;
@@ -75,7 +86,7 @@ export const TransactionConfirmationValuePanel = styled.div`
   }
 
   @media (max-width: 700px) {
-    min-width: 190px;
+    width: 250px;
     height: 30px;
     border: 15px solid #f7f7f7;
     border-left: 7.5px solid transparent;
@@ -91,7 +102,7 @@ export const TransactionConfirmationValuePanel = styled.div`
 
 export const TransactionCapacityValuePanel = styled.div`
   background-image: url(${(props: { increased: boolean; theme: any }) =>
-    props.increased ? FlagGreenPCImage : FlagRedPCImage});
+    props.increased ? getCapacityFlagImage(props.theme.primary) : FlagRedPCImage});
   width: 283px;
   height: 40px;
   display: flex;
@@ -103,8 +114,8 @@ export const TransactionCapacityValuePanel = styled.div`
 
   @media (max-width: 700px) {
     background-image: url(${(props: { increased: boolean; theme: any }) =>
-      props.increased ? FlagGreenMobileImage : FlagRedMobileImage});
-    width: 189px;
+      props.increased ? getCapacityMobileFlagImage(props.theme.primary) : FlagRedMobileImage});
+    width: 250px;
     height: 30px;
     font-size: 14px;
   }
