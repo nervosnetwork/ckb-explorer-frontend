@@ -108,11 +108,7 @@ const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
     },
     {
       title: i18n.t('nervos_dao.dao_title_deposit_capacity'),
-      content: daoDeposit.includes('.') ? (
-        <DecimalCapacity value={daoDeposit} />
-      ) : (
-        `${daoDeposit} ${i18n.t('common.ckb_unit')}`
-      ),
+      content: <DecimalCapacity value={daoDeposit} />,
     },
   ]
 }
