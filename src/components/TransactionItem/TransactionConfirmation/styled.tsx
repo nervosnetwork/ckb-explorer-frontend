@@ -1,4 +1,8 @@
 import styled from 'styled-components'
+import FlagGreenPCImage from '../../../assets/flag_green_pc.png'
+import FlagRedPCImage from '../../../assets/flag_red_pc.png'
+import FlagGreenMobileImage from '../../../assets/flag_green_mobile.png'
+import FlagRedMobileImage from '../../../assets/flag_red_mobile.png'
 
 export const TransactionConfirmationPanel = styled.div`
   width: 100%;
@@ -85,25 +89,22 @@ export const TransactionConfirmationValuePanel = styled.div`
   }
 `
 
-export const TransactionCapacityValuePanel = styled(TransactionConfirmationValuePanel)`
-  float: left;
-  color: #ffffff;
-  border: 20px solid
-    ${(props: { increased: boolean; theme: any }) => (props.increased ? `${props.theme.primary}` : '#ff5757')};
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  text-align: center;
+export const TransactionCapacityValuePanel = styled.div`
+  background-image: url(${(props: { increased: boolean; theme: any }) =>
+    props.increased ? FlagGreenPCImage : FlagRedPCImage});
+  width: 283px;
+  height: 40px;
+  display: flex;
   justify-content: center;
-
-  > span {
-    background: ${(props: { increased: boolean; theme: any }) =>
-      props.increased ? `${props.theme.primary}` : '#ff5757'};
-  }
+  align-items: center;
+  color: white;
+  font-size: 16px;
 
   @media (max-width: 700px) {
-    border: 15px solid
-      ${(props: { increased: boolean; theme: any }) => (props.increased ? `${props.theme.primary}` : '#ff5757')};
-    border-left: 7.5px solid transparent;
-    border-right: 7.5px solid transparent;
+    background-image: url(${(props: { increased: boolean; theme: any }) =>
+      props.increased ? FlagGreenMobileImage : FlagRedMobileImage});
+    width: 189px;
+    height: 30px;
+    font-size: 14px;
   }
 `
