@@ -99,6 +99,7 @@ export const TransactionCapacityValuePanel = styled.div`
   align-items: center;
   color: white;
   font-size: 16px;
+  background-size: 100% 100%;
 
   @media (max-width: 700px) {
     background-image: url(${(props: { increased: boolean; theme: any }) =>
