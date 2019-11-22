@@ -65,6 +65,10 @@ export const TransactionCellHashPanel = styled.div`
   @media (min-width: 700px) {
     font-weight: 500;
   }
+
+  .transaction__cell_address_no_link {
+    color: #000000;
+  }
 `
 
 export const TransactionCellDetailPanel = styled.div`

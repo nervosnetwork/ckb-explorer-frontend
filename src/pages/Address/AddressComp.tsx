@@ -9,7 +9,7 @@ import { AppContext } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
-import { startEndEllipsis } from '../../utils/string'
+import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
 import {
   AddressLockScriptItemPanel,
@@ -21,9 +21,9 @@ import {
 import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
 
-const addressContent = (address: State.Address) => {
-  const addressText = isMobile() ? startEndEllipsis(address.addressHash, 10) : address.addressHash
-  return address.addressHash ? addressText : i18n.t('address.unable_decode_address')
+const addressContent = (address: string) => {
+  const addressText = isMobile() ? adaptMobileEllipsis(address, 10) : adaptPCEllipsis(address, 13, 50)
+  return address ? addressText : i18n.t('address.unable_decode_address')
 }
 
 const AddressPendingRewardTitle = () => {
@@ -117,7 +117,7 @@ const getAddressInfo = (addressState: State.AddressState) => {
   if (address.type === 'LockHash' && address) {
     items.push({
       title: i18n.t('address.address'),
-      content: addressContent(address),
+      content: addressContent(address.addressHash),
     })
   }
   const { lockInfo } = address
