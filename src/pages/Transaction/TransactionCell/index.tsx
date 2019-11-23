@@ -39,7 +39,9 @@ const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: C
           <span className="address">{handleAddressHashText(cell.addressHash)}</span>
         </Link>
       ) : (
-        <span>{cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}</span>
+        <span className="transaction__cell_address_no_link">
+          {cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}
+        </span>
       )}
       {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} haveMarginTop />}
     </TransactionCellHashPanel>
