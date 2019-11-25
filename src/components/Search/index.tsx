@@ -29,6 +29,11 @@ const clearSearchInput = (inputElement: any) => {
   input.blur()
 }
 
+const setSearchLoading = (inputElement: any) => {
+  const input: HTMLInputElement = inputElement.current
+  input.value = i18n.t('search.loading')
+}
+
 const handleSearchResult = (
   searchValue: string,
   inputElement: any,
@@ -52,6 +57,7 @@ const handleSearchResult = (
         },
       })
     }
+    setSearchLoading(inputElement)
     fetchSearchResult(addPrefixForHash(query))
       .then((response: any) => {
         const { data } = response

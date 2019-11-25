@@ -62,6 +62,7 @@
       "forum": "Forum"
     },
     "search": {
+      "loading": "加载中...",
       "empty_result": "哎呀！搜索失败，请尝试不同的关键字〜"
     },
     "address": {
