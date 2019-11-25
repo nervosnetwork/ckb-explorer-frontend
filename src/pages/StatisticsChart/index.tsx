@@ -92,23 +92,6 @@ const handleAxios = (value: BigNumber) => {
   return `${value.toFixed()}`
 }
 
-const scale = () => {
-  return {
-    difficulty: {
-      min: 0,
-      alias: i18n.t('block.difficulty'),
-    },
-    hashRate: {
-      min: 0,
-      alias: i18n.t('block.hash_rate_hps'),
-    },
-    epochNumber: {
-      min: 0,
-      alias: i18n.t('block.epoch_number'),
-    },
-  }
-}
-
 const uncleRateScale = () => {
   return {
     uncleRate: {
@@ -120,6 +103,29 @@ const uncleRateScale = () => {
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
   const { statisticsChartData, statisticsUncleRates } = useContext(AppContext)
+
+  const scale = () => {
+    return {
+      difficulty: {
+        min: 0,
+        alias: i18n.t('block.difficulty'),
+      },
+      hashRate: {
+        min: 0,
+        alias: i18n.t('block.hash_rate_hps'),
+      },
+      epochNumber: {
+        min: 0,
+        alias: i18n.t('block.epoch_number'),
+      },
+      blockNumber: {
+        min: statisticsChartData[0].blockNumber,
+        max: statisticsChartData[statisticsChartData.length - 1].blockNumber,
+        alias: i18n.t('block.block_number'),
+        tickCount: isMobile() ? 6 : 20,
+      },
+    }
+  }
 
   useEffect(() => {
     getStatisticsChart(dispatch)
@@ -135,7 +141,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
             scale={scale()}
             forceFit
             data={statisticsChartData}
-            padding={isMobile() ? [40, 45, 80, 45] : [40, 80, 80, 80]}
+            padding={isMobile() ? [40, 45, 80, 45] : [40, 80, 120, 80]}
           >
             <Legend
               custom
@@ -168,6 +174,15 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
                   },
                 },
               ]}
+            />
+            <Axis
+              name="blockNumber"
+              title={!isMobile()}
+              label={{
+                formatter: (text: string) => {
+                  return handleAxios(new BigNumber(text))
+                },
+              }}
             />
             <Axis
               name="difficulty"
