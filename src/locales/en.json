@@ -62,6 +62,7 @@
       "forum": "Forum"
     },
     "search": {
+      "loading": "Loading...",
       "empty_result": "Opps! Your search did not match any record. Please try different keywords~"
     },
     "address": {
