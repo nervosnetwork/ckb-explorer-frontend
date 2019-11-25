@@ -12,6 +12,28 @@ export const DaoContentPanel = styled.div`
     margin: 0px;
     padding: 20px;
   }
+
+  .nervos_dao_title {
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 2px 2px 6px 0 #dfdfdf;
+    background-color: #ffffff;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: 500;
+    color: #000000;
+
+    @media (max-width: 700px) {
+      height: 50px;
+      border-radius: 3px;
+      box-shadow: 1px 1px 3px 0 #dfdfdf;
+      font-size: 15px;
+    }
+  }
 `
 
 export const DaoTabBarPanel = styled.div`
