@@ -20,8 +20,11 @@ const findDifficulty = (
 }
 
 const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
-  const { hashRate: hashRates, difficulty: difficulties } = wrapper.attributes
+  let { hashRate: hashRates, difficulty: difficulties } = wrapper.attributes
   if (!hashRates && !difficulties) return []
+
+  difficulties = difficulties.filter(difficulty => difficulty.epochNumber >= 4)
+  hashRates = hashRates.filter(hashRate => hashRate.blockNumber >= difficulties[0].blockNumber)
 
   const dataList: State.StatisticsBaseData[] = []
   if (hashRates && hashRates.length > 0) {

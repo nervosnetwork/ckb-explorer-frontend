@@ -118,6 +118,7 @@
       "uncle_count": "Uncle Count",
       "epoch": "Epoch",
       "epoch_start_number": "Epoch Start Number",
+      "block_number": "Block Number",
       "epoch_number": "Epoch Number",
       "epoch_length": "Epoch Length",
       "nonce": "Nonce",

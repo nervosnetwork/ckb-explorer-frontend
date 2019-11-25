@@ -118,6 +118,7 @@
       "uncle_count": "叔块数",
       "epoch": "Epoch",
       "epoch_start_number": "Epoch 开始区块",
+      "block_number": "Block 高度",
       "epoch_number": "Epoch 区块",
       "epoch_length": "Epoch 长度",
       "nonce": "随机数",
