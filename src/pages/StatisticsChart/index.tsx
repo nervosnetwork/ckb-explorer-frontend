@@ -54,7 +54,7 @@ const LoadingPanel = styled.div`
   }
 `
 
-const handleAxios = (value: BigNumber) => {
+const handleAxis = (value: BigNumber) => {
   if (value.isNaN() || value.isZero()) return '0'
   const kv = value.dividedBy(1000)
   const mv = kv.dividedBy(1000)
@@ -180,7 +180,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
               title={!isMobile()}
               label={{
                 formatter: (text: string) => {
-                  return handleAxios(new BigNumber(text))
+                  return handleAxis(new BigNumber(text))
                 },
               }}
             />
@@ -193,7 +193,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
                   fontWeight: 'bold',
                 },
                 formatter: (text: string) => {
-                  return handleAxios(new BigNumber(text))
+                  return handleAxis(new BigNumber(text))
                 },
               }}
             />
@@ -206,7 +206,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
                   fontWeight: 'bold',
                 },
                 formatter: (text: string) => {
-                  return handleAxios(new BigNumber(text))
+                  return handleAxis(new BigNumber(text))
                 },
               }}
             />
