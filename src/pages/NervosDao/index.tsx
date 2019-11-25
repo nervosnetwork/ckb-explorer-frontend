@@ -4,7 +4,6 @@ import { RouteComponentProps } from 'react-router'
 import { StateWithDispatch, PageActions, AppActions } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import Content from '../../components/Content'
-import HashCard from '../../components/Card/HashCard'
 import i18n from '../../utils/i18n'
 import { DaoContentPanel, DaoTabBarPanel } from './styled'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
@@ -118,11 +117,7 @@ export const NervosDao = ({
   return (
     <Content>
       <DaoContentPanel className="container">
-        <HashCard
-          title={i18n.t('nervos_dao.nervos_dao')}
-          hash={nervosDaoState.nervosDao.daoTypeHash}
-          dispatch={dispatch}
-        />
+        <div className="nervos_dao_title">{i18n.t('nervos_dao.nervos_dao')}</div>
         <NervosDaoOverview nervosDao={nervosDaoState.nervosDao} />
 
         <DaoTabBarPanel containSearchBar={daoTab === 'transactions'}>
