@@ -123,9 +123,9 @@ const parseBlockTime = (blockTime: string | undefined) => {
 const blockchainDataList = (statistics: State.Statistics) => {
   return [
     {
-      name: i18n.t('blockchain.best_block'),
+      name: i18n.t('blockchain.latest_block'),
       value: localeNumberString(statistics.tipBlockNumber),
-      tip: i18n.t('blockchain.best_block_tooltip'),
+      tip: i18n.t('blockchain.latest_block_tooltip'),
     },
     {
       name: i18n.t('block.difficulty'),
