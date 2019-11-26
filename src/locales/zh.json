@@ -26,8 +26,8 @@
       "testnet": "测试网"
     },
     "blockchain": {
-      "best_block": "最高块",
-      "best_block_tooltip": "最长链的最新区块",
+      "latest_block": "最高块",
+      "latest_block_tooltip": "最长链的最新区块",
       "difficulty_tooltip": "当下 Epoch 的难度",
       "hash_rate": "算力",
       "hash_rate_tooltip": "最近 900 个区块的平均算力",

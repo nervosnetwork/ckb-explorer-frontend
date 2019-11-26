@@ -26,8 +26,8 @@
       "testnet": "TESTNET"
     },
     "blockchain": {
-      "best_block": "Best Block",
-      "best_block_tooltip": "The latest block of the best chain",
+      "latest_block": "Latest Block",
+      "latest_block_tooltip": "The latest block of the best chain",
       "difficulty_tooltip": "Difficulty of the latest epoch",
       "hash_rate": "Hash Rate",
       "hash_rate_tooltip": "Average Hash Rate of the last 900 blocks",
