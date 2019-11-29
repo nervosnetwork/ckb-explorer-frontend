@@ -74,7 +74,7 @@
       "compensation": "Nervos DAO 锁定补贴",
       "pending_reward": "待发奖励",
       "lock_until": "锁定到期",
-      "estimated": "估计",
+      "estimated": "预计",
       "epoch": "Epoch",
       "code_hash": "Code Hash",
       "args": "Args",
