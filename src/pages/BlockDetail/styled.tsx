@@ -94,3 +94,7 @@ export const BlockTransactionsPagination = styled.div`
     margin: 10px 0px 0px 0px;
   }
 `
+
+export const BlockNoncePanel = styled.div`
+  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
+`
