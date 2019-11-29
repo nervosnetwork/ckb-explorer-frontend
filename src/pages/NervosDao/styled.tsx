@@ -21,8 +21,8 @@ export const DaoContentPanel = styled.div`
     height: 80px;
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
+    padding-left: 40px;
     font-size: 30px;
     font-weight: 500;
     color: #000000;
@@ -32,6 +32,7 @@ export const DaoContentPanel = styled.div`
       border-radius: 3px;
       box-shadow: 1px 1px 3px 0 #dfdfdf;
       font-size: 15px;
+      padding-left: 20px;
     }
   }
 `
