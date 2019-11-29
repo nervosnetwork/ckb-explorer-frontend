@@ -74,6 +74,7 @@
       "compensation": "Nervos DAO Compensation",
       "pending_reward": "Pending Reward",
       "lock_until": "Lock Until",
+      "estimated": "Estimated",
       "epoch": "Epoch",
       "code_hash": "Code Hash",
       "args": "Args",
