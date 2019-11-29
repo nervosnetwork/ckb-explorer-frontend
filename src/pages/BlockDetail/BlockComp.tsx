@@ -166,7 +166,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       ),
     },
     {
-      title: i18n.t('block. difficulty'),
+      title: i18n.t('block.difficulty'),
       content: handleDifficulty(block.difficulty),
     },
     {
