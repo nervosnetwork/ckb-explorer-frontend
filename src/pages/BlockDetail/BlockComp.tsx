@@ -13,7 +13,7 @@ import TransactionItem from '../../components/TransactionItem/index'
 import { AppContext } from '../../contexts/providers'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
-import { localeNumberString } from '../../utils/number'
+import { localeNumberString, handleDifficulty } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
@@ -167,7 +167,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     },
     {
       title: i18n.t('block.difficulty'),
-      content: localeNumberString(block.difficulty),
+      content: handleDifficulty(block.difficulty),
     },
     {
       title: i18n.t('block.timestamp'),
