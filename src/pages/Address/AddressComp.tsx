@@ -125,7 +125,7 @@ const getAddressInfo = (addressState: State.AddressState) => {
   if (lockInfo && lockInfo.epochNumber) {
     items.push({
       title: i18n.t('address.lock_until'),
-      content: `${lockInfo.epochNumber} ${i18n.t('address.epoch')}(th) (${i18n.t(
+      content: `${lockInfo.epochNumber}(th) ${i18n.t('address.epoch')} (${i18n.t(
         'address.estimated',
       )} ${parseSimpleDateNoSecond(lockInfo.estimatedUnlockTime)})`,
     })
