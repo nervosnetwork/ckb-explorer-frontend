@@ -121,7 +121,7 @@
       "block_number": "Block 高度",
       "epoch_number": "Epoch 区块",
       "epoch_length": "Epoch 长度",
-      "nonce": "随机数",
+      "nonce": "Nonce",
       "proof": "PoW Proof",
       "timestamp": "时间戳",
       "miner": "矿工",

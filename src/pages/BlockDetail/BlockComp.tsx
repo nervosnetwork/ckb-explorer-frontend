@@ -1,5 +1,6 @@
 import React, { useContext, useState, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import BigNumber from 'bignumber.js'
 import Pagination from '../../components/Pagination'
 import DropDownIcon from '../../assets/content_drop_down.png'
 import PackUpIcon from '../../assets/content_pack_up.png'
@@ -12,7 +13,7 @@ import TransactionItem from '../../components/TransactionItem/index'
 import { AppContext } from '../../contexts/providers'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
-import { localeNumberString } from '../../utils/number'
+import { localeNumberString, handleDifficulty } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
@@ -22,6 +23,7 @@ import {
   BlockOverviewItemContentPanel,
   BlockRootInfoItemPanel,
   BlockTransactionsPagination,
+  BlockNoncePanel,
 } from './styled'
 import browserHistory from '../../routes/history'
 import { isMainnet } from '../../utils/chain'
@@ -165,7 +167,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     },
     {
       title: i18n.t('block.difficulty'),
-      content: localeNumberString(block.difficulty),
+      content: handleDifficulty(block.difficulty),
     },
     {
       title: i18n.t('block.timestamp'),
@@ -173,7 +175,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     },
     {
       title: i18n.t('block.nonce'),
-      content: localeNumberString(block.nonce),
+      content: <BlockNoncePanel>{`0x${new BigNumber(block.nonce).toString(16)}`}</BlockNoncePanel>,
     },
     {
       title: i18n.t('block.uncle_count'),
