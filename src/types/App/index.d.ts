@@ -56,6 +56,7 @@ declare namespace State {
     status: 'locked' | 'unlocked'
     epochNumber: string
     epochIndex: string
+    estimatedUnlockTime: string
   }
 
   export interface Address {

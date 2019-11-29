@@ -20,6 +20,7 @@ import {
 } from './styled'
 import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
+import { parseSimpleDateNoSecond } from '../../utils/date'
 
 const addressContent = (address: string) => {
   const addressText = isMobile() ? adaptMobileEllipsis(address, 10) : adaptPCEllipsis(address, 13, 50)
@@ -124,7 +125,9 @@ const getAddressInfo = (addressState: State.AddressState) => {
   if (lockInfo && lockInfo.epochNumber) {
     items.push({
       title: i18n.t('address.lock_until'),
-      content: `${lockInfo.epochNumber} ${i18n.t('address.epoch')}`,
+      content: `${lockInfo.epochNumber} ${i18n.t('address.epoch')} (~ ${parseSimpleDateNoSecond(
+        lockInfo.estimatedUnlockTime,
+      )})`,
     })
   }
 
