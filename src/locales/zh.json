@@ -112,7 +112,7 @@
       "capacity": "Capacity",
       "detail": "详情",
       "empty_output": "No cell output target",
-      "unspent_output": "未花费的输出"
+      "unspent_output": "未花费的交易输出"
     },
     "block": {
       "block": "区块",
