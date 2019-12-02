@@ -64,8 +64,10 @@
     "search": {
       "loading": "Loading...",
       "empty_result": "Opps! Your search did not match any record. Please try different keywords~",
-      "address_type_error": "Testnet address detected，please goto",
-      "address_type_url": "testnet explorer"
+      "address_type_testnet_error": "Testnet address detected，please goto",
+      "address_type_mainnet_error": "Mainnet address detected，please goto",
+      "address_type_testnet_url": "testnet explorer",
+      "address_type_mainnet_url": "mainnet explorer"
     },
     "address": {
       "address": "Address",
