@@ -9,7 +9,7 @@ import GreenSearchLogo from '../../assets/search_green.png'
 import BlueSearchLogo from '../../assets/search_blue.png'
 import { addPrefixForHash } from '../../utils/string'
 import i18n from '../../utils/i18n'
-import { HttpErrorCode, CachedKeys } from '../../utils/const'
+import { HttpErrorCode, CachedKeys, SearchFailType } from '../../utils/const'
 import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
 import { isMobile } from '../../utils/screen'
 import { AppContext } from '../../contexts/providers'
@@ -32,6 +32,11 @@ const clearSearchInput = (inputElement: any) => {
 const setSearchLoading = (inputElement: any) => {
   const input: HTMLInputElement = inputElement.current
   input.value = i18n.t('search.loading')
+}
+
+const setSearchContent = (inputElement: any, content: string) => {
+  const input: HTMLInputElement = inputElement.current
+  input.value = content
 }
 
 const handleSearchResult = (
@@ -79,15 +84,25 @@ const handleSearchResult = (
         }
       })
       .catch((error: AxiosError) => {
+        setSearchContent(inputElement, query)
         if (error.response && error.response.data) {
-          if (
-            error.response.status === 404 &&
-            (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
-              return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
-            })
-          ) {
-            clearSearchInput(inputElement)
-            browserHistory.push(`/address/${query}`)
+          if (error.response.status === 404 || error.response.status === 422) {
+            if (
+              (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
+                return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
+              })
+            ) {
+              clearSearchInput(inputElement)
+              browserHistory.push(`/address/${query}`)
+            } else if (
+              (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
+                return errorData.code === HttpErrorCode.ADDRESS_TYPE_ERROR
+              })
+            ) {
+              browserHistory.push(`/search/fail?type=${SearchFailType.CHAIN_ERROR}&q=${query}`)
+            } else {
+              browserHistory.push(`/search/fail?q=${query}`)
+            }
           } else {
             browserHistory.push(`/search/fail?q=${query}`)
           }

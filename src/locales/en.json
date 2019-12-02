@@ -63,7 +63,9 @@
     },
     "search": {
       "loading": "Loading...",
-      "empty_result": "Opps! Your search did not match any record. Please try different keywords~"
+      "empty_result": "Opps! Your search did not match any record. Please try different keywords~",
+      "address_type_error": "Testnet address detected，please goto",
+      "address_type_url": "testnet explorer"
     },
     "address": {
       "address": "Address",

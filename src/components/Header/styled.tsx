@@ -160,6 +160,7 @@ export const HeaderBlockchainPanel = styled.div`
     !props.search &&
     css`
       flex: 1;
+      justify-content: flex-end;
     `}
 
   .header__blockchain__flag {

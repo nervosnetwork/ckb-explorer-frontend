@@ -14,6 +14,11 @@ export const TESTNET_SECONDARY_THEME_COLOR = '#85A1EA'
 
 export const HttpErrorCode = {
   NOT_FOUND_ADDRESS: 1010,
+  ADDRESS_TYPE_ERROR: 1023,
+}
+
+export const SearchFailType = {
+  CHAIN_ERROR: 'chain_error',
 }
 
 export const CachedKeys = {
