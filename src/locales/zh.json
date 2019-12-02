@@ -111,7 +111,8 @@
       "cellbase_help_tooltip": "区块 N 的 Cellbase 交易将作为奖励发送给区块 N-11 的出块矿工，阅读共识协议了解更多信息",
       "capacity": "Capacity",
       "detail": "详情",
-      "empty_output": "No cell output target"
+      "empty_output": "No cell output target",
+      "unspent_output": "未花费的交易输出"
     },
     "block": {
       "block": "区块",
