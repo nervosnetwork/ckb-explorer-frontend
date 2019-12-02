@@ -1,13 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import queryString from 'query-string'
-import { RouteComponentProps, Link } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 import Content from '../../components/Content'
 import Search from '../../components/Search'
 import i18n from '../../utils/i18n'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { SearchFailType } from '../../utils/const'
 import CONFIG from '../../config'
+import { isMainnet } from '../../utils/chain'
 
 const SearchPanel = styled.div`
   margin-top: 211px;
@@ -49,11 +50,24 @@ const SearchContent = styled.div`
   }
 `
 
+const baseUrl = () => {
+  const mainnetUrl = `${CONFIG.MAINNET_URL}`
+  const testnetUrl = `${CONFIG.MAINNET_URL}/${CONFIG.TESTNET_NAME}`
+
+  return isMainnet() ? testnetUrl : mainnetUrl
+}
+
+const chainErrorMessage = () => {
+  return isMainnet() ? i18n.t('search.address_type_testnet_error') : i18n.t('search.address_type_mainnet_error')
+}
+
+const chainUrlMessage = () => {
+  return isMainnet() ? i18n.t('search.address_type_testnet_url') : i18n.t('search.address_type_mainnet_url')
+}
+
 export default ({ dispatch, location: { search } }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
   const parsed = queryString.parse(search)
   const { q, type } = parsed
-
-  const testnetUrl = `${CONFIG.MAINNET_URL}/${CONFIG.TESTNET_NAME}`
 
   return (
     <Content>
@@ -64,8 +78,10 @@ export default ({ dispatch, location: { search } }: React.PropsWithoutRef<StateW
         <SearchContent>
           {type && type === SearchFailType.CHAIN_ERROR ? (
             <div>
-              <span>{i18n.t('search.address_type_error')}</span>
-              <Link to={`${testnetUrl}/address/${q}`}>{i18n.t('search.address_type_url')}</Link>
+              <span>{chainErrorMessage()}</span>
+              <a href={`${baseUrl()}/address/${q}`} rel="noopener noreferrer">
+                {chainUrlMessage()}
+              </a>
             </div>
           ) : (
             i18n.t('search.empty_result')
