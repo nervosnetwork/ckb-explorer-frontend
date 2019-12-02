@@ -111,7 +111,8 @@
       "cellbase_help_tooltip": "The cellbase transaction of block N is sent to the miner of block N-11 as reward, learn more from our Consensus Protocol",
       "capacity": "Capacity",
       "detail": "Detail",
-      "empty_output": "No cell output target"
+      "empty_output": "No cell output target",
+      "unspent_output": "Unspent Transaction Output"
     },
     "block": {
       "block": "Block",
