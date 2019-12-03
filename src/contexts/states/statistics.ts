@@ -3,6 +3,14 @@ export const initStatistics: State.Statistics = {
   averageBlockTime: '0',
   currentEpochDifficulty: '0',
   hashRate: '0',
+  epochInfo: {
+    epochNumber: '0',
+    epochLength: '0',
+    index: '0',
+  },
+  estimatedEpochTime: '0',
+  transactionsLast24Hrs: '0',
+  transactionsCountPerMinute: '0',
 }
 
 export default initStatistics

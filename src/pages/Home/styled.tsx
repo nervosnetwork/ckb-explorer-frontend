@@ -45,7 +45,7 @@ export const HomeHeaderItemPanel = styled.div`
   cursor: ${(props: { clickable: boolean }) => (props.clickable ? 'pointer' : 'default')};
 
   .blockchain__item__value {
-    margin-top: 45px;
+    margin-top: 30px;
     height: 32px;
     color: #000000;
     text-align: center;
@@ -55,7 +55,7 @@ export const HomeHeaderItemPanel = styled.div`
   }
 
   .blockchain__item__name {
-    margin-top: 12px;
+    margin-top: 10px;
     height: 19px;
     color: #000000;
     text-align: center;
@@ -63,30 +63,16 @@ export const HomeHeaderItemPanel = styled.div`
     font-weight: normal;
   }
 
-  &:hover {
-    @media (min-width: 700px) {
-      box-shadow: 4px 4px 8px 0 #b3b3b3;
-      .blockchain__item__tip__content {
-        visibility: visible;
-        opacity: 1;
-      }
-      .blockchain__item__value {
-        margin-top: 35px;
-      }
-    }
-  }
-
   .blockchain__item__tip__content {
     width: 100%;
     height: 40px;
-    opacity: 0;
     text-align: center;
     font-weight: 500;
     line-height: 40px;
     color: #ffffff;
     font-size: 12px;
     background: ${props => props.theme.primary};
-    margin-top: 14px;
+    margin-top: 18px;
     transition: opacity 200ms linear;
   }
 

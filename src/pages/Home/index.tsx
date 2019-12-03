@@ -45,7 +45,7 @@ const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
     >
       <div className="blockchain__item__value">{blockchain.value}</div>
       <div className="blockchain__item__name">{blockchain.name}</div>
-      {blockchain.tip && <div className="blockchain__item__tip__content">{blockchain.tip}</div>}
+      <div className="blockchain__item__tip__content">{blockchain.tip}</div>
     </HomeHeaderItemPanel>
   )
 }
@@ -125,24 +125,24 @@ const blockchainDataList = (statistics: State.Statistics) => {
     {
       name: i18n.t('blockchain.latest_block'),
       value: localeNumberString(statistics.tipBlockNumber),
-      tip: i18n.t('blockchain.latest_block_tooltip'),
-    },
-    {
-      name: i18n.t('block.difficulty'),
-      value: handleDifficulty(statistics.currentEpochDifficulty),
-      tip: i18n.t('blockchain.difficulty_tooltip'),
-      clickable: true,
+      tip: `${statistics.epochInfo.index}/${statistics.epochInfo.epochLength} of Epoch ${statistics.epochInfo.epochNumber}`,
     },
     {
       name: i18n.t('blockchain.hash_rate'),
       value: parseHashRate(statistics.hashRate),
-      tip: i18n.t('blockchain.hash_rate_tooltip'),
+      tip: `${i18n.t('blockchain.current_epoch_difficulty')}: ${handleDifficulty(statistics.currentEpochDifficulty)}`,
       clickable: true,
     },
     {
       name: i18n.t('blockchain.average_block_time'),
       value: parseBlockTime(statistics.averageBlockTime),
-      tip: i18n.t('blockchain.average_block_time_tooltip'),
+      tip: `${i18n.t('blockchain.estimated_epoch_time')}: ${parseBlockTime(statistics.estimatedEpochTime)}`,
+    },
+    {
+      name: i18n.t('blockchain.transactions_per_minute'),
+      value: Number(statistics.transactionsCountPerMinute).toFixed(2),
+      tip: `${i18n.t('blockchain.transactions_last_24hrs')}: ${statistics.transactionsLast24Hrs}`,
+      clickable: true,
     },
   ]
 }
