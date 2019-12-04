@@ -175,19 +175,19 @@ export const fetchStatisticTotalDaoDeposit = () => {
 }
 
 export const fetchStatisticDifficultyHashRate = () => {
-  return axiosIns(`/daily_statistics/difficulty-hash_rate`).then((res: AxiosResponse) =>
+  return axiosIns(`/block_statistics/difficulty-hash_rate`).then((res: AxiosResponse) =>
     toCamelcase<Response.Response<Response.Wrapper<State.StatisticsDifficultyHashRate>[]>>(res.data),
   )
 }
 
 export const fetchStatisticCellCount = () => {
-  return axiosIns(`/daily_statistics/live_cell_count-dead_cell_count`).then((res: AxiosResponse) =>
+  return axiosIns(`/block_statistics/live_cell_count-dead_cell_count`).then((res: AxiosResponse) =>
     toCamelcase<Response.Response<Response.Wrapper<State.StatisticsCellCount>[]>>(res.data),
   )
 }
 
 export const fetchStatisticDifficultyUncleRate = () => {
-  return axiosIns(`/daily_statistics/difficulty-uncle_rate`).then((res: AxiosResponse) =>
+  return axiosIns(`/epoch_statistics/difficulty-uncle_rate`).then((res: AxiosResponse) =>
     toCamelcase<Response.Response<Response.Wrapper<State.StatisticsDifficultyUncleRate>[]>>(res.data),
   )
 }

@@ -15,8 +15,16 @@ const initState: State.AppState = {
   addressState: initAddressState,
   transactionState: initTransactionState,
   statistics: initStatistics,
+
   statisticsChartData: [],
   statisticsUncleRates: [],
+  statisticsDifficultyHashRates: [],
+  statisticsAddressesCounts: [],
+  statisticsCellCounts: [],
+  statisticsDifficultyUncleRates: [],
+  statisticsTotalDaoDeposits: [],
+  statisticsTxCounts: [],
+
   homeBlocks: [],
   nervosDaoState: initNervosDaoState,
 

@@ -35,6 +35,8 @@ export enum PageActions {
   UpdateStatisticsChartData = 'updateStatisticsChartData',
   UpdateStatisticsUncleRate = 'updateStatisticsUncleRate',
 
+  UpdateStatisticDifficultyHashRate = 'updateStatisticDifficultyHashRate',
+
   UpdateNervosDao = 'updateNervosDao',
   UpdateNervosDaoTransactions = 'updateNervosDaoTransactions',
   UpdateNervosDaoTransactionsTotal = 'updateNervosDaoTransactionsTotal',
@@ -269,6 +271,12 @@ export const reducer = (
         ...state,
         statisticsUncleRates: payload.statisticsUncleRates,
       }
+    case PageActions.UpdateStatisticDifficultyHashRate:
+      return {
+        ...state,
+        statisticsDifficultyHashRates: payload.statisticsDifficultyHashRates,
+      }
+
     case PageActions.UpdateNervosDao:
       return {
         ...state,

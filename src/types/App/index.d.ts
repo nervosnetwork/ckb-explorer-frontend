@@ -293,6 +293,12 @@ declare namespace State {
     statistics: Statistics
     statisticsChartData: StatisticsBaseData[]
     statisticsUncleRates: StatisticsUncleRateChart[]
+    statisticsDifficultyHashRates: StatisticsDifficultyHashRate[]
+    statisticsDifficultyUncleRates: StatisticsDifficultyUncleRate[]
+    statisticsTxCounts: StatisticsTxCount[]
+    statisticsCellCounts: StatisticsCellCount[]
+    statisticsTotalDaoDeposits: StatisticsTotalDaoDeposit[]
+    statisticsAddressesCounts: StatisticsAddressesCount[]
     nervosDaoState: NervosDaoState
 
     components: Components
