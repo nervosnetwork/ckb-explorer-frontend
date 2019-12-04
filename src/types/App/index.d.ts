@@ -195,6 +195,39 @@ declare namespace State {
     epochNumber: number
   }
 
+  export interface StatisticsTxCount {
+    transactionsCount: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticsAddressesCount {
+    addressesCount: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticsTotalDaoDeposit {
+    totalDaoDeposit: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticsDifficultyHashRate {
+    difficulty: string
+    hashRate: string
+    blockNumber: string
+  }
+
+  export interface StatisticsCellCount {
+    liveCellCount: string
+    dead_cell_count: string
+    blockNumber: string
+  }
+
+  export interface StatisticsDifficultyUncleRate {
+    difficulty: string
+    uncleRate: string
+    epochNumber: string
+  }
+
   export interface Components {
     // mobile header search state
     searchBarEditable: boolean
