@@ -4,21 +4,20 @@ import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
-import 'echarts/lib/component/markLine'
 import BigNumber from 'bignumber.js'
 import Content from '../../components/Content'
-import { getStatisticDifficultyUncleRate } from '../../service/app/statisticsChart'
+import { getStatisticTransactionCount } from '../../service/app/statisticsChart'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
-import { handleDifficulty } from '../../utils/number'
 import { ChartTitle, ChartPanel, LoadingPanel } from './styled'
+import { parseDateNoTime } from '../../utils/date'
 
-const colors = ['#3182bd', '#66CC99']
+const colors = ['#3182bd']
 
-const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[]) => {
+const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]) => {
   return {
     color: colors,
     tooltip: {
@@ -26,17 +25,18 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[]) => 
       formatter: (dataList: any[]) => {
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
-        const widthSpan = (value: string) => `<span style="width:100px;display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch_number'))} ${dataList[0].name}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
+        const widthSpan = (value: string) => `<span style="width:120px;display:inline-block;">${value}:</span>`
+        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+          dataList[0].name,
+        )}</div>`
+        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.transaction_count'))} ${handleAxis(
           dataList[0].data,
         )}</div>`
-        result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${dataList[1].data}%</div>`
         return result
       },
     },
     legend: {
-      data: [i18n.t('block.difficulty'), i18n.t('block.uncle_rate')],
+      data: [i18n.t('statistic.transaction_count')],
     },
     grid: {
       left: '3%',
@@ -48,16 +48,16 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[]) => 
       {
         type: 'category',
         boundaryGap: false,
-        data: statisticChartData.map(data => data.epochNumber),
+        data: statisticTransactionCounts.map(data => data.createdAtUnixtimestamp),
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: string) => parseDateNoTime(value),
         },
       },
     ],
     yAxis: [
       {
         position: 'left',
-        name: i18n.t('block.difficulty'),
+        name: i18n.t('statistic.transaction_count'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -69,63 +69,34 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[]) => 
           formatter: (value: string) => handleAxis(new BigNumber(value)),
         },
       },
-      {
-        position: 'right',
-        name: i18n.t('block.uncle_rate'),
-        type: 'value',
-        scale: true,
-        axisLine: {
-          lineStyle: {
-            color: colors[1],
-          },
-        },
-        axisLabel: {
-          formatter: (value: string) => `${value}%`,
-        },
-      },
     ],
     series: [
       {
-        name: i18n.t('block.difficulty'),
+        name: i18n.t('statistic.transaction_count'),
         type: 'line',
         yAxisIndex: '0',
         symbol: 'none',
-        data: statisticChartData.map(data => new BigNumber(data.difficulty).toNumber()),
-      },
-      {
-        name: i18n.t('block.uncle_rate'),
-        type: 'line',
-        yAxisIndex: '1',
-        symbol: 'none',
-        data: statisticChartData.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
-        markLine: {
-          data: [
-            {
-              name: i18n.t('block.uncle_rate_target'),
-              yAxis: '2.5',
-            },
-          ],
-        },
+        data: statisticTransactionCounts.map(data => new BigNumber(data.transactionsCount).toNumber()),
       },
     ],
   }
 }
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
-  const { statisticDifficultyUncleRates } = useContext(AppContext)
+  const { statisticTransactionCounts } = useContext(AppContext)
 
   useEffect(() => {
-    getStatisticDifficultyUncleRate(dispatch)
+    getStatisticTransactionCount(dispatch)
   }, [dispatch])
 
   return (
     <Content>
-      <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}</ChartTitle>
-      {statisticDifficultyUncleRates.length > 0 ? (
+      <ChartTitle>{i18n.t('statistic.transaction_count')}</ChartTitle>
+      {statisticTransactionCounts.length > 0 ? (
         <ChartPanel>
           <ReactEchartsCore
             echarts={echarts}
-            option={getOption(statisticDifficultyUncleRates)}
+            option={getOption(statisticTransactionCounts)}
             notMerge
             lazyUpdate
             style={{

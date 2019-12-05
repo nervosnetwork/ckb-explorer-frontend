@@ -3,6 +3,7 @@ import {
   fetchStatisticsChart,
   fetchStatisticDifficultyHashRate,
   fetchStatisticDifficultyUncleRate,
+  fetchStatisticTransactionCount,
 } from '../http/fetcher'
 import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
 
@@ -109,7 +110,7 @@ export const getStatisticsChart = (dispatch: AppDispatch) => {
 
 export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
   fetchStatisticDifficultyHashRate().then(
-    (response: Response.Response<Response.Wrapper<State.StatisticsDifficultyHashRate>[]> | null) => {
+    (response: Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]> | null) => {
       if (response) {
         const { data } = response
         const difficultyHashRates = data
@@ -125,7 +126,7 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
           dispatch({
             type: PageActions.UpdateStatisticDifficultyHashRate,
             payload: {
-              statisticsDifficultyHashRates: difficultyHashRates,
+              statisticDifficultyHashRates: difficultyHashRates,
             },
           })
         }
@@ -136,7 +137,7 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
 
 export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
   fetchStatisticDifficultyUncleRate().then(
-    (response: Response.Response<Response.Wrapper<State.StatisticsDifficultyUncleRate>[]> | null) => {
+    (response: Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRate>[]> | null) => {
       if (response) {
         const { data } = response
         const difficultyUncleRates = data
@@ -152,7 +153,31 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
           dispatch({
             type: PageActions.UpdateStatisticDifficultyUncleRate,
             payload: {
-              statisticsDifficultyUncleRates: difficultyUncleRates,
+              statisticDifficultyUncleRates: difficultyUncleRates,
+            },
+          })
+        }
+      }
+    },
+  )
+}
+
+export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
+  fetchStatisticTransactionCount().then(
+    (response: Response.Response<Response.Wrapper<State.StatisticTransactionCount>[]> | null) => {
+      if (response) {
+        const { data } = response
+        const transactionCounts = data.map(wrapper => {
+          return {
+            transactionsCount: wrapper.attributes.transactionsCount,
+            createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+          }
+        })
+        if (transactionCounts.length > 0) {
+          dispatch({
+            type: PageActions.UpdateStatisticTransactionCount,
+            payload: {
+              statisticTransactionCounts: transactionCounts,
             },
           })
         }

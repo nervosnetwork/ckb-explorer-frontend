@@ -17,7 +17,7 @@ import { ChartTitle, ChartPanel, LoadingPanel } from './styled'
 
 const colors = ['#3182bd', '#66CC99']
 
-const getOption = (statisticsChartData: State.StatisticsDifficultyHashRate[]) => {
+const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
   return {
     color: colors,
     tooltip: {
@@ -49,7 +49,7 @@ const getOption = (statisticsChartData: State.StatisticsDifficultyHashRate[]) =>
       {
         type: 'category',
         boundaryGap: false,
-        data: statisticsChartData.map(data => data.blockNumber),
+        data: statisticChartData.map(data => data.blockNumber),
         axisLabel: {
           formatter: (value: string) => handleAxis(new BigNumber(value)),
         },
@@ -91,21 +91,21 @@ const getOption = (statisticsChartData: State.StatisticsDifficultyHashRate[]) =>
         type: 'line',
         yAxisIndex: '0',
         symbol: 'none',
-        data: statisticsChartData.map(data => new BigNumber(data.difficulty).toNumber()),
+        data: statisticChartData.map(data => new BigNumber(data.difficulty).toNumber()),
       },
       {
         name: i18n.t('block.hash_rate_hps'),
         type: 'line',
         yAxisIndex: '1',
         symbol: 'none',
-        data: statisticsChartData.map(data => new BigNumber(data.hashRate).toNumber()),
+        data: statisticChartData.map(data => new BigNumber(data.hashRate).toNumber()),
       },
     ],
   }
 }
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
-  const { statisticsDifficultyHashRates } = useContext(AppContext)
+  const { statisticDifficultyHashRates } = useContext(AppContext)
 
   useEffect(() => {
     getStatisticDifficultyHashRate(dispatch)
@@ -114,11 +114,11 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
   return (
     <Content>
       <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}</ChartTitle>
-      {statisticsDifficultyHashRates.length > 0 ? (
+      {statisticDifficultyHashRates.length > 0 ? (
         <ChartPanel>
           <ReactEchartsCore
             echarts={echarts}
-            option={getOption(statisticsDifficultyHashRates)}
+            option={getOption(statisticDifficultyHashRates)}
             notMerge
             lazyUpdate
             style={{

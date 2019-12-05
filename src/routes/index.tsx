@@ -16,7 +16,7 @@ import NotFoundPage from '../pages/404'
 import SearchFail from '../pages/SearchFail'
 import Maintain from '../pages/Maintain'
 import Sheet from '../components/Sheet'
-import StatisticsChart from '../pages/StatisticsChart/DifficultyUncleRate'
+import StatisticsChart from '../pages/StatisticsChart/TransactionCount'
 import { AppDispatch } from '../contexts/providers/reducer'
 
 const hasSearch = (pathname: string) => {

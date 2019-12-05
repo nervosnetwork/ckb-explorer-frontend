@@ -37,6 +37,10 @@
       "mainnet": "Lina Mainnet",
       "testnet": "Testnet"
     },
+    "statistic": {
+      "transaction_count": "Transaction Count",
+      "date": "Date"
+    },
     "home": {
       "height": "Height",
       "transactions": "Transactions",

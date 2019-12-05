@@ -37,6 +37,10 @@
       "mainnet": "Lina Mainnet",
       "testnet": "Testnet"
     },
+    "statistic": {
+      "transaction_count": "交易数量",
+      "date": "时间"
+    },
     "home": {
       "height": "高度",
       "transactions": "交易",

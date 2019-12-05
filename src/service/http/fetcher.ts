@@ -156,27 +156,27 @@ export const fetchNervosDaoDepositors = () => {
   )
 }
 
-export const fetchStatisticTxCount = () => {
+export const fetchStatisticTransactionCount = () => {
   return axiosIns(`/daily_statistics/transactions_count`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticsTxCount>[]>>(res.data),
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticTransactionCount>[]>>(res.data),
   )
 }
 
 export const fetchStatisticAddressesCount = () => {
   return axiosIns(`/daily_statistics/addresses_count`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticsAddressesCount>[]>>(res.data),
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticAddressesCount>[]>>(res.data),
   )
 }
 
 export const fetchStatisticTotalDaoDeposit = () => {
   return axiosIns(`/daily_statistics/total_dao_deposit`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticsTotalDaoDeposit>[]>>(res.data),
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticTotalDaoDeposit>[]>>(res.data),
   )
 }
 
 export const fetchStatisticDifficultyHashRate = () => {
   return axiosIns(`/block_statistics/difficulty-hash_rate`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticsDifficultyHashRate>[]>>(res.data),
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]>>(res.data),
   )
 }
 
@@ -188,6 +188,6 @@ export const fetchStatisticCellCount = () => {
 
 export const fetchStatisticDifficultyUncleRate = () => {
   return axiosIns(`/epoch_statistics/difficulty-uncle_rate`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticsDifficultyUncleRate>[]>>(res.data),
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRate>[]>>(res.data),
   )
 }

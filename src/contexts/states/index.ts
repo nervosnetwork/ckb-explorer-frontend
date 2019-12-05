@@ -18,12 +18,12 @@ const initState: State.AppState = {
 
   statisticsChartData: [],
   statisticsUncleRates: [],
-  statisticsDifficultyHashRates: [],
-  statisticsAddressesCounts: [],
-  statisticsCellCounts: [],
-  statisticsDifficultyUncleRates: [],
-  statisticsTotalDaoDeposits: [],
-  statisticsTxCounts: [],
+  statisticDifficultyHashRates: [],
+  statisticAddressesCounts: [],
+  statisticCellCounts: [],
+  statisticDifficultyUncleRates: [],
+  statisticTotalDaoDeposits: [],
+  statisticTransactionCounts: [],
 
   homeBlocks: [],
   nervosDaoState: initNervosDaoState,

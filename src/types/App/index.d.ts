@@ -190,27 +190,27 @@ declare namespace State {
     epochNumber?: number
   }
 
-  export interface StatisticsUncleRate {
+  export interface StatisticUncleRate {
     uncleRate: number
     epochNumber: number
   }
 
-  export interface StatisticsTxCount {
+  export interface StatisticTransactionCount {
     transactionsCount: string
     createdAtUnixtimestamp: string
   }
 
-  export interface StatisticsAddressesCount {
+  export interface StatisticAddressesCount {
     addressesCount: string
     createdAtUnixtimestamp: string
   }
 
-  export interface StatisticsTotalDaoDeposit {
+  export interface StatisticTotalDaoDeposit {
     totalDaoDeposit: string
     createdAtUnixtimestamp: string
   }
 
-  export interface StatisticsDifficultyHashRate {
+  export interface StatisticDifficultyHashRate {
     difficulty: string
     hashRate: string
     blockNumber: string
@@ -222,7 +222,7 @@ declare namespace State {
     blockNumber: string
   }
 
-  export interface StatisticsDifficultyUncleRate {
+  export interface StatisticDifficultyUncleRate {
     difficulty: string
     uncleRate: string
     epochNumber: string
@@ -293,12 +293,12 @@ declare namespace State {
     statistics: Statistics
     statisticsChartData: StatisticsBaseData[]
     statisticsUncleRates: StatisticsUncleRateChart[]
-    statisticsDifficultyHashRates: StatisticsDifficultyHashRate[]
-    statisticsDifficultyUncleRates: StatisticsDifficultyUncleRate[]
-    statisticsTxCounts: StatisticsTxCount[]
-    statisticsCellCounts: StatisticsCellCount[]
-    statisticsTotalDaoDeposits: StatisticsTotalDaoDeposit[]
-    statisticsAddressesCounts: StatisticsAddressesCount[]
+    statisticDifficultyHashRates: StatisticsDifficultyHashRate[]
+    statisticDifficultyUncleRates: StatisticsDifficultyUncleRate[]
+    statisticTransactionCounts: StatisticTransactionCount[]
+    statisticCellCounts: StatisticsCellCount[]
+    statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
+    statisticAddressesCounts: StatisticAddressesCount[]
     nervosDaoState: NervosDaoState
 
     components: Components

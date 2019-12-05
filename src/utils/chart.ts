@@ -1,9 +1,10 @@
 import BigNumber from 'bignumber.js'
 import { isMobile } from './screen'
 
-export const handleAxis = (value: BigNumber) => {
-  if (value.isNaN() || value.isZero()) return '0'
-  const kv = value.dividedBy(1000)
+export const handleAxis = (value: BigNumber | string | number) => {
+  const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  if (bigValue.isNaN() || bigValue.isZero()) return '0'
+  const kv = bigValue.dividedBy(1000)
   const mv = kv.dividedBy(1000)
   const gv = mv.dividedBy(1000)
   const tv = gv.dividedBy(1000)
@@ -36,7 +37,7 @@ export const handleAxis = (value: BigNumber) => {
   if (kv.isGreaterThanOrEqualTo(1)) {
     return `${kv.toFixed()}K`
   }
-  return `${value.toFixed()}`
+  return `${bigValue.toFixed()}`
 }
 
 export const parseInterval = (max: number, min: number) => {
