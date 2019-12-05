@@ -4,20 +4,21 @@ import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
+import 'echarts/lib/component/markLine'
 import BigNumber from 'bignumber.js'
-import Content from '../../../components/Content'
-import { getStatisticDifficultyHashRate } from '../../../service/app/statisticsChart'
-import { StateWithDispatch } from '../../../contexts/providers/reducer'
-import { AppContext } from '../../../contexts/providers'
-import i18n from '../../../utils/i18n'
-import Loading from '../../../components/Loading'
-import { handleAxis } from '../../../utils/chart'
-import { handleDifficulty, handleHashRate } from '../../../utils/number'
-import { ChartTitle, ChartPanel, LoadingPanel } from '../styled'
+import Content from '../../components/Content'
+import { getStatisticDifficultyUncleRate } from '../../service/app/statisticsChart'
+import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { AppContext } from '../../contexts/providers'
+import i18n from '../../utils/i18n'
+import Loading from '../../components/Loading'
+import { handleAxis } from '../../utils/chart'
+import { handleDifficulty } from '../../utils/number'
+import { ChartTitle, ChartPanel, LoadingPanel } from './styled'
 
 const colors = ['#3182bd', '#66CC99']
 
-const getOption = (statisticsChartData: State.StatisticsDifficultyHashRate[]) => {
+const getOption = (statisticsChartData: State.StatisticsDifficultyUncleRate[]) => {
   return {
     color: colors,
     tooltip: {
@@ -26,18 +27,16 @@ const getOption = (statisticsChartData: State.StatisticsDifficultyHashRate[]) =>
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) => `<span style="width:100px;display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.block_number'))} ${dataList[0].name}</div>`
+        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch_number'))} ${dataList[0].name}</div>`
         result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
           dataList[0].data,
         )}</div>`
-        result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
-          dataList[1].data,
-        )}</div>`
+        result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${dataList[1].data}%</div>`
         return result
       },
     },
     legend: {
-      data: [i18n.t('block.difficulty'), i18n.t('block.hash_rate_hps')],
+      data: [i18n.t('block.difficulty'), i18n.t('block.uncle_rate')],
     },
     grid: {
       left: '3%',
@@ -49,7 +48,7 @@ const getOption = (statisticsChartData: State.StatisticsDifficultyHashRate[]) =>
       {
         type: 'category',
         boundaryGap: false,
-        data: statisticsChartData.map(data => data.blockNumber),
+        data: statisticsChartData.map(data => data.epochNumber),
         axisLabel: {
           formatter: (value: string) => handleAxis(new BigNumber(value)),
         },
@@ -72,7 +71,7 @@ const getOption = (statisticsChartData: State.StatisticsDifficultyHashRate[]) =>
       },
       {
         position: 'right',
-        name: i18n.t('block.hash_rate_hps'),
+        name: i18n.t('block.uncle_rate'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -81,7 +80,7 @@ const getOption = (statisticsChartData: State.StatisticsDifficultyHashRate[]) =>
           },
         },
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: string) => `${value}%`,
         },
       },
     ],
@@ -94,31 +93,39 @@ const getOption = (statisticsChartData: State.StatisticsDifficultyHashRate[]) =>
         data: statisticsChartData.map(data => new BigNumber(data.difficulty).toNumber()),
       },
       {
-        name: i18n.t('block.hash_rate_hps'),
+        name: i18n.t('block.uncle_rate'),
         type: 'line',
         yAxisIndex: '1',
         symbol: 'none',
-        data: statisticsChartData.map(data => new BigNumber(data.hashRate).toNumber()),
+        data: statisticsChartData.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
+        markLine: {
+          data: [
+            {
+              name: i18n.t('block.uncle_rate_target'),
+              yAxis: '2.5',
+            },
+          ],
+        },
       },
     ],
   }
 }
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
-  const { statisticsDifficultyHashRates } = useContext(AppContext)
+  const { statisticsDifficultyUncleRates } = useContext(AppContext)
 
   useEffect(() => {
-    getStatisticDifficultyHashRate(dispatch)
+    getStatisticDifficultyUncleRate(dispatch)
   }, [dispatch])
 
   return (
     <Content>
-      <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}</ChartTitle>
-      {statisticsDifficultyHashRates.length > 0 ? (
+      <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}</ChartTitle>
+      {statisticsDifficultyUncleRates.length > 0 ? (
         <ChartPanel>
           <ReactEchartsCore
             echarts={echarts}
-            option={getOption(statisticsDifficultyHashRates)}
+            option={getOption(statisticsDifficultyUncleRates)}
             notMerge
             lazyUpdate
             style={{
