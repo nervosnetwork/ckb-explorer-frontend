@@ -41,6 +41,8 @@
       "transaction_count": "Transaction Count",
       "address_count": "Address Count",
       "total_dao_deposit": "Total Nervos DAO Deposit",
+      "live_cell": "Live Cell",
+      "dead_cell": "Dead Cell",
       "date": "Date"
     },
     "home": {

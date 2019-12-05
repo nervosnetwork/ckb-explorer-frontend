@@ -216,9 +216,9 @@ declare namespace State {
     blockNumber: string
   }
 
-  export interface StatisticsCellCount {
+  export interface StatisticCellCount {
     liveCellCount: string
-    dead_cell_count: string
+    deadCellCount: string
     blockNumber: string
   }
 
@@ -296,7 +296,7 @@ declare namespace State {
     statisticDifficultyHashRates: StatisticsDifficultyHashRate[]
     statisticDifficultyUncleRates: StatisticsDifficultyUncleRate[]
     statisticTransactionCounts: StatisticTransactionCount[]
-    statisticCellCounts: StatisticsCellCount[]
+    statisticCellCounts: StatisticCellCount[]
     statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
     statisticAddressCounts: StatisticAddressCount[]
     nervosDaoState: NervosDaoState

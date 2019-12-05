@@ -7,18 +7,17 @@ import 'echarts/lib/component/legend'
 import 'echarts/lib/component/title'
 import BigNumber from 'bignumber.js'
 import Content from '../../components/Content'
-import { getStatisticDifficultyHashRate } from '../../service/app/statisticsChart'
+import { getStatisticCellCount } from '../../service/app/statisticsChart'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
-import { handleDifficulty, handleHashRate } from '../../utils/number'
 import { ChartTitle, ChartPanel, LoadingPanel } from './styled'
 
 const colors = ['#3182bd', '#66CC99']
 
-const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
+const getOption = (statisticCellCounts: State.StatisticCellCount[]) => {
   return {
     color: colors,
     tooltip: {
@@ -28,17 +27,19 @@ const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) => `<span style="width:100px;display:inline-block;">${value}:</span>`
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.block_number'))} ${dataList[0].name}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
+        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
           dataList[0].data,
+          2,
         )}</div>`
-        result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
+        result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('statistic.dead_cell'))} ${handleAxis(
           dataList[1].data,
+          2,
         )}</div>`
         return result
       },
     },
     legend: {
-      data: [i18n.t('block.difficulty'), i18n.t('block.hash_rate_hps')],
+      data: [i18n.t('statistic.live_cell'), i18n.t('statistic.dead_cell')],
     },
     grid: {
       left: '3%',
@@ -50,7 +51,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
       {
         type: 'category',
         boundaryGap: false,
-        data: statisticChartData.map(data => data.blockNumber),
+        data: statisticCellCounts.map(data => data.blockNumber),
         axisLabel: {
           formatter: (value: string) => handleAxis(new BigNumber(value)),
         },
@@ -58,10 +59,8 @@ const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
     ],
     yAxis: [
       {
-        position: 'left',
-        name: i18n.t('block.difficulty'),
         type: 'value',
-        scale: true,
+        scale: false,
         axisLine: {
           lineStyle: {
             color: colors[0],
@@ -71,55 +70,49 @@ const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
           formatter: (value: string) => handleAxis(new BigNumber(value)),
         },
       },
-      {
-        position: 'right',
-        name: i18n.t('block.hash_rate_hps'),
-        type: 'value',
-        scale: true,
-        axisLine: {
-          lineStyle: {
-            color: colors[1],
-          },
-        },
-        axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
-        },
-      },
     ],
     series: [
       {
-        name: i18n.t('block.difficulty'),
+        name: i18n.t('statistic.live_cell'),
         type: 'line',
-        yAxisIndex: '0',
+        areaStyle: {
+          normal: {
+            origin: 'auto',
+          },
+        },
         symbol: 'none',
-        data: statisticChartData.map(data => new BigNumber(data.difficulty).toNumber()),
+        data: statisticCellCounts.map(data => new BigNumber(data.liveCellCount).toNumber()),
       },
       {
-        name: i18n.t('block.hash_rate_hps'),
+        name: i18n.t('statistic.dead_cell'),
         type: 'line',
-        yAxisIndex: '1',
+        areaStyle: {
+          normal: {
+            origin: 'auto',
+          },
+        },
         symbol: 'none',
-        data: statisticChartData.map(data => new BigNumber(data.hashRate).toNumber()),
+        data: statisticCellCounts.map(data => new BigNumber(data.deadCellCount).toNumber()),
       },
     ],
   }
 }
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
-  const { statisticDifficultyHashRates } = useContext(AppContext)
+  const { statisticCellCounts } = useContext(AppContext)
 
   useEffect(() => {
-    getStatisticDifficultyHashRate(dispatch)
+    getStatisticCellCount(dispatch)
   }, [dispatch])
 
   return (
     <Content>
-      <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}</ChartTitle>
-      {statisticDifficultyHashRates.length > 0 ? (
+      <ChartTitle>{`${i18n.t('statistic.live_cell')} & ${i18n.t('statistic.dead_cell')}`}</ChartTitle>
+      {statisticCellCounts.length > 0 ? (
         <ChartPanel>
           <ReactEchartsCore
             echarts={echarts}
-            option={getOption(statisticDifficultyHashRates)}
+            option={getOption(statisticCellCounts)}
             notMerge
             lazyUpdate
             style={{

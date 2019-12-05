@@ -6,6 +6,7 @@ import {
   fetchStatisticTransactionCount,
   fetchStatisticAddressCount,
   fetchStatisticTotalDaoDeposit,
+  fetchStatisticCellCount,
 } from '../http/fetcher'
 import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
 
@@ -224,6 +225,29 @@ export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
       })
     },
   )
+}
+
+export const getStatisticCellCount = (dispatch: AppDispatch) => {
+  fetchStatisticCellCount().then((response: Response.Response<Response.Wrapper<State.StatisticCellCount>[]> | null) => {
+    if (!response) return
+    const { data } = response
+    const cellCounts = data
+      .map(wrapper => {
+        return {
+          liveCellCount: wrapper.attributes.liveCellCount,
+          deadCellCount: wrapper.attributes.deadCellCount,
+          blockNumber: wrapper.attributes.blockNumber,
+        }
+      })
+      .reverse()
+    if (cellCounts.length === 0) return
+    dispatch({
+      type: PageActions.UpdateStatisticCellCount,
+      payload: {
+        statisticCellCounts: cellCounts,
+      },
+    })
+  })
 }
 
 export default getStatisticsChart
