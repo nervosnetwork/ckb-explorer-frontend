@@ -27,7 +27,10 @@ const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) => `<span style="width:100px;display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.block_number'))} ${dataList[0].name}</div>`
+        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.block_number'))} ${handleAxis(
+          dataList[0].name,
+          1,
+        )}</div>`
         result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
           dataList[0].data,
         )}</div>`
