@@ -5,6 +5,7 @@ import {
   fetchStatisticDifficultyUncleRate,
   fetchStatisticTransactionCount,
   fetchStatisticAddressCount,
+  fetchStatisticTotalDaoDeposit,
 } from '../http/fetcher'
 import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
 
@@ -144,7 +145,7 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
           return {
             epochNumber: wrapper.attributes.epochNumber,
             difficulty: wrapper.attributes.difficulty,
-            uncleRate: new BigNumber(wrapper.attributes.uncleRate).toNumber().toFixed(4),
+            uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
           }
         })
         .reverse()
@@ -197,6 +198,28 @@ export const getStatisticAddressCount = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticAddressCount,
         payload: {
           statisticAddressCounts: addressCounts,
+        },
+      })
+    },
+  )
+}
+
+export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
+  fetchStatisticTotalDaoDeposit().then(
+    (response: Response.Response<Response.Wrapper<State.StatisticTotalDaoDeposit>[]> | null) => {
+      if (!response) return
+      const { data } = response
+      const totalDaoDeposits = data.map(wrapper => {
+        return {
+          totalDaoDeposit: wrapper.attributes.totalDaoDeposit,
+          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+        }
+      })
+      if (totalDaoDeposits.length === 0) return
+      dispatch({
+        type: PageActions.UpdateStatisticTotalDaoDeposit,
+        payload: {
+          statisticTotalDaoDeposits: totalDaoDeposits,
         },
       })
     },

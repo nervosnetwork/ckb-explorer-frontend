@@ -21,6 +21,7 @@ import DifficultyHashRateChart from '../pages/StatisticsChart/DifficultyHashRate
 import DifficultyUncleRateChart from '../pages/StatisticsChart/DifficultyUncleRate'
 import TransactionCountChart from '../pages/StatisticsChart/TransactionCount'
 import AddressCountChart from '../pages/StatisticsChart/AddressCount'
+import TotalDaoDepositChart from '../pages/StatisticsChart/TotalDaoDeposit'
 import { AppDispatch } from '../contexts/providers/reducer'
 
 const hasSearch = (pathname: string) => {
@@ -89,10 +90,16 @@ export const containers: CustomRouter.Route[] = [
     comp: TransactionCountChart,
   },
   {
-    name: 'DifficultyAddressCountChart',
+    name: 'AddressCountChart',
     path: '/charts/address_count',
     exact: true,
     comp: AddressCountChart,
+  },
+  {
+    name: 'TotalDaoDepositChart',
+    path: '/charts/total_dao_deposit',
+    exact: true,
+    comp: TotalDaoDepositChart,
   },
   {
     name: 'SearchFail',

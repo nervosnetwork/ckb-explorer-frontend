@@ -40,6 +40,7 @@
     "statistic": {
       "transaction_count": "Transaction Count",
       "address_count": "Address Count",
+      "total_dao_deposit": "Total Nervos DAO Deposit",
       "date": "Date"
     },
     "home": {
