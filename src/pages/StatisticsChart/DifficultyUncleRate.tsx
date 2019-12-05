@@ -16,6 +16,7 @@ import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
 import { handleDifficulty } from '../../utils/number'
 import { ChartTitle, ChartPanel, LoadingPanel } from './styled'
+import { isMobile } from '../../utils/screen'
 
 const colors = ['#3182bd', '#66CC99']
 
@@ -43,7 +44,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[]) => 
       data: [i18n.t('block.difficulty'), i18n.t('block.uncle_rate')],
     },
     grid: {
-      left: '3%',
+      left: '4%',
       right: '4%',
       bottom: '3%',
       containLabel: true,
@@ -61,7 +62,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[]) => 
     yAxis: [
       {
         position: 'left',
-        name: i18n.t('block.difficulty'),
+        name: isMobile() ? '' : i18n.t('block.difficulty'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -75,7 +76,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[]) => 
       },
       {
         position: 'right',
-        name: i18n.t('block.uncle_rate'),
+        name: isMobile() ? '' : i18n.t('block.uncle_rate'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -93,14 +94,16 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[]) => 
         name: i18n.t('block.difficulty'),
         type: 'line',
         yAxisIndex: '0',
-        symbol: 'none',
+        symbol: 'circle',
+        symbolSize: 3,
         data: statisticChartData.map(data => new BigNumber(data.difficulty).toNumber()),
       },
       {
         name: i18n.t('block.uncle_rate'),
         type: 'line',
         yAxisIndex: '1',
-        symbol: 'none',
+        symbol: 'circle',
+        symbolSize: 3,
         data: statisticChartData.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
         markLine: {
           data: [

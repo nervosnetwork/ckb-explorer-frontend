@@ -35,9 +35,6 @@ const getOption = (statisticAddressCounts: State.StatisticAddressCount[]) => {
         return result
       },
     },
-    legend: {
-      data: [i18n.t('statistic.address_count')],
-    },
     grid: {
       left: '3%',
       right: '4%',
@@ -75,7 +72,8 @@ const getOption = (statisticAddressCounts: State.StatisticAddressCount[]) => {
         name: i18n.t('statistic.address_count'),
         type: 'line',
         yAxisIndex: '0',
-        symbol: 'none',
+        symbol: 'circle',
+        symbolSize: 3,
         data: statisticAddressCounts.map(data => new BigNumber(data.addressesCount).toNumber()),
       },
     ],

@@ -15,6 +15,7 @@ import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
 import { handleDifficulty, handleHashRate } from '../../utils/number'
 import { ChartTitle, ChartPanel, LoadingPanel } from './styled'
+import { isMobile } from '../../utils/screen'
 
 const colors = ['#3182bd', '#66CC99']
 
@@ -44,7 +45,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
       data: [i18n.t('block.difficulty'), i18n.t('block.hash_rate_hps')],
     },
     grid: {
-      left: '3%',
+      left: '4%',
       right: '4%',
       bottom: '3%',
       containLabel: true,
@@ -62,7 +63,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
     yAxis: [
       {
         position: 'left',
-        name: i18n.t('block.difficulty'),
+        name: isMobile() ? '' : i18n.t('block.difficulty'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -76,7 +77,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
       },
       {
         position: 'right',
-        name: i18n.t('block.hash_rate_hps'),
+        name: isMobile() ? '' : i18n.t('block.hash_rate_hps'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -94,14 +95,16 @@ const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
         name: i18n.t('block.difficulty'),
         type: 'line',
         yAxisIndex: '0',
-        symbol: 'none',
+        symbol: 'circle',
+        symbolSize: 3,
         data: statisticChartData.map(data => new BigNumber(data.difficulty).toNumber()),
       },
       {
         name: i18n.t('block.hash_rate_hps'),
         type: 'line',
         yAxisIndex: '1',
-        symbol: 'none',
+        symbol: 'circle',
+        symbolSize: 3,
         data: statisticChartData.map(data => new BigNumber(data.hashRate).toNumber()),
       },
     ],

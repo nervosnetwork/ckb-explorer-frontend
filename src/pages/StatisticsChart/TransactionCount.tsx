@@ -14,6 +14,7 @@ import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
 import { ChartTitle, ChartPanel, LoadingPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
+import { isMobile } from '../../utils/screen'
 
 const colors = ['#3182bd']
 
@@ -35,11 +36,8 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
         return result
       },
     },
-    legend: {
-      data: [i18n.t('statistic.transaction_count')],
-    },
     grid: {
-      left: '3%',
+      left: '4%',
       right: '4%',
       bottom: '3%',
       containLabel: true,
@@ -57,7 +55,7 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
     yAxis: [
       {
         position: 'left',
-        name: i18n.t('statistic.transaction_count'),
+        name: isMobile() ? '' : i18n.t('statistic.transaction_count'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -75,7 +73,8 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
         name: i18n.t('statistic.transaction_count'),
         type: 'line',
         yAxisIndex: '0',
-        symbol: 'none',
+        symbol: 'circle',
+        symbolSize: 3,
         data: statisticTransactionCounts.map(data => new BigNumber(data.transactionsCount).toNumber()),
       },
     ],

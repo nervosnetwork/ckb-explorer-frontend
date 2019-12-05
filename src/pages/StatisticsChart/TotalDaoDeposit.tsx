@@ -14,6 +14,7 @@ import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
 import { ChartTitle, ChartPanel, LoadingPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
+import { isMobile } from '../../utils/screen'
 
 const colors = ['#3182bd']
 
@@ -36,11 +37,8 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]) 
         return result
       },
     },
-    legend: {
-      data: [i18n.t('statistic.total_dao_deposit')],
-    },
     grid: {
-      left: '3%',
+      left: '6%',
       right: '4%',
       bottom: '3%',
       containLabel: true,
@@ -58,7 +56,7 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]) 
     yAxis: [
       {
         position: 'left',
-        name: i18n.t('statistic.total_dao_deposit'),
+        name: isMobile() ? '' : i18n.t('statistic.total_dao_deposit'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -76,7 +74,8 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]) 
         name: i18n.t('statistic.total_dao_deposit'),
         type: 'line',
         yAxisIndex: '0',
-        symbol: 'none',
+        symbol: 'circle',
+        symbolSize: 3,
         data: statisticTotalDaoDeposits.map(data => new BigNumber(data.totalDaoDeposit).toFixed(0)),
       },
     ],
