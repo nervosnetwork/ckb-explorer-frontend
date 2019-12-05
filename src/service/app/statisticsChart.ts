@@ -4,6 +4,7 @@ import {
   fetchStatisticDifficultyHashRate,
   fetchStatisticDifficultyUncleRate,
   fetchStatisticTransactionCount,
+  fetchStatisticAddressCount,
 } from '../http/fetcher'
 import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
 
@@ -111,26 +112,24 @@ export const getStatisticsChart = (dispatch: AppDispatch) => {
 export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
   fetchStatisticDifficultyHashRate().then(
     (response: Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]> | null) => {
-      if (response) {
-        const { data } = response
-        const difficultyHashRates = data
-          .map(wrapper => {
-            return {
-              blockNumber: wrapper.attributes.blockNumber,
-              difficulty: wrapper.attributes.difficulty,
-              hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toNumber(),
-            }
-          })
-          .reverse()
-        if (difficultyHashRates.length > 0) {
-          dispatch({
-            type: PageActions.UpdateStatisticDifficultyHashRate,
-            payload: {
-              statisticDifficultyHashRates: difficultyHashRates,
-            },
-          })
-        }
-      }
+      if (!response) return
+      const { data } = response
+      const difficultyHashRates = data
+        .map(wrapper => {
+          return {
+            blockNumber: wrapper.attributes.blockNumber,
+            difficulty: wrapper.attributes.difficulty,
+            hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toNumber(),
+          }
+        })
+        .reverse()
+      if (difficultyHashRates.length === 0) return
+      dispatch({
+        type: PageActions.UpdateStatisticDifficultyHashRate,
+        payload: {
+          statisticDifficultyHashRates: difficultyHashRates,
+        },
+      })
     },
   )
 }
@@ -138,26 +137,24 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
 export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
   fetchStatisticDifficultyUncleRate().then(
     (response: Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRate>[]> | null) => {
-      if (response) {
-        const { data } = response
-        const difficultyUncleRates = data
-          .map(wrapper => {
-            return {
-              epochNumber: wrapper.attributes.epochNumber,
-              difficulty: wrapper.attributes.difficulty,
-              uncleRate: new BigNumber(wrapper.attributes.uncleRate).toNumber().toFixed(4),
-            }
-          })
-          .reverse()
-        if (difficultyUncleRates.length > 0) {
-          dispatch({
-            type: PageActions.UpdateStatisticDifficultyUncleRate,
-            payload: {
-              statisticDifficultyUncleRates: difficultyUncleRates,
-            },
-          })
-        }
-      }
+      if (!response) return
+      const { data } = response
+      const difficultyUncleRates = data
+        .map(wrapper => {
+          return {
+            epochNumber: wrapper.attributes.epochNumber,
+            difficulty: wrapper.attributes.difficulty,
+            uncleRate: new BigNumber(wrapper.attributes.uncleRate).toNumber().toFixed(4),
+          }
+        })
+        .reverse()
+      if (difficultyUncleRates.length === 0) return
+      dispatch({
+        type: PageActions.UpdateStatisticDifficultyUncleRate,
+        payload: {
+          statisticDifficultyUncleRates: difficultyUncleRates,
+        },
+      })
     },
   )
 }
@@ -165,23 +162,43 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
 export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
   fetchStatisticTransactionCount().then(
     (response: Response.Response<Response.Wrapper<State.StatisticTransactionCount>[]> | null) => {
-      if (response) {
-        const { data } = response
-        const transactionCounts = data.map(wrapper => {
-          return {
-            transactionsCount: wrapper.attributes.transactionsCount,
-            createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-          }
-        })
-        if (transactionCounts.length > 0) {
-          dispatch({
-            type: PageActions.UpdateStatisticTransactionCount,
-            payload: {
-              statisticTransactionCounts: transactionCounts,
-            },
-          })
+      if (!response) return
+      const { data } = response
+      const transactionCounts = data.map(wrapper => {
+        return {
+          transactionsCount: wrapper.attributes.transactionsCount,
+          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
-      }
+      })
+      if (transactionCounts.length === 0) return
+      dispatch({
+        type: PageActions.UpdateStatisticTransactionCount,
+        payload: {
+          statisticTransactionCounts: transactionCounts,
+        },
+      })
+    },
+  )
+}
+
+export const getStatisticAddressCount = (dispatch: AppDispatch) => {
+  fetchStatisticAddressCount().then(
+    (response: Response.Response<Response.Wrapper<State.StatisticAddressCount>[]> | null) => {
+      if (!response) return
+      const { data } = response
+      const addressCounts = data.map(wrapper => {
+        return {
+          addressesCount: wrapper.attributes.addressesCount,
+          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+        }
+      })
+      if (addressCounts.length === 0) return
+      dispatch({
+        type: PageActions.UpdateStatisticAddressCount,
+        payload: {
+          statisticAddressCounts: addressCounts,
+        },
+      })
     },
   )
 }

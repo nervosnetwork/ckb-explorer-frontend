@@ -162,9 +162,9 @@ export const fetchStatisticTransactionCount = () => {
   )
 }
 
-export const fetchStatisticAddressesCount = () => {
+export const fetchStatisticAddressCount = () => {
   return axiosIns(`/daily_statistics/addresses_count`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticAddressesCount>[]>>(res.data),
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticAddressCount>[]>>(res.data),
   )
 }
 

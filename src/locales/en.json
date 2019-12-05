@@ -39,6 +39,7 @@
     },
     "statistic": {
       "transaction_count": "Transaction Count",
+      "address_count": "Address Count",
       "date": "Date"
     },
     "home": {

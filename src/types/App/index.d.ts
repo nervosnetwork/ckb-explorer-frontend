@@ -200,7 +200,7 @@ declare namespace State {
     createdAtUnixtimestamp: string
   }
 
-  export interface StatisticAddressesCount {
+  export interface StatisticAddressCount {
     addressesCount: string
     createdAtUnixtimestamp: string
   }
@@ -298,7 +298,7 @@ declare namespace State {
     statisticTransactionCounts: StatisticTransactionCount[]
     statisticCellCounts: StatisticsCellCount[]
     statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
-    statisticAddressesCounts: StatisticAddressesCount[]
+    statisticAddressCounts: StatisticAddressCount[]
     nervosDaoState: NervosDaoState
 
     components: Components

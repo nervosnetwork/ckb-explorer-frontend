@@ -39,6 +39,7 @@
     },
     "statistic": {
       "transaction_count": "交易数量",
+      "address_count": "地址数量",
       "date": "时间"
     },
     "home": {
