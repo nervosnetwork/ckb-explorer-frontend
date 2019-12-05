@@ -1,5 +1,9 @@
 import BigNumber from 'bignumber.js'
-import { fetchStatisticsChart, fetchStatisticDifficultyHashRate } from '../http/fetcher'
+import {
+  fetchStatisticsChart,
+  fetchStatisticDifficultyHashRate,
+  fetchStatisticDifficultyUncleRate,
+} from '../http/fetcher'
 import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
 
 const findDifficulty = (
@@ -122,6 +126,33 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
             type: PageActions.UpdateStatisticDifficultyHashRate,
             payload: {
               statisticsDifficultyHashRates: difficultyHashRates,
+            },
+          })
+        }
+      }
+    },
+  )
+}
+
+export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
+  fetchStatisticDifficultyUncleRate().then(
+    (response: Response.Response<Response.Wrapper<State.StatisticsDifficultyUncleRate>[]> | null) => {
+      if (response) {
+        const { data } = response
+        const difficultyUncleRates = data
+          .map(wrapper => {
+            return {
+              epochNumber: wrapper.attributes.epochNumber,
+              difficulty: wrapper.attributes.difficulty,
+              uncleRate: new BigNumber(wrapper.attributes.uncleRate).toNumber().toFixed(4),
+            }
+          })
+          .reverse()
+        if (difficultyUncleRates.length > 0) {
+          dispatch({
+            type: PageActions.UpdateStatisticDifficultyUncleRate,
+            payload: {
+              statisticsDifficultyUncleRates: difficultyUncleRates,
             },
           })
         }

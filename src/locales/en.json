@@ -135,6 +135,7 @@
       "hash_rate_hps": "Hash Rate(H/s)",
       "hash_rate": "Hash Rate",
       "uncle_rate": "Uncle Rate",
+      "uncle_rate_target": "Uncle rate target",
       "transactions_root": "Transactions Root",
       "pending": "Pending",
       "calculating": "Pending",
