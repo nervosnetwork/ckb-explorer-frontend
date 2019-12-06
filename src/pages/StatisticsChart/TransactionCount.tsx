@@ -18,10 +18,24 @@ import { isMobile } from '../../utils/screen'
 
 const colors = ['#3182bd']
 
-const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]) => {
+const gridThumbnail = {
+  left: '4%',
+  right: '10%',
+  top: '8%',
+  bottom: '12%',
+  containLabel: true,
+}
+const grid = {
+  left: '4%',
+  right: '4%',
+  bottom: '3%',
+  containLabel: true,
+}
+
+const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[], isThumbnail = false) => {
   return {
     color: colors,
-    tooltip: {
+    tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
         const colorSpan = (color: string) =>
@@ -36,12 +50,7 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
         return result
       },
     },
-    grid: {
-      left: '4%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true,
-    },
+    grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         type: 'category',
@@ -55,7 +64,7 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
     yAxis: [
       {
         position: 'left',
-        name: isMobile() ? '' : i18n.t('statistic.transaction_count'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.transaction_count'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -73,12 +82,32 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
         name: i18n.t('statistic.transaction_count'),
         type: 'line',
         yAxisIndex: '0',
-        symbol: 'circle',
+        symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticTransactionCounts.map(data => new BigNumber(data.transactionsCount).toNumber()),
       },
     ],
   }
+}
+
+export const TransactionCountChart = ({
+  statisticTransactionCounts,
+  isThumbnail = false,
+}: {
+  statisticTransactionCounts: State.StatisticTransactionCount[]
+  isThumbnail?: boolean
+}) => {
+  return (
+    <ReactEchartsCore
+      echarts={echarts}
+      option={getOption(statisticTransactionCounts, isThumbnail)}
+      notMerge
+      lazyUpdate
+      style={{
+        height: isThumbnail ? '30vh' : '70vh',
+      }}
+    />
+  )
 }
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
@@ -93,15 +122,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
       <ChartTitle>{i18n.t('statistic.transaction_count')}</ChartTitle>
       {statisticTransactionCounts.length > 0 ? (
         <ChartPanel>
-          <ReactEchartsCore
-            echarts={echarts}
-            option={getOption(statisticTransactionCounts)}
-            notMerge
-            lazyUpdate
-            style={{
-              height: '70vh',
-            }}
-          />
+          <TransactionCountChart statisticTransactionCounts={statisticTransactionCounts} />
         </ChartPanel>
       ) : (
         <LoadingPanel>

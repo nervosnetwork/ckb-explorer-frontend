@@ -19,10 +19,24 @@ import { isMobile } from '../../utils/screen'
 
 const colors = ['#3182bd', '#66CC99']
 
-const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
+const gridThumbnail = {
+  left: '4%',
+  right: '4%',
+  top: '8%',
+  bottom: '12%',
+  containLabel: true,
+}
+const grid = {
+  left: '3%',
+  right: '4%',
+  bottom: '3%',
+  containLabel: true,
+}
+
+const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRate[], isThumbnail = false) => {
   return {
     color: colors,
-    tooltip: {
+    tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
         const colorSpan = (color: string) =>
@@ -41,20 +55,15 @@ const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
         return result
       },
     },
-    legend: {
+    legend: !isThumbnail && {
       data: [i18n.t('block.difficulty'), i18n.t('block.hash_rate_hps')],
     },
-    grid: {
-      left: '4%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true,
-    },
+    grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         type: 'category',
         boundaryGap: false,
-        data: statisticChartData.map(data => data.blockNumber),
+        data: statisticDifficultyHashRates.map(data => data.blockNumber),
         axisLabel: {
           formatter: (value: string) => handleAxis(new BigNumber(value)),
         },
@@ -63,7 +72,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
     yAxis: [
       {
         position: 'left',
-        name: isMobile() ? '' : i18n.t('block.difficulty'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('block.difficulty'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -77,7 +86,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
       },
       {
         position: 'right',
-        name: isMobile() ? '' : i18n.t('block.hash_rate_hps'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('block.hash_rate_hps'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -95,20 +104,40 @@ const getOption = (statisticChartData: State.StatisticDifficultyHashRate[]) => {
         name: i18n.t('block.difficulty'),
         type: 'line',
         yAxisIndex: '0',
-        symbol: 'circle',
+        symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
-        data: statisticChartData.map(data => new BigNumber(data.difficulty).toNumber()),
+        data: statisticDifficultyHashRates.map(data => new BigNumber(data.difficulty).toNumber()),
       },
       {
         name: i18n.t('block.hash_rate_hps'),
         type: 'line',
         yAxisIndex: '1',
-        symbol: 'circle',
+        symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
-        data: statisticChartData.map(data => new BigNumber(data.hashRate).toNumber()),
+        data: statisticDifficultyHashRates.map(data => new BigNumber(data.hashRate).toNumber()),
       },
     ],
   }
+}
+
+export const DifficultyHashRateChart = ({
+  statisticDifficultyHashRates,
+  isThumbnail = false,
+}: {
+  statisticDifficultyHashRates: State.StatisticDifficultyHashRate[]
+  isThumbnail?: boolean
+}) => {
+  return (
+    <ReactEchartsCore
+      echarts={echarts}
+      option={getOption(statisticDifficultyHashRates, isThumbnail)}
+      notMerge
+      lazyUpdate
+      style={{
+        height: isThumbnail ? '30vh' : '70vh',
+      }}
+    />
+  )
 }
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
@@ -123,15 +152,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
       <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}</ChartTitle>
       {statisticDifficultyHashRates.length > 0 ? (
         <ChartPanel>
-          <ReactEchartsCore
-            echarts={echarts}
-            option={getOption(statisticDifficultyHashRates)}
-            notMerge
-            lazyUpdate
-            style={{
-              height: '70vh',
-            }}
-          />
+          <DifficultyHashRateChart statisticDifficultyHashRates={statisticDifficultyHashRates} />
         </ChartPanel>
       ) : (
         <LoadingPanel>

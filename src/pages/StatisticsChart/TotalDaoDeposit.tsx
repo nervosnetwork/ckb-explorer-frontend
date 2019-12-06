@@ -18,10 +18,24 @@ import { isMobile } from '../../utils/screen'
 
 const colors = ['#3182bd']
 
-const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]) => {
+const gridThumbnail = {
+  left: '4%',
+  right: '10%',
+  top: '8%',
+  bottom: '12%',
+  containLabel: true,
+}
+const grid = {
+  left: '3%',
+  right: '4%',
+  bottom: '3%',
+  containLabel: true,
+}
+
+const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], isThumbnail = false) => {
   return {
     color: colors,
-    tooltip: {
+    tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
         const colorSpan = (color: string) =>
@@ -37,12 +51,7 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]) 
         return result
       },
     },
-    grid: {
-      left: '6%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true,
-    },
+    grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         type: 'category',
@@ -56,7 +65,7 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]) 
     yAxis: [
       {
         position: 'left',
-        name: isMobile() ? '' : i18n.t('statistic.total_dao_deposit'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.total_dao_deposit'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -74,12 +83,32 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]) 
         name: i18n.t('statistic.total_dao_deposit'),
         type: 'line',
         yAxisIndex: '0',
-        symbol: 'circle',
+        symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticTotalDaoDeposits.map(data => new BigNumber(data.totalDaoDeposit).toFixed(0)),
       },
     ],
   }
+}
+
+export const TotalDaoDepositChart = ({
+  statisticTotalDaoDeposits,
+  isThumbnail = false,
+}: {
+  statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]
+  isThumbnail?: boolean
+}) => {
+  return statisticTotalDaoDeposits.length > 0 ? (
+    <ReactEchartsCore
+      echarts={echarts}
+      option={getOption(statisticTotalDaoDeposits, isThumbnail)}
+      notMerge
+      lazyUpdate
+      style={{
+        height: isThumbnail ? '30vh' : '70vh',
+      }}
+    />
+  ) : null
 }
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
@@ -94,15 +123,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
       <ChartTitle>{i18n.t('statistic.total_dao_deposit')}</ChartTitle>
       {statisticTotalDaoDeposits.length > 0 ? (
         <ChartPanel>
-          <ReactEchartsCore
-            echarts={echarts}
-            option={getOption(statisticTotalDaoDeposits)}
-            notMerge
-            lazyUpdate
-            style={{
-              height: '70vh',
-            }}
-          />
+          <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} />
         </ChartPanel>
       ) : (
         <LoadingPanel>

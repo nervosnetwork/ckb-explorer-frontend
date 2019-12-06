@@ -43,3 +43,34 @@ export const LoadingPanel = styled.div`
     }
   }
 `
+export const ChartsPanel = styled.div`
+  margin: 40px 10%;
+  padding: 20px 0;
+  background: white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  @media (max-width: 700px) {
+    margin: 20px 4%;
+    padding: 10px 0;
+  }
+`
+
+export const ChartCardPanel = styled.div`
+  width: 330px;
+  height: 250px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  margin: 10px 0;
+
+  .chart__card_title {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 20px;
+    background: rgb(151, 151, 151, 0.4);
+    color: ${props => props.theme.primary};
+    font-size: 14px;
+  }
+`

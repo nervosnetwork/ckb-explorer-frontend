@@ -17,10 +17,24 @@ import { ChartTitle, ChartPanel, LoadingPanel } from './styled'
 
 const colors = ['#3182bd', '#66CC99']
 
-const getOption = (statisticCellCounts: State.StatisticCellCount[]) => {
+const gridThumbnail = {
+  left: '4%',
+  right: '4%',
+  top: '8%',
+  bottom: '12%',
+  containLabel: true,
+}
+const grid = {
+  left: '3%',
+  right: '4%',
+  bottom: '3%',
+  containLabel: true,
+}
+
+const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail = false) => {
   return {
     color: colors,
-    tooltip: {
+    tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
         const colorSpan = (color: string) =>
@@ -41,15 +55,10 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[]) => {
         return result
       },
     },
-    legend: {
+    legend: !isThumbnail && {
       data: [i18n.t('statistic.live_cell'), i18n.t('statistic.dead_cell')],
     },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true,
-    },
+    grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         type: 'category',
@@ -83,7 +92,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[]) => {
             origin: 'auto',
           },
         },
-        symbol: 'circle',
+        symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticCellCounts.map(data => new BigNumber(data.liveCellCount).toNumber()),
       },
@@ -103,6 +112,26 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[]) => {
   }
 }
 
+export const CellCountChart = ({
+  statisticCellCounts,
+  isThumbnail = false,
+}: {
+  statisticCellCounts: State.StatisticCellCount[]
+  isThumbnail?: boolean
+}) => {
+  return (
+    <ReactEchartsCore
+      echarts={echarts}
+      option={getOption(statisticCellCounts, isThumbnail)}
+      notMerge
+      lazyUpdate
+      style={{
+        height: isThumbnail ? '30vh' : '70vh',
+      }}
+    />
+  )
+}
+
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
   const { statisticCellCounts } = useContext(AppContext)
 
@@ -115,15 +144,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
       <ChartTitle>{`${i18n.t('statistic.live_cell')} & ${i18n.t('statistic.dead_cell')}`}</ChartTitle>
       {statisticCellCounts.length > 0 ? (
         <ChartPanel>
-          <ReactEchartsCore
-            echarts={echarts}
-            option={getOption(statisticCellCounts)}
-            notMerge
-            lazyUpdate
-            style={{
-              height: '70vh',
-            }}
-          />
+          <CellCountChart statisticCellCounts={statisticCellCounts} />
         </ChartPanel>
       ) : (
         <LoadingPanel>

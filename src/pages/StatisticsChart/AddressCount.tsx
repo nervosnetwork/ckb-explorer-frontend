@@ -14,13 +14,28 @@ import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
 import { ChartTitle, ChartPanel, LoadingPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
+import { isMobile } from '../../utils/screen'
 
 const colors = ['#3182bd']
 
-const getOption = (statisticAddressCounts: State.StatisticAddressCount[]) => {
+const gridThumbnail = {
+  left: '4%',
+  right: '10%',
+  top: '8%',
+  bottom: '12%',
+  containLabel: true,
+}
+const grid = {
+  left: '3%',
+  right: '4%',
+  bottom: '3%',
+  containLabel: true,
+}
+
+const getOption = (statisticAddressCounts: State.StatisticAddressCount[], isThumbnail = false) => {
   return {
     color: colors,
-    tooltip: {
+    tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
         const colorSpan = (color: string) =>
@@ -35,12 +50,7 @@ const getOption = (statisticAddressCounts: State.StatisticAddressCount[]) => {
         return result
       },
     },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true,
-    },
+    grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         type: 'category',
@@ -54,7 +64,7 @@ const getOption = (statisticAddressCounts: State.StatisticAddressCount[]) => {
     yAxis: [
       {
         position: 'left',
-        name: i18n.t('statistic.address_count'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.address_count'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -72,12 +82,32 @@ const getOption = (statisticAddressCounts: State.StatisticAddressCount[]) => {
         name: i18n.t('statistic.address_count'),
         type: 'line',
         yAxisIndex: '0',
-        symbol: 'circle',
+        symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticAddressCounts.map(data => new BigNumber(data.addressesCount).toNumber()),
       },
     ],
   }
+}
+
+export const AddressCountChart = ({
+  statisticAddressCounts,
+  isThumbnail = false,
+}: {
+  statisticAddressCounts: State.StatisticAddressCount[]
+  isThumbnail?: boolean
+}) => {
+  return (
+    <ReactEchartsCore
+      echarts={echarts}
+      option={getOption(statisticAddressCounts, isThumbnail)}
+      notMerge
+      lazyUpdate
+      style={{
+        height: isThumbnail ? '30vh' : '70vh',
+      }}
+    />
+  )
 }
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
@@ -92,15 +122,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
       <ChartTitle>{i18n.t('statistic.address_count')}</ChartTitle>
       {statisticAddressCounts.length > 0 ? (
         <ChartPanel>
-          <ReactEchartsCore
-            echarts={echarts}
-            option={getOption(statisticAddressCounts)}
-            notMerge
-            lazyUpdate
-            style={{
-              height: '70vh',
-            }}
-          />
+          <AddressCountChart statisticAddressCounts={statisticAddressCounts} />
         </ChartPanel>
       ) : (
         <LoadingPanel>
