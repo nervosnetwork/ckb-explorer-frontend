@@ -15,8 +15,9 @@ import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
 import { handleDifficulty } from '../../utils/number'
-import { ChartTitle, ChartPanel, LoadingPanel } from './styled'
+import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
 import { isMobile } from '../../utils/screen'
+import SmallLoading from '../../components/Loading/SmallLoading'
 
 const colors = ['#3182bd', '#66CC99']
 
@@ -134,6 +135,13 @@ export const DifficultyUncleRateChart = ({
   statisticDifficultyUncleRates: State.StatisticDifficultyUncleRate[]
   isThumbnail?: boolean
 }) => {
+  if (statisticDifficultyUncleRates.length === 0) {
+    return isThumbnail ? (
+      <ChartCardLoadingPanel>
+        <SmallLoading />
+      </ChartCardLoadingPanel>
+    ) : null
+  }
   return (
     <ReactEchartsCore
       echarts={echarts}

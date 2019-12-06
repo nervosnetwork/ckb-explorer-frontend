@@ -11,8 +11,9 @@ import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
+import SmallLoading from '../../components/Loading/SmallLoading'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel, LoadingPanel } from './styled'
+import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 
@@ -98,7 +99,14 @@ export const TotalDaoDepositChart = ({
   statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]
   isThumbnail?: boolean
 }) => {
-  return statisticTotalDaoDeposits.length > 0 ? (
+  if (statisticTotalDaoDeposits.length === 0) {
+    return isThumbnail ? (
+      <ChartCardLoadingPanel>
+        <SmallLoading />
+      </ChartCardLoadingPanel>
+    ) : null
+  }
+  return (
     <ReactEchartsCore
       echarts={echarts}
       option={getOption(statisticTotalDaoDeposits, isThumbnail)}
@@ -108,7 +116,7 @@ export const TotalDaoDepositChart = ({
         height: isThumbnail ? '30vh' : '70vh',
       }}
     />
-  ) : null
+  )
 }
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {

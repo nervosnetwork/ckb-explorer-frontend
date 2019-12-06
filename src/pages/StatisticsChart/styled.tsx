@@ -74,3 +74,14 @@ export const ChartCardPanel = styled.div`
     font-size: 14px;
   }
 `
+
+export const ChartCardLoadingPanel = styled.div`
+  width: 330px;
+  height: 250px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`

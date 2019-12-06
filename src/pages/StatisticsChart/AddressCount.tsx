@@ -12,9 +12,10 @@ import { AppContext } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel, LoadingPanel } from './styled'
+import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
+import SmallLoading from '../../components/Loading/SmallLoading'
 
 const colors = ['#3182bd']
 
@@ -97,6 +98,13 @@ export const AddressCountChart = ({
   statisticAddressCounts: State.StatisticAddressCount[]
   isThumbnail?: boolean
 }) => {
+  if (statisticAddressCounts.length === 0) {
+    return isThumbnail ? (
+      <ChartCardLoadingPanel>
+        <SmallLoading />
+      </ChartCardLoadingPanel>
+    ) : null
+  }
   return (
     <ReactEchartsCore
       echarts={echarts}
