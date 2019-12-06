@@ -15,7 +15,6 @@
     "antd": "^3.25.1",
     "axios": "^0.18.1",
     "bignumber.js": "^9.0.0",
-    "bizcharts": "^3.5.4",
     "camelcase-keys": "^6.0.1",
     "echarts": "^4.5.0",
     "echarts-for-react": "^2.0.15-beta.1",
