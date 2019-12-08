@@ -89,6 +89,9 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
         position: 'right',
         name: isMobile() || isThumbnail ? '' : i18n.t('block.hash_rate_hps'),
         type: 'value',
+        splitLine: {
+          show: !isThumbnail,
+        },
         scale: true,
         axisLine: {
           lineStyle: {
@@ -142,7 +145,7 @@ export const DifficultyHashRateChart = ({
       notMerge
       lazyUpdate
       style={{
-        height: isThumbnail ? '30vh' : '70vh',
+        height: isThumbnail ? '230px' : '70vh',
       }}
     />
   )

@@ -88,6 +88,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       {
         name: i18n.t('statistic.live_cell'),
         type: 'line',
+        stack: '总量',
         areaStyle: {
           normal: {
             origin: 'auto',
@@ -100,6 +101,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       {
         name: i18n.t('statistic.dead_cell'),
         type: 'line',
+        stack: '总量',
         areaStyle: {
           normal: {
             origin: 'auto',
@@ -134,7 +136,7 @@ export const CellCountChart = ({
       notMerge
       lazyUpdate
       style={{
-        height: isThumbnail ? '30vh' : '70vh',
+        height: isThumbnail ? '230px' : '70vh',
       }}
     />
   )
@@ -149,7 +151,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
 
   return (
     <Content>
-      <ChartTitle>{`${i18n.t('statistic.live_cell')} & ${i18n.t('statistic.dead_cell')}`}</ChartTitle>
+      <ChartTitle>{i18n.t('statistic.cell_count')}</ChartTitle>
       {statisticCellCounts.length > 0 ? (
         <ChartPanel>
           <CellCountChart statisticCellCounts={statisticCellCounts} />

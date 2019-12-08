@@ -43,6 +43,7 @@
       "total_dao_deposit": "Nervos DAO 锁定总额",
       "live_cell": "未花费 Cell",
       "dead_cell": "已花费 Cell",
+      "cell_count": "Cell 数量",
       "date": "时间"
     },
     "home": {

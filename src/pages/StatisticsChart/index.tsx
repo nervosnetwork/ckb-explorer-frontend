@@ -69,7 +69,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
       path: '/charts/address_count',
     },
     {
-      title: `${i18n.t('statistic.live_cell')} & ${i18n.t('statistic.dead_cell')}`,
+      title: i18n.t('statistic.cell_count'),
       chart: <CellCountChart statisticCellCounts={statisticCellCounts} isThumbnail />,
       path: '/charts/cell_count',
     },

@@ -112,7 +112,7 @@ export const AddressCountChart = ({
       notMerge
       lazyUpdate
       style={{
-        height: isThumbnail ? '30vh' : '70vh',
+        height: isThumbnail ? '230px' : '70vh',
       }}
     />
   )
