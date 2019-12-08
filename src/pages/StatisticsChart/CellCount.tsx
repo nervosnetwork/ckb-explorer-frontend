@@ -88,7 +88,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       {
         name: i18n.t('statistic.live_cell'),
         type: 'line',
-        stack: '总量',
+        stack: i18n.t('statistic.cell_count'),
         areaStyle: {
           normal: {
             origin: 'auto',
@@ -101,7 +101,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       {
         name: i18n.t('statistic.dead_cell'),
         type: 'line',
-        stack: '总量',
+        stack: i18n.t('statistic.cell_count'),
         areaStyle: {
           normal: {
             origin: 'auto',
