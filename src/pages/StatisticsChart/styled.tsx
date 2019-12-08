@@ -64,6 +64,7 @@ export const ChartCardPanel = styled.div`
   border-radius: 6px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   margin: 10px 0;
+  cursor: pointer;
 
   .chart__card_title {
     height: 40px;
