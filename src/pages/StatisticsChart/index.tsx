@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import 'default-passive-events'
 import Content from '../../components/Content'
 import {
   getStatisticDifficultyHashRate,
@@ -8,6 +9,7 @@ import {
   getStatisticCellCount,
   getStatisticTransactionCount,
   getStatisticTotalDaoDeposit,
+  getStatisticAddressBalanceRank,
 } from '../../service/app/statisticsChart'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
@@ -94,6 +96,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
     getStatisticCellCount(dispatch)
     getStatisticTransactionCount(dispatch)
     getStatisticTotalDaoDeposit(dispatch)
+    getStatisticAddressBalanceRank(dispatch)
   }, [dispatch])
 
   return (

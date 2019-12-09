@@ -1,9 +1,10 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useCallback } from 'react'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
+import 'default-passive-events'
 import Content from '../../components/Content'
 import { getStatisticAddressBalanceRank } from '../../service/app/statisticsChart'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
@@ -91,7 +92,7 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
         name: i18n.t('statistic.balance_ranking'),
         type: 'bar',
         yAxisIndex: '0',
-        barWidth: '12',
+        barWidth: '8',
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticAddressBalanceRanks.map(data => shannonToCkb(data.balance)),
@@ -107,13 +108,14 @@ export const AddressBalanceRankChart = ({
   statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[]
   isThumbnail?: boolean
 }) => {
-  const onEvents = {
-    click: (param: any) => {
+  const clickEvent = useCallback(
+    (param: any) => {
       if (param && param.name) {
         browserHistory.push(`/address/${getAddressWithRanking(statisticAddressBalanceRanks, param.name)}`)
       }
     },
-  }
+    [statisticAddressBalanceRanks],
+  )
 
   if (statisticAddressBalanceRanks.length === 0) {
     return isThumbnail ? (
@@ -131,7 +133,9 @@ export const AddressBalanceRankChart = ({
       style={{
         height: isThumbnail ? '230px' : '70vh',
       }}
-      onEvents={onEvents}
+      onEvents={{
+        click: clickEvent,
+      }}
     />
   )
 }
