@@ -116,15 +116,13 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
     (response: Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]> | null) => {
       if (!response) return
       const { data } = response
-      const difficultyHashRates = data
-        .map(wrapper => {
-          return {
-            blockNumber: wrapper.attributes.blockNumber,
-            difficulty: wrapper.attributes.difficulty,
-            hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toNumber(),
-          }
-        })
-        .reverse()
+      const difficultyHashRates = data.map(wrapper => {
+        return {
+          blockNumber: wrapper.attributes.blockNumber,
+          difficulty: wrapper.attributes.difficulty,
+          hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toNumber(),
+        }
+      })
       if (difficultyHashRates.length === 0) return
       dispatch({
         type: PageActions.UpdateStatisticDifficultyHashRate,
@@ -141,15 +139,13 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
     (response: Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRate>[]> | null) => {
       if (!response) return
       const { data } = response
-      const difficultyUncleRates = data
-        .map(wrapper => {
-          return {
-            epochNumber: wrapper.attributes.epochNumber,
-            difficulty: wrapper.attributes.difficulty,
-            uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
-          }
-        })
-        .reverse()
+      const difficultyUncleRates = data.map(wrapper => {
+        return {
+          epochNumber: wrapper.attributes.epochNumber,
+          difficulty: wrapper.attributes.difficulty,
+          uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
+        }
+      })
       if (difficultyUncleRates.length === 0) return
       dispatch({
         type: PageActions.UpdateStatisticDifficultyUncleRate,
@@ -231,15 +227,13 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
   fetchStatisticCellCount().then((response: Response.Response<Response.Wrapper<State.StatisticCellCount>[]> | null) => {
     if (!response) return
     const { data } = response
-    const cellCounts = data
-      .map(wrapper => {
-        return {
-          liveCellCount: wrapper.attributes.liveCellCount,
-          deadCellCount: wrapper.attributes.deadCellCount,
-          blockNumber: wrapper.attributes.blockNumber,
-        }
-      })
-      .reverse()
+    const cellCounts = data.map(wrapper => {
+      return {
+        liveCellCount: wrapper.attributes.liveCellCount,
+        deadCellCount: wrapper.attributes.deadCellCount,
+        blockNumber: wrapper.attributes.blockNumber,
+      }
+    })
     if (cellCounts.length === 0) return
     dispatch({
       type: PageActions.UpdateStatisticCellCount,
