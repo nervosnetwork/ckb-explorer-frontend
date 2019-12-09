@@ -44,7 +44,7 @@ export const LoadingPanel = styled.div`
   }
 `
 export const ChartsPanel = styled.div`
-  margin: 40px 10%;
+  margin: 40px 6%;
   padding: 0 0 20px 0;
   background: white;
   display: flex;
