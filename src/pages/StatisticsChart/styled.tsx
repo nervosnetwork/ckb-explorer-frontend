@@ -45,11 +45,11 @@ export const LoadingPanel = styled.div`
 `
 export const ChartsPanel = styled.div`
   margin: 40px 6%;
-  padding: 0 0 20px 0;
+  padding: 0 20px 20px 20px;
   background: white;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
 
   @media (max-width: 700px) {
     margin: 20px 4%;
