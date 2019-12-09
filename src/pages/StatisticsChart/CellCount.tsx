@@ -22,7 +22,7 @@ const gridThumbnail = {
   left: '4%',
   right: '4%',
   top: '8%',
-  bottom: '12%',
+  bottom: '6%',
   containLabel: true,
 }
 const grid = {
@@ -96,7 +96,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
         },
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
-        data: statisticCellCounts.map(data => new BigNumber(data.liveCellCount).toNumber()),
+        data: statisticCellCounts.map(data => new BigNumber(data.liveCellsCount).toNumber()),
       },
       {
         name: i18n.t('statistic.dead_cell'),
@@ -109,7 +109,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
         },
         symbol: 'circle',
         symbolSize: 3,
-        data: statisticCellCounts.map(data => new BigNumber(data.deadCellCount).toNumber()),
+        data: statisticCellCounts.map(data => new BigNumber(data.deadCellsCount).toNumber()),
       },
     ],
   }

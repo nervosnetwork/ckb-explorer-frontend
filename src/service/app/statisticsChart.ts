@@ -229,8 +229,8 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
     const { data } = response
     const cellCounts = data.map(wrapper => {
       return {
-        liveCellCount: wrapper.attributes.liveCellCount,
-        deadCellCount: wrapper.attributes.deadCellCount,
+        liveCellsCount: wrapper.attributes.liveCellsCount,
+        deadCellsCount: wrapper.attributes.deadCellsCount,
         blockNumber: wrapper.attributes.blockNumber,
       }
     })

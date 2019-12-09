@@ -45,7 +45,7 @@ export const LoadingPanel = styled.div`
 `
 export const ChartsPanel = styled.div`
   margin: 40px 10%;
-  padding: 20px 0;
+  padding: 0 0 20px 0;
   background: white;
   display: flex;
   flex-wrap: wrap;
@@ -61,27 +61,31 @@ export const ChartCardPanel = styled.div`
   width: 330px;
   height: 250px;
   background: white;
-  border-radius: 6px;
-  box-shadow: 2px 2px 6px 0 #dfdfdf;
-  margin: 10px 0;
+  margin: 25px 10px;
   cursor: pointer;
 
   .chart__card_title {
     height: 40px;
     line-height: 40px;
     padding-left: 20px;
-    background: rgb(151, 151, 151, 0.4);
+    background: #fbfbfb;
+    border-radius: 6px 6px 0 0;
+    border: 1px solid #e2e2e2;
+    border-width: 1px 1px 0 1px;
     color: ${props => props.theme.primary};
     font-size: 14px;
+  }
+
+  .chart__card_body {
+    border-radius: 0 0 6px 6px;
+    box-shadow: 2px 2px 10px 0 rgb(43, 43, 43, 0.05);
+    border: 1px solid #e2e2e2;
   }
 `
 
 export const ChartCardLoadingPanel = styled.div`
   width: 330px;
-  height: 250px;
-  background: white;
-  border-radius: 6px;
-  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  height: 230px;
   display: flex;
   justify-content: center;
   align-items: center;

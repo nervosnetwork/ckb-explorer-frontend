@@ -217,8 +217,8 @@ declare namespace State {
   }
 
   export interface StatisticCellCount {
-    liveCellCount: string
-    deadCellCount: string
+    liveCellsCount: string
+    deadCellsCount: string
     blockNumber: string
   }
 

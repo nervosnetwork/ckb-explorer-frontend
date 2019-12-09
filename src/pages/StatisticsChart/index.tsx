@@ -31,7 +31,7 @@ const ChartCard = ({ chartData }: { chartData: ChartData }) => {
     <ChartCardPanel>
       <Link to={chartData.path}>
         <div className="chart__card_title">{chartData.title}</div>
-        <div>{chartData.chart}</div>
+        <div className="chart__card_body">{chartData.chart}</div>
       </Link>
     </ChartCardPanel>
   )
