@@ -44,6 +44,10 @@
       "live_cell": "Live Cell",
       "dead_cell": "Dead Cell",
       "cell_count": "Cell Count",
+      "balance_ranking": "Balance Ranking",
+      "ranking": "Ranking",
+      "balance": "Balance",
+      "address": "Address",
       "date": "Date"
     },
     "home": {

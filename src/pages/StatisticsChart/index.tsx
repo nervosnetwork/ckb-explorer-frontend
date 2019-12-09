@@ -19,6 +19,7 @@ import { AddressCountChart } from './AddressCount'
 import { CellCountChart } from './CellCount'
 import { TotalDaoDepositChart } from './TotalDaoDeposit'
 import { ChartsPanel, ChartCardPanel } from './styled'
+import { AddressBalanceRankChart } from './AddressBalanceRank'
 
 interface ChartData {
   title: string
@@ -45,6 +46,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
     statisticTotalDaoDeposits,
     statisticCellCounts,
     statisticTransactionCounts,
+    statisticAddressBalanceRanks,
   } = useContext(AppContext)
 
   const charts: ChartData[] = [
@@ -77,6 +79,11 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
       title: `${i18n.t('statistic.total_dao_deposit')}`,
       chart: <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} isThumbnail />,
       path: '/charts/total_dao_deposit',
+    },
+    {
+      title: `${i18n.t('statistic.balance_ranking')}`,
+      chart: <AddressBalanceRankChart statisticAddressBalanceRanks={statisticAddressBalanceRanks} isThumbnail />,
+      path: '/charts/address_balance_rank',
     },
   ]
 

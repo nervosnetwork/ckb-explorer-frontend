@@ -228,6 +228,16 @@ declare namespace State {
     epochNumber: string
   }
 
+  export interface StatisticAddressBalanceRank {
+    ranking: string
+    address: string
+    balance: string
+  }
+
+  export interface StatisticAddressBalanceRanking {
+    addressBalanceRanking: StatisticAddressBalanceRank[]
+  }
+
   export interface Components {
     // mobile header search state
     searchBarEditable: boolean
@@ -299,6 +309,8 @@ declare namespace State {
     statisticCellCounts: StatisticCellCount[]
     statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
     statisticAddressCounts: StatisticAddressCount[]
+    statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
+
     nervosDaoState: NervosDaoState
 
     components: Components
