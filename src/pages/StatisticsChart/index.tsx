@@ -93,7 +93,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
     <Content>
       <ChartsPanel>
         {charts.map(chart => (
-          <ChartCard chartData={chart} />
+          <ChartCard chartData={chart} key={chart.title} />
         ))}
       </ChartsPanel>
     </Content>

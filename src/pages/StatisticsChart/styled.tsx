@@ -64,6 +64,12 @@ export const ChartCardPanel = styled.div`
   margin: 25px 10px;
   cursor: pointer;
 
+  .echarts-for-react {
+    canvas {
+      cursor: pointer;
+    }
+  }
+
   .chart__card_title {
     height: 40px;
     line-height: 40px;
