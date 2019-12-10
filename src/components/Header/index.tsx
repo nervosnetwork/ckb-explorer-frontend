@@ -57,8 +57,8 @@ const Menus = () => {
       {MenuDataList.map(menu => {
         return menu.type === LinkType.Inner ? (
           <Link className="header__menus__item" to={menu.url} key={menu.name}>
-            <span>{menu.name}</span>
             <img alt="menu icon" src={menu.icon} />
+            <span>{menu.name}</span>
           </Link>
         ) : (
           <a className="header__menus__item" href={menu.url} target="_blank" rel="noopener noreferrer" key={menu.name}>
@@ -99,7 +99,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
       if (chainDropdownComp) {
         const chainDropdownReact = chainDropdownComp.getBoundingClientRect()
         if (chainDropdownReact) {
-          setChainDropdownLeft(chainDropdownReact.left - 10)
+          setChainDropdownLeft(chainDropdownReact.left - 4)
           setChainDropdownTop(chainDropdownReact.bottom)
         }
       }

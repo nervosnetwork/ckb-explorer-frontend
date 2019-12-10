@@ -3,9 +3,9 @@ import styled, { css } from 'styled-components'
 export const SearchPanel = styled.div`
   margin: 0 auto;
   width: 100%;
-  height: 50px;
+  height: ${(props: { hasBorder: boolean }) => (props.hasBorder ? '42px' : '30px')};
   @media (max-width: 700px) {
-    height: 42px;
+    height: 25px;
   }
   text-align: center;
   display: flex;
@@ -23,7 +23,7 @@ export const SearchPanel = styled.div`
 
 export const SearchImage = styled.div`
   display: inline-block;
-  margin-left: ${(props: { highlightIcon: boolean }) => (props.highlightIcon ? '-45px' : '0')};
+  margin-left: ${(props: { highlightIcon: boolean }) => (props.highlightIcon ? '-35px' : '0')};
   z-index: 2;
 
   @media (max-width: 700px) {
@@ -31,12 +31,13 @@ export const SearchImage = styled.div`
   }
 
   img {
-    width: 32px;
-    height: 32px;
+    width: 16px;
+    height: 16px;
+    margin-bottom: 3px;
 
     @media (max-width: 700px) {
-      width: 18px;
-      height: 18px;
+      width: 12px;
+      height: 12px;
     }
   }
 `
@@ -45,12 +46,13 @@ export const SearchInputPanel = styled.input`
   position: relative;
   width: 100%;
   height: 100%;
-  font-size: 16px;
-  padding-left: 20px;
+  font-size: 13px;
+  padding-left: 35px;
   padding-right: 40px;
+  margin-left: -30px;
   background: rgba(255, 255, 255, 0);
-  border: 0 solid #606060;
-  border-radius: 0;
+  border: 2px solid #606060;
+  border-radius: 24px;
   color: #bababa;
 
   &: focus {
@@ -65,6 +67,8 @@ export const SearchInputPanel = styled.input`
       border: 2px solid #606060;
       color: #666666;
       border-radius: 6px;
+      margin-left: 0;
+      padding-left: 10px;
 
       &: focus {
         color: #666666;

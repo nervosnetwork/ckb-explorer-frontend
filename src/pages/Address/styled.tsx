@@ -4,7 +4,7 @@ export const AddressContentPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 25px;
   margin-bottom: 40px;
   width: 100%;
 

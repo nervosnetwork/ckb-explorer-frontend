@@ -5,7 +5,7 @@ import CONFIG from '../../config'
 import { isMainnet } from '../../utils/chain'
 
 export const ChainTypePanel = styled.div`
-  width: 150px;
+  width: 140px;
   height: 89px;
   background: white;
   border-radius: 5px;
@@ -22,7 +22,7 @@ export const ChainTypePanel = styled.div`
   .chain_type_selected {
     width: 100%;
     font-size: 14px;
-    height: 44px;
+    height: 40px;
     line-height: 44px;
     text-align: center;
     font-weight: bold;
@@ -41,7 +41,7 @@ export const ChainTypePanel = styled.div`
   .chain_type_normal {
     width: 100%;
     font-size: 14px;
-    height: 44px;
+    height: 40px;
     cursor: pointer;
     line-height: 44px;
     text-align: center;

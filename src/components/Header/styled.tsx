@@ -2,9 +2,9 @@ import styled, { css } from 'styled-components'
 
 export const HeaderDiv = styled.div`
   width: 100%;
-  min-height: 80px;
+  min-height: 64px;
   box-shadow: 0 2px 4px 0 #141414;
-  background-color: #424242;
+  background-color: #040607;
   position: fixed;
   position: -webkit-fixed;
   overflow: visible;
@@ -23,7 +23,7 @@ export const HeaderDiv = styled.div`
     display: flex;
     align-items: center;
     .header__logo__img {
-      width: 180px;
+      width: 150px;
       height: auto;
     }
   }
@@ -32,15 +32,26 @@ export const HeaderDiv = styled.div`
     display: flex;
     align-items: center;
     padding-left: 20px;
-    min-height: 75px;
+    min-height: 56px;
 
     .header__menus__item {
       margin-left: 10px;
       margin-right: 10px;
-      font-size: 18px;
       letter-spacing: 2px;
       font-weight: 600;
       color: white;
+      display: flex;
+      align-items: center;
+
+      > span {
+        font-size: 13px;
+        margin-left: 10px;
+      }
+
+      > img {
+        width: 17px;
+        height: 17px;
+      }
     }
   }
 
@@ -53,9 +64,13 @@ export const HeaderDiv = styled.div`
     .header__search__component {
       display: flex;
       align-items: center;
-      height: 50px;
-      width: 456px;
+      height: 30px;
+      width: 371px;
       min-width: 229px;
+
+      @media (max-width: 1100px) {
+        margin-right: 8vw;
+      }
     }
   }
 `
@@ -65,7 +80,7 @@ const HeaderMobileCommonPanel = styled.div`
   width: 100vw;
   overflow: hidden;
   box-shadow: 0 2px 4px 0 #141414;
-  background-color: #424242;
+  background-color: #040607;
   position: fixed;
   position: -webkit-fixed;
   overflow: visible;
@@ -111,10 +126,20 @@ export const HeaderMobileDiv = styled.div`
     align-items: center;
 
     .header__menus__item {
-      margin-left: 6px;
+      margin-left: 8px;
       font-size: 10px;
       font-weight: bold;
       color: white;
+
+      > span {
+        font-size: 8px;
+        margin-left: 3px;
+      }
+
+      > img {
+        width: 10px;
+        height: 10px;
+      }
 
       @media (max-width: 400px) {
         margin-left: 4px;
@@ -171,7 +196,7 @@ export const HeaderBlockchainPanel = styled.div`
   }
 
   .header__blockchain__content {
-    font-size: 24px;
+    font-size: 20px;
     text-align: center;
     letter-spacing: 1px;
     font-weight: bold;
@@ -197,7 +222,7 @@ export const HeaderSearchPanel = styled.div`
 export const HeaderVersionPanel = styled.div`
   width: 90px;
   font-size: 12px;
-  margin-right: 70px;
+  margin-right: 80px;
   display: flex;
   cursor: pointer;
 
@@ -212,7 +237,7 @@ export const HeaderVersionPanel = styled.div`
   }
 
   @media (max-width: 700px) {
-    width: 60px;
+    width: 66px;
     font-size: 8px;
     margin-right: 40px;
     > div {
