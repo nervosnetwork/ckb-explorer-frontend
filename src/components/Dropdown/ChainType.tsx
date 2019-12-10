@@ -16,8 +16,8 @@ export const ChainTypePanel = styled.div`
   position: fixed;
   position: -webkit-fixed;
   z-index: 1000;
-  left: ${(props: { left: number }) => props.left}px;
-  top: 70px;
+  left: ${(props: { left: number; top: number }) => props.left}px;
+  top: ${(props: { left: number; top: number }) => props.top}px;
 
   .chain_type_selected {
     width: 100%;
@@ -80,11 +80,12 @@ export const ChainTypePanel = styled.div`
   }
 `
 
-export default ({ setShowChainDropdown, left }: { setShowChainDropdown: Function; left: number }) => {
+export default ({ setShowChainDropdown, left, top }: { setShowChainDropdown: Function; left: number; top: number }) => {
   const testnetUrl = `${CONFIG.MAINNET_URL}/${CONFIG.TESTNET_NAME}`
   return (
     <ChainTypePanel
       left={left}
+      top={top}
       onMouseLeave={() => {
         setShowChainDropdown(false)
       }}

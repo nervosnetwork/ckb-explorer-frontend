@@ -56,6 +56,7 @@ declare namespace State {
     status: 'locked' | 'unlocked'
     epochNumber: string
     epochIndex: string
+    estimatedUnlockTime: string
   }
 
   export interface Address {
@@ -155,11 +156,12 @@ declare namespace State {
     transactions: Transaction[]
     total: number
     depositors: NervosDaoDepositor[]
+    status: keyof FetchStatus
   }
 
   export interface Statistics {
     tipBlockNumber: string
-    currentEpochAverageBlockTime: string
+    averageBlockTime: string
     currentEpochDifficulty: string
     hashRate: string
   }

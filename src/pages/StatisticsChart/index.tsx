@@ -9,6 +9,7 @@ import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
+import { parseInterval, handleAxis } from '../../utils/chart'
 
 const ChartPanel = styled.div`
   margin: 0 10% 30px 10%;
@@ -54,61 +55,6 @@ const LoadingPanel = styled.div`
   }
 `
 
-const handleAxios = (value: BigNumber) => {
-  if (value.isNaN() || value.isZero()) return '0'
-  const kv = value.dividedBy(1000)
-  const mv = kv.dividedBy(1000)
-  const gv = mv.dividedBy(1000)
-  const tv = gv.dividedBy(1000)
-  const pv = tv.dividedBy(1000)
-  const ev = pv.dividedBy(1000)
-  const zv = ev.dividedBy(1000)
-  const yv = zv.dividedBy(1000)
-
-  if (yv.isGreaterThanOrEqualTo(1)) {
-    return `${yv.toFixed()}Y`
-  }
-  if (zv.isGreaterThanOrEqualTo(1)) {
-    return `${zv.toFixed()}Z`
-  }
-  if (ev.isGreaterThanOrEqualTo(1)) {
-    return `${ev.toFixed()}E`
-  }
-  if (pv.isGreaterThanOrEqualTo(1)) {
-    return `${pv.toFixed()}P`
-  }
-  if (tv.isGreaterThanOrEqualTo(1)) {
-    return `${tv.toFixed()}T`
-  }
-  if (gv.isGreaterThanOrEqualTo(1)) {
-    return `${gv.toFixed()}G`
-  }
-  if (mv.isGreaterThanOrEqualTo(1)) {
-    return `${mv.toFixed()}M`
-  }
-  if (kv.isGreaterThanOrEqualTo(1)) {
-    return `${kv.toFixed()}K`
-  }
-  return `${value.toFixed()}`
-}
-
-const scale = () => {
-  return {
-    difficulty: {
-      min: 0,
-      alias: i18n.t('block.difficulty'),
-    },
-    hashRate: {
-      min: 0,
-      alias: i18n.t('block.hash_rate_hps'),
-    },
-    epochNumber: {
-      min: 0,
-      alias: i18n.t('block.epoch_number'),
-    },
-  }
-}
-
 const uncleRateScale = () => {
   return {
     uncleRate: {
@@ -120,6 +66,36 @@ const uncleRateScale = () => {
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
   const { statisticsChartData, statisticsUncleRates } = useContext(AppContext)
+
+  let min = 0
+  let max = 0
+  if (statisticsChartData && statisticsChartData.length > 0) {
+    min = statisticsChartData[0].blockNumber
+    max = statisticsChartData[statisticsChartData.length - 1].blockNumber
+  }
+
+  const scale = () => {
+    return {
+      difficulty: {
+        min: 0,
+        alias: i18n.t('block.difficulty'),
+      },
+      hashRate: {
+        min: 0,
+        alias: i18n.t('block.hash_rate_hps'),
+      },
+      epochNumber: {
+        min: 0,
+        alias: i18n.t('block.epoch_number'),
+      },
+      blockNumber: {
+        min,
+        max,
+        alias: i18n.t('block.block_number'),
+        tickInterval: parseInterval(max, min),
+      },
+    }
+  }
 
   useEffect(() => {
     getStatisticsChart(dispatch)
@@ -135,7 +111,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
             scale={scale()}
             forceFit
             data={statisticsChartData}
-            padding={isMobile() ? [40, 45, 80, 45] : [40, 80, 80, 80]}
+            padding={isMobile() ? [40, 45, 80, 45] : [40, 80, 120, 80]}
           >
             <Legend
               custom
@@ -170,6 +146,15 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
               ]}
             />
             <Axis
+              name="blockNumber"
+              title={!isMobile()}
+              label={{
+                formatter: (text: string) => {
+                  return handleAxis(new BigNumber(text))
+                },
+              }}
+            />
+            <Axis
               name="difficulty"
               title={!isMobile()}
               label={{
@@ -178,7 +163,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
                   fontWeight: 'bold',
                 },
                 formatter: (text: string) => {
-                  return handleAxios(new BigNumber(text))
+                  return handleAxis(new BigNumber(text))
                 },
               }}
             />
@@ -191,7 +176,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
                   fontWeight: 'bold',
                 },
                 formatter: (text: string) => {
-                  return handleAxios(new BigNumber(text))
+                  return handleAxis(new BigNumber(text))
                 },
               }}
             />

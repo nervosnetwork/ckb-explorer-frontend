@@ -12,6 +12,29 @@ export const DaoContentPanel = styled.div`
     margin: 0px;
     padding: 20px;
   }
+
+  .nervos_dao_title {
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 2px 2px 6px 0 #dfdfdf;
+    background-color: #ffffff;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 40px;
+    font-size: 30px;
+    font-weight: 500;
+    color: #000000;
+
+    @media (max-width: 700px) {
+      height: 50px;
+      border-radius: 3px;
+      box-shadow: 1px 1px 3px 0 #dfdfdf;
+      font-size: 15px;
+      padding-left: 20px;
+    }
+  }
 `
 
 export const DaoTabBarPanel = styled.div`
@@ -37,6 +60,7 @@ export const DaoTabBarPanel = styled.div`
     display: flex;
     height: 30px;
     cursor: pointer;
+    margin-right: 15px;
 
     @media (max-width: 700px) {
       margin-bottom: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '15px' : '0px')};

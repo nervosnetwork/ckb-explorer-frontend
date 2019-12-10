@@ -18,7 +18,7 @@ export const TransactionCellContentPanel = styled.div`
     margin-right: 3px;
     color: #666666;
     > div {
-      width: 60px;
+      width: 47px;
       text-align: start;
     }
   }
@@ -26,9 +26,15 @@ export const TransactionCellContentPanel = styled.div`
     flex: 0.33;
   }
   .transaction__cell_capacity {
-    flex: 0.3;
+    flex: 0.34;
     display: flex;
     justify-content: center;
+
+    > div {
+      width: 50%;
+      display: flex;
+      justify-content: flex-end;
+    }
   }
   .transaction__cell_detail {
     flex: 0.33;
@@ -58,6 +64,10 @@ export const TransactionCellHashPanel = styled.div`
 
   @media (min-width: 700px) {
     font-weight: 500;
+  }
+
+  .transaction__cell_address_no_link {
+    color: #000000;
   }
 `
 

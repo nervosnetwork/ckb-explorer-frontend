@@ -98,7 +98,7 @@ const getTableContentDataList = (block: State.Block, index: number) => {
       content: localeNumberString(block.number),
     },
     {
-      width: '14%',
+      width: '8%',
       content: `${block.transactionsCount}`,
     },
     {
@@ -106,7 +106,7 @@ const getTableContentDataList = (block: State.Block, index: number) => {
       content: blockReward,
     },
     {
-      width: '37%',
+      width: '43%',
       content: block.minerHash,
     },
     {
@@ -123,9 +123,9 @@ const parseBlockTime = (blockTime: string | undefined) => {
 const blockchainDataList = (statistics: State.Statistics) => {
   return [
     {
-      name: i18n.t('blockchain.best_block'),
+      name: i18n.t('blockchain.latest_block'),
       value: localeNumberString(statistics.tipBlockNumber),
-      tip: i18n.t('blockchain.best_block_tooltip'),
+      tip: i18n.t('blockchain.latest_block_tooltip'),
     },
     {
       name: i18n.t('block.difficulty'),
@@ -141,7 +141,7 @@ const blockchainDataList = (statistics: State.Statistics) => {
     },
     {
       name: i18n.t('blockchain.average_block_time'),
-      value: parseBlockTime(statistics.currentEpochAverageBlockTime),
+      value: parseBlockTime(statistics.averageBlockTime),
       tip: i18n.t('blockchain.average_block_time_tooltip'),
     },
   ]
@@ -195,7 +195,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
       },
       {
         title: t('home.transactions'),
-        width: '14%',
+        width: '8%',
       },
       {
         title: t('home.block_reward'),
@@ -203,7 +203,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
       },
       {
         title: t('block.miner'),
-        width: '37%',
+        width: '43%',
       },
       {
         title: t('home.time'),
@@ -258,7 +258,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
                   <TableContentRow
                     key={block.number}
                     onClick={() => {
-                      browserHistory.push(`/block/${block.blockHash}`)
+                      browserHistory.replace(`/block/${block.blockHash}`)
                     }}
                   >
                     {getTableContentDataList(block, blockIndex).map((data: TableContentData, index: number) => {

@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import queryString from 'query-string'
 import { RouteComponentProps } from 'react-router'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { StateWithDispatch, PageActions, AppActions } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import Content from '../../components/Content'
-import HashCard from '../../components/Card/HashCard'
 import i18n from '../../utils/i18n'
 import { DaoContentPanel, DaoTabBarPanel } from './styled'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
@@ -16,13 +15,11 @@ import DaoTransactions from './DaoTransactions'
 import DaoSearch from '../../components/Search/DaoSearch'
 import DepositorRank from './DepositorRank'
 import { parsePageNumber } from '../../utils/string'
-import { PageParams } from '../../utils/const'
+import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import DecimalCapacity from '../../components/DecimalCapacity'
-
-enum DaoTab {
-  Transactions,
-  Depositor,
-}
+import Error from '../../components/Error'
+import Loading from '../../components/Loading'
+import { useTimeoutWithUnmount } from '../../utils/hook'
 
 const NervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
   const overviewItems: OverviewItemData[] = [
@@ -49,9 +46,35 @@ const NervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
   return <OverviewCard items={overviewItems} />
 }
 
+const NervosDAOStateComp = ({
+  daoTab,
+  currentPage,
+  pageSize,
+}: {
+  daoTab: 'transactions' | 'depositors'
+  currentPage: number
+  pageSize: number
+}) => {
+  const { nervosDaoState, app } = useContext(AppContext)
+  switch (nervosDaoState.status) {
+    case 'Error':
+      return <Error />
+    case 'OK':
+      return daoTab === 'transactions' ? (
+        <DaoTransactions currentPage={currentPage} pageSize={pageSize} />
+      ) : (
+        <DepositorRank />
+      )
+    case 'None':
+    default:
+      return <Loading show={app.loading} />
+  }
+}
+
 export const NervosDao = ({
   location: { search },
   dispatch,
+  history: { push },
 }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
   const parsed = queryString.parse(search)
 
@@ -59,7 +82,9 @@ export const NervosDao = ({
   const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
 
   const { nervosDaoState } = useContext(AppContext)
-  const [daoTab, setDaoTab] = useState(DaoTab.Transactions)
+
+  const tab = parsed.tab as 'transactions' | 'depositors'
+  const daoTab = tab || 'transactions'
 
   useEffect(() => {
     getNervosDao(dispatch)
@@ -67,24 +92,42 @@ export const NervosDao = ({
     getNervosDaoDepositors(dispatch)
   }, [dispatch, currentPage, pageSize])
 
+  useTimeoutWithUnmount(
+    () => {
+      if (nervosDaoState.status === 'None') {
+        dispatch({
+          type: AppActions.UpdateLoading,
+          payload: {
+            loading: true,
+          },
+        })
+      }
+    },
+    () => {
+      dispatch({
+        type: PageActions.UpdateNervosDaoStatus,
+        payload: {
+          status: 'None',
+        },
+      })
+    },
+    LOADING_WAITING_TIME,
+  )
+
   return (
     <Content>
       <DaoContentPanel className="container">
-        <HashCard
-          title={i18n.t('nervos_dao.nervos_dao')}
-          hash={nervosDaoState.nervosDao.daoTypeHash}
-          dispatch={dispatch}
-        />
+        <div className="nervos_dao_title">{i18n.t('nervos_dao.nervos_dao')}</div>
         <NervosDaoOverview nervosDao={nervosDaoState.nervosDao} />
 
-        <DaoTabBarPanel containSearchBar={daoTab === DaoTab.Transactions}>
+        <DaoTabBarPanel containSearchBar={daoTab === 'transactions'}>
           <div className="nervos_dao_tab_bar">
             <div
               role="button"
               tabIndex={-1}
               onKeyDown={() => {}}
-              className={daoTab === DaoTab.Transactions ? 'tab_bar_selected' : 'tab_bar_normal'}
-              onClick={() => setDaoTab(DaoTab.Transactions)}
+              className={daoTab === 'transactions' ? 'tab_bar_selected' : 'tab_bar_normal'}
+              onClick={() => push('/nervosdao?tab=transactions')}
             >
               {i18n.t('nervos_dao.dao_tab_transactions')}
             </div>
@@ -92,20 +135,16 @@ export const NervosDao = ({
               role="button"
               tabIndex={-1}
               onKeyDown={() => {}}
-              className={daoTab === DaoTab.Depositor ? 'tab_bar_selected' : 'tab_bar_normal'}
-              onClick={() => setDaoTab(DaoTab.Depositor)}
+              className={daoTab === 'depositors' ? 'tab_bar_selected' : 'tab_bar_normal'}
+              onClick={() => push('/nervosdao?tab=depositors')}
             >
               {i18n.t('nervos_dao.dao_tab_depositors')}
             </div>
           </div>
-          {daoTab === DaoTab.Transactions && <DaoSearch dispatch={dispatch} />}
+          {daoTab === 'transactions' && <DaoSearch dispatch={dispatch} />}
         </DaoTabBarPanel>
 
-        {daoTab === DaoTab.Transactions ? (
-          <DaoTransactions currentPage={currentPage} pageSize={pageSize} />
-        ) : (
-          <DepositorRank />
-        )}
+        <NervosDAOStateComp daoTab={daoTab} currentPage={currentPage} pageSize={pageSize} />
       </DaoContentPanel>
     </Content>
   )

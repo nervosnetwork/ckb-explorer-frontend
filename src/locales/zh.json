@@ -26,13 +26,13 @@
       "testnet": "测试网"
     },
     "blockchain": {
-      "best_block": "最高块",
-      "best_block_tooltip": "最长链的最新区块",
+      "latest_block": "最高块",
+      "latest_block_tooltip": "最长链的最新区块",
       "difficulty_tooltip": "当下 Epoch 的难度",
       "hash_rate": "算力",
-      "hash_rate_tooltip": "最近 500 个区块的平均算力",
+      "hash_rate_tooltip": "最近 900 个区块的平均算力",
       "average_block_time": "平均出块时间",
-      "average_block_time_tooltip": "当下 Epoch 的平均出块时间",
+      "average_block_time_tooltip": "最近 100 个区块的平均出块时间",
       "nervos_dao": "Nervos DAO",
       "mainnet": "Lina Mainnet",
       "testnet": "Testnet"
@@ -62,7 +62,12 @@
       "forum": "Forum"
     },
     "search": {
-      "empty_result": "哎呀！搜索失败，请尝试不同的关键字〜"
+      "loading": "加载中...",
+      "empty_result": "哎呀！搜索失败，请尝试不同的关键字〜",
+      "address_type_testnet_error": "检测到测试链地址，请跳转",
+      "address_type_mainnet_error": "检测到主网地址，请跳转",
+      "address_type_testnet_url": "测试链浏览器查询",
+      "address_type_mainnet_url": "主网浏览器查询"
     },
     "address": {
       "address": "地址",
@@ -73,6 +78,7 @@
       "compensation": "Nervos DAO 锁定补贴",
       "pending_reward": "待发奖励",
       "lock_until": "锁定到期",
+      "estimated": "预计",
       "epoch": "Epoch",
       "code_hash": "Code Hash",
       "args": "Args",
@@ -107,7 +113,8 @@
       "cellbase_help_tooltip": "区块 N 的 Cellbase 交易将作为奖励发送给区块 N-11 的出块矿工，阅读共识协议了解更多信息",
       "capacity": "Capacity",
       "detail": "详情",
-      "empty_output": "No cell output target"
+      "empty_output": "No cell output target",
+      "unspent_output": "未花费的交易输出"
     },
     "block": {
       "block": "区块",
@@ -117,9 +124,10 @@
       "uncle_count": "叔块数",
       "epoch": "Epoch",
       "epoch_start_number": "Epoch 开始区块",
+      "block_number": "Block 高度",
       "epoch_number": "Epoch 区块",
       "epoch_length": "Epoch 长度",
-      "nonce": "随机数",
+      "nonce": "Nonce",
       "proof": "PoW Proof",
       "timestamp": "时间戳",
       "miner": "矿工",

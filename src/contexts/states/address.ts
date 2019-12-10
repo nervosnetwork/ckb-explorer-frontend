@@ -17,6 +17,7 @@ export const initAddressState: State.AddressState = {
       status: 'unlocked',
       epochNumber: '0',
       epochIndex: '0',
+      estimatedUnlockTime: '0',
     },
   },
   transactions: [],

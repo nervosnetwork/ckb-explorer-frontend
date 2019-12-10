@@ -1,62 +1,27 @@
-import React, { ReactNode, useContext, useState } from 'react'
+import React, { ReactNode, useContext } from 'react'
 import Pagination from '../../components/Pagination'
-import HelpIcon from '../../assets/qa_help.png'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TitleCard from '../../components/Card/TitleCard'
-import Tooltip from '../../components/Tooltip'
 import TransactionItem from '../../components/TransactionItem/index'
 import { AppContext } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
-import { startEndEllipsis } from '../../utils/string'
+import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
 import {
   AddressLockScriptItemPanel,
   AddressLockScriptPanel,
-  AddressPendingRewardTitlePanel,
   AddressTransactionsPagination,
   AddressTransactionsPanel,
 } from './styled'
 import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
+import { parseSimpleDateNoSecond } from '../../utils/date'
 
-const addressContent = (address: State.Address) => {
-  const addressText = isMobile() ? startEndEllipsis(address.addressHash, 10) : address.addressHash
-  return address.addressHash ? addressText : i18n.t('address.unable_decode_address')
-}
-
-const AddressPendingRewardTitle = () => {
-  const [show, setShow] = useState(false)
-  return (
-    <AddressPendingRewardTitlePanel>
-      {`${i18n.t('address.pending_reward')}`}
-      <div
-        id="address__pending_reward_help"
-        tabIndex={-1}
-        onFocus={() => {}}
-        onMouseOver={() => {
-          setShow(true)
-          const p = document.querySelector('.page') as HTMLElement
-          if (p) {
-            p.setAttribute('tabindex', '-1')
-          }
-        }}
-        onMouseLeave={() => {
-          setShow(false)
-          const p = document.querySelector('.page') as HTMLElement
-          if (p) {
-            p.removeAttribute('tabindex')
-          }
-        }}
-      >
-        <img src={HelpIcon} alt="Pending Reward Help" />
-      </div>
-      <Tooltip show={show} targetElementId="address__pending_reward_help">
-        {i18n.t('address.pending_reward_tooltip')}
-      </Tooltip>
-    </AddressPendingRewardTitlePanel>
-  )
+const addressContent = (address: string) => {
+  const addressText = isMobile() ? adaptMobileEllipsis(address, 10) : adaptPCEllipsis(address, 13, 50)
+  return address ? addressText : i18n.t('address.unable_decode_address')
 }
 
 const AddressLockScriptItem = ({ title, children }: { title: string; children?: ReactNode }) => {
@@ -108,23 +73,19 @@ const getAddressInfo = (addressState: State.AddressState) => {
     },
   ]
 
-  if (address.pendingRewardBlocksCount) {
-    items.push({
-      title: <AddressPendingRewardTitle />,
-      content: `${address.pendingRewardBlocksCount} ${address.pendingRewardBlocksCount > 1 ? 'blocks' : 'block'}`,
-    })
-  }
   if (address.type === 'LockHash' && address) {
     items.push({
       title: i18n.t('address.address'),
-      content: addressContent(address),
+      content: addressContent(address.addressHash),
     })
   }
   const { lockInfo } = address
   if (lockInfo && lockInfo.epochNumber) {
     items.push({
       title: i18n.t('address.lock_until'),
-      content: `${lockInfo.epochNumber} ${i18n.t('address.epoch')}`,
+      content: `${lockInfo.epochNumber}(th) ${i18n.t('address.epoch')} (${i18n.t(
+        'address.estimated',
+      )} ${parseSimpleDateNoSecond(lockInfo.estimatedUnlockTime)})`,
     })
   }
 

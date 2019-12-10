@@ -135,7 +135,7 @@ export const TableMinerContentItem = ({ width, content }: { width: string; conte
             event.preventDefault()
           }}
         >
-          <span className="table__miner__text address">{adaptPCEllipsis(content, 10, 50)}</span>
+          <span className="table__miner__text address">{adaptPCEllipsis(content, 14, 60)}</span>
         </Link>
       ) : (
         <div className="table__miner__text__disable">{i18n.t('address.unable_decode_address')}</div>

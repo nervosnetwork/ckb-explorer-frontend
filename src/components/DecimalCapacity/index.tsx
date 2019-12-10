@@ -7,25 +7,44 @@ const DecimalPanel = styled.div`
   justify-content: flex-end;
   align-items: flex-end;
 
+  > span {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
+  }
+
   .decimal__zeros {
     margin-bottom: 1px;
   }
 
-  .decimal__decimal {
-    margin-bottom: 1px;
+  .decimal__unit {
+    margin-left: 5px;
 
     @media (max-width: 700px) {
       margin-bottom: 0px;
     }
   }
+`
 
-  .decimal__unit {
-    margin-left: 5px;
-    margin-bottom: 1px;
+const DecimalPartPanel = styled.div`
+  margin-bottom: 1px;
+  font-size: ${(props: { fontSize?: string; color?: string }) => (props.fontSize ? props.fontSize : '12px')}
+  color: ${(props: { fontSize?: string; color?: string }) => (props.color ? props.color : '#999999')}
 
-    @media (max-width: 700px) {
-      margin-bottom: 0px;
-    }
+  @media (max-width: 1000px) {
+    font-size: ${(props: { fontSize?: string; color?: string }) => (props.fontSize ? props.fontSize : '11px')}
+  }
+
+  @media (max-width: 700px) {
+    margin-bottom: 0px;
+  }
+`
+
+const DecimalZerosPanel = styled.div`
+  margin-bottom: 1px;
+  font-size: ${(props: { fontSize?: string; color?: string }) => (props.fontSize ? props.fontSize : '12px')}
+  color: ${(props: { fontSize?: string; color?: string }) => (props.color ? props.color : '#999999')}
+
+  @media (max-width: 1000px) {
+    font-size: ${(props: { fontSize?: string; color?: string }) => (props.fontSize ? props.fontSize : '11px')}
   }
 `
 
@@ -57,25 +76,13 @@ export default ({
   return (
     <DecimalPanel>
       <span>{integer}</span>
-      <span
-        className="decimal__decimal"
-        style={{
-          fontSize: fontSize || '12px',
-          color: color || '#999999',
-        }}
-      >
+      <DecimalPartPanel fontSize={fontSize} color={color}>
         {decimal}
-      </span>
-      <span
-        className="decimal__zeros"
-        style={{
-          fontSize: fontSize || '12px',
-          color: color || '#999999',
-        }}
-      >
+      </DecimalPartPanel>
+      <DecimalZerosPanel fontSize={fontSize} color={color}>
         {zeros}
-      </span>
-      {!hideUnit && <span className="decimal__unit">{i18n.t('common.ckb_unit')}</span>}
+      </DecimalZerosPanel>
+      {!hideUnit && <div className="decimal__unit">{i18n.t('common.ckb_unit')}</div>}
     </DecimalPanel>
   )
 }

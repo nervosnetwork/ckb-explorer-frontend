@@ -1,70 +1,74 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { Tooltip } from 'antd'
 import { CellType } from '../../../utils/const'
-import LeftArrow from '../../../assets/left_arrow.png'
-import RightHighlightArrow from '../../../assets/right_green_arrow.png'
-import LeftBlueArrow from '../../../assets/left_blue_arrow.png'
-import RightHighlightBlueArrow from '../../../assets/right_blue_arrow.png'
-import RightNormalArrow from '../../../assets/right_grey_arrow.png'
+import RightGreenArrow from '../../../assets/right_green_arrow.png'
+import RightBlueArrow from '../../../assets/right_blue_arrow.png'
+import LiveCellIcon from '../../../assets/live_cell.png'
+import NervosDAOCellIcon from '../../../assets/nervos_dao_cell.png'
 import { isMainnet } from '../../../utils/chain'
+import i18n from '../../../utils/i18n'
 
 const LeftArrowImage = styled.img`
   width: 16px;
-  height: 12px;
+  height: auto;
   margin: 0px 7px 0 0;
 
   @media (max-width: 700px) {
-    margin: ${({ marginTop }: { marginTop: boolean }) => (marginTop ? '0px 10px 0 0' : '0px 10px 0 0')};
+    width: 12px;
+    margin: 0 10px 0 0;
   }
 `
 
 const RightArrowImage = styled.img`
   width: 16px;
-  height: 12px;
-  margin: 0px 0 0 7px;
+  height: auto;
+  margin: 0px 0 1px 7px;
 
   @media (max-width: 700px) {
-    margin: ${({ marginTop }: { marginTop: boolean }) => (marginTop ? '0px 5px 0 7px' : '0px 5px 0 7px')};
+    width: 12px;
+    margin: 0 5px 0 7px;
   }
 `
 
-export default ({
-  cell,
-  cellType,
-  haveMarginTop,
-}: {
-  cell: State.Cell
-  cellType: CellType
-  haveMarginTop?: boolean
-}) => {
+const isDaoDepositCell = (cellType: string) => {
+  return cellType === 'nervos_dao_deposit'
+}
+
+const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
+  if (cell.status === 'dead') {
+    return (
+      <Link to={`/transaction/${cell.consumedTxHash}`}>
+        <RightArrowImage
+          className="transaction__cell_right_arrow"
+          src={isMainnet() ? RightGreenArrow : RightBlueArrow}
+          alt="right arrow"
+        />
+      </Link>
+    )
+  }
+  if (isDaoDepositCell(cell.cellType)) {
+    return <RightArrowImage className="transaction__cell_right_arrow" src={NervosDAOCellIcon} alt="right arrow" />
+  }
+  return (
+    <Tooltip placement="topRight" title={i18n.t('transaction.unspent_output')} arrowPointAtCenter>
+      <RightArrowImage className="transaction__cell_right_arrow" src={LiveCellIcon} alt="right arrow" />
+    </Tooltip>
+  )
+}
+
+export default ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
   if (cellType === CellType.Input) {
     return cell.generatedTxHash ? (
       <Link to={`/transaction/${cell.generatedTxHash}`}>
         <LeftArrowImage
           className="transaction__cell_left_arrow"
-          src={isMainnet() ? LeftArrow : LeftBlueArrow}
+          src={isMainnet() ? RightGreenArrow : RightBlueArrow}
           alt="left arrow"
-          marginTop={!!haveMarginTop}
         />
       </Link>
     ) : null
   }
-  return cell.status === 'dead' ? (
-    <Link to={`/transaction/${cell.consumedTxHash}`}>
-      <RightArrowImage
-        className="transaction__cell_right_arrow"
-        src={isMainnet() ? RightHighlightArrow : RightHighlightBlueArrow}
-        alt="right arrow"
-        marginTop={!!haveMarginTop}
-      />
-    </Link>
-  ) : (
-    <RightArrowImage
-      className="transaction__cell_right_arrow"
-      src={RightNormalArrow}
-      alt="right arrow"
-      marginTop={!!haveMarginTop}
-    />
-  )
+  return <CellOutputIcon cell={cell} />
 }

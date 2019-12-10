@@ -25,23 +25,23 @@ const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
     return adaptMobileEllipsis(hash, 11)
   }
-  return adaptPCEllipsis(hash, 8, 50)
+  return adaptPCEllipsis(hash, 6, 50)
 }
 
 const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
   return (
     <TransactionCellHashPanel highLight={cell.addressHash !== null}>
-      {!cell.fromCellbase && cellType === CellType.Input && (
-        <TransactionCellArrow cell={cell} cellType={cellType} haveMarginTop />
-      )}
+      {!cell.fromCellbase && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
       {cell.addressHash ? (
         <Link to={`/address/${cell.addressHash}`}>
           <span className="address">{handleAddressHashText(cell.addressHash)}</span>
         </Link>
       ) : (
-        <span>{cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}</span>
+        <span className="transaction__cell_address_no_link">
+          {cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}
+        </span>
       )}
-      {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} haveMarginTop />}
+      {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
     </TransactionCellHashPanel>
   )
 }
@@ -141,7 +141,7 @@ export default ({
         </div>
 
         <div className="transaction__cell_capacity">
-          {cell.capacity && <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />}
+          <div>{cell.capacity && <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />}</div>
         </div>
 
         <div className="transaction__cell_detail">
