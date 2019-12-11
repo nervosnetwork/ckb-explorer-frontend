@@ -5,7 +5,7 @@ export const HomeHeaderPanel = styled.div`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 30px 0px 40px 0px;
+  padding: 20px 0px 30px 0px;
 
   .blockchain__item__container {
     min-width: 100%;

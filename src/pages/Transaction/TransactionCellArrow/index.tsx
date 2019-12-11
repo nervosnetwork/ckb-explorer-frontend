@@ -52,7 +52,7 @@ const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
     return <RightArrowImage className="transaction__cell_right_arrow" src={NervosDAOCellIcon} alt="right arrow" />
   }
   return (
-    <Tooltip title={i18n.t('transaction.unspent_output')}>
+    <Tooltip placement="topRight" title={i18n.t('transaction.unspent_output')} arrowPointAtCenter>
       <RightArrowImage className="transaction__cell_right_arrow" src={LiveCellIcon} alt="right arrow" />
     </Tooltip>
   )

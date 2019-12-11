@@ -37,6 +37,19 @@
       "mainnet": "Lina Mainnet",
       "testnet": "Testnet"
     },
+    "statistic": {
+      "transaction_count": "Transaction Count",
+      "address_count": "Address Count",
+      "total_dao_deposit": "Total Nervos DAO Deposit",
+      "live_cell": "Live Cell",
+      "dead_cell": "Dead Cell",
+      "cell_count": "Cell Count",
+      "balance_ranking": "Balance Ranking",
+      "ranking": "Ranking",
+      "balance": "Balance",
+      "address": "Address",
+      "date": "Date"
+    },
     "home": {
       "height": "Height",
       "transactions": "Transactions",
@@ -135,6 +148,7 @@
       "hash_rate_hps": "Hash Rate(H/s)",
       "hash_rate": "Hash Rate",
       "uncle_rate": "Uncle Rate",
+      "uncle_rate_target": "Uncle rate target",
       "transactions_root": "Transactions Root",
       "pending": "Pending",
       "calculating": "Pending",
