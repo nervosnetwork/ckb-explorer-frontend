@@ -231,7 +231,7 @@ export const HeaderSearchPanel = styled.div`
 `
 
 export const HeaderVersionPanel = styled.div`
-  width: 90px;
+  width: 100px;
   font-size: 12px;
   font-weight: 500;
   margin-right: 80px;
