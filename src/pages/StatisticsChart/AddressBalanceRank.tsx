@@ -134,7 +134,7 @@ export const AddressBalanceRankChart = ({
         height: isThumbnail ? '230px' : '70vh',
       }}
       onEvents={{
-        click: clickEvent,
+        click: isThumbnail ? () => {} : clickEvent,
       }}
     />
   )
