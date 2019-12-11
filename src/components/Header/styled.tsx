@@ -204,7 +204,6 @@ export const HeaderBlockchainPanel = styled.div`
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-top: 2px;
   }
 
   .header__blockchain__content {
