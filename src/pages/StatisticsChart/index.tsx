@@ -40,6 +40,8 @@ const ChartCard = ({ chartData }: { chartData: ChartData }) => {
   )
 }
 
+const NullEvent = () => {}
+
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
   const {
     statisticDifficultyHashRates,
@@ -84,7 +86,13 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
     },
     {
       title: `${i18n.t('statistic.balance_ranking')}`,
-      chart: <AddressBalanceRankChart statisticAddressBalanceRanks={statisticAddressBalanceRanks} isThumbnail />,
+      chart: (
+        <AddressBalanceRankChart
+          statisticAddressBalanceRanks={statisticAddressBalanceRanks}
+          clickEvent={NullEvent}
+          isThumbnail
+        />
+      ),
       path: '/charts/address_balance_rank',
     },
   ]
