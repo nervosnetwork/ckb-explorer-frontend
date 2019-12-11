@@ -3,9 +3,11 @@ import styled, { css } from 'styled-components'
 export const SearchPanel = styled.div`
   margin: 0 auto;
   width: 100%;
-  height: 50px;
+  height: ${(props: { hasBorder: boolean }) => (props.hasBorder ? '42px' : '30px')};
+  margin-right: 15px;
   @media (max-width: 700px) {
-    height: 42px;
+    height: 25px;
+    margin-right: 0;
   }
   text-align: center;
   display: flex;
@@ -31,12 +33,13 @@ export const SearchImage = styled.div`
   }
 
   img {
-    width: 32px;
-    height: 32px;
+    width: 16px;
+    height: 16px;
+    margin-bottom: 3px;
 
     @media (max-width: 700px) {
-      width: 18px;
-      height: 18px;
+      width: 12px;
+      height: 12px;
     }
   }
 `
@@ -45,12 +48,14 @@ export const SearchInputPanel = styled.input`
   position: relative;
   width: 100%;
   height: 100%;
-  font-size: 16px;
-  padding-left: 20px;
-  padding-right: 40px;
+  font-size: 13px;
+  font-weight: 500;
+  padding-left: 35px;
+  padding-right: 20px;
+  margin-left: -30px;
   background: rgba(255, 255, 255, 0);
-  border: 0 solid #606060;
-  border-radius: 0;
+  border: 1px solid #606060;
+  border-radius: 24px;
   color: #bababa;
 
   &: focus {
@@ -65,6 +70,8 @@ export const SearchInputPanel = styled.input`
       border: 2px solid #606060;
       color: #666666;
       border-radius: 6px;
+      margin-left: 0;
+      padding-left: 10px;
 
       &: focus {
         color: #666666;
@@ -79,7 +86,8 @@ export const SearchInputPanel = styled.input`
   @media (max-width: 700px) {
     font-size: 12px;
     width: 100%;
-    padding-left: 10px;
+    padding-left: 30px;
     padding-right: 30px;
+    margin-left: -30px;
   }
 `

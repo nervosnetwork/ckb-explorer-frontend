@@ -19,14 +19,14 @@ const ToastItemDiv = styled.div`
   width: 100%;
   position: fixed;
   position: -webkit-fixed;
-  top: 82px;
+  top: 64px;
   opacity: 0.96;
   z-index: 9999;
-  height: 70px;
+  height: 60px;
   .toast__text {
     color: white;
     font-size: 20px;
-    line-height: 70px;
+    line-height: 60px;
     text-align: center;
   }
 

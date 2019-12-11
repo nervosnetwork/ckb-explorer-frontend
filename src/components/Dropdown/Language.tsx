@@ -13,14 +13,14 @@ export const HeaderLanguagePanel = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  background-color: #424242;
-  box-shadow: 0 2px 4px 0 rgba(43, 43, 43, 0.3);
+  background-color: #040607;
   border: solid 1px #888888;
+  font-weight: 500;
   position: fixed;
   position: -webkit-fixed;
   z-index: 1000;
   right: 7vw;
-  top: 24px;
+  top: 15px;
 
   @media (max-width: 1440px) {
     right: 3vw;
@@ -28,7 +28,7 @@ export const HeaderLanguagePanel = styled.div`
 
   .current__language {
     padding: 0 8px;
-    height: 32px;
+    height: 28px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -36,7 +36,7 @@ export const HeaderLanguagePanel = styled.div`
 
     > div {
       color: white;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     > img {
@@ -46,7 +46,7 @@ export const HeaderLanguagePanel = styled.div`
   }
 
   .select__language {
-    height: 33px;
+    height: 28px;
     cursor: pointer;
     display: ${(props: { showDropdown: boolean }) => (props.showDropdown ? 'block' : 'none')};
 
@@ -59,10 +59,10 @@ export const HeaderLanguagePanel = styled.div`
 
     .select__language__text {
       display: flex;
-      height: 26px;
+      height: 22px;
       align-items: center;
       color: white;
-      font-size: 14px;
+      font-size: 13px;
       width: 100%;
       padding: 0 8px;
       margin: 3px 0;
@@ -103,7 +103,7 @@ export const HeaderLanguagePanel = styled.div`
 
     .select__language {
       height: 19px;
-      background-color: #424242;
+      background-color: #040607;
 
       .select__language__text {
         height: 18px;

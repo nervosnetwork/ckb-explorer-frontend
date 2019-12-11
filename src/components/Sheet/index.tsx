@@ -5,7 +5,7 @@ import { AppContext } from '../../contexts/providers/index'
 const SheetPanel = styled.div`
   position: sticky;
   position: -webkit-sticky;
-  top: 80px;
+  top: 64px;
   z-index: 9000;
 
   @media (max-width: 700px) {
@@ -19,17 +19,17 @@ const SheetPanel = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px 0 25px 0;
+    padding: 15px 0 20px 0;
 
     @media (max-width: 700px) {
-      padding: 10px 0 15px 0;
+      padding: 6px 0 10px 0;
     }
   }
 `
 
 const SheetItem = styled.div`
   color: white;
-  font-size: 22px;
+  font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: left;
