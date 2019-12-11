@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components'
 export const HeaderDiv = styled.div`
   width: 100%;
   min-height: 64px;
-  box-shadow: 0 2px 4px 0 #141414;
   background-color: #040607;
   position: fixed;
   position: -webkit-fixed;
@@ -37,7 +36,6 @@ export const HeaderDiv = styled.div`
     .header__menus__item {
       margin-left: 10px;
       margin-right: 10px;
-      letter-spacing: 2px;
       font-weight: 600;
       color: white;
       display: flex;
@@ -79,7 +77,6 @@ const HeaderMobileCommonPanel = styled.div`
   height: 42px;
   width: 100vw;
   overflow: hidden;
-  box-shadow: 0 2px 4px 0 #141414;
   background-color: #040607;
   position: fixed;
   position: -webkit-fixed;
@@ -99,6 +96,12 @@ export const HeaderMobilePanel = styled(HeaderMobileCommonPanel)`
 
 export const HeaderSearchMobilePanel = styled(HeaderMobileCommonPanel)`
   display: ${({ searchBarEditable }: { searchBarEditable: boolean }) => (searchBarEditable ? 'block' : 'none')};
+  padding: ${({ searchBarEditable }: { searchBarEditable: boolean }) => (searchBarEditable ? '10px 20px' : '1px 20px')};
+
+  @media (max-width: 400px) {
+    padding: ${({ searchBarEditable }: { searchBarEditable: boolean }) =>
+      searchBarEditable ? '10px 10px' : '1px 10px'};
+  }
 `
 
 export const HeaderMobileDiv = styled.div`
@@ -134,11 +137,20 @@ export const HeaderMobileDiv = styled.div`
       > span {
         font-size: 8px;
         margin-left: 3px;
+
+        @media (max-width: 400px) {
+          font-size: 6px;
+        }
       }
 
       > img {
         width: 10px;
         height: 10px;
+
+        @media (max-width: 400px) {
+          width: 8px;
+          height: 8px;
+        }
       }
 
       @media (max-width: 400px) {
@@ -222,9 +234,11 @@ export const HeaderSearchPanel = styled.div`
 export const HeaderVersionPanel = styled.div`
   width: 90px;
   font-size: 12px;
+  font-weight: 500;
   margin-right: 80px;
   display: flex;
   cursor: pointer;
+  padding-left: 4px;
 
   > div {
     margin-top: 8px;
@@ -237,9 +251,10 @@ export const HeaderVersionPanel = styled.div`
   }
 
   @media (max-width: 700px) {
-    width: 66px;
+    width: 63px;
     font-size: 8px;
     margin-right: 40px;
+    padding-left: 2px;
     > div {
       margin-top: 5px;
     }

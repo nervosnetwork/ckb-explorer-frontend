@@ -56,7 +56,6 @@ export const FooterDiv = styled.div`
         }
 
         .footer__top__item {
-          opacity: 0.8;
           display: flex;
           align-items: flex-end;
           margin: 10px 0;

@@ -15,6 +15,7 @@ export const HeaderLanguagePanel = styled.div`
   justify-content: flex-start;
   background-color: #040607;
   border: solid 1px #888888;
+  font-weight: 500;
   position: fixed;
   position: -webkit-fixed;
   z-index: 1000;

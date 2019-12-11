@@ -4,8 +4,10 @@ export const SearchPanel = styled.div`
   margin: 0 auto;
   width: 100%;
   height: ${(props: { hasBorder: boolean }) => (props.hasBorder ? '42px' : '30px')};
+  margin-right: 15px;
   @media (max-width: 700px) {
     height: 25px;
+    margin-right: 0;
   }
   text-align: center;
   display: flex;
@@ -23,7 +25,7 @@ export const SearchPanel = styled.div`
 
 export const SearchImage = styled.div`
   display: inline-block;
-  margin-left: ${(props: { highlightIcon: boolean }) => (props.highlightIcon ? '-35px' : '0')};
+  margin-left: ${(props: { highlightIcon: boolean }) => (props.highlightIcon ? '-45px' : '0')};
   z-index: 2;
 
   @media (max-width: 700px) {
@@ -47,11 +49,12 @@ export const SearchInputPanel = styled.input`
   width: 100%;
   height: 100%;
   font-size: 13px;
+  font-weight: 500;
   padding-left: 35px;
   padding-right: 40px;
   margin-left: -30px;
   background: rgba(255, 255, 255, 0);
-  border: 2px solid #606060;
+  border: 1px solid #606060;
   border-radius: 24px;
   color: #bababa;
 
@@ -83,7 +86,8 @@ export const SearchInputPanel = styled.input`
   @media (max-width: 700px) {
     font-size: 12px;
     width: 100%;
-    padding-left: 10px;
+    padding-left: 30px;
     padding-right: 30px;
+    margin-left: -30px;
   }
 `
