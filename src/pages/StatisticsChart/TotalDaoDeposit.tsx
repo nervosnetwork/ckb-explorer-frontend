@@ -16,6 +16,7 @@ import { handleAxis } from '../../utils/chart'
 import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
+import { shannonToCkb } from '../../utils/util'
 
 const colors = ['#3182bd']
 
@@ -86,7 +87,7 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
         yAxisIndex: '0',
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
-        data: statisticTotalDaoDeposits.map(data => new BigNumber(data.totalDaoDeposit).toFixed(0)),
+        data: statisticTotalDaoDeposits.map(data => new BigNumber(shannonToCkb(data.totalDaoDeposit)).toFixed(0)),
       },
     ],
   }
