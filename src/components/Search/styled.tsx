@@ -51,7 +51,7 @@ export const SearchInputPanel = styled.input`
   font-size: 13px;
   font-weight: 500;
   padding-left: 35px;
-  padding-right: 40px;
+  padding-right: 20px;
   margin-left: -30px;
   background: rgba(255, 255, 255, 0);
   border: 1px solid #606060;
