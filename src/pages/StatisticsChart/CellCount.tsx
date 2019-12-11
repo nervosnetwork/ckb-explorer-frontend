@@ -45,11 +45,11 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
           dataList[0].name,
           1,
         )}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
+        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.dead_cell'))} ${handleAxis(
           dataList[0].data,
           2,
         )}</div>`
-        result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('statistic.dead_cell'))} ${handleAxis(
+        result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
           dataList[1].data,
           2,
         )}</div>`
@@ -57,7 +57,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       },
     },
     legend: !isThumbnail && {
-      data: [i18n.t('statistic.live_cell'), i18n.t('statistic.dead_cell')],
+      data: [i18n.t('statistic.dead_cell'), i18n.t('statistic.live_cell')],
     },
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
@@ -86,7 +86,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
     ],
     series: [
       {
-        name: i18n.t('statistic.live_cell'),
+        name: i18n.t('statistic.dead_cell'),
         type: 'line',
         stack: i18n.t('statistic.cell_count'),
         areaStyle: {
@@ -96,10 +96,10 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
         },
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
-        data: statisticCellCounts.map(data => new BigNumber(data.liveCellsCount).toNumber()),
+        data: statisticCellCounts.map(data => new BigNumber(data.deadCellsCount).toNumber()),
       },
       {
-        name: i18n.t('statistic.dead_cell'),
+        name: i18n.t('statistic.live_cell'),
         type: 'line',
         stack: i18n.t('statistic.cell_count'),
         areaStyle: {
@@ -109,7 +109,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
         },
         symbol: 'circle',
         symbolSize: 3,
-        data: statisticCellCounts.map(data => new BigNumber(data.deadCellsCount).toNumber()),
+        data: statisticCellCounts.map(data => new BigNumber(data.liveCellsCount).toNumber()),
       },
     ],
   }
