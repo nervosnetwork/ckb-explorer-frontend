@@ -135,12 +135,8 @@ export const HeaderMobileDiv = styled.div`
       color: white;
 
       > span {
-        font-size: 8px;
+        font-size: 6px;
         margin-left: 3px;
-
-        @media (max-width: 400px) {
-          font-size: 6px;
-        }
       }
 
       > img {

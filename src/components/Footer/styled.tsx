@@ -32,6 +32,10 @@ export const FooterDiv = styled.div`
         margin: 0 auto;
         width: 450px;
 
+        @media (max-width: 700px) {
+          width: 200px;
+        }
+
         img {
           width: 155px;
           height: auto;
