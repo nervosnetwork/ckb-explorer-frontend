@@ -23,6 +23,7 @@ import TransactionCountChart from '../pages/StatisticsChart/TransactionCount'
 import AddressCountChart from '../pages/StatisticsChart/AddressCount'
 import TotalDaoDepositChart from '../pages/StatisticsChart/TotalDaoDeposit'
 import CellCountChart from '../pages/StatisticsChart/CellCount'
+import AddressBalanceRankChart from '../pages/StatisticsChart/AddressBalanceRank'
 import { AppDispatch } from '../contexts/providers/reducer'
 
 const hasSearch = (pathname: string) => {
@@ -107,6 +108,12 @@ export const containers: CustomRouter.Route[] = [
     path: '/charts/cell_count',
     exact: true,
     comp: CellCountChart,
+  },
+  {
+    name: 'AddressBalanceRankChart',
+    path: '/charts/address_balance_rank',
+    exact: true,
+    comp: AddressBalanceRankChart,
   },
   {
     name: 'SearchFail',

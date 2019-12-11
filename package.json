@@ -16,6 +16,7 @@
     "axios": "^0.18.1",
     "bignumber.js": "^9.0.0",
     "camelcase-keys": "^6.0.1",
+    "default-passive-events": "^1.0.10",
     "echarts": "^4.5.0",
     "echarts-for-react": "^2.0.15-beta.1",
     "env-cmd": "^9.0.1",

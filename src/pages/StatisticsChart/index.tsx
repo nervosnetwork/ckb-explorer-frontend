@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import 'default-passive-events'
 import Content from '../../components/Content'
 import {
   getStatisticDifficultyHashRate,
@@ -8,6 +9,7 @@ import {
   getStatisticCellCount,
   getStatisticTransactionCount,
   getStatisticTotalDaoDeposit,
+  getStatisticAddressBalanceRank,
 } from '../../service/app/statisticsChart'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
@@ -19,6 +21,7 @@ import { AddressCountChart } from './AddressCount'
 import { CellCountChart } from './CellCount'
 import { TotalDaoDepositChart } from './TotalDaoDeposit'
 import { ChartsPanel, ChartCardPanel } from './styled'
+import { AddressBalanceRankChart } from './AddressBalanceRank'
 
 interface ChartData {
   title: string
@@ -45,6 +48,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
     statisticTotalDaoDeposits,
     statisticCellCounts,
     statisticTransactionCounts,
+    statisticAddressBalanceRanks,
   } = useContext(AppContext)
 
   const charts: ChartData[] = [
@@ -78,6 +82,11 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
       chart: <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} isThumbnail />,
       path: '/charts/total_dao_deposit',
     },
+    {
+      title: `${i18n.t('statistic.balance_ranking')}`,
+      chart: <AddressBalanceRankChart statisticAddressBalanceRanks={statisticAddressBalanceRanks} isThumbnail />,
+      path: '/charts/address_balance_rank',
+    },
   ]
 
   useEffect(() => {
@@ -87,6 +96,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
     getStatisticCellCount(dispatch)
     getStatisticTransactionCount(dispatch)
     getStatisticTotalDaoDeposit(dispatch)
+    getStatisticAddressBalanceRank(dispatch)
   }, [dispatch])
 
   return (

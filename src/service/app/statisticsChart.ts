@@ -7,6 +7,7 @@ import {
   fetchStatisticAddressCount,
   fetchStatisticTotalDaoDeposit,
   fetchStatisticCellCount,
+  fetchStatisticAddressBalanceRank,
 } from '../http/fetcher'
 import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
 
@@ -239,6 +240,20 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
       type: PageActions.UpdateStatisticCellCount,
       payload: {
         statisticCellCounts: cellCounts,
+      },
+    })
+  })
+}
+
+export const getStatisticAddressBalanceRank = (dispatch: AppDispatch) => {
+  fetchStatisticAddressBalanceRank().then((wrapper: Response.Wrapper<State.StatisticAddressBalanceRanking> | null) => {
+    if (!wrapper) return
+    const addressBalanceRanks = wrapper.attributes.addressBalanceRanking
+    if (addressBalanceRanks.length === 0) return
+    dispatch({
+      type: PageActions.UpdateStatisticAddressBalanceRank,
+      payload: {
+        statisticAddressBalanceRanks: addressBalanceRanks,
       },
     })
   })

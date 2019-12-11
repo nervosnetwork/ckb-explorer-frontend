@@ -191,3 +191,9 @@ export const fetchStatisticDifficultyUncleRate = () => {
     toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRate>[]>>(res.data),
   )
 }
+
+export const fetchStatisticAddressBalanceRank = () => {
+  return axiosIns(`/statistics/address_balance_ranking`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticAddressBalanceRanking>>(res.data.data),
+  )
+}
