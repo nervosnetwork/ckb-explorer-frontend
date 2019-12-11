@@ -63,19 +63,19 @@ export const ChainTypePanel = styled.div`
   }
 
   @media (max-width: 700px) {
-    width: 96px;
-    height: 75px;
+    width: 80px;
+    height: 65px;
     top: 35px;
 
     .chain_type_selected {
       font-size: 10px;
-      height: 37px;
-      line-height: 37px;
+      height: 32px;
+      line-height: 32px;
     }
     .chain_type_normal {
       font-size: 10px;
-      height: 37px;
-      line-height: 37px;
+      height: 32px;
+      line-height: 32px;
     }
   }
 `
