@@ -103,20 +103,13 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
 
 export const AddressBalanceRankChart = ({
   statisticAddressBalanceRanks,
+  clickEvent,
   isThumbnail = false,
 }: {
   statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[]
+  clickEvent: any
   isThumbnail?: boolean
 }) => {
-  const clickEvent = useCallback(
-    (param: any) => {
-      if (param && param.name) {
-        browserHistory.push(`/address/${getAddressWithRanking(statisticAddressBalanceRanks, param.name)}`)
-      }
-    },
-    [statisticAddressBalanceRanks],
-  )
-
   if (statisticAddressBalanceRanks.length === 0) {
     return isThumbnail ? (
       <ChartCardLoadingPanel>
@@ -134,7 +127,7 @@ export const AddressBalanceRankChart = ({
         height: isThumbnail ? '230px' : '70vh',
       }}
       onEvents={{
-        click: isThumbnail ? () => {} : clickEvent,
+        click: clickEvent,
       }}
     />
   )
@@ -142,6 +135,15 @@ export const AddressBalanceRankChart = ({
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
   const { statisticAddressBalanceRanks } = useContext(AppContext)
+
+  const clickEvent = useCallback(
+    (param: any) => {
+      if (param && param.name) {
+        browserHistory.push(`/address/${getAddressWithRanking(statisticAddressBalanceRanks, param.name)}`)
+      }
+    },
+    [statisticAddressBalanceRanks],
+  )
 
   useEffect(() => {
     getStatisticAddressBalanceRank(dispatch)
@@ -152,7 +154,10 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
       <ChartTitle>{i18n.t('statistic.balance_ranking')}</ChartTitle>
       {statisticAddressBalanceRanks.length > 0 ? (
         <ChartPanel>
-          <AddressBalanceRankChart statisticAddressBalanceRanks={statisticAddressBalanceRanks} />
+          <AddressBalanceRankChart
+            statisticAddressBalanceRanks={statisticAddressBalanceRanks}
+            clickEvent={clickEvent}
+          />
         </ChartPanel>
       ) : (
         <LoadingPanel>
