@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const FooterDiv = styled.div`
   width: 100%;
   overflow: hidden;
-  background-color: #424242;
+  background-color: #040607;
   display: flex;
   flex-direction: column;
 
