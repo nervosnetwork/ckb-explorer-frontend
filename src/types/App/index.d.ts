@@ -190,9 +190,42 @@ declare namespace State {
     epochNumber?: number
   }
 
-  export interface StatisticsUncleRate {
+  export interface StatisticUncleRate {
     uncleRate: number
     epochNumber: number
+  }
+
+  export interface StatisticTransactionCount {
+    transactionsCount: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticAddressCount {
+    addressesCount: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticTotalDaoDeposit {
+    totalDaoDeposit: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticDifficultyHashRate {
+    difficulty: string
+    hashRate: string
+    blockNumber: string
+  }
+
+  export interface StatisticCellCount {
+    liveCellsCount: string
+    deadCellsCount: string
+    blockNumber: string
+  }
+
+  export interface StatisticDifficultyUncleRate {
+    difficulty: string
+    uncleRate: string
+    epochNumber: string
   }
 
   export interface Components {
@@ -260,6 +293,12 @@ declare namespace State {
     statistics: Statistics
     statisticsChartData: StatisticsBaseData[]
     statisticsUncleRates: StatisticsUncleRateChart[]
+    statisticDifficultyHashRates: StatisticsDifficultyHashRate[]
+    statisticDifficultyUncleRates: StatisticsDifficultyUncleRate[]
+    statisticTransactionCounts: StatisticTransactionCount[]
+    statisticCellCounts: StatisticCellCount[]
+    statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
+    statisticAddressCounts: StatisticAddressCount[]
     nervosDaoState: NervosDaoState
 
     components: Components

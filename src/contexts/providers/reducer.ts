@@ -35,6 +35,13 @@ export enum PageActions {
   UpdateStatisticsChartData = 'updateStatisticsChartData',
   UpdateStatisticsUncleRate = 'updateStatisticsUncleRate',
 
+  UpdateStatisticDifficultyHashRate = 'updateStatisticDifficultyHashRate',
+  UpdateStatisticDifficultyUncleRate = 'updateStatisticDifficultyUncleRate',
+  UpdateStatisticTransactionCount = 'updateStatisticTransactionCount',
+  UpdateStatisticAddressCount = 'updateStatisticAddressCount',
+  UpdateStatisticTotalDaoDeposit = 'updateStatisticTotalDaoDeposit',
+  UpdateStatisticCellCount = 'updateStatisticCellCount',
+
   UpdateNervosDao = 'updateNervosDao',
   UpdateNervosDaoTransactions = 'updateNervosDaoTransactions',
   UpdateNervosDaoTransactionsTotal = 'updateNervosDaoTransactionsTotal',
@@ -269,6 +276,37 @@ export const reducer = (
         ...state,
         statisticsUncleRates: payload.statisticsUncleRates,
       }
+    case PageActions.UpdateStatisticDifficultyHashRate:
+      return {
+        ...state,
+        statisticDifficultyHashRates: payload.statisticDifficultyHashRates,
+      }
+    case PageActions.UpdateStatisticDifficultyUncleRate:
+      return {
+        ...state,
+        statisticDifficultyUncleRates: payload.statisticDifficultyUncleRates,
+      }
+    case PageActions.UpdateStatisticTransactionCount:
+      return {
+        ...state,
+        statisticTransactionCounts: payload.statisticTransactionCounts,
+      }
+    case PageActions.UpdateStatisticAddressCount:
+      return {
+        ...state,
+        statisticAddressCounts: payload.statisticAddressCounts,
+      }
+    case PageActions.UpdateStatisticTotalDaoDeposit:
+      return {
+        ...state,
+        statisticTotalDaoDeposits: payload.statisticTotalDaoDeposits,
+      }
+    case PageActions.UpdateStatisticCellCount:
+      return {
+        ...state,
+        statisticCellCounts: payload.statisticCellCounts,
+      }
+
     case PageActions.UpdateNervosDao:
       return {
         ...state,

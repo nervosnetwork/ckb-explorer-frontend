@@ -37,6 +37,15 @@
       "mainnet": "Lina Mainnet",
       "testnet": "Testnet"
     },
+    "statistic": {
+      "transaction_count": "交易数量",
+      "address_count": "地址数量",
+      "total_dao_deposit": "Nervos DAO 锁定总额",
+      "live_cell": "未花费 Cell",
+      "dead_cell": "已花费 Cell",
+      "cell_count": "Cell 数量",
+      "date": "时间"
+    },
     "home": {
       "height": "高度",
       "transactions": "交易",
@@ -135,6 +144,7 @@
       "hash_rate_hps": "哈希率(H/s)",
       "hash_rate": "哈希率",
       "uncle_rate": "叔块率",
+      "uncle_rate_target": "叔块率目标值",
       "transactions_root": "Transactions Root",
       "witnesses_root": "Witnesses Root",
       "pending": "待发放",

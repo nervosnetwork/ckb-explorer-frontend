@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@cryptape/sdk-ts-config": "^0.0.1",
+    "@types/echarts": "^4.4.1",
     "@types/eslint": "^6.1.1",
     "@types/jest": "24.0.15",
     "@types/node": "12.0.10",
@@ -14,8 +15,9 @@
     "antd": "^3.25.1",
     "axios": "^0.18.1",
     "bignumber.js": "^9.0.0",
-    "bizcharts": "^3.5.4",
     "camelcase-keys": "^6.0.1",
+    "echarts": "^4.5.0",
+    "echarts-for-react": "^2.0.15-beta.1",
     "env-cmd": "^9.0.1",
     "eslint": "^6.2.2",
     "history": "^4.7.2",
