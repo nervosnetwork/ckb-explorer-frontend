@@ -6,13 +6,35 @@ export const HomeHeaderPanel = styled.div`
   margin: 0 auto;
 
   .blockchain__item__container {
-    min-width: 100%;
+    width: 100%;
     display: flex;
-    margin: 40px 0 20px 0;
     padding: 20px 5px;
+    margin: 40px 0 20px 0;
     box-shadow: 2px 2px 4px 0 #b3b3b3;
     border-radius: 6px;
+
+    @media (max-width: 700px) {
+      flex-direction: column;
+      padding: 0px 5px;
+      width: 88%;
+      margin: 20px 6%;
+      box-shadow: 1px 1px 3px 0 #b3b3b3;
+      border-radius: 3px;
+    }
+
     background: #ffffff;
+
+    .blockchain__item__mobile {
+      display: flex;
+      width: 100%;
+      padding: 20px 0;
+    }
+
+    .blockchain__item__mobile_separate {
+      height: 1px;
+      background: #eaeaea;
+      width: 100%;
+    }
   }
 `
 
@@ -36,6 +58,10 @@ export const HomeHeaderItemPanel = styled.div`
       @media (max-width: 1000px) {
         font-size: 12px;
       }
+
+      @media (max-width: 700px) {
+        font-size: 10px;
+      }
     }
 
     .blockchain__item__top_value {
@@ -46,6 +72,10 @@ export const HomeHeaderItemPanel = styled.div`
 
       @media (max-width: 1000px) {
         font-size: 17px;
+      }
+
+      @media (max-width: 700px) {
+        font-size: 14px;
       }
     }
 
@@ -64,6 +94,10 @@ export const HomeHeaderItemPanel = styled.div`
       @media (max-width: 1000px) {
         font-size: 12px;
       }
+
+      @media (max-width: 700px) {
+        font-size: 10px;
+      }
     }
 
     .blockchain__item__bottom_value {
@@ -76,6 +110,10 @@ export const HomeHeaderItemPanel = styled.div`
 
       @media (max-width: 1000px) {
         font-size: 17px;
+      }
+
+      @media (max-width: 700px) {
+        font-size: 14px;
       }
     }
   }

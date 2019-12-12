@@ -242,9 +242,29 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
     <Content>
       <HomeHeaderPanel>
         <div className="blockchain__item__container">
-          {blockchainDataList(statistics).map((data: BlockchainData) => {
-            return <BlockchainItem blockchain={data} key={data.topName} />
-          })}
+          {!isMobile() &&
+            blockchainDataList(statistics).map((data: BlockchainData) => {
+              return <BlockchainItem blockchain={data} key={data.topName} />
+            })}
+          {isMobile() && (
+            <>
+              <div className="blockchain__item__mobile">
+                {blockchainDataList(statistics)
+                  .slice(0, 2)
+                  .map((data: BlockchainData) => {
+                    return <BlockchainItem blockchain={data} key={data.topName} />
+                  })}
+              </div>
+              <div className="blockchain__item__mobile_separate" />
+              <div className="blockchain__item__mobile">
+                {blockchainDataList(statistics)
+                  .slice(2)
+                  .map((data: BlockchainData) => {
+                    return <BlockchainItem blockchain={data} key={data.topName} />
+                  })}
+              </div>
+            </>
+          )}
         </div>
       </HomeHeaderPanel>
       <BlockPanel className="container">
