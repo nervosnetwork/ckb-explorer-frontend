@@ -9,7 +9,7 @@ export const HomeHeaderPanel = styled.div`
     width: 100%;
     display: flex;
     padding: 20px 5px;
-    margin: 40px 0 20px 0;
+    margin: 30px 0 20px 0;
     box-shadow: 2px 2px 4px 0 #b3b3b3;
     border-radius: 6px;
 

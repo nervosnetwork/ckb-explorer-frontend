@@ -139,7 +139,7 @@ const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
       topValue: parseBlockTime(statistics.averageBlockTime),
       bottomName: i18n.t('blockchain.estimated_epoch_time'),
       bottomValue: parseTimeNoSecond(Number(statistics.estimatedEpochTime)),
-      showSeparate: true,
+      showSeparate: !isMobile(),
     },
     {
       topName: i18n.t('blockchain.hash_rate'),

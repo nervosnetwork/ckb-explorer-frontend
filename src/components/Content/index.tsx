@@ -5,7 +5,7 @@ const parseMargin = (width: number) => {
   if (width >= 1200) {
     return 64
   }
-  return 70 / (width / 1200)
+  return 64 / (width / 1200)
 }
 
 const ContentDiv = styled.div`
