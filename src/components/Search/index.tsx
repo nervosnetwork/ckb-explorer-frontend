@@ -176,7 +176,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
     )
   }
   return (
-    <SearchPanel>
+    <SearchPanel hasBorder={!!hasBorder}>
       {!hasBorder && <SearchIconButton />}
       {isMobile() && <div className="search__icon__separate" />}
       <SearchInputPanel

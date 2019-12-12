@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const FooterDiv = styled.div`
   width: 100%;
   overflow: hidden;
-  background-color: #424242;
+  background-color: #040607;
   display: flex;
   flex-direction: column;
 
@@ -30,14 +30,18 @@ export const FooterDiv = styled.div`
         align-items: center;
         justify-content: center;
         margin: 0 auto;
-        width: 276px;
+        width: 450px;
+
+        @media (max-width: 700px) {
+          width: 200px;
+        }
 
         img {
-          width: 110px;
+          width: 155px;
           height: auto;
 
           @media (max-width: 700px) {
-            width: 40px;
+            width: 60px;
           }
         }
       }
@@ -46,7 +50,6 @@ export const FooterDiv = styled.div`
         flex: 1;
         display: flex;
         align-items: center;
-        justify-content: center;
         margin: 0 auto;
         padding-top: 20px;
         padding-bottom: 25px;
@@ -56,7 +59,6 @@ export const FooterDiv = styled.div`
         }
 
         .footer__top__item {
-          opacity: 0.8;
           display: flex;
           align-items: flex-end;
           margin: 10px 0;
@@ -91,18 +93,18 @@ export const FooterDiv = styled.div`
 
   .footer__copyright {
     display: flex;
-    padding: 20px;
+    padding: 21px;
     align-items: center;
     justify-content: center;
-    border-top: 1px solid white;
-    font-size: 16px;
-    line-height: 22px;
+    border-top: 1px solid #2b2b2b;
+    font-size: 12px;
+    line-height: 13px;
     text-align: center;
     color: #e3e3e3;
 
     @media (max-width: 700px) {
       padding: 10px;
-      font-size: 12px;
+      font-size: 8px;
     }
   }
 `

@@ -18,6 +18,11 @@ export const parseSimpleDateNoSecond = (timestamp: number | string) => {
   )}`
 }
 
+export const parseDateNoTime = (timestamp: number | string) => {
+  const date = new Date(Number(timestamp) * 1000)
+  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+}
+
 export const parseDate = (timestamp: number | string) => {
   const now = new Date().getTime()
   const diff = (now - Number(timestamp)) / 1000
