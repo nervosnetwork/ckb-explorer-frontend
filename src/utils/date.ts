@@ -19,7 +19,7 @@ export const parseSimpleDateNoSecond = (timestamp: number | string) => {
 }
 
 export const parseTimeNoSecond = (timestamp: number | string) => {
-  const date = new Date(Number(timestamp))
+  const date = new Date(Number(timestamp) * 1000)
   return `${formatData(date.getHours())} h ${formatData(date.getMinutes())} m`
 }
 
@@ -60,11 +60,4 @@ export const parseTime = (millisecond: number) => {
     return `${Math.floor(minute)} m ${second.toFixed(0)} s`
   }
   return `${second.toFixed(2)} s`
-}
-
-export default {
-  parseDate,
-  parseSimpleDate,
-  getCurrentYear,
-  parseTime,
 }
