@@ -18,9 +18,11 @@ export const parseSimpleDateNoSecond = (timestamp: number | string) => {
   )}`
 }
 
-export const parseTimeNoSecond = (timestamp: number | string) => {
-  const date = new Date(Number(timestamp) * 1000)
-  return `${formatData(date.getHours())} h ${formatData(date.getMinutes())} m`
+export const parseTimeNoSecond = (millisecond: number | string) => {
+  const second = Number(millisecond) / 1000
+  const minute = Math.floor((second / 60) % 60)
+  const hour = Math.floor(second / 3600)
+  return `${hour} h ${minute} m`
 }
 
 export const parseDateNoTime = (timestamp: number | string) => {
