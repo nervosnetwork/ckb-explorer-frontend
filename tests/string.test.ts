@@ -3,7 +3,9 @@ import {
   startEndEllipsis,
   hexToUtf8,
   addPrefixForHash,
+  handleBigNumber,
 } from '../src/utils/string'
+import BigNumber from 'bignumber.js'
 
 describe('String methods tests', () => {
   it('parse valid number', async () => {
@@ -117,5 +119,13 @@ describe('String methods tests', () => {
     // other
     expect(addPrefixForHash('azusa')).toBe('azusa')
     expect(addPrefixForHash('2233')).toBe('2233')
+  })
+
+
+  it('handleBigNumber', async () => {
+    expect(handleBigNumber(new BigNumber(102300))).toBe('102.3K')
+    expect(handleBigNumber(new BigNumber(12233435))).toBe('12.233435M')
+    expect(handleBigNumber(new BigNumber(102300), 2)).toBe('102.30K')
+    expect(handleBigNumber(new BigNumber(12233435), 3)).toBe('12.233M')
   })
 })

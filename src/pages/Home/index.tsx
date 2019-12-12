@@ -130,8 +130,8 @@ const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
       topName: i18n.t('blockchain.latest_block'),
       topValue: localeNumberString(statistics.tipBlockNumber),
       bottomName: i18n.t('blockchain.epoch'),
-      bottomValue: `${statistics.epochInfo.epochNumber}/${statistics.epochInfo.epochLength}`,
-      rightValue: statistics.epochInfo.index,
+      bottomValue: `${statistics.epochInfo.index}/${statistics.epochInfo.epochLength}`,
+      rightValue: statistics.epochInfo.epochNumber,
       showSeparate: true,
     },
     {
