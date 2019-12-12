@@ -27,8 +27,9 @@
     },
     "blockchain": {
       "latest_block": "最高块",
+      "epoch": "Epoch",
       "hash_rate": "挖矿算力",
-      "current_epoch_difficulty": "当前 Epoch 难度",
+      "difficulty": "挖矿难度",
       "average_block_time": "平均出块时间",
       "estimated_epoch_time": "预计 Epoch 时间",
       "transactions_per_minute": "每分钟的交易数",

@@ -1,117 +1,90 @@
 import styled from 'styled-components'
 
 export const HomeHeaderPanel = styled.div`
-  min-height: 170px;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px 0px 30px 0px;
 
   .blockchain__item__container {
     min-width: 100%;
     display: flex;
-    flex-wrap: wrap;
-
-    @media (min-width: 700px) {
-      margin: 0 -6px;
-    }
-  }
-  @media (max-width: 1200px) {
-    .blockchain__item__container {
-      margin: 0 auto;
-    }
-  }
-  @media (max-width: 700px) {
-    padding: 10px 20px 20px 20px;
-    .blockchain__item__container {
-      justify-content: space-between;
-    }
+    margin: 40px 0 20px 0;
+    padding: 20px 5px;
+    box-shadow: 2px 2px 4px 0 #b3b3b3;
+    border-radius: 6px;
+    background: #ffffff;
   }
 `
 
 export const HomeHeaderItemPanel = styled.div`
-  width: 290px;
-  height: 148px;
-  margin: 0px 6px;
-  margin-top: 10px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   background-color: white;
-  border: 0px solid white;
-  border-radius: 6px;
-  box-shadow: 2px 2px 4px #b3b3b3;
-  overflow: hidden;
+  flex: 1;
 
-  cursor: ${(props: { clickable: boolean }) => (props.clickable ? 'pointer' : 'default')};
-
-  .blockchain__item__value {
-    margin-top: 30px;
-    height: 32px;
-    color: #000000;
-    text-align: center;
-    font-size: 26px;
-    font-weight: 500;
-    transition: margin-top 200ms ease-in-out;
-  }
-
-  .blockchain__item__name {
-    margin-top: 10px;
-    height: 19px;
-    color: #000000;
-    text-align: center;
-    font-size: 16px;
-    font-weight: normal;
-  }
-
-  .blockchain__item__tip__content {
-    width: 100%;
-    height: 40px;
-    text-align: center;
-    font-weight: 500;
-    line-height: 40px;
-    color: #ffffff;
-    font-size: 12px;
-    background: ${props => props.theme.primary};
-    margin-top: 18px;
-    transition: opacity 200ms linear;
-  }
-
-  @media (max-width: 700px) {
-    width: calc(50% - 5px);
-    height: 80px;
+  .blockchain__item__content {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background-color: white;
-    border: 0px solid white;
-    border-radius: 3px;
-    box-shadow: 1px 1px 3px #dfdfdf;
-    margin: 10px 0px 0px 0px;
+    width: 80%;
+    margin: 0 9%;
 
-    .blockchain__item__value {
-      margin-top: 23px;
-      height: 18px;
-      color: #000000;
-      text-align: center;
-      font-size: 16px;
-      font-weight: 600;
+    .blockchain__item__top_name {
+      color: ${props => props.theme.primary};
+      font-size: 14px;
+      font-weight: 450;
+
+      @media (max-width: 1000px) {
+        font-size: 12px;
+      }
     }
 
-    .blockchain__item__name {
+    .blockchain__item__top_value {
       margin-top: 5px;
-      height: 10px;
       color: #000000;
-      text-align: center;
-      font-size: 12px;
+      font-size: 22px;
+      font-weight: 600;
+
+      @media (max-width: 1000px) {
+        font-size: 17px;
+      }
     }
 
-    &:hover .blockchain__item__tip {
-      display: none;
+    .blockchain__item__separate {
+      margin: 10px 0 20px 0;
+      height: 1px;
+      background: #eaeaea;
+      width: 100%;
     }
 
-    .blockchain__item__tip__content {
-      display: none;
+    .blockchain__item__bottom_name {
+      color: ${props => props.theme.primary};
+      font-size: 14px;
+      font-weight: 450;
+
+      @media (max-width: 1000px) {
+        font-size: 12px;
+      }
     }
+
+    .blockchain__item__bottom_value {
+      margin-top: 5px;
+      color: #000000;
+      font-size: 22px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+
+      @media (max-width: 1000px) {
+        font-size: 17px;
+      }
+    }
+  }
+
+  .blockchain__item__between_separate {
+    height: 60%;
+    margin-left: 1%;
+    background: #eaeaea;
+    width: 1px;
   }
 `
 

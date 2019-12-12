@@ -27,7 +27,8 @@
     },
     "blockchain": {
       "latest_block": "Latest Block",
-      "current_epoch_difficulty": "Current Epoch Difficulty",
+      "epoch": "Epoch",
+      "difficulty": "Mining Difficulty",
       "hash_rate": "Mining Hash Rate",
       "average_block_time": "Average Block Time",
       "estimated_epoch_time": "Estimated Epoch Time",
