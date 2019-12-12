@@ -42,7 +42,7 @@
       "address_count": "Address Count",
       "total_dao_deposit": "Total Nervos DAO Deposit",
       "live_cell": "Live Cell",
-      "dead_cell": "Dead Cell",
+      "archived_cell": "Archived Cell",
       "cell_count": "Cell Count",
       "balance_ranking": "Balance Ranking",
       "ranking": "Ranking",
