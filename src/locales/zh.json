@@ -48,7 +48,8 @@
       "ranking": "排名",
       "balance": "余额",
       "address": "地址",
-      "date": "时间"
+      "date": "时间",
+      "log": "（对数坐标）"
     },
     "home": {
       "height": "高度",
