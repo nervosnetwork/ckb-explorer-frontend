@@ -83,7 +83,9 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
           },
         },
         axisLabel: {
-          formatter: (value: string) => handleAxis(value),
+          formatter: (value: string) => {
+            return `${handleAxis(value)}B`
+          },
         },
       },
     ],
