@@ -164,6 +164,14 @@ declare namespace State {
     averageBlockTime: string
     currentEpochDifficulty: string
     hashRate: string
+    epochInfo: {
+      epochNumber: string
+      epochLength: string
+      index: string
+    }
+    estimatedEpochTime: string
+    transactionsLast24Hrs: string
+    transactionsCountPerMinute: string
   }
 
   export interface StatisticsChart {
