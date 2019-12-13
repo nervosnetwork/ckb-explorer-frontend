@@ -19,6 +19,8 @@ export const initAddressState: State.AddressState = {
       epochIndex: '0',
       estimatedUnlockTime: '0',
     },
+    isSpecial: false,
+    specialAddress: '',
   },
   transactions: [],
   total: 0,
