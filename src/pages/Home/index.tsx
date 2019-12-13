@@ -266,7 +266,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
                       return (
                         <React.Fragment key={key}>
                           {data.content === block.minerHash ? (
-                            <TableMinerContentItem width={data.width} content={data.content} />
+                            <TableMinerContentItem width={data.width} content={data.content} dispatch={dispatch} />
                           ) : (
                             <TableContentItem width={data.width} content={data.content} to={data.to} />
                           )}

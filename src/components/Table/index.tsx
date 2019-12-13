@@ -1,9 +1,12 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { Tooltip } from 'antd'
 import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
 import { adaptPCEllipsis } from '../../utils/string'
+import CopyTooltip from '../Tooltip/CopyTooltip'
+import { AppDispatch } from '../../contexts/providers/reducer'
 
 export const TableTitleRow = styled.div`
   background: ${props => props.theme.primary};
@@ -122,7 +125,15 @@ export const TableContentItem = ({ width, content, to }: { width: string; conten
   )
 }
 
-export const TableMinerContentItem = ({ width, content }: { width: string; content: string }) => {
+export const TableMinerContentItem = ({
+  width,
+  content,
+  dispatch,
+}: {
+  width: string
+  content: string
+  dispatch: AppDispatch
+}) => {
   return (
     <TableMinerContentPanel width={width}>
       {content ? (
@@ -135,7 +146,13 @@ export const TableMinerContentItem = ({ width, content }: { width: string; conte
             event.preventDefault()
           }}
         >
-          <span className="table__miner__text address">{adaptPCEllipsis(content, 14, 60)}</span>
+          {adaptPCEllipsis(content, 14, 60).includes('...') ? (
+            <Tooltip placement="top" title={<CopyTooltip content={content} dispatch={dispatch} />}>
+              <span className="table__miner__text address">{adaptPCEllipsis(content, 14, 60)}</span>
+            </Tooltip>
+          ) : (
+            <span className="table__miner__text address">{adaptPCEllipsis(content, 14, 60)}</span>
+          )}
         </Link>
       ) : (
         <div className="table__miner__text__disable">{i18n.t('address.unable_decode_address')}</div>
