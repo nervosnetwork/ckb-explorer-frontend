@@ -20,10 +20,10 @@ import {
   TableMinerContentItem,
 } from '../../components/Table'
 import { shannonToCkb } from '../../utils/util'
-import { parseTime, parseSimpleDate } from '../../utils/date'
+import { parseTime, parseSimpleDate, parseTimeNoSecond } from '../../utils/date'
 import { BLOCK_POLLING_TIME, DELAY_BLOCK_NUMBER } from '../../utils/const'
 import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
-import { adaptMobileEllipsis } from '../../utils/string'
+import { adaptMobileEllipsis, handleBigNumber } from '../../utils/string'
 import { isMobile } from '../../utils/screen'
 import browserHistory from '../../routes/history'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
@@ -36,16 +36,18 @@ import DecimalCapacity from '../../components/DecimalCapacity'
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   return (
-    <HomeHeaderItemPanel
-      clickable={!!blockchain.clickable}
-      onKeyPress={() => {}}
-      onClick={() => {
-        if (blockchain.clickable) browserHistory.push('./charts')
-      }}
-    >
-      <div className="blockchain__item__value">{blockchain.value}</div>
-      <div className="blockchain__item__name">{blockchain.name}</div>
-      {blockchain.tip && <div className="blockchain__item__tip__content">{blockchain.tip}</div>}
+    <HomeHeaderItemPanel>
+      <div className="blockchain__item__content">
+        <div className="blockchain__item__top_name">{blockchain.topName}</div>
+        <div className="blockchain__item__top_value">{blockchain.topValue}</div>
+        <div className="blockchain__item__separate" />
+        <div className="blockchain__item__bottom_name">{blockchain.bottomName}</div>
+        <div className="blockchain__item__bottom_value">
+          <div>{blockchain.bottomValue}</div>
+          {blockchain.rightValue && <div>{`${blockchain.rightValue}(th)`}</div>}
+        </div>
+      </div>
+      {blockchain.showSeparate && <div className="blockchain__item__between_separate" />}
     </HomeHeaderItemPanel>
   )
 }
@@ -70,10 +72,12 @@ interface TableContentData {
 }
 
 interface BlockchainData {
-  name: string
-  value: string
-  tip: string
-  clickable?: boolean
+  topName: string
+  topValue: string
+  bottomName: string
+  bottomValue: string
+  rightValue?: string
+  showSeparate: boolean
 }
 
 const parseHashRate = (hashRate: string | undefined) => {
@@ -120,29 +124,37 @@ const parseBlockTime = (blockTime: string | undefined) => {
   return blockTime ? parseTime(Number(blockTime)) : '- -'
 }
 
-const blockchainDataList = (statistics: State.Statistics) => {
+const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
   return [
     {
-      name: i18n.t('blockchain.latest_block'),
-      value: localeNumberString(statistics.tipBlockNumber),
-      tip: i18n.t('blockchain.latest_block_tooltip'),
+      topName: i18n.t('blockchain.latest_block'),
+      topValue: localeNumberString(statistics.tipBlockNumber),
+      bottomName: i18n.t('blockchain.epoch'),
+      bottomValue: `${statistics.epochInfo.index}/${statistics.epochInfo.epochLength}`,
+      rightValue: statistics.epochInfo.epochNumber,
+      showSeparate: true,
     },
     {
-      name: i18n.t('block.difficulty'),
-      value: handleDifficulty(statistics.currentEpochDifficulty),
-      tip: i18n.t('blockchain.difficulty_tooltip'),
-      clickable: true,
+      topName: i18n.t('blockchain.average_block_time'),
+      topValue: parseBlockTime(statistics.averageBlockTime),
+      bottomName: i18n.t('blockchain.estimated_epoch_time'),
+      bottomValue: parseTimeNoSecond(Number(statistics.estimatedEpochTime)),
+      showSeparate: !isMobile(),
     },
     {
-      name: i18n.t('blockchain.hash_rate'),
-      value: parseHashRate(statistics.hashRate),
-      tip: i18n.t('blockchain.hash_rate_tooltip'),
-      clickable: true,
+      topName: i18n.t('blockchain.hash_rate'),
+      topValue: parseHashRate(statistics.hashRate),
+      bottomName: i18n.t('blockchain.difficulty'),
+      bottomValue: handleDifficulty(statistics.currentEpochDifficulty),
+      showSeparate: true,
     },
+
     {
-      name: i18n.t('blockchain.average_block_time'),
-      value: parseBlockTime(statistics.averageBlockTime),
-      tip: i18n.t('blockchain.average_block_time_tooltip'),
+      topName: i18n.t('blockchain.transactions_per_minute'),
+      topValue: handleBigNumber(statistics.transactionsCountPerMinute, 2),
+      bottomName: i18n.t('blockchain.transactions_last_24hrs'),
+      bottomValue: handleBigNumber(statistics.transactionsLast24Hrs, 2),
+      showSeparate: false,
     },
   ]
 }
@@ -230,9 +242,29 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
     <Content>
       <HomeHeaderPanel>
         <div className="blockchain__item__container">
-          {blockchainDataList(statistics).map((data: BlockchainData) => {
-            return <BlockchainItem blockchain={data} key={data.name} />
-          })}
+          {!isMobile() &&
+            blockchainDataList(statistics).map((data: BlockchainData) => {
+              return <BlockchainItem blockchain={data} key={data.topName} />
+            })}
+          {isMobile() && (
+            <>
+              <div className="blockchain__item__mobile">
+                {blockchainDataList(statistics)
+                  .slice(0, 2)
+                  .map((data: BlockchainData) => {
+                    return <BlockchainItem blockchain={data} key={data.topName} />
+                  })}
+              </div>
+              <div className="blockchain__item__mobile_separate" />
+              <div className="blockchain__item__mobile">
+                {blockchainDataList(statistics)
+                  .slice(2)
+                  .map((data: BlockchainData) => {
+                    return <BlockchainItem blockchain={data} key={data.topName} />
+                  })}
+              </div>
+            </>
+          )}
         </div>
       </HomeHeaderPanel>
       <BlockPanel className="container">

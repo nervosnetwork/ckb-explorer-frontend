@@ -27,12 +27,13 @@
     },
     "blockchain": {
       "latest_block": "Latest Block",
-      "latest_block_tooltip": "The latest block of the best chain",
-      "difficulty_tooltip": "Difficulty of the latest epoch",
-      "hash_rate": "Hash Rate",
-      "hash_rate_tooltip": "Average Hash Rate of the last 900 blocks",
+      "epoch": "Epoch",
+      "difficulty": "Mining Difficulty",
+      "hash_rate": "Mining Hash Rate",
       "average_block_time": "Average Block Time",
-      "average_block_time_tooltip": "Average Block Time of the last 100 blocks",
+      "estimated_epoch_time": "Estimated Epoch Time",
+      "transactions_per_minute": "Transactions per Minute",
+      "transactions_last_24hrs": "Transactions in Last 24hrs",
       "nervos_dao": "Nervos DAO",
       "mainnet": "Lina Mainnet",
       "testnet": "Testnet"
