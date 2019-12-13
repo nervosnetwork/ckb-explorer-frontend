@@ -22,7 +22,7 @@ import {
 import { shannonToCkb } from '../../utils/util'
 import { parseTime, parseSimpleDate, parseTimeNoSecond } from '../../utils/date'
 import { BLOCK_POLLING_TIME, DELAY_BLOCK_NUMBER } from '../../utils/const'
-import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
+import { localeNumberString, handleHashRate, handleDifficulty, parseEpochNumber } from '../../utils/number'
 import { adaptMobileEllipsis, handleBigNumber } from '../../utils/string'
 import { isMobile } from '../../utils/screen'
 import browserHistory from '../../routes/history'
@@ -44,7 +44,7 @@ const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
         <div className="blockchain__item__bottom_name">{blockchain.bottomName}</div>
         <div className="blockchain__item__bottom_value">
           <div>{blockchain.bottomValue}</div>
-          {blockchain.rightValue && <div>{`${blockchain.rightValue}(th)`}</div>}
+          {blockchain.rightValue && <div>{blockchain.rightValue}</div>}
         </div>
       </div>
       {blockchain.showSeparate && <div className="blockchain__item__between_separate" />}
@@ -131,7 +131,7 @@ const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
       topValue: localeNumberString(statistics.tipBlockNumber),
       bottomName: i18n.t('blockchain.epoch'),
       bottomValue: `${statistics.epochInfo.index}/${statistics.epochInfo.epochLength}`,
-      rightValue: statistics.epochInfo.epochNumber,
+      rightValue: parseEpochNumber(statistics.epochInfo.epochNumber),
       showSeparate: true,
     },
     {
