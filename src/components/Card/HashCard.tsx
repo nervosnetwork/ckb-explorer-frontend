@@ -85,7 +85,9 @@ const HashCardPanel = styled.div`
     margin-left: 10px;
     font-size: 18px;
     margin-top: 8px;
-    color: ${props => props.theme.primary} @media (max-width: 700px) {
+    color: ${props => props.theme.primary};
+
+    @media (max-width: 700px) {
       margin-left: 5px;
       font-size: 12px;
       margin-top: 4px;
@@ -150,7 +152,7 @@ export default ({
         {!loading && <img src={CopyIcon} alt="copy" />}
       </div>
       {fullAddress && (
-        <Tooltip title={i18n.t('address.vesting_tooltip')}>
+        <Tooltip title={i18n.t('address.vesting_tooltip')} placement="bottom">
           <Link to={`/address/${fullAddress}`}>{i18n.t('address.vesting')}</Link>
         </Tooltip>
       )}
