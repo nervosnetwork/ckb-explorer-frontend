@@ -17,7 +17,7 @@ export default ({
   return (
     <TransactionCellListPanel>
       {cells && cells.map((cell, index) => index < MAX_CELL_SHOW_SIZE && render(cell))}
-      {cells && cells.length > MAX_CELL_SHOW_SIZE && (
+      {cells && cells.length >= MAX_CELL_SHOW_SIZE && (
         <div className="transaction_item__view_all">
           <Link to={`/transaction/${transaction.transactionHash}`}>{i18n.t('common.view_all')}</Link>
         </div>
