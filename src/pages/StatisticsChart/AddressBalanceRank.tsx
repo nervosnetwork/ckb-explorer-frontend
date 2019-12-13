@@ -73,7 +73,7 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
     yAxis: [
       {
         position: 'left',
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.balance_ranking'),
+        name: isMobile() || isThumbnail ? '' : `${i18n.t('statistic.balance_ranking')} ${i18n.t('statistic.log')}`,
         type: 'log',
         logBase: 10,
         scale: true,
@@ -83,7 +83,9 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
           },
         },
         axisLabel: {
-          formatter: (value: string) => handleAxis(value),
+          formatter: (value: string) => {
+            return `${handleAxis(value)}B`
+          },
         },
       },
     ],

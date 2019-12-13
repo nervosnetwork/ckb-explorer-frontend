@@ -48,7 +48,8 @@
       "ranking": "Ranking",
       "balance": "Balance",
       "address": "Address",
-      "date": "Date"
+      "date": "Date",
+      "log": "(Log)"
     },
     "home": {
       "height": "Height",
