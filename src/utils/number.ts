@@ -66,8 +66,15 @@ export const handleHashRate = (value: BigNumber | string | number) => {
   return `${handleDifficulty(value)}/s`
 }
 
-export default {
-  localeNumberString,
-  handleDifficulty,
-  handleHashRate,
+export const parseEpochNumber = (index: string) => {
+  switch (index.charAt(index.length - 1)) {
+    case '1':
+      return `${index}st`
+    case '2':
+      return `${index}nd`
+    case '3':
+      return `${index}rd`
+    default:
+      return `${index}th`
+  }
 }
