@@ -152,7 +152,7 @@ export default ({
         {!loading && <img src={CopyIcon} alt="copy" />}
       </div>
       {specialAddress && (
-        <Tooltip title={i18n.t('address.vesting_tooltip')} placement="bottom">
+        <Tooltip title={i18n.t('address.vesting_tooltip')} placement={isMobile() ? 'bottomRight' : 'bottom'}>
           <Link to={`/address/${specialAddress}`}>{i18n.t('address.vesting')}</Link>
         </Tooltip>
       )}
