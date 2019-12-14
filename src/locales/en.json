@@ -86,6 +86,8 @@
     },
     "address": {
       "address": "Address",
+      "vesting": "Vesting",
+      "vesting_tooltip": "There is a CKB vesting script embedded in genesis block, click to check the details",
       "lock_hash": "Lock Hash",
       "lock_script": "Lock Script",
       "balance": "Balance",

@@ -86,6 +86,8 @@
     },
     "address": {
       "address": "地址",
+      "vesting": "释放中",
+      "vesting_tooltip": "创世块中包含针对该地址的 CKB 释放脚本，点击查看详情",
       "lock_hash": "Lock Hash",
       "lock_script": "Lock Script",
       "balance": "余额",

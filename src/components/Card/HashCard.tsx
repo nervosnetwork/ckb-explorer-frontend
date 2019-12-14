@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+import { Tooltip } from 'antd'
 import CopyIcon from '../../assets/copy.png'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
@@ -79,6 +81,23 @@ const HashCardPanel = styled.div`
     }
   }
 
+  a {
+    margin-left: 10px;
+    font-size: 18px;
+    margin-top: 8px;
+    color: ${props => props.theme.primary};
+
+    @media (max-width: 700px) {
+      margin-left: 5px;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+  }
+
+  a:hover {
+    color: ${props => props.theme.primary};
+  }
+
   #hash__value {
     color: #ffffff;
     position: absolute;
@@ -95,11 +114,13 @@ export default ({
   hash,
   dispatch,
   loading,
+  specialAddress = '',
 }: {
   title: string
   hash: string
   dispatch: AppDispatch
   loading?: boolean
+  specialAddress?: string
 }) => {
   return (
     <HashCardPanel id="hash_content">
@@ -110,7 +131,7 @@ export default ({
         </LoadingPanel>
       ) : (
         <div id="hash__text">
-          <span>{isMobile() ? adaptMobileEllipsis(hash, 6) : adaptPCEllipsis(hash, 15, 25)}</span>
+          <span>{isMobile() ? adaptMobileEllipsis(hash, specialAddress ? 5 : 6) : adaptPCEllipsis(hash, 15, 25)}</span>
         </div>
       )}
       <div
@@ -130,6 +151,11 @@ export default ({
       >
         {!loading && <img src={CopyIcon} alt="copy" />}
       </div>
+      {specialAddress && (
+        <Tooltip title={i18n.t('address.vesting_tooltip')} placement={isMobile() ? 'bottomRight' : 'bottom'}>
+          <Link to={`/address/${specialAddress}`}>{i18n.t('address.vesting')}</Link>
+        </Tooltip>
+      )}
       <div id="hash__value">{hash}</div>
     </HashCardPanel>
   )
