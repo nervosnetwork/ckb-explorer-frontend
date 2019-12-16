@@ -93,13 +93,7 @@ const getAddressInfo = (addressState: State.AddressState, dispatch: AppDispatch)
     },
     {
       title: i18n.t('address.block_mined'),
-      content: (
-        <Tooltip placement="topRight" title={i18n.t('block.pending_tip')} arrowPointAtCenter>
-          <span className="address block_pointer">
-            {`${localeNumberString(address.minedBlocksCount)}/(${address.pendingRewardBlocksCount})?`}
-          </span>
-        </Tooltip>
-      ),
+      content: localeNumberString(address.minedBlocksCount),
     },
   ]
 
