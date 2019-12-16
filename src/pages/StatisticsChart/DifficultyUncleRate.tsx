@@ -89,6 +89,9 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         name: isMobile() || isThumbnail ? '' : i18n.t('block.uncle_rate'),
         type: 'value',
         scale: true,
+        splitLine: {
+          show: false,
+        },
         axisLine: {
           lineStyle: {
             color: colors[1],
@@ -116,6 +119,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         symbolSize: 3,
         data: statisticChartData.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
         markLine: {
+          symbol: 'none',
           data: [
             {
               name: i18n.t('block.uncle_rate_target'),
