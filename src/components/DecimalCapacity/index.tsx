@@ -7,9 +7,7 @@ const DecimalPanel = styled.div`
   justify-content: flex-end;
   align-items: flex-end;
 
-  > span {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
-  }
+  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
 
   .decimal__zeros {
     margin-bottom: 1px;
@@ -45,6 +43,10 @@ const DecimalZerosPanel = styled.div`
 
   @media (max-width: 1000px) {
     font-size: ${(props: { fontSize?: string; color?: string }) => (props.fontSize ? props.fontSize : '11px')}
+  }
+
+  @media (max-width: 700px) {
+    margin-bottom: 0px;
   }
 `
 
