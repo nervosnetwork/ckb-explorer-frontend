@@ -28,6 +28,7 @@ import {
 import browserHistory from '../../routes/history'
 import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
+import { AppDispatch } from '../../contexts/providers/reducer'
 
 const handleMinerText = (address: string) => {
   if (isMobile()) {
@@ -223,10 +224,12 @@ export default ({
   currentPage,
   pageSize,
   blockParam,
+  dispatch,
 }: {
   currentPage: number
   pageSize: number
   blockParam: string
+  dispatch: AppDispatch
 }) => {
   const { blockState } = useContext(AppContext)
   const { transactions = [] } = blockState
@@ -250,6 +253,7 @@ export default ({
               transaction={transaction}
               isBlock
               isLastItem={index === blockState.transactions.length - 1}
+              dispatch={dispatch}
             />
           )
         )

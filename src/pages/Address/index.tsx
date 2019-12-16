@@ -6,7 +6,7 @@ import AddressHashCard from '../../components/Card/HashCard'
 import Error from '../../components/Error'
 import Content from '../../components/Content'
 import { AppContext } from '../../contexts/providers/index'
-import { PageActions, AppActions, StateWithDispatch } from '../../contexts/providers/reducer'
+import { PageActions, AppActions, StateWithDispatch, AppDispatch } from '../../contexts/providers/reducer'
 import { getAddress } from '../../service/app/address'
 import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
@@ -33,17 +33,19 @@ const AddressStateTransactions = ({
   currentPage,
   pageSize,
   address,
+  dispatch,
 }: {
   currentPage: number
   pageSize: number
   address: string
+  dispatch: AppDispatch
 }) => {
   const { addressState, app } = useContext(AppContext)
   switch (addressState.transactionsStatus) {
     case 'Error':
       return <Error />
     case 'OK':
-      return <AddressTransactions currentPage={currentPage} pageSize={pageSize} address={address} />
+      return <AddressTransactions currentPage={currentPage} pageSize={pageSize} address={address} dispatch={dispatch} />
     case 'None':
     default:
       return <Loading show={app.secondLoading} />
@@ -110,7 +112,7 @@ export const Address = ({
           dispatch={dispatch}
         />
         <AddressStateOverview />
-        <AddressStateTransactions currentPage={currentPage} pageSize={pageSize} address={address} />
+        <AddressStateTransactions currentPage={currentPage} pageSize={pageSize} address={address} dispatch={dispatch} />
       </AddressContentPanel>
     </Content>
   )

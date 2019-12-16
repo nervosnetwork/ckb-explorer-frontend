@@ -18,6 +18,7 @@ import {
 import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { parseSimpleDateNoSecond } from '../../utils/date'
+import { AppDispatch } from '../../contexts/providers/reducer'
 
 const addressContent = (address: string) => {
   const addressText = isMobile() ? adaptMobileEllipsis(address, 10) : adaptPCEllipsis(address, 13, 50)
@@ -110,10 +111,12 @@ export const AddressTransactions = ({
   currentPage,
   pageSize,
   address,
+  dispatch,
 }: {
   currentPage: number
   pageSize: number
   address: string
+  dispatch: AppDispatch
 }) => {
   const { addressState, app } = useContext(AppContext)
   const { tipBlockNumber } = app
@@ -135,6 +138,7 @@ export const AddressTransactions = ({
               <TransactionItem
                 address={addressState.address.addressHash}
                 transaction={transaction}
+                dispatch={dispatch}
                 confirmation={tipBlockNumber - transaction.blockNumber + 1}
                 key={transaction.transactionHash}
                 isLastItem={index === addressState.transactions.length - 1}
