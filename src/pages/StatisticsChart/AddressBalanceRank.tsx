@@ -7,7 +7,7 @@ import 'echarts/lib/component/title'
 import 'default-passive-events'
 import Content from '../../components/Content'
 import { getStatisticAddressBalanceRank } from '../../service/app/statisticsChart'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
@@ -148,6 +148,12 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
   )
 
   useEffect(() => {
+    dispatch({
+      type: PageActions.UpdateStatisticAddressBalanceRank,
+      payload: {
+        statisticAddressBalanceRanks: [],
+      },
+    })
     getStatisticAddressBalanceRank(dispatch)
   }, [dispatch])
 
