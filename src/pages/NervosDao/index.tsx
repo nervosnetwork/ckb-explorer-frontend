@@ -65,7 +65,7 @@ const NervosDAOStateComp = ({
       return daoTab === 'transactions' ? (
         <DaoTransactions currentPage={currentPage} pageSize={pageSize} dispatch={dispatch} />
       ) : (
-        <DepositorRank />
+        <DepositorRank dispatch={dispatch} />
       )
     case 'None':
     default:
