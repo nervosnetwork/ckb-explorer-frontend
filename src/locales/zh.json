@@ -139,7 +139,7 @@
       "epoch_start_number": "Epoch 开始区块",
       "block_number": "Block 高度",
       "epoch_number": "Epoch 区块",
-      "epoch_length": "Epoch 长度",
+      "block_index": "区块序号",
       "nonce": "Nonce",
       "proof": "PoW Proof",
       "timestamp": "时间戳",

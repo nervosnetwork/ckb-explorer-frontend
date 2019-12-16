@@ -94,6 +94,7 @@ declare namespace State {
     version: number
     nonce: string
     transactionsRoot: string
+    blockIndexInEpoch: string
   }
 
   export interface CellDep {

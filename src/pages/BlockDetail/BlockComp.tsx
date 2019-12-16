@@ -162,8 +162,8 @@ const BlockOverview = ({ block, dispatch }: { block: State.Block; dispatch: AppD
       ),
     },
     {
-      title: i18n.t('block.epoch_length'),
-      content: localeNumberString(block.length),
+      title: i18n.t('block.block_index'),
+      content: `${block.blockIndexInEpoch}/${block.length}`,
     },
     {
       title: i18n.t('transaction.transaction_fee'),
