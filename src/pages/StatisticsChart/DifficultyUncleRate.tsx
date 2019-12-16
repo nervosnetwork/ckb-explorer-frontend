@@ -126,6 +126,9 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
               yAxis: '2.5',
             },
           ],
+          label: {
+            formatter: (params: any) => `${params.value}%`,
+          },
         },
       },
     ],
