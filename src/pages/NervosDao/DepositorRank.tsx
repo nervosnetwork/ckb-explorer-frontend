@@ -10,7 +10,7 @@ import { isMobile } from '../../utils/screen'
 import OverviewCard from '../../components/Card/OverviewCard'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { adaptPCEllipsis } from '../../utils/string'
-import CopyTooltip from '../../components/Tooltip/CopyTooltip'
+import CopyTooltipText from '../../components/Tooltip/CopyTooltipText'
 import { AppDispatch } from '../../contexts/providers/reducer'
 
 const DepositorRankPanel = styled.div`
@@ -94,7 +94,7 @@ const AddressText = ({ address, dispatch }: { address: string; dispatch: AppDisp
   const addressText = adaptPCEllipsis(address, 10, 40)
   if (addressText.includes('...')) {
     return (
-      <Tooltip placement="top" title={<CopyTooltip content={address} dispatch={dispatch} />}>
+      <Tooltip placement="top" title={<CopyTooltipText content={address} dispatch={dispatch} />}>
         <AddressPanel to={`/address/${address}`}>
           <span className="address">{addressText}</span>
         </AddressPanel>

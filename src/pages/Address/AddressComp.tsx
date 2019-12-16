@@ -20,7 +20,7 @@ import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { parseSimpleDateNoSecond } from '../../utils/date'
 import { AppDispatch } from '../../contexts/providers/reducer'
-import CopyTooltip from '../../components/Tooltip/CopyTooltip'
+import CopyTooltipText from '../../components/Tooltip/CopyTooltipText'
 
 const addressContent = (address: string, dispatch: AppDispatch) => {
   if (!address) {
@@ -32,7 +32,7 @@ const addressContent = (address: string, dispatch: AppDispatch) => {
   const addressHash = adaptPCEllipsis(address, 13, 50)
   if (addressHash.includes('...')) {
     return (
-      <Tooltip placement="top" title={<CopyTooltip content={address} dispatch={dispatch} />}>
+      <Tooltip placement="top" title={<CopyTooltipText content={address} dispatch={dispatch} />}>
         <span>{addressHash}</span>
       </Tooltip>
     )

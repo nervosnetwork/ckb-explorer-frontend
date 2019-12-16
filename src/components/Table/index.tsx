@@ -5,7 +5,7 @@ import { Tooltip } from 'antd'
 import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
 import { adaptPCEllipsis } from '../../utils/string'
-import CopyTooltip from '../Tooltip/CopyTooltip'
+import CopyTooltipText from '../Tooltip/CopyTooltipText'
 import { AppDispatch } from '../../contexts/providers/reducer'
 
 export const TableTitleRow = styled.div`
@@ -147,7 +147,7 @@ export const TableMinerContentItem = ({
           }}
         >
           {adaptPCEllipsis(content, 14, 60).includes('...') ? (
-            <Tooltip placement="top" title={<CopyTooltip content={content} dispatch={dispatch} />}>
+            <Tooltip placement="top" title={<CopyTooltipText content={content} dispatch={dispatch} />}>
               <span className="table__miner__text address">{adaptPCEllipsis(content, 14, 60)}</span>
             </Tooltip>
           ) : (

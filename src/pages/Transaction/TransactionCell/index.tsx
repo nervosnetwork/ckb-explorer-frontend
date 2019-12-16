@@ -21,7 +21,7 @@ import {
 } from './styled'
 import TransactionCellArrow from '../TransactionCellArrow'
 import DecimalCapacity from '../../../components/DecimalCapacity'
-import CopyTooltip from '../../../components/Tooltip/CopyTooltip'
+import CopyTooltipText from '../../../components/Tooltip/CopyTooltipText'
 
 const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
@@ -34,7 +34,7 @@ const AddressHash = ({ address, dispatch }: { address: string; dispatch: AppDisp
   const addressHash = handleAddressHashText(address)
   if (addressHash.includes('...')) {
     return (
-      <Tooltip placement="top" title={<CopyTooltip content={address} dispatch={dispatch} />}>
+      <Tooltip placement="top" title={<CopyTooltipText content={address} dispatch={dispatch} />}>
         <Link to={`/address/${address}`}>
           <span className="address">{addressHash}</span>
         </Link>

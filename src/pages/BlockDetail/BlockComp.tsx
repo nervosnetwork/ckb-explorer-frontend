@@ -30,7 +30,7 @@ import browserHistory from '../../routes/history'
 import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { AppDispatch } from '../../contexts/providers/reducer'
-import CopyTooltip from '../../components/Tooltip/CopyTooltip'
+import CopyTooltipText from '../../components/Tooltip/CopyTooltipText'
 
 const handleMinerText = (address: string) => {
   if (isMobile()) {
@@ -47,7 +47,7 @@ const BlockMiner = ({ miner, dispatch }: { miner: string; dispatch: AppDispatch 
   return (
     <BlockLinkPanel>
       {minerText.includes('...') ? (
-        <AntdTooltip placement="top" title={<CopyTooltip content={miner} dispatch={dispatch} />}>
+        <AntdTooltip placement="top" title={<CopyTooltipText content={miner} dispatch={dispatch} />}>
           <Link to={`/address/${miner}`}>
             <span className="address">{minerText}</span>
           </Link>

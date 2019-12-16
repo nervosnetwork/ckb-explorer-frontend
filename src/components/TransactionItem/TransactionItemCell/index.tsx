@@ -15,7 +15,7 @@ import { CellType } from '../../../utils/const'
 import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
 import { AppContext } from '../../../contexts/providers'
 import DecimalCapacity from '../../DecimalCapacity'
-import CopyTooltip from '../../Tooltip/CopyTooltip'
+import CopyTooltipText from '../../Tooltip/CopyTooltipText'
 import { AppDispatch } from '../../../contexts/providers/reducer'
 
 const Cellbase = ({
@@ -150,7 +150,7 @@ const NervosDAOAddress = ({
     )
   }
   return address.includes('...') ? (
-    <AntdTooltip placement="top" title={<CopyTooltip content={cell.addressHash} dispatch={dispatch} />}>
+    <AntdTooltip placement="top" title={<CopyTooltipText content={cell.addressHash} dispatch={dispatch} />}>
       <Link to={`/address/${cell.addressHash}`}>
         <span className="address">{address}</span>
       </Link>
@@ -195,7 +195,7 @@ const TransactionCell = ({
         {highLight ? (
           <NervosDAOAddress cell={cell} cellType={cellType} address={addressText} dispatch={dispatch} />
         ) : (
-          <AntdTooltip placement="top" title={<CopyTooltip content={cell.addressHash} dispatch={dispatch} />}>
+          <AntdTooltip placement="top" title={<CopyTooltipText content={cell.addressHash} dispatch={dispatch} />}>
             <span className="address">{addressText}</span>
           </AntdTooltip>
         )}
