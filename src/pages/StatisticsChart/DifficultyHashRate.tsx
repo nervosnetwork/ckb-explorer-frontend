@@ -90,7 +90,7 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
         name: isMobile() || isThumbnail ? '' : i18n.t('block.hash_rate_hps'),
         type: 'value',
         splitLine: {
-          show: !isThumbnail,
+          show: false,
         },
         scale: true,
         axisLine: {
