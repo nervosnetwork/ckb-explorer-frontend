@@ -16,13 +16,13 @@ import { AddressOverview, AddressTransactions } from './AddressComp'
 import browserHistory from '../../routes/history'
 import { useTimeoutWithUnmount } from '../../utils/hook'
 
-const AddressStateOverview = () => {
+const AddressStateOverview = ({ dispatch }: { dispatch: AppDispatch }) => {
   const { addressState, app } = useContext(AppContext)
   switch (addressState.addressStatus) {
     case 'Error':
       return <Error />
     case 'OK':
-      return <AddressOverview />
+      return <AddressOverview dispatch={dispatch} />
     case 'None':
     default:
       return <Loading show={app.loading} />
@@ -111,7 +111,7 @@ export const Address = ({
           hash={address}
           dispatch={dispatch}
         />
-        <AddressStateOverview />
+        <AddressStateOverview dispatch={dispatch} />
         <AddressStateTransactions currentPage={currentPage} pageSize={pageSize} address={address} dispatch={dispatch} />
       </AddressContentPanel>
     </Content>

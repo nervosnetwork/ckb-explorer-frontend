@@ -20,10 +20,24 @@ import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { parseSimpleDateNoSecond } from '../../utils/date'
 import { AppDispatch } from '../../contexts/providers/reducer'
+import CopyTooltip from '../../components/Tooltip/CopyTooltip'
 
-const addressContent = (address: string) => {
-  const addressText = isMobile() ? adaptMobileEllipsis(address, 10) : adaptPCEllipsis(address, 13, 50)
-  return address ? addressText : i18n.t('address.unable_decode_address')
+const addressContent = (address: string, dispatch: AppDispatch) => {
+  if (!address) {
+    return i18n.t('address.unable_decode_address')
+  }
+  if (isMobile()) {
+    return adaptMobileEllipsis(address, 10)
+  }
+  const addressHash = adaptPCEllipsis(address, 13, 50)
+  if (addressHash.includes('...')) {
+    return (
+      <Tooltip placement="top" title={<CopyTooltip content={address} dispatch={dispatch} />}>
+        <span>{addressHash}</span>
+      </Tooltip>
+    )
+  }
+  return addressHash
 }
 
 const AddressLockScriptItem = ({ title, children }: { title: string; children?: ReactNode }) => {
@@ -54,7 +68,7 @@ const AddressLockScript = ({ script }: { script: State.Script }) => {
   )
 }
 
-const getAddressInfo = (addressState: State.AddressState) => {
+const getAddressInfo = (addressState: State.AddressState, dispatch: AppDispatch) => {
   const { address } = addressState
   const items: OverviewItemData[] = [
     {
@@ -92,7 +106,7 @@ const getAddressInfo = (addressState: State.AddressState) => {
   if (address.type === 'LockHash' && address) {
     items.push({
       title: i18n.t('address.address'),
-      content: addressContent(address.addressHash),
+      content: addressContent(address.addressHash, dispatch),
     })
   }
   const { lockInfo } = address
@@ -108,12 +122,12 @@ const getAddressInfo = (addressState: State.AddressState) => {
   return items
 }
 
-export const AddressOverview = () => {
+export const AddressOverview = ({ dispatch }: { dispatch: AppDispatch }) => {
   const { addressState } = useContext(AppContext)
   return (
     <>
       <TitleCard title={i18n.t('common.overview')} />
-      <OverviewCard items={getAddressInfo(addressState)}>
+      <OverviewCard items={getAddressInfo(addressState, dispatch)}>
         {addressState && addressState.address && addressState.address.lockScript && (
           <AddressLockScript script={addressState.address.lockScript} />
         )}
