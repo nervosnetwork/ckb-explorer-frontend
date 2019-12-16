@@ -88,6 +88,7 @@
       "lock_script": "Lock Script",
       "balance": "余额",
       "live_cells": "未花费 Cells",
+      "block_mined": "已挖区块",
       "dao_deposit": "Nervos DAO 存款金额",
       "compensation": "Nervos DAO 锁定补贴",
       "pending_reward": "待发奖励",

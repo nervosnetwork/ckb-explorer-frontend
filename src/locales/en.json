@@ -88,6 +88,7 @@
       "lock_script": "Lock Script",
       "balance": "Balance",
       "live_cells": "Live Cells",
+      "block_mined": "Block Mined",
       "dao_deposit": "Nervos DAO Deposit",
       "compensation": "Nervos DAO Compensation",
       "pending_reward": "Pending Reward",

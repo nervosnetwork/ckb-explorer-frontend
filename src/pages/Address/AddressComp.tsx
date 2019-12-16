@@ -1,4 +1,5 @@
 import React, { ReactNode, useContext } from 'react'
+import { Tooltip } from 'antd'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TitleCard from '../../components/Card/TitleCard'
@@ -75,6 +76,16 @@ const getAddressInfo = (addressState: State.AddressState) => {
     {
       title: i18n.t('address.live_cells'),
       content: localeNumberString(address.liveCellsCount),
+    },
+    {
+      title: i18n.t('address.block_mined'),
+      content: (
+        <Tooltip placement="topRight" title={i18n.t('block.pending_tip')} arrowPointAtCenter>
+          <span className="address block_pointer">
+            {`${localeNumberString(address.minedBlocksCount)}/(${address.pendingRewardBlocksCount}`}
+          </span>
+        </Tooltip>
+      ),
     },
   ]
 

@@ -71,6 +71,7 @@ declare namespace State {
     interest: number
     lockInfo: LockInfo
     liveCellsCount: string
+    minedBlocksCount: string
   }
 
   export interface Block {

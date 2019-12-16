@@ -20,6 +20,7 @@ export const initAddressState: State.AddressState = {
       estimatedUnlockTime: '0',
     },
     liveCellsCount: '',
+    minedBlocksCount: '',
   },
   transactions: [],
   total: 0,
