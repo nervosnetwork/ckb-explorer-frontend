@@ -70,6 +70,7 @@ declare namespace State {
     daoDeposit: number
     interest: number
     lockInfo: LockInfo
+    liveCellsCount: string
   }
 
   export interface Block {

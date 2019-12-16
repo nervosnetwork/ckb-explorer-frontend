@@ -72,6 +72,10 @@ const getAddressInfo = (addressState: State.AddressState) => {
       title: i18n.t('address.compensation'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.interest))} />,
     },
+    {
+      title: i18n.t('address.live_cells'),
+      content: localeNumberString(address.liveCellsCount),
+    },
   ]
 
   if (address.type === 'LockHash' && address) {

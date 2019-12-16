@@ -19,6 +19,7 @@ export const initAddressState: State.AddressState = {
       epochIndex: '0',
       estimatedUnlockTime: '0',
     },
+    liveCellsCount: '',
   },
   transactions: [],
   total: 0,
