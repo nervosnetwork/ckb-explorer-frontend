@@ -110,6 +110,7 @@ export const Address = ({
           title={addressState.address.type === 'LockHash' ? i18n.t('address.lock_hash') : i18n.t('address.address')}
           hash={address}
           dispatch={dispatch}
+          specialAddress={addressState.address.isSpecial ? addressState.address.specialAddress : ''}
         />
         <AddressStateOverview dispatch={dispatch} />
         <AddressStateTransactions currentPage={currentPage} pageSize={pageSize} address={address} dispatch={dispatch} />

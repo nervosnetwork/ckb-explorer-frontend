@@ -24,6 +24,7 @@ export const localeNumberString = (value: BigNumber | string | number): string =
 
 const MIN_VALUE = new BigNumber(10 ** 3)
 export const handleDifficulty = (value: BigNumber | string | number) => {
+  if (!value) return '0'
   const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
   const kv = bigValue.dividedBy(1000)
   const mv = kv.dividedBy(1000)
@@ -65,8 +66,15 @@ export const handleHashRate = (value: BigNumber | string | number) => {
   return `${handleDifficulty(value)}/s`
 }
 
-export default {
-  localeNumberString,
-  handleDifficulty,
-  handleHashRate,
+export const parseEpochNumber = (index: string) => {
+  switch (index.charAt(index.length - 1)) {
+    case '1':
+      return `${index}st`
+    case '2':
+      return `${index}nd`
+    case '3':
+      return `${index}rd`
+    default:
+      return `${index}th`
+  }
 }

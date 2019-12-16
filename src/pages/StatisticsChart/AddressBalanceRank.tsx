@@ -7,7 +7,7 @@ import 'echarts/lib/component/title'
 import 'default-passive-events'
 import Content from '../../components/Content'
 import { getStatisticAddressBalanceRank } from '../../service/app/statisticsChart'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
+import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
@@ -73,7 +73,7 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
     yAxis: [
       {
         position: 'left',
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.balance_ranking'),
+        name: isMobile() || isThumbnail ? '' : `${i18n.t('statistic.balance_ranking')} ${i18n.t('statistic.log')}`,
         type: 'log',
         logBase: 10,
         scale: true,
@@ -83,7 +83,9 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
           },
         },
         axisLabel: {
-          formatter: (value: string) => handleAxis(value),
+          formatter: (value: string) => {
+            return `${handleAxis(value)}B`
+          },
         },
       },
     ],
@@ -146,6 +148,12 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
   )
 
   useEffect(() => {
+    dispatch({
+      type: PageActions.UpdateStatisticAddressBalanceRank,
+      payload: {
+        statisticAddressBalanceRanks: [],
+      },
+    })
     getStatisticAddressBalanceRank(dispatch)
   }, [dispatch])
 

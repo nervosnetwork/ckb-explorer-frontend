@@ -21,6 +21,8 @@ export const initAddressState: State.AddressState = {
     },
     liveCellsCount: '',
     minedBlocksCount: '',
+    isSpecial: false,
+    specialAddress: '',
   },
   transactions: [],
   total: 0,

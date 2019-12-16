@@ -72,6 +72,8 @@ declare namespace State {
     lockInfo: LockInfo
     liveCellsCount: string
     minedBlocksCount: string
+    isSpecial: boolean
+    specialAddress: string
   }
 
   export interface Block {
@@ -167,6 +169,14 @@ declare namespace State {
     averageBlockTime: string
     currentEpochDifficulty: string
     hashRate: string
+    epochInfo: {
+      epochNumber: string
+      epochLength: string
+      index: string
+    }
+    estimatedEpochTime: string
+    transactionsLast24Hrs: string
+    transactionsCountPerMinute: string
   }
 
   export interface StatisticsChart {

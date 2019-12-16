@@ -27,12 +27,13 @@
     },
     "blockchain": {
       "latest_block": "最高块",
-      "latest_block_tooltip": "最长链的最新区块",
-      "difficulty_tooltip": "当下 Epoch 的难度",
-      "hash_rate": "算力",
-      "hash_rate_tooltip": "最近 900 个区块的平均算力",
+      "epoch": "Epoch",
+      "hash_rate": "挖矿算力",
+      "difficulty": "挖矿难度",
       "average_block_time": "平均出块时间",
-      "average_block_time_tooltip": "最近 100 个区块的平均出块时间",
+      "estimated_epoch_time": "预计 Epoch 时间",
+      "transactions_per_minute": "每分钟的交易数",
+      "transactions_last_24hrs": "最近 24 小时的交易数",
       "nervos_dao": "Nervos DAO",
       "mainnet": "Lina Mainnet",
       "testnet": "Testnet"
@@ -48,7 +49,8 @@
       "ranking": "排名",
       "balance": "余额",
       "address": "地址",
-      "date": "时间"
+      "date": "时间",
+      "log": "（对数坐标）"
     },
     "home": {
       "height": "高度",
@@ -84,6 +86,8 @@
     },
     "address": {
       "address": "地址",
+      "vesting": "释放中",
+      "vesting_tooltip": "创世块中包含针对该地址的 CKB 释放脚本，点击查看详情",
       "lock_hash": "Lock Hash",
       "lock_script": "Lock Script",
       "balance": "余额",
