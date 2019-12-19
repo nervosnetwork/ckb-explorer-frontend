@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useMemo } from 'react'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
@@ -45,14 +45,18 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
           dataList[0].name,
           1,
         )}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.archived_cell'))} ${handleAxis(
-          dataList[0].data,
-          2,
-        )}</div>`
-        result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
-          dataList[1].data,
-          2,
-        )}</div>`
+        if (dataList[0]) {
+          result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.archived_cell'))} ${handleAxis(
+            dataList[0].data,
+            2,
+          )}</div>`
+        }
+        if (dataList[1]) {
+          result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
+            dataList[1].data,
+            2,
+          )}</div>`
+        }
         return result
       },
     },
@@ -149,18 +153,20 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
     getStatisticCellCount(dispatch)
   }, [dispatch])
 
-  return (
-    <Content>
-      <ChartTitle>{i18n.t('statistic.cell_count')}</ChartTitle>
-      {statisticCellCounts.length > 0 ? (
-        <ChartPanel>
-          <CellCountChart statisticCellCounts={statisticCellCounts} />
-        </ChartPanel>
-      ) : (
-        <LoadingPanel>
-          <Loading show />
-        </LoadingPanel>
-      )}
-    </Content>
-  )
+  return useMemo(() => {
+    return (
+      <Content>
+        <ChartTitle>{i18n.t('statistic.cell_count')}</ChartTitle>
+        {statisticCellCounts.length > 0 ? (
+          <ChartPanel>
+            <CellCountChart statisticCellCounts={statisticCellCounts} />
+          </ChartPanel>
+        ) : (
+          <LoadingPanel>
+            <Loading show />
+          </LoadingPanel>
+        )}
+      </Content>
+    )
+  }, [statisticCellCounts])
 }
