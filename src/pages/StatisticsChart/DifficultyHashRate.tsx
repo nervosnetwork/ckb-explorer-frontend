@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useMemo } from 'react'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
@@ -162,18 +162,20 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
     getStatisticDifficultyHashRate(dispatch)
   }, [dispatch])
 
-  return (
-    <Content>
-      <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}</ChartTitle>
-      {statisticDifficultyHashRates.length > 0 ? (
-        <ChartPanel>
-          <DifficultyHashRateChart statisticDifficultyHashRates={statisticDifficultyHashRates} />
-        </ChartPanel>
-      ) : (
-        <LoadingPanel>
-          <Loading show />
-        </LoadingPanel>
-      )}
-    </Content>
-  )
+  return useMemo(() => {
+    return (
+      <Content>
+        <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}</ChartTitle>
+        {statisticDifficultyHashRates.length > 0 ? (
+          <ChartPanel>
+            <DifficultyHashRateChart statisticDifficultyHashRates={statisticDifficultyHashRates} />
+          </ChartPanel>
+        ) : (
+          <LoadingPanel>
+            <Loading show />
+          </LoadingPanel>
+        )}
+      </Content>
+    )
+  }, [statisticDifficultyHashRates])
 }

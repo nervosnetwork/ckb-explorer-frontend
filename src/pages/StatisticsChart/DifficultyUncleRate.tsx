@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useMemo } from 'react'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
@@ -173,18 +173,20 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
     getStatisticDifficultyUncleRate(dispatch)
   }, [dispatch])
 
-  return (
-    <Content>
-      <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}</ChartTitle>
-      {statisticDifficultyUncleRates.length > 0 ? (
-        <ChartPanel>
-          <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} />
-        </ChartPanel>
-      ) : (
-        <LoadingPanel>
-          <Loading show />
-        </LoadingPanel>
-      )}
-    </Content>
-  )
+  return useMemo(() => {
+    return (
+      <Content>
+        <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}</ChartTitle>
+        {statisticDifficultyUncleRates.length > 0 ? (
+          <ChartPanel>
+            <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} />
+          </ChartPanel>
+        ) : (
+          <LoadingPanel>
+            <Loading show />
+          </LoadingPanel>
+        )}
+      </Content>
+    )
+  }, [statisticDifficultyUncleRates])
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useMemo } from 'react'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
@@ -153,18 +153,20 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
     getStatisticCellCount(dispatch)
   }, [dispatch])
 
-  return (
-    <Content>
-      <ChartTitle>{i18n.t('statistic.cell_count')}</ChartTitle>
-      {statisticCellCounts.length > 0 ? (
-        <ChartPanel>
-          <CellCountChart statisticCellCounts={statisticCellCounts} />
-        </ChartPanel>
-      ) : (
-        <LoadingPanel>
-          <Loading show />
-        </LoadingPanel>
-      )}
-    </Content>
-  )
+  return useMemo(() => {
+    return (
+      <Content>
+        <ChartTitle>{i18n.t('statistic.cell_count')}</ChartTitle>
+        {statisticCellCounts.length > 0 ? (
+          <ChartPanel>
+            <CellCountChart statisticCellCounts={statisticCellCounts} />
+          </ChartPanel>
+        ) : (
+          <LoadingPanel>
+            <Loading show />
+          </LoadingPanel>
+        )}
+      </Content>
+    )
+  }, [statisticCellCounts])
 }
