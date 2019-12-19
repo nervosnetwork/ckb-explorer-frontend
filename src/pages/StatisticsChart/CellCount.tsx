@@ -45,14 +45,18 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
           dataList[0].name,
           1,
         )}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.archived_cell'))} ${handleAxis(
-          dataList[0].data,
-          2,
-        )}</div>`
-        result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
-          dataList[1].data,
-          2,
-        )}</div>`
+        if (dataList[0]) {
+          result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.archived_cell'))} ${handleAxis(
+            dataList[0].data,
+            2,
+          )}</div>`
+        }
+        if (dataList[1]) {
+          result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
+            dataList[1].data,
+            2,
+          )}</div>`
+        }
         return result
       },
     },

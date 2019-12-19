@@ -47,12 +47,16 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
           dataList[0].name,
           1,
         )}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
-          dataList[0].data,
-        )}</div>`
-        result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
-          dataList[1].data,
-        )}</div>`
+        if (dataList[0]) {
+          result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
+            dataList[0].data,
+          )}</div>`
+        }
+        if (dataList[1]) {
+          result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
+            dataList[1].data,
+          )}</div>`
+        }
         return result
       },
     },
