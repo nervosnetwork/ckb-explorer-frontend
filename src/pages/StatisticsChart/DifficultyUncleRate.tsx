@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useMemo } from 'react'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
@@ -48,10 +48,14 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
           dataList[0].name,
           1,
         )}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
-          dataList[0].data,
-        )}</div>`
-        result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${dataList[1].data}%</div>`
+        if (dataList[0]) {
+          result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
+            dataList[0].data,
+          )}</div>`
+        }
+        if (dataList[1]) {
+          result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${dataList[1].data}%</div>`
+        }
         return result
       },
     },
@@ -169,18 +173,20 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
     getStatisticDifficultyUncleRate(dispatch)
   }, [dispatch])
 
-  return (
-    <Content>
-      <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}</ChartTitle>
-      {statisticDifficultyUncleRates.length > 0 ? (
-        <ChartPanel>
-          <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} />
-        </ChartPanel>
-      ) : (
-        <LoadingPanel>
-          <Loading show />
-        </LoadingPanel>
-      )}
-    </Content>
-  )
+  return useMemo(() => {
+    return (
+      <Content>
+        <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}</ChartTitle>
+        {statisticDifficultyUncleRates.length > 0 ? (
+          <ChartPanel>
+            <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} />
+          </ChartPanel>
+        ) : (
+          <LoadingPanel>
+            <Loading show />
+          </LoadingPanel>
+        )}
+      </Content>
+    )
+  }, [statisticDifficultyUncleRates])
 }
