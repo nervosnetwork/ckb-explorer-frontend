@@ -93,13 +93,13 @@ const NervosDAOAddress = ({ cell, cellType, address }: { cell: State.Cell; cellT
       <div>
         <div className="withdraw__info_title">{`${i18n.t('nervos_dao.deposit_capacity')}: `}</div>
         <div className="withdraw__info_content">
-          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
+          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} fontSize={isMobile() ? '8px' : ''} />
         </div>
       </div>
       <div>
         <div className="withdraw__info_title">{`${i18n.t('nervos_dao.compensation')}: `}</div>
         <div className="withdraw__info_content">
-          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.interest))} />
+          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.interest))} fontSize={isMobile() ? '8px' : ''} />
         </div>
       </div>
       <div>
