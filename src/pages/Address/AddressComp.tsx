@@ -1,4 +1,5 @@
 import React, { ReactNode, useContext } from 'react'
+import { Tooltip } from 'antd'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TitleCard from '../../components/Card/TitleCard'
@@ -18,10 +19,25 @@ import {
 import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { parseSimpleDateNoSecond } from '../../utils/date'
+import { AppDispatch } from '../../contexts/providers/reducer'
+import CopyTooltipText from '../../components/Tooltip/CopyTooltipText'
 
-const addressContent = (address: string) => {
-  const addressText = isMobile() ? adaptMobileEllipsis(address, 10) : adaptPCEllipsis(address, 13, 50)
-  return address ? addressText : i18n.t('address.unable_decode_address')
+const addressContent = (address: string, dispatch: AppDispatch) => {
+  if (!address) {
+    return i18n.t('address.unable_decode_address')
+  }
+  if (isMobile()) {
+    return adaptMobileEllipsis(address, 10)
+  }
+  const addressHash = adaptPCEllipsis(address, 13, 50)
+  if (addressHash.includes('...')) {
+    return (
+      <Tooltip placement="top" title={<CopyTooltipText content={address} dispatch={dispatch} />}>
+        <span>{addressHash}</span>
+      </Tooltip>
+    )
+  }
+  return addressHash
 }
 
 const AddressLockScriptItem = ({ title, children }: { title: string; children?: ReactNode }) => {
@@ -52,7 +68,7 @@ const AddressLockScript = ({ script }: { script: State.Script }) => {
   )
 }
 
-const getAddressInfo = (addressState: State.AddressState) => {
+const getAddressInfo = (addressState: State.AddressState, dispatch: AppDispatch) => {
   const { address } = addressState
   const items: OverviewItemData[] = [
     {
@@ -71,12 +87,20 @@ const getAddressInfo = (addressState: State.AddressState) => {
       title: i18n.t('address.compensation'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.interest))} />,
     },
+    {
+      title: i18n.t('address.live_cells'),
+      content: localeNumberString(address.liveCellsCount),
+    },
+    {
+      title: i18n.t('address.block_mined'),
+      content: localeNumberString(address.minedBlocksCount),
+    },
   ]
 
   if (address.type === 'LockHash' && address) {
     items.push({
       title: i18n.t('address.address'),
-      content: addressContent(address.addressHash),
+      content: addressContent(address.addressHash, dispatch),
     })
   }
   const { lockInfo } = address
@@ -92,12 +116,12 @@ const getAddressInfo = (addressState: State.AddressState) => {
   return items
 }
 
-export const AddressOverview = () => {
+export const AddressOverview = ({ dispatch }: { dispatch: AppDispatch }) => {
   const { addressState } = useContext(AppContext)
   return (
     <>
       <TitleCard title={i18n.t('common.overview')} />
-      <OverviewCard items={getAddressInfo(addressState)}>
+      <OverviewCard items={getAddressInfo(addressState, dispatch)}>
         {addressState && addressState.address && addressState.address.lockScript && (
           <AddressLockScript script={addressState.address.lockScript} />
         )}
@@ -110,10 +134,12 @@ export const AddressTransactions = ({
   currentPage,
   pageSize,
   address,
+  dispatch,
 }: {
   currentPage: number
   pageSize: number
   address: string
+  dispatch: AppDispatch
 }) => {
   const { addressState, app } = useContext(AppContext)
   const { tipBlockNumber } = app
@@ -135,6 +161,7 @@ export const AddressTransactions = ({
               <TransactionItem
                 address={addressState.address.addressHash}
                 transaction={transaction}
+                dispatch={dispatch}
                 confirmation={tipBlockNumber - transaction.blockNumber + 1}
                 key={transaction.transactionHash}
                 isLastItem={index === addressState.transactions.length - 1}

@@ -1,6 +1,7 @@
 import React, { useContext, useState, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
+import { Tooltip as AntdTooltip } from 'antd'
 import Pagination from '../../components/Pagination'
 import DropDownIcon from '../../assets/content_drop_down.png'
 import PackUpIcon from '../../assets/content_pack_up.png'
@@ -28,6 +29,8 @@ import {
 import browserHistory from '../../routes/history'
 import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
+import { AppDispatch } from '../../contexts/providers/reducer'
+import CopyTooltipText from '../../components/Tooltip/CopyTooltipText'
 
 const handleMinerText = (address: string) => {
   if (isMobile()) {
@@ -36,15 +39,23 @@ const handleMinerText = (address: string) => {
   return adaptPCEllipsis(address, 12, 50)
 }
 
-const BlockMiner = ({ miner }: { miner: string }) => {
+const BlockMiner = ({ miner, dispatch }: { miner: string; dispatch: AppDispatch }) => {
+  if (!miner) {
+    return <BlockLinkPanel>{i18n.t('address.unable_decode_address')}</BlockLinkPanel>
+  }
+  const minerText = handleMinerText(miner)
   return (
     <BlockLinkPanel>
-      {miner ? (
-        <Link to={`/address/${miner}`}>
-          <span className="address">{handleMinerText(miner)}</span>
-        </Link>
+      {minerText.includes('...') ? (
+        <AntdTooltip placement="top" title={<CopyTooltipText content={miner} dispatch={dispatch} />}>
+          <Link to={`/address/${miner}`}>
+            <span className="address">{minerText}</span>
+          </Link>
+        </AntdTooltip>
       ) : (
-        i18n.t('address.unable_decode_address')
+        <Link to={`/address/${miner}`}>
+          <span className="address">{minerText}</span>
+        </Link>
       )}
     </BlockLinkPanel>
   )
@@ -104,7 +115,7 @@ const EpochNumberLink = ({ epochNumber }: { epochNumber: number }) => {
   )
 }
 
-const BlockOverview = ({ block }: { block: State.Block }) => {
+const BlockOverview = ({ block, dispatch }: { block: State.Block; dispatch: AppDispatch }) => {
   const [showAllOverview, setShowAllOverview] = useState(false)
   const receivedTxFee = <DecimalCapacity value={localeNumberString(shannonToCkb(block.receivedTxFee))} />
   const blockReward = <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} />
@@ -121,7 +132,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     },
     {
       title: i18n.t('block.miner'),
-      content: <BlockMiner miner={block.minerHash} />,
+      content: <BlockMiner miner={block.minerHash} dispatch={dispatch} />,
     },
     {
       title: i18n.t('transaction.transactions'),
@@ -151,8 +162,8 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
       ),
     },
     {
-      title: i18n.t('block.epoch_length'),
-      content: localeNumberString(block.length),
+      title: i18n.t('block.block_index'),
+      content: `${block.blockIndexInEpoch}/${block.length}`,
     },
     {
       title: i18n.t('transaction.transaction_fee'),
@@ -223,10 +234,12 @@ export default ({
   currentPage,
   pageSize,
   blockParam,
+  dispatch,
 }: {
   currentPage: number
   pageSize: number
   blockParam: string
+  dispatch: AppDispatch
 }) => {
   const { blockState } = useContext(AppContext)
   const { transactions = [] } = blockState
@@ -240,7 +253,7 @@ export default ({
   return (
     <>
       <TitleCard title={i18n.t('common.overview')} />
-      {blockState && <BlockOverview block={blockState.block} />}
+      {blockState && <BlockOverview block={blockState.block} dispatch={dispatch} />}
       <TitleCard title={i18n.t('transaction.transactions')} />
       {transactions.map((transaction: State.Transaction, index: number) => {
         return (
@@ -250,6 +263,7 @@ export default ({
               transaction={transaction}
               isBlock
               isLastItem={index === blockState.transactions.length - 1}
+              dispatch={dispatch}
             />
           )
         )

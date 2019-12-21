@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { Popover } from 'antd'
+import { Popover, Tooltip as AntdTooltip } from 'antd'
 import 'antd/dist/antd.css'
 import HelpIcon from '../../../assets/qa_help.png'
 import DetailIcon from '../../../assets/detail.png'
@@ -15,6 +15,8 @@ import { CellType } from '../../../utils/const'
 import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
 import { AppContext } from '../../../contexts/providers'
 import DecimalCapacity from '../../DecimalCapacity'
+import CopyTooltipText from '../../Tooltip/CopyTooltipText'
+import { AppDispatch } from '../../../contexts/providers/reducer'
 
 const Cellbase = ({
   cell,
@@ -86,7 +88,17 @@ const isDaoCell = (cellType: string) => {
   return isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
 }
 
-const NervosDAOAddress = ({ cell, cellType, address }: { cell: State.Cell; cellType: CellType; address: string }) => {
+const NervosDAOAddress = ({
+  cell,
+  cellType,
+  address,
+  dispatch,
+}: {
+  cell: State.Cell
+  cellType: CellType
+  address: string
+  dispatch: AppDispatch
+}) => {
   const { app } = useContext(AppContext)
   const WithdrawInfo = (
     <WithdrawInfoPanel longTitle={app.language === 'en'}>
@@ -137,14 +149,30 @@ const NervosDAOAddress = ({ cell, cellType, address }: { cell: State.Cell; cellT
       </Link>
     )
   }
-  return (
+  return address.includes('...') ? (
+    <AntdTooltip placement="top" title={<CopyTooltipText content={cell.addressHash} dispatch={dispatch} />}>
+      <Link to={`/address/${cell.addressHash}`}>
+        <span className="address">{address}</span>
+      </Link>
+    </AntdTooltip>
+  ) : (
     <Link to={`/address/${cell.addressHash}`}>
       <span className="address">{address}</span>
     </Link>
   )
 }
 
-const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; address?: string; cellType: CellType }) => {
+const TransactionCell = ({
+  cell,
+  address,
+  cellType,
+  dispatch,
+}: {
+  cell: State.Cell
+  address?: string
+  cellType: CellType
+  dispatch: AppDispatch
+}) => {
   if (cell.fromCellbase) {
     return <Cellbase targetBlockNumber={cell.targetBlockNumber} cell={cell} cellType={cellType} />
   }
@@ -165,9 +193,11 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
       <div className="transaction__cell_address">
         {!isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
         {highLight ? (
-          <NervosDAOAddress cell={cell} cellType={cellType} address={addressText} />
+          <NervosDAOAddress cell={cell} cellType={cellType} address={addressText} dispatch={dispatch} />
         ) : (
-          <span className="address">{addressText}</span>
+          <AntdTooltip placement="top" title={<CopyTooltipText content={cell.addressHash} dispatch={dispatch} />}>
+            <span className="address">{addressText}</span>
+          </AntdTooltip>
         )}
       </div>
       <TransactionCellCapacity isOutput={cellType === CellType.Output}>
