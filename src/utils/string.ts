@@ -89,3 +89,51 @@ export const handleBigNumber = (value: BigNumber | string | number, decimal?: nu
   }
   return `${decimal ? bigValue.toFixed(decimal) : bigValue.toFixed()}`
 }
+
+export const parseFloorDecimal = (value: BigNumber | string | number, decimal?: number) => {
+  const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  if (bigValue.isNaN() || bigValue.isZero()) return '0'
+  if (decimal) {
+    return Math.floor(bigValue.toNumber() * 10 ** decimal) / 10 ** decimal
+  }
+  return Math.floor(bigValue.toNumber())
+}
+
+export const handleBigNumberFloor = (value: BigNumber | string | number, decimal?: number) => {
+  const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  if (bigValue.isNaN() || bigValue.isZero()) return '0'
+  const kv = bigValue.dividedBy(1000)
+  const mv = kv.dividedBy(1000)
+  const gv = mv.dividedBy(1000)
+  const tv = gv.dividedBy(1000)
+  const pv = tv.dividedBy(1000)
+  const ev = pv.dividedBy(1000)
+  const zv = ev.dividedBy(1000)
+  const yv = zv.dividedBy(1000)
+
+  if (yv.isGreaterThanOrEqualTo(1)) {
+    return `${parseFloorDecimal(yv, decimal)}Y`
+  }
+  if (zv.isGreaterThanOrEqualTo(1)) {
+    return `${parseFloorDecimal(zv, decimal)}Z`
+  }
+  if (ev.isGreaterThanOrEqualTo(1)) {
+    return `${parseFloorDecimal(ev, decimal)}E`
+  }
+  if (pv.isGreaterThanOrEqualTo(1)) {
+    return `${parseFloorDecimal(pv, decimal)}P`
+  }
+  if (tv.isGreaterThanOrEqualTo(1)) {
+    return `${parseFloorDecimal(tv, decimal)}T`
+  }
+  if (gv.isGreaterThanOrEqualTo(1)) {
+    return `${parseFloorDecimal(gv, decimal)}G`
+  }
+  if (mv.isGreaterThanOrEqualTo(1)) {
+    return `${parseFloorDecimal(mv, decimal)}M`
+  }
+  if (kv.isGreaterThanOrEqualTo(1)) {
+    return `${parseFloorDecimal(kv, decimal)}K`
+  }
+  return `${parseFloorDecimal(bigValue, decimal)}`
+}

@@ -142,8 +142,8 @@ declare namespace State {
   }
 
   export interface NervosDao {
-    totalDeposit: number
-    depositorsCount: number
+    totalDeposit: string
+    depositorsCount: string
     depositChanges: string
     unclaimedCompensationChanges: string
     claimedCompensationChanges: string
