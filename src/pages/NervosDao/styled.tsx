@@ -154,6 +154,11 @@ export const DaoOverviewRightPanel = styled.div`
   display: flex;
   flex-direction: row;
   flex: 38;
+
+  .nervos__dao__overview_pie_panel {
+    display: flex;
+    flex-direction: column;
+  }
 `
 
 export const DaoOverviewItemPanel = styled.div`
@@ -191,5 +196,29 @@ export const DaoOverviewItemPanel = styled.div`
     color: #000000;
     font-size: 18px;
     font-weight: bold;
+  }
+`
+
+export const NervosDaoPieItemPanel = styled.div`
+  display: flex;
+  align-items: center;
+  flex: 1;
+
+  > img {
+    width: 9px;
+    height: 9px;
+    margin-right: 5px;
+  }
+
+  > div {
+    > span {
+      font-size: 12px;
+      color: #5e5e5e;
+      font-weight: bold;
+    }
+    > div {
+      font-size: 18px;
+      color: #000000;
+    }
   }
 `

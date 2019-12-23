@@ -181,7 +181,11 @@
       "unclaimed_compensation": "未解锁补贴",
       "claimed_compensation": "已解锁补贴",
       "average_deposit_time": "平均锁定时间",
-      "estimated_apc": "预估 APC"
+      "estimated_apc": "预估 APC",
+      "secondary_issuance": "二级增发",
+      "mining_reward": "挖矿奖励",
+      "deposit_compensation": "锁定补贴",
+      "treasury": "治理基金(至今已销毁)"
     },
     "error": {
       "maintain": "网络维护中，请稍后再试"

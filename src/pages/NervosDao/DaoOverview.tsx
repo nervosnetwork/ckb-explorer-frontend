@@ -1,19 +1,44 @@
-import React, { useContext } from 'react'
+import React, { useContext, ReactNode } from 'react'
+import ReactEchartsCore from 'echarts-for-react/lib/core'
+import echarts from 'echarts/lib/echarts'
+import 'echarts/lib/chart/pie'
+import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/title'
+import 'echarts/lib/component/legend'
+import 'echarts/lib/component/legendScroll'
 import { AppContext } from '../../contexts/providers'
-import { DaoOverviewPanel, DaoOverviewLeftPanel, DaoOverviewRightPanel, DaoOverviewItemPanel } from './styled'
+import {
+  DaoOverviewPanel,
+  DaoOverviewLeftPanel,
+  DaoOverviewRightPanel,
+  DaoOverviewItemPanel,
+  NervosDaoPieItemPanel,
+} from './styled'
 import DaoUpIcon from '../../assets/dao_up.png'
 import DaoDownIcon from '../../assets/dao_down.png'
 import DaoBalanceIcon from '../../assets/dao_balance.png'
+import DotIcon1 from '../../assets/dot_icon1.png'
+import DotIcon2 from '../../assets/dot_icon2.png'
+import DotIcon3 from '../../assets/dot_icon3.png'
 import i18n from '../../utils/i18n'
 import { handleBigNumber, handleBigNumberFloor } from '../../utils/string'
 import { localeNumberString } from '../../utils/number'
-import { shannonToCkbDecimal } from '../../utils/util'
+import { shannonToCkbDecimal, shannonToCkb } from '../../utils/util'
+import DecimalCapacity from '../../components/DecimalCapacity'
 
 interface NervosDaoItemContent {
   title: string
   change?: string
   content: string
 }
+
+interface NervosDaoPieItemContent {
+  title: string
+  content: ReactNode
+  img: any
+}
+
+const colors = ['#106D5B', '#299583', '#3CC68A']
 
 const NervosDaoItem = ({ item }: { item: NervosDaoItemContent }) => {
   let daoIcon = DaoUpIcon
@@ -73,6 +98,117 @@ const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent
   ]
 }
 
+const getOption = (nervosDao: State.NervosDao) => {
+  const sum =
+    shannonToCkbDecimal(nervosDao.miningReward) +
+    shannonToCkbDecimal(nervosDao.depositCompensation) +
+    shannonToCkbDecimal(nervosDao.treasuryAmount)
+  const names = [
+    `${((shannonToCkbDecimal(nervosDao.miningReward) / sum) * 100).toFixed(1)}%`,
+    `${((shannonToCkbDecimal(nervosDao.depositCompensation) / sum) * 100).toFixed(1)}%`,
+    `${((shannonToCkbDecimal(nervosDao.treasuryAmount) / sum) * 100).toFixed(1)}%`,
+  ]
+  const seriesData = [
+    {
+      name: names[0],
+      value: shannonToCkbDecimal(nervosDao.miningReward),
+      title: i18n.t('nervos_dao.mining_reward'),
+    },
+    {
+      name: names[1],
+      value: shannonToCkbDecimal(nervosDao.depositCompensation),
+      title: i18n.t('nervos_dao.deposit_compensation'),
+    },
+    {
+      name: names[2],
+      value: shannonToCkbDecimal(nervosDao.treasuryAmount),
+      title: i18n.t('nervos_dao.treasury'),
+    },
+  ]
+  const selectedData: any = {
+    first: true,
+  }
+  selectedData[names[0]] = true
+  selectedData[names[1]] = true
+  selectedData[names[2]] = true
+
+  return {
+    color: colors,
+    tooltip: {
+      trigger: 'item',
+      formatter: (value: any) => {
+        return `${value.data.title}: ${localeNumberString(value.data.value)} ${i18n.t('common.ckb_unit')} (${
+          value.data.name
+        })`
+      },
+    },
+    series: [
+      {
+        name: i18n.t('nervos_dao.secondary_issuance'),
+        type: 'pie',
+        radius: '55%',
+        center: ['40%', '50%'],
+        data: seriesData,
+        label: {
+          normal: {
+            position: 'outside',
+            align: 'center',
+          },
+        },
+        itemStyle: {
+          emphasis: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)',
+          },
+        },
+      },
+    ],
+  }
+}
+
+const nervosDaoPieItemContents = (nervosDao: State.NervosDao): NervosDaoPieItemContent[] => {
+  return [
+    {
+      title: i18n.t('nervos_dao.mining_reward'),
+      content: (
+        <DecimalCapacity value={shannonToCkb(Number(nervosDao.miningReward).toFixed())} fontSize="12px" hideUnit />
+      ),
+      img: DotIcon1,
+    },
+    {
+      title: i18n.t('nervos_dao.deposit_compensation'),
+      content: (
+        <DecimalCapacity
+          value={shannonToCkb(Number(nervosDao.depositCompensation).toFixed())}
+          fontSize="12px"
+          hideUnit
+        />
+      ),
+      img: DotIcon2,
+    },
+    {
+      title: i18n.t('nervos_dao.treasury'),
+      content: (
+        <DecimalCapacity value={shannonToCkb(Number(nervosDao.treasuryAmount).toFixed())} fontSize="12px" hideUnit />
+      ),
+      img: DotIcon3,
+    },
+  ]
+}
+
+const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => {
+  return (
+    <NervosDaoPieItemPanel>
+      <img src={item.img} alt="nervos dao dot" />
+      <div>
+        <span>{item.title}</span>
+        <div>{item.content}</div>
+      </div>
+    </NervosDaoPieItemPanel>
+  )
+}
+
 export default () => {
   const { nervosDaoState } = useContext(AppContext)
   const { nervosDao } = nervosDaoState
@@ -84,7 +220,7 @@ export default () => {
           {nervosDaoItemContents(nervosDao)
             .slice(0, 3)
             .map(item => (
-              <NervosDaoItem item={item} />
+              <NervosDaoItem item={item} key={item.title} />
             ))}
         </div>
         <span className="dao__overview__left_separate" />
@@ -92,12 +228,28 @@ export default () => {
           {nervosDaoItemContents(nervosDao)
             .slice(3)
             .map(item => (
-              <NervosDaoItem item={item} />
+              <NervosDaoItem item={item} key={item.title} />
             ))}
         </div>
       </DaoOverviewLeftPanel>
       <span className="dao__overview__separate" />
-      <DaoOverviewRightPanel />
+      <DaoOverviewRightPanel>
+        <ReactEchartsCore
+          echarts={echarts}
+          option={getOption(nervosDao)}
+          notMerge
+          lazyUpdate
+          style={{
+            height: '100%',
+            width: '60%',
+          }}
+        />
+        <div className="nervos__dao__overview_pie_panel">
+          {nervosDaoPieItemContents(nervosDao).map(item => (
+            <NervosDaoPieItem item={item} key={item.title} />
+          ))}
+        </div>
+      </DaoOverviewRightPanel>
     </DaoOverviewPanel>
   )
 }
