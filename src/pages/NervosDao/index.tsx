@@ -90,9 +90,7 @@ export const NervosDao = ({
   return (
     <Content>
       <DaoContentPanel className="container">
-        <div className="nervos_dao_title">{i18n.t('nervos_dao.nervos_dao')}</div>
         <DaoOverview />
-
         <DaoTabBarPanel containSearchBar={daoTab === 'transactions'}>
           <div className="nervos_dao_tab_bar">
             <div

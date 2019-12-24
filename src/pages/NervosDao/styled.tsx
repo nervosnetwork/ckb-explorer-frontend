@@ -1,10 +1,11 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const DaoContentPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 30px;
   margin-bottom: 40px;
   width: 100%;
 
@@ -100,13 +101,90 @@ export const TransactionsPagination = styled.div`
   }
 `
 
+export const DepositorRankPanel = styled.div`
+  width: 100%;
+  background: white;
+  padding: 20px 40px;
+`
+
+export const DepositorRankCardPanel = styled.div`
+  width: 100%;
+`
+
+export const DepositorRankTitle = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  height: 40px;
+
+  > div {
+    text-align: center;
+  }
+
+  >div: nth-child(1) {
+    width: 10%;
+  }
+  >div: nth-child(2) {
+    width: 65%;
+  }
+  >div: nth-child(3) {
+    width: 25%;
+  }
+`
+
+export const DepositorSeparate = styled.div`
+  background: #e2e2e2;
+  height: 1px;
+  width: 100%;
+  margin-bottom: 10px;
+`
+
+export const DepositorRankItem = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  height: 40px;
+
+  @media (max-width: 1000px) {
+    font-size: 14px;
+  }
+
+  > div {
+    text-align: center;
+  }
+
+  >div: nth-child(1) {
+    width: 10%;
+  }
+  >div: nth-child(2) {
+    width: 65%;
+  }
+  >div: nth-child(3) {
+    width: 25%;
+  }
+`
+export const AddressPanel = styled(Link)`
+  color: ${props => props.theme.primary};
+  width: 60%;
+  text-align: center;
+
+  @media (max-width: 700px) {
+    width: 100%;
+    text-align: start;
+  }
+
+  :hover {
+    color: ${props => props.theme.primary};
+  }
+`
+
 export const DaoOverviewPanel = styled.div`
   width: 100%;
   border-radius: 0px 0px 6px 6px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
   margin-top: 5px;
-  padding: 16px 30px 30px 20px;
+  padding: 16px 20px;
   background-color: #ffffff;
   display: flex;
 
@@ -120,9 +198,10 @@ export const DaoOverviewPanel = styled.div`
   @media (max-width: 700px) {
     border-radius: 0px 0px 3px 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
-    padding: 5px 20px 15px 20px;
+    padding: 5px 0 15px 0;
 
     font-size: 13px;
+    flex-direction: column;
   }
 
   .dao__overview__separate {
@@ -130,17 +209,33 @@ export const DaoOverviewPanel = styled.div`
     height: auto;
     background: #eaeaea;
     margin-left: 2%;
+
+    @media (max-width: 700px) {
+      width: 100%;
+      height: 1px;
+      background: #eaeaea;
+      margin-left: 0;
+    }
   }
 `
 
 export const DaoOverviewLeftPanel = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 59;
+  flex: 54;
+  margin-left: 20px;
+
+  @media (max-width: 700px) {
+    margin: 0 20px;
+  }
 
   > div {
     display: flex;
     justify-content: space-between;
+
+    @media (max-width: 700px) {
+      justify-content: space-around;
+    }
   }
 
   .dao__overview__left_separate {
@@ -148,12 +243,24 @@ export const DaoOverviewLeftPanel = styled.div`
     height: 1px;
     background: #eaeaea;
   }
+
+  .dao__overview__left_column_separate {
+    width: 1px;
+    height: auto;
+    margin: 3% 0;
+    background: #eaeaea;
+  }
 `
 
 export const DaoOverviewRightPanel = styled.div`
   display: flex;
   flex-direction: row;
-  flex: 39;
+  flex: 44;
+  margin-right: 20px;
+
+  @media (max-width: 700px) {
+    margin: 5px 0;
+  }
 
   .nervos__dao__overview_pie_chart {
     flex: 1;
@@ -166,7 +273,11 @@ export const DaoOverviewRightPanel = styled.div`
       font-weight: bold;
 
       @media (max-width: 1000px) {
-        font-size: 14px;
+        font-size: 12px;
+      }
+
+      @media (max-width: 700px) {
+        font-size: 12px;
       }
     }
   }
@@ -183,6 +294,11 @@ export const DaoOverviewItemPanel = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px 10px;
+  flex: 1;
+
+  &:hover {
+    background: #f8f9fa;
+  }
 
   .dao__overview__item_top {
     display: flex;
@@ -195,6 +311,10 @@ export const DaoOverviewItemPanel = styled.div`
       font-weight: bold;
 
       @media (max-width: 1000px) {
+        font-size: 10px;
+      }
+
+      @media (max-width: 700px) {
         font-size: 10px;
       }
     }
@@ -214,6 +334,10 @@ export const DaoOverviewItemPanel = styled.div`
       @media (max-width: 1000px) {
         font-size: 10px;
       }
+
+      @media (max-width: 700px) {
+        font-size: 10px;
+      }
     }
   }
 
@@ -223,7 +347,11 @@ export const DaoOverviewItemPanel = styled.div`
     font-weight: bold;
 
     @media (max-width: 1000px) {
-      font-size: 14px;
+      font-size: 12px;
+    }
+
+    @media (max-width: 700px) {
+      font-size: 12px;
     }
   }
 `
@@ -233,10 +361,19 @@ export const NervosDaoPieItemPanel = styled.div`
   align-items: center;
   flex: 1;
 
+  @media (max-width: 700px) {
+    margin: 5px 0;
+  }
+
   > img {
     width: 9px;
     height: 9px;
     margin-right: 5px;
+
+    @media (max-width: 1000px) {
+      width: 7px;
+      height: 7px;
+    }
   }
 
   > div {
@@ -248,13 +385,21 @@ export const NervosDaoPieItemPanel = styled.div`
       @media (max-width: 1000px) {
         font-size: 10px;
       }
+
+      @media (max-width: 700px) {
+        font-size: 10px;
+      }
     }
     > div {
       font-size: 18px;
       color: #000000;
 
       @media (max-width: 1000px) {
-        font-size: 14px;
+        font-size: 12px;
+      }
+
+      @media (max-width: 700px) {
+        font-size: 12px;
       }
     }
   }

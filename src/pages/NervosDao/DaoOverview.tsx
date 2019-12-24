@@ -25,6 +25,7 @@ import { handleBigNumber, handleBigNumberFloor } from '../../utils/string'
 import { localeNumberString } from '../../utils/number'
 import { shannonToCkbDecimal, shannonToCkb } from '../../utils/util'
 import DecimalCapacity from '../../components/DecimalCapacity'
+import { isMobile } from '../../utils/screen'
 
 interface NervosDaoItemContent {
   title: string
@@ -217,29 +218,57 @@ const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => {
   )
 }
 
+const NervosDaoLeftMobile = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
+  return (
+    <DaoOverviewLeftPanel>
+      <div>
+        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[0]} />
+        <span className="dao__overview__left_column_separate" />
+        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[1]} />
+      </div>
+      <span className="dao__overview__left_separate" />
+      <div>
+        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[2]} />
+        <span className="dao__overview__left_column_separate" />
+        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[3]} />
+      </div>
+      <span className="dao__overview__left_separate" />
+      <div>
+        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[4]} />
+        <span className="dao__overview__left_column_separate" />
+        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[5]} />
+      </div>
+    </DaoOverviewLeftPanel>
+  )
+}
+
 export default () => {
   const { nervosDaoState } = useContext(AppContext)
   const { nervosDao } = nervosDaoState
 
   return (
     <DaoOverviewPanel>
-      <DaoOverviewLeftPanel>
-        <div>
-          {nervosDaoItemContents(nervosDao)
-            .slice(0, 3)
-            .map(item => (
-              <NervosDaoItem item={item} key={item.title} />
-            ))}
-        </div>
-        <span className="dao__overview__left_separate" />
-        <div>
-          {nervosDaoItemContents(nervosDao)
-            .slice(3)
-            .map(item => (
-              <NervosDaoItem item={item} key={item.title} />
-            ))}
-        </div>
-      </DaoOverviewLeftPanel>
+      {isMobile() ? (
+        <NervosDaoLeftMobile nervosDao={nervosDao} />
+      ) : (
+        <DaoOverviewLeftPanel>
+          <div>
+            {nervosDaoItemContents(nervosDao)
+              .slice(0, 3)
+              .map(item => (
+                <NervosDaoItem item={item} key={item.title} />
+              ))}
+          </div>
+          <span className="dao__overview__left_separate" />
+          <div>
+            {nervosDaoItemContents(nervosDao)
+              .slice(3)
+              .map(item => (
+                <NervosDaoItem item={item} key={item.title} />
+              ))}
+          </div>
+        </DaoOverviewLeftPanel>
+      )}
       <span className="dao__overview__separate" />
       <DaoOverviewRightPanel>
         <div className="nervos__dao__overview_pie_chart">
