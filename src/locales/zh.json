@@ -178,17 +178,20 @@
       "dao_title_deposit_capacity": "提现金额",
       "deposit": "锁定总额",
       "addresses": "地址数量",
-      "unclaimed_compensation": "未解锁补贴",
-      "claimed_compensation": "已解锁补贴",
+      "unclaimed_compensation": "未领取补贴",
+      "claimed_compensation": "已领取补贴",
       "average_deposit_time": "平均锁定时间",
       "estimated_apc": "预估 APC",
       "secondary_issuance": "二级增发",
       "mining_reward": "挖矿奖励",
       "deposit_compensation": "锁定补贴",
-      "treasury": "治理基金(至今已销毁)",
+      "treasury": "治理基金(销毁)",
       "deposit_tooltip": "Nervos DAO 锁定",
       "withdraw_tooltip": "Nervos DAO 解锁",
-      "calculation_tooltip": "Nervos DAO 补贴计算"
+      "calculation_tooltip": "Nervos DAO 补贴计算",
+      "days": "天+",
+      "24hrs_update": "24 小时变动(UTC+8:00)",
+      "today_update": "今日变动(UTC+8:00)"
     },
     "error": {
       "maintain": "网络维护中，请稍后再试"

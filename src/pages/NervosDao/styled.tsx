@@ -223,10 +223,9 @@ export const DaoOverviewLeftPanel = styled.div`
   display: flex;
   flex-direction: column;
   flex: 54;
-  margin-left: 20px;
 
   @media (max-width: 700px) {
-    margin: 0 20px;
+    margin: 0 16px;
   }
 
   > div {
@@ -256,7 +255,6 @@ export const DaoOverviewRightPanel = styled.div`
   display: flex;
   flex-direction: row;
   flex: 44;
-  margin-right: 20px;
 
   @media (max-width: 700px) {
     margin: 5px 0;
@@ -307,15 +305,21 @@ export const DaoOverviewItemPanel = styled.div`
 
     .dao__overview__item_title {
       color: #5e5e5e;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: bold;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 140px;
 
       @media (max-width: 1000px) {
-        font-size: 10px;
+        font-size: 9px;
+        max-width: ${(props: { hasChange?: boolean }) => (props.hasChange ? '60px' : '200px')};
       }
 
       @media (max-width: 700px) {
-        font-size: 10px;
+        font-size: 9px;
+        max-width: ${(props: { hasChange?: boolean }) => (props.hasChange ? '70px' : '200px')};
       }
     }
 
@@ -345,9 +349,11 @@ export const DaoOverviewItemPanel = styled.div`
     color: #000000;
     font-size: 18px;
     font-weight: bold;
+    margin-top: 10px;
 
     @media (max-width: 1000px) {
       font-size: 12px;
+      margin-top: 5px;
     }
 
     @media (max-width: 700px) {
@@ -368,11 +374,12 @@ export const NervosDaoPieItemPanel = styled.div`
   > img {
     width: 9px;
     height: 9px;
-    margin-right: 5px;
+    margin-right: 10px;
 
     @media (max-width: 1000px) {
       width: 7px;
       height: 7px;
+      margin-right: 5px;
     }
   }
 

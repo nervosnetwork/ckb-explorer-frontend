@@ -6,6 +6,7 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/legendScroll'
+import { Tooltip } from 'antd'
 import { AppContext } from '../../contexts/providers'
 import {
   DaoOverviewPanel,
@@ -31,6 +32,7 @@ interface NervosDaoItemContent {
   title: string
   change?: string
   content: string
+  tooltip?: string
 }
 
 interface NervosDaoPieItemContent {
@@ -51,13 +53,15 @@ const NervosDaoItem = ({ item }: { item: NervosDaoItemContent }) => {
     }
   }
   return (
-    <DaoOverviewItemPanel>
+    <DaoOverviewItemPanel hasChange={!!item.change}>
       <div className="dao__overview__item_top">
         <span className="dao__overview__item_title">{item.title}</span>
         {item.change && (
           <>
             <img src={daoIcon} alt="nervos dao change icon" />
-            <span className="dao__overview__item_change">{item.change}</span>
+            <Tooltip placement="top" title={item.tooltip}>
+              <span className="dao__overview__item_change">{item.change}</span>
+            </Tooltip>
           </>
         )}
       </div>
@@ -72,25 +76,29 @@ const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent
       title: i18n.t('nervos_dao.deposit'),
       change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.depositChanges), 2),
       content: localeNumberString(shannonToCkbDecimal(nervosDao.totalDeposit, 2)),
+      tooltip: i18n.t('nervos_dao.today_update'),
     },
     {
       title: i18n.t('nervos_dao.addresses'),
       change: localeNumberString(nervosDao.depositorChanges),
       content: localeNumberString(nervosDao.depositorsCount),
+      tooltip: i18n.t('nervos_dao.today_update'),
     },
     {
       title: i18n.t('nervos_dao.unclaimed_compensation'),
       change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.unclaimedCompensationChanges), 2),
       content: localeNumberString(shannonToCkbDecimal(nervosDao.unclaimedCompensation, 2)),
+      tooltip: i18n.t('nervos_dao.24hrs_update'),
     },
     {
       title: i18n.t('nervos_dao.claimed_compensation'),
       change: handleBigNumber(shannonToCkbDecimal(nervosDao.claimedCompensationChanges), 2),
       content: localeNumberString(shannonToCkbDecimal(nervosDao.claimedCompensation, 2)),
+      tooltip: i18n.t('nervos_dao.24hrs_update'),
     },
     {
       title: i18n.t('nervos_dao.average_deposit_time'),
-      content: `${handleBigNumber(nervosDao.averageDepositTime, 1)} days+`,
+      content: `${handleBigNumber(nervosDao.averageDepositTime, 1)} ${i18n.t('nervos_dao.days')}`,
     },
     {
       title: i18n.t('nervos_dao.estimated_apc'),
