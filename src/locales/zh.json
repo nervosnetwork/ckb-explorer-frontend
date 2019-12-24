@@ -185,7 +185,10 @@
       "secondary_issuance": "二级增发",
       "mining_reward": "挖矿奖励",
       "deposit_compensation": "锁定补贴",
-      "treasury": "治理基金(至今已销毁)"
+      "treasury": "治理基金(至今已销毁)",
+      "deposit_tooltip": "Nervos DAO 锁定",
+      "withdraw_tooltip": "Nervos DAO 解锁",
+      "calculation_tooltip": "Nervos DAO 补贴计算"
     },
     "error": {
       "maintain": "网络维护中，请稍后再试"

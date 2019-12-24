@@ -88,16 +88,51 @@ const isDaoCell = (cellType: string) => {
   return isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
 }
 
-const NervosDAOAddress = ({
+const AddressLinkComp = ({
+  cell,
+  address,
+  dispatch,
+  highLight,
+}: {
+  cell: State.Cell
+  address: string
+  dispatch: AppDispatch
+  highLight: boolean
+}) => {
+  if (address.includes('...')) {
+    return (
+      <AntdTooltip placement="top" title={<CopyTooltipText content={cell.addressHash} dispatch={dispatch} />}>
+        {highLight ? (
+          <Link to={`/address/${cell.addressHash}`}>
+            <span className="address">{address}</span>
+          </Link>
+        ) : (
+          <span className="address">{address}</span>
+        )}
+      </AntdTooltip>
+    )
+  }
+  return highLight ? (
+    <Link to={`/address/${cell.addressHash}`}>
+      <span className="address">{address}</span>
+    </Link>
+  ) : (
+    <span className="address">{address}</span>
+  )
+}
+
+const TransactionCellAddress = ({
   cell,
   cellType,
   address,
   dispatch,
+  highLight,
 }: {
   cell: State.Cell
   cellType: CellType
   address: string
   dispatch: AppDispatch
+  highLight: boolean
 }) => {
   const { app } = useContext(AppContext)
   const WithdrawInfo = (
@@ -134,32 +169,16 @@ const NervosDAOAddress = ({
     if (isDaoWithdrawCell(cell.cellType) && cellType === CellType.Input) {
       return (
         <div className="transaction__cell_withdraw">
-          <Link to="/nervosdao">
-            <span className="transaction__cell_dao">{i18n.t('blockchain.nervos_dao')}</span>
-          </Link>
+          <AddressLinkComp cell={cell} address={address} highLight={highLight} dispatch={dispatch} />
           <Popover placement="right" title="" content={WithdrawInfo} trigger="click">
             <img src={DetailIcon} className="nervos__dao__withdraw_help" alt="nervos dao withdraw" />
           </Popover>
         </div>
       )
     }
-    return (
-      <Link to="/nervosdao">
-        <span className="transaction__cell_dao">{i18n.t('blockchain.nervos_dao')}</span>
-      </Link>
-    )
+    return <AddressLinkComp cell={cell} address={address} highLight={highLight} dispatch={dispatch} />
   }
-  return address.includes('...') ? (
-    <AntdTooltip placement="top" title={<CopyTooltipText content={cell.addressHash} dispatch={dispatch} />}>
-      <Link to={`/address/${cell.addressHash}`}>
-        <span className="address">{address}</span>
-      </Link>
-    </AntdTooltip>
-  ) : (
-    <Link to={`/address/${cell.addressHash}`}>
-      <span className="address">{address}</span>
-    </Link>
-  )
+  return <AddressLinkComp cell={cell} address={address} highLight={highLight} dispatch={dispatch} />
 }
 
 const TransactionCell = ({
@@ -183,8 +202,6 @@ const TransactionCell = ({
     addressText = handleAddressText(cell.addressHash)
     if (cell.addressHash !== address) {
       highLight = true
-    } else if (isDaoCell(cell.cellType)) {
-      highLight = true
     }
   }
 
@@ -192,13 +209,13 @@ const TransactionCell = ({
     <TransactionCellPanel highLight={highLight}>
       <div className="transaction__cell_address">
         {!isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
-        {highLight ? (
-          <NervosDAOAddress cell={cell} cellType={cellType} address={addressText} dispatch={dispatch} />
-        ) : (
-          <AntdTooltip placement="top" title={<CopyTooltipText content={cell.addressHash} dispatch={dispatch} />}>
-            <span className="address">{addressText}</span>
-          </AntdTooltip>
-        )}
+        <TransactionCellAddress
+          cell={cell}
+          cellType={cellType}
+          address={addressText}
+          dispatch={dispatch}
+          highLight={highLight}
+        />
       </div>
       <TransactionCellCapacity isOutput={cellType === CellType.Output}>
         {isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
