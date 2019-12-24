@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import queryString from 'query-string'
 import { RouteComponentProps } from 'react-router'
-import { StateWithDispatch, PageActions, AppActions } from '../../contexts/providers/reducer'
+import { StateWithDispatch, PageActions, AppActions, AppDispatch } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import Content from '../../components/Content'
 import i18n from '../../utils/i18n'
@@ -50,10 +50,12 @@ const NervosDAOStateComp = ({
   daoTab,
   currentPage,
   pageSize,
+  dispatch,
 }: {
   daoTab: 'transactions' | 'depositors'
   currentPage: number
   pageSize: number
+  dispatch: AppDispatch
 }) => {
   const { nervosDaoState, app } = useContext(AppContext)
   switch (nervosDaoState.status) {
@@ -61,9 +63,9 @@ const NervosDAOStateComp = ({
       return <Error />
     case 'OK':
       return daoTab === 'transactions' ? (
-        <DaoTransactions currentPage={currentPage} pageSize={pageSize} />
+        <DaoTransactions currentPage={currentPage} pageSize={pageSize} dispatch={dispatch} />
       ) : (
-        <DepositorRank />
+        <DepositorRank dispatch={dispatch} />
       )
     case 'None':
     default:
@@ -144,7 +146,7 @@ export const NervosDao = ({
           {daoTab === 'transactions' && <DaoSearch dispatch={dispatch} />}
         </DaoTabBarPanel>
 
-        <NervosDAOStateComp daoTab={daoTab} currentPage={currentPage} pageSize={pageSize} />
+        <NervosDAOStateComp daoTab={daoTab} currentPage={currentPage} pageSize={pageSize} dispatch={dispatch} />
       </DaoContentPanel>
     </Content>
   )

@@ -5,7 +5,7 @@ import BlockHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
 import Error from '../../components/Error'
 import { AppContext } from '../../contexts/providers'
-import { StateWithDispatch, PageActions, AppActions } from '../../contexts/providers/reducer'
+import { StateWithDispatch, PageActions, AppActions, AppDispatch } from '../../contexts/providers/reducer'
 import { getBlock } from '../../service/app/block'
 import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
@@ -19,17 +19,19 @@ const BlockStateComp = ({
   currentPage,
   pageSize,
   blockParam,
+  dispatch,
 }: {
   currentPage: number
   pageSize: number
   blockParam: string
+  dispatch: AppDispatch
 }) => {
   const { blockState, app } = useContext(AppContext)
   switch (blockState.status) {
     case 'Error':
       return <Error />
     case 'OK':
-      return <BlockComp currentPage={currentPage} pageSize={pageSize} blockParam={blockParam} />
+      return <BlockComp currentPage={currentPage} pageSize={pageSize} blockParam={blockParam} dispatch={dispatch} />
     case 'None':
     default:
       return <Loading show={app.loading} />
@@ -87,7 +89,7 @@ export default ({
           hash={blockState.status === 'OK' ? blockState.block.blockHash : blockParam}
           dispatch={dispatch}
         />
-        <BlockStateComp currentPage={currentPage} pageSize={pageSize} blockParam={blockParam} />
+        <BlockStateComp currentPage={currentPage} pageSize={pageSize} blockParam={blockParam} dispatch={dispatch} />
       </BlockDetailPanel>
     </Content>
   )

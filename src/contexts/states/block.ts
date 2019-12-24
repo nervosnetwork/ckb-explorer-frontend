@@ -21,6 +21,7 @@ export const initBlockState: State.BlockState = {
     version: 0,
     nonce: '0',
     transactionsRoot: '',
+    blockIndexInEpoch: '',
   },
   transactions: [],
   total: 0,

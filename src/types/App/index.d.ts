@@ -70,6 +70,8 @@ declare namespace State {
     daoDeposit: number
     interest: number
     lockInfo: LockInfo
+    liveCellsCount: string
+    minedBlocksCount: string
     isSpecial: boolean
     specialAddress: string
   }
@@ -96,6 +98,7 @@ declare namespace State {
     version: number
     nonce: string
     transactionsRoot: string
+    blockIndexInEpoch: string
   }
 
   export interface CellDep {

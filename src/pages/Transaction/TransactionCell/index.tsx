@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Tooltip } from 'antd'
 import OverviewCard, { OverviewItemData } from '../../../components/Card/OverviewCard'
 import { CellState, CellType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
@@ -20,6 +21,7 @@ import {
 } from './styled'
 import TransactionCellArrow from '../TransactionCellArrow'
 import DecimalCapacity from '../../../components/DecimalCapacity'
+import CopyTooltipText from '../../../components/Tooltip/CopyTooltipText'
 
 const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
@@ -28,14 +30,38 @@ const handleAddressHashText = (hash: string) => {
   return adaptPCEllipsis(hash, 6, 50)
 }
 
-const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
+const AddressHash = ({ address, dispatch }: { address: string; dispatch: AppDispatch }) => {
+  const addressHash = handleAddressHashText(address)
+  if (addressHash.includes('...')) {
+    return (
+      <Tooltip placement="top" title={<CopyTooltipText content={address} dispatch={dispatch} />}>
+        <Link to={`/address/${address}`}>
+          <span className="address">{addressHash}</span>
+        </Link>
+      </Tooltip>
+    )
+  }
+  return (
+    <Link to={`/address/${address}`}>
+      <span className="address">{addressHash}</span>
+    </Link>
+  )
+}
+
+const TransactionCellHash = ({
+  cell,
+  cellType,
+  dispatch,
+}: {
+  cell: State.Cell
+  cellType: CellType
+  dispatch: AppDispatch
+}) => {
   return (
     <TransactionCellHashPanel highLight={cell.addressHash !== null}>
       {!cell.fromCellbase && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
       {cell.addressHash ? (
-        <Link to={`/address/${cell.addressHash}`}>
-          <span className="address">{handleAddressHashText(cell.addressHash)}</span>
-        </Link>
+        <AddressHash address={cell.addressHash} dispatch={dispatch} />
       ) : (
         <span className="transaction__cell_address_no_link">
           {cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}
@@ -109,7 +135,7 @@ export default ({
     const items: OverviewItemData[] = [
       {
         title: cellType === CellType.Input ? i18n.t('transaction.input') : i18n.t('transaction.output'),
-        content: <TransactionCellHash cell={cell} cellType={cellType} />,
+        content: <TransactionCellHash cell={cell} cellType={cellType} dispatch={dispatch} />,
       },
     ]
     if (cell.capacity) {
@@ -137,7 +163,7 @@ export default ({
           {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
         </div>
         <div className="transaction__cell_hash">
-          <TransactionCellHash cell={cell} cellType={cellType} />
+          <TransactionCellHash cell={cell} cellType={cellType} dispatch={dispatch} />
         </div>
 
         <div className="transaction__cell_capacity">
