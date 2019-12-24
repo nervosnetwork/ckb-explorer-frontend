@@ -23,9 +23,9 @@ const LeftArrowImage = styled.img`
 `
 
 const RightArrowImage = styled.img`
-  width: ${(props: { bigWidth?: boolean }) => (props.bigWidth ? '16px' : '10px')};
+  width: 16px;
   height: auto;
-  margin: 0px 0 1px ${(props: { bigWidth?: boolean }) => (props.bigWidth ? '7px' : '13px')};
+  margin: 0px 0 1px 7px;
 
   @media (max-width: 700px) {
     width: 12px;
@@ -79,7 +79,7 @@ const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
   if (isDaoDepositCell(cell.cellType)) {
     return (
       <Tooltip placement="topRight" title={i18n.t('nervos_dao.deposit_tooltip')} arrowPointAtCenter>
-        <RightArrowImage className="transaction__cell_right_arrow" src={NervosDAOCellIcon} alt="right arrow" bigWidth />
+        <RightArrowImage className="transaction__cell_right_arrow" src={NervosDAOCellIcon} alt="right arrow" />
       </Tooltip>
     )
   }

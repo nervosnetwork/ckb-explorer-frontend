@@ -334,7 +334,7 @@ export const DaoOverviewItemPanel = styled.div`
       font-size: 12px;
       font-weight: bold;
       color: ${props => props.theme.primary};
-      cursor: pointer;
+      cursor: default;
 
       @media (max-width: 1000px) {
         font-size: 10px;
