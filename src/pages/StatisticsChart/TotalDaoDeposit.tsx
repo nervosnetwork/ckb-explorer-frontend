@@ -76,7 +76,7 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
           },
         },
         axisLabel: {
-          formatter: (value: string) => handleAxis(value),
+          formatter: (value: string) => `${handleAxis(value)}B`,
         },
       },
     ],
