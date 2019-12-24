@@ -147,7 +147,7 @@ const getOption = (nervosDao: State.NervosDao) => {
         name: i18n.t('nervos_dao.secondary_issuance'),
         type: 'pie',
         radius: '55%',
-        center: ['40%', '50%'],
+        center: ['50%', '50%'],
         data: seriesData,
         label: {
           normal: {
@@ -172,7 +172,11 @@ const nervosDaoPieItemContents = (nervosDao: State.NervosDao): NervosDaoPieItemC
     {
       title: i18n.t('nervos_dao.mining_reward'),
       content: (
-        <DecimalCapacity value={shannonToCkb(Number(nervosDao.miningReward).toFixed())} fontSize="12px" hideUnit />
+        <DecimalCapacity
+          value={localeNumberString(shannonToCkb(Number(nervosDao.miningReward).toFixed()))}
+          fontSize="12px"
+          hideUnit
+        />
       ),
       img: DotIcon1,
     },
@@ -180,7 +184,7 @@ const nervosDaoPieItemContents = (nervosDao: State.NervosDao): NervosDaoPieItemC
       title: i18n.t('nervos_dao.deposit_compensation'),
       content: (
         <DecimalCapacity
-          value={shannonToCkb(Number(nervosDao.depositCompensation).toFixed())}
+          value={localeNumberString(shannonToCkb(Number(nervosDao.depositCompensation).toFixed()))}
           fontSize="12px"
           hideUnit
         />
@@ -190,7 +194,11 @@ const nervosDaoPieItemContents = (nervosDao: State.NervosDao): NervosDaoPieItemC
     {
       title: i18n.t('nervos_dao.treasury'),
       content: (
-        <DecimalCapacity value={shannonToCkb(Number(nervosDao.treasuryAmount).toFixed())} fontSize="12px" hideUnit />
+        <DecimalCapacity
+          value={localeNumberString(shannonToCkb(Number(nervosDao.treasuryAmount).toFixed()))}
+          fontSize="12px"
+          hideUnit
+        />
       ),
       img: DotIcon3,
     },
@@ -234,16 +242,20 @@ export default () => {
       </DaoOverviewLeftPanel>
       <span className="dao__overview__separate" />
       <DaoOverviewRightPanel>
-        <ReactEchartsCore
-          echarts={echarts}
-          option={getOption(nervosDao)}
-          notMerge
-          lazyUpdate
-          style={{
-            height: '100%',
-            width: '60%',
-          }}
-        />
+        <div className="nervos__dao__overview_pie_chart">
+          <ReactEchartsCore
+            echarts={echarts}
+            option={getOption(nervosDao)}
+            notMerge
+            lazyUpdate
+            style={{
+              height: '80%',
+              width: '100%',
+            }}
+          />
+          <span className="nervos__dao__overview_pie_title">{i18n.t('nervos_dao.secondary_issuance')}</span>
+        </div>
+
         <div className="nervos__dao__overview_pie_panel">
           {nervosDaoPieItemContents(nervosDao).map(item => (
             <NervosDaoPieItem item={item} key={item.title} />
