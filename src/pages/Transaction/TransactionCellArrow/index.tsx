@@ -25,7 +25,7 @@ const LeftArrowImage = styled.img`
 const RightArrowImage = styled.img`
   width: ${(props: { bigWidth?: boolean }) => (props.bigWidth ? '16px' : '10px')};
   height: auto;
-  margin: 0px 0 1px 7px;
+  margin: 0px 0 1px ${(props: { bigWidth?: boolean }) => (props.bigWidth ? '7px' : '13px')};
 
   @media (max-width: 700px) {
     width: 12px;
