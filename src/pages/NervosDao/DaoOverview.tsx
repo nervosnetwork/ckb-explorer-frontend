@@ -41,7 +41,7 @@ interface NervosDaoPieItemContent {
   img: any
 }
 
-const colors = ['#106D5B', '#299583', '#3CC68A']
+const colors = ['#049ECD', '#69C7D4', '#74808E']
 
 const NervosDaoItem = ({ item }: { item: NervosDaoItemContent }) => {
   let daoIcon = DaoUpIcon
