@@ -13,6 +13,8 @@ export const initTransactionState: State.TransactionState = {
     cellDeps: [],
     headerDeps: [],
     witnesses: [],
+    liveCellChanges: '',
+    capacityInvolved: '',
   },
   status: 'None',
 }

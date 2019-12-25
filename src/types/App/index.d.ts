@@ -99,6 +99,7 @@ declare namespace State {
     nonce: string
     transactionsRoot: string
     blockIndexInEpoch: string
+    liveCellChanges: string
   }
 
   export interface CellDep {
@@ -123,6 +124,8 @@ declare namespace State {
     cellDeps: CellDep[]
     headerDeps: string[]
     witnesses: string[]
+    liveCellChanges: string
+    capacityInvolved: string
   }
 
   export interface BlockchainInfo {
