@@ -57,7 +57,10 @@
       "transactions": "Transactions",
       "block_reward": "Reward (CKB)",
       "time": "Time",
-      "more": "More"
+      "more": "More",
+      "miner": "Miner",
+      "reward": "Reward",
+      "cells": "Cells"
     },
     "footer": {
       "nervos_foundation": "Foundation",

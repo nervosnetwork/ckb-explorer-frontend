@@ -57,7 +57,10 @@
       "transactions": "交易",
       "block_reward": "奖励 (CKB)",
       "time": "时间戳",
-      "more": "更多"
+      "more": "更多",
+      "miner": "矿工",
+      "reward": "奖励",
+      "cells": "Cells"
     },
     "footer": {
       "nervos_foundation": "基金会",
