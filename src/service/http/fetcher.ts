@@ -53,6 +53,17 @@ export const fetchTransactionByHash = (hash: string) => {
     .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Transaction>>(res.data.data))
 }
 
+export const fetchTransactions = (page: number, page_size: number) => {
+  return axiosIns
+    .get('transactions', {
+      params: {
+        page,
+        page_size,
+      },
+    })
+    .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
+}
+
 export const fetchTransactionsByBlockHash = (blockHash: string, page: number, page_size: number) => {
   return axiosIns
     .get(`/block_transactions/${blockHash}`, {
