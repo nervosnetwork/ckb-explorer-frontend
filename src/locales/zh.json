@@ -130,10 +130,13 @@
       "commit_reward": "提交奖励",
       "proposal_reward": "提案奖励",
       "cellbase_help_tooltip": "区块 N 的 Cellbase 交易将作为奖励发送给区块 N-11 的出块矿工，阅读共识协议了解更多信息",
-      "capacity": "Capacity",
+      "capacity": "Capacity(CKB)",
       "detail": "详情",
       "empty_output": "No cell output target",
-      "unspent_output": "未花费的交易输出"
+      "unspent_output": "未花费的交易输出",
+      "transaction_hash": "交易哈希",
+      "height": "区块高度",
+      "time": "时间戳"
     },
     "block": {
       "block": "区块",

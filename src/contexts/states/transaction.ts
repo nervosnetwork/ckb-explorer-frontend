@@ -19,4 +19,7 @@ export const initTransactionState: State.TransactionState = {
   status: 'None',
 }
 
-export default initTransactionState
+export const initTransactionsState: State.TransactionsState = {
+  transactions: [],
+  total: 0,
+}
