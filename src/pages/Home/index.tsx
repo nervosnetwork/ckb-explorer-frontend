@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { HomeHeaderPanel, HomeHeaderItemPanel, BlockPanel, TableMorePanel } from './styled'
+import { HomeHeaderPanel, HomeHeaderItemPanel, BlockPanel, TableMorePanel, TableHeaderPanel } from './styled'
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
 import { BLOCK_POLLING_TIME } from '../../utils/const'
@@ -14,6 +14,7 @@ import { AppContext } from '../../contexts/providers'
 import { getLatestBlocks } from '../../service/app/block'
 import getStatistics from '../../service/app/statistics'
 import i18n from '../../utils/i18n'
+import LatestBlocksIcon from '../../assets/latest_blocks.png'
 import { BlockCardItem } from './ListCard'
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
@@ -134,17 +135,24 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
         </div>
       </HomeHeaderPanel>
       <BlockPanel className="container">
+        <TableHeaderPanel>
+          <img src={LatestBlocksIcon} alt="latest blocks" />
+          <span>{i18n.t('home.latest_blocks')}</span>
+        </TableHeaderPanel>
         {homeBlocks.map((block, index) => {
-          return <BlockCardItem block={block} index={index} dispatch={dispatch} key={block.blockHash} />
+          return (
+            <div>
+              <BlockCardItem block={block} index={index} dispatch={dispatch} key={block.blockHash} />
+              <div className="block__card__separate" />
+            </div>
+          )
         })}
         <TableMorePanel
           onClick={() => {
             browserHistory.push(`/block/list`)
           }}
         >
-          <div>
-            <div className="table__more">{t('home.more')}</div>
-          </div>
+          <span>{t('home.more')}</span>
         </TableMorePanel>
       </BlockPanel>
     </Content>

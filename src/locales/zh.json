@@ -60,7 +60,8 @@
       "more": "更多",
       "miner": "矿工",
       "reward": "奖励",
-      "cells": "Cells"
+      "cells": "Cells",
+      "latest_blocks": "最新的区块"
     },
     "footer": {
       "nervos_foundation": "基金会",

@@ -60,7 +60,8 @@
       "more": "More",
       "miner": "Miner",
       "reward": "Reward",
-      "cells": "Cells"
+      "cells": "Cells",
+      "latest_blocks": "Latest Blocks"
     },
     "footer": {
       "nervos_foundation": "Foundation",

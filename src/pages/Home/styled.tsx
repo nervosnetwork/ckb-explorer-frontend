@@ -139,6 +139,13 @@ export const BlockPanel = styled.div`
     padding: 0px 20px 0px 20px;
     margin-bottom: 24px;
   }
+
+  .block__card__separate {
+    background: #eaeaea;
+    width: auto;
+    margin: 0 16px;
+    height: 1px;
+  }
 `
 
 export const ContentTitle = styled.div`
@@ -193,30 +200,68 @@ export const ContentTable = styled.div`
   }
 `
 
+export const TableHeaderPanel = styled.div`
+  height: 44px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: ${props => props.theme.primary};
+  border: 0px solid white;
+  border-radius: 6px 6px 0 0;
+
+  > img {
+    width: 20px;
+    height: 20px;
+    margin-left: 12px;
+    margin-right: 8px;
+  }
+
+  > span {
+    font-size: 20px;
+    font-weight: 500;
+    color: white;
+  }
+
+  @media (max-width: 700px) {
+    width: 100%;
+    height: 46px;
+    border: 0px solid white;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px 0 #dfdfdf;
+    background-color: #ffffff;
+    margin-top: 5px;
+
+    > div {
+      height: 14px;
+      display: flex;
+      align-items: center;
+
+      .table__more {
+        width: auto;
+        height: 14px;
+        line-height: 14px;
+        margin: 5px 18px;
+        font-size: 14px;
+        color: ${props => props.theme.primary};
+      }
+    }
+  }
+`
+
 export const TableMorePanel = styled.div`
-  height: 65px;
+  height: 44px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
+  background: ${props => props.theme.primary};
   border: 0px solid white;
-  border-radius: 6px;
+  border-radius: 0 0 6px 6px;
   cursor: pointer;
-  :hover {
-    background: #f8f9fa;
-  }
-  > div {
-    height: 33px;
-    display: flex;
-
-    .table__more {
-      font-size: 20px;
-      font-weight: 500;
-      color: ${props => props.theme.primary};
-      width: 59px;
-      height: 33px;
-    }
+  > span {
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
   }
 
   @media (max-width: 700px) {
