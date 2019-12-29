@@ -1,7 +1,15 @@
 import React, { useEffect, useContext } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { HomeHeaderPanel, HomeHeaderItemPanel, BlockPanel, TableMorePanel, TableHeaderPanel } from './styled'
+import {
+  HomeHeaderPanel,
+  HomeHeaderItemPanel,
+  BlockPanel,
+  TableMorePanel,
+  TableHeaderPanel,
+  HomeTablePanel,
+  TransactionPanel,
+} from './styled'
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
 import { BLOCK_POLLING_TIME } from '../../utils/const'
@@ -15,7 +23,10 @@ import { getLatestBlocks } from '../../service/app/block'
 import getStatistics from '../../service/app/statistics'
 import i18n from '../../utils/i18n'
 import LatestBlocksIcon from '../../assets/latest_blocks.png'
-import { BlockCardItem } from './ListCard'
+import LatestTransactionsIcon from '../../assets/latest_transactions.png'
+import { BlockCardItem, TransactionCardItem } from './ListCard'
+import { getLatestTransactions } from '../../service/app/transaction'
+import { getTipBlockNumber } from '../../service/app/address'
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   return (
@@ -88,11 +99,15 @@ const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
 }
 
 export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
-  const { homeBlocks = [], statistics } = useContext(AppContext)
+  const { homeBlocks = [], transactionsState, statistics, app } = useContext(AppContext)
+  const { transactions = [] } = transactionsState
+  const { tipBlockNumber } = app
   const [t] = useTranslation()
 
   useEffect(() => {
     getLatestBlocks(dispatch)
+    getLatestTransactions(dispatch)
+    getTipBlockNumber(dispatch)
     getStatistics(dispatch)
     const listener = setInterval(() => {
       getLatestBlocks(dispatch)
@@ -134,27 +149,55 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
           )}
         </div>
       </HomeHeaderPanel>
-      <BlockPanel className="container">
-        <TableHeaderPanel>
-          <img src={LatestBlocksIcon} alt="latest blocks" />
-          <span>{i18n.t('home.latest_blocks')}</span>
-        </TableHeaderPanel>
-        {homeBlocks.map((block, index) => {
-          return (
-            <div>
-              <BlockCardItem block={block} index={index} dispatch={dispatch} key={block.blockHash} />
-              <div className="block__card__separate" />
-            </div>
-          )
-        })}
-        <TableMorePanel
-          onClick={() => {
-            browserHistory.push(`/block/list`)
-          }}
-        >
-          <span>{t('home.more')}</span>
-        </TableMorePanel>
-      </BlockPanel>
+      <HomeTablePanel className="container">
+        <BlockPanel>
+          <TableHeaderPanel>
+            <img src={LatestBlocksIcon} alt="latest blocks" />
+            <span>{i18n.t('home.latest_blocks')}</span>
+          </TableHeaderPanel>
+          {homeBlocks.map((block, index) => {
+            return (
+              <div>
+                <BlockCardItem block={block} index={index} dispatch={dispatch} key={block.blockHash} />
+                <div className="block__card__separate" />
+              </div>
+            )
+          })}
+          <TableMorePanel
+            onClick={() => {
+              browserHistory.push(`/block/list`)
+            }}
+          >
+            <span>{t('home.more')}</span>
+          </TableMorePanel>
+        </BlockPanel>
+        <TransactionPanel>
+          <TableHeaderPanel>
+            <img src={LatestTransactionsIcon} alt="latest transactions" />
+            <span>{i18n.t('home.latest_transactions')}</span>
+          </TableHeaderPanel>
+          {transactions.map(transaction => {
+            return (
+              <div>
+                <TransactionCardItem
+                  transaction={transaction}
+                  dispatch={dispatch}
+                  key={transaction.transactionHash}
+                  tipBlockNumber={tipBlockNumber}
+                />
+                <div className="transaction__card__separate" />
+              </div>
+            )
+          })}
+          <TableMorePanel
+            onClick={() => {
+              browserHistory.push(`/transaction/list`)
+            }}
+          >
+            <span>{t('home.more')}</span>
+          </TableMorePanel>
+        </TransactionPanel>
+      </HomeTablePanel>
     </Content>
   )
 }

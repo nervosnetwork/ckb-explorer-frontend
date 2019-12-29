@@ -61,7 +61,8 @@
       "miner": "矿工",
       "reward": "奖励",
       "cells": "Cells",
-      "latest_blocks": "最新的区块"
+      "latest_blocks": "最新区块",
+      "latest_transactions": "最新交易"
     },
     "footer": {
       "nervos_foundation": "基金会",

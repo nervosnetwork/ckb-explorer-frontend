@@ -61,7 +61,8 @@
       "miner": "Miner",
       "reward": "Reward",
       "cells": "Cells",
-      "latest_blocks": "Latest Blocks"
+      "latest_blocks": "Latest Blocks",
+      "latest_transactions": "Recent User Transactions"
     },
     "footer": {
       "nervos_foundation": "Foundation",

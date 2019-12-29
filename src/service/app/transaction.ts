@@ -1,4 +1,4 @@
-import { fetchTransactionByHash, fetchTransactions } from '../http/fetcher'
+import { fetchTransactionByHash, fetchTransactions, fetchLatestTransactions } from '../http/fetcher'
 import { PageActions, AppActions, AppDispatch } from '../../contexts/providers/reducer'
 
 const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
@@ -44,6 +44,32 @@ export const getTransactionByHash = (hash: string, dispatch: AppDispatch, callba
 
 export const getTransactions = (page: number, size: number, dispatch: AppDispatch) => {
   fetchTransactions(page, size)
+    .then(response => {
+      const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
+      dispatch({
+        type: PageActions.UpdateTransactions,
+        payload: {
+          transactions:
+            data.map((wrapper: Response.Wrapper<State.Transaction>) => {
+              return wrapper.attributes
+            }) || [],
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateTransactionsTotal,
+        payload: {
+          total: meta ? meta.total : 0,
+        },
+      })
+      handleResponseStatus(dispatch, true)
+    })
+    .catch(() => {
+      handleResponseStatus(dispatch, false)
+    })
+}
+
+export const getLatestTransactions = (dispatch: AppDispatch) => {
+  fetchLatestTransactions()
     .then(response => {
       const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
       dispatch({

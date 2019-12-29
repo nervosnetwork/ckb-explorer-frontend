@@ -126,9 +126,15 @@ export const HomeHeaderItemPanel = styled.div`
   }
 `
 
+export const HomeTablePanel = styled.div`
+  display: flex;
+`
+
 export const BlockPanel = styled.div`
   width: 100%;
   margin-bottom: 40px;
+  margin-right: 20px;
+  flex: 1;
   @media (min-width: 700px) {
     box-shadow: 0px 2px 8px #b3b3b3;
     border: 0px solid white;
@@ -141,6 +147,29 @@ export const BlockPanel = styled.div`
   }
 
   .block__card__separate {
+    background: #eaeaea;
+    width: auto;
+    margin: 0 16px;
+    height: 1px;
+  }
+`
+
+export const TransactionPanel = styled.div`
+  width: 100%;
+  margin-bottom: 40px;
+  flex: 1;
+  @media (min-width: 700px) {
+    box-shadow: 0px 2px 8px #b3b3b3;
+    border: 0px solid white;
+    border-radius: 6px;
+  }
+
+  @media (max-width: 700px) {
+    padding: 0px 20px 0px 20px;
+    margin-bottom: 24px;
+  }
+
+  .transaction__card__separate {
     background: #eaeaea;
     width: auto;
     margin: 0 16px;

@@ -154,11 +154,14 @@ export const TableMinerContentItem = ({
   width,
   content,
   dispatch,
+  smallWidth,
 }: {
   width: string
   content: string
   dispatch: AppDispatch
+  smallWidth?: boolean
 }) => {
+  const length = smallWidth ? 2 : 14
   return (
     <TableMinerContentPanel width={width}>
       {content ? (
@@ -171,12 +174,12 @@ export const TableMinerContentItem = ({
             event.preventDefault()
           }}
         >
-          {adaptPCEllipsis(content, 14, 60).includes('...') ? (
+          {adaptPCEllipsis(content, length, 60).includes('...') ? (
             <Tooltip placement="top" title={<CopyTooltipText content={content} dispatch={dispatch} />}>
-              <span className="table__miner__text address">{adaptPCEllipsis(content, 14, 60)}</span>
+              <span className="table__miner__text address">{adaptPCEllipsis(content, length, 60)}</span>
             </Tooltip>
           ) : (
-            <span className="table__miner__text address">{adaptPCEllipsis(content, 14, 60)}</span>
+            <span className="table__miner__text address">{adaptPCEllipsis(content, length, 60)}</span>
           )}
         </Link>
       ) : (
