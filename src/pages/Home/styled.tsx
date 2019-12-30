@@ -239,7 +239,7 @@ export const TableHeaderPanel = styled.div`
 
   > span {
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     color: white;
   }
 `

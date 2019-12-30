@@ -40,6 +40,7 @@ const BlockCardPanel = styled.div`
     > div {
       display: flex;
       align-items: center;
+      font-weight: 500;
 
       > span {
         color: #000000;
@@ -59,6 +60,7 @@ const BlockCardPanel = styled.div`
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      font-weight: 500;
 
       @media (max-width: 700px) {
         margin-top: 0;
@@ -79,6 +81,7 @@ const BlockCardPanel = styled.div`
 
     > div {
       display: flex;
+      font-weight: 500;
 
       @media (max-width: 700px) {
         align-items: center;
@@ -88,7 +91,6 @@ const BlockCardPanel = styled.div`
         font-size: 14px;
         color: #000000;
         margin-right: 10px;
-        font-weight: 500px;
 
         @media (max-width: 700px) {
           font-size: 13px;
@@ -99,9 +101,9 @@ const BlockCardPanel = styled.div`
     .block__card__reward {
       font-size: 12px;
       color: #888888;
+      font-weight: 500;
 
       > span {
-        font-weight: normal;
         margin-top: 10px;
         margin-right: 10px;
 
@@ -127,7 +129,7 @@ const BlockCardPanel = styled.div`
     .block__card__transaction__count {
       font-size: 13px;
       color: #000000;
-      font-weight: 500px;
+      font-weight: 500;
     }
 
     .block__card__live__cells {
@@ -139,6 +141,7 @@ const BlockCardPanel = styled.div`
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      font-weight: 500;
 
       @media (max-width: 700px) {
         margin-top: 0;
@@ -153,6 +156,7 @@ const TransactionCardPanel = styled.div`
   align-items: center;
   padding: 15px;
   background: #ffffff;
+  font-weight: 500;
 
   @media (max-width: 700px) {
     flex-direction: column;
@@ -166,6 +170,7 @@ const TransactionCardPanel = styled.div`
     align-items: flex-start;
     font-size: 14px;
     flex: 2;
+    font-weight: 500;
 
     @media (max-width: 700px) {
       font-size: 13px;
@@ -178,6 +183,7 @@ const TransactionCardPanel = styled.div`
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      font-weight: 500;
 
       @media (max-width: 700px) {
         margin-top: 0;
@@ -199,6 +205,8 @@ const TransactionCardPanel = styled.div`
       display: flex;
       align-items: center;
       font-size: 14px;
+      font-weight: 500;
+
       @media (max-width: 700px) {
         font-size: 13px;
       }
@@ -206,13 +214,11 @@ const TransactionCardPanel = styled.div`
       .transaction__card__block__height {
         color: #000000;
         margin-right: 5px;
-        font-weight: 500px;
       }
 
       .transaction__card__block__height__prefix {
         color: #000000;
         margin-right: 3px;
-        font-weight: 500px;
       }
 
       > div {
@@ -224,12 +230,12 @@ const TransactionCardPanel = styled.div`
     .transaction__card__timestamp {
       font-size: 12px;
       color: #888888;
-      font-weight: normal;
       margin-top: 10px;
       margin-right: 10px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      font-weight: 500;
 
       @media (max-width: 700px) {
         margin-top: 0;
@@ -243,6 +249,7 @@ const TransactionCardPanel = styled.div`
     align-items: left;
     flex: 1;
     font-size: 14px;
+    font-weight: 500;
 
     @media (max-width: 700px) {
       flex-direction: row;
@@ -259,6 +266,7 @@ const TransactionCardPanel = styled.div`
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      font-weight: 500;
 
       @media (max-width: 700px) {
         margin-top: 0;
