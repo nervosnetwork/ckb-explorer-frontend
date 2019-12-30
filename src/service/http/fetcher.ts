@@ -175,7 +175,7 @@ export const fetchStatisticTotalDaoDeposit = () => {
 }
 
 export const fetchStatisticDifficultyHashRate = () => {
-  return axiosIns(`/block_statistics/difficulty-hash_rate`).then((res: AxiosResponse) =>
+  return axiosIns(`/epoch_statistics/difficulty-hash_rate`).then((res: AxiosResponse) =>
     toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]>>(res.data),
   )
 }

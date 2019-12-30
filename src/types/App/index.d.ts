@@ -226,7 +226,7 @@ declare namespace State {
   export interface StatisticDifficultyHashRate {
     difficulty: string
     hashRate: string
-    blockNumber: string
+    epochNumber: string
   }
 
   export interface StatisticCellCount {
