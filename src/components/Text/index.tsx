@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { Tooltip } from 'antd'
+import { AppDispatch } from '../../contexts/providers/reducer'
+import CopyTooltipText from '../Tooltip/CopyTooltipText'
 
 export const HighLightPanel = styled.div`
   color: ${props => props.theme.primary};
@@ -22,8 +25,24 @@ export const HighLightPanel = styled.div`
   }
 `
 
-export const HighLightLink = ({ value, to }: { value: string; to: string }) => {
-  return (
+export const HighLightLink = ({
+  value,
+  to,
+  dispatch,
+  tooltip,
+}: {
+  value: string
+  to: string
+  dispatch?: AppDispatch
+  tooltip?: string
+}) => {
+  return tooltip && dispatch ? (
+    <Tooltip placement="top" title={<CopyTooltipText content={tooltip} dispatch={dispatch} />}>
+      <HighLightPanel>
+        <Link to={to}>{value}</Link>
+      </HighLightPanel>
+    </Tooltip>
+  ) : (
     <HighLightPanel>
       <Link to={to}>{value}</Link>
     </HighLightPanel>

@@ -9,6 +9,8 @@ import { DELAY_BLOCK_NUMBER } from '../../utils/const'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { shannonToCkbDecimal } from '../../utils/util'
 import { TableMinerContentItem } from '../../components/Table'
+import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
+import { isMobile } from '../../utils/screen'
 
 const BlockCardPanel = styled.div`
   display: flex;
@@ -57,12 +59,13 @@ const BlockCardPanel = styled.div`
       font-size: 12px;
       color: #888888;
       margin-top: 10px;
+      font-weight: 500;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      font-weight: 500;
 
       @media (max-width: 700px) {
+        font-size: 12px;
         margin-top: 0;
         margin-left: 10px;
       }
@@ -118,7 +121,7 @@ const BlockCardPanel = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    flex: 1;
+    flex: 1.3;
 
     @media (max-width: 700px) {
       flex-direction: row;
@@ -138,12 +141,14 @@ const BlockCardPanel = styled.div`
       margin-top: 10px;
       margin-left: 10px;
       color: #888888;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
       font-weight: 500;
 
+      @media (max-width: 900px) {
+        font-size: 10px;
+      }
+
       @media (max-width: 700px) {
+        font-size: 12px;
         margin-top: 0;
       }
     }
@@ -169,7 +174,7 @@ const TransactionCardPanel = styled.div`
     flex-direction: column;
     align-items: flex-start;
     font-size: 14px;
-    flex: 2;
+    flex: 1.4;
     font-weight: 500;
 
     @media (max-width: 700px) {
@@ -180,10 +185,10 @@ const TransactionCardPanel = styled.div`
       font-size: 12px;
       color: #888888;
       margin-top: 10px;
+      font-weight: 500;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      font-weight: 500;
 
       @media (max-width: 700px) {
         margin-top: 0;
@@ -232,12 +237,10 @@ const TransactionCardPanel = styled.div`
       color: #888888;
       margin-top: 10px;
       margin-right: 10px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
       font-weight: 500;
 
       @media (max-width: 700px) {
+        font-size: 12px;
         margin-top: 0;
       }
     }
@@ -250,6 +253,7 @@ const TransactionCardPanel = styled.div`
     flex: 1;
     font-size: 14px;
     font-weight: 500;
+    color: #000000;
 
     @media (max-width: 700px) {
       flex-direction: row;
@@ -263,12 +267,14 @@ const TransactionCardPanel = styled.div`
       font-size: 12px;
       margin-top: 10px;
       color: #888888;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
       font-weight: 500;
 
+      @media (max-width: 900px) {
+        margin-left: 10px;
+      }
+
       @media (max-width: 700px) {
+        font-size: 12px;
         margin-top: 0;
         margin-left: 10px;
       }
@@ -375,15 +381,18 @@ export const TransactionCardItem = ({
   const liveCellChanges = Number(transaction.liveCellChanges)
   const confirmation = tipBlockNumber - Number(transaction.blockNumber)
   const confirmationUnit = confirmation > 1 ? i18n.t('address.confirmations') : i18n.t('address.confirmation')
+  let transactionHash = adaptPCEllipsis(transaction.transactionHash, 1, 80)
+  if (isMobile()) {
+    transactionHash = adaptMobileEllipsis(transaction.transactionHash, 12)
+  }
   return (
     <TransactionCardPanel>
       <div className="transaction__card__hash">
-        <TableMinerContentItem
-          width="10%"
-          content={transaction.transactionHash}
+        <HighLightLink
+          value={transactionHash}
+          to={`/transaction/${transaction.transactionHash}`}
+          tooltip={transaction.transactionHash}
           dispatch={dispatch}
-          smallWidth
-          fontSize="14px"
         />
         <span className="transaction__card__confirmation">{`${confirmation} ${confirmationUnit}`}</span>
       </div>

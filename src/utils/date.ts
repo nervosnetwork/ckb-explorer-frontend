@@ -34,10 +34,10 @@ export const parseDate = (timestamp: number | string) => {
   const now = new Date().getTime()
   const diff = (now - Number(timestamp)) / 1000
   if (diff < 60) {
-    return `${Math.floor(diff)} ${i18n.t('common.second_ago')}`
+    return `${Math.floor(diff)}${i18n.t('common.second_ago')}`
   }
   if (diff < 3600) {
-    return `${Math.floor(diff / 60)} ${i18n.t('common.minute')} ${Math.floor(diff % 60)} ${i18n.t('common.second_ago')}`
+    return `${Math.floor(diff / 60)}${i18n.t('common.minute')} ${Math.floor(diff % 60)}${i18n.t('common.second_ago')}`
   }
   return parseSimpleDate(timestamp)
 }

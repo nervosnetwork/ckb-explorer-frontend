@@ -90,7 +90,7 @@ const TableMinerContentPanel = styled.div`
     width: 100%
     justify-content: center;
     font-size: ${(props: { width: string; fontSize: string }) => props.fontSize};
-    font-weight: 450;
+    font-weight: 500;
 
     @media(max-width: 700px) {
       font-size: 13px;

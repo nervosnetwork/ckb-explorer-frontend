@@ -6,8 +6,8 @@
       "detail": "Detail",
       "overview": "Overview",
       "view_all": "View All",
-      "minute": "minutes",
-      "second_ago": "sec ago",
+      "minute": "min",
+      "second_ago": "s ago",
       "ckb_unit": "CKB"
     },
     "toast": {
