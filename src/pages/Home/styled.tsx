@@ -10,7 +10,7 @@ export const HomeHeaderPanel = styled.div`
     display: flex;
     padding: 20px 5px;
     margin: 30px 0 20px 0;
-    box-shadow: 2px 2px 4px 0 #b3b3b3;
+    box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
     border-radius: 6px;
 
     @media (max-width: 700px) {
@@ -18,7 +18,7 @@ export const HomeHeaderPanel = styled.div`
       padding: 0px 5px;
       width: 88%;
       margin: 20px 6%;
-      box-shadow: 1px 1px 3px 0 #b3b3b3;
+      box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
       border-radius: 3px;
     }
 
@@ -128,6 +128,12 @@ export const HomeHeaderItemPanel = styled.div`
 
 export const HomeTablePanel = styled.div`
   display: flex;
+  flex-direction: row;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    padding: 0 20px;
+  }
 `
 
 export const BlockPanel = styled.div`
@@ -135,16 +141,8 @@ export const BlockPanel = styled.div`
   margin-bottom: 40px;
   margin-right: 20px;
   flex: 1;
-  @media (min-width: 700px) {
-    box-shadow: 0px 2px 8px #b3b3b3;
-    border: 0px solid white;
-    border-radius: 6px;
-  }
-
-  @media (max-width: 700px) {
-    padding: 0px 20px 0px 20px;
-    margin-bottom: 24px;
-  }
+  border-radius: 6px;
+  box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
 
   .block__card__separate {
     background: #eaeaea;
@@ -158,16 +156,8 @@ export const TransactionPanel = styled.div`
   width: 100%;
   margin-bottom: 40px;
   flex: 1;
-  @media (min-width: 700px) {
-    box-shadow: 0px 2px 8px #b3b3b3;
-    border: 0px solid white;
-    border-radius: 6px;
-  }
-
-  @media (max-width: 700px) {
-    padding: 0px 20px 0px 20px;
-    margin-bottom: 24px;
-  }
+  border-radius: 6px;
+  box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
 
   .transaction__card__separate {
     background: #eaeaea;
@@ -250,31 +240,6 @@ export const TableHeaderPanel = styled.div`
     font-weight: 500;
     color: white;
   }
-
-  @media (max-width: 700px) {
-    width: 100%;
-    height: 46px;
-    border: 0px solid white;
-    border-radius: 3px;
-    box-shadow: 1px 1px 3px 0 #dfdfdf;
-    background-color: #ffffff;
-    margin-top: 5px;
-
-    > div {
-      height: 14px;
-      display: flex;
-      align-items: center;
-
-      .table__more {
-        width: auto;
-        height: 14px;
-        line-height: 14px;
-        margin: 5px 18px;
-        font-size: 14px;
-        color: ${props => props.theme.primary};
-      }
-    }
-  }
 `
 
 export const TableMorePanel = styled.div`
@@ -283,38 +248,22 @@ export const TableMorePanel = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${props => props.theme.primary};
+  background: #f8f9fa;
   border: 0px solid white;
   border-radius: 0 0 6px 6px;
   cursor: pointer;
+
   > span {
     font-size: 16px;
     font-weight: 500;
-    color: white;
+    color: ${props => props.theme.primary};
   }
 
-  @media (max-width: 700px) {
-    width: 100%;
-    height: 46px;
-    border: 0px solid white;
-    border-radius: 3px;
-    box-shadow: 1px 1px 3px 0 #dfdfdf;
-    background-color: #ffffff;
-    margin-top: 5px;
+  &:hover {
+    background: ${props => props.theme.primary};
 
-    > div {
-      height: 14px;
-      display: flex;
-      align-items: center;
-
-      .table__more {
-        width: auto;
-        height: 14px;
-        line-height: 14px;
-        margin: 5px 18px;
-        font-size: 14px;
-        color: ${props => props.theme.primary};
-      }
+    > span {
+      color: white;
     }
   }
 `

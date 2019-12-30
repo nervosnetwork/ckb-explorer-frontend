@@ -7,6 +7,10 @@ export const HighLightPanel = styled.div`
   font-size: 14px;
   height: 16px;
 
+  @media (max-width: 700px) {
+    font-size: 13px;
+  }
+
   a {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
     color: ${props => props.theme.primary};

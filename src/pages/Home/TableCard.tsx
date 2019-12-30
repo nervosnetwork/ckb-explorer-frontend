@@ -15,29 +15,40 @@ const BlockCardPanel = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 15px;
+  background: #ffffff;
 
   @media (max-width: 700px) {
     flex-direction: column;
-    align-items: left;
+    align-items: flex-start;
+    padding: 10px;
   }
 
   .block__card__height {
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: flex-start;
     font-size: 14px;
     flex: 2;
 
     @media (max-width: 700px) {
       flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 13px;
     }
 
     > div {
       display: flex;
+      align-items: center;
 
       > span {
         color: #000000;
-        margin-right: 5px;
+        margin-right: 3px;
+      }
+
+      > div {
+        display: flex;
+        align-items: center;
       }
     }
 
@@ -45,23 +56,40 @@ const BlockCardPanel = styled.div`
       font-size: 12px;
       color: #888888;
       margin-top: 10px;
+
+      @media (max-width: 700px) {
+        margin-top: 0;
+        margin-left: 10px;
+      }
     }
   }
 
   .block__card__miner {
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: flex-start;
     flex: 4;
+
+    @media (max-width: 700px) {
+      margin-top: 15px;
+    }
 
     > div {
       display: flex;
 
+      @media (max-width: 700px) {
+        align-items: center;
+      }
+
       .block__card__miner__hash {
         font-size: 14px;
         color: #000000;
-        margin-right: 5px;
+        margin-right: 10px;
         font-weight: 500px;
+
+        @media (max-width: 700px) {
+          font-size: 13px;
+        }
       }
     }
 
@@ -72,7 +100,11 @@ const BlockCardPanel = styled.div`
       > span {
         font-weight: normal;
         margin-top: 10px;
-        margin-right: 5px;
+        margin-right: 10px;
+
+        @media (max-width: 700px) {
+          margin-top: 0;
+        }
       }
     }
   }
@@ -80,15 +112,17 @@ const BlockCardPanel = styled.div`
   .block__card__transaction {
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: flex-end;
     flex: 1;
 
     @media (max-width: 700px) {
       flex-direction: row;
+      margin-top: 15px;
+      align-items: center;
     }
 
     .block__card__transaction__count {
-      font-size: 14px;
+      font-size: 13px;
       color: #000000;
       font-weight: 500px;
     }
@@ -97,9 +131,11 @@ const BlockCardPanel = styled.div`
       display: flex;
       font-size: 12px;
       margin-top: 10px;
+      margin-left: 10px;
+      color: #888888;
 
-      > span {
-        color: #888888;
+      @media (max-width: 700px) {
+        margin-top: 0;
       }
     }
   }
@@ -110,51 +146,69 @@ const TransactionCardPanel = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 15px;
+  background: #ffffff;
 
   @media (max-width: 700px) {
     flex-direction: column;
-    align-items: left;
+    align-items: flex-start;
+    padding: 10px;
   }
 
   .transaction__card__hash {
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: flex-start;
     font-size: 14px;
     flex: 2;
 
     @media (max-width: 700px) {
-      flex-direction: row;
+      font-size: 13px;
     }
 
     .transaction__card__confirmation {
       font-size: 12px;
       color: #888888;
       margin-top: 10px;
+
+      @media (max-width: 700px) {
+        margin-top: 0;
+      }
     }
   }
 
   .transaction__card__block {
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: flex-start;
     flex: 1;
+
+    @media (max-width: 700px) {
+      margin-top: 15px;
+    }
 
     > div {
       display: flex;
+      align-items: center;
+      font-size: 14px;
+      @media (max-width: 700px) {
+        font-size: 13px;
+      }
 
       .transaction__card__block__height {
-        font-size: 14px;
         color: #000000;
         margin-right: 5px;
         font-weight: 500px;
       }
 
       .transaction__card__block__height__prefix {
-        font-size: 14px;
         color: #000000;
         margin-right: 3px;
         font-weight: 500px;
+      }
+
+      > div {
+        display: flex;
+        align-items: center;
       }
     }
 
@@ -163,7 +217,11 @@ const TransactionCardPanel = styled.div`
       color: #888888;
       font-weight: normal;
       margin-top: 10px;
-      margin-right: 5px;
+      margin-right: 10px;
+
+      @media (max-width: 700px) {
+        margin-top: 0;
+      }
     }
   }
 
@@ -176,6 +234,8 @@ const TransactionCardPanel = styled.div`
 
     @media (max-width: 700px) {
       flex-direction: row;
+      margin-top: 15px;
+      font-size: 13px;
     }
 
     .transaction__card__live__cells {
@@ -184,6 +244,11 @@ const TransactionCardPanel = styled.div`
       font-size: 12px;
       margin-top: 10px;
       color: #888888;
+
+      @media (max-width: 700px) {
+        margin-top: 0;
+        margin-left: 10px;
+      }
     }
   }
 `
@@ -256,7 +321,7 @@ export const BlockCardItem = ({
       <div className="block__card__miner">
         <div>
           <span className="block__card__miner__hash">{i18n.t('home.miner')}</span>
-          <TableMinerContentItem width="10%" content={block.minerHash} dispatch={dispatch} smallWidth />
+          <TableMinerContentItem width="10%" content={block.minerHash} dispatch={dispatch} smallWidth fontSize="14px" />
         </div>
         <div className="block__card__reward">
           <span>{`${i18n.t('home.reward')}`}</span>
@@ -267,7 +332,7 @@ export const BlockCardItem = ({
       <div className="block__card__transaction">
         <span className="block__card__transaction__count">{`${block.transactionsCount} TXs`}</span>
         <span className="block__card__live__cells">
-          {`${liveCellChanges >= 0 ? '+' : '-'} ${Math.abs(liveCellChanges)} ${i18n.t('home.cells')}`}
+          {`${liveCellChanges >= 0 ? '+' : '-'}${Math.abs(liveCellChanges)} ${i18n.t('home.cells')}`}
         </span>
       </div>
     </BlockCardPanel>
@@ -289,7 +354,13 @@ export const TransactionCardItem = ({
   return (
     <TransactionCardPanel>
       <div className="transaction__card__hash">
-        <TableMinerContentItem width="10%" content={transaction.transactionHash} dispatch={dispatch} smallWidth />
+        <TableMinerContentItem
+          width="10%"
+          content={transaction.transactionHash}
+          dispatch={dispatch}
+          smallWidth
+          fontSize="14px"
+        />
         <span className="transaction__card__confirmation">{`${confirmation} ${confirmationUnit}`}</span>
       </div>
 
@@ -309,7 +380,7 @@ export const TransactionCardItem = ({
           hideZero
         />
         <span className="transaction__card__live__cells">
-          {`${liveCellChanges >= 0 ? '+' : '-'} ${Math.abs(liveCellChanges)} ${i18n.t('home.cells')}`}
+          {`${liveCellChanges >= 0 ? '+' : '-'}${Math.abs(liveCellChanges)} ${i18n.t('home.cells')}`}
         </span>
       </div>
     </TransactionCardPanel>

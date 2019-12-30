@@ -24,7 +24,7 @@ import getStatistics from '../../service/app/statistics'
 import i18n from '../../utils/i18n'
 import LatestBlocksIcon from '../../assets/latest_blocks.png'
 import LatestTransactionsIcon from '../../assets/latest_transactions.png'
-import { BlockCardItem, TransactionCardItem } from './ListCard'
+import { BlockCardItem, TransactionCardItem } from './TableCard'
 import { getLatestTransactions } from '../../service/app/transaction'
 import { getTipBlockNumber } from '../../service/app/address'
 
@@ -159,7 +159,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
             return (
               <div>
                 <BlockCardItem block={block} index={index} dispatch={dispatch} key={block.blockHash} />
-                <div className="block__card__separate" />
+                {homeBlocks.length - 1 !== index && <div className="block__card__separate" />}
               </div>
             )
           })}
@@ -176,7 +176,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
             <img src={LatestTransactionsIcon} alt="latest transactions" />
             <span>{i18n.t('home.latest_transactions')}</span>
           </TableHeaderPanel>
-          {transactions.map(transaction => {
+          {transactions.map((transaction, index) => {
             return (
               <div>
                 <TransactionCardItem
@@ -185,7 +185,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
                   key={transaction.transactionHash}
                   tipBlockNumber={tipBlockNumber}
                 />
-                <div className="transaction__card__separate" />
+                {transactions.length - 1 !== index && <div className="transaction__card__separate" />}
               </div>
             )
           })}

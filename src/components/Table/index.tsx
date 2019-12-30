@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
-import { adaptPCEllipsis } from '../../utils/string'
+import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
 import CopyTooltipText from '../Tooltip/CopyTooltipText'
 import { AppDispatch } from '../../contexts/providers/reducer'
+import { isMobile } from '../../utils/screen'
 
 export const TableTitleRow = styled.div`
   background: ${props => props.theme.primary};
@@ -90,16 +91,24 @@ const TableMinerContentPanel = styled.div`
   .table__miner__text {
     width: 100%
     justify-content: center;
-    font-size: 16px;
+    font-size: ${(props: { width: string; fontSize: string }) => props.fontSize};
     font-weight: 450;
+
+    @media(max-width: 700px) {
+      font-size: 13px;
+    }
   }
 
   .table__miner__text__disable {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: ${(props: { width: string; fontSize: string }) => props.fontSize};
     color: #000000;
+
+    @media(max-width: 700px) {
+      font-size: 13px;
+    }
   }
 `
 
@@ -155,15 +164,20 @@ export const TableMinerContentItem = ({
   content,
   dispatch,
   smallWidth,
+  fontSize = '16px',
 }: {
   width: string
   content: string
   dispatch: AppDispatch
   smallWidth?: boolean
+  fontSize?: string
 }) => {
-  const length = smallWidth ? 2 : 14
+  let addressText = adaptPCEllipsis(content, smallWidth ? 2 : 14, 60)
+  if (isMobile()) {
+    addressText = adaptMobileEllipsis(content, 11)
+  }
   return (
-    <TableMinerContentPanel width={width}>
+    <TableMinerContentPanel width={width} fontSize={fontSize}>
       {content ? (
         <Link
           className="table__miner__content"
@@ -174,12 +188,12 @@ export const TableMinerContentItem = ({
             event.preventDefault()
           }}
         >
-          {adaptPCEllipsis(content, length, 60).includes('...') ? (
+          {addressText.includes('...') ? (
             <Tooltip placement="top" title={<CopyTooltipText content={content} dispatch={dispatch} />}>
-              <span className="table__miner__text address">{adaptPCEllipsis(content, length, 60)}</span>
+              <span className="table__miner__text address">{addressText}</span>
             </Tooltip>
           ) : (
-            <span className="table__miner__text address">{adaptPCEllipsis(content, length, 60)}</span>
+            <span className="table__miner__text address">{addressText}</span>
           )}
         </Link>
       ) : (
