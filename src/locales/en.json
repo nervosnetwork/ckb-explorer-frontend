@@ -184,7 +184,7 @@
       "secondary_issuance": "Secondary Issuance",
       "mining_reward": "Mining Reward",
       "deposit_compensation": "Deposit Compensation",
-      "treasury": "Treasury(burn by now)",
+      "burnt": "Burnt",
       "deposit_tooltip": "Nervos DAO Deposit",
       "withdraw_tooltip": "Nervos DAO Withdraw",
       "calculation_tooltip": "Nervos DAO Compensation Calculation",

@@ -131,7 +131,7 @@ const getOption = (nervosDao: State.NervosDao) => {
     {
       name: names[2],
       value: shannonToCkbDecimal(nervosDao.treasuryAmount),
-      title: i18n.t('nervos_dao.treasury'),
+      title: i18n.t('nervos_dao.burnt'),
     },
   ]
   const selectedData: any = {
@@ -201,7 +201,7 @@ const nervosDaoPieItemContents = (nervosDao: State.NervosDao): NervosDaoPieItemC
       img: DotIcon2,
     },
     {
-      title: i18n.t('nervos_dao.treasury'),
+      title: i18n.t('nervos_dao.burnt'),
       content: (
         <DecimalCapacity
           value={localeNumberString(shannonToCkb(Number(nervosDao.treasuryAmount).toFixed()))}
