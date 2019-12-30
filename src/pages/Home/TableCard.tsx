@@ -56,6 +56,9 @@ const BlockCardPanel = styled.div`
       font-size: 12px;
       color: #888888;
       margin-top: 10px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
 
       @media (max-width: 700px) {
         margin-top: 0;
@@ -133,6 +136,9 @@ const BlockCardPanel = styled.div`
       margin-top: 10px;
       margin-left: 10px;
       color: #888888;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
 
       @media (max-width: 700px) {
         margin-top: 0;
@@ -169,6 +175,9 @@ const TransactionCardPanel = styled.div`
       font-size: 12px;
       color: #888888;
       margin-top: 10px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
 
       @media (max-width: 700px) {
         margin-top: 0;
@@ -218,6 +227,9 @@ const TransactionCardPanel = styled.div`
       font-weight: normal;
       margin-top: 10px;
       margin-right: 10px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
 
       @media (max-width: 700px) {
         margin-top: 0;
@@ -244,6 +256,9 @@ const TransactionCardPanel = styled.div`
       font-size: 12px;
       margin-top: 10px;
       color: #888888;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
 
       @media (max-width: 700px) {
         margin-top: 0;

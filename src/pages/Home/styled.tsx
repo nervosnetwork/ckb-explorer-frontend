@@ -141,7 +141,8 @@ export const BlockPanel = styled.div`
   margin-bottom: 40px;
   margin-right: 20px;
   flex: 1;
-  border-radius: 6px;
+  border: 0px solid white;
+  border-radius: 0 0 6px 6px;
   box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
 
   .block__card__separate {
@@ -156,7 +157,8 @@ export const TransactionPanel = styled.div`
   width: 100%;
   margin-bottom: 40px;
   flex: 1;
-  border-radius: 6px;
+  border: 0px solid white;
+  border-radius: 0 0 6px 6px;
   box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
 
   .transaction__card__separate {
