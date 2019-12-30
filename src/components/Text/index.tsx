@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom'
 export const HighLightPanel = styled.div`
   color: ${props => props.theme.primary};
   font-size: 14px;
-  height: 16px;
+  height: 18px;
+  line-height: 18px;
 
   @media (max-width: 700px) {
     font-size: 13px;

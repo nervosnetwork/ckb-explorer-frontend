@@ -39,9 +39,7 @@ export const TableContentRow = styled.div`
   display: flex;
   min-height: 60px;
   background-color: white;
-  padding-right: 12px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px 2.5%;
   cursor: pointer;
 
   ::after {
@@ -114,6 +112,7 @@ const TableMinerContentPanel = styled.div`
 
 const HighlightLink = styled(Link)`
   color: ${props => props.theme.primary}
+  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
   text-decoration: none;
 `
 

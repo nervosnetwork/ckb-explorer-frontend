@@ -268,6 +268,7 @@ const BlockRewardPlusPanel = styled.div`
     content: '+';
     color: #7f7d7d;
     font-size: 13px;
+    margin-bottom: 2px;
   }
 `
 
