@@ -22,6 +22,7 @@ export const initBlockState: State.BlockState = {
     nonce: '0',
     transactionsRoot: '',
     blockIndexInEpoch: '',
+    minerReward: 's',
   },
   transactions: [],
   total: 0,

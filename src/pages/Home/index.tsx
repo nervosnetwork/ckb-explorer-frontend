@@ -290,7 +290,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
                   <TableContentRow
                     key={block.number}
                     onClick={() => {
-                      browserHistory.replace(`/block/${block.blockHash}`)
+                      browserHistory.replace(`/block/${block.number}`)
                     }}
                   >
                     {getTableContentDataList(block, blockIndex).map((data: TableContentData, index: number) => {

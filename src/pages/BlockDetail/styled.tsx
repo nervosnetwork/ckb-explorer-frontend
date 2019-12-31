@@ -45,25 +45,26 @@ export const BlockLinkPanel = styled.div`
   }
 `
 
-export const BlockOverviewItemContentPanel = styled.div`
+export const BlockMinerRewardPanel = styled.div`
   display: flex;
   flex-direction: row;
 
-  .block__overview_item_value {
+  .block__miner__reward_tip {
+    display: flex;
+    align-items: center;
   }
-  .block__overview_item_tip {
-    margin-left: 20px;
-    font-weight: 500;
-    color: #ff5757;
-    &:focus {
-      outline: 0;
+
+  img {
+    width: 18px;
+    height： 18px;
+    margin-left: 5px;
+    margin-bottom: ${(props: { bottom: boolean }) => (props.bottom ? '3px' : '0')};
+
+    @media(max-width: 700px) {
+      width: 16px;
+      height： 16px;
+      margin-bottom: ${(props: { bottom: boolean }) => (props.bottom ? '1px' : '0')};
     }
-    @media (max-width: 700px) {
-      margin-left: 10px;
-    }
-  }
-  > div:nth-child(1) {
-    margin-left: 0px;
   }
 `
 

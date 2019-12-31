@@ -140,6 +140,7 @@
       "block_height": "Block Height",
       "proposal_transactions": "Proposal Transactions",
       "block_reward": "Block Reward",
+      "miner_reward": "Miner Reward",
       "uncle_count": "Uncle Count",
       "epoch": "Epoch",
       "epoch_start_number": "Epoch Start Number",
@@ -157,9 +158,8 @@
       "uncle_rate_target": "Uncle rate target",
       "transactions_root": "Transactions Root",
       "pending": "Pending",
-      "calculating": "Pending",
       "pending_tip": "The block reward of this block will be sent to the miner after 11 blocks，learn more from our Consensus Protocol",
-      "calculating_tip": "The transaction fee of this block will be sent to the miner after 11 blocks，learn more from our Consensus Protocol"
+      "reward_sent_tip": "The reward of this block has been sent, click to check the details"
     },
     "nervos_dao": {
       "nervos_dao": "Nervos DAO",

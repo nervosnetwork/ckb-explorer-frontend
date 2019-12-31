@@ -1,7 +1,7 @@
 import React, { useContext, useState, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
-import { Tooltip as AntdTooltip } from 'antd'
+import { Tooltip } from 'antd'
 import Pagination from '../../components/Pagination'
 import DropDownIcon from '../../assets/content_drop_down.png'
 import PackUpIcon from '../../assets/content_pack_up.png'
@@ -9,7 +9,6 @@ import DropDownBlueIcon from '../../assets/content_blue_drop_down.png'
 import PackUpBlueIcon from '../../assets/content_blue_pack_up.png'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TitleCard from '../../components/Card/TitleCard'
-import Tooltip from '../../components/Tooltip'
 import TransactionItem from '../../components/TransactionItem/index'
 import { AppContext } from '../../contexts/providers'
 import { parseSimpleDate } from '../../utils/date'
@@ -21,11 +20,12 @@ import { shannonToCkb } from '../../utils/util'
 import {
   BlockLinkPanel,
   BlockOverviewDisplayControlPanel,
-  BlockOverviewItemContentPanel,
+  BlockMinerRewardPanel,
   BlockRootInfoItemPanel,
   BlockTransactionsPagination,
   BlockNoncePanel,
 } from './styled'
+import HelpIcon from '../../assets/qa_help.png'
 import browserHistory from '../../routes/history'
 import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
@@ -47,11 +47,11 @@ const BlockMiner = ({ miner, dispatch }: { miner: string; dispatch: AppDispatch 
   return (
     <BlockLinkPanel>
       {minerText.includes('...') ? (
-        <AntdTooltip placement="top" title={<CopyTooltipText content={miner} dispatch={dispatch} />}>
+        <Tooltip placement="top" title={<CopyTooltipText content={miner} dispatch={dispatch} />}>
           <Link to={`/address/${miner}`}>
             <span className="address">{minerText}</span>
           </Link>
-        </AntdTooltip>
+        </Tooltip>
       ) : (
         <Link to={`/address/${miner}`}>
           <span className="address">{minerText}</span>
@@ -61,49 +61,16 @@ const BlockMiner = ({ miner, dispatch }: { miner: string; dispatch: AppDispatch 
   )
 }
 
-const BlockOverviewItemContent = ({
-  type,
-  value,
-  tip,
-  message,
-}: {
-  type: string
-  value?: string | ReactNode
-  tip?: string
-  message?: string
-}) => {
-  const [show, setShow] = useState(false)
+const BlockMinerReward = ({ value, tooltip }: { value: string | ReactNode; tooltip: string }) => {
   return (
-    <BlockOverviewItemContentPanel>
-      {value && <div className="block__overview_item_value">{value}</div>}
-      {tip && (
-        <div
-          id={type}
-          className="block__overview_item_tip"
-          tabIndex={-1}
-          onFocus={() => {}}
-          onMouseOver={() => {
-            setShow(true)
-            const p = document.querySelector('.page') as HTMLElement
-            if (p) {
-              p.setAttribute('tabindex', '-1')
-            }
-          }}
-          onMouseLeave={() => {
-            setShow(false)
-            const p = document.querySelector('.page') as HTMLElement
-            if (p) {
-              p.removeAttribute('tabindex')
-            }
-          }}
-        >
-          {tip}
-          <Tooltip show={show} targetElementId={type}>
-            {message}
-          </Tooltip>
+    <BlockMinerRewardPanel bottom={value !== i18n.t('block.pending')}>
+      <div className="block__miner__reward_value">{value}</div>
+      <Tooltip placement="top" title={tooltip}>
+        <div className="block__miner__reward_tip">
+          <img src={HelpIcon} alt="miner reward" />
         </div>
-      )}
-    </BlockOverviewItemContentPanel>
+      </Tooltip>
+    </BlockMinerRewardPanel>
   )
 }
 
@@ -117,8 +84,7 @@ const EpochNumberLink = ({ epochNumber }: { epochNumber: number }) => {
 
 const BlockOverview = ({ block, dispatch }: { block: State.Block; dispatch: AppDispatch }) => {
   const [showAllOverview, setShowAllOverview] = useState(false)
-  const receivedTxFee = <DecimalCapacity value={localeNumberString(shannonToCkb(block.receivedTxFee))} />
-  const blockReward = <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} />
+  const minerReward = <DecimalCapacity value={localeNumberString(shannonToCkb(block.minerReward))} />
   const rootInfoItems = [
     {
       title: i18n.t('block.transactions_root'),
@@ -151,30 +117,17 @@ const BlockOverview = ({ block, dispatch }: { block: State.Block; dispatch: AppD
       content: <EpochNumberLink epochNumber={block.startNumber} />,
     },
     {
-      title: i18n.t('block.block_reward'),
+      title: i18n.t('block.miner_reward'),
       content: (
-        <BlockOverviewItemContent
-          type="block_reward"
-          value={block.rewardStatus === 'pending' ? '' : blockReward}
-          tip={block.rewardStatus === 'pending' ? i18n.t('block.pending') : undefined}
-          message={i18n.t('block.pending_tip')}
+        <BlockMinerReward
+          value={block.rewardStatus === 'pending' ? i18n.t('block.pending') : minerReward}
+          tooltip={block.rewardStatus === 'pending' ? i18n.t('block.pending_tip') : i18n.t('block.reward_sent_tip')}
         />
       ),
     },
     {
       title: i18n.t('block.block_index'),
       content: `${block.blockIndexInEpoch}/${block.length}`,
-    },
-    {
-      title: i18n.t('transaction.transaction_fee'),
-      content: (
-        <BlockOverviewItemContent
-          type="transaction_fee"
-          value={block.receivedTxFeeStatus === 'pending' && block.number > 0 ? undefined : receivedTxFee}
-          tip={block.receivedTxFeeStatus === 'pending' && block.number > 0 ? i18n.t('block.calculating') : undefined}
-          message={i18n.t('block.calculating_tip')}
-        />
-      ),
     },
     {
       title: i18n.t('block.difficulty'),
