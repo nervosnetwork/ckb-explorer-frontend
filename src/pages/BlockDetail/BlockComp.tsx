@@ -31,6 +31,7 @@ import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { AppDispatch } from '../../contexts/providers/reducer'
 import CopyTooltipText from '../../components/Tooltip/CopyTooltipText'
+import { DELAY_BLOCK_NUMBER } from '../../utils/const'
 
 const handleMinerText = (address: string) => {
   if (isMobile()) {
@@ -107,7 +108,7 @@ const BlockOverview = ({ block, dispatch }: { block: State.Block; dispatch: AppD
       content: `${block.transactionsRoot}`,
     },
   ]
-  const sentBlockNumber = `${Number(block.number) + 11}`
+  const sentBlockNumber = `${Number(block.number) + DELAY_BLOCK_NUMBER}`
   let overviewItems: OverviewItemData[] = [
     {
       title: i18n.t('block.block_height'),

@@ -121,7 +121,7 @@ export const CellbasePanel = styled.div`
     > img {
       width: 20px;
       height: 20px;
-      margin-bottom: 3px;
+      margin-bottom: 5px;
 
       @media (max-width: 700px) {
         width: 16px;
