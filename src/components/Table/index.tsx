@@ -14,7 +14,7 @@ export const TableTitleRow = styled.div`
   display: flex;
   min-height: 65px;
   border-radius: 6px 6px 0px 0px;
-  padding: 0 calc(2% - 6px);
+  padding: 0 20px;
 `
 
 const TableTitleRowItem = styled.div`
@@ -30,7 +30,6 @@ const TableTitleRowItem = styled.div`
     font-size: 18px;
     font-weight: 450;
     text-align: center;
-    margin-left: 10px;
 
     @media (max-width: 1000px) {
       font-size: 16px;
@@ -43,16 +42,17 @@ export const TableContentRow = styled.div`
   display: flex;
   min-height: 60px;
   background-color: white;
-  padding: 20px 2%;
+  padding: 20px;
   cursor: pointer;
 
   ::after {
     content: '';
     position: absolute;
     display: block;
-    width: 96%;
+    width: auto;
     height: 1px;
-    left: 2%;
+    left: 20px;
+    right: 20px;
     bottom: 1px;
     background: #d8d8d8;
     transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};

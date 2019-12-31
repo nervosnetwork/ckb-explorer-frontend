@@ -103,7 +103,6 @@ export const TransactionCapacityContainer = styled.div`
 `
 
 export const TransactionCapacityPanel = styled.div`
-  margin-right: 8px;
   display: flex;
   justify-content: center;
 `
