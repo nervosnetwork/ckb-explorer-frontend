@@ -27,6 +27,7 @@ import LatestTransactionsIcon from '../../assets/latest_transactions.png'
 import { BlockCardItem, TransactionCardItem } from './TableCard'
 import { getLatestTransactions } from '../../service/app/transaction'
 import { getTipBlockNumber } from '../../service/app/address'
+import Loading from '../../components/Loading/SmallLoading'
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   return (
@@ -155,14 +156,21 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
             <img src={LatestBlocksIcon} alt="latest blocks" />
             <span>{i18n.t('home.latest_blocks')}</span>
           </TableHeaderPanel>
-          {homeBlocks.map((block, index) => {
-            return (
-              <div>
-                <BlockCardItem block={block} index={index} dispatch={dispatch} key={block.blockHash} />
-                {homeBlocks.length - 1 !== index && <div className="block__card__separate" />}
-              </div>
-            )
-          })}
+          {homeBlocks.length > 0 ? (
+            <>
+              {homeBlocks.map((block, index) => {
+                return (
+                  <div>
+                    <BlockCardItem block={block} index={index} dispatch={dispatch} key={block.blockHash} />
+                    {homeBlocks.length - 1 !== index && <div className="block__card__separate" />}
+                  </div>
+                )
+              })}
+            </>
+          ) : (
+            <Loading />
+          )}
+
           <TableMorePanel
             onClick={() => {
               browserHistory.push(`/block/list`)
@@ -176,19 +184,26 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
             <img src={LatestTransactionsIcon} alt="latest transactions" />
             <span>{i18n.t('home.latest_transactions')}</span>
           </TableHeaderPanel>
-          {transactions.map((transaction, index) => {
-            return (
-              <div>
-                <TransactionCardItem
-                  transaction={transaction}
-                  dispatch={dispatch}
-                  key={transaction.transactionHash}
-                  tipBlockNumber={tipBlockNumber}
-                />
-                {transactions.length - 1 !== index && <div className="transaction__card__separate" />}
-              </div>
-            )
-          })}
+          {transactions.length > 0 ? (
+            <>
+              {transactions.map((transaction, index) => {
+                return (
+                  <div>
+                    <TransactionCardItem
+                      transaction={transaction}
+                      dispatch={dispatch}
+                      key={transaction.transactionHash}
+                      tipBlockNumber={tipBlockNumber}
+                    />
+                    {transactions.length - 1 !== index && <div className="transaction__card__separate" />}
+                  </div>
+                )
+              })}
+            </>
+          ) : (
+            <Loading />
+          )}
+
           <TableMorePanel
             onClick={() => {
               browserHistory.push(`/transaction/list`)
