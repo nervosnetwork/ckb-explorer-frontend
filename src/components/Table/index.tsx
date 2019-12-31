@@ -14,7 +14,7 @@ export const TableTitleRow = styled.div`
   display: flex;
   min-height: 65px;
   border-radius: 6px 6px 0px 0px;
-  padding: 0 2%;
+  padding: 0 calc(2% - 6px);
 `
 
 const TableTitleRowItem = styled.div`
@@ -27,7 +27,7 @@ const TableTitleRowItem = styled.div`
 
   > div {
     color: white;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 450;
     text-align: center;
     margin-left: 10px;
