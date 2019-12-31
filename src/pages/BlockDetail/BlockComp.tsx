@@ -61,12 +61,28 @@ const BlockMiner = ({ miner, dispatch }: { miner: string; dispatch: AppDispatch 
   )
 }
 
-const BlockMinerReward = ({ value, tooltip }: { value: string | ReactNode; tooltip: string }) => {
+const BlockMinerReward = ({
+  value,
+  tooltip,
+  sentBlockNumber,
+}: {
+  value: string | ReactNode
+  tooltip: string
+  sentBlockNumber: string
+}) => {
   return (
-    <BlockMinerRewardPanel bottom={value !== i18n.t('block.pending')}>
+    <BlockMinerRewardPanel bottom={!!sentBlockNumber}>
       <div className="block__miner__reward_value">{value}</div>
       <Tooltip placement="top" title={tooltip}>
-        <div className="block__miner__reward_tip">
+        <div
+          className="block__miner__reward_tip"
+          role="button"
+          tabIndex={-1}
+          onKeyDown={() => {}}
+          onClick={() => {
+            browserHistory.push(`/block/${sentBlockNumber}#cellbase`)
+          }}
+        >
           <img src={HelpIcon} alt="miner reward" />
         </div>
       </Tooltip>
@@ -91,6 +107,7 @@ const BlockOverview = ({ block, dispatch }: { block: State.Block; dispatch: AppD
       content: `${block.transactionsRoot}`,
     },
   ]
+  const sentBlockNumber = `${Number(block.number) + 11}`
   let overviewItems: OverviewItemData[] = [
     {
       title: i18n.t('block.block_height'),
@@ -122,6 +139,7 @@ const BlockOverview = ({ block, dispatch }: { block: State.Block; dispatch: AppD
         <BlockMinerReward
           value={block.rewardStatus === 'pending' ? i18n.t('block.pending') : minerReward}
           tooltip={block.rewardStatus === 'pending' ? i18n.t('block.pending_tip') : i18n.t('block.reward_sent_tip')}
+          sentBlockNumber={sentBlockNumber}
         />
       ),
     },
