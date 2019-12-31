@@ -140,6 +140,7 @@ export const BlockPanel = styled.div`
   width: 100%;
   margin-bottom: 40px;
   margin-right: 20px;
+  background: white;
   flex: 1;
   border: 0px solid white;
   border-radius: 0 0 6px 6px;
@@ -156,6 +157,7 @@ export const BlockPanel = styled.div`
 export const TransactionPanel = styled.div`
   width: 100%;
   margin-bottom: 40px;
+  background: white;
   flex: 1;
   border: 0px solid white;
   border-radius: 0 0 6px 6px;
