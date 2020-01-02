@@ -62,7 +62,7 @@
       "reward": "Reward",
       "cells": "Cells",
       "latest_blocks": "Latest Blocks",
-      "latest_transactions": "Recent User Transactions"
+      "latest_transactions": "Latest User Transactions"
     },
     "footer": {
       "nervos_foundation": "Foundation",
