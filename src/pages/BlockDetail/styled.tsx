@@ -55,14 +55,14 @@ export const BlockMinerRewardPanel = styled.div`
   }
 
   img {
-    width: 18px;
+    width: ${(props: { sent: boolean }) => (props.sent ? '30px' : '18px')};
     height： 18px;
     margin-left: 5px;
     margin-bottom: ${(props: { sent: boolean }) => (props.sent ? '3px' : '0')};
     cursor: ${(props: { sent: boolean }) => (props.sent ? 'pointer' : 'default')};
 
     @media(max-width: 700px) {
-      width: 16px;
+      width: ${(props: { sent: boolean }) => (props.sent ? '27px' : '16px')};
       height： 16px;
       margin-bottom: ${(props: { sent: boolean }) => (props.sent ? '1px' : '0')};
     }

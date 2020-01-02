@@ -26,6 +26,7 @@ import {
   BlockNoncePanel,
 } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
+import MinerRewardIcon from '../../assets/miner_complete.png'
 import browserHistory from '../../routes/history'
 import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
@@ -86,7 +87,7 @@ const BlockMinerReward = ({
             }
           }}
         >
-          <img src={HelpIcon} alt="miner reward" />
+          <img src={sentBlockNumber ? MinerRewardIcon : HelpIcon} alt="miner reward" />
         </div>
       </Tooltip>
     </BlockMinerRewardPanel>
