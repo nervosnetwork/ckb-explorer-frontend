@@ -20,7 +20,7 @@ export const HeaderLanguagePanel = styled.div`
   position: -webkit-fixed;
   z-index: 1000;
   right: 7vw;
-  top: 15px;
+  top: 17px;
 
   @media (max-width: 1440px) {
     right: 3vw;
