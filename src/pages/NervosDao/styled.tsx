@@ -324,8 +324,8 @@ export const DaoOverviewItemPanel = styled.div`
     }
 
     > img {
-      width: 7px;
-      height: 10px;
+      width: ${(props: { symbol?: string }) => (props.symbol === 'zero' ? '10px' : '7px')};
+      height: ${(props: { symbol?: string }) => (props.symbol === 'zero' ? '7px' : '10px')};
       margin-left: 5px;
       margin-right: 3px;
     }
@@ -333,7 +333,8 @@ export const DaoOverviewItemPanel = styled.div`
     .dao__overview__item_change {
       font-size: 12px;
       font-weight: bold;
-      color: ${props => props.theme.primary};
+      color: ${(props: { symbol?: string; hasChange?: boolean; theme: any }) =>
+        props.symbol === 'negative' ? '#FF464F' : props.theme.primary};
       cursor: default;
 
       @media (max-width: 1000px) {
