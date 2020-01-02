@@ -29,6 +29,8 @@ export enum PageActions {
 
   UpdateTransaction = 'updateTransaction',
   UpdateTransactionStatus = 'updateTransactionStatus',
+  UpdateTransactions = 'updateTransactions',
+  UpdateTransactionsTotal = 'updateTransactionsTotal',
 
   UpdateStatistics = 'updateStatistics',
 
@@ -259,6 +261,22 @@ export const reducer = (
         transactionState: {
           ...state.transactionState,
           status: payload.status,
+        },
+      }
+    case PageActions.UpdateTransactions:
+      return {
+        ...state,
+        transactionsState: {
+          ...state.transactionsState,
+          transactions: payload.transactions,
+        },
+      }
+    case PageActions.UpdateTransactionsTotal:
+      return {
+        ...state,
+        transactionsState: {
+          ...state.transactionsState,
+          total: payload.total,
         },
       }
 

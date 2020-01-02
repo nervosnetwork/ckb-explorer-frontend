@@ -6,7 +6,7 @@
       "detail": "详情",
       "overview": "概况",
       "view_all": "查看全部",
-      "minute": "分钟",
+      "minute": "分",
       "second_ago": "秒以前",
       "ckb_unit": "CKB"
     },
@@ -57,7 +57,12 @@
       "transactions": "交易",
       "block_reward": "奖励 (CKB)",
       "time": "时间戳",
-      "more": "更多"
+      "more": "更多",
+      "miner": "矿工",
+      "reward": "奖励",
+      "cells": "Cells",
+      "latest_blocks": "最新区块",
+      "latest_transactions": "最新交易"
     },
     "footer": {
       "nervos_foundation": "基金会",
@@ -130,10 +135,13 @@
       "commit_reward": "提交奖励",
       "proposal_reward": "提案奖励",
       "cellbase_help_tooltip": "区块 N 的 Cellbase 交易将作为奖励发送给区块 N-11 的出块矿工，阅读共识协议了解更多信息",
-      "capacity": "Capacity",
+      "capacity": "Capacity(CKB)",
       "detail": "详情",
       "empty_output": "No cell output target",
-      "unspent_output": "未花费的交易输出"
+      "unspent_output": "未花费的交易输出",
+      "transaction_hash": "交易哈希",
+      "height": "区块高度",
+      "time": "时间戳"
     },
     "block": {
       "block": "区块",
