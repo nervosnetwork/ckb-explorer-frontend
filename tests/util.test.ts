@@ -1,4 +1,4 @@
-import { toCamelcase, shannonToCkb } from '../src/utils/util'
+import { toCamelcase, shannonToCkb, shannonToCkbDecimal } from '../src/utils/util'
 
 describe('Number methods tests', () => {
   it('pasre simple object to camelcase', async () => {
@@ -51,5 +51,10 @@ describe('Number methods tests', () => {
     expect(shannonToCkb('aswqda')).toBe('0')
     expect(shannonToCkb('false')).toBe('0')
     expect(shannonToCkb('#￥@#￥@')).toBe('0')
+  })
+
+  it('convert shannon to ckb with decimal', async () => {
+    expect(shannonToCkbDecimal(153088822106905372, 2)).toBe(1530888221.06)
+    expect(shannonToCkbDecimal(153088822186905372)).toBe(1530888221)
   })
 })

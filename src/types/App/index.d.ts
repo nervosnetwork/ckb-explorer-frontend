@@ -146,13 +146,19 @@ declare namespace State {
   }
 
   export interface NervosDao {
-    totalDeposit: number
-    interestGranted: number
-    depositTransactionsCount: number
-    withdrawTransactionsCount: number
-    depositorsCount: number
-    totalDepositorsCount: number
-    daoTypeHash: string
+    totalDeposit: string
+    depositorsCount: string
+    depositChanges: string
+    unclaimedCompensationChanges: string
+    claimedCompensationChanges: string
+    depositorChanges: string
+    unclaimedCompensation: string
+    claimedCompensation: string
+    averageDepositTime: string
+    miningReward: string
+    depositCompensation: string
+    treasuryAmount: string
+    estimatedApc: string
   }
 
   export interface NervosDaoDepositor {

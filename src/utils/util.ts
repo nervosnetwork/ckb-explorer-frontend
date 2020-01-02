@@ -17,17 +17,20 @@ export const copyElementValue = (component: any) => {
   }
 }
 
-export const shannonToCkbDecimal = (value: BigNumber | string | number, decimal: number): string => {
-  if (decimal < 0) {
-    throw Error('Decimal must be bigger than zero')
-  }
-  if (!value) return '0'
+export const shannonToCkbDecimal = (value: BigNumber | string | number, decimal?: number) => {
+  if (!value) return 0
   const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
   if (bigValue.isNaN()) {
-    return '0'
+    return 0
   }
-  const num = bigValue.dividedBy(new BigNumber('1e8')).abs()
-  return (Math.floor(num.toNumber() * 10 ** decimal) / 10 ** decimal).toString()
+  const num = bigValue
+    .dividedBy(new BigNumber('1e8'))
+    .abs()
+    .toNumber()
+  if (decimal) {
+    return Math.floor(num * 10 ** decimal) / 10 ** decimal
+  }
+  return Math.floor(num)
 }
 
 export const shannonToCkb = (value: BigNumber | string | number): string => {
