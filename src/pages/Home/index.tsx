@@ -170,7 +170,6 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
           ) : (
             <Loading />
           )}
-
           <TableMorePanel
             onClick={() => {
               browserHistory.push(`/block/list`)
@@ -191,7 +190,6 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
                   <div>
                     <TransactionCardItem
                       transaction={transaction}
-                      dispatch={dispatch}
                       key={transaction.transactionHash}
                       tipBlockNumber={tipBlockNumber}
                     />

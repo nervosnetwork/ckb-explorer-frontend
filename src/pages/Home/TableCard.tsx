@@ -372,11 +372,9 @@ export const BlockCardItem = ({
 export const TransactionCardItem = ({
   transaction,
   tipBlockNumber,
-  dispatch,
 }: {
   transaction: State.Transaction
   tipBlockNumber: number
-  dispatch: AppDispatch
 }) => {
   const liveCellChanges = Number(transaction.liveCellChanges)
   const confirmation = tipBlockNumber - Number(transaction.blockNumber)
@@ -388,12 +386,7 @@ export const TransactionCardItem = ({
   return (
     <TransactionCardPanel>
       <div className="transaction__card__hash">
-        <HighLightLink
-          value={transactionHash}
-          to={`/transaction/${transaction.transactionHash}`}
-          tooltip={transaction.transactionHash}
-          dispatch={dispatch}
-        />
+        <HighLightLink value={transactionHash} to={`/transaction/${transaction.transactionHash}`} />
         <span className="transaction__card__confirmation">{`${confirmation} ${confirmationUnit}`}</span>
       </div>
 
