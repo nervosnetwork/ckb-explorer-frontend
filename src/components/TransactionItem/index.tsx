@@ -34,7 +34,7 @@ const TransactionItem = ({
   const txHashPC = adaptPCEllipsis(transaction.transactionHash, 16, 40)
 
   return (
-    <TransactionPanel isLastItem={isLastItem}>
+    <TransactionPanel isLastItem={isLastItem} id={isBlock && transaction.isCellbase ? 'cellbase' : ''}>
       <TransactionHashBlockPanel>
         <div className="transaction_item__content">
           <Link to={`/transaction/${transaction.transactionHash}`}>

@@ -99,6 +99,7 @@ declare namespace State {
     nonce: string
     transactionsRoot: string
     blockIndexInEpoch: string
+    minerReward: string
     liveCellChanges: string
   }
 

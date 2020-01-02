@@ -42,7 +42,7 @@ export default ({
   dispatch,
   history: { replace },
   match: { params },
-  location: { search },
+  location: { search, hash },
 }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ param: string }>>) => {
   // blockParam: block hash or block number
   const { param: blockParam } = params
@@ -58,6 +58,17 @@ export default ({
     }
     getBlock(blockParam, currentPage, pageSize, dispatch)
   }, [replace, blockParam, currentPage, pageSize, dispatch])
+
+  useEffect(() => {
+    let anchorName = hash
+    if (anchorName) {
+      anchorName = anchorName.replace('#', '')
+      const anchorElement = document.getElementById(anchorName)
+      if (anchorElement) {
+        anchorElement.scrollIntoView()
+      }
+    }
+  }, [hash])
 
   useTimeoutWithUnmount(
     () => {
