@@ -69,10 +69,10 @@ const BlockMinerReward = ({
 }: {
   value: string | ReactNode
   tooltip: string
-  sentBlockNumber: string
+  sentBlockNumber?: string
 }) => {
   return (
-    <BlockMinerRewardPanel bottom={!!sentBlockNumber}>
+    <BlockMinerRewardPanel sent={!!sentBlockNumber}>
       <div className="block__miner__reward_value">{value}</div>
       <Tooltip placement="top" title={tooltip}>
         <div
@@ -81,7 +81,9 @@ const BlockMinerReward = ({
           tabIndex={-1}
           onKeyDown={() => {}}
           onClick={() => {
-            browserHistory.push(`/block/${sentBlockNumber}#cellbase`)
+            if (sentBlockNumber) {
+              browserHistory.push(`/block/${sentBlockNumber}#cellbase`)
+            }
           }}
         >
           <img src={HelpIcon} alt="miner reward" />
@@ -140,7 +142,7 @@ const BlockOverview = ({ block, dispatch }: { block: State.Block; dispatch: AppD
         <BlockMinerReward
           value={block.rewardStatus === 'pending' ? i18n.t('block.pending') : minerReward}
           tooltip={block.rewardStatus === 'pending' ? i18n.t('block.pending_tip') : i18n.t('block.reward_sent_tip')}
-          sentBlockNumber={sentBlockNumber}
+          sentBlockNumber={block.rewardStatus === 'pending' ? undefined : sentBlockNumber}
         />
       ),
     },
