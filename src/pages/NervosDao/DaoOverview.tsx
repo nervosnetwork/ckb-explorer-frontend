@@ -45,15 +45,20 @@ const colors = ['#049ECD', '#69C7D4', '#74808E']
 
 const NervosDaoItem = ({ item }: { item: NervosDaoItemContent }) => {
   let daoIcon = DaoUpIcon
+  let symbol = 'positive'
   if (item.change) {
-    if (Number(item.change) < 0) {
+    const change = item.change.slice(0, item.change.length - 1).replace(',', '')
+    if (Number(change) < 0) {
+      symbol = 'negative'
       daoIcon = DaoDownIcon
-    } else if (Number(item.change) === 0) {
+    } else if (Number(change) === 0) {
+      symbol = 'zero'
       daoIcon = DaoBalanceIcon
     }
   }
+
   return (
-    <DaoOverviewItemPanel hasChange={!!item.change}>
+    <DaoOverviewItemPanel hasChange={!!item.change} symbol={symbol}>
       <div className="dao__overview__item_top">
         <span className="dao__overview__item_title">{item.title}</span>
         {item.change && (
