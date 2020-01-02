@@ -119,7 +119,7 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
       const { data } = response
       const difficultyHashRates = data.map(wrapper => {
         return {
-          blockNumber: wrapper.attributes.blockNumber,
+          epochNumber: wrapper.attributes.epochNumber,
           difficulty: wrapper.attributes.difficulty,
           hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toNumber(),
         }
