@@ -14,7 +14,7 @@ import {
 } from '../../components/Table'
 import { shannonToCkb } from '../../utils/util'
 import { parsePageNumber, adaptMobileEllipsis } from '../../utils/string'
-import { BlockListPageParams, DELAY_BLOCK_NUMBER } from '../../utils/const'
+import { ListPageParams, DELAY_BLOCK_NUMBER } from '../../utils/const'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
@@ -153,13 +153,13 @@ export default ({
   const { blockListState } = useContext(AppContext)
   const { blocks = [] } = blockListState
 
-  const currentPage = parsePageNumber(parsed.page, BlockListPageParams.PageNo)
-  const pageSize = parsePageNumber(parsed.size, BlockListPageParams.PageSize)
+  const currentPage = parsePageNumber(parsed.page, ListPageParams.PageNo)
+  const pageSize = parsePageNumber(parsed.size, ListPageParams.PageSize)
   const totalPages = Math.ceil(blockListState.total / pageSize)
 
   useEffect(() => {
-    if (pageSize > BlockListPageParams.MaxPageSize) {
-      replace(`/block/list?page=${currentPage}&size=${BlockListPageParams.MaxPageSize}`)
+    if (pageSize > ListPageParams.MaxPageSize) {
+      replace(`/block/list?page=${currentPage}&size=${ListPageParams.MaxPageSize}`)
     }
     getBlocks(currentPage, pageSize, dispatch)
   }, [replace, currentPage, pageSize, dispatch])
@@ -174,7 +174,7 @@ export default ({
         <div className="block__green__background" />
         {isMobile() ? (
           <ContentTable>
-            <div className="block__panel">
+            <div>
               {blocks.map((block: State.Block, index: number) => {
                 return <OverviewCard key={block.number} items={BlockCardItems(block, index, currentPage)} />
               })}

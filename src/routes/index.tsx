@@ -10,6 +10,7 @@ import Home from '../pages/Home'
 import Block from '../pages/BlockDetail'
 import BlockList from '../pages/BlockList'
 import Transaction from '../pages/Transaction'
+import TransactionList from '../pages/TransactionList'
 import Address from '../pages/Address'
 import NervosDao from '../pages/NervosDao'
 import NotFoundPage from '../pages/404'
@@ -54,6 +55,12 @@ export const containers: CustomRouter.Route[] = [
     path: '/block/:param',
     exact: true,
     comp: Block,
+  },
+  {
+    name: 'TransactionList',
+    path: '/transaction/list',
+    exact: true,
+    comp: TransactionList,
   },
   {
     name: 'Transaction',
