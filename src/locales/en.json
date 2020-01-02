@@ -6,8 +6,8 @@
       "detail": "Detail",
       "overview": "Overview",
       "view_all": "View All",
-      "minute": "minutes",
-      "second_ago": "sec ago",
+      "minute": "min",
+      "second_ago": "s ago",
       "ckb_unit": "CKB"
     },
     "toast": {
@@ -57,7 +57,12 @@
       "transactions": "Transactions",
       "block_reward": "Reward (CKB)",
       "time": "Time",
-      "more": "More"
+      "more": "More",
+      "miner": "Miner",
+      "reward": "Reward",
+      "cells": "Cells",
+      "latest_blocks": "Latest Blocks",
+      "latest_transactions": "Latest User Transactions"
     },
     "footer": {
       "nervos_foundation": "Foundation",
@@ -130,10 +135,13 @@
       "commit_reward": "Commit Reward",
       "proposal_reward": "Proposal Reward",
       "cellbase_help_tooltip": "The cellbase transaction of block N is sent to the miner of block N-11 as reward, learn more from our Consensus Protocol",
-      "capacity": "Capacity",
+      "capacity": "Capacity(CKB)",
       "detail": "Detail",
       "empty_output": "No cell output target",
-      "unspent_output": "Unspent Transaction Output"
+      "unspent_output": "Unspent Transaction Output",
+      "transaction_hash": "Transaction Hash",
+      "height": "Height",
+      "time": "Time"
     },
     "block": {
       "block": "Block",

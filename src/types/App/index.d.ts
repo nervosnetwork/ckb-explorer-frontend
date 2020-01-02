@@ -100,6 +100,7 @@ declare namespace State {
     transactionsRoot: string
     blockIndexInEpoch: string
     minerReward: string
+    liveCellChanges: string
   }
 
   export interface CellDep {
@@ -124,6 +125,8 @@ declare namespace State {
     cellDeps: CellDep[]
     headerDeps: string[]
     witnesses: string[]
+    liveCellChanges: string
+    capacityInvolved: string
   }
 
   export interface BlockchainInfo {
@@ -227,7 +230,7 @@ declare namespace State {
   export interface StatisticDifficultyHashRate {
     difficulty: string
     hashRate: string
-    blockNumber: string
+    epochNumber: string
   }
 
   export interface StatisticCellCount {
@@ -306,6 +309,11 @@ declare namespace State {
     status: keyof FetchStatus
   }
 
+  export interface TransactionsState {
+    transactions: Transaction[]
+    total: number
+  }
+
   export interface AppState {
     app: App
 
@@ -314,6 +322,7 @@ declare namespace State {
     homeBlocks: Block[]
     blockListState: BlockListState
     transactionState: TransactionState
+    transactionsState: TransactionsState
     statistics: Statistics
     statisticsChartData: StatisticsBaseData[]
     statisticsUncleRates: StatisticsUncleRateChart[]

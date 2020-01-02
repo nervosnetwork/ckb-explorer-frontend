@@ -55,11 +55,13 @@ export default ({
   fontSize,
   color,
   hideUnit,
+  hideZero,
 }: {
   value: string
   fontSize?: string
   color?: string
   hideUnit?: boolean
+  hideZero?: boolean
 }) => {
   const integer = value.split('.')[0] || '0'
   let decimal = value.split('.')[1] || ''
@@ -81,9 +83,11 @@ export default ({
       <DecimalPartPanel fontSize={fontSize} color={color}>
         {decimal}
       </DecimalPartPanel>
-      <DecimalZerosPanel fontSize={fontSize} color={color}>
-        {zeros}
-      </DecimalZerosPanel>
+      {!hideZero && (
+        <DecimalZerosPanel fontSize={fontSize} color={color}>
+          {zeros}
+        </DecimalZerosPanel>
+      )}
       {!hideUnit && <div className="decimal__unit">{i18n.t('common.ckb_unit')}</div>}
     </DecimalPanel>
   )
