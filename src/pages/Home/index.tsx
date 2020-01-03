@@ -112,6 +112,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
     getStatistics(dispatch)
     const listener = setInterval(() => {
       getLatestBlocks(dispatch)
+      getLatestTransactions(dispatch)
       getStatistics(dispatch)
     }, BLOCK_POLLING_TIME)
     return () => {
@@ -160,8 +161,8 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
             <>
               {homeBlocks.map((block, index) => {
                 return (
-                  <div>
-                    <BlockCardItem block={block} index={index} dispatch={dispatch} key={block.blockHash} />
+                  <div key={block.number}>
+                    <BlockCardItem block={block} index={index} dispatch={dispatch} />
                     {homeBlocks.length - 1 !== index && <div className="block__card__separate" />}
                   </div>
                 )
@@ -187,12 +188,8 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
             <>
               {transactions.map((transaction, index) => {
                 return (
-                  <div>
-                    <TransactionCardItem
-                      transaction={transaction}
-                      key={transaction.transactionHash}
-                      tipBlockNumber={tipBlockNumber}
-                    />
+                  <div key={transaction.transactionHash}>
+                    <TransactionCardItem transaction={transaction} tipBlockNumber={tipBlockNumber} />
                     {transactions.length - 1 !== index && <div className="transaction__card__separate" />}
                   </div>
                 )
