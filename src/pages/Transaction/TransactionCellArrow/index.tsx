@@ -41,15 +41,18 @@ const isDaoWithdrawCell = (cellType: string) => {
   return cellType === 'nervos_dao_withdrawing'
 }
 
-const isDaoCell = (cellType: string) => {
-  return isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
-}
-
 const CellInputIcon = ({ cell }: { cell: State.Cell }) => {
-  if (isDaoCell(cell.cellType)) {
+  if (isDaoDepositCell(cell.cellType)) {
     return (
       <Tooltip placement="topRight" title={i18n.t('nervos_dao.withdraw_tooltip')} arrowPointAtCenter>
         <LeftArrowImage className="transaction__cell_left_arrow" src={NervosDAOCellIcon} alt="left arrow" />
+      </Tooltip>
+    )
+  }
+  if (isDaoWithdrawCell(cell.cellType)) {
+    return (
+      <Tooltip placement="topRight" title={i18n.t('nervos_dao.withdraw_tooltip')} arrowPointAtCenter>
+        <LeftArrowImage className="transaction__cell_left_arrow" src={NervosDAOWithdrawingIcon} alt="left arrow" />
       </Tooltip>
     )
   }
@@ -65,17 +68,6 @@ const CellInputIcon = ({ cell }: { cell: State.Cell }) => {
 }
 
 const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
-  if (cell.status === 'dead') {
-    return (
-      <Link to={`/transaction/${cell.consumedTxHash}`}>
-        <RightArrowImage
-          className="transaction__cell_right_arrow"
-          src={isMainnet() ? RightGreenArrow : RightBlueArrow}
-          alt="right arrow"
-        />
-      </Link>
-    )
-  }
   if (isDaoDepositCell(cell.cellType)) {
     return (
       <Tooltip placement="topRight" title={i18n.t('nervos_dao.deposit_tooltip')} arrowPointAtCenter>
@@ -95,6 +87,17 @@ const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
       >
         <RightArrowImage className="transaction__cell_right_arrow" src={NervosDAOWithdrawingIcon} alt="right arrow" />
       </Tooltip>
+    )
+  }
+  if (cell.status === 'dead') {
+    return (
+      <Link to={`/transaction/${cell.consumedTxHash}`}>
+        <RightArrowImage
+          className="transaction__cell_right_arrow"
+          src={isMainnet() ? RightGreenArrow : RightBlueArrow}
+          alt="right arrow"
+        />
+      </Link>
     )
   }
   return (
