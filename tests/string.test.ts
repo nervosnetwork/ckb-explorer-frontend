@@ -136,6 +136,8 @@ describe('String methods tests', () => {
     expect(handleBigNumberFloor(new BigNumber(12789789))).toBe('12M')
     expect(handleBigNumberFloor(new BigNumber(102789), 2)).toBe('102.78K')
     expect(handleBigNumberFloor(new BigNumber(12789789), 3)).toBe('12.789M')
+    expect(handleBigNumberFloor(new BigNumber(-102789), 2)).toBe('-102.78K')
+    expect(handleBigNumberFloor(new BigNumber(-12789789), 3)).toBe('-12.789M')
   })
 
 
@@ -143,5 +145,7 @@ describe('String methods tests', () => {
     expect(parseFloorDecimal(922625850.717)).toBe(922625850)
     expect(parseFloorDecimal(922625850.7178, 2)).toBe(922625850.71)
     expect(parseFloorDecimal(922625850.7178, 3)).toBe(922625850.717)
+    expect(parseFloorDecimal(-922625850.7178, 2)).toBe(-922625850.71)
+    expect(parseFloorDecimal(-922625850.7178, 3)).toBe(-922625850.717)
   })
 })
