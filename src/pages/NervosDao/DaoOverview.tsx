@@ -79,7 +79,7 @@ const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent
   return [
     {
       title: i18n.t('nervos_dao.deposit'),
-      change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.depositChanges), 2),
+      change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.depositChanges, 2), 2),
       content: localeNumberString(shannonToCkbDecimal(nervosDao.totalDeposit, 2)),
       tooltip: i18n.t('nervos_dao.today_update'),
     },
@@ -91,13 +91,13 @@ const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent
     },
     {
       title: i18n.t('nervos_dao.unclaimed_compensation'),
-      change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.unclaimedCompensationChanges), 2),
+      change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.unclaimedCompensationChanges, 2), 2),
       content: localeNumberString(shannonToCkbDecimal(nervosDao.unclaimedCompensation, 2)),
       tooltip: i18n.t('nervos_dao.24hrs_update'),
     },
     {
       title: i18n.t('nervos_dao.claimed_compensation'),
-      change: handleBigNumber(shannonToCkbDecimal(nervosDao.claimedCompensationChanges), 2),
+      change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.claimedCompensationChanges, 2), 2),
       content: localeNumberString(shannonToCkbDecimal(nervosDao.claimedCompensation, 2)),
       tooltip: i18n.t('nervos_dao.24hrs_update'),
     },

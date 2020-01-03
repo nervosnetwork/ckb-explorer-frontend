@@ -94,9 +94,15 @@ export const parseFloorDecimal = (value: BigNumber | string | number, decimal?: 
   const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
   if (bigValue.isNaN() || bigValue.isZero()) return '0'
   if (decimal) {
-    return Math.floor(bigValue.toNumber() * 10 ** decimal) / 10 ** decimal
+    if (bigValue.isNegative()) {
+      return 0 - Math.floor(bigValue.abs().toNumber() * 10 ** decimal) / 10 ** decimal
+    }
+    return Math.floor(bigValue.abs().toNumber() * 10 ** decimal) / 10 ** decimal
   }
-  return Math.floor(bigValue.toNumber())
+  if (bigValue.isNegative()) {
+    return 0 - Math.floor(bigValue.abs().toNumber())
+  }
+  return Math.floor(bigValue.abs().toNumber())
 }
 
 export const handleBigNumberFloor = (value: BigNumber | string | number, decimal?: number) => {
@@ -111,28 +117,28 @@ export const handleBigNumberFloor = (value: BigNumber | string | number, decimal
   const zv = ev.dividedBy(1000)
   const yv = zv.dividedBy(1000)
 
-  if (yv.isGreaterThanOrEqualTo(1)) {
+  if (yv.abs().isGreaterThanOrEqualTo(1)) {
     return `${parseFloorDecimal(yv, decimal)}Y`
   }
-  if (zv.isGreaterThanOrEqualTo(1)) {
+  if (zv.abs().isGreaterThanOrEqualTo(1)) {
     return `${parseFloorDecimal(zv, decimal)}Z`
   }
-  if (ev.isGreaterThanOrEqualTo(1)) {
+  if (ev.abs().isGreaterThanOrEqualTo(1)) {
     return `${parseFloorDecimal(ev, decimal)}E`
   }
-  if (pv.isGreaterThanOrEqualTo(1)) {
+  if (pv.abs().isGreaterThanOrEqualTo(1)) {
     return `${parseFloorDecimal(pv, decimal)}P`
   }
-  if (tv.isGreaterThanOrEqualTo(1)) {
+  if (tv.abs().isGreaterThanOrEqualTo(1)) {
     return `${parseFloorDecimal(tv, decimal)}T`
   }
-  if (gv.isGreaterThanOrEqualTo(1)) {
+  if (gv.abs().isGreaterThanOrEqualTo(1)) {
     return `${parseFloorDecimal(gv, decimal)}G`
   }
-  if (mv.isGreaterThanOrEqualTo(1)) {
+  if (mv.abs().isGreaterThanOrEqualTo(1)) {
     return `${parseFloorDecimal(mv, decimal)}M`
   }
-  if (kv.isGreaterThanOrEqualTo(1)) {
+  if (kv.abs().isGreaterThanOrEqualTo(1)) {
     return `${parseFloorDecimal(kv, decimal)}K`
   }
   return `${parseFloorDecimal(bigValue, decimal)}`
