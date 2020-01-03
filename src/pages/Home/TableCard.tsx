@@ -66,7 +66,7 @@ const BlockCardPanel = styled.div`
 
       @media (max-width: 700px) {
         font-size: 12px;
-        margin-top: 0;
+        margin-top: 2px;
         margin-left: 10px;
       }
     }
@@ -149,7 +149,7 @@ const BlockCardPanel = styled.div`
 
       @media (max-width: 700px) {
         font-size: 12px;
-        margin-top: 0;
+        margin-top: 2px;
       }
     }
   }
@@ -275,7 +275,7 @@ const TransactionCardPanel = styled.div`
 
       @media (max-width: 700px) {
         font-size: 12px;
-        margin-top: 0;
+        margin-top: 2px;
         margin-left: 10px;
       }
     }
@@ -403,6 +403,7 @@ export const TransactionCardItem = ({
         <DecimalCapacity
           value={localeNumberString(shannonToCkbDecimal(transaction.capacityInvolved, 2))}
           fontSize="9px"
+          marginBottom="2px"
           hideZero
         />
         <span className="transaction__card__live__cells">

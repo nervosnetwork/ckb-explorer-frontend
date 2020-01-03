@@ -8,8 +8,6 @@ import CopyTooltipText from '../Tooltip/CopyTooltipText'
 export const HighLightPanel = styled.div`
   color: ${props => props.theme.primary};
   font-size: 14px;
-  height: 18px;
-  line-height: 18px;
 
   @media (max-width: 700px) {
     font-size: 13px;
@@ -18,6 +16,11 @@ export const HighLightPanel = styled.div`
   a {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
     color: ${props => props.theme.primary};
+    margin-top: 3px;
+
+    @media (max-width: 700px) {
+      margin-top: 1px;
+    }
   }
 
   a:hover {
