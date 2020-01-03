@@ -189,6 +189,7 @@ const nervosDaoPieItemContents = (nervosDao: State.NervosDao): NervosDaoPieItemC
         <DecimalCapacity
           value={localeNumberString(shannonToCkb(Number(nervosDao.miningReward).toFixed()))}
           fontSize="12px"
+          marginBottom="2px"
           hideUnit
         />
       ),

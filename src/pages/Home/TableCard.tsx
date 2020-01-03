@@ -403,6 +403,7 @@ export const TransactionCardItem = ({
         <DecimalCapacity
           value={localeNumberString(shannonToCkbDecimal(transaction.capacityInvolved, 2))}
           fontSize="9px"
+          marginBottom="2px"
           hideZero
         />
         <span className="transaction__card__live__cells">

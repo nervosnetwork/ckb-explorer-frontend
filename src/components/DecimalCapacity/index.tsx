@@ -23,8 +23,9 @@ const DecimalPanel = styled.div`
 `
 
 const DecimalPartPanel = styled.div`
-  margin-bottom: 1px;
-  font-size: ${(props: { fontSize?: string; color?: string }) => (props.fontSize ? props.fontSize : '12px')}
+  margin-bottom: ${(props: { marginBottom: string }) => (props.marginBottom ? props.marginBottom : '1px')}
+  font-size: ${(props: { fontSize?: string; color?: string; marginBottom: string }) =>
+    props.fontSize ? props.fontSize : '12px'}
   color: ${(props: { fontSize?: string; color?: string }) => (props.color ? props.color : '#999999')}
 
   @media (max-width: 1000px) {
@@ -37,8 +38,9 @@ const DecimalPartPanel = styled.div`
 `
 
 const DecimalZerosPanel = styled.div`
-  margin-bottom: 1px;
-  font-size: ${(props: { fontSize?: string; color?: string }) => (props.fontSize ? props.fontSize : '12px')}
+  margin-bottom: ${(props: { marginBottom: string }) => props.marginBottom}
+  font-size: ${(props: { fontSize?: string; color?: string; marginBottom: string }) =>
+    props.fontSize ? props.fontSize : '12px'}
   color: ${(props: { fontSize?: string; color?: string }) => (props.color ? props.color : '#999999')}
 
   @media (max-width: 1000px) {
@@ -56,12 +58,14 @@ export default ({
   color,
   hideUnit,
   hideZero,
+  marginBottom = '1px',
 }: {
   value: string
   fontSize?: string
   color?: string
   hideUnit?: boolean
   hideZero?: boolean
+  marginBottom?: string
 }) => {
   const integer = value.split('.')[0] || '0'
   let decimal = value.split('.')[1] || ''
@@ -80,11 +84,11 @@ export default ({
   return (
     <DecimalPanel>
       <span>{integer}</span>
-      <DecimalPartPanel fontSize={fontSize} color={color}>
+      <DecimalPartPanel fontSize={fontSize} color={color} marginBottom={marginBottom}>
         {decimal}
       </DecimalPartPanel>
       {!hideZero && (
-        <DecimalZerosPanel fontSize={fontSize} color={color}>
+        <DecimalZerosPanel fontSize={fontSize} color={color} marginBottom={marginBottom}>
           {zeros}
         </DecimalZerosPanel>
       )}
