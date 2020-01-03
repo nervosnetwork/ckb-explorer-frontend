@@ -195,7 +195,7 @@
       "deposit_compensation": "锁定补贴",
       "burnt": "已销毁",
       "deposit_tooltip": "Nervos DAO 锁定",
-      "withdraw_tooltip": "Nervos DAO 解锁",
+      "withdraw_tooltip": "Nervos DAO 解锁申请",
       "calculation_tooltip": "Nervos DAO 补贴计算",
       "days": "天+",
       "24hrs_update": "24 小时变动(UTC+8:00)",
