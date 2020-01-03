@@ -188,7 +188,7 @@ const nervosDaoPieItemContents = (nervosDao: State.NervosDao): NervosDaoPieItemC
       content: (
         <DecimalCapacity
           value={localeNumberString(shannonToCkb(Number(nervosDao.miningReward).toFixed()))}
-          fontSize="12px"
+          fontSize={isMobile() ? '9px' : '12px'}
           marginBottom="2px"
           hideUnit
         />
@@ -200,7 +200,7 @@ const nervosDaoPieItemContents = (nervosDao: State.NervosDao): NervosDaoPieItemC
       content: (
         <DecimalCapacity
           value={localeNumberString(shannonToCkb(Number(nervosDao.depositCompensation).toFixed()))}
-          fontSize="12px"
+          fontSize={isMobile() ? '9px' : '12px'}
           marginBottom="2px"
           hideUnit
         />
@@ -212,7 +212,7 @@ const nervosDaoPieItemContents = (nervosDao: State.NervosDao): NervosDaoPieItemC
       content: (
         <DecimalCapacity
           value={localeNumberString(shannonToCkb(Number(nervosDao.treasuryAmount).toFixed()))}
-          fontSize="12px"
+          fontSize={isMobile() ? '9px' : '12px'}
           marginBottom="2px"
           hideUnit
         />

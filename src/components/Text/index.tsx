@@ -17,6 +17,10 @@ export const HighLightPanel = styled.div`
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
     color: ${props => props.theme.primary};
     margin-top: 3px;
+
+    @media (max-width: 700px) {
+      margin-top: 1px;
+    }
   }
 
   a:hover {

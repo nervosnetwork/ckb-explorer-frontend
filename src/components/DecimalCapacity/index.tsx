@@ -38,7 +38,7 @@ const DecimalPartPanel = styled.div`
 `
 
 const DecimalZerosPanel = styled.div`
-  margin-bottom: ${(props: { marginBottom: string }) => props.marginBottom}
+  margin-bottom: ${(props: { marginBottom: string }) => (props.marginBottom ? props.marginBottom : '1px')}
   font-size: ${(props: { fontSize?: string; color?: string; marginBottom: string }) =>
     props.fontSize ? props.fontSize : '12px'}
   color: ${(props: { fontSize?: string; color?: string }) => (props.color ? props.color : '#999999')}
