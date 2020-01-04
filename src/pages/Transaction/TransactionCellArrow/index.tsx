@@ -44,7 +44,7 @@ const isDaoWithdrawCell = (cellType: string) => {
 const CellInputIcon = ({ cell }: { cell: State.Cell }) => {
   if (isDaoDepositCell(cell.cellType)) {
     return (
-      <Tooltip placement="topRight" title={i18n.t('nervos_dao.withdraw_tooltip')} arrowPointAtCenter>
+      <Tooltip placement="topRight" title={i18n.t('nervos_dao.withdraw_request_tooltip')} arrowPointAtCenter>
         <LeftArrowImage className="transaction__cell_left_arrow" src={NervosDAOCellIcon} alt="left arrow" />
       </Tooltip>
     )
