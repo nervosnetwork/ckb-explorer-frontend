@@ -25,7 +25,10 @@ export default ({ confirmation, income }: { confirmation?: number; income: strin
         <div className="transaction__capacity">
           <TransactionCapacityValuePanel increased={bigIncome.isGreaterThanOrEqualTo(0)}>
             <div>
-              <DecimalCapacity value={`${localeNumberString(shannonToCkb(bigIncome))}`} color="inherit" />
+              <DecimalCapacity
+                value={`${bigIncome.isPositive() ? '+' : ''}${localeNumberString(shannonToCkb(bigIncome))}`}
+                color="inherit"
+              />
             </div>
           </TransactionCapacityValuePanel>
         </div>
