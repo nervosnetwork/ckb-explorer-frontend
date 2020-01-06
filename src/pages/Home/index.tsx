@@ -111,6 +111,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
     getTipBlockNumber(dispatch)
     getStatistics(dispatch)
     const listener = setInterval(() => {
+      getTipBlockNumber(dispatch)
       getLatestBlocks(dispatch)
       getLatestTransactions(dispatch)
       getStatistics(dispatch)
