@@ -31,6 +31,7 @@ import { isMobile } from '../../utils/screen'
 interface NervosDaoItemContent {
   title: string
   change?: string
+  changeSymbol?: 'positive' | 'negative' | 'zero'
   content: string
   tooltip?: string
 }
@@ -43,27 +44,35 @@ interface NervosDaoPieItemContent {
 
 const colors = ['#049ECD', '#69C7D4', '#74808E']
 
-const NervosDaoItem = ({ item }: { item: NervosDaoItemContent }) => {
-  let daoIcon = DaoUpIcon
-  let symbol = 'positive'
-  if (item.change) {
-    const change = item.change.slice(0, item.change.length - 1).replace(',', '')
-    if (Number(change) < 0) {
-      symbol = 'negative'
-      daoIcon = DaoDownIcon
-    } else if (Number(change) === 0) {
-      symbol = 'zero'
-      daoIcon = DaoBalanceIcon
-    }
+const numberSymbol = (num: number) => {
+  if (num > 0) {
+    return 'positive'
   }
+  if (num === 0) {
+    return 'zero'
+  }
+  return 'negative'
+}
 
+const daoIcon = (symbol: 'positive' | 'negative' | 'zero' | undefined) => {
+  switch (symbol) {
+    case 'negative':
+      return DaoDownIcon
+    case 'zero':
+      return DaoBalanceIcon
+    default:
+      return DaoUpIcon
+  }
+}
+
+const NervosDaoItem = ({ item }: { item: NervosDaoItemContent }) => {
   return (
-    <DaoOverviewItemPanel hasChange={!!item.change} symbol={symbol}>
+    <DaoOverviewItemPanel hasChange={!!item.change} symbol={item.changeSymbol}>
       <div className="dao__overview__item_top">
         <span className="dao__overview__item_title">{item.title}</span>
         {item.change && (
           <>
-            <img src={daoIcon} alt="nervos dao change icon" />
+            <img src={daoIcon(item.changeSymbol)} alt="nervos dao change icon" />
             <Tooltip placement="top" title={item.tooltip}>
               <span className="dao__overview__item_change">{item.change}</span>
             </Tooltip>
@@ -80,24 +89,28 @@ const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent
     {
       title: i18n.t('nervos_dao.deposit'),
       change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.depositChanges, 2), 2),
+      changeSymbol: numberSymbol(Number(nervosDao.depositChanges)),
       content: localeNumberString(shannonToCkbDecimal(nervosDao.totalDeposit, 2)),
       tooltip: i18n.t('nervos_dao.today_update'),
     },
     {
       title: i18n.t('nervos_dao.addresses'),
       change: localeNumberString(nervosDao.depositorChanges),
+      changeSymbol: numberSymbol(Number(nervosDao.depositorChanges)),
       content: localeNumberString(nervosDao.depositorsCount),
       tooltip: i18n.t('nervos_dao.today_update'),
     },
     {
       title: i18n.t('nervos_dao.unclaimed_compensation'),
       change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.unclaimedCompensationChanges, 2), 2),
+      changeSymbol: numberSymbol(Number(nervosDao.unclaimedCompensationChanges)),
       content: localeNumberString(shannonToCkbDecimal(nervosDao.unclaimedCompensation, 2)),
       tooltip: i18n.t('nervos_dao.24hrs_update'),
     },
     {
       title: i18n.t('nervos_dao.claimed_compensation'),
       change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.claimedCompensationChanges, 2), 2),
+      changeSymbol: numberSymbol(Number(nervosDao.claimedCompensationChanges)),
       content: localeNumberString(shannonToCkbDecimal(nervosDao.claimedCompensation, 2)),
       tooltip: i18n.t('nervos_dao.24hrs_update'),
     },
