@@ -12,7 +12,7 @@ import {
 } from './styled'
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
-import { BLOCK_POLLING_TIME } from '../../utils/const'
+import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME } from '../../utils/const'
 import { localeNumberString, handleHashRate, handleDifficulty, parseEpochNumber } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
 import { isMobile } from '../../utils/screen'
@@ -28,6 +28,8 @@ import { BlockCardItem, TransactionCardItem } from './TableCard'
 import { getLatestTransactions } from '../../service/app/transaction'
 import { getTipBlockNumber } from '../../service/app/address'
 import Loading from '../../components/Loading/SmallLoading'
+import { useInterval } from '../../utils/hook'
+import { handleBlockchainAlert } from '../../service/app/blockchain'
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   return (
@@ -122,6 +124,10 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteCom
       }
     }
   }, [dispatch])
+
+  useInterval(() => {
+    handleBlockchainAlert(dispatch)
+  }, BLOCKCHAIN_ALERT_POLLING_TIME)
 
   return (
     <Content>

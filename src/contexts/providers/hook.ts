@@ -1,13 +1,11 @@
 import { useEffect, useState, useContext } from 'react'
 import { initAxiosInterceptors } from '../../service/http/interceptors'
-import { handleBlockchainAlert } from '../../service/app/blockchain'
-import { BLOCKCHAIN_ALERT_POLLING_TIME, RESIZE_LATENCY, CachedKeys } from '../../utils/const'
+import { RESIZE_LATENCY, CachedKeys } from '../../utils/const'
 import { initNodeVersion } from '../../service/app/nodeInfo'
 import { AppDispatch, AppActions } from './reducer'
 import { fetchCachedData } from '../../utils/cached'
 import { changeLanguage } from '../../utils/i18n'
 import { AppContext } from './index'
-import { useInterval } from '../../utils/hook'
 
 const useWindowResize = (dispatch: AppDispatch) => {
   useEffect(() => {
@@ -55,10 +53,6 @@ export const useInitApp = (dispatch: AppDispatch) => {
     initAppLanguage(app, dispatch)
   }
   useWindowResize(dispatch)
-
-  useInterval(() => {
-    handleBlockchainAlert(dispatch)
-  }, BLOCKCHAIN_ALERT_POLLING_TIME)
 }
 
 export default useInitApp
