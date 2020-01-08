@@ -104,8 +104,8 @@ const getAddressInfo = (addressState: State.AddressState, dispatch: AppDispatch)
     })
   }
   const { lockInfo } = address
-  const estimate = Number(lockInfo.estimatedUnlockTime) > new Date().getTime() ? i18n.t('address.estimated') : ''
-  if (lockInfo && lockInfo.epochNumber) {
+  if (lockInfo && lockInfo.epochNumber && lockInfo.estimatedUnlockTime) {
+    const estimate = Number(lockInfo.estimatedUnlockTime) > new Date().getTime() ? i18n.t('address.estimated') : ''
     items.push({
       title: i18n.t('address.lock_until'),
       content: `${parseEpochNumber(lockInfo.epochNumber)} ${i18n.t(
