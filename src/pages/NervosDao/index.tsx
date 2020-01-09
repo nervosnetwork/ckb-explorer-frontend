@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import queryString from 'query-string'
-import { RouteComponentProps } from 'react-router'
+import { useLocation, useHistory } from 'react-router-dom'
 import { StateWithDispatch, PageActions, AppActions, AppDispatch } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import Content from '../../components/Content'
@@ -44,11 +44,9 @@ const NervosDAOStateComp = ({
   }
 }
 
-export const NervosDao = ({
-  location: { search },
-  dispatch,
-  history: { push },
-}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
+export const NervosDao = ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+  const { search } = useLocation()
+  const { push } = useHistory()
   const parsed = queryString.parse(search)
 
   const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)

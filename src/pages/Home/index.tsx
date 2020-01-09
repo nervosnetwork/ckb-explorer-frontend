@@ -1,5 +1,4 @@
 import React, { useEffect, useContext } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   HomeHeaderPanel,
@@ -101,7 +100,7 @@ const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
   ]
 }
 
-export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
+export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
   const { homeBlocks = [], transactionsState, statistics, app } = useContext(AppContext)
   const { transactions = [] } = transactionsState
   const { tipBlockNumber } = app

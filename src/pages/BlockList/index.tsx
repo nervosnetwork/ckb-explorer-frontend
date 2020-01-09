@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, Fragment, useMemo } from 'react'
-import { RouteComponentProps, Link } from 'react-router-dom'
+import { useHistory, useLocation, Link } from 'react-router-dom'
 import queryString from 'query-string'
 import { useTranslation } from 'react-i18next'
 import { parseSimpleDate } from '../../utils/date'
@@ -118,11 +118,10 @@ const BlockCardItems = (block: State.Block, index: number, page: number) => {
   ] as OverviewItemData[]
 }
 
-export default ({
-  dispatch,
-  history: { replace, push },
-  location: { search },
-}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
+export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+  const { replace, push } = useHistory()
+  const { search } = useLocation()
+
   const [t] = useTranslation()
   const TableTitles = useMemo(() => {
     return [

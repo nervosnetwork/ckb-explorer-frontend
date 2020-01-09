@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { AxiosResponse } from 'axios'
 import { AppContext } from '../../contexts/providers/index'
@@ -9,7 +9,6 @@ import MobileMaintainImage from '../../assets/mobile_maintain.png'
 import PCBlueMaintainImage from '../../assets/blue_pc_maintain.png'
 import MobileBlueMaintainImage from '../../assets/blue_mobile_maintain.png'
 import i18n from '../../utils/i18n'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { isMobile } from '../../utils/screen'
 import { isMainnet } from '../../utils/chain'
 
@@ -71,7 +70,8 @@ const getMaintainImage = () => {
   return isMobile() ? MobileBlueMaintainImage : PCBlueMaintainImage
 }
 
-export default ({ history: { replace } }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
+export default () => {
+  const { replace } = useHistory()
   const { app } = useContext(AppContext)
 
   useEffect(() => {
