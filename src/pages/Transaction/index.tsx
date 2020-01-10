@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState, useRef } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import TransactionHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
 import { StateWithDispatch, AppDispatch, PageActions, AppActions } from '../../contexts/providers/reducer'
@@ -27,22 +27,19 @@ const TransactionStateComp = ({ dispatch }: { dispatch: AppDispatch }) => {
   }
 }
 
-export default ({
-  dispatch,
-  history: { location },
-  match: { params },
-}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ hash: string }>>) => {
+export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+  const { pathname } = useLocation()
+  const pathRef = useRef(pathname)
+  const { hash } = useParams<{ hash: string }>()
   const [showLoading, setShowLoading] = useState(false)
-  const pathRef = useRef(location.pathname)
-  const { hash } = params
 
   useEffect(() => {
-    setShowLoading(location.pathname.startsWith('/transaction') && pathRef.current !== location.pathname)
+    setShowLoading(pathname.startsWith('/transaction') && pathRef.current !== pathname)
     getTransactionByHash(hash, dispatch, () => {
       setShowLoading(false)
     })
     getTipBlockNumber(dispatch)
-  }, [hash, dispatch, location.pathname])
+  }, [hash, dispatch, pathname])
 
   useTimeoutWithUnmount(
     () => {

@@ -1,6 +1,6 @@
 import queryString from 'query-string'
 import React, { useContext, useEffect } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import Loading from '../../components/Loading'
 import AddressHashCard from '../../components/Card/HashCard'
 import Error from '../../components/Error'
@@ -52,12 +52,9 @@ const AddressStateTransactions = ({
   }
 }
 
-export const Address = ({
-  dispatch,
-  location: { search },
-  match: { params },
-}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ address: string }>>) => {
-  const { address } = params
+export const Address = ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+  const { search } = useLocation()
+  const { address } = useParams<{ address: string }>()
   const parsed = queryString.parse(search)
   const { addressState } = useContext(AppContext)
 
