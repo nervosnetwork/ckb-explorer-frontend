@@ -129,4 +129,8 @@ export const OverviewItemPanel = styled.div`
       color: ${props => props.theme.primary};
     }
   }
+
+  .block_pointer {
+    cursor: pointer;
+  }
 `

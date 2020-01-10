@@ -121,7 +121,7 @@ export const CellbasePanel = styled.div`
     > img {
       width: 20px;
       height: 20px;
-      margin-bottom: 3px;
+      margin-bottom: 5px;
 
       @media (max-width: 700px) {
         width: 16px;
@@ -147,16 +147,16 @@ export const WithdrawInfoPanel = styled.div`
     .withdraw__info_title {
       font-size: 14px;
       font-weight: 450;
-      width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '160px' : '80px')};
+      width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '160px' : '100px')};
 
       @media (max-width: 700px) {
         font-size: 10px;
-        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '110px' : '60px')};
+        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '110px' : '70px')};
       }
 
       @media (max-width: 375px) {
         font-size: 9px;
-        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '100px' : '50px')};
+        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '100px' : '65px')};
       }
     }
 

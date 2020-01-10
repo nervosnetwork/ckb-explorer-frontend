@@ -70,6 +70,10 @@ declare namespace State {
     daoDeposit: number
     interest: number
     lockInfo: LockInfo
+    liveCellsCount: string
+    minedBlocksCount: string
+    isSpecial: boolean
+    specialAddress: string
   }
 
   export interface Block {
@@ -94,6 +98,9 @@ declare namespace State {
     version: number
     nonce: string
     transactionsRoot: string
+    blockIndexInEpoch: string
+    minerReward: string
+    liveCellChanges: string
   }
 
   export interface CellDep {
@@ -118,6 +125,8 @@ declare namespace State {
     cellDeps: CellDep[]
     headerDeps: string[]
     witnesses: string[]
+    liveCellChanges: string
+    capacityInvolved: string
   }
 
   export interface BlockchainInfo {
@@ -137,13 +146,19 @@ declare namespace State {
   }
 
   export interface NervosDao {
-    totalDeposit: number
-    interestGranted: number
-    depositTransactionsCount: number
-    withdrawTransactionsCount: number
-    depositorsCount: number
-    totalDepositorsCount: number
-    daoTypeHash: string
+    totalDeposit: string
+    depositorsCount: string
+    depositChanges: string
+    unclaimedCompensationChanges: string
+    claimedCompensationChanges: string
+    depositorChanges: string
+    unclaimedCompensation: string
+    claimedCompensation: string
+    averageDepositTime: string
+    miningReward: string
+    depositCompensation: string
+    treasuryAmount: string
+    estimatedApc: string
   }
 
   export interface NervosDaoDepositor {
@@ -164,6 +179,14 @@ declare namespace State {
     averageBlockTime: string
     currentEpochDifficulty: string
     hashRate: string
+    epochInfo: {
+      epochNumber: string
+      epochLength: string
+      index: string
+    }
+    estimatedEpochTime: string
+    transactionsLast24Hrs: string
+    transactionsCountPerMinute: string
   }
 
   export interface StatisticsChart {
@@ -190,9 +213,52 @@ declare namespace State {
     epochNumber?: number
   }
 
-  export interface StatisticsUncleRate {
+  export interface StatisticUncleRate {
     uncleRate: number
     epochNumber: number
+  }
+
+  export interface StatisticTransactionCount {
+    transactionsCount: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticAddressCount {
+    addressesCount: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticTotalDaoDeposit {
+    totalDaoDeposit: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticDifficultyHashRate {
+    difficulty: string
+    hashRate: string
+    epochNumber: string
+  }
+
+  export interface StatisticCellCount {
+    liveCellsCount: string
+    deadCellsCount: string
+    blockNumber: string
+  }
+
+  export interface StatisticDifficultyUncleRate {
+    difficulty: string
+    uncleRate: string
+    epochNumber: string
+  }
+
+  export interface StatisticAddressBalanceRank {
+    ranking: string
+    address: string
+    balance: string
+  }
+
+  export interface StatisticAddressBalanceRanking {
+    addressBalanceRanking: StatisticAddressBalanceRank[]
   }
 
   export interface Components {
@@ -249,6 +315,11 @@ declare namespace State {
     status: keyof FetchStatus
   }
 
+  export interface TransactionsState {
+    transactions: Transaction[]
+    total: number
+  }
+
   export interface AppState {
     app: App
 
@@ -257,9 +328,18 @@ declare namespace State {
     homeBlocks: Block[]
     blockListState: BlockListState
     transactionState: TransactionState
+    transactionsState: TransactionsState
     statistics: Statistics
     statisticsChartData: StatisticsBaseData[]
     statisticsUncleRates: StatisticsUncleRateChart[]
+    statisticDifficultyHashRates: StatisticsDifficultyHashRate[]
+    statisticDifficultyUncleRates: StatisticsDifficultyUncleRate[]
+    statisticTransactionCounts: StatisticTransactionCount[]
+    statisticCellCounts: StatisticCellCount[]
+    statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
+    statisticAddressCounts: StatisticAddressCount[]
+    statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
+
     nervosDaoState: NervosDaoState
 
     components: Components

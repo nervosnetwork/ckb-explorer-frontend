@@ -5,8 +5,17 @@ import TransactionItem from '../../components/TransactionItem'
 import { TransactionsPagination } from './styled'
 import Pagination from '../../components/Pagination'
 import { PageParams } from '../../utils/const'
+import { AppDispatch } from '../../contexts/providers/reducer'
 
-export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPage: number; pageSize: number }) => {
+export default ({
+  currentPage = 1,
+  pageSize = PageParams.PageSize,
+  dispatch,
+}: {
+  currentPage: number
+  pageSize: number
+  dispatch: AppDispatch
+}) => {
   const { nervosDaoState } = useContext(AppContext)
   const { transactions = [], total } = nervosDaoState
 
@@ -25,6 +34,7 @@ export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPa
               key={transaction.transactionHash}
               transaction={transaction}
               isLastItem={index === transactions.length - 1}
+              dispatch={dispatch}
             />
           )
         )

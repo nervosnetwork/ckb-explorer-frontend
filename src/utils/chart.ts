@@ -1,9 +1,10 @@
 import BigNumber from 'bignumber.js'
 import { isMobile } from './screen'
 
-export const handleAxis = (value: BigNumber) => {
-  if (value.isNaN() || value.isZero()) return '0'
-  const kv = value.dividedBy(1000)
+export const handleAxis = (value: BigNumber | string | number, decimal?: number) => {
+  const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  if (bigValue.isNaN() || bigValue.isZero()) return '0'
+  const kv = bigValue.dividedBy(1000)
   const mv = kv.dividedBy(1000)
   const gv = mv.dividedBy(1000)
   const tv = gv.dividedBy(1000)
@@ -13,30 +14,30 @@ export const handleAxis = (value: BigNumber) => {
   const yv = zv.dividedBy(1000)
 
   if (yv.isGreaterThanOrEqualTo(1)) {
-    return `${yv.toFixed()}Y`
+    return `${decimal ? yv.toFixed(decimal) : yv.toFixed()}Y`
   }
   if (zv.isGreaterThanOrEqualTo(1)) {
-    return `${zv.toFixed()}Z`
+    return `${decimal ? zv.toFixed(decimal) : zv.toFixed()}Z`
   }
   if (ev.isGreaterThanOrEqualTo(1)) {
-    return `${ev.toFixed()}E`
+    return `${decimal ? ev.toFixed(decimal) : ev.toFixed()}E`
   }
   if (pv.isGreaterThanOrEqualTo(1)) {
-    return `${pv.toFixed()}P`
+    return `${decimal ? pv.toFixed(decimal) : pv.toFixed()}P`
   }
   if (tv.isGreaterThanOrEqualTo(1)) {
-    return `${tv.toFixed()}T`
+    return `${decimal ? tv.toFixed(decimal) : tv.toFixed()}T`
   }
   if (gv.isGreaterThanOrEqualTo(1)) {
-    return `${gv.toFixed()}G`
+    return `${decimal ? gv.toFixed(decimal) : gv.toFixed()}G`
   }
   if (mv.isGreaterThanOrEqualTo(1)) {
-    return `${mv.toFixed()}M`
+    return `${decimal ? mv.toFixed(decimal) : mv.toFixed()}M`
   }
   if (kv.isGreaterThanOrEqualTo(1)) {
-    return `${kv.toFixed()}K`
+    return `${decimal ? kv.toFixed(decimal) : kv.toFixed()}K`
   }
-  return `${value.toFixed()}`
+  return `${decimal ? bigValue.toFixed(decimal) : bigValue.toFixed()}`
 }
 
 export const parseInterval = (max: number, min: number) => {

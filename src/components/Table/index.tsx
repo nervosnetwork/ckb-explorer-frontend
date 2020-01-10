@@ -1,16 +1,20 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { Tooltip } from 'antd'
 import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
-import { adaptPCEllipsis } from '../../utils/string'
+import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
+import CopyTooltipText from '../Tooltip/CopyTooltipText'
+import { AppDispatch } from '../../contexts/providers/reducer'
+import { isMobile } from '../../utils/screen'
 
 export const TableTitleRow = styled.div`
   background: ${props => props.theme.primary};
   display: flex;
   min-height: 65px;
   border-radius: 6px 6px 0px 0px;
-  padding-right: 12px;
+  padding: 0 20px;
 `
 
 const TableTitleRowItem = styled.div`
@@ -23,10 +27,13 @@ const TableTitleRowItem = styled.div`
 
   > div {
     color: white;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 450;
     text-align: center;
-    margin-left: 10px;
+
+    @media (max-width: 1000px) {
+      font-size: 16px;
+    }
   }
 `
 
@@ -35,18 +42,17 @@ export const TableContentRow = styled.div`
   display: flex;
   min-height: 60px;
   background-color: white;
-  padding-right: 12px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px;
   cursor: pointer;
 
   ::after {
     content: '';
     position: absolute;
     display: block;
-    width: 95%;
+    width: auto;
     height: 1px;
-    left: 2.5%;
+    left: 20px;
+    right: 20px;
     bottom: 1px;
     background: #d8d8d8;
     transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
@@ -87,21 +93,30 @@ const TableMinerContentPanel = styled.div`
   .table__miner__text {
     width: 100%
     justify-content: center;
-    font-size: 16px;
-    font-weight: 450;
+    font-size: ${(props: { width: string; fontSize: string }) => props.fontSize};
+    font-weight: 500;
+
+    @media(max-width: 700px) {
+      font-size: 13px;
+    }
   }
 
   .table__miner__text__disable {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: ${(props: { width: string; fontSize: string }) => props.fontSize};
     color: #000000;
+
+    @media(max-width: 700px) {
+      font-size: 13px;
+    }
   }
 `
 
 const HighlightLink = styled(Link)`
   color: ${props => props.theme.primary}
+  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
   text-decoration: none;
 `
 
@@ -113,18 +128,59 @@ export const TableTitleItem = ({ width, title }: { width: string; title: string 
   )
 }
 
-export const TableContentItem = ({ width, content, to }: { width: string; content: string | ReactNode; to?: any }) => {
+export const TableContentItem = ({
+  width,
+  content,
+  to,
+  linkFirst,
+}: {
+  width: string
+  content: string | ReactNode
+  to?: any
+  linkFirst?: boolean
+}) => {
   const highLight = to !== undefined
   return (
     <TableContentRowItem width={width}>
-      {highLight ? <HighlightLink to={to}>{content}</HighlightLink> : content}
+      {highLight ? (
+        <HighlightLink
+          to={to}
+          onClick={event => {
+            if (linkFirst) {
+              event.stopPropagation()
+              browserHistory.push(to)
+              event.preventDefault()
+            }
+          }}
+        >
+          {content}
+        </HighlightLink>
+      ) : (
+        content
+      )}
     </TableContentRowItem>
   )
 }
 
-export const TableMinerContentItem = ({ width, content }: { width: string; content: string }) => {
+export const TableMinerContentItem = ({
+  width,
+  content,
+  dispatch,
+  smallWidth,
+  fontSize = '16px',
+}: {
+  width: string
+  content: string
+  dispatch: AppDispatch
+  smallWidth?: boolean
+  fontSize?: string
+}) => {
+  let addressText = adaptPCEllipsis(content, smallWidth ? 2 : 14, 60)
+  if (isMobile()) {
+    addressText = adaptMobileEllipsis(content, 11)
+  }
   return (
-    <TableMinerContentPanel width={width}>
+    <TableMinerContentPanel width={width} fontSize={fontSize}>
       {content ? (
         <Link
           className="table__miner__content"
@@ -135,7 +191,13 @@ export const TableMinerContentItem = ({ width, content }: { width: string; conte
             event.preventDefault()
           }}
         >
-          <span className="table__miner__text address">{adaptPCEllipsis(content, 14, 60)}</span>
+          {addressText.includes('...') ? (
+            <Tooltip placement="top" title={<CopyTooltipText content={content} dispatch={dispatch} />}>
+              <span className="table__miner__text address">{addressText}</span>
+            </Tooltip>
+          ) : (
+            <span className="table__miner__text address">{addressText}</span>
+          )}
         </Link>
       ) : (
         <div className="table__miner__text__disable">{i18n.t('address.unable_decode_address')}</div>

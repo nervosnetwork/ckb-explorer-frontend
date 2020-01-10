@@ -7,9 +7,7 @@ const DecimalPanel = styled.div`
   justify-content: flex-end;
   align-items: flex-end;
 
-  > span {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
-  }
+  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
 
   .decimal__zeros {
     margin-bottom: 1px;
@@ -25,8 +23,9 @@ const DecimalPanel = styled.div`
 `
 
 const DecimalPartPanel = styled.div`
-  margin-bottom: 1px;
-  font-size: ${(props: { fontSize?: string; color?: string }) => (props.fontSize ? props.fontSize : '12px')}
+  margin-bottom: ${(props: { marginBottom: string }) => (props.marginBottom ? props.marginBottom : '1px')}
+  font-size: ${(props: { fontSize?: string; color?: string; marginBottom: string }) =>
+    props.fontSize ? props.fontSize : '12px'}
   color: ${(props: { fontSize?: string; color?: string }) => (props.color ? props.color : '#999999')}
 
   @media (max-width: 1000px) {
@@ -39,12 +38,17 @@ const DecimalPartPanel = styled.div`
 `
 
 const DecimalZerosPanel = styled.div`
-  margin-bottom: 1px;
-  font-size: ${(props: { fontSize?: string; color?: string }) => (props.fontSize ? props.fontSize : '12px')}
+  margin-bottom: ${(props: { marginBottom: string }) => (props.marginBottom ? props.marginBottom : '1px')}
+  font-size: ${(props: { fontSize?: string; color?: string; marginBottom: string }) =>
+    props.fontSize ? props.fontSize : '12px'}
   color: ${(props: { fontSize?: string; color?: string }) => (props.color ? props.color : '#999999')}
 
   @media (max-width: 1000px) {
     font-size: ${(props: { fontSize?: string; color?: string }) => (props.fontSize ? props.fontSize : '11px')}
+  }
+
+  @media (max-width: 700px) {
+    margin-bottom: 0px;
   }
 `
 
@@ -53,11 +57,15 @@ export default ({
   fontSize,
   color,
   hideUnit,
+  hideZero,
+  marginBottom = '1px',
 }: {
   value: string
   fontSize?: string
   color?: string
   hideUnit?: boolean
+  hideZero?: boolean
+  marginBottom?: string
 }) => {
   const integer = value.split('.')[0] || '0'
   let decimal = value.split('.')[1] || ''
@@ -76,12 +84,14 @@ export default ({
   return (
     <DecimalPanel>
       <span>{integer}</span>
-      <DecimalPartPanel fontSize={fontSize} color={color}>
+      <DecimalPartPanel fontSize={fontSize} color={color} marginBottom={marginBottom}>
         {decimal}
       </DecimalPartPanel>
-      <DecimalZerosPanel fontSize={fontSize} color={color}>
-        {zeros}
-      </DecimalZerosPanel>
+      {!hideZero && (
+        <DecimalZerosPanel fontSize={fontSize} color={color} marginBottom={marginBottom}>
+          {zeros}
+        </DecimalZerosPanel>
+      )}
       {!hideUnit && <div className="decimal__unit">{i18n.t('common.ckb_unit')}</div>}
     </DecimalPanel>
   )

@@ -29,11 +29,21 @@ export enum PageActions {
 
   UpdateTransaction = 'updateTransaction',
   UpdateTransactionStatus = 'updateTransactionStatus',
+  UpdateTransactions = 'updateTransactions',
+  UpdateTransactionsTotal = 'updateTransactionsTotal',
 
   UpdateStatistics = 'updateStatistics',
 
   UpdateStatisticsChartData = 'updateStatisticsChartData',
   UpdateStatisticsUncleRate = 'updateStatisticsUncleRate',
+
+  UpdateStatisticDifficultyHashRate = 'updateStatisticDifficultyHashRate',
+  UpdateStatisticDifficultyUncleRate = 'updateStatisticDifficultyUncleRate',
+  UpdateStatisticTransactionCount = 'updateStatisticTransactionCount',
+  UpdateStatisticAddressCount = 'updateStatisticAddressCount',
+  UpdateStatisticTotalDaoDeposit = 'updateStatisticTotalDaoDeposit',
+  UpdateStatisticCellCount = 'updateStatisticCellCount',
+  UpdateStatisticAddressBalanceRank = 'updateStatisticAddressBalanceRank',
 
   UpdateNervosDao = 'updateNervosDao',
   UpdateNervosDaoTransactions = 'updateNervosDaoTransactions',
@@ -253,6 +263,22 @@ export const reducer = (
           status: payload.status,
         },
       }
+    case PageActions.UpdateTransactions:
+      return {
+        ...state,
+        transactionsState: {
+          ...state.transactionsState,
+          transactions: payload.transactions,
+        },
+      }
+    case PageActions.UpdateTransactionsTotal:
+      return {
+        ...state,
+        transactionsState: {
+          ...state.transactionsState,
+          total: payload.total,
+        },
+      }
 
     case PageActions.UpdateStatistics:
       return {
@@ -269,6 +295,42 @@ export const reducer = (
         ...state,
         statisticsUncleRates: payload.statisticsUncleRates,
       }
+    case PageActions.UpdateStatisticDifficultyHashRate:
+      return {
+        ...state,
+        statisticDifficultyHashRates: payload.statisticDifficultyHashRates,
+      }
+    case PageActions.UpdateStatisticDifficultyUncleRate:
+      return {
+        ...state,
+        statisticDifficultyUncleRates: payload.statisticDifficultyUncleRates,
+      }
+    case PageActions.UpdateStatisticTransactionCount:
+      return {
+        ...state,
+        statisticTransactionCounts: payload.statisticTransactionCounts,
+      }
+    case PageActions.UpdateStatisticAddressCount:
+      return {
+        ...state,
+        statisticAddressCounts: payload.statisticAddressCounts,
+      }
+    case PageActions.UpdateStatisticTotalDaoDeposit:
+      return {
+        ...state,
+        statisticTotalDaoDeposits: payload.statisticTotalDaoDeposits,
+      }
+    case PageActions.UpdateStatisticCellCount:
+      return {
+        ...state,
+        statisticCellCounts: payload.statisticCellCounts,
+      }
+    case PageActions.UpdateStatisticAddressBalanceRank:
+      return {
+        ...state,
+        statisticAddressBalanceRanks: payload.statisticAddressBalanceRanks,
+      }
+
     case PageActions.UpdateNervosDao:
       return {
         ...state,

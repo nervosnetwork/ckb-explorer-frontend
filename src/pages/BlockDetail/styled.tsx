@@ -4,7 +4,7 @@ export const BlockDetailPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 25px;
   margin-bottom: 40px;
   width: 100%;
 
@@ -45,25 +45,27 @@ export const BlockLinkPanel = styled.div`
   }
 `
 
-export const BlockOverviewItemContentPanel = styled.div`
+export const BlockMinerRewardPanel = styled.div`
   display: flex;
   flex-direction: row;
 
-  .block__overview_item_value {
+  .block__miner__reward_tip {
+    display: flex;
+    align-items: center;
   }
-  .block__overview_item_tip {
-    margin-left: 20px;
-    font-weight: 500;
-    color: #ff5757;
-    &:focus {
-      outline: 0;
+
+  img {
+    width: ${(props: { sent: boolean }) => (props.sent ? '30px' : '18px')};
+    height： 18px;
+    margin-left: 5px;
+    margin-bottom: ${(props: { sent: boolean }) => (props.sent ? '3px' : '0')};
+    cursor: ${(props: { sent: boolean }) => (props.sent ? 'pointer' : 'default')};
+
+    @media(max-width: 700px) {
+      width: ${(props: { sent: boolean }) => (props.sent ? '27px' : '16px')};
+      height： 16px;
+      margin-bottom: ${(props: { sent: boolean }) => (props.sent ? '1px' : '0')};
     }
-    @media (max-width: 700px) {
-      margin-left: 10px;
-    }
-  }
-  > div:nth-child(1) {
-    margin-left: 0px;
   }
 `
 

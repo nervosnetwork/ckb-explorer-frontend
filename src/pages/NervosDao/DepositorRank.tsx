@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Tooltip } from 'antd'
 import { AppContext } from '../../contexts/providers'
 import { localeNumberString } from '../../utils/number'
 import { shannonToCkb } from '../../utils/util'
@@ -9,93 +8,36 @@ import { isMobile } from '../../utils/screen'
 import OverviewCard from '../../components/Card/OverviewCard'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { adaptPCEllipsis } from '../../utils/string'
+import CopyTooltipText from '../../components/Tooltip/CopyTooltipText'
+import { AppDispatch } from '../../contexts/providers/reducer'
+import {
+  AddressPanel,
+  DepositorRankCardPanel,
+  DepositorRankPanel,
+  DepositorRankTitle,
+  DepositorSeparate,
+  DepositorRankItem,
+} from './styled'
 
-const DepositorRankPanel = styled.div`
-  width: 100%;
-  background: white;
-  padding: 20px 40px;
-`
-
-const DepositorRankCardPanel = styled.div`
-  width: 100%;
-`
-
-const DepositorRankTitle = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 18px;
-  height: 40px;
-
-  > div {
-    text-align: center;
+const AddressText = ({ address, dispatch }: { address: string; dispatch: AppDispatch }) => {
+  const addressText = adaptPCEllipsis(address, 10, 40)
+  if (addressText.includes('...')) {
+    return (
+      <Tooltip placement="top" title={<CopyTooltipText content={address} dispatch={dispatch} />}>
+        <AddressPanel to={`/address/${address}`}>
+          <span className="address">{addressText}</span>
+        </AddressPanel>
+      </Tooltip>
+    )
   }
-
-  >div: nth-child(1) {
-    width: 10%;
-  }
-  >div: nth-child(2) {
-    width: 65%;
-  }
-  >div: nth-child(3) {
-    width: 25%;
-  }
-`
-
-const DepositorSeparate = styled.div`
-  background: #e2e2e2;
-  height: 1px;
-  width: 100%;
-  margin-bottom: 10px;
-`
-
-const DepositorRankItem = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  height: 40px;
-
-  @media (max-width: 1000px) {
-    font-size: 14px;
-  }
-
-  > div {
-    text-align: center;
-  }
-
-  >div: nth-child(1) {
-    width: 10%;
-  }
-  >div: nth-child(2) {
-    width: 65%;
-  }
-  >div: nth-child(3) {
-    width: 25%;
-  }
-`
-const AddressPanel = styled(Link)`
-  color: ${props => props.theme.primary};
-  width: 60%;
-  text-align: center;
-
-  @media (max-width: 700px) {
-    width: 100%;
-    text-align: start;
-  }
-
-  :hover {
-    color: ${props => props.theme.primary};
-  }
-`
-
-const AddressText = ({ address }: { address: string }) => {
   return (
     <AddressPanel to={`/address/${address}`}>
-      <span className="address">{address}</span>
+      <span className="address">{addressText}</span>
     </AddressPanel>
   )
 }
 
-const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
+const depositRanks = (depositor: State.NervosDaoDepositor, index: number, dispatch: AppDispatch) => {
   const daoDeposit = localeNumberString(shannonToCkb(depositor.daoDeposit))
   return [
     {
@@ -104,7 +46,7 @@ const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
     },
     {
       title: i18n.t('nervos_dao.dao_title_address'),
-      content: <AddressText address={depositor.addressHash} />,
+      content: <AddressText address={depositor.addressHash} dispatch={dispatch} />,
     },
     {
       title: i18n.t('nervos_dao.dao_title_deposit_capacity'),
@@ -113,14 +55,14 @@ const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
   ]
 }
 
-export default () => {
+export default ({ dispatch }: { dispatch: AppDispatch }) => {
   const { nervosDaoState } = useContext(AppContext)
   const { depositors = [] } = nervosDaoState
 
   return isMobile() ? (
     <DepositorRankCardPanel>
       {depositors.map((depositor: State.NervosDaoDepositor, index: number) => {
-        return <OverviewCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index)} />
+        return <OverviewCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index, dispatch)} />
       })}
     </DepositorRankCardPanel>
   ) : (
@@ -135,7 +77,7 @@ export default () => {
         return (
           <DepositorRankItem key={depositor.addressHash}>
             <div>{index + 1}</div>
-            <AddressText address={adaptPCEllipsis(depositor.addressHash, 10, 40)} />
+            <AddressText address={depositor.addressHash} dispatch={dispatch} />
             <div>
               <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />
             </div>

@@ -1,59 +1,32 @@
 import React, { useContext, useEffect } from 'react'
 import queryString from 'query-string'
-import { RouteComponentProps } from 'react-router'
-import { StateWithDispatch, PageActions, AppActions } from '../../contexts/providers/reducer'
+import { useLocation, useHistory } from 'react-router-dom'
+import { StateWithDispatch, PageActions, AppActions, AppDispatch } from '../../contexts/providers/reducer'
 import { AppContext } from '../../contexts/providers'
 import Content from '../../components/Content'
 import i18n from '../../utils/i18n'
 import { DaoContentPanel, DaoTabBarPanel } from './styled'
-import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
 import { getNervosDao, getNervosDaoTransactions, getNervosDaoDepositors } from '../../service/app/nervosDao'
-import { shannonToCkb } from '../../utils/util'
 import DaoTransactions from './DaoTransactions'
 import DaoSearch from '../../components/Search/DaoSearch'
 import DepositorRank from './DepositorRank'
 import { parsePageNumber } from '../../utils/string'
 import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
-import DecimalCapacity from '../../components/DecimalCapacity'
 import Error from '../../components/Error'
 import Loading from '../../components/Loading'
 import { useTimeoutWithUnmount } from '../../utils/hook'
-
-const NervosDaoOverview = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
-  const overviewItems: OverviewItemData[] = [
-    {
-      title: i18n.t('nervos_dao.total_deposit'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(nervosDao.totalDeposit))} />,
-    },
-    {
-      title: i18n.t('nervos_dao.compensation'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(nervosDao.interestGranted))} />,
-    },
-    {
-      title: i18n.t('nervos_dao.current_depositors'),
-      content: localeNumberString(nervosDao.depositorsCount),
-    },
-  ]
-
-  if (isMobile()) {
-    const newItems: OverviewItemData[] = []
-    overviewItems.forEach((item, index) => (index % 2 === 0 ? newItems.push(item) : null))
-    overviewItems.forEach((item, index) => (index % 2 !== 0 ? newItems.push(item) : null))
-  }
-
-  return <OverviewCard items={overviewItems} />
-}
+import DaoOverview from './DaoOverview'
 
 const NervosDAOStateComp = ({
   daoTab,
   currentPage,
   pageSize,
+  dispatch,
 }: {
   daoTab: 'transactions' | 'depositors'
   currentPage: number
   pageSize: number
+  dispatch: AppDispatch
 }) => {
   const { nervosDaoState, app } = useContext(AppContext)
   switch (nervosDaoState.status) {
@@ -61,9 +34,9 @@ const NervosDAOStateComp = ({
       return <Error />
     case 'OK':
       return daoTab === 'transactions' ? (
-        <DaoTransactions currentPage={currentPage} pageSize={pageSize} />
+        <DaoTransactions currentPage={currentPage} pageSize={pageSize} dispatch={dispatch} />
       ) : (
-        <DepositorRank />
+        <DepositorRank dispatch={dispatch} />
       )
     case 'None':
     default:
@@ -71,11 +44,9 @@ const NervosDAOStateComp = ({
   }
 }
 
-export const NervosDao = ({
-  location: { search },
-  dispatch,
-  history: { push },
-}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
+export const NervosDao = ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+  const { search } = useLocation()
+  const { push } = useHistory()
   const parsed = queryString.parse(search)
 
   const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
@@ -117,9 +88,7 @@ export const NervosDao = ({
   return (
     <Content>
       <DaoContentPanel className="container">
-        <div className="nervos_dao_title">{i18n.t('nervos_dao.nervos_dao')}</div>
-        <NervosDaoOverview nervosDao={nervosDaoState.nervosDao} />
-
+        <DaoOverview />
         <DaoTabBarPanel containSearchBar={daoTab === 'transactions'}>
           <div className="nervos_dao_tab_bar">
             <div
@@ -144,7 +113,7 @@ export const NervosDao = ({
           {daoTab === 'transactions' && <DaoSearch dispatch={dispatch} />}
         </DaoTabBarPanel>
 
-        <NervosDAOStateComp daoTab={daoTab} currentPage={currentPage} pageSize={pageSize} />
+        <NervosDAOStateComp daoTab={daoTab} currentPage={currentPage} pageSize={pageSize} dispatch={dispatch} />
       </DaoContentPanel>
     </Content>
   )

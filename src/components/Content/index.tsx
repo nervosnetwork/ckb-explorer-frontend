@@ -3,9 +3,9 @@ import styled from 'styled-components'
 
 const parseMargin = (width: number) => {
   if (width >= 1200) {
-    return 80
+    return 64
   }
-  return 90 / (width / 1200)
+  return 64 / (width / 1200)
 }
 
 const ContentDiv = styled.div`

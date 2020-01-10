@@ -18,14 +18,26 @@ export const parseSimpleDateNoSecond = (timestamp: number | string) => {
   )}`
 }
 
+export const parseTimeNoSecond = (millisecond: number | string) => {
+  const second = Number(millisecond) / 1000
+  const minute = Math.floor((second / 60) % 60)
+  const hour = Math.floor(second / 3600)
+  return `${hour} h ${minute} m`
+}
+
+export const parseDateNoTime = (timestamp: number | string) => {
+  const date = new Date(Number(timestamp) * 1000)
+  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+}
+
 export const parseDate = (timestamp: number | string) => {
   const now = new Date().getTime()
   const diff = (now - Number(timestamp)) / 1000
   if (diff < 60) {
-    return `${Math.floor(diff)} ${i18n.t('common.second_ago')}`
+    return `${Math.floor(diff)}${i18n.t('common.second_ago')}`
   }
   if (diff < 3600) {
-    return `${Math.floor(diff / 60)} ${i18n.t('common.minute')} ${Math.floor(diff % 60)} ${i18n.t('common.second_ago')}`
+    return `${Math.floor(diff / 60)}${i18n.t('common.minute')} ${Math.floor(diff % 60)}${i18n.t('common.second_ago')}`
   }
   return parseSimpleDate(timestamp)
 }
@@ -50,11 +62,4 @@ export const parseTime = (millisecond: number) => {
     return `${Math.floor(minute)} m ${second.toFixed(0)} s`
   }
   return `${second.toFixed(2)} s`
-}
-
-export default {
-  parseDate,
-  parseSimpleDate,
-  getCurrentYear,
-  parseTime,
 }

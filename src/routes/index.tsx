@@ -10,13 +10,21 @@ import Home from '../pages/Home'
 import Block from '../pages/BlockDetail'
 import BlockList from '../pages/BlockList'
 import Transaction from '../pages/Transaction'
+import TransactionList from '../pages/TransactionList'
 import Address from '../pages/Address'
 import NervosDao from '../pages/NervosDao'
 import NotFoundPage from '../pages/404'
 import SearchFail from '../pages/SearchFail'
 import Maintain from '../pages/Maintain'
 import Sheet from '../components/Sheet'
-import StatisticsChart from '../pages/StatisticsChart'
+import StatisticsChart from '../pages/StatisticsChart/index'
+import DifficultyHashRateChart from '../pages/StatisticsChart/DifficultyHashRate'
+import DifficultyUncleRateChart from '../pages/StatisticsChart/DifficultyUncleRate'
+import TransactionCountChart from '../pages/StatisticsChart/TransactionCount'
+import AddressCountChart from '../pages/StatisticsChart/AddressCount'
+import TotalDaoDepositChart from '../pages/StatisticsChart/TotalDaoDeposit'
+import CellCountChart from '../pages/StatisticsChart/CellCount'
+import AddressBalanceRankChart from '../pages/StatisticsChart/AddressBalanceRank'
 import { AppDispatch } from '../contexts/providers/reducer'
 
 const hasSearch = (pathname: string) => {
@@ -49,6 +57,12 @@ export const containers: CustomRouter.Route[] = [
     comp: Block,
   },
   {
+    name: 'TransactionList',
+    path: '/transaction/list',
+    exact: true,
+    comp: TransactionList,
+  },
+  {
     name: 'Transaction',
     path: '/transaction/:hash',
     exact: true,
@@ -65,6 +79,48 @@ export const containers: CustomRouter.Route[] = [
     path: '/charts',
     exact: true,
     comp: StatisticsChart,
+  },
+  {
+    name: 'DifficultyHashRateChart',
+    path: '/charts/difficulty_hash_rate',
+    exact: true,
+    comp: DifficultyHashRateChart,
+  },
+  {
+    name: 'DifficultyUncleRateChart',
+    path: '/charts/difficulty_uncle_rate',
+    exact: true,
+    comp: DifficultyUncleRateChart,
+  },
+  {
+    name: 'TransactionCountChart',
+    path: '/charts/transaction_count',
+    exact: true,
+    comp: TransactionCountChart,
+  },
+  {
+    name: 'AddressCountChart',
+    path: '/charts/address_count',
+    exact: true,
+    comp: AddressCountChart,
+  },
+  {
+    name: 'TotalDaoDepositChart',
+    path: '/charts/total_dao_deposit',
+    exact: true,
+    comp: TotalDaoDepositChart,
+  },
+  {
+    name: 'CellCountChart',
+    path: '/charts/cell_count',
+    exact: true,
+    comp: CellCountChart,
+  },
+  {
+    name: 'AddressBalanceRankChart',
+    path: '/charts/address_balance_rank',
+    exact: true,
+    comp: AddressBalanceRankChart,
   },
   {
     name: 'SearchFail',

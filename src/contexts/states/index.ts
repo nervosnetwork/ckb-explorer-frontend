@@ -2,7 +2,7 @@ import initApp from './app'
 import initAddressState from './address'
 import { initBlockState, initBlockListState } from './block'
 import initStatistics from './statistics'
-import initTransactionState from './transaction'
+import { initTransactionState, initTransactionsState } from './transaction'
 import initComponents from './components'
 import initNervosDaoState from './nervosDao'
 
@@ -14,9 +14,19 @@ const initState: State.AppState = {
   blockListState: initBlockListState,
   addressState: initAddressState,
   transactionState: initTransactionState,
+  transactionsState: initTransactionsState,
   statistics: initStatistics,
+
   statisticsChartData: [],
   statisticsUncleRates: [],
+  statisticDifficultyHashRates: [],
+  statisticAddressCounts: [],
+  statisticCellCounts: [],
+  statisticDifficultyUncleRates: [],
+  statisticTotalDaoDeposits: [],
+  statisticTransactionCounts: [],
+  statisticAddressBalanceRanks: [],
+
   homeBlocks: [],
   nervosDaoState: initNervosDaoState,
 

@@ -1,146 +1,173 @@
 import styled from 'styled-components'
 
 export const HomeHeaderPanel = styled.div`
-  min-height: 170px;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 30px 0px 40px 0px;
 
   .blockchain__item__container {
-    min-width: 100%;
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
+    padding: 20px 5px;
+    margin: 30px 0 20px 0;
+    box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
+    border-radius: 6px;
 
-    @media (min-width: 700px) {
-      margin: 0 -6px;
+    @media (max-width: 700px) {
+      flex-direction: column;
+      padding: 0px 5px;
+      width: 88%;
+      margin: 20px 6%;
+      box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
+      border-radius: 3px;
     }
-  }
-  @media (max-width: 1200px) {
-    .blockchain__item__container {
-      margin: 0 auto;
+
+    background: #ffffff;
+
+    .blockchain__item__mobile {
+      display: flex;
+      width: 100%;
+      padding: 20px 0;
     }
-  }
-  @media (max-width: 700px) {
-    padding: 10px 20px 20px 20px;
-    .blockchain__item__container {
-      justify-content: space-between;
+
+    .blockchain__item__mobile_separate {
+      height: 1px;
+      background: #eaeaea;
+      width: 100%;
     }
   }
 `
 
 export const HomeHeaderItemPanel = styled.div`
-  width: 290px;
-  height: 148px;
-  margin: 0px 6px;
-  margin-top: 10px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   background-color: white;
-  border: 0px solid white;
-  border-radius: 6px;
-  box-shadow: 2px 2px 4px #b3b3b3;
-  overflow: hidden;
+  flex: 1;
 
-  cursor: ${(props: { clickable: boolean }) => (props.clickable ? 'pointer' : 'default')};
-
-  .blockchain__item__value {
-    margin-top: 45px;
-    height: 32px;
-    color: #000000;
-    text-align: center;
-    font-size: 26px;
-    font-weight: 500;
-    transition: margin-top 200ms ease-in-out;
-  }
-
-  .blockchain__item__name {
-    margin-top: 12px;
-    height: 19px;
-    color: #000000;
-    text-align: center;
-    font-size: 16px;
-    font-weight: normal;
-  }
-
-  &:hover {
-    @media (min-width: 700px) {
-      box-shadow: 4px 4px 8px 0 #b3b3b3;
-      .blockchain__item__tip__content {
-        visibility: visible;
-        opacity: 1;
-      }
-      .blockchain__item__value {
-        margin-top: 35px;
-      }
-    }
-  }
-
-  .blockchain__item__tip__content {
-    width: 100%;
-    height: 40px;
-    opacity: 0;
-    text-align: center;
-    font-weight: 500;
-    line-height: 40px;
-    color: #ffffff;
-    font-size: 12px;
-    background: ${props => props.theme.primary};
-    margin-top: 14px;
-    transition: opacity 200ms linear;
-  }
-
-  @media (max-width: 700px) {
-    width: calc(50% - 5px);
-    height: 80px;
+  .blockchain__item__content {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background-color: white;
-    border: 0px solid white;
-    border-radius: 3px;
-    box-shadow: 1px 1px 3px #dfdfdf;
-    margin: 10px 0px 0px 0px;
+    width: 80%;
+    margin: 0 9%;
 
-    .blockchain__item__value {
-      margin-top: 23px;
-      height: 18px;
-      color: #000000;
-      text-align: center;
-      font-size: 16px;
-      font-weight: 600;
+    .blockchain__item__top_name {
+      color: ${props => props.theme.primary};
+      font-size: 14px;
+      font-weight: 450;
+
+      @media (max-width: 1000px) {
+        font-size: 12px;
+      }
+
+      @media (max-width: 700px) {
+        font-size: 10px;
+      }
     }
 
-    .blockchain__item__name {
+    .blockchain__item__top_value {
       margin-top: 5px;
-      height: 10px;
       color: #000000;
-      text-align: center;
-      font-size: 12px;
+      font-size: 22px;
+      font-weight: 600;
+
+      @media (max-width: 1000px) {
+        font-size: 17px;
+      }
+
+      @media (max-width: 700px) {
+        font-size: 14px;
+      }
     }
 
-    &:hover .blockchain__item__tip {
-      display: none;
+    .blockchain__item__separate {
+      margin: 10px 0 20px 0;
+      height: 1px;
+      background: #eaeaea;
+      width: 100%;
     }
 
-    .blockchain__item__tip__content {
-      display: none;
+    .blockchain__item__bottom_name {
+      color: ${props => props.theme.primary};
+      font-size: 14px;
+      font-weight: 450;
+
+      @media (max-width: 1000px) {
+        font-size: 12px;
+      }
+
+      @media (max-width: 700px) {
+        font-size: 10px;
+      }
     }
+
+    .blockchain__item__bottom_value {
+      margin-top: 5px;
+      color: #000000;
+      font-size: 22px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+
+      @media (max-width: 1000px) {
+        font-size: 17px;
+      }
+
+      @media (max-width: 700px) {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .blockchain__item__between_separate {
+    height: 60%;
+    margin-left: 1%;
+    background: #eaeaea;
+    width: 1px;
+  }
+`
+
+export const HomeTablePanel = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    padding: 0 20px;
   }
 `
 
 export const BlockPanel = styled.div`
   width: 100%;
   margin-bottom: 40px;
-  @media (min-width: 700px) {
-    box-shadow: 0px 2px 8px #b3b3b3;
-    border: 0px solid white;
-    border-radius: 6px;
-  }
+  margin-right: 20px;
+  background: white;
+  flex: 1;
+  border: 0px solid white;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
 
-  @media (max-width: 700px) {
-    padding: 0px 20px 0px 20px;
-    margin-bottom: 24px;
+  .block__card__separate {
+    background: #eaeaea;
+    width: auto;
+    margin: 0 16px;
+    height: 1px;
+  }
+`
+
+export const TransactionPanel = styled.div`
+  width: 100%;
+  margin-bottom: 40px;
+  background: white;
+  flex: 1;
+  border: 0px solid white;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
+
+  .transaction__card__separate {
+    background: #eaeaea;
+    width: auto;
+    margin: 0 16px;
+    height: 1px;
   }
 `
 
@@ -196,54 +223,51 @@ export const ContentTable = styled.div`
   }
 `
 
+export const TableHeaderPanel = styled.div`
+  height: 44px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: ${props => props.theme.primary};
+  border: 0px solid white;
+  border-radius: 6px 6px 0 0;
+
+  > img {
+    width: 20px;
+    height: 20px;
+    margin-left: 12px;
+    margin-right: 8px;
+  }
+
+  > span {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+  }
+`
+
 export const TableMorePanel = styled.div`
-  height: 65px;
+  height: 44px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
+  background: #f8f9fa;
   border: 0px solid white;
-  border-radius: 6px;
+  border-radius: 0 0 6px 6px;
   cursor: pointer;
-  :hover {
-    background: #f8f9fa;
-  }
-  > div {
-    height: 33px;
-    display: flex;
 
-    .table__more {
-      font-size: 20px;
-      font-weight: 500;
-      color: ${props => props.theme.primary};
-      width: 59px;
-      height: 33px;
-    }
+  > span {
+    font-size: 16px;
+    font-weight: 500;
+    color: ${props => props.theme.primary};
   }
 
-  @media (max-width: 700px) {
-    width: 100%;
-    height: 46px;
-    border: 0px solid white;
-    border-radius: 3px;
-    box-shadow: 1px 1px 3px 0 #dfdfdf;
-    background-color: #ffffff;
-    margin-top: 5px;
+  &:hover {
+    background: ${props => props.theme.primary};
 
-    > div {
-      height: 14px;
-      display: flex;
-      align-items: center;
-
-      .table__more {
-        width: auto;
-        height: 14px;
-        line-height: 14px;
-        margin: 5px 18px;
-        font-size: 14px;
-        color: ${props => props.theme.primary};
-      }
+    > span {
+      color: white;
     }
   }
 `

@@ -8,6 +8,8 @@ import SearchLogo from '../../assets/search.png'
 import WhiteDropdownIcon from '../../assets/white_dropdown.png'
 import BlueDropdownIcon from '../../assets/blue_dropdown.png'
 import GreenDropdownIcon from '../../assets/green_dropdown.png'
+import MenuChartIcon from '../../assets/menu_chart.png'
+import MenuDaoIcon from '../../assets/menu_dao.png'
 import i18n from '../../utils/i18n'
 import {
   HeaderDiv,
@@ -38,11 +40,13 @@ const Menus = () => {
       {
         type: LinkType.Inner,
         name: t('navbar.charts'),
+        icon: MenuChartIcon,
         url: '/charts',
       },
       {
         type: LinkType.Inner,
         name: t('navbar.nervos_dao'),
+        icon: MenuDaoIcon,
         url: '/nervosdao',
       },
     ]
@@ -53,7 +57,8 @@ const Menus = () => {
       {MenuDataList.map(menu => {
         return menu.type === LinkType.Inner ? (
           <Link className="header__menus__item" to={menu.url} key={menu.name}>
-            {menu.name}
+            <img alt="menu icon" src={menu.icon} />
+            <span>{menu.name}</span>
           </Link>
         ) : (
           <a className="header__menus__item" href={menu.url} target="_blank" rel="noopener noreferrer" key={menu.name}>
@@ -94,7 +99,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
       if (chainDropdownComp) {
         const chainDropdownReact = chainDropdownComp.getBoundingClientRect()
         if (chainDropdownReact) {
-          setChainDropdownLeft(chainDropdownReact.left - 10)
+          setChainDropdownLeft(chainDropdownReact.left - 4)
           setChainDropdownTop(chainDropdownReact.bottom)
         }
       }

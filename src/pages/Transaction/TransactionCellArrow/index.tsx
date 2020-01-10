@@ -7,6 +7,7 @@ import RightGreenArrow from '../../../assets/right_green_arrow.png'
 import RightBlueArrow from '../../../assets/right_blue_arrow.png'
 import LiveCellIcon from '../../../assets/live_cell.png'
 import NervosDAOCellIcon from '../../../assets/nervos_dao_cell.png'
+import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import { isMainnet } from '../../../utils/chain'
 import i18n from '../../../utils/i18n'
 
@@ -36,7 +37,58 @@ const isDaoDepositCell = (cellType: string) => {
   return cellType === 'nervos_dao_deposit'
 }
 
+const isDaoWithdrawCell = (cellType: string) => {
+  return cellType === 'nervos_dao_withdrawing'
+}
+
+const CellInputIcon = ({ cell }: { cell: State.Cell }) => {
+  if (isDaoDepositCell(cell.cellType)) {
+    return (
+      <Tooltip placement="topRight" title={i18n.t('nervos_dao.withdraw_request_tooltip')} arrowPointAtCenter>
+        <LeftArrowImage className="transaction__cell_left_arrow" src={NervosDAOCellIcon} alt="left arrow" />
+      </Tooltip>
+    )
+  }
+  if (isDaoWithdrawCell(cell.cellType)) {
+    return (
+      <Tooltip placement="topRight" title={i18n.t('nervos_dao.withdraw_tooltip')} arrowPointAtCenter>
+        <LeftArrowImage className="transaction__cell_left_arrow" src={NervosDAOWithdrawingIcon} alt="left arrow" />
+      </Tooltip>
+    )
+  }
+  return cell.generatedTxHash ? (
+    <Link to={`/transaction/${cell.generatedTxHash}`}>
+      <LeftArrowImage
+        className="transaction__cell_left_arrow"
+        src={isMainnet() ? RightGreenArrow : RightBlueArrow}
+        alt="left arrow"
+      />
+    </Link>
+  ) : null
+}
+
 const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
+  if (isDaoDepositCell(cell.cellType)) {
+    return (
+      <Tooltip placement="topRight" title={i18n.t('nervos_dao.deposit_tooltip')} arrowPointAtCenter>
+        <RightArrowImage className="transaction__cell_right_arrow" src={NervosDAOCellIcon} alt="right arrow" />
+      </Tooltip>
+    )
+  }
+  if (isDaoWithdrawCell(cell.cellType)) {
+    return (
+      <Tooltip
+        placement="topRight"
+        title={i18n.t('nervos_dao.calculation_tooltip')}
+        arrowPointAtCenter
+        overlayStyle={{
+          fontSize: '12px',
+        }}
+      >
+        <RightArrowImage className="transaction__cell_right_arrow" src={NervosDAOWithdrawingIcon} alt="right arrow" />
+      </Tooltip>
+    )
+  }
   if (cell.status === 'dead') {
     return (
       <Link to={`/transaction/${cell.consumedTxHash}`}>
@@ -48,9 +100,6 @@ const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
       </Link>
     )
   }
-  if (isDaoDepositCell(cell.cellType)) {
-    return <RightArrowImage className="transaction__cell_right_arrow" src={NervosDAOCellIcon} alt="right arrow" />
-  }
   return (
     <Tooltip placement="topRight" title={i18n.t('transaction.unspent_output')} arrowPointAtCenter>
       <RightArrowImage className="transaction__cell_right_arrow" src={LiveCellIcon} alt="right arrow" />
@@ -59,16 +108,5 @@ const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
 }
 
 export default ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
-  if (cellType === CellType.Input) {
-    return cell.generatedTxHash ? (
-      <Link to={`/transaction/${cell.generatedTxHash}`}>
-        <LeftArrowImage
-          className="transaction__cell_left_arrow"
-          src={isMainnet() ? RightGreenArrow : RightBlueArrow}
-          alt="left arrow"
-        />
-      </Link>
-    ) : null
-  }
-  return <CellOutputIcon cell={cell} />
+  return cellType === CellType.Input ? <CellInputIcon cell={cell} /> : <CellOutputIcon cell={cell} />
 }
