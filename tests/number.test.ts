@@ -2,6 +2,7 @@ import {
   localeNumberString,
   handleHashRate,
   handleDifficulty,
+  parseIndicator,
   parseEpochNumber,
 } from '../src/utils/number'
 
@@ -54,7 +55,24 @@ describe('Number methods tests', () => {
   })
 
 
-  it('parse epoch index', async () => {
+  it('parse indicator', async () => {
+    expect(parseIndicator('1')).toBe('st')
+    expect(parseIndicator('2')).toBe('nd')
+    expect(parseIndicator('3')).toBe('rd')
+    expect(parseIndicator('6')).toBe('th')
+    expect(parseIndicator('11')).toBe('th')
+    expect(parseIndicator('12')).toBe('th')
+    expect(parseIndicator('13')).toBe('th')
+    expect(parseIndicator('17')).toBe('th')
+    expect(parseIndicator('231')).toBe('st')
+    expect(parseIndicator('632')).toBe('nd')
+    expect(parseIndicator('123')).toBe('rd')
+    expect(parseIndicator('636')).toBe('th')
+    expect(parseIndicator('129')).toBe('th')
+  })
+
+
+  it('parse epoch number', async () => {
     expect(parseEpochNumber('1')).toBe('1st')
     expect(parseEpochNumber('2')).toBe('2nd')
     expect(parseEpochNumber('3')).toBe('3rd')

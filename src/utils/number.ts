@@ -67,18 +67,18 @@ export const handleHashRate = (value: BigNumber | string | number) => {
   return `${handleDifficulty(value)}/s`
 }
 
-export const parseEpochNumber = (index: string) => {
-  if (index === '11' || index === '12' || index === '13') {
-    return `${index}th`
-  }
-  switch (index.charAt(index.length - 1)) {
-    case '1':
-      return `${index}st`
-    case '2':
-      return `${index}nd`
-    case '3':
-      return `${index}rd`
-    default:
-      return `${index}th`
-  }
+export const parseIndicator = (num: string | number) => {
+  let value = typeof num === 'string' ? Number(num) : num
+  value = Math.abs(value)
+  const cent = value % 100
+  if (cent >= 10 && cent <= 20) return 'th'
+  const dec = value % 10
+  if (dec === 1) return 'st'
+  if (dec === 2) return 'nd'
+  if (dec === 3) return 'rd'
+  return 'th'
+}
+
+export const parseEpochNumber = (num: string) => {
+  return `${num}${parseIndicator(num)}`
 }
