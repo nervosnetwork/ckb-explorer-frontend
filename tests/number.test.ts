@@ -55,6 +55,14 @@ describe('Number methods tests', () => {
 
 
   it('parse epoch index', async () => {
+    expect(parseEpochNumber('1')).toBe('1st')
+    expect(parseEpochNumber('2')).toBe('2nd')
+    expect(parseEpochNumber('3')).toBe('3rd')
+    expect(parseEpochNumber('6')).toBe('6th')
+    expect(parseEpochNumber('11')).toBe('11th')
+    expect(parseEpochNumber('12')).toBe('12th')
+    expect(parseEpochNumber('13')).toBe('13th')
+    expect(parseEpochNumber('17')).toBe('17th')
     expect(parseEpochNumber('231')).toBe('231st')
     expect(parseEpochNumber('632')).toBe('632nd')
     expect(parseEpochNumber('123')).toBe('123rd')

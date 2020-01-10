@@ -68,6 +68,9 @@ export const handleHashRate = (value: BigNumber | string | number) => {
 }
 
 export const parseEpochNumber = (index: string) => {
+  if (index === '11' || index === '12' || index === '13') {
+    return `${index}th`
+  }
   switch (index.charAt(index.length - 1)) {
     case '1':
       return `${index}st`
