@@ -73,10 +73,7 @@ export const toCamelcase = <T>(object: any): T | null => {
   return null
 }
 
-export const formatConfirmation = (confirmation: number | undefined) => {
-  if (!confirmation || confirmation < 0) {
-    return ``
-  }
+export const formatConfirmation = (confirmation: number) => {
   if (confirmation > MAX_CONFIRMATION) {
     return `${MAX_CONFIRMATION}+ ${i18n.t('address.confirmations')}`
   }

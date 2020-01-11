@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext } from 'react'
+import React, { ReactNode, useContext, useEffect } from 'react'
 import { Tooltip } from 'antd'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
@@ -21,6 +21,7 @@ import DecimalCapacity from '../../components/DecimalCapacity'
 import { parseSimpleDateNoSecond } from '../../utils/date'
 import { AppDispatch } from '../../contexts/providers/reducer'
 import CopyTooltipText from '../../components/Tooltip/CopyTooltipText'
+import { getTipBlockNumber } from '../../service/app/address'
 
 const addressContent = (address: string, dispatch: AppDispatch) => {
   if (!address) {
@@ -147,6 +148,10 @@ export const AddressTransactions = ({
   const { transactions = [] } = addressState
 
   const totalPages = Math.ceil(addressState.total / pageSize)
+
+  useEffect(() => {
+    getTipBlockNumber(dispatch)
+  }, [dispatch])
 
   const onChange = (page: number) => {
     browserHistory.replace(`/address/${address}?page=${page}&size=${pageSize}`)
