@@ -31,7 +31,7 @@ import browserHistory from '../../routes/history'
 import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { AppDispatch } from '../../contexts/providers/reducer'
-import CopyTooltipText from '../../components/Tooltip/CopyTooltipText'
+import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { DELAY_BLOCK_NUMBER } from '../../utils/const'
 
 const handleMinerText = (address: string) => {

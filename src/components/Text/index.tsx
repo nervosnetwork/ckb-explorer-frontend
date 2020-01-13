@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import { AppDispatch } from '../../contexts/providers/reducer'
-import CopyTooltipText from '../Tooltip/CopyTooltipText'
+import CopyTooltipText from './CopyTooltipText'
 
 export const HighLightPanel = styled.div`
   color: ${props => props.theme.primary};

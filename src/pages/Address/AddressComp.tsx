@@ -20,7 +20,7 @@ import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { parseSimpleDateNoSecond } from '../../utils/date'
 import { AppDispatch } from '../../contexts/providers/reducer'
-import CopyTooltipText from '../../components/Tooltip/CopyTooltipText'
+import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { getTipBlockNumber } from '../../service/app/address'
 
 const addressContent = (address: string, dispatch: AppDispatch) => {

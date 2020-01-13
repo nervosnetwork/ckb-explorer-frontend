@@ -21,7 +21,7 @@ import {
 } from './styled'
 import TransactionCellArrow from '../TransactionCellArrow'
 import DecimalCapacity from '../../../components/DecimalCapacity'
-import CopyTooltipText from '../../../components/Tooltip/CopyTooltipText'
+import CopyTooltipText from '../../../components/Text/CopyTooltipText'
 
 const handleAddressHashText = (hash: string) => {
   if (isMobile()) {

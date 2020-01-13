@@ -8,7 +8,7 @@ import { isMobile } from '../../utils/screen'
 import OverviewCard from '../../components/Card/OverviewCard'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { adaptPCEllipsis } from '../../utils/string'
-import CopyTooltipText from '../../components/Tooltip/CopyTooltipText'
+import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { AppDispatch } from '../../contexts/providers/reducer'
 import {
   AddressPanel,
