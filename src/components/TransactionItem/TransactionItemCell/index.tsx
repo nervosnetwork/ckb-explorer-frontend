@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { Popover, Tooltip as AntdTooltip } from 'antd'
+import { Popover, Tooltip } from 'antd'
 import 'antd/dist/antd.css'
 import HelpIcon from '../../../assets/qa_help.png'
 import DetailIcon from '../../../assets/detail.png'
@@ -10,12 +10,11 @@ import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import { CellbasePanel, TransactionCellPanel, TransactionCellCapacity, WithdrawInfoPanel } from './styled'
 import { isMobile } from '../../../utils/screen'
-import Tooltip from '../../Tooltip'
 import { CellType } from '../../../utils/const'
 import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
 import { AppContext } from '../../../contexts/providers'
 import DecimalCapacity from '../../DecimalCapacity'
-import CopyTooltipText from '../../Tooltip/CopyTooltipText'
+import CopyTooltipText from '../../Text/CopyTooltipText'
 import { AppDispatch } from '../../../contexts/providers/reducer'
 
 const Cellbase = ({
@@ -27,7 +26,6 @@ const Cellbase = ({
   cellType: CellType
   targetBlockNumber?: number
 }) => {
-  const [show, setShow] = useState(false)
   if (!targetBlockNumber || targetBlockNumber <= 0) {
     return (
       <CellbasePanel>
@@ -40,30 +38,8 @@ const Cellbase = ({
       {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
       <div className="cellbase__content">Cellbase for Block</div>
       <Link to={`/block/${targetBlockNumber}`}>{localeNumberString(targetBlockNumber)}</Link>
-      <div
-        id={`cellbase__help_${targetBlockNumber}`}
-        className="cellbase__help"
-        tabIndex={-1}
-        onFocus={() => {}}
-        onMouseOver={() => {
-          setShow(true)
-          const p = document.querySelector('.page') as HTMLElement
-          if (p) {
-            p.setAttribute('tabindex', '-1')
-          }
-        }}
-        onMouseLeave={() => {
-          setShow(false)
-          const p = document.querySelector('.page') as HTMLElement
-          if (p) {
-            p.removeAttribute('tabindex')
-          }
-        }}
-      >
+      <Tooltip placement="top" title={i18n.t('transaction.cellbase_help_tooltip')}>
         <img alt="cellbase help" src={HelpIcon} />
-      </div>
-      <Tooltip show={show} targetElementId={`cellbase__help_${targetBlockNumber}`}>
-        {i18n.t('transaction.cellbase_help_tooltip')}
       </Tooltip>
     </CellbasePanel>
   )
@@ -88,16 +64,51 @@ const isDaoCell = (cellType: string) => {
   return isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
 }
 
-const NervosDAOAddress = ({
+const AddressLinkComp = ({
+  cell,
+  address,
+  dispatch,
+  highLight,
+}: {
+  cell: State.Cell
+  address: string
+  dispatch: AppDispatch
+  highLight: boolean
+}) => {
+  if (address.includes('...')) {
+    return (
+      <Tooltip placement="top" title={<CopyTooltipText content={cell.addressHash} dispatch={dispatch} />}>
+        {highLight ? (
+          <Link to={`/address/${cell.addressHash}`}>
+            <span className="address">{address}</span>
+          </Link>
+        ) : (
+          <span className="address">{address}</span>
+        )}
+      </Tooltip>
+    )
+  }
+  return highLight ? (
+    <Link to={`/address/${cell.addressHash}`}>
+      <span className="address">{address}</span>
+    </Link>
+  ) : (
+    <span className="address">{address}</span>
+  )
+}
+
+const TransactionCellAddress = ({
   cell,
   cellType,
   address,
   dispatch,
+  highLight,
 }: {
   cell: State.Cell
   cellType: CellType
   address: string
   dispatch: AppDispatch
+  highLight: boolean
 }) => {
   const { app } = useContext(AppContext)
   const WithdrawInfo = (
@@ -134,32 +145,16 @@ const NervosDAOAddress = ({
     if (isDaoWithdrawCell(cell.cellType) && cellType === CellType.Input) {
       return (
         <div className="transaction__cell_withdraw">
-          <Link to="/nervosdao">
-            <span className="transaction__cell_dao">{i18n.t('blockchain.nervos_dao')}</span>
-          </Link>
+          <AddressLinkComp cell={cell} address={address} highLight={highLight} dispatch={dispatch} />
           <Popover placement="right" title="" content={WithdrawInfo} trigger="click">
             <img src={DetailIcon} className="nervos__dao__withdraw_help" alt="nervos dao withdraw" />
           </Popover>
         </div>
       )
     }
-    return (
-      <Link to="/nervosdao">
-        <span className="transaction__cell_dao">{i18n.t('blockchain.nervos_dao')}</span>
-      </Link>
-    )
+    return <AddressLinkComp cell={cell} address={address} highLight={highLight} dispatch={dispatch} />
   }
-  return address.includes('...') ? (
-    <AntdTooltip placement="top" title={<CopyTooltipText content={cell.addressHash} dispatch={dispatch} />}>
-      <Link to={`/address/${cell.addressHash}`}>
-        <span className="address">{address}</span>
-      </Link>
-    </AntdTooltip>
-  ) : (
-    <Link to={`/address/${cell.addressHash}`}>
-      <span className="address">{address}</span>
-    </Link>
-  )
+  return <AddressLinkComp cell={cell} address={address} highLight={highLight} dispatch={dispatch} />
 }
 
 const TransactionCell = ({
@@ -183,8 +178,6 @@ const TransactionCell = ({
     addressText = handleAddressText(cell.addressHash)
     if (cell.addressHash !== address) {
       highLight = true
-    } else if (isDaoCell(cell.cellType)) {
-      highLight = true
     }
   }
 
@@ -192,13 +185,13 @@ const TransactionCell = ({
     <TransactionCellPanel highLight={highLight}>
       <div className="transaction__cell_address">
         {!isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
-        {highLight ? (
-          <NervosDAOAddress cell={cell} cellType={cellType} address={addressText} dispatch={dispatch} />
-        ) : (
-          <AntdTooltip placement="top" title={<CopyTooltipText content={cell.addressHash} dispatch={dispatch} />}>
-            <span className="address">{addressText}</span>
-          </AntdTooltip>
-        )}
+        <TransactionCellAddress
+          cell={cell}
+          cellType={cellType}
+          address={addressText}
+          dispatch={dispatch}
+          highLight={highLight}
+        />
       </div>
       <TransactionCellCapacity isOutput={cellType === CellType.Output}>
         {isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}

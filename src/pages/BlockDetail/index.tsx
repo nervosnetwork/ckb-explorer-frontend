@@ -1,6 +1,6 @@
 import queryString from 'query-string'
 import React, { useContext, useEffect } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { useParams, useHistory, useLocation } from 'react-router-dom'
 import BlockHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
 import Error from '../../components/Error'
@@ -38,14 +38,11 @@ const BlockStateComp = ({
   }
 }
 
-export default ({
-  dispatch,
-  history: { replace },
-  match: { params },
-  location: { search },
-}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps<{ param: string }>>) => {
+export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+  const { replace } = useHistory()
+  const { search, hash } = useLocation()
   // blockParam: block hash or block number
-  const { param: blockParam } = params
+  const { param: blockParam } = useParams<{ param: string }>()
   const parsed = queryString.parse(search)
   const { blockState } = useContext(AppContext)
 
@@ -58,6 +55,17 @@ export default ({
     }
     getBlock(blockParam, currentPage, pageSize, dispatch)
   }, [replace, blockParam, currentPage, pageSize, dispatch])
+
+  useEffect(() => {
+    let anchorName = hash
+    if (anchorName) {
+      anchorName = anchorName.replace('#', '')
+      const anchorElement = document.getElementById(anchorName)
+      if (anchorElement) {
+        anchorElement.scrollIntoView()
+      }
+    }
+  }, [hash])
 
   useTimeoutWithUnmount(
     () => {

@@ -2,11 +2,12 @@ import BigNumber from 'bignumber.js'
 
 export const localeNumberString = (value: BigNumber | string | number): string => {
   if (!value) return '0'
-  const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  const origin = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  const bigValue = origin.abs()
   if (bigValue.isNaN()) {
     return '0'
   }
-  if (bigValue.abs().isLessThan(1) && bigValue.abs().isGreaterThan(0)) {
+  if (bigValue.isLessThan(1) && bigValue.abs().isGreaterThan(0)) {
     return `${value}`
   }
   let text = bigValue.toString(10)
@@ -19,7 +20,7 @@ export const localeNumberString = (value: BigNumber | string | number): string =
       .concat(text.slice(offset - 3))
     offset -= 3
   }
-  return text
+  return origin.isNegative() ? `-${text}` : text
 }
 
 const MIN_VALUE = new BigNumber(10 ** 3)
@@ -66,15 +67,18 @@ export const handleHashRate = (value: BigNumber | string | number) => {
   return `${handleDifficulty(value)}/s`
 }
 
-export const parseEpochNumber = (index: string) => {
-  switch (index.charAt(index.length - 1)) {
-    case '1':
-      return `${index}st`
-    case '2':
-      return `${index}nd`
-    case '3':
-      return `${index}rd`
-    default:
-      return `${index}th`
-  }
+export const parseIndicator = (num: string | number) => {
+  let value = typeof num === 'string' ? Number(num) : num
+  value = Math.abs(value)
+  const cent = value % 100
+  if (cent >= 10 && cent <= 20) return 'th'
+  const dec = value % 10
+  if (dec === 1) return 'st'
+  if (dec === 2) return 'nd'
+  if (dec === 3) return 'rd'
+  return 'th'
+}
+
+export const parseEpochNumber = (num: string) => {
+  return `${num}${parseIndicator(num)}`
 }

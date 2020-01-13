@@ -4,6 +4,8 @@ import {
   hexToUtf8,
   addPrefixForHash,
   handleBigNumber,
+  parseFloorDecimal,
+  handleBigNumberFloor,
 } from '../src/utils/string'
 import BigNumber from 'bignumber.js'
 
@@ -127,5 +129,23 @@ describe('String methods tests', () => {
     expect(handleBigNumber(new BigNumber(12233435))).toBe('12.233435M')
     expect(handleBigNumber(new BigNumber(102300), 2)).toBe('102.30K')
     expect(handleBigNumber(new BigNumber(12233435), 3)).toBe('12.233M')
+  })
+
+  it('handleBigNumberFloor', async () => {
+    expect(handleBigNumberFloor(new BigNumber(102789))).toBe('102K')
+    expect(handleBigNumberFloor(new BigNumber(12789789))).toBe('12M')
+    expect(handleBigNumberFloor(new BigNumber(102789), 2)).toBe('102.78K')
+    expect(handleBigNumberFloor(new BigNumber(12789789), 3)).toBe('12.789M')
+    expect(handleBigNumberFloor(new BigNumber(-102789), 2)).toBe('-102.78K')
+    expect(handleBigNumberFloor(new BigNumber(-12789789), 3)).toBe('-12.789M')
+  })
+
+
+  it('parseFloorDecimal', async () => {
+    expect(parseFloorDecimal(922625850.717)).toBe(922625850)
+    expect(parseFloorDecimal(922625850.7178, 2)).toBe(922625850.71)
+    expect(parseFloorDecimal(922625850.7178, 3)).toBe(922625850.717)
+    expect(parseFloorDecimal(-922625850.7178, 2)).toBe(-922625850.71)
+    expect(parseFloorDecimal(-922625850.7178, 3)).toBe(-922625850.717)
   })
 })

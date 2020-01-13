@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, Fragment, useMemo } from 'react'
-import { RouteComponentProps, Link } from 'react-router-dom'
+import { useHistory, useLocation, Link } from 'react-router-dom'
 import queryString from 'query-string'
 import { useTranslation } from 'react-i18next'
 import { parseSimpleDate } from '../../utils/date'
@@ -14,7 +14,7 @@ import {
 } from '../../components/Table'
 import { shannonToCkb } from '../../utils/util'
 import { parsePageNumber, adaptMobileEllipsis } from '../../utils/string'
-import { BlockListPageParams, DELAY_BLOCK_NUMBER } from '../../utils/const'
+import { ListPageParams, DELAY_BLOCK_NUMBER } from '../../utils/const'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import { StateWithDispatch } from '../../contexts/providers/reducer'
@@ -118,11 +118,10 @@ const BlockCardItems = (block: State.Block, index: number, page: number) => {
   ] as OverviewItemData[]
 }
 
-export default ({
-  dispatch,
-  history: { replace, push },
-  location: { search },
-}: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
+export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+  const { replace, push } = useHistory()
+  const { search } = useLocation()
+
   const [t] = useTranslation()
   const TableTitles = useMemo(() => {
     return [
@@ -153,13 +152,13 @@ export default ({
   const { blockListState } = useContext(AppContext)
   const { blocks = [] } = blockListState
 
-  const currentPage = parsePageNumber(parsed.page, BlockListPageParams.PageNo)
-  const pageSize = parsePageNumber(parsed.size, BlockListPageParams.PageSize)
+  const currentPage = parsePageNumber(parsed.page, ListPageParams.PageNo)
+  const pageSize = parsePageNumber(parsed.size, ListPageParams.PageSize)
   const totalPages = Math.ceil(blockListState.total / pageSize)
 
   useEffect(() => {
-    if (pageSize > BlockListPageParams.MaxPageSize) {
-      replace(`/block/list?page=${currentPage}&size=${BlockListPageParams.MaxPageSize}`)
+    if (pageSize > ListPageParams.MaxPageSize) {
+      replace(`/block/list?page=${currentPage}&size=${ListPageParams.MaxPageSize}`)
     }
     getBlocks(currentPage, pageSize, dispatch)
   }, [replace, currentPage, pageSize, dispatch])
@@ -174,7 +173,7 @@ export default ({
         <div className="block__green__background" />
         {isMobile() ? (
           <ContentTable>
-            <div className="block__panel">
+            <div>
               {blocks.map((block: State.Block, index: number) => {
                 return <OverviewCard key={block.number} items={BlockCardItems(block, index, currentPage)} />
               })}
@@ -190,7 +189,7 @@ export default ({
             {blocks.map((block: State.Block, blockIndex: number) => {
               return (
                 block && (
-                  <TableContentRow key={block.number} onClick={() => replace(`/block/${block.blockHash}`)}>
+                  <TableContentRow key={block.number} onClick={() => replace(`/block/${block.number}`)}>
                     {getTableContentDataList(block, blockIndex, currentPage).map(
                       (data: TableContentData, index: number) => {
                         const key = index

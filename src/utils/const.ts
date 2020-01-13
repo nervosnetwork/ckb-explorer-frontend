@@ -50,7 +50,7 @@ export enum PageParams {
   MaxPageSize = 100,
 }
 
-export enum BlockListPageParams {
+export enum ListPageParams {
   PageNo = 1,
   PageSize = 25,
   MaxPageSize = 100,

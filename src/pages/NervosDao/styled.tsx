@@ -1,10 +1,11 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const DaoContentPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 30px;
   margin-bottom: 40px;
   width: 100%;
 
@@ -97,5 +98,318 @@ export const TransactionsPagination = styled.div`
 
   @media (max-width: 700px) {
     margin: 10px 0px 0px 0px;
+  }
+`
+
+export const DepositorRankPanel = styled.div`
+  width: 100%;
+  background: white;
+  padding: 20px 40px;
+`
+
+export const DepositorRankCardPanel = styled.div`
+  width: 100%;
+`
+
+export const DepositorRankTitle = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  height: 40px;
+
+  > div {
+    text-align: center;
+  }
+
+  >div: nth-child(1) {
+    width: 10%;
+  }
+  >div: nth-child(2) {
+    width: 65%;
+  }
+  >div: nth-child(3) {
+    width: 25%;
+  }
+`
+
+export const DepositorSeparate = styled.div`
+  background: #e2e2e2;
+  height: 1px;
+  width: 100%;
+  margin-bottom: 10px;
+`
+
+export const DepositorRankItem = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  height: 40px;
+
+  @media (max-width: 1000px) {
+    font-size: 14px;
+  }
+
+  > div {
+    text-align: center;
+  }
+
+  >div: nth-child(1) {
+    width: 10%;
+  }
+  >div: nth-child(2) {
+    width: 65%;
+  }
+  >div: nth-child(3) {
+    width: 25%;
+  }
+`
+export const AddressPanel = styled(Link)`
+  color: ${props => props.theme.primary};
+  width: 60%;
+  text-align: center;
+
+  @media (max-width: 700px) {
+    width: 100%;
+    text-align: start;
+  }
+
+  :hover {
+    color: ${props => props.theme.primary};
+  }
+`
+
+export const DaoOverviewPanel = styled.div`
+  width: 100%;
+  border-radius: 0px 0px 6px 6px;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  background-color: #ffffff;
+  margin-top: 5px;
+  padding: 16px 20px;
+  background-color: #ffffff;
+  display: flex;
+
+  color: #000000;
+  font-size: 16px;
+
+  @media (max-width: 1000px) {
+    font-size: 13px;
+  }
+
+  @media (max-width: 700px) {
+    border-radius: 0px 0px 3px 3px;
+    box-shadow: 1px 1px 3px 0 #dfdfdf;
+    padding: 5px 0 15px 0;
+
+    font-size: 13px;
+    flex-direction: column;
+  }
+
+  .dao__overview__separate {
+    width: 1px;
+    height: auto;
+    background: #eaeaea;
+    margin-left: 2%;
+
+    @media (max-width: 700px) {
+      width: 100%;
+      height: 1px;
+      background: #eaeaea;
+      margin-left: 0;
+    }
+  }
+`
+
+export const DaoOverviewLeftPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 54;
+
+  @media (max-width: 700px) {
+    margin: 0 16px;
+  }
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+
+    @media (max-width: 700px) {
+      justify-content: space-around;
+    }
+  }
+
+  .dao__overview__left_separate {
+    width: 100%;
+    height: 1px;
+    background: #eaeaea;
+  }
+
+  .dao__overview__left_column_separate {
+    width: 1px;
+    height: auto;
+    margin: 3% 0;
+    background: #eaeaea;
+  }
+`
+
+export const DaoOverviewRightPanel = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex: 44;
+
+  @media (max-width: 700px) {
+    margin: 5px 0;
+  }
+
+  .nervos__dao__overview_pie_chart {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .nervos__dao__overview_pie_title {
+      font-size: 16px;
+      font-weight: bold;
+
+      @media (max-width: 1000px) {
+        font-size: 12px;
+      }
+
+      @media (max-width: 700px) {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .nervos__dao__overview_pie_panel {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+`
+
+export const DaoOverviewItemPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 10px;
+  flex: 1;
+
+  &:hover {
+    background: #f8f9fa;
+  }
+
+  .dao__overview__item_top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .dao__overview__item_title {
+      color: #5e5e5e;
+      font-size: 11px;
+      font-weight: bold;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 140px;
+
+      @media (max-width: 1000px) {
+        font-size: 9px;
+        max-width: ${(props: { hasChange?: boolean }) => (props.hasChange ? '60px' : '200px')};
+      }
+
+      @media (max-width: 700px) {
+        font-size: 9px;
+        max-width: ${(props: { hasChange?: boolean }) => (props.hasChange ? '70px' : '200px')};
+      }
+    }
+
+    > img {
+      width: ${(props: { symbol?: string }) => (props.symbol === 'zero' ? '10px' : '7px')};
+      height: ${(props: { symbol?: string }) => (props.symbol === 'zero' ? '7px' : '10px')};
+      margin-left: 5px;
+      margin-right: 3px;
+    }
+
+    .dao__overview__item_change {
+      font-size: 12px;
+      font-weight: bold;
+      color: ${(props: { symbol?: string; hasChange?: boolean; theme: any }) =>
+        props.symbol === 'negative' ? '#FF464F' : props.theme.primary};
+      cursor: default;
+
+      @media (max-width: 1000px) {
+        font-size: 10px;
+      }
+
+      @media (max-width: 700px) {
+        font-size: 10px;
+      }
+    }
+  }
+
+  .dao__overview__item_content {
+    color: #000000;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+
+    @media (max-width: 1000px) {
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    @media (max-width: 700px) {
+      font-size: 12px;
+    }
+  }
+`
+
+export const NervosDaoPieItemPanel = styled.div`
+  display: flex;
+  align-items: center;
+  flex: 1;
+
+  @media (max-width: 700px) {
+    margin: 5px 0;
+  }
+
+  > img {
+    width: 9px;
+    height: 9px;
+    margin-right: 10px;
+
+    @media (max-width: 1000px) {
+      width: 7px;
+      height: 7px;
+      margin-right: 5px;
+    }
+  }
+
+  > div {
+    > span {
+      font-size: 12px;
+      color: #5e5e5e;
+      font-weight: bold;
+
+      @media (max-width: 1000px) {
+        font-size: 10px;
+      }
+
+      @media (max-width: 700px) {
+        font-size: 10px;
+      }
+    }
+    > div {
+      font-size: 18px;
+      color: #000000;
+
+      @media (max-width: 1000px) {
+        font-size: 12px;
+      }
+
+      @media (max-width: 700px) {
+        font-size: 12px;
+      }
+    }
   }
 `

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import queryString from 'query-string'
-import { RouteComponentProps } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import Content from '../../components/Content'
 import Search from '../../components/Search'
 import i18n from '../../utils/i18n'
@@ -65,7 +65,8 @@ const chainUrlMessage = () => {
   return isMainnet() ? i18n.t('search.address_type_testnet_url') : i18n.t('search.address_type_mainnet_url')
 }
 
-export default ({ dispatch, location: { search } }: React.PropsWithoutRef<StateWithDispatch & RouteComponentProps>) => {
+export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+  const { search } = useLocation()
   const parsed = queryString.parse(search)
   const { q, type } = parsed
 

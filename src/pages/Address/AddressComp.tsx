@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext } from 'react'
+import React, { ReactNode, useContext, useEffect } from 'react'
 import { Tooltip } from 'antd'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
@@ -6,7 +6,7 @@ import TitleCard from '../../components/Card/TitleCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import { AppContext } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
-import { localeNumberString } from '../../utils/number'
+import { localeNumberString, parseEpochNumber } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
@@ -20,7 +20,8 @@ import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { parseSimpleDateNoSecond } from '../../utils/date'
 import { AppDispatch } from '../../contexts/providers/reducer'
-import CopyTooltipText from '../../components/Tooltip/CopyTooltipText'
+import CopyTooltipText from '../../components/Text/CopyTooltipText'
+import { getTipBlockNumber } from '../../service/app/address'
 
 const addressContent = (address: string, dispatch: AppDispatch) => {
   if (!address) {
@@ -104,12 +105,13 @@ const getAddressInfo = (addressState: State.AddressState, dispatch: AppDispatch)
     })
   }
   const { lockInfo } = address
-  if (lockInfo && lockInfo.epochNumber) {
+  if (lockInfo && lockInfo.epochNumber && lockInfo.estimatedUnlockTime) {
+    const estimate = Number(lockInfo.estimatedUnlockTime) > new Date().getTime() ? i18n.t('address.estimated') : ''
     items.push({
       title: i18n.t('address.lock_until'),
-      content: `${lockInfo.epochNumber}(th) ${i18n.t('address.epoch')} (${i18n.t(
-        'address.estimated',
-      )} ${parseSimpleDateNoSecond(lockInfo.estimatedUnlockTime)})`,
+      content: `${parseEpochNumber(lockInfo.epochNumber)} ${i18n.t(
+        'address.epoch',
+      )} (${estimate} ${parseSimpleDateNoSecond(lockInfo.estimatedUnlockTime)})`,
     })
   }
 
@@ -146,6 +148,10 @@ export const AddressTransactions = ({
   const { transactions = [] } = addressState
 
   const totalPages = Math.ceil(addressState.total / pageSize)
+
+  useEffect(() => {
+    getTipBlockNumber(dispatch)
+  }, [dispatch])
 
   const onChange = (page: number) => {
     browserHistory.replace(`/address/${address}?page=${page}&size=${pageSize}`)
