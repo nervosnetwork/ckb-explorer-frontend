@@ -5,7 +5,7 @@ import { Tooltip } from 'antd'
 import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
-import CopyTooltipText from '../Tooltip/CopyTooltipText'
+import CopyTooltipText from '../Text/CopyTooltipText'
 import { AppDispatch } from '../../contexts/providers/reducer'
 import { isMobile } from '../../utils/screen'
 

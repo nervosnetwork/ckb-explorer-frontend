@@ -117,16 +117,16 @@ export const CellbasePanel = styled.div`
     &:focus {
       outline: 0;
     }
+  }
 
-    > img {
-      width: 20px;
-      height: 20px;
-      margin-bottom: 5px;
+  img {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
 
-      @media (max-width: 700px) {
-        width: 16px;
-        height: 16px;
-      }
+    @media (max-width: 700px) {
+      width: 16px;
+      height: 16px;
     }
   }
 `
