@@ -1,12 +1,12 @@
 import queryString from 'query-string'
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import Loading from '../../components/Loading'
 import AddressHashCard from '../../components/Card/HashCard'
 import Error from '../../components/Error'
 import Content from '../../components/Content'
-import { AppContext } from '../../contexts/providers/index'
-import { PageActions, AppActions, StateWithDispatch, AppDispatch } from '../../contexts/providers/reducer'
+import { useAppState, useDispatch } from '../../contexts/providers/index'
+import { PageActions, AppActions } from '../../contexts/providers/reducer'
 import { getAddress } from '../../service/app/address'
 import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
@@ -16,13 +16,13 @@ import { AddressOverview, AddressTransactions } from './AddressComp'
 import browserHistory from '../../routes/history'
 import { useTimeoutWithUnmount } from '../../utils/hook'
 
-const AddressStateOverview = ({ dispatch }: { dispatch: AppDispatch }) => {
-  const { addressState, app } = useContext(AppContext)
+const AddressStateOverview = () => {
+  const { addressState, app } = useAppState()
   switch (addressState.addressStatus) {
     case 'Error':
       return <Error />
     case 'OK':
-      return <AddressOverview dispatch={dispatch} />
+      return <AddressOverview />
     case 'None':
     default:
       return <Loading show={app.loading} />
@@ -33,14 +33,13 @@ const AddressStateTransactions = ({
   currentPage,
   pageSize,
   address,
-  dispatch,
 }: {
   currentPage: number
   pageSize: number
   address: string
-  dispatch: AppDispatch
 }) => {
-  const { addressState, app } = useContext(AppContext)
+  const dispatch = useDispatch()
+  const { addressState, app } = useAppState()
   switch (addressState.transactionsStatus) {
     case 'Error':
       return <Error />
@@ -52,11 +51,12 @@ const AddressStateTransactions = ({
   }
 }
 
-export const Address = ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+export const Address = () => {
+  const dispatch = useDispatch()
   const { search } = useLocation()
   const { address } = useParams<{ address: string }>()
   const parsed = queryString.parse(search)
-  const { addressState } = useContext(AppContext)
+  const { addressState } = useAppState()
 
   const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
   const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
@@ -106,11 +106,10 @@ export const Address = ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) 
         <AddressHashCard
           title={addressState.address.type === 'LockHash' ? i18n.t('address.lock_hash') : i18n.t('address.address')}
           hash={address}
-          dispatch={dispatch}
           specialAddress={addressState.address.isSpecial ? addressState.address.specialAddress : ''}
         />
-        <AddressStateOverview dispatch={dispatch} />
-        <AddressStateTransactions currentPage={currentPage} pageSize={pageSize} address={address} dispatch={dispatch} />
+        <AddressStateOverview />
+        <AddressStateTransactions currentPage={currentPage} pageSize={pageSize} address={address} />
       </AddressContentPanel>
     </Content>
   )

@@ -1,22 +1,13 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import browserHistory from '../../routes/history'
-import { AppContext } from '../../contexts/providers'
+import { useAppState } from '../../contexts/providers'
 import TransactionItem from '../../components/TransactionItem'
 import { TransactionsPagination } from './styled'
 import Pagination from '../../components/Pagination'
 import { PageParams } from '../../utils/const'
-import { AppDispatch } from '../../contexts/providers/reducer'
 
-export default ({
-  currentPage = 1,
-  pageSize = PageParams.PageSize,
-  dispatch,
-}: {
-  currentPage: number
-  pageSize: number
-  dispatch: AppDispatch
-}) => {
-  const { nervosDaoState } = useContext(AppContext)
+export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPage: number; pageSize: number }) => {
+  const { nervosDaoState } = useAppState()
   const { transactions = [], total } = nervosDaoState
 
   const totalPages = Math.ceil(total / pageSize)
@@ -34,7 +25,6 @@ export default ({
               key={transaction.transactionHash}
               transaction={transaction}
               isLastItem={index === transactions.length - 1}
-              dispatch={dispatch}
             />
           )
         )

@@ -7,9 +7,10 @@ import CopyIcon from '../../../assets/copy_green.png'
 import CopyBlueIcon from '../../../assets/copy_blue.png'
 import i18n from '../../../utils/i18n'
 import { copyElementValue } from '../../../utils/util'
-import { AppDispatch, AppActions } from '../../../contexts/providers/reducer'
+import { AppActions } from '../../../contexts/providers/reducer'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { isMainnet } from '../../../utils/chain'
+import { useDispatch } from '../../../contexts/providers'
 
 const initScriptContent = {
   lock: 'null',
@@ -62,17 +63,8 @@ const handleFetchScript = (cell: State.Cell, state: CellState, setContent: any, 
   }
 }
 
-export default ({
-  cell,
-  state,
-  setState,
-  dispatch,
-}: {
-  cell: State.Cell
-  state: CellState
-  setState: any
-  dispatch: AppDispatch
-}) => {
+export default ({ cell, state, setState }: { cell: State.Cell; state: CellState; setState: any }) => {
+  const dispatch = useDispatch()
   const [content, setContent] = useState(undefined as any)
   const contentElementId = `transaction__detail_content:${cell.id}`
 

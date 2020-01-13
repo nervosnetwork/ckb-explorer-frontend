@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { Popover, Tooltip } from 'antd'
 import 'antd/dist/antd.css'
@@ -12,10 +12,9 @@ import { CellbasePanel, TransactionCellPanel, TransactionCellCapacity, WithdrawI
 import { isMobile } from '../../../utils/screen'
 import { CellType } from '../../../utils/const'
 import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
-import { AppContext } from '../../../contexts/providers'
 import DecimalCapacity from '../../DecimalCapacity'
 import CopyTooltipText from '../../Text/CopyTooltipText'
-import { AppDispatch } from '../../../contexts/providers/reducer'
+import { useAppState } from '../../../contexts/providers'
 
 const Cellbase = ({
   cell,
@@ -64,20 +63,10 @@ const isDaoCell = (cellType: string) => {
   return isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
 }
 
-const AddressLinkComp = ({
-  cell,
-  address,
-  dispatch,
-  highLight,
-}: {
-  cell: State.Cell
-  address: string
-  dispatch: AppDispatch
-  highLight: boolean
-}) => {
+const AddressLinkComp = ({ cell, address, highLight }: { cell: State.Cell; address: string; highLight: boolean }) => {
   if (address.includes('...')) {
     return (
-      <Tooltip placement="top" title={<CopyTooltipText content={cell.addressHash} dispatch={dispatch} />}>
+      <Tooltip placement="top" title={<CopyTooltipText content={cell.addressHash} />}>
         {highLight ? (
           <Link to={`/address/${cell.addressHash}`}>
             <span className="address">{address}</span>
@@ -101,16 +90,14 @@ const TransactionCellAddress = ({
   cell,
   cellType,
   address,
-  dispatch,
   highLight,
 }: {
   cell: State.Cell
   cellType: CellType
   address: string
-  dispatch: AppDispatch
   highLight: boolean
 }) => {
-  const { app } = useContext(AppContext)
+  const { app } = useAppState()
   const WithdrawInfo = (
     <WithdrawInfoPanel longTitle={app.language === 'en'}>
       <div>
@@ -145,29 +132,19 @@ const TransactionCellAddress = ({
     if (isDaoWithdrawCell(cell.cellType) && cellType === CellType.Input) {
       return (
         <div className="transaction__cell_withdraw">
-          <AddressLinkComp cell={cell} address={address} highLight={highLight} dispatch={dispatch} />
+          <AddressLinkComp cell={cell} address={address} highLight={highLight} />
           <Popover placement="right" title="" content={WithdrawInfo} trigger="click">
             <img src={DetailIcon} className="nervos__dao__withdraw_help" alt="nervos dao withdraw" />
           </Popover>
         </div>
       )
     }
-    return <AddressLinkComp cell={cell} address={address} highLight={highLight} dispatch={dispatch} />
+    return <AddressLinkComp cell={cell} address={address} highLight={highLight} />
   }
-  return <AddressLinkComp cell={cell} address={address} highLight={highLight} dispatch={dispatch} />
+  return <AddressLinkComp cell={cell} address={address} highLight={highLight} />
 }
 
-const TransactionCell = ({
-  cell,
-  address,
-  cellType,
-  dispatch,
-}: {
-  cell: State.Cell
-  address?: string
-  cellType: CellType
-  dispatch: AppDispatch
-}) => {
+const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; address?: string; cellType: CellType }) => {
   if (cell.fromCellbase) {
     return <Cellbase targetBlockNumber={cell.targetBlockNumber} cell={cell} cellType={cellType} />
   }
@@ -185,13 +162,7 @@ const TransactionCell = ({
     <TransactionCellPanel highLight={highLight}>
       <div className="transaction__cell_address">
         {!isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
-        <TransactionCellAddress
-          cell={cell}
-          cellType={cellType}
-          address={addressText}
-          dispatch={dispatch}
-          highLight={highLight}
-        />
+        <TransactionCellAddress cell={cell} cellType={cellType} address={addressText} highLight={highLight} />
       </div>
       <TransactionCellCapacity isOutput={cellType === CellType.Output}>
         {isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}

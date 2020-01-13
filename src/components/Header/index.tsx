@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState, useLayoutEffect } from 'react'
+import React, { useMemo, useState, useLayoutEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Search from '../Search'
@@ -21,8 +21,8 @@ import {
   HeaderBlockchainPanel,
 } from './styled'
 import { isMobile } from '../../utils/screen'
-import { AppContext } from '../../contexts/providers/index'
-import { AppDispatch, ComponentActions } from '../../contexts/providers/reducer'
+import { useAppState, useDispatch } from '../../contexts/providers/index'
+import { ComponentActions } from '../../contexts/providers/reducer'
 import LanDropdown from '../Dropdown/Language'
 import ChainDropdown from '../Dropdown/ChainType'
 import { isMainnet } from '../../utils/chain'
@@ -85,8 +85,9 @@ const handleVersion = (nodeVersion: string) => {
   return nodeVersion
 }
 
-export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDispatch }) => {
-  const { app, components } = useContext(AppContext)
+export default ({ hasSearch }: { hasSearch?: boolean }) => {
+  const { app, components } = useAppState()
+  const dispatch = useDispatch()
   const { nodeVersion, language } = app
   const { searchBarEditable } = components
   const [showChainDropdown, setShowChainDropdown] = useState(false)
@@ -134,7 +135,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
         {showChainDropdown && (
           <ChainDropdown setShowChainDropdown={setShowChainDropdown} left={chainDropdownLeft} top={chainDropdownTop} />
         )}
-        <LanDropdown dispatch={dispatch} />
+        <LanDropdown />
       </HeaderBlockchainPanel>
     )
   }
@@ -145,7 +146,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
         <>
           {hasSearch && (
             <HeaderSearchMobilePanel searchBarEditable={searchBarEditable}>
-              <Search dispatch={dispatch} />
+              <Search />
             </HeaderSearchMobilePanel>
           )}
           <HeaderMobilePanel searchBarEditable={searchBarEditable}>
@@ -175,7 +176,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
               )}
               <BlockchainComp />
             </HeaderMobileDiv>
-            <HeaderSearchPanel>{hasSearch && searchBarEditable && <Search dispatch={dispatch} />}</HeaderSearchPanel>
+            <HeaderSearchPanel>{hasSearch && searchBarEditable && <Search />}</HeaderSearchPanel>
           </HeaderMobilePanel>
         </>
       ) : (
@@ -186,7 +187,7 @@ export default ({ hasSearch, dispatch }: { hasSearch?: boolean; dispatch: AppDis
             {hasSearch && (
               <div className="header__search">
                 <div className="header__search__component">
-                  <Search dispatch={dispatch} />
+                  <Search />
                 </div>
               </div>
             )}

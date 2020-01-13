@@ -4,9 +4,10 @@ import { useTranslation } from 'react-i18next'
 import GreenSearchLogo from '../../assets/search_green.png'
 import BlueSearchLogo from '../../assets/search_blue.png'
 import i18n from '../../utils/i18n'
-import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import { AppActions } from '../../contexts/providers/reducer'
 import { isMainnet } from '../../utils/chain'
 import { searchNervosDaoTransactions, getNervosDaoTransactions } from '../../service/app/nervosDao'
+import { useDispatch } from '../../contexts/providers'
 
 const SearchPanel = styled.div`
   width: 600px;
@@ -106,7 +107,8 @@ const clearSearchInput = (inputElement: any) => {
 
 const DEPOSIT_RANK_COUNT = 100
 
-const DaoSearch = ({ dispatch, content }: { dispatch: AppDispatch; content?: string }) => {
+const DaoSearch = ({ content }: { content?: string }) => {
+  const dispatch = useDispatch()
   const [t] = useTranslation()
   const SearchPlaceholder = useMemo(() => {
     return t('nervos_dao.dao_search_placeholder')

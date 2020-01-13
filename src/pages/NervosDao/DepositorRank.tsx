@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Tooltip } from 'antd'
-import { AppContext } from '../../contexts/providers'
+import { useAppState } from '../../contexts/providers'
 import { localeNumberString } from '../../utils/number'
 import { shannonToCkb } from '../../utils/util'
 import i18n from '../../utils/i18n'
@@ -9,7 +9,6 @@ import OverviewCard from '../../components/Card/OverviewCard'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { adaptPCEllipsis } from '../../utils/string'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
-import { AppDispatch } from '../../contexts/providers/reducer'
 import {
   AddressPanel,
   DepositorRankCardPanel,
@@ -19,11 +18,11 @@ import {
   DepositorRankItem,
 } from './styled'
 
-const AddressText = ({ address, dispatch }: { address: string; dispatch: AppDispatch }) => {
+const AddressText = ({ address }: { address: string }) => {
   const addressText = adaptPCEllipsis(address, 10, 40)
   if (addressText.includes('...')) {
     return (
-      <Tooltip placement="top" title={<CopyTooltipText content={address} dispatch={dispatch} />}>
+      <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
         <AddressPanel to={`/address/${address}`}>
           <span className="address">{addressText}</span>
         </AddressPanel>
@@ -37,7 +36,7 @@ const AddressText = ({ address, dispatch }: { address: string; dispatch: AppDisp
   )
 }
 
-const depositRanks = (depositor: State.NervosDaoDepositor, index: number, dispatch: AppDispatch) => {
+const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
   const daoDeposit = localeNumberString(shannonToCkb(depositor.daoDeposit))
   return [
     {
@@ -46,7 +45,7 @@ const depositRanks = (depositor: State.NervosDaoDepositor, index: number, dispat
     },
     {
       title: i18n.t('nervos_dao.dao_title_address'),
-      content: <AddressText address={depositor.addressHash} dispatch={dispatch} />,
+      content: <AddressText address={depositor.addressHash} />,
     },
     {
       title: i18n.t('nervos_dao.dao_title_deposit_capacity'),
@@ -55,14 +54,14 @@ const depositRanks = (depositor: State.NervosDaoDepositor, index: number, dispat
   ]
 }
 
-export default ({ dispatch }: { dispatch: AppDispatch }) => {
-  const { nervosDaoState } = useContext(AppContext)
+export default () => {
+  const { nervosDaoState } = useAppState()
   const { depositors = [] } = nervosDaoState
 
   return isMobile() ? (
     <DepositorRankCardPanel>
       {depositors.map((depositor: State.NervosDaoDepositor, index: number) => {
-        return <OverviewCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index, dispatch)} />
+        return <OverviewCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index)} />
       })}
     </DepositorRankCardPanel>
   ) : (
@@ -77,7 +76,7 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
         return (
           <DepositorRankItem key={depositor.addressHash}>
             <div>{index + 1}</div>
-            <AddressText address={depositor.addressHash} dispatch={dispatch} />
+            <AddressText address={depositor.addressHash} />
             <div>
               <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />
             </div>

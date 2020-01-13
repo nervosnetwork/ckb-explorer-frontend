@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect } from 'react'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
@@ -7,8 +7,6 @@ import 'echarts/lib/component/title'
 import BigNumber from 'bignumber.js'
 import Content from '../../components/Content'
 import { getStatisticAddressCount } from '../../service/app/statisticsChart'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
-import { AppContext } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
@@ -16,6 +14,7 @@ import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './s
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import SmallLoading from '../../components/Loading/SmallLoading'
+import { useAppState, useDispatch } from '../../contexts/providers'
 
 const colors = ['#3182bd']
 
@@ -118,8 +117,9 @@ export const AddressCountChart = ({
   )
 }
 
-export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
-  const { statisticAddressCounts } = useContext(AppContext)
+export default () => {
+  const dispatch = useDispatch()
+  const { statisticAddressCounts } = useAppState()
 
   useEffect(() => {
     getStatisticAddressCount(dispatch)
