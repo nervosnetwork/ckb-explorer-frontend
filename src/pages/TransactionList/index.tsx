@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import { useTranslation } from 'react-i18next'
@@ -10,11 +10,10 @@ import { parsePageNumber, adaptMobileEllipsis, adaptPCEllipsis } from '../../uti
 import { ListPageParams } from '../../utils/const'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
 import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import { AppContext } from '../../contexts/providers'
+import { useDispatch, useAppState } from '../../contexts/providers'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { getTransactions } from '../../service/app/transaction'
 import { TransactionCapacityPanel, TransactionListPanel, ContentTable, HighLightValue } from './style'
@@ -106,7 +105,8 @@ const TransactionCardItems = (transaction: State.Transaction) => {
   ] as OverviewItemData[]
 }
 
-export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+export default () => {
+  const dispatch = useDispatch()
   const { replace, push } = useHistory()
   const { search } = useLocation()
 
@@ -133,7 +133,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
   }, [t])
 
   const parsed = queryString.parse(search)
-  const { transactionsState } = useContext(AppContext)
+  const { transactionsState } = useAppState()
   const { transactions = [], total } = transactionsState
 
   const currentPage = parsePageNumber(parsed.page, ListPageParams.PageNo)

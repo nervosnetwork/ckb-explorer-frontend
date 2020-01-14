@@ -25,7 +25,6 @@ import AddressCountChart from '../pages/StatisticsChart/AddressCount'
 import TotalDaoDepositChart from '../pages/StatisticsChart/TotalDaoDeposit'
 import CellCountChart from '../pages/StatisticsChart/CellCount'
 import AddressBalanceRankChart from '../pages/StatisticsChart/AddressBalanceRank'
-import { AppDispatch } from '../contexts/providers/reducer'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -142,7 +141,7 @@ export const containers: CustomRouter.Route[] = [
   },
 ]
 
-export default ({ dispatch }: { dispatch: AppDispatch }) => {
+export default () => {
   useEffect(() => {
     let currentUrl = `${browserHistory.location.pathname}${browserHistory.location.search}`
     const unlisten = browserHistory.listen((location: any) => {
@@ -163,7 +162,7 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
           return (
             <Page>
               <React.Fragment>
-                <Header hasSearch={hasSearch(browserHistory.location.pathname)} dispatch={dispatch} />
+                <Header hasSearch={hasSearch(browserHistory.location.pathname)} />
                 <Sheet />
                 <Switch location={props.location}>
                   {containers.map(container => {
@@ -171,7 +170,7 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
                       <Route
                         {...container}
                         key={container.name}
-                        render={routeProps => <container.comp {...routeProps} dispatch={dispatch} />}
+                        render={routeProps => <container.comp {...routeProps} />}
                       />
                     )
                   })}

@@ -3,22 +3,13 @@ import { CellType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
 import TransactionCell from '../TransactionCell'
 import { TransactionCellListPanel, TransactionCellListTitlePanel, TransactionCellsPanel } from './styled'
-import { AppDispatch } from '../../../contexts/providers/reducer'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 
 const PAGE_CELL_COUNT = 200
 const SCROLL_BOTTOM_OFFSET = 5
 const SCROLL_LOADING_TIME = 400
 
-export default ({
-  inputs,
-  outputs,
-  dispatch,
-}: {
-  inputs?: State.Cell[]
-  outputs?: State.Cell[]
-  dispatch: AppDispatch
-}) => {
+export default ({ inputs, outputs }: { inputs?: State.Cell[]; outputs?: State.Cell[] }) => {
   const [offset, setOffset] = useState(PAGE_CELL_COUNT)
   const [isEnd, setIsEnd] = useState(false)
   const cells = inputs || outputs || []
@@ -74,7 +65,6 @@ export default ({
                   cell={cell}
                   cellType={inputs ? CellType.Input : CellType.Output}
                   index={index}
-                  dispatch={dispatch}
                 />
               ))}
           {isScroll && !isEnd && <SmallLoading />}

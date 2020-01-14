@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext, useMemo } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
 import { SearchImage, SearchInputPanel, SearchPanel } from './styled'
@@ -12,7 +12,7 @@ import i18n from '../../utils/i18n'
 import { HttpErrorCode, CachedKeys, SearchFailType } from '../../utils/const'
 import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
 import { isMobile } from '../../utils/screen'
-import { AppContext } from '../../contexts/providers'
+import { useAppState, useDispatch } from '../../contexts/providers'
 import { fetchCachedData, storeCachedData } from '../../utils/cached'
 import { isMainnet } from '../../utils/chain'
 
@@ -113,7 +113,8 @@ const handleSearchResult = (
   }
 }
 
-const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBorder?: boolean; content?: string }) => {
+const Search = ({ hasBorder, content }: { hasBorder?: boolean; content?: string }) => {
+  const dispatch = useDispatch()
   const [t] = useTranslation()
   const SearchPlaceholder = useMemo(() => {
     return t('navbar.search_placeholder')
@@ -122,7 +123,7 @@ const Search = ({ dispatch, hasBorder, content }: { dispatch: AppDispatch; hasBo
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
   const [isFirst, setIsFirst] = useState(true)
   const inputElement = useRef<HTMLInputElement>(null)
-  const { components } = useContext(AppContext)
+  const { components } = useAppState()
   const { searchBarEditable } = components
 
   // fetch searching data when refreshing search fail page

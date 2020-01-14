@@ -1,11 +1,11 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState } from 'react'
 import { initAxiosInterceptors } from '../../service/http/interceptors'
 import { RESIZE_LATENCY, CachedKeys } from '../../utils/const'
 import { initNodeVersion } from '../../service/app/nodeInfo'
 import { AppDispatch, AppActions } from './reducer'
 import { fetchCachedData } from '../../utils/cached'
 import { changeLanguage } from '../../utils/i18n'
-import { AppContext } from './index'
+import { useAppState, useDispatch } from '.'
 
 const useWindowResize = (dispatch: AppDispatch) => {
   useEffect(() => {
@@ -43,9 +43,11 @@ const initAppLanguage = (app: State.App, dispatch: AppDispatch) => {
   }
 }
 
-export const useInitApp = (dispatch: AppDispatch) => {
+export const useInitApp = () => {
   const [init, setInit] = useState(false)
-  const { app } = useContext(AppContext)
+  const { app } = useAppState()
+  const dispatch = useDispatch()
+
   if (!init) {
     setInit(true)
     initAxiosInterceptors(dispatch)

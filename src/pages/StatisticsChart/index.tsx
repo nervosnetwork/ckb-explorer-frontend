@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, ReactNode } from 'react'
+import React, { useEffect, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import 'default-passive-events'
 import Content from '../../components/Content'
@@ -11,8 +11,7 @@ import {
   getStatisticTotalDaoDeposit,
   getStatisticAddressBalanceRank,
 } from '../../service/app/statisticsChart'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
-import { AppContext } from '../../contexts/providers'
+import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import { DifficultyHashRateChart } from './DifficultyHashRate'
 import { DifficultyUncleRateChart } from './DifficultyUncleRate'
@@ -42,7 +41,8 @@ const ChartCard = ({ chartData }: { chartData: ChartData }) => {
 
 const NullEvent = () => {}
 
-export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+export default () => {
+  const dispatch = useDispatch()
   const {
     statisticDifficultyHashRates,
     statisticDifficultyUncleRates,
@@ -51,7 +51,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
     statisticCellCounts,
     statisticTransactionCounts,
     statisticAddressBalanceRanks,
-  } = useContext(AppContext)
+  } = useAppState()
 
   const charts: ChartData[] = [
     {

@@ -1,4 +1,4 @@
-import React, { useContext, ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/pie'
@@ -7,7 +7,7 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/legendScroll'
 import { Tooltip } from 'antd'
-import { AppContext } from '../../contexts/providers'
+import { useAppState } from '../../contexts/providers'
 import {
   DaoOverviewPanel,
   DaoOverviewLeftPanel,
@@ -272,7 +272,7 @@ const NervosDaoLeftMobile = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
 }
 
 export default () => {
-  const { nervosDaoState } = useContext(AppContext)
+  const { nervosDaoState } = useAppState()
   const { nervosDao } = nervosDaoState
 
   return (

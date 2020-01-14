@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { AppContext } from '../../contexts/providers'
-import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import { useAppState, useDispatch } from '../../contexts/providers'
+import { AppActions } from '../../contexts/providers/reducer'
 import SelectIcon from '../../assets/current_selected.png'
 import DropdownIcon from '../../assets/dropdown.png'
 import { changeLanguage } from '../../utils/i18n'
@@ -120,8 +120,9 @@ const showLanguage = (lan: 'en' | 'zh') => {
   return lan === 'en' ? 'EN' : '中(简)'
 }
 
-export default ({ dispatch }: { dispatch: AppDispatch }) => {
-  const { app } = useContext(AppContext)
+export default () => {
+  const { app } = useAppState()
+  const dispatch = useDispatch()
   const { language } = app
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false)
   const [languages, setLanguages] = useState({

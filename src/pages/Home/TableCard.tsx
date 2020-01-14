@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import i18n from '../../utils/i18n'
-import { AppDispatch } from '../../contexts/providers/reducer'
 import { HighLightLink } from '../../components/Text'
 import { localeNumberString } from '../../utils/number'
 import { parseDate } from '../../utils/date'
@@ -307,15 +306,7 @@ const BlockRewardPanel = styled.div`
   justify-content: center;
 `
 
-export const BlockCardItem = ({
-  block,
-  index,
-  dispatch,
-}: {
-  block: State.Block
-  index: number
-  dispatch: AppDispatch
-}) => {
+export const BlockCardItem = ({ block, index }: { block: State.Block; index: number }) => {
   const liveCellChanges = Number(block.liveCellChanges)
   const blockReward =
     index < DELAY_BLOCK_NUMBER ? (
@@ -351,7 +342,7 @@ export const BlockCardItem = ({
       <div className="block__card__miner">
         <div>
           <span className="block__card__miner__hash">{i18n.t('home.miner')}</span>
-          <TableMinerContentItem width="10%" content={block.minerHash} dispatch={dispatch} smallWidth fontSize="14px" />
+          <TableMinerContentItem width="10%" content={block.minerHash} smallWidth fontSize="14px" />
         </div>
         <div className="block__card__reward">
           <span>{`${i18n.t('home.reward')}`}</span>

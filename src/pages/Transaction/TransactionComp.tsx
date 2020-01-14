@@ -1,8 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import { AppContext } from '../../contexts/providers/index'
-import { AppDispatch } from '../../contexts/providers/reducer'
+import { useAppState } from '../../contexts/providers/index'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
@@ -28,8 +27,8 @@ const TransactionInfoComp = ({ title, value, linkUrl }: { title: string; value: 
   )
 }
 
-export default ({ dispatch }: { dispatch: AppDispatch }) => {
-  const { transactionState, app } = useContext(AppContext)
+export default () => {
+  const { transactionState, app } = useAppState()
   const { transaction } = transactionState
   const { cellDeps, headerDeps, witnesses } = transaction
   const { tipBlockNumber } = app
@@ -142,10 +141,10 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
         </OverviewCard>
       </div>
       <div className="transaction__inputs">
-        {transaction && <TransactionCellList inputs={transaction.displayInputs} dispatch={dispatch} />}
+        {transaction && <TransactionCellList inputs={transaction.displayInputs} />}
       </div>
       <div className="transaction__outputs">
-        {transaction && <TransactionCellList outputs={transaction.displayOutputs} dispatch={dispatch} />}
+        {transaction && <TransactionCellList outputs={transaction.displayOutputs} />}
       </div>
     </>
   )
