@@ -38,7 +38,7 @@ const Cellbase = ({
       <div className="cellbase__content">Cellbase for Block</div>
       <Link to={`/block/${targetBlockNumber}`}>{localeNumberString(targetBlockNumber)}</Link>
       <Tooltip placement="top" title={i18n.t('transaction.cellbase_help_tooltip')}>
-        <img alt="cellbase help" src={HelpIcon} />
+        <img className="cellbase__help__icon" alt="cellbase help" src={HelpIcon} />
       </Tooltip>
     </CellbasePanel>
   )
