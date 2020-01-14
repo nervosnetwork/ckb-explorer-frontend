@@ -242,6 +242,7 @@ declare namespace State {
   export interface StatisticCellCount {
     liveCellsCount: string
     deadCellsCount: string
+    allCellsCount: string
     blockNumber: string
   }
 

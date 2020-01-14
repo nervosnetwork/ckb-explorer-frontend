@@ -45,13 +45,13 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
           1,
         )}</div>`
         if (dataList[0]) {
-          result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.archived_cell'))} ${handleAxis(
+          result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
             dataList[0].data,
             2,
           )}</div>`
         }
         if (dataList[1]) {
-          result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
+          result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('statistic.all_cells'))} ${handleAxis(
             dataList[1].data,
             2,
           )}</div>`
@@ -60,7 +60,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       },
     },
     legend: !isThumbnail && {
-      data: [i18n.t('statistic.archived_cell'), i18n.t('statistic.live_cell')],
+      data: [i18n.t('statistic.live_cell'), i18n.t('statistic.all_cells')],
     },
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
@@ -75,8 +75,9 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
     ],
     yAxis: [
       {
+        position: 'left',
         type: 'value',
-        scale: false,
+        scale: true,
         axisLine: {
           lineStyle: {
             color: colors[0],
@@ -86,33 +87,36 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
           formatter: (value: string) => handleAxis(new BigNumber(value)),
         },
       },
+      {
+        position: 'right',
+        type: 'value',
+        scale: true,
+        axisLine: {
+          lineStyle: {
+            color: colors[1],
+          },
+        },
+        axisLabel: {
+          formatter: (value: string) => handleAxis(new BigNumber(value)),
+        },
+      },
     ],
     series: [
       {
-        name: i18n.t('statistic.archived_cell'),
-        type: 'line',
-        stack: i18n.t('statistic.cell_count'),
-        areaStyle: {
-          normal: {
-            origin: 'auto',
-          },
-        },
-        symbol: isThumbnail ? 'none' : 'circle',
-        symbolSize: 3,
-        data: statisticCellCounts.map(data => new BigNumber(data.deadCellsCount).toNumber()),
-      },
-      {
         name: i18n.t('statistic.live_cell'),
         type: 'line',
-        stack: i18n.t('statistic.cell_count'),
-        areaStyle: {
-          normal: {
-            origin: 'auto',
-          },
-        },
-        symbol: 'circle',
+        yAxisIndex: '0',
+        symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticCellCounts.map(data => new BigNumber(data.liveCellsCount).toNumber()),
+      },
+      {
+        name: i18n.t('statistic.all_cells'),
+        type: 'line',
+        yAxisIndex: '1',
+        symbol: isThumbnail ? 'none' : 'circle',
+        symbolSize: 3,
+        data: statisticCellCounts.map(data => new BigNumber(data.allCellsCount).toNumber()),
       },
     ],
   }
