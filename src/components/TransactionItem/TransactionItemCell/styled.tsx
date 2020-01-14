@@ -119,9 +119,9 @@ export const CellbasePanel = styled.div`
     }
   }
 
-  img {
-    width: 20px;
-    height: 20px;
+  .cellbase__help__icon {
+    width: 18px;
+    height: 18px;
     margin-left: 5px;
 
     @media (max-width: 700px) {
