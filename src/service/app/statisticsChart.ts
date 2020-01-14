@@ -130,6 +130,9 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
       return {
         liveCellsCount: wrapper.attributes.liveCellsCount,
         deadCellsCount: wrapper.attributes.deadCellsCount,
+        allCellsCount: (
+          Number(wrapper.attributes.liveCellsCount) + Number(wrapper.attributes.deadCellsCount)
+        ).toString(),
         blockNumber: wrapper.attributes.blockNumber,
       }
     })
