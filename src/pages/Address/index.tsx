@@ -7,7 +7,7 @@ import Error from '../../components/Error'
 import Content from '../../components/Content'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
 import { PageActions, AppActions } from '../../contexts/providers/reducer'
-import { getAddress } from '../../service/app/address'
+import { getAddress, getTipBlockNumber } from '../../service/app/address'
 import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
 import { parsePageNumber } from '../../utils/string'
@@ -38,13 +38,12 @@ const AddressStateTransactions = ({
   pageSize: number
   address: string
 }) => {
-  const dispatch = useDispatch()
   const { addressState, app } = useAppState()
   switch (addressState.transactionsStatus) {
     case 'Error':
       return <Error />
     case 'OK':
-      return <AddressTransactions currentPage={currentPage} pageSize={pageSize} address={address} dispatch={dispatch} />
+      return <AddressTransactions currentPage={currentPage} pageSize={pageSize} address={address} />
     case 'None':
     default:
       return <Loading show={app.secondLoading} />
@@ -60,6 +59,10 @@ export const Address = () => {
 
   const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
   const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
+
+  useEffect(() => {
+    getTipBlockNumber(dispatch)
+  }, [dispatch])
 
   useEffect(() => {
     if (pageSize > PageParams.MaxPageSize) {
