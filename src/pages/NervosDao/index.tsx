@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import queryString from 'query-string'
 import { useLocation, useHistory } from 'react-router-dom'
-import { StateWithDispatch, PageActions, AppActions, AppDispatch } from '../../contexts/providers/reducer'
-import { AppContext } from '../../contexts/providers'
+import { PageActions, AppActions } from '../../contexts/providers/reducer'
+import { useAppState, useDispatch } from '../../contexts/providers'
 import Content from '../../components/Content'
 import i18n from '../../utils/i18n'
 import { DaoContentPanel, DaoTabBarPanel } from './styled'
@@ -21,22 +21,20 @@ const NervosDAOStateComp = ({
   daoTab,
   currentPage,
   pageSize,
-  dispatch,
 }: {
   daoTab: 'transactions' | 'depositors'
   currentPage: number
   pageSize: number
-  dispatch: AppDispatch
 }) => {
-  const { nervosDaoState, app } = useContext(AppContext)
+  const { nervosDaoState, app } = useAppState()
   switch (nervosDaoState.status) {
     case 'Error':
       return <Error />
     case 'OK':
       return daoTab === 'transactions' ? (
-        <DaoTransactions currentPage={currentPage} pageSize={pageSize} dispatch={dispatch} />
+        <DaoTransactions currentPage={currentPage} pageSize={pageSize} />
       ) : (
-        <DepositorRank dispatch={dispatch} />
+        <DepositorRank />
       )
     case 'None':
     default:
@@ -44,7 +42,8 @@ const NervosDAOStateComp = ({
   }
 }
 
-export const NervosDao = ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+export const NervosDao = () => {
+  const dispatch = useDispatch()
   const { search } = useLocation()
   const { push } = useHistory()
   const parsed = queryString.parse(search)
@@ -52,7 +51,7 @@ export const NervosDao = ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>
   const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
   const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
 
-  const { nervosDaoState } = useContext(AppContext)
+  const { nervosDaoState } = useAppState()
 
   const tab = parsed.tab as 'transactions' | 'depositors'
   const daoTab = tab || 'transactions'
@@ -110,10 +109,10 @@ export const NervosDao = ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>
               {i18n.t('nervos_dao.dao_tab_depositors')}
             </div>
           </div>
-          {daoTab === 'transactions' && <DaoSearch dispatch={dispatch} />}
+          {daoTab === 'transactions' && <DaoSearch />}
         </DaoTabBarPanel>
 
-        <NervosDAOStateComp daoTab={daoTab} currentPage={currentPage} pageSize={pageSize} dispatch={dispatch} />
+        <NervosDAOStateComp daoTab={daoTab} currentPage={currentPage} pageSize={pageSize} />
       </DaoContentPanel>
     </Content>
   )

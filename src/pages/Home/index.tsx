@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   HomeHeaderPanel,
@@ -16,8 +16,7 @@ import { localeNumberString, handleHashRate, handleDifficulty, parseEpochNumber 
 import { handleBigNumber } from '../../utils/string'
 import { isMobile } from '../../utils/screen'
 import browserHistory from '../../routes/history'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
-import { AppContext } from '../../contexts/providers'
+import { useAppState, useDispatch } from '../../contexts/providers'
 import { getLatestBlocks } from '../../service/app/block'
 import getStatistics from '../../service/app/statistics'
 import i18n from '../../utils/i18n'
@@ -100,8 +99,9 @@ const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
   ]
 }
 
-export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
-  const { homeBlocks = [], transactionsState, statistics, app } = useContext(AppContext)
+export default () => {
+  const dispatch = useDispatch()
+  const { homeBlocks = [], transactionsState, statistics, app } = useAppState()
   const { transactions = [] } = transactionsState
   const { tipBlockNumber } = app
   const [t] = useTranslation()
@@ -168,7 +168,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
               {homeBlocks.map((block, index) => {
                 return (
                   <div key={block.number}>
-                    <BlockCardItem block={block} index={index} dispatch={dispatch} />
+                    <BlockCardItem block={block} index={index} />
                     {homeBlocks.length - 1 !== index && <div className="block__card__separate" />}
                   </div>
                 )

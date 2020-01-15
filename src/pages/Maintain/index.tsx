@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { AxiosResponse } from 'axios'
-import { AppContext } from '../../contexts/providers/index'
+import { useAppState } from '../../contexts/providers/index'
 import { axiosIns } from '../../service/http/fetcher'
 import PCMaintainImage from '../../assets/pc_maintain.png'
 import MobileMaintainImage from '../../assets/mobile_maintain.png'
@@ -72,7 +72,7 @@ const getMaintainImage = () => {
 
 export default () => {
   const { replace } = useHistory()
-  const { app } = useContext(AppContext)
+  const { app } = useAppState()
 
   useEffect(() => {
     fetchTipBlockNumber(replace)

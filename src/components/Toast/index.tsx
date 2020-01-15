@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext, useReducer } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import styled from 'styled-components'
-import { AppContext } from '../../contexts/providers/index'
 import { useTimeoutWithUnmount } from '../../utils/hook'
+import { useAppState } from '../../contexts/providers'
 
 const ToastDiv = styled.div`
   position: absolute;
@@ -131,7 +131,7 @@ const reducer = (state: any, action: any) => {
 }
 
 export default () => {
-  const { app } = useContext(AppContext)
+  const { app } = useAppState()
   const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {

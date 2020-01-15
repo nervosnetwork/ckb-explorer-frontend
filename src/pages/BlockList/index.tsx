@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, Fragment, useMemo } from 'react'
+import React, { useEffect, Fragment, useMemo } from 'react'
 import { useHistory, useLocation, Link } from 'react-router-dom'
 import queryString from 'query-string'
 import { useTranslation } from 'react-i18next'
@@ -17,11 +17,10 @@ import { parsePageNumber, adaptMobileEllipsis } from '../../utils/string'
 import { ListPageParams, DELAY_BLOCK_NUMBER } from '../../utils/const'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
 import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import { AppContext } from '../../contexts/providers'
+import { useAppState, useDispatch } from '../../contexts/providers'
 import { getBlocks } from '../../service/app/block'
 import DecimalCapacity from '../../components/DecimalCapacity'
 
@@ -118,7 +117,8 @@ const BlockCardItems = (block: State.Block, index: number, page: number) => {
   ] as OverviewItemData[]
 }
 
-export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+export default () => {
+  const dispatch = useDispatch()
   const { replace, push } = useHistory()
   const { search } = useLocation()
 
@@ -149,7 +149,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
   }, [t])
 
   const parsed = queryString.parse(search)
-  const { blockListState } = useContext(AppContext)
+  const { blockListState } = useAppState()
   const { blocks = [] } = blockListState
 
   const currentPage = parsePageNumber(parsed.page, ListPageParams.PageNo)
@@ -196,7 +196,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
                         return (
                           <Fragment key={key}>
                             {data.content === block.minerHash ? (
-                              <TableMinerContentItem width={data.width} content={data.content} dispatch={dispatch} />
+                              <TableMinerContentItem width={data.width} content={data.content} />
                             ) : (
                               <TableContentItem width={data.width} content={data.content} to={data.to} />
                             )}

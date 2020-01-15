@@ -2,13 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 import i18n from '../../utils/i18n'
 import { copyElementValue } from '../../utils/util'
-import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import { AppActions } from '../../contexts/providers/reducer'
+import { useDispatch } from '../../contexts/providers'
 
 const CopyPanel = styled.div`
   cursor: pointer;
 `
 
-export default ({ content, dispatch }: { content: string; dispatch: AppDispatch }) => {
+export default ({ content }: { content: string }) => {
+  const dispatch = useDispatch()
   return (
     <CopyPanel
       id="copy_content"

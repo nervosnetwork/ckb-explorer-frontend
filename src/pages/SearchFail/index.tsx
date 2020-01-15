@@ -5,7 +5,6 @@ import { useLocation } from 'react-router-dom'
 import Content from '../../components/Content'
 import Search from '../../components/Search'
 import i18n from '../../utils/i18n'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
 import { SearchFailType } from '../../utils/const'
 import CONFIG from '../../config'
 import { isMainnet } from '../../utils/chain'
@@ -65,7 +64,7 @@ const chainUrlMessage = () => {
   return isMainnet() ? i18n.t('search.address_type_testnet_url') : i18n.t('search.address_type_mainnet_url')
 }
 
-export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+export default () => {
   const { search } = useLocation()
   const parsed = queryString.parse(search)
   const { q, type } = parsed
@@ -74,7 +73,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
     <Content>
       <SearchPanel className="container">
         <div className="search__fail__bar">
-          <Search hasBorder content={q as string} dispatch={dispatch} />
+          <Search hasBorder content={q as string} />
         </div>
         <SearchContent>
           {type && type === SearchFailType.CHAIN_ERROR ? (

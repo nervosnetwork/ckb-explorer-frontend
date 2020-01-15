@@ -1,10 +1,10 @@
-import React, { ReactNode, useContext, useEffect } from 'react'
+import React, { ReactNode } from 'react'
 import { Tooltip } from 'antd'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TitleCard from '../../components/Card/TitleCard'
 import TransactionItem from '../../components/TransactionItem/index'
-import { AppContext } from '../../contexts/providers/index'
+import { useAppState } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
 import { localeNumberString, parseEpochNumber } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
@@ -19,11 +19,9 @@ import {
 import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { parseSimpleDateNoSecond } from '../../utils/date'
-import { AppDispatch } from '../../contexts/providers/reducer'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
-import { getTipBlockNumber } from '../../service/app/address'
 
-const addressContent = (address: string, dispatch: AppDispatch) => {
+const addressContent = (address: string) => {
   if (!address) {
     return i18n.t('address.unable_decode_address')
   }
@@ -33,7 +31,7 @@ const addressContent = (address: string, dispatch: AppDispatch) => {
   const addressHash = adaptPCEllipsis(address, 13, 50)
   if (addressHash.includes('...')) {
     return (
-      <Tooltip placement="top" title={<CopyTooltipText content={address} dispatch={dispatch} />}>
+      <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
         <span>{addressHash}</span>
       </Tooltip>
     )
@@ -69,7 +67,7 @@ const AddressLockScript = ({ script }: { script: State.Script }) => {
   )
 }
 
-const getAddressInfo = (addressState: State.AddressState, dispatch: AppDispatch) => {
+const getAddressInfo = (addressState: State.AddressState) => {
   const { address } = addressState
   const items: OverviewItemData[] = [
     {
@@ -101,7 +99,7 @@ const getAddressInfo = (addressState: State.AddressState, dispatch: AppDispatch)
   if (address.type === 'LockHash' && address) {
     items.push({
       title: i18n.t('address.address'),
-      content: addressContent(address.addressHash, dispatch),
+      content: addressContent(address.addressHash),
     })
   }
   const { lockInfo } = address
@@ -118,12 +116,12 @@ const getAddressInfo = (addressState: State.AddressState, dispatch: AppDispatch)
   return items
 }
 
-export const AddressOverview = ({ dispatch }: { dispatch: AppDispatch }) => {
-  const { addressState } = useContext(AppContext)
+export const AddressOverview = () => {
+  const { addressState } = useAppState()
   return (
     <>
       <TitleCard title={i18n.t('common.overview')} />
-      <OverviewCard items={getAddressInfo(addressState, dispatch)}>
+      <OverviewCard items={getAddressInfo(addressState)}>
         {addressState && addressState.address && addressState.address.lockScript && (
           <AddressLockScript script={addressState.address.lockScript} />
         )}
@@ -136,22 +134,16 @@ export const AddressTransactions = ({
   currentPage,
   pageSize,
   address,
-  dispatch,
 }: {
   currentPage: number
   pageSize: number
   address: string
-  dispatch: AppDispatch
 }) => {
-  const { addressState, app } = useContext(AppContext)
+  const { addressState, app } = useAppState()
   const { tipBlockNumber } = app
   const { transactions = [] } = addressState
 
   const totalPages = Math.ceil(addressState.total / pageSize)
-
-  useEffect(() => {
-    getTipBlockNumber(dispatch)
-  }, [dispatch])
 
   const onChange = (page: number) => {
     browserHistory.replace(`/address/${address}?page=${page}&size=${pageSize}`)
@@ -167,7 +159,6 @@ export const AddressTransactions = ({
               <TransactionItem
                 address={addressState.address.addressHash}
                 transaction={transaction}
-                dispatch={dispatch}
                 confirmation={tipBlockNumber - transaction.blockNumber + 1}
                 key={transaction.transactionHash}
                 isLastItem={index === addressState.transactions.length - 1}

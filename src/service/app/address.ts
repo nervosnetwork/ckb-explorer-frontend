@@ -118,5 +118,4 @@ export const getTipBlockNumber = (dispatch: AppDispatch) => {
 export const getAddress = (identityHash: string, page: number, size: number, dispatch: any) => {
   getAddressInfo(identityHash, dispatch)
   getTransactionsByAddress(identityHash, page, size, dispatch)
-  getTipBlockNumber(dispatch)
 }
