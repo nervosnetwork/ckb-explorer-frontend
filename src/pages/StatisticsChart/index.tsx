@@ -10,6 +10,7 @@ import {
   getStatisticTransactionCount,
   getStatisticTotalDaoDeposit,
   getStatisticAddressBalanceRank,
+  getStatisticDifficultyHashRateUncleRate,
 } from '../../service/app/statisticsChart'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
@@ -21,6 +22,7 @@ import { CellCountChart } from './CellCount'
 import { TotalDaoDepositChart } from './TotalDaoDeposit'
 import { ChartsPanel, ChartCardPanel } from './styled'
 import { AddressBalanceRankChart } from './AddressBalanceRank'
+import { DifficultyChart } from './Difficulty'
 
 interface ChartData {
   title: string
@@ -46,6 +48,7 @@ export default () => {
   const {
     statisticDifficultyHashRates,
     statisticDifficultyUncleRates,
+    statisticDifficultyHashRateUncleRates,
     statisticAddressCounts,
     statisticTotalDaoDeposits,
     statisticCellCounts,
@@ -63,6 +66,13 @@ export default () => {
       title: `${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`,
       chart: <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} isThumbnail />,
       path: '/charts/difficulty_uncle_rate',
+    },
+    {
+      title: `${i18n.t('block.difficulty')}`,
+      chart: (
+        <DifficultyChart statisticDifficultyHashRateUncleRates={statisticDifficultyHashRateUncleRates} isThumbnail />
+      ),
+      path: '/charts/difficulty',
     },
     {
       title: `${i18n.t('statistic.transaction_count')}`,
@@ -100,6 +110,7 @@ export default () => {
   useEffect(() => {
     getStatisticDifficultyHashRate(dispatch)
     getStatisticDifficultyUncleRate(dispatch)
+    getStatisticDifficultyHashRateUncleRate(dispatch)
     getStatisticAddressCount(dispatch)
     getStatisticCellCount(dispatch)
     getStatisticTransactionCount(dispatch)

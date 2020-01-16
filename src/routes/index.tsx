@@ -20,6 +20,7 @@ import Sheet from '../components/Sheet'
 import StatisticsChart from '../pages/StatisticsChart/index'
 import DifficultyHashRateChart from '../pages/StatisticsChart/DifficultyHashRate'
 import DifficultyUncleRateChart from '../pages/StatisticsChart/DifficultyUncleRate'
+import DifficultyChart from '../pages/StatisticsChart/Difficulty'
 import TransactionCountChart from '../pages/StatisticsChart/TransactionCount'
 import AddressCountChart from '../pages/StatisticsChart/AddressCount'
 import TotalDaoDepositChart from '../pages/StatisticsChart/TotalDaoDeposit'
@@ -90,6 +91,12 @@ export const containers: CustomRouter.Route[] = [
     path: '/charts/difficulty_uncle_rate',
     exact: true,
     comp: DifficultyUncleRateChart,
+  },
+  {
+    name: 'Difficulty',
+    path: '/charts/difficulty',
+    exact: true,
+    comp: DifficultyChart,
   },
   {
     name: 'TransactionCountChart',

@@ -62,19 +62,19 @@ export const getStatisticDifficultyHashRateUncleRate = (dispatch: AppDispatch) =
     (response: Response.Response<Response.Wrapper<State.StatisticDifficultyHashRateUncleRate>[]> | null) => {
       if (!response) return
       const { data } = response
-      const difficultyHashRates = data.map(wrapper => {
+      const difficultyHashRateUncleRates = data.map(wrapper => {
         return {
-          difficulty: wrapper.attributes.avgDifficulty,
-          hashRate: new BigNumber(wrapper.attributes.avgHashRate).multipliedBy(1000).toNumber(),
+          avgDifficulty: wrapper.attributes.avgDifficulty,
+          avgHashRate: new BigNumber(wrapper.attributes.avgHashRate).multipliedBy(1000).toNumber(),
           uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
-      if (difficultyHashRates.length === 0) return
+      if (difficultyHashRateUncleRates.length === 0) return
       dispatch({
-        type: PageActions.UpdateStatisticDifficultyHashRate,
+        type: PageActions.UpdateStatisticDifficultyHashRateUncleRate,
         payload: {
-          statisticDifficultyHashRates: difficultyHashRates,
+          statisticDifficultyHashRateUncleRates: difficultyHashRateUncleRates,
         },
       })
     },
