@@ -13,13 +13,13 @@ export default ({ content }: { content: string }) => {
   const dispatch = useDispatch()
   return (
     <CopyPanel
-      id="copy_content"
+      id={`copy_content${content}`}
       role="button"
       tabIndex={-1}
       onKeyDown={() => {}}
       onClick={event => {
         event.stopPropagation()
-        copyElementValue(document.getElementById('copy_content'))
+        copyElementValue(document.getElementById(`copy_content${content}`))
         dispatch({
           type: AppActions.ShowToastMessage,
           payload: {
