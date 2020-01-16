@@ -110,6 +110,7 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
       {
         name: i18n.t('block.difficulty'),
         type: 'line',
+        step: 'start',
         yAxisIndex: '0',
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
