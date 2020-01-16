@@ -14,6 +14,7 @@ import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
 import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
 import SmallLoading from '../../components/Loading/SmallLoading'
+import { parseDateNoTime } from '../../utils/date'
 
 const colors = ['#3182bd', '#66CC99']
 
@@ -40,9 +41,8 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) => `<span style="width:100px;display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.block_number'))} ${handleAxis(
+        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
-          1,
         )}</div>`
         if (dataList[0]) {
           result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
@@ -67,9 +67,9 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       {
         type: 'category',
         boundaryGap: false,
-        data: statisticCellCounts.map(data => data.blockNumber),
+        data: statisticCellCounts.map(data => data.createdAtUnixtimestamp),
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: string) => parseDateNoTime(value),
         },
       },
     ],

@@ -237,7 +237,7 @@ declare namespace State {
     liveCellsCount: string
     deadCellsCount: string
     allCellsCount: string
-    blockNumber: string
+    createdAtUnixtimestamp: string
   }
 
   export interface StatisticDifficultyUncleRate {
