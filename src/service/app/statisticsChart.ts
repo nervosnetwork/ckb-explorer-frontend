@@ -133,6 +133,7 @@ export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
       const totalDaoDeposits = data.map(wrapper => {
         return {
           totalDaoDeposit: wrapper.attributes.totalDaoDeposit,
+          totalDepositorsCount: wrapper.attributes.totalDepositorsCount,
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })

@@ -224,6 +224,7 @@ declare namespace State {
 
   export interface StatisticTotalDaoDeposit {
     totalDaoDeposit: string
+    totalDepositorsCount: string
     createdAtUnixtimestamp: string
   }
 

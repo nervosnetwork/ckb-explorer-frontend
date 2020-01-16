@@ -7,6 +7,8 @@ describe('Chart tests', () => {
     expect(handleAxis(new BigNumber(12233435))).toBe('12.233435M')
     expect(handleAxis(new BigNumber(102300), 2)).toBe('102.30K')
     expect(handleAxis(new BigNumber(12233435), 3)).toBe('12.233M')
+    expect(handleAxis(new BigNumber(122), 2)).toBe('122.00')
+    expect(handleAxis(new BigNumber(122), 2, true)).toBe('122')
   })
 
   it('parseInterval', async () => {

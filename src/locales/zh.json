@@ -41,7 +41,9 @@
     "statistic": {
       "transaction_count": "交易数量",
       "address_count": "地址数量",
+      "total_dao_deposit_depositor": "Nervos DAO 锁定总额 & 锁定地址数量",
       "total_dao_deposit": "Nervos DAO 锁定总额",
+      "total_dao_depositor": "Nervos DAO 锁定地址数量",
       "live_cell": "未花费 Cell",
       "archived_cell": "已花费 Cell",
       "all_cells": "所有的 Cell",
