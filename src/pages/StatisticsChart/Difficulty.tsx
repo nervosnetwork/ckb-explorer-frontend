@@ -15,6 +15,7 @@ import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { useAppState, useDispatch } from '../../contexts/providers'
+import { handleDifficulty } from '../../utils/number'
 
 const colors = ['#3182bd']
 
@@ -47,7 +48,7 @@ const getOption = (
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
         )}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleAxis(
+        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
           dataList[0].data,
         )}</div>`
         return result
