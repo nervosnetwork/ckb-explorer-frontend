@@ -24,6 +24,7 @@ import { ChartsPanel, ChartCardPanel } from './styled'
 import { AddressBalanceRankChart } from './AddressBalanceRank'
 import { DifficultyChart } from './Difficulty'
 import { HashRateChart } from './HashRate'
+import { UncleRateChart } from './UncleRate'
 
 interface ChartData {
   title: string
@@ -81,6 +82,13 @@ export default () => {
         <HashRateChart statisticDifficultyHashRateUncleRates={statisticDifficultyHashRateUncleRates} isThumbnail />
       ),
       path: '/charts/hash_rate',
+    },
+    {
+      title: `${i18n.t('block.uncle_rate')}`,
+      chart: (
+        <UncleRateChart statisticDifficultyHashRateUncleRates={statisticDifficultyHashRateUncleRates} isThumbnail />
+      ),
+      path: '/charts/uncle_rate',
     },
     {
       title: `${i18n.t('statistic.transaction_count')}`,
