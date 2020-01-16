@@ -26,6 +26,7 @@ import AddressCountChart from '../pages/StatisticsChart/AddressCount'
 import TotalDaoDepositChart from '../pages/StatisticsChart/TotalDaoDeposit'
 import CellCountChart from '../pages/StatisticsChart/CellCount'
 import AddressBalanceRankChart from '../pages/StatisticsChart/AddressBalanceRank'
+import HashRateChart from '../pages/StatisticsChart/HashRate'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -97,6 +98,12 @@ export const containers: CustomRouter.Route[] = [
     path: '/charts/difficulty',
     exact: true,
     comp: DifficultyChart,
+  },
+  {
+    name: 'HashRate',
+    path: '/charts/hash_rate',
+    exact: true,
+    comp: HashRateChart,
   },
   {
     name: 'TransactionCountChart',

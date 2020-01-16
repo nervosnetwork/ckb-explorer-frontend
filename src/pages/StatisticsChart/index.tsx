@@ -23,6 +23,7 @@ import { TotalDaoDepositChart } from './TotalDaoDeposit'
 import { ChartsPanel, ChartCardPanel } from './styled'
 import { AddressBalanceRankChart } from './AddressBalanceRank'
 import { DifficultyChart } from './Difficulty'
+import { HashRateChart } from './HashRate'
 
 interface ChartData {
   title: string
@@ -73,6 +74,13 @@ export default () => {
         <DifficultyChart statisticDifficultyHashRateUncleRates={statisticDifficultyHashRateUncleRates} isThumbnail />
       ),
       path: '/charts/difficulty',
+    },
+    {
+      title: `${i18n.t('block.hash_rate')}`,
+      chart: (
+        <HashRateChart statisticDifficultyHashRateUncleRates={statisticDifficultyHashRateUncleRates} isThumbnail />
+      ),
+      path: '/charts/hash_rate',
     },
     {
       title: `${i18n.t('statistic.transaction_count')}`,
