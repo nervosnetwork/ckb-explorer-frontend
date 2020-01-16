@@ -7,6 +7,7 @@ import {
   fetchStatisticTotalDaoDeposit,
   fetchStatisticCellCount,
   fetchStatisticAddressBalanceRank,
+  fetchStatisticDifficultyHashRateUncleRate,
 } from '../http/fetcher'
 import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
 
@@ -50,6 +51,30 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticDifficultyUncleRate,
         payload: {
           statisticDifficultyUncleRates: difficultyUncleRates,
+        },
+      })
+    },
+  )
+}
+
+export const getStatisticDifficultyHashRateUncleRate = (dispatch: AppDispatch) => {
+  fetchStatisticDifficultyHashRateUncleRate().then(
+    (response: Response.Response<Response.Wrapper<State.StatisticDifficultyHashRateUncleRate>[]> | null) => {
+      if (!response) return
+      const { data } = response
+      const difficultyHashRates = data.map(wrapper => {
+        return {
+          difficulty: wrapper.attributes.avgDifficulty,
+          hashRate: new BigNumber(wrapper.attributes.avgHashRate).multipliedBy(1000).toNumber(),
+          uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
+          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+        }
+      })
+      if (difficultyHashRates.length === 0) return
+      dispatch({
+        type: PageActions.UpdateStatisticDifficultyHashRate,
+        payload: {
+          statisticDifficultyHashRates: difficultyHashRates,
         },
       })
     },
