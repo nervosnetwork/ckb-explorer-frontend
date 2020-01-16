@@ -198,7 +198,7 @@ export const fetchStatisticDifficultyHashRate = () => {
 }
 
 export const fetchStatisticCellCount = () => {
-  return axiosIns(`/block_statistics/live_cells_count-dead_cells_count`).then((res: AxiosResponse) =>
+  return axiosIns(`/daily_statistics/live_cells_count-dead_cells_count`).then((res: AxiosResponse) =>
     toCamelcase<Response.Response<Response.Wrapper<State.StatisticCellCount>[]>>(res.data),
   )
 }
