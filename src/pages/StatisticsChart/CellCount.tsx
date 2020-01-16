@@ -15,6 +15,7 @@ import { handleAxis } from '../../utils/chart'
 import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { parseDateNoTime } from '../../utils/date'
+import { isMobile } from '../../utils/screen'
 
 const colors = ['#3182bd', '#66CC99']
 
@@ -76,6 +77,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
     yAxis: [
       {
         position: 'left',
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.live_cell'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -89,6 +91,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       },
       {
         position: 'right',
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.all_cells'),
         type: 'value',
         scale: true,
         axisLine: {
