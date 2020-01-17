@@ -20,12 +20,6 @@ declare namespace State {
     id: number
   }
 
-  export interface Modal {
-    ui: React.ComponentType
-    maskTop: number
-    maskColor: string
-  }
-
   export interface AppError {
     type: 'Network' | 'ChainAlert' | 'Maintain'
     message: string[]
@@ -276,7 +270,6 @@ declare namespace State {
     toast: State.ToastMessage | null
     loading: boolean
     secondLoading: boolean
-    modal: State.Modal | null
     appErrors: [
       { type: 'Network'; message: string[] },
       { type: 'ChainAlert'; message: string[] },
