@@ -128,12 +128,6 @@ export const fetchBlockchainInfo = () => {
   )
 }
 
-export const fetchStatisticsChart = () => {
-  return axiosIns('/statistic_info_charts').then((res: AxiosResponse) =>
-    toCamelcase<Response.Wrapper<State.StatisticsChart>>(res.data.data),
-  )
-}
-
 export const fetchNodeVersion = () => {
   return axiosIns('/nets/version').then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.NodeVersion>>(res.data.data),
