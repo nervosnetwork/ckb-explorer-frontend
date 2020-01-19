@@ -46,6 +46,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch'))} ${handleAxis(
           dataList[0].name,
           1,
+          true,
         )}</div>`
         if (dataList[0]) {
           result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
