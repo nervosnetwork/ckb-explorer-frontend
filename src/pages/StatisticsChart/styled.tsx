@@ -49,7 +49,7 @@ export const ChartsPanel = styled.div`
   background: white;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
 
   @media (max-width: 700px) {
     margin: 20px 4%;
