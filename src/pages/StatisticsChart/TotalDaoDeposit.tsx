@@ -29,7 +29,7 @@ const gridThumbnail = {
 const grid = {
   left: '6%',
   right: '6.5%',
-  bottom: '3%',
+  bottom: '5%',
   containLabel: true,
 }
 
@@ -64,6 +64,9 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
+        nameLocation: 'middle',
+        nameGap: '30',
         type: 'category',
         boundaryGap: false,
         data: statisticTotalDaoDeposits.map(data => data.createdAtUnixtimestamp),

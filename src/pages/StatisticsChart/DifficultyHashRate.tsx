@@ -29,7 +29,7 @@ const gridThumbnail = {
 const grid = {
   left: '3%',
   right: '4%',
-  bottom: '3%',
+  bottom: '5%',
   containLabel: true,
 }
 
@@ -65,6 +65,9 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
+        name: isMobile() || isThumbnail ? '' : i18n.t('block.epoch'),
+        nameLocation: 'middle',
+        nameGap: '30',
         type: 'category',
         boundaryGap: false,
         data: statisticDifficultyHashRates.map(data => data.epochNumber),
@@ -122,6 +125,7 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
       {
         name: i18n.t('block.hash_rate_hps'),
         type: 'line',
+        smooth: true,
         yAxisIndex: '1',
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,

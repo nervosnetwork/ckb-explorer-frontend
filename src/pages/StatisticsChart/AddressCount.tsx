@@ -28,7 +28,7 @@ const gridThumbnail = {
 const grid = {
   left: '3%',
   right: '4%',
-  bottom: '3%',
+  bottom: '5%',
   containLabel: true,
 }
 
@@ -53,6 +53,9 @@ const getOption = (statisticAddressCounts: State.StatisticAddressCount[], isThum
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
+        nameLocation: 'middle',
+        nameGap: '30',
         type: 'category',
         boundaryGap: false,
         data: statisticAddressCounts.map(data => data.createdAtUnixtimestamp),

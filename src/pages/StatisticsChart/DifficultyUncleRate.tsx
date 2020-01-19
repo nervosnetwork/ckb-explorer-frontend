@@ -30,7 +30,7 @@ const gridThumbnail = {
 const grid = {
   left: '3%',
   right: '4%',
-  bottom: '3%',
+  bottom: '5%',
   containLabel: true,
 }
 
@@ -64,6 +64,9 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
+        name: isMobile() || isThumbnail ? '' : i18n.t('block.epoch'),
+        nameLocation: 'middle',
+        nameGap: '30',
         type: 'category',
         boundaryGap: false,
         data: statisticChartData.map(data => data.epochNumber),
@@ -121,6 +124,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
       {
         name: i18n.t('block.uncle_rate'),
         type: 'line',
+        smooth: true,
         yAxisIndex: '1',
         symbol: 'circle',
         symbolSize: 3,
