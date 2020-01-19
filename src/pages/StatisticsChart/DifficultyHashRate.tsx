@@ -42,7 +42,7 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) => `<span style="width:100px;display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch_number'))} ${handleAxis(
+        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch'))} ${handleAxis(
           dataList[0].name,
           1,
         )}</div>`
@@ -111,6 +111,9 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
         name: i18n.t('block.difficulty'),
         type: 'line',
         step: 'start',
+        areaStyle: {
+          color: '#85bae0',
+        },
         yAxisIndex: '0',
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
