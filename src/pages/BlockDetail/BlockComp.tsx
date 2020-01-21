@@ -148,7 +148,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     },
     {
       title: i18n.t('block.block_index'),
-      content: `${block.blockIndexInEpoch}/${block.length}`,
+      content: `${Number(block.blockIndexInEpoch) + 1}/${block.length}`,
     },
     {
       title: i18n.t('block.difficulty'),
