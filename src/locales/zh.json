@@ -187,6 +187,7 @@
       "dao_title_rank": "排名",
       "dao_title_address": "地址",
       "dao_title_deposit_capacity": "锁定金额",
+      "dao_title_deposit_time": "锁定时间(天)",
       "deposit": "锁定总额",
       "addresses": "地址数量",
       "unclaimed_compensation": "未领取补贴",

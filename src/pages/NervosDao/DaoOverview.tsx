@@ -105,18 +105,18 @@ const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent
       change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.unclaimedCompensationChanges, 2), 2),
       changeSymbol: numberSymbol(Number(nervosDao.unclaimedCompensationChanges)),
       content: localeNumberString(shannonToCkbDecimal(nervosDao.unclaimedCompensation, 2)),
-      tooltip: i18n.t('nervos_dao.24hrs_update'),
+      tooltip: i18n.t('nervos_dao.today_update'),
     },
     {
       title: i18n.t('nervos_dao.claimed_compensation'),
       change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.claimedCompensationChanges, 2), 2),
       changeSymbol: numberSymbol(Number(nervosDao.claimedCompensationChanges)),
       content: localeNumberString(shannonToCkbDecimal(nervosDao.claimedCompensation, 2)),
-      tooltip: i18n.t('nervos_dao.24hrs_update'),
+      tooltip: i18n.t('nervos_dao.today_update'),
     },
     {
       title: i18n.t('nervos_dao.average_deposit_time'),
-      content: `${handleBigNumber(nervosDao.averageDepositTime, 1)} ${i18n.t('nervos_dao.days')}`,
+      content: handleBigNumber(nervosDao.averageDepositTime, 1),
     },
     {
       title: i18n.t('nervos_dao.estimated_apc'),

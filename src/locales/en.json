@@ -186,6 +186,7 @@
       "dao_title_rank": "Rank",
       "dao_title_address": "Address",
       "dao_title_deposit_capacity": "Deposit Capacity",
+      "dao_title_deposit_time": "Deposit Time(Day)",
       "deposit": "Deposit",
       "addresses": "Addresses",
       "unclaimed_compensation": "Unclaimed Compensation",

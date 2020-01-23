@@ -162,6 +162,7 @@ declare namespace State {
   export interface NervosDaoDepositor {
     addressHash: string
     daoDeposit: number
+    averageDepositTime: string
   }
 
   export interface NervosDaoState {
