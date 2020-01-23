@@ -11,11 +11,11 @@ export const parseSimpleDate = (timestamp: number | string) => {
   )}:${formatData(date.getSeconds())}`
 }
 
-export const parseSimpleDateNoSecond = (timestamp: number | string) => {
+export const parseSimpleDateNoSecond = (timestamp: number | string, connector = '-') => {
   const date = new Date(Number(timestamp))
-  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${formatData(date.getHours())}:${formatData(
-    date.getMinutes(),
-  )}`
+  return `${date.getFullYear()}${connector}${date.getMonth() + 1}${connector}${date.getDate()} ${formatData(
+    date.getHours(),
+  )}:${formatData(date.getMinutes())}`
 }
 
 export const parseTimeNoSecond = (millisecond: number | string) => {

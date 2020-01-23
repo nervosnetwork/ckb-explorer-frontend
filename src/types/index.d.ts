@@ -40,8 +40,12 @@ declare namespace State {
     status: 'live' | 'dead'
     isGenesisOutput: boolean
     cellType: 'normal' | 'dao'
-    startedBlockNumber: number
-    endedBlockNumber: number
+    compensationStartedBlockNumber: number
+    compensationEndedBlockNumber: number
+    compensationStartedTimestamp: number
+    compensationEndedTimestamp: number
+    lockedUntilBlockNumber: number
+    lockedUntilBlockTimestamp: number
     interest: string
     daoTypeHash: string
   }

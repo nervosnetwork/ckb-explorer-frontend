@@ -15,6 +15,7 @@ import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArro
 import DecimalCapacity from '../../DecimalCapacity'
 import CopyTooltipText from '../../Text/CopyTooltipText'
 import { useAppState } from '../../../contexts/providers'
+import { parseSimpleDateNoSecond } from '../../../utils/date'
 
 const Cellbase = ({
   cell,
@@ -113,16 +114,51 @@ const TransactionCellAddress = ({
         </div>
       </div>
       <div>
-        <div className="withdraw__info_title">{`${i18n.t('nervos_dao.deposit_period')}: `}</div>
+        <div className="withdraw__info_title">{`${i18n.t('nervos_dao.compensation_period')}: `}</div>
         <div className="withdraw__info_content">
           <span>{`${i18n.t('block.block')} `}</span>
-          <Link to={`/block/${cell.startedBlockNumber}`}>
-            <span>{localeNumberString(cell.startedBlockNumber)}</span>
+          <Link to={`/block/${cell.compensationStartedBlockNumber}`}>
+            <span>{localeNumberString(cell.compensationStartedBlockNumber)}</span>
           </Link>
           <span> - </span>
-          <Link to={`/block/${cell.endedBlockNumber}`}>
-            <span>{localeNumberString(cell.endedBlockNumber)}</span>
+          <Link to={`/block/${cell.compensationStartedBlockNumber}`}>
+            <span>{localeNumberString(cell.compensationEndedBlockNumber)}</span>
           </Link>
+        </div>
+      </div>
+      <div>
+        <div className="withdraw__info_title">{`${i18n.t('nervos_dao.compensation_time')}: `}</div>
+        <div className="withdraw__info_content">
+          <span>
+            {`${parseSimpleDateNoSecond(cell.compensationStartedTimestamp, '/')} - ${parseSimpleDateNoSecond(
+              cell.compensationEndedTimestamp,
+              '/',
+            )}`}
+          </span>
+        </div>
+      </div>
+      <div>
+        <div className="withdraw__info_title">{`${i18n.t('nervos_dao.locked_period')}: `}</div>
+        <div className="withdraw__info_content">
+          <span>{`${i18n.t('block.block')} `}</span>
+          <Link to={`/block/${cell.compensationStartedBlockNumber}`}>
+            <span>{localeNumberString(cell.compensationStartedBlockNumber)}</span>
+          </Link>
+          <span> - </span>
+          <Link to={`/block/${cell.lockedUntilBlockNumber}`}>
+            <span>{localeNumberString(cell.lockedUntilBlockNumber)}</span>
+          </Link>
+        </div>
+      </div>
+      <div>
+        <div className="withdraw__info_title">{`${i18n.t('nervos_dao.locked_time')}: `}</div>
+        <div className="withdraw__info_content">
+          <span>
+            {`${parseSimpleDateNoSecond(cell.compensationStartedTimestamp, '/')} - ${parseSimpleDateNoSecond(
+              cell.lockedUntilBlockTimestamp,
+              '/',
+            )}`}
+          </span>
         </div>
       </div>
     </WithdrawInfoPanel>
