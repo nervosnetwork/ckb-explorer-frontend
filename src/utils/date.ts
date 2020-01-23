@@ -18,6 +18,16 @@ export const parseSimpleDateNoSecond = (timestamp: number | string, connector = 
   )}:${formatData(date.getMinutes())}`
 }
 
+export const parseDiffDate = (startTime: number | string, endTime: number | string) => {
+  const second = (Number(endTime) - Number(startTime)) / 1000
+  if (second < 0) {
+    throw Error('End timestamp must be bigger than start timestamp')
+  }
+  const hour = Math.floor((second / 3600) % 24)
+  const day = Math.floor(second / 3600 / 24)
+  return `${day} days ${hour} hrs`
+}
+
 export const parseTimeNoSecond = (millisecond: number | string) => {
   const second = Number(millisecond) / 1000
   const minute = Math.floor((second / 60) % 60)

@@ -15,7 +15,7 @@ import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArro
 import DecimalCapacity from '../../DecimalCapacity'
 import CopyTooltipText from '../../Text/CopyTooltipText'
 import { useAppState } from '../../../contexts/providers'
-import { parseSimpleDateNoSecond } from '../../../utils/date'
+import { parseDiffDate } from '../../../utils/date'
 
 const Cellbase = ({
   cell,
@@ -108,7 +108,11 @@ const TransactionCellAddress = ({
         </div>
       </div>
       <div>
-        <div className="withdraw__info_title">{`${i18n.t('nervos_dao.compensation')}: `}</div>
+        <div className="withdraw__info_title">
+          {`${i18n.t(
+            isDaoWithdrawCell(cell.cellType) ? 'nervos_dao.compensation' : 'nervos_dao.unissued_compensation',
+          )}: `}
+        </div>
         <div className="withdraw__info_content">
           <DecimalCapacity value={localeNumberString(shannonToCkb(cell.interest))} fontSize={isMobile() ? '8px' : ''} />
         </div>
@@ -129,43 +133,37 @@ const TransactionCellAddress = ({
       <div>
         <div className="withdraw__info_title">{`${i18n.t('nervos_dao.compensation_time')}: `}</div>
         <div className="withdraw__info_content">
-          <span>
-            {`${parseSimpleDateNoSecond(cell.compensationStartedTimestamp, '/')} - ${parseSimpleDateNoSecond(
-              cell.compensationEndedTimestamp,
-              '/',
-            )}`}
-          </span>
+          <span>{parseDiffDate(cell.compensationStartedTimestamp, cell.compensationEndedTimestamp)}</span>
         </div>
       </div>
-      <div>
-        <div className="withdraw__info_title">{`${i18n.t('nervos_dao.locked_period')}: `}</div>
-        <div className="withdraw__info_content">
-          <span>{`${i18n.t('block.block')} `}</span>
-          <Link to={`/block/${cell.compensationStartedBlockNumber}`}>
-            <span>{localeNumberString(cell.compensationStartedBlockNumber)}</span>
-          </Link>
-          <span> - </span>
-          <Link to={`/block/${cell.lockedUntilBlockNumber}`}>
-            <span>{localeNumberString(cell.lockedUntilBlockNumber)}</span>
-          </Link>
-        </div>
-      </div>
-      <div>
-        <div className="withdraw__info_title">{`${i18n.t('nervos_dao.locked_time')}: `}</div>
-        <div className="withdraw__info_content">
-          <span>
-            {`${parseSimpleDateNoSecond(cell.compensationStartedTimestamp, '/')} - ${parseSimpleDateNoSecond(
-              cell.lockedUntilBlockTimestamp,
-              '/',
-            )}`}
-          </span>
-        </div>
-      </div>
+      {isDaoWithdrawCell(cell.cellType) && (
+        <>
+          <div>
+            <div className="withdraw__info_title">{`${i18n.t('nervos_dao.locked_period')}: `}</div>
+            <div className="withdraw__info_content">
+              <span>{`${i18n.t('block.block')} `}</span>
+              <Link to={`/block/${cell.compensationStartedBlockNumber}`}>
+                <span>{localeNumberString(cell.compensationStartedBlockNumber)}</span>
+              </Link>
+              <span> - </span>
+              <Link to={`/block/${cell.lockedUntilBlockNumber}`}>
+                <span>{localeNumberString(cell.lockedUntilBlockNumber)}</span>
+              </Link>
+            </div>
+          </div>
+          <div>
+            <div className="withdraw__info_title">{`${i18n.t('nervos_dao.locked_time')}: `}</div>
+            <div className="withdraw__info_content">
+              <span>{parseDiffDate(cell.compensationStartedTimestamp, cell.lockedUntilBlockTimestamp)}</span>
+            </div>
+          </div>
+        </>
+      )}
     </WithdrawInfoPanel>
   )
 
   if (isDaoCell(cell.cellType)) {
-    if (isDaoWithdrawCell(cell.cellType) && cellType === CellType.Input) {
+    if (cellType === CellType.Input) {
       return (
         <div className="transaction__cell_withdraw">
           <AddressLinkComp cell={cell} address={address} highLight={highLight} />

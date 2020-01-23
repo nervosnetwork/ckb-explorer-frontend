@@ -173,6 +173,7 @@
       "total_deposit": "Total Deposit",
       "current_depositors": "Deposit Addresses",
       "compensation": "Issued Compensation",
+      "unissued_compensation": "Compensation to be Issued",
       "compensation_period": "Compensation Period",
       "compensation_time": "Compensation Time",
       "locked_period": "Locked Period",
