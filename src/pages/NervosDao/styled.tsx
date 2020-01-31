@@ -114,7 +114,8 @@ export const DepositorRankCardPanel = styled.div`
 export const DepositorRankTitle = styled.div`
   display: flex;
   align-items: center;
-  font-size: 18px;
+  font-size: 17px;
+  font-weight: 600;
   height: 40px;
 
   > div {
@@ -125,10 +126,13 @@ export const DepositorRankTitle = styled.div`
     width: 10%;
   }
   >div: nth-child(2) {
-    width: 65%;
+    width: 48%;
   }
   >div: nth-child(3) {
-    width: 25%;
+    width: 22%;
+  }
+  >div: nth-child(4) {
+    width: 20%;
   }
 `
 
@@ -157,15 +161,18 @@ export const DepositorRankItem = styled.div`
     width: 10%;
   }
   >div: nth-child(2) {
-    width: 65%;
+    width: 48%;
   }
   >div: nth-child(3) {
-    width: 25%;
+    width: 22%;
+  }
+  >div: nth-child(4) {
+    width: 20%;
   }
 `
 export const AddressPanel = styled(Link)`
   color: ${props => props.theme.primary};
-  width: 60%;
+  width: 48%;
   text-align: center;
 
   @media (max-width: 700px) {
