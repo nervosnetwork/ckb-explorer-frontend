@@ -39,6 +39,31 @@ export const AddressPendingRewardTitlePanel = styled.div`
   }
 `
 
+export const AddressLockScriptController = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 15px;
+  cursor: pointer;
+  color: ${props => props.theme.primary};
+  display: flex;
+  align-items: center;
+
+  > img {
+    width: 12px;
+    height: 12px;
+    margin: 2px 0 0 5px;
+  }
+
+  @media (max-width: 700px) {
+    font-size: 14px;
+    margin-top: 10px;
+
+    > img {
+      margin: 0px 0 0 5px;
+    }
+  }
+`
+
 export const AddressLockScriptPanel = styled.div`
   width: 100%;
   margin-top: 20px;

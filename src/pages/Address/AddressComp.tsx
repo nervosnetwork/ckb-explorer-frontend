@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { Tooltip } from 'antd'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
@@ -15,11 +15,17 @@ import {
   AddressLockScriptPanel,
   AddressTransactionsPagination,
   AddressTransactionsPanel,
+  AddressLockScriptController,
 } from './styled'
 import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { parseSimpleDateNoSecond } from '../../utils/date'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
+import ArrowUpIcon from '../../assets/arrow_up.png'
+import ArrowDownIcon from '../../assets/arrow_down.png'
+import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
+import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
+import { isMainnet } from '../../utils/chain'
 
 const addressContent = (address: string) => {
   if (!address) {
@@ -53,7 +59,6 @@ const AddressLockScriptItem = ({ title, children }: { title: string; children?: 
 const AddressLockScript = ({ script }: { script: State.Script }) => {
   return (
     <AddressLockScriptPanel>
-      <div className="address__lock_script_title">{i18n.t('address.lock_script')}</div>
       <AddressLockScriptItem title={i18n.t('address.code_hash')}>
         <span>{script.codeHash}</span>
       </AddressLockScriptItem>
@@ -65,6 +70,13 @@ const AddressLockScript = ({ script }: { script: State.Script }) => {
       </AddressLockScriptItem>
     </AddressLockScriptPanel>
   )
+}
+
+const lockScriptIcon = (show: boolean) => {
+  if (show) {
+    return isMainnet() ? ArrowUpIcon : ArrowUpBlueIcon
+  }
+  return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
 }
 
 const getAddressInfo = (addressState: State.AddressState) => {
@@ -117,12 +129,22 @@ const getAddressInfo = (addressState: State.AddressState) => {
 }
 
 export const AddressOverview = () => {
+  const [showLock, setShowLock] = useState<boolean>(false)
   const { addressState } = useAppState()
   return (
     <>
       <TitleCard title={i18n.t('common.overview')} />
       <OverviewCard items={getAddressInfo(addressState)}>
-        {addressState && addressState.address && addressState.address.lockScript && (
+        <AddressLockScriptController
+          role="button"
+          tabIndex={0}
+          onKeyUp={() => {}}
+          onClick={() => setShowLock(!showLock)}
+        >
+          <div>{i18n.t('address.lock_script')}</div>
+          <img alt="lock script" src={lockScriptIcon(showLock)} />
+        </AddressLockScriptController>
+        {showLock && addressState && addressState.address && addressState.address.lockScript && (
           <AddressLockScript script={addressState.address.lockScript} />
         )}
       </OverviewCard>
