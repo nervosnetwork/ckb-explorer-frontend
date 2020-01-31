@@ -46,6 +46,10 @@ export const TransactionDiv = styled.div.attrs({
         @media (max-width: 700px) {
           font-size: 14px;
           margin-top: 10px;
+
+          > img {
+            margin: 0px 0 0 5px;
+          }
         }
       }
     }

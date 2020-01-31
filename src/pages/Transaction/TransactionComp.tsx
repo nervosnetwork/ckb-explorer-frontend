@@ -25,9 +25,9 @@ const TransactionBlockHeight = ({ blockNumber }: { blockNumber: number }) => {
 
 const transactionParamsIcon = (show: boolean) => {
   if (show) {
-    return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
+    return isMainnet() ? ArrowUpIcon : ArrowUpBlueIcon
   }
-  return isMainnet() ? ArrowUpIcon : ArrowUpBlueIcon
+  return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
 }
 
 const TransactionInfoComp = ({ title, value, linkUrl }: { title: string; value: string; linkUrl?: string }) => {
