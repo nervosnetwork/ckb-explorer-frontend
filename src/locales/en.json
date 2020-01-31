@@ -140,7 +140,8 @@
       "unspent_output": "Unspent Transaction Output",
       "transaction_hash": "Transaction Hash",
       "height": "Height",
-      "time": "Time"
+      "time": "Time",
+      "transaction_parameters": "Transaction Parameters"
     },
     "block": {
       "block": "Block",
