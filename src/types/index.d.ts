@@ -229,6 +229,7 @@ declare namespace State {
 
   export interface StatisticTotalDaoDeposit {
     totalDaoDeposit: string
+    totalDepositorsCount: string
     createdAtUnixtimestamp: string
   }
 
@@ -238,10 +239,18 @@ declare namespace State {
     epochNumber: string
   }
 
+  export interface StatisticDifficultyHashRateUncleRate {
+    avgDifficulty: string
+    avgHashRate: string
+    uncleRate: string
+    createdAtUnixtimestamp: string
+  }
+
   export interface StatisticCellCount {
     liveCellsCount: string
     deadCellsCount: string
-    blockNumber: string
+    allCellsCount: string
+    createdAtUnixtimestamp: string
   }
 
   export interface StatisticDifficultyUncleRate {
@@ -332,6 +341,7 @@ declare namespace State {
     statisticsUncleRates: StatisticsUncleRateChart[]
     statisticDifficultyHashRates: StatisticsDifficultyHashRate[]
     statisticDifficultyUncleRates: StatisticsDifficultyUncleRate[]
+    statisticDifficultyHashRateUncleRates: StatisticDifficultyHashRateUncleRate[]
     statisticTransactionCounts: StatisticTransactionCount[]
     statisticCellCounts: StatisticCellCount[]
     statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
