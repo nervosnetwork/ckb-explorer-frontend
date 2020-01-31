@@ -27,6 +27,27 @@ export const TransactionDiv = styled.div.attrs({
       margin: 5px 0;
       display: flex;
       flex-direction: column;
+
+      .transaction__overview_parameters {
+        font-size: 16px;
+        font-weight: 600;
+        margin-top: 15px;
+        cursor: pointer;
+        color: ${props => props.theme.primary};
+        display: flex;
+        align-items: center;
+
+        > img {
+          width: 12px;
+          height: 12px;
+          margin: 2px 0 0 5px;
+        }
+
+        @media (max-width: 700px) {
+          font-size: 14px;
+          margin-top: 10px;
+        }
+      }
     }
   }
 
