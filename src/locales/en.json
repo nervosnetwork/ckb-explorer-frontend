@@ -67,7 +67,6 @@
     "footer": {
       "nervos_foundation": "Foundation",
       "about_us": "About Us",
-      "faq": "FAQ",
       "developer": "Developer",
       "docs": "Docs",
       "gitHub": "GitHub",
@@ -141,7 +140,8 @@
       "unspent_output": "Unspent Transaction Output",
       "transaction_hash": "Transaction Hash",
       "height": "Height",
-      "time": "Time"
+      "time": "Time",
+      "transaction_parameters": "Transaction Parameters"
     },
     "block": {
       "block": "Block",

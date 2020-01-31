@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import LogoIcon from '../../assets/ckb_footer_logo.png'
 import AboutIcon from '../../assets/footer_about.png'
-import FAQIcon from '../../assets/footer_faq.png'
 import GithubIcon from '../../assets/footer_github.png'
 import WhitepaperIcon from '../../assets/footer_whitepaper.png'
 import FaucetIcon from '../../assets/footer_faucet.png'
@@ -37,11 +36,6 @@ export default () => {
           label: i18n.t('footer.about_us'),
           icon: AboutIcon,
           url: 'https://www.nervos.org/',
-        },
-        {
-          label: i18n.t('footer.faq'),
-          icon: FAQIcon,
-          url: 'https://docs.nervos.org/references/faq',
         },
       ],
     },
