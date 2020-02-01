@@ -10,7 +10,9 @@ import {
   getStatisticTransactionCount,
   getStatisticTotalDaoDeposit,
   getStatisticAddressBalanceRank,
-  getStatisticDifficultyHashRateUncleRate,
+  getStatisticDifficulty,
+  getStatisticHashRate,
+  getStatisticUncleRate,
 } from '../../service/app/statisticsChart'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
@@ -50,7 +52,9 @@ export default () => {
   const {
     statisticDifficultyHashRates,
     statisticDifficultyUncleRates,
-    statisticDifficultyHashRateUncleRates,
+    statisticDifficulties,
+    statisticHashRates,
+    statisticUncleRates,
     statisticAddressCounts,
     statisticTotalDaoDeposits,
     statisticCellCounts,
@@ -71,23 +75,17 @@ export default () => {
     },
     {
       title: `${i18n.t('block.difficulty')}`,
-      chart: (
-        <DifficultyChart statisticDifficultyHashRateUncleRates={statisticDifficultyHashRateUncleRates} isThumbnail />
-      ),
+      chart: <DifficultyChart statisticDifficulties={statisticDifficulties} isThumbnail />,
       path: '/charts/difficulty',
     },
     {
       title: `${i18n.t('block.hash_rate')}`,
-      chart: (
-        <HashRateChart statisticDifficultyHashRateUncleRates={statisticDifficultyHashRateUncleRates} isThumbnail />
-      ),
+      chart: <HashRateChart statisticHashRates={statisticHashRates} isThumbnail />,
       path: '/charts/hash_rate',
     },
     {
       title: `${i18n.t('block.uncle_rate')}`,
-      chart: (
-        <UncleRateChart statisticDifficultyHashRateUncleRates={statisticDifficultyHashRateUncleRates} isThumbnail />
-      ),
+      chart: <UncleRateChart statisticUncleRates={statisticUncleRates} isThumbnail />,
       path: '/charts/uncle_rate',
     },
     {
@@ -126,7 +124,9 @@ export default () => {
   useEffect(() => {
     getStatisticDifficultyHashRate(dispatch)
     getStatisticDifficultyUncleRate(dispatch)
-    getStatisticDifficultyHashRateUncleRate(dispatch)
+    getStatisticDifficulty(dispatch)
+    getStatisticHashRate(dispatch)
+    getStatisticUncleRate(dispatch)
     getStatisticAddressCount(dispatch)
     getStatisticCellCount(dispatch)
     getStatisticTransactionCount(dispatch)

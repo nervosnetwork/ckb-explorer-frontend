@@ -17,10 +17,10 @@ const initState: State.AppState = {
   transactionsState: initTransactionsState,
   statistics: initStatistics,
 
-  statisticsChartData: [],
-  statisticsUncleRates: [],
   statisticDifficultyHashRates: [],
-  statisticDifficultyHashRateUncleRates: [],
+  statisticHashRates: [],
+  statisticUncleRates: [],
+  statisticDifficulties: [],
   statisticAddressCounts: [],
   statisticCellCounts: [],
   statisticDifficultyUncleRates: [],
