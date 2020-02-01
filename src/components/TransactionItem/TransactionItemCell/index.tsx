@@ -99,8 +99,12 @@ const TransactionCellAddress = ({
   highLight: boolean
 }) => {
   const { app } = useAppState()
+  let width = 'short'
+  if (app.language === 'en') {
+    width = isDaoDepositCell(cell.cellType) ? 'long' : 'medium'
+  }
   const WithdrawInfo = (
-    <WithdrawInfoPanel longTitle={app.language === 'en'}>
+    <WithdrawInfoPanel width={width}>
       <div>
         <div className="withdraw__info_title">{`${i18n.t('nervos_dao.deposit_capacity')}: `}</div>
         <div className="withdraw__info_content">
