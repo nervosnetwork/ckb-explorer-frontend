@@ -9,7 +9,6 @@ import { isMobile } from '../../../utils/screen'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import TransactionCellDetail from '../TransactionCellScript'
-import { AppDispatch } from '../../../contexts/providers/reducer'
 import {
   TransactionCellContentPanel,
   TransactionCellDetailDataPanel,
@@ -21,7 +20,7 @@ import {
 } from './styled'
 import TransactionCellArrow from '../TransactionCellArrow'
 import DecimalCapacity from '../../../components/DecimalCapacity'
-import CopyTooltipText from '../../../components/Tooltip/CopyTooltipText'
+import CopyTooltipText from '../../../components/Text/CopyTooltipText'
 
 const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
@@ -30,11 +29,11 @@ const handleAddressHashText = (hash: string) => {
   return adaptPCEllipsis(hash, 6, 50)
 }
 
-const AddressHash = ({ address, dispatch }: { address: string; dispatch: AppDispatch }) => {
+const AddressHash = ({ address }: { address: string }) => {
   const addressHash = handleAddressHashText(address)
   if (addressHash.includes('...')) {
     return (
-      <Tooltip placement="top" title={<CopyTooltipText content={address} dispatch={dispatch} />}>
+      <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
         <Link to={`/address/${address}`}>
           <span className="address">{addressHash}</span>
         </Link>
@@ -48,20 +47,12 @@ const AddressHash = ({ address, dispatch }: { address: string; dispatch: AppDisp
   )
 }
 
-const TransactionCellHash = ({
-  cell,
-  cellType,
-  dispatch,
-}: {
-  cell: State.Cell
-  cellType: CellType
-  dispatch: AppDispatch
-}) => {
+const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
   return (
     <TransactionCellHashPanel highLight={cell.addressHash !== null}>
       {!cell.fromCellbase && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
       {cell.addressHash ? (
-        <AddressHash address={cell.addressHash} dispatch={dispatch} />
+        <AddressHash address={cell.addressHash} />
       ) : (
         <span className="transaction__cell_address_no_link">
           {cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}
@@ -118,24 +109,14 @@ const TransactionCellDetailButtons = ({
   )
 }
 
-export default ({
-  cell,
-  cellType,
-  dispatch,
-  index,
-}: {
-  cell: State.Cell
-  cellType: CellType
-  dispatch: AppDispatch
-  index: number
-}) => {
+export default ({ cell, cellType, index }: { cell: State.Cell; cellType: CellType; index: number }) => {
   const [state, setState] = useState(CellState.NONE as CellState)
 
   if (isMobile()) {
     const items: OverviewItemData[] = [
       {
         title: cellType === CellType.Input ? i18n.t('transaction.input') : i18n.t('transaction.output'),
-        content: <TransactionCellHash cell={cell} cellType={cellType} dispatch={dispatch} />,
+        content: <TransactionCellHash cell={cell} cellType={cellType} />,
       },
     ]
     if (cell.capacity) {
@@ -149,9 +130,7 @@ export default ({
         {!cell.fromCellbase && (
           <TransactionCellDetailButtons highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
         )}
-        {state !== CellState.NONE && (
-          <TransactionCellDetail cell={cell} state={state} dispatch={dispatch} setState={setState} />
-        )}
+        {state !== CellState.NONE && <TransactionCellDetail cell={cell} state={state} setState={setState} />}
       </OverviewCard>
     )
   }
@@ -163,7 +142,7 @@ export default ({
           {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
         </div>
         <div className="transaction__cell_hash">
-          <TransactionCellHash cell={cell} cellType={cellType} dispatch={dispatch} />
+          <TransactionCellHash cell={cell} cellType={cellType} />
         </div>
 
         <div className="transaction__cell_capacity">
@@ -174,9 +153,7 @@ export default ({
           <TransactionCellDetailButtons highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
         </div>
       </TransactionCellContentPanel>
-      {state !== CellState.NONE && (
-        <TransactionCellDetail cell={cell} state={state} dispatch={dispatch} setState={setState} />
-      )}
+      {state !== CellState.NONE && <TransactionCellDetail cell={cell} state={state} setState={setState} />}
     </TransactionCellPanel>
   )
 }

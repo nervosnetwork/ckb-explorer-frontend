@@ -7,8 +7,9 @@ import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
 import { copyElementValue } from '../../utils/util'
-import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import { AppActions } from '../../contexts/providers/reducer'
 import SmallLoading from '../Loading/SmallLoading'
+import { useDispatch } from '../../contexts/providers'
 
 const HashCardPanel = styled.div`
   width: 100%;
@@ -112,16 +113,15 @@ const LoadingPanel = styled.div`
 export default ({
   title,
   hash,
-  dispatch,
   loading,
   specialAddress = '',
 }: {
   title: string
   hash: string
-  dispatch: AppDispatch
   loading?: boolean
   specialAddress?: string
 }) => {
+  const dispatch = useDispatch()
   return (
     <HashCardPanel id="hash_content">
       <div className="hash__title">{title}</div>

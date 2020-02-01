@@ -41,9 +41,12 @@
     "statistic": {
       "transaction_count": "Transaction Count",
       "address_count": "Address Count",
+      "total_dao_deposit_depositor": "Total Nervos DAO Deposit & Depositor",
       "total_dao_deposit": "Total Nervos DAO Deposit",
+      "total_dao_depositor": "Total Nervos DAO Depositor",
       "live_cell": "Live Cell",
       "archived_cell": "Archived Cell",
+      "all_cells": "All Cells",
       "cell_count": "Cell Count",
       "balance_ranking": "Balance Ranking",
       "ranking": "Ranking",
@@ -67,7 +70,6 @@
     "footer": {
       "nervos_foundation": "Foundation",
       "about_us": "About Us",
-      "faq": "FAQ",
       "developer": "Developer",
       "docs": "Docs",
       "gitHub": "GitHub",
@@ -141,7 +143,8 @@
       "unspent_output": "Unspent Transaction Output",
       "transaction_hash": "Transaction Hash",
       "height": "Height",
-      "time": "Time"
+      "time": "Time",
+      "transaction_parameters": "Transaction Parameters"
     },
     "block": {
       "block": "Block",
@@ -174,7 +177,11 @@
       "total_deposit": "Total Deposit",
       "current_depositors": "Deposit Addresses",
       "compensation": "Issued Compensation",
-      "deposit_period": "Deposit Period",
+      "unissued_compensation": "Compensation to be Issued",
+      "compensation_period": "Compensation Period",
+      "compensation_time": "Compensation Time",
+      "locked_period": "Locked Period",
+      "locked_time": "Locked Time",
       "deposit_capacity": "Deposit Capacity",
       "dao_search_placeholder": "Transaction / Address",
       "dao_search_reset": "Reset",
@@ -183,6 +190,7 @@
       "dao_title_rank": "Rank",
       "dao_title_address": "Address",
       "dao_title_deposit_capacity": "Deposit Capacity",
+      "dao_title_deposit_time": "Deposit Time(Day)",
       "deposit": "Deposit",
       "addresses": "Addresses",
       "unclaimed_compensation": "Unclaimed Compensation",

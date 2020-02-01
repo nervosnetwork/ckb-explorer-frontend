@@ -1,4 +1,4 @@
-import React, { useContext, useState, ReactNode } from 'react'
+import React, { useState, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Tooltip } from 'antd'
@@ -10,7 +10,7 @@ import PackUpBlueIcon from '../../assets/content_blue_pack_up.png'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TitleCard from '../../components/Card/TitleCard'
 import TransactionItem from '../../components/TransactionItem/index'
-import { AppContext } from '../../contexts/providers'
+import { useAppState } from '../../contexts/providers'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString, handleDifficulty } from '../../utils/number'
@@ -30,8 +30,7 @@ import MinerRewardIcon from '../../assets/miner_complete.png'
 import browserHistory from '../../routes/history'
 import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import { AppDispatch } from '../../contexts/providers/reducer'
-import CopyTooltipText from '../../components/Tooltip/CopyTooltipText'
+import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { DELAY_BLOCK_NUMBER } from '../../utils/const'
 
 const handleMinerText = (address: string) => {
@@ -41,7 +40,7 @@ const handleMinerText = (address: string) => {
   return adaptPCEllipsis(address, 12, 50)
 }
 
-const BlockMiner = ({ miner, dispatch }: { miner: string; dispatch: AppDispatch }) => {
+const BlockMiner = ({ miner }: { miner: string }) => {
   if (!miner) {
     return <BlockLinkPanel>{i18n.t('address.unable_decode_address')}</BlockLinkPanel>
   }
@@ -49,7 +48,7 @@ const BlockMiner = ({ miner, dispatch }: { miner: string; dispatch: AppDispatch 
   return (
     <BlockLinkPanel>
       {minerText.includes('...') ? (
-        <Tooltip placement="top" title={<CopyTooltipText content={miner} dispatch={dispatch} />}>
+        <Tooltip placement="top" title={<CopyTooltipText content={miner} />}>
           <Link to={`/address/${miner}`}>
             <span className="address">{minerText}</span>
           </Link>
@@ -102,7 +101,7 @@ const EpochNumberLink = ({ epochNumber }: { epochNumber: number }) => {
   )
 }
 
-const BlockOverview = ({ block, dispatch }: { block: State.Block; dispatch: AppDispatch }) => {
+const BlockOverview = ({ block }: { block: State.Block }) => {
   const [showAllOverview, setShowAllOverview] = useState(false)
   const minerReward = <DecimalCapacity value={localeNumberString(shannonToCkb(block.minerReward))} />
   const rootInfoItems = [
@@ -119,7 +118,7 @@ const BlockOverview = ({ block, dispatch }: { block: State.Block; dispatch: AppD
     },
     {
       title: i18n.t('block.miner'),
-      content: <BlockMiner miner={block.minerHash} dispatch={dispatch} />,
+      content: <BlockMiner miner={block.minerHash} />,
     },
     {
       title: i18n.t('transaction.transactions'),
@@ -149,7 +148,7 @@ const BlockOverview = ({ block, dispatch }: { block: State.Block; dispatch: AppD
     },
     {
       title: i18n.t('block.block_index'),
-      content: `${block.blockIndexInEpoch}/${block.length}`,
+      content: `${Number(block.blockIndexInEpoch) + 1}/${block.length}`,
     },
     {
       title: i18n.t('block.difficulty'),
@@ -209,14 +208,12 @@ export default ({
   currentPage,
   pageSize,
   blockParam,
-  dispatch,
 }: {
   currentPage: number
   pageSize: number
   blockParam: string
-  dispatch: AppDispatch
 }) => {
-  const { blockState } = useContext(AppContext)
+  const { blockState } = useAppState()
   const { transactions = [] } = blockState
 
   const totalPages = Math.ceil(blockState.total / pageSize)
@@ -228,7 +225,7 @@ export default ({
   return (
     <>
       <TitleCard title={i18n.t('common.overview')} />
-      {blockState && <BlockOverview block={blockState.block} dispatch={dispatch} />}
+      {blockState && <BlockOverview block={blockState.block} />}
       <TitleCard title={i18n.t('transaction.transactions')} />
       {transactions.map((transaction: State.Transaction, index: number) => {
         return (
@@ -238,7 +235,6 @@ export default ({
               transaction={transaction}
               isBlock
               isLastItem={index === blockState.transactions.length - 1}
-              dispatch={dispatch}
             />
           )
         )

@@ -5,8 +5,7 @@ import { Tooltip } from 'antd'
 import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
-import CopyTooltipText from '../Tooltip/CopyTooltipText'
-import { AppDispatch } from '../../contexts/providers/reducer'
+import CopyTooltipText from '../Text/CopyTooltipText'
 import { isMobile } from '../../utils/screen'
 
 export const TableTitleRow = styled.div`
@@ -165,13 +164,11 @@ export const TableContentItem = ({
 export const TableMinerContentItem = ({
   width,
   content,
-  dispatch,
   smallWidth,
   fontSize = '16px',
 }: {
   width: string
   content: string
-  dispatch: AppDispatch
   smallWidth?: boolean
   fontSize?: string
 }) => {
@@ -192,7 +189,7 @@ export const TableMinerContentItem = ({
           }}
         >
           {addressText.includes('...') ? (
-            <Tooltip placement="top" title={<CopyTooltipText content={content} dispatch={dispatch} />}>
+            <Tooltip placement="top" title={<CopyTooltipText content={content} />}>
               <span className="table__miner__text address">{addressText}</span>
             </Tooltip>
           ) : (

@@ -20,6 +20,7 @@ const initState: State.AppState = {
   statisticsChartData: [],
   statisticsUncleRates: [],
   statisticDifficultyHashRates: [],
+  statisticDifficultyHashRateUncleRates: [],
   statisticAddressCounts: [],
   statisticCellCounts: [],
   statisticDifficultyUncleRates: [],

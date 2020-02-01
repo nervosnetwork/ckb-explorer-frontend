@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
 import {
-  fetchStatisticsChart,
   fetchStatisticDifficultyHashRate,
   fetchStatisticDifficultyUncleRate,
   fetchStatisticTransactionCount,
@@ -8,109 +7,9 @@ import {
   fetchStatisticTotalDaoDeposit,
   fetchStatisticCellCount,
   fetchStatisticAddressBalanceRank,
+  fetchStatisticDifficultyHashRateUncleRate,
 } from '../http/fetcher'
 import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
-
-const findDifficulty = (
-  difficulties: {
-    difficulty: string
-    blockNumber: number
-    epochNumber: number
-  }[],
-  blockNumber: number,
-) => {
-  if (difficulties && difficulties.length > 0) {
-    const result = difficulties.find(difficulty => {
-      return difficulty.blockNumber === blockNumber
-    })
-    return result || undefined
-  }
-  return undefined
-}
-
-const handleStatistics = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
-  let { hashRate: hashRates, difficulty: difficulties } = wrapper.attributes
-  if (!hashRates && !difficulties) return []
-
-  difficulties = difficulties.filter(difficulty => difficulty.epochNumber >= 4)
-  hashRates = hashRates.filter(hashRate => hashRate.blockNumber >= difficulties[0].blockNumber)
-
-  const dataList: State.StatisticsBaseData[] = []
-  if (hashRates && hashRates.length > 0) {
-    hashRates.forEach(hashRate => {
-      dataList.push({
-        type: 'HashRate',
-        blockNumber: hashRate.blockNumber,
-        hashRate: new BigNumber(hashRate.hashRate).multipliedBy(1000).toNumber(),
-      })
-      const difficulty = findDifficulty(difficulties, hashRate.blockNumber)
-      if (difficulty !== undefined) {
-        dataList.push({
-          type: 'Difficulty',
-          blockNumber: difficulty.blockNumber,
-          difficulty: Number(difficulty.difficulty),
-        })
-        dataList.push({
-          type: 'EpochNumber',
-          blockNumber: difficulty.blockNumber,
-          epochNumber: difficulty.epochNumber,
-        })
-      }
-    })
-  } else if (difficulties && difficulties.length > 0) {
-    difficulties.forEach(difficulty => {
-      dataList.push({
-        type: 'Difficulty',
-        blockNumber: difficulty.blockNumber,
-        difficulty: Number(difficulty.difficulty),
-      })
-      dataList.push({
-        type: 'EpochNumber',
-        blockNumber: difficulty.blockNumber,
-        epochNumber: difficulty.epochNumber,
-      })
-    })
-  }
-
-  return dataList
-}
-
-const handleStatisticsUncleRate = (wrapper: Response.Wrapper<State.StatisticsChart>) => {
-  const { uncleRate: uncleRates = [] } = wrapper.attributes
-  return uncleRates.map(uncleRate => {
-    return {
-      ...uncleRate,
-      uncleRate: Number(uncleRate.uncleRate.toFixed(4)),
-    }
-  })
-}
-
-export const getStatisticsChart = (dispatch: AppDispatch) => {
-  fetchStatisticsChart().then((wrapper: Response.Wrapper<State.StatisticsChart> | null) => {
-    if (wrapper) {
-      const statisticsChartData = handleStatistics(wrapper)
-      const statisticsUncleRates = handleStatisticsUncleRate(wrapper)
-
-      if (statisticsChartData && statisticsChartData.length > 0) {
-        dispatch({
-          type: PageActions.UpdateStatisticsChartData,
-          payload: {
-            statisticsChartData,
-          },
-        })
-      }
-
-      if (statisticsUncleRates && statisticsUncleRates.length > 0) {
-        dispatch({
-          type: PageActions.UpdateStatisticsUncleRate,
-          payload: {
-            statisticsUncleRates,
-          },
-        })
-      }
-    }
-  })
-}
 
 export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
   fetchStatisticDifficultyHashRate().then(
@@ -152,6 +51,30 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticDifficultyUncleRate,
         payload: {
           statisticDifficultyUncleRates: difficultyUncleRates,
+        },
+      })
+    },
+  )
+}
+
+export const getStatisticDifficultyHashRateUncleRate = (dispatch: AppDispatch) => {
+  fetchStatisticDifficultyHashRateUncleRate().then(
+    (response: Response.Response<Response.Wrapper<State.StatisticDifficultyHashRateUncleRate>[]> | null) => {
+      if (!response) return
+      const { data } = response
+      const difficultyHashRateUncleRates = data.map(wrapper => {
+        return {
+          avgDifficulty: wrapper.attributes.avgDifficulty,
+          avgHashRate: new BigNumber(wrapper.attributes.avgHashRate).multipliedBy(1000).toNumber(),
+          uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
+          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+        }
+      })
+      if (difficultyHashRateUncleRates.length === 0) return
+      dispatch({
+        type: PageActions.UpdateStatisticDifficultyHashRateUncleRate,
+        payload: {
+          statisticDifficultyHashRateUncleRates: difficultyHashRateUncleRates,
         },
       })
     },
@@ -210,6 +133,7 @@ export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
       const totalDaoDeposits = data.map(wrapper => {
         return {
           totalDaoDeposit: wrapper.attributes.totalDaoDeposit,
+          totalDepositorsCount: wrapper.attributes.totalDepositorsCount,
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
@@ -232,7 +156,10 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
       return {
         liveCellsCount: wrapper.attributes.liveCellsCount,
         deadCellsCount: wrapper.attributes.deadCellsCount,
-        blockNumber: wrapper.attributes.blockNumber,
+        allCellsCount: (
+          Number(wrapper.attributes.liveCellsCount) + Number(wrapper.attributes.deadCellsCount)
+        ).toString(),
+        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
       }
     })
     if (cellCounts.length === 0) return
@@ -258,5 +185,3 @@ export const getStatisticAddressBalanceRank = (dispatch: AppDispatch) => {
     })
   })
 }
-
-export default getStatisticsChart

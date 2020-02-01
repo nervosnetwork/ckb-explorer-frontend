@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { Popover, Tooltip as AntdTooltip } from 'antd'
+import { Popover, Tooltip } from 'antd'
 import 'antd/dist/antd.css'
 import HelpIcon from '../../../assets/qa_help.png'
 import DetailIcon from '../../../assets/detail.png'
@@ -10,13 +10,12 @@ import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import { CellbasePanel, TransactionCellPanel, TransactionCellCapacity, WithdrawInfoPanel } from './styled'
 import { isMobile } from '../../../utils/screen'
-import Tooltip from '../../Tooltip'
 import { CellType } from '../../../utils/const'
 import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
-import { AppContext } from '../../../contexts/providers'
 import DecimalCapacity from '../../DecimalCapacity'
-import CopyTooltipText from '../../Tooltip/CopyTooltipText'
-import { AppDispatch } from '../../../contexts/providers/reducer'
+import CopyTooltipText from '../../Text/CopyTooltipText'
+import { useAppState } from '../../../contexts/providers'
+import { parseDiffDate } from '../../../utils/date'
 
 const Cellbase = ({
   cell,
@@ -27,7 +26,6 @@ const Cellbase = ({
   cellType: CellType
   targetBlockNumber?: number
 }) => {
-  const [show, setShow] = useState(false)
   if (!targetBlockNumber || targetBlockNumber <= 0) {
     return (
       <CellbasePanel>
@@ -40,30 +38,8 @@ const Cellbase = ({
       {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
       <div className="cellbase__content">Cellbase for Block</div>
       <Link to={`/block/${targetBlockNumber}`}>{localeNumberString(targetBlockNumber)}</Link>
-      <div
-        id={`cellbase__help_${targetBlockNumber}`}
-        className="cellbase__help"
-        tabIndex={-1}
-        onFocus={() => {}}
-        onMouseOver={() => {
-          setShow(true)
-          const p = document.querySelector('.page') as HTMLElement
-          if (p) {
-            p.setAttribute('tabindex', '-1')
-          }
-        }}
-        onMouseLeave={() => {
-          setShow(false)
-          const p = document.querySelector('.page') as HTMLElement
-          if (p) {
-            p.removeAttribute('tabindex')
-          }
-        }}
-      >
-        <img alt="cellbase help" src={HelpIcon} />
-      </div>
-      <Tooltip show={show} targetElementId={`cellbase__help_${targetBlockNumber}`}>
-        {i18n.t('transaction.cellbase_help_tooltip')}
+      <Tooltip placement="top" title={i18n.t('transaction.cellbase_help_tooltip')}>
+        <img className="cellbase__help__icon" alt="cellbase help" src={HelpIcon} />
       </Tooltip>
     </CellbasePanel>
   )
@@ -88,20 +64,10 @@ const isDaoCell = (cellType: string) => {
   return isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
 }
 
-const AddressLinkComp = ({
-  cell,
-  address,
-  dispatch,
-  highLight,
-}: {
-  cell: State.Cell
-  address: string
-  dispatch: AppDispatch
-  highLight: boolean
-}) => {
+const AddressLinkComp = ({ cell, address, highLight }: { cell: State.Cell; address: string; highLight: boolean }) => {
   if (address.includes('...')) {
     return (
-      <AntdTooltip placement="top" title={<CopyTooltipText content={cell.addressHash} dispatch={dispatch} />}>
+      <Tooltip placement="top" title={<CopyTooltipText content={cell.addressHash} />}>
         {highLight ? (
           <Link to={`/address/${cell.addressHash}`}>
             <span className="address">{address}</span>
@@ -109,7 +75,7 @@ const AddressLinkComp = ({
         ) : (
           <span className="address">{address}</span>
         )}
-      </AntdTooltip>
+      </Tooltip>
     )
   }
   return highLight ? (
@@ -125,18 +91,20 @@ const TransactionCellAddress = ({
   cell,
   cellType,
   address,
-  dispatch,
   highLight,
 }: {
   cell: State.Cell
   cellType: CellType
   address: string
-  dispatch: AppDispatch
   highLight: boolean
 }) => {
-  const { app } = useContext(AppContext)
+  const { app } = useAppState()
+  let width = 'short'
+  if (app.language === 'en') {
+    width = isDaoDepositCell(cell.cellType) ? 'long' : 'medium'
+  }
   const WithdrawInfo = (
-    <WithdrawInfoPanel longTitle={app.language === 'en'}>
+    <WithdrawInfoPanel width={width}>
       <div>
         <div className="withdraw__info_title">{`${i18n.t('nervos_dao.deposit_capacity')}: `}</div>
         <div className="withdraw__info_content">
@@ -144,54 +112,77 @@ const TransactionCellAddress = ({
         </div>
       </div>
       <div>
-        <div className="withdraw__info_title">{`${i18n.t('nervos_dao.compensation')}: `}</div>
+        <div className="withdraw__info_title">
+          {`${i18n.t(
+            isDaoWithdrawCell(cell.cellType) ? 'nervos_dao.compensation' : 'nervos_dao.unissued_compensation',
+          )}: `}
+        </div>
         <div className="withdraw__info_content">
           <DecimalCapacity value={localeNumberString(shannonToCkb(cell.interest))} fontSize={isMobile() ? '8px' : ''} />
         </div>
       </div>
       <div>
-        <div className="withdraw__info_title">{`${i18n.t('nervos_dao.deposit_period')}: `}</div>
+        <div className="withdraw__info_title">{`${i18n.t('nervos_dao.compensation_period')}: `}</div>
         <div className="withdraw__info_content">
           <span>{`${i18n.t('block.block')} `}</span>
-          <Link to={`/block/${cell.startedBlockNumber}`}>
-            <span>{localeNumberString(cell.startedBlockNumber)}</span>
+          <Link to={`/block/${cell.compensationStartedBlockNumber}`}>
+            <span>{localeNumberString(cell.compensationStartedBlockNumber)}</span>
           </Link>
           <span> - </span>
-          <Link to={`/block/${cell.endedBlockNumber}`}>
-            <span>{localeNumberString(cell.endedBlockNumber)}</span>
+          <Link to={`/block/${cell.compensationStartedBlockNumber}`}>
+            <span>{localeNumberString(cell.compensationEndedBlockNumber)}</span>
           </Link>
         </div>
       </div>
+      <div>
+        <div className="withdraw__info_title">{`${i18n.t('nervos_dao.compensation_time')}: `}</div>
+        <div className="withdraw__info_content">
+          <span>{parseDiffDate(cell.compensationStartedTimestamp, cell.compensationEndedTimestamp)}</span>
+        </div>
+      </div>
+      {isDaoWithdrawCell(cell.cellType) && (
+        <>
+          <div>
+            <div className="withdraw__info_title">{`${i18n.t('nervos_dao.locked_period')}: `}</div>
+            <div className="withdraw__info_content">
+              <span>{`${i18n.t('block.block')} `}</span>
+              <Link to={`/block/${cell.compensationStartedBlockNumber}`}>
+                <span>{localeNumberString(cell.compensationStartedBlockNumber)}</span>
+              </Link>
+              <span> - </span>
+              <Link to={`/block/${cell.lockedUntilBlockNumber}`}>
+                <span>{localeNumberString(cell.lockedUntilBlockNumber)}</span>
+              </Link>
+            </div>
+          </div>
+          <div>
+            <div className="withdraw__info_title">{`${i18n.t('nervos_dao.locked_time')}: `}</div>
+            <div className="withdraw__info_content">
+              <span>{parseDiffDate(cell.compensationStartedTimestamp, cell.lockedUntilBlockTimestamp)}</span>
+            </div>
+          </div>
+        </>
+      )}
     </WithdrawInfoPanel>
   )
 
   if (isDaoCell(cell.cellType)) {
-    if (isDaoWithdrawCell(cell.cellType) && cellType === CellType.Input) {
+    if (cellType === CellType.Input) {
       return (
         <div className="transaction__cell_withdraw">
-          <AddressLinkComp cell={cell} address={address} highLight={highLight} dispatch={dispatch} />
+          <AddressLinkComp cell={cell} address={address} highLight={highLight} />
           <Popover placement="right" title="" content={WithdrawInfo} trigger="click">
             <img src={DetailIcon} className="nervos__dao__withdraw_help" alt="nervos dao withdraw" />
           </Popover>
         </div>
       )
     }
-    return <AddressLinkComp cell={cell} address={address} highLight={highLight} dispatch={dispatch} />
+    return <AddressLinkComp cell={cell} address={address} highLight={highLight} />
   }
-  return <AddressLinkComp cell={cell} address={address} highLight={highLight} dispatch={dispatch} />
+  return <AddressLinkComp cell={cell} address={address} highLight={highLight} />
 }
 
-const TransactionCell = ({
-  cell,
-  address,
-  cellType,
-  dispatch,
-}: {
-  cell: State.Cell
-  address?: string
-  cellType: CellType
-  dispatch: AppDispatch
-}) => {
+const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; address?: string; cellType: CellType }) => {
   if (cell.fromCellbase) {
     return <Cellbase targetBlockNumber={cell.targetBlockNumber} cell={cell} cellType={cellType} />
   }
@@ -209,13 +200,7 @@ const TransactionCell = ({
     <TransactionCellPanel highLight={highLight}>
       <div className="transaction__cell_address">
         {!isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
-        <TransactionCellAddress
-          cell={cell}
-          cellType={cellType}
-          address={addressText}
-          dispatch={dispatch}
-          highLight={highLight}
-        />
+        <TransactionCellAddress cell={cell} cellType={cellType} address={addressText} highLight={highLight} />
       </div>
       <TransactionCellCapacity isOutput={cellType === CellType.Output}>
         {isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}

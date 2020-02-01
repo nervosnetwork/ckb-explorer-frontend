@@ -11,11 +11,21 @@ export const parseSimpleDate = (timestamp: number | string) => {
   )}:${formatData(date.getSeconds())}`
 }
 
-export const parseSimpleDateNoSecond = (timestamp: number | string) => {
+export const parseSimpleDateNoSecond = (timestamp: number | string, connector = '-') => {
   const date = new Date(Number(timestamp))
-  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${formatData(date.getHours())}:${formatData(
-    date.getMinutes(),
-  )}`
+  return `${date.getFullYear()}${connector}${date.getMonth() + 1}${connector}${date.getDate()} ${formatData(
+    date.getHours(),
+  )}:${formatData(date.getMinutes())}`
+}
+
+export const parseDiffDate = (startTime: number | string, endTime: number | string) => {
+  const second = (Number(endTime) - Number(startTime)) / 1000
+  if (second < 0) {
+    throw Error('End timestamp must be bigger than start timestamp')
+  }
+  const hour = Math.floor((second / 3600) % 24)
+  const day = Math.floor(second / 3600 / 24)
+  return `${day} days ${hour} hrs`
 }
 
 export const parseTimeNoSecond = (millisecond: number | string) => {

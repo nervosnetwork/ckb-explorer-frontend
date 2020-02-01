@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect } from 'react'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
@@ -7,8 +7,7 @@ import 'echarts/lib/component/title'
 import BigNumber from 'bignumber.js'
 import Content from '../../components/Content'
 import { getStatisticTransactionCount } from '../../service/app/statisticsChart'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
-import { AppContext } from '../../contexts/providers'
+import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
@@ -29,7 +28,7 @@ const gridThumbnail = {
 const grid = {
   left: '4%',
   right: '4%',
-  bottom: '3%',
+  bottom: '5%',
   containLabel: true,
 }
 
@@ -54,6 +53,9 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
+        nameLocation: 'middle',
+        nameGap: '30',
         type: 'category',
         boundaryGap: false,
         data: statisticTransactionCounts.map(data => data.createdAtUnixtimestamp),
@@ -118,8 +120,9 @@ export const TransactionCountChart = ({
   )
 }
 
-export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
-  const { statisticTransactionCounts } = useContext(AppContext)
+export default () => {
+  const dispatch = useDispatch()
+  const { statisticTransactionCounts } = useAppState()
 
   useEffect(() => {
     getStatisticTransactionCount(dispatch)

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useCallback } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/bar'
@@ -7,8 +7,8 @@ import 'echarts/lib/component/title'
 import 'default-passive-events'
 import Content from '../../components/Content'
 import { getStatisticAddressBalanceRank } from '../../service/app/statisticsChart'
-import { StateWithDispatch, PageActions } from '../../contexts/providers/reducer'
-import { AppContext } from '../../contexts/providers'
+import { PageActions } from '../../contexts/providers/reducer'
+import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
@@ -32,7 +32,7 @@ const gridThumbnail = {
 const grid = {
   left: '3%',
   right: '4%',
-  bottom: '3%',
+  bottom: '5%',
   containLabel: true,
 }
 
@@ -65,6 +65,9 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
+        nameLocation: 'middle',
+        nameGap: '30',
         type: 'category',
         boundaryGap: false,
         data: statisticAddressBalanceRanks.map(data => data.ranking),
@@ -135,8 +138,9 @@ export const AddressBalanceRankChart = ({
   )
 }
 
-export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
-  const { statisticAddressBalanceRanks } = useContext(AppContext)
+export default () => {
+  const dispatch = useDispatch()
+  const { statisticAddressBalanceRanks } = useAppState()
 
   const clickEvent = useCallback(
     (param: any) => {

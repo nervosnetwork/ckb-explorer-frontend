@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, ReactNode } from 'react'
+import React, { useEffect, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import 'default-passive-events'
 import Content from '../../components/Content'
@@ -10,9 +10,9 @@ import {
   getStatisticTransactionCount,
   getStatisticTotalDaoDeposit,
   getStatisticAddressBalanceRank,
+  getStatisticDifficultyHashRateUncleRate,
 } from '../../service/app/statisticsChart'
-import { StateWithDispatch } from '../../contexts/providers/reducer'
-import { AppContext } from '../../contexts/providers'
+import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import { DifficultyHashRateChart } from './DifficultyHashRate'
 import { DifficultyUncleRateChart } from './DifficultyUncleRate'
@@ -22,6 +22,9 @@ import { CellCountChart } from './CellCount'
 import { TotalDaoDepositChart } from './TotalDaoDeposit'
 import { ChartsPanel, ChartCardPanel } from './styled'
 import { AddressBalanceRankChart } from './AddressBalanceRank'
+import { DifficultyChart } from './Difficulty'
+import { HashRateChart } from './HashRate'
+import { UncleRateChart } from './UncleRate'
 
 interface ChartData {
   title: string
@@ -42,16 +45,18 @@ const ChartCard = ({ chartData }: { chartData: ChartData }) => {
 
 const NullEvent = () => {}
 
-export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
+export default () => {
+  const dispatch = useDispatch()
   const {
     statisticDifficultyHashRates,
     statisticDifficultyUncleRates,
+    statisticDifficultyHashRateUncleRates,
     statisticAddressCounts,
     statisticTotalDaoDeposits,
     statisticCellCounts,
     statisticTransactionCounts,
     statisticAddressBalanceRanks,
-  } = useContext(AppContext)
+  } = useAppState()
 
   const charts: ChartData[] = [
     {
@@ -63,6 +68,27 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
       title: `${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`,
       chart: <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} isThumbnail />,
       path: '/charts/difficulty_uncle_rate',
+    },
+    {
+      title: `${i18n.t('block.difficulty')}`,
+      chart: (
+        <DifficultyChart statisticDifficultyHashRateUncleRates={statisticDifficultyHashRateUncleRates} isThumbnail />
+      ),
+      path: '/charts/difficulty',
+    },
+    {
+      title: `${i18n.t('block.hash_rate')}`,
+      chart: (
+        <HashRateChart statisticDifficultyHashRateUncleRates={statisticDifficultyHashRateUncleRates} isThumbnail />
+      ),
+      path: '/charts/hash_rate',
+    },
+    {
+      title: `${i18n.t('block.uncle_rate')}`,
+      chart: (
+        <UncleRateChart statisticDifficultyHashRateUncleRates={statisticDifficultyHashRateUncleRates} isThumbnail />
+      ),
+      path: '/charts/uncle_rate',
     },
     {
       title: `${i18n.t('statistic.transaction_count')}`,
@@ -100,6 +126,7 @@ export default ({ dispatch }: React.PropsWithoutRef<StateWithDispatch>) => {
   useEffect(() => {
     getStatisticDifficultyHashRate(dispatch)
     getStatisticDifficultyUncleRate(dispatch)
+    getStatisticDifficultyHashRateUncleRate(dispatch)
     getStatisticAddressCount(dispatch)
     getStatisticCellCount(dispatch)
     getStatisticTransactionCount(dispatch)

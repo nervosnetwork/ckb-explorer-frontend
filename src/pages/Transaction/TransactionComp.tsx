@@ -1,8 +1,7 @@
-import React, { useContext } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import { AppContext } from '../../contexts/providers/index'
-import { AppDispatch } from '../../contexts/providers/reducer'
+import { useAppState } from '../../contexts/providers/index'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
@@ -10,6 +9,11 @@ import { formatConfirmation, shannonToCkb } from '../../utils/util'
 import { TransactionBlockHeightPanel, TransactionInfoItemPanel, TransactionInfoContentPanel } from './styled'
 import TransactionCellList from './TransactionCellList'
 import DecimalCapacity from '../../components/DecimalCapacity'
+import ArrowUpIcon from '../../assets/arrow_up.png'
+import ArrowDownIcon from '../../assets/arrow_down.png'
+import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
+import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
+import { isMainnet } from '../../utils/chain'
 
 const TransactionBlockHeight = ({ blockNumber }: { blockNumber: number }) => {
   return (
@@ -17,6 +21,13 @@ const TransactionBlockHeight = ({ blockNumber }: { blockNumber: number }) => {
       <Link to={`/block/${blockNumber}`}>{localeNumberString(blockNumber)}</Link>
     </TransactionBlockHeightPanel>
   )
+}
+
+const transactionParamsIcon = (show: boolean) => {
+  if (show) {
+    return isMainnet() ? ArrowUpIcon : ArrowUpBlueIcon
+  }
+  return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
 }
 
 const TransactionInfoComp = ({ title, value, linkUrl }: { title: string; value: string; linkUrl?: string }) => {
@@ -28,8 +39,9 @@ const TransactionInfoComp = ({ title, value, linkUrl }: { title: string; value: 
   )
 }
 
-export default ({ dispatch }: { dispatch: AppDispatch }) => {
-  const { transactionState, app } = useContext(AppContext)
+export default () => {
+  const [showParams, setShowParams] = useState<boolean>(false)
+  const { transactionState, app } = useAppState()
   const { transaction } = transactionState
   const { cellDeps, headerDeps, witnesses } = transaction
   const { tipBlockNumber } = app
@@ -128,24 +140,35 @@ export default ({ dispatch }: { dispatch: AppDispatch }) => {
       <div className="transaction__overview">
         <OverviewCard items={overviewItems}>
           <div className="transaction__overview_info">
-            {transactionInfo.map(item => {
-              return (
-                <TransactionInfoItemPanel key={item.title}>
-                  <div className="transaction__info_title">{item.title}</div>
-                  <div className="transaction__info_value">
-                    {item.content && item.content.length > 0 ? item.content : '[ ]'}
-                  </div>
-                </TransactionInfoItemPanel>
-              )
-            })}
+            <div
+              className="transaction__overview_parameters"
+              role="button"
+              tabIndex={0}
+              onKeyUp={() => {}}
+              onClick={() => setShowParams(!showParams)}
+            >
+              <div>{i18n.t('transaction.transaction_parameters')}</div>
+              <img alt="transaction parameters" src={transactionParamsIcon(showParams)} />
+            </div>
+            {showParams &&
+              transactionInfo.map(item => {
+                return (
+                  <TransactionInfoItemPanel key={item.title}>
+                    <div className="transaction__info_title">{item.title}</div>
+                    <div className="transaction__info_value">
+                      {item.content && item.content.length > 0 ? item.content : '[ ]'}
+                    </div>
+                  </TransactionInfoItemPanel>
+                )
+              })}
           </div>
         </OverviewCard>
       </div>
       <div className="transaction__inputs">
-        {transaction && <TransactionCellList inputs={transaction.displayInputs} dispatch={dispatch} />}
+        {transaction && <TransactionCellList inputs={transaction.displayInputs} />}
       </div>
       <div className="transaction__outputs">
-        {transaction && <TransactionCellList outputs={transaction.displayOutputs} dispatch={dispatch} />}
+        {transaction && <TransactionCellList outputs={transaction.displayOutputs} />}
       </div>
     </>
   )

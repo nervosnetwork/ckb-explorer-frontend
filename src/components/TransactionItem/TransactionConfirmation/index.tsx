@@ -9,7 +9,7 @@ import { shannonToCkb, formatConfirmation } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import DecimalCapacity from '../../DecimalCapacity'
 
-export default ({ confirmation, income }: { confirmation?: number; income: string }) => {
+export default ({ confirmation, income }: { confirmation: number; income: string }) => {
   let bigIncome = new BigNumber(income)
   if (bigIncome.isNaN()) {
     bigIncome = new BigNumber(0)
@@ -19,7 +19,7 @@ export default ({ confirmation, income }: { confirmation?: number; income: strin
       <div className="transaction__confirmation_content">
         <div className="transaction__confirmation">
           <TransactionConfirmationValuePanel>
-            <span>{confirmation && formatConfirmation(confirmation)}</span>
+            <span>{formatConfirmation(confirmation)}</span>
           </TransactionConfirmationValuePanel>
         </div>
         <div className="transaction__capacity">

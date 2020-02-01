@@ -117,16 +117,16 @@ export const CellbasePanel = styled.div`
     &:focus {
       outline: 0;
     }
+  }
 
-    > img {
-      width: 20px;
-      height: 20px;
-      margin-bottom: 5px;
+  .cellbase__help__icon {
+    width: 18px;
+    height: 18px;
+    margin-left: 5px;
 
-      @media (max-width: 700px) {
-        width: 16px;
-        height: 16px;
-      }
+    @media (max-width: 700px) {
+      width: 16px;
+      height: 16px;
     }
   }
 `
@@ -147,16 +147,43 @@ export const WithdrawInfoPanel = styled.div`
     .withdraw__info_title {
       font-size: 14px;
       font-weight: 450;
-      width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '160px' : '100px')};
+      width: ${({ width }: { width: string }) => {
+        switch (width) {
+          case 'long':
+            return '200px'
+          case 'medium':
+            return '160px'
+          default:
+            return '80px'
+        }
+      }};
 
       @media (max-width: 700px) {
         font-size: 10px;
-        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '110px' : '70px')};
+        width: ${({ width }: { width: string }) => {
+          switch (width) {
+            case 'long':
+              return '140px'
+            case 'medium':
+              return '115px'
+            default:
+              return '60px'
+          }
+        }};
       }
 
       @media (max-width: 375px) {
         font-size: 9px;
-        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '100px' : '65px')};
+        width: ${({ width }: { width: string }) => {
+          switch (width) {
+            case 'long':
+              return '125px'
+            case 'medium':
+              return '100px'
+            default:
+              return '65px'
+          }
+        }};
       }
     }
 
