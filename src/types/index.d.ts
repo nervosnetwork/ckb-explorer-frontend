@@ -40,8 +40,12 @@ declare namespace State {
     status: 'live' | 'dead'
     isGenesisOutput: boolean
     cellType: 'normal' | 'dao'
-    startedBlockNumber: number
-    endedBlockNumber: number
+    compensationStartedBlockNumber: number
+    compensationEndedBlockNumber: number
+    compensationStartedTimestamp: number
+    compensationEndedTimestamp: number
+    lockedUntilBlockNumber: number
+    lockedUntilBlockTimestamp: number
     interest: string
     daoTypeHash: string
   }
@@ -158,6 +162,7 @@ declare namespace State {
   export interface NervosDaoDepositor {
     addressHash: string
     daoDeposit: number
+    averageDepositTime: string
   }
 
   export interface NervosDaoState {
@@ -224,6 +229,7 @@ declare namespace State {
 
   export interface StatisticTotalDaoDeposit {
     totalDaoDeposit: string
+    totalDepositorsCount: string
     createdAtUnixtimestamp: string
   }
 
@@ -233,10 +239,18 @@ declare namespace State {
     epochNumber: string
   }
 
+  export interface StatisticDifficultyHashRateUncleRate {
+    avgDifficulty: string
+    avgHashRate: string
+    uncleRate: string
+    createdAtUnixtimestamp: string
+  }
+
   export interface StatisticCellCount {
     liveCellsCount: string
     deadCellsCount: string
-    blockNumber: string
+    allCellsCount: string
+    createdAtUnixtimestamp: string
   }
 
   export interface StatisticDifficultyUncleRate {
@@ -327,6 +341,7 @@ declare namespace State {
     statisticsUncleRates: StatisticsUncleRateChart[]
     statisticDifficultyHashRates: StatisticsDifficultyHashRate[]
     statisticDifficultyUncleRates: StatisticsDifficultyUncleRate[]
+    statisticDifficultyHashRateUncleRates: StatisticDifficultyHashRateUncleRate[]
     statisticTransactionCounts: StatisticTransactionCount[]
     statisticCellCounts: StatisticCellCount[]
     statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]

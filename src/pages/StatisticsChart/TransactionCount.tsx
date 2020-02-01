@@ -28,7 +28,7 @@ const gridThumbnail = {
 const grid = {
   left: '4%',
   right: '4%',
-  bottom: '3%',
+  bottom: '5%',
   containLabel: true,
 }
 
@@ -53,6 +53,9 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
+        nameLocation: 'middle',
+        nameGap: '30',
         type: 'category',
         boundaryGap: false,
         data: statisticTransactionCounts.map(data => data.createdAtUnixtimestamp),

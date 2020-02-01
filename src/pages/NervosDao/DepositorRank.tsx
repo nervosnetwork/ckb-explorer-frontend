@@ -7,7 +7,7 @@ import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
 import OverviewCard from '../../components/Card/OverviewCard'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import { adaptPCEllipsis } from '../../utils/string'
+import { adaptPCEllipsis, handleBigNumber } from '../../utils/string'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import {
   AddressPanel,
@@ -51,6 +51,10 @@ const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
       title: i18n.t('nervos_dao.dao_title_deposit_capacity'),
       content: <DecimalCapacity value={daoDeposit} />,
     },
+    {
+      title: i18n.t('nervos_dao.dao_title_deposit_time'),
+      content: handleBigNumber(depositor.averageDepositTime, 1),
+    },
   ]
 }
 
@@ -70,6 +74,7 @@ export default () => {
         <div>{i18n.t('nervos_dao.dao_title_rank')}</div>
         <div>{i18n.t('nervos_dao.dao_title_address')}</div>
         <div>{i18n.t('nervos_dao.dao_title_deposit_capacity')}</div>
+        <div>{i18n.t('nervos_dao.dao_title_deposit_time')}</div>
       </DepositorRankTitle>
       <DepositorSeparate />
       {depositors.map((depositor: State.NervosDaoDepositor, index: number) => {
@@ -80,6 +85,7 @@ export default () => {
             <div>
               <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />
             </div>
+            <div>{handleBigNumber(depositor.averageDepositTime, 1)}</div>
           </DepositorRankItem>
         )
       })}

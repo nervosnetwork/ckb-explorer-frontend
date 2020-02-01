@@ -29,7 +29,7 @@ const gridThumbnail = {
 const grid = {
   left: '3%',
   right: '4%',
-  bottom: '3%',
+  bottom: '5%',
   containLabel: true,
 }
 
@@ -42,9 +42,10 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) => `<span style="width:100px;display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch_number'))} ${handleAxis(
+        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch'))} ${handleAxis(
           dataList[0].name,
           1,
+          true,
         )}</div>`
         if (dataList[0]) {
           result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
@@ -65,6 +66,9 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
+        name: isMobile() || isThumbnail ? '' : i18n.t('block.epoch'),
+        nameLocation: 'middle',
+        nameGap: '30',
         type: 'category',
         boundaryGap: false,
         data: statisticDifficultyHashRates.map(data => data.epochNumber),
@@ -110,6 +114,10 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
       {
         name: i18n.t('block.difficulty'),
         type: 'line',
+        step: 'start',
+        areaStyle: {
+          color: '#85bae0',
+        },
         yAxisIndex: '0',
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
@@ -118,6 +126,7 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
       {
         name: i18n.t('block.hash_rate_hps'),
         type: 'line',
+        smooth: true,
         yAxisIndex: '1',
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,

@@ -7,6 +7,7 @@ import {
   fetchStatisticTotalDaoDeposit,
   fetchStatisticCellCount,
   fetchStatisticAddressBalanceRank,
+  fetchStatisticDifficultyHashRateUncleRate,
 } from '../http/fetcher'
 import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
 
@@ -50,6 +51,30 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticDifficultyUncleRate,
         payload: {
           statisticDifficultyUncleRates: difficultyUncleRates,
+        },
+      })
+    },
+  )
+}
+
+export const getStatisticDifficultyHashRateUncleRate = (dispatch: AppDispatch) => {
+  fetchStatisticDifficultyHashRateUncleRate().then(
+    (response: Response.Response<Response.Wrapper<State.StatisticDifficultyHashRateUncleRate>[]> | null) => {
+      if (!response) return
+      const { data } = response
+      const difficultyHashRateUncleRates = data.map(wrapper => {
+        return {
+          avgDifficulty: wrapper.attributes.avgDifficulty,
+          avgHashRate: new BigNumber(wrapper.attributes.avgHashRate).multipliedBy(1000).toNumber(),
+          uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
+          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+        }
+      })
+      if (difficultyHashRateUncleRates.length === 0) return
+      dispatch({
+        type: PageActions.UpdateStatisticDifficultyHashRateUncleRate,
+        payload: {
+          statisticDifficultyHashRateUncleRates: difficultyHashRateUncleRates,
         },
       })
     },
@@ -108,6 +133,7 @@ export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
       const totalDaoDeposits = data.map(wrapper => {
         return {
           totalDaoDeposit: wrapper.attributes.totalDaoDeposit,
+          totalDepositorsCount: wrapper.attributes.totalDepositorsCount,
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
@@ -130,7 +156,10 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
       return {
         liveCellsCount: wrapper.attributes.liveCellsCount,
         deadCellsCount: wrapper.attributes.deadCellsCount,
-        blockNumber: wrapper.attributes.blockNumber,
+        allCellsCount: (
+          Number(wrapper.attributes.liveCellsCount) + Number(wrapper.attributes.deadCellsCount)
+        ).toString(),
+        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
       }
     })
     if (cellCounts.length === 0) return
