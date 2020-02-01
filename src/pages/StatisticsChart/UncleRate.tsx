@@ -5,7 +5,7 @@ import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import Content from '../../components/Content'
-import { getStatisticDifficultyHashRateUncleRate } from '../../service/app/statisticsChart'
+import { getStatisticUncleRate } from '../../service/app/statisticsChart'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
@@ -31,10 +31,7 @@ const grid = {
   containLabel: true,
 }
 
-const getOption = (
-  statisticDifficultyHashRateUncleRates: State.StatisticDifficultyHashRateUncleRate[],
-  isThumbnail = false,
-) => {
+const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail = false) => {
   return {
     color: colors,
     tooltip: !isThumbnail && {
@@ -60,7 +57,7 @@ const getOption = (
         nameGap: '30',
         type: 'category',
         boundaryGap: false,
-        data: statisticDifficultyHashRateUncleRates.map(data => data.createdAtUnixtimestamp),
+        data: statisticUncleRates.map(data => data.createdAtUnixtimestamp),
         axisLabel: {
           formatter: (value: string) => parseDateNoTime(value),
         },
@@ -101,20 +98,20 @@ const getOption = (
             formatter: (label: any) => `${label.data.value}%`,
           },
         },
-        data: statisticDifficultyHashRateUncleRates.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
+        data: statisticUncleRates.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
       },
     ],
   }
 }
 
 export const UncleRateChart = ({
-  statisticDifficultyHashRateUncleRates,
+  statisticUncleRates,
   isThumbnail = false,
 }: {
-  statisticDifficultyHashRateUncleRates: State.StatisticDifficultyHashRateUncleRate[]
+  statisticUncleRates: State.StatisticUncleRate[]
   isThumbnail?: boolean
 }) => {
-  if (statisticDifficultyHashRateUncleRates.length === 0) {
+  if (statisticUncleRates.length === 0) {
     return isThumbnail ? (
       <ChartCardLoadingPanel>
         <SmallLoading />
@@ -124,7 +121,7 @@ export const UncleRateChart = ({
   return (
     <ReactEchartsCore
       echarts={echarts}
-      option={getOption(statisticDifficultyHashRateUncleRates, isThumbnail)}
+      option={getOption(statisticUncleRates, isThumbnail)}
       notMerge
       lazyUpdate
       style={{
@@ -136,18 +133,18 @@ export const UncleRateChart = ({
 
 export default () => {
   const dispatch = useDispatch()
-  const { statisticDifficultyHashRateUncleRates = [] } = useAppState()
+  const { statisticUncleRates = [] } = useAppState()
 
   useEffect(() => {
-    getStatisticDifficultyHashRateUncleRate(dispatch)
+    getStatisticUncleRate(dispatch)
   }, [dispatch])
 
   return (
     <Content>
       <ChartTitle>{i18n.t('block.hash_rate')}</ChartTitle>
-      {statisticDifficultyHashRateUncleRates.length > 0 ? (
+      {statisticUncleRates.length > 0 ? (
         <ChartPanel>
-          <UncleRateChart statisticDifficultyHashRateUncleRates={statisticDifficultyHashRateUncleRates} />
+          <UncleRateChart statisticUncleRates={statisticUncleRates} />
         </ChartPanel>
       ) : (
         <LoadingPanel>
