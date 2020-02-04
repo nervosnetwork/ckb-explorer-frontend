@@ -15,6 +15,7 @@ import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import { isMainnet } from '../../utils/chain'
 import { PAGE_CELL_COUNT } from '../../utils/const'
+import { isMobile } from '../../utils/screen'
 
 const TransactionBlockHeight = ({ blockNumber }: { blockNumber: number }) => {
   return (
@@ -64,6 +65,7 @@ export default () => {
       anchorElement.style.cssText += 'background: #f5f5f5'
       if (anchorElement) {
         anchorElement.scrollIntoView()
+        window.scrollBy(0, isMobile() ? -48 : -66)
       }
     }
   }, [hash, transaction.displayOutputs.length])
