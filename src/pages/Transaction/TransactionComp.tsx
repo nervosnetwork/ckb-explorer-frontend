@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { useAppState } from '../../contexts/providers/index'
 import { parseSimpleDate } from '../../utils/date'
@@ -14,6 +14,7 @@ import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import { isMainnet } from '../../utils/chain'
+import { PAGE_CELL_COUNT } from '../../utils/const'
 
 const TransactionBlockHeight = ({ blockNumber }: { blockNumber: number }) => {
   return (
@@ -41,10 +42,30 @@ const TransactionInfoComp = ({ title, value, linkUrl }: { title: string; value: 
 
 export default () => {
   const [showParams, setShowParams] = useState<boolean>(false)
+  const { hash } = useLocation()
   const { transactionState, app } = useAppState()
   const { transaction } = transactionState
   const { cellDeps, headerDeps, witnesses } = transaction
   const { tipBlockNumber } = app
+
+  useEffect(() => {
+    let anchor = hash
+    if (anchor) {
+      anchor = anchor.replace('#', '')
+      let outputIndex = Number(anchor)
+      if (
+        Number.isNaN(outputIndex) ||
+        outputIndex < 0 ||
+        outputIndex >= Math.min(transaction.displayOutputs.length, PAGE_CELL_COUNT)
+      ) {
+        outputIndex = 0
+      }
+      const anchorElement = document.getElementById(`output_${outputIndex}`)
+      if (anchorElement) {
+        anchorElement.scrollIntoView()
+      }
+    }
+  }, [hash, transaction.displayOutputs.length])
 
   let confirmation = 0
   if (tipBlockNumber && transaction.blockNumber) {
