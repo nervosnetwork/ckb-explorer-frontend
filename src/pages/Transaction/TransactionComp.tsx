@@ -60,7 +60,8 @@ export default () => {
       ) {
         outputIndex = 0
       }
-      const anchorElement = document.getElementById(`output_${outputIndex}`)
+      const anchorElement = document.getElementById(`output_${outputIndex}`) as HTMLElement
+      anchorElement.style.cssText += 'background: #f5f5f5'
       if (anchorElement) {
         anchorElement.scrollIntoView()
       }
