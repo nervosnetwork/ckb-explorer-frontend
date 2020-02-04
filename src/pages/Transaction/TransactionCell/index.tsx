@@ -126,7 +126,7 @@ export default ({ cell, cellType, index }: { cell: State.Cell; cellType: CellTyp
       })
     }
     return (
-      <OverviewCard items={items}>
+      <OverviewCard items={items} outputIndex={index}>
         {!cell.fromCellbase && (
           <TransactionCellDetailButtons highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
         )}
