@@ -6,6 +6,7 @@ export const BLOCKCHAIN_ALERT_POLLING_TIME = 10000
 export const RESIZE_LATENCY = 500
 export const LOADING_WAITING_TIME = 500
 export const DELAY_BLOCK_NUMBER = 11
+export const PAGE_CELL_COUNT = 200
 
 export const MAINNET_PRIMARY_THEME_COLOR = '#3cc68a'
 export const MAINNET_SECONDARY_THEME_COLOR = '#3cc68a'
