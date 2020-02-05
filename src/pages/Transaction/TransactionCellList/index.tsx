@@ -8,7 +8,7 @@ import SmallLoading from '../../../components/Loading/SmallLoading'
 const SCROLL_BOTTOM_OFFSET = 5
 const SCROLL_LOADING_TIME = 400
 
-export default ({ inputs, outputs, txHash }: { inputs?: State.Cell[]; outputs?: State.Cell[]; txHash: string }) => {
+export default ({ inputs, outputs, txHash }: { inputs?: State.Cell[]; outputs?: State.Cell[]; txHash?: string }) => {
   const [offset, setOffset] = useState(PAGE_CELL_COUNT)
   const [isEnd, setIsEnd] = useState(false)
   const cells = inputs || outputs || []
