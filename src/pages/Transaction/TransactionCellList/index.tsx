@@ -1,11 +1,10 @@
 import React, { useState, useCallback } from 'react'
-import { CellType } from '../../../utils/const'
+import { CellType, PAGE_CELL_COUNT } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
 import TransactionCell from '../TransactionCell'
 import { TransactionCellListPanel, TransactionCellListTitlePanel, TransactionCellsPanel } from './styled'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 
-const PAGE_CELL_COUNT = 200
 const SCROLL_BOTTOM_OFFSET = 5
 const SCROLL_LOADING_TIME = 400
 

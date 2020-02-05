@@ -47,10 +47,18 @@ const OverviewItem = ({
   )
 }
 
-export default ({ items, children }: { items: OverviewItemData[]; children?: ReactNode }) => {
+export default ({
+  items,
+  children,
+  outputIndex,
+}: {
+  items: OverviewItemData[]
+  children?: ReactNode
+  outputIndex?: number
+}) => {
   const { leftItems, rightItems } = handleOverviewItems(items)
   return (
-    <OverviewCardPanel>
+    <OverviewCardPanel id={outputIndex ? `output_${outputIndex}` : ''}>
       <OverviewContentPanel length={leftItems.length}>
         <div className="overview_content__left_items">
           {leftItems.map((item, index) => (

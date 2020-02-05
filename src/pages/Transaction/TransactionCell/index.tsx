@@ -126,7 +126,7 @@ export default ({ cell, cellType, index }: { cell: State.Cell; cellType: CellTyp
       })
     }
     return (
-      <OverviewCard items={items}>
+      <OverviewCard items={items} outputIndex={index}>
         {!cell.fromCellbase && (
           <TransactionCellDetailButtons highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
         )}
@@ -136,7 +136,7 @@ export default ({ cell, cellType, index }: { cell: State.Cell; cellType: CellTyp
   }
 
   return (
-    <TransactionCellPanel>
+    <TransactionCellPanel id={`output_${index}`}>
       <TransactionCellContentPanel>
         <div className="transaction__cell_index">
           {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}

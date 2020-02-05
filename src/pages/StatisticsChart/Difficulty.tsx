@@ -6,7 +6,7 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import BigNumber from 'bignumber.js'
 import Content from '../../components/Content'
-import { getStatisticDifficultyHashRateUncleRate } from '../../service/app/statisticsChart'
+import { getStatisticDifficulty } from '../../service/app/statisticsChart'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
@@ -33,10 +33,7 @@ const grid = {
   containLabel: true,
 }
 
-const getOption = (
-  statisticDifficultyHashRateUncleRates: State.StatisticDifficultyHashRateUncleRate[],
-  isThumbnail = false,
-) => {
+const getOption = (statisticDifficulties: State.StatisticDifficulty[], isThumbnail = false) => {
   return {
     color: colors,
     tooltip: !isThumbnail && {
@@ -62,7 +59,7 @@ const getOption = (
         nameGap: '30',
         type: 'category',
         boundaryGap: false,
-        data: statisticDifficultyHashRateUncleRates.map(data => data.createdAtUnixtimestamp),
+        data: statisticDifficulties.map(data => data.createdAtUnixtimestamp),
         axisLabel: {
           formatter: (value: string) => parseDateNoTime(value),
         },
@@ -91,20 +88,20 @@ const getOption = (
         yAxisIndex: '0',
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
-        data: statisticDifficultyHashRateUncleRates.map(data => new BigNumber(data.avgDifficulty).toNumber()),
+        data: statisticDifficulties.map(data => new BigNumber(data.avgDifficulty).toNumber()),
       },
     ],
   }
 }
 
 export const DifficultyChart = ({
-  statisticDifficultyHashRateUncleRates,
+  statisticDifficulties,
   isThumbnail = false,
 }: {
-  statisticDifficultyHashRateUncleRates: State.StatisticDifficultyHashRateUncleRate[]
+  statisticDifficulties: State.StatisticDifficulty[]
   isThumbnail?: boolean
 }) => {
-  if (statisticDifficultyHashRateUncleRates.length === 0) {
+  if (statisticDifficulties.length === 0) {
     return isThumbnail ? (
       <ChartCardLoadingPanel>
         <SmallLoading />
@@ -114,7 +111,7 @@ export const DifficultyChart = ({
   return (
     <ReactEchartsCore
       echarts={echarts}
-      option={getOption(statisticDifficultyHashRateUncleRates, isThumbnail)}
+      option={getOption(statisticDifficulties, isThumbnail)}
       notMerge
       lazyUpdate
       style={{
@@ -126,18 +123,18 @@ export const DifficultyChart = ({
 
 export default () => {
   const dispatch = useDispatch()
-  const { statisticDifficultyHashRateUncleRates } = useAppState()
+  const { statisticDifficulties } = useAppState()
 
   useEffect(() => {
-    getStatisticDifficultyHashRateUncleRate(dispatch)
+    getStatisticDifficulty(dispatch)
   }, [dispatch])
 
   return (
     <Content>
       <ChartTitle>{i18n.t('block.difficulty')}</ChartTitle>
-      {statisticDifficultyHashRateUncleRates.length > 0 ? (
+      {statisticDifficulties.length > 0 ? (
         <ChartPanel>
-          <DifficultyChart statisticDifficultyHashRateUncleRates={statisticDifficultyHashRateUncleRates} />
+          <DifficultyChart statisticDifficulties={statisticDifficulties} />
         </ChartPanel>
       ) : (
         <LoadingPanel>

@@ -6,6 +6,8 @@ export const TransactionCellPanel = styled.div`
   justify-content: space-between;
   margin-top: 20px;
 
+  background: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '' : '#f5f5f5')};
+
   @media (min-width: 700px) {
     height: 20px;
   }
@@ -147,16 +149,43 @@ export const WithdrawInfoPanel = styled.div`
     .withdraw__info_title {
       font-size: 14px;
       font-weight: 450;
-      width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '200px' : '100px')};
+      width: ${({ width }: { width: string }) => {
+        switch (width) {
+          case 'long':
+            return '200px'
+          case 'medium':
+            return '160px'
+          default:
+            return '80px'
+        }
+      }};
 
       @media (max-width: 700px) {
         font-size: 10px;
-        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '140px' : '70px')};
+        width: ${({ width }: { width: string }) => {
+          switch (width) {
+            case 'long':
+              return '140px'
+            case 'medium':
+              return '115px'
+            default:
+              return '60px'
+          }
+        }};
       }
 
       @media (max-width: 375px) {
         font-size: 9px;
-        width: ${({ longTitle }: { longTitle: boolean }) => (longTitle ? '125px' : '65px')};
+        width: ${({ width }: { width: string }) => {
+          switch (width) {
+            case 'long':
+              return '125px'
+            case 'medium':
+              return '100px'
+            default:
+              return '65px'
+          }
+        }};
       }
     }
 

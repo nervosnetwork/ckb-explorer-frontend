@@ -39,7 +39,9 @@ export enum PageActions {
 
   UpdateStatisticDifficultyHashRate = 'updateStatisticDifficultyHashRate',
   UpdateStatisticDifficultyUncleRate = 'updateStatisticDifficultyUncleRate',
-  UpdateStatisticDifficultyHashRateUncleRate = 'updateStatisticDifficultyHashRateUncleRate',
+  UpdateStatisticDifficulty = 'updateStatisticDifficulty',
+  UpdateStatisticHashRate = 'updateStatisticHashRate',
+  UpdateStatisticUncleRate = 'updateStatisticUncleRate',
   UpdateStatisticTransactionCount = 'updateStatisticTransactionCount',
   UpdateStatisticAddressCount = 'updateStatisticAddressCount',
   UpdateStatisticTotalDaoDeposit = 'updateStatisticTotalDaoDeposit',
@@ -286,16 +288,6 @@ export const reducer = (
         ...state,
         statistics: payload.statistics,
       }
-    case PageActions.UpdateStatisticsChartData:
-      return {
-        ...state,
-        statisticsChartData: payload.statisticsChartData,
-      }
-    case PageActions.UpdateStatisticsUncleRate:
-      return {
-        ...state,
-        statisticsUncleRates: payload.statisticsUncleRates,
-      }
     case PageActions.UpdateStatisticDifficultyHashRate:
       return {
         ...state,
@@ -306,10 +298,20 @@ export const reducer = (
         ...state,
         statisticDifficultyUncleRates: payload.statisticDifficultyUncleRates,
       }
-    case PageActions.UpdateStatisticDifficultyHashRateUncleRate:
+    case PageActions.UpdateStatisticDifficulty:
       return {
         ...state,
-        statisticDifficultyHashRateUncleRates: payload.statisticDifficultyHashRateUncleRates,
+        statisticDifficulties: payload.statisticDifficulties,
+      }
+    case PageActions.UpdateStatisticHashRate:
+      return {
+        ...state,
+        statisticHashRates: payload.statisticHashRates,
+      }
+    case PageActions.UpdateStatisticUncleRate:
+      return {
+        ...state,
+        statisticUncleRates: payload.statisticUncleRates,
       }
     case PageActions.UpdateStatisticTransactionCount:
       return {
