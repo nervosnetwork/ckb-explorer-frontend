@@ -116,7 +116,7 @@ const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent
     },
     {
       title: i18n.t('nervos_dao.average_deposit_time'),
-      content: handleBigNumber(nervosDao.averageDepositTime, 1),
+      content: `${handleBigNumber(nervosDao.averageDepositTime, 1)} ${i18n.t('nervos_dao.days')}`,
     },
     {
       title: i18n.t('nervos_dao.estimated_apc'),
