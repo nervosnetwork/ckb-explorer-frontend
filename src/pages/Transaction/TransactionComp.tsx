@@ -46,7 +46,7 @@ export default () => {
   const { hash } = useLocation()
   const { transactionState, app } = useAppState()
   const { transaction } = transactionState
-  const { cellDeps, headerDeps, witnesses } = transaction
+  const { cellDeps, headerDeps, witnesses, transactionHash, displayOutputs } = transaction
   const { tipBlockNumber } = app
 
   useEffect(() => {
@@ -57,18 +57,18 @@ export default () => {
       if (
         Number.isNaN(outputIndex) ||
         outputIndex < 0 ||
-        outputIndex >= Math.min(transaction.displayOutputs.length, PAGE_CELL_COUNT)
+        outputIndex >= Math.min(displayOutputs.length, PAGE_CELL_COUNT)
       ) {
         outputIndex = 0
       }
-      const anchorElement = document.getElementById(`output_${outputIndex}`) as HTMLElement
-      anchorElement.style.cssText += 'background: #f5f5f5'
+      const anchorElement = document.getElementById(`output_${outputIndex}_${transactionHash}`) as HTMLElement
       if (anchorElement) {
+        anchorElement.style.cssText += 'background: #f5f5f5'
         anchorElement.scrollIntoView()
         window.scrollBy(0, isMobile() ? -48 : -66)
       }
     }
-  }, [hash, transaction.displayOutputs.length])
+  }, [hash, displayOutputs.length, transactionHash])
 
   let confirmation = 0
   if (tipBlockNumber && transaction.blockNumber) {
@@ -189,10 +189,12 @@ export default () => {
         </OverviewCard>
       </div>
       <div className="transaction__inputs">
-        {transaction && <TransactionCellList inputs={transaction.displayInputs} />}
+        {transaction && <TransactionCellList inputs={transaction.displayInputs} txHash={transaction.transactionHash} />}
       </div>
       <div className="transaction__outputs">
-        {transaction && <TransactionCellList outputs={transaction.displayOutputs} />}
+        {transaction && (
+          <TransactionCellList outputs={transaction.displayOutputs} txHash={transaction.transactionHash} />
+        )}
       </div>
     </>
   )

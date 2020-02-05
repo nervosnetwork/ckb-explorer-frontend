@@ -54,7 +54,7 @@ export default ({
 }: {
   items: OverviewItemData[]
   children?: ReactNode
-  outputIndex?: number
+  outputIndex?: string
 }) => {
   const { leftItems, rightItems } = handleOverviewItems(items)
   return (
