@@ -57,7 +57,7 @@ const CellInputIcon = ({ cell }: { cell: State.Cell }) => {
     )
   }
   return cell.generatedTxHash ? (
-    <Link to={`/transaction/${cell.generatedTxHash}`}>
+    <Link to={`/transaction/${cell.generatedTxHash}#${cell.cellIndex}`}>
       <LeftArrowImage
         className="transaction__cell_left_arrow"
         src={isMainnet() ? RightGreenArrow : RightBlueArrow}

@@ -40,6 +40,7 @@ declare namespace State {
     status: 'live' | 'dead'
     isGenesisOutput: boolean
     cellType: 'normal' | 'dao'
+    cellIndex: string
     compensationStartedBlockNumber: number
     compensationEndedBlockNumber: number
     compensationStartedTimestamp: number
