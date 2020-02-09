@@ -56,10 +56,10 @@ export default () => {
   }, [replace, blockParam, currentPage, pageSize, dispatch])
 
   useEffect(() => {
-    let anchorName = hash
-    if (anchorName) {
-      anchorName = anchorName.replace('#', '')
-      const anchorElement = document.getElementById(anchorName)
+    let anchor = hash
+    if (anchor) {
+      anchor = anchor.replace('#', '')
+      const anchorElement = document.getElementById(anchor)
       if (anchorElement) {
         anchorElement.scrollIntoView()
       }

@@ -1,15 +1,14 @@
 import React, { useState, useCallback } from 'react'
-import { CellType } from '../../../utils/const'
+import { CellType, PAGE_CELL_COUNT } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
 import TransactionCell from '../TransactionCell'
 import { TransactionCellListPanel, TransactionCellListTitlePanel, TransactionCellsPanel } from './styled'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 
-const PAGE_CELL_COUNT = 200
 const SCROLL_BOTTOM_OFFSET = 5
 const SCROLL_LOADING_TIME = 400
 
-export default ({ inputs, outputs }: { inputs?: State.Cell[]; outputs?: State.Cell[] }) => {
+export default ({ inputs, outputs, txHash }: { inputs?: State.Cell[]; outputs?: State.Cell[]; txHash?: string }) => {
   const [offset, setOffset] = useState(PAGE_CELL_COUNT)
   const [isEnd, setIsEnd] = useState(false)
   const cells = inputs || outputs || []
@@ -65,6 +64,7 @@ export default ({ inputs, outputs }: { inputs?: State.Cell[]; outputs?: State.Ce
                   cell={cell}
                   cellType={inputs ? CellType.Input : CellType.Output}
                   index={index}
+                  txHash={txHash}
                 />
               ))}
           {isScroll && !isEnd && <SmallLoading />}

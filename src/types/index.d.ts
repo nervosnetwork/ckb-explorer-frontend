@@ -40,6 +40,7 @@ declare namespace State {
     status: 'live' | 'dead'
     isGenesisOutput: boolean
     cellType: 'normal' | 'dao'
+    cellIndex: string
     compensationStartedBlockNumber: number
     compensationEndedBlockNumber: number
     compensationStartedTimestamp: number
@@ -204,19 +205,6 @@ declare namespace State {
     }[]
   }
 
-  export interface StatisticsBaseData {
-    blockNumber: number
-    type: 'Difficulty' | 'HashRate' | 'EpochNumber'
-    difficulty?: number
-    hashRate?: number
-    epochNumber?: number
-  }
-
-  export interface StatisticUncleRate {
-    uncleRate: number
-    epochNumber: number
-  }
-
   export interface StatisticTransactionCount {
     transactionsCount: string
     createdAtUnixtimestamp: string
@@ -239,9 +227,17 @@ declare namespace State {
     epochNumber: string
   }
 
-  export interface StatisticDifficultyHashRateUncleRate {
+  export interface StatisticDifficulty {
     avgDifficulty: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticHashRate {
     avgHashRate: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticUncleRate {
     uncleRate: string
     createdAtUnixtimestamp: string
   }
@@ -337,11 +333,11 @@ declare namespace State {
     transactionState: TransactionState
     transactionsState: TransactionsState
     statistics: Statistics
-    statisticsChartData: StatisticsBaseData[]
-    statisticsUncleRates: StatisticsUncleRateChart[]
     statisticDifficultyHashRates: StatisticsDifficultyHashRate[]
     statisticDifficultyUncleRates: StatisticsDifficultyUncleRate[]
-    statisticDifficultyHashRateUncleRates: StatisticDifficultyHashRateUncleRate[]
+    statisticDifficulties: StatisticDifficulty[]
+    statisticHashRates: StatisticHashRate[]
+    statisticUncleRates: StatisticUncleRate[]
     statisticTransactionCounts: StatisticTransactionCount[]
     statisticCellCounts: StatisticCellCount[]
     statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]

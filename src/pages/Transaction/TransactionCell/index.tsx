@@ -109,7 +109,17 @@ const TransactionCellDetailButtons = ({
   )
 }
 
-export default ({ cell, cellType, index }: { cell: State.Cell; cellType: CellType; index: number }) => {
+export default ({
+  cell,
+  cellType,
+  index,
+  txHash,
+}: {
+  cell: State.Cell
+  cellType: CellType
+  index: number
+  txHash?: string
+}) => {
   const [state, setState] = useState(CellState.NONE as CellState)
 
   if (isMobile()) {
@@ -126,7 +136,7 @@ export default ({ cell, cellType, index }: { cell: State.Cell; cellType: CellTyp
       })
     }
     return (
-      <OverviewCard items={items}>
+      <OverviewCard items={items} outputIndex={cellType === CellType.Output ? `${index}_${txHash}` : undefined}>
         {!cell.fromCellbase && (
           <TransactionCellDetailButtons highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
         )}
@@ -136,7 +146,7 @@ export default ({ cell, cellType, index }: { cell: State.Cell; cellType: CellTyp
   }
 
   return (
-    <TransactionCellPanel>
+    <TransactionCellPanel id={cellType === CellType.Output ? `output_${index}_${txHash}` : ''}>
       <TransactionCellContentPanel>
         <div className="transaction__cell_index">
           {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}

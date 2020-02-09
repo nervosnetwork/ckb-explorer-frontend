@@ -6,6 +6,8 @@ export const TransactionCellPanel = styled.div`
   justify-content: space-between;
   margin-top: 20px;
 
+  background: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '' : '#f5f5f5')};
+
   @media (min-width: 700px) {
     height: 20px;
   }

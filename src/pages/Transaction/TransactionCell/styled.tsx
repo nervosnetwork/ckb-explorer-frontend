@@ -9,7 +9,7 @@ export const TransactionCellPanel = styled.div`
 export const TransactionCellContentPanel = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 20px;
+  margin: 10px 0;
 
   font-size: 16px;
   color: #000000;

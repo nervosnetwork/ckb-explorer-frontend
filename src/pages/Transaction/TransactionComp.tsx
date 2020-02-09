@@ -43,7 +43,7 @@ export default () => {
   const [showParams, setShowParams] = useState<boolean>(false)
   const { transactionState, app } = useAppState()
   const { transaction } = transactionState
-  const { cellDeps, headerDeps, witnesses } = transaction
+  const { cellDeps, headerDeps, witnesses, transactionHash } = transaction
   const { tipBlockNumber } = app
 
   let confirmation = 0
@@ -168,7 +168,7 @@ export default () => {
         {transaction && <TransactionCellList inputs={transaction.displayInputs} />}
       </div>
       <div className="transaction__outputs">
-        {transaction && <TransactionCellList outputs={transaction.displayOutputs} />}
+        {transaction && <TransactionCellList outputs={transaction.displayOutputs} txHash={transactionHash} />}
       </div>
     </>
   )
