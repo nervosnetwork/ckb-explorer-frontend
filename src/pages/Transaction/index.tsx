@@ -12,7 +12,8 @@ import { useDispatch, useAppState } from '../../contexts/providers'
 import Loading from '../../components/Loading'
 import Error from '../../components/Error'
 import { useTimeoutWithUnmount } from '../../utils/hook'
-import { LOADING_WAITING_TIME } from '../../utils/const'
+import { LOADING_WAITING_TIME, PAGE_CELL_COUNT } from '../../utils/const'
+import { isMobile } from '../../utils/screen'
 
 const TransactionStateComp = () => {
   const { transactionState, app } = useAppState()
@@ -27,20 +28,46 @@ const TransactionStateComp = () => {
   }
 }
 
+const anchorAction = (hash: string, txHash: string) => {
+  let anchor = hash
+  if (anchor) {
+    anchor = anchor.replace('#', '')
+    let outputIndex = Number(anchor)
+    if (Number.isNaN(outputIndex) || outputIndex < 0 || outputIndex >= PAGE_CELL_COUNT) {
+      outputIndex = 0
+    }
+    const anchorElement = document.getElementById(`output_${outputIndex}_${txHash}`) as HTMLElement
+    if (anchorElement) {
+      anchorElement.style.cssText += 'background: #f5f5f5'
+      anchorElement.scrollIntoView()
+      window.scrollBy(0, isMobile() ? -48 : -66)
+    }
+  }
+}
+
 export default () => {
   const dispatch = useDispatch()
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
   const pathRef = useRef(pathname)
-  const { hash } = useParams<{ hash: string }>()
+  const { hash: txHash } = useParams<{ hash: string }>()
   const [showLoading, setShowLoading] = useState(false)
+  const { transactionState } = useAppState()
+  const { transaction, status } = transactionState
+  const { displayOutputs } = transaction
 
   useEffect(() => {
     setShowLoading(pathname.startsWith('/transaction') && pathRef.current !== pathname)
-    getTransactionByHash(hash, dispatch, () => {
+    getTransactionByHash(txHash, dispatch, () => {
       setShowLoading(false)
     })
     getTipBlockNumber(dispatch)
-  }, [hash, dispatch, pathname])
+  }, [txHash, dispatch, pathname])
+
+  useEffect(() => {
+    if (status === 'OK' && displayOutputs.length > 0) {
+      anchorAction(hash, txHash)
+    }
+  }, [hash, status, displayOutputs, txHash])
 
   useTimeoutWithUnmount(
     () => {
@@ -65,7 +92,7 @@ export default () => {
   return (
     <Content>
       <TransactionDiv className="container">
-        <TransactionHashCard title={i18n.t('transaction.transaction')} hash={hash} loading={showLoading} />
+        <TransactionHashCard title={i18n.t('transaction.transaction')} hash={txHash} loading={showLoading} />
         <TransactionStateComp />
       </TransactionDiv>
     </Content>
