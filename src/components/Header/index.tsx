@@ -8,17 +8,15 @@ import SearchLogo from '../../assets/search.png'
 import WhiteDropdownIcon from '../../assets/white_dropdown.png'
 import BlueDropdownIcon from '../../assets/blue_dropdown.png'
 import GreenDropdownIcon from '../../assets/green_dropdown.png'
-import MenuChartIcon from '../../assets/menu_chart.png'
-import MenuDaoIcon from '../../assets/menu_dao.png'
 import i18n from '../../utils/i18n'
 import {
   HeaderDiv,
   HeaderMobileDiv,
   HeaderMobilePanel,
   HeaderSearchPanel,
-  HeaderVersionPanel,
   HeaderSearchMobilePanel,
   HeaderBlockchainPanel,
+  HeaderEmptyPanel,
 } from './styled'
 import { isMobile } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
@@ -40,13 +38,11 @@ const Menus = () => {
       {
         type: LinkType.Inner,
         name: t('navbar.charts'),
-        icon: MenuChartIcon,
         url: '/charts',
       },
       {
         type: LinkType.Inner,
         name: t('navbar.nervos_dao'),
-        icon: MenuDaoIcon,
         url: '/nervosdao',
       },
     ]
@@ -57,8 +53,7 @@ const Menus = () => {
       {MenuDataList.map(menu => {
         return menu.type === LinkType.Inner ? (
           <Link className="header__menus__item" to={menu.url} key={menu.name}>
-            <img alt="menu icon" src={menu.icon} />
-            <span>{menu.name}</span>
+            {menu.name}
           </Link>
         ) : (
           <a className="header__menus__item" href={menu.url} target="_blank" rel="noopener noreferrer" key={menu.name}>
@@ -114,7 +109,7 @@ export default ({ hasSearch }: { hasSearch?: boolean }) => {
 
   const BlockchainComp = () => {
     return (
-      <HeaderBlockchainPanel search={!!hasSearch} showChainDropdown={showChainDropdown} id="header__blockchain__panel">
+      <HeaderBlockchainPanel showChainDropdown={showChainDropdown} id="header__blockchain__panel">
         <div
           className="header__blockchain__flag"
           role="button"
@@ -124,18 +119,17 @@ export default ({ hasSearch }: { hasSearch?: boolean }) => {
             setShowChainDropdown(true)
           }}
         >
-          <div className="header__blockchain__content">
-            {isMainnet() ? i18n.t('navbar.mainnet') : CONFIG.TESTNET_NAME.toUpperCase()}
-          </div>
-          <HeaderVersionPanel>
-            <div>{handleVersion(nodeVersion)}</div>
+          <div className="header__blockchain__content_panel">
+            <div className="header__blockchain__content">
+              {isMainnet() ? i18n.t('navbar.mainnet') : CONFIG.TESTNET_NAME.toUpperCase()}
+            </div>
             <img src={getDropdownIcon()} alt="dropdown icon" />
-          </HeaderVersionPanel>
+          </div>
+          <div className="header__blockchain__node__version">{handleVersion(nodeVersion)}</div>
         </div>
         {showChainDropdown && (
           <ChainDropdown setShowChainDropdown={setShowChainDropdown} left={chainDropdownLeft} top={chainDropdownTop} />
         )}
-        <LanDropdown />
       </HeaderBlockchainPanel>
     )
   }
@@ -184,6 +178,7 @@ export default ({ hasSearch }: { hasSearch?: boolean }) => {
           <HeaderDiv>
             <LogoComp />
             <Menus />
+            <HeaderEmptyPanel />
             {hasSearch && (
               <div className="header__search">
                 <div className="header__search__component">
@@ -192,6 +187,7 @@ export default ({ hasSearch }: { hasSearch?: boolean }) => {
               </div>
             )}
             <BlockchainComp />
+            <LanDropdown />
           </HeaderDiv>
         </>
       )}

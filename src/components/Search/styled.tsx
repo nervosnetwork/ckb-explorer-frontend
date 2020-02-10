@@ -4,11 +4,6 @@ export const SearchPanel = styled.div`
   margin: 0 auto;
   width: 100%;
   height: ${(props: { hasBorder: boolean }) => (props.hasBorder ? '42px' : '30px')};
-  margin-right: 15px;
-  @media (max-width: 700px) {
-    height: 25px;
-    margin-right: 0;
-  }
   text-align: center;
   display: flex;
   align-items: center;
@@ -55,7 +50,7 @@ export const SearchInputPanel = styled.input`
   margin-left: -30px;
   background: rgba(255, 255, 255, 0);
   border: 1px solid #606060;
-  border-radius: 24px;
+  border-radius: 4px;
   color: #bababa;
 
   &: focus {

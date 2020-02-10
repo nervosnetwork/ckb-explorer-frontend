@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 export const HeaderDiv = styled.div`
   width: 100%;
@@ -12,63 +12,77 @@ export const HeaderDiv = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  padding: 1px 8vw;
+  padding: 0px 280px;
+
+  @media (max-width: 1920px) {
+    padding: 0px 140px;
+  }
 
   @media (max-width: 1440px) {
-    padding: 1px 3vw;
+    padding: 0px 48px;
+  }
+
+  @media (max-width: 750px) {
+    padding: 0px 30px;
   }
 
   .header__logo {
     display: flex;
     align-items: center;
     .header__logo__img {
-      width: 150px;
-      height: auto;
+      width: 116px;
+      height: 20px;
     }
   }
 
   .header__menus {
     display: flex;
     align-items: center;
-    padding-left: 20px;
-    min-height: 56px;
 
     .header__menus__item {
-      margin-left: 10px;
-      margin-right: 10px;
-      font-weight: 600;
+      font-weight: normal;
       color: white;
       display: flex;
       align-items: center;
+      padding-left: 60px;
+      font-size: 14px;
 
-      > span {
-        font-size: 13px;
-        margin-left: 10px;
+      @media (max-width: 1920px) {
+        padding-left: 40px;
       }
 
-      > img {
-        width: 17px;
-        height: 17px;
+      @media (max-width: 1440px) {
+        padding-left: 24px;
+      }
+
+      @media (max-width: 750px) {
+        padding-left: 0px;
       }
     }
   }
 
   .header__search {
-    flex: 1;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    margin-right: 240px;
+
+    @media (max-width: 1920px) {
+      margin-right: 200px;
+    }
+
+    @media (max-width: 1440px) {
+      margin-right: 168px;
+    }
+
+    @media (max-width: 750px) {
+      margin-right: 0px;
+    }
 
     .header__search__component {
       display: flex;
       align-items: center;
-      height: 30px;
-      width: 371px;
-      min-width: 229px;
-
-      @media (max-width: 1100px) {
-        margin-right: 8vw;
-      }
+      height: 38px;
+      width: 361px;
     }
   }
 `
@@ -187,35 +201,57 @@ export const HeaderMobileDiv = styled.div`
 export const HeaderBlockchainPanel = styled.div`
   display: flex;
   align-items: center;
-  color: ${(props: { showChainDropdown: boolean; theme: any; search: boolean }) =>
+  width: 50px;
+  position: fixed;
+  position: -webkit-fixed;
+  z-index: 1000;
+  right: 410px;
+
+  @media (max-width: 1920px) {
+    right: 250px;
+  }
+
+  @media (max-width: 1440px) {
+    right: 142px;
+  }
+
+  @media (max-width: 750px) {
+    right: 0px;
+  }
+
+  color: ${(props: { showChainDropdown: boolean; theme: any }) =>
     props.showChainDropdown ? 'white' : props.theme.secondary};
-  ${(props: { search: boolean }) =>
-    !props.search &&
-    css`
-      flex: 1;
-      justify-content: flex-end;
-    `}
 
   .header__blockchain__flag {
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header__blockchain__content_panel {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-  }
+    width: 50px;
+    height: 14px;
 
-  .header__blockchain__content {
-    font-size: 20px;
-    text-align: center;
-    letter-spacing: 1px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  @media (max-width: 700px) {
     .header__blockchain__content {
-      font-size: 10px;
-      letter-spacing: normal;
+      font-size: 14px;
+      letter-spacing: 1px;
+      font-weight: 500px;
+      cursor: pointer;
+    }
+
+    img {
+      width: 7.9px;
+      height: 4.7px;
       margin-top: 3px;
     }
+  }
+
+  .header__blockchain__node__version {
+    font-size: 8px;
+    cursor: pointer;
   }
 `
 
@@ -226,37 +262,6 @@ export const HeaderSearchPanel = styled.div`
   align-items: center;
 `
 
-export const HeaderVersionPanel = styled.div`
-  width: 100px;
-  font-size: 12px;
-  font-weight: 500;
-  margin-right: 80px;
-  display: flex;
-  cursor: pointer;
-  padding-left: 4px;
-
-  > div {
-    margin-top: 8px;
-  }
-
-  img {
-    margin: 8px 0 0 5px;
-    width: 15px;
-    height: 9px;
-  }
-
-  @media (max-width: 700px) {
-    width: 63px;
-    font-size: 8px;
-    margin-right: 40px;
-    padding-left: 2px;
-    > div {
-      margin-top: 5px;
-    }
-    img {
-      margin: 5px 0 0 5px;
-      width: 10px;
-      height: 6px;
-    }
-  }
+export const HeaderEmptyPanel = styled.div`
+  flex: 1;
 `

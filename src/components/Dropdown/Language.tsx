@@ -7,9 +7,7 @@ import DropdownIcon from '../../assets/dropdown.png'
 import { changeLanguage } from '../../utils/i18n'
 
 export const HeaderLanguagePanel = styled.div`
-  width: 75px;
-  margin-left: 35px;
-  border-radius: 7px;
+  width: 70px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -19,11 +17,19 @@ export const HeaderLanguagePanel = styled.div`
   position: fixed;
   position: -webkit-fixed;
   z-index: 1000;
-  right: 7vw;
+  right: 280px;
   top: 17px;
 
+  @media (max-width: 1920px) {
+    right: 140px;
+  }
+
   @media (max-width: 1440px) {
-    right: 3vw;
+    right: 48px;
+  }
+
+  @media (max-width: 750px) {
+    right: 30px;
   }
 
   .current__language {
@@ -36,7 +42,7 @@ export const HeaderLanguagePanel = styled.div`
 
     > div {
       color: white;
-      font-size: 13px;
+      font-size: 14px;
     }
 
     > img {
