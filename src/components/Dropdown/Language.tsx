@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { AppActions } from '../../contexts/providers/reducer'
-import SelectIcon from '../../assets/current_selected.png'
-import DropdownIcon from '../../assets/dropdown.png'
 import { changeLanguage } from '../../utils/i18n'
+import WhiteDropdownIcon from '../../assets/white_dropdown.png'
+import BlueDropUpIcon from '../../assets/blue_drop_up.png'
+import GreenDropUpIcon from '../../assets/green_drop_up.png'
+import { isMainnet } from '../../utils/chain'
 
 export const HeaderLanguagePanel = styled.div`
   width: 70px;
@@ -12,7 +14,6 @@ export const HeaderLanguagePanel = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   background-color: #040607;
-  border: solid 1px #888888;
   font-weight: 500;
   position: fixed;
   position: -webkit-fixed;
@@ -26,6 +27,14 @@ export const HeaderLanguagePanel = styled.div`
 
   @media (max-width: 1440px) {
     right: 48px;
+  }
+
+  @media (max-width: 1000px) {
+    right: 30px;
+  }
+
+  @media (max-width: 800px) {
+    right: 24px;
   }
 
   @media (max-width: 750px) {
@@ -46,8 +55,8 @@ export const HeaderLanguagePanel = styled.div`
     }
 
     > img {
-      width: ${(props: { showDropdown: boolean }) => (props.showDropdown ? '6px' : '8px')};
-      height: ${(props: { showDropdown: boolean }) => (props.showDropdown ? '8px' : '6px')};
+      width: 7.9px;
+      height: 4.8px;
     }
   }
 
@@ -122,6 +131,10 @@ export const HeaderLanguagePanel = styled.div`
   }
 `
 
+const getDropdownIcon = () => {
+  return isMainnet() ? GreenDropUpIcon : BlueDropUpIcon
+}
+
 const showLanguage = (lan: 'en' | 'zh') => {
   return lan === 'en' ? 'EN' : '中(简)'
 }
@@ -155,7 +168,7 @@ export default () => {
         tabIndex={-1}
       >
         <div>{showLanguage(languages.current)}</div>
-        <img src={showLanguageDropdown ? SelectIcon : DropdownIcon} alt="select icon" />
+        <img src={showLanguageDropdown ? getDropdownIcon() : WhiteDropdownIcon} alt="select icon" />
       </div>
       <div
         className="select__language"

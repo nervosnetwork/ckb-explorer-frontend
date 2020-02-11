@@ -6,8 +6,8 @@ import LogoIcon from '../../assets/ckb_logo.png'
 import MobileLogoIcon from '../../assets/mobile_ckb_logo.png'
 import SearchLogo from '../../assets/search.png'
 import WhiteDropdownIcon from '../../assets/white_dropdown.png'
-import BlueDropdownIcon from '../../assets/blue_dropdown.png'
-import GreenDropdownIcon from '../../assets/green_dropdown.png'
+import BlueDropUpIcon from '../../assets/blue_drop_up.png'
+import GreenDropUpIcon from '../../assets/green_drop_up.png'
 import i18n from '../../utils/i18n'
 import {
   HeaderDiv,
@@ -103,13 +103,13 @@ export default ({ hasSearch }: { hasSearch?: boolean }) => {
   }, [showChainDropdown, language])
 
   const getDropdownIcon = () => {
-    if (showChainDropdown) return WhiteDropdownIcon
-    return isMainnet() ? GreenDropdownIcon : BlueDropdownIcon
+    if (!showChainDropdown) return WhiteDropdownIcon
+    return isMainnet() ? GreenDropUpIcon : BlueDropUpIcon
   }
 
   const BlockchainComp = () => {
     return (
-      <HeaderBlockchainPanel showChainDropdown={showChainDropdown} id="header__blockchain__panel">
+      <HeaderBlockchainPanel id="header__blockchain__panel">
         <div
           className="header__blockchain__flag"
           role="button"

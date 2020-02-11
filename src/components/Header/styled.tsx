@@ -22,6 +22,14 @@ export const HeaderDiv = styled.div`
     padding: 0px 48px;
   }
 
+  @media (max-width: 900px) {
+    padding: 0px 30px;
+  }
+
+  @media (max-width: 800px) {
+    padding: 0px 24px;
+  }
+
   @media (max-width: 750px) {
     padding: 0px 30px;
   }
@@ -55,6 +63,10 @@ export const HeaderDiv = styled.div`
         padding-left: 24px;
       }
 
+      @media (max-width: 900px) {
+        padding-left: 16px;
+      }
+
       @media (max-width: 750px) {
         padding-left: 0px;
       }
@@ -74,6 +86,10 @@ export const HeaderDiv = styled.div`
       margin-right: 168px;
     }
 
+    @media (max-width: 900px) {
+      margin-right: 160px;
+    }
+
     @media (max-width: 750px) {
       margin-right: 0px;
     }
@@ -83,6 +99,14 @@ export const HeaderDiv = styled.div`
       align-items: center;
       height: 38px;
       width: 361px;
+
+      @media (max-width: 1440px) {
+        width: 330px;
+      }
+
+      @media (max-width: 900px) {
+        width: 300px;
+      }
     }
   }
 `
@@ -215,12 +239,15 @@ export const HeaderBlockchainPanel = styled.div`
     right: 142px;
   }
 
+  @media (max-width: 900px) {
+    right: 126px;
+  }
+
   @media (max-width: 750px) {
     right: 0px;
   }
 
-  color: ${(props: { showChainDropdown: boolean; theme: any }) =>
-    props.showChainDropdown ? 'white' : props.theme.secondary};
+  color: ${props => props.theme.secondary};
 
   .header__blockchain__flag {
     display: flex;
