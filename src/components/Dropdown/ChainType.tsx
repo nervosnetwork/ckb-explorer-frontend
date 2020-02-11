@@ -30,25 +30,26 @@ export const ChainTypePanel = styled.div`
   top: ${(props: { left: number; top: number }) => props.top}px;
 
   .chain_type_selected {
-    width: 90%;
+    width: 94%;
     font-size: 14px;
     height: 33px;
     line-height: 33px;
-    margin: 3px 5% 0 5%;
-    padding: 0 5%;
+    margin: 3px 3% 0 3%;
+    padding: 0 3%;
     cursor: pointer;
     border-radius: 3px;
+    white-space: nowrap;
     &:hover {
       background: #f1f1f1;
     }
   }
   .chain_type_normal {
-    width: 90%;
+    width: 94%;
     font-size: 14px;
     height: 33px;
     line-height: 33px;
-    margin: 0px 5% 3px 5%;
-    padding: 0 5%;
+    margin: 0px 3% 3px 3%;
+    padding: 0 3%;
     cursor: pointer;
     border-radius: 3px;
 
@@ -58,10 +59,10 @@ export const ChainTypePanel = styled.div`
   }
 
   .chain_type_separate {
-    width: 80%;
+    width: 88%;
     height: 0.5px;
     border: solid 0.5px #c3c3c3;
-    margin: 0 10%;
+    margin: 0 6%;
   }
 
   @media (max-width: 700px) {
