@@ -54,6 +54,7 @@ export const HeaderDiv = styled.div`
       align-items: center;
       padding-left: 60px;
       font-size: 14px;
+      font-weight: regular;
 
       @media (max-width: 1920px) {
         padding-left: 40px;
@@ -70,40 +71,43 @@ export const HeaderDiv = styled.div`
       @media (max-width: 750px) {
         padding-left: 0px;
       }
+
+      &:hover {
+        font-weight: medium;
+        color: #3cc68a;
+      }
     }
   }
+`
 
-  .header__search {
+export const HeaderSearchPanel = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 60px;
+
+  @media (max-width: 1920px) {
+    margin-right: 40px;
+  }
+
+  @media (max-width: 1440px) {
+    margin-right: 24px;
+  }
+
+  .header__search__component {
     display: flex;
     align-items: center;
-    margin-right: 60px;
+    height: 38px;
+    width: 361px;
+  }
+`
 
-    @media (max-width: 1920px) {
-      margin-right: 40px;
-    }
-
-    @media (max-width: 1440px) {
-      margin-right: 24px;
-    }
-
-    @media (max-width: 750px) {
-      margin-right: 0px;
-    }
-
-    .header__search__component {
-      display: flex;
-      align-items: center;
-      height: 38px;
-      width: 361px;
-
-      @media (max-width: 1440px) {
-        width: 330px;
-      }
-
-      @media (max-width: 900px) {
-        width: 300px;
-      }
-    }
+export const HeaderSearchBarPanel = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 24px;
+  > img {
+    width: 18px;
+    height: 18px;
   }
 `
 
@@ -221,7 +225,7 @@ export const HeaderMobileDiv = styled.div`
 export const HeaderBlockchainPanel = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 8px;
+  margin-top: 3px;
   margin-right: 60px;
 
   @media (max-width: 1920px) {
@@ -274,6 +278,7 @@ export const HeaderLanguagePanel = styled.div`
   display: flex;
   align-items: center;
   color: ${(props: { theme: any; showLanguage: boolean }) => (props.showLanguage ? props.theme.secondary : 'white')};
+  margin-bottom: 3px;
 
   .header__language__flag {
     display: flex;
@@ -299,13 +304,6 @@ export const HeaderLanguagePanel = styled.div`
       margin-left: 8px;
     }
   }
-`
-
-export const HeaderSearchPanel = styled.div`
-  width: 100%;
-  height: 40px;
-  display: flex;
-  align-items: center;
 `
 
 export const HeaderEmptyPanel = styled.div`

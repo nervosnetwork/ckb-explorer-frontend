@@ -4,9 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { SearchImage, SearchInputPanel, SearchPanel } from './styled'
 import { fetchSearchResult } from '../../service/http/fetcher'
 import browserHistory from '../../routes/history'
-import SearchLogo from '../../assets/search.png'
+import SearchLogo from '../../assets/search_black.png'
 import GreenSearchLogo from '../../assets/search_green.png'
 import BlueSearchLogo from '../../assets/search_blue.png'
+import ClearLogo from '../../assets/clear.png'
 import { addPrefixForHash } from '../../utils/string'
 import i18n from '../../utils/i18n'
 import { HttpErrorCode, CachedKeys, SearchFailType } from '../../utils/const'
@@ -25,8 +26,10 @@ enum SearchResultType {
 
 const clearSearchInput = (inputElement: any) => {
   const input: HTMLInputElement = inputElement.current
-  input.value = ''
-  input.blur()
+  if (input) {
+    input.value = ''
+    input.blur()
+  }
 }
 
 const setSearchLoading = (inputElement: any) => {
@@ -146,19 +149,33 @@ const Search = ({ hasBorder, content }: { hasBorder?: boolean; content?: string 
     setPlaceholder(SearchPlaceholder)
   }, [SearchPlaceholder])
 
-  // set input focus when mobile search bar state change
-  useEffect(() => {
-    if (searchBarEditable && inputElement.current) {
-      inputElement.current.focus()
-    }
-  }, [searchBarEditable])
+  const ClearIconButton = () => {
+    return (
+      <SearchImage
+        highlightIcon={false}
+        role="button"
+        tabIndex={-1}
+        onKeyPress={() => {}}
+        onClick={() => {
+          dispatch({
+            type: ComponentActions.UpdateHeaderSearchEditable,
+            payload: {
+              searchBarEditable: false,
+            },
+          })
+        }}
+      >
+        <img src={ClearLogo} alt="search logo" />
+      </SearchImage>
+    )
+  }
 
   const SearchIconButton = ({ highlightIcon }: { highlightIcon?: boolean }) => {
     const getSearchIcon = () => {
-      if (isMainnet()) {
-        return highlightIcon ? GreenSearchLogo : SearchLogo
+      if (highlightIcon) {
+        return isMainnet() ? GreenSearchLogo : BlueSearchLogo
       }
-      return highlightIcon ? BlueSearchLogo : SearchLogo
+      return SearchLogo
     }
     return (
       <SearchImage
@@ -176,11 +193,13 @@ const Search = ({ hasBorder, content }: { hasBorder?: boolean; content?: string 
       </SearchImage>
     )
   }
+
   return (
     <SearchPanel hasBorder={!!hasBorder}>
-      {!hasBorder && <SearchIconButton />}
+      {!hasBorder && !searchBarEditable && <SearchIconButton />}
       {isMobile() && <div className="search__icon__separate" />}
       <SearchInputPanel
+        searchBarEditable={searchBarEditable}
         ref={inputElement}
         placeholder={placeholder}
         defaultValue={searchValue || ''}
@@ -208,6 +227,7 @@ const Search = ({ hasBorder, content }: { hasBorder?: boolean; content?: string 
           }
         }}
       />
+      {!hasBorder && searchBarEditable && <ClearIconButton />}
       {hasBorder && <SearchIconButton highlightIcon />}
     </SearchPanel>
   )

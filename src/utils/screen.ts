@@ -6,9 +6,12 @@ export const isMediumMobile = () => window.innerWidth >= 375 && window.innerWidt
 
 export const isLargeMobile = () => window.innerWidth >= 414 && window.innerWidth <= 700
 
+export const isScreen750to1440 = () => window.innerWidth >= 750 && window.innerWidth < 1440
+
 export default {
   isMobile,
   isSmallMobile,
   isMediumMobile,
   isLargeMobile,
+  isScreen750to1440,
 }

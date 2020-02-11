@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import Search from '../Search'
 import LogoIcon from '../../assets/ckb_logo.png'
 import MobileLogoIcon from '../../assets/mobile_ckb_logo.png'
-import SearchLogo from '../../assets/search.png'
+import SearchLogo from '../../assets/search_white.png'
 import WhiteDropdownIcon from '../../assets/white_dropdown.png'
 import BlueDropUpIcon from '../../assets/blue_drop_up.png'
 import GreenDropUpIcon from '../../assets/green_drop_up.png'
@@ -18,8 +18,9 @@ import {
   HeaderBlockchainPanel,
   HeaderEmptyPanel,
   HeaderLanguagePanel,
+  HeaderSearchBarPanel,
 } from './styled'
-import { isMobile } from '../../utils/screen'
+import { isMobile, isScreen750to1440 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
 import { ComponentActions } from '../../contexts/providers/reducer'
 import LanDropdown from '../Dropdown/Language'
@@ -178,6 +179,39 @@ const LanguageComp = () => {
   )
 }
 
+const SearchComp = () => {
+  const dispatch = useDispatch()
+  const { components } = useAppState()
+  const { searchBarEditable } = components
+
+  if (isScreen750to1440() && !searchBarEditable) {
+    return (
+      <HeaderSearchBarPanel
+        role="button"
+        tabIndex={-1}
+        onKeyDown={() => {}}
+        onClick={() => {
+          dispatch({
+            type: ComponentActions.UpdateHeaderSearchEditable,
+            payload: {
+              searchBarEditable: true,
+            },
+          })
+        }}
+      >
+        <img alt="header search bar" src={SearchLogo} />
+      </HeaderSearchBarPanel>
+    )
+  }
+  return (
+    <HeaderSearchPanel>
+      <div className="header__search__component">
+        <Search />
+      </div>
+    </HeaderSearchPanel>
+  )
+}
+
 export default ({ hasSearch }: { hasSearch?: boolean }) => {
   const { components } = useAppState()
   const dispatch = useDispatch()
@@ -226,15 +260,9 @@ export default ({ hasSearch }: { hasSearch?: boolean }) => {
         <>
           <HeaderDiv>
             <LogoComp />
-            <Menus />
+            {!(isScreen750to1440() && searchBarEditable) && <Menus />}
             <HeaderEmptyPanel />
-            {hasSearch && (
-              <div className="header__search">
-                <div className="header__search__component">
-                  <Search />
-                </div>
-              </div>
-            )}
+            {hasSearch && <SearchComp />}
             <BlockchainComp />
             <LanguageComp />
           </HeaderDiv>
