@@ -5,61 +5,49 @@ import CONFIG from '../../config'
 import { isMainnet } from '../../utils/chain'
 
 export const ChainTypePanel = styled.div`
-  width: 140px;
-  height: 89px;
+  width: 120px;
+  height: 74px;
   background: white;
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   position: fixed;
   position: -webkit-fixed;
   z-index: 1000;
+  color: #000000;
+
+  a {
+    color: #000000;
+    text-transform: capitalize;
+  }
+  a:hover {
+    color: #000000;
+  }
+
   left: ${(props: { left: number; top: number }) => props.left}px;
   top: ${(props: { left: number; top: number }) => props.top}px;
 
   .chain_type_selected {
-    width: 100%;
+    width: 90%;
     font-size: 14px;
-    height: 40px;
-    line-height: 44px;
-    text-align: center;
-    font-weight: bold;
+    height: 36px;
+    line-height: 36px;
+    margin: 2px 5% 0 5%;
+    padding-left: 5px;
     cursor: pointer;
-    color: ${props => props.theme.primary};
-
-    a {
-      color: ${props => props.theme.primary};
-      text-transform: capitalize;
-    }
-
-    a:hover {
-      color: ${props => props.theme.primary};
-    }
+    border-radius: 3px;
+    background-color: #f1f1f1;
   }
   .chain_type_normal {
     width: 100%;
     font-size: 14px;
-    height: 40px;
+    height: 37px;
+    line-height: 37px;
+    margin: 0px 5%;
+    padding-left: 5px;
     cursor: pointer;
-    line-height: 44px;
-    text-align: center;
-    font-weight: bold;
-    color: #676767;
-
-    a {
-      color: #676767;
-      text-transform: capitalize;
-    }
-    a:hover {
-      color: #676767;
-    }
-  }
-  .chain_type_separate {
-    width: 100%;
-    height: 1px;
-    background: #f2f2f2;
   }
 
   @media (max-width: 700px) {
@@ -101,7 +89,6 @@ export default ({ setShowChainDropdown, left, top }: { setShowChainDropdown: Fun
       >
         <a href={CONFIG.MAINNET_URL}>{i18n.t('blockchain.mainnet')}</a>
       </div>
-      <div className="chain_type_separate" />
       <div
         className={`chain_type_${!isMainnet() ? 'selected' : 'normal'}`}
         role="button"

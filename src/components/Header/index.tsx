@@ -8,7 +8,7 @@ import SearchLogo from '../../assets/search.png'
 import WhiteDropdownIcon from '../../assets/white_dropdown.png'
 import BlueDropUpIcon from '../../assets/blue_drop_up.png'
 import GreenDropUpIcon from '../../assets/green_drop_up.png'
-import i18n from '../../utils/i18n'
+import i18n, { currentLanguage } from '../../utils/i18n'
 import {
   HeaderDiv,
   HeaderMobileDiv,
@@ -17,6 +17,7 @@ import {
   HeaderSearchMobilePanel,
   HeaderBlockchainPanel,
   HeaderEmptyPanel,
+  HeaderLanguagePanel,
 } from './styled'
 import { isMobile } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
@@ -25,6 +26,22 @@ import LanDropdown from '../Dropdown/Language'
 import ChainDropdown from '../Dropdown/ChainType'
 import { isMainnet } from '../../utils/chain'
 import CONFIG from '../../config'
+
+const handleVersion = (nodeVersion: string) => {
+  if (nodeVersion && nodeVersion.indexOf('(') !== -1) {
+    return `v${nodeVersion.slice(0, nodeVersion.indexOf('('))}`
+  }
+  return nodeVersion
+}
+
+const languageText = (lan: 'en' | 'zh' | null) => {
+  return lan === 'en' ? 'EN' : '中(简)'
+}
+
+const getDropdownIcon = (showDropdown: boolean) => {
+  if (!showDropdown) return WhiteDropdownIcon
+  return isMainnet() ? GreenDropUpIcon : BlueDropUpIcon
+}
 
 enum LinkType {
   Inner,
@@ -73,18 +90,9 @@ const LogoComp = () => {
   )
 }
 
-const handleVersion = (nodeVersion: string) => {
-  if (nodeVersion && nodeVersion.indexOf('(') !== -1) {
-    return `v${nodeVersion.slice(0, nodeVersion.indexOf('('))}`
-  }
-  return nodeVersion
-}
-
-export default ({ hasSearch }: { hasSearch?: boolean }) => {
-  const { app, components } = useAppState()
-  const dispatch = useDispatch()
+const BlockchainComp = () => {
+  const { app } = useAppState()
   const { nodeVersion, language } = app
-  const { searchBarEditable } = components
   const [showChainDropdown, setShowChainDropdown] = useState(false)
   const [chainDropdownLeft, setChainDropdownLeft] = useState(0)
   const [chainDropdownTop, setChainDropdownTop] = useState(0)
@@ -95,44 +103,85 @@ export default ({ hasSearch }: { hasSearch?: boolean }) => {
       if (chainDropdownComp) {
         const chainDropdownReact = chainDropdownComp.getBoundingClientRect()
         if (chainDropdownReact) {
-          setChainDropdownLeft(chainDropdownReact.left - 4)
-          setChainDropdownTop(chainDropdownReact.bottom)
+          setChainDropdownLeft(chainDropdownReact.left - 34)
+          setChainDropdownTop(chainDropdownReact.bottom + 6)
         }
       }
     }
   }, [showChainDropdown, language])
-
-  const getDropdownIcon = () => {
-    if (!showChainDropdown) return WhiteDropdownIcon
-    return isMainnet() ? GreenDropUpIcon : BlueDropUpIcon
-  }
-
-  const BlockchainComp = () => {
-    return (
-      <HeaderBlockchainPanel id="header__blockchain__panel">
-        <div
-          className="header__blockchain__flag"
-          role="button"
-          tabIndex={-1}
-          onKeyDown={() => {}}
-          onClick={() => {
-            setShowChainDropdown(true)
-          }}
-        >
-          <div className="header__blockchain__content_panel">
-            <div className="header__blockchain__content">
-              {isMainnet() ? i18n.t('navbar.mainnet') : CONFIG.TESTNET_NAME.toUpperCase()}
-            </div>
-            <img src={getDropdownIcon()} alt="dropdown icon" />
+  return (
+    <HeaderBlockchainPanel id="header__blockchain__panel">
+      <div
+        className="header__blockchain__flag"
+        role="button"
+        tabIndex={-1}
+        onKeyDown={() => {}}
+        onClick={() => {
+          setShowChainDropdown(true)
+        }}
+      >
+        <div className="header__blockchain__content_panel">
+          <div className="header__blockchain__content">
+            {isMainnet() ? i18n.t('navbar.mainnet') : CONFIG.TESTNET_NAME.toUpperCase()}
           </div>
-          <div className="header__blockchain__node__version">{handleVersion(nodeVersion)}</div>
+          <img src={getDropdownIcon(showChainDropdown)} alt="dropdown icon" />
         </div>
-        {showChainDropdown && (
-          <ChainDropdown setShowChainDropdown={setShowChainDropdown} left={chainDropdownLeft} top={chainDropdownTop} />
-        )}
-      </HeaderBlockchainPanel>
-    )
-  }
+        <div className="header__blockchain__node__version">{handleVersion(nodeVersion)}</div>
+      </div>
+      {showChainDropdown && (
+        <ChainDropdown setShowChainDropdown={setShowChainDropdown} left={chainDropdownLeft} top={chainDropdownTop} />
+      )}
+    </HeaderBlockchainPanel>
+  )
+}
+
+const LanguageComp = () => {
+  const { app } = useAppState()
+  const { language } = app
+  const [showLanguage, setShowLanguage] = useState(false)
+  const [languageDropdownLeft, setLanguageDropdownLeft] = useState(0)
+  const [languageDropdownTop, setLanguageDropdownTop] = useState(0)
+
+  useLayoutEffect(() => {
+    if (showLanguage && language) {
+      const languageDropdownComp = document.getElementById('header__language__panel')
+      if (languageDropdownComp) {
+        const languageDropdownReact = languageDropdownComp.getBoundingClientRect()
+        if (languageDropdownReact) {
+          setLanguageDropdownLeft(languageDropdownReact.left - 6)
+          setLanguageDropdownTop(languageDropdownReact.bottom + 13)
+        }
+      }
+    }
+  }, [showLanguage, language])
+
+  return (
+    <HeaderLanguagePanel id="header__language__panel" showLanguage={showLanguage}>
+      <div
+        className="header__language__flag"
+        role="button"
+        tabIndex={-1}
+        onKeyDown={() => {}}
+        onClick={() => {
+          setShowLanguage(true)
+        }}
+      >
+        <div className="header__language__content_panel">
+          <div className="header__language__content">{languageText(currentLanguage())}</div>
+          <img src={getDropdownIcon(showLanguage)} alt="dropdown icon" />
+        </div>
+      </div>
+      {showLanguage && (
+        <LanDropdown setShowLanguage={setShowLanguage} left={languageDropdownLeft} top={languageDropdownTop} />
+      )}
+    </HeaderLanguagePanel>
+  )
+}
+
+export default ({ hasSearch }: { hasSearch?: boolean }) => {
+  const { components } = useAppState()
+  const dispatch = useDispatch()
+  const { searchBarEditable } = components
 
   return (
     <React.Fragment>
@@ -187,7 +236,7 @@ export default ({ hasSearch }: { hasSearch?: boolean }) => {
               </div>
             )}
             <BlockchainComp />
-            <LanDropdown />
+            <LanguageComp />
           </HeaderDiv>
         </>
       )}

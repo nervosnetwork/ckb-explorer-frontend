@@ -76,18 +76,14 @@ export const HeaderDiv = styled.div`
   .header__search {
     display: flex;
     align-items: center;
-    margin-right: 240px;
+    margin-right: 60px;
 
     @media (max-width: 1920px) {
-      margin-right: 200px;
+      margin-right: 40px;
     }
 
     @media (max-width: 1440px) {
-      margin-right: 168px;
-    }
-
-    @media (max-width: 900px) {
-      margin-right: 160px;
+      margin-right: 24px;
     }
 
     @media (max-width: 750px) {
@@ -225,26 +221,19 @@ export const HeaderMobileDiv = styled.div`
 export const HeaderBlockchainPanel = styled.div`
   display: flex;
   align-items: center;
-  width: 50px;
-  position: fixed;
-  position: -webkit-fixed;
-  z-index: 1000;
-  right: 410px;
+  margin-top: 8px;
+  margin-right: 60px;
 
   @media (max-width: 1920px) {
-    right: 250px;
+    margin-right: 40px;
   }
 
   @media (max-width: 1440px) {
-    right: 142px;
-  }
-
-  @media (max-width: 900px) {
-    right: 126px;
+    margin-right: 24px;
   }
 
   @media (max-width: 750px) {
-    right: 0px;
+    margin-right: 0px;
   }
 
   color: ${props => props.theme.secondary};
@@ -259,26 +248,56 @@ export const HeaderBlockchainPanel = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 50px;
-    height: 14px;
 
     .header__blockchain__content {
+      height: 14px;
       font-size: 14px;
-      letter-spacing: 1px;
-      font-weight: 500px;
       cursor: pointer;
     }
 
     img {
       width: 7.9px;
       height: 4.7px;
-      margin-top: 3px;
+      margin-top: 10px;
+      margin-left: 8px;
     }
   }
 
   .header__blockchain__node__version {
     font-size: 8px;
+    margin-top: 2px;
     cursor: pointer;
+  }
+`
+
+export const HeaderLanguagePanel = styled.div`
+  display: flex;
+  align-items: center;
+  color: ${(props: { theme: any; showLanguage: boolean }) => (props.showLanguage ? props.theme.secondary : 'white')};
+
+  .header__language__flag {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header__language__content_panel {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+
+    .header__language__content {
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    img {
+      width: 7.9px;
+      height: 4.7px;
+      margin-top: 3px;
+      margin-left: 8px;
+    }
   }
 `
 
