@@ -35,7 +35,7 @@ const handleVersion = (nodeVersion: string) => {
 }
 
 const languageText = (lan: 'en' | 'zh' | null) => {
-  return lan === 'en' ? 'EN' : '中(简)'
+  return lan === 'en' ? i18n.t('navbar.language_en') : i18n.t('navbar.language_zh')
 }
 
 const getDropdownIcon = (showDropdown: boolean) => {

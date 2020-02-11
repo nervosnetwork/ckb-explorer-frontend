@@ -5,7 +5,7 @@ import CONFIG from '../../config'
 import { isMainnet } from '../../utils/chain'
 
 export const ChainTypePanel = styled.div`
-  width: 120px;
+  width: 130px;
   height: 74px;
   background: white;
   border-radius: 5px;
@@ -32,22 +32,36 @@ export const ChainTypePanel = styled.div`
   .chain_type_selected {
     width: 90%;
     font-size: 14px;
-    height: 36px;
-    line-height: 36px;
-    margin: 2px 5% 0 5%;
-    padding-left: 5px;
+    height: 33px;
+    line-height: 33px;
+    margin: 3px 5% 0 5%;
+    padding: 0 5%;
     cursor: pointer;
     border-radius: 3px;
-    background-color: #f1f1f1;
+    &:hover {
+      background: #f1f1f1;
+    }
   }
   .chain_type_normal {
-    width: 100%;
+    width: 90%;
     font-size: 14px;
-    height: 37px;
-    line-height: 37px;
-    margin: 0px 5%;
-    padding-left: 5px;
+    height: 33px;
+    line-height: 33px;
+    margin: 0px 5% 3px 5%;
+    padding: 0 5%;
     cursor: pointer;
+    border-radius: 3px;
+
+    &:hover {
+      background: #f1f1f1;
+    }
+  }
+
+  .chain_type_separate {
+    width: 80%;
+    height: 0.5px;
+    border: solid 0.5px #c3c3c3;
+    margin: 0 10%;
   }
 
   @media (max-width: 700px) {
@@ -89,6 +103,7 @@ export default ({ setShowChainDropdown, left, top }: { setShowChainDropdown: Fun
       >
         <a href={CONFIG.MAINNET_URL}>{i18n.t('blockchain.mainnet')}</a>
       </div>
+      <div className="chain_type_separate" />
       <div
         className={`chain_type_${!isMainnet() ? 'selected' : 'normal'}`}
         role="button"

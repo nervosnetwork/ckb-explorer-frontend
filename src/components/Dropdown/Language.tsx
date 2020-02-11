@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { currentLanguage, changeLanguage } from '../../utils/i18n'
+import i18n, { currentLanguage, changeLanguage } from '../../utils/i18n'
 import { useDispatch } from '../../contexts/providers'
 import { AppActions } from '../../contexts/providers/reducer'
 
@@ -24,22 +24,35 @@ export const LanguagePanel = styled.div`
   .language_selected {
     width: 90%;
     font-size: 14px;
-    height: 36px;
-    line-height: 36px;
-    margin: 2px 5% 0 5%;
-    padding-left: 5px;
+    height: 33px;
+    line-height: 33px;
+    margin: 3px 5% 0 5%;
+    padding: 0 5%;
     cursor: pointer;
     border-radius: 3px;
-    background-color: #f1f1f1;
+    &:hover {
+      background: #f1f1f1;
+    }
   }
   .language_normal {
-    width: 100%;
+    width: 90%;
     font-size: 14px;
-    height: 40px;
+    height: 33px;
+    line-height: 33px;
+    margin: 0px 5% 3px 5%;
+    padding: 0 5%;
     cursor: pointer;
-    line-height: 40px;
-    margin: 0px 5%;
-    padding-left: 5px;
+    border-radius: 3px;
+    &:hover {
+      background: #f1f1f1;
+    }
+  }
+
+  .language_separate {
+    width: 80%;
+    height: 0.5px;
+    border: solid 0.5px #c3c3c3;
+    margin: 0 10%;
   }
 `
 
@@ -62,8 +75,9 @@ export default ({ setShowLanguage, left, top }: { setShowLanguage: Function; lef
           setShowLanguage(false)
         }}
       >
-        {currentLanguage() === 'en' ? 'EN' : '中(简)'}
+        {i18n.t(currentLanguage() === 'en' ? 'navbar.language_en' : 'navbar.language_zh')}
       </div>
+      <div className="language_separate" />
       <div
         className="language_normal"
         role="button"
@@ -80,7 +94,7 @@ export default ({ setShowLanguage, left, top }: { setShowLanguage: Function; lef
           })
         }}
       >
-        {currentLanguage() === 'en' ? '中(简)' : 'EN'}
+        {i18n.t(currentLanguage() === 'en' ? 'navbar.language_zh' : 'navbar.language_en')}
       </div>
     </LanguagePanel>
   )
