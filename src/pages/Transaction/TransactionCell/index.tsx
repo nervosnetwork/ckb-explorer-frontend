@@ -26,7 +26,7 @@ const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
     return adaptMobileEllipsis(hash, 11)
   }
-  return adaptPCEllipsis(hash, 6, 50)
+  return adaptPCEllipsis(hash, 5, 50)
 }
 
 const AddressHash = ({ address }: { address: string }) => {
@@ -76,6 +76,7 @@ const TransactionCellDetailButtons = ({
     setState(state !== newState ? newState : CellState.NONE)
     onChange(state !== newState ? newState : CellState.NONE)
   }
+
   return (
     <TransactionCellDetailPanel>
       <div className="transaction__cell_lock_script">
@@ -147,7 +148,7 @@ export default ({
 
   return (
     <TransactionCellPanel id={cellType === CellType.Output ? `output_${index}_${txHash}` : ''}>
-      <TransactionCellContentPanel>
+      <TransactionCellContentPanel isOutput={cellType === CellType.Output}>
         <div className="transaction__cell_index">
           {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
         </div>
