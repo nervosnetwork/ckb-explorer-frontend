@@ -17,7 +17,8 @@ export const SearchPanel = styled.div`
 export const SearchImage = styled.div`
   display: flex;
   align-items: center;
-  margin-left: ${(props: { highlightIcon: boolean }) => (props.highlightIcon ? '-45px' : '0')};
+  margin-left: ${(props: { highlightIcon: boolean }) => (props.highlightIcon ? '-25px' : '8px')};
+  margin-top: ${(props: { highlightIcon: boolean }) => (props.highlightIcon ? '0px' : '2px')};
   z-index: 2;
 
   @media (max-width: 700px) {
@@ -41,10 +42,10 @@ export const SearchInputPanel = styled.input`
   width: 100%;
   height: 100%;
   font-size: 14px;
-  padding-left: ${(props: { searchBarEditable: boolean; hasBorder: boolean }) =>
-    props.searchBarEditable ? '10px' : '25px'}
+  padding-left: 10px;
   padding-right: 20px;
-  margin-left: -25px;
+  margin-left: ${(props: { searchBarEditable: boolean; hasBorder: boolean }) =>
+    props.searchBarEditable ? '0px' : '-8px'}
   background: white;
   color: #333333;
   border: 0px solid white;
