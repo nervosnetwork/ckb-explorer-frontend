@@ -111,117 +111,6 @@ export const HeaderSearchBarPanel = styled.div`
   }
 `
 
-const HeaderMobileCommonPanel = styled.div`
-  height: 42px;
-  width: 100vw;
-  overflow: hidden;
-  background-color: #040607;
-  position: fixed;
-  position: -webkit-fixed;
-  overflow: visible;
-  top: 0;
-  z-index: 10;
-  padding: 1px 20px;
-
-  @media (max-width: 400px) {
-    padding: 1px 10px;
-  }
-`
-
-export const HeaderMobilePanel = styled(HeaderMobileCommonPanel)`
-  display: ${({ searchBarEditable }: { searchBarEditable: boolean }) => (searchBarEditable ? 'none' : 'block')};
-`
-
-export const HeaderSearchMobilePanel = styled(HeaderMobileCommonPanel)`
-  display: ${({ searchBarEditable }: { searchBarEditable: boolean }) => (searchBarEditable ? 'block' : 'none')};
-  padding: ${({ searchBarEditable }: { searchBarEditable: boolean }) => (searchBarEditable ? '10px 20px' : '1px 20px')};
-
-  @media (max-width: 400px) {
-    padding: ${({ searchBarEditable }: { searchBarEditable: boolean }) =>
-      searchBarEditable ? '10px 10px' : '1px 10px'};
-  }
-`
-
-export const HeaderMobileDiv = styled.div`
-  width: 100%;
-  height: 42px;
-  display: flex;
-  align-items: center;
-
-  .header__logo {
-    height: 16px;
-    .header__logo__img {
-      width: 80px;
-      height: 15px;
-      margin-bottom: 3px;
-    }
-
-    @media (max-width: 400px) {
-      margin-bottom: 4px;
-    }
-  }
-
-  .header__menus {
-    padding-left: 5px;
-    display: flex;
-    align-items: center;
-
-    .header__menus__item {
-      margin-left: 8px;
-      font-size: 10px;
-      font-weight: bold;
-      color: white;
-
-      > span {
-        font-size: 6px;
-        margin-left: 3px;
-      }
-
-      > img {
-        width: 10px;
-        height: 10px;
-
-        @media (max-width: 400px) {
-          width: 8px;
-          height: 8px;
-        }
-      }
-
-      @media (max-width: 400px) {
-        margin-left: 4px;
-        font-size: 8px;
-      }
-    }
-  }
-
-  .header__search {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    height: 21px;
-    justify-content: flex-end;
-
-    .header__search__component {
-      width: 29px;
-      height: 21px;
-
-      .header__search__image {
-        width: 14px;
-        height: 14px;
-        margin-left: 7.5px;
-      }
-    }
-
-    .header__search__separate {
-      align-items: center;
-      height: 14px;
-      width: 1px;
-      background: white;
-      margin: 3px 6px 0 0;
-    }
-  }
-`
-
 export const HeaderBlockchainPanel = styled.div`
   display: flex;
   align-items: center;
@@ -308,4 +197,11 @@ export const HeaderLanguagePanel = styled.div`
 
 export const HeaderEmptyPanel = styled.div`
   flex: 1;
+`
+
+export const HeaderMobileMenuPanel = styled.div`
+  > img {
+    width: 20px;
+    height: 20px;
+  }
 `

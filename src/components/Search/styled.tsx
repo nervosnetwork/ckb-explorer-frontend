@@ -18,7 +18,6 @@ export const SearchImage = styled.div`
   display: flex;
   align-items: center;
   margin-left: ${(props: { highlightIcon: boolean }) => (props.highlightIcon ? '-25px' : '8px')};
-  margin-top: ${(props: { highlightIcon: boolean }) => (props.highlightIcon ? '0px' : '2px')};
   z-index: 2;
 
   @media (max-width: 700px) {

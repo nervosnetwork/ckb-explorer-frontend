@@ -8,17 +8,17 @@ import SearchLogo from '../../assets/search_white.png'
 import WhiteDropdownIcon from '../../assets/white_dropdown.png'
 import BlueDropUpIcon from '../../assets/blue_drop_up.png'
 import GreenDropUpIcon from '../../assets/green_drop_up.png'
+import MobileMenuIcon from '../../assets/menu_mobile.png'
+import MobileMenuCloseIcon from '../../assets/menu_close_mobile.png'
 import i18n, { currentLanguage } from '../../utils/i18n'
 import {
   HeaderDiv,
-  HeaderMobileDiv,
-  HeaderMobilePanel,
   HeaderSearchPanel,
-  HeaderSearchMobilePanel,
   HeaderBlockchainPanel,
   HeaderEmptyPanel,
   HeaderLanguagePanel,
   HeaderSearchBarPanel,
+  HeaderMobileMenuPanel,
 } from './styled'
 import { isMobile, isScreen750to1440 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
@@ -212,62 +212,39 @@ const SearchComp = () => {
   )
 }
 
+const MobileMenuComp = () => {
+  const [showMenus, setShowMenus] = useState(false)
+  return (
+    <HeaderMobileMenuPanel role="button" tabIndex={-1} onKeyDown={() => {}} onClick={() => setShowMenus(!showMenus)}>
+      <img alt="header mobile menu" src={showMenus ? MobileMenuCloseIcon : MobileMenuIcon} />
+    </HeaderMobileMenuPanel>
+  )
+}
+
 export default ({ hasSearch }: { hasSearch?: boolean }) => {
   const { components } = useAppState()
-  const dispatch = useDispatch()
   const { searchBarEditable } = components
 
   return (
     <React.Fragment>
-      {isMobile() ? (
-        <>
-          {hasSearch && (
-            <HeaderSearchMobilePanel searchBarEditable={searchBarEditable}>
-              <Search />
-            </HeaderSearchMobilePanel>
-          )}
-          <HeaderMobilePanel searchBarEditable={searchBarEditable}>
-            <HeaderMobileDiv>
-              <LogoComp />
-              <Menus />
-              {hasSearch && (
-                <div className="header__search">
-                  <div
-                    className="header__search__component"
-                    onKeyDown={() => {}}
-                    onClick={() => {
-                      dispatch({
-                        type: ComponentActions.UpdateHeaderSearchEditable,
-                        payload: {
-                          searchBarEditable: true,
-                        },
-                      })
-                    }}
-                    role="button"
-                    tabIndex={-1}
-                  >
-                    <img className="header__search__image" src={SearchLogo} alt="search" />
-                  </div>
-                  <div className="header__search__separate" />
-                </div>
-              )}
-              <BlockchainComp />
-            </HeaderMobileDiv>
-            <HeaderSearchPanel>{hasSearch && searchBarEditable && <Search />}</HeaderSearchPanel>
-          </HeaderMobilePanel>
-        </>
-      ) : (
-        <>
-          <HeaderDiv>
-            <LogoComp />
+      <HeaderDiv>
+        <LogoComp />
+        {!isMobile() && (
+          <>
             {!(isScreen750to1440() && searchBarEditable) && <Menus />}
             <HeaderEmptyPanel />
             {hasSearch && <SearchComp />}
             <BlockchainComp />
             <LanguageComp />
-          </HeaderDiv>
-        </>
-      )}
+          </>
+        )}
+        {isMobile() && (
+          <>
+            <HeaderEmptyPanel />
+            <MobileMenuComp />
+          </>
+        )}
+      </HeaderDiv>
     </React.Fragment>
   )
 }

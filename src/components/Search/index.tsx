@@ -38,7 +38,9 @@ const setSearchLoading = (inputElement: any) => {
 
 const setSearchContent = (inputElement: any, content: string) => {
   const input: HTMLInputElement = inputElement.current
-  input.value = content
+  if (input) {
+    input.value = content
+  }
 }
 
 const handleSearchResult = (

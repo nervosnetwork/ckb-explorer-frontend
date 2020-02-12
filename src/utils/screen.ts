@@ -1,10 +1,10 @@
-export const isMobile = (width?: number) => (width || window.innerWidth) <= 700
+export const isMobile = (width?: number) => (width || window.innerWidth) <= 750
 
 export const isSmallMobile = () => window.innerWidth < 375
 
 export const isMediumMobile = () => window.innerWidth >= 375 && window.innerWidth < 414
 
-export const isLargeMobile = () => window.innerWidth >= 414 && window.innerWidth <= 700
+export const isLargeMobile = () => window.innerWidth >= 414 && window.innerWidth <= 750
 
 export const isScreen750to1440 = () => window.innerWidth >= 750 && window.innerWidth < 1440
 
