@@ -19,6 +19,7 @@ import {
   HeaderLanguagePanel,
   HeaderSearchBarPanel,
   HeaderMobileMenuPanel,
+  HeaderMenuPanel,
 } from './styled'
 import { isMobile, isScreen750to1440 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
@@ -28,7 +29,7 @@ import ChainDropdown from '../Dropdown/ChainType'
 import { isMainnet } from '../../utils/chain'
 import CONFIG from '../../config'
 
-const handleVersion = (nodeVersion: string) => {
+export const handleVersion = (nodeVersion: string) => {
   if (nodeVersion && nodeVersion.indexOf('(') !== -1) {
     return `v${nodeVersion.slice(0, nodeVersion.indexOf('('))}`
   }
@@ -44,12 +45,12 @@ const getDropdownIcon = (showDropdown: boolean) => {
   return isMainnet() ? GreenDropUpIcon : BlueDropUpIcon
 }
 
-enum LinkType {
+export enum LinkType {
   Inner,
   Outer,
 }
 
-const Menus = () => {
+const MenusComp = () => {
   const [t] = useTranslation()
   const MenuDataList = useMemo(() => {
     return [
@@ -67,7 +68,7 @@ const Menus = () => {
   }, [t])
 
   return (
-    <div className="header__menus">
+    <HeaderMenuPanel>
       {MenuDataList.map(menu => {
         return menu.type === LinkType.Inner ? (
           <Link className="header__menus__item" to={menu.url} key={menu.name}>
@@ -79,7 +80,7 @@ const Menus = () => {
           </a>
         )
       })}
-    </div>
+    </HeaderMenuPanel>
   )
 }
 
@@ -245,7 +246,7 @@ export default ({ hasSearch }: { hasSearch?: boolean }) => {
         <LogoComp />
         {!isMobile() && (
           <>
-            {!(isScreen750to1440() && searchBarEditable) && <Menus />}
+            {!(isScreen750to1440() && searchBarEditable) && <MenusComp />}
             <HeaderEmptyPanel />
             {hasSearch && <SearchComp />}
             <BlockchainComp />

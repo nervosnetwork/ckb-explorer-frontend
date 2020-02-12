@@ -32,7 +32,6 @@ export const HeaderDiv = styled.div`
 
   @media (max-width: 750px) {
     padding: 0px 30px;
-    min-height: 42px;
   }
 
   .header__logo {
@@ -43,40 +42,40 @@ export const HeaderDiv = styled.div`
       height: 20px;
     }
   }
+`
 
-  .header__menus {
+export const HeaderMenuPanel = styled.div`
+  display: flex;
+  align-items: center;
+
+  .header__menus__item {
+    font-weight: normal;
+    color: white;
     display: flex;
     align-items: center;
+    padding-left: 60px;
+    font-size: 14px;
+    font-weight: regular;
 
-    .header__menus__item {
-      font-weight: normal;
-      color: white;
-      display: flex;
-      align-items: center;
-      padding-left: 60px;
-      font-size: 14px;
-      font-weight: regular;
+    @media (max-width: 1920px) {
+      padding-left: 40px;
+    }
 
-      @media (max-width: 1920px) {
-        padding-left: 40px;
-      }
+    @media (max-width: 1440px) {
+      padding-left: 24px;
+    }
 
-      @media (max-width: 1440px) {
-        padding-left: 24px;
-      }
+    @media (max-width: 900px) {
+      padding-left: 16px;
+    }
 
-      @media (max-width: 900px) {
-        padding-left: 16px;
-      }
+    @media (max-width: 750px) {
+      padding-left: 0px;
+    }
 
-      @media (max-width: 750px) {
-        padding-left: 0px;
-      }
-
-      &:hover {
-        font-weight: medium;
-        color: #3cc68a;
-      }
+    &:hover {
+      font-weight: medium;
+      color: #3cc68a;
     }
   }
 `
