@@ -57,6 +57,7 @@ export enum PageActions {
 
 export enum ComponentActions {
   UpdateHeaderSearchEditable = 'updateHeaderSearchEditable',
+  UpdateHeaderMobileMenuVisible = 'updateHeaderMobileMenuVisible',
 }
 
 export type StateActions = AppActions | PageActions | ComponentActions
@@ -384,7 +385,16 @@ export const reducer = (
       return {
         ...state,
         components: {
+          ...state.components,
           searchBarEditable: payload.searchBarEditable,
+        },
+      }
+    case ComponentActions.UpdateHeaderMobileMenuVisible:
+      return {
+        ...state,
+        components: {
+          ...state.components,
+          mobileMenuVisible: payload.mobileMenuVisible,
         },
       }
     default:

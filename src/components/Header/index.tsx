@@ -213,10 +213,24 @@ const SearchComp = () => {
 }
 
 const MobileMenuComp = () => {
-  const [showMenus, setShowMenus] = useState(false)
+  const dispatch = useDispatch()
+  const { components } = useAppState()
+  const { mobileMenuVisible } = components
   return (
-    <HeaderMobileMenuPanel role="button" tabIndex={-1} onKeyDown={() => {}} onClick={() => setShowMenus(!showMenus)}>
-      <img alt="header mobile menu" src={showMenus ? MobileMenuCloseIcon : MobileMenuIcon} />
+    <HeaderMobileMenuPanel
+      role="button"
+      tabIndex={-1}
+      onKeyDown={() => {}}
+      onClick={() => {
+        dispatch({
+          type: ComponentActions.UpdateHeaderMobileMenuVisible,
+          payload: {
+            mobileMenuVisible: !mobileMenuVisible,
+          },
+        })
+      }}
+    >
+      <img alt="header mobile menu" src={mobileMenuVisible ? MobileMenuCloseIcon : MobileMenuIcon} />
     </HeaderMobileMenuPanel>
   )
 }

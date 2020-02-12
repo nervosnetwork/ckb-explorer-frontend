@@ -32,6 +32,7 @@ export const HeaderDiv = styled.div`
 
   @media (max-width: 750px) {
     padding: 0px 30px;
+    min-height: 42px;
   }
 
   .header__logo {
@@ -201,7 +202,7 @@ export const HeaderEmptyPanel = styled.div`
 
 export const HeaderMobileMenuPanel = styled.div`
   > img {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
 `

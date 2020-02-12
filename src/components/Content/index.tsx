@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useAppState } from '../../contexts/providers'
+import { MenusPanel } from '../Header/MenusPanel'
 
 const ContentDiv = styled.div`
   width: 100%;
@@ -12,5 +14,7 @@ const ContentDiv = styled.div`
   }
 `
 export default ({ children, style }: { children: any; style?: any }) => {
-  return <ContentDiv style={style}>{children}</ContentDiv>
+  const { components } = useAppState()
+  const { mobileMenuVisible } = components
+  return <ContentDiv style={style}>{mobileMenuVisible ? <MenusPanel /> : children}</ContentDiv>
 }
