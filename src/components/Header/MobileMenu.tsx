@@ -2,8 +2,8 @@ import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useAppState } from '../../contexts/providers'
-import { ComponentActions } from '../../contexts/providers/reducer'
-import i18n, { currentLanguage } from '../../utils/i18n'
+import { ComponentActions, AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import i18n, { currentLanguage, changeLanguage } from '../../utils/i18n'
 import CONFIG from '../../config'
 import { isMainnet } from '../../utils/chain'
 import { handleVersion, LinkType } from '.'
@@ -12,6 +12,7 @@ import WhiteDropUpIcon from '../../assets/white_drop_up.png'
 import BlueDropUpIcon from '../../assets/blue_drop_up.png'
 import GreenDropUpIcon from '../../assets/green_drop_up.png'
 import { isMobile } from '../../utils/screen'
+import Search from '../Search'
 
 const MenusPanel = styled.div`
   width: 100%;
@@ -24,12 +25,12 @@ const MenusPanel = styled.div`
   z-index: 2;
   color: white;
   top: 64px;
-  padding: 0 56px;
 
   .mobile__menus {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin: 0 56px;
 
     .mobile__menus__item {
       font-weight: normal;
@@ -38,7 +39,7 @@ const MenusPanel = styled.div`
       align-items: center;
       font-size: 14px;
       font-weight: regular;
-      margin-top: 18px;
+      margin-top: 22px;
       height: 21px;
 
       &:hover {
@@ -53,7 +54,7 @@ const MobileSubMenuPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 22px;
+  margin: 22px 56px 0 56px;
 
   .mobile__menus__main__item {
     display: flex;
@@ -91,6 +92,19 @@ const MobileSubMenuPanel = styled.div`
   }
 `
 
+const HeaderSearchPanel = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 22px 15px;
+
+  .header__search__component {
+    display: flex;
+    align-items: center;
+    height: 38px;
+    width: 100%;
+  }
+`
+
 interface MenuType {
   type: LinkType
   name: string
@@ -98,21 +112,12 @@ interface MenuType {
 }
 
 const MenuItemLink = ({ menu }: { menu: MenuType }) => {
-  const dispatch = useDispatch()
   return (
     <a
       className="mobile__menus__item"
       href={menu.url}
       target={menu.type === LinkType.Inner ? '_self' : '_blank'}
       rel="noopener noreferrer"
-      onClick={() => {
-        dispatch({
-          type: ComponentActions.UpdateHeaderMobileMenuVisible,
-          payload: {
-            searchBarEditable: false,
-          },
-        })
-      }}
     >
       {menu.name}
     </a>
@@ -163,7 +168,24 @@ const BlockchainMenu = () => {
   )
 }
 
+const languageAction = (dispatch: AppDispatch) => {
+  changeLanguage(currentLanguage() === 'en' ? 'zh' : 'en')
+  dispatch({
+    type: AppActions.UpdateAppLanguage,
+    payload: {
+      language: currentLanguage() === 'en' ? 'zh' : 'en',
+    },
+  })
+  dispatch({
+    type: ComponentActions.UpdateHeaderMobileMenuVisible,
+    payload: {
+      mobileMenuVisible: false,
+    },
+  })
+}
+
 const LanguageMenu = () => {
+  const dispatch = useDispatch()
   const [showSubMenu, setShowSubMenu] = useState(false)
 
   return (
@@ -189,10 +211,31 @@ const LanguageMenu = () => {
       </div>
       {showSubMenu && (
         <>
-          <div className="mobile__menus__sub__item">
+          <div
+            className="mobile__menus__sub__item"
+            role="button"
+            tabIndex={-1}
+            onKeyDown={() => {}}
+            onClick={() => {
+              dispatch({
+                type: ComponentActions.UpdateHeaderMobileMenuVisible,
+                payload: {
+                  mobileMenuVisible: false,
+                },
+              })
+            }}
+          >
             {currentLanguage() === 'en' ? i18n.t('navbar.language_en') : i18n.t('navbar.language_zh')}
           </div>
-          <div className="mobile__menus__sub__item">
+          <div
+            className="mobile__menus__sub__item"
+            role="button"
+            tabIndex={-1}
+            onKeyDown={() => {}}
+            onClick={() => {
+              languageAction(dispatch)
+            }}
+          >
             {currentLanguage() === 'en' ? i18n.t('navbar.language_zh') : i18n.t('navbar.language_en')}
           </div>
         </>
@@ -237,6 +280,11 @@ export default () => {
       <MenusComp />
       <BlockchainMenu />
       <LanguageMenu />
+      <HeaderSearchPanel>
+        <div className="header__search__component">
+          <Search />
+        </div>
+      </HeaderSearchPanel>
     </MenusPanel>
   )
 }

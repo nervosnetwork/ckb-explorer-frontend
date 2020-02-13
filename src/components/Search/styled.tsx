@@ -21,18 +21,13 @@ export const SearchImage = styled.div`
   z-index: 2;
 
   @media (max-width: 700px) {
-    margin-left: ${(props: { highlightIcon: boolean }) => (props.highlightIcon ? '-25px' : '0')};
+    margin-left: ${(props: { highlightIcon: boolean }) => (props.highlightIcon ? '-25px' : '8px')};
   }
 
   img {
     width: 16px;
     height: 16px;
     margin: 0 auto;
-
-    @media (max-width: 700px) {
-      width: 12px;
-      height: 12px;
-    }
   }
 `
 
@@ -78,8 +73,6 @@ export const SearchInputPanel = styled.input`
   @media (max-width: 700px) {
     font-size: 12px;
     width: 100%;
-    padding-left: 30px;
-    padding-right: 30px;
-    margin-left: -30px;
+    padding-right: 16px;
   }
 `

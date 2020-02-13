@@ -28,6 +28,8 @@ import CellCountChart from '../pages/StatisticsChart/CellCount'
 import AddressBalanceRankChart from '../pages/StatisticsChart/AddressBalanceRank'
 import HashRateChart from '../pages/StatisticsChart/HashRate'
 import UncleRateChart from '../pages/StatisticsChart/UncleRate'
+import { useDispatch, useAppState } from '../contexts/providers'
+import { ComponentActions } from '../contexts/providers/reducer'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -162,19 +164,40 @@ export const containers: CustomRouter.Route[] = [
   },
 ]
 
-export default () => {
+const useRouter = (callback: Function) => {
   useEffect(() => {
     let currentUrl = `${browserHistory.location.pathname}${browserHistory.location.search}`
     const unlisten = browserHistory.listen((location: any) => {
       if (currentUrl !== `${location.pathname}${location.search}`) {
-        window.scrollTo(0, 0)
+        callback()
       }
       currentUrl = `${location.pathname}${location.search}`
     })
     return () => {
       unlisten()
     }
-  }, [])
+  }, [callback])
+}
+
+export default () => {
+  const dispatch = useDispatch()
+  const { components } = useAppState()
+  const { mobileMenuVisible } = components
+
+  useRouter(() => {
+    window.scrollTo(0, 0)
+  })
+
+  useRouter(() => {
+    if (mobileMenuVisible) {
+      dispatch({
+        type: ComponentActions.UpdateHeaderMobileMenuVisible,
+        payload: {
+          mobileMenuVisible: false,
+        },
+      })
+    }
+  })
 
   return (
     <Router history={browserHistory}>
