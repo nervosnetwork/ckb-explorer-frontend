@@ -30,6 +30,7 @@ import HashRateChart from '../pages/StatisticsChart/HashRate'
 import UncleRateChart from '../pages/StatisticsChart/UncleRate'
 import { useDispatch, useAppState } from '../contexts/providers'
 import { ComponentActions } from '../contexts/providers/reducer'
+import { isMobile } from '../utils/screen'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -238,7 +239,7 @@ export default () => {
                   })}
                   <Redirect from="*" to="/404" />
                 </Switch>
-                <Footer />
+                {!(isMobile() && mobileMenuVisible) && <Footer />}
               </React.Fragment>
             </Page>
           )
