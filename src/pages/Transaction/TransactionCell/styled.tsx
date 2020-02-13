@@ -18,17 +18,18 @@ export const TransactionCellContentPanel = styled.div`
     margin-right: 3px;
     color: #666666;
     > div {
-      width: 47px;
+      width: 40px;
       text-align: start;
     }
   }
   .transaction__cell_hash {
-    flex: 0.33;
+    flex: 0.3;
   }
   .transaction__cell_capacity {
-    flex: 0.34;
+    flex: 0.37;
     display: flex;
     justify-content: center;
+    padding-right: ${(props: { isOutput: boolean }) => (props.isOutput ? '40px' : '0px')};
 
     > div {
       width: 50%;
@@ -80,22 +81,28 @@ export const TransactionCellDetailPanel = styled.div`
   .transaction__cell_lock_script {
     flex: 0.34;
     align-items: flex-start;
+    margin-left: ${(props: { isOutput: boolean }) => (props.isOutput ? '-40px' : '0px')};
 
     @media (max-width: 700px) {
       flex: none;
+      margin-left: 0px;
     }
   }
   .transaction__cell_type_script {
     flex: 0.33;
+    margin-left: ${(props: { isOutput: boolean }) => (props.isOutput ? '-40px' : '0px')};
     @media (max-width: 700px) {
       flex: 1;
+      margin-left: 0px;
     }
   }
   .transaction__cell_data {
     flex: 0.33;
+    margin-left: ${(props: { isOutput: boolean }) => (props.isOutput ? '-40px' : '0px')};
 
     @media (max-width: 700px) {
       flex: none;
+      margin-left: 0px;
     }
   }
 `
