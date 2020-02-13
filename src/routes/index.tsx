@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Router, Route, Redirect, Switch } from 'react-router-dom'
 import browserHistory from './history'
 
@@ -167,16 +167,34 @@ export const containers: CustomRouter.Route[] = [
 const useRouter = (callback: Function) => {
   useEffect(() => {
     let currentUrl = `${browserHistory.location.pathname}${browserHistory.location.search}`
-    const unlisten = browserHistory.listen((location: any) => {
+    const listen = browserHistory.listen((location: any) => {
       if (currentUrl !== `${location.pathname}${location.search}`) {
         callback()
       }
       currentUrl = `${location.pathname}${location.search}`
     })
     return () => {
-      unlisten()
+      listen()
     }
   }, [callback])
+}
+
+const useRouterLocation = (callback: () => void) => {
+  const savedCallback = useRef(() => {})
+  useEffect(() => {
+    savedCallback.current = callback
+  })
+  useEffect(() => {
+    const currentCallback = () => {
+      savedCallback.current()
+    }
+    const listen = browserHistory.listen(() => {
+      currentCallback()
+    })
+    return () => {
+      listen()
+    }
+  }, [])
 }
 
 export default () => {
@@ -188,7 +206,7 @@ export default () => {
     window.scrollTo(0, 0)
   })
 
-  useRouter(() => {
+  useRouterLocation(() => {
     if (mobileMenuVisible) {
       dispatch({
         type: ComponentActions.UpdateHeaderMobileMenuVisible,

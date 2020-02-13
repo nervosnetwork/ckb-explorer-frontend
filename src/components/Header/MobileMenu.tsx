@@ -25,6 +25,7 @@ const MenusPanel = styled.div`
   z-index: 2;
   color: white;
   top: 64px;
+  bottom: 0px;
 
   .mobile__menus {
     display: flex;
