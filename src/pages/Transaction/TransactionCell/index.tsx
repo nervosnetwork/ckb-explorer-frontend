@@ -66,9 +66,11 @@ const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: C
 const TransactionCellDetailButtons = ({
   highLight,
   onChange,
+  isOutput,
 }: {
   highLight: boolean
   onChange: (type: CellState) => void
+  isOutput: boolean
 }) => {
   const [state, setState] = useState(CellState.NONE as CellState)
   const changeType = (newState: CellState) => {
@@ -78,7 +80,7 @@ const TransactionCellDetailButtons = ({
   }
 
   return (
-    <TransactionCellDetailPanel>
+    <TransactionCellDetailPanel isOutput={isOutput}>
       <div className="transaction__cell_lock_script">
         <TransactionCellDetailLockScriptPanel
           highLight={highLight}
@@ -139,7 +141,11 @@ export default ({
     return (
       <OverviewCard items={items} outputIndex={cellType === CellType.Output ? `${index}_${txHash}` : undefined}>
         {!cell.fromCellbase && (
-          <TransactionCellDetailButtons highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
+          <TransactionCellDetailButtons
+            highLight={!cell.fromCellbase}
+            onChange={newState => setState(newState)}
+            isOutput={cellType === CellType.Output}
+          />
         )}
         {state !== CellState.NONE && <TransactionCellDetail cell={cell} state={state} setState={setState} />}
       </OverviewCard>
@@ -161,7 +167,11 @@ export default ({
         </div>
 
         <div className="transaction__cell_detail">
-          <TransactionCellDetailButtons highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
+          <TransactionCellDetailButtons
+            highLight={!cell.fromCellbase}
+            onChange={newState => setState(newState)}
+            isOutput={cellType === CellType.Output}
+          />
         </div>
       </TransactionCellContentPanel>
       {state !== CellState.NONE && <TransactionCellDetail cell={cell} state={state} setState={setState} />}
