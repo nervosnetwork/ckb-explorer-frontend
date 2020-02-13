@@ -16,7 +16,7 @@ import Search from '../Search'
 
 const MenusPanel = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: #1c1c1c;
   display: flex;
   flex-direction: column;

@@ -92,10 +92,16 @@ const LogoComp = () => {
   )
 }
 
-const BlockchainComp = () => {
+const BlockchainComp = ({
+  showChainDropdown,
+  setShowChainDropdown,
+}: {
+  showChainDropdown: boolean
+  setShowChainDropdown: any
+}) => {
   const { app } = useAppState()
   const { nodeVersion, language } = app
-  const [showChainDropdown, setShowChainDropdown] = useState(false)
+
   const [chainDropdownLeft, setChainDropdownLeft] = useState(0)
   const [chainDropdownTop, setChainDropdownTop] = useState(0)
 
@@ -117,8 +123,8 @@ const BlockchainComp = () => {
         className="header__blockchain__flag"
         role="button"
         tabIndex={-1}
-        onKeyDown={() => {}}
-        onClick={() => {
+        onFocus={() => {}}
+        onMouseOver={() => {
           setShowChainDropdown(true)
         }}
       >
@@ -137,10 +143,10 @@ const BlockchainComp = () => {
   )
 }
 
-const LanguageComp = () => {
+const LanguageComp = ({ showLanguage, setShowLanguage }: { showLanguage: boolean; setShowLanguage: any }) => {
   const { app } = useAppState()
   const { language } = app
-  const [showLanguage, setShowLanguage] = useState(false)
+
   const [languageDropdownLeft, setLanguageDropdownLeft] = useState(0)
   const [languageDropdownTop, setLanguageDropdownTop] = useState(0)
 
@@ -163,8 +169,8 @@ const LanguageComp = () => {
         className="header__language__flag"
         role="button"
         tabIndex={-1}
-        onKeyDown={() => {}}
-        onClick={() => {
+        onFocus={() => {}}
+        onMouseOver={() => {
           setShowLanguage(true)
         }}
       >
@@ -239,18 +245,25 @@ const MobileMenuComp = () => {
 export default ({ hasSearch }: { hasSearch?: boolean }) => {
   const { components } = useAppState()
   const { searchBarEditable } = components
+  const [showChainDropdown, setShowChainDropdown] = useState(false)
+  const [showLanguage, setShowLanguage] = useState(false)
 
   return (
     <React.Fragment>
-      <HeaderDiv>
+      <HeaderDiv
+        onMouseLeave={() => {
+          setShowChainDropdown(false)
+          setShowLanguage(false)
+        }}
+      >
         <LogoComp />
         {!isMobile() && (
           <>
             {!(isScreen750to1440() && searchBarEditable) && <MenusComp />}
             <HeaderEmptyPanel />
             {hasSearch && <SearchComp />}
-            <BlockchainComp />
-            <LanguageComp />
+            <BlockchainComp showChainDropdown={showChainDropdown} setShowChainDropdown={setShowChainDropdown} />
+            <LanguageComp showLanguage={showLanguage} setShowLanguage={setShowLanguage} />
           </>
         )}
         {isMobile() && (
