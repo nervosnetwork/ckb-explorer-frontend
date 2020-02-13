@@ -76,6 +76,7 @@ const MobileSubMenuPanel = styled.div`
 
   .blockchain__mobile__node__version {
     font-size: 8px;
+    margin-top: -5px;
     color: ${props => props.theme.primary}
   }
 
@@ -140,20 +141,19 @@ const BlockchainMenu = () => {
 
   return (
     <MobileSubMenuPanel>
-      <div className="mobile__menus__main__item">
+      <div
+        className="mobile__menus__main__item"
+        role="button"
+        tabIndex={-1}
+        onKeyDown={() => {}}
+        onClick={() => {
+          setShowSubMenu(!showSubMenu)
+        }}
+      >
         <div className="mobile__menus__main__item__content__highlight">
           {isMainnet() ? i18n.t('navbar.mainnet') : CONFIG.TESTNET_NAME.toUpperCase()}
         </div>
-        <div
-          role="button"
-          tabIndex={-1}
-          onKeyDown={() => {}}
-          onClick={() => {
-            setShowSubMenu(!showSubMenu)
-          }}
-        >
-          <img className="mobile__menus__main__item__icon" alt="mobile chain type icon" src={chainTypeIcon()} />
-        </div>
+        <img className="mobile__menus__main__item__icon" alt="mobile chain type icon" src={chainTypeIcon()} />
       </div>
       <div className="blockchain__mobile__node__version">{handleVersion(nodeVersion)}</div>
       {showSubMenu && (
@@ -192,24 +192,23 @@ const LanguageMenu = () => {
 
   return (
     <MobileSubMenuPanel>
-      <div className="mobile__menus__main__item">
+      <div
+        className="mobile__menus__main__item"
+        role="button"
+        tabIndex={-1}
+        onKeyDown={() => {}}
+        onClick={() => {
+          setShowSubMenu(!showSubMenu)
+        }}
+      >
         <div className="mobile__menus__main__item__content">
           {currentLanguage() === 'en' ? i18n.t('navbar.language_en') : i18n.t('navbar.language_zh')}
         </div>
-        <div
-          role="button"
-          tabIndex={-1}
-          onKeyDown={() => {}}
-          onClick={() => {
-            setShowSubMenu(!showSubMenu)
-          }}
-        >
-          <img
-            className="mobile__menus__main__item__icon"
-            alt="mobile language icon"
-            src={showSubMenu ? WhiteDropUpIcon : WhiteDropdownIcon}
-          />
-        </div>
+        <img
+          className="mobile__menus__main__item__icon"
+          alt="mobile language icon"
+          src={showSubMenu ? WhiteDropUpIcon : WhiteDropdownIcon}
+        />
       </div>
       {showSubMenu && (
         <>
