@@ -268,6 +268,9 @@ declare namespace State {
   export interface Components {
     // mobile header search state
     searchBarEditable: boolean
+
+    // mobile header menu visible state
+    mobileMenuVisible: boolean
   }
 
   export interface FetchStatus {

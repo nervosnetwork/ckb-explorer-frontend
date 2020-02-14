@@ -2,7 +2,7 @@ import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import en from '../locales/en.json'
 import zh from '../locales/zh.json'
-import { storeCachedData } from './cached'
+import { storeCachedData, fetchCachedData } from './cached'
 import { CachedKeys } from './const'
 
 i18n.use(initReactI18next).init({
@@ -23,6 +23,10 @@ export const changeLanguage = (lan: 'en' | 'zh') => {
     i18n.changeLanguage('en')
   }
   storeCachedData(CachedKeys.AppLanguage, lan)
+}
+
+export const currentLanguage = (): 'en' | 'zh' | null => {
+  return fetchCachedData<'en' | 'zh'>(CachedKeys.AppLanguage)
 }
 
 export default i18n
