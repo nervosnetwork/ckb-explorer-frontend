@@ -211,7 +211,8 @@
       "calculation_tooltip": "Nervos DAO 补贴计算",
       "days": "天+",
       "24hrs_update": "24 小时变动(UTC+8:00)",
-      "today_update": "今日变动(UTC+8:00)"
+      "today_update": "今日变动(UTC+8:00)",
+      "deposit_address_tooltip": "Nervos DAO 锁定余额不为零的地址"
     },
     "error": {
       "maintain": "网络维护中，请稍后再试"
