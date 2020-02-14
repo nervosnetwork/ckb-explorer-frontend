@@ -37,6 +37,7 @@ export const HeaderDiv = styled.div`
   .header__logo {
     display: flex;
     align-items: center;
+    margin-top: 2px;
     .header__logo__img {
       width: 116px;
       height: 20px;
@@ -104,7 +105,7 @@ export const HeaderSearchPanel = styled.div`
 export const HeaderSearchBarPanel = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 24px;
+  margin-right: 30px;
   > img {
     width: 18px;
     height: 18px;
@@ -114,8 +115,10 @@ export const HeaderSearchBarPanel = styled.div`
 export const HeaderBlockchainPanel = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 3px;
+  height: 100%;
+  margin-top: 1px;
   margin-right: 60px;
+  padding: 10px 0;
 
   @media (max-width: 1920px) {
     margin-right: 40px;
@@ -166,8 +169,10 @@ export const HeaderBlockchainPanel = styled.div`
 export const HeaderLanguagePanel = styled.div`
   display: flex;
   align-items: center;
+  height: 100%;
   color: ${(props: { theme: any; showLanguage: boolean }) => (props.showLanguage ? props.theme.secondary : 'white')};
-  margin-bottom: 3px;
+  padding: 10px 0;
+  margin-bottom: 4px;
 
   .header__language__flag {
     display: flex;

@@ -92,16 +92,10 @@ const LogoComp = () => {
   )
 }
 
-const BlockchainComp = ({
-  showChainDropdown,
-  setShowChainDropdown,
-}: {
-  showChainDropdown: boolean
-  setShowChainDropdown: any
-}) => {
+const BlockchainComp = () => {
   const { app } = useAppState()
   const { nodeVersion, language } = app
-
+  const [showChainDropdown, setShowChainDropdown] = useState(false)
   const [chainDropdownLeft, setChainDropdownLeft] = useState(0)
   const [chainDropdownTop, setChainDropdownTop] = useState(0)
 
@@ -111,14 +105,19 @@ const BlockchainComp = ({
       if (chainDropdownComp) {
         const chainDropdownReact = chainDropdownComp.getBoundingClientRect()
         if (chainDropdownReact) {
-          setChainDropdownLeft(chainDropdownReact.left - 34)
-          setChainDropdownTop(chainDropdownReact.bottom + 6)
+          setChainDropdownLeft(chainDropdownReact.left - 40)
+          setChainDropdownTop(chainDropdownReact.bottom - 6)
         }
       }
     }
   }, [showChainDropdown, language])
   return (
-    <HeaderBlockchainPanel id="header__blockchain__panel">
+    <HeaderBlockchainPanel
+      id="header__blockchain__panel"
+      onMouseLeave={() => {
+        setShowChainDropdown(false)
+      }}
+    >
       <div
         className="header__blockchain__flag"
         role="button"
@@ -143,10 +142,10 @@ const BlockchainComp = ({
   )
 }
 
-const LanguageComp = ({ showLanguage, setShowLanguage }: { showLanguage: boolean; setShowLanguage: any }) => {
+const LanguageComp = () => {
   const { app } = useAppState()
   const { language } = app
-
+  const [showLanguage, setShowLanguage] = useState(false)
   const [languageDropdownLeft, setLanguageDropdownLeft] = useState(0)
   const [languageDropdownTop, setLanguageDropdownTop] = useState(0)
 
@@ -156,15 +155,21 @@ const LanguageComp = ({ showLanguage, setShowLanguage }: { showLanguage: boolean
       if (languageDropdownComp) {
         const languageDropdownReact = languageDropdownComp.getBoundingClientRect()
         if (languageDropdownReact) {
-          setLanguageDropdownLeft(languageDropdownReact.left - 6)
-          setLanguageDropdownTop(languageDropdownReact.bottom + 13)
+          setLanguageDropdownLeft(languageDropdownReact.left + (currentLanguage() === 'en' ? -15 : 3))
+          setLanguageDropdownTop(languageDropdownReact.bottom - 3)
         }
       }
     }
   }, [showLanguage, language])
 
   return (
-    <HeaderLanguagePanel id="header__language__panel" showLanguage={showLanguage}>
+    <HeaderLanguagePanel
+      id="header__language__panel"
+      onMouseLeave={() => {
+        setShowLanguage(false)
+      }}
+      showLanguage={showLanguage}
+    >
       <div
         className="header__language__flag"
         role="button"
@@ -245,25 +250,18 @@ const MobileMenuComp = () => {
 export default ({ hasSearch }: { hasSearch?: boolean }) => {
   const { components } = useAppState()
   const { searchBarEditable } = components
-  const [showChainDropdown, setShowChainDropdown] = useState(false)
-  const [showLanguage, setShowLanguage] = useState(false)
 
   return (
     <React.Fragment>
-      <HeaderDiv
-        onMouseLeave={() => {
-          setShowChainDropdown(false)
-          setShowLanguage(false)
-        }}
-      >
+      <HeaderDiv>
         <LogoComp />
         {!isMobile() && (
           <>
             {!(isScreen750to1440() && searchBarEditable) && <MenusComp />}
             <HeaderEmptyPanel />
             {hasSearch && <SearchComp />}
-            <BlockchainComp showChainDropdown={showChainDropdown} setShowChainDropdown={setShowChainDropdown} />
-            <LanguageComp showLanguage={showLanguage} setShowLanguage={setShowLanguage} />
+            <BlockchainComp />
+            <LanguageComp />
           </>
         )}
         {isMobile() && (
