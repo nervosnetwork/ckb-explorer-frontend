@@ -105,7 +105,7 @@ const BlockchainComp = () => {
       if (chainDropdownComp) {
         const chainDropdownReact = chainDropdownComp.getBoundingClientRect()
         if (chainDropdownReact) {
-          setChainDropdownLeft(chainDropdownReact.left - 40)
+          setChainDropdownLeft(chainDropdownReact.left - (isMainnet() ? 40 : 30))
           setChainDropdownTop(chainDropdownReact.bottom - 6)
         }
       }
