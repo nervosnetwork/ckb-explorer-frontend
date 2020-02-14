@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Router, Route, Redirect, Switch } from 'react-router-dom'
 import browserHistory from './history'
 
@@ -28,6 +28,9 @@ import CellCountChart from '../pages/StatisticsChart/CellCount'
 import AddressBalanceRankChart from '../pages/StatisticsChart/AddressBalanceRank'
 import HashRateChart from '../pages/StatisticsChart/HashRate'
 import UncleRateChart from '../pages/StatisticsChart/UncleRate'
+import { useDispatch, useAppState } from '../contexts/providers'
+import { ComponentActions } from '../contexts/providers/reducer'
+import { isMobile } from '../utils/screen'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -162,19 +165,58 @@ export const containers: CustomRouter.Route[] = [
   },
 ]
 
-export default () => {
+const useRouter = (callback: Function) => {
   useEffect(() => {
     let currentUrl = `${browserHistory.location.pathname}${browserHistory.location.search}`
-    const unlisten = browserHistory.listen((location: any) => {
+    const listen = browserHistory.listen((location: any) => {
       if (currentUrl !== `${location.pathname}${location.search}`) {
-        window.scrollTo(0, 0)
+        callback()
       }
       currentUrl = `${location.pathname}${location.search}`
     })
     return () => {
-      unlisten()
+      listen()
+    }
+  }, [callback])
+}
+
+const useRouterLocation = (callback: () => void) => {
+  const savedCallback = useRef(() => {})
+  useEffect(() => {
+    savedCallback.current = callback
+  })
+  useEffect(() => {
+    const currentCallback = () => {
+      savedCallback.current()
+    }
+    const listen = browserHistory.listen(() => {
+      currentCallback()
+    })
+    return () => {
+      listen()
     }
   }, [])
+}
+
+export default () => {
+  const dispatch = useDispatch()
+  const { components } = useAppState()
+  const { mobileMenuVisible } = components
+
+  useRouter(() => {
+    window.scrollTo(0, 0)
+  })
+
+  useRouterLocation(() => {
+    if (mobileMenuVisible) {
+      dispatch({
+        type: ComponentActions.UpdateHeaderMobileMenuVisible,
+        payload: {
+          mobileMenuVisible: false,
+        },
+      })
+    }
+  })
 
   return (
     <Router history={browserHistory}>
@@ -197,7 +239,7 @@ export default () => {
                   })}
                   <Redirect from="*" to="/404" />
                 </Switch>
-                <Footer />
+                {!(isMobile() && mobileMenuVisible) && <Footer />}
               </React.Fragment>
             </Page>
           )

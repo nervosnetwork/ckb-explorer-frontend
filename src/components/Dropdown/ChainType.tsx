@@ -5,61 +5,64 @@ import CONFIG from '../../config'
 import { isMainnet } from '../../utils/chain'
 
 export const ChainTypePanel = styled.div`
-  width: 140px;
-  height: 89px;
+  width: 130px;
+  height: 74px;
   background: white;
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   position: fixed;
   position: -webkit-fixed;
   z-index: 1000;
+  color: #000000;
+
+  a {
+    color: #000000;
+    text-transform: capitalize;
+  }
+  a:hover {
+    color: #000000;
+  }
+
   left: ${(props: { left: number; top: number }) => props.left}px;
   top: ${(props: { left: number; top: number }) => props.top}px;
 
   .chain_type_selected {
-    width: 100%;
+    width: 94%;
     font-size: 14px;
-    height: 40px;
-    line-height: 44px;
-    text-align: center;
-    font-weight: bold;
+    height: 33px;
+    line-height: 33px;
+    margin: 3px 3% 0 3%;
+    padding: 0 3%;
     cursor: pointer;
-    color: ${props => props.theme.primary};
-
-    a {
-      color: ${props => props.theme.primary};
-      text-transform: capitalize;
-    }
-
-    a:hover {
-      color: ${props => props.theme.primary};
+    border-radius: 3px;
+    white-space: nowrap;
+    &:hover {
+      background: #f1f1f1;
     }
   }
   .chain_type_normal {
-    width: 100%;
+    width: 94%;
     font-size: 14px;
-    height: 40px;
+    height: 33px;
+    line-height: 33px;
+    margin: 0px 3% 3px 3%;
+    padding: 0 3%;
     cursor: pointer;
-    line-height: 44px;
-    text-align: center;
-    font-weight: bold;
-    color: #676767;
+    border-radius: 3px;
 
-    a {
-      color: #676767;
-      text-transform: capitalize;
-    }
-    a:hover {
-      color: #676767;
+    &:hover {
+      background: #f1f1f1;
     }
   }
+
   .chain_type_separate {
-    width: 100%;
-    height: 1px;
-    background: #f2f2f2;
+    width: 88%;
+    height: 0.5px;
+    border: solid 0.5px #c3c3c3;
+    margin: 0 6%;
   }
 
   @media (max-width: 700px) {
