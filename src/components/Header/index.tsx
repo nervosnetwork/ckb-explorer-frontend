@@ -20,6 +20,7 @@ import {
   HeaderSearchBarPanel,
   HeaderMobileMenuPanel,
   HeaderMenuPanel,
+  HeaderWalletPanel,
 } from './styled'
 import { isMobile, isScreen750to1440 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
@@ -28,6 +29,7 @@ import LanDropdown from '../Dropdown/Language'
 import ChainDropdown from '../Dropdown/ChainType'
 import { isMainnet } from '../../utils/chain'
 import CONFIG from '../../config'
+import Wallets from '../Dropdown/Wallets'
 
 export const handleVersion = (nodeVersion: string) => {
   if (nodeVersion && nodeVersion.indexOf('(') !== -1) {
@@ -81,6 +83,27 @@ const MenusComp = () => {
         )
       })}
     </HeaderMenuPanel>
+  )
+}
+
+const WalletsComp = () => {
+  const [showWallets, setShowWallets] = useState(false)
+  return (
+    <HeaderWalletPanel>
+      <div
+        className="header__wallets_content"
+        role="button"
+        tabIndex={-1}
+        onFocus={() => {}}
+        onMouseOver={() => {
+          setShowWallets(true)
+        }}
+      >
+        <div>{i18n.t('navbar.wallets')}</div>
+        <img src={getDropdownIcon(showWallets)} alt="dropdown icon" />
+      </div>
+      {showWallets && <Wallets />}
+    </HeaderWalletPanel>
   )
 }
 
@@ -257,7 +280,12 @@ export default ({ hasSearch }: { hasSearch?: boolean }) => {
         <LogoComp />
         {!isMobile() && (
           <>
-            {!(isScreen750to1440() && searchBarEditable) && <MenusComp />}
+            {!(isScreen750to1440() && searchBarEditable) && (
+              <>
+                <MenusComp />
+                <WalletsComp />
+              </>
+            )}
             <HeaderEmptyPanel />
             {hasSearch && <SearchComp />}
             <BlockchainComp />

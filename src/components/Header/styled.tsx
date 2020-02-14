@@ -200,6 +200,30 @@ export const HeaderLanguagePanel = styled.div`
   }
 `
 
+export const HeaderWalletPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  .header__wallets_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    > div {
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    > img {
+      width: 7.9px;
+      height: 4.7px;
+      margin-top: 3px;
+      margin-left: 8px;
+    }
+  }
+`
+
 export const HeaderEmptyPanel = styled.div`
   flex: 1;
 `
