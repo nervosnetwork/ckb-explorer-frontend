@@ -24,7 +24,6 @@ export const SearchFailType = {
 
 export const CachedKeys = {
   AppLanguage: `${CONFIG.CHAIN_TYPE}-AppLanguage`,
-  SearchFailVisitedCount: `${CONFIG.CHAIN_TYPE}-SearchFailVisitedCount`,
 }
 
 export enum CellState {
