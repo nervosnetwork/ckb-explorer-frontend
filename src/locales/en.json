@@ -44,9 +44,9 @@
     "statistic": {
       "transaction_count": "Transaction Count",
       "address_count": "Address Count",
-      "total_dao_deposit_depositor": "Total Nervos DAO Deposit & Depositor",
+      "total_dao_deposit_depositor": "Total Nervos DAO Deposit & Depositors",
       "total_dao_deposit": "Total Nervos DAO Deposit",
-      "total_dao_depositor": "Total Nervos DAO Depositor",
+      "total_dao_depositor": "Total Depositors in history",
       "live_cell": "Live Cell",
       "archived_cell": "Archived Cell",
       "all_cells": "All Cells",
