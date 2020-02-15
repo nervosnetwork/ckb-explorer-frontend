@@ -318,6 +318,8 @@ export const DaoOverviewItemPanel = styled.div`
       text-overflow: ellipsis;
       white-space: nowrap;
       max-width: 140px;
+      cursor: ${(props: { hasTitleTooltip?: boolean; hasChange?: boolean; symbol?: string }) =>
+        props.hasTitleTooltip ? 'default' : 'none'};
 
       @media (max-width: 1000px) {
         font-size: 9px;

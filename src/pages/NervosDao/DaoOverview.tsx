@@ -30,6 +30,7 @@ import { isMobile } from '../../utils/screen'
 
 interface NervosDaoItemContent {
   title: string
+  titleTooltip?: string
   change?: string
   changeSymbol?: 'positive' | 'negative' | 'zero'
   content: string
@@ -67,9 +68,14 @@ const daoIcon = (symbol: 'positive' | 'negative' | 'zero' | undefined) => {
 
 const NervosDaoItem = ({ item }: { item: NervosDaoItemContent }) => {
   return (
-    <DaoOverviewItemPanel hasChange={!!item.change} symbol={item.changeSymbol}>
+    <DaoOverviewItemPanel hasChange={!!item.change} symbol={item.changeSymbol} hasTitleTooltip={!!item.titleTooltip}>
       <div className="dao__overview__item_top">
-        <span className="dao__overview__item_title">{item.title}</span>
+        {item.titleTooltip && (
+          <Tooltip placement="top" title={item.titleTooltip}>
+            <span className="dao__overview__item_title">{item.title}</span>
+          </Tooltip>
+        )}
+        {!item.titleTooltip && <span className="dao__overview__item_title">{item.title}</span>}
         {item.change && (
           <>
             <img src={daoIcon(item.changeSymbol)} alt="nervos dao change icon" />
@@ -95,6 +101,7 @@ const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent
     },
     {
       title: i18n.t('nervos_dao.addresses'),
+      titleTooltip: i18n.t('nervos_dao.deposit_address_tooltip'),
       change: localeNumberString(nervosDao.depositorChanges),
       changeSymbol: numberSymbol(Number(nervosDao.depositorChanges)),
       content: localeNumberString(nervosDao.depositorsCount),
