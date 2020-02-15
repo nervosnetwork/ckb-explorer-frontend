@@ -97,13 +97,20 @@ const WalletsItemPanel = styled.a`
 
 const WalletsTagPanel = styled.div`
   padding: 0px 3px;
-  font-size: 7px;
-  height: 12px;
-  line-height: 12px;
-  color: #888888;
-  border-radius: 3px;
+  height: 13px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2px;
   border: solid 0.5px #888888;
-  margin-right: 3px;
+  margin-right: 5px;
+
+  > span {
+    font-size: 7px;
+    height: 7px;
+    line-height: 7px;
+    color: #888888;
+  }
 `
 
 const WalletsMemoPanel = styled.div`
@@ -123,7 +130,7 @@ interface WalletInfoItem {
   url: string
 }
 
-const WalletInfoItems: WalletInfoItem[] = [
+export const WalletInfoItems: WalletInfoItem[] = [
   {
     image: WalletABCIcon,
     title: i18n.t('navbar.wallet_abc'),
@@ -169,7 +176,11 @@ const WalletInfoItems: WalletInfoItem[] = [
 ]
 
 const WalletsTagComp = ({ tag }: { tag: string }) => {
-  return <WalletsTagPanel>{tag}</WalletsTagPanel>
+  return (
+    <WalletsTagPanel>
+      <span>{tag}</span>
+    </WalletsTagPanel>
+  )
 }
 
 const WalletsItemComp = ({ wallet, index }: { wallet: WalletInfoItem; index: number }) => {
