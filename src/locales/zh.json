@@ -46,7 +46,7 @@
       "address_count": "地址数量",
       "total_dao_deposit_depositor": "Nervos DAO 锁定总额 & 锁定地址数量",
       "total_dao_deposit": "Nervos DAO 锁定总额",
-      "total_dao_depositor": "Nervos DAO 锁定地址数量",
+      "total_dao_depositor": "Nervos DAO 累计锁定地址数量",
       "live_cell": "未花费 Cell",
       "archived_cell": "已花费 Cell",
       "all_cells": "所有的 Cell",
@@ -211,7 +211,8 @@
       "calculation_tooltip": "Nervos DAO 补贴计算",
       "days": "天+",
       "24hrs_update": "24 小时变动(UTC+8:00)",
-      "today_update": "今日变动(UTC+8:00)"
+      "today_update": "今日变动(UTC+8:00)",
+      "deposit_address_tooltip": "Nervos DAO 锁定余额不为零的地址"
     },
     "error": {
       "maintain": "网络维护中，请稍后再试"
