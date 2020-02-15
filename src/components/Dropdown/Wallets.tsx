@@ -96,8 +96,10 @@ const WalletsItemPanel = styled.a`
 `
 
 const WalletsTagPanel = styled.div`
-  padding: 0px 2px 1px 2px;
+  padding: 0px 3px;
   font-size: 7px;
+  height: 12px;
+  line-height: 12px;
   color: #888888;
   border-radius: 3px;
   border: solid 0.5px #888888;
