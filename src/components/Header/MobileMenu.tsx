@@ -126,6 +126,7 @@ const MobileSubMenuPanel = styled.div`
       height: 7px;
       line-height: 7px;
       color: #888888;
+      text-transform: none;
     }
   }
 
