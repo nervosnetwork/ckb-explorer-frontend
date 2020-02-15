@@ -15,20 +15,41 @@ const WalletsPanel = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 0 12px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 3px 0 #dfdfdf;
+  position: fixed;
+  position: -webkit-fixed;
+  z-index: 1000;
+  left: ${(props: { left: number; top: number }) => props.left}px;
+  top: ${(props: { left: number; top: number }) => props.top}px;
+`
+
+const WalletsSeparatePanel = styled.div`
+  display: flex;
+  .wallets__separate__left {
+    width: 165px;
+    height: 1px;
+    border: solid 0.5px #b3b3b3;
+  }
+
+  .wallets__separate__right {
+    width: 165px;
+    height: 1px;
+    margin-left: 18px;
+    border: solid 0.5px #b3b3b3;
+  }
 `
 
 const WalletsLinePanel = styled.div`
   width: 100%;
-  height: 90px;
   background: white;
   display: flex;
 `
 
-const WalletsItemPanel = styled.div`
+const WalletsItemPanel = styled.a`
   width: 165px;
-  height: 90px;
   display: flex;
-  padding-top: 9px;
+  padding: 9px 8px 20px 8px;
   margin-left: ${(props: { isOdd: boolean }) => (props.isOdd ? '18px' : '0px')}
 
   &:hover {
@@ -39,25 +60,57 @@ const WalletsItemPanel = styled.div`
   > img {
     width: 20px;
     height: 20px;
+    margin-top: 2px;
   }
 
   .wallets__item__content {
     margin-left: 12px;
+    width: 117px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
+    .wallets__item__title {
+      font-size: 12px;
+      height: 14px;
+      line-height: 14px;
+      color: #000000;
+    }
+
+    .wallets__item__description {
+      font-size: 8px;
+      margin-top: 3px;
+      overflow : hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      color: #888888;
+    }
+
+    .wallets__item__tags {
+      display: flex;
+      margin-top: 7px;
+    }
   }
 `
 
 const WalletsTagPanel = styled.div`
-  width: 18px;
-  height: 9px;
-  text-align: center;
-  margin: auto 0;
+  padding: 0px 2px 1px 2px;
   font-size: 7px;
   color: #888888;
-  border-radius: 2px;
+  border-radius: 3px;
   border: solid 0.5px #888888;
+  margin-right: 3px;
+`
+
+const WalletsMemoPanel = styled.div`
+  font-size: 9px;
+  color: #888888;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  text-align: center;
 `
 
 interface WalletInfoItem {
@@ -119,7 +172,7 @@ const WalletsTagComp = ({ tag }: { tag: string }) => {
 
 const WalletsItemComp = ({ wallet, index }: { wallet: WalletInfoItem; index: number }) => {
   return (
-    <WalletsItemPanel isOdd={index / 2 === 1}>
+    <WalletsItemPanel isOdd={index % 2 === 1} href={wallet.url} target="_blank">
       <img alt={wallet.title} src={wallet.image} />
       <div className="wallets__item__content">
         <div className="wallets__item__title">{wallet.title}</div>
@@ -134,24 +187,39 @@ const WalletsItemComp = ({ wallet, index }: { wallet: WalletInfoItem; index: num
   )
 }
 
-export default () => {
+export default ({ setShowWallets, left, top }: { setShowWallets: Function; left: number; top: number }) => {
   return (
-    <WalletsPanel>
+    <WalletsPanel
+      left={left}
+      top={top}
+      onMouseLeave={() => {
+        setShowWallets(false)
+      }}
+    >
       <WalletsLinePanel>
         {WalletInfoItems.slice(0, 2).map((wallet, index) => {
           return <WalletsItemComp wallet={wallet} index={index} key={wallet.title} />
         })}
       </WalletsLinePanel>
+      <WalletsSeparatePanel>
+        <div className="wallets__separate__left" />
+        <div className="wallets__separate__right" />
+      </WalletsSeparatePanel>
       <WalletsLinePanel>
         {WalletInfoItems.slice(2, 4).map((wallet, index) => {
           return <WalletsItemComp wallet={wallet} index={index} key={wallet.title} />
         })}
       </WalletsLinePanel>
+      <WalletsSeparatePanel>
+        <div className="wallets__separate__left" />
+        <div className="wallets__separate__right" />
+      </WalletsSeparatePanel>
       <WalletsLinePanel>
         {WalletInfoItems.slice(4).map((wallet, index) => {
           return <WalletsItemComp wallet={wallet} index={index} key={wallet.title} />
         })}
       </WalletsLinePanel>
+      <WalletsMemoPanel>{i18n.t('navbar.wallets_memo')}</WalletsMemoPanel>
     </WalletsPanel>
   )
 }
