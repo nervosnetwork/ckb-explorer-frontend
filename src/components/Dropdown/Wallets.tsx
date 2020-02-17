@@ -44,13 +44,14 @@ const WalletsLinePanel = styled.div`
   width: 100%;
   background: white;
   display: flex;
+  margin-top: 10px;
+  margin-bottom: ${(props: { isLast?: boolean }) => (props.isLast ? '0px' : '10px')};
 `
 
 const WalletsItemPanel = styled.a`
   width: 165px;
   display: flex;
-  padding: ${(props: { isLast?: boolean; isOdd: boolean }) =>
-    props.isLast ? '20px 8px 10px 8px' : '20px 8px 20px 8px'};
+  padding: 10px 8px 10px 8px;
   margin-left: ${(props: { isOdd: boolean }) => (props.isOdd ? '18px' : '0px')}
 
   &:hover {
@@ -185,9 +186,9 @@ const WalletsTagComp = ({ tag }: { tag: string }) => {
   )
 }
 
-const WalletsItemComp = ({ wallet, index, isLast }: { wallet: WalletInfoItem; index: number; isLast?: boolean }) => {
+const WalletsItemComp = ({ wallet, index }: { wallet: WalletInfoItem; index: number }) => {
   return (
-    <WalletsItemPanel isOdd={index % 2 === 1} href={wallet.url} target="_blank" isLast={isLast}>
+    <WalletsItemPanel isOdd={index % 2 === 1} href={wallet.url} target="_blank">
       <img alt={wallet.title} src={wallet.image} />
       <div className="wallets__item__content">
         <div className="wallets__item__title">{wallet.title}</div>
@@ -229,9 +230,9 @@ export default ({ setShowWallets, left, top }: { setShowWallets: Function; left:
         <div className="wallets__separate__left" />
         <div className="wallets__separate__right" />
       </WalletsSeparatePanel>
-      <WalletsLinePanel>
+      <WalletsLinePanel isLast>
         {WalletInfoItems.slice(4).map((wallet, index) => {
-          return <WalletsItemComp wallet={wallet} index={index} key={wallet.title} isLast />
+          return <WalletsItemComp wallet={wallet} index={index} key={wallet.title} />
         })}
       </WalletsLinePanel>
       <WalletsMemoPanel>{i18n.t('navbar.wallets_memo')}</WalletsMemoPanel>
