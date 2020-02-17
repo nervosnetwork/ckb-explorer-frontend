@@ -200,6 +200,46 @@ export const HeaderLanguagePanel = styled.div`
   }
 `
 
+export const HeaderWalletsPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0;
+
+  .header__wallets_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    margin-left: 60px;
+
+    @media (max-width: 1920px) {
+      margin-left: 40px;
+    }
+
+    @media (max-width: 1440px) {
+      margin-left: 24px;
+    }
+
+    @media (max-width: 750px) {
+      margin-left: 0px;
+    }
+
+    > div {
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: ${(props: { showWallets: boolean; theme: any }) => (props.showWallets ? props.theme.primary : 'white')};
+    }
+
+    > img {
+      width: 7.9px;
+      height: 4.7px;
+      margin-top: 3px;
+      margin-left: 8px;
+    }
+  }
+`
+
 export const HeaderEmptyPanel = styled.div`
   flex: 1;
 `

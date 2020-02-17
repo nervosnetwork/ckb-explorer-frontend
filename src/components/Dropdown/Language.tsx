@@ -23,7 +23,7 @@ export const LanguagePanel = styled.div`
 
   .language_selected {
     width: 90%;
-    font-size: 14px;
+    font-size: 12px;
     height: 33px;
     line-height: 33px;
     margin: 3px 5% 0 5%;
@@ -36,7 +36,7 @@ export const LanguagePanel = styled.div`
   }
   .language_normal {
     width: 90%;
-    font-size: 14px;
+    font-size: 12px;
     height: 33px;
     line-height: 33px;
     margin: 0px 5% 3px 5%;
