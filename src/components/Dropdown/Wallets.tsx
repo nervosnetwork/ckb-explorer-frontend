@@ -14,7 +14,7 @@ const WalletsPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 12px 0 12px;
+  padding: 0px 12px;
   border-radius: 3px;
   box-shadow: 1px 1px 3px 0 #dfdfdf;
   position: fixed;
@@ -49,7 +49,8 @@ const WalletsLinePanel = styled.div`
 const WalletsItemPanel = styled.a`
   width: 165px;
   display: flex;
-  padding: ${(props: { isLast?: boolean; isOdd: boolean }) => (props.isLast ? '9px 8px 10px 8px' : '9px 8px 20px 8px')};
+  padding: ${(props: { isLast?: boolean; isOdd: boolean }) =>
+    props.isLast ? '20px 8px 10px 8px' : '20px 8px 20px 8px'};
   margin-left: ${(props: { isOdd: boolean }) => (props.isOdd ? '18px' : '0px')}
 
   &:hover {
