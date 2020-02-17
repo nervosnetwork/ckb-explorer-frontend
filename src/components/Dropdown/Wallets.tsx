@@ -14,7 +14,7 @@ const WalletsPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 12px;
+  padding: 20px 12px 0 12px;
   border-radius: 3px;
   box-shadow: 1px 1px 3px 0 #dfdfdf;
   position: fixed;
@@ -29,14 +29,14 @@ const WalletsSeparatePanel = styled.div`
   .wallets__separate__left {
     width: 165px;
     height: 1px;
-    border: solid 0.5px #b3b3b3;
+    background: #b3b3b3;
   }
 
   .wallets__separate__right {
     width: 165px;
     height: 1px;
     margin-left: 18px;
-    border: solid 0.5px #b3b3b3;
+    background: #b3b3b3;
   }
 `
 
@@ -49,7 +49,7 @@ const WalletsLinePanel = styled.div`
 const WalletsItemPanel = styled.a`
   width: 165px;
   display: flex;
-  padding: 9px 8px 20px 8px;
+  padding: ${(props: { isLast?: boolean; isOdd: boolean }) => (props.isLast ? '9px 8px 10px 8px' : '9px 8px 20px 8px')};
   margin-left: ${(props: { isOdd: boolean }) => (props.isOdd ? '18px' : '0px')}
 
   &:hover {
@@ -117,9 +117,10 @@ const WalletsMemoPanel = styled.div`
   font-size: 9px;
   color: #888888;
   width: 100%;
-  margin-top: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-align: center;
+  letter-spacing: 0px;
+  word-spacing: 2px;
 `
 
 interface WalletInfoItem {
@@ -183,9 +184,9 @@ const WalletsTagComp = ({ tag }: { tag: string }) => {
   )
 }
 
-const WalletsItemComp = ({ wallet, index }: { wallet: WalletInfoItem; index: number }) => {
+const WalletsItemComp = ({ wallet, index, isLast }: { wallet: WalletInfoItem; index: number; isLast?: boolean }) => {
   return (
-    <WalletsItemPanel isOdd={index % 2 === 1} href={wallet.url} target="_blank">
+    <WalletsItemPanel isOdd={index % 2 === 1} href={wallet.url} target="_blank" isLast={isLast}>
       <img alt={wallet.title} src={wallet.image} />
       <div className="wallets__item__content">
         <div className="wallets__item__title">{wallet.title}</div>
@@ -229,7 +230,7 @@ export default ({ setShowWallets, left, top }: { setShowWallets: Function; left:
       </WalletsSeparatePanel>
       <WalletsLinePanel>
         {WalletInfoItems.slice(4).map((wallet, index) => {
-          return <WalletsItemComp wallet={wallet} index={index} key={wallet.title} />
+          return <WalletsItemComp wallet={wallet} index={index} key={wallet.title} isLast />
         })}
       </WalletsLinePanel>
       <WalletsMemoPanel>{i18n.t('navbar.wallets_memo')}</WalletsMemoPanel>
