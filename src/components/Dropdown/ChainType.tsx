@@ -31,14 +31,22 @@ export const ChainTypePanel = styled.div`
 
   .chain_type_selected {
     width: 94%;
-    font-size: 14px;
+    font-size: 12px;
+    font-weight: normal;
     height: 33px;
-    line-height: 33px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
     margin: 3px 3% 0 3%;
     padding: 0 3%;
     cursor: pointer;
     border-radius: 3px;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+
     &:hover {
       background: #f1f1f1;
     }
@@ -46,12 +54,20 @@ export const ChainTypePanel = styled.div`
   .chain_type_normal {
     width: 94%;
     font-size: 14px;
+    font-weight: normal;
     height: 33px;
-    line-height: 33px;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
     margin: 0px 3% 3px 3%;
     padding: 0 3%;
     cursor: pointer;
     border-radius: 3px;
+    display: flex;
+    align-items: center;
 
     &:hover {
       background: #f1f1f1;
@@ -63,23 +79,6 @@ export const ChainTypePanel = styled.div`
     height: 0.5px;
     border: solid 0.5px #c3c3c3;
     margin: 0 6%;
-  }
-
-  @media (max-width: 700px) {
-    width: 80px;
-    height: 65px;
-    top: 35px;
-
-    .chain_type_selected {
-      font-size: 10px;
-      height: 32px;
-      line-height: 32px;
-    }
-    .chain_type_normal {
-      font-size: 10px;
-      height: 32px;
-      line-height: 32px;
-    }
   }
 `
 
