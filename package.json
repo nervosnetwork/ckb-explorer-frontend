@@ -55,8 +55,7 @@
     "lint": "eslint src/**/*.{ts,tsx} --fix",
     "build": "env-cmd -f ./.env.production react-app-rewired build",
     "test": "jest",
-    "eject": "react-app-rewired eject",
-    "precommit": "lint-staged"
+    "eject": "react-app-rewired eject"
   },
   "jest": {
     "displayName": "ckb-explorer",
@@ -73,6 +72,11 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
