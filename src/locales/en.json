@@ -40,6 +40,8 @@
       "wallet_imtoken_description": "imToken is a feature-rich digital wallet to securely manage BTC, ETH, ATOM, EOS, TRX, CKB, BCH, LTC, and other digital assets",
       "wallet_neuron": "Neuron",
       "wallet_neuron_description": "An open source project from Nervos Foundation, with local CKB node to achieve trustless services",
+      "wallet_renrenbit": "Renrenbit",
+      "wallet_renrenbit_description": "A digital asset management platform offering 100% reserve",
       "wallets_memo": "In alphabetical order"
     },
     "blockchain": {
