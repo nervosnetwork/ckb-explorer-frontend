@@ -196,7 +196,7 @@ export const WalletInfoItems: WalletInfoItem[] = [
 const WalletsTagComp = ({ tag }: { tag: any }) => {
   return (
     <WalletsTagPanel>
-      <img src={tag} alt="wallet tag image" />
+      <img src={tag} alt="wallet tag icon" />
     </WalletsTagPanel>
   )
 }

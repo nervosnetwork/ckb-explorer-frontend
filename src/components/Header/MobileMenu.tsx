@@ -60,7 +60,7 @@ const MobileSubMenuPanel = styled.div`
 
   .mobile__menus__main__item {
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
     align-items: center;
     width: 100%;
   }
@@ -70,7 +70,7 @@ const MobileSubMenuPanel = styled.div`
   }
 
   .mobile__menus__main__item__content__highlight {
-    color: ${props => props.theme.primary}
+    color: ${props => props.theme.primary};
   }
 
   .mobile__menus__main__item__icon {
@@ -81,7 +81,7 @@ const MobileSubMenuPanel = styled.div`
   .blockchain__mobile__node__version {
     font-size: 8px;
     margin-top: -5px;
-    color: ${props => props.theme.primary}
+    color: ${props => props.theme.primary};
   }
 
   .mobile__menus__sub__item {
@@ -112,21 +112,14 @@ const MobileSubMenuPanel = styled.div`
   }
 
   .mobile__menus__sub__tag {
-    padding: 0px 3px;
-    height: 14px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 2px;
-    border: solid 0.5px #888888;
     margin-right: 5px;
 
-    > span {
-      font-size: 7px;
-      height: 7px;
-      line-height: 7px;
-      color: #888888;
-      text-transform: none;
+    > img {
+      height: 9px;
+      width: auto;
     }
   }
 
@@ -214,7 +207,7 @@ const WalletsMenu = () => {
                 {item.tags.map(tag => {
                   return (
                     <div className="mobile__menus__sub__tag" key={tag}>
-                      <span>{tag}</span>
+                      <img alt="mobile header wallets tag" src={tag} />
                     </div>
                   )
                 })}
