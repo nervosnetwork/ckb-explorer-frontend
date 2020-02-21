@@ -6,10 +6,17 @@ import WalletHooIcon from '../../assets/wallet_hoo.png'
 import WalletCoboIcon from '../../assets/wallet_cobo.png'
 import WalletNeuronIcon from '../../assets/wallet_neuron.png'
 import WalletBitpieIcon from '../../assets/wallet_bitpie.png'
+import WalletRenrenbitIcon from '../../assets/wallet_renrenbit.png'
+import TagAndroidIcon from '../../assets/tag_android.png'
+import TagiOSIcon from '../../assets/tag_ios.png'
+import TagHtmlIcon from '../../assets/tag_html.png'
+import TagMacIcon from '../../assets/tag_mac.png'
+import TagWindowsIcon from '../../assets/tag_windows.png'
+import TagLinuxIcon from '../../assets/tag_linux.png'
 import i18n from '../../utils/i18n'
 
 const WalletsPanel = styled.div`
-  width: 372px;
+  width: 616px;
   background: white;
   display: flex;
   flex-direction: column;
@@ -27,15 +34,22 @@ const WalletsPanel = styled.div`
 const WalletsSeparatePanel = styled.div`
   display: flex;
   .wallets__separate__left {
-    width: 165px;
+    width: 192px;
     height: 1px;
     background: #b3b3b3;
   }
 
-  .wallets__separate__right {
-    width: 165px;
+  .wallets__separate__middle {
+    width: 192px;
     height: 1px;
-    margin-left: 18px;
+    margin-left: 10px;
+    background: #b3b3b3;
+  }
+
+  .wallets__separate__right {
+    width: 192px;
+    height: 1px;
+    margin-left: 10px;
     background: #b3b3b3;
   }
 `
@@ -49,10 +63,10 @@ const WalletsLinePanel = styled.div`
 `
 
 const WalletsItemPanel = styled.a`
-  width: 165px;
+  width: 192px;
   display: flex;
-  padding: 10px 8px 10px 8px;
-  margin-left: ${(props: { isOdd: boolean }) => (props.isOdd ? '18px' : '0px')}
+  padding: 10px;
+  margin-left: ${(props: { isFirst: boolean }) => (props.isFirst ? '0px' : '10px')};
 
   &:hover {
     background: #f1f1f1;
@@ -67,7 +81,7 @@ const WalletsItemPanel = styled.a`
 
   .wallets__item__content {
     margin-left: 12px;
-    width: 117px;
+    width: 150px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -80,9 +94,9 @@ const WalletsItemPanel = styled.a`
     }
 
     .wallets__item__description {
-      font-size: 8px;
+      font-size: 12px;
       margin-top: 3px;
-      overflow : hidden;
+      overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-line-clamp: 5;
@@ -98,20 +112,14 @@ const WalletsItemPanel = styled.a`
 `
 
 const WalletsTagPanel = styled.div`
-  padding: 0px 3px;
-  height: 13px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 2px;
-  border: solid 0.5px #888888;
   margin-right: 5px;
 
-  > span {
-    font-size: 7px;
-    height: 7px;
-    line-height: 7px;
-    color: #888888;
+  > img {
+    height: 9px;
+    width: auto;
   }
 `
 
@@ -138,57 +146,74 @@ export const WalletInfoItems: WalletInfoItem[] = [
     image: WalletABCIcon,
     title: i18n.t('navbar.wallet_abc'),
     description: i18n.t('navbar.wallet_abc_description'),
-    tags: ['iOS', 'Android', 'HTML'],
+    tags: [TagiOSIcon, TagAndroidIcon, TagHtmlIcon],
     url: 'https://abcwallet.com/',
   },
   {
     image: WalletBitpieIcon,
     title: i18n.t('navbar.wallet_bitpie'),
     description: i18n.t('navbar.wallet_bitpie_description'),
-    tags: ['iOS', 'Android'],
+    tags: [TagiOSIcon, TagAndroidIcon],
     url: 'https://bitpie.com/',
   },
   {
     image: WalletCoboIcon,
     title: i18n.t('navbar.wallet_cobo'),
     description: i18n.t('navbar.wallet_cobo_description'),
-    tags: ['iOS', 'Android'],
+    tags: [TagiOSIcon, TagAndroidIcon],
     url: 'https://cobo.com/',
   },
   {
     image: WalletHooIcon,
     title: i18n.t('navbar.wallet_hoo'),
     description: i18n.t('navbar.wallet_hoo_description'),
-    tags: ['iOS', 'Android'],
+    tags: [TagiOSIcon, TagAndroidIcon],
     url: 'https://hoo.com/',
   },
   {
     image: WalletImTokenIcon,
     title: i18n.t('navbar.wallet_imtoken'),
     description: i18n.t('navbar.wallet_imtoken_description'),
-    tags: ['iOS', 'Android'],
+    tags: [TagiOSIcon, TagAndroidIcon],
     url: 'https://token.im/?locale=en-us',
   },
   {
     image: WalletNeuronIcon,
     title: i18n.t('navbar.wallet_neuron'),
     description: i18n.t('navbar.wallet_neuron_description'),
-    tags: ['macOS', 'Windows', 'Linux'],
+    tags: [TagMacIcon, TagWindowsIcon, TagLinuxIcon],
     url: 'https://github.com/nervosnetwork/neuron/releases',
+  },
+  {
+    image: WalletRenrenbitIcon,
+    title: i18n.t('navbar.wallet_renrenbit'),
+    description: i18n.t('navbar.wallet_renrenbit_description'),
+    tags: [TagiOSIcon, TagAndroidIcon],
+    url: ' https://www.renrenbit.com/?lang=en#/',
   },
 ]
 
-const WalletsTagComp = ({ tag }: { tag: string }) => {
+const WalletsTagComp = ({ tag }: { tag: any }) => {
   return (
     <WalletsTagPanel>
-      <span>{tag}</span>
+      <img src={tag} alt="wallet tag image" />
     </WalletsTagPanel>
+  )
+}
+
+const WalletsSeparateComp = () => {
+  return (
+    <WalletsSeparatePanel>
+      <div className="wallets__separate__left" />
+      <div className="wallets__separate__middle" />
+      <div className="wallets__separate__right" />
+    </WalletsSeparatePanel>
   )
 }
 
 const WalletsItemComp = ({ wallet, index }: { wallet: WalletInfoItem; index: number }) => {
   return (
-    <WalletsItemPanel isOdd={index % 2 === 1} href={wallet.url} target="_blank">
+    <WalletsItemPanel isFirst={index === 0} href={wallet.url} target="_blank">
       <img alt={wallet.title} src={wallet.image} />
       <div className="wallets__item__content">
         <div className="wallets__item__title">{wallet.title}</div>
@@ -213,25 +238,19 @@ export default ({ setShowWallets, left, top }: { setShowWallets: Function; left:
       }}
     >
       <WalletsLinePanel>
-        {WalletInfoItems.slice(0, 2).map((wallet, index) => {
+        {WalletInfoItems.slice(0, 3).map((wallet, index) => {
           return <WalletsItemComp wallet={wallet} index={index} key={wallet.title} />
         })}
       </WalletsLinePanel>
-      <WalletsSeparatePanel>
-        <div className="wallets__separate__left" />
-        <div className="wallets__separate__right" />
-      </WalletsSeparatePanel>
+      <WalletsSeparateComp />
       <WalletsLinePanel>
-        {WalletInfoItems.slice(2, 4).map((wallet, index) => {
+        {WalletInfoItems.slice(3, 6).map((wallet, index) => {
           return <WalletsItemComp wallet={wallet} index={index} key={wallet.title} />
         })}
       </WalletsLinePanel>
-      <WalletsSeparatePanel>
-        <div className="wallets__separate__left" />
-        <div className="wallets__separate__right" />
-      </WalletsSeparatePanel>
+      <WalletsSeparateComp />
       <WalletsLinePanel isLast>
-        {WalletInfoItems.slice(4).map((wallet, index) => {
+        {WalletInfoItems.slice(6).map((wallet, index) => {
           return <WalletsItemComp wallet={wallet} index={index} key={wallet.title} />
         })}
       </WalletsLinePanel>
