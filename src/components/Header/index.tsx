@@ -99,7 +99,7 @@ const WalletsComp = () => {
       if (walletsDropdownComp) {
         const walletsDropdownReact = walletsDropdownComp.getBoundingClientRect()
         if (walletsDropdownReact) {
-          setWalletsDropdownLeft(walletsDropdownReact.left - (currentLanguage() === 'en' ? 152 : 163))
+          setWalletsDropdownLeft(walletsDropdownReact.left - (currentLanguage() === 'en' ? 274 : 285))
           setWalletsDropdownTop(walletsDropdownReact.bottom + 5)
         }
       }
