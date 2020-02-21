@@ -124,7 +124,7 @@ const MobileSubMenuPanel = styled.div`
   }
 
   .mobile__menus__sub__memo {
-    font-size: 9px;
+    font-size: 12px;
     color: #888888;
     width: 100%;
     margin: 22px 0px 0px 24px;

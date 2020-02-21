@@ -124,7 +124,7 @@ const WalletsTagPanel = styled.div`
 `
 
 const WalletsMemoPanel = styled.div`
-  font-size: 9px;
+  font-size: 12px;
   color: #888888;
   width: 100%;
   margin-bottom: 10px;
