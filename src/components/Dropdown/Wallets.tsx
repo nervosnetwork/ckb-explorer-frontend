@@ -95,6 +95,11 @@ const WalletsItemPanel = styled.a`
 
     .wallets__item__description {
       font-size: 12px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.17;
+      letter-spacing: normal;
       margin-top: 3px;
       overflow: hidden;
       text-overflow: ellipsis;
