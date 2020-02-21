@@ -21,7 +21,7 @@ const WalletsPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0px 12px;
+  padding: 0px 10px;
   border-radius: 3px;
   box-shadow: 1px 1px 3px 0 #dfdfdf;
   position: fixed;
