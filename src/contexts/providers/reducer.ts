@@ -34,9 +34,6 @@ export enum PageActions {
 
   UpdateStatistics = 'updateStatistics',
 
-  UpdateStatisticsChartData = 'updateStatisticsChartData',
-  UpdateStatisticsUncleRate = 'updateStatisticsUncleRate',
-
   UpdateStatisticDifficultyHashRate = 'updateStatisticDifficultyHashRate',
   UpdateStatisticDifficultyUncleRate = 'updateStatisticDifficultyUncleRate',
   UpdateStatisticDifficulty = 'updateStatisticDifficulty',
