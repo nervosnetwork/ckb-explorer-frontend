@@ -40,14 +40,14 @@ export const TransactionCellPanel = styled.div`
       color: ${({ theme }: { theme: any }) => `${theme.primary}`};
     }
 
-    .nervos__dao__withdraw_help {
+    .nervos__dao__withdraw_icon {
       margin-left: 5px;
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: auto;
       cursor: pointer;
       @media (max-width: 700px) {
-        width: 14px;
-        height: 14px;
+        width: 12px;
+        height: auto;
       }
     }
   }
@@ -137,6 +137,19 @@ export const WithdrawInfoPanel = styled.div`
   font-family: Montserrat, Montserrat-Regular, PingFang SC, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
     'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Noto Sans CJK SC', 'Noto Sans CJK',
     'Source Han Sans', source-han-sans-simplified-c, sans-serif;
+
+  > p {
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 16px;
+
+    @media (max-width: 700px) {
+      font-size: 11px;
+      margin-bottom: 8px;
+    }
+  }
 
   > div {
     margin: 10px;

@@ -42,20 +42,6 @@ const isDaoWithdrawCell = (cellType: string) => {
 }
 
 const CellInputIcon = ({ cell }: { cell: State.Cell }) => {
-  if (isDaoDepositCell(cell.cellType)) {
-    return (
-      <Tooltip placement="topRight" title={i18n.t('nervos_dao.withdraw_request_tooltip')} arrowPointAtCenter>
-        <LeftArrowImage className="transaction__cell_left_arrow" src={NervosDAOCellIcon} alt="left arrow" />
-      </Tooltip>
-    )
-  }
-  if (isDaoWithdrawCell(cell.cellType)) {
-    return (
-      <Tooltip placement="topRight" title={i18n.t('nervos_dao.withdraw_tooltip')} arrowPointAtCenter>
-        <LeftArrowImage className="transaction__cell_left_arrow" src={NervosDAOWithdrawingIcon} alt="left arrow" />
-      </Tooltip>
-    )
-  }
   return cell.generatedTxHash ? (
     <Link to={`/transaction/${cell.generatedTxHash}#${cell.cellIndex}`}>
       <LeftArrowImage
