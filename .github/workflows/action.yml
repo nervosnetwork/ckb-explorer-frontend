@@ -1,0 +1,16 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install dependence
+        run: yarn install
+      - name: Run a multi-line script
+        run: |
+          yarn build
+          yarn test
