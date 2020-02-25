@@ -6,8 +6,6 @@ import { CellType } from '../../../utils/const'
 import RightGreenArrow from '../../../assets/right_green_arrow.png'
 import RightBlueArrow from '../../../assets/right_blue_arrow.png'
 import LiveCellIcon from '../../../assets/live_cell.png'
-import NervosDAOCellIcon from '../../../assets/nervos_dao_cell.png'
-import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import { isMainnet } from '../../../utils/chain'
 import i18n from '../../../utils/i18n'
 
@@ -33,14 +31,6 @@ const RightArrowImage = styled.img`
   }
 `
 
-const isDaoDepositCell = (cellType: string) => {
-  return cellType === 'nervos_dao_deposit'
-}
-
-const isDaoWithdrawCell = (cellType: string) => {
-  return cellType === 'nervos_dao_withdrawing'
-}
-
 const CellInputIcon = ({ cell }: { cell: State.Cell }) => {
   return cell.generatedTxHash ? (
     <Link to={`/transaction/${cell.generatedTxHash}#${cell.cellIndex}`}>
@@ -54,41 +44,16 @@ const CellInputIcon = ({ cell }: { cell: State.Cell }) => {
 }
 
 const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
-  if (isDaoDepositCell(cell.cellType)) {
-    return (
-      <Tooltip placement="topRight" title={i18n.t('nervos_dao.deposit_tooltip')} arrowPointAtCenter>
-        <RightArrowImage className="transaction__cell_right_arrow" src={NervosDAOCellIcon} alt="right arrow" />
-      </Tooltip>
-    )
-  }
-  if (isDaoWithdrawCell(cell.cellType)) {
-    return (
-      <Tooltip
-        placement="topRight"
-        title={i18n.t('nervos_dao.calculation_tooltip')}
-        arrowPointAtCenter
-        overlayStyle={{
-          fontSize: '12px',
-        }}
-      >
-        <RightArrowImage className="transaction__cell_right_arrow" src={NervosDAOWithdrawingIcon} alt="right arrow" />
-      </Tooltip>
-    )
-  }
   if (cell.status === 'dead') {
     return (
       <Link to={`/transaction/${cell.consumedTxHash}`}>
-        <RightArrowImage
-          className="transaction__cell_right_arrow"
-          src={isMainnet() ? RightGreenArrow : RightBlueArrow}
-          alt="right arrow"
-        />
+        <RightArrowImage src={isMainnet() ? RightGreenArrow : RightBlueArrow} alt="right arrow" />
       </Link>
     )
   }
   return (
     <Tooltip placement="topRight" title={i18n.t('transaction.unspent_output')} arrowPointAtCenter>
-      <RightArrowImage className="transaction__cell_right_arrow" src={LiveCellIcon} alt="right arrow" />
+      <RightArrowImage src={LiveCellIcon} alt="right arrow" />
     </Tooltip>
   )
 }

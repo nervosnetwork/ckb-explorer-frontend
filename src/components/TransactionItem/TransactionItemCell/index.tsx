@@ -173,10 +173,10 @@ const TransactionCellAddress = ({
   )
 
   if (isDaoCell(cell.cellType)) {
-    if (cellType === CellType.Input) {
-      return (
-        <div className="transaction__cell_withdraw">
-          <AddressLinkComp cell={cell} address={address} highLight={highLight} />
+    return (
+      <div className="transaction__cell_withdraw">
+        <AddressLinkComp cell={cell} address={address} highLight={highLight} />
+        {cellType === CellType.Input ? (
           <Popover placement="right" title="" content={WithdrawInfo} trigger="click">
             <img
               src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon}
@@ -184,10 +184,24 @@ const TransactionCellAddress = ({
               alt="nervos dao withdraw"
             />
           </Popover>
-        </div>
-      )
-    }
-    return <AddressLinkComp cell={cell} address={address} highLight={highLight} />
+        ) : (
+          <Tooltip
+            placement={isMobile() ? 'topRight' : 'top'}
+            title={i18n.t(
+              isDaoDepositCell(cell.cellType) ? 'nervos_dao.deposit_tooltip' : 'nervos_dao.calculation_tooltip',
+            )}
+            arrowPointAtCenter
+            overlayStyle={{ fontSize: '12px' }}
+          >
+            <img
+              src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon}
+              className="nervos__dao__withdraw_icon"
+              alt="right arrow"
+            />
+          </Tooltip>
+        )}
+      </div>
+    )
   }
   return <AddressLinkComp cell={cell} address={address} highLight={highLight} />
 }
