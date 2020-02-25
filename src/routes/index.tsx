@@ -224,7 +224,7 @@ export default () => {
         render={(props: any) => {
           return (
             <Page>
-              <React.Fragment>
+              <>
                 <Header hasSearch={hasSearch(browserHistory.location.pathname)} />
                 <Sheet />
                 <Switch location={props.location}>
@@ -240,7 +240,7 @@ export default () => {
                   <Redirect from="*" to="/404" />
                 </Switch>
                 {!(isMobile() && mobileMenuVisible) && <Footer />}
-              </React.Fragment>
+              </>
             </Page>
           )
         }}

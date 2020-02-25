@@ -73,15 +73,32 @@ module.exports = {
         extensions: ['.ts', '.tsx'],
       },
     ],
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
-    'camelcase': [
-      "error",
+    'import/extensions': [
+      'error',
+      'ignorePackages',
       {
-        properties: "never",
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+    'react/jsx-props-no-spreading': [
+      'error',
+      {
+        html: 'ignore',
+        custom: 'ignore',
+        exceptions: [''],
+      },
+    ],
+    'no-console': ['error', { allow: ['error'] }],
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
+    camelcase: [
+      'error',
+      {
+        properties: 'never',
         ignoreDestructuring: true,
-        allow: ["^.*_"]
-      }
+        allow: ['^.*_'],
+      },
     ],
   },
   env: {
