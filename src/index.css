@@ -91,6 +91,7 @@ a {
 
 .ant-select-dropdown-menu-item {
   line-height: 20px !important;
+  padding: 6px 12px !important;
 }
 
 @media (max-width: 750px) {
