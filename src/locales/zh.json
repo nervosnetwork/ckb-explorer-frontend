@@ -163,7 +163,10 @@
       "transaction_hash": "交易哈希",
       "height": "区块高度",
       "time": "时间戳",
-      "transaction_parameters": "更多交易参数"
+      "transaction_parameters": "更多交易参数",
+      "ckb_transfer": "CKB 交易",
+      "nervos_dao_deposit": "Nervos DAO 锁定",
+      "nervos_dao_withdraw": "Nervos DAO 解锁"
     },
     "block": {
       "block": "区块",

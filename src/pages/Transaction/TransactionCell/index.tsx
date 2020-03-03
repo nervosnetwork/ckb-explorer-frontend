@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
+import { Select } from 'antd'
 import OverviewCard, { OverviewItemData } from '../../../components/Card/OverviewCard'
 import { CellState, CellType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
@@ -11,16 +12,18 @@ import { shannonToCkb } from '../../../utils/util'
 import TransactionCellDetail from '../TransactionCellScript'
 import {
   TransactionCellContentPanel,
-  TransactionCellDetailDataPanel,
-  TransactionCellDetailLockScriptPanel,
   TransactionCellDetailPanel,
-  TransactionCellDetailTypeScriptPanel,
   TransactionCellHashPanel,
   TransactionCellPanel,
 } from './styled'
 import TransactionCellArrow from '../TransactionCellArrow'
 import DecimalCapacity from '../../../components/DecimalCapacity'
 import CopyTooltipText from '../../../components/Text/CopyTooltipText'
+import NervosDAODepositIcon from '../../../assets/nervos_dao_cell.png'
+import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
+import CKBTransferIcon from '../../../assets/ckb_transfer.png'
+import SelectDropdownIcon from '../../../assets/select_dropdown.png'
+import SelectDropdownUpIcon from '../../../assets/select_dropdown_up.png'
 
 const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
@@ -68,49 +71,56 @@ const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: C
   )
 }
 
+const { Option } = Select
+const DropdownIcon = ({ isOpen }: { isOpen: boolean }) => {
+  return <img className="dropdown__icon" src={isOpen ? SelectDropdownUpIcon : SelectDropdownIcon} alt="dropdown icon" />
+}
 const TransactionCellDetailContainer = ({
-  highLight,
+  cellType,
   onChange,
 }: {
-  highLight: boolean
+  cellType: string
   onChange: (type: CellState) => void
 }) => {
   const [state, setState] = useState(CellState.NONE as CellState)
+  const [isOpen, setIsOpen] = useState(false)
   const changeType = (newState: CellState) => {
-    if (!highLight) return
     setState(state !== newState ? newState : CellState.NONE)
     onChange(state !== newState ? newState : CellState.NONE)
   }
-
+  let detailTitle = i18n.t('transaction.ckb_transfer')
+  let detailIcon = CKBTransferIcon
+  if (cellType === 'nervos_dao_deposit') {
+    detailTitle = i18n.t('transaction.nervos_dao_deposit')
+    detailIcon = NervosDAODepositIcon
+  } else if (cellType === 'transaction.nervos_dao_withdraw') {
+    detailTitle = 'Nervos DAO Withdraw'
+    detailIcon = NervosDAOWithdrawingIcon
+  }
   return (
     <TransactionCellDetailPanel>
-      <div className="transaction__cell_lock_script">
-        <TransactionCellDetailLockScriptPanel
-          highLight={highLight}
-          selected={state === CellState.LOCK}
-          onClick={() => changeType(CellState.LOCK)}
-        >
-          {i18n.t('transaction.lock_script')}
-        </TransactionCellDetailLockScriptPanel>
-      </div>
-      <div className="transaction__cell_type_script">
-        <TransactionCellDetailTypeScriptPanel
-          highLight={highLight}
-          selected={state === CellState.TYPE}
-          onClick={() => changeType(CellState.TYPE)}
-        >
-          {i18n.t('transaction.type_script')}
-        </TransactionCellDetailTypeScriptPanel>
-      </div>
-      <div className="transaction__cell_data">
-        <TransactionCellDetailDataPanel
-          highLight={highLight}
-          selected={state === CellState.DATA}
-          onClick={() => changeType(CellState.DATA)}
-        >
-          {i18n.t('transaction.data')}
-        </TransactionCellDetailDataPanel>
-      </div>
+      <img src={detailIcon} alt="cell detail icon" />
+      <div>{detailTitle}</div>
+      <Select
+        defaultValue={CellState.NONE}
+        suffixIcon={<DropdownIcon isOpen={isOpen} />}
+        onDropdownVisibleChange={() => setIsOpen(!isOpen)}
+        style={{ width: 120 }}
+        onChange={changeType}
+      >
+        <Option value={CellState.NONE} className="ant-select-dropdown-menu">
+          Cell Info
+        </Option>
+        <Option value={CellState.LOCK} className="ant-select-dropdown-menu">
+          Lock Script
+        </Option>
+        <Option value={CellState.TYPE} className="ant-select-dropdown-menu">
+          Type Script
+        </Option>
+        <Option value={CellState.DATA} className="ant-select-dropdown-menu">
+          Data
+        </Option>
+      </Select>
     </TransactionCellDetailPanel>
   )
 }
@@ -144,7 +154,7 @@ export default ({
     return (
       <OverviewCard items={items} outputIndex={cellType === CellType.Output ? `${index}_${txHash}` : undefined}>
         {!cell.fromCellbase && (
-          <TransactionCellDetailContainer highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
+          <TransactionCellDetailContainer cellType={cell.cellType} onChange={newState => setState(newState)} />
         )}
         {state !== CellState.NONE && <TransactionCellDetail cell={cell} state={state} setState={setState} />}
       </OverviewCard>
@@ -166,7 +176,7 @@ export default ({
         </div>
 
         <div className="transaction__cell_detail">
-          <TransactionCellDetailContainer highLight={!cell.fromCellbase} onChange={newState => setState(newState)} />
+          <TransactionCellDetailContainer cellType={cell.cellType} onChange={newState => setState(newState)} />
         </div>
       </TransactionCellContentPanel>
       {state !== CellState.NONE && <TransactionCellDetail cell={cell} state={state} setState={setState} />}

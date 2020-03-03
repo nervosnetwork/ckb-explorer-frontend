@@ -9,6 +9,7 @@ export const TransactionCellPanel = styled.div`
 export const TransactionCellContentPanel = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   margin: 10px 0;
 
   font-size: 16px;
@@ -75,38 +76,36 @@ export const TransactionCellDetailPanel = styled.div`
   font-weight: 500;
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 
-  .transaction__cell_lock_script {
-    flex: 0.34;
-    align-items: flex-start;
+  > img {
+    width: 18px;
+    height: 14px;
+  }
 
-    @media (max-width: 700px) {
-      flex: none;
-      margin-left: 0px;
+  > div {
+    margin: 0 12px;
+    font-size: 16px;
+    width: 178px;
+    text-align: left;
+
+    @media (max-width: 1200px) {
+      width: 98px;
     }
   }
-  .transaction__cell_type_script {
-    flex: 0.33;
-    @media (max-width: 700px) {
-      flex: 1;
-      margin-left: 0px;
-    }
-  }
-  .transaction__cell_data {
-    flex: 0.33;
 
-    @media (max-width: 700px) {
-      flex: none;
-      margin-left: 0px;
-    }
+  .dropdown__icon {
+    width: 10px;
+    height: 5px;
   }
 `
 
 export const TransactionCellDetailItemPanel = styled.div`
-  cursor: ${(props: { highLight?: boolean; theme: any }) => (props.highLight ? 'pointer' : 'default')};
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  color: ${(props: { highLight?: boolean; theme: any }) => (props.highLight ? `${props.theme.primary}` : '#000000')};
+  color: ${props => props.theme.primary};
   font-weight: 500;
   align-items: center;
 
@@ -116,7 +115,7 @@ export const TransactionCellDetailItemPanel = styled.div`
 
   &:after {
     content: '';
-    background: ${(props: { highLight?: boolean; theme: any }) => `${props.theme.primary}`};
+    background: ${props => props.theme.primary};
     width: calc(100% - 4px);
     height: 2px;
     display: ${(props: { highLight?: boolean; theme: any; selected: boolean }) => (props.selected ? 'block' : 'none')};
