@@ -105,19 +105,19 @@ const TransactionCellDetailContainer = ({
         defaultValue={CellState.NONE}
         suffixIcon={<DropdownIcon isOpen={isOpen} />}
         onDropdownVisibleChange={() => setIsOpen(!isOpen)}
-        style={{ width: 120 }}
+        style={{ width: isMobile() ? 100 : 150 }}
         onChange={changeType}
       >
-        <Option value={CellState.NONE} className="ant-select-dropdown-menu">
+        <Option value={CellState.NONE} className="ant-select-dropdown-menu-custom">
           Cell Info
         </Option>
-        <Option value={CellState.LOCK} className="ant-select-dropdown-menu">
+        <Option value={CellState.LOCK} className="ant-select-dropdown-menu-custom">
           Lock Script
         </Option>
-        <Option value={CellState.TYPE} className="ant-select-dropdown-menu">
+        <Option value={CellState.TYPE} className="ant-select-dropdown-menu-custom">
           Type Script
         </Option>
-        <Option value={CellState.DATA} className="ant-select-dropdown-menu">
+        <Option value={CellState.DATA} className="ant-select-dropdown-menu-custom">
           Data
         </Option>
       </Select>

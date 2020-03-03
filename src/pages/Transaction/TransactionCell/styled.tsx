@@ -51,19 +51,23 @@ export const TransactionCellHashPanel = styled.div`
   justify-content: flex-start;
   align-items: center;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     text-align: left;
     > a {
       font-weight: 500;
     }
   }
 
-  @media (min-width: 700px) {
+  @media (min-width: 750px) {
     font-weight: 500;
   }
 
   > span {
     margin-right: 19px;
+
+    @media (max-width: 750px) {
+      margin-right: 0px;
+    }
   }
 
   .transaction__cell_address_no_link {
@@ -79,9 +83,18 @@ export const TransactionCellDetailPanel = styled.div`
   justify-content: flex-start;
   align-items: center;
 
+  @media (max-width: 750px) {
+    margin-top: 12px;
+  }
+
   > img {
     width: 18px;
     height: 14px;
+
+    @media (max-width: 750px) {
+      width: 9px;
+      height: 7px;
+    }
   }
 
   > div {
@@ -92,6 +105,11 @@ export const TransactionCellDetailPanel = styled.div`
 
     @media (max-width: 1200px) {
       width: 98px;
+    }
+
+    @media (max-width: 750px) {
+      font-size: 13px;
+      width: 178px;
     }
   }
 
