@@ -17,9 +17,19 @@ export const TransactionCellListTitlePanel = styled.div`
     color: #000000;
 
     > span {
-      flex: 0.333;
-      text-align: center;
       height: 24px;
+    }
+
+    >span: nth-child(1) {
+      flex: 0.38;
+    }
+
+    >span: nth-child(2) {
+      flex: 0.28;
+    }
+
+    >span: nth-child(3) {
+      flex: 0.34;
     }
   }
 

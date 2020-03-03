@@ -23,22 +23,16 @@ export const TransactionCellContentPanel = styled.div`
     }
   }
   .transaction__cell_hash {
-    flex: 0.3;
+    flex: 0.38;
+    display: flex;
   }
   .transaction__cell_capacity {
-    flex: 0.37;
+    flex: 0.28;
     display: flex;
-    justify-content: center;
-    padding-right: ${(props: { isOutput: boolean }) => (props.isOutput ? '60px' : '0px')};
-
-    > div {
-      width: 50%;
-      display: flex;
-      justify-content: flex-end;
-    }
+    justify-content: flex-start;
   }
   .transaction__cell_detail {
-    flex: 0.33;
+    flex: 0.34;
   }
   a {
     color: ${props => props.theme.primary};
@@ -53,7 +47,7 @@ export const TransactionCellHashPanel = styled.div`
     highLight ? `${theme.primary}` : '#000000'};
   text-align: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? 'left' : 'center')};
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 
   @media (max-width: 700px) {
@@ -65,6 +59,10 @@ export const TransactionCellHashPanel = styled.div`
 
   @media (min-width: 700px) {
     font-weight: 500;
+  }
+
+  > span {
+    margin-right: 19px;
   }
 
   .transaction__cell_address_no_link {
@@ -81,7 +79,6 @@ export const TransactionCellDetailPanel = styled.div`
   .transaction__cell_lock_script {
     flex: 0.34;
     align-items: flex-start;
-    margin-left: ${(props: { isOutput: boolean }) => (props.isOutput ? '-48px' : '0px')};
 
     @media (max-width: 700px) {
       flex: none;
@@ -90,7 +87,6 @@ export const TransactionCellDetailPanel = styled.div`
   }
   .transaction__cell_type_script {
     flex: 0.33;
-    margin-left: ${(props: { isOutput: boolean }) => (props.isOutput ? '-48px' : '0px')};
     @media (max-width: 700px) {
       flex: 1;
       margin-left: 0px;
@@ -98,7 +94,6 @@ export const TransactionCellDetailPanel = styled.div`
   }
   .transaction__cell_data {
     flex: 0.33;
-    margin-left: ${(props: { isOutput: boolean }) => (props.isOutput ? '-48px' : '0px')};
 
     @media (max-width: 700px) {
       flex: none;
