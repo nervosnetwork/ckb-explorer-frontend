@@ -31,14 +31,9 @@ export const TransactionCellContentPanel = styled.div`
     flex: 0.26;
     display: flex;
     justify-content: flex-end;
-    padding-right: 60px;
-
-    @media (max-width: 1200px) {
-      padding-right: 30px;
-    }
+    padding-right: 20px;
 
     @media (max-width: 1000px) {
-      padding-right: 16px;
       flex: 0.24;
     }
   }
