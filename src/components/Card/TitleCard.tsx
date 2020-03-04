@@ -15,7 +15,7 @@ const TitleCardPanel = styled.div`
   line-height: 1;
   text-align: center;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin-top: 10px;
     padding: 10px 0px;
     height: 40px;

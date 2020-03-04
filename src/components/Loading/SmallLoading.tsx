@@ -13,7 +13,7 @@ const Loading = styled.div`
     height: 39px;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin: 8px 0;
     > img {
       width: 68px;

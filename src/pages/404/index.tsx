@@ -20,7 +20,7 @@ const NotFoundImage = styled.img`
   display: block;
   margin: 0 auto;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     width: 282px;
     height: 130px;
   }

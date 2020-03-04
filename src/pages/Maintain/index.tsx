@@ -27,7 +27,7 @@ const MaintainPanel = styled.div`
     display: block;
     margin-top: 220px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       width: 282px;
       height: 130px;
       margin-top: 120px;
@@ -41,7 +41,7 @@ const MaintainPanel = styled.div`
     margin-top: 20px;
     margin-bottom: 250px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       font-size: 12px;
       marin-top: 10px;
       margin-bottom: 150px;

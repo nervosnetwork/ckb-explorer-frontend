@@ -9,7 +9,7 @@ export const DaoContentPanel = styled.div`
   margin-bottom: 40px;
   width: 100%;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin: 0px;
     padding: 20px;
   }
@@ -28,7 +28,7 @@ export const DaoContentPanel = styled.div`
     font-weight: 500;
     color: #000000;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       height: 50px;
       border-radius: 3px;
       box-shadow: 1px 1px 3px 0 #dfdfdf;
@@ -50,7 +50,7 @@ export const DaoTabBarPanel = styled.div`
   padding: 0 40px;
   font-size: 18px;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     height: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '90px' : '60px')};
     flex-direction: column;
     justify-content: center;
@@ -63,14 +63,14 @@ export const DaoTabBarPanel = styled.div`
     cursor: pointer;
     margin-right: 15px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-bottom: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '15px' : '0px')};
     }
 
     .div {
       font-size: 20px;
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 13px;
       }
     }
@@ -96,7 +96,7 @@ export const TransactionsPagination = styled.div`
   margin: 20px 0px 0px 0px;
   width: 100%;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin: 10px 0px 0px 0px;
   }
 `
@@ -175,7 +175,7 @@ export const AddressPanel = styled(Link)`
   width: 48%;
   text-align: center;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     width: 100%;
     text-align: start;
   }
@@ -202,7 +202,7 @@ export const DaoOverviewPanel = styled.div`
     font-size: 13px;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     border-radius: 0px 0px 3px 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
     padding: 5px 0 15px 0;
@@ -217,7 +217,7 @@ export const DaoOverviewPanel = styled.div`
     background: #eaeaea;
     margin-left: 2%;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       width: 100%;
       height: 1px;
       background: #eaeaea;
@@ -231,7 +231,7 @@ export const DaoOverviewLeftPanel = styled.div`
   flex-direction: column;
   flex: 54;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin: 0 16px;
   }
 
@@ -239,7 +239,7 @@ export const DaoOverviewLeftPanel = styled.div`
     display: flex;
     justify-content: space-between;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       justify-content: space-around;
     }
   }
@@ -263,7 +263,7 @@ export const DaoOverviewRightPanel = styled.div`
   flex-direction: row;
   flex: 44;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin: 5px 0;
   }
 
@@ -281,7 +281,7 @@ export const DaoOverviewRightPanel = styled.div`
         font-size: 12px;
       }
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 12px;
       }
     }
@@ -326,7 +326,7 @@ export const DaoOverviewItemPanel = styled.div`
         max-width: ${(props: { hasChange?: boolean }) => (props.hasChange ? '60px' : '200px')};
       }
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 9px;
         max-width: ${(props: { hasChange?: boolean }) => (props.hasChange ? '70px' : '200px')};
       }
@@ -350,7 +350,7 @@ export const DaoOverviewItemPanel = styled.div`
         font-size: 10px;
       }
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 10px;
       }
     }
@@ -367,7 +367,7 @@ export const DaoOverviewItemPanel = styled.div`
       margin-top: 5px;
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       font-size: 12px;
     }
   }
@@ -378,7 +378,7 @@ export const NervosDaoPieItemPanel = styled.div`
   align-items: center;
   flex: 1;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin: 5px 0;
   }
 
@@ -404,7 +404,7 @@ export const NervosDaoPieItemPanel = styled.div`
         font-size: 10px;
       }
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 10px;
       }
     }
@@ -416,7 +416,7 @@ export const NervosDaoPieItemPanel = styled.div`
         font-size: 12px;
       }
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 12px;
       }
     }

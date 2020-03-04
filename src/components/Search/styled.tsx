@@ -20,7 +20,7 @@ export const SearchImage = styled.div`
   margin-left: ${(props: { highlightIcon: boolean }) => (props.highlightIcon ? '-25px' : '8px')};
   z-index: 2;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin-left: ${(props: { highlightIcon: boolean }) => (props.highlightIcon ? '-25px' : '8px')};
   }
 
@@ -70,7 +70,7 @@ export const SearchInputPanel = styled.input`
     color: #888888;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     font-size: 12px;
     width: 100%;
     padding-right: 16px;

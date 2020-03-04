@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const BlockListPanel = styled.div`
   width: 100%;
 
-  @media (min-width: 700px) {
+  @media (min-width: 750px) {
     margin-top: 25px;
     margin-bottom: 40px;
     border-radius: 6px;
@@ -11,7 +11,7 @@ export const BlockListPanel = styled.div`
     box-shadow: 0 2px 6px 0 rgba(77, 77, 77, 0.21);
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin-top: 0px;
     padding: 0px 20px 0px 20px;
 
@@ -25,7 +25,7 @@ export const BlockListPanel = styled.div`
   }
 
   .block_list__pagination {
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-top: 5px;
     }
   }
@@ -37,7 +37,7 @@ export const ContentTitle = styled.div`
   margin: 0 auto;
   text-align: center;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     font-size: 26px;
   }
 
@@ -49,14 +49,14 @@ export const ContentTitle = styled.div`
     display: block;
     margin: 0 auto;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       width: 80px;
     }
   }
 `
 
 export const ContentTable = styled.div`
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin-top: -41px;
     z-index: 2;
   }
@@ -77,7 +77,7 @@ export const BlockRewardContainer = styled.div`
   align-items: flex-end;
   justify-content: center;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     align-items: flex-end;
     justify-content: flex-start;
   }

@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { Popover, Tooltip } from 'antd'
 import 'antd/dist/antd.css'
 import HelpIcon from '../../../assets/qa_help.png'
-import DetailIcon from '../../../assets/detail.png'
+import NervosDAOCellIcon from '../../../assets/nervos_dao_cell.png'
+import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
@@ -105,6 +106,11 @@ const TransactionCellAddress = ({
   }
   const WithdrawInfo = (
     <WithdrawInfoPanel width={width}>
+      <p>
+        {isDaoWithdrawCell(cell.cellType)
+          ? i18n.t('nervos_dao.withdraw_tooltip')
+          : i18n.t('nervos_dao.withdraw_request_tooltip')}
+      </p>
       <div>
         <div className="withdraw__info_title">{`${i18n.t('nervos_dao.deposit_capacity')}: `}</div>
         <div className="withdraw__info_content">
@@ -167,17 +173,35 @@ const TransactionCellAddress = ({
   )
 
   if (isDaoCell(cell.cellType)) {
-    if (cellType === CellType.Input) {
-      return (
-        <div className="transaction__cell_withdraw">
-          <AddressLinkComp cell={cell} address={address} highLight={highLight} />
+    return (
+      <div className="transaction__cell_withdraw">
+        <AddressLinkComp cell={cell} address={address} highLight={highLight} />
+        {cellType === CellType.Input ? (
           <Popover placement="right" title="" content={WithdrawInfo} trigger="click">
-            <img src={DetailIcon} className="nervos__dao__withdraw_help" alt="nervos dao withdraw" />
+            <img
+              src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon}
+              className="nervos__dao__withdraw_icon"
+              alt="nervos dao withdraw"
+            />
           </Popover>
-        </div>
-      )
-    }
-    return <AddressLinkComp cell={cell} address={address} highLight={highLight} />
+        ) : (
+          <Tooltip
+            placement={isMobile() ? 'topRight' : 'top'}
+            title={i18n.t(
+              isDaoDepositCell(cell.cellType) ? 'nervos_dao.deposit_tooltip' : 'nervos_dao.calculation_tooltip',
+            )}
+            arrowPointAtCenter
+            overlayStyle={{ fontSize: '12px' }}
+          >
+            <img
+              src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon}
+              className="nervos__dao__withdraw_icon"
+              alt="right arrow"
+            />
+          </Tooltip>
+        )}
+      </div>
+    )
   }
   return <AddressLinkComp cell={cell} address={address} highLight={highLight} />
 }

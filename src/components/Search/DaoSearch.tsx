@@ -17,7 +17,7 @@ const SearchPanel = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     width: 84vw;
     height: 25px;
   }
@@ -31,7 +31,7 @@ const SearchImage = styled.div`
   display: flex;
   justify-content: center;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     width: 40px;
     margin-left: ${(props: { showReset: boolean }) => (props.showReset ? '-45px' : '-35px')};
   }
@@ -41,7 +41,7 @@ const SearchImage = styled.div`
     width: 25px;
     height: 25px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-top: 0;
       width: 16px;
       height: 16px;
@@ -71,7 +71,7 @@ const SearchInputPanel = styled.input`
     color: #bababa;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     width: ${(props: { showReset: boolean }) => (props.showReset ? '83%' : '100%')};
     font-size: 12px;
     padding-left: 10px;
@@ -90,7 +90,7 @@ const ResetButtonPanel = styled.div`
   line-height: 30px;
   cursor: pointer;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     border-radius: 3px;
     font-size: 12px;
     width: 45px;

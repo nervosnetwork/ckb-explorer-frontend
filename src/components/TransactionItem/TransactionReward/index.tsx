@@ -14,7 +14,7 @@ export const RewardPenal = styled.div`
   color: #000000;
   margin-right: 22px;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     height: 32px;
     margin-top: 10px;
     justify-content: normal;
@@ -35,7 +35,7 @@ export const RewardPenal = styled.div`
       background: #424242;
       display: none;
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         display: flex;
       }
     }
@@ -51,7 +51,7 @@ export const RewardPenal = styled.div`
   .reward__capacity {
     margin-left: 15px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-left: 13px;
       width: 100%;
       padding-right: 18px;
