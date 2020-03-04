@@ -117,7 +117,8 @@ export const TransactionCellDetailPanel = styled.div`
     text-align: left;
 
     @media (max-width: 1200px) {
-      width: 100px;
+      width: 110px;
+      font-size: 15px;
       margin: 0 6px;
     }
 
