@@ -14,7 +14,7 @@ const LeftArrowImage = styled.img`
   height: auto;
   margin: 0px 5px 3px 0;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     width: 12px;
     margin: 0 10px 0 0;
   }
@@ -25,7 +25,7 @@ const RightArrowImage = styled.img`
   height: auto;
   margin: 0px 0 1px 7px;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     width: 12px;
     margin: 0 5px 0 7px;
   }

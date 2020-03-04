@@ -30,7 +30,7 @@ const ToastItemDiv = styled.div`
     text-align: center;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     top: 42px;
     height: 36px;
 

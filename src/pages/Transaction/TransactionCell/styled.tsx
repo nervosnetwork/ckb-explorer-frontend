@@ -28,12 +28,25 @@ export const TransactionCellContentPanel = styled.div`
     display: flex;
   }
   .transaction__cell_capacity {
-    flex: 0.28;
+    flex: 0.26;
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
+    padding-right: 60px;
+
+    @media (max-width: 1200px) {
+      padding-right: 30px;
+    }
+
+    @media (max-width: 1000px) {
+      padding-right: 16px;
+      flex: 0.24;
+    }
   }
   .transaction__cell_detail {
-    flex: 0.34;
+    flex: 0.36;
+    @media (max-width: 1000px) {
+      flex: 0.38;
+    }
   }
   a {
     color: ${props => props.theme.primary};
@@ -104,7 +117,8 @@ export const TransactionCellDetailPanel = styled.div`
     text-align: left;
 
     @media (max-width: 1200px) {
-      width: 98px;
+      width: 96px;
+      margin: 0 6px;
     }
 
     @media (max-width: 750px) {
@@ -127,7 +141,7 @@ export const TransactionCellDetailItemPanel = styled.div`
   font-weight: 500;
   align-items: center;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin-top: 10px;
   }
 
@@ -138,7 +152,7 @@ export const TransactionCellDetailItemPanel = styled.div`
     height: 2px;
     display: ${(props: { highLight?: boolean; theme: any; selected: boolean }) => (props.selected ? 'block' : 'none')};
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       height: 1px;
       width: calc(100% - 2px);
     }
@@ -149,7 +163,7 @@ export const TransactionCellDetailLockScriptPanel = styled(TransactionCellDetail
   width: 90px;
   float: left;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     width: 72px;
   }
 `
@@ -158,7 +172,7 @@ export const TransactionCellDetailTypeScriptPanel = styled(TransactionCellDetail
   width: 90px;
   margin: 0px auto;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     width: 72px;
   }
 `
@@ -167,7 +181,7 @@ export const TransactionCellDetailDataPanel = styled(TransactionCellDetailItemPa
   width: 40px;
   float: right;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     width: 30px;
   }
 `

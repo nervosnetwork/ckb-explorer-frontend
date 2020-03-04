@@ -48,9 +48,9 @@ export default ({ inputs, outputs, txHash }: { inputs?: State.Cell[]; outputs?: 
     <TransactionCellListPanel>
       <TransactionCellListTitlePanel>
         <div className="transaction__cell_list_titles">
-          <span>{cellTitle()}</span>
-          <span>{hideCapacityTitle ? '' : i18n.t('transaction.capacity')}</span>
-          <span>{i18n.t('transaction.detail')}</span>
+          <div>{cellTitle()}</div>
+          <div>{hideCapacityTitle ? '' : i18n.t('transaction.capacity')}</div>
+          <div>{i18n.t('transaction.detail')}</div>
         </div>
       </TransactionCellListTitlePanel>
       <TransactionCellsPanel isScroll={isScroll}>

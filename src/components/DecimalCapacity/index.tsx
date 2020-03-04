@@ -16,7 +16,7 @@ const DecimalPanel = styled.div`
   .decimal__unit {
     margin-left: 5px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-bottom: 0px;
     }
   }
@@ -32,7 +32,7 @@ const DecimalPartPanel = styled.div`
     font-size: ${(props: { fontSize?: string; color?: string }) => (props.fontSize ? props.fontSize : '11px')}
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin-bottom: 0px;
   }
 `
@@ -47,7 +47,7 @@ const DecimalZerosPanel = styled.div`
     font-size: ${(props: { fontSize?: string; color?: string }) => (props.fontSize ? props.fontSize : '11px')}
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin-bottom: 0px;
   }
 `

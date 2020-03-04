@@ -6,7 +6,7 @@ import OverviewCard, { OverviewItemData } from '../../../components/Card/Overvie
 import { CellState, CellType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
-import { isMobile } from '../../../utils/screen'
+import { isMobile, isScreen750to1440 } from '../../../utils/screen'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import TransactionCellDetail from '../TransactionCellScript'
@@ -75,6 +75,14 @@ const { Option } = Select
 const DropdownIcon = ({ isOpen }: { isOpen: boolean }) => {
   return <img className="dropdown__icon" src={isOpen ? SelectDropdownUpIcon : SelectDropdownIcon} alt="dropdown icon" />
 }
+const selectWidth = () => {
+  if (isMobile()) {
+    return 100
+  } else if (isScreen750to1440()) {
+    return 130
+  }
+  return 150
+}
 const TransactionCellDetailContainer = ({
   cellType,
   onChange,
@@ -105,7 +113,7 @@ const TransactionCellDetailContainer = ({
         defaultValue={CellState.NONE}
         suffixIcon={<DropdownIcon isOpen={isOpen} />}
         onDropdownVisibleChange={() => setIsOpen(!isOpen)}
-        style={{ width: isMobile() ? 100 : 150 }}
+        style={{ width: selectWidth() }}
         onChange={changeType}
       >
         <Option value={CellState.NONE} className="ant-select-dropdown-menu-custom">

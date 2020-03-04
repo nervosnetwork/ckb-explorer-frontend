@@ -11,7 +11,7 @@ export const TransactionPanel = styled.div`
   flex-direction: column;
   font-size: 16px;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     padding: 15px 20px 15px 20px;
     font-size: 13px;
   }
@@ -47,7 +47,7 @@ export const TransactionHashBlockPanel = styled.div`
     justify-content: space-between;
     margin-bottom: 20px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       flex-direction: column;
       justify-content: normal;
       margin-bottom: 10px;
@@ -62,7 +62,7 @@ export const TransactionHashBlockPanel = styled.div`
     .transaction_item__block {
       color: #000000;
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-weight: normal;
       }
     }
@@ -83,7 +83,7 @@ export const TransactionCellPanel = styled.div`
   flex-direction: row;
   align-items: flex-start;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     flex-direction: column;
     align-items: center;
   }
@@ -93,7 +93,7 @@ export const TransactionCellPanel = styled.div`
     width: 19px;
     height: 19px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-top: 10px;
     }
   }
@@ -102,7 +102,7 @@ export const TransactionCellPanel = styled.div`
     margin-right: 40px;
     flex: 1;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin: 0px;
       flex: none;
       width: 100%;
@@ -116,7 +116,7 @@ export const TransactionCellPanel = styled.div`
     align-items: flex-start;
     margin-left: 40px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin: 0px;
       flex: none;
       width: 100%;
@@ -128,7 +128,7 @@ export const TransactionCellPanel = styled.div`
     color: #666666;
     margin-top: 18px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       font-size: 13px;
     }
   }

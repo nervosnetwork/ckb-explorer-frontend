@@ -17,7 +17,7 @@ export const OverviewCardPanel = styled.div`
     font-size: 13px;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     border-radius: 0px 0px 3px 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
     padding: 5px 20px 15px 20px;
@@ -31,7 +31,7 @@ export const OverviewContentPanel = styled.div`
   flex-direction: row;
   align-items: flex-start;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     flex-direction: column;
   }
 
@@ -42,7 +42,7 @@ export const OverviewContentPanel = styled.div`
     margin: 20px 0px 0px 0px;
     transform: ${() => `scaleX(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       display: none;
     }
   }
@@ -53,7 +53,7 @@ export const OverviewContentPanel = styled.div`
     flex: 1;
     flex-direction: column;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       width: 100%;
       margin-right: 0px;
     }
@@ -65,7 +65,7 @@ export const OverviewContentPanel = styled.div`
     flex: 1;
     flex-direction: column;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       width: 100%;
       margin-left: 0px;
     }
@@ -79,12 +79,12 @@ export const OverviewItemPanel = styled.div`
   justify-content: space-between;
   position: relative;
 
-  @media (min-width: 700px) {
+  @media (min-width: 750px) {
     height: 20px;
     margin-top: 20px;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin-top: 10px;
     justify-content: normal;
     flex-direction: column;
@@ -105,7 +105,7 @@ export const OverviewItemPanel = styled.div`
   .overview_item__title {
     font-weight: 500;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       width: 100%;
     }
   }
@@ -114,7 +114,7 @@ export const OverviewItemPanel = styled.div`
     margin-left: 15px;
     display: flex;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-left: 0px;
       word-wrap: break-word;
       word-break: break-all;

@@ -12,7 +12,7 @@ export const FooterDiv = styled.div`
     align-items: center;
     justify-content: center;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       padding: 20px 15px;
     }
 
@@ -20,7 +20,7 @@ export const FooterDiv = styled.div`
       display: flex;
       flex-wrap: wrap;
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         flex-direction: column;
         flex-wrap: nowrap;
       }
@@ -32,7 +32,7 @@ export const FooterDiv = styled.div`
         margin: 0 auto;
         width: 450px;
 
-        @media (max-width: 700px) {
+        @media (max-width: 750px) {
           width: 200px;
         }
 
@@ -40,7 +40,7 @@ export const FooterDiv = styled.div`
           width: 155px;
           height: auto;
 
-          @media (max-width: 700px) {
+          @media (max-width: 750px) {
             width: 60px;
           }
         }
@@ -54,7 +54,7 @@ export const FooterDiv = styled.div`
         padding-top: 20px;
         padding-bottom: 25px;
 
-        @media (max-width: 700px) {
+        @media (max-width: 750px) {
           padding: 0;
         }
 
@@ -77,7 +77,7 @@ export const FooterDiv = styled.div`
             flex-wrap: wrap;
           }
 
-          @media (max-width: 700px) {
+          @media (max-width: 750px) {
             margin: 5px 0;
 
             > div:nth-child(1) {
@@ -102,7 +102,7 @@ export const FooterDiv = styled.div`
     text-align: center;
     color: #e3e3e3;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       padding: 10px;
       font-size: 8px;
     }
@@ -134,7 +134,7 @@ export const FooterItemPanel = styled.a`
     text-align: center;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     width: 35px;
 
     >div: nth-child(1) {
