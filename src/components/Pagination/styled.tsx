@@ -18,12 +18,12 @@ export const PaginationPanel = styled.div`
   flex-direction: row;
   justify-content: center;
 
-  @media (min-width: 700px) {
+  @media (min-width: 750px) {
     padding-bottom: 10px;
     padding-top: 10px;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     height: 50px;
     margin-bottom: 20px;
     border-radius: 3px;
@@ -39,7 +39,7 @@ export const PaginationLeftItem = styled.div`
   color: #000000;
   line-height: 40px;
 
-  @media (min-width: 700px) {
+  @media (min-width: 750px) {
     align-items: center;
     justify-content: center;
   }
@@ -117,7 +117,7 @@ export const PaginationLeftItem = styled.div`
     pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? 'none' : 'auto')};
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     width: 60%;
     height: 50px;
 
@@ -176,14 +176,14 @@ export const PaginationRightItem = styled.div`
   font-size: 16px;
   color: #000000;
 
-  @media (min-width: 700px) {
+  @media (min-width: 750px) {
     width: 452px;
     align-items: center;
     justify-content: center;
     padding: 10px 0px 10px 80px;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     height: 50px;
   }
 
@@ -202,7 +202,7 @@ export const PaginationRightItem = styled.div`
       font-weight: 600;
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       width: 60px;
       height: 20px;
       margin-top: 15px;
@@ -225,7 +225,7 @@ export const PaginationRightItem = styled.div`
       background: ${props => props.theme.primary};
       color: white;
     }
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       height: 20px;
       border-radius: 3px;
     }
@@ -234,7 +234,7 @@ export const PaginationRightItem = styled.div`
   .goto__page {
     width: 90px;
     margin-right: 80px;
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       width: 40px;
       margin-top: 15px;
       margin-right: 20px;
@@ -246,7 +246,7 @@ export const PaginationRightItem = styled.div`
     width: 42px;
     font-size: 16px;
     margin-right: 20px;
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       display: none;
     }
   }

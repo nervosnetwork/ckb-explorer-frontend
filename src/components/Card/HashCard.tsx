@@ -23,7 +23,7 @@ const HashCardPanel = styled.div`
   overflow: hidden;
   position: relative;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     height: 50px;
     border-radius: 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
@@ -36,7 +36,7 @@ const HashCardPanel = styled.div`
     color: #000000;
     white-space: nowrap;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       font-size: 15px;
       margin-left: 20px;
     }
@@ -52,7 +52,7 @@ const HashCardPanel = styled.div`
       font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       font-size: 13px;
       margin-left: 10px;
       font-weight: 500;
@@ -65,7 +65,7 @@ const HashCardPanel = styled.div`
     margin-left: 20px;
     transform: translateY(6px);
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-left: 10px;
       transform: translateY(3px);
     }
@@ -74,7 +74,7 @@ const HashCardPanel = styled.div`
       width: 21px;
       height: 24px;
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         width: 16px;
         height: 18px;
         margin-bottom: 3px;
@@ -88,7 +88,7 @@ const HashCardPanel = styled.div`
     margin-top: 8px;
     color: ${props => props.theme.primary};
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-left: 5px;
       font-size: 12px;
       margin-top: 4px;

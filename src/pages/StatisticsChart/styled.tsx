@@ -4,7 +4,7 @@ export const ChartPanel = styled.div`
   margin: 0 10% 30px 10%;
   background: white;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin: 0 4% 30px 4%;
   }
 `
@@ -17,7 +17,7 @@ export const ChartTitle = styled.div`
   font-size: 24px;
   text-align: center;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin: 20px 4% 0 4%;
     font-size: 16px;
   }
@@ -37,7 +37,7 @@ export const LoadingPanel = styled.div`
     align-items: center;
     justify-content: center;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       width: 50px;
       height: 50px;
     }
@@ -51,7 +51,7 @@ export const ChartsPanel = styled.div`
   flex-wrap: wrap;
   justify-content: flex-start;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin: 20px 4%;
     padding: 10px 0;
   }

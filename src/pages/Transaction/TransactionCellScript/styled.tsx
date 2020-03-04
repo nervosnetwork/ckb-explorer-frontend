@@ -4,7 +4,7 @@ export default styled.div`
   width: 100%;
   margin-top: 20px;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin-top: 10px;
   }
 
@@ -25,7 +25,7 @@ export default styled.div`
     background-color: #f9f9f9;
     border-radius: 6px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       font-size: 10px;
       border-radius: 3px;
       padding: 10px;
@@ -39,7 +39,7 @@ export default styled.div`
     margin-top: 20px;
     width: 100%;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-top: 10px;
     }
   }
@@ -67,7 +67,7 @@ export const TransactionCellDetailCopyButtonPanel = styled.div`
     height: 24px;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     width: 75px;
     height: 20px;
     padding: 0 10px;

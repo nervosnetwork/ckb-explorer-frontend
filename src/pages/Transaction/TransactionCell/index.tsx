@@ -1,32 +1,35 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
+import { Select } from 'antd'
 import OverviewCard, { OverviewItemData } from '../../../components/Card/OverviewCard'
 import { CellState, CellType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
-import { isMobile } from '../../../utils/screen'
+import { isMobile, isScreen750to1440 } from '../../../utils/screen'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import TransactionCellDetail from '../TransactionCellScript'
 import {
   TransactionCellContentPanel,
-  TransactionCellDetailDataPanel,
-  TransactionCellDetailLockScriptPanel,
   TransactionCellDetailPanel,
-  TransactionCellDetailTypeScriptPanel,
   TransactionCellHashPanel,
   TransactionCellPanel,
 } from './styled'
 import TransactionCellArrow from '../TransactionCellArrow'
 import DecimalCapacity from '../../../components/DecimalCapacity'
 import CopyTooltipText from '../../../components/Text/CopyTooltipText'
+import NervosDAODepositIcon from '../../../assets/nervos_dao_cell.png'
+import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
+import CKBTransferIcon from '../../../assets/ckb_transfer.png'
+import SelectDropdownIcon from '../../../assets/select_dropdown.png'
+import SelectDropdownUpIcon from '../../../assets/select_dropdown_up.png'
 
 const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
     return adaptMobileEllipsis(hash, 11)
   }
-  return adaptPCEllipsis(hash, 5, 50)
+  return adaptPCEllipsis(hash, 5, 80)
 }
 
 const AddressHash = ({ address }: { address: string }) => {
@@ -50,7 +53,12 @@ const AddressHash = ({ address }: { address: string }) => {
 const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
   return (
     <TransactionCellHashPanel highLight={cell.addressHash !== null}>
-      {!cell.fromCellbase && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
+      {!cell.fromCellbase && cellType === CellType.Input && (
+        <span>
+          <TransactionCellArrow cell={cell} cellType={cellType} />
+        </span>
+      )}
+
       {cell.addressHash ? (
         <AddressHash address={cell.addressHash} />
       ) : (
@@ -63,51 +71,74 @@ const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: C
   )
 }
 
-const TransactionCellDetailButtons = ({
-  highLight,
+const { Option } = Select
+const DropdownIcon = ({ isOpen }: { isOpen: boolean }) => {
+  return <img className="dropdown__icon" src={isOpen ? SelectDropdownUpIcon : SelectDropdownIcon} alt="dropdown icon" />
+}
+const selectWidth = () => {
+  if (isMobile()) {
+    return 100
+  } else if (isScreen750to1440()) {
+    return 130
+  }
+  return 150
+}
+
+const detailTitleIcons = (cellType: string) => {
+  let detailTitle = i18n.t('transaction.ckb_transfer')
+  let detailIcon = CKBTransferIcon
+  if (cellType === 'nervos_dao_deposit') {
+    detailTitle = i18n.t('transaction.nervos_dao_deposit')
+    detailIcon = NervosDAODepositIcon
+  } else if (cellType === 'transaction.nervos_dao_withdraw') {
+    detailTitle = 'Nervos DAO Withdraw'
+    detailIcon = NervosDAOWithdrawingIcon
+  }
+  return {
+    detailTitle,
+    detailIcon,
+  }
+}
+
+const TransactionCellDetailContainer = ({
+  cellType,
   onChange,
-  isOutput,
 }: {
-  highLight: boolean
+  cellType: string
   onChange: (type: CellState) => void
-  isOutput: boolean
 }) => {
   const [state, setState] = useState(CellState.NONE as CellState)
+  const [isOpen, setIsOpen] = useState(false)
   const changeType = (newState: CellState) => {
-    if (!highLight) return
     setState(state !== newState ? newState : CellState.NONE)
     onChange(state !== newState ? newState : CellState.NONE)
   }
+  const { detailTitle, detailIcon } = detailTitleIcons(cellType)
 
   return (
-    <TransactionCellDetailPanel isOutput={isOutput}>
-      <div className="transaction__cell_lock_script">
-        <TransactionCellDetailLockScriptPanel
-          highLight={highLight}
-          selected={state === CellState.LOCK}
-          onClick={() => changeType(CellState.LOCK)}
-        >
-          {i18n.t('transaction.lock_script')}
-        </TransactionCellDetailLockScriptPanel>
-      </div>
-      <div className="transaction__cell_type_script">
-        <TransactionCellDetailTypeScriptPanel
-          highLight={highLight}
-          selected={state === CellState.TYPE}
-          onClick={() => changeType(CellState.TYPE)}
-        >
-          {i18n.t('transaction.type_script')}
-        </TransactionCellDetailTypeScriptPanel>
-      </div>
-      <div className="transaction__cell_data">
-        <TransactionCellDetailDataPanel
-          highLight={highLight}
-          selected={state === CellState.DATA}
-          onClick={() => changeType(CellState.DATA)}
-        >
-          {i18n.t('transaction.data')}
-        </TransactionCellDetailDataPanel>
-      </div>
+    <TransactionCellDetailPanel>
+      <img src={detailIcon} alt="cell detail icon" />
+      <div>{detailTitle}</div>
+      <Select
+        defaultValue={CellState.NONE}
+        suffixIcon={<DropdownIcon isOpen={isOpen} />}
+        onDropdownVisibleChange={() => setIsOpen(!isOpen)}
+        style={{ width: selectWidth() }}
+        onChange={changeType}
+      >
+        <Option value={CellState.NONE} className="ant-select-dropdown-menu-custom">
+          Cell Info
+        </Option>
+        <Option value={CellState.LOCK} className="ant-select-dropdown-menu-custom">
+          Lock Script
+        </Option>
+        <Option value={CellState.TYPE} className="ant-select-dropdown-menu-custom">
+          Type Script
+        </Option>
+        <Option value={CellState.DATA} className="ant-select-dropdown-menu-custom">
+          Data
+        </Option>
+      </Select>
     </TransactionCellDetailPanel>
   )
 }
@@ -141,11 +172,7 @@ export default ({
     return (
       <OverviewCard items={items} outputIndex={cellType === CellType.Output ? `${index}_${txHash}` : undefined}>
         {!cell.fromCellbase && (
-          <TransactionCellDetailButtons
-            highLight={!cell.fromCellbase}
-            onChange={newState => setState(newState)}
-            isOutput={cellType === CellType.Output}
-          />
+          <TransactionCellDetailContainer cellType={cell.cellType} onChange={newState => setState(newState)} />
         )}
         {state !== CellState.NONE && <TransactionCellDetail cell={cell} state={state} setState={setState} />}
       </OverviewCard>
@@ -154,24 +181,22 @@ export default ({
 
   return (
     <TransactionCellPanel id={cellType === CellType.Output ? `output_${index}_${txHash}` : ''}>
-      <TransactionCellContentPanel isOutput={cellType === CellType.Output}>
-        <div className="transaction__cell_index">
-          {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
-        </div>
+      <TransactionCellContentPanel>
         <div className="transaction__cell_hash">
+          <div className="transaction__cell_index">
+            {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
+          </div>
           <TransactionCellHash cell={cell} cellType={cellType} />
         </div>
 
         <div className="transaction__cell_capacity">
-          <div>{cell.capacity && <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />}</div>
+          {cell.capacity && <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />}
         </div>
 
         <div className="transaction__cell_detail">
-          <TransactionCellDetailButtons
-            highLight={!cell.fromCellbase}
-            onChange={newState => setState(newState)}
-            isOutput={cellType === CellType.Output}
-          />
+          {cell.capacity && (
+            <TransactionCellDetailContainer cellType={cell.cellType} onChange={newState => setState(newState)} />
+          )}
         </div>
       </TransactionCellContentPanel>
       {state !== CellState.NONE && <TransactionCellDetail cell={cell} state={state} setState={setState} />}
