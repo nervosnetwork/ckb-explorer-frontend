@@ -29,7 +29,7 @@ const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
     return adaptMobileEllipsis(hash, 11)
   }
-  return adaptPCEllipsis(hash, 5, 50)
+  return adaptPCEllipsis(hash, 5, 80)
 }
 
 const AddressHash = ({ address }: { address: string }) => {
@@ -83,6 +83,23 @@ const selectWidth = () => {
   }
   return 150
 }
+
+const detailTitleIcons = (cellType: string) => {
+  let detailTitle = i18n.t('transaction.ckb_transfer')
+  let detailIcon = CKBTransferIcon
+  if (cellType === 'nervos_dao_deposit') {
+    detailTitle = i18n.t('transaction.nervos_dao_deposit')
+    detailIcon = NervosDAODepositIcon
+  } else if (cellType === 'transaction.nervos_dao_withdraw') {
+    detailTitle = 'Nervos DAO Withdraw'
+    detailIcon = NervosDAOWithdrawingIcon
+  }
+  return {
+    detailTitle,
+    detailIcon,
+  }
+}
+
 const TransactionCellDetailContainer = ({
   cellType,
   onChange,
@@ -96,15 +113,8 @@ const TransactionCellDetailContainer = ({
     setState(state !== newState ? newState : CellState.NONE)
     onChange(state !== newState ? newState : CellState.NONE)
   }
-  let detailTitle = i18n.t('transaction.ckb_transfer')
-  let detailIcon = CKBTransferIcon
-  if (cellType === 'nervos_dao_deposit') {
-    detailTitle = i18n.t('transaction.nervos_dao_deposit')
-    detailIcon = NervosDAODepositIcon
-  } else if (cellType === 'transaction.nervos_dao_withdraw') {
-    detailTitle = 'Nervos DAO Withdraw'
-    detailIcon = NervosDAOWithdrawingIcon
-  }
+  const { detailTitle, detailIcon } = detailTitleIcons(cellType)
+
   return (
     <TransactionCellDetailPanel>
       <img src={detailIcon} alt="cell detail icon" />
@@ -184,7 +194,9 @@ export default ({
         </div>
 
         <div className="transaction__cell_detail">
-          <TransactionCellDetailContainer cellType={cell.cellType} onChange={newState => setState(newState)} />
+          {cell.capacity && (
+            <TransactionCellDetailContainer cellType={cell.cellType} onChange={newState => setState(newState)} />
+          )}
         </div>
       </TransactionCellContentPanel>
       {state !== CellState.NONE && <TransactionCellDetail cell={cell} state={state} setState={setState} />}

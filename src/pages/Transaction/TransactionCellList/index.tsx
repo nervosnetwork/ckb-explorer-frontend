@@ -12,7 +12,7 @@ export default ({ inputs, outputs, txHash }: { inputs?: State.Cell[]; outputs?: 
   const [offset, setOffset] = useState(PAGE_CELL_COUNT)
   const [isEnd, setIsEnd] = useState(false)
   const cells = inputs || outputs || []
-  const hideCapacityTitle = inputs && inputs.length > 0 && inputs[0].fromCellbase
+  const hideTitle = inputs && inputs.length > 0 && inputs[0].fromCellbase
   const isScroll = cells.length > PAGE_CELL_COUNT
 
   const handleScroll = useCallback(
@@ -49,8 +49,8 @@ export default ({ inputs, outputs, txHash }: { inputs?: State.Cell[]; outputs?: 
       <TransactionCellListTitlePanel>
         <div className="transaction__cell_list_titles">
           <div>{cellTitle()}</div>
-          <div>{hideCapacityTitle ? '' : i18n.t('transaction.capacity')}</div>
-          <div>{i18n.t('transaction.detail')}</div>
+          <div>{hideTitle ? '' : i18n.t('transaction.capacity')}</div>
+          <div>{hideTitle ? '' : i18n.t('transaction.detail')}</div>
         </div>
       </TransactionCellListTitlePanel>
       <TransactionCellsPanel isScroll={isScroll}>

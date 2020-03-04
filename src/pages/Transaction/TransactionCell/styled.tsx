@@ -24,40 +24,26 @@ export const TransactionCellContentPanel = styled.div`
     }
   }
   .transaction__cell_hash {
-    flex: 0.38;
+    flex: 0.34;
     display: flex;
   }
+
   .transaction__cell_capacity {
-    flex: 0.22;
+    flex: 0.26;
     display: flex;
     justify-content: flex-end;
     padding-right: 100px;
 
     @media (max-width: 1440px) {
-      padding-right: 60px;
-      flex: 0.26;
-    }
-
-    @media (max-width: 1200px) {
       padding-right: 40px;
-      flex: 0.26;
     }
 
     @media (max-width: 1000px) {
-      padding-right: 16px;
-      flex: 0.24;
+      padding-right: 20px;
     }
   }
   .transaction__cell_detail {
     flex: 0.4;
-
-    @media (max-width: 1440px) {
-      padding-right: 60px;
-      flex: 0.36;
-    }
-    @media (max-width: 1000px) {
-      flex: 0.38;
-    }
   }
   a {
     color: ${props => props.theme.primary};

@@ -21,41 +21,26 @@ export const TransactionCellListTitlePanel = styled.div`
     }
 
     >div: nth-child(1) {
-      flex: 0.38;
+      flex: 0.34;
     }
 
     >div: nth-child(2) {
-      flex: 0.22;
+      flex: 0.26;
       display: flex;
       justify-content: flex-end;
       padding-right: 100px;
 
-      @media (max-width: 1400px) {
-        padding-right: 60px;
-        flex: 0.26;
-      }
-
-      @media (max-width: 1200px) {
+      @media (max-width: 1440px) {
         padding-right: 40px;
-        flex: 0.26;
       }
 
       @media (max-width: 1000px) {
-        padding-right: 16px;
-        flex: 0.24;
+        padding-right: 20px;
       }
     }
 
     >div: nth-child(3) {
       flex: 0.4;
-
-      @media (max-width: 1440px) {
-        flex: 0.36;
-      }
-
-      @media (max-width: 1000px) {
-        flex: 0.38;
-      }
     }
   }
 
