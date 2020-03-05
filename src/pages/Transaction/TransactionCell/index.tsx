@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import { Select } from 'antd'
 import OverviewCard, { OverviewItemData } from '../../../components/Card/OverviewCard'
-import { CellState, CellType } from '../../../utils/const'
+import { CellState, CellType, DaoType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
 import { localeNumberString } from '../../../utils/number'
 import { isMobile, isScreen750to1440 } from '../../../utils/screen'
@@ -87,10 +87,10 @@ const selectWidth = () => {
 const detailTitleIcons = (cellType: string) => {
   let detailTitle = i18n.t('transaction.ckb_transfer')
   let detailIcon = CKBTransferIcon
-  if (cellType === 'nervos_dao_deposit') {
+  if (cellType === DaoType.Deposit) {
     detailTitle = i18n.t('transaction.nervos_dao_deposit')
     detailIcon = NervosDAODepositIcon
-  } else if (cellType === 'nervos_dao_withdrawing') {
+  } else if (cellType === DaoType.Withdraw) {
     detailTitle = i18n.t('transaction.nervos_dao_withdraw')
     detailIcon = NervosDAOWithdrawingIcon
   }
@@ -116,7 +116,7 @@ const TransactionCellDetailContainer = ({
   const { detailTitle, detailIcon } = detailTitleIcons(cellType)
 
   return (
-    <TransactionCellDetailPanel isWithdraw={cellType === 'nervos_dao_withdrawing'}>
+    <TransactionCellDetailPanel isWithdraw={cellType === DaoType.Withdraw}>
       <img src={detailIcon} alt="cell detail icon" />
       <div>{detailTitle}</div>
       <Select

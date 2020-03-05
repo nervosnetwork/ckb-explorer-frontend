@@ -38,6 +38,11 @@ export enum CellType {
   Output = 'output',
 }
 
+export enum DaoType {
+  Deposit = 'nervos_dao_deposit',
+  Withdraw = 'nervos_dao_withdrawing',
+}
+
 export enum DataType {
   LockScript = 'lock_script',
   TypeScript = 'type_script',
