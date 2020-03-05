@@ -11,7 +11,7 @@ import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import { CellbasePanel, TransactionCellPanel, TransactionCellCapacity, WithdrawInfoPanel } from './styled'
 import { isMobile } from '../../../utils/screen'
-import { CellType } from '../../../utils/const'
+import { CellType, DaoType } from '../../../utils/const'
 import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
 import DecimalCapacity from '../../DecimalCapacity'
 import CopyTooltipText from '../../Text/CopyTooltipText'
@@ -54,11 +54,11 @@ const handleAddressText = (address: string) => {
 }
 
 const isDaoDepositCell = (cellType: string) => {
-  return cellType === 'nervos_dao_deposit'
+  return cellType === DaoType.Deposit
 }
 
 const isDaoWithdrawCell = (cellType: string) => {
-  return cellType === 'nervos_dao_withdrawing'
+  return cellType === DaoType.Withdraw
 }
 
 const isDaoCell = (cellType: string) => {
