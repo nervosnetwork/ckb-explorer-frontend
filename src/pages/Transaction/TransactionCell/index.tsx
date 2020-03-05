@@ -90,8 +90,8 @@ const detailTitleIcons = (cellType: string) => {
   if (cellType === 'nervos_dao_deposit') {
     detailTitle = i18n.t('transaction.nervos_dao_deposit')
     detailIcon = NervosDAODepositIcon
-  } else if (cellType === 'transaction.nervos_dao_withdraw') {
-    detailTitle = 'Nervos DAO Withdraw'
+  } else if (cellType === 'nervos_dao_withdrawing') {
+    detailTitle = i18n.t('transaction.nervos_dao_withdraw')
     detailIcon = NervosDAOWithdrawingIcon
   }
   return {
@@ -116,7 +116,7 @@ const TransactionCellDetailContainer = ({
   const { detailTitle, detailIcon } = detailTitleIcons(cellType)
 
   return (
-    <TransactionCellDetailPanel>
+    <TransactionCellDetailPanel isWithdraw={cellType === 'nervos_dao_withdrawing'}>
       <img src={detailIcon} alt="cell detail icon" />
       <div>{detailTitle}</div>
       <Select
