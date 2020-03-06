@@ -12,7 +12,6 @@ import WhiteDropUpIcon from '../../assets/white_drop_up.png'
 import BlueDropUpIcon from '../../assets/blue_drop_up.png'
 import GreenDropUpIcon from '../../assets/green_drop_up.png'
 import Search from '../Search'
-// import { WalletInfoItems } from '../Dropdown/Wallets'
 
 const MenusPanel = styled.div`
   width: 100%;
@@ -162,64 +161,6 @@ const MenuItemLink = ({ menu }: { menu: MenuType }) => {
     </a>
   )
 }
-
-// const WalletsMenu = () => {
-//   const [showSubMenu, setShowSubMenu] = useState(false)
-
-//   const walletsDropdownIcon = () => {
-//     if (!showSubMenu) {
-//       return WhiteDropdownIcon
-//     }
-//     return isMainnet() ? GreenDropUpIcon : BlueDropUpIcon
-//   }
-
-//   return (
-//     <MobileSubMenuPanel showSubMenu={showSubMenu}>
-//       <div
-//         className="mobile__menus__main__item"
-//         role="button"
-//         tabIndex={-1}
-//         onKeyDown={() => {}}
-//         onClick={() => {
-//           setShowSubMenu(!showSubMenu)
-//         }}
-//       >
-//         <div className="mobile__menus__main__item__content">{i18n.t('navbar.wallets')}</div>
-//         <img
-//           className="mobile__menus__main__item__icon"
-//           alt="mobile wallets dropdown icon"
-//           src={walletsDropdownIcon()}
-//         />
-//       </div>
-//       {showSubMenu && (
-//         <>
-//           {WalletInfoItems.map(item => {
-//             return (
-//               <a
-//                 className="mobile__menus__sub__item"
-//                 href={item.url}
-//                 target="_blank"
-//                 rel="noopener noreferrer"
-//                 key={item.title}
-//               >
-//                 <img className="mobile__menus__sub__icon" alt="wallet icon" src={item.image} />
-//                 <div className="mobile__menus__sub__title">{item.title}</div>
-//                 {item.tags.map(tag => {
-//                   return (
-//                     <div className="mobile__menus__sub__tag" key={tag}>
-//                       <img alt="mobile header wallets tag" src={tag} />
-//                     </div>
-//                   )
-//                 })}
-//               </a>
-//             )
-//           })}
-//           <div className="mobile__menus__sub__memo">{i18n.t('navbar.wallets_memo')}</div>
-//         </>
-//       )}
-//     </MobileSubMenuPanel>
-//   )
-// }
 
 const BlockchainMenu = () => {
   const { app } = useAppState()
@@ -373,7 +314,6 @@ export default () => {
   return (
     <MenusPanel>
       <MenusComp />
-      {/* <WalletsMenu /> */}
       <BlockchainMenu />
       <LanguageMenu />
       <HeaderSearchPanel>
