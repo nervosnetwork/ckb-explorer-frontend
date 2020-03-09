@@ -66,12 +66,12 @@ export default () => {
     {
       title: `${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`,
       chart: <DifficultyHashRateChart statisticDifficultyHashRates={statisticDifficultyHashRates} isThumbnail />,
-      path: '/charts/difficulty_hash_rate',
+      path: '/charts/difficulty-hash-rate',
     },
     {
       title: `${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`,
       chart: <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} isThumbnail />,
-      path: '/charts/difficulty_uncle_rate',
+      path: '/charts/difficulty-uncle-rate',
     },
     {
       title: `${i18n.t('block.difficulty')}`,
@@ -81,32 +81,32 @@ export default () => {
     {
       title: `${i18n.t('block.hash_rate')}`,
       chart: <HashRateChart statisticHashRates={statisticHashRates} isThumbnail />,
-      path: '/charts/hash_rate',
+      path: '/charts/hash-rate',
     },
     {
       title: `${i18n.t('block.uncle_rate')}`,
       chart: <UncleRateChart statisticUncleRates={statisticUncleRates} isThumbnail />,
-      path: '/charts/uncle_rate',
+      path: '/charts/uncle-rate',
     },
     {
       title: `${i18n.t('statistic.transaction_count')}`,
       chart: <TransactionCountChart statisticTransactionCounts={statisticTransactionCounts} isThumbnail />,
-      path: '/charts/transaction_count',
+      path: '/charts/transaction-count',
     },
     {
       title: `${i18n.t('statistic.address_count')}`,
       chart: <AddressCountChart statisticAddressCounts={statisticAddressCounts} isThumbnail />,
-      path: '/charts/address_count',
+      path: '/charts/address-count',
     },
     {
       title: i18n.t('statistic.cell_count'),
       chart: <CellCountChart statisticCellCounts={statisticCellCounts} isThumbnail />,
-      path: '/charts/cell_count',
+      path: '/charts/cell-count',
     },
     {
       title: `${i18n.t('statistic.total_dao_deposit')}`,
       chart: <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} isThumbnail />,
-      path: '/charts/total_dao_deposit',
+      path: '/charts/total-dao-deposit',
     },
     {
       title: `${i18n.t('statistic.balance_ranking')}`,
@@ -117,7 +117,7 @@ export default () => {
           isThumbnail
         />
       ),
-      path: '/charts/address_balance_rank',
+      path: '/charts/address-balance-rank',
     },
   ]
 
