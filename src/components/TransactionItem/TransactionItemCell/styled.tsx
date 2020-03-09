@@ -8,11 +8,11 @@ export const TransactionCellPanel = styled.div`
 
   background: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '' : '#f5f5f5')};
 
-  @media (min-width: 700px) {
+  @media (min-width: 750px) {
     height: 20px;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     justify-content: normal;
     align-items: flex-start;
     flex-direction: column;
@@ -28,7 +28,7 @@ export const TransactionCellPanel = styled.div`
     display: flex;
     align-items: center;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       height: 16px;
     }
 
@@ -40,14 +40,14 @@ export const TransactionCellPanel = styled.div`
       color: ${({ theme }: { theme: any }) => `${theme.primary}`};
     }
 
-    .nervos__dao__withdraw_help {
+    .nervos__dao__withdraw_icon {
       margin-left: 5px;
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: auto;
       cursor: pointer;
-      @media (max-width: 700px) {
-        width: 14px;
-        height: 14px;
+      @media (max-width: 750px) {
+        width: 12px;
+        height: auto;
       }
     }
   }
@@ -71,7 +71,7 @@ export const TransactionCellCapacity = styled.div`
   height: 20px;
   align-items: center;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin-left: 0px;
     margin-top: 5px;
     height: 16px;
@@ -93,7 +93,7 @@ export const CellbasePanel = styled.div`
   width: 100%;
   margin-top: 20px;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin-top: 10px;
     height: 16px;
   }
@@ -126,7 +126,7 @@ export const CellbasePanel = styled.div`
     height: 18px;
     margin-left: 5px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       width: 16px;
       height: 16px;
     }
@@ -138,11 +138,24 @@ export const WithdrawInfoPanel = styled.div`
     'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Noto Sans CJK SC', 'Noto Sans CJK',
     'Source Han Sans', source-han-sans-simplified-c, sans-serif;
 
+  > p {
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 16px;
+
+    @media (max-width: 750px) {
+      font-size: 11px;
+      margin-bottom: 8px;
+    }
+  }
+
   > div {
     margin: 10px;
     display: flex;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin: 5px;
     }
 
@@ -160,7 +173,7 @@ export const WithdrawInfoPanel = styled.div`
         }
       }};
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 10px;
         width: ${({ width }: { width: string }) => {
           switch (width) {
@@ -192,7 +205,7 @@ export const WithdrawInfoPanel = styled.div`
     .withdraw__info_content {
       font-size: 14px;
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 10px;
       }
 

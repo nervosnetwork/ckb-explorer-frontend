@@ -20,7 +20,6 @@ import {
   HeaderSearchBarPanel,
   HeaderMobileMenuPanel,
   HeaderMenuPanel,
-  HeaderWalletsPanel,
 } from './styled'
 import { isMobile, isScreen750to1440 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
@@ -29,7 +28,6 @@ import LanDropdown from '../Dropdown/Language'
 import ChainDropdown from '../Dropdown/ChainType'
 import { isMainnet } from '../../utils/chain'
 import CONFIG from '../../config'
-import Wallets from '../Dropdown/Wallets'
 
 export const handleVersion = (nodeVersion: string) => {
   if (nodeVersion && nodeVersion.indexOf('(') !== -1) {
@@ -83,51 +81,6 @@ const MenusComp = () => {
         )
       })}
     </HeaderMenuPanel>
-  )
-}
-
-const WalletsComp = () => {
-  const { app } = useAppState()
-  const { language } = app
-  const [showWallets, setShowWallets] = useState(false)
-  const [walletsDropdownLeft, setWalletsDropdownLeft] = useState(0)
-  const [walletsDropdownTop, setWalletsDropdownTop] = useState(0)
-
-  useLayoutEffect(() => {
-    if (showWallets && language) {
-      const walletsDropdownComp = document.getElementById('header__wallets_content__id')
-      if (walletsDropdownComp) {
-        const walletsDropdownReact = walletsDropdownComp.getBoundingClientRect()
-        if (walletsDropdownReact) {
-          setWalletsDropdownLeft(walletsDropdownReact.left - (currentLanguage() === 'en' ? 152 : 163))
-          setWalletsDropdownTop(walletsDropdownReact.bottom + 5)
-        }
-      }
-    }
-  }, [showWallets, language])
-
-  return (
-    <HeaderWalletsPanel
-      showWallets={showWallets}
-      onMouseLeave={() => {
-        setShowWallets(false)
-      }}
-    >
-      <div
-        className="header__wallets_content"
-        id="header__wallets_content__id"
-        role="button"
-        tabIndex={-1}
-        onFocus={() => {}}
-        onMouseOver={() => {
-          setShowWallets(true)
-        }}
-      >
-        <div>{i18n.t('navbar.wallets')}</div>
-        <img src={getDropdownIcon(showWallets)} alt="dropdown icon" />
-      </div>
-      {showWallets && <Wallets left={walletsDropdownLeft} top={walletsDropdownTop} setShowWallets={setShowWallets} />}
-    </HeaderWalletsPanel>
   )
 }
 
@@ -304,12 +257,7 @@ export default ({ hasSearch }: { hasSearch?: boolean }) => {
         <LogoComp />
         {!isMobile() && (
           <>
-            {!(isScreen750to1440() && searchBarEditable) && (
-              <>
-                <MenusComp />
-                <WalletsComp />
-              </>
-            )}
+            {!(isScreen750to1440() && searchBarEditable) && <MenusComp />}
             <HeaderEmptyPanel />
             {hasSearch && <SearchComp />}
             <BlockchainComp />

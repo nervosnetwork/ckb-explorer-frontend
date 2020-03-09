@@ -8,7 +8,7 @@ const SheetPanel = styled.div`
   top: 64px;
   z-index: 9000;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     top: 42px;
   }
 
@@ -21,7 +21,7 @@ const SheetPanel = styled.div`
     justify-content: center;
     padding: 15px 0 20px 0;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       padding: 6px 0 10px 0;
     }
   }
@@ -35,7 +35,7 @@ const SheetItem = styled.div`
   justify-content: left;
   margin-top: 5px;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     font-size: 14px;
   }
 `
@@ -52,7 +52,7 @@ const SheetPointPanel = styled.div`
     color: white;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     width: 86%;
 
     > span {

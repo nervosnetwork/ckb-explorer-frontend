@@ -8,7 +8,7 @@ export const AddressContentPanel = styled.div`
   margin-bottom: 40px;
   width: 100%;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin: 0px;
     padding: 20px;
   }
@@ -23,7 +23,7 @@ export const AddressPendingRewardTitlePanel = styled.div`
     width: 20px;
     height: 20px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-left: 10px;
       width: 16px;
       height: 16px;
@@ -54,7 +54,7 @@ export const AddressLockScriptController = styled.div`
     margin: 2px 0 0 5px;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     font-size: 14px;
     margin-top: 10px;
 
@@ -68,7 +68,7 @@ export const AddressLockScriptPanel = styled.div`
   width: 100%;
   margin-top: 20px;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin-top: 10px;
   }
 
@@ -77,7 +77,7 @@ export const AddressLockScriptPanel = styled.div`
     height: 25px;
     padding: 0px 0px 5px 0px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       height: 16px;
       padding: 0px;
     }
@@ -91,11 +91,11 @@ export const AddressLockScriptItemPanel = styled.div`
   align-items: flex-start;
   margin-top: 10px;
 
-  @media (min-width: 700px) {
+  @media (min-width: 750px) {
     height: 20px;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     flex-direction: column;
   }
 
@@ -113,7 +113,7 @@ export const AddressLockScriptItemPanel = styled.div`
       border-radius: 50% 50%;
       background: ${prop => prop.theme.primary};
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         width: 5px;
         height: 5px;
       }
@@ -123,7 +123,7 @@ export const AddressLockScriptItemPanel = styled.div`
       margin-left: 10px;
       font-weight: 500;
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         margin-left: 5px;
       }
     }
@@ -137,7 +137,7 @@ export const AddressLockScriptItemPanel = styled.div`
     transform: translateY(2px);
     font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-left: 10px;
       word-wrap: break-word;
       word-break: break-all;
@@ -154,7 +154,7 @@ export const AddressTransactionsPagination = styled.div`
   margin: 20px 0 0px 0;
   width: 100%;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin: 10px 0 0px 0;
   }
 `

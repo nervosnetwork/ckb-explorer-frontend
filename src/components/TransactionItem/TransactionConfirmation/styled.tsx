@@ -26,14 +26,14 @@ export const TransactionConfirmationPanel = styled.div`
     text-align: center;
     font-weight: 500;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       flex-direction: column;
     }
 
     .transaction__confirmation {
       flex: 1;
       padding-right: 20px;
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         padding: 0px;
       }
     }
@@ -41,7 +41,7 @@ export const TransactionConfirmationPanel = styled.div`
       flex: 1;
       padding-left: 20px;
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         padding: 0px;
         margin-top: 10px;
       }
@@ -56,7 +56,7 @@ export const TransactionConfirmationPanel = styled.div`
     display: block;
     margin: 20px 0px 25px 0px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       font-weight: normal;
       margin: 15px 0px 15px 0px;
     }
@@ -85,7 +85,7 @@ export const TransactionConfirmationValuePanel = styled.div`
     font-weight: 500;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     width: 250px;
     height: 30px;
     border: 15px solid #f7f7f7;
@@ -112,7 +112,7 @@ export const TransactionCapacityValuePanel = styled.div`
   font-size: 16px;
   background-size: 100% 100%;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     background-image: url(${(props: { increased: boolean; theme: any }) =>
       props.increased ? getCapacityMobileFlagImage(props.theme.primary) : FlagRedMobileImage});
     width: 250px;

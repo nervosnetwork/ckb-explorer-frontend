@@ -189,22 +189,6 @@ declare namespace State {
     transactionsCountPerMinute: string
   }
 
-  export interface StatisticsChart {
-    hashRate: {
-      blockNumber: number
-      hashRate: string
-    }[]
-    difficulty: {
-      blockNumber: number
-      difficulty: string
-      epochNumber: number
-    }[]
-    uncleRate: {
-      uncleRate: number
-      epochNumber: number
-    }[]
-  }
-
   export interface StatisticTransactionCount {
     transactionsCount: string
     createdAtUnixtimestamp: string
@@ -336,8 +320,8 @@ declare namespace State {
     transactionState: TransactionState
     transactionsState: TransactionsState
     statistics: Statistics
-    statisticDifficultyHashRates: StatisticsDifficultyHashRate[]
-    statisticDifficultyUncleRates: StatisticsDifficultyUncleRate[]
+    statisticDifficultyHashRates: StatisticDifficultyHashRate[]
+    statisticDifficultyUncleRates: StatisticDifficultyUncleRate[]
     statisticDifficulties: StatisticDifficulty[]
     statisticHashRates: StatisticHashRate[]
     statisticUncleRates: StatisticUncleRate[]

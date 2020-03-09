@@ -10,7 +10,7 @@ export const TransactionDiv = styled.div.attrs({
   margin-bottom: 40px;
   width: 100%;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin: 0px;
     padding: 20px;
   }
@@ -19,7 +19,7 @@ export const TransactionDiv = styled.div.attrs({
     width: 100%;
     margin-top: 15px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-top: 5px;
     }
 
@@ -43,7 +43,7 @@ export const TransactionDiv = styled.div.attrs({
           margin: 2px 0 0 5px;
         }
 
-        @media (max-width: 700px) {
+        @media (max-width: 750px) {
           font-size: 14px;
           margin-top: 10px;
 
@@ -59,7 +59,7 @@ export const TransactionDiv = styled.div.attrs({
     width: 100%;
     margin-top: 20px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-top: 10px;
     }
   }
@@ -77,7 +77,7 @@ export const TransactionBlockHeightPanel = styled.div`
 export const TransactionInfoItemPanel = styled.div`
   flex: 1;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin-top: 3px;
   }
 
@@ -85,7 +85,7 @@ export const TransactionInfoItemPanel = styled.div`
     margin-top: 10px;
     font-weight: 500;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-top: 5px;
     }
   }
@@ -96,7 +96,7 @@ export const TransactionInfoItemPanel = styled.div`
     overflow-y: scroll;
     font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-left: 0px;
       margin-top: 2px;
     }
@@ -128,7 +128,7 @@ export const TransactionInfoContentPanel = styled.div`
     color: #333333;
     font-size: 14px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       font-size: 12px;
     }
   }
@@ -140,7 +140,7 @@ export const TransactionInfoContentPanel = styled.div`
     word-wrap: break-word;
     word-break: break-all;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       font-size: 12px;
     }
   }

@@ -4,7 +4,7 @@ export const TransactionCellListTitlePanel = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     display: none;
   }
 
@@ -16,10 +16,31 @@ export const TransactionCellListTitlePanel = styled.div`
     font-weight: 500;
     color: #000000;
 
-    > span {
-      flex: 0.333;
-      text-align: center;
+    > div {
       height: 24px;
+    }
+
+    >div: nth-child(1) {
+      flex: 0.34;
+    }
+
+    >div: nth-child(2) {
+      flex: 0.26;
+      display: flex;
+      justify-content: flex-end;
+      padding-right: 100px;
+
+      @media (max-width: 1440px) {
+        padding-right: 40px;
+      }
+
+      @media (max-width: 1000px) {
+        padding-right: 20px;
+      }
+    }
+
+    >div: nth-child(3) {
+      flex: 0.4;
     }
   }
 
@@ -35,7 +56,7 @@ export const TransactionCellListTitlePanel = styled.div`
 export const TransactionCellListPanel = styled.div`
   width: 100%;
 
-  @media (min-width: 700px) {
+  @media (min-width: 750px) {
     border-radius: 6px;
     box-shadow: 2px 2px 6px 0 #dfdfdf;
     background-color: #ffffff;
@@ -44,14 +65,6 @@ export const TransactionCellListPanel = styled.div`
 `
 
 export const TransactionCellsPanel = styled.div`
-  .transaction__cell_list_container {
-    padding-right: 10px;
-
-    @media (max-width: 700px) {
-      padding-right: 0;
-    }
-  }
-
   ${(props: { isScroll: boolean }) =>
     props.isScroll &&
     css`
@@ -60,10 +73,9 @@ export const TransactionCellsPanel = styled.div`
       .transaction__cell_list_container {
         max-height: 600px;
         overflow-y: scroll;
-        padding-right: 10px;
 
-        @media (max-width: 700px) {
-          padding-right: 0;
+        @media (min-width: 750px) {
+          max-height: 400px;
         }
       }
     `};

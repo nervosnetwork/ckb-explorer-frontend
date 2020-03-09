@@ -8,7 +8,7 @@ export const BlockDetailPanel = styled.div`
   margin-bottom: 40px;
   width: 100%;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin: 0px;
     padding: 20px;
   }
@@ -19,7 +19,7 @@ export const BlockRootInfoItemPanel = styled.div`
   flex-direction: row;
   align-items: center;
 
-  @media (min-width: 700px) {
+  @media (min-width: 750px) {
     height: 20px;
     margin-top: 20px;
   }
@@ -77,7 +77,7 @@ export const BlockOverviewDisplayControlPanel = styled.div`
   height: 8px;
   transform: translateY(10px);
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     transform: translateY(7.5px);
   }
 
@@ -92,7 +92,7 @@ export const BlockTransactionsPagination = styled.div`
   margin: 20px 0px 0px 0px;
   width: 100%;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin: 10px 0px 0px 0px;
   }
 `

@@ -12,7 +12,6 @@ import WhiteDropUpIcon from '../../assets/white_drop_up.png'
 import BlueDropUpIcon from '../../assets/blue_drop_up.png'
 import GreenDropUpIcon from '../../assets/green_drop_up.png'
 import Search from '../Search'
-import { WalletInfoItems } from '../Dropdown/Wallets'
 
 const MenusPanel = styled.div`
   width: 100%;
@@ -60,7 +59,7 @@ const MobileSubMenuPanel = styled.div`
 
   .mobile__menus__main__item {
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
     align-items: center;
     width: 100%;
   }
@@ -70,7 +69,7 @@ const MobileSubMenuPanel = styled.div`
   }
 
   .mobile__menus__main__item__content__highlight {
-    color: ${props => props.theme.primary}
+    color: ${props => props.theme.primary};
   }
 
   .mobile__menus__main__item__icon {
@@ -81,7 +80,7 @@ const MobileSubMenuPanel = styled.div`
   .blockchain__mobile__node__version {
     font-size: 8px;
     margin-top: -5px;
-    color: ${props => props.theme.primary}
+    color: ${props => props.theme.primary};
   }
 
   .mobile__menus__sub__item {
@@ -112,26 +111,19 @@ const MobileSubMenuPanel = styled.div`
   }
 
   .mobile__menus__sub__tag {
-    padding: 0px 3px;
-    height: 14px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 2px;
-    border: solid 0.5px #888888;
     margin-right: 5px;
 
-    > span {
-      font-size: 7px;
-      height: 7px;
-      line-height: 7px;
-      color: #888888;
-      text-transform: none;
+    > img {
+      height: 9px;
+      width: auto;
     }
   }
 
   .mobile__menus__sub__memo {
-    font-size: 9px;
+    font-size: 12px;
     color: #888888;
     width: 100%;
     margin: 22px 0px 0px 24px;
@@ -167,64 +159,6 @@ const MenuItemLink = ({ menu }: { menu: MenuType }) => {
     >
       {menu.name}
     </a>
-  )
-}
-
-const WalletsMenu = () => {
-  const [showSubMenu, setShowSubMenu] = useState(false)
-
-  const walletsDropdownIcon = () => {
-    if (!showSubMenu) {
-      return WhiteDropdownIcon
-    }
-    return isMainnet() ? GreenDropUpIcon : BlueDropUpIcon
-  }
-
-  return (
-    <MobileSubMenuPanel showSubMenu={showSubMenu}>
-      <div
-        className="mobile__menus__main__item"
-        role="button"
-        tabIndex={-1}
-        onKeyDown={() => {}}
-        onClick={() => {
-          setShowSubMenu(!showSubMenu)
-        }}
-      >
-        <div className="mobile__menus__main__item__content">{i18n.t('navbar.wallets')}</div>
-        <img
-          className="mobile__menus__main__item__icon"
-          alt="mobile wallets dropdown icon"
-          src={walletsDropdownIcon()}
-        />
-      </div>
-      {showSubMenu && (
-        <>
-          {WalletInfoItems.map(item => {
-            return (
-              <a
-                className="mobile__menus__sub__item"
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                key={item.title}
-              >
-                <img className="mobile__menus__sub__icon" alt="wallet icon" src={item.image} />
-                <div className="mobile__menus__sub__title">{item.title}</div>
-                {item.tags.map(tag => {
-                  return (
-                    <div className="mobile__menus__sub__tag" key={tag}>
-                      <span>{tag}</span>
-                    </div>
-                  )
-                })}
-              </a>
-            )
-          })}
-          <div className="mobile__menus__sub__memo">{i18n.t('navbar.wallets_memo')}</div>
-        </>
-      )}
-    </MobileSubMenuPanel>
   )
 }
 
@@ -380,7 +314,6 @@ export default () => {
   return (
     <MenusPanel>
       <MenusComp />
-      <WalletsMenu />
       <BlockchainMenu />
       <LanguageMenu />
       <HeaderSearchPanel>

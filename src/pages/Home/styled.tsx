@@ -13,7 +13,7 @@ export const HomeHeaderPanel = styled.div`
     box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
     border-radius: 6px;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       flex-direction: column;
       padding: 0px 5px;
       width: 88%;
@@ -59,7 +59,7 @@ export const HomeHeaderItemPanel = styled.div`
         font-size: 12px;
       }
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 10px;
       }
     }
@@ -74,7 +74,7 @@ export const HomeHeaderItemPanel = styled.div`
         font-size: 17px;
       }
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 14px;
       }
     }
@@ -95,7 +95,7 @@ export const HomeHeaderItemPanel = styled.div`
         font-size: 12px;
       }
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 10px;
       }
     }
@@ -112,7 +112,7 @@ export const HomeHeaderItemPanel = styled.div`
         font-size: 17px;
       }
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 14px;
       }
     }
@@ -130,7 +130,7 @@ export const HomeTablePanel = styled.div`
   display: flex;
   flex-direction: row;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     flex-direction: column;
     padding: 0 20px;
   }
@@ -187,7 +187,7 @@ export const ContentTitle = styled.div`
     margin: 0 auto;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     font-size: 30px;
     color: #141414;
     font-weight: bold;
@@ -292,7 +292,7 @@ export const BlockRewardContainer = styled.div`
   align-items: flex-end;
   justify-content: center;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     align-items: flex-end;
     justify-content: flex-start;
   }

@@ -13,7 +13,7 @@ const SearchPanel = styled.div`
   margin-top: 211px;
   margin-bottom: 266px;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     margin-top: 120px;
     margin-bottom: 150px;
   }
@@ -42,7 +42,7 @@ const SearchContent = styled.div`
     color: ${props => props.theme.primary};
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     max-width: 70%;
     font-size: 12px;
     margin-top: 18px;

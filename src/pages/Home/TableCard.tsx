@@ -18,7 +18,7 @@ const BlockCardPanel = styled.div`
   padding: 15px;
   background: #ffffff;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
@@ -31,7 +31,7 @@ const BlockCardPanel = styled.div`
     font-size: 14px;
     flex: 2;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       flex-direction: row;
       align-items: center;
       justify-content: flex-start;
@@ -63,7 +63,7 @@ const BlockCardPanel = styled.div`
       white-space: nowrap;
       text-overflow: ellipsis;
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 12px;
         margin-top: 2px;
         margin-left: 10px;
@@ -77,7 +77,7 @@ const BlockCardPanel = styled.div`
     align-items: flex-start;
     flex: 4;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-top: 15px;
     }
 
@@ -85,7 +85,7 @@ const BlockCardPanel = styled.div`
       display: flex;
       font-weight: 500;
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         align-items: center;
       }
 
@@ -94,7 +94,7 @@ const BlockCardPanel = styled.div`
         color: #000000;
         margin-right: 10px;
 
-        @media (max-width: 700px) {
+        @media (max-width: 750px) {
           font-size: 13px;
         }
       }
@@ -109,7 +109,7 @@ const BlockCardPanel = styled.div`
         margin-top: 10px;
         margin-right: 10px;
 
-        @media (max-width: 700px) {
+        @media (max-width: 750px) {
           margin-top: 0;
         }
       }
@@ -122,7 +122,7 @@ const BlockCardPanel = styled.div`
     align-items: flex-end;
     flex: 1.3;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       flex-direction: row;
       margin-top: 15px;
       align-items: center;
@@ -146,7 +146,7 @@ const BlockCardPanel = styled.div`
         font-size: 10px;
       }
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 12px;
         margin-top: 2px;
       }
@@ -162,7 +162,7 @@ const TransactionCardPanel = styled.div`
   background: #ffffff;
   font-weight: 500;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
@@ -176,7 +176,7 @@ const TransactionCardPanel = styled.div`
     flex: 1.4;
     font-weight: 500;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       font-size: 13px;
     }
 
@@ -189,7 +189,7 @@ const TransactionCardPanel = styled.div`
       white-space: nowrap;
       text-overflow: ellipsis;
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         margin-top: 0;
       }
     }
@@ -201,7 +201,7 @@ const TransactionCardPanel = styled.div`
     align-items: flex-start;
     flex: 1;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       margin-top: 15px;
     }
 
@@ -211,7 +211,7 @@ const TransactionCardPanel = styled.div`
       font-size: 14px;
       font-weight: 500;
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 13px;
       }
 
@@ -238,7 +238,7 @@ const TransactionCardPanel = styled.div`
       margin-right: 10px;
       font-weight: 500;
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 12px;
         margin-top: 0;
       }
@@ -254,7 +254,7 @@ const TransactionCardPanel = styled.div`
     font-weight: 500;
     color: #000000;
 
-    @media (max-width: 700px) {
+    @media (max-width: 750px) {
       flex-direction: row;
       margin-top: 15px;
       font-size: 13px;
@@ -272,7 +272,7 @@ const TransactionCardPanel = styled.div`
         margin-left: 10px;
       }
 
-      @media (max-width: 700px) {
+      @media (max-width: 750px) {
         font-size: 12px;
         margin-top: 2px;
         margin-left: 10px;
@@ -286,7 +286,7 @@ const BlockRewardPlusPanel = styled.div`
   align-items: flex-end;
   justify-content: center;
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     align-items: flex-end;
     justify-content: flex-start;
   }
