@@ -30,13 +30,13 @@ describe('Number methods tests', () => {
 
   it('parse hash rate', async () => {
     expect(handleHashRate(123)).toBe('123 H/s')
-    expect(handleHashRate(12345)).toBe('12,345 H/s')
-    expect(handleHashRate(123454669)).toBe('123,454.67 KH/s')
-    expect(handleHashRate(1234546698945)).toBe('1,234.55 GH/s')
-    expect(handleHashRate(100003439)).toBe('100,003.44 KH/s')
-    expect(handleHashRate(100000)).toBe('100,000 H/s')
-    expect(handleHashRate(1000000)).toBe('1,000 KH/s')
-    expect(handleHashRate('0x66ccff')).toBe('6,737.15 KH/s')
+    expect(handleHashRate(12345)).toBe('12.35 KH/s')
+    expect(handleHashRate(123454669)).toBe('123.45 MH/s')
+    expect(handleHashRate(1234546698945)).toBe('1.23 TH/s')
+    expect(handleHashRate(100003439)).toBe('100 MH/s')
+    expect(handleHashRate(100000)).toBe('100 KH/s')
+    expect(handleHashRate(1000000)).toBe('1 MH/s')
+    expect(handleHashRate('0x66ccff')).toBe('6.74 MH/s')
     expect(handleHashRate('aswqda')).toBe('0 H/s')
     expect(handleHashRate('false')).toBe('0 H/s')
     expect(handleHashRate('#￥@#￥@')).toBe('0 H/s')
@@ -44,16 +44,15 @@ describe('Number methods tests', () => {
 
   it('parse difficulty', async () => {
     expect(handleDifficulty(123)).toBe('123 H')
-    expect(handleDifficulty(12345)).toBe('12,345 H')
-    expect(handleDifficulty(123454669)).toBe('123,454.67 KH')
-    expect(handleDifficulty(1234546698945)).toBe('1,234.55 GH')
-    expect(handleDifficulty(100003439)).toBe('100,003.44 KH')
-    expect(handleDifficulty('0x66ccff')).toBe('6,737.15 KH')
+    expect(handleDifficulty(12345)).toBe('12.35 KH')
+    expect(handleDifficulty(123454669)).toBe('123.45 MH')
+    expect(handleDifficulty(1234546698945)).toBe('1.23 TH')
+    expect(handleDifficulty(100003439)).toBe('100 MH')
+    expect(handleDifficulty('0x66ccff')).toBe('6.74 MH')
     expect(handleDifficulty('aswqda')).toBe('0 H')
     expect(handleDifficulty('false')).toBe('0 H')
     expect(handleDifficulty('#￥@#￥@')).toBe('0 H')
   })
-
 
   it('parse indicator', async () => {
     expect(parseIndicator('1')).toBe('st')
@@ -71,7 +70,6 @@ describe('Number methods tests', () => {
     expect(parseIndicator('129')).toBe('th')
   })
 
-
   it('parse epoch number', async () => {
     expect(parseEpochNumber('1')).toBe('1st')
     expect(parseEpochNumber('2')).toBe('2nd')
@@ -87,5 +85,4 @@ describe('Number methods tests', () => {
     expect(parseEpochNumber('636')).toBe('636th')
     expect(parseEpochNumber('129')).toBe('129th')
   })
-
 })
