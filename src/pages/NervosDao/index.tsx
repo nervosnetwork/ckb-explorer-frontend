@@ -51,7 +51,9 @@ export const NervosDao = () => {
   const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
   const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
 
-  const { nervosDaoState } = useAppState()
+  const {
+    nervosDaoState: { status },
+  } = useAppState()
 
   const tab = parsed.tab as 'transactions' | 'depositors'
   const daoTab = tab || 'transactions'
@@ -64,7 +66,7 @@ export const NervosDao = () => {
 
   useTimeoutWithUnmount(
     () => {
-      if (nervosDaoState.status === 'None') {
+      if (status === 'None') {
         dispatch({
           type: AppActions.UpdateLoading,
           payload: {
