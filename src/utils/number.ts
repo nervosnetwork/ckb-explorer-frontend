@@ -23,7 +23,7 @@ export const localeNumberString = (value: BigNumber | string | number): string =
   return origin.isNegative() ? `-${text}` : text
 }
 
-const MIN_VALUE = new BigNumber(10 ** 3)
+const MIN_VALUE = new BigNumber(1)
 export const handleDifficulty = (value: BigNumber | string | number) => {
   if (!value) return '0'
   const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
