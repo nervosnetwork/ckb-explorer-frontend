@@ -163,8 +163,9 @@ const MenuItemLink = ({ menu }: { menu: MenuType }) => {
 }
 
 const BlockchainMenu = () => {
-  const { app } = useAppState()
-  const { nodeVersion } = app
+  const {
+    app: { nodeVersion },
+  } = useAppState()
   const [showSubMenu, setShowSubMenu] = useState(false)
 
   const chainTypeIcon = () => {

@@ -41,28 +41,40 @@ const TransactionInfoComp = ({ title, value, linkUrl }: { title: string; value: 
 
 export default () => {
   const [showParams, setShowParams] = useState<boolean>(false)
-  const { transactionState, app } = useAppState()
-  const { transaction } = transactionState
-  const { cellDeps, headerDeps, witnesses, transactionHash } = transaction
-  const { tipBlockNumber } = app
+  const {
+    transactionState: {
+      transaction: {
+        blockNumber,
+        cellDeps,
+        headerDeps,
+        witnesses,
+        transactionHash,
+        blockTimestamp,
+        transactionFee,
+        displayInputs,
+        displayOutputs,
+      },
+    },
+    app: { tipBlockNumber },
+  } = useAppState()
 
   let confirmation = 0
-  if (tipBlockNumber && transaction.blockNumber) {
-    confirmation = tipBlockNumber - transaction.blockNumber + 1
+  if (tipBlockNumber && blockNumber) {
+    confirmation = tipBlockNumber - blockNumber + 1
   }
 
   const overviewItems: OverviewItemData[] = [
     {
       title: i18n.t('block.block_height'),
-      content: <TransactionBlockHeight blockNumber={transaction.blockNumber} />,
+      content: <TransactionBlockHeight blockNumber={blockNumber} />,
     },
     {
       title: i18n.t('block.timestamp'),
-      content: parseSimpleDate(transaction.blockTimestamp),
+      content: parseSimpleDate(blockTimestamp),
     },
     {
       title: i18n.t('transaction.transaction_fee'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.transactionFee))} />,
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
     },
   ]
   if (confirmation > 0) {
@@ -164,11 +176,9 @@ export default () => {
           </div>
         </OverviewCard>
       </div>
-      <div className="transaction__inputs">
-        {transaction && <TransactionCellList inputs={transaction.displayInputs} />}
-      </div>
+      <div className="transaction__inputs">{displayInputs && <TransactionCellList inputs={displayInputs} />}</div>
       <div className="transaction__outputs">
-        {transaction && <TransactionCellList outputs={transaction.displayOutputs} txHash={transactionHash} />}
+        {displayOutputs && <TransactionCellList outputs={displayOutputs} txHash={transactionHash} />}
       </div>
     </>
   )

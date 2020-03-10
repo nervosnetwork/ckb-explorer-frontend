@@ -149,12 +149,13 @@ export default () => {
   }, [t])
 
   const parsed = queryString.parse(search)
-  const { blockListState } = useAppState()
-  const { blocks = [] } = blockListState
+  const {
+    blockListState: { blocks = [], total },
+  } = useAppState()
 
   const currentPage = parsePageNumber(parsed.page, ListPageParams.PageNo)
   const pageSize = parsePageNumber(parsed.size, ListPageParams.PageSize)
-  const totalPages = Math.ceil(blockListState.total / pageSize)
+  const totalPages = Math.ceil(total / pageSize)
 
   useEffect(() => {
     if (pageSize > ListPageParams.MaxPageSize) {
