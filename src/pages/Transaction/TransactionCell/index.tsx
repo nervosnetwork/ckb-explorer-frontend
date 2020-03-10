@@ -119,28 +119,30 @@ const TransactionCellDetailContainer = ({
     <TransactionCellDetailPanel isWithdraw={cellType === DaoType.Withdraw}>
       <img src={detailIcon} alt="cell detail icon" />
       <div>{detailTitle}</div>
-      <Select
-        defaultValue={CellState.NONE}
-        suffixIcon={<DropdownIcon isOpen={isOpen} />}
-        onDropdownVisibleChange={() => setIsOpen(!isOpen)}
-        style={{ width: selectWidth() }}
-        open={isOpen}
-        onChange={changeType}
-        onMouseEnter={() => setIsOpen(true)}
-      >
-        <Option value={CellState.NONE} className="ant-select-dropdown-menu-custom">
-          Cell Info
-        </Option>
-        <Option value={CellState.LOCK} className="ant-select-dropdown-menu-custom">
-          Lock Script
-        </Option>
-        <Option value={CellState.TYPE} className="ant-select-dropdown-menu-custom">
-          Type Script
-        </Option>
-        <Option value={CellState.DATA} className="ant-select-dropdown-menu-custom">
-          Data
-        </Option>
-      </Select>
+      <div onMouseLeave={() => setIsOpen(false)}>
+        <Select
+          defaultValue={CellState.NONE}
+          suffixIcon={<DropdownIcon isOpen={isOpen} />}
+          onDropdownVisibleChange={() => setIsOpen(!isOpen)}
+          style={{ width: selectWidth() }}
+          open={isOpen}
+          onChange={changeType}
+          onMouseEnter={() => setIsOpen(true)}
+        >
+          <Option value={CellState.NONE} className="ant-select-dropdown-menu-custom">
+            Cell Info
+          </Option>
+          <Option value={CellState.LOCK} className="ant-select-dropdown-menu-custom">
+            Lock Script
+          </Option>
+          <Option value={CellState.TYPE} className="ant-select-dropdown-menu-custom">
+            Type Script
+          </Option>
+          <Option value={CellState.DATA} className="ant-select-dropdown-menu-custom">
+            Data
+          </Option>
+        </Select>
+      </div>
     </TransactionCellDetailPanel>
   )
 }
