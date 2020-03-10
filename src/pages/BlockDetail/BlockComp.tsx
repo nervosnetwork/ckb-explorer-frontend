@@ -213,10 +213,11 @@ export default ({
   pageSize: number
   blockParam: string
 }) => {
-  const { blockState } = useAppState()
-  const { transactions = [] } = blockState
+  const {
+    blockState: { transactions = [], total, block },
+  } = useAppState()
 
-  const totalPages = Math.ceil(blockState.total / pageSize)
+  const totalPages = Math.ceil(total / pageSize)
 
   const onChange = (page: number) => {
     browserHistory.push(`/block/${blockParam}?page=${page}&size=${pageSize}`)
@@ -225,7 +226,7 @@ export default ({
   return (
     <>
       <TitleCard title={i18n.t('common.overview')} />
-      {blockState && <BlockOverview block={blockState.block} />}
+      {block && <BlockOverview block={block} />}
       <TitleCard title={i18n.t('transaction.transactions')} />
       {transactions.map((transaction: State.Transaction, index: number) => {
         return (
@@ -234,7 +235,7 @@ export default ({
               key={transaction.transactionHash}
               transaction={transaction}
               isBlock
-              isLastItem={index === blockState.transactions.length - 1}
+              isLastItem={index === transactions.length - 1}
             />
           )
         )

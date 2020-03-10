@@ -161,11 +161,16 @@ export const AddressTransactions = ({
   pageSize: number
   address: string
 }) => {
-  const { addressState, app } = useAppState()
-  const { tipBlockNumber } = app
-  const { transactions = [] } = addressState
+  const {
+    addressState: {
+      transactions = [],
+      total,
+      address: { addressHash },
+    },
+    app: { tipBlockNumber },
+  } = useAppState()
 
-  const totalPages = Math.ceil(addressState.total / pageSize)
+  const totalPages = Math.ceil(total / pageSize)
 
   const onChange = (page: number) => {
     browserHistory.replace(`/address/${address}?page=${page}&size=${pageSize}`)
@@ -175,15 +180,15 @@ export const AddressTransactions = ({
     <>
       {transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
       <AddressTransactionsPanel>
-        {addressState.transactions.map((transaction: State.Transaction, index: number) => {
+        {transactions.map((transaction: State.Transaction, index: number) => {
           return (
             transaction && (
               <TransactionItem
-                address={addressState.address.addressHash}
+                address={addressHash}
                 transaction={transaction}
                 confirmation={tipBlockNumber - transaction.blockNumber + 1}
                 key={transaction.transactionHash}
-                isLastItem={index === addressState.transactions.length - 1}
+                isLastItem={index === transactions.length - 1}
               />
             )
           )

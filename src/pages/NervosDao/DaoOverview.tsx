@@ -279,8 +279,9 @@ const NervosDaoLeftMobile = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
 }
 
 export default () => {
-  const { nervosDaoState } = useAppState()
-  const { nervosDao } = nervosDaoState
+  const {
+    nervosDaoState: { nervosDao },
+  } = useAppState()
 
   return (
     <DaoOverviewPanel>
