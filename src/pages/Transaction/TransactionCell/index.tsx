@@ -124,7 +124,9 @@ const TransactionCellDetailContainer = ({
         suffixIcon={<DropdownIcon isOpen={isOpen} />}
         onDropdownVisibleChange={() => setIsOpen(!isOpen)}
         style={{ width: selectWidth() }}
+        open={isOpen}
         onChange={changeType}
+        onMouseEnter={() => setIsOpen(true)}
       >
         <Option value={CellState.NONE} className="ant-select-dropdown-menu-custom">
           Cell Info
