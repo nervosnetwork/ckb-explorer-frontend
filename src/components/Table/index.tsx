@@ -42,7 +42,6 @@ export const TableContentRow = styled.div`
   min-height: 60px;
   background-color: white;
   padding: 20px;
-  cursor: pointer;
 
   ::after {
     content: '';
