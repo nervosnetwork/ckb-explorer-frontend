@@ -190,7 +190,7 @@ export default () => {
             {blocks.map((block: State.Block, blockIndex: number) => {
               return (
                 block && (
-                  <TableContentRow key={block.number} onClick={() => replace(`/block/${block.number}`)}>
+                  <TableContentRow key={block.number}>
                     {getTableContentDataList(block, blockIndex, currentPage).map(
                       (data: TableContentData, index: number) => {
                         const key = index
