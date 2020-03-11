@@ -173,21 +173,10 @@ export default () => {
             {transactions.map((transaction: State.Transaction) => {
               return (
                 transaction && (
-                  <TableContentRow
-                    key={transaction.transactionHash}
-                    onClick={() => replace(`/transaction/${transaction.transactionHash}`)}
-                  >
+                  <TableContentRow key={transaction.transactionHash}>
                     {getTableContentTxList(transaction).map((data: TableContentData, index: number) => {
                       const key = index
-                      return (
-                        <TableContentItem
-                          width={data.width}
-                          content={data.content}
-                          to={data.to}
-                          key={key}
-                          linkFirst={data.content === `${transaction.blockNumber}`}
-                        />
-                      )
+                      return <TableContentItem width={data.width} content={data.content} to={data.to} key={key} />
                     })}
                   </TableContentRow>
                 )
