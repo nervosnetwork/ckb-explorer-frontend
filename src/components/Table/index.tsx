@@ -127,36 +127,11 @@ export const TableTitleItem = ({ width, title }: { width: string; title: string 
   )
 }
 
-export const TableContentItem = ({
-  width,
-  content,
-  to,
-  linkFirst,
-}: {
-  width: string
-  content: string | ReactNode
-  to?: any
-  linkFirst?: boolean
-}) => {
+export const TableContentItem = ({ width, content, to }: { width: string; content: string | ReactNode; to?: any }) => {
   const highLight = to !== undefined
   return (
     <TableContentRowItem width={width}>
-      {highLight ? (
-        <HighlightLink
-          to={to}
-          onClick={event => {
-            if (linkFirst) {
-              event.stopPropagation()
-              browserHistory.push(to)
-              event.preventDefault()
-            }
-          }}
-        >
-          {content}
-        </HighlightLink>
-      ) : (
-        content
-      )}
+      {highLight ? <HighlightLink to={to}>{content}</HighlightLink> : content}
     </TableContentRowItem>
   )
 }
