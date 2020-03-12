@@ -183,13 +183,20 @@ const Search = ({ hasBorder, content }: { hasBorder?: boolean; content?: string 
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
   const inputElement = useRef<HTMLInputElement>(null)
-  const { components } = useAppState()
-  const { searchBarEditable } = components
+  const {
+    components: { searchBarEditable },
+  } = useAppState()
 
   // update input placeholder when language change
   useEffect(() => {
     setPlaceholder(SearchPlaceholder)
   }, [SearchPlaceholder])
+
+  useEffect(() => {
+    if (searchBarEditable && inputElement) {
+      ;(inputElement.current as HTMLInputElement).focus()
+    }
+  }, [searchBarEditable])
 
   return (
     <SearchPanel hasBorder={!!hasBorder}>
