@@ -193,8 +193,9 @@ const Search = ({ hasBorder, content }: { hasBorder?: boolean; content?: string 
   }, [SearchPlaceholder])
 
   useEffect(() => {
-    if (searchBarEditable && inputElement) {
-      ;(inputElement.current as HTMLInputElement).focus()
+    if (searchBarEditable && inputElement.current) {
+      const input = inputElement.current as HTMLInputElement
+      input.focus()
     }
   }, [searchBarEditable])
 
