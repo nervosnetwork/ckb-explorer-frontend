@@ -101,9 +101,12 @@ const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
 
 export default () => {
   const dispatch = useDispatch()
-  const { homeBlocks = [], transactionsState, statistics, app } = useAppState()
-  const { transactions = [] } = transactionsState
-  const { tipBlockNumber } = app
+  const {
+    homeBlocks = [],
+    transactionsState: { transactions = [] },
+    statistics,
+    app: { tipBlockNumber },
+  } = useAppState()
   const [t] = useTranslation()
 
   useEffect(() => {

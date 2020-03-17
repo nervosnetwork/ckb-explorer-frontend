@@ -141,7 +141,7 @@ export default () => {
 
   return (
     <Content>
-      <ChartTitle>{i18n.t('block.hash_rate')}</ChartTitle>
+      <ChartTitle>{i18n.t('block.uncle_rate')}</ChartTitle>
       {statisticUncleRates.length > 0 ? (
         <ChartPanel>
           <UncleRateChart statisticUncleRates={statisticUncleRates} />

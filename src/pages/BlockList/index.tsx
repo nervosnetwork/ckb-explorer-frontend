@@ -149,12 +149,13 @@ export default () => {
   }, [t])
 
   const parsed = queryString.parse(search)
-  const { blockListState } = useAppState()
-  const { blocks = [] } = blockListState
+  const {
+    blockListState: { blocks = [], total },
+  } = useAppState()
 
   const currentPage = parsePageNumber(parsed.page, ListPageParams.PageNo)
   const pageSize = parsePageNumber(parsed.size, ListPageParams.PageSize)
-  const totalPages = Math.ceil(blockListState.total / pageSize)
+  const totalPages = Math.ceil(total / pageSize)
 
   useEffect(() => {
     if (pageSize > ListPageParams.MaxPageSize) {
@@ -189,7 +190,7 @@ export default () => {
             {blocks.map((block: State.Block, blockIndex: number) => {
               return (
                 block && (
-                  <TableContentRow key={block.number} onClick={() => replace(`/block/${block.number}`)}>
+                  <TableContentRow key={block.number}>
                     {getTableContentDataList(block, blockIndex, currentPage).map(
                       (data: TableContentData, index: number) => {
                         const key = index

@@ -2,7 +2,6 @@ import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
-import browserHistory from '../../routes/history'
 import i18n from '../../utils/i18n'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
 import CopyTooltipText from '../Text/CopyTooltipText'
@@ -42,7 +41,6 @@ export const TableContentRow = styled.div`
   min-height: 60px;
   background-color: white;
   padding: 20px;
-  cursor: pointer;
 
   ::after {
     content: '';
@@ -127,36 +125,11 @@ export const TableTitleItem = ({ width, title }: { width: string; title: string 
   )
 }
 
-export const TableContentItem = ({
-  width,
-  content,
-  to,
-  linkFirst,
-}: {
-  width: string
-  content: string | ReactNode
-  to?: any
-  linkFirst?: boolean
-}) => {
+export const TableContentItem = ({ width, content, to }: { width: string; content: string | ReactNode; to?: any }) => {
   const highLight = to !== undefined
   return (
     <TableContentRowItem width={width}>
-      {highLight ? (
-        <HighlightLink
-          to={to}
-          onClick={event => {
-            if (linkFirst) {
-              event.stopPropagation()
-              browserHistory.push(to)
-              event.preventDefault()
-            }
-          }}
-        >
-          {content}
-        </HighlightLink>
-      ) : (
-        content
-      )}
+      {highLight ? <HighlightLink to={to}>{content}</HighlightLink> : content}
     </TableContentRowItem>
   )
 }
@@ -179,15 +152,7 @@ export const TableMinerContentItem = ({
   return (
     <TableMinerContentPanel width={width} fontSize={fontSize}>
       {content ? (
-        <Link
-          className="table__miner__content"
-          to={`/address/${content}`}
-          onClick={event => {
-            event.stopPropagation()
-            browserHistory.push(`/address/${content}`)
-            event.preventDefault()
-          }}
-        >
+        <Link className="table__miner__content" to={`/address/${content}`}>
           {addressText.includes('...') ? (
             <Tooltip placement="top" title={<CopyTooltipText content={content} />}>
               <span className="table__miner__text address">{addressText}</span>

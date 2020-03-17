@@ -59,8 +59,9 @@ const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
 }
 
 export default () => {
-  const { nervosDaoState } = useAppState()
-  const { depositors = [] } = nervosDaoState
+  const {
+    nervosDaoState: { depositors = [] },
+  } = useAppState()
 
   return isMobile() ? (
     <DepositorRankCardPanel>
