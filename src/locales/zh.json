@@ -100,7 +100,8 @@
       "telegram": "Telegram",
       "reddit": "Reddit",
       "youtube": "YouTube",
-      "forum": "Forum"
+      "forum": "Forum",
+      "sudt_submit": "sUDT Submit"
     },
     "search": {
       "loading": "加载中...",

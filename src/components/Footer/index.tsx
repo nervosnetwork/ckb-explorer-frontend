@@ -15,6 +15,7 @@ import { getCurrentYear } from '../../utils/date'
 import { FooterMenuPanel, FooterItemPanel, FooterImageItemPanel, FooterPanel } from './styled'
 import { useTranslation } from 'react-i18next'
 import { isMobile } from '../../utils/screen'
+import { SUDT_EMAIL_SUBJECT, SUDT_EMAIL_BODY } from '../../utils/const'
 
 interface FooterLinkItem {
   label: string
@@ -90,6 +91,10 @@ export default () => {
           {
             label: t('footer.faucet'),
             url: 'https://faucet.nervos.org/',
+          },
+          {
+            label: t('footer.sudt_submit'),
+            url: `mailto:asset-info-submit@nervos.org?subject=${SUDT_EMAIL_SUBJECT}&body=${SUDT_EMAIL_BODY}`,
           },
         ],
       },
