@@ -27,7 +27,7 @@ Information:%0a%0d
    Decimal: 0~32%0a%0d
    Description:%0a%0d
    Website:%0a%0d
-   Icon Url: attachment (120 x 120)%0a%0d
+   Icon File: attachment (40 x 40)%0a%0d
    Other Info:%0a%0d
 `
 
