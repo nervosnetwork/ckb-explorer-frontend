@@ -76,7 +76,7 @@ export const HeaderMenuPanel = styled.div`
 
     &:hover {
       font-weight: medium;
-      color: #3cc68a;
+      color: ${props => props.theme.primary};
     }
   }
 `
