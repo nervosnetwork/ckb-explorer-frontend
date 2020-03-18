@@ -14,6 +14,7 @@ import ForumHoverIcon from '../../assets/footer_forum_hover.png'
 import { getCurrentYear } from '../../utils/date'
 import { FooterMenuPanel, FooterItemPanel, FooterImageItemPanel, FooterPanel } from './styled'
 import { useTranslation } from 'react-i18next'
+import { isMobile } from '../../utils/screen'
 
 interface FooterLinkItem {
   label: string
@@ -152,19 +153,32 @@ export default () => {
           ))}
         </div>
         <div className="footer__community">
-          <div>
-            {Footers[2].items.slice(0, 3).map((item: any) => (
-              <FooterImageItem item={item} key={item.label} />
-            ))}
-          </div>
-          <div>
-            {Footers[2].items.slice(3).map((item: any) => (
-              <FooterImageItem item={item} key={item.label} />
-            ))}
-          </div>
+          {isMobile() ? (
+            <div>
+              {Footers[2].items.map((item: any) => (
+                <FooterImageItem item={item} key={item.label} />
+              ))}
+            </div>
+          ) : (
+            <>
+              <div>
+                {Footers[2].items.slice(0, 3).map((item: any) => (
+                  <FooterImageItem item={item} key={item.label} />
+                ))}
+              </div>
+              <div>
+                {Footers[2].items.slice(3).map((item: any) => (
+                  <FooterImageItem item={item} key={item.label} />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </FooterMenuPanel>
-      <div className="footer__copyright">{`Copyright © ${getCurrentYear()} Nervos Foundation. All Rights Reserved.`}</div>
+      <div className="footer__copyright">
+        <span>{`Copyright © ${getCurrentYear()} Nervos Foundation. `}</span>
+        <span>{`All Rights Reserved.`}</span>
+      </div>
     </FooterPanel>
   )
 }
