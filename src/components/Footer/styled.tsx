@@ -3,6 +3,9 @@ import styled from 'styled-components'
 export const FooterPanel = styled.div`
   font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
   background-color: #000000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   .footer__copyright {
     height: 15px;
@@ -21,25 +24,49 @@ export const FooterPanel = styled.div`
 export const FooterMenuPanel = styled.div`
   width: 100%;
   overflow: hidden;
-  padding: 38px 10% 34px 10%;
+  margin: 38px auto 34px auto;
   display: flex;
+  justify-content: center;
 
   .footer__foundation {
-    flex: 1;
     display: flex;
     flex-direction: column;
   }
 
   .footer__developer {
-    flex: 1;
     display: flex;
     flex-direction: column;
+    margin-left: 280px;
+
+    @media (max-width: 1980px) {
+      margin-left: 178px;
+    }
+
+    @media (max-width: 1440px) {
+      margin-left: 138px;
+    }
+
+    @media (max-width: 1200px) {
+      margin-left: 78px;
+    }
   }
 
   .footer__community {
-    flex: 1;
     display: flex;
     flex-direction: column;
+    margin-left: 280px;
+
+    @media (max-width: 1980px) {
+      margin-left: 178px;
+    }
+
+    @media (max-width: 1440px) {
+      margin-left: 138px;
+    }
+
+    @media (max-width: 1200px) {
+      margin-left: 78px;
+    }
 
     > div {
       display: flex;
