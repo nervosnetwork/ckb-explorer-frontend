@@ -1,149 +1,88 @@
 import styled from 'styled-components'
 
-export const FooterDiv = styled.div`
+export const FooterPanel = styled.div`
+  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
+  background-color: #000000;
+
+  .footer__copyright {
+    height: 15px;
+    font-size: 12px;
+    color: #acacac;
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: center;
+  }
+
+  a:hover {
+    color: ${props => props.theme.primary};
+  }
+`
+
+export const FooterMenuPanel = styled.div`
   width: 100%;
   overflow: hidden;
-  background-color: #040607;
+  padding: 38px 10% 34px 10%;
   display: flex;
-  flex-direction: column;
 
-  .footer__top {
+  .footer__foundation {
+    flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+  }
 
-    @media (max-width: 750px) {
-      padding: 20px 15px;
-    }
+  .footer__developer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .container {
+  .footer__community {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    > div {
       display: flex;
-      flex-wrap: wrap;
-
-      @media (max-width: 750px) {
-        flex-direction: column;
-        flex-wrap: nowrap;
-      }
-
-      .footer__top__logo {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto;
-        width: 450px;
-
-        @media (max-width: 750px) {
-          width: 200px;
-        }
-
-        img {
-          width: 155px;
-          height: auto;
-
-          @media (max-width: 750px) {
-            width: 60px;
-          }
-        }
-      }
-
-      .footer__top__items {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        margin: 0 auto;
-        padding-top: 20px;
-        padding-bottom: 25px;
-
-        @media (max-width: 750px) {
-          padding: 0;
-        }
-
-        .footer__top__item {
-          display: flex;
-          align-items: flex-end;
-          margin: 10px 0;
-
-          > div:nth-child(1) {
-            font-size: 16px;
-            width: 90px;
-            font-weight: bold;
-            margin-right: 10px;
-            color: ${prop => prop.theme.secondary};
-          }
-
-          > div:nth-child(2) {
-            flex: 1;
-            display: flex;
-            flex-wrap: wrap;
-          }
-
-          @media (max-width: 750px) {
-            margin: 5px 0;
-
-            > div:nth-child(1) {
-              font-size: 14px;
-              width: 80px;
-              margin-top: 15px;
-            }
-          }
-        }
-      }
+      flex-direction: row;
     }
   }
 
-  .footer__copyright {
-    display: flex;
-    padding: 21px;
-    align-items: center;
-    justify-content: center;
-    border-top: 1px solid #2b2b2b;
-    font-size: 12px;
-    line-height: 13px;
-    text-align: center;
-    color: #e3e3e3;
-
-    @media (max-width: 750px) {
-      padding: 10px;
-      font-size: 8px;
-    }
+  .footer__title {
+    font-family: SourceCodePro;
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffffff;
   }
 `
 
 export const FooterItemPanel = styled.a`
-  margin-left: 6px;
-  margin-top: 10px;
+  font-size: 18px;
+  color: #acacac;
+  height: 23px;
+  margin: 8px 0;
+`
+
+export const FooterImageItemPanel = styled.a`
+  width: 60px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  text-decoration: none;
-  width: 75px;
-  height: auto;
+  padding: 12px;
+  color: #acacac;
 
-  >div: nth-child(1) {
-    width: 32px;
-    height: 32px;
-    img {
-      width: 100%;
-      height: auto;
-    }
+  &:hover {
+    color: ${props => props.theme.primary};
   }
-  >div: nth-child(2) {
-    color: white;
+
+  > img {
+    width: 35px;
+    height: 35px;
+  }
+
+  > span {
+    height: 15px;
     font-size: 12px;
     margin-top: 5px;
-    text-align: center;
-  }
-
-  @media (max-width: 750px) {
-    width: 35px;
-
-    >div: nth-child(1) {
-      width: 18px;
-      height: 18px;
-    }
-    >div: nth-child(2) {
-      font-size: 8px;
-      margin-top: 5px;
-    }
   }
 `
