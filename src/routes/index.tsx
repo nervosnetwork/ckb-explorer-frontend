@@ -12,6 +12,7 @@ import BlockList from '../pages/BlockList'
 import Transaction from '../pages/Transaction'
 import TransactionList from '../pages/TransactionList'
 import Address from '../pages/Address'
+import SimpleUDT from '../pages/SimpleUDT'
 import NervosDao from '../pages/NervosDao'
 import NotFoundPage from '../pages/404'
 import SearchFail from '../pages/SearchFail'
@@ -72,6 +73,12 @@ export const containers: CustomRouter.Route[] = [
     path: '/transaction/:hash',
     exact: true,
     comp: Transaction,
+  },
+  {
+    name: 'SimpleUDT',
+    path: '/sudt/:hash',
+    exact: true,
+    comp: SimpleUDT,
   },
   {
     name: 'NervosDao',
