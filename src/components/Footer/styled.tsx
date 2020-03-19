@@ -107,7 +107,6 @@ export const FooterMenuPanel = styled.div`
   }
 
   .footer__title {
-    font-family: SourceCodePro;
     font-size: 28px;
     font-weight: bold;
     color: #ffffff;

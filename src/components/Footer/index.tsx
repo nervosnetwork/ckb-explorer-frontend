@@ -1,21 +1,28 @@
 import React, { useMemo, useState } from 'react'
 import TwitterIcon from '../../assets/footer_twitter.png'
 import TwitterHoverIcon from '../../assets/footer_twitter_hover.png'
+import TwitterAggronHoverIcon from '../../assets/footer_twitter_aggron_hover.png'
 import MediumIcon from '../../assets/footer_medium.png'
 import MediumHoverIcon from '../../assets/footer_medium_hover.png'
+import MediumAggronHoverIcon from '../../assets/footer_medium_aggron_hover.png'
 import TelegramIcon from '../../assets/footer_telegram.png'
 import TelegramHoverIcon from '../../assets/footer_telegram_hover.png'
+import TelegramAggronHoverIcon from '../../assets/footer_telegram_aggron_hover.png'
 import RedditIcon from '../../assets/footer_reddit.png'
 import RedditHoverIcon from '../../assets/footer_reddit_hover.png'
+import RedditAggronHoverIcon from '../../assets/footer_reddit_aggron_hover.png'
 import YoutubeIcon from '../../assets/footer_youtube.png'
 import YoutubeHoverIcon from '../../assets/footer_youtube_hover.png'
+import YoutubeAggronHoverIcon from '../../assets/footer_youtube_aggron_hover.png'
 import ForumIcon from '../../assets/footer_forum.png'
 import ForumHoverIcon from '../../assets/footer_forum_hover.png'
+import ForumAggronHoverIcon from '../../assets/footer_forum_aggron_hover.png'
 import { getCurrentYear } from '../../utils/date'
 import { FooterMenuPanel, FooterItemPanel, FooterImageItemPanel, FooterPanel } from './styled'
 import { useTranslation } from 'react-i18next'
 import { isMobile } from '../../utils/screen'
 import { SUDT_EMAIL_SUBJECT, SUDT_EMAIL_BODY } from '../../utils/const'
+import { isMainnet } from '../../utils/chain'
 
 interface FooterLinkItem {
   label: string
@@ -104,37 +111,37 @@ export default () => {
           {
             label: t('footer.twitter'),
             icon: TwitterIcon,
-            hoverIcon: TwitterHoverIcon,
+            hoverIcon: isMainnet() ? TwitterHoverIcon : TwitterAggronHoverIcon,
             url: 'https://twitter.com/nervosnetwork',
           },
           {
             label: t('footer.blog'),
             icon: MediumIcon,
-            hoverIcon: MediumHoverIcon,
+            hoverIcon: isMainnet() ? MediumHoverIcon : MediumAggronHoverIcon,
             url: 'https://medium.com/nervosnetwork',
           },
           {
             label: t('footer.telegram'),
             icon: TelegramIcon,
-            hoverIcon: TelegramHoverIcon,
+            hoverIcon: isMainnet() ? TelegramHoverIcon : TelegramAggronHoverIcon,
             url: 'https://t.me/nervosnetwork',
           },
           {
             label: t('footer.reddit'),
             icon: RedditIcon,
-            hoverIcon: RedditHoverIcon,
+            hoverIcon: isMainnet() ? RedditHoverIcon : RedditAggronHoverIcon,
             url: 'https://www.reddit.com/r/NervosNetwork/',
           },
           {
             label: t('footer.youtube'),
             icon: YoutubeIcon,
-            hoverIcon: YoutubeHoverIcon,
+            hoverIcon: isMainnet() ? YoutubeHoverIcon : YoutubeAggronHoverIcon,
             url: 'https://www.youtube.com/channel/UCONuJGdMzUY0Y6jrPBOzH7A',
           },
           {
             label: t('footer.forum'),
             icon: ForumIcon,
-            hoverIcon: ForumHoverIcon,
+            hoverIcon: isMainnet() ? ForumHoverIcon : ForumAggronHoverIcon,
             url: 'https://talk.nervos.org/',
           },
         ],
