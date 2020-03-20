@@ -1,130 +1,69 @@
-import React, { useState } from 'react'
-import { Tooltip } from 'antd'
+import React from 'react'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TitleCard from '../../components/Card/TitleCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import { useAppState } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
-import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
-import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
-import { shannonToCkb } from '../../utils/util'
-import { SimpleUDTTransactionsPagination, SimpleUDTTransactionsPanel, SimpleUDTLockScriptController } from './styled'
+import { SimpleUDTTransactionsPagination, SimpleUDTTransactionsPanel } from './styled'
 import browserHistory from '../../routes/history'
-import DecimalCapacity from '../../components/DecimalCapacity'
-import CopyTooltipText from '../../components/Text/CopyTooltipText'
 
-const addressContent = (address: string) => {
-  if (!address) {
-    return i18n.t('address.unable_decode_address')
-  }
-  if (isMobile()) {
-    return adaptMobileEllipsis(address, 10)
-  }
-  const addressHash = adaptPCEllipsis(address, 13, 50)
-  if (addressHash.includes('...')) {
-    return (
-      <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
-        <span>{addressHash}</span>
-      </Tooltip>
-    )
-  }
-  return addressHash
+const simpleUDTInfo = (udt: State.UDT) => {
+  const { fullName, symbol, addressesCount, decimal, totalAmount } = udt
+  return [
+    {
+      title: i18n.t('udt.name'),
+      content: fullName,
+    },
+    {
+      title: i18n.t('udt.holder_addresses'),
+      content: addressesCount,
+    },
+    {
+      title: i18n.t('udt.symbol'),
+      content: symbol,
+    },
+    {
+      title: i18n.t('udt.decimal'),
+      content: decimal,
+    },
+    {
+      title: i18n.t('udt.total_amount'),
+      content: totalAmount,
+    },
+  ] as OverviewItemData[]
 }
 
-const simpleUDTInfo = (addressState: State.AddressState) => {
-  const { address } = addressState
-  const items: OverviewItemData[] = [
-    {
-      title: i18n.t('address.balance'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} />,
-    },
-    {
-      title: i18n.t('transaction.transactions'),
-      content: localeNumberString(address.transactionsCount),
-    },
-    {
-      title: i18n.t('address.dao_deposit'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoDeposit))} />,
-    },
-    {
-      title: i18n.t('address.compensation'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.interest))} />,
-    },
-    {
-      title: i18n.t('address.live_cells'),
-      content: localeNumberString(address.liveCellsCount),
-    },
-    {
-      title: i18n.t('address.block_mined'),
-      content: localeNumberString(address.minedBlocksCount),
-    },
-  ]
-
-  if (address.type === 'LockHash' && address) {
-    items.push({
-      title: i18n.t('address.address'),
-      content: addressContent(address.addressHash),
-    })
-  }
-
-  return items
-}
-
-export const SimpleUDTOverview = () => {
-  const [showLock, setShowLock] = useState<boolean>(false)
-  const { addressState } = useAppState()
-  return (
-    <>
-      <TitleCard title={i18n.t('common.overview')} />
-      <OverviewCard items={simpleUDTInfo(addressState)}>
-        <SimpleUDTLockScriptController
-          role="button"
-          tabIndex={0}
-          onKeyUp={() => {}}
-          onClick={() => setShowLock(!showLock)}
-        >
-          <div>{i18n.t('address.lock_script')}</div>
-        </SimpleUDTLockScriptController>
-      </OverviewCard>
-    </>
-  )
-}
-
-export const SimpleUDTTransactions = ({
+export const SimpleUDTComp = ({
   currentPage,
   pageSize,
-  address,
+  typeHash,
 }: {
   currentPage: number
   pageSize: number
-  address: string
+  typeHash: string
 }) => {
   const {
-    addressState: {
-      transactions = [],
-      total,
-      address: { addressHash },
-    },
+    udtState: { transactions = [], total, udt },
     app: { tipBlockNumber },
   } = useAppState()
 
   const totalPages = Math.ceil(total / pageSize)
 
   const onChange = (page: number) => {
-    browserHistory.replace(`/address/${address}?page=${page}&size=${pageSize}`)
+    browserHistory.replace(`/sudt/${typeHash}?page=${page}&size=${pageSize}`)
   }
 
   return (
     <>
+      <TitleCard title={i18n.t('common.overview')} />
+      <OverviewCard items={simpleUDTInfo(udt)} />
       {transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
       <SimpleUDTTransactionsPanel>
         {transactions.map((transaction: State.Transaction, index: number) => {
           return (
             transaction && (
               <TransactionItem
-                address={addressHash}
                 transaction={transaction}
                 confirmation={tipBlockNumber - transaction.blockNumber + 1}
                 key={transaction.transactionHash}
@@ -143,7 +82,4 @@ export const SimpleUDTTransactions = ({
   )
 }
 
-export default {
-  SimpleUDTOverview,
-  SimpleUDTTransactions,
-}
+export default SimpleUDTComp

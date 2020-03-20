@@ -22,6 +22,7 @@ const HashCardPanel = styled.div`
   align-items: center;
   overflow: hidden;
   position: relative;
+  padding-left: 40px;
 
   @media (max-width: 750px) {
     height: 50px;
@@ -29,8 +30,13 @@ const HashCardPanel = styled.div`
     box-shadow: 1px 1px 3px 0 #dfdfdf;
   }
 
+  .hash__icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+  }
+
   .hash__title {
-    margin-left: 40px;
     font-size: 30px;
     font-weight: 500;
     color: #000000;
@@ -115,15 +121,18 @@ export default ({
   hash,
   loading,
   specialAddress = '',
+  iconUri,
 }: {
   title: string
   hash: string
   loading?: boolean
   specialAddress?: string
+  iconUri?: string
 }) => {
   const dispatch = useDispatch()
   return (
     <HashCardPanel id="hash_content">
+      {iconUri && <img className="hash__icon" src={iconUri} alt="hash icon" />}
       <div className="hash__title">{title}</div>
       {loading ? (
         <LoadingPanel>
@@ -131,7 +140,11 @@ export default ({
         </LoadingPanel>
       ) : (
         <div id="hash__text">
-          <span>{isMobile() ? adaptMobileEllipsis(hash, specialAddress ? 5 : 6) : adaptPCEllipsis(hash, 15, 25)}</span>
+          <span>
+            {isMobile()
+              ? adaptMobileEllipsis(hash, specialAddress ? 5 : 6)
+              : adaptPCEllipsis(hash, iconUri ? 13 : 15, 25)}
+          </span>
         </div>
       )}
       <div

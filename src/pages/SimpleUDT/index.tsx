@@ -7,43 +7,34 @@ import Error from '../../components/Error'
 import Content from '../../components/Content'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
 import { PageActions, AppActions } from '../../contexts/providers/reducer'
-import { getAddress, getTipBlockNumber } from '../../service/app/address'
+import { getTipBlockNumber } from '../../service/app/address'
 import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
 import { parsePageNumber } from '../../utils/string'
 import { SimpleUDTContentPanel } from './styled'
-import { SimpleUDTOverview, SimpleUDTTransactions } from './SimpleUDTComp'
+import SimpleUDTComp from './SimpleUDTComp'
 import browserHistory from '../../routes/history'
 import { useTimeoutWithUnmount } from '../../utils/hook'
+import { getSimpleUDT, getSimpleUDTTransactions } from '../../service/app/udt'
 
-const SimpleUDTStateOverview = () => {
-  const { addressState, app } = useAppState()
-  switch (addressState.addressStatus) {
-    case 'Error':
-      return <Error />
-    case 'OK':
-      return <SimpleUDTOverview />
-    case 'None':
-    default:
-      return <Loading show={app.loading} />
-  }
-}
-
-const SimpleUDTStateTransactions = ({
+const SimpleUDTCompState = ({
   currentPage,
   pageSize,
-  address,
+  typeHash,
 }: {
   currentPage: number
   pageSize: number
-  address: string
+  typeHash: string
 }) => {
-  const { addressState, app } = useAppState()
-  switch (addressState.transactionsStatus) {
+  const {
+    udtState: { status },
+    app,
+  } = useAppState()
+  switch (status) {
     case 'Error':
       return <Error />
     case 'OK':
-      return <SimpleUDTTransactions currentPage={currentPage} pageSize={pageSize} address={address} />
+      return <SimpleUDTComp currentPage={currentPage} pageSize={pageSize} typeHash={typeHash} />
     case 'None':
     default:
       return <Loading show={app.secondLoading} />
@@ -55,6 +46,11 @@ export const SimpleUDT = () => {
   const { search } = useLocation()
   const { hash: typeHash } = useParams<{ hash: string }>()
   const parsed = queryString.parse(search)
+  const {
+    udtState: {
+      udt: { iconFile },
+    },
+  } = useAppState()
 
   const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
   const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
@@ -65,9 +61,10 @@ export const SimpleUDT = () => {
 
   useEffect(() => {
     if (pageSize > PageParams.MaxPageSize) {
-      browserHistory.replace(`/address/${typeHash}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
+      browserHistory.replace(`/sudt/${typeHash}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
     }
-    getAddress(typeHash, currentPage, pageSize, dispatch)
+    getSimpleUDT(typeHash, dispatch)
+    getSimpleUDTTransactions(typeHash, currentPage, pageSize, dispatch)
   }, [typeHash, currentPage, pageSize, dispatch])
 
   useTimeoutWithUnmount(
@@ -105,9 +102,8 @@ export const SimpleUDT = () => {
   return (
     <Content>
       <SimpleUDTContentPanel className="container">
-        <SimpleUDTHashCard title={i18n.t('udt.sudt')} hash={typeHash} />
-        <SimpleUDTStateOverview />
-        <SimpleUDTStateTransactions currentPage={currentPage} pageSize={pageSize} address={typeHash} />
+        <SimpleUDTHashCard title={i18n.t('udt.sudt')} hash={typeHash} iconUri={iconFile} />
+        <SimpleUDTCompState currentPage={currentPage} pageSize={pageSize} typeHash={typeHash} />
       </SimpleUDTContentPanel>
     </Content>
   )

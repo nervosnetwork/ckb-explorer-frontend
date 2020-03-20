@@ -31,7 +31,7 @@ export const OverviewContentPanel = styled.div`
   flex-direction: row;
   align-items: flex-start;
 
-  @media (max-width: 750px) {
+  @media (max-width: 1200px) {
     flex-direction: column;
   }
 
@@ -53,7 +53,7 @@ export const OverviewContentPanel = styled.div`
     flex: 1;
     flex-direction: column;
 
-    @media (max-width: 750px) {
+    @media (max-width: 1200px) {
       width: 100%;
       margin-right: 0px;
     }
@@ -65,7 +65,7 @@ export const OverviewContentPanel = styled.div`
     flex: 1;
     flex-direction: column;
 
-    @media (max-width: 750px) {
+    @media (max-width: 1200px) {
       width: 100%;
       margin-left: 0px;
     }
@@ -78,6 +78,7 @@ export const OverviewItemPanel = styled.div`
   align-items: center;
   justify-content: space-between;
   position: relative;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
 
   @media (min-width: 750px) {
     height: 20px;
@@ -103,7 +104,8 @@ export const OverviewItemPanel = styled.div`
   }
 
   .overview_item__title {
-    font-weight: 500;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
 
     @media (max-width: 750px) {
       width: 100%;
@@ -113,6 +115,8 @@ export const OverviewItemPanel = styled.div`
   .overview_item__value {
     margin-left: 15px;
     display: flex;
+    font-size: 16px;
+    color: #000000;
 
     @media (max-width: 750px) {
       margin-left: 0px;
