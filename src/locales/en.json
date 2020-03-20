@@ -245,6 +245,14 @@
       "end_page": "",
       "current_page": "Page",
       "of_page": "of"
+    },
+    "udt": {
+      "sudt": "SUDT",
+      "name": "Name",
+      "symbol": "Symbol",
+      "total_amount": "Total Amount",
+      "holder_addresses": "Holder Addresses",
+      "decimal": "Decimal"
     }
   }
 }

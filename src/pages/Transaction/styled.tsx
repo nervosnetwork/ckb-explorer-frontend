@@ -8,7 +8,6 @@ export const TransactionDiv = styled.div.attrs({
   align-items: center;
   margin-top: 40px;
   margin-bottom: 40px;
-  width: 100%;
 
   @media (max-width: 750px) {
     margin: 0px;

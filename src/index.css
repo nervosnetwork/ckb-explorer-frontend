@@ -29,9 +29,29 @@ code {
 }
 
 .container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  width: auto;
+  margin: 0 120px;
+}
+
+@media (max-width: 1440px) {
+  .container {
+    width: auto;
+    margin: 0 100px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .container {
+    width: auto;
+    margin: 0 45px;
+  }
+}
+
+@media (max-width: 750px) {
+  .container {
+    width: auto;
+    margin: 0 18px;
+  }
 }
 
 a {

@@ -6,7 +6,6 @@ export const AddressContentPanel = styled.div`
   align-items: center;
   margin-top: 25px;
   margin-bottom: 40px;
-  width: 100%;
 
   @media (max-width: 750px) {
     margin: 0px;
