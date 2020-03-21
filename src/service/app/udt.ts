@@ -1,4 +1,4 @@
-import { fetchSimpleUDT, fetchSimpleUDTTransactions } from '../http/fetcher'
+import { fetchSimpleUDT, fetchSimpleUDTTransactions, fetchSimpleUDTTransactionsWithAddress } from '../http/fetcher'
 import { AppDispatch, PageActions, AppActions } from '../../contexts/providers/reducer'
 
 const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
@@ -31,6 +31,50 @@ export const getSimpleUDT = (typeHash: string, dispatch: AppDispatch) => {
 
 export const getSimpleUDTTransactions = (typeHash: string, page: number, size: number, dispatch: AppDispatch) => {
   fetchSimpleUDTTransactions(typeHash, page, size)
+    .then((response: any) => {
+      const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
+      dispatch({
+        type: PageActions.UpdateUDTTransactions,
+        payload: {
+          transactions:
+            data.map((wrapper: Response.Wrapper<State.Transaction>) => {
+              return wrapper.attributes
+            }) || [],
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateUDTTransactionsTotal,
+        payload: {
+          total: meta ? meta.total : 0,
+        },
+      })
+      handleResponseStatus(dispatch, true)
+    })
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateUDTTransactions,
+        payload: {
+          transactions: [],
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateUDTTransactionsTotal,
+        payload: {
+          total: 0,
+        },
+      })
+      handleResponseStatus(dispatch, false)
+    })
+}
+
+export const getSimpleUDTTransactionsWithAddress = (
+  address: string,
+  typeHash: string,
+  page: number,
+  size: number,
+  dispatch: AppDispatch,
+) => {
+  fetchSimpleUDTTransactionsWithAddress(address, typeHash, page, size)
     .then((response: any) => {
       const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
       dispatch({
