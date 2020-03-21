@@ -252,7 +252,8 @@
       "symbol": "Symbol",
       "total_amount": "Total Amount",
       "holder_addresses": "Holder Addresses",
-      "decimal": "Decimal"
+      "decimal": "Decimal",
+      "search_placeholder": "Address"
     }
   }
 }

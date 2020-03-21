@@ -73,9 +73,11 @@ export const getSimpleUDTTransactionsWithAddress = (
   page: number,
   size: number,
   dispatch: AppDispatch,
+  callback: Function,
 ) => {
   fetchSimpleUDTTransactionsWithAddress(address, typeHash, page, size)
     .then((response: any) => {
+      callback(true)
       const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
       dispatch({
         type: PageActions.UpdateUDTTransactions,
@@ -95,6 +97,7 @@ export const getSimpleUDTTransactionsWithAddress = (
       handleResponseStatus(dispatch, true)
     })
     .catch(() => {
+      callback(false)
       dispatch({
         type: PageActions.UpdateUDTTransactions,
         payload: {

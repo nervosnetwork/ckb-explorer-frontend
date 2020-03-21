@@ -253,7 +253,8 @@
       "symbol": "代币符号",
       "total_amount": "总量",
       "holder_addresses": "持币用户数",
-      "decimal": "小数位"
+      "decimal": "小数位",
+      "search_placeholder": "地址"
     }
   }
 }
