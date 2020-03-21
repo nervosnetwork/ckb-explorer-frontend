@@ -110,6 +110,6 @@ export const getSimpleUDTTransactionsWithAddress = (
           total: 0,
         },
       })
-      handleResponseStatus(dispatch, false)
+      handleResponseStatus(dispatch, true)
     })
 }

@@ -75,24 +75,12 @@ export const SimpleUDT = () => {
           loading: true,
         },
       })
-      dispatch({
-        type: AppActions.UpdateSecondLoading,
-        payload: {
-          secondLoading: true,
-        },
-      })
     },
     () => {
       dispatch({
-        type: PageActions.UpdateAddressStatus,
+        type: PageActions.UpdateUDTStatus,
         payload: {
           addressStatus: 'None',
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateAddressTransactionsStatus,
-        payload: {
-          transactionsStatus: 'None',
         },
       })
     },

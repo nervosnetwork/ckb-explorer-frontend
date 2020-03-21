@@ -75,6 +75,13 @@ const clearSearchInput = (inputElement: any) => {
   input.blur()
 }
 
+const setSearchContent = (inputElement: any, content: string) => {
+  const input: HTMLInputElement = inputElement.current
+  if (input) {
+    input.value = content
+  }
+}
+
 const UDT_ADDRESS_SEARCH_TRANSACTIONS = 100
 
 const UDTSearch = ({ typeHash, content }: { typeHash: string; content?: string }) => {
@@ -100,6 +107,7 @@ const UDTSearch = ({ typeHash, content }: { typeHash: string; content?: string }
         },
       })
     } else {
+      setSearchContent(inputElement, i18n.t('search.loading'))
       getSimpleUDTTransactionsWithAddress(
         query,
         typeHash,
@@ -110,6 +118,7 @@ const UDTSearch = ({ typeHash, content }: { typeHash: string; content?: string }
           if (isSuccess) {
             clearSearchInput(inputElement)
           } else {
+            setSearchContent(inputElement, query)
             dispatch({
               type: AppActions.ShowToastMessage,
               payload: {

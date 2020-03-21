@@ -153,13 +153,16 @@ export default ({
 
   return (
     <HashCardPanel id="hash_content" isColumn={!!iconUri}>
-      {iconUri ? (
+      {iconUri && isMobile() ? (
         <div>
           <img className="hash__icon" src={iconUri} alt="hash icon" />
           <div className="hash__title">{title}</div>
         </div>
       ) : (
-        <div className="hash__title">{title}</div>
+        <>
+          {iconUri && <img className="hash__icon" src={iconUri} alt="hash icon" />}
+          <div className="hash__title">{title}</div>
+        </>
       )}
       <div className="hash__card__hash__content">
         {loading ? (
