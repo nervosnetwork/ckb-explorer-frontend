@@ -122,6 +122,7 @@ const UDTSearch = ({ typeHash, content }: { typeHash: string; content?: string }
             dispatch({
               type: AppActions.ShowToastMessage,
               payload: {
+                type: 'warning',
                 message: i18n.t('toast.result_not_found'),
               },
             })
