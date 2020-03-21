@@ -25,7 +25,12 @@ const HashCardPanel = styled.div`
   padding-left: 40px;
 
   @media (max-width: 750px) {
-    height: 50px;
+    height: auto;
+    flex-direction: ${(props: { isColumn: boolean }) => (props.isColumn ? 'column' : 'row')};
+    align-items: ${(props: { isColumn: boolean }) => (props.isColumn ? 'flex-start' : 'center')};
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 16px;
     border-radius: 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
   }
@@ -44,8 +49,14 @@ const HashCardPanel = styled.div`
 
     @media (max-width: 750px) {
       font-size: 15px;
-      margin-left: 20px;
+      margin-left: ${(props: { isColumn: boolean }) => (props.isColumn ? '0px' : '20px')};
     }
+  }
+
+  .hash__card__hash__content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   #hash__text {
@@ -60,7 +71,7 @@ const HashCardPanel = styled.div`
 
     @media (max-width: 750px) {
       font-size: 13px;
-      margin-left: 10px;
+      margin-left: ${(props: { isColumn: boolean }) => (props.isColumn ? '0px' : '10px')};
       font-weight: 500;
       transform: translateY(1px);
     }
@@ -130,39 +141,53 @@ export default ({
   iconUri?: string
 }) => {
   const dispatch = useDispatch()
+
+  const mobileHash = () => {
+    if (specialAddress) {
+      return adaptMobileEllipsis(hash, 5)
+    } else if (iconUri) {
+      return adaptMobileEllipsis(hash, 12)
+    }
+    return adaptMobileEllipsis(hash, 6)
+  }
+
   return (
-    <HashCardPanel id="hash_content">
-      {iconUri && <img className="hash__icon" src={iconUri} alt="hash icon" />}
-      <div className="hash__title">{title}</div>
-      {loading ? (
-        <LoadingPanel>
-          <SmallLoading />
-        </LoadingPanel>
-      ) : (
-        <div id="hash__text">
-          <span>
-            {isMobile()
-              ? adaptMobileEllipsis(hash, specialAddress ? 5 : 6)
-              : adaptPCEllipsis(hash, iconUri ? 13 : 15, 25)}
-          </span>
+    <HashCardPanel id="hash_content" isColumn={!!iconUri}>
+      {iconUri ? (
+        <div>
+          <img className="hash__icon" src={iconUri} alt="hash icon" />
+          <div className="hash__title">{title}</div>
         </div>
+      ) : (
+        <div className="hash__title">{title}</div>
       )}
-      <div
-        className="hash__copy_icon"
-        role="button"
-        tabIndex={-1}
-        onKeyDown={() => {}}
-        onClick={() => {
-          copyElementValue(document.getElementById('hash__value'))
-          dispatch({
-            type: AppActions.ShowToastMessage,
-            payload: {
-              message: i18n.t('common.copied'),
-            },
-          })
-        }}
-      >
-        {!loading && <img src={CopyIcon} alt="copy" />}
+      <div className="hash__card__hash__content">
+        {loading ? (
+          <LoadingPanel>
+            <SmallLoading />
+          </LoadingPanel>
+        ) : (
+          <div id="hash__text">
+            <span>{isMobile() ? mobileHash() : adaptPCEllipsis(hash, iconUri ? 13 : 15, 25)}</span>
+          </div>
+        )}
+        <div
+          className="hash__copy_icon"
+          role="button"
+          tabIndex={-1}
+          onKeyDown={() => {}}
+          onClick={() => {
+            copyElementValue(document.getElementById('hash__value'))
+            dispatch({
+              type: AppActions.ShowToastMessage,
+              payload: {
+                message: i18n.t('common.copied'),
+              },
+            })
+          }}
+        >
+          {!loading && <img src={CopyIcon} alt="copy" />}
+        </div>
       </div>
       {specialAddress && (
         <Tooltip title={i18n.t('address.vesting_tooltip')} placement={isMobile() ? 'bottomRight' : 'bottom'}>
