@@ -263,6 +263,22 @@ declare namespace State {
     None: string
   }
 
+  export interface UDT {
+    symbol: string
+    fullName: string
+    totalAmount: string
+    addressesCount: string
+    decimal: string
+    iconFile: string
+  }
+
+  export interface UDTState {
+    udt: UDT
+    transactions: Transaction[]
+    total: number
+    status: keyof FetchStatus
+  }
+
   export interface App {
     toast: State.ToastMessage | null
     loading: boolean
@@ -332,6 +348,7 @@ declare namespace State {
     statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
 
     nervosDaoState: NervosDaoState
+    udtState: UDTState
 
     components: Components
   }

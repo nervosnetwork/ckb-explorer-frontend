@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { OverviewCardPanel, OverviewContentPanel, OverviewItemPanel } from './styled'
-import { isMobile } from '../../../utils/screen'
+import { isMobile, isScreenSmallerThan1200 } from '../../../utils/screen'
 import { isValidReactNode } from '../../../utils/util'
 
 export interface OverviewItemData {
@@ -70,7 +70,7 @@ export default ({
             />
           ))}
         </div>
-        <span />
+        {!isScreenSmallerThan1200() && <span />}
         <div className="overview_content__right_items">
           {rightItems.map((item, index) => (
             <OverviewItem

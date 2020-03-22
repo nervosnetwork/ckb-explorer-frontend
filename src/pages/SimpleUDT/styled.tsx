@@ -1,6 +1,19 @@
 import styled from 'styled-components'
 
-export const AddressContentPanel = styled.div`
+export const SUDTContentPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+  margin-bottom: 40px;
+  width: 100%;
+
+  @media (max-width: 750px) {
+    margin: 0px;
+    padding: 20px;
+  }
+`
+export const SimpleUDTContentPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,7 +26,7 @@ export const AddressContentPanel = styled.div`
   }
 `
 
-export const AddressPendingRewardTitlePanel = styled.div`
+export const SimpleUDTPendingRewardTitlePanel = styled.div`
   display: flex;
   flex-direction: row;
 
@@ -38,7 +51,7 @@ export const AddressPendingRewardTitlePanel = styled.div`
   }
 `
 
-export const AddressLockScriptController = styled.div`
+export const SimpleUDTLockScriptController = styled.div`
   font-size: 16px;
   font-weight: 600;
   margin-top: 15px;
@@ -63,7 +76,7 @@ export const AddressLockScriptController = styled.div`
   }
 `
 
-export const AddressLockScriptPanel = styled.div`
+export const SimpleUDTLockScriptPanel = styled.div`
   width: 100%;
   margin-top: 20px;
 
@@ -83,7 +96,7 @@ export const AddressLockScriptPanel = styled.div`
   }
 `
 
-export const AddressLockScriptItemPanel = styled.div`
+export const SimpleUDTLockScriptItemPanel = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -145,15 +158,44 @@ export const AddressLockScriptItemPanel = styled.div`
   }
 `
 
-export const AddressTransactionsPanel = styled.div`
+export const SimpleUDTTransactionsPanel = styled.div`
   width: 100%;
 `
 
-export const AddressTransactionsPagination = styled.div`
+export const SimpleUDTTransactionsPagination = styled.div`
   margin: 20px 0 0px 0;
   width: 100%;
 
   @media (max-width: 750px) {
     margin: 10px 0 0px 0;
+  }
+`
+
+export const UDTTransactionTitlePanel = styled.div`
+  width: 100%;
+  height: 60px;
+  background: white;
+  display: flex;
+  margin: 20px 0 5px 0;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  padding: 0 40px;
+  font-size: 18px;
+
+  @media (max-width: 750px) {
+    padding: 0 16px;
+  }
+
+  .udt__transaction__title {
+    font-size: 24px;
+    font-weight: 600;
+    font-style: normal;
+    line-height: 0.83;
+  }
+
+  .udt__search__icon {
+    height: 18px;
+    width: 18px;
   }
 `
