@@ -2,7 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { fetchCellData, fetchScript } from '../../../service/http/fetcher'
 import { CellState } from '../../../utils/const'
 import { hexToUtf8 } from '../../../utils/string'
-import TransactionDetailPanel, { TransactionCellDetailCopyButtonPanel } from './styled'
+import {
+  TransactionCellDetailCopyButtonPanel,
+  TransactionDetailContainer,
+  TransactionDetailPanel,
+  TransactionDetailLockPanel,
+  TransactionDetailTypePanel,
+  TransactionCellDetailPanel,
+  TransactionDetailDataPanel,
+} from './styled'
 import CopyIcon from '../../../assets/copy_green.png'
 import CopyBlueIcon from '../../../assets/copy_blue.png'
 import i18n from '../../../utils/i18n'
@@ -63,10 +71,15 @@ const handleFetchScript = (cell: State.Cell, state: CellState, setContent: any, 
   }
 }
 
-export default ({ cell, state, setState }: { cell: State.Cell; state: CellState; setState: any }) => {
+export default ({ cell }: { cell: State.Cell }) => {
   const dispatch = useDispatch()
   const [content, setContent] = useState(undefined as any)
+  const [state, setState] = useState(CellState.LOCK as CellState)
   const contentElementId = `transaction__detail_content:${cell.id}`
+
+  const changeType = (newState: CellState) => {
+    setState(state !== newState ? newState : CellState.NONE)
+  }
 
   useEffect(() => {
     handleFetchScript(cell, state, setContent, setState, dispatch)
@@ -83,8 +96,22 @@ export default ({ cell, state, setState }: { cell: State.Cell; state: CellState;
   }
 
   return (
-    <>
-      <TransactionDetailPanel hidden={!content}>
+    <TransactionDetailContainer>
+      <TransactionCellDetailPanel>
+        <TransactionDetailLockPanel selected={state === CellState.LOCK} onClick={() => changeType(CellState.LOCK)}>
+          {i18n.t('transaction.lock_script')}
+        </TransactionDetailLockPanel>
+        <TransactionDetailTypePanel selected={state === CellState.TYPE} onClick={() => changeType(CellState.TYPE)}>
+          {i18n.t('transaction.type_script')}
+        </TransactionDetailTypePanel>
+        <TransactionDetailDataPanel selected={state === CellState.DATA} onClick={() => changeType(CellState.DATA)}>
+          {i18n.t('transaction.data')}
+        </TransactionDetailDataPanel>
+      </TransactionCellDetailPanel>
+
+      <div className="transaction__detail__separate" />
+
+      <TransactionDetailPanel>
         <div className="transaction__detail_content" id={contentElementId}>
           {JSON.stringify(content, null, 4)}
         </div>
@@ -96,6 +123,6 @@ export default ({ cell, state, setState }: { cell: State.Cell; state: CellState;
         </div>
       </TransactionDetailPanel>
       {!content && <SmallLoading />}
-    </>
+    </TransactionDetailContainer>
   )
 }

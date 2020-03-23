@@ -57,6 +57,7 @@ export enum CellType {
 }
 
 export enum DaoType {
+  Normal = 'normal',
   Deposit = 'nervos_dao_deposit',
   Withdraw = 'nervos_dao_withdrawing',
 }

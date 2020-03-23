@@ -129,9 +129,52 @@ export const TransactionCellDetailPanel = styled.div`
     width: 10px;
     height: 5px;
   }
+
+  .transaction__detail__cell_info {
+    color: ${props => props.theme.primary};
+
+    &:hover {
+      color: ${props => props.theme.primary};
+    }
+  }
+
+  .transaction__detail__modal {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .transaction__detail__modal__content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
 `
 
-export const TransactionCellDetailItemPanel = styled.div`
+export const TransactionDetailItem = styled.div`
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -157,7 +200,7 @@ export const TransactionCellDetailItemPanel = styled.div`
   }
 `
 
-export const TransactionCellDetailLockScriptPanel = styled(TransactionCellDetailItemPanel)`
+export const TransactionDetailLockPanel = styled(TransactionDetailItem)`
   width: 90px;
   float: left;
 
@@ -166,7 +209,7 @@ export const TransactionCellDetailLockScriptPanel = styled(TransactionCellDetail
   }
 `
 
-export const TransactionCellDetailTypeScriptPanel = styled(TransactionCellDetailItemPanel)`
+export const TransactionDetailTypePanel = styled(TransactionDetailItem)`
   width: 90px;
   margin: 0px auto;
 
@@ -175,7 +218,7 @@ export const TransactionCellDetailTypeScriptPanel = styled(TransactionCellDetail
   }
 `
 
-export const TransactionCellDetailDataPanel = styled(TransactionCellDetailItemPanel)`
+export const TransactionDetailDataPanel = styled(TransactionDetailItem)`
   width: 40px;
   float: right;
 

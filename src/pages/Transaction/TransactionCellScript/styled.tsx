@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export default styled.div`
+export const TransactionDetailPanel = styled.div`
   width: 100%;
   margin-top: 20px;
 
@@ -45,6 +45,21 @@ export default styled.div`
   }
 `
 
+export const TransactionDetailContainer = styled.div`
+  width: 940px;
+
+  @media (max-width: 750px) {
+    width: 350px;
+  }
+
+  .transaction__detail__separate {
+    width: auto;
+    height: 1px;
+    background: #eaeaea;
+    margin-top: 17px;
+  }
+`
+
 export const TransactionCellDetailCopyButtonPanel = styled.div`
   margin: auto;
   cursor: pointer;
@@ -81,4 +96,48 @@ export const TransactionCellDetailCopyButtonPanel = styled.div`
       height: 14px;
     }
   }
+`
+
+export const TransactionCellDetailPanel = styled.div`
+  width: 100%;
+  font-weight: 500;
+  display: flex;
+  flex-direction: row;
+`
+
+export const TransactionDetailItem = styled.div`
+  cursor: ${(props: { highLight?: boolean; theme: any }) => (props.highLight ? 'pointer' : 'default')};
+  display: flex;
+  flex-direction: column;
+  color: ${(props: { highLight?: boolean; theme: any }) => (props.highLight ? `${props.theme.primary}` : '#000000')};
+  font-weight: 500;
+  align-items: center;
+  @media (max-width: 700px) {
+    margin-top: 10px;
+  }
+  &:after {
+    content: '';
+    background: ${(props: { highLight?: boolean; theme: any }) => `${props.theme.primary}`};
+    width: calc(100% - 4px);
+    height: 2px;
+    display: ${(props: { highLight?: boolean; theme: any; selected: boolean }) => (props.selected ? 'block' : 'none')};
+    @media (max-width: 700px) {
+      height: 1px;
+      width: calc(100% - 2px);
+    }
+  }
+`
+
+export const TransactionDetailLockPanel = styled(TransactionDetailItem)`
+  width: 90px;
+`
+
+export const TransactionDetailTypePanel = styled(TransactionDetailItem)`
+  width: 90px;
+  margin-left: 90px;
+`
+
+export const TransactionDetailDataPanel = styled(TransactionDetailItem)`
+  width: 40px;
+  margin-left: 90px;
 `

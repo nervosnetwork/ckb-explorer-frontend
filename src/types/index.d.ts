@@ -39,7 +39,7 @@ declare namespace State {
     consumedTxHash: string
     status: 'live' | 'dead'
     isGenesisOutput: boolean
-    cellType: 'normal' | 'dao'
+    cellType: 'normal' | 'nervos_dao_deposit' | 'nervos_dao_withdrawing'
     cellIndex: string
     compensationStartedBlockNumber: number
     compensationEndedBlockNumber: number
