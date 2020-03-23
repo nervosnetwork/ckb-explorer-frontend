@@ -28,7 +28,7 @@ const TransactionItem = ({
   isLastItem?: boolean
 }) => {
   const txHashMobile = adaptMobileEllipsis(transaction.transactionHash, 12)
-  const txHashPC = adaptPCEllipsis(transaction.transactionHash, 16, 40)
+  const txHashPC = adaptPCEllipsis(transaction.transactionHash, 14, 40)
 
   return (
     <TransactionPanel isLastItem={isLastItem} id={isBlock && transaction.isCellbase ? 'cellbase' : ''}>

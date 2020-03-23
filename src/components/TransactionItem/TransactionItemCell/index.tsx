@@ -50,7 +50,7 @@ const handleAddressText = (address: string) => {
   if (isMobile()) {
     return adaptMobileEllipsis(address, 12)
   }
-  return adaptPCEllipsis(address, 2, 60)
+  return adaptPCEllipsis(address, 2, 100)
 }
 
 const isDaoDepositCell = (cellType: string) => {
