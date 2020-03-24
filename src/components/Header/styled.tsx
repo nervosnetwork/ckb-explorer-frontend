@@ -98,7 +98,7 @@ export const HeaderSearchPanel = styled.div`
     display: flex;
     align-items: center;
     height: 38px;
-    width: 361px;
+    width: 440px;
   }
 `
 

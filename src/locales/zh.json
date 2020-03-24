@@ -21,7 +21,7 @@
       "charts": "图表",
       "nervos_dao": "Nervos DAO",
       "docs": "文档",
-      "search_placeholder": "区块 / 交易 / 地址 / 锁定脚本哈希",
+      "search_placeholder": "区块 / 交易 / 地址 / 锁定脚本哈希 / Type 脚本哈希",
       "mainnet": "LINA",
       "testnet": "测试网",
       "language_en": "EN",
