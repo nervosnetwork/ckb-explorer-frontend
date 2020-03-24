@@ -171,7 +171,7 @@ export default ({
           </LoadingPanel>
         ) : (
           <div id="hash__text">
-            <span>{isMobile() ? mobileHash() : adaptPCEllipsis(hash, iconUri ? 13 : 15, 25)}</span>
+            <span>{isMobile() ? mobileHash() : adaptPCEllipsis(hash, 13, 26)}</span>
           </div>
         )}
         <div

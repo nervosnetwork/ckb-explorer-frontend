@@ -3,13 +3,13 @@ import { fetchCellData, fetchScript } from '../../../service/http/fetcher'
 import { CellState } from '../../../utils/const'
 import { hexToUtf8 } from '../../../utils/string'
 import {
-  TransactionCellDetailCopyButtonPanel,
+  TransactionDetailCopyButton,
   TransactionDetailContainer,
   TransactionDetailPanel,
-  TransactionDetailLockPanel,
-  TransactionDetailTypePanel,
+  TransactionDetailLock,
+  TransactionDetailType,
   TransactionCellDetailPanel,
-  TransactionDetailDataPanel,
+  TransactionDetailData,
 } from './styled'
 import CopyIcon from '../../../assets/copy_green.png'
 import CopyBlueIcon from '../../../assets/copy_blue.png'
@@ -19,6 +19,7 @@ import { AppActions } from '../../../contexts/providers/reducer'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { isMainnet } from '../../../utils/chain'
 import { useDispatch } from '../../../contexts/providers'
+import CloseIcon from '../../../assets/modal_close.png'
 
 const initScriptContent = {
   lock: 'null',
@@ -71,7 +72,7 @@ const handleFetchScript = (cell: State.Cell, state: CellState, setContent: any, 
   }
 }
 
-export default ({ cell }: { cell: State.Cell }) => {
+export default ({ cell, onClose }: { cell: State.Cell; onClose: Function }) => {
   const dispatch = useDispatch()
   const [content, setContent] = useState(undefined as any)
   const [state, setState] = useState(CellState.LOCK as CellState)
@@ -98,31 +99,37 @@ export default ({ cell }: { cell: State.Cell }) => {
   return (
     <TransactionDetailContainer>
       <TransactionCellDetailPanel>
-        <TransactionDetailLockPanel selected={state === CellState.LOCK} onClick={() => changeType(CellState.LOCK)}>
+        <TransactionDetailLock selected={state === CellState.LOCK} onClick={() => changeType(CellState.LOCK)}>
           {i18n.t('transaction.lock_script')}
-        </TransactionDetailLockPanel>
-        <TransactionDetailTypePanel selected={state === CellState.TYPE} onClick={() => changeType(CellState.TYPE)}>
+        </TransactionDetailLock>
+        <TransactionDetailType selected={state === CellState.TYPE} onClick={() => changeType(CellState.TYPE)}>
           {i18n.t('transaction.type_script')}
-        </TransactionDetailTypePanel>
-        <TransactionDetailDataPanel selected={state === CellState.DATA} onClick={() => changeType(CellState.DATA)}>
+        </TransactionDetailType>
+        <TransactionDetailData selected={state === CellState.DATA} onClick={() => changeType(CellState.DATA)}>
           {i18n.t('transaction.data')}
-        </TransactionDetailDataPanel>
+        </TransactionDetailData>
+        <div className="transaction__detail__modal__close">
+          <img src={CloseIcon} alt="close icon" tabIndex={-1} onKeyDown={() => {}} onClick={() => onClose()} />
+        </div>
       </TransactionCellDetailPanel>
 
       <div className="transaction__detail__separate" />
 
       <TransactionDetailPanel>
-        <div className="transaction__detail_content" id={contentElementId}>
-          {JSON.stringify(content, null, 4)}
-        </div>
+        {content ? (
+          <div className="transaction__detail_content" id={contentElementId}>
+            {JSON.stringify(content, null, 4)}
+          </div>
+        ) : (
+          <SmallLoading />
+        )}
         <div className="transaction__detail_copy">
-          <TransactionCellDetailCopyButtonPanel onClick={onClickCopy}>
+          <TransactionDetailCopyButton onClick={onClickCopy}>
             <div>{i18n.t('common.copy')}</div>
             <img src={isMainnet() ? CopyIcon : CopyBlueIcon} alt="copy" />
-          </TransactionCellDetailCopyButtonPanel>
+          </TransactionDetailCopyButton>
         </div>
       </TransactionDetailPanel>
-      {!content && <SmallLoading />}
     </TransactionDetailContainer>
   )
 }

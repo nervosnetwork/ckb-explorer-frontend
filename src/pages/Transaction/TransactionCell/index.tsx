@@ -13,6 +13,7 @@ import {
   TransactionCellDetailPanel,
   TransactionCellHashPanel,
   TransactionCellPanel,
+  TransactionCellDetailModal,
 } from './styled'
 import TransactionCellArrow from '../TransactionCellArrow'
 import DecimalCapacity from '../../../components/DecimalCapacity'
@@ -21,6 +22,7 @@ import NervosDAODepositIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import CKBTransferIcon from '../../../assets/ckb_transfer.png'
 import TransactionCellScript from '../TransactionCellScript'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
@@ -90,11 +92,13 @@ const TransactionCellDetailContainer = ({ cell }: { cell: State.Cell }) => {
 
   return (
     <TransactionCellDetailPanel isWithdraw={cell.cellType === DaoType.Withdraw}>
-      <img src={detailIcon} alt="cell detail icon" />
-      <div>{detailTitle}</div>
-      <div>
+      <div className="transaction__cell__detail__panel">
+        <img src={detailIcon} alt="cell detail icon" />
+        <div>{detailTitle}</div>
+      </div>
+      <div className="transaction__detail__cell_info">
         <div
-          className="transaction__detail__cell_info"
+          className="transaction__cell__info__content"
           role="button"
           tabIndex={-1}
           onKeyDown={() => {}}
@@ -104,12 +108,19 @@ const TransactionCellDetailContainer = ({ cell }: { cell: State.Cell }) => {
         >
           Cell Info
         </div>
+        <div className="transaction__cell__info__separate" />
         {showModal && (
-          <div className="transaction__detail__modal">
-            <div className="transaction__detail__modal__content">
-              <TransactionCellScript cell={cell} />
-            </div>
-          </div>
+          <TransactionCellDetailModal>
+            <OutsideClickHandler
+              onOutsideClick={() => {
+                setShowModal(false)
+              }}
+            >
+              <div className="transaction__detail__modal__content">
+                <TransactionCellScript cell={cell} onClose={() => setShowModal(false)} />
+              </div>
+            </OutsideClickHandler>
+          </TransactionCellDetailModal>
         )}
       </div>
     </TransactionCellDetailPanel>
