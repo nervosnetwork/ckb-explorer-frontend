@@ -10,7 +10,7 @@ import { localeNumberString } from '../../../utils/number'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
 import { CellbasePanel, TransactionCellPanel, TransactionCellCapacity, WithdrawInfoPanel } from './styled'
-import { isMobile } from '../../../utils/screen'
+import { isMobile, isScreenSmallerThan1440 } from '../../../utils/screen'
 import { CellType, DaoType } from '../../../utils/const'
 import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
 import DecimalCapacity from '../../DecimalCapacity'
@@ -50,7 +50,7 @@ const handleAddressText = (address: string) => {
   if (isMobile()) {
     return adaptMobileEllipsis(address, 12)
   }
-  return adaptPCEllipsis(address, 2, 100)
+  return adaptPCEllipsis(address, isScreenSmallerThan1440() ? 2 : 9, 100)
 }
 
 const isDaoDepositCell = (cellType: string) => {
