@@ -88,10 +88,10 @@ describe('Number methods tests', () => {
   })
 
   it('parse udt amount', async () => {
-    expect(parseUDTAmount('100000002350', '5')).toBe('1000000.02')
-    expect(parseUDTAmount('2132435', '3')).toBe('2132.43')
-    expect(parseUDTAmount('123456789', '4')).toBe('12345.67')
-    expect(parseUDTAmount('123456789823456789', '11')).toBe('1234567.89')
+    expect(parseUDTAmount('100000002350', '5')).toBe('1,000,000.02')
+    expect(parseUDTAmount('2132435', '3')).toBe('2,132.43')
+    expect(parseUDTAmount('123456789', '4')).toBe('12,345.67')
+    expect(parseUDTAmount('123456789823456789', '11')).toBe('1,234,567.89')
     expect(parseUDTAmount('efd4567898234abc6789', '11')).toBe('0')
   })
 })

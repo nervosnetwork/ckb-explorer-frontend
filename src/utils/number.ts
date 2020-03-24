@@ -89,7 +89,7 @@ export const parseUDTAmount = (amount: string, decimal: string) => {
     if (result === 'NaN') {
       return '0'
     }
-    return result.substring(0, result.length - 1)
+    return localeNumberString(result.substring(0, result.length - 1))
   } catch (error) {
     console.error(error)
     return '0'
