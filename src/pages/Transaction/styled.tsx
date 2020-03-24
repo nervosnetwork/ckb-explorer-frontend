@@ -93,7 +93,6 @@ export const TransactionInfoItemPanel = styled.div`
     margin-top: 5px;
     max-height: 200px;
     overflow-y: scroll;
-    font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
 
     @media (max-width: 750px) {
       margin-left: 0px;

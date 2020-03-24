@@ -13,7 +13,7 @@ export const TransactionDetailItem = styled.div`
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  color: ${(props: { selected?: boolean; theme: any }) => (props.selected ? `${props.theme.primary}` : '#000000')};
+  color: ${(props: { selected?: boolean }) => (props.selected ? '#000000' : 'rgba(0, 0, 0, 0.6)')};
   font-weight: 600;
   align-items: center;
   @media (max-width: 750px) {
@@ -97,7 +97,6 @@ export const TransactionDetailPanel = styled.div`
     font-size: 16px;
     color: #888888;
     font-weight: bold;
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
     background-color: #f9f9f9;
     border-radius: 6px;
 

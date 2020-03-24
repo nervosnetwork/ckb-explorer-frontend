@@ -60,6 +60,7 @@ export const TransactionCellHashPanel = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  font-size: 16px;
 
   @media (max-width: 750px) {
     text-align: left;

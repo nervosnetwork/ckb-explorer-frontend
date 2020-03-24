@@ -49,14 +49,10 @@ const BlockMiner = ({ miner }: { miner: string }) => {
     <BlockLinkPanel>
       {minerText.includes('...') ? (
         <Tooltip placement="top" title={<CopyTooltipText content={miner} />}>
-          <Link to={`/address/${miner}`}>
-            <span className="address">{minerText}</span>
-          </Link>
+          <Link to={`/address/${miner}`}>{minerText}</Link>
         </Tooltip>
       ) : (
-        <Link to={`/address/${miner}`}>
-          <span className="address">{minerText}</span>
-        </Link>
+        <Link to={`/address/${miner}`}>{minerText}</Link>
       )}
     </BlockLinkPanel>
   )

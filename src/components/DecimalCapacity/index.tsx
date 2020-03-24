@@ -7,8 +7,6 @@ const DecimalPanel = styled.div`
   justify-content: flex-end;
   align-items: flex-end;
 
-  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
-
   .decimal__zeros {
     margin-bottom: 1px;
   }

@@ -26,7 +26,7 @@ import OutsideClickHandler from 'react-outside-click-handler'
 
 const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
-    return adaptMobileEllipsis(hash, 11)
+    return adaptMobileEllipsis(hash, 7)
   }
   return adaptPCEllipsis(hash, 5, 80)
 }
@@ -36,17 +36,11 @@ const AddressHash = ({ address }: { address: string }) => {
   if (addressHash.includes('...')) {
     return (
       <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
-        <Link to={`/address/${address}`}>
-          <span className="address">{addressHash}</span>
-        </Link>
+        <Link to={`/address/${address}`}>{addressHash}</Link>
       </Tooltip>
     )
   }
-  return (
-    <Link to={`/address/${address}`}>
-      <span className="address">{addressHash}</span>
-    </Link>
-  )
+  return <Link to={`/address/${address}`}>{addressHash}</Link>
 }
 
 const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {

@@ -103,7 +103,6 @@ export const AddressLockScriptItemPanel = styled.div`
     flex-direction: row;
     align-items: center;
     width: 130px;
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 
     &:before {
       content: ' ';
@@ -134,7 +133,6 @@ export const AddressLockScriptItemPanel = styled.div`
     display: flex;
     flex-direction: column;
     transform: translateY(2px);
-    font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
 
     @media (max-width: 750px) {
       margin-left: 10px;

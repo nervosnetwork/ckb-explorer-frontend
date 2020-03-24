@@ -49,7 +49,6 @@ const HashCardPanel = styled.div`
 
     @media (max-width: 750px) {
       font-size: 15px;
-      margin-left: ${(props: { isColumn: boolean }) => (props.isColumn ? '0px' : '20px')};
     }
   }
 
@@ -64,10 +63,6 @@ const HashCardPanel = styled.div`
     font-size: 20px;
     color: #000000;
     transform: translateY(3px);
-
-    span {
-      font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
-    }
 
     @media (max-width: 750px) {
       font-size: 13px;

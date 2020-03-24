@@ -78,7 +78,6 @@ export const OverviewItemPanel = styled.div`
   align-items: center;
   justify-content: space-between;
   position: relative;
-  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
 
   @media (min-width: 750px) {
     height: 20px;

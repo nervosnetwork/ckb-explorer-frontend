@@ -280,7 +280,6 @@ export const HighLightValue = styled.div`
   height: 16px;
 
   a {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
     color: ${props => props.theme.primary};
   }
 
