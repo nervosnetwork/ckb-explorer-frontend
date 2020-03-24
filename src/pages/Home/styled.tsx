@@ -55,7 +55,7 @@ export const HomeHeaderItemPanel = styled.div`
     .blockchain__item__top_name {
       color: ${props => props.theme.primary};
       font-size: 14px;
-      font-weight: 450;
+      font-weight: 600;
 
       @media (max-width: 1000px) {
         font-size: 12px;
@@ -91,7 +91,7 @@ export const HomeHeaderItemPanel = styled.div`
     .blockchain__item__bottom_name {
       color: ${props => props.theme.primary};
       font-size: 14px;
-      font-weight: 450;
+      font-weight: 600;
 
       @media (max-width: 1000px) {
         font-size: 12px;
