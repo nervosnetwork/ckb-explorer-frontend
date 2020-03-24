@@ -35,7 +35,7 @@ import { DELAY_BLOCK_NUMBER } from '../../utils/const'
 
 const handleMinerText = (address: string) => {
   if (isMobile()) {
-    return adaptMobileEllipsis(address, 12)
+    return adaptMobileEllipsis(address, 8)
   }
   return adaptPCEllipsis(address, 12, 50)
 }

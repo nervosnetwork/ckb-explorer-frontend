@@ -80,6 +80,7 @@ export const ChartCardPanel = styled.div`
     border-width: 1px 1px 0 1px;
     color: ${props => props.theme.primary};
     font-size: 14px;
+    font-weight: 600;
   }
 
   .chart__card_body {
