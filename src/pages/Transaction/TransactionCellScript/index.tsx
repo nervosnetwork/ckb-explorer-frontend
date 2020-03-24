@@ -121,7 +121,9 @@ export default ({ cell, onClose }: { cell: State.Cell; onClose: Function }) => {
             {JSON.stringify(content, null, 4)}
           </div>
         ) : (
-          <SmallLoading />
+          <div className="transaction__detail_loading">
+            <SmallLoading />
+          </div>
         )}
         <div className="transaction__detail_copy">
           <TransactionDetailCopyButton onClick={onClickCopy}>

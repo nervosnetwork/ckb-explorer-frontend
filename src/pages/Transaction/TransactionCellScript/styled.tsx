@@ -118,6 +118,14 @@ export const TransactionDetailPanel = styled.div`
       margin-top: 10px;
     }
   }
+
+  .transaction__detail_loading {
+    padding: 20px 0;
+
+    @media (max-width: 750px) {
+      padding: 10px 0;
+    }
+  }
 `
 
 export const TransactionDetailCopyButton = styled.div`
