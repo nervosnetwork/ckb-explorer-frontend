@@ -82,3 +82,16 @@ export const parseIndicator = (num: string | number) => {
 export const parseEpochNumber = (num: string) => {
   return `${num}${parseIndicator(num)}`
 }
+
+export const parseUDTAmount = (amount: string, decimal: string) => {
+  try {
+    const result = new BigNumber(amount).dividedBy(new BigNumber(10).pow(parseInt(decimal, 10))).toFixed(3)
+    if (result === 'NaN') {
+      return '0'
+    }
+    return result.substring(0, result.length - 1)
+  } catch (error) {
+    console.error(error)
+    return '0'
+  }
+}

@@ -4,7 +4,7 @@ import { Tooltip } from 'antd'
 import OverviewCard, { OverviewItemData } from '../../../components/Card/OverviewCard'
 import { CellType, DaoType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
-import { localeNumberString } from '../../../utils/number'
+import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
@@ -21,6 +21,7 @@ import CopyTooltipText from '../../../components/Text/CopyTooltipText'
 import NervosDAODepositIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import CKBTransferIcon from '../../../assets/ckb_transfer.png'
+import UDTTokenIcon from '../../../assets/udt_token.png'
 import TransactionCellScript from '../TransactionCellScript'
 import OutsideClickHandler from 'react-outside-click-handler'
 
@@ -64,15 +65,23 @@ const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: C
   )
 }
 
-const detailTitleIcons = (cellType: 'normal' | 'nervos_dao_deposit' | 'nervos_dao_withdrawing') => {
+const detailTitleIcons = (cell: State.Cell) => {
   let detailTitle = i18n.t('transaction.ckb_transfer')
   let detailIcon = CKBTransferIcon
-  if (cellType === DaoType.Deposit) {
+  if (cell.cellType === DaoType.Deposit) {
     detailTitle = i18n.t('transaction.nervos_dao_deposit')
     detailIcon = NervosDAODepositIcon
-  } else if (cellType === DaoType.Withdraw) {
+  } else if (cell.cellType === DaoType.Withdraw) {
     detailTitle = i18n.t('transaction.nervos_dao_withdraw')
     detailIcon = NervosDAOWithdrawingIcon
+  } else if (cell.cellType === DaoType.Udt) {
+    const {
+      udtInfo: { published, symbol, amount, decimal, typeHashShort },
+    } = cell
+    detailTitle = published
+      ? `${parseUDTAmount(amount, decimal)} ${symbol}`
+      : `${i18n.t('udt.unknown_token')} #<${typeHashShort}>`
+    detailIcon = UDTTokenIcon
   }
   return {
     detailTitle,
@@ -81,7 +90,7 @@ const detailTitleIcons = (cellType: 'normal' | 'nervos_dao_deposit' | 'nervos_da
 }
 
 const TransactionCellDetailContainer = ({ cell }: { cell: State.Cell }) => {
-  const { detailTitle, detailIcon } = detailTitleIcons(cell.cellType)
+  const { detailTitle, detailIcon } = detailTitleIcons(cell)
   const [showModal, setShowModal] = useState(false)
 
   return (

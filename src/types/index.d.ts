@@ -25,6 +25,14 @@ declare namespace State {
     message: string[]
   }
 
+  interface UDTInfo {
+    symbol: string
+    amount: string
+    decimal: string
+    typeHashShort: string
+    published: boolean
+  }
+
   interface Cell {
     id: number
     addressHash: string
@@ -39,7 +47,7 @@ declare namespace State {
     consumedTxHash: string
     status: 'live' | 'dead'
     isGenesisOutput: boolean
-    cellType: 'normal' | 'nervos_dao_deposit' | 'nervos_dao_withdrawing'
+    cellType: 'normal' | 'nervos_dao_deposit' | 'nervos_dao_withdrawing' | 'udt'
     cellIndex: string
     compensationStartedBlockNumber: number
     compensationEndedBlockNumber: number
@@ -49,6 +57,7 @@ declare namespace State {
     lockedUntilBlockTimestamp: number
     interest: string
     daoTypeHash: string
+    udtInfo: UDTInfo
   }
 
   export interface LockInfo {

@@ -253,7 +253,8 @@
       "total_amount": "Total Amount",
       "holder_addresses": "Holder Addresses",
       "decimal": "Decimal",
-      "search_placeholder": "Address"
+      "search_placeholder": "Address",
+      "unknown_token": "Unknown Token"
     }
   }
 }

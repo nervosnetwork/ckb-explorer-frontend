@@ -4,6 +4,7 @@ import {
   handleDifficulty,
   parseIndicator,
   parseEpochNumber,
+  parseUDTAmount,
 } from '../src/utils/number'
 
 describe('Number methods tests', () => {
@@ -84,5 +85,13 @@ describe('Number methods tests', () => {
     expect(parseEpochNumber('123')).toBe('123rd')
     expect(parseEpochNumber('636')).toBe('636th')
     expect(parseEpochNumber('129')).toBe('129th')
+  })
+
+  it('parse udt amount', async () => {
+    expect(parseUDTAmount('100000002350', '5')).toBe('1000000.02')
+    expect(parseUDTAmount('2132435', '3')).toBe('2132.43')
+    expect(parseUDTAmount('123456789', '4')).toBe('12345.67')
+    expect(parseUDTAmount('123456789823456789', '11')).toBe('1234567.89')
+    expect(parseUDTAmount('efd4567898234abc6789', '11')).toBe('0')
   })
 })

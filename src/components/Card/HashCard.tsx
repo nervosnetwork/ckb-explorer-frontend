@@ -42,7 +42,7 @@ const HashCardPanel = styled.div`
   }
 
   .hash__title {
-    font-size: 30px;
+    font-size: 26px;
     font-weight: 500;
     color: #000000;
     white-space: nowrap;
@@ -60,7 +60,7 @@ const HashCardPanel = styled.div`
 
   #hash__text {
     margin-left: 20px;
-    font-size: 20px;
+    font-size: 18px;
     color: #000000;
     transform: translateY(3px);
 
@@ -139,11 +139,11 @@ export default ({
 
   const mobileHash = () => {
     if (specialAddress) {
-      return adaptMobileEllipsis(hash, 5)
+      return adaptMobileEllipsis(hash, 4)
     } else if (iconUri) {
       return adaptMobileEllipsis(hash, 12)
     }
-    return adaptMobileEllipsis(hash, 6)
+    return adaptMobileEllipsis(hash, 5)
   }
 
   return (
@@ -166,7 +166,7 @@ export default ({
           </LoadingPanel>
         ) : (
           <div id="hash__text">
-            <span>{isMobile() ? mobileHash() : adaptPCEllipsis(hash, 13, 26)}</span>
+            <span>{isMobile() ? mobileHash() : adaptPCEllipsis(hash, 13, 25)}</span>
           </div>
         )}
         <div
