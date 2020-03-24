@@ -248,7 +248,7 @@
       "of_page": "页，共"
     },
     "udt": {
-      "sudt": "SUDT",
+      "sudt": "sUDT",
       "name": "代币名称",
       "symbol": "代币符号",
       "total_amount": "总量",

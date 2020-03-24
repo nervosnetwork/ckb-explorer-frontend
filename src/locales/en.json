@@ -247,7 +247,7 @@
       "of_page": "of"
     },
     "udt": {
-      "sudt": "SUDT",
+      "sudt": "sUDT",
       "name": "Name",
       "symbol": "Symbol",
       "total_amount": "Total Amount",

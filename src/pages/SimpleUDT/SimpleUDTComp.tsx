@@ -11,6 +11,7 @@ import UDTSearch from '../../components/Search/UDTSearch'
 import { isMobile } from '../../utils/screen'
 import SearchLogo from '../../assets/search_black.png'
 import { ComponentActions } from '../../contexts/providers/reducer'
+import { parseUDTAmount } from '../../utils/number'
 
 const simpleUDTInfo = (udt: State.UDT) => {
   const { fullName, symbol, addressesCount, decimal, totalAmount } = udt
@@ -33,7 +34,7 @@ const simpleUDTInfo = (udt: State.UDT) => {
     },
     {
       title: i18n.t('udt.total_amount'),
-      content: totalAmount,
+      content: parseUDTAmount(totalAmount, decimal),
     },
   ] as OverviewItemData[]
 }
