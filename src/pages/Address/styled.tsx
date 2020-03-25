@@ -1,5 +1,16 @@
 import styled from 'styled-components'
 
+export const AddressTitleOverviewPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  .address__title__separate {
+    background: #eaeaea;
+    width: 100%;
+    height: 1px;
+  }
+`
+
 export const AddressContentPanel = styled.div`
   display: flex;
   flex-direction: column;
@@ -65,10 +76,13 @@ export const AddressLockScriptController = styled.div`
 
 export const AddressLockScriptPanel = styled.div`
   width: 100%;
-  margin-top: 20px;
+  margin-top: 8px;
+  background-color: #f7f7f7;
+  padding: 12px 24px;
 
   @media (max-width: 750px) {
-    margin-top: 10px;
+    margin-top: 5px;
+    padding: 6px 12px;
   }
 
   .address__lock_script_title {
@@ -88,7 +102,7 @@ export const AddressLockScriptItemPanel = styled.div`
   flex-direction: row;
   align-items: center;
   align-items: flex-start;
-  margin-top: 10px;
+  margin-bottom: 10px;
 
   @media (min-width: 750px) {
     height: 20px;
@@ -103,23 +117,11 @@ export const AddressLockScriptItemPanel = styled.div`
     flex-direction: row;
     align-items: center;
     width: 130px;
-
-    &:before {
-      content: ' ';
-      width: 9px;
-      height: 9px;
-      border-radius: 50% 50%;
-      background: ${prop => prop.theme.primary};
-
-      @media (max-width: 750px) {
-        width: 5px;
-        height: 5px;
-      }
-    }
-
+    font-size: 16px;
     > span {
       margin-left: 10px;
       font-weight: 500;
+      color: rgba(0, 0, 0, 0.6);
 
       @media (max-width: 750px) {
         margin-left: 5px;
@@ -133,6 +135,7 @@ export const AddressLockScriptItemPanel = styled.div`
     display: flex;
     flex-direction: column;
     transform: translateY(2px);
+    color: #000000;
 
     @media (max-width: 750px) {
       margin-left: 10px;

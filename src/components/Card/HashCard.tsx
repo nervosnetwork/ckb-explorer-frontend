@@ -20,10 +20,10 @@ const HashCardPanel = styled.div`
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   border-radius: 6px;
   background-color: #ffffff;
-  padding-left: 40px;
+  padding: 0 40px 20px 40px;
 
   @media (max-width: 750px) {
-    padding-left: 16px;
+    padding: 0 16px 10px 16px;
     border-radius: 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
   }

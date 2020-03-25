@@ -1,26 +1,42 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const OverviewCardPanel = styled.div`
   width: 100%;
-  border-radius: 0px 0px 6px 6px;
-  box-shadow: 2px 2px 6px 0 #dfdfdf;
-  margin-top: 20px;
-  background-color: #ffffff;
-  padding: 10px 40px 30px 40px;
   background-color: #ffffff;
   color: #000000;
   font-size: 16px;
+
+  margin-top: 20px;
+  border-radius: 0px 0px 6px 6px;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  padding: 10px 40px 30px 40px;
+
+  ${(props: { hideShadow?: boolean }) =>
+    props.hideShadow &&
+    css`
+      margin-top: 0px;
+      border-radius: 0px;
+      box-shadow: 0px 0px 0px 0 #dfdfdf;
+      padding: 0px;
+    `};
 
   @media (max-width: 1000px) {
     font-size: 13px;
   }
 
   @media (max-width: 750px) {
+    font-size: 13px;
+
     border-radius: 0px 0px 3px 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
     padding: 5px 20px 15px 20px;
-
-    font-size: 13px;
+    ${(props: { hideShadow?: boolean }) =>
+      props.hideShadow &&
+      css`
+        border-radius: 0px;
+        box-shadow: 0px 0px 0px 0 #dfdfdf;
+        padding: 0px;
+      `};
   }
 `
 

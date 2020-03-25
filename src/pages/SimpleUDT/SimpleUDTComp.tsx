@@ -11,6 +11,7 @@ import { isMobile } from '../../utils/screen'
 import SearchLogo from '../../assets/search_black.png'
 import { ComponentActions } from '../../contexts/providers/reducer'
 import { parseUDTAmount } from '../../utils/number'
+import TitleCard from '../../components/Card/TitleCard'
 
 const simpleUDTInfo = (udt: State.UDT) => {
   const { fullName, symbol, addressesCount, decimal, totalAmount } = udt
@@ -93,7 +94,7 @@ export const SimpleUDTComp = ({
 
   return (
     <>
-      <OverviewCard items={simpleUDTInfo(udt)} />
+      <OverviewCard items={simpleUDTInfo(udt)} titleCard={<TitleCard title={i18n.t('common.overview')} />} />
       <SimpleUDTTransactionsPanel>
         {transactions.map((transaction: State.Transaction, index: number) => {
           return (

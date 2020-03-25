@@ -181,7 +181,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     return showAllOverview ? PackUpBlueIcon : DropDownBlueIcon
   }
   return (
-    <OverviewCard items={overviewItems}>
+    <OverviewCard items={overviewItems} titleCard={<TitleCard title={i18n.t('common.overview')} />}>
       {isMobile() ? (
         <BlockOverviewDisplayControlPanel onClick={() => setShowAllOverview(!showAllOverview)}>
           <img src={getDropdownIcon()} alt={showAllOverview ? 'show' : 'hide'} />
