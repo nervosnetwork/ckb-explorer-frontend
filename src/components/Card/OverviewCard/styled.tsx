@@ -95,7 +95,7 @@ export const OverviewItemPanel = styled.div`
 
   @media (min-width: 750px) {
     height: 20px;
-    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '25px' : '16px')};
+    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '35px' : '16px')};
     margin-bottom: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '-32px' : '0px')};
   }
 
@@ -105,7 +105,7 @@ export const OverviewItemPanel = styled.div`
   }
 
   @media (max-width: 750px) {
-    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '35px' : '12px')};
+    margin-top: 12px;
     justify-content: normal;
     flex-direction: column;
     align-items: flex-start;
@@ -126,14 +126,30 @@ export const OverviewItemPanel = styled.div`
   .overview_item__title__panel {
     display: flex;
     align-items: center;
-    margin-left: ${({ hasIcon, isAsset }: { hasIcon: boolean; isAsset?: boolean }) =>
-      !hasIcon && isAsset ? '60px' : '0px'};
+
+    @media (max-width: 1200px) {
+      margin-left: ${({ hasIcon, isAsset }: { hasIcon: boolean; isAsset?: boolean }) =>
+        !hasIcon && isAsset ? '60px' : '0px'};
+    }
+
+    @media (max-width: 750px) {
+      margin-left: 0px;
+    }
   }
 
   .overview_item__icon {
     width: 48px;
     height: 48px;
     margin-right: 10px;
+
+    @media (max-width: 750px) {
+      margin-bottom: 10px;
+    }
+
+    > img {
+      width: 48px;
+      height: 48px;
+    }
   }
 
   .overview_item__title {

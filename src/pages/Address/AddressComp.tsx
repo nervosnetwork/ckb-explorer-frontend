@@ -11,10 +11,11 @@ import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from '../../assets/ckb_token_icon.png'
+import { isMobile } from '../../utils/screen'
 
 const addressAssetInfo = (addressState: State.AddressState) => {
   const { address } = addressState
-  return [
+  const items = [
     {
       icon: CKBTokenIcon,
       title: i18n.t('common.ckb_unit'),
@@ -35,6 +36,8 @@ const addressAssetInfo = (addressState: State.AddressState) => {
       isAsset: true,
     },
   ] as OverviewItemData[]
+  if (isMobile()) items.splice(2, 1)
+  return items
 }
 
 const AddressTransactionsTitle = ({ count }: { count: number }) => {

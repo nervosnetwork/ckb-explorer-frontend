@@ -36,7 +36,11 @@ export const OverviewItem = ({ item, hiddenLine }: { item: OverviewItemData; hid
   return (
     <OverviewItemPanel hiddenLine={hiddenLine} hasIcon={item.icon} isAsset={item.isAsset}>
       <div className="overview_item__title__panel">
-        {item.icon && <img className="overview_item__icon" src={item.icon} alt="item icon" />}
+        {item.icon && (
+          <div className="overview_item__icon">
+            <img src={item.icon} alt="item icon" />
+          </div>
+        )}
         <div className="overview_item__title">{item.title}</div>
       </div>
       <div className="overview_item__value">{item.content}</div>
