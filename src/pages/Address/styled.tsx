@@ -145,10 +145,11 @@ export const AddressLockScriptItemPanel = styled.div`
 
 export const AddressTransactionsPanel = styled.div`
   width: 100%;
+  margin-top: 20px;
 `
 
 export const AddressTransactionsPagination = styled.div`
-  margin: 20px 0 0px 0;
+  margin: 20px 0 0 0;
   width: 100%;
 
   @media (max-width: 750px) {

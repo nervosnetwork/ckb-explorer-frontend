@@ -2,6 +2,8 @@ import React, { ReactNode } from 'react'
 import { OverviewCardPanel, OverviewContentPanel, OverviewItemPanel } from './styled'
 import { isMobile, isScreenSmallerThan1200 } from '../../../utils/screen'
 import { isValidReactNode } from '../../../utils/util'
+import TitleCard from '../TitleCard'
+import i18n from '../../../utils/i18n'
 
 export interface OverviewItemData {
   title: ReactNode
@@ -59,6 +61,7 @@ export default ({
   const { leftItems, rightItems } = handleOverviewItems(items)
   return (
     <OverviewCardPanel id={outputIndex ? `output_${outputIndex}` : ''}>
+      <TitleCard title={i18n.t('common.overview')} />
       <OverviewContentPanel length={leftItems.length}>
         <div className="overview_content__left_items">
           {leftItems.map((item, index) => (

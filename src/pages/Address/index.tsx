@@ -110,6 +110,7 @@ export const Address = () => {
           title={addressState.address.type === 'LockHash' ? i18n.t('address.lock_hash') : i18n.t('address.address')}
           hash={address}
           specialAddress={addressState.address.isSpecial ? addressState.address.specialAddress : ''}
+          children={<div>HashCard</div>}
         />
         <AddressStateOverview />
         <AddressStateTransactions currentPage={currentPage} pageSize={pageSize} address={address} />

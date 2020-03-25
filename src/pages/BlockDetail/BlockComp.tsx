@@ -8,7 +8,6 @@ import PackUpIcon from '../../assets/content_pack_up.png'
 import DropDownBlueIcon from '../../assets/content_blue_drop_down.png'
 import PackUpBlueIcon from '../../assets/content_blue_pack_up.png'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import TitleCard from '../../components/Card/TitleCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import { useAppState } from '../../contexts/providers'
 import { parseSimpleDate } from '../../utils/date'
@@ -221,9 +220,7 @@ export default ({
 
   return (
     <>
-      <TitleCard title={i18n.t('common.overview')} />
       {block && <BlockOverview block={block} />}
-      <TitleCard title={i18n.t('transaction.transactions')} />
       {transactions.map((transaction: State.Transaction, index: number) => {
         return (
           transaction && (
@@ -232,6 +229,7 @@ export default ({
               transaction={transaction}
               isBlock
               isLastItem={index === transactions.length - 1}
+              isFirstItem={index === 0}
             />
           )
         )

@@ -4,8 +4,8 @@ export const OverviewCardPanel = styled.div`
   width: 100%;
   border-radius: 0px 0px 6px 6px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
+  margin-top: 20px;
   background-color: #ffffff;
-  margin-top: 5px;
   padding: 10px 40px 30px 40px;
   background-color: #ffffff;
 
@@ -103,7 +103,7 @@ export const OverviewItemPanel = styled.div`
   }
 
   .overview_item__title {
-    font-size: 14px;
+    font-size: 16px;
     color: rgba(0, 0, 0, 0.6);
 
     @media (max-width: 750px) {

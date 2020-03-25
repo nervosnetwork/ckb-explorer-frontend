@@ -2,7 +2,6 @@ import React, { ReactNode, useState } from 'react'
 import { Tooltip } from 'antd'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import TitleCard from '../../components/Card/TitleCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import { useAppState } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
@@ -133,7 +132,6 @@ export const AddressOverview = () => {
   const { addressState } = useAppState()
   return (
     <>
-      <TitleCard title={i18n.t('common.overview')} />
       <OverviewCard items={getAddressInfo(addressState)}>
         <AddressLockScriptController
           role="button"
@@ -178,7 +176,6 @@ export const AddressTransactions = ({
 
   return (
     <>
-      {transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
       <AddressTransactionsPanel>
         {transactions.map((transaction: State.Transaction, index: number) => {
           return (
@@ -188,6 +185,7 @@ export const AddressTransactions = ({
                 transaction={transaction}
                 confirmation={tipBlockNumber - transaction.blockNumber + 1}
                 key={transaction.transactionHash}
+                isFirstItem={index === 0}
                 isLastItem={index === transactions.length - 1}
               />
             )
