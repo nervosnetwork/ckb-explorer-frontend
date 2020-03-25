@@ -6,6 +6,8 @@ import { isValidReactNode } from '../../../utils/util'
 export interface OverviewItemData {
   title: ReactNode
   content: ReactNode
+  icon?: any
+  isAsset?: boolean
 }
 
 const handleOverviewItems = (items: OverviewItemData[]) => {
@@ -30,19 +32,14 @@ const handleOverviewItems = (items: OverviewItemData[]) => {
   }
 }
 
-export const OverviewItem = ({
-  title,
-  content,
-  hiddenLine,
-}: {
-  title?: ReactNode
-  content?: ReactNode
-  hiddenLine: boolean
-}) => {
+export const OverviewItem = ({ item, hiddenLine }: { item: OverviewItemData; hiddenLine: boolean }) => {
   return (
-    <OverviewItemPanel hiddenLine={hiddenLine}>
-      <div className="overview_item__title">{title}</div>
-      <div className="overview_item__value">{content}</div>
+    <OverviewItemPanel hiddenLine={hiddenLine} hasIcon={item.icon} isAsset={item.isAsset}>
+      <div className="overview_item__title__panel">
+        {item.icon && <img className="overview_item__icon" src={item.icon} alt="item icon" />}
+        <div className="overview_item__title">{item.title}</div>
+      </div>
+      <div className="overview_item__value">{item.content}</div>
     </OverviewItemPanel>
   )
 }
@@ -69,8 +66,7 @@ export default ({
           {leftItems.map((item, index) => (
             <OverviewItem
               key={items.indexOf(item)}
-              title={item.title}
-              content={item.content}
+              item={item}
               hiddenLine={!isValidReactNode(children) && index === leftItems.length - 1}
             />
           ))}
@@ -80,8 +76,7 @@ export default ({
           {rightItems.map((item, index) => (
             <OverviewItem
               key={items.indexOf(item)}
-              title={item.title}
-              content={item.content}
+              item={item}
               hiddenLine={!isValidReactNode(children) && index === rightItems.length - 1}
             />
           ))}

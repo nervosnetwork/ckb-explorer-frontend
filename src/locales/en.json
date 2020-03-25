@@ -129,6 +129,7 @@
       "code_hash": "Code Hash: ",
       "args": "Args: ",
       "hash_type": "Hash Type: ",
+      "assets": "Assets",
       "confirmation": "Confirmation",
       "confirmations": "Confirmations",
       "unable_decode_address": "Unable to decode address",

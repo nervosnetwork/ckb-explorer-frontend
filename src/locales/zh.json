@@ -129,6 +129,7 @@
       "code_hash": "Code Hash: ",
       "args": "Args: ",
       "hash_type": "Hash Type: ",
+      "assets": "资产",
       "confirmation": "确认区块",
       "confirmations": "确认区块",
       "unable_decode_address": "地址解析失败",

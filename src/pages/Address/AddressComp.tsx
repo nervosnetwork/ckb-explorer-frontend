@@ -10,28 +10,45 @@ import { AddressTransactionsPagination, AddressTransactionsPanel } from './style
 import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import TitleCard from '../../components/Card/TitleCard'
+import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 
-const getAddressInfo = (addressState: State.AddressState) => {
+const addressAssetInfo = (addressState: State.AddressState) => {
   const { address } = addressState
   return [
     {
-      title: i18n.t('address.balance'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} />,
+      icon: CKBTokenIcon,
+      title: i18n.t('common.ckb_unit'),
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} hideUnit />,
     },
     {
       title: i18n.t('address.dao_deposit'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoDeposit))} />,
+      isAsset: true,
+    },
+    {
+      title: '',
+      content: '',
     },
     {
       title: i18n.t('address.compensation'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.interest))} />,
+      isAsset: true,
     },
   ] as OverviewItemData[]
 }
 
+const AddressTransactionsTitle = ({ count }: { count: number }) => {
+  return <TitleCard title={`${i18n.t('transaction.transactions')}(${localeNumberString(count)})`} />
+}
+
 export const AddressAssetComp = () => {
   const { addressState } = useAppState()
-  return <OverviewCard items={getAddressInfo(addressState)}></OverviewCard>
+  return (
+    <OverviewCard
+      items={addressAssetInfo(addressState)}
+      titleCard={<TitleCard title={i18n.t('address.assets')} />}
+    ></OverviewCard>
+  )
 }
 
 export const AddressTransactions = ({
@@ -69,13 +86,7 @@ export const AddressTransactions = ({
                 transaction={transaction}
                 confirmation={tipBlockNumber - transaction.blockNumber + 1}
                 key={transaction.transactionHash}
-                titleCard={
-                  index === 0 ? (
-                    <TitleCard
-                      title={`${i18n.t('transaction.transactions')}(${localeNumberString(transactionsCount)})`}
-                    />
-                  ) : null
-                }
+                titleCard={index === 0 ? <AddressTransactionsTitle count={transactionsCount} /> : null}
                 isLastItem={index === transactions.length - 1}
               />
             )

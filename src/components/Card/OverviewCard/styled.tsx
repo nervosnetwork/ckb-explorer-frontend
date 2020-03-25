@@ -51,7 +51,7 @@ export const OverviewContentPanel = styled.div`
 
   > span {
     width: 1px;
-    height: ${({ length }: { length: number }) => `${length * 40 - 20}px`};
+    height: ${({ length }: { length: number }) => `${length * 32 - 16}px`};
     background: #e2e2e2;
     margin: 20px 0px 0px 0px;
     transform: ${() => `scaleX(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
@@ -95,11 +95,17 @@ export const OverviewItemPanel = styled.div`
 
   @media (min-width: 750px) {
     height: 20px;
-    margin-top: 20px;
+    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '25px' : '16px')};
+    margin-bottom: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '-32px' : '0px')};
+  }
+
+  @media (min-width: 1200px) {
+    height: 20px;
+    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '35px' : '16px')};
   }
 
   @media (max-width: 750px) {
-    margin-top: 10px;
+    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '35px' : '12px')};
     justify-content: normal;
     flex-direction: column;
     align-items: flex-start;
@@ -109,19 +115,35 @@ export const OverviewItemPanel = styled.div`
       background: #e2e2e2;
       height: 1px;
       width: 100%;
-      display: ${({ hiddenLine }: { hiddenLine: boolean }) => (hiddenLine ? 'none' : 'block')};
+      display: ${({ hiddenLine }: { hiddenLine: boolean; hasIcon: boolean; isAsset?: boolean }) =>
+        hiddenLine ? 'none' : 'block'};
       margin: 10px 0px 0px 0px;
 
       transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
     }
   }
 
+  .overview_item__title__panel {
+    display: flex;
+    align-items: center;
+    margin-left: ${({ hasIcon, isAsset }: { hasIcon: boolean; isAsset?: boolean }) =>
+      !hasIcon && isAsset ? '60px' : '0px'};
+  }
+
+  .overview_item__icon {
+    width: 48px;
+    height: 48px;
+    margin-right: 10px;
+  }
+
   .overview_item__title {
     font-size: 16px;
     color: rgba(0, 0, 0, 0.6);
+    margin-left: 0px;
 
     @media (max-width: 750px) {
       width: 100%;
+      margin-left: 0px;
     }
   }
 
