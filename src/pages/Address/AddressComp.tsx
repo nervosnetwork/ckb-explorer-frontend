@@ -25,6 +25,7 @@ import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import { isMainnet } from '../../utils/chain'
+import TitleCard from '../../components/Card/TitleCard'
 
 const addressContent = (address: string) => {
   if (!address) {
@@ -185,7 +186,7 @@ export const AddressTransactions = ({
                 transaction={transaction}
                 confirmation={tipBlockNumber - transaction.blockNumber + 1}
                 key={transaction.transactionHash}
-                isFirstItem={index === 0}
+                titleCard={index === 0 ? <TitleCard title={i18n.t('transaction.transactions')} /> : null}
                 isLastItem={index === transactions.length - 1}
               />
             )

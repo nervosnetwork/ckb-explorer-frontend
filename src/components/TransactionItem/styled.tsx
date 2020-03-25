@@ -6,7 +6,7 @@ export const TransactionPanel = styled.div`
   border-radius: ${({ isLastItem }: { isLastItem?: boolean }) => (isLastItem ? '0px 0px 6px 6px' : '0px 0px 0px 0px')};
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
-  padding: 20px 40px 25px 40px;
+  padding: 10px 40px 25px 40px;
   display: flex;
   flex-direction: column;
   font-size: 16px;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import RightArrowIcon from '../../assets/input_arrow_output.png'
 import DownArrowIcon from '../../assets/input_arrow_output_down.png'
@@ -13,7 +13,6 @@ import TransactionReward from './TransactionReward'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import i18n from '../../utils/i18n'
 import { CellType } from '../../utils/const'
-import TitleCard from '../Card/TitleCard'
 
 const TransactionItem = ({
   transaction,
@@ -21,21 +20,21 @@ const TransactionItem = ({
   confirmation,
   isBlock = false,
   isLastItem = false,
-  isFirstItem,
+  titleCard,
 }: {
   transaction: State.Transaction
   address?: string
   confirmation?: number
   isBlock?: boolean
   isLastItem?: boolean
-  isFirstItem?: boolean
+  titleCard?: ReactNode | null
 }) => {
   const txHashMobile = adaptMobileEllipsis(transaction.transactionHash, 12)
   const txHashPC = adaptPCEllipsis(transaction.transactionHash, 14, 40)
 
   return (
     <TransactionPanel isLastItem={isLastItem} id={isBlock && transaction.isCellbase ? 'cellbase' : ''}>
-      {isFirstItem && <TitleCard title={i18n.t('transaction.transactions')} />}
+      {titleCard}
       <TransactionHashBlockPanel>
         <div className="transaction_item__content">
           <Link to={`/transaction/${transaction.transactionHash}`}>

@@ -8,8 +8,6 @@ export const OverviewCardPanel = styled.div`
   background-color: #ffffff;
   padding: 10px 40px 30px 40px;
   background-color: #ffffff;
-
-  /* common */
   color: #000000;
   font-size: 16px;
 

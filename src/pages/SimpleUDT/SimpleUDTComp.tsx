@@ -1,7 +1,6 @@
 import React from 'react'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import TitleCard from '../../components/Card/TitleCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
@@ -63,31 +62,38 @@ export const SimpleUDTComp = ({
     browserHistory.replace(`/sudt/${typeHash}?page=${page}&size=${pageSize}`)
   }
 
+  const UDTTitleSearchComp = () => {
+    return (
+      <UDTTransactionTitlePanel>
+        <div className="udt__transaction__container">
+          {(!isMobile() || (isMobile() && !searchBarEditable)) && (
+            <div className="udt__transaction__title">{i18n.t('transaction.transactions')}</div>
+          )}
+          {isMobile() && !searchBarEditable && (
+            <img
+              className="udt__search__icon"
+              src={SearchLogo}
+              alt="search icon"
+              onClick={() => {
+                dispatch({
+                  type: ComponentActions.UpdateHeaderSearchEditable,
+                  payload: {
+                    searchBarEditable: true,
+                  },
+                })
+              }}
+            />
+          )}
+          {(!isMobile() || (isMobile() && searchBarEditable)) && <UDTSearch typeHash={typeHash} />}
+        </div>
+        <div className="udt__transaction__title__separate" />
+      </UDTTransactionTitlePanel>
+    )
+  }
+
   return (
     <>
-      <TitleCard title={i18n.t('common.overview')} />
       <OverviewCard items={simpleUDTInfo(udt)} />
-      <UDTTransactionTitlePanel>
-        {(!isMobile() || (isMobile() && !searchBarEditable)) && (
-          <div className="udt__transaction__title">{i18n.t('transaction.transactions')}</div>
-        )}
-        {isMobile() && !searchBarEditable && (
-          <img
-            className="udt__search__icon"
-            src={SearchLogo}
-            alt="search icon"
-            onClick={() => {
-              dispatch({
-                type: ComponentActions.UpdateHeaderSearchEditable,
-                payload: {
-                  searchBarEditable: true,
-                },
-              })
-            }}
-          />
-        )}
-        {(!isMobile() || (isMobile() && searchBarEditable)) && <UDTSearch typeHash={typeHash} />}
-      </UDTTransactionTitlePanel>
       <SimpleUDTTransactionsPanel>
         {transactions.map((transaction: State.Transaction, index: number) => {
           return (
@@ -97,6 +103,7 @@ export const SimpleUDTComp = ({
                 confirmation={tipBlockNumber - transaction.blockNumber + 1}
                 key={transaction.transactionHash}
                 isLastItem={index === transactions.length - 1}
+                titleCard={index === 0 ? <UDTTitleSearchComp /> : null}
               />
             )
           )

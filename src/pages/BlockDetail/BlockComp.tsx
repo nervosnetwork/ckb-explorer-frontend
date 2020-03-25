@@ -31,6 +31,7 @@ import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { DELAY_BLOCK_NUMBER } from '../../utils/const'
+import TitleCard from '../../components/Card/TitleCard'
 
 const handleMinerText = (address: string) => {
   if (isMobile()) {
@@ -229,7 +230,7 @@ export default ({
               transaction={transaction}
               isBlock
               isLastItem={index === transactions.length - 1}
-              isFirstItem={index === 0}
+              titleCard={index === 0 ? <TitleCard title={i18n.t('transaction.transactions')} /> : null}
             />
           )
         )

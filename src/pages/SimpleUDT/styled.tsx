@@ -170,19 +170,15 @@ export const SimpleUDTTransactionsPagination = styled.div`
 `
 
 export const UDTTransactionTitlePanel = styled.div`
-  width: 100%;
-  height: 60px;
-  background: white;
-  display: flex;
-  margin: 20px 0 5px 0;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 2px 2px 6px 0 #dfdfdf;
-  padding: 0 40px;
-  font-size: 18px;
-
-  @media (max-width: 750px) {
-    padding: 0 16px;
+  .udt__transaction__container {
+    width: 100%;
+    height: 50px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 18px;
+    margin-bottom: 10px;
   }
 
   .udt__transaction__title {
@@ -195,5 +191,11 @@ export const UDTTransactionTitlePanel = styled.div`
   .udt__search__icon {
     height: 18px;
     width: 18px;
+  }
+
+  .udt__transaction__title__separate {
+    background: #eaeaea;
+    width: 100%;
+    height: 1px;
   }
 `
