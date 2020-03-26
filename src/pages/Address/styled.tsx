@@ -174,7 +174,7 @@ export const AddressUDTAssetsPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 20px;
+  margin: 20px 0;
 
   > span {
     font-size: 14px;
