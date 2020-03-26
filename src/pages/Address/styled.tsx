@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const AddressTitleOverviewPanel = styled.div`
   display: flex;
   flex-direction: column;
+  padding-bottom: 20px;
 
   .address__title__separate {
     background: #eaeaea;
@@ -158,7 +159,6 @@ export const AddressLockScriptItemPanel = styled.div`
 
 export const AddressTransactionsPanel = styled.div`
   width: 100%;
-  margin-top: 20px;
 `
 
 export const AddressTransactionsPagination = styled.div`
@@ -174,7 +174,7 @@ export const AddressUDTAssetsPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 20px;
+  margin-bottom: 20px;
 
   > span {
     font-size: 14px;
