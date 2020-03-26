@@ -103,13 +103,23 @@ export const AddressLockScriptItemPanel = styled.div`
   align-items: center;
   align-items: flex-start;
   margin-bottom: 10px;
+  font-size: 16px;
 
   @media (min-width: 750px) {
     height: 20px;
   }
 
+  @media (max-width: 1200px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 12px;
+  }
+
   @media (max-width: 750px) {
     flex-direction: column;
+    font-size: 14px;
   }
 
   .address_lock_script__title {
@@ -117,7 +127,7 @@ export const AddressLockScriptItemPanel = styled.div`
     flex-direction: row;
     align-items: center;
     width: 130px;
-    font-size: 16px;
+
     > span {
       margin-left: 10px;
       font-weight: 500;
