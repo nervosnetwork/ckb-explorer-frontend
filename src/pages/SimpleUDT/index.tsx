@@ -16,6 +16,7 @@ import SimpleUDTComp from './SimpleUDTComp'
 import browserHistory from '../../routes/history'
 import { useTimeoutWithUnmount } from '../../utils/hook'
 import { getSimpleUDT, getSimpleUDTTransactions } from '../../service/app/udt'
+import SUDTTokenIcon from '../../assets/sudt_token.png'
 
 const SimpleUDTCompState = ({
   currentPage,
@@ -90,7 +91,7 @@ export const SimpleUDT = () => {
   return (
     <Content>
       <SimpleUDTContentPanel className="container">
-        <SimpleUDTHashCard title={i18n.t('udt.sudt')} hash={typeHash} iconUri={iconFile} />
+        <SimpleUDTHashCard title={i18n.t('udt.sudt')} hash={typeHash} iconUri={iconFile ? iconFile : SUDTTokenIcon} />
         <SimpleUDTCompState currentPage={currentPage} pageSize={pageSize} typeHash={typeHash} />
       </SimpleUDTContentPanel>
     </Content>

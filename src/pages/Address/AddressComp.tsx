@@ -5,7 +5,7 @@ import TransactionItem from '../../components/TransactionItem/index'
 import { useAppState } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
-import { shannonToCkb } from '../../utils/util'
+import { shannonToCkb, baseUrl } from '../../utils/util'
 import {
   AddressTransactionsPagination,
   AddressTransactionsPanel,
@@ -48,7 +48,7 @@ const addressAssetInfo = (address: State.Address) => {
 const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
   const { decimal, symbol, amount, udtIconFile, typeHash } = udtAccount
   return (
-    <AddressUDTItemPanel href={`/sudt/${typeHash}`}>
+    <AddressUDTItemPanel href={`${baseUrl()}/sudt/${typeHash}`}>
       <img className="address__udt__item__icon" src={udtIconFile ? udtIconFile : SUDTTokenIcon} alt="udt icon" />
       <div className="address__udt__item__info">
         <span>{symbol}</span>
