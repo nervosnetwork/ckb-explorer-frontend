@@ -46,10 +46,10 @@ const addressAssetInfo = (address: State.Address) => {
 }
 
 const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
-  const { decimal, symbol, amount } = udtAccount
+  const { decimal, symbol, amount, iconFile, typeHash } = udtAccount
   return (
-    <AddressUDTItemPanel>
-      <img className="address__udt__item__icon" src={SUDTTokenIcon} alt="udt icon" />
+    <AddressUDTItemPanel href={`/sudt/${typeHash}`}>
+      <img className="address__udt__item__icon" src={iconFile ? iconFile : SUDTTokenIcon} alt="udt icon" />
       <div className="address__udt__item__info">
         <span>{symbol}</span>
         <span>{parseUDTAmount(amount, decimal)}</span>
@@ -69,15 +69,7 @@ export const AddressAssetComp = () => {
       address: { udtAccounts },
     },
   } = useAppState()
-  udtAccounts[1] = udtAccounts[0]
-  udtAccounts[2] = udtAccounts[0]
-  udtAccounts[3] = udtAccounts[0]
-  udtAccounts[4] = udtAccounts[0]
-  udtAccounts[5] = udtAccounts[0]
-  udtAccounts[6] = udtAccounts[0]
-  udtAccounts[7] = udtAccounts[0]
-  udtAccounts[8] = udtAccounts[0]
-  udtAccounts[9] = udtAccounts[0]
+
   return (
     <OverviewCard items={addressAssetInfo(address)} titleCard={<TitleCard title={i18n.t('address.assets')} />}>
       <AddressUDTAssetsPanel>

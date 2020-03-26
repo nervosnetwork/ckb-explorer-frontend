@@ -183,16 +183,16 @@ export const AddressUDTAssetsPanel = styled.div`
     overflow-y: scroll;
 
     @media (min-width: 1200px) {
-      height: 155px;
+      max-height: 170px;
     }
 
     @media (max-width: 1200px) {
-      height: 230px;
+      max-height: 240px;
     }
   }
 `
 
-export const AddressUDTItemPanel = styled.div`
+export const AddressUDTItemPanel = styled.a`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -200,6 +200,7 @@ export const AddressUDTItemPanel = styled.div`
   padding: 8px;
   background: #ffffff;
   width: 260px;
+  height: 56px;
 
   .address__udt__item__icon {
     width: 40px;

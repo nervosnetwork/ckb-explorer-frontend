@@ -71,6 +71,8 @@ declare namespace State {
     symbol: string
     decimal: string
     amount: string
+    typeHash: string
+    iconFile: string
   }
 
   export interface Address {
