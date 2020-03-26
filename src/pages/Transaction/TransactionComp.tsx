@@ -60,7 +60,7 @@ export default () => {
 
   let confirmation = 0
   if (tipBlockNumber && blockNumber) {
-    confirmation = tipBlockNumber - blockNumber + 1
+    confirmation = tipBlockNumber - blockNumber
   }
 
   const overviewItems: OverviewItemData[] = [
