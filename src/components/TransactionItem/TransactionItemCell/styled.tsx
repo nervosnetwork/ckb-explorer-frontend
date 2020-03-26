@@ -68,7 +68,7 @@ export const TransactionCellCapacity = styled.div`
   color: #000000;
   margin-left: 15px;
   display: flex;
-  height: 20px;
+  max-height: 40px;
   align-items: center;
 
   @media (max-width: 750px) {
