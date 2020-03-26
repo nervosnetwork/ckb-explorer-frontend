@@ -22,12 +22,14 @@ const LeftArrowImage = styled.img`
 `
 
 const RightArrowImage = styled.img`
-  width: 16px;
+  width: 15px;
+  height: 15px;
   height: auto;
-  margin: 0px 0 1px 7px;
+  margin: 1px 0 0 7px;
 
   @media (max-width: 750px) {
     width: 12px;
+    height: 12px;
     margin: 0 5px 0 7px;
   }
 `
