@@ -54,7 +54,7 @@ const HashCardPanel = styled.div`
 
   .hash__title {
     font-size: 26px;
-    font-weight: 500;
+    font-weight: 600;
     color: #000000;
     white-space: nowrap;
 

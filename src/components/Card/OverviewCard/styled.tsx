@@ -156,6 +156,7 @@ export const OverviewItemPanel = styled.div`
     font-size: 16px;
     color: rgba(0, 0, 0, 0.6);
     margin-left: 0px;
+    font-weight: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '600' : '400')};
 
     @media (max-width: 750px) {
       width: 100%;
