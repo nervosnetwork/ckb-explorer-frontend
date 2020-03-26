@@ -1,23 +1,25 @@
 import styled from 'styled-components'
 
 export const HomeHeaderPanel = styled.div`
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-
   .blockchain__item__container {
-    width: 100%;
     display: flex;
     padding: 20px 5px;
-    margin: 30px 0 20px 0;
+    margin: 30px 120px 20px 120px;
     box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
     border-radius: 6px;
+
+    @media (max-width: 1440px) {
+      margin: 30px 100px 20px 100px;
+    }
+
+    @media (max-width: 1200px) {
+      margin: 30px 45px 20px 45px;
+    }
 
     @media (max-width: 750px) {
       flex-direction: column;
       padding: 0px 5px;
-      width: 88%;
-      margin: 20px 6%;
+      margin: 20px 45px;
       box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
       border-radius: 3px;
     }
@@ -53,7 +55,7 @@ export const HomeHeaderItemPanel = styled.div`
     .blockchain__item__top_name {
       color: ${props => props.theme.primary};
       font-size: 14px;
-      font-weight: 450;
+      font-weight: 600;
 
       @media (max-width: 1000px) {
         font-size: 12px;
@@ -89,7 +91,7 @@ export const HomeHeaderItemPanel = styled.div`
     .blockchain__item__bottom_name {
       color: ${props => props.theme.primary};
       font-size: 14px;
-      font-weight: 450;
+      font-weight: 600;
 
       @media (max-width: 1000px) {
         font-size: 12px;
@@ -278,7 +280,6 @@ export const HighLightValue = styled.div`
   height: 16px;
 
   a {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
     color: ${props => props.theme.primary};
   }
 

@@ -1,154 +1,88 @@
-import React, { ReactNode, useState } from 'react'
-import { Tooltip } from 'antd'
+import React from 'react'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import TitleCard from '../../components/Card/TitleCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import { useAppState } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
-import { localeNumberString, parseEpochNumber } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
-import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
+import { localeNumberString, parseUDTAmount } from '../../utils/number'
 import { shannonToCkb } from '../../utils/util'
 import {
-  AddressLockScriptItemPanel,
-  AddressLockScriptPanel,
   AddressTransactionsPagination,
   AddressTransactionsPanel,
-  AddressLockScriptController,
+  AddressUDTAssetsPanel,
+  AddressUDTItemPanel,
 } from './styled'
 import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import { parseSimpleDateNoSecond } from '../../utils/date'
-import CopyTooltipText from '../../components/Text/CopyTooltipText'
-import ArrowUpIcon from '../../assets/arrow_up.png'
-import ArrowDownIcon from '../../assets/arrow_down.png'
-import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
-import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
-import { isMainnet } from '../../utils/chain'
+import TitleCard from '../../components/Card/TitleCard'
+import CKBTokenIcon from '../../assets/ckb_token_icon.png'
+import SUDTTokenIcon from '../../assets/sudt_token.png'
+import { isMobile } from '../../utils/screen'
 
-const addressContent = (address: string) => {
-  if (!address) {
-    return i18n.t('address.unable_decode_address')
-  }
-  if (isMobile()) {
-    return adaptMobileEllipsis(address, 10)
-  }
-  const addressHash = adaptPCEllipsis(address, 13, 50)
-  if (addressHash.includes('...')) {
-    return (
-      <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
-        <span>{addressHash}</span>
-      </Tooltip>
-    )
-  }
-  return addressHash
-}
-
-const AddressLockScriptItem = ({ title, children }: { title: string; children?: ReactNode }) => {
-  return (
-    <AddressLockScriptItemPanel>
-      <div className="address_lock_script__title">
-        <span>{title}</span>
-      </div>
-      <div className="address_lock_script__content">{children}</div>
-    </AddressLockScriptItemPanel>
-  )
-}
-
-const AddressLockScript = ({ script }: { script: State.Script }) => {
-  return (
-    <AddressLockScriptPanel>
-      <AddressLockScriptItem title={i18n.t('address.code_hash')}>
-        <span>{script.codeHash}</span>
-      </AddressLockScriptItem>
-      <AddressLockScriptItem title={i18n.t('address.args')}>
-        <span>{script.args}</span>
-      </AddressLockScriptItem>
-      <AddressLockScriptItem title={i18n.t('address.hash_type')}>
-        <code>{script.hashType}</code>
-      </AddressLockScriptItem>
-    </AddressLockScriptPanel>
-  )
-}
-
-const lockScriptIcon = (show: boolean) => {
-  if (show) {
-    return isMainnet() ? ArrowUpIcon : ArrowUpBlueIcon
-  }
-  return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
-}
-
-const getAddressInfo = (addressState: State.AddressState) => {
-  const { address } = addressState
-  const items: OverviewItemData[] = [
+const addressAssetInfo = (address: State.Address) => {
+  const items = [
     {
-      title: i18n.t('address.balance'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} />,
-    },
-    {
-      title: i18n.t('transaction.transactions'),
-      content: localeNumberString(address.transactionsCount),
+      icon: CKBTokenIcon,
+      title: i18n.t('common.ckb_unit'),
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} hideUnit />,
     },
     {
       title: i18n.t('address.dao_deposit'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoDeposit))} />,
+      isAsset: true,
+    },
+    {
+      title: '',
+      content: '',
     },
     {
       title: i18n.t('address.compensation'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.interest))} />,
+      isAsset: true,
     },
-    {
-      title: i18n.t('address.live_cells'),
-      content: localeNumberString(address.liveCellsCount),
-    },
-    {
-      title: i18n.t('address.block_mined'),
-      content: localeNumberString(address.minedBlocksCount),
-    },
-  ]
-
-  if (address.type === 'LockHash' && address) {
-    items.push({
-      title: i18n.t('address.address'),
-      content: addressContent(address.addressHash),
-    })
-  }
-  const { lockInfo } = address
-  if (lockInfo && lockInfo.epochNumber && lockInfo.estimatedUnlockTime) {
-    const estimate = Number(lockInfo.estimatedUnlockTime) > new Date().getTime() ? i18n.t('address.estimated') : ''
-    items.push({
-      title: i18n.t('address.lock_until'),
-      content: `${parseEpochNumber(lockInfo.epochNumber)} ${i18n.t(
-        'address.epoch',
-      )} (${estimate} ${parseSimpleDateNoSecond(lockInfo.estimatedUnlockTime)})`,
-    })
-  }
-
+  ] as OverviewItemData[]
+  if (isMobile()) items.splice(2, 1)
   return items
 }
 
-export const AddressOverview = () => {
-  const [showLock, setShowLock] = useState<boolean>(false)
-  const { addressState } = useAppState()
+const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
+  const { decimal, symbol, amount, udtIconFile, typeHash } = udtAccount
   return (
-    <>
-      <TitleCard title={i18n.t('common.overview')} />
-      <OverviewCard items={getAddressInfo(addressState)}>
-        <AddressLockScriptController
-          role="button"
-          tabIndex={0}
-          onKeyUp={() => {}}
-          onClick={() => setShowLock(!showLock)}
-        >
-          <div>{i18n.t('address.lock_script')}</div>
-          <img alt="lock script" src={lockScriptIcon(showLock)} />
-        </AddressLockScriptController>
-        {showLock && addressState && addressState.address && addressState.address.lockScript && (
-          <AddressLockScript script={addressState.address.lockScript} />
-        )}
-      </OverviewCard>
-    </>
+    <AddressUDTItemPanel href={`/sudt/${typeHash}`}>
+      <img className="address__udt__item__icon" src={udtIconFile ? udtIconFile : SUDTTokenIcon} alt="udt icon" />
+      <div className="address__udt__item__info">
+        <span>{symbol}</span>
+        <span>{parseUDTAmount(amount, decimal)}</span>
+      </div>
+    </AddressUDTItemPanel>
+  )
+}
+
+const AddressTransactionsTitle = ({ count }: { count: number }) => {
+  return <TitleCard title={`${i18n.t('transaction.transactions')}(${localeNumberString(count)})`} />
+}
+
+export const AddressAssetComp = () => {
+  const {
+    addressState: {
+      address,
+      address: { udtAccounts = [] },
+    },
+  } = useAppState()
+
+  return (
+    <OverviewCard items={addressAssetInfo(address)} titleCard={<TitleCard title={i18n.t('address.assets')} />}>
+      {udtAccounts.length > 0 && (
+        <AddressUDTAssetsPanel>
+          <span>{i18n.t('address.user_define_token')}</span>
+          <div className="address__udt__assets__grid">
+            {udtAccounts.map(udt => {
+              return <AddressUDTItem udtAccount={udt} key={udt.symbol} />
+            })}
+          </div>
+        </AddressUDTAssetsPanel>
+      )}
+    </OverviewCard>
   )
 }
 
@@ -165,7 +99,7 @@ export const AddressTransactions = ({
     addressState: {
       transactions = [],
       total,
-      address: { addressHash },
+      address: { addressHash, transactionsCount },
     },
     app: { tipBlockNumber },
   } = useAppState()
@@ -178,7 +112,6 @@ export const AddressTransactions = ({
 
   return (
     <>
-      {transactions.length > 0 && <TitleCard title={i18n.t('transaction.transactions')} />}
       <AddressTransactionsPanel>
         {transactions.map((transaction: State.Transaction, index: number) => {
           return (
@@ -186,8 +119,9 @@ export const AddressTransactions = ({
               <TransactionItem
                 address={addressHash}
                 transaction={transaction}
-                confirmation={tipBlockNumber - transaction.blockNumber + 1}
+                confirmation={tipBlockNumber - transaction.blockNumber}
                 key={transaction.transactionHash}
+                titleCard={index === 0 ? <AddressTransactionsTitle count={transactionsCount} /> : null}
                 isLastItem={index === transactions.length - 1}
               />
             )
@@ -204,6 +138,6 @@ export const AddressTransactions = ({
 }
 
 export default {
-  AddressOverview,
+  AddressAssetComp,
   AddressTransactions,
 }

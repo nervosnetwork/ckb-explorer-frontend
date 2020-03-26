@@ -3,29 +3,40 @@ import styled from 'styled-components'
 
 const TitleCardPanel = styled.div`
   width: 100%;
-  border-radius: 6px 6px 0px 0px;
-  box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
   height: 50px;
-  margin-top: 20px;
-  padding: 15px 0px;
-  color: #000000;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 
   @media (max-width: 750px) {
-    margin-top: 10px;
-    padding: 10px 0px;
     height: 40px;
-    font-size: 16px;
-    border-radius: 3px 3px 0px 0px;
-    box-shadow: 1px 1px 3px 0 #dfdfdf;
-    line-height: 1.25;
+  }
+
+  .title__card__content {
+    color: #000000;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 12px;
+
+    @media (max-width: 750px) {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+  }
+
+  .title__card__separate {
+    background: #eaeaea;
+    width: 100%;
+    height: 1px;
   }
 `
 
 export default ({ title }: { title: string }) => {
-  return <TitleCardPanel>{title}</TitleCardPanel>
+  return (
+    <TitleCardPanel>
+      <div className="title__card__content">{title}</div>
+      <div className="title__card__separate" />
+    </TitleCardPanel>
+  )
 }

@@ -1,27 +1,17 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: Montserrat, Montserrat-Regular, PingFang SC, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Noto Sans CJK SC', 'Noto Sans CJK',
-    'Source Han Sans', source-han-sans-simplified-c, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
-}
-
-.address {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
-}
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
 }
 
 *[role]:focus {
@@ -29,9 +19,29 @@ code {
 }
 
 .container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  width: auto;
+  margin: 0 120px;
+}
+
+@media (max-width: 1440px) {
+  .container {
+    width: auto;
+    margin: 0 100px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .container {
+    width: auto;
+    margin: 0 45px;
+  }
+}
+
+@media (max-width: 750px) {
+  .container {
+    width: auto;
+    margin: 0 18px;
+  }
 }
 
 a {
@@ -50,84 +60,5 @@ a {
 @media (max-width: 750px) {
   .ant-popover-inner-content {
     padding: 5px !important;
-  }
-}
-
-/* Ant Design Select component*/
-.ant-select-selection-selected-value {
-  color: #000000;
-  height: 26px;
-  line-height: 26px;
-}
-
-@media (max-width: 750px) {
-  .ant-select-selection-selected-value {
-    height: 20px;
-    line-height: 20px;
-  }
-}
-
-.ant-select-selection {
-  border: 0.5px solid #b3b3b3 !important;
-  border-radius: 2px !important;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 255) !important;
-}
-
-.ant-select-selection--single {
-  height: 26px !important;
-  line-height: 26px !important;
-}
-
-@media (max-width: 750px) {
-  .ant-select-selection--single {
-    height: 20px !important;
-    line-height: 20px !important;
-  }
-}
-
-.ant-select-dropdown-menu-item-active {
-  background: #f5f5f5 !important;
-}
-
-.ant-select-dropdown-menu-item {
-  line-height: 20px !important;
-  padding: 6px 12px !important;
-}
-
-@media (max-width: 750px) {
-  .ant-select-dropdown-menu-item {
-    padding: 0px 12px !important;
-  }
-}
-
-.ant-select-selection-selected-value {
-  font-size: 12px;
-}
-
-@media (max-width: 750px) {
-  .ant-select-selection-selected-value {
-    font-size: 10px;
-    line-height: 18px !important;
-  }
-}
-
-.ant-select-dropdown {
-  border-radius: 0px !important;
-}
-
-.ant-select-dropdown-menu {
-  padding: 0px !important;
-}
-
-.ant-select-dropdown-menu-custom {
-  color: #000000 !important;
-  font-size: 12px !important;
-  letter-spacing: 0.6px;
-  padding: 0px;
-}
-
-@media (max-width: 750px) {
-  .ant-select-dropdown-menu-custom {
-    font-size: 10px !important;
   }
 }

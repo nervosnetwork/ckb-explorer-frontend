@@ -8,7 +8,6 @@ import PackUpIcon from '../../assets/content_pack_up.png'
 import DropDownBlueIcon from '../../assets/content_blue_drop_down.png'
 import PackUpBlueIcon from '../../assets/content_blue_pack_up.png'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import TitleCard from '../../components/Card/TitleCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import { useAppState } from '../../contexts/providers'
 import { parseSimpleDate } from '../../utils/date'
@@ -32,10 +31,11 @@ import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { DELAY_BLOCK_NUMBER } from '../../utils/const'
+import TitleCard from '../../components/Card/TitleCard'
 
 const handleMinerText = (address: string) => {
   if (isMobile()) {
-    return adaptMobileEllipsis(address, 12)
+    return adaptMobileEllipsis(address, 8)
   }
   return adaptPCEllipsis(address, 12, 50)
 }
@@ -49,14 +49,10 @@ const BlockMiner = ({ miner }: { miner: string }) => {
     <BlockLinkPanel>
       {minerText.includes('...') ? (
         <Tooltip placement="top" title={<CopyTooltipText content={miner} />}>
-          <Link to={`/address/${miner}`}>
-            <span className="address">{minerText}</span>
-          </Link>
+          <Link to={`/address/${miner}`}>{minerText}</Link>
         </Tooltip>
       ) : (
-        <Link to={`/address/${miner}`}>
-          <span className="address">{minerText}</span>
-        </Link>
+        <Link to={`/address/${miner}`}>{minerText}</Link>
       )}
     </BlockLinkPanel>
   )
@@ -185,7 +181,7 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     return showAllOverview ? PackUpBlueIcon : DropDownBlueIcon
   }
   return (
-    <OverviewCard items={overviewItems}>
+    <OverviewCard items={overviewItems} titleCard={<TitleCard title={i18n.t('common.overview')} />}>
       {isMobile() ? (
         <BlockOverviewDisplayControlPanel onClick={() => setShowAllOverview(!showAllOverview)}>
           <img src={getDropdownIcon()} alt={showAllOverview ? 'show' : 'hide'} />
@@ -225,9 +221,7 @@ export default ({
 
   return (
     <>
-      <TitleCard title={i18n.t('common.overview')} />
       {block && <BlockOverview block={block} />}
-      <TitleCard title={i18n.t('transaction.transactions')} />
       {transactions.map((transaction: State.Transaction, index: number) => {
         return (
           transaction && (
@@ -236,6 +230,7 @@ export default ({
               transaction={transaction}
               isBlock
               isLastItem={index === transactions.length - 1}
+              titleCard={index === 0 ? <TitleCard title={i18n.t('transaction.transactions')} /> : null}
             />
           )
         )

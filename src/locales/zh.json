@@ -21,7 +21,7 @@
       "charts": "图表",
       "nervos_dao": "Nervos DAO",
       "docs": "文档",
-      "search_placeholder": "区块 / 交易 / 地址 / 锁定脚本哈希",
+      "search_placeholder": "区块 / 交易 / 地址 / 锁定脚本哈希 / Type 脚本哈希",
       "mainnet": "LINA",
       "testnet": "测试网",
       "language_en": "EN",
@@ -100,7 +100,8 @@
       "telegram": "Telegram",
       "reddit": "Reddit",
       "youtube": "YouTube",
-      "forum": "Forum"
+      "forum": "Forum",
+      "sudt_submit": "提交 sUDT 信息"
     },
     "search": {
       "loading": "加载中...",
@@ -125,9 +126,11 @@
       "lock_until": "锁定到期",
       "estimated": "预计",
       "epoch": "Epoch",
-      "code_hash": "Code Hash",
-      "args": "Args",
-      "hash_type": "Hash Type",
+      "code_hash": "Code Hash: ",
+      "args": "Args: ",
+      "hash_type": "Hash Type: ",
+      "assets": "资产",
+      "user_define_token": "User Define Token",
       "confirmation": "确认区块",
       "confirmations": "确认区块",
       "unable_decode_address": "地址解析失败",
@@ -245,6 +248,16 @@
       "end_page": "页",
       "current_page": "第",
       "of_page": "页，共"
+    },
+    "udt": {
+      "sudt": "sUDT",
+      "name": "代币名称",
+      "symbol": "代币符号",
+      "total_amount": "总量",
+      "holder_addresses": "持币用户数",
+      "decimal": "小数位",
+      "search_placeholder": "地址",
+      "unknown_token": "未知资产"
     }
   }
 }

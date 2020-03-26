@@ -21,7 +21,7 @@
       "charts": "Charts",
       "nervos_dao": "Nervos DAO",
       "docs": "Docs",
-      "search_placeholder": "Block / Transaction / Address / Lock Hash",
+      "search_placeholder": "Block/Transaction/Address/Lock Hash/Type Hash",
       "mainnet": "LINA",
       "testnet": "TESTNET",
       "language_en": "EN",
@@ -100,7 +100,8 @@
       "telegram": "Telegram",
       "reddit": "Reddit",
       "youtube": "YouTube",
-      "forum": "Forum"
+      "forum": "Forum",
+      "sudt_submit": "sUDT Submit"
     },
     "search": {
       "loading": "Loading...",
@@ -125,9 +126,11 @@
       "lock_until": "Lock Until",
       "estimated": "Estimated",
       "epoch": "Epoch",
-      "code_hash": "Code Hash",
-      "args": "Args",
-      "hash_type": "Hash Type",
+      "code_hash": "Code Hash: ",
+      "args": "Args: ",
+      "hash_type": "Hash Type: ",
+      "assets": "Assets",
+      "user_define_token": "User Define Token",
       "confirmation": "Confirmation",
       "confirmations": "Confirmations",
       "unable_decode_address": "Unable to decode address",
@@ -244,6 +247,16 @@
       "end_page": "",
       "current_page": "Page",
       "of_page": "of"
+    },
+    "udt": {
+      "sudt": "sUDT",
+      "name": "Name",
+      "symbol": "Symbol",
+      "total_amount": "Total Amount",
+      "holder_addresses": "Holder Addresses",
+      "decimal": "Decimal",
+      "search_placeholder": "Address",
+      "unknown_token": "Unknown Token"
     }
   }
 }

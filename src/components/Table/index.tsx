@@ -113,7 +113,6 @@ const TableMinerContentPanel = styled.div`
 
 const HighlightLink = styled(Link)`
   color: ${props => props.theme.primary}
-  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
   text-decoration: none;
 `
 

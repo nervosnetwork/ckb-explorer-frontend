@@ -8,7 +8,6 @@ export const TransactionDiv = styled.div.attrs({
   align-items: center;
   margin-top: 40px;
   margin-bottom: 40px;
-  width: 100%;
 
   @media (max-width: 750px) {
     margin: 0px;
@@ -17,11 +16,6 @@ export const TransactionDiv = styled.div.attrs({
 
   .transaction__overview {
     width: 100%;
-    margin-top: 15px;
-
-    @media (max-width: 750px) {
-      margin-top: 5px;
-    }
 
     .transaction__overview_info {
       margin: 5px 0;
@@ -57,16 +51,10 @@ export const TransactionDiv = styled.div.attrs({
 
   .transaction__inputs {
     width: 100%;
-    margin-top: 20px;
-
-    @media (max-width: 750px) {
-      margin-top: 10px;
-    }
   }
 
   .transaction__outputs {
     width: 100%;
-    margin-top: 5px;
   }
 `
 
@@ -94,7 +82,6 @@ export const TransactionInfoItemPanel = styled.div`
     margin-top: 5px;
     max-height: 200px;
     overflow-y: scroll;
-    font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
 
     @media (max-width: 750px) {
       margin-left: 0px;

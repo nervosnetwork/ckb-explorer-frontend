@@ -6,6 +6,7 @@ import { CellType } from '../../../utils/const'
 import RightGreenArrow from '../../../assets/right_green_arrow.png'
 import RightBlueArrow from '../../../assets/right_blue_arrow.png'
 import LiveCellIcon from '../../../assets/live_cell.png'
+import LiveCellBlueIcon from '../../../assets/live_cell_blue.png'
 import { isMainnet } from '../../../utils/chain'
 import i18n from '../../../utils/i18n'
 
@@ -53,7 +54,7 @@ const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
   }
   return (
     <Tooltip placement="topRight" title={i18n.t('transaction.unspent_output')} arrowPointAtCenter>
-      <RightArrowImage src={LiveCellIcon} alt="right arrow" />
+      <RightArrowImage src={isMainnet() ? LiveCellIcon : LiveCellBlueIcon} alt="right arrow" />
     </Tooltip>
   )
 }

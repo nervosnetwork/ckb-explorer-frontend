@@ -60,7 +60,7 @@ export default () => {
 
   let confirmation = 0
   if (tipBlockNumber && blockNumber) {
-    confirmation = tipBlockNumber - blockNumber + 1
+    confirmation = tipBlockNumber - blockNumber
   }
 
   const overviewItems: OverviewItemData[] = [
@@ -132,9 +132,9 @@ export default () => {
   if (witnesses) {
     transactionInfo.push({
       title: i18n.t('transaction.witnesses'),
-      content: witnesses.map(witness => {
+      content: witnesses.map((witness, index) => {
         return (
-          <TransactionInfoContentPanel key={witness}>
+          <TransactionInfoContentPanel key={`${witness}-${index}`}>
             <TransactionInfoComp title="Witness" value={witness} />
           </TransactionInfoContentPanel>
         )

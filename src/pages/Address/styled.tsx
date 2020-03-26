@@ -1,12 +1,23 @@
 import styled from 'styled-components'
 
+export const AddressTitleOverviewPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+
+  .address__title__separate {
+    background: #eaeaea;
+    width: 100%;
+    height: 1px;
+  }
+`
+
 export const AddressContentPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 25px;
   margin-bottom: 40px;
-  width: 100%;
 
   @media (max-width: 750px) {
     margin: 0px;
@@ -66,10 +77,13 @@ export const AddressLockScriptController = styled.div`
 
 export const AddressLockScriptPanel = styled.div`
   width: 100%;
-  margin-top: 20px;
+  margin-top: 8px;
+  background-color: #f7f7f7;
+  padding: 12px 24px;
 
   @media (max-width: 750px) {
-    margin-top: 10px;
+    margin-top: 5px;
+    padding: 6px 12px;
   }
 
   .address__lock_script_title {
@@ -89,14 +103,24 @@ export const AddressLockScriptItemPanel = styled.div`
   flex-direction: row;
   align-items: center;
   align-items: flex-start;
-  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
 
   @media (min-width: 750px) {
     height: 20px;
   }
 
+  @media (max-width: 1200px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 12px;
+  }
+
   @media (max-width: 750px) {
     flex-direction: column;
+    font-size: 14px;
   }
 
   .address_lock_script__title {
@@ -104,24 +128,11 @@ export const AddressLockScriptItemPanel = styled.div`
     flex-direction: row;
     align-items: center;
     width: 130px;
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-
-    &:before {
-      content: ' ';
-      width: 9px;
-      height: 9px;
-      border-radius: 50% 50%;
-      background: ${prop => prop.theme.primary};
-
-      @media (max-width: 750px) {
-        width: 5px;
-        height: 5px;
-      }
-    }
 
     > span {
       margin-left: 10px;
       font-weight: 500;
+      color: rgba(0, 0, 0, 0.6);
 
       @media (max-width: 750px) {
         margin-left: 5px;
@@ -135,7 +146,7 @@ export const AddressLockScriptItemPanel = styled.div`
     display: flex;
     flex-direction: column;
     transform: translateY(2px);
-    font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
+    color: #000000;
 
     @media (max-width: 750px) {
       margin-left: 10px;
@@ -151,10 +162,74 @@ export const AddressTransactionsPanel = styled.div`
 `
 
 export const AddressTransactionsPagination = styled.div`
-  margin: 20px 0 0px 0;
+  margin: 20px 0 0 0;
   width: 100%;
 
   @media (max-width: 750px) {
     margin: 10px 0 0px 0;
+  }
+`
+
+export const AddressUDTAssetsPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+
+  > span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+  }
+
+  .address__udt__assets__grid {
+    margin-top: 10px;
+    background-color: #f1f1f1;
+    padding: 6px 25px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+
+    @media (min-width: 1200px) {
+      max-height: 170px;
+    }
+
+    @media (max-width: 1200px) {
+      max-height: 240px;
+    }
+  }
+`
+
+export const AddressUDTItemPanel = styled.a`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 6px 15px;
+  padding: 8px;
+  background: #ffffff;
+  width: 260px;
+  height: 56px;
+
+  .address__udt__item__icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+  }
+
+  .address__udt__item__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    > span {
+      font-size: 14px;
+      color: #000000;
+    }
+
+    > span:nth-child(1) {
+      margin-bottom: 1px;
+    }
   }
 `

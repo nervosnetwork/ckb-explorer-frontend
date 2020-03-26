@@ -68,7 +68,7 @@ export const TransactionCellCapacity = styled.div`
   color: #000000;
   margin-left: 15px;
   display: flex;
-  height: 20px;
+  max-height: 40px;
   align-items: center;
 
   @media (max-width: 750px) {
@@ -134,10 +134,6 @@ export const CellbasePanel = styled.div`
 `
 
 export const WithdrawInfoPanel = styled.div`
-  font-family: Montserrat, Montserrat-Regular, PingFang SC, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Noto Sans CJK SC', 'Noto Sans CJK',
-    'Source Han Sans', source-han-sans-simplified-c, sans-serif;
-
   > p {
     font-size: 16px;
     font-weight: 600;
@@ -165,9 +161,9 @@ export const WithdrawInfoPanel = styled.div`
       width: ${({ width }: { width: string }) => {
         switch (width) {
           case 'long':
-            return '200px'
+            return '240px'
           case 'medium':
-            return '160px'
+            return '190px'
           default:
             return '80px'
         }
@@ -178,9 +174,9 @@ export const WithdrawInfoPanel = styled.div`
         width: ${({ width }: { width: string }) => {
           switch (width) {
             case 'long':
-              return '140px'
+              return '160px'
             case 'medium':
-              return '115px'
+              return '130px'
             default:
               return '60px'
           }
@@ -192,9 +188,9 @@ export const WithdrawInfoPanel = styled.div`
         width: ${({ width }: { width: string }) => {
           switch (width) {
             case 'long':
-              return '125px'
+              return '145px'
             case 'medium':
-              return '100px'
+              return '115px'
             default:
               return '65px'
           }

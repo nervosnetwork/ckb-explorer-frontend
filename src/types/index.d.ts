@@ -25,6 +25,14 @@ declare namespace State {
     message: string[]
   }
 
+  interface UDTInfo {
+    symbol: string
+    amount: string
+    decimal: string
+    typeHash: string
+    published: boolean
+  }
+
   interface Cell {
     id: number
     addressHash: string
@@ -39,7 +47,7 @@ declare namespace State {
     consumedTxHash: string
     status: 'live' | 'dead'
     isGenesisOutput: boolean
-    cellType: 'normal' | 'dao'
+    cellType: 'normal' | 'nervos_dao_deposit' | 'nervos_dao_withdrawing' | 'udt'
     cellIndex: string
     compensationStartedBlockNumber: number
     compensationEndedBlockNumber: number
@@ -49,6 +57,7 @@ declare namespace State {
     lockedUntilBlockTimestamp: number
     interest: string
     daoTypeHash: string
+    udtInfo: UDTInfo
   }
 
   export interface LockInfo {
@@ -56,6 +65,14 @@ declare namespace State {
     epochNumber: string
     epochIndex: string
     estimatedUnlockTime: string
+  }
+
+  export interface UDTAccount {
+    symbol: string
+    decimal: string
+    amount: string
+    typeHash: string
+    udtIconFile: string
   }
 
   export interface Address {
@@ -73,6 +90,7 @@ declare namespace State {
     minedBlocksCount: string
     isSpecial: boolean
     specialAddress: string
+    udtAccounts: UDTAccount[]
   }
 
   export interface Block {
@@ -263,6 +281,22 @@ declare namespace State {
     None: string
   }
 
+  export interface UDT {
+    symbol: string
+    fullName: string
+    totalAmount: string
+    addressesCount: string
+    decimal: string
+    iconFile: string
+  }
+
+  export interface UDTState {
+    udt: UDT
+    transactions: Transaction[]
+    total: number
+    status: keyof FetchStatus
+  }
+
   export interface App {
     toast: State.ToastMessage | null
     loading: boolean
@@ -332,6 +366,7 @@ declare namespace State {
     statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
 
     nervosDaoState: NervosDaoState
+    udtState: UDTState
 
     components: Components
   }
