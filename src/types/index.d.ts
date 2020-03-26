@@ -29,7 +29,7 @@ declare namespace State {
     symbol: string
     amount: string
     decimal: string
-    typeHashShort: string
+    typeHash: string
     published: boolean
   }
 
@@ -72,7 +72,7 @@ declare namespace State {
     decimal: string
     amount: string
     typeHash: string
-    iconFile: string
+    udtIconFile: string
   }
 
   export interface Address {

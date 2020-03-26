@@ -76,11 +76,11 @@ const detailTitleIcons = (cell: State.Cell) => {
     detailIcon = NervosDAOWithdrawingIcon
   } else if (cell.cellType === DaoType.Udt) {
     const {
-      udtInfo: { published, symbol, amount, decimal, typeHashShort },
+      udtInfo: { published, symbol, amount, decimal, typeHash },
     } = cell
     detailTitle = published
       ? `${parseUDTAmount(amount, decimal)} ${symbol}`
-      : `${i18n.t('udt.unknown_token')} #<${typeHashShort}>`
+      : `${i18n.t('udt.unknown_token')} #<${typeHash.substring(typeHash.length - 4)}>`
     detailIcon = UDTTokenIcon
   }
   return {
