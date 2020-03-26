@@ -96,7 +96,7 @@ export const baseUrl = () => {
   const mainnetUrl = `${CONFIG.MAINNET_URL}`
   const testnetUrl = `${CONFIG.MAINNET_URL}/${CONFIG.TESTNET_NAME}`
 
-  return isMainnet() ? testnetUrl : mainnetUrl
+  return isMainnet() ? mainnetUrl : testnetUrl
 }
 
 export default {
