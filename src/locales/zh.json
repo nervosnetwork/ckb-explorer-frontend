@@ -257,7 +257,7 @@
       "holder_addresses": "持币用户数",
       "decimal": "小数位",
       "search_placeholder": "地址",
-      "unknown_token": "Unknown Token"
+      "unknown_token": "未知资产"
     }
   }
 }

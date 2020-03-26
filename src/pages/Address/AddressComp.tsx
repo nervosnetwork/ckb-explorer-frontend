@@ -66,20 +66,22 @@ export const AddressAssetComp = () => {
   const {
     addressState: {
       address,
-      address: { udtAccounts },
+      address: { udtAccounts = [] },
     },
   } = useAppState()
 
   return (
     <OverviewCard items={addressAssetInfo(address)} titleCard={<TitleCard title={i18n.t('address.assets')} />}>
-      <AddressUDTAssetsPanel>
-        <span>{i18n.t('address.user_define_token')}</span>
-        <div className="address__udt__assets__grid">
-          {udtAccounts.map(udt => {
-            return <AddressUDTItem udtAccount={udt} key={udt.symbol} />
-          })}
-        </div>
-      </AddressUDTAssetsPanel>
+      {udtAccounts.length > 0 && (
+        <AddressUDTAssetsPanel>
+          <span>{i18n.t('address.user_define_token')}</span>
+          <div className="address__udt__assets__grid">
+            {udtAccounts.map(udt => {
+              return <AddressUDTItem udtAccount={udt} key={udt.symbol} />
+            })}
+          </div>
+        </AddressUDTAssetsPanel>
+      )}
     </OverviewCard>
   )
 }
