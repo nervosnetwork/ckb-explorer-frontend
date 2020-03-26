@@ -6,8 +6,8 @@ import Content from '../../components/Content'
 import Search from '../../components/Search'
 import i18n from '../../utils/i18n'
 import { SearchFailType } from '../../utils/const'
-import CONFIG from '../../config'
 import { isMainnet } from '../../utils/chain'
+import { baseUrl } from '../../utils/util'
 
 const SearchPanel = styled.div`
   margin-top: 211px;
@@ -48,13 +48,6 @@ const SearchContent = styled.div`
     margin-top: 18px;
   }
 `
-
-const baseUrl = () => {
-  const mainnetUrl = `${CONFIG.MAINNET_URL}`
-  const testnetUrl = `${CONFIG.MAINNET_URL}/${CONFIG.TESTNET_NAME}`
-
-  return isMainnet() ? testnetUrl : mainnetUrl
-}
 
 const chainErrorMessage = () => {
   return isMainnet() ? i18n.t('search.address_type_testnet_error') : i18n.t('search.address_type_mainnet_error')
