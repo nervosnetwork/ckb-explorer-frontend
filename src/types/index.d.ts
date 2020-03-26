@@ -67,6 +67,12 @@ declare namespace State {
     estimatedUnlockTime: string
   }
 
+  export interface UDTAccount {
+    symbol: string
+    decimal: string
+    amount: string
+  }
+
   export interface Address {
     addressHash: string
     lockHash: string
@@ -82,6 +88,7 @@ declare namespace State {
     minedBlocksCount: string
     isSpecial: boolean
     specialAddress: string
+    udtAccounts: UDTAccount[]
   }
 
   export interface Block {

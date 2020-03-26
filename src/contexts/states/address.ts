@@ -23,6 +23,7 @@ export const initAddressState: State.AddressState = {
     minedBlocksCount: '',
     isSpecial: false,
     specialAddress: '',
+    udtAccounts: [],
   },
   transactions: [],
   total: 0,

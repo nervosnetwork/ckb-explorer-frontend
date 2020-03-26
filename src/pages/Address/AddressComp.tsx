@@ -4,17 +4,22 @@ import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCa
 import TransactionItem from '../../components/TransactionItem/index'
 import { useAppState } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
-import { localeNumberString } from '../../utils/number'
+import { localeNumberString, parseUDTAmount } from '../../utils/number'
 import { shannonToCkb } from '../../utils/util'
-import { AddressTransactionsPagination, AddressTransactionsPanel } from './styled'
+import {
+  AddressTransactionsPagination,
+  AddressTransactionsPanel,
+  AddressUDTAssetsPanel,
+  AddressUDTItemPanel,
+} from './styled'
 import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from '../../assets/ckb_token_icon.png'
+import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { isMobile } from '../../utils/screen'
 
-const addressAssetInfo = (addressState: State.AddressState) => {
-  const { address } = addressState
+const addressAssetInfo = (address: State.Address) => {
   const items = [
     {
       icon: CKBTokenIcon,
@@ -40,17 +45,50 @@ const addressAssetInfo = (addressState: State.AddressState) => {
   return items
 }
 
+const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
+  const { decimal, symbol, amount } = udtAccount
+  return (
+    <AddressUDTItemPanel>
+      <img className="address__udt__item__icon" src={SUDTTokenIcon} alt="udt icon" />
+      <div className="address__udt__item__info">
+        <span>{symbol}</span>
+        <span>{parseUDTAmount(amount, decimal)}</span>
+      </div>
+    </AddressUDTItemPanel>
+  )
+}
+
 const AddressTransactionsTitle = ({ count }: { count: number }) => {
   return <TitleCard title={`${i18n.t('transaction.transactions')}(${localeNumberString(count)})`} />
 }
 
 export const AddressAssetComp = () => {
-  const { addressState } = useAppState()
+  const {
+    addressState: {
+      address,
+      address: { udtAccounts },
+    },
+  } = useAppState()
+  udtAccounts[1] = udtAccounts[0]
+  udtAccounts[2] = udtAccounts[0]
+  udtAccounts[3] = udtAccounts[0]
+  udtAccounts[4] = udtAccounts[0]
+  udtAccounts[5] = udtAccounts[0]
+  udtAccounts[6] = udtAccounts[0]
+  udtAccounts[7] = udtAccounts[0]
+  udtAccounts[8] = udtAccounts[0]
+  udtAccounts[9] = udtAccounts[0]
   return (
-    <OverviewCard
-      items={addressAssetInfo(addressState)}
-      titleCard={<TitleCard title={i18n.t('address.assets')} />}
-    ></OverviewCard>
+    <OverviewCard items={addressAssetInfo(address)} titleCard={<TitleCard title={i18n.t('address.assets')} />}>
+      <AddressUDTAssetsPanel>
+        <span>{i18n.t('address.user_define_token')}</span>
+        <div className="address__udt__assets__grid">
+          {udtAccounts.map(udt => {
+            return <AddressUDTItem udtAccount={udt} />
+          })}
+        </div>
+      </AddressUDTAssetsPanel>
+    </OverviewCard>
   )
 }
 

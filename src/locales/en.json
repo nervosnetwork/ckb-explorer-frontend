@@ -130,6 +130,7 @@
       "args": "Args: ",
       "hash_type": "Hash Type: ",
       "assets": "Assets",
+      "user_define_token": "User Define Token",
       "confirmation": "Confirmation",
       "confirmations": "Confirmations",
       "unable_decode_address": "Unable to decode address",

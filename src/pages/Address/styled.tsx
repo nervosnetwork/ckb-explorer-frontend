@@ -159,3 +159,66 @@ export const AddressTransactionsPagination = styled.div`
     margin: 10px 0 0px 0;
   }
 `
+
+export const AddressUDTAssetsPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 20px;
+
+  > span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+  }
+
+  .address__udt__assets__grid {
+    margin-top: 10px;
+    background-color: #f1f1f1;
+    padding: 6px 25px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+
+    @media (min-width: 1200px) {
+      height: 155px;
+    }
+
+    @media (max-width: 1200px) {
+      height: 230px;
+    }
+  }
+`
+
+export const AddressUDTItemPanel = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 6px 15px;
+  padding: 8px;
+  background: #ffffff;
+  width: 260px;
+
+  .address__udt__item__icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+  }
+
+  .address__udt__item__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    > span {
+      font-size: 14px;
+      color: #000000;
+    }
+
+    > span:nth-child(1) {
+      margin-bottom: 1px;
+    }
+  }
+`
