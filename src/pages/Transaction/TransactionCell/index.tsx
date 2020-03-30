@@ -23,7 +23,8 @@ import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png
 import CKBTransferIcon from '../../../assets/ckb_transfer.png'
 import UDTTokenIcon from '../../../assets/udt_token.png'
 import TransactionCellScript from '../TransactionCellScript'
-import OutsideClickHandler from 'react-outside-click-handler'
+import SimpleModal from '../../../components/Modal'
+import SimpleButton from '../../../components/SimpleButton'
 
 const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
@@ -100,31 +101,19 @@ const TransactionCellDetailContainer = ({ cell }: { cell: State.Cell }) => {
         <div>{detailTitle}</div>
       </div>
       <div className="transaction__detail__cell_info">
-        <div
+        <SimpleButton
           className="transaction__cell__info__content"
-          role="button"
-          tabIndex={-1}
-          onKeyDown={() => {}}
           onClick={() => {
             setShowModal(true)
           }}
-        >
-          Cell Info
-        </div>
+          children={'Cell Info'}
+        />
         <div className="transaction__cell__info__separate" />
-        {showModal && (
+        <SimpleModal isShow={showModal}>
           <TransactionCellDetailModal>
-            <OutsideClickHandler
-              onOutsideClick={() => {
-                setShowModal(false)
-              }}
-            >
-              <div className="transaction__detail__modal__content">
-                <TransactionCellScript cell={cell} onClose={() => setShowModal(false)} />
-              </div>
-            </OutsideClickHandler>
+            <TransactionCellScript cell={cell} onClose={() => setShowModal(false)} />
           </TransactionCellDetailModal>
-        )}
+        </SimpleModal>
       </div>
     </TransactionCellDetailPanel>
   )
