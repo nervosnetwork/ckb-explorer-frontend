@@ -14,6 +14,7 @@ import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import { isMainnet } from '../../utils/chain'
+import SimpleButton from '../../components/SimpleButton'
 
 const TransactionBlockHeight = ({ blockNumber }: { blockNumber: number }) => {
   return (
@@ -152,16 +153,10 @@ export default () => {
       <div className="transaction__overview">
         <OverviewCard items={overviewItems}>
           <div className="transaction__overview_info">
-            <div
-              className="transaction__overview_parameters"
-              role="button"
-              tabIndex={0}
-              onKeyUp={() => {}}
-              onClick={() => setShowParams(!showParams)}
-            >
+            <SimpleButton className="transaction__overview_parameters" onClick={() => setShowParams(!showParams)}>
               <div>{i18n.t('transaction.transaction_parameters')}</div>
               <img alt="transaction parameters" src={transactionParamsIcon(showParams)} />
-            </div>
+            </SimpleButton>
             {showParams &&
               transactionInfo.map(item => {
                 return (
