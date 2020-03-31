@@ -28,6 +28,7 @@ import LanDropdown from '../Dropdown/Language'
 import ChainDropdown from '../Dropdown/ChainType'
 import { isMainnet } from '../../utils/chain'
 import CONFIG from '../../config'
+import SimpleButton from '../SimpleButton'
 
 export const handleVersion = (nodeVersion: string) => {
   if (nodeVersion && nodeVersion.indexOf('(') !== -1) {
@@ -118,11 +119,8 @@ const BlockchainComp = () => {
         setShowChainDropdown(false)
       }}
     >
-      <div
+      <SimpleButton
         className="header__blockchain__flag"
-        role="button"
-        tabIndex={-1}
-        onFocus={() => {}}
         onMouseOver={() => {
           setShowChainDropdown(true)
         }}
@@ -134,7 +132,7 @@ const BlockchainComp = () => {
           <img src={getDropdownIcon(showChainDropdown)} alt="dropdown icon" />
         </div>
         <div className="header__blockchain__node__version">{handleVersion(nodeVersion)}</div>
-      </div>
+      </SimpleButton>
       {showChainDropdown && (
         <ChainDropdown setShowChainDropdown={setShowChainDropdown} left={chainDropdownLeft} top={chainDropdownTop} />
       )}
@@ -170,11 +168,8 @@ const LanguageComp = () => {
       }}
       showLanguage={showLanguage}
     >
-      <div
+      <SimpleButton
         className="header__language__flag"
-        role="button"
-        tabIndex={-1}
-        onFocus={() => {}}
         onMouseOver={() => {
           setShowLanguage(true)
         }}
@@ -183,7 +178,7 @@ const LanguageComp = () => {
           <div className="header__language__content">{languageText(currentLanguage())}</div>
           <img src={getDropdownIcon(showLanguage)} alt="dropdown icon" />
         </div>
-      </div>
+      </SimpleButton>
       {showLanguage && (
         <LanDropdown setShowLanguage={setShowLanguage} left={languageDropdownLeft} top={languageDropdownTop} />
       )}

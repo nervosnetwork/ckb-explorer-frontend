@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import i18n from '../../utils/i18n'
 import CONFIG from '../../config'
 import { isMainnet } from '../../utils/chain'
+import SimpleButton from '../SimpleButton'
 
 export const ChainTypePanel = styled.div`
   width: 130px;
@@ -92,29 +93,23 @@ export default ({ setShowChainDropdown, left, top }: { setShowChainDropdown: Fun
         setShowChainDropdown(false)
       }}
     >
-      <div
+      <SimpleButton
         className={`chain_type_${isMainnet() ? 'selected' : 'normal'}`}
-        role="button"
-        tabIndex={-1}
-        onKeyDown={() => {}}
         onClick={() => {
           setShowChainDropdown(false)
         }}
       >
         <a href={CONFIG.MAINNET_URL}>{i18n.t('blockchain.mainnet')}</a>
-      </div>
+      </SimpleButton>
       <div className="chain_type_separate" />
-      <div
+      <SimpleButton
         className={`chain_type_${!isMainnet() ? 'selected' : 'normal'}`}
-        role="button"
-        tabIndex={-1}
-        onKeyDown={() => {}}
         onClick={() => {
           setShowChainDropdown(false)
         }}
       >
         <a href={testnetUrl}>{`${CONFIG.TESTNET_NAME} ${i18n.t('blockchain.testnet')}`}</a>
-      </div>
+      </SimpleButton>
     </ChainTypePanel>
   )
 }

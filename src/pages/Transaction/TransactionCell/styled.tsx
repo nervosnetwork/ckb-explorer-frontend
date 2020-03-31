@@ -143,27 +143,15 @@ export const TransactionCellDetailPanel = styled.div`
 `
 
 export const TransactionCellDetailModal = styled.div`
-  display: block;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: #ffffff;
+  margin: 15% auto;
+  padding: 20px 40px;
+  border: 1px solid #888;
+  width: 75%;
 
-  .transaction__detail__modal__content {
-    background-color: #ffffff;
-    margin: 15% auto;
-    padding: 20px 40px;
-    border: 1px solid #888;
-    width: 75%;
-
-    @media (max-width: 750px) {
-      width: 90%;
-      margin-top: 40%;
-      padding: 10px;
-    }
+  @media (max-width: 750px) {
+    width: 90%;
+    margin-top: 40%;
+    padding: 10px;
   }
 `

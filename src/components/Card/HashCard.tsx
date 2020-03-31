@@ -10,6 +10,7 @@ import { copyElementValue } from '../../utils/util'
 import { AppActions } from '../../contexts/providers/reducer'
 import SmallLoading from '../Loading/SmallLoading'
 import { useDispatch } from '../../contexts/providers'
+import SimpleButton from '../SimpleButton'
 
 const HashCardPanel = styled.div`
   width: 100%;
@@ -183,11 +184,8 @@ export default ({
               <span>{isMobile() ? mobileHash() : adaptPCEllipsis(hash, 13, 25)}</span>
             </div>
           )}
-          <div
+          <SimpleButton
             className="hash__copy_icon"
-            role="button"
-            tabIndex={-1}
-            onKeyDown={() => {}}
             onClick={() => {
               copyElementValue(document.getElementById('hash__value'))
               dispatch({
@@ -199,7 +197,7 @@ export default ({
             }}
           >
             {!loading && <img src={CopyIcon} alt="copy" />}
-          </div>
+          </SimpleButton>
         </div>
         {specialAddress && (
           <Tooltip title={i18n.t('address.vesting_tooltip')} placement={isMobile() ? 'bottomRight' : 'bottom'}>

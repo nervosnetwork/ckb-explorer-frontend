@@ -32,6 +32,7 @@ import DecimalCapacity from '../../components/DecimalCapacity'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { DELAY_BLOCK_NUMBER } from '../../utils/const'
 import TitleCard from '../../components/Card/TitleCard'
+import SimpleButton from '../../components/SimpleButton'
 
 const handleMinerText = (address: string) => {
   if (isMobile()) {
@@ -71,11 +72,8 @@ const BlockMinerReward = ({
     <BlockMinerRewardPanel sent={!!sentBlockNumber}>
       <div className="block__miner__reward_value">{value}</div>
       <Tooltip placement="top" title={tooltip}>
-        <div
+        <SimpleButton
           className="block__miner__reward_tip"
-          role="button"
-          tabIndex={-1}
-          onKeyDown={() => {}}
           onClick={() => {
             if (sentBlockNumber) {
               browserHistory.push(`/block/${sentBlockNumber}#cellbase`)
@@ -83,7 +81,7 @@ const BlockMinerReward = ({
           }}
         >
           <img src={sentBlockNumber ? MinerRewardIcon : HelpIcon} alt="miner reward" />
-        </div>
+        </SimpleButton>
       </Tooltip>
     </BlockMinerRewardPanel>
   )
