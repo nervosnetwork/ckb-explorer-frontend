@@ -90,96 +90,62 @@ export const TransactionCellDetailPanel = styled.div`
   font-weight: 500;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-
   @media (max-width: 750px) {
     margin-top: 12px;
   }
-
-  > img {
-    width: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '16px' : '18px')};
-    height: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '20px' : '14px')};
-
-    @media (max-width: 750px) {
-      width: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '9.6px' : '12px')};
-      height: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '12px' : '9px')};
+  .transaction__cell__detail__panel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    > div {
+      margin: 0 12px;
+      font-size: 16px;
+      text-align: left;
+    }
+    > img {
+      width: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '16px' : '18px')};
+      height: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '20px' : '14px')};
+      @media (max-width: 750px) {
+        width: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '9.6px' : '12px')};
+        height: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '12px' : '9px')};
+      }
     }
   }
-
-  > div {
-    margin: 0 12px;
+  .transaction__detail__cell_info {
     font-size: 16px;
-    width: 178px;
-    text-align: left;
 
-    @media (max-width: 1200px) {
-      width: 110px;
-      font-size: 15px;
-      margin: 0 6px;
+    .transaction__cell__info__content {
+      color: rgba(0, 0, 0, 0.6);
+      cursor: pointer;
     }
-
-    @media (max-width: 750px) {
-      font-size: 13px;
-      width: 178px;
-    }
-  }
-
-  .dropdown__icon {
-    width: 10px;
-    height: 5px;
-  }
-`
-
-export const TransactionCellDetailItemPanel = styled.div`
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  color: ${props => props.theme.primary};
-  font-weight: 500;
-  align-items: center;
-
-  @media (max-width: 750px) {
-    margin-top: 10px;
-  }
-
-  &:after {
-    content: '';
-    background: ${props => props.theme.primary};
-    width: calc(100% - 4px);
-    height: 2px;
-    display: ${(props: { highLight?: boolean; theme: any; selected: boolean }) => (props.selected ? 'block' : 'none')};
-
-    @media (max-width: 750px) {
+    .transaction__cell__info__separate {
+      background: rgba(0, 0, 0, 0.6);
+      width: 100%;
       height: 1px;
-      width: calc(100% - 2px);
+    }
+
+    &:hover {
+      .transaction__cell__info__content {
+        color: ${props => props.theme.primary};
+      }
+      .transaction__cell__info__separate {
+        background: ${props => props.theme.primary};
+      }
     }
   }
 `
 
-export const TransactionCellDetailLockScriptPanel = styled(TransactionCellDetailItemPanel)`
-  width: 90px;
-  float: left;
-
+export const TransactionCellDetailModal = styled.div`
+  background-color: #ffffff;
+  margin: 15% auto;
+  padding: 20px 40px;
+  border: 1px solid #888;
+  width: 75%;
   @media (max-width: 750px) {
-    width: 72px;
-  }
-`
-
-export const TransactionCellDetailTypeScriptPanel = styled(TransactionCellDetailItemPanel)`
-  width: 90px;
-  margin: 0px auto;
-
-  @media (max-width: 750px) {
-    width: 72px;
-  }
-`
-
-export const TransactionCellDetailDataPanel = styled(TransactionCellDetailItemPanel)`
-  width: 40px;
-  float: right;
-
-  @media (max-width: 750px) {
-    width: 30px;
+    width: 90%;
+    margin-top: 40%;
+    padding: 10px;
   }
 `

@@ -186,7 +186,7 @@ export const AddressTransactions = ({
               <TransactionItem
                 address={addressHash}
                 transaction={transaction}
-                confirmation={tipBlockNumber - transaction.blockNumber + 1}
+                confirmation={tipBlockNumber - transaction.blockNumber}
                 key={transaction.transactionHash}
                 isLastItem={index === transactions.length - 1}
               />

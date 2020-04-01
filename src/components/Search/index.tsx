@@ -220,17 +220,23 @@ const Search = ({ hasBorder, content }: { hasBorder?: boolean; content?: string 
           }
         }}
         onBlur={() => {
-          if (!hasBorder) {
-            clearSearchInput(inputElement)
-          }
-          setPlaceholder(SearchPlaceholder)
-          if (searchBarEditable) {
-            dispatch({
-              type: ComponentActions.UpdateHeaderSearchEditable,
-              payload: {
-                searchBarEditable: false,
-              },
-            })
+          if (isMobile()) {
+            if (!hasBorder) {
+              handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)
+            }
+          } else {
+            if (!hasBorder) {
+              clearSearchInput(inputElement)
+            }
+            setPlaceholder(SearchPlaceholder)
+            if (searchBarEditable) {
+              dispatch({
+                type: ComponentActions.UpdateHeaderSearchEditable,
+                payload: {
+                  searchBarEditable: false,
+                },
+              })
+            }
           }
         }}
         onChange={(event: any) => {
