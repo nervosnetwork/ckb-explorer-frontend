@@ -6,7 +6,7 @@ import { ComponentActions, AppDispatch, AppActions } from '../../contexts/provid
 import i18n, { currentLanguage, changeLanguage } from '../../utils/i18n'
 import CONFIG from '../../config'
 import { isMainnet } from '../../utils/chain'
-import { handleVersion, LinkType } from '.'
+import { handleVersion, LinkType, headerMenus } from '.'
 import WhiteDropdownIcon from '../../assets/white_dropdown.png'
 import WhiteDropUpIcon from '../../assets/white_drop_up.png'
 import BlueDropUpIcon from '../../assets/blue_drop_up.png'
@@ -144,13 +144,7 @@ const HeaderSearchPanel = styled.div`
   }
 `
 
-interface MenuType {
-  type: LinkType
-  name: string
-  url: string
-}
-
-const MenuItemLink = ({ menu }: { menu: MenuType }) => {
+const MenuItemLink = ({ menu }: { menu: any }) => {
   return (
     <a
       className="mobile__menus__item"
@@ -272,25 +266,7 @@ const LanguageMenu = () => {
 
 const MenusComp = () => {
   const [t] = useTranslation()
-  const MenuDataList = useMemo(() => {
-    return [
-      {
-        type: LinkType.Inner,
-        name: t('navbar.explorer'),
-        url: '/',
-      },
-      {
-        type: LinkType.Inner,
-        name: t('navbar.charts'),
-        url: '/charts',
-      },
-      {
-        type: LinkType.Inner,
-        name: t('navbar.nervos_dao'),
-        url: '/nervosdao',
-      },
-    ]
-  }, [t])
+  const MenuDataList = useMemo(() => headerMenus(t), [t])
   return (
     <div className="mobile__menus">
       {MenuDataList.map(menu => {
