@@ -20,6 +20,7 @@
       "wallet": "Wallet",
       "charts": "Charts",
       "nervos_dao": "Nervos DAO",
+      "faucet": "Faucet",
       "docs": "Docs",
       "search_placeholder": "Block/Transaction/Address/Lock Hash/Type Hash",
       "mainnet": "LINA",
