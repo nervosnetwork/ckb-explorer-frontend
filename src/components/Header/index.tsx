@@ -65,6 +65,13 @@ const MenusComp = () => {
         name: t('navbar.nervos_dao'),
         url: '/nervosdao',
       },
+      !isMainnet()
+        ? {
+            type: LinkType.Outer,
+            name: t('navbar.faucet'),
+            url: 'https://faucet.nervos.org/',
+          }
+        : {},
     ]
   }, [t])
 
