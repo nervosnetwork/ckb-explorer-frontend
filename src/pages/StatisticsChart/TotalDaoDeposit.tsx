@@ -12,10 +12,11 @@ import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
+import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel, ChartNotePanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import { shannonToCkb } from '../../utils/util'
+import { isMainnet } from '../../utils/chain'
 
 const colors = ['#3182bd', '#66CC99']
 
@@ -167,6 +168,7 @@ export default () => {
       {statisticTotalDaoDeposits.length > 0 ? (
         <ChartPanel>
           <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} />
+          {isMainnet() && <ChartNotePanel>{`${i18n.t('common.note')}1GB = 1,000,000,000 CKBytes`}</ChartNotePanel>}
         </ChartPanel>
       ) : (
         <LoadingPanel>

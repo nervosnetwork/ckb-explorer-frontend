@@ -96,3 +96,11 @@ export const ChartCardLoadingPanel = styled.div`
   justify-content: center;
   align-items: center;
 `
+
+export const ChartNotePanel = styled.div`
+  font-size: 12px;
+  with: 100%;
+  color: rgba(0, 0, 0, 0.6);
+  padding: 6px 3%;
+  text-align: left;
+`
