@@ -88,6 +88,7 @@ export const TransactionDetailPanel = styled.div`
     width: 100%;
     text-align: left;
     min-height: 120px;
+    max-height: 250px;
     overflow-y: auto;
     overflow-wrap: break-word;
     white-space: pre-wrap;
