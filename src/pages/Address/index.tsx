@@ -7,7 +7,7 @@ import Error from '../../components/Error'
 import Content from '../../components/Content'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
 import { PageActions, AppActions } from '../../contexts/providers/reducer'
-import { getAddress, getTipBlockNumber } from '../../service/app/address'
+import { getAddress } from '../../service/app/address'
 import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
 import { parsePageNumber, adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
@@ -185,10 +185,6 @@ export const Address = () => {
 
   const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
   const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
-
-  useEffect(() => {
-    getTipBlockNumber(dispatch)
-  }, [dispatch])
 
   useEffect(() => {
     if (pageSize > PageParams.MaxPageSize) {

@@ -8,7 +8,7 @@ export const OverviewCardPanel = styled.div`
   margin-top: 20px;
   border-radius: 0px 0px 6px 6px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
-  padding: 10px 40px;
+  padding: 15px 40px;
 
   ${(props: { hideShadow?: boolean }) =>
     props.hideShadow &&

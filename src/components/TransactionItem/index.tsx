@@ -75,7 +75,9 @@ const TransactionItem = ({
           )}
         </div>
       </TransactionCellPanel>
-      {confirmation && <TransactionConfirmation confirmation={confirmation} income={transaction.income} />}
+      {typeof confirmation === 'number' ? (
+        <TransactionConfirmation confirmation={confirmation} income={transaction.income} />
+      ) : null}
     </TransactionPanel>
   )
 }
