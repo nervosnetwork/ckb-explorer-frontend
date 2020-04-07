@@ -132,7 +132,7 @@ export default () => {
 
   return (
     <Content>
-      <HomeHeaderPanel>
+      <HomeHeaderPanel className="container">
         <div className="blockchain__item__container">
           {!isMobile() &&
             blockchainDataList(statistics).map((data: BlockchainData) => {

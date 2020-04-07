@@ -4,22 +4,14 @@ export const HomeHeaderPanel = styled.div`
   .blockchain__item__container {
     display: flex;
     padding: 20px 5px;
-    margin: 30px 120px 20px 120px;
+    margin: 30px 0px 20px 0px;
     box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
     border-radius: 6px;
 
-    @media (max-width: 1440px) {
-      margin: 30px 100px 20px 100px;
-    }
-
-    @media (max-width: 1200px) {
-      margin: 30px 45px 20px 45px;
-    }
-
     @media (max-width: 750px) {
       flex-direction: column;
+      margin: 20px 0px;
       padding: 0px 5px;
-      margin: 20px 45px;
       box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
       border-radius: 3px;
     }
@@ -134,13 +126,12 @@ export const HomeTablePanel = styled.div`
 
   @media (max-width: 750px) {
     flex-direction: column;
-    padding: 0 20px;
   }
 `
 
 export const BlockPanel = styled.div`
   width: 100%;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   margin-right: 20px;
   background: white;
   flex: 1;
