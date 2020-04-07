@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
-import { useAppState } from '../../contexts/providers/index'
+import { useAppState, useDispatch } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
 import { shannonToCkb, baseUrl } from '../../utils/util'
@@ -18,6 +18,7 @@ import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { isMobile } from '../../utils/screen'
+import { getTipBlockNumber } from '../../service/app/address'
 
 const addressAssetInfo = (address: State.Address) => {
   const items = [
@@ -103,6 +104,12 @@ export const AddressTransactions = ({
     },
     app: { tipBlockNumber },
   } = useAppState()
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    getTipBlockNumber(dispatch)
+  }, [dispatch])
 
   const totalPages = Math.ceil(total / pageSize)
 
