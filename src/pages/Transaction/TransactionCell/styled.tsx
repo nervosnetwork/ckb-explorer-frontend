@@ -93,7 +93,6 @@ export const TransactionCellDetailPanel = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
   @media (max-width: 750px) {
     margin-top: 12px;
   }

@@ -25,10 +25,7 @@ export const shannonToCkbDecimal = (value: BigNumber | string | number, decimal?
   if (bigValue.isNaN()) {
     return 0
   }
-  const num = bigValue
-    .dividedBy(new BigNumber('1e8'))
-    .abs()
-    .toNumber()
+  const num = bigValue.dividedBy(new BigNumber('1e8')).abs().toNumber()
   if (decimal) {
     if (bigValue.isNegative()) {
       return 0 - Math.floor(num * 10 ** decimal) / 10 ** decimal
