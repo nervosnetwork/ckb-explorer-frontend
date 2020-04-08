@@ -1,6 +1,4 @@
 import React, { useEffect, useMemo } from 'react'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
-import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/legend'
@@ -10,13 +8,13 @@ import Content from '../../components/Content'
 import { getStatisticCellCount } from '../../service/app/statisticsChart'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
-import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
-import SmallLoading from '../../components/Loading/SmallLoading'
+import { ChartTitle, ChartPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import { ChartColors } from '../../utils/const'
+import { ReactChartCore, ChartLoading } from './ChartComponents'
+import { PageActions } from '../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -134,24 +132,10 @@ export const CellCountChart = ({
   statisticCellCounts: State.StatisticCellCount[]
   isThumbnail?: boolean
 }) => {
-  if (statisticCellCounts.length === 0) {
-    return isThumbnail ? (
-      <ChartCardLoadingPanel>
-        <SmallLoading />
-      </ChartCardLoadingPanel>
-    ) : null
+  if (!statisticCellCounts || statisticCellCounts.length === 0) {
+    return <ChartLoading show={statisticCellCounts === undefined} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactEchartsCore
-      echarts={echarts}
-      option={getOption(statisticCellCounts, isThumbnail)}
-      notMerge
-      lazyUpdate
-      style={{
-        height: isThumbnail ? '230px' : '70vh',
-      }}
-    />
-  )
+  return <ReactChartCore option={getOption(statisticCellCounts)} isThumbnail={isThumbnail} />
 }
 
 export default () => {
@@ -159,6 +143,12 @@ export default () => {
   const { statisticCellCounts } = useAppState()
 
   useEffect(() => {
+    dispatch({
+      type: PageActions.UpdateStatisticCellCount,
+      payload: {
+        statisticCellCounts: undefined,
+      },
+    })
     getStatisticCellCount(dispatch)
   }, [dispatch])
 
@@ -166,15 +156,9 @@ export default () => {
     return (
       <Content>
         <ChartTitle>{i18n.t('statistic.cell_count')}</ChartTitle>
-        {statisticCellCounts.length > 0 ? (
-          <ChartPanel>
-            <CellCountChart statisticCellCounts={statisticCellCounts} />
-          </ChartPanel>
-        ) : (
-          <LoadingPanel>
-            <Loading show />
-          </LoadingPanel>
-        )}
+        <ChartPanel>
+          <CellCountChart statisticCellCounts={statisticCellCounts} />
+        </ChartPanel>
       </Content>
     )
   }, [statisticCellCounts])

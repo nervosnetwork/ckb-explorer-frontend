@@ -1,6 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
-import echarts from 'echarts/lib/echarts'
+import React, { useEffect } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/legend'
@@ -10,13 +8,13 @@ import Content from '../../components/Content'
 import { getStatisticDifficultyHashRate } from '../../service/app/statisticsChart'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
-import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
 import { handleDifficulty, handleHashRate } from '../../utils/number'
-import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
+import { ChartTitle, ChartPanel } from './styled'
 import { isMobile } from '../../utils/screen'
-import SmallLoading from '../../components/Loading/SmallLoading'
 import { ChartColors } from '../../utils/const'
+import { ChartLoading, ReactChartCore } from './ChartComponents'
+import { PageActions } from '../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -142,24 +140,10 @@ export const DifficultyHashRateChart = ({
   statisticDifficultyHashRates: State.StatisticDifficultyHashRate[]
   isThumbnail?: boolean
 }) => {
-  if (statisticDifficultyHashRates.length === 0) {
-    return isThumbnail ? (
-      <ChartCardLoadingPanel>
-        <SmallLoading />
-      </ChartCardLoadingPanel>
-    ) : null
+  if (!statisticDifficultyHashRates || statisticDifficultyHashRates.length === 0) {
+    return <ChartLoading show={statisticDifficultyHashRates === undefined} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactEchartsCore
-      echarts={echarts}
-      option={getOption(statisticDifficultyHashRates, isThumbnail)}
-      notMerge
-      lazyUpdate
-      style={{
-        height: isThumbnail ? '230px' : '70vh',
-      }}
-    />
-  )
+  return <ReactChartCore option={getOption(statisticDifficultyHashRates)} isThumbnail={isThumbnail} />
 }
 
 export default () => {
@@ -167,23 +151,21 @@ export default () => {
   const { statisticDifficultyHashRates } = useAppState()
 
   useEffect(() => {
+    dispatch({
+      type: PageActions.UpdateStatisticDifficultyHashRate,
+      payload: {
+        statisticDifficultyHashRates: undefined,
+      },
+    })
     getStatisticDifficultyHashRate(dispatch)
   }, [dispatch])
 
-  return useMemo(() => {
-    return (
-      <Content>
-        <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}</ChartTitle>
-        {statisticDifficultyHashRates.length > 0 ? (
-          <ChartPanel>
-            <DifficultyHashRateChart statisticDifficultyHashRates={statisticDifficultyHashRates} />
-          </ChartPanel>
-        ) : (
-          <LoadingPanel>
-            <Loading show />
-          </LoadingPanel>
-        )}
-      </Content>
-    )
-  }, [statisticDifficultyHashRates])
+  return (
+    <Content>
+      <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}</ChartTitle>
+      <ChartPanel>
+        <DifficultyHashRateChart statisticDifficultyHashRates={statisticDifficultyHashRates} />
+      </ChartPanel>
+    </Content>
+  )
 }
