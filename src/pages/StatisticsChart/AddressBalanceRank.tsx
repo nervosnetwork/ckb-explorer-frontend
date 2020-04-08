@@ -1,6 +1,4 @@
 import React, { useEffect, useCallback } from 'react'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
-import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
@@ -10,15 +8,14 @@ import { getStatisticAddressBalanceRank } from '../../service/app/statisticsChar
 import { PageActions } from '../../contexts/providers/reducer'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
-import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
+import { ChartTitle, ChartPanel } from './styled'
 import { isMobile } from '../../utils/screen'
-import SmallLoading from '../../components/Loading/SmallLoading'
 import { shannonToCkb } from '../../utils/util'
 import { localeNumberString } from '../../utils/number'
 import { adaptPCEllipsis } from '../../utils/string'
 import browserHistory from '../../routes/history'
+import { ChartLoading, ReactChartCore } from './ChartComponents'
 
 const colors = ['#3182bd']
 
@@ -115,25 +112,14 @@ export const AddressBalanceRankChart = ({
   clickEvent: any
   isThumbnail?: boolean
 }) => {
-  if (statisticAddressBalanceRanks.length === 0) {
-    return isThumbnail ? (
-      <ChartCardLoadingPanel>
-        <SmallLoading />
-      </ChartCardLoadingPanel>
-    ) : null
+  if (!statisticAddressBalanceRanks || statisticAddressBalanceRanks.length === 0) {
+    return <ChartLoading show={statisticAddressBalanceRanks === undefined} isThumbnail={isThumbnail} />
   }
   return (
-    <ReactEchartsCore
-      echarts={echarts}
-      option={getOption(statisticAddressBalanceRanks, isThumbnail)}
-      notMerge
-      lazyUpdate
-      style={{
-        height: isThumbnail ? '230px' : '70vh',
-      }}
-      onEvents={{
-        click: clickEvent,
-      }}
+    <ReactChartCore
+      option={getOption(statisticAddressBalanceRanks)}
+      isThumbnail={isThumbnail}
+      clickEvent={clickEvent}
     />
   )
 }
@@ -155,7 +141,7 @@ export default () => {
     dispatch({
       type: PageActions.UpdateStatisticAddressBalanceRank,
       payload: {
-        statisticAddressBalanceRanks: [],
+        statisticAddressBalanceRanks: undefined,
       },
     })
     getStatisticAddressBalanceRank(dispatch)
@@ -164,18 +150,9 @@ export default () => {
   return (
     <Content>
       <ChartTitle>{i18n.t('statistic.balance_ranking')}</ChartTitle>
-      {statisticAddressBalanceRanks.length > 0 ? (
-        <ChartPanel>
-          <AddressBalanceRankChart
-            statisticAddressBalanceRanks={statisticAddressBalanceRanks}
-            clickEvent={clickEvent}
-          />
-        </ChartPanel>
-      ) : (
-        <LoadingPanel>
-          <Loading show />
-        </LoadingPanel>
-      )}
+      <ChartPanel>
+        <AddressBalanceRankChart statisticAddressBalanceRanks={statisticAddressBalanceRanks} clickEvent={clickEvent} />
+      </ChartPanel>
     </Content>
   )
 }

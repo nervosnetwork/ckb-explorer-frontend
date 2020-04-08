@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
-import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
@@ -8,13 +6,13 @@ import BigNumber from 'bignumber.js'
 import Content from '../../components/Content'
 import { getStatisticAddressCount } from '../../service/app/statisticsChart'
 import i18n from '../../utils/i18n'
-import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
+import { ChartTitle, ChartPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
-import SmallLoading from '../../components/Loading/SmallLoading'
 import { useAppState, useDispatch } from '../../contexts/providers'
+import { ChartLoading, ReactChartCore } from './ChartComponents'
+import { PageActions } from '../../contexts/providers/reducer'
 
 const colors = ['#3182bd']
 
@@ -97,27 +95,13 @@ export const AddressCountChart = ({
   statisticAddressCounts,
   isThumbnail = false,
 }: {
-  statisticAddressCounts: State.StatisticAddressCount[]
+  statisticAddressCounts?: State.StatisticAddressCount[]
   isThumbnail?: boolean
 }) => {
-  if (statisticAddressCounts.length === 0) {
-    return isThumbnail ? (
-      <ChartCardLoadingPanel>
-        <SmallLoading />
-      </ChartCardLoadingPanel>
-    ) : null
+  if (!statisticAddressCounts || statisticAddressCounts.length === 0) {
+    return <ChartLoading show={statisticAddressCounts === undefined} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactEchartsCore
-      echarts={echarts}
-      option={getOption(statisticAddressCounts, isThumbnail)}
-      notMerge
-      lazyUpdate
-      style={{
-        height: isThumbnail ? '230px' : '70vh',
-      }}
-    />
-  )
+  return <ReactChartCore option={getOption(statisticAddressCounts)} isThumbnail={isThumbnail} />
 }
 
 export default () => {
@@ -125,21 +109,21 @@ export default () => {
   const { statisticAddressCounts } = useAppState()
 
   useEffect(() => {
+    dispatch({
+      type: PageActions.UpdateStatisticAddressCount,
+      payload: {
+        statisticAddressCounts: undefined,
+      },
+    })
     getStatisticAddressCount(dispatch)
   }, [dispatch])
 
   return (
     <Content>
       <ChartTitle>{i18n.t('statistic.address_count')}</ChartTitle>
-      {statisticAddressCounts.length > 0 ? (
-        <ChartPanel>
-          <AddressCountChart statisticAddressCounts={statisticAddressCounts} />
-        </ChartPanel>
-      ) : (
-        <LoadingPanel>
-          <Loading show />
-        </LoadingPanel>
-      )}
+      <ChartPanel>
+        <AddressCountChart statisticAddressCounts={statisticAddressCounts} />
+      </ChartPanel>
     </Content>
   )
 }

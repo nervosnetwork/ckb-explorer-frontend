@@ -95,6 +95,11 @@ export const ChartCardLoadingPanel = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .chart__card__no_data {
+    width: 60px;
+    height: 42px;
+  }
 `
 
 export const ChartNotePanel = styled.div`
