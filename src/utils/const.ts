@@ -80,3 +80,5 @@ export enum ListPageParams {
   PageSize = 25,
   MaxPageSize = 100,
 }
+
+export const ChartColors = ['#3182bd', '#66CC99']

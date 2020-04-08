@@ -16,8 +16,7 @@ import { isMobile } from '../../utils/screen'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { handleDifficulty } from '../../utils/number'
-
-const colors = ['#3182bd']
+import { ChartColors } from '../../utils/const'
 
 const gridThumbnail = {
   left: '4%',
@@ -35,7 +34,7 @@ const grid = {
 
 const getOption = (statisticDifficulties: State.StatisticDifficulty[], isThumbnail = false) => {
   return {
-    color: colors,
+    color: ChartColors,
     tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
@@ -45,7 +44,7 @@ const getOption = (statisticDifficulties: State.StatisticDifficulty[], isThumbna
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
         )}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
+        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
           dataList[0].data,
         )}</div>`
         return result
@@ -73,7 +72,7 @@ const getOption = (statisticDifficulties: State.StatisticDifficulty[], isThumbna
         scale: true,
         axisLine: {
           lineStyle: {
-            color: colors[0],
+            color: ChartColors[0],
           },
         },
         axisLabel: {

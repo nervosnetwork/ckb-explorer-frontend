@@ -14,8 +14,7 @@ import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { useAppState, useDispatch } from '../../contexts/providers'
-
-const colors = ['#3182bd']
+import { ChartColors } from '../../utils/const'
 
 const gridThumbnail = {
   left: '4%',
@@ -33,7 +32,7 @@ const grid = {
 
 const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail = false) => {
   return {
-    color: colors,
+    color: ChartColors,
     tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
@@ -43,7 +42,7 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
         )}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.uncle_rate'))} ${handleAxis(
+        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('block.uncle_rate'))} ${handleAxis(
           dataList[0].data,
         )}</div>`
         return result
@@ -71,7 +70,7 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
         scale: true,
         axisLine: {
           lineStyle: {
-            color: colors[0],
+            color: ChartColors[0],
           },
         },
         axisLabel: {

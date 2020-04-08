@@ -16,8 +16,7 @@ import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './s
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
-
-const colors = ['#3182bd', '#66CC99']
+import { ChartColors } from '../../utils/const'
 
 const gridThumbnail = {
   left: '4%',
@@ -35,7 +34,7 @@ const grid = {
 
 const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail = false) => {
   return {
-    color: colors,
+    color: ChartColors,
     tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
@@ -46,13 +45,13 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
           dataList[0].name,
         )}</div>`
         if (dataList[0]) {
-          result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
+          result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
             dataList[0].data,
             2,
           )}</div>`
         }
         if (dataList[1]) {
-          result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('statistic.all_cells'))} ${handleAxis(
+          result += `<div>${colorSpan(ChartColors[1])}${widthSpan(i18n.t('statistic.all_cells'))} ${handleAxis(
             dataList[1].data,
             2,
           )}</div>`
@@ -85,7 +84,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
         scale: true,
         axisLine: {
           lineStyle: {
-            color: colors[0],
+            color: ChartColors[0],
           },
         },
         axisLabel: {
@@ -99,7 +98,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
         scale: true,
         axisLine: {
           lineStyle: {
-            color: colors[1],
+            color: ChartColors[1],
           },
         },
         axisLabel: {

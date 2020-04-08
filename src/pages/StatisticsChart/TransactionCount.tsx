@@ -15,8 +15,7 @@ import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './s
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import SmallLoading from '../../components/Loading/SmallLoading'
-
-const colors = ['#3182bd']
+import { ChartColors } from '../../utils/const'
 
 const gridThumbnail = {
   left: '4%',
@@ -34,7 +33,7 @@ const grid = {
 
 const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[], isThumbnail = false) => {
   return {
-    color: colors,
+    color: ChartColors,
     tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
@@ -44,7 +43,7 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
         )}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.transaction_count'))} ${handleAxis(
+        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.transaction_count'))} ${handleAxis(
           dataList[0].data,
         )}</div>`
         return result
@@ -72,7 +71,7 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
         scale: true,
         axisLine: {
           lineStyle: {
-            color: colors[0],
+            color: ChartColors[0],
           },
         },
         axisLabel: {
