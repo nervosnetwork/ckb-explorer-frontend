@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
-import { useAppState, useDispatch } from '../../contexts/providers/index'
+import { useAppState } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
 import { shannonToCkb, baseUrl } from '../../utils/util'
@@ -18,7 +18,6 @@ import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { isMobile } from '../../utils/screen'
-import { getTipBlockNumber } from '../../service/app/address'
 
 const addressAssetInfo = (address: State.Address) => {
   const items = [
@@ -105,12 +104,6 @@ export const AddressTransactions = ({
     app: { tipBlockNumber },
   } = useAppState()
 
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    getTipBlockNumber(dispatch)
-  }, [dispatch])
-
   const totalPages = Math.ceil(total / pageSize)
 
   const onChange = (page: number) => {
@@ -121,13 +114,14 @@ export const AddressTransactions = ({
     <>
       <AddressTransactionsPanel>
         {transactions.map((transaction: State.Transaction, index: number) => {
+          const { blockNumber, transactionHash } = transaction
           return (
             transaction && (
               <TransactionItem
                 address={addressHash}
                 transaction={transaction}
-                confirmation={tipBlockNumber - transaction.blockNumber}
-                key={transaction.transactionHash}
+                confirmation={tipBlockNumber - blockNumber > 0 ? tipBlockNumber - blockNumber : 0}
+                key={transactionHash}
                 titleCard={index === 0 ? <AddressTransactionsTitle count={transactionsCount} /> : null}
                 isLastItem={index === transactions.length - 1}
               />
