@@ -13,7 +13,7 @@ import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import { ChartColors } from '../../utils/const'
 import { ChartLoading, ReactChartCore } from './ChartComponents'
-import { PageActions } from '../../contexts/providers/reducer'
+import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -100,7 +100,16 @@ export const TransactionCountChart = ({
   if (!statisticTransactionCounts || statisticTransactionCounts.length === 0) {
     return <ChartLoading show={statisticTransactionCounts === undefined} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticTransactionCounts)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={getOption(statisticTransactionCounts, isThumbnail)} isThumbnail={isThumbnail} />
+}
+
+export const initStatisticTransactionCount = (dispatch: AppDispatch) => {
+  dispatch({
+    type: PageActions.UpdateStatisticTransactionCount,
+    payload: {
+      statisticTransactionCounts: undefined,
+    },
+  })
 }
 
 export default () => {
@@ -108,12 +117,7 @@ export default () => {
   const { statisticTransactionCounts } = useAppState()
 
   useEffect(() => {
-    dispatch({
-      type: PageActions.UpdateStatisticTransactionCount,
-      payload: {
-        statisticTransactionCounts: undefined,
-      },
-    })
+    initStatisticTransactionCount(dispatch)
     getStatisticTransactionCount(dispatch)
   }, [dispatch])
 

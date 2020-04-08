@@ -14,7 +14,7 @@ import { useAppState, useDispatch } from '../../contexts/providers'
 import { handleDifficulty } from '../../utils/number'
 import { ChartColors } from '../../utils/const'
 import { ChartLoading, ReactChartCore } from './ChartComponents'
-import { PageActions } from '../../contexts/providers/reducer'
+import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -101,7 +101,16 @@ export const DifficultyChart = ({
   if (!statisticDifficulties || statisticDifficulties.length === 0) {
     return <ChartLoading show={statisticDifficulties === undefined} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticDifficulties)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={getOption(statisticDifficulties, isThumbnail)} isThumbnail={isThumbnail} />
+}
+
+export const initStatisticDifficulty = (dispatch: AppDispatch) => {
+  dispatch({
+    type: PageActions.UpdateStatisticDifficulty,
+    payload: {
+      statisticDifficulties: undefined,
+    },
+  })
 }
 
 export default () => {
@@ -109,12 +118,7 @@ export default () => {
   const { statisticDifficulties } = useAppState()
 
   useEffect(() => {
-    dispatch({
-      type: PageActions.UpdateStatisticDifficulty,
-      payload: {
-        statisticDifficulties: undefined,
-      },
-    })
+    initStatisticDifficulty(dispatch)
     getStatisticDifficulty(dispatch)
   }, [dispatch])
 

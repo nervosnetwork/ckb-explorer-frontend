@@ -12,7 +12,7 @@ import { isMobile } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { ChartColors } from '../../utils/const'
 import { ChartLoading, ReactChartCore } from './ChartComponents'
-import { PageActions } from '../../contexts/providers/reducer'
+import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -111,7 +111,16 @@ export const UncleRateChart = ({
   if (!statisticUncleRates || statisticUncleRates.length === 0) {
     return <ChartLoading show={statisticUncleRates === undefined} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticUncleRates)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={getOption(statisticUncleRates, isThumbnail)} isThumbnail={isThumbnail} />
+}
+
+export const initStatisticUncleRate = (dispatch: AppDispatch) => {
+  dispatch({
+    type: PageActions.UpdateStatisticUncleRate,
+    payload: {
+      statisticUncleRates: undefined,
+    },
+  })
 }
 
 export default () => {
@@ -119,12 +128,7 @@ export default () => {
   const { statisticUncleRates = [] } = useAppState()
 
   useEffect(() => {
-    dispatch({
-      type: PageActions.UpdateStatisticUncleRate,
-      payload: {
-        statisticUncleRates: undefined,
-      },
-    })
+    initStatisticUncleRate(dispatch)
     getStatisticUncleRate(dispatch)
   }, [dispatch])
 

@@ -14,7 +14,7 @@ import { useAppState, useDispatch } from '../../contexts/providers'
 import { handleHashRate } from '../../utils/number'
 import { ChartColors } from '../../utils/const'
 import { ChartLoading, ReactChartCore } from './ChartComponents'
-import { PageActions } from '../../contexts/providers/reducer'
+import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -101,7 +101,16 @@ export const HashRateChart = ({
   if (!statisticHashRates || statisticHashRates.length === 0) {
     return <ChartLoading show={statisticHashRates === undefined} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticHashRates)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={getOption(statisticHashRates, isThumbnail)} isThumbnail={isThumbnail} />
+}
+
+export const initStatisticHashRate = (dispatch: AppDispatch) => {
+  dispatch({
+    type: PageActions.UpdateStatisticHashRate,
+    payload: {
+      statisticHashRates: undefined,
+    },
+  })
 }
 
 export default () => {
@@ -109,12 +118,7 @@ export default () => {
   const { statisticHashRates = [] } = useAppState()
 
   useEffect(() => {
-    dispatch({
-      type: PageActions.UpdateStatisticHashRate,
-      payload: {
-        statisticHashRates: undefined,
-      },
-    })
+    initStatisticHashRate(dispatch)
     getStatisticHashRate(dispatch)
   }, [dispatch])
 

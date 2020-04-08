@@ -14,7 +14,7 @@ import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import { ChartColors } from '../../utils/const'
 import { ReactChartCore, ChartLoading } from './ChartComponents'
-import { PageActions } from '../../contexts/providers/reducer'
+import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -125,6 +125,15 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
   }
 }
 
+export const initStatisticCellCount = (dispatch: AppDispatch) => {
+  dispatch({
+    type: PageActions.UpdateStatisticCellCount,
+    payload: {
+      statisticCellCounts: undefined,
+    },
+  })
+}
+
 export const CellCountChart = ({
   statisticCellCounts,
   isThumbnail = false,
@@ -135,7 +144,7 @@ export const CellCountChart = ({
   if (!statisticCellCounts || statisticCellCounts.length === 0) {
     return <ChartLoading show={statisticCellCounts === undefined} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticCellCounts)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={getOption(statisticCellCounts, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
 export default () => {
@@ -143,12 +152,7 @@ export default () => {
   const { statisticCellCounts } = useAppState()
 
   useEffect(() => {
-    dispatch({
-      type: PageActions.UpdateStatisticCellCount,
-      payload: {
-        statisticCellCounts: undefined,
-      },
-    })
+    initStatisticCellCount(dispatch)
     getStatisticCellCount(dispatch)
   }, [dispatch])
 

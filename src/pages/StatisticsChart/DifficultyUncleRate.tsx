@@ -15,7 +15,7 @@ import { ChartTitle, ChartPanel } from './styled'
 import { isMobile } from '../../utils/screen'
 import { ChartColors } from '../../utils/const'
 import { ChartLoading, ReactChartCore } from './ChartComponents'
-import { PageActions } from '../../contexts/providers/reducer'
+import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -159,7 +159,16 @@ export const DifficultyUncleRateChart = ({
   if (!statisticDifficultyUncleRates || statisticDifficultyUncleRates.length === 0) {
     return <ChartLoading show={statisticDifficultyUncleRates === undefined} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticDifficultyUncleRates)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={getOption(statisticDifficultyUncleRates, isThumbnail)} isThumbnail={isThumbnail} />
+}
+
+export const initStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
+  dispatch({
+    type: PageActions.UpdateStatisticDifficultyUncleRate,
+    payload: {
+      statisticDifficultyUncleRates: undefined,
+    },
+  })
 }
 
 export default () => {
@@ -167,12 +176,7 @@ export default () => {
   const { statisticDifficultyUncleRates } = useAppState()
 
   useEffect(() => {
-    dispatch({
-      type: PageActions.UpdateStatisticDifficultyUncleRate,
-      payload: {
-        statisticDifficultyUncleRates: undefined,
-      },
-    })
+    initStatisticDifficultyUncleRate(dispatch)
     getStatisticDifficultyUncleRate(dispatch)
   }, [dispatch])
 

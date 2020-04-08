@@ -12,7 +12,7 @@ import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { ChartLoading, ReactChartCore } from './ChartComponents'
-import { PageActions } from '../../contexts/providers/reducer'
+import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 import { ChartColors } from '../../utils/const'
 
 const gridThumbnail = {
@@ -90,6 +90,15 @@ const getOption = (statisticAddressCounts: State.StatisticAddressCount[], isThum
   }
 }
 
+export const initStatisticAddressCount = (dispatch: AppDispatch) => {
+  dispatch({
+    type: PageActions.UpdateStatisticAddressCount,
+    payload: {
+      statisticAddressCounts: undefined,
+    },
+  })
+}
+
 export const AddressCountChart = ({
   statisticAddressCounts,
   isThumbnail = false,
@@ -100,7 +109,7 @@ export const AddressCountChart = ({
   if (!statisticAddressCounts || statisticAddressCounts.length === 0) {
     return <ChartLoading show={statisticAddressCounts === undefined} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticAddressCounts)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={getOption(statisticAddressCounts, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
 export default () => {
@@ -108,12 +117,7 @@ export default () => {
   const { statisticAddressCounts } = useAppState()
 
   useEffect(() => {
-    dispatch({
-      type: PageActions.UpdateStatisticAddressCount,
-      payload: {
-        statisticAddressCounts: undefined,
-      },
-    })
+    initStatisticAddressCount(dispatch)
     getStatisticAddressCount(dispatch)
   }, [dispatch])
 

@@ -73,7 +73,8 @@
       "balance": "余额",
       "address": "地址",
       "date": "日期",
-      "log": "（对数坐标）"
+      "log": "（对数坐标）",
+      "no_data": "暂无数据..."
     },
     "home": {
       "height": "高度",
