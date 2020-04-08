@@ -1,5 +1,5 @@
 import React from 'react'
-import { LoadingPanel } from './styled'
+import { LoadingPanel, ChartNoDataPanel } from './styled'
 import Loading from '../../components/Loading'
 import ChartNoDataImage from '../../assets/chart_no_data.png'
 import ChartNoDataAggronImage from '../../assets/chart_no_data_aggron.png'
@@ -8,6 +8,7 @@ import SmallLoading from '../../components/Loading/SmallLoading'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import { ObjectMap, Func } from 'echarts-for-react'
+import i18n from '../../utils/i18n'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => {
   return isThumbnail ? <SmallLoading /> : <Loading show />
@@ -15,15 +16,14 @@ const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => {
 
 const ChartLoading = ({ show, isThumbnail = false }: { show: boolean; isThumbnail?: boolean }) => {
   return (
-    <LoadingPanel>
+    <LoadingPanel isThumbnail={isThumbnail}>
       {show ? (
         <LoadingComp isThumbnail={isThumbnail} />
       ) : (
-        <img
-          className="chart__card__no_data"
-          alt="no data"
-          src={isMainnet() ? ChartNoDataImage : ChartNoDataAggronImage}
-        />
+        <ChartNoDataPanel isThumbnail={isThumbnail}>
+          <img alt="no data" src={isMainnet() ? ChartNoDataImage : ChartNoDataAggronImage} />
+          <span>{i18n.t('statistic.no_data')}</span>
+        </ChartNoDataPanel>
       )}
     </LoadingPanel>
   )

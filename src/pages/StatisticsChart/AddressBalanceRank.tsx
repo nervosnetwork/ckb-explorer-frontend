@@ -5,7 +5,7 @@ import 'echarts/lib/component/title'
 import 'default-passive-events'
 import Content from '../../components/Content'
 import { getStatisticAddressBalanceRank } from '../../service/app/statisticsChart'
-import { PageActions } from '../../contexts/providers/reducer'
+import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import { handleAxis } from '../../utils/chart'
@@ -116,11 +116,20 @@ export const AddressBalanceRankChart = ({
   }
   return (
     <ReactChartCore
-      option={getOption(statisticAddressBalanceRanks)}
+      option={getOption(statisticAddressBalanceRanks, isThumbnail)}
       isThumbnail={isThumbnail}
       clickEvent={clickEvent}
     />
   )
+}
+
+export const initStatisticAddressBalanceRanks = (dispatch: AppDispatch) => {
+  dispatch({
+    type: PageActions.UpdateStatisticAddressBalanceRank,
+    payload: {
+      statisticAddressBalanceRanks: undefined,
+    },
+  })
 }
 
 export default () => {
@@ -137,12 +146,7 @@ export default () => {
   )
 
   useEffect(() => {
-    dispatch({
-      type: PageActions.UpdateStatisticAddressBalanceRank,
-      payload: {
-        statisticAddressBalanceRanks: undefined,
-      },
-    })
+    initStatisticAddressBalanceRanks(dispatch)
     getStatisticAddressBalanceRank(dispatch)
   }, [dispatch])
 

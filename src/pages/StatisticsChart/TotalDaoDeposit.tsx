@@ -15,7 +15,7 @@ import { shannonToCkb } from '../../utils/util'
 import { ChartColors } from '../../utils/const'
 import { isMainnet } from '../../utils/chain'
 import { ChartLoading, ReactChartCore } from './ChartComponents'
-import { PageActions } from '../../contexts/providers/reducer'
+import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -132,7 +132,16 @@ export const TotalDaoDepositChart = ({
   if (!statisticTotalDaoDeposits || statisticTotalDaoDeposits.length === 0) {
     return <ChartLoading show={statisticTotalDaoDeposits === undefined} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticTotalDaoDeposits)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={getOption(statisticTotalDaoDeposits, isThumbnail)} isThumbnail={isThumbnail} />
+}
+
+export const initStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
+  dispatch({
+    type: PageActions.UpdateStatisticTotalDaoDeposit,
+    payload: {
+      statisticTotalDaoDeposits: undefined,
+    },
+  })
 }
 
 export default () => {
@@ -140,12 +149,7 @@ export default () => {
   const { statisticTotalDaoDeposits } = useAppState()
 
   useEffect(() => {
-    dispatch({
-      type: PageActions.UpdateStatisticTotalDaoDeposit,
-      payload: {
-        statisticTotalDaoDeposits: undefined,
-      },
-    })
+    initStatisticTotalDaoDeposit(dispatch)
     getStatisticTotalDaoDeposit(dispatch)
   }, [dispatch])
 
