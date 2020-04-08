@@ -17,8 +17,7 @@ import { handleDifficulty } from '../../utils/number'
 import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
 import { isMobile } from '../../utils/screen'
 import SmallLoading from '../../components/Loading/SmallLoading'
-
-const colors = ['#3182bd', '#66CC99']
+import { ChartColors } from '../../utils/const'
 
 const gridThumbnail = {
   left: '4%',
@@ -36,7 +35,7 @@ const grid = {
 
 const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isThumbnail = false) => {
   return {
-    color: colors,
+    color: ChartColors,
     tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
@@ -49,12 +48,14 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
           true,
         )}</div>`
         if (dataList[0]) {
-          result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
+          result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
             dataList[0].data,
           )}</div>`
         }
         if (dataList[1]) {
-          result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${dataList[1].data}%</div>`
+          result += `<div>${colorSpan(ChartColors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${
+            dataList[1].data
+          }%</div>`
         }
         return result
       },
@@ -84,7 +85,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         scale: true,
         axisLine: {
           lineStyle: {
-            color: colors[0],
+            color: ChartColors[0],
           },
         },
         axisLabel: {
@@ -101,7 +102,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         },
         axisLine: {
           lineStyle: {
-            color: colors[1],
+            color: ChartColors[1],
           },
         },
         axisLabel: {

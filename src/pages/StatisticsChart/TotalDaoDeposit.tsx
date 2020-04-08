@@ -16,9 +16,8 @@ import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel, ChartNoteP
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import { shannonToCkb } from '../../utils/util'
+import { ChartColors } from '../../utils/const'
 import { isMainnet } from '../../utils/chain'
-
-const colors = ['#3182bd', '#66CC99']
 
 const gridThumbnail = {
   left: '4%',
@@ -36,7 +35,7 @@ const grid = {
 
 const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], isThumbnail = false) => {
   return {
-    color: colors,
+    color: ChartColors,
     tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
@@ -47,17 +46,15 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
           dataList[0].name,
         )}</div>`
         if (dataList[0].data) {
-          result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.total_dao_deposit'))} ${handleAxis(
+          result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.total_dao_deposit'))} ${handleAxis(
             dataList[0].data,
             2,
           )}</div>`
         }
         if (dataList[1].data) {
-          result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('statistic.total_dao_depositor'))} ${handleAxis(
-            dataList[1].data,
-            2,
-            true,
-          )}</div>`
+          result += `<div>${colorSpan(ChartColors[1])}${widthSpan(
+            i18n.t('statistic.total_dao_depositor'),
+          )} ${handleAxis(dataList[1].data, 2, true)}</div>`
         }
         return result
       },
@@ -84,7 +81,7 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
         scale: true,
         axisLine: {
           lineStyle: {
-            color: colors[0],
+            color: ChartColors[0],
           },
         },
         axisLabel: {
@@ -98,7 +95,7 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
         scale: true,
         axisLine: {
           lineStyle: {
-            color: colors[1],
+            color: ChartColors[1],
           },
         },
         axisLabel: {

@@ -6,6 +6,7 @@ import ChartNoDataAggronImage from '../../assets/chart_no_data_aggron.png'
 import { isMainnet } from '../../utils/chain'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
+import echarts from 'echarts/lib/echarts'
 import { ObjectMap, Func } from 'echarts-for-react'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => {

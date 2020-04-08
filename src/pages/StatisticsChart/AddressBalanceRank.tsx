@@ -16,8 +16,7 @@ import { localeNumberString } from '../../utils/number'
 import { adaptPCEllipsis } from '../../utils/string'
 import browserHistory from '../../routes/history'
 import { ChartLoading, ReactChartCore } from './ChartComponents'
-
-const colors = ['#3182bd']
+import { ChartColors } from '../../utils/const'
 
 const gridThumbnail = {
   left: '4%',
@@ -40,7 +39,7 @@ const getAddressWithRanking = (statisticAddressBalanceRanks: State.StatisticAddr
 
 const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[], isThumbnail = false) => {
   return {
-    color: colors,
+    color: ChartColors,
     tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
@@ -52,10 +51,10 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
           6,
           60,
         )}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.balance'))} ${localeNumberString(
+        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.balance'))} ${localeNumberString(
           dataList[0].data,
         )} ${i18n.t('common.ckb_unit')}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.ranking'))} ${dataList[0].name}</div>`
+        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.ranking'))} ${dataList[0].name}</div>`
         return result
       },
     },
@@ -79,7 +78,7 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
         scale: true,
         axisLine: {
           lineStyle: {
-            color: colors[0],
+            color: ChartColors[0],
           },
         },
         axisLabel: {
