@@ -24,17 +24,10 @@ const DecimalPartPanel = styled.div`
   margin-bottom: ${(props: { marginBottom: string }) => (props.marginBottom ? props.marginBottom : '1px')};
   font-size: ${(props: { fontSize?: string; color?: string; marginBottom: string }) =>
     props.fontSize ? props.fontSize : '12px'};
-<<<<<<< HEAD
   color: ${(props: { color?: string }) => (props.color ? props.color : '#999999')};
 
   @media (max-width: 1000px) {
     font-size: ${(props: { fontSize?: string }) => (props.fontSize ? props.fontSize : '11px')};
-=======
-  color: ${(props: { fontSize?: string; color?: string }) => (props.color ? props.color : '#999999')};
-
-  @media (max-width: 1000px) {
-    font-size: ${(props: { fontSize?: string; color?: string }) => (props.fontSize ? props.fontSize : '11px')};
->>>>>>> develop
   }
 
   @media (max-width: 750px) {
@@ -46,17 +39,10 @@ const DecimalZerosPanel = styled.div`
   margin-bottom: ${(props: { marginBottom: string }) => (props.marginBottom ? props.marginBottom : '1px')};
   font-size: ${(props: { fontSize?: string; color?: string; marginBottom: string }) =>
     props.fontSize ? props.fontSize : '12px'};
-<<<<<<< HEAD
   color: ${(props: { color?: string }) => (props.color ? props.color : '#999999')};
 
   @media (max-width: 1000px) {
     font-size: ${(props: { fontSize?: string }) => (props.fontSize ? props.fontSize : '11px')};
-=======
-  color: ${(props: { fontSize?: string; color?: string }) => (props.color ? props.color : '#999999')};
-
-  @media (max-width: 1000px) {
-    font-size: ${(props: { fontSize?: string; color?: string }) => (props.fontSize ? props.fontSize : '11px')};
->>>>>>> develop
   }
 
   @media (max-width: 750px) {
