@@ -149,6 +149,10 @@ export const AddressLockScriptItemPanel = styled.div`
     transform: translateY(2px);
     color: #000000;
 
+    @media (max-width: 1440px) {
+      flex-direction: row;
+    }
+
     @media (max-width: 750px) {
       margin-left: 10px;
       word-wrap: break-word;
