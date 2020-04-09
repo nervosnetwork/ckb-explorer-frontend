@@ -75,26 +75,47 @@ export const TransactionCellDetailPanel = styled.div`
 
 export const TransactionDetailPanel = styled.div`
   width: 100%;
-  font-weight: 500;
-  display: flex;
-  flex-direction: row;
-  .transaction__detail__modal__close {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding-bottom: 17px;
-    > img {
-      cursor: pointer;
-      width: 16px;
-      height: 16px;
-    }
+  margin-top: 20px;
+  @media (max-width: 750px) {
+    margin-top: 10px;
+  }
+  .transaction__detail_content {
+    border: none;
+    width: 100%;
+    text-align: left;
+    min-height: 120px;
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-all;
+    padding: 20px 6px;
+    margin-top: 5px;
+    font-size: 16px;
+    color: #888888;
+    font-weight: bold;
+    background-color: #f9f9f9;
+    border-radius: 6px;
     @media (max-width: 750px) {
-      padding-bottom: 15px;
-      > img {
-        width: 12px;
-        height: 12px;
-      }
+      font-size: 10px;
+      border-radius: 3px;
+      padding: 10px;
+    }
+  }
+  .transaction__detail_copy {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%;
+    @media (max-width: 750px) {
+      margin-top: 10px;
+    }
+  }
+  .transaction__detail_loading {
+    padding: 20px 0;
+    @media (max-width: 750px) {
+      padding: 10px 0;
     }
   }
 `
