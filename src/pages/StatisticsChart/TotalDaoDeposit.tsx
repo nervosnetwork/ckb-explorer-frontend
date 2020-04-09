@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
-import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
@@ -9,15 +7,14 @@ import Content from '../../components/Content'
 import { getStatisticTotalDaoDeposit } from '../../service/app/statisticsChart'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
-import Loading from '../../components/Loading'
-import SmallLoading from '../../components/Loading/SmallLoading'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
+import { ChartTitle, ChartPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import { shannonToCkb } from '../../utils/util'
-
-const colors = ['#3182bd', '#66CC99']
+import { ChartColors } from '../../utils/const'
+import { ChartLoading, ReactChartCore } from './ChartComponents'
+import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -35,7 +32,7 @@ const grid = {
 
 const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], isThumbnail = false) => {
   return {
-    color: colors,
+    color: ChartColors,
     tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
@@ -46,17 +43,15 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
           dataList[0].name,
         )}</div>`
         if (dataList[0].data) {
-          result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.total_dao_deposit'))} ${handleAxis(
+          result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.total_dao_deposit'))} ${handleAxis(
             dataList[0].data,
             2,
           )}</div>`
         }
         if (dataList[1].data) {
-          result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('statistic.total_dao_depositor'))} ${handleAxis(
-            dataList[1].data,
-            2,
-            true,
-          )}</div>`
+          result += `<div>${colorSpan(ChartColors[1])}${widthSpan(
+            i18n.t('statistic.total_dao_depositor'),
+          )} ${handleAxis(dataList[1].data, 2, true)}</div>`
         }
         return result
       },
@@ -83,7 +78,7 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
         scale: true,
         axisLine: {
           lineStyle: {
-            color: colors[0],
+            color: ChartColors[0],
           },
         },
         axisLabel: {
@@ -97,7 +92,7 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
         scale: true,
         axisLine: {
           lineStyle: {
-            color: colors[1],
+            color: ChartColors[1],
           },
         },
         axisLabel: {
@@ -133,24 +128,19 @@ export const TotalDaoDepositChart = ({
   statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]
   isThumbnail?: boolean
 }) => {
-  if (statisticTotalDaoDeposits.length === 0) {
-    return isThumbnail ? (
-      <ChartCardLoadingPanel>
-        <SmallLoading />
-      </ChartCardLoadingPanel>
-    ) : null
+  if (!statisticTotalDaoDeposits || statisticTotalDaoDeposits.length === 0) {
+    return <ChartLoading show={statisticTotalDaoDeposits === undefined} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactEchartsCore
-      echarts={echarts}
-      option={getOption(statisticTotalDaoDeposits, isThumbnail)}
-      notMerge
-      lazyUpdate
-      style={{
-        height: isThumbnail ? '230px' : '70vh',
-      }}
-    />
-  )
+  return <ReactChartCore option={getOption(statisticTotalDaoDeposits, isThumbnail)} isThumbnail={isThumbnail} />
+}
+
+export const initStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
+  dispatch({
+    type: PageActions.UpdateStatisticTotalDaoDeposit,
+    payload: {
+      statisticTotalDaoDeposits: undefined,
+    },
+  })
 }
 
 export default () => {
@@ -158,21 +148,16 @@ export default () => {
   const { statisticTotalDaoDeposits } = useAppState()
 
   useEffect(() => {
+    initStatisticTotalDaoDeposit(dispatch)
     getStatisticTotalDaoDeposit(dispatch)
   }, [dispatch])
 
   return (
     <Content>
       <ChartTitle>{i18n.t('statistic.total_dao_deposit_depositor')}</ChartTitle>
-      {statisticTotalDaoDeposits.length > 0 ? (
-        <ChartPanel>
-          <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} />
-        </ChartPanel>
-      ) : (
-        <LoadingPanel>
-          <Loading show />
-        </LoadingPanel>
-      )}
+      <ChartPanel>
+        <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} />
+      </ChartPanel>
     </Content>
   )
 }

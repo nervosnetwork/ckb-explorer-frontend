@@ -25,24 +25,37 @@ export const ChartTitle = styled.div`
 
 export const LoadingPanel = styled.div`
   display: flex;
-  width: 100%;
-  height: 70vh;
+  width: ${(props: { isThumbnail?: boolean }) => (props.isThumbnail ? '330px' : '100%')};
+  height: ${(props: { isThumbnail?: boolean }) => (props.isThumbnail ? '230px' : '70vh')};
   align-items: center;
   justify-content: center;
+`
+
+export const ChartNoDataPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: ${(props: { isThumbnail?: boolean }) => (props.isThumbnail ? '92px' : '184px')};
+  height: ${(props: { isThumbnail?: boolean }) => (props.isThumbnail ? '56px' : '112px')};
+  border-radius: 6px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+  border: solid 0.5px ${props => props.theme.primary};
+  background-color: #ffffff;
 
   > img {
-    width: 120px;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: ${(props: { isThumbnail?: boolean }) => (props.isThumbnail ? '18.5px' : '37px')};
+    height: ${(props: { isThumbnail?: boolean }) => (props.isThumbnail ? '14px' : '28px')};
+  }
 
-    @media (max-width: 750px) {
-      width: 50px;
-      height: 50px;
-    }
+  > span {
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 5px;
+    color: ${props => props.theme.primary};
   }
 `
+
 export const ChartsPanel = styled.div`
   margin: 40px 6%;
   padding: 0 20px 20px 20px;
@@ -88,12 +101,4 @@ export const ChartCardPanel = styled.div`
     box-shadow: 2px 2px 10px 0 rgb(43, 43, 43, 0.05);
     border: 1px solid #e2e2e2;
   }
-`
-
-export const ChartCardLoadingPanel = styled.div`
-  width: 330px;
-  height: 230px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `

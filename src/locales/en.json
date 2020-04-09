@@ -73,7 +73,8 @@
       "balance": "Balance",
       "address": "Address",
       "date": "Date",
-      "log": "(Log)"
+      "log": "(Log)",
+      "no_data": "No data..."
     },
     "home": {
       "height": "Height",

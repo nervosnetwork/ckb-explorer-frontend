@@ -1,6 +1,4 @@
 import React, { useEffect, useMemo } from 'react'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
-import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/legend'
@@ -11,14 +9,13 @@ import Content from '../../components/Content'
 import { getStatisticDifficultyUncleRate } from '../../service/app/statisticsChart'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
-import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
 import { handleDifficulty } from '../../utils/number'
-import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
+import { ChartTitle, ChartPanel } from './styled'
 import { isMobile } from '../../utils/screen'
-import SmallLoading from '../../components/Loading/SmallLoading'
-
-const colors = ['#3182bd', '#66CC99']
+import { ChartColors } from '../../utils/const'
+import { ChartLoading, ReactChartCore } from './ChartComponents'
+import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -36,7 +33,7 @@ const grid = {
 
 const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isThumbnail = false) => {
   return {
-    color: colors,
+    color: ChartColors,
     tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
@@ -49,12 +46,14 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
           true,
         )}</div>`
         if (dataList[0]) {
-          result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
+          result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
             dataList[0].data,
           )}</div>`
         }
         if (dataList[1]) {
-          result += `<div>${colorSpan(colors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${dataList[1].data}%</div>`
+          result += `<div>${colorSpan(ChartColors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${
+            dataList[1].data
+          }%</div>`
         }
         return result
       },
@@ -84,7 +83,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         scale: true,
         axisLine: {
           lineStyle: {
-            color: colors[0],
+            color: ChartColors[0],
           },
         },
         axisLabel: {
@@ -101,7 +100,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         },
         axisLine: {
           lineStyle: {
-            color: colors[1],
+            color: ChartColors[1],
           },
         },
         axisLabel: {
@@ -133,7 +132,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         markLine: {
           symbol: 'none',
           lineStyle: {
-            color: '#39ac73',
+            color: ChartColors[1],
           },
           data: [
             {
@@ -157,24 +156,19 @@ export const DifficultyUncleRateChart = ({
   statisticDifficultyUncleRates: State.StatisticDifficultyUncleRate[]
   isThumbnail?: boolean
 }) => {
-  if (statisticDifficultyUncleRates.length === 0) {
-    return isThumbnail ? (
-      <ChartCardLoadingPanel>
-        <SmallLoading />
-      </ChartCardLoadingPanel>
-    ) : null
+  if (!statisticDifficultyUncleRates || statisticDifficultyUncleRates.length === 0) {
+    return <ChartLoading show={statisticDifficultyUncleRates === undefined} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactEchartsCore
-      echarts={echarts}
-      option={getOption(statisticDifficultyUncleRates, isThumbnail)}
-      notMerge
-      lazyUpdate
-      style={{
-        height: isThumbnail ? '230px' : '70vh',
-      }}
-    />
-  )
+  return <ReactChartCore option={getOption(statisticDifficultyUncleRates, isThumbnail)} isThumbnail={isThumbnail} />
+}
+
+export const initStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
+  dispatch({
+    type: PageActions.UpdateStatisticDifficultyUncleRate,
+    payload: {
+      statisticDifficultyUncleRates: undefined,
+    },
+  })
 }
 
 export default () => {
@@ -182,6 +176,7 @@ export default () => {
   const { statisticDifficultyUncleRates } = useAppState()
 
   useEffect(() => {
+    initStatisticDifficultyUncleRate(dispatch)
     getStatisticDifficultyUncleRate(dispatch)
   }, [dispatch])
 
@@ -189,15 +184,9 @@ export default () => {
     return (
       <Content>
         <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}</ChartTitle>
-        {statisticDifficultyUncleRates.length > 0 ? (
-          <ChartPanel>
-            <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} />
-          </ChartPanel>
-        ) : (
-          <LoadingPanel>
-            <Loading show />
-          </LoadingPanel>
-        )}
+        <ChartPanel>
+          <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} />
+        </ChartPanel>
       </Content>
     )
   }, [statisticDifficultyUncleRates])
