@@ -1,26 +1,22 @@
 import React, { useEffect, useCallback } from 'react'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
-import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'default-passive-events'
 import Content from '../../components/Content'
 import { getStatisticAddressBalanceRank } from '../../service/app/statisticsChart'
-import { PageActions } from '../../contexts/providers/reducer'
+import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
-import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
+import { ChartTitle, ChartPanel } from './styled'
 import { isMobile } from '../../utils/screen'
-import SmallLoading from '../../components/Loading/SmallLoading'
 import { shannonToCkb } from '../../utils/util'
 import { localeNumberString } from '../../utils/number'
 import { adaptPCEllipsis } from '../../utils/string'
 import browserHistory from '../../routes/history'
-
-const colors = ['#3182bd']
+import { ChartLoading, ReactChartCore } from './ChartComponents'
+import { ChartColors } from '../../utils/const'
 
 const gridThumbnail = {
   left: '4%',
@@ -43,7 +39,7 @@ const getAddressWithRanking = (statisticAddressBalanceRanks: State.StatisticAddr
 
 const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[], isThumbnail = false) => {
   return {
-    color: colors,
+    color: ChartColors,
     tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
@@ -55,10 +51,10 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
           6,
           60,
         )}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.balance'))} ${localeNumberString(
+        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.balance'))} ${localeNumberString(
           dataList[0].data,
         )} ${i18n.t('common.ckb_unit')}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.ranking'))} ${dataList[0].name}</div>`
+        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.ranking'))} ${dataList[0].name}</div>`
         return result
       },
     },
@@ -82,7 +78,7 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
         scale: true,
         axisLine: {
           lineStyle: {
-            color: colors[0],
+            color: ChartColors[0],
           },
         },
         axisLabel: {
@@ -115,27 +111,25 @@ export const AddressBalanceRankChart = ({
   clickEvent: any
   isThumbnail?: boolean
 }) => {
-  if (statisticAddressBalanceRanks.length === 0) {
-    return isThumbnail ? (
-      <ChartCardLoadingPanel>
-        <SmallLoading />
-      </ChartCardLoadingPanel>
-    ) : null
+  if (!statisticAddressBalanceRanks || statisticAddressBalanceRanks.length === 0) {
+    return <ChartLoading show={statisticAddressBalanceRanks === undefined} isThumbnail={isThumbnail} />
   }
   return (
-    <ReactEchartsCore
-      echarts={echarts}
+    <ReactChartCore
       option={getOption(statisticAddressBalanceRanks, isThumbnail)}
-      notMerge
-      lazyUpdate
-      style={{
-        height: isThumbnail ? '230px' : '70vh',
-      }}
-      onEvents={{
-        click: clickEvent,
-      }}
+      isThumbnail={isThumbnail}
+      clickEvent={clickEvent}
     />
   )
+}
+
+export const initStatisticAddressBalanceRanks = (dispatch: AppDispatch) => {
+  dispatch({
+    type: PageActions.UpdateStatisticAddressBalanceRank,
+    payload: {
+      statisticAddressBalanceRanks: undefined,
+    },
+  })
 }
 
 export default () => {
@@ -152,30 +146,16 @@ export default () => {
   )
 
   useEffect(() => {
-    dispatch({
-      type: PageActions.UpdateStatisticAddressBalanceRank,
-      payload: {
-        statisticAddressBalanceRanks: [],
-      },
-    })
+    initStatisticAddressBalanceRanks(dispatch)
     getStatisticAddressBalanceRank(dispatch)
   }, [dispatch])
 
   return (
     <Content>
       <ChartTitle>{i18n.t('statistic.balance_ranking')}</ChartTitle>
-      {statisticAddressBalanceRanks.length > 0 ? (
-        <ChartPanel>
-          <AddressBalanceRankChart
-            statisticAddressBalanceRanks={statisticAddressBalanceRanks}
-            clickEvent={clickEvent}
-          />
-        </ChartPanel>
-      ) : (
-        <LoadingPanel>
-          <Loading show />
-        </LoadingPanel>
-      )}
+      <ChartPanel>
+        <AddressBalanceRankChart statisticAddressBalanceRanks={statisticAddressBalanceRanks} clickEvent={clickEvent} />
+      </ChartPanel>
     </Content>
   )
 }

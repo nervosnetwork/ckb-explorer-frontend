@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
-import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
@@ -8,16 +6,15 @@ import BigNumber from 'bignumber.js'
 import Content from '../../components/Content'
 import { getStatisticHashRate } from '../../service/app/statisticsChart'
 import i18n from '../../utils/i18n'
-import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
+import { ChartTitle, ChartPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
-import SmallLoading from '../../components/Loading/SmallLoading'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { handleHashRate } from '../../utils/number'
-
-const colors = ['#3182bd']
+import { ChartColors } from '../../utils/const'
+import { ChartLoading, ReactChartCore } from './ChartComponents'
+import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -35,7 +32,7 @@ const grid = {
 
 const getOption = (statisticHashRates: State.StatisticHashRate[], isThumbnail = false) => {
   return {
-    color: colors,
+    color: ChartColors,
     tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
@@ -45,7 +42,7 @@ const getOption = (statisticHashRates: State.StatisticHashRate[], isThumbnail = 
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
         )}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
+        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
           dataList[0].data,
         )}</div>`
         return result
@@ -73,7 +70,7 @@ const getOption = (statisticHashRates: State.StatisticHashRate[], isThumbnail = 
         scale: true,
         axisLine: {
           lineStyle: {
-            color: colors[0],
+            color: ChartColors[0],
           },
         },
         axisLabel: {
@@ -101,24 +98,19 @@ export const HashRateChart = ({
   statisticHashRates: State.StatisticHashRate[]
   isThumbnail?: boolean
 }) => {
-  if (statisticHashRates.length === 0) {
-    return isThumbnail ? (
-      <ChartCardLoadingPanel>
-        <SmallLoading />
-      </ChartCardLoadingPanel>
-    ) : null
+  if (!statisticHashRates || statisticHashRates.length === 0) {
+    return <ChartLoading show={statisticHashRates === undefined} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactEchartsCore
-      echarts={echarts}
-      option={getOption(statisticHashRates, isThumbnail)}
-      notMerge
-      lazyUpdate
-      style={{
-        height: isThumbnail ? '230px' : '70vh',
-      }}
-    />
-  )
+  return <ReactChartCore option={getOption(statisticHashRates, isThumbnail)} isThumbnail={isThumbnail} />
+}
+
+export const initStatisticHashRate = (dispatch: AppDispatch) => {
+  dispatch({
+    type: PageActions.UpdateStatisticHashRate,
+    payload: {
+      statisticHashRates: undefined,
+    },
+  })
 }
 
 export default () => {
@@ -126,21 +118,16 @@ export default () => {
   const { statisticHashRates = [] } = useAppState()
 
   useEffect(() => {
+    initStatisticHashRate(dispatch)
     getStatisticHashRate(dispatch)
   }, [dispatch])
 
   return (
     <Content>
       <ChartTitle>{i18n.t('block.hash_rate')}</ChartTitle>
-      {statisticHashRates.length > 0 ? (
-        <ChartPanel>
-          <HashRateChart statisticHashRates={statisticHashRates} />
-        </ChartPanel>
-      ) : (
-        <LoadingPanel>
-          <Loading show />
-        </LoadingPanel>
-      )}
+      <ChartPanel>
+        <HashRateChart statisticHashRates={statisticHashRates} />
+      </ChartPanel>
     </Content>
   )
 }
