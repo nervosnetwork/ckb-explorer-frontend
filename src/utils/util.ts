@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import camelcaseKeys from 'camelcase-keys'
 import BigNumber from 'bignumber.js'
-import { MAX_CONFIRMATION } from './const'
+import { MAX_CONFIRMATION, CodeHashTag, CodeHashTags } from './const'
 import i18n from './i18n'
 import { isMainnet } from './chain'
 import CONFIG from '../config'
@@ -94,6 +94,10 @@ export const baseUrl = () => {
   const testnetUrl = `${CONFIG.MAINNET_URL}/${CONFIG.TESTNET_NAME}`
 
   return isMainnet() ? mainnetUrl : testnetUrl
+}
+
+export const matchCodeHash = (codeHash: string): CodeHashTag | undefined => {
+  return CodeHashTags.find(codeHashTag => codeHashTag.codeHash === codeHash)
 }
 
 export default {

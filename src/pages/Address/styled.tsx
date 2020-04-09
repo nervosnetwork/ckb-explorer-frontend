@@ -107,7 +107,8 @@ export const AddressLockScriptItemPanel = styled.div`
   font-size: 16px;
 
   @media (min-width: 750px) {
-    height: 20px;
+    min-height: 20px;
+    max-height: 40px;
   }
 
   @media (max-width: 1200px) {
