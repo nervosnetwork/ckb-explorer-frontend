@@ -134,3 +134,7 @@ export const TransactionInfoContentPanel = styled.div`
     }
   }
 `
+
+export const TransactionCellDepTagPanel = styled.div`
+  margin-left: 160px;
+`
