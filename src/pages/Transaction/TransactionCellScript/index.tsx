@@ -10,16 +10,18 @@ import {
   TransactionDetailType,
   TransactionCellDetailPanel,
   TransactionDetailData,
+  TransactionCellScriptContentPanel,
 } from './styled'
 import CopyIcon from '../../../assets/copy_green.png'
 import CopyBlueIcon from '../../../assets/copy_blue.png'
 import i18n from '../../../utils/i18n'
-import { copyElementValue } from '../../../utils/util'
-import { AppActions } from '../../../contexts/providers/reducer'
+import { AppActions, AppDispatch, PageActions } from '../../../contexts/providers/reducer'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { isMainnet } from '../../../utils/chain'
-import { useDispatch } from '../../../contexts/providers'
+import { useDispatch, useAppState } from '../../../contexts/providers'
 import CloseIcon from '../../../assets/modal_close.png'
+import { matchCodeHash } from '../../../utils/util'
+import HashTag from '../../../components/HashTag'
 
 const initScriptContent = {
   lock: 'null',
@@ -29,22 +31,41 @@ const initScriptContent = {
   },
 }
 
-const handleFetchScript = (cell: State.Cell, state: CellState, setContent: any, setState: any, dispatch: any) => {
+const setScriptFetchStatus = (dispatch: AppDispatch, status: boolean) => {
+  dispatch({
+    type: PageActions.UpdateTransactionScriptFetched,
+    payload: {
+      scriptFetched: status,
+    },
+  })
+}
+
+const handleFetchScript = (
+  cell: State.Cell,
+  state: CellState,
+  setContent: Function,
+  setState: Function,
+  dispatch: AppDispatch,
+) => {
+  setScriptFetchStatus(dispatch, false)
   switch (state) {
     case CellState.LOCK:
-      fetchScript('lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<any>) => {
+      fetchScript('lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script> | null) => {
+        setScriptFetchStatus(dispatch, true)
         setContent(wrapper ? wrapper.attributes : initScriptContent.lock)
       })
       break
     case CellState.TYPE:
-      fetchScript('type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<any>) => {
+      fetchScript('type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script> | null) => {
+        setScriptFetchStatus(dispatch, true)
         setContent(wrapper ? wrapper.attributes : initScriptContent.type)
       })
       break
     case CellState.DATA:
       fetchCellData(`${cell.id}`)
-        .then((wrapper: Response.Wrapper<State.Data>) => {
-          const dataValue: State.Data = wrapper.attributes
+        .then((wrapper: Response.Wrapper<State.Data> | null) => {
+          setScriptFetchStatus(dispatch, true)
+          const dataValue: State.Data = wrapper ? wrapper.attributes : initScriptContent.data
           if (wrapper && cell.isGenesisOutput) {
             dataValue.data = hexToUtf8(wrapper.attributes.data.substr(2))
           }
@@ -72,14 +93,72 @@ const handleFetchScript = (cell: State.Cell, state: CellState, setContent: any, 
   }
 }
 
+const ScriptContent = ({ content, state }: { content: State.Script | State.Data | undefined; state: CellState }) => {
+  const hashTag = (content as State.Script).codeHash ? matchCodeHash((content as State.Script).codeHash) : undefined
+  if (state === CellState.DATA) {
+    return (content as State.Data).data ? (
+      <div>
+        <div>{`"${i18n.t('transaction.script_data')}": `}</div>
+        <div>{`"${(content as State.Data).data}"`}</div>
+      </div>
+    ) : (
+      <div>{JSON.stringify(initScriptContent.data, null, 4)}</div>
+    )
+  }
+  return (content as State.Script).args ? (
+    <>
+      <div>
+        <div>{`"${i18n.t('transaction.script_args')}": `}</div>
+        <div>{`"${(content as State.Script).args}"`}</div>
+      </div>
+      <div>
+        <div>{`"${i18n.t('transaction.script_code_hash')}": `}</div>
+        <div>{`"${(content as State.Script).codeHash}"`}</div>
+      </div>
+      {hashTag && (
+        <div>
+          <div>{''}</div>
+          <div>
+            <HashTag content={hashTag.tag} category={hashTag.category} />
+          </div>
+        </div>
+      )}
+      <div>
+        <div>{`"${i18n.t('transaction.script_hash_type')}": `}</div>
+        <div>{`"${(content as State.Script).hashType}"`}</div>
+      </div>
+    </>
+  ) : (
+    <div>{JSON.stringify(initScriptContent.lock, null, 4)}</div>
+  )
+}
+
+const ScriptContentJson = ({
+  content,
+  state,
+}: {
+  content: State.Script | State.Data | undefined
+  state: CellState
+}) => {
+  return (
+    <TransactionCellScriptContentPanel>
+      <span>{'{'}</span>
+      <ScriptContent content={content} state={state} />
+      <span>{'}'}</span>
+    </TransactionCellScriptContentPanel>
+  )
+}
+
 export default ({ cell, onClose }: { cell: State.Cell; onClose: Function }) => {
   const dispatch = useDispatch()
-  const [content, setContent] = useState(undefined as any)
+  const [content, setContent] = useState(null as State.Script | State.Data | null)
   const [state, setState] = useState(CellState.LOCK as CellState)
-  const contentElementId = `transaction__detail_content:${cell.id}`
+  const {
+    transactionState: { scriptFetched },
+  } = useAppState()
 
   const changeType = (newState: CellState) => {
-    setState(state !== newState ? newState : CellState.NONE)
+    setState(state !== newState ? newState : state)
   }
 
   useEffect(() => {
@@ -87,13 +166,19 @@ export default ({ cell, onClose }: { cell: State.Cell; onClose: Function }) => {
   }, [cell, state, setState, dispatch])
 
   const onClickCopy = () => {
-    copyElementValue(document.getElementById(contentElementId))
-    dispatch({
-      type: AppActions.ShowToastMessage,
-      payload: {
-        message: i18n.t('common.copied'),
+    navigator.clipboard.writeText(JSON.stringify(content, null, 4)).then(
+      () => {
+        dispatch({
+          type: AppActions.ShowToastMessage,
+          payload: {
+            message: i18n.t('common.copied'),
+          },
+        })
       },
-    })
+      error => {
+        console.error(error)
+      },
+    )
   }
 
   return (
@@ -116,9 +201,9 @@ export default ({ cell, onClose }: { cell: State.Cell; onClose: Function }) => {
       <div className="transaction__detail__separate" />
 
       <TransactionDetailPanel>
-        {content ? (
-          <div className="transaction__detail_content" id={contentElementId}>
-            {JSON.stringify(content, null, 4)}
+        {content && scriptFetched ? (
+          <div className="transaction__detail_content">
+            <ScriptContentJson content={content} state={state} />
           </div>
         ) : (
           <div className="transaction__detail_loading">

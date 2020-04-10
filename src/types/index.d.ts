@@ -337,6 +337,7 @@ declare namespace State {
   export interface TransactionState {
     transaction: Transaction
     status: keyof FetchStatus
+    scriptFetched: boolean
   }
 
   export interface TransactionsState {

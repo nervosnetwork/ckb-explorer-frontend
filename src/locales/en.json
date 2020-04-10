@@ -171,7 +171,11 @@
       "transaction_parameters": "Transaction Parameters",
       "ckb_transfer": "CKB Transfer",
       "nervos_dao_deposit": "Nervos DAO Deposit",
-      "nervos_dao_withdraw": "Nervos DAO Withdraw"
+      "nervos_dao_withdraw": "Nervos DAO Withdraw",
+      "script_args": "args",
+      "script_code_hash": "code_hash",
+      "script_hash_type": "hash_type",
+      "script_data": "data"
     },
     "block": {
       "block": "Block",

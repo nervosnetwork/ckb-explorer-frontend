@@ -11,6 +11,11 @@ const TagPanel = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 12px;
+
+  @media (max-width: 750px) {
+    height: 16px;
+    width: ${({ length }: { length: number; isLock?: boolean }) => `${length * (length > 10 ? 7.5 : 9)}px`};
+  }
 `
 
 export default ({ content, category = 'lock' }: { content: string; category?: 'lock' | 'type' }) => {

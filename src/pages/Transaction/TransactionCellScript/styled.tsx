@@ -152,3 +152,19 @@ export const TransactionDetailCopyButton = styled.div`
     }
   }
 `
+
+export const TransactionCellScriptContentPanel = styled.div`
+  > div {
+    display: flex;
+    margin: 2px 0px 2px 30px;
+
+    > div:nth-child(1) {
+      min-width: 120px;
+    }
+
+    > div:nth-child(2) {
+      word-wrap: break-word;
+      word-break: break-all;
+    }
+  }
+`
