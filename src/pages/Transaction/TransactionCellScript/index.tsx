@@ -141,7 +141,7 @@ const ScriptContentJson = ({
   state: CellState
 }) => {
   return (
-    <TransactionCellScriptContentPanel>
+    <TransactionCellScriptContentPanel isData={state === CellState.DATA}>
       <span>{'{'}</span>
       <ScriptContent content={content} state={state} />
       <span>{'}'}</span>

@@ -159,7 +159,7 @@ export const TransactionCellScriptContentPanel = styled.div`
     margin: 2px 0px 2px 30px;
 
     > div:nth-child(1) {
-      min-width: 120px;
+      min-width: ${(props: { isData: boolean }) => (props.isData ? '80px' : '120px')};
     }
 
     > div:nth-child(2) {
