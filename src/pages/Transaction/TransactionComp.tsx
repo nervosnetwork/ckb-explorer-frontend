@@ -16,6 +16,7 @@ import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import { isMainnet } from '../../utils/chain'
 import SimpleButton from '../../components/SimpleButton'
 import HashTag from '../../components/HashTag'
+import { isScreenSmallerThan1440 } from '../../utils/screen'
 
 const TransactionBlockHeight = ({ blockNumber }: { blockNumber: number }) => {
   return (
@@ -36,15 +37,20 @@ const TransactionInfoComp = ({
   title,
   value,
   linkUrl,
+  tag,
 }: {
   title?: string
   value: string | ReactNode
   linkUrl?: string
+  tag?: ReactNode
 }) => {
   return (
     <div className="transaction__info__content_item">
       <div className="transaction__info__content_title">{title ? `${title}: ` : ''}</div>
-      {linkUrl ? <Link to={linkUrl}>{value}</Link> : <span className="transaction__info__content_value">{value}</span>}
+      <div className="transaction__info__content_value">
+        {linkUrl ? <Link to={linkUrl}>{value}</Link> : value}
+        {tag}
+      </div>
     </div>
   )
 }
@@ -103,18 +109,19 @@ export default () => {
           outPoint: { txHash, index },
           depType,
         } = cellDep
-        const contractHashTag = matchTxHash(txHash, index)
+        const hashTag = matchTxHash(txHash, index)
         return (
           <TransactionInfoContentPanel key={`${txHash}${index}`}>
             <TransactionInfoComp
               title={i18n.t('transaction.out_point_tx_hash')}
               value={txHash}
               linkUrl={`/transaction/${txHash}`}
+              tag={
+                !isScreenSmallerThan1440() && hashTag && <HashTag content={hashTag.tag} category={hashTag.category} />
+              }
             />
-            {contractHashTag && (
-              <TransactionInfoComp
-                value={<HashTag content={contractHashTag.tag} category={contractHashTag.category} />}
-              />
+            {isScreenSmallerThan1440() && hashTag && (
+              <TransactionInfoComp value={<HashTag content={hashTag.tag} category={hashTag.category} />} />
             )}
             <TransactionInfoComp title={i18n.t('transaction.out_point_index')} value={index} />
             <TransactionInfoComp title={i18n.t('transaction.dep_type')} value={depType} />

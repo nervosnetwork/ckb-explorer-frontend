@@ -113,7 +113,7 @@ export const TransactionInfoContentPanel = styled.div`
   }
 
   .transaction__info__content_title {
-    width: 200px;
+    width: 180px;
     color: #333333;
     font-size: 14px;
 
@@ -125,9 +125,15 @@ export const TransactionInfoContentPanel = styled.div`
   .transaction__info__content_value {
     color: #333333;
     font-size: 14px;
-    width: 100%;
+    width: auto;
     word-wrap: break-word;
     word-break: break-all;
+    display: flex;
+    justify-content: flex-start;
+
+    @media (max-width: 1440px) {
+      width: 100%;
+    }
 
     @media (max-width: 750px) {
       font-size: 12px;
