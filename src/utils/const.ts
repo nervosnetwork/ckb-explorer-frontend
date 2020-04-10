@@ -106,13 +106,13 @@ export const ContractHashTags: ContractHashTag[] = [
       '0x6495cede8d500e4309218ae50bbcadb8f722f24cc7572dd2274f5876cb603e4e-1',
       '0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c-1',
     ],
-    tag: 'multi-sig',
+    tag: 'secp256k1 / multisig / locktime',
     category: 'lock',
   },
   {
     codeHash: '0x6a3982f9d018be7e7228f9e0b765f28ceff6d36e634490856d2b186acf78e79b',
     txHashes: ['0x69c70d65832cdfd97fe78d32eb25f840232f6b8cb6445464f11dad891b11fd83-0'],
-    tag: 'anyone-can-pay',
+    tag: 'secp256k1 / anyone-can-pay',
     category: 'lock',
   },
   {
