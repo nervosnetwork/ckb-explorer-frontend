@@ -94,8 +94,8 @@ export const ContractHashTags: ContractHashTag[] = [
   {
     codeHash: '0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8',
     txHashes: [
-      '0x6495cede8d500e4309218ae50bbcadb8f722f24cc7572dd2274f5876cb603e4e',
-      '0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c',
+      '0x6495cede8d500e4309218ae50bbcadb8f722f24cc7572dd2274f5876cb603e4e-0',
+      '0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c-0',
     ],
     tag: 'secp256k1',
     category: 'lock',
@@ -103,30 +103,30 @@ export const ContractHashTags: ContractHashTag[] = [
   {
     codeHash: '0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8',
     txHashes: [
-      '0x6495cede8d500e4309218ae50bbcadb8f722f24cc7572dd2274f5876cb603e4e',
-      '0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c',
+      '0x6495cede8d500e4309218ae50bbcadb8f722f24cc7572dd2274f5876cb603e4e-1',
+      '0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c-1',
     ],
     tag: 'multi-sig',
     category: 'lock',
   },
   {
     codeHash: '0x6a3982f9d018be7e7228f9e0b765f28ceff6d36e634490856d2b186acf78e79b',
-    txHashes: ['0x9af66408df4703763acb10871365e4a21f2c3d3bdc06b0ae634a3ad9f18a6525'],
+    txHashes: ['0x69c70d65832cdfd97fe78d32eb25f840232f6b8cb6445464f11dad891b11fd83-0'],
     tag: 'anyone-can-pay',
     category: 'lock',
   },
   {
     codeHash: '0x82d76d1b75fe2fd9a27dfbaa65a039221a380d76c926f378d3f81cf3e7e13f2e',
     txHashes: [
-      '0x96fea0dfaac1186fbb98fd452cb9b13976f9a00bcce130035fe2e30dac931d1d',
-      '0xe2fb199810d49a4d8beec56718ba2593b665db9d52299a0f9e6e75416d73ff5c',
+      '0x96fea0dfaac1186fbb98fd452cb9b13976f9a00bcce130035fe2e30dac931d1d-2',
+      '0xe2fb199810d49a4d8beec56718ba2593b665db9d52299a0f9e6e75416d73ff5c-2',
     ],
     tag: 'nervos dao',
     category: 'type',
   },
   {
     codeHash: '0x48dbf59b4c7ee1547238021b4869bceedf4eea6b43772e5d66ef8865b6ae7212',
-    txHashes: ['0x0e7153f243ba4c980bfd7cd77a90568bb70fd393cb572b211a2f884de63d103d'],
+    txHashes: ['0x0e7153f243ba4c980bfd7cd77a90568bb70fd393cb572b211a2f884de63d103d-0'],
     tag: 'sudt',
     category: 'type',
   },

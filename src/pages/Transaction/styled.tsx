@@ -82,7 +82,7 @@ export const TransactionInfoItemPanel = styled.div`
   .transaction__info_value {
     margin-left: 20px;
     margin-top: 5px;
-    max-height: 200px;
+    max-height: 250px;
     overflow-y: scroll;
 
     @media (max-width: 750px) {

@@ -5,7 +5,7 @@ import { useAppState } from '../../contexts/providers/index'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
-import { formatConfirmation, shannonToCkb, matchContractHash } from '../../utils/util'
+import { formatConfirmation, shannonToCkb, matchTxHash } from '../../utils/util'
 import { TransactionBlockHeightPanel, TransactionInfoItemPanel, TransactionInfoContentPanel } from './styled'
 import TransactionCellList from './TransactionCellList'
 import DecimalCapacity from '../../components/DecimalCapacity'
@@ -103,7 +103,7 @@ export default () => {
           outPoint: { txHash, index },
           depType,
         } = cellDep
-        const contractHashTag = matchContractHash(txHash)
+        const contractHashTag = matchTxHash(txHash, index)
         return (
           <TransactionInfoContentPanel key={`${txHash}${index}`}>
             <TransactionInfoComp

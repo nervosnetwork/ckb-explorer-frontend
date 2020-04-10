@@ -32,7 +32,7 @@ import { isMobile } from '../../utils/screen'
 import { Tooltip } from 'antd'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { parseSimpleDateNoSecond } from '../../utils/date'
-import { matchContractHash } from '../../utils/util'
+import { matchCodeHash } from '../../utils/util'
 import HashTag from '../../components/HashTag'
 
 const lockScriptIcon = (show: boolean) => {
@@ -72,7 +72,7 @@ const AddressLockScriptItem = ({ title, children }: { title: string; children?: 
 }
 
 const AddressLockScript = ({ script }: { script: State.Script }) => {
-  const contractHashTag = matchContractHash(script.codeHash)
+  const contractHashTag = matchCodeHash(script.codeHash)
   return (
     <AddressLockScriptPanel>
       <AddressLockScriptItem title={i18n.t('address.code_hash')}>

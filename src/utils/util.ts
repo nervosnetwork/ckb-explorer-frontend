@@ -96,10 +96,12 @@ export const baseUrl = () => {
   return isMainnet() ? mainnetUrl : testnetUrl
 }
 
-export const matchContractHash = (contractHash: string): ContractHashTag | undefined => {
-  return ContractHashTags.find(
-    codeHashTag => codeHashTag.codeHash === contractHash || codeHashTag.txHashes.find(hash => hash === contractHash),
-  )
+export const matchCodeHash = (contractHash: string): ContractHashTag | undefined => {
+  return ContractHashTags.find(codeHashTag => codeHashTag.codeHash === contractHash)
+}
+
+export const matchTxHash = (txHash: string, index: number | string): ContractHashTag | undefined => {
+  return ContractHashTags.find(codeHashTag => codeHashTag.txHashes.find(hash => hash === `${txHash}-${index}`))
 }
 
 export default {
