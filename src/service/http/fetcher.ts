@@ -89,11 +89,15 @@ export const fetchBlock = (blockParam: string) => {
 }
 
 export const fetchScript = (scriptType: 'lock_scripts' | 'type_scripts', id: string) => {
-  return axiosIns.get(`/cell_output_${scriptType}/${id}`).then((res: AxiosResponse) => res.data.data)
+  return axiosIns
+    .get(`/cell_output_${scriptType}/${id}`)
+    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Script>>(res.data.data))
 }
 
 export const fetchCellData = (id: string) => {
-  return axiosIns.get(`/cell_output_data/${id}`).then((res: AxiosResponse) => res.data.data)
+  return axiosIns
+    .get(`/cell_output_data/${id}`)
+    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Data>>(res.data.data))
 }
 
 export const fetchSearchResult = (param: string) => {

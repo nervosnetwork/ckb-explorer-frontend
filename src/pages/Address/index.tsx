@@ -32,6 +32,8 @@ import { isMobile } from '../../utils/screen'
 import { Tooltip } from 'antd'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { parseSimpleDateNoSecond } from '../../utils/date'
+import { matchCodeHash } from '../../utils/util'
+import HashTag from '../../components/HashTag'
 
 const lockScriptIcon = (show: boolean) => {
   if (show) {
@@ -70,10 +72,14 @@ const AddressLockScriptItem = ({ title, children }: { title: string; children?: 
 }
 
 const AddressLockScript = ({ script }: { script: State.Script }) => {
+  const contractHashTag = matchCodeHash(script.codeHash)
   return (
     <AddressLockScriptPanel>
       <AddressLockScriptItem title={i18n.t('address.code_hash')}>
-        <span>{script.codeHash}</span>
+        <div className="address__lock__script_code_hash">
+          <span>{script.codeHash}</span>
+          {contractHashTag && <HashTag content={contractHashTag.tag} />}
+        </div>
       </AddressLockScriptItem>
       <AddressLockScriptItem title={i18n.t('address.args')}>
         <span>{script.args}</span>
@@ -120,7 +126,12 @@ const getAddressInfo = (addressState: State.AddressState) => {
 
 const AddressTitleOverview = () => {
   const [showLock, setShowLock] = useState<boolean>(false)
-  const { addressState } = useAppState()
+  const {
+    addressState,
+    addressState: {
+      address: { lockScript = undefined },
+    },
+  } = useAppState()
   return (
     <AddressTitleOverviewPanel>
       <div className="address__title__separate" />
@@ -134,9 +145,7 @@ const AddressTitleOverview = () => {
           <div>{i18n.t('address.lock_script')}</div>
           <img alt="lock script" src={lockScriptIcon(showLock)} />
         </AddressLockScriptController>
-        {showLock && addressState && addressState.address && addressState.address.lockScript && (
-          <AddressLockScript script={addressState.address.lockScript} />
-        )}
+        {showLock && lockScript && <AddressLockScript script={lockScript} />}
       </OverviewCard>
     </AddressTitleOverviewPanel>
   )

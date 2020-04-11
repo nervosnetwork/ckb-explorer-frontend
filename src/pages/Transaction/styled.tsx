@@ -82,7 +82,7 @@ export const TransactionInfoItemPanel = styled.div`
   .transaction__info_value {
     margin-left: 20px;
     margin-top: 5px;
-    max-height: 200px;
+    max-height: 250px;
     overflow-y: scroll;
 
     @media (max-width: 750px) {
@@ -113,7 +113,7 @@ export const TransactionInfoContentPanel = styled.div`
   }
 
   .transaction__info__content_title {
-    width: 200px;
+    width: 180px;
     color: #333333;
     font-size: 14px;
 
@@ -125,12 +125,22 @@ export const TransactionInfoContentPanel = styled.div`
   .transaction__info__content_value {
     color: #333333;
     font-size: 14px;
-    width: 100%;
+    width: auto;
     word-wrap: break-word;
     word-break: break-all;
+    display: flex;
+    justify-content: flex-start;
+
+    @media (max-width: 1440px) {
+      width: 100%;
+    }
 
     @media (max-width: 750px) {
       font-size: 12px;
     }
   }
+`
+
+export const TransactionCellDepTagPanel = styled.div`
+  margin-left: 160px;
 `

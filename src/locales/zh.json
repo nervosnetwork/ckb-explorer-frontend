@@ -171,7 +171,11 @@
       "transaction_parameters": "更多交易参数",
       "ckb_transfer": "CKB 转账",
       "nervos_dao_deposit": "Nervos DAO 锁定",
-      "nervos_dao_withdraw": "Nervos DAO 解锁"
+      "nervos_dao_withdraw": "Nervos DAO 解锁",
+      "script_args": "args",
+      "script_code_hash": "code_hash",
+      "script_hash_type": "hash_type",
+      "script_data": "data"
     },
     "block": {
       "block": "区块",

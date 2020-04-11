@@ -29,6 +29,7 @@ export enum PageActions {
 
   UpdateTransaction = 'updateTransaction',
   UpdateTransactionStatus = 'updateTransactionStatus',
+  UpdateTransactionScriptFetched = 'updateTransactionScriptFetched',
   UpdateTransactions = 'updateTransactions',
   UpdateTransactionsTotal = 'updateTransactionsTotal',
 
@@ -283,6 +284,14 @@ export const reducer = (
         transactionsState: {
           ...state.transactionsState,
           total: payload.total,
+        },
+      }
+    case PageActions.UpdateTransactionScriptFetched:
+      return {
+        ...state,
+        transactionState: {
+          ...state.transactionState,
+          scriptFetched: payload.scriptFetched,
         },
       }
 

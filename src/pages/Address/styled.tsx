@@ -107,7 +107,8 @@ export const AddressLockScriptItemPanel = styled.div`
   font-size: 16px;
 
   @media (min-width: 750px) {
-    height: 20px;
+    min-height: 20px;
+    max-height: 45px;
   }
 
   @media (max-width: 1200px) {
@@ -142,17 +143,38 @@ export const AddressLockScriptItemPanel = styled.div`
 
   .address_lock_script__content {
     flex: 1;
-    margin-left: 20px;
+    margin-left: 12px;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     transform: translateY(2px);
     color: #000000;
 
     @media (max-width: 750px) {
-      margin-left: 10px;
+      margin-left: 5px;
       word-wrap: break-word;
       word-break: break-all;
       transform: translateY(0px);
+    }
+  }
+
+  .address__lock__script_code_hash {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    > span {
+      margin-right: 12px;
+      margin-bottom: 0px;
+    }
+
+    @media (max-width: 1440px) {
+      flex-direction: column;
+      align-items: flex-start;
+
+      > span {
+        margin-right: 0px;
+        margin-bottom: 6px;
+      }
     }
   }
 `
