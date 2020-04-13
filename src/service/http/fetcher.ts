@@ -226,3 +226,9 @@ export const fetchStatisticAddressBalanceRank = () => {
     toCamelcase<Response.Wrapper<State.StatisticAddressBalanceRanking>>(res.data.data),
   )
 }
+
+export const fetchStatisticBalanceDistribution = () => {
+  return axiosIns(`/distribution_data/address_balance_distribution`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticAddressBalanceDistribution>>(res.data.data),
+  )
+}

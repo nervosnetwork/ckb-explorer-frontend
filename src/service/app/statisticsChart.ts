@@ -10,6 +10,7 @@ import {
   fetchStatisticDifficulty,
   fetchStatisticHashRate,
   fetchStatisticUncleRate,
+  fetchStatisticBalanceDistribution,
 } from '../http/fetcher'
 import { AppDispatch, PageActions } from '../../contexts/providers/reducer'
 
@@ -214,4 +215,19 @@ export const getStatisticAddressBalanceRank = (dispatch: AppDispatch) => {
       },
     })
   })
+}
+
+export const getStatisticBalanceDistribution = (dispatch: AppDispatch) => {
+  fetchStatisticBalanceDistribution().then(
+    (wrapper: Response.Wrapper<State.StatisticAddressBalanceDistribution> | null) => {
+      if (!wrapper) return
+      const balanceDistribution = wrapper.attributes.addressBalanceDistribution
+      dispatch({
+        type: PageActions.UpdateStatisticBalanceDistribution,
+        payload: {
+          statisticBalanceRanking: balanceDistribution,
+        },
+      })
+    },
+  )
 }
