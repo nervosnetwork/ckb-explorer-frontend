@@ -27,6 +27,7 @@ import { AddressBalanceRankChart, initStatisticAddressBalanceRanks } from './Add
 import { DifficultyChart, initStatisticDifficulty } from './Difficulty'
 import { HashRateChart, initStatisticHashRate } from './HashRate'
 import { UncleRateChart, initStatisticUncleRate } from './UncleRate'
+import { BalanceDistributionChart, initStatisticBalanceDistribution } from './BalanceDistribution'
 
 interface ChartData {
   title: string
@@ -119,6 +120,11 @@ export default () => {
       ),
       path: '/charts/address-balance-rank',
     },
+    {
+      title: `${i18n.t('statistic.balance_distribution')}`,
+      chart: <BalanceDistributionChart statisticDifficultyHashRates={statisticDifficultyHashRates} isThumbnail />,
+      path: '/charts/balance-distribution',
+    },
   ]
 
   useEffect(() => {
@@ -132,6 +138,7 @@ export default () => {
     initStatisticTransactionCount(dispatch)
     initStatisticTotalDaoDeposit(dispatch)
     initStatisticAddressBalanceRanks(dispatch)
+    initStatisticBalanceDistribution(dispatch)
   }, [dispatch])
 
   useEffect(() => {
