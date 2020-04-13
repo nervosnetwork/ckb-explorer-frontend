@@ -8,7 +8,8 @@
       "view_all": "查看全部",
       "minute": "分",
       "second_ago": "秒以前",
-      "ckb_unit": "CKB"
+      "ckb_unit": "CKB",
+      "note": "注: "
     },
     "toast": {
       "invalid_content": "请输入有效内容",
@@ -72,7 +73,8 @@
       "balance": "余额",
       "address": "地址",
       "date": "日期",
-      "log": "（对数坐标）"
+      "log": "（对数坐标）",
+      "no_data": "暂无数据..."
     },
     "home": {
       "height": "高度",

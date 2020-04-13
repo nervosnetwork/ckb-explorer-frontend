@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
-import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
@@ -8,15 +6,14 @@ import BigNumber from 'bignumber.js'
 import Content from '../../components/Content'
 import { getStatisticAddressCount } from '../../service/app/statisticsChart'
 import i18n from '../../utils/i18n'
-import Loading from '../../components/Loading'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel, LoadingPanel, ChartCardLoadingPanel } from './styled'
+import { ChartTitle, ChartPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
-import SmallLoading from '../../components/Loading/SmallLoading'
 import { useAppState, useDispatch } from '../../contexts/providers'
-
-const colors = ['#3182bd']
+import { ChartLoading, ReactChartCore } from './ChartComponents'
+import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
+import { ChartColors } from '../../utils/const'
 
 const gridThumbnail = {
   left: '4%',
@@ -34,7 +31,7 @@ const grid = {
 
 const getOption = (statisticAddressCounts: State.StatisticAddressCount[], isThumbnail = false) => {
   return {
-    color: colors,
+    color: ChartColors,
     tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
@@ -44,7 +41,7 @@ const getOption = (statisticAddressCounts: State.StatisticAddressCount[], isThum
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
         )}</div>`
-        result += `<div>${colorSpan(colors[0])}${widthSpan(i18n.t('statistic.address_count'))} ${handleAxis(
+        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.address_count'))} ${handleAxis(
           dataList[0].data,
         )}</div>`
         return result
@@ -72,7 +69,7 @@ const getOption = (statisticAddressCounts: State.StatisticAddressCount[], isThum
         scale: true,
         axisLine: {
           lineStyle: {
-            color: colors[0],
+            color: ChartColors[0],
           },
         },
         axisLabel: {
@@ -93,31 +90,26 @@ const getOption = (statisticAddressCounts: State.StatisticAddressCount[], isThum
   }
 }
 
+export const initStatisticAddressCount = (dispatch: AppDispatch) => {
+  dispatch({
+    type: PageActions.UpdateStatisticAddressCount,
+    payload: {
+      statisticAddressCounts: undefined,
+    },
+  })
+}
+
 export const AddressCountChart = ({
   statisticAddressCounts,
   isThumbnail = false,
 }: {
-  statisticAddressCounts: State.StatisticAddressCount[]
+  statisticAddressCounts?: State.StatisticAddressCount[]
   isThumbnail?: boolean
 }) => {
-  if (statisticAddressCounts.length === 0) {
-    return isThumbnail ? (
-      <ChartCardLoadingPanel>
-        <SmallLoading />
-      </ChartCardLoadingPanel>
-    ) : null
+  if (!statisticAddressCounts || statisticAddressCounts.length === 0) {
+    return <ChartLoading show={statisticAddressCounts === undefined} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactEchartsCore
-      echarts={echarts}
-      option={getOption(statisticAddressCounts, isThumbnail)}
-      notMerge
-      lazyUpdate
-      style={{
-        height: isThumbnail ? '230px' : '70vh',
-      }}
-    />
-  )
+  return <ReactChartCore option={getOption(statisticAddressCounts, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
 export default () => {
@@ -125,21 +117,16 @@ export default () => {
   const { statisticAddressCounts } = useAppState()
 
   useEffect(() => {
+    initStatisticAddressCount(dispatch)
     getStatisticAddressCount(dispatch)
   }, [dispatch])
 
   return (
     <Content>
       <ChartTitle>{i18n.t('statistic.address_count')}</ChartTitle>
-      {statisticAddressCounts.length > 0 ? (
-        <ChartPanel>
-          <AddressCountChart statisticAddressCounts={statisticAddressCounts} />
-        </ChartPanel>
-      ) : (
-        <LoadingPanel>
-          <Loading show />
-        </LoadingPanel>
-      )}
+      <ChartPanel>
+        <AddressCountChart statisticAddressCounts={statisticAddressCounts} />
+      </ChartPanel>
     </Content>
   )
 }

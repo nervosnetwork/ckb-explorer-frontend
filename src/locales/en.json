@@ -8,7 +8,8 @@
       "view_all": "View All",
       "minute": "min",
       "second_ago": "s ago",
-      "ckb_unit": "CKB"
+      "ckb_unit": "CKB",
+      "note": "Note: "
     },
     "toast": {
       "invalid_content": "Please input valid content",
@@ -72,7 +73,8 @@
       "balance": "Balance",
       "address": "Address",
       "date": "Date",
-      "log": "(Log)"
+      "log": "(Log)",
+      "no_data": "No data..."
     },
     "home": {
       "height": "Height",

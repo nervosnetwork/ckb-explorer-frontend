@@ -25,7 +25,6 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
           hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toNumber(),
         }
       })
-      if (difficultyHashRates.length === 0) return
       dispatch({
         type: PageActions.UpdateStatisticDifficultyHashRate,
         payload: {
@@ -48,7 +47,6 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
           uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
         }
       })
-      if (difficultyUncleRates.length === 0) return
       dispatch({
         type: PageActions.UpdateStatisticDifficultyUncleRate,
         payload: {
@@ -70,7 +68,6 @@ export const getStatisticDifficulty = (dispatch: AppDispatch) => {
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
-      if (difficulties.length === 0) return
       dispatch({
         type: PageActions.UpdateStatisticDifficulty,
         payload: {
@@ -91,7 +88,6 @@ export const getStatisticHashRate = (dispatch: AppDispatch) => {
         createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
       }
     })
-    if (hashRates.length === 0) return
     dispatch({
       type: PageActions.UpdateStatisticHashRate,
       payload: {
@@ -111,7 +107,6 @@ export const getStatisticUncleRate = (dispatch: AppDispatch) => {
         createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
       }
     })
-    if (uncleRates.length === 0) return
     dispatch({
       type: PageActions.UpdateStatisticUncleRate,
       payload: {
@@ -132,7 +127,6 @@ export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
-      if (transactionCounts.length === 0) return
       dispatch({
         type: PageActions.UpdateStatisticTransactionCount,
         payload: {
@@ -154,7 +148,6 @@ export const getStatisticAddressCount = (dispatch: AppDispatch) => {
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
-      if (addressCounts.length === 0) return
       dispatch({
         type: PageActions.UpdateStatisticAddressCount,
         payload: {
@@ -177,7 +170,6 @@ export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
-      if (totalDaoDeposits.length === 0) return
       dispatch({
         type: PageActions.UpdateStatisticTotalDaoDeposit,
         payload: {
@@ -202,7 +194,6 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
         createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
       }
     })
-    if (cellCounts.length === 0) return
     dispatch({
       type: PageActions.UpdateStatisticCellCount,
       payload: {
@@ -216,7 +207,6 @@ export const getStatisticAddressBalanceRank = (dispatch: AppDispatch) => {
   fetchStatisticAddressBalanceRank().then((wrapper: Response.Wrapper<State.StatisticAddressBalanceRanking> | null) => {
     if (!wrapper) return
     const addressBalanceRanks = wrapper.attributes.addressBalanceRanking
-    if (addressBalanceRanks.length === 0) return
     dispatch({
       type: PageActions.UpdateStatisticAddressBalanceRank,
       payload: {

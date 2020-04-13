@@ -16,17 +16,17 @@ import {
 } from '../../service/app/statisticsChart'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
-import { DifficultyHashRateChart } from './DifficultyHashRate'
-import { DifficultyUncleRateChart } from './DifficultyUncleRate'
-import { TransactionCountChart } from './TransactionCount'
-import { AddressCountChart } from './AddressCount'
-import { CellCountChart } from './CellCount'
-import { TotalDaoDepositChart } from './TotalDaoDeposit'
+import { DifficultyHashRateChart, initStatisticDifficultyHashRate } from './DifficultyHashRate'
+import { DifficultyUncleRateChart, initStatisticDifficultyUncleRate } from './DifficultyUncleRate'
+import { TransactionCountChart, initStatisticTransactionCount } from './TransactionCount'
+import { AddressCountChart, initStatisticAddressCount } from './AddressCount'
+import { CellCountChart, initStatisticCellCount } from './CellCount'
+import { TotalDaoDepositChart, initStatisticTotalDaoDeposit } from './TotalDaoDeposit'
 import { ChartsPanel, ChartCardPanel } from './styled'
-import { AddressBalanceRankChart } from './AddressBalanceRank'
-import { DifficultyChart } from './Difficulty'
-import { HashRateChart } from './HashRate'
-import { UncleRateChart } from './UncleRate'
+import { AddressBalanceRankChart, initStatisticAddressBalanceRanks } from './AddressBalanceRank'
+import { DifficultyChart, initStatisticDifficulty } from './Difficulty'
+import { HashRateChart, initStatisticHashRate } from './HashRate'
+import { UncleRateChart, initStatisticUncleRate } from './UncleRate'
 
 interface ChartData {
   title: string
@@ -120,6 +120,19 @@ export default () => {
       path: '/charts/address-balance-rank',
     },
   ]
+
+  useEffect(() => {
+    initStatisticDifficultyHashRate(dispatch)
+    initStatisticDifficultyUncleRate(dispatch)
+    initStatisticDifficulty(dispatch)
+    initStatisticHashRate(dispatch)
+    initStatisticUncleRate(dispatch)
+    initStatisticAddressCount(dispatch)
+    initStatisticCellCount(dispatch)
+    initStatisticTransactionCount(dispatch)
+    initStatisticTotalDaoDeposit(dispatch)
+    initStatisticAddressBalanceRanks(dispatch)
+  }, [dispatch])
 
   useEffect(() => {
     getStatisticDifficultyHashRate(dispatch)
