@@ -24,12 +24,11 @@ import {
 import { isMobile, isScreen750to1440 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
 import { ComponentActions } from '../../contexts/providers/reducer'
-import LanDropdown from '../Dropdown/Language'
+import LanDropdown, { languageText } from '../Dropdown/Language'
 import ChainDropdown from '../Dropdown/ChainType'
 import { isMainnet } from '../../utils/chain'
 import CONFIG from '../../config'
 import SimpleButton from '../SimpleButton'
-import { TFunction } from 'i18next'
 
 export const handleVersion = (nodeVersion: string) => {
   if (nodeVersion && nodeVersion.indexOf('(') !== -1) {
@@ -38,43 +37,32 @@ export const handleVersion = (nodeVersion: string) => {
   return nodeVersion
 }
 
-export enum LinkType {
-  Inner,
-  Outer,
-}
-
-export const headerMenus = (t: TFunction) => [
-  {
-    type: LinkType.Inner,
-    name: t('navbar.charts'),
-    url: '/charts',
-  },
-  {
-    type: LinkType.Inner,
-    name: t('navbar.nervos_dao'),
-    url: '/nervosdao',
-  },
-  !isMainnet()
-    ? {
-        type: LinkType.Outer,
-        name: t('navbar.faucet'),
-        url: 'https://faucet.nervos.org/',
-      }
-    : {},
-]
-
-const languageText = (lan: 'en' | 'zh' | null) => {
-  return lan === 'en' ? i18n.t('navbar.language_en') : i18n.t('navbar.language_zh')
-}
-
 const getDropdownIcon = (showDropdown: boolean) => {
   if (!showDropdown) return WhiteDropdownIcon
   return isMainnet() ? GreenDropUpIcon : BlueDropUpIcon
 }
 
+export enum LinkType {
+  Inner,
+  Outer,
+}
+
 const MenusComp = () => {
   const [t] = useTranslation()
-  const MenuDataList = useMemo(() => headerMenus(t), [t])
+  const MenuDataList = useMemo(() => {
+    return [
+      {
+        type: LinkType.Inner,
+        name: t('navbar.charts'),
+        url: '/charts',
+      },
+      {
+        type: LinkType.Inner,
+        name: t('navbar.nervos_dao'),
+        url: '/nervosdao',
+      },
+    ]
+  }, [t])
 
   return (
     <HeaderMenuPanel>
@@ -102,58 +90,58 @@ const LogoComp = () => {
 }
 
 const BlockchainComp = () => {
-  const { app } = useAppState()
-  const { nodeVersion, language } = app
-  const [showChainDropdown, setShowChainDropdown] = useState(false)
-  const [chainDropdownLeft, setChainDropdownLeft] = useState(0)
-  const [chainDropdownTop, setChainDropdownTop] = useState(0)
+  const {
+    app: { nodeVersion, language },
+  } = useAppState()
+  const [showChainType, setShowChainType] = useState(false)
+  const [chainTypeLeft, setChainTypeLeft] = useState(0)
+  const [chainTypeTop, setChainTypeTop] = useState(0)
 
   useLayoutEffect(() => {
-    if (showChainDropdown && language) {
+    if (showChainType && language) {
       const chainDropdownComp = document.getElementById('header__blockchain__panel')
       if (chainDropdownComp) {
         const chainDropdownReact = chainDropdownComp.getBoundingClientRect()
         if (chainDropdownReact) {
-          setChainDropdownLeft(chainDropdownReact.left - (isMainnet() ? 40 : 30))
-          setChainDropdownTop(chainDropdownReact.bottom - 6)
+          setChainTypeLeft(chainDropdownReact.left - (isMainnet() ? 40 : 30))
+          setChainTypeTop(chainDropdownReact.bottom - 6)
         }
       }
     }
-  }, [showChainDropdown, language])
+  }, [showChainType, language])
   return (
     <HeaderBlockchainPanel
       id="header__blockchain__panel"
       onMouseLeave={() => {
-        setShowChainDropdown(false)
+        setShowChainType(false)
       }}
     >
       <SimpleButton
         className="header__blockchain__flag"
         onMouseOver={() => {
-          setShowChainDropdown(true)
+          setShowChainType(true)
         }}
       >
         <div className="header__blockchain__content_panel">
           <div className="header__blockchain__content">
             {isMainnet() ? i18n.t('navbar.mainnet') : CONFIG.TESTNET_NAME.toUpperCase()}
           </div>
-          <img src={getDropdownIcon(showChainDropdown)} alt="dropdown icon" />
+          <img src={getDropdownIcon(showChainType)} alt="dropdown icon" />
         </div>
         <div className="header__blockchain__node__version">{handleVersion(nodeVersion)}</div>
       </SimpleButton>
-      {showChainDropdown && (
-        <ChainDropdown setShowChainDropdown={setShowChainDropdown} left={chainDropdownLeft} top={chainDropdownTop} />
-      )}
+      {showChainType && <ChainDropdown setShow={setShowChainType} left={chainTypeLeft} top={chainTypeTop} />}
     </HeaderBlockchainPanel>
   )
 }
 
 const LanguageComp = () => {
-  const { app } = useAppState()
-  const { language } = app
+  const {
+    app: { language },
+  } = useAppState()
   const [showLanguage, setShowLanguage] = useState(false)
-  const [languageDropdownLeft, setLanguageDropdownLeft] = useState(0)
-  const [languageDropdownTop, setLanguageDropdownTop] = useState(0)
+  const [languageLeft, setLanguageLeft] = useState(0)
+  const [languageTop, setLanguageTop] = useState(0)
 
   useLayoutEffect(() => {
     if (showLanguage && language) {
@@ -161,8 +149,8 @@ const LanguageComp = () => {
       if (languageDropdownComp) {
         const languageDropdownReact = languageDropdownComp.getBoundingClientRect()
         if (languageDropdownReact) {
-          setLanguageDropdownLeft(languageDropdownReact.left + (currentLanguage() === 'en' ? -15 : 3))
-          setLanguageDropdownTop(languageDropdownReact.bottom - 3)
+          setLanguageLeft(languageDropdownReact.left + (currentLanguage() === 'en' ? -15 : 3))
+          setLanguageTop(languageDropdownReact.bottom - 3)
         }
       }
     }
@@ -171,10 +159,10 @@ const LanguageComp = () => {
   return (
     <HeaderLanguagePanel
       id="header__language__panel"
+      showLanguage={showLanguage}
       onMouseLeave={() => {
         setShowLanguage(false)
       }}
-      showLanguage={showLanguage}
     >
       <SimpleButton
         className="header__language__flag"
@@ -187,9 +175,7 @@ const LanguageComp = () => {
           <img src={getDropdownIcon(showLanguage)} alt="dropdown icon" />
         </div>
       </SimpleButton>
-      {showLanguage && (
-        <LanDropdown setShowLanguage={setShowLanguage} left={languageDropdownLeft} top={languageDropdownTop} />
-      )}
+      {showLanguage && <LanDropdown setShow={setShowLanguage} left={languageLeft} top={languageTop} />}
     </HeaderLanguagePanel>
   )
 }

@@ -6,13 +6,12 @@ import { ComponentActions, AppDispatch, AppActions } from '../../contexts/provid
 import i18n, { currentLanguage, changeLanguage } from '../../utils/i18n'
 import CONFIG from '../../config'
 import { isMainnet } from '../../utils/chain'
-import { handleVersion, LinkType, headerMenus } from '.'
+import { handleVersion, LinkType } from '.'
 import WhiteDropdownIcon from '../../assets/white_dropdown.png'
 import WhiteDropUpIcon from '../../assets/white_drop_up.png'
 import BlueDropUpIcon from '../../assets/blue_drop_up.png'
 import GreenDropUpIcon from '../../assets/green_drop_up.png'
 import Search from '../Search'
-import SimpleButton from '../SimpleButton'
 
 const MenusPanel = styled.div`
   width: 100%;
@@ -27,13 +26,11 @@ const MenusPanel = styled.div`
   top: 64px;
   bottom: 0px;
   overflow: hidden;
-
   .mobile__menus {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin: 0 56px;
-
     .mobile__menus__item {
       font-weight: normal;
       color: white;
@@ -43,7 +40,6 @@ const MenusPanel = styled.div`
       font-weight: regular;
       margin-top: 22px;
       height: 21px;
-
       &:hover {
         font-weight: medium;
         color: ${props => props.theme.primary};
@@ -57,33 +53,27 @@ const MobileSubMenuPanel = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin: 22px 56px 0 56px;
-
   .mobile__menus__main__item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
   }
-
   .mobile__menus__main__item__content {
     color: ${(props: { showSubMenu: boolean; theme: any }) => (props.showSubMenu ? props.theme.primary : 'white')};
   }
-
   .mobile__menus__main__item__content__highlight {
     color: ${props => props.theme.primary};
   }
-
   .mobile__menus__main__item__icon {
     width: 7.9px;
     height: 4.8px;
   }
-
   .blockchain__mobile__node__version {
     font-size: 8px;
     margin-top: -5px;
     color: ${props => props.theme.primary};
   }
-
   .mobile__menus__sub__item {
     margin-left: 24px;
     margin-top: 22px;
@@ -91,7 +81,6 @@ const MobileSubMenuPanel = styled.div`
     display: flex;
     align-items: center;
   }
-
   a {
     color: white;
     text-transform: capitalize;
@@ -99,30 +88,25 @@ const MobileSubMenuPanel = styled.div`
   a:hover {
     color: white;
   }
-
   .mobile__menus__sub__icon {
     width: 20px;
     height: 20px;
   }
-
   .mobile__menus__sub__title {
     font-size: 12px;
     margin-left: 8px;
     margin-right: 16px;
   }
-
   .mobile__menus__sub__tag {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-right: 5px;
-
     > img {
       height: 9px;
       width: auto;
     }
   }
-
   .mobile__menus__sub__memo {
     font-size: 12px;
     color: #888888;
@@ -135,7 +119,6 @@ const HeaderSearchPanel = styled.div`
   display: flex;
   align-items: center;
   margin: 22px 15px;
-
   .header__search__component {
     display: flex;
     align-items: center;
@@ -144,7 +127,13 @@ const HeaderSearchPanel = styled.div`
   }
 `
 
-const MenuItemLink = ({ menu }: { menu: any }) => {
+interface MenuType {
+  type: LinkType
+  name: string
+  url: string
+}
+
+const MenuItemLink = ({ menu }: { menu: MenuType }) => {
   return (
     <a
       className="mobile__menus__item"
@@ -172,8 +161,11 @@ const BlockchainMenu = () => {
 
   return (
     <MobileSubMenuPanel showSubMenu={false}>
-      <SimpleButton
+      <div
         className="mobile__menus__main__item"
+        role="button"
+        tabIndex={-1}
+        onKeyDown={() => {}}
         onClick={() => {
           setShowSubMenu(!showSubMenu)
         }}
@@ -182,7 +174,7 @@ const BlockchainMenu = () => {
           {isMainnet() ? i18n.t('navbar.mainnet') : CONFIG.TESTNET_NAME.toUpperCase()}
         </div>
         <img className="mobile__menus__main__item__icon" alt="mobile chain type icon" src={chainTypeIcon()} />
-      </SimpleButton>
+      </div>
       <div className="blockchain__mobile__node__version">{handleVersion(nodeVersion)}</div>
       {showSubMenu && (
         <>
@@ -220,8 +212,11 @@ const LanguageMenu = () => {
 
   return (
     <MobileSubMenuPanel showSubMenu={false}>
-      <SimpleButton
+      <div
         className="mobile__menus__main__item"
+        role="button"
+        tabIndex={-1}
+        onKeyDown={() => {}}
         onClick={() => {
           setShowSubMenu(!showSubMenu)
         }}
@@ -234,11 +229,14 @@ const LanguageMenu = () => {
           alt="mobile language icon"
           src={showSubMenu ? WhiteDropUpIcon : WhiteDropdownIcon}
         />
-      </SimpleButton>
+      </div>
       {showSubMenu && (
         <>
-          <SimpleButton
+          <div
             className="mobile__menus__sub__item"
+            role="button"
+            tabIndex={-1}
+            onKeyDown={() => {}}
             onClick={() => {
               dispatch({
                 type: ComponentActions.UpdateHeaderMobileMenuVisible,
@@ -249,15 +247,18 @@ const LanguageMenu = () => {
             }}
           >
             {currentLanguage() === 'en' ? i18n.t('navbar.language_en') : i18n.t('navbar.language_zh')}
-          </SimpleButton>
-          <SimpleButton
+          </div>
+          <div
             className="mobile__menus__sub__item"
+            role="button"
+            tabIndex={-1}
+            onKeyDown={() => {}}
             onClick={() => {
               languageAction(dispatch)
             }}
           >
             {currentLanguage() === 'en' ? i18n.t('navbar.language_zh') : i18n.t('navbar.language_en')}
-          </SimpleButton>
+          </div>
         </>
       )}
     </MobileSubMenuPanel>
@@ -266,7 +267,25 @@ const LanguageMenu = () => {
 
 const MenusComp = () => {
   const [t] = useTranslation()
-  const MenuDataList = useMemo(() => headerMenus(t), [t])
+  const MenuDataList = useMemo(() => {
+    return [
+      {
+        type: LinkType.Inner,
+        name: t('navbar.explorer'),
+        url: '/',
+      },
+      {
+        type: LinkType.Inner,
+        name: t('navbar.charts'),
+        url: '/charts',
+      },
+      {
+        type: LinkType.Inner,
+        name: t('navbar.nervos_dao'),
+        url: '/nervosdao',
+      },
+    ]
+  }, [t])
   return (
     <div className="mobile__menus">
       {MenuDataList.map(menu => {

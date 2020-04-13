@@ -1,9 +1,4 @@
-import React from 'react'
 import styled from 'styled-components'
-import i18n from '../../utils/i18n'
-import CONFIG from '../../config'
-import { isMainnet } from '../../utils/chain'
-import SimpleButton from '../SimpleButton'
 
 export const ChainTypePanel = styled.div`
   width: 130px;
@@ -30,7 +25,7 @@ export const ChainTypePanel = styled.div`
   left: ${(props: { left: number; top: number }) => props.left}px;
   top: ${(props: { left: number; top: number }) => props.top}px;
 
-  .chain_type_selected {
+  .chain__type__selected {
     width: 94%;
     font-size: 12px;
     font-weight: normal;
@@ -52,7 +47,7 @@ export const ChainTypePanel = styled.div`
       background: #f1f1f1;
     }
   }
-  .chain_type_normal {
+  .chain__type__normal {
     width: 94%;
     font-size: 14px;
     font-weight: normal;
@@ -75,41 +70,10 @@ export const ChainTypePanel = styled.div`
     }
   }
 
-  .chain_type_separate {
+  .chain__type__separate {
     width: 88%;
     height: 0.5px;
     border: solid 0.5px #c3c3c3;
     margin: 0 6%;
   }
 `
-
-export default ({ setShowChainDropdown, left, top }: { setShowChainDropdown: Function; left: number; top: number }) => {
-  const testnetUrl = `${CONFIG.MAINNET_URL}/${CONFIG.TESTNET_NAME}`
-  return (
-    <ChainTypePanel
-      left={left}
-      top={top}
-      onMouseLeave={() => {
-        setShowChainDropdown(false)
-      }}
-    >
-      <SimpleButton
-        className={`chain_type_${isMainnet() ? 'selected' : 'normal'}`}
-        onClick={() => {
-          setShowChainDropdown(false)
-        }}
-      >
-        <a href={CONFIG.MAINNET_URL}>{i18n.t('blockchain.mainnet')}</a>
-      </SimpleButton>
-      <div className="chain_type_separate" />
-      <SimpleButton
-        className={`chain_type_${!isMainnet() ? 'selected' : 'normal'}`}
-        onClick={() => {
-          setShowChainDropdown(false)
-        }}
-      >
-        <a href={testnetUrl}>{`${CONFIG.TESTNET_NAME} ${i18n.t('blockchain.testnet')}`}</a>
-      </SimpleButton>
-    </ChainTypePanel>
-  )
-}
