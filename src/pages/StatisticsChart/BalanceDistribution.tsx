@@ -25,9 +25,9 @@ const gridThumbnail = {
   containLabel: true,
 }
 const grid = {
-  left: currentLanguage() === 'en' ? '8%' : '4%',
-  right: currentLanguage() === 'en' ? '10%' : '7%',
-  bottom: '5%',
+  left: '2%',
+  right: '2%',
+  bottom: '6%',
   containLabel: true,
 }
 
@@ -82,6 +82,9 @@ const getOption = (statisticBalanceDistributions: State.StatisticBalanceDistribu
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.addresses_balance_group'),
         type: 'value',
         scale: true,
+        nameTextStyle: {
+          align: 'left',
+        },
         axisLine: {
           lineStyle: {
             color: ChartColors[0],
@@ -99,6 +102,9 @@ const getOption = (statisticBalanceDistributions: State.StatisticBalanceDistribu
           show: false,
         },
         scale: true,
+        nameTextStyle: {
+          align: 'right',
+        },
         axisLine: {
           lineStyle: {
             color: ChartColors[1],
@@ -117,7 +123,7 @@ const getOption = (statisticBalanceDistributions: State.StatisticBalanceDistribu
           color: '#85bae0',
         },
         yAxisIndex: '0',
-        barWidth: isMobile() ? 20 : 50,
+        barWidth: isMobile() || isThumbnail ? 20 : 50,
         data: statisticBalanceDistributions.map(data => new BigNumber(data.addresses).toNumber()),
       },
       {
