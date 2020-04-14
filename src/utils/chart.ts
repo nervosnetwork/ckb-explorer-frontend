@@ -40,6 +40,13 @@ export const handleAxis = (value: BigNumber | string | number, decimal?: number,
   return `${decimal && !hideZero ? bigValue.toFixed(decimal) : bigValue.toFixed()}`
 }
 
+export const handleGroupAxis = (value: BigNumber | string | number, suffix?: string) => {
+  const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  return `[${bigValue.isGreaterThanOrEqualTo(1000) ? handleAxis(bigValue.dividedBy(10)) : '0'}, ${handleAxis(
+    value,
+  )}${suffix}]`
+}
+
 export const parseInterval = (max: number, min: number) => {
   const count = isMobile() ? 5 : 20
   const interval = (max - min) / count

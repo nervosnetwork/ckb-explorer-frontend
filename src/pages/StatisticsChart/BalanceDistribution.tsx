@@ -9,12 +9,13 @@ import Content from '../../components/Content'
 import { getStatisticBalanceDistribution } from '../../service/app/statisticsChart'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n, { currentLanguage } from '../../utils/i18n'
-import { handleAxis } from '../../utils/chart'
+import { handleAxis, handleGroupAxis } from '../../utils/chart'
 import { ChartTitle, ChartPanel } from './styled'
 import { isMobile } from '../../utils/screen'
 import { ChartColors } from '../../utils/const'
 import { ChartLoading, ReactChartCore } from './ChartComponents'
 import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
+import { localeNumberString } from '../../utils/number'
 
 const gridThumbnail = {
   left: '4%',
@@ -24,8 +25,8 @@ const gridThumbnail = {
   containLabel: true,
 }
 const grid = {
-  left: currentLanguage() === 'en' ? '7%' : '4%',
-  right: currentLanguage() === 'en' ? '9%' : '7%',
+  left: currentLanguage() === 'en' ? '8%' : '4%',
+  right: currentLanguage() === 'en' ? '10%' : '7%',
   bottom: '5%',
   containLabel: true,
 }
@@ -39,21 +40,23 @@ const getOption = (statisticBalanceDistributions: State.StatisticBalanceDistribu
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? 280 : 180}px;display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.balance'))} ${handleAxis(
+          `<span style="width:${currentLanguage() === 'en' ? 280 : 110}px;display:inline-block;">${value}:</span>`
+        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.addresses_balance'))} ${handleAxis(
           dataList[0].name,
           1,
           true,
-        )} ${i18n.t('common.ckb_unit')}</div>`
+        )}${dataList[0].dataIndex === statisticBalanceDistributions.length - 1 ? '+' : ''} ${i18n.t(
+          'common.ckb_unit',
+        )}</div>`
         if (dataList[0]) {
           result += `<div>${colorSpan(ChartColors[0])}${widthSpan(
             i18n.t('statistic.addresses_balance_group'),
-          )} ${handleAxis(dataList[0].data)}</div>`
+          )} ${localeNumberString(dataList[0].data)}</div>`
         }
         if (dataList[1]) {
           result += `<div>${colorSpan(ChartColors[1])}${widthSpan(
             i18n.t('statistic.addresses_below_specific_balance'),
-          )} ${handleAxis(dataList[1].data)}</div>`
+          )} ${localeNumberString(dataList[1].data)}</div>`
         }
         return result
       },
@@ -68,11 +71,11 @@ const getOption = (statisticBalanceDistributions: State.StatisticBalanceDistribu
         nameLocation: 'middle',
         nameGap: '30',
         type: 'category',
-        boundaryGap: false,
+        boundaryGap: true,
         data: statisticBalanceDistributions.map(data => data.balance),
         axisLabel: {
           formatter: (value: string, index: number) =>
-            `${handleAxis(new BigNumber(value))}${index === statisticBalanceDistributions.length - 1 ? '+' : ''}`,
+            `${handleGroupAxis(new BigNumber(value), index === statisticBalanceDistributions.length - 1 ? '+' : '')}`,
         },
       },
     ],
@@ -117,7 +120,7 @@ const getOption = (statisticBalanceDistributions: State.StatisticBalanceDistribu
           color: '#85bae0',
         },
         yAxisIndex: '0',
-        barWidth: 20,
+        barWidth: 60,
         data: statisticBalanceDistributions.map(data => new BigNumber(data.addresses).toNumber()),
       },
       {
