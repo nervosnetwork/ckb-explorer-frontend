@@ -13,6 +13,7 @@ import {
   getStatisticDifficulty,
   getStatisticHashRate,
   getStatisticUncleRate,
+  getStatisticBalanceDistribution,
 } from '../../service/app/statisticsChart'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
@@ -61,6 +62,7 @@ export default () => {
     statisticCellCounts,
     statisticTransactionCounts,
     statisticAddressBalanceRanks,
+    statisticBalanceDistributions,
   } = useAppState()
 
   const charts: ChartData[] = [
@@ -122,7 +124,7 @@ export default () => {
     },
     {
       title: `${i18n.t('statistic.balance_distribution')}`,
-      chart: <BalanceDistributionChart statisticDifficultyHashRates={statisticDifficultyHashRates} isThumbnail />,
+      chart: <BalanceDistributionChart statisticBalanceDistributions={statisticBalanceDistributions} isThumbnail />,
       path: '/charts/balance-distribution',
     },
   ]
@@ -152,6 +154,7 @@ export default () => {
     getStatisticTransactionCount(dispatch)
     getStatisticTotalDaoDeposit(dispatch)
     getStatisticAddressBalanceRank(dispatch)
+    getStatisticBalanceDistribution(dispatch)
   }, [dispatch])
 
   return (

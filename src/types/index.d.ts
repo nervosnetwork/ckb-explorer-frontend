@@ -250,7 +250,7 @@ declare namespace State {
   }
 
   export interface StatisticAddressBalanceDistribution {
-    addressBalanceDistribution: string[]
+    addressBalanceDistribution: string[][]
   }
 
   export interface StatisticBalanceDistribution {
@@ -340,7 +340,7 @@ declare namespace State {
     statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
     statisticAddressCounts: StatisticAddressCount[]
     statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
-    statisticBalanceDistribution: StatisticBalanceDistribution[]
+    statisticBalanceDistributions: StatisticBalanceDistribution[]
 
     nervosDaoState: NervosDaoState
 

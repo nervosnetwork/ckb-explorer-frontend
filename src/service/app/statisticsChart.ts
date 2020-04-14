@@ -221,11 +221,19 @@ export const getStatisticBalanceDistribution = (dispatch: AppDispatch) => {
   fetchStatisticBalanceDistribution().then(
     (wrapper: Response.Wrapper<State.StatisticAddressBalanceDistribution> | null) => {
       if (!wrapper) return
-      const balanceDistribution = wrapper.attributes.addressBalanceDistribution
+      const balanceDistributionArray = wrapper.attributes.addressBalanceDistribution
+      const balanceDistributions = balanceDistributionArray.map(distribution => {
+        const [balance, addresses, sumAddresses] = distribution
+        return {
+          balance,
+          addresses,
+          sumAddresses,
+        }
+      })
       dispatch({
         type: PageActions.UpdateStatisticBalanceDistribution,
         payload: {
-          statisticBalanceRanking: balanceDistribution,
+          statisticBalanceDistributions: balanceDistributions,
         },
       })
     },

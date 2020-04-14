@@ -340,7 +340,7 @@ export const reducer = (
     case PageActions.UpdateStatisticBalanceDistribution:
       return {
         ...state,
-        statisticBalanceDistribution: payload.statisticBalanceDistribution,
+        statisticBalanceDistributions: payload.statisticBalanceDistributions,
       }
 
     case PageActions.UpdateNervosDao:

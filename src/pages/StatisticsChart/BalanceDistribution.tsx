@@ -6,11 +6,10 @@ import 'echarts/lib/component/legend'
 import 'echarts/lib/component/title'
 import BigNumber from 'bignumber.js'
 import Content from '../../components/Content'
-import { getStatisticDifficultyHashRate } from '../../service/app/statisticsChart'
+import { getStatisticBalanceDistribution } from '../../service/app/statisticsChart'
 import { useAppState, useDispatch } from '../../contexts/providers'
-import i18n from '../../utils/i18n'
+import i18n, { currentLanguage } from '../../utils/i18n'
 import { handleAxis } from '../../utils/chart'
-import { handleDifficulty, handleHashRate } from '../../utils/number'
 import { ChartTitle, ChartPanel } from './styled'
 import { isMobile } from '../../utils/screen'
 import { ChartColors } from '../../utils/const'
@@ -25,13 +24,13 @@ const gridThumbnail = {
   containLabel: true,
 }
 const grid = {
-  left: '3%',
-  right: '4%',
+  left: currentLanguage() === 'en' ? '7%' : '4%',
+  right: currentLanguage() === 'en' ? '9%' : '7%',
   bottom: '5%',
   containLabel: true,
 }
 
-const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRate[], isThumbnail = false) => {
+const getOption = (statisticBalanceDistributions: State.StatisticBalanceDistribution[], isThumbnail = false) => {
   return {
     color: ChartColors,
     tooltip: !isThumbnail && {
@@ -39,46 +38,48 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
       formatter: (dataList: any[]) => {
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
-        const widthSpan = (value: string) => `<span style="width:100px;display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch'))} ${handleAxis(
+        const widthSpan = (value: string) =>
+          `<span style="width:${currentLanguage() === 'en' ? 280 : 180}px;display:inline-block;">${value}:</span>`
+        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.balance'))} ${handleAxis(
           dataList[0].name,
           1,
           true,
-        )}</div>`
+        )} ${i18n.t('common.ckb_unit')}</div>`
         if (dataList[0]) {
-          result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
-            dataList[0].data,
-          )}</div>`
+          result += `<div>${colorSpan(ChartColors[0])}${widthSpan(
+            i18n.t('statistic.addresses_balance_group'),
+          )} ${handleAxis(dataList[0].data)}</div>`
         }
         if (dataList[1]) {
-          result += `<div>${colorSpan(ChartColors[1])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
-            dataList[1].data,
-          )}</div>`
+          result += `<div>${colorSpan(ChartColors[1])}${widthSpan(
+            i18n.t('statistic.addresses_below_specific_balance'),
+          )} ${handleAxis(dataList[1].data)}</div>`
         }
         return result
       },
     },
     legend: !isThumbnail && {
-      data: [i18n.t('block.difficulty'), i18n.t('block.hash_rate_hps')],
+      data: [i18n.t('block.addresses_balance_group'), i18n.t('block.addresses_below_specific_balance')],
     },
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
-        name: isMobile() || isThumbnail ? '' : i18n.t('block.epoch'),
+        name: isMobile() || isThumbnail ? '' : `${i18n.t('statistic.balance')} (CKB)`,
         nameLocation: 'middle',
         nameGap: '30',
         type: 'category',
         boundaryGap: false,
-        data: statisticDifficultyHashRates.map(data => data.epochNumber),
+        data: statisticBalanceDistributions.map(data => data.balance),
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: string, index: number) =>
+            `${handleAxis(new BigNumber(value))}${index === statisticBalanceDistributions.length - 1 ? '+' : ''}`,
         },
       },
     ],
     yAxis: [
       {
         position: 'left',
-        name: isMobile() || isThumbnail ? '' : i18n.t('block.difficulty'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.addresses_balance_group'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -92,7 +93,7 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
       },
       {
         position: 'right',
-        name: isMobile() || isThumbnail ? '' : i18n.t('block.hash_rate_hps'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.addresses_below_specific_balance'),
         type: 'value',
         splitLine: {
           show: false,
@@ -110,64 +111,63 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
     ],
     series: [
       {
-        name: i18n.t('block.difficulty'),
+        name: i18n.t('statistic.addresses_balance_group'),
         type: 'bar',
         areaStyle: {
           color: '#85bae0',
         },
         yAxisIndex: '0',
-        symbol: isThumbnail ? 'none' : 'circle',
-        symbolSize: 3,
-        data: statisticDifficultyHashRates.map(data => new BigNumber(data.difficulty).toNumber()),
+        barWidth: 20,
+        data: statisticBalanceDistributions.map(data => new BigNumber(data.addresses).toNumber()),
       },
       {
-        name: i18n.t('block.hash_rate_hps'),
+        name: i18n.t('statistic.addresses_below_specific_balance'),
         type: 'line',
         yAxisIndex: '1',
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
-        data: statisticDifficultyHashRates.map(data => new BigNumber(data.hashRate).toNumber()),
+        data: statisticBalanceDistributions.map(data => new BigNumber(data.sumAddresses).toNumber()),
       },
     ],
   }
 }
 
 export const BalanceDistributionChart = ({
-  statisticDifficultyHashRates,
+  statisticBalanceDistributions,
   isThumbnail = false,
 }: {
-  statisticDifficultyHashRates: State.StatisticDifficultyHashRate[]
+  statisticBalanceDistributions: State.StatisticBalanceDistribution[]
   isThumbnail?: boolean
 }) => {
-  if (!statisticDifficultyHashRates || statisticDifficultyHashRates.length === 0) {
-    return <ChartLoading show={statisticDifficultyHashRates === undefined} isThumbnail={isThumbnail} />
+  if (!statisticBalanceDistributions || statisticBalanceDistributions.length === 0) {
+    return <ChartLoading show={statisticBalanceDistributions === undefined} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticDifficultyHashRates, isThumbnail)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={getOption(statisticBalanceDistributions, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
 export const initStatisticBalanceDistribution = (dispatch: AppDispatch) => {
   dispatch({
-    type: PageActions.UpdateStatisticDifficultyHashRate,
+    type: PageActions.UpdateStatisticBalanceDistribution,
     payload: {
-      statisticDifficultyHashRates: undefined,
+      statisticBalanceDistributions: undefined,
     },
   })
 }
 
 export default () => {
   const dispatch = useDispatch()
-  const { statisticDifficultyHashRates } = useAppState()
+  const { statisticBalanceDistributions } = useAppState()
 
   useEffect(() => {
     initStatisticBalanceDistribution(dispatch)
-    getStatisticDifficultyHashRate(dispatch)
+    getStatisticBalanceDistribution(dispatch)
   }, [dispatch])
 
   return (
     <Content>
       <ChartTitle>{i18n.t('statistic.balance_distribution')}</ChartTitle>
       <ChartPanel>
-        <BalanceDistributionChart statisticDifficultyHashRates={statisticDifficultyHashRates} />
+        <BalanceDistributionChart statisticBalanceDistributions={statisticBalanceDistributions} />
       </ChartPanel>
     </Content>
   )
