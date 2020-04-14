@@ -64,7 +64,7 @@ const getOption = (statisticBalanceDistributions: State.StatisticBalanceDistribu
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
-        name: isMobile() || isThumbnail ? '' : `${i18n.t('statistic.balance')} (CKB)`,
+        name: isMobile() || isThumbnail ? '' : `${i18n.t('statistic.addresses_balance')} (CKB)`,
         nameLocation: 'middle',
         nameGap: '30',
         type: 'category',
