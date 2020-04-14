@@ -6,7 +6,7 @@ import Content from '../../components/Content'
 import { getStatisticUncleRate } from '../../service/app/statisticsChart'
 import i18n from '../../utils/i18n'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel } from './styled'
+import { ChartDetailTitle, ChartDetailPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
@@ -16,7 +16,7 @@ import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
-  right: '10%',
+  right: '12%',
   top: '8%',
   bottom: '6%',
   containLabel: true,
@@ -134,10 +134,10 @@ export default () => {
 
   return (
     <Content>
-      <ChartTitle>{i18n.t('block.uncle_rate')}</ChartTitle>
-      <ChartPanel>
+      <ChartDetailTitle>{i18n.t('block.uncle_rate')}</ChartDetailTitle>
+      <ChartDetailPanel>
         <UncleRateChart statisticUncleRates={statisticUncleRates} />
-      </ChartPanel>
+      </ChartDetailPanel>
     </Content>
   )
 }

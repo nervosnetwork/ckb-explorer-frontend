@@ -78,7 +78,10 @@
       "address": "地址",
       "date": "日期",
       "log": "（对数坐标）",
-      "no_data": "暂无数据..."
+      "no_data": "暂无数据...",
+      "charts_title": "图表",
+      "category_mining": "Mining Charts",
+      "category_activities": "Activities"
     },
     "home": {
       "height": "高度",

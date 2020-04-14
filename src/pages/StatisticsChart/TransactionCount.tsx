@@ -8,7 +8,7 @@ import { getStatisticTransactionCount } from '../../service/app/statisticsChart'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel } from './styled'
+import { ChartDetailTitle, ChartDetailPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import { ChartColors } from '../../utils/const'
@@ -123,10 +123,10 @@ export default () => {
 
   return (
     <Content>
-      <ChartTitle>{i18n.t('statistic.transaction_count')}</ChartTitle>
-      <ChartPanel>
+      <ChartDetailTitle>{i18n.t('statistic.transaction_count')}</ChartDetailTitle>
+      <ChartDetailPanel>
         <TransactionCountChart statisticTransactionCounts={statisticTransactionCounts} />
-      </ChartPanel>
+      </ChartDetailPanel>
     </Content>
   )
 }

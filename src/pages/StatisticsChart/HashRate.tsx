@@ -7,7 +7,7 @@ import Content from '../../components/Content'
 import { getStatisticHashRate } from '../../service/app/statisticsChart'
 import i18n from '../../utils/i18n'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel } from './styled'
+import { ChartDetailTitle, ChartDetailPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
@@ -124,10 +124,10 @@ export default () => {
 
   return (
     <Content>
-      <ChartTitle>{i18n.t('block.hash_rate')}</ChartTitle>
-      <ChartPanel>
+      <ChartDetailTitle>{i18n.t('block.hash_rate')}</ChartDetailTitle>
+      <ChartDetailPanel>
         <HashRateChart statisticHashRates={statisticHashRates} />
-      </ChartPanel>
+      </ChartDetailPanel>
     </Content>
   )
 }

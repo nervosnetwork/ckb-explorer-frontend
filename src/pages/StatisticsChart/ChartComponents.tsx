@@ -49,7 +49,7 @@ const ReactChartCore = ({
       notMerge
       lazyUpdate
       style={{
-        height: isThumbnail ? '230px' : '70vh',
+        height: isThumbnail ? '200px' : '70vh',
       }}
       onEvents={events}
     />

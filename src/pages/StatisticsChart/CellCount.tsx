@@ -9,7 +9,7 @@ import { getStatisticCellCount } from '../../service/app/statisticsChart'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel } from './styled'
+import { ChartDetailTitle, ChartDetailPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import { ChartColors } from '../../utils/const'
@@ -159,10 +159,10 @@ export default () => {
   return useMemo(() => {
     return (
       <Content>
-        <ChartTitle>{i18n.t('statistic.cell_count')}</ChartTitle>
-        <ChartPanel>
+        <ChartDetailTitle>{i18n.t('statistic.cell_count')}</ChartDetailTitle>
+        <ChartDetailPanel>
           <CellCountChart statisticCellCounts={statisticCellCounts} />
-        </ChartPanel>
+        </ChartDetailPanel>
       </Content>
     )
   }, [statisticCellCounts])

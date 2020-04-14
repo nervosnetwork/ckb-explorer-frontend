@@ -10,7 +10,7 @@ import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import { handleAxis } from '../../utils/chart'
 import { handleDifficulty, handleHashRate } from '../../utils/number'
-import { ChartTitle, ChartPanel } from './styled'
+import { ChartDetailTitle, ChartDetailPanel } from './styled'
 import { isMobile } from '../../utils/screen'
 import { ChartColors } from '../../utils/const'
 import { ChartLoading, ReactChartCore } from './ChartComponents'
@@ -166,10 +166,10 @@ export default () => {
 
   return (
     <Content>
-      <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}</ChartTitle>
-      <ChartPanel>
+      <ChartDetailTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}</ChartDetailTitle>
+      <ChartDetailPanel>
         <DifficultyHashRateChart statisticDifficultyHashRates={statisticDifficultyHashRates} />
-      </ChartPanel>
+      </ChartDetailPanel>
     </Content>
   )
 }

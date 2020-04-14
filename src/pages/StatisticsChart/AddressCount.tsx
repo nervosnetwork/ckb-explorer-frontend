@@ -7,7 +7,7 @@ import Content from '../../components/Content'
 import { getStatisticAddressCount } from '../../service/app/statisticsChart'
 import i18n from '../../utils/i18n'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel } from './styled'
+import { ChartDetailTitle, ChartDetailPanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
@@ -123,10 +123,10 @@ export default () => {
 
   return (
     <Content>
-      <ChartTitle>{i18n.t('statistic.address_count')}</ChartTitle>
-      <ChartPanel>
+      <ChartDetailTitle>{i18n.t('statistic.address_count')}</ChartDetailTitle>
+      <ChartDetailPanel>
         <AddressCountChart statisticAddressCounts={statisticAddressCounts} />
-      </ChartPanel>
+      </ChartDetailPanel>
     </Content>
   )
 }
