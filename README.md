@@ -1,4 +1,4 @@
-<p align="center"><a href="https://explorer.nervos.org" target="_blank" rel="noopener noreferrer"><img height="40" src="./src/assets/ckb_logo.png" alt="ckb explorer logo"></a></p>
+<p align="center"><a href="https://explorer.nervos.org" target="_blank" rel="noopener noreferrer"><img height="60px" src="./src/assets/ckb_dark.png" alt="ckb explorer logo"></a></p>
 
 <h1 align="center">CKB Explorer</h1>
 
