@@ -1,4 +1,4 @@
-import { handleAxis, parseInterval } from '../src/utils/chart'
+import { handleAxis, parseInterval, handleGroupAxis } from '../src/utils/chart'
 import BigNumber from 'bignumber.js'
 
 describe('Chart tests', () => {
@@ -9,6 +9,14 @@ describe('Chart tests', () => {
     expect(handleAxis(new BigNumber(12233435), 3)).toBe('12.233M')
     expect(handleAxis(new BigNumber(122), 2)).toBe('122.00')
     expect(handleAxis(new BigNumber(122), 2, true)).toBe('122')
+    expect(handleAxis(new BigNumber(12233435), 0)).toBe('12M')
+  })
+
+  it('handleGroupAxis', async () => {
+    expect(handleGroupAxis(new BigNumber(102300))).toBe('[10K, 102K]')
+    expect(handleGroupAxis(new BigNumber(12233435))).toBe('[1M, 12M]')
+    expect(handleGroupAxis(new BigNumber(12232352000), '+')).toBe('[1G, 12G+]')
+    expect(handleGroupAxis(new BigNumber(122))).toBe('[0, 122]')
   })
 
   it('parseInterval', async () => {
