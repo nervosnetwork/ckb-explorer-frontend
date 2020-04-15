@@ -7,7 +7,7 @@ import Content from '../../components/Content'
 import { getStatisticAddressBalanceRank } from '../../service/app/statisticsChart'
 import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 import { useAppState, useDispatch } from '../../contexts/providers'
-import i18n from '../../utils/i18n'
+import i18n, { currentLanguage } from '../../utils/i18n'
 import { handleAxis } from '../../utils/chart'
 import { ChartTitle, ChartPanel } from './styled'
 import { isMobile } from '../../utils/screen'
@@ -26,7 +26,7 @@ const gridThumbnail = {
   containLabel: true,
 }
 const grid = {
-  left: '3%',
+  left: '5%',
   right: '4%',
   bottom: '5%',
   containLabel: true,
@@ -45,7 +45,8 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
       formatter: (dataList: any[]) => {
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
-        const widthSpan = (value: string) => `<span style="width:60px;display:inline-block;">${value}:</span>`
+        const widthSpan = (value: string) =>
+          `<span style="width:${currentLanguage() === 'en' ? '65px' : '35px'};display:inline-block;">${value}:</span>`
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.address'))} ${adaptPCEllipsis(
           getAddressWithRanking(statisticAddressBalanceRanks, dataList[0].name),
           6,
@@ -54,14 +55,14 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
         result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.balance'))} ${localeNumberString(
           dataList[0].data,
         )} ${i18n.t('common.ckb_unit')}</div>`
-        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.ranking'))} ${dataList[0].name}</div>`
+        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.rank'))} ${dataList[0].name}</div>`
         return result
       },
     },
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.rank'),
         nameLocation: 'middle',
         nameGap: '30',
         type: 'category',
