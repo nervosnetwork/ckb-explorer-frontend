@@ -26,7 +26,7 @@ const gridThumbnail = {
   containLabel: true,
 }
 const grid = {
-  left: '3%',
+  left: '5%',
   right: '4%',
   bottom: '5%',
   containLabel: true,
@@ -54,14 +54,14 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
         result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.balance'))} ${localeNumberString(
           dataList[0].data,
         )} ${i18n.t('common.ckb_unit')}</div>`
-        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.ranking'))} ${dataList[0].name}</div>`
+        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.rank'))} ${dataList[0].name}</div>`
         return result
       },
     },
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.rank'),
         nameLocation: 'middle',
         nameGap: '30',
         type: 'category',
