@@ -73,7 +73,7 @@
       "addresses_balance_group": "分组地址数",
       "addresses_below_specific_balance": "分组累计地址数",
       "addresses_balance": "分组余额区间",
-      "ranking": "排名",
+      "rank": "排名",
       "balance": "余额",
       "address": "地址",
       "date": "日期",
