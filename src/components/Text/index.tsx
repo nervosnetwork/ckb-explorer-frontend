@@ -13,7 +13,6 @@ export const HighLightPanel = styled.div`
   }
 
   a {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
     color: ${props => props.theme.primary};
     margin-top: 3px;
 

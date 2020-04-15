@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import i18n, { currentLanguage, changeLanguage } from '../../utils/i18n'
 import { useDispatch } from '../../contexts/providers'
 import { AppActions } from '../../contexts/providers/reducer'
+import SimpleButton from '../SimpleButton'
 
 export const LanguagePanel = styled.div`
   width: 70px;
@@ -66,23 +67,17 @@ export default ({ setShowLanguage, left, top }: { setShowLanguage: Function; lef
         setShowLanguage(false)
       }}
     >
-      <div
+      <SimpleButton
         className="language_selected"
-        role="button"
-        tabIndex={-1}
-        onKeyDown={() => {}}
         onClick={() => {
           setShowLanguage(false)
         }}
       >
         {i18n.t(currentLanguage() === 'en' ? 'navbar.language_en' : 'navbar.language_zh')}
-      </div>
+      </SimpleButton>
       <div className="language_separate" />
-      <div
+      <SimpleButton
         className="language_normal"
-        role="button"
-        tabIndex={-1}
-        onKeyDown={() => {}}
         onClick={() => {
           setShowLanguage(false)
           changeLanguage(currentLanguage() === 'en' ? 'zh' : 'en')
@@ -95,7 +90,7 @@ export default ({ setShowLanguage, left, top }: { setShowLanguage: Function; lef
         }}
       >
         {i18n.t(currentLanguage() === 'en' ? 'navbar.language_zh' : 'navbar.language_en')}
-      </div>
+      </SimpleButton>
     </LanguagePanel>
   )
 }

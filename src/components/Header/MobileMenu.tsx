@@ -6,12 +6,13 @@ import { ComponentActions, AppDispatch, AppActions } from '../../contexts/provid
 import i18n, { currentLanguage, changeLanguage } from '../../utils/i18n'
 import CONFIG from '../../config'
 import { isMainnet } from '../../utils/chain'
-import { handleVersion, LinkType } from '.'
+import { handleVersion, LinkType, headerMenus } from '.'
 import WhiteDropdownIcon from '../../assets/white_dropdown.png'
 import WhiteDropUpIcon from '../../assets/white_drop_up.png'
 import BlueDropUpIcon from '../../assets/blue_drop_up.png'
 import GreenDropUpIcon from '../../assets/green_drop_up.png'
 import Search from '../Search'
+import SimpleButton from '../SimpleButton'
 
 const MenusPanel = styled.div`
   width: 100%;
@@ -143,13 +144,7 @@ const HeaderSearchPanel = styled.div`
   }
 `
 
-interface MenuType {
-  type: LinkType
-  name: string
-  url: string
-}
-
-const MenuItemLink = ({ menu }: { menu: MenuType }) => {
+const MenuItemLink = ({ menu }: { menu: any }) => {
   return (
     <a
       className="mobile__menus__item"
@@ -177,11 +172,8 @@ const BlockchainMenu = () => {
 
   return (
     <MobileSubMenuPanel showSubMenu={false}>
-      <div
+      <SimpleButton
         className="mobile__menus__main__item"
-        role="button"
-        tabIndex={-1}
-        onKeyDown={() => {}}
         onClick={() => {
           setShowSubMenu(!showSubMenu)
         }}
@@ -190,7 +182,7 @@ const BlockchainMenu = () => {
           {isMainnet() ? i18n.t('navbar.mainnet') : CONFIG.TESTNET_NAME.toUpperCase()}
         </div>
         <img className="mobile__menus__main__item__icon" alt="mobile chain type icon" src={chainTypeIcon()} />
-      </div>
+      </SimpleButton>
       <div className="blockchain__mobile__node__version">{handleVersion(nodeVersion)}</div>
       {showSubMenu && (
         <>
@@ -228,11 +220,8 @@ const LanguageMenu = () => {
 
   return (
     <MobileSubMenuPanel showSubMenu={false}>
-      <div
+      <SimpleButton
         className="mobile__menus__main__item"
-        role="button"
-        tabIndex={-1}
-        onKeyDown={() => {}}
         onClick={() => {
           setShowSubMenu(!showSubMenu)
         }}
@@ -245,14 +234,11 @@ const LanguageMenu = () => {
           alt="mobile language icon"
           src={showSubMenu ? WhiteDropUpIcon : WhiteDropdownIcon}
         />
-      </div>
+      </SimpleButton>
       {showSubMenu && (
         <>
-          <div
+          <SimpleButton
             className="mobile__menus__sub__item"
-            role="button"
-            tabIndex={-1}
-            onKeyDown={() => {}}
             onClick={() => {
               dispatch({
                 type: ComponentActions.UpdateHeaderMobileMenuVisible,
@@ -263,18 +249,15 @@ const LanguageMenu = () => {
             }}
           >
             {currentLanguage() === 'en' ? i18n.t('navbar.language_en') : i18n.t('navbar.language_zh')}
-          </div>
-          <div
+          </SimpleButton>
+          <SimpleButton
             className="mobile__menus__sub__item"
-            role="button"
-            tabIndex={-1}
-            onKeyDown={() => {}}
             onClick={() => {
               languageAction(dispatch)
             }}
           >
             {currentLanguage() === 'en' ? i18n.t('navbar.language_zh') : i18n.t('navbar.language_en')}
-          </div>
+          </SimpleButton>
         </>
       )}
     </MobileSubMenuPanel>
@@ -283,25 +266,7 @@ const LanguageMenu = () => {
 
 const MenusComp = () => {
   const [t] = useTranslation()
-  const MenuDataList = useMemo(() => {
-    return [
-      {
-        type: LinkType.Inner,
-        name: t('navbar.explorer'),
-        url: '/',
-      },
-      {
-        type: LinkType.Inner,
-        name: t('navbar.charts'),
-        url: '/charts',
-      },
-      {
-        type: LinkType.Inner,
-        name: t('navbar.nervos_dao'),
-        url: '/nervosdao',
-      },
-    ]
-  }, [t])
+  const MenuDataList = useMemo(() => headerMenus(t), [t])
   return (
     <div className="mobile__menus">
       {MenuDataList.map(menu => {

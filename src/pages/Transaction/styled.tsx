@@ -8,7 +8,6 @@ export const TransactionDiv = styled.div.attrs({
   align-items: center;
   margin-top: 40px;
   margin-bottom: 40px;
-  width: 100%;
 
   @media (max-width: 750px) {
     margin: 0px;
@@ -17,11 +16,6 @@ export const TransactionDiv = styled.div.attrs({
 
   .transaction__overview {
     width: 100%;
-    margin-top: 15px;
-
-    @media (max-width: 750px) {
-      margin-top: 5px;
-    }
 
     .transaction__overview_info {
       margin: 5px 0;
@@ -58,15 +52,11 @@ export const TransactionDiv = styled.div.attrs({
   .transaction__inputs {
     width: 100%;
     margin-top: 20px;
-
-    @media (max-width: 750px) {
-      margin-top: 10px;
-    }
   }
 
   .transaction__outputs {
     width: 100%;
-    margin-top: 5px;
+    margin-top: 20px;
   }
 `
 
@@ -92,9 +82,8 @@ export const TransactionInfoItemPanel = styled.div`
   .transaction__info_value {
     margin-left: 20px;
     margin-top: 5px;
-    max-height: 200px;
+    max-height: 250px;
     overflow-y: scroll;
-    font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
 
     @media (max-width: 750px) {
       margin-left: 0px;
@@ -124,7 +113,7 @@ export const TransactionInfoContentPanel = styled.div`
   }
 
   .transaction__info__content_title {
-    width: 200px;
+    width: 180px;
     color: #333333;
     font-size: 14px;
 
@@ -136,12 +125,22 @@ export const TransactionInfoContentPanel = styled.div`
   .transaction__info__content_value {
     color: #333333;
     font-size: 14px;
-    width: 100%;
+    width: auto;
     word-wrap: break-word;
     word-break: break-all;
+    display: flex;
+    justify-content: flex-start;
+
+    @media (max-width: 1440px) {
+      width: 100%;
+    }
 
     @media (max-width: 750px) {
       font-size: 12px;
     }
   }
+`
+
+export const TransactionCellDepTagPanel = styled.div`
+  margin-left: 160px;
 `

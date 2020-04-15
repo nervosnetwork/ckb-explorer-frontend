@@ -28,6 +28,8 @@ import LanDropdown from '../Dropdown/Language'
 import ChainDropdown from '../Dropdown/ChainType'
 import { isMainnet } from '../../utils/chain'
 import CONFIG from '../../config'
+import SimpleButton from '../SimpleButton'
+import { TFunction } from 'i18next'
 
 export const handleVersion = (nodeVersion: string) => {
   if (nodeVersion && nodeVersion.indexOf('(') !== -1) {
@@ -35,6 +37,31 @@ export const handleVersion = (nodeVersion: string) => {
   }
   return nodeVersion
 }
+
+export enum LinkType {
+  Inner,
+  Outer,
+}
+
+export const headerMenus = (t: TFunction) => [
+  {
+    type: LinkType.Inner,
+    name: t('navbar.charts'),
+    url: '/charts',
+  },
+  {
+    type: LinkType.Inner,
+    name: t('navbar.nervos_dao'),
+    url: '/nervosdao',
+  },
+  !isMainnet()
+    ? {
+        type: LinkType.Outer,
+        name: t('navbar.faucet'),
+        url: 'https://faucet.nervos.org/',
+      }
+    : {},
+]
 
 const languageText = (lan: 'en' | 'zh' | null) => {
   return lan === 'en' ? i18n.t('navbar.language_en') : i18n.t('navbar.language_zh')
@@ -45,27 +72,9 @@ const getDropdownIcon = (showDropdown: boolean) => {
   return isMainnet() ? GreenDropUpIcon : BlueDropUpIcon
 }
 
-export enum LinkType {
-  Inner,
-  Outer,
-}
-
 const MenusComp = () => {
   const [t] = useTranslation()
-  const MenuDataList = useMemo(() => {
-    return [
-      {
-        type: LinkType.Inner,
-        name: t('navbar.charts'),
-        url: '/charts',
-      },
-      {
-        type: LinkType.Inner,
-        name: t('navbar.nervos_dao'),
-        url: '/nervosdao',
-      },
-    ]
-  }, [t])
+  const MenuDataList = useMemo(() => headerMenus(t), [t])
 
   return (
     <HeaderMenuPanel>
@@ -118,11 +127,8 @@ const BlockchainComp = () => {
         setShowChainDropdown(false)
       }}
     >
-      <div
+      <SimpleButton
         className="header__blockchain__flag"
-        role="button"
-        tabIndex={-1}
-        onFocus={() => {}}
         onMouseOver={() => {
           setShowChainDropdown(true)
         }}
@@ -134,7 +140,7 @@ const BlockchainComp = () => {
           <img src={getDropdownIcon(showChainDropdown)} alt="dropdown icon" />
         </div>
         <div className="header__blockchain__node__version">{handleVersion(nodeVersion)}</div>
-      </div>
+      </SimpleButton>
       {showChainDropdown && (
         <ChainDropdown setShowChainDropdown={setShowChainDropdown} left={chainDropdownLeft} top={chainDropdownTop} />
       )}
@@ -170,11 +176,8 @@ const LanguageComp = () => {
       }}
       showLanguage={showLanguage}
     >
-      <div
+      <SimpleButton
         className="header__language__flag"
-        role="button"
-        tabIndex={-1}
-        onFocus={() => {}}
         onMouseOver={() => {
           setShowLanguage(true)
         }}
@@ -183,7 +186,7 @@ const LanguageComp = () => {
           <div className="header__language__content">{languageText(currentLanguage())}</div>
           <img src={getDropdownIcon(showLanguage)} alt="dropdown icon" />
         </div>
-      </div>
+      </SimpleButton>
       {showLanguage && (
         <LanDropdown setShowLanguage={setShowLanguage} left={languageDropdownLeft} top={languageDropdownTop} />
       )}

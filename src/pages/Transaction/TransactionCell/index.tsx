@@ -4,7 +4,7 @@ import { Tooltip } from 'antd'
 import OverviewCard, { OverviewItemData } from '../../../components/Card/OverviewCard'
 import { CellType, DaoType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
-import { localeNumberString } from '../../../utils/number'
+import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../../utils/string'
 import { shannonToCkb } from '../../../utils/util'
@@ -21,13 +21,14 @@ import CopyTooltipText from '../../../components/Text/CopyTooltipText'
 import NervosDAODepositIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import CKBTransferIcon from '../../../assets/ckb_transfer.png'
-import SimpleModal from '../../../components/Modal'
+import UDTTokenIcon from '../../../assets/udt_token.png'
 import TransactionCellScript from '../TransactionCellScript'
+import SimpleModal from '../../../components/Modal'
 import SimpleButton from '../../../components/SimpleButton'
 
 const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
-    return adaptMobileEllipsis(hash, 11)
+    return adaptMobileEllipsis(hash, 7)
   }
   return adaptPCEllipsis(hash, 5, 80)
 }
@@ -37,17 +38,11 @@ const AddressHash = ({ address }: { address: string }) => {
   if (addressHash.includes('...')) {
     return (
       <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
-        <Link to={`/address/${address}`}>
-          <span className="address">{addressHash}</span>
-        </Link>
+        <Link to={`/address/${address}`}>{addressHash}</Link>
       </Tooltip>
     )
   }
-  return (
-    <Link to={`/address/${address}`}>
-      <span className="address">{addressHash}</span>
-    </Link>
-  )
+  return <Link to={`/address/${address}`}>{addressHash}</Link>
 }
 
 const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
@@ -71,15 +66,23 @@ const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: C
   )
 }
 
-const detailTitleIcons = (cellType: string) => {
+const detailTitleIcons = (cell: State.Cell) => {
   let detailTitle = i18n.t('transaction.ckb_transfer')
   let detailIcon = CKBTransferIcon
-  if (cellType === DaoType.Deposit) {
+  if (cell.cellType === DaoType.Deposit) {
     detailTitle = i18n.t('transaction.nervos_dao_deposit')
     detailIcon = NervosDAODepositIcon
-  } else if (cellType === DaoType.Withdraw) {
+  } else if (cell.cellType === DaoType.Withdraw) {
     detailTitle = i18n.t('transaction.nervos_dao_withdraw')
     detailIcon = NervosDAOWithdrawingIcon
+  } else if (cell.cellType === DaoType.Udt) {
+    const {
+      udtInfo: { published, symbol, amount, decimal, typeHash },
+    } = cell
+    detailTitle = published
+      ? `${parseUDTAmount(amount, decimal)} ${symbol}`
+      : `${i18n.t('udt.unknown_token')} #<${typeHash.substring(typeHash.length - 4)}>`
+    detailIcon = UDTTokenIcon
   }
   return {
     detailTitle,
@@ -88,7 +91,7 @@ const detailTitleIcons = (cellType: string) => {
 }
 
 const TransactionCellDetailContainer = ({ cell }: { cell: State.Cell }) => {
-  const { detailTitle, detailIcon } = detailTitleIcons(cell.cellType)
+  const { detailTitle, detailIcon } = detailTitleIcons(cell)
   const [showModal, setShowModal] = useState(false)
 
   return (
