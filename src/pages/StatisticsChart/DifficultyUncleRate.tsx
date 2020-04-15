@@ -129,21 +129,23 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         symbol: 'circle',
         symbolSize: 3,
         data: statisticChartData.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
-        markLine: {
-          symbol: 'none',
-          lineStyle: {
-            color: ChartColors[1],
-          },
-          data: [
-            {
-              name: i18n.t('block.uncle_rate_target'),
-              yAxis: '2.5',
+        markLine: isThumbnail
+          ? null
+          : {
+              symbol: 'none',
+              lineStyle: {
+                color: ChartColors[1],
+              },
+              data: [
+                {
+                  name: i18n.t('block.uncle_rate_target'),
+                  yAxis: '2.5',
+                },
+              ],
+              label: {
+                formatter: (params: any) => `------${params.value}%`,
+              },
             },
-          ],
-          label: {
-            formatter: (params: any) => `          ${params.value}%`,
-          },
-        },
       },
     ],
   }

@@ -14,30 +14,38 @@ export const handleAxis = (value: BigNumber | string | number, decimal?: number,
   const yv = zv.dividedBy(1000)
 
   if (yv.isGreaterThanOrEqualTo(1)) {
-    return `${decimal ? yv.toFixed(decimal) : yv.toFixed()}Y`
+    return `${decimal !== undefined ? yv.toFixed(decimal) : yv.toFixed()}Y`
   }
   if (zv.isGreaterThanOrEqualTo(1)) {
-    return `${decimal ? zv.toFixed(decimal) : zv.toFixed()}Z`
+    return `${decimal !== undefined ? zv.toFixed(decimal) : zv.toFixed()}Z`
   }
   if (ev.isGreaterThanOrEqualTo(1)) {
-    return `${decimal ? ev.toFixed(decimal) : ev.toFixed()}E`
+    return `${decimal !== undefined ? ev.toFixed(decimal) : ev.toFixed()}E`
   }
   if (pv.isGreaterThanOrEqualTo(1)) {
-    return `${decimal ? pv.toFixed(decimal) : pv.toFixed()}P`
+    return `${decimal !== undefined ? pv.toFixed(decimal) : pv.toFixed()}P`
   }
   if (tv.isGreaterThanOrEqualTo(1)) {
-    return `${decimal ? tv.toFixed(decimal) : tv.toFixed()}T`
+    return `${decimal !== undefined ? tv.toFixed(decimal) : tv.toFixed()}T`
   }
   if (gv.isGreaterThanOrEqualTo(1)) {
-    return `${decimal ? gv.toFixed(decimal) : gv.toFixed()}G`
+    return `${decimal !== undefined ? gv.toFixed(decimal) : gv.toFixed()}G`
   }
   if (mv.isGreaterThanOrEqualTo(1)) {
-    return `${decimal ? mv.toFixed(decimal) : mv.toFixed()}M`
+    return `${decimal !== undefined ? mv.toFixed(decimal) : mv.toFixed()}M`
   }
   if (kv.isGreaterThanOrEqualTo(1)) {
-    return `${decimal ? kv.toFixed(decimal) : kv.toFixed()}K`
+    return `${decimal !== undefined ? kv.toFixed(decimal) : kv.toFixed()}K`
   }
   return `${decimal && !hideZero ? bigValue.toFixed(decimal) : bigValue.toFixed()}`
+}
+
+export const handleGroupAxis = (value: BigNumber | string | number, suffix?: string) => {
+  const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  return `[${bigValue.isGreaterThanOrEqualTo(1000) ? handleAxis(bigValue.dividedBy(10), 0) : '0'}, ${handleAxis(
+    value,
+    0,
+  )}${suffix || ''}]`
 }
 
 export const parseInterval = (max: number, min: number) => {
