@@ -4,6 +4,7 @@
 
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/nervosnetwork/ckb-explorer-frontend/blob/develop/COPYING)
 [![TravisCI](https://travis-ci.com/nervosnetwork/ckb-explorer-frontend.svg?branch=develop)](https://travis-ci.com/nervosnetwork/ckb-explorer-frontend)
+[![Github Actions CI](https://github.com/nervosnetwork/ckb-explorer-frontend/workflows/CI/badge.svg?branch=develop)](https://github.com/nervosnetwork/ckb-explorer-frontend/actions)
 [![Telegram Group](https://cdn.rawgit.com/Patrolavia/telegram-badge/8fe3382b/chat.svg)](https://t.me/nervos_ckb_dev)
 
 CKB Explorer is a [Nervos CKB](https://github.com/nervosnetwork/ckb) blockchain explorer built with [React](https://reactjs.org/) and [Ruby on Rails](https://rubyonrails.org/) and includes two parts: [CKB Explorer Frontend](https://github.com/nervosnetwork/ckb-explorer-frontend) and [CKB Explorer Server](https://github.com/nervosnetwork/ckb-explorer).
