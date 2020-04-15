@@ -32,12 +32,13 @@ import UncleRateChart from '../pages/StatisticsChart/UncleRate'
 import { useDispatch, useAppState } from '../contexts/providers'
 import { ComponentActions } from '../contexts/providers/reducer'
 import { isMobile } from '../utils/screen'
+import BalanceDistribution from '../pages/StatisticsChart/BalanceDistribution'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
 }
 
-export const containers: CustomRouter.Route[] = [
+const Containers: CustomRouter.Route[] = [
   {
     name: 'Home',
     path: '/',
@@ -153,6 +154,12 @@ export const containers: CustomRouter.Route[] = [
     comp: AddressBalanceRankChart,
   },
   {
+    name: 'BalanceDistributionChart',
+    path: '/charts/balance-distribution',
+    exact: true,
+    comp: BalanceDistribution,
+  },
+  {
     name: 'SearchFail',
     path: '/search/fail',
     exact: true,
@@ -231,23 +238,21 @@ export default () => {
         render={(props: any) => {
           return (
             <Page>
-              <>
-                <Header hasSearch={hasSearch(browserHistory.location.pathname)} />
-                <Sheet />
-                <Switch location={props.location}>
-                  {containers.map(container => {
-                    return (
-                      <Route
-                        {...container}
-                        key={container.name}
-                        render={routeProps => <container.comp {...routeProps} />}
-                      />
-                    )
-                  })}
-                  <Redirect from="*" to="/404" />
-                </Switch>
-                {!(isMobile() && mobileMenuVisible) && <Footer />}
-              </>
+              <Header hasSearch={hasSearch(browserHistory.location.pathname)} />
+              <Sheet />
+              <Switch location={props.location}>
+                {Containers.map(container => {
+                  return (
+                    <Route
+                      {...container}
+                      key={container.name}
+                      render={routeProps => <container.comp {...routeProps} />}
+                    />
+                  )
+                })}
+                <Redirect from="*" to="/404" />
+              </Switch>
+              {!(isMobile() && mobileMenuVisible) && <Footer />}
             </Page>
           )
         }}

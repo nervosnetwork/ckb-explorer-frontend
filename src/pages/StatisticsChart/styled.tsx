@@ -102,3 +102,11 @@ export const ChartCardPanel = styled.div`
     border: 1px solid #e2e2e2;
   }
 `
+
+export const ChartNotePanel = styled.div`
+  font-size: 12px;
+  with: 100%;
+  color: rgba(0, 0, 0, 0.6);
+  padding: 6px 3%;
+  text-align: left;
+`

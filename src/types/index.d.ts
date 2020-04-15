@@ -267,6 +267,16 @@ declare namespace State {
     addressBalanceRanking: StatisticAddressBalanceRank[]
   }
 
+  export interface StatisticAddressBalanceDistribution {
+    addressBalanceDistribution: string[][]
+  }
+
+  export interface StatisticBalanceDistribution {
+    balance: string
+    addresses: string
+    sumAddresses: string
+  }
+
   export interface Components {
     // mobile header search state
     searchBarEditable: boolean
@@ -365,6 +375,7 @@ declare namespace State {
     statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
     statisticAddressCounts: StatisticAddressCount[]
     statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
+    statisticBalanceDistributions: StatisticBalanceDistribution[]
 
     nervosDaoState: NervosDaoState
     udtState: UDTState

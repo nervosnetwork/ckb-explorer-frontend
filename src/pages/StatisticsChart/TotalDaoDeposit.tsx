@@ -8,11 +8,12 @@ import { getStatisticTotalDaoDeposit } from '../../service/app/statisticsChart'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel } from './styled'
+import { ChartTitle, ChartPanel, ChartNotePanel } from './styled'
 import { parseDateNoTime } from '../../utils/date'
 import { isMobile } from '../../utils/screen'
 import { shannonToCkb } from '../../utils/util'
 import { ChartColors } from '../../utils/const'
+import { isMainnet } from '../../utils/chain'
 import { ChartLoading, ReactChartCore } from './ChartComponents'
 import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 
@@ -157,6 +158,7 @@ export default () => {
       <ChartTitle>{i18n.t('statistic.total_dao_deposit_depositor')}</ChartTitle>
       <ChartPanel>
         <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} />
+        {isMainnet() && <ChartNotePanel>{`${i18n.t('common.note')}1GB = 1,000,000,000 CKBytes`}</ChartNotePanel>}
       </ChartPanel>
     </Content>
   )

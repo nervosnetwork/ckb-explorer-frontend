@@ -28,6 +28,7 @@ const initState: State.AppState = {
   statisticTotalDaoDeposits: [],
   statisticTransactionCounts: [],
   statisticAddressBalanceRanks: [],
+  statisticBalanceDistributions: [],
 
   homeBlocks: [],
   nervosDaoState: initNervosDaoState,

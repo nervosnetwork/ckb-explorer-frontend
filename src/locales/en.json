@@ -8,7 +8,8 @@
       "view_all": "View All",
       "minute": "min",
       "second_ago": "s ago",
-      "ckb_unit": "CKB"
+      "ckb_unit": "CKB",
+      "note": "Note: "
     },
     "toast": {
       "invalid_content": "Please input valid content",
@@ -69,6 +70,10 @@
       "all_cells": "All Cells",
       "cell_count": "Cell Count",
       "balance_ranking": "Balance Ranking",
+      "balance_distribution": "Balance Distribution",
+      "addresses_balance_group": "Count of Addresses by Balance Group",
+      "addresses_below_specific_balance": "Count of Addresses Below Specific Balance",
+      "addresses_balance": "Balance Range in Group",
       "rank": "Rank",
       "balance": "Balance",
       "address": "Address",

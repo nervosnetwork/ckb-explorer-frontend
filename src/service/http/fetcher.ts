@@ -231,6 +231,12 @@ export const fetchStatisticAddressBalanceRank = () => {
   )
 }
 
+export const fetchStatisticBalanceDistribution = () => {
+  return axiosIns(`/distribution_data/address_balance_distribution`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticAddressBalanceDistribution>>(res.data.data),
+  )
+}
+
 export const fetchSimpleUDT = (typeHash: string) => {
   return axiosIns(`/udts/${typeHash}`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.UDT>>(res.data.data),

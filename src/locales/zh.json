@@ -8,7 +8,8 @@
       "view_all": "查看全部",
       "minute": "分",
       "second_ago": "秒以前",
-      "ckb_unit": "CKB"
+      "ckb_unit": "CKB",
+      "note": "注: "
     },
     "toast": {
       "invalid_content": "请输入有效内容",
@@ -69,6 +70,10 @@
       "all_cells": "所有的 Cell",
       "cell_count": "Cell 数量",
       "balance_ranking": "账户余额排名",
+      "balance_distribution": "余额分布",
+      "addresses_balance_group": "分组地址数",
+      "addresses_below_specific_balance": "分组累计地址数",
+      "addresses_balance": "分组余额区间",
       "rank": "排名",
       "balance": "余额",
       "address": "地址",
