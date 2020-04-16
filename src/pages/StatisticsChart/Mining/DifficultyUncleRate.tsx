@@ -1,9 +1,4 @@
 import React, { useEffect, useMemo } from 'react'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/component/title'
-import 'echarts/lib/component/markLine'
 import BigNumber from 'bignumber.js'
 import Content from '../../../components/Content'
 import { getStatisticDifficultyUncleRate } from '../../../service/app/charts/mining'
@@ -11,10 +6,10 @@ import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
 import { handleDifficulty } from '../../../utils/number'
-import { ChartDetailTitle, ChartDetailPanel } from '../Common/styled'
+import { ChartDetailTitle, ChartDetailPanel } from '../common/styled'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore } from '../Common/ChartComp'
+import { ChartLoading, ReactChartCore } from '../common/ChartComp'
 import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 
 const gridThumbnail = {
@@ -144,7 +139,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
                 },
               ],
               label: {
-                formatter: (params: any) => `------${params.value}%`,
+                formatter: (params: any) => `--------${params.value}%`,
               },
             },
       },
