@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react'
 import BigNumber from 'bignumber.js'
-import Content from '../../../components/Content'
 import { getStatisticBalanceDistribution } from '../../../service/app/charts/activities'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis, handleGroupAxis } from '../../../utils/chart'
-import { ChartDetailTitle, ChartDetailPanel } from '../common/styled'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore } from '../common/ChartComp'
+import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
 import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 import { localeNumberString } from '../../../utils/number'
 
@@ -165,11 +163,8 @@ export default () => {
   }, [dispatch])
 
   return (
-    <Content>
-      <ChartDetailTitle>{i18n.t('statistic.balance_distribution')}</ChartDetailTitle>
-      <ChartDetailPanel>
-        <BalanceDistributionChart statisticBalanceDistributions={statisticBalanceDistributions} />
-      </ChartDetailPanel>
-    </Content>
+    <ChartPage title={i18n.t('statistic.balance_distribution')}>
+      <BalanceDistributionChart statisticBalanceDistributions={statisticBalanceDistributions} />
+    </ChartPage>
   )
 }

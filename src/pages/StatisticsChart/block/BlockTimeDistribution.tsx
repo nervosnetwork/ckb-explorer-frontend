@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react'
-import Content from '../../../components/Content'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { ChartDetailTitle, ChartDetailPanel } from '../common/styled'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore } from '../common/ChartComp'
+import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
 import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 import { getStatisticBlockTimeDistribution } from '../../../service/app/charts/block'
 import { localeNumberString } from '../../../utils/number'
@@ -116,11 +114,8 @@ export default () => {
   }, [dispatch])
 
   return (
-    <Content>
-      <ChartDetailTitle>{i18n.t('statistic.block_time_distribution')}</ChartDetailTitle>
-      <ChartDetailPanel>
-        <BlockTimeDistributionChart statisticBlockTimeDistributions={statisticBlockTimeDistributions} />
-      </ChartDetailPanel>
-    </Content>
+    <ChartPage title={i18n.t('statistic.block_time_distribution')}>
+      <BlockTimeDistributionChart statisticBlockTimeDistributions={statisticBlockTimeDistributions} />
+    </ChartPage>
   )
 }

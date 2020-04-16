@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react'
-import Content from '../../../components/Content'
 import { getStatisticUncleRate } from '../../../service/app/charts/mining'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
-import { ChartDetailTitle, ChartDetailPanel } from '../common/styled'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore } from '../common/ChartComp'
+import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
 import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 
 const gridThumbnail = {
@@ -131,11 +129,8 @@ export default () => {
   }, [dispatch])
 
   return (
-    <Content>
-      <ChartDetailTitle>{i18n.t('block.uncle_rate')}</ChartDetailTitle>
-      <ChartDetailPanel>
-        <UncleRateChart statisticUncleRates={statisticUncleRates} />
-      </ChartDetailPanel>
-    </Content>
+    <ChartPage title={i18n.t('block.uncle_rate')}>
+      <UncleRateChart statisticUncleRates={statisticUncleRates} />
+    </ChartPage>
   )
 }

@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react'
 import BigNumber from 'bignumber.js'
-import Content from '../../../components/Content'
 import { getStatisticTotalDaoDeposit } from '../../../service/app/charts/nervosDao'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
-import { ChartDetailTitle, ChartDetailPanel, ChartNotePanel } from '../common/styled'
+import { ChartNotePanel } from '../common/styled'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { shannonToCkb } from '../../../utils/util'
 import { ChartColors } from '../../../utils/const'
 import { isMainnet } from '../../../utils/chain'
-import { ChartLoading, ReactChartCore } from '../common/ChartComp'
+import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
 import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 
 const gridThumbnail = {
@@ -152,12 +151,9 @@ export default () => {
   }, [dispatch])
 
   return (
-    <Content>
-      <ChartDetailTitle>{i18n.t('statistic.total_dao_deposit_depositor')}</ChartDetailTitle>
-      <ChartDetailPanel>
-        <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} />
-        {isMainnet() && <ChartNotePanel>{`${i18n.t('common.note')}1GB = 1,000,000,000 CKBytes`}</ChartNotePanel>}
-      </ChartDetailPanel>
-    </Content>
+    <ChartPage title={i18n.t('statistic.total_dao_deposit_depositor')}>
+      <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} />
+      {isMainnet() && <ChartNotePanel>{`${i18n.t('common.note')}1GB = 1,000,000,000 CKBytes`}</ChartNotePanel>}
+    </ChartPage>
   )
 }

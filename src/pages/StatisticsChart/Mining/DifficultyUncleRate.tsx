@@ -1,15 +1,13 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import BigNumber from 'bignumber.js'
-import Content from '../../../components/Content'
 import { getStatisticDifficultyUncleRate } from '../../../service/app/charts/mining'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
 import { handleDifficulty } from '../../../utils/number'
-import { ChartDetailTitle, ChartDetailPanel } from '../common/styled'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore } from '../common/ChartComp'
+import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
 import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 
 const gridThumbnail = {
@@ -178,14 +176,9 @@ export default () => {
     getStatisticDifficultyUncleRate(dispatch)
   }, [dispatch])
 
-  return useMemo(() => {
-    return (
-      <Content>
-        <ChartDetailTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}</ChartDetailTitle>
-        <ChartDetailPanel>
-          <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} />
-        </ChartDetailPanel>
-      </Content>
-    )
-  }, [statisticDifficultyUncleRates])
+  return (
+    <ChartPage title={`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}>
+      <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} />
+    </ChartPage>
+  )
 }

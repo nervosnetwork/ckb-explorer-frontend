@@ -1,18 +1,16 @@
 import React, { useEffect, useCallback } from 'react'
 import 'default-passive-events'
-import Content from '../../../components/Content'
 import { getStatisticAddressBalanceRank } from '../../../service/app/charts/activities'
 import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
-import { ChartDetailTitle, ChartDetailPanel } from '../common/styled'
 import { isMobile } from '../../../utils/screen'
 import { shannonToCkb } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { adaptPCEllipsis } from '../../../utils/string'
 import browserHistory from '../../../routes/history'
-import { ChartLoading, ReactChartCore } from '../common/ChartComp'
+import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
 import { ChartColors } from '../../../utils/const'
 
 const gridThumbnail = {
@@ -149,11 +147,8 @@ export default () => {
   }, [dispatch])
 
   return (
-    <Content>
-      <ChartDetailTitle>{i18n.t('statistic.balance_ranking')}</ChartDetailTitle>
-      <ChartDetailPanel>
-        <AddressBalanceRankChart statisticAddressBalanceRanks={statisticAddressBalanceRanks} clickEvent={clickEvent} />
-      </ChartDetailPanel>
-    </Content>
+    <ChartPage title={i18n.t('statistic.balance_ranking')}>
+      <AddressBalanceRankChart statisticAddressBalanceRanks={statisticAddressBalanceRanks} clickEvent={clickEvent} />
+    </ChartPage>
   )
 }

@@ -1,15 +1,13 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import BigNumber from 'bignumber.js'
-import Content from '../../../components/Content'
 import { getStatisticCellCount } from '../../../service/app/charts/activities'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
-import { ChartDetailTitle, ChartDetailPanel } from '../common/styled'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ReactChartCore, ChartLoading } from '../common/ChartComp'
+import { ReactChartCore, ChartLoading, ChartPage } from '../common/ChartComp'
 import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 
 const gridThumbnail = {
@@ -153,14 +151,9 @@ export default () => {
     getStatisticCellCount(dispatch)
   }, [dispatch])
 
-  return useMemo(() => {
-    return (
-      <Content>
-        <ChartDetailTitle>{i18n.t('statistic.cell_count')}</ChartDetailTitle>
-        <ChartDetailPanel>
-          <CellCountChart statisticCellCounts={statisticCellCounts} />
-        </ChartDetailPanel>
-      </Content>
-    )
-  }, [statisticCellCounts])
+  return (
+    <ChartPage title={i18n.t('statistic.cell_count')}>
+      <CellCountChart statisticCellCounts={statisticCellCounts} />
+    </ChartPage>
+  )
 }
