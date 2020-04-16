@@ -232,3 +232,9 @@ export const fetchStatisticBalanceDistribution = () => {
     toCamelcase<Response.Wrapper<State.StatisticAddressBalanceDistribution>>(res.data.data),
   )
 }
+
+export const fetchStatisticTxFeeHistory = () => {
+  return axiosIns(`/daily_statistics/total_tx_fee`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticTransactionFee>>(res.data.data),
+  )
+}

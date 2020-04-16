@@ -45,6 +45,7 @@ export enum PageActions {
   UpdateStatisticCellCount = 'updateStatisticCellCount',
   UpdateStatisticAddressBalanceRank = 'updateStatisticAddressBalanceRank',
   UpdateStatisticBalanceDistribution = 'updateStatisticBalanceDistribution',
+  UpdateStatisticTxFeeHistory = 'updateStatisticTxFeeHistory',
 
   UpdateNervosDao = 'updateNervosDao',
   UpdateNervosDaoTransactions = 'updateNervosDaoTransactions',
@@ -341,6 +342,11 @@ export const reducer = (
       return {
         ...state,
         statisticBalanceDistributions: payload.statisticBalanceDistributions,
+      }
+    case PageActions.UpdateStatisticTxFeeHistory:
+      return {
+        ...state,
+        statisticTxFeeHistories: payload.statisticTxFeeHistories,
       }
 
     case PageActions.UpdateNervosDao:

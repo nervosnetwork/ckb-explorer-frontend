@@ -3,18 +3,20 @@ import { Link } from 'react-router-dom'
 import 'default-passive-events'
 import Content from '../../components/Content'
 import {
-  getStatisticDifficultyHashRate,
-  getStatisticDifficultyUncleRate,
   getStatisticAddressCount,
   getStatisticCellCount,
   getStatisticTransactionCount,
-  getStatisticTotalDaoDeposit,
   getStatisticAddressBalanceRank,
+  getStatisticBalanceDistribution,
+} from '../../service/app/charts/activities'
+import {
+  getStatisticDifficultyHashRate,
+  getStatisticDifficultyUncleRate,
   getStatisticDifficulty,
   getStatisticHashRate,
   getStatisticUncleRate,
-  getStatisticBalanceDistribution,
-} from '../../service/app/statisticsChart'
+} from '../../service/app/charts/mining'
+import { getStatisticTotalDaoDeposit } from '../../service/app/charts/nervosDao'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import { DifficultyHashRateChart, initStatisticDifficultyHashRate } from './Mining/DifficultyHashRate'

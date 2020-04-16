@@ -32,6 +32,7 @@ import { useDispatch, useAppState } from '../contexts/providers'
 import { ComponentActions } from '../contexts/providers/reducer'
 import { isMobile } from '../utils/screen'
 import BalanceDistribution from '../pages/StatisticsChart/Activities/BalanceDistribution'
+import TxFeeHistory from '../pages/StatisticsChart/Activities/TxFeeHistory'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -151,6 +152,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/charts/balance-distribution',
     exact: true,
     comp: BalanceDistribution,
+  },
+  {
+    name: 'TxFeeHistory',
+    path: '/charts/tx-fee-history',
+    exact: true,
+    comp: TxFeeHistory,
   },
   {
     name: 'SearchFail',

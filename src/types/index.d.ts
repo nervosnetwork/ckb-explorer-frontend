@@ -259,6 +259,11 @@ declare namespace State {
     sumAddresses: string
   }
 
+  export interface StatisticTransactionFee {
+    totalTxFee: string
+    createdAtUnixtimestamp: string
+  }
+
   export interface Components {
     // mobile header search state
     searchBarEditable: boolean
@@ -341,6 +346,7 @@ declare namespace State {
     statisticAddressCounts: StatisticAddressCount[]
     statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
     statisticBalanceDistributions: StatisticBalanceDistribution[]
+    statisticTxFeeHistories: StatisticTransactionFee[]
 
     nervosDaoState: NervosDaoState
 
