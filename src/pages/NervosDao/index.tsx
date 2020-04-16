@@ -16,6 +16,7 @@ import Error from '../../components/Error'
 import Loading from '../../components/Loading'
 import { useTimeoutWithUnmount } from '../../utils/hook'
 import DaoOverview from './DaoOverview'
+import SimpleButton from '../../components/SimpleButton'
 
 const NervosDAOStateComp = ({
   daoTab,
@@ -92,24 +93,18 @@ export const NervosDao = () => {
         <DaoOverview />
         <DaoTabBarPanel containSearchBar={daoTab === 'transactions'}>
           <div className="nervos_dao_tab_bar">
-            <div
-              role="button"
-              tabIndex={-1}
-              onKeyDown={() => {}}
+            <SimpleButton
               className={daoTab === 'transactions' ? 'tab_bar_selected' : 'tab_bar_normal'}
               onClick={() => push('/nervosdao?tab=transactions')}
             >
               {i18n.t('nervos_dao.dao_tab_transactions')}
-            </div>
-            <div
-              role="button"
-              tabIndex={-1}
-              onKeyDown={() => {}}
+            </SimpleButton>
+            <SimpleButton
               className={daoTab === 'depositors' ? 'tab_bar_selected' : 'tab_bar_normal'}
               onClick={() => push('/nervosdao?tab=depositors')}
             >
               {i18n.t('nervos_dao.dao_tab_depositors')}
-            </div>
+            </SimpleButton>
           </div>
           {daoTab === 'transactions' && <DaoSearch />}
         </DaoTabBarPanel>

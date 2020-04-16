@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import RightArrowIcon from '../../assets/input_arrow_output.png'
 import DownArrowIcon from '../../assets/input_arrow_output_down.png'
@@ -20,18 +20,21 @@ const TransactionItem = ({
   confirmation,
   isBlock = false,
   isLastItem = false,
+  titleCard,
 }: {
   transaction: State.Transaction
   address?: string
   confirmation?: number
   isBlock?: boolean
   isLastItem?: boolean
+  titleCard?: ReactNode | null
 }) => {
   const txHashMobile = adaptMobileEllipsis(transaction.transactionHash, 12)
-  const txHashPC = adaptPCEllipsis(transaction.transactionHash, 16, 40)
+  const txHashPC = adaptPCEllipsis(transaction.transactionHash, 14, 40)
 
   return (
     <TransactionPanel isLastItem={isLastItem} id={isBlock && transaction.isCellbase ? 'cellbase' : ''}>
+      {titleCard}
       <TransactionHashBlockPanel>
         <div className="transaction_item__content">
           <Link to={`/transaction/${transaction.transactionHash}`}>
@@ -72,7 +75,9 @@ const TransactionItem = ({
           )}
         </div>
       </TransactionCellPanel>
-      {confirmation && <TransactionConfirmation confirmation={confirmation} income={transaction.income} />}
+      {typeof confirmation === 'number' ? (
+        <TransactionConfirmation confirmation={confirmation} income={transaction.income} />
+      ) : null}
     </TransactionPanel>
   )
 }

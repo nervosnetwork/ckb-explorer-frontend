@@ -2,11 +2,11 @@ import styled from 'styled-components'
 
 export const TransactionPanel = styled.div`
   width: 100%;
-  margin-top: 5px;
+  margin-top: 20px;
   border-radius: ${({ isLastItem }: { isLastItem?: boolean }) => (isLastItem ? '0px 0px 6px 6px' : '0px 0px 0px 0px')};
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
-  padding: 20px 40px 25px 40px;
+  padding: 10px 40px 25px 40px;
   display: flex;
   flex-direction: column;
   font-size: 16px;
@@ -39,13 +39,14 @@ export const TransactionHashBlockPanel = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  margin-top: 10px;
 
   .transaction_item__content {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 
     @media (max-width: 750px) {
       flex-direction: column;
@@ -56,7 +57,6 @@ export const TransactionHashBlockPanel = styled.div`
     .transaction_item__hash {
       color: ${props => props.theme.primary};
       font-weight: 500;
-      font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
     }
 
     .transaction_item__block {

@@ -38,13 +38,13 @@ const SearchImage = styled.div`
 
   img {
     margin-top: 3px;
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
 
     @media (max-width: 750px) {
       margin-top: 0;
-      width: 16px;
-      height: 16px;
+      width: 12px;
+      height: 12px;
     }
   }
 `

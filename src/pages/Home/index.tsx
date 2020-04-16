@@ -88,7 +88,6 @@ const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
       bottomValue: handleDifficulty(statistics.currentEpochDifficulty),
       showSeparate: true,
     },
-
     {
       topName: i18n.t('blockchain.transactions_per_minute'),
       topValue: handleBigNumber(statistics.transactionsCountPerMinute, 2),
@@ -133,7 +132,7 @@ export default () => {
 
   return (
     <Content>
-      <HomeHeaderPanel>
+      <HomeHeaderPanel className="container">
         <div className="blockchain__item__container">
           {!isMobile() &&
             blockchainDataList(statistics).map((data: BlockchainData) => {
