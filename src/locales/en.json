@@ -79,7 +79,10 @@
       "address": "Address",
       "date": "Date",
       "log": "(Log)",
-      "no_data": "No data..."
+      "no_data": "No data...",
+      "charts_title": "Charts",
+      "category_mining": "Mining Charts",
+      "category_activities": "Activities"
     },
     "home": {
       "height": "Height",

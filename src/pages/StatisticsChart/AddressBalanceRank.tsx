@@ -9,7 +9,7 @@ import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n, { currentLanguage } from '../../utils/i18n'
 import { handleAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel } from './styled'
+import { ChartDetailTitle, ChartDetailPanel } from './styled'
 import { isMobile } from '../../utils/screen'
 import { shannonToCkb } from '../../utils/util'
 import { localeNumberString } from '../../utils/number'
@@ -153,10 +153,10 @@ export default () => {
 
   return (
     <Content>
-      <ChartTitle>{i18n.t('statistic.balance_ranking')}</ChartTitle>
-      <ChartPanel>
+      <ChartDetailTitle>{i18n.t('statistic.balance_ranking')}</ChartDetailTitle>
+      <ChartDetailPanel>
         <AddressBalanceRankChart statisticAddressBalanceRanks={statisticAddressBalanceRanks} clickEvent={clickEvent} />
-      </ChartPanel>
+      </ChartDetailPanel>
     </Content>
   )
 }

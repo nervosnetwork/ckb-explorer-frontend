@@ -10,7 +10,7 @@ import { getStatisticBalanceDistribution } from '../../service/app/statisticsCha
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n, { currentLanguage } from '../../utils/i18n'
 import { handleAxis, handleGroupAxis } from '../../utils/chart'
-import { ChartTitle, ChartPanel } from './styled'
+import { ChartDetailTitle, ChartDetailPanel } from './styled'
 import { isMobile } from '../../utils/screen'
 import { ChartColors } from '../../utils/const'
 import { ChartLoading, ReactChartCore } from './ChartComponents'
@@ -171,10 +171,10 @@ export default () => {
 
   return (
     <Content>
-      <ChartTitle>{i18n.t('statistic.balance_distribution')}</ChartTitle>
-      <ChartPanel>
+      <ChartDetailTitle>{i18n.t('statistic.balance_distribution')}</ChartDetailTitle>
+      <ChartDetailPanel>
         <BalanceDistributionChart statisticBalanceDistributions={statisticBalanceDistributions} />
-      </ChartPanel>
+      </ChartDetailPanel>
     </Content>
   )
 }

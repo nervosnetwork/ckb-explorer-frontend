@@ -8,10 +8,10 @@ import BigNumber from 'bignumber.js'
 import Content from '../../components/Content'
 import { getStatisticDifficultyUncleRate } from '../../service/app/statisticsChart'
 import { useAppState, useDispatch } from '../../contexts/providers'
-import i18n from '../../utils/i18n'
+import i18n, { currentLanguage } from '../../utils/i18n'
 import { handleAxis } from '../../utils/chart'
 import { handleDifficulty } from '../../utils/number'
-import { ChartTitle, ChartPanel } from './styled'
+import { ChartDetailTitle, ChartDetailPanel } from './styled'
 import { isMobile } from '../../utils/screen'
 import { ChartColors } from '../../utils/const'
 import { ChartLoading, ReactChartCore } from './ChartComponents'
@@ -39,7 +39,8 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
       formatter: (dataList: any[]) => {
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
-        const widthSpan = (value: string) => `<span style="width:100px;display:inline-block;">${value}:</span>`
+        const widthSpan = (value: string) =>
+          `<span style="width:${currentLanguage() === 'en' ? '90px' : '50px'};display:inline-block;">${value}:</span>`
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch'))} ${handleAxis(
           dataList[0].name,
           1,
@@ -185,10 +186,10 @@ export default () => {
   return useMemo(() => {
     return (
       <Content>
-        <ChartTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}</ChartTitle>
-        <ChartPanel>
+        <ChartDetailTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}</ChartDetailTitle>
+        <ChartDetailPanel>
           <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} />
-        </ChartPanel>
+        </ChartDetailPanel>
       </Content>
     )
   }, [statisticDifficultyUncleRates])
