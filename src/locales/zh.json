@@ -80,8 +80,8 @@
       "log": "（对数坐标）",
       "no_data": "暂无数据...",
       "charts_title": "图表",
-      "category_mining": "Mining Charts",
-      "category_activities": "Activities"
+      "category_mining": "挖矿数据",
+      "category_activities": "活跃度数据"
     },
     "home": {
       "height": "高度",
