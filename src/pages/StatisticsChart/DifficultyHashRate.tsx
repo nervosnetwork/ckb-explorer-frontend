@@ -7,7 +7,7 @@ import BigNumber from 'bignumber.js'
 import Content from '../../components/Content'
 import { getStatisticDifficultyHashRate } from '../../service/app/statisticsChart'
 import { useAppState, useDispatch } from '../../contexts/providers'
-import i18n from '../../utils/i18n'
+import i18n, { currentLanguage } from '../../utils/i18n'
 import { handleAxis } from '../../utils/chart'
 import { handleDifficulty, handleHashRate } from '../../utils/number'
 import { ChartDetailTitle, ChartDetailPanel } from './styled'
@@ -38,7 +38,8 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
       formatter: (dataList: any[]) => {
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
-        const widthSpan = (value: string) => `<span style="width:100px;display:inline-block;">${value}:</span>`
+        const widthSpan = (value: string) =>
+          `<span style="width:${currentLanguage() === 'en' ? '75px' : '50px'};display:inline-block;">${value}:</span>`
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch'))} ${handleAxis(
           dataList[0].name,
           1,
