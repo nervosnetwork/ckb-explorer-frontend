@@ -4,6 +4,7 @@ import {
   fetchStatisticCellCount,
   fetchStatisticAddressBalanceRank,
   fetchStatisticBalanceDistribution,
+  fetchStatisticTxFeeHistory,
 } from '../../http/fetcher'
 import { AppDispatch, PageActions } from '../../../contexts/providers/reducer'
 
@@ -102,6 +103,27 @@ export const getStatisticBalanceDistribution = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticBalanceDistribution,
         payload: {
           statisticBalanceDistributions: balanceDistributions,
+        },
+      })
+    },
+  )
+}
+
+export const getStatisticTxFeeHistory = (dispatch: AppDispatch) => {
+  fetchStatisticTxFeeHistory().then(
+    (response: Response.Response<Response.Wrapper<State.StatisticTransactionFee>[]> | null) => {
+      if (!response) return
+      const { data } = response
+      const statisticTxFeeHistories: State.StatisticTransactionFee[] = data.map(wrapper => {
+        return {
+          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+          totalTxFee: wrapper.attributes.totalTxFee,
+        }
+      })
+      dispatch({
+        type: PageActions.UpdateStatisticTxFeeHistory,
+        payload: {
+          statisticTxFeeHistories,
         },
       })
     },

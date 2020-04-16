@@ -4,7 +4,7 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import BigNumber from 'bignumber.js'
 import Content from '../../../components/Content'
-import { getStatisticTransactionCount } from '../../../service/app/charts/activities'
+import { getStatisticTxFeeHistory } from '../../../service/app/charts/activities'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
@@ -14,6 +14,7 @@ import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore } from '../Common/ChartComp'
 import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
+import { shannonToCkbDecimal } from '../../../utils/util'
 
 const gridThumbnail = {
   left: '4%',
@@ -23,13 +24,13 @@ const gridThumbnail = {
   containLabel: true,
 }
 const grid = {
-  left: '4%',
+  left: '6%',
   right: '4%',
   bottom: '5%',
   containLabel: true,
 }
 
-const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[], isThumbnail = false) => {
+const getOption = (statisticTxFeeHistories: State.StatisticTransactionFee[], isThumbnail = false) => {
   return {
     color: ChartColors,
     tooltip: !isThumbnail && {
@@ -38,11 +39,11 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '120px' : '70px'};display:inline-block;">${value}:</span>`
+          `<span style="width:${currentLanguage() === 'en' ? '160px' : '95px'};display:inline-block;">${value}:</span>`
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
         )}</div>`
-        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.transaction_count'))} ${handleAxis(
+        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.tx_fee'))} ${handleAxis(
           dataList[0].data,
         )}</div>`
         return result
@@ -56,7 +57,7 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
         nameGap: '30',
         type: 'category',
         boundaryGap: false,
-        data: statisticTransactionCounts.map(data => data.createdAtUnixtimestamp),
+        data: statisticTxFeeHistories.map(data => data.createdAtUnixtimestamp),
         axisLabel: {
           formatter: (value: string) => parseDateNoTime(value),
         },
@@ -65,7 +66,7 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
     yAxis: [
       {
         position: 'left',
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.transaction_count'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.tx_fee'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -80,53 +81,53 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
     ],
     series: [
       {
-        name: i18n.t('statistic.transaction_count'),
+        name: i18n.t('statistic.tx_fee'),
         type: 'line',
         yAxisIndex: '0',
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
-        data: statisticTransactionCounts.map(data => new BigNumber(data.transactionsCount).toNumber()),
+        data: statisticTxFeeHistories.map(data => shannonToCkbDecimal(data.totalTxFee, 4)),
       },
     ],
   }
 }
 
-export const TransactionCountChart = ({
-  statisticTransactionCounts,
+export const TxFeeHistoryChart = ({
+  statisticTxFeeHistories,
   isThumbnail = false,
 }: {
-  statisticTransactionCounts: State.StatisticTransactionCount[]
+  statisticTxFeeHistories: State.StatisticTransactionFee[]
   isThumbnail?: boolean
 }) => {
-  if (!statisticTransactionCounts || statisticTransactionCounts.length === 0) {
-    return <ChartLoading show={statisticTransactionCounts === undefined} isThumbnail={isThumbnail} />
+  if (!statisticTxFeeHistories || statisticTxFeeHistories.length === 0) {
+    return <ChartLoading show={statisticTxFeeHistories === undefined} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticTransactionCounts, isThumbnail)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={getOption(statisticTxFeeHistories, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticTransactionCount = (dispatch: AppDispatch) => {
+export const initStatisticTxFeeHistory = (dispatch: AppDispatch) => {
   dispatch({
-    type: PageActions.UpdateStatisticTransactionCount,
+    type: PageActions.UpdateStatisticTxFeeHistory,
     payload: {
-      statisticTransactionCounts: undefined,
+      statisticTxFeeHistories: undefined,
     },
   })
 }
 
 export default () => {
   const dispatch = useDispatch()
-  const { statisticTransactionCounts } = useAppState()
+  const { statisticTxFeeHistories } = useAppState()
 
   useEffect(() => {
-    initStatisticTransactionCount(dispatch)
-    getStatisticTransactionCount(dispatch)
+    initStatisticTxFeeHistory(dispatch)
+    getStatisticTxFeeHistory(dispatch)
   }, [dispatch])
 
   return (
     <Content>
-      <ChartDetailTitle>{i18n.t('statistic.transaction_count')}</ChartDetailTitle>
+      <ChartDetailTitle>{i18n.t('statistic.tx_fee_history')}</ChartDetailTitle>
       <ChartDetailPanel>
-        <TransactionCountChart statisticTransactionCounts={statisticTransactionCounts} />
+        <TxFeeHistoryChart statisticTxFeeHistories={statisticTxFeeHistories} />
       </ChartDetailPanel>
     </Content>
   )

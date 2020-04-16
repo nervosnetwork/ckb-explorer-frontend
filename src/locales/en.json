@@ -81,7 +81,9 @@
       "no_data": "No data...",
       "charts_title": "Charts",
       "category_mining": "Mining Charts",
-      "category_activities": "Activities"
+      "category_activities": "Activities",
+      "tx_fee_history": "Transaction Fee History",
+      "tx_fee": "Transaction Fee (CKB)"
     },
     "home": {
       "height": "Height",

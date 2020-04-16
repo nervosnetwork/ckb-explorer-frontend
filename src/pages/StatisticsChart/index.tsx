@@ -31,6 +31,7 @@ import { DifficultyChart, initStatisticDifficulty } from './Mining/Difficulty'
 import { HashRateChart, initStatisticHashRate } from './Mining/HashRate'
 import { UncleRateChart, initStatisticUncleRate } from './Mining/UncleRate'
 import { BalanceDistributionChart, initStatisticBalanceDistribution } from './Activities/BalanceDistribution'
+import { TxFeeHistoryChart } from './Activities/TxFeeHistory'
 
 interface ChartData {
   title: string
@@ -70,6 +71,7 @@ export default () => {
     statisticTransactionCounts,
     statisticAddressBalanceRanks,
     statisticBalanceDistributions,
+    statisticTxFeeHistories,
   } = useAppState()
 
   const charts: ChartCategory[] = [
@@ -137,6 +139,11 @@ export default () => {
           title: `${i18n.t('statistic.balance_distribution')}`,
           chart: <BalanceDistributionChart statisticBalanceDistributions={statisticBalanceDistributions} isThumbnail />,
           path: '/charts/balance-distribution',
+        },
+        {
+          title: `${i18n.t('statistic.tx_fee_history')}`,
+          chart: <TxFeeHistoryChart statisticTxFeeHistories={statisticTxFeeHistories} isThumbnail />,
+          path: '/charts/tx-fee-history',
         },
       ],
     },
