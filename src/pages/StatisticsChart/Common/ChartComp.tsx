@@ -1,14 +1,14 @@
 import React from 'react'
 import { LoadingPanel, ChartNoDataPanel } from './styled'
-import Loading from '../../components/Loading'
-import ChartNoDataImage from '../../assets/chart_no_data.png'
-import ChartNoDataAggronImage from '../../assets/chart_no_data_aggron.png'
-import { isMainnet } from '../../utils/chain'
-import SmallLoading from '../../components/Loading/SmallLoading'
+import Loading from '../../../components/Loading'
+import ChartNoDataImage from '../../../assets/chart_no_data.png'
+import ChartNoDataAggronImage from '../../../assets/chart_no_data_aggron.png'
+import { isMainnet } from '../../../utils/chain'
+import SmallLoading from '../../../components/Loading/SmallLoading'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import { ObjectMap, Func } from 'echarts-for-react'
-import i18n from '../../utils/i18n'
+import i18n from '../../../utils/i18n'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => {
   return isThumbnail ? <SmallLoading /> : <Loading show />
