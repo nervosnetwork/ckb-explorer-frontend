@@ -264,6 +264,15 @@ declare namespace State {
     createdAtUnixtimestamp: string
   }
 
+  export interface StatisticBlockTimeDistributions {
+    blockTimeDistribution: string[][]
+  }
+
+  export interface StatisticBlockTimeDistribution {
+    time: string
+    blocks: string
+  }
+
   export interface Components {
     // mobile header search state
     searchBarEditable: boolean
@@ -325,16 +334,7 @@ declare namespace State {
     total: number
   }
 
-  export interface AppState {
-    app: App
-
-    addressState: AddressState
-    blockState: BlockState
-    homeBlocks: Block[]
-    blockListState: BlockListState
-    transactionState: TransactionState
-    transactionsState: TransactionsState
-    statistics: Statistics
+  export interface StatisticChartsState {
     statisticDifficultyHashRates: StatisticDifficultyHashRate[]
     statisticDifficultyUncleRates: StatisticDifficultyUncleRate[]
     statisticDifficulties: StatisticDifficulty[]
@@ -347,6 +347,19 @@ declare namespace State {
     statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
     statisticBalanceDistributions: StatisticBalanceDistribution[]
     statisticTxFeeHistories: StatisticTransactionFee[]
+    statisticBlockTimeDistributions: StatisticBlockTimeDistribution[]
+  }
+
+  export interface AppState extends StatisticChartsState {
+    app: App
+
+    addressState: AddressState
+    blockState: BlockState
+    homeBlocks: Block[]
+    blockListState: BlockListState
+    transactionState: TransactionState
+    transactionsState: TransactionsState
+    statistics: Statistics
 
     nervosDaoState: NervosDaoState
 

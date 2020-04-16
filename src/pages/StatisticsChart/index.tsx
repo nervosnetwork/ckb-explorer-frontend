@@ -8,6 +8,7 @@ import {
   getStatisticTransactionCount,
   getStatisticAddressBalanceRank,
   getStatisticBalanceDistribution,
+  getStatisticTxFeeHistory,
 } from '../../service/app/charts/activities'
 import {
   getStatisticDifficultyHashRate,
@@ -31,7 +32,9 @@ import { DifficultyChart, initStatisticDifficulty } from './mining/Difficulty'
 import { HashRateChart, initStatisticHashRate } from './mining/HashRate'
 import { UncleRateChart, initStatisticUncleRate } from './mining/UncleRate'
 import { BalanceDistributionChart, initStatisticBalanceDistribution } from './activities/BalanceDistribution'
-import { TxFeeHistoryChart } from './activities/TxFeeHistory'
+import { TxFeeHistoryChart, initStatisticTxFeeHistory } from './activities/TxFeeHistory'
+import { BlockTimeDistributionChart, initStatisticBlockTimeDistribution } from './block/BlockTimeDistribution'
+import { getStatisticBlockTimeDistribution } from '../../service/app/charts/block'
 
 interface ChartData {
   title: string
@@ -72,9 +75,22 @@ export default () => {
     statisticAddressBalanceRanks,
     statisticBalanceDistributions,
     statisticTxFeeHistories,
+    statisticBlockTimeDistributions,
   } = useAppState()
 
   const charts: ChartCategory[] = [
+    {
+      category: i18n.t('statistic.category_block'),
+      charts: [
+        {
+          title: `${i18n.t('statistic.block_time_distribution')}`,
+          chart: (
+            <BlockTimeDistributionChart statisticBlockTimeDistributions={statisticBlockTimeDistributions} isThumbnail />
+          ),
+          path: '/charts/block-time-distribution',
+        },
+      ],
+    },
     {
       category: i18n.t('statistic.category_mining'),
       charts: [
@@ -123,7 +139,6 @@ export default () => {
           chart: <CellCountChart statisticCellCounts={statisticCellCounts} isThumbnail />,
           path: '/charts/cell-count',
         },
-
         {
           title: `${i18n.t('statistic.balance_ranking')}`,
           chart: (
@@ -171,6 +186,8 @@ export default () => {
     initStatisticTotalDaoDeposit(dispatch)
     initStatisticAddressBalanceRanks(dispatch)
     initStatisticBalanceDistribution(dispatch)
+    initStatisticTxFeeHistory(dispatch)
+    initStatisticBlockTimeDistribution(dispatch)
   }, [dispatch])
 
   useEffect(() => {
@@ -185,6 +202,8 @@ export default () => {
     getStatisticTotalDaoDeposit(dispatch)
     getStatisticAddressBalanceRank(dispatch)
     getStatisticBalanceDistribution(dispatch)
+    getStatisticTxFeeHistory(dispatch)
+    getStatisticBlockTimeDistribution(dispatch)
   }, [dispatch])
 
   return (

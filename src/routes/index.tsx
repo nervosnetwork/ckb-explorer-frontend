@@ -33,6 +33,7 @@ import { ComponentActions } from '../contexts/providers/reducer'
 import { isMobile } from '../utils/screen'
 import BalanceDistribution from '../pages/StatisticsChart/activities/BalanceDistribution'
 import TxFeeHistory from '../pages/StatisticsChart/activities/TxFeeHistory'
+import BlockTimeDistribution from '../pages/StatisticsChart/block/BlockTimeDistribution'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -158,6 +159,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/charts/tx-fee-history',
     exact: true,
     comp: TxFeeHistory,
+  },
+  {
+    name: 'BlockTimeDistribution',
+    path: '/charts/block-time-distribution',
+    exact: true,
+    comp: BlockTimeDistribution,
   },
   {
     name: 'SearchFail',

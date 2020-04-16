@@ -238,3 +238,9 @@ export const fetchStatisticTxFeeHistory = () => {
     toCamelcase<Response.Response<Response.Wrapper<State.StatisticTransactionFee>[]>>(res.data),
   )
 }
+
+export const fetchStatisticBlockTimeDistribution = () => {
+  return axiosIns(`/distribution_data/block_time_distribution`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticBlockTimeDistributions>>(res.data.data),
+  )
+}

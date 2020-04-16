@@ -1,17 +1,14 @@
 import React, { useEffect } from 'react'
-import BigNumber from 'bignumber.js'
 import Content from '../../../components/Content'
-import { getStatisticTxFeeHistory } from '../../../service/app/charts/activities'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { handleAxis } from '../../../utils/chart'
 import { ChartDetailTitle, ChartDetailPanel } from '../common/styled'
-import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore } from '../common/ChartComp'
 import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
-import { shannonToCkbDecimal } from '../../../utils/util'
+import { getStatisticBlockTimeDistribution } from '../../../service/app/charts/block'
+import { localeNumberString } from '../../../utils/number'
 
 const gridThumbnail = {
   left: '4%',
@@ -27,7 +24,7 @@ const grid = {
   containLabel: true,
 }
 
-const getOption = (statisticTxFeeHistories: State.StatisticTransactionFee[], isThumbnail = false) => {
+const getOption = (statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[], isThumbnail = false) => {
   return {
     color: ChartColors,
     tooltip: !isThumbnail && {
@@ -36,11 +33,9 @@ const getOption = (statisticTxFeeHistories: State.StatisticTransactionFee[], isT
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '160px' : '95px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-          dataList[0].name,
-        )}</div>`
-        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.tx_fee'))} ${handleAxis(
+          `<span style="width:${currentLanguage() === 'en' ? '60px' : '60px'};display:inline-block;">${value}:</span>`
+        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.time'))} ${dataList[0].name}</div>`
+        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.block_count'))} ${localeNumberString(
           dataList[0].data,
         )}</div>`
         return result
@@ -49,21 +44,21 @@ const getOption = (statisticTxFeeHistories: State.StatisticTransactionFee[], isT
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.time'),
         nameLocation: 'middle',
         nameGap: '30',
         type: 'category',
         boundaryGap: false,
-        data: statisticTxFeeHistories.map(data => data.createdAtUnixtimestamp),
+        data: statisticBlockTimeDistributions.map(data => data.time),
         axisLabel: {
-          formatter: (value: string) => parseDateNoTime(value),
+          formatter: (value: string) => value,
         },
       },
     ],
     yAxis: [
       {
         position: 'left',
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.tx_fee'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.block_count'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -72,59 +67,59 @@ const getOption = (statisticTxFeeHistories: State.StatisticTransactionFee[], isT
           },
         },
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: string) => localeNumberString(value),
         },
       },
     ],
     series: [
       {
-        name: i18n.t('statistic.tx_fee'),
+        name: i18n.t('statistic.block_count'),
         type: 'line',
         yAxisIndex: '0',
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
-        data: statisticTxFeeHistories.map(data => shannonToCkbDecimal(data.totalTxFee, 4)),
+        data: statisticBlockTimeDistributions.map(data => data.blocks),
       },
     ],
   }
 }
 
-export const TxFeeHistoryChart = ({
-  statisticTxFeeHistories,
+export const BlockTimeDistributionChart = ({
+  statisticBlockTimeDistributions,
   isThumbnail = false,
 }: {
-  statisticTxFeeHistories: State.StatisticTransactionFee[]
+  statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[]
   isThumbnail?: boolean
 }) => {
-  if (!statisticTxFeeHistories || statisticTxFeeHistories.length === 0) {
-    return <ChartLoading show={statisticTxFeeHistories === undefined} isThumbnail={isThumbnail} />
+  if (!statisticBlockTimeDistributions || statisticBlockTimeDistributions.length === 0) {
+    return <ChartLoading show={statisticBlockTimeDistributions === undefined} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticTxFeeHistories, isThumbnail)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={getOption(statisticBlockTimeDistributions, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticTxFeeHistory = (dispatch: AppDispatch) => {
+export const initStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
   dispatch({
-    type: PageActions.UpdateStatisticTxFeeHistory,
+    type: PageActions.UpdateStatisticBlockTimeDistribution,
     payload: {
-      statisticTxFeeHistories: undefined,
+      statisticBlockTimeDistributions: undefined,
     },
   })
 }
 
 export default () => {
   const dispatch = useDispatch()
-  const { statisticTxFeeHistories } = useAppState()
+  const { statisticBlockTimeDistributions } = useAppState()
 
   useEffect(() => {
-    initStatisticTxFeeHistory(dispatch)
-    getStatisticTxFeeHistory(dispatch)
+    initStatisticBlockTimeDistribution(dispatch)
+    getStatisticBlockTimeDistribution(dispatch)
   }, [dispatch])
 
   return (
     <Content>
-      <ChartDetailTitle>{i18n.t('statistic.tx_fee_history')}</ChartDetailTitle>
+      <ChartDetailTitle>{i18n.t('statistic.block_time_distribution')}</ChartDetailTitle>
       <ChartDetailPanel>
-        <TxFeeHistoryChart statisticTxFeeHistories={statisticTxFeeHistories} />
+        <BlockTimeDistributionChart statisticBlockTimeDistributions={statisticBlockTimeDistributions} />
       </ChartDetailPanel>
     </Content>
   )

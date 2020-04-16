@@ -77,13 +77,17 @@
       "balance": "余额",
       "address": "地址",
       "date": "日期",
+      "time": "时间 (s)",
       "log": "（对数坐标）",
       "no_data": "暂无数据...",
       "charts_title": "图表",
       "category_mining": "挖矿数据",
       "category_activities": "活跃度数据",
+      "category_block": "区块",
       "tx_fee_history": "交易费历史记录",
-      "tx_fee": "交易费 (CKB)"
+      "tx_fee": "交易费 (CKB)",
+      "block_count": "区块数",
+      "block_time_distribution": "出块时间分布"
     },
     "home": {
       "height": "高度",

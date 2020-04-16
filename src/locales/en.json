@@ -77,13 +77,17 @@
       "balance": "Balance",
       "address": "Address",
       "date": "Date",
+      "time": "Time (s)",
       "log": "(Log)",
       "no_data": "No data...",
       "charts_title": "Charts",
       "category_mining": "Mining Charts",
       "category_activities": "Activities",
+      "category_block": "Block",
       "tx_fee_history": "Transaction Fee History",
-      "tx_fee": "Transaction Fee (CKB)"
+      "tx_fee": "Transaction Fee (CKB)",
+      "block_count": "blocks",
+      "block_time_distribution": "Block Time Distribution"
     },
     "home": {
       "height": "Height",

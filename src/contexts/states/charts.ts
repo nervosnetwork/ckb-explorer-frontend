@@ -1,4 +1,4 @@
-const initStatisticChartsState = {
+const initStatisticChartsState: State.StatisticChartsState = {
   statisticDifficultyHashRates: [],
   statisticHashRates: [],
   statisticUncleRates: [],
@@ -11,6 +11,7 @@ const initStatisticChartsState = {
   statisticAddressBalanceRanks: [],
   statisticBalanceDistributions: [],
   statisticTxFeeHistories: [],
+  statisticBlockTimeDistributions: [],
 }
 
 export default initStatisticChartsState
