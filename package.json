@@ -47,7 +47,7 @@
     "eslint-plugin-react": "7.19.0",
     "eslint-plugin-react-hooks": "3.0.0",
     "husky": "^4.2.3",
-    "prettier": "2.0.4"
+    "prettier": "2.0.0"
   },
   "scripts": {
     "start": "env-cmd -f ./.env.develop react-scripts start",

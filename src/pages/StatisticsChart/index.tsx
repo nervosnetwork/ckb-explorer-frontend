@@ -9,6 +9,7 @@ import {
   getStatisticAddressBalanceRank,
   getStatisticBalanceDistribution,
   getStatisticTxFeeHistory,
+  getStatisticOccupiedCapacity,
 } from '../../service/app/charts/activities'
 import {
   getStatisticDifficultyHashRate,
@@ -35,6 +36,7 @@ import { BalanceDistributionChart, initStatisticBalanceDistribution } from './ac
 import { TxFeeHistoryChart, initStatisticTxFeeHistory } from './activities/TxFeeHistory'
 import { BlockTimeDistributionChart, initStatisticBlockTimeDistribution } from './block/BlockTimeDistribution'
 import { getStatisticBlockTimeDistribution } from '../../service/app/charts/block'
+import { OccupiedCapacityChart, initStatisticOccupiedCapacity } from './activities/OccupiedCapacity'
 
 interface ChartData {
   title: string
@@ -76,6 +78,7 @@ export default () => {
     statisticBalanceDistributions,
     statisticTxFeeHistories,
     statisticBlockTimeDistributions,
+    statisticOccupiedCapacities,
   } = useAppState()
 
   const charts: ChartCategory[] = [
@@ -160,6 +163,11 @@ export default () => {
           chart: <TxFeeHistoryChart statisticTxFeeHistories={statisticTxFeeHistories} isThumbnail />,
           path: '/charts/tx-fee-history',
         },
+        {
+          title: `${i18n.t('statistic.occupied_capacity')}`,
+          chart: <OccupiedCapacityChart statisticOccupiedCapacities={statisticOccupiedCapacities} isThumbnail />,
+          path: '/charts/occupied-capacity',
+        },
       ],
     },
     {
@@ -188,6 +196,7 @@ export default () => {
     initStatisticBalanceDistribution(dispatch)
     initStatisticTxFeeHistory(dispatch)
     initStatisticBlockTimeDistribution(dispatch)
+    initStatisticOccupiedCapacity(dispatch)
   }, [dispatch])
 
   useEffect(() => {
@@ -204,6 +213,7 @@ export default () => {
     getStatisticBalanceDistribution(dispatch)
     getStatisticTxFeeHistory(dispatch)
     getStatisticBlockTimeDistribution(dispatch)
+    getStatisticOccupiedCapacity(dispatch)
   }, [dispatch])
 
   return (

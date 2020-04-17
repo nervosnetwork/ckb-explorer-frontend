@@ -87,7 +87,8 @@
       "tx_fee_history": "交易费历史记录",
       "tx_fee": "交易费 (CKB)",
       "block_count": "区块数",
-      "block_time_distribution": "出块时间分布"
+      "block_time_distribution": "出块时间分布",
+      "occupied_capacity": "已占用的存储容量"
     },
     "home": {
       "height": "高度",

@@ -5,6 +5,7 @@ import {
   fetchStatisticAddressBalanceRank,
   fetchStatisticBalanceDistribution,
   fetchStatisticTxFeeHistory,
+  fetchStatisticOccupiedCapacity,
 } from '../../http/fetcher'
 import { AppDispatch, PageActions } from '../../../contexts/providers/reducer'
 
@@ -124,6 +125,22 @@ export const getStatisticTxFeeHistory = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticTxFeeHistory,
         payload: {
           statisticTxFeeHistories,
+        },
+      })
+    },
+  )
+}
+
+export const getStatisticOccupiedCapacity = (dispatch: AppDispatch) => {
+  fetchStatisticOccupiedCapacity().then(
+    (response: Response.Response<Response.Wrapper<State.StatisticOccupiedCapacity>[]> | null) => {
+      if (!response) return
+      const { data } = response
+      const statisticOccupiedCapacities = data.map(wrapper => wrapper.attributes)
+      dispatch({
+        type: PageActions.UpdateStatisticOccupiedCapacity,
+        payload: {
+          statisticOccupiedCapacities,
         },
       })
     },

@@ -87,7 +87,8 @@
       "tx_fee_history": "Transaction Fee History",
       "tx_fee": "Transaction Fee (CKB)",
       "block_count": "blocks",
-      "block_time_distribution": "Block Time Distribution"
+      "block_time_distribution": "Block Time Distribution",
+      "occupied_capacity": "Occupied Capacity"
     },
     "home": {
       "height": "Height",

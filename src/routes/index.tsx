@@ -34,6 +34,7 @@ import { isMobile } from '../utils/screen'
 import BalanceDistribution from '../pages/StatisticsChart/activities/BalanceDistribution'
 import TxFeeHistory from '../pages/StatisticsChart/activities/TxFeeHistory'
 import BlockTimeDistribution from '../pages/StatisticsChart/block/BlockTimeDistribution'
+import OccupiedCapacity from '../pages/StatisticsChart/activities/OccupiedCapacity'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -165,6 +166,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/charts/block-time-distribution',
     exact: true,
     comp: BlockTimeDistribution,
+  },
+  {
+    name: 'OccupiedCapacity',
+    path: '/charts/occupied-capacity',
+    exact: true,
+    comp: OccupiedCapacity,
   },
   {
     name: 'SearchFail',

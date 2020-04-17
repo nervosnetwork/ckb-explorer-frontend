@@ -273,6 +273,11 @@ declare namespace State {
     blocks: string
   }
 
+  export interface StatisticOccupiedCapacity {
+    occupiedCapacity: string
+    createdAtUnixtimestamp: string
+  }
+
   export interface Components {
     // mobile header search state
     searchBarEditable: boolean
@@ -348,6 +353,7 @@ declare namespace State {
     statisticBalanceDistributions: StatisticBalanceDistribution[]
     statisticTxFeeHistories: StatisticTransactionFee[]
     statisticBlockTimeDistributions: StatisticBlockTimeDistribution[]
+    statisticOccupiedCapacities: StatisticOccupiedCapacity[]
   }
 
   export interface AppState extends StatisticChartsState {
