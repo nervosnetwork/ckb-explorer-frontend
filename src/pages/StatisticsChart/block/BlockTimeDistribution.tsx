@@ -46,7 +46,7 @@ const getOption = (statisticBlockTimeDistributions: State.StatisticBlockTimeDist
         nameLocation: 'middle',
         nameGap: '30',
         type: 'category',
-        boundaryGap: false,
+        boundaryGap: true,
         data: statisticBlockTimeDistributions.map(data => data.time),
         axisLabel: {
           formatter: (value: string) => value,
@@ -72,10 +72,12 @@ const getOption = (statisticBlockTimeDistributions: State.StatisticBlockTimeDist
     series: [
       {
         name: i18n.t('statistic.block_count'),
-        type: 'line',
+        type: 'bar',
         yAxisIndex: '0',
-        symbol: isThumbnail ? 'none' : 'circle',
-        symbolSize: 3,
+        areaStyle: {
+          color: '#85bae0',
+        },
+        barWidth: isMobile() || isThumbnail ? 10 : 20,
         data: statisticBlockTimeDistributions.map(data => data.blocks),
       },
     ],
