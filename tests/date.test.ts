@@ -1,4 +1,4 @@
-import { formatData, parseTime, parseTimeNoSecond, parseDateNoTime, parseDiffDate } from '../src/utils/date'
+import { formatData, parseTime, parseTimeNoSecond, parseDateNoTime, parseDiffDate, parseHour } from '../src/utils/date'
 
 describe('Date methods tests', () => {
   it('format date data', async () => {
@@ -27,5 +27,12 @@ describe('Date methods tests', () => {
     expect(() => {
       parseDiffDate(1579568429375, 1577110366093)
     }).toThrow('End timestamp must be bigger than start timestamp')
+  })
+
+  it('parse hour', async () => {
+    expect(parseHour(188)).toBe(3.13)
+    expect(parseHour(192)).toBe(3.2)
+    expect(parseHour(240)).toBe(4)
+    expect(parseHour(280)).toBe(4.67)
   })
 })

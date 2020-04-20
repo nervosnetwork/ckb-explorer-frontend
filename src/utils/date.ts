@@ -73,3 +73,8 @@ export const parseTime = (millisecond: number) => {
   }
   return `${second.toFixed(2)} s`
 }
+
+export const parseHour = (minutes: number | string) => {
+  const num = typeof minutes === 'string' ? Number(minutes) : minutes
+  return parseFloat((num / 60).toFixed(2))
+}

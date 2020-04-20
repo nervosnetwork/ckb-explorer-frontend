@@ -1,4 +1,4 @@
-import { handleAxis, parseInterval, handleGroupAxis } from '../src/utils/chart'
+import { handleAxis, parseInterval, handleLogGroupAxis, handleStepGroupAxis } from '../src/utils/chart'
 import BigNumber from 'bignumber.js'
 
 describe('Chart tests', () => {
@@ -12,11 +12,18 @@ describe('Chart tests', () => {
     expect(handleAxis(new BigNumber(12233435), 0)).toBe('12M')
   })
 
-  it('handleGroupAxis', async () => {
-    expect(handleGroupAxis(new BigNumber(102300))).toBe('[10K, 102K]')
-    expect(handleGroupAxis(new BigNumber(12233435))).toBe('[1M, 12M]')
-    expect(handleGroupAxis(new BigNumber(12232352000), '+')).toBe('[1G, 12G+]')
-    expect(handleGroupAxis(new BigNumber(122))).toBe('[0, 122]')
+  it('handleLogGroupAxis', async () => {
+    expect(handleLogGroupAxis(new BigNumber(102300))).toBe('[10K, 102K]')
+    expect(handleLogGroupAxis(new BigNumber(12233435))).toBe('[1M, 12M]')
+    expect(handleLogGroupAxis(new BigNumber(12232352000), '+')).toBe('[1G, 12G+]')
+    expect(handleLogGroupAxis(new BigNumber(122))).toBe('[0, 122]')
+  })
+
+  it('handleStepGroupAxis', async () => {
+    expect(handleStepGroupAxis(1000, 100)).toBe('[900, 1000]')
+    expect(handleStepGroupAxis(2500, 500)).toBe('[2000, 2500]')
+    expect(handleStepGroupAxis(2000, 200, '+')).toBe('[1800, 2000+]')
+    expect(handleStepGroupAxis(1600)).toBe('[1500, 1600]')
   })
 
   it('parseInterval', async () => {

@@ -78,7 +78,7 @@
       "address": "Address",
       "date": "Date",
       "time": "Time (s)",
-      "time_minute": "Time (minute)",
+      "time_hour": "Time (hour)",
       "log": "(Log)",
       "no_data": "No data...",
       "charts_title": "Charts",

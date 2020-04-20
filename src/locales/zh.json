@@ -78,7 +78,7 @@
       "address": "地址",
       "date": "日期",
       "time": "时间 (s)",
-      "time_minute": "时间 (分钟)",
+      "time_hour": "时间 (小时)",
       "log": "（对数坐标）",
       "no_data": "暂无数据...",
       "charts_title": "图表",

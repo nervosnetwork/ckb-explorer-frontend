@@ -7,6 +7,7 @@ import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
 import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 import { getStatisticEpochTimeDistribution } from '../../../service/app/charts/block'
 import { localeNumberString } from '../../../utils/number'
+import { parseHour } from '../../../utils/date'
 
 const gridThumbnail = {
   left: '4%',
@@ -31,10 +32,10 @@ const getOption = (statisticEpochTimeDistributions: State.StatisticEpochTimeDist
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '95px' : '80px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.time_minute'))} ${
-          dataList[0].name
-        }</div>`
+          `<span style="width:${currentLanguage() === 'en' ? '85px' : '80px'};display:inline-block;">${value}:</span>`
+        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.time_hour'))} ${parseHour(
+          dataList[0].name,
+        )}</div>`
         result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.epochs'))} ${localeNumberString(
           dataList[0].data,
         )}</div>`
@@ -44,14 +45,14 @@ const getOption = (statisticEpochTimeDistributions: State.StatisticEpochTimeDist
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.time_minute'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.time_hour'),
         nameLocation: 'middle',
         nameGap: '30',
         type: 'category',
         boundaryGap: true,
         data: statisticEpochTimeDistributions.map(data => data.time),
         axisLabel: {
-          formatter: (value: string) => value,
+          formatter: (value: string) => parseHour(value),
         },
       },
     ],

@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { getStatisticBalanceDistribution } from '../../../service/app/charts/activities'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { handleAxis, handleGroupAxis } from '../../../utils/chart'
+import { handleAxis, handleLogGroupAxis } from '../../../utils/chart'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
@@ -34,7 +34,9 @@ const getOption = (statisticBalanceDistributions: State.StatisticBalanceDistribu
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
           `<span style="width:${currentLanguage() === 'en' ? 280 : 110}px;display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.addresses_balance'))} ${handleGroupAxis(
+        let result = `<div>${colorSpan('#333333')}${widthSpan(
+          i18n.t('statistic.addresses_balance'),
+        )} ${handleLogGroupAxis(
           new BigNumber(dataList[0].name),
           dataList[0].dataIndex === statisticBalanceDistributions.length - 1 ? '+' : '',
         )} ${i18n.t('common.ckb_unit')}</div>`
@@ -65,7 +67,10 @@ const getOption = (statisticBalanceDistributions: State.StatisticBalanceDistribu
         data: statisticBalanceDistributions.map(data => data.balance),
         axisLabel: {
           formatter: (value: string, index: number) =>
-            `${handleGroupAxis(new BigNumber(value), index === statisticBalanceDistributions.length - 1 ? '+' : '')}`,
+            `${handleLogGroupAxis(
+              new BigNumber(value),
+              index === statisticBalanceDistributions.length - 1 ? '+' : '',
+            )}`,
         },
       },
     ],
