@@ -78,7 +78,7 @@
       "address": "地址",
       "date": "日期",
       "time": "时间 (s)",
-      "time_minute": "时间 (min)",
+      "time_minute": "时间 (分钟)",
       "log": "（对数坐标）",
       "no_data": "暂无数据...",
       "charts_title": "图表",
@@ -91,7 +91,7 @@
       "block_time_distribution": "出块时间分布",
       "occupied_capacity": "已占用的存储容量",
       "epoch_time_distribution": "Epoch 时间分布",
-      "epoch_time": "Epoch 时间"
+      "epochs": "Epoch 数量"
     },
     "home": {
       "height": "高度",

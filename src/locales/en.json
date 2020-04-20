@@ -78,7 +78,7 @@
       "address": "Address",
       "date": "Date",
       "time": "Time (s)",
-      "time_minute": "Time (min)",
+      "time_minute": "Time (minute)",
       "log": "(Log)",
       "no_data": "No data...",
       "charts_title": "Charts",
@@ -91,7 +91,7 @@
       "block_time_distribution": "Block Time Distribution",
       "occupied_capacity": "Occupied Capacity",
       "epoch_time_distribution": "Epoch Time Distribution",
-      "epoch_time": "Epoch Time"
+      "epochs": "Epochs"
     },
     "home": {
       "height": "Height",
