@@ -13,6 +13,7 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticTxFeeHistories: [],
   statisticBlockTimeDistributions: [],
   statisticOccupiedCapacities: [],
+  statisticEpochTimeDistributions: [],
 }
 
 export default initStatisticChartsState

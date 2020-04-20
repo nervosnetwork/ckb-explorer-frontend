@@ -250,3 +250,9 @@ export const fetchStatisticOccupiedCapacity = () => {
     toCamelcase<Response.Response<Response.Wrapper<State.StatisticOccupiedCapacity>[]>>(res.data),
   )
 }
+
+export const fetchStatisticEpochTimeDistribution = () => {
+  return axiosIns(`/distribution_data/epoch_time_distribution`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticEpochTimeDistributions>>(res.data.data),
+  )
+}

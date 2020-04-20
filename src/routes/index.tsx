@@ -35,6 +35,7 @@ import BalanceDistribution from '../pages/StatisticsChart/activities/BalanceDist
 import TxFeeHistory from '../pages/StatisticsChart/activities/TxFeeHistory'
 import BlockTimeDistribution from '../pages/StatisticsChart/block/BlockTimeDistribution'
 import OccupiedCapacity from '../pages/StatisticsChart/activities/OccupiedCapacity'
+import EpochTimeDistribution from '../pages/StatisticsChart/block/EpochTimeDistribution'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -172,6 +173,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/charts/occupied-capacity',
     exact: true,
     comp: OccupiedCapacity,
+  },
+  {
+    name: 'EpochTimeDistribution',
+    path: '/charts/epoch-time-distribution',
+    exact: true,
+    comp: EpochTimeDistribution,
   },
   {
     name: 'SearchFail',

@@ -35,8 +35,9 @@ import { UncleRateChart, initStatisticUncleRate } from './mining/UncleRate'
 import { BalanceDistributionChart, initStatisticBalanceDistribution } from './activities/BalanceDistribution'
 import { TxFeeHistoryChart, initStatisticTxFeeHistory } from './activities/TxFeeHistory'
 import { BlockTimeDistributionChart, initStatisticBlockTimeDistribution } from './block/BlockTimeDistribution'
-import { getStatisticBlockTimeDistribution } from '../../service/app/charts/block'
+import { getStatisticBlockTimeDistribution, getStatisticEpochTimeDistribution } from '../../service/app/charts/block'
 import { OccupiedCapacityChart, initStatisticOccupiedCapacity } from './activities/OccupiedCapacity'
+import { EpochTimeDistributionChart, initStatisticEpochTimeDistribution } from './block/EpochTimeDistribution'
 
 interface ChartData {
   title: string
@@ -79,6 +80,7 @@ export default () => {
     statisticTxFeeHistories,
     statisticBlockTimeDistributions,
     statisticOccupiedCapacities,
+    statisticEpochTimeDistributions,
   } = useAppState()
 
   const charts: ChartCategory[] = [
@@ -91,6 +93,13 @@ export default () => {
             <BlockTimeDistributionChart statisticBlockTimeDistributions={statisticBlockTimeDistributions} isThumbnail />
           ),
           path: '/charts/block-time-distribution',
+        },
+        {
+          title: `${i18n.t('statistic.epoch_time_distribution')}`,
+          chart: (
+            <EpochTimeDistributionChart statisticEpochTimeDistributions={statisticEpochTimeDistributions} isThumbnail />
+          ),
+          path: '/charts/epoch-time-distribution',
         },
       ],
     },
@@ -197,6 +206,7 @@ export default () => {
     initStatisticTxFeeHistory(dispatch)
     initStatisticBlockTimeDistribution(dispatch)
     initStatisticOccupiedCapacity(dispatch)
+    initStatisticEpochTimeDistribution(dispatch)
   }, [dispatch])
 
   useEffect(() => {
@@ -214,6 +224,7 @@ export default () => {
     getStatisticTxFeeHistory(dispatch)
     getStatisticBlockTimeDistribution(dispatch)
     getStatisticOccupiedCapacity(dispatch)
+    getStatisticEpochTimeDistribution(dispatch)
   }, [dispatch])
 
   return (

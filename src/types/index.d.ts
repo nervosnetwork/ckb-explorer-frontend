@@ -278,6 +278,15 @@ declare namespace State {
     createdAtUnixtimestamp: string
   }
 
+  export interface StatisticEpochTimeDistributions {
+    epochTimeDistribution: string[][]
+  }
+
+  export interface StatisticEpochTimeDistribution {
+    time: string
+    epoch: string
+  }
+
   export interface Components {
     // mobile header search state
     searchBarEditable: boolean
@@ -354,6 +363,7 @@ declare namespace State {
     statisticTxFeeHistories: StatisticTransactionFee[]
     statisticBlockTimeDistributions: StatisticBlockTimeDistribution[]
     statisticOccupiedCapacities: StatisticOccupiedCapacity[]
+    statisticEpochTimeDistributions: StatisticEpochTimeDistribution[]
   }
 
   export interface AppState extends StatisticChartsState {
