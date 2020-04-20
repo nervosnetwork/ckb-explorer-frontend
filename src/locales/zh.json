@@ -91,7 +91,9 @@
       "block_time_distribution": "出块时间分布",
       "occupied_capacity": "已占用的存储容量",
       "epoch_time_distribution": "Epoch 时间分布",
-      "epochs": "Epoch 数量"
+      "epochs": "Epoch 数量",
+      "epoch_length": "Epoch 长度 (区块)",
+      "epoch_length_distribution": "Epoch 长度分布"
     },
     "home": {
       "height": "高度",

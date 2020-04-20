@@ -256,3 +256,9 @@ export const fetchStatisticEpochTimeDistribution = () => {
     toCamelcase<Response.Wrapper<State.StatisticEpochTimeDistributions>>(res.data.data),
   )
 }
+
+export const fetchStatisticEpochLengthDistribution = () => {
+  return axiosIns(`/distribution_data/epoch_length_distribution`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticEpochLengthDistributions>>(res.data.data),
+  )
+}

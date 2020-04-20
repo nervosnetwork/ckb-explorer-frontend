@@ -91,7 +91,9 @@
       "block_time_distribution": "Block Time Distribution",
       "occupied_capacity": "Occupied Capacity",
       "epoch_time_distribution": "Epoch Time Distribution",
-      "epochs": "Epochs"
+      "epochs": "Epochs",
+      "epoch_length": "Epoch Length (block)",
+      "epoch_length_distribution": "Epoch Length Distribution"
     },
     "home": {
       "height": "Height",

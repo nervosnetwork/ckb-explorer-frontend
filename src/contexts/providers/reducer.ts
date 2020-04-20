@@ -49,6 +49,7 @@ export enum PageActions {
   UpdateStatisticBlockTimeDistribution = 'updateStatisticBlockTimeDistribution',
   UpdateStatisticOccupiedCapacity = 'updateStatisticOccupiedCapacity',
   UpdateStatisticEpochTimeDistribution = 'updateStatisticEpochTimeDistribution',
+  UpdateStatisticEpochLengthDistribution = 'updateStatisticEpochLengthDistribution',
 
   UpdateNervosDao = 'updateNervosDao',
   UpdateNervosDaoTransactions = 'updateNervosDaoTransactions',
@@ -286,6 +287,7 @@ export const reducer = (
         },
       }
 
+    // Statistic chart actions
     case PageActions.UpdateStatistics:
       return {
         ...state,
@@ -365,6 +367,11 @@ export const reducer = (
       return {
         ...state,
         statisticEpochTimeDistributions: payload.statisticEpochTimeDistributions,
+      }
+    case PageActions.UpdateStatisticEpochLengthDistribution:
+      return {
+        ...state,
+        statisticEpochLengthDistributions: payload.statisticEpochLengthDistributions,
       }
 
     case PageActions.UpdateNervosDao:

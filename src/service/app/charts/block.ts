@@ -1,4 +1,8 @@
-import { fetchStatisticBlockTimeDistribution, fetchStatisticEpochTimeDistribution } from '../../http/fetcher'
+import {
+  fetchStatisticBlockTimeDistribution,
+  fetchStatisticEpochTimeDistribution,
+  fetchStatisticEpochLengthDistribution,
+} from '../../http/fetcher'
 import { AppDispatch, PageActions } from '../../../contexts/providers/reducer'
 
 export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
@@ -43,4 +47,30 @@ export const getStatisticEpochTimeDistribution = (dispatch: AppDispatch) => {
       },
     })
   })
+}
+
+export const getStatisticEpochLengthDistribution = (dispatch: AppDispatch) => {
+  fetchStatisticEpochLengthDistribution().then(
+    (wrap: Response.Wrapper<State.StatisticEpochLengthDistributions> | null) => {
+      if (!wrap) return
+      const {
+        attributes: { epochLengthDistribution },
+      } = wrap
+      const statisticEpochLengthDistributions: State.StatisticEpochLengthDistribution[] = epochLengthDistribution.map(
+        data => {
+          const [length, epoch] = data
+          return {
+            length,
+            epoch,
+          }
+        },
+      )
+      dispatch({
+        type: PageActions.UpdateStatisticEpochLengthDistribution,
+        payload: {
+          statisticEpochLengthDistributions,
+        },
+      })
+    },
+  )
 }

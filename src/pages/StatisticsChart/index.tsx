@@ -35,9 +35,14 @@ import { UncleRateChart, initStatisticUncleRate } from './mining/UncleRate'
 import { BalanceDistributionChart, initStatisticBalanceDistribution } from './activities/BalanceDistribution'
 import { TxFeeHistoryChart, initStatisticTxFeeHistory } from './activities/TxFeeHistory'
 import { BlockTimeDistributionChart, initStatisticBlockTimeDistribution } from './block/BlockTimeDistribution'
-import { getStatisticBlockTimeDistribution, getStatisticEpochTimeDistribution } from '../../service/app/charts/block'
+import {
+  getStatisticBlockTimeDistribution,
+  getStatisticEpochTimeDistribution,
+  getStatisticEpochLengthDistribution,
+} from '../../service/app/charts/block'
 import { OccupiedCapacityChart, initStatisticOccupiedCapacity } from './activities/OccupiedCapacity'
 import { EpochTimeDistributionChart, initStatisticEpochTimeDistribution } from './block/EpochTimeDistribution'
+import { EpochLengthDistributionChart, initStatisticEpochLengthDistribution } from './block/EpochLengthDistribution'
 
 interface ChartData {
   title: string
@@ -81,6 +86,7 @@ export default () => {
     statisticBlockTimeDistributions,
     statisticOccupiedCapacities,
     statisticEpochTimeDistributions,
+    statisticEpochLengthDistributions,
   } = useAppState()
 
   const charts: ChartCategory[] = [
@@ -100,6 +106,16 @@ export default () => {
             <EpochTimeDistributionChart statisticEpochTimeDistributions={statisticEpochTimeDistributions} isThumbnail />
           ),
           path: '/charts/epoch-time-distribution',
+        },
+        {
+          title: `${i18n.t('statistic.epoch_length_distribution')}`,
+          chart: (
+            <EpochLengthDistributionChart
+              statisticEpochLengthDistributions={statisticEpochLengthDistributions}
+              isThumbnail
+            />
+          ),
+          path: '/charts/epoch-length-distribution',
         },
       ],
     },
@@ -207,6 +223,7 @@ export default () => {
     initStatisticBlockTimeDistribution(dispatch)
     initStatisticOccupiedCapacity(dispatch)
     initStatisticEpochTimeDistribution(dispatch)
+    initStatisticEpochLengthDistribution(dispatch)
   }, [dispatch])
 
   useEffect(() => {
@@ -225,6 +242,7 @@ export default () => {
     getStatisticBlockTimeDistribution(dispatch)
     getStatisticOccupiedCapacity(dispatch)
     getStatisticEpochTimeDistribution(dispatch)
+    getStatisticEpochLengthDistribution(dispatch)
   }, [dispatch])
 
   return (

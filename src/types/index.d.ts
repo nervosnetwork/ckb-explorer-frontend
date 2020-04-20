@@ -287,6 +287,15 @@ declare namespace State {
     epoch: string
   }
 
+  export interface StatisticEpochLengthDistributions {
+    epochLengthDistribution: string[][]
+  }
+
+  export interface StatisticEpochLengthDistribution {
+    length: string
+    epoch: string
+  }
+
   export interface Components {
     // mobile header search state
     searchBarEditable: boolean
@@ -364,6 +373,7 @@ declare namespace State {
     statisticBlockTimeDistributions: StatisticBlockTimeDistribution[]
     statisticOccupiedCapacities: StatisticOccupiedCapacity[]
     statisticEpochTimeDistributions: StatisticEpochTimeDistribution[]
+    statisticEpochLengthDistributions: StatisticEpochLengthDistribution[]
   }
 
   export interface AppState extends StatisticChartsState {
