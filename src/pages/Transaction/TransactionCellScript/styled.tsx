@@ -50,6 +50,7 @@ export const TransactionCellDetailPanel = styled.div`
   font-weight: 500;
   display: flex;
   flex-direction: row;
+
   .transaction__detail__modal__close {
     flex: 1;
     display: flex;
@@ -61,6 +62,7 @@ export const TransactionCellDetailPanel = styled.div`
       width: 16px;
       height: 16px;
     }
+
     @media (max-width: 750px) {
       padding-bottom: 15px;
       > img {
@@ -128,6 +130,7 @@ export const TransactionDetailCopyButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+
   > div {
     color: white;
     font-size: 20px;
@@ -146,6 +149,22 @@ export const TransactionDetailCopyButton = styled.div`
     > img {
       width: 14px;
       height: 14px;
+    }
+  }
+`
+
+export const TransactionCellScriptContentPanel = styled.div`
+  > div {
+    display: flex;
+    margin: 2px 0px 2px 30px;
+
+    > div:nth-child(1) {
+      min-width: ${(props: { isData: boolean }) => (props.isData ? '80px' : '120px')};
+    }
+
+    > div:nth-child(2) {
+      word-wrap: break-word;
+      word-break: break-all;
     }
   }
 `

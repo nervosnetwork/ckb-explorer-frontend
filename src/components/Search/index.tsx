@@ -21,6 +21,7 @@ enum SearchResultType {
   Transaction = 'ckb_transaction',
   Address = 'address',
   LockHash = 'lock_hash',
+  UDT = 'udt',
 }
 
 const clearSearchInput = (inputElement: any) => {
@@ -85,6 +86,8 @@ const handleSearchResult = (
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.addressHash}`)
         } else if (data.type === SearchResultType.LockHash) {
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lockHash}`)
+        } else if (data.type === SearchResultType.UDT) {
+          browserHistory.push(`/sudt/${query}`)
         }
       })
       .catch((error: AxiosError) => {

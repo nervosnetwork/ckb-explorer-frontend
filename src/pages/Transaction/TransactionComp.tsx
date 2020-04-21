@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { useAppState } from '../../contexts/providers/index'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
-import { formatConfirmation, shannonToCkb } from '../../utils/util'
+import { formatConfirmation, shannonToCkb, matchTxHash } from '../../utils/util'
 import { TransactionBlockHeightPanel, TransactionInfoItemPanel, TransactionInfoContentPanel } from './styled'
 import TransactionCellList from './TransactionCellList'
 import DecimalCapacity from '../../components/DecimalCapacity'
@@ -14,6 +14,9 @@ import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import { isMainnet } from '../../utils/chain'
+import SimpleButton from '../../components/SimpleButton'
+import HashTag from '../../components/HashTag'
+import { isScreenSmallerThan1440 } from '../../utils/screen'
 
 const TransactionBlockHeight = ({ blockNumber }: { blockNumber: number }) => {
   return (
@@ -30,11 +33,24 @@ const transactionParamsIcon = (show: boolean) => {
   return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
 }
 
-const TransactionInfoComp = ({ title, value, linkUrl }: { title: string; value: string; linkUrl?: string }) => {
+const TransactionInfoComp = ({
+  title,
+  value,
+  linkUrl,
+  tag,
+}: {
+  title?: string
+  value: string | ReactNode
+  linkUrl?: string
+  tag?: ReactNode
+}) => {
   return (
     <div className="transaction__info__content_item">
-      <span className="transaction__info__content_title">{`${title}: `}</span>
-      {linkUrl ? <Link to={linkUrl}>{value}</Link> : <span className="transaction__info__content_value">{value}</span>}
+      <div className="transaction__info__content_title">{title ? `${title}: ` : ''}</div>
+      <div className="transaction__info__content_value">
+        {linkUrl ? <Link to={linkUrl}>{value}</Link> : value}
+        {tag}
+      </div>
     </div>
   )
 }
@@ -89,15 +105,26 @@ export default () => {
     transactionInfo.push({
       title: i18n.t('transaction.cell_deps'),
       content: cellDeps.map(cellDep => {
+        const {
+          outPoint: { txHash, index },
+          depType,
+        } = cellDep
+        const hashTag = matchTxHash(txHash, index)
         return (
-          <TransactionInfoContentPanel key={`${cellDep.outPoint.txHash}${cellDep.outPoint.index}`}>
+          <TransactionInfoContentPanel key={`${txHash}${index}`}>
             <TransactionInfoComp
               title={i18n.t('transaction.out_point_tx_hash')}
-              value={cellDep.outPoint.txHash}
-              linkUrl={`/transaction/${cellDep.outPoint.txHash}`}
+              value={txHash}
+              linkUrl={`/transaction/${txHash}`}
+              tag={
+                !isScreenSmallerThan1440() && hashTag && <HashTag content={hashTag.tag} category={hashTag.category} />
+              }
             />
-            <TransactionInfoComp title={i18n.t('transaction.out_point_index')} value={cellDep.outPoint.index} />
-            <TransactionInfoComp title={i18n.t('transaction.dep_type')} value={cellDep.depType} />
+            {isScreenSmallerThan1440() && hashTag && (
+              <TransactionInfoComp value={<HashTag content={hashTag.tag} category={hashTag.category} />} />
+            )}
+            <TransactionInfoComp title={i18n.t('transaction.out_point_index')} value={index} />
+            <TransactionInfoComp title={i18n.t('transaction.dep_type')} value={depType} />
           </TransactionInfoContentPanel>
         )
       }),
@@ -132,9 +159,9 @@ export default () => {
   if (witnesses) {
     transactionInfo.push({
       title: i18n.t('transaction.witnesses'),
-      content: witnesses.map(witness => {
+      content: witnesses.map((witness, index) => {
         return (
-          <TransactionInfoContentPanel key={witness}>
+          <TransactionInfoContentPanel key={`${witness}-${index}`}>
             <TransactionInfoComp title="Witness" value={witness} />
           </TransactionInfoContentPanel>
         )
@@ -152,16 +179,10 @@ export default () => {
       <div className="transaction__overview">
         <OverviewCard items={overviewItems}>
           <div className="transaction__overview_info">
-            <div
-              className="transaction__overview_parameters"
-              role="button"
-              tabIndex={0}
-              onKeyUp={() => {}}
-              onClick={() => setShowParams(!showParams)}
-            >
+            <SimpleButton className="transaction__overview_parameters" onClick={() => setShowParams(!showParams)}>
               <div>{i18n.t('transaction.transaction_parameters')}</div>
               <img alt="transaction parameters" src={transactionParamsIcon(showParams)} />
-            </div>
+            </SimpleButton>
             {showParams &&
               transactionInfo.map(item => {
                 return (

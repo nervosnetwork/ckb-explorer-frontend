@@ -29,6 +29,7 @@ export enum PageActions {
 
   UpdateTransaction = 'updateTransaction',
   UpdateTransactionStatus = 'updateTransactionStatus',
+  UpdateTransactionScriptFetched = 'updateTransactionScriptFetched',
   UpdateTransactions = 'updateTransactions',
   UpdateTransactionsTotal = 'updateTransactionsTotal',
 
@@ -51,6 +52,11 @@ export enum PageActions {
   UpdateNervosDaoTransactionsTotal = 'updateNervosDaoTransactionsTotal',
   UpdateNervosDaoDepositors = 'updateNervosDaoDepositors',
   UpdateNervosDaoStatus = 'updateNervosDaoStatus',
+
+  UpdateUDT = 'updateUDT',
+  UpdateUDTTransactions = 'updateUDTTransactions',
+  UpdateUDTTransactionsTotal = 'updateUDTTransactionsTotal',
+  UpdateUDTStatus = 'updateUDTStatus',
 }
 
 export enum ComponentActions {
@@ -281,6 +287,14 @@ export const reducer = (
           total: payload.total,
         },
       }
+    case PageActions.UpdateTransactionScriptFetched:
+      return {
+        ...state,
+        transactionState: {
+          ...state.transactionState,
+          scriptFetched: payload.scriptFetched,
+        },
+      }
 
     case PageActions.UpdateStatistics:
       return {
@@ -380,6 +394,39 @@ export const reducer = (
         ...state,
         nervosDaoState: {
           ...state.nervosDaoState,
+          status: payload.status,
+        },
+      }
+
+    case PageActions.UpdateUDT:
+      return {
+        ...state,
+        udtState: {
+          ...state.udtState,
+          udt: payload.udt,
+        },
+      }
+    case PageActions.UpdateUDTTransactions:
+      return {
+        ...state,
+        udtState: {
+          ...state.udtState,
+          transactions: payload.transactions,
+        },
+      }
+    case PageActions.UpdateUDTTransactionsTotal:
+      return {
+        ...state,
+        udtState: {
+          ...state.udtState,
+          total: payload.total,
+        },
+      }
+    case PageActions.UpdateUDTStatus:
+      return {
+        ...state,
+        udtState: {
+          ...state.udtState,
           status: payload.status,
         },
       }

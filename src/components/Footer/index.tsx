@@ -1,135 +1,196 @@
-import React, { useMemo } from 'react'
-import { Link } from 'react-router-dom'
-import LogoIcon from '../../assets/ckb_footer_logo.png'
-import AboutIcon from '../../assets/footer_about.png'
-import GithubIcon from '../../assets/footer_github.png'
-import WhitepaperIcon from '../../assets/footer_whitepaper.png'
-import FaucetIcon from '../../assets/footer_faucet.png'
-import DocsIcon from '../../assets/footer_docs.png'
+import React, { useMemo, useState } from 'react'
 import TwitterIcon from '../../assets/footer_twitter.png'
-import BlogIcon from '../../assets/footer_blog.png'
+import TwitterHoverIcon from '../../assets/footer_twitter_hover.png'
+import TwitterAggronHoverIcon from '../../assets/footer_twitter_aggron_hover.png'
+import MediumIcon from '../../assets/footer_medium.png'
+import MediumHoverIcon from '../../assets/footer_medium_hover.png'
+import MediumAggronHoverIcon from '../../assets/footer_medium_aggron_hover.png'
 import TelegramIcon from '../../assets/footer_telegram.png'
+import TelegramHoverIcon from '../../assets/footer_telegram_hover.png'
+import TelegramAggronHoverIcon from '../../assets/footer_telegram_aggron_hover.png'
 import RedditIcon from '../../assets/footer_reddit.png'
+import RedditHoverIcon from '../../assets/footer_reddit_hover.png'
+import RedditAggronHoverIcon from '../../assets/footer_reddit_aggron_hover.png'
 import YoutubeIcon from '../../assets/footer_youtube.png'
+import YoutubeHoverIcon from '../../assets/footer_youtube_hover.png'
+import YoutubeAggronHoverIcon from '../../assets/footer_youtube_aggron_hover.png'
 import ForumIcon from '../../assets/footer_forum.png'
+import ForumHoverIcon from '../../assets/footer_forum_hover.png'
+import ForumAggronHoverIcon from '../../assets/footer_forum_aggron_hover.png'
 import { getCurrentYear } from '../../utils/date'
-import i18n from '../../utils/i18n'
-import { FooterDiv, FooterItemPanel } from './styled'
+import { FooterMenuPanel, FooterItemPanel, FooterImageItemPanel, FooterPanel } from './styled'
+import { useTranslation } from 'react-i18next'
+import { isMobile } from '../../utils/screen'
+import { SUDT_EMAIL_SUBJECT, SUDT_EMAIL_BODY } from '../../utils/const'
+import { isMainnet } from '../../utils/chain'
 
-const FooterItem = (link: any) => {
+interface FooterLinkItem {
+  label: string
+  url: string
+  icon?: any
+  hoverIcon?: any
+}
+
+interface FooterLink {
+  name: string
+  items: FooterLinkItem[]
+}
+
+const FooterItem = ({ item }: { item: FooterLinkItem }) => {
+  const { label, url } = item
   return (
-    <FooterItemPanel key={link.label} href={link.url} rel="noopener noreferrer" target="_blank">
-      <div>
-        <img src={link.icon} alt="orgItemLogo" />
-      </div>
-      <div>{link.label}</div>
+    <FooterItemPanel key={label} href={url} rel="noopener noreferrer" target="_blank">
+      {item.label}
     </FooterItemPanel>
   )
 }
 
+const FooterImageItem = ({ item }: { item: FooterLinkItem }) => {
+  const { label, url, icon, hoverIcon } = item
+  const [isHover, setIsHover] = useState(false)
+  return (
+    <FooterImageItemPanel
+      key={label}
+      href={url}
+      rel="noopener noreferrer"
+      target="_blank"
+      onMouseOver={() => {
+        setIsHover(true)
+      }}
+      onMouseLeave={() => {
+        setIsHover(false)
+      }}
+    >
+      <img src={isHover ? hoverIcon : icon} alt="footer icon" />
+      <span>{label}</span>
+    </FooterImageItemPanel>
+  )
+}
+
 export default () => {
-  const Footers = [
-    {
-      name: i18n.t('footer.nervos_foundation'),
-      items: [
-        {
-          label: i18n.t('footer.about_us'),
-          icon: AboutIcon,
-          url: 'https://www.nervos.org/',
-        },
-      ],
-    },
-    {
-      name: i18n.t('footer.developer'),
-      items: [
-        {
-          label: i18n.t('footer.docs'),
-          icon: DocsIcon,
-          url: 'https://docs.nervos.org',
-        },
-        {
-          label: i18n.t('footer.gitHub'),
-          icon: GithubIcon,
-          url: 'https://github.com/nervosnetwork',
-        },
-        {
-          label: i18n.t('footer.whitepaper'),
-          icon: WhitepaperIcon,
-          url: 'https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0002-ckb/0002-ckb.md',
-        },
-        {
-          label: i18n.t('footer.faucet'),
-          icon: FaucetIcon,
-          url: 'https://faucet.nervos.org/',
-        },
-      ],
-    },
-    {
-      name: i18n.t('footer.community'),
-      items: [
-        {
-          label: i18n.t('footer.twitter'),
-          icon: TwitterIcon,
-          url: 'https://twitter.com/nervosnetwork',
-        },
-        {
-          label: i18n.t('footer.blog'),
-          icon: BlogIcon,
-          url: 'https://medium.com/nervosnetwork',
-        },
-        {
-          label: i18n.t('footer.telegram'),
-          icon: TelegramIcon,
-          url: 'https://t.me/nervosnetwork',
-        },
-        {
-          label: i18n.t('footer.reddit'),
-          icon: RedditIcon,
-          url: 'https://www.reddit.com/r/NervosNetwork/',
-        },
-        {
-          label: i18n.t('footer.youtube'),
-          icon: YoutubeIcon,
-          url: 'https://www.youtube.com/channel/UCONuJGdMzUY0Y6jrPBOzH7A',
-        },
-        {
-          label: i18n.t('footer.forum'),
-          icon: ForumIcon,
-          url: 'https://talk.nervos.org/',
-        },
-      ],
-    },
-  ]
-  return useMemo(() => {
-    return (
-      <FooterDiv>
-        <div className="footer__top">
-          <div className="container">
-            <div className="footer__top__logo">
-              <Link to="/">
-                <img src={LogoIcon} alt="logo" />
-              </Link>
-            </div>
-            <div className="footer__top__items">
-              <div>
-                {Footers.map((item: any) => {
-                  return (
-                    <div key={item.name} className="footer__top__item">
-                      <div>{item.name}</div>
-                      <div>
-                        {item.items.map((link: any) => {
-                          return FooterItem(link)
-                        })}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          </div>
+  const [t] = useTranslation()
+  const Footers: FooterLink[] = useMemo(
+    () => [
+      {
+        name: t('footer.nervos_foundation'),
+        items: [
+          {
+            label: t('footer.about_us'),
+            url: 'https://www.nervos.org/',
+          },
+        ],
+      },
+      {
+        name: t('footer.developer'),
+        items: [
+          {
+            label: t('footer.docs'),
+            url: 'https://docs.nervos.org',
+          },
+          {
+            label: t('footer.gitHub'),
+            url: 'https://github.com/nervosnetwork',
+          },
+          {
+            label: t('footer.whitepaper'),
+            url: 'https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0002-ckb/0002-ckb.md',
+          },
+          {
+            label: t('footer.faucet'),
+            url: 'https://faucet.nervos.org/',
+          },
+          {
+            label: t('footer.sudt_submit'),
+            url: `mailto:asset-info-submit@nervos.org?subject=${SUDT_EMAIL_SUBJECT}&body=${SUDT_EMAIL_BODY}`,
+          },
+        ],
+      },
+      {
+        name: t('footer.community'),
+        items: [
+          {
+            label: t('footer.twitter'),
+            icon: TwitterIcon,
+            hoverIcon: isMainnet() ? TwitterHoverIcon : TwitterAggronHoverIcon,
+            url: 'https://twitter.com/nervosnetwork',
+          },
+          {
+            label: t('footer.blog'),
+            icon: MediumIcon,
+            hoverIcon: isMainnet() ? MediumHoverIcon : MediumAggronHoverIcon,
+            url: 'https://medium.com/nervosnetwork',
+          },
+          {
+            label: t('footer.telegram'),
+            icon: TelegramIcon,
+            hoverIcon: isMainnet() ? TelegramHoverIcon : TelegramAggronHoverIcon,
+            url: 'https://t.me/nervosnetwork',
+          },
+          {
+            label: t('footer.reddit'),
+            icon: RedditIcon,
+            hoverIcon: isMainnet() ? RedditHoverIcon : RedditAggronHoverIcon,
+            url: 'https://www.reddit.com/r/NervosNetwork/',
+          },
+          {
+            label: t('footer.youtube'),
+            icon: YoutubeIcon,
+            hoverIcon: isMainnet() ? YoutubeHoverIcon : YoutubeAggronHoverIcon,
+            url: 'https://www.youtube.com/channel/UCONuJGdMzUY0Y6jrPBOzH7A',
+          },
+          {
+            label: t('footer.forum'),
+            icon: ForumIcon,
+            hoverIcon: isMainnet() ? ForumHoverIcon : ForumAggronHoverIcon,
+            url: 'https://talk.nervos.org/',
+          },
+        ],
+      },
+    ],
+    [t],
+  )
+  return (
+    <FooterPanel>
+      <FooterMenuPanel>
+        <div className="footer__foundation">
+          <div className="footer__title">{Footers[0].name}</div>
+          {Footers[0].items.map((item: any) => (
+            <FooterItem item={item} key={item.label} />
+          ))}
         </div>
-        <div className="footer__copyright">{`Copyright © ${getCurrentYear()} Nervos Foundation. All Rights Reserved.`}</div>
-      </FooterDiv>
-    )
-  }, [Footers])
+        <div className="footer__developer">
+          <div className="footer__title">{Footers[1].name}</div>
+          {Footers[1].items.map((item: any) => (
+            <FooterItem item={item} key={item.label} />
+          ))}
+        </div>
+        <div className="footer__community">
+          {isMobile() ? (
+            <div>
+              {Footers[2].items.map((item: any) => (
+                <FooterImageItem item={item} key={item.label} />
+              ))}
+            </div>
+          ) : (
+            <>
+              <div>
+                {Footers[2].items.slice(0, 3).map((item: any) => (
+                  <FooterImageItem item={item} key={item.label} />
+                ))}
+              </div>
+              <div>
+                {Footers[2].items.slice(3).map((item: any) => (
+                  <FooterImageItem item={item} key={item.label} />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </FooterMenuPanel>
+      <div className="footer__copyright">
+        <span>{`Copyright © ${getCurrentYear()} Nervos Foundation. `}</span>
+        <span>{`All Rights Reserved.`}</span>
+      </div>
+    </FooterPanel>
+  )
 }

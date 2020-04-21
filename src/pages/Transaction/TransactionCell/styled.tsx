@@ -60,6 +60,7 @@ export const TransactionCellHashPanel = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  font-size: 16px;
 
   @media (max-width: 750px) {
     text-align: left;
@@ -95,6 +96,7 @@ export const TransactionCellDetailPanel = styled.div`
   @media (max-width: 750px) {
     margin-top: 12px;
   }
+
   .transaction__cell__detail__panel {
     display: flex;
     flex-direction: row;
@@ -107,30 +109,32 @@ export const TransactionCellDetailPanel = styled.div`
     > img {
       width: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '16px' : '18px')};
       height: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '20px' : '14px')};
+
       @media (max-width: 750px) {
         width: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '9.6px' : '12px')};
         height: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '12px' : '9px')};
       }
     }
   }
+
   .transaction__detail__cell_info {
     font-size: 16px;
 
     .transaction__cell__info__content {
       color: rgba(0, 0, 0, 0.6);
       cursor: pointer;
+
+      &:hover {
+        color: ${props => props.theme.primary};
+      }
     }
+
     .transaction__cell__info__separate {
       background: rgba(0, 0, 0, 0.6);
       width: 100%;
       height: 1px;
-    }
 
-    &:hover {
-      .transaction__cell__info__content {
-        color: ${props => props.theme.primary};
-      }
-      .transaction__cell__info__separate {
+      &:hover {
         background: ${props => props.theme.primary};
       }
     }
@@ -143,6 +147,7 @@ export const TransactionCellDetailModal = styled.div`
   padding: 20px 40px;
   border: 1px solid #888;
   width: 75%;
+
   @media (max-width: 750px) {
     width: 90%;
     margin-top: 40%;

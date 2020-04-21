@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 
 export const BlockListPanel = styled.div`
-  width: 100%;
-
   @media (min-width: 750px) {
     margin-top: 25px;
     margin-bottom: 40px;
@@ -66,10 +64,6 @@ export const HighLightValue = styled.div`
   color: ${props => props.theme.primary};
   font-size: 13px;
   height: 16px;
-
-  span {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-  }
 `
 
 export const BlockRewardContainer = styled.div`

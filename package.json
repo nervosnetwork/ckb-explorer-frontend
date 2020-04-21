@@ -47,11 +47,17 @@
     "eslint-plugin-react": "7.19.0",
     "eslint-plugin-react-hooks": "3.0.0",
     "husky": "^4.2.3",
-    "prettier": "2.0.4"
+    "prettier": "2.0.0",
+    "stylelint": "^13.3.0",
+    "stylelint-config-recommended": "^3.0.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.10.0"
   },
   "scripts": {
     "start": "env-cmd -f ./.env.develop react-scripts start",
     "lint": "eslint src/**/*.{ts,tsx} --fix",
+    "lint:css": "stylelint src/**/*.tsx",
     "build": "env-cmd -f ./.env.production react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject"
@@ -74,7 +80,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint"
+      "pre-commit": "yarn lint && yarn lint:css"
     }
   },
   "browserslist": [
