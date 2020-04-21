@@ -1,7 +1,6 @@
-import React from 'react'
 import styled from 'styled-components'
 
-const TitleCardPanel = styled.div`
+export const TitleCardPanel = styled.div`
   width: 100%;
   background-color: #ffffff;
   height: 50px;
@@ -31,12 +30,3 @@ const TitleCardPanel = styled.div`
     height: 1px;
   }
 `
-
-export default ({ title }: { title: string }) => {
-  return (
-    <TitleCardPanel>
-      <div className="title__card__content">{title}</div>
-      <div className="title__card__separate" />
-    </TitleCardPanel>
-  )
-}
