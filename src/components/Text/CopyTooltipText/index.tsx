@@ -1,9 +1,9 @@
 import React from 'react'
-import i18n from '../../utils/i18n'
-import { copyElementValue } from '../../utils/util'
-import { AppActions } from '../../contexts/providers/reducer'
-import { useDispatch } from '../../contexts/providers'
-import SimpleButton from '../SimpleButton'
+import i18n from '../../../utils/i18n'
+import { copyElementValue } from '../../../utils/util'
+import { AppActions } from '../../../contexts/providers/reducer'
+import { useDispatch } from '../../../contexts/providers'
+import SimpleButton from '../../SimpleButton'
 
 export default ({ content }: { content: string }) => {
   const dispatch = useDispatch()

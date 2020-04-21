@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const PageDiv = styled.div`
+const PagePanel = styled.div`
   width: 100%;
   min-height: 100%;
   background-color: #f9f9f9;
@@ -12,9 +12,5 @@ const PageDiv = styled.div`
 `
 
 export default ({ children, style }: { children: any; style?: object }) => {
-  return (
-    <PageDiv className="page" style={style}>
-      {children}
-    </PageDiv>
-  )
+  return <PagePanel style={style}>{children}</PagePanel>
 }
