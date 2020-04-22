@@ -1,5 +1,5 @@
-import { handleAxis, parseInterval, handleGroupAxis } from '../utils/chart'
 import BigNumber from 'bignumber.js'
+import { handleAxis, parseInterval, handleGroupAxis } from '../../utils/chart'
 
 describe('Chart tests', () => {
   it('handleAxis', async () => {

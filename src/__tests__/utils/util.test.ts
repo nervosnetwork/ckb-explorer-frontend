@@ -1,4 +1,4 @@
-import { toCamelcase, shannonToCkb, shannonToCkbDecimal } from '../utils/util'
+import { toCamelcase, shannonToCkb, shannonToCkbDecimal } from '../../utils/util'
 
 describe('Number methods tests', () => {
   it('pasre simple object to camelcase', async () => {
@@ -11,7 +11,10 @@ describe('Number methods tests', () => {
       data_value: 'world',
     }
     const result: Data | null = toCamelcase(data)
-    expect(result).toStrictEqual({ dataName: 'hello', dataValue: 'world' })
+    expect(result).toStrictEqual({
+      dataName: 'hello',
+      dataValue: 'world',
+    })
   })
 
   it('pasre complex object to camelcase', async () => {
@@ -32,7 +35,10 @@ describe('Number methods tests', () => {
     const result: Data | null = toCamelcase(data)
     expect(result).toStrictEqual({
       dataName: 'hello',
-      dataValue: { aValue: 'a', bValue: 'b' },
+      dataValue: {
+        aValue: 'a',
+        bValue: 'b',
+      },
     })
   })
 

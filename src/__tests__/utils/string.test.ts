@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import {
   parsePageNumber,
   startEndEllipsis,
@@ -6,8 +7,7 @@ import {
   handleBigNumber,
   parseFloorDecimal,
   handleBigNumberFloor,
-} from '../utils/string'
-import BigNumber from 'bignumber.js'
+} from '../../utils/string'
 
 describe('String methods tests', () => {
   it('parse valid number', async () => {
