@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@types/echarts": "4.4.5",
+    "@types/enzyme": "^3.10.5",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "25.2.1",
     "@types/node": "13.11.0",
     "@types/react": "16.9.32",
@@ -21,8 +23,13 @@
     "echarts": "4.7.0",
     "echarts-for-react": "^2.0.15-beta.1",
     "env-cmd": "10.1.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.4.4",
     "history": "4.10.1",
     "i18next": "19.3.4",
+    "jest-environment-enzyme": "^7.1.2",
+    "jest-enzyme": "^7.1.2",
     "query-string": "6.12.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -32,7 +39,7 @@
     "react-router-dom": "5.1.2",
     "react-scripts": "3.4.1",
     "styled-components": "5.0.1",
-    "ts-jest": "25.3.1",
+    "ts-jest": "25.4.0",
     "typescript": "3.8.3"
   },
   "devDependencies": {
@@ -59,21 +66,8 @@
     "lint": "eslint src/**/*.{ts,tsx} --fix",
     "lint:css": "stylelint src/**/*.tsx",
     "build": "env-cmd -f ./.env.production react-scripts build",
-    "test": "jest",
+    "test": "react-scripts test --env=jsdom --watchAll=false",
     "eject": "react-scripts eject"
-  },
-  "jest": {
-    "displayName": "ckb-explorer-frontend",
-    "testRegex": "(/tests/.*.(test|spec))\\.(ts?|js?)$",
-    "transform": {
-      "^.+\\.ts?$": "ts-jest"
-    },
-    "moduleFileExtensions": [
-      "ts",
-      "js",
-      "json",
-      "node"
-    ]
   },
   "eslintConfig": {
     "extends": "react-app"

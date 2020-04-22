@@ -5,7 +5,7 @@ import {
   parseIndicator,
   parseEpochNumber,
   parseUDTAmount,
-} from '../src/utils/number'
+} from '../utils/number'
 
 describe('Number methods tests', () => {
   it('local number string', async () => {

@@ -1,4 +1,4 @@
-import { formatData, parseTime, parseTimeNoSecond, parseDateNoTime, parseDiffDate } from '../src/utils/date'
+import { formatData, parseTime, parseTimeNoSecond, parseDateNoTime, parseDiffDate } from '../utils/date'
 
 describe('Date methods tests', () => {
   it('format date data', async () => {

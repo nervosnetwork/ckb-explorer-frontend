@@ -1,4 +1,4 @@
-import { toCamelcase, shannonToCkb, shannonToCkbDecimal } from '../src/utils/util'
+import { toCamelcase, shannonToCkb, shannonToCkbDecimal } from '../utils/util'
 
 describe('Number methods tests', () => {
   it('pasre simple object to camelcase', async () => {
