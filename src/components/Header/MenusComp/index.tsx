@@ -52,23 +52,33 @@ const MenuItemLink = ({ menu }: { menu: any }) => {
 export default () => {
   return isMobile() ? (
     <MobileMenuItem>
-      {menuDataList().map(menu => {
-        return <MenuItemLink menu={menu} key={menu.name} />
-      })}
+      {menuDataList()
+        .filter(menu => menu.name !== undefined)
+        .map(menu => {
+          return <MenuItemLink menu={menu} key={menu.name} />
+        })}
     </MobileMenuItem>
   ) : (
     <HeaderMenuPanel>
-      {menuDataList().map(menu => {
-        return menu.type === LinkType.Inner ? (
-          <Link className="header__menus__item" to={menu.url} key={menu.name}>
-            {menu.name}
-          </Link>
-        ) : (
-          <a className="header__menus__item" href={menu.url} target="_blank" rel="noopener noreferrer" key={menu.name}>
-            {menu.name}
-          </a>
-        )
-      })}
+      {menuDataList()
+        .filter(menu => menu.name !== undefined)
+        .map(menu => {
+          return menu.type === LinkType.Inner ? (
+            <Link className="header__menus__item" to={menu.url} key={menu.name}>
+              {menu.name}
+            </Link>
+          ) : (
+            <a
+              className="header__menus__item"
+              href={menu.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              key={menu.name}
+            >
+              {menu.name}
+            </a>
+          )
+        })}
     </HeaderMenuPanel>
   )
 }

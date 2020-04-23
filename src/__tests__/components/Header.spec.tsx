@@ -1,13 +1,19 @@
 import React, { ReactElement } from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
-import ChainType from '../../components/Dropdown/ChainType'
+import Header from '../../components/Header'
+import { HeaderPanel } from '../../components/Header/styled'
+import { BrowserRouter } from 'react-router-dom'
 
-describe('ChainType Dropdown Component', () => {
+describe('Header Component', () => {
   let component: ReactElement
 
   beforeAll(() => {
-    component = <ChainType setShow={() => {}} top={0} left={0} />
+    component = (
+      <BrowserRouter>
+        <Header />
+      </BrowserRouter>
+    )
   })
 
   it('shallow renders', () => {
@@ -20,7 +26,6 @@ describe('ChainType Dropdown Component', () => {
     const wrapper = shallow(component)
 
     expect(wrapper).toBeDefined()
-    expect(wrapper.find('.chain__type__normal')).toHaveLength(1)
-    expect(wrapper.find('.chain__type__selected')).toHaveLength(1)
+    expect(wrapper.find(Header)).toHaveLength(1)
   })
 })

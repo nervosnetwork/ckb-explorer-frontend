@@ -134,6 +134,6 @@ const LanguageMenu = () => {
   )
 }
 
-export const LanguageComp = () => {
+export default () => {
   return isMobile() ? <LanguageMenu /> : <LanguageDropdown />
 }

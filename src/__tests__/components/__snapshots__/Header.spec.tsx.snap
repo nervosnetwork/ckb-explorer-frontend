@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header Component shallow renders 1`] = `
+<div
+  className="sc-AxjAm PRUsc"
+>
+  <a
+    className="sc-AxirZ fdnljR"
+    href="/"
+    onClick={[Function]}
+  >
+    <img
+      alt="logo"
+      src="ckb_logo.png"
+    />
+  </a>
+  <div
+    className="sc-AxheI gjDwdY"
+  >
+    <a
+      className="header__menus__item"
+      href="/charts"
+      onClick={[Function]}
+    >
+      Charts
+    </a>
+    <a
+      className="header__menus__item"
+      href="/nervosdao"
+      onClick={[Function]}
+    >
+      Nervos DAO
+    </a>
+  </div>
+  <div
+    className="sc-AxiKw cjyCOd"
+  />
+  <div
+    className="sc-fzokOt htmWgx"
+    id="header__blockchain__panel"
+    onMouseLeave={[Function]}
+  >
+    <div
+      className="sc-fznKkj kqtOvC header__blockchain__flag"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      onMouseOver={[Function]}
+      role="button"
+      tabIndex={-1}
+    >
+      <div
+        className="header__blockchain__content_panel"
+      >
+        <div
+          className="header__blockchain__content"
+        >
+          LINA
+        </div>
+        <img
+          alt="dropdown icon"
+          src="white_dropdown.png"
+        />
+      </div>
+      <div
+        className="header__blockchain__node__version"
+      >
+        
+      </div>
+    </div>
+  </div>
+  <div
+    className="sc-fzplWN ddkuTa"
+    id="header__language__panel"
+    onMouseLeave={[Function]}
+  >
+    <div
+      className="sc-fznKkj kqtOvC header__language__flag"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      onMouseOver={[Function]}
+      role="button"
+      tabIndex={-1}
+    >
+      <div
+        className="header__language__content_panel"
+      >
+        <div
+          className="header__language__content"
+        >
+          简体中文
+        </div>
+        <img
+          alt="dropdown icon"
+          src="white_dropdown.png"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

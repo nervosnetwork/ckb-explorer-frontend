@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer'
 import Language, { languageText } from '../../components/Dropdown/Language'
 import i18n from '../../utils/i18n'
 
-describe('Content Component', () => {
+describe('Language Dropdown Component', () => {
   let component: ReactElement
 
   beforeAll(() => {

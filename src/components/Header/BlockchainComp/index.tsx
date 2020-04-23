@@ -110,6 +110,6 @@ const BlockchainMenu = () => {
   )
 }
 
-export const BlockchainComp = () => {
+export default () => {
   return isMobile() ? <BlockchainMenu /> : <BlockchainDropdown />
 }

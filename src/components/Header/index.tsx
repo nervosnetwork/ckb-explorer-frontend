@@ -9,8 +9,8 @@ import { useAppState, useDispatch } from '../../contexts/providers/index'
 import { ComponentActions } from '../../contexts/providers/reducer'
 import MenusComp from './MenusComp'
 import { SearchComp } from './SearchComp'
-import { LanguageComp } from './LanguageComp'
-import { BlockchainComp } from './BlockchainComp'
+import LanguageComp from './LanguageComp'
+import BlockchainComp from './BlockchainComp'
 
 const LogoComp = () => {
   return (
