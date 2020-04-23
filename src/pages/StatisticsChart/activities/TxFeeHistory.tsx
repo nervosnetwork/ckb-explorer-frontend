@@ -61,8 +61,9 @@ const getOption = (statisticTxFeeHistories: State.StatisticTransactionFee[], isT
     yAxis: [
       {
         position: 'left',
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.tx_fee'),
-        type: 'value',
+        name: isMobile() || isThumbnail ? '' : `${i18n.t('statistic.tx_fee')} ${i18n.t('statistic.log')}`,
+        type: 'log',
+        logBase: 10,
         scale: true,
         axisLine: {
           lineStyle: {
