@@ -68,8 +68,26 @@
     "lint": "eslint src/**/*.{ts,tsx} --fix",
     "lint:css": "stylelint src/**/*.tsx",
     "build": "env-cmd -f ./.env.production react-scripts build",
-    "test": "react-scripts test --watchAll=false",
+    "test": "react-scripts test --watchAll=false --coverage",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/path/to/dir/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    },
+    "coverageReporters": [
+      "text"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
