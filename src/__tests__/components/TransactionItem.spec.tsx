@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
 import 'jest-styled-components'
+import * as timezoneMock from 'timezone-mock'
 import TransactionItem from '../../components/TransactionItem'
 import { toCamelcase } from '../../utils/util'
 import { BrowserRouter } from 'react-router-dom'
@@ -99,6 +100,8 @@ describe('TransactionItem Component', () => {
   let component: ReactElement
 
   beforeAll(() => {
+    timezoneMock.register('UTC')
+
     const transaction = toCamelcase(tx) as State.Transaction
     component = (
       <BrowserRouter>
