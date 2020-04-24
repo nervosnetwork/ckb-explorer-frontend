@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Search Component shallow renders 1`] = `
+exports[`DaoSearch Component shallow renders 1`] = `
 .c0 {
   width: 600px;
   height: 40px;

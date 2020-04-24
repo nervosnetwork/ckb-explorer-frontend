@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer'
 import 'jest-styled-components'
 import SimpleButton from '../../components/SimpleButton'
 
-describe('Search Component', () => {
+describe('SimpleButton Component', () => {
   let component: ReactElement
 
   beforeAll(() => {

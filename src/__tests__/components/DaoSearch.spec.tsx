@@ -5,7 +5,7 @@ import 'jest-styled-components'
 import DaoSearch from '../../components/Search/DaoSearch'
 import { DaoSearchPanel } from '../../components/Search/DaoSearch/styled'
 
-describe('Search Component', () => {
+describe('DaoSearch Component', () => {
   let component: ReactElement
 
   beforeAll(() => {

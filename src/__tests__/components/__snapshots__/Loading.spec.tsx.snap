@@ -10,3 +10,14 @@ exports[`Loading Component shallow renders 1`] = `
   />
 </div>
 `;
+
+exports[`Loading Component shallow renders 2`] = `
+<div
+  className="sc-AxirZ cqtgco"
+>
+  <img
+    alt="loading"
+    src="loading.gif"
+  />
+</div>
+`;

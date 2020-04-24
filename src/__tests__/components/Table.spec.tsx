@@ -6,7 +6,7 @@ import { TableTitleItem, TableContentItem, TableMinerContentItem } from '../../c
 import { TableTitleRowItem, TableContentRowItem } from '../../components/Table/styled'
 import { BrowserRouter } from 'react-router-dom'
 
-describe('Pagination Component', () => {
+describe('Table Component', () => {
   let tableTitleItem: ReactElement
   let tableContentItem: ReactElement
   let tableMinerContentItem: ReactElement

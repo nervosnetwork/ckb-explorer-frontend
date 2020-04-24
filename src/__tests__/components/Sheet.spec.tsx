@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer'
 import 'jest-styled-components'
 import Sheet from '../../components/Sheet'
 
-describe('Search Component', () => {
+describe('Sheet Component', () => {
   let component: ReactElement
 
   beforeAll(() => {
