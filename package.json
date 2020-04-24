@@ -73,26 +73,7 @@
     "eject": "react-scripts eject"
   },
   "jest": {
-    "displayName": "Unit & UI Test",
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!<rootDir>/node_modules/",
-      "!<rootDir>/path/to/dir/"
-    ],
-    "coverageThreshold": {
-      "./src/components/**/*.tsx": {
-        "branches": 40,
-        "functions": 10,
-        "lines": 10,
-        "statements": 40
-      },
-      "./src/utils/**/*.ts": {
-        "branches": 40,
-        "functions": 10,
-        "lines": 10,
-        "statements": 40
-      }
-    }
+    "displayName": "Unit & UI Test"
   },
   "eslintConfig": {
     "extends": "react-app"
