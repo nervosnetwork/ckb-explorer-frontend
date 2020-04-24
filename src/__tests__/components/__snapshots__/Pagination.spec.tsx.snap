@@ -1,0 +1,369 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page Component shallow renders 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  width: 100%;
+  height: auto;
+  background: white;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  font-size: 14px;
+  text-align: center;
+  color: #000000;
+  line-height: 40px;
+}
+
+.c1 > button {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: #f5f5f5;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+}
+
+.c1 > button:hover {
+  font-weight: 600;
+}
+
+.c1 > button:active {
+  color: white;
+}
+
+.c1 .pagination__first {
+  color: #888888;
+  pointer-events: none;
+}
+
+.c1 .pagination__left__button {
+  margin-left: 20px;
+  background-image: url(pagination_black_left.png);
+  background-position: center;
+  background-size: 12px 20px;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.c1 .pagination__left__button:active {
+  background-image: url(pagination_white_left.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px 20px;
+}
+
+.c1 .pagination__middle__label {
+  height: 40px;
+  background: #f5f5f5;
+  border-radius: 6px;
+  margin-left: 20px;
+  padding: 0 12px;
+}
+
+.c1 .pagination__right__button {
+  margin-left: 20px;
+  background-image: url(pagination_black_right.png);
+  background-position: center;
+  background-size: 12px 20px;
+  background-repeat: no-repeat;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.c1 .pagination__right__button:active {
+  background-image: url(pagination_white_right.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px 20px;
+}
+
+.c1 .pagination__last {
+  margin-left: 20px;
+  color: #000000;
+  pointer-events: auto;
+}
+
+.c2 {
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 14px;
+  color: #000000;
+}
+
+.c2 .pagination__input__page {
+  width: 120px;
+  height: 40px;
+  border: none;
+  border-radius: 6px;
+  background-color: #f5f5f5;
+  color: grey;
+  outline: none;
+  margin-right: 20px;
+  padding-left: 10px;
+}
+
+.c2 .pagination__input__page:focus + .pagination__goto__page {
+  font-weight: 600;
+}
+
+.c2 > button {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: #f5f5f5;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+}
+
+.c2 > button:active {
+  color: white;
+}
+
+.c2 .pagination__goto__page {
+  margin-right: 80px;
+}
+
+.c2 .pagination__page {
+  margin-right: 20px;
+}
+
+@media (min-width:750px) {
+  .c0 {
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+}
+
+@media (max-width:750px) {
+  .c0 {
+    height: 50px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px 0 #dfdfdf;
+  }
+}
+
+@media (min-width:750px) {
+  .c1 {
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width:750px) {
+  .c1 {
+    width: 60%;
+    height: 50px;
+  }
+
+  .c1 > button {
+    font-size: 8px;
+    padding: 0 5px;
+    height: 20px;
+    border-radius: 3px;
+  }
+
+  .c1 .pagination__left__button {
+    margin-top: 15px;
+    margin-left: 20px;
+    background-image: url(pagination_green_left.png);
+    background-position: center;
+    background-size: 6px 10px;
+    background-repeat: no-repeat;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+  }
+
+  .c1 .pagination__first {
+    display: none;
+  }
+
+  .c1 .pagination__last {
+    display: none;
+  }
+
+  .c1 .pagination__middle__label {
+    line-height: 16px;
+    font-size: 12px;
+    background: #ffffff;
+    width: auto;
+    height: 16px;
+    margin-top: 17px;
+    margin-left: 10px;
+    -webkit-order: 1;
+    -ms-flex-order: 1;
+    order: 1;
+  }
+
+  .c1 .pagination__right__button {
+    margin-top: 15px;
+    margin-left: 10px;
+    background-image: url(pagination_green_right.png);
+    background-position: center;
+    background-size: 6px 10px;
+    background-repeat: no-repeat;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+  }
+}
+
+@media (min-width:750px) {
+  .c2 {
+    width: 452px;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 10px 0px 10px 80px;
+  }
+}
+
+@media (max-width:750px) {
+  .c2 {
+    height: 50px;
+  }
+}
+
+@media (max-width:750px) {
+  .c2 .pagination__input__page {
+    width: 60px;
+    height: 20px;
+    margin-top: 15px;
+    margin-right: 10px;
+    font-size: 12px;
+    border-radius: 3px;
+  }
+}
+
+@media (max-width:750px) {
+  .c2 > button {
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 3px;
+  }
+}
+
+@media (max-width:750px) {
+  .c2 .pagination__goto__page {
+    width: 40px;
+    margin-top: 15px;
+    margin-right: 20px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width:750px) {
+  .c2 .pagination__page {
+    display: none;
+  }
+}
+
+<div
+  className="c0"
+>
+  <div
+    className="c1"
+  >
+    <button
+      onClick={[Function]}
+    >
+      First
+    </button>
+    <button
+      className="pagination__left__button"
+      onClick={[Function]}
+      type="button"
+    />
+    <div
+      className="pagination__middle__label"
+    >
+      Page 1 of 10 
+    </div>
+    <button
+      className="pagination__right__button"
+      onClick={[Function]}
+      type="button"
+    />
+    <button
+      className="pagination__last"
+      onClick={[Function]}
+      type="button"
+    >
+      Last
+    </button>
+  </div>
+  <div
+    className="c2"
+  >
+    <div
+      className="pagination__page"
+    >
+      Page
+    </div>
+    <input
+      className="pagination__input__page"
+      onChange={[Function]}
+      onKeyUp={[Function]}
+      pattern="[0-9]*"
+      type="text"
+      value={2}
+    />
+    <button
+      className="pagination__goto__page"
+      onClick={[Function]}
+      type="button"
+    >
+      Goto
+    </button>
+  </div>
+</div>
+`;

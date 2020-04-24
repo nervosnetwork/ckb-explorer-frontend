@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
+import { Router, Route, Redirect, Switch } from 'react-router-dom'
 import browserHistory from './history'
 
 import Page from '../components/Page'
@@ -233,7 +233,7 @@ export default () => {
   })
 
   return (
-    <Router>
+    <Router history={browserHistory}>
       <Route
         render={(props: any) => {
           return (

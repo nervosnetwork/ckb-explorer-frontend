@@ -1,18 +1,14 @@
 import React, { ReactElement } from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
-import Header from '../../components/Header'
-import { BrowserRouter } from 'react-router-dom'
+import Loading from '../../components/Loading'
+import { LoadingPanel } from '../../components/Loading/styled'
 
-describe('Header Component', () => {
+describe('Loading Component', () => {
   let component: ReactElement
 
   beforeAll(() => {
-    component = (
-      <BrowserRouter>
-        <Header />
-      </BrowserRouter>
-    )
+    component = <Loading show />
   })
 
   it('shallow renders', () => {
@@ -25,6 +21,6 @@ describe('Header Component', () => {
     const wrapper = shallow(component)
 
     expect(wrapper).toBeDefined()
-    expect(wrapper.find(Header)).toHaveLength(1)
+    expect(wrapper.find(LoadingPanel).children().length).toBe(1)
   })
 })

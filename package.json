@@ -73,7 +73,7 @@
     "eject": "react-scripts eject"
   },
   "jest": {
-    "displayName": "UI Tests",
+    "displayName": "Unit & UI Test",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",
