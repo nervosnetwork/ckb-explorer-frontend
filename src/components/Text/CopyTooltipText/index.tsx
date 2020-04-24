@@ -9,10 +9,10 @@ export default ({ content }: { content: string }) => {
   const dispatch = useDispatch()
   return (
     <SimpleButton
-      id={`copy_content${content}`}
+      id={`copy__content__${content}`}
       onClick={(event: any) => {
         event.stopPropagation()
-        copyElementValue(document.getElementById(`copy_content${content}`))
+        copyElementValue(document.getElementById(`copy__content__${content}`))
         dispatch({
           type: AppActions.ShowToastMessage,
           payload: {

@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pagination Component shallow renders 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 10px;
+  min-height: 65px;
+}
+
+.c0 > div {
+  color: white;
+  font-size: 18px;
+  font-weight: 450;
+  text-align: center;
+}
+
+@media (max-width:1000px) {
+  .c0 > div {
+    font-size: 16px;
+  }
+}
+
+<div
+  className="c0"
+  width="10px"
+>
+  <div>
+    Table Title
+  </div>
+</div>
+`;
+
+exports[`Pagination Component shallow renders 2`] = `
+.c0 {
+  width: 10px;
+  color: #000000;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-overflow: ellipsis;
+  font-size: 16px;
+}
+
+@media (max-width:1000px) {
+
+}
+
+<div
+  className="c0"
+  width="10px"
+>
+  Table Content
+</div>
+`;
+
+exports[`Pagination Component shallow renders 3`] = `
+.c0 {
+  width: 10px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.c0 .table__miner__content {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c0 .table__miner__text {
+  width: 100% justify-content:center;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.c0 .table__miner__text__disable {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #000000;
+}
+
+@media (max-width:1000px) {
+
+}
+
+@media (max-width:700px) {
+  .c0 .table__miner__text {
+    font-size: 13px;
+  }
+}
+
+@media (max-width:700px) {
+  .c0 .table__miner__text__disable {
+    font-size: 13px;
+  }
+}
+
+<div
+  className="c0"
+  fontSize="16px"
+  width="10px"
+>
+  <a
+    className="table__miner__content"
+    href="/address/Table Content"
+    onClick={[Function]}
+  >
+    <span
+      className="table__miner__text address"
+    >
+      Table Content
+    </span>
+  </a>
+</div>
+`;
