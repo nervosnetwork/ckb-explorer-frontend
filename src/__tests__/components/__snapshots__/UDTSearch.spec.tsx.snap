@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UDTSearch Component shallow renders 1`] = `
+.c0 {
+  width: 360px;
+  height: 38px;
+  text-align: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c1 {
+  display: inline-block;
+  margin-right: -36px;
+  margin-left: 8px;
+  width: 18px;
+  z-index: 2;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c1 img {
+  width: 18px;
+  height: 18px;
+}
+
+.c2 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+  padding-left: 30px;
+  padding-right: 8px;
+  background: rgba(255,255,255,0);
+  opacity: 1;
+  border: 1px solid #b3b3b3;
+  color: #666666;
+  border-radius: 6px;
+}
+
+.c2:focus {
+  color: #666666;
+  outline: none;
+}
+
+.c2::-webkit-input-placeholder {
+  color: #bababa;
+}
+
+.c2::-moz-placeholder {
+  color: #bababa;
+}
+
+.c2:-ms-input-placeholder {
+  color: #bababa;
+}
+
+.c2::placeholder {
+  color: #bababa;
+}
+
+@media (max-width:1440px) {
+  .c0 {
+    width: 320px;
+  }
+}
+
+@media (max-width:750px) {
+  .c0 {
+    width: 84vw;
+  }
+}
+
+@media (max-width:750px) {
+  .c1 {
+    margin-right: -36px;
+    margin-left: 8px;
+  }
+}
+
+<div
+  className="c0"
+>
+  <div
+    className="c1"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex={-1}
+  >
+    <img
+      alt="search logo"
+      src="search_black.png"
+    />
+  </div>
+  <input
+    className="c2"
+    defaultValue=""
+    onBlur={[Function]}
+    onChange={[Function]}
+    onKeyUp={[Function]}
+    placeholder="Address"
+  />
+</div>
+`;
