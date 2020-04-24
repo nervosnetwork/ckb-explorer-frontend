@@ -12,13 +12,11 @@ describe('ChainType Dropdown Component', () => {
 
   it('shallow renders', () => {
     const wrapper = renderer.create(component).toJSON()
-
     expect(wrapper).toMatchSnapshot()
   })
 
   it('Component Render', () => {
     const wrapper = shallow(component)
-
     expect(wrapper).toBeDefined()
     expect(wrapper.find('.chain__type__normal')).toHaveLength(1)
     expect(wrapper.find('.chain__type__selected')).toHaveLength(1)

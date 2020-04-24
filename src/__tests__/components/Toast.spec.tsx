@@ -1,18 +1,13 @@
 import React, { ReactElement } from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
-import Header from '../../components/Header'
-import { BrowserRouter } from 'react-router-dom'
+import Toast from '../../components/Toast'
 
-describe('Header Component', () => {
+describe('Toast Component', () => {
   let component: ReactElement
 
   beforeAll(() => {
-    component = (
-      <BrowserRouter>
-        <Header />
-      </BrowserRouter>
-    )
+    component = <Toast />
   })
 
   it('shallow renders', () => {
@@ -23,6 +18,5 @@ describe('Header Component', () => {
   it('Component Render', () => {
     const wrapper = shallow(component)
     expect(wrapper).toBeDefined()
-    expect(wrapper.find(Header)).toHaveLength(1)
   })
 })

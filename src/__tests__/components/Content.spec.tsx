@@ -12,13 +12,11 @@ describe('Content Component', () => {
 
   it('shallow renders', () => {
     const wrapper = renderer.create(component).toJSON()
-
     expect(wrapper).toMatchSnapshot()
   })
 
   it('Component Render', () => {
     const wrapper = shallow(component)
-
     expect(wrapper).toBeDefined()
     expect(wrapper.find('.content__child')).toHaveLength(1)
     expect(wrapper.find('.content__child').text()).toBe('content')

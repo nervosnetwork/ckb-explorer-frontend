@@ -12,13 +12,11 @@ describe('TitleCard Component', () => {
 
   it('shallow renders', () => {
     const wrapper = renderer.create(component).toJSON()
-
     expect(wrapper).toMatchSnapshot()
   })
 
   it('Component Render', () => {
     const wrapper = shallow(component)
-
     expect(wrapper).toBeDefined()
     expect(wrapper.find('.title__card__content')).toHaveLength(1)
     expect(wrapper.find('.title__card__content').text()).toBe('title')

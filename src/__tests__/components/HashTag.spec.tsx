@@ -12,7 +12,6 @@ describe('HashTag Component', () => {
 
   it('shallow renders', () => {
     const wrapper = renderer.create(component).toJSON()
-
     expect(wrapper).toMatchSnapshot()
     expect(wrapper).toHaveStyleRule('background-color', '#f0e0fb')
     expect(wrapper).toHaveStyleRule('width', '90px')

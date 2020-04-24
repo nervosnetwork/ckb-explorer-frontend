@@ -15,13 +15,11 @@ describe('Modal Component', () => {
 
   it('shallow renders', () => {
     const wrapper = renderer.create(component).toJSON()
-
     expect(wrapper).toMatchSnapshot()
   })
 
   it('Component Render', () => {
     let wrapper = shallow(component)
-
     expect(wrapper).toBeDefined()
     expect(wrapper.find('.modal__child')).toHaveLength(1)
     expect(wrapper.find(OutsideClickHandler)).toHaveLength(1)

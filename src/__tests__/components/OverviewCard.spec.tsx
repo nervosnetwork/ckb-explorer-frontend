@@ -30,13 +30,11 @@ describe('OverviewCard Component', () => {
 
   it('shallow renders', () => {
     const wrapper = renderer.create(component).toJSON()
-
     expect(wrapper).toMatchSnapshot()
   })
 
   it('Component Render', () => {
     const wrapper = shallow(component)
-
     expect(wrapper).toBeDefined()
     expect(wrapper.find('.overview_content__left_items')).toHaveLength(1)
     expect(wrapper.find('.overview_content__right_items')).toHaveLength(1)

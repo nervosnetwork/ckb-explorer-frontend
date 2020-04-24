@@ -84,19 +84,21 @@ const reducer = (state: any, action: any) => {
 }
 
 export default () => {
-  const { app } = useAppState()
+  const {
+    app: { toast },
+  } = useAppState()
   const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
-    if (app.toast) {
+    if (toast) {
       dispatch({
         type: 'ADD',
         payload: {
-          toast: app.toast,
+          toast,
         },
       })
     }
-  }, [dispatch, app.toast])
+  }, [dispatch, toast])
 
   return state.toasts.length === 0 ? null : (
     <ToastPanel className="toast">

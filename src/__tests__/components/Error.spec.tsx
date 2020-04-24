@@ -13,13 +13,11 @@ describe('Error Component', () => {
 
   it('shallow renders', () => {
     const wrapper = renderer.create(component).toJSON()
-
     expect(wrapper).toMatchSnapshot()
   })
 
   it('Component Render', () => {
     const wrapper = shallow(component)
-
     expect(wrapper).toBeDefined()
     expect(wrapper.find(ErrorPanel).children().length).toBe(1)
   })

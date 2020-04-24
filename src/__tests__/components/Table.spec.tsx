@@ -3,7 +3,7 @@ import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
 import 'jest-styled-components'
 import { TableTitleItem, TableContentItem, TableMinerContentItem } from '../../components/Table'
-import { TableTitleRowItem, TableContentRowItem, TableMinerContentPanel } from '../../components/Table/styled'
+import { TableTitleRowItem, TableContentRowItem } from '../../components/Table/styled'
 import { BrowserRouter } from 'react-router-dom'
 
 describe('Pagination Component', () => {

@@ -13,13 +13,11 @@ describe('DecimalCapacity Component', () => {
 
   it('shallow renders', () => {
     const wrapper = renderer.create(component).toJSON()
-
     expect(wrapper).toMatchSnapshot()
   })
 
   it('Component Render', () => {
     const wrapper = shallow(component)
-
     expect(wrapper).toBeDefined()
     expect(wrapper.find(DecimalPartPanel)).toHaveLength(1)
     expect(wrapper.find(DecimalPartPanel).text()).toBe('.1234')
