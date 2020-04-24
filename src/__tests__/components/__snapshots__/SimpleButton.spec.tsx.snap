@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SimpleButton Component shallow renders 1`] = `
+.c0 {
+  cursor: pointer;
+}
+
+<div
+  className="c0"
+  onClick={[Function]}
+  onKeyDown={[Function]}
+  onMouseOver={[Function]}
+  role="button"
+  tabIndex={-1}
+>
+  <div
+    className="button__child"
+  >
+    children
+  </div>
+</div>
+`;

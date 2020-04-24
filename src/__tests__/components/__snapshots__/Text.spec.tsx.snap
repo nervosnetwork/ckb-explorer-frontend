@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text Component shallow renders 1`] = `
+<div
+  className="sc-AxirZ giAbtg"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <a
+    href="/to"
+    onClick={[Function]}
+  >
+    value
+  </a>
+</div>
+`;
