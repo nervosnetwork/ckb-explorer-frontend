@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DecimalCapacity Component shallow renders 1`] = `
+<div
+  className="sc-AxjAm LntHf"
+>
+  <span>
+    128
+  </span>
+  <div
+    className="sc-AxirZ gyUmOw"
+  >
+    .1234
+  </div>
+  <div
+    className="sc-AxiKw bWoPvU"
+  >
+    0000
+  </div>
+  <div
+    className="decimal__unit"
+  >
+    CKB
+  </div>
+</div>
+`;

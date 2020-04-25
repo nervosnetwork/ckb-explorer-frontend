@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChainType Dropdown Component shallow renders 1`] = `
+<div
+  className="sc-AxjAm cjkygp"
+  onMouseLeave={[Function]}
+>
+  <div
+    className="sc-AxirZ bPoBOq chain__type__selected"
+    onClick={[Function]}
+    onKeyDown={[Function]}
+    onMouseOver={[Function]}
+    role="button"
+    tabIndex={-1}
+  >
+    <a
+      href="http://localhost:3000"
+    >
+      Lina Mainnet
+    </a>
+  </div>
+  <div
+    className="chain__type__separate"
+  />
+  <div
+    className="sc-AxirZ bPoBOq chain__type__normal"
+    onClick={[Function]}
+    onKeyDown={[Function]}
+    onMouseOver={[Function]}
+    role="button"
+    tabIndex={-1}
+  >
+    <a
+      href="http://localhost:3000/testnet"
+    >
+      testnet Testnet
+    </a>
+  </div>
+</div>
+`;

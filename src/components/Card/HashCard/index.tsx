@@ -1,0 +1,90 @@
+import React, { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
+import { Tooltip } from 'antd'
+import CopyIcon from '../../../assets/copy.png'
+import i18n from '../../../utils/i18n'
+import { isMobile } from '../../../utils/screen'
+import { adaptPCEllipsis, adaptMobileEllipsis } from '../../../utils/string'
+import { copyElementValue } from '../../../utils/util'
+import { AppActions } from '../../../contexts/providers/reducer'
+import SmallLoading from '../../Loading/SmallLoading'
+import { useDispatch } from '../../../contexts/providers'
+import { HashCardPanel, LoadingPanel } from './styled'
+import SimpleButton from '../../SimpleButton'
+
+export default ({
+  title,
+  hash,
+  loading,
+  specialAddress = '',
+  iconUri,
+  children,
+}: {
+  title: string
+  hash: string
+  loading?: boolean
+  specialAddress?: string
+  iconUri?: string
+  children?: ReactNode
+}) => {
+  const dispatch = useDispatch()
+
+  const mobileHash = () => {
+    if (specialAddress) {
+      return adaptMobileEllipsis(hash, 4)
+    } else if (iconUri) {
+      return adaptMobileEllipsis(hash, 12)
+    }
+    return adaptMobileEllipsis(hash, 4)
+  }
+
+  return (
+    <HashCardPanel isColumn={!!iconUri}>
+      <div className="hash__card__content__panel" id="hash_content">
+        {iconUri && isMobile() ? (
+          <div>
+            <img className="hash__icon" src={iconUri} alt="hash icon" />
+            <div className="hash__title">{title}</div>
+          </div>
+        ) : (
+          <>
+            {iconUri && <img className="hash__icon" src={iconUri} alt="hash icon" />}
+            <div className="hash__title">{title}</div>
+          </>
+        )}
+        <div className="hash__card__hash__content">
+          {loading ? (
+            <LoadingPanel>
+              <SmallLoading />
+            </LoadingPanel>
+          ) : (
+            <div id="hash__text">
+              <span>{isMobile() ? mobileHash() : adaptPCEllipsis(hash, 13, 25)}</span>
+            </div>
+          )}
+          <SimpleButton
+            className="hash__copy_icon"
+            onClick={() => {
+              copyElementValue(document.getElementById('hash__value'))
+              dispatch({
+                type: AppActions.ShowToastMessage,
+                payload: {
+                  message: i18n.t('common.copied'),
+                },
+              })
+            }}
+          >
+            {!loading && <img src={CopyIcon} alt="copy" />}
+          </SimpleButton>
+        </div>
+        {specialAddress && (
+          <Tooltip title={i18n.t('address.vesting_tooltip')} placement={isMobile() ? 'bottomRight' : 'bottom'}>
+            <Link to={`/address/${specialAddress}`}>{i18n.t('address.vesting')}</Link>
+          </Tooltip>
+        )}
+        <div id="hash__value">{hash}</div>
+      </div>
+      {children}
+    </HashCardPanel>
+  )
+}
