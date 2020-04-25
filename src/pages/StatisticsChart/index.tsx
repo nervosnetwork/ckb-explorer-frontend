@@ -18,7 +18,7 @@ import {
   getStatisticHashRate,
   getStatisticUncleRate,
 } from '../../service/app/charts/mining'
-import { getStatisticTotalDaoDeposit } from '../../service/app/charts/nervosDao'
+import { getStatisticTotalDaoDeposit, getStatisticNewDaoDeposit } from '../../service/app/charts/nervosDao'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import { DifficultyHashRateChart, initStatisticDifficultyHashRate } from './mining/DifficultyHashRate'
@@ -43,6 +43,7 @@ import {
 import { OccupiedCapacityChart, initStatisticOccupiedCapacity } from './activities/OccupiedCapacity'
 import { EpochTimeDistributionChart, initStatisticEpochTimeDistribution } from './block/EpochTimeDistribution'
 import { EpochLengthDistributionChart, initStatisticEpochLengthDistribution } from './block/EpochLengthDistribution'
+import { NewDaoDepositChart, initStatisticNewDaoDeposit } from './nervosDao/NewDaoDeposit'
 
 interface ChartData {
   title: string
@@ -78,6 +79,7 @@ export default () => {
     statisticUncleRates,
     statisticAddressCounts,
     statisticTotalDaoDeposits,
+    statisticNewDaoDeposits,
     statisticCellCounts,
     statisticTransactionCounts,
     statisticAddressBalanceRanks,
@@ -203,6 +205,11 @@ export default () => {
           chart: <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} isThumbnail />,
           path: '/charts/total-dao-deposit',
         },
+        {
+          title: `${i18n.t('statistic.new_dao_deposit')}`,
+          chart: <NewDaoDepositChart statisticNewDaoDeposits={statisticNewDaoDeposits} isThumbnail />,
+          path: '/charts/new-dao-deposit',
+        },
       ],
     },
   ]
@@ -217,6 +224,7 @@ export default () => {
     initStatisticCellCount(dispatch)
     initStatisticTransactionCount(dispatch)
     initStatisticTotalDaoDeposit(dispatch)
+    initStatisticNewDaoDeposit(dispatch)
     initStatisticAddressBalanceRanks(dispatch)
     initStatisticBalanceDistribution(dispatch)
     initStatisticTxFeeHistory(dispatch)
@@ -236,6 +244,7 @@ export default () => {
     getStatisticCellCount(dispatch)
     getStatisticTransactionCount(dispatch)
     getStatisticTotalDaoDeposit(dispatch)
+    getStatisticNewDaoDeposit(dispatch)
     getStatisticAddressBalanceRank(dispatch)
     getStatisticBalanceDistribution(dispatch)
     getStatisticTxFeeHistory(dispatch)

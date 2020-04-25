@@ -185,6 +185,12 @@ export const fetchStatisticTotalDaoDeposit = () => {
   )
 }
 
+export const fetchStatisticNewDaoDeposit = () => {
+  return axiosIns(`/daily_statistics/daily_dao_depositors_count`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticNewDaoDeposit>[]>>(res.data),
+  )
+}
+
 export const fetchStatisticDifficultyHashRate = () => {
   return axiosIns(`/epoch_statistics/difficulty-hash_rate`).then((res: AxiosResponse) =>
     toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]>>(res.data),

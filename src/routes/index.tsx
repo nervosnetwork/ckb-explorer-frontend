@@ -24,6 +24,7 @@ import DifficultyChart from '../pages/StatisticsChart/mining/Difficulty'
 import TransactionCountChart from '../pages/StatisticsChart/activities/TransactionCount'
 import AddressCountChart from '../pages/StatisticsChart/activities/AddressCount'
 import TotalDaoDepositChart from '../pages/StatisticsChart/nervosDao/TotalDaoDeposit'
+import NewDaoDepositChart from '../pages/StatisticsChart/nervosDao/NewDaoDeposit'
 import CellCountChart from '../pages/StatisticsChart/activities/CellCount'
 import AddressBalanceRankChart from '../pages/StatisticsChart/activities/AddressBalanceRank'
 import HashRateChart from '../pages/StatisticsChart/mining/HashRate'
@@ -138,6 +139,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/charts/total-dao-deposit',
     exact: true,
     comp: TotalDaoDepositChart,
+  },
+  {
+    name: 'NewDaoDepositChart',
+    path: '/charts/new-dao-deposit',
+    exact: true,
+    comp: NewDaoDepositChart,
   },
   {
     name: 'CellCountChart',

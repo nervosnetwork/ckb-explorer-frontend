@@ -205,6 +205,12 @@ declare namespace State {
     createdAtUnixtimestamp: string
   }
 
+  export interface StatisticNewDaoDeposit {
+    dailyDaoDeposit: string
+    dailyDaoDepositorsCount: string
+    createdAtUnixtimestamp: string
+  }
+
   export interface StatisticDifficultyHashRate {
     difficulty: string
     hashRate: string
@@ -366,6 +372,7 @@ declare namespace State {
     statisticTransactionCounts: StatisticTransactionCount[]
     statisticCellCounts: StatisticCellCount[]
     statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
+    statisticNewDaoDeposits: StatisticNewDaoDeposit[]
     statisticAddressCounts: StatisticAddressCount[]
     statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
     statisticBalanceDistributions: StatisticBalanceDistribution[]
