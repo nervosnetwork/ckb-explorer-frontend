@@ -54,7 +54,7 @@ export const getStatisticNewDaoWithdraw = (dispatch: AppDispatch) => {
     (response: Response.Response<Response.Wrapper<State.StatisticNewDaoWithdraw>[]> | null) => {
       if (!response) return
       const { data } = response
-      const statisticNewWithdraw = data.map(wrapper => {
+      const statisticNewDaoWithdraw = data.map(wrapper => {
         return {
           dailyDaoWithdraw: wrapper.attributes.dailyDaoWithdraw,
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
@@ -63,7 +63,7 @@ export const getStatisticNewDaoWithdraw = (dispatch: AppDispatch) => {
       dispatch({
         type: PageActions.UpdateStatisticNewDaoWithdraw,
         payload: {
-          statisticNewWithdraw,
+          statisticNewDaoWithdraw,
         },
       })
     },
