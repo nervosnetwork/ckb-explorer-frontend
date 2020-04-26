@@ -17,6 +17,7 @@ export const initTransactionState: State.TransactionState = {
     capacityInvolved: '',
   },
   status: 'None',
+  scriptFetched: false,
 }
 
 export const initTransactionsState: State.TransactionsState = {

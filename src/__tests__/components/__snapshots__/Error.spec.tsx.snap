@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error Component shallow renders 1`] = `
+<div
+  className="sc-AxjAm sPCpS"
+>
+  <img
+    alt="data not found"
+    src="pc_data_not_found.png"
+  />
+</div>
+`;

@@ -15,8 +15,15 @@ const Pagination = ({
   onChange: (page: number) => void
 }) => {
   const [inputPage, setInputPage] = useState(gotoPage)
+
   const total = Math.max(totalPages, 1)
   const current = Math.min(Math.max(currentPage, 1), totalPages)
+
+  const mobilePagination = `${i18n.t('pagination.total_page')} ${total} ${i18n.t('pagination.end_page')}`
+  const pcPagination = `${i18n.t('pagination.current_page')} ${current} ${i18n.t(
+    'pagination.of_page',
+  )} ${total} ${i18n.t('pagination.end_page')}`
+
   const changePage = (page: number) => {
     if (page && page >= 1 && page <= total) {
       onChange(page)
@@ -24,38 +31,27 @@ const Pagination = ({
     }
   }
 
-  const MobilePagination = `${i18n.t('pagination.total_page')} ${total} ${i18n.t('pagination.end_page')}`
-  const PCPagination = `${i18n.t('pagination.current_page')} ${current} ${i18n.t(
-    'pagination.of_page',
-  )} ${total} ${i18n.t('pagination.end_page')}`
-
   return (
     <PaginationPanel>
       <PaginationLeftItem isFirstPage={current === 1} isLastPage={current === total}>
-        <button type="button" className="first" onClick={() => changePage(1)}>
-          {i18n.t('pagination.first')}
-        </button>
-        <button type="button" className="left__button" onClick={() => changePage(current - 1)} />
-        <div className="middle__label">{isMobile() ? MobilePagination : PCPagination}</div>
-        <button type="button" className="right__button" onClick={() => changePage(current + 1)} />
-        <button type="button" className="last" onClick={() => changePage(total)}>
+        <button onClick={() => changePage(1)}>{i18n.t('pagination.first')}</button>
+        <button type="button" className="pagination__left__button" onClick={() => changePage(current - 1)} />
+        <div className="pagination__middle__label">{isMobile() ? mobilePagination : pcPagination}</div>
+        <button type="button" className="pagination__right__button" onClick={() => changePage(current + 1)} />
+        <button type="button" className="pagination__last" onClick={() => changePage(total)}>
           {i18n.t('pagination.last')}
         </button>
       </PaginationLeftItem>
       <PaginationRightItem>
-        <div className="page">{i18n.t('pagination.page')}</div>
+        <div className="pagination__page">{i18n.t('pagination.page')}</div>
         <input
           type="text"
           pattern="[0-9]*"
-          className="input__page"
+          className="pagination__input__page"
           value={inputPage}
           onChange={(event: any) => {
-            const pageNo: number = parseInt(event.target.value, 10)
-            if (Number.isNaN(pageNo)) {
-              setInputPage(event.target.value)
-            } else {
-              setInputPage(Math.min(pageNo, total))
-            }
+            const pageNo = parseInt(event.target.value, 10)
+            setInputPage(Number.isNaN(pageNo) ? event.target.value : Math.min(pageNo, total))
           }}
           onKeyUp={(event: any) => {
             if (event.keyCode === 13) {
@@ -63,7 +59,7 @@ const Pagination = ({
             }
           }}
         />
-        <button type="button" className="goto__page" onClick={() => changePage(inputPage)}>
+        <button type="button" className="pagination__goto__page" onClick={() => changePage(inputPage)}>
           {i18n.t('pagination.goto')}
         </button>
       </PaginationRightItem>
