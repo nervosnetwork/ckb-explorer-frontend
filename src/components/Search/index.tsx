@@ -181,7 +181,8 @@ const Search = ({ hasBorder, content }: { hasBorder?: boolean; content?: string 
   const dispatch = useDispatch()
   const [t] = useTranslation()
   const SearchPlaceholder = useMemo(() => {
-    return t('navbar.search_placeholder')
+    const placeholder = t('navbar.search_placeholder')
+    return isMainnet() ? placeholder.substring(0, placeholder.lastIndexOf('/')) : placeholder
   }, [t])
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
