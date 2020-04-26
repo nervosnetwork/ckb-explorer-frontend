@@ -186,7 +186,7 @@ export const fetchStatisticTotalDaoDeposit = () => {
 }
 
 export const fetchStatisticNewDaoDeposit = () => {
-  return axiosIns(`/daily_statistics/daily_dao_depositors_count`).then((res: AxiosResponse) =>
+  return axiosIns(`/daily_statistics/daily_dao_deposit-daily_dao_depositors_count`).then((res: AxiosResponse) =>
     toCamelcase<Response.Response<Response.Wrapper<State.StatisticNewDaoDeposit>[]>>(res.data),
   )
 }
