@@ -18,7 +18,11 @@ import {
   getStatisticHashRate,
   getStatisticUncleRate,
 } from '../../service/app/charts/mining'
-import { getStatisticTotalDaoDeposit, getStatisticNewDaoDeposit } from '../../service/app/charts/nervosDao'
+import {
+  getStatisticTotalDaoDeposit,
+  getStatisticNewDaoDeposit,
+  getStatisticNewDaoWithdraw,
+} from '../../service/app/charts/nervosDao'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import { DifficultyHashRateChart, initStatisticDifficultyHashRate } from './mining/DifficultyHashRate'
@@ -44,6 +48,7 @@ import { OccupiedCapacityChart, initStatisticOccupiedCapacity } from './activiti
 import { EpochTimeDistributionChart, initStatisticEpochTimeDistribution } from './block/EpochTimeDistribution'
 import { EpochLengthDistributionChart, initStatisticEpochLengthDistribution } from './block/EpochLengthDistribution'
 import { NewDaoDepositChart, initStatisticNewDaoDeposit } from './nervosDao/NewDaoDeposit'
+import { NewDaoWithdrawChart, initStatisticNewDaoWithdraw } from './nervosDao/NewDaoWithdraw'
 
 interface ChartData {
   title: string
@@ -80,6 +85,7 @@ export default () => {
     statisticAddressCounts,
     statisticTotalDaoDeposits,
     statisticNewDaoDeposits,
+    statisticNewDaoWithdraw,
     statisticCellCounts,
     statisticTransactionCounts,
     statisticAddressBalanceRanks,
@@ -210,6 +216,11 @@ export default () => {
           chart: <NewDaoDepositChart statisticNewDaoDeposits={statisticNewDaoDeposits} isThumbnail />,
           path: '/charts/new-dao-deposit',
         },
+        {
+          title: `${i18n.t('statistic.new_dao_withdraw')}`,
+          chart: <NewDaoWithdrawChart statisticNewDaoWithdraw={statisticNewDaoWithdraw} isThumbnail />,
+          path: '/charts/new-dao-withdraw',
+        },
       ],
     },
   ]
@@ -225,6 +236,7 @@ export default () => {
     initStatisticTransactionCount(dispatch)
     initStatisticTotalDaoDeposit(dispatch)
     initStatisticNewDaoDeposit(dispatch)
+    initStatisticNewDaoWithdraw(dispatch)
     initStatisticAddressBalanceRanks(dispatch)
     initStatisticBalanceDistribution(dispatch)
     initStatisticTxFeeHistory(dispatch)
@@ -245,6 +257,7 @@ export default () => {
     getStatisticTransactionCount(dispatch)
     getStatisticTotalDaoDeposit(dispatch)
     getStatisticNewDaoDeposit(dispatch)
+    getStatisticNewDaoWithdraw(dispatch)
     getStatisticAddressBalanceRank(dispatch)
     getStatisticBalanceDistribution(dispatch)
     getStatisticTxFeeHistory(dispatch)

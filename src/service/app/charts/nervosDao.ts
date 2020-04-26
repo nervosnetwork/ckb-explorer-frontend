@@ -1,4 +1,8 @@
-import { fetchStatisticTotalDaoDeposit, fetchStatisticNewDaoDeposit } from '../../http/fetcher'
+import {
+  fetchStatisticTotalDaoDeposit,
+  fetchStatisticNewDaoDeposit,
+  fetchStatisticNewDaoWithdraw,
+} from '../../http/fetcher'
 import { AppDispatch, PageActions } from '../../../contexts/providers/reducer'
 
 export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
@@ -39,6 +43,27 @@ export const getStatisticNewDaoDeposit = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticNewDaoDeposit,
         payload: {
           statisticNewDaoDeposits,
+        },
+      })
+    },
+  )
+}
+
+export const getStatisticNewDaoWithdraw = (dispatch: AppDispatch) => {
+  fetchStatisticNewDaoWithdraw().then(
+    (response: Response.Response<Response.Wrapper<State.StatisticNewDaoWithdraw>[]> | null) => {
+      if (!response) return
+      const { data } = response
+      const statisticNewWithdraw = data.map(wrapper => {
+        return {
+          dailyDaoWithdraw: wrapper.attributes.dailyDaoWithdraw,
+          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+        }
+      })
+      dispatch({
+        type: PageActions.UpdateStatisticNewDaoWithdraw,
+        payload: {
+          statisticNewWithdraw,
         },
       })
     },

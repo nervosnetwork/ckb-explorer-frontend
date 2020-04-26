@@ -8,6 +8,7 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticDifficultyUncleRates: [],
   statisticTotalDaoDeposits: [],
   statisticNewDaoDeposits: [],
+  statisticNewDaoWithdraw: [],
   statisticTransactionCounts: [],
   statisticAddressBalanceRanks: [],
   statisticBalanceDistributions: [],
