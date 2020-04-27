@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Content Component shallow renders 1`] = `
+<div
+  className="sc-fzokOt dvnMYC"
+>
+  <div
+    className="content__child"
+  >
+    content
+  </div>
+</div>
+`;

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal Component shallow renders 1`] = `
+<div
+  className="sc-AxjAm hJEDIF"
+>
+  <div>
+    <div
+      className="modal__child"
+    >
+      children
+    </div>
+  </div>
+</div>
+`;

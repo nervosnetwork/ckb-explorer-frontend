@@ -32,15 +32,13 @@ const useWindowResize = (dispatch: AppDispatch) => {
 
 const initAppLanguage = (app: State.App, dispatch: AppDispatch) => {
   const language = fetchCachedData<'zh' | 'en'>(CachedKeys.AppLanguage) || app.language
-  if (language) {
-    dispatch({
-      type: AppActions.UpdateAppLanguage,
-      payload: {
-        language,
-      },
-    })
-    changeLanguage(language)
-  }
+  dispatch({
+    type: AppActions.UpdateAppLanguage,
+    payload: {
+      language,
+    },
+  })
+  changeLanguage(language)
 }
 
 export const useInitApp = () => {

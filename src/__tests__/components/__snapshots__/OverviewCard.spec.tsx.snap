@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OverviewCard Component shallow renders 1`] = `
+<div
+  className="sc-AxjAm fhikdi"
+  id=""
+>
+  <div
+    className="sc-AxirZ hORWuP"
+  >
+    <div
+      className="overview_content__left_items"
+    >
+      <div
+        className="sc-AxiKw hsDlcg"
+      >
+        <div
+          className="overview_item__title__panel"
+        >
+          <div
+            className="overview_item__title"
+          >
+            title1
+          </div>
+        </div>
+        <div
+          className="overview_item__value"
+        >
+          content1
+        </div>
+      </div>
+      <div
+        className="sc-AxiKw jseARb"
+      >
+        <div
+          className="overview_item__title__panel"
+        >
+          <div
+            className="overview_item__title"
+          >
+            title3
+          </div>
+        </div>
+        <div
+          className="overview_item__value"
+        >
+          content3
+        </div>
+      </div>
+    </div>
+    <div
+      className="overview_content__right_items"
+    >
+      <div
+        className="sc-AxiKw hsDlcg"
+      >
+        <div
+          className="overview_item__title__panel"
+        >
+          <div
+            className="overview_item__title"
+          >
+            title2
+          </div>
+        </div>
+        <div
+          className="overview_item__value"
+        >
+          <div>
+            content2
+          </div>
+        </div>
+      </div>
+      <div
+        className="sc-AxiKw jseARb"
+      >
+        <div
+          className="overview_item__title__panel"
+        >
+          <div
+            className="overview_item__title"
+          >
+            title4
+          </div>
+        </div>
+        <div
+          className="overview_item__value"
+        >
+          <div>
+            content4
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

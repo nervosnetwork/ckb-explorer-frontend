@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Language Dropdown Component shallow renders 1`] = `
+<div
+  className="sc-AxjAm KBfit"
+  onMouseLeave={[Function]}
+>
+  <div
+    className="sc-AxirZ bPoBOq language__selected"
+    onClick={[Function]}
+    onKeyDown={[Function]}
+    onMouseOver={[Function]}
+    role="button"
+    tabIndex={-1}
+  >
+    简体中文
+  </div>
+  <div
+    className="language__separate"
+  />
+  <div
+    className="sc-AxirZ bPoBOq language__normal"
+    onClick={[Function]}
+    onKeyDown={[Function]}
+    onMouseOver={[Function]}
+    role="button"
+    tabIndex={-1}
+  >
+    简体中文
+  </div>
+</div>
+`;

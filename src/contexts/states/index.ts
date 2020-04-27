@@ -6,6 +6,7 @@ import { initTransactionState, initTransactionsState } from './transaction'
 import initComponents from './components'
 import initNervosDaoState from './nervosDao'
 import initStatisticChartsState from './charts'
+import initUDTState from './udt'
 
 export type FetchStatus = keyof State.FetchStatus
 
@@ -20,6 +21,7 @@ const initState: State.AppState = {
   homeBlocks: [],
   nervosDaoState: initNervosDaoState,
   ...initStatisticChartsState,
+  udtState: initUDTState,
 
   components: initComponents,
 }

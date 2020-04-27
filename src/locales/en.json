@@ -21,8 +21,9 @@
       "wallet": "Wallet",
       "charts": "Charts",
       "nervos_dao": "Nervos DAO",
+      "faucet": "Faucet",
       "docs": "Docs",
-      "search_placeholder": "Block / Transaction / Address / Lock Hash",
+      "search_placeholder": "Block/Transaction/Address/Lock Hash/Type Hash",
       "mainnet": "LINA",
       "testnet": "TESTNET",
       "language_en": "EN",
@@ -125,7 +126,8 @@
       "telegram": "Telegram",
       "reddit": "Reddit",
       "youtube": "YouTube",
-      "forum": "Forum"
+      "forum": "Forum",
+      "sudt_submit": "sUDT Submit"
     },
     "search": {
       "loading": "Loading...",
@@ -150,9 +152,11 @@
       "lock_until": "Lock Until",
       "estimated": "Estimated",
       "epoch": "Epoch",
-      "code_hash": "Code Hash",
-      "args": "Args",
-      "hash_type": "Hash Type",
+      "code_hash": "Code Hash: ",
+      "args": "Args: ",
+      "hash_type": "Hash Type: ",
+      "assets": "Assets",
+      "user_define_token": "User Define Token",
       "confirmation": "Confirmation",
       "confirmations": "Confirmations",
       "unable_decode_address": "Unable to decode address",
@@ -191,7 +195,11 @@
       "transaction_parameters": "Transaction Parameters",
       "ckb_transfer": "CKB Transfer",
       "nervos_dao_deposit": "Nervos DAO Deposit",
-      "nervos_dao_withdraw": "Nervos DAO Withdraw"
+      "nervos_dao_withdraw": "Nervos DAO Withdraw",
+      "script_args": "args",
+      "script_code_hash": "code_hash",
+      "script_hash_type": "hash_type",
+      "script_data": "data"
     },
     "block": {
       "block": "Block",
@@ -269,6 +277,16 @@
       "end_page": "",
       "current_page": "Page",
       "of_page": "of"
+    },
+    "udt": {
+      "sudt": "sUDT",
+      "name": "Name",
+      "symbol": "Symbol",
+      "total_amount": "Total Amount",
+      "holder_addresses": "Holder Addresses",
+      "decimal": "Decimal",
+      "search_placeholder": "Address",
+      "unknown_token": "Unknown Token"
     }
   }
 }

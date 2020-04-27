@@ -36,12 +36,12 @@ export const fetchAddressInfo = (address: string) => {
     .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Address>>(res.data.data))
 }
 
-export const fetchTransactionsByAddress = (address: string, page: number, page_size: number) => {
+export const fetchTransactionsByAddress = (address: string, page: number, size: number) => {
   return axiosIns
     .get(`address_transactions/${address}`, {
       params: {
         page,
-        page_size,
+        page_size: size,
       },
     })
     .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
@@ -59,23 +59,23 @@ export const fetchLatestTransactions = () => {
     .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 }
 
-export const fetchTransactions = (page: number, page_size: number) => {
+export const fetchTransactions = (page: number, size: number) => {
   return axiosIns
     .get('transactions', {
       params: {
         page,
-        page_size,
+        page_size: size,
       },
     })
     .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 }
 
-export const fetchTransactionsByBlockHash = (blockHash: string, page: number, page_size: number) => {
+export const fetchTransactionsByBlockHash = (blockHash: string, page: number, size: number) => {
   return axiosIns
     .get(`/block_transactions/${blockHash}`, {
       params: {
         page,
-        page_size,
+        page_size: size,
       },
     })
     .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
@@ -88,12 +88,16 @@ export const fetchBlock = (blockParam: string) => {
     .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Block>>(res.data.data))
 }
 
-export const fetchScript = (script_type: 'lock_scripts' | 'type_scripts', id: string) => {
-  return axiosIns.get(`/cell_output_${script_type}/${id}`).then((res: AxiosResponse) => res.data.data)
+export const fetchScript = (scriptType: 'lock_scripts' | 'type_scripts', id: string) => {
+  return axiosIns
+    .get(`/cell_output_${scriptType}/${id}`)
+    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Script>>(res.data.data))
 }
 
 export const fetchCellData = (id: string) => {
-  return axiosIns.get(`/cell_output_data/${id}`).then((res: AxiosResponse) => res.data.data)
+  return axiosIns
+    .get(`/cell_output_data/${id}`)
+    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Data>>(res.data.data))
 }
 
 export const fetchSearchResult = (param: string) => {
@@ -140,11 +144,11 @@ export const fetchNervosDao = () => {
   )
 }
 
-export const fetchNervosDaoTransactions = (page: number, page_size: number) => {
+export const fetchNervosDaoTransactions = (page: number, size: number) => {
   return axiosIns('/contract_transactions/nervos_dao', {
     params: {
       page,
-      page_size,
+      page_size: size,
     },
   }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 }
@@ -273,4 +277,34 @@ export const fetchStatisticEpochLengthDistribution = () => {
   return axiosIns(`/distribution_data/epoch_length_distribution`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.StatisticEpochLengthDistributions>>(res.data.data),
   )
+}
+
+export const fetchSimpleUDT = (typeHash: string) => {
+  return axiosIns(`/udts/${typeHash}`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.UDT>>(res.data.data),
+  )
+}
+
+export const fetchSimpleUDTTransactions = (typeHash: string, page: number, size: number) => {
+  return axiosIns(`/udt_transactions/${typeHash}`, {
+    params: {
+      page,
+      page_size: size,
+    },
+  }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
+}
+
+export const fetchSimpleUDTTransactionsWithAddress = (
+  address: string,
+  typeHash: string,
+  page: number,
+  size: number,
+) => {
+  return axiosIns(`/address_udt_transactions/${address}`, {
+    params: {
+      type_hash: typeHash,
+      page,
+      page_size: size,
+    },
+  }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 }

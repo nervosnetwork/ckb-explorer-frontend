@@ -6,7 +6,6 @@ export const BlockDetailPanel = styled.div`
   align-items: center;
   margin-top: 25px;
   margin-bottom: 40px;
-  width: 100%;
 
   @media (max-width: 750px) {
     margin: 0px;
@@ -26,11 +25,11 @@ export const BlockRootInfoItemPanel = styled.div`
 
   .block__root_info_title {
     font-weight: 500;
+    color: rgba(0, 0, 0, 0.6);
   }
   .block__root_info_value {
     flex: 1;
     margin-left: 20px;
-    font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
   }
 `
 
@@ -97,6 +96,4 @@ export const BlockTransactionsPagination = styled.div`
   }
 `
 
-export const BlockNoncePanel = styled.div`
-  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
-`
+export const BlockNoncePanel = styled.div``

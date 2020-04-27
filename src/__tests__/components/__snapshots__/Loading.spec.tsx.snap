@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loading Component shallow renders 1`] = `
+<div
+  className="sc-AxjAm eSXaVp"
+>
+  <img
+    alt="loading"
+    src="loading.gif"
+  />
+</div>
+`;
+
+exports[`Loading Component shallow renders 2`] = `
+<div
+  className="sc-AxirZ cqtgco"
+>
+  <img
+    alt="loading"
+    src="loading.gif"
+  />
+</div>
+`;

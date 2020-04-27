@@ -5,13 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { parseSimpleDate } from '../../utils/date'
 import { BlockListPanel, ContentTable, HighLightValue, BlockRewardContainer, BlockRewardPanel } from './styled'
 import Content from '../../components/Content'
-import {
-  TableTitleRow,
-  TableTitleItem,
-  TableContentRow,
-  TableContentItem,
-  TableMinerContentItem,
-} from '../../components/Table'
+import { TableTitleItem, TableContentItem, TableMinerContentItem } from '../../components/Table'
+import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
 import { shannonToCkb } from '../../utils/util'
 import { parsePageNumber, adaptMobileEllipsis } from '../../utils/string'
 import { ListPageParams, DELAY_BLOCK_NUMBER } from '../../utils/const'
