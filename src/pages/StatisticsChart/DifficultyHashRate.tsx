@@ -39,7 +39,7 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '75px' : '50px'};display:inline-block;">${value}:</span>`
+          `<span style="width:${currentLanguage() === 'en' ? '90px' : '50px'};display:inline-block;">${value}:</span>`
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch'))} ${handleAxis(
           dataList[0].name,
           1,

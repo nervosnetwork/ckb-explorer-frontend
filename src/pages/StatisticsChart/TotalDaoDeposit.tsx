@@ -40,7 +40,7 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '175px' : '210px'};display:inline-block;">${value}:</span>`
+          `<span style="width:${currentLanguage() === 'en' ? '240px' : '210px'};display:inline-block;">${value}:</span>`
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
         )}</div>`

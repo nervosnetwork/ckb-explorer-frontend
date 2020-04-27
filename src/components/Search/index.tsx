@@ -21,6 +21,7 @@ enum SearchResultType {
   Transaction = 'ckb_transaction',
   Address = 'address',
   LockHash = 'lock_hash',
+  UDT = 'udt',
 }
 
 const clearSearchInput = (inputElement: any) => {
@@ -85,6 +86,8 @@ const handleSearchResult = (
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.addressHash}`)
         } else if (data.type === SearchResultType.LockHash) {
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lockHash}`)
+        } else if (data.type === SearchResultType.UDT) {
+          browserHistory.push(`/sudt/${query}`)
         }
       })
       .catch((error: AxiosError) => {
@@ -178,7 +181,8 @@ const Search = ({ hasBorder, content }: { hasBorder?: boolean; content?: string 
   const dispatch = useDispatch()
   const [t] = useTranslation()
   const SearchPlaceholder = useMemo(() => {
-    return t('navbar.search_placeholder')
+    const placeholder = t('navbar.search_placeholder')
+    return isMainnet() ? placeholder.substring(0, placeholder.lastIndexOf('/')) : placeholder
   }, [t])
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)

@@ -1,0 +1,60 @@
+import styled from 'styled-components'
+
+export const SheetPanel = styled.div`
+  position: sticky;
+  position: -webkit-sticky;
+  top: 64px;
+  z-index: 9000;
+
+  @media (max-width: 750px) {
+    top: 42px;
+  }
+
+  > div {
+    width: 100%;
+    background: #ff7070;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 0 20px 0;
+
+    @media (max-width: 750px) {
+      padding: 6px 0 10px 0;
+    }
+  }
+`
+
+export const SheetItem = styled.div`
+  color: white;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  margin-top: 5px;
+
+  @media (max-width: 750px) {
+    font-size: 14px;
+  }
+`
+
+export const SheetPointPanel = styled.div`
+  display: flex;
+  align-items: top;
+  justify-content: ${(props: { isSingle: boolean }) => (props.isSingle ? 'center' : 'left')};
+  width: 50%;
+
+  > span {
+    margin-right: 3px;
+    margin-top: 8px;
+    color: white;
+  }
+
+  @media (max-width: 750px) {
+    width: 86%;
+
+    > span {
+      margin-top: 0;
+    }
+  }
+`

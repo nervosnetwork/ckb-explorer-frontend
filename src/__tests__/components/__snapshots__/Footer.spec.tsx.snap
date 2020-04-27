@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer Component shallow renders 1`] = `
+<div
+  className="sc-AxjAm grmmOl"
+>
+  <div
+    className="sc-AxirZ RJiDd"
+  >
+    <div
+      className="footer__foundation"
+    >
+      <div
+        className="footer__title"
+      >
+        Foundation
+      </div>
+      <a
+        className="sc-AxiKw dTWoaG"
+        href="https://www.nervos.org/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        About Us
+      </a>
+    </div>
+    <div
+      className="footer__developer"
+    >
+      <div
+        className="footer__title"
+      >
+        Developer
+      </div>
+      <a
+        className="sc-AxiKw dTWoaG"
+        href="https://docs.nervos.org"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Docs
+      </a>
+      <a
+        className="sc-AxiKw dTWoaG"
+        href="https://github.com/nervosnetwork"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        GitHub
+      </a>
+      <a
+        className="sc-AxiKw dTWoaG"
+        href="https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0002-ckb/0002-ckb.md"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Whitepaper
+      </a>
+      <a
+        className="sc-AxiKw dTWoaG"
+        href="https://faucet.nervos.org/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Faucet
+      </a>
+    </div>
+    <div
+      className="footer__community"
+    >
+      <div>
+        <a
+          className="sc-AxhCb dindIV"
+          href="https://twitter.com/nervosnetwork"
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <img
+            alt="footer icon"
+            src="footer_twitter.png"
+          />
+          <span>
+            Twitter
+          </span>
+        </a>
+        <a
+          className="sc-AxhCb dindIV"
+          href="https://medium.com/nervosnetwork"
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <img
+            alt="footer icon"
+            src="footer_medium.png"
+          />
+          <span>
+            Blog
+          </span>
+        </a>
+        <a
+          className="sc-AxhCb dindIV"
+          href="https://t.me/nervosnetwork"
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <img
+            alt="footer icon"
+            src="footer_telegram.png"
+          />
+          <span>
+            Telegram
+          </span>
+        </a>
+      </div>
+      <div>
+        <a
+          className="sc-AxhCb dindIV"
+          href="https://www.reddit.com/r/NervosNetwork/"
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <img
+            alt="footer icon"
+            src="footer_reddit.png"
+          />
+          <span>
+            Reddit
+          </span>
+        </a>
+        <a
+          className="sc-AxhCb dindIV"
+          href="https://www.youtube.com/channel/UCONuJGdMzUY0Y6jrPBOzH7A"
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <img
+            alt="footer icon"
+            src="footer_youtube.png"
+          />
+          <span>
+            YouTube
+          </span>
+        </a>
+        <a
+          className="sc-AxhCb dindIV"
+          href="https://talk.nervos.org/"
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <img
+            alt="footer icon"
+            src="footer_forum.png"
+          />
+          <span>
+            Forum
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div
+    className="footer__copyright"
+  >
+    <span>
+      Copyright © 2020 Nervos Foundation. 
+    </span>
+    <span>
+      All Rights Reserved.
+    </span>
+  </div>
+</div>
+`;

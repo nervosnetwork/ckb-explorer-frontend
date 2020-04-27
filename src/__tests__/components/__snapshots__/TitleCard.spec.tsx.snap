@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TitleCard Component shallow renders 1`] = `
+<div
+  className="sc-AxjAm cUKlvR"
+>
+  <div
+    className="title__card__content"
+  >
+    title
+  </div>
+  <div
+    className="title__card__separate"
+  />
+</div>
+`;

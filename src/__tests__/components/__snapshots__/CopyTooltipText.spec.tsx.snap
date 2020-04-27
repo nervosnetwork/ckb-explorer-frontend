@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CopyTooltipText Component shallow renders 1`] = `
+<div
+  className="sc-AxjAm jIaAfJ"
+  id="copy__content__content"
+  onClick={[Function]}
+  onKeyDown={[Function]}
+  onMouseOver={[Function]}
+  role="button"
+  tabIndex={-1}
+>
+  content
+</div>
+`;
