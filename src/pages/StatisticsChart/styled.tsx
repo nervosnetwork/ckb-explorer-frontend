@@ -41,7 +41,7 @@ export const ChartsPanel = styled.div`
 `
 
 export const ChartCardPanel = styled.div`
-  width: 270px;
+  width: 280px;
   height: 220px;
   background: white;
   margin: 20px 7px;
@@ -60,7 +60,7 @@ export const ChartCardPanel = styled.div`
   .chart__card_title {
     height: 40px;
     line-height: 40px;
-    padding-left: 20px;
+    padding-left: 12px;
     background: #f8f9fa;
     border-radius: 6px 6px 0 0;
     border: 1px solid #e2e2e2;
