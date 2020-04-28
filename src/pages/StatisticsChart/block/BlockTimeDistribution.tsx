@@ -46,7 +46,10 @@ const getOption = (statisticBlockTimeDistributions: State.StatisticBlockTimeDist
         nameGap: '30',
         data: statisticBlockTimeDistributions.map(data => data.time),
         axisLabel: {
-          formatter: (value: string) => value,
+          min: 0,
+          max: 50,
+          interval: 49,
+          formatter: (value: string) => Number(value).toFixed(0),
         },
       },
     ],

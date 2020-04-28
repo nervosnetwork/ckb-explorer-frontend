@@ -14,14 +14,16 @@ export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
     const sumBlocks = blockTimeDistribution
       .flatMap(data => Number(data[1]))
       .reduce((previous, current) => previous + current)
-    const statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[] = blockTimeDistribution.map(data => {
-      const [time, blocks] = data
-      return {
-        time,
-        ratio: ((Number(blocks) / sumBlocks) * 100).toFixed(3),
-      }
-    })
-    console.log(statisticBlockTimeDistributions)
+    let statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[] = [{ time: '0', ratio: '0' }]
+    statisticBlockTimeDistributions = statisticBlockTimeDistributions.concat(
+      blockTimeDistribution.map(data => {
+        const [time, blocks] = data
+        return {
+          time,
+          ratio: ((Number(blocks) / sumBlocks) * 100).toFixed(3),
+        }
+      }),
+    )
     dispatch({
       type: PageActions.UpdateStatisticBlockTimeDistribution,
       payload: {
