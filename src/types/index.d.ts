@@ -234,6 +234,11 @@ declare namespace State {
     createdAtUnixtimestamp: string
   }
 
+  export interface StatisticCirculationRatio {
+    circulationRatio: string
+    createdAtUnixtimestamp: string
+  }
+
   export interface StatisticDifficultyHashRate {
     difficulty: string
     hashRate: string
@@ -422,6 +427,7 @@ declare namespace State {
     statisticOccupiedCapacities: StatisticOccupiedCapacity[]
     statisticEpochTimeDistributions: StatisticEpochTimeDistribution[]
     statisticEpochLengthDistributions: StatisticEpochLengthDistribution[]
+    statisticCirculationRatios: StatisticCirculationRatio[]
   }
 
   export interface AppState extends StatisticChartsState {

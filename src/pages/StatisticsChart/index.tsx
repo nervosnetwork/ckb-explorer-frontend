@@ -22,6 +22,7 @@ import {
   getStatisticTotalDaoDeposit,
   getStatisticNewDaoDeposit,
   getStatisticNewDaoWithdraw,
+  getStatisticCirculationRatio,
 } from '../../service/app/charts/nervosDao'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
@@ -49,6 +50,7 @@ import { EpochTimeDistributionChart, initStatisticEpochTimeDistribution } from '
 import { EpochLengthDistributionChart, initStatisticEpochLengthDistribution } from './block/EpochLengthDistribution'
 import { NewDaoDepositChart, initStatisticNewDaoDeposit } from './nervosDao/NewDaoDeposit'
 import { NewDaoWithdrawChart, initStatisticNewDaoWithdraw } from './nervosDao/NewDaoWithdraw'
+import { CirculationRatioChart, initStatisticCirculationRatio } from './nervosDao/CirculationRatio'
 
 interface ChartData {
   title: string
@@ -86,6 +88,7 @@ export default () => {
     statisticTotalDaoDeposits,
     statisticNewDaoDeposits,
     statisticNewDaoWithdraw,
+    statisticCirculationRatios,
     statisticCellCounts,
     statisticTransactionCounts,
     statisticAddressBalanceRanks,
@@ -221,6 +224,11 @@ export default () => {
           chart: <NewDaoWithdrawChart statisticNewDaoWithdraw={statisticNewDaoWithdraw} isThumbnail />,
           path: '/charts/new-dao-withdraw',
         },
+        {
+          title: `${i18n.t('statistic.circulation_ratio')}`,
+          chart: <CirculationRatioChart statisticCirculationRatios={statisticCirculationRatios} isThumbnail />,
+          path: '/charts/circulation-ratio',
+        },
       ],
     },
   ]
@@ -237,6 +245,7 @@ export default () => {
     initStatisticTotalDaoDeposit(dispatch)
     initStatisticNewDaoDeposit(dispatch)
     initStatisticNewDaoWithdraw(dispatch)
+    initStatisticCirculationRatio(dispatch)
     initStatisticAddressBalanceRanks(dispatch)
     initStatisticBalanceDistribution(dispatch)
     initStatisticTxFeeHistory(dispatch)
@@ -258,6 +267,7 @@ export default () => {
     getStatisticTotalDaoDeposit(dispatch)
     getStatisticNewDaoDeposit(dispatch)
     getStatisticNewDaoWithdraw(dispatch)
+    getStatisticCirculationRatio(dispatch)
     getStatisticAddressBalanceRank(dispatch)
     getStatisticBalanceDistribution(dispatch)
     getStatisticTxFeeHistory(dispatch)

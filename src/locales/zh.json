@@ -69,6 +69,7 @@
       "new_dao_deposit": "每日新增 Nervos DAO 锁定",
       "new_dao_depositor": "每日新增 Nervos DAO 锁定地址",
       "new_dao_withdraw": "每日新增 Nervos DAO 解锁",
+      "circulation_ratio": "锁定量占当前流通量比率",
       "live_cell": "未花费 Cell",
       "archived_cell": "已花费 Cell",
       "all_cells": "所有的 Cell",

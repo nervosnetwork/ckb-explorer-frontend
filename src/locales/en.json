@@ -69,6 +69,7 @@
       "new_dao_deposit": "New Nervos DAO Deposit per Day",
       "new_dao_depositor": "New Depositors per Day",
       "new_dao_withdraw": "New Nervos DAO Withdraw per Day",
+      "circulation_ratio": "Ratio of Deposit to Circulation",
       "live_cell": "Live Cell",
       "archived_cell": "Archived Cell",
       "all_cells": "All Cells",
