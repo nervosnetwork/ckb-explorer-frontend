@@ -61,15 +61,15 @@ export const getStatisticEpochLengthDistribution = (dispatch: AppDispatch) => {
       const {
         attributes: { epochLengthDistribution },
       } = wrap
-      const statisticEpochLengthDistributions: State.StatisticEpochLengthDistribution[] = epochLengthDistribution
-        .map(data => {
+      const statisticEpochLengthDistributions: State.StatisticEpochLengthDistribution[] = epochLengthDistribution.map(
+        data => {
           const [length, epoch] = data
           return {
             length,
             epoch,
           }
-        })
-        .slice(1)
+        },
+      )
       dispatch({
         type: PageActions.UpdateStatisticEpochLengthDistribution,
         payload: {
