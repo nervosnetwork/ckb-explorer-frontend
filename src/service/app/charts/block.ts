@@ -14,8 +14,7 @@ export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
     const sumBlocks = blockTimeDistribution
       .flatMap(data => Number(data[1]))
       .reduce((previous, current) => previous + current)
-    let statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[] = [{ time: '0', ratio: '0' }]
-    statisticBlockTimeDistributions = statisticBlockTimeDistributions.concat(
+    const statisticBlockTimeDistributions = [{ time: '0', ratio: '0' }].concat(
       blockTimeDistribution.map(data => {
         const [time, blocks] = data
         return {
