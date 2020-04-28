@@ -5,7 +5,8 @@ import {
   fetchNervosDaoTransactionsByAddress,
   fetchNervosDaoDepositors,
 } from '../http/fetcher'
-import { AppDispatch, PageActions, AppActions } from '../../contexts/providers/reducer'
+import { AppDispatch } from '../../contexts/reducer'
+import { AppActions, PageActions } from '../../contexts/actions'
 import { addPrefixForHash } from '../../utils/string'
 
 const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {

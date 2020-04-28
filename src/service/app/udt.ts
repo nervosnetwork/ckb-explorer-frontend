@@ -1,5 +1,6 @@
 import { fetchSimpleUDT, fetchSimpleUDTTransactions, fetchSimpleUDTTransactionsWithAddress } from '../http/fetcher'
-import { AppDispatch, PageActions, AppActions } from '../../contexts/providers/reducer'
+import { AppDispatch } from '../../contexts/reducer'
+import { AppActions, PageActions } from '../../contexts/actions'
 
 const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
   dispatch({

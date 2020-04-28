@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios'
-import { AppActions, AppDispatch, PageActions } from '../../contexts/providers/reducer'
+import { AppDispatch } from '../../contexts/reducer'
+import { AppActions, PageActions } from '../../contexts/actions'
 import initAddress from '../../contexts/states/address'
 import { fetchAddressInfo, fetchTipBlockNumber, fetchTransactionsByAddress } from '../http/fetcher'
 

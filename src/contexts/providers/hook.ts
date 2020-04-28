@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import { initAxiosInterceptors } from '../../service/http/interceptors'
 import { RESIZE_LATENCY, CachedKeys } from '../../utils/const'
 import { initNodeVersion } from '../../service/app/nodeInfo'
-import { AppDispatch, AppActions } from './reducer'
+import { AppDispatch } from '../reducer'
 import { fetchCachedData } from '../../utils/cached'
 import { changeLanguage } from '../../utils/i18n'
 import { useAppState, useDispatch } from '.'
+import { AppActions } from '../actions'
 
 const useWindowResize = (dispatch: AppDispatch) => {
   useEffect(() => {

@@ -1,5 +1,6 @@
 import { fetchTransactionsByBlockHash, fetchBlock, fetchBlocks, fetchBlockList } from '../http/fetcher'
-import { PageActions, AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import { AppDispatch } from '../../contexts/reducer'
+import { AppActions, PageActions } from '../../contexts/actions'
 
 const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
   dispatch({

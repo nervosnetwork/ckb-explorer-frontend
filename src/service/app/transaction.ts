@@ -1,5 +1,6 @@
 import { fetchTransactionByHash, fetchTransactions, fetchLatestTransactions } from '../http/fetcher'
-import { PageActions, AppActions, AppDispatch } from '../../contexts/providers/reducer'
+import { AppDispatch } from '../../contexts/reducer'
+import { AppActions, PageActions } from '../../contexts/actions'
 
 const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
   dispatch({

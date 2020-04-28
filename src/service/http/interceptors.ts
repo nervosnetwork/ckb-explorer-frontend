@@ -2,7 +2,8 @@ import { AxiosError } from 'axios'
 import { axiosIns } from './fetcher'
 import i18n from '../../utils/i18n'
 import browserHistory from '../../routes/history'
-import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import { AppDispatch } from '../../contexts/reducer'
+import { AppActions } from '../../contexts/actions'
 
 const updateNetworkError = (dispatch: AppDispatch, occurError: boolean) => {
   dispatch({

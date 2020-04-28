@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import queryString from 'query-string'
 import { useLocation, useHistory } from 'react-router-dom'
-import { PageActions, AppActions } from '../../contexts/providers/reducer'
+import { PageActions, AppActions } from '../../contexts/actions'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import Content from '../../components/Content'
 import i18n from '../../utils/i18n'
