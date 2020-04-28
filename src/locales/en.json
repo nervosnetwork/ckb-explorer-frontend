@@ -93,7 +93,7 @@
       "category_block": "Block",
       "tx_fee_history": "Transaction Fee History",
       "tx_fee": "Transaction Fee (CKB)",
-      "block_count": "blocks",
+      "block_count": "Block Ratio",
       "block_time_distribution": "Block Time Distribution",
       "occupied_capacity": "Occupied Capacity",
       "epoch_time_distribution": "Epoch Time Distribution",

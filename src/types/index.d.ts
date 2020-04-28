@@ -304,7 +304,7 @@ declare namespace State {
 
   export interface StatisticBlockTimeDistribution {
     time: string
-    blocks: string
+    ratio: string
   }
 
   export interface StatisticOccupiedCapacity {

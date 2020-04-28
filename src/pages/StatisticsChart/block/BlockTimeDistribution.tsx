@@ -6,7 +6,6 @@ import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
 import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 import { getStatisticBlockTimeDistribution } from '../../../service/app/charts/block'
-import { localeNumberString } from '../../../utils/number'
 
 const gridThumbnail = {
   left: '4%',
@@ -31,11 +30,11 @@ const getOption = (statisticBlockTimeDistributions: State.StatisticBlockTimeDist
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '60px' : '60px'};display:inline-block;">${value}:</span>`
+          `<span style="width:${currentLanguage() === 'en' ? '100px' : '80px'};display:inline-block;">${value}:</span>`
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.time'))} ${dataList[0].name}</div>`
-        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.block_count'))} ${localeNumberString(
-          dataList[0].data,
-        )}</div>`
+        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.block_count'))} ${
+          dataList[0].data
+        }%</div>`
         return result
       },
     },
@@ -45,8 +44,6 @@ const getOption = (statisticBlockTimeDistributions: State.StatisticBlockTimeDist
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.time'),
         nameLocation: 'middle',
         nameGap: '30',
-        type: 'category',
-        boundaryGap: true,
         data: statisticBlockTimeDistributions.map(data => data.time),
         axisLabel: {
           formatter: (value: string) => value,
@@ -65,20 +62,20 @@ const getOption = (statisticBlockTimeDistributions: State.StatisticBlockTimeDist
           },
         },
         axisLabel: {
-          formatter: (value: string) => localeNumberString(value),
+          formatter: (value: string) => `${value}%`,
         },
       },
     ],
     series: [
       {
         name: i18n.t('statistic.block_count'),
-        type: 'bar',
+        type: 'line',
         yAxisIndex: '0',
         areaStyle: {
           color: '#85bae0',
         },
         barWidth: isMobile() || isThumbnail ? 10 : 20,
-        data: statisticBlockTimeDistributions.map(data => data.blocks),
+        data: statisticBlockTimeDistributions.map(data => data.ratio),
       },
     ],
   }
