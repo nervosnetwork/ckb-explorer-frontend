@@ -267,6 +267,14 @@ export const pageReducer = (
           transactions: payload.transactions,
         },
       }
+    case PageActions.UpdateNervosDaoTransactionsStatus:
+      return {
+        ...state,
+        nervosDaoState: {
+          ...state.nervosDaoState,
+          transactionsStatus: payload.transactionsStatus,
+        },
+      }
     case PageActions.UpdateNervosDaoTransactionsTotal:
       return {
         ...state,

@@ -57,6 +57,7 @@ export enum PageActions {
 
   UpdateNervosDao = 'updateNervosDao',
   UpdateNervosDaoTransactions = 'updateNervosDaoTransactions',
+  UpdateNervosDaoTransactionsStatus = 'updateNervosDaoTransactionsStatus',
   UpdateNervosDaoTransactionsTotal = 'updateNervosDaoTransactionsTotal',
   UpdateNervosDaoDepositors = 'updateNervosDaoDepositors',
   UpdateNervosDaoStatus = 'updateNervosDaoStatus',

@@ -187,9 +187,10 @@ declare namespace State {
   export interface NervosDaoState {
     nervosDao: NervosDao
     transactions: Transaction[]
+    transactionsStatus: FetchStatus
     total: number
     depositors: NervosDaoDepositor[]
-    status: keyof FetchStatus
+    status: FetchStatus
   }
 
   export interface Statistics {
@@ -330,11 +331,14 @@ declare namespace State {
     epoch: string
   }
 
-  export interface FetchStatus {
+  interface FetchStatusValue {
     OK: string
     Error: string
+    InProgress: string
     None: string
   }
+
+  export type FetchStatus = keyof FetchStatusValue
 
   export interface UDT {
     symbol: string
@@ -349,22 +353,22 @@ declare namespace State {
     udt: UDT
     transactions: Transaction[]
     total: number
-    status: keyof FetchStatus
+    status: FetchStatus
   }
 
   export interface AddressState {
     address: Address
     transactions: Transaction[]
     total: number
-    addressStatus: keyof FetchStatus
-    transactionsStatus: keyof FetchStatus
+    addressStatus: FetchStatus
+    transactionsStatus: FetchStatus
   }
 
   export interface BlockState {
     block: Block
     transactions: Transaction[]
     total: number
-    status: keyof FetchStatus
+    status: FetchStatus
   }
 
   export interface BlockListState {
@@ -374,7 +378,7 @@ declare namespace State {
 
   export interface TransactionState {
     transaction: Transaction
-    status: keyof FetchStatus
+    status: FetchStatus
     scriptFetched: boolean
   }
 

@@ -30,6 +30,7 @@ const BlockStateComp = ({
       return <Error />
     case 'OK':
       return <BlockComp currentPage={currentPage} pageSize={pageSize} blockParam={blockParam} />
+    case 'InProgress':
     case 'None':
     default:
       return <Loading show={app.loading} />
@@ -43,7 +44,9 @@ export default () => {
   // blockParam: block hash or block number
   const { param: blockParam } = useParams<{ param: string }>()
   const parsed = queryString.parse(search)
-  const { blockState } = useAppState()
+  const {
+    blockState: { status, block },
+  } = useAppState()
 
   const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
   const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
@@ -68,14 +71,12 @@ export default () => {
 
   useTimeoutWithUnmount(
     () => {
-      if (blockState.status === 'None') {
-        dispatch({
-          type: AppActions.UpdateLoading,
-          payload: {
-            loading: true,
-          },
-        })
-      }
+      dispatch({
+        type: AppActions.UpdateLoading,
+        payload: {
+          loading: status === 'None' || status === 'InProgress',
+        },
+      })
     },
     () => {
       dispatch({
@@ -91,10 +92,7 @@ export default () => {
   return (
     <Content>
       <BlockDetailPanel className="container">
-        <BlockHashCard
-          title={i18n.t('block.block')}
-          hash={blockState.status === 'OK' ? blockState.block.blockHash : blockParam}
-        />
+        <BlockHashCard title={i18n.t('block.block')} hash={status === 'OK' ? block.blockHash : blockParam} />
         <BlockStateComp currentPage={currentPage} pageSize={pageSize} blockParam={blockParam} />
       </BlockDetailPanel>
     </Content>

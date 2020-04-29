@@ -5,7 +5,7 @@ import ClearLogo from '../../../assets/clear.png'
 import i18n from '../../../utils/i18n'
 import { AppActions, ComponentActions } from '../../../contexts/actions'
 import { useDispatch, useAppState } from '../../../contexts/providers'
-import { getSimpleUDTTransactionsWithAddress } from '../../../service/app/udt'
+import { getUDTTransactionsWithAddress } from '../../../service/app/udt'
 import { isMobile } from '../../../utils/screen'
 import { UDTSearchInputPanel, UDTSearchImage, UDTSearchPanel } from './styled'
 
@@ -20,9 +20,10 @@ const setSearchContent = (inputElement: any, content: string) => {
   if (input) {
     input.value = content
   }
+  input.blur()
 }
 
-const UDT_ADDRESS_SEARCH_TRANSACTIONS = 100
+const UDT_SEARCH_TRANSACTIONS = 100
 
 const UDTSearch = ({ typeHash, content }: { typeHash: string; content?: string }) => {
   const dispatch = useDispatch()
@@ -35,6 +36,7 @@ const UDTSearch = ({ typeHash, content }: { typeHash: string; content?: string }
   const inputElement = useRef<HTMLInputElement>(null)
   const {
     components: { searchBarEditable },
+    udtState: { status },
   } = useAppState()
 
   const handleSearchResult = () => {
@@ -48,29 +50,26 @@ const UDTSearch = ({ typeHash, content }: { typeHash: string; content?: string }
       })
     } else {
       setSearchContent(inputElement, i18n.t('search.loading'))
-      getSimpleUDTTransactionsWithAddress(
-        query,
-        typeHash,
-        1,
-        UDT_ADDRESS_SEARCH_TRANSACTIONS,
-        dispatch,
-        (isSuccess: boolean) => {
-          if (isSuccess) {
-            clearSearchInput(inputElement)
-          } else {
-            setSearchContent(inputElement, query)
-            dispatch({
-              type: AppActions.ShowToastMessage,
-              payload: {
-                type: 'warning',
-                message: i18n.t('toast.result_not_found'),
-              },
-            })
-          }
-        },
-      )
+      getUDTTransactionsWithAddress(query, typeHash, 1, UDT_SEARCH_TRANSACTIONS, dispatch)
     }
   }
+
+  useEffect(() => {
+    if (status === 'InProgress') {
+      setSearchContent(inputElement, i18n.t('search.loading'))
+    } else if (status === 'OK') {
+      clearSearchInput(inputElement)
+    } else {
+      clearSearchInput(inputElement)
+      dispatch({
+        type: AppActions.ShowToastMessage,
+        payload: {
+          type: 'warning',
+          message: i18n.t('toast.result_not_found'),
+        },
+      })
+    }
+  }, [status, dispatch])
 
   // update input placeholder when language change
   useEffect(() => {

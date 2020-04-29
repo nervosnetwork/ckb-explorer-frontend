@@ -37,6 +37,7 @@ const NervosDAOStateComp = ({
       ) : (
         <DepositorRank />
       )
+    case 'InProgress':
     case 'None':
     default:
       return <Loading show={app.loading} />
@@ -67,14 +68,12 @@ export const NervosDao = () => {
 
   useTimeoutWithUnmount(
     () => {
-      if (status === 'None') {
-        dispatch({
-          type: AppActions.UpdateLoading,
-          payload: {
-            loading: true,
-          },
-        })
-      }
+      dispatch({
+        type: AppActions.UpdateLoading,
+        payload: {
+          loading: status === 'None' || status === 'InProgress',
+        },
+      })
     },
     () => {
       dispatch({

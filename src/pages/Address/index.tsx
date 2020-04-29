@@ -179,6 +179,7 @@ const AddressStateTransactions = ({
       return <Error />
     case 'OK':
       return <AddressTransactions currentPage={currentPage} pageSize={pageSize} address={address} />
+    case 'InProgress':
     case 'None':
     default:
       return <Loading show={app.secondLoading} />
@@ -190,7 +191,10 @@ export const Address = () => {
   const { search } = useLocation()
   const { address } = useParams<{ address: string }>()
   const parsed = queryString.parse(search)
-  const { addressState } = useAppState()
+  const {
+    addressState,
+    addressState: { addressStatus, transactionsStatus },
+  } = useAppState()
 
   const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
   const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
@@ -219,13 +223,13 @@ export const Address = () => {
       dispatch({
         type: AppActions.UpdateLoading,
         payload: {
-          loading: true,
+          loading: addressStatus === 'None' || addressStatus === 'InProgress',
         },
       })
       dispatch({
         type: AppActions.UpdateSecondLoading,
         payload: {
-          secondLoading: true,
+          secondLoading: transactionsStatus === 'None' || transactionsStatus === 'InProgress',
         },
       })
     },

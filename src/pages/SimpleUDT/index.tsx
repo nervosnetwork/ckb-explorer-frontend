@@ -36,6 +36,7 @@ const SimpleUDTCompState = ({
       return <Error />
     case 'OK':
       return <SimpleUDTComp currentPage={currentPage} pageSize={pageSize} typeHash={typeHash} />
+    case 'InProgress':
     case 'None':
     default:
       return <Loading show={app.secondLoading} />
@@ -50,6 +51,7 @@ export const SimpleUDT = () => {
   const {
     udtState: {
       udt: { iconFile },
+      status,
     },
   } = useAppState()
 
@@ -73,7 +75,7 @@ export const SimpleUDT = () => {
       dispatch({
         type: AppActions.UpdateLoading,
         payload: {
-          loading: true,
+          loading: status === 'None' || status === 'InProgress',
         },
       })
     },
@@ -81,7 +83,7 @@ export const SimpleUDT = () => {
       dispatch({
         type: PageActions.UpdateUDTStatus,
         payload: {
-          addressStatus: 'None',
+          status: 'None',
         },
       })
     },

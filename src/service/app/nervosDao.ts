@@ -6,20 +6,23 @@ import {
   fetchNervosDaoDepositors,
 } from '../http/fetcher'
 import { AppDispatch } from '../../contexts/reducer'
-import { AppActions, PageActions } from '../../contexts/actions'
+import { PageActions } from '../../contexts/actions'
 import { addPrefixForHash } from '../../utils/string'
 
-const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
+const handleNervosDAOStatus = (dispatch: AppDispatch, status: State.FetchStatus) => {
   dispatch({
     type: PageActions.UpdateNervosDaoStatus,
     payload: {
-      status: isOK ? 'OK' : 'Error',
+      status,
     },
   })
+}
+
+const handleTransactionsStatus = (dispatch: AppDispatch, transactionsStatus: State.FetchStatus) => {
   dispatch({
-    type: AppActions.UpdateLoading,
+    type: PageActions.UpdateNervosDaoTransactionsStatus,
     payload: {
-      loading: false,
+      transactionsStatus,
     },
   })
 }
@@ -40,19 +43,28 @@ const handleTransactionsResponse = (dispatch: AppDispatch, transactions: State.T
 }
 
 export const getNervosDao = (dispatch: AppDispatch) => {
-  fetchNervosDao().then((wrapper: Response.Wrapper<State.NervosDao> | null) => {
-    if (wrapper) {
-      dispatch({
-        type: PageActions.UpdateNervosDao,
-        payload: {
-          nervosDao: wrapper.attributes,
-        },
-      })
-    }
-  })
+  handleNervosDAOStatus(dispatch, 'InProgress')
+  fetchNervosDao()
+    .then((wrapper: Response.Wrapper<State.NervosDao> | null) => {
+      if (wrapper) {
+        handleNervosDAOStatus(dispatch, 'OK')
+        dispatch({
+          type: PageActions.UpdateNervosDao,
+          payload: {
+            nervosDao: wrapper.attributes,
+          },
+        })
+      } else {
+        handleNervosDAOStatus(dispatch, 'Error')
+      }
+    })
+    .catch(() => {
+      handleNervosDAOStatus(dispatch, 'Error')
+    })
 }
 
 export const getNervosDaoTransactions = (dispatch: AppDispatch, page: number, pageSize: number) => {
+  handleNervosDAOStatus(dispatch, 'InProgress')
   fetchNervosDaoTransactions(page, pageSize)
     .then((response: any) => {
       const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
@@ -63,18 +75,19 @@ export const getNervosDaoTransactions = (dispatch: AppDispatch, page: number, pa
         }),
         meta === undefined ? 1 : meta.total,
       )
-      handleResponseStatus(dispatch, true)
+      handleNervosDAOStatus(dispatch, 'OK')
     })
     .catch(() => {
-      handleResponseStatus(dispatch, false)
+      handleNervosDAOStatus(dispatch, 'Error')
     })
 }
 
-export const searchNervosDaoTransactions = (keyword: string, dispatch: AppDispatch, callback: Function) => {
+export const searchNervosDaoTransactions = (keyword: string, dispatch: AppDispatch) => {
+  handleTransactionsStatus(dispatch, 'InProgress')
   if (keyword.startsWith('ckt') || keyword.startsWith('ckb')) {
     fetchNervosDaoTransactionsByAddress(keyword)
       .then((response: any) => {
-        callback(true)
+        handleTransactionsStatus(dispatch, 'OK')
         const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
         handleTransactionsResponse(
           dispatch,
@@ -85,17 +98,17 @@ export const searchNervosDaoTransactions = (keyword: string, dispatch: AppDispat
         )
       })
       .catch(() => {
-        callback(false)
+        handleTransactionsStatus(dispatch, 'Error')
       })
   } else {
     fetchNervosDaoTransactionsByHash(addPrefixForHash(keyword))
       .then((wrapper: any) => {
-        callback(true)
+        handleTransactionsStatus(dispatch, 'OK')
         const { attributes } = wrapper as Response.Wrapper<State.Transaction>
         handleTransactionsResponse(dispatch, [attributes], 1)
       })
       .catch(() => {
-        callback(false)
+        handleTransactionsStatus(dispatch, 'Error')
       })
   }
 }
