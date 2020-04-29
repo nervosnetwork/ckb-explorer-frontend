@@ -2,7 +2,7 @@ import { AppActions } from '../actions'
 
 export const appReducer = (
   state: State.AppState,
-  { type, payload }: { type: AppActions; payload: any },
+  { type, payload }: { type: AppActions; payload: State.AppPayload },
 ): State.AppState => {
   switch (type) {
     case AppActions.ResizeWindow:

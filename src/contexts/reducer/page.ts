@@ -2,15 +2,17 @@ import { PageActions } from '../actions'
 
 export const pageReducer = (
   state: State.AppState,
-  { type, payload }: { type: PageActions; payload: any },
+  { type, payload }: { type: PageActions; payload: State.PagePayload },
 ): State.AppState => {
   switch (type) {
+    // home page
     case PageActions.UpdateHomeBlocks:
       return {
         ...state,
         homeBlocks: payload.homeBlocks,
       }
 
+    // block list page
     case PageActions.UpdateBlockList:
       return {
         ...state,
@@ -28,6 +30,7 @@ export const pageReducer = (
         },
       }
 
+    // address page
     case PageActions.UpdateAddress:
       return {
         ...state,
@@ -69,6 +72,7 @@ export const pageReducer = (
         },
       }
 
+    // block detail page
     case PageActions.UpdateBlock:
       return {
         ...state,
@@ -102,6 +106,7 @@ export const pageReducer = (
         },
       }
 
+    // transaction page
     case PageActions.UpdateTransaction:
       return {
         ...state,
@@ -143,7 +148,7 @@ export const pageReducer = (
         },
       }
 
-    // Statistic chart actions
+    // statistic chart page
     case PageActions.UpdateStatistics:
       return {
         ...state,
@@ -245,6 +250,7 @@ export const pageReducer = (
         statisticEpochLengthDistributions: payload.statisticEpochLengthDistributions,
       }
 
+    // nervos dao page
     case PageActions.UpdateNervosDao:
       return {
         ...state,
@@ -286,6 +292,7 @@ export const pageReducer = (
         },
       }
 
+    // simple udt page
     case PageActions.UpdateUDT:
       return {
         ...state,
