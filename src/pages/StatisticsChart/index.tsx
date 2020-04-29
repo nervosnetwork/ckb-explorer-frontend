@@ -282,7 +282,7 @@ export default () => {
       <ChartsContent>
         <ChartsTitle>{i18n.t('statistic.charts_title')}</ChartsTitle>
         {charts.map(chart => (
-          <ChartsPanel>
+          <ChartsPanel key={chart.category}>
             <div className="charts__category__title">{chart.category}</div>
             <div className="charts__category__panel">
               {chart.charts.map(chart => (
