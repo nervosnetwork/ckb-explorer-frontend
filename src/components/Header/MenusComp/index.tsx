@@ -5,6 +5,7 @@ import { MobileMenuItem, MobileMenuLink } from './styled'
 import { Link } from 'react-router-dom'
 import { HeaderMenuPanel } from './styled'
 import { isMainnet } from '../../../utils/chain'
+import CONFIG from '../../../config'
 
 export enum LinkType {
   Inner,
@@ -40,10 +41,15 @@ const menuDataList = () => {
   ]
 }
 
+const urlPrefix = isMainnet() ? '' : `/${CONFIG.TESTNET_NAME}`
 const MenuItemLink = ({ menu }: { menu: any }) => {
   const { url, type, name } = menu
   return (
-    <MobileMenuLink href={url} target={type === LinkType.Inner ? '_self' : '_blank'} rel="noopener noreferrer">
+    <MobileMenuLink
+      href={type === LinkType.Inner ? `${urlPrefix}${url}` : url}
+      target={type === LinkType.Inner ? '_self' : '_blank'}
+      rel="noopener noreferrer"
+    >
       {name}
     </MobileMenuLink>
   )
