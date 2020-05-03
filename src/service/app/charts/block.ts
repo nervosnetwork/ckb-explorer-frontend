@@ -1,4 +1,8 @@
-import { fetchStatisticBlockTimeDistribution, fetchStatisticEpochTimeDistribution } from '../../http/fetcher'
+import {
+  fetchStatisticBlockTimeDistribution,
+  fetchStatisticEpochTimeDistribution,
+  fetchStatisticAverageBlockTimes,
+} from '../../http/fetcher'
 import { AppDispatch, PageActions } from '../../../contexts/providers/reducer'
 
 export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
@@ -23,6 +27,21 @@ export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
       type: PageActions.UpdateStatisticBlockTimeDistribution,
       payload: {
         statisticBlockTimeDistributions,
+      },
+    })
+  })
+}
+
+export const getStatisticAverageBlockTimes = (dispatch: AppDispatch) => {
+  fetchStatisticAverageBlockTimes().then((wrap: Response.Wrapper<State.StatisticAverageBlockTimes> | null) => {
+    if (!wrap) return
+    const {
+      attributes: { averageBlockTime },
+    } = wrap
+    dispatch({
+      type: PageActions.UpdateStatisticAverageBlockTime,
+      payload: {
+        statisticAverageBlockTimes: averageBlockTime,
       },
     })
   })

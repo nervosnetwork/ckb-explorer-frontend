@@ -307,6 +307,16 @@ declare namespace State {
     ratio: string
   }
 
+  export interface StatisticAverageBlockTime {
+    timestamp: number
+    avgBlockTimeDaily: string
+    avgBlockTimeWeekly: string
+  }
+
+  export interface StatisticAverageBlockTimes {
+    averageBlockTime: StatisticAverageBlockTime[]
+  }
+
   export interface StatisticOccupiedCapacity {
     occupiedCapacity: string
     createdAtUnixtimestamp: string
@@ -415,6 +425,7 @@ declare namespace State {
     statisticBalanceDistributions: StatisticBalanceDistribution[]
     statisticTxFeeHistories: StatisticTransactionFee[]
     statisticBlockTimeDistributions: StatisticBlockTimeDistribution[]
+    statisticAverageBlockTimes: StatisticAverageBlockTime[]
     statisticOccupiedCapacities: StatisticOccupiedCapacity[]
     statisticEpochTimeDistributions: StatisticEpochTimeDistribution[]
     statisticCirculationRatios: StatisticCirculationRatio[]

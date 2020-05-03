@@ -40,12 +40,17 @@ import { UncleRateChart, initStatisticUncleRate } from './mining/UncleRate'
 import { BalanceDistributionChart, initStatisticBalanceDistribution } from './activities/BalanceDistribution'
 import { TxFeeHistoryChart, initStatisticTxFeeHistory } from './activities/TxFeeHistory'
 import { BlockTimeDistributionChart, initStatisticBlockTimeDistribution } from './block/BlockTimeDistribution'
-import { getStatisticBlockTimeDistribution, getStatisticEpochTimeDistribution } from '../../service/app/charts/block'
+import {
+  getStatisticBlockTimeDistribution,
+  getStatisticEpochTimeDistribution,
+  getStatisticAverageBlockTimes,
+} from '../../service/app/charts/block'
 import { OccupiedCapacityChart, initStatisticOccupiedCapacity } from './activities/OccupiedCapacity'
 import { EpochTimeDistributionChart, initStatisticEpochTimeDistribution } from './block/EpochTimeDistribution'
 import { NewDaoDepositChart, initStatisticNewDaoDeposit } from './nervosDao/NewDaoDeposit'
 import { NewDaoWithdrawChart, initStatisticNewDaoWithdraw } from './nervosDao/NewDaoWithdraw'
 import { CirculationRatioChart, initStatisticCirculationRatio } from './nervosDao/CirculationRatio'
+import { initStatisticAverageBlockTimes, AverageBlockTimeChart } from './block/AverageBlockTime'
 
 interface ChartData {
   title: string
@@ -92,6 +97,7 @@ export default () => {
     statisticBlockTimeDistributions,
     statisticOccupiedCapacities,
     statisticEpochTimeDistributions,
+    statisticAverageBlockTimes,
   } = useAppState()
 
   const charts: ChartCategory[] = [
@@ -111,6 +117,11 @@ export default () => {
             <EpochTimeDistributionChart statisticEpochTimeDistributions={statisticEpochTimeDistributions} isThumbnail />
           ),
           path: '/charts/epoch-time-distribution',
+        },
+        {
+          title: `${i18n.t('statistic.epoch_time_distribution')}`,
+          chart: <AverageBlockTimeChart statisticAverageBlockTimes={statisticAverageBlockTimes} isThumbnail />,
+          path: '/charts/average-block-time',
         },
       ],
     },
@@ -236,6 +247,7 @@ export default () => {
     initStatisticBlockTimeDistribution(dispatch)
     initStatisticOccupiedCapacity(dispatch)
     initStatisticEpochTimeDistribution(dispatch)
+    initStatisticAverageBlockTimes(dispatch)
   }, [dispatch])
 
   useEffect(() => {
@@ -257,6 +269,7 @@ export default () => {
     getStatisticBlockTimeDistribution(dispatch)
     getStatisticOccupiedCapacity(dispatch)
     getStatisticEpochTimeDistribution(dispatch)
+    getStatisticAverageBlockTimes(dispatch)
   }, [dispatch])
 
   return (
