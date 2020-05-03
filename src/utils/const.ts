@@ -97,7 +97,7 @@ export const ContractHashTags: ContractHashTag[] = [
       '0x6495cede8d500e4309218ae50bbcadb8f722f24cc7572dd2274f5876cb603e4e-0',
       '0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c-0',
     ],
-    tag: 'secp256k1',
+    tag: 'secp256k1_blake160',
     category: 'lock',
   },
   {
