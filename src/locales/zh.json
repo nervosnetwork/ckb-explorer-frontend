@@ -101,8 +101,8 @@
       "epoch_length": "Epoch 长度 (区块)",
       "epoch_length_distribution": "Epoch 长度分布",
       "average_block_time": "平均出块时间",
-      "daily_moving_average": "日滑动平均",
-      "weekly_moving_average": "周滑动平均"
+      "daily_moving_average": "日滑动平均 (s)",
+      "weekly_moving_average": "周滑动平均 (s)"
     },
     "home": {
       "height": "高度",
