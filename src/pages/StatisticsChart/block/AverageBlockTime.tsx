@@ -10,15 +10,15 @@ import { getStatisticAverageBlockTimes } from '../../../service/app/charts/block
 import { localeNumberString } from '../../../utils/number'
 
 const gridThumbnail = {
-  left: '4%',
-  right: '4%',
+  left: '3%',
+  right: '3%',
   top: '8%',
   bottom: '6%',
   containLabel: true,
 }
 const grid = {
-  left: '5%',
-  right: '5%',
+  left: '2%',
+  right: '2%',
   bottom: '5%',
   containLabel: true,
 }
@@ -79,6 +79,9 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.daily_moving_average'),
         type: 'value',
         scale: true,
+        nameTextStyle: {
+          align: 'left',
+        },
         max: () => maxAndMinAxis(statisticAverageBlockTimes).max,
         min: () => maxAndMinAxis(statisticAverageBlockTimes).min,
         axisLine: {
@@ -95,6 +98,9 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.weekly_moving_average'),
         type: 'value',
         scale: true,
+        nameTextStyle: {
+          align: 'right',
+        },
         max: () => maxAndMinAxis(statisticAverageBlockTimes).max,
         min: () => maxAndMinAxis(statisticAverageBlockTimes).min,
         axisLine: {
