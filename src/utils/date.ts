@@ -11,8 +11,8 @@ export const parseSimpleDate = (timestamp: number | string) => {
   )}:${formatData(date.getSeconds())}`
 }
 
-export const parseSimpleDateNoSecond = (timestamp: number | string, connector = '-') => {
-  const date = new Date(Number(timestamp))
+export const parseSimpleDateNoSecond = (timestamp: number | string, connector = '-', isMillisecond = true) => {
+  const date = new Date(Number(timestamp) * (isMillisecond ? 1 : 1000))
   return `${date.getFullYear()}${connector}${date.getMonth() + 1}${connector}${date.getDate()} ${formatData(
     date.getHours(),
   )}:${formatData(date.getMinutes())}`

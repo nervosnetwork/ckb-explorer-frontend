@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
-import { parseDateNoTime } from '../../../utils/date'
+import { parseDateNoTime, parseSimpleDateNoSecond } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
 import { ReactChartCore, ChartLoading, ChartPage } from '../common/ChartComp'
@@ -33,27 +33,27 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '85px' : '90px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+          `<span style="width:${currentLanguage() === 'en' ? '185px' : '80px'};display:inline-block;">${value}:</span>`
+        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseSimpleDateNoSecond(
           dataList[0].name,
+          '/',
+          false,
         )}</div>`
         if (dataList[0]) {
-          result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
-            dataList[0].data,
-            2,
-          )}</div>`
+          result += `<div>${colorSpan(ChartColors[0])}${widthSpan(
+            i18n.t('statistic.daily_moving_average'),
+          )} ${handleAxis(dataList[0].data, 2)}</div>`
         }
         if (dataList[1]) {
-          result += `<div>${colorSpan(ChartColors[1])}${widthSpan(i18n.t('statistic.all_cells'))} ${handleAxis(
-            dataList[1].data,
-            2,
-          )}</div>`
+          result += `<div>${colorSpan(ChartColors[1])}${widthSpan(
+            i18n.t('statistic.weekly_moving_average'),
+          )} ${handleAxis(dataList[1].data, 2)}</div>`
         }
         return result
       },
     },
     legend: !isThumbnail && {
-      data: [i18n.t('statistic.live_cell'), i18n.t('statistic.all_cells')],
+      data: [i18n.t('statistic.daily_moving_average'), i18n.t('statistic.weekly_moving_average')],
     },
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
@@ -72,7 +72,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
     yAxis: [
       {
         position: 'left',
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.live_cell'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.daily_moving_average'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -86,7 +86,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
       },
       {
         position: 'right',
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.all_cells'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.weekly_moving_average'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -101,7 +101,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
     ],
     series: [
       {
-        name: i18n.t('statistic.live_cell'),
+        name: i18n.t('statistic.daily_moving_average'),
         type: 'line',
         yAxisIndex: '0',
         symbol: isThumbnail ? 'none' : 'circle',
@@ -109,7 +109,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
         data: statisticAverageBlockTimes.map(data => new BigNumber(data.avgBlockTimeDaily).toNumber()),
       },
       {
-        name: i18n.t('statistic.all_cells'),
+        name: i18n.t('statistic.weekly_moving_average'),
         type: 'line',
         yAxisIndex: '1',
         symbol: isThumbnail ? 'none' : 'circle',
@@ -152,7 +152,7 @@ export default () => {
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.cell_count')}>
+    <ChartPage title={i18n.t('statistic.average_block_time')}>
       <AverageBlockTimeChart statisticAverageBlockTimes={statisticAverageBlockTimes} />
     </ChartPage>
   )

@@ -119,7 +119,7 @@ export default () => {
           path: '/charts/epoch-time-distribution',
         },
         {
-          title: `${i18n.t('statistic.epoch_time_distribution')}`,
+          title: `${i18n.t('statistic.average_block_time')}`,
           chart: <AverageBlockTimeChart statisticAverageBlockTimes={statisticAverageBlockTimes} isThumbnail />,
           path: '/charts/average-block-time',
         },
