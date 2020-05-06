@@ -55,12 +55,14 @@ describe('Date methods tests', () => {
 
   it('parseSimpleDate', async () => {
     expect(parseSimpleDate(1588734510000)).toBe('2020/5/6 03:08:30')
+    expect(parseSimpleDate(1588651000000)).toBe('2020/5/5 03:56:40')
   })
 
   it('parseSimpleDateNoSecond', async () => {
     expect(parseSimpleDateNoSecond(1588734510000)).toBe('2020-5-6 03:08')
     expect(parseSimpleDateNoSecond(1588734510000, '/')).toBe('2020/5/6 03:08')
     expect(parseSimpleDateNoSecond(1588734510, '/', false)).toBe('2020/5/6 03:08')
+    expect(parseSimpleDateNoSecond(1588651000000, '/')).toBe('2020/5/5 03:56')
   })
 
   it('getCurrentYear', async () => {
@@ -69,9 +71,12 @@ describe('Date methods tests', () => {
   })
 
   it('parseDate', async () => {
-    MockDate.set(1588694400000)
+    MockDate.set(1588694400000, 480)
     expect(parseDate(1588694380000)).toBe('20s ago')
     expect(parseDate(1588691000000)).toBe('56min 40s ago')
-    expect(parseDate(1588651000000)).toBe('2020/5/5 11:56:40')
+
+    MockDate.reset()
+    timezoneMock.register('UTC')
+    expect(parseDate(1588651000000)).toBe('2020/5/5 03:56:40')
   })
 })
