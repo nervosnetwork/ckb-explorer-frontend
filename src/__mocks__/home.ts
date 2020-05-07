@@ -57,7 +57,11 @@ export const latestTxMock = () => {
 
 export const statisticMock = (): State.Statistics => {
   return toCamelcase<State.Statistics>({
-    epoch_info: { epoch_number: '1026', epoch_length: '1800', index: '1402' },
+    epoch_info: {
+      epoch_number: '1026',
+      epoch_length: '1800',
+      index: '1402',
+    },
     tip_block_number: '1687044',
     average_block_time: '8017.05',
     current_epoch_difficulty: '62246971368478813',
