@@ -2,6 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { BrowserRouter } from 'react-router-dom'
 import renderer from 'react-test-renderer'
+import * as MockDate from 'mockdate'
 import Home from '../../pages/Home'
 import * as AppContext from '../../contexts/providers'
 import initState from '../../contexts/states'
@@ -20,6 +21,7 @@ describe('Active Page', () => {
   })
 
   it('shallow renders', async () => {
+    MockDate.set(1588694400000, 480)
     const contextAppState: State.AppState = {
       ...initState,
       statistics: statisticMock(),

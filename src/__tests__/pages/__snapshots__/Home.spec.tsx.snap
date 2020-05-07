@@ -198,7 +198,7 @@ exports[`Active Page shallow renders 1`] = `
             <span
               className="block__card__timestamp"
             >
-              2020/5/7 14:51:10
+              -139871s ago
             </span>
           </div>
           <div
@@ -299,7 +299,7 @@ exports[`Active Page shallow renders 1`] = `
             <span
               className="block__card__timestamp"
             >
-              2020/5/7 14:51:08
+              -139869s ago
             </span>
           </div>
           <div
@@ -400,7 +400,7 @@ exports[`Active Page shallow renders 1`] = `
             <span
               className="block__card__timestamp"
             >
-              2020/5/7 14:51:05
+              -139866s ago
             </span>
           </div>
           <div
@@ -547,7 +547,7 @@ exports[`Active Page shallow renders 1`] = `
             <div
               className="transaction__card__timestamp"
             >
-              2min 10s ago
+              -150864s ago
             </div>
           </div>
           <div
@@ -633,7 +633,7 @@ exports[`Active Page shallow renders 1`] = `
             <div
               className="transaction__card__timestamp"
             >
-              3min 28s ago
+              -150786s ago
             </div>
           </div>
           <div
@@ -719,7 +719,7 @@ exports[`Active Page shallow renders 1`] = `
             <div
               className="transaction__card__timestamp"
             >
-              4min 43s ago
+              -150711s ago
             </div>
           </div>
           <div
