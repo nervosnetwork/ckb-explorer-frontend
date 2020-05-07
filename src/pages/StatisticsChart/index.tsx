@@ -210,7 +210,7 @@ export default () => {
           path: '/charts/total-dao-deposit',
         },
         {
-          title: `${i18n.t('statistic.new_dao_deposit')}`,
+          title: `${i18n.t('statistic.new_dao_deposit_depositor')}`,
           chart: <NewDaoDepositChart statisticNewDaoDeposits={statisticNewDaoDeposits} isThumbnail />,
           path: '/charts/new-dao-deposit',
         },
