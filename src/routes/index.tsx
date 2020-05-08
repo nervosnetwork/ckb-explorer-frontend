@@ -42,6 +42,7 @@ import OccupiedCapacityChart from '../pages/StatisticsChart/activities/OccupiedC
 import EpochTimeDistributionChart from '../pages/StatisticsChart/block/EpochTimeDistribution'
 import AverageBlockTimeChart from '../pages/StatisticsChart/block/AverageBlockTime'
 import NewNodeCountChart from '../pages/StatisticsChart/network/NewNodeCount'
+import NodeDistributionChart from '../pages/StatisticsChart/network/NodeDistribution'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -221,6 +222,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/charts/new-node-count',
     exact: true,
     comp: NewNodeCountChart,
+  },
+  {
+    name: 'NodeDistributionChart',
+    path: '/charts/node-distribution',
+    exact: true,
+    comp: NodeDistributionChart,
   },
   {
     name: 'SearchFail',

@@ -104,7 +104,10 @@
       "average_block_time": "Average Block Time",
       "daily_moving_average": "Daily Moving Average (s)",
       "weekly_moving_average": "Weekly Moving Average (s)",
-      "new_node_count": "New Node Count"
+      "new_node_count": "New Node Count",
+      "city": "City",
+      "node_count": "Node Count",
+      "node_distribution": "Node Distribution"
     },
     "home": {
       "height": "Height",

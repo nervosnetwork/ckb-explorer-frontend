@@ -336,6 +336,22 @@ declare namespace State {
     createdAtUnixtimestamp: string
   }
 
+  export interface StatisticNodeDistribution {
+    name: string
+    value: number[]
+  }
+
+  export interface StatisticNodeDistributions {
+    nodesDistribution: {
+      city: string
+      count: number
+      postal: string
+      country: string
+      latitude: string
+      longitude: string
+    }[]
+  }
+
   export interface Components {
     // mobile header search state
     searchBarEditable: boolean
@@ -435,6 +451,7 @@ declare namespace State {
     statisticEpochTimeDistributions: StatisticEpochTimeDistribution[]
     statisticCirculationRatios: StatisticCirculationRatio[]
     statisticNewNodeCounts: StatisticNewNodeCount[]
+    statisticNodeDistributions: StatisticNodeDistribution[]
   }
 
   export interface AppState extends StatisticChartsState {

@@ -52,7 +52,8 @@ import { NewDaoWithdrawChart, initStatisticNewDaoWithdraw } from './nervosDao/Ne
 import { CirculationRatioChart, initStatisticCirculationRatio } from './nervosDao/CirculationRatio'
 import { initStatisticAverageBlockTimes, AverageBlockTimeChart } from './block/AverageBlockTime'
 import { initStatisticNewNodeCount, NewNodeCountChart } from './network/NewNodeCount'
-import { getStatisticNewNodeCount } from '../../service/app/charts/network'
+import { getStatisticNewNodeCount, getStatisticNodeDistribution } from '../../service/app/charts/network'
+import { NodeDistributionChart, initStatisticNodeDistribution } from './network/NodeDistribution'
 
 interface ChartData {
   title: string
@@ -101,6 +102,7 @@ export default () => {
     statisticEpochTimeDistributions,
     statisticAverageBlockTimes,
     statisticNewNodeCounts,
+    statisticNodeDistributions,
   } = useAppState()
 
   const charts: ChartCategory[] = [
@@ -237,6 +239,11 @@ export default () => {
           chart: <NewNodeCountChart statisticNewNodeCounts={statisticNewNodeCounts} isThumbnail />,
           path: '/charts/new-node-count',
         },
+        {
+          title: `${i18n.t('statistic.node_distribution')}`,
+          chart: <NodeDistributionChart statisticNodeDistributions={statisticNodeDistributions} isThumbnail />,
+          path: '/charts/node-distribution',
+        },
       ],
     },
   ]
@@ -262,6 +269,7 @@ export default () => {
     initStatisticEpochTimeDistribution(dispatch)
     initStatisticAverageBlockTimes(dispatch)
     initStatisticNewNodeCount(dispatch)
+    initStatisticNodeDistribution(dispatch)
   }, [dispatch])
 
   useEffect(() => {
@@ -285,6 +293,7 @@ export default () => {
     getStatisticEpochTimeDistribution(dispatch)
     getStatisticAverageBlockTimes(dispatch)
     getStatisticNewNodeCount(dispatch)
+    getStatisticNodeDistribution(dispatch)
   }, [dispatch])
 
   return (

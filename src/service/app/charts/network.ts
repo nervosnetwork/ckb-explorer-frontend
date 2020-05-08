@@ -1,5 +1,5 @@
 import { AppDispatch, PageActions } from '../../../contexts/providers/reducer'
-import { fetchStatisticNewNodeCount } from '../../http/fetcher'
+import { fetchStatisticNewNodeCount, fetchStatisticNodeDistribution } from '../../http/fetcher'
 
 export const getStatisticNewNodeCount = (dispatch: AppDispatch) => {
   fetchStatisticNewNodeCount().then(
@@ -20,4 +20,24 @@ export const getStatisticNewNodeCount = (dispatch: AppDispatch) => {
       })
     },
   )
+}
+
+export const getStatisticNodeDistribution = (dispatch: AppDispatch) => {
+  fetchStatisticNodeDistribution().then((wrapper: Response.Wrapper<State.StatisticNodeDistributions> | null) => {
+    if (!wrapper) return
+    const { nodesDistribution } = wrapper.attributes
+    let statisticNodeDistributions: State.StatisticNodeDistribution[] = []
+    nodesDistribution.forEach(data => {
+      statisticNodeDistributions.push({
+        name: data.city,
+        value: [Number(data.longitude), Number(data.latitude), data.count],
+      })
+    })
+    dispatch({
+      type: PageActions.UpdateStatisticNodeDistribution,
+      payload: {
+        statisticNodeDistributions,
+      },
+    })
+  })
 }

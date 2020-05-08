@@ -291,6 +291,12 @@ export const fetchStatisticNewNodeCount = () => {
   )
 }
 
+export const fetchStatisticNodeDistribution = () => {
+  return axiosIns(`/distribution_data/nodes_distribution`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticNodeDistributions>>(res.data.data),
+  )
+}
+
 export const fetchSimpleUDT = (typeHash: string) => {
   return axiosIns(`/udts/${typeHash}`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.UDT>>(res.data.data),
