@@ -55,6 +55,7 @@ const getOption = (statisticNodeDistributions: State.StatisticNodeDistribution[]
       label: {
         emphasis: {
           show: true,
+          color: ChartColors[0],
         },
       },
       itemStyle: {
