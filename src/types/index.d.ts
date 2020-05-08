@@ -331,6 +331,11 @@ declare namespace State {
     epoch: string
   }
 
+  export interface StatisticNewNodeCount {
+    nodesCount: string
+    createdAtUnixtimestamp: string
+  }
+
   export interface Components {
     // mobile header search state
     searchBarEditable: boolean
@@ -429,6 +434,7 @@ declare namespace State {
     statisticOccupiedCapacities: StatisticOccupiedCapacity[]
     statisticEpochTimeDistributions: StatisticEpochTimeDistribution[]
     statisticCirculationRatios: StatisticCirculationRatio[]
+    statisticNewNodeCounts: StatisticNewNodeCount[]
   }
 
   export interface AppState extends StatisticChartsState {

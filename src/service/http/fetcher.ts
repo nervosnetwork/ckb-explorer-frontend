@@ -285,6 +285,12 @@ export const fetchStatisticEpochTimeDistribution = () => {
   )
 }
 
+export const fetchStatisticNewNodeCount = () => {
+  return axiosIns(`/daily_statistics/nodes_count`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticNewNodeCount>[]>>(res.data),
+  )
+}
+
 export const fetchSimpleUDT = (typeHash: string) => {
   return axiosIns(`/udts/${typeHash}`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.UDT>>(res.data.data),

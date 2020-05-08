@@ -18,6 +18,7 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticOccupiedCapacities: [],
   statisticEpochTimeDistributions: [],
   statisticCirculationRatios: [],
+  statisticNewNodeCounts: [],
 }
 
 export default initStatisticChartsState

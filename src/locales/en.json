@@ -91,6 +91,7 @@
       "category_mining": "Mining Charts",
       "category_activities": "Activities",
       "category_block": "Block",
+      "category_network": "Network",
       "tx_fee_history": "Transaction Fee",
       "tx_fee": "Transaction Fee (CKB)",
       "block_count": "Block Ratio",
@@ -102,7 +103,8 @@
       "epoch_length_distribution": "Epoch Length Distribution",
       "average_block_time": "Average Block Time",
       "daily_moving_average": "Daily Moving Average (s)",
-      "weekly_moving_average": "Weekly Moving Average (s)"
+      "weekly_moving_average": "Weekly Moving Average (s)",
+      "new_node_count": "New Node Count"
     },
     "home": {
       "height": "Height",

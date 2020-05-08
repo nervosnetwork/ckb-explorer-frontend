@@ -54,6 +54,7 @@ export enum PageActions {
   UpdateStatisticAverageBlockTime = 'updateStatisticAverageBlockTime',
   UpdateStatisticOccupiedCapacity = 'updateStatisticOccupiedCapacity',
   UpdateStatisticEpochTimeDistribution = 'updateStatisticEpochTimeDistribution',
+  UpdateStatisticNewNodeCount = 'updateStatisticNewNodeCount',
 
   UpdateNervosDao = 'updateNervosDao',
   UpdateNervosDaoTransactions = 'updateNervosDaoTransactions',
@@ -404,6 +405,11 @@ export const reducer = (
       return {
         ...state,
         statisticEpochTimeDistributions: payload.statisticEpochTimeDistributions,
+      }
+    case PageActions.UpdateStatisticNewNodeCount:
+      return {
+        ...state,
+        statisticNewNodeCounts: payload.statisticNewNodeCounts,
       }
 
     case PageActions.UpdateNervosDao:
