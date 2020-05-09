@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Active Page shallow renders with empty data 1`] = `
+<div
+  className="sc-fznxsB cFeRni"
+>
+  <div
+    className="sc-AxirZ fPaPCL"
+  >
+    Balance Ranking
+  </div>
+  <div
+    className="sc-AxjAm eHANUb"
+  >
+    <div
+      className="sc-AxiKw dInfRO"
+    >
+      <div
+        className="sc-AxhCb bEWJpg"
+      >
+        <img
+          alt="no data"
+          src="chart_no_data.png"
+        />
+        <span>
+          No data...
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
