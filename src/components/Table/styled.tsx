@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
@@ -105,7 +106,7 @@ export const TableMinerContentPanel = styled.div`
   }
 `
 
-export const HighlightLink = styled(Link)`
+export const HighlightLink = styled(props => <Link {...props} />)`
   color: ${props => props.theme.primary}
   text-decoration: none;
 `

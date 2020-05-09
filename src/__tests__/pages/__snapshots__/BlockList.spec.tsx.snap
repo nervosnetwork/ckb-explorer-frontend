@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Active Page shallow renders with empty data 1`] = `
+<div
+  className="sc-fzpjYC heWghV"
+>
+  <div
+    className="sc-AxjAm bAbQHZ container"
+  >
+    <div
+      className="block__green__background"
+    />
+    <div
+      className="sc-AxiKw esumCH"
+    >
+      <div
+        className="sc-fznxsB hNUYjF"
+      >
+        <div
+          className="sc-fznJRM eARWcf"
+          width="14%"
+        >
+          <div>
+            Height
+          </div>
+        </div>
+        <div
+          className="sc-fznJRM eotDky"
+          width="8%"
+        >
+          <div>
+            Transactions
+          </div>
+        </div>
+        <div
+          className="sc-fznJRM hzwrFo"
+          width="20%"
+        >
+          <div>
+            Reward (CKB)
+          </div>
+        </div>
+        <div
+          className="sc-fznJRM uAFmV"
+          width="43%"
+        >
+          <div>
+            Miner
+          </div>
+        </div>
+        <div
+          className="sc-fznJRM fqGzBa"
+          width="15%"
+        >
+          <div>
+            Time
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="block_list__pagination"
+    >
+      <div
+        className="sc-fzoyTs cJVUES"
+      >
+        <div
+          className="sc-fzoNJl ioiSqd"
+        >
+          <button
+            onClick={[Function]}
+          >
+            First
+          </button>
+          <button
+            className="pagination__left__button"
+            onClick={[Function]}
+            type="button"
+          />
+          <div
+            className="pagination__middle__label"
+          >
+            Page 0 of 1 
+          </div>
+          <button
+            className="pagination__right__button"
+            onClick={[Function]}
+            type="button"
+          />
+          <button
+            className="pagination__last"
+            onClick={[Function]}
+            type="button"
+          >
+            Last
+          </button>
+        </div>
+        <div
+          className="sc-fzoXWK hzpCol"
+        >
+          <div
+            className="pagination__page"
+          >
+            Page
+          </div>
+          <input
+            className="pagination__input__page"
+            onChange={[Function]}
+            onKeyUp={[Function]}
+            pattern="[0-9]*"
+            type="text"
+            value={2}
+          />
+          <button
+            className="pagination__goto__page"
+            onClick={[Function]}
+            type="button"
+          >
+            Goto
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
