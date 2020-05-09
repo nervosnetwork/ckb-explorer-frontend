@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Active Page shallow renders with empty data 1`] = `
+<div
+  className="sc-fzoyAV kLPkrg"
+>
+  <div
+    className="sc-fzoXzr cWIzMN container"
+  >
+    <div
+      className="sc-AxirZ gmvWQb"
+    >
+      <div
+        className="hash__card__content__panel"
+        id="hash_content"
+      >
+        <div
+          className="hash__title"
+        >
+          Block
+        </div>
+        <div
+          className="hash__card__hash__content"
+        >
+          <div
+            id="hash__text"
+          >
+            <span>
+              
+            </span>
+          </div>
+          <div
+            className="sc-AxhCb dnXiiO hash__copy_icon"
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            onMouseOver={[Function]}
+            role="button"
+            tabIndex={-1}
+          >
+            <img
+              alt="copy"
+              src="copy.png"
+            />
+          </div>
+        </div>
+        
+        <div
+          id="hash__value"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
