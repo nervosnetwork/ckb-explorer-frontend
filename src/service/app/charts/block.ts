@@ -1,7 +1,7 @@
 import {
   fetchStatisticBlockTimeDistribution,
   fetchStatisticEpochTimeDistribution,
-  fetchStatisticEpochLengthDistribution,
+  fetchStatisticAverageBlockTimes,
 } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
@@ -33,6 +33,21 @@ export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
   })
 }
 
+export const getStatisticAverageBlockTimes = (dispatch: AppDispatch) => {
+  fetchStatisticAverageBlockTimes().then((wrap: Response.Wrapper<State.StatisticAverageBlockTimes> | null) => {
+    if (!wrap) return
+    const {
+      attributes: { averageBlockTime },
+    } = wrap
+    dispatch({
+      type: PageActions.UpdateStatisticAverageBlockTime,
+      payload: {
+        statisticAverageBlockTimes: averageBlockTime,
+      },
+    })
+  })
+}
+
 export const getStatisticEpochTimeDistribution = (dispatch: AppDispatch) => {
   fetchStatisticEpochTimeDistribution().then((wrap: Response.Wrapper<State.StatisticEpochTimeDistributions> | null) => {
     if (!wrap) return
@@ -53,30 +68,4 @@ export const getStatisticEpochTimeDistribution = (dispatch: AppDispatch) => {
       },
     })
   })
-}
-
-export const getStatisticEpochLengthDistribution = (dispatch: AppDispatch) => {
-  fetchStatisticEpochLengthDistribution().then(
-    (wrap: Response.Wrapper<State.StatisticEpochLengthDistributions> | null) => {
-      if (!wrap) return
-      const {
-        attributes: { epochLengthDistribution },
-      } = wrap
-      const statisticEpochLengthDistributions: State.StatisticEpochLengthDistribution[] = epochLengthDistribution
-        .map(data => {
-          const [length, epoch] = data
-          return {
-            length,
-            epoch,
-          }
-        })
-        .slice(1)
-      dispatch({
-        type: PageActions.UpdateStatisticEpochLengthDistribution,
-        payload: {
-          statisticEpochLengthDistributions,
-        },
-      })
-    },
-  )
 }

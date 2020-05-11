@@ -43,14 +43,17 @@ import { BlockTimeDistributionChart, initStatisticBlockTimeDistribution } from '
 import {
   getStatisticBlockTimeDistribution,
   getStatisticEpochTimeDistribution,
-  getStatisticEpochLengthDistribution,
+  getStatisticAverageBlockTimes,
 } from '../../service/app/charts/block'
 import { OccupiedCapacityChart, initStatisticOccupiedCapacity } from './activities/OccupiedCapacity'
 import { EpochTimeDistributionChart, initStatisticEpochTimeDistribution } from './block/EpochTimeDistribution'
-import { EpochLengthDistributionChart, initStatisticEpochLengthDistribution } from './block/EpochLengthDistribution'
 import { NewDaoDepositChart, initStatisticNewDaoDeposit } from './nervosDao/NewDaoDeposit'
 import { NewDaoWithdrawChart, initStatisticNewDaoWithdraw } from './nervosDao/NewDaoWithdraw'
 import { CirculationRatioChart, initStatisticCirculationRatio } from './nervosDao/CirculationRatio'
+import { initStatisticAverageBlockTimes, AverageBlockTimeChart } from './block/AverageBlockTime'
+import { initStatisticNewNodeCount, NewNodeCountChart } from './network/NewNodeCount'
+import { getStatisticNewNodeCount, getStatisticNodeDistribution } from '../../service/app/charts/network'
+import { NodeDistributionChart, initStatisticNodeDistribution } from './network/NodeDistribution'
 
 interface ChartData {
   title: string
@@ -97,7 +100,9 @@ export default () => {
     statisticBlockTimeDistributions,
     statisticOccupiedCapacities,
     statisticEpochTimeDistributions,
-    statisticEpochLengthDistributions,
+    statisticAverageBlockTimes,
+    statisticNewNodeCounts,
+    statisticNodeDistributions,
   } = useAppState()
 
   const charts: ChartCategory[] = [
@@ -119,14 +124,9 @@ export default () => {
           path: '/charts/epoch-time-distribution',
         },
         {
-          title: `${i18n.t('statistic.epoch_length_distribution')}`,
-          chart: (
-            <EpochLengthDistributionChart
-              statisticEpochLengthDistributions={statisticEpochLengthDistributions}
-              isThumbnail
-            />
-          ),
-          path: '/charts/epoch-length-distribution',
+          title: `${i18n.t('statistic.average_block_time')}`,
+          chart: <AverageBlockTimeChart statisticAverageBlockTimes={statisticAverageBlockTimes} isThumbnail />,
+          path: '/charts/average-block-time',
         },
       ],
     },
@@ -215,7 +215,7 @@ export default () => {
           path: '/charts/total-dao-deposit',
         },
         {
-          title: `${i18n.t('statistic.new_dao_deposit')}`,
+          title: `${i18n.t('statistic.new_dao_deposit_depositor')}`,
           chart: <NewDaoDepositChart statisticNewDaoDeposits={statisticNewDaoDeposits} isThumbnail />,
           path: '/charts/new-dao-deposit',
         },
@@ -228,6 +228,21 @@ export default () => {
           title: `${i18n.t('statistic.circulation_ratio')}`,
           chart: <CirculationRatioChart statisticCirculationRatios={statisticCirculationRatios} isThumbnail />,
           path: '/charts/circulation-ratio',
+        },
+      ],
+    },
+    {
+      category: i18n.t('statistic.category_network'),
+      charts: [
+        {
+          title: `${i18n.t('statistic.new_node_count')}`,
+          chart: <NewNodeCountChart statisticNewNodeCounts={statisticNewNodeCounts} isThumbnail />,
+          path: '/charts/new-node-count',
+        },
+        {
+          title: `${i18n.t('statistic.node_distribution')}`,
+          chart: <NodeDistributionChart statisticNodeDistributions={statisticNodeDistributions} isThumbnail />,
+          path: '/charts/node-distribution',
         },
       ],
     },
@@ -252,7 +267,9 @@ export default () => {
     initStatisticBlockTimeDistribution(dispatch)
     initStatisticOccupiedCapacity(dispatch)
     initStatisticEpochTimeDistribution(dispatch)
-    initStatisticEpochLengthDistribution(dispatch)
+    initStatisticAverageBlockTimes(dispatch)
+    initStatisticNewNodeCount(dispatch)
+    initStatisticNodeDistribution(dispatch)
   }, [dispatch])
 
   useEffect(() => {
@@ -274,7 +291,9 @@ export default () => {
     getStatisticBlockTimeDistribution(dispatch)
     getStatisticOccupiedCapacity(dispatch)
     getStatisticEpochTimeDistribution(dispatch)
-    getStatisticEpochLengthDistribution(dispatch)
+    getStatisticAverageBlockTimes(dispatch)
+    getStatisticNewNodeCount(dispatch)
+    getStatisticNodeDistribution(dispatch)
   }, [dispatch])
 
   return (

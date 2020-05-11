@@ -1,6 +1,23 @@
-import { formatData, parseTime, parseTimeNoSecond, parseDateNoTime, parseDiffDate, parseHour } from '../../utils/date'
+import * as timezoneMock from 'timezone-mock'
+import * as MockDate from 'mockdate'
+import {
+  formatData,
+  parseTime,
+  parseTimeNoSecond,
+  parseDateNoTime,
+  parseDiffDate,
+  parseHour,
+  parseSimpleDate,
+  parseSimpleDateNoSecond,
+  getCurrentYear,
+  parseDate,
+} from '../../utils/date'
 
 describe('Date methods tests', () => {
+  beforeAll(() => {
+    timezoneMock.register('UTC')
+  })
+
   it('format date data', async () => {
     expect(formatData(2)).toBe('02')
     expect(formatData(10)).toBe(10)
@@ -34,5 +51,32 @@ describe('Date methods tests', () => {
     expect(parseHour(192)).toBe(3.2)
     expect(parseHour(240)).toBe(4)
     expect(parseHour(280)).toBe(4.67)
+  })
+
+  it('parseSimpleDate', async () => {
+    expect(parseSimpleDate(1588734510000)).toBe('2020/5/6 03:08:30')
+    expect(parseSimpleDate(1588651000000)).toBe('2020/5/5 03:56:40')
+  })
+
+  it('parseSimpleDateNoSecond', async () => {
+    expect(parseSimpleDateNoSecond(1588734510000)).toBe('2020-5-6 03:08')
+    expect(parseSimpleDateNoSecond(1588734510000, '/')).toBe('2020/5/6 03:08')
+    expect(parseSimpleDateNoSecond(1588734510, '/', false)).toBe('2020/5/6 03:08')
+    expect(parseSimpleDateNoSecond(1588651000000, '/')).toBe('2020/5/5 03:56')
+  })
+
+  it('getCurrentYear', async () => {
+    MockDate.set(1588694400000)
+    expect(getCurrentYear()).toBe(2020)
+  })
+
+  it('parseDate', async () => {
+    MockDate.set(1588694400000, 480)
+    expect(parseDate(1588694380000)).toBe('20s ago')
+    expect(parseDate(1588691000000)).toBe('56min 40s ago')
+
+    MockDate.reset()
+    timezoneMock.register('UTC')
+    expect(parseDate(1588651000000)).toBe('2020/5/5 03:56:40')
   })
 })

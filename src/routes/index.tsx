@@ -35,12 +35,14 @@ import UncleRateChart from '../pages/StatisticsChart/mining/UncleRate'
 import { useDispatch, useAppState } from '../contexts/providers'
 import { ComponentActions } from '../contexts/actions'
 import { isMobile } from '../utils/screen'
-import BalanceDistribution from '../pages/StatisticsChart/activities/BalanceDistribution'
-import TxFeeHistory from '../pages/StatisticsChart/activities/TxFeeHistory'
-import BlockTimeDistribution from '../pages/StatisticsChart/block/BlockTimeDistribution'
-import OccupiedCapacity from '../pages/StatisticsChart/activities/OccupiedCapacity'
-import EpochTimeDistribution from '../pages/StatisticsChart/block/EpochTimeDistribution'
-import EpochLengthDistribution from '../pages/StatisticsChart/block/EpochLengthDistribution'
+import BalanceDistributionChart from '../pages/StatisticsChart/activities/BalanceDistribution'
+import TxFeeHistoryChart from '../pages/StatisticsChart/activities/TxFeeHistory'
+import BlockTimeDistributionChart from '../pages/StatisticsChart/block/BlockTimeDistribution'
+import OccupiedCapacityChart from '../pages/StatisticsChart/activities/OccupiedCapacity'
+import EpochTimeDistributionChart from '../pages/StatisticsChart/block/EpochTimeDistribution'
+import AverageBlockTimeChart from '../pages/StatisticsChart/block/AverageBlockTime'
+import NewNodeCountChart from '../pages/StatisticsChart/network/NewNodeCount'
+import NodeDistributionChart from '../pages/StatisticsChart/network/NodeDistribution'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -183,37 +185,49 @@ const Containers: CustomRouter.Route[] = [
     name: 'BalanceDistributionChart',
     path: '/charts/balance-distribution',
     exact: true,
-    comp: BalanceDistribution,
+    comp: BalanceDistributionChart,
   },
   {
-    name: 'TxFeeHistory',
+    name: 'TxFeeHistoryChart',
     path: '/charts/tx-fee-history',
     exact: true,
-    comp: TxFeeHistory,
+    comp: TxFeeHistoryChart,
   },
   {
-    name: 'BlockTimeDistribution',
+    name: 'BlockTimeDistributionChart',
     path: '/charts/block-time-distribution',
     exact: true,
-    comp: BlockTimeDistribution,
+    comp: BlockTimeDistributionChart,
   },
   {
-    name: 'OccupiedCapacity',
+    name: 'AverageBlockTimeChart',
+    path: '/charts/average-block-time',
+    exact: true,
+    comp: AverageBlockTimeChart,
+  },
+  {
+    name: 'OccupiedCapacityChart',
     path: '/charts/occupied-capacity',
     exact: true,
-    comp: OccupiedCapacity,
+    comp: OccupiedCapacityChart,
   },
   {
-    name: 'EpochTimeDistribution',
+    name: 'EpochTimeDistributionChart',
     path: '/charts/epoch-time-distribution',
     exact: true,
-    comp: EpochTimeDistribution,
+    comp: EpochTimeDistributionChart,
   },
   {
-    name: 'EpochLengthDistribution',
-    path: '/charts/epoch-length-distribution',
+    name: 'NewNodeCountChart',
+    path: '/charts/new-node-count',
     exact: true,
-    comp: EpochLengthDistribution,
+    comp: NewNodeCountChart,
+  },
+  {
+    name: 'NodeDistributionChart',
+    path: '/charts/node-distribution',
+    exact: true,
+    comp: NodeDistributionChart,
   },
   {
     name: 'SearchFail',

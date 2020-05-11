@@ -14,10 +14,12 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticBalanceDistributions: [],
   statisticTxFeeHistories: [],
   statisticBlockTimeDistributions: [],
+  statisticAverageBlockTimes: [],
   statisticOccupiedCapacities: [],
   statisticEpochTimeDistributions: [],
-  statisticEpochLengthDistributions: [],
   statisticCirculationRatios: [],
+  statisticNewNodeCounts: [],
+  statisticNodeDistributions: [],
 }
 
 export default initStatisticChartsState

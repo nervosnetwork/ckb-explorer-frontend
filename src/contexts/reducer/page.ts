@@ -234,6 +234,11 @@ export const pageReducer = (
         ...state,
         statisticBlockTimeDistributions: payload.statisticBlockTimeDistributions,
       }
+    case PageActions.UpdateStatisticAverageBlockTime:
+      return {
+        ...state,
+        statisticAverageBlockTimes: payload.statisticAverageBlockTimes,
+      }
     case PageActions.UpdateStatisticOccupiedCapacity:
       return {
         ...state,
@@ -244,10 +249,15 @@ export const pageReducer = (
         ...state,
         statisticEpochTimeDistributions: payload.statisticEpochTimeDistributions,
       }
-    case PageActions.UpdateStatisticEpochLengthDistribution:
+    case PageActions.UpdateStatisticNewNodeCount:
       return {
         ...state,
-        statisticEpochLengthDistributions: payload.statisticEpochLengthDistributions,
+        statisticNewNodeCounts: payload.statisticNewNodeCounts,
+      }
+    case PageActions.UpdateStatisticNodeDistribution:
+      return {
+        ...state,
+        statisticNodeDistributions: payload.statisticNodeDistributions,
       }
 
     // nervos dao page

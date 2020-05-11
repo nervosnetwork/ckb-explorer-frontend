@@ -51,9 +51,12 @@ export enum PageActions {
   UpdateStatisticBalanceDistribution = 'updateStatisticBalanceDistribution',
   UpdateStatisticTxFeeHistory = 'updateStatisticTxFeeHistory',
   UpdateStatisticBlockTimeDistribution = 'updateStatisticBlockTimeDistribution',
+  UpdateStatisticAverageBlockTime = 'updateStatisticAverageBlockTime',
   UpdateStatisticOccupiedCapacity = 'updateStatisticOccupiedCapacity',
   UpdateStatisticEpochTimeDistribution = 'updateStatisticEpochTimeDistribution',
   UpdateStatisticEpochLengthDistribution = 'updateStatisticEpochLengthDistribution',
+  UpdateStatisticNewNodeCount = 'updateStatisticNewNodeCount',
+  UpdateStatisticNodeDistribution = 'updateStatisticNodeDistribution',
 
   UpdateNervosDao = 'updateNervosDao',
   UpdateNervosDaoTransactions = 'updateNervosDaoTransactions',

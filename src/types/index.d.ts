@@ -308,6 +308,16 @@ declare namespace State {
     ratio: string
   }
 
+  export interface StatisticAverageBlockTime {
+    timestamp: number
+    avgBlockTimeDaily: string
+    avgBlockTimeWeekly: string
+  }
+
+  export interface StatisticAverageBlockTimes {
+    averageBlockTime: StatisticAverageBlockTime[]
+  }
+
   export interface StatisticOccupiedCapacity {
     occupiedCapacity: string
     createdAtUnixtimestamp: string
@@ -322,13 +332,25 @@ declare namespace State {
     epoch: string
   }
 
-  export interface StatisticEpochLengthDistributions {
-    epochLengthDistribution: string[][]
+  export interface StatisticNewNodeCount {
+    nodesCount: string
+    createdAtUnixtimestamp: string
   }
 
-  export interface StatisticEpochLengthDistribution {
-    length: string
-    epoch: string
+  export interface StatisticNodeDistribution {
+    name: string
+    value: number[]
+  }
+
+  export interface StatisticNodeDistributions {
+    nodesDistribution: {
+      city: string
+      count: number
+      postal: string
+      country: string
+      latitude: string
+      longitude: string
+    }[]
   }
 
   interface FetchStatusValue {
@@ -403,10 +425,12 @@ declare namespace State {
     statisticBalanceDistributions: StatisticBalanceDistribution[]
     statisticTxFeeHistories: StatisticTransactionFee[]
     statisticBlockTimeDistributions: StatisticBlockTimeDistribution[]
+    statisticAverageBlockTimes: StatisticAverageBlockTime[]
     statisticOccupiedCapacities: StatisticOccupiedCapacity[]
     statisticEpochTimeDistributions: StatisticEpochTimeDistribution[]
-    statisticEpochLengthDistributions: StatisticEpochLengthDistribution[]
     statisticCirculationRatios: StatisticCirculationRatio[]
+    statisticNewNodeCounts: StatisticNewNodeCount[]
+    statisticNodeDistributions: StatisticNodeDistribution[]
   }
 
   export interface PageState extends StatisticChartsState {

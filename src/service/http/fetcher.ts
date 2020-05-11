@@ -267,6 +267,12 @@ export const fetchStatisticBlockTimeDistribution = () => {
   )
 }
 
+export const fetchStatisticAverageBlockTimes = () => {
+  return axiosIns(`/distribution_data/average_block_time`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticAverageBlockTimes>>(res.data.data),
+  )
+}
+
 export const fetchStatisticOccupiedCapacity = () => {
   return axiosIns(`/daily_statistics/occupied_capacity`).then((res: AxiosResponse) =>
     toCamelcase<Response.Response<Response.Wrapper<State.StatisticOccupiedCapacity>[]>>(res.data),
@@ -279,9 +285,15 @@ export const fetchStatisticEpochTimeDistribution = () => {
   )
 }
 
-export const fetchStatisticEpochLengthDistribution = () => {
-  return axiosIns(`/distribution_data/epoch_length_distribution`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Wrapper<State.StatisticEpochLengthDistributions>>(res.data.data),
+export const fetchStatisticNewNodeCount = () => {
+  return axiosIns(`/daily_statistics/nodes_count`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticNewNodeCount>[]>>(res.data),
+  )
+}
+
+export const fetchStatisticNodeDistribution = () => {
+  return axiosIns(`/distribution_data/nodes_distribution`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticNodeDistributions>>(res.data.data),
   )
 }
 
