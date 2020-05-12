@@ -165,7 +165,7 @@ export const WithdrawInfoPanel = styled.div`
           case 'medium':
             return '190px'
           default:
-            return '80px'
+            return '85px'
         }
       }};
 
