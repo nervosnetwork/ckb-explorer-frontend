@@ -13,26 +13,18 @@ export const HeaderPanel = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  padding: 0px 280px;
-
-  @media (max-width: 1920px) {
-    padding: 0px 140px;
-  }
+  padding: 0px 120px;
 
   @media (max-width: 1440px) {
-    padding: 0px 48px;
+    padding: 0px 100px;
   }
 
-  @media (max-width: 900px) {
-    padding: 0px 30px;
-  }
-
-  @media (max-width: 800px) {
-    padding: 0px 24px;
+  @media (max-width: 1200px) {
+    padding: 0px 45px;
   }
 
   @media (max-width: 750px) {
-    padding: 0px 30px;
+    padding: 0px 18px;
   }
 `
 
