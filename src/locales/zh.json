@@ -62,10 +62,10 @@
     "statistic": {
       "transaction_count": "交易数量",
       "address_count": "地址数量",
-      "total_dao_deposit_depositor": "Nervos DAO 锁定总额 & 锁定地址数量",
+      "total_dao_deposit_depositor": "Nervos DAO 锁定总额 & 锁定地址数",
       "total_dao_deposit": "Nervos DAO 锁定总额",
-      "total_dao_depositor": "Nervos DAO 累计锁定地址数量",
-      "new_dao_deposit_depositor": "每日新增 Nervos DAO 锁定 & 锁定地址数量",
+      "total_dao_depositor": "Nervos DAO 累计锁定地址数",
+      "new_dao_deposit_depositor": "每日新增 Nervos DAO 锁定",
       "new_dao_deposit": "每日新增 Nervos DAO 锁定",
       "new_dao_depositor": "每日新增 Nervos DAO 锁定地址",
       "new_dao_withdraw": "每日新增 Nervos DAO 解锁",

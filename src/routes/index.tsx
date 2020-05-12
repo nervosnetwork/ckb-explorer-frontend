@@ -26,7 +26,6 @@ import TransactionCountChart from '../pages/StatisticsChart/activities/Transacti
 import AddressCountChart from '../pages/StatisticsChart/activities/AddressCount'
 import TotalDaoDepositChart from '../pages/StatisticsChart/nervosDao/TotalDaoDeposit'
 import NewDaoDepositChart from '../pages/StatisticsChart/nervosDao/NewDaoDeposit'
-import NewDaoWithdrawChart from '../pages/StatisticsChart/nervosDao/NewDaoWithdraw'
 import CirculationRatioChart from '../pages/StatisticsChart/nervosDao/CirculationRatio'
 import CellCountChart from '../pages/StatisticsChart/activities/CellCount'
 import AddressBalanceRankChart from '../pages/StatisticsChart/activities/AddressBalanceRank'
@@ -38,11 +37,8 @@ import { isMobile } from '../utils/screen'
 import BalanceDistributionChart from '../pages/StatisticsChart/activities/BalanceDistribution'
 import TxFeeHistoryChart from '../pages/StatisticsChart/activities/TxFeeHistory'
 import BlockTimeDistributionChart from '../pages/StatisticsChart/block/BlockTimeDistribution'
-import OccupiedCapacityChart from '../pages/StatisticsChart/activities/OccupiedCapacity'
 import EpochTimeDistributionChart from '../pages/StatisticsChart/block/EpochTimeDistribution'
 import AverageBlockTimeChart from '../pages/StatisticsChart/block/AverageBlockTime'
-import NewNodeCountChart from '../pages/StatisticsChart/network/NewNodeCount'
-import NodeDistributionChart from '../pages/StatisticsChart/network/NodeDistribution'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -163,12 +159,12 @@ const Containers: CustomRouter.Route[] = [
     exact: true,
     comp: CirculationRatioChart,
   },
-  {
-    name: 'NewDaoWithdrawChart',
-    path: '/charts/new-dao-Withdraw',
-    exact: true,
-    comp: NewDaoWithdrawChart,
-  },
+  // {
+  //   name: 'NewDaoWithdrawChart',
+  //   path: '/charts/new-dao-Withdraw',
+  //   exact: true,
+  //   comp: NewDaoWithdrawChart,
+  // },
   {
     name: 'CellCountChart',
     path: '/charts/cell-count',
@@ -205,30 +201,30 @@ const Containers: CustomRouter.Route[] = [
     exact: true,
     comp: AverageBlockTimeChart,
   },
-  {
-    name: 'OccupiedCapacityChart',
-    path: '/charts/occupied-capacity',
-    exact: true,
-    comp: OccupiedCapacityChart,
-  },
+  // {
+  //   name: 'OccupiedCapacityChart',
+  //   path: '/charts/occupied-capacity',
+  //   exact: true,
+  //   comp: OccupiedCapacityChart,
+  // },
   {
     name: 'EpochTimeDistributionChart',
     path: '/charts/epoch-time-distribution',
     exact: true,
     comp: EpochTimeDistributionChart,
   },
-  {
-    name: 'NewNodeCountChart',
-    path: '/charts/new-node-count',
-    exact: true,
-    comp: NewNodeCountChart,
-  },
-  {
-    name: 'NodeDistributionChart',
-    path: '/charts/node-distribution',
-    exact: true,
-    comp: NodeDistributionChart,
-  },
+  // {
+  //   name: 'NewNodeCountChart',
+  //   path: '/charts/new-node-count',
+  //   exact: true,
+  //   comp: NewNodeCountChart,
+  // },
+  // {
+  //   name: 'NodeDistributionChart',
+  //   path: '/charts/node-distribution',
+  //   exact: true,
+  //   comp: NodeDistributionChart,
+  // },
   {
     name: 'SearchFail',
     path: '/search/fail',
