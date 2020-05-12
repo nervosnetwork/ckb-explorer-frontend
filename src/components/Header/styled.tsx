@@ -42,8 +42,8 @@ export const HeaderLogoPanel = styled(Link)`
   margin-top: 2px;
 
   > img {
-    width: 116px;
-    height: 20px;
+    width: 114px;
+    height: 30px;
   }
 `
 
