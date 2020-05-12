@@ -5,7 +5,7 @@ exports[`Header Component shallow renders 1`] = `
   className="sc-AxjAm PRUsc"
 >
   <a
-    className="sc-AxirZ fdnljR"
+    className="sc-AxirZ fbJJZa"
     href="/"
     onClick={[Function]}
   >
@@ -17,6 +17,13 @@ exports[`Header Component shallow renders 1`] = `
   <div
     className="sc-AxheI gjDwdY"
   >
+    <a
+      className="header__menus__item"
+      href="/"
+      onClick={[Function]}
+    >
+      Home
+    </a>
     <a
       className="header__menus__item"
       href="/charts"
