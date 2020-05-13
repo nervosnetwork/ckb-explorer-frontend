@@ -45,9 +45,8 @@ export const HomeHeaderItemPanel = styled.div`
     margin: 0 9%;
 
     .blockchain__item__top_name {
-      color: ${props => props.theme.primary};
-      font-size: 14px;
-      font-weight: 600;
+      color: #555555;
+      font-size: 17px;
 
       @media (max-width: 1000px) {
         font-size: 12px;
@@ -61,7 +60,7 @@ export const HomeHeaderItemPanel = styled.div`
     .blockchain__item__top_value {
       margin-top: 5px;
       color: #000000;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 600;
 
       @media (max-width: 1000px) {
@@ -81,9 +80,8 @@ export const HomeHeaderItemPanel = styled.div`
     }
 
     .blockchain__item__bottom_name {
-      color: ${props => props.theme.primary};
-      font-size: 14px;
-      font-weight: 600;
+      color: #555555;
+      font-size: 17px;
 
       @media (max-width: 1000px) {
         font-size: 12px;
@@ -97,7 +95,7 @@ export const HomeHeaderItemPanel = styled.div`
     .blockchain__item__bottom_value {
       margin-top: 5px;
       color: #000000;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 600;
       display: flex;
       justify-content: space-between;
