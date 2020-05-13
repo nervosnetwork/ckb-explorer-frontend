@@ -135,7 +135,7 @@ exports[`Table Component shallow renders 3`] = `
     onClick={[Function]}
   >
     <span
-      className="table__miner__text address"
+      className="table__miner__text monospace"
     >
       Table Content
     </span>

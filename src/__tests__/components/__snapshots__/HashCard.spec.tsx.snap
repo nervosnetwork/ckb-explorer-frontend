@@ -17,6 +17,7 @@ exports[`HashCard Component shallow renders 1`] = `
       className="hash__card__hash__content"
     >
       <div
+        className="monospace"
         id="hash__text"
       >
         <span>

@@ -58,7 +58,7 @@ export default ({
               <SmallLoading />
             </LoadingPanel>
           ) : (
-            <div id="hash__text">
+            <div id="hash__text" className="monospace">
               <span>{isMobile() ? mobileHash() : adaptPCEllipsis(hash, 13, 25)}</span>
             </div>
           )}

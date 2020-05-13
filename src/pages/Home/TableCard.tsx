@@ -377,7 +377,11 @@ export const TransactionCardItem = ({
   return (
     <TransactionCardPanel>
       <div className="transaction__card__hash">
-        <HighLightLink value={transactionHash} to={`/transaction/${transaction.transactionHash}`} />
+        <HighLightLink
+          value={transactionHash}
+          to={`/transaction/${transaction.transactionHash}`}
+          className="monospace"
+        />
         <span className="transaction__card__confirmation">{`${confirmation} ${confirmationUnit}`}</span>
       </div>
 

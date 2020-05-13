@@ -544,17 +544,17 @@ exports[`TransactionItem Component shallow renders 1`] = `
                 100
               </span>
               <div
-                className="c8"
+                className="c8 monospace"
               >
                 .2357719
               </div>
               <div
-                className="c9"
+                className="c9 monospace"
               >
                 0
               </div>
               <div
-                className="decimal__unit"
+                className="decimal__unit monospace"
               >
                 CKB
               </div>
@@ -596,17 +596,17 @@ exports[`TransactionItem Component shallow renders 1`] = `
                 1,902
               </span>
               <div
-                className="c8"
+                className="c8 monospace"
               >
                 .96799086
               </div>
               <div
-                className="c9"
+                className="c9 monospace"
               >
                 
               </div>
               <div
-                className="decimal__unit"
+                className="decimal__unit monospace"
               >
                 CKB
               </div>
@@ -648,17 +648,17 @@ exports[`TransactionItem Component shallow renders 1`] = `
                 2,002
               </span>
               <div
-                className="c8"
+                className="c8 monospace"
               >
                 .21141693
               </div>
               <div
-                className="c9"
+                className="c9 monospace"
               >
                 
               </div>
               <div
-                className="decimal__unit"
+                className="decimal__unit monospace"
               >
                 CKB
               </div>
@@ -700,17 +700,17 @@ exports[`TransactionItem Component shallow renders 1`] = `
                 2,039
               </span>
               <div
-                className="c8"
+                className="c8 monospace"
               >
                 .6662154
               </div>
               <div
-                className="c9"
+                className="c9 monospace"
               >
                 0
               </div>
               <div
-                className="decimal__unit"
+                className="decimal__unit monospace"
               >
                 CKB
               </div>
@@ -768,17 +768,17 @@ exports[`TransactionItem Component shallow renders 1`] = `
                   5,900
                 </span>
                 <div
-                  className="c8"
+                  className="c8 monospace"
                 >
                   
                 </div>
                 <div
-                  className="c9"
+                  className="c9 monospace"
                 >
                   .00000000
                 </div>
                 <div
-                  className="decimal__unit"
+                  className="decimal__unit monospace"
                 >
                   CKB
                 </div>
@@ -822,17 +822,17 @@ exports[`TransactionItem Component shallow renders 1`] = `
                   145
                 </span>
                 <div
-                  className="c8"
+                  className="c8 monospace"
                 >
                   .08134691
                 </div>
                 <div
-                  className="c9"
+                  className="c9 monospace"
                 >
                   
                 </div>
                 <div
-                  className="decimal__unit"
+                  className="decimal__unit monospace"
                 >
                   CKB
                 </div>

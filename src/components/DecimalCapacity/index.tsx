@@ -34,15 +34,15 @@ export default ({
   return (
     <DecimalPanel>
       <span>{integer}</span>
-      <DecimalPartPanel fontSize={fontSize} color={color} marginBottom={marginBottom}>
+      <DecimalPartPanel className="monospace" fontSize={fontSize} color={color} marginBottom={marginBottom}>
         {decimal}
       </DecimalPartPanel>
       {!hideZero && (
-        <DecimalZerosPanel fontSize={fontSize} color={color} marginBottom={marginBottom}>
+        <DecimalZerosPanel className="monospace" fontSize={fontSize} color={color} marginBottom={marginBottom}>
           {zeros}
         </DecimalZerosPanel>
       )}
-      {!hideUnit && <div className="decimal__unit">{i18n.t('common.ckb_unit')}</div>}
+      {!hideUnit && <div className="decimal__unit monospace">{i18n.t('common.ckb_unit')}</div>}
     </DecimalPanel>
   )
 }
