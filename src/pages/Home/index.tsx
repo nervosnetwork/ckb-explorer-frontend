@@ -9,7 +9,8 @@ import {
   HomeTablePanel,
   TransactionPanel,
   HomeHeaderTopPanel,
-  HomeHeaderBottomPanel,
+  HomeStatisticBottomPanel,
+  HomeStatisticTopPanel,
 } from './styled'
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
@@ -63,7 +64,7 @@ const parseBlockTime = (blockTime: string | undefined) => {
   return blockTime ? parseTime(Number(blockTime)) : '- -'
 }
 
-const blockchainTopList = (statistics: State.Statistics): BlockchainData[] => {
+const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
   return [
     {
       name: i18n.t('blockchain.latest_block'),
@@ -85,11 +86,6 @@ const blockchainTopList = (statistics: State.Statistics): BlockchainData[] => {
       value: handleDifficulty(statistics.currentEpochDifficulty),
       showSeparate: true,
     },
-  ]
-}
-
-const blockchainBottomList = (statistics: State.Statistics): BlockchainData[] => {
-  return [
     {
       name: i18n.t('blockchain.epoch'),
       value: parseEpochNumber(statistics.epochInfo.epochNumber),
@@ -144,7 +140,6 @@ export default () => {
 
   useInterval(() => {
     handleBlockchainAlert(dispatch)
-    blockchainTopList(statistics)
   }, BLOCKCHAIN_ALERT_POLLING_TIME)
 
   return (
@@ -156,31 +151,43 @@ export default () => {
             <Search hasButton={true} />
           </div>
         </HomeHeaderTopPanel>
-        <HomeHeaderBottomPanel>
+        <HomeStatisticTopPanel>
+          <div className="home__statistic__left__panel">
+            <div className="home__statistic__left__data"></div>
+            <div className="home__statistic__left__chart"></div>
+          </div>
+          <div className="home__statistic__right__panel">
+            <div className="home__statistic__right__data"></div>
+            <div className="home__statistic__right__chart"></div>
+          </div>
+        </HomeStatisticTopPanel>
+        <HomeStatisticBottomPanel>
           {!isMobile() &&
-            blockchainBottomList(statistics).map((data: BlockchainData) => {
-              return <BlockchainItem blockchain={data} key={data.name} />
-            })}
+            blockchainDataList(statistics)
+              .slice(4)
+              .map((data: BlockchainData) => {
+                return <BlockchainItem blockchain={data} key={data.name} />
+              })}
           {isMobile() && (
             <>
               <div className="blockchain__item__mobile">
-                {blockchainBottomList(statistics)
-                  .slice(0, 2)
+                {blockchainDataList(statistics)
+                  .slice(4, 6)
                   .map((data: BlockchainData) => {
                     return <BlockchainItem blockchain={data} key={data.name} />
                   })}
               </div>
               <div className="blockchain__item__mobile_separate" />
               <div className="blockchain__item__mobile">
-                {blockchainBottomList(statistics)
-                  .slice(2)
+                {blockchainDataList(statistics)
+                  .slice(6)
                   .map((data: BlockchainData) => {
                     return <BlockchainItem blockchain={data} key={data.name} />
                   })}
               </div>
             </>
           )}
-        </HomeHeaderBottomPanel>
+        </HomeStatisticBottomPanel>
       </HomeHeaderPanel>
       <HomeTablePanel className="container">
         <BlockPanel>

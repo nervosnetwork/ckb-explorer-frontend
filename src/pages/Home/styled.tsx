@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { isMainnet } from '../../utils/chain'
 
 export const HomeHeaderPanel = styled.div``
 
@@ -22,10 +23,54 @@ export const HomeHeaderTopPanel = styled.div`
   }
 `
 
-export const HomeHeaderBottomPanel = styled.div`
+export const HomeStatisticTopPanel = styled.div`
+  height: 207px;
+  width: 100%;
+  display: flex;
+  margin-top: -148px;
+  border-radius: 6px 6px 0 0;
+
+  .home__statistic__left__panel {
+    flex: 1;
+    display: flex;
+    border-radius: 6px 0 0 0;
+    border: 2px solid ${isMainnet() ? '#3fb39e' : '#6093e4'};
+
+    .home__statistic__left__data {
+      flex: 1;
+      background: ${isMainnet()
+        ? 'linear-gradient(134deg, #3fb39e, #1ec196 51%, #3cc6b7 100%)'
+        : 'linear-gradient(314deg, #6093e4 100%, #6b88cf 49%, #7074de)'};
+    }
+    .home__statistic__left__chart {
+      flex: 2;
+      background: ${isMainnet()
+        ? 'linear-gradient(298deg, #0baab1 99%, #20c5a5 48%, #0bad8e 2%)'
+        : 'linear-gradient(298deg, #6e85e0 99%, #577cdb 48%, #486ecc 2%)'};
+    }
+  }
+
+  .home__statistic__right__panel {
+    flex: 1;
+    display: flex;
+    border-radius: 0 6px 0 0;
+    border: 2px solid #444b57;
+
+    .home__statistic__right__data {
+      flex: 1;
+      background: linear-gradient(134deg, #444b57, #39424a 48%, #444c5a 96%);
+    }
+    .home__statistic__right__chart {
+      flex: 2;
+      background: linear-gradient(118deg, #31383e, #35414d 48%, #334350);
+    }
+  }
+`
+
+export const HomeStatisticBottomPanel = styled.div`
   display: flex;
   padding: 20px 5px;
-  margin: -148px 0px 20px 0px;
+  margin: 0 0px 20px 0px;
   box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
   border-radius: 0 0 6px 6px;
   background: #ffffff;
