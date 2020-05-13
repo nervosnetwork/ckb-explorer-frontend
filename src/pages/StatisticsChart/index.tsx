@@ -9,6 +9,7 @@ import {
   getStatisticAddressBalanceRank,
   getStatisticBalanceDistribution,
   getStatisticTxFeeHistory,
+  getStatisticOccupiedCapacity,
 } from '../../service/app/charts/activities'
 import {
   getStatisticDifficultyHashRate,
@@ -20,6 +21,7 @@ import {
 import {
   getStatisticTotalDaoDeposit,
   getStatisticNewDaoDeposit,
+  getStatisticNewDaoWithdraw,
   getStatisticCirculationRatio,
 } from '../../service/app/charts/nervosDao'
 import { useAppState, useDispatch } from '../../contexts/providers'
@@ -43,10 +45,15 @@ import {
   getStatisticEpochTimeDistribution,
   getStatisticAverageBlockTimes,
 } from '../../service/app/charts/block'
+import { OccupiedCapacityChart, initStatisticOccupiedCapacity } from './activities/OccupiedCapacity'
 import { EpochTimeDistributionChart, initStatisticEpochTimeDistribution } from './block/EpochTimeDistribution'
 import { NewDaoDepositChart, initStatisticNewDaoDeposit } from './nervosDao/NewDaoDeposit'
+import { NewDaoWithdrawChart, initStatisticNewDaoWithdraw } from './nervosDao/NewDaoWithdraw'
 import { CirculationRatioChart, initStatisticCirculationRatio } from './nervosDao/CirculationRatio'
 import { initStatisticAverageBlockTimes, AverageBlockTimeChart } from './block/AverageBlockTime'
+import { initStatisticNewNodeCount, NewNodeCountChart } from './network/NewNodeCount'
+import { getStatisticNewNodeCount, getStatisticNodeDistribution } from '../../service/app/charts/network'
+import { NodeDistributionChart, initStatisticNodeDistribution } from './network/NodeDistribution'
 
 interface ChartData {
   title: string
@@ -83,7 +90,7 @@ export default () => {
     statisticAddressCounts,
     statisticTotalDaoDeposits,
     statisticNewDaoDeposits,
-    // statisticNewDaoWithdraw,
+    statisticNewDaoWithdraw,
     statisticCirculationRatios,
     statisticCellCounts,
     statisticTransactionCounts,
@@ -91,11 +98,11 @@ export default () => {
     statisticBalanceDistributions,
     statisticTxFeeHistories,
     statisticBlockTimeDistributions,
-    // statisticOccupiedCapacities,
+    statisticOccupiedCapacities,
     statisticEpochTimeDistributions,
     statisticAverageBlockTimes,
-    // statisticNewNodeCounts,
-    // statisticNodeDistributions,
+    statisticNewNodeCounts,
+    statisticNodeDistributions,
   } = useAppState()
 
   const charts: ChartCategory[] = [
@@ -192,11 +199,11 @@ export default () => {
           chart: <TxFeeHistoryChart statisticTxFeeHistories={statisticTxFeeHistories} isThumbnail />,
           path: '/charts/tx-fee-history',
         },
-        // {
-        //   title: `${i18n.t('statistic.occupied_capacity')}`,
-        //   chart: <OccupiedCapacityChart statisticOccupiedCapacities={statisticOccupiedCapacities} isThumbnail />,
-        //   path: '/charts/occupied-capacity',
-        // },
+        {
+          title: `${i18n.t('statistic.occupied_capacity')}`,
+          chart: <OccupiedCapacityChart statisticOccupiedCapacities={statisticOccupiedCapacities} isThumbnail />,
+          path: '/charts/occupied-capacity',
+        },
       ],
     },
     {
@@ -212,11 +219,11 @@ export default () => {
           chart: <NewDaoDepositChart statisticNewDaoDeposits={statisticNewDaoDeposits} isThumbnail />,
           path: '/charts/new-dao-deposit',
         },
-        // {
-        //   title: `${i18n.t('statistic.new_dao_withdraw')}`,
-        //   chart: <NewDaoWithdrawChart statisticNewDaoWithdraw={statisticNewDaoWithdraw} isThumbnail />,
-        //   path: '/charts/new-dao-withdraw',
-        // },
+        {
+          title: `${i18n.t('statistic.new_dao_withdraw')}`,
+          chart: <NewDaoWithdrawChart statisticNewDaoWithdraw={statisticNewDaoWithdraw} isThumbnail />,
+          path: '/charts/new-dao-withdraw',
+        },
         {
           title: `${i18n.t('statistic.circulation_ratio')}`,
           chart: <CirculationRatioChart statisticCirculationRatios={statisticCirculationRatios} isThumbnail />,
@@ -224,21 +231,21 @@ export default () => {
         },
       ],
     },
-    // {
-    //   category: i18n.t('statistic.category_network'),
-    //   charts: [
-    //     {
-    //       title: `${i18n.t('statistic.new_node_count')}`,
-    //       chart: <NewNodeCountChart statisticNewNodeCounts={statisticNewNodeCounts} isThumbnail />,
-    //       path: '/charts/new-node-count',
-    //     },
-    //     {
-    //       title: `${i18n.t('statistic.node_distribution')}`,
-    //       chart: <NodeDistributionChart statisticNodeDistributions={statisticNodeDistributions} isThumbnail />,
-    //       path: '/charts/node-distribution',
-    //     },
-    //   ],
-    // },
+    {
+      category: i18n.t('statistic.category_network'),
+      charts: [
+        {
+          title: `${i18n.t('statistic.new_node_count')}`,
+          chart: <NewNodeCountChart statisticNewNodeCounts={statisticNewNodeCounts} isThumbnail />,
+          path: '/charts/new-node-count',
+        },
+        {
+          title: `${i18n.t('statistic.node_distribution')}`,
+          chart: <NodeDistributionChart statisticNodeDistributions={statisticNodeDistributions} isThumbnail />,
+          path: '/charts/node-distribution',
+        },
+      ],
+    },
   ]
 
   useEffect(() => {
@@ -252,17 +259,17 @@ export default () => {
     initStatisticTransactionCount(dispatch)
     initStatisticTotalDaoDeposit(dispatch)
     initStatisticNewDaoDeposit(dispatch)
-    // initStatisticNewDaoWithdraw(dispatch)
+    initStatisticNewDaoWithdraw(dispatch)
     initStatisticCirculationRatio(dispatch)
     initStatisticAddressBalanceRanks(dispatch)
     initStatisticBalanceDistribution(dispatch)
     initStatisticTxFeeHistory(dispatch)
     initStatisticBlockTimeDistribution(dispatch)
-    // initStatisticOccupiedCapacity(dispatch)
+    initStatisticOccupiedCapacity(dispatch)
     initStatisticEpochTimeDistribution(dispatch)
     initStatisticAverageBlockTimes(dispatch)
-    // initStatisticNewNodeCount(dispatch)
-    // initStatisticNodeDistribution(dispatch)
+    initStatisticNewNodeCount(dispatch)
+    initStatisticNodeDistribution(dispatch)
   }, [dispatch])
 
   useEffect(() => {
@@ -276,17 +283,17 @@ export default () => {
     getStatisticTransactionCount(dispatch)
     getStatisticTotalDaoDeposit(dispatch)
     getStatisticNewDaoDeposit(dispatch)
-    // getStatisticNewDaoWithdraw(dispatch)
+    getStatisticNewDaoWithdraw(dispatch)
     getStatisticCirculationRatio(dispatch)
     getStatisticAddressBalanceRank(dispatch)
     getStatisticBalanceDistribution(dispatch)
     getStatisticTxFeeHistory(dispatch)
     getStatisticBlockTimeDistribution(dispatch)
-    // getStatisticOccupiedCapacity(dispatch)
+    getStatisticOccupiedCapacity(dispatch)
     getStatisticEpochTimeDistribution(dispatch)
     getStatisticAverageBlockTimes(dispatch)
-    // getStatisticNewNodeCount(dispatch)
-    // getStatisticNodeDistribution(dispatch)
+    getStatisticNewNodeCount(dispatch)
+    getStatisticNodeDistribution(dispatch)
   }, [dispatch])
 
   return (
