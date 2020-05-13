@@ -38,6 +38,11 @@ export const HomeStatisticTopPanel = styled.div`
 
     .home__statistic__left__data {
       flex: 1;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
       background: ${isMainnet()
         ? 'linear-gradient(134deg, #3fb39e, #1ec196 51%, #3cc6b7 100%)'
         : 'linear-gradient(314deg, #6093e4 100%, #6b88cf 49%, #7074de)'};
@@ -58,6 +63,10 @@ export const HomeStatisticTopPanel = styled.div`
 
     .home__statistic__right__data {
       flex: 1;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       background: linear-gradient(134deg, #444b57, #39424a 48%, #444c5a 96%);
     }
     .home__statistic__right__chart {
@@ -155,6 +164,20 @@ export const HomeHeaderItemPanel = styled.div`
     margin-left: 1%;
     background: #eaeaea;
     width: 1px;
+  }
+`
+
+export const HomeStatisticItemPanel = styled.div`
+  .home__statistic__item__name {
+    font-size: 14px;
+    color: #ffffff;
+  }
+
+  .home__statistic__item__value {
+    font-size: ${(props: { isBig?: boolean }) => (props.isBig ? '26px' : '20px')};
+    color: #ffffff;
+    font-weight: bold;
+    margin-top: 3px;
   }
 `
 

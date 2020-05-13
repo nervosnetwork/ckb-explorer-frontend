@@ -11,6 +11,7 @@ import {
   HomeHeaderTopPanel,
   HomeStatisticBottomPanel,
   HomeStatisticTopPanel,
+  HomeStatisticItemPanel,
 } from './styled'
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
@@ -34,6 +35,22 @@ import { useInterval } from '../../utils/hook'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
 import Search from '../../components/Search'
 
+interface BlockchainData {
+  name: string
+  value: string
+  rightValue?: string
+  showSeparate: boolean
+}
+
+const StatisticItem = ({ blockchain, isFirst }: { blockchain: BlockchainData; isFirst?: boolean }) => {
+  return (
+    <HomeStatisticItemPanel isBig={isFirst}>
+      <div className="home__statistic__item__name">{blockchain.name}</div>
+      <div className="home__statistic__item__value">{blockchain.value}</div>
+    </HomeStatisticItemPanel>
+  )
+}
+
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   return (
     <HomeHeaderItemPanel>
@@ -47,13 +64,6 @@ const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
       {blockchain.showSeparate && <div className="blockchain__item__between_separate" />}
     </HomeHeaderItemPanel>
   )
-}
-
-interface BlockchainData {
-  name: string
-  value: string
-  rightValue?: string
-  showSeparate: boolean
 }
 
 const parseHashRate = (hashRate: string | undefined) => {
@@ -153,11 +163,17 @@ export default () => {
         </HomeHeaderTopPanel>
         <HomeStatisticTopPanel>
           <div className="home__statistic__left__panel">
-            <div className="home__statistic__left__data"></div>
+            <div className="home__statistic__left__data">
+              <StatisticItem blockchain={blockchainDataList(statistics)[0]} isFirst />
+              <StatisticItem blockchain={blockchainDataList(statistics)[1]} />
+            </div>
             <div className="home__statistic__left__chart"></div>
           </div>
           <div className="home__statistic__right__panel">
-            <div className="home__statistic__right__data"></div>
+            <div className="home__statistic__right__data">
+              <StatisticItem blockchain={blockchainDataList(statistics)[2]} isFirst />
+              <StatisticItem blockchain={blockchainDataList(statistics)[3]} />
+            </div>
             <div className="home__statistic__right__chart"></div>
           </div>
         </HomeStatisticTopPanel>
