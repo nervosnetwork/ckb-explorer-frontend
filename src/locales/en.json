@@ -9,7 +9,8 @@
       "minute": "min",
       "second_ago": "s ago",
       "ckb_unit": "CKB",
-      "note": "Note: "
+      "note": "Note: ",
+      "ckb_explorer": "CKB Explorer"
     },
     "toast": {
       "invalid_content": "Please input valid content",
@@ -119,7 +120,8 @@
       "address_type_testnet_error": "Testnet address detected，please goto",
       "address_type_mainnet_error": "Mainnet address detected，please goto",
       "address_type_testnet_url": "testnet explorer",
-      "address_type_mainnet_url": "mainnet explorer"
+      "address_type_mainnet_url": "mainnet explorer",
+      "search": "Search"
     },
     "address": {
       "address": "Address",

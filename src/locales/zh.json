@@ -9,7 +9,8 @@
       "minute": "分",
       "second_ago": "秒以前",
       "ckb_unit": "CKB",
-      "note": "注: "
+      "note": "注: ",
+      "ckb_explorer": "CKB 浏览器"
     },
     "toast": {
       "invalid_content": "请输入有效内容",
@@ -119,7 +120,8 @@
       "address_type_testnet_error": "检测到测试链地址，请跳转",
       "address_type_mainnet_error": "检测到主网地址，请跳转",
       "address_type_testnet_url": "测试链浏览器查询",
-      "address_type_mainnet_url": "主网浏览器查询"
+      "address_type_mainnet_url": "主网浏览器查询",
+      "search": "搜索"
     },
     "address": {
       "address": "地址",

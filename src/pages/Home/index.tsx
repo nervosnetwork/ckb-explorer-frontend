@@ -8,6 +8,8 @@ import {
   TableHeaderPanel,
   HomeTablePanel,
   TransactionPanel,
+  HomeHeaderTopPanel,
+  HomeHeaderBottomPanel,
 } from './styled'
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
@@ -22,24 +24,23 @@ import getStatistics from '../../service/app/statistics'
 import i18n from '../../utils/i18n'
 import LatestBlocksIcon from '../../assets/latest_blocks.png'
 import LatestTransactionsIcon from '../../assets/latest_transactions.png'
+import HomeHeaderBackground from '../../assets/home_background.svg'
 import { BlockCardItem, TransactionCardItem } from './TableCard'
 import { getLatestTransactions } from '../../service/app/transaction'
 import { getTipBlockNumber } from '../../service/app/address'
 import Loading from '../../components/Loading/SmallLoading'
 import { useInterval } from '../../utils/hook'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
+import Search from '../../components/Search'
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
   return (
     <HomeHeaderItemPanel>
       <div className="blockchain__item__content">
-        <div className="blockchain__item__top_name">{blockchain.topName}</div>
-        <div className="blockchain__item__top_value">{blockchain.topValue}</div>
-        <div className="blockchain__item__separate" />
-        <div className="blockchain__item__bottom_name">{blockchain.bottomName}</div>
-        <div className="blockchain__item__bottom_value">
-          <div>{blockchain.bottomValue}</div>
-          {blockchain.rightValue && <div>{blockchain.rightValue}</div>}
+        <div className="blockchain__item__name">{blockchain.name}</div>
+        <div className="blockchain__item__value">
+          <div className="blockchain__item__left__value">{blockchain.value}</div>
+          {blockchain.rightValue && <div className="blockchain__item__right__value">{blockchain.rightValue}</div>}
         </div>
       </div>
       {blockchain.showSeparate && <div className="blockchain__item__between_separate" />}
@@ -48,10 +49,8 @@ const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
 }
 
 interface BlockchainData {
-  topName: string
-  topValue: string
-  bottomName: string
-  bottomValue: string
+  name: string
+  value: string
   rightValue?: string
   showSeparate: boolean
 }
@@ -64,35 +63,52 @@ const parseBlockTime = (blockTime: string | undefined) => {
   return blockTime ? parseTime(Number(blockTime)) : '- -'
 }
 
-const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
+const blockchainTopList = (statistics: State.Statistics): BlockchainData[] => {
   return [
     {
-      topName: i18n.t('blockchain.latest_block'),
-      topValue: localeNumberString(statistics.tipBlockNumber),
-      bottomName: i18n.t('blockchain.epoch'),
-      bottomValue: `${statistics.epochInfo.index}/${statistics.epochInfo.epochLength}`,
-      rightValue: parseEpochNumber(statistics.epochInfo.epochNumber),
+      name: i18n.t('blockchain.latest_block'),
+      value: localeNumberString(statistics.tipBlockNumber),
       showSeparate: true,
     },
     {
-      topName: i18n.t('blockchain.average_block_time'),
-      topValue: parseBlockTime(statistics.averageBlockTime),
-      bottomName: i18n.t('blockchain.estimated_epoch_time'),
-      bottomValue: parseTimeNoSecond(Number(statistics.estimatedEpochTime)),
+      name: i18n.t('blockchain.average_block_time'),
+      value: parseBlockTime(statistics.averageBlockTime),
       showSeparate: !isMobile(),
     },
     {
-      topName: i18n.t('blockchain.hash_rate'),
-      topValue: parseHashRate(statistics.hashRate),
-      bottomName: i18n.t('blockchain.difficulty'),
-      bottomValue: handleDifficulty(statistics.currentEpochDifficulty),
+      name: i18n.t('blockchain.hash_rate'),
+      value: parseHashRate(statistics.hashRate),
       showSeparate: true,
     },
     {
-      topName: i18n.t('blockchain.transactions_per_minute'),
-      topValue: handleBigNumber(statistics.transactionsCountPerMinute, 2),
-      bottomName: i18n.t('blockchain.transactions_last_24hrs'),
-      bottomValue: handleBigNumber(statistics.transactionsLast24Hrs, 2),
+      name: i18n.t('blockchain.difficulty'),
+      value: handleDifficulty(statistics.currentEpochDifficulty),
+      showSeparate: true,
+    },
+  ]
+}
+
+const blockchainBottomList = (statistics: State.Statistics): BlockchainData[] => {
+  return [
+    {
+      name: i18n.t('blockchain.epoch'),
+      value: parseEpochNumber(statistics.epochInfo.epochNumber),
+      rightValue: `${statistics.epochInfo.index}/${statistics.epochInfo.epochLength}`,
+      showSeparate: true,
+    },
+    {
+      name: i18n.t('blockchain.estimated_epoch_time'),
+      value: parseTimeNoSecond(Number(statistics.estimatedEpochTime)),
+      showSeparate: !isMobile(),
+    },
+    {
+      name: i18n.t('blockchain.transactions_per_minute'),
+      value: handleBigNumber(statistics.transactionsCountPerMinute, 2),
+      showSeparate: true,
+    },
+    {
+      name: i18n.t('blockchain.transactions_last_24hrs'),
+      value: handleBigNumber(statistics.transactionsLast24Hrs, 2),
       showSeparate: false,
     },
   ]
@@ -128,36 +144,43 @@ export default () => {
 
   useInterval(() => {
     handleBlockchainAlert(dispatch)
+    blockchainTopList(statistics)
   }, BLOCKCHAIN_ALERT_POLLING_TIME)
 
   return (
     <Content>
       <HomeHeaderPanel className="container">
-        <div className="blockchain__item__container">
+        <HomeHeaderTopPanel style={{ backgroundImage: `url(${HomeHeaderBackground})` }}>
+          <div className="home__top__title">{i18n.t('common.ckb_explorer')}</div>
+          <div className="home__top__search">
+            <Search hasButton={true} />
+          </div>
+        </HomeHeaderTopPanel>
+        <HomeHeaderBottomPanel>
           {!isMobile() &&
-            blockchainDataList(statistics).map((data: BlockchainData) => {
-              return <BlockchainItem blockchain={data} key={data.topName} />
+            blockchainBottomList(statistics).map((data: BlockchainData) => {
+              return <BlockchainItem blockchain={data} key={data.name} />
             })}
           {isMobile() && (
             <>
               <div className="blockchain__item__mobile">
-                {blockchainDataList(statistics)
+                {blockchainBottomList(statistics)
                   .slice(0, 2)
                   .map((data: BlockchainData) => {
-                    return <BlockchainItem blockchain={data} key={data.topName} />
+                    return <BlockchainItem blockchain={data} key={data.name} />
                   })}
               </div>
               <div className="blockchain__item__mobile_separate" />
               <div className="blockchain__item__mobile">
-                {blockchainDataList(statistics)
+                {blockchainBottomList(statistics)
                   .slice(2)
                   .map((data: BlockchainData) => {
-                    return <BlockchainItem blockchain={data} key={data.topName} />
+                    return <BlockchainItem blockchain={data} key={data.name} />
                   })}
               </div>
             </>
           )}
-        </div>
+        </HomeHeaderBottomPanel>
       </HomeHeaderPanel>
       <HomeTablePanel className="container">
         <BlockPanel>
