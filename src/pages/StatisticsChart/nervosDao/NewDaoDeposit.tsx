@@ -98,7 +98,7 @@ const getOption = (statisticNewDaoDeposits: State.StatisticNewDaoDeposit[], isTh
         scale: true,
         axisLine: {
           lineStyle: {
-            color: ChartColors[1],
+            color: ChartColors[0],
           },
         },
         axisLabel: {
@@ -111,6 +111,9 @@ const getOption = (statisticNewDaoDeposits: State.StatisticNewDaoDeposit[], isTh
         name: i18n.t('statistic.new_dao_deposit'),
         type: 'line',
         yAxisIndex: '0',
+        areaStyle: {
+          color: '#85bae0',
+        },
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticNewDaoDeposits.map(data => new BigNumber(shannonToCkb(data.dailyDaoDeposit)).toFixed(0)),
