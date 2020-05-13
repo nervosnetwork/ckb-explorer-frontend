@@ -1,21 +1,17 @@
 import React, { useEffect } from 'react'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/title'
 import BigNumber from 'bignumber.js'
-import Content from '../../components/Content'
-import { getStatisticTotalDaoDeposit } from '../../service/app/statisticsChart'
-import { useAppState, useDispatch } from '../../contexts/providers'
-import i18n, { currentLanguage } from '../../utils/i18n'
-import { handleAxis } from '../../utils/chart'
-import { ChartDetailTitle, ChartDetailPanel, ChartNotePanel } from './styled'
-import { parseDateNoTime } from '../../utils/date'
-import { isMobile } from '../../utils/screen'
-import { shannonToCkb } from '../../utils/util'
-import { ChartColors } from '../../utils/const'
-import { isMainnet } from '../../utils/chain'
-import { ChartLoading, ReactChartCore } from './ChartComponents'
-import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
+import { getStatisticTotalDaoDeposit } from '../../../service/app/charts/nervosDao'
+import { useAppState, useDispatch } from '../../../contexts/providers'
+import i18n, { currentLanguage } from '../../../utils/i18n'
+import { handleAxis } from '../../../utils/chart'
+import { ChartNotePanel } from '../common/styled'
+import { parseDateNoTime } from '../../../utils/date'
+import { isMobile } from '../../../utils/screen'
+import { shannonToCkb } from '../../../utils/util'
+import { ChartColors } from '../../../utils/const'
+import { isMainnet } from '../../../utils/chain'
+import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
+import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -25,8 +21,8 @@ const gridThumbnail = {
   containLabel: true,
 }
 const grid = {
-  left: '6%',
-  right: '6.5%',
+  left: '4%',
+  right: '4%',
   bottom: '5%',
   containLabel: true,
 }
@@ -40,7 +36,7 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '240px' : '210px'};display:inline-block;">${value}:</span>`
+          `<span style="width:${currentLanguage() === 'en' ? '240px' : '200px'};display:inline-block;">${value}:</span>`
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
         )}</div>`
@@ -76,6 +72,9 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
       {
         position: 'left',
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.total_dao_deposit'),
+        nameTextStyle: {
+          align: 'left',
+        },
         type: 'value',
         scale: true,
         axisLine: {
@@ -90,6 +89,9 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
       {
         position: 'right',
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.total_dao_depositor'),
+        nameTextStyle: {
+          align: 'right',
+        },
         type: 'value',
         scale: true,
         axisLine: {
@@ -155,12 +157,9 @@ export default () => {
   }, [dispatch])
 
   return (
-    <Content>
-      <ChartDetailTitle>{i18n.t('statistic.total_dao_deposit_depositor')}</ChartDetailTitle>
-      <ChartDetailPanel>
-        <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} />
-        {isMainnet() && <ChartNotePanel>{`${i18n.t('common.note')}1GB = 1,000,000,000 CKBytes`}</ChartNotePanel>}
-      </ChartDetailPanel>
-    </Content>
+    <ChartPage title={i18n.t('statistic.total_dao_deposit_depositor')}>
+      <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} />
+      {isMainnet() && <ChartNotePanel>{`${i18n.t('common.note')}1GB = 1,000,000,000 CKBytes`}</ChartNotePanel>}
+    </ChartPage>
   )
 }

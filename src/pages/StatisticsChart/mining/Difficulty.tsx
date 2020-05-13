@@ -1,20 +1,15 @@
 import React, { useEffect } from 'react'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/title'
 import BigNumber from 'bignumber.js'
-import Content from '../../components/Content'
-import { getStatisticDifficulty } from '../../service/app/statisticsChart'
-import i18n, { currentLanguage } from '../../utils/i18n'
-import { handleAxis } from '../../utils/chart'
-import { ChartDetailTitle, ChartDetailPanel } from './styled'
-import { parseDateNoTime } from '../../utils/date'
-import { isMobile } from '../../utils/screen'
-import { useAppState, useDispatch } from '../../contexts/providers'
-import { handleDifficulty } from '../../utils/number'
-import { ChartColors } from '../../utils/const'
-import { ChartLoading, ReactChartCore } from './ChartComponents'
-import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
+import { getStatisticDifficulty } from '../../../service/app/charts/mining'
+import i18n, { currentLanguage } from '../../../utils/i18n'
+import { handleAxis } from '../../../utils/chart'
+import { parseDateNoTime } from '../../../utils/date'
+import { isMobile } from '../../../utils/screen'
+import { useAppState, useDispatch } from '../../../contexts/providers'
+import { handleDifficulty } from '../../../utils/number'
+import { ChartColors } from '../../../utils/const'
+import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
+import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -124,11 +119,8 @@ export default () => {
   }, [dispatch])
 
   return (
-    <Content>
-      <ChartDetailTitle>{i18n.t('block.difficulty')}</ChartDetailTitle>
-      <ChartDetailPanel>
-        <DifficultyChart statisticDifficulties={statisticDifficulties} />
-      </ChartDetailPanel>
-    </Content>
+    <ChartPage title={i18n.t('block.difficulty')}>
+      <DifficultyChart statisticDifficulties={statisticDifficulties} />
+    </ChartPage>
   )
 }

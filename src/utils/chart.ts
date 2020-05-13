@@ -40,12 +40,17 @@ export const handleAxis = (value: BigNumber | string | number, decimal?: number,
   return `${decimal && !hideZero ? bigValue.toFixed(decimal) : bigValue.toFixed()}`
 }
 
-export const handleGroupAxis = (value: BigNumber | string | number, suffix?: string) => {
+export const handleLogGroupAxis = (value: BigNumber | string | number, suffix?: string) => {
   const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
   return `[${bigValue.isGreaterThanOrEqualTo(1000) ? handleAxis(bigValue.dividedBy(10), 0) : '0'}, ${handleAxis(
     value,
     0,
   )}${suffix || ''}]`
+}
+
+export const handleStepGroupAxis = (value: BigNumber | string | number, step?: number, suffix?: string) => {
+  const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  return `[${bigValue.minus(step || 100)}, ${value}${suffix || ''}]`
 }
 
 export const parseInterval = (max: number, min: number) => {
