@@ -21,8 +21,8 @@ const gridThumbnail = {
   containLabel: true,
 }
 const grid = {
-  left: '6%',
-  right: '6.5%',
+  left: '4%',
+  right: '4%',
   bottom: '5%',
   containLabel: true,
 }
@@ -36,7 +36,7 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '240px' : '210px'};display:inline-block;">${value}:</span>`
+          `<span style="width:${currentLanguage() === 'en' ? '240px' : '200px'};display:inline-block;">${value}:</span>`
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
         )}</div>`
@@ -72,6 +72,9 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
       {
         position: 'left',
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.total_dao_deposit'),
+        nameTextStyle: {
+          align: 'left',
+        },
         type: 'value',
         scale: true,
         axisLine: {
@@ -86,6 +89,9 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
       {
         position: 'right',
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.total_dao_depositor'),
+        nameTextStyle: {
+          align: 'right',
+        },
         type: 'value',
         scale: true,
         axisLine: {

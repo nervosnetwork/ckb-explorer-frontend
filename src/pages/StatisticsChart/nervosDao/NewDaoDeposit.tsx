@@ -36,7 +36,7 @@ const getOption = (statisticNewDaoDeposits: State.StatisticNewDaoDeposit[], isTh
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '225px' : '210px'};display:inline-block;">${value}:</span>`
+          `<span style="width:${currentLanguage() === 'en' ? '180px' : '220px'};display:inline-block;">${value}:</span>`
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
         )}</div>`
@@ -98,7 +98,7 @@ const getOption = (statisticNewDaoDeposits: State.StatisticNewDaoDeposit[], isTh
         scale: true,
         axisLine: {
           lineStyle: {
-            color: ChartColors[1],
+            color: ChartColors[0],
           },
         },
         axisLabel: {
@@ -111,6 +111,9 @@ const getOption = (statisticNewDaoDeposits: State.StatisticNewDaoDeposit[], isTh
         name: i18n.t('statistic.new_dao_deposit'),
         type: 'line',
         yAxisIndex: '0',
+        areaStyle: {
+          color: '#85bae0',
+        },
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticNewDaoDeposits.map(data => new BigNumber(shannonToCkb(data.dailyDaoDeposit)).toFixed(0)),

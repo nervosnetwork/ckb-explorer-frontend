@@ -16,8 +16,8 @@ const gridThumbnail = {
   containLabel: true,
 }
 const grid = {
-  left: '4%',
-  right: '4%',
+  left: '3%',
+  right: '3%',
   bottom: '5%',
   containLabel: true,
 }
@@ -31,7 +31,7 @@ const getOption = (statisticCirculationRatios: State.StatisticCirculationRatio[]
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '270px' : '165px'};display:inline-block;">${value}:</span>`
+          `<span style="width:${currentLanguage() === 'en' ? '250px' : '165px'};display:inline-block;">${value}:</span>`
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
         )}</div>`

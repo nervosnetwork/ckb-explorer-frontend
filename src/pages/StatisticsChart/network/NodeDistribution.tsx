@@ -50,7 +50,7 @@ const getOption = (statisticNodeDistributions: State.StatisticNodeDistribution[]
       bottom: 20,
       scaleLimit: {
         min: 1,
-        max: 3,
+        max: isThumbnail ? 1 : 3,
       },
       label: {
         emphasis: {
@@ -75,7 +75,6 @@ const getOption = (statisticNodeDistributions: State.StatisticNodeDistribution[]
         type: 'scatter',
         coordinateSystem: 'geo',
         data: statisticNodeDistributions,
-        symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: (value: number[]) => {
           if (value[2] < 5) return 8
           else if (value[2] < 10) return 15

@@ -24,6 +24,11 @@ const grid = {
   containLabel: true,
 }
 
+const max = (statisticChartData: State.StatisticDifficultyUncleRate[]) => {
+  const array = statisticChartData.flatMap(data => Number(data.uncleRate) * 100)
+  return Math.max(5, Math.ceil(Math.max(...array)))
+}
+
 const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isThumbnail = false) => {
   return {
     color: ChartColors,
@@ -34,11 +39,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
           `<span style="width:${currentLanguage() === 'en' ? '90px' : '50px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch'))} ${handleAxis(
-          dataList[0].name,
-          1,
-          true,
-        )}</div>`
+        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch'))} ${dataList[0].name}</div>`
         if (dataList[0]) {
           result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
             dataList[0].data,
@@ -65,7 +66,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         boundaryGap: false,
         data: statisticChartData.map(data => data.epochNumber),
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: string) => value,
         },
       },
     ],
@@ -92,6 +93,8 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         splitLine: {
           show: false,
         },
+        max: max(statisticChartData),
+        min: 0,
         axisLine: {
           lineStyle: {
             color: ChartColors[1],
@@ -137,7 +140,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
                 },
               ],
               label: {
-                formatter: (params: any) => `--------${params.value}%`,
+                formatter: (params: any) => `${params.value}%`,
               },
             },
       },
