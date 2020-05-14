@@ -34,6 +34,8 @@ import Loading from '../../components/Loading/SmallLoading'
 import { useInterval } from '../../utils/hook'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
 import Search from '../../components/Search'
+import AverageBlockTimeChart from './AverageBlockTimeChart'
+import HashRateChart from './HashRateChart'
 
 interface BlockchainData {
   name: string
@@ -167,14 +169,18 @@ export default () => {
               <StatisticItem blockchain={blockchainDataList(statistics)[0]} isFirst />
               <StatisticItem blockchain={blockchainDataList(statistics)[1]} />
             </div>
-            <div className="home__statistic__left__chart"></div>
+            <div className="home__statistic__left__chart">
+              <AverageBlockTimeChart />
+            </div>
           </div>
           <div className="home__statistic__right__panel">
             <div className="home__statistic__right__data">
               <StatisticItem blockchain={blockchainDataList(statistics)[2]} isFirst />
               <StatisticItem blockchain={blockchainDataList(statistics)[3]} />
             </div>
-            <div className="home__statistic__right__chart"></div>
+            <div className="home__statistic__right__chart">
+              <HashRateChart />
+            </div>
           </div>
         </HomeStatisticTopPanel>
         <HomeStatisticBottomPanel>

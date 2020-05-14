@@ -2,46 +2,189 @@
 
 exports[`Active Page shallow renders 1`] = `
 <div
-  className="sc-fzqNqU OZySq"
+  className="sc-fznMAR VNHDx"
 >
   <div
-    className="sc-AxjAm hApLYs container"
+    className="sc-AxjAm StDqN container"
   >
     <div
-      className="blockchain__item__container"
+      className="sc-AxirZ bViVyF"
+      style={
+        Object {
+          "backgroundImage": "url(home_background.svg)",
+        }
+      }
     >
       <div
-        className="sc-AxirZ dSIhkj"
+        className="home__top__title"
+      >
+        CKB Explorer
+      </div>
+      <div
+        className="home__top__search"
+      >
+        <div
+          className="sc-fzoLag eNRuJM"
+        >
+          <div
+            className="sc-fzoXzr kGyab"
+          >
+            <div
+              className="sc-fzpjYC bvkCky"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex={-1}
+            >
+              <img
+                alt="search logo"
+                src="search_black.png"
+              />
+            </div>
+            <input
+              className="sc-fznxsB knrDyn"
+              defaultValue=""
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyUp={[Function]}
+              placeholder="Block/Transaction/Address/Lock Hash"
+            />
+          </div>
+          <div
+            className="sc-fznJRM hksjio"
+          >
+            Search
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-AxiKw enxswy"
+    >
+      <div
+        className="home__statistic__left__panel"
+      >
+        <div
+          className="home__statistic__left__data"
+        >
+          <div
+            className="sc-AxgMl iOPSoP"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Latest Block
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              1,687,044
+            </div>
+          </div>
+          <div
+            className="sc-AxgMl cgMPZB"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Average Block Time
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              8.02 s
+            </div>
+          </div>
+        </div>
+        <div
+          className="home__statistic__left__chart"
+        >
+          <div
+            className="sc-fzoydu cQUoqv"
+          >
+            <img
+              alt="loading"
+              src="loading.gif"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="home__statistic__right__panel"
+      >
+        <div
+          className="home__statistic__right__data"
+        >
+          <div
+            className="sc-AxgMl iOPSoP"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Mining Hash Rate
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              7.72 PH/s
+            </div>
+          </div>
+          <div
+            className="sc-AxgMl cgMPZB"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Mining Difficulty
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              62.25 PH
+            </div>
+          </div>
+        </div>
+        <div
+          className="home__statistic__right__chart"
+        >
+          <div
+            className="sc-fzoydu cQUoqv"
+          >
+            <img
+              alt="loading"
+              src="loading.gif"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-AxhCb eGQHie"
+    >
+      <div
+        className="sc-AxhUy gMewWE"
       >
         <div
           className="blockchain__item__content"
         >
           <div
-            className="blockchain__item__top_name"
-          >
-            Latest Block
-          </div>
-          <div
-            className="blockchain__item__top_value"
-          >
-            1,687,044
-          </div>
-          <div
-            className="blockchain__item__separate"
-          />
-          <div
-            className="blockchain__item__bottom_name"
+            className="blockchain__item__name"
           >
             Epoch
           </div>
           <div
-            className="blockchain__item__bottom_value"
+            className="blockchain__item__value"
           >
-            <div>
-              1402/1800
-            </div>
-            <div>
+            <div
+              className="blockchain__item__left__value"
+            >
               1026th
+            </div>
+            <div
+              className="blockchain__item__right__value"
+            >
+              1402/1800
             </div>
           </div>
         </div>
@@ -50,33 +193,22 @@ exports[`Active Page shallow renders 1`] = `
         />
       </div>
       <div
-        className="sc-AxirZ dSIhkj"
+        className="sc-AxhUy gMewWE"
       >
         <div
           className="blockchain__item__content"
         >
           <div
-            className="blockchain__item__top_name"
-          >
-            Average Block Time
-          </div>
-          <div
-            className="blockchain__item__top_value"
-          >
-            8.02 s
-          </div>
-          <div
-            className="blockchain__item__separate"
-          />
-          <div
-            className="blockchain__item__bottom_name"
+            className="blockchain__item__name"
           >
             Estimated Epoch Time
           </div>
           <div
-            className="blockchain__item__bottom_value"
+            className="blockchain__item__value"
           >
-            <div>
+            <div
+              className="blockchain__item__left__value"
+            >
               4 h 1 m
             </div>
           </div>
@@ -86,34 +218,23 @@ exports[`Active Page shallow renders 1`] = `
         />
       </div>
       <div
-        className="sc-AxirZ dSIhkj"
+        className="sc-AxhUy gMewWE"
       >
         <div
           className="blockchain__item__content"
         >
           <div
-            className="blockchain__item__top_name"
+            className="blockchain__item__name"
           >
-            Mining Hash Rate
+            Transactions per Minute
           </div>
           <div
-            className="blockchain__item__top_value"
+            className="blockchain__item__value"
           >
-            7.72 PH/s
-          </div>
-          <div
-            className="blockchain__item__separate"
-          />
-          <div
-            className="blockchain__item__bottom_name"
-          >
-            Mining Difficulty
-          </div>
-          <div
-            className="blockchain__item__bottom_value"
-          >
-            <div>
-              62.25 PH
+            <div
+              className="blockchain__item__left__value"
+            >
+              7.78
             </div>
           </div>
         </div>
@@ -122,33 +243,22 @@ exports[`Active Page shallow renders 1`] = `
         />
       </div>
       <div
-        className="sc-AxirZ dSIhkj"
+        className="sc-AxhUy gMewWE"
       >
         <div
           className="blockchain__item__content"
         >
           <div
-            className="blockchain__item__top_name"
-          >
-            Transactions per Minute
-          </div>
-          <div
-            className="blockchain__item__top_value"
-          >
-            7.78
-          </div>
-          <div
-            className="blockchain__item__separate"
-          />
-          <div
-            className="blockchain__item__bottom_name"
+            className="blockchain__item__name"
           >
             Transactions in Last 24hrs
           </div>
           <div
-            className="blockchain__item__bottom_value"
+            className="blockchain__item__value"
           >
-            <div>
+            <div
+              className="blockchain__item__left__value"
+            >
               11.30K
             </div>
           </div>
@@ -157,13 +267,13 @@ exports[`Active Page shallow renders 1`] = `
     </div>
   </div>
   <div
-    className="sc-AxiKw OLSkA container"
+    className="sc-AxheI hSfBRh container"
   >
     <div
-      className="sc-AxhCb hfXDGW"
+      className="sc-Axmtr kZrqCS"
     >
       <div
-        className="sc-Axmtr uzgld"
+        className="sc-fzpans ggRkFr"
       >
         <img
           alt="latest blocks"
@@ -175,7 +285,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzoxKX hhpAww"
+          className="sc-fzoant fQLdJs"
         >
           <div
             className="block__card__height"
@@ -185,7 +295,7 @@ exports[`Active Page shallow renders 1`] = `
                 #
               </span>
               <div
-                className="sc-fzoyTs hiVBKh"
+                className="sc-fznWOq euexBf"
               >
                 <a
                   href="/block/1686123"
@@ -211,7 +321,7 @@ exports[`Active Page shallow renders 1`] = `
                 Miner
               </span>
               <div
-                className="sc-fzqBkg cSxIWK"
+                className="sc-fznzOf hFClCg"
                 fontSize="14px"
                 width="10%"
               >
@@ -221,7 +331,7 @@ exports[`Active Page shallow renders 1`] = `
                   onClick={[Function]}
                 >
                   <span
-                    className="table__miner__text address"
+                    className="table__miner__text monospace"
                     onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
                   >
@@ -237,16 +347,16 @@ exports[`Active Page shallow renders 1`] = `
                 Reward
               </span>
               <div
-                className="sc-fzoYkl dzMLkM"
+                className="sc-fzqAbL hjppRf"
               >
                 <div
-                  className="sc-fzoNJl dJDphX"
+                  className="sc-fzolEj eSfUyM"
                 >
                   <span>
                     1,113
                   </span>
                   <div
-                    className="sc-fzoXWK dlPzyQ"
+                    className="sc-fzqBkg bVsdMM monospace"
                     fontSize="9px"
                   >
                     .02
@@ -276,7 +386,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzoxKX hhpAww"
+          className="sc-fzoant fQLdJs"
         >
           <div
             className="block__card__height"
@@ -286,7 +396,7 @@ exports[`Active Page shallow renders 1`] = `
                 #
               </span>
               <div
-                className="sc-fzoyTs hiVBKh"
+                className="sc-fznWOq euexBf"
               >
                 <a
                   href="/block/1686122"
@@ -312,7 +422,7 @@ exports[`Active Page shallow renders 1`] = `
                 Miner
               </span>
               <div
-                className="sc-fzqBkg cSxIWK"
+                className="sc-fznzOf hFClCg"
                 fontSize="14px"
                 width="10%"
               >
@@ -322,7 +432,7 @@ exports[`Active Page shallow renders 1`] = `
                   onClick={[Function]}
                 >
                   <span
-                    className="table__miner__text address"
+                    className="table__miner__text monospace"
                     onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
                   >
@@ -338,16 +448,16 @@ exports[`Active Page shallow renders 1`] = `
                 Reward
               </span>
               <div
-                className="sc-fzoYkl dzMLkM"
+                className="sc-fzqAbL hjppRf"
               >
                 <div
-                  className="sc-fzoNJl dJDphX"
+                  className="sc-fzolEj eSfUyM"
                 >
                   <span>
                     1,113
                   </span>
                   <div
-                    className="sc-fzoXWK dlPzyQ"
+                    className="sc-fzqBkg bVsdMM monospace"
                     fontSize="9px"
                   >
                     .02
@@ -377,7 +487,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzoxKX hhpAww"
+          className="sc-fzoant fQLdJs"
         >
           <div
             className="block__card__height"
@@ -387,7 +497,7 @@ exports[`Active Page shallow renders 1`] = `
                 #
               </span>
               <div
-                className="sc-fzoyTs hiVBKh"
+                className="sc-fznWOq euexBf"
               >
                 <a
                   href="/block/1686121"
@@ -413,7 +523,7 @@ exports[`Active Page shallow renders 1`] = `
                 Miner
               </span>
               <div
-                className="sc-fzqBkg cSxIWK"
+                className="sc-fznzOf hFClCg"
                 fontSize="14px"
                 width="10%"
               >
@@ -423,7 +533,7 @@ exports[`Active Page shallow renders 1`] = `
                   onClick={[Function]}
                 >
                   <span
-                    className="table__miner__text address"
+                    className="table__miner__text monospace"
                     onMouseEnter={[Function]}
                     onMouseLeave={[Function]}
                   >
@@ -439,16 +549,16 @@ exports[`Active Page shallow renders 1`] = `
                 Reward
               </span>
               <div
-                className="sc-fzoYkl dzMLkM"
+                className="sc-fzqAbL hjppRf"
               >
                 <div
-                  className="sc-fzoNJl dJDphX"
+                  className="sc-fzolEj eSfUyM"
                 >
                   <span>
                     1,113
                   </span>
                   <div
-                    className="sc-fzoXWK dlPzyQ"
+                    className="sc-fzqBkg bVsdMM monospace"
                     fontSize="9px"
                   >
                     .02
@@ -474,7 +584,7 @@ exports[`Active Page shallow renders 1`] = `
         </div>
       </div>
       <div
-        className="sc-AxmLO Kxtii"
+        className="sc-fzplWN dnBFbs"
         onClick={[Function]}
       >
         <span>
@@ -483,10 +593,10 @@ exports[`Active Page shallow renders 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxhUy dFrjnE"
+      className="sc-AxmLO lmzuPY"
     >
       <div
-        className="sc-Axmtr uzgld"
+        className="sc-fzpans ggRkFr"
       >
         <img
           alt="latest transactions"
@@ -498,13 +608,13 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzoKki utwrk"
+          className="sc-fzomME bbNGIk"
         >
           <div
             className="transaction__card__hash"
           >
             <div
-              className="sc-fzoyTs hiVBKh"
+              className="sc-fznWOq euexBf"
             >
               <a
                 href="/transaction/0x896ff246313e0a9fc7b392af6665774460d6d8614783f40764b17864bde10643"
@@ -534,7 +644,7 @@ exports[`Active Page shallow renders 1`] = `
                 #
               </span>
               <div
-                className="sc-fzoyTs hiVBKh"
+                className="sc-fznWOq euexBf"
               >
                 <a
                   href="/block/1687517"
@@ -554,19 +664,19 @@ exports[`Active Page shallow renders 1`] = `
             className="transaction__card__capacity"
           >
             <div
-              className="sc-fzoNJl dJDphX"
+              className="sc-fzolEj eSfUyM"
             >
               <span>
                 1,113
               </span>
               <div
-                className="sc-fzoXWK hLRypn"
+                className="sc-fzqBkg mXqCD monospace"
                 fontSize="9px"
               >
                 .03
               </div>
               <div
-                className="decimal__unit"
+                className="decimal__unit monospace"
               >
                 CKB
               </div>
@@ -584,13 +694,13 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzoKki utwrk"
+          className="sc-fzomME bbNGIk"
         >
           <div
             className="transaction__card__hash"
           >
             <div
-              className="sc-fzoyTs hiVBKh"
+              className="sc-fznWOq euexBf"
             >
               <a
                 href="/transaction/0x19ec38d35659da5a9e5d941ee269a134002fa43344bf83e65ea4b2cbbc40a2c2"
@@ -620,7 +730,7 @@ exports[`Active Page shallow renders 1`] = `
                 #
               </span>
               <div
-                className="sc-fzoyTs hiVBKh"
+                className="sc-fznWOq euexBf"
               >
                 <a
                   href="/block/1687509"
@@ -640,19 +750,19 @@ exports[`Active Page shallow renders 1`] = `
             className="transaction__card__capacity"
           >
             <div
-              className="sc-fzoNJl dJDphX"
+              className="sc-fzolEj eSfUyM"
             >
               <span>
                 1,113
               </span>
               <div
-                className="sc-fzoXWK hLRypn"
+                className="sc-fzqBkg mXqCD monospace"
                 fontSize="9px"
               >
                 .03
               </div>
               <div
-                className="decimal__unit"
+                className="decimal__unit monospace"
               >
                 CKB
               </div>
@@ -670,13 +780,13 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzoKki utwrk"
+          className="sc-fzomME bbNGIk"
         >
           <div
             className="transaction__card__hash"
           >
             <div
-              className="sc-fzoyTs hiVBKh"
+              className="sc-fznWOq euexBf"
             >
               <a
                 href="/transaction/0x69df00a2b94ab0372a4ecd4ce8ac7dd44c15b406ed5154d5425f9bfb3119a8d0"
@@ -706,7 +816,7 @@ exports[`Active Page shallow renders 1`] = `
                 #
               </span>
               <div
-                className="sc-fzoyTs hiVBKh"
+                className="sc-fznWOq euexBf"
               >
                 <a
                   href="/block/1687501"
@@ -726,19 +836,19 @@ exports[`Active Page shallow renders 1`] = `
             className="transaction__card__capacity"
           >
             <div
-              className="sc-fzoNJl dJDphX"
+              className="sc-fzolEj eSfUyM"
             >
               <span>
                 1,113
               </span>
               <div
-                className="sc-fzoXWK hLRypn"
+                className="sc-fzqBkg mXqCD monospace"
                 fontSize="9px"
               >
                 .03
               </div>
               <div
-                className="decimal__unit"
+                className="decimal__unit monospace"
               >
                 CKB
               </div>
@@ -752,7 +862,7 @@ exports[`Active Page shallow renders 1`] = `
         </div>
       </div>
       <div
-        className="sc-AxmLO Kxtii"
+        className="sc-fzplWN dnBFbs"
         onClick={[Function]}
       >
         <span>
@@ -766,46 +876,189 @@ exports[`Active Page shallow renders 1`] = `
 
 exports[`Active Page shallow renders with empty data 1`] = `
 <div
-  className="sc-fzqNqU OZySq"
+  className="sc-fznMAR VNHDx"
 >
   <div
-    className="sc-AxjAm hApLYs container"
+    className="sc-AxjAm StDqN container"
   >
     <div
-      className="blockchain__item__container"
+      className="sc-AxirZ bViVyF"
+      style={
+        Object {
+          "backgroundImage": "url(home_background.svg)",
+        }
+      }
     >
       <div
-        className="sc-AxirZ dSIhkj"
+        className="home__top__title"
+      >
+        CKB Explorer
+      </div>
+      <div
+        className="home__top__search"
+      >
+        <div
+          className="sc-fzoLag eNRuJM"
+        >
+          <div
+            className="sc-fzoXzr kGyab"
+          >
+            <div
+              className="sc-fzpjYC bvkCky"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex={-1}
+            >
+              <img
+                alt="search logo"
+                src="search_black.png"
+              />
+            </div>
+            <input
+              className="sc-fznxsB knrDyn"
+              defaultValue=""
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyUp={[Function]}
+              placeholder="Block/Transaction/Address/Lock Hash"
+            />
+          </div>
+          <div
+            className="sc-fznJRM hksjio"
+          >
+            Search
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-AxiKw enxswy"
+    >
+      <div
+        className="home__statistic__left__panel"
+      >
+        <div
+          className="home__statistic__left__data"
+        >
+          <div
+            className="sc-AxgMl iOPSoP"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Latest Block
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              0
+            </div>
+          </div>
+          <div
+            className="sc-AxgMl cgMPZB"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Average Block Time
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              0.00 s
+            </div>
+          </div>
+        </div>
+        <div
+          className="home__statistic__left__chart"
+        >
+          <div
+            className="sc-fzoydu cQUoqv"
+          >
+            <img
+              alt="loading"
+              src="loading.gif"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="home__statistic__right__panel"
+      >
+        <div
+          className="home__statistic__right__data"
+        >
+          <div
+            className="sc-AxgMl iOPSoP"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Mining Hash Rate
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              0/s
+            </div>
+          </div>
+          <div
+            className="sc-AxgMl cgMPZB"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Mining Difficulty
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              0 H
+            </div>
+          </div>
+        </div>
+        <div
+          className="home__statistic__right__chart"
+        >
+          <div
+            className="sc-fzoydu cQUoqv"
+          >
+            <img
+              alt="loading"
+              src="loading.gif"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-AxhCb eGQHie"
+    >
+      <div
+        className="sc-AxhUy gMewWE"
       >
         <div
           className="blockchain__item__content"
         >
           <div
-            className="blockchain__item__top_name"
-          >
-            Latest Block
-          </div>
-          <div
-            className="blockchain__item__top_value"
-          >
-            0
-          </div>
-          <div
-            className="blockchain__item__separate"
-          />
-          <div
-            className="blockchain__item__bottom_name"
+            className="blockchain__item__name"
           >
             Epoch
           </div>
           <div
-            className="blockchain__item__bottom_value"
+            className="blockchain__item__value"
           >
-            <div>
-              0/0
-            </div>
-            <div>
+            <div
+              className="blockchain__item__left__value"
+            >
               0th
+            </div>
+            <div
+              className="blockchain__item__right__value"
+            >
+              0/0
             </div>
           </div>
         </div>
@@ -814,33 +1067,22 @@ exports[`Active Page shallow renders with empty data 1`] = `
         />
       </div>
       <div
-        className="sc-AxirZ dSIhkj"
+        className="sc-AxhUy gMewWE"
       >
         <div
           className="blockchain__item__content"
         >
           <div
-            className="blockchain__item__top_name"
-          >
-            Average Block Time
-          </div>
-          <div
-            className="blockchain__item__top_value"
-          >
-            0.00 s
-          </div>
-          <div
-            className="blockchain__item__separate"
-          />
-          <div
-            className="blockchain__item__bottom_name"
+            className="blockchain__item__name"
           >
             Estimated Epoch Time
           </div>
           <div
-            className="blockchain__item__bottom_value"
+            className="blockchain__item__value"
           >
-            <div>
+            <div
+              className="blockchain__item__left__value"
+            >
               0 h 0 m
             </div>
           </div>
@@ -850,34 +1092,23 @@ exports[`Active Page shallow renders with empty data 1`] = `
         />
       </div>
       <div
-        className="sc-AxirZ dSIhkj"
+        className="sc-AxhUy gMewWE"
       >
         <div
           className="blockchain__item__content"
         >
           <div
-            className="blockchain__item__top_name"
+            className="blockchain__item__name"
           >
-            Mining Hash Rate
+            Transactions per Minute
           </div>
           <div
-            className="blockchain__item__top_value"
+            className="blockchain__item__value"
           >
-            0/s
-          </div>
-          <div
-            className="blockchain__item__separate"
-          />
-          <div
-            className="blockchain__item__bottom_name"
-          >
-            Mining Difficulty
-          </div>
-          <div
-            className="blockchain__item__bottom_value"
-          >
-            <div>
-              0 H
+            <div
+              className="blockchain__item__left__value"
+            >
+              0
             </div>
           </div>
         </div>
@@ -886,33 +1117,22 @@ exports[`Active Page shallow renders with empty data 1`] = `
         />
       </div>
       <div
-        className="sc-AxirZ dSIhkj"
+        className="sc-AxhUy gMewWE"
       >
         <div
           className="blockchain__item__content"
         >
           <div
-            className="blockchain__item__top_name"
-          >
-            Transactions per Minute
-          </div>
-          <div
-            className="blockchain__item__top_value"
-          >
-            0
-          </div>
-          <div
-            className="blockchain__item__separate"
-          />
-          <div
-            className="blockchain__item__bottom_name"
+            className="blockchain__item__name"
           >
             Transactions in Last 24hrs
           </div>
           <div
-            className="blockchain__item__bottom_value"
+            className="blockchain__item__value"
           >
-            <div>
+            <div
+              className="blockchain__item__left__value"
+            >
               0
             </div>
           </div>
@@ -921,13 +1141,13 @@ exports[`Active Page shallow renders with empty data 1`] = `
     </div>
   </div>
   <div
-    className="sc-AxiKw OLSkA container"
+    className="sc-AxheI hSfBRh container"
   >
     <div
-      className="sc-AxhCb hfXDGW"
+      className="sc-Axmtr kZrqCS"
     >
       <div
-        className="sc-Axmtr uzgld"
+        className="sc-fzpans ggRkFr"
       >
         <img
           alt="latest blocks"
@@ -938,7 +1158,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         </span>
       </div>
       <div
-        className="sc-fznzOf bdzLyF"
+        className="sc-fzoydu cQUoqv"
       >
         <img
           alt="loading"
@@ -946,7 +1166,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         />
       </div>
       <div
-        className="sc-AxmLO Kxtii"
+        className="sc-fzplWN dnBFbs"
         onClick={[Function]}
       >
         <span>
@@ -955,10 +1175,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxhUy dFrjnE"
+      className="sc-AxmLO lmzuPY"
     >
       <div
-        className="sc-Axmtr uzgld"
+        className="sc-fzpans ggRkFr"
       >
         <img
           alt="latest transactions"
@@ -969,7 +1189,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         </span>
       </div>
       <div
-        className="sc-fznzOf bdzLyF"
+        className="sc-fzoydu cQUoqv"
       >
         <img
           alt="loading"
@@ -977,7 +1197,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         />
       </div>
       <div
-        className="sc-AxmLO Kxtii"
+        className="sc-fzplWN dnBFbs"
         onClick={[Function]}
       >
         <span>

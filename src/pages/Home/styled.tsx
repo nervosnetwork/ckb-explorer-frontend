@@ -49,8 +49,10 @@ export const HomeStatisticTopPanel = styled.div`
     }
     .home__statistic__left__chart {
       flex: 2;
+      margin: -2px;
+      padding: 5px 5px 0 5px;
       background: ${isMainnet()
-        ? 'linear-gradient(298deg, #0baab1 99%, #20c5a5 48%, #0bad8e 2%)'
+        ? 'linear-gradient(134deg, #0bad8e 2%, #20c5a5 48%, #0baab1 99%)'
         : 'linear-gradient(298deg, #6e85e0 99%, #577cdb 48%, #486ecc 2%)'};
     }
   }
@@ -59,11 +61,12 @@ export const HomeStatisticTopPanel = styled.div`
     flex: 1;
     display: flex;
     border-radius: 0 6px 0 0;
-    border: 2px solid #444b57;
+    border: 2px solid #31383e;
 
     .home__statistic__right__data {
       flex: 1;
       padding: 32px;
+      margin: -2px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -71,6 +74,7 @@ export const HomeStatisticTopPanel = styled.div`
     }
     .home__statistic__right__chart {
       flex: 2;
+      padding: 5px 5px 0 5px;
       background: linear-gradient(118deg, #31383e, #35414d 48%, #334350);
     }
   }

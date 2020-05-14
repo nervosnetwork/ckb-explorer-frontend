@@ -2,7 +2,7 @@
 
 exports[`Active Page shallow renders with empty data 1`] = `
 <div
-  className="sc-fzpjYC heWghV"
+  className="sc-fznJRM LSUZK"
 >
   <div
     className="sc-AxjAm bAbQHZ container"
@@ -14,10 +14,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
       className="sc-AxiKw esumCH"
     >
       <div
-        className="sc-fznxsB hNUYjF"
+        className="sc-fznWqX hHLogm"
       >
         <div
-          className="sc-fznJRM eARWcf"
+          className="sc-fzoiQi fTOqfe"
           width="14%"
         >
           <div>
@@ -25,7 +25,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </div>
         </div>
         <div
-          className="sc-fznJRM eotDky"
+          className="sc-fzoiQi bfJcav"
           width="8%"
         >
           <div>
@@ -33,7 +33,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </div>
         </div>
         <div
-          className="sc-fznJRM hzwrFo"
+          className="sc-fzoiQi cEyfUN"
           width="20%"
         >
           <div>
@@ -41,7 +41,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </div>
         </div>
         <div
-          className="sc-fznJRM uAFmV"
+          className="sc-fzoiQi igbORU"
           width="43%"
         >
           <div>
@@ -49,7 +49,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </div>
         </div>
         <div
-          className="sc-fznJRM fqGzBa"
+          className="sc-fzoiQi fdZMGj"
           width="15%"
         >
           <div>
@@ -62,10 +62,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
       className="block_list__pagination"
     >
       <div
-        className="sc-fzoyTs cJVUES"
+        className="sc-fzoXWK ktWbCE"
       >
         <div
-          className="sc-fzoNJl ioiSqd"
+          className="sc-fzpmMD flbFIy"
         >
           <button
             onClick={[Function]}
@@ -96,7 +96,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </button>
         </div>
         <div
-          className="sc-fzoXWK hzpCol"
+          className="sc-fznxKY dsGXeS"
         >
           <div
             className="pagination__page"
