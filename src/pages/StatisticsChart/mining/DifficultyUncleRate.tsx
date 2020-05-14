@@ -1,21 +1,14 @@
-import React, { useEffect, useMemo } from 'react'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/component/title'
-import 'echarts/lib/component/markLine'
+import React, { useEffect } from 'react'
 import BigNumber from 'bignumber.js'
-import Content from '../../components/Content'
-import { getStatisticDifficultyUncleRate } from '../../service/app/statisticsChart'
-import { useAppState, useDispatch } from '../../contexts/providers'
-import i18n, { currentLanguage } from '../../utils/i18n'
-import { handleAxis } from '../../utils/chart'
-import { handleDifficulty } from '../../utils/number'
-import { ChartDetailTitle, ChartDetailPanel } from './styled'
-import { isMobile } from '../../utils/screen'
-import { ChartColors } from '../../utils/const'
-import { ChartLoading, ReactChartCore } from './ChartComponents'
-import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
+import { getStatisticDifficultyUncleRate } from '../../../service/app/charts/mining'
+import { useAppState, useDispatch } from '../../../contexts/providers'
+import i18n, { currentLanguage } from '../../../utils/i18n'
+import { handleAxis } from '../../../utils/chart'
+import { handleDifficulty } from '../../../utils/number'
+import { isMobile } from '../../../utils/screen'
+import { ChartColors } from '../../../utils/const'
+import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
+import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -31,6 +24,11 @@ const grid = {
   containLabel: true,
 }
 
+const max = (statisticChartData: State.StatisticDifficultyUncleRate[]) => {
+  const array = statisticChartData.flatMap(data => Number(data.uncleRate) * 100)
+  return Math.max(5, Math.ceil(Math.max(...array)))
+}
+
 const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isThumbnail = false) => {
   return {
     color: ChartColors,
@@ -41,11 +39,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
           `<span style="width:${currentLanguage() === 'en' ? '90px' : '50px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch'))} ${handleAxis(
-          dataList[0].name,
-          1,
-          true,
-        )}</div>`
+        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch'))} ${dataList[0].name}</div>`
         if (dataList[0]) {
           result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
             dataList[0].data,
@@ -72,7 +66,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         boundaryGap: false,
         data: statisticChartData.map(data => data.epochNumber),
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: string) => value,
         },
       },
     ],
@@ -99,6 +93,8 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         splitLine: {
           show: false,
         },
+        max: max(statisticChartData),
+        min: 0,
         axisLine: {
           lineStyle: {
             color: ChartColors[1],
@@ -144,7 +140,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
                 },
               ],
               label: {
-                formatter: (params: any) => `------${params.value}%`,
+                formatter: (params: any) => `${params.value}%`,
               },
             },
       },
@@ -183,14 +179,9 @@ export default () => {
     getStatisticDifficultyUncleRate(dispatch)
   }, [dispatch])
 
-  return useMemo(() => {
-    return (
-      <Content>
-        <ChartDetailTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}</ChartDetailTitle>
-        <ChartDetailPanel>
-          <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} />
-        </ChartDetailPanel>
-      </Content>
-    )
-  }, [statisticDifficultyUncleRates])
+  return (
+    <ChartPage title={`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}>
+      <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} />
+    </ChartPage>
+  )
 }

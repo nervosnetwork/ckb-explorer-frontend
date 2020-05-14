@@ -131,7 +131,7 @@ export const HomeTablePanel = styled.div`
 
 export const BlockPanel = styled.div`
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   margin-right: 20px;
   background: white;
   flex: 1;

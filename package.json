@@ -24,14 +24,8 @@
     "echarts": "4.7.0",
     "echarts-for-react": "^2.0.15-beta.1",
     "env-cmd": "10.1.0",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2",
-    "enzyme-to-json": "^3.4.4",
     "history": "4.10.1",
     "i18next": "19.3.4",
-    "jest-environment-enzyme": "^7.1.2",
-    "jest-enzyme": "^7.1.2",
-    "jest-styled-components": "^7.0.2",
     "query-string": "6.12.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -42,8 +36,6 @@
     "react-scripts": "3.4.1",
     "react-test-renderer": "^16.13.1",
     "styled-components": "5.0.1",
-    "timezone-mock": "^1.0.18",
-    "ts-jest": "25.4.0",
     "typescript": "3.8.3"
   },
   "devDependencies": {
@@ -63,7 +55,16 @@
     "stylelint-config-recommended": "^3.0.0",
     "stylelint-config-standard": "^20.0.0",
     "stylelint-config-styled-components": "^0.1.1",
-    "stylelint-processor-styled-components": "^1.10.0"
+    "stylelint-processor-styled-components": "^1.10.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.4.4",
+    "jest-environment-enzyme": "^7.1.2",
+    "jest-enzyme": "^7.1.2",
+    "jest-styled-components": "^7.0.2",
+    "timezone-mock": "^1.0.18",
+    "ts-jest": "25.4.0",
+    "mockdate": "^2.0.5"
   },
   "scripts": {
     "start": "env-cmd -f ./.env.develop react-scripts start",

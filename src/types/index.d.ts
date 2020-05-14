@@ -223,6 +223,22 @@ declare namespace State {
     createdAtUnixtimestamp: string
   }
 
+  export interface StatisticNewDaoDeposit {
+    dailyDaoDeposit: string
+    dailyDaoDepositorsCount: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticNewDaoWithdraw {
+    dailyDaoWithdraw: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticCirculationRatio {
+    circulationRatio: string
+    createdAtUnixtimestamp: string
+  }
+
   export interface StatisticDifficultyHashRate {
     difficulty: string
     hashRate: string
@@ -275,6 +291,65 @@ declare namespace State {
     balance: string
     addresses: string
     sumAddresses: string
+  }
+
+  export interface StatisticTransactionFee {
+    totalTxFee: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticBlockTimeDistributions {
+    blockTimeDistribution: string[][]
+  }
+
+  export interface StatisticBlockTimeDistribution {
+    time: string
+    ratio: string
+  }
+
+  export interface StatisticAverageBlockTime {
+    timestamp: number
+    avgBlockTimeDaily: string
+    avgBlockTimeWeekly: string
+  }
+
+  export interface StatisticAverageBlockTimes {
+    averageBlockTime: StatisticAverageBlockTime[]
+  }
+
+  export interface StatisticOccupiedCapacity {
+    occupiedCapacity: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticEpochTimeDistributions {
+    epochTimeDistribution: string[][]
+  }
+
+  export interface StatisticEpochTimeDistribution {
+    time: string
+    epoch: string
+  }
+
+  export interface StatisticNewNodeCount {
+    nodesCount: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticNodeDistribution {
+    name: string
+    value: number[]
+  }
+
+  export interface StatisticNodeDistributions {
+    nodesDistribution: {
+      city: string
+      count: number
+      postal: string
+      country: string
+      latitude: string
+      longitude: string
+    }[]
   }
 
   export interface Components {
@@ -355,7 +430,31 @@ declare namespace State {
     total: number
   }
 
-  export interface AppState {
+  export interface StatisticChartsState {
+    statisticDifficultyHashRates: StatisticDifficultyHashRate[]
+    statisticDifficultyUncleRates: StatisticDifficultyUncleRate[]
+    statisticDifficulties: StatisticDifficulty[]
+    statisticHashRates: StatisticHashRate[]
+    statisticUncleRates: StatisticUncleRate[]
+    statisticTransactionCounts: StatisticTransactionCount[]
+    statisticCellCounts: StatisticCellCount[]
+    statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
+    statisticNewDaoDeposits: StatisticNewDaoDeposit[]
+    statisticNewDaoWithdraw: StatisticNewDaoWithdraw[]
+    statisticAddressCounts: StatisticAddressCount[]
+    statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
+    statisticBalanceDistributions: StatisticBalanceDistribution[]
+    statisticTxFeeHistories: StatisticTransactionFee[]
+    statisticBlockTimeDistributions: StatisticBlockTimeDistribution[]
+    statisticAverageBlockTimes: StatisticAverageBlockTime[]
+    statisticOccupiedCapacities: StatisticOccupiedCapacity[]
+    statisticEpochTimeDistributions: StatisticEpochTimeDistribution[]
+    statisticCirculationRatios: StatisticCirculationRatio[]
+    statisticNewNodeCounts: StatisticNewNodeCount[]
+    statisticNodeDistributions: StatisticNodeDistribution[]
+  }
+
+  export interface AppState extends StatisticChartsState {
     app: App
 
     addressState: AddressState
@@ -365,17 +464,6 @@ declare namespace State {
     transactionState: TransactionState
     transactionsState: TransactionsState
     statistics: Statistics
-    statisticDifficultyHashRates: StatisticDifficultyHashRate[]
-    statisticDifficultyUncleRates: StatisticDifficultyUncleRate[]
-    statisticDifficulties: StatisticDifficulty[]
-    statisticHashRates: StatisticHashRate[]
-    statisticUncleRates: StatisticUncleRate[]
-    statisticTransactionCounts: StatisticTransactionCount[]
-    statisticCellCounts: StatisticCellCount[]
-    statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
-    statisticAddressCounts: StatisticAddressCount[]
-    statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
-    statisticBalanceDistributions: StatisticBalanceDistribution[]
 
     nervosDaoState: NervosDaoState
     udtState: UDTState

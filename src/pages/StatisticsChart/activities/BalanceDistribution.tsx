@@ -1,21 +1,14 @@
 import React, { useEffect } from 'react'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/chart/bar'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/component/title'
 import BigNumber from 'bignumber.js'
-import Content from '../../components/Content'
-import { getStatisticBalanceDistribution } from '../../service/app/statisticsChart'
-import { useAppState, useDispatch } from '../../contexts/providers'
-import i18n, { currentLanguage } from '../../utils/i18n'
-import { handleAxis, handleGroupAxis } from '../../utils/chart'
-import { ChartDetailTitle, ChartDetailPanel } from './styled'
-import { isMobile } from '../../utils/screen'
-import { ChartColors } from '../../utils/const'
-import { ChartLoading, ReactChartCore } from './ChartComponents'
-import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
-import { localeNumberString } from '../../utils/number'
+import { getStatisticBalanceDistribution } from '../../../service/app/charts/activities'
+import { useAppState, useDispatch } from '../../../contexts/providers'
+import i18n, { currentLanguage } from '../../../utils/i18n'
+import { handleAxis, handleLogGroupAxis } from '../../../utils/chart'
+import { isMobile } from '../../../utils/screen'
+import { ChartColors } from '../../../utils/const'
+import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
+import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
+import { localeNumberString } from '../../../utils/number'
 
 const gridThumbnail = {
   left: '4%',
@@ -41,7 +34,9 @@ const getOption = (statisticBalanceDistributions: State.StatisticBalanceDistribu
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
           `<span style="width:${currentLanguage() === 'en' ? 350 : 110}px;display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.addresses_balance'))} ${handleGroupAxis(
+        let result = `<div>${colorSpan('#333333')}${widthSpan(
+          i18n.t('statistic.addresses_balance'),
+        )} ${handleLogGroupAxis(
           new BigNumber(dataList[0].name),
           dataList[0].dataIndex === statisticBalanceDistributions.length - 1 ? '+' : '',
         )} ${i18n.t('common.ckb_unit')}</div>`
@@ -72,7 +67,10 @@ const getOption = (statisticBalanceDistributions: State.StatisticBalanceDistribu
         data: statisticBalanceDistributions.map(data => data.balance),
         axisLabel: {
           formatter: (value: string, index: number) =>
-            `${handleGroupAxis(new BigNumber(value), index === statisticBalanceDistributions.length - 1 ? '+' : '')}`,
+            `${handleLogGroupAxis(
+              new BigNumber(value),
+              index === statisticBalanceDistributions.length - 1 ? '+' : '',
+            )}`,
         },
       },
     ],
@@ -170,11 +168,8 @@ export default () => {
   }, [dispatch])
 
   return (
-    <Content>
-      <ChartDetailTitle>{i18n.t('statistic.balance_distribution')}</ChartDetailTitle>
-      <ChartDetailPanel>
-        <BalanceDistributionChart statisticBalanceDistributions={statisticBalanceDistributions} />
-      </ChartDetailPanel>
-    </Content>
+    <ChartPage title={i18n.t('statistic.balance_distribution')}>
+      <BalanceDistributionChart statisticBalanceDistributions={statisticBalanceDistributions} />
+    </ChartPage>
   )
 }

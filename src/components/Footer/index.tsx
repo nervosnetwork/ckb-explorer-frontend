@@ -25,8 +25,8 @@ import { SUDT_EMAIL_SUBJECT, SUDT_EMAIL_BODY } from '../../utils/const'
 import { isMainnet } from '../../utils/chain'
 
 interface FooterLinkItem {
-  label: string
-  url: string
+  label?: string
+  url?: string
   icon?: any
   hoverIcon?: any
 }
@@ -99,10 +99,12 @@ export default () => {
             label: t('footer.faucet'),
             url: 'https://faucet.nervos.org/',
           },
-          {
-            label: t('footer.sudt_submit'),
-            url: `mailto:asset-info-submit@nervos.org?subject=${SUDT_EMAIL_SUBJECT}&body=${SUDT_EMAIL_BODY}`,
-          },
+          isMainnet()
+            ? { label: undefined, url: undefined }
+            : {
+                label: t('footer.sudt_submit'),
+                url: `mailto:asset-info-submit@nervos.org?subject=${SUDT_EMAIL_SUBJECT}&body=${SUDT_EMAIL_BODY}`,
+              },
         ],
       },
       {
@@ -160,9 +162,11 @@ export default () => {
         </div>
         <div className="footer__developer">
           <div className="footer__title">{Footers[1].name}</div>
-          {Footers[1].items.map((item: any) => (
-            <FooterItem item={item} key={item.label} />
-          ))}
+          {Footers[1].items
+            .filter(item => item.label !== undefined)
+            .map((item: any) => (
+              <FooterItem item={item} key={item.label} />
+            ))}
         </div>
         <div className="footer__community">
           {isMobile() ? (
