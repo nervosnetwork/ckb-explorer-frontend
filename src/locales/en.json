@@ -97,7 +97,7 @@
       "tx_fee": "Transaction Fee (CKB)",
       "block_count": "Block Ratio",
       "block_time_distribution": "Block Time Distribution",
-      "block_time_distribution_more": "Block Time Distribution (Recent 30 days)",
+      "block_time_distribution_more": "Block Time Distribution (Recent 50000 blocks)",
       "occupied_capacity": "Occupied Capacity",
       "epoch_time_distribution": "Epoch Time Distribution",
       "epoch_time_distribution_more": "Epoch Time Distribution (Recent 500 epochs)",

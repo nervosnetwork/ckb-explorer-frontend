@@ -187,9 +187,10 @@ declare namespace State {
   export interface NervosDaoState {
     nervosDao: NervosDao
     transactions: Transaction[]
+    transactionsStatus: FetchStatus
     total: number
     depositors: NervosDaoDepositor[]
-    status: keyof FetchStatus
+    status: FetchStatus
   }
 
   export interface Statistics {
@@ -352,19 +353,14 @@ declare namespace State {
     }[]
   }
 
-  export interface Components {
-    // mobile header search state
-    searchBarEditable: boolean
-
-    // mobile header menu visible state
-    mobileMenuVisible: boolean
-  }
-
-  export interface FetchStatus {
+  interface FetchStatusValue {
     OK: string
     Error: string
+    InProgress: string
     None: string
   }
+
+  export type FetchStatus = keyof FetchStatusValue
 
   export interface UDT {
     symbol: string
@@ -379,39 +375,22 @@ declare namespace State {
     udt: UDT
     transactions: Transaction[]
     total: number
-    status: keyof FetchStatus
-  }
-
-  export interface App {
-    toast: State.ToastMessage | null
-    loading: boolean
-    secondLoading: boolean
-    appErrors: [
-      { type: 'Network'; message: string[] },
-      { type: 'ChainAlert'; message: string[] },
-      { type: 'Maintain'; message: string[] },
-    ]
-    nodeVersion: string
-    tipBlockNumber: number
-
-    appWidth: number
-    appHeight: number
-    language: 'en' | 'zh'
+    status: FetchStatus
   }
 
   export interface AddressState {
     address: Address
     transactions: Transaction[]
     total: number
-    addressStatus: keyof FetchStatus
-    transactionsStatus: keyof FetchStatus
+    addressStatus: FetchStatus
+    transactionsStatus: FetchStatus
   }
 
   export interface BlockState {
     block: Block
     transactions: Transaction[]
     total: number
-    status: keyof FetchStatus
+    status: FetchStatus
   }
 
   export interface BlockListState {
@@ -421,7 +400,7 @@ declare namespace State {
 
   export interface TransactionState {
     transaction: Transaction
-    status: keyof FetchStatus
+    status: FetchStatus
     scriptFetched: boolean
   }
 
@@ -454,9 +433,7 @@ declare namespace State {
     statisticNodeDistributions: StatisticNodeDistribution[]
   }
 
-  export interface AppState extends StatisticChartsState {
-    app: App
-
+  export interface PageState extends StatisticChartsState {
     addressState: AddressState
     blockState: BlockState
     homeBlocks: Block[]
@@ -464,10 +441,48 @@ declare namespace State {
     transactionState: TransactionState
     transactionsState: TransactionsState
     statistics: Statistics
-
     nervosDaoState: NervosDaoState
     udtState: UDTState
+  }
 
+  export interface PagePayload
+    extends PageState,
+      AddressState,
+      BlockState,
+      BlockListState,
+      TransactionState,
+      TransactionsState,
+      NervosDaoState,
+      UDTState {}
+
+  export interface App {
+    toast: ToastMessage | null
+    loading: boolean
+    secondLoading: boolean
+    appErrors: [
+      { type: 'Network'; message: string[] },
+      { type: 'ChainAlert'; message: string[] },
+      { type: 'Maintain'; message: string[] },
+    ]
+    nodeVersion: string
+    tipBlockNumber: number
+
+    appWidth: number
+    appHeight: number
+    language: 'en' | 'zh'
+  }
+
+  export interface AppPayload extends App, ToastMessage {
+    appError: AppError
+  }
+
+  export interface Components {
+    searchBarEditable: boolean
+    mobileMenuVisible: boolean
+  }
+
+  export interface AppState extends PageState {
+    app: App
     components: Components
   }
 }
@@ -479,5 +494,33 @@ declare namespace CustomRouter {
     params?: string
     exact?: boolean
     comp: React.FunctionComponent<any>
+  }
+}
+
+declare namespace Response {
+  export interface Response<T> {
+    data: T
+    meta?: Meta
+    error?: Error[]
+  }
+
+  export interface Error {
+    id: string
+    code: number
+    status: number
+    title: string
+    detail: string
+    href: string
+  }
+
+  export interface Meta {
+    total: number
+    pageSize: number
+  }
+
+  export interface Wrapper<T> {
+    id: number
+    type: string
+    attributes: T
   }
 }

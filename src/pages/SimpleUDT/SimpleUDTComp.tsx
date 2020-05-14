@@ -9,7 +9,7 @@ import browserHistory from '../../routes/history'
 import UDTSearch from '../../components/Search/UDTSearch'
 import { isMobile } from '../../utils/screen'
 import SearchLogo from '../../assets/search_black.png'
-import { ComponentActions } from '../../contexts/providers/reducer'
+import { ComponentActions } from '../../contexts/actions'
 import { parseUDTAmount } from '../../utils/number'
 import TitleCard from '../../components/Card/TitleCard'
 

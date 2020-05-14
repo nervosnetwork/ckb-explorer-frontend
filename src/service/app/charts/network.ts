@@ -1,4 +1,5 @@
-import { AppDispatch, PageActions } from '../../../contexts/providers/reducer'
+import { AppDispatch } from '../../../contexts/reducer'
+import { PageActions } from '../../../contexts/actions'
 import { fetchStatisticNewNodeCount, fetchStatisticNodeDistribution } from '../../http/fetcher'
 
 export const getStatisticNewNodeCount = (dispatch: AppDispatch) => {

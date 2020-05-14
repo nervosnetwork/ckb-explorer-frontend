@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useContext } from 'react'
 import initState from '../states/index'
-import { AppDispatch, reducer } from './reducer'
+import { AppDispatch, reducer } from '../reducer'
 
 export const AppContext = createContext<{ state: typeof initState; dispatch: AppDispatch }>({
   state: initState,

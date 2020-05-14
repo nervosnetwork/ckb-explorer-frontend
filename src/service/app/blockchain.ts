@@ -1,5 +1,6 @@
 import { fetchBlockchainInfo } from '../http/fetcher'
-import { AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import { AppDispatch } from '../../contexts/reducer'
+import { AppActions } from '../../contexts/actions'
 
 const alertNotEmpty = (wrapper: Response.Wrapper<State.BlockchainInfo> | null): boolean => {
   return (

@@ -6,7 +6,8 @@ import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
-import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
+import { AppDispatch } from '../../../contexts/reducer'
+import { PageActions } from '../../../contexts/actions'
 
 const gridThumbnail = {
   left: '4%',
@@ -59,6 +60,8 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
         name: isMobile() || isThumbnail ? '' : i18n.t('block.uncle_rate'),
         type: 'value',
         scale: true,
+        max: 5,
+        min: 0,
         axisLine: {
           lineStyle: {
             color: ChartColors[0],
