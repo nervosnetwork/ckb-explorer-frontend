@@ -9,7 +9,8 @@ import { useAppState, useDispatch } from '../../../contexts/providers'
 import { handleDifficulty } from '../../../utils/number'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
-import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
+import { AppDispatch } from '../../../contexts/reducer'
+import { PageActions } from '../../../contexts/actions'
 
 const gridThumbnail = {
   left: '4%',

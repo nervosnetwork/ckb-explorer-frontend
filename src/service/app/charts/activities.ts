@@ -7,7 +7,8 @@ import {
   fetchStatisticTxFeeHistory,
   fetchStatisticOccupiedCapacity,
 } from '../../http/fetcher'
-import { AppDispatch, PageActions } from '../../../contexts/providers/reducer'
+import { AppDispatch } from '../../../contexts/reducer'
+import { PageActions } from '../../../contexts/actions'
 
 export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
   fetchStatisticTransactionCount().then(

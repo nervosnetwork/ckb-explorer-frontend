@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import TransactionHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
-import { PageActions, AppActions } from '../../contexts/providers/reducer'
+import { PageActions, AppActions } from '../../contexts/actions'
 import { getTipBlockNumber } from '../../service/app/address'
 import { getTransactionByHash } from '../../service/app/transaction'
 import i18n from '../../utils/i18n'
@@ -22,6 +22,7 @@ const TransactionStateComp = () => {
       return <Error />
     case 'OK':
       return <TransactionComp />
+    case 'InProgress':
     case 'None':
     default:
       return <Loading show={app.loading} />
@@ -50,18 +51,24 @@ export default () => {
   const { pathname, hash } = useLocation()
   const pathRef = useRef(pathname)
   const { hash: txHash } = useParams<{ hash: string }>()
-  const [showLoading, setShowLoading] = useState(false)
-  const { transactionState } = useAppState()
-  const { transaction, status } = transactionState
-  const { displayOutputs } = transaction
+  const [showTitleLoading, setShowTitleLoading] = useState(false)
+  const {
+    transactionState: {
+      transaction: { displayOutputs },
+      status,
+    },
+  } = useAppState()
 
   useEffect(() => {
-    setShowLoading(pathname.startsWith('/transaction') && pathRef.current !== pathname)
-    getTransactionByHash(txHash, dispatch, () => {
-      setShowLoading(false)
-    })
+    if (pathname.startsWith('/transaction') && pathRef.current !== pathname) {
+      setShowTitleLoading(status === 'InProgress')
+    }
+  }, [status, pathname, dispatch])
+
+  useEffect(() => {
+    getTransactionByHash(txHash, dispatch)
     getTipBlockNumber(dispatch)
-  }, [txHash, dispatch, pathname])
+  }, [txHash, dispatch])
 
   useEffect(() => {
     if (status === 'OK' && displayOutputs.length > 0) {
@@ -74,7 +81,7 @@ export default () => {
       dispatch({
         type: AppActions.UpdateLoading,
         payload: {
-          loading: true,
+          loading: status === 'None' || status === 'InProgress',
         },
       })
     },
@@ -92,7 +99,7 @@ export default () => {
   return (
     <Content>
       <TransactionDiv className="container">
-        <TransactionHashCard title={i18n.t('transaction.transaction')} hash={txHash} loading={showLoading} />
+        <TransactionHashCard title={i18n.t('transaction.transaction')} hash={txHash} loading={showTitleLoading} />
         <TransactionStateComp />
       </TransactionDiv>
     </Content>

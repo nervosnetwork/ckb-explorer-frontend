@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
@@ -169,7 +170,7 @@ export const DepositorRankItem = styled.div`
     width: 20%;
   }
 `
-export const AddressPanel = styled(Link)`
+export const AddressPanel = styled(props => <Link {...props} />)`
   color: ${props => props.theme.primary};
   width: 48%;
   text-align: center;

@@ -1,11 +1,12 @@
 import { fetchTransactionByHash, fetchTransactions, fetchLatestTransactions } from '../http/fetcher'
-import { PageActions, AppActions, AppDispatch } from '../../contexts/providers/reducer'
+import { AppDispatch } from '../../contexts/reducer'
+import { AppActions, PageActions } from '../../contexts/actions'
 
-const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
+const handleStatus = (dispatch: AppDispatch, status: State.FetchStatus) => {
   dispatch({
     type: PageActions.UpdateTransactionStatus,
     payload: {
-      status: isOK ? 'OK' : 'Error',
+      status,
     },
   })
   dispatch({
@@ -16,10 +17,10 @@ const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
   })
 }
 
-export const getTransactionByHash = (hash: string, dispatch: AppDispatch, callback: Function) => {
+export const getTransactionByHash = (hash: string, dispatch: AppDispatch) => {
+  handleStatus(dispatch, 'InProgress')
   fetchTransactionByHash(hash)
     .then((wrapper: Response.Wrapper<State.Transaction> | null) => {
-      callback()
       if (wrapper) {
         const transactionValue = wrapper.attributes
         if (transactionValue.displayOutputs && transactionValue.displayOutputs.length > 0) {
@@ -31,18 +32,18 @@ export const getTransactionByHash = (hash: string, dispatch: AppDispatch, callba
             transaction: transactionValue,
           },
         })
-        handleResponseStatus(dispatch, true)
+        handleStatus(dispatch, 'OK')
       } else {
-        handleResponseStatus(dispatch, false)
+        handleStatus(dispatch, 'Error')
       }
     })
     .catch(() => {
-      callback()
-      handleResponseStatus(dispatch, false)
+      handleStatus(dispatch, 'Error')
     })
 }
 
 export const getTransactions = (page: number, size: number, dispatch: AppDispatch) => {
+  handleStatus(dispatch, 'InProgress')
   fetchTransactions(page, size)
     .then(response => {
       const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
@@ -61,14 +62,15 @@ export const getTransactions = (page: number, size: number, dispatch: AppDispatc
           total: meta ? meta.total : 0,
         },
       })
-      handleResponseStatus(dispatch, true)
+      handleStatus(dispatch, 'OK')
     })
     .catch(() => {
-      handleResponseStatus(dispatch, false)
+      handleStatus(dispatch, 'Error')
     })
 }
 
 export const getLatestTransactions = (dispatch: AppDispatch) => {
+  handleStatus(dispatch, 'InProgress')
   fetchLatestTransactions()
     .then(response => {
       const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
@@ -87,9 +89,9 @@ export const getLatestTransactions = (dispatch: AppDispatch) => {
           total: meta ? meta.total : 0,
         },
       })
-      handleResponseStatus(dispatch, true)
+      handleStatus(dispatch, 'OK')
     })
     .catch(() => {
-      handleResponseStatus(dispatch, false)
+      handleStatus(dispatch, 'Error')
     })
 }

@@ -11,7 +11,8 @@ import GreenDropUpIcon from '../../../assets/green_drop_up.png'
 import { isMainnet } from '../../../utils/chain'
 import LanDropdown, { languageText } from '../../Dropdown/Language'
 import { MobileSubMenuPanel } from './styled'
-import { ComponentActions, AppActions, AppDispatch } from '../../../contexts/providers/reducer'
+import { AppDispatch } from '../../../contexts/reducer'
+import { ComponentActions, AppActions } from '../../../contexts/actions'
 
 const getDropdownIcon = (showDropdown: boolean) => {
   if (!showDropdown) return WhiteDropdownIcon

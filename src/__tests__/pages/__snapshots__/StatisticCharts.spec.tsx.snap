@@ -1,0 +1,630 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Active Page shallow renders with empty data 1`] = `
+<div
+  className="sc-fzokOt dvnMYC"
+>
+  <div
+    className="sc-fznJRM bXyJnd"
+  >
+    <div
+      className="sc-fznWqX ieEpRA"
+    >
+      Charts
+    </div>
+    <div
+      className="sc-fzoiQi bGMStZ"
+    >
+      <div
+        className="charts__category__title"
+      >
+        Block
+      </div>
+      <div
+        className="charts__category__panel"
+      >
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/block-time-distribution"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Block Time Distribution
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/epoch-time-distribution"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Epoch Time Distribution
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/average-block-time"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Average Block Time
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-fzoiQi bGMStZ"
+    >
+      <div
+        className="charts__category__title"
+      >
+        Mining Charts
+      </div>
+      <div
+        className="charts__category__panel"
+      >
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/difficulty-hash-rate"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Difficulty & Hash Rate
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/difficulty-uncle-rate"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Difficulty & Uncle Rate
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/difficulty"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Difficulty
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/hash-rate"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Hash Rate
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/uncle-rate"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Uncle Rate
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-fzoiQi bGMStZ"
+    >
+      <div
+        className="charts__category__title"
+      >
+        Activities
+      </div>
+      <div
+        className="charts__category__panel"
+      >
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/transaction-count"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Transaction Count
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/address-count"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Address Count
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/cell-count"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Cell Count
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/address-balance-rank"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Balance Ranking
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/balance-distribution"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Balance Distribution
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/tx-fee-history"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Transaction Fee
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-fzoiQi bGMStZ"
+    >
+      <div
+        className="charts__category__title"
+      >
+        Nervos DAO
+      </div>
+      <div
+        className="charts__category__panel"
+      >
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/total-dao-deposit"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Total Nervos DAO Deposit
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/new-dao-deposit"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Daily Deposit
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/circulation-ratio"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Deposit to Circulation Ratio
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

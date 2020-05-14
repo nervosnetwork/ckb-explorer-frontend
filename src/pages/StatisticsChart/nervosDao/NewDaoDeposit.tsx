@@ -11,7 +11,8 @@ import { shannonToCkb } from '../../../utils/util'
 import { ChartColors } from '../../../utils/const'
 import { isMainnet } from '../../../utils/chain'
 import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
-import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
+import { AppDispatch } from '../../../contexts/reducer'
+import { PageActions } from '../../../contexts/actions'
 
 const gridThumbnail = {
   left: '4%',

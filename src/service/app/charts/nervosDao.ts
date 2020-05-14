@@ -4,7 +4,8 @@ import {
   fetchStatisticNewDaoWithdraw,
   fetchStatisticCirculationRatio,
 } from '../../http/fetcher'
-import { AppDispatch, PageActions } from '../../../contexts/providers/reducer'
+import { AppDispatch } from '../../../contexts/reducer'
+import { PageActions } from '../../../contexts/actions'
 
 export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
   fetchStatisticTotalDaoDeposit().then(

@@ -75,7 +75,10 @@
     "eject": "react-scripts eject"
   },
   "jest": {
-    "displayName": "Unit & UI Test"
+    "displayName": "Unit & UI Test",
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
