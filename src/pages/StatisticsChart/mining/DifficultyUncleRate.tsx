@@ -88,6 +88,8 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         splitLine: {
           show: false,
         },
+        max: 5,
+        min: 0,
         axisLine: {
           lineStyle: {
             color: ChartColors[1],
@@ -133,7 +135,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
                 },
               ],
               label: {
-                formatter: (params: any) => `--------${params.value}%`,
+                formatter: (params: any) => `${params.value}%`,
               },
             },
       },
