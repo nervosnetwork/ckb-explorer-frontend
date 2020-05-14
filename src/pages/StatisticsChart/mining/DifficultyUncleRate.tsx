@@ -24,6 +24,11 @@ const grid = {
   containLabel: true,
 }
 
+const max = (statisticChartData: State.StatisticDifficultyUncleRate[]) => {
+  const array = statisticChartData.flatMap(data => Number(data.uncleRate) * 100)
+  return Math.max(5, Math.ceil(Math.max(...array)))
+}
+
 const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isThumbnail = false) => {
   return {
     color: ChartColors,
@@ -88,7 +93,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         splitLine: {
           show: false,
         },
-        max: 5,
+        max: max(statisticChartData),
         min: 0,
         axisLine: {
           lineStyle: {
