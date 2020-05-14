@@ -10,16 +10,30 @@ export const HomeHeaderTopPanel = styled.div`
   flex-direction: column;
   align-items: center;
 
+  @media (max-width: 750px) {
+    margin: 0 -18px;
+  }
+
   .home__top__title {
     color: #ffffff;
     font-size: 36px;
     padding-top: 49px;
+
+    @media (max-width: 750px) {
+      font-size: 24px;
+      padding-top: 45px;
+    }
   }
 
   .home__top__search {
     height: 38px;
     width: 600px;
     padding-top: 31px;
+
+    @media (max-width: 750px) {
+      width: calc(100% - 36px);
+      padding-top: 21px;
+    }
   }
 `
 
@@ -30,11 +44,30 @@ export const HomeStatisticTopPanel = styled.div`
   margin-top: -148px;
   border-radius: 6px 6px 0 0;
 
+  @media (max-width: 1200px) {
+    height: 213px;
+    border-radius: 6px 0 0 0;
+  }
+
+  @media (max-width: 750px) {
+    flex-direction: column;
+    height: 150px;
+    margin-top: -210px;
+  }
+
   .home__statistic__left__panel {
     flex: 1;
     display: flex;
     border-radius: 6px 0 0 0;
     border: 2px solid ${isMainnet() ? '#3fb39e' : '#6093e4'};
+
+    @media (max-width: 1200px) {
+      flex-direction: column;
+    }
+
+    @media (max-width: 750px) {
+      border-radius: 6px 6px 0 0;
+    }
 
     .home__statistic__left__data {
       flex: 1;
@@ -46,6 +79,11 @@ export const HomeStatisticTopPanel = styled.div`
       background: ${isMainnet()
         ? 'linear-gradient(134deg, #3fb39e, #1ec196 51%, #3cc6b7 100%)'
         : 'linear-gradient(314deg, #6093e4 100%, #6b88cf 49%, #7074de)'};
+
+      @media (max-width: 1200px) {
+        padding: 15px 30px 10px 30px;
+        flex-direction: row;
+      }
     }
     .home__statistic__left__chart {
       flex: 2;
@@ -54,6 +92,12 @@ export const HomeStatisticTopPanel = styled.div`
       background: ${isMainnet()
         ? 'linear-gradient(134deg, #0bad8e 2%, #20c5a5 48%, #0baab1 99%)'
         : 'linear-gradient(298deg, #6e85e0 99%, #577cdb 48%, #486ecc 2%)'};
+
+      @media (max-width: 750px) {
+        flex: 0;
+        display: none;
+        margin: 0px;
+      }
     }
   }
 
@@ -63,6 +107,17 @@ export const HomeStatisticTopPanel = styled.div`
     border-radius: 0 6px 0 0;
     border: 2px solid #31383e;
 
+    @media (max-width: 1200px) {
+      flex-direction: column;
+      border-radius: 0 6px 0 0;
+      border: 2px solid #444b57;
+    }
+
+    @media (max-width: 750px) {
+      flex-direction: column;
+      border-radius: 0;
+    }
+
     .home__statistic__right__data {
       flex: 1;
       padding: 32px;
@@ -71,11 +126,27 @@ export const HomeStatisticTopPanel = styled.div`
       flex-direction: column;
       justify-content: space-between;
       background: linear-gradient(134deg, #444b57, #39424a 48%, #444c5a 96%);
+
+      @media (max-width: 1200px) {
+        padding: 15px 30px 10px 30px;
+        margin: 0px;
+        flex-direction: row;
+      }
     }
     .home__statistic__right__chart {
       flex: 2;
       padding: 5px 5px 0 5px;
       background: linear-gradient(118deg, #31383e, #35414d 48%, #334350);
+
+      @media (max-width: 1200px) {
+        margin: -2px;
+      }
+
+      @media (max-width: 750px) {
+        flex: 0;
+        display: none;
+        margin: 0px;
+      }
     }
   }
 `
@@ -88,24 +159,29 @@ export const HomeStatisticBottomPanel = styled.div`
   border-radius: 0 0 6px 6px;
   background: #ffffff;
 
-  @media (max-width: 750px) {
+  @media (max-width: 1200px) {
     flex-direction: column;
-    margin: 20px 0px;
+    margin-bottom: 20px;
     padding: 0px 5px;
     box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
     border-radius: 3px;
   }
 
-  .blockchain__item__mobile {
-    display: flex;
-    width: 100%;
-    padding: 20px 0;
+  @media (max-width: 1200px) {
+    padding: 0px;
   }
 
-  .blockchain__item__mobile_separate {
+  .blockchain__item__row {
+    display: flex;
+    width: 100%;
+    padding: 12px 0;
+  }
+
+  .blockchain__item__row_separate {
     height: 1px;
     background: #eaeaea;
-    width: 100%;
+    width: auto;
+    margin: 0 4%;
   }
 `
 
@@ -165,7 +241,7 @@ export const HomeHeaderItemPanel = styled.div`
 
   .blockchain__item__between_separate {
     height: 90%;
-    margin-left: 1%;
+    margin-left: 2%;
     background: #eaeaea;
     width: 1px;
   }
@@ -175,6 +251,10 @@ export const HomeStatisticItemPanel = styled.div`
   .home__statistic__item__name {
     font-size: 14px;
     color: #ffffff;
+
+    @media (max-width: 1200px) {
+      font-size: 12px;
+    }
   }
 
   .home__statistic__item__value {
@@ -182,6 +262,10 @@ export const HomeStatisticItemPanel = styled.div`
     color: #ffffff;
     font-weight: bold;
     margin-top: 3px;
+
+    @media (max-width: 1200px) {
+      font-size: 18px;
+    }
   }
 `
 

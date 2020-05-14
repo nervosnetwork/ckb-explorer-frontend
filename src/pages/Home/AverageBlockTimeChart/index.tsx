@@ -1,11 +1,21 @@
 import React, { useEffect } from 'react'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/title'
+import ReactEchartsCore from 'echarts-for-react/lib/core'
+import echarts from 'echarts/lib/echarts'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
-import { ReactChartCore } from '../../StatisticsChart/common/ChartComp'
 import { getStatisticAverageBlockTimes } from '../../../service/app/charts/block'
 import { localeNumberString } from '../../../utils/number'
 import SmallLoading from '../../../components/Loading/SmallLoading'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import { isScreenSmallerThan1200 } from '../../../utils/screen'
+
+const HomeChartLink = styled(Link)`
+  cursor: pointer;
+`
 
 const maxAndMinAxis = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) => {
   const array = statisticAverageBlockTimes.flatMap(data => parseFloat(data.avgBlockTimeDaily))
@@ -28,8 +38,8 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
     grid: {
       left: '4%',
       right: '4%',
-      top: '15%',
-      bottom: '10%',
+      top: isScreenSmallerThan1200() ? '20%' : '15%',
+      bottom: isScreenSmallerThan1200() ? '18%' : '10%',
       containLabel: true,
     },
     backgroundColor: '#00000000',
@@ -105,5 +115,17 @@ export default () => {
   if (!statisticAverageBlockTimes || statisticAverageBlockTimes.length === 0) {
     return <SmallLoading />
   }
-  return <ReactChartCore option={getOption(statisticAverageBlockTimes)} isThumbnail={true} />
+  return (
+    <HomeChartLink to="/charts/average-block-time">
+      <ReactEchartsCore
+        echarts={echarts}
+        option={getOption(statisticAverageBlockTimes)}
+        notMerge
+        lazyUpdate
+        style={{
+          height: isScreenSmallerThan1200() ? '136px' : '200px',
+        }}
+      />
+    </HomeChartLink>
+  )
 }

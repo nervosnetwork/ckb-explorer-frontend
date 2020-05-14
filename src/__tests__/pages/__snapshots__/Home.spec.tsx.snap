@@ -8,7 +8,7 @@ exports[`Active Page shallow renders 1`] = `
     className="sc-AxjAm StDqN container"
   >
     <div
-      className="sc-AxirZ bViVyF"
+      className="sc-AxirZ gLgLuz"
       style={
         Object {
           "backgroundImage": "url(home_background.svg)",
@@ -60,7 +60,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxiKw enxswy"
+      className="sc-AxiKw fdwnjR"
     >
       <div
         className="home__statistic__left__panel"
@@ -69,7 +69,7 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__left__data"
         >
           <div
-            className="sc-AxgMl iOPSoP"
+            className="sc-AxgMl amHst"
           >
             <div
               className="home__statistic__item__name"
@@ -83,7 +83,7 @@ exports[`Active Page shallow renders 1`] = `
             </div>
           </div>
           <div
-            className="sc-AxgMl cgMPZB"
+            className="sc-AxgMl jewuAf"
           >
             <div
               className="home__statistic__item__name"
@@ -117,7 +117,7 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__right__data"
         >
           <div
-            className="sc-AxgMl iOPSoP"
+            className="sc-AxgMl amHst"
           >
             <div
               className="home__statistic__item__name"
@@ -131,7 +131,7 @@ exports[`Active Page shallow renders 1`] = `
             </div>
           </div>
           <div
-            className="sc-AxgMl cgMPZB"
+            className="sc-AxgMl jewuAf"
           >
             <div
               className="home__statistic__item__name"
@@ -160,106 +160,114 @@ exports[`Active Page shallow renders 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxhCb eGQHie"
+      className="sc-AxhCb eatJnG"
     >
       <div
-        className="sc-AxhUy gMewWE"
+        className="blockchain__item__row"
       >
         <div
-          className="blockchain__item__content"
+          className="sc-AxhUy iwauIv"
         >
           <div
-            className="blockchain__item__name"
-          >
-            Epoch
-          </div>
-          <div
-            className="blockchain__item__value"
+            className="blockchain__item__content"
           >
             <div
-              className="blockchain__item__left__value"
+              className="blockchain__item__name"
             >
-              1026th
+              Epoch
             </div>
             <div
-              className="blockchain__item__right__value"
+              className="blockchain__item__value"
             >
-              1402/1800
+              <div
+                className="blockchain__item__left__value"
+              >
+                1026th
+              </div>
+              <div
+                className="blockchain__item__right__value"
+              >
+                1402/1800
+              </div>
+            </div>
+          </div>
+          <div
+            className="blockchain__item__between_separate"
+          />
+        </div>
+        <div
+          className="sc-AxhUy iwauIv"
+        >
+          <div
+            className="blockchain__item__content"
+          >
+            <div
+              className="blockchain__item__name"
+            >
+              Estimated Epoch Time
+            </div>
+            <div
+              className="blockchain__item__value"
+            >
+              <div
+                className="blockchain__item__left__value"
+              >
+                4 h 1 m
+              </div>
             </div>
           </div>
         </div>
-        <div
-          className="blockchain__item__between_separate"
-        />
       </div>
       <div
-        className="sc-AxhUy gMewWE"
+        className="blockchain__item__row_separate"
+      />
+      <div
+        className="blockchain__item__row"
       >
         <div
-          className="blockchain__item__content"
+          className="sc-AxhUy iwauIv"
         >
           <div
-            className="blockchain__item__name"
-          >
-            Estimated Epoch Time
-          </div>
-          <div
-            className="blockchain__item__value"
+            className="blockchain__item__content"
           >
             <div
-              className="blockchain__item__left__value"
+              className="blockchain__item__name"
             >
-              4 h 1 m
+              Transactions per Minute
+            </div>
+            <div
+              className="blockchain__item__value"
+            >
+              <div
+                className="blockchain__item__left__value"
+              >
+                7.78
+              </div>
             </div>
           </div>
+          <div
+            className="blockchain__item__between_separate"
+          />
         </div>
         <div
-          className="blockchain__item__between_separate"
-        />
-      </div>
-      <div
-        className="sc-AxhUy gMewWE"
-      >
-        <div
-          className="blockchain__item__content"
+          className="sc-AxhUy iwauIv"
         >
           <div
-            className="blockchain__item__name"
-          >
-            Transactions per Minute
-          </div>
-          <div
-            className="blockchain__item__value"
+            className="blockchain__item__content"
           >
             <div
-              className="blockchain__item__left__value"
+              className="blockchain__item__name"
             >
-              7.78
+              Transactions in Last 24hrs
             </div>
-          </div>
-        </div>
-        <div
-          className="blockchain__item__between_separate"
-        />
-      </div>
-      <div
-        className="sc-AxhUy gMewWE"
-      >
-        <div
-          className="blockchain__item__content"
-        >
-          <div
-            className="blockchain__item__name"
-          >
-            Transactions in Last 24hrs
-          </div>
-          <div
-            className="blockchain__item__value"
-          >
             <div
-              className="blockchain__item__left__value"
+              className="blockchain__item__value"
             >
-              11.30K
+              <div
+                className="blockchain__item__left__value"
+              >
+                11.30K
+              </div>
             </div>
           </div>
         </div>
@@ -882,7 +890,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
     className="sc-AxjAm StDqN container"
   >
     <div
-      className="sc-AxirZ bViVyF"
+      className="sc-AxirZ gLgLuz"
       style={
         Object {
           "backgroundImage": "url(home_background.svg)",
@@ -934,7 +942,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxiKw enxswy"
+      className="sc-AxiKw fdwnjR"
     >
       <div
         className="home__statistic__left__panel"
@@ -943,7 +951,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__left__data"
         >
           <div
-            className="sc-AxgMl iOPSoP"
+            className="sc-AxgMl amHst"
           >
             <div
               className="home__statistic__item__name"
@@ -957,7 +965,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             </div>
           </div>
           <div
-            className="sc-AxgMl cgMPZB"
+            className="sc-AxgMl jewuAf"
           >
             <div
               className="home__statistic__item__name"
@@ -991,7 +999,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__right__data"
         >
           <div
-            className="sc-AxgMl iOPSoP"
+            className="sc-AxgMl amHst"
           >
             <div
               className="home__statistic__item__name"
@@ -1005,7 +1013,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             </div>
           </div>
           <div
-            className="sc-AxgMl cgMPZB"
+            className="sc-AxgMl jewuAf"
           >
             <div
               className="home__statistic__item__name"
@@ -1034,106 +1042,114 @@ exports[`Active Page shallow renders with empty data 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxhCb eGQHie"
+      className="sc-AxhCb eatJnG"
     >
       <div
-        className="sc-AxhUy gMewWE"
+        className="blockchain__item__row"
       >
         <div
-          className="blockchain__item__content"
+          className="sc-AxhUy iwauIv"
         >
           <div
-            className="blockchain__item__name"
-          >
-            Epoch
-          </div>
-          <div
-            className="blockchain__item__value"
+            className="blockchain__item__content"
           >
             <div
-              className="blockchain__item__left__value"
+              className="blockchain__item__name"
             >
-              0th
+              Epoch
             </div>
             <div
-              className="blockchain__item__right__value"
+              className="blockchain__item__value"
             >
-              0/0
+              <div
+                className="blockchain__item__left__value"
+              >
+                0th
+              </div>
+              <div
+                className="blockchain__item__right__value"
+              >
+                0/0
+              </div>
+            </div>
+          </div>
+          <div
+            className="blockchain__item__between_separate"
+          />
+        </div>
+        <div
+          className="sc-AxhUy iwauIv"
+        >
+          <div
+            className="blockchain__item__content"
+          >
+            <div
+              className="blockchain__item__name"
+            >
+              Estimated Epoch Time
+            </div>
+            <div
+              className="blockchain__item__value"
+            >
+              <div
+                className="blockchain__item__left__value"
+              >
+                0 h 0 m
+              </div>
             </div>
           </div>
         </div>
-        <div
-          className="blockchain__item__between_separate"
-        />
       </div>
       <div
-        className="sc-AxhUy gMewWE"
+        className="blockchain__item__row_separate"
+      />
+      <div
+        className="blockchain__item__row"
       >
         <div
-          className="blockchain__item__content"
+          className="sc-AxhUy iwauIv"
         >
           <div
-            className="blockchain__item__name"
-          >
-            Estimated Epoch Time
-          </div>
-          <div
-            className="blockchain__item__value"
+            className="blockchain__item__content"
           >
             <div
-              className="blockchain__item__left__value"
+              className="blockchain__item__name"
             >
-              0 h 0 m
+              Transactions per Minute
+            </div>
+            <div
+              className="blockchain__item__value"
+            >
+              <div
+                className="blockchain__item__left__value"
+              >
+                0
+              </div>
             </div>
           </div>
+          <div
+            className="blockchain__item__between_separate"
+          />
         </div>
         <div
-          className="blockchain__item__between_separate"
-        />
-      </div>
-      <div
-        className="sc-AxhUy gMewWE"
-      >
-        <div
-          className="blockchain__item__content"
+          className="sc-AxhUy iwauIv"
         >
           <div
-            className="blockchain__item__name"
-          >
-            Transactions per Minute
-          </div>
-          <div
-            className="blockchain__item__value"
+            className="blockchain__item__content"
           >
             <div
-              className="blockchain__item__left__value"
+              className="blockchain__item__name"
             >
-              0
+              Transactions in Last 24hrs
             </div>
-          </div>
-        </div>
-        <div
-          className="blockchain__item__between_separate"
-        />
-      </div>
-      <div
-        className="sc-AxhUy gMewWE"
-      >
-        <div
-          className="blockchain__item__content"
-        >
-          <div
-            className="blockchain__item__name"
-          >
-            Transactions in Last 24hrs
-          </div>
-          <div
-            className="blockchain__item__value"
-          >
             <div
-              className="blockchain__item__left__value"
+              className="blockchain__item__value"
             >
-              0
+              <div
+                className="blockchain__item__left__value"
+              >
+                0
+              </div>
             </div>
           </div>
         </div>

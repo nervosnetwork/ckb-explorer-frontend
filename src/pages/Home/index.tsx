@@ -18,7 +18,7 @@ import { parseTime, parseTimeNoSecond } from '../../utils/date'
 import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME } from '../../utils/const'
 import { localeNumberString, handleHashRate, handleDifficulty, parseEpochNumber } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
-import { isMobile } from '../../utils/screen'
+import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
 import browserHistory from '../../routes/history'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { getLatestBlocks } from '../../service/app/block'
@@ -107,7 +107,7 @@ const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
     {
       name: i18n.t('blockchain.estimated_epoch_time'),
       value: parseTimeNoSecond(Number(statistics.estimatedEpochTime)),
-      showSeparate: !isMobile(),
+      showSeparate: !isScreenSmallerThan1200(),
     },
     {
       name: i18n.t('blockchain.transactions_per_minute'),
@@ -184,23 +184,23 @@ export default () => {
           </div>
         </HomeStatisticTopPanel>
         <HomeStatisticBottomPanel>
-          {!isMobile() &&
+          {!isScreenSmallerThan1200() &&
             blockchainDataList(statistics)
               .slice(4)
               .map((data: BlockchainData) => {
                 return <BlockchainItem blockchain={data} key={data.name} />
               })}
-          {isMobile() && (
+          {isScreenSmallerThan1200() && (
             <>
-              <div className="blockchain__item__mobile">
+              <div className="blockchain__item__row">
                 {blockchainDataList(statistics)
                   .slice(4, 6)
                   .map((data: BlockchainData) => {
                     return <BlockchainItem blockchain={data} key={data.name} />
                   })}
               </div>
-              <div className="blockchain__item__mobile_separate" />
-              <div className="blockchain__item__mobile">
+              <div className="blockchain__item__row_separate" />
+              <div className="blockchain__item__row">
                 {blockchainDataList(statistics)
                   .slice(6)
                   .map((data: BlockchainData) => {

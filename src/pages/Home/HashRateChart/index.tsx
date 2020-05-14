@@ -1,12 +1,22 @@
 import React, { useEffect } from 'react'
 import BigNumber from 'bignumber.js'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/title'
+import ReactEchartsCore from 'echarts-for-react/lib/core'
+import echarts from 'echarts/lib/echarts'
 import { getStatisticHashRate } from '../../../service/app/charts/mining'
 import i18n from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import SmallLoading from '../../../components/Loading/SmallLoading'
-import { ReactChartCore } from '../../StatisticsChart/common/ChartComp'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import { isScreenSmallerThan1200 } from '../../../utils/screen'
+
+const HomeChartLink = styled(Link)`
+  cursor: pointer;
+`
 
 const stepAxis = (statisticHashRates: State.StatisticHashRate[]) => {
   const array = statisticHashRates.flatMap(data => parseFloat(data.avgHashRate))
@@ -31,8 +41,8 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]) => {
     grid: {
       left: '4%',
       right: '4%',
-      top: '15%',
-      bottom: '10%',
+      top: isScreenSmallerThan1200() ? '20%' : '15%',
+      bottom: isScreenSmallerThan1200() ? '18%' : '10%',
       containLabel: true,
     },
     xAxis: [
@@ -102,5 +112,17 @@ export default () => {
   if (!statisticHashRates || statisticHashRates.length === 0) {
     return <SmallLoading />
   }
-  return <ReactChartCore option={getOption(statisticHashRates)} isThumbnail={true} />
+  return (
+    <HomeChartLink to="/charts/hash-rate">
+      <ReactEchartsCore
+        echarts={echarts}
+        option={getOption(statisticHashRates)}
+        notMerge
+        lazyUpdate
+        style={{
+          height: isScreenSmallerThan1200() ? '136px' : '200px',
+        }}
+      />
+    </HomeChartLink>
+  )
 }
