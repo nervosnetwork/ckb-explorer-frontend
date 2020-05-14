@@ -43,9 +43,19 @@ export enum PageActions {
   UpdateStatisticTransactionCount = 'updateStatisticTransactionCount',
   UpdateStatisticAddressCount = 'updateStatisticAddressCount',
   UpdateStatisticTotalDaoDeposit = 'updateStatisticTotalDaoDeposit',
+  UpdateStatisticNewDaoDeposit = 'updateStatisticNewDaoDeposit',
+  UpdateStatisticNewDaoWithdraw = 'updateStatisticNewDaoWithdraw',
+  UpdateStatisticCirculationRatio = 'updateStatisticCirculationRatio',
   UpdateStatisticCellCount = 'updateStatisticCellCount',
   UpdateStatisticAddressBalanceRank = 'updateStatisticAddressBalanceRank',
   UpdateStatisticBalanceDistribution = 'updateStatisticBalanceDistribution',
+  UpdateStatisticTxFeeHistory = 'updateStatisticTxFeeHistory',
+  UpdateStatisticBlockTimeDistribution = 'updateStatisticBlockTimeDistribution',
+  UpdateStatisticAverageBlockTime = 'updateStatisticAverageBlockTime',
+  UpdateStatisticOccupiedCapacity = 'updateStatisticOccupiedCapacity',
+  UpdateStatisticEpochTimeDistribution = 'updateStatisticEpochTimeDistribution',
+  UpdateStatisticNewNodeCount = 'updateStatisticNewNodeCount',
+  UpdateStatisticNodeDistribution = 'updateStatisticNodeDistribution',
 
   UpdateNervosDao = 'updateNervosDao',
   UpdateNervosDaoTransactions = 'updateNervosDaoTransactions',
@@ -296,6 +306,7 @@ export const reducer = (
         },
       }
 
+    // Statistic chart actions
     case PageActions.UpdateStatistics:
       return {
         ...state,
@@ -341,6 +352,21 @@ export const reducer = (
         ...state,
         statisticTotalDaoDeposits: payload.statisticTotalDaoDeposits,
       }
+    case PageActions.UpdateStatisticNewDaoDeposit:
+      return {
+        ...state,
+        statisticNewDaoDeposits: payload.statisticNewDaoDeposits,
+      }
+    case PageActions.UpdateStatisticNewDaoWithdraw:
+      return {
+        ...state,
+        statisticNewDaoWithdraw: payload.statisticNewDaoWithdraw,
+      }
+    case PageActions.UpdateStatisticCirculationRatio:
+      return {
+        ...state,
+        statisticCirculationRatios: payload.statisticCirculationRatios,
+      }
     case PageActions.UpdateStatisticCellCount:
       return {
         ...state,
@@ -355,6 +381,41 @@ export const reducer = (
       return {
         ...state,
         statisticBalanceDistributions: payload.statisticBalanceDistributions,
+      }
+    case PageActions.UpdateStatisticTxFeeHistory:
+      return {
+        ...state,
+        statisticTxFeeHistories: payload.statisticTxFeeHistories,
+      }
+    case PageActions.UpdateStatisticBlockTimeDistribution:
+      return {
+        ...state,
+        statisticBlockTimeDistributions: payload.statisticBlockTimeDistributions,
+      }
+    case PageActions.UpdateStatisticAverageBlockTime:
+      return {
+        ...state,
+        statisticAverageBlockTimes: payload.statisticAverageBlockTimes,
+      }
+    case PageActions.UpdateStatisticOccupiedCapacity:
+      return {
+        ...state,
+        statisticOccupiedCapacities: payload.statisticOccupiedCapacities,
+      }
+    case PageActions.UpdateStatisticEpochTimeDistribution:
+      return {
+        ...state,
+        statisticEpochTimeDistributions: payload.statisticEpochTimeDistributions,
+      }
+    case PageActions.UpdateStatisticNewNodeCount:
+      return {
+        ...state,
+        statisticNewNodeCounts: payload.statisticNewNodeCounts,
+      }
+    case PageActions.UpdateStatisticNodeDistribution:
+      return {
+        ...state,
+        statisticNodeDistributions: payload.statisticNodeDistributions,
       }
 
     case PageActions.UpdateNervosDao:

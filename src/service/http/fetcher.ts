@@ -189,6 +189,24 @@ export const fetchStatisticTotalDaoDeposit = () => {
   )
 }
 
+export const fetchStatisticNewDaoDeposit = () => {
+  return axiosIns(`/daily_statistics/daily_dao_deposit-daily_dao_depositors_count`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticNewDaoDeposit>[]>>(res.data),
+  )
+}
+
+export const fetchStatisticNewDaoWithdraw = () => {
+  return axiosIns(`/daily_statistics/daily_dao_withdraw`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticNewDaoWithdraw>[]>>(res.data),
+  )
+}
+
+export const fetchStatisticCirculationRatio = () => {
+  return axiosIns(`/daily_statistics/circulation_ratio`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticCirculationRatio>[]>>(res.data),
+  )
+}
+
 export const fetchStatisticDifficultyHashRate = () => {
   return axiosIns(`/epoch_statistics/difficulty-hash_rate`).then((res: AxiosResponse) =>
     toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]>>(res.data),
@@ -234,6 +252,48 @@ export const fetchStatisticAddressBalanceRank = () => {
 export const fetchStatisticBalanceDistribution = () => {
   return axiosIns(`/distribution_data/address_balance_distribution`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.StatisticAddressBalanceDistribution>>(res.data.data),
+  )
+}
+
+export const fetchStatisticTxFeeHistory = () => {
+  return axiosIns(`/daily_statistics/total_tx_fee`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticTransactionFee>[]>>(res.data),
+  )
+}
+
+export const fetchStatisticBlockTimeDistribution = () => {
+  return axiosIns(`/distribution_data/block_time_distribution`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticBlockTimeDistributions>>(res.data.data),
+  )
+}
+
+export const fetchStatisticAverageBlockTimes = () => {
+  return axiosIns(`/distribution_data/average_block_time`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticAverageBlockTimes>>(res.data.data),
+  )
+}
+
+export const fetchStatisticOccupiedCapacity = () => {
+  return axiosIns(`/daily_statistics/occupied_capacity`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticOccupiedCapacity>[]>>(res.data),
+  )
+}
+
+export const fetchStatisticEpochTimeDistribution = () => {
+  return axiosIns(`/distribution_data/epoch_time_distribution`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticEpochTimeDistributions>>(res.data.data),
+  )
+}
+
+export const fetchStatisticNewNodeCount = () => {
+  return axiosIns(`/daily_statistics/nodes_count`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticNewNodeCount>[]>>(res.data),
+  )
+}
+
+export const fetchStatisticNodeDistribution = () => {
+  return axiosIns(`/distribution_data/nodes_distribution`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticNodeDistributions>>(res.data.data),
   )
 }
 

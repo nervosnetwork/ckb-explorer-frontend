@@ -1,18 +1,12 @@
 import React, { useEffect } from 'react'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/title'
-import Content from '../../components/Content'
-import { getStatisticUncleRate } from '../../service/app/statisticsChart'
-import i18n, { currentLanguage } from '../../utils/i18n'
-import { handleAxis } from '../../utils/chart'
-import { ChartDetailTitle, ChartDetailPanel } from './styled'
-import { parseDateNoTime } from '../../utils/date'
-import { isMobile } from '../../utils/screen'
-import { useAppState, useDispatch } from '../../contexts/providers'
-import { ChartColors } from '../../utils/const'
-import { ChartLoading, ReactChartCore } from './ChartComponents'
-import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
+import { getStatisticUncleRate } from '../../../service/app/charts/mining'
+import i18n, { currentLanguage } from '../../../utils/i18n'
+import { parseDateNoTime } from '../../../utils/date'
+import { isMobile } from '../../../utils/screen'
+import { useAppState, useDispatch } from '../../../contexts/providers'
+import { ChartColors } from '../../../utils/const'
+import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
+import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -23,7 +17,7 @@ const gridThumbnail = {
 }
 const grid = {
   left: '3%',
-  right: '4%',
+  right: '5%',
   bottom: '5%',
   containLabel: true,
 }
@@ -41,9 +35,7 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
         )}</div>`
-        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('block.uncle_rate'))} ${handleAxis(
-          dataList[0].data,
-        )}</div>`
+        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('block.uncle_rate'))} ${dataList[0].data}%</div>`
         return result
       },
     },
@@ -134,11 +126,8 @@ export default () => {
   }, [dispatch])
 
   return (
-    <Content>
-      <ChartDetailTitle>{i18n.t('block.uncle_rate')}</ChartDetailTitle>
-      <ChartDetailPanel>
-        <UncleRateChart statisticUncleRates={statisticUncleRates} />
-      </ChartDetailPanel>
-    </Content>
+    <ChartPage title={i18n.t('block.uncle_rate')}>
+      <UncleRateChart statisticUncleRates={statisticUncleRates} />
+    </ChartPage>
   )
 }

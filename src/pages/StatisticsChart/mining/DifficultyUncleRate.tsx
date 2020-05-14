@@ -1,21 +1,14 @@
-import React, { useEffect, useMemo } from 'react'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/component/title'
-import 'echarts/lib/component/markLine'
+import React, { useEffect } from 'react'
 import BigNumber from 'bignumber.js'
-import Content from '../../components/Content'
-import { getStatisticDifficultyUncleRate } from '../../service/app/statisticsChart'
-import { useAppState, useDispatch } from '../../contexts/providers'
-import i18n, { currentLanguage } from '../../utils/i18n'
-import { handleAxis } from '../../utils/chart'
-import { handleDifficulty } from '../../utils/number'
-import { ChartDetailTitle, ChartDetailPanel } from './styled'
-import { isMobile } from '../../utils/screen'
-import { ChartColors } from '../../utils/const'
-import { ChartLoading, ReactChartCore } from './ChartComponents'
-import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
+import { getStatisticDifficultyUncleRate } from '../../../service/app/charts/mining'
+import { useAppState, useDispatch } from '../../../contexts/providers'
+import i18n, { currentLanguage } from '../../../utils/i18n'
+import { handleAxis } from '../../../utils/chart'
+import { handleDifficulty } from '../../../utils/number'
+import { isMobile } from '../../../utils/screen'
+import { ChartColors } from '../../../utils/const'
+import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
+import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -144,7 +137,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
                 },
               ],
               label: {
-                formatter: (params: any) => `------${params.value}%`,
+                formatter: (params: any) => `--------${params.value}%`,
               },
             },
       },
@@ -183,14 +176,9 @@ export default () => {
     getStatisticDifficultyUncleRate(dispatch)
   }, [dispatch])
 
-  return useMemo(() => {
-    return (
-      <Content>
-        <ChartDetailTitle>{`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}</ChartDetailTitle>
-        <ChartDetailPanel>
-          <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} />
-        </ChartDetailPanel>
-      </Content>
-    )
-  }, [statisticDifficultyUncleRates])
+  return (
+    <ChartPage title={`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}>
+      <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} />
+    </ChartPage>
+  )
 }

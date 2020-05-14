@@ -1,19 +1,14 @@
 import React, { useEffect } from 'react'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/title'
 import BigNumber from 'bignumber.js'
-import Content from '../../components/Content'
-import { getStatisticTransactionCount } from '../../service/app/statisticsChart'
-import { useAppState, useDispatch } from '../../contexts/providers'
-import i18n, { currentLanguage } from '../../utils/i18n'
-import { handleAxis } from '../../utils/chart'
-import { ChartDetailTitle, ChartDetailPanel } from './styled'
-import { parseDateNoTime } from '../../utils/date'
-import { isMobile } from '../../utils/screen'
-import { ChartColors } from '../../utils/const'
-import { ChartLoading, ReactChartCore } from './ChartComponents'
-import { PageActions, AppDispatch } from '../../contexts/providers/reducer'
+import { getStatisticTransactionCount } from '../../../service/app/charts/activities'
+import { useAppState, useDispatch } from '../../../contexts/providers'
+import i18n, { currentLanguage } from '../../../utils/i18n'
+import { handleAxis } from '../../../utils/chart'
+import { parseDateNoTime } from '../../../utils/date'
+import { isMobile } from '../../../utils/screen'
+import { ChartColors } from '../../../utils/const'
+import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
+import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
 
 const gridThumbnail = {
   left: '4%',
@@ -123,11 +118,8 @@ export default () => {
   }, [dispatch])
 
   return (
-    <Content>
-      <ChartDetailTitle>{i18n.t('statistic.transaction_count')}</ChartDetailTitle>
-      <ChartDetailPanel>
-        <TransactionCountChart statisticTransactionCounts={statisticTransactionCounts} />
-      </ChartDetailPanel>
-    </Content>
+    <ChartPage title={i18n.t('statistic.transaction_count')}>
+      <TransactionCountChart statisticTransactionCounts={statisticTransactionCounts} />
+    </ChartPage>
   )
 }
