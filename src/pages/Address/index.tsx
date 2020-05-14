@@ -6,7 +6,7 @@ import AddressHashCard from '../../components/Card/HashCard'
 import Error from '../../components/Error'
 import Content from '../../components/Content'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
-import { PageActions, AppActions } from '../../contexts/providers/reducer'
+import { PageActions, AppActions } from '../../contexts/actions'
 import { getAddress, getTipBlockNumber } from '../../service/app/address'
 import { PageParams, LOADING_WAITING_TIME, BLOCK_POLLING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
@@ -179,6 +179,7 @@ const AddressStateTransactions = ({
       return <Error />
     case 'OK':
       return <AddressTransactions currentPage={currentPage} pageSize={pageSize} address={address} />
+    case 'InProgress':
     case 'None':
     default:
       return <Loading show={app.secondLoading} />
@@ -190,7 +191,10 @@ export const Address = () => {
   const { search } = useLocation()
   const { address } = useParams<{ address: string }>()
   const parsed = queryString.parse(search)
-  const { addressState } = useAppState()
+  const {
+    addressState,
+    addressState: { addressStatus, transactionsStatus },
+  } = useAppState()
 
   const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
   const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
@@ -219,13 +223,13 @@ export const Address = () => {
       dispatch({
         type: AppActions.UpdateLoading,
         payload: {
-          loading: true,
+          loading: addressStatus === 'None' || addressStatus === 'InProgress',
         },
       })
       dispatch({
         type: AppActions.UpdateSecondLoading,
         payload: {
-          secondLoading: true,
+          secondLoading: transactionsStatus === 'None' || transactionsStatus === 'InProgress',
         },
       })
     },

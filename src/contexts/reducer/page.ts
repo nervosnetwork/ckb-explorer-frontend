@@ -1,179 +1,18 @@
-export enum AppActions {
-  ResizeWindow = 'resizeWindow',
-  UpdateLoading = 'updateLoading',
-  UpdateSecondLoading = 'updateSecondLoading',
-  UpdateModal = 'updateModal',
-  ShowToastMessage = 'showToastMessage',
-  UpdateAppErrors = 'updateAppErrors',
-  UpdateNodeVersion = 'updateNodeVersion',
-  UpdateTipBlockNumber = 'updateTipBlockNumber',
-  UpdateAppLanguage = 'updateAppLanguage',
-}
+import { PageActions } from '../actions'
 
-export enum PageActions {
-  UpdateAddress = 'updateAddress',
-  UpdateAddressTransactions = 'updateAddressTransactions',
-  UpdateAddressTotal = 'updateAddressTotal',
-  UpdateAddressStatus = 'updateAddressStatus',
-  UpdateAddressTransactionsStatus = 'updateAddressTransactionsStatus',
-
-  UpdateHomeBlocks = 'updateHomeBlocks',
-
-  UpdateBlockList = 'updateBlockList',
-  UpdateBlockListTotal = 'updateBlockListTotal',
-
-  UpdateBlock = 'updateBlock',
-  UpdateBlockTransactions = 'updateBlockTransactions',
-  UpdateBlockTotal = 'updateBlockTotal',
-  UpdateBlockStatus = 'updateBlockStatus',
-
-  UpdateTransaction = 'updateTransaction',
-  UpdateTransactionStatus = 'updateTransactionStatus',
-  UpdateTransactionScriptFetched = 'updateTransactionScriptFetched',
-  UpdateTransactions = 'updateTransactions',
-  UpdateTransactionsTotal = 'updateTransactionsTotal',
-
-  UpdateStatistics = 'updateStatistics',
-
-  UpdateStatisticDifficultyHashRate = 'updateStatisticDifficultyHashRate',
-  UpdateStatisticDifficultyUncleRate = 'updateStatisticDifficultyUncleRate',
-  UpdateStatisticDifficulty = 'updateStatisticDifficulty',
-  UpdateStatisticHashRate = 'updateStatisticHashRate',
-  UpdateStatisticUncleRate = 'updateStatisticUncleRate',
-  UpdateStatisticTransactionCount = 'updateStatisticTransactionCount',
-  UpdateStatisticAddressCount = 'updateStatisticAddressCount',
-  UpdateStatisticTotalDaoDeposit = 'updateStatisticTotalDaoDeposit',
-  UpdateStatisticNewDaoDeposit = 'updateStatisticNewDaoDeposit',
-  UpdateStatisticNewDaoWithdraw = 'updateStatisticNewDaoWithdraw',
-  UpdateStatisticCirculationRatio = 'updateStatisticCirculationRatio',
-  UpdateStatisticCellCount = 'updateStatisticCellCount',
-  UpdateStatisticAddressBalanceRank = 'updateStatisticAddressBalanceRank',
-  UpdateStatisticBalanceDistribution = 'updateStatisticBalanceDistribution',
-  UpdateStatisticTxFeeHistory = 'updateStatisticTxFeeHistory',
-  UpdateStatisticBlockTimeDistribution = 'updateStatisticBlockTimeDistribution',
-  UpdateStatisticAverageBlockTime = 'updateStatisticAverageBlockTime',
-  UpdateStatisticOccupiedCapacity = 'updateStatisticOccupiedCapacity',
-  UpdateStatisticEpochTimeDistribution = 'updateStatisticEpochTimeDistribution',
-  UpdateStatisticNewNodeCount = 'updateStatisticNewNodeCount',
-  UpdateStatisticNodeDistribution = 'updateStatisticNodeDistribution',
-
-  UpdateNervosDao = 'updateNervosDao',
-  UpdateNervosDaoTransactions = 'updateNervosDaoTransactions',
-  UpdateNervosDaoTransactionsTotal = 'updateNervosDaoTransactionsTotal',
-  UpdateNervosDaoDepositors = 'updateNervosDaoDepositors',
-  UpdateNervosDaoStatus = 'updateNervosDaoStatus',
-
-  UpdateUDT = 'updateUDT',
-  UpdateUDTTransactions = 'updateUDTTransactions',
-  UpdateUDTTransactionsTotal = 'updateUDTTransactionsTotal',
-  UpdateUDTStatus = 'updateUDTStatus',
-}
-
-export enum ComponentActions {
-  UpdateHeaderSearchEditable = 'updateHeaderSearchEditable',
-  UpdateHeaderMobileMenuVisible = 'updateHeaderMobileMenuVisible',
-}
-
-export type StateActions = AppActions | PageActions | ComponentActions
-
-export type AppDispatch = React.Dispatch<{ type: StateActions; payload: any }> // TODO: add type of payload
-export type StateWithDispatch = State.AppState & { dispatch: AppDispatch }
-
-export const reducer = (
+export const pageReducer = (
   state: State.AppState,
-  { type, payload }: { type: StateActions; payload: any },
+  { type, payload }: { type: PageActions; payload: State.PagePayload },
 ): State.AppState => {
   switch (type) {
-    case AppActions.ResizeWindow:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          appWidth: payload.appWidth,
-          appHeight: payload.appHeight,
-        },
-      }
-    case AppActions.UpdateLoading:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          loading: payload.loading,
-        },
-      }
-    case AppActions.UpdateSecondLoading:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          secondLoading: payload.secondLoading,
-        },
-      }
-    case AppActions.UpdateModal:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-        },
-      }
-    case AppActions.ShowToastMessage:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          toast: {
-            id: new Date().getTime(),
-            message: payload.message,
-            type: payload.type,
-            duration: payload.duration,
-          },
-        },
-      }
-    case AppActions.UpdateAppErrors:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          appErrors: state.app.appErrors.map((error: State.AppError) => {
-            if (payload.appError.type === error.type) {
-              return payload.appError
-            }
-            return error
-          }) as typeof state.app.appErrors,
-        },
-      }
-    case AppActions.UpdateNodeVersion:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          nodeVersion: payload.nodeVersion,
-        },
-      }
-    case AppActions.UpdateTipBlockNumber:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          tipBlockNumber: payload.tipBlockNumber,
-        },
-      }
-    case AppActions.UpdateAppLanguage:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          language: payload.language,
-        },
-      }
-
-    // PageActions
+    // home page
     case PageActions.UpdateHomeBlocks:
       return {
         ...state,
         homeBlocks: payload.homeBlocks,
       }
 
+    // block list page
     case PageActions.UpdateBlockList:
       return {
         ...state,
@@ -191,6 +30,7 @@ export const reducer = (
         },
       }
 
+    // address page
     case PageActions.UpdateAddress:
       return {
         ...state,
@@ -232,6 +72,7 @@ export const reducer = (
         },
       }
 
+    // block detail page
     case PageActions.UpdateBlock:
       return {
         ...state,
@@ -265,6 +106,7 @@ export const reducer = (
         },
       }
 
+    // transaction page
     case PageActions.UpdateTransaction:
       return {
         ...state,
@@ -306,7 +148,7 @@ export const reducer = (
         },
       }
 
-    // Statistic chart actions
+    // statistic chart page
     case PageActions.UpdateStatistics:
       return {
         ...state,
@@ -418,6 +260,7 @@ export const reducer = (
         statisticNodeDistributions: payload.statisticNodeDistributions,
       }
 
+    // nervos dao page
     case PageActions.UpdateNervosDao:
       return {
         ...state,
@@ -432,6 +275,14 @@ export const reducer = (
         nervosDaoState: {
           ...state.nervosDaoState,
           transactions: payload.transactions,
+        },
+      }
+    case PageActions.UpdateNervosDaoTransactionsStatus:
+      return {
+        ...state,
+        nervosDaoState: {
+          ...state.nervosDaoState,
+          transactionsStatus: payload.transactionsStatus,
         },
       }
     case PageActions.UpdateNervosDaoTransactionsTotal:
@@ -459,6 +310,7 @@ export const reducer = (
         },
       }
 
+    // simple udt page
     case PageActions.UpdateUDT:
       return {
         ...state,
@@ -491,24 +343,9 @@ export const reducer = (
           status: payload.status,
         },
       }
-
-    case ComponentActions.UpdateHeaderSearchEditable:
-      return {
-        ...state,
-        components: {
-          ...state.components,
-          searchBarEditable: payload.searchBarEditable,
-        },
-      }
-    case ComponentActions.UpdateHeaderMobileMenuVisible:
-      return {
-        ...state,
-        components: {
-          ...state.components,
-          mobileMenuVisible: payload.mobileMenuVisible,
-        },
-      }
     default:
       return state
   }
 }
+
+export default pageReducer

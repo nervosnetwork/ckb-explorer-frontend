@@ -7,7 +7,8 @@ import { handleAxis, handleLogGroupAxis } from '../../../utils/chart'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
-import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
+import { AppDispatch } from '../../../contexts/reducer'
+import { PageActions } from '../../../contexts/actions'
 import { localeNumberString } from '../../../utils/number'
 
 const gridThumbnail = {

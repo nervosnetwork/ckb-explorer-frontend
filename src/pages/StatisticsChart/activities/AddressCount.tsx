@@ -7,7 +7,8 @@ import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
-import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
+import { AppDispatch } from '../../../contexts/reducer'
+import { PageActions } from '../../../contexts/actions'
 import { ChartColors } from '../../../utils/const'
 
 const gridThumbnail = {

@@ -5,7 +5,7 @@ import { HeaderSearchPanel } from './styled'
 import { isScreen750to1440 } from '../../../utils/screen'
 import { HeaderSearchBarPanel } from './styled'
 import { useDispatch, useAppState } from '../../../contexts/providers'
-import { ComponentActions } from '../../../contexts/providers/reducer'
+import { ComponentActions } from '../../../contexts/actions'
 
 export const SearchComp = () => {
   const dispatch = useDispatch()

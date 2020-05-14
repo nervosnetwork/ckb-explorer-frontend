@@ -1,39 +1,29 @@
 import { AxiosError } from 'axios'
-import { AppActions, AppDispatch, PageActions } from '../../contexts/providers/reducer'
+import { AppDispatch } from '../../contexts/reducer'
+import { AppActions, PageActions } from '../../contexts/actions'
 import initAddress from '../../contexts/states/address'
 import { fetchAddressInfo, fetchTipBlockNumber, fetchTransactionsByAddress } from '../http/fetcher'
 
-const handleAddressResponseStatus = (dispatch: AppDispatch, isOK: boolean | undefined) => {
+const handleAddressStatus = (dispatch: AppDispatch, addressStatus: State.FetchStatus) => {
   dispatch({
     type: PageActions.UpdateAddressStatus,
     payload: {
-      addressStatus: isOK ? 'OK' : 'Error',
-    },
-  })
-  dispatch({
-    type: AppActions.UpdateLoading,
-    payload: {
-      loading: false,
+      addressStatus,
     },
   })
 }
 
-const handleTransactionResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
+const handleTransactionStatus = (dispatch: AppDispatch, transactionsStatus: State.FetchStatus) => {
   dispatch({
     type: PageActions.UpdateAddressTransactionsStatus,
     payload: {
-      transactionsStatus: isOK ? 'OK' : 'Error',
-    },
-  })
-  dispatch({
-    type: AppActions.UpdateSecondLoading,
-    payload: {
-      loading: false,
+      transactionsStatus,
     },
   })
 }
 
 export const getAddressInfo = (hash: string, dispatch: AppDispatch) => {
+  handleAddressStatus(dispatch, 'InProgress')
   fetchAddressInfo(hash)
     .then((wrapper: Response.Wrapper<State.Address> | null) => {
       let { address } = initAddress
@@ -49,7 +39,7 @@ export const getAddressInfo = (hash: string, dispatch: AppDispatch) => {
           address,
         },
       })
-      handleAddressResponseStatus(dispatch, true)
+      handleAddressStatus(dispatch, 'OK')
     })
     .catch((error: AxiosError) => {
       dispatch({
@@ -59,11 +49,12 @@ export const getAddressInfo = (hash: string, dispatch: AppDispatch) => {
         },
       })
       const isEmptyAddress = error && error.response && error.response.status === 404
-      handleAddressResponseStatus(dispatch, isEmptyAddress)
+      handleAddressStatus(dispatch, isEmptyAddress ? 'OK' : 'Error')
     })
 }
 
 export const getTransactionsByAddress = (hash: string, page: number, size: number, dispatch: any) => {
+  handleTransactionStatus(dispatch, 'InProgress')
   fetchTransactionsByAddress(hash, page, size)
     .then(response => {
       const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
@@ -82,7 +73,7 @@ export const getTransactionsByAddress = (hash: string, page: number, size: numbe
           total: meta ? meta.total : 0,
         },
       })
-      handleTransactionResponseStatus(dispatch, true)
+      handleTransactionStatus(dispatch, 'OK')
     })
     .catch(error => {
       dispatch({
@@ -98,7 +89,7 @@ export const getTransactionsByAddress = (hash: string, page: number, size: numbe
         },
       })
       const isEmptyAddress = error && error.response && error.response.status === 404
-      handleTransactionResponseStatus(dispatch, isEmptyAddress)
+      handleTransactionStatus(dispatch, isEmptyAddress ? 'OK' : 'Error')
     })
 }
 

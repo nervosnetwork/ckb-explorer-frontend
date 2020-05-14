@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import queryString from 'query-string'
 import { useLocation, useHistory } from 'react-router-dom'
-import { PageActions, AppActions } from '../../contexts/providers/reducer'
+import { PageActions, AppActions } from '../../contexts/actions'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import Content from '../../components/Content'
 import i18n from '../../utils/i18n'
@@ -37,6 +37,7 @@ const NervosDAOStateComp = ({
       ) : (
         <DepositorRank />
       )
+    case 'InProgress':
     case 'None':
     default:
       return <Loading show={app.loading} />
@@ -67,14 +68,12 @@ export const NervosDao = () => {
 
   useTimeoutWithUnmount(
     () => {
-      if (status === 'None') {
-        dispatch({
-          type: AppActions.UpdateLoading,
-          payload: {
-            loading: true,
-          },
-        })
-      }
+      dispatch({
+        type: AppActions.UpdateLoading,
+        payload: {
+          loading: status === 'None' || status === 'InProgress',
+        },
+      })
     },
     () => {
       dispatch({
