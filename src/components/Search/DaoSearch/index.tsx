@@ -52,7 +52,6 @@ const DaoSearch = ({ content }: { content?: string }) => {
   }
 
   useEffect(() => {
-    console.log(transactionsStatus)
     if (transactionsStatus === 'InProgress') {
       setSearchInput(inputElement, i18n.t('search.loading'))
     } else if (transactionsStatus === 'OK') {
