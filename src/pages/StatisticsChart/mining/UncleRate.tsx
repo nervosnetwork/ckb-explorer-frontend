@@ -59,6 +59,8 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
         name: isMobile() || isThumbnail ? '' : i18n.t('block.uncle_rate'),
         type: 'value',
         scale: true,
+        max: 5,
+        min: 0,
         axisLine: {
           lineStyle: {
             color: ChartColors[0],
