@@ -511,6 +511,39 @@ exports[`Active Page shallow renders with empty data 1`] = `
             </div>
           </a>
         </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/occupied-capacity"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Occupied Capacity
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
     <div
@@ -594,6 +627,39 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="sc-fzqARJ bWULDa"
         >
           <a
+            href="/charts/new-dao-withdraw"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Daily Withdraw
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
             href="/charts/circulation-ratio"
             onClick={[Function]}
           >
@@ -601,6 +667,85 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_title"
             >
               Deposit to Circulation Ratio
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-fzoiQi bGMStZ"
+    >
+      <div
+        className="charts__category__title"
+      >
+        Network
+      </div>
+      <div
+        className="charts__category__panel"
+      >
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/new-node-count"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              New Node Count
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/node-distribution"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Node Distribution
             </div>
             <div
               className="chart__card_body"

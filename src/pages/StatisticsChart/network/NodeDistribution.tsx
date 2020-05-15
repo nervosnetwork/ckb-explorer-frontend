@@ -16,8 +16,8 @@ const gridThumbnail = {
   containLabel: true,
 }
 const grid = {
-  left: '4%',
-  right: '4%',
+  left: '0%',
+  right: '0%',
   bottom: '5%',
   containLabel: true,
 }
@@ -28,13 +28,12 @@ const getOption = (statisticNodeDistributions: State.StatisticNodeDistribution[]
     tooltip: !isThumbnail && {
       trigger: 'item',
       formatter: (data: any) => {
-        const colorSpan = (color: string) =>
-          `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
           `<span style="width:${currentLanguage() === 'en' ? '95px' : '60px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.city'))} ${data.data.name}</div>`
-        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.node_count'))} ${localeNumberString(
-          data.data.value[2],
+        const widthValueSpan = (value: string) => `<span style="display:inline-block;color:#AACFE9;">${value}</span>`
+        let result = `<div>${widthSpan(i18n.t('statistic.city'))} ${widthValueSpan(data.data.name)}</div>`
+        result += `<div>${widthSpan(i18n.t('statistic.node_count'))} ${widthValueSpan(
+          localeNumberString(data.data.value[2]),
         )}</div>`
         return result
       },
@@ -45,27 +44,29 @@ const getOption = (statisticNodeDistributions: State.StatisticNodeDistribution[]
       type: 'map',
       map: 'world',
       roam: true,
-      left: '5%',
-      right: '5%',
+      left: '3%',
+      right: '3%',
       top: 20,
       bottom: 20,
       scaleLimit: {
         min: 1,
-        max: isThumbnail ? 1 : 3,
+        max: 1,
       },
       label: {
         emphasis: {
           show: true,
-          color: ChartColors[0],
+          color: '#575757',
+          fontFamily: 'Lato',
+          fontSize: 12,
         },
       },
       itemStyle: {
         normal: {
-          areaColor: '#999999',
-          borderColor: '#222222',
+          areaColor: '#EEEEEE',
+          borderColor: '#979797',
         },
         emphasis: {
-          areaColor: '#555555',
+          areaColor: '#D8D8D8',
           borderWidth: 0.2,
         },
       },
@@ -90,12 +91,20 @@ const getOption = (statisticNodeDistributions: State.StatisticNodeDistribution[]
           show: false,
         },
         itemStyle: {
-          borderColor: '#fff',
-          color: ChartColors[0],
+          borderColor: '#228159',
+          borderWidth: 0.5,
+          color: '#3CC68A',
+          capacity: 0.6,
         },
         emphasis: {
           label: {
             show: true,
+          },
+          itemStyle: {
+            borderColor: '#3281BD',
+            borderWidth: 1,
+            color: '#AACFE9',
+            capacity: 0.8,
           },
         },
       },
