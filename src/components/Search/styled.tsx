@@ -9,7 +9,7 @@ export const SearchContainer = styled.div`
 export const SearchPanel = styled.div`
   margin: 0 auto;
   width: 100%;
-  height: ${(props: { hasBorder?: boolean; hasButton?: boolean }) => (props.hasBorder ? '42px' : '30px')};
+  height: ${(props: { moreHeight?: boolean; hasButton?: boolean }) => (props.moreHeight ? '38px' : '30px')};
   text-align: center;
   display: flex;
   align-items: center;
@@ -85,12 +85,12 @@ export const SearchInputPanel = styled.input`
 
 export const SearchButton = styled.div`
   width: 80px;
-  height: 30px;
+  height: 38px;
   border-radius: 0 4px 4px 0;
   border: solid 1px #ffffff;
   background-color: #121212;
   text-align: center;
-  line-height: 30px;
+  line-height: 34px;
   color: #ffffff;
   letter-spacing: 0.2px;
   font-size: 14px;

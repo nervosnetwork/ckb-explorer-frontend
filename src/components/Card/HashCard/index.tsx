@@ -58,8 +58,8 @@ export default ({
               <SmallLoading />
             </LoadingPanel>
           ) : (
-            <div id="hash__text" className="monospace">
-              <span>{isMobile() ? mobileHash() : adaptPCEllipsis(hash, 13, 25)}</span>
+            <div id="hash__text">
+              <span className="monospace">{isMobile() ? mobileHash() : adaptPCEllipsis(hash, 13, 25)}</span>
             </div>
           )}
           <SimpleButton
@@ -79,10 +79,12 @@ export default ({
         </div>
         {specialAddress && (
           <Tooltip title={i18n.t('address.vesting_tooltip')} placement={isMobile() ? 'bottomRight' : 'bottom'}>
-            <Link to={`/address/${specialAddress}`}>{i18n.t('address.vesting')}</Link>
+            <Link to={`/address/${specialAddress}`}>{i18n.t('address.vesting')} className="monospace"</Link>
           </Tooltip>
         )}
-        <div id="hash__value">{hash}</div>
+        <div id="hash__value" className="monospace">
+          {hash}
+        </div>
       </div>
       {children}
     </HashCardPanel>

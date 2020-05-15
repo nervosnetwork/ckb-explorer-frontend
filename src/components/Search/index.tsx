@@ -207,7 +207,7 @@ const Search = ({ hasBorder, content, hasButton }: { hasBorder?: boolean; conten
 
   return (
     <SearchContainer>
-      <SearchPanel hasBorder={hasBorder} hasButton={hasButton}>
+      <SearchPanel moreHeight={hasBorder || hasButton} hasButton={hasButton}>
         {!hasBorder && !searchBarEditable && <SearchIconButton searchValue={searchValue} inputElement={inputElement} />}
         {isMobile() && <div className="search__icon__separate" />}
         <SearchInputPanel

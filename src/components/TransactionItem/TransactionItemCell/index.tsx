@@ -69,11 +69,23 @@ const AddressLinkComp = ({ cell, address, highLight }: { cell: State.Cell; addre
   if (address.includes('...')) {
     return (
       <Tooltip placement="top" title={<CopyTooltipText content={cell.addressHash} />}>
-        {highLight ? <Link to={`/address/${cell.addressHash}`}>{address}</Link> : <span>{address}</span>}
+        {highLight ? (
+          <Link to={`/address/${cell.addressHash}`} className="monospace">
+            {address}
+          </Link>
+        ) : (
+          <span className="monospace">{address}</span>
+        )}
       </Tooltip>
     )
   }
-  return highLight ? <Link to={`/address/${cell.addressHash}`}>{address}</Link> : <span>{address}</span>
+  return highLight ? (
+    <Link to={`/address/${cell.addressHash}`} className="monospace">
+      {address}
+    </Link>
+  ) : (
+    <span className="monospace">{address}</span>
+  )
 }
 
 const TransactionCellAddress = ({

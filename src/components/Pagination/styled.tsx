@@ -33,14 +33,14 @@ export const PaginationPanel = styled.div`
 
 export const PaginationLeftItem = styled.div`
   display: flex;
-  flex: 1;
+  align-items: center;
+  flex: 3;
   font-size: 14px;
   text-align: center;
   color: #000000;
-  line-height: 40px;
+  padding-left: 20px;
 
   @media (min-width: 750px) {
-    align-items: center;
     justify-content: center;
   }
 
@@ -89,6 +89,7 @@ export const PaginationLeftItem = styled.div`
     border-radius: 6px;
     margin-left: 20px;
     padding: 0 12px;
+    line-height: 40px;
   }
 
   .pagination__right__button {
@@ -116,6 +117,7 @@ export const PaginationLeftItem = styled.div`
   @media (max-width: 750px) {
     width: 60%;
     height: 50px;
+    padding-left: 20px;
 
     > button {
       font-size: 8px;
@@ -125,8 +127,6 @@ export const PaginationLeftItem = styled.div`
     }
 
     .pagination__left__button {
-      margin-top: 15px;
-      margin-left: 20px;
       background-image: url(${isMainnet() ? LeftGreen : LeftBlue});
       background-position: center;
       background-size: 6px 10px;
@@ -148,13 +148,11 @@ export const PaginationLeftItem = styled.div`
       background: #ffffff;
       width: auto;
       height: 16px;
-      margin-top: 17px;
       margin-left: 10px;
       order: 1;
     }
 
     .pagination__right__button {
-      margin-top: 15px;
       margin-left: 10px;
       background-image: url(${isMainnet() ? RightGreen : RightBlue});
       background-position: center;
@@ -170,12 +168,13 @@ export const PaginationRightItem = styled.div`
   display: flex;
   font-size: 14px;
   color: #000000;
+  padding-right: 20px;
 
   @media (min-width: 750px) {
-    width: 452px;
+    flex: 2;
     align-items: center;
-    justify-content: center;
-    padding: 10px 0px 10px 80px;
+    justify-content: flex-start;
+    padding: 10px 0px 10px 30px;
   }
 
   @media (max-width: 750px) {
@@ -227,7 +226,6 @@ export const PaginationRightItem = styled.div`
   }
 
   .pagination__goto__page {
-    margin-right: 80px;
     @media (max-width: 750px) {
       width: 40px;
       margin-top: 15px;
