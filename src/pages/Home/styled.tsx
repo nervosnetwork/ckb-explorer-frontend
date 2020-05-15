@@ -59,7 +59,7 @@ export const HomeStatisticTopPanel = styled.div`
     flex: 1;
     display: flex;
     border-radius: 6px 0 0 0;
-    border: 2px solid ${isMainnet() ? '#3fb39e' : '#6093e4'};
+    border: 2px solid ${isMainnet() ? '#3fb39e' : '#6b88cf'};
 
     @media (max-width: 1200px) {
       flex-direction: column;
@@ -79,7 +79,7 @@ export const HomeStatisticTopPanel = styled.div`
 
       background: ${isMainnet()
         ? 'linear-gradient(134deg, #3fb39e, #1ec196 51%, #3cc6b7 100%)'
-        : 'linear-gradient(314deg, #6093e4 100%, #6b88cf 49%, #7074de)'};
+        : 'linear-gradient(314deg, #6093e4 , #6b88cf 49%, #7074de 80%)'};
 
       @media (max-width: 1200px) {
         padding: 15px 30px 10px 30px;
@@ -95,9 +95,10 @@ export const HomeStatisticTopPanel = styled.div`
       flex: 2;
       margin: -2px;
       padding: 5px 5px 0px 5px;
+      border-radius: 0 0 0 0;
       background: ${isMainnet()
         ? 'linear-gradient(134deg, #0bad8e 2%, #20c5a5 48%, #0baab1 99%)'
-        : 'linear-gradient(298deg, #6e85e0 99%, #577cdb 48%, #486ecc 2%)'};
+        : 'linear-gradient(304deg, #6e85e0 2%, #577cdb 48%, #486ecc 99%)'};
 
       @media (max-width: 1200px) {
         padding: 6px 28px;

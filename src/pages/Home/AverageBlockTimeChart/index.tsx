@@ -14,7 +14,9 @@ import styled from 'styled-components'
 import { isScreenSmallerThan1200 } from '../../../utils/screen'
 
 const HomeChartLink = styled(Link)`
-  cursor: pointer;
+  div {
+    cursor: pointer !important;
+  }
 `
 
 const maxAndMinAxis = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) => {
