@@ -15,6 +15,7 @@ export const initNervosDaoState: State.NervosDaoState = {
     estimatedApc: '',
   },
   transactions: [],
+  transactionsStatus: 'None',
   total: 0,
   depositors: [],
   status: 'None',

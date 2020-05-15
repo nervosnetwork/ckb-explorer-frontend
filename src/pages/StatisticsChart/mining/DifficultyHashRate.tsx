@@ -8,7 +8,8 @@ import { handleDifficulty, handleHashRate } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
-import { PageActions, AppDispatch } from '../../../contexts/providers/reducer'
+import { AppDispatch } from '../../../contexts/reducer'
+import { PageActions } from '../../../contexts/actions'
 
 const gridThumbnail = {
   left: '4%',
@@ -34,11 +35,7 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
           `<span style="width:${currentLanguage() === 'en' ? '90px' : '50px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch'))} ${handleAxis(
-          dataList[0].name,
-          1,
-          true,
-        )}</div>`
+        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch'))} ${dataList[0].name}</div>`
         if (dataList[0]) {
           result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
             dataList[0].data,
@@ -65,7 +62,7 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
         boundaryGap: false,
         data: statisticDifficultyHashRates.map(data => data.epochNumber),
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: string) => value,
         },
       },
     ],

@@ -33,7 +33,7 @@ import AddressBalanceRankChart from '../pages/StatisticsChart/activities/Address
 import HashRateChart from '../pages/StatisticsChart/mining/HashRate'
 import UncleRateChart from '../pages/StatisticsChart/mining/UncleRate'
 import { useDispatch, useAppState } from '../contexts/providers'
-import { ComponentActions } from '../contexts/providers/reducer'
+import { ComponentActions } from '../contexts/actions'
 import { isMobile } from '../utils/screen'
 import BalanceDistributionChart from '../pages/StatisticsChart/activities/BalanceDistribution'
 import TxFeeHistoryChart from '../pages/StatisticsChart/activities/TxFeeHistory'

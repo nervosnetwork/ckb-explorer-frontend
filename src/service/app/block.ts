@@ -1,17 +1,12 @@
 import { fetchTransactionsByBlockHash, fetchBlock, fetchBlocks, fetchBlockList } from '../http/fetcher'
-import { PageActions, AppDispatch, AppActions } from '../../contexts/providers/reducer'
+import { AppDispatch } from '../../contexts/reducer'
+import { PageActions } from '../../contexts/actions'
 
-const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
+const handleStatus = (dispatch: AppDispatch, status: State.FetchStatus) => {
   dispatch({
     type: PageActions.UpdateBlockStatus,
     payload: {
-      status: isOK ? 'OK' : 'Error',
-    },
-  })
-  dispatch({
-    type: AppActions.UpdateLoading,
-    payload: {
-      loading: false,
+      status,
     },
   })
 }
@@ -19,6 +14,7 @@ const handleResponseStatus = (dispatch: AppDispatch, isOK: boolean) => {
 export const getBlockTransactions = (hash: string, page: number, size: number, dispatch: AppDispatch) => {
   fetchTransactionsByBlockHash(hash, page, size)
     .then(response => {
+      handleStatus(dispatch, 'OK')
       const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
       dispatch({
         type: PageActions.UpdateBlockTransactions,
@@ -36,15 +32,15 @@ export const getBlockTransactions = (hash: string, page: number, size: number, d
           },
         })
       }
-      handleResponseStatus(dispatch, true)
     })
     .catch(() => {
-      handleResponseStatus(dispatch, false)
+      handleStatus(dispatch, 'Error')
     })
 }
 
 // blockParam: block hash or block number
 export const getBlock = (blockParam: string, page: number, size: number, dispatch: AppDispatch) => {
+  handleStatus(dispatch, 'InProgress')
   fetchBlock(blockParam)
     .then((wrapper: Response.Wrapper<State.Block> | null) => {
       if (wrapper) {
@@ -57,11 +53,11 @@ export const getBlock = (blockParam: string, page: number, size: number, dispatc
         })
         getBlockTransactions(block.blockHash, page, size, dispatch)
       } else {
-        handleResponseStatus(dispatch, false)
+        handleStatus(dispatch, 'OK')
       }
     })
     .catch(() => {
-      handleResponseStatus(dispatch, false)
+      handleStatus(dispatch, 'Error')
     })
 }
 

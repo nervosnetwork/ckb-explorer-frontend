@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next'
 import GreenSearchLogo from '../../../assets/search_green.png'
 import BlueSearchLogo from '../../../assets/search_blue.png'
 import i18n from '../../../utils/i18n'
-import { AppActions } from '../../../contexts/providers/reducer'
+import { AppActions } from '../../../contexts/actions'
 import { isMainnet } from '../../../utils/chain'
 import { searchNervosDaoTransactions, getNervosDaoTransactions } from '../../../service/app/nervosDao'
-import { useDispatch } from '../../../contexts/providers'
+import { useDispatch, useAppState } from '../../../contexts/providers'
 import { DaoSearchImage, DaoSearchPanel, DaoResetButtonPanel, DaoSearchInputPanel } from './styled'
 
 const clearSearchInput = (inputElement: any) => {
@@ -15,10 +15,19 @@ const clearSearchInput = (inputElement: any) => {
   input.blur()
 }
 
+const setSearchInput = (inputElement: any, content: string) => {
+  const input: HTMLInputElement = inputElement.current
+  input.value = content
+  input.blur()
+}
+
 const DEPOSIT_RANK_COUNT = 100
 
 const DaoSearch = ({ content }: { content?: string }) => {
   const dispatch = useDispatch()
+  const {
+    nervosDaoState: { transactionsStatus },
+  } = useAppState()
   const [t] = useTranslation()
   const SearchPlaceholder = useMemo(() => {
     return t('nervos_dao.dao_search_placeholder')
@@ -38,21 +47,26 @@ const DaoSearch = ({ content }: { content?: string }) => {
         },
       })
     } else {
-      searchNervosDaoTransactions(query, dispatch, (isSuccess: boolean) => {
-        if (isSuccess) {
-          clearSearchInput(inputElement)
-          setShowReset(true)
-        } else {
-          dispatch({
-            type: AppActions.ShowToastMessage,
-            payload: {
-              message: i18n.t('toast.result_not_found'),
-            },
-          })
-        }
-      })
+      searchNervosDaoTransactions(query, dispatch)
     }
   }
+
+  useEffect(() => {
+    if (transactionsStatus === 'InProgress') {
+      setSearchInput(inputElement, i18n.t('search.loading'))
+    } else if (transactionsStatus === 'OK') {
+      clearSearchInput(inputElement)
+      setShowReset(true)
+    } else if (transactionsStatus === 'Error') {
+      clearSearchInput(inputElement)
+      dispatch({
+        type: AppActions.ShowToastMessage,
+        payload: {
+          message: i18n.t('toast.result_not_found'),
+        },
+      })
+    }
+  }, [transactionsStatus, dispatch, content])
 
   // update input placeholder when language change
   useEffect(() => {
