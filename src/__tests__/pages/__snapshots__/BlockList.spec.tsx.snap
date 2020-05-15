@@ -65,7 +65,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="sc-fzoXWK ktWbCE"
       >
         <div
-          className="sc-fzpmMD flbFIy"
+          className="sc-fzpmMD OKRCg"
         >
           <button
             onClick={[Function]}
@@ -96,7 +96,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </button>
         </div>
         <div
-          className="sc-fznxKY dsGXeS"
+          className="sc-fznxKY kvnvQt"
         >
           <div
             className="pagination__page"

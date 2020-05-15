@@ -40,10 +40,11 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="hash__card__hash__content"
         >
           <div
-            className="monospace"
             id="hash__text"
           >
-            <span>
+            <span
+              className="monospace"
+            >
               
             </span>
           </div>
@@ -63,6 +64,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         </div>
         
         <div
+          className="monospace"
           id="hash__value"
         />
       </div>
