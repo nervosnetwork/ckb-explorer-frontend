@@ -8,7 +8,7 @@ exports[`Active Page shallow renders 1`] = `
     className="sc-AxjAm StDqN container"
   >
     <div
-      className="sc-AxirZ gLgLuz"
+      className="sc-AxirZ jopuNW"
       style={
         Object {
           "backgroundImage": "url(home_background.svg)",
@@ -22,45 +22,11 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div
         className="home__top__search"
-      >
-        <div
-          className="sc-fzoLag eNRuJM"
-        >
-          <div
-            className="sc-fzoXzr kGyab"
-          >
-            <div
-              className="sc-fzpjYC bvkCky"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex={-1}
-            >
-              <img
-                alt="search logo"
-                src="search_black.png"
-              />
-            </div>
-            <input
-              className="sc-fznxsB knrDyn"
-              defaultValue=""
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              onKeyUp={[Function]}
-              placeholder="Block/Transaction/Address/Lock Hash"
-            />
-          </div>
-          <div
-            className="sc-fznJRM hksjio"
-          >
-            Search
-          </div>
-        </div>
-      </div>
+        id="home__search__bar"
+      />
     </div>
     <div
-      className="sc-AxiKw fdwnjR"
+      className="sc-AxiKw eTEKWx"
     >
       <div
         className="home__statistic__left__panel"
@@ -69,7 +35,7 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__left__data"
         >
           <div
-            className="sc-AxgMl amHst"
+            className="sc-AxgMl iwuQHq"
           >
             <div
               className="home__statistic__item__name"
@@ -83,7 +49,7 @@ exports[`Active Page shallow renders 1`] = `
             </div>
           </div>
           <div
-            className="sc-AxgMl jewuAf"
+            className="sc-AxgMl ehaRnc"
           >
             <div
               className="home__statistic__item__name"
@@ -117,7 +83,7 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__right__data"
         >
           <div
-            className="sc-AxgMl amHst"
+            className="sc-AxgMl iwuQHq"
           >
             <div
               className="home__statistic__item__name"
@@ -131,7 +97,7 @@ exports[`Active Page shallow renders 1`] = `
             </div>
           </div>
           <div
-            className="sc-AxgMl jewuAf"
+            className="sc-AxgMl ehaRnc"
           >
             <div
               className="home__statistic__item__name"
@@ -160,13 +126,13 @@ exports[`Active Page shallow renders 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxhCb eatJnG"
+      className="sc-AxhCb fZVaxu"
     >
       <div
         className="blockchain__item__row"
       >
         <div
-          className="sc-AxhUy iwauIv"
+          className="sc-AxhUy jcWDVH"
         >
           <div
             className="blockchain__item__content"
@@ -196,7 +162,7 @@ exports[`Active Page shallow renders 1`] = `
           />
         </div>
         <div
-          className="sc-AxhUy iwauIv"
+          className="sc-AxhUy jcWDVH"
         >
           <div
             className="blockchain__item__content"
@@ -225,7 +191,7 @@ exports[`Active Page shallow renders 1`] = `
         className="blockchain__item__row"
       >
         <div
-          className="sc-AxhUy iwauIv"
+          className="sc-AxhUy jcWDVH"
         >
           <div
             className="blockchain__item__content"
@@ -250,7 +216,7 @@ exports[`Active Page shallow renders 1`] = `
           />
         </div>
         <div
-          className="sc-AxhUy iwauIv"
+          className="sc-AxhUy jcWDVH"
         >
           <div
             className="blockchain__item__content"
@@ -890,7 +856,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
     className="sc-AxjAm StDqN container"
   >
     <div
-      className="sc-AxirZ gLgLuz"
+      className="sc-AxirZ jopuNW"
       style={
         Object {
           "backgroundImage": "url(home_background.svg)",
@@ -904,45 +870,11 @@ exports[`Active Page shallow renders with empty data 1`] = `
       </div>
       <div
         className="home__top__search"
-      >
-        <div
-          className="sc-fzoLag eNRuJM"
-        >
-          <div
-            className="sc-fzoXzr kGyab"
-          >
-            <div
-              className="sc-fzpjYC bvkCky"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex={-1}
-            >
-              <img
-                alt="search logo"
-                src="search_black.png"
-              />
-            </div>
-            <input
-              className="sc-fznxsB knrDyn"
-              defaultValue=""
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              onKeyUp={[Function]}
-              placeholder="Block/Transaction/Address/Lock Hash"
-            />
-          </div>
-          <div
-            className="sc-fznJRM hksjio"
-          >
-            Search
-          </div>
-        </div>
-      </div>
+        id="home__search__bar"
+      />
     </div>
     <div
-      className="sc-AxiKw fdwnjR"
+      className="sc-AxiKw eTEKWx"
     >
       <div
         className="home__statistic__left__panel"
@@ -951,7 +883,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__left__data"
         >
           <div
-            className="sc-AxgMl amHst"
+            className="sc-AxgMl iwuQHq"
           >
             <div
               className="home__statistic__item__name"
@@ -965,7 +897,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             </div>
           </div>
           <div
-            className="sc-AxgMl jewuAf"
+            className="sc-AxgMl ehaRnc"
           >
             <div
               className="home__statistic__item__name"
@@ -999,7 +931,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__right__data"
         >
           <div
-            className="sc-AxgMl amHst"
+            className="sc-AxgMl iwuQHq"
           >
             <div
               className="home__statistic__item__name"
@@ -1013,7 +945,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             </div>
           </div>
           <div
-            className="sc-AxgMl jewuAf"
+            className="sc-AxgMl ehaRnc"
           >
             <div
               className="home__statistic__item__name"
@@ -1042,13 +974,13 @@ exports[`Active Page shallow renders with empty data 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxhCb eatJnG"
+      className="sc-AxhCb fZVaxu"
     >
       <div
         className="blockchain__item__row"
       >
         <div
-          className="sc-AxhUy iwauIv"
+          className="sc-AxhUy jcWDVH"
         >
           <div
             className="blockchain__item__content"
@@ -1078,7 +1010,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           />
         </div>
         <div
-          className="sc-AxhUy iwauIv"
+          className="sc-AxhUy jcWDVH"
         >
           <div
             className="blockchain__item__content"
@@ -1107,7 +1039,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="blockchain__item__row"
       >
         <div
-          className="sc-AxhUy iwauIv"
+          className="sc-AxhUy jcWDVH"
         >
           <div
             className="blockchain__item__content"
@@ -1132,7 +1064,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           />
         </div>
         <div
-          className="sc-AxhUy iwauIv"
+          className="sc-AxhUy jcWDVH"
         >
           <div
             className="blockchain__item__content"
