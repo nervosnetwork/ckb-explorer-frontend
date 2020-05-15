@@ -36,6 +36,8 @@ import { handleBlockchainAlert } from '../../service/app/blockchain'
 import Search from '../../components/Search'
 import AverageBlockTimeChart from './AverageBlockTimeChart'
 import HashRateChart from './HashRateChart'
+import { ComponentActions } from '../../contexts/actions'
+import { AppDispatch } from '../../contexts/reducer'
 
 interface BlockchainData {
   name: string
@@ -46,7 +48,7 @@ interface BlockchainData {
 
 const StatisticItem = ({ blockchain, isFirst }: { blockchain: BlockchainData; isFirst?: boolean }) => {
   return (
-    <HomeStatisticItemPanel isBig={isFirst}>
+    <HomeStatisticItemPanel isFirst={isFirst}>
       <div className="home__statistic__item__name">{blockchain.name}</div>
       <div className="home__statistic__item__value">{blockchain.value}</div>
     </HomeStatisticItemPanel>
@@ -122,6 +124,31 @@ const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
   ]
 }
 
+const useHomeSearchBarStatus = (dispatch: AppDispatch, homeSearchBarVisible: boolean) => {
+  useEffect(() => {
+    dispatch({
+      type: ComponentActions.UpdateHomeSearchBarVisible,
+      payload: { homeSearchBarVisible: true },
+    })
+  }, [dispatch])
+
+  useEffect(() => {
+    dispatch({
+      type: ComponentActions.UpdateHeaderSearchEditable,
+      payload: { searchBarEditable: false },
+    })
+  }, [dispatch, homeSearchBarVisible])
+
+  useInterval(() => {
+    // header height: 64 and search bar height: 40 and check scroll position per 200ms
+    const searchPosition = (document.getElementById('home__search__bar') as HTMLElement).scrollHeight + 64 + 40
+    dispatch({
+      type: ComponentActions.UpdateHomeSearchBarVisible,
+      payload: { homeSearchBarVisible: window.pageYOffset < searchPosition },
+    })
+  }, 200)
+}
+
 export default () => {
   const dispatch = useDispatch()
   const {
@@ -129,6 +156,7 @@ export default () => {
     transactionsState: { transactions = [] },
     statistics,
     app: { tipBlockNumber },
+    components: { homeSearchBarVisible },
   } = useAppState()
   const [t] = useTranslation()
 
@@ -154,13 +182,15 @@ export default () => {
     handleBlockchainAlert(dispatch)
   }, BLOCKCHAIN_ALERT_POLLING_TIME)
 
+  useHomeSearchBarStatus(dispatch, homeSearchBarVisible)
+
   return (
     <Content>
       <HomeHeaderPanel className="container">
         <HomeHeaderTopPanel style={{ backgroundImage: `url(${HomeHeaderBackground})` }}>
           <div className="home__top__title">{i18n.t('common.ckb_explorer')}</div>
-          <div className="home__top__search">
-            <Search hasButton={true} />
+          <div className="home__top__search" id="home__search__bar">
+            {homeSearchBarVisible && <Search hasButton={true} />}
           </div>
         </HomeHeaderTopPanel>
         <HomeStatisticTopPanel>

@@ -28,7 +28,7 @@ export const HomeHeaderTopPanel = styled.div`
   .home__top__search {
     height: 38px;
     width: 600px;
-    padding-top: 31px;
+    padding-top: 25px;
 
     @media (max-width: 750px) {
       width: calc(100% - 36px);
@@ -52,7 +52,7 @@ export const HomeStatisticTopPanel = styled.div`
   @media (max-width: 750px) {
     flex-direction: column;
     height: 150px;
-    margin-top: -210px;
+    margin-top: -205px;
   }
 
   .home__statistic__left__panel {
@@ -67,6 +67,7 @@ export const HomeStatisticTopPanel = styled.div`
 
     @media (max-width: 750px) {
       border-radius: 6px 6px 0 0;
+      border: 0px solid;
     }
 
     .home__statistic__left__data {
@@ -84,14 +85,23 @@ export const HomeStatisticTopPanel = styled.div`
         padding: 15px 30px 10px 30px;
         flex-direction: row;
       }
+
+      @media (max-width: 750px) {
+        border-radius: 6px 6px 0 0;
+        padding: 15px 23px 10px 20px;
+      }
     }
     .home__statistic__left__chart {
       flex: 2;
       margin: -2px;
-      padding: 5px 5px 0 5px;
+      padding: 5px 5px 0px 5px;
       background: ${isMainnet()
         ? 'linear-gradient(134deg, #0bad8e 2%, #20c5a5 48%, #0baab1 99%)'
         : 'linear-gradient(298deg, #6e85e0 99%, #577cdb 48%, #486ecc 2%)'};
+
+      @media (max-width: 1200px) {
+        padding: 6px 28px;
+      }
 
       @media (max-width: 750px) {
         flex: 0;
@@ -132,6 +142,10 @@ export const HomeStatisticTopPanel = styled.div`
         margin: 0px;
         flex-direction: row;
       }
+
+      @media (max-width: 750px) {
+        padding: 15px 20px 10px 20px;
+      }
     }
     .home__statistic__right__chart {
       flex: 2;
@@ -140,6 +154,7 @@ export const HomeStatisticTopPanel = styled.div`
 
       @media (max-width: 1200px) {
         margin: -2px;
+        padding: 6px 28px;
       }
 
       @media (max-width: 750px) {
@@ -154,21 +169,16 @@ export const HomeStatisticTopPanel = styled.div`
 export const HomeStatisticBottomPanel = styled.div`
   display: flex;
   padding: 20px 5px;
-  margin: 0 0px 20px 0px;
+  margin: 0px 0px 20px 0px;
   box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
   border-radius: 0 0 6px 6px;
   background: #ffffff;
 
   @media (max-width: 1200px) {
     flex-direction: column;
-    margin-bottom: 20px;
-    padding: 0px 5px;
+    padding: 10px 5px 0 5px;
     box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
-    border-radius: 3px;
-  }
-
-  @media (max-width: 1200px) {
-    padding: 0px;
+    border-radius: 0 0 3px 3px;
   }
 
   .blockchain__item__row {
@@ -181,7 +191,11 @@ export const HomeStatisticBottomPanel = styled.div`
     height: 1px;
     background: #eaeaea;
     width: auto;
-    margin: 0 4%;
+    margin: 0 30px;
+
+    @media (max-width: 750px) {
+      margin: 0 20px;
+    }
   }
 `
 
@@ -194,8 +208,12 @@ export const HomeHeaderItemPanel = styled.div`
   .blockchain__item__content {
     display: flex;
     flex-direction: column;
-    width: 80%;
-    margin: 0 9%;
+    width: 100%;
+    margin: 0 30px;
+
+    @media (max-width: 750px) {
+      margin: 0 20px;
+    }
 
     .blockchain__item__name {
       color: #555555;
@@ -207,7 +225,6 @@ export const HomeHeaderItemPanel = styled.div`
     }
 
     .blockchain__item__value {
-      margin-top: 5px;
       color: #000000;
       font-weight: 600;
       display: flex;
@@ -241,13 +258,21 @@ export const HomeHeaderItemPanel = styled.div`
 
   .blockchain__item__between_separate {
     height: 90%;
-    margin-left: 2%;
     background: #eaeaea;
     width: 1px;
+
+    @media (max-width: 750px) {
+      display: none;
+    }
   }
 `
 
 export const HomeStatisticItemPanel = styled.div`
+  @media (max-width: 750px) {
+    flex: 1;
+    margin-left: ${(props: { isFirst?: boolean }) => (props.isFirst ? '0px' : '40px')};
+  }
+
   .home__statistic__item__name {
     font-size: 14px;
     color: #ffffff;
@@ -258,10 +283,9 @@ export const HomeStatisticItemPanel = styled.div`
   }
 
   .home__statistic__item__value {
-    font-size: ${(props: { isBig?: boolean }) => (props.isBig ? '26px' : '20px')};
+    font-size: ${(props: { isFirst?: boolean }) => (props.isFirst ? '26px' : '20px')};
     color: #ffffff;
     font-weight: bold;
-    margin-top: 3px;
 
     @media (max-width: 1200px) {
       font-size: 18px;

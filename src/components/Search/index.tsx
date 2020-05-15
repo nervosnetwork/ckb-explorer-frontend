@@ -258,7 +258,11 @@ const Search = ({ hasBorder, content, hasButton }: { hasBorder?: boolean; conten
         {!hasBorder && searchBarEditable && <ClearIconButton />}
         {hasBorder && <SearchIconButton highlightIcon searchValue={searchValue} inputElement={inputElement} />}
       </SearchPanel>
-      {hasButton && <SearchButton>{i18n.t('search.search')}</SearchButton>}
+      {hasButton && (
+        <SearchButton onClick={() => handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)}>
+          {i18n.t('search.search')}
+        </SearchButton>
+      )}
     </SearchContainer>
   )
 }

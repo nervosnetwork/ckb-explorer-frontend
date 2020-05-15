@@ -28,6 +28,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
     title: {
       text: i18n.t('statistic.daily_moving_average_block_time'),
       textAlign: 'left',
+      itemGap: 15,
       textStyle: {
         color: '#ffffff',
         fontSize: 12,
@@ -36,8 +37,8 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
       },
     },
     grid: {
-      left: '4%',
-      right: '4%',
+      left: isScreenSmallerThan1200() ? '1%' : '4%',
+      right: isScreenSmallerThan1200() ? '1%' : '4%',
       top: isScreenSmallerThan1200() ? '20%' : '15%',
       bottom: isScreenSmallerThan1200() ? '18%' : '10%',
       containLabel: true,
@@ -47,7 +48,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
       {
         name: i18n.t('statistic.date'),
         nameLocation: 'middle',
-        nameGap: 25,
+        nameGap: 28,
         axisLine: {
           lineStyle: {
             color: '#ffffff',
@@ -123,7 +124,7 @@ export default () => {
         notMerge
         lazyUpdate
         style={{
-          height: isScreenSmallerThan1200() ? '136px' : '200px',
+          height: isScreenSmallerThan1200() ? '136px' : '190px',
         }}
       />
     </HomeChartLink>

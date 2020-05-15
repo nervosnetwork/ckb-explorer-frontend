@@ -45,7 +45,7 @@ const MobileMenuComp = () => {
 
 export default ({ hasSearch }: { hasSearch?: boolean }) => {
   const {
-    components: { searchBarEditable },
+    components: { searchBarEditable, homeSearchBarVisible: headerSearchBarHidden },
   } = useAppState()
 
   return (
@@ -53,9 +53,9 @@ export default ({ hasSearch }: { hasSearch?: boolean }) => {
       <LogoComp />
       {!isMobile() && (
         <>
-          {!(isScreen750to1440() && searchBarEditable) && <MenusComp />}
+          {!(isScreen750to1440() && searchBarEditable && !headerSearchBarHidden) && <MenusComp />}
           <HeaderEmptyPanel />
-          {hasSearch && <SearchComp />}
+          {hasSearch && !headerSearchBarHidden && <SearchComp />}
           <BlockchainComp />
           <LanguageComp />
         </>
