@@ -187,9 +187,10 @@ declare namespace State {
   export interface NervosDaoState {
     nervosDao: NervosDao
     transactions: Transaction[]
+    transactionsStatus: FetchStatus
     total: number
     depositors: NervosDaoDepositor[]
-    status: keyof FetchStatus
+    status: FetchStatus
   }
 
   export interface Statistics {
@@ -220,6 +221,22 @@ declare namespace State {
   export interface StatisticTotalDaoDeposit {
     totalDaoDeposit: string
     totalDepositorsCount: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticNewDaoDeposit {
+    dailyDaoDeposit: string
+    dailyDaoDepositorsCount: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticNewDaoWithdraw {
+    dailyDaoWithdraw: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticCirculationRatio {
+    circulationRatio: string
     createdAtUnixtimestamp: string
   }
 
@@ -277,19 +294,73 @@ declare namespace State {
     sumAddresses: string
   }
 
-  export interface Components {
-    // mobile header search state
-    searchBarEditable: boolean
-
-    // mobile header menu visible state
-    mobileMenuVisible: boolean
+  export interface StatisticTransactionFee {
+    totalTxFee: string
+    createdAtUnixtimestamp: string
   }
 
-  export interface FetchStatus {
+  export interface StatisticBlockTimeDistributions {
+    blockTimeDistribution: string[][]
+  }
+
+  export interface StatisticBlockTimeDistribution {
+    time: string
+    ratio: string
+  }
+
+  export interface StatisticAverageBlockTime {
+    timestamp: number
+    avgBlockTimeDaily: string
+    avgBlockTimeWeekly: string
+  }
+
+  export interface StatisticAverageBlockTimes {
+    averageBlockTime: StatisticAverageBlockTime[]
+  }
+
+  export interface StatisticOccupiedCapacity {
+    occupiedCapacity: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticEpochTimeDistributions {
+    epochTimeDistribution: string[][]
+  }
+
+  export interface StatisticEpochTimeDistribution {
+    time: string
+    epoch: string
+  }
+
+  export interface StatisticNewNodeCount {
+    nodesCount: string
+    createdAtUnixtimestamp: string
+  }
+
+  export interface StatisticNodeDistribution {
+    name: string
+    value: number[]
+  }
+
+  export interface StatisticNodeDistributions {
+    nodesDistribution: {
+      city: string
+      count: number
+      postal: string
+      country: string
+      latitude: string
+      longitude: string
+    }[]
+  }
+
+  interface FetchStatusValue {
     OK: string
     Error: string
+    InProgress: string
     None: string
   }
+
+  export type FetchStatus = keyof FetchStatusValue
 
   export interface UDT {
     symbol: string
@@ -304,11 +375,88 @@ declare namespace State {
     udt: UDT
     transactions: Transaction[]
     total: number
-    status: keyof FetchStatus
+    status: FetchStatus
   }
 
+  export interface AddressState {
+    address: Address
+    transactions: Transaction[]
+    total: number
+    addressStatus: FetchStatus
+    transactionsStatus: FetchStatus
+  }
+
+  export interface BlockState {
+    block: Block
+    transactions: Transaction[]
+    total: number
+    status: FetchStatus
+  }
+
+  export interface BlockListState {
+    blocks: Block[]
+    total: number
+  }
+
+  export interface TransactionState {
+    transaction: Transaction
+    status: FetchStatus
+    scriptFetched: boolean
+  }
+
+  export interface TransactionsState {
+    transactions: Transaction[]
+    total: number
+  }
+
+  export interface StatisticChartsState {
+    statisticDifficultyHashRates: StatisticDifficultyHashRate[]
+    statisticDifficultyUncleRates: StatisticDifficultyUncleRate[]
+    statisticDifficulties: StatisticDifficulty[]
+    statisticHashRates: StatisticHashRate[]
+    statisticUncleRates: StatisticUncleRate[]
+    statisticTransactionCounts: StatisticTransactionCount[]
+    statisticCellCounts: StatisticCellCount[]
+    statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
+    statisticNewDaoDeposits: StatisticNewDaoDeposit[]
+    statisticNewDaoWithdraw: StatisticNewDaoWithdraw[]
+    statisticAddressCounts: StatisticAddressCount[]
+    statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
+    statisticBalanceDistributions: StatisticBalanceDistribution[]
+    statisticTxFeeHistories: StatisticTransactionFee[]
+    statisticBlockTimeDistributions: StatisticBlockTimeDistribution[]
+    statisticAverageBlockTimes: StatisticAverageBlockTime[]
+    statisticOccupiedCapacities: StatisticOccupiedCapacity[]
+    statisticEpochTimeDistributions: StatisticEpochTimeDistribution[]
+    statisticCirculationRatios: StatisticCirculationRatio[]
+    statisticNewNodeCounts: StatisticNewNodeCount[]
+    statisticNodeDistributions: StatisticNodeDistribution[]
+  }
+
+  export interface PageState extends StatisticChartsState {
+    addressState: AddressState
+    blockState: BlockState
+    homeBlocks: Block[]
+    blockListState: BlockListState
+    transactionState: TransactionState
+    transactionsState: TransactionsState
+    statistics: Statistics
+    nervosDaoState: NervosDaoState
+    udtState: UDTState
+  }
+
+  export interface PagePayload
+    extends PageState,
+      AddressState,
+      BlockState,
+      BlockListState,
+      TransactionState,
+      TransactionsState,
+      NervosDaoState,
+      UDTState {}
+
   export interface App {
-    toast: State.ToastMessage | null
+    toast: ToastMessage | null
     loading: boolean
     secondLoading: boolean
     appErrors: [
@@ -324,62 +472,17 @@ declare namespace State {
     language: 'en' | 'zh'
   }
 
-  export interface AddressState {
-    address: Address
-    transactions: Transaction[]
-    total: number
-    addressStatus: keyof FetchStatus
-    transactionsStatus: keyof FetchStatus
+  export interface AppPayload extends App, ToastMessage {
+    appError: AppError
   }
 
-  export interface BlockState {
-    block: Block
-    transactions: Transaction[]
-    total: number
-    status: keyof FetchStatus
+  export interface Components {
+    searchBarEditable: boolean
+    mobileMenuVisible: boolean
   }
 
-  export interface BlockListState {
-    blocks: Block[]
-    total: number
-  }
-
-  export interface TransactionState {
-    transaction: Transaction
-    status: keyof FetchStatus
-    scriptFetched: boolean
-  }
-
-  export interface TransactionsState {
-    transactions: Transaction[]
-    total: number
-  }
-
-  export interface AppState {
+  export interface AppState extends PageState {
     app: App
-
-    addressState: AddressState
-    blockState: BlockState
-    homeBlocks: Block[]
-    blockListState: BlockListState
-    transactionState: TransactionState
-    transactionsState: TransactionsState
-    statistics: Statistics
-    statisticDifficultyHashRates: StatisticDifficultyHashRate[]
-    statisticDifficultyUncleRates: StatisticDifficultyUncleRate[]
-    statisticDifficulties: StatisticDifficulty[]
-    statisticHashRates: StatisticHashRate[]
-    statisticUncleRates: StatisticUncleRate[]
-    statisticTransactionCounts: StatisticTransactionCount[]
-    statisticCellCounts: StatisticCellCount[]
-    statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
-    statisticAddressCounts: StatisticAddressCount[]
-    statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
-    statisticBalanceDistributions: StatisticBalanceDistribution[]
-
-    nervosDaoState: NervosDaoState
-    udtState: UDTState
-
     components: Components
   }
 }
@@ -391,5 +494,33 @@ declare namespace CustomRouter {
     params?: string
     exact?: boolean
     comp: React.FunctionComponent<any>
+  }
+}
+
+declare namespace Response {
+  export interface Response<T> {
+    data: T
+    meta?: Meta
+    error?: Error[]
+  }
+
+  export interface Error {
+    id: string
+    code: number
+    status: number
+    title: string
+    detail: string
+    href: string
+  }
+
+  export interface Meta {
+    total: number
+    pageSize: number
+  }
+
+  export interface Wrapper<T> {
+    id: number
+    type: string
+    attributes: T
   }
 }

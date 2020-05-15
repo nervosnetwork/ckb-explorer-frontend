@@ -64,29 +64,6 @@ exports[`Footer Component shallow renders 1`] = `
       >
         Faucet
       </a>
-      <a
-        className="sc-AxiKw dTWoaG"
-        href="mailto:asset-info-submit@nervos.org?subject=Submit sUDT Info&body=
-Title: Submit sUDT Information%0a%0d
-Type Script:%0a%0d
-    Code Hash:%0a%0d
-    Hash Type:%0a%0d
-    Args:%0a%0d
-
-Information:%0a%0d
-   Full Name: 32 length max%0a%0d
-   Symbol: 8 length max / ASCII%0a%0d
-   Decimal: 0~32%0a%0d
-   Description:%0a%0d
-   Website:%0a%0d
-   Icon File: attachment (40 x 40)%0a%0d
-   Other Info:%0a%0d
-"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        sUDT Submit
-      </a>
     </div>
     <div
       className="footer__community"

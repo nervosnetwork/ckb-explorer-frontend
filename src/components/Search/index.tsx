@@ -11,7 +11,8 @@ import ClearLogo from '../../assets/clear.png'
 import { addPrefixForHash } from '../../utils/string'
 import i18n from '../../utils/i18n'
 import { HttpErrorCode, SearchFailType } from '../../utils/const'
-import { AppDispatch, AppActions, ComponentActions } from '../../contexts/providers/reducer'
+import { AppDispatch } from '../../contexts/reducer'
+import { AppActions, ComponentActions } from '../../contexts/actions'
 import { isMobile } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { isMainnet } from '../../utils/chain'
@@ -181,7 +182,8 @@ const Search = ({ hasBorder, content }: { hasBorder?: boolean; content?: string 
   const dispatch = useDispatch()
   const [t] = useTranslation()
   const SearchPlaceholder = useMemo(() => {
-    return t('navbar.search_placeholder')
+    const placeholder = t('navbar.search_placeholder')
+    return isMainnet() ? placeholder.substring(0, placeholder.lastIndexOf('/')) : placeholder
   }, [t])
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)

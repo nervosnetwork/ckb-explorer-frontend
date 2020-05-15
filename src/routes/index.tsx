@@ -19,20 +19,26 @@ import SearchFail from '../pages/SearchFail'
 import Maintain from '../pages/Maintain'
 import Sheet from '../components/Sheet'
 import StatisticsChart from '../pages/StatisticsChart/index'
-import DifficultyHashRateChart from '../pages/StatisticsChart/DifficultyHashRate'
-import DifficultyUncleRateChart from '../pages/StatisticsChart/DifficultyUncleRate'
-import DifficultyChart from '../pages/StatisticsChart/Difficulty'
-import TransactionCountChart from '../pages/StatisticsChart/TransactionCount'
-import AddressCountChart from '../pages/StatisticsChart/AddressCount'
-import TotalDaoDepositChart from '../pages/StatisticsChart/TotalDaoDeposit'
-import CellCountChart from '../pages/StatisticsChart/CellCount'
-import AddressBalanceRankChart from '../pages/StatisticsChart/AddressBalanceRank'
-import HashRateChart from '../pages/StatisticsChart/HashRate'
-import UncleRateChart from '../pages/StatisticsChart/UncleRate'
+import DifficultyHashRateChart from '../pages/StatisticsChart/mining/DifficultyHashRate'
+import DifficultyUncleRateChart from '../pages/StatisticsChart/mining/DifficultyUncleRate'
+import DifficultyChart from '../pages/StatisticsChart/mining/Difficulty'
+import TransactionCountChart from '../pages/StatisticsChart/activities/TransactionCount'
+import AddressCountChart from '../pages/StatisticsChart/activities/AddressCount'
+import TotalDaoDepositChart from '../pages/StatisticsChart/nervosDao/TotalDaoDeposit'
+import NewDaoDepositChart from '../pages/StatisticsChart/nervosDao/NewDaoDeposit'
+import CirculationRatioChart from '../pages/StatisticsChart/nervosDao/CirculationRatio'
+import CellCountChart from '../pages/StatisticsChart/activities/CellCount'
+import AddressBalanceRankChart from '../pages/StatisticsChart/activities/AddressBalanceRank'
+import HashRateChart from '../pages/StatisticsChart/mining/HashRate'
+import UncleRateChart from '../pages/StatisticsChart/mining/UncleRate'
 import { useDispatch, useAppState } from '../contexts/providers'
-import { ComponentActions } from '../contexts/providers/reducer'
+import { ComponentActions } from '../contexts/actions'
 import { isMobile } from '../utils/screen'
-import BalanceDistribution from '../pages/StatisticsChart/BalanceDistribution'
+import BalanceDistributionChart from '../pages/StatisticsChart/activities/BalanceDistribution'
+import TxFeeHistoryChart from '../pages/StatisticsChart/activities/TxFeeHistory'
+import BlockTimeDistributionChart from '../pages/StatisticsChart/block/BlockTimeDistribution'
+import EpochTimeDistributionChart from '../pages/StatisticsChart/block/EpochTimeDistribution'
+import AverageBlockTimeChart from '../pages/StatisticsChart/block/AverageBlockTime'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -142,6 +148,24 @@ const Containers: CustomRouter.Route[] = [
     comp: TotalDaoDepositChart,
   },
   {
+    name: 'NewDaoDepositChart',
+    path: '/charts/new-dao-deposit',
+    exact: true,
+    comp: NewDaoDepositChart,
+  },
+  {
+    name: 'CirculationRatioChart',
+    path: '/charts/circulation-ratio',
+    exact: true,
+    comp: CirculationRatioChart,
+  },
+  // {
+  //   name: 'NewDaoWithdrawChart',
+  //   path: '/charts/new-dao-Withdraw',
+  //   exact: true,
+  //   comp: NewDaoWithdrawChart,
+  // },
+  {
     name: 'CellCountChart',
     path: '/charts/cell-count',
     exact: true,
@@ -157,8 +181,50 @@ const Containers: CustomRouter.Route[] = [
     name: 'BalanceDistributionChart',
     path: '/charts/balance-distribution',
     exact: true,
-    comp: BalanceDistribution,
+    comp: BalanceDistributionChart,
   },
+  {
+    name: 'TxFeeHistoryChart',
+    path: '/charts/tx-fee-history',
+    exact: true,
+    comp: TxFeeHistoryChart,
+  },
+  {
+    name: 'BlockTimeDistributionChart',
+    path: '/charts/block-time-distribution',
+    exact: true,
+    comp: BlockTimeDistributionChart,
+  },
+  {
+    name: 'AverageBlockTimeChart',
+    path: '/charts/average-block-time',
+    exact: true,
+    comp: AverageBlockTimeChart,
+  },
+  // {
+  //   name: 'OccupiedCapacityChart',
+  //   path: '/charts/occupied-capacity',
+  //   exact: true,
+  //   comp: OccupiedCapacityChart,
+  // },
+  {
+    name: 'EpochTimeDistributionChart',
+    path: '/charts/epoch-time-distribution',
+    exact: true,
+    comp: EpochTimeDistributionChart,
+  },
+  // {
+  //   name: 'NewNodeCountChart',
+  //   path: '/charts/new-node-count',
+  //   exact: true,
+  //   comp: NewNodeCountChart,
+  // },
+  // {
+  //   name: 'NodeDistributionChart',
+  //   path: '/charts/node-distribution',
+  //   exact: true,
+  //   comp: NodeDistributionChart,
+  // },
   {
     name: 'SearchFail',
     path: '/search/fail',

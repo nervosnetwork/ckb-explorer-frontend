@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
@@ -169,7 +170,7 @@ export const DepositorRankItem = styled.div`
     width: 20%;
   }
 `
-export const AddressPanel = styled(Link)`
+export const AddressPanel = styled(props => <Link {...props} />)`
   color: ${props => props.theme.primary};
   width: 48%;
   text-align: center;
@@ -272,6 +273,10 @@ export const DaoOverviewRightPanel = styled.div`
     flex-direction: column;
     align-items: center;
 
+    @media (max-width: 750px) {
+      flex: 4;
+    }
+
     .nervos__dao__overview_pie_title {
       font-size: 16px;
       font-weight: bold;
@@ -290,6 +295,10 @@ export const DaoOverviewRightPanel = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
+
+    @media (max-width: 750px) {
+      flex: 3;
+    }
   }
 `
 
