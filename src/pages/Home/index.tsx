@@ -127,13 +127,6 @@ const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
 const useHomeSearchBarStatus = (dispatch: AppDispatch, homeSearchBarVisible: boolean) => {
   useEffect(() => {
     dispatch({
-      type: ComponentActions.UpdateHomeSearchBarVisible,
-      payload: { homeSearchBarVisible: true },
-    })
-  }, [dispatch])
-
-  useEffect(() => {
-    dispatch({
       type: ComponentActions.UpdateHeaderSearchEditable,
       payload: { searchBarEditable: false },
     })
