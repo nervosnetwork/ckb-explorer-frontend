@@ -54,7 +54,7 @@ const getOption = (statisticNodeDistributions: State.StatisticNodeDistribution[]
       },
       label: {
         emphasis: {
-          show: true,
+          show: !isThumbnail,
           color: '#575757',
           fontFamily: 'Lato',
           fontSize: 12,
@@ -98,7 +98,7 @@ const getOption = (statisticNodeDistributions: State.StatisticNodeDistribution[]
         },
         emphasis: {
           label: {
-            show: true,
+            show: !isThumbnail,
           },
           itemStyle: {
             borderColor: '#3281BD',
