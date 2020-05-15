@@ -105,6 +105,7 @@ const getOption = (statisticNodeDistributions: State.StatisticNodeDistribution[]
             borderWidth: 1,
             color: '#AACFE9',
             capacity: 0.8,
+            fontFamily: 'Lato',
           },
         },
       },
