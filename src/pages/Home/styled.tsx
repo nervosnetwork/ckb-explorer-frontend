@@ -81,6 +81,12 @@ export const HomeStatisticTopPanel = styled.div`
         ? 'linear-gradient(134deg, #3fb39e, #1ec196 51%, #3cc6b7 100%)'
         : 'linear-gradient(314deg, #6093e4 , #6b88cf 49%, #7074de 80%)'};
 
+      @media (min-width: 1440px) {
+        flex: 0;
+        width: 246px;
+        min-width: 246px;
+      }
+
       @media (max-width: 1200px) {
         padding: 15px 30px 10px 30px;
         flex-direction: row;
@@ -99,6 +105,10 @@ export const HomeStatisticTopPanel = styled.div`
       background: ${isMainnet()
         ? 'linear-gradient(134deg, #0bad8e 2%, #20c5a5 48%, #0baab1 99%)'
         : 'linear-gradient(304deg, #6e85e0 2%, #577cdb 48%, #486ecc 99%)'};
+
+      @media (min-width: 1440px) {
+        flex: 1;
+      }
 
       @media (max-width: 1200px) {
         padding: 6px 28px;
@@ -138,6 +148,12 @@ export const HomeStatisticTopPanel = styled.div`
       justify-content: space-between;
       background: linear-gradient(134deg, #444b57, #39424a 48%, #444c5a 96%);
 
+      @media (min-width: 1440px) {
+        flex: 0;
+        width: 246px;
+        min-width: 246px;
+      }
+
       @media (max-width: 1200px) {
         padding: 15px 30px 10px 30px;
         margin: 0px;
@@ -152,6 +168,10 @@ export const HomeStatisticTopPanel = styled.div`
       flex: 2;
       padding: 5px 5px 0 5px;
       background: linear-gradient(118deg, #31383e, #35414d 48%, #334350);
+
+      @media (min-width: 1440px) {
+        flex: 1;
+      }
 
       @media (max-width: 1200px) {
         margin: -2px;

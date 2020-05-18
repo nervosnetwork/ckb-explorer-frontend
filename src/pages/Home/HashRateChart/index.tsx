@@ -38,14 +38,11 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]) => {
       left: isScreenSmallerThan1200() ? '1%' : '4%',
       right: isScreenSmallerThan1200() ? '1%' : '4%',
       top: isScreenSmallerThan1200() ? '20%' : '15%',
-      bottom: isScreenSmallerThan1200() ? '18%' : '10%',
+      bottom: '2%',
       containLabel: true,
     },
     xAxis: [
       {
-        name: i18n.t('statistic.date'),
-        nameLocation: 'middle',
-        nameGap: '28',
         axisLine: {
           lineStyle: {
             color: '#ffffff',
@@ -54,7 +51,7 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]) => {
         },
         data: statisticHashRates.map(data => data.createdAtUnixtimestamp),
         axisLabel: {
-          formatter: (value: string) => parseDateNoTime(value),
+          formatter: (value: string) => parseDateNoTime(value, true),
         },
       },
     ],

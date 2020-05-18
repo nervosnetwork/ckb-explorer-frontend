@@ -107,6 +107,7 @@
       "average_block_time": "Average Block Time",
       "daily_moving_average": "Daily Moving Average (s)",
       "daily_moving_average_block_time": "Daily Moving Average Block Time (s)",
+      "average_block_time_title": "Average Block Time (s)",
       "weekly_moving_average": "Weekly Moving Average (s)",
       "new_node_count": "New Node Count",
       "city": "City",

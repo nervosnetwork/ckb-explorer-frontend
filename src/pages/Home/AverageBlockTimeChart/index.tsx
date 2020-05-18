@@ -21,7 +21,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
   return {
     color: ['#ffffff'],
     title: {
-      text: i18n.t('statistic.daily_moving_average_block_time'),
+      text: i18n.t('statistic.average_block_time_title'),
       textAlign: 'left',
       itemGap: 15,
       textStyle: {
@@ -35,15 +35,12 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
       left: isScreenSmallerThan1200() ? '1%' : '4%',
       right: isScreenSmallerThan1200() ? '1%' : '4%',
       top: isScreenSmallerThan1200() ? '20%' : '15%',
-      bottom: isScreenSmallerThan1200() ? '18%' : '10%',
+      bottom: '2%',
       containLabel: true,
     },
     backgroundColor: '#00000000',
     xAxis: [
       {
-        name: i18n.t('statistic.date'),
-        nameLocation: 'middle',
-        nameGap: 28,
         axisLine: {
           lineStyle: {
             color: '#ffffff',
@@ -52,7 +49,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
         },
         data: statisticAverageBlockTimes.map(data => data.timestamp),
         axisLabel: {
-          formatter: (value: string) => parseDateNoTime(value),
+          formatter: (value: string) => parseDateNoTime(value, true),
         },
       },
     ],

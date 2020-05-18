@@ -106,6 +106,7 @@
       "average_block_time": "平均出块时间",
       "daily_moving_average": "日滑动平均 (s)",
       "daily_moving_average_block_time": "日滑动平均出块时间 (s)",
+      "average_block_time_title": "平均出块时间 (s)",
       "weekly_moving_average": "周滑动平均 (s)",
       "new_node_count": "新增节点数量",
       "city": "城市",
