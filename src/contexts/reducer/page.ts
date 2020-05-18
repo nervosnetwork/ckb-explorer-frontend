@@ -259,6 +259,11 @@ export const pageReducer = (
         ...state,
         statisticNodeDistributions: payload.statisticNodeDistributions,
       }
+    case PageActions.UpdateStatisticBlockPropagationDelayHistory:
+      return {
+        ...state,
+        statisticBlockPropagationDelayHistories: payload.statisticBlockPropagationDelayHistories,
+      }
 
     // nervos dao page
     case PageActions.UpdateNervosDao:

@@ -353,6 +353,32 @@ declare namespace State {
     }[]
   }
 
+  export type StatisticBlockPropagationDelayHistory = string[]
+
+  export interface StatisticBlockPropagationDelayHistories {
+    blockPropagationDelayHistory: {
+      createdAtUnixtimestamp: string
+      avg5: string
+      avg10: string
+      avg15: string
+      avg20: string
+      avg25: string
+      avg30: string
+      avg35: string
+      avg40: string
+      avg45: string
+      avg50: string
+      avg55: string
+      avg60: string
+      avg65: string
+      avg70: string
+      avg75: string
+      avg80: string
+      avg85: string
+      avg90: string
+    }[]
+  }
+
   interface FetchStatusValue {
     OK: string
     Error: string
@@ -431,6 +457,7 @@ declare namespace State {
     statisticCirculationRatios: StatisticCirculationRatio[]
     statisticNewNodeCounts: StatisticNewNodeCount[]
     statisticNodeDistributions: StatisticNodeDistribution[]
+    statisticBlockPropagationDelayHistories: StatisticBlockPropagationDelayHistory[]
   }
 
   export interface PageState extends StatisticChartsState {

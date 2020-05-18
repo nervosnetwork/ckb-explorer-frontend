@@ -297,6 +297,12 @@ export const fetchStatisticNodeDistribution = () => {
   )
 }
 
+export const fetchStatisticBlockPropagationDelayHistory = () => {
+  return axiosIns(`/distribution_data/block_propagation_delay_history`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticBlockPropagationDelayHistories>>(res.data.data),
+  )
+}
+
 export const fetchSimpleUDT = (typeHash: string) => {
   return axiosIns(`/udts/${typeHash}`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.UDT>>(res.data.data),
