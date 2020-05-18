@@ -10,15 +10,8 @@ import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import SmallLoading from '../../../components/Loading/SmallLoading'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
 import { isScreenSmallerThan1200 } from '../../../utils/screen'
-
-const HomeChartLink = styled(Link)`
-  div {
-    cursor: pointer !important;
-  }
-`
+import { HomeChartLink, ChartLoadingPanel } from './styled'
 
 const stepAxis = (statisticHashRates: State.StatisticHashRate[]) => {
   const array = statisticHashRates.flatMap(data => parseFloat(data.avgHashRate))
@@ -113,7 +106,11 @@ export default () => {
   }, [dispatch])
 
   if (!statisticHashRates || statisticHashRates.length === 0) {
-    return <SmallLoading />
+    return (
+      <ChartLoadingPanel>
+        <SmallLoading isWhite />
+      </ChartLoadingPanel>
+    )
   }
   return (
     <HomeChartLink to="/charts/hash-rate">

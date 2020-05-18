@@ -67,12 +67,17 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__left__chart"
         >
           <div
-            className="sc-fzoydu cQUoqv"
+            className="sc-fzoYHE goYFVZ"
           >
-            <img
-              alt="loading"
-              src="loading.gif"
-            />
+            <div
+              className="sc-fzoydu ctqdBw"
+            >
+              <img
+                alt="loading"
+                className="loading__white"
+                src="loading_white.gif"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -115,12 +120,17 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__right__chart"
         >
           <div
-            className="sc-fzoydu cQUoqv"
+            className="sc-fznAgC iLJEEN"
           >
-            <img
-              alt="loading"
-              src="loading.gif"
-            />
+            <div
+              className="sc-fzoydu ctqdBw"
+            >
+              <img
+                alt="loading"
+                className="loading__white"
+                src="loading_white.gif"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -915,12 +925,17 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__left__chart"
         >
           <div
-            className="sc-fzoydu cQUoqv"
+            className="sc-fzoYHE goYFVZ"
           >
-            <img
-              alt="loading"
-              src="loading.gif"
-            />
+            <div
+              className="sc-fzoydu ctqdBw"
+            >
+              <img
+                alt="loading"
+                className="loading__white"
+                src="loading_white.gif"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -963,12 +978,17 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__right__chart"
         >
           <div
-            className="sc-fzoydu cQUoqv"
+            className="sc-fznAgC iLJEEN"
           >
-            <img
-              alt="loading"
-              src="loading.gif"
-            />
+            <div
+              className="sc-fzoydu ctqdBw"
+            >
+              <img
+                alt="loading"
+                className="loading__white"
+                src="loading_white.gif"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -1106,7 +1126,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         </span>
       </div>
       <div
-        className="sc-fzoydu cQUoqv"
+        className="sc-fzoydu ctqdBw"
       >
         <img
           alt="loading"
@@ -1137,7 +1157,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         </span>
       </div>
       <div
-        className="sc-fzoydu cQUoqv"
+        className="sc-fzoydu ctqdBw"
       >
         <img
           alt="loading"

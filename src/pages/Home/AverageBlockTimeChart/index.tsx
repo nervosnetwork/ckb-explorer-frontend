@@ -9,15 +9,8 @@ import { parseDateNoTime } from '../../../utils/date'
 import { getStatisticAverageBlockTimes } from '../../../service/app/charts/block'
 import { localeNumberString } from '../../../utils/number'
 import SmallLoading from '../../../components/Loading/SmallLoading'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
 import { isScreenSmallerThan1200 } from '../../../utils/screen'
-
-const HomeChartLink = styled(Link)`
-  div {
-    cursor: pointer !important;
-  }
-`
+import { HomeChartLink, ChartLoadingPanel } from './styled'
 
 const maxAndMinAxis = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) => {
   const array = statisticAverageBlockTimes.flatMap(data => parseFloat(data.avgBlockTimeDaily))
@@ -116,7 +109,11 @@ export default () => {
   }, [dispatch])
 
   if (!statisticAverageBlockTimes || statisticAverageBlockTimes.length === 0) {
-    return <SmallLoading />
+    return (
+      <ChartLoadingPanel>
+        <SmallLoading isWhite />
+      </ChartLoadingPanel>
+    )
   }
   return (
     <HomeChartLink to="/charts/average-block-time">
