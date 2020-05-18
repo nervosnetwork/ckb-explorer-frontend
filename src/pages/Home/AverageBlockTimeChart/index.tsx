@@ -32,8 +32,8 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
       },
     },
     grid: {
-      left: isScreenSmallerThan1200() ? '1%' : '4%',
-      right: isScreenSmallerThan1200() ? '1%' : '4%',
+      left: isScreenSmallerThan1200() ? '1%' : '2%',
+      right: isScreenSmallerThan1200() ? '1%' : '2%',
       top: isScreenSmallerThan1200() ? '20%' : '15%',
       bottom: '2%',
       containLabel: true,

@@ -100,7 +100,7 @@ export const HomeStatisticTopPanel = styled.div`
     .home__statistic__left__chart {
       flex: 2;
       margin: -2px;
-      padding: 5px 5px 0px 5px;
+      padding: 5px 5px 0px 10px;
       border-radius: 0 0 0 0;
       background: ${isMainnet()
         ? 'linear-gradient(134deg, #0bad8e 2%, #20c5a5 48%, #0baab1 99%)'
@@ -166,7 +166,7 @@ export const HomeStatisticTopPanel = styled.div`
     }
     .home__statistic__right__chart {
       flex: 2;
-      padding: 5px 5px 0 5px;
+      padding: 5px 5px 0 10px;
       background: linear-gradient(118deg, #31383e, #35414d 48%, #334350);
 
       @media (min-width: 1440px) {
