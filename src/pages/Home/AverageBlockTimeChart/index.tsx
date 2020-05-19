@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback, useRef } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
@@ -100,6 +100,14 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
 export default () => {
   const dispatch = useDispatch()
   const { statisticAverageBlockTimes } = useAppState()
+  const screenWidth = useRef<number>(window.innerWidth)
+  const widthDiff = window.innerWidth > 750 && Math.abs(screenWidth.current - window.innerWidth)
+
+  const clickEvent = useCallback(() => {
+    if (widthDiff) {
+      screenWidth.current = window.innerWidth
+    }
+  }, [widthDiff])
 
   useEffect(() => {
     getStatisticAverageBlockTimes(dispatch)
@@ -122,6 +130,7 @@ export default () => {
         style={{
           height: isScreenSmallerThan1200() ? '136px' : '190px',
         }}
+        onEvents={{ click: clickEvent }}
       />
     </HomeChartLink>
   )

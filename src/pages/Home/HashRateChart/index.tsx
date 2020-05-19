@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback, useRef } from 'react'
 import BigNumber from 'bignumber.js'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
@@ -97,6 +97,14 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]) => {
 export default () => {
   const dispatch = useDispatch()
   const { statisticHashRates } = useAppState()
+  const screenWidth = useRef<number>(window.innerWidth)
+  const widthDiff = window.innerWidth > 750 && Math.abs(screenWidth.current - window.innerWidth)
+
+  const clickEvent = useCallback(() => {
+    if (widthDiff) {
+      screenWidth.current = window.innerWidth
+    }
+  }, [widthDiff])
 
   useEffect(() => {
     getStatisticHashRate(dispatch)
@@ -119,6 +127,7 @@ export default () => {
         style={{
           height: isScreenSmallerThan1200() ? '136px' : '190px',
         }}
+        onEvents={{ click: clickEvent }}
       />
     </HomeChartLink>
   )
