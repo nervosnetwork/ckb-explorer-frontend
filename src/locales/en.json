@@ -9,7 +9,8 @@
       "minute": "min",
       "second_ago": "s ago",
       "ckb_unit": "CKB",
-      "note": "Note: "
+      "note": "Note: ",
+      "ckb_explorer": "CKB Explorer"
     },
     "toast": {
       "invalid_content": "Please input valid content",
@@ -28,7 +29,7 @@
       "testnet": "TESTNET",
       "language_en": "EN",
       "language_zh": "简体中文",
-      "explorer": "Explorer",
+      "home": "Home",
       "wallets": "Wallets",
       "wallet_abc": "ABC Wallet",
       "wallet_abc_description": "A safe, user-friendly decentralized cross-platform wallet",
@@ -107,6 +108,8 @@
       "epoch_length_distribution": "Epoch Length Distribution",
       "average_block_time": "Average Block Time",
       "daily_moving_average": "Daily Moving Average (s)",
+      "daily_moving_average_block_time": "Daily Moving Average Block Time (s)",
+      "average_block_time_title": "Average Block Time (s)",
       "weekly_moving_average": "Weekly Moving Average (s)",
       "new_node_count": "New Node Count",
       "city": "City",
@@ -148,7 +151,8 @@
       "address_type_testnet_error": "Testnet address detected，please goto",
       "address_type_mainnet_error": "Mainnet address detected，please goto",
       "address_type_testnet_url": "testnet explorer",
-      "address_type_mainnet_url": "mainnet explorer"
+      "address_type_mainnet_url": "mainnet explorer",
+      "search": "Search"
     },
     "address": {
       "address": "Address",
@@ -231,7 +235,7 @@
       "timestamp": "Timestamp",
       "miner": "Miner",
       "difficulty": "Difficulty",
-      "hash_rate_hps": "Hash Rate(H/s)",
+      "hash_rate_hps": "Hash Rate (H/s)",
       "hash_rate": "Hash Rate",
       "uncle_rate": "Uncle Rate",
       "uncle_rate_target": "Uncle rate target",

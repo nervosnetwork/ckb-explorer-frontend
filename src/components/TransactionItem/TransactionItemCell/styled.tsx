@@ -161,9 +161,9 @@ export const WithdrawInfoPanel = styled.div`
       width: ${({ width }: { width: string }) => {
         switch (width) {
           case 'long':
-            return '240px'
+            return '180px'
           case 'medium':
-            return '190px'
+            return '150px'
           default:
             return '85px'
         }
@@ -174,9 +174,9 @@ export const WithdrawInfoPanel = styled.div`
         width: ${({ width }: { width: string }) => {
           switch (width) {
             case 'long':
-              return '160px'
-            case 'medium':
               return '130px'
+            case 'medium':
+              return '105px'
             default:
               return '60px'
           }

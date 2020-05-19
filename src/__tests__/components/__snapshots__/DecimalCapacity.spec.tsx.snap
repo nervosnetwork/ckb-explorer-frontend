@@ -8,17 +8,17 @@ exports[`DecimalCapacity Component shallow renders 1`] = `
     128
   </span>
   <div
-    className="sc-AxirZ gyUmOw"
+    className="sc-AxirZ gyUmOw monospace"
   >
     .1234
   </div>
   <div
-    className="sc-AxiKw bWoPvU"
+    className="sc-AxiKw bWoPvU monospace"
   >
     0000
   </div>
   <div
-    className="decimal__unit"
+    className="decimal__unit monospace"
   >
     CKB
   </div>

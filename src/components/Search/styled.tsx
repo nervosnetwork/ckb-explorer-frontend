@@ -1,16 +1,22 @@
 import styled, { css } from 'styled-components'
 
+export const SearchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+`
+
 export const SearchPanel = styled.div`
   margin: 0 auto;
   width: 100%;
-  height: ${(props: { hasBorder: boolean }) => (props.hasBorder ? '42px' : '30px')};
+  height: ${(props: { moreHeight?: boolean; hasButton?: boolean }) => (props.moreHeight ? '38px' : '30px')};
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
   background: white;
   border: 0px solid white;
-  border-radius: 4px;
+  border-radius: ${(props: { hasButton?: boolean }) => (props.hasButton ? '4px 0 0 4px' : '4px')};
   padding-right: 5px;
 `
 
@@ -38,7 +44,7 @@ export const SearchInputPanel = styled.input`
   font-size: 14px;
   padding-left: 10px;
   padding-right: 20px;
-  margin-left: ${(props: { searchBarEditable: boolean; hasBorder: boolean }) =>
+  margin-left: ${(props: { searchBarEditable: boolean; hasBorder?: boolean }) =>
     props.searchBarEditable ? '0px' : '-8px'}
   background: white;
   color: #333333;
@@ -50,7 +56,7 @@ export const SearchInputPanel = styled.input`
     outline: none;
   }
 
-  ${(props: { hasBorder: boolean }) =>
+  ${(props: { hasBorder?: boolean }) =>
     props.hasBorder &&
     css`
       opacity: 1;
@@ -75,4 +81,18 @@ export const SearchInputPanel = styled.input`
     width: 100%;
     padding-right: 16px;
   }
+`
+
+export const SearchButton = styled.div`
+  width: 80px;
+  height: 38px;
+  border-radius: 0 4px 4px 0;
+  border: solid 1px #ffffff;
+  background-color: #121212;
+  text-align: center;
+  line-height: 34px;
+  color: #ffffff;
+  letter-spacing: 0.2px;
+  font-size: 14px;
+  cursor: pointer;
 `

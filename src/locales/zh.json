@@ -9,7 +9,8 @@
       "minute": "分",
       "second_ago": "秒以前",
       "ckb_unit": "CKB",
-      "note": "注: "
+      "note": "注: ",
+      "ckb_explorer": "CKB 浏览器"
     },
     "toast": {
       "invalid_content": "请输入有效内容",
@@ -28,7 +29,7 @@
       "testnet": "测试网",
       "language_en": "EN",
       "language_zh": "简体中文",
-      "explorer": "浏览器",
+      "home": "首页",
       "wallets": "钱包",
       "wallet_abc": "ABC Wallet",
       "wallet_abc_description": "A safe, user-friendly decentralized cross-platform wallet",
@@ -106,6 +107,8 @@
       "epoch_length_distribution": "Epoch 长度分布",
       "average_block_time": "平均出块时间",
       "daily_moving_average": "日滑动平均 (s)",
+      "daily_moving_average_block_time": "日滑动平均出块时间 (s)",
+      "average_block_time_title": "平均出块时间 (s)",
       "weekly_moving_average": "周滑动平均 (s)",
       "new_node_count": "新增节点数量",
       "city": "城市",
@@ -147,7 +150,8 @@
       "address_type_testnet_error": "检测到测试链地址，请跳转",
       "address_type_mainnet_error": "检测到主网地址，请跳转",
       "address_type_testnet_url": "测试链浏览器查询",
-      "address_type_mainnet_url": "主网浏览器查询"
+      "address_type_mainnet_url": "主网浏览器查询",
+      "search": "搜索"
     },
     "address": {
       "address": "地址",
@@ -230,7 +234,7 @@
       "timestamp": "时间戳",
       "miner": "矿工",
       "difficulty": "难度",
-      "hash_rate_hps": "哈希率(H/s)",
+      "hash_rate_hps": "哈希率 (H/s)",
       "hash_rate": "哈希率",
       "uncle_rate": "叔块率",
       "uncle_rate_target": "叔块率目标值",
