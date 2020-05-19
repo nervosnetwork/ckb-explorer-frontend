@@ -52,8 +52,16 @@ import { NewDaoWithdrawChart, initStatisticNewDaoWithdraw } from './nervosDao/Ne
 import { CirculationRatioChart, initStatisticCirculationRatio } from './nervosDao/CirculationRatio'
 import { initStatisticAverageBlockTimes, AverageBlockTimeChart } from './block/AverageBlockTime'
 import { initStatisticNewNodeCount, NewNodeCountChart } from './network/NewNodeCount'
-import { getStatisticNewNodeCount, getStatisticNodeDistribution } from '../../service/app/charts/network'
+import {
+  getStatisticNewNodeCount,
+  getStatisticNodeDistribution,
+  getStatisticBlockPropagationDelayHistory,
+} from '../../service/app/charts/network'
 import { NodeDistributionChart, initStatisticNodeDistribution } from './network/NodeDistribution'
+import {
+  BlockPropagationDelayHistoryChart,
+  initStatisticBlockPropagationDelayHistory,
+} from './network/BlockPropagationDelayHistory'
 
 interface ChartData {
   title: string
@@ -103,6 +111,7 @@ export default () => {
     statisticAverageBlockTimes,
     statisticNewNodeCounts,
     statisticNodeDistributions,
+    statisticBlockPropagationDelayHistories,
   } = useAppState()
 
   const charts: ChartCategory[] = [
@@ -244,6 +253,16 @@ export default () => {
           chart: <NodeDistributionChart statisticNodeDistributions={statisticNodeDistributions} isThumbnail />,
           path: '/charts/node-distribution',
         },
+        {
+          title: `${i18n.t('statistic.block_propagation_delay_history')}`,
+          chart: (
+            <BlockPropagationDelayHistoryChart
+              statisticBlockPropagationDelayHistories={statisticBlockPropagationDelayHistories}
+              isThumbnail
+            />
+          ),
+          path: '/charts/block-propagation-delay-history',
+        },
       ],
     },
   ]
@@ -270,6 +289,7 @@ export default () => {
     initStatisticAverageBlockTimes(dispatch)
     initStatisticNewNodeCount(dispatch)
     initStatisticNodeDistribution(dispatch)
+    initStatisticBlockPropagationDelayHistory(dispatch)
   }, [dispatch])
 
   useEffect(() => {
@@ -294,6 +314,7 @@ export default () => {
     getStatisticAverageBlockTimes(dispatch)
     getStatisticNewNodeCount(dispatch)
     getStatisticNodeDistribution(dispatch)
+    getStatisticBlockPropagationDelayHistory(dispatch)
   }, [dispatch])
 
   return (

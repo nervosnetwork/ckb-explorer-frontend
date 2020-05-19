@@ -768,6 +768,39 @@ exports[`Active Page shallow renders with empty data 1`] = `
             </div>
           </a>
         </div>
+        <div
+          className="sc-fzqARJ bWULDa"
+        >
+          <a
+            href="/charts/block-propagation-delay-history"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Block Propagation Delay History
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoyAV goqzYx"
+              >
+                <div
+                  className="sc-fzoLag hiitnH"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
   </div>

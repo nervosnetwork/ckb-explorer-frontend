@@ -18,8 +18,8 @@ const gridThumbnail = {
   containLabel: true,
 }
 const grid = {
-  left: '4%',
-  right: '4%',
+  left: '3%',
+  right: '3%',
   bottom: '5%',
   containLabel: true,
 }
@@ -57,6 +57,7 @@ const getOption = (
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
+        type: 'category',
         nameLocation: 'middle',
         nameGap: '30',
         axisLabel: {
@@ -67,9 +68,12 @@ const getOption = (
     yAxis: [
       {
         position: 'left',
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.new_node_count'),
+        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.block_propagation_delay_history'),
         type: 'value',
         scale: true,
+        nameTextStyle: {
+          align: 'left',
+        },
         axisLine: {
           lineStyle: {
             color: ChartColors[0],
@@ -82,10 +86,10 @@ const getOption = (
     ],
     series: [
       {
-        name: i18n.t('statistic.new_node_count'),
+        name: i18n.t('statistic.block_propagation_delay_history'),
         type: 'scatter',
         yAxisIndex: '0',
-        symbol: isThumbnail ? 'none' : 'circle',
+        symbol: isThumbnail ? 'none' : 'arrow',
         symbolSize: 3,
         data: statisticBlockPropagationDelayHistories,
       },
@@ -130,7 +134,7 @@ export default () => {
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.new_node_count')}>
+    <ChartPage title={i18n.t('statistic.block_propagation_delay_history')}>
       <BlockPropagationDelayHistoryChart
         statisticBlockPropagationDelayHistories={statisticBlockPropagationDelayHistories}
       />

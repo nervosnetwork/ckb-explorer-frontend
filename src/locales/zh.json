@@ -108,7 +108,8 @@
       "new_node_count": "新增节点数量",
       "city": "城市",
       "node_count": "节点数量",
-      "node_distribution": "节点分布"
+      "node_distribution": "节点分布",
+      "block_propagation_delay_history": "区块传播延时历史"
     },
     "home": {
       "height": "高度",
