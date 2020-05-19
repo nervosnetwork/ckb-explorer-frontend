@@ -42,11 +42,9 @@ export const HomeStatisticTopPanel = styled.div`
   width: 100%;
   display: flex;
   margin-top: -148px;
-  border-radius: 6px 6px 0 0;
 
   @media (max-width: 1200px) {
     height: 213px;
-    border-radius: 6px 0 0 0;
   }
 
   @media (max-width: 750px) {
@@ -73,9 +71,11 @@ export const HomeStatisticTopPanel = styled.div`
     .home__statistic__left__data {
       flex: 1;
       padding: 32px;
+      margin: -2px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      border-radius: 6px 0 0 0;
 
       background: ${isMainnet()
         ? 'linear-gradient(134deg, #3fb39e, #1ec196 51%, #3cc6b7 100%)'
@@ -95,20 +95,17 @@ export const HomeStatisticTopPanel = styled.div`
       @media (max-width: 750px) {
         border-radius: 6px 6px 0 0;
         padding: 15px 23px 10px 20px;
+        margin: 0px;
       }
     }
     .home__statistic__left__chart {
       flex: 2;
       margin: -2px;
       padding: 5px 5px 0px 10px;
-      border-radius: 0 0 0 0;
+      border-radius: 0;
       background: ${isMainnet()
         ? 'linear-gradient(134deg, #0bad8e 2%, #20c5a5 48%, #0baab1 99%)'
         : 'linear-gradient(304deg, #6e85e0 2%, #577cdb 48%, #486ecc 99%)'};
-
-      @media (min-width: 1440px) {
-        flex: 1;
-      }
 
       @media (max-width: 1200px) {
         padding: 6px 20px;
@@ -126,12 +123,12 @@ export const HomeStatisticTopPanel = styled.div`
     flex: 1;
     display: flex;
     border-radius: 0 6px 0 0;
-    border: 2px solid #31383e;
+    border: 2px solid #334350;
 
     @media (max-width: 1200px) {
       flex-direction: column;
       border-radius: 0 6px 0 0;
-      border: 2px solid #444b57;
+      border: 2px solid #444c5a;
     }
 
     @media (max-width: 750px) {
@@ -156,7 +153,8 @@ export const HomeStatisticTopPanel = styled.div`
 
       @media (max-width: 1200px) {
         padding: 15px 30px 10px 30px;
-        margin: 0px;
+        margin: -2px;
+        border-radius: 0px 6px 0px 0px;
         flex-direction: row;
       }
 
@@ -166,15 +164,13 @@ export const HomeStatisticTopPanel = styled.div`
     }
     .home__statistic__right__chart {
       flex: 2;
+      margin: -2px;
       padding: 5px 5px 0 10px;
+      border-radius: 0px 6px 0px 0px;
       background: linear-gradient(118deg, #31383e, #35414d 48%, #334350);
 
-      @media (min-width: 1440px) {
-        flex: 1;
-      }
-
       @media (max-width: 1200px) {
-        margin: -2px;
+        border-radius: 0px;
         padding: 6px 20px;
       }
 
