@@ -33,7 +33,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
     },
     grid: {
       left: isScreenSmallerThan1200() ? '1%' : '2%',
-      right: isScreenSmallerThan1200() ? '1%' : '2%',
+      right: '3%',
       top: isScreenSmallerThan1200() ? '20%' : '15%',
       bottom: '2%',
       containLabel: true,
@@ -78,6 +78,16 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
         },
         axisLabel: {
           formatter: (value: string) => localeNumberString(value),
+        },
+      },
+      {
+        position: 'right',
+        type: 'value',
+        axisLine: {
+          lineStyle: {
+            color: '#ffffff',
+            width: 1,
+          },
         },
       },
     ],

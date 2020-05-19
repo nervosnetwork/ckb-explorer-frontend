@@ -111,7 +111,7 @@ export const HomeStatisticTopPanel = styled.div`
       }
 
       @media (max-width: 1200px) {
-        padding: 6px 28px;
+        padding: 6px 20px;
       }
 
       @media (max-width: 750px) {
@@ -175,7 +175,7 @@ export const HomeStatisticTopPanel = styled.div`
 
       @media (max-width: 1200px) {
         margin: -2px;
-        padding: 6px 28px;
+        padding: 6px 20px;
       }
 
       @media (max-width: 750px) {
