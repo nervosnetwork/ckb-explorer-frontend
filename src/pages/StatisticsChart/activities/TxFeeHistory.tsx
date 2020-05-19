@@ -11,6 +11,7 @@ import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { shannonToCkbDecimal } from '../../../utils/util'
+import { isMainnet } from '../../../utils/chain'
 
 const gridThumbnail = {
   left: '4%',
@@ -63,7 +64,7 @@ const getOption = (statisticTxFeeHistories: State.StatisticTransactionFee[], isT
       {
         position: 'left',
         name: isMobile() || isThumbnail ? '' : `${i18n.t('statistic.tx_fee')} ${i18n.t('statistic.log')}`,
-        type: 'log',
+        type: isMainnet() ? 'log' : 'value',
         logBase: 10,
         scale: true,
         axisLine: {

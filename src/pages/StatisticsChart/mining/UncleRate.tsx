@@ -23,6 +23,11 @@ const grid = {
   containLabel: true,
 }
 
+const max = (statisticUncleRates: State.StatisticUncleRate[]) => {
+  const array = statisticUncleRates.flatMap(data => Number(data.uncleRate) * 100)
+  return Math.max(5, Math.ceil(Math.max(...array)))
+}
+
 const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail = false) => {
   return {
     color: ChartColors,
@@ -60,7 +65,7 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
         name: isMobile() || isThumbnail ? '' : i18n.t('block.uncle_rate'),
         type: 'value',
         scale: true,
-        max: 5,
+        max: max(statisticUncleRates),
         min: 0,
         axisLine: {
           lineStyle: {
