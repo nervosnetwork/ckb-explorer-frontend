@@ -26,7 +26,7 @@ exports[`Active Page shallow renders 1`] = `
       />
     </div>
     <div
-      className="sc-AxiKw deTkdj"
+      className="sc-AxiKw crfIOf"
     >
       <div
         className="home__statistic__left__panel"
@@ -884,7 +884,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
       />
     </div>
     <div
-      className="sc-AxiKw deTkdj"
+      className="sc-AxiKw crfIOf"
     >
       <div
         className="home__statistic__left__panel"
