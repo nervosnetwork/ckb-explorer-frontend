@@ -1,6 +1,5 @@
 import React from 'react'
 import LogoIcon from '../../assets/ckb_logo.png'
-import MobileLogoIcon from '../../assets/mobile_ckb_logo.png'
 import MobileMenuIcon from '../../assets/menu_mobile.png'
 import MobileMenuCloseIcon from '../../assets/menu_close_mobile.png'
 import { HeaderPanel, HeaderEmptyPanel, HeaderMobileMenuPanel, HeaderLogoPanel } from './styled'
@@ -15,7 +14,7 @@ import BlockchainComp from './BlockchainComp'
 const LogoComp = () => {
   return (
     <HeaderLogoPanel to="/">
-      <img src={isMobile() ? MobileLogoIcon : LogoIcon} alt="logo" />
+      <img src={LogoIcon} alt="logo" />
     </HeaderLogoPanel>
   )
 }
@@ -46,7 +45,7 @@ const MobileMenuComp = () => {
 
 export default ({ hasSearch }: { hasSearch?: boolean }) => {
   const {
-    components: { searchBarEditable },
+    components: { searchBarEditable, homeSearchBarVisible: headerSearchBarHidden },
   } = useAppState()
 
   return (
@@ -54,9 +53,9 @@ export default ({ hasSearch }: { hasSearch?: boolean }) => {
       <LogoComp />
       {!isMobile() && (
         <>
-          {!(isScreen750to1440() && searchBarEditable) && <MenusComp />}
+          {!(isScreen750to1440() && searchBarEditable && !headerSearchBarHidden) && <MenusComp />}
           <HeaderEmptyPanel />
-          {hasSearch && <SearchComp />}
+          {hasSearch && !headerSearchBarHidden && <SearchComp />}
           <BlockchainComp />
           <LanguageComp />
         </>

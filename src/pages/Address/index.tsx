@@ -77,12 +77,12 @@ const AddressLockScript = ({ script }: { script: State.Script }) => {
     <AddressLockScriptPanel>
       <AddressLockScriptItem title={i18n.t('address.code_hash')}>
         <div className="address__lock__script_code_hash">
-          <span>{script.codeHash}</span>
+          <span className="monospace">{script.codeHash}</span>
           {contractHashTag && <HashTag content={contractHashTag.tag} />}
         </div>
       </AddressLockScriptItem>
       <AddressLockScriptItem title={i18n.t('address.args')}>
-        <span>{script.args}</span>
+        <span className="monospace">{script.args}</span>
       </AddressLockScriptItem>
       <AddressLockScriptItem title={i18n.t('address.hash_type')}>
         <code>{script.hashType}</code>

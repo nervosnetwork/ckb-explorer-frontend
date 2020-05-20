@@ -2,18 +2,18 @@
 
 exports[`Active Page shallow renders with empty data 1`] = `
 <div
-  className="sc-fzokOt dvnMYC"
+  className="sc-fzqNJr bFijAK"
 >
   <div
-    className="sc-fznJRM bXyJnd"
+    className="sc-fzoiQi bwszVw"
   >
     <div
-      className="sc-fznWqX ieEpRA"
+      className="sc-fzqARJ dBcmJI"
     >
       Charts
     </div>
     <div
-      className="sc-fzoiQi bGMStZ"
+      className="sc-fzqNqU jkXYJU"
     >
       <div
         className="charts__category__title"
@@ -24,7 +24,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="charts__category__panel"
       >
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/block-time-distribution"
@@ -39,10 +39,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -57,7 +57,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/epoch-time-distribution"
@@ -72,10 +72,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -90,7 +90,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/average-block-time"
@@ -105,10 +105,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -125,18 +125,18 @@ exports[`Active Page shallow renders with empty data 1`] = `
       </div>
     </div>
     <div
-      className="sc-fzoiQi bGMStZ"
+      className="sc-fzqNqU jkXYJU"
     >
       <div
         className="charts__category__title"
       >
-        Mining Charts
+        Mining
       </div>
       <div
         className="charts__category__panel"
       >
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/difficulty-hash-rate"
@@ -151,10 +151,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -169,7 +169,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/difficulty-uncle-rate"
@@ -184,10 +184,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -202,7 +202,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/difficulty"
@@ -217,10 +217,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -235,7 +235,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/hash-rate"
@@ -250,10 +250,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -268,7 +268,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/uncle-rate"
@@ -283,10 +283,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -303,7 +303,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
       </div>
     </div>
     <div
-      className="sc-fzoiQi bGMStZ"
+      className="sc-fzqNqU jkXYJU"
     >
       <div
         className="charts__category__title"
@@ -314,7 +314,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="charts__category__panel"
       >
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/transaction-count"
@@ -329,10 +329,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -347,7 +347,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/address-count"
@@ -362,10 +362,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -380,7 +380,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/cell-count"
@@ -395,10 +395,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -413,7 +413,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/address-balance-rank"
@@ -428,10 +428,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -446,7 +446,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/balance-distribution"
@@ -461,10 +461,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -479,7 +479,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/tx-fee-history"
@@ -494,10 +494,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -514,7 +514,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
       </div>
     </div>
     <div
-      className="sc-fzoiQi bGMStZ"
+      className="sc-fzqNqU jkXYJU"
     >
       <div
         className="charts__category__title"
@@ -525,7 +525,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="charts__category__panel"
       >
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/total-dao-deposit"
@@ -534,16 +534,16 @@ exports[`Active Page shallow renders with empty data 1`] = `
             <div
               className="chart__card_title"
             >
-              Total Nervos DAO Deposit
+              Total Deposit
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -558,7 +558,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/new-dao-deposit"
@@ -573,10 +573,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -591,7 +591,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/circulation-ratio"
@@ -606,10 +606,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"

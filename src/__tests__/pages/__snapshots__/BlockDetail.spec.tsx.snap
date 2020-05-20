@@ -19,10 +19,10 @@ exports[`Active Page shallow renders 1`] = `
 
 exports[`Active Page shallow renders with empty data 1`] = `
 <div
-  className="sc-fzoyAV kLPkrg"
+  className="sc-fzoXzr dPIXHa"
 >
   <div
-    className="sc-fzoXzr cWIzMN container"
+    className="sc-fznxsB chousp container"
   >
     <div
       className="sc-AxirZ gmvWQb"
@@ -42,7 +42,9 @@ exports[`Active Page shallow renders with empty data 1`] = `
           <div
             id="hash__text"
           >
-            <span>
+            <span
+              className="monospace"
+            >
               
             </span>
           </div>
@@ -62,6 +64,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         </div>
         
         <div
+          className="monospace"
           id="hash__value"
         />
       </div>

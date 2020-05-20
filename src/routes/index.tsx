@@ -285,6 +285,12 @@ export default () => {
 
   useRouter(() => {
     window.scrollTo(0, 0)
+    dispatch({
+      type: ComponentActions.UpdateHomeSearchBarVisible,
+      payload: {
+        homeSearchBarVisible: browserHistory.location.pathname === '/',
+      },
+    })
   })
 
   useRouterLocation(() => {

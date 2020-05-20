@@ -14,13 +14,11 @@ export enum LinkType {
 
 const menuDataList = () => {
   return [
-    isMobile()
-      ? {
-          type: LinkType.Inner,
-          name: i18n.t('navbar.explorer'),
-          url: '/',
-        }
-      : {},
+    {
+      type: LinkType.Inner,
+      name: i18n.t('navbar.home'),
+      url: '/',
+    },
     {
       type: LinkType.Inner,
       name: i18n.t('navbar.charts'),

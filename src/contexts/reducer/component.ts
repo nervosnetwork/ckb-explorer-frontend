@@ -21,6 +21,14 @@ export const componentReducer = (
           mobileMenuVisible: payload.mobileMenuVisible,
         },
       }
+    case ComponentActions.UpdateHomeSearchBarVisible:
+      return {
+        ...state,
+        components: {
+          ...state.components,
+          homeSearchBarVisible: payload.homeSearchBarVisible,
+        },
+      }
     default:
       return state
   }
