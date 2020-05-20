@@ -130,7 +130,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
       <div
         className="charts__category__title"
       >
-        Mining Charts
+        Mining
       </div>
       <div
         className="charts__category__panel"

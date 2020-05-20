@@ -99,7 +99,7 @@ const getOption = (statisticNewDaoDeposits: State.StatisticNewDaoDeposit[], isTh
         scale: true,
         axisLine: {
           lineStyle: {
-            color: ChartColors[0],
+            color: ChartColors[1],
           },
         },
         axisLabel: {
