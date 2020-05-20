@@ -67,7 +67,6 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
             width: 0.5,
           },
         },
-        interval: 1,
         max: maxAndMinAxis(statisticAverageBlockTimes).max,
         min: maxAndMinAxis(statisticAverageBlockTimes).min,
         axisLine: {
