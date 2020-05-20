@@ -31,21 +31,13 @@ const getOption = (
   return {
     color: ChartColors,
     tooltip: !isThumbnail && {
-      axisPointer: {
-        show: true,
-        type: 'cross',
-        lineStyle: {
-          type: 'dashed',
-          width: 1,
-        },
-      },
       formatter: (params: any) => {
         let date = params.value.length > 1 ? params.value[0] : params.name
         let time = params.value.length > 1 ? params.value[1] : params.value
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '280px' : '90px'};display:inline-block;">${value}:</span>`
+          `<span style="width:${currentLanguage() === 'en' ? '240px' : '90px'};display:inline-block;">${value}:</span>`
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(date)}</div>`
         result += `<div>${colorSpan(ChartColors[0])}${widthSpan(
           i18n.t('statistic.block_propagation_delay_history'),
@@ -80,7 +72,7 @@ const getOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => value,
+          formatter: (value: string) => `${value}ms`,
         },
       },
     ],
@@ -94,16 +86,19 @@ const getOption = (
         data: statisticBlockPropagationDelayHistories,
       },
       {
+        name: '10%',
         type: 'line',
         yAxisIndex: '0',
         data: statisticBlockPropagationDelayHistories.filter((_data: any, index: number) => index % 18 === 1),
       },
       {
+        name: '50%',
         type: 'line',
         yAxisIndex: '0',
         data: statisticBlockPropagationDelayHistories.filter((_data: any, index: number) => index % 18 === 9),
       },
       {
+        name: '90%',
         type: 'line',
         yAxisIndex: '0',
         data: statisticBlockPropagationDelayHistories.filter((_data: any, index: number) => index % 18 === 17),
@@ -149,7 +144,7 @@ export default () => {
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.block_propagation_delay_history')}>
+    <ChartPage title={i18n.t('statistic.block_propagation_delay_history_title')}>
       <BlockPropagationDelayHistoryChart
         statisticBlockPropagationDelayHistories={statisticBlockPropagationDelayHistories}
       />

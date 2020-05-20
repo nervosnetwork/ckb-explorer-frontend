@@ -114,7 +114,8 @@
       "city": "城市",
       "node_count": "节点数量",
       "node_distribution": "节点分布",
-      "block_propagation_delay_history": "区块传播延时历史"
+      "block_propagation_delay_history_title": "区块传播延时历史",
+      "block_propagation_delay_history": "区块传播延时历史 (ms)"
     },
     "home": {
       "height": "高度",

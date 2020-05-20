@@ -115,7 +115,8 @@
       "city": "City",
       "node_count": "Node Count",
       "node_distribution": "Node Distribution",
-      "block_propagation_delay_history": "Block Propagation Delay History"
+      "block_propagation_delay_history_title": "Block Propagation Delay History",
+      "block_propagation_delay_history": "Block Propagation Delay History (ms)"
     },
     "home": {
       "height": "Height",

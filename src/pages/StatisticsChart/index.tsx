@@ -254,7 +254,7 @@ export default () => {
           path: '/charts/node-distribution',
         },
         {
-          title: `${i18n.t('statistic.block_propagation_delay_history')}`,
+          title: `${i18n.t('statistic.block_propagation_delay_history_title')}`,
           chart: (
             <BlockPropagationDelayHistoryChart
               statisticBlockPropagationDelayHistories={statisticBlockPropagationDelayHistories}
