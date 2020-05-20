@@ -47,7 +47,6 @@ export const getNervosDao = (dispatch: AppDispatch) => {
   fetchNervosDao()
     .then((wrapper: Response.Wrapper<State.NervosDao> | null) => {
       if (wrapper) {
-        handleNervosDAOStatus(dispatch, 'OK')
         dispatch({
           type: PageActions.UpdateNervosDao,
           payload: {

@@ -19,7 +19,9 @@ exports[`HashCard Component shallow renders 1`] = `
       <div
         id="hash__text"
       >
-        <span>
+        <span
+          className="monospace"
+        >
           0xa18fdb8a
         </span>
       </div>
@@ -39,6 +41,7 @@ exports[`HashCard Component shallow renders 1`] = `
     </div>
     
     <div
+      className="monospace"
       id="hash__value"
     >
       0xa18fdb8a
@@ -67,7 +70,7 @@ exports[`HashCard Component shallow renders 2`] = `
         className="sc-AxiKw hSLCUF"
       >
         <div
-          className="sc-AxjAm icQYJv"
+          className="sc-AxjAm feiBFQ"
         >
           <img
             alt="loading"
@@ -86,6 +89,7 @@ exports[`HashCard Component shallow renders 2`] = `
     </div>
     
     <div
+      className="monospace"
       id="hash__value"
     >
       0xa18fdb8a

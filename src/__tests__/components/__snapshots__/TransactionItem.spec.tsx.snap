@@ -488,7 +488,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
         onClick={[Function]}
       >
         <span
-          className="transaction_item__hash"
+          className="transaction_item__hash monospace"
         >
           0x89699abf948440ce172a6...4d57d9309ca11929cebe5c4
         </span>
@@ -526,6 +526,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
               />
             </a>
             <a
+              className="monospace"
               href="/address/ckb1qyqdpmfusmag3m9qjz3fenwa3qym3nc8prsqxxggjg"
               onClick={[Function]}
               onMouseEnter={[Function]}
@@ -544,17 +545,17 @@ exports[`TransactionItem Component shallow renders 1`] = `
                 100
               </span>
               <div
-                className="c8"
+                className="c8 monospace"
               >
                 .2357719
               </div>
               <div
-                className="c9"
+                className="c9 monospace"
               >
                 0
               </div>
               <div
-                className="decimal__unit"
+                className="decimal__unit monospace"
               >
                 CKB
               </div>
@@ -578,6 +579,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
               />
             </a>
             <a
+              className="monospace"
               href="/address/ckb1qyq93m8fdcx2knfmjyyn4q69zyhy7ggg835sl03lwy"
               onClick={[Function]}
               onMouseEnter={[Function]}
@@ -596,17 +598,17 @@ exports[`TransactionItem Component shallow renders 1`] = `
                 1,902
               </span>
               <div
-                className="c8"
+                className="c8 monospace"
               >
                 .96799086
               </div>
               <div
-                className="c9"
+                className="c9 monospace"
               >
                 
               </div>
               <div
-                className="decimal__unit"
+                className="decimal__unit monospace"
               >
                 CKB
               </div>
@@ -630,6 +632,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
               />
             </a>
             <a
+              className="monospace"
               href="/address/ckb1qyq93m8fdcx2knfmjyyn4q69zyhy7ggg835sl03lwy"
               onClick={[Function]}
               onMouseEnter={[Function]}
@@ -648,17 +651,17 @@ exports[`TransactionItem Component shallow renders 1`] = `
                 2,002
               </span>
               <div
-                className="c8"
+                className="c8 monospace"
               >
                 .21141693
               </div>
               <div
-                className="c9"
+                className="c9 monospace"
               >
                 
               </div>
               <div
-                className="decimal__unit"
+                className="decimal__unit monospace"
               >
                 CKB
               </div>
@@ -682,6 +685,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
               />
             </a>
             <a
+              className="monospace"
               href="/address/ckb1qyq93m8fdcx2knfmjyyn4q69zyhy7ggg835sl03lwy"
               onClick={[Function]}
               onMouseEnter={[Function]}
@@ -700,17 +704,17 @@ exports[`TransactionItem Component shallow renders 1`] = `
                 2,039
               </span>
               <div
-                className="c8"
+                className="c8 monospace"
               >
                 .6662154
               </div>
               <div
-                className="c9"
+                className="c9 monospace"
               >
                 0
               </div>
               <div
-                className="decimal__unit"
+                className="decimal__unit monospace"
               >
                 CKB
               </div>
@@ -742,6 +746,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
                 className="transaction__cell_withdraw"
               >
                 <a
+                  className="monospace"
                   href="/address/ckb1qyqwr7vnfh6pcw2az25kkz3f4eq5a7ggec3qjyrfah"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
@@ -768,17 +773,17 @@ exports[`TransactionItem Component shallow renders 1`] = `
                   5,900
                 </span>
                 <div
-                  className="c8"
+                  className="c8 monospace"
                 >
                   
                 </div>
                 <div
-                  className="c9"
+                  className="c9 monospace"
                 >
                   .00000000
                 </div>
                 <div
-                  className="decimal__unit"
+                  className="decimal__unit monospace"
                 >
                   CKB
                 </div>
@@ -804,6 +809,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
               className="transaction__cell_address"
             >
               <a
+                className="monospace"
                 href="/address/ckb1qyq907p79d6kkz7kxgu0awea8esvafm0586sh3kk9v"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
@@ -822,17 +828,17 @@ exports[`TransactionItem Component shallow renders 1`] = `
                   145
                 </span>
                 <div
-                  className="c8"
+                  className="c8 monospace"
                 >
                   .08134691
                 </div>
                 <div
-                  className="c9"
+                  className="c9 monospace"
                 >
                   
                 </div>
                 <div
-                  className="decimal__unit"
+                  className="decimal__unit monospace"
                 >
                   CKB
                 </div>

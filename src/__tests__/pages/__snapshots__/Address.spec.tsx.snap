@@ -22,10 +22,10 @@ exports[`Active Page shallow renders 1`] = `
 
 exports[`Active Page shallow renders with empty data 1`] = `
 <div
-  className="sc-fzoXzr dPIXHa"
+  className="sc-fznxsB cFeRni"
 >
   <div
-    className="sc-fznxsB chousp container"
+    className="sc-fznWqX bNxGGa container"
   >
     <div
       className="sc-AxiKw dNuYhX"
@@ -45,7 +45,9 @@ exports[`Active Page shallow renders with empty data 1`] = `
           <div
             id="hash__text"
           >
-            <span>
+            <span
+              className="monospace"
+            >
               
             </span>
           </div>
@@ -65,27 +67,28 @@ exports[`Active Page shallow renders with empty data 1`] = `
         </div>
         
         <div
+          className="monospace"
           id="hash__value"
         />
       </div>
       <div
-        className="sc-fzpjYC eoSWBt"
+        className="sc-fznJRM czNnvG"
       >
         <div
           className="address__title__separate"
         />
         <div
-          className="sc-fznWOq jgsYQJ"
+          className="sc-fzqBkg iaqSkl"
           id=""
         >
           <div
-            className="sc-fzolEj gBGDTg"
+            className="sc-fzqPZZ dYiIAp"
           >
             <div
               className="overview_content__left_items"
             >
               <div
-                className="sc-fzqBkg gHrFer"
+                className="sc-fzoxKX beGHQs"
               >
                 <div
                   className="overview_item__title__panel"
@@ -107,7 +110,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="overview_content__right_items"
             >
               <div
-                className="sc-fzqBkg gHrFer"
+                className="sc-fzoxKX beGHQs"
               >
                 <div
                   className="overview_item__title__panel"
@@ -127,7 +130,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             </div>
           </div>
           <div
-            className="sc-fznWqX jFbBKO"
+            className="sc-fzqARJ dXYecO"
             onClick={[Function]}
             onKeyUp={[Function]}
             role="button"
