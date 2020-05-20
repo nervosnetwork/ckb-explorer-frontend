@@ -45,10 +45,10 @@ export const TableMinerContentItem = ({
         <Link className="table__miner__content" to={`/address/${content}`}>
           {addressText.includes('...') ? (
             <Tooltip placement="top" title={<CopyTooltipText content={content} />}>
-              <span className="table__miner__text address">{addressText}</span>
+              <span className="table__miner__text monospace">{addressText}</span>
             </Tooltip>
           ) : (
-            <span className="table__miner__text address">{addressText}</span>
+            <span className="table__miner__text monospace">{addressText}</span>
           )}
         </Link>
       ) : (

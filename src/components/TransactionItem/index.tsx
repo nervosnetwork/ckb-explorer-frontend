@@ -38,7 +38,7 @@ const TransactionItem = ({
       <TransactionHashBlockPanel>
         <div className="transaction_item__content">
           <Link to={`/transaction/${transaction.transactionHash}`}>
-            <span className="transaction_item__hash">{isMobile() ? txHashMobile : txHashPC}</span>
+            <span className="transaction_item__hash monospace">{isMobile() ? txHashMobile : txHashPC}</span>
           </Link>
           {!isBlock && (
             <div className="transaction_item__block">

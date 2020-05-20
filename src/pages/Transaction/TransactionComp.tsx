@@ -47,8 +47,14 @@ const TransactionInfoComp = ({
   return (
     <div className="transaction__info__content_item">
       <div className="transaction__info__content_title">{title ? `${title}: ` : ''}</div>
-      <div className="transaction__info__content_value">
-        {linkUrl ? <Link to={linkUrl}>{value}</Link> : value}
+      <div className="transaction__info__content_value monospace">
+        {linkUrl ? (
+          <Link to={linkUrl} className="monospace">
+            {value}
+          </Link>
+        ) : (
+          value
+        )}
         {tag}
       </div>
     </div>

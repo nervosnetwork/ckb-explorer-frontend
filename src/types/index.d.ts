@@ -506,6 +506,7 @@ declare namespace State {
   export interface Components {
     searchBarEditable: boolean
     mobileMenuVisible: boolean
+    homeSearchBarVisible: boolean
   }
 
   export interface AppState extends PageState {

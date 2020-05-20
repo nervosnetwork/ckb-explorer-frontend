@@ -50,6 +50,10 @@ export const DaoTabBarPanel = styled.div`
   padding: 0 40px;
   font-size: 18px;
 
+  @media (max-width: 1200px) {
+    font-size: 16px;
+  }
+
   @media (max-width: 750px) {
     height: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '90px' : '60px')};
     flex-direction: column;
@@ -77,6 +81,10 @@ export const DaoTabBarPanel = styled.div`
 
     div: nth-child(2) {
       margin-left: 50px;
+
+      @media (max-width: 1200px) {
+        margin-left: 30px;
+      }
     }
 
     .tab_bar_normal {

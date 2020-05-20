@@ -75,6 +75,7 @@ export enum PageActions {
 export enum ComponentActions {
   UpdateHeaderSearchEditable = 'updateHeaderSearchEditable',
   UpdateHeaderMobileMenuVisible = 'updateHeaderMobileMenuVisible',
+  UpdateHomeSearchBarVisible = 'updateHomeSearchBarVisible',
 }
 
 export type StateActions = AppActions | PageActions | ComponentActions

@@ -23,11 +23,17 @@ const AddressText = ({ address }: { address: string }) => {
   if (addressText.includes('...')) {
     return (
       <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
-        <AddressPanel to={`/address/${address}`}>{addressText}</AddressPanel>
+        <AddressPanel to={`/address/${address}`} className="monospace">
+          {addressText}
+        </AddressPanel>
       </Tooltip>
     )
   }
-  return <AddressPanel to={`/address/${address}`}>{addressText}</AddressPanel>
+  return (
+    <AddressPanel to={`/address/${address}`} className="monospace">
+      {addressText}
+    </AddressPanel>
+  )
 }
 
 const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {

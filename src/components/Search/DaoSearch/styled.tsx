@@ -8,6 +8,10 @@ export const DaoSearchPanel = styled.div`
   align-items: center;
   justify-content: space-between;
 
+  @media (max-width: 1200px) {
+    width: 450px;
+  }
+
   @media (max-width: 750px) {
     width: 84vw;
     height: 25px;
