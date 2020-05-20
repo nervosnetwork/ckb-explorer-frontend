@@ -139,7 +139,7 @@ const useHomeSearchBarStatus = (dispatch: AppDispatch, homeSearchBarVisible: boo
       type: ComponentActions.UpdateHomeSearchBarVisible,
       payload: { homeSearchBarVisible: window.pageYOffset < searchPosition },
     })
-  }, 200)
+  }, 300)
 }
 
 export default () => {
