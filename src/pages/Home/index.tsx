@@ -133,13 +133,13 @@ const useHomeSearchBarStatus = (dispatch: AppDispatch, homeSearchBarVisible: boo
   }, [dispatch, homeSearchBarVisible])
 
   useInterval(() => {
-    // header height: 64 and search bar height: 40 and check scroll position per 200ms
+    // header height: 64 and search bar height: 40 and check scroll position per 300ms
     const searchPosition = (document.getElementById('home__search__bar') as HTMLElement).scrollHeight + 64 + 40
     dispatch({
       type: ComponentActions.UpdateHomeSearchBarVisible,
       payload: { homeSearchBarVisible: window.pageYOffset < searchPosition },
     })
-  }, 200)
+  }, 300)
 }
 
 export default () => {
