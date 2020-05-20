@@ -45,10 +45,10 @@ const getOption = (
         const colorSpan = (color: string) =>
           `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
         const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '125px' : '90px'};display:inline-block;">${value}:</span>`
+          `<span style="width:${currentLanguage() === 'en' ? '280px' : '90px'};display:inline-block;">${value}:</span>`
         let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(date)}</div>`
         result += `<div>${colorSpan(ChartColors[0])}${widthSpan(
-          i18n.t('statistic.new_node_count'),
+          i18n.t('statistic.block_propagation_delay_history'),
         )} ${localeNumberString(time)}</div>`
         return result
       },
@@ -89,9 +89,24 @@ const getOption = (
         name: i18n.t('statistic.block_propagation_delay_history'),
         type: 'scatter',
         yAxisIndex: '0',
-        symbol: isThumbnail ? 'none' : 'arrow',
+        symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticBlockPropagationDelayHistories,
+      },
+      {
+        type: 'line',
+        yAxisIndex: '0',
+        data: statisticBlockPropagationDelayHistories.filter((_data: any, index: number) => index % 18 === 1),
+      },
+      {
+        type: 'line',
+        yAxisIndex: '0',
+        data: statisticBlockPropagationDelayHistories.filter((_data: any, index: number) => index % 18 === 9),
+      },
+      {
+        type: 'line',
+        yAxisIndex: '0',
+        data: statisticBlockPropagationDelayHistories.filter((_data: any, index: number) => index % 18 === 17),
       },
     ],
   }
