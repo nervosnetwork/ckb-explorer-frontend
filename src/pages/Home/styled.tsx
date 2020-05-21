@@ -195,7 +195,7 @@ export const HomeStatisticBottomPanel = styled.div`
     flex-direction: column;
     padding: 10px 5px 0 5px;
     box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
-    border-radius: 0 0 3px 3px;
+    border-radius: 0 0 6px 6px;
   }
 
   .blockchain__item__row {
