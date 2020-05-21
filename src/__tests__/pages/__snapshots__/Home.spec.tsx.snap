@@ -136,7 +136,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxhCb fZVaxu"
+      className="sc-AxhCb PGzqW"
     >
       <div
         className="blockchain__item__row"
@@ -994,7 +994,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxhCb fZVaxu"
+      className="sc-AxhCb PGzqW"
     >
       <div
         className="blockchain__item__row"
