@@ -103,16 +103,12 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__left__chart"
         >
           <div
-            className="sc-fzoYHE goYFVZ"
+            className="sc-fzoYHE BRZgv"
           >
             <div
-              className="sc-fzoydu ctqdBw"
+              className="chart__no__data"
             >
-              <img
-                alt="loading"
-                className="loading__white"
-                src="loading_white.gif"
-              />
+              Available Later
             </div>
           </div>
         </div>
@@ -156,16 +152,12 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__right__chart"
         >
           <div
-            className="sc-fznAgC iLJEEN"
+            className="sc-fznAgC ifWZNX"
           >
             <div
-              className="sc-fzoydu ctqdBw"
+              className="chart__no__data"
             >
-              <img
-                alt="loading"
-                className="loading__white"
-                src="loading_white.gif"
-              />
+              Available Later
             </div>
           </div>
         </div>
@@ -997,16 +989,12 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__left__chart"
         >
           <div
-            className="sc-fzoYHE goYFVZ"
+            className="sc-fzoYHE BRZgv"
           >
             <div
-              className="sc-fzoydu ctqdBw"
+              className="chart__no__data"
             >
-              <img
-                alt="loading"
-                className="loading__white"
-                src="loading_white.gif"
-              />
+              Available Later
             </div>
           </div>
         </div>
@@ -1050,16 +1038,12 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__right__chart"
         >
           <div
-            className="sc-fznAgC iLJEEN"
+            className="sc-fznAgC ifWZNX"
           >
             <div
-              className="sc-fzoydu ctqdBw"
+              className="chart__no__data"
             >
-              <img
-                alt="loading"
-                className="loading__white"
-                src="loading_white.gif"
-              />
+              Available Later
             </div>
           </div>
         </div>

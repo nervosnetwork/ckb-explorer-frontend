@@ -113,7 +113,8 @@
       "new_node_count": "新增节点数量",
       "city": "城市",
       "node_count": "节点数量",
-      "node_distribution": "节点分布"
+      "node_distribution": "节点分布",
+      "chart_no_data": "暂无数据"
     },
     "home": {
       "height": "高度",
