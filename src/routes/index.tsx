@@ -43,7 +43,6 @@ import EpochTimeDistributionChart from '../pages/StatisticsChart/block/EpochTime
 import AverageBlockTimeChart from '../pages/StatisticsChart/block/AverageBlockTime'
 import NewNodeCountChart from '../pages/StatisticsChart/network/NewNodeCount'
 import NodeDistributionChart from '../pages/StatisticsChart/network/NodeDistribution'
-import BlockPropagationDelayHistoryChart from '../pages/StatisticsChart/network/BlockPropagationDelayHistory'
 
 const hasSearch = (pathname: string) => {
   return pathname !== '/search/fail' && pathname !== '/maintain'
@@ -229,12 +228,6 @@ const Containers: CustomRouter.Route[] = [
     path: '/charts/node-distribution',
     exact: true,
     comp: NodeDistributionChart,
-  },
-  {
-    name: 'BlockPropagationDelayHistoryChart',
-    path: '/charts/block-propagation-delay-history',
-    exact: true,
-    comp: BlockPropagationDelayHistoryChart,
   },
   {
     name: 'SearchFail',

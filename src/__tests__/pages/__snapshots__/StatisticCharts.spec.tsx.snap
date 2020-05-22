@@ -512,7 +512,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/occupied-capacity"
@@ -527,10 +527,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -639,10 +639,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -657,7 +657,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/circulation-ratio"
@@ -692,7 +692,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
       </div>
     </div>
     <div
-      className="sc-fzoiQi bGMStZ"
+      className="sc-fzqNqU jkXYJU"
     >
       <div
         className="charts__category__title"
@@ -703,7 +703,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="charts__category__panel"
       >
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/new-node-count"
@@ -718,10 +718,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"
@@ -736,7 +736,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </a>
         </div>
         <div
-          className="sc-fzqARJ bWULDa"
+          className="sc-fzoyTs bDXNzP"
         >
           <a
             href="/charts/node-distribution"
@@ -751,43 +751,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_body"
             >
               <div
-                className="sc-fzoyAV goqzYx"
+                className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzoLag hiitnH"
-                >
-                  <img
-                    alt="no data"
-                    src="chart_no_data.png"
-                  />
-                  <span>
-                    No data...
-                  </span>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div
-          className="sc-fzqARJ bWULDa"
-        >
-          <a
-            href="/charts/block-propagation-delay-history"
-            onClick={[Function]}
-          >
-            <div
-              className="chart__card_title"
-            >
-              Block Propagation Delay History
-            </div>
-            <div
-              className="chart__card_body"
-            >
-              <div
-                className="sc-fzoyAV goqzYx"
-              >
-                <div
-                  className="sc-fzoLag hiitnH"
+                  className="sc-fzpjYC kXhIKa"
                 >
                   <img
                     alt="no data"

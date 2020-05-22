@@ -1,10 +1,6 @@
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
-import {
-  fetchStatisticNewNodeCount,
-  fetchStatisticNodeDistribution,
-  fetchStatisticBlockPropagationDelayHistory,
-} from '../../http/fetcher'
+import { fetchStatisticNewNodeCount, fetchStatisticNodeDistribution } from '../../http/fetcher'
 
 export const getStatisticNewNodeCount = (dispatch: AppDispatch) => {
   fetchStatisticNewNodeCount().then(
@@ -45,40 +41,4 @@ export const getStatisticNodeDistribution = (dispatch: AppDispatch) => {
       },
     })
   })
-}
-
-export const getStatisticBlockPropagationDelayHistory = (dispatch: AppDispatch) => {
-  fetchStatisticBlockPropagationDelayHistory().then(
-    (wrapper: Response.Wrapper<State.StatisticBlockPropagationDelayHistories> | null) => {
-      if (!wrapper) return
-      const { blockPropagationDelayHistory } = wrapper.attributes
-      let blockPropagationDelayHistories: State.StatisticBlockPropagationDelayHistory[] = []
-      blockPropagationDelayHistory.forEach(data => {
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg5])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg10])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg15])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg20])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg25])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg30])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg35])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg40])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg45])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg50])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg55])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg60])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg65])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg70])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg75])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg80])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg85])
-        blockPropagationDelayHistories.push([data.createdAtUnixtimestamp, data.avg90])
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticBlockPropagationDelayHistory,
-        payload: {
-          statisticBlockPropagationDelayHistories: blockPropagationDelayHistories,
-        },
-      })
-    },
-  )
 }
