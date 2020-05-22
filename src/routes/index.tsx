@@ -40,10 +40,6 @@ import BlockTimeDistributionChart from '../pages/StatisticsChart/block/BlockTime
 import EpochTimeDistributionChart from '../pages/StatisticsChart/block/EpochTimeDistribution'
 import AverageBlockTimeChart from '../pages/StatisticsChart/block/AverageBlockTime'
 
-const hasSearch = (pathname: string) => {
-  return pathname !== '/search/fail' && pathname !== '/maintain'
-}
-
 const Containers: CustomRouter.Route[] = [
   {
     name: 'Home',
@@ -304,7 +300,7 @@ export default () => {
         render={(props: any) => {
           return (
             <Page>
-              <Header hasSearch={hasSearch(browserHistory.location.pathname)} />
+              <Header />
               <Sheet />
               <Switch location={props.location}>
                 {Containers.map(container => {

@@ -44,7 +44,7 @@ const MobileMenuComp = () => {
   )
 }
 
-export default ({ hasSearch }: { hasSearch?: boolean }) => {
+export default () => {
   const { pathname } = useLocation()
   const dispatch = useDispatch()
   const {
@@ -55,7 +55,7 @@ export default ({ hasSearch }: { hasSearch?: boolean }) => {
     dispatch({
       type: ComponentActions.UpdateHeaderSearchBarVisible,
       payload: {
-        headerSearchBarVisible: pathname !== '/',
+        headerSearchBarVisible: pathname !== '/' && pathname !== '/search/fail' && pathname !== '/maintain',
       },
     })
   }, [dispatch, pathname])
@@ -67,7 +67,7 @@ export default ({ hasSearch }: { hasSearch?: boolean }) => {
         <>
           {!(isScreen750to1440() && searchBarEditable && !headerSearchBarVisible) && <MenusComp />}
           <HeaderEmptyPanel />
-          {hasSearch && headerSearchBarVisible && <SearchComp />}
+          {headerSearchBarVisible && <SearchComp />}
           <BlockchainComp />
           <LanguageComp />
         </>
