@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import LogoIcon from '../../assets/ckb_logo.png'
 import MobileMenuIcon from '../../assets/menu_mobile.png'
 import MobileMenuCloseIcon from '../../assets/menu_close_mobile.png'
@@ -10,6 +10,7 @@ import MenusComp from './MenusComp'
 import { SearchComp } from './SearchComp'
 import LanguageComp from './LanguageComp'
 import BlockchainComp from './BlockchainComp'
+import { useLocation } from 'react-router'
 
 const LogoComp = () => {
   return (
@@ -43,19 +44,30 @@ const MobileMenuComp = () => {
   )
 }
 
-export default ({ hasSearch }: { hasSearch?: boolean }) => {
+export default () => {
+  const { pathname } = useLocation()
+  const dispatch = useDispatch()
   const {
-    components: { searchBarEditable, homeSearchBarVisible: headerSearchBarHidden },
+    components: { searchBarEditable, headerSearchBarVisible },
   } = useAppState()
+
+  useEffect(() => {
+    dispatch({
+      type: ComponentActions.UpdateHeaderSearchBarVisible,
+      payload: {
+        headerSearchBarVisible: pathname !== '/' && pathname !== '/search/fail' && pathname !== '/maintain',
+      },
+    })
+  }, [dispatch, pathname])
 
   return (
     <HeaderPanel>
       <LogoComp />
       {!isMobile() && (
         <>
-          {!(isScreen750to1440() && searchBarEditable && !headerSearchBarHidden) && <MenusComp />}
+          {!(isScreen750to1440() && searchBarEditable && !headerSearchBarVisible) && <MenusComp />}
           <HeaderEmptyPanel />
-          {hasSearch && !headerSearchBarHidden && <SearchComp />}
+          {headerSearchBarVisible && <SearchComp />}
           <BlockchainComp />
           <LanguageComp />
         </>

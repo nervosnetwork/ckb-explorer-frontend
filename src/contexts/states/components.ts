@@ -1,7 +1,7 @@
 export const initComponents: State.Components = {
   searchBarEditable: false,
   mobileMenuVisible: false,
-  homeSearchBarVisible: false,
+  headerSearchBarVisible: false,
 }
 
 export default initComponents
