@@ -15,6 +15,6 @@ export const ChartLoadingPanel = styled.div`
 
   .chart__no__data {
     color: white;
-    font-size: 24px;
+    font-size: 26px;
   }
 `

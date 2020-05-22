@@ -67,7 +67,7 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__left__chart"
         >
           <div
-            className="sc-fzoYHE cNKPVJ"
+            className="sc-fzoYHE BRZgv"
           >
             <div
               className="chart__no__data"
@@ -116,7 +116,7 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__right__chart"
         >
           <div
-            className="sc-fznAgC fQmQaV"
+            className="sc-fznAgC ifWZNX"
           >
             <div
               className="chart__no__data"
@@ -917,7 +917,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__left__chart"
         >
           <div
-            className="sc-fzoYHE cNKPVJ"
+            className="sc-fzoYHE BRZgv"
           >
             <div
               className="chart__no__data"
@@ -966,7 +966,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__right__chart"
         >
           <div
-            className="sc-fznAgC fQmQaV"
+            className="sc-fznAgC ifWZNX"
           >
             <div
               className="chart__no__data"
