@@ -12,6 +12,7 @@ import { useAppState, useDispatch } from '../../../contexts/providers'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
+import { PageActions } from '../../../contexts/actions'
 
 const stepAxis = (statisticHashRates: State.StatisticHashRate[]) => {
   const array = statisticHashRates.flatMap(data => parseFloat(data.avgHashRate))
@@ -117,13 +118,23 @@ export default () => {
   }, [widthDiff])
 
   useEffect(() => {
+    dispatch({
+      type: PageActions.UpdateStatisticHashRate,
+      payload: {
+        statisticHashRates: undefined,
+      },
+    })
     getStatisticHashRate(dispatch)
   }, [dispatch])
 
   if (!statisticHashRates || statisticHashRates.length === 0) {
     return (
       <ChartLoadingPanel>
-        <SmallLoading isWhite />
+        {statisticHashRates === undefined ? (
+          <SmallLoading isWhite />
+        ) : (
+          <div className="chart__no__data">{i18n.t('statistic.chart_no_data')}</div>
+        )}
       </ChartLoadingPanel>
     )
   }

@@ -12,4 +12,9 @@ export const ChartLoadingPanel = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  .chart__no__data {
+    color: white;
+    font-size: 24px;
+  }
 `
