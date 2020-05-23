@@ -103,13 +103,13 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__left__chart"
         >
           <div
-            className="sc-fzoYHE BRZgv"
+            className="sc-fzoYHE ehzMLn"
           >
-            <div
+            <img
+              alt="chart no data"
               className="chart__no__data"
-            >
-              Available Later
-            </div>
+              src="chart_no_data_white.png"
+            />
           </div>
         </div>
       </div>
@@ -152,13 +152,13 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__right__chart"
         >
           <div
-            className="sc-fznAgC ifWZNX"
+            className="sc-fznAgC dHiSHn"
           >
-            <div
+            <img
+              alt="chart no data"
               className="chart__no__data"
-            >
-              Available Later
-            </div>
+              src="chart_no_data_white.png"
+            />
           </div>
         </div>
       </div>
@@ -989,13 +989,13 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__left__chart"
         >
           <div
-            className="sc-fzoYHE BRZgv"
+            className="sc-fzoYHE ehzMLn"
           >
-            <div
+            <img
+              alt="chart no data"
               className="chart__no__data"
-            >
-              Available Later
-            </div>
+              src="chart_no_data_white.png"
+            />
           </div>
         </div>
       </div>
@@ -1038,13 +1038,13 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__right__chart"
         >
           <div
-            className="sc-fznAgC ifWZNX"
+            className="sc-fznAgC dHiSHn"
           >
-            <div
+            <img
+              alt="chart no data"
               className="chart__no__data"
-            >
-              Available Later
-            </div>
+              src="chart_no_data_white.png"
+            />
           </div>
         </div>
       </div>

@@ -114,8 +114,7 @@
       "new_node_count": "New Node Count",
       "city": "City",
       "node_count": "Node Count",
-      "node_distribution": "Node Distribution",
-      "chart_no_data": "Available Later"
+      "node_distribution": "Node Distribution"
     },
     "home": {
       "height": "Height",

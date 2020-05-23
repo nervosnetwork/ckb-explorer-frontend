@@ -12,6 +12,7 @@ import SmallLoading from '../../../components/Loading/SmallLoading'
 import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
 import { PageActions } from '../../../contexts/actions'
+import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
 
 const maxAndMinAxis = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) => {
   const array = statisticAverageBlockTimes.flatMap(data => parseFloat(data.avgBlockTimeDaily))
@@ -135,7 +136,7 @@ export default () => {
         {statisticAverageBlockTimes === undefined ? (
           <SmallLoading isWhite />
         ) : (
-          <div className="chart__no__data">{i18n.t('statistic.chart_no_data')}</div>
+          <img className="chart__no__data" src={ChartNoDataImage} alt="chart no data" />
         )}
       </ChartLoadingPanel>
     )
