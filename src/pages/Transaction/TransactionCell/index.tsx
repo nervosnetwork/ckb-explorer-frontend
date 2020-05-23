@@ -38,11 +38,17 @@ const AddressHash = ({ address }: { address: string }) => {
   if (addressHash.includes('...')) {
     return (
       <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
-        <Link to={`/address/${address}`}>{addressHash}</Link>
+        <Link to={`/address/${address}`} className="monospace">
+          {addressHash}
+        </Link>
       </Tooltip>
     )
   }
-  return <Link to={`/address/${address}`}>{addressHash}</Link>
+  return (
+    <Link to={`/address/${address}`} className="monospace">
+      {addressHash}
+    </Link>
+  )
 }
 
 const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
