@@ -14,7 +14,11 @@ export const ChartLoadingPanel = styled.div`
   justify-content: center;
 
   .chart__no__data {
-    color: white;
-    font-size: 26px;
+    width: 105px;
+    height: auto;
+
+    @media (max-width: 1200px) {
+      width: 90px;
+    }
   }
 `
