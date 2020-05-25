@@ -28,7 +28,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
     className="sc-fznWqX bNxGGa container"
   >
     <div
-      className="sc-AxiKw bPGKHD"
+      className="sc-AxiKw cszbrx"
     >
       <div
         className="hash__card__content__panel"
@@ -76,7 +76,6 @@ exports[`Active Page shallow renders with empty data 1`] = `
       >
         <div
           className="sc-fzqBkg cTxTQP"
-          id=""
         >
           <div
             className="overview__separate"

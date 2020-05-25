@@ -51,10 +51,14 @@ const BlockMiner = ({ miner }: { miner: string }) => {
     <BlockLinkPanel>
       {minerText.includes('...') ? (
         <Tooltip placement="top" title={<CopyTooltipText content={miner} />}>
-          <Link to={`/address/${miner}`}>{minerText}</Link>
+          <Link to={`/address/${miner}`} className="monospace">
+            {minerText}
+          </Link>
         </Tooltip>
       ) : (
-        <Link to={`/address/${miner}`}>{minerText}</Link>
+        <Link to={`/address/${miner}`} className="monospace">
+          {minerText}
+        </Link>
       )}
     </BlockLinkPanel>
   )
@@ -191,7 +195,7 @@ export const BlockOverview = () => {
             return (
               <BlockRootInfoItemPanel key={item.title}>
                 <div className="block__root_info_title">{item.title}</div>
-                <div className="block__root_info_value">{item.content}</div>
+                <div className="block__root_info_value monospace">{item.content}</div>
               </BlockRootInfoItemPanel>
             )
           })}

@@ -120,8 +120,8 @@ export const OverviewItemPanel = styled.div`
       background: #e2e2e2;
       height: 1px;
       width: 100%;
-      display: ${({ hiddenLine }: { hiddenLine: boolean; hasIcon: boolean; isAsset?: boolean }) =>
-        hiddenLine ? 'none' : 'block'};
+      display: ${({ hideLine }: { hideLine: boolean; hasIcon: boolean; isAsset?: boolean }) =>
+        hideLine ? 'none' : 'block'};
       margin: 10px 0px 0px 0px;
 
       transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};

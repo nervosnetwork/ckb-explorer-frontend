@@ -30,6 +30,7 @@ export const TransactionCellPanel = styled.div`
 
     @media (max-width: 750px) {
       height: 16px;
+      font-size: 14px;
     }
 
     a {

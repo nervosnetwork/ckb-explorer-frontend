@@ -13,11 +13,11 @@ import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
-import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { useDispatch, useAppState } from '../../contexts/providers'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { getTransactions } from '../../service/app/transaction'
 import { TransactionCapacityPanel, TransactionListPanel, ContentTable, HighLightValue } from './style'
+import ItemCard, { ItemCardData } from '../../components/Card/ItemCard'
 
 interface TableTitleData {
   title: string
@@ -103,7 +103,7 @@ const TransactionCardItems = (transaction: State.Transaction) => {
       title: i18n.t('transaction.time'),
       content: parseSimpleDate(transaction.blockTimestamp),
     },
-  ] as OverviewItemData[]
+  ] as ItemCardData[]
 }
 
 export default () => {
@@ -160,7 +160,7 @@ export default () => {
           <ContentTable>
             <div className="transaction__panel">
               {transactions.map((transaction: State.Transaction) => {
-                return <OverviewCard key={transaction.transactionHash} items={TransactionCardItems(transaction)} />
+                return <ItemCard key={transaction.transactionHash} items={TransactionCardItems(transaction)} />
               })}
             </div>
           </ContentTable>

@@ -60,7 +60,7 @@ export const TransactionCellListPanel = styled.div`
     border-radius: 6px;
     box-shadow: 2px 2px 6px 0 #dfdfdf;
     background-color: #ffffff;
-    padding: 20px 20px 20px 40px;
+    padding: 12px 20px 12px 40px;
   }
 `
 

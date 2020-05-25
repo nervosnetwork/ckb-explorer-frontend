@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
-import OverviewCard, { OverviewItemData } from '../../../components/Card/OverviewCard'
 import { CellType, DaoType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
@@ -25,6 +24,7 @@ import UDTTokenIcon from '../../../assets/udt_token.png'
 import TransactionCellScript from '../TransactionCellScript'
 import SimpleModal from '../../../components/Modal'
 import SimpleButton from '../../../components/SimpleButton'
+import ItemCard, { ItemCardData } from '../../../components/Card/ItemCard'
 
 const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
@@ -137,7 +137,7 @@ export default ({
   txHash?: string
 }) => {
   if (isMobile()) {
-    const items: OverviewItemData[] = [
+    const items: ItemCardData[] = [
       {
         title: cellType === CellType.Input ? i18n.t('transaction.input') : i18n.t('transaction.output'),
         content: <TransactionCellHash cell={cell} cellType={cellType} />,
@@ -150,9 +150,9 @@ export default ({
       })
     }
     return (
-      <OverviewCard items={items} outputIndex={cellType === CellType.Output ? `${index}_${txHash}` : undefined}>
+      <ItemCard items={items} outputIndex={cellType === CellType.Output ? `${index}_${txHash}` : undefined}>
         {!cell.fromCellbase && <TransactionCellDetailContainer cell={cell} />}
-      </OverviewCard>
+      </ItemCard>
     )
   }
 

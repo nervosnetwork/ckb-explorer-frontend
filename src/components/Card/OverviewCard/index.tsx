@@ -16,9 +16,9 @@ const handleOverviewItems = (items: OverviewItemData[]) => {
   }
 }
 
-export const OverviewItem = ({ item, hiddenLine }: { item: OverviewItemData; hiddenLine: boolean }) => {
+export const OverviewItem = ({ item, hideLine }: { item: OverviewItemData; hideLine: boolean }) => {
   return (
-    <OverviewItemPanel hiddenLine={hiddenLine} hasIcon={item.icon} isAsset={item.isAsset}>
+    <OverviewItemPanel hideLine={hideLine} hasIcon={item.icon} isAsset={item.isAsset}>
       <div className="overview_item__title__panel">
         {item.icon && (
           <div className="overview_item__icon">
@@ -35,31 +35,29 @@ export const OverviewItem = ({ item, hiddenLine }: { item: OverviewItemData; hid
 export default ({
   items,
   children,
-  outputIndex,
   titleCard,
   hideShadow,
 }: {
   items: OverviewItemData[]
   children?: ReactNode
-  outputIndex?: string
   titleCard?: ReactNode
   hideShadow?: boolean
 }) => {
   const { leftItems, rightItems } = handleOverviewItems(items)
   return (
-    <OverviewCardPanel id={outputIndex ? `output_${outputIndex}` : ''} hideShadow={hideShadow}>
+    <OverviewCardPanel hideShadow={hideShadow}>
       {titleCard}
       <div className="overview__separate" />
       <OverviewContentPanel length={leftItems.length}>
         <div className="overview_content__left_items">
           {leftItems.map((item, index) => (
-            <OverviewItem key={items.indexOf(item)} item={item} hiddenLine={index === leftItems.length - 1} />
+            <OverviewItem key={items.indexOf(item)} item={item} hideLine={index === leftItems.length - 1} />
           ))}
         </div>
         {!isScreenSmallerThan1200() && <span />}
         <div className="overview_content__right_items">
           {rightItems.map((item, index) => (
-            <OverviewItem key={items.indexOf(item)} item={item} hiddenLine={index === rightItems.length - 1} />
+            <OverviewItem key={items.indexOf(item)} item={item} hideLine={index === rightItems.length - 1} />
           ))}
         </div>
       </OverviewContentPanel>

@@ -213,6 +213,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
 }
 
 .c1 .transaction_item__content .transaction_item__hash {
+  font-size: 14px;
   font-weight: 500;
 }
 
@@ -312,6 +313,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
 @media (max-width:750px) {
   .c4 .transaction__cell_address {
     height: 16px;
+    font-size: 14px;
   }
 }
 

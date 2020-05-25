@@ -41,8 +41,9 @@ export const HashCardPanel = styled.div`
     font-weight: 600;
     color: #000000;
     white-space: nowrap;
+
     @media (max-width: 750px) {
-      font-size: 15px;
+      font-size: 20px;
     }
   }
   .hash__card__hash__content {
@@ -79,19 +80,6 @@ export const HashCardPanel = styled.div`
         margin-bottom: 3px;
       }
     }
-  }
-  a {
-    font-size: 18px;
-    color: ${props => props.theme.primary};
-
-    @media (max-width: 750px) {
-      margin-left: 5px;
-      font-size: 12px;
-      margin-top: 4px;
-    }
-  }
-  a:hover {
-    color: ${props => props.theme.primary};
   }
   #hash__value {
     color: #ffffff;

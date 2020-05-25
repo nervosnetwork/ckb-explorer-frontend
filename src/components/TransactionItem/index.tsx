@@ -29,7 +29,7 @@ const TransactionItem = ({
   isLastItem?: boolean
   titleCard?: ReactNode | null
 }) => {
-  const txHashMobile = adaptMobileEllipsis(transaction.transactionHash, 12)
+  const txHashMobile = adaptMobileEllipsis(transaction.transactionHash, 10)
   const txHashPC = adaptPCEllipsis(transaction.transactionHash, 14, 40)
 
   return (

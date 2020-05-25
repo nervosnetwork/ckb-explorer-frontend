@@ -48,7 +48,7 @@ const Cellbase = ({
 
 const handleAddressText = (address: string) => {
   if (isMobile()) {
-    return adaptMobileEllipsis(address, 12)
+    return adaptMobileEllipsis(address, 10)
   }
   return adaptPCEllipsis(address, isScreenSmallerThan1440() ? 2 : 9, 100)
 }

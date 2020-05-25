@@ -85,7 +85,7 @@ export const BlockOverviewDisplayControlPanel = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 28px;
+  height: 36px;
   transform: translateY(10px);
 
   @media (max-width: 750px) {
@@ -95,6 +95,7 @@ export const BlockOverviewDisplayControlPanel = styled.div`
   > img {
     width: 21px;
     height: 8px;
+    margin-bottom: 8px;
   }
 `
 

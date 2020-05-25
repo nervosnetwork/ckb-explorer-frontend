@@ -17,11 +17,19 @@ export const TransactionDiv = styled.div.attrs({
   .transaction__inputs {
     width: 100%;
     margin-top: 20px;
+
+    @media (max-width: 750px) {
+      margin-top: 0px;
+    }
   }
 
   .transaction__outputs {
     width: 100%;
     margin-top: 20px;
+
+    @media (max-width: 750px) {
+      margin-top: 0px;
+    }
   }
 `
 
@@ -88,6 +96,7 @@ export const TransactionInfoItemPanel = styled.div`
     margin-left: 10px;
     margin-top: 5px;
     max-height: 250px;
+    font-size: 16px;
     overflow-y: scroll;
 
     @media (max-width: 750px) {
@@ -105,7 +114,6 @@ export const TransactionInfoContentPanel = styled.div`
     margin: 5px 0;
 
     a {
-      font-size: 14px;
       color: ${props => props.theme.primary};
       width: 100%;
       word-wrap: break-word;
