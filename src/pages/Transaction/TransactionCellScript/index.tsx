@@ -100,21 +100,21 @@ const ScriptContent = ({ content, state }: { content: State.Script | State.Data 
     return (content as State.Data).data ? (
       <div>
         <div>{`"${i18n.t('transaction.script_data')}": `}</div>
-        <div>{`"${(content as State.Data).data}"`}</div>
+        <div className="monospace">{`"${(content as State.Data).data}"`}</div>
       </div>
     ) : (
-      <div>{JSON.stringify(initScriptContent.data, null, 4)}</div>
+      <div className="monospace">{JSON.stringify(initScriptContent.data, null, 4)}</div>
     )
   }
   return (content as State.Script).args ? (
     <>
       <div>
         <div>{`"${i18n.t('transaction.script_args')}": `}</div>
-        <div>{`"${(content as State.Script).args}"`}</div>
+        <div className="monospace">{`"${(content as State.Script).args}"`}</div>
       </div>
       <div>
         <div>{`"${i18n.t('transaction.script_code_hash')}": `}</div>
-        <div>{`"${(content as State.Script).codeHash}"`}</div>
+        <div className="monospace">{`"${(content as State.Script).codeHash}"`}</div>
       </div>
       {hashTag && (
         <div>
@@ -126,11 +126,11 @@ const ScriptContent = ({ content, state }: { content: State.Script | State.Data 
       )}
       <div>
         <div>{`"${i18n.t('transaction.script_hash_type')}": `}</div>
-        <div>{`"${(content as State.Script).hashType}"`}</div>
+        <div className="monospace">{`"${(content as State.Script).hashType}"`}</div>
       </div>
     </>
   ) : (
-    <div>{JSON.stringify(initScriptContent.lock, null, 4)}</div>
+    <div className="monospace">{JSON.stringify(initScriptContent.lock, null, 4)}</div>
   )
 }
 
