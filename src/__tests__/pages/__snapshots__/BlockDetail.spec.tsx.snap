@@ -8,67 +8,13 @@ exports[`Active Page shallow renders 1`] = `
     <_default
       hash="0xd48737284040b2c6d221a16ba65b1497593ffb7b9cd250a1d0f40aecc5c8d4c0"
       title="Block"
-    />
+    >
+      <BlockOverview />
+    </_default>
     <BlockStateComp
       currentPage={1}
       pageSize={10}
     />
   </styled.div>
 </_default>
-`;
-
-exports[`Active Page shallow renders with empty data 1`] = `
-<div
-  className="sc-fzoXzr dPIXHa"
->
-  <div
-    className="sc-fznxsB chousp container"
-  >
-    <div
-      className="sc-AxirZ gmvWQb"
-    >
-      <div
-        className="hash__card__content__panel"
-        id="hash_content"
-      >
-        <div
-          className="hash__title"
-        >
-          Block
-        </div>
-        <div
-          className="hash__card__hash__content"
-        >
-          <div
-            id="hash__text"
-          >
-            <span
-              className="monospace"
-            >
-              
-            </span>
-          </div>
-          <div
-            className="sc-AxhCb dnXiiO hash__copy_icon"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            onMouseOver={[Function]}
-            role="button"
-            tabIndex={-1}
-          >
-            <img
-              alt="copy"
-              src="copy.png"
-            />
-          </div>
-        </div>
-        
-        <div
-          className="monospace"
-          id="hash__value"
-        />
-      </div>
-    </div>
-  </div>
-</div>
 `;

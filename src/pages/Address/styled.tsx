@@ -4,12 +4,6 @@ export const AddressTitleOverviewPanel = styled.div`
   display: flex;
   flex-direction: column;
   padding-bottom: 20px;
-
-  .address__title__separate {
-    background: #eaeaea;
-    width: 100%;
-    height: 1px;
-  }
 `
 
 export const AddressContentPanel = styled.div`

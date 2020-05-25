@@ -134,7 +134,6 @@ const AddressTitleOverview = () => {
   } = useAppState()
   return (
     <AddressTitleOverviewPanel>
-      <div className="address__title__separate" />
       <OverviewCard items={getAddressInfo(addressState)} hideShadow={true}>
         <AddressLockScriptController
           role="button"

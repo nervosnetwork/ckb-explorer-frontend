@@ -19,6 +19,12 @@ export const OverviewCardPanel = styled.div`
       padding: 0px;
     `};
 
+  .overview__separate {
+    background: #eaeaea;
+    width: 100%;
+    height: 1px;
+  }
+
   @media (max-width: 1000px) {
     font-size: 13px;
   }
@@ -50,9 +56,9 @@ export const OverviewContentPanel = styled.div`
 
   > span {
     width: 1px;
-    height: ${({ length }: { length: number }) => `${length * 32 - 16}px`};
+    height: ${({ length }: { length: number }) => `${length * 32}px`};
     background: #e2e2e2;
-    margin: 20px 0px 0px 0px;
+    margin: 14px 0px 0px 0px;
     transform: ${() => `scaleX(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
 
     @media (max-width: 750px) {
@@ -94,13 +100,13 @@ export const OverviewItemPanel = styled.div`
 
   @media (min-width: 750px) {
     height: 20px;
-    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '35px' : '16px')};
+    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '35px' : '14px')};
     margin-bottom: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '-32px' : '0px')};
   }
 
   @media (min-width: 1200px) {
     height: 20px;
-    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '35px' : '16px')};
+    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '35px' : '14px')};
   }
 
   @media (max-width: 750px) {

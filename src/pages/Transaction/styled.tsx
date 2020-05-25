@@ -25,7 +25,7 @@ export const TransactionDiv = styled.div.attrs({
       .transaction__overview_parameters {
         font-size: 16px;
         font-weight: 600;
-        margin-top: 15px;
+        margin: 8px 0px;
         cursor: pointer;
         color: ${props => props.theme.primary};
         display: flex;

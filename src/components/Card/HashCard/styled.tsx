@@ -9,7 +9,7 @@ export const HashCardPanel = styled.div`
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   border-radius: 6px;
   background-color: #ffffff;
-  padding: 0 40px;
+  padding: 0px 40px;
   @media (max-width: 750px) {
     padding: 0 16px;
     border-radius: 3px;
@@ -23,12 +23,12 @@ export const HashCardPanel = styled.div`
     align-items: center;
     overflow: hidden;
     position: relative;
+
     @media (max-width: 750px) {
       height: auto;
       flex-direction: ${(props: { isColumn: boolean }) => (props.isColumn ? 'column' : 'row')};
       align-items: ${(props: { isColumn: boolean }) => (props.isColumn ? 'flex-start' : 'center')};
-      padding-top: 8px;
-      padding-bottom: 8px;
+      padding: 12px 0px;
     }
   }
   .hash__icon {

@@ -61,21 +61,11 @@ const TransactionInfoComp = ({
   )
 }
 
-export default () => {
+export const TransactionOverview = () => {
   const [showParams, setShowParams] = useState<boolean>(false)
   const {
     transactionState: {
-      transaction: {
-        blockNumber,
-        cellDeps,
-        headerDeps,
-        witnesses,
-        transactionHash,
-        blockTimestamp,
-        transactionFee,
-        displayInputs,
-        displayOutputs,
-      },
+      transaction: { blockNumber, cellDeps, headerDeps, witnesses, blockTimestamp, transactionFee },
     },
     app: { tipBlockNumber },
   } = useAppState()
@@ -181,28 +171,39 @@ export default () => {
   }
 
   return (
+    <div className="transaction__overview">
+      <OverviewCard items={overviewItems} hideShadow={true}>
+        <div className="transaction__overview_info">
+          <SimpleButton className="transaction__overview_parameters" onClick={() => setShowParams(!showParams)}>
+            <div>{i18n.t('transaction.transaction_parameters')}</div>
+            <img alt="transaction parameters" src={transactionParamsIcon(showParams)} />
+          </SimpleButton>
+          {showParams &&
+            transactionInfo.map(item => {
+              return (
+                <TransactionInfoItemPanel key={item.title}>
+                  <div className="transaction__info_title">{item.title}</div>
+                  <div className="transaction__info_value">
+                    {item.content && item.content.length > 0 ? item.content : '[ ]'}
+                  </div>
+                </TransactionInfoItemPanel>
+              )
+            })}
+        </div>
+      </OverviewCard>
+    </div>
+  )
+}
+
+export default () => {
+  const {
+    transactionState: {
+      transaction: { transactionHash, displayInputs, displayOutputs },
+    },
+  } = useAppState()
+
+  return (
     <>
-      <div className="transaction__overview">
-        <OverviewCard items={overviewItems}>
-          <div className="transaction__overview_info">
-            <SimpleButton className="transaction__overview_parameters" onClick={() => setShowParams(!showParams)}>
-              <div>{i18n.t('transaction.transaction_parameters')}</div>
-              <img alt="transaction parameters" src={transactionParamsIcon(showParams)} />
-            </SimpleButton>
-            {showParams &&
-              transactionInfo.map(item => {
-                return (
-                  <TransactionInfoItemPanel key={item.title}>
-                    <div className="transaction__info_title">{item.title}</div>
-                    <div className="transaction__info_value">
-                      {item.content && item.content.length > 0 ? item.content : '[ ]'}
-                    </div>
-                  </TransactionInfoItemPanel>
-                )
-              })}
-          </div>
-        </OverviewCard>
-      </div>
       <div className="transaction__inputs">{displayInputs && <TransactionCellList inputs={displayInputs} />}</div>
       <div className="transaction__outputs">
         {displayOutputs && <TransactionCellList outputs={displayOutputs} txHash={transactionHash} />}
