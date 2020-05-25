@@ -14,41 +14,6 @@ export const TransactionDiv = styled.div.attrs({
     padding: 20px;
   }
 
-  .transaction__overview {
-    width: 100%;
-
-    .transaction__overview_info {
-      margin: 5px 0;
-      display: flex;
-      flex-direction: column;
-
-      .transaction__overview_parameters {
-        font-size: 16px;
-        font-weight: 600;
-        margin: 8px 0px;
-        cursor: pointer;
-        color: ${props => props.theme.primary};
-        display: flex;
-        align-items: center;
-
-        > img {
-          width: 12px;
-          height: 12px;
-          margin: 2px 0 0 5px;
-        }
-
-        @media (max-width: 750px) {
-          font-size: 14px;
-          margin-top: 10px;
-
-          > img {
-            margin: 0px 0 0 5px;
-          }
-        }
-      }
-    }
-  }
-
   .transaction__inputs {
     width: 100%;
     margin-top: 20px;
@@ -57,6 +22,46 @@ export const TransactionDiv = styled.div.attrs({
   .transaction__outputs {
     width: 100%;
     margin-top: 20px;
+  }
+`
+
+export const TransactionOverviewPanel = styled.div`
+  width: 100%;
+
+  .transaction__overview_info {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+
+    .transaction__overview_parameters {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 8px 0px;
+      cursor: pointer;
+      color: ${props => props.theme.primary};
+      display: flex;
+      align-items: center;
+
+      > img {
+        width: 12px;
+        height: 12px;
+        margin: 2px 0 0 5px;
+      }
+
+      @media (max-width: 750px) {
+        font-size: 14px;
+        margin-top: 15px;
+
+        > img {
+          margin: 0px 0 0 5px;
+        }
+      }
+    }
+  }
+
+  .transaction__overview_params {
+    background: #f1f1f1;
+    padding: 0 12px;
   }
 `
 
@@ -80,7 +85,7 @@ export const TransactionInfoItemPanel = styled.div`
     }
   }
   .transaction__info_value {
-    margin-left: 20px;
+    margin-left: 10px;
     margin-top: 5px;
     max-height: 250px;
     overflow-y: scroll;
@@ -113,7 +118,7 @@ export const TransactionInfoContentPanel = styled.div`
   }
 
   .transaction__info__content_title {
-    width: 180px;
+    width: 140px;
     color: #333333;
     font-size: 14px;
 

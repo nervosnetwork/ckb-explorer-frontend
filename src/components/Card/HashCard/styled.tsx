@@ -81,10 +81,9 @@ export const HashCardPanel = styled.div`
     }
   }
   a {
-    margin-left: 10px;
     font-size: 18px;
-    margin-top: 8px;
     color: ${props => props.theme.primary};
+
     @media (max-width: 750px) {
       margin-left: 5px;
       font-size: 12px;

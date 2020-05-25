@@ -6,7 +6,12 @@ import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
 import { formatConfirmation, shannonToCkb, matchTxHash } from '../../utils/util'
-import { TransactionBlockHeightPanel, TransactionInfoItemPanel, TransactionInfoContentPanel } from './styled'
+import {
+  TransactionBlockHeightPanel,
+  TransactionInfoItemPanel,
+  TransactionInfoContentPanel,
+  TransactionOverviewPanel,
+} from './styled'
 import TransactionCellList from './TransactionCellList'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import ArrowUpIcon from '../../assets/arrow_up.png'
@@ -96,102 +101,105 @@ export const TransactionOverview = () => {
     })
   }
 
-  const transactionInfo = []
-  if (cellDeps) {
-    transactionInfo.push({
+  const TransactionParams = [
+    {
       title: i18n.t('transaction.cell_deps'),
-      content: cellDeps.map(cellDep => {
-        const {
-          outPoint: { txHash, index },
-          depType,
-        } = cellDep
-        const hashTag = matchTxHash(txHash, index)
-        return (
-          <TransactionInfoContentPanel key={`${txHash}${index}`}>
-            <TransactionInfoComp
-              title={i18n.t('transaction.out_point_tx_hash')}
-              value={txHash}
-              linkUrl={`/transaction/${txHash}`}
-              tag={
-                !isScreenSmallerThan1440() && hashTag && <HashTag content={hashTag.tag} category={hashTag.category} />
-              }
-            />
-            {isScreenSmallerThan1440() && hashTag && (
-              <TransactionInfoComp value={<HashTag content={hashTag.tag} category={hashTag.category} />} />
-            )}
-            <TransactionInfoComp title={i18n.t('transaction.out_point_index')} value={index} />
-            <TransactionInfoComp title={i18n.t('transaction.dep_type')} value={depType} />
+      content:
+        cellDeps && cellDeps.length > 0 ? (
+          cellDeps.map(cellDep => {
+            const {
+              outPoint: { txHash, index },
+              depType,
+            } = cellDep
+            const hashTag = matchTxHash(txHash, index)
+            return (
+              <TransactionInfoContentPanel key={`${txHash}${index}`}>
+                <TransactionInfoComp
+                  title={i18n.t('transaction.out_point_tx_hash')}
+                  value={txHash}
+                  linkUrl={`/transaction/${txHash}`}
+                  tag={
+                    !isScreenSmallerThan1440() &&
+                    hashTag && <HashTag content={hashTag.tag} category={hashTag.category} />
+                  }
+                />
+                {isScreenSmallerThan1440() && hashTag && (
+                  <TransactionInfoComp value={<HashTag content={hashTag.tag} category={hashTag.category} />} />
+                )}
+                <TransactionInfoComp title={i18n.t('transaction.out_point_index')} value={index} />
+                <TransactionInfoComp title={i18n.t('transaction.dep_type')} value={depType} />
+              </TransactionInfoContentPanel>
+            )
+          })
+        ) : (
+          <TransactionInfoContentPanel>
+            <TransactionInfoComp title="CellDep" value="[ ]" />
           </TransactionInfoContentPanel>
-        )
-      }),
-    })
-  } else {
-    transactionInfo.push({
-      title: i18n.t('transaction.cell_deps'),
-      content: [],
-    })
-  }
-  if (headerDeps) {
-    transactionInfo.push({
+        ),
+    },
+    {
       title: i18n.t('transaction.header_deps'),
-      content: headerDeps.map(headerDep => {
-        return (
-          <TransactionInfoContentPanel key={headerDep}>
-            <TransactionInfoComp
-              title={i18n.t('transaction.header_dep')}
-              value={headerDep}
-              linkUrl={`/block/${headerDep}`}
-            />
+      content:
+        headerDeps && headerDeps.length > 0 ? (
+          headerDeps.map(headerDep => {
+            return (
+              <TransactionInfoContentPanel key={headerDep}>
+                <TransactionInfoComp
+                  title={i18n.t('transaction.header_dep')}
+                  value={headerDep}
+                  linkUrl={`/block/${headerDep}`}
+                />
+              </TransactionInfoContentPanel>
+            )
+          })
+        ) : (
+          <TransactionInfoContentPanel>
+            <TransactionInfoComp title={i18n.t('transaction.header_dep')} value="[ ]" />
           </TransactionInfoContentPanel>
-        )
-      }),
-    })
-  } else {
-    transactionInfo.push({
-      title: i18n.t('transaction.header_deps'),
-      content: [],
-    })
-  }
-  if (witnesses) {
-    transactionInfo.push({
+        ),
+    },
+    {
       title: i18n.t('transaction.witnesses'),
-      content: witnesses.map((witness, index) => {
-        return (
-          <TransactionInfoContentPanel key={`${witness}-${index}`}>
-            <TransactionInfoComp title="Witness" value={witness} />
+      content:
+        witnesses && witnesses.length > 0 ? (
+          witnesses.map((witness, index) => {
+            return (
+              <TransactionInfoContentPanel key={`${witness}-${index}`}>
+                <TransactionInfoComp title="Witness" value={witness} />
+              </TransactionInfoContentPanel>
+            )
+          })
+        ) : (
+          <TransactionInfoContentPanel>
+            <TransactionInfoComp title="Witness" value="[ ]" />
           </TransactionInfoContentPanel>
-        )
-      }),
-    })
-  } else {
-    transactionInfo.push({
-      title: i18n.t('transaction.witnesses'),
-      content: [],
-    })
-  }
+        ),
+    },
+  ]
 
   return (
-    <div className="transaction__overview">
+    <TransactionOverviewPanel>
       <OverviewCard items={overviewItems} hideShadow={true}>
         <div className="transaction__overview_info">
           <SimpleButton className="transaction__overview_parameters" onClick={() => setShowParams(!showParams)}>
             <div>{i18n.t('transaction.transaction_parameters')}</div>
             <img alt="transaction parameters" src={transactionParamsIcon(showParams)} />
           </SimpleButton>
-          {showParams &&
-            transactionInfo.map(item => {
-              return (
-                <TransactionInfoItemPanel key={item.title}>
-                  <div className="transaction__info_title">{item.title}</div>
-                  <div className="transaction__info_value">
-                    {item.content && item.content.length > 0 ? item.content : '[ ]'}
-                  </div>
-                </TransactionInfoItemPanel>
-              )
-            })}
+          {showParams && (
+            <div className="transaction__overview_params">
+              {TransactionParams.map(item => {
+                return (
+                  <TransactionInfoItemPanel key={item.title}>
+                    <div className="transaction__info_title">{item.title}</div>
+                    <div className="transaction__info_value">{item.content}</div>
+                  </TransactionInfoItemPanel>
+                )
+              })}
+            </div>
+          )}
         </div>
       </OverviewCard>
-    </div>
+    </TransactionOverviewPanel>
   )
 }
 

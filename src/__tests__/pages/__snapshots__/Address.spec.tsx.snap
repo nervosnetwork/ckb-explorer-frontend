@@ -28,7 +28,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
     className="sc-fznWqX bNxGGa container"
   >
     <div
-      className="sc-AxiKw kODeas"
+      className="sc-AxiKw bPGKHD"
     >
       <div
         className="hash__card__content__panel"

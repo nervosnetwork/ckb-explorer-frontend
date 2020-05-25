@@ -6,7 +6,7 @@ import { PageActions, AppActions } from '../../contexts/actions'
 import { getTipBlockNumber } from '../../service/app/address'
 import { getTransactionByHash } from '../../service/app/transaction'
 import i18n from '../../utils/i18n'
-import { TransactionDiv } from './styled'
+import { TransactionDiv as TransactionPanel } from './styled'
 import TransactionComp, { TransactionOverview } from './TransactionComp'
 import { useDispatch, useAppState } from '../../contexts/providers'
 import Loading from '../../components/Loading'
@@ -98,12 +98,12 @@ export default () => {
 
   return (
     <Content>
-      <TransactionDiv className="container">
+      <TransactionPanel className="container">
         <TransactionHashCard title={i18n.t('transaction.transaction')} hash={txHash} loading={showTitleLoading}>
           <TransactionOverview />
         </TransactionHashCard>
         <TransactionStateComp />
-      </TransactionDiv>
+      </TransactionPanel>
     </Content>
   )
 }
