@@ -44,10 +44,6 @@ import AverageBlockTimeChart from '../pages/StatisticsChart/block/AverageBlockTi
 import NewNodeCountChart from '../pages/StatisticsChart/network/NewNodeCount'
 import NodeDistributionChart from '../pages/StatisticsChart/network/NodeDistribution'
 
-const hasSearch = (pathname: string) => {
-  return pathname !== '/search/fail' && pathname !== '/maintain'
-}
-
 const Containers: CustomRouter.Route[] = [
   {
     name: 'Home',
@@ -289,12 +285,6 @@ export default () => {
 
   useRouter(() => {
     window.scrollTo(0, 0)
-    dispatch({
-      type: ComponentActions.UpdateHomeSearchBarVisible,
-      payload: {
-        homeSearchBarVisible: browserHistory.location.pathname === '/',
-      },
-    })
   })
 
   useRouterLocation(() => {
@@ -314,7 +304,7 @@ export default () => {
         render={(props: any) => {
           return (
             <Page>
-              <Header hasSearch={hasSearch(browserHistory.location.pathname)} />
+              <Header />
               <Sheet />
               <Switch location={props.location}>
                 {Containers.map(container => {

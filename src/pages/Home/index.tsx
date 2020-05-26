@@ -124,22 +124,25 @@ const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
   ]
 }
 
-const useHomeSearchBarStatus = (dispatch: AppDispatch, homeSearchBarVisible: boolean) => {
+const useHomeSearchBarStatus = (dispatch: AppDispatch) => {
   useEffect(() => {
     dispatch({
       type: ComponentActions.UpdateHeaderSearchEditable,
       payload: { searchBarEditable: false },
     })
-  }, [dispatch, homeSearchBarVisible])
+  }, [dispatch])
 
   useInterval(() => {
-    // header height: 64 and search bar height: 40 and check scroll position per 200ms
-    const searchPosition = (document.getElementById('home__search__bar') as HTMLElement).scrollHeight + 64 + 40
-    dispatch({
-      type: ComponentActions.UpdateHomeSearchBarVisible,
-      payload: { homeSearchBarVisible: window.pageYOffset < searchPosition },
-    })
-  }, 200)
+    // header height: 64 and search bar height: 40 and check scroll position per 300ms
+    const searchBar = document.getElementById('home__search__bar') as HTMLElement
+    if (searchBar) {
+      const searchPosition = searchBar.scrollHeight + 64 + 40
+      dispatch({
+        type: ComponentActions.UpdateHeaderSearchBarVisible,
+        payload: { headerSearchBarVisible: window.pageYOffset > searchPosition },
+      })
+    }
+  }, 300)
 }
 
 export default () => {
@@ -149,7 +152,7 @@ export default () => {
     transactionsState: { transactions = [] },
     statistics,
     app: { tipBlockNumber },
-    components: { homeSearchBarVisible },
+    components: { headerSearchBarVisible },
   } = useAppState()
   const [t] = useTranslation()
 
@@ -175,7 +178,7 @@ export default () => {
     handleBlockchainAlert(dispatch)
   }, BLOCKCHAIN_ALERT_POLLING_TIME)
 
-  useHomeSearchBarStatus(dispatch, homeSearchBarVisible)
+  useHomeSearchBarStatus(dispatch)
 
   return (
     <Content>
@@ -183,7 +186,7 @@ export default () => {
         <HomeHeaderTopPanel style={{ backgroundImage: `url(${HomeHeaderBackground})` }}>
           <div className="home__top__title">{i18n.t('common.ckb_explorer')}</div>
           <div className="home__top__search" id="home__search__bar">
-            {homeSearchBarVisible && <Search hasButton={true} />}
+            {!headerSearchBarVisible && <Search hasButton={true} />}
           </div>
         </HomeHeaderTopPanel>
         <HomeStatisticTopPanel>

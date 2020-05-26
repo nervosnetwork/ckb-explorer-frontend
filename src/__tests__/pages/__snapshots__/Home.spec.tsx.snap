@@ -23,7 +23,43 @@ exports[`Active Page shallow renders 1`] = `
       <div
         className="home__top__search"
         id="home__search__bar"
-      />
+      >
+        <div
+          className="sc-fzoLag eNRuJM"
+        >
+          <div
+            className="sc-fzoXzr lmzWOP"
+          >
+            <div
+              className="sc-fzpjYC bvkCky"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex={-1}
+            >
+              <img
+                alt="search logo"
+                src="search_black.png"
+              />
+            </div>
+            <input
+              className="sc-fznxsB knrDyn"
+              defaultValue=""
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyUp={[Function]}
+              placeholder="Block/Transaction/Address/Lock Hash"
+            />
+          </div>
+          <div
+            className="sc-fznJRM bMFvBM"
+            onClick={[Function]}
+          >
+            Search
+          </div>
+        </div>
+      </div>
     </div>
     <div
       className="sc-AxiKw cqkZBB"
@@ -136,7 +172,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxhCb fZVaxu"
+      className="sc-AxhCb PGzqW"
     >
       <div
         className="blockchain__item__row"
@@ -881,7 +917,43 @@ exports[`Active Page shallow renders with empty data 1`] = `
       <div
         className="home__top__search"
         id="home__search__bar"
-      />
+      >
+        <div
+          className="sc-fzoLag eNRuJM"
+        >
+          <div
+            className="sc-fzoXzr lmzWOP"
+          >
+            <div
+              className="sc-fzpjYC bvkCky"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex={-1}
+            >
+              <img
+                alt="search logo"
+                src="search_black.png"
+              />
+            </div>
+            <input
+              className="sc-fznxsB knrDyn"
+              defaultValue=""
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyUp={[Function]}
+              placeholder="Block/Transaction/Address/Lock Hash"
+            />
+          </div>
+          <div
+            className="sc-fznJRM bMFvBM"
+            onClick={[Function]}
+          >
+            Search
+          </div>
+        </div>
+      </div>
     </div>
     <div
       className="sc-AxiKw cqkZBB"
@@ -994,7 +1066,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxhCb fZVaxu"
+      className="sc-AxhCb PGzqW"
     >
       <div
         className="blockchain__item__row"
