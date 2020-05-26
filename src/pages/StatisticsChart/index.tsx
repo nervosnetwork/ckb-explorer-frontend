@@ -54,6 +54,8 @@ import { initStatisticAverageBlockTimes, AverageBlockTimeChart } from './block/A
 import { initStatisticNewNodeCount, NewNodeCountChart } from './network/NewNodeCount'
 import { getStatisticNewNodeCount, getStatisticNodeDistribution } from '../../service/app/charts/network'
 import { NodeDistributionChart, initStatisticNodeDistribution } from './network/NodeDistribution'
+import { TotalSupplyChart, initStatisticTotalSupply } from './monetary/TotalSupply'
+import { getStatisticTotalSupply } from '../../service/app/charts/monetary'
 
 interface ChartData {
   title: string
@@ -103,6 +105,7 @@ export default () => {
     statisticAverageBlockTimes,
     statisticNewNodeCounts,
     statisticNodeDistributions,
+    statisticTotalSupplies,
   } = useAppState()
 
   const charts: ChartCategory[] = [
@@ -246,6 +249,16 @@ export default () => {
         },
       ],
     },
+    {
+      category: i18n.t('statistic.category_monetary'),
+      charts: [
+        {
+          title: `${i18n.t('statistic.total_supply')}`,
+          chart: <TotalSupplyChart statisticTotalSupplies={statisticTotalSupplies} isThumbnail />,
+          path: '/charts/total-supply',
+        },
+      ],
+    },
   ]
 
   useEffect(() => {
@@ -270,6 +283,7 @@ export default () => {
     initStatisticAverageBlockTimes(dispatch)
     initStatisticNewNodeCount(dispatch)
     initStatisticNodeDistribution(dispatch)
+    initStatisticTotalSupply(dispatch)
   }, [dispatch])
 
   useEffect(() => {
@@ -294,6 +308,7 @@ export default () => {
     getStatisticAverageBlockTimes(dispatch)
     getStatisticNewNodeCount(dispatch)
     getStatisticNodeDistribution(dispatch)
+    getStatisticTotalSupply(dispatch)
   }, [dispatch])
 
   return (

@@ -297,6 +297,12 @@ export const fetchStatisticNodeDistribution = () => {
   )
 }
 
+export const fetchStatisticTotalSupply = () => {
+  return axiosIns(`/daily_statistics/circulating_supply-burnt-locked_capacity`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticTotalSupply>[]>(res.data.data),
+  )
+}
+
 export const fetchSimpleUDT = (typeHash: string) => {
   return axiosIns(`/udts/${typeHash}`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.UDT>>(res.data.data),

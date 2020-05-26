@@ -95,6 +95,7 @@
       "category_activities": "Activities",
       "category_block": "Block",
       "category_network": "Network",
+      "category_monetary": "Monetary",
       "tx_fee_history": "Transaction Fee",
       "tx_fee": "Transaction Fee (CKB)",
       "block_count": "Block Ratio",
@@ -115,8 +116,10 @@
       "city": "City",
       "node_count": "Node Count",
       "node_distribution": "Node Distribution",
-      "block_propagation_delay_history_title": "Block Propagation Delay History",
-      "block_propagation_delay_history": "Block Propagation Delay History (ms)"
+      "total_supply": "Total Supply",
+      "circulating_supply": "Circulating Supply",
+      "burnt": "Burnt",
+      "locked": "Locked"
     },
     "home": {
       "height": "Height",

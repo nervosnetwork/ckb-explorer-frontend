@@ -43,6 +43,7 @@ import EpochTimeDistributionChart from '../pages/StatisticsChart/block/EpochTime
 import AverageBlockTimeChart from '../pages/StatisticsChart/block/AverageBlockTime'
 import NewNodeCountChart from '../pages/StatisticsChart/network/NewNodeCount'
 import NodeDistributionChart from '../pages/StatisticsChart/network/NodeDistribution'
+import TotalSupplyChart from '../pages/StatisticsChart/monetary/TotalSupply'
 
 const Containers: CustomRouter.Route[] = [
   {
@@ -224,6 +225,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/charts/node-distribution',
     exact: true,
     comp: NodeDistributionChart,
+  },
+  {
+    name: 'TotalSupplyChart',
+    path: '/charts/total-supply',
+    exact: true,
+    comp: TotalSupplyChart,
   },
   {
     name: 'SearchFail',

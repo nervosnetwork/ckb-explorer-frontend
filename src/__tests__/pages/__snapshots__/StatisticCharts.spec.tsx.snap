@@ -770,6 +770,52 @@ exports[`Active Page shallow renders with empty data 1`] = `
         </div>
       </div>
     </div>
+    <div
+      className="sc-fzqNqU jkXYJU"
+    >
+      <div
+        className="charts__category__title"
+      >
+        Monetary
+      </div>
+      <div
+        className="charts__category__panel"
+      >
+        <div
+          className="sc-fzoyTs bDXNzP"
+        >
+          <a
+            href="/charts/total-supply"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card_title"
+            >
+              Total Supply
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoXzr jAtUuH"
+              >
+                <div
+                  className="sc-fzpjYC kXhIKa"
+                >
+                  <img
+                    alt="no data"
+                    src="chart_no_data.png"
+                  />
+                  <span>
+                    No data...
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;

@@ -94,6 +94,7 @@
       "category_mining": "挖矿数据",
       "category_activities": "活跃度数据",
       "category_block": "区块",
+      "category_monetary": "经济模型",
       "tx_fee_history": "交易费历史记录",
       "tx_fee": "交易费 (CKB)",
       "block_count": "区块数占比",
@@ -114,8 +115,10 @@
       "city": "城市",
       "node_count": "节点数量",
       "node_distribution": "节点分布",
-      "block_propagation_delay_history_title": "区块传播延时历史",
-      "block_propagation_delay_history": "区块传播延时历史 (ms)"
+      "total_supply": "总供给量",
+      "circulating_supply": "流通量",
+      "burnt": "销毁量",
+      "locked": "锁定量"
     },
     "home": {
       "height": "高度",
