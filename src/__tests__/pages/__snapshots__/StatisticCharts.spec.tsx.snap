@@ -511,39 +511,6 @@ exports[`Active Page shallow renders with empty data 1`] = `
             </div>
           </a>
         </div>
-        <div
-          className="sc-fzoyTs bDXNzP"
-        >
-          <a
-            href="/charts/occupied-capacity"
-            onClick={[Function]}
-          >
-            <div
-              className="chart__card_title"
-            >
-              Occupied Capacity
-            </div>
-            <div
-              className="chart__card_body"
-            >
-              <div
-                className="sc-fzoXzr jAtUuH"
-              >
-                <div
-                  className="sc-fzpjYC kXhIKa"
-                >
-                  <img
-                    alt="no data"
-                    src="chart_no_data.png"
-                  />
-                  <span>
-                    No data...
-                  </span>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
       </div>
     </div>
     <div
@@ -601,39 +568,6 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="chart__card_title"
             >
               Daily Deposit
-            </div>
-            <div
-              className="chart__card_body"
-            >
-              <div
-                className="sc-fzoXzr jAtUuH"
-              >
-                <div
-                  className="sc-fzpjYC kXhIKa"
-                >
-                  <img
-                    alt="no data"
-                    src="chart_no_data.png"
-                  />
-                  <span>
-                    No data...
-                  </span>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div
-          className="sc-fzoyTs bDXNzP"
-        >
-          <a
-            href="/charts/new-dao-withdraw"
-            onClick={[Function]}
-          >
-            <div
-              className="chart__card_title"
-            >
-              Daily Withdraw
             </div>
             <div
               className="chart__card_body"

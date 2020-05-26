@@ -9,7 +9,6 @@ import {
   getStatisticAddressBalanceRank,
   getStatisticBalanceDistribution,
   getStatisticTxFeeHistory,
-  getStatisticOccupiedCapacity,
 } from '../../service/app/charts/activities'
 import {
   getStatisticDifficultyHashRate,
@@ -21,7 +20,6 @@ import {
 import {
   getStatisticTotalDaoDeposit,
   getStatisticNewDaoDeposit,
-  getStatisticNewDaoWithdraw,
   getStatisticCirculationRatio,
 } from '../../service/app/charts/nervosDao'
 import { useAppState, useDispatch } from '../../contexts/providers'
@@ -45,10 +43,8 @@ import {
   getStatisticEpochTimeDistribution,
   getStatisticAverageBlockTimes,
 } from '../../service/app/charts/block'
-import { OccupiedCapacityChart, initStatisticOccupiedCapacity } from './activities/OccupiedCapacity'
 import { EpochTimeDistributionChart, initStatisticEpochTimeDistribution } from './block/EpochTimeDistribution'
 import { NewDaoDepositChart, initStatisticNewDaoDeposit } from './nervosDao/NewDaoDeposit'
-import { NewDaoWithdrawChart, initStatisticNewDaoWithdraw } from './nervosDao/NewDaoWithdraw'
 import { CirculationRatioChart, initStatisticCirculationRatio } from './nervosDao/CirculationRatio'
 import { initStatisticAverageBlockTimes, AverageBlockTimeChart } from './block/AverageBlockTime'
 import { initStatisticNewNodeCount, NewNodeCountChart } from './network/NewNodeCount'
@@ -92,7 +88,6 @@ export default () => {
     statisticAddressCounts,
     statisticTotalDaoDeposits,
     statisticNewDaoDeposits,
-    statisticNewDaoWithdraw,
     statisticCirculationRatios,
     statisticCellCounts,
     statisticTransactionCounts,
@@ -100,7 +95,6 @@ export default () => {
     statisticBalanceDistributions,
     statisticTxFeeHistories,
     statisticBlockTimeDistributions,
-    statisticOccupiedCapacities,
     statisticEpochTimeDistributions,
     statisticAverageBlockTimes,
     statisticNewNodeCounts,
@@ -202,11 +196,11 @@ export default () => {
           chart: <TxFeeHistoryChart statisticTxFeeHistories={statisticTxFeeHistories} isThumbnail />,
           path: '/charts/tx-fee-history',
         },
-        {
-          title: `${i18n.t('statistic.occupied_capacity')}`,
-          chart: <OccupiedCapacityChart statisticOccupiedCapacities={statisticOccupiedCapacities} isThumbnail />,
-          path: '/charts/occupied-capacity',
-        },
+        // {
+        //   title: `${i18n.t('statistic.occupied_capacity')}`,
+        //   chart: <OccupiedCapacityChart statisticOccupiedCapacities={statisticOccupiedCapacities} isThumbnail />,
+        //   path: '/charts/occupied-capacity',
+        // },
       ],
     },
     {
@@ -221,11 +215,6 @@ export default () => {
           title: `${i18n.t('statistic.new_dao_deposit_title')}`,
           chart: <NewDaoDepositChart statisticNewDaoDeposits={statisticNewDaoDeposits} isThumbnail />,
           path: '/charts/new-dao-deposit',
-        },
-        {
-          title: `${i18n.t('statistic.new_dao_withdraw')}`,
-          chart: <NewDaoWithdrawChart statisticNewDaoWithdraw={statisticNewDaoWithdraw} isThumbnail />,
-          path: '/charts/new-dao-withdraw',
         },
         {
           title: `${i18n.t('statistic.circulation_ratio')}`,
@@ -272,13 +261,11 @@ export default () => {
     initStatisticTransactionCount(dispatch)
     initStatisticTotalDaoDeposit(dispatch)
     initStatisticNewDaoDeposit(dispatch)
-    initStatisticNewDaoWithdraw(dispatch)
     initStatisticCirculationRatio(dispatch)
     initStatisticAddressBalanceRanks(dispatch)
     initStatisticBalanceDistribution(dispatch)
     initStatisticTxFeeHistory(dispatch)
     initStatisticBlockTimeDistribution(dispatch)
-    initStatisticOccupiedCapacity(dispatch)
     initStatisticEpochTimeDistribution(dispatch)
     initStatisticAverageBlockTimes(dispatch)
     initStatisticNewNodeCount(dispatch)
@@ -297,13 +284,11 @@ export default () => {
     getStatisticTransactionCount(dispatch)
     getStatisticTotalDaoDeposit(dispatch)
     getStatisticNewDaoDeposit(dispatch)
-    getStatisticNewDaoWithdraw(dispatch)
     getStatisticCirculationRatio(dispatch)
     getStatisticAddressBalanceRank(dispatch)
     getStatisticBalanceDistribution(dispatch)
     getStatisticTxFeeHistory(dispatch)
     getStatisticBlockTimeDistribution(dispatch)
-    getStatisticOccupiedCapacity(dispatch)
     getStatisticEpochTimeDistribution(dispatch)
     getStatisticAverageBlockTimes(dispatch)
     getStatisticNewNodeCount(dispatch)

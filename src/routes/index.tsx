@@ -26,7 +26,6 @@ import TransactionCountChart from '../pages/StatisticsChart/activities/Transacti
 import AddressCountChart from '../pages/StatisticsChart/activities/AddressCount'
 import TotalDaoDepositChart from '../pages/StatisticsChart/nervosDao/TotalDaoDeposit'
 import NewDaoDepositChart from '../pages/StatisticsChart/nervosDao/NewDaoDeposit'
-import NewDaoWithdrawChart from '../pages/StatisticsChart/nervosDao/NewDaoWithdraw'
 import CirculationRatioChart from '../pages/StatisticsChart/nervosDao/CirculationRatio'
 import CellCountChart from '../pages/StatisticsChart/activities/CellCount'
 import AddressBalanceRankChart from '../pages/StatisticsChart/activities/AddressBalanceRank'
@@ -37,7 +36,6 @@ import { ComponentActions } from '../contexts/actions'
 import { isMobile } from '../utils/screen'
 import BalanceDistributionChart from '../pages/StatisticsChart/activities/BalanceDistribution'
 import TxFeeHistoryChart from '../pages/StatisticsChart/activities/TxFeeHistory'
-import OccupiedCapacityChart from '../pages/StatisticsChart/activities/OccupiedCapacity'
 import BlockTimeDistributionChart from '../pages/StatisticsChart/block/BlockTimeDistribution'
 import EpochTimeDistributionChart from '../pages/StatisticsChart/block/EpochTimeDistribution'
 import AverageBlockTimeChart from '../pages/StatisticsChart/block/AverageBlockTime'
@@ -161,12 +159,6 @@ const Containers: CustomRouter.Route[] = [
     comp: CirculationRatioChart,
   },
   {
-    name: 'NewDaoWithdrawChart',
-    path: '/charts/new-dao-Withdraw',
-    exact: true,
-    comp: NewDaoWithdrawChart,
-  },
-  {
     name: 'CellCountChart',
     path: '/charts/cell-count',
     exact: true,
@@ -201,12 +193,6 @@ const Containers: CustomRouter.Route[] = [
     path: '/charts/average-block-time',
     exact: true,
     comp: AverageBlockTimeChart,
-  },
-  {
-    name: 'OccupiedCapacityChart',
-    path: '/charts/occupied-capacity',
-    exact: true,
-    comp: OccupiedCapacityChart,
   },
   {
     name: 'EpochTimeDistributionChart',
