@@ -51,7 +51,9 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
       },
     },
     legend: {
-      data: [i18n.t('statistic.circulating_supply'), i18n.t('statistic.burnt'), i18n.t('statistic.locked')],
+      data: isThumbnail
+        ? []
+        : [i18n.t('statistic.circulating_supply'), i18n.t('statistic.burnt'), i18n.t('statistic.locked')],
     },
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
