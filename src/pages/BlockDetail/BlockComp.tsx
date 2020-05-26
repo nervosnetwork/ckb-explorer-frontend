@@ -183,7 +183,7 @@ export const BlockOverview = () => {
     return showAllOverview ? PackUpBlueIcon : DropDownBlueIcon
   }
   return (
-    <OverviewCard items={overviewItems} hideShadow={true}>
+    <OverviewCard items={overviewItems} hideShadow>
       {isMobile() ? (
         <BlockOverviewDisplayControlPanel onClick={() => setShowAllOverview(!showAllOverview)}>
           <img src={getDropdownIcon()} alt={showAllOverview ? 'show' : 'hide'} />

@@ -72,10 +72,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
         />
       </div>
       <div
-        className="sc-fznJRM eAGdwR"
+        className="sc-fznJRM ftfaLD"
       >
         <div
-          className="sc-fzqBkg cTxTQP"
+          className="sc-fzqBkg duPYMH"
         >
           <div
             className="overview__separate"

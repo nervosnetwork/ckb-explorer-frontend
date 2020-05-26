@@ -16,7 +16,7 @@ export const BlockDetailPanel = styled.div`
 export const BlockRootInfoPanel = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 14px 0;
+  margin-top: 14px;
 
   > span {
     width: 100%;

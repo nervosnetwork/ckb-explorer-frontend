@@ -11,7 +11,6 @@ import { isMobile } from '../../utils/screen'
 import SearchLogo from '../../assets/search_black.png'
 import { ComponentActions } from '../../contexts/actions'
 import { parseUDTAmount } from '../../utils/number'
-import TitleCard from '../../components/Card/TitleCard'
 
 const simpleUDTInfo = (udt: State.UDT) => {
   const { fullName, symbol, addressesCount, decimal, totalAmount } = udt
@@ -39,6 +38,13 @@ const simpleUDTInfo = (udt: State.UDT) => {
   ] as OverviewItemData[]
 }
 
+export const SimpleUDTOverview = () => {
+  const {
+    udtState: { udt },
+  } = useAppState()
+  return <OverviewCard items={simpleUDTInfo(udt)} hideShadow />
+}
+
 export const SimpleUDTComp = ({
   currentPage,
   pageSize,
@@ -49,7 +55,7 @@ export const SimpleUDTComp = ({
   typeHash: string
 }) => {
   const {
-    udtState: { transactions = [], total, udt },
+    udtState: { transactions = [], total },
     app: { tipBlockNumber },
   } = useAppState()
   const dispatch = useDispatch()
@@ -94,7 +100,6 @@ export const SimpleUDTComp = ({
 
   return (
     <>
-      <OverviewCard items={simpleUDTInfo(udt)} titleCard={<TitleCard title={i18n.t('common.overview')} />} />
       <SimpleUDTTransactionsPanel>
         {transactions.map((transaction: State.Transaction, index: number) => {
           return (

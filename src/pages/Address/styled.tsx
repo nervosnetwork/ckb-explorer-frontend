@@ -3,7 +3,6 @@ import styled from 'styled-components'
 export const AddressTitleOverviewPanel = styled.div`
   display: flex;
   flex-direction: column;
-  padding-bottom: 20px;
 `
 
 export const AddressContentPanel = styled.div`

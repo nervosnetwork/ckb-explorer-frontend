@@ -12,7 +12,7 @@ import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
 import { parsePageNumber } from '../../utils/string'
 import { SimpleUDTContentPanel } from './styled'
-import SimpleUDTComp from './SimpleUDTComp'
+import SimpleUDTComp, { SimpleUDTOverview } from './SimpleUDTComp'
 import browserHistory from '../../routes/history'
 import { useTimeoutWithUnmount } from '../../utils/hook'
 import { getSimpleUDT, getSimpleUDTTransactions } from '../../service/app/udt'
@@ -93,7 +93,9 @@ export const SimpleUDT = () => {
   return (
     <Content>
       <SimpleUDTContentPanel className="container">
-        <SimpleUDTHashCard title={i18n.t('udt.sudt')} hash={typeHash} iconUri={iconFile ? iconFile : SUDTTokenIcon} />
+        <SimpleUDTHashCard title={i18n.t('udt.sudt')} hash={typeHash} iconUri={iconFile ? iconFile : SUDTTokenIcon}>
+          <SimpleUDTOverview />
+        </SimpleUDTHashCard>
         <SimpleUDTCompState currentPage={currentPage} pageSize={pageSize} typeHash={typeHash} />
       </SimpleUDTContentPanel>
     </Content>
