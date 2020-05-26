@@ -73,7 +73,6 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
       {
         position: 'left',
         type: 'value',
-        scale: true,
         axisLine: {
           lineStyle: {
             color: ChartColors[0],
@@ -93,7 +92,7 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
         symbolSize: 3,
         stack: 'sum',
         areaStyle: {},
-        data: statisticTotalSupplies.map(data => new BigNumber(data.circulatingSupply).toFixed(0)),
+        data: statisticTotalSupplies.map(data => new BigNumber(shannonToCkb(data.circulatingSupply)).toFixed(0)),
       },
       {
         name: i18n.t('statistic.burnt'),
