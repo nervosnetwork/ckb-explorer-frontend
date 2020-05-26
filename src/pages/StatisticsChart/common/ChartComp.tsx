@@ -75,4 +75,10 @@ const ChartPage = ({ title, children }: { title: string; children: ReactNode }) 
   )
 }
 
-export { ChartLoading, ReactChartCore, ChartPage }
+const tooltipColor = (color: string) =>
+  `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
+
+const tooltipWidth = (value: string, width: number) =>
+  `<span style="width:${width}px;display:inline-block;">${value}:</span>`
+
+export { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth }

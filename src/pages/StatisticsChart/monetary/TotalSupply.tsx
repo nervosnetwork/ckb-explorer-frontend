@@ -6,7 +6,7 @@ import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { getStatisticTotalSupply } from '../../../service/app/charts/monetary'
@@ -32,25 +32,21 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
     tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
-        const colorSpan = (color: string) =>
-          `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
-        const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '125px' : '55px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 125 : 55)
+        let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
         )}</div>`
-        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
-          dataList[0].data,
-          2,
-        )}</div>`
-        result += `<div>${colorSpan(ChartColors[1])}${widthSpan(i18n.t('statistic.burnt'))} ${handleAxis(
-          dataList[1].data,
-          2,
-        )}</div>`
-        result += `<div>${colorSpan(ChartColors[2])}${widthSpan(i18n.t('statistic.locked'))} ${handleAxis(
+        result += `<div>${tooltipColor(ChartColors[2])}${widthSpan(i18n.t('statistic.locked'))} ${handleAxis(
           dataList[2].data,
           2,
         )}</div>`
+        result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('statistic.burnt'))} ${handleAxis(
+          dataList[1].data,
+          2,
+        )}</div>`
+        result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+          i18n.t('statistic.circulating_supply'),
+        )} ${handleAxis(dataList[0].data, 2)}</div>`
         return result
       },
     },
