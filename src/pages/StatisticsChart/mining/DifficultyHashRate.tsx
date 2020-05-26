@@ -7,7 +7,7 @@ import { handleAxis } from '../../../utils/chart'
 import { handleDifficulty, handleHashRate } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 
@@ -31,18 +31,15 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
     tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
-        const colorSpan = (color: string) =>
-          `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
-        const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '70px' : '50px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch'))} ${dataList[0].name}</div>`
+        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 70 : 50)
+        let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${dataList[0].name}</div>`
         if (dataList[0]) {
-          result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
+          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
             dataList[0].data,
           )}</div>`
         }
         if (dataList[1]) {
-          result += `<div>${colorSpan(ChartColors[1])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
+          result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
             dataList[1].data,
           )}</div>`
         }

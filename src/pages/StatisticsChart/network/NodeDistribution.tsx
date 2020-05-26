@@ -3,7 +3,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { localeNumberString } from '../../../utils/number'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipWidth } from '../common/ChartComp'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { getStatisticNodeDistribution } from '../../../service/app/charts/network'
@@ -28,8 +28,7 @@ const getOption = (statisticNodeDistributions: State.StatisticNodeDistribution[]
     tooltip: !isThumbnail && {
       trigger: 'item',
       formatter: (data: any) => {
-        const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '95px' : '60px'};display:inline-block;">${value}:</span>`
+        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 95 : 60)
         const widthValueSpan = (value: string) => `<span style="display:inline-block;color:#AACFE9;">${value}</span>`
         let result = `<div>${widthSpan(i18n.t('statistic.city'))} ${widthValueSpan(data.data.name)}</div>`
         result += `<div>${widthSpan(i18n.t('statistic.node_count'))} ${widthValueSpan(
