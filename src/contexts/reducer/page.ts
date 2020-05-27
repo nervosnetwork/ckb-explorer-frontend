@@ -264,6 +264,11 @@ export const pageReducer = (
         ...state,
         statisticTotalSupplies: payload.statisticTotalSupplies,
       }
+    case PageActions.UpdateStatisticAnnualPercentageCompensation:
+      return {
+        ...state,
+        statisticAnnualPercentageCompensations: payload.statisticAnnualPercentageCompensations,
+      }
 
     // nervos dao page
     case PageActions.UpdateNervosDao:

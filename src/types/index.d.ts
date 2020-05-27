@@ -360,6 +360,15 @@ declare namespace State {
     lockedCapacity: string
   }
 
+  export interface StatisticAnnualPercentageCompensation {
+    year: number
+    apc: string
+  }
+
+  export interface StatisticAnnualPercentageCompensations {
+    nominalApc: string[]
+  }
+
   interface FetchStatusValue {
     OK: string
     Error: string
@@ -439,6 +448,7 @@ declare namespace State {
     statisticNewNodeCounts: StatisticNewNodeCount[]
     statisticNodeDistributions: StatisticNodeDistribution[]
     statisticTotalSupplies: StatisticTotalSupply[]
+    statisticAnnualPercentageCompensations: StatisticAnnualPercentageCompensation[]
   }
 
   export interface PageState extends StatisticChartsState {

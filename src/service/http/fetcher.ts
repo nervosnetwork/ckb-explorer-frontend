@@ -303,6 +303,12 @@ export const fetchStatisticTotalSupply = () => {
   )
 }
 
+export const fetchStatisticAnnualPercentageCompensation = () => {
+  return axiosIns(`/monetary_data/nominal_apc`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticAnnualPercentageCompensations>>(res.data.data),
+  )
+}
+
 export const fetchSimpleUDT = (typeHash: string) => {
   return axiosIns(`/udts/${typeHash}`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.UDT>>(res.data.data),

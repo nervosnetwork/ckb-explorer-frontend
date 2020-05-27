@@ -118,7 +118,10 @@
       "total_supply": "总供给量",
       "circulating_supply": "流通量",
       "burnt": "销毁量",
-      "locked": "锁定量"
+      "locked": "锁定量",
+      "year": "时间 (年)",
+      "nominal_apc": "基准补偿率",
+      "nominal_apc_title": "基准补偿率"
     },
     "home": {
       "height": "高度",

@@ -119,7 +119,10 @@
       "total_supply": "Total Supply",
       "circulating_supply": "Circulating Supply",
       "burnt": "Burnt",
-      "locked": "Locked"
+      "locked": "Locked",
+      "year": "Time (year)",
+      "nominal_apc": "Nominal Annual Percentage of Compensation",
+      "nominal_apc_title": "Nominal APC"
     },
     "home": {
       "height": "Height",

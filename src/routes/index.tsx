@@ -42,6 +42,7 @@ import AverageBlockTimeChart from '../pages/StatisticsChart/block/AverageBlockTi
 import NewNodeCountChart from '../pages/StatisticsChart/network/NewNodeCount'
 import NodeDistributionChart from '../pages/StatisticsChart/network/NodeDistribution'
 import TotalSupplyChart from '../pages/StatisticsChart/monetary/TotalSupply'
+import AnnualPercentageCompensationChart from '../pages/StatisticsChart/monetary/AnnualPercentageCompensation'
 
 const Containers: CustomRouter.Route[] = [
   {
@@ -217,6 +218,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/charts/total-supply',
     exact: true,
     comp: TotalSupplyChart,
+  },
+  {
+    name: 'AnnualPercentageCompensationChart',
+    path: '/charts/nominal-apc',
+    exact: true,
+    comp: AnnualPercentageCompensationChart,
   },
   {
     name: 'SearchFail',

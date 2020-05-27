@@ -51,7 +51,11 @@ import { initStatisticNewNodeCount, NewNodeCountChart } from './network/NewNodeC
 import { getStatisticNewNodeCount, getStatisticNodeDistribution } from '../../service/app/charts/network'
 import { NodeDistributionChart, initStatisticNodeDistribution } from './network/NodeDistribution'
 import { TotalSupplyChart, initStatisticTotalSupply } from './monetary/TotalSupply'
-import { getStatisticTotalSupply } from '../../service/app/charts/monetary'
+import { getStatisticTotalSupply, getStatisticAnnualPercentageCompensation } from '../../service/app/charts/monetary'
+import {
+  AnnualPercentageCompensationChart,
+  initStatisticAnnualPercentageCompensation,
+} from './monetary/AnnualPercentageCompensation'
 
 interface ChartData {
   title: string
@@ -100,6 +104,7 @@ export default () => {
     statisticNewNodeCounts,
     statisticNodeDistributions,
     statisticTotalSupplies,
+    statisticAnnualPercentageCompensations,
   } = useAppState()
 
   const charts: ChartCategory[] = [
@@ -246,6 +251,16 @@ export default () => {
           chart: <TotalSupplyChart statisticTotalSupplies={statisticTotalSupplies} isThumbnail />,
           path: '/charts/total-supply',
         },
+        {
+          title: `${i18n.t('statistic.nominal_apc_title')}`,
+          chart: (
+            <AnnualPercentageCompensationChart
+              statisticAnnualPercentageCompensations={statisticAnnualPercentageCompensations}
+              isThumbnail
+            />
+          ),
+          path: '/charts/nominal-apc',
+        },
       ],
     },
   ]
@@ -271,6 +286,7 @@ export default () => {
     initStatisticNewNodeCount(dispatch)
     initStatisticNodeDistribution(dispatch)
     initStatisticTotalSupply(dispatch)
+    initStatisticAnnualPercentageCompensation(dispatch)
   }, [dispatch])
 
   useEffect(() => {
@@ -294,6 +310,7 @@ export default () => {
     getStatisticNewNodeCount(dispatch)
     getStatisticNodeDistribution(dispatch)
     getStatisticTotalSupply(dispatch)
+    getStatisticAnnualPercentageCompensation(dispatch)
   }, [dispatch])
 
   return (
