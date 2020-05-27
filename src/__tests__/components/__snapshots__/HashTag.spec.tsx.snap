@@ -4,6 +4,7 @@ exports[`HashTag Component shallow renders 1`] = `
 .c0 {
   height: 20px;
   width: 67.5px;
+  min-width: 67.5px;
   border-radius: 4px;
   border: solid 0.5px #caacef;
   background-color: #f0e0fb;
