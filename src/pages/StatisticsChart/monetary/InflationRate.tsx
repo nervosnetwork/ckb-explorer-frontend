@@ -91,6 +91,9 @@ const getOption = (statisticInflationRates: State.StatisticInflationRate[], isTh
         yAxisIndex: '0',
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
+        lineStyle: {
+          type: 'dashed',
+        },
         data: statisticInflationRates.map(data => Number(data.nominalInflationRate).toFixed(4)),
       },
       {
@@ -99,6 +102,9 @@ const getOption = (statisticInflationRates: State.StatisticInflationRate[], isTh
         yAxisIndex: '0',
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
+        lineStyle: {
+          type: 'dashed',
+        },
         data: statisticInflationRates.map(data => Number(data.nominalApc).toFixed(4)),
       },
       {
@@ -106,7 +112,11 @@ const getOption = (statisticInflationRates: State.StatisticInflationRate[], isTh
         type: 'line',
         yAxisIndex: '0',
         symbol: isThumbnail ? 'none' : 'circle',
-        symbolSize: 5,
+        symbolSize: 3,
+        lineStyle: {
+          type: 'solid',
+          width: 3,
+        },
         data: statisticInflationRates.map(data => Number(data.realInflationRate).toFixed(4)),
       },
     ],
