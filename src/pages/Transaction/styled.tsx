@@ -138,6 +138,10 @@ export const TransactionInfoContentPanel = styled.div`
     @media (max-width: 750px) {
       font-size: 12px;
     }
+
+    .transaction__info__content__tag {
+      margin-left: 12px;
+    }
   }
 `
 
