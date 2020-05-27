@@ -33,7 +33,7 @@ const getOption = (
       formatter: (dataList: any[]) => {
         const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 90 : 80)
         let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.year'))} ${dataList[0].name}</div>`
-        result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.nominal_apc_title'))} ${
+        result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.nominal_apc_short'))} ${
           dataList[0].data
         }%</div>`
         return result
@@ -59,7 +59,7 @@ const getOption = (
     yAxis: [
       {
         position: 'left',
-        name: i18n.t('statistic.nominal_apc_title'),
+        name: i18n.t('statistic.nominal_apc_short'),
         type: 'value',
         axisLine: {
           lineStyle: {
@@ -73,7 +73,7 @@ const getOption = (
     ],
     series: [
       {
-        name: i18n.t('statistic.nominal_apc_title'),
+        name: i18n.t('statistic.nominal_apc_short'),
         type: 'line',
         yAxisIndex: '0',
         symbol: isThumbnail ? 'none' : 'circle',

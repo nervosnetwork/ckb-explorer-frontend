@@ -55,12 +55,14 @@ import {
   getStatisticTotalSupply,
   getStatisticAnnualPercentageCompensation,
   getStatisticSecondaryIssuance,
+  getStatisticInflationRate,
 } from '../../service/app/charts/monetary'
 import {
   AnnualPercentageCompensationChart,
   initStatisticAnnualPercentageCompensation,
 } from './monetary/AnnualPercentageCompensation'
 import { SecondaryIssuanceChart, initStatisticSecondaryIssuance } from './monetary/SecondaryIssuance'
+import { InflationRateChart, initStatisticInflationRate } from './monetary/InflationRate'
 
 interface ChartData {
   title: string
@@ -111,6 +113,7 @@ export default () => {
     statisticTotalSupplies,
     statisticAnnualPercentageCompensations,
     statisticSecondaryIssuance,
+    statisticInflationRates,
   } = useAppState()
 
   const charts: ChartCategory[] = [
@@ -258,7 +261,7 @@ export default () => {
           path: '/charts/total-supply',
         },
         {
-          title: `${i18n.t('statistic.nominal_apc_title')}`,
+          title: `${i18n.t('statistic.nominal_apc_short')}`,
           chart: (
             <AnnualPercentageCompensationChart
               statisticAnnualPercentageCompensations={statisticAnnualPercentageCompensations}
@@ -271,6 +274,11 @@ export default () => {
           title: `${i18n.t('nervos_dao.secondary_issuance')}`,
           chart: <SecondaryIssuanceChart statisticSecondaryIssuance={statisticSecondaryIssuance} isThumbnail />,
           path: '/charts/secondary-issuance',
+        },
+        {
+          title: `${i18n.t('statistic.inflation_rate')}`,
+          chart: <InflationRateChart statisticInflationRates={statisticInflationRates} isThumbnail />,
+          path: '/charts/inflation-rate',
         },
       ],
     },
@@ -299,6 +307,7 @@ export default () => {
     initStatisticTotalSupply(dispatch)
     initStatisticAnnualPercentageCompensation(dispatch)
     initStatisticSecondaryIssuance(dispatch)
+    initStatisticInflationRate(dispatch)
   }, [dispatch])
 
   useEffect(() => {
@@ -324,6 +333,7 @@ export default () => {
     getStatisticTotalSupply(dispatch)
     getStatisticAnnualPercentageCompensation(dispatch)
     getStatisticSecondaryIssuance(dispatch)
+    getStatisticInflationRate(dispatch)
   }, [dispatch])
 
   return (

@@ -376,6 +376,19 @@ declare namespace State {
     depositCompensation: string
   }
 
+  export interface StatisticInflationRates {
+    nominalApc: string[]
+    nominalInflationRate: string[]
+    realInflationRate: string[]
+  }
+
+  export interface StatisticInflationRate {
+    year: number
+    nominalApc: string
+    nominalInflationRate: string
+    realInflationRate: string
+  }
+
   interface FetchStatusValue {
     OK: string
     Error: string
@@ -457,6 +470,7 @@ declare namespace State {
     statisticTotalSupplies: StatisticTotalSupply[]
     statisticAnnualPercentageCompensations: StatisticAnnualPercentageCompensation[]
     statisticSecondaryIssuance: StatisticSecondaryIssuance[]
+    statisticInflationRates: StatisticInflationRate[]
   }
 
   export interface PageState extends StatisticChartsState {

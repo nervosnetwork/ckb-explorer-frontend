@@ -122,7 +122,10 @@
       "locked": "Locked",
       "year": "Time (year)",
       "nominal_apc": "Nominal Annual Percentage of Compensation",
-      "nominal_apc_title": "Nominal APC"
+      "nominal_apc_short": "Nominal APC",
+      "inflation_rate": "Inflation Rate",
+      "nominal_inflation_rate": "Nominal Inflation Rate",
+      "real_inflation_rate": "Real Inflation Rate"
     },
     "home": {
       "height": "Height",

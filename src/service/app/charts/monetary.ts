@@ -3,6 +3,7 @@ import {
   fetchStatisticTotalSupply,
   fetchStatisticAnnualPercentageCompensation,
   fetchStatisticSecondaryIssuance,
+  fetchStatisticInflationRate,
 } from '../../http/fetcher'
 import { PageActions } from '../../../contexts/actions'
 
@@ -68,6 +69,30 @@ export const getStatisticSecondaryIssuance = (dispatch: AppDispatch) => {
       type: PageActions.UpdateStatisticSecondaryIssuance,
       payload: {
         statisticSecondaryIssuance,
+      },
+    })
+  })
+}
+
+export const getStatisticInflationRate = (dispatch: AppDispatch) => {
+  fetchStatisticInflationRate().then((wrapper: Response.Wrapper<State.StatisticInflationRates> | null) => {
+    if (!wrapper) return
+    const { nominalApc, nominalInflationRate, realInflationRate } = wrapper.attributes
+    let statisticInflationRates = []
+    for (let i = 0; i < nominalApc.length; i++) {
+      if (i % 6 === 1 || i === nominalApc.length - 1) {
+        statisticInflationRates.push({
+          year: i % 6 === 1 ? Math.floor(i / 6) * 0.5 : 50,
+          nominalApc: nominalApc[i],
+          nominalInflationRate: nominalInflationRate[i],
+          realInflationRate: realInflationRate[i],
+        })
+      }
+    }
+    dispatch({
+      type: PageActions.UpdateStatisticInflationRate,
+      payload: {
+        statisticInflationRates,
       },
     })
   })

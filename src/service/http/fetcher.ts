@@ -315,6 +315,12 @@ export const fetchStatisticSecondaryIssuance = () => {
   )
 }
 
+export const fetchStatisticInflationRate = () => {
+  return axiosIns(
+    `/monetary_data/nominal_apc50-nominal_inflation_rate-real_inflation_rate`,
+  ).then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.StatisticInflationRates>>(res.data.data))
+}
+
 export const fetchSimpleUDT = (typeHash: string) => {
   return axiosIns(`/udts/${typeHash}`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.UDT>>(res.data.data),

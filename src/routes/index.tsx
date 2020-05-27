@@ -44,6 +44,7 @@ import NodeDistributionChart from '../pages/StatisticsChart/network/NodeDistribu
 import TotalSupplyChart from '../pages/StatisticsChart/monetary/TotalSupply'
 import AnnualPercentageCompensationChart from '../pages/StatisticsChart/monetary/AnnualPercentageCompensation'
 import SecondaryIssuanceChart from '../pages/StatisticsChart/monetary/SecondaryIssuance'
+import InflationRateChart from '../pages/StatisticsChart/monetary/InflationRate'
 
 const Containers: CustomRouter.Route[] = [
   {
@@ -231,6 +232,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/charts/secondary-issuance',
     exact: true,
     comp: SecondaryIssuanceChart,
+  },
+  {
+    name: 'InflationRateChart',
+    path: '/charts/inflation-rate',
+    exact: true,
+    comp: InflationRateChart,
   },
   {
     name: 'SearchFail',
