@@ -65,7 +65,7 @@ const getOption = (statisticInflationRates: State.StatisticInflationRate[], isTh
         axisLabel: {
           min: 0,
           max: 50,
-          interval: isMobile() || isThumbnail ? 7 : 3,
+          interval: isMobile() || isThumbnail ? 11 : 3,
           formatter: (value: string) => value,
         },
       },
