@@ -1,5 +1,9 @@
 import { AppDispatch } from '../../../contexts/reducer'
-import { fetchStatisticTotalSupply, fetchStatisticAnnualPercentageCompensation } from '../../http/fetcher'
+import {
+  fetchStatisticTotalSupply,
+  fetchStatisticAnnualPercentageCompensation,
+  fetchStatisticSecondaryIssuance,
+} from '../../http/fetcher'
 import { PageActions } from '../../../contexts/actions'
 
 export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
@@ -42,4 +46,29 @@ export const getStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) 
       })
     },
   )
+}
+
+export const getStatisticSecondaryIssuance = (dispatch: AppDispatch) => {
+  fetchStatisticSecondaryIssuance().then((wrappers: Response.Wrapper<State.StatisticSecondaryIssuance>[] | null) => {
+    if (!wrappers) return
+    const statisticSecondaryIssuance = wrappers.map(wrapper => {
+      const { depositCompensation, miningReward, treasuryAmount, createdAtUnixtimestamp } = wrapper.attributes
+      const sum = Number(treasuryAmount) + Number(miningReward) + Number(depositCompensation)
+      const treasuryAmountPercent = Number(((Number(treasuryAmount) / sum) * 100).toFixed(2))
+      const miningRewardPercent = Number(((Number(miningReward) / sum) * 100).toFixed(2))
+      const depositCompensationPercent = (100 - treasuryAmountPercent - miningRewardPercent).toFixed(2)
+      return {
+        createdAtUnixtimestamp,
+        treasuryAmount: treasuryAmountPercent,
+        miningReward: miningRewardPercent,
+        depositCompensation: depositCompensationPercent,
+      }
+    })
+    dispatch({
+      type: PageActions.UpdateStatisticSecondaryIssuance,
+      payload: {
+        statisticSecondaryIssuance,
+      },
+    })
+  })
 }

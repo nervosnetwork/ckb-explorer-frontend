@@ -43,6 +43,7 @@ import NewNodeCountChart from '../pages/StatisticsChart/network/NewNodeCount'
 import NodeDistributionChart from '../pages/StatisticsChart/network/NodeDistribution'
 import TotalSupplyChart from '../pages/StatisticsChart/monetary/TotalSupply'
 import AnnualPercentageCompensationChart from '../pages/StatisticsChart/monetary/AnnualPercentageCompensation'
+import SecondaryIssuanceChart from '../pages/StatisticsChart/monetary/SecondaryIssuance'
 
 const Containers: CustomRouter.Route[] = [
   {
@@ -224,6 +225,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/charts/nominal-apc',
     exact: true,
     comp: AnnualPercentageCompensationChart,
+  },
+  {
+    name: 'SecondaryIssuanceChart',
+    path: '/charts/secondary-issuance',
+    exact: true,
+    comp: SecondaryIssuanceChart,
   },
   {
     name: 'SearchFail',

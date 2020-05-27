@@ -309,6 +309,12 @@ export const fetchStatisticAnnualPercentageCompensation = () => {
   )
 }
 
+export const fetchStatisticSecondaryIssuance = () => {
+  return axiosIns(`/daily_statistics/treasury_amount-mining_reward-deposit_compensation`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticSecondaryIssuance>[]>(res.data.data),
+  )
+}
+
 export const fetchSimpleUDT = (typeHash: string) => {
   return axiosIns(`/udts/${typeHash}`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.UDT>>(res.data.data),

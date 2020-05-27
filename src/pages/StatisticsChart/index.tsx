@@ -51,11 +51,16 @@ import { initStatisticNewNodeCount, NewNodeCountChart } from './network/NewNodeC
 import { getStatisticNewNodeCount, getStatisticNodeDistribution } from '../../service/app/charts/network'
 import { NodeDistributionChart, initStatisticNodeDistribution } from './network/NodeDistribution'
 import { TotalSupplyChart, initStatisticTotalSupply } from './monetary/TotalSupply'
-import { getStatisticTotalSupply, getStatisticAnnualPercentageCompensation } from '../../service/app/charts/monetary'
+import {
+  getStatisticTotalSupply,
+  getStatisticAnnualPercentageCompensation,
+  getStatisticSecondaryIssuance,
+} from '../../service/app/charts/monetary'
 import {
   AnnualPercentageCompensationChart,
   initStatisticAnnualPercentageCompensation,
 } from './monetary/AnnualPercentageCompensation'
+import { SecondaryIssuanceChart, initStatisticSecondaryIssuance } from './monetary/SecondaryIssuance'
 
 interface ChartData {
   title: string
@@ -105,6 +110,7 @@ export default () => {
     statisticNodeDistributions,
     statisticTotalSupplies,
     statisticAnnualPercentageCompensations,
+    statisticSecondaryIssuance,
   } = useAppState()
 
   const charts: ChartCategory[] = [
@@ -261,6 +267,11 @@ export default () => {
           ),
           path: '/charts/nominal-apc',
         },
+        {
+          title: `${i18n.t('nervos_dao.secondary_issuance')}`,
+          chart: <SecondaryIssuanceChart statisticSecondaryIssuance={statisticSecondaryIssuance} isThumbnail />,
+          path: '/charts/secondary-issuance',
+        },
       ],
     },
   ]
@@ -287,6 +298,7 @@ export default () => {
     initStatisticNodeDistribution(dispatch)
     initStatisticTotalSupply(dispatch)
     initStatisticAnnualPercentageCompensation(dispatch)
+    initStatisticSecondaryIssuance(dispatch)
   }, [dispatch])
 
   useEffect(() => {
@@ -311,6 +323,7 @@ export default () => {
     getStatisticNodeDistribution(dispatch)
     getStatisticTotalSupply(dispatch)
     getStatisticAnnualPercentageCompensation(dispatch)
+    getStatisticSecondaryIssuance(dispatch)
   }, [dispatch])
 
   return (

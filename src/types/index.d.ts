@@ -369,6 +369,13 @@ declare namespace State {
     nominalApc: string[]
   }
 
+  export interface StatisticSecondaryIssuance {
+    createdAtUnixtimestamp: string
+    treasuryAmount: string
+    miningReward: string
+    depositCompensation: string
+  }
+
   interface FetchStatusValue {
     OK: string
     Error: string
@@ -449,6 +456,7 @@ declare namespace State {
     statisticNodeDistributions: StatisticNodeDistribution[]
     statisticTotalSupplies: StatisticTotalSupply[]
     statisticAnnualPercentageCompensations: StatisticAnnualPercentageCompensation[]
+    statisticSecondaryIssuance: StatisticSecondaryIssuance[]
   }
 
   export interface PageState extends StatisticChartsState {
