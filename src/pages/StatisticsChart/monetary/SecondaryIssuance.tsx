@@ -23,8 +23,7 @@ const grid = {
   containLabel: true,
 }
 
-const Colors = ['#D59238', '#3282BE', '#3CC68A']
-const AreaColors = ['#FCB262', '#B4D6EC', '#9BDBB8']
+const Colors = ['#74808E', '#049ECD', '#69C7D4']
 
 const getOption = (statisticSecondaryIssuance: State.StatisticSecondaryIssuance[], isThumbnail = false) => {
   return {
@@ -87,9 +86,7 @@ const getOption = (statisticSecondaryIssuance: State.StatisticSecondaryIssuance[
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         stack: 'sum',
-        areaStyle: {
-          color: AreaColors[0],
-        },
+        areaStyle: {},
         data: statisticSecondaryIssuance.map(data => data.treasuryAmount),
       },
       {
@@ -99,9 +96,7 @@ const getOption = (statisticSecondaryIssuance: State.StatisticSecondaryIssuance[
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         stack: 'sum',
-        areaStyle: {
-          color: AreaColors[1],
-        },
+        areaStyle: {},
         data: statisticSecondaryIssuance.map(data => data.miningReward),
       },
       {
@@ -111,9 +106,7 @@ const getOption = (statisticSecondaryIssuance: State.StatisticSecondaryIssuance[
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         stack: 'sum',
-        areaStyle: {
-          color: AreaColors[2],
-        },
+        areaStyle: {},
         data: statisticSecondaryIssuance.map(data => data.depositCompensation),
       },
     ],
