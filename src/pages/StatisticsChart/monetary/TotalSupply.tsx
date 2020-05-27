@@ -26,9 +26,12 @@ const grid = {
   containLabel: true,
 }
 
+const Colors = ['#D59238', '#3282BE', '#3CC68A']
+const AreaColors = ['#FCB262', '#B4D6EC', '#9BDBB8']
+
 const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumbnail = false) => {
   return {
-    color: ChartColors,
+    color: Colors,
     tooltip: !isThumbnail && {
       trigger: 'axis',
       formatter: (dataList: any[]) => {
@@ -36,17 +39,18 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
         let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
           dataList[0].name,
         )}</div>`
-        result += `<div>${tooltipColor(ChartColors[2])}${widthSpan(i18n.t('statistic.locked'))} ${handleAxis(
+        result += `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.locked'))} ${handleAxis(
           dataList[2].data,
           2,
         )}</div>`
-        result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('statistic.burnt'))} ${handleAxis(
+        result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.burnt'))} ${handleAxis(
           dataList[1].data,
           2,
         )}</div>`
-        result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
-          i18n.t('statistic.circulating_supply'),
-        )} ${handleAxis(dataList[0].data, 2)}</div>`
+        result += `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
+          dataList[0].data,
+          2,
+        )}</div>`
         return result
       },
     },
@@ -91,7 +95,9 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         stack: 'sum',
-        areaStyle: {},
+        areaStyle: {
+          color: AreaColors[0],
+        },
         data: statisticTotalSupplies.map(data => new BigNumber(shannonToCkb(data.circulatingSupply)).toFixed(0)),
       },
       {
@@ -101,7 +107,9 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         stack: 'sum',
-        areaStyle: {},
+        areaStyle: {
+          color: AreaColors[1],
+        },
         data: statisticTotalSupplies.map(data => new BigNumber(shannonToCkb(data.burnt)).toFixed(0)),
       },
       {
@@ -111,7 +119,9 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         stack: 'sum',
-        areaStyle: {},
+        areaStyle: {
+          color: AreaColors[2],
+        },
         data: statisticTotalSupplies.map(data => new BigNumber(shannonToCkb(data.lockedCapacity)).toFixed(0)),
       },
     ],

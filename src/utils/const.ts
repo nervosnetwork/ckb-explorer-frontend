@@ -81,11 +81,11 @@ export enum ListPageParams {
   MaxPageSize = 100,
 }
 
-export const ChartColors = ['#3182bd', '#66CC99', '#FA8F00']
+export const ChartColors = ['#3182bd', '#66CC99', '#D59238']
 
 export interface ContractHashTag {
   codeHash: string
-  txHashes: string[] //  mainnet and aggron contract tx hash
+  txHashes: string[] //  mainnet and testnet contract tx hash
   tag: string
   category: 'lock' | 'type'
 }
