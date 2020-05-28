@@ -119,7 +119,7 @@
       "total_supply": "Total Supply",
       "circulating_supply": "Circulating Supply",
       "burnt": "Burnt",
-      "locked": "Locked",
+      "locked": "Unvested",
       "year": "Time (year)",
       "nominal_apc": "Nominal DAO Compensation Rate",
       "nominal_apc_short": "Nominal APC",
