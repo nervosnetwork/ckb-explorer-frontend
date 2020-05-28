@@ -25,36 +25,43 @@ const grid = {
   containLabel: true,
 }
 
-const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRate[], isThumbnail = false) => {
+const getOption = (
+  statisticDifficultyHashRates: State.StatisticDifficultyHashRate[],
+  isThumbnail = false,
+): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 70 : 50)
-        let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${dataList[0].name}</div>`
-        if (dataList[0]) {
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
-            dataList[0].data,
-          )}</div>`
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 70 : 50)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${dataList[0].name}</div>`
+            if (dataList[0]) {
+              result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+                i18n.t('block.difficulty'),
+              )} ${handleDifficulty(dataList[0].data)}</div>`
+            }
+            if (dataList[1]) {
+              result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
+                dataList[1].data,
+              )}</div>`
+            }
+            return result
+          },
         }
-        if (dataList[1]) {
-          result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
-            dataList[1].data,
-          )}</div>`
+      : undefined,
+    legend: !isThumbnail
+      ? {
+          data: [{ name: i18n.t('block.difficulty') }, { name: i18n.t('block.hash_rate_hps') }],
         }
-        return result
-      },
-    },
-    legend: !isThumbnail && {
-      data: [i18n.t('block.difficulty'), i18n.t('block.hash_rate_hps')],
-    },
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('block.epoch'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticDifficultyHashRates.map(data => data.epochNumber),
@@ -104,7 +111,7 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
         areaStyle: {
           color: '#85bae0',
         },
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticDifficultyHashRates.map(data => new BigNumber(data.difficulty).toNumber()),
@@ -113,7 +120,7 @@ const getOption = (statisticDifficultyHashRates: State.StatisticDifficultyHashRa
         name: i18n.t('block.hash_rate_hps'),
         type: 'line',
         smooth: true,
-        yAxisIndex: '1',
+        yAxisIndex: 1,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticDifficultyHashRates.map(data => new BigNumber(data.hashRate).toNumber()),

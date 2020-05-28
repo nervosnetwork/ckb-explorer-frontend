@@ -22,21 +22,27 @@ const grid = {
   containLabel: true,
 }
 
-const getOption = (statisticNodeDistributions: State.StatisticNodeDistribution[], isThumbnail = false) => {
+const getOption = (
+  statisticNodeDistributions: State.StatisticNodeDistribution[],
+  isThumbnail = false,
+): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'item',
-      formatter: (data: any) => {
-        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 95 : 60)
-        const widthValueSpan = (value: string) => `<span style="display:inline-block;color:#AACFE9;">${value}</span>`
-        let result = `<div>${widthSpan(i18n.t('statistic.city'))} ${widthValueSpan(data.data.name)}</div>`
-        result += `<div>${widthSpan(i18n.t('statistic.node_count'))} ${widthValueSpan(
-          localeNumberString(data.data.value[2]),
-        )}</div>`
-        return result
-      },
-    },
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'item',
+          formatter: (data: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 95 : 60)
+            const widthValueSpan = (value: string) =>
+              `<span style="display:inline-block;color:#AACFE9;">${value}</span>`
+            let result = `<div>${widthSpan(i18n.t('statistic.city'))} ${widthValueSpan(data.data.name)}</div>`
+            result += `<div>${widthSpan(i18n.t('statistic.node_count'))} ${widthValueSpan(
+              localeNumberString(data.data.value[2]),
+            )}</div>`
+            return result
+          },
+        }
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     geo: {
       name: 'World',
@@ -98,13 +104,13 @@ const getOption = (statisticNodeDistributions: State.StatisticNodeDistribution[]
         emphasis: {
           label: {
             show: !isThumbnail,
+            fontFamily: 'Lato',
           },
           itemStyle: {
             borderColor: '#3281BD',
             borderWidth: 1,
             color: '#AACFE9',
-            capacity: 0.8,
-            fontFamily: 'Lato',
+            opacity: 0.8,
           },
         },
       },

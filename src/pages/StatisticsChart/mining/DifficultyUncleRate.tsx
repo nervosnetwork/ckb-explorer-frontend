@@ -30,36 +30,43 @@ const max = (statisticChartData: State.StatisticDifficultyUncleRate[]) => {
   return Math.max(5, Math.ceil(Math.max(...array)))
 }
 
-const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isThumbnail = false) => {
+const getOption = (
+  statisticChartData: State.StatisticDifficultyUncleRate[],
+  isThumbnail = false,
+): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 75 : 50)
-        let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${dataList[0].name}</div>`
-        if (dataList[0]) {
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
-            dataList[0].data,
-          )}</div>`
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 75 : 50)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${dataList[0].name}</div>`
+            if (dataList[0]) {
+              result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+                i18n.t('block.difficulty'),
+              )} ${handleDifficulty(dataList[0].data)}</div>`
+            }
+            if (dataList[1]) {
+              result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${
+                dataList[1].data
+              }%</div>`
+            }
+            return result
+          },
         }
-        if (dataList[1]) {
-          result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${
-            dataList[1].data
-          }%</div>`
+      : undefined,
+    legend: !isThumbnail
+      ? {
+          data: [{ name: i18n.t('block.difficulty') }, { name: i18n.t('block.uncle_rate') }],
         }
-        return result
-      },
-    },
-    legend: !isThumbnail && {
-      data: [i18n.t('block.difficulty'), i18n.t('block.uncle_rate')],
-    },
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('block.epoch'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticChartData.map(data => data.epochNumber),
@@ -111,7 +118,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         areaStyle: {
           color: '#85bae0',
         },
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticChartData.map(data => new BigNumber(data.difficulty).toNumber()),
@@ -120,12 +127,12 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         name: i18n.t('block.uncle_rate'),
         type: 'line',
         smooth: true,
-        yAxisIndex: '1',
+        yAxisIndex: 1,
         symbol: 'circle',
         symbolSize: 3,
         data: statisticChartData.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
         markLine: isThumbnail
-          ? null
+          ? undefined
           : {
               symbol: 'none',
               lineStyle: {
@@ -134,7 +141,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
               data: [
                 {
                   name: i18n.t('block.uncle_rate_target'),
-                  yAxis: '2.5',
+                  y: 2.5,
                 },
               ],
               label: {

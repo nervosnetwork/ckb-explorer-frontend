@@ -16,7 +16,6 @@ import { isMainnet } from '../../../utils/chain'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
-import { ObjectMap, Func } from 'echarts-for-react'
 import i18n from '../../../utils/i18n'
 import Content from '../../../components/Content'
 
@@ -44,9 +43,9 @@ const ReactChartCore = ({
   isThumbnail,
   clickEvent,
 }: {
-  option: ObjectMap
+  option: echarts.EChartOption
   isThumbnail?: boolean
-  clickEvent?: Func
+  clickEvent?: any
 }) => {
   let events = undefined
   if (clickEvent) {

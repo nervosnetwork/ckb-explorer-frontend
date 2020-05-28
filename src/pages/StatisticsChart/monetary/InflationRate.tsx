@@ -24,33 +24,40 @@ const grid = {
 
 const Colors = ['#3282BE', '#3CC68A', '#D59238']
 
-const getOption = (statisticInflationRates: State.StatisticInflationRate[], isThumbnail = false) => {
+const getOption = (
+  statisticInflationRates: State.StatisticInflationRate[],
+  isThumbnail = false,
+): echarts.EChartOption => {
   return {
     color: Colors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 150 : 80)
-        let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.year'))} ${dataList[0].name}</div>`
-        result += `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('statistic.nominal_inflation_rate'))} ${
-          dataList[2].data
-        }%</div>`
-        result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.nominal_apc_short'))} ${
-          dataList[1].data
-        }%</div>`
-        result += `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.real_inflation_rate'))} ${
-          dataList[0].data
-        }%</div>`
-        return result
-      },
-    },
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 150 : 80)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.year'))} ${
+              dataList[0].name
+            }</div>`
+            result += `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('statistic.nominal_inflation_rate'))} ${
+              dataList[2].data
+            }%</div>`
+            result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.nominal_apc_short'))} ${
+              dataList[1].data
+            }%</div>`
+            result += `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.real_inflation_rate'))} ${
+              dataList[0].data
+            }%</div>`
+            return result
+          },
+        }
+      : undefined,
     legend: {
       data: isThumbnail
         ? []
         : [
-            i18n.t('statistic.nominal_inflation_rate'),
-            i18n.t('statistic.nominal_apc_short'),
-            i18n.t('statistic.real_inflation_rate'),
+            { name: i18n.t('statistic.nominal_inflation_rate') },
+            { name: i18n.t('statistic.nominal_apc_short') },
+            { name: i18n.t('statistic.real_inflation_rate') },
           ],
     },
     grid: isThumbnail ? gridThumbnail : grid,
@@ -58,13 +65,13 @@ const getOption = (statisticInflationRates: State.StatisticInflationRate[], isTh
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.year'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticInflationRates.map(data => data.year),
+        min: 0,
+        max: 50,
         axisLabel: {
-          min: 0,
-          max: 50,
           interval: isMobile() || isThumbnail ? 11 : 3,
           formatter: (value: string) => value,
         },
@@ -88,7 +95,7 @@ const getOption = (statisticInflationRates: State.StatisticInflationRate[], isTh
       {
         name: i18n.t('statistic.nominal_inflation_rate'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         lineStyle: {
@@ -99,7 +106,7 @@ const getOption = (statisticInflationRates: State.StatisticInflationRate[], isTh
       {
         name: i18n.t('statistic.nominal_apc_short'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         lineStyle: {
@@ -110,7 +117,7 @@ const getOption = (statisticInflationRates: State.StatisticInflationRate[], isTh
       {
         name: i18n.t('statistic.real_inflation_rate'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         lineStyle: {

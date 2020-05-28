@@ -28,36 +28,40 @@ const grid = {
   containLabel: true,
 }
 
-const getOption = (statisticNewDaoDeposits: State.StatisticNewDaoDeposit[], isThumbnail = false) => {
+const getOption = (
+  statisticNewDaoDeposits: State.StatisticNewDaoDeposit[],
+  isThumbnail = false,
+): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 140 : 120)
-        let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-          dataList[0].name,
-        )}</div>`
-        if (dataList[0].data) {
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.new_dao_deposit'))} ${handleAxis(
-            dataList[0].data,
-            2,
-          )}</div>`
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 140 : 120)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+              dataList[0].name,
+            )}</div>`
+            if (dataList[0].data) {
+              result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+                i18n.t('statistic.new_dao_deposit'),
+              )} ${handleAxis(dataList[0].data, 2)}</div>`
+            }
+            if (dataList[1].data) {
+              result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(
+                i18n.t('statistic.new_dao_depositor'),
+              )} ${handleAxis(dataList[1].data, 2, true)}</div>`
+            }
+            return result
+          },
         }
-        if (dataList[1].data) {
-          result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(
-            i18n.t('statistic.new_dao_depositor'),
-          )} ${handleAxis(dataList[1].data, 2, true)}</div>`
-        }
-        return result
-      },
-    },
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticNewDaoDeposits.map(data => data.createdAtUnixtimestamp),
@@ -106,7 +110,7 @@ const getOption = (statisticNewDaoDeposits: State.StatisticNewDaoDeposit[], isTh
       {
         name: i18n.t('statistic.new_dao_deposit'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         areaStyle: {
           color: '#85bae0',
         },
@@ -117,7 +121,7 @@ const getOption = (statisticNewDaoDeposits: State.StatisticNewDaoDeposit[], isTh
       {
         name: i18n.t('statistic.new_dao_depositor'),
         type: 'line',
-        yAxisIndex: '1',
+        yAxisIndex: 1,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticNewDaoDeposits.map(data => new BigNumber(data.dailyDaoDepositorsCount).toNumber()),

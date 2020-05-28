@@ -33,31 +33,38 @@ const getAddressWithRanking = (statisticAddressBalanceRanks: State.StatisticAddr
   return addressBalanceRank ? addressBalanceRank.address : ''
 }
 
-const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[], isThumbnail = false) => {
+const getOption = (
+  statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[],
+  isThumbnail = false,
+): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 60 : 35)
-        let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.address'))} ${adaptPCEllipsis(
-          getAddressWithRanking(statisticAddressBalanceRanks, dataList[0].name),
-          6,
-          60,
-        )}</div>`
-        result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.balance'))} ${localeNumberString(
-          dataList[0].data,
-        )} ${i18n.t('common.ckb_unit')}</div>`
-        result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.rank'))} ${dataList[0].name}</div>`
-        return result
-      },
-    },
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 60 : 35)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.address'))} ${adaptPCEllipsis(
+              getAddressWithRanking(statisticAddressBalanceRanks, dataList[0].name),
+              6,
+              60,
+            )}</div>`
+            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+              i18n.t('statistic.balance'),
+            )} ${localeNumberString(dataList[0].data)} ${i18n.t('common.ckb_unit')}</div>`
+            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.rank'))} ${
+              dataList[0].name
+            }</div>`
+            return result
+          },
+        }
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.rank'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticAddressBalanceRanks.map(data => data.ranking),
@@ -86,8 +93,8 @@ const getOption = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRa
       {
         name: i18n.t('statistic.balance_ranking'),
         type: 'bar',
-        yAxisIndex: '0',
-        barWidth: '8',
+        yAxisIndex: 0,
+        barWidth: 8,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticAddressBalanceRanks.map(data => shannonToCkb(data.balance)),

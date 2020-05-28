@@ -28,28 +28,30 @@ const max = (statisticUncleRates: State.StatisticUncleRate[]) => {
   return Math.max(5, Math.ceil(Math.max(...array)))
 }
 
-const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail = false) => {
+const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail = false): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 75 : 50)
-        let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-          dataList[0].name,
-        )}</div>`
-        result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('block.uncle_rate'))} ${
-          dataList[0].data
-        }%</div>`
-        return result
-      },
-    },
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 75 : 50)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+              dataList[0].name,
+            )}</div>`
+            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('block.uncle_rate'))} ${
+              dataList[0].data
+            }%</div>`
+            return result
+          },
+        }
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticUncleRates.map(data => data.createdAtUnixtimestamp),
@@ -80,7 +82,7 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
       {
         name: i18n.t('block.uncle_rate'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         markLine: {
@@ -88,7 +90,7 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
           data: [
             {
               name: i18n.t('block.uncle_rate_target'),
-              yAxis: '2.5',
+              y: 2.5,
             },
           ],
           label: {

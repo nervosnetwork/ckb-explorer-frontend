@@ -25,32 +25,36 @@ const grid = {
 const getOption = (
   statisticAnnualPercentageCompensations: State.StatisticAnnualPercentageCompensation[],
   isThumbnail = false,
-) => {
+): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 90 : 80)
-        let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.year'))} ${dataList[0].name}</div>`
-        result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.nominal_apc'))} ${
-          dataList[0].data
-        }%</div>`
-        return result
-      },
-    },
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 90 : 80)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.year'))} ${
+              dataList[0].name
+            }</div>`
+            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.nominal_apc'))} ${
+              dataList[0].data
+            }%</div>`
+            return result
+          },
+        }
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.year'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticAnnualPercentageCompensations.map(data => data.year),
+        min: 0,
+        max: 20,
         axisLabel: {
-          min: 0,
-          max: 20,
           interval: isMobile() || isThumbnail ? 7 : 3,
           formatter: (value: string) => value,
         },
@@ -78,7 +82,7 @@ const getOption = (
       {
         name: i18n.t('statistic.nominal_apc'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         stack: 'sum',

@@ -23,30 +23,35 @@ const grid = {
   containLabel: true,
 }
 
-const getOption = (statisticCirculationRatios: State.StatisticCirculationRatio[], isThumbnail = false) => {
+const getOption = (
+  statisticCirculationRatios: State.StatisticCirculationRatio[],
+  isThumbnail = false,
+): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 185 : 165)
-        let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-          dataList[0].name,
-        )}</div>`
-        if (dataList[0].data) {
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.circulation_ratio'))} ${
-            dataList[0].data
-          }%</div>`
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 185 : 165)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+              dataList[0].name,
+            )}</div>`
+            if (dataList[0].data) {
+              result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.circulation_ratio'))} ${
+                dataList[0].data
+              }%</div>`
+            }
+            return result
+          },
         }
-        return result
-      },
-    },
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticCirculationRatios.map(data => data.createdAtUnixtimestamp),
@@ -78,7 +83,7 @@ const getOption = (statisticCirculationRatios: State.StatisticCirculationRatio[]
       {
         name: i18n.t('statistic.circulation_ratio'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticCirculationRatios.map(data => (Number(data.circulationRatio) * 100).toFixed(2)),

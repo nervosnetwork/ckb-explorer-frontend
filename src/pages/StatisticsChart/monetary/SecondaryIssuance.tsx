@@ -25,37 +25,48 @@ const grid = {
 
 const Colors = ['#74808E', '#049ECD', '#69C7D4']
 
-const getOption = (statisticSecondaryIssuance: State.StatisticSecondaryIssuance[], isThumbnail = false) => {
+const getOption = (
+  statisticSecondaryIssuance: State.StatisticSecondaryIssuance[],
+  isThumbnail = false,
+): echarts.EChartOption => {
   return {
     color: Colors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 155 : 70)
-        let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-          dataList[0].name,
-        )}</div>`
-        result += `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('nervos_dao.deposit_compensation'))} ${
-          dataList[2].data
-        }%</div>`
-        result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('nervos_dao.mining_reward'))} ${
-          dataList[1].data
-        }%</div>`
-        result += `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('nervos_dao.burnt'))} ${dataList[0].data}%</div>`
-        return result
-      },
-    },
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 155 : 70)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+              dataList[0].name,
+            )}</div>`
+            result += `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('nervos_dao.deposit_compensation'))} ${
+              dataList[2].data
+            }%</div>`
+            result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('nervos_dao.mining_reward'))} ${
+              dataList[1].data
+            }%</div>`
+            result += `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('nervos_dao.burnt'))} ${
+              dataList[0].data
+            }%</div>`
+            return result
+          },
+        }
+      : undefined,
     legend: {
       data: isThumbnail
         ? []
-        : [i18n.t('nervos_dao.burnt'), i18n.t('nervos_dao.mining_reward'), i18n.t('nervos_dao.deposit_compensation')],
+        : [
+            { name: i18n.t('nervos_dao.burnt') },
+            { name: i18n.t('nervos_dao.mining_reward') },
+            { name: i18n.t('nervos_dao.deposit_compensation') },
+          ],
     },
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticSecondaryIssuance.map(data => data.createdAtUnixtimestamp),
@@ -82,7 +93,7 @@ const getOption = (statisticSecondaryIssuance: State.StatisticSecondaryIssuance[
       {
         name: i18n.t('nervos_dao.burnt'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         stack: 'sum',
@@ -92,7 +103,7 @@ const getOption = (statisticSecondaryIssuance: State.StatisticSecondaryIssuance[
       {
         name: i18n.t('nervos_dao.mining_reward'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         stack: 'sum',
@@ -102,7 +113,7 @@ const getOption = (statisticSecondaryIssuance: State.StatisticSecondaryIssuance[
       {
         name: i18n.t('nervos_dao.deposit_compensation'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         stack: 'sum',

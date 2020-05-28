@@ -20,7 +20,7 @@ const stepAxis = (statisticHashRates: State.StatisticHashRate[]) => {
   return Math.floor((max - min) / 3)
 }
 
-const getOption = (statisticHashRates: State.StatisticHashRate[]) => {
+const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChartOption => {
   return {
     color: ['#ffffff'],
     title: {
@@ -30,7 +30,7 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]) => {
       textStyle: {
         color: '#ffffff',
         fontSize: 12,
-        fontWight: 'lighter',
+        fontWeight: 'lighter',
         fontFamily: 'Lato',
       },
     },
@@ -92,7 +92,7 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]) => {
       {
         name: i18n.t('block.hash_rate'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         lineStyle: {
           color: '#ffffff',
           width: 1,

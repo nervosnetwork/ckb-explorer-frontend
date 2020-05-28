@@ -28,42 +28,48 @@ const grid = {
 
 const Colors = ['#049ECD', '#69C7D4', '#74808E']
 
-const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumbnail = false) => {
+const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumbnail = false): echarts.EChartOption => {
   return {
     color: Colors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 125 : 80)
-        let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-          dataList[0].name,
-        )}</div>`
-        result += `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.burnt'))} ${handleAxis(
-          dataList[2].data,
-          2,
-        )}</div>`
-        result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.locked'))} ${handleAxis(
-          dataList[1].data,
-          2,
-        )}</div>`
-        result += `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
-          dataList[0].data,
-          2,
-        )}</div>`
-        return result
-      },
-    },
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 125 : 80)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+              dataList[0].name,
+            )}</div>`
+            result += `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.burnt'))} ${handleAxis(
+              dataList[2].data,
+              2,
+            )}</div>`
+            result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.locked'))} ${handleAxis(
+              dataList[1].data,
+              2,
+            )}</div>`
+            result += `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
+              dataList[0].data,
+              2,
+            )}</div>`
+            return result
+          },
+        }
+      : undefined,
     legend: {
       data: isThumbnail
         ? []
-        : [i18n.t('statistic.circulating_supply'), i18n.t('statistic.locked'), i18n.t('statistic.burnt')],
+        : [
+            { name: i18n.t('statistic.circulating_supply') },
+            { name: i18n.t('statistic.locked') },
+            { name: i18n.t('statistic.burnt') },
+          ],
     },
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticTotalSupplies.map(data => data.createdAtUnixtimestamp),
@@ -90,7 +96,7 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
       {
         name: i18n.t('statistic.circulating_supply'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         stack: 'sum',
@@ -102,7 +108,7 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
       {
         name: i18n.t('statistic.locked'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         stack: 'sum',
@@ -114,7 +120,7 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
       {
         name: i18n.t('statistic.burnt'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         stack: 'sum',

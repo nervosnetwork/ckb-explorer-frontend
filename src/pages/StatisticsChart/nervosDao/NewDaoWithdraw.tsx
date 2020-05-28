@@ -27,30 +27,35 @@ const grid = {
   containLabel: true,
 }
 
-const getOption = (statisticNewDaoWithdraw: State.StatisticNewDaoWithdraw[], isThumbnail = false) => {
+const getOption = (
+  statisticNewDaoWithdraw: State.StatisticNewDaoWithdraw[],
+  isThumbnail = false,
+): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 125 : 195)
-        let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-          dataList[0].name,
-        )}</div>`
-        if (dataList[0].data) {
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
-            i18n.t('statistic.new_dao_withdraw'),
-          )} ${handleAxis(dataList[0].data, 2)}</div>`
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 125 : 195)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+              dataList[0].name,
+            )}</div>`
+            if (dataList[0].data) {
+              result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+                i18n.t('statistic.new_dao_withdraw'),
+              )} ${handleAxis(dataList[0].data, 2)}</div>`
+            }
+            return result
+          },
         }
-        return result
-      },
-    },
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticNewDaoWithdraw.map(data => data.createdAtUnixtimestamp),
@@ -82,7 +87,7 @@ const getOption = (statisticNewDaoWithdraw: State.StatisticNewDaoWithdraw[], isT
       {
         name: i18n.t('statistic.new_dao_withdraw'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticNewDaoWithdraw.map(data => Number(shannonToCkb(data.dailyDaoWithdraw)).toFixed(0)),
