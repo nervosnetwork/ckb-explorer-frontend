@@ -16,8 +16,8 @@ const gridThumbnail = {
   containLabel: true,
 }
 const grid = {
-  left: '4%',
-  right: '4%',
+  left: '2%',
+  right: '2%',
   bottom: '5%',
   containLabel: true,
 }
@@ -33,7 +33,7 @@ const getOption = (
       formatter: (dataList: any[]) => {
         const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 90 : 80)
         let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.year'))} ${dataList[0].name}</div>`
-        result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.nominal_apc_short'))} ${
+        result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.nominal_apc'))} ${
           dataList[0].data
         }%</div>`
         return result
@@ -59,8 +59,11 @@ const getOption = (
     yAxis: [
       {
         position: 'left',
-        name: i18n.t('statistic.nominal_apc_short'),
+        name: i18n.t('statistic.nominal_apc'),
         type: 'value',
+        nameTextStyle: {
+          align: 'left',
+        },
         axisLine: {
           lineStyle: {
             color: ChartColors[0],
@@ -73,7 +76,7 @@ const getOption = (
     ],
     series: [
       {
-        name: i18n.t('statistic.nominal_apc_short'),
+        name: i18n.t('statistic.nominal_apc'),
         type: 'line',
         yAxisIndex: '0',
         symbol: isThumbnail ? 'none' : 'circle',

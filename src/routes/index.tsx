@@ -39,7 +39,6 @@ import TxFeeHistoryChart from '../pages/StatisticsChart/activities/TxFeeHistory'
 import BlockTimeDistributionChart from '../pages/StatisticsChart/block/BlockTimeDistribution'
 import EpochTimeDistributionChart from '../pages/StatisticsChart/block/EpochTimeDistribution'
 import AverageBlockTimeChart from '../pages/StatisticsChart/block/AverageBlockTime'
-import NewNodeCountChart from '../pages/StatisticsChart/network/NewNodeCount'
 import NodeDistributionChart from '../pages/StatisticsChart/network/NodeDistribution'
 import TotalSupplyChart from '../pages/StatisticsChart/monetary/TotalSupply'
 import AnnualPercentageCompensationChart from '../pages/StatisticsChart/monetary/AnnualPercentageCompensation'
@@ -202,12 +201,6 @@ const Containers: CustomRouter.Route[] = [
     path: '/charts/epoch-time-distribution',
     exact: true,
     comp: EpochTimeDistributionChart,
-  },
-  {
-    name: 'NewNodeCountChart',
-    path: '/charts/new-node-count',
-    exact: true,
-    comp: NewNodeCountChart,
   },
   {
     name: 'NodeDistributionChart',

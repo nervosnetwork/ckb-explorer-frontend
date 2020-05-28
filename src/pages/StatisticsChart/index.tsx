@@ -47,8 +47,7 @@ import { EpochTimeDistributionChart, initStatisticEpochTimeDistribution } from '
 import { NewDaoDepositChart, initStatisticNewDaoDeposit } from './nervosDao/NewDaoDeposit'
 import { CirculationRatioChart, initStatisticCirculationRatio } from './nervosDao/CirculationRatio'
 import { initStatisticAverageBlockTimes, AverageBlockTimeChart } from './block/AverageBlockTime'
-import { initStatisticNewNodeCount, NewNodeCountChart } from './network/NewNodeCount'
-import { getStatisticNewNodeCount, getStatisticNodeDistribution } from '../../service/app/charts/network'
+import { getStatisticNodeDistribution } from '../../service/app/charts/network'
 import { NodeDistributionChart, initStatisticNodeDistribution } from './network/NodeDistribution'
 import { TotalSupplyChart, initStatisticTotalSupply } from './monetary/TotalSupply'
 import {
@@ -108,7 +107,6 @@ export default () => {
     statisticBlockTimeDistributions,
     statisticEpochTimeDistributions,
     statisticAverageBlockTimes,
-    statisticNewNodeCounts,
     statisticNodeDistributions,
     statisticTotalSupplies,
     statisticAnnualPercentageCompensations,
@@ -210,11 +208,6 @@ export default () => {
           chart: <TxFeeHistoryChart statisticTxFeeHistories={statisticTxFeeHistories} isThumbnail />,
           path: '/charts/tx-fee-history',
         },
-        // {
-        //   title: `${i18n.t('statistic.occupied_capacity')}`,
-        //   chart: <OccupiedCapacityChart statisticOccupiedCapacities={statisticOccupiedCapacities} isThumbnail />,
-        //   path: '/charts/occupied-capacity',
-        // },
       ],
     },
     {
@@ -241,11 +234,6 @@ export default () => {
       category: i18n.t('statistic.category_network'),
       charts: [
         {
-          title: `${i18n.t('statistic.new_node_count')}`,
-          chart: <NewNodeCountChart statisticNewNodeCounts={statisticNewNodeCounts} isThumbnail />,
-          path: '/charts/new-node-count',
-        },
-        {
           title: `${i18n.t('statistic.node_distribution')}`,
           chart: <NodeDistributionChart statisticNodeDistributions={statisticNodeDistributions} isThumbnail />,
           path: '/charts/node-distribution',
@@ -261,7 +249,7 @@ export default () => {
           path: '/charts/total-supply',
         },
         {
-          title: `${i18n.t('statistic.nominal_apc_short')}`,
+          title: `${i18n.t('statistic.nominal_apc')}`,
           chart: (
             <AnnualPercentageCompensationChart
               statisticAnnualPercentageCompensations={statisticAnnualPercentageCompensations}
@@ -302,7 +290,6 @@ export default () => {
     initStatisticBlockTimeDistribution(dispatch)
     initStatisticEpochTimeDistribution(dispatch)
     initStatisticAverageBlockTimes(dispatch)
-    initStatisticNewNodeCount(dispatch)
     initStatisticNodeDistribution(dispatch)
     initStatisticTotalSupply(dispatch)
     initStatisticAnnualPercentageCompensation(dispatch)
@@ -328,7 +315,6 @@ export default () => {
     getStatisticBlockTimeDistribution(dispatch)
     getStatisticEpochTimeDistribution(dispatch)
     getStatisticAverageBlockTimes(dispatch)
-    getStatisticNewNodeCount(dispatch)
     getStatisticNodeDistribution(dispatch)
     getStatisticTotalSupply(dispatch)
     getStatisticAnnualPercentageCompensation(dispatch)

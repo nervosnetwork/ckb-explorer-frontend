@@ -81,7 +81,7 @@ export enum ListPageParams {
   MaxPageSize = 100,
 }
 
-export const ChartColors = ['#3182bd', '#66CC99', '#D59238']
+export const ChartColors = ['#3182bd', '#66CC99']
 
 export interface ContractHashTag {
   codeHash: string

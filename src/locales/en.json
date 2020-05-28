@@ -121,7 +121,7 @@
       "burnt": "Burnt",
       "locked": "Locked",
       "year": "Time (year)",
-      "nominal_apc": "Nominal Annual Percentage of Compensation",
+      "nominal_apc": "Nominal DAO Compensation Rate",
       "nominal_apc_short": "Nominal APC",
       "inflation_rate": "Inflation Rate",
       "nominal_inflation_rate": "Nominal Inflation Rate",
