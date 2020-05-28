@@ -12,4 +12,13 @@ export const ChartLoadingPanel = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  .chart__no__data {
+    width: 105px;
+    height: auto;
+
+    @media (max-width: 1200px) {
+      width: 90px;
+    }
+  }
 `

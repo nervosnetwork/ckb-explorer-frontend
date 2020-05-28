@@ -11,6 +11,8 @@ import { localeNumberString } from '../../../utils/number'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
+import { PageActions } from '../../../contexts/actions'
+import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
 
 const maxAndMinAxis = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) => {
   const array = statisticAverageBlockTimes.flatMap(data => parseFloat(data.avgBlockTimeDaily))
@@ -119,13 +121,23 @@ export default () => {
   }, [widthDiff])
 
   useEffect(() => {
+    dispatch({
+      type: PageActions.UpdateStatisticAverageBlockTime,
+      payload: {
+        statisticAverageBlockTimes: undefined,
+      },
+    })
     getStatisticAverageBlockTimes(dispatch)
   }, [dispatch])
 
   if (!statisticAverageBlockTimes || statisticAverageBlockTimes.length === 0) {
     return (
       <ChartLoadingPanel>
-        <SmallLoading isWhite />
+        {statisticAverageBlockTimes === undefined ? (
+          <SmallLoading isWhite />
+        ) : (
+          <img className="chart__no__data" src={ChartNoDataImage} alt="chart no data" />
+        )}
       </ChartLoadingPanel>
     )
   }
