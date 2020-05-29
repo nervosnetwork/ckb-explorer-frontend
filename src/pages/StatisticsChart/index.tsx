@@ -272,7 +272,7 @@ export default () => {
           path: '/charts/inflation-rate',
         },
         {
-          title: `${i18n.t('statistic.inflation_rate')}`,
+          title: `${i18n.t('statistic.liquidity')}`,
           chart: <LiquidityChart statisticLiquidity={statisticLiquidity} isThumbnail />,
           path: '/charts/liquidity',
         },

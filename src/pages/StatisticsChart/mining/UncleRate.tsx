@@ -28,7 +28,7 @@ const max = (statisticUncleRates: State.StatisticUncleRate[]) => {
   return Math.max(5, Math.ceil(Math.max(...array)))
 }
 
-const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail = false): echarts.EChartOption => {
+const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail = false) => {
   return {
     color: ChartColors,
     tooltip: !isThumbnail
@@ -90,7 +90,7 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
           data: [
             {
               name: i18n.t('block.uncle_rate_target'),
-              y: 2.5,
+              yAxis: 2.5,
             },
           ],
           label: {

@@ -43,7 +43,7 @@ const ReactChartCore = ({
   isThumbnail,
   clickEvent,
 }: {
-  option: echarts.EChartOption
+  option: any
   isThumbnail?: boolean
   clickEvent?: any
 }) => {

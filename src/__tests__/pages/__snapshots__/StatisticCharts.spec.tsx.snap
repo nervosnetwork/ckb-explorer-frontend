@@ -824,7 +824,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             <div
               className="chart__card_title"
             >
-              Inflation Rate
+              Liquidity
             </div>
             <div
               className="chart__card_body"
