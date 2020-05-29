@@ -61,6 +61,7 @@ export enum PageActions {
   UpdateStatisticAnnualPercentageCompensation = 'UpdateStatisticAnnualPercentageCompensation',
   UpdateStatisticSecondaryIssuance = 'updateStatisticSecondaryIssuance',
   UpdateStatisticInflationRate = 'updateStatisticInflationRate',
+  UpdateStatisticLiquidity = 'updateStatisticLiquidity',
 
   UpdateNervosDao = 'updateNervosDao',
   UpdateNervosDaoTransactions = 'updateNervosDaoTransactions',

@@ -4,6 +4,7 @@ import {
   fetchStatisticAnnualPercentageCompensation,
   fetchStatisticSecondaryIssuance,
   fetchStatisticInflationRate,
+  fetchStatisticLiquidity,
 } from '../../http/fetcher'
 import { PageActions } from '../../../contexts/actions'
 
@@ -93,6 +94,19 @@ export const getStatisticInflationRate = (dispatch: AppDispatch) => {
       type: PageActions.UpdateStatisticInflationRate,
       payload: {
         statisticInflationRates,
+      },
+    })
+  })
+}
+
+export const getStatisticLiquidity = (dispatch: AppDispatch) => {
+  fetchStatisticLiquidity().then((wrapper: Response.Wrapper<State.StatisticLiquidity>[] | null) => {
+    if (!wrapper) return
+    const statisticLiquidity = wrapper.map(data => data.attributes)
+    dispatch({
+      type: PageActions.UpdateStatisticLiquidity,
+      payload: {
+        statisticLiquidity,
       },
     })
   })

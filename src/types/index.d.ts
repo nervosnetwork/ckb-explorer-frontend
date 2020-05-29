@@ -389,6 +389,12 @@ declare namespace State {
     realInflationRate: string
   }
 
+  export interface StatisticLiquidity {
+    createdAtUnixtimestamp: string
+    circulatingSupply: string
+    liquidity: string
+  }
+
   interface FetchStatusValue {
     OK: string
     Error: string
@@ -471,6 +477,7 @@ declare namespace State {
     statisticAnnualPercentageCompensations: StatisticAnnualPercentageCompensation[]
     statisticSecondaryIssuance: StatisticSecondaryIssuance[]
     statisticInflationRates: StatisticInflationRate[]
+    statisticLiquidity: StatisticLiquidity[]
   }
 
   export interface PageState extends StatisticChartsState {

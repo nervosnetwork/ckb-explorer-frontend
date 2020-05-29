@@ -321,6 +321,12 @@ export const fetchStatisticInflationRate = () => {
   ).then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.StatisticInflationRates>>(res.data.data))
 }
 
+export const fetchStatisticLiquidity = () => {
+  return axiosIns(`/daily_statistics/circulating_supply-liquidity`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticLiquidity>[]>(res.data.data),
+  )
+}
+
 export const fetchSimpleUDT = (typeHash: string) => {
   return axiosIns(`/udts/${typeHash}`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.UDT>>(res.data.data),

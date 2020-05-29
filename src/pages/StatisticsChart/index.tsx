@@ -55,6 +55,7 @@ import {
   getStatisticAnnualPercentageCompensation,
   getStatisticSecondaryIssuance,
   getStatisticInflationRate,
+  getStatisticLiquidity,
 } from '../../service/app/charts/monetary'
 import {
   AnnualPercentageCompensationChart,
@@ -62,6 +63,7 @@ import {
 } from './monetary/AnnualPercentageCompensation'
 import { SecondaryIssuanceChart, initStatisticSecondaryIssuance } from './monetary/SecondaryIssuance'
 import { InflationRateChart, initStatisticInflationRate } from './monetary/InflationRate'
+import { LiquidityChart, initStatisticLiquidity } from './monetary/Liquidity'
 
 interface ChartData {
   title: string
@@ -112,6 +114,7 @@ export default () => {
     statisticAnnualPercentageCompensations,
     statisticSecondaryIssuance,
     statisticInflationRates,
+    statisticLiquidity,
   } = useAppState()
 
   const charts: ChartCategory[] = [
@@ -268,6 +271,11 @@ export default () => {
           chart: <InflationRateChart statisticInflationRates={statisticInflationRates} isThumbnail />,
           path: '/charts/inflation-rate',
         },
+        {
+          title: `${i18n.t('statistic.inflation_rate')}`,
+          chart: <LiquidityChart statisticLiquidity={statisticLiquidity} isThumbnail />,
+          path: '/charts/liquidity',
+        },
       ],
     },
   ]
@@ -295,6 +303,7 @@ export default () => {
     initStatisticAnnualPercentageCompensation(dispatch)
     initStatisticSecondaryIssuance(dispatch)
     initStatisticInflationRate(dispatch)
+    initStatisticLiquidity(dispatch)
   }, [dispatch])
 
   useEffect(() => {
@@ -320,6 +329,7 @@ export default () => {
     getStatisticAnnualPercentageCompensation(dispatch)
     getStatisticSecondaryIssuance(dispatch)
     getStatisticInflationRate(dispatch)
+    getStatisticLiquidity(dispatch)
   }, [dispatch])
 
   return (

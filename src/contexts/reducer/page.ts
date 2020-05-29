@@ -279,6 +279,11 @@ export const pageReducer = (
         ...state,
         statisticInflationRates: payload.statisticInflationRates,
       }
+    case PageActions.UpdateStatisticLiquidity:
+      return {
+        ...state,
+        statisticLiquidity: payload.statisticLiquidity,
+      }
 
     // nervos dao page
     case PageActions.UpdateNervosDao:

@@ -125,7 +125,9 @@
       "nominal_apc_short": "Nominal APC",
       "inflation_rate": "Inflation Rate",
       "nominal_inflation_rate": "Nominal Inflation Rate",
-      "real_inflation_rate": "Real Inflation Rate"
+      "real_inflation_rate": "Real Inflation Rate",
+      "tradable": "Tradable",
+      "liquidity": "Liquidity"
     },
     "home": {
       "height": "Height",
