@@ -57,6 +57,7 @@ const handleSearchResult = (
       type: AppActions.ShowToastMessage,
       payload: {
         message: i18n.t('toast.invalid_content'),
+        type: 'danger',
       },
     })
   } else {

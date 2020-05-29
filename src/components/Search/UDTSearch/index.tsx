@@ -46,6 +46,7 @@ const UDTSearch = ({ typeHash, content }: { typeHash: string; content?: string }
         type: AppActions.ShowToastMessage,
         payload: {
           message: i18n.t('toast.invalid_content'),
+          type: 'danger',
         },
       })
     } else {
