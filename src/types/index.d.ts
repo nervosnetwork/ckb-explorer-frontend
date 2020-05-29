@@ -395,6 +395,15 @@ declare namespace State {
     liquidity: string
   }
 
+  export interface StatisticMinerAddressDistribution {
+    minerAddressDistribution: object
+  }
+
+  export interface StatisticMinerAddress {
+    address: string
+    blocks: number
+  }
+
   interface FetchStatusValue {
     OK: string
     Error: string
@@ -478,6 +487,7 @@ declare namespace State {
     statisticSecondaryIssuance: StatisticSecondaryIssuance[]
     statisticInflationRates: StatisticInflationRate[]
     statisticLiquidity: StatisticLiquidity[]
+    statisticMinerAddresses: StatisticMinerAddress[]
   }
 
   export interface PageState extends StatisticChartsState {

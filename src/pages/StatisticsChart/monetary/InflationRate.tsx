@@ -69,8 +69,6 @@ const getOption = (
         type: 'category',
         boundaryGap: false,
         data: statisticInflationRates.map(data => data.year),
-        min: 0,
-        max: 50,
         axisLabel: {
           interval: isMobile() || isThumbnail ? 11 : 3,
           formatter: (value: string) => value,

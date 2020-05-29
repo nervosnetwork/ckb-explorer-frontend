@@ -32,7 +32,7 @@ const getOption = (
       ? {
           trigger: 'axis',
           formatter: (dataList: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 90 : 80)
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 220 : 80)
             let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.year'))} ${
               dataList[0].name
             }</div>`
@@ -52,8 +52,6 @@ const getOption = (
         type: 'category',
         boundaryGap: false,
         data: statisticAnnualPercentageCompensations.map(data => data.year),
-        min: 0,
-        max: 20,
         axisLabel: {
           interval: isMobile() || isThumbnail ? 7 : 3,
           formatter: (value: string) => value,

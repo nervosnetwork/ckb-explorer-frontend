@@ -8,8 +8,8 @@
     "bignumber.js": "9.0.0",
     "camelcase-keys": "6.2.2",
     "default-passive-events": "1.0.10",
-    "echarts": "4.7.0",
-    "echarts-for-react": "^2.0.15-beta.1",
+    "echarts": "4.8.0",
+    "echarts-for-react": "^2.0.16",
     "env-cmd": "10.1.0",
     "history": "4.10.1",
     "i18next": "19.3.4",
@@ -24,7 +24,7 @@
     "styled-components": "5.0.1"
   },
   "devDependencies": {
-    "@types/echarts": "4.4.5",
+    "@types/echarts": "4.6.0",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/eslint": "6.8.0",
