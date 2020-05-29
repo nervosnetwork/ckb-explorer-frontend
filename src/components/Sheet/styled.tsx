@@ -12,7 +12,7 @@ export const SheetPanel = styled.div`
 
   > div {
     width: 100%;
-    background: #ff7070;
+    background: #d03a3a;
     display: flex;
     flex-direction: column;
     align-items: center;
