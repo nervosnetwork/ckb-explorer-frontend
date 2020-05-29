@@ -127,7 +127,8 @@
       "nominal_inflation_rate": "Nominal Inflation Rate",
       "real_inflation_rate": "Real Inflation Rate",
       "tradable": "Tradable",
-      "liquidity": "Liquidity"
+      "liquidity": "Liquidity",
+      "miner_radio": "Miner Radio"
     },
     "home": {
       "height": "Height",

@@ -45,6 +45,7 @@ import AnnualPercentageCompensationChart from '../pages/StatisticsChart/monetary
 import SecondaryIssuanceChart from '../pages/StatisticsChart/monetary/SecondaryIssuance'
 import InflationRateChart from '../pages/StatisticsChart/monetary/InflationRate'
 import LiquidityChart from '../pages/StatisticsChart/monetary/Liquidity'
+import MinerAddressDistributionChart from '../pages/StatisticsChart/mining/MinerAddressDistribution'
 
 const Containers: CustomRouter.Route[] = [
   {
@@ -114,22 +115,28 @@ const Containers: CustomRouter.Route[] = [
     comp: DifficultyUncleRateChart,
   },
   {
-    name: 'Difficulty',
+    name: 'DifficultyChart',
     path: '/charts/difficulty',
     exact: true,
     comp: DifficultyChart,
   },
   {
-    name: 'HashRate',
+    name: 'HashRateChart',
     path: '/charts/hash-rate',
     exact: true,
     comp: HashRateChart,
   },
   {
-    name: 'UncleRate',
+    name: 'UncleRateChart',
     path: '/charts/uncle-rate',
     exact: true,
     comp: UncleRateChart,
+  },
+  {
+    name: 'MinerAddressDistributionChart',
+    path: '/charts/miner-address-distribution',
+    exact: true,
+    comp: MinerAddressDistributionChart,
   },
   {
     name: 'TransactionCountChart',

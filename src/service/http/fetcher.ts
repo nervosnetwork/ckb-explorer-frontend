@@ -231,6 +231,12 @@ export const fetchStatisticUncleRate = () => {
   )
 }
 
+export const fetchStatisticMinerAddressDistribution = () => {
+  return axiosIns(`/distribution_data/miner_address_distribution`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticMinerAddressDistribution>>(res.data.data),
+  )
+}
+
 export const fetchStatisticCellCount = () => {
   return axiosIns(`/daily_statistics/live_cells_count-dead_cells_count`).then((res: AxiosResponse) =>
     toCamelcase<Response.Response<Response.Wrapper<State.StatisticCellCount>[]>>(res.data),

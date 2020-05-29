@@ -16,6 +16,7 @@ import {
   getStatisticDifficulty,
   getStatisticHashRate,
   getStatisticUncleRate,
+  getStatisticMinerAddressDistribution,
 } from '../../service/app/charts/mining'
 import {
   getStatisticTotalDaoDeposit,
@@ -64,6 +65,7 @@ import {
 import { SecondaryIssuanceChart, initStatisticSecondaryIssuance } from './monetary/SecondaryIssuance'
 import { InflationRateChart, initStatisticInflationRate } from './monetary/InflationRate'
 import { LiquidityChart, initStatisticLiquidity } from './monetary/Liquidity'
+import { MinerAddressDistributionChart, initStatisticMinerAddressDistribution } from './mining/MinerAddressDistribution'
 
 interface ChartData {
   title: string
@@ -97,6 +99,7 @@ export default () => {
     statisticDifficulties,
     statisticHashRates,
     statisticUncleRates,
+    statisticMinerAddresses,
     statisticAddressCounts,
     statisticTotalDaoDeposits,
     statisticNewDaoDeposits,
@@ -169,6 +172,11 @@ export default () => {
           title: `${i18n.t('block.uncle_rate')}`,
           chart: <UncleRateChart statisticUncleRates={statisticUncleRates} isThumbnail />,
           path: '/charts/uncle-rate',
+        },
+        {
+          title: `${i18n.t('statistic.miner_radio')}`,
+          chart: <MinerAddressDistributionChart statisticMinerAddresses={statisticMinerAddresses} isThumbnail />,
+          path: '/charts/miner-address-distribution',
         },
       ],
     },
@@ -286,6 +294,7 @@ export default () => {
     initStatisticDifficulty(dispatch)
     initStatisticHashRate(dispatch)
     initStatisticUncleRate(dispatch)
+    initStatisticMinerAddressDistribution(dispatch)
     initStatisticAddressCount(dispatch)
     initStatisticCellCount(dispatch)
     initStatisticTransactionCount(dispatch)
@@ -312,6 +321,7 @@ export default () => {
     getStatisticDifficulty(dispatch)
     getStatisticHashRate(dispatch)
     getStatisticUncleRate(dispatch)
+    getStatisticMinerAddressDistribution(dispatch)
     getStatisticAddressCount(dispatch)
     getStatisticCellCount(dispatch)
     getStatisticTransactionCount(dispatch)

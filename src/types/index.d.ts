@@ -401,7 +401,7 @@ declare namespace State {
 
   export interface StatisticMinerAddress {
     address: string
-    blocks: number
+    radio: string
   }
 
   interface FetchStatusValue {

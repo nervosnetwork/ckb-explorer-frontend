@@ -5,6 +5,7 @@ import {
   fetchStatisticDifficulty,
   fetchStatisticHashRate,
   fetchStatisticUncleRate,
+  fetchStatisticMinerAddressDistribution,
 } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
@@ -110,4 +111,30 @@ export const getStatisticUncleRate = (dispatch: AppDispatch) => {
       },
     })
   })
+}
+
+export const getStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
+  fetchStatisticMinerAddressDistribution().then(
+    (wrapper: Response.Wrapper<State.StatisticMinerAddressDistribution> | null) => {
+      if (!wrapper) return
+      let statisticMinerAddresses: State.StatisticMinerAddress[] = []
+      let blockSum = 0
+      for (let value of Object.entries(wrapper.attributes.minerAddressDistribution)) {
+        blockSum += Number(value[1])
+      }
+      for (let value of Object.entries(wrapper.attributes.minerAddressDistribution)) {
+        statisticMinerAddresses.push({
+          address: value[0],
+          radio: (Number(value[1]) / blockSum).toFixed(2),
+        })
+      }
+      console.log(statisticMinerAddresses)
+      dispatch({
+        type: PageActions.UpdateStatisticMinerAddressDistribution,
+        payload: {
+          statisticMinerAddresses,
+        },
+      })
+    },
+  )
 }
