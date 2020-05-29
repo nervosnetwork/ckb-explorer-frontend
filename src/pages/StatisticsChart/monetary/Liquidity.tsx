@@ -25,9 +25,11 @@ const grid = {
   containLabel: true,
 }
 
+const Colors = [ChartColors[0], '#74808E']
+
 const getOption = (statisticLiquidity: State.StatisticLiquidity[], isThumbnail = false): echarts.EChartOption => {
   return {
-    color: ChartColors,
+    color: Colors,
     tooltip: !isThumbnail
       ? {
           trigger: 'axis',
@@ -36,10 +38,11 @@ const getOption = (statisticLiquidity: State.StatisticLiquidity[], isThumbnail =
             let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
               dataList[0].name,
             )}</div>`
-            result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(
-              i18n.t('statistic.circulating_supply'),
-            )} ${handleAxis(dataList[1].data, 2)}</div>`
-            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.tradable'))} ${handleAxis(
+            result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
+              dataList[1].data,
+              2,
+            )}</div>`
+            result += `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('statistic.tradable'))} ${handleAxis(
               dataList[0].data,
               2,
             )}</div>`

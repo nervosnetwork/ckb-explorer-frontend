@@ -51,9 +51,9 @@ export const addPrefixForHash = (value: string) => {
   return value
 }
 
-export const handleBigNumber = (value: BigNumber | string | number, decimal?: number) => {
+export const handleBigNumber = (value: BigNumber | string | number | null | undefined, decimal?: number) => {
   const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
-  if (bigValue.isNaN() || bigValue.isZero()) return '0'
+  if (!bigValue || bigValue.isNaN() || bigValue.isZero()) return '0'
   const kv = bigValue.dividedBy(1000)
   const mv = kv.dividedBy(1000)
   const gv = mv.dividedBy(1000)
