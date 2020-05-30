@@ -128,7 +128,6 @@ export const getStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
           radio: (Number(value[1]) / blockSum).toFixed(2),
         })
       }
-      console.log(statisticMinerAddresses)
       dispatch({
         type: PageActions.UpdateStatisticMinerAddressDistribution,
         payload: {

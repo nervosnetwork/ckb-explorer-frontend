@@ -127,7 +127,8 @@
       "real_inflation_rate": "实际通胀率",
       "tradable": "可交易量",
       "liquidity": "流通量",
-      "miner_radio": "矿工挖矿占比"
+      "miner_radio": "挖矿占比",
+      "miner_addresses_rank": "矿工地址排行"
     },
     "home": {
       "height": "高度",

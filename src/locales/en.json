@@ -128,7 +128,8 @@
       "real_inflation_rate": "Real Inflation Rate",
       "tradable": "Tradable",
       "liquidity": "Liquidity",
-      "miner_radio": "Miner Radio"
+      "miner_radio": "Radio",
+      "miner_addresses_rank": "Miner Addresses Rank"
     },
     "home": {
       "height": "Height",

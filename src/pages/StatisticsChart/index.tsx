@@ -174,7 +174,7 @@ export default () => {
           path: '/charts/uncle-rate',
         },
         {
-          title: `${i18n.t('statistic.miner_radio')}`,
+          title: `${i18n.t('statistic.miner_addresses_rank')}`,
           chart: <MinerAddressDistributionChart statisticMinerAddresses={statisticMinerAddresses} isThumbnail />,
           path: '/charts/miner-address-distribution',
         },
