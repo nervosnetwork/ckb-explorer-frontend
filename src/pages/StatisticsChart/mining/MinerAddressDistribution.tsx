@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { getStatisticMinerAddressDistribution } from '../../../service/app/charts/mining'
 import i18n, { currentLanguage } from '../../../utils/i18n'
+import browserHistory from '../../../routes/history'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
@@ -23,6 +24,20 @@ const grid = {
   containLabel: true,
 }
 
+const Colors = [
+  '#3182BD',
+  '#069ECD',
+  '#69C7D4',
+  '#AACFE9',
+  '#29B97A',
+  '#66CC99',
+  '#228159',
+  '#525860',
+  '#74808E',
+  '#9DA6B0',
+  '#FBB04C',
+]
+
 const addressText = (address: string) =>
   isMobile() ? adaptMobileEllipsis(address, 4) : adaptPCEllipsis(address, 2, 80)
 
@@ -31,13 +46,14 @@ const getOption = (
   isThumbnail = false,
 ): echarts.EChartOption => {
   return {
+    color: Colors,
     tooltip: !isThumbnail
       ? {
           formatter: (data: any) => {
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 60 : 65)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.address'))} ${
-              data.data.title
-            }</div>`
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.address'))} ${addressText(
+              data.data.title,
+            )}</div>`
             result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.miner_radio'))} ${
               Number(data.data.value) * 100
             }%</div>`
@@ -61,8 +77,8 @@ const getOption = (
         },
         data: statisticMinerAddresses.map(data => {
           return {
-            name: `${addressText(data.address)} (${Number(data.radio) * 100}%)`,
-            title: addressText(data.address),
+            name: `${addressText(data.address.toLowerCase())} (${Number(data.radio) * 100}%)`,
+            title: data.address.toLowerCase(),
             value: data.radio,
           }
         }),
@@ -74,14 +90,22 @@ const getOption = (
 export const MinerAddressDistributionChart = ({
   statisticMinerAddresses,
   isThumbnail = false,
+  clickEvent,
 }: {
   statisticMinerAddresses: State.StatisticMinerAddress[]
   isThumbnail?: boolean
+  clickEvent?: Function
 }) => {
   if (!statisticMinerAddresses || statisticMinerAddresses.length === 0) {
     return <ChartLoading show={statisticMinerAddresses === undefined} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticMinerAddresses, isThumbnail)} isThumbnail={isThumbnail} />
+  return (
+    <ReactChartCore
+      option={getOption(statisticMinerAddresses, isThumbnail)}
+      isThumbnail={isThumbnail}
+      clickEvent={clickEvent}
+    />
+  )
 }
 
 export const initStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
@@ -97,6 +121,12 @@ export default () => {
   const dispatch = useDispatch()
   const { statisticMinerAddresses } = useAppState()
 
+  const clickEvent = useCallback((param: any) => {
+    if (param && param.data.title) {
+      browserHistory.push(`/address/${param.data.title}`)
+    }
+  }, [])
+
   useEffect(() => {
     initStatisticMinerAddressDistribution(dispatch)
     getStatisticMinerAddressDistribution(dispatch)
@@ -104,7 +134,7 @@ export default () => {
 
   return (
     <ChartPage title={i18n.t('statistic.miner_addresses_rank')}>
-      <MinerAddressDistributionChart statisticMinerAddresses={statisticMinerAddresses} />
+      <MinerAddressDistributionChart statisticMinerAddresses={statisticMinerAddresses} clickEvent={clickEvent} />
     </ChartPage>
   )
 }

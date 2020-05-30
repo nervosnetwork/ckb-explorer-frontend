@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback } from 'react'
-import 'default-passive-events'
 import { getStatisticAddressBalanceRank } from '../../../service/app/charts/activities'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
