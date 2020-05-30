@@ -129,7 +129,7 @@
       "tradable": "Tradable",
       "liquidity": "Liquidity",
       "miner_radio": "Radio",
-      "miner_addresses_rank": "Miner Addresses Rank"
+      "miner_addresses_rank": "Top Miners (Recent 7 days)"
     },
     "home": {
       "height": "Height",

@@ -128,7 +128,7 @@
       "tradable": "可交易量",
       "liquidity": "流通量",
       "miner_radio": "挖矿占比",
-      "miner_addresses_rank": "矿工地址排行"
+      "miner_addresses_rank": "最佳矿工 (最近 7 天)"
     },
     "home": {
       "height": "高度",
