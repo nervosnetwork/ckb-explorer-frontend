@@ -50,7 +50,7 @@ const getOption = (
       {
         name: i18n.t('statistic.miner_radio'),
         type: 'pie',
-        radius: '75%',
+        radius: isMobile() || isThumbnail ? '50%' : '75%',
         center: ['50%', '50%'],
         itemStyle: {
           emphasis: {
