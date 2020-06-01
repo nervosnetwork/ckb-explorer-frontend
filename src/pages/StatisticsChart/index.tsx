@@ -25,6 +25,7 @@ import {
 } from '../../service/app/charts/nervosDao'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
+import HelpIcon from '../../assets/qa_help.png'
 import { DifficultyHashRateChart, initStatisticDifficultyHashRate } from './mining/DifficultyHashRate'
 import { DifficultyUncleRateChart, initStatisticDifficultyUncleRate } from './mining/DifficultyUncleRate'
 import { TransactionCountChart, initStatisticTransactionCount } from './activities/TransactionCount'
@@ -64,11 +65,13 @@ import { SecondaryIssuanceChart, initStatisticSecondaryIssuance } from './moneta
 import { InflationRateChart, initStatisticInflationRate } from './monetary/InflationRate'
 import { LiquidityChart, initStatisticLiquidity } from './monetary/Liquidity'
 import { MinerAddressDistributionChart, initStatisticMinerAddressDistribution } from './mining/MinerAddressDistribution'
+import { Tooltip } from 'antd'
 
 interface ChartData {
   title: string
   chart: ReactNode
   path: string
+  description?: string
 }
 
 interface ChartCategory {
@@ -80,7 +83,14 @@ const ChartCard = ({ chartData }: { chartData: ChartData }) => {
   return (
     <ChartCardPanel>
       <Link to={chartData.path}>
-        <div className="chart__card_title">{chartData.title}</div>
+        <div className="chart__card__title__penal">
+          <div className="chart__card_title">{chartData.title}</div>
+          {chartData.description && (
+            <Tooltip placement="bottom" title={chartData.description}>
+              <img src={HelpIcon} alt="chart help" />
+            </Tooltip>
+          )}
+        </div>
         <div className="chart__card_body">{chartData.chart}</div>
       </Link>
     </ChartCardPanel>
@@ -127,6 +137,7 @@ export default () => {
             <BlockTimeDistributionChart statisticBlockTimeDistributions={statisticBlockTimeDistributions} isThumbnail />
           ),
           path: '/charts/block-time-distribution',
+          description: i18n.t('statistic.block_time_distribution_description'),
         },
         {
           title: `${i18n.t('statistic.epoch_time_distribution')}`,
@@ -134,11 +145,13 @@ export default () => {
             <EpochTimeDistributionChart statisticEpochTimeDistributions={statisticEpochTimeDistributions} isThumbnail />
           ),
           path: '/charts/epoch-time-distribution',
+          description: i18n.t('statistic.epoch_time_distribution_description'),
         },
         {
           title: `${i18n.t('statistic.average_block_time')}`,
           chart: <AverageBlockTimeChart statisticAverageBlockTimes={statisticAverageBlockTimes} isThumbnail />,
           path: '/charts/average-block-time',
+          description: i18n.t('statistic.average_block_time_description'),
         },
       ],
     },
@@ -169,6 +182,7 @@ export default () => {
           title: `${i18n.t('block.uncle_rate')}`,
           chart: <UncleRateChart statisticUncleRates={statisticUncleRates} isThumbnail />,
           path: '/charts/uncle-rate',
+          description: i18n.t('statistic.uncle_rate_description'),
         },
         {
           title: `${i18n.t('statistic.miner_addresses_rank')}`,
@@ -205,16 +219,19 @@ export default () => {
             />
           ),
           path: '/charts/address-balance-rank',
+          description: i18n.t('statistic.balance_ranking_description'),
         },
         {
           title: `${i18n.t('statistic.balance_distribution')}`,
           chart: <BalanceDistributionChart statisticBalanceDistributions={statisticBalanceDistributions} isThumbnail />,
           path: '/charts/balance-distribution',
+          description: i18n.t('statistic.balance_distribution_description'),
         },
         {
           title: `${i18n.t('statistic.tx_fee_history')}`,
           chart: <TxFeeHistoryChart statisticTxFeeHistories={statisticTxFeeHistories} isThumbnail />,
           path: '/charts/tx-fee-history',
+          description: i18n.t('statistic.tx_fee_description'),
         },
       ],
     },
@@ -225,6 +242,7 @@ export default () => {
           title: `${i18n.t('statistic.total_dao_deposit_title')}`,
           chart: <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} isThumbnail />,
           path: '/charts/total-dao-deposit',
+          description: i18n.t('statistic.total_dao_deposit_description'),
         },
         {
           title: `${i18n.t('statistic.new_dao_deposit_title')}`,
@@ -235,6 +253,7 @@ export default () => {
           title: `${i18n.t('statistic.circulation_ratio')}`,
           chart: <CirculationRatioChart statisticCirculationRatios={statisticCirculationRatios} isThumbnail />,
           path: '/charts/circulation-ratio',
+          description: i18n.t('statistic.deposit_to_circulation_ratio_description'),
         },
       ],
     },
@@ -245,6 +264,7 @@ export default () => {
           title: `${i18n.t('statistic.total_supply')}`,
           chart: <TotalSupplyChart statisticTotalSupplies={statisticTotalSupplies} isThumbnail />,
           path: '/charts/total-supply',
+          description: i18n.t('statistic.total_supply_description'),
         },
         {
           title: `${i18n.t('statistic.nominal_apc')}`,
@@ -255,16 +275,19 @@ export default () => {
             />
           ),
           path: '/charts/nominal-apc',
+          description: i18n.t('statistic.nominal_rpc_description'),
         },
         {
           title: `${i18n.t('nervos_dao.secondary_issuance')}`,
           chart: <SecondaryIssuanceChart statisticSecondaryIssuance={statisticSecondaryIssuance} isThumbnail />,
           path: '/charts/secondary-issuance',
+          description: i18n.t('statistic.secondary_issuance_description'),
         },
         {
           title: `${i18n.t('statistic.inflation_rate')}`,
           chart: <InflationRateChart statisticInflationRates={statisticInflationRates} isThumbnail />,
           path: '/charts/inflation-rate',
+          description: i18n.t('statistic.inflation_rate_description'),
         },
         {
           title: `${i18n.t('statistic.liquidity')}`,
