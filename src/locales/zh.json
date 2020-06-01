@@ -121,7 +121,6 @@
       "locked": "未解锁数量",
       "year": "时间 (年)",
       "nominal_apc": "基准补偿率",
-      "nominal_apc_short": "基准补偿率",
       "inflation_rate": "通胀率",
       "nominal_inflation_rate": "名义通胀率",
       "real_inflation_rate": "实际通胀率",

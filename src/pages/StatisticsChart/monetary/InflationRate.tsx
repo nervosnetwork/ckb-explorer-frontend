@@ -34,14 +34,14 @@ const getOption = (
       ? {
           trigger: 'axis',
           formatter: (dataList: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 150 : 80)
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 220 : 80)
             let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.year'))} ${
               dataList[0].name
             }</div>`
             result += `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('statistic.nominal_inflation_rate'))} ${
               dataList[0].data
             }%</div>`
-            result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.nominal_apc_short'))} ${
+            result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.nominal_apc'))} ${
               dataList[1].data
             }%</div>`
             result += `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.real_inflation_rate'))} ${
@@ -56,7 +56,7 @@ const getOption = (
         ? []
         : [
             { name: i18n.t('statistic.real_inflation_rate') },
-            { name: i18n.t('statistic.nominal_apc_short') },
+            { name: i18n.t('statistic.nominal_apc') },
             { name: i18n.t('statistic.nominal_inflation_rate') },
           ],
     },
@@ -102,7 +102,7 @@ const getOption = (
         data: statisticInflationRates.map(data => Number(data.nominalInflationRate).toFixed(4)),
       },
       {
-        name: i18n.t('statistic.nominal_apc_short'),
+        name: i18n.t('statistic.nominal_apc'),
         type: 'line',
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
