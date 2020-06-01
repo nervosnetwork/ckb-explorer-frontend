@@ -21,6 +21,12 @@ export const ChartDetailTitle = styled.div`
     margin: 20px 4% 0 4%;
     font-size: 16px;
   }
+
+  > img {
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+  }
 `
 
 export const LoadingPanel = styled.div`

@@ -122,7 +122,10 @@ export default () => {
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.epoch_time_distribution_more')}>
+    <ChartPage
+      title={i18n.t('statistic.epoch_time_distribution_more')}
+      description={i18n.t('statistic.epoch_time_distribution_description')}
+    >
       <EpochTimeDistributionChart statisticEpochTimeDistributions={statisticEpochTimeDistributions} />
     </ChartPage>
   )

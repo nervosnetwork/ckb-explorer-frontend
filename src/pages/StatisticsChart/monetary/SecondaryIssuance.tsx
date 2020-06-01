@@ -156,7 +156,10 @@ export default () => {
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('nervos_dao.secondary_issuance')}>
+    <ChartPage
+      title={i18n.t('nervos_dao.secondary_issuance')}
+      description={i18n.t('statistic.secondary_issuance_description')}
+    >
       <SecondaryIssuanceChart statisticSecondaryIssuance={statisticSecondaryIssuance} />
     </ChartPage>
   )

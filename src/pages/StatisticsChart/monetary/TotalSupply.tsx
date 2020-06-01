@@ -165,7 +165,7 @@ export default () => {
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.total_supply')}>
+    <ChartPage title={i18n.t('statistic.total_supply')} description={i18n.t('statistic.total_supply_description')}>
       <TotalSupplyChart statisticTotalSupplies={statisticTotalSupplies} />
     </ChartPage>
   )

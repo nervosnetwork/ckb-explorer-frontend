@@ -172,7 +172,10 @@ export default () => {
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.average_block_time')}>
+    <ChartPage
+      title={i18n.t('statistic.average_block_time')}
+      description={i18n.t('statistic.average_block_time_description')}
+    >
       <AverageBlockTimeChart statisticAverageBlockTimes={statisticAverageBlockTimes} />
     </ChartPage>
   )

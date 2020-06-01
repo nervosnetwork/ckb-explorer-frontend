@@ -159,7 +159,10 @@ export default () => {
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.total_dao_deposit_depositor')}>
+    <ChartPage
+      title={i18n.t('statistic.total_dao_deposit_depositor')}
+      description={i18n.t('statistic.total_dao_deposit_description')}
+    >
       <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} />
       {isMainnet() && <ChartNotePanel>{`${i18n.t('common.note')}1GB = 1,000,000,000 CKBytes`}</ChartNotePanel>}
     </ChartPage>

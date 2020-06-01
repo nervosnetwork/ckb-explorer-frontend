@@ -2,6 +2,7 @@
 
 exports[`Active Page shallow renders 1`] = `
 <ChartPage
+  description="The first 50 addresses that have the most amount of CKB."
   title="Balance Ranking"
 >
   <AddressBalanceRankChart
@@ -269,9 +270,17 @@ exports[`Active Page shallow renders with empty data 1`] = `
   className="sc-fznWqX bpQDFp"
 >
   <div
-    className="sc-AxirZ fPaPCL"
+    className="sc-AxirZ hhsnIV"
   >
-    Balance Ranking
+    <span>
+      Balance Ranking
+    </span>
+    <img
+      alt="chart help"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      src="qa_help.png"
+    />
   </div>
   <div
     className="sc-AxjAm eHANUb"

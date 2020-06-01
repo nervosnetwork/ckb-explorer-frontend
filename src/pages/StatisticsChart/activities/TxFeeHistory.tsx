@@ -124,7 +124,7 @@ export default () => {
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.tx_fee_history')}>
+    <ChartPage title={i18n.t('statistic.tx_fee_history')} description={i18n.t('statistic.tx_fee_description')}>
       <TxFeeHistoryChart statisticTxFeeHistories={statisticTxFeeHistories} />
     </ChartPage>
   )

@@ -124,7 +124,10 @@ export default () => {
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.circulation_ratio')}>
+    <ChartPage
+      title={i18n.t('statistic.circulation_ratio')}
+      description={i18n.t('statistic.deposit_to_circulation_ratio_description')}
+    >
       <CirculationRatioChart statisticCirculationRatios={statisticCirculationRatios} />
     </ChartPage>
   )

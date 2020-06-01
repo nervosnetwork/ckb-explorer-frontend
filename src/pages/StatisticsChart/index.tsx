@@ -66,6 +66,7 @@ import { InflationRateChart, initStatisticInflationRate } from './monetary/Infla
 import { LiquidityChart, initStatisticLiquidity } from './monetary/Liquidity'
 import { MinerAddressDistributionChart, initStatisticMinerAddressDistribution } from './mining/MinerAddressDistribution'
 import { Tooltip } from 'antd'
+import { isMobile } from '../../utils/screen'
 
 interface ChartData {
   title: string
@@ -79,18 +80,25 @@ interface ChartCategory {
   charts: ChartData[]
 }
 
+const ChartTitle = ({ chartData }: { chartData: ChartData }) => {
+  return (
+    <div className="chart__card__title__penal">
+      <div className="chart__card_title">{chartData.title}</div>
+      {chartData.description && (
+        <Tooltip placement="bottom" title={chartData.description}>
+          <img src={HelpIcon} alt="chart help" />
+        </Tooltip>
+      )}
+    </div>
+  )
+}
+
 const ChartCard = ({ chartData }: { chartData: ChartData }) => {
   return (
     <ChartCardPanel>
+      {isMobile() && <ChartTitle chartData={chartData} />}
       <Link to={chartData.path}>
-        <div className="chart__card__title__penal">
-          <div className="chart__card_title">{chartData.title}</div>
-          {chartData.description && (
-            <Tooltip placement="bottom" title={chartData.description}>
-              <img src={HelpIcon} alt="chart help" />
-            </Tooltip>
-          )}
-        </div>
+        {!isMobile() && <ChartTitle chartData={chartData} />}
         <div className="chart__card_body">{chartData.chart}</div>
       </Link>
     </ChartCardPanel>

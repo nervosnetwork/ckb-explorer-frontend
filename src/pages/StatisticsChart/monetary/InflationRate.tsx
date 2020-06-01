@@ -160,7 +160,7 @@ export default () => {
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.inflation_rate')}>
+    <ChartPage title={i18n.t('statistic.inflation_rate')} description={i18n.t('statistic.inflation_rate_description')}>
       <InflationRateChart statisticInflationRates={statisticInflationRates} />
     </ChartPage>
   )

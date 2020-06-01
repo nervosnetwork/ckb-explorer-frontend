@@ -124,7 +124,7 @@ export default () => {
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.nominal_apc')}>
+    <ChartPage title={i18n.t('statistic.nominal_apc')} description={i18n.t('statistic.nominal_rpc_description')}>
       <AnnualPercentageCompensationChart
         statisticAnnualPercentageCompensations={statisticAnnualPercentageCompensations}
       />

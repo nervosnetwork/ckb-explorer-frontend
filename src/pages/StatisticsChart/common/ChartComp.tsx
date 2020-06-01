@@ -12,12 +12,14 @@ import { LoadingPanel, ChartNoDataPanel, ChartDetailTitle, ChartDetailPanel } fr
 import Loading from '../../../components/Loading'
 import ChartNoDataImage from '../../../assets/chart_no_data.png'
 import ChartNoDataAggronImage from '../../../assets/chart_no_data_aggron.png'
+import HelpIcon from '../../../assets/qa_help.png'
 import { isMainnet } from '../../../utils/chain'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import i18n from '../../../utils/i18n'
 import Content from '../../../components/Content'
+import { Tooltip } from 'antd'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => {
   return isThumbnail ? <SmallLoading /> : <Loading show />
@@ -65,10 +67,17 @@ const ReactChartCore = ({
   )
 }
 
-const ChartPage = ({ title, children }: { title: string; children: ReactNode }) => {
+const ChartPage = ({ title, children, description }: { title: string; children: ReactNode; description?: string }) => {
   return (
     <Content>
-      <ChartDetailTitle>{title}</ChartDetailTitle>
+      <ChartDetailTitle>
+        <span>{title}</span>
+        {description && (
+          <Tooltip placement="bottom" title={description}>
+            <img src={HelpIcon} alt="chart help" />
+          </Tooltip>
+        )}
+      </ChartDetailTitle>
       <ChartDetailPanel>{children}</ChartDetailPanel>
     </Content>
   )

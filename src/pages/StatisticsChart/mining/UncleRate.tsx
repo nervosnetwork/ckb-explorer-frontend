@@ -135,7 +135,7 @@ export default () => {
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('block.uncle_rate')}>
+    <ChartPage title={i18n.t('block.uncle_rate')} description={i18n.t('statistic.uncle_rate_description')}>
       <UncleRateChart statisticUncleRates={statisticUncleRates} />
     </ChartPage>
   )
