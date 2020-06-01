@@ -39,13 +39,13 @@ const getOption = (
               dataList[0].name
             }</div>`
             result += `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('statistic.nominal_inflation_rate'))} ${
-              dataList[2].data
+              dataList[0].data
             }%</div>`
             result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.nominal_apc_short'))} ${
               dataList[1].data
             }%</div>`
             result += `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.real_inflation_rate'))} ${
-              dataList[0].data
+              dataList[2].data
             }%</div>`
             return result
           },
@@ -55,9 +55,9 @@ const getOption = (
       data: isThumbnail
         ? []
         : [
-            { name: i18n.t('statistic.nominal_inflation_rate') },
-            { name: i18n.t('statistic.nominal_apc_short') },
             { name: i18n.t('statistic.real_inflation_rate') },
+            { name: i18n.t('statistic.nominal_apc_short') },
+            { name: i18n.t('statistic.nominal_inflation_rate') },
           ],
     },
     grid: isThumbnail ? gridThumbnail : grid,
