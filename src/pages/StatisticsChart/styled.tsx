@@ -66,7 +66,7 @@ export const ChartCardPanel = styled.div`
     border: 1px solid #e2e2e2;
     border-width: 1px 1px 0 1px;
     height: 40px;
-
+    
     > img {
       width: 16px;
       height: 16px;
