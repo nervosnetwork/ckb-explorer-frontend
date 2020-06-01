@@ -126,6 +126,7 @@
       "nominal_inflation_rate": "Nominal Inflation Rate",
       "real_inflation_rate": "Real Inflation Rate",
       "tradable": "Tradable",
+      "dao_deposit": "Nervos DAO Deposit",
       "liquidity": "Liquidity",
       "miner_radio": "Radio",
       "miner_addresses_rank": "Top Miners (Recent 7 days)"

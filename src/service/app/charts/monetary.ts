@@ -7,6 +7,7 @@ import {
   fetchStatisticLiquidity,
 } from '../../http/fetcher'
 import { PageActions } from '../../../contexts/actions'
+import BigNumber from 'bignumber.js'
 
 export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
   fetchStatisticTotalSupply().then((response: Response.Wrapper<State.StatisticTotalSupply>[] | null) => {
@@ -33,7 +34,7 @@ export const getStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) 
     (wrapper: Response.Wrapper<State.StatisticAnnualPercentageCompensations> | null) => {
       if (!wrapper) return
       const statisticAnnualPercentageCompensations = wrapper.attributes.nominalApc
-        .filter((_apc, index) => index % 3 === 1 || index === wrapper.attributes.nominalApc.length - 1)
+        .filter((_apc, index) => index % 3 === 0 || index === wrapper.attributes.nominalApc.length - 1)
         .map((apc, index) => {
           return {
             year: 0.25 * index,
@@ -81,7 +82,7 @@ export const getStatisticInflationRate = (dispatch: AppDispatch) => {
     const { nominalApc, nominalInflationRate, realInflationRate } = wrapper.attributes
     let statisticInflationRates = []
     for (let i = 0; i < nominalApc.length; i++) {
-      if (i % 6 === 1 || i === nominalApc.length - 1) {
+      if (i % 6 === 0 || i === nominalApc.length - 1) {
         statisticInflationRates.push({
           year: i % 6 === 1 ? Math.floor(i / 6) * 0.5 : 50,
           nominalApc: nominalApc[i],
@@ -102,7 +103,16 @@ export const getStatisticInflationRate = (dispatch: AppDispatch) => {
 export const getStatisticLiquidity = (dispatch: AppDispatch) => {
   fetchStatisticLiquidity().then((wrapper: Response.Wrapper<State.StatisticLiquidity>[] | null) => {
     if (!wrapper) return
-    const statisticLiquidity = wrapper.map(data => data.attributes)
+    const statisticLiquidity: State.StatisticLiquidity[] = wrapper.map(data => {
+      return {
+        createdAtUnixtimestamp: data.attributes.createdAtUnixtimestamp,
+        circulatingSupply: data.attributes.circulatingSupply,
+        liquidity: data.attributes.liquidity,
+        daoDeposit: new BigNumber(data.attributes.circulatingSupply)
+          .minus(new BigNumber(data.attributes.liquidity))
+          .toFixed(2),
+      }
+    })
     dispatch({
       type: PageActions.UpdateStatisticLiquidity,
       payload: {

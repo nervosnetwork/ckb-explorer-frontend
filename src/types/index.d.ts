@@ -393,6 +393,7 @@ declare namespace State {
     createdAtUnixtimestamp: string
     circulatingSupply: string
     liquidity: string
+    daoDeposit: string
   }
 
   export interface StatisticMinerAddressDistribution {

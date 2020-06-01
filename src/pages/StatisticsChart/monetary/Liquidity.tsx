@@ -25,7 +25,7 @@ const grid = {
   containLabel: true,
 }
 
-const Colors = [ChartColors[0], '#74808E']
+const Colors = [ChartColors[0], '#74808E', ChartColors[1]]
 
 const getOption = (statisticLiquidity: State.StatisticLiquidity[], isThumbnail = false): echarts.EChartOption => {
   return {
@@ -34,11 +34,15 @@ const getOption = (statisticLiquidity: State.StatisticLiquidity[], isThumbnail =
       ? {
           trigger: 'axis',
           formatter: (dataList: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 125 : 70)
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 140 : 120)
             let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
               dataList[0].name,
             )}</div>`
-            result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
+            result += `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
+              dataList[2].data,
+              2,
+            )}</div>`
+            result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.dao_deposit'))} ${handleAxis(
               dataList[1].data,
               2,
             )}</div>`
@@ -53,7 +57,11 @@ const getOption = (statisticLiquidity: State.StatisticLiquidity[], isThumbnail =
     legend: {
       data: isThumbnail
         ? []
-        : [{ name: i18n.t('statistic.tradable') }, { name: i18n.t('statistic.circulating_supply') }],
+        : [
+            { name: i18n.t('statistic.circulating_supply') },
+            { name: i18n.t('statistic.dao_deposit') },
+            { name: i18n.t('statistic.tradable') },
+          ],
     },
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
@@ -90,10 +98,23 @@ const getOption = (statisticLiquidity: State.StatisticLiquidity[], isThumbnail =
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
+        stack: 'sum',
         areaStyle: {
           origin: 'start',
         },
         data: statisticLiquidity.map(data => shannonToCkb(data.liquidity)),
+      },
+      {
+        name: i18n.t('statistic.dao_deposit'),
+        type: 'line',
+        yAxisIndex: 0,
+        symbol: isThumbnail ? 'none' : 'circle',
+        symbolSize: 3,
+        stack: 'sum',
+        areaStyle: {
+          origin: 'start',
+        },
+        data: statisticLiquidity.map(data => shannonToCkb(data.daoDeposit)),
       },
       {
         name: i18n.t('statistic.circulating_supply'),
@@ -101,9 +122,6 @@ const getOption = (statisticLiquidity: State.StatisticLiquidity[], isThumbnail =
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
-        areaStyle: {
-          origin: 'start',
-        },
         data: statisticLiquidity.map(data => shannonToCkb(data.circulatingSupply)),
       },
     ],
