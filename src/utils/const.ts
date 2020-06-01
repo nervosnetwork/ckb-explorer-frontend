@@ -42,6 +42,8 @@ export const SearchFailType = {
 
 export const CachedKeys = {
   AppLanguage: `${CONFIG.CHAIN_TYPE}-AppLanguage`,
+  APC: `${CONFIG.CHAIN_TYPE}-APC`,
+  InflationRate: `${CONFIG.CHAIN_TYPE}-InflationRate`,
 }
 
 export enum CellState {

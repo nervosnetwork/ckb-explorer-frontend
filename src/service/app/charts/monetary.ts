@@ -8,6 +8,8 @@ import {
 } from '../../http/fetcher'
 import { PageActions } from '../../../contexts/actions'
 import BigNumber from 'bignumber.js'
+import { fetchCachedData, storeCachedData } from '../../../utils/cached'
+import { CachedKeys } from '../../../utils/const'
 
 export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
   fetchStatisticTotalSupply().then((response: Response.Wrapper<State.StatisticTotalSupply>[] | null) => {
@@ -30,6 +32,16 @@ export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) => {
+  const data = fetchCachedData(CachedKeys.APC)
+  if (data) {
+    dispatch({
+      type: PageActions.UpdateStatisticAnnualPercentageCompensation,
+      payload: {
+        statisticAnnualPercentageCompensations: data,
+      },
+    })
+    return
+  }
   fetchStatisticAnnualPercentageCompensation().then(
     (wrapper: Response.Wrapper<State.StatisticAnnualPercentageCompensations> | null) => {
       if (!wrapper) return
@@ -47,6 +59,7 @@ export const getStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) 
           statisticAnnualPercentageCompensations,
         },
       })
+      storeCachedData(CachedKeys.APC, statisticAnnualPercentageCompensations)
     },
   )
 }
@@ -77,6 +90,16 @@ export const getStatisticSecondaryIssuance = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticInflationRate = (dispatch: AppDispatch) => {
+  const data = fetchCachedData(CachedKeys.InflationRate)
+  if (data) {
+    dispatch({
+      type: PageActions.UpdateStatisticInflationRate,
+      payload: {
+        statisticInflationRates: data,
+      },
+    })
+    return
+  }
   fetchStatisticInflationRate().then((wrapper: Response.Wrapper<State.StatisticInflationRates> | null) => {
     if (!wrapper) return
     const { nominalApc, nominalInflationRate, realInflationRate } = wrapper.attributes
@@ -84,7 +107,7 @@ export const getStatisticInflationRate = (dispatch: AppDispatch) => {
     for (let i = 0; i < nominalApc.length; i++) {
       if (i % 6 === 0 || i === nominalApc.length - 1) {
         statisticInflationRates.push({
-          year: i % 6 === 1 ? Math.floor(i / 6) * 0.5 : 50,
+          year: i % 6 === 0 ? Math.floor(i / 6) * 0.5 : 50,
           nominalApc: nominalApc[i],
           nominalInflationRate: nominalInflationRate[i],
           realInflationRate: realInflationRate[i],
@@ -97,6 +120,7 @@ export const getStatisticInflationRate = (dispatch: AppDispatch) => {
         statisticInflationRates,
       },
     })
+    storeCachedData(CachedKeys.InflationRate, statisticInflationRates)
   })
 }
 
