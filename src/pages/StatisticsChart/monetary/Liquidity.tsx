@@ -25,7 +25,7 @@ const grid = {
   containLabel: true,
 }
 
-const Colors = [ChartColors[0], '#74808E', ChartColors[1]]
+const Colors = [ChartColors[0], '#74808E', '#69C7D4']
 
 const getOption = (statisticLiquidity: State.StatisticLiquidity[], isThumbnail = false): echarts.EChartOption => {
   return {

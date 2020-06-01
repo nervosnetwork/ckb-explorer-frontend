@@ -48,8 +48,6 @@ import { EpochTimeDistributionChart, initStatisticEpochTimeDistribution } from '
 import { NewDaoDepositChart, initStatisticNewDaoDeposit } from './nervosDao/NewDaoDeposit'
 import { CirculationRatioChart, initStatisticCirculationRatio } from './nervosDao/CirculationRatio'
 import { initStatisticAverageBlockTimes, AverageBlockTimeChart } from './block/AverageBlockTime'
-import { getStatisticNodeDistribution } from '../../service/app/charts/network'
-import { NodeDistributionChart, initStatisticNodeDistribution } from './network/NodeDistribution'
 import { TotalSupplyChart, initStatisticTotalSupply } from './monetary/TotalSupply'
 import {
   getStatisticTotalSupply,
@@ -112,7 +110,6 @@ export default () => {
     statisticBlockTimeDistributions,
     statisticEpochTimeDistributions,
     statisticAverageBlockTimes,
-    statisticNodeDistributions,
     statisticTotalSupplies,
     statisticAnnualPercentageCompensations,
     statisticSecondaryIssuance,
@@ -242,16 +239,6 @@ export default () => {
       ],
     },
     {
-      category: i18n.t('statistic.category_network'),
-      charts: [
-        {
-          title: `${i18n.t('statistic.node_distribution')}`,
-          chart: <NodeDistributionChart statisticNodeDistributions={statisticNodeDistributions} isThumbnail />,
-          path: '/charts/node-distribution',
-        },
-      ],
-    },
-    {
       category: i18n.t('statistic.category_monetary'),
       charts: [
         {
@@ -307,7 +294,6 @@ export default () => {
     initStatisticBlockTimeDistribution(dispatch)
     initStatisticEpochTimeDistribution(dispatch)
     initStatisticAverageBlockTimes(dispatch)
-    initStatisticNodeDistribution(dispatch)
     initStatisticTotalSupply(dispatch)
     initStatisticAnnualPercentageCompensation(dispatch)
     initStatisticSecondaryIssuance(dispatch)
@@ -334,7 +320,6 @@ export default () => {
     getStatisticBlockTimeDistribution(dispatch)
     getStatisticEpochTimeDistribution(dispatch)
     getStatisticAverageBlockTimes(dispatch)
-    getStatisticNodeDistribution(dispatch)
     getStatisticTotalSupply(dispatch)
     getStatisticAnnualPercentageCompensation(dispatch)
     getStatisticSecondaryIssuance(dispatch)

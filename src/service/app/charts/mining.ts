@@ -125,7 +125,7 @@ export const getStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
       for (let value of Object.entries(wrapper.attributes.minerAddressDistribution)) {
         statisticMinerAddresses.push({
           address: value[0],
-          radio: (Number(value[1]) / blockSum).toFixed(2),
+          radio: (Number(value[1]) / blockSum).toFixed(3),
         })
       }
       dispatch({

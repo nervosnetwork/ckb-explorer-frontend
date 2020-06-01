@@ -54,9 +54,9 @@ const getOption = (
             let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.address'))} ${addressText(
               data.data.title,
             )}</div>`
-            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.miner_radio'))} ${
+            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.miner_radio'))} ${(
               Number(data.data.value) * 100
-            }%</div>`
+            ).toFixed(1)}%</div>`
             return result
           },
         }
@@ -77,7 +77,7 @@ const getOption = (
         },
         data: statisticMinerAddresses.map(data => {
           return {
-            name: `${addressText(data.address.toLowerCase())} (${Number(data.radio) * 100}%)`,
+            name: `${addressText(data.address.toLowerCase())} (${(Number(data.radio) * 100).toFixed(1)}%)`,
             title: data.address.toLowerCase(),
             value: data.radio,
           }
