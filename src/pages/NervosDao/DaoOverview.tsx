@@ -132,7 +132,7 @@ const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent
   ]
 }
 
-const getOption = (nervosDao: State.NervosDao) => {
+const getOption = (nervosDao: State.NervosDao): echarts.EChartOption => {
   const sum =
     shannonToCkbDecimal(nervosDao.miningReward) +
     shannonToCkbDecimal(nervosDao.depositCompensation) +

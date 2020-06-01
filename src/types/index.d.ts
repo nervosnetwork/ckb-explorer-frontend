@@ -353,6 +353,58 @@ declare namespace State {
     }[]
   }
 
+  export interface StatisticTotalSupply {
+    createdAtUnixtimestamp: string
+    circulatingSupply: string
+    burnt: string
+    lockedCapacity: string
+  }
+
+  export interface StatisticAnnualPercentageCompensation {
+    year: number
+    apc: string
+  }
+
+  export interface StatisticAnnualPercentageCompensations {
+    nominalApc: string[]
+  }
+
+  export interface StatisticSecondaryIssuance {
+    createdAtUnixtimestamp: string
+    treasuryAmount: string
+    miningReward: string
+    depositCompensation: string
+  }
+
+  export interface StatisticInflationRates {
+    nominalApc: string[]
+    nominalInflationRate: string[]
+    realInflationRate: string[]
+  }
+
+  export interface StatisticInflationRate {
+    year: number
+    nominalApc: string
+    nominalInflationRate: string
+    realInflationRate: string
+  }
+
+  export interface StatisticLiquidity {
+    createdAtUnixtimestamp: string
+    circulatingSupply: string
+    liquidity: string
+    daoDeposit: string
+  }
+
+  export interface StatisticMinerAddressDistribution {
+    minerAddressDistribution: object
+  }
+
+  export interface StatisticMinerAddress {
+    address: string
+    radio: string
+  }
+
   interface FetchStatusValue {
     OK: string
     Error: string
@@ -431,6 +483,12 @@ declare namespace State {
     statisticCirculationRatios: StatisticCirculationRatio[]
     statisticNewNodeCounts: StatisticNewNodeCount[]
     statisticNodeDistributions: StatisticNodeDistribution[]
+    statisticTotalSupplies: StatisticTotalSupply[]
+    statisticAnnualPercentageCompensations: StatisticAnnualPercentageCompensation[]
+    statisticSecondaryIssuance: StatisticSecondaryIssuance[]
+    statisticInflationRates: StatisticInflationRate[]
+    statisticLiquidity: StatisticLiquidity[]
+    statisticMinerAddresses: StatisticMinerAddress[]
   }
 
   export interface PageState extends StatisticChartsState {
