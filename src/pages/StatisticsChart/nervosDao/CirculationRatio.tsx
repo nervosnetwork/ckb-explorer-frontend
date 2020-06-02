@@ -6,8 +6,6 @@ import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
 
 const gridThumbnail = {
   left: '4%',
@@ -92,26 +90,18 @@ const getOption = (
   }
 }
 
-export const CirculationRatioChart = ({
-  statisticCirculationRatios,
-  isThumbnail = false,
-}: {
-  statisticCirculationRatios: State.StatisticCirculationRatio[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticCirculationRatios || statisticCirculationRatios.length === 0) {
-    return <ChartLoading show={statisticCirculationRatios === undefined} isThumbnail={isThumbnail} />
+export const CirculationRatioChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticCirculationRatios, statisticCirculationRatiosFetchEnd } = useAppState()
+  if (!statisticCirculationRatiosFetchEnd || statisticCirculationRatios.length === 0) {
+    return <ChartLoading show={!statisticCirculationRatiosFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticCirculationRatios, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticCirculationRatio = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticCirculationRatio,
-    payload: {
-      statisticCirculationRatios: undefined,
-    },
-  })
+const toCSV = (statisticCirculationRatios: State.StatisticCirculationRatio[]) => {
+  return statisticCirculationRatios
+    ? statisticCirculationRatios.map(data => [data.createdAtUnixtimestamp, data.circulationRatio])
+    : []
 }
 
 export default () => {
@@ -119,7 +109,6 @@ export default () => {
   const { statisticCirculationRatios } = useAppState()
 
   useEffect(() => {
-    initStatisticCirculationRatio(dispatch)
     getStatisticCirculationRatio(dispatch)
   }, [dispatch])
 
@@ -127,8 +116,9 @@ export default () => {
     <ChartPage
       title={i18n.t('statistic.circulation_ratio')}
       description={i18n.t('statistic.deposit_to_circulation_ratio_description')}
+      data={toCSV(statisticCirculationRatios)}
     >
-      <CirculationRatioChart statisticCirculationRatios={statisticCirculationRatios} />
+      <CirculationRatioChart />
     </ChartPage>
   )
 }

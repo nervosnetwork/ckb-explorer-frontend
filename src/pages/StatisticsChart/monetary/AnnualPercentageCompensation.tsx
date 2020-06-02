@@ -4,8 +4,6 @@ import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
 import { getStatisticAnnualPercentageCompensation } from '../../../service/app/charts/monetary'
 
 const gridThumbnail = {
@@ -90,28 +88,20 @@ const getOption = (
   }
 }
 
-export const AnnualPercentageCompensationChart = ({
-  statisticAnnualPercentageCompensations,
-  isThumbnail = false,
-}: {
-  statisticAnnualPercentageCompensations: State.StatisticAnnualPercentageCompensation[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticAnnualPercentageCompensations || statisticAnnualPercentageCompensations.length === 0) {
-    return <ChartLoading show={statisticAnnualPercentageCompensations === undefined} isThumbnail={isThumbnail} />
+export const AnnualPercentageCompensationChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticAnnualPercentageCompensations, statisticAnnualPercentageCompensationsFetchEnd } = useAppState()
+  if (!statisticAnnualPercentageCompensationsFetchEnd || statisticAnnualPercentageCompensations.length === 0) {
+    return <ChartLoading show={!statisticAnnualPercentageCompensationsFetchEnd} isThumbnail={isThumbnail} />
   }
   return (
     <ReactChartCore option={getOption(statisticAnnualPercentageCompensations, isThumbnail)} isThumbnail={isThumbnail} />
   )
 }
 
-export const initStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticAnnualPercentageCompensation,
-    payload: {
-      statisticAnnualPercentageCompensations: undefined,
-    },
-  })
+const toCSV = (statisticAnnualPercentageCompensations: State.StatisticAnnualPercentageCompensation[]) => {
+  return statisticAnnualPercentageCompensations
+    ? statisticAnnualPercentageCompensations.map(data => [data.year, (Number(data.apc) / 100).toFixed(4)])
+    : []
 }
 
 export default () => {
@@ -119,15 +109,16 @@ export default () => {
   const { statisticAnnualPercentageCompensations } = useAppState()
 
   useEffect(() => {
-    initStatisticAnnualPercentageCompensation(dispatch)
     getStatisticAnnualPercentageCompensation(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.nominal_apc')} description={i18n.t('statistic.nominal_rpc_description')}>
-      <AnnualPercentageCompensationChart
-        statisticAnnualPercentageCompensations={statisticAnnualPercentageCompensations}
-      />
+    <ChartPage
+      title={i18n.t('statistic.nominal_apc')}
+      description={i18n.t('statistic.nominal_rpc_description')}
+      data={toCSV(statisticAnnualPercentageCompensations)}
+    >
+      <AnnualPercentageCompensationChart />
     </ChartPage>
   )
 }

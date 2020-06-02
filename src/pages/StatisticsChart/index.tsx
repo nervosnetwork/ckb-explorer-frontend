@@ -23,7 +23,7 @@ import {
   getStatisticNewDaoDeposit,
   getStatisticCirculationRatio,
 } from '../../service/app/charts/nervosDao'
-import { useAppState, useDispatch } from '../../contexts/providers'
+import { useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import HelpIcon from '../../assets/qa_help.png'
 import { DifficultyHashRateChart } from './mining/DifficultyHashRate'
@@ -31,7 +31,7 @@ import { DifficultyUncleRateChart } from './mining/DifficultyUncleRate'
 import { TransactionCountChart } from './activities/TransactionCount'
 import { AddressCountChart } from './activities/AddressCount'
 import { CellCountChart } from './activities/CellCount'
-import { TotalDaoDepositChart, initStatisticTotalDaoDeposit } from './nervosDao/TotalDaoDeposit'
+import { TotalDaoDepositChart } from './nervosDao/TotalDaoDeposit'
 import { ChartsPanel, ChartCardPanel, ChartsTitle, ChartsContent } from './styled'
 import { AddressBalanceRankChart } from './activities/AddressBalanceRank'
 import { DifficultyChart } from './mining/Difficulty'
@@ -46,10 +46,10 @@ import {
   getStatisticAverageBlockTimes,
 } from '../../service/app/charts/block'
 import { EpochTimeDistributionChart } from './block/EpochTimeDistribution'
-import { NewDaoDepositChart, initStatisticNewDaoDeposit } from './nervosDao/NewDaoDeposit'
-import { CirculationRatioChart, initStatisticCirculationRatio } from './nervosDao/CirculationRatio'
+import { NewDaoDepositChart } from './nervosDao/NewDaoDeposit'
+import { CirculationRatioChart } from './nervosDao/CirculationRatio'
 import { AverageBlockTimeChart } from './block/AverageBlockTime'
-import { TotalSupplyChart, initStatisticTotalSupply } from './monetary/TotalSupply'
+import { TotalSupplyChart } from './monetary/TotalSupply'
 import {
   getStatisticTotalSupply,
   getStatisticAnnualPercentageCompensation,
@@ -57,13 +57,10 @@ import {
   getStatisticInflationRate,
   getStatisticLiquidity,
 } from '../../service/app/charts/monetary'
-import {
-  AnnualPercentageCompensationChart,
-  initStatisticAnnualPercentageCompensation,
-} from './monetary/AnnualPercentageCompensation'
-import { SecondaryIssuanceChart, initStatisticSecondaryIssuance } from './monetary/SecondaryIssuance'
-import { InflationRateChart, initStatisticInflationRate } from './monetary/InflationRate'
-import { LiquidityChart, initStatisticLiquidity } from './monetary/Liquidity'
+import { AnnualPercentageCompensationChart } from './monetary/AnnualPercentageCompensation'
+import { SecondaryIssuanceChart } from './monetary/SecondaryIssuance'
+import { InflationRateChart } from './monetary/InflationRate'
+import { LiquidityChart } from './monetary/Liquidity'
 import { MinerAddressDistributionChart } from './mining/MinerAddressDistribution'
 import { Tooltip } from 'antd'
 import { isMobile } from '../../utils/screen'
@@ -107,190 +104,164 @@ const ChartCard = ({ chartData }: { chartData: ChartData }) => {
 
 const NullEvent = () => {}
 
+const Charts: ChartCategory[] = [
+  {
+    category: i18n.t('statistic.category_block'),
+    charts: [
+      {
+        title: `${i18n.t('statistic.block_time_distribution')}`,
+        chart: <BlockTimeDistributionChart isThumbnail />,
+        path: '/charts/block-time-distribution',
+        description: i18n.t('statistic.block_time_distribution_description'),
+      },
+      {
+        title: `${i18n.t('statistic.epoch_time_distribution')}`,
+        chart: <EpochTimeDistributionChart isThumbnail />,
+        path: '/charts/epoch-time-distribution',
+        description: i18n.t('statistic.epoch_time_distribution_description'),
+      },
+      {
+        title: `${i18n.t('statistic.average_block_time')}`,
+        chart: <AverageBlockTimeChart isThumbnail />,
+        path: '/charts/average-block-time',
+        description: i18n.t('statistic.average_block_time_description'),
+      },
+    ],
+  },
+  {
+    category: i18n.t('statistic.category_mining'),
+    charts: [
+      {
+        title: `${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`,
+        chart: <DifficultyHashRateChart isThumbnail />,
+        path: '/charts/difficulty-hash-rate',
+      },
+      {
+        title: `${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`,
+        chart: <DifficultyUncleRateChart isThumbnail />,
+        path: '/charts/difficulty-uncle-rate',
+      },
+      {
+        title: `${i18n.t('block.difficulty')}`,
+        chart: <DifficultyChart isThumbnail />,
+        path: '/charts/difficulty',
+      },
+      {
+        title: `${i18n.t('block.hash_rate')}`,
+        chart: <HashRateChart isThumbnail />,
+        path: '/charts/hash-rate',
+      },
+      {
+        title: `${i18n.t('block.uncle_rate')}`,
+        chart: <UncleRateChart isThumbnail />,
+        path: '/charts/uncle-rate',
+        description: i18n.t('statistic.uncle_rate_description'),
+      },
+      {
+        title: `${i18n.t('statistic.miner_addresses_rank')}`,
+        chart: <MinerAddressDistributionChart isThumbnail />,
+        path: '/charts/miner-address-distribution',
+      },
+    ],
+  },
+  {
+    category: i18n.t('statistic.category_activities'),
+    charts: [
+      {
+        title: `${i18n.t('statistic.transaction_count')}`,
+        chart: <TransactionCountChart isThumbnail />,
+        path: '/charts/transaction-count',
+      },
+      {
+        title: `${i18n.t('statistic.address_count')}`,
+        chart: <AddressCountChart isThumbnail />,
+        path: '/charts/address-count',
+      },
+      {
+        title: i18n.t('statistic.cell_count'),
+        chart: <CellCountChart isThumbnail />,
+        path: '/charts/cell-count',
+      },
+      {
+        title: `${i18n.t('statistic.balance_ranking')}`,
+        chart: <AddressBalanceRankChart clickEvent={NullEvent} isThumbnail />,
+        path: '/charts/address-balance-rank',
+        description: i18n.t('statistic.balance_ranking_description'),
+      },
+      {
+        title: `${i18n.t('statistic.balance_distribution')}`,
+        chart: <BalanceDistributionChart isThumbnail />,
+        path: '/charts/balance-distribution',
+        description: i18n.t('statistic.balance_distribution_description'),
+      },
+      {
+        title: `${i18n.t('statistic.tx_fee_history')}`,
+        chart: <TxFeeHistoryChart isThumbnail />,
+        path: '/charts/tx-fee-history',
+        description: i18n.t('statistic.tx_fee_description'),
+      },
+    ],
+  },
+  {
+    category: i18n.t('blockchain.nervos_dao'),
+    charts: [
+      {
+        title: `${i18n.t('statistic.total_dao_deposit_title')}`,
+        chart: <TotalDaoDepositChart isThumbnail />,
+        path: '/charts/total-dao-deposit',
+        description: i18n.t('statistic.total_dao_deposit_description'),
+      },
+      {
+        title: `${i18n.t('statistic.new_dao_deposit_title')}`,
+        chart: <NewDaoDepositChart isThumbnail />,
+        path: '/charts/new-dao-deposit',
+      },
+      {
+        title: `${i18n.t('statistic.circulation_ratio')}`,
+        chart: <CirculationRatioChart isThumbnail />,
+        path: '/charts/circulation-ratio',
+        description: i18n.t('statistic.deposit_to_circulation_ratio_description'),
+      },
+    ],
+  },
+  {
+    category: i18n.t('statistic.category_monetary'),
+    charts: [
+      {
+        title: `${i18n.t('statistic.total_supply')}`,
+        chart: <TotalSupplyChart isThumbnail />,
+        path: '/charts/total-supply',
+        description: i18n.t('statistic.total_supply_description'),
+      },
+      {
+        title: `${i18n.t('statistic.nominal_apc')}`,
+        chart: <AnnualPercentageCompensationChart isThumbnail />,
+        path: '/charts/nominal-apc',
+        description: i18n.t('statistic.nominal_rpc_description'),
+      },
+      {
+        title: `${i18n.t('nervos_dao.secondary_issuance')}`,
+        chart: <SecondaryIssuanceChart isThumbnail />,
+        path: '/charts/secondary-issuance',
+        description: i18n.t('statistic.secondary_issuance_description'),
+      },
+      {
+        title: `${i18n.t('statistic.inflation_rate')}`,
+        chart: <InflationRateChart isThumbnail />,
+        path: '/charts/inflation-rate',
+        description: i18n.t('statistic.inflation_rate_description'),
+      },
+      {
+        title: `${i18n.t('statistic.liquidity')}`,
+        chart: <LiquidityChart isThumbnail />,
+        path: '/charts/liquidity',
+      },
+    ],
+  },
+]
+
 export default () => {
   const dispatch = useDispatch()
-  const {
-    statisticTotalDaoDeposits,
-    statisticNewDaoDeposits,
-    statisticCirculationRatios,
-    statisticTotalSupplies,
-    statisticAnnualPercentageCompensations,
-    statisticSecondaryIssuance,
-    statisticInflationRates,
-    statisticLiquidity,
-  } = useAppState()
-
-  const charts: ChartCategory[] = [
-    {
-      category: i18n.t('statistic.category_block'),
-      charts: [
-        {
-          title: `${i18n.t('statistic.block_time_distribution')}`,
-          chart: <BlockTimeDistributionChart isThumbnail />,
-          path: '/charts/block-time-distribution',
-          description: i18n.t('statistic.block_time_distribution_description'),
-        },
-        {
-          title: `${i18n.t('statistic.epoch_time_distribution')}`,
-          chart: <EpochTimeDistributionChart isThumbnail />,
-          path: '/charts/epoch-time-distribution',
-          description: i18n.t('statistic.epoch_time_distribution_description'),
-        },
-        {
-          title: `${i18n.t('statistic.average_block_time')}`,
-          chart: <AverageBlockTimeChart isThumbnail />,
-          path: '/charts/average-block-time',
-          description: i18n.t('statistic.average_block_time_description'),
-        },
-      ],
-    },
-    {
-      category: i18n.t('statistic.category_mining'),
-      charts: [
-        {
-          title: `${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`,
-          chart: <DifficultyHashRateChart isThumbnail />,
-          path: '/charts/difficulty-hash-rate',
-        },
-        {
-          title: `${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`,
-          chart: <DifficultyUncleRateChart isThumbnail />,
-          path: '/charts/difficulty-uncle-rate',
-        },
-        {
-          title: `${i18n.t('block.difficulty')}`,
-          chart: <DifficultyChart isThumbnail />,
-          path: '/charts/difficulty',
-        },
-        {
-          title: `${i18n.t('block.hash_rate')}`,
-          chart: <HashRateChart isThumbnail />,
-          path: '/charts/hash-rate',
-        },
-        {
-          title: `${i18n.t('block.uncle_rate')}`,
-          chart: <UncleRateChart isThumbnail />,
-          path: '/charts/uncle-rate',
-          description: i18n.t('statistic.uncle_rate_description'),
-        },
-        {
-          title: `${i18n.t('statistic.miner_addresses_rank')}`,
-          chart: <MinerAddressDistributionChart isThumbnail />,
-          path: '/charts/miner-address-distribution',
-        },
-      ],
-    },
-    {
-      category: i18n.t('statistic.category_activities'),
-      charts: [
-        {
-          title: `${i18n.t('statistic.transaction_count')}`,
-          chart: <TransactionCountChart isThumbnail />,
-          path: '/charts/transaction-count',
-        },
-        {
-          title: `${i18n.t('statistic.address_count')}`,
-          chart: <AddressCountChart isThumbnail />,
-          path: '/charts/address-count',
-        },
-        {
-          title: i18n.t('statistic.cell_count'),
-          chart: <CellCountChart isThumbnail />,
-          path: '/charts/cell-count',
-        },
-        {
-          title: `${i18n.t('statistic.balance_ranking')}`,
-          chart: <AddressBalanceRankChart clickEvent={NullEvent} isThumbnail />,
-          path: '/charts/address-balance-rank',
-          description: i18n.t('statistic.balance_ranking_description'),
-        },
-        {
-          title: `${i18n.t('statistic.balance_distribution')}`,
-          chart: <BalanceDistributionChart isThumbnail />,
-          path: '/charts/balance-distribution',
-          description: i18n.t('statistic.balance_distribution_description'),
-        },
-        {
-          title: `${i18n.t('statistic.tx_fee_history')}`,
-          chart: <TxFeeHistoryChart isThumbnail />,
-          path: '/charts/tx-fee-history',
-          description: i18n.t('statistic.tx_fee_description'),
-        },
-      ],
-    },
-    {
-      category: i18n.t('blockchain.nervos_dao'),
-      charts: [
-        {
-          title: `${i18n.t('statistic.total_dao_deposit_title')}`,
-          chart: <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} isThumbnail />,
-          path: '/charts/total-dao-deposit',
-          description: i18n.t('statistic.total_dao_deposit_description'),
-        },
-        {
-          title: `${i18n.t('statistic.new_dao_deposit_title')}`,
-          chart: <NewDaoDepositChart statisticNewDaoDeposits={statisticNewDaoDeposits} isThumbnail />,
-          path: '/charts/new-dao-deposit',
-        },
-        {
-          title: `${i18n.t('statistic.circulation_ratio')}`,
-          chart: <CirculationRatioChart statisticCirculationRatios={statisticCirculationRatios} isThumbnail />,
-          path: '/charts/circulation-ratio',
-          description: i18n.t('statistic.deposit_to_circulation_ratio_description'),
-        },
-      ],
-    },
-    {
-      category: i18n.t('statistic.category_monetary'),
-      charts: [
-        {
-          title: `${i18n.t('statistic.total_supply')}`,
-          chart: <TotalSupplyChart statisticTotalSupplies={statisticTotalSupplies} isThumbnail />,
-          path: '/charts/total-supply',
-          description: i18n.t('statistic.total_supply_description'),
-        },
-        {
-          title: `${i18n.t('statistic.nominal_apc')}`,
-          chart: (
-            <AnnualPercentageCompensationChart
-              statisticAnnualPercentageCompensations={statisticAnnualPercentageCompensations}
-              isThumbnail
-            />
-          ),
-          path: '/charts/nominal-apc',
-          description: i18n.t('statistic.nominal_rpc_description'),
-        },
-        {
-          title: `${i18n.t('nervos_dao.secondary_issuance')}`,
-          chart: <SecondaryIssuanceChart statisticSecondaryIssuance={statisticSecondaryIssuance} isThumbnail />,
-          path: '/charts/secondary-issuance',
-          description: i18n.t('statistic.secondary_issuance_description'),
-        },
-        {
-          title: `${i18n.t('statistic.inflation_rate')}`,
-          chart: <InflationRateChart statisticInflationRates={statisticInflationRates} isThumbnail />,
-          path: '/charts/inflation-rate',
-          description: i18n.t('statistic.inflation_rate_description'),
-        },
-        {
-          title: `${i18n.t('statistic.liquidity')}`,
-          chart: <LiquidityChart statisticLiquidity={statisticLiquidity} isThumbnail />,
-          path: '/charts/liquidity',
-        },
-      ],
-    },
-  ]
-
-  useEffect(() => {
-    initStatisticTotalDaoDeposit(dispatch)
-    initStatisticNewDaoDeposit(dispatch)
-    initStatisticCirculationRatio(dispatch)
-    initStatisticTotalSupply(dispatch)
-    initStatisticAnnualPercentageCompensation(dispatch)
-    initStatisticSecondaryIssuance(dispatch)
-    initStatisticInflationRate(dispatch)
-    initStatisticLiquidity(dispatch)
-  }, [dispatch])
 
   useEffect(() => {
     getStatisticDifficultyHashRate(dispatch)
@@ -322,7 +293,7 @@ export default () => {
     <Content>
       <ChartsContent>
         <ChartsTitle>{i18n.t('statistic.charts_title')}</ChartsTitle>
-        {charts.map(chart => (
+        {Charts.map(chart => (
           <ChartsPanel key={chart.category}>
             <div className="charts__category__title">{chart.category}</div>
             <div className="charts__category__panel">

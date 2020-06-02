@@ -7,12 +7,10 @@ import { handleAxis } from '../../../utils/chart'
 import { ChartNotePanel } from '../common/styled'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
-import { shannonToCkb } from '../../../utils/util'
+import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { ChartColors } from '../../../utils/const'
 import { isMainnet } from '../../../utils/chain'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
 
 const gridThumbnail = {
   left: '4%',
@@ -127,26 +125,22 @@ const getOption = (
   }
 }
 
-export const TotalDaoDepositChart = ({
-  statisticTotalDaoDeposits,
-  isThumbnail = false,
-}: {
-  statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticTotalDaoDeposits || statisticTotalDaoDeposits.length === 0) {
-    return <ChartLoading show={statisticTotalDaoDeposits === undefined} isThumbnail={isThumbnail} />
+export const TotalDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticTotalDaoDeposits, statisticTotalDaoDepositsFetchEnd } = useAppState()
+  if (!statisticTotalDaoDepositsFetchEnd || statisticTotalDaoDeposits.length === 0) {
+    return <ChartLoading show={!statisticTotalDaoDepositsFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticTotalDaoDeposits, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticTotalDaoDeposit,
-    payload: {
-      statisticTotalDaoDeposits: undefined,
-    },
-  })
+const toCSV = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]) => {
+  return statisticTotalDaoDeposits
+    ? statisticTotalDaoDeposits.map(data => [
+        data.createdAtUnixtimestamp,
+        shannonToCkbDecimal(data.totalDaoDeposit, 8),
+        data.totalDepositorsCount,
+      ])
+    : []
 }
 
 export default () => {
@@ -154,7 +148,6 @@ export default () => {
   const { statisticTotalDaoDeposits } = useAppState()
 
   useEffect(() => {
-    initStatisticTotalDaoDeposit(dispatch)
     getStatisticTotalDaoDeposit(dispatch)
   }, [dispatch])
 
@@ -162,8 +155,9 @@ export default () => {
     <ChartPage
       title={i18n.t('statistic.total_dao_deposit_depositor')}
       description={i18n.t('statistic.total_dao_deposit_description')}
+      data={toCSV(statisticTotalDaoDeposits)}
     >
-      <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} />
+      <TotalDaoDepositChart />
       {isMainnet() && <ChartNotePanel>{`${i18n.t('common.note')}1GB = 1,000,000,000 CKBytes`}</ChartNotePanel>}
     </ChartPage>
   )
