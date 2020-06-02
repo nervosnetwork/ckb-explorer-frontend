@@ -129,6 +129,7 @@
       "liquidity": "流通量",
       "miner_radio": "挖矿占比",
       "miner_addresses_rank": "最佳矿工 (最近 7 天)",
+      "download_data": "下载数据",
       "block_time_distribution_description": "横轴表示区块间隔，纵轴表示对应区块间隔在过去 50,000 个区块中出现的比率。",
       "epoch_time_distribution_description": "横轴表示 epoch 时长，纵轴表示该时长的 epoch 在过去 500 个 epoch 中过去出现的次数。",
       "average_block_time_description": "按日和周进行滑动窗口平均统计的平均区块间隔",

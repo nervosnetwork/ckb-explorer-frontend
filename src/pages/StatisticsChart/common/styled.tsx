@@ -10,22 +10,34 @@ export const ChartDetailPanel = styled.div`
 `
 
 export const ChartDetailTitle = styled.div`
-  color: #66666;
   background: white;
   margin: 30px 10% 0 10%;
   padding-top: 10px;
-  font-size: 24px;
-  text-align: center;
 
   @media (max-width: 750px) {
     margin: 20px 4% 0 4%;
-    font-size: 16px;
   }
 
-  > img {
-    width: 18px;
-    height: 18px;
-    margin-left: 10px;
+  .chart__detail__title__panel {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+
+    > span {
+      color: #000000;
+      text-align: center;
+      font-size: 24px;
+
+      @media (max-width: 750px) {
+        font-size: 16px;
+      }
+    }
+
+    > img {
+      width: 18px;
+      height: 18px;
+      margin-left: 10px;
+    }
   }
 `
 

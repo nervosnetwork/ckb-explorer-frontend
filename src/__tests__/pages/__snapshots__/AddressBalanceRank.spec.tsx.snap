@@ -270,17 +270,21 @@ exports[`Active Page shallow renders with empty data 1`] = `
   className="sc-fznWqX bpQDFp"
 >
   <div
-    className="sc-AxirZ hhsnIV"
+    className="sc-AxirZ dMYyWr"
   >
-    <span>
-      Balance Ranking
-    </span>
-    <img
-      alt="chart help"
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-      src="qa_help.png"
-    />
+    <div
+      className="chart__detail__title__panel"
+    >
+      <span>
+        Balance Ranking
+      </span>
+      <img
+        alt="chart help"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        src="qa_help.png"
+      />
+    </div>
   </div>
   <div
     className="sc-AxjAm eHANUb"

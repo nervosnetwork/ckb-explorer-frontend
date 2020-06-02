@@ -67,15 +67,38 @@ const ReactChartCore = ({
   )
 }
 
-const ChartPage = ({ title, children, description }: { title: string; children: ReactNode; description?: string }) => {
+const ChartPage = ({
+  title,
+  children,
+  description,
+  csvData,
+}: {
+  title: string
+  children: ReactNode
+  description?: string
+  csvData?: string
+}) => {
   return (
     <Content>
       <ChartDetailTitle>
-        <span>{title}</span>
-        {description && (
-          <Tooltip placement="bottom" title={description}>
-            <img src={HelpIcon} alt="chart help" />
-          </Tooltip>
+        <div className="chart__detail__title__panel">
+          <span>{title}</span>
+          {description && (
+            <Tooltip placement="bottom" title={description}>
+              <img src={HelpIcon} alt="chart help" />
+            </Tooltip>
+          )}
+        </div>
+        {csvData && (
+          <a
+            className="chart__detail__title__download"
+            rel="noopener noreferrer"
+            href={`data:text/csv;charset=utf-8,${encodeURI(csvData)}`}
+            target="_blank"
+            download={`${title.toLowerCase().replace(/\s+/g, '-')}.csv`}
+          >
+            {i18n.t('statistic.download_data')}
+          </a>
         )}
       </ChartDetailTitle>
       <ChartDetailPanel>{children}</ChartDetailPanel>

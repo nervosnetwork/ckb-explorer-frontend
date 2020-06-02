@@ -130,6 +130,7 @@
       "liquidity": "Liquidity",
       "miner_radio": "Radio",
       "miner_addresses_rank": "Top Miners (Recent 7 days)",
+      "download_data": "Download Data",
       "block_time_distribution_description": "The x axis is block intervals in seconds, and the y axis is the frequency of occurrence in the latest 50,000 blocks.",
       "epoch_time_distribution_description": "The x axis is epoch intervals in hours, and the y axis is the frequency of occurrence in the latest 500 epochs.",
       "average_block_time_description": "Average block intervals with daily & weekly smooth window",
