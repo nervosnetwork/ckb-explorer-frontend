@@ -4,8 +4,6 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
 import { getStatisticEpochTimeDistribution } from '../../../service/app/charts/block'
 import { localeNumberString } from '../../../utils/number'
 import { parseHour } from '../../../utils/date'
@@ -90,26 +88,18 @@ const getOption = (
   }
 }
 
-export const EpochTimeDistributionChart = ({
-  statisticEpochTimeDistributions,
-  isThumbnail = false,
-}: {
-  statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticEpochTimeDistributions || statisticEpochTimeDistributions.length === 0) {
-    return <ChartLoading show={statisticEpochTimeDistributions === undefined} isThumbnail={isThumbnail} />
+export const EpochTimeDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticEpochTimeDistributions, statisticEpochTimeDistributionsFetchEnd } = useAppState()
+  if (!statisticEpochTimeDistributionsFetchEnd || statisticEpochTimeDistributions.length === 0) {
+    return <ChartLoading show={!statisticEpochTimeDistributionsFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticEpochTimeDistributions, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticEpochTimeDistribution = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticEpochTimeDistribution,
-    payload: {
-      statisticEpochTimeDistributions: undefined,
-    },
-  })
+const toCSV = (statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[]) => {
+  return statisticEpochTimeDistributions
+    ? statisticEpochTimeDistributions.map(data => [parseHour(data.time), data.epoch])
+    : []
 }
 
 export default () => {
@@ -117,7 +107,6 @@ export default () => {
   const { statisticEpochTimeDistributions } = useAppState()
 
   useEffect(() => {
-    initStatisticEpochTimeDistribution(dispatch)
     getStatisticEpochTimeDistribution(dispatch)
   }, [dispatch])
 
@@ -125,8 +114,9 @@ export default () => {
     <ChartPage
       title={i18n.t('statistic.epoch_time_distribution_more')}
       description={i18n.t('statistic.epoch_time_distribution_description')}
+      data={toCSV(statisticEpochTimeDistributions)}
     >
-      <EpochTimeDistributionChart statisticEpochTimeDistributions={statisticEpochTimeDistributions} />
+      <EpochTimeDistributionChart />
     </ChartPage>
   )
 }

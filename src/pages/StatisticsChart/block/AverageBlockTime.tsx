@@ -141,7 +141,7 @@ const getOption = (
 export const AverageBlockTimeChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticAverageBlockTimes, statisticAverageBlockTimesFetchEnd } = useAppState()
   if (!statisticAverageBlockTimesFetchEnd || statisticAverageBlockTimes.length === 0) {
-    return <ChartLoading show={statisticAverageBlockTimesFetchEnd === false} isThumbnail={isThumbnail} />
+    return <ChartLoading show={!statisticAverageBlockTimesFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticAverageBlockTimes, isThumbnail)} isThumbnail={isThumbnail} />
 }

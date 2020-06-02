@@ -4,8 +4,6 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
 import { getStatisticBlockTimeDistribution } from '../../../service/app/charts/block'
 
 const gridThumbnail = {
@@ -81,32 +79,24 @@ const getOption = (
           color: '#85bae0',
         },
         barWidth: isMobile() || isThumbnail ? 10 : 20,
-        data: statisticBlockTimeDistributions.map(data => data.ratio),
+        data: statisticBlockTimeDistributions.map(data => (Number(data.ratio) * 100).toFixed(3)),
       },
     ],
   }
 }
 
-export const BlockTimeDistributionChart = ({
-  statisticBlockTimeDistributions,
-  isThumbnail = false,
-}: {
-  statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticBlockTimeDistributions || statisticBlockTimeDistributions.length === 0) {
-    return <ChartLoading show={statisticBlockTimeDistributions === undefined} isThumbnail={isThumbnail} />
+export const BlockTimeDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticBlockTimeDistributions, statisticBlockTimeDistributionsFetchEnd } = useAppState()
+  if (!statisticBlockTimeDistributionsFetchEnd || statisticBlockTimeDistributions.length === 0) {
+    return <ChartLoading show={!statisticBlockTimeDistributionsFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticBlockTimeDistributions, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticBlockTimeDistribution,
-    payload: {
-      statisticBlockTimeDistributions: undefined,
-    },
-  })
+const toCSV = (statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[]) => {
+  return statisticBlockTimeDistributions
+    ? statisticBlockTimeDistributions.map(data => [data.time, Number(data.ratio).toFixed(4)])
+    : []
 }
 
 export default () => {
@@ -114,7 +104,6 @@ export default () => {
   const { statisticBlockTimeDistributions } = useAppState()
 
   useEffect(() => {
-    initStatisticBlockTimeDistribution(dispatch)
     getStatisticBlockTimeDistribution(dispatch)
   }, [dispatch])
 
@@ -122,8 +111,9 @@ export default () => {
     <ChartPage
       title={i18n.t('statistic.block_time_distribution_more')}
       description={i18n.t('statistic.block_time_distribution_description')}
+      data={toCSV(statisticBlockTimeDistributions)}
     >
-      <BlockTimeDistributionChart statisticBlockTimeDistributions={statisticBlockTimeDistributions} />
+      <BlockTimeDistributionChart />
     </ChartPage>
   )
 }

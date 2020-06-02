@@ -91,6 +91,7 @@ const ChartPage = ({
   data?: (string | number)[][]
 }) => {
   const csv = dataToCsv(data)
+  const fileName = title.substring(0, title.indexOf(' (')).toLowerCase().replace(/\s+/g, '-')
   return (
     <Content>
       <ChartDetailTitle>
@@ -108,7 +109,7 @@ const ChartPage = ({
             rel="noopener noreferrer"
             href={`data:text/csv;charset=utf-8,${encodeURI(csv)}`}
             target="_blank"
-            download={`${title.toLowerCase().replace(/\s+/g, '-')}.csv`}
+            download={`${fileName}.csv`}
           >
             {i18n.t('statistic.download_data')}
           </a>

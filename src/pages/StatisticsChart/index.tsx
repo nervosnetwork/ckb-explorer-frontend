@@ -39,13 +39,13 @@ import { HashRateChart, initStatisticHashRate } from './mining/HashRate'
 import { UncleRateChart, initStatisticUncleRate } from './mining/UncleRate'
 import { BalanceDistributionChart, initStatisticBalanceDistribution } from './activities/BalanceDistribution'
 import { TxFeeHistoryChart, initStatisticTxFeeHistory } from './activities/TxFeeHistory'
-import { BlockTimeDistributionChart, initStatisticBlockTimeDistribution } from './block/BlockTimeDistribution'
+import { BlockTimeDistributionChart } from './block/BlockTimeDistribution'
 import {
   getStatisticBlockTimeDistribution,
   getStatisticEpochTimeDistribution,
   getStatisticAverageBlockTimes,
 } from '../../service/app/charts/block'
-import { EpochTimeDistributionChart, initStatisticEpochTimeDistribution } from './block/EpochTimeDistribution'
+import { EpochTimeDistributionChart } from './block/EpochTimeDistribution'
 import { NewDaoDepositChart, initStatisticNewDaoDeposit } from './nervosDao/NewDaoDeposit'
 import { CirculationRatioChart, initStatisticCirculationRatio } from './nervosDao/CirculationRatio'
 import { AverageBlockTimeChart } from './block/AverageBlockTime'
@@ -125,8 +125,6 @@ export default () => {
     statisticAddressBalanceRanks,
     statisticBalanceDistributions,
     statisticTxFeeHistories,
-    statisticBlockTimeDistributions,
-    statisticEpochTimeDistributions,
     statisticTotalSupplies,
     statisticAnnualPercentageCompensations,
     statisticSecondaryIssuance,
@@ -140,17 +138,13 @@ export default () => {
       charts: [
         {
           title: `${i18n.t('statistic.block_time_distribution')}`,
-          chart: (
-            <BlockTimeDistributionChart statisticBlockTimeDistributions={statisticBlockTimeDistributions} isThumbnail />
-          ),
+          chart: <BlockTimeDistributionChart isThumbnail />,
           path: '/charts/block-time-distribution',
           description: i18n.t('statistic.block_time_distribution_description'),
         },
         {
           title: `${i18n.t('statistic.epoch_time_distribution')}`,
-          chart: (
-            <EpochTimeDistributionChart statisticEpochTimeDistributions={statisticEpochTimeDistributions} isThumbnail />
-          ),
+          chart: <EpochTimeDistributionChart isThumbnail />,
           path: '/charts/epoch-time-distribution',
           description: i18n.t('statistic.epoch_time_distribution_description'),
         },
@@ -321,8 +315,6 @@ export default () => {
     initStatisticAddressBalanceRanks(dispatch)
     initStatisticBalanceDistribution(dispatch)
     initStatisticTxFeeHistory(dispatch)
-    initStatisticBlockTimeDistribution(dispatch)
-    initStatisticEpochTimeDistribution(dispatch)
     initStatisticTotalSupply(dispatch)
     initStatisticAnnualPercentageCompensation(dispatch)
     initStatisticSecondaryIssuance(dispatch)
