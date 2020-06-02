@@ -67,17 +67,30 @@ const ReactChartCore = ({
   )
 }
 
+const dataToCsv = (data: any[] | undefined) => {
+  if (!data || data.length === 0) {
+    return undefined
+  }
+  let csv = ''
+  data.forEach(row => {
+    csv += row.join(',')
+    csv += '\n'
+  })
+  return csv
+}
+
 const ChartPage = ({
   title,
   children,
   description,
-  csvData,
+  data,
 }: {
   title: string
   children: ReactNode
   description?: string
-  csvData?: string
+  data?: (string | number)[][]
 }) => {
+  const csv = dataToCsv(data)
   return (
     <Content>
       <ChartDetailTitle>
@@ -89,11 +102,11 @@ const ChartPage = ({
             </Tooltip>
           )}
         </div>
-        {csvData && (
+        {csv && (
           <a
             className="chart__detail__title__download"
             rel="noopener noreferrer"
-            href={`data:text/csv;charset=utf-8,${encodeURI(csvData)}`}
+            href={`data:text/csv;charset=utf-8,${encodeURI(csv)}`}
             target="_blank"
             download={`${title.toLowerCase().replace(/\s+/g, '-')}.csv`}
           >

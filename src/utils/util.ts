@@ -104,24 +104,10 @@ export const matchTxHash = (txHash: string, index: number | string): ContractHas
   return ContractHashTags.find(codeHashTag => codeHashTag.txHashes.find(hash => hash === `${txHash}-${index}`))
 }
 
-export const convertCSV = (data: any[], fileName: string) => {
-  let csv = ''
-  data.forEach(function (row) {
-    csv += row.join(',')
-    csv += '\n'
-  })
-  var downloadElement = document.createElement('a')
-  downloadElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv)
-  downloadElement.target = '_blank'
-  downloadElement.download = `${fileName}.csv`
-  downloadElement.click()
-}
-
 export default {
   copyElementValue,
   shannonToCkb,
   toCamelcase,
   formatConfirmation,
   isValidReactNode,
-  convertCSV,
 }

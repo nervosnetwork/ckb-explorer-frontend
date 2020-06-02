@@ -34,18 +34,33 @@ export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticAverageBlockTimes = (dispatch: AppDispatch) => {
-  fetchStatisticAverageBlockTimes().then((wrap: Response.Wrapper<State.StatisticAverageBlockTimes> | null) => {
-    if (!wrap) return
-    const {
-      attributes: { averageBlockTime },
-    } = wrap
-    dispatch({
-      type: PageActions.UpdateStatisticAverageBlockTime,
-      payload: {
-        statisticAverageBlockTimes: averageBlockTime,
-      },
+  fetchStatisticAverageBlockTimes()
+    .then((wrap: Response.Wrapper<State.StatisticAverageBlockTimes> | null) => {
+      if (!wrap) return
+      const {
+        attributes: { averageBlockTime },
+      } = wrap
+      dispatch({
+        type: PageActions.UpdateStatisticAverageBlockTime,
+        payload: {
+          statisticAverageBlockTimes: averageBlockTime,
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateStatisticAverageBlockTimeFetchEnd,
+        payload: {
+          statisticAverageBlockTimesFetchEnd: true,
+        },
+      })
     })
-  })
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticAverageBlockTimeFetchEnd,
+        payload: {
+          statisticAverageBlockTimesFetchEnd: true,
+        },
+      })
+    })
 }
 
 export const getStatisticEpochTimeDistribution = (dispatch: AppDispatch) => {

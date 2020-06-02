@@ -48,7 +48,7 @@ import {
 import { EpochTimeDistributionChart, initStatisticEpochTimeDistribution } from './block/EpochTimeDistribution'
 import { NewDaoDepositChart, initStatisticNewDaoDeposit } from './nervosDao/NewDaoDeposit'
 import { CirculationRatioChart, initStatisticCirculationRatio } from './nervosDao/CirculationRatio'
-import { initStatisticAverageBlockTimes, AverageBlockTimeChart } from './block/AverageBlockTime'
+import { AverageBlockTimeChart } from './block/AverageBlockTime'
 import { TotalSupplyChart, initStatisticTotalSupply } from './monetary/TotalSupply'
 import {
   getStatisticTotalSupply,
@@ -127,7 +127,6 @@ export default () => {
     statisticTxFeeHistories,
     statisticBlockTimeDistributions,
     statisticEpochTimeDistributions,
-    statisticAverageBlockTimes,
     statisticTotalSupplies,
     statisticAnnualPercentageCompensations,
     statisticSecondaryIssuance,
@@ -157,7 +156,7 @@ export default () => {
         },
         {
           title: `${i18n.t('statistic.average_block_time')}`,
-          chart: <AverageBlockTimeChart statisticAverageBlockTimes={statisticAverageBlockTimes} isThumbnail />,
+          chart: <AverageBlockTimeChart isThumbnail />,
           path: '/charts/average-block-time',
           description: i18n.t('statistic.average_block_time_description'),
         },
@@ -324,7 +323,6 @@ export default () => {
     initStatisticTxFeeHistory(dispatch)
     initStatisticBlockTimeDistribution(dispatch)
     initStatisticEpochTimeDistribution(dispatch)
-    initStatisticAverageBlockTimes(dispatch)
     initStatisticTotalSupply(dispatch)
     initStatisticAnnualPercentageCompensation(dispatch)
     initStatisticSecondaryIssuance(dispatch)

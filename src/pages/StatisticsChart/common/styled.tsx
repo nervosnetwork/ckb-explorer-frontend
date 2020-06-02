@@ -12,7 +12,10 @@ export const ChartDetailPanel = styled.div`
 export const ChartDetailTitle = styled.div`
   background: white;
   margin: 30px 10% 0 10%;
-  padding-top: 10px;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   @media (max-width: 750px) {
     margin: 20px 4% 0 4%;
@@ -21,15 +24,18 @@ export const ChartDetailTitle = styled.div`
   .chart__detail__title__panel {
     display: flex;
     justify-content: center;
+    align-items: center;
     flex: 1;
 
     > span {
       color: #000000;
       text-align: center;
       font-size: 24px;
+      margin-left: 100px;
 
       @media (max-width: 750px) {
         font-size: 16px;
+        margin-left: 0px;
       }
     }
 
@@ -37,6 +43,21 @@ export const ChartDetailTitle = styled.div`
       width: 18px;
       height: 18px;
       margin-left: 10px;
+    }
+  }
+
+  .chart__detail__title__download {
+    width: 100px;
+    padding: 5px 0;
+    border-radius: 2px;
+    border: solid 1px #666666;
+    font-size: 12px;
+    text-align: center;
+    color: #666666;
+    margin-right: 3.75%;
+
+    @media (max-width: 750px) {
+      display: none;
     }
   }
 `
