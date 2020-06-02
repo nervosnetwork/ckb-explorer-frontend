@@ -8,7 +8,7 @@ import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { adaptPCEllipsis } from '../../../utils/string'
 import browserHistory from '../../../routes/history'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { ChartColors } from '../../../utils/const'
 
 const gridThumbnail = {

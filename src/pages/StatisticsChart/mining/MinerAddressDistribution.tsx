@@ -4,7 +4,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import browserHistory from '../../../routes/history'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { isMobile } from '../../../utils/screen'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
 

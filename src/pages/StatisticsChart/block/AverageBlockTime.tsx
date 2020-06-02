@@ -4,7 +4,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime, parseSimpleDateNoSecond } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
+import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticAverageBlockTimes } from '../../../service/app/charts/block'
 import { localeNumberString } from '../../../utils/number'
 

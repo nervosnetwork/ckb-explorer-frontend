@@ -9,7 +9,7 @@ import { isMobile } from '../../../utils/screen'
 import { shannonToCkb } from '../../../utils/util'
 import { ChartColors } from '../../../utils/const'
 import { isMainnet } from '../../../utils/chain'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 
