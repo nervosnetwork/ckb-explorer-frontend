@@ -91,7 +91,9 @@ const ChartPage = ({
   data?: (string | number)[][]
 }) => {
   const csv = dataToCsv(data)
-  const fileName = title.substring(0, title.indexOf(' (')).toLowerCase().replace(/\s+/g, '-')
+  const fileName = (title.indexOf(' (') > 0 ? title.substring(0, title.indexOf(' (')) : title)
+    .toLowerCase()
+    .replace(/\s+/g, '-')
   return (
     <Content>
       <ChartDetailTitle>

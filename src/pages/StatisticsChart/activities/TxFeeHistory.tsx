@@ -8,8 +8,6 @@ import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
 import { shannonToCkbDecimal } from '../../../utils/util'
 import { isMainnet } from '../../../utils/chain'
 
@@ -92,26 +90,18 @@ const getOption = (
   }
 }
 
-export const TxFeeHistoryChart = ({
-  statisticTxFeeHistories,
-  isThumbnail = false,
-}: {
-  statisticTxFeeHistories: State.StatisticTransactionFee[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticTxFeeHistories || statisticTxFeeHistories.length === 0) {
-    return <ChartLoading show={statisticTxFeeHistories === undefined} isThumbnail={isThumbnail} />
+export const TxFeeHistoryChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticTxFeeHistories, statisticTxFeeHistoriesFetchEnd } = useAppState()
+  if (!statisticTxFeeHistoriesFetchEnd || statisticTxFeeHistories.length === 0) {
+    return <ChartLoading show={!statisticTxFeeHistoriesFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticTxFeeHistories, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticTxFeeHistory = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticTxFeeHistory,
-    payload: {
-      statisticTxFeeHistories: undefined,
-    },
-  })
+const toCSV = (statisticTxFeeHistories: State.StatisticTransactionFee[]) => {
+  return statisticTxFeeHistories
+    ? statisticTxFeeHistories.map(data => [data.createdAtUnixtimestamp, shannonToCkbDecimal(data.totalTxFee, 8)])
+    : []
 }
 
 export default () => {
@@ -119,13 +109,16 @@ export default () => {
   const { statisticTxFeeHistories } = useAppState()
 
   useEffect(() => {
-    initStatisticTxFeeHistory(dispatch)
     getStatisticTxFeeHistory(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.tx_fee_history')} description={i18n.t('statistic.tx_fee_description')}>
-      <TxFeeHistoryChart statisticTxFeeHistories={statisticTxFeeHistories} />
+    <ChartPage
+      title={i18n.t('statistic.tx_fee_history')}
+      description={i18n.t('statistic.tx_fee_description')}
+      data={toCSV(statisticTxFeeHistories)}
+    >
+      <TxFeeHistoryChart />
     </ChartPage>
   )
 }

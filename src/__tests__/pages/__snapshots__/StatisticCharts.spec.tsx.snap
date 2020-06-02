@@ -420,15 +420,12 @@ exports[`Active Page shallow renders with empty data 1`] = `
                 className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
@@ -457,15 +454,12 @@ exports[`Active Page shallow renders with empty data 1`] = `
                 className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
@@ -494,15 +488,12 @@ exports[`Active Page shallow renders with empty data 1`] = `
                 className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
@@ -537,15 +528,12 @@ exports[`Active Page shallow renders with empty data 1`] = `
                 className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
@@ -580,15 +568,12 @@ exports[`Active Page shallow renders with empty data 1`] = `
                 className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
@@ -623,15 +608,12 @@ exports[`Active Page shallow renders with empty data 1`] = `
                 className="sc-fzoXzr jAtUuH"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>

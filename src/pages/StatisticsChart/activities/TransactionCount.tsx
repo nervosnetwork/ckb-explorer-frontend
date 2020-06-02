@@ -8,8 +8,6 @@ import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
 
 const gridThumbnail = {
   left: '4%',
@@ -89,26 +87,18 @@ const getOption = (
   }
 }
 
-export const TransactionCountChart = ({
-  statisticTransactionCounts,
-  isThumbnail = false,
-}: {
-  statisticTransactionCounts: State.StatisticTransactionCount[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticTransactionCounts || statisticTransactionCounts.length === 0) {
-    return <ChartLoading show={statisticTransactionCounts === undefined} isThumbnail={isThumbnail} />
+export const TransactionCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticTransactionCounts, statisticTransactionCountsFetchEnd } = useAppState()
+  if (!statisticTransactionCountsFetchEnd || statisticTransactionCounts.length === 0) {
+    return <ChartLoading show={!statisticTransactionCountsFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticTransactionCounts, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticTransactionCount = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticTransactionCount,
-    payload: {
-      statisticTransactionCounts: undefined,
-    },
-  })
+const toCSV = (statisticTransactionCounts: State.StatisticTransactionCount[]) => {
+  return statisticTransactionCounts
+    ? statisticTransactionCounts.map(data => [data.createdAtUnixtimestamp, data.transactionsCount])
+    : []
 }
 
 export default () => {
@@ -116,13 +106,12 @@ export default () => {
   const { statisticTransactionCounts } = useAppState()
 
   useEffect(() => {
-    initStatisticTransactionCount(dispatch)
     getStatisticTransactionCount(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.transaction_count')}>
-      <TransactionCountChart statisticTransactionCounts={statisticTransactionCounts} />
+    <ChartPage title={i18n.t('statistic.transaction_count')} data={toCSV(statisticTransactionCounts)}>
+      <TransactionCountChart />
     </ChartPage>
   )
 }

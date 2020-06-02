@@ -28,17 +28,17 @@ import i18n from '../../utils/i18n'
 import HelpIcon from '../../assets/qa_help.png'
 import { DifficultyHashRateChart, initStatisticDifficultyHashRate } from './mining/DifficultyHashRate'
 import { DifficultyUncleRateChart, initStatisticDifficultyUncleRate } from './mining/DifficultyUncleRate'
-import { TransactionCountChart, initStatisticTransactionCount } from './activities/TransactionCount'
-import { AddressCountChart, initStatisticAddressCount } from './activities/AddressCount'
-import { CellCountChart, initStatisticCellCount } from './activities/CellCount'
+import { TransactionCountChart } from './activities/TransactionCount'
+import { AddressCountChart } from './activities/AddressCount'
+import { CellCountChart } from './activities/CellCount'
 import { TotalDaoDepositChart, initStatisticTotalDaoDeposit } from './nervosDao/TotalDaoDeposit'
 import { ChartsPanel, ChartCardPanel, ChartsTitle, ChartsContent } from './styled'
-import { AddressBalanceRankChart, initStatisticAddressBalanceRanks } from './activities/AddressBalanceRank'
+import { AddressBalanceRankChart } from './activities/AddressBalanceRank'
 import { DifficultyChart, initStatisticDifficulty } from './mining/Difficulty'
 import { HashRateChart, initStatisticHashRate } from './mining/HashRate'
 import { UncleRateChart, initStatisticUncleRate } from './mining/UncleRate'
-import { BalanceDistributionChart, initStatisticBalanceDistribution } from './activities/BalanceDistribution'
-import { TxFeeHistoryChart, initStatisticTxFeeHistory } from './activities/TxFeeHistory'
+import { BalanceDistributionChart } from './activities/BalanceDistribution'
+import { TxFeeHistoryChart } from './activities/TxFeeHistory'
 import { BlockTimeDistributionChart } from './block/BlockTimeDistribution'
 import {
   getStatisticBlockTimeDistribution,
@@ -116,15 +116,9 @@ export default () => {
     statisticHashRates,
     statisticUncleRates,
     statisticMinerAddresses,
-    statisticAddressCounts,
     statisticTotalDaoDeposits,
     statisticNewDaoDeposits,
     statisticCirculationRatios,
-    statisticCellCounts,
-    statisticTransactionCounts,
-    statisticAddressBalanceRanks,
-    statisticBalanceDistributions,
-    statisticTxFeeHistories,
     statisticTotalSupplies,
     statisticAnnualPercentageCompensations,
     statisticSecondaryIssuance,
@@ -197,40 +191,34 @@ export default () => {
       charts: [
         {
           title: `${i18n.t('statistic.transaction_count')}`,
-          chart: <TransactionCountChart statisticTransactionCounts={statisticTransactionCounts} isThumbnail />,
+          chart: <TransactionCountChart isThumbnail />,
           path: '/charts/transaction-count',
         },
         {
           title: `${i18n.t('statistic.address_count')}`,
-          chart: <AddressCountChart statisticAddressCounts={statisticAddressCounts} isThumbnail />,
+          chart: <AddressCountChart isThumbnail />,
           path: '/charts/address-count',
         },
         {
           title: i18n.t('statistic.cell_count'),
-          chart: <CellCountChart statisticCellCounts={statisticCellCounts} isThumbnail />,
+          chart: <CellCountChart isThumbnail />,
           path: '/charts/cell-count',
         },
         {
           title: `${i18n.t('statistic.balance_ranking')}`,
-          chart: (
-            <AddressBalanceRankChart
-              statisticAddressBalanceRanks={statisticAddressBalanceRanks}
-              clickEvent={NullEvent}
-              isThumbnail
-            />
-          ),
+          chart: <AddressBalanceRankChart clickEvent={NullEvent} isThumbnail />,
           path: '/charts/address-balance-rank',
           description: i18n.t('statistic.balance_ranking_description'),
         },
         {
           title: `${i18n.t('statistic.balance_distribution')}`,
-          chart: <BalanceDistributionChart statisticBalanceDistributions={statisticBalanceDistributions} isThumbnail />,
+          chart: <BalanceDistributionChart isThumbnail />,
           path: '/charts/balance-distribution',
           description: i18n.t('statistic.balance_distribution_description'),
         },
         {
           title: `${i18n.t('statistic.tx_fee_history')}`,
-          chart: <TxFeeHistoryChart statisticTxFeeHistories={statisticTxFeeHistories} isThumbnail />,
+          chart: <TxFeeHistoryChart isThumbnail />,
           path: '/charts/tx-fee-history',
           description: i18n.t('statistic.tx_fee_description'),
         },
@@ -306,15 +294,9 @@ export default () => {
     initStatisticHashRate(dispatch)
     initStatisticUncleRate(dispatch)
     initStatisticMinerAddressDistribution(dispatch)
-    initStatisticAddressCount(dispatch)
-    initStatisticCellCount(dispatch)
-    initStatisticTransactionCount(dispatch)
     initStatisticTotalDaoDeposit(dispatch)
     initStatisticNewDaoDeposit(dispatch)
     initStatisticCirculationRatio(dispatch)
-    initStatisticAddressBalanceRanks(dispatch)
-    initStatisticBalanceDistribution(dispatch)
-    initStatisticTxFeeHistory(dispatch)
     initStatisticTotalSupply(dispatch)
     initStatisticAnnualPercentageCompensation(dispatch)
     initStatisticSecondaryIssuance(dispatch)
