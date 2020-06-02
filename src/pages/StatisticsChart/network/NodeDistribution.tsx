@@ -4,8 +4,6 @@ import { useAppState, useDispatch } from '../../../contexts/providers'
 import { localeNumberString } from '../../../utils/number'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipWidth } from '../common'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
 import { getStatisticNodeDistribution } from '../../../service/app/charts/network'
 
 const gridThumbnail = {
@@ -118,40 +116,24 @@ const getOption = (
   }
 }
 
-export const NodeDistributionChart = ({
-  statisticNodeDistributions,
-  isThumbnail = false,
-}: {
-  statisticNodeDistributions: State.StatisticNodeDistribution[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticNodeDistributions || statisticNodeDistributions.length === 0) {
-    return <ChartLoading show={statisticNodeDistributions === undefined} isThumbnail={isThumbnail} />
+export const NodeDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticNodeDistributions, statisticNodeDistributionsFetchEnd } = useAppState()
+  if (!statisticNodeDistributionsFetchEnd || statisticNodeDistributions.length === 0) {
+    return <ChartLoading show={!statisticNodeDistributionsFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticNodeDistributions, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticNodeDistribution = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticNodeDistribution,
-    payload: {
-      statisticNodeDistributions: undefined,
-    },
-  })
-}
-
 export default () => {
   const dispatch = useDispatch()
-  const { statisticNodeDistributions } = useAppState()
 
   useEffect(() => {
-    initStatisticNodeDistribution(dispatch)
     getStatisticNodeDistribution(dispatch)
   }, [dispatch])
 
   return (
     <ChartPage title={i18n.t('statistic.node_distribution')}>
-      <NodeDistributionChart statisticNodeDistributions={statisticNodeDistributions} />
+      <NodeDistributionChart />
     </ChartPage>
   )
 }
