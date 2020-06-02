@@ -26,17 +26,17 @@ import {
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import HelpIcon from '../../assets/qa_help.png'
-import { DifficultyHashRateChart, initStatisticDifficultyHashRate } from './mining/DifficultyHashRate'
-import { DifficultyUncleRateChart, initStatisticDifficultyUncleRate } from './mining/DifficultyUncleRate'
+import { DifficultyHashRateChart } from './mining/DifficultyHashRate'
+import { DifficultyUncleRateChart } from './mining/DifficultyUncleRate'
 import { TransactionCountChart } from './activities/TransactionCount'
 import { AddressCountChart } from './activities/AddressCount'
 import { CellCountChart } from './activities/CellCount'
 import { TotalDaoDepositChart, initStatisticTotalDaoDeposit } from './nervosDao/TotalDaoDeposit'
 import { ChartsPanel, ChartCardPanel, ChartsTitle, ChartsContent } from './styled'
 import { AddressBalanceRankChart } from './activities/AddressBalanceRank'
-import { DifficultyChart, initStatisticDifficulty } from './mining/Difficulty'
-import { HashRateChart, initStatisticHashRate } from './mining/HashRate'
-import { UncleRateChart, initStatisticUncleRate } from './mining/UncleRate'
+import { DifficultyChart } from './mining/Difficulty'
+import { HashRateChart } from './mining/HashRate'
+import { UncleRateChart } from './mining/UncleRate'
 import { BalanceDistributionChart } from './activities/BalanceDistribution'
 import { TxFeeHistoryChart } from './activities/TxFeeHistory'
 import { BlockTimeDistributionChart } from './block/BlockTimeDistribution'
@@ -64,7 +64,7 @@ import {
 import { SecondaryIssuanceChart, initStatisticSecondaryIssuance } from './monetary/SecondaryIssuance'
 import { InflationRateChart, initStatisticInflationRate } from './monetary/InflationRate'
 import { LiquidityChart, initStatisticLiquidity } from './monetary/Liquidity'
-import { MinerAddressDistributionChart, initStatisticMinerAddressDistribution } from './mining/MinerAddressDistribution'
+import { MinerAddressDistributionChart } from './mining/MinerAddressDistribution'
 import { Tooltip } from 'antd'
 import { isMobile } from '../../utils/screen'
 
@@ -110,12 +110,6 @@ const NullEvent = () => {}
 export default () => {
   const dispatch = useDispatch()
   const {
-    statisticDifficultyHashRates,
-    statisticDifficultyUncleRates,
-    statisticDifficulties,
-    statisticHashRates,
-    statisticUncleRates,
-    statisticMinerAddresses,
     statisticTotalDaoDeposits,
     statisticNewDaoDeposits,
     statisticCirculationRatios,
@@ -155,33 +149,33 @@ export default () => {
       charts: [
         {
           title: `${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`,
-          chart: <DifficultyHashRateChart statisticDifficultyHashRates={statisticDifficultyHashRates} isThumbnail />,
+          chart: <DifficultyHashRateChart isThumbnail />,
           path: '/charts/difficulty-hash-rate',
         },
         {
           title: `${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`,
-          chart: <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} isThumbnail />,
+          chart: <DifficultyUncleRateChart isThumbnail />,
           path: '/charts/difficulty-uncle-rate',
         },
         {
           title: `${i18n.t('block.difficulty')}`,
-          chart: <DifficultyChart statisticDifficulties={statisticDifficulties} isThumbnail />,
+          chart: <DifficultyChart isThumbnail />,
           path: '/charts/difficulty',
         },
         {
           title: `${i18n.t('block.hash_rate')}`,
-          chart: <HashRateChart statisticHashRates={statisticHashRates} isThumbnail />,
+          chart: <HashRateChart isThumbnail />,
           path: '/charts/hash-rate',
         },
         {
           title: `${i18n.t('block.uncle_rate')}`,
-          chart: <UncleRateChart statisticUncleRates={statisticUncleRates} isThumbnail />,
+          chart: <UncleRateChart isThumbnail />,
           path: '/charts/uncle-rate',
           description: i18n.t('statistic.uncle_rate_description'),
         },
         {
           title: `${i18n.t('statistic.miner_addresses_rank')}`,
-          chart: <MinerAddressDistributionChart statisticMinerAddresses={statisticMinerAddresses} isThumbnail />,
+          chart: <MinerAddressDistributionChart isThumbnail />,
           path: '/charts/miner-address-distribution',
         },
       ],
@@ -288,12 +282,6 @@ export default () => {
   ]
 
   useEffect(() => {
-    initStatisticDifficultyHashRate(dispatch)
-    initStatisticDifficultyUncleRate(dispatch)
-    initStatisticDifficulty(dispatch)
-    initStatisticHashRate(dispatch)
-    initStatisticUncleRate(dispatch)
-    initStatisticMinerAddressDistribution(dispatch)
     initStatisticTotalDaoDeposit(dispatch)
     initStatisticNewDaoDeposit(dispatch)
     initStatisticCirculationRatio(dispatch)

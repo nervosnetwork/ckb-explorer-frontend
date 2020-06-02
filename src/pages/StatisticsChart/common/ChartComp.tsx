@@ -92,6 +92,7 @@ const ChartPage = ({
 }) => {
   const csv = dataToCsv(data)
   const fileName = (title.indexOf(' (') > 0 ? title.substring(0, title.indexOf(' (')) : title)
+    .replace('&', '')
     .toLowerCase()
     .replace(/\s+/g, '-')
   return (

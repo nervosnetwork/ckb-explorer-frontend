@@ -5,8 +5,6 @@ import browserHistory from '../../../routes/history'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
 import { isMobile } from '../../../utils/screen'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
 
@@ -88,16 +86,15 @@ const getOption = (
 }
 
 export const MinerAddressDistributionChart = ({
-  statisticMinerAddresses,
   isThumbnail = false,
   clickEvent,
 }: {
-  statisticMinerAddresses: State.StatisticMinerAddress[]
   isThumbnail?: boolean
   clickEvent?: Function
 }) => {
-  if (!statisticMinerAddresses || statisticMinerAddresses.length === 0) {
-    return <ChartLoading show={statisticMinerAddresses === undefined} isThumbnail={isThumbnail} />
+  const { statisticMinerAddresses, statisticMinerAddressesFetchEnd } = useAppState()
+  if (!statisticMinerAddressesFetchEnd || statisticMinerAddresses.length === 0) {
+    return <ChartLoading show={!statisticMinerAddressesFetchEnd} isThumbnail={isThumbnail} />
   }
   return (
     <ReactChartCore
@@ -108,13 +105,8 @@ export const MinerAddressDistributionChart = ({
   )
 }
 
-export const initStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticMinerAddressDistribution,
-    payload: {
-      statisticMinerAddresses: undefined,
-    },
-  })
+const toCSV = (statisticMinerAddresses: State.StatisticMinerAddress[]) => {
+  return statisticMinerAddresses ? statisticMinerAddresses.map(data => [data.address, data.radio]) : []
 }
 
 export default () => {
@@ -128,13 +120,12 @@ export default () => {
   }, [])
 
   useEffect(() => {
-    initStatisticMinerAddressDistribution(dispatch)
     getStatisticMinerAddressDistribution(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.miner_addresses_rank')}>
-      <MinerAddressDistributionChart statisticMinerAddresses={statisticMinerAddresses} clickEvent={clickEvent} />
+    <ChartPage title={i18n.t('statistic.miner_addresses_rank')} data={toCSV(statisticMinerAddresses)}>
+      <MinerAddressDistributionChart clickEvent={clickEvent} />
     </ChartPage>
   )
 }
