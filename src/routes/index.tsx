@@ -39,10 +39,12 @@ import TxFeeHistoryChart from '../pages/StatisticsChart/activities/TxFeeHistory'
 import BlockTimeDistributionChart from '../pages/StatisticsChart/block/BlockTimeDistribution'
 import EpochTimeDistributionChart from '../pages/StatisticsChart/block/EpochTimeDistribution'
 import AverageBlockTimeChart from '../pages/StatisticsChart/block/AverageBlockTime'
-
-const hasSearch = (pathname: string) => {
-  return pathname !== '/search/fail' && pathname !== '/maintain'
-}
+import TotalSupplyChart from '../pages/StatisticsChart/monetary/TotalSupply'
+import AnnualPercentageCompensationChart from '../pages/StatisticsChart/monetary/AnnualPercentageCompensation'
+import SecondaryIssuanceChart from '../pages/StatisticsChart/monetary/SecondaryIssuance'
+import InflationRateChart from '../pages/StatisticsChart/monetary/InflationRate'
+import LiquidityChart from '../pages/StatisticsChart/monetary/Liquidity'
+import MinerAddressDistributionChart from '../pages/StatisticsChart/mining/MinerAddressDistribution'
 
 const Containers: CustomRouter.Route[] = [
   {
@@ -112,22 +114,28 @@ const Containers: CustomRouter.Route[] = [
     comp: DifficultyUncleRateChart,
   },
   {
-    name: 'Difficulty',
+    name: 'DifficultyChart',
     path: '/charts/difficulty',
     exact: true,
     comp: DifficultyChart,
   },
   {
-    name: 'HashRate',
+    name: 'HashRateChart',
     path: '/charts/hash-rate',
     exact: true,
     comp: HashRateChart,
   },
   {
-    name: 'UncleRate',
+    name: 'UncleRateChart',
     path: '/charts/uncle-rate',
     exact: true,
     comp: UncleRateChart,
+  },
+  {
+    name: 'MinerAddressDistributionChart',
+    path: '/charts/miner-address-distribution',
+    exact: true,
+    comp: MinerAddressDistributionChart,
   },
   {
     name: 'TransactionCountChart',
@@ -159,12 +167,6 @@ const Containers: CustomRouter.Route[] = [
     exact: true,
     comp: CirculationRatioChart,
   },
-  // {
-  //   name: 'NewDaoWithdrawChart',
-  //   path: '/charts/new-dao-Withdraw',
-  //   exact: true,
-  //   comp: NewDaoWithdrawChart,
-  // },
   {
     name: 'CellCountChart',
     path: '/charts/cell-count',
@@ -201,30 +203,42 @@ const Containers: CustomRouter.Route[] = [
     exact: true,
     comp: AverageBlockTimeChart,
   },
-  // {
-  //   name: 'OccupiedCapacityChart',
-  //   path: '/charts/occupied-capacity',
-  //   exact: true,
-  //   comp: OccupiedCapacityChart,
-  // },
   {
     name: 'EpochTimeDistributionChart',
     path: '/charts/epoch-time-distribution',
     exact: true,
     comp: EpochTimeDistributionChart,
   },
-  // {
-  //   name: 'NewNodeCountChart',
-  //   path: '/charts/new-node-count',
-  //   exact: true,
-  //   comp: NewNodeCountChart,
-  // },
-  // {
-  //   name: 'NodeDistributionChart',
-  //   path: '/charts/node-distribution',
-  //   exact: true,
-  //   comp: NodeDistributionChart,
-  // },
+  {
+    name: 'TotalSupplyChart',
+    path: '/charts/total-supply',
+    exact: true,
+    comp: TotalSupplyChart,
+  },
+  {
+    name: 'AnnualPercentageCompensationChart',
+    path: '/charts/nominal-apc',
+    exact: true,
+    comp: AnnualPercentageCompensationChart,
+  },
+  {
+    name: 'SecondaryIssuanceChart',
+    path: '/charts/secondary-issuance',
+    exact: true,
+    comp: SecondaryIssuanceChart,
+  },
+  {
+    name: 'InflationRateChart',
+    path: '/charts/inflation-rate',
+    exact: true,
+    comp: InflationRateChart,
+  },
+  {
+    name: 'LiquidityChart',
+    path: '/charts/liquidity',
+    exact: true,
+    comp: LiquidityChart,
+  },
   {
     name: 'SearchFail',
     path: '/search/fail',
@@ -285,12 +299,6 @@ export default () => {
 
   useRouter(() => {
     window.scrollTo(0, 0)
-    dispatch({
-      type: ComponentActions.UpdateHomeSearchBarVisible,
-      payload: {
-        homeSearchBarVisible: browserHistory.location.pathname === '/',
-      },
-    })
   })
 
   useRouterLocation(() => {
@@ -310,7 +318,7 @@ export default () => {
         render={(props: any) => {
           return (
             <Page>
-              <Header hasSearch={hasSearch(browserHistory.location.pathname)} />
+              <Header />
               <Sheet />
               <Switch location={props.location}>
                 {Containers.map(container => {

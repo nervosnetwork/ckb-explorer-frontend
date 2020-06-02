@@ -12,6 +12,8 @@ import { useAppState, useDispatch } from '../../../contexts/providers'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
+import { PageActions } from '../../../contexts/actions'
+import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
 
 const stepAxis = (statisticHashRates: State.StatisticHashRate[]) => {
   const array = statisticHashRates.flatMap(data => parseFloat(data.avgHashRate))
@@ -20,7 +22,7 @@ const stepAxis = (statisticHashRates: State.StatisticHashRate[]) => {
   return Math.floor((max - min) / 3)
 }
 
-const getOption = (statisticHashRates: State.StatisticHashRate[]) => {
+const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChartOption => {
   return {
     color: ['#ffffff'],
     title: {
@@ -30,7 +32,7 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]) => {
       textStyle: {
         color: '#ffffff',
         fontSize: 12,
-        fontWight: 'lighter',
+        fontWeight: 'lighter',
         fontFamily: 'Lato',
       },
     },
@@ -92,7 +94,7 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]) => {
       {
         name: i18n.t('block.hash_rate'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         lineStyle: {
           color: '#ffffff',
           width: 1,
@@ -117,13 +119,23 @@ export default () => {
   }, [widthDiff])
 
   useEffect(() => {
+    dispatch({
+      type: PageActions.UpdateStatisticHashRate,
+      payload: {
+        statisticHashRates: undefined,
+      },
+    })
     getStatisticHashRate(dispatch)
   }, [dispatch])
 
   if (!statisticHashRates || statisticHashRates.length === 0) {
     return (
       <ChartLoadingPanel>
-        <SmallLoading isWhite />
+        {statisticHashRates === undefined ? (
+          <SmallLoading isWhite />
+        ) : (
+          <img className="chart__no__data" src={ChartNoDataImage} alt="chart no data" />
+        )}
       </ChartLoadingPanel>
     )
   }

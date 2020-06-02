@@ -55,7 +55,7 @@ const TransactionInfoComp = ({
         ) : (
           value
         )}
-        {tag}
+        {tag && <div className="transaction__info__content__tag">{tag}</div>}
       </div>
     </div>
   )

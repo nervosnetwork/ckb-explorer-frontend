@@ -16,6 +16,7 @@ import {
   getStatisticDifficulty,
   getStatisticHashRate,
   getStatisticUncleRate,
+  getStatisticMinerAddressDistribution,
 } from '../../service/app/charts/mining'
 import {
   getStatisticTotalDaoDeposit,
@@ -47,6 +48,22 @@ import { EpochTimeDistributionChart, initStatisticEpochTimeDistribution } from '
 import { NewDaoDepositChart, initStatisticNewDaoDeposit } from './nervosDao/NewDaoDeposit'
 import { CirculationRatioChart, initStatisticCirculationRatio } from './nervosDao/CirculationRatio'
 import { initStatisticAverageBlockTimes, AverageBlockTimeChart } from './block/AverageBlockTime'
+import { TotalSupplyChart, initStatisticTotalSupply } from './monetary/TotalSupply'
+import {
+  getStatisticTotalSupply,
+  getStatisticAnnualPercentageCompensation,
+  getStatisticSecondaryIssuance,
+  getStatisticInflationRate,
+  getStatisticLiquidity,
+} from '../../service/app/charts/monetary'
+import {
+  AnnualPercentageCompensationChart,
+  initStatisticAnnualPercentageCompensation,
+} from './monetary/AnnualPercentageCompensation'
+import { SecondaryIssuanceChart, initStatisticSecondaryIssuance } from './monetary/SecondaryIssuance'
+import { InflationRateChart, initStatisticInflationRate } from './monetary/InflationRate'
+import { LiquidityChart, initStatisticLiquidity } from './monetary/Liquidity'
+import { MinerAddressDistributionChart, initStatisticMinerAddressDistribution } from './mining/MinerAddressDistribution'
 
 interface ChartData {
   title: string
@@ -80,10 +97,10 @@ export default () => {
     statisticDifficulties,
     statisticHashRates,
     statisticUncleRates,
+    statisticMinerAddresses,
     statisticAddressCounts,
     statisticTotalDaoDeposits,
     statisticNewDaoDeposits,
-    // statisticNewDaoWithdraw,
     statisticCirculationRatios,
     statisticCellCounts,
     statisticTransactionCounts,
@@ -91,11 +108,13 @@ export default () => {
     statisticBalanceDistributions,
     statisticTxFeeHistories,
     statisticBlockTimeDistributions,
-    // statisticOccupiedCapacities,
     statisticEpochTimeDistributions,
     statisticAverageBlockTimes,
-    // statisticNewNodeCounts,
-    // statisticNodeDistributions,
+    statisticTotalSupplies,
+    statisticAnnualPercentageCompensations,
+    statisticSecondaryIssuance,
+    statisticInflationRates,
+    statisticLiquidity,
   } = useAppState()
 
   const charts: ChartCategory[] = [
@@ -151,6 +170,11 @@ export default () => {
           chart: <UncleRateChart statisticUncleRates={statisticUncleRates} isThumbnail />,
           path: '/charts/uncle-rate',
         },
+        {
+          title: `${i18n.t('statistic.miner_addresses_rank')}`,
+          chart: <MinerAddressDistributionChart statisticMinerAddresses={statisticMinerAddresses} isThumbnail />,
+          path: '/charts/miner-address-distribution',
+        },
       ],
     },
     {
@@ -192,11 +216,6 @@ export default () => {
           chart: <TxFeeHistoryChart statisticTxFeeHistories={statisticTxFeeHistories} isThumbnail />,
           path: '/charts/tx-fee-history',
         },
-        // {
-        //   title: `${i18n.t('statistic.occupied_capacity')}`,
-        //   chart: <OccupiedCapacityChart statisticOccupiedCapacities={statisticOccupiedCapacities} isThumbnail />,
-        //   path: '/charts/occupied-capacity',
-        // },
       ],
     },
     {
@@ -212,11 +231,6 @@ export default () => {
           chart: <NewDaoDepositChart statisticNewDaoDeposits={statisticNewDaoDeposits} isThumbnail />,
           path: '/charts/new-dao-deposit',
         },
-        // {
-        //   title: `${i18n.t('statistic.new_dao_withdraw')}`,
-        //   chart: <NewDaoWithdrawChart statisticNewDaoWithdraw={statisticNewDaoWithdraw} isThumbnail />,
-        //   path: '/charts/new-dao-withdraw',
-        // },
         {
           title: `${i18n.t('statistic.circulation_ratio')}`,
           chart: <CirculationRatioChart statisticCirculationRatios={statisticCirculationRatios} isThumbnail />,
@@ -224,21 +238,41 @@ export default () => {
         },
       ],
     },
-    // {
-    //   category: i18n.t('statistic.category_network'),
-    //   charts: [
-    //     {
-    //       title: `${i18n.t('statistic.new_node_count')}`,
-    //       chart: <NewNodeCountChart statisticNewNodeCounts={statisticNewNodeCounts} isThumbnail />,
-    //       path: '/charts/new-node-count',
-    //     },
-    //     {
-    //       title: `${i18n.t('statistic.node_distribution')}`,
-    //       chart: <NodeDistributionChart statisticNodeDistributions={statisticNodeDistributions} isThumbnail />,
-    //       path: '/charts/node-distribution',
-    //     },
-    //   ],
-    // },
+    {
+      category: i18n.t('statistic.category_monetary'),
+      charts: [
+        {
+          title: `${i18n.t('statistic.total_supply')}`,
+          chart: <TotalSupplyChart statisticTotalSupplies={statisticTotalSupplies} isThumbnail />,
+          path: '/charts/total-supply',
+        },
+        {
+          title: `${i18n.t('statistic.nominal_apc')}`,
+          chart: (
+            <AnnualPercentageCompensationChart
+              statisticAnnualPercentageCompensations={statisticAnnualPercentageCompensations}
+              isThumbnail
+            />
+          ),
+          path: '/charts/nominal-apc',
+        },
+        {
+          title: `${i18n.t('nervos_dao.secondary_issuance')}`,
+          chart: <SecondaryIssuanceChart statisticSecondaryIssuance={statisticSecondaryIssuance} isThumbnail />,
+          path: '/charts/secondary-issuance',
+        },
+        {
+          title: `${i18n.t('statistic.inflation_rate')}`,
+          chart: <InflationRateChart statisticInflationRates={statisticInflationRates} isThumbnail />,
+          path: '/charts/inflation-rate',
+        },
+        {
+          title: `${i18n.t('statistic.liquidity')}`,
+          chart: <LiquidityChart statisticLiquidity={statisticLiquidity} isThumbnail />,
+          path: '/charts/liquidity',
+        },
+      ],
+    },
   ]
 
   useEffect(() => {
@@ -247,22 +281,24 @@ export default () => {
     initStatisticDifficulty(dispatch)
     initStatisticHashRate(dispatch)
     initStatisticUncleRate(dispatch)
+    initStatisticMinerAddressDistribution(dispatch)
     initStatisticAddressCount(dispatch)
     initStatisticCellCount(dispatch)
     initStatisticTransactionCount(dispatch)
     initStatisticTotalDaoDeposit(dispatch)
     initStatisticNewDaoDeposit(dispatch)
-    // initStatisticNewDaoWithdraw(dispatch)
     initStatisticCirculationRatio(dispatch)
     initStatisticAddressBalanceRanks(dispatch)
     initStatisticBalanceDistribution(dispatch)
     initStatisticTxFeeHistory(dispatch)
     initStatisticBlockTimeDistribution(dispatch)
-    // initStatisticOccupiedCapacity(dispatch)
     initStatisticEpochTimeDistribution(dispatch)
     initStatisticAverageBlockTimes(dispatch)
-    // initStatisticNewNodeCount(dispatch)
-    // initStatisticNodeDistribution(dispatch)
+    initStatisticTotalSupply(dispatch)
+    initStatisticAnnualPercentageCompensation(dispatch)
+    initStatisticSecondaryIssuance(dispatch)
+    initStatisticInflationRate(dispatch)
+    initStatisticLiquidity(dispatch)
   }, [dispatch])
 
   useEffect(() => {
@@ -271,22 +307,24 @@ export default () => {
     getStatisticDifficulty(dispatch)
     getStatisticHashRate(dispatch)
     getStatisticUncleRate(dispatch)
+    getStatisticMinerAddressDistribution(dispatch)
     getStatisticAddressCount(dispatch)
     getStatisticCellCount(dispatch)
     getStatisticTransactionCount(dispatch)
     getStatisticTotalDaoDeposit(dispatch)
     getStatisticNewDaoDeposit(dispatch)
-    // getStatisticNewDaoWithdraw(dispatch)
     getStatisticCirculationRatio(dispatch)
     getStatisticAddressBalanceRank(dispatch)
     getStatisticBalanceDistribution(dispatch)
     getStatisticTxFeeHistory(dispatch)
     getStatisticBlockTimeDistribution(dispatch)
-    // getStatisticOccupiedCapacity(dispatch)
     getStatisticEpochTimeDistribution(dispatch)
     getStatisticAverageBlockTimes(dispatch)
-    // getStatisticNewNodeCount(dispatch)
-    // getStatisticNodeDistribution(dispatch)
+    getStatisticTotalSupply(dispatch)
+    getStatisticAnnualPercentageCompensation(dispatch)
+    getStatisticSecondaryIssuance(dispatch)
+    getStatisticInflationRate(dispatch)
+    getStatisticLiquidity(dispatch)
   }, [dispatch])
 
   return (

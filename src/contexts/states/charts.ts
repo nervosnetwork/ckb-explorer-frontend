@@ -20,6 +20,12 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticCirculationRatios: [],
   statisticNewNodeCounts: [],
   statisticNodeDistributions: [],
+  statisticTotalSupplies: [],
+  statisticAnnualPercentageCompensations: [],
+  statisticSecondaryIssuance: [],
+  statisticInflationRates: [],
+  statisticLiquidity: [],
+  statisticMinerAddresses: [],
 }
 
 export default initStatisticChartsState

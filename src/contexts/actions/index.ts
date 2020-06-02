@@ -57,6 +57,12 @@ export enum PageActions {
   UpdateStatisticEpochLengthDistribution = 'updateStatisticEpochLengthDistribution',
   UpdateStatisticNewNodeCount = 'updateStatisticNewNodeCount',
   UpdateStatisticNodeDistribution = 'updateStatisticNodeDistribution',
+  UpdateStatisticTotalSupply = 'updateStatisticTotalSupply',
+  UpdateStatisticAnnualPercentageCompensation = 'UpdateStatisticAnnualPercentageCompensation',
+  UpdateStatisticSecondaryIssuance = 'updateStatisticSecondaryIssuance',
+  UpdateStatisticInflationRate = 'updateStatisticInflationRate',
+  UpdateStatisticLiquidity = 'updateStatisticLiquidity',
+  UpdateStatisticMinerAddressDistribution = 'updateStatisticMinerAddressDistribution',
 
   UpdateNervosDao = 'updateNervosDao',
   UpdateNervosDaoTransactions = 'updateNervosDaoTransactions',
@@ -74,7 +80,7 @@ export enum PageActions {
 export enum ComponentActions {
   UpdateHeaderSearchEditable = 'updateHeaderSearchEditable',
   UpdateHeaderMobileMenuVisible = 'updateHeaderMobileMenuVisible',
-  UpdateHomeSearchBarVisible = 'updateHomeSearchBarVisible',
+  UpdateHeaderSearchBarVisible = 'updateHeaderSearchBarVisible',
 }
 
 export type StateActions = AppActions | PageActions | ComponentActions

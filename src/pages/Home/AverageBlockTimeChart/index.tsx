@@ -11,13 +11,15 @@ import { localeNumberString } from '../../../utils/number'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
+import { PageActions } from '../../../contexts/actions'
+import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
 
 const maxAndMinAxis = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) => {
   const array = statisticAverageBlockTimes.flatMap(data => parseFloat(data.avgBlockTimeDaily))
   return { max: Math.ceil(Math.max(...array) / 1000), min: Math.floor(Math.min(...array) / 1000) }
 }
 
-const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) => {
+const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]): echarts.EChartOption => {
   return {
     color: ['#ffffff'],
     title: {
@@ -27,7 +29,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
       textStyle: {
         color: '#ffffff',
         fontSize: 12,
-        fontWight: 'lighter',
+        fontWeight: 'lighter',
         fontFamily: 'Lato',
       },
     },
@@ -94,7 +96,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
       {
         name: i18n.t('statistic.daily_moving_average'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         lineStyle: {
           color: '#ffffff',
           width: 1,
@@ -119,13 +121,23 @@ export default () => {
   }, [widthDiff])
 
   useEffect(() => {
+    dispatch({
+      type: PageActions.UpdateStatisticAverageBlockTime,
+      payload: {
+        statisticAverageBlockTimes: undefined,
+      },
+    })
     getStatisticAverageBlockTimes(dispatch)
   }, [dispatch])
 
   if (!statisticAverageBlockTimes || statisticAverageBlockTimes.length === 0) {
     return (
       <ChartLoadingPanel>
-        <SmallLoading isWhite />
+        {statisticAverageBlockTimes === undefined ? (
+          <SmallLoading isWhite />
+        ) : (
+          <img className="chart__no__data" src={ChartNoDataImage} alt="chart no data" />
+        )}
       </ChartLoadingPanel>
     )
   }

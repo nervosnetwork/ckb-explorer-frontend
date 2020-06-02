@@ -259,6 +259,36 @@ export const pageReducer = (
         ...state,
         statisticNodeDistributions: payload.statisticNodeDistributions,
       }
+    case PageActions.UpdateStatisticTotalSupply:
+      return {
+        ...state,
+        statisticTotalSupplies: payload.statisticTotalSupplies,
+      }
+    case PageActions.UpdateStatisticAnnualPercentageCompensation:
+      return {
+        ...state,
+        statisticAnnualPercentageCompensations: payload.statisticAnnualPercentageCompensations,
+      }
+    case PageActions.UpdateStatisticSecondaryIssuance:
+      return {
+        ...state,
+        statisticSecondaryIssuance: payload.statisticSecondaryIssuance,
+      }
+    case PageActions.UpdateStatisticInflationRate:
+      return {
+        ...state,
+        statisticInflationRates: payload.statisticInflationRates,
+      }
+    case PageActions.UpdateStatisticLiquidity:
+      return {
+        ...state,
+        statisticLiquidity: payload.statisticLiquidity,
+      }
+    case PageActions.UpdateStatisticMinerAddressDistribution:
+      return {
+        ...state,
+        statisticMinerAddresses: payload.statisticMinerAddresses,
+      }
 
     // nervos dao page
     case PageActions.UpdateNervosDao:

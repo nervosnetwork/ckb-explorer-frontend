@@ -7,7 +7,7 @@ import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ReactChartCore, ChartLoading, ChartPage } from '../common/ChartComp'
+import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 
@@ -25,43 +25,44 @@ const grid = {
   containLabel: true,
 }
 
-const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail = false) => {
+const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail = false): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const colorSpan = (color: string) =>
-          `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
-        const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '60px' : '80px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-          dataList[0].name,
-        )}</div>`
-        if (dataList[0]) {
-          result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
-            dataList[0].data,
-            2,
-          )}</div>`
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 60 : 80)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+              dataList[0].name,
+            )}</div>`
+            if (dataList[0]) {
+              result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
+                dataList[0].data,
+                2,
+              )}</div>`
+            }
+            if (dataList[1]) {
+              result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('statistic.all_cells'))} ${handleAxis(
+                dataList[1].data,
+                2,
+              )}</div>`
+            }
+            return result
+          },
         }
-        if (dataList[1]) {
-          result += `<div>${colorSpan(ChartColors[1])}${widthSpan(i18n.t('statistic.all_cells'))} ${handleAxis(
-            dataList[1].data,
-            2,
-          )}</div>`
+      : undefined,
+    legend: !isThumbnail
+      ? {
+          data: [{ name: i18n.t('statistic.live_cell') }, { name: i18n.t('statistic.all_cells') }],
         }
-        return result
-      },
-    },
-    legend: !isThumbnail && {
-      data: [i18n.t('statistic.live_cell'), i18n.t('statistic.all_cells')],
-    },
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticCellCounts.map(data => data.createdAtUnixtimestamp),
@@ -104,7 +105,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       {
         name: i18n.t('statistic.live_cell'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticCellCounts.map(data => new BigNumber(data.liveCellsCount).toNumber()),
@@ -112,7 +113,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       {
         name: i18n.t('statistic.all_cells'),
         type: 'line',
-        yAxisIndex: '1',
+        yAxisIndex: 1,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticCellCounts.map(data => new BigNumber(data.allCellsCount).toNumber()),

@@ -23,7 +23,43 @@ exports[`Active Page shallow renders 1`] = `
       <div
         className="home__top__search"
         id="home__search__bar"
-      />
+      >
+        <div
+          className="sc-fzoLag eNRuJM"
+        >
+          <div
+            className="sc-fzoXzr lmzWOP"
+          >
+            <div
+              className="sc-fzpjYC bvkCky"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex={-1}
+            >
+              <img
+                alt="search logo"
+                src="search_black.png"
+              />
+            </div>
+            <input
+              className="sc-fznxsB knrDyn"
+              defaultValue=""
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyUp={[Function]}
+              placeholder="Block/Transaction/Address/Lock Hash"
+            />
+          </div>
+          <div
+            className="sc-fznJRM bMFvBM"
+            onClick={[Function]}
+          >
+            Search
+          </div>
+        </div>
+      </div>
     </div>
     <div
       className="sc-AxiKw cqkZBB"
@@ -67,17 +103,13 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__left__chart"
         >
           <div
-            className="sc-fzoYHE goYFVZ"
+            className="sc-fzoYHE ehzMLn"
           >
-            <div
-              className="sc-fzoydu ctqdBw"
-            >
-              <img
-                alt="loading"
-                className="loading__white"
-                src="loading_white.gif"
-              />
-            </div>
+            <img
+              alt="chart no data"
+              className="chart__no__data"
+              src="chart_no_data_white.png"
+            />
           </div>
         </div>
       </div>
@@ -120,23 +152,19 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__right__chart"
         >
           <div
-            className="sc-fznAgC iLJEEN"
+            className="sc-fznAgC dHiSHn"
           >
-            <div
-              className="sc-fzoydu ctqdBw"
-            >
-              <img
-                alt="loading"
-                className="loading__white"
-                src="loading_white.gif"
-              />
-            </div>
+            <img
+              alt="chart no data"
+              className="chart__no__data"
+              src="chart_no_data_white.png"
+            />
           </div>
         </div>
       </div>
     </div>
     <div
-      className="sc-AxhCb fZVaxu"
+      className="sc-AxhCb PGzqW"
     >
       <div
         className="blockchain__item__row"
@@ -881,7 +909,43 @@ exports[`Active Page shallow renders with empty data 1`] = `
       <div
         className="home__top__search"
         id="home__search__bar"
-      />
+      >
+        <div
+          className="sc-fzoLag eNRuJM"
+        >
+          <div
+            className="sc-fzoXzr lmzWOP"
+          >
+            <div
+              className="sc-fzpjYC bvkCky"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex={-1}
+            >
+              <img
+                alt="search logo"
+                src="search_black.png"
+              />
+            </div>
+            <input
+              className="sc-fznxsB knrDyn"
+              defaultValue=""
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyUp={[Function]}
+              placeholder="Block/Transaction/Address/Lock Hash"
+            />
+          </div>
+          <div
+            className="sc-fznJRM bMFvBM"
+            onClick={[Function]}
+          >
+            Search
+          </div>
+        </div>
+      </div>
     </div>
     <div
       className="sc-AxiKw cqkZBB"
@@ -925,17 +989,13 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__left__chart"
         >
           <div
-            className="sc-fzoYHE goYFVZ"
+            className="sc-fzoYHE ehzMLn"
           >
-            <div
-              className="sc-fzoydu ctqdBw"
-            >
-              <img
-                alt="loading"
-                className="loading__white"
-                src="loading_white.gif"
-              />
-            </div>
+            <img
+              alt="chart no data"
+              className="chart__no__data"
+              src="chart_no_data_white.png"
+            />
           </div>
         </div>
       </div>
@@ -978,23 +1038,19 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__right__chart"
         >
           <div
-            className="sc-fznAgC iLJEEN"
+            className="sc-fznAgC dHiSHn"
           >
-            <div
-              className="sc-fzoydu ctqdBw"
-            >
-              <img
-                alt="loading"
-                className="loading__white"
-                src="loading_white.gif"
-              />
-            </div>
+            <img
+              alt="chart no data"
+              className="chart__no__data"
+              src="chart_no_data_white.png"
+            />
           </div>
         </div>
       </div>
     </div>
     <div
-      className="sc-AxhCb fZVaxu"
+      className="sc-AxhCb PGzqW"
     >
       <div
         className="blockchain__item__row"
