@@ -75,6 +75,9 @@ export enum PageActions {
   UpdateUDTTransactions = 'updateUDTTransactions',
   UpdateUDTTransactionsTotal = 'updateUDTTransactionsTotal',
   UpdateUDTStatus = 'updateUDTStatus',
+
+  UpdateTokens = 'updateTokens',
+  UpdateTokensStatus = 'updateTokensStatus'
 }
 
 export enum ComponentActions {

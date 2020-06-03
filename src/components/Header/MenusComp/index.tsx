@@ -21,13 +21,18 @@ const menuDataList = () => {
     },
     {
       type: LinkType.Inner,
-      name: i18n.t('navbar.charts'),
-      url: '/charts',
+      name: i18n.t('navbar.nervos_dao'),
+      url: '/nervosdao',
     },
     {
       type: LinkType.Inner,
-      name: i18n.t('navbar.nervos_dao'),
-      url: '/nervosdao',
+      name: i18n.t('navbar.tokens'),
+      url: '/tokens',
+    },
+    {
+      type: LinkType.Inner,
+      name: i18n.t('navbar.charts'),
+      url: '/charts',
     },
     !isMainnet()
       ? {

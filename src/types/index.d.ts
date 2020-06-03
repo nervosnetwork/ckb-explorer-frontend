@@ -461,6 +461,24 @@ declare namespace State {
     total: number
   }
 
+  export interface TokenInfo {
+    symbol: string
+    fullName: string
+    iconFile: string
+    published: boolean
+    description: string
+    totalAmount: string
+    addressesCount: string
+    decimal: string
+    h24CkbTransactionsCount: string
+    createdAt: string
+  }
+
+  export interface TokensState {
+    tokens: TokenInfo[]
+    status: FetchStatus
+  }
+
   export interface StatisticChartsState {
     statisticDifficultyHashRates: StatisticDifficultyHashRate[]
     statisticDifficultyUncleRates: StatisticDifficultyUncleRate[]
@@ -501,6 +519,7 @@ declare namespace State {
     statistics: Statistics
     nervosDaoState: NervosDaoState
     udtState: UDTState
+    tokensState: TokensState
   }
 
   export interface PagePayload
@@ -511,7 +530,8 @@ declare namespace State {
       TransactionState,
       TransactionsState,
       NervosDaoState,
-      UDTState {}
+      UDTState,
+      TokensState {}
 
   export interface App {
     toast: ToastMessage | null
