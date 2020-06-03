@@ -71,7 +71,8 @@ export const TokensTableContent = styled.div`
 export const TokensTableItem = styled.div`
   display: flex;
   align-items: center;
-  padding: 15px 0;
+  padding: 15px 40px;
+  background: white;
 
   .tokens__item__name__panel {
     display: flex;
@@ -104,17 +105,20 @@ export const TokensTableItem = styled.div`
     flex: 2;
     text-align: center;
     font-size: 14px;
+    text-align: right;
   }
 
   .tokens__item__address__count {
     flex: 2;
     text-align: center;
     font-size: 14px;
+    text-align: right;
   }
 
   .tokens__item__created__time {
     flex: 2;
     text-align: center;
     font-size: 12px;
+    text-align: right;
   }
 `

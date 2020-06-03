@@ -472,6 +472,7 @@ declare namespace State {
     decimal: string
     h24CkbTransactionsCount: string
     createdAt: string
+    typeHash: string
   }
 
   export interface TokensState {
