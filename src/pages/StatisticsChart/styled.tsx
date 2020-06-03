@@ -1,18 +1,10 @@
 import styled from 'styled-components'
 
 export const ChartsContent = styled.div`
-  margin: 40px 120px;
-
-  @media (max-width: 1440px) {
-    margin: 40px 100px;
-  }
-
-  @media (max-width: 1200px) {
-    margin: 40px 45px;
-  }
+  margin-top: 40px;
 
   @media (max-width: 750px) {
-    margin: 20px 18px;
+    margin-top: 20px;
   }
 `
 

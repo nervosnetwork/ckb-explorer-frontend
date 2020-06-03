@@ -1,40 +1,20 @@
 import styled from 'styled-components'
 
 export const ChartDetailPanel = styled.div`
-  margin: 0 120px 30px 120px;
+  margin-bottom: 30px;
   background: white;
-
-  @media (max-width: 1440px) {
-    margin: 0 100px 30px 100px;
-  }
-
-  @media (max-width: 1200px) {
-    margin: 0 45px 30px 45px;
-  }
-
-  @media (max-width: 750px) {
-    margin: 0 18px 30px 18px;
-  }
 `
 
 export const ChartDetailTitle = styled.div`
   background: white;
-  margin: 30px 120px 0 120px;
+  margin-top: 30px;
   padding: 10px 0;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  @media (max-width: 1440px) {
-    margin: 30 100px 0 100px;
-  }
-
-  @media (max-width: 1200px) {
-    margin: 30px 45px 0 45px;
-  }
-
   @media (max-width: 750px) {
-    margin: 20px 18px 0 18px;
+    margin-top: 20px;
   }
 
   .chart__detail__title__panel {

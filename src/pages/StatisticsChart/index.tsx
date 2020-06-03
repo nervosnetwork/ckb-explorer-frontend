@@ -291,7 +291,7 @@ export default () => {
 
   return (
     <Content>
-      <ChartsContent>
+      <ChartsContent className="container">
         <ChartsTitle>{i18n.t('statistic.charts_title')}</ChartsTitle>
         {Charts.map(chart => (
           <ChartsPanel key={chart.category}>

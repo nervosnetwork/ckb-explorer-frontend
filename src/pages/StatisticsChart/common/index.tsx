@@ -97,7 +97,7 @@ const ChartPage = ({
     .replace(/\s+/g, '-')
   return (
     <Content>
-      <ChartDetailTitle>
+      <ChartDetailTitle className="container">
         <div className="chart__detail__title__panel">
           <span>{title}</span>
           {description && (
@@ -118,7 +118,7 @@ const ChartPage = ({
           </a>
         )}
       </ChartDetailTitle>
-      <ChartDetailPanel>{children}</ChartDetailPanel>
+      <ChartDetailPanel className="container">{children}</ChartDetailPanel>
     </Content>
   )
 }
