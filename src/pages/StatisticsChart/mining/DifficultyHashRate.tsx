@@ -16,11 +16,14 @@ const gridThumbnail = {
   bottom: '6%',
   containLabel: true,
 }
-const grid = {
-  left: '3%',
-  right: '3%',
-  bottom: '5%',
-  containLabel: true,
+const grid = () => {
+  return {
+    left: '3%',
+    right: '3%',
+    top: '8%',
+    bottom: '5%',
+    containLabel: true,
+  }
 }
 
 const getOption = (
@@ -54,7 +57,7 @@ const getOption = (
           data: [{ name: i18n.t('block.difficulty') }, { name: i18n.t('block.hash_rate_hps') }],
         }
       : undefined,
-    grid: isThumbnail ? gridThumbnail : grid,
+    grid: isThumbnail ? gridThumbnail : grid(),
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('block.epoch'),

@@ -20,6 +20,7 @@ const gridThumbnail = {
 const grid = {
   left: '4%',
   right: '3%',
+  top: isMobile() ? '3%' : '8%',
   bottom: '5%',
   containLabel: true,
 }

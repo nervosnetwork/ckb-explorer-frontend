@@ -1,10 +1,18 @@
 import styled from 'styled-components'
 
 export const ChartsContent = styled.div`
-  margin: 40px 6%;
+  margin: 40px 120px;
+
+  @media (max-width: 1440px) {
+    margin: 40px 100px;
+  }
+
+  @media (max-width: 1200px) {
+    margin: 40px 45px;
+  }
 
   @media (max-width: 750px) {
-    margin: 20px 4%;
+    margin: 20px 18px;
   }
 `
 
@@ -66,7 +74,7 @@ export const ChartCardPanel = styled.div`
     border: 1px solid #e2e2e2;
     border-width: 1px 1px 0 1px;
     height: 40px;
-    
+
     > img {
       width: 16px;
       height: 16px;
