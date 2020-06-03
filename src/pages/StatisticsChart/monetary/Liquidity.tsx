@@ -4,12 +4,10 @@ import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticLiquidity } from '../../../service/app/charts/monetary'
 import { handleAxis } from '../../../utils/chart'
-import { shannonToCkb } from '../../../utils/util'
+import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 
 const gridThumbnail = {
   left: '4%',
@@ -20,7 +18,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '4%',
-  right: '4%',
+  right: '3%',
+  top: '8%',
   bottom: '5%',
   containLabel: true,
 }
@@ -128,26 +127,23 @@ const getOption = (statisticLiquidity: State.StatisticLiquidity[], isThumbnail =
   }
 }
 
-export const LiquidityChart = ({
-  statisticLiquidity,
-  isThumbnail = false,
-}: {
-  statisticLiquidity: State.StatisticLiquidity[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticLiquidity || statisticLiquidity.length === 0) {
-    return <ChartLoading show={statisticLiquidity === undefined} isThumbnail={isThumbnail} />
+export const LiquidityChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticLiquidity, statisticLiquidityFetchEnd } = useAppState()
+  if (!statisticLiquidityFetchEnd || statisticLiquidity.length === 0) {
+    return <ChartLoading show={!statisticLiquidityFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticLiquidity, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticLiquidity = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticLiquidity,
-    payload: {
-      statisticLiquidity: undefined,
-    },
-  })
+const toCSV = (statisticLiquidity: State.StatisticLiquidity[]) => {
+  return statisticLiquidity
+    ? statisticLiquidity.map(data => [
+        data.createdAtUnixtimestamp,
+        shannonToCkbDecimal(data.circulatingSupply, 8),
+        shannonToCkbDecimal(data.daoDeposit, 8),
+        shannonToCkbDecimal(data.liquidity, 8),
+      ])
+    : []
 }
 
 export default () => {
@@ -155,13 +151,12 @@ export default () => {
   const { statisticLiquidity } = useAppState()
 
   useEffect(() => {
-    initStatisticLiquidity(dispatch)
     getStatisticLiquidity(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.liquidity')}>
-      <LiquidityChart statisticLiquidity={statisticLiquidity} />
+    <ChartPage title={i18n.t('statistic.liquidity')} data={toCSV(statisticLiquidity)}>
+      <LiquidityChart />
     </ChartPage>
   )
 }

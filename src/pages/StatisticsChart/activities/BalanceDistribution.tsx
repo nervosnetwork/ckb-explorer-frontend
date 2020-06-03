@@ -6,9 +6,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis, handleLogGroupAxis } from '../../../utils/chart'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { localeNumberString } from '../../../utils/number'
 
 const gridThumbnail = {
@@ -20,7 +18,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '2%',
-  right: '2%',
+  right: '3%',
+  top: isMobile() ? '3%' : '8%',
   bottom: '6%',
   containLabel: true,
 }
@@ -144,26 +143,25 @@ const getOption = (
   }
 }
 
-export const BalanceDistributionChart = ({
-  statisticBalanceDistributions,
-  isThumbnail = false,
-}: {
-  statisticBalanceDistributions: State.StatisticBalanceDistribution[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticBalanceDistributions || statisticBalanceDistributions.length === 0) {
-    return <ChartLoading show={statisticBalanceDistributions === undefined} isThumbnail={isThumbnail} />
+export const BalanceDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticBalanceDistributions, statisticBalanceDistributionsFetchEnd } = useAppState()
+  if (!statisticBalanceDistributionsFetchEnd || statisticBalanceDistributions.length === 0) {
+    return <ChartLoading show={!statisticBalanceDistributionsFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticBalanceDistributions, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticBalanceDistribution = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticBalanceDistribution,
-    payload: {
-      statisticBalanceDistributions: undefined,
-    },
-  })
+const toCSV = (statisticBalanceDistributions?: State.StatisticBalanceDistribution[]) => {
+  return statisticBalanceDistributions
+    ? statisticBalanceDistributions.map((data, index) => [
+        `"${handleLogGroupAxis(
+          new BigNumber(data.balance),
+          index === statisticBalanceDistributions.length - 1 ? '+' : '',
+        )}"`,
+        data.addresses,
+        data.sumAddresses,
+      ])
+    : []
 }
 
 export default () => {
@@ -171,13 +169,16 @@ export default () => {
   const { statisticBalanceDistributions } = useAppState()
 
   useEffect(() => {
-    initStatisticBalanceDistribution(dispatch)
     getStatisticBalanceDistribution(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.balance_distribution')}>
-      <BalanceDistributionChart statisticBalanceDistributions={statisticBalanceDistributions} />
+    <ChartPage
+      title={i18n.t('statistic.balance_distribution')}
+      description={i18n.t('statistic.balance_distribution_description')}
+      data={toCSV(statisticBalanceDistributions)}
+    >
+      <BalanceDistributionChart />
     </ChartPage>
   )
 }

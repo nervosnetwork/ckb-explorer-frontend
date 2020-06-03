@@ -12,12 +12,14 @@ import { LoadingPanel, ChartNoDataPanel, ChartDetailTitle, ChartDetailPanel } fr
 import Loading from '../../../components/Loading'
 import ChartNoDataImage from '../../../assets/chart_no_data.png'
 import ChartNoDataAggronImage from '../../../assets/chart_no_data_aggron.png'
+import HelpIcon from '../../../assets/qa_help.png'
 import { isMainnet } from '../../../utils/chain'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import i18n from '../../../utils/i18n'
 import Content from '../../../components/Content'
+import { Tooltip } from 'antd'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => {
   return isThumbnail ? <SmallLoading /> : <Loading show />
@@ -65,11 +67,58 @@ const ReactChartCore = ({
   )
 }
 
-const ChartPage = ({ title, children }: { title: string; children: ReactNode }) => {
+const dataToCsv = (data: any[] | undefined) => {
+  if (!data || data.length === 0) {
+    return undefined
+  }
+  let csv = ''
+  data.forEach(row => {
+    csv += row.join(',')
+    csv += '\n'
+  })
+  return csv
+}
+
+const ChartPage = ({
+  title,
+  children,
+  description,
+  data,
+}: {
+  title: string
+  children: ReactNode
+  description?: string
+  data?: (string | number)[][]
+}) => {
+  const csv = dataToCsv(data)
+  const fileName = (title.indexOf(' (') > 0 ? title.substring(0, title.indexOf(' (')) : title)
+    .replace('&', '')
+    .toLowerCase()
+    .replace(/\s+/g, '-')
   return (
     <Content>
-      <ChartDetailTitle>{title}</ChartDetailTitle>
-      <ChartDetailPanel>{children}</ChartDetailPanel>
+      <ChartDetailTitle className="container">
+        <div className="chart__detail__title__panel">
+          <span>{title}</span>
+          {description && (
+            <Tooltip placement="bottom" title={description}>
+              <img src={HelpIcon} alt="chart help" />
+            </Tooltip>
+          )}
+        </div>
+        {csv && (
+          <a
+            className="chart__detail__title__download"
+            rel="noopener noreferrer"
+            href={`data:text/csv;charset=utf-8,${encodeURI(csv)}`}
+            target="_blank"
+            download={`${fileName}.csv`}
+          >
+            {i18n.t('statistic.download_data')}
+          </a>
+        )}
+      </ChartDetailTitle>
+      <ChartDetailPanel className="container">{children}</ChartDetailPanel>
     </Content>
   )
 }

@@ -4,9 +4,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime, parseSimpleDateNoSecond } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticAverageBlockTimes } from '../../../service/app/charts/block'
 import { localeNumberString } from '../../../utils/number'
 
@@ -19,7 +17,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '2%',
-  right: '2%',
+  right: '3%',
+  top: '8%',
   bottom: '5%',
   containLabel: true,
 }
@@ -140,26 +139,18 @@ const getOption = (
   }
 }
 
-export const initStatisticAverageBlockTimes = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticAverageBlockTime,
-    payload: {
-      statisticAverageBlockTimes: undefined,
-    },
-  })
-}
-
-export const AverageBlockTimeChart = ({
-  statisticAverageBlockTimes,
-  isThumbnail = false,
-}: {
-  statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticAverageBlockTimes || statisticAverageBlockTimes.length === 0) {
-    return <ChartLoading show={statisticAverageBlockTimes === undefined} isThumbnail={isThumbnail} />
+export const AverageBlockTimeChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticAverageBlockTimes, statisticAverageBlockTimesFetchEnd } = useAppState()
+  if (!statisticAverageBlockTimesFetchEnd || statisticAverageBlockTimes.length === 0) {
+    return <ChartLoading show={!statisticAverageBlockTimesFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticAverageBlockTimes, isThumbnail)} isThumbnail={isThumbnail} />
+}
+
+const toCSV = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) => {
+  return statisticAverageBlockTimes
+    ? statisticAverageBlockTimes.map(data => [data.timestamp, data.avgBlockTimeDaily, data.avgBlockTimeWeekly])
+    : []
 }
 
 export default () => {
@@ -167,13 +158,16 @@ export default () => {
   const { statisticAverageBlockTimes } = useAppState()
 
   useEffect(() => {
-    initStatisticAverageBlockTimes(dispatch)
     getStatisticAverageBlockTimes(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.average_block_time')}>
-      <AverageBlockTimeChart statisticAverageBlockTimes={statisticAverageBlockTimes} />
+    <ChartPage
+      title={i18n.t('statistic.average_block_time')}
+      description={i18n.t('statistic.average_block_time_description')}
+      data={toCSV(statisticAverageBlockTimes)}
+    >
+      <AverageBlockTimeChart />
     </ChartPage>
   )
 }

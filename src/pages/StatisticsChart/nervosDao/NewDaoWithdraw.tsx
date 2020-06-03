@@ -6,12 +6,10 @@ import { handleAxis } from '../../../utils/chart'
 import { ChartNotePanel } from '../common/styled'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
-import { shannonToCkb } from '../../../utils/util'
+import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { ChartColors } from '../../../utils/const'
 import { isMainnet } from '../../../utils/chain'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 
 const gridThumbnail = {
   left: '4%',
@@ -22,7 +20,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '4%',
-  right: '4%',
+  right: '3%',
+  top: '6%',
   bottom: '5%',
   containLabel: true,
 }
@@ -96,26 +95,18 @@ const getOption = (
   }
 }
 
-export const NewDaoWithdrawChart = ({
-  statisticNewDaoWithdraw,
-  isThumbnail = false,
-}: {
-  statisticNewDaoWithdraw: State.StatisticNewDaoWithdraw[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticNewDaoWithdraw || statisticNewDaoWithdraw.length === 0) {
-    return <ChartLoading show={statisticNewDaoWithdraw === undefined} isThumbnail={isThumbnail} />
+export const NewDaoWithdrawChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticNewDaoWithdraw, statisticNewDaoWithdrawFetchEnd } = useAppState()
+  if (!statisticNewDaoWithdrawFetchEnd || statisticNewDaoWithdraw.length === 0) {
+    return <ChartLoading show={statisticNewDaoWithdrawFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticNewDaoWithdraw, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticNewDaoWithdraw = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticNewDaoWithdraw,
-    payload: {
-      statisticNewDaoWithdraw: undefined,
-    },
-  })
+const toCSV = (statisticNewDaoWithdraw: State.StatisticNewDaoWithdraw[]) => {
+  return statisticNewDaoWithdraw
+    ? statisticNewDaoWithdraw.map(data => [data.createdAtUnixtimestamp, shannonToCkbDecimal(data.dailyDaoWithdraw, 8)])
+    : []
 }
 
 export default () => {
@@ -123,13 +114,12 @@ export default () => {
   const { statisticNewDaoWithdraw } = useAppState()
 
   useEffect(() => {
-    initStatisticNewDaoWithdraw(dispatch)
     getStatisticNewDaoWithdraw(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.new_dao_withdraw')}>
-      <NewDaoWithdrawChart statisticNewDaoWithdraw={statisticNewDaoWithdraw} />
+    <ChartPage title={i18n.t('statistic.new_dao_withdraw')} data={toCSV(statisticNewDaoWithdraw)}>
+      <NewDaoWithdrawChart />
       {isMainnet() && <ChartNotePanel>{`${i18n.t('common.note')}1MB = 1,000,000 CKBytes`}</ChartNotePanel>}
     </ChartPage>
   )

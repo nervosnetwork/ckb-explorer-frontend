@@ -3,9 +3,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticInflationRate } from '../../../service/app/charts/monetary'
 
 const gridThumbnail = {
@@ -17,7 +15,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '4%',
-  right: '4%',
+  right: '3%',
+  top: '8%',
   bottom: '5%',
   containLabel: true,
 }
@@ -128,26 +127,23 @@ const getOption = (
   }
 }
 
-export const InflationRateChart = ({
-  statisticInflationRates,
-  isThumbnail = false,
-}: {
-  statisticInflationRates: State.StatisticInflationRate[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticInflationRates || statisticInflationRates.length === 0) {
-    return <ChartLoading show={statisticInflationRates === undefined} isThumbnail={isThumbnail} />
+export const InflationRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticInflationRates, statisticInflationRatesFetchEnd } = useAppState()
+  if (!statisticInflationRatesFetchEnd || statisticInflationRates.length === 0) {
+    return <ChartLoading show={!statisticInflationRatesFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticInflationRates, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticInflationRate = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticInflationRate,
-    payload: {
-      statisticInflationRates: undefined,
-    },
-  })
+const toCSV = (statisticInflationRates: State.StatisticInflationRate[]) => {
+  return statisticInflationRates
+    ? statisticInflationRates.map(data => [
+        data.year,
+        Number(data.nominalApc).toFixed(4),
+        Number(data.nominalInflationRate).toFixed(4),
+        Number(data.realInflationRate).toFixed(4),
+      ])
+    : []
 }
 
 export default () => {
@@ -155,13 +151,16 @@ export default () => {
   const { statisticInflationRates } = useAppState()
 
   useEffect(() => {
-    initStatisticInflationRate(dispatch)
     getStatisticInflationRate(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.inflation_rate')}>
-      <InflationRateChart statisticInflationRates={statisticInflationRates} />
+    <ChartPage
+      title={i18n.t('statistic.inflation_rate')}
+      description={i18n.t('statistic.inflation_rate_description')}
+      data={toCSV(statisticInflationRates)}
+    >
+      <InflationRateChart />
     </ChartPage>
   )
 }

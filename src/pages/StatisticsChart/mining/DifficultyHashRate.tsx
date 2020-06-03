@@ -7,9 +7,7 @@ import { handleAxis } from '../../../utils/chart'
 import { handleDifficulty, handleHashRate } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 
 const gridThumbnail = {
   left: '4%',
@@ -18,11 +16,14 @@ const gridThumbnail = {
   bottom: '6%',
   containLabel: true,
 }
-const grid = {
-  left: '3%',
-  right: '4%',
-  bottom: '5%',
-  containLabel: true,
+const grid = () => {
+  return {
+    left: '3%',
+    right: '3%',
+    top: '8%',
+    bottom: '5%',
+    containLabel: true,
+  }
 }
 
 const getOption = (
@@ -56,7 +57,7 @@ const getOption = (
           data: [{ name: i18n.t('block.difficulty') }, { name: i18n.t('block.hash_rate_hps') }],
         }
       : undefined,
-    grid: isThumbnail ? gridThumbnail : grid,
+    grid: isThumbnail ? gridThumbnail : grid(),
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('block.epoch'),
@@ -129,26 +130,18 @@ const getOption = (
   }
 }
 
-export const DifficultyHashRateChart = ({
-  statisticDifficultyHashRates,
-  isThumbnail = false,
-}: {
-  statisticDifficultyHashRates: State.StatisticDifficultyHashRate[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticDifficultyHashRates || statisticDifficultyHashRates.length === 0) {
-    return <ChartLoading show={statisticDifficultyHashRates === undefined} isThumbnail={isThumbnail} />
+export const DifficultyHashRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticDifficultyHashRates, statisticDifficultyHashRatesFetchEnd } = useAppState()
+  if (!statisticDifficultyHashRatesFetchEnd || statisticDifficultyHashRates.length === 0) {
+    return <ChartLoading show={!statisticDifficultyHashRatesFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticDifficultyHashRates, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticDifficultyHashRate,
-    payload: {
-      statisticDifficultyHashRates: undefined,
-    },
-  })
+const toCSV = (statisticDifficultyHashRates: State.StatisticDifficultyHashRate[]) => {
+  return statisticDifficultyHashRates
+    ? statisticDifficultyHashRates.map(data => [data.epochNumber, data.difficulty, data.hashRate])
+    : []
 }
 
 export default () => {
@@ -156,13 +149,15 @@ export default () => {
   const { statisticDifficultyHashRates } = useAppState()
 
   useEffect(() => {
-    initStatisticDifficultyHashRate(dispatch)
     getStatisticDifficultyHashRate(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}>
-      <DifficultyHashRateChart statisticDifficultyHashRates={statisticDifficultyHashRates} />
+    <ChartPage
+      title={`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}
+      data={toCSV(statisticDifficultyHashRates)}
+    >
+      <DifficultyHashRateChart />
     </ChartPage>
   )
 }

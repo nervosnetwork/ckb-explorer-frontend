@@ -5,9 +5,7 @@ import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 
 const gridThumbnail = {
   left: '4%',
@@ -18,7 +16,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '3%',
-  right: '5%',
+  right: '3%',
+  top: '5%',
   bottom: '5%',
   containLabel: true,
 }
@@ -103,26 +102,16 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
   }
 }
 
-export const UncleRateChart = ({
-  statisticUncleRates,
-  isThumbnail = false,
-}: {
-  statisticUncleRates: State.StatisticUncleRate[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticUncleRates || statisticUncleRates.length === 0) {
-    return <ChartLoading show={statisticUncleRates === undefined} isThumbnail={isThumbnail} />
+export const UncleRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticUncleRates, statisticUncleRatesFetchEnd } = useAppState()
+  if (!statisticUncleRatesFetchEnd || statisticUncleRates.length === 0) {
+    return <ChartLoading show={!statisticUncleRatesFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticUncleRates, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticUncleRate = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticUncleRate,
-    payload: {
-      statisticUncleRates: undefined,
-    },
-  })
+const toCSV = (statisticUncleRates: State.StatisticUncleRate[]) => {
+  return statisticUncleRates ? statisticUncleRates.map(data => [data.createdAtUnixtimestamp, data.uncleRate]) : []
 }
 
 export default () => {
@@ -130,13 +119,16 @@ export default () => {
   const { statisticUncleRates } = useAppState()
 
   useEffect(() => {
-    initStatisticUncleRate(dispatch)
     getStatisticUncleRate(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('block.uncle_rate')}>
-      <UncleRateChart statisticUncleRates={statisticUncleRates} />
+    <ChartPage
+      title={i18n.t('block.uncle_rate')}
+      description={i18n.t('statistic.uncle_rate_description')}
+      data={toCSV(statisticUncleRates)}
+    >
+      <UncleRateChart />
     </ChartPage>
   )
 }

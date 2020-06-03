@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 
 export const ChartsContent = styled.div`
-  margin: 40px 6%;
+  margin-top: 40px;
 
   @media (max-width: 750px) {
-    margin: 20px 4%;
+    margin-top: 20px;
   }
 `
 
@@ -57,14 +57,26 @@ export const ChartCardPanel = styled.div`
     }
   }
 
-  .chart__card_title {
-    height: 40px;
-    line-height: 40px;
+  .chart__card__title__penal {
+    display: flex;
+    align-items: center;
     padding-left: 12px;
     background: #f8f9fa;
     border-radius: 6px 6px 0 0;
     border: 1px solid #e2e2e2;
     border-width: 1px 1px 0 1px;
+    height: 40px;
+
+    > img {
+      width: 16px;
+      height: 16px;
+      margin-left: 10px;
+    }
+  }
+
+  .chart__card_title {
+    height: 40px;
+    line-height: 40px;
     color: #000000;
     font-size: 14px;
     font-weight: 600;

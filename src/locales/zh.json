@@ -128,7 +128,21 @@
       "dao_deposit": "Nervos DAO 锁定",
       "liquidity": "流通量",
       "miner_radio": "挖矿占比",
-      "miner_addresses_rank": "最佳矿工 (最近 7 天)"
+      "miner_addresses_rank": "最佳矿工 (最近 7 天)",
+      "download_data": "下载数据",
+      "block_time_distribution_description": "横轴表示区块间隔，纵轴表示对应区块间隔在过去 50,000 个区块中出现的比率。",
+      "epoch_time_distribution_description": "横轴表示 epoch 时长，纵轴表示该时长的 epoch 在过去 500 个 epoch 中过去出现的次数。",
+      "average_block_time_description": "按日和周进行滑动窗口平均统计的平均区块间隔",
+      "uncle_rate_description": "叔块率是孤块出现的比率。NC-Max 共识会通过挖矿难度自动调整叔块率，其调整目标是 2.5%。",
+      "balance_ranking_description": "持币最多的前 50 个地址",
+      "balance_distribution_description": "展示在特定余额区间的地址数量以及低于特定余额的地址总数。",
+      "tx_fee_description": "矿工收取的手续费用",
+      "total_dao_deposit_description": "展示当前 DAO 的存款总额以及存款地址数量",
+      "deposit_to_circulation_ratio_description": "显示 DAO 存款占总流通量比率，其中总流通量等于总供给量减去销毁量和未释放的锁定部分",
+      "total_supply_description": "总发行量为一级发行和二级发行的总和；\n销毁量等于创世块销毁的 25% 加上后续二级发行的销毁部分；\n未解锁的部分是由时间锁管理的部分，他们会按照预定计划逐渐解锁",
+      "nominal_rpc_description": "二级发行全部释放到市场上时的 DAO 名义补偿率，该数值会比实际补偿率偏低。",
+      "secondary_issuance_description": "二级发行会被自动分成三部分，包括补偿、矿工奖励和财政部（目前为销毁）。他们分别与 DAO 存款量、存储占用量和其余部分的 CKB 成正比。",
+      "inflation_rate_description": "名义通胀率：由一二级增发直接造成的增发比例\n名义补偿率：Nervos DAO 提供的反稀释补偿率\n实际通胀率：考虑补偿率下的实际通胀率，逐渐趋向于0"
     },
     "home": {
       "height": "高度",

@@ -7,12 +7,10 @@ import { handleAxis } from '../../../utils/chart'
 import { ChartNotePanel } from '../common/styled'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
-import { shannonToCkb } from '../../../utils/util'
+import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { ChartColors } from '../../../utils/const'
 import { isMainnet } from '../../../utils/chain'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipWidth, tooltipColor } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipWidth, tooltipColor } from '../common'
 
 const gridThumbnail = {
   left: '4%',
@@ -23,7 +21,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '4%',
-  right: '4%',
+  right: '3%',
+  top: '6%',
   bottom: '5%',
   containLabel: true,
 }
@@ -130,26 +129,22 @@ const getOption = (
   }
 }
 
-export const NewDaoDepositChart = ({
-  statisticNewDaoDeposits,
-  isThumbnail = false,
-}: {
-  statisticNewDaoDeposits: State.StatisticNewDaoDeposit[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticNewDaoDeposits || statisticNewDaoDeposits.length === 0) {
-    return <ChartLoading show={statisticNewDaoDeposits === undefined} isThumbnail={isThumbnail} />
+export const NewDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticNewDaoDeposits, statisticNewDaoDepositsFetchEnd } = useAppState()
+  if (!statisticNewDaoDepositsFetchEnd || statisticNewDaoDeposits.length === 0) {
+    return <ChartLoading show={!statisticNewDaoDepositsFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticNewDaoDeposits, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticNewDaoDeposit = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticNewDaoDeposit,
-    payload: {
-      statisticNewDaoDeposits: undefined,
-    },
-  })
+const toCSV = (statisticNewDaoDeposits: State.StatisticNewDaoDeposit[]) => {
+  return statisticNewDaoDeposits
+    ? statisticNewDaoDeposits.map(data => [
+        data.createdAtUnixtimestamp,
+        shannonToCkbDecimal(data.dailyDaoDeposit, 8),
+        data.dailyDaoDepositorsCount,
+      ])
+    : []
 }
 
 export default () => {
@@ -157,13 +152,12 @@ export default () => {
   const { statisticNewDaoDeposits } = useAppState()
 
   useEffect(() => {
-    initStatisticNewDaoDeposit(dispatch)
     getStatisticNewDaoDeposit(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.new_dao_deposit_depositor')}>
-      <NewDaoDepositChart statisticNewDaoDeposits={statisticNewDaoDeposits} />
+    <ChartPage title={i18n.t('statistic.new_dao_deposit_depositor')} data={toCSV(statisticNewDaoDeposits)}>
+      <NewDaoDepositChart />
       {isMainnet() && <ChartNotePanel>{`${i18n.t('common.note')}1MB = 1,000,000 CKBytes`}</ChartNotePanel>}
     </ChartPage>
   )

@@ -7,9 +7,7 @@ import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { shannonToCkb } from '../../../utils/util'
 
 const gridThumbnail = {
@@ -21,7 +19,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '4%',
-  right: '4%',
+  right: '3%',
+  top: isMobile() ? '3%' : '8%',
   bottom: '5%',
   containLabel: true,
 }
@@ -90,26 +89,18 @@ const getOption = (
   }
 }
 
-export const OccupiedCapacityChart = ({
-  statisticOccupiedCapacities,
-  isThumbnail = false,
-}: {
-  statisticOccupiedCapacities: State.StatisticOccupiedCapacity[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticOccupiedCapacities || statisticOccupiedCapacities.length === 0) {
-    return <ChartLoading show={statisticOccupiedCapacities === undefined} isThumbnail={isThumbnail} />
+export const OccupiedCapacityChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticOccupiedCapacities, statisticOccupiedCapacitiesFetchEnd } = useAppState()
+  if (!statisticOccupiedCapacitiesFetchEnd || statisticOccupiedCapacities.length === 0) {
+    return <ChartLoading show={!statisticOccupiedCapacitiesFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticOccupiedCapacities, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticOccupiedCapacity = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticOccupiedCapacity,
-    payload: {
-      statisticOccupiedCapacities: undefined,
-    },
-  })
+const toCSV = (statisticOccupiedCapacities: State.StatisticOccupiedCapacity[]) => {
+  return statisticOccupiedCapacities
+    ? statisticOccupiedCapacities.map(data => [data.createdAtUnixtimestamp, data.occupiedCapacity])
+    : []
 }
 
 export default () => {
@@ -117,13 +108,12 @@ export default () => {
   const { statisticOccupiedCapacities } = useAppState()
 
   useEffect(() => {
-    initStatisticOccupiedCapacity(dispatch)
     getStatisticOccupiedCapacity(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.occupied_capacity')}>
-      <OccupiedCapacityChart statisticOccupiedCapacities={statisticOccupiedCapacities} />
+    <ChartPage title={i18n.t('statistic.occupied_capacity')} data={toCSV(statisticOccupiedCapacities)}>
+      <OccupiedCapacityChart />
     </ChartPage>
   )
 }
