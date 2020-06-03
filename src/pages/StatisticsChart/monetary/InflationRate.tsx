@@ -138,9 +138,9 @@ const toCSV = (statisticInflationRates: State.StatisticInflationRate[]) => {
   return statisticInflationRates
     ? statisticInflationRates.map(data => [
         data.year,
-        data.nominalApc,
-        data.nominalInflationRate,
-        data.realInflationRate,
+        Number(data.nominalApc).toFixed(4),
+        Number(data.nominalInflationRate).toFixed(4),
+        Number(data.realInflationRate).toFixed(4),
       ])
     : []
 }
