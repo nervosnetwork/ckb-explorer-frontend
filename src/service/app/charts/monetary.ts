@@ -55,6 +55,12 @@ export const getStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) 
         statisticAnnualPercentageCompensations: data,
       },
     })
+    dispatch({
+      type: PageActions.UpdateStatisticAnnualPercentageCompensationFetchEnd,
+      payload: {
+        statisticAnnualPercentageCompensationsFetchEnd: true,
+      },
+    })
     return
   }
   fetchStatisticAnnualPercentageCompensation()
@@ -139,6 +145,12 @@ export const getStatisticInflationRate = (dispatch: AppDispatch) => {
       type: PageActions.UpdateStatisticInflationRate,
       payload: {
         statisticInflationRates: data,
+      },
+    })
+    dispatch({
+      type: PageActions.UpdateStatisticInflationRateFetchEnd,
+      payload: {
+        statisticInflationRatesFetchEnd: true,
       },
     })
     return
