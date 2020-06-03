@@ -17,6 +17,7 @@ import {
   getStatisticHashRate,
   getStatisticUncleRate,
   getStatisticMinerAddressDistribution,
+  getStatisticMinerMoreAddressDistribution,
 } from '../../service/app/charts/mining'
 import {
   getStatisticTotalDaoDeposit,
@@ -64,6 +65,7 @@ import { LiquidityChart } from './monetary/Liquidity'
 import { MinerAddressDistributionChart } from './mining/MinerAddressDistribution'
 import { Tooltip } from 'antd'
 import { isMobile } from '../../utils/screen'
+import { MinerMoreAddressDistributionChart } from './mining/MinerMoreAddressDistribution'
 
 interface ChartData {
   title: string
@@ -161,6 +163,11 @@ const Charts: ChartCategory[] = [
         title: `${i18n.t('statistic.miner_addresses_rank')}`,
         chart: <MinerAddressDistributionChart isThumbnail />,
         path: '/charts/miner-address-distribution',
+      },
+      {
+        title: `${i18n.t('statistic.miner_more_addresses_rank')}`,
+        chart: <MinerMoreAddressDistributionChart isThumbnail />,
+        path: '/charts/miner-more-address-distribution',
       },
     ],
   },
@@ -270,6 +277,7 @@ export default () => {
     getStatisticHashRate(dispatch)
     getStatisticUncleRate(dispatch)
     getStatisticMinerAddressDistribution(dispatch)
+    getStatisticMinerMoreAddressDistribution(dispatch)
     getStatisticAddressCount(dispatch)
     getStatisticCellCount(dispatch)
     getStatisticTransactionCount(dispatch)

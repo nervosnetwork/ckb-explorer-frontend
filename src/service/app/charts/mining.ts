@@ -6,6 +6,7 @@ import {
   fetchStatisticHashRate,
   fetchStatisticUncleRate,
   fetchStatisticMinerAddressDistribution,
+  fetchStatisticMinerMoreAddressDistribution,
 } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
@@ -215,6 +216,44 @@ export const getStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticMinerAddressDistributionFetchEnd,
         payload: {
           statisticMinerAddressesFetchEnd: true,
+        },
+      })
+    })
+}
+
+export const getStatisticMinerMoreAddressDistribution = (dispatch: AppDispatch) => {
+  fetchStatisticMinerMoreAddressDistribution()
+    .then((wrapper: Response.Wrapper<State.StatisticMinerAddressDistribution> | null) => {
+      if (!wrapper) return
+      let statisticMinerMoreAddresses: State.StatisticMinerAddress[] = []
+      let blockSum = 0
+      for (let value of Object.entries(wrapper.attributes.minerAddressDistribution)) {
+        blockSum += Number(value[1])
+      }
+      for (let value of Object.entries(wrapper.attributes.minerAddressDistribution)) {
+        statisticMinerMoreAddresses.push({
+          address: value[0],
+          radio: (Number(value[1]) / blockSum).toFixed(3),
+        })
+      }
+      dispatch({
+        type: PageActions.UpdateStatisticMinerMoreAddressDistribution,
+        payload: {
+          statisticMinerMoreAddresses,
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateStatisticMinerMoreAddressDistributionFetchEnd,
+        payload: {
+          statisticMinerMoreAddressesFetchEnd: true,
+        },
+      })
+    })
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticMinerMoreAddressDistributionFetchEnd,
+        payload: {
+          statisticMinerMoreAddressesFetchEnd: true,
         },
       })
     })

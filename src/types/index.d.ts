@@ -516,6 +516,8 @@ declare namespace State {
     statisticLiquidityFetchEnd: boolean
     statisticMinerAddresses: StatisticMinerAddress[]
     statisticMinerAddressesFetchEnd: boolean
+    statisticMinerMoreAddresses: StatisticMinerAddress[]
+    statisticMinerMoreAddressesFetchEnd: boolean
   }
 
   export interface PageState extends StatisticChartsState {

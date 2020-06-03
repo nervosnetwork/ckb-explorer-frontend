@@ -53,6 +53,8 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticLiquidityFetchEnd: false,
   statisticMinerAddresses: [],
   statisticMinerAddressesFetchEnd: false,
+  statisticMinerMoreAddresses: [],
+  statisticMinerMoreAddressesFetchEnd: false,
 }
 
 export default initStatisticChartsState

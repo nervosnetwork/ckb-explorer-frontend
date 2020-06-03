@@ -424,6 +424,16 @@ export const pageReducer = (
         ...state,
         statisticMinerAddressesFetchEnd: payload.statisticMinerAddressesFetchEnd,
       }
+    case PageActions.UpdateStatisticMinerMoreAddressDistribution:
+      return {
+        ...state,
+        statisticMinerMoreAddresses: payload.statisticMinerMoreAddresses,
+      }
+    case PageActions.UpdateStatisticMinerMoreAddressDistributionFetchEnd:
+      return {
+        ...state,
+        statisticMinerMoreAddressesFetchEnd: payload.statisticMinerMoreAddressesFetchEnd,
+      }
 
     // nervos dao page
     case PageActions.UpdateNervosDao:

@@ -91,6 +91,8 @@ export enum PageActions {
   UpdateStatisticLiquidityFetchEnd = 'updateStatisticLiquidityFetchEnd',
   UpdateStatisticMinerAddressDistribution = 'updateStatisticMinerAddressDistribution',
   UpdateStatisticMinerAddressDistributionFetchEnd = 'updateStatisticMinerAddressDistributionFetchEnd',
+  UpdateStatisticMinerMoreAddressDistribution = 'updateStatisticMinerMoreAddressDistribution',
+  UpdateStatisticMinerMoreAddressDistributionFetchEnd = 'updateStatisticMinerMoreAddressDistributionFetchEnd',
 
   UpdateNervosDao = 'updateNervosDao',
   UpdateNervosDaoTransactions = 'updateNervosDaoTransactions',

@@ -366,6 +366,40 @@ exports[`Active Page shallow renders with empty data 1`] = `
             </div>
           </a>
         </div>
+        <div
+          className="sc-fzoyTs dSCrJV"
+        >
+          <a
+            href="/charts/miner-more-address-distribution"
+            onClick={[Function]}
+          >
+            <div
+              className="chart__card__title__penal"
+            >
+              <div
+                className="chart__card_title"
+              >
+                Top Miners (Recent 90 days)
+              </div>
+            </div>
+            <div
+              className="chart__card_body"
+            >
+              <div
+                className="sc-fzoXzr jgXlrB"
+              >
+                <div
+                  className="sc-fznWqX LuTJj"
+                >
+                  <img
+                    alt="loading"
+                    src="loading.gif"
+                  />
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
     <div
