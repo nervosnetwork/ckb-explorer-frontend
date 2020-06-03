@@ -16,7 +16,7 @@ const gridThumbnail = {
 }
 const grid = {
   left: '3%',
-  right: '5%',
+  right: '3%',
   bottom: '5%',
   containLabel: true,
 }

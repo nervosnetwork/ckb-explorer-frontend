@@ -54,7 +54,7 @@ export const ChartDetailTitle = styled.div`
     font-size: 12px;
     text-align: center;
     color: #666666;
-    margin-right: 3.75%;
+    margin-right: 3.6%;
 
     @media (max-width: 750px) {
       display: none;
