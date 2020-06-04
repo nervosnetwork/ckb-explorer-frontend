@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 
 export const TokensPanel = styled.div`
   margin-top: 40px;
@@ -15,6 +14,10 @@ export const TokensPanel = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+
+    @media (max-width: 750px) {
+      margin-bottom: 10px;
+    }
 
     > span {
       color: #000000;
@@ -43,21 +46,21 @@ export const TokensTableTitle = styled.div`
   color: #000000;
 
   >span: nth-child(1) {
-    flex: 4;
+    flex: 4.6;
   }
 
   >span: nth-child(2) {
-    flex: 2;
+    flex: 1.8;
     text-align: right;
   }
 
   >span: nth-child(3) {
-    flex: 2;
+    flex: 1.8;
     text-align: right;
   }
 
   >span: nth-child(4) {
-    flex: 2;
+    flex: 1.8;
     text-align: right;
   }
 `
@@ -69,78 +72,82 @@ export const TokensTableContent = styled.div`
   margin-top: 4px;
 `
 
-export const TokensTableItem = styled(Link)`
+export const TokensTableItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   background: white;
   padding: 0 15px;
 
-  &:hover {
-    background: #fafafa;
-  }
-
   .tokens__item__content {
     display: flex;
     align-items: center;
     width: 100%;
     padding: 15px 25px;
+
+    @media (max-width: 750px) {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px 20px;
+    }
   }
 
   .tokens__item__name__panel {
     display: flex;
-    flex: 4;
+    flex: 4.6;
     align-items: center;
 
     > img {
       width: 30px;
       height: 30px;
+
+      @media (max-width: 750px) {
+        width: 20px;
+        height: 20px;
+      }
     }
 
     > div {
       margin-left: 10px;
 
-      .tokens__item__name {
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        letter-spacing: 0.23px;
-        color: ${props => props.theme.primary};
-
-        > img {
-          width: 16px;
-          height: 16px;
-          margin-left: 5px;
-        }
-      }
-
       .tokens__item__description {
         font-size: 12px;
         letter-spacing: 0.17px;
+        line-height: normal;
         color: #666666;
-        margin-top: 5px;
+        margin-top: 2px;
       }
     }
   }
 
   .tokens__item__transactions {
-    flex: 2;
+    flex: 1.8;
     text-align: center;
     font-size: 14px;
     text-align: right;
     color: #000000;
+
+    @media (max-width: 750px) {
+      margin-left: 30px;
+      margin-top: 3px;
+    }
   }
 
   .tokens__item__address__count {
-    flex: 2;
+    flex: 1.8;
     text-align: center;
     font-size: 14px;
     text-align: right;
     color: #000000;
+
+    @media (max-width: 750px) {
+      margin-left: 30px;
+      margin-top: 3px;
+    }
   }
 
   .tokens__item__created__time {
-    flex: 2;
+    flex: 1.8;
     text-align: center;
     font-size: 12px;
     text-align: right;
@@ -154,19 +161,68 @@ export const TokensTableItem = styled(Link)`
   }
 `
 
+export const TokensItemNamePanel = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  letter-spacing: 0.23px;
+
+  a {
+    color: ${props => props.theme.primary};
+
+    &:hover {
+      color: ${props => props.theme.primary};
+    }
+  }
+
+  > span {
+    color: #000000;
+  }
+
+  > img {
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+  }
+`
+
 export const TokensContentEmpty = styled.div`
-  height: 66px;
+  height: 100px;
+  line-height: 100px;
   width: 100%;
   border-radius: 0 0 6px 6px;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
   background-color: #ffffff;
-  line-height: 66px;
   text-align: center;
+  font-size: 16px;
+  margin-top: 4px;
+
+  @media (max-width: 750px) {
+    font-size: 14px;
+  }
 `
 
 export const TokensLoadingPanel = styled.div`
-  height: 100px;
   width: 100%;
-  line-height: 100px;
   text-align: center;
+
+  @media (max-width: 750px) {
+    height: 100px;
+    line-height: 100px;
+    width: 100%;
+    text-align: center;
+    margin-top: 4px;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+  }
+`
+
+export const TokensTitlePanel = styled.div`
+  display: flex;
+
+  >span: nth-child(1) {
+    width: 125px;
+    text-align: left;
+  }
 `

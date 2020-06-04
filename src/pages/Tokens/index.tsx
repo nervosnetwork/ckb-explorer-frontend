@@ -7,6 +7,8 @@ import {
   TokensTableItem,
   TokensContentEmpty,
   TokensLoadingPanel,
+  TokensTitlePanel,
+  TokensItemNamePanel,
 } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
 import { SUDT_EMAIL_SUBJECT, SUDT_EMAIL_BODY } from '../../utils/const'
@@ -18,30 +20,58 @@ import SUDTTokenIcon from '../../assets/sudt_token.png'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
 import { Tooltip } from 'antd'
+import { isMobile } from '../../utils/screen'
+import { Link } from 'react-router-dom'
+import SmallLoading from '../../components/Loading/SmallLoading'
 
 const TokenItem = ({ token }: { token: State.TokenInfo }) => {
   const name = token.fullName ? token.fullName : i18n.t('udt.unknown_token')
   const symbol = token.symbol ? token.symbol : `#${token.typeHash.substring(token.typeHash.length - 4)}`
+  const transactions = isMobile() ? (
+    <TokensTitlePanel>
+      <span>{`${i18n.t('udt.transactions')}:`}</span>
+      <span>{localeNumberString(token.h24CkbTransactionsCount)}</span>
+    </TokensTitlePanel>
+  ) : (
+    localeNumberString(token.h24CkbTransactionsCount)
+  )
+  const addressCount = isMobile() ? (
+    <TokensTitlePanel>
+      <span>{`${i18n.t('udt.address_count')}:`}</span>
+      <span>{localeNumberString(token.addressesCount)}</span>
+    </TokensTitlePanel>
+  ) : (
+    localeNumberString(token.addressesCount)
+  )
+
   return (
-    <TokensTableItem to={`/sudt/${token.typeHash}`}>
+    <TokensTableItem>
       <div className="tokens__item__content">
         <div className="tokens__item__name__panel">
           <img src={token.iconFile ? token.iconFile : SUDTTokenIcon} alt="token icon" />
           <div>
-            <div className="tokens__item__name">
-              <span>{`${name} (${symbol})`}</span>
+            <TokensItemNamePanel>
+              {token.fullName ? (
+                <Link to={`/sudt/${token.typeHash}`}>{`${name} (${symbol})`}</Link>
+              ) : (
+                <span>{`${name} (${symbol})`}</span>
+              )}
               {!token.fullName && (
                 <Tooltip placement="bottom" title={i18n.t('udt.unknown_token_description')}>
                   <img src={HelpIcon} alt="token icon" />
                 </Tooltip>
               )}
-            </div>
-            {token.description && <div className="tokens__item__description">{token.description}</div>}
+            </TokensItemNamePanel>
+            {token.description && !isMobile() && <div className="tokens__item__description">{token.description}</div>}
           </div>
         </div>
-        <div className="tokens__item__transactions">{localeNumberString(token.h24CkbTransactionsCount)}</div>
-        <div className="tokens__item__address__count">{localeNumberString(token.addressesCount)}</div>
-        <div className="tokens__item__created__time">{parseDateNoTime(Number(token.createdAt) / 1000, false, '-')}</div>
+        <div className="tokens__item__transactions">{transactions}</div>
+        <div className="tokens__item__address__count">{addressCount}</div>
+        {!isMobile() && (
+          <div className="tokens__item__created__time">
+            {parseDateNoTime(Number(token.createdAt) / 1000, false, '-')}
+          </div>
+        )}
       </div>
       <div className="tokens__item__separate" />
     </TokensTableItem>
@@ -66,11 +96,7 @@ const TokensTableState = () => {
     case 'InProgress':
     case 'None':
     default:
-      return (
-        <TokensLoadingPanel>
-          <Loading show />
-        </TokensLoadingPanel>
-      )
+      return <TokensLoadingPanel>{isMobile() ? <SmallLoading /> : <Loading show />}</TokensLoadingPanel>
   }
 }
 
@@ -94,12 +120,14 @@ export default () => {
             {i18n.t('udt.submit_token_info')}
           </a>
         </div>
-        <TokensTableTitle>
-          <span>{i18n.t('udt.name_symbol')}</span>
-          <span>{i18n.t('udt.transactions')}</span>
-          <span>{i18n.t('udt.address_count')}</span>
-          <span>{i18n.t('udt.created_time')}</span>
-        </TokensTableTitle>
+        {!isMobile() && (
+          <TokensTableTitle>
+            <span>{i18n.t('udt.name_symbol')}</span>
+            <span>{i18n.t('udt.transactions')}</span>
+            <span>{i18n.t('udt.address_count')}</span>
+            <span>{i18n.t('udt.created_time')}</span>
+          </TokensTableTitle>
+        )}
         <TokensTableState />
       </TokensPanel>
     </Content>
