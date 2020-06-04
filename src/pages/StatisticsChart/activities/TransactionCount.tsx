@@ -7,9 +7,7 @@ import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 
 const gridThumbnail = {
   left: '4%',
@@ -19,37 +17,40 @@ const gridThumbnail = {
   containLabel: true,
 }
 const grid = {
-  left: '4%',
-  right: '4%',
+  left: '3%',
+  right: '3%',
+  top: isMobile() ? '3%' : '8%',
   bottom: '5%',
   containLabel: true,
 }
 
-const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[], isThumbnail = false) => {
+const getOption = (
+  statisticTransactionCounts: State.StatisticTransactionCount[],
+  isThumbnail = false,
+): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const colorSpan = (color: string) =>
-          `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
-        const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '120px' : '65px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-          dataList[0].name,
-        )}</div>`
-        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.transaction_count'))} ${handleAxis(
-          dataList[0].data,
-        )}</div>`
-        return result
-      },
-    },
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 120 : 65)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+              dataList[0].name,
+            )}</div>`
+            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+              i18n.t('statistic.transaction_count'),
+            )} ${handleAxis(dataList[0].data)}</div>`
+            return result
+          },
+        }
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticTransactionCounts.map(data => data.createdAtUnixtimestamp),
@@ -78,7 +79,7 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
       {
         name: i18n.t('statistic.transaction_count'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticTransactionCounts.map(data => new BigNumber(data.transactionsCount).toNumber()),
@@ -87,26 +88,18 @@ const getOption = (statisticTransactionCounts: State.StatisticTransactionCount[]
   }
 }
 
-export const TransactionCountChart = ({
-  statisticTransactionCounts,
-  isThumbnail = false,
-}: {
-  statisticTransactionCounts: State.StatisticTransactionCount[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticTransactionCounts || statisticTransactionCounts.length === 0) {
-    return <ChartLoading show={statisticTransactionCounts === undefined} isThumbnail={isThumbnail} />
+export const TransactionCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticTransactionCounts, statisticTransactionCountsFetchEnd } = useAppState()
+  if (!statisticTransactionCountsFetchEnd || statisticTransactionCounts.length === 0) {
+    return <ChartLoading show={!statisticTransactionCountsFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticTransactionCounts, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticTransactionCount = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticTransactionCount,
-    payload: {
-      statisticTransactionCounts: undefined,
-    },
-  })
+const toCSV = (statisticTransactionCounts: State.StatisticTransactionCount[]) => {
+  return statisticTransactionCounts
+    ? statisticTransactionCounts.map(data => [data.createdAtUnixtimestamp, data.transactionsCount])
+    : []
 }
 
 export default () => {
@@ -114,13 +107,12 @@ export default () => {
   const { statisticTransactionCounts } = useAppState()
 
   useEffect(() => {
-    initStatisticTransactionCount(dispatch)
     getStatisticTransactionCount(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.transaction_count')}>
-      <TransactionCountChart statisticTransactionCounts={statisticTransactionCounts} />
+    <ChartPage title={i18n.t('statistic.transaction_count')} data={toCSV(statisticTransactionCounts)}>
+      <TransactionCountChart />
     </ChartPage>
   )
 }

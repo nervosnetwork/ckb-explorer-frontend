@@ -4,9 +4,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime, parseSimpleDateNoSecond } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ReactChartCore, ChartLoading, ChartPage } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticAverageBlockTimes } from '../../../service/app/charts/block'
 import { localeNumberString } from '../../../utils/number'
 
@@ -19,7 +17,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '2%',
-  right: '2%',
+  right: '3%',
+  top: '8%',
   bottom: '5%',
   containLabel: true,
 }
@@ -29,43 +28,48 @@ const maxAndMinAxis = (statisticAverageBlockTimes: State.StatisticAverageBlockTi
   return { max: Math.ceil(Math.max(...array) / 1000), min: Math.floor(Math.min(...array) / 1000) }
 }
 
-const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[], isThumbnail = false) => {
+const getOption = (
+  statisticAverageBlockTimes: State.StatisticAverageBlockTime[],
+  isThumbnail = false,
+): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const colorSpan = (color: string) =>
-          `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
-        const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '180px' : '100px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseSimpleDateNoSecond(
-          dataList[0].name,
-          '/',
-          false,
-        )}</div>`
-        if (dataList[0]) {
-          result += `<div>${colorSpan(ChartColors[0])}${widthSpan(
-            i18n.t('statistic.daily_moving_average'),
-          )} ${localeNumberString(dataList[0].data)}</div>`
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 180 : 100)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(
+              i18n.t('statistic.date'),
+            )} ${parseSimpleDateNoSecond(dataList[0].name, '/', false)}</div>`
+            if (dataList[0]) {
+              result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+                i18n.t('statistic.daily_moving_average'),
+              )} ${localeNumberString(dataList[0].data)}</div>`
+            }
+            if (dataList[1]) {
+              result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(
+                i18n.t('statistic.weekly_moving_average'),
+              )} ${localeNumberString(dataList[1].data)}</div>`
+            }
+            return result
+          },
         }
-        if (dataList[1]) {
-          result += `<div>${colorSpan(ChartColors[1])}${widthSpan(
-            i18n.t('statistic.weekly_moving_average'),
-          )} ${localeNumberString(dataList[1].data)}</div>`
+      : undefined,
+    legend: !isThumbnail
+      ? {
+          data: [
+            { name: i18n.t('statistic.daily_moving_average') },
+            { name: i18n.t('statistic.weekly_moving_average') },
+          ],
         }
-        return result
-      },
-    },
-    legend: !isThumbnail && {
-      data: [i18n.t('statistic.daily_moving_average'), i18n.t('statistic.weekly_moving_average')],
-    },
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticAverageBlockTimes.map(data => data.timestamp),
@@ -118,7 +122,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
       {
         name: i18n.t('statistic.daily_moving_average'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticAverageBlockTimes.map(data => (Number(data.avgBlockTimeDaily) / 1000).toFixed(2)),
@@ -126,7 +130,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
       {
         name: i18n.t('statistic.weekly_moving_average'),
         type: 'line',
-        yAxisIndex: '1',
+        yAxisIndex: 1,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticAverageBlockTimes.map(data => (Number(data.avgBlockTimeWeekly) / 1000).toFixed(2)),
@@ -135,26 +139,18 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
   }
 }
 
-export const initStatisticAverageBlockTimes = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticAverageBlockTime,
-    payload: {
-      statisticAverageBlockTimes: undefined,
-    },
-  })
-}
-
-export const AverageBlockTimeChart = ({
-  statisticAverageBlockTimes,
-  isThumbnail = false,
-}: {
-  statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticAverageBlockTimes || statisticAverageBlockTimes.length === 0) {
-    return <ChartLoading show={statisticAverageBlockTimes === undefined} isThumbnail={isThumbnail} />
+export const AverageBlockTimeChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticAverageBlockTimes, statisticAverageBlockTimesFetchEnd } = useAppState()
+  if (!statisticAverageBlockTimesFetchEnd || statisticAverageBlockTimes.length === 0) {
+    return <ChartLoading show={!statisticAverageBlockTimesFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticAverageBlockTimes, isThumbnail)} isThumbnail={isThumbnail} />
+}
+
+const toCSV = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) => {
+  return statisticAverageBlockTimes
+    ? statisticAverageBlockTimes.map(data => [data.timestamp, data.avgBlockTimeDaily, data.avgBlockTimeWeekly])
+    : []
 }
 
 export default () => {
@@ -162,13 +158,16 @@ export default () => {
   const { statisticAverageBlockTimes } = useAppState()
 
   useEffect(() => {
-    initStatisticAverageBlockTimes(dispatch)
     getStatisticAverageBlockTimes(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.average_block_time')}>
-      <AverageBlockTimeChart statisticAverageBlockTimes={statisticAverageBlockTimes} />
+    <ChartPage
+      title={i18n.t('statistic.average_block_time')}
+      description={i18n.t('statistic.average_block_time_description')}
+      data={toCSV(statisticAverageBlockTimes)}
+    >
+      <AverageBlockTimeChart />
     </ChartPage>
   )
 }

@@ -3,9 +3,7 @@ import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticBlockTimeDistribution } from '../../../service/app/charts/block'
 
 const gridThumbnail = {
@@ -17,38 +15,41 @@ const gridThumbnail = {
 }
 const grid = {
   left: '5%',
-  right: '4%',
+  right: '3%',
+  top: isMobile() ? '3%' : '8%',
   bottom: '5%',
   containLabel: true,
 }
 
-const getOption = (statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[], isThumbnail = false) => {
+const getOption = (
+  statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[],
+  isThumbnail = false,
+): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const colorSpan = (color: string) =>
-          `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
-        const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '80px' : '80px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.time'))} ${dataList[0].name}</div>`
-        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.block_count'))} ${
-          dataList[0].data
-        }%</div>`
-        return result
-      },
-    },
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 80 : 80)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.time'))} ${
+              dataList[0].name
+            }</div>`
+            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.block_count'))} ${
+              dataList[0].data
+            }%</div>`
+            return result
+          },
+        }
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.time'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         data: statisticBlockTimeDistributions.map(data => data.time),
         axisLabel: {
-          min: 0,
-          max: 50,
           interval: 49,
           formatter: (value: string) => Number(value).toFixed(0),
         },
@@ -74,37 +75,29 @@ const getOption = (statisticBlockTimeDistributions: State.StatisticBlockTimeDist
       {
         name: i18n.t('statistic.block_count'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         areaStyle: {
           color: '#85bae0',
         },
         barWidth: isMobile() || isThumbnail ? 10 : 20,
-        data: statisticBlockTimeDistributions.map(data => data.ratio),
+        data: statisticBlockTimeDistributions.map(data => (Number(data.ratio) * 100).toFixed(3)),
       },
     ],
   }
 }
 
-export const BlockTimeDistributionChart = ({
-  statisticBlockTimeDistributions,
-  isThumbnail = false,
-}: {
-  statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticBlockTimeDistributions || statisticBlockTimeDistributions.length === 0) {
-    return <ChartLoading show={statisticBlockTimeDistributions === undefined} isThumbnail={isThumbnail} />
+export const BlockTimeDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticBlockTimeDistributions, statisticBlockTimeDistributionsFetchEnd } = useAppState()
+  if (!statisticBlockTimeDistributionsFetchEnd || statisticBlockTimeDistributions.length === 0) {
+    return <ChartLoading show={!statisticBlockTimeDistributionsFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticBlockTimeDistributions, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticBlockTimeDistribution,
-    payload: {
-      statisticBlockTimeDistributions: undefined,
-    },
-  })
+const toCSV = (statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[]) => {
+  return statisticBlockTimeDistributions
+    ? statisticBlockTimeDistributions.map(data => [data.time, Number(data.ratio).toFixed(4)])
+    : []
 }
 
 export default () => {
@@ -112,13 +105,16 @@ export default () => {
   const { statisticBlockTimeDistributions } = useAppState()
 
   useEffect(() => {
-    initStatisticBlockTimeDistribution(dispatch)
     getStatisticBlockTimeDistribution(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.block_time_distribution_more')}>
-      <BlockTimeDistributionChart statisticBlockTimeDistributions={statisticBlockTimeDistributions} />
+    <ChartPage
+      title={i18n.t('statistic.block_time_distribution_more')}
+      description={i18n.t('statistic.block_time_distribution_description')}
+      data={toCSV(statisticBlockTimeDistributions)}
+    >
+      <BlockTimeDistributionChart />
     </ChartPage>
   )
 }

@@ -42,6 +42,8 @@ export const SearchFailType = {
 
 export const CachedKeys = {
   AppLanguage: `${CONFIG.CHAIN_TYPE}-AppLanguage`,
+  APC: `${CONFIG.CHAIN_TYPE}-APC`,
+  InflationRate: `${CONFIG.CHAIN_TYPE}-InflationRate`,
 }
 
 export enum CellState {
@@ -85,7 +87,7 @@ export const ChartColors = ['#3182bd', '#66CC99']
 
 export interface ContractHashTag {
   codeHash: string
-  txHashes: string[] //  mainnet and aggron contract tx hash
+  txHashes: string[] //  mainnet and testnet contract tx hash
   tag: string
   category: 'lock' | 'type'
 }

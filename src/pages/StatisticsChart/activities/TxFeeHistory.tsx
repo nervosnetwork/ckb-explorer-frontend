@@ -7,9 +7,7 @@ import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { shannonToCkbDecimal } from '../../../utils/util'
 import { isMainnet } from '../../../utils/chain'
 
@@ -22,36 +20,39 @@ const gridThumbnail = {
 }
 const grid = {
   left: '6%',
-  right: '4%',
+  right: '3%',
+  top: isMobile() ? '3%' : '8%',
   bottom: '5%',
   containLabel: true,
 }
 
-const getOption = (statisticTxFeeHistories: State.StatisticTransactionFee[], isThumbnail = false) => {
+const getOption = (
+  statisticTxFeeHistories: State.StatisticTransactionFee[],
+  isThumbnail = false,
+): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const colorSpan = (color: string) =>
-          `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
-        const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '145px' : '90px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-          dataList[0].name,
-        )}</div>`
-        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.tx_fee'))} ${handleAxis(
-          dataList[0].data,
-        )}</div>`
-        return result
-      },
-    },
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 145 : 90)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+              dataList[0].name,
+            )}</div>`
+            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.tx_fee'))} ${handleAxis(
+              dataList[0].data,
+            )}</div>`
+            return result
+          },
+        }
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticTxFeeHistories.map(data => data.createdAtUnixtimestamp),
@@ -81,7 +82,7 @@ const getOption = (statisticTxFeeHistories: State.StatisticTransactionFee[], isT
       {
         name: i18n.t('statistic.tx_fee'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticTxFeeHistories.map(data => shannonToCkbDecimal(data.totalTxFee, 4)),
@@ -90,26 +91,18 @@ const getOption = (statisticTxFeeHistories: State.StatisticTransactionFee[], isT
   }
 }
 
-export const TxFeeHistoryChart = ({
-  statisticTxFeeHistories,
-  isThumbnail = false,
-}: {
-  statisticTxFeeHistories: State.StatisticTransactionFee[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticTxFeeHistories || statisticTxFeeHistories.length === 0) {
-    return <ChartLoading show={statisticTxFeeHistories === undefined} isThumbnail={isThumbnail} />
+export const TxFeeHistoryChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticTxFeeHistories, statisticTxFeeHistoriesFetchEnd } = useAppState()
+  if (!statisticTxFeeHistoriesFetchEnd || statisticTxFeeHistories.length === 0) {
+    return <ChartLoading show={!statisticTxFeeHistoriesFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticTxFeeHistories, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticTxFeeHistory = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticTxFeeHistory,
-    payload: {
-      statisticTxFeeHistories: undefined,
-    },
-  })
+const toCSV = (statisticTxFeeHistories: State.StatisticTransactionFee[]) => {
+  return statisticTxFeeHistories
+    ? statisticTxFeeHistories.map(data => [data.createdAtUnixtimestamp, shannonToCkbDecimal(data.totalTxFee, 8)])
+    : []
 }
 
 export default () => {
@@ -117,13 +110,16 @@ export default () => {
   const { statisticTxFeeHistories } = useAppState()
 
   useEffect(() => {
-    initStatisticTxFeeHistory(dispatch)
     getStatisticTxFeeHistory(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.tx_fee_history')}>
-      <TxFeeHistoryChart statisticTxFeeHistories={statisticTxFeeHistories} />
+    <ChartPage
+      title={i18n.t('statistic.tx_fee_history')}
+      description={i18n.t('statistic.tx_fee_description')}
+      data={toCSV(statisticTxFeeHistories)}
+    >
+      <TxFeeHistoryChart />
     </ChartPage>
   )
 }
