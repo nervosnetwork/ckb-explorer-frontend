@@ -11,7 +11,7 @@ import {
   TokensItemNamePanel,
 } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
-import { SUDT_EMAIL_SUBJECT, SUDT_EMAIL_BODY } from '../../utils/const'
+import { TOKEN_EMAIL_SUBJECT, TOKEN_EMAIL_BODY } from '../../utils/const'
 import { parseDateNoTime } from '../../utils/date'
 import { localeNumberString } from '../../utils/number'
 import { useAppState, useDispatch } from '../../contexts/providers'
@@ -115,7 +115,7 @@ export default () => {
           <a
             rel="noopener noreferrer"
             target="_blank"
-            href={`mailto:asset-info-submit@nervos.org?subject=${SUDT_EMAIL_SUBJECT}&body=${SUDT_EMAIL_BODY}`}
+            href={`mailto:asset-info-submit@nervos.org?subject=${TOKEN_EMAIL_SUBJECT}&body=${TOKEN_EMAIL_BODY}`}
           >
             {i18n.t('udt.submit_token_info')}
           </a>

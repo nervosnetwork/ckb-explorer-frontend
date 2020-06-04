@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Active Page shallow renders with empty data 1`] = `
+<div
+  className="sc-fzqNJr bFijAK"
+>
+  <div
+    className="sc-fzoyAV fLHiDl container"
+  >
+    <div
+      className="tokens__title__panel"
+    >
+      <span>
+        Tokens
+      </span>
+      <a
+        href="mailto:asset-info-submit@nervos.org?subject=Submit Token Info&body=
+Title: Submit Token Information%0a%0d
+Type Script:%0a%0d
+    Code Hash:%0a%0d
+    Hash Type:%0a%0d
+    Args:%0a%0d
+
+Information:%0a%0d
+   Full Name: 32 length max%0a%0d
+   Symbol: 8 length max / ASCII%0a%0d
+   Decimal: 0~32%0a%0d
+   Description:%0a%0d
+   Website:%0a%0d
+   Icon File: attachment (40 x 40)%0a%0d
+   Other Info:%0a%0d
+
+Note: Token currently only supports sUDT.
+"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Submit Token Info
+      </a>
+    </div>
+    <div
+      className="sc-fzoLag hsZjnX"
+    >
+      <span>
+        Name (symbol)
+      </span>
+      <span>
+        24hr Transactions
+      </span>
+      <span>
+        Address Count
+      </span>
+      <span>
+        Created Time
+      </span>
+    </div>
+    <div
+      className="sc-fznWqX hBYbEV"
+    >
+      <div
+        className="sc-fzqARJ mYtBK"
+      >
+        <img
+          alt="loading"
+          src="loading.gif"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
