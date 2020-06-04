@@ -8,9 +8,7 @@ import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { handleHashRate } from '../../../utils/number'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 
 const gridThumbnail = {
   left: '4%',
@@ -21,36 +19,36 @@ const gridThumbnail = {
 }
 const grid = {
   left: '3%',
-  right: '4%',
+  right: '3%',
+  top: '5%',
   bottom: '5%',
   containLabel: true,
 }
 
-const getOption = (statisticHashRates: State.StatisticHashRate[], isThumbnail = false) => {
+const getOption = (statisticHashRates: State.StatisticHashRate[], isThumbnail = false): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const colorSpan = (color: string) =>
-          `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
-        const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '75px' : '50px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-          dataList[0].name,
-        )}</div>`
-        result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
-          dataList[0].data,
-        )}</div>`
-        return result
-      },
-    },
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 75 : 50)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+              dataList[0].name,
+            )}</div>`
+            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
+              dataList[0].data,
+            )}</div>`
+            return result
+          },
+        }
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticHashRates.map(data => data.createdAtUnixtimestamp),
@@ -79,7 +77,7 @@ const getOption = (statisticHashRates: State.StatisticHashRate[], isThumbnail = 
       {
         name: i18n.t('block.hash_rate'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticHashRates.map(data => new BigNumber(data.avgHashRate).toNumber()),
@@ -88,26 +86,16 @@ const getOption = (statisticHashRates: State.StatisticHashRate[], isThumbnail = 
   }
 }
 
-export const HashRateChart = ({
-  statisticHashRates,
-  isThumbnail = false,
-}: {
-  statisticHashRates: State.StatisticHashRate[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticHashRates || statisticHashRates.length === 0) {
-    return <ChartLoading show={statisticHashRates === undefined} isThumbnail={isThumbnail} />
+export const HashRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticHashRates, statisticHashRatesFetchEnd } = useAppState()
+  if (!statisticHashRatesFetchEnd || statisticHashRates.length === 0) {
+    return <ChartLoading show={!statisticHashRatesFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticHashRates, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticHashRate = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticHashRate,
-    payload: {
-      statisticHashRates: undefined,
-    },
-  })
+const toCSV = (statisticHashRates: State.StatisticHashRate[]) => {
+  return statisticHashRates ? statisticHashRates.map(data => [data.createdAtUnixtimestamp, data.avgHashRate]) : []
 }
 
 export default () => {
@@ -115,13 +103,12 @@ export default () => {
   const { statisticHashRates } = useAppState()
 
   useEffect(() => {
-    initStatisticHashRate(dispatch)
     getStatisticHashRate(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('block.hash_rate')}>
-      <HashRateChart statisticHashRates={statisticHashRates} />
+    <ChartPage title={i18n.t('block.hash_rate')} data={toCSV(statisticHashRates)}>
+      <HashRateChart />
     </ChartPage>
   )
 }

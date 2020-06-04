@@ -10,7 +10,7 @@ const getColor = (type: 'success' | 'warning' | 'danger') => {
     case 'warning':
       return '#ffae42'
     case 'danger':
-      return '#ff7070'
+      return '#D03A3A'
     default:
       return '#3cc68a'
   }

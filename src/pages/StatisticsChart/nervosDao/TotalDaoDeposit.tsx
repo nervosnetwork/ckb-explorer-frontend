@@ -7,12 +7,10 @@ import { handleAxis } from '../../../utils/chart'
 import { ChartNotePanel } from '../common/styled'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
-import { shannonToCkb } from '../../../utils/util'
+import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { ChartColors } from '../../../utils/const'
 import { isMainnet } from '../../../utils/chain'
-import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 
 const gridThumbnail = {
   left: '4%',
@@ -23,44 +21,46 @@ const gridThumbnail = {
 }
 const grid = {
   left: '4%',
-  right: '4%',
+  right: '3%',
+  top: '6%',
   bottom: '5%',
   containLabel: true,
 }
 
-const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], isThumbnail = false) => {
+const getOption = (
+  statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[],
+  isThumbnail = false,
+): echarts.EChartOption => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const colorSpan = (color: string) =>
-          `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
-        const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '110px' : '110px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-          dataList[0].name,
-        )}</div>`
-        if (dataList[0].data) {
-          result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('statistic.total_dao_deposit'))} ${handleAxis(
-            dataList[0].data,
-            2,
-          )}</div>`
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 110 : 110)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+              dataList[0].name,
+            )}</div>`
+            if (dataList[0].data) {
+              result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+                i18n.t('statistic.total_dao_deposit'),
+              )} ${handleAxis(dataList[0].data, 2)}</div>`
+            }
+            if (dataList[1].data) {
+              result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(
+                i18n.t('statistic.total_dao_depositor'),
+              )} ${handleAxis(dataList[1].data, 2, true)}</div>`
+            }
+            return result
+          },
         }
-        if (dataList[1].data) {
-          result += `<div>${colorSpan(ChartColors[1])}${widthSpan(
-            i18n.t('statistic.total_dao_depositor'),
-          )} ${handleAxis(dataList[1].data, 2, true)}</div>`
-        }
-        return result
-      },
-    },
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticTotalDaoDeposits.map(data => data.createdAtUnixtimestamp),
@@ -109,7 +109,7 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
       {
         name: i18n.t('statistic.total_dao_deposit'),
         type: 'line',
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticTotalDaoDeposits.map(data => new BigNumber(shannonToCkb(data.totalDaoDeposit)).toFixed(0)),
@@ -117,7 +117,7 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
       {
         name: i18n.t('statistic.total_dao_depositor'),
         type: 'line',
-        yAxisIndex: '1',
+        yAxisIndex: 1,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticTotalDaoDeposits.map(data => new BigNumber(data.totalDepositorsCount).toNumber()),
@@ -126,26 +126,22 @@ const getOption = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[], 
   }
 }
 
-export const TotalDaoDepositChart = ({
-  statisticTotalDaoDeposits,
-  isThumbnail = false,
-}: {
-  statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticTotalDaoDeposits || statisticTotalDaoDeposits.length === 0) {
-    return <ChartLoading show={statisticTotalDaoDeposits === undefined} isThumbnail={isThumbnail} />
+export const TotalDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticTotalDaoDeposits, statisticTotalDaoDepositsFetchEnd } = useAppState()
+  if (!statisticTotalDaoDepositsFetchEnd || statisticTotalDaoDeposits.length === 0) {
+    return <ChartLoading show={!statisticTotalDaoDepositsFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticTotalDaoDeposits, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticTotalDaoDeposit,
-    payload: {
-      statisticTotalDaoDeposits: undefined,
-    },
-  })
+const toCSV = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]) => {
+  return statisticTotalDaoDeposits
+    ? statisticTotalDaoDeposits.map(data => [
+        data.createdAtUnixtimestamp,
+        shannonToCkbDecimal(data.totalDaoDeposit, 8),
+        data.totalDepositorsCount,
+      ])
+    : []
 }
 
 export default () => {
@@ -153,13 +149,16 @@ export default () => {
   const { statisticTotalDaoDeposits } = useAppState()
 
   useEffect(() => {
-    initStatisticTotalDaoDeposit(dispatch)
     getStatisticTotalDaoDeposit(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.total_dao_deposit_depositor')}>
-      <TotalDaoDepositChart statisticTotalDaoDeposits={statisticTotalDaoDeposits} />
+    <ChartPage
+      title={i18n.t('statistic.total_dao_deposit_depositor')}
+      description={i18n.t('statistic.total_dao_deposit_description')}
+      data={toCSV(statisticTotalDaoDeposits)}
+    >
+      <TotalDaoDepositChart />
       {isMainnet() && <ChartNotePanel>{`${i18n.t('common.note')}1GB = 1,000,000,000 CKBytes`}</ChartNotePanel>}
     </ChartPage>
   )

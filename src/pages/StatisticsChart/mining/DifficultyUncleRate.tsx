@@ -7,9 +7,7 @@ import { handleAxis } from '../../../utils/chart'
 import { handleDifficulty } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 
 const gridThumbnail = {
   left: '4%',
@@ -20,7 +18,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '3%',
-  right: '4%',
+  right: '3%',
+  top: '8%',
   bottom: '5%',
   containLabel: true,
 }
@@ -33,36 +32,37 @@ const max = (statisticChartData: State.StatisticDifficultyUncleRate[]) => {
 const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isThumbnail = false) => {
   return {
     color: ChartColors,
-    tooltip: !isThumbnail && {
-      trigger: 'axis',
-      formatter: (dataList: any[]) => {
-        const colorSpan = (color: string) =>
-          `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
-        const widthSpan = (value: string) =>
-          `<span style="width:${currentLanguage() === 'en' ? '75px' : '50px'};display:inline-block;">${value}:</span>`
-        let result = `<div>${colorSpan('#333333')}${widthSpan(i18n.t('block.epoch'))} ${dataList[0].name}</div>`
-        if (dataList[0]) {
-          result += `<div>${colorSpan(ChartColors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
-            dataList[0].data,
-          )}</div>`
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 75 : 50)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${dataList[0].name}</div>`
+            if (dataList[0]) {
+              result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+                i18n.t('block.difficulty'),
+              )} ${handleDifficulty(dataList[0].data)}</div>`
+            }
+            if (dataList[1]) {
+              result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${
+                dataList[1].data
+              }%</div>`
+            }
+            return result
+          },
         }
-        if (dataList[1]) {
-          result += `<div>${colorSpan(ChartColors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${
-            dataList[1].data
-          }%</div>`
+      : undefined,
+    legend: !isThumbnail
+      ? {
+          data: [{ name: i18n.t('block.difficulty') }, { name: i18n.t('block.uncle_rate') }],
         }
-        return result
-      },
-    },
-    legend: !isThumbnail && {
-      data: [i18n.t('block.difficulty'), i18n.t('block.uncle_rate')],
-    },
+      : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     xAxis: [
       {
         name: isMobile() || isThumbnail ? '' : i18n.t('block.epoch'),
         nameLocation: 'middle',
-        nameGap: '30',
+        nameGap: 30,
         type: 'category',
         boundaryGap: false,
         data: statisticChartData.map(data => data.epochNumber),
@@ -114,7 +114,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         areaStyle: {
           color: '#85bae0',
         },
-        yAxisIndex: '0',
+        yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         data: statisticChartData.map(data => new BigNumber(data.difficulty).toNumber()),
@@ -123,12 +123,12 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         name: i18n.t('block.uncle_rate'),
         type: 'line',
         smooth: true,
-        yAxisIndex: '1',
+        yAxisIndex: 1,
         symbol: 'circle',
         symbolSize: 3,
         data: statisticChartData.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
         markLine: isThumbnail
-          ? null
+          ? undefined
           : {
               symbol: 'none',
               lineStyle: {
@@ -137,7 +137,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
               data: [
                 {
                   name: i18n.t('block.uncle_rate_target'),
-                  yAxis: '2.5',
+                  yAxis: 2.5,
                 },
               ],
               label: {
@@ -149,26 +149,18 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
   }
 }
 
-export const DifficultyUncleRateChart = ({
-  statisticDifficultyUncleRates,
-  isThumbnail = false,
-}: {
-  statisticDifficultyUncleRates: State.StatisticDifficultyUncleRate[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticDifficultyUncleRates || statisticDifficultyUncleRates.length === 0) {
-    return <ChartLoading show={statisticDifficultyUncleRates === undefined} isThumbnail={isThumbnail} />
+export const DifficultyUncleRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticDifficultyUncleRates, statisticDifficultyUncleRatesFetchEnd } = useAppState()
+  if (!statisticDifficultyUncleRatesFetchEnd || statisticDifficultyUncleRates.length === 0) {
+    return <ChartLoading show={!statisticDifficultyUncleRatesFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticDifficultyUncleRates, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticDifficultyUncleRate,
-    payload: {
-      statisticDifficultyUncleRates: undefined,
-    },
-  })
+const toCSV = (statisticDifficultyUncleRates: State.StatisticDifficultyUncleRate[]) => {
+  return statisticDifficultyUncleRates
+    ? statisticDifficultyUncleRates.map(data => [data.epochNumber, data.difficulty, data.uncleRate])
+    : []
 }
 
 export default () => {
@@ -176,13 +168,15 @@ export default () => {
   const { statisticDifficultyUncleRates } = useAppState()
 
   useEffect(() => {
-    initStatisticDifficultyUncleRate(dispatch)
     getStatisticDifficultyUncleRate(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}>
-      <DifficultyUncleRateChart statisticDifficultyUncleRates={statisticDifficultyUncleRates} />
+    <ChartPage
+      title={`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}
+      data={toCSV(statisticDifficultyUncleRates)}
+    >
+      <DifficultyUncleRateChart />
     </ChartPage>
   )
 }

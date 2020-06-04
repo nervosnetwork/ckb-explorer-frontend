@@ -44,6 +44,7 @@ const DaoSearch = ({ content }: { content?: string }) => {
         type: AppActions.ShowToastMessage,
         payload: {
           message: i18n.t('toast.invalid_content'),
+          type: 'danger',
         },
       })
     } else {
@@ -63,6 +64,7 @@ const DaoSearch = ({ content }: { content?: string }) => {
         type: AppActions.ShowToastMessage,
         payload: {
           message: i18n.t('toast.result_not_found'),
+          type: 'warning',
         },
       })
     }

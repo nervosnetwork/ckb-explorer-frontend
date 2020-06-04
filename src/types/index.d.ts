@@ -353,6 +353,58 @@ declare namespace State {
     }[]
   }
 
+  export interface StatisticTotalSupply {
+    createdAtUnixtimestamp: string
+    circulatingSupply: string
+    burnt: string
+    lockedCapacity: string
+  }
+
+  export interface StatisticAnnualPercentageCompensation {
+    year: number
+    apc: string
+  }
+
+  export interface StatisticAnnualPercentageCompensations {
+    nominalApc: string[]
+  }
+
+  export interface StatisticSecondaryIssuance {
+    createdAtUnixtimestamp: string
+    treasuryAmount: string
+    miningReward: string
+    depositCompensation: string
+  }
+
+  export interface StatisticInflationRates {
+    nominalApc: string[]
+    nominalInflationRate: string[]
+    realInflationRate: string[]
+  }
+
+  export interface StatisticInflationRate {
+    year: number
+    nominalApc: string
+    nominalInflationRate: string
+    realInflationRate: string
+  }
+
+  export interface StatisticLiquidity {
+    createdAtUnixtimestamp: string
+    circulatingSupply: string
+    liquidity: string
+    daoDeposit: string
+  }
+
+  export interface StatisticMinerAddressDistribution {
+    minerAddressDistribution: object
+  }
+
+  export interface StatisticMinerAddress {
+    address: string
+    radio: string
+  }
+
   interface FetchStatusValue {
     OK: string
     Error: string
@@ -411,26 +463,59 @@ declare namespace State {
 
   export interface StatisticChartsState {
     statisticDifficultyHashRates: StatisticDifficultyHashRate[]
+    statisticDifficultyHashRatesFetchEnd: boolean
     statisticDifficultyUncleRates: StatisticDifficultyUncleRate[]
+    statisticDifficultyUncleRatesFetchEnd: boolean
     statisticDifficulties: StatisticDifficulty[]
+    statisticDifficultiesFetchEnd: boolean
     statisticHashRates: StatisticHashRate[]
+    statisticHashRatesFetchEnd: boolean
     statisticUncleRates: StatisticUncleRate[]
+    statisticUncleRatesFetchEnd: boolean
     statisticTransactionCounts: StatisticTransactionCount[]
+    statisticTransactionCountsFetchEnd: boolean
     statisticCellCounts: StatisticCellCount[]
+    statisticCellCountsFetchEnd: boolean
     statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
+    statisticTotalDaoDepositsFetchEnd: boolean
     statisticNewDaoDeposits: StatisticNewDaoDeposit[]
+    statisticNewDaoDepositsFetchEnd: boolean
     statisticNewDaoWithdraw: StatisticNewDaoWithdraw[]
+    statisticNewDaoWithdrawFetchEnd: boolean
     statisticAddressCounts: StatisticAddressCount[]
+    statisticAddressCountsFetchEnd: boolean
     statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
+    statisticAddressBalanceRanksFetchEnd: boolean
     statisticBalanceDistributions: StatisticBalanceDistribution[]
+    statisticBalanceDistributionsFetchEnd: boolean
     statisticTxFeeHistories: StatisticTransactionFee[]
+    statisticTxFeeHistoriesFetchEnd: boolean
     statisticBlockTimeDistributions: StatisticBlockTimeDistribution[]
+    statisticBlockTimeDistributionsFetchEnd: boolean
     statisticAverageBlockTimes: StatisticAverageBlockTime[]
+    statisticAverageBlockTimesFetchEnd: boolean
     statisticOccupiedCapacities: StatisticOccupiedCapacity[]
+    statisticOccupiedCapacitiesFetchEnd: boolean
     statisticEpochTimeDistributions: StatisticEpochTimeDistribution[]
+    statisticEpochTimeDistributionsFetchEnd: boolean
     statisticCirculationRatios: StatisticCirculationRatio[]
+    statisticCirculationRatiosFetchEnd: boolean
     statisticNewNodeCounts: StatisticNewNodeCount[]
+    statisticNewNodeCountsFetchEnd: boolean
     statisticNodeDistributions: StatisticNodeDistribution[]
+    statisticNodeDistributionsFetchEnd: boolean
+    statisticTotalSupplies: StatisticTotalSupply[]
+    statisticTotalSuppliesFetchEnd: boolean
+    statisticAnnualPercentageCompensations: StatisticAnnualPercentageCompensation[]
+    statisticAnnualPercentageCompensationsFetchEnd: boolean
+    statisticSecondaryIssuance: StatisticSecondaryIssuance[]
+    statisticSecondaryIssuanceFetchEnd: boolean
+    statisticInflationRates: StatisticInflationRate[]
+    statisticInflationRatesFetchEnd: boolean
+    statisticLiquidity: StatisticLiquidity[]
+    statisticLiquidityFetchEnd: boolean
+    statisticMinerAddresses: StatisticMinerAddress[]
+    statisticMinerAddressesFetchEnd: boolean
   }
 
   export interface PageState extends StatisticChartsState {

@@ -1,31 +1,66 @@
 import styled from 'styled-components'
 
 export const ChartDetailPanel = styled.div`
-  margin: 0 10% 30px 10%;
+  margin-bottom: 30px;
   background: white;
-
-  @media (max-width: 750px) {
-    margin: 0 4% 30px 4%;
-  }
 `
 
 export const ChartDetailTitle = styled.div`
-  color: #66666;
   background: white;
-  margin: 30px 10% 0 10%;
-  padding-top: 10px;
-  font-size: 24px;
-  text-align: center;
+  margin-top: 30px;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   @media (max-width: 750px) {
-    margin: 20px 4% 0 4%;
-    font-size: 16px;
+    margin-top: 20px;
+  }
+
+  .chart__detail__title__panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+
+    > span {
+      color: #000000;
+      text-align: center;
+      font-size: 24px;
+      margin-left: 100px;
+
+      @media (max-width: 750px) {
+        font-size: 16px;
+        margin-left: 0px;
+      }
+    }
+
+    > img {
+      width: 18px;
+      height: 18px;
+      margin-left: 10px;
+    }
+  }
+
+  .chart__detail__title__download {
+    width: 100px;
+    padding: 5px 0;
+    border-radius: 2px;
+    border: solid 1px #666666;
+    font-size: 12px;
+    text-align: center;
+    color: #666666;
+    margin-right: 3.6%;
+
+    @media (max-width: 750px) {
+      display: none;
+    }
   }
 `
 
 export const LoadingPanel = styled.div`
   display: flex;
-  width: ${(props: { isThumbnail?: boolean }) => (props.isThumbnail ? '270px' : '100%')};
+  width: 100%;
   height: ${(props: { isThumbnail?: boolean }) => (props.isThumbnail ? '200px' : '70vh')};
   align-items: center;
   justify-content: center;
