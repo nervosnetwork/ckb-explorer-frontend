@@ -157,8 +157,7 @@
       "telegram": "Telegram",
       "reddit": "Reddit",
       "youtube": "YouTube",
-      "forum": "Forum",
-      "sudt_submit": "提交 sUDT 信息"
+      "forum": "Forum"
     },
     "search": {
       "loading": "加载中...",

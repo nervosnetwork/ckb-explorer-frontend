@@ -21,7 +21,7 @@ import { getCurrentYear } from '../../utils/date'
 import { FooterMenuPanel, FooterItemPanel, FooterImageItemPanel, FooterPanel } from './styled'
 import { useTranslation } from 'react-i18next'
 import { isMobile } from '../../utils/screen'
-import { SUDT_EMAIL_SUBJECT, SUDT_EMAIL_BODY } from '../../utils/const'
+import { TOKEN_EMAIL_SUBJECT, TOKEN_EMAIL_BODY } from '../../utils/const'
 import { isMainnet } from '../../utils/chain'
 
 interface FooterLinkItem {
@@ -102,8 +102,8 @@ export default () => {
           isMainnet()
             ? { label: undefined, url: undefined }
             : {
-                label: t('footer.sudt_submit'),
-                url: `mailto:asset-info-submit@nervos.org?subject=${SUDT_EMAIL_SUBJECT}&body=${SUDT_EMAIL_BODY}`,
+                label: t('udt.submit_token_info'),
+                url: `mailto:asset-info-submit@nervos.org?subject=${TOKEN_EMAIL_SUBJECT}&body=${TOKEN_EMAIL_BODY}`,
               },
         ],
       },

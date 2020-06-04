@@ -196,9 +196,12 @@ export const TokensContentEmpty = styled.div`
   text-align: center;
   font-size: 16px;
   margin-top: 4px;
+  margin-bottom: 180px;
 
   @media (max-width: 750px) {
     font-size: 14px;
+    border-radius: 6px;
+    margin-bottom: 160px;
   }
 `
 
@@ -209,6 +212,7 @@ export const TokensLoadingPanel = styled.div`
   @media (max-width: 750px) {
     height: 100px;
     line-height: 100px;
+    margin-bottom: 160px;
     width: 100%;
     text-align: center;
     margin-top: 4px;
