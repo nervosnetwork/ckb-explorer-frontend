@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const TokensPanel = styled.div`
   margin-top: 40px;
@@ -68,15 +69,28 @@ export const TokensTableContent = styled.div`
   margin-top: 4px;
 `
 
-export const TokensTableItem = styled.div`
+export const TokensTableItem = styled(Link)`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 15px 40px;
   background: white;
+  padding: 0 15px;
+
+  &:hover {
+    background: #fafafa;
+  }
+
+  .tokens__item__content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 15px 25px;
+  }
 
   .tokens__item__name__panel {
     display: flex;
     flex: 4;
+    align-items: center;
 
     > img {
       width: 30px;
@@ -87,9 +101,17 @@ export const TokensTableItem = styled.div`
       margin-left: 10px;
 
       .tokens__item__name {
+        display: flex;
+        align-items: center;
         font-size: 14px;
         letter-spacing: 0.23px;
         color: ${props => props.theme.primary};
+
+        > img {
+          width: 16px;
+          height: 16px;
+          margin-left: 5px;
+        }
       }
 
       .tokens__item__description {
@@ -106,6 +128,7 @@ export const TokensTableItem = styled.div`
     text-align: center;
     font-size: 14px;
     text-align: right;
+    color: #000000;
   }
 
   .tokens__item__address__count {
@@ -113,6 +136,7 @@ export const TokensTableItem = styled.div`
     text-align: center;
     font-size: 14px;
     text-align: right;
+    color: #000000;
   }
 
   .tokens__item__created__time {
@@ -120,5 +144,29 @@ export const TokensTableItem = styled.div`
     text-align: center;
     font-size: 12px;
     text-align: right;
+    color: #000000;
   }
+
+  .tokens__item__separate {
+    background: #d8d8d8;
+    width: 100%;
+    height: 1px;
+  }
+`
+
+export const TokensContentEmpty = styled.div`
+  height: 66px;
+  width: 100%;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+  line-height: 66px;
+  text-align: center;
+`
+
+export const TokensLoadingPanel = styled.div`
+  height: 100px;
+  width: 100%;
+  line-height: 100px;
+  text-align: center;
 `
