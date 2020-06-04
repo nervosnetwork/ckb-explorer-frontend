@@ -30,7 +30,7 @@ Information:%0a%0d
    Icon File: attachment (40 x 40)%0a%0d
    Other Info:%0a%0d
 
-Note: Token currently only supports sUDT.
+Note: Only accept sUDT information submission now.
 "
         rel="noopener noreferrer"
         target="_blank"
