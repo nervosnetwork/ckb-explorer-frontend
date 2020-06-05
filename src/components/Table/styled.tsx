@@ -88,7 +88,7 @@ export const TableMinerContentPanel = styled.div`
     font-size: ${(props: { width: string; fontSize: string }) => props.fontSize};
     font-weight: 500;
 
-    @media(max-width: 700px) {
+    @media(max-width: 750px) {
       font-size: 13px;
     }
   }
@@ -100,7 +100,7 @@ export const TableMinerContentPanel = styled.div`
     font-size: ${(props: { width: string; fontSize: string }) => props.fontSize};
     color: #000000;
 
-    @media(max-width: 700px) {
+    @media(max-width: 750px) {
       font-size: 13px;
     }
   }

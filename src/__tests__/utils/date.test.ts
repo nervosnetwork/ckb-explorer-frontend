@@ -39,6 +39,8 @@ describe('Date methods tests', () => {
     expect(parseDateNoTime(1576157854)).toBe('2019/12/12')
     expect(parseDateNoTime(1576157854, false)).toBe('2019/12/12')
     expect(parseDateNoTime(1576157854, true)).toBe('12/12')
+    expect(parseDateNoTime(1576157854, false, '-')).toBe('2019-12-12')
+    expect(parseDateNoTime(1576157854, true, '-')).toBe('12-12')
   })
 
   it('parse diff date', async () => {

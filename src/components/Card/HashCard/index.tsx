@@ -33,7 +33,7 @@ export default ({
     if (specialAddress) {
       return adaptMobileEllipsis(hash, 4)
     } else if (iconUri) {
-      return adaptMobileEllipsis(hash, 12)
+      return adaptMobileEllipsis(hash, 11)
     }
     return adaptMobileEllipsis(hash, 4)
   }
