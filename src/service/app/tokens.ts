@@ -15,7 +15,7 @@ export const getTokens = (dispatch: AppDispatch) => {
   handleStatus(dispatch, 'InProgress')
   fetchTokens()
     .then((wrappers: Response.Wrapper<State.TokenInfo>[] | null) => {
-      if (wrappers) {
+      if (wrappers && wrappers.length > 0) {
         dispatch({
           type: PageActions.UpdateTokens,
           payload: {
