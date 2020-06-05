@@ -20,11 +20,11 @@ import DecimalCapacity from '../../../components/DecimalCapacity'
 import CopyTooltipText from '../../../components/Text/CopyTooltipText'
 import NervosDAODepositIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
-import CKBTransferIcon from '../../../assets/ckb_transfer.png'
 import UDTTokenIcon from '../../../assets/udt_token.png'
 import TransactionCellScript from '../TransactionCellScript'
 import SimpleModal from '../../../components/Modal'
 import SimpleButton from '../../../components/SimpleButton'
+import TransactionReward from '../TransactionReward'
 
 const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
@@ -73,8 +73,8 @@ const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: C
 }
 
 const detailTitleIcons = (cell: State.Cell) => {
-  let detailTitle = i18n.t('transaction.ckb_transfer')
-  let detailIcon = CKBTransferIcon
+  let detailTitle = i18n.t('transaction.ckb_capacity')
+  let detailIcon = undefined
   if (cell.cellType === DaoType.Deposit) {
     detailTitle = i18n.t('transaction.nervos_dao_deposit')
     detailIcon = NervosDAODepositIcon
@@ -101,7 +101,7 @@ const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
   return (
     <TransactionCellDetailPanel isWithdraw={cell.cellType === DaoType.Withdraw}>
       <div className="transaction__cell__detail__panel">
-        <img src={detailIcon} alt="cell detail icon" />
+        {detailIcon && <img src={detailIcon} alt="cell detail icon" />}
         <div>{detailTitle}</div>
       </div>
     </TransactionCellDetailPanel>
@@ -113,11 +113,13 @@ export default ({
   cellType,
   index,
   txHash,
+  showReward,
 }: {
   cell: State.Cell
   cellType: CellType
   index: number
   txHash?: string
+  showReward?: boolean
 }) => {
   const [showModal, setShowModal] = useState(false)
   if (isMobile()) {
@@ -147,7 +149,7 @@ export default ({
 
   return (
     <TransactionCellPanel id={cellType === CellType.Output ? `output_${index}_${txHash}` : ''}>
-      <TransactionCellContentPanel>
+      <TransactionCellContentPanel isCellbase={cell.fromCellbase}>
         <div className="transaction__cell_hash">
           <div className="transaction__cell_index">
             {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
@@ -155,7 +157,13 @@ export default ({
           <TransactionCellHash cell={cell} cellType={cellType} />
         </div>
 
-        <div className="transaction__cell_detail">{cell.capacity && <TransactionCellDetail cell={cell} />}</div>
+        <div className="transaction__cell_detail">
+          {cell.fromCellbase ? (
+            <TransactionReward showReward={showReward} cell={cell} />
+          ) : (
+            <TransactionCellDetail cell={cell} />
+          )}
+        </div>
 
         <div className="transaction__cell_capacity">
           {cell.capacity && <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />}

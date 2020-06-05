@@ -2,7 +2,7 @@ import React from 'react'
 import { shannonToCkb } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import i18n from '../../../utils/i18n'
-import DecimalCapacity from '../../DecimalCapacity'
+import DecimalCapacity from '../../../components/DecimalCapacity'
 import { RewardPenal } from './styled'
 
 const rewards = (cell: State.Cell) => [
@@ -24,9 +24,9 @@ const rewards = (cell: State.Cell) => [
   },
 ]
 
-const TransactionReward = ({ transaction, cell }: { transaction: State.Transaction; cell: State.Cell }) => {
+const TransactionReward = ({ cell, showReward }: { cell: State.Cell; showReward?: boolean }) => {
   // [0, 11] block doesn't show block reward and only cellbase show block reward
-  const showBlockReward = transaction.blockNumber > 0 && transaction.isCellbase && cell.targetBlockNumber > 0
+  const showBlockReward = showReward && cell.targetBlockNumber > 0
 
   return (
     <div>

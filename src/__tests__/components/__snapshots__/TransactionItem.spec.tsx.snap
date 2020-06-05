@@ -799,7 +799,6 @@ exports[`TransactionItem Component shallow renders 1`] = `
               />
             </div>
           </div>
-          <div />
         </div>
         <div
           className="c10"
@@ -854,7 +853,6 @@ exports[`TransactionItem Component shallow renders 1`] = `
               />
             </div>
           </div>
-          <div />
         </div>
       </div>
     </div>

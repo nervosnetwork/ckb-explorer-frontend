@@ -206,7 +206,7 @@ export const TransactionOverview = () => {
 export default () => {
   const {
     transactionState: {
-      transaction: { transactionHash, displayInputs, displayOutputs },
+      transaction: { transactionHash, displayInputs, displayOutputs, blockNumber, isCellbase },
     },
   } = useAppState()
 
@@ -214,7 +214,14 @@ export default () => {
     <>
       <div className="transaction__inputs">{displayInputs && <TransactionCellList inputs={displayInputs} />}</div>
       <div className="transaction__outputs">
-        {displayOutputs && <TransactionCellList outputs={displayOutputs} txHash={transactionHash} />}
+        {displayOutputs && (
+          <TransactionCellList
+            outputs={displayOutputs}
+            txHash={transactionHash}
+            // [0, 11] block doesn't show block reward and only cellbase show block reward
+            showReward={blockNumber > 0 && isCellbase}
+          />
+        )}
       </div>
     </>
   )

@@ -9,7 +9,6 @@ import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
 import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
 import TransactionConfirmation from './TransactionConfirmation'
-import TransactionReward from './TransactionReward'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import i18n from '../../utils/i18n'
 import { CellType } from '../../utils/const'
@@ -66,7 +65,6 @@ const TransactionItem = ({
               render={cell => (
                 <FullPanel key={cell.id}>
                   <TransactionCell cell={cell} address={address} cellType={CellType.Output} />
-                  <TransactionReward transaction={transaction} cell={cell} />
                 </FullPanel>
               )}
             />

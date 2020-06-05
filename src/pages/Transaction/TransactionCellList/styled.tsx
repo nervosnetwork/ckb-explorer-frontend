@@ -59,7 +59,7 @@ export const TransactionCellListPanel = styled.div`
   padding: 12px 20px 12px 40px;
 
   @media (max-width: 750px) {
-    padding: 12px 10px;
+    padding: 12px 10px 3px 10px;
   }
 `
 

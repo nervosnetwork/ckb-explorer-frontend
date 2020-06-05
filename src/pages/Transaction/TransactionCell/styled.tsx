@@ -33,7 +33,7 @@ export const TransactionCellContentPanel = styled.div`
   }
 
   .transaction__cell_capacity {
-    flex: 0.3;
+    flex: ${(props: { isCellbase: boolean }) => (props.isCellbase ? '0.38' : '0.3')};
     display: flex;
     justify-content: flex-end;
   }
@@ -41,7 +41,7 @@ export const TransactionCellContentPanel = styled.div`
   .transaction__detail__cell_info {
     flex: 0.08;
     font-size: 12px;
-    display: flex;
+    display: ${(props: { isCellbase: boolean }) => (props.isCellbase ? 'none' : 'flex')};
     flex-direction: column;
     align-items: center;
 
@@ -121,11 +121,11 @@ export const TransactionCellDetailPanel = styled.div`
     align-items: center;
 
     > div {
-      margin: 0 12px;
       font-size: 15px;
       text-align: left;
     }
     > img {
+      margin-right: 5px;
       width: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '16px' : '18px')};
       height: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '20px' : '14px')};
 
@@ -160,11 +160,11 @@ export const TransactionCellCardPanel = styled.div`
   }
 
   >div: nth-child(2) {
-    margin-bottom: 6px;
+    margin-bottom: 15px;
   }
 
   >div: nth-child(4) {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
 
   .transaction__cell__card__content {
