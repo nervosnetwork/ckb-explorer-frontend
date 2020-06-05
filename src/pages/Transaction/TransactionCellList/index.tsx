@@ -49,11 +49,12 @@ export default ({ inputs, outputs, txHash }: { inputs?: State.Cell[]; outputs?: 
       <TransactionCellListTitlePanel>
         <div className="transaction__cell_list_titles">
           <div>{cellTitle()}</div>
-          <div>{hideTitle ? '' : i18n.t('transaction.capacity')}</div>
           <div>{hideTitle ? '' : i18n.t('transaction.detail')}</div>
+          <div>{hideTitle ? '' : i18n.t('transaction.capacity')}</div>
         </div>
       </TransactionCellListTitlePanel>
       <TransactionCellsPanel isScroll={isScroll}>
+        <div className="transaction__cell__title">{cellTitle()}</div>
         <div className="transaction__cell_list_container" onScroll={(event: any) => handleScroll(event)}>
           {cells &&
             cells

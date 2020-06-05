@@ -17,19 +17,11 @@ export const TransactionDiv = styled.div.attrs({
   .transaction__inputs {
     width: 100%;
     margin-top: 20px;
-
-    @media (max-width: 750px) {
-      margin-top: 0px;
-    }
   }
 
   .transaction__outputs {
     width: 100%;
     margin-top: 20px;
-
-    @media (max-width: 750px) {
-      margin-top: 0px;
-    }
   }
 `
 

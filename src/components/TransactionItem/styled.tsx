@@ -91,8 +91,8 @@ export const TransactionCellPanel = styled.div`
 
   > img {
     margin-top: 20px;
-    width: 19px;
-    height: 19px;
+    width: 16px;
+    height: 16px;
 
     @media (max-width: 750px) {
       margin-top: 10px;

@@ -248,8 +248,8 @@ exports[`TransactionItem Component shallow renders 1`] = `
 
 .c2 > img {
   margin-top: 20px;
-  width: 19px;
-  height: 19px;
+  width: 16px;
+  height: 16px;
 }
 
 .c2 .transaction_item__input {

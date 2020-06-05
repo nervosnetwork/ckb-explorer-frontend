@@ -13,6 +13,7 @@ import {
   TransactionCellHashPanel,
   TransactionCellPanel,
   TransactionCellDetailModal,
+  TransactionCellCardPanel,
 } from './styled'
 import TransactionCellArrow from '../TransactionCellArrow'
 import DecimalCapacity from '../../../components/DecimalCapacity'
@@ -24,13 +25,12 @@ import UDTTokenIcon from '../../../assets/udt_token.png'
 import TransactionCellScript from '../TransactionCellScript'
 import SimpleModal from '../../../components/Modal'
 import SimpleButton from '../../../components/SimpleButton'
-import ItemCard, { ItemCardData } from '../../../components/Card/ItemCard'
 
 const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
-    return adaptMobileEllipsis(hash, 7)
+    return adaptMobileEllipsis(hash, 5)
   }
-  return adaptPCEllipsis(hash, 5, 80)
+  return adaptPCEllipsis(hash, 4, 80)
 }
 
 const AddressHash = ({ address }: { address: string }) => {
@@ -96,30 +96,13 @@ const detailTitleIcons = (cell: State.Cell) => {
   }
 }
 
-const TransactionCellDetailContainer = ({ cell }: { cell: State.Cell }) => {
+const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
   const { detailTitle, detailIcon } = detailTitleIcons(cell)
-  const [showModal, setShowModal] = useState(false)
-
   return (
     <TransactionCellDetailPanel isWithdraw={cell.cellType === DaoType.Withdraw}>
       <div className="transaction__cell__detail__panel">
         <img src={detailIcon} alt="cell detail icon" />
         <div>{detailTitle}</div>
-      </div>
-      <div className="transaction__detail__cell_info">
-        <SimpleButton
-          className="transaction__cell__info__content"
-          onClick={() => {
-            setShowModal(true)
-          }}
-          children={'Cell Info'}
-        />
-        <div className="transaction__cell__info__separate" />
-        <SimpleModal isShow={showModal}>
-          <TransactionCellDetailModal>
-            <TransactionCellScript cell={cell} onClose={() => setShowModal(false)} />
-          </TransactionCellDetailModal>
-        </SimpleModal>
       </div>
     </TransactionCellDetailPanel>
   )
@@ -136,23 +119,29 @@ export default ({
   index: number
   txHash?: string
 }) => {
+  const [showModal, setShowModal] = useState(false)
   if (isMobile()) {
-    const items: ItemCardData[] = [
-      {
-        title: cellType === CellType.Input ? i18n.t('transaction.input') : i18n.t('transaction.output'),
-        content: <TransactionCellHash cell={cell} cellType={cellType} />,
-      },
-    ]
-    if (cell.capacity) {
-      items.push({
-        title: i18n.t('transaction.capacity'),
-        content: <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />,
-      })
-    }
     return (
-      <ItemCard items={items} outputIndex={cellType === CellType.Output ? `${index}_${txHash}` : undefined}>
-        {!cell.fromCellbase && <TransactionCellDetailContainer cell={cell} />}
-      </ItemCard>
+      <TransactionCellCardPanel>
+        <div className="transaction__cell__card__separate" />
+        <div className="transaction__cell__card__content">
+          <div className="transaction__cell__card__value">
+            <TransactionCellHash cell={cell} cellType={cellType} />
+          </div>
+        </div>
+        <div className="transaction__cell__card__content">
+          <div className="transaction__cell__card__title">{i18n.t('transaction.detail')}</div>
+          <div className="transaction__cell__card__value">
+            {!cell.fromCellbase && <TransactionCellDetail cell={cell} />}
+          </div>
+        </div>
+        <div className="transaction__cell__card__content">
+          <div className="transaction__cell__card__title">{i18n.t('transaction.capacity')}</div>
+          <div className="transaction__cell__card__value">
+            <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
+          </div>
+        </div>
+      </TransactionCellCardPanel>
     )
   }
 
@@ -166,12 +155,26 @@ export default ({
           <TransactionCellHash cell={cell} cellType={cellType} />
         </div>
 
+        <div className="transaction__cell_detail">{cell.capacity && <TransactionCellDetail cell={cell} />}</div>
+
         <div className="transaction__cell_capacity">
           {cell.capacity && <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />}
         </div>
 
-        <div className="transaction__cell_detail">
-          {cell.capacity && <TransactionCellDetailContainer cell={cell} />}
+        <div className="transaction__detail__cell_info">
+          <SimpleButton
+            className="transaction__cell__info__content"
+            onClick={() => {
+              setShowModal(true)
+            }}
+            children={'Cell Info'}
+          />
+          <div className="transaction__cell__info__separate" />
+          <SimpleModal isShow={showModal}>
+            <TransactionCellDetailModal>
+              <TransactionCellScript cell={cell} onClose={() => setShowModal(false)} />
+            </TransactionCellDetailModal>
+          </SimpleModal>
         </div>
       </TransactionCellContentPanel>
     </TransactionCellPanel>
