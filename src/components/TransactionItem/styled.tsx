@@ -90,13 +90,9 @@ export const TransactionCellPanel = styled.div`
   }
 
   > img {
-    margin-top: 20px;
+    margin-top: 16px;
     width: 16px;
     height: 16px;
-
-    @media (max-width: 750px) {
-      margin-top: 10px;
-    }
   }
 
   .transaction_item__input {
