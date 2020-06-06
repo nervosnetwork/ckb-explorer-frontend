@@ -9,7 +9,7 @@ export const TransactionCellPanel = styled.div`
 export const TransactionCellContentPanel = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: ${(props: { isCellbase: boolean }) => (props.isCellbase ? 'flex-start' : 'center')};
   margin: 10px 0;
 
   font-size: 16px;
@@ -29,12 +29,12 @@ export const TransactionCellContentPanel = styled.div`
   }
 
   .transaction__cell_detail {
-    flex: 0.22;
+    flex: ${(props: { isCellbase: boolean }) => (props.isCellbase ? '0.6' : '0.22')};
   }
 
   .transaction__cell_capacity {
-    flex: ${(props: { isCellbase: boolean }) => (props.isCellbase ? '0.38' : '0.3')};
-    display: flex;
+    flex: 0.3;
+    display: ${(props: { isCellbase: boolean }) => (props.isCellbase ? 'none' : 'flex')};
     justify-content: flex-end;
   }
 
@@ -187,6 +187,53 @@ export const TransactionCellCardPanel = styled.div`
 
     a:hover {
       color: ${props => props.theme.primary};
+    }
+  }
+`
+
+export const CellbasePanel = styled.div`
+  display: flex;
+  align-items: center;
+  height: 20px;
+  position: relative;
+  width: 100%;
+
+  @media (max-width: 750px) {
+    margin-top: 10px;
+    height: 16px;
+  }
+
+  .cellbase__content {
+    color: #000000;
+    margin-right: 10px;
+  }
+
+  a {
+    font-weight: 500;
+    color: ${props => props.theme.primary};
+  }
+
+  a:hover {
+    color: ${props => props.theme.primary};
+  }
+
+  .cellbase__help {
+    margin-left: 10px;
+    transform: translateY(2px);
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  .cellbase__help__icon {
+    width: 18px;
+    height: 18px;
+    margin-left: 5px;
+
+    @media (max-width: 750px) {
+      width: 16px;
+      height: 16px;
     }
   }
 `

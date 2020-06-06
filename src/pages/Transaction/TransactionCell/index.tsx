@@ -14,6 +14,7 @@ import {
   TransactionCellPanel,
   TransactionCellDetailModal,
   TransactionCellCardPanel,
+  CellbasePanel,
 } from './styled'
 import TransactionCellArrow from '../TransactionCellArrow'
 import DecimalCapacity from '../../../components/DecimalCapacity'
@@ -21,6 +22,7 @@ import CopyTooltipText from '../../../components/Text/CopyTooltipText'
 import NervosDAODepositIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import UDTTokenIcon from '../../../assets/udt_token.png'
+import HelpIcon from '../../../assets/qa_help.png'
 import TransactionCellScript from '../TransactionCellScript'
 import SimpleModal from '../../../components/Modal'
 import SimpleButton from '../../../components/SimpleButton'
@@ -96,6 +98,26 @@ const detailTitleIcons = (cell: State.Cell) => {
   }
 }
 
+const Cellbase = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
+  if (!cell.targetBlockNumber || cell.targetBlockNumber <= 0) {
+    return (
+      <CellbasePanel>
+        <div className="cellbase__content">Cellbase</div>
+      </CellbasePanel>
+    )
+  }
+  return (
+    <CellbasePanel>
+      {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
+      <div className="cellbase__content">Cellbase for Block</div>
+      <Link to={`/block/${cell.targetBlockNumber}`}>{localeNumberString(cell.targetBlockNumber)}</Link>
+      <Tooltip placement="top" title={i18n.t('transaction.cellbase_help_tooltip')}>
+        <img className="cellbase__help__icon" alt="cellbase help" src={HelpIcon} />
+      </Tooltip>
+    </CellbasePanel>
+  )
+}
+
 const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
   const { detailTitle, detailIcon } = detailTitleIcons(cell)
   return (
@@ -128,21 +150,31 @@ export default ({
         <div className="transaction__cell__card__separate" />
         <div className="transaction__cell__card__content">
           <div className="transaction__cell__card__value">
-            <TransactionCellHash cell={cell} cellType={cellType} />
+            {cell.fromCellbase && cellType === CellType.Input ? (
+              <Cellbase cell={cell} cellType={cellType} />
+            ) : (
+              <TransactionCellHash cell={cell} cellType={cellType} />
+            )}
           </div>
         </div>
-        <div className="transaction__cell__card__content">
-          <div className="transaction__cell__card__title">{i18n.t('transaction.detail')}</div>
-          <div className="transaction__cell__card__value">
-            {!cell.fromCellbase && <TransactionCellDetail cell={cell} />}
-          </div>
-        </div>
-        <div className="transaction__cell__card__content">
-          <div className="transaction__cell__card__title">{i18n.t('transaction.capacity')}</div>
-          <div className="transaction__cell__card__value">
-            <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
-          </div>
-        </div>
+        {cell.fromCellbase && cellType === CellType.Input ? (
+          <TransactionReward showReward={showReward} cell={cell} />
+        ) : (
+          <>
+            <div className="transaction__cell__card__content">
+              <div className="transaction__cell__card__title">{i18n.t('transaction.detail')}</div>
+              <div className="transaction__cell__card__value">
+                {!cell.fromCellbase && <TransactionCellDetail cell={cell} />}
+              </div>
+            </div>
+            <div className="transaction__cell__card__content">
+              <div className="transaction__cell__card__title">{i18n.t('transaction.capacity')}</div>
+              <div className="transaction__cell__card__value">
+                <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
+              </div>
+            </div>
+          </>
+        )}
       </TransactionCellCardPanel>
     )
   }
@@ -151,14 +183,20 @@ export default ({
     <TransactionCellPanel id={cellType === CellType.Output ? `output_${index}_${txHash}` : ''}>
       <TransactionCellContentPanel isCellbase={cell.fromCellbase}>
         <div className="transaction__cell_hash">
-          <div className="transaction__cell_index">
-            {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
-          </div>
-          <TransactionCellHash cell={cell} cellType={cellType} />
+          {cell.fromCellbase && cellType === CellType.Input ? (
+            <Cellbase cell={cell} cellType={cellType} />
+          ) : (
+            <>
+              <div className="transaction__cell_index">
+                {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
+              </div>
+              <TransactionCellHash cell={cell} cellType={cellType} />
+            </>
+          )}
         </div>
 
         <div className="transaction__cell_detail">
-          {cell.fromCellbase ? (
+          {cell.fromCellbase && cellType === CellType.Input ? (
             <TransactionReward showReward={showReward} cell={cell} />
           ) : (
             <TransactionCellDetail cell={cell} />

@@ -1,59 +1,43 @@
 import styled from 'styled-components'
 
-export const RewardPenal = styled.div`
+export const RewardItemPenal = styled.div`
   display: flex;
   align-items: center;
   height: 20px;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-bottom: 15px;
   color: #000000;
-  margin-right: 22px;
 
   @media (max-width: 750px) {
-    height: 32px;
-    margin-top: 10px;
-    justify-content: normal;
-    align-items: flex-start;
-    flex-direction: column;
+    margin: 5px 10px;
+    justify-content: space-between;
   }
 
-  .reward__name__point {
-    display: flex;
-    align-items: center;
-
-    &:before {
-      content: '';
-      width: 5px;
-      height: 5px;
-      margin-right: 8px;
-      border-radius: 50% 50%;
-      background: #424242;
-      display: none;
-
-      @media (max-width: 750px) {
-        display: flex;
-      }
-    }
-
-    .reward__name {
-      display: flex;
-      align-items: center;
-      justify-content: left;
-      font-weight: 500;
-    }
+  .reward__name {
+    font-weight: 500;
   }
 
   .reward__capacity {
     margin-left: 15px;
 
-    @media (max-width: 750px) {
-      margin-left: 13px;
-      width: 100%;
-      padding-right: 18px;
-    }
-
     > span {
       margin-left: 5px;
+    }
+  }
+`
+
+export const RewardPenal = styled.div`
+  @media (min-width: 750px) {
+    margin-bottom: -20px;
+  }
+
+  .transaction__reward__title {
+    margin-left: 10px;
+    margin-top: 12px;
+    color: #666666;
+
+    @media (min-width: 750px) {
+      display: none;
     }
   }
 `

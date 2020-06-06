@@ -203,6 +203,21 @@ export const TransactionOverview = () => {
   )
 }
 
+const handleCellbaseInputs = (inputs: State.Cell[], outputs: State.Cell[]) => {
+  if (inputs[0].fromCellbase) {
+    const resultInputs = inputs
+    resultInputs[0] = {
+      ...resultInputs[0],
+      baseReward: outputs[0].baseReward,
+      secondaryReward: outputs[0].secondaryReward,
+      commitReward: outputs[0].commitReward,
+      proposalReward: outputs[0].proposalReward,
+    }
+    return resultInputs
+  }
+  return inputs
+}
+
 export default () => {
   const {
     transactionState: {
@@ -210,18 +225,21 @@ export default () => {
     },
   } = useAppState()
 
+  const inputs = handleCellbaseInputs(displayInputs, displayOutputs)
+
   return (
     <>
-      <div className="transaction__inputs">{displayInputs && <TransactionCellList inputs={displayInputs} />}</div>
-      <div className="transaction__outputs">
-        {displayOutputs && (
+      <div className="transaction__inputs">
+        {inputs && (
           <TransactionCellList
-            outputs={displayOutputs}
-            txHash={transactionHash}
+            inputs={inputs}
             // [0, 11] block doesn't show block reward and only cellbase show block reward
             showReward={blockNumber > 0 && isCellbase}
           />
         )}
+      </div>
+      <div className="transaction__outputs">
+        {displayOutputs && <TransactionCellList outputs={displayOutputs} txHash={transactionHash} />}
       </div>
     </>
   )
