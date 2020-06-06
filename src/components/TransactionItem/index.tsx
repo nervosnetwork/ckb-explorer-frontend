@@ -8,7 +8,7 @@ import { isMobile } from '../../utils/screen'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
 import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
-import TransactionConfirmation from './TransactionIncome'
+import TransactionIncome from './TransactionIncome'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import i18n from '../../utils/i18n'
 import { CellType } from '../../utils/const'
@@ -71,7 +71,7 @@ const TransactionItem = ({
           )}
         </div>
       </TransactionCellPanel>
-      <TransactionConfirmation income={transaction.income} />
+      {address && <TransactionIncome income={transaction.income} />}
     </TransactionPanel>
   )
 }
