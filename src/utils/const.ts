@@ -13,9 +13,9 @@ export const MAINNET_SECONDARY_THEME_COLOR = '#3cc68a'
 export const TESTNET_PRIMARY_THEME_COLOR = '#617bbd'
 export const TESTNET_SECONDARY_THEME_COLOR = '#85A1EA'
 
-export const SUDT_EMAIL_SUBJECT = 'Submit sUDT Info'
-export const SUDT_EMAIL_BODY = `
-Title: Submit sUDT Information%0a%0d
+export const TOKEN_EMAIL_SUBJECT = 'Submit Token Info'
+export const TOKEN_EMAIL_BODY = `
+Title: Submit Token Information%0a%0d
 Type Script:%0a%0d
     Code Hash:%0a%0d
     Hash Type:%0a%0d
@@ -29,6 +29,8 @@ Information:%0a%0d
    Website:%0a%0d
    Icon File: attachment (40 x 40)%0a%0d
    Other Info:%0a%0d
+
+Note: Only accept sUDT information submission now.
 `
 
 export const HttpErrorCode = {

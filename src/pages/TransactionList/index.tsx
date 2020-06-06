@@ -16,8 +16,8 @@ import Pagination from '../../components/Pagination'
 import { useDispatch, useAppState } from '../../contexts/providers'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { getTransactions } from '../../service/app/transaction'
-import { TransactionCapacityPanel, TransactionListPanel, ContentTable, HighLightValue } from './style'
 import ItemCard, { ItemCardData } from '../../components/Card/ItemCard'
+import { TransactionCapacityPanel, TransactionListPanel, ContentTable, HighLightValue } from './styled'
 
 interface TableTitleData {
   title: string

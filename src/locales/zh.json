@@ -23,6 +23,7 @@
       "charts": "图表",
       "nervos_dao": "Nervos DAO",
       "faucet": "水龙头",
+      "tokens": "代币",
       "docs": "文档",
       "search_placeholder": "区块 / 交易 / 地址 / 锁定脚本哈希 / Type 脚本哈希",
       "mainnet": "LINA",
@@ -170,8 +171,7 @@
       "telegram": "Telegram",
       "reddit": "Reddit",
       "youtube": "YouTube",
-      "forum": "Forum",
-      "sudt_submit": "提交 sUDT 信息"
+      "forum": "Forum"
     },
     "search": {
       "loading": "加载中...",
@@ -338,7 +338,15 @@
       "holder_addresses": "持币用户数",
       "decimal": "小数位",
       "search_placeholder": "地址",
-      "unknown_token": "未知资产"
+      "unknown_token": "未知资产",
+      "submit_token_info": "提交代币信息",
+      "unknown_token_description": "此代币信息暂时不完整，如果你是此代币的拥有者，请提交代币信息",
+      "tokens": "代币",
+      "name_symbol": "代币名称 (符合)",
+      "transactions": "24小时交易数",
+      "address_count": "持币用户数",
+      "created_time": "创建时间",
+      "tokens_empty": "目前没有代币。"
     }
   }
 }

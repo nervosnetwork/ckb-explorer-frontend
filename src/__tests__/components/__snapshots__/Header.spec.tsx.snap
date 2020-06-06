@@ -26,17 +26,24 @@ exports[`Header Component shallow renders 1`] = `
     </a>
     <a
       className="header__menus__item"
-      href="/charts"
-      onClick={[Function]}
-    >
-      Charts
-    </a>
-    <a
-      className="header__menus__item"
       href="/nervosdao"
       onClick={[Function]}
     >
       Nervos DAO
+    </a>
+    <a
+      className="header__menus__item"
+      href="/tokens"
+      onClick={[Function]}
+    >
+      Tokens
+    </a>
+    <a
+      className="header__menus__item"
+      href="/charts"
+      onClick={[Function]}
+    >
+      Charts
     </a>
   </div>
   <div

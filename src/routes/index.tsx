@@ -45,6 +45,7 @@ import SecondaryIssuanceChart from '../pages/StatisticsChart/monetary/SecondaryI
 import InflationRateChart from '../pages/StatisticsChart/monetary/InflationRate'
 import LiquidityChart from '../pages/StatisticsChart/monetary/Liquidity'
 import MinerAddressDistributionChart from '../pages/StatisticsChart/mining/MinerAddressDistribution'
+import Tokens from '../pages/Tokens'
 
 const Containers: CustomRouter.Route[] = [
   {
@@ -94,6 +95,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/nervosdao',
     exact: true,
     comp: NervosDao,
+  },
+  {
+    name: 'Tokens',
+    path: '/tokens',
+    exact: true,
+    comp: Tokens,
   },
   {
     name: 'Charts',

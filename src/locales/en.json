@@ -23,6 +23,7 @@
       "charts": "Charts",
       "nervos_dao": "Nervos DAO",
       "faucet": "Faucet",
+      "tokens": "Tokens",
       "docs": "Docs",
       "search_placeholder": "Block/Transaction/Address/Lock Hash/Type Hash",
       "mainnet": "LINA",
@@ -171,8 +172,7 @@
       "telegram": "Telegram",
       "reddit": "Reddit",
       "youtube": "YouTube",
-      "forum": "Forum",
-      "sudt_submit": "sUDT Submit"
+      "forum": "Forum"
     },
     "search": {
       "loading": "Loading...",
@@ -338,7 +338,15 @@
       "holder_addresses": "Holder Addresses",
       "decimal": "Decimal",
       "search_placeholder": "Address",
-      "unknown_token": "Unknown Token"
+      "unknown_token": "Unknown Token",
+      "submit_token_info": "Submit Token Info",
+      "unknown_token_description": "The token’s information is incomplete. If you are the owner of this token, please submit token info.",
+      "tokens": "Tokens",
+      "name_symbol": "Name (symbol)",
+      "transactions": "24hr Transactions",
+      "address_count": "Address Count",
+      "created_time": "Created Time",
+      "tokens_empty": "There are no tokens at this time."
     }
   }
 }
