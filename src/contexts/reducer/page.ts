@@ -508,6 +508,22 @@ export const pageReducer = (
           status: payload.status,
         },
       }
+    case PageActions.UpdateTokens:
+      return {
+        ...state,
+        tokensState: {
+          ...state.tokensState,
+          tokens: payload.tokens,
+        },
+      }
+    case PageActions.UpdateTokensStatus:
+      return {
+        ...state,
+        tokensState: {
+          ...state.tokensState,
+          status: payload.status,
+        },
+      }
     default:
       return state
   }
