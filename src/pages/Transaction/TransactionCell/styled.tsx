@@ -128,11 +128,6 @@ export const TransactionCellDetailPanel = styled.div`
       margin-right: 5px;
       width: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '16px' : '18px')};
       height: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '20px' : '14px')};
-
-      @media (max-width: 750px) {
-        width: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '9.6px' : '12px')};
-        height: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '12px' : '9px')};
-      }
     }
   }
 `

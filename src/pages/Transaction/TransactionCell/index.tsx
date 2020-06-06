@@ -6,7 +6,7 @@ import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../../utils/string'
-import { shannonToCkb } from '../../../utils/util'
+import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import {
   TransactionCellContentPanel,
   TransactionCellDetailPanel,
@@ -84,18 +84,19 @@ const detailTitleIcons = (cell: State.Cell) => {
     detailTitle = i18n.t('transaction.nervos_dao_withdraw')
     detailIcon = NervosDAOWithdrawingIcon
   } else if (cell.cellType === DaoType.Udt) {
-    const {
-      udtInfo: { published, symbol, amount, decimal, typeHash },
-    } = cell
-    detailTitle = published
-      ? `${parseUDTAmount(amount, decimal)} ${symbol}`
-      : `${i18n.t('udt.unknown_token')} #<${typeHash.substring(typeHash.length - 4)}>`
+    detailTitle = i18n.t('transaction.udt_transfer')
     detailIcon = UDTTokenIcon
   }
   return {
     detailTitle,
     detailIcon,
   }
+}
+
+const udtAmount = (udt: State.UDTInfo) => {
+  return udt.published
+    ? `${parseUDTAmount(udt.amount, udt.decimal)} ${udt.symbol}`
+    : `${i18n.t('udt.unknown_token')} #<${udt.typeHash.substring(udt.typeHash.length - 4)}>`
 }
 
 const Cellbase = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
@@ -123,7 +124,12 @@ const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
   return (
     <TransactionCellDetailPanel isWithdraw={cell.cellType === DaoType.Withdraw}>
       <div className="transaction__cell__detail__panel">
-        {detailIcon && <img src={detailIcon} alt="cell detail icon" />}
+        {cell.udtInfo && cell.udtInfo.typeHash && (
+          <Tooltip placement="top" title={`Capacity: ${shannonToCkbDecimal(cell.capacity, 8)} CKB`}>
+            <img src={detailIcon} alt="cell detail icon" />
+          </Tooltip>
+        )}
+        {!cell.udtInfo && detailIcon && <img src={detailIcon} alt="cell detail icon" />}
         <div>{detailTitle}</div>
       </div>
     </TransactionCellDetailPanel>
@@ -204,7 +210,11 @@ export default ({
         </div>
 
         <div className="transaction__cell_capacity">
-          {cell.capacity && <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />}
+          {cell.udtInfo && cell.udtInfo.typeHash ? (
+            udtAmount(cell.udtInfo)
+          ) : (
+            <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
+          )}
         </div>
 
         <div className="transaction__detail__cell_info">

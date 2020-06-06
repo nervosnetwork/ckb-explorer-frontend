@@ -247,6 +247,7 @@
       "ckb_capacity": "CKB Capacity",
       "nervos_dao_deposit": "Nervos DAO 锁定",
       "nervos_dao_withdraw": "Nervos DAO 解锁",
+      "udt_transfer": "UDT 转账",
       "script_args": "args",
       "script_code_hash": "code_hash",
       "script_hash_type": "hash_type",

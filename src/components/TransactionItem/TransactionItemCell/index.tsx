@@ -9,7 +9,7 @@ import UDTTokenIcon from '../../../assets/udt_token.png'
 import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
-import { shannonToCkb } from '../../../utils/util'
+import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { CellbasePanel, TransactionCellPanel, TransactionCellCapacity, WithdrawInfoPanel } from './styled'
 import { isMobile, isScreenSmallerThan1440 } from '../../../utils/screen'
 import { CellType, DaoType } from '../../../utils/const'
@@ -191,9 +191,9 @@ const TransactionCapacityAction = ({ cell, cellType }: { cell: State.Cell; cellT
         <DecimalCapacity value={parseUDTAmount(cell.udtInfo.amount, cell.udtInfo.decimal)} />
         <Tooltip
           placement={isMobile() ? 'topRight' : 'top'}
-          title={`CKB Capacity: ${localeNumberString(shannonToCkb(cell.capacity))}`}
+          title={`Capacity: ${localeNumberString(shannonToCkbDecimal(cell.capacity, 8))} CKB`}
           arrowPointAtCenter
-          overlayStyle={{ fontSize: '12px' }}
+          overlayStyle={{ fontSize: '14px' }}
         >
           <img src={UDTTokenIcon} className="nervos__dao__withdraw_icon" alt="right arrow" />
         </Tooltip>
