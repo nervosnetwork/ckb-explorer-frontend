@@ -112,13 +112,13 @@ exports[`Table Component shallow renders 3`] = `
 
 }
 
-@media (max-width:700px) {
+@media (max-width:750px) {
   .c0 .table__miner__text {
     font-size: 13px;
   }
 }
 
-@media (max-width:700px) {
+@media (max-width:750px) {
   .c0 .table__miner__text__disable {
     font-size: 13px;
   }

@@ -4,9 +4,7 @@ import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticSecondaryIssuance } from '../../../service/app/charts/monetary'
 
 const gridThumbnail = {
@@ -18,7 +16,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '4%',
-  right: '4%',
+  right: '3%',
+  top: '8%',
   bottom: '5%',
   containLabel: true,
 }
@@ -124,26 +123,23 @@ const getOption = (
   }
 }
 
-export const SecondaryIssuanceChart = ({
-  statisticSecondaryIssuance,
-  isThumbnail = false,
-}: {
-  statisticSecondaryIssuance: State.StatisticSecondaryIssuance[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticSecondaryIssuance || statisticSecondaryIssuance.length === 0) {
-    return <ChartLoading show={statisticSecondaryIssuance === undefined} isThumbnail={isThumbnail} />
+export const SecondaryIssuanceChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticSecondaryIssuance, statisticSecondaryIssuanceFetchEnd } = useAppState()
+  if (!statisticSecondaryIssuanceFetchEnd || statisticSecondaryIssuance.length === 0) {
+    return <ChartLoading show={!statisticSecondaryIssuanceFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticSecondaryIssuance, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticSecondaryIssuance = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticSecondaryIssuance,
-    payload: {
-      statisticSecondaryIssuance: undefined,
-    },
-  })
+const toCSV = (statisticSecondaryIssuance: State.StatisticSecondaryIssuance[]) => {
+  return statisticSecondaryIssuance
+    ? statisticSecondaryIssuance.map(data => [
+        data.createdAtUnixtimestamp,
+        data.treasuryAmount,
+        data.miningReward,
+        data.depositCompensation,
+      ])
+    : []
 }
 
 export default () => {
@@ -151,13 +147,16 @@ export default () => {
   const { statisticSecondaryIssuance } = useAppState()
 
   useEffect(() => {
-    initStatisticSecondaryIssuance(dispatch)
     getStatisticSecondaryIssuance(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('nervos_dao.secondary_issuance')}>
-      <SecondaryIssuanceChart statisticSecondaryIssuance={statisticSecondaryIssuance} />
+    <ChartPage
+      title={i18n.t('nervos_dao.secondary_issuance')}
+      description={i18n.t('statistic.secondary_issuance_description')}
+      data={toCSV(statisticSecondaryIssuance)}
+    >
+      <SecondaryIssuanceChart />
     </ChartPage>
   )
 }

@@ -17,7 +17,7 @@ import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCa
 import { useDispatch, useAppState } from '../../contexts/providers'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { getTransactions } from '../../service/app/transaction'
-import { TransactionCapacityPanel, TransactionListPanel, ContentTable, HighLightValue } from './style'
+import { TransactionCapacityPanel, TransactionListPanel, ContentTable, HighLightValue } from './styled'
 
 interface TableTitleData {
   title: string

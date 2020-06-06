@@ -11,8 +11,8 @@ import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 
 export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
-  fetchStatisticDifficultyHashRate().then(
-    (response: Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]> | null) => {
+  fetchStatisticDifficultyHashRate()
+    .then((response: Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]> | null) => {
       if (!response) return
       const { data } = response
       const difficultyHashRates = data.map(wrapper => {
@@ -28,13 +28,26 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
           statisticDifficultyHashRates: difficultyHashRates,
         },
       })
-    },
-  )
+      dispatch({
+        type: PageActions.UpdateStatisticDifficultyHashRateFetchEnd,
+        payload: {
+          statisticDifficultyHashRatesFetchEnd: true,
+        },
+      })
+    })
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticDifficultyHashRateFetchEnd,
+        payload: {
+          statisticDifficultyHashRatesFetchEnd: true,
+        },
+      })
+    })
 }
 
 export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
-  fetchStatisticDifficultyUncleRate().then(
-    (response: Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRate>[]> | null) => {
+  fetchStatisticDifficultyUncleRate()
+    .then((response: Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRate>[]> | null) => {
       if (!response) return
       const { data } = response
       const difficultyUncleRates = data.map(wrapper => {
@@ -50,13 +63,26 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
           statisticDifficultyUncleRates: difficultyUncleRates,
         },
       })
-    },
-  )
+      dispatch({
+        type: PageActions.UpdateStatisticDifficultyUncleRateFetchEnd,
+        payload: {
+          statisticDifficultyUncleRatesFetchEnd: true,
+        },
+      })
+    })
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticDifficultyUncleRateFetchEnd,
+        payload: {
+          statisticDifficultyUncleRatesFetchEnd: true,
+        },
+      })
+    })
 }
 
 export const getStatisticDifficulty = (dispatch: AppDispatch) => {
-  fetchStatisticDifficulty().then(
-    (response: Response.Response<Response.Wrapper<State.StatisticDifficulty>[]> | null) => {
+  fetchStatisticDifficulty()
+    .then((response: Response.Response<Response.Wrapper<State.StatisticDifficulty>[]> | null) => {
       if (!response) return
       const { data } = response
       const difficulties = data.map(wrapper => {
@@ -71,51 +97,94 @@ export const getStatisticDifficulty = (dispatch: AppDispatch) => {
           statisticDifficulties: difficulties,
         },
       })
-    },
-  )
+      dispatch({
+        type: PageActions.UpdateStatisticDifficultyFetchEnd,
+        payload: {
+          statisticDifficultiesFetchEnd: true,
+        },
+      })
+    })
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticDifficultyFetchEnd,
+        payload: {
+          statisticDifficultiesFetchEnd: true,
+        },
+      })
+    })
 }
 
 export const getStatisticHashRate = (dispatch: AppDispatch) => {
-  fetchStatisticHashRate().then((response: Response.Response<Response.Wrapper<State.StatisticHashRate>[]> | null) => {
-    if (!response) return
-    const { data } = response
-    const hashRates = data.map(wrapper => {
-      return {
-        avgHashRate: new BigNumber(wrapper.attributes.avgHashRate).multipliedBy(1000).toNumber(),
-        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-      }
+  fetchStatisticHashRate()
+    .then((response: Response.Response<Response.Wrapper<State.StatisticHashRate>[]> | null) => {
+      if (!response) return
+      const { data } = response
+      const hashRates = data.map(wrapper => {
+        return {
+          avgHashRate: new BigNumber(wrapper.attributes.avgHashRate).multipliedBy(1000).toNumber(),
+          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+        }
+      })
+      dispatch({
+        type: PageActions.UpdateStatisticHashRate,
+        payload: {
+          statisticHashRates: hashRates,
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateStatisticHashRateFetchEnd,
+        payload: {
+          statisticHashRatesFetchEnd: true,
+        },
+      })
     })
-    dispatch({
-      type: PageActions.UpdateStatisticHashRate,
-      payload: {
-        statisticHashRates: hashRates,
-      },
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticHashRateFetchEnd,
+        payload: {
+          statisticHashRatesFetchEnd: true,
+        },
+      })
     })
-  })
 }
 
 export const getStatisticUncleRate = (dispatch: AppDispatch) => {
-  fetchStatisticUncleRate().then((response: Response.Response<Response.Wrapper<State.StatisticUncleRate>[]> | null) => {
-    if (!response) return
-    const { data } = response
-    const uncleRates = data.map(wrapper => {
-      return {
-        uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
-        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-      }
+  fetchStatisticUncleRate()
+    .then((response: Response.Response<Response.Wrapper<State.StatisticUncleRate>[]> | null) => {
+      if (!response) return
+      const { data } = response
+      const uncleRates = data.map(wrapper => {
+        return {
+          uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
+          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+        }
+      })
+      dispatch({
+        type: PageActions.UpdateStatisticUncleRate,
+        payload: {
+          statisticUncleRates: uncleRates,
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateStatisticUncleRateFetchEnd,
+        payload: {
+          statisticUncleRatesFetchEnd: true,
+        },
+      })
     })
-    dispatch({
-      type: PageActions.UpdateStatisticUncleRate,
-      payload: {
-        statisticUncleRates: uncleRates,
-      },
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticUncleRateFetchEnd,
+        payload: {
+          statisticUncleRatesFetchEnd: true,
+        },
+      })
     })
-  })
 }
 
 export const getStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
-  fetchStatisticMinerAddressDistribution().then(
-    (wrapper: Response.Wrapper<State.StatisticMinerAddressDistribution> | null) => {
+  fetchStatisticMinerAddressDistribution()
+    .then((wrapper: Response.Wrapper<State.StatisticMinerAddressDistribution> | null) => {
       if (!wrapper) return
       let statisticMinerAddresses: State.StatisticMinerAddress[] = []
       let blockSum = 0
@@ -134,6 +203,19 @@ export const getStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
           statisticMinerAddresses,
         },
       })
-    },
-  )
+      dispatch({
+        type: PageActions.UpdateStatisticMinerAddressDistributionFetchEnd,
+        payload: {
+          statisticMinerAddressesFetchEnd: true,
+        },
+      })
+    })
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticMinerAddressDistributionFetchEnd,
+        payload: {
+          statisticMinerAddressesFetchEnd: true,
+        },
+      })
+    })
 }

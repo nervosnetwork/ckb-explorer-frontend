@@ -60,7 +60,7 @@ export const BlockMinerRewardPanel = styled.div`
     margin-bottom: ${(props: { sent: boolean }) => (props.sent ? '3px' : '0')};
     cursor: ${(props: { sent: boolean }) => (props.sent ? 'pointer' : 'default')};
 
-    @media(max-width: 700px) {
+    @media(max-width: 750px) {
       width: ${(props: { sent: boolean }) => (props.sent ? '27px' : '16px')};
       height： 16px;
       margin-bottom: ${(props: { sent: boolean }) => (props.sent ? '1px' : '0')};

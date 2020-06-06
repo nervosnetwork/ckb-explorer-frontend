@@ -35,10 +35,10 @@ export const parseTimeNoSecond = (millisecond: number | string) => {
   return `${hour} h ${minute} m`
 }
 
-export const parseDateNoTime = (timestamp: number | string, noYear = false) => {
+export const parseDateNoTime = (timestamp: number | string, noYear = false, connector = '/') => {
   const date = new Date(Number(timestamp) * 1000)
-  const year = noYear ? '' : `${date.getFullYear()}/`
-  return `${year}${date.getMonth() + 1}/${date.getDate()}`
+  const year = noYear ? '' : `${date.getFullYear()}${connector}`
+  return `${year}${date.getMonth() + 1}${connector}${date.getDate()}`
 }
 
 export const parseDate = (timestamp: number | string) => {

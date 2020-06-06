@@ -5,7 +5,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
   className="sc-fzqNJr bFijAK"
 >
   <div
-    className="sc-fzoiQi bwszVw"
+    className="sc-fzoiQi ioDjAy container"
   >
     <div
       className="sc-fzqARJ dBcmJI"
@@ -24,99 +24,120 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="charts__category__panel"
       >
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/block-time-distribution"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Block Time Distribution
+              <div
+                className="chart__card_title"
+              >
+                Block Time Distribution
+              </div>
+              <img
+                alt="chart help"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="qa_help.png"
+              />
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/epoch-time-distribution"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Epoch Time Distribution
+              <div
+                className="chart__card_title"
+              >
+                Epoch Time Distribution
+              </div>
+              <img
+                alt="chart help"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="qa_help.png"
+              />
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/average-block-time"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Average Block Time
+              <div
+                className="chart__card_title"
+              >
+                Average Block Time
+              </div>
+              <img
+                alt="chart help"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="qa_help.png"
+              />
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
@@ -136,198 +157,210 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="charts__category__panel"
       >
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/difficulty-hash-rate"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Difficulty & Hash Rate
+              <div
+                className="chart__card_title"
+              >
+                Difficulty & Hash Rate
+              </div>
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/difficulty-uncle-rate"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Difficulty & Uncle Rate
+              <div
+                className="chart__card_title"
+              >
+                Difficulty & Uncle Rate
+              </div>
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/difficulty"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Difficulty
+              <div
+                className="chart__card_title"
+              >
+                Difficulty
+              </div>
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/hash-rate"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Hash Rate
+              <div
+                className="chart__card_title"
+              >
+                Hash Rate
+              </div>
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/uncle-rate"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Uncle Rate
+              <div
+                className="chart__card_title"
+              >
+                Uncle Rate
+              </div>
+              <img
+                alt="chart help"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="qa_help.png"
+              />
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/miner-address-distribution"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Top Miners (Recent 7 days)
+              <div
+                className="chart__card_title"
+              >
+                Top Miners (Recent 7 days)
+              </div>
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
@@ -347,198 +380,222 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="charts__category__panel"
       >
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/transaction-count"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Transaction Count
+              <div
+                className="chart__card_title"
+              >
+                Transaction Count
+              </div>
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/address-count"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Address Count
+              <div
+                className="chart__card_title"
+              >
+                Address Count
+              </div>
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/cell-count"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Cell Count
+              <div
+                className="chart__card_title"
+              >
+                Cell Count
+              </div>
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/address-balance-rank"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Balance Ranking
+              <div
+                className="chart__card_title"
+              >
+                Balance Ranking
+              </div>
+              <img
+                alt="chart help"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="qa_help.png"
+              />
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/balance-distribution"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Balance Distribution
+              <div
+                className="chart__card_title"
+              >
+                Balance Distribution
+              </div>
+              <img
+                alt="chart help"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="qa_help.png"
+              />
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/tx-fee-history"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Transaction Fee
+              <div
+                className="chart__card_title"
+              >
+                Transaction Fee
+              </div>
+              <img
+                alt="chart help"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="qa_help.png"
+              />
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
@@ -558,99 +615,114 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="charts__category__panel"
       >
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/total-dao-deposit"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Total Deposit
+              <div
+                className="chart__card_title"
+              >
+                Total Deposit
+              </div>
+              <img
+                alt="chart help"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="qa_help.png"
+              />
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/new-dao-deposit"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Daily Deposit
+              <div
+                className="chart__card_title"
+              >
+                Daily Deposit
+              </div>
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/circulation-ratio"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Deposit to Circulation Ratio
+              <div
+                className="chart__card_title"
+              >
+                Deposit to Circulation Ratio
+              </div>
+              <img
+                alt="chart help"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="qa_help.png"
+              />
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
@@ -670,165 +742,194 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="charts__category__panel"
       >
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/total-supply"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Total Supply
+              <div
+                className="chart__card_title"
+              >
+                Total Supply
+              </div>
+              <img
+                alt="chart help"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="qa_help.png"
+              />
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/nominal-apc"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Nominal DAO Compensation Rate
+              <div
+                className="chart__card_title"
+              >
+                Nominal DAO Compensation Rate
+              </div>
+              <img
+                alt="chart help"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="qa_help.png"
+              />
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/secondary-issuance"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Secondary Issuance
+              <div
+                className="chart__card_title"
+              >
+                Secondary Issuance
+              </div>
+              <img
+                alt="chart help"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="qa_help.png"
+              />
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/inflation-rate"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Inflation Rate
+              <div
+                className="chart__card_title"
+              >
+                Inflation Rate
+              </div>
+              <img
+                alt="chart help"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="qa_help.png"
+              />
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>
           </a>
         </div>
         <div
-          className="sc-fzoyTs bDXNzP"
+          className="sc-fzoyTs dSCrJV"
         >
           <a
             href="/charts/liquidity"
             onClick={[Function]}
           >
             <div
-              className="chart__card_title"
+              className="chart__card__title__penal"
             >
-              Liquidity
+              <div
+                className="chart__card_title"
+              >
+                Liquidity
+              </div>
             </div>
             <div
               className="chart__card_body"
             >
               <div
-                className="sc-fzoXzr jAtUuH"
+                className="sc-fzoXzr jgXlrB"
               >
                 <div
-                  className="sc-fzpjYC kXhIKa"
+                  className="sc-fznWqX LuTJj"
                 >
                   <img
-                    alt="no data"
-                    src="chart_no_data.png"
+                    alt="loading"
+                    src="loading.gif"
                   />
-                  <span>
-                    No data...
-                  </span>
                 </div>
               </div>
             </div>

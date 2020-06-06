@@ -7,9 +7,7 @@ import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../utils/const'
-import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth } from '../common'
 
 const gridThumbnail = {
   left: '4%',
@@ -20,7 +18,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '3%',
-  right: '4%',
+  right: '3%',
+  top: '8%',
   bottom: '5%',
   containLabel: true,
 }
@@ -122,26 +121,18 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
   }
 }
 
-export const initStatisticCellCount = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticCellCount,
-    payload: {
-      statisticCellCounts: undefined,
-    },
-  })
-}
-
-export const CellCountChart = ({
-  statisticCellCounts,
-  isThumbnail = false,
-}: {
-  statisticCellCounts: State.StatisticCellCount[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticCellCounts || statisticCellCounts.length === 0) {
-    return <ChartLoading show={statisticCellCounts === undefined} isThumbnail={isThumbnail} />
+export const CellCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticCellCounts, statisticCellCountsFetchEnd } = useAppState()
+  if (!statisticCellCountsFetchEnd || statisticCellCounts.length === 0) {
+    return <ChartLoading show={!statisticCellCountsFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticCellCounts, isThumbnail)} isThumbnail={isThumbnail} />
+}
+
+const toCSV = (statisticCellCounts: State.StatisticCellCount[]) => {
+  return statisticCellCounts
+    ? statisticCellCounts.map(data => [data.createdAtUnixtimestamp, data.liveCellsCount, data.allCellsCount])
+    : []
 }
 
 export default () => {
@@ -149,13 +140,12 @@ export default () => {
   const { statisticCellCounts } = useAppState()
 
   useEffect(() => {
-    initStatisticCellCount(dispatch)
     getStatisticCellCount(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.cell_count')}>
-      <CellCountChart statisticCellCounts={statisticCellCounts} />
+    <ChartPage title={i18n.t('statistic.cell_count')} data={toCSV(statisticCellCounts)}>
+      <CellCountChart />
     </ChartPage>
   )
 }

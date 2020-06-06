@@ -6,11 +6,9 @@ import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticTotalSupply } from '../../../service/app/charts/monetary'
-import { shannonToCkb } from '../../../utils/util'
+import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 
 const gridThumbnail = {
   left: '4%',
@@ -21,7 +19,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '3%',
-  right: '4%',
+  right: '3%',
+  top: '8%',
   bottom: '5%',
   containLabel: true,
 }
@@ -133,26 +132,23 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
   }
 }
 
-export const TotalSupplyChart = ({
-  statisticTotalSupplies,
-  isThumbnail = false,
-}: {
-  statisticTotalSupplies: State.StatisticTotalSupply[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticTotalSupplies || statisticTotalSupplies.length === 0) {
-    return <ChartLoading show={statisticTotalSupplies === undefined} isThumbnail={isThumbnail} />
+export const TotalSupplyChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticTotalSupplies, statisticTotalSuppliesFetchEnd } = useAppState()
+  if (!statisticTotalSuppliesFetchEnd || statisticTotalSupplies.length === 0) {
+    return <ChartLoading show={!statisticTotalSuppliesFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticTotalSupplies, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticTotalSupply = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticTotalSupply,
-    payload: {
-      statisticTotalSupply: undefined,
-    },
-  })
+const toCSV = (statisticTotalSupplies: State.StatisticTotalSupply[]) => {
+  return statisticTotalSupplies
+    ? statisticTotalSupplies.map(data => [
+        data.createdAtUnixtimestamp,
+        shannonToCkbDecimal(data.circulatingSupply, 8),
+        shannonToCkbDecimal(data.lockedCapacity, 8),
+        shannonToCkbDecimal(data.burnt, 8),
+      ])
+    : []
 }
 
 export default () => {
@@ -160,13 +156,16 @@ export default () => {
   const { statisticTotalSupplies } = useAppState()
 
   useEffect(() => {
-    initStatisticTotalSupply(dispatch)
     getStatisticTotalSupply(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.total_supply')}>
-      <TotalSupplyChart statisticTotalSupplies={statisticTotalSupplies} />
+    <ChartPage
+      title={i18n.t('statistic.total_supply')}
+      description={i18n.t('statistic.total_supply_description')}
+      data={toCSV(statisticTotalSupplies)}
+    >
+      <TotalSupplyChart />
     </ChartPage>
   )
 }

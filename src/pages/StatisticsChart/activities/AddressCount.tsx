@@ -6,9 +6,7 @@ import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { ChartColors } from '../../../utils/const'
 
 const gridThumbnail = {
@@ -20,7 +18,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '3%',
-  right: '4%',
+  right: '3%',
+  top: isMobile() ? '3%' : '8%',
   bottom: '5%',
   containLabel: true,
 }
@@ -89,26 +88,18 @@ const getOption = (
   }
 }
 
-export const initStatisticAddressCount = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticAddressCount,
-    payload: {
-      statisticAddressCounts: undefined,
-    },
-  })
-}
-
-export const AddressCountChart = ({
-  statisticAddressCounts,
-  isThumbnail = false,
-}: {
-  statisticAddressCounts?: State.StatisticAddressCount[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticAddressCounts || statisticAddressCounts.length === 0) {
-    return <ChartLoading show={statisticAddressCounts === undefined} isThumbnail={isThumbnail} />
+export const AddressCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticAddressCounts, statisticAddressCountsFetchEnd } = useAppState()
+  if (!statisticAddressCountsFetchEnd || statisticAddressCounts.length === 0) {
+    return <ChartLoading show={!statisticAddressCountsFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticAddressCounts, isThumbnail)} isThumbnail={isThumbnail} />
+}
+
+const toCSV = (statisticAddressCounts?: State.StatisticAddressCount[]) => {
+  return statisticAddressCounts
+    ? statisticAddressCounts.map(data => [data.createdAtUnixtimestamp, data.addressesCount])
+    : []
 }
 
 export default () => {
@@ -116,13 +107,12 @@ export default () => {
   const { statisticAddressCounts } = useAppState()
 
   useEffect(() => {
-    initStatisticAddressCount(dispatch)
     getStatisticAddressCount(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.address_count')}>
-      <AddressCountChart statisticAddressCounts={statisticAddressCounts} />
+    <ChartPage title={i18n.t('statistic.address_count')} data={toCSV(statisticAddressCounts)}>
+      <AddressCountChart />
     </ChartPage>
   )
 }

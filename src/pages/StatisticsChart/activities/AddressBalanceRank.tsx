@@ -1,16 +1,14 @@
 import React, { useEffect, useCallback } from 'react'
 import { getStatisticAddressBalanceRank } from '../../../service/app/charts/activities'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
 import { isMobile } from '../../../utils/screen'
-import { shannonToCkb } from '../../../utils/util'
+import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { adaptPCEllipsis } from '../../../utils/string'
 import browserHistory from '../../../routes/history'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { ChartColors } from '../../../utils/const'
 
 const gridThumbnail = {
@@ -22,7 +20,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '5%',
-  right: '4%',
+  right: '3%',
+  top: isMobile() ? '3%' : '8%',
   bottom: '5%',
   containLabel: true,
 }
@@ -103,16 +102,15 @@ const getOption = (
 }
 
 export const AddressBalanceRankChart = ({
-  statisticAddressBalanceRanks,
   clickEvent,
   isThumbnail = false,
 }: {
-  statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[]
   clickEvent: any
   isThumbnail?: boolean
 }) => {
-  if (!statisticAddressBalanceRanks || statisticAddressBalanceRanks.length === 0) {
-    return <ChartLoading show={statisticAddressBalanceRanks === undefined} isThumbnail={isThumbnail} />
+  const { statisticAddressBalanceRanks, statisticAddressBalanceRanksFetchEnd } = useAppState()
+  if (!statisticAddressBalanceRanksFetchEnd || statisticAddressBalanceRanks.length === 0) {
+    return <ChartLoading show={!statisticAddressBalanceRanksFetchEnd} isThumbnail={isThumbnail} />
   }
   return (
     <ReactChartCore
@@ -123,13 +121,10 @@ export const AddressBalanceRankChart = ({
   )
 }
 
-export const initStatisticAddressBalanceRanks = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticAddressBalanceRank,
-    payload: {
-      statisticAddressBalanceRanks: undefined,
-    },
-  })
+const toCSV = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[]) => {
+  return statisticAddressBalanceRanks
+    ? statisticAddressBalanceRanks.map(data => [data.ranking, shannonToCkbDecimal(data.balance, 8)])
+    : []
 }
 
 export default () => {
@@ -146,13 +141,16 @@ export default () => {
   )
 
   useEffect(() => {
-    initStatisticAddressBalanceRanks(dispatch)
     getStatisticAddressBalanceRank(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.balance_ranking')}>
-      <AddressBalanceRankChart statisticAddressBalanceRanks={statisticAddressBalanceRanks} clickEvent={clickEvent} />
+    <ChartPage
+      title={i18n.t('statistic.balance_ranking')}
+      description={i18n.t('statistic.balance_ranking_description')}
+      data={toCSV(statisticAddressBalanceRanks)}
+    >
+      <AddressBalanceRankChart clickEvent={clickEvent} />
     </ChartPage>
   )
 }

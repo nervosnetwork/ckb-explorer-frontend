@@ -8,8 +8,8 @@ import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 
 export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
-  fetchStatisticTotalDaoDeposit().then(
-    (response: Response.Response<Response.Wrapper<State.StatisticTotalDaoDeposit>[]> | null) => {
+  fetchStatisticTotalDaoDeposit()
+    .then((response: Response.Response<Response.Wrapper<State.StatisticTotalDaoDeposit>[]> | null) => {
       if (!response) return
       const { data } = response
       const totalDaoDeposits = data.map(wrapper => {
@@ -25,13 +25,26 @@ export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
           statisticTotalDaoDeposits: totalDaoDeposits,
         },
       })
-    },
-  )
+      dispatch({
+        type: PageActions.UpdateStatisticTotalDaoDepositFetchEnd,
+        payload: {
+          statisticTotalDaoDepositsFetchEnd: true,
+        },
+      })
+    })
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticTotalDaoDepositFetchEnd,
+        payload: {
+          statisticTotalDaoDepositsFetchEnd: true,
+        },
+      })
+    })
 }
 
 export const getStatisticNewDaoDeposit = (dispatch: AppDispatch) => {
-  fetchStatisticNewDaoDeposit().then(
-    (response: Response.Response<Response.Wrapper<State.StatisticNewDaoDeposit>[]> | null) => {
+  fetchStatisticNewDaoDeposit()
+    .then((response: Response.Response<Response.Wrapper<State.StatisticNewDaoDeposit>[]> | null) => {
       if (!response) return
       const { data } = response
       const statisticNewDaoDeposits = data.map(wrapper => {
@@ -47,13 +60,26 @@ export const getStatisticNewDaoDeposit = (dispatch: AppDispatch) => {
           statisticNewDaoDeposits,
         },
       })
-    },
-  )
+      dispatch({
+        type: PageActions.UpdateStatisticNewDaoDepositFetchEnd,
+        payload: {
+          statisticNewDaoDepositsFetchEnd: true,
+        },
+      })
+    })
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticNewDaoDepositFetchEnd,
+        payload: {
+          statisticNewDaoDepositsFetchEnd: true,
+        },
+      })
+    })
 }
 
 export const getStatisticNewDaoWithdraw = (dispatch: AppDispatch) => {
-  fetchStatisticNewDaoWithdraw().then(
-    (response: Response.Response<Response.Wrapper<State.StatisticNewDaoWithdraw>[]> | null) => {
+  fetchStatisticNewDaoWithdraw()
+    .then((response: Response.Response<Response.Wrapper<State.StatisticNewDaoWithdraw>[]> | null) => {
       if (!response) return
       const { data } = response
       const statisticNewDaoWithdraw = data.map(wrapper => {
@@ -68,13 +94,26 @@ export const getStatisticNewDaoWithdraw = (dispatch: AppDispatch) => {
           statisticNewDaoWithdraw,
         },
       })
-    },
-  )
+      dispatch({
+        type: PageActions.UpdateStatisticNewDaoWithdrawFetchEnd,
+        payload: {
+          statisticNewDaoWithdrawFetchEnd: true,
+        },
+      })
+    })
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticNewDaoWithdrawFetchEnd,
+        payload: {
+          statisticNewDaoWithdrawFetchEnd: true,
+        },
+      })
+    })
 }
 
 export const getStatisticCirculationRatio = (dispatch: AppDispatch) => {
-  fetchStatisticCirculationRatio().then(
-    (response: Response.Response<Response.Wrapper<State.StatisticCirculationRatio>[]> | null) => {
+  fetchStatisticCirculationRatio()
+    .then((response: Response.Response<Response.Wrapper<State.StatisticCirculationRatio>[]> | null) => {
       if (!response) return
       const { data } = response
       const statisticCirculationRatios = data.map(wrapper => {
@@ -89,6 +128,19 @@ export const getStatisticCirculationRatio = (dispatch: AppDispatch) => {
           statisticCirculationRatios,
         },
       })
-    },
-  )
+      dispatch({
+        type: PageActions.UpdateStatisticCirculationRatioFetchEnd,
+        payload: {
+          statisticCirculationRatiosFetchEnd: true,
+        },
+      })
+    })
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticCirculationRatioFetchEnd,
+        payload: {
+          statisticCirculationRatiosFetchEnd: true,
+        },
+      })
+    })
 }

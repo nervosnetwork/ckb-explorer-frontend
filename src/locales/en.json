@@ -23,6 +23,7 @@
       "charts": "Charts",
       "nervos_dao": "Nervos DAO",
       "faucet": "Faucet",
+      "tokens": "Tokens",
       "docs": "Docs",
       "search_placeholder": "Block/Transaction/Address/Lock Hash/Type Hash",
       "mainnet": "LINA",
@@ -129,7 +130,21 @@
       "dao_deposit": "Nervos DAO Deposit",
       "liquidity": "Liquidity",
       "miner_radio": "Radio",
-      "miner_addresses_rank": "Top Miners (Recent 7 days)"
+      "miner_addresses_rank": "Top Miners (Recent 7 days)",
+      "download_data": "Download Data",
+      "block_time_distribution_description": "The x axis is block intervals in seconds, and the y axis is the frequency of occurrence in the latest 50,000 blocks.",
+      "epoch_time_distribution_description": "The x axis is epoch intervals in hours, and the y axis is the frequency of occurrence in the latest 500 epochs.",
+      "average_block_time_description": "Average block intervals with daily & weekly smooth window",
+      "uncle_rate_description": "The uncle rate is the rate of orphans blocks. The NC-Max consensus will automatically adjust the uncle rate by mining difficulty, and the target is 2.5%.",
+      "balance_ranking_description": "The first 50 addresses that have the most amount of CKB.",
+      "balance_distribution_description": "Shows the address count at specific balance range, and that under specific balance amount.",
+      "tx_fee_description": "Total transaction fees charged by miners.",
+      "total_dao_deposit_description": "Shows the total DAO deposit and depositors' address count.",
+      "deposit_to_circulation_ratio_description": "The ratio of DAO deposit to circulating supply. Where the circulating supply is equal to the total supply minus the burnt part and the unvested part.",
+      "total_supply_description": "Total supply equals the sum of the primary issuance and the secondary issuance; \nThe burnt part equals the sum of the 25% genesis issuance burnt and the burnt portion in the secondary issuance;\nThe unvested part equals the portion that locked by time lock, which will be released gradually by predefined schedule.\nThe circulating supply is equal to the total supply minus the burnt part and the unvested part.",
+      "nominal_rpc_description": "The nominal compensation rate provided by DAO when there is no burnt portion in the secondary issuance. The real compensation rate is always higher than the nominal compensation rate.",
+      "secondary_issuance_description": "The secondary issuance is automatically divided into three parts, the compensation, the mining reward and the treasury (burnt by now). They are proportional to the DAO deposit, the storage occupation, and the rest of CKBytes.",
+      "inflation_rate_description": "Nominal inflation rate: the inflation introduced by the the primary issuance and the secondary issuance. \nNominal APC: the anti-dilution compensation rate of Nervos DAO.\nReal inflation rate: the compound inflation rate that nominal inflation rate minus the nominal APC, which is gradually to zero."
     },
     "home": {
       "height": "Height",
@@ -157,8 +172,7 @@
       "telegram": "Telegram",
       "reddit": "Reddit",
       "youtube": "YouTube",
-      "forum": "Forum",
-      "sudt_submit": "sUDT Submit"
+      "forum": "Forum"
     },
     "search": {
       "loading": "Loading...",
@@ -318,7 +332,15 @@
       "holder_addresses": "Holder Addresses",
       "decimal": "Decimal",
       "search_placeholder": "Address",
-      "unknown_token": "Unknown Token"
+      "unknown_token": "Unknown Token",
+      "submit_token_info": "Submit Token Info",
+      "unknown_token_description": "The token’s information is incomplete. If you are the owner of this token, please submit token info.",
+      "tokens": "Tokens",
+      "name_symbol": "Name (symbol)",
+      "transactions": "24hr Transactions",
+      "address_count": "Address Count",
+      "created_time": "Created Time",
+      "tokens_empty": "There are no tokens at this time."
     }
   }
 }

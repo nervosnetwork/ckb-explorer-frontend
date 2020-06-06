@@ -333,7 +333,7 @@ exports[`Active Page shallow renders 1`] = `
                 Miner
               </span>
               <div
-                className="sc-fznzOf hFClCg"
+                className="sc-fznzOf gdgizY"
                 fontSize="14px"
                 width="10%"
               >
@@ -434,7 +434,7 @@ exports[`Active Page shallow renders 1`] = `
                 Miner
               </span>
               <div
-                className="sc-fznzOf hFClCg"
+                className="sc-fznzOf gdgizY"
                 fontSize="14px"
                 width="10%"
               >
@@ -535,7 +535,7 @@ exports[`Active Page shallow renders 1`] = `
                 Miner
               </span>
               <div
-                className="sc-fznzOf hFClCg"
+                className="sc-fznzOf gdgizY"
                 fontSize="14px"
                 width="10%"
               >

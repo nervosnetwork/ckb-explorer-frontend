@@ -12,23 +12,38 @@ import { fetchCachedData, storeCachedData } from '../../../utils/cached'
 import { CachedKeys } from '../../../utils/const'
 
 export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
-  fetchStatisticTotalSupply().then((response: Response.Wrapper<State.StatisticTotalSupply>[] | null) => {
-    if (!response) return
-    const statisticTotalSupplies = response.map(wrapper => {
-      return {
-        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-        circulatingSupply: wrapper.attributes.circulatingSupply,
-        burnt: wrapper.attributes.burnt,
-        lockedCapacity: wrapper.attributes.lockedCapacity,
-      }
+  fetchStatisticTotalSupply()
+    .then((response: Response.Wrapper<State.StatisticTotalSupply>[] | null) => {
+      if (!response) return
+      const statisticTotalSupplies = response.map(wrapper => {
+        return {
+          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+          circulatingSupply: wrapper.attributes.circulatingSupply,
+          burnt: wrapper.attributes.burnt,
+          lockedCapacity: wrapper.attributes.lockedCapacity,
+        }
+      })
+      dispatch({
+        type: PageActions.UpdateStatisticTotalSupply,
+        payload: {
+          statisticTotalSupplies,
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateStatisticTotalSupplyFetchEnd,
+        payload: {
+          statisticTotalSuppliesFetchEnd: true,
+        },
+      })
     })
-    dispatch({
-      type: PageActions.UpdateStatisticTotalSupply,
-      payload: {
-        statisticTotalSupplies,
-      },
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticTotalSupplyFetchEnd,
+        payload: {
+          statisticTotalSuppliesFetchEnd: true,
+        },
+      })
     })
-  })
 }
 
 export const getStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) => {
@@ -40,10 +55,16 @@ export const getStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) 
         statisticAnnualPercentageCompensations: data,
       },
     })
+    dispatch({
+      type: PageActions.UpdateStatisticAnnualPercentageCompensationFetchEnd,
+      payload: {
+        statisticAnnualPercentageCompensationsFetchEnd: true,
+      },
+    })
     return
   }
-  fetchStatisticAnnualPercentageCompensation().then(
-    (wrapper: Response.Wrapper<State.StatisticAnnualPercentageCompensations> | null) => {
+  fetchStatisticAnnualPercentageCompensation()
+    .then((wrapper: Response.Wrapper<State.StatisticAnnualPercentageCompensations> | null) => {
       if (!wrapper) return
       const statisticAnnualPercentageCompensations = wrapper.attributes.nominalApc
         .filter((_apc, index) => index % 3 === 0 || index === wrapper.attributes.nominalApc.length - 1)
@@ -59,34 +80,62 @@ export const getStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) 
           statisticAnnualPercentageCompensations,
         },
       })
+      dispatch({
+        type: PageActions.UpdateStatisticAnnualPercentageCompensationFetchEnd,
+        payload: {
+          statisticAnnualPercentageCompensationsFetchEnd: true,
+        },
+      })
       storeCachedData(CachedKeys.APC, statisticAnnualPercentageCompensations)
-    },
-  )
+    })
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticAnnualPercentageCompensationFetchEnd,
+        payload: {
+          statisticAnnualPercentageCompensationsFetchEnd: true,
+        },
+      })
+    })
 }
 
 export const getStatisticSecondaryIssuance = (dispatch: AppDispatch) => {
-  fetchStatisticSecondaryIssuance().then((wrappers: Response.Wrapper<State.StatisticSecondaryIssuance>[] | null) => {
-    if (!wrappers) return
-    const statisticSecondaryIssuance = wrappers.map(wrapper => {
-      const { depositCompensation, miningReward, treasuryAmount, createdAtUnixtimestamp } = wrapper.attributes
-      const sum = Number(treasuryAmount) + Number(miningReward) + Number(depositCompensation)
-      const treasuryAmountPercent = Number(((Number(treasuryAmount) / sum) * 100).toFixed(2))
-      const miningRewardPercent = Number(((Number(miningReward) / sum) * 100).toFixed(2))
-      const depositCompensationPercent = (100 - treasuryAmountPercent - miningRewardPercent).toFixed(2)
-      return {
-        createdAtUnixtimestamp,
-        treasuryAmount: treasuryAmountPercent,
-        miningReward: miningRewardPercent,
-        depositCompensation: depositCompensationPercent,
-      }
+  fetchStatisticSecondaryIssuance()
+    .then((wrappers: Response.Wrapper<State.StatisticSecondaryIssuance>[] | null) => {
+      if (!wrappers) return
+      const statisticSecondaryIssuance = wrappers.map(wrapper => {
+        const { depositCompensation, miningReward, treasuryAmount, createdAtUnixtimestamp } = wrapper.attributes
+        const sum = Number(treasuryAmount) + Number(miningReward) + Number(depositCompensation)
+        const treasuryAmountPercent = Number(((Number(treasuryAmount) / sum) * 100).toFixed(2))
+        const miningRewardPercent = Number(((Number(miningReward) / sum) * 100).toFixed(2))
+        const depositCompensationPercent = (100 - treasuryAmountPercent - miningRewardPercent).toFixed(2)
+        return {
+          createdAtUnixtimestamp,
+          treasuryAmount: treasuryAmountPercent,
+          miningReward: miningRewardPercent,
+          depositCompensation: depositCompensationPercent,
+        }
+      })
+      dispatch({
+        type: PageActions.UpdateStatisticSecondaryIssuance,
+        payload: {
+          statisticSecondaryIssuance,
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateStatisticSecondaryIssuanceFetchEnd,
+        payload: {
+          statisticSecondaryIssuanceFetchEnd: true,
+        },
+      })
     })
-    dispatch({
-      type: PageActions.UpdateStatisticSecondaryIssuance,
-      payload: {
-        statisticSecondaryIssuance,
-      },
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticSecondaryIssuanceFetchEnd,
+        payload: {
+          statisticSecondaryIssuanceFetchEnd: true,
+        },
+      })
     })
-  })
 }
 
 export const getStatisticInflationRate = (dispatch: AppDispatch) => {
@@ -98,30 +147,51 @@ export const getStatisticInflationRate = (dispatch: AppDispatch) => {
         statisticInflationRates: data,
       },
     })
-    return
-  }
-  fetchStatisticInflationRate().then((wrapper: Response.Wrapper<State.StatisticInflationRates> | null) => {
-    if (!wrapper) return
-    const { nominalApc, nominalInflationRate, realInflationRate } = wrapper.attributes
-    let statisticInflationRates = []
-    for (let i = 0; i < nominalApc.length; i++) {
-      if (i % 6 === 0 || i === nominalApc.length - 1) {
-        statisticInflationRates.push({
-          year: i % 6 === 0 ? Math.floor(i / 6) * 0.5 : 50,
-          nominalApc: nominalApc[i],
-          nominalInflationRate: nominalInflationRate[i],
-          realInflationRate: realInflationRate[i],
-        })
-      }
-    }
     dispatch({
-      type: PageActions.UpdateStatisticInflationRate,
+      type: PageActions.UpdateStatisticInflationRateFetchEnd,
       payload: {
-        statisticInflationRates,
+        statisticInflationRatesFetchEnd: true,
       },
     })
-    storeCachedData(CachedKeys.InflationRate, statisticInflationRates)
-  })
+    return
+  }
+  fetchStatisticInflationRate()
+    .then((wrapper: Response.Wrapper<State.StatisticInflationRates> | null) => {
+      if (!wrapper) return
+      const { nominalApc, nominalInflationRate, realInflationRate } = wrapper.attributes
+      let statisticInflationRates = []
+      for (let i = 0; i < nominalApc.length; i++) {
+        if (i % 6 === 0 || i === nominalApc.length - 1) {
+          statisticInflationRates.push({
+            year: i % 6 === 0 ? Math.floor(i / 6) * 0.5 : 50,
+            nominalApc: nominalApc[i],
+            nominalInflationRate: nominalInflationRate[i],
+            realInflationRate: realInflationRate[i],
+          })
+        }
+      }
+      dispatch({
+        type: PageActions.UpdateStatisticInflationRate,
+        payload: {
+          statisticInflationRates,
+        },
+      })
+      dispatch({
+        type: PageActions.UpdateStatisticInflationRateFetchEnd,
+        payload: {
+          statisticInflationRatesFetchEnd: true,
+        },
+      })
+      storeCachedData(CachedKeys.InflationRate, statisticInflationRates)
+    })
+    .catch(() => {
+      dispatch({
+        type: PageActions.UpdateStatisticInflationRateFetchEnd,
+        payload: {
+          statisticInflationRatesFetchEnd: true,
+        },
+      })
+    })
 }
 
 export const getStatisticLiquidity = (dispatch: AppDispatch) => {
@@ -141,6 +211,12 @@ export const getStatisticLiquidity = (dispatch: AppDispatch) => {
       type: PageActions.UpdateStatisticLiquidity,
       payload: {
         statisticLiquidity,
+      },
+    })
+    dispatch({
+      type: PageActions.UpdateStatisticLiquidityFetchEnd,
+      payload: {
+        statisticLiquidityFetchEnd: true,
       },
     })
   })

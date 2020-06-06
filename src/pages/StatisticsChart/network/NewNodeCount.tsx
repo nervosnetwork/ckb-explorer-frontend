@@ -5,9 +5,7 @@ import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { localeNumberString } from '../../../utils/number'
 import { ChartColors } from '../../../utils/const'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common/ChartComp'
-import { AppDispatch } from '../../../contexts/reducer'
-import { PageActions } from '../../../contexts/actions'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticNewNodeCount } from '../../../service/app/charts/network'
 
 const gridThumbnail = {
@@ -19,7 +17,8 @@ const gridThumbnail = {
 }
 const grid = {
   left: '4%',
-  right: '4%',
+  right: '3%',
+  top: '5%',
   bottom: '5%',
   containLabel: true,
 }
@@ -88,26 +87,18 @@ const getOption = (
   }
 }
 
-export const NewNodeCountChart = ({
-  statisticNewNodeCounts,
-  isThumbnail = false,
-}: {
-  statisticNewNodeCounts: State.StatisticNewNodeCount[]
-  isThumbnail?: boolean
-}) => {
-  if (!statisticNewNodeCounts || statisticNewNodeCounts.length === 0) {
-    return <ChartLoading show={statisticNewNodeCounts === undefined} isThumbnail={isThumbnail} />
+export const NewNodeCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const { statisticNewNodeCounts, statisticNewNodeCountsFetchEnd } = useAppState()
+  if (!statisticNewNodeCountsFetchEnd || statisticNewNodeCounts.length === 0) {
+    return <ChartLoading show={!statisticNewNodeCountsFetchEnd} isThumbnail={isThumbnail} />
   }
   return <ReactChartCore option={getOption(statisticNewNodeCounts, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-export const initStatisticNewNodeCount = (dispatch: AppDispatch) => {
-  dispatch({
-    type: PageActions.UpdateStatisticNewNodeCount,
-    payload: {
-      statisticNewNodeCounts: undefined,
-    },
-  })
+const toCSV = (statisticNewNodeCounts: State.StatisticNewNodeCount[]) => {
+  return statisticNewNodeCounts
+    ? statisticNewNodeCounts.map(data => [data.createdAtUnixtimestamp, data.nodesCount])
+    : []
 }
 
 export default () => {
@@ -115,13 +106,12 @@ export default () => {
   const { statisticNewNodeCounts } = useAppState()
 
   useEffect(() => {
-    initStatisticNewNodeCount(dispatch)
     getStatisticNewNodeCount(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.new_node_count')}>
-      <NewNodeCountChart statisticNewNodeCounts={statisticNewNodeCounts} />
+    <ChartPage title={i18n.t('statistic.new_node_count')} data={toCSV(statisticNewNodeCounts)}>
+      <NewNodeCountChart />
     </ChartPage>
   )
 }

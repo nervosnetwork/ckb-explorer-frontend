@@ -461,34 +461,80 @@ declare namespace State {
     total: number
   }
 
+  export interface TokenInfo {
+    symbol: string
+    fullName: string
+    iconFile: string
+    published: boolean
+    description: string
+    totalAmount: string
+    addressesCount: string
+    decimal: string
+    h24CkbTransactionsCount: string
+    createdAt: string
+    typeHash: string
+  }
+
+  export interface TokensState {
+    tokens: TokenInfo[]
+    status: FetchStatus
+  }
+
   export interface StatisticChartsState {
     statisticDifficultyHashRates: StatisticDifficultyHashRate[]
+    statisticDifficultyHashRatesFetchEnd: boolean
     statisticDifficultyUncleRates: StatisticDifficultyUncleRate[]
+    statisticDifficultyUncleRatesFetchEnd: boolean
     statisticDifficulties: StatisticDifficulty[]
+    statisticDifficultiesFetchEnd: boolean
     statisticHashRates: StatisticHashRate[]
+    statisticHashRatesFetchEnd: boolean
     statisticUncleRates: StatisticUncleRate[]
+    statisticUncleRatesFetchEnd: boolean
     statisticTransactionCounts: StatisticTransactionCount[]
+    statisticTransactionCountsFetchEnd: boolean
     statisticCellCounts: StatisticCellCount[]
+    statisticCellCountsFetchEnd: boolean
     statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
+    statisticTotalDaoDepositsFetchEnd: boolean
     statisticNewDaoDeposits: StatisticNewDaoDeposit[]
+    statisticNewDaoDepositsFetchEnd: boolean
     statisticNewDaoWithdraw: StatisticNewDaoWithdraw[]
+    statisticNewDaoWithdrawFetchEnd: boolean
     statisticAddressCounts: StatisticAddressCount[]
+    statisticAddressCountsFetchEnd: boolean
     statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
+    statisticAddressBalanceRanksFetchEnd: boolean
     statisticBalanceDistributions: StatisticBalanceDistribution[]
+    statisticBalanceDistributionsFetchEnd: boolean
     statisticTxFeeHistories: StatisticTransactionFee[]
+    statisticTxFeeHistoriesFetchEnd: boolean
     statisticBlockTimeDistributions: StatisticBlockTimeDistribution[]
+    statisticBlockTimeDistributionsFetchEnd: boolean
     statisticAverageBlockTimes: StatisticAverageBlockTime[]
+    statisticAverageBlockTimesFetchEnd: boolean
     statisticOccupiedCapacities: StatisticOccupiedCapacity[]
+    statisticOccupiedCapacitiesFetchEnd: boolean
     statisticEpochTimeDistributions: StatisticEpochTimeDistribution[]
+    statisticEpochTimeDistributionsFetchEnd: boolean
     statisticCirculationRatios: StatisticCirculationRatio[]
+    statisticCirculationRatiosFetchEnd: boolean
     statisticNewNodeCounts: StatisticNewNodeCount[]
+    statisticNewNodeCountsFetchEnd: boolean
     statisticNodeDistributions: StatisticNodeDistribution[]
+    statisticNodeDistributionsFetchEnd: boolean
     statisticTotalSupplies: StatisticTotalSupply[]
+    statisticTotalSuppliesFetchEnd: boolean
     statisticAnnualPercentageCompensations: StatisticAnnualPercentageCompensation[]
+    statisticAnnualPercentageCompensationsFetchEnd: boolean
     statisticSecondaryIssuance: StatisticSecondaryIssuance[]
+    statisticSecondaryIssuanceFetchEnd: boolean
     statisticInflationRates: StatisticInflationRate[]
+    statisticInflationRatesFetchEnd: boolean
     statisticLiquidity: StatisticLiquidity[]
+    statisticLiquidityFetchEnd: boolean
     statisticMinerAddresses: StatisticMinerAddress[]
+    statisticMinerAddressesFetchEnd: boolean
   }
 
   export interface PageState extends StatisticChartsState {
@@ -501,6 +547,7 @@ declare namespace State {
     statistics: Statistics
     nervosDaoState: NervosDaoState
     udtState: UDTState
+    tokensState: TokensState
   }
 
   export interface PagePayload
@@ -511,7 +558,8 @@ declare namespace State {
       TransactionState,
       TransactionsState,
       NervosDaoState,
-      UDTState {}
+      UDTState,
+      TokensState {}
 
   export interface App {
     toast: ToastMessage | null
