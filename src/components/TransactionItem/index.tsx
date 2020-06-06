@@ -8,7 +8,7 @@ import { isMobile } from '../../utils/screen'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
 import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
-import TransactionConfirmation from './TransactionConfirmation'
+import TransactionConfirmation from './TransactionIncome'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import i18n from '../../utils/i18n'
 import { CellType } from '../../utils/const'
@@ -16,14 +16,12 @@ import { CellType } from '../../utils/const'
 const TransactionItem = ({
   transaction,
   address,
-  confirmation,
   isBlock = false,
   isLastItem = false,
   titleCard,
 }: {
   transaction: State.Transaction
   address?: string
-  confirmation?: number
   isBlock?: boolean
   isLastItem?: boolean
   titleCard?: ReactNode | null
@@ -73,9 +71,7 @@ const TransactionItem = ({
           )}
         </div>
       </TransactionCellPanel>
-      {typeof confirmation === 'number' ? (
-        <TransactionConfirmation confirmation={confirmation} income={transaction.income} />
-      ) : null}
+      <TransactionConfirmation income={transaction.income} />
     </TransactionPanel>
   )
 }

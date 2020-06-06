@@ -122,10 +122,22 @@ exports[`TransactionItem Component shallow renders 1`] = `
   color: #999999;
 }
 
+.c14 {
+  margin-bottom: 1px;
+  font-size: 12px;
+  color: inherit;
+}
+
 .c9 {
   margin-bottom: 1px;
   font-size: 12px;
   color: #999999;
+}
+
+.c15 {
+  margin-bottom: 1px;
+  font-size: 12px;
+  color: inherit;
 }
 
 .c3 {
@@ -149,13 +161,47 @@ exports[`TransactionItem Component shallow renders 1`] = `
   height: 20px;
 }
 
+.c12 {
+  width: 100%;
+  margin-top: 20px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c13 {
+  height: 36px;
+  border-radius: 18px;
+  padding: 0 12px;
+  width: 220px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: white;
+  font-size: 16px;
+}
+
 .c0 {
   width: 100%;
   margin-top: 20px;
   border-radius: 0px 0px 0px 0px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
-  padding: 10px 40px 25px 40px;
+  padding: 10px 40px 15px 40px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -352,6 +398,18 @@ exports[`TransactionItem Component shallow renders 1`] = `
 }
 
 @media (max-width:1000px) {
+  .c14 {
+    font-size: 11px;
+  }
+}
+
+@media (max-width:750px) {
+  .c14 {
+    margin-bottom: 0px;
+  }
+}
+
+@media (max-width:1000px) {
   .c9 {
     font-size: 11px;
   }
@@ -363,11 +421,38 @@ exports[`TransactionItem Component shallow renders 1`] = `
   }
 }
 
+@media (max-width:1000px) {
+  .c15 {
+    font-size: 11px;
+  }
+}
+
+@media (max-width:750px) {
+  .c15 {
+    margin-bottom: 0px;
+  }
+}
+
 @media (max-width:750px) {
   .c3 .transaction_item__view_all {
     font-size: 14px;
     margin-top: 15px;
     height: 16px;
+  }
+}
+
+@media (max-width:750px) {
+  .c12 {
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width:750px) {
+  .c13 {
+    font-size: 14px;
   }
 }
 
@@ -833,6 +918,38 @@ exports[`TransactionItem Component shallow renders 1`] = `
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="c12"
+  >
+    <div
+      className="c13"
+    >
+      <div
+        className="c7"
+      >
+        <span>
+          +0
+        </span>
+        <div
+          className="c14 monospace"
+          color="inherit"
+        >
+          
+        </div>
+        <div
+          className="c15 monospace"
+          color="inherit"
+        >
+          .00000000
+        </div>
+        <div
+          className="decimal__unit monospace"
+        >
+          CKB
         </div>
       </div>
     </div>

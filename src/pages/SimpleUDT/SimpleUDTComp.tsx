@@ -56,7 +56,6 @@ export const SimpleUDTComp = ({
 }) => {
   const {
     udtState: { transactions = [], total },
-    app: { tipBlockNumber },
   } = useAppState()
   const dispatch = useDispatch()
   const {
@@ -106,7 +105,6 @@ export const SimpleUDTComp = ({
             transaction && (
               <TransactionItem
                 transaction={transaction}
-                confirmation={tipBlockNumber - transaction.blockNumber + 1}
                 key={transaction.transactionHash}
                 isLastItem={index === transactions.length - 1}
                 titleCard={index === 0 ? <UDTTitleSearchComp /> : null}
