@@ -24,7 +24,7 @@ import { isMobile } from '../../utils/screen'
 import { Link } from 'react-router-dom'
 import SmallLoading from '../../components/Loading/SmallLoading'
 
-const TokenItem = ({ token }: { token: State.TokenInfo }) => {
+const TokenItem = ({ token, isLast }: { token: State.TokenInfo; isLast?: boolean }) => {
   const name = token.fullName ? token.fullName : i18n.t('udt.unknown_token')
   const symbol = token.symbol ? token.symbol : `#${token.typeHash.substring(token.typeHash.length - 4)}`
   const transactions = isMobile() ? (
@@ -73,7 +73,7 @@ const TokenItem = ({ token }: { token: State.TokenInfo }) => {
           </div>
         )}
       </div>
-      <div className="tokens__item__separate" />
+      {!isLast && <div className="tokens__item__separate" />}
     </TokensTableItem>
   )
 }
@@ -88,8 +88,8 @@ const TokensTableState = () => {
     case 'OK':
       return (
         <TokensTableContent>
-          {tokens.map(token => (
-            <TokenItem key={token.typeHash} token={token} />
+          {tokens.map((token, index) => (
+            <TokenItem key={token.typeHash} token={token} isLast={index === tokens.length - 1} />
           ))}
         </TokensTableContent>
       )

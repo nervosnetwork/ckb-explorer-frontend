@@ -101,7 +101,6 @@ export const AddressTransactions = ({
       total,
       address: { addressHash, transactionsCount },
     },
-    app: { tipBlockNumber },
   } = useAppState()
 
   const totalPages = Math.ceil(total / pageSize)
@@ -114,16 +113,14 @@ export const AddressTransactions = ({
     <>
       <AddressTransactionsPanel>
         {transactions.map((transaction: State.Transaction, index: number) => {
-          const { blockNumber, transactionHash } = transaction
+          const { transactionHash } = transaction
           return (
             transaction && (
               <TransactionItem
                 address={addressHash}
                 transaction={transaction}
-                confirmation={tipBlockNumber - blockNumber > 0 ? tipBlockNumber - blockNumber : 0}
                 key={transactionHash}
                 titleCard={index === 0 ? <AddressTransactionsTitle count={transactionsCount} /> : null}
-                isLastItem={index === transactions.length - 1}
               />
             )
           )

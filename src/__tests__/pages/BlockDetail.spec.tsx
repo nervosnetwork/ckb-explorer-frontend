@@ -36,11 +36,6 @@ describe('Active Page', () => {
     expect(app).toBeDefined()
   })
 
-  it('shallow renders with empty data', async () => {
-    const wrapper = renderer.create(<BlockDetail />).toJSON()
-    expect(wrapper).toMatchSnapshot()
-  })
-
   it('shallow renders', async () => {
     const contextAppState: State.AppState = {
       ...initState,

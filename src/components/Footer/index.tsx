@@ -99,12 +99,10 @@ export default () => {
             label: t('footer.faucet'),
             url: 'https://faucet.nervos.org/',
           },
-          isMainnet()
-            ? { label: undefined, url: undefined }
-            : {
-                label: t('udt.submit_token_info'),
-                url: `mailto:asset-info-submit@nervos.org?subject=${TOKEN_EMAIL_SUBJECT}&body=${TOKEN_EMAIL_BODY}`,
-              },
+          {
+            label: t('udt.submit_token_info'),
+            url: `mailto:asset-info-submit@nervos.org?subject=${TOKEN_EMAIL_SUBJECT}&body=${TOKEN_EMAIL_BODY}`,
+          },
         ],
       },
       {

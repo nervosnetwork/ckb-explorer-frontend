@@ -13,14 +13,27 @@ export const BlockDetailPanel = styled.div`
   }
 `
 
+export const BlockRootInfoPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 14px;
+
+  > span {
+    width: 100%;
+    height: 1px;
+    background: #e5e5e5;
+  }
+`
+
 export const BlockRootInfoItemPanel = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 
   @media (min-width: 750px) {
     height: 20px;
-    margin-top: 20px;
+    margin-top: 14px;
   }
 
   .block__root_info_title {
@@ -28,8 +41,6 @@ export const BlockRootInfoItemPanel = styled.div`
     color: rgba(0, 0, 0, 0.6);
   }
   .block__root_info_value {
-    flex: 1;
-    margin-left: 20px;
   }
 `
 
@@ -72,8 +83,9 @@ export const BlockOverviewDisplayControlPanel = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   width: 100%;
-  height: 8px;
+  height: 36px;
   transform: translateY(10px);
 
   @media (max-width: 750px) {
@@ -81,9 +93,9 @@ export const BlockOverviewDisplayControlPanel = styled.div`
   }
 
   > img {
-    margin: auto auto;
     width: 21px;
     height: 8px;
+    margin-bottom: 8px;
   }
 `
 

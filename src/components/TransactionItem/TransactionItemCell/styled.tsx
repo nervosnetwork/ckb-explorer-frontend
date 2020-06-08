@@ -4,7 +4,7 @@ export const TransactionCellPanel = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 16px;
 
   background: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '' : '#f5f5f5')};
 
@@ -16,7 +16,6 @@ export const TransactionCellPanel = styled.div`
     justify-content: normal;
     align-items: flex-start;
     flex-direction: column;
-    margin-top: 10px;
   }
 
   .transaction__cell_address {
@@ -30,6 +29,7 @@ export const TransactionCellPanel = styled.div`
 
     @media (max-width: 750px) {
       height: 16px;
+      font-size: 14px;
     }
 
     a {
@@ -39,28 +39,6 @@ export const TransactionCellPanel = styled.div`
     a:hover {
       color: ${({ theme }: { theme: any }) => `${theme.primary}`};
     }
-
-    .nervos__dao__withdraw_icon {
-      margin-left: 5px;
-      width: 16px;
-      height: auto;
-      cursor: pointer;
-      @media (max-width: 750px) {
-        width: 12px;
-        height: auto;
-      }
-    }
-  }
-
-  .transaction__cell_withdraw {
-    display: flex;
-    align-items: center;
-    margin-top: 2px;
-  }
-
-  .transaction__cell_dao {
-    color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) =>
-      highLight ? `${theme.primary}` : '#000000'};
   }
 `
 
@@ -75,13 +53,33 @@ export const TransactionCellCapacity = styled.div`
     margin-left: 0px;
     margin-top: 5px;
     height: 16px;
-    width: ${({ isOutput = false }: { isOutput?: boolean }) => (isOutput ? '100%' : '100%')};
-    justify-content: ${({ isOutput }: { isOutput?: boolean }) => (isOutput ? 'flex-end' : 'space-between')};
-    padding-right: ${({ isOutput }: { isOutput?: boolean }) => (isOutput ? '0px' : '28px')};
+    width: 100%;
+    justify-content: flex-end;
   }
 
   > span {
     margin-left: 5px;
+  }
+
+  .nervos__dao__withdraw_icon {
+    margin-left: 5px;
+    width: 16px;
+    height: auto;
+    cursor: pointer;
+    @media (max-width: 750px) {
+      width: 12px;
+      height: auto;
+    }
+  }
+
+  .transaction__cell_withdraw {
+    display: flex;
+    align-items: center;
+    margin-top: 2px;
+  }
+
+  .transaction__cell__without__icon {
+    margin-right: 21px;
   }
 `
 

@@ -14,6 +14,7 @@ export const UDTSearchPanel = styled.div`
 
   @media (max-width: 750px) {
     width: 84vw;
+    height: 32px;
   }
 `
 
