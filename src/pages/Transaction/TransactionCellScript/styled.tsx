@@ -15,6 +15,7 @@ export const TransactionDetailItem = styled.div`
   flex-direction: column;
   color: ${(props: { selected?: boolean }) => (props.selected ? '#000000' : 'rgba(0, 0, 0, 0.6)')};
   font-weight: 600;
+  font-size: 16px;
   align-items: center;
   @media (max-width: 750px) {
     margin-top: 5px;
