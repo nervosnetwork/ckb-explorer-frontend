@@ -106,7 +106,6 @@ export const SimpleUDTComp = ({
               <TransactionItem
                 transaction={transaction}
                 key={transaction.transactionHash}
-                isLastItem={index === transactions.length - 1}
                 titleCard={index === 0 ? <UDTTitleSearchComp /> : null}
               />
             )

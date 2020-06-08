@@ -10,11 +10,14 @@ export const HashCardPanel = styled.div`
   border-radius: 6px;
   background-color: #ffffff;
   padding: 0px 40px;
+  margin-bottom: 18px;
+
   @media (max-width: 750px) {
     padding: 0 16px;
     border-radius: 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
   }
+
   .hash__card__content__panel {
     width: 100%;
     height: 80px;

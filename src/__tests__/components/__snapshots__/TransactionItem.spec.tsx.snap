@@ -151,8 +151,8 @@ exports[`TransactionItem Component shallow renders 1`] = `
 
 .c0 {
   width: 100%;
-  margin-top: 20px;
-  border-radius: 0px 0px 0px 0px;
+  margin-top: 4px;
+  border-radius: 6px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
   padding: 10px 40px 15px 40px;

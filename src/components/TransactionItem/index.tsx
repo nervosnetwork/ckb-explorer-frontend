@@ -17,20 +17,18 @@ const TransactionItem = ({
   transaction,
   address,
   isBlock = false,
-  isLastItem = false,
   titleCard,
 }: {
   transaction: State.Transaction
   address?: string
   isBlock?: boolean
-  isLastItem?: boolean
   titleCard?: ReactNode | null
 }) => {
   const txHashMobile = adaptMobileEllipsis(transaction.transactionHash, 10)
   const txHashPC = adaptPCEllipsis(transaction.transactionHash, 14, 40)
 
   return (
-    <TransactionPanel isLastItem={isLastItem} id={isBlock && transaction.isCellbase ? 'cellbase' : ''}>
+    <TransactionPanel id={isBlock && transaction.isCellbase ? 'cellbase' : ''}>
       {titleCard}
       <TransactionHashBlockPanel>
         <div className="transaction_item__content">

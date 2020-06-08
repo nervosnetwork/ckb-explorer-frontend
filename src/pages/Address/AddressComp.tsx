@@ -121,7 +121,6 @@ export const AddressTransactions = ({
                 transaction={transaction}
                 key={transactionHash}
                 titleCard={index === 0 ? <AddressTransactionsTitle count={transactionsCount} /> : null}
-                isLastItem={index === transactions.length - 1}
               />
             )
           )

@@ -19,16 +19,8 @@ export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPa
 
   return (
     <>
-      {transactions.map((transaction: State.Transaction, index: number) => {
-        return (
-          transaction && (
-            <TransactionItem
-              key={transaction.transactionHash}
-              transaction={transaction}
-              isLastItem={index === transactions.length - 1}
-            />
-          )
-        )
+      {transactions.map((transaction: State.Transaction) => {
+        return transaction && <TransactionItem key={transaction.transactionHash} transaction={transaction} />
       })}
       {totalPages > 1 && (
         <TransactionsPagination>

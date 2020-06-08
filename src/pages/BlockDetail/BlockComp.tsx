@@ -233,7 +233,6 @@ export const BlockComp = ({
               key={transaction.transactionHash}
               transaction={transaction}
               isBlock
-              isLastItem={index === transactions.length - 1}
               titleCard={index === 0 ? <TitleCard title={i18n.t('transaction.transactions')} /> : null}
             />
           )

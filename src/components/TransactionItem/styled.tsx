@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 export const TransactionPanel = styled.div`
   width: 100%;
-  margin-top: 20px;
-  border-radius: ${({ isLastItem }: { isLastItem?: boolean }) => (isLastItem ? '0px 0px 6px 6px' : '0px 0px 0px 0px')};
+  margin-top: 4px;
+  border-radius: 6px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
   padding: 10px 40px 15px 40px;

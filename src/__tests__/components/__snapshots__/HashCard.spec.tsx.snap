@@ -2,7 +2,7 @@
 
 exports[`HashCard Component shallow renders 1`] = `
 <div
-  className="sc-AxirZ KyoZZ"
+  className="sc-AxirZ kuBNtT"
 >
   <div
     className="hash__card__content__panel"
@@ -52,7 +52,7 @@ exports[`HashCard Component shallow renders 1`] = `
 
 exports[`HashCard Component shallow renders 2`] = `
 <div
-  className="sc-AxirZ KyoZZ"
+  className="sc-AxirZ kuBNtT"
 >
   <div
     className="hash__card__content__panel"
