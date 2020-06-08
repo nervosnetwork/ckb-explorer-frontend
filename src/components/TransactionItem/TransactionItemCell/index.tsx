@@ -81,6 +81,12 @@ const AddressLinkComp = ({ cell, address, highLight }: { cell: State.Cell; addre
   )
 }
 
+const udtAmount = (udt: State.UDTInfo) => {
+  return udt.published
+    ? `${parseUDTAmount(udt.amount, udt.decimal)} ${udt.symbol}`
+    : `${i18n.t('udt.unknown_token')} #<${udt.typeHash.substring(udt.typeHash.length - 4)}>`
+}
+
 const TransactionCapacityAction = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
   const { app } = useAppState()
   let width = 'short'
@@ -185,10 +191,11 @@ const TransactionCapacityAction = ({ cell, cellType }: { cell: State.Cell; cellT
         )}
       </div>
     )
-  } else if (cell.udtInfo && cell.udtInfo.symbol) {
+  }
+  if (cell.udtInfo && cell.udtInfo.symbol) {
     return (
       <>
-        <DecimalCapacity value={parseUDTAmount(cell.udtInfo.amount, cell.udtInfo.decimal)} />
+        <span>{udtAmount(cell.udtInfo)}</span>
         <Tooltip
           placement={isMobile() ? 'topRight' : 'top'}
           title={`Capacity: ${localeNumberString(shannonToCkbDecimal(cell.capacity, 8))} CKB`}
