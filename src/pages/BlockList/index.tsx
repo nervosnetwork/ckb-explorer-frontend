@@ -14,10 +14,10 @@ import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
-import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { getBlocks } from '../../service/app/block'
 import DecimalCapacity from '../../components/DecimalCapacity'
+import ItemCard, { ItemCardData } from '../../components/Card/ItemCard'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => {
   return (
@@ -109,7 +109,7 @@ const BlockCardItems = (block: State.Block, index: number, page: number) => {
       title: i18n.t('home.time'),
       content: parseSimpleDate(block.timestamp),
     },
-  ] as OverviewItemData[]
+  ] as ItemCardData[]
 }
 
 export default () => {
@@ -171,7 +171,7 @@ export default () => {
           <ContentTable>
             <div>
               {blocks.map((block: State.Block, index: number) => {
-                return <OverviewCard key={block.number} items={BlockCardItems(block, index, currentPage)} />
+                return <ItemCard key={block.number} items={BlockCardItems(block, index, currentPage)} />
               })}
             </div>
           </ContentTable>

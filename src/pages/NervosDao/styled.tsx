@@ -43,7 +43,7 @@ export const DaoTabBarPanel = styled.div`
   height: 70px;
   background: white;
   display: flex;
-  margin: 20px 0 5px 0;
+  margin-top: 20px;
   align-items: center;
   justify-content: space-between;
   box-shadow: 2px 2px 6px 0 #dfdfdf;

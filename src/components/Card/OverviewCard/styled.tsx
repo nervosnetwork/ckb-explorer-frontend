@@ -5,7 +5,7 @@ export const OverviewCardPanel = styled.div`
   background-color: #ffffff;
   color: #000000;
   font-size: 16px;
-  margin-top: 20px;
+  margin-bottom: 16px;
   border-radius: 0px 0px 6px 6px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   padding: 15px 40px;
@@ -14,10 +14,17 @@ export const OverviewCardPanel = styled.div`
     props.hideShadow &&
     css`
       margin-top: 0px;
+      margin-bottom: 20px;
       border-radius: 0px;
       box-shadow: 0px 0px 0px 0 #dfdfdf;
       padding: 0px;
     `};
+
+  .overview__separate {
+    background: #eaeaea;
+    width: 100%;
+    height: 1px;
+  }
 
   @media (max-width: 1000px) {
     font-size: 13px;
@@ -50,9 +57,9 @@ export const OverviewContentPanel = styled.div`
 
   > span {
     width: 1px;
-    height: ${({ length }: { length: number }) => `${length * 32 - 16}px`};
+    height: ${({ length }: { length: number }) => `${length * 32}px`};
     background: #e2e2e2;
-    margin: 20px 0px 0px 0px;
+    margin: 14px 0px 0px 0px;
     transform: ${() => `scaleX(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
 
     @media (max-width: 750px) {
@@ -94,13 +101,13 @@ export const OverviewItemPanel = styled.div`
 
   @media (min-width: 750px) {
     height: 20px;
-    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '35px' : '16px')};
+    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '35px' : '14px')};
     margin-bottom: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '-32px' : '0px')};
   }
 
   @media (min-width: 1200px) {
     height: 20px;
-    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '35px' : '16px')};
+    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '35px' : '14px')};
   }
 
   @media (max-width: 750px) {
@@ -114,8 +121,8 @@ export const OverviewItemPanel = styled.div`
       background: #e2e2e2;
       height: 1px;
       width: 100%;
-      display: ${({ hiddenLine }: { hiddenLine: boolean; hasIcon: boolean; isAsset?: boolean }) =>
-        hiddenLine ? 'none' : 'block'};
+      display: ${({ hideLine }: { hideLine: boolean; hasIcon: boolean; isAsset?: boolean }) =>
+        hideLine ? 'none' : 'block'};
       margin: 10px 0px 0px 0px;
 
       transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};

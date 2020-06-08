@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ItemCard Component shallow renders 1`] = `
+<div
+  className="sc-AxjAm hoZeMC"
+  id=""
+>
+  <div
+    className="sc-AxirZ hoQnqS"
+  >
+    <div
+      className="sc-AxiKw jTJLLI"
+    >
+      <div
+        className="item__detail__title"
+      >
+        title1
+      </div>
+      <div
+        className="item__detail__value"
+      >
+        content1
+      </div>
+    </div>
+    <div
+      className="sc-AxiKw jTJLLI"
+    >
+      <div
+        className="item__detail__title"
+      >
+        title2
+      </div>
+      <div
+        className="item__detail__value"
+      >
+        <div>
+          content2
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-AxiKw jTJLLI"
+    >
+      <div
+        className="item__detail__title"
+      >
+        title3
+      </div>
+      <div
+        className="item__detail__value"
+      >
+        content3
+      </div>
+    </div>
+    <div
+      className="sc-AxiKw eZpOrb"
+    >
+      <div
+        className="item__detail__title"
+      >
+        title4
+      </div>
+      <div
+        className="item__detail__value"
+      >
+        <div>
+          content4
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

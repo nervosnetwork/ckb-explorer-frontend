@@ -84,6 +84,7 @@ exports[`UDTSearch Component shallow renders 1`] = `
 @media (max-width:750px) {
   .c0 {
     width: 84vw;
+    height: 32px;
   }
 }
 

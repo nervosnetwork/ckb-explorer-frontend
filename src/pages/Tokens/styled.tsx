@@ -66,8 +66,10 @@ export const TokensTableTitle = styled.div`
 `
 
 export const TokensTableContent = styled.div`
-  border-radius: 0 0 6px 6px;
+  border-radius: 0px 0px 6px 6px;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
+  padding-bottom: 5px;
+  background: #ffffff;
   color: #000000;
   margin-top: 4px;
 `

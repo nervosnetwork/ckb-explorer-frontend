@@ -172,13 +172,13 @@ export const SimpleUDTTransactionsPagination = styled.div`
 export const UDTTransactionTitlePanel = styled.div`
   .udt__transaction__container {
     width: 100%;
-    height: 50px;
+    height: 45px;
     background: white;
     display: flex;
     align-items: center;
     justify-content: space-between;
     font-size: 18px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 
   .udt__transaction__title {

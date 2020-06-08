@@ -9,12 +9,15 @@ export const HashCardPanel = styled.div`
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   border-radius: 6px;
   background-color: #ffffff;
-  padding: 0 40px;
+  padding: 0px 40px;
+  margin-bottom: 18px;
+
   @media (max-width: 750px) {
     padding: 0 16px;
     border-radius: 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
   }
+
   .hash__card__content__panel {
     width: 100%;
     height: 80px;
@@ -23,12 +26,12 @@ export const HashCardPanel = styled.div`
     align-items: center;
     overflow: hidden;
     position: relative;
+
     @media (max-width: 750px) {
       height: auto;
       flex-direction: ${(props: { isColumn: boolean }) => (props.isColumn ? 'column' : 'row')};
       align-items: ${(props: { isColumn: boolean }) => (props.isColumn ? 'flex-start' : 'center')};
-      padding-top: 8px;
-      padding-bottom: 8px;
+      padding: 12px 0px;
     }
   }
   .hash__icon {
@@ -41,8 +44,9 @@ export const HashCardPanel = styled.div`
     font-weight: 600;
     color: #000000;
     white-space: nowrap;
+
     @media (max-width: 750px) {
-      font-size: 15px;
+      font-size: 20px;
     }
   }
   .hash__card__hash__content {
@@ -79,20 +83,6 @@ export const HashCardPanel = styled.div`
         margin-bottom: 3px;
       }
     }
-  }
-  a {
-    margin-left: 10px;
-    font-size: 18px;
-    margin-top: 8px;
-    color: ${props => props.theme.primary};
-    @media (max-width: 750px) {
-      margin-left: 5px;
-      font-size: 12px;
-      margin-top: 4px;
-    }
-  }
-  a:hover {
-    color: ${props => props.theme.primary};
   }
   #hash__value {
     color: #ffffff;

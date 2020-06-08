@@ -23,6 +23,7 @@ import {
   BlockRootInfoItemPanel,
   BlockTransactionsPagination,
   BlockNoncePanel,
+  BlockRootInfoPanel,
 } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
 import MinerRewardIcon from '../../assets/miner_complete.png'
@@ -50,10 +51,14 @@ const BlockMiner = ({ miner }: { miner: string }) => {
     <BlockLinkPanel>
       {minerText.includes('...') ? (
         <Tooltip placement="top" title={<CopyTooltipText content={miner} />}>
-          <Link to={`/address/${miner}`}>{minerText}</Link>
+          <Link to={`/address/${miner}`} className="monospace">
+            {minerText}
+          </Link>
         </Tooltip>
       ) : (
-        <Link to={`/address/${miner}`}>{minerText}</Link>
+        <Link to={`/address/${miner}`} className="monospace">
+          {minerText}
+        </Link>
       )}
     </BlockLinkPanel>
   )
@@ -87,15 +92,10 @@ const BlockMinerReward = ({
   )
 }
 
-const EpochNumberLink = ({ epochNumber }: { epochNumber: number }) => {
-  return (
-    <BlockLinkPanel>
-      <Link to={`/block/${epochNumber}`}>{localeNumberString(epochNumber)}</Link>
-    </BlockLinkPanel>
-  )
-}
-
-const BlockOverview = ({ block }: { block: State.Block }) => {
+export const BlockOverview = () => {
+  const {
+    blockState: { block },
+  } = useAppState()
   const [showAllOverview, setShowAllOverview] = useState(false)
   const minerReward = <DecimalCapacity value={localeNumberString(shannonToCkb(block.minerReward))} />
   const rootInfoItems = [
@@ -128,7 +128,11 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     },
     {
       title: i18n.t('block.epoch_start_number'),
-      content: <EpochNumberLink epochNumber={block.startNumber} />,
+      content: (
+        <BlockLinkPanel>
+          <Link to={`/block/${block.startNumber}`}>{localeNumberString(block.startNumber)}</Link>
+        </BlockLinkPanel>
+      ),
     },
     {
       title: i18n.t('block.miner_reward'),
@@ -179,26 +183,29 @@ const BlockOverview = ({ block }: { block: State.Block }) => {
     return showAllOverview ? PackUpBlueIcon : DropDownBlueIcon
   }
   return (
-    <OverviewCard items={overviewItems} titleCard={<TitleCard title={i18n.t('common.overview')} />}>
+    <OverviewCard items={overviewItems} hideShadow>
       {isMobile() ? (
         <BlockOverviewDisplayControlPanel onClick={() => setShowAllOverview(!showAllOverview)}>
           <img src={getDropdownIcon()} alt={showAllOverview ? 'show' : 'hide'} />
         </BlockOverviewDisplayControlPanel>
       ) : (
-        rootInfoItems.map(item => {
-          return (
-            <BlockRootInfoItemPanel key={item.title}>
-              <div className="block__root_info_title">{item.title}</div>
-              <div className="block__root_info_value">{item.content}</div>
-            </BlockRootInfoItemPanel>
-          )
-        })
+        <BlockRootInfoPanel>
+          <span />
+          {rootInfoItems.map(item => {
+            return (
+              <BlockRootInfoItemPanel key={item.title}>
+                <div className="block__root_info_title">{item.title}</div>
+                <div className="block__root_info_value monospace">{item.content}</div>
+              </BlockRootInfoItemPanel>
+            )
+          })}
+        </BlockRootInfoPanel>
       )}
     </OverviewCard>
   )
 }
 
-export default ({
+export const BlockComp = ({
   currentPage,
   pageSize,
   blockParam,
@@ -208,7 +215,7 @@ export default ({
   blockParam: string
 }) => {
   const {
-    blockState: { transactions = [], total, block },
+    blockState: { transactions = [], total },
   } = useAppState()
 
   const totalPages = Math.ceil(total / pageSize)
@@ -219,7 +226,6 @@ export default ({
 
   return (
     <>
-      {block && <BlockOverview block={block} />}
       {transactions.map((transaction: State.Transaction, index: number) => {
         return (
           transaction && (
@@ -227,7 +233,6 @@ export default ({
               key={transaction.transactionHash}
               transaction={transaction}
               isBlock
-              isLastItem={index === transactions.length - 1}
               titleCard={index === 0 ? <TitleCard title={i18n.t('transaction.transactions')} /> : null}
             />
           )
@@ -241,3 +246,5 @@ export default ({
     </>
   )
 }
+
+export default { BlockOverview, BlockComp }

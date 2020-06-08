@@ -2,17 +2,19 @@
 
 exports[`OverviewCard Component shallow renders 1`] = `
 <div
-  className="sc-AxjAm fhikdi"
-  id=""
+  className="sc-AxjAm hgIjHZ"
 >
   <div
-    className="sc-AxirZ hORWuP"
+    className="overview__separate"
+  />
+  <div
+    className="sc-AxirZ hXUsTm"
   >
     <div
       className="overview_content__left_items"
     >
       <div
-        className="sc-AxiKw hsDlcg"
+        className="sc-AxiKw dpTopY"
       >
         <div
           className="overview_item__title__panel"
@@ -30,7 +32,7 @@ exports[`OverviewCard Component shallow renders 1`] = `
         </div>
       </div>
       <div
-        className="sc-AxiKw jseARb"
+        className="sc-AxiKw knfuKn"
       >
         <div
           className="overview_item__title__panel"
@@ -52,7 +54,7 @@ exports[`OverviewCard Component shallow renders 1`] = `
       className="overview_content__right_items"
     >
       <div
-        className="sc-AxiKw hsDlcg"
+        className="sc-AxiKw dpTopY"
       >
         <div
           className="overview_item__title__panel"
@@ -72,7 +74,7 @@ exports[`OverviewCard Component shallow renders 1`] = `
         </div>
       </div>
       <div
-        className="sc-AxiKw jseARb"
+        className="sc-AxiKw knfuKn"
       >
         <div
           className="overview_item__title__panel"

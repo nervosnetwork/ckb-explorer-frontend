@@ -11,7 +11,7 @@ import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
 import { parsePageNumber } from '../../utils/string'
 import { BlockDetailPanel } from './styled'
-import BlockComp from './BlockComp'
+import { BlockComp, BlockOverview } from './BlockComp'
 import Loading from '../../components/Loading'
 import { useTimeoutWithUnmount } from '../../utils/hook'
 
@@ -92,7 +92,9 @@ export default () => {
   return (
     <Content>
       <BlockDetailPanel className="container">
-        <BlockHashCard title={i18n.t('block.block')} hash={status === 'OK' ? block.blockHash : blockParam} />
+        <BlockHashCard title={i18n.t('block.block')} hash={status === 'OK' ? block.blockHash : blockParam}>
+          <BlockOverview />
+        </BlockHashCard>
         <BlockStateComp currentPage={currentPage} pageSize={pageSize} blockParam={blockParam} />
       </BlockDetailPanel>
     </Content>
