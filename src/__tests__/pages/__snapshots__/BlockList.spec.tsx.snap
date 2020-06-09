@@ -62,47 +62,71 @@ exports[`Active Page shallow renders with empty data 1`] = `
       className="block_list__pagination"
     >
       <div
-        className="sc-fzoXWK ktWbCE"
+        className="sc-fzoXWK kUXNpq"
       >
         <div
-          className="sc-fzpmMD OKRCg"
+          className="sc-fzpmMD kzLdTm"
         >
-          <button
+          <div
+            className="sc-fzoyAV YcSET pagination__first__button"
             onClick={[Function]}
+            onKeyDown={[Function]}
+            onMouseOver={[Function]}
+            role="button"
+            tabIndex={-1}
           >
             First
-          </button>
-          <button
-            className="pagination__left__button"
-            onClick={[Function]}
-            type="button"
-          />
+          </div>
           <div
+            className="sc-fzoyAV YcSET pagination__left__button"
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            onMouseOver={[Function]}
+            role="button"
+            tabIndex={-1}
+          >
+            <img
+              alt="left button"
+              src="pagination_black_left.png"
+            />
+          </div>
+          <span
             className="pagination__middle__label"
           >
             Page 0 of 1 
+          </span>
+          <div
+            className="sc-fzoyAV YcSET pagination__right__button"
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            onMouseOver={[Function]}
+            role="button"
+            tabIndex={-1}
+          >
+            <img
+              alt="right button"
+              src="pagination_black_right.png"
+            />
           </div>
-          <button
-            className="pagination__right__button"
+          <div
+            className="sc-fzoyAV YcSET pagination__last__button"
             onClick={[Function]}
-            type="button"
-          />
-          <button
-            className="pagination__last"
-            onClick={[Function]}
-            type="button"
+            onKeyDown={[Function]}
+            onMouseOver={[Function]}
+            role="button"
+            tabIndex={-1}
           >
             Last
-          </button>
+          </div>
         </div>
         <div
-          className="sc-fznxKY kvnvQt"
+          className="sc-fznxKY iDSXGf"
         >
-          <div
-            className="pagination__page"
+          <span
+            className="pagination__page__label"
           >
             Page
-          </div>
+          </span>
           <input
             className="pagination__input__page"
             onChange={[Function]}
@@ -111,13 +135,16 @@ exports[`Active Page shallow renders with empty data 1`] = `
             type="text"
             value={2}
           />
-          <button
-            className="pagination__goto__page"
+          <div
+            className="sc-fzoyAV YcSET pagination__goto__page"
             onClick={[Function]}
-            type="button"
+            onKeyDown={[Function]}
+            onMouseOver={[Function]}
+            role="button"
+            tabIndex={-1}
           >
             Goto
-          </button>
+          </div>
         </div>
       </div>
     </div>
