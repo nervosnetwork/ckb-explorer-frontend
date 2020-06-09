@@ -192,7 +192,7 @@ const TransactionCapacityAction = ({ cell, cellType }: { cell: State.Cell; cellT
       </div>
     )
   }
-  if (cell.udtInfo && cell.udtInfo.symbol) {
+  if (cell.udtInfo && cell.udtInfo.typeHash) {
     return (
       <>
         <span>{udtAmount(cell.udtInfo)}</span>
