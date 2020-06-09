@@ -65,7 +65,7 @@ export default () => {
       <LogoComp />
       {!isMobile() && (
         <>
-          {!(isScreen750to1440() && searchBarEditable && !headerSearchBarVisible) && <MenusComp />}
+          {!(isScreen750to1440() && searchBarEditable && headerSearchBarVisible) && <MenusComp />}
           <HeaderEmptyPanel />
           {headerSearchBarVisible && <SearchComp />}
           <BlockchainComp />
