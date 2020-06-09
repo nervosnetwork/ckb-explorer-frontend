@@ -276,13 +276,13 @@ const NervosDaoLeftMobile = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
       </div>
       <span className="dao__overview__left_separate" />
       <div>
-        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[2]} />
-        <span className="dao__overview__left_column_separate" />
         <NervosDaoItem item={nervosDaoItemContents(nervosDao)[3]} />
+        <span className="dao__overview__left_column_separate" />
+        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[4]} />
       </div>
       <span className="dao__overview__left_separate" />
       <div>
-        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[4]} />
+        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[2]} />
         <span className="dao__overview__left_column_separate" />
         <NervosDaoItem item={nervosDaoItemContents(nervosDao)[5]} />
       </div>

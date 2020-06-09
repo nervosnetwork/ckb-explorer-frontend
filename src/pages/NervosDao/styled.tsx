@@ -354,7 +354,7 @@ export const DaoOverviewItemPanel = styled.div`
 
       @media (max-width: 750px) {
         font-size: 10px;
-        max-width: ${(props: { hasChange?: boolean }) => (props.hasChange ? '70px' : '200px')};
+        max-width: ${(props: { hasChange?: boolean }) => (props.hasChange ? '90px' : '200px')};
       }
     }
 
