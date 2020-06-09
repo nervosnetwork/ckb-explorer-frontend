@@ -65,6 +65,9 @@ const getOption = (
         name: isMobile() || isThumbnail ? '' : i18n.t('statistic.address_count'),
         type: 'value',
         scale: true,
+        nameTextStyle: {
+          align: 'left',
+        },
         axisLine: {
           lineStyle: {
             color: ChartColors[0],
@@ -111,7 +114,11 @@ export default () => {
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.address_count')} data={toCSV(statisticAddressCounts)}>
+    <ChartPage
+      title={i18n.t('statistic.address_count')}
+      description={i18n.t('statistic.address_count_description')}
+      data={toCSV(statisticAddressCounts)}
+    >
       <AddressCountChart />
     </ChartPage>
   )

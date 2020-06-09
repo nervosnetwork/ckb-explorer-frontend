@@ -232,19 +232,6 @@ const Search = ({ hasBorder, content, hasButton }: { hasBorder?: boolean; conten
               if (!hasBorder) {
                 handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)
               }
-            } else {
-              if (!hasBorder) {
-                clearSearchInput(inputElement)
-              }
-              setPlaceholder(SearchPlaceholder)
-              if (searchBarEditable) {
-                dispatch({
-                  type: ComponentActions.UpdateHeaderSearchEditable,
-                  payload: {
-                    searchBarEditable: false,
-                  },
-                })
-              }
             }
           }}
           onChange={(event: any) => {
