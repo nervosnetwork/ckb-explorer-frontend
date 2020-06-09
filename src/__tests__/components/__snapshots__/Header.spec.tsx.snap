@@ -50,7 +50,7 @@ exports[`Header Component shallow renders 1`] = `
     className="sc-AxiKw cjyCOd"
   />
   <div
-    className="sc-fzqNJr jOQjll"
+    className="sc-fzqNJr ZqZKi"
     id="header__blockchain__panel"
     onMouseLeave={[Function]}
   >

@@ -1,8 +1,26 @@
 import { fetchNodeVersion } from '../http/fetcher'
 import { AppDispatch } from '../../contexts/reducer'
 import { AppActions } from '../../contexts/actions'
+import { fetchCachedData, storeCachedData } from '../../utils/cached'
+import { CachedKeys } from '../../utils/const'
+
+const DAY_TIMESTAMP = 24 * 60 * 60 * 1000
 
 export const initNodeVersion = (dispatch: AppDispatch) => {
+  // version cache format: version&timestamp
+  const data = fetchCachedData<string>(CachedKeys.Version)
+  if (data && data.indexOf('&') > -1) {
+    const timestamp = Number(data.substring(data.indexOf('&') + 1))
+    if (new Date().getTime() - timestamp < DAY_TIMESTAMP) {
+      dispatch({
+        type: AppActions.UpdateNodeVersion,
+        payload: {
+          nodeVersion: data.substring(0, data.indexOf('&')),
+        },
+      })
+      return
+    }
+  }
   fetchNodeVersion().then((wrapper: Response.Wrapper<State.NodeVersion> | null) => {
     if (wrapper) {
       dispatch({
@@ -11,6 +29,7 @@ export const initNodeVersion = (dispatch: AppDispatch) => {
           nodeVersion: wrapper ? wrapper.attributes.version : '',
         },
       })
+      storeCachedData(CachedKeys.Version, `${wrapper.attributes.version}&${new Date().getTime()}`)
     }
   })
 }
