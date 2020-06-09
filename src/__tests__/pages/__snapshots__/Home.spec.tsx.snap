@@ -1,0 +1,1234 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Active Page shallow renders 1`] = `
+<div
+  className="sc-fznMAR VNHDx"
+>
+  <div
+    className="sc-AxjAm StDqN container"
+  >
+    <div
+      className="sc-AxirZ jopuNW"
+      style={
+        Object {
+          "backgroundImage": "url(home_background.svg)",
+        }
+      }
+    >
+      <div
+        className="home__top__title"
+      >
+        CKB Explorer
+      </div>
+      <div
+        className="home__top__search"
+        id="home__search__bar"
+      >
+        <div
+          className="sc-fzoLag eNRuJM"
+        >
+          <div
+            className="sc-fzoXzr lmzWOP"
+          >
+            <div
+              className="sc-fzpjYC bvkCky"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex={-1}
+            >
+              <img
+                alt="search logo"
+                src="search_black.png"
+              />
+            </div>
+            <input
+              className="sc-fznxsB knrDyn"
+              defaultValue=""
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyUp={[Function]}
+              placeholder="Block/Transaction/Address/Lock Hash"
+            />
+          </div>
+          <div
+            className="sc-fznJRM bMFvBM"
+            onClick={[Function]}
+          >
+            Search
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-AxiKw cqkZBB"
+    >
+      <div
+        className="home__statistic__left__panel"
+      >
+        <div
+          className="home__statistic__left__data"
+        >
+          <div
+            className="sc-AxgMl iwuQHq"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Latest Block
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              1,687,044
+            </div>
+          </div>
+          <div
+            className="sc-AxgMl ehaRnc"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Average Block Time
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              8.02 s
+            </div>
+          </div>
+        </div>
+        <div
+          className="home__statistic__left__chart"
+        >
+          <div
+            className="sc-fzoYHE ehzMLn"
+          >
+            <img
+              alt="chart no data"
+              className="chart__no__data"
+              src="chart_no_data_white.png"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="home__statistic__right__panel"
+      >
+        <div
+          className="home__statistic__right__data"
+        >
+          <div
+            className="sc-AxgMl iwuQHq"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Mining Hash Rate
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              7.72 PH/s
+            </div>
+          </div>
+          <div
+            className="sc-AxgMl ehaRnc"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Mining Difficulty
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              62.25 PH
+            </div>
+          </div>
+        </div>
+        <div
+          className="home__statistic__right__chart"
+        >
+          <div
+            className="sc-fznAgC dHiSHn"
+          >
+            <img
+              alt="chart no data"
+              className="chart__no__data"
+              src="chart_no_data_white.png"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-AxhCb PGzqW"
+    >
+      <div
+        className="blockchain__item__row"
+      >
+        <div
+          className="sc-AxhUy jcWDVH"
+        >
+          <div
+            className="blockchain__item__content"
+          >
+            <div
+              className="blockchain__item__name"
+            >
+              Epoch
+            </div>
+            <div
+              className="blockchain__item__value"
+            >
+              <div
+                className="blockchain__item__left__value"
+              >
+                1026th
+              </div>
+              <div
+                className="blockchain__item__right__value"
+              >
+                1402/1800
+              </div>
+            </div>
+          </div>
+          <div
+            className="blockchain__item__between_separate"
+          />
+        </div>
+        <div
+          className="sc-AxhUy jcWDVH"
+        >
+          <div
+            className="blockchain__item__content"
+          >
+            <div
+              className="blockchain__item__name"
+            >
+              Estimated Epoch Time
+            </div>
+            <div
+              className="blockchain__item__value"
+            >
+              <div
+                className="blockchain__item__left__value"
+              >
+                4 h 1 m
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="blockchain__item__row_separate"
+      />
+      <div
+        className="blockchain__item__row"
+      >
+        <div
+          className="sc-AxhUy jcWDVH"
+        >
+          <div
+            className="blockchain__item__content"
+          >
+            <div
+              className="blockchain__item__name"
+            >
+              Transactions per Minute
+            </div>
+            <div
+              className="blockchain__item__value"
+            >
+              <div
+                className="blockchain__item__left__value"
+              >
+                7.78
+              </div>
+            </div>
+          </div>
+          <div
+            className="blockchain__item__between_separate"
+          />
+        </div>
+        <div
+          className="sc-AxhUy jcWDVH"
+        >
+          <div
+            className="blockchain__item__content"
+          >
+            <div
+              className="blockchain__item__name"
+            >
+              Transactions in Last 24hrs
+            </div>
+            <div
+              className="blockchain__item__value"
+            >
+              <div
+                className="blockchain__item__left__value"
+              >
+                11.30K
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="sc-AxheI hSfBRh container"
+  >
+    <div
+      className="sc-Axmtr kZrqCS"
+    >
+      <div
+        className="sc-fzpans ggRkFr"
+      >
+        <img
+          alt="latest blocks"
+          src="latest_blocks.png"
+        />
+        <span>
+          Latest Blocks
+        </span>
+      </div>
+      <div>
+        <div
+          className="sc-fzoant fQLdJs"
+        >
+          <div
+            className="block__card__height"
+          >
+            <div>
+              <span>
+                #
+              </span>
+              <div
+                className="sc-fznWOq euexBf"
+              >
+                <a
+                  href="/block/1686123"
+                  onClick={[Function]}
+                >
+                  1,686,123
+                </a>
+              </div>
+            </div>
+            <span
+              className="block__card__timestamp"
+            >
+              -139871s ago
+            </span>
+          </div>
+          <div
+            className="block__card__miner"
+          >
+            <div>
+              <span
+                className="block__card__miner__hash"
+              >
+                Miner
+              </span>
+              <div
+                className="sc-fznzOf gdgizY"
+                fontSize="14px"
+                width="10%"
+              >
+                <a
+                  className="table__miner__content"
+                  href="/address/ckb1qyqqzmlaljcrd0mneh63sx4gzlyvhz0g35nsh6e30l"
+                  onClick={[Function]}
+                >
+                  <span
+                    className="table__miner__text monospace"
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
+                  >
+                    ckb1qyqq...nsh6e30l
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div
+              className="block__card__reward"
+            >
+              <span>
+                Reward
+              </span>
+              <div
+                className="sc-fzqAbL hjppRf"
+              >
+                <div
+                  className="sc-fzolEj frjMxz"
+                >
+                  <span>
+                    1,113
+                  </span>
+                  <div
+                    className="sc-fzqBkg bVsdMM monospace"
+                    fontSize="9px"
+                  >
+                    .02
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="block__card__transaction"
+          >
+            <span
+              className="block__card__transaction__count"
+            >
+              1 TXs
+            </span>
+            <span
+              className="block__card__live__cells"
+            >
+              +1 Cells
+            </span>
+          </div>
+        </div>
+        <div
+          className="block__card__separate"
+        />
+      </div>
+      <div>
+        <div
+          className="sc-fzoant fQLdJs"
+        >
+          <div
+            className="block__card__height"
+          >
+            <div>
+              <span>
+                #
+              </span>
+              <div
+                className="sc-fznWOq euexBf"
+              >
+                <a
+                  href="/block/1686122"
+                  onClick={[Function]}
+                >
+                  1,686,122
+                </a>
+              </div>
+            </div>
+            <span
+              className="block__card__timestamp"
+            >
+              -139869s ago
+            </span>
+          </div>
+          <div
+            className="block__card__miner"
+          >
+            <div>
+              <span
+                className="block__card__miner__hash"
+              >
+                Miner
+              </span>
+              <div
+                className="sc-fznzOf gdgizY"
+                fontSize="14px"
+                width="10%"
+              >
+                <a
+                  className="table__miner__content"
+                  href="/address/ckb1qyqdmeuqrsrnm7e5vnrmruzmsp4m9wacf6vsxasryq"
+                  onClick={[Function]}
+                >
+                  <span
+                    className="table__miner__text monospace"
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
+                  >
+                    ckb1qyqd...vsxasryq
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div
+              className="block__card__reward"
+            >
+              <span>
+                Reward
+              </span>
+              <div
+                className="sc-fzqAbL hjppRf"
+              >
+                <div
+                  className="sc-fzolEj frjMxz"
+                >
+                  <span>
+                    1,113
+                  </span>
+                  <div
+                    className="sc-fzqBkg bVsdMM monospace"
+                    fontSize="9px"
+                  >
+                    .02
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="block__card__transaction"
+          >
+            <span
+              className="block__card__transaction__count"
+            >
+              1 TXs
+            </span>
+            <span
+              className="block__card__live__cells"
+            >
+              +1 Cells
+            </span>
+          </div>
+        </div>
+        <div
+          className="block__card__separate"
+        />
+      </div>
+      <div>
+        <div
+          className="sc-fzoant fQLdJs"
+        >
+          <div
+            className="block__card__height"
+          >
+            <div>
+              <span>
+                #
+              </span>
+              <div
+                className="sc-fznWOq euexBf"
+              >
+                <a
+                  href="/block/1686121"
+                  onClick={[Function]}
+                >
+                  1,686,121
+                </a>
+              </div>
+            </div>
+            <span
+              className="block__card__timestamp"
+            >
+              -139866s ago
+            </span>
+          </div>
+          <div
+            className="block__card__miner"
+          >
+            <div>
+              <span
+                className="block__card__miner__hash"
+              >
+                Miner
+              </span>
+              <div
+                className="sc-fznzOf gdgizY"
+                fontSize="14px"
+                width="10%"
+              >
+                <a
+                  className="table__miner__content"
+                  href="/address/ckb1qyqdmeuqrsrnm7e5vnrmruzmsp4m9wacf6vsxasryq"
+                  onClick={[Function]}
+                >
+                  <span
+                    className="table__miner__text monospace"
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
+                  >
+                    ckb1qyqd...vsxasryq
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div
+              className="block__card__reward"
+            >
+              <span>
+                Reward
+              </span>
+              <div
+                className="sc-fzqAbL hjppRf"
+              >
+                <div
+                  className="sc-fzolEj frjMxz"
+                >
+                  <span>
+                    1,113
+                  </span>
+                  <div
+                    className="sc-fzqBkg bVsdMM monospace"
+                    fontSize="9px"
+                  >
+                    .02
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="block__card__transaction"
+          >
+            <span
+              className="block__card__transaction__count"
+            >
+              1 TXs
+            </span>
+            <span
+              className="block__card__live__cells"
+            >
+              +1 Cells
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className="sc-fzplWN dnBFbs"
+        onClick={[Function]}
+      >
+        <span>
+          More
+        </span>
+      </div>
+    </div>
+    <div
+      className="sc-AxmLO lmzuPY"
+    >
+      <div
+        className="sc-fzpans ggRkFr"
+      >
+        <img
+          alt="latest transactions"
+          src="latest_transactions.png"
+        />
+        <span>
+          Latest Transactions
+        </span>
+      </div>
+      <div>
+        <div
+          className="sc-fzomME bbNGIk"
+        >
+          <div
+            className="transaction__card__hash"
+          >
+            <div
+              className="sc-fznWOq euexBf"
+            >
+              <a
+                href="/transaction/0x896ff246313e0a9fc7b392af6665774460d6d8614783f40764b17864bde10643"
+                onClick={[Function]}
+              >
+                0x896f...e10643
+              </a>
+            </div>
+            <span
+              className="transaction__card__confirmation"
+            >
+              -1354 Confirmation
+            </span>
+          </div>
+          <div
+            className="transaction__card__block"
+          >
+            <div>
+              <span
+                className="transaction__card__block__height"
+              >
+                Block
+              </span>
+              <span
+                className="transaction__card__block__height__prefix"
+              >
+                #
+              </span>
+              <div
+                className="sc-fznWOq euexBf"
+              >
+                <a
+                  href="/block/1687517"
+                  onClick={[Function]}
+                >
+                  1,687,517
+                </a>
+              </div>
+            </div>
+            <div
+              className="transaction__card__timestamp"
+            >
+              -150864s ago
+            </div>
+          </div>
+          <div
+            className="transaction__card__capacity"
+          >
+            <div
+              className="sc-fzolEj frjMxz"
+            >
+              <span>
+                1,113
+              </span>
+              <div
+                className="sc-fzqBkg mXqCD monospace"
+                fontSize="9px"
+              >
+                .03
+              </div>
+              <div
+                className="decimal__unit monospace"
+              >
+                CKB
+              </div>
+            </div>
+            <span
+              className="transaction__card__live__cells"
+            >
+              +1 Cells
+            </span>
+          </div>
+        </div>
+        <div
+          className="transaction__card__separate"
+        />
+      </div>
+      <div>
+        <div
+          className="sc-fzomME bbNGIk"
+        >
+          <div
+            className="transaction__card__hash"
+          >
+            <div
+              className="sc-fznWOq euexBf"
+            >
+              <a
+                href="/transaction/0x19ec38d35659da5a9e5d941ee269a134002fa43344bf83e65ea4b2cbbc40a2c2"
+                onClick={[Function]}
+              >
+                0x19ec...40a2c2
+              </a>
+            </div>
+            <span
+              className="transaction__card__confirmation"
+            >
+              -1346 Confirmation
+            </span>
+          </div>
+          <div
+            className="transaction__card__block"
+          >
+            <div>
+              <span
+                className="transaction__card__block__height"
+              >
+                Block
+              </span>
+              <span
+                className="transaction__card__block__height__prefix"
+              >
+                #
+              </span>
+              <div
+                className="sc-fznWOq euexBf"
+              >
+                <a
+                  href="/block/1687509"
+                  onClick={[Function]}
+                >
+                  1,687,509
+                </a>
+              </div>
+            </div>
+            <div
+              className="transaction__card__timestamp"
+            >
+              -150786s ago
+            </div>
+          </div>
+          <div
+            className="transaction__card__capacity"
+          >
+            <div
+              className="sc-fzolEj frjMxz"
+            >
+              <span>
+                1,113
+              </span>
+              <div
+                className="sc-fzqBkg mXqCD monospace"
+                fontSize="9px"
+              >
+                .03
+              </div>
+              <div
+                className="decimal__unit monospace"
+              >
+                CKB
+              </div>
+            </div>
+            <span
+              className="transaction__card__live__cells"
+            >
+              +1 Cells
+            </span>
+          </div>
+        </div>
+        <div
+          className="transaction__card__separate"
+        />
+      </div>
+      <div>
+        <div
+          className="sc-fzomME bbNGIk"
+        >
+          <div
+            className="transaction__card__hash"
+          >
+            <div
+              className="sc-fznWOq euexBf"
+            >
+              <a
+                href="/transaction/0x69df00a2b94ab0372a4ecd4ce8ac7dd44c15b406ed5154d5425f9bfb3119a8d0"
+                onClick={[Function]}
+              >
+                0x69df...19a8d0
+              </a>
+            </div>
+            <span
+              className="transaction__card__confirmation"
+            >
+              -1338 Confirmation
+            </span>
+          </div>
+          <div
+            className="transaction__card__block"
+          >
+            <div>
+              <span
+                className="transaction__card__block__height"
+              >
+                Block
+              </span>
+              <span
+                className="transaction__card__block__height__prefix"
+              >
+                #
+              </span>
+              <div
+                className="sc-fznWOq euexBf"
+              >
+                <a
+                  href="/block/1687501"
+                  onClick={[Function]}
+                >
+                  1,687,501
+                </a>
+              </div>
+            </div>
+            <div
+              className="transaction__card__timestamp"
+            >
+              -150711s ago
+            </div>
+          </div>
+          <div
+            className="transaction__card__capacity"
+          >
+            <div
+              className="sc-fzolEj frjMxz"
+            >
+              <span>
+                1,113
+              </span>
+              <div
+                className="sc-fzqBkg mXqCD monospace"
+                fontSize="9px"
+              >
+                .03
+              </div>
+              <div
+                className="decimal__unit monospace"
+              >
+                CKB
+              </div>
+            </div>
+            <span
+              className="transaction__card__live__cells"
+            >
+              +1 Cells
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className="sc-fzplWN dnBFbs"
+        onClick={[Function]}
+      >
+        <span>
+          More
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Active Page shallow renders with empty data 1`] = `
+<div
+  className="sc-fznMAR VNHDx"
+>
+  <div
+    className="sc-AxjAm StDqN container"
+  >
+    <div
+      className="sc-AxirZ jopuNW"
+      style={
+        Object {
+          "backgroundImage": "url(home_background.svg)",
+        }
+      }
+    >
+      <div
+        className="home__top__title"
+      >
+        CKB Explorer
+      </div>
+      <div
+        className="home__top__search"
+        id="home__search__bar"
+      >
+        <div
+          className="sc-fzoLag eNRuJM"
+        >
+          <div
+            className="sc-fzoXzr lmzWOP"
+          >
+            <div
+              className="sc-fzpjYC bvkCky"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex={-1}
+            >
+              <img
+                alt="search logo"
+                src="search_black.png"
+              />
+            </div>
+            <input
+              className="sc-fznxsB knrDyn"
+              defaultValue=""
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyUp={[Function]}
+              placeholder="Block/Transaction/Address/Lock Hash"
+            />
+          </div>
+          <div
+            className="sc-fznJRM bMFvBM"
+            onClick={[Function]}
+          >
+            Search
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-AxiKw cqkZBB"
+    >
+      <div
+        className="home__statistic__left__panel"
+      >
+        <div
+          className="home__statistic__left__data"
+        >
+          <div
+            className="sc-AxgMl iwuQHq"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Latest Block
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              0
+            </div>
+          </div>
+          <div
+            className="sc-AxgMl ehaRnc"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Average Block Time
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              0.00 s
+            </div>
+          </div>
+        </div>
+        <div
+          className="home__statistic__left__chart"
+        >
+          <div
+            className="sc-fzoYHE ehzMLn"
+          >
+            <img
+              alt="chart no data"
+              className="chart__no__data"
+              src="chart_no_data_white.png"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="home__statistic__right__panel"
+      >
+        <div
+          className="home__statistic__right__data"
+        >
+          <div
+            className="sc-AxgMl iwuQHq"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Mining Hash Rate
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              0/s
+            </div>
+          </div>
+          <div
+            className="sc-AxgMl ehaRnc"
+          >
+            <div
+              className="home__statistic__item__name"
+            >
+              Mining Difficulty
+            </div>
+            <div
+              className="home__statistic__item__value"
+            >
+              0 H
+            </div>
+          </div>
+        </div>
+        <div
+          className="home__statistic__right__chart"
+        >
+          <div
+            className="sc-fznAgC dHiSHn"
+          >
+            <img
+              alt="chart no data"
+              className="chart__no__data"
+              src="chart_no_data_white.png"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-AxhCb PGzqW"
+    >
+      <div
+        className="blockchain__item__row"
+      >
+        <div
+          className="sc-AxhUy jcWDVH"
+        >
+          <div
+            className="blockchain__item__content"
+          >
+            <div
+              className="blockchain__item__name"
+            >
+              Epoch
+            </div>
+            <div
+              className="blockchain__item__value"
+            >
+              <div
+                className="blockchain__item__left__value"
+              >
+                0th
+              </div>
+              <div
+                className="blockchain__item__right__value"
+              >
+                0/0
+              </div>
+            </div>
+          </div>
+          <div
+            className="blockchain__item__between_separate"
+          />
+        </div>
+        <div
+          className="sc-AxhUy jcWDVH"
+        >
+          <div
+            className="blockchain__item__content"
+          >
+            <div
+              className="blockchain__item__name"
+            >
+              Estimated Epoch Time
+            </div>
+            <div
+              className="blockchain__item__value"
+            >
+              <div
+                className="blockchain__item__left__value"
+              >
+                0 h 0 m
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="blockchain__item__row_separate"
+      />
+      <div
+        className="blockchain__item__row"
+      >
+        <div
+          className="sc-AxhUy jcWDVH"
+        >
+          <div
+            className="blockchain__item__content"
+          >
+            <div
+              className="blockchain__item__name"
+            >
+              Transactions per Minute
+            </div>
+            <div
+              className="blockchain__item__value"
+            >
+              <div
+                className="blockchain__item__left__value"
+              >
+                0
+              </div>
+            </div>
+          </div>
+          <div
+            className="blockchain__item__between_separate"
+          />
+        </div>
+        <div
+          className="sc-AxhUy jcWDVH"
+        >
+          <div
+            className="blockchain__item__content"
+          >
+            <div
+              className="blockchain__item__name"
+            >
+              Transactions in Last 24hrs
+            </div>
+            <div
+              className="blockchain__item__value"
+            >
+              <div
+                className="blockchain__item__left__value"
+              >
+                0
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="sc-AxheI hSfBRh container"
+  >
+    <div
+      className="sc-Axmtr kZrqCS"
+    >
+      <div
+        className="sc-fzpans ggRkFr"
+      >
+        <img
+          alt="latest blocks"
+          src="latest_blocks.png"
+        />
+        <span>
+          Latest Blocks
+        </span>
+      </div>
+      <div
+        className="sc-fzoydu ctqdBw"
+      >
+        <img
+          alt="loading"
+          src="loading.gif"
+        />
+      </div>
+      <div
+        className="sc-fzplWN dnBFbs"
+        onClick={[Function]}
+      >
+        <span>
+          More
+        </span>
+      </div>
+    </div>
+    <div
+      className="sc-AxmLO lmzuPY"
+    >
+      <div
+        className="sc-fzpans ggRkFr"
+      >
+        <img
+          alt="latest transactions"
+          src="latest_transactions.png"
+        />
+        <span>
+          Latest Transactions
+        </span>
+      </div>
+      <div
+        className="sc-fzoydu ctqdBw"
+      >
+        <img
+          alt="loading"
+          src="loading.gif"
+        />
+      </div>
+      <div
+        className="sc-fzplWN dnBFbs"
+        onClick={[Function]}
+      >
+        <span>
+          More
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
