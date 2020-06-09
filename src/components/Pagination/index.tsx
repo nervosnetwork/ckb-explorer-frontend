@@ -11,7 +11,7 @@ import SimpleButton from '../SimpleButton'
 const Pagination = ({
   currentPage,
   totalPages,
-  gotoPage = currentPage + 1,
+  gotoPage = currentPage === totalPages ? totalPages : currentPage + 1,
   onChange,
 }: {
   currentPage: number
@@ -32,7 +32,7 @@ const Pagination = ({
   const changePage = (page: number) => {
     if (page && page >= 1 && page <= total) {
       onChange(page)
-      setInputPage(Math.min(page + 1, totalPages))
+      setInputPage(Math.min(page + 1, total))
     }
   }
 
