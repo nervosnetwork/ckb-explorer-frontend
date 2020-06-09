@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { PaginationLeftItem, PaginationRightItem, PaginationPanel } from './styled'
 import LeftBlack from '../../assets/pagination_black_left.png'
 import RightBlack from '../../assets/pagination_black_right.png'
+import LeftGrey from '../../assets/pagination_grey_left.png'
+import RightGrey from '../../assets/pagination_grey_right.png'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
 import SimpleButton from '../SimpleButton'
@@ -41,12 +43,12 @@ const Pagination = ({
           {i18n.t('pagination.first')}
         </SimpleButton>
         <SimpleButton className="pagination__left__button" onClick={() => changePage(current - 1)}>
-          <img src={LeftBlack} alt="left button" />
+          <img src={current === 1 ? LeftGrey : LeftBlack} alt="left button" />
         </SimpleButton>
 
         {!isMobile() && <span className="pagination__middle__label">{pcPagination}</span>}
         <SimpleButton className="pagination__right__button" onClick={() => changePage(current + 1)}>
-          <img src={RightBlack} alt="right button" />
+          <img src={current === total ? RightGrey : RightBlack} alt="right button" />
         </SimpleButton>
         {isMobile() && <span className="pagination__middle__label">{mobilePagination}</span>}
 

@@ -41,6 +41,7 @@ export const PaginationLeftItem = styled.div`
     cursor: pointer;
     background: #f5f5f5;
     letter-spacing: 1px;
+    color: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? '#969696' : '#000000')};
     pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? 'none' : 'auto')};
 
     &:hover {
@@ -127,6 +128,7 @@ export const PaginationLeftItem = styled.div`
     background: #f5f5f5;
     letter-spacing: 1px;
     margin-left: 20px;
+    color: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? '#969696' : '#000000')};
     pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? 'none' : 'auto')};
 
     &:hover {
