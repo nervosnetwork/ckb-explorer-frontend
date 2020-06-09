@@ -9,6 +9,7 @@ export default ({
   hideUnit,
   hideZero,
   marginBottom = '1px',
+  isFlexStart = false,
 }: {
   value: string
   fontSize?: string
@@ -16,6 +17,7 @@ export default ({
   hideUnit?: boolean
   hideZero?: boolean
   marginBottom?: string
+  isFlexStart?: boolean
 }) => {
   const integer = value.split('.')[0] || '0'
   let decimal = value.split('.')[1] || ''
@@ -32,7 +34,7 @@ export default ({
   decimal = decimal.length > 0 ? `.${decimal}` : ''
 
   return (
-    <DecimalPanel>
+    <DecimalPanel isFlexStart={isFlexStart}>
       <span>{integer}</span>
       <DecimalPartPanel className="monospace" fontSize={fontSize} color={color} marginBottom={marginBottom}>
         {decimal}

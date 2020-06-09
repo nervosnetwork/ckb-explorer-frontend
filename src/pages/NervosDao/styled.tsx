@@ -202,19 +202,17 @@ export const DaoOverviewPanel = styled.div`
   padding: 16px 20px;
   background-color: #ffffff;
   display: flex;
-
   color: #000000;
   font-size: 16px;
 
-  @media (max-width: 1000px) {
-    font-size: 13px;
+  @media (max-width: 1200px) {
+    flex-direction: column;
   }
 
   @media (max-width: 750px) {
     border-radius: 0px 0px 3px 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
     padding: 5px 0 15px 0;
-
     font-size: 13px;
     flex-direction: column;
   }
@@ -247,7 +245,7 @@ export const DaoOverviewLeftPanel = styled.div`
     display: flex;
     justify-content: space-between;
 
-    @media (max-width: 750px) {
+    @media (max-width: 1000px) {
       justify-content: space-around;
     }
   }
@@ -271,6 +269,10 @@ export const DaoOverviewRightPanel = styled.div`
   flex-direction: row;
   flex: 44;
 
+  @media (max-width: 1200px) {
+    margin-top: 12px;
+  }
+
   @media (max-width: 750px) {
     margin: 5px 0;
   }
@@ -281,44 +283,58 @@ export const DaoOverviewRightPanel = styled.div`
     flex-direction: column;
     align-items: center;
 
-    @media (max-width: 750px) {
-      flex: 4;
-    }
-
     .nervos__dao__overview_pie_title {
-      font-size: 16px;
-      font-weight: bold;
-
-      @media (max-width: 1000px) {
-        font-size: 12px;
-      }
+      font-size: 14px;
+      color: #555555;
 
       @media (max-width: 750px) {
         font-size: 12px;
+        margin: 8px 0;
       }
+    }
+  }
+
+  .nervos__dao__overview__pie__separate {
+    width: 1px;
+    height: 200px;
+    background: #eaeaea;
+
+    @media (max-width: 750px) {
+      display: none;
     }
   }
 
   .nervos__dao__overview_pie_panel {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     flex: 1;
 
+    > div {
+      width: auto;
+    }
+
     @media (max-width: 750px) {
-      flex: 3;
+      justify-content: flex-start;
     }
   }
 `
 
 export const DaoOverviewItemPanel = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 10px;
   flex: 1;
 
   &:hover {
     background: #f8f9fa;
+  }
+
+  .dao__overview__item__container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: 10px;
   }
 
   .dao__overview__item_top {
@@ -328,22 +344,16 @@ export const DaoOverviewItemPanel = styled.div`
 
     .dao__overview__item_title {
       color: #5e5e5e;
-      font-size: 11px;
+      font-size: 14px;
       font-weight: bold;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      max-width: 140px;
       cursor: ${(props: { hasTitleTooltip?: boolean; hasChange?: boolean; symbol?: string }) =>
         props.hasTitleTooltip ? 'default' : 'none'};
 
-      @media (max-width: 1000px) {
-        font-size: 9px;
-        max-width: ${(props: { hasChange?: boolean }) => (props.hasChange ? '60px' : '200px')};
-      }
-
       @media (max-width: 750px) {
-        font-size: 9px;
+        font-size: 10px;
         max-width: ${(props: { hasChange?: boolean }) => (props.hasChange ? '70px' : '200px')};
       }
     }
@@ -362,10 +372,6 @@ export const DaoOverviewItemPanel = styled.div`
         props.symbol === 'negative' ? '#FF464F' : props.theme.primary};
       cursor: default;
 
-      @media (max-width: 1000px) {
-        font-size: 10px;
-      }
-
       @media (max-width: 750px) {
         font-size: 10px;
       }
@@ -374,18 +380,20 @@ export const DaoOverviewItemPanel = styled.div`
 
   .dao__overview__item_content {
     color: #000000;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     margin-top: 10px;
-
-    @media (max-width: 1000px) {
-      font-size: 12px;
-      margin-top: 5px;
-    }
 
     @media (max-width: 750px) {
       font-size: 12px;
     }
+  }
+
+  .dao__overview__right__line {
+    width: 1px;
+    height: 66%;
+    margin: 6% 0;
+    background: #eaeaea;
   }
 `
 
@@ -393,6 +401,10 @@ export const NervosDaoPieItemPanel = styled.div`
   display: flex;
   align-items: center;
   flex: 1;
+
+  @media (max-width: 1200px) {
+    margin: 10px 0;
+  }
 
   @media (max-width: 750px) {
     margin: 5px 0;
@@ -402,12 +414,6 @@ export const NervosDaoPieItemPanel = styled.div`
     width: 9px;
     height: 9px;
     margin-right: 10px;
-
-    @media (max-width: 1000px) {
-      width: 7px;
-      height: 7px;
-      margin-right: 5px;
-    }
   }
 
   > div {
@@ -416,21 +422,13 @@ export const NervosDaoPieItemPanel = styled.div`
       color: #5e5e5e;
       font-weight: bold;
 
-      @media (max-width: 1000px) {
-        font-size: 10px;
-      }
-
       @media (max-width: 750px) {
         font-size: 10px;
       }
     }
     > div {
-      font-size: 18px;
+      font-size: 16px;
       color: #000000;
-
-      @media (max-width: 1000px) {
-        font-size: 12px;
-      }
 
       @media (max-width: 750px) {
         font-size: 12px;
