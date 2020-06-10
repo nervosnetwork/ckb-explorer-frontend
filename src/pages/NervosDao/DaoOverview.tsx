@@ -26,7 +26,7 @@ import { handleBigNumber, handleBigNumberFloor } from '../../utils/string'
 import { localeNumberString } from '../../utils/number'
 import { shannonToCkbDecimal, shannonToCkb } from '../../utils/util'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
+import { isMobile } from '../../utils/screen'
 
 interface NervosDaoItemContent {
   title: string
@@ -66,7 +66,7 @@ const daoIcon = (symbol: 'positive' | 'negative' | 'zero' | undefined) => {
   }
 }
 
-const NervosDaoItem = ({ item, isRight }: { item: NervosDaoItemContent; isRight?: boolean }) => {
+const NervosDaoItem = ({ item, firstLine }: { item: NervosDaoItemContent; firstLine?: boolean }) => {
   return (
     <DaoOverviewItemPanel hasChange={!!item.change} symbol={item.changeSymbol} hasTitleTooltip={!!item.titleTooltip}>
       <div className="dao__overview__item__container">
@@ -87,8 +87,8 @@ const NervosDaoItem = ({ item, isRight }: { item: NervosDaoItemContent; isRight?
           )}
         </div>
         <div className="dao__overview__item_content">{item.content}</div>
+        {firstLine && <span className="dao__overview__bottom__line" />}
       </div>
-      {!isRight && <span className="dao__overview__right__line" />}
     </DaoOverviewItemPanel>
   )
 }
@@ -274,13 +274,13 @@ const NervosDaoLeftMobile = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
         <span className="dao__overview__left_column_separate" />
         <NervosDaoItem item={nervosDaoItemContents(nervosDao)[1]} />
       </div>
-      <span className="dao__overview__left_separate" />
+      <span className="dao__overview__middle__separate" />
       <div>
         <NervosDaoItem item={nervosDaoItemContents(nervosDao)[3]} />
         <span className="dao__overview__left_column_separate" />
         <NervosDaoItem item={nervosDaoItemContents(nervosDao)[4]} />
       </div>
-      <span className="dao__overview__left_separate" />
+      <span className="dao__overview__middle__separate" />
       <div>
         <NervosDaoItem item={nervosDaoItemContents(nervosDao)[2]} />
         <span className="dao__overview__left_column_separate" />
@@ -312,20 +312,27 @@ export default () => {
         <DaoOverviewLeftPanel>
           <div>
             {nervosDaoItemContents(nervosDao)
-              .slice(0, 3)
+              .slice(0, 2)
               .map((item, index) => (
-                <NervosDaoItem item={item} key={item.title} isRight={index === 2} />
+                <NervosDaoItem item={item} key={item.title} firstLine={index === 0} />
               ))}
           </div>
-          <span className="dao__overview__left_separate" />
+          <span className="dao__overview__middle__separate" />
           <div>
             {nervosDaoItemContents(nervosDao)
-              .slice(3)
+              .slice(2, 4)
               .map((item, index) => (
-                <NervosDaoItem item={item} key={item.title} isRight={index === 2} />
+                <NervosDaoItem item={item} key={item.title} firstLine={index === 0} />
               ))}
           </div>
-          {isScreenSmallerThan1200() && <span className="dao__overview__left_separate" />}
+          <span className="dao__overview__middle__separate" />
+          <div>
+            {nervosDaoItemContents(nervosDao)
+              .slice(4)
+              .map((item, index) => (
+                <NervosDaoItem item={item} key={item.title} firstLine={index === 0} />
+              ))}
+          </div>
         </DaoOverviewLeftPanel>
       )}
       <span className="dao__overview__separate" />
@@ -344,7 +351,6 @@ export default () => {
             onEvents={{ click: clickEvent }}
           />
         </div>
-        {isScreenSmallerThan1200() && <div className="nervos__dao__overview__pie__separate" />}
         <div className="nervos__dao__overview_pie_panel">
           <div>
             {nervosDaoPieItemContents(nervosDao).map(item => (

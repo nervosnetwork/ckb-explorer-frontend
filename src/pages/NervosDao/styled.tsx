@@ -40,7 +40,7 @@ export const DaoContentPanel = styled.div`
 
 export const DaoTabBarPanel = styled.div`
   width: 100%;
-  height: 70px;
+  height: 58px;
   background: white;
   display: flex;
   margin-top: 20px;
@@ -55,7 +55,7 @@ export const DaoTabBarPanel = styled.div`
   }
 
   @media (max-width: 750px) {
-    height: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '90px' : '60px')};
+    height: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '100px' : '50px')};
     flex-direction: column;
     justify-content: center;
     font-size: 14px;
@@ -88,14 +88,20 @@ export const DaoTabBarPanel = styled.div`
     }
 
     .tab_bar_normal {
+      width: 140px;
+      text-align: center;
       color: #000000;
       font-weight: normal;
+      font-size: 18px;
     }
 
     .tab_bar_selected {
-      color: ${props => props.theme.primary};
+      width: 140px;
+      text-align: center;
+      font-size: 18px;
+      color: #000000;
       font-weight: bold;
-      border-bottom: 2px solid ${props => props.theme.primary};
+      border-bottom: 3px solid ${props => props.theme.primary};
     }
   }
 `
@@ -109,6 +115,7 @@ export const DepositorRankPanel = styled.div`
   width: 100%;
   background: white;
   padding: 20px 40px;
+  margin-top: 4px;
 `
 
 export const DepositorRankCardPanel = styled.div`
@@ -120,7 +127,7 @@ export const DepositorRankTitle = styled.div`
   align-items: center;
   font-size: 17px;
   font-weight: 600;
-  height: 40px;
+  height: 38px;
 
   > div {
     text-align: center;
@@ -195,7 +202,7 @@ export const DaoOverviewPanel = styled.div`
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
   margin-top: 5px;
-  padding: 16px 20px;
+  padding: 10px 20px;
   background-color: #ffffff;
   display: flex;
   color: #000000;
@@ -219,6 +226,13 @@ export const DaoOverviewPanel = styled.div`
     background: #eaeaea;
     margin-left: 2%;
 
+    @media (max-width: 1200px) {
+      width: 100%;
+      height: 1px;
+      background: #eaeaea;
+      margin-left: 0;
+    }
+
     @media (max-width: 750px) {
       width: 100%;
       height: 1px;
@@ -230,26 +244,36 @@ export const DaoOverviewPanel = styled.div`
 
 export const DaoOverviewLeftPanel = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex: 54;
 
   @media (max-width: 750px) {
     margin: 0 16px;
+    flex-direction: column;
   }
 
   > div {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    flex: 1;
 
-    @media (max-width: 1000px) {
-      justify-content: space-around;
+    @media (max-width: 750px) {
+      flex-direction: row;
     }
   }
 
-  .dao__overview__left_separate {
-    width: 100%;
-    height: 1px;
+  .dao__overview__middle__separate {
+    width: 1px;
+    height: 130px;
     background: #eaeaea;
+    margin: 10px 16px;
+
+    @media (max-width: 750px) {
+      width: 100%;
+      height: 1px;
+      background: #eaeaea;
+      margin: 0;
+    }
   }
 
   .dao__overview__left_column_separate {
@@ -257,6 +281,10 @@ export const DaoOverviewLeftPanel = styled.div`
     height: auto;
     margin: 3% 0;
     background: #eaeaea;
+
+    @media (max-width: 750px) {
+      display: none;
+    }
   }
 `
 
@@ -290,20 +318,9 @@ export const DaoOverviewRightPanel = styled.div`
     }
   }
 
-  .nervos__dao__overview__pie__separate {
-    width: 1px;
-    height: 200px;
-    background: #eaeaea;
-
-    @media (max-width: 750px) {
-      display: none;
-    }
-  }
-
   .nervos__dao__overview_pie_panel {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     flex: 1;
 
@@ -319,6 +336,7 @@ export const DaoOverviewRightPanel = styled.div`
 
 export const DaoOverviewItemPanel = styled.div`
   display: flex;
+  flex-direction: column;
   flex: 1;
 
   &:hover {
@@ -330,13 +348,13 @@ export const DaoOverviewItemPanel = styled.div`
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    padding: 10px;
   }
 
   .dao__overview__item_top {
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-top: 10px;
 
     .dao__overview__item_title {
       color: #5e5e5e;
@@ -345,11 +363,20 @@ export const DaoOverviewItemPanel = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      max-width: 200px;
       cursor: ${(props: { hasTitleTooltip?: boolean; hasChange?: boolean; symbol?: string }) =>
         props.hasTitleTooltip ? 'default' : 'none'};
 
+      @media (max-width: 1920px) {
+        max-width: 120px;
+      }
+
+      @media (max-width: 1200px) {
+        max-width: 200px;
+      }
+
       @media (max-width: 750px) {
-        font-size: 10px;
+        font-size: 12px;
         max-width: ${(props: { hasChange?: boolean }) => (props.hasChange ? '90px' : '200px')};
       }
     }
@@ -378,17 +405,16 @@ export const DaoOverviewItemPanel = styled.div`
     color: #000000;
     font-size: 16px;
     font-weight: bold;
-    margin-top: 10px;
+    margin: 10px 0;
 
     @media (max-width: 750px) {
-      font-size: 12px;
+      font-size: 14px;
     }
   }
 
-  .dao__overview__right__line {
-    width: 1px;
-    height: 66%;
-    margin: 6% 0;
+  .dao__overview__bottom__line {
+    width: 100%;
+    height: 1px;
     background: #eaeaea;
   }
 `

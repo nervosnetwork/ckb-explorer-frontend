@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const DaoSearchPanel = styled.div`
   width: 600px;
-  height: 40px;
+  height: 38px;
   text-align: center;
   display: flex;
   align-items: center;
@@ -14,33 +14,26 @@ export const DaoSearchPanel = styled.div`
 
   @media (max-width: 750px) {
     width: 84vw;
-    height: 25px;
   }
 `
 
 export const DaoSearchImage = styled.div`
   display: inline-block;
-  margin-left: ${(props: { showReset: boolean }) => (props.showReset ? '-65px' : '-45px')};
-  width: 50px;
+  margin-right: -36px;
+  margin-left: 8px;
+  width: 18px;
   z-index: 2;
   display: flex;
   justify-content: center;
 
   @media (max-width: 750px) {
-    width: 40px;
-    margin-left: ${(props: { showReset: boolean }) => (props.showReset ? '-45px' : '-35px')};
+    margin-right: ${(props: { isRight?: boolean }) => (props.isRight ? '8px' : '-36px')};
+    margin-left: ${(props: { isRight?: boolean }) => (props.isRight ? '-24px' : '8px')};
   }
 
   img {
-    margin-top: 3px;
-    width: 20px;
-    height: 20px;
-
-    @media (max-width: 750px) {
-      margin-top: 0;
-      width: 12px;
-      height: 12px;
-    }
+    width: 18px;
+    height: 18px;
   }
 `
 
@@ -49,7 +42,7 @@ export const DaoSearchInputPanel = styled.input`
   width: ${(props: { showReset: boolean }) => (props.showReset ? '85%' : '100%')};
   height: 100%;
   font-size: 16px;
-  padding-left: 15px;
+  padding-left: 30px;
   padding-right: 50px;
   background: rgba(255, 255, 255, 0);
   opacity: 1;
@@ -67,9 +60,7 @@ export const DaoSearchInputPanel = styled.input`
   }
 
   @media (max-width: 750px) {
-    width: ${(props: { showReset: boolean }) => (props.showReset ? '83%' : '100%')};
-    font-size: 12px;
-    padding-left: 10px;
+    width: 100%;
     padding-right: 30px;
   }
 `
