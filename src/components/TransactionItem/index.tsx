@@ -4,7 +4,7 @@ import RightArrowIcon from '../../assets/input_arrow_output.png'
 import DownArrowIcon from '../../assets/input_arrow_output_down.png'
 import { parseDate } from '../../utils/date'
 import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
+import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
 import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
@@ -52,7 +52,7 @@ const TransactionItem = ({
             render={cell => <TransactionCell cell={cell} address={address} cellType={CellType.Input} key={cell.id} />}
           />
         </div>
-        <img src={isMobile() ? DownArrowIcon : RightArrowIcon} alt="input and output" />
+        <img src={isScreenSmallerThan1200() ? DownArrowIcon : RightArrowIcon} alt="input and output" />
         <div className="transaction_item__output">
           {transaction.displayOutputs && transaction.displayOutputs.length !== 0 ? (
             <TransactionCellList

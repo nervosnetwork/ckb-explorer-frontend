@@ -46,6 +46,7 @@ export const CachedKeys = {
   AppLanguage: `${CONFIG.CHAIN_TYPE}-AppLanguage`,
   APC: `${CONFIG.CHAIN_TYPE}-APC`,
   InflationRate: `${CONFIG.CHAIN_TYPE}-InflationRate`,
+  Version: `${CONFIG.CHAIN_TYPE}-Version`,
 }
 
 export enum CellState {

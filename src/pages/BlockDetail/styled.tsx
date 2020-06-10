@@ -100,12 +100,8 @@ export const BlockOverviewDisplayControlPanel = styled.div`
 `
 
 export const BlockTransactionsPagination = styled.div`
-  margin: 20px 0px 0px 0px;
+  margin-top: 4px;
   width: 100%;
-
-  @media (max-width: 750px) {
-    margin: 10px 0px 0px 0px;
-  }
 `
 
 export const BlockNoncePanel = styled.div``
