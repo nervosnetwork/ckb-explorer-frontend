@@ -84,7 +84,7 @@ export const TransactionCellPanel = styled.div`
   flex-direction: row;
   align-items: flex-start;
 
-  @media (max-width: 750px) {
+  @media (max-width: 1200px) {
     flex-direction: column;
     align-items: center;
   }
@@ -99,7 +99,7 @@ export const TransactionCellPanel = styled.div`
     margin-right: 40px;
     flex: 1;
 
-    @media (max-width: 750px) {
+    @media (max-width: 1200px) {
       margin: 0px;
       flex: none;
       width: 100%;
@@ -113,7 +113,7 @@ export const TransactionCellPanel = styled.div`
     align-items: flex-start;
     margin-left: 40px;
 
-    @media (max-width: 750px) {
+    @media (max-width: 1200px) {
       margin: 0px;
       flex: none;
       width: 100%;
