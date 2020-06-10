@@ -397,7 +397,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
   }
 }
 
-@media (max-width:750px) {
+@media (max-width:1200px) {
   .c2 {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
@@ -409,7 +409,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
   }
 }
 
-@media (max-width:750px) {
+@media (max-width:1200px) {
   .c2 .transaction_item__input {
     margin: 0px;
     -webkit-flex: none;
@@ -419,7 +419,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
   }
 }
 
-@media (max-width:750px) {
+@media (max-width:1200px) {
   .c2 .transaction_item__output {
     margin: 0px;
     -webkit-flex: none;
@@ -494,7 +494,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
-              ckb1qy...xxggjg
+              ckb1qyqdpmf...8prsqxxggjg
             </a>
           </div>
           <div
@@ -551,7 +551,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
-              ckb1qy...l03lwy
+              ckb1qyq93m8...g835sl03lwy
             </a>
           </div>
           <div
@@ -608,7 +608,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
-              ckb1qy...l03lwy
+              ckb1qyq93m8...g835sl03lwy
             </a>
           </div>
           <div
@@ -665,7 +665,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
-              ckb1qy...l03lwy
+              ckb1qyq93m8...g835sl03lwy
             </a>
           </div>
           <div
@@ -703,7 +703,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
     </div>
     <img
       alt="input and output"
-      src="input_arrow_output.png"
+      src="input_arrow_output_down.png"
     />
     <div
       className="transaction_item__output"
@@ -727,7 +727,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
                 onMouseEnter={[Function]}
                 onMouseLeave={[Function]}
               >
-                ckb1qy...jyrfah
+                ckb1qyqwr7v...gec3qjyrfah
               </a>
               <img
                 alt="right arrow"
@@ -792,7 +792,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
                 onMouseEnter={[Function]}
                 onMouseLeave={[Function]}
               >
-                ckb1qy...h3kk9v
+                ckb1qyq907p...0586sh3kk9v
               </a>
               <img
                 alt="right arrow"

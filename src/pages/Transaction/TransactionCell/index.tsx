@@ -96,7 +96,7 @@ const detailTitleIcons = (cell: State.Cell) => {
 const udtAmount = (udt: State.UDTInfo) => {
   return udt.published
     ? `${parseUDTAmount(udt.amount, udt.decimal)} ${udt.symbol}`
-    : `${i18n.t('udt.unknown_token')} #<${udt.typeHash.substring(udt.typeHash.length - 4)}>`
+    : `${i18n.t('udt.unknown_token')} #${udt.typeHash.substring(udt.typeHash.length - 4)}`
 }
 
 const Cellbase = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {

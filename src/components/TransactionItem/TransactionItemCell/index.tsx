@@ -11,7 +11,7 @@ import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { CellbasePanel, TransactionCellPanel, TransactionCellCapacity, WithdrawInfoPanel } from './styled'
-import { isMobile, isScreenSmallerThan1440 } from '../../../utils/screen'
+import { isMobile, isScreenSmallerThan1440, isScreenSmallerThan1200 } from '../../../utils/screen'
 import { CellType, DaoType } from '../../../utils/const'
 import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
 import DecimalCapacity from '../../DecimalCapacity'
@@ -43,7 +43,10 @@ const handleAddressText = (address: string) => {
   if (isMobile()) {
     return adaptMobileEllipsis(address, 10)
   }
-  return adaptPCEllipsis(address, isScreenSmallerThan1440() ? 2 : 9, 100)
+  if (!isScreenSmallerThan1200() && isScreenSmallerThan1440()) {
+    return adaptPCEllipsis(address, 3, 100)
+  }
+  return adaptPCEllipsis(address, 7, 100)
 }
 
 const isDaoDepositCell = (cellType: string) => {
@@ -84,7 +87,7 @@ const AddressLinkComp = ({ cell, address, highLight }: { cell: State.Cell; addre
 const udtAmount = (udt: State.UDTInfo) => {
   return udt.published
     ? `${parseUDTAmount(udt.amount, udt.decimal)} ${udt.symbol}`
-    : `${i18n.t('udt.unknown_token')} #<${udt.typeHash.substring(udt.typeHash.length - 4)}>`
+    : `${i18n.t('udt.unknown_token')} #${udt.typeHash.substring(udt.typeHash.length - 4)}`
 }
 
 const TransactionCapacityAction = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
@@ -192,7 +195,7 @@ const TransactionCapacityAction = ({ cell, cellType }: { cell: State.Cell; cellT
       </div>
     )
   }
-  if (cell.udtInfo && cell.udtInfo.symbol) {
+  if (cell.udtInfo && cell.udtInfo.typeHash) {
     return (
       <>
         <span>{udtAmount(cell.udtInfo)}</span>
