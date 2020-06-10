@@ -51,6 +51,7 @@ export const HeaderBlockchainPanel = styled.div`
     font-size: 8px;
     margin-top: 2px;
     cursor: pointer;
+    height: 12px;
   }
 `
 

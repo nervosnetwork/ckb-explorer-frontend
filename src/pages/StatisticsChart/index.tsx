@@ -176,6 +176,7 @@ const Charts: ChartCategory[] = [
         title: `${i18n.t('statistic.address_count')}`,
         chart: <AddressCountChart isThumbnail />,
         path: '/charts/address-count',
+        description: i18n.t('statistic.address_count_description'),
       },
       {
         title: i18n.t('statistic.cell_count'),

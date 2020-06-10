@@ -161,12 +161,8 @@ export const SimpleUDTTransactionsPanel = styled.div`
 `
 
 export const SimpleUDTTransactionsPagination = styled.div`
-  margin: 20px 0 0px 0;
+  margin-top: 4px;
   width: 100%;
-
-  @media (max-width: 750px) {
-    margin: 10px 0 0px 0;
-  }
 `
 
 export const UDTTransactionTitlePanel = styled.div`

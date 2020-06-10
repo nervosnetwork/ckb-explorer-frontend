@@ -180,6 +180,10 @@ export const TransactionCellCardPanel = styled.div`
     font-size: 16px;
     color: #000000;
 
+    a {
+      color: ${props => props.theme.primary};
+    }
+
     a:hover {
       color: ${props => props.theme.primary};
     }

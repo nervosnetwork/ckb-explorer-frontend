@@ -96,7 +96,7 @@ const detailTitleIcons = (cell: State.Cell) => {
 const udtAmount = (udt: State.UDTInfo) => {
   return udt.published
     ? `${parseUDTAmount(udt.amount, udt.decimal)} ${udt.symbol}`
-    : `${i18n.t('udt.unknown_token')} #<${udt.typeHash.substring(udt.typeHash.length - 4)}>`
+    : `${i18n.t('udt.unknown_token')} #${udt.typeHash.substring(udt.typeHash.length - 4)}`
 }
 
 const Cellbase = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
@@ -176,7 +176,11 @@ export default ({
             <div className="transaction__cell__card__content">
               <div className="transaction__cell__card__title">{i18n.t('transaction.capacity')}</div>
               <div className="transaction__cell__card__value">
-                <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
+                {cell.udtInfo && cell.udtInfo.typeHash ? (
+                  udtAmount(cell.udtInfo)
+                ) : (
+                  <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
+                )}
               </div>
             </div>
           </>

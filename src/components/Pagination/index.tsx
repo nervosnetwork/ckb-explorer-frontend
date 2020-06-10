@@ -1,12 +1,17 @@
 import React, { useState } from 'react'
 import { PaginationLeftItem, PaginationRightItem, PaginationPanel } from './styled'
+import LeftBlack from '../../assets/pagination_black_left.png'
+import RightBlack from '../../assets/pagination_black_right.png'
+import LeftGrey from '../../assets/pagination_grey_left.png'
+import RightGrey from '../../assets/pagination_grey_right.png'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
+import SimpleButton from '../SimpleButton'
 
 const Pagination = ({
   currentPage,
   totalPages,
-  gotoPage = currentPage + 1,
+  gotoPage = currentPage === totalPages ? totalPages : currentPage + 1,
   onChange,
 }: {
   currentPage: number
@@ -27,23 +32,32 @@ const Pagination = ({
   const changePage = (page: number) => {
     if (page && page >= 1 && page <= total) {
       onChange(page)
-      setInputPage(Math.min(page + 1, totalPages))
+      setInputPage(Math.min(page + 1, total))
     }
   }
 
   return (
     <PaginationPanel>
       <PaginationLeftItem isFirstPage={current === 1} isLastPage={current === total}>
-        <button onClick={() => changePage(1)}>{i18n.t('pagination.first')}</button>
-        <button type="button" className="pagination__left__button" onClick={() => changePage(current - 1)} />
-        <div className="pagination__middle__label">{isMobile() ? mobilePagination : pcPagination}</div>
-        <button type="button" className="pagination__right__button" onClick={() => changePage(current + 1)} />
-        <button type="button" className="pagination__last" onClick={() => changePage(total)}>
+        <SimpleButton className="pagination__first__button" onClick={() => changePage(1)}>
+          {i18n.t('pagination.first')}
+        </SimpleButton>
+        <SimpleButton className="pagination__left__button" onClick={() => changePage(current - 1)}>
+          <img src={current === 1 ? LeftGrey : LeftBlack} alt="left button" />
+        </SimpleButton>
+
+        {!isMobile() && <span className="pagination__middle__label">{pcPagination}</span>}
+        <SimpleButton className="pagination__right__button" onClick={() => changePage(current + 1)}>
+          <img src={current === total ? RightGrey : RightBlack} alt="right button" />
+        </SimpleButton>
+        {isMobile() && <span className="pagination__middle__label">{mobilePagination}</span>}
+
+        <SimpleButton className="pagination__last__button" onClick={() => changePage(total)}>
           {i18n.t('pagination.last')}
-        </button>
+        </SimpleButton>
       </PaginationLeftItem>
       <PaginationRightItem>
-        <div className="pagination__page">{i18n.t('pagination.page')}</div>
+        <span className="pagination__page__label">{i18n.t('pagination.page')}</span>
         <input
           type="text"
           pattern="[0-9]*"
@@ -59,9 +73,9 @@ const Pagination = ({
             }
           }}
         />
-        <button type="button" className="pagination__goto__page" onClick={() => changePage(inputPage)}>
+        <SimpleButton className="pagination__goto__page" onClick={() => changePage(inputPage)}>
           {i18n.t('pagination.goto')}
-        </button>
+        </SimpleButton>
       </PaginationRightItem>
     </PaginationPanel>
   )
