@@ -230,7 +230,12 @@ export const BlockComp = ({
       {transactions.map((transaction: State.Transaction, index: number) => {
         return (
           transaction && (
-            <TransactionItem key={transaction.transactionHash} transaction={transaction} circleCorner={{ bottom: index === transactions.length - 1 && totalPages === 1 }} isBlock={true}/>
+            <TransactionItem
+              key={transaction.transactionHash}
+              transaction={transaction}
+              circleCorner={{ bottom: index === transactions.length - 1 && totalPages === 1 }}
+              isBlock
+            />
           )
         )
       })}

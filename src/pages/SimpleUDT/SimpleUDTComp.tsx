@@ -103,7 +103,15 @@ export const SimpleUDTComp = ({
       <UDTTitleSearchComp />
       <SimpleUDTTransactionsPanel>
         {transactions.map((transaction: State.Transaction, index: number) => {
-          return transaction && <TransactionItem transaction={transaction} key={transaction.transactionHash} circleCorner={{ bottom: index === transactions.length - 1 && totalPages === 1 }}/>
+          return (
+            transaction && (
+              <TransactionItem
+                transaction={transaction}
+                key={transaction.transactionHash}
+                circleCorner={{ bottom: index === transactions.length - 1 && totalPages === 1 }}
+              />
+            )
+          )
         })}
       </SimpleUDTTransactionsPanel>
       {totalPages > 1 && (
