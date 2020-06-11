@@ -412,7 +412,7 @@ export const TableHeaderPanel = styled.div`
   display: flex;
   align-items: center;
   background: ${props => props.theme.primary};
-  border: 0px solid white;
+  border: 0px solid #f9f9f9;
   border-radius: 6px 6px 0 0;
 
   > img {
