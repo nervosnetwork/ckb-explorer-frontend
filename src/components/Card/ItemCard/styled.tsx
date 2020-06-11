@@ -19,6 +19,7 @@ export const ItemCardPanel = styled.div`
     border-radius: 0px 0px 3px 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
     padding: 10px 20px;
+    margin-top: 4px;
   }
 `
 
