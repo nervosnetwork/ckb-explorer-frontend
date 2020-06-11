@@ -307,9 +307,17 @@ export const DaoOverviewRightPanel = styled.div`
     flex-direction: column;
     align-items: center;
 
+    @media (max-width: 1200px) {
+      align-items: flex-end;
+    }
+
     .nervos__dao__overview_pie_title {
       font-size: 14px;
       color: #555555;
+
+      @media (max-width: 1200px) {
+        margin-right: 23%;
+      }
 
       @media (max-width: 750px) {
         font-size: 12px;
@@ -359,7 +367,6 @@ export const DaoOverviewItemPanel = styled.div`
     .dao__overview__item_title {
       color: #5e5e5e;
       font-size: 14px;
-      font-weight: bold;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -457,4 +464,9 @@ export const NervosDaoPieItemPanel = styled.div`
       }
     }
   }
+`
+
+export const NervosDaoPieCapacityPanel = styled.div`
+  width: 180px;
+  text-align: right;
 `

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const DecimalPanel = styled.div`
   display: flex;
-  justify-content: ${(props: { isFlexStart?: boolean }) => (props.isFlexStart ? 'flex-start' : 'flex-end')};
+  justify-content: flex-end;
   align-items: flex-end;
 
   .decimal__zeros {

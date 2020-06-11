@@ -14,6 +14,7 @@ import {
   DaoOverviewRightPanel,
   DaoOverviewItemPanel,
   NervosDaoPieItemPanel,
+  NervosDaoPieCapacityPanel,
 } from './styled'
 import DaoUpIcon from '../../assets/dao_up.png'
 import DaoDownIcon from '../../assets/dao_down.png'
@@ -26,7 +27,7 @@ import { handleBigNumber, handleBigNumberFloor } from '../../utils/string'
 import { localeNumberString } from '../../utils/number'
 import { shannonToCkbDecimal, shannonToCkb } from '../../utils/util'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import { isMobile } from '../../utils/screen'
+import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
 
 interface NervosDaoItemContent {
   title: string
@@ -215,39 +216,42 @@ const nervosDaoPieItemContents = (nervosDao: State.NervosDao): NervosDaoPieItemC
     {
       title: i18n.t('nervos_dao.mining_reward'),
       content: (
-        <DecimalCapacity
-          value={localeNumberString(shannonToCkb(Number(nervosDao.miningReward).toFixed()))}
-          fontSize={isMobile() ? '9px' : '12px'}
-          marginBottom="2px"
-          hideUnit
-          isFlexStart
-        />
+        <NervosDaoPieCapacityPanel>
+          <DecimalCapacity
+            value={localeNumberString(shannonToCkb(Number(nervosDao.miningReward).toFixed()))}
+            fontSize={isMobile() ? '9px' : '12px'}
+            marginBottom="2px"
+            hideUnit
+          />
+        </NervosDaoPieCapacityPanel>
       ),
       img: DotIcon1,
     },
     {
       title: i18n.t('nervos_dao.deposit_compensation'),
       content: (
-        <DecimalCapacity
-          value={localeNumberString(shannonToCkb(Number(nervosDao.depositCompensation).toFixed()))}
-          fontSize={isMobile() ? '9px' : '12px'}
-          marginBottom="2px"
-          hideUnit
-          isFlexStart
-        />
+        <NervosDaoPieCapacityPanel>
+          <DecimalCapacity
+            value={localeNumberString(shannonToCkb(Number(nervosDao.depositCompensation).toFixed()))}
+            fontSize={isMobile() ? '9px' : '12px'}
+            marginBottom="2px"
+            hideUnit
+          />
+        </NervosDaoPieCapacityPanel>
       ),
       img: DotIcon2,
     },
     {
       title: i18n.t('nervos_dao.burnt'),
       content: (
-        <DecimalCapacity
-          value={localeNumberString(shannonToCkb(Number(nervosDao.treasuryAmount).toFixed()))}
-          fontSize={isMobile() ? '9px' : '12px'}
-          marginBottom="2px"
-          hideUnit
-          isFlexStart
-        />
+        <NervosDaoPieCapacityPanel>
+          <DecimalCapacity
+            value={localeNumberString(shannonToCkb(Number(nervosDao.treasuryAmount).toFixed()))}
+            fontSize={isMobile() ? '9px' : '12px'}
+            marginBottom="2px"
+            hideUnit
+          />
+        </NervosDaoPieCapacityPanel>
       ),
       img: DotIcon3,
     },
@@ -346,7 +350,7 @@ export default () => {
             lazyUpdate
             style={{
               height: isMobile() ? '65%' : '90%',
-              width: '100%',
+              width: !isMobile() && isScreenSmallerThan1200() ? '70%' : '100%',
             }}
             onEvents={{ click: clickEvent }}
           />
