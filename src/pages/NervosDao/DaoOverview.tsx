@@ -180,6 +180,7 @@ const getOption = (nervosDao: State.NervosDao): echarts.EChartOption => {
           value.data.name
         })`
       },
+      position: ['10%', '50%'],
     },
     series: [
       {
