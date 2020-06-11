@@ -6,7 +6,7 @@ import { shannonToCkb } from '../../utils/util'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import { adaptPCEllipsis, handleBigNumber } from '../../utils/string'
+import { adaptPCEllipsis, handleBigNumber, adaptMobileEllipsis } from '../../utils/string'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import {
   AddressPanel,
@@ -65,9 +65,16 @@ export default () => {
 
   return isMobile() ? (
     <DepositorRankCardPanel>
-      {depositors.map((depositor: State.NervosDaoDepositor, index: number) => {
-        return <ItemCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index)} />
-      })}
+      {depositors
+        .map(depositor => {
+          return {
+            ...depositor,
+            addressHash: adaptMobileEllipsis(depositor.addressHash, 8),
+          }
+        })
+        .map((depositor: State.NervosDaoDepositor, index: number) => {
+          return <ItemCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index)} />
+        })}
     </DepositorRankCardPanel>
   ) : (
     <DepositorRankPanel>

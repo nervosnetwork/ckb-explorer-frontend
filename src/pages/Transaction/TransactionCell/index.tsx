@@ -84,7 +84,7 @@ const detailTitleIcons = (cell: State.Cell) => {
     detailTitle = i18n.t('transaction.nervos_dao_withdraw')
     detailIcon = NervosDAOWithdrawingIcon
   } else if (cell.cellType === DaoType.Udt) {
-    detailTitle = i18n.t('transaction.udt_transfer')
+    detailTitle = i18n.t('transaction.udt_cell')
     detailIcon = UDTTokenIcon
   }
   return {
