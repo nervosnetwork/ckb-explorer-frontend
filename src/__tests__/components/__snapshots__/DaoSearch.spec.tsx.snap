@@ -3,7 +3,7 @@
 exports[`DaoSearch Component shallow renders 1`] = `
 .c0 {
   width: 600px;
-  height: 38px;
+  height: 40px;
   text-align: center;
   display: -webkit-box;
   display: -webkit-flex;
@@ -19,11 +19,10 @@ exports[`DaoSearch Component shallow renders 1`] = `
   justify-content: space-between;
 }
 
-.c1 {
+.c2 {
   display: inline-block;
-  margin-right: -36px;
-  margin-left: 8px;
-  width: 18px;
+  margin-left: -45px;
+  width: 50px;
   z-index: 2;
   display: -webkit-box;
   display: -webkit-flex;
@@ -35,17 +34,18 @@ exports[`DaoSearch Component shallow renders 1`] = `
   justify-content: center;
 }
 
-.c1 img {
-  width: 18px;
-  height: 18px;
+.c2 img {
+  margin-top: 3px;
+  width: 20px;
+  height: 20px;
 }
 
-.c2 {
+.c1 {
   position: relative;
   width: 100%;
   height: 100%;
   font-size: 16px;
-  padding-left: 30px;
+  padding-left: 15px;
   padding-right: 50px;
   background: rgba(255,255,255,0);
   opacity: 1;
@@ -54,24 +54,24 @@ exports[`DaoSearch Component shallow renders 1`] = `
   border-radius: 6px;
 }
 
-.c2:focus {
+.c1:focus {
   color: #666666;
   outline: none;
 }
 
-.c2::-webkit-input-placeholder {
+.c1::-webkit-input-placeholder {
   color: #bababa;
 }
 
-.c2::-moz-placeholder {
+.c1::-moz-placeholder {
   color: #bababa;
 }
 
-.c2:-ms-input-placeholder {
+.c1:-ms-input-placeholder {
   color: #bababa;
 }
 
-.c2::placeholder {
+.c1::placeholder {
   color: #bababa;
 }
 
@@ -84,19 +84,30 @@ exports[`DaoSearch Component shallow renders 1`] = `
 @media (max-width:750px) {
   .c0 {
     width: 84vw;
-  }
-}
-
-@media (max-width:750px) {
-  .c1 {
-    margin-right: -36px;
-    margin-left: 8px;
+    height: 25px;
   }
 }
 
 @media (max-width:750px) {
   .c2 {
+    width: 40px;
+    margin-left: -35px;
+  }
+}
+
+@media (max-width:750px) {
+  .c2 img {
+    margin-top: 0;
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media (max-width:750px) {
+  .c1 {
     width: 100%;
+    font-size: 12px;
+    padding-left: 10px;
     padding-right: 30px;
   }
 }
@@ -104,8 +115,16 @@ exports[`DaoSearch Component shallow renders 1`] = `
 <div
   className="c0"
 >
-  <div
+  <input
     className="c1"
+    defaultValue=""
+    onBlur={[Function]}
+    onChange={[Function]}
+    onKeyUp={[Function]}
+    placeholder="Transaction / Address"
+  />
+  <div
+    className="c2"
     onClick={[Function]}
     onKeyPress={[Function]}
     role="button"
@@ -113,16 +132,8 @@ exports[`DaoSearch Component shallow renders 1`] = `
   >
     <img
       alt="search logo"
-      src="search_black.png"
+      src="search_green.png"
     />
   </div>
-  <input
-    className="c2"
-    defaultValue=""
-    onBlur={[Function]}
-    onChange={[Function]}
-    onKeyUp={[Function]}
-    placeholder="Transaction / Address"
-  />
 </div>
 `;

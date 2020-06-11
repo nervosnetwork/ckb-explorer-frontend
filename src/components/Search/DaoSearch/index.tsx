@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import GreenSearchLogo from '../../../assets/search_green.png'
+import BlueSearchLogo from '../../../assets/search_blue.png'
 import i18n from '../../../utils/i18n'
-import SearchLogo from '../../../assets/search_black.png'
-import ClearLogo from '../../../assets/clear.png'
-import { AppActions, ComponentActions } from '../../../contexts/actions'
+import { AppActions } from '../../../contexts/actions'
+import { isMainnet } from '../../../utils/chain'
 import { searchNervosDaoTransactions, getNervosDaoTransactions } from '../../../service/app/nervosDao'
 import { useDispatch, useAppState } from '../../../contexts/providers'
-import { DaoSearchPanel, DaoSearchInputPanel, DaoSearchImage } from './styled'
+import { DaoSearchImage, DaoSearchPanel, DaoResetButtonPanel, DaoSearchInputPanel } from './styled'
 
 const clearSearchInput = (inputElement: any) => {
   const input: HTMLInputElement = inputElement.current
@@ -26,7 +27,6 @@ const DaoSearch = ({ content }: { content?: string }) => {
   const dispatch = useDispatch()
   const {
     nervosDaoState: { transactionsStatus },
-    components: { searchBarEditable },
   } = useAppState()
   const [t] = useTranslation()
   const SearchPlaceholder = useMemo(() => {
@@ -75,41 +75,34 @@ const DaoSearch = ({ content }: { content?: string }) => {
     setPlaceholder(SearchPlaceholder)
   }, [SearchPlaceholder])
 
-  const ClearIconButton = () => {
-    const dispatch = useDispatch()
+  const SearchIconButton = () => {
     return (
       <DaoSearchImage
-        isRight={true}
         role="button"
-        tabIndex={-1}
-        onKeyPress={() => {}}
-        onClick={() => {
-          getNervosDaoTransactions(dispatch, 1, DEPOSIT_RANK_COUNT)
-          dispatch({
-            type: ComponentActions.UpdateHeaderSearchEditable,
-            payload: {
-              searchBarEditable: false,
-            },
-          })
-        }}
-      >
-        <img src={ClearLogo} alt="search clear logo" />
-      </DaoSearchImage>
-    )
-  }
-
-  return (
-    <DaoSearchPanel>
-      <DaoSearchImage
-        role="button"
+        showReset={showReset}
         tabIndex={-1}
         onKeyPress={() => {}}
         onClick={() => {
           handleSearchResult()
         }}
       >
-        <img src={SearchLogo} alt="search logo" />
+        <img src={isMainnet() ? GreenSearchLogo : BlueSearchLogo} alt="search logo" />
       </DaoSearchImage>
+    )
+  }
+
+  return (
+    <DaoSearchPanel>
+      {showReset && (
+        <DaoResetButtonPanel
+          onClick={() => {
+            setShowReset(false)
+            getNervosDaoTransactions(dispatch, 1, DEPOSIT_RANK_COUNT)
+          }}
+        >
+          {i18n.t('nervos_dao.dao_search_reset')}
+        </DaoResetButtonPanel>
+      )}
       <DaoSearchInputPanel
         ref={inputElement}
         showReset={showReset}
@@ -127,7 +120,7 @@ const DaoSearch = ({ content }: { content?: string }) => {
           }
         }}
       />
-      {searchBarEditable && <ClearIconButton />}
+      <SearchIconButton />
     </DaoSearchPanel>
   )
 }
