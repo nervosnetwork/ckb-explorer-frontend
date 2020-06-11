@@ -321,7 +321,7 @@ export const DaoOverviewRightPanel = styled.div`
 
       @media (max-width: 750px) {
         font-size: 12px;
-        margin: 8px 0;
+        margin: 8px 23% 8px 0;
       }
     }
   }
@@ -469,4 +469,8 @@ export const NervosDaoPieItemPanel = styled.div`
 export const NervosDaoPieCapacityPanel = styled.div`
   width: 180px;
   text-align: right;
+
+  @media (max-width: 750px) {
+    width: 130px;
+  }
 `
