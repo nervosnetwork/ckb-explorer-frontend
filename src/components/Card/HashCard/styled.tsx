@@ -14,7 +14,6 @@ export const HashCardPanel = styled.div`
 
   @media (max-width: 750px) {
     padding: 0 16px;
-    border-radius: 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
   }
 
