@@ -13,22 +13,29 @@ import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, Transaction
 import i18n from '../../utils/i18n'
 import { CellType } from '../../utils/const'
 
+export interface CircleCorner {
+  top?: boolean
+  bottom?: boolean
+}
+
 const TransactionItem = ({
   transaction,
   address,
   isBlock = false,
   titleCard,
+  circleCorner = { top: false, bottom: false },
 }: {
   transaction: State.Transaction
   address?: string
   isBlock?: boolean
   titleCard?: ReactNode | null
+  circleCorner?: CircleCorner
 }) => {
   const txHashMobile = adaptMobileEllipsis(transaction.transactionHash, 10)
   const txHashPC = adaptPCEllipsis(transaction.transactionHash, 14, 40)
 
   return (
-    <TransactionPanel id={isBlock && transaction.isCellbase ? 'cellbase' : ''}>
+    <TransactionPanel id={isBlock && transaction.isCellbase ? 'cellbase' : ''} circleCorner={circleCorner}>
       {titleCard}
       <TransactionHashBlockPanel>
         <div className="transaction_item__content">

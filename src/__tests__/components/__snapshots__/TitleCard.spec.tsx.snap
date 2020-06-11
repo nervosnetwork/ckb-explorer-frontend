@@ -2,7 +2,7 @@
 
 exports[`TitleCard Component shallow renders 1`] = `
 <div
-  className="sc-AxjAm cUKlvR"
+  className="sc-AxjAm gevGBE"
 >
   <div
     className="title__card__content"

@@ -226,15 +226,11 @@ export const BlockComp = ({
 
   return (
     <>
+      <TitleCard title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`} isSingle />
       {transactions.map((transaction: State.Transaction, index: number) => {
         return (
           transaction && (
-            <TransactionItem
-              key={transaction.transactionHash}
-              transaction={transaction}
-              isBlock
-              titleCard={index === 0 ? <TitleCard title={i18n.t('transaction.transactions')} /> : null}
-            />
+            <TransactionItem key={transaction.transactionHash} transaction={transaction} circleCorner={{ bottom: index === transactions.length - 1 && totalPages === 1 }} isBlock={true}/>
           )
         )
       })}

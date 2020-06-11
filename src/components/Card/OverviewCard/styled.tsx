@@ -6,7 +6,7 @@ export const OverviewCardPanel = styled.div`
   color: #000000;
   font-size: 16px;
   margin-bottom: 16px;
-  border-radius: 0px 0px 6px 6px;
+  border-radius: 6px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   padding: 15px 40px;
 
