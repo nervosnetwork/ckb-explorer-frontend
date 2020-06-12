@@ -124,6 +124,8 @@ export const DepositorRankPanel = styled.div`
   background: white;
   padding: 20px 40px;
   margin-top: 4px;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  border-radius: 0 0 6px 6px;
 `
 
 export const DepositorRankCardPanel = styled.div`

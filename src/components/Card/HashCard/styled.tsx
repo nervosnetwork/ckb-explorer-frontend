@@ -39,7 +39,7 @@ export const HashCardPanel = styled.div`
     margin-right: 8px;
   }
   .hash__title {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 600;
     color: #000000;
     white-space: nowrap;

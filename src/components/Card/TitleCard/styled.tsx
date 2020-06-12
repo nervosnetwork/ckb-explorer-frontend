@@ -18,7 +18,7 @@ export const TitleCardPanel = styled.div`
 
   .title__card__content {
     color: #000000;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
     margin-bottom: ${(props: { isSingle?: boolean }) => (props.isSingle ? '0px' : '12px')};
 
@@ -26,12 +26,5 @@ export const TitleCardPanel = styled.div`
       font-size: 20px;
       margin-bottom: 8px;
     }
-  }
-
-  .title__card__separate {
-    display: ${(props: { isSingle?: boolean }) => (props.isSingle ? 'none' : 'default')};
-    background: #eaeaea;
-    width: 100%;
-    height: 1px;
   }
 `
