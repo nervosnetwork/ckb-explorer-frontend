@@ -4,36 +4,38 @@ import RightArrowIcon from '../../assets/input_arrow_output.png'
 import DownArrowIcon from '../../assets/input_arrow_output_down.png'
 import { parseDate } from '../../utils/date'
 import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
+import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
 import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
-import TransactionConfirmation from './TransactionConfirmation'
-import TransactionReward from './TransactionReward'
+import TransactionIncome from './TransactionIncome'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import i18n from '../../utils/i18n'
 import { CellType } from '../../utils/const'
 
+export interface CircleCorner {
+  top?: boolean
+  bottom?: boolean
+}
+
 const TransactionItem = ({
   transaction,
   address,
-  confirmation,
   isBlock = false,
-  isLastItem = false,
   titleCard,
+  circleCorner = { top: false, bottom: false },
 }: {
   transaction: State.Transaction
   address?: string
-  confirmation?: number
   isBlock?: boolean
-  isLastItem?: boolean
   titleCard?: ReactNode | null
+  circleCorner?: CircleCorner
 }) => {
-  const txHashMobile = adaptMobileEllipsis(transaction.transactionHash, 12)
+  const txHashMobile = adaptMobileEllipsis(transaction.transactionHash, 10)
   const txHashPC = adaptPCEllipsis(transaction.transactionHash, 14, 40)
 
   return (
-    <TransactionPanel isLastItem={isLastItem} id={isBlock && transaction.isCellbase ? 'cellbase' : ''}>
+    <TransactionPanel id={isBlock && transaction.isCellbase ? 'cellbase' : ''} circleCorner={circleCorner}>
       {titleCard}
       <TransactionHashBlockPanel>
         <div className="transaction_item__content">
@@ -57,7 +59,7 @@ const TransactionItem = ({
             render={cell => <TransactionCell cell={cell} address={address} cellType={CellType.Input} key={cell.id} />}
           />
         </div>
-        <img src={isMobile() ? DownArrowIcon : RightArrowIcon} alt="input and output" />
+        <img src={isScreenSmallerThan1200() ? DownArrowIcon : RightArrowIcon} alt="input and output" />
         <div className="transaction_item__output">
           {transaction.displayOutputs && transaction.displayOutputs.length !== 0 ? (
             <TransactionCellList
@@ -66,7 +68,6 @@ const TransactionItem = ({
               render={cell => (
                 <FullPanel key={cell.id}>
                   <TransactionCell cell={cell} address={address} cellType={CellType.Output} />
-                  <TransactionReward transaction={transaction} cell={cell} />
                 </FullPanel>
               )}
             />
@@ -75,9 +76,7 @@ const TransactionItem = ({
           )}
         </div>
       </TransactionCellPanel>
-      {typeof confirmation === 'number' ? (
-        <TransactionConfirmation confirmation={confirmation} income={transaction.income} />
-      ) : null}
+      {address && <TransactionIncome income={transaction.income} />}
     </TransactionPanel>
   )
 }

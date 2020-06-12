@@ -14,7 +14,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .c4 .transaction__cell_address {
@@ -39,29 +39,6 @@ exports[`TransactionItem Component shallow renders 1`] = `
   color: undefined;
 }
 
-.c4 .transaction__cell_address .nervos__dao__withdraw_icon {
-  margin-left: 5px;
-  width: 16px;
-  height: auto;
-  cursor: pointer;
-}
-
-.c4 .transaction__cell_withdraw {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin-top: 2px;
-}
-
-.c4 .transaction__cell_dao {
-  color: undefined;
-}
-
 .c6 {
   color: #000000;
   margin-left: 15px;
@@ -80,22 +57,27 @@ exports[`TransactionItem Component shallow renders 1`] = `
   margin-left: 5px;
 }
 
-.c11 {
-  color: #000000;
-  margin-left: 15px;
+.c6 .nervos__dao__withdraw_icon {
+  margin-left: 5px;
+  width: 16px;
+  height: auto;
+  cursor: pointer;
+}
+
+.c6 .transaction__cell_withdraw {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  max-height: 40px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  margin-top: 2px;
 }
 
-.c11 > span {
-  margin-left: 5px;
+.c6 .transaction__cell__without__icon {
+  margin-right: 21px;
 }
 
 .c5 {
@@ -104,7 +86,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
   margin: 0px 5px 3px 0;
 }
 
-.c12 {
+.c11 {
   width: 15px;
   height: 15px;
   height: auto;
@@ -169,11 +151,11 @@ exports[`TransactionItem Component shallow renders 1`] = `
 
 .c0 {
   width: 100%;
-  margin-top: 20px;
-  border-radius: 0px 0px 0px 0px;
+  margin-top: 4px;
+  border-radius: 0 0 0 0;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
-  padding: 10px 40px 25px 40px;
+  padding: 10px 40px 15px 40px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -213,6 +195,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
 }
 
 .c1 .transaction_item__content .transaction_item__hash {
+  font-size: 14px;
   font-weight: 500;
 }
 
@@ -246,9 +229,9 @@ exports[`TransactionItem Component shallow renders 1`] = `
 }
 
 .c2 > img {
-  margin-top: 20px;
-  width: 19px;
-  height: 19px;
+  margin-top: 16px;
+  width: 16px;
+  height: 16px;
 }
 
 .c2 .transaction_item__input {
@@ -305,20 +288,13 @@ exports[`TransactionItem Component shallow renders 1`] = `
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
-    margin-top: 10px;
   }
 }
 
 @media (max-width:750px) {
   .c4 .transaction__cell_address {
     height: 16px;
-  }
-}
-
-@media (max-width:750px) {
-  .c4 .transaction__cell_address .nervos__dao__withdraw_icon {
-    width: 12px;
-    height: auto;
+    font-size: 14px;
   }
 }
 
@@ -328,25 +304,17 @@ exports[`TransactionItem Component shallow renders 1`] = `
     margin-top: 5px;
     height: 16px;
     width: 100%;
-    -webkit-box-pack: justify;
-    -webkit-justify-content: space-between;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    padding-right: 28px;
-  }
-}
-
-@media (max-width:750px) {
-  .c11 {
-    margin-left: 0px;
-    margin-top: 5px;
-    height: 16px;
-    width: 100%;
     -webkit-box-pack: end;
     -webkit-justify-content: flex-end;
     -ms-flex-pack: end;
     justify-content: flex-end;
-    padding-right: 0px;
+  }
+}
+
+@media (max-width:750px) {
+  .c6 .nervos__dao__withdraw_icon {
+    width: 12px;
+    height: auto;
   }
 }
 
@@ -358,7 +326,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
 }
 
 @media (max-width:750px) {
-  .c12 {
+  .c11 {
     width: 12px;
     height: 12px;
     margin: 0 5px 0 7px;
@@ -429,7 +397,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
   }
 }
 
-@media (max-width:750px) {
+@media (max-width:1200px) {
   .c2 {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
@@ -441,13 +409,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
   }
 }
 
-@media (max-width:750px) {
-  .c2 > img {
-    margin-top: 10px;
-  }
-}
-
-@media (max-width:750px) {
+@media (max-width:1200px) {
   .c2 .transaction_item__input {
     margin: 0px;
     -webkit-flex: none;
@@ -457,7 +419,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
   }
 }
 
-@media (max-width:750px) {
+@media (max-width:1200px) {
   .c2 .transaction_item__output {
     margin: 0px;
     -webkit-flex: none;
@@ -532,32 +494,36 @@ exports[`TransactionItem Component shallow renders 1`] = `
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
-              ckb1qy...xxggjg
+              ckb1qyqdpmf...8prsqxxggjg
             </a>
           </div>
           <div
             className="c6"
           >
             <div
-              className="c7"
+              className="transaction__cell__without__icon"
             >
-              <span>
-                100
-              </span>
               <div
-                className="c8 monospace"
+                className="c7"
               >
-                .2357719
-              </div>
-              <div
-                className="c9 monospace"
-              >
-                0
-              </div>
-              <div
-                className="decimal__unit monospace"
-              >
-                CKB
+                <span>
+                  100
+                </span>
+                <div
+                  className="c8 monospace"
+                >
+                  .2357719
+                </div>
+                <div
+                  className="c9 monospace"
+                >
+                  0
+                </div>
+                <div
+                  className="decimal__unit monospace"
+                >
+                  CKB
+                </div>
               </div>
             </div>
           </div>
@@ -585,32 +551,36 @@ exports[`TransactionItem Component shallow renders 1`] = `
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
-              ckb1qy...l03lwy
+              ckb1qyq93m8...g835sl03lwy
             </a>
           </div>
           <div
             className="c6"
           >
             <div
-              className="c7"
+              className="transaction__cell__without__icon"
             >
-              <span>
-                1,902
-              </span>
               <div
-                className="c8 monospace"
+                className="c7"
               >
-                .96799086
-              </div>
-              <div
-                className="c9 monospace"
-              >
-                
-              </div>
-              <div
-                className="decimal__unit monospace"
-              >
-                CKB
+                <span>
+                  1,902
+                </span>
+                <div
+                  className="c8 monospace"
+                >
+                  .96799086
+                </div>
+                <div
+                  className="c9 monospace"
+                >
+                  
+                </div>
+                <div
+                  className="decimal__unit monospace"
+                >
+                  CKB
+                </div>
               </div>
             </div>
           </div>
@@ -638,32 +608,36 @@ exports[`TransactionItem Component shallow renders 1`] = `
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
-              ckb1qy...l03lwy
+              ckb1qyq93m8...g835sl03lwy
             </a>
           </div>
           <div
             className="c6"
           >
             <div
-              className="c7"
+              className="transaction__cell__without__icon"
             >
-              <span>
-                2,002
-              </span>
               <div
-                className="c8 monospace"
+                className="c7"
               >
-                .21141693
-              </div>
-              <div
-                className="c9 monospace"
-              >
-                
-              </div>
-              <div
-                className="decimal__unit monospace"
-              >
-                CKB
+                <span>
+                  2,002
+                </span>
+                <div
+                  className="c8 monospace"
+                >
+                  .21141693
+                </div>
+                <div
+                  className="c9 monospace"
+                >
+                  
+                </div>
+                <div
+                  className="decimal__unit monospace"
+                >
+                  CKB
+                </div>
               </div>
             </div>
           </div>
@@ -691,32 +665,36 @@ exports[`TransactionItem Component shallow renders 1`] = `
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
-              ckb1qy...l03lwy
+              ckb1qyq93m8...g835sl03lwy
             </a>
           </div>
           <div
             className="c6"
           >
             <div
-              className="c7"
+              className="transaction__cell__without__icon"
             >
-              <span>
-                2,039
-              </span>
               <div
-                className="c8 monospace"
+                className="c7"
               >
-                .6662154
-              </div>
-              <div
-                className="c9 monospace"
-              >
-                0
-              </div>
-              <div
-                className="decimal__unit monospace"
-              >
-                CKB
+                <span>
+                  2,039
+                </span>
+                <div
+                  className="c8 monospace"
+                >
+                  .6662154
+                </div>
+                <div
+                  className="c9 monospace"
+                >
+                  0
+                </div>
+                <div
+                  className="decimal__unit monospace"
+                >
+                  CKB
+                </div>
               </div>
             </div>
           </div>
@@ -725,7 +703,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
     </div>
     <img
       alt="input and output"
-      src="input_arrow_output.png"
+      src="input_arrow_output_down.png"
     />
     <div
       className="transaction_item__output"
@@ -742,18 +720,51 @@ exports[`TransactionItem Component shallow renders 1`] = `
             <div
               className="transaction__cell_address"
             >
+              <a
+                className="monospace"
+                href="/address/ckb1qyqwr7vnfh6pcw2az25kkz3f4eq5a7ggec3qjyrfah"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+              >
+                ckb1qyqwr7v...gec3qjyrfah
+              </a>
+              <img
+                alt="right arrow"
+                className="c11"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                src="live_cell.png"
+              />
+            </div>
+            <div
+              className="c6"
+            >
               <div
                 className="transaction__cell_withdraw"
               >
-                <a
-                  className="monospace"
-                  href="/address/ckb1qyqwr7vnfh6pcw2az25kkz3f4eq5a7ggec3qjyrfah"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onMouseLeave={[Function]}
+                <div
+                  className="c7"
                 >
-                  ckb1qy...jyrfah
-                </a>
+                  <span>
+                    5,900
+                  </span>
+                  <div
+                    className="c8 monospace"
+                  >
+                    
+                  </div>
+                  <div
+                    className="c9 monospace"
+                  >
+                    .00000000
+                  </div>
+                  <div
+                    className="decimal__unit monospace"
+                  >
+                    CKB
+                  </div>
+                </div>
                 <img
                   alt="right arrow"
                   className="nervos__dao__withdraw_icon"
@@ -763,41 +774,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
                 />
               </div>
             </div>
-            <div
-              className="c11"
-            >
-              <div
-                className="c7"
-              >
-                <span>
-                  5,900
-                </span>
-                <div
-                  className="c8 monospace"
-                >
-                  
-                </div>
-                <div
-                  className="c9 monospace"
-                >
-                  .00000000
-                </div>
-                <div
-                  className="decimal__unit monospace"
-                >
-                  CKB
-                </div>
-              </div>
-              <img
-                alt="right arrow"
-                className="c12"
-                onMouseEnter={[Function]}
-                onMouseLeave={[Function]}
-                src="live_cell.png"
-              />
-            </div>
           </div>
-          <div />
         </div>
         <div
           className="c10"
@@ -815,44 +792,47 @@ exports[`TransactionItem Component shallow renders 1`] = `
                 onMouseEnter={[Function]}
                 onMouseLeave={[Function]}
               >
-                ckb1qy...h3kk9v
+                ckb1qyq907p...0586sh3kk9v
               </a>
-            </div>
-            <div
-              className="c11"
-            >
-              <div
-                className="c7"
-              >
-                <span>
-                  145
-                </span>
-                <div
-                  className="c8 monospace"
-                >
-                  .08134691
-                </div>
-                <div
-                  className="c9 monospace"
-                >
-                  
-                </div>
-                <div
-                  className="decimal__unit monospace"
-                >
-                  CKB
-                </div>
-              </div>
               <img
                 alt="right arrow"
-                className="c12"
+                className="c11"
                 onMouseEnter={[Function]}
                 onMouseLeave={[Function]}
                 src="live_cell.png"
               />
             </div>
+            <div
+              className="c6"
+            >
+              <div
+                className="transaction__cell__without__icon"
+              >
+                <div
+                  className="c7"
+                >
+                  <span>
+                    145
+                  </span>
+                  <div
+                    className="c8 monospace"
+                  >
+                    .08134691
+                  </div>
+                  <div
+                    className="c9 monospace"
+                  >
+                    
+                  </div>
+                  <div
+                    className="decimal__unit monospace"
+                  >
+                    CKB
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div />
         </div>
       </div>
     </div>

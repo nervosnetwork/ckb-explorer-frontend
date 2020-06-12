@@ -1,12 +1,14 @@
 import styled from 'styled-components'
+import { CircleCorner } from '.'
 
 export const TransactionPanel = styled.div`
   width: 100%;
-  margin-top: 20px;
-  border-radius: ${({ isLastItem }: { isLastItem?: boolean }) => (isLastItem ? '0px 0px 6px 6px' : '0px 0px 0px 0px')};
+  margin-top: 4px;
+  border-radius: ${(props: { circleCorner: CircleCorner }) =>
+    `${props.circleCorner.top ? '6px 6px' : '0 0'}${props.circleCorner.bottom ? ' 6px 6px' : ' 0 0'}`};
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
-  padding: 10px 40px 25px 40px;
+  padding: 10px 40px 15px 40px;
   display: flex;
   flex-direction: column;
   font-size: 16px;
@@ -55,6 +57,7 @@ export const TransactionHashBlockPanel = styled.div`
     }
 
     .transaction_item__hash {
+      font-size: 14px;
       color: ${props => props.theme.primary};
       font-weight: 500;
     }
@@ -83,26 +86,22 @@ export const TransactionCellPanel = styled.div`
   flex-direction: row;
   align-items: flex-start;
 
-  @media (max-width: 750px) {
+  @media (max-width: 1200px) {
     flex-direction: column;
     align-items: center;
   }
 
   > img {
-    margin-top: 20px;
-    width: 19px;
-    height: 19px;
-
-    @media (max-width: 750px) {
-      margin-top: 10px;
-    }
+    margin-top: 16px;
+    width: 16px;
+    height: 16px;
   }
 
   .transaction_item__input {
     margin-right: 40px;
     flex: 1;
 
-    @media (max-width: 750px) {
+    @media (max-width: 1200px) {
       margin: 0px;
       flex: none;
       width: 100%;
@@ -116,7 +115,7 @@ export const TransactionCellPanel = styled.div`
     align-items: flex-start;
     margin-left: 40px;
 
-    @media (max-width: 750px) {
+    @media (max-width: 1200px) {
       margin: 0px;
       flex: none;
       width: 100%;

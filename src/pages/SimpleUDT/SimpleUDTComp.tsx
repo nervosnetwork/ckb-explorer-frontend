@@ -10,8 +10,7 @@ import UDTSearch from '../../components/Search/UDTSearch'
 import { isMobile } from '../../utils/screen'
 import SearchLogo from '../../assets/search_black.png'
 import { ComponentActions } from '../../contexts/actions'
-import { parseUDTAmount } from '../../utils/number'
-import TitleCard from '../../components/Card/TitleCard'
+import { parseUDTAmount, localeNumberString } from '../../utils/number'
 
 const simpleUDTInfo = (udt: State.UDT) => {
   const { fullName, symbol, addressesCount, decimal, totalAmount } = udt
@@ -39,6 +38,13 @@ const simpleUDTInfo = (udt: State.UDT) => {
   ] as OverviewItemData[]
 }
 
+export const SimpleUDTOverview = () => {
+  const {
+    udtState: { udt },
+  } = useAppState()
+  return <OverviewCard items={simpleUDTInfo(udt)} hideShadow />
+}
+
 export const SimpleUDTComp = ({
   currentPage,
   pageSize,
@@ -49,8 +55,7 @@ export const SimpleUDTComp = ({
   typeHash: string
 }) => {
   const {
-    udtState: { transactions = [], total, udt },
-    app: { tipBlockNumber },
+    udtState: { transactions = [], total },
   } = useAppState()
   const dispatch = useDispatch()
   const {
@@ -68,7 +73,9 @@ export const SimpleUDTComp = ({
       <UDTTransactionTitlePanel>
         <div className="udt__transaction__container">
           {(!isMobile() || (isMobile() && !searchBarEditable)) && (
-            <div className="udt__transaction__title">{i18n.t('transaction.transactions')}</div>
+            <div className="udt__transaction__title">{`${i18n.t('transaction.transactions')} (${localeNumberString(
+              total,
+            )})`}</div>
           )}
           {isMobile() && !searchBarEditable && (
             <img
@@ -87,24 +94,21 @@ export const SimpleUDTComp = ({
           )}
           {(!isMobile() || (isMobile() && searchBarEditable)) && <UDTSearch typeHash={typeHash} />}
         </div>
-        <div className="udt__transaction__title__separate" />
       </UDTTransactionTitlePanel>
     )
   }
 
   return (
     <>
-      <OverviewCard items={simpleUDTInfo(udt)} titleCard={<TitleCard title={i18n.t('common.overview')} />} />
+      <UDTTitleSearchComp />
       <SimpleUDTTransactionsPanel>
         {transactions.map((transaction: State.Transaction, index: number) => {
           return (
             transaction && (
               <TransactionItem
                 transaction={transaction}
-                confirmation={tipBlockNumber - transaction.blockNumber + 1}
                 key={transaction.transactionHash}
-                isLastItem={index === transactions.length - 1}
-                titleCard={index === 0 ? <UDTTitleSearchComp /> : null}
+                circleCorner={{ bottom: index === transactions.length - 1 && totalPages === 1 }}
               />
             )
           )

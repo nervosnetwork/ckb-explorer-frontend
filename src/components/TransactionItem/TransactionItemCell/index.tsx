@@ -5,12 +5,13 @@ import 'antd/dist/antd.css'
 import HelpIcon from '../../../assets/qa_help.png'
 import NervosDAOCellIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
+import UDTTokenIcon from '../../../assets/udt_token.png'
 import i18n from '../../../utils/i18n'
-import { localeNumberString } from '../../../utils/number'
+import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
-import { shannonToCkb } from '../../../utils/util'
+import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { CellbasePanel, TransactionCellPanel, TransactionCellCapacity, WithdrawInfoPanel } from './styled'
-import { isMobile, isScreenSmallerThan1440 } from '../../../utils/screen'
+import { isMobile, isScreenSmallerThan1440, isScreenSmallerThan1200 } from '../../../utils/screen'
 import { CellType, DaoType } from '../../../utils/const'
 import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
 import DecimalCapacity from '../../DecimalCapacity'
@@ -18,16 +19,8 @@ import CopyTooltipText from '../../Text/CopyTooltipText'
 import { useAppState } from '../../../contexts/providers'
 import { parseDiffDate } from '../../../utils/date'
 
-const Cellbase = ({
-  cell,
-  cellType,
-  targetBlockNumber,
-}: {
-  cell: State.Cell
-  cellType: CellType
-  targetBlockNumber?: number
-}) => {
-  if (!targetBlockNumber || targetBlockNumber <= 0) {
+const Cellbase = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
+  if (!cell.targetBlockNumber || cell.targetBlockNumber <= 0) {
     return (
       <CellbasePanel>
         <div className="cellbase__content">Cellbase</div>
@@ -38,7 +31,7 @@ const Cellbase = ({
     <CellbasePanel>
       {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
       <div className="cellbase__content">Cellbase for Block</div>
-      <Link to={`/block/${targetBlockNumber}`}>{localeNumberString(targetBlockNumber)}</Link>
+      <Link to={`/block/${cell.targetBlockNumber}`}>{localeNumberString(cell.targetBlockNumber)}</Link>
       <Tooltip placement="top" title={i18n.t('transaction.cellbase_help_tooltip')}>
         <img className="cellbase__help__icon" alt="cellbase help" src={HelpIcon} />
       </Tooltip>
@@ -48,9 +41,12 @@ const Cellbase = ({
 
 const handleAddressText = (address: string) => {
   if (isMobile()) {
-    return adaptMobileEllipsis(address, 12)
+    return adaptMobileEllipsis(address, 10)
   }
-  return adaptPCEllipsis(address, isScreenSmallerThan1440() ? 2 : 9, 100)
+  if (!isScreenSmallerThan1200() && isScreenSmallerThan1440()) {
+    return adaptPCEllipsis(address, 3, 100)
+  }
+  return adaptPCEllipsis(address, 7, 100)
 }
 
 const isDaoDepositCell = (cellType: string) => {
@@ -88,17 +84,13 @@ const AddressLinkComp = ({ cell, address, highLight }: { cell: State.Cell; addre
   )
 }
 
-const TransactionCellAddress = ({
-  cell,
-  cellType,
-  address,
-  highLight,
-}: {
-  cell: State.Cell
-  cellType: CellType
-  address: string
-  highLight: boolean
-}) => {
+const udtAmount = (udt: State.UDTInfo) => {
+  return udt.published
+    ? `${parseUDTAmount(udt.amount, udt.decimal)} ${udt.symbol}`
+    : `${i18n.t('udt.unknown_token')} #${udt.typeHash.substring(udt.typeHash.length - 4)}`
+}
+
+const TransactionCapacityAction = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
   const { app } = useAppState()
   let width = 'short'
   if (app.language === 'en') {
@@ -175,7 +167,7 @@ const TransactionCellAddress = ({
   if (isDaoCell(cell.cellType)) {
     return (
       <div className="transaction__cell_withdraw">
-        <AddressLinkComp cell={cell} address={address} highLight={highLight} />
+        <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
         {cellType === CellType.Input ? (
           <Popover placement="right" title="" content={WithdrawInfo} trigger="click">
             <img
@@ -203,12 +195,31 @@ const TransactionCellAddress = ({
       </div>
     )
   }
-  return <AddressLinkComp cell={cell} address={address} highLight={highLight} />
+  if (cell.udtInfo && cell.udtInfo.typeHash) {
+    return (
+      <>
+        <span>{udtAmount(cell.udtInfo)}</span>
+        <Tooltip
+          placement={isMobile() ? 'topRight' : 'top'}
+          title={`Capacity: ${localeNumberString(shannonToCkbDecimal(cell.capacity, 8))} CKB`}
+          arrowPointAtCenter
+          overlayStyle={{ fontSize: '14px' }}
+        >
+          <img src={UDTTokenIcon} className="nervos__dao__withdraw_icon" alt="right arrow" />
+        </Tooltip>
+      </>
+    )
+  }
+  return (
+    <div className="transaction__cell__without__icon">
+      <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
+    </div>
+  )
 }
 
 const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; address?: string; cellType: CellType }) => {
   if (cell.fromCellbase) {
-    return <Cellbase targetBlockNumber={cell.targetBlockNumber} cell={cell} cellType={cellType} />
+    return <Cellbase cell={cell} cellType={cellType} />
   }
 
   let addressText = i18n.t('address.unable_decode_address')
@@ -223,13 +234,12 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
   return (
     <TransactionCellPanel highLight={highLight}>
       <div className="transaction__cell_address">
-        {!isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
-        <TransactionCellAddress cell={cell} cellType={cellType} address={addressText} highLight={highLight} />
-      </div>
-      <TransactionCellCapacity isOutput={cellType === CellType.Output}>
-        {isMobile() && cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
-        <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
+        {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
+        <AddressLinkComp cell={cell} address={addressText} highLight={highLight} />
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
+      </div>
+      <TransactionCellCapacity>
+        <TransactionCapacityAction cell={cell} cellType={cellType} />
       </TransactionCellCapacity>
     </TransactionCellPanel>
   )

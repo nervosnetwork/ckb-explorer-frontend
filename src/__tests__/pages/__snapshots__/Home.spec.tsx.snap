@@ -285,7 +285,7 @@ exports[`Active Page shallow renders 1`] = `
       className="sc-Axmtr kZrqCS"
     >
       <div
-        className="sc-fzpans ggRkFr"
+        className="sc-fzpans ezbbDY"
       >
         <img
           alt="latest blocks"
@@ -608,7 +608,7 @@ exports[`Active Page shallow renders 1`] = `
       className="sc-AxmLO lmzuPY"
     >
       <div
-        className="sc-fzpans ggRkFr"
+        className="sc-fzpans ezbbDY"
       >
         <img
           alt="latest transactions"
@@ -1171,7 +1171,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
       className="sc-Axmtr kZrqCS"
     >
       <div
-        className="sc-fzpans ggRkFr"
+        className="sc-fzpans ezbbDY"
       >
         <img
           alt="latest blocks"
@@ -1202,7 +1202,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
       className="sc-AxmLO lmzuPY"
     >
       <div
-        className="sc-fzpans ggRkFr"
+        className="sc-fzpans ezbbDY"
       >
         <img
           alt="latest transactions"

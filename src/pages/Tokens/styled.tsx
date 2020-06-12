@@ -22,6 +22,7 @@ export const TokensPanel = styled.div`
     > span {
       color: #000000;
       font-size: 24px;
+      font-weight: bold;
     }
 
     > a {
@@ -66,10 +67,17 @@ export const TokensTableTitle = styled.div`
 `
 
 export const TokensTableContent = styled.div`
-  border-radius: 0 0 6px 6px;
+  border-radius: 0px 0px 6px 6px;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
+  padding-bottom: 5px;
+  background: #ffffff;
   color: #000000;
   margin-top: 4px;
+
+  @media (max-width: 750px) {
+    border-radius: 6px;
+    padding: 5px 0;
+  }
 `
 
 export const TokensTableItem = styled.div`

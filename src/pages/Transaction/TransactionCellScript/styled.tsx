@@ -15,6 +15,7 @@ export const TransactionDetailItem = styled.div`
   flex-direction: column;
   color: ${(props: { selected?: boolean }) => (props.selected ? '#000000' : 'rgba(0, 0, 0, 0.6)')};
   font-weight: 600;
+  font-size: 16px;
   align-items: center;
   @media (max-width: 750px) {
     margin-top: 5px;
@@ -96,9 +97,9 @@ export const TransactionDetailPanel = styled.div`
     font-weight: bold;
     background-color: #f9f9f9;
     border-radius: 6px;
+
     @media (max-width: 750px) {
       font-size: 10px;
-      border-radius: 3px;
       padding: 10px;
     }
   }
@@ -158,8 +159,16 @@ export const TransactionCellScriptContentPanel = styled.div`
     display: flex;
     margin: 2px 0px 2px 30px;
 
+    @media (max-width: 750px) {
+      margin: 2px 0px 2px 12px;
+    }
+
     > div:nth-child(1) {
       min-width: ${(props: { isData: boolean }) => (props.isData ? '80px' : '120px')};
+
+      @media (max-width: 750px) {
+        min-width: ${(props: { isData: boolean }) => (props.isData ? '40px' : '70px')};
+      }
     }
 
     > div:nth-child(2) {

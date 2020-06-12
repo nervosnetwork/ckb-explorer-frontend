@@ -1,11 +1,10 @@
 import React from 'react'
 import { TitleCardPanel } from './styled'
 
-export default ({ title }: { title: string }) => {
+export default ({ title, isSingle }: { title: string; isSingle?: boolean }) => {
   return (
-    <TitleCardPanel>
+    <TitleCardPanel isSingle={isSingle}>
       <div className="title__card__content">{title}</div>
-      <div className="title__card__separate" />
     </TitleCardPanel>
   )
 }

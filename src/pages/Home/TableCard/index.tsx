@@ -8,7 +8,7 @@ import DecimalCapacity from '../../../components/DecimalCapacity'
 import { shannonToCkbDecimal } from '../../../utils/util'
 import { TableMinerContentItem } from '../../../components/Table'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../../utils/string'
-import { isMobile } from '../../../utils/screen'
+import { isMobile, isScreenSmallerThan1440 } from '../../../utils/screen'
 import { BlockRewardPlusPanel, BlockRewardPanel, BlockCardPanel, TransactionCardPanel } from './styled'
 
 export const BlockCardItem = ({ block, index }: { block: State.Block; index: number }) => {
@@ -75,7 +75,9 @@ export const TransactionCardItem = ({
   const liveCellChanges = Number(transaction.liveCellChanges)
   const confirmation = tipBlockNumber - Number(transaction.blockNumber)
   const confirmationUnit = confirmation > 1 ? i18n.t('address.confirmations') : i18n.t('address.confirmation')
-  let transactionHash = adaptPCEllipsis(transaction.transactionHash, 1, 80)
+  let transactionHash = isScreenSmallerThan1440()
+    ? adaptPCEllipsis(transaction.transactionHash, 1, 80)
+    : adaptPCEllipsis(transaction.transactionHash, 3, 50)
   if (isMobile()) {
     transactionHash = adaptMobileEllipsis(transaction.transactionHash, 12)
   }

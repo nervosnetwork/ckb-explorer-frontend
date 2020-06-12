@@ -28,7 +28,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
     className="sc-fznWqX bNxGGa container"
   >
     <div
-      className="sc-AxiKw dNuYhX"
+      className="sc-AxiKw eddNYU"
     >
       <div
         className="hash__card__content__panel"
@@ -72,23 +72,22 @@ exports[`Active Page shallow renders with empty data 1`] = `
         />
       </div>
       <div
-        className="sc-fznJRM czNnvG"
+        className="sc-fznJRM ftfaLD"
       >
         <div
-          className="address__title__separate"
-        />
-        <div
-          className="sc-fzqBkg iaqSkl"
-          id=""
+          className="sc-fzqBkg fbmIml"
         >
           <div
-            className="sc-fzqPZZ dYiIAp"
+            className="overview__separate"
+          />
+          <div
+            className="sc-fzqPZZ gwMzMo"
           >
             <div
               className="overview_content__left_items"
             >
               <div
-                className="sc-fzoxKX beGHQs"
+                className="sc-fzoxKX cGEWAH"
               >
                 <div
                   className="overview_item__title__panel"
@@ -110,7 +109,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="overview_content__right_items"
             >
               <div
-                className="sc-fzoxKX beGHQs"
+                className="sc-fzoxKX cGEWAH"
               >
                 <div
                   className="overview_item__title__panel"

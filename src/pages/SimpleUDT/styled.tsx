@@ -161,24 +161,27 @@ export const SimpleUDTTransactionsPanel = styled.div`
 `
 
 export const SimpleUDTTransactionsPagination = styled.div`
-  margin: 20px 0 0px 0;
+  margin-top: 4px;
   width: 100%;
-
-  @media (max-width: 750px) {
-    margin: 10px 0 0px 0;
-  }
 `
 
 export const UDTTransactionTitlePanel = styled.div`
+  width: 100%;
+  height: 58px;
+  padding: 0 40px;
+  background: white;
+  border-radius: 6px 6px 0 0;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+
   .udt__transaction__container {
     width: 100%;
-    height: 50px;
-    background: white;
+    height: 100%;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
     font-size: 18px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 
   .udt__transaction__title {

@@ -58,10 +58,6 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
   )
 }
 
-const AddressTransactionsTitle = ({ count }: { count: number }) => {
-  return <TitleCard title={`${i18n.t('transaction.transactions')}(${localeNumberString(count)})`} />
-}
-
 export const AddressAssetComp = () => {
   const {
     addressState: {
@@ -99,9 +95,8 @@ export const AddressTransactions = ({
     addressState: {
       transactions = [],
       total,
-      address: { addressHash, transactionsCount },
+      address: { addressHash },
     },
-    app: { tipBlockNumber },
   } = useAppState()
 
   const totalPages = Math.ceil(total / pageSize)
@@ -112,18 +107,17 @@ export const AddressTransactions = ({
 
   return (
     <>
+      <TitleCard title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`} isSingle />
       <AddressTransactionsPanel>
         {transactions.map((transaction: State.Transaction, index: number) => {
-          const { blockNumber, transactionHash } = transaction
+          const { transactionHash } = transaction
           return (
             transaction && (
               <TransactionItem
                 address={addressHash}
                 transaction={transaction}
-                confirmation={tipBlockNumber - blockNumber > 0 ? tipBlockNumber - blockNumber : 0}
                 key={transactionHash}
-                titleCard={index === 0 ? <AddressTransactionsTitle count={transactionsCount} /> : null}
-                isLastItem={index === transactions.length - 1}
+                circleCorner={{ bottom: index === transactions.length - 1 && totalPages === 1 }}
               />
             )
           )

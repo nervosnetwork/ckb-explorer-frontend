@@ -5,9 +5,8 @@ import { localeNumberString } from '../../utils/number'
 import { shannonToCkb } from '../../utils/util'
 import i18n from '../../utils/i18n'
 import { isMobile } from '../../utils/screen'
-import OverviewCard from '../../components/Card/OverviewCard'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import { adaptPCEllipsis, handleBigNumber } from '../../utils/string'
+import { adaptPCEllipsis, handleBigNumber, adaptMobileEllipsis } from '../../utils/string'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import {
   AddressPanel,
@@ -17,6 +16,7 @@ import {
   DepositorSeparate,
   DepositorRankItem,
 } from './styled'
+import ItemCard from '../../components/Card/ItemCard'
 
 const AddressText = ({ address }: { address: string }) => {
   const addressText = adaptPCEllipsis(address, 10, 40)
@@ -65,9 +65,16 @@ export default () => {
 
   return isMobile() ? (
     <DepositorRankCardPanel>
-      {depositors.map((depositor: State.NervosDaoDepositor, index: number) => {
-        return <OverviewCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index)} />
-      })}
+      {depositors
+        .map(depositor => {
+          return {
+            ...depositor,
+            addressHash: adaptMobileEllipsis(depositor.addressHash, 8),
+          }
+        })
+        .map((depositor: State.NervosDaoDepositor, index: number) => {
+          return <ItemCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index)} />
+        })}
     </DepositorRankCardPanel>
   ) : (
     <DepositorRankPanel>

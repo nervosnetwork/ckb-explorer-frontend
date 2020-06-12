@@ -8,11 +8,21 @@ import SmallLoading from '../../../components/Loading/SmallLoading'
 const SCROLL_BOTTOM_OFFSET = 5
 const SCROLL_LOADING_TIME = 400
 
-export default ({ inputs, outputs, txHash }: { inputs?: State.Cell[]; outputs?: State.Cell[]; txHash?: string }) => {
+export default ({
+  inputs,
+  outputs,
+  txHash,
+  showReward,
+}: {
+  inputs?: State.Cell[]
+  outputs?: State.Cell[]
+  txHash?: string
+  showReward?: boolean
+}) => {
   const [offset, setOffset] = useState(PAGE_CELL_COUNT)
   const [isEnd, setIsEnd] = useState(false)
   const cells = inputs || outputs || []
-  const hideTitle = inputs && inputs.length > 0 && inputs[0].fromCellbase
+  const isCellbaseInput = inputs && inputs.length > 0 && inputs[0].fromCellbase
   const isScroll = cells.length > PAGE_CELL_COUNT
 
   const handleScroll = useCallback(
@@ -41,7 +51,7 @@ export default ({ inputs, outputs, txHash }: { inputs?: State.Cell[]; outputs?: 
 
   const cellTitle = () => {
     const title = inputs ? i18n.t('transaction.input') : i18n.t('transaction.output')
-    return `${title}(${cellsCount()})`
+    return `${title} (${cellsCount()})`
   }
 
   return (
@@ -49,11 +59,12 @@ export default ({ inputs, outputs, txHash }: { inputs?: State.Cell[]; outputs?: 
       <TransactionCellListTitlePanel>
         <div className="transaction__cell_list_titles">
           <div>{cellTitle()}</div>
-          <div>{hideTitle ? '' : i18n.t('transaction.capacity')}</div>
-          <div>{hideTitle ? '' : i18n.t('transaction.detail')}</div>
+          <div>{isCellbaseInput ? i18n.t('transaction.reward_info') : i18n.t('transaction.detail')}</div>
+          <div>{isCellbaseInput ? '' : i18n.t('transaction.capacity_amount')}</div>
         </div>
       </TransactionCellListTitlePanel>
       <TransactionCellsPanel isScroll={isScroll}>
+        <div className="transaction__cell__title">{cellTitle()}</div>
         <div className="transaction__cell_list_container" onScroll={(event: any) => handleScroll(event)}>
           {cells &&
             cells
@@ -65,6 +76,7 @@ export default ({ inputs, outputs, txHash }: { inputs?: State.Cell[]; outputs?: 
                   cellType={inputs ? CellType.Input : CellType.Output}
                   index={index}
                   txHash={txHash}
+                  showReward={showReward}
                 />
               ))}
           {isScroll && !isEnd && <SmallLoading />}

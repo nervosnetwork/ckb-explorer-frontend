@@ -3,13 +3,6 @@ import styled from 'styled-components'
 export const AddressTitleOverviewPanel = styled.div`
   display: flex;
   flex-direction: column;
-  padding-bottom: 20px;
-
-  .address__title__separate {
-    background: #eaeaea;
-    width: 100%;
-    height: 1px;
-  }
 `
 
 export const AddressContentPanel = styled.div`
@@ -184,12 +177,8 @@ export const AddressTransactionsPanel = styled.div`
 `
 
 export const AddressTransactionsPagination = styled.div`
-  margin: 20px 0 0 0;
+  margin-top: 4px;
   width: 100%;
-
-  @media (max-width: 750px) {
-    margin: 10px 0 0px 0;
-  }
 `
 
 export const AddressUDTAssetsPanel = styled.div`
