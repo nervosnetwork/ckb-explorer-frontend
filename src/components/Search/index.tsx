@@ -52,13 +52,18 @@ const handleSearchResult = (
   dispatch: AppDispatch,
 ) => {
   const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
-  if (searchBarEditable) {
-    dispatch({
-      type: ComponentActions.UpdateHeaderSearchEditable,
-      payload: {
-        searchBarEditable: false,
-      },
-    })
+  if (!query) {
+    browserHistory.push(`/search/fail?q=${query}`)
+    return
+  } else {
+    if (searchBarEditable) {
+      dispatch({
+        type: ComponentActions.UpdateHeaderSearchEditable,
+        payload: {
+          searchBarEditable: false,
+        },
+      })
+    }
     setSearchLoading(inputElement)
     fetchSearchResult(addPrefixForHash(query))
       .then((response: any) => {
