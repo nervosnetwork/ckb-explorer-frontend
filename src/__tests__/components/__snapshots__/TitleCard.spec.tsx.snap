@@ -2,15 +2,12 @@
 
 exports[`TitleCard Component shallow renders 1`] = `
 <div
-  className="sc-AxjAm cUKlvR"
+  className="sc-AxjAm kokyfk"
 >
   <div
     className="title__card__content"
   >
     title
   </div>
-  <div
-    className="title__card__separate"
-  />
 </div>
 `;

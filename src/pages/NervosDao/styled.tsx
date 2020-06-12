@@ -30,7 +30,6 @@ export const DaoContentPanel = styled.div`
 
     @media (max-width: 750px) {
       height: 50px;
-      border-radius: 3px;
       box-shadow: 1px 1px 3px 0 #dfdfdf;
       font-size: 15px;
       padding-left: 20px;
@@ -49,6 +48,7 @@ export const DaoTabBarPanel = styled.div`
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   padding: 0 40px;
   font-size: 18px;
+  border-radius: 6px 6px 0 0;
 
   @media (max-width: 1200px) {
     font-size: 16px;
@@ -93,6 +93,10 @@ export const DaoTabBarPanel = styled.div`
       color: #000000;
       font-weight: normal;
       font-size: 18px;
+
+      @media (max-width: 750px) {
+        width: 110px;
+      }
     }
 
     .tab_bar_selected {
@@ -102,6 +106,10 @@ export const DaoTabBarPanel = styled.div`
       color: #000000;
       font-weight: bold;
       border-bottom: 3px solid ${props => props.theme.primary};
+
+      @media (max-width: 750px) {
+        width: 110px;
+      }
     }
   }
 `
@@ -116,6 +124,8 @@ export const DepositorRankPanel = styled.div`
   background: white;
   padding: 20px 40px;
   margin-top: 4px;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  border-radius: 0 0 6px 6px;
 `
 
 export const DepositorRankCardPanel = styled.div`
@@ -198,7 +208,7 @@ export const AddressPanel = styled(props => <Link {...props} />)`
 
 export const DaoOverviewPanel = styled.div`
   width: 100%;
-  border-radius: 0px 0px 6px 6px;
+  border-radius: 6px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
   margin-top: 5px;
@@ -213,7 +223,6 @@ export const DaoOverviewPanel = styled.div`
   }
 
   @media (max-width: 750px) {
-    border-radius: 0px 0px 3px 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
     padding: 5px 0 15px 0;
     font-size: 13px;

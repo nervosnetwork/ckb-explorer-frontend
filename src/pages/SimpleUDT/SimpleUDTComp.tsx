@@ -10,7 +10,7 @@ import UDTSearch from '../../components/Search/UDTSearch'
 import { isMobile } from '../../utils/screen'
 import SearchLogo from '../../assets/search_black.png'
 import { ComponentActions } from '../../contexts/actions'
-import { parseUDTAmount } from '../../utils/number'
+import { parseUDTAmount, localeNumberString } from '../../utils/number'
 
 const simpleUDTInfo = (udt: State.UDT) => {
   const { fullName, symbol, addressesCount, decimal, totalAmount } = udt
@@ -73,7 +73,9 @@ export const SimpleUDTComp = ({
       <UDTTransactionTitlePanel>
         <div className="udt__transaction__container">
           {(!isMobile() || (isMobile() && !searchBarEditable)) && (
-            <div className="udt__transaction__title">{i18n.t('transaction.transactions')}</div>
+            <div className="udt__transaction__title">{`${i18n.t('transaction.transactions')} (${localeNumberString(
+              total,
+            )})`}</div>
           )}
           {isMobile() && !searchBarEditable && (
             <img
@@ -92,13 +94,13 @@ export const SimpleUDTComp = ({
           )}
           {(!isMobile() || (isMobile() && searchBarEditable)) && <UDTSearch typeHash={typeHash} />}
         </div>
-        <div className="udt__transaction__title__separate" />
       </UDTTransactionTitlePanel>
     )
   }
 
   return (
     <>
+      <UDTTitleSearchComp />
       <SimpleUDTTransactionsPanel>
         {transactions.map((transaction: State.Transaction, index: number) => {
           return (
@@ -106,7 +108,7 @@ export const SimpleUDTComp = ({
               <TransactionItem
                 transaction={transaction}
                 key={transaction.transactionHash}
-                titleCard={index === 0 ? <UDTTitleSearchComp /> : null}
+                circleCorner={{ bottom: index === transactions.length - 1 && totalPages === 1 }}
               />
             )
           )

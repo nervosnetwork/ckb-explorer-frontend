@@ -5,7 +5,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
   className="sc-fzqNJr bFijAK"
 >
   <div
-    className="sc-fzoyAV fLHiDl container"
+    className="sc-fzoyAV cdOzGV container"
   >
     <div
       className="tokens__title__panel"

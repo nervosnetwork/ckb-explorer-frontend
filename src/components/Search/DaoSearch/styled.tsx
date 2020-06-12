@@ -74,10 +74,11 @@ export const DaoResetButtonPanel = styled.div`
   font-weight: bold;
   width: 65px;
   height: 30px;
+  border-radius: 3px;
   line-height: 30px;
   cursor: pointer;
+
   @media (max-width: 750px) {
-    border-radius: 3px;
     font-size: 12px;
     width: 45px;
     height: 24px;

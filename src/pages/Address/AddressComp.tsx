@@ -58,10 +58,6 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
   )
 }
 
-const AddressTransactionsTitle = ({ count }: { count: number }) => {
-  return <TitleCard title={`${i18n.t('transaction.transactions')}(${localeNumberString(count)})`} />
-}
-
 export const AddressAssetComp = () => {
   const {
     addressState: {
@@ -99,7 +95,7 @@ export const AddressTransactions = ({
     addressState: {
       transactions = [],
       total,
-      address: { addressHash, transactionsCount },
+      address: { addressHash },
     },
   } = useAppState()
 
@@ -111,6 +107,7 @@ export const AddressTransactions = ({
 
   return (
     <>
+      <TitleCard title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`} isSingle />
       <AddressTransactionsPanel>
         {transactions.map((transaction: State.Transaction, index: number) => {
           const { transactionHash } = transaction
@@ -120,7 +117,7 @@ export const AddressTransactions = ({
                 address={addressHash}
                 transaction={transaction}
                 key={transactionHash}
-                titleCard={index === 0 ? <AddressTransactionsTitle count={transactionsCount} /> : null}
+                circleCorner={{ bottom: index === transactions.length - 1 && totalPages === 1 }}
               />
             )
           )
