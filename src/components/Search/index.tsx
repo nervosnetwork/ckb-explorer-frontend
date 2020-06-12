@@ -8,7 +8,7 @@ import SearchLogo from '../../assets/search_black.png'
 import GreenSearchLogo from '../../assets/search_green.png'
 import BlueSearchLogo from '../../assets/search_blue.png'
 import ClearLogo from '../../assets/clear.png'
-import { addPrefixForHash } from '../../utils/string'
+import { addPrefixForHash, containSpecialChar } from '../../utils/string'
 import i18n from '../../utils/i18n'
 import { HttpErrorCode, SearchFailType } from '../../utils/const'
 import { AppDispatch } from '../../contexts/reducer'
@@ -52,7 +52,7 @@ const handleSearchResult = (
   dispatch: AppDispatch,
 ) => {
   const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
-  if (!query) {
+  if (!query || containSpecialChar(query)) {
     browserHistory.push(`/search/fail?q=${query}`)
     return
   } else {
