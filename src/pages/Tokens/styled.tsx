@@ -22,6 +22,7 @@ export const TokensPanel = styled.div`
     > span {
       color: #000000;
       font-size: 24px;
+      font-weight: bold;
     }
 
     > a {
