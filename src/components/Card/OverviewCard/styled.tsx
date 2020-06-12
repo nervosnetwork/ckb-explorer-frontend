@@ -6,7 +6,7 @@ export const OverviewCardPanel = styled.div`
   color: #000000;
   font-size: 16px;
   margin-bottom: 16px;
-  border-radius: 0px 0px 6px 6px;
+  border-radius: 6px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   padding: 15px 40px;
 
@@ -32,8 +32,6 @@ export const OverviewCardPanel = styled.div`
 
   @media (max-width: 750px) {
     font-size: 13px;
-
-    border-radius: 0px 0px 3px 3px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
     padding: 5px 20px;
     ${(props: { hideShadow?: boolean }) =>

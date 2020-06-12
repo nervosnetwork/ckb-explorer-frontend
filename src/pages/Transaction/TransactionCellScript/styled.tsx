@@ -97,9 +97,9 @@ export const TransactionDetailPanel = styled.div`
     font-weight: bold;
     background-color: #f9f9f9;
     border-radius: 6px;
+
     @media (max-width: 750px) {
       font-size: 10px;
-      border-radius: 3px;
       padding: 10px;
     }
   }

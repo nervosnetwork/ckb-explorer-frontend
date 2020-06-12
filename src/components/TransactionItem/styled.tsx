@@ -1,9 +1,11 @@
 import styled from 'styled-components'
+import { CircleCorner } from '.'
 
 export const TransactionPanel = styled.div`
   width: 100%;
   margin-top: 4px;
-  border-radius: 6px;
+  border-radius: ${(props: { circleCorner: CircleCorner }) =>
+    `${props.circleCorner.top ? '6px 6px' : '0 0'}${props.circleCorner.bottom ? ' 6px 6px' : ' 0 0'}`};
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #ffffff;
   padding: 10px 40px 15px 40px;

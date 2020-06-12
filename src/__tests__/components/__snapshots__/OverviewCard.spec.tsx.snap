@@ -2,7 +2,7 @@
 
 exports[`OverviewCard Component shallow renders 1`] = `
 <div
-  className="sc-AxjAm hgIjHZ"
+  className="sc-AxjAm eDdUAj"
 >
   <div
     className="overview__separate"
