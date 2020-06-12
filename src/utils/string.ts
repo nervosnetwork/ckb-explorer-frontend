@@ -51,6 +51,12 @@ export const addPrefixForHash = (value: string) => {
   return value
 }
 
+export const containSpecialChar = (value: string) => {
+  const regEn = /[`~!@#$%^&*()_+<>?:"{}.;'[\]]/im
+  const regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im
+  return regEn.test(value) || regCn.test(value)
+}
+
 export const handleBigNumber = (value: BigNumber | string | number | null | undefined, decimal?: number) => {
   const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
   if (!bigValue || bigValue.isNaN() || bigValue.isZero()) return '0'
