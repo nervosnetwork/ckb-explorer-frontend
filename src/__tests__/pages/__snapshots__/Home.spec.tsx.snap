@@ -49,7 +49,7 @@ exports[`Active Page shallow renders 1`] = `
               onChange={[Function]}
               onFocus={[Function]}
               onKeyUp={[Function]}
-              placeholder="Block/Transaction/Address/Lock Hash"
+              placeholder="Block/Transaction/Address/Lock Hash/Type Hash"
             />
           </div>
           <div
@@ -935,7 +935,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
               onChange={[Function]}
               onFocus={[Function]}
               onKeyUp={[Function]}
-              placeholder="Block/Transaction/Address/Lock Hash"
+              placeholder="Block/Transaction/Address/Lock Hash/Type Hash"
             />
           </div>
           <div

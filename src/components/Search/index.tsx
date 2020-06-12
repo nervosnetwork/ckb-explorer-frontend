@@ -12,7 +12,7 @@ import { addPrefixForHash } from '../../utils/string'
 import i18n from '../../utils/i18n'
 import { HttpErrorCode, SearchFailType } from '../../utils/const'
 import { AppDispatch } from '../../contexts/reducer'
-import { AppActions, ComponentActions } from '../../contexts/actions'
+import { ComponentActions } from '../../contexts/actions'
 import { isMobile } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { isMainnet } from '../../utils/chain'
@@ -52,23 +52,13 @@ const handleSearchResult = (
   dispatch: AppDispatch,
 ) => {
   const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
-  if (!query) {
+  if (searchBarEditable) {
     dispatch({
-      type: AppActions.ShowToastMessage,
+      type: ComponentActions.UpdateHeaderSearchEditable,
       payload: {
-        message: i18n.t('toast.invalid_content'),
-        type: 'danger',
+        searchBarEditable: false,
       },
     })
-  } else {
-    if (searchBarEditable) {
-      dispatch({
-        type: ComponentActions.UpdateHeaderSearchEditable,
-        payload: {
-          searchBarEditable: false,
-        },
-      })
-    }
     setSearchLoading(inputElement)
     fetchSearchResult(addPrefixForHash(query))
       .then((response: any) => {
@@ -184,8 +174,7 @@ const Search = ({ hasBorder, content, hasButton }: { hasBorder?: boolean; conten
   const dispatch = useDispatch()
   const [t] = useTranslation()
   const SearchPlaceholder = useMemo(() => {
-    const placeholder = t('navbar.search_placeholder')
-    return isMainnet() ? placeholder.substring(0, placeholder.lastIndexOf('/')) : placeholder
+    return t('navbar.search_placeholder')
   }, [t])
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
