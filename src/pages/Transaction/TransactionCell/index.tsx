@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import { CellType, DaoType } from '../../../utils/const'
@@ -15,6 +15,8 @@ import {
   TransactionCellDetailModal,
   TransactionCellCardPanel,
   CellbasePanel,
+  TransactionCellAddressPanel,
+  TransactionCellInfoPanel,
 } from './styled'
 import TransactionCellArrow from '../TransactionCellArrow'
 import DecimalCapacity from '../../../components/DecimalCapacity'
@@ -136,6 +138,27 @@ const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
   )
 }
 
+const TransactionCellInfo = ({ cell, children }: { cell: State.Cell; children: string | ReactNode }) => {
+  const [showModal, setShowModal] = useState(false)
+  return (
+    <TransactionCellInfoPanel>
+      <SimpleButton
+        className="transaction__cell__info__content"
+        onClick={() => {
+          setShowModal(true)
+        }}
+        children={children}
+      />
+      <div className="transaction__cell__info__separate" />
+      <SimpleModal isShow={showModal}>
+        <TransactionCellDetailModal>
+          <TransactionCellScript cell={cell} onClose={() => setShowModal(false)} />
+        </TransactionCellDetailModal>
+      </SimpleModal>
+    </TransactionCellInfoPanel>
+  )
+}
+
 export default ({
   cell,
   cellType,
@@ -149,7 +172,17 @@ export default ({
   txHash?: string
   showReward?: boolean
 }) => {
-  const [showModal, setShowModal] = useState(false)
+  const TransactionCellAddress = () => {
+    return (
+      <TransactionCellAddressPanel>
+        <div className="transaction__cell_index">
+          {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
+        </div>
+        <TransactionCellHash cell={cell} cellType={cellType} />
+      </TransactionCellAddressPanel>
+    )
+  }
+
   if (isMobile()) {
     return (
       <TransactionCellCardPanel>
@@ -159,7 +192,7 @@ export default ({
             {cell.fromCellbase && cellType === CellType.Input ? (
               <Cellbase cell={cell} cellType={cellType} />
             ) : (
-              <TransactionCellHash cell={cell} cellType={cellType} />
+              <TransactionCellAddress />
             )}
           </div>
         </div>
@@ -170,7 +203,10 @@ export default ({
             <div className="transaction__cell__card__content">
               <div className="transaction__cell__card__title">{i18n.t('transaction.detail')}</div>
               <div className="transaction__cell__card__value">
-                {!cell.fromCellbase && <TransactionCellDetail cell={cell} />}
+                <TransactionCellInfo
+                  cell={cell}
+                  children={!cell.fromCellbase && <TransactionCellDetail cell={cell} />}
+                />
               </div>
             </div>
             <div className="transaction__cell__card__content">
@@ -196,12 +232,7 @@ export default ({
           {cell.fromCellbase && cellType === CellType.Input ? (
             <Cellbase cell={cell} cellType={cellType} />
           ) : (
-            <>
-              <div className="transaction__cell_index">
-                {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
-              </div>
-              <TransactionCellHash cell={cell} cellType={cellType} />
-            </>
+            <TransactionCellAddress />
           )}
         </div>
 
@@ -222,19 +253,7 @@ export default ({
         </div>
 
         <div className="transaction__detail__cell_info">
-          <SimpleButton
-            className="transaction__cell__info__content"
-            onClick={() => {
-              setShowModal(true)
-            }}
-            children={'Cell Info'}
-          />
-          <div className="transaction__cell__info__separate" />
-          <SimpleModal isShow={showModal}>
-            <TransactionCellDetailModal>
-              <TransactionCellScript cell={cell} onClose={() => setShowModal(false)} />
-            </TransactionCellDetailModal>
-          </SimpleModal>
+          <TransactionCellInfo cell={cell} children={'Cell Info'} />
         </div>
       </TransactionCellContentPanel>
     </TransactionCellPanel>

@@ -159,8 +159,16 @@ export const TransactionCellScriptContentPanel = styled.div`
     display: flex;
     margin: 2px 0px 2px 30px;
 
+    @media (max-width: 750px) {
+      margin: 2px 0px 2px 12px;
+    }
+
     > div:nth-child(1) {
       min-width: ${(props: { isData: boolean }) => (props.isData ? '80px' : '120px')};
+
+      @media (max-width: 750px) {
+        min-width: ${(props: { isData: boolean }) => (props.isData ? '40px' : '70px')};
+      }
     }
 
     > div:nth-child(2) {
