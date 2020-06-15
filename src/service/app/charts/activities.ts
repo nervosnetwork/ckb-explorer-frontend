@@ -9,8 +9,26 @@ import {
 } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
+import { fetchChartCache, storeChartCache } from '../../../utils/cache'
+import { CachedKeys } from '../../../utils/const'
 
 export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
+  const data = fetchChartCache(CachedKeys.TransactionCount)
+  if (data) {
+    dispatch({
+      type: PageActions.UpdateStatisticTransactionCount,
+      payload: {
+        statisticTransactionCounts: data,
+      },
+    })
+    dispatch({
+      type: PageActions.UpdateStatisticTransactionCountFetchEnd,
+      payload: {
+        statisticTransactionCountsFetchEnd: true,
+      },
+    })
+    return
+  }
   fetchStatisticTransactionCount()
     .then((response: Response.Response<Response.Wrapper<State.StatisticTransactionCount>[]> | null) => {
       if (!response) return
@@ -33,6 +51,7 @@ export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
           statisticTransactionCountsFetchEnd: true,
         },
       })
+      storeChartCache(CachedKeys.TransactionCount, transactionCounts)
     })
     .catch(() => {
       dispatch({
@@ -45,6 +64,22 @@ export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticAddressCount = (dispatch: AppDispatch) => {
+  const data = fetchChartCache(CachedKeys.AddressCount)
+  if (data) {
+    dispatch({
+      type: PageActions.UpdateStatisticAddressCount,
+      payload: {
+        statisticAddressCounts: data,
+      },
+    })
+    dispatch({
+      type: PageActions.UpdateStatisticAddressCountFetchEnd,
+      payload: {
+        statisticAddressCountsFetchEnd: true,
+      },
+    })
+    return
+  }
   fetchStatisticAddressCount()
     .then((response: Response.Response<Response.Wrapper<State.StatisticAddressCount>[]> | null) => {
       if (!response) return
@@ -67,6 +102,7 @@ export const getStatisticAddressCount = (dispatch: AppDispatch) => {
           statisticAddressCountsFetchEnd: true,
         },
       })
+      storeChartCache(CachedKeys.AddressCount, addressCounts)
     })
     .catch(() => {
       dispatch({
@@ -79,6 +115,22 @@ export const getStatisticAddressCount = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticCellCount = (dispatch: AppDispatch) => {
+  const data = fetchChartCache(CachedKeys.CellCount)
+  if (data) {
+    dispatch({
+      type: PageActions.UpdateStatisticCellCount,
+      payload: {
+        statisticCellCounts: data,
+      },
+    })
+    dispatch({
+      type: PageActions.UpdateStatisticCellCountFetchEnd,
+      payload: {
+        statisticCellCountsFetchEnd: true,
+      },
+    })
+    return
+  }
   fetchStatisticCellCount()
     .then((response: Response.Response<Response.Wrapper<State.StatisticCellCount>[]> | null) => {
       if (!response) return
@@ -105,6 +157,7 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
           statisticCellCountsFetchEnd: true,
         },
       })
+      storeChartCache(CachedKeys.CellCount, cellCounts)
     })
     .catch(() => {
       dispatch({
@@ -181,6 +234,22 @@ export const getStatisticBalanceDistribution = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticTxFeeHistory = (dispatch: AppDispatch) => {
+  const data = fetchChartCache(CachedKeys.TransactionFee)
+  if (data) {
+    dispatch({
+      type: PageActions.UpdateStatisticTxFeeHistory,
+      payload: {
+        statisticTxFeeHistories: data,
+      },
+    })
+    dispatch({
+      type: PageActions.UpdateStatisticTxFeeHistoryFetchEnd,
+      payload: {
+        statisticTxFeeHistoriesFetchEnd: true,
+      },
+    })
+    return
+  }
   fetchStatisticTxFeeHistory()
     .then((response: Response.Response<Response.Wrapper<State.StatisticTransactionFee>[]> | null) => {
       if (!response) return
@@ -203,6 +272,7 @@ export const getStatisticTxFeeHistory = (dispatch: AppDispatch) => {
           statisticTxFeeHistoriesFetchEnd: true,
         },
       })
+      storeChartCache(CachedKeys.TransactionFee, statisticTxFeeHistories)
     })
     .catch(() => {
       dispatch({

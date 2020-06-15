@@ -9,6 +9,8 @@ import {
 } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
+import { CachedKeys } from '../../../utils/const'
+import { fetchChartCache, storeChartCache } from '../../../utils/cache'
 
 export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
   fetchStatisticDifficultyHashRate()
@@ -81,6 +83,22 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticDifficulty = (dispatch: AppDispatch) => {
+  const data = fetchChartCache(CachedKeys.Difficulty)
+  if (data) {
+    dispatch({
+      type: PageActions.UpdateStatisticDifficulty,
+      payload: {
+        statisticDifficulties: data,
+      },
+    })
+    dispatch({
+      type: PageActions.UpdateStatisticDifficultyFetchEnd,
+      payload: {
+        statisticDifficultiesFetchEnd: true,
+      },
+    })
+    return
+  }
   fetchStatisticDifficulty()
     .then((response: Response.Response<Response.Wrapper<State.StatisticDifficulty>[]> | null) => {
       if (!response) return
@@ -103,6 +121,7 @@ export const getStatisticDifficulty = (dispatch: AppDispatch) => {
           statisticDifficultiesFetchEnd: true,
         },
       })
+      storeChartCache(CachedKeys.Difficulty, difficulties)
     })
     .catch(() => {
       dispatch({
@@ -115,6 +134,22 @@ export const getStatisticDifficulty = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticHashRate = (dispatch: AppDispatch) => {
+  const data = fetchChartCache(CachedKeys.HashRate)
+  if (data) {
+    dispatch({
+      type: PageActions.UpdateStatisticHashRate,
+      payload: {
+        statisticHashRates: data,
+      },
+    })
+    dispatch({
+      type: PageActions.UpdateStatisticHashRateFetchEnd,
+      payload: {
+        statisticHashRatesFetchEnd: true,
+      },
+    })
+    return
+  }
   fetchStatisticHashRate()
     .then((response: Response.Response<Response.Wrapper<State.StatisticHashRate>[]> | null) => {
       if (!response) return
@@ -137,6 +172,7 @@ export const getStatisticHashRate = (dispatch: AppDispatch) => {
           statisticHashRatesFetchEnd: true,
         },
       })
+      storeChartCache(CachedKeys.HashRate, hashRates)
     })
     .catch(() => {
       dispatch({
@@ -149,6 +185,22 @@ export const getStatisticHashRate = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticUncleRate = (dispatch: AppDispatch) => {
+  const data = fetchChartCache(CachedKeys.UncleRate)
+  if (data) {
+    dispatch({
+      type: PageActions.UpdateStatisticUncleRate,
+      payload: {
+        statisticUncleRates: data,
+      },
+    })
+    dispatch({
+      type: PageActions.UpdateStatisticUncleRateFetchEnd,
+      payload: {
+        statisticUncleRatesFetchEnd: true,
+      },
+    })
+    return
+  }
   fetchStatisticUncleRate()
     .then((response: Response.Response<Response.Wrapper<State.StatisticUncleRate>[]> | null) => {
       if (!response) return
@@ -171,6 +223,7 @@ export const getStatisticUncleRate = (dispatch: AppDispatch) => {
           statisticUncleRatesFetchEnd: true,
         },
       })
+      storeChartCache(CachedKeys.UncleRate, uncleRates)
     })
     .catch(() => {
       dispatch({

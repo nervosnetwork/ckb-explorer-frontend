@@ -20,7 +20,7 @@ export const fetchCachedData = <T>(key: string): T | null => {
 }
 
 export const storeChartCache = (key: string, value: any) => {
-  // cacheKey format: key + & + cst timestamp
+  // cacheKey format: key + & + CST timestamp
   let cacheKey = fetchCachedData<string>(key)
   // Detect stored data and if null, remove it
   if (cacheKey && fetchCachedData(cacheKey)) {
@@ -32,7 +32,7 @@ export const storeChartCache = (key: string, value: any) => {
 }
 
 export const fetchChartCache = (key: string) => {
-  // cacheKey format: key + & + cst timestamp
+  // cacheKey format: key + & + CST timestamp
   const cacheKey = fetchCachedData<string>(key)
   if (!cacheKey) return null
   const storeTime = Number(cacheKey.substring(cacheKey.indexOf('&') + 1))
