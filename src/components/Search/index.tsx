@@ -8,11 +8,11 @@ import SearchLogo from '../../assets/search_black.png'
 import GreenSearchLogo from '../../assets/search_green.png'
 import BlueSearchLogo from '../../assets/search_blue.png'
 import ClearLogo from '../../assets/clear.png'
-import { addPrefixForHash } from '../../utils/string'
+import { addPrefixForHash, containSpecialChar } from '../../utils/string'
 import i18n from '../../utils/i18n'
 import { HttpErrorCode, SearchFailType } from '../../utils/const'
 import { AppDispatch } from '../../contexts/reducer'
-import { AppActions, ComponentActions } from '../../contexts/actions'
+import { ComponentActions } from '../../contexts/actions'
 import { isMobile } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { isMainnet } from '../../utils/chain'
@@ -52,14 +52,9 @@ const handleSearchResult = (
   dispatch: AppDispatch,
 ) => {
   const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
-  if (!query) {
-    dispatch({
-      type: AppActions.ShowToastMessage,
-      payload: {
-        message: i18n.t('toast.invalid_content'),
-        type: 'danger',
-      },
-    })
+  if (!query || containSpecialChar(query)) {
+    browserHistory.push(`/search/fail?q=${query}`)
+    return
   } else {
     if (searchBarEditable) {
       dispatch({
@@ -184,8 +179,7 @@ const Search = ({ hasBorder, content, hasButton }: { hasBorder?: boolean; conten
   const dispatch = useDispatch()
   const [t] = useTranslation()
   const SearchPlaceholder = useMemo(() => {
-    const placeholder = t('navbar.search_placeholder')
-    return isMainnet() ? placeholder.substring(0, placeholder.lastIndexOf('/')) : placeholder
+    return t('navbar.search_placeholder')
   }, [t])
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)

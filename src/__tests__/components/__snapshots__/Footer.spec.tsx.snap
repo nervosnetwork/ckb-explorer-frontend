@@ -76,7 +76,7 @@ Type Script:%0a%0d
 Information:%0a%0d
    Full Name: 32 length max%0a%0d
    Symbol: 8 length max / ASCII%0a%0d
-   Decimal: 0~32%0a%0d
+   Decimal: 8 (default)%0a%0d
    Description:%0a%0d
    Website:%0a%0d
    Icon File: attachment (40 x 40)%0a%0d

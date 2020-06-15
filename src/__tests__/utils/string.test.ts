@@ -7,7 +7,9 @@ import {
   handleBigNumber,
   parseFloorDecimal,
   handleBigNumberFloor,
+  containSpecialChar,
 } from '../../utils/string'
+import { async } from 'q'
 
 describe('String methods tests', () => {
   it('parse valid number', async () => {
@@ -77,6 +79,14 @@ describe('String methods tests', () => {
     // other
     expect(addPrefixForHash('azusa')).toBe('azusa')
     expect(addPrefixForHash('2233')).toBe('2233')
+  })
+
+  it('containSpecialChar', async () => {
+    expect(containSpecialChar('09udsASHY')).toBe(false)
+    expect(containSpecialChar('09udsA]^&*SHY')).toBe(true)
+    expect(containSpecialChar('09udsA()@SHY')).toBe(true)
+    expect(containSpecialChar('09uds【』！SHY')).toBe(true)
+    expect(containSpecialChar('09uds.SHY')).toBe(true)
   })
 
   it('handleBigNumber', async () => {
