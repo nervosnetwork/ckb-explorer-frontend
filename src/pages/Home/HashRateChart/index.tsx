@@ -12,7 +12,6 @@ import { useAppState, useDispatch } from '../../../contexts/providers'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
-import { PageActions } from '../../../contexts/actions'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
 
 const stepAxis = (statisticHashRates: State.StatisticHashRate[]) => {
@@ -108,7 +107,7 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChar
 
 export default () => {
   const dispatch = useDispatch()
-  const { statisticHashRates } = useAppState()
+  const { statisticHashRates, statisticHashRatesFetchEnd } = useAppState()
   const screenWidth = useRef<number>(window.innerWidth)
   const widthDiff = window.innerWidth > 750 && Math.abs(screenWidth.current - window.innerWidth)
 
@@ -119,19 +118,13 @@ export default () => {
   }, [widthDiff])
 
   useEffect(() => {
-    dispatch({
-      type: PageActions.UpdateStatisticHashRate,
-      payload: {
-        statisticHashRates: undefined,
-      },
-    })
     getStatisticHashRate(dispatch)
   }, [dispatch])
 
-  if (!statisticHashRates || statisticHashRates.length === 0) {
+  if (!statisticHashRatesFetchEnd || statisticHashRates.length === 0) {
     return (
       <ChartLoadingPanel>
-        {statisticHashRates === undefined ? (
+        {!statisticHashRatesFetchEnd ? (
           <SmallLoading isWhite />
         ) : (
           <img className="chart__no__data" src={ChartNoDataImage} alt="chart no data" />
