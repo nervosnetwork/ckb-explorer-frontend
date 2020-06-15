@@ -8,7 +8,7 @@ import {
 } from '../../http/fetcher'
 import { PageActions } from '../../../contexts/actions'
 import BigNumber from 'bignumber.js'
-import { fetchCachedData, storeCachedData } from '../../../utils/cached'
+import { fetchCachedData, storeCachedData } from '../../../utils/cache'
 import { CachedKeys } from '../../../utils/const'
 
 export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
