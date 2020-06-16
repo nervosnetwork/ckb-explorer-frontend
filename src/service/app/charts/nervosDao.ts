@@ -6,8 +6,26 @@ import {
 } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
+import { fetchChartCache, storeChartCache } from '../../../utils/cache'
+import { CachedKeys } from '../../../utils/const'
 
 export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
+  const data = fetchChartCache(CachedKeys.TotalDeposit)
+  if (data) {
+    dispatch({
+      type: PageActions.UpdateStatisticTotalDaoDeposit,
+      payload: {
+        statisticTotalDaoDeposits: data,
+      },
+    })
+    dispatch({
+      type: PageActions.UpdateStatisticTotalDaoDepositFetchEnd,
+      payload: {
+        statisticTotalDaoDepositsFetchEnd: true,
+      },
+    })
+    return
+  }
   fetchStatisticTotalDaoDeposit()
     .then((response: Response.Response<Response.Wrapper<State.StatisticTotalDaoDeposit>[]> | null) => {
       if (!response) return
@@ -31,6 +49,7 @@ export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
           statisticTotalDaoDepositsFetchEnd: true,
         },
       })
+      storeChartCache(CachedKeys.TotalDeposit, totalDaoDeposits)
     })
     .catch(() => {
       dispatch({
@@ -43,6 +62,22 @@ export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticNewDaoDeposit = (dispatch: AppDispatch) => {
+  const data = fetchChartCache(CachedKeys.DailyDeposit)
+  if (data) {
+    dispatch({
+      type: PageActions.UpdateStatisticNewDaoDeposit,
+      payload: {
+        statisticNewDaoDeposits: data,
+      },
+    })
+    dispatch({
+      type: PageActions.UpdateStatisticNewDaoDepositFetchEnd,
+      payload: {
+        statisticNewDaoDepositsFetchEnd: true,
+      },
+    })
+    return
+  }
   fetchStatisticNewDaoDeposit()
     .then((response: Response.Response<Response.Wrapper<State.StatisticNewDaoDeposit>[]> | null) => {
       if (!response) return
@@ -66,6 +101,7 @@ export const getStatisticNewDaoDeposit = (dispatch: AppDispatch) => {
           statisticNewDaoDepositsFetchEnd: true,
         },
       })
+      storeChartCache(CachedKeys.DailyDeposit, statisticNewDaoDeposits)
     })
     .catch(() => {
       dispatch({
@@ -112,6 +148,22 @@ export const getStatisticNewDaoWithdraw = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticCirculationRatio = (dispatch: AppDispatch) => {
+  const data = fetchChartCache(CachedKeys.DepositCirculationRatio)
+  if (data) {
+    dispatch({
+      type: PageActions.UpdateStatisticCirculationRatio,
+      payload: {
+        statisticCirculationRatios: data,
+      },
+    })
+    dispatch({
+      type: PageActions.UpdateStatisticCirculationRatioFetchEnd,
+      payload: {
+        statisticCirculationRatiosFetchEnd: true,
+      },
+    })
+    return
+  }
   fetchStatisticCirculationRatio()
     .then((response: Response.Response<Response.Wrapper<State.StatisticCirculationRatio>[]> | null) => {
       if (!response) return
@@ -134,6 +186,7 @@ export const getStatisticCirculationRatio = (dispatch: AppDispatch) => {
           statisticCirculationRatiosFetchEnd: true,
         },
       })
+      storeChartCache(CachedKeys.DepositCirculationRatio, statisticCirculationRatios)
     })
     .catch(() => {
       dispatch({

@@ -270,6 +270,7 @@ export const getStatisticLiquidity = (dispatch: AppDispatch) => {
           statisticLiquidityFetchEnd: true,
         },
       })
+      storeChartCache(CachedKeys.Liquidity, statisticLiquidity)
     })
     .catch(() => {
       dispatch({
