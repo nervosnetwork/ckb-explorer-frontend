@@ -11,7 +11,7 @@ import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { CachedKeys } from '../../../utils/const'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
-import { dispatchDifficulty, dispatchHashRate, dispatchUncleRate } from './action'
+import { dispatchDifficulty, dispatchHashRate, dispatchUncleRate, dispatchMinerAddressDistribution } from './action'
 
 export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
   fetchStatisticDifficultyHashRate()
@@ -171,6 +171,11 @@ export const getStatisticUncleRate = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
+  const data = fetchDateChartCache(CachedKeys.MinerAddressDistribution)
+  if (data) {
+    dispatchMinerAddressDistribution(dispatch, data)
+    return
+  }
   fetchStatisticMinerAddressDistribution()
     .then((wrapper: Response.Wrapper<State.StatisticMinerAddressDistribution> | null) => {
       if (!wrapper) return
@@ -185,18 +190,8 @@ export const getStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
           radio: (Number(value[1]) / blockSum).toFixed(3),
         })
       }
-      dispatch({
-        type: PageActions.UpdateStatisticMinerAddressDistribution,
-        payload: {
-          statisticMinerAddresses,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticMinerAddressDistributionFetchEnd,
-        payload: {
-          statisticMinerAddressesFetchEnd: true,
-        },
-      })
+      dispatchMinerAddressDistribution(dispatch, statisticMinerAddresses)
+      storeDateChartCache(CachedKeys.MinerAddressDistribution, statisticMinerAddresses)
     })
     .catch(() => {
       dispatch({

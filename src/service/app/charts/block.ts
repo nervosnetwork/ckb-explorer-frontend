@@ -7,9 +7,14 @@ import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
 import { CachedKeys } from '../../../utils/const'
-import { dispatchAverageBlockTime } from './action'
+import { dispatchAverageBlockTime, dispatchBlockTimeDistribution, dispatchEpochTimeDistribution } from './action'
 
 export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
+  const data = fetchDateChartCache(CachedKeys.BlockTimeDistribution)
+  if (data) {
+    dispatchBlockTimeDistribution(dispatch, data)
+    return
+  }
   fetchStatisticBlockTimeDistribution()
     .then((wrap: Response.Wrapper<State.StatisticBlockTimeDistributions> | null) => {
       if (!wrap) return
@@ -28,18 +33,8 @@ export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
           }
         }),
       )
-      dispatch({
-        type: PageActions.UpdateStatisticBlockTimeDistribution,
-        payload: {
-          statisticBlockTimeDistributions,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticBlockTimeDistributionFetchEnd,
-        payload: {
-          statisticBlockTimeDistributionsFetchEnd: true,
-        },
-      })
+      dispatchBlockTimeDistribution(dispatch, statisticBlockTimeDistributions)
+      storeDateChartCache(CachedKeys.BlockTimeDistribution, statisticBlockTimeDistributions)
     })
     .catch(() => {
       dispatch({
@@ -77,6 +72,11 @@ export const getStatisticAverageBlockTimes = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticEpochTimeDistribution = (dispatch: AppDispatch) => {
+  const data = fetchDateChartCache(CachedKeys.EpochTimeDistribution)
+  if (data) {
+    dispatchEpochTimeDistribution(dispatch, data)
+    return
+  }
   fetchStatisticEpochTimeDistribution()
     .then((wrap: Response.Wrapper<State.StatisticEpochTimeDistributions> | null) => {
       if (!wrap) return
@@ -92,18 +92,8 @@ export const getStatisticEpochTimeDistribution = (dispatch: AppDispatch) => {
           }
         },
       )
-      dispatch({
-        type: PageActions.UpdateStatisticEpochTimeDistribution,
-        payload: {
-          statisticEpochTimeDistributions,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticEpochTimeDistributionFetchEnd,
-        payload: {
-          statisticEpochTimeDistributionsFetchEnd: true,
-        },
-      })
+      dispatchEpochTimeDistribution(dispatch, statisticEpochTimeDistributions)
+      storeDateChartCache(CachedKeys.EpochTimeDistribution, statisticEpochTimeDistributions)
     })
     .catch(() => {
       dispatch({

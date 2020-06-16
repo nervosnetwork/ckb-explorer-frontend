@@ -61,6 +61,36 @@ export const dispatchTransactionFee = (dispatch: AppDispatch, data: any) => {
   })
 }
 
+export const dispatchBalanceRank = (dispatch: AppDispatch, data: any) => {
+  dispatch({
+    type: PageActions.UpdateStatisticAddressBalanceRank,
+    payload: {
+      statisticAddressBalanceRanks: data,
+    },
+  })
+  dispatch({
+    type: PageActions.UpdateStatisticAddressBalanceRankFetchEnd,
+    payload: {
+      statisticAddressBalanceRanksFetchEnd: true,
+    },
+  })
+}
+
+export const dispatchBalanceDistribution = (dispatch: AppDispatch, data: any) => {
+  dispatch({
+    type: PageActions.UpdateStatisticBalanceDistribution,
+    payload: {
+      statisticBalanceDistributions: data,
+    },
+  })
+  dispatch({
+    type: PageActions.UpdateStatisticBalanceDistributionFetchEnd,
+    payload: {
+      statisticBalanceDistributionsFetchEnd: true,
+    },
+  })
+}
+
 export const dispatchAverageBlockTime = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticAverageBlockTime,
@@ -72,6 +102,36 @@ export const dispatchAverageBlockTime = (dispatch: AppDispatch, data: any) => {
     type: PageActions.UpdateStatisticAverageBlockTimeFetchEnd,
     payload: {
       statisticAverageBlockTimesFetchEnd: true,
+    },
+  })
+}
+
+export const dispatchBlockTimeDistribution = (dispatch: AppDispatch, data: any) => {
+  dispatch({
+    type: PageActions.UpdateStatisticBlockTimeDistribution,
+    payload: {
+      statisticBlockTimeDistributions: data,
+    },
+  })
+  dispatch({
+    type: PageActions.UpdateStatisticBlockTimeDistributionFetchEnd,
+    payload: {
+      statisticBlockTimeDistributionsFetchEnd: true,
+    },
+  })
+}
+
+export const dispatchEpochTimeDistribution = (dispatch: AppDispatch, data: any) => {
+  dispatch({
+    type: PageActions.UpdateStatisticEpochTimeDistribution,
+    payload: {
+      statisticEpochTimeDistributions: data,
+    },
+  })
+  dispatch({
+    type: PageActions.UpdateStatisticEpochTimeDistributionFetchEnd,
+    payload: {
+      statisticEpochTimeDistributionsFetchEnd: true,
     },
   })
 }
@@ -117,6 +177,21 @@ export const dispatchUncleRate = (dispatch: AppDispatch, data: any) => {
     type: PageActions.UpdateStatisticUncleRateFetchEnd,
     payload: {
       statisticUncleRatesFetchEnd: true,
+    },
+  })
+}
+
+export const dispatchMinerAddressDistribution = (dispatch: AppDispatch, data: any) => {
+  dispatch({
+    type: PageActions.UpdateStatisticMinerAddressDistribution,
+    payload: {
+      statisticMinerAddresses: data,
+    },
+  })
+  dispatch({
+    type: PageActions.UpdateStatisticMinerAddressDistributionFetchEnd,
+    payload: {
+      statisticMinerAddressesFetchEnd: true,
     },
   })
 }
