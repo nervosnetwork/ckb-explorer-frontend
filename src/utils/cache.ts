@@ -19,7 +19,7 @@ export const fetchCachedData = <T>(key: string): T | null => {
   return null
 }
 
-export const storeChartCache = (key: string, value: any) => {
+export const storeDateChartCache = (key: string, value: any) => {
   // cacheKey format: key + & + CST timestamp
   let cacheKey = fetchCachedData<string>(key)
   // Detect stored data and if null, remove it
@@ -31,7 +31,7 @@ export const storeChartCache = (key: string, value: any) => {
   storeCachedData(cacheKey, value)
 }
 
-export const fetchChartCache = (key: string) => {
+export const fetchDateChartCache = (key: string) => {
   // cacheKey format: key + & + CST timestamp
   const cacheKey = fetchCachedData<string>(key)
   if (!cacheKey) return null
@@ -43,9 +43,25 @@ export const fetchChartCache = (key: string) => {
   return storeTime > dataUpdateTime ? fetchCachedData(cacheKey) : null
 }
 
+export const storeEpochChartCache = (key: string, value: any) => {
+  storeDateChartCache(key, value)
+}
+
+const ThreeHours = 3 * 60 * 60 * 1000
+export const fetchEpochChartCache = (key: string) => {
+  // cacheKey format: key + & + CST timestamp
+  const cacheKey = fetchCachedData<string>(key)
+  if (!cacheKey) return null
+  const storeTime = Number(cacheKey.substring(cacheKey.indexOf('&') + 1))
+  // If last storage time is bigger than data update time, return cache data. Otherwise return null
+  return getCSTTime() - storeTime < ThreeHours ? fetchCachedData(cacheKey) : null
+}
+
 export default {
   storeCachedData,
   fetchCachedData,
-  storeChartCache,
-  fetchChartCache,
+  storeDateChartCache,
+  fetchDateChartCache,
+  storeEpochChartCache,
+  fetchEpochChartCache,
 }

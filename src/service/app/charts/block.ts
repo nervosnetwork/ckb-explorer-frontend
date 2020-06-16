@@ -5,7 +5,7 @@ import {
 } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
-import { fetchChartCache, storeChartCache } from '../../../utils/cache'
+import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
 import { CachedKeys } from '../../../utils/const'
 
 export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
@@ -51,7 +51,7 @@ export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticAverageBlockTimes = (dispatch: AppDispatch) => {
-  const data = fetchChartCache(CachedKeys.AverageBlockTime)
+  const data = fetchDateChartCache(CachedKeys.AverageBlockTime)
   if (data) {
     dispatch({
       type: PageActions.UpdateStatisticAverageBlockTime,
@@ -85,7 +85,7 @@ export const getStatisticAverageBlockTimes = (dispatch: AppDispatch) => {
           statisticAverageBlockTimesFetchEnd: true,
         },
       })
-      storeChartCache(CachedKeys.AverageBlockTime, averageBlockTime)
+      storeDateChartCache(CachedKeys.AverageBlockTime, averageBlockTime)
     })
     .catch(() => {
       dispatch({

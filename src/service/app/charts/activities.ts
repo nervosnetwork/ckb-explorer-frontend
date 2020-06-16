@@ -9,11 +9,11 @@ import {
 } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
-import { fetchChartCache, storeChartCache } from '../../../utils/cache'
+import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
 import { CachedKeys } from '../../../utils/const'
 
 export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
-  const data = fetchChartCache(CachedKeys.TransactionCount)
+  const data = fetchDateChartCache(CachedKeys.TransactionCount)
   if (data) {
     dispatch({
       type: PageActions.UpdateStatisticTransactionCount,
@@ -51,7 +51,7 @@ export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
           statisticTransactionCountsFetchEnd: true,
         },
       })
-      storeChartCache(CachedKeys.TransactionCount, transactionCounts)
+      storeDateChartCache(CachedKeys.TransactionCount, transactionCounts)
     })
     .catch(() => {
       dispatch({
@@ -64,7 +64,7 @@ export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticAddressCount = (dispatch: AppDispatch) => {
-  const data = fetchChartCache(CachedKeys.AddressCount)
+  const data = fetchDateChartCache(CachedKeys.AddressCount)
   if (data) {
     dispatch({
       type: PageActions.UpdateStatisticAddressCount,
@@ -102,7 +102,7 @@ export const getStatisticAddressCount = (dispatch: AppDispatch) => {
           statisticAddressCountsFetchEnd: true,
         },
       })
-      storeChartCache(CachedKeys.AddressCount, addressCounts)
+      storeDateChartCache(CachedKeys.AddressCount, addressCounts)
     })
     .catch(() => {
       dispatch({
@@ -115,7 +115,7 @@ export const getStatisticAddressCount = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticCellCount = (dispatch: AppDispatch) => {
-  const data = fetchChartCache(CachedKeys.CellCount)
+  const data = fetchDateChartCache(CachedKeys.CellCount)
   if (data) {
     dispatch({
       type: PageActions.UpdateStatisticCellCount,
@@ -157,7 +157,7 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
           statisticCellCountsFetchEnd: true,
         },
       })
-      storeChartCache(CachedKeys.CellCount, cellCounts)
+      storeDateChartCache(CachedKeys.CellCount, cellCounts)
     })
     .catch(() => {
       dispatch({
@@ -234,7 +234,7 @@ export const getStatisticBalanceDistribution = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticTxFeeHistory = (dispatch: AppDispatch) => {
-  const data = fetchChartCache(CachedKeys.TransactionFee)
+  const data = fetchDateChartCache(CachedKeys.TransactionFee)
   if (data) {
     dispatch({
       type: PageActions.UpdateStatisticTxFeeHistory,
@@ -272,7 +272,7 @@ export const getStatisticTxFeeHistory = (dispatch: AppDispatch) => {
           statisticTxFeeHistoriesFetchEnd: true,
         },
       })
-      storeChartCache(CachedKeys.TransactionFee, statisticTxFeeHistories)
+      storeDateChartCache(CachedKeys.TransactionFee, statisticTxFeeHistories)
     })
     .catch(() => {
       dispatch({

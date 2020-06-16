@@ -8,11 +8,11 @@ import {
 } from '../../http/fetcher'
 import { PageActions } from '../../../contexts/actions'
 import BigNumber from 'bignumber.js'
-import { fetchCachedData, storeCachedData, fetchChartCache, storeChartCache } from '../../../utils/cache'
+import { fetchCachedData, storeCachedData, fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
 import { CachedKeys } from '../../../utils/const'
 
 export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
-  const data = fetchChartCache(CachedKeys.TotalSupply)
+  const data = fetchDateChartCache(CachedKeys.TotalSupply)
   if (data) {
     dispatch({
       type: PageActions.UpdateStatisticTotalSupply,
@@ -51,7 +51,7 @@ export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
           statisticTotalSuppliesFetchEnd: true,
         },
       })
-      storeChartCache(CachedKeys.TotalSupply, statisticTotalSupplies)
+      storeDateChartCache(CachedKeys.TotalSupply, statisticTotalSupplies)
     })
     .catch(() => {
       dispatch({
@@ -116,7 +116,7 @@ export const getStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) 
 }
 
 export const getStatisticSecondaryIssuance = (dispatch: AppDispatch) => {
-  const data = fetchChartCache(CachedKeys.SecondaryIssuance)
+  const data = fetchDateChartCache(CachedKeys.SecondaryIssuance)
   if (data) {
     dispatch({
       type: PageActions.UpdateStatisticSecondaryIssuance,
@@ -160,7 +160,7 @@ export const getStatisticSecondaryIssuance = (dispatch: AppDispatch) => {
           statisticSecondaryIssuanceFetchEnd: true,
         },
       })
-      storeChartCache(CachedKeys.SecondaryIssuance, statisticSecondaryIssuance)
+      storeDateChartCache(CachedKeys.SecondaryIssuance, statisticSecondaryIssuance)
     })
     .catch(() => {
       dispatch({
@@ -229,7 +229,7 @@ export const getStatisticInflationRate = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticLiquidity = (dispatch: AppDispatch) => {
-  const data = fetchChartCache(CachedKeys.Liquidity)
+  const data = fetchDateChartCache(CachedKeys.Liquidity)
   if (data) {
     dispatch({
       type: PageActions.UpdateStatisticLiquidity,
@@ -270,7 +270,7 @@ export const getStatisticLiquidity = (dispatch: AppDispatch) => {
           statisticLiquidityFetchEnd: true,
         },
       })
-      storeChartCache(CachedKeys.Liquidity, statisticLiquidity)
+      storeDateChartCache(CachedKeys.Liquidity, statisticLiquidity)
     })
     .catch(() => {
       dispatch({
