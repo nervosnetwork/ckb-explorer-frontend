@@ -11,6 +11,7 @@ import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { CachedKeys } from '../../../utils/const'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
+import { dispatchDifficulty, dispatchHashRate, dispatchUncleRate } from './action'
 
 export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
   fetchStatisticDifficultyHashRate()
@@ -85,18 +86,7 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
 export const getStatisticDifficulty = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(CachedKeys.Difficulty)
   if (data) {
-    dispatch({
-      type: PageActions.UpdateStatisticDifficulty,
-      payload: {
-        statisticDifficulties: data,
-      },
-    })
-    dispatch({
-      type: PageActions.UpdateStatisticDifficultyFetchEnd,
-      payload: {
-        statisticDifficultiesFetchEnd: true,
-      },
-    })
+    dispatchDifficulty(dispatch, data)
     return
   }
   fetchStatisticDifficulty()
@@ -109,18 +99,7 @@ export const getStatisticDifficulty = (dispatch: AppDispatch) => {
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
-      dispatch({
-        type: PageActions.UpdateStatisticDifficulty,
-        payload: {
-          statisticDifficulties: difficulties,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticDifficultyFetchEnd,
-        payload: {
-          statisticDifficultiesFetchEnd: true,
-        },
-      })
+      dispatchDifficulty(dispatch, difficulties)
       storeDateChartCache(CachedKeys.Difficulty, difficulties)
     })
     .catch(() => {
@@ -136,18 +115,7 @@ export const getStatisticDifficulty = (dispatch: AppDispatch) => {
 export const getStatisticHashRate = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(CachedKeys.HashRate)
   if (data) {
-    dispatch({
-      type: PageActions.UpdateStatisticHashRate,
-      payload: {
-        statisticHashRates: data,
-      },
-    })
-    dispatch({
-      type: PageActions.UpdateStatisticHashRateFetchEnd,
-      payload: {
-        statisticHashRatesFetchEnd: true,
-      },
-    })
+    dispatchHashRate(dispatch, data)
     return
   }
   fetchStatisticHashRate()
@@ -160,18 +128,7 @@ export const getStatisticHashRate = (dispatch: AppDispatch) => {
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
-      dispatch({
-        type: PageActions.UpdateStatisticHashRate,
-        payload: {
-          statisticHashRates: hashRates,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticHashRateFetchEnd,
-        payload: {
-          statisticHashRatesFetchEnd: true,
-        },
-      })
+      dispatchHashRate(dispatch, hashRates)
       storeDateChartCache(CachedKeys.HashRate, hashRates)
     })
     .catch(() => {
@@ -187,18 +144,7 @@ export const getStatisticHashRate = (dispatch: AppDispatch) => {
 export const getStatisticUncleRate = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(CachedKeys.UncleRate)
   if (data) {
-    dispatch({
-      type: PageActions.UpdateStatisticUncleRate,
-      payload: {
-        statisticUncleRates: data,
-      },
-    })
-    dispatch({
-      type: PageActions.UpdateStatisticUncleRateFetchEnd,
-      payload: {
-        statisticUncleRatesFetchEnd: true,
-      },
-    })
+    dispatchUncleRate(dispatch, data)
     return
   }
   fetchStatisticUncleRate()
@@ -211,18 +157,7 @@ export const getStatisticUncleRate = (dispatch: AppDispatch) => {
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
-      dispatch({
-        type: PageActions.UpdateStatisticUncleRate,
-        payload: {
-          statisticUncleRates: uncleRates,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticUncleRateFetchEnd,
-        payload: {
-          statisticUncleRatesFetchEnd: true,
-        },
-      })
+      dispatchUncleRate(dispatch, uncleRates)
       storeDateChartCache(CachedKeys.UncleRate, uncleRates)
     })
     .catch(() => {
