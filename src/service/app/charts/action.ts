@@ -181,6 +181,36 @@ export const dispatchUncleRate = (dispatch: AppDispatch, data: any) => {
   })
 }
 
+export const dispatchDifficultyHashRate = (dispatch: AppDispatch, data: any) => {
+  dispatch({
+    type: PageActions.UpdateStatisticDifficultyHashRate,
+    payload: {
+      statisticDifficultyHashRates: data,
+    },
+  })
+  dispatch({
+    type: PageActions.UpdateStatisticDifficultyHashRateFetchEnd,
+    payload: {
+      statisticDifficultyHashRatesFetchEnd: true,
+    },
+  })
+}
+
+export const dispatchDifficultyUncleRate = (dispatch: AppDispatch, data: any) => {
+  dispatch({
+    type: PageActions.UpdateStatisticDifficultyUncleRate,
+    payload: {
+      statisticDifficultyUncleRates: data,
+    },
+  })
+  dispatch({
+    type: PageActions.UpdateStatisticDifficultyUncleRateFetchEnd,
+    payload: {
+      statisticDifficultyUncleRatesFetchEnd: true,
+    },
+  })
+}
+
 export const dispatchMinerAddressDistribution = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticMinerAddressDistribution,

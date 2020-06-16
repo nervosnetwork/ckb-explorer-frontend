@@ -10,10 +10,27 @@ import {
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { CachedKeys } from '../../../utils/const'
-import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
-import { dispatchDifficulty, dispatchHashRate, dispatchUncleRate, dispatchMinerAddressDistribution } from './action'
+import {
+  fetchDateChartCache,
+  storeDateChartCache,
+  fetchEpochChartCache,
+  storeEpochChartCache,
+} from '../../../utils/cache'
+import {
+  dispatchDifficulty,
+  dispatchHashRate,
+  dispatchUncleRate,
+  dispatchMinerAddressDistribution,
+  dispatchDifficultyHashRate,
+  dispatchDifficultyUncleRate,
+} from './action'
 
 export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
+  const data = fetchEpochChartCache(CachedKeys.DifficultyHashRate)
+  if (data) {
+    dispatchDifficultyHashRate(dispatch, data)
+    return
+  }
   fetchStatisticDifficultyHashRate()
     .then((response: Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]> | null) => {
       if (!response) return
@@ -25,18 +42,8 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
           hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toNumber(),
         }
       })
-      dispatch({
-        type: PageActions.UpdateStatisticDifficultyHashRate,
-        payload: {
-          statisticDifficultyHashRates: difficultyHashRates,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticDifficultyHashRateFetchEnd,
-        payload: {
-          statisticDifficultyHashRatesFetchEnd: true,
-        },
-      })
+      dispatchDifficultyHashRate(dispatch, difficultyHashRates)
+      storeEpochChartCache(CachedKeys.DifficultyHashRate, difficultyHashRates)
     })
     .catch(() => {
       dispatch({
@@ -49,6 +56,11 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
+  const data = fetchEpochChartCache(CachedKeys.DifficultyUncleRate)
+  if (data) {
+    dispatchDifficultyUncleRate(dispatch, data)
+    return
+  }
   fetchStatisticDifficultyUncleRate()
     .then((response: Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRate>[]> | null) => {
       if (!response) return
@@ -60,18 +72,8 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
           uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
         }
       })
-      dispatch({
-        type: PageActions.UpdateStatisticDifficultyUncleRate,
-        payload: {
-          statisticDifficultyUncleRates: difficultyUncleRates,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticDifficultyUncleRateFetchEnd,
-        payload: {
-          statisticDifficultyUncleRatesFetchEnd: true,
-        },
-      })
+      dispatchDifficultyUncleRate(dispatch, difficultyUncleRates)
+      storeEpochChartCache(CachedKeys.DifficultyUncleRate, difficultyUncleRates)
     })
     .catch(() => {
       dispatch({
