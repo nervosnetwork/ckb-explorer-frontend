@@ -68,7 +68,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="sc-fzpmMD bWtinx"
         >
           <div
-            className="sc-fzoyAV YcSET pagination__first__button"
+            className="sc-fzoLsD bpXaOq pagination__first__button"
             onClick={[Function]}
             onKeyDown={[Function]}
             onMouseOver={[Function]}
@@ -78,7 +78,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             First
           </div>
           <div
-            className="sc-fzoyAV YcSET pagination__left__button"
+            className="sc-fzoLsD bpXaOq pagination__left__button"
             onClick={[Function]}
             onKeyDown={[Function]}
             onMouseOver={[Function]}
@@ -96,7 +96,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             Page 0 of 1 
           </span>
           <div
-            className="sc-fzoyAV YcSET pagination__right__button"
+            className="sc-fzoLsD bpXaOq pagination__right__button"
             onClick={[Function]}
             onKeyDown={[Function]}
             onMouseOver={[Function]}
@@ -109,7 +109,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             />
           </div>
           <div
-            className="sc-fzoyAV YcSET pagination__last__button"
+            className="sc-fzoLsD bpXaOq pagination__last__button"
             onClick={[Function]}
             onKeyDown={[Function]}
             onMouseOver={[Function]}
@@ -136,7 +136,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             value={2}
           />
           <div
-            className="sc-fzoyAV YcSET pagination__goto__page"
+            className="sc-fzoLsD bpXaOq pagination__goto__page"
             onClick={[Function]}
             onKeyDown={[Function]}
             onMouseOver={[Function]}

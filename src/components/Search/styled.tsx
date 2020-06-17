@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import SimpleButton from '../SimpleButton'
 
 export const SearchContainer = styled.div`
   display: flex;
@@ -20,19 +21,15 @@ export const SearchPanel = styled.div`
   padding-right: 5px;
 `
 
-export const SearchImage = styled.div`
+export const SearchImage = styled(SimpleButton)`
   display: flex;
   align-items: center;
-  margin-left: ${(props: { highlightIcon: boolean }) => (props.highlightIcon ? '-25px' : '8px')};
+  margin: ${(props: { isClear?: boolean }) => (props.isClear ? '0 8px 0 0' : '0 0 0 8px')};
   z-index: 2;
 
-  @media (max-width: 750px) {
-    margin-left: ${(props: { highlightIcon: boolean }) => (props.highlightIcon ? '-25px' : '8px')};
-  }
-
   img {
-    width: 16px;
-    height: 16px;
+    width: ${(props: { isClear?: boolean }) => (props.isClear ? '12px' : '18px')};
+    height: ${(props: { isClear?: boolean }) => (props.isClear ? '12px' : '18px')};
     margin: 0 auto;
   }
 `
@@ -95,4 +92,8 @@ export const SearchButton = styled.div`
   letter-spacing: 0.2px;
   font-size: 14px;
   cursor: pointer;
+
+  @media (max-width: 750px) {
+    display: none;
+  }
 `

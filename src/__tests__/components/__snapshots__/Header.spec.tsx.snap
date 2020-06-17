@@ -55,7 +55,7 @@ exports[`Header Component shallow renders 1`] = `
     onMouseLeave={[Function]}
   >
     <div
-      className="sc-fzokOt dREVrx header__blockchain__flag"
+      className="sc-Axmtr gnqtIY header__blockchain__flag"
       onClick={[Function]}
       onKeyDown={[Function]}
       onMouseOver={[Function]}
@@ -83,12 +83,12 @@ exports[`Header Component shallow renders 1`] = `
     </div>
   </div>
   <div
-    className="sc-fznKkj iwKOjr"
+    className="sc-fznZeY dztgpD"
     id="header__language__panel"
     onMouseLeave={[Function]}
   >
     <div
-      className="sc-fzokOt dREVrx header__language__flag"
+      className="sc-Axmtr gnqtIY header__language__flag"
       onClick={[Function]}
       onKeyDown={[Function]}
       onMouseOver={[Function]}
