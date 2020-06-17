@@ -9,8 +9,23 @@ import {
 } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
+import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
+import { CachedKeys } from '../../../utils/const'
+import {
+  dispatchTransactionCount,
+  dispatchAddressCount,
+  dispatchCellCount,
+  dispatchTransactionFee,
+  dispatchBalanceRank,
+  dispatchBalanceDistribution,
+} from './action'
 
 export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
+  const data = fetchDateChartCache(CachedKeys.TransactionCount)
+  if (data) {
+    dispatchTransactionCount(dispatch, data)
+    return
+  }
   fetchStatisticTransactionCount()
     .then((response: Response.Response<Response.Wrapper<State.StatisticTransactionCount>[]> | null) => {
       if (!response) return
@@ -21,18 +36,8 @@ export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
-      dispatch({
-        type: PageActions.UpdateStatisticTransactionCount,
-        payload: {
-          statisticTransactionCounts: transactionCounts,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticTransactionCountFetchEnd,
-        payload: {
-          statisticTransactionCountsFetchEnd: true,
-        },
-      })
+      dispatchTransactionCount(dispatch, transactionCounts)
+      storeDateChartCache(CachedKeys.TransactionCount, transactionCounts)
     })
     .catch(() => {
       dispatch({
@@ -45,6 +50,11 @@ export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticAddressCount = (dispatch: AppDispatch) => {
+  const data = fetchDateChartCache(CachedKeys.AddressCount)
+  if (data) {
+    dispatchAddressCount(dispatch, data)
+    return
+  }
   fetchStatisticAddressCount()
     .then((response: Response.Response<Response.Wrapper<State.StatisticAddressCount>[]> | null) => {
       if (!response) return
@@ -55,18 +65,8 @@ export const getStatisticAddressCount = (dispatch: AppDispatch) => {
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
-      dispatch({
-        type: PageActions.UpdateStatisticAddressCount,
-        payload: {
-          statisticAddressCounts: addressCounts,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticAddressCountFetchEnd,
-        payload: {
-          statisticAddressCountsFetchEnd: true,
-        },
-      })
+      dispatchAddressCount(dispatch, addressCounts)
+      storeDateChartCache(CachedKeys.AddressCount, addressCounts)
     })
     .catch(() => {
       dispatch({
@@ -79,6 +79,11 @@ export const getStatisticAddressCount = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticCellCount = (dispatch: AppDispatch) => {
+  const data = fetchDateChartCache(CachedKeys.CellCount)
+  if (data) {
+    dispatchCellCount(dispatch, data)
+    return
+  }
   fetchStatisticCellCount()
     .then((response: Response.Response<Response.Wrapper<State.StatisticCellCount>[]> | null) => {
       if (!response) return
@@ -93,18 +98,8 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
-      dispatch({
-        type: PageActions.UpdateStatisticCellCount,
-        payload: {
-          statisticCellCounts: cellCounts,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticCellCountFetchEnd,
-        payload: {
-          statisticCellCountsFetchEnd: true,
-        },
-      })
+      dispatchCellCount(dispatch, cellCounts)
+      storeDateChartCache(CachedKeys.CellCount, cellCounts)
     })
     .catch(() => {
       dispatch({
@@ -117,22 +112,17 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticAddressBalanceRank = (dispatch: AppDispatch) => {
+  const data = fetchDateChartCache(CachedKeys.AddressBalanceRank)
+  if (data) {
+    dispatchBalanceRank(dispatch, data)
+    return
+  }
   fetchStatisticAddressBalanceRank()
     .then((wrapper: Response.Wrapper<State.StatisticAddressBalanceRanking> | null) => {
       if (!wrapper) return
       const addressBalanceRanks = wrapper.attributes.addressBalanceRanking
-      dispatch({
-        type: PageActions.UpdateStatisticAddressBalanceRank,
-        payload: {
-          statisticAddressBalanceRanks: addressBalanceRanks,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticAddressBalanceRankFetchEnd,
-        payload: {
-          statisticAddressBalanceRanksFetchEnd: true,
-        },
-      })
+      dispatchBalanceRank(dispatch, addressBalanceRanks)
+      storeDateChartCache(CachedKeys.AddressBalanceRank, addressBalanceRanks)
     })
     .catch(() => {
       dispatch({
@@ -145,6 +135,11 @@ export const getStatisticAddressBalanceRank = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticBalanceDistribution = (dispatch: AppDispatch) => {
+  const data = fetchDateChartCache(CachedKeys.BalanceDistribution)
+  if (data) {
+    dispatchBalanceDistribution(dispatch, data)
+    return
+  }
   fetchStatisticBalanceDistribution()
     .then((wrapper: Response.Wrapper<State.StatisticAddressBalanceDistribution> | null) => {
       if (!wrapper) return
@@ -157,18 +152,8 @@ export const getStatisticBalanceDistribution = (dispatch: AppDispatch) => {
           sumAddresses,
         }
       })
-      dispatch({
-        type: PageActions.UpdateStatisticBalanceDistribution,
-        payload: {
-          statisticBalanceDistributions: balanceDistributions,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticBalanceDistributionFetchEnd,
-        payload: {
-          statisticBalanceDistributionsFetchEnd: true,
-        },
-      })
+      dispatchBalanceDistribution(dispatch, balanceDistributions)
+      storeDateChartCache(CachedKeys.BalanceDistribution, balanceDistributions)
     })
     .catch(() => {
       dispatch({
@@ -181,6 +166,11 @@ export const getStatisticBalanceDistribution = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticTxFeeHistory = (dispatch: AppDispatch) => {
+  const data = fetchDateChartCache(CachedKeys.TransactionFee)
+  if (data) {
+    dispatchTransactionFee(dispatch, data)
+    return
+  }
   fetchStatisticTxFeeHistory()
     .then((response: Response.Response<Response.Wrapper<State.StatisticTransactionFee>[]> | null) => {
       if (!response) return
@@ -191,18 +181,8 @@ export const getStatisticTxFeeHistory = (dispatch: AppDispatch) => {
           totalTxFee: wrapper.attributes.totalTxFee,
         }
       })
-      dispatch({
-        type: PageActions.UpdateStatisticTxFeeHistory,
-        payload: {
-          statisticTxFeeHistories,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticTxFeeHistoryFetchEnd,
-        payload: {
-          statisticTxFeeHistoriesFetchEnd: true,
-        },
-      })
+      dispatchTransactionFee(dispatch, statisticTxFeeHistories)
+      storeDateChartCache(CachedKeys.TransactionFee, statisticTxFeeHistories)
     })
     .catch(() => {
       dispatch({

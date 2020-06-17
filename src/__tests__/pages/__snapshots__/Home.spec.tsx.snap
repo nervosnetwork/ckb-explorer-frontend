@@ -105,11 +105,15 @@ exports[`Active Page shallow renders 1`] = `
           <div
             className="sc-fzoYHE ehzMLn"
           >
-            <img
-              alt="chart no data"
-              className="chart__no__data"
-              src="chart_no_data_white.png"
-            />
+            <div
+              className="sc-fzoydu ctqdBw"
+            >
+              <img
+                alt="loading"
+                className="loading__white"
+                src="loading_white.gif"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -154,11 +158,15 @@ exports[`Active Page shallow renders 1`] = `
           <div
             className="sc-fznAgC dHiSHn"
           >
-            <img
-              alt="chart no data"
-              className="chart__no__data"
-              src="chart_no_data_white.png"
-            />
+            <div
+              className="sc-fzoydu ctqdBw"
+            >
+              <img
+                alt="loading"
+                className="loading__white"
+                src="loading_white.gif"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -991,11 +999,15 @@ exports[`Active Page shallow renders with empty data 1`] = `
           <div
             className="sc-fzoYHE ehzMLn"
           >
-            <img
-              alt="chart no data"
-              className="chart__no__data"
-              src="chart_no_data_white.png"
-            />
+            <div
+              className="sc-fzoydu ctqdBw"
+            >
+              <img
+                alt="loading"
+                className="loading__white"
+                src="loading_white.gif"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -1040,11 +1052,15 @@ exports[`Active Page shallow renders with empty data 1`] = `
           <div
             className="sc-fznAgC dHiSHn"
           >
-            <img
-              alt="chart no data"
-              className="chart__no__data"
-              src="chart_no_data_white.png"
-            />
+            <div
+              className="sc-fzoydu ctqdBw"
+            >
+              <img
+                alt="loading"
+                className="loading__white"
+                src="loading_white.gif"
+              />
+            </div>
           </div>
         </div>
       </div>

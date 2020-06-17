@@ -79,3 +79,10 @@ export const parseHour = (minutes: number | string) => {
   const num = typeof minutes === 'string' ? Number(minutes) : minutes
   return parseFloat((num / 60).toFixed(2))
 }
+
+export const getCSTTime = () => {
+  const date = new Date()
+  const offsetGMT = date.getTimezoneOffset() // minutes
+  const now = date.getTime()
+  return now + (offsetGMT + 8 * 60) * 60 * 1000
+}

@@ -9,8 +9,28 @@ import {
 } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
+import { CachedKeys } from '../../../utils/const'
+import {
+  fetchDateChartCache,
+  storeDateChartCache,
+  fetchEpochChartCache,
+  storeEpochChartCache,
+} from '../../../utils/cache'
+import {
+  dispatchDifficulty,
+  dispatchHashRate,
+  dispatchUncleRate,
+  dispatchMinerAddressDistribution,
+  dispatchDifficultyHashRate,
+  dispatchDifficultyUncleRate,
+} from './action'
 
 export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
+  const data = fetchEpochChartCache(CachedKeys.DifficultyHashRate)
+  if (data) {
+    dispatchDifficultyHashRate(dispatch, data)
+    return
+  }
   fetchStatisticDifficultyHashRate()
     .then((response: Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]> | null) => {
       if (!response) return
@@ -22,18 +42,8 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
           hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toNumber(),
         }
       })
-      dispatch({
-        type: PageActions.UpdateStatisticDifficultyHashRate,
-        payload: {
-          statisticDifficultyHashRates: difficultyHashRates,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticDifficultyHashRateFetchEnd,
-        payload: {
-          statisticDifficultyHashRatesFetchEnd: true,
-        },
-      })
+      dispatchDifficultyHashRate(dispatch, difficultyHashRates)
+      storeEpochChartCache(CachedKeys.DifficultyHashRate, difficultyHashRates)
     })
     .catch(() => {
       dispatch({
@@ -46,6 +56,11 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
+  const data = fetchEpochChartCache(CachedKeys.DifficultyUncleRate)
+  if (data) {
+    dispatchDifficultyUncleRate(dispatch, data)
+    return
+  }
   fetchStatisticDifficultyUncleRate()
     .then((response: Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRate>[]> | null) => {
       if (!response) return
@@ -57,18 +72,8 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
           uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
         }
       })
-      dispatch({
-        type: PageActions.UpdateStatisticDifficultyUncleRate,
-        payload: {
-          statisticDifficultyUncleRates: difficultyUncleRates,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticDifficultyUncleRateFetchEnd,
-        payload: {
-          statisticDifficultyUncleRatesFetchEnd: true,
-        },
-      })
+      dispatchDifficultyUncleRate(dispatch, difficultyUncleRates)
+      storeEpochChartCache(CachedKeys.DifficultyUncleRate, difficultyUncleRates)
     })
     .catch(() => {
       dispatch({
@@ -81,6 +86,11 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticDifficulty = (dispatch: AppDispatch) => {
+  const data = fetchDateChartCache(CachedKeys.Difficulty)
+  if (data) {
+    dispatchDifficulty(dispatch, data)
+    return
+  }
   fetchStatisticDifficulty()
     .then((response: Response.Response<Response.Wrapper<State.StatisticDifficulty>[]> | null) => {
       if (!response) return
@@ -91,18 +101,8 @@ export const getStatisticDifficulty = (dispatch: AppDispatch) => {
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
-      dispatch({
-        type: PageActions.UpdateStatisticDifficulty,
-        payload: {
-          statisticDifficulties: difficulties,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticDifficultyFetchEnd,
-        payload: {
-          statisticDifficultiesFetchEnd: true,
-        },
-      })
+      dispatchDifficulty(dispatch, difficulties)
+      storeDateChartCache(CachedKeys.Difficulty, difficulties)
     })
     .catch(() => {
       dispatch({
@@ -115,6 +115,11 @@ export const getStatisticDifficulty = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticHashRate = (dispatch: AppDispatch) => {
+  const data = fetchDateChartCache(CachedKeys.HashRate)
+  if (data) {
+    dispatchHashRate(dispatch, data)
+    return
+  }
   fetchStatisticHashRate()
     .then((response: Response.Response<Response.Wrapper<State.StatisticHashRate>[]> | null) => {
       if (!response) return
@@ -125,18 +130,8 @@ export const getStatisticHashRate = (dispatch: AppDispatch) => {
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
-      dispatch({
-        type: PageActions.UpdateStatisticHashRate,
-        payload: {
-          statisticHashRates: hashRates,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticHashRateFetchEnd,
-        payload: {
-          statisticHashRatesFetchEnd: true,
-        },
-      })
+      dispatchHashRate(dispatch, hashRates)
+      storeDateChartCache(CachedKeys.HashRate, hashRates)
     })
     .catch(() => {
       dispatch({
@@ -149,6 +144,11 @@ export const getStatisticHashRate = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticUncleRate = (dispatch: AppDispatch) => {
+  const data = fetchDateChartCache(CachedKeys.UncleRate)
+  if (data) {
+    dispatchUncleRate(dispatch, data)
+    return
+  }
   fetchStatisticUncleRate()
     .then((response: Response.Response<Response.Wrapper<State.StatisticUncleRate>[]> | null) => {
       if (!response) return
@@ -159,18 +159,8 @@ export const getStatisticUncleRate = (dispatch: AppDispatch) => {
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
-      dispatch({
-        type: PageActions.UpdateStatisticUncleRate,
-        payload: {
-          statisticUncleRates: uncleRates,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticUncleRateFetchEnd,
-        payload: {
-          statisticUncleRatesFetchEnd: true,
-        },
-      })
+      dispatchUncleRate(dispatch, uncleRates)
+      storeDateChartCache(CachedKeys.UncleRate, uncleRates)
     })
     .catch(() => {
       dispatch({
@@ -183,6 +173,11 @@ export const getStatisticUncleRate = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
+  const data = fetchDateChartCache(CachedKeys.MinerAddressDistribution)
+  if (data) {
+    dispatchMinerAddressDistribution(dispatch, data)
+    return
+  }
   fetchStatisticMinerAddressDistribution()
     .then((wrapper: Response.Wrapper<State.StatisticMinerAddressDistribution> | null) => {
       if (!wrapper) return
@@ -197,18 +192,8 @@ export const getStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
           radio: (Number(value[1]) / blockSum).toFixed(3),
         })
       }
-      dispatch({
-        type: PageActions.UpdateStatisticMinerAddressDistribution,
-        payload: {
-          statisticMinerAddresses,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticMinerAddressDistributionFetchEnd,
-        payload: {
-          statisticMinerAddressesFetchEnd: true,
-        },
-      })
+      dispatchMinerAddressDistribution(dispatch, statisticMinerAddresses)
+      storeDateChartCache(CachedKeys.MinerAddressDistribution, statisticMinerAddresses)
     })
     .catch(() => {
       dispatch({

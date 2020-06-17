@@ -1,7 +1,7 @@
 import { fetchNodeVersion } from '../http/fetcher'
 import { AppDispatch } from '../../contexts/reducer'
 import { AppActions } from '../../contexts/actions'
-import { fetchCachedData, storeCachedData } from '../../utils/cached'
+import { fetchCachedData, storeCachedData } from '../../utils/cache'
 import { CachedKeys } from '../../utils/const'
 
 const DAY_TIMESTAMP = 24 * 60 * 60 * 1000
