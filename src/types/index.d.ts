@@ -584,6 +584,7 @@ declare namespace State {
 
   export interface Components {
     searchBarEditable: boolean
+    filterNoResult: boolean
     mobileMenuVisible: boolean
     headerSearchBarVisible: boolean
   }

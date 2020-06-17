@@ -1,9 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DaoSearch Component shallow renders 1`] = `
+exports[`Filter Component shallow renders 1`] = `
+.c1 {
+  cursor: pointer;
+}
+
 .c0 {
   width: 600px;
-  height: 40px;
+  height: 30px;
   text-align: center;
   display: -webkit-box;
   display: -webkit-flex;
@@ -21,8 +25,9 @@ exports[`DaoSearch Component shallow renders 1`] = `
 
 .c2 {
   display: inline-block;
-  margin-left: -45px;
-  width: 50px;
+  margin-left: 0;
+  margin-right: -40px;
+  width: 30px;
   z-index: 2;
   display: -webkit-box;
   display: -webkit-flex;
@@ -36,17 +41,17 @@ exports[`DaoSearch Component shallow renders 1`] = `
 
 .c2 img {
   margin-top: 3px;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
-.c1 {
+.c3 {
   position: relative;
   width: 100%;
   height: 100%;
   font-size: 16px;
-  padding-left: 15px;
-  padding-right: 50px;
+  padding-left: 26px;
+  padding-right: 30px;
   background: rgba(255,255,255,0);
   opacity: 1;
   border: 1px solid #b3b3b3;
@@ -54,24 +59,24 @@ exports[`DaoSearch Component shallow renders 1`] = `
   border-radius: 6px;
 }
 
-.c1:focus {
+.c3:focus {
   color: #666666;
   outline: none;
 }
 
-.c1::-webkit-input-placeholder {
+.c3::-webkit-input-placeholder {
   color: #bababa;
 }
 
-.c1::-moz-placeholder {
+.c3::-moz-placeholder {
   color: #bababa;
 }
 
-.c1:-ms-input-placeholder {
+.c3:-ms-input-placeholder {
   color: #bababa;
 }
 
-.c1::placeholder {
+.c3::placeholder {
   color: #bababa;
 }
 
@@ -84,56 +89,51 @@ exports[`DaoSearch Component shallow renders 1`] = `
 @media (max-width:750px) {
   .c0 {
     width: 84vw;
-    height: 25px;
   }
 }
 
 @media (max-width:750px) {
   .c2 {
-    width: 40px;
-    margin-left: -35px;
+    margin-left: 0;
+    margin-right: -30px;
   }
 }
 
 @media (max-width:750px) {
   .c2 img {
     margin-top: 0;
-    width: 12px;
-    height: 12px;
   }
 }
 
 @media (max-width:750px) {
-  .c1 {
+  .c3 {
     width: 100%;
     font-size: 12px;
-    padding-left: 10px;
-    padding-right: 30px;
   }
 }
 
 <div
   className="c0"
 >
-  <input
-    className="c1"
-    defaultValue=""
-    onBlur={[Function]}
-    onChange={[Function]}
-    onKeyUp={[Function]}
-    placeholder="Transaction / Address"
-  />
   <div
-    className="c2"
+    className="c1 c2"
     onClick={[Function]}
-    onKeyPress={[Function]}
+    onKeyDown={[Function]}
+    onMouseOver={[Function]}
     role="button"
     tabIndex={-1}
   >
     <img
       alt="search logo"
-      src="search_green.png"
+      src="search_filter.png"
     />
   </div>
+  <input
+    className="c3"
+    defaultValue=""
+    onChange={[Function]}
+    onKeyUp={[Function]}
+    placeholder="Transaction / Address"
+  />
 </div>
 `;

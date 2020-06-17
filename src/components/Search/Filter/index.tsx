@@ -1,21 +1,21 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import GreenSearchLogo from '../../../assets/search_green.png'
-import BlueSearchLogo from '../../../assets/search_blue.png'
+import SearchFilter from '../../../assets/search_filter.png'
+import ClearLogo from '../../../assets/clear.png'
 import i18n from '../../../utils/i18n'
-import { AppActions } from '../../../contexts/actions'
-import { isMainnet } from '../../../utils/chain'
+import { ComponentActions } from '../../../contexts/actions'
 import { searchNervosDaoTransactions, getNervosDaoTransactions } from '../../../service/app/nervosDao'
 import { useDispatch, useAppState } from '../../../contexts/providers'
-import { DaoSearchImage, DaoSearchPanel, DaoResetButtonPanel, DaoSearchInputPanel } from './styled'
+import { FilterImage, FilterPanel, ResetButtonPanel, FilterInputPanel } from './styled'
+import { containSpecialChar } from '../../../utils/string'
 
-const clearSearchInput = (inputElement: any) => {
+const clearFilterInput = (inputElement: any) => {
   const input: HTMLInputElement = inputElement.current
   input.value = ''
   input.blur()
 }
 
-const setSearchInput = (inputElement: any, content: string) => {
+const setFilterInput = (inputElement: any, content: string) => {
   const input: HTMLInputElement = inputElement.current
   input.value = content
   input.blur()
@@ -23,7 +23,7 @@ const setSearchInput = (inputElement: any, content: string) => {
 
 const DEPOSIT_RANK_COUNT = 100
 
-const DaoSearch = ({ content }: { content?: string }) => {
+const Filter = ({ content }: { content?: string }) => {
   const dispatch = useDispatch()
   const {
     nervosDaoState: { transactionsStatus },
@@ -35,16 +35,48 @@ const DaoSearch = ({ content }: { content?: string }) => {
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
   const [showReset, setShowReset] = useState(false)
+  const [showClear, setShowClear] = useState(false)
   const inputElement = useRef<HTMLInputElement>(null)
+
+  const FilterIcon = ({ isClear }: { isClear?: boolean }) => {
+    return (
+      <FilterImage
+        isClear={isClear}
+        onClick={() => {
+          if (isClear) {
+            setShowClear(false)
+            clearFilterInput(inputElement)
+          }
+        }}
+      >
+        <img src={isClear ? ClearLogo : SearchFilter} alt="search logo" />
+      </FilterImage>
+    )
+  }
+
+  const ResetFilter = () => {
+    const dispatch = useDispatch()
+    return (
+      <ResetButtonPanel
+        onClick={() => {
+          setShowReset(false)
+          setShowClear(false)
+          clearFilterInput(inputElement)
+          getNervosDaoTransactions(dispatch, 1, DEPOSIT_RANK_COUNT)
+        }}
+      >
+        {i18n.t('nervos_dao.dao_search_reset')}
+      </ResetButtonPanel>
+    )
+  }
 
   const handleSearchResult = () => {
     const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
-    if (!query) {
+    if (!query || containSpecialChar(query)) {
       dispatch({
-        type: AppActions.ShowToastMessage,
+        type: ComponentActions.UpdateFilterNoResult,
         payload: {
-          message: i18n.t('toast.invalid_content'),
-          type: 'danger',
+          filterNoResult: true,
         },
       })
     } else {
@@ -54,65 +86,40 @@ const DaoSearch = ({ content }: { content?: string }) => {
 
   useEffect(() => {
     if (transactionsStatus === 'InProgress') {
-      setSearchInput(inputElement, i18n.t('search.loading'))
+      setFilterInput(inputElement, i18n.t('search.loading'))
     } else if (transactionsStatus === 'OK') {
-      clearSearchInput(inputElement)
       setShowReset(true)
+      setFilterInput(inputElement, searchValue)
     } else if (transactionsStatus === 'Error') {
-      clearSearchInput(inputElement)
+      setFilterInput(inputElement, searchValue)
       dispatch({
-        type: AppActions.ShowToastMessage,
+        type: ComponentActions.UpdateFilterNoResult,
         payload: {
-          message: i18n.t('toast.result_not_found'),
-          type: 'warning',
+          filterNoResult: true,
         },
       })
     }
-  }, [transactionsStatus, dispatch, content])
+  }, [transactionsStatus, dispatch, searchValue])
 
   // update input placeholder when language change
   useEffect(() => {
     setPlaceholder(SearchPlaceholder)
   }, [SearchPlaceholder])
 
-  const SearchIconButton = () => {
-    return (
-      <DaoSearchImage
-        role="button"
-        showReset={showReset}
-        tabIndex={-1}
-        onKeyPress={() => {}}
-        onClick={() => {
-          handleSearchResult()
-        }}
-      >
-        <img src={isMainnet() ? GreenSearchLogo : BlueSearchLogo} alt="search logo" />
-      </DaoSearchImage>
-    )
-  }
-
   return (
-    <DaoSearchPanel>
-      {showReset && (
-        <DaoResetButtonPanel
-          onClick={() => {
-            setShowReset(false)
-            getNervosDaoTransactions(dispatch, 1, DEPOSIT_RANK_COUNT)
-          }}
-        >
-          {i18n.t('nervos_dao.dao_search_reset')}
-        </DaoResetButtonPanel>
-      )}
-      <DaoSearchInputPanel
+    <FilterPanel>
+      {showReset && <ResetFilter />}
+      <FilterIcon />
+      <FilterInputPanel
         ref={inputElement}
         showReset={showReset}
         placeholder={placeholder}
         defaultValue={searchValue || ''}
-        onBlur={() => {
-          setPlaceholder(SearchPlaceholder)
-        }}
         onChange={(event: any) => {
           setSearchValue(event.target.value)
+          if (event.target.value) {
+            setShowClear(true)
+          }
         }}
         onKeyUp={(event: any) => {
           if (event.keyCode === 13) {
@@ -120,9 +127,9 @@ const DaoSearch = ({ content }: { content?: string }) => {
           }
         }}
       />
-      <SearchIconButton />
-    </DaoSearchPanel>
+      {showClear && <FilterIcon isClear />}
+    </FilterPanel>
   )
 }
 
-export default DaoSearch
+export default Filter

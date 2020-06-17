@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import SimpleButton from '../SimpleButton'
 
 export const SearchContainer = styled.div`
@@ -41,8 +41,7 @@ export const SearchInputPanel = styled.input`
   font-size: 14px;
   padding-left: 10px;
   padding-right: 20px;
-  margin-left: ${(props: { searchBarEditable: boolean; hasBorder?: boolean }) =>
-    props.searchBarEditable ? '0px' : '-8px'}
+  margin-left: ${(props: { searchBarEditable: boolean }) => (props.searchBarEditable ? '0px' : '-8px')}
   background: white;
   color: #333333;
   border: 0px solid white;
@@ -52,22 +51,6 @@ export const SearchInputPanel = styled.input`
     color: #333333;
     outline: none;
   }
-
-  ${(props: { hasBorder?: boolean }) =>
-    props.hasBorder &&
-    css`
-      opacity: 1;
-      border: 2px solid #606060;
-      color: #888888;
-      border-radius: 6px;
-      margin-left: 0;
-      padding-left: 10px;
-
-      &: focus {
-        color: #888888;
-        outline: none;
-      }
-    `};
 
   &::placeholder {
     color: #888888;

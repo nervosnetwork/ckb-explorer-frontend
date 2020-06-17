@@ -2,14 +2,14 @@ import React, { ReactElement } from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
 import 'jest-styled-components'
-import DaoSearch from '../../components/Search/DaoSearch'
-import { DaoSearchPanel } from '../../components/Search/DaoSearch/styled'
+import Filter from '../../components/Search/Filter'
+import { FilterPanel } from '../../components/Search/Filter/styled'
 
-describe('DaoSearch Component', () => {
+describe('Filter Component', () => {
   let component: ReactElement
 
   beforeAll(() => {
-    component = <DaoSearch />
+    component = <Filter />
   })
 
   it('shallow renders', () => {
@@ -20,6 +20,6 @@ describe('DaoSearch Component', () => {
   it('Component Render', () => {
     const wrapper = shallow(component)
     expect(wrapper).toBeDefined()
-    expect(wrapper.find(DaoSearchPanel)).toHaveLength(1)
+    expect(wrapper.find(FilterPanel)).toHaveLength(1)
   })
 })
