@@ -76,6 +76,7 @@ export const SearchInputPanel = styled.input`
   @media (max-width: 750px) {
     font-size: 12px;
     width: 100%;
+    padding-left: 6px;
     padding-right: 16px;
   }
 `

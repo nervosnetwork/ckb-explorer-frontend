@@ -44,7 +44,7 @@ exports[`Active Page shallow renders 1`] = `
               />
             </div>
             <input
-              className="sc-fznJRM jkYEib"
+              className="sc-fznJRM kHDdh"
               defaultValue=""
               onChange={[Function]}
               onKeyUp={[Function]}
@@ -930,7 +930,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
               />
             </div>
             <input
-              className="sc-fznJRM jkYEib"
+              className="sc-fznJRM kHDdh"
               defaultValue=""
               onChange={[Function]}
               onKeyUp={[Function]}

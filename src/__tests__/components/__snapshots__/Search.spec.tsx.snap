@@ -97,6 +97,7 @@ exports[`Search Component shallow renders 1`] = `
   .c4 {
     font-size: 12px;
     width: 100%;
+    padding-left: 6px;
     padding-right: 16px;
   }
 }
