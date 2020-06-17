@@ -2,7 +2,7 @@
 
 exports[`Active Page shallow renders 1`] = `
 <div
-  className="sc-fznMAR VNHDx"
+  className="sc-fznMAR dTmaAe"
 >
   <div
     className="sc-AxjAm StDqN container"
@@ -888,7 +888,7 @@ exports[`Active Page shallow renders 1`] = `
 
 exports[`Active Page shallow renders with empty data 1`] = `
 <div
-  className="sc-fznMAR VNHDx"
+  className="sc-fznMAR dTmaAe"
 >
   <div
     className="sc-AxjAm StDqN container"

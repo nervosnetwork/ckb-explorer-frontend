@@ -2,7 +2,7 @@
 
 exports[`Active Page shallow renders with empty data 1`] = `
 <div
-  className="sc-fznJRM LSUZK"
+  className="sc-fznJRM lmHEkF"
 >
   <div
     className="sc-AxjAm bAbQHZ container"
