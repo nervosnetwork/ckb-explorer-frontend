@@ -325,12 +325,12 @@ export const DaoOverviewRightPanel = styled.div`
       color: #555555;
 
       @media (max-width: 1200px) {
-        margin-right: 23%;
+        margin-right: 22%;
       }
 
       @media (max-width: 750px) {
         font-size: 12px;
-        margin: 8px 23% 8px 0;
+        margin: 8px 22% 8px 0;
       }
     }
   }
