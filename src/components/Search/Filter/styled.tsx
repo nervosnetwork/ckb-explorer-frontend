@@ -30,6 +30,7 @@ export const FilterImage = styled(SimpleButton)`
   z-index: 2;
   display: flex;
   justify-content: center;
+  cursor: ${(props: { isClear?: boolean }) => (props.isClear ? 'pointer' : 'default !important')};
 
   @media (max-width: 750px) {
     margin-left: ${(props: { isClear?: boolean }) => (props.isClear ? '-14%' : '0')};
