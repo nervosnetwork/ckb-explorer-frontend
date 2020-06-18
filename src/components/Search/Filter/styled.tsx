@@ -3,7 +3,7 @@ import SimpleButton from '../../SimpleButton'
 
 export const FilterPanel = styled.div`
   width: 600px;
-  height: 30px;
+  height: 38px;
   text-align: center;
   display: flex;
   align-items: center;
@@ -26,11 +26,6 @@ export const FilterImage = styled(SimpleButton)`
   display: flex;
   justify-content: center;
 
-  @media (max-width: 750px) {
-    margin-left: ${(props: { isClear?: boolean }) => (props.isClear ? '-30px' : '0')};
-    margin-right: ${(props: { isClear?: boolean }) => (props.isClear ? '0' : '-30px')};
-  }
-
   img {
     margin-top: 3px;
     width: ${(props: { isClear?: boolean }) => (props.isClear ? '12px' : '18px')};
@@ -44,7 +39,7 @@ export const FilterImage = styled(SimpleButton)`
 
 export const FilterInputPanel = styled.input`
   position: relative;
-  width: ${(props: { showReset: boolean }) => (props.showReset ? '85%' : '100%')};
+  width: ${(props: { showReset: boolean; isDao: boolean }) => (props.showReset ? '380px' : '100%')};
   height: 100%;
   font-size: 16px;
   padding-left: 26px;
@@ -62,7 +57,7 @@ export const FilterInputPanel = styled.input`
     color: #bababa;
   }
   @media (max-width: 750px) {
-    width: ${(props: { showReset: boolean }) => (props.showReset ? '83%' : '100%')};
+    width: ${(props: { showReset: boolean }) => (props.showReset ? '80%' : '100%')};
     font-size: 12px;
   }
 `
@@ -72,7 +67,7 @@ export const ResetButtonPanel = styled.div`
   color: #000000;
   border-radius: 2px;
   font-size: 12px;
-  width: 60px;
+  width: 55px;
   height: 30px;
   line-height: 30px;
   cursor: pointer;

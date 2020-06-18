@@ -8,6 +8,15 @@ import { searchNervosDaoTransactions, getNervosDaoTransactions } from '../../../
 import { useDispatch, useAppState } from '../../../contexts/providers'
 import { FilterImage, FilterPanel, ResetButtonPanel, FilterInputPanel } from './styled'
 import { containSpecialChar } from '../../../utils/string'
+import { getUDTTransactionsWithAddress, getSimpleUDTTransactions } from '../../../service/app/udt'
+import { PageParams } from '../../../utils/const'
+
+export enum FilterType {
+  DAO,
+  UDT,
+}
+
+const FILTER_COUNT = 100
 
 const clearFilterInput = (inputElement: any) => {
   const input: HTMLInputElement = inputElement.current
@@ -18,21 +27,27 @@ const clearFilterInput = (inputElement: any) => {
 const setFilterInput = (inputElement: any, content: string) => {
   const input: HTMLInputElement = inputElement.current
   input.value = content
-  input.blur()
 }
 
-const DEPOSIT_RANK_COUNT = 100
-
-const Filter = ({ content }: { content?: string }) => {
+const Filter = ({
+  content,
+  filterType = FilterType.DAO,
+  typeHash,
+}: {
+  content?: string
+  filterType?: FilterType
+  typeHash?: string
+}) => {
   const dispatch = useDispatch()
   const {
     nervosDaoState: { transactionsStatus },
+    udtState: { filterStatus },
   } = useAppState()
   const [t] = useTranslation()
   const SearchPlaceholder = useMemo(() => {
-    return t('nervos_dao.dao_search_placeholder')
-  }, [t])
-  const [searchValue, setSearchValue] = useState(content || '')
+    return filterType === FilterType.DAO ? t('nervos_dao.dao_search_placeholder') : t('udt.search_placeholder')
+  }, [t, filterType])
+  const [filterValue, setFilterValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
   const [showReset, setShowReset] = useState(false)
   const [showClear, setShowClear] = useState(false)
@@ -62,7 +77,11 @@ const Filter = ({ content }: { content?: string }) => {
           setShowReset(false)
           setShowClear(false)
           clearFilterInput(inputElement)
-          getNervosDaoTransactions(dispatch, 1, DEPOSIT_RANK_COUNT)
+          if (filterType === FilterType.DAO) {
+            getNervosDaoTransactions(dispatch, 1, PageParams.PageSize)
+          } else if (typeHash) {
+            getSimpleUDTTransactions(typeHash, 1, PageParams.PageSize, dispatch)
+          }
         }}
       >
         {i18n.t('nervos_dao.dao_search_reset')}
@@ -71,7 +90,7 @@ const Filter = ({ content }: { content?: string }) => {
   }
 
   const handleSearchResult = () => {
-    const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
+    const query = filterValue.trim().replace(',', '') // remove front and end blank and ','
     if (!query || containSpecialChar(query)) {
       dispatch({
         type: ComponentActions.UpdateFilterNoResult,
@@ -80,26 +99,49 @@ const Filter = ({ content }: { content?: string }) => {
         },
       })
     } else {
-      searchNervosDaoTransactions(query, dispatch)
+      if (filterType === FilterType.DAO) {
+        searchNervosDaoTransactions(query, dispatch)
+      } else if (typeHash) {
+        getUDTTransactionsWithAddress(query, typeHash, 1, FILTER_COUNT, dispatch)
+      }
     }
   }
 
   useEffect(() => {
-    if (transactionsStatus === 'InProgress') {
-      setFilterInput(inputElement, i18n.t('search.loading'))
-    } else if (transactionsStatus === 'OK') {
-      setShowReset(true)
-      setFilterInput(inputElement, searchValue)
-    } else if (transactionsStatus === 'Error') {
-      setFilterInput(inputElement, searchValue)
-      dispatch({
-        type: ComponentActions.UpdateFilterNoResult,
-        payload: {
-          filterNoResult: true,
-        },
-      })
+    if (filterType === FilterType.DAO) {
+      if (transactionsStatus === 'InProgress') {
+        setFilterInput(inputElement, i18n.t('search.loading'))
+      } else if (transactionsStatus === 'OK') {
+        setShowReset(true)
+        setFilterInput(inputElement, filterValue)
+      } else if (transactionsStatus === 'Error') {
+        setFilterInput(inputElement, filterValue)
+        setShowReset(true)
+        dispatch({
+          type: ComponentActions.UpdateFilterNoResult,
+          payload: {
+            filterNoResult: true,
+          },
+        })
+      }
+    } else if (filterType === FilterType.UDT) {
+      if (filterStatus === 'InProgress') {
+        setFilterInput(inputElement, i18n.t('search.loading'))
+      } else if (filterStatus === 'OK') {
+        setShowReset(true)
+        setFilterInput(inputElement, filterValue)
+      } else if (filterStatus === 'Error') {
+        setShowReset(true)
+        setFilterInput(inputElement, filterValue)
+        dispatch({
+          type: ComponentActions.UpdateFilterNoResult,
+          payload: {
+            filterNoResult: true,
+          },
+        })
+      }
     }
-  }, [transactionsStatus, dispatch, searchValue])
+  }, [transactionsStatus, filterStatus, dispatch, filterValue, filterType])
 
   // update input placeholder when language change
   useEffect(() => {
@@ -113,13 +155,12 @@ const Filter = ({ content }: { content?: string }) => {
       <FilterInputPanel
         ref={inputElement}
         showReset={showReset}
+        isDao={filterType === FilterType.DAO}
         placeholder={placeholder}
-        defaultValue={searchValue || ''}
+        defaultValue={filterValue || ''}
         onChange={(event: any) => {
-          setSearchValue(event.target.value)
-          if (event.target.value) {
-            setShowClear(true)
-          }
+          setFilterValue(event.target.value)
+          setShowClear(!!event.target.value)
         }}
         onKeyUp={(event: any) => {
           if (event.keyCode === 13) {

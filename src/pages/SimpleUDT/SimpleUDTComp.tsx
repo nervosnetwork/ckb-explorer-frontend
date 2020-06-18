@@ -1,16 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
-import { SimpleUDTTransactionsPagination, SimpleUDTTransactionsPanel, UDTTransactionTitlePanel } from './styled'
+import { SimpleUDTTransactionsPagination, SimpleUDTTransactionsPanel, UDTNoResultPanel } from './styled'
 import browserHistory from '../../routes/history'
-import UDTSearch from '../../components/Search/UDTSearch'
-import { isMobile } from '../../utils/screen'
-import SearchLogo from '../../assets/search_black.png'
+import { parseUDTAmount } from '../../utils/number'
 import { ComponentActions } from '../../contexts/actions'
-import { parseUDTAmount, localeNumberString } from '../../utils/number'
 
 const simpleUDTInfo = (udt: State.UDT) => {
   const { fullName, symbol, addressesCount, decimal, totalAmount } = udt
@@ -54,12 +51,10 @@ export const SimpleUDTComp = ({
   pageSize: number
   typeHash: string
 }) => {
-  const {
-    udtState: { transactions = [], total },
-  } = useAppState()
   const dispatch = useDispatch()
   const {
-    components: { searchBarEditable },
+    udtState: { transactions = [], total },
+    components: { filterNoResult },
   } = useAppState()
 
   const totalPages = Math.ceil(total / pageSize)
@@ -68,39 +63,26 @@ export const SimpleUDTComp = ({
     browserHistory.replace(`/sudt/${typeHash}?page=${page}&size=${pageSize}`)
   }
 
-  const UDTTitleSearchComp = () => {
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: ComponentActions.UpdateFilterNoResult,
+        payload: {
+          filterNoResult: false,
+        },
+      })
+    }
+  }, [dispatch])
+
+  if (filterNoResult) {
     return (
-      <UDTTransactionTitlePanel>
-        <div className="udt__transaction__container">
-          {(!isMobile() || (isMobile() && !searchBarEditable)) && (
-            <div className="udt__transaction__title">{`${i18n.t('transaction.transactions')} (${localeNumberString(
-              total,
-            )})`}</div>
-          )}
-          {isMobile() && !searchBarEditable && (
-            <img
-              className="udt__search__icon"
-              src={SearchLogo}
-              alt="search icon"
-              onClick={() => {
-                dispatch({
-                  type: ComponentActions.UpdateHeaderSearchEditable,
-                  payload: {
-                    searchBarEditable: true,
-                  },
-                })
-              }}
-            />
-          )}
-          {(!isMobile() || (isMobile() && searchBarEditable)) && <UDTSearch typeHash={typeHash} />}
-        </div>
-      </UDTTransactionTitlePanel>
+      <UDTNoResultPanel>
+        <span>{i18n.t('search.udt_filter_no_result')}</span>
+      </UDTNoResultPanel>
     )
   }
-
   return (
     <>
-      <UDTTitleSearchComp />
       <SimpleUDTTransactionsPanel>
         {transactions.map((transaction: State.Transaction, index: number) => {
           return (

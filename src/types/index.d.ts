@@ -428,6 +428,7 @@ declare namespace State {
     transactions: Transaction[]
     total: number
     status: FetchStatus
+    filterStatus: FetchStatus
   }
 
   export interface AddressState {
