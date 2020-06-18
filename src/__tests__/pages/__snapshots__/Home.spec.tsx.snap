@@ -28,7 +28,7 @@ exports[`Active Page shallow renders 1`] = `
           className="sc-fzoXzr lggllm"
         >
           <div
-            className="sc-fzpjYC jAtkpk"
+            className="sc-fzpjYC gjxceE"
           >
             <div
               className="sc-fzoLag hNGuHT sc-fznxsB bZFuDJ"
@@ -914,7 +914,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="sc-fzoXzr lggllm"
         >
           <div
-            className="sc-fzpjYC jAtkpk"
+            className="sc-fzpjYC gjxceE"
           >
             <div
               className="sc-fzoLag hNGuHT sc-fznxsB bZFuDJ"

@@ -94,6 +94,12 @@ exports[`Search Component shallow renders 1`] = `
 }
 
 @media (max-width:750px) {
+  .c1 {
+    border-radius: 4px;
+  }
+}
+
+@media (max-width:750px) {
   .c4 {
     font-size: 12px;
     width: 100%;

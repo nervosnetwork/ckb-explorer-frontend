@@ -19,6 +19,10 @@ export const SearchPanel = styled.div`
   border: 0px solid white;
   border-radius: ${(props: { hasButton?: boolean }) => (props.hasButton ? '4px 0 0 4px' : '4px')};
   padding-right: 5px;
+
+  @media (max-width: 750px) {
+    border-radius: 4px;
+  }
 `
 
 export const SearchImage = styled(SimpleButton)`
