@@ -54,9 +54,10 @@ exports[`Filter Component shallow renders 1`] = `
   padding-right: 30px;
   background: rgba(255,255,255,0);
   opacity: 1;
-  border: 1px solid #b3b3b3;
+  border: 0px solid white;
   color: #666666;
-  border-radius: 6px;
+  border-radius: 4px;
+  background-color: #f4f4f4;
 }
 
 .c3:focus {
@@ -86,15 +87,40 @@ exports[`Filter Component shallow renders 1`] = `
   }
 }
 
+@media (max-width:1000px) {
+  .c0 {
+    width: 320px;
+  }
+}
+
 @media (max-width:750px) {
   .c0 {
-    width: 84vw;
+    width: 80vw;
+  }
+}
+
+@media (max-width:750px) {
+  .c2 {
+    margin-left: 0;
+    margin-right: -14%;
   }
 }
 
 @media (max-width:750px) {
   .c2 img {
     margin-top: 0;
+  }
+}
+
+@media (max-width:1200px) {
+  .c3 {
+    width: 100%;
+  }
+}
+
+@media (max-width:1000px) {
+  .c3 {
+    width: 100%;
   }
 }
 

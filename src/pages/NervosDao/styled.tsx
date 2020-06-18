@@ -94,7 +94,7 @@ export const DaoTabBarPanel = styled.div`
       font-weight: normal;
       font-size: 18px;
 
-      @media (max-width: 750px) {
+      @media (max-width: 1200px) {
         width: 110px;
       }
     }
@@ -107,7 +107,7 @@ export const DaoTabBarPanel = styled.div`
       font-weight: bold;
       border-bottom: 3px solid ${props => props.theme.primary};
 
-      @media (max-width: 750px) {
+      @media (max-width: 1200px) {
         width: 110px;
       }
     }

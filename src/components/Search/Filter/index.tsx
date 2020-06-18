@@ -24,11 +24,6 @@ const clearFilterInput = (inputElement: any) => {
   input.blur()
 }
 
-const setFilterInput = (inputElement: any, content: string) => {
-  const input: HTMLInputElement = inputElement.current
-  input.value = content
-}
-
 const Filter = ({
   content,
   filterType = FilterType.DAO,
@@ -109,13 +104,9 @@ const Filter = ({
 
   useEffect(() => {
     if (filterType === FilterType.DAO) {
-      if (transactionsStatus === 'InProgress') {
-        setFilterInput(inputElement, i18n.t('search.loading'))
-      } else if (transactionsStatus === 'OK') {
+      if (transactionsStatus === 'OK') {
         setShowReset(true)
-        setFilterInput(inputElement, filterValue)
       } else if (transactionsStatus === 'Error') {
-        setFilterInput(inputElement, filterValue)
         setShowReset(true)
         dispatch({
           type: ComponentActions.UpdateFilterNoResult,
@@ -125,14 +116,10 @@ const Filter = ({
         })
       }
     } else if (filterType === FilterType.UDT) {
-      if (filterStatus === 'InProgress') {
-        setFilterInput(inputElement, i18n.t('search.loading'))
-      } else if (filterStatus === 'OK') {
+      if (filterStatus === 'OK') {
         setShowReset(true)
-        setFilterInput(inputElement, filterValue)
       } else if (filterStatus === 'Error') {
         setShowReset(true)
-        setFilterInput(inputElement, filterValue)
         dispatch({
           type: ComponentActions.UpdateFilterNoResult,
           payload: {
@@ -141,7 +128,7 @@ const Filter = ({
         })
       }
     }
-  }, [transactionsStatus, filterStatus, dispatch, filterValue, filterType])
+  }, [transactionsStatus, filterStatus, dispatch, filterType])
 
   // update input placeholder when language change
   useEffect(() => {
@@ -155,7 +142,6 @@ const Filter = ({
       <FilterInputPanel
         ref={inputElement}
         showReset={showReset}
-        isDao={filterType === FilterType.DAO}
         placeholder={placeholder}
         defaultValue={filterValue || ''}
         onChange={(event: any) => {

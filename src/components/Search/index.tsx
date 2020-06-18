@@ -113,28 +113,6 @@ const handleSearchResult = (
   }
 }
 
-const ImageIcon = ({ isClear, inputElement }: { isClear?: boolean; inputElement?: any }) => {
-  const dispatch = useDispatch()
-  return (
-    <SearchImage
-      isClear={isClear}
-      onClick={() => {
-        if (isClear) {
-          clearSearchInput(inputElement)
-          dispatch({
-            type: ComponentActions.UpdateHeaderSearchEditable,
-            payload: {
-              searchBarEditable: false,
-            },
-          })
-        }
-      }}
-    >
-      <img src={isClear ? ClearLogo : SearchLogo} alt="search logo" />
-    </SearchImage>
-  )
-}
-
 const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean }) => {
   const dispatch = useDispatch()
   const [t] = useTranslation()
@@ -160,6 +138,29 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
     }
   }, [])
 
+  const ImageIcon = ({ isClear }: { isClear?: boolean }) => {
+    const dispatch = useDispatch()
+    return (
+      <SearchImage
+        isClear={isClear}
+        onClick={() => {
+          if (isClear) {
+            setSearchValue('')
+            clearSearchInput(inputElement)
+            dispatch({
+              type: ComponentActions.UpdateHeaderSearchEditable,
+              payload: {
+                searchBarEditable: false,
+              },
+            })
+          }
+        }}
+      >
+        <img src={isClear ? ClearLogo : SearchLogo} alt="search logo" />
+      </SearchImage>
+    )
+  }
+
   return (
     <SearchContainer>
       <SearchPanel moreHeight={hasButton} hasButton={hasButton}>
@@ -184,7 +185,7 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
             }
           }}
         />
-        {searchValue && <ImageIcon isClear inputElement={inputElement} />}
+        {searchValue && <ImageIcon isClear />}
       </SearchPanel>
       {hasButton && (
         <SearchButton onClick={() => handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)}>

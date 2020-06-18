@@ -12,8 +12,13 @@ export const FilterPanel = styled.div`
   @media (max-width: 1200px) {
     width: 450px;
   }
+
+  @media (max-width: 1000px) {
+    width: 320px;
+  }
+
   @media (max-width: 750px) {
-    width: 84vw;
+    width: 80vw;
   }
 `
 
@@ -25,6 +30,11 @@ export const FilterImage = styled(SimpleButton)`
   z-index: 2;
   display: flex;
   justify-content: center;
+
+  @media (max-width: 750px) {
+    margin-left: ${(props: { isClear?: boolean }) => (props.isClear ? '-14%' : '0')};
+    margin-right: ${(props: { isClear?: boolean }) => (props.isClear ? '0' : '-14%')};
+  }
 
   img {
     margin-top: 3px;
@@ -39,16 +49,17 @@ export const FilterImage = styled(SimpleButton)`
 
 export const FilterInputPanel = styled.input`
   position: relative;
-  width: ${(props: { showReset: boolean; isDao: boolean }) => (props.showReset ? '380px' : '100%')};
+  width: ${(props: { showReset: boolean }) => (props.showReset ? '530px' : '100%')};
   height: 100%;
   font-size: 16px;
   padding-left: 26px;
   padding-right: 30px;
   background: rgba(255, 255, 255, 0);
   opacity: 1;
-  border: 1px solid #b3b3b3;
+  border: 0px solid white;
   color: #666666;
-  border-radius: 6px;
+  border-radius: 4px;
+  background-color: #f4f4f4;
   &: focus {
     color: #666666;
     outline: none;
@@ -56,8 +67,17 @@ export const FilterInputPanel = styled.input`
   &::placeholder {
     color: #bababa;
   }
+
+  @media (max-width: 1200px) {
+    width: ${(props: { showReset: boolean }) => (props.showReset ? '380px' : '100%')};
+  }
+
+  @media (max-width: 1000px) {
+    width: ${(props: { showReset: boolean }) => (props.showReset ? '250px' : '100%')};
+  }
+
   @media (max-width: 750px) {
-    width: ${(props: { showReset: boolean }) => (props.showReset ? '80%' : '100%')};
+    width: ${(props: { showReset: boolean }) => (props.showReset ? '82%' : '100%')};
     font-size: 12px;
   }
 `
@@ -68,7 +88,15 @@ export const ResetButtonPanel = styled.div`
   border-radius: 2px;
   font-size: 12px;
   width: 55px;
-  height: 30px;
-  line-height: 30px;
+  height: 38px;
+  line-height: 38px;
   cursor: pointer;
+
+  &: hover {
+    background: #dddddd;
+  }
+
+  @media (max-width: 750px) {
+    width: 50px;
+  }
 `
