@@ -46,11 +46,12 @@ interface NervosDaoPieItemContent {
 
 const colors = ['#049ECD', '#69C7D4', '#74808E']
 
-const numberSymbol = (num: number) => {
-  if (shannonToCkbDecimal(num) >= 0.01) {
+const numberSymbol = (num: number, isCapacity = true) => {
+  const value = isCapacity ? shannonToCkbDecimal(num) : num
+  if (value >= 0.01) {
     return 'positive'
   }
-  if (shannonToCkbDecimal(num) < -0.01) {
+  if (value < -0.01) {
     return 'negative'
   }
   return 'zero'
@@ -107,7 +108,7 @@ const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent
       title: i18n.t('nervos_dao.addresses'),
       titleTooltip: i18n.t('nervos_dao.deposit_address_tooltip'),
       change: localeNumberString(nervosDao.depositorChanges),
-      changeSymbol: numberSymbol(Number(nervosDao.depositorChanges)),
+      changeSymbol: numberSymbol(Number(nervosDao.depositorChanges), false),
       content: localeNumberString(nervosDao.depositorsCount),
       tooltip: i18n.t('nervos_dao.today_update'),
     },
@@ -196,9 +197,8 @@ const getOption = (nervosDao: State.NervosDao): echarts.EChartOption => {
           },
         },
         labelLine: {
-          normal: {
-            length: 4,
-          },
+          length: 4,
+          length2: isMobile() ? 4 : 12,
         },
         itemStyle: {
           emphasis: {

@@ -84,11 +84,11 @@ export const TransactionCellAddressPanel = styled.div`
     color: #666666;
 
     > div {
-      width: 40px;
+      width: 70px;
       text-align: start;
 
-      @media (max-width: 750px) {
-        width: 35px;
+      @media (max-width: 1440px) {
+        width: 50px;
       }
     }
   }
@@ -115,10 +115,10 @@ export const TransactionCellHashPanel = styled.div`
   }
 
   > span {
-    margin-right: 19px;
+    margin-right: 50px;
 
-    @media (max-width: 750px) {
-      margin-right: 0px;
+    @media (max-width: 1440px) {
+      margin-right: 30px;
     }
   }
 
