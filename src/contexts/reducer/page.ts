@@ -508,6 +508,14 @@ export const pageReducer = (
           status: payload.status,
         },
       }
+    case PageActions.UpdateUDTFilterStatus:
+      return {
+        ...state,
+        udtState: {
+          ...state.udtState,
+          filterStatus: payload.filterStatus,
+        },
+      }
     case PageActions.UpdateTokens:
       return {
         ...state,

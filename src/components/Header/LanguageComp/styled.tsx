@@ -60,13 +60,15 @@ export const MobileSubMenuPanel = styled.div`
     margin-top: -5px;
     color: ${props => props.theme.primary};
   }
+
   .mobile__menus__sub__item {
-    margin-left: 24px;
-    margin-top: 22px;
+    width: 300px;
+    padding: 11px 24px;
     font-size: 12px;
     display: flex;
     align-items: center;
   }
+
   a {
     color: white;
     text-transform: capitalize;

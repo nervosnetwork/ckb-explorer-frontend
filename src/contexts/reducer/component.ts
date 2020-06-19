@@ -13,6 +13,14 @@ export const componentReducer = (
           searchBarEditable: payload.searchBarEditable,
         },
       }
+    case ComponentActions.UpdateFilterNoResult:
+      return {
+        ...state,
+        components: {
+          ...state.components,
+          filterNoResult: payload.filterNoResult,
+        },
+      }
     case ComponentActions.UpdateHeaderMobileMenuVisible:
       return {
         ...state,

@@ -26,7 +26,7 @@ export default () => {
     <Content>
       <SearchPanel className="container">
         <div className="search__fail__bar">
-          <Search hasBorder content={q as string} />
+          <Search content={q as string} hasButton />
         </div>
         <SearchContent>
           {type && type === SearchFailType.CHAIN_ERROR ? (

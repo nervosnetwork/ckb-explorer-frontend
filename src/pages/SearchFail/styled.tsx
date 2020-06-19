@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 export const SearchPanel = styled.div`
-  margin-top: 211px;
-  margin-bottom: 266px;
+  margin-top: 200px;
+  margin-bottom: 240px;
 
   @media (max-width: 750px) {
     margin-top: 120px;
@@ -10,8 +10,12 @@ export const SearchPanel = styled.div`
   }
 
   .search__fail__bar {
-    width: 96%;
-    margin: 0 2%;
+    width: 600px;
+    margin: 0 auto;
+
+    @media (max-width: 750px) {
+      width: 340px;
+    }
   }
 `
 
@@ -19,9 +23,14 @@ export const SearchContent = styled.div`
   font-size: 14px;
   color: #606060;
   margin: 0 auto;
-  margin-top: 39px;
+  margin-top: 20px;
   text-align: center;
   white-space: pre-wrap;
+  width: 600px;
+
+  @media (max-width: 750px) {
+    width: 340px;
+  }
 
   a {
     color: ${props => props.theme.primary};
@@ -33,9 +42,7 @@ export const SearchContent = styled.div`
   }
 
   @media (max-width: 750px) {
-    width: 96%;
     font-size: 12px;
-    margin: 18px 2%;
   }
 
   @media (max-width: 375px) {

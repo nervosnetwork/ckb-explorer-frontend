@@ -11,12 +11,27 @@ import { getTipBlockNumber } from '../../service/app/address'
 import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
 import { parsePageNumber } from '../../utils/string'
-import { SimpleUDTContentPanel } from './styled'
+import { SimpleUDTContentPanel, UDTTransactionTitlePanel } from './styled'
 import SimpleUDTComp, { SimpleUDTOverview } from './SimpleUDTComp'
 import browserHistory from '../../routes/history'
 import { useTimeoutWithUnmount } from '../../utils/hook'
 import { getSimpleUDT, getSimpleUDTTransactions } from '../../service/app/udt'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
+import Filter, { FilterType } from '../../components/Search/Filter'
+import { localeNumberString } from '../../utils/number'
+
+const UDTTitleSearchComp = ({ typeHash, total }: { typeHash: string; total: number }) => {
+  return (
+    <UDTTransactionTitlePanel>
+      <div className="udt__transaction__container">
+        <div className="udt__transaction__title">{`${i18n.t('transaction.transactions')} (${localeNumberString(
+          total,
+        )})`}</div>
+        <Filter typeHash={typeHash} filterType={FilterType.UDT} />
+      </div>
+    </UDTTransactionTitlePanel>
+  )
+}
 
 const SimpleUDTCompState = ({
   currentPage,
@@ -50,6 +65,7 @@ export const SimpleUDT = () => {
   const parsed = queryString.parse(search)
   const {
     udtState: {
+      total,
       udt: { iconFile },
       status,
     },
@@ -96,6 +112,7 @@ export const SimpleUDT = () => {
         <SimpleUDTHashCard title={i18n.t('udt.sudt')} hash={typeHash} iconUri={iconFile ? iconFile : SUDTTokenIcon}>
           <SimpleUDTOverview />
         </SimpleUDTHashCard>
+        <UDTTitleSearchComp typeHash={typeHash} total={total} />
         <SimpleUDTCompState currentPage={currentPage} pageSize={pageSize} typeHash={typeHash} />
       </SimpleUDTContentPanel>
     </Content>
