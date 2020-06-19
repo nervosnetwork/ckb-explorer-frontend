@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import browserHistory from '../../routes/history'
-import { useAppState, useDispatch } from '../../contexts/providers'
-import TransactionItem from '../../components/TransactionItem'
+import browserHistory from '../../../routes/history'
+import { useAppState, useDispatch } from '../../../contexts/providers'
+import TransactionItem from '../../../components/TransactionItem'
 import { TransactionsPagination, DAONoResultPanel } from './styled'
-import Pagination from '../../components/Pagination'
-import { PageParams } from '../../utils/const'
-import i18n from '../../utils/i18n'
-import { ComponentActions } from '../../contexts/actions'
+import Pagination from '../../../components/Pagination'
+import { PageParams } from '../../../utils/const'
+import i18n from '../../../utils/i18n'
+import { ComponentActions } from '../../../contexts/actions'
 
 export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPage: number; pageSize: number }) => {
   const dispatch = useDispatch()
