@@ -183,7 +183,9 @@
       "address_type_mainnet_error": "Mainnet address detected，please goto",
       "address_type_testnet_url": "testnet explorer",
       "address_type_mainnet_url": "mainnet explorer",
-      "search": "Search"
+      "search": "Search",
+      "dao_filter_no_result": "Filter result not found.\nPlease enter only complete Transaction Hash or Address",
+      "udt_filter_no_result": "Filter result not found.\nPlease enter only complete Address"
     },
     "address": {
       "address": "Address",

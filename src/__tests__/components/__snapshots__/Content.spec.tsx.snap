@@ -2,7 +2,7 @@
 
 exports[`Content Component shallow renders 1`] = `
 <div
-  className="sc-fzqNJr bFijAK"
+  className="sc-fzqNJr dLfJWR"
 >
   <div
     className="content__child"

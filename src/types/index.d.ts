@@ -428,6 +428,7 @@ declare namespace State {
     transactions: Transaction[]
     total: number
     status: FetchStatus
+    filterStatus: FetchStatus
   }
 
   export interface AddressState {
@@ -584,6 +585,7 @@ declare namespace State {
 
   export interface Components {
     searchBarEditable: boolean
+    filterNoResult: boolean
     mobileMenuVisible: boolean
     headerSearchBarVisible: boolean
   }

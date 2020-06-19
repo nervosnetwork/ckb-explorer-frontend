@@ -103,13 +103,15 @@ export enum PageActions {
   UpdateUDTTransactions = 'updateUDTTransactions',
   UpdateUDTTransactionsTotal = 'updateUDTTransactionsTotal',
   UpdateUDTStatus = 'updateUDTStatus',
+  UpdateUDTFilterStatus = 'updateUDTFilterStatus',
 
   UpdateTokens = 'updateTokens',
-  UpdateTokensStatus = 'updateTokensStatus'
+  UpdateTokensStatus = 'updateTokensStatus',
 }
 
 export enum ComponentActions {
   UpdateHeaderSearchEditable = 'updateHeaderSearchEditable',
+  UpdateFilterNoResult = 'updateFilterNoResult',
   UpdateHeaderMobileMenuVisible = 'updateHeaderMobileMenuVisible',
   UpdateHeaderSearchBarVisible = 'updateHeaderSearchBarVisible',
 }

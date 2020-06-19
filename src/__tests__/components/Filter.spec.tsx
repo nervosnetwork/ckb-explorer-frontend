@@ -1,18 +1,15 @@
 import React, { ReactElement } from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
-import Header from '../../components/Header'
-import { BrowserRouter } from 'react-router-dom'
+import 'jest-styled-components'
+import Filter from '../../components/Search/Filter'
+import { FilterPanel } from '../../components/Search/Filter/styled'
 
-describe('Header Component', () => {
+describe('Filter Component', () => {
   let component: ReactElement
 
   beforeAll(() => {
-    component = (
-      <BrowserRouter>
-        <Header />
-      </BrowserRouter>
-    )
+    component = <Filter />
   })
 
   it('shallow renders', () => {
@@ -23,6 +20,6 @@ describe('Header Component', () => {
   it('Component Render', () => {
     const wrapper = shallow(component)
     expect(wrapper).toBeDefined()
-    expect(wrapper.find(Header)).toHaveLength(1)
+    expect(wrapper.find(FilterPanel)).toHaveLength(1)
   })
 })
