@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 import LogoIcon from '../../assets/ckb_logo.png'
-import MobileMenuIcon from '../../assets/menu_mobile.png'
-import MobileMenuCloseIcon from '../../assets/menu_close_mobile.png'
 import { HeaderPanel, HeaderEmptyPanel, HeaderMobileMenuPanel, HeaderLogoPanel } from './styled'
 import { isMobile, isScreen750to1440 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
@@ -27,9 +25,6 @@ const MobileMenuComp = () => {
   } = useAppState()
   return (
     <HeaderMobileMenuPanel
-      role="button"
-      tabIndex={-1}
-      onKeyDown={() => {}}
       onClick={() => {
         dispatch({
           type: ComponentActions.UpdateHeaderMobileMenuVisible,
@@ -39,7 +34,11 @@ const MobileMenuComp = () => {
         })
       }}
     >
-      <img alt="header mobile menu" src={mobileMenuVisible ? MobileMenuCloseIcon : MobileMenuIcon} />
+      <div className={mobileMenuVisible ? 'close' : ''}>
+        <div className="menu__icon__first" />
+        <div className="menu__icon__second" />
+        <div className="menu__icon__third" />
+      </div>
     </HeaderMobileMenuPanel>
   )
 }

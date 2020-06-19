@@ -8,7 +8,7 @@ import i18n from '../../utils/i18n'
 import { DaoContentPanel, DaoTabBarPanel } from './styled'
 import { getNervosDao, getNervosDaoTransactions, getNervosDaoDepositors } from '../../service/app/nervosDao'
 import DaoTransactions from './DaoTransactions'
-import DaoSearch from '../../components/Search/DaoSearch'
+import Filter from '../../components/Search/Filter'
 import DepositorRank from './DepositorRank'
 import { parsePageNumber } from '../../utils/string'
 import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
@@ -105,7 +105,7 @@ export const NervosDao = () => {
               {i18n.t('nervos_dao.dao_tab_depositors')}
             </SimpleButton>
           </div>
-          {daoTab === 'transactions' && <DaoSearch />}
+          {daoTab === 'transactions' && <Filter />}
         </DaoTabBarPanel>
 
         <NervosDAOStateComp daoTab={daoTab} currentPage={currentPage} pageSize={pageSize} />

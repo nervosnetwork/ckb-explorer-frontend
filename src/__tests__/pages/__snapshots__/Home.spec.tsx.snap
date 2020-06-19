@@ -2,7 +2,7 @@
 
 exports[`Active Page shallow renders 1`] = `
 <div
-  className="sc-fznMAR VNHDx"
+  className="sc-fznMAR dTmaAe"
 >
   <div
     className="sc-AxjAm StDqN container"
@@ -25,15 +25,16 @@ exports[`Active Page shallow renders 1`] = `
         id="home__search__bar"
       >
         <div
-          className="sc-fzoLag eNRuJM"
+          className="sc-fzoXzr lggllm"
         >
           <div
-            className="sc-fzoXzr lmzWOP"
+            className="sc-fzpjYC gjxceE"
           >
             <div
-              className="sc-fzpjYC bvkCky"
+              className="sc-fzoLag hNGuHT sc-fznxsB bZFuDJ"
               onClick={[Function]}
-              onKeyPress={[Function]}
+              onKeyDown={[Function]}
+              onMouseOver={[Function]}
               role="button"
               tabIndex={-1}
             >
@@ -43,17 +44,16 @@ exports[`Active Page shallow renders 1`] = `
               />
             </div>
             <input
-              className="sc-fznxsB knrDyn"
+              className="sc-fznJRM kSxwCF"
               defaultValue=""
-              onBlur={[Function]}
               onChange={[Function]}
-              onFocus={[Function]}
               onKeyUp={[Function]}
               placeholder="Block/Transaction/Address/Lock Hash/Type Hash"
             />
+            
           </div>
           <div
-            className="sc-fznJRM bMFvBM"
+            className="sc-fznWqX jstrxy"
             onClick={[Function]}
           >
             Search
@@ -896,7 +896,7 @@ exports[`Active Page shallow renders 1`] = `
 
 exports[`Active Page shallow renders with empty data 1`] = `
 <div
-  className="sc-fznMAR VNHDx"
+  className="sc-fznMAR dTmaAe"
 >
   <div
     className="sc-AxjAm StDqN container"
@@ -919,15 +919,16 @@ exports[`Active Page shallow renders with empty data 1`] = `
         id="home__search__bar"
       >
         <div
-          className="sc-fzoLag eNRuJM"
+          className="sc-fzoXzr lggllm"
         >
           <div
-            className="sc-fzoXzr lmzWOP"
+            className="sc-fzpjYC gjxceE"
           >
             <div
-              className="sc-fzpjYC bvkCky"
+              className="sc-fzoLag hNGuHT sc-fznxsB bZFuDJ"
               onClick={[Function]}
-              onKeyPress={[Function]}
+              onKeyDown={[Function]}
+              onMouseOver={[Function]}
               role="button"
               tabIndex={-1}
             >
@@ -937,17 +938,16 @@ exports[`Active Page shallow renders with empty data 1`] = `
               />
             </div>
             <input
-              className="sc-fznxsB knrDyn"
+              className="sc-fznJRM kSxwCF"
               defaultValue=""
-              onBlur={[Function]}
               onChange={[Function]}
-              onFocus={[Function]}
               onKeyUp={[Function]}
               placeholder="Block/Transaction/Address/Lock Hash/Type Hash"
             />
+            
           </div>
           <div
-            className="sc-fznJRM bMFvBM"
+            className="sc-fznWqX jstrxy"
             onClick={[Function]}
           >
             Search

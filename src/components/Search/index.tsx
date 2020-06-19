@@ -5,17 +5,13 @@ import { SearchImage, SearchInputPanel, SearchPanel, SearchButton, SearchContain
 import { fetchSearchResult } from '../../service/http/fetcher'
 import browserHistory from '../../routes/history'
 import SearchLogo from '../../assets/search_black.png'
-import GreenSearchLogo from '../../assets/search_green.png'
-import BlueSearchLogo from '../../assets/search_blue.png'
 import ClearLogo from '../../assets/clear.png'
 import { addPrefixForHash, containSpecialChar } from '../../utils/string'
 import i18n from '../../utils/i18n'
 import { HttpErrorCode, SearchFailType } from '../../utils/const'
 import { AppDispatch } from '../../contexts/reducer'
 import { ComponentActions } from '../../contexts/actions'
-import { isMobile } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
-import { isMainnet } from '../../utils/chain'
 
 enum SearchResultType {
   Block = 'block',
@@ -117,65 +113,7 @@ const handleSearchResult = (
   }
 }
 
-const ClearIconButton = () => {
-  const dispatch = useDispatch()
-  return (
-    <SearchImage
-      highlightIcon={false}
-      role="button"
-      tabIndex={-1}
-      onKeyPress={() => {}}
-      onClick={() => {
-        dispatch({
-          type: ComponentActions.UpdateHeaderSearchEditable,
-          payload: {
-            searchBarEditable: false,
-          },
-        })
-      }}
-    >
-      <img src={ClearLogo} alt="search logo" />
-    </SearchImage>
-  )
-}
-
-const SearchIconButton = ({
-  searchValue,
-  inputElement,
-  highlightIcon,
-}: {
-  searchValue: string
-  inputElement: any
-  highlightIcon?: boolean
-}) => {
-  const dispatch = useDispatch()
-  const {
-    components: { searchBarEditable },
-  } = useAppState()
-  const getSearchIcon = () => {
-    if (highlightIcon) {
-      return isMainnet() ? GreenSearchLogo : BlueSearchLogo
-    }
-    return SearchLogo
-  }
-  return (
-    <SearchImage
-      highlightIcon={!!highlightIcon}
-      role="button"
-      tabIndex={-1}
-      onKeyPress={() => {}}
-      onClick={() => {
-        if (highlightIcon) {
-          handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)
-        }
-      }}
-    >
-      <img src={getSearchIcon()} alt="search logo" />
-    </SearchImage>
-  )
-}
-
-const Search = ({ hasBorder, content, hasButton }: { hasBorder?: boolean; content?: string; hasButton?: boolean }) => {
+const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean }) => {
   const dispatch = useDispatch()
   const [t] = useTranslation()
   const SearchPlaceholder = useMemo(() => {
@@ -194,42 +132,52 @@ const Search = ({ hasBorder, content, hasButton }: { hasBorder?: boolean; conten
   }, [SearchPlaceholder])
 
   useEffect(() => {
-    if (searchBarEditable && inputElement.current) {
+    if (inputElement.current) {
       const input = inputElement.current as HTMLInputElement
       input.focus()
     }
-  }, [searchBarEditable])
+  }, [])
+
+  const ImageIcon = ({ isClear }: { isClear?: boolean }) => {
+    const dispatch = useDispatch()
+    return (
+      <SearchImage
+        isClear={isClear}
+        onClick={() => {
+          if (isClear) {
+            setSearchValue('')
+            clearSearchInput(inputElement)
+            dispatch({
+              type: ComponentActions.UpdateHeaderSearchEditable,
+              payload: {
+                searchBarEditable: false,
+              },
+            })
+          }
+        }}
+      >
+        <img src={isClear ? ClearLogo : SearchLogo} alt="search logo" />
+      </SearchImage>
+    )
+  }
 
   return (
     <SearchContainer>
-      <SearchPanel moreHeight={hasBorder || hasButton} hasButton={hasButton}>
-        {!hasBorder && !searchBarEditable && <SearchIconButton searchValue={searchValue} inputElement={inputElement} />}
-        {isMobile() && <div className="search__icon__separate" />}
+      <SearchPanel moreHeight={hasButton} hasButton={hasButton}>
+        <ImageIcon />
         <SearchInputPanel
           searchBarEditable={searchBarEditable}
           ref={inputElement}
           placeholder={placeholder}
           defaultValue={searchValue || ''}
-          hasBorder={hasBorder}
-          onFocus={() => {
-            if (!hasBorder) {
-              dispatch({
-                type: ComponentActions.UpdateHeaderSearchEditable,
-                payload: {
-                  searchBarEditable: true,
-                },
-              })
-            }
-          }}
-          onBlur={() => {
-            if (isMobile()) {
-              if (!hasBorder) {
-                handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)
-              }
-            }
-          }}
           onChange={(event: any) => {
             setSearchValue(event.target.value)
+            dispatch({
+              type: ComponentActions.UpdateHeaderSearchEditable,
+              payload: {
+                searchBarEditable: !!event.target.value,
+              },
+            })
           }}
           onKeyUp={(event: any) => {
             if (event.keyCode === 13) {
@@ -237,8 +185,7 @@ const Search = ({ hasBorder, content, hasButton }: { hasBorder?: boolean; conten
             }
           }}
         />
-        {!hasBorder && searchBarEditable && <ClearIconButton />}
-        {hasBorder && <SearchIconButton highlightIcon searchValue={searchValue} inputElement={inputElement} />}
+        {searchValue && <ImageIcon isClear />}
       </SearchPanel>
       {hasButton && (
         <SearchButton onClick={() => handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)}>

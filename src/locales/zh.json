@@ -182,7 +182,9 @@
       "address_type_mainnet_error": "检测到主网地址，请跳转",
       "address_type_testnet_url": "测试链浏览器查询",
       "address_type_mainnet_url": "主网浏览器查询",
-      "search": "搜索"
+      "search": "搜索",
+      "dao_filter_no_result": "搜索结果为空。\n请输入完整的交易哈希或地址",
+      "udt_filter_no_result": "搜索结果为空。\n请输入完整的地址"
     },
     "address": {
       "address": "地址",
