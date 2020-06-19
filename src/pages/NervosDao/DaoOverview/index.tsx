@@ -7,29 +7,29 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/legendScroll'
 import { Tooltip } from 'antd'
-import { useAppState } from '../../contexts/providers'
+import { useAppState } from '../../../contexts/providers'
 import {
   DaoOverviewPanel,
   DaoOverviewLeftPanel,
-  DaoOverviewRightPanel,
   DaoOverviewLeftItemPanel,
+  DaoOverviewRightPanel,
   NervosDaoPieItemPanel,
   NervosDaoPieCapacityPanel,
-  DaoOverviewPieItemsPanel,
   DaoOverviewPieChartPanel,
+  DaoOverviewPieItemsPanel,
 } from './styled'
-import DaoUpIcon from '../../assets/dao_up.png'
-import DaoDownIcon from '../../assets/dao_down.png'
-import DaoBalanceIcon from '../../assets/dao_balance.png'
-import DotIcon1 from '../../assets/dot_icon1.png'
-import DotIcon2 from '../../assets/dot_icon2.png'
-import DotIcon3 from '../../assets/dot_icon3.png'
-import i18n from '../../utils/i18n'
-import { handleBigNumber, handleBigNumberFloor } from '../../utils/string'
-import { localeNumberString } from '../../utils/number'
-import { shannonToCkbDecimal, shannonToCkb } from '../../utils/util'
-import DecimalCapacity from '../../components/DecimalCapacity'
-import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
+import DaoUpIcon from '../../../assets/dao_up.png'
+import DaoDownIcon from '../../../assets/dao_down.png'
+import DaoBalanceIcon from '../../../assets/dao_balance.png'
+import DotIcon1 from '../../../assets/dot_icon1.png'
+import DotIcon2 from '../../../assets/dot_icon2.png'
+import DotIcon3 from '../../../assets/dot_icon3.png'
+import i18n from '../../../utils/i18n'
+import { handleBigNumber, handleBigNumberFloor } from '../../../utils/string'
+import { localeNumberString } from '../../../utils/number'
+import { shannonToCkbDecimal, shannonToCkb } from '../../../utils/util'
+import DecimalCapacity from '../../../components/DecimalCapacity'
+import { isMobile, isScreenSmallerThan1200 } from '../../../utils/screen'
 
 interface NervosDaoItemContent {
   title: string
