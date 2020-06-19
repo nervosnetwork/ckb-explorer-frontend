@@ -309,49 +309,49 @@ export const DaoOverviewRightPanel = styled.div`
   @media (max-width: 750px) {
     margin: 5px 0;
   }
+`
 
-  .nervos__dao__overview_pie_chart {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+export const DaoOverviewPieChartPanel = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    @media (max-width: 1200px) {
-      align-items: flex-end;
-    }
-
-    .nervos__dao__overview_pie_title {
-      font-size: 14px;
-      color: #555555;
-
-      @media (max-width: 1200px) {
-        margin-right: 22%;
-      }
-
-      @media (max-width: 750px) {
-        font-size: 12px;
-        margin: 8px 22% 8px 0;
-      }
-    }
+  @media (max-width: 1200px) {
+    align-items: flex-end;
   }
 
-  .nervos__dao__overview_pie_panel {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex: 1;
+  .nervos__dao__overview_pie_title {
+    font-size: 14px;
+    color: #555555;
 
-    > div {
-      width: auto;
+    @media (max-width: 1200px) {
+      margin-right: 22%;
     }
 
     @media (max-width: 750px) {
-      justify-content: flex-start;
+      font-size: 12px;
+      margin: 8px 22% 8px 0;
     }
   }
 `
 
-export const DaoOverviewItemPanel = styled.div`
+export const DaoOverviewPieItemsPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+
+  > div {
+    width: auto;
+  }
+
+  @media (max-width: 750px) {
+    justify-content: flex-start;
+  }
+`
+
+export const DaoOverviewLeftItemPanel = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
