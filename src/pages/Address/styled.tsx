@@ -140,12 +140,12 @@ export const AddressLockScriptItemPanel = styled.div`
     display: flex;
     align-items: center;
     transform: translateY(2px);
+    word-wrap: break-word;
+    word-break: break-all;
     color: #000000;
 
     @media (max-width: 750px) {
       margin-left: 5px;
-      word-wrap: break-word;
-      word-break: break-all;
       transform: translateY(0px);
     }
   }
