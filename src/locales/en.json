@@ -340,6 +340,7 @@
       "name": "Name",
       "symbol": "Symbol",
       "total_amount": "Total Amount",
+      "issuer": "Issuer",
       "holder_addresses": "Holder Addresses",
       "decimal": "Decimal",
       "search_placeholder": "Address",

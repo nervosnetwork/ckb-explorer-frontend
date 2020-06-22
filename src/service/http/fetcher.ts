@@ -364,5 +364,5 @@ export const fetchSimpleUDTTransactionsWithAddress = (
 }
 
 export const fetchTokens = () => {
-  return axiosIns(`/udts`).then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.TokenInfo>[]>(res.data.data))
+  return axiosIns(`/udts`).then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.UDT>[]>(res.data.data))
 }

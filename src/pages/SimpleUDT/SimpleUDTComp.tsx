@@ -10,11 +10,15 @@ import { parseUDTAmount } from '../../utils/number'
 import { ComponentActions } from '../../contexts/actions'
 
 const simpleUDTInfo = (udt: State.UDT) => {
-  const { fullName, symbol, addressesCount, decimal, totalAmount } = udt
+  const { fullName, issuerAddress, symbol, addressesCount, decimal, totalAmount } = udt
   return [
     {
       title: i18n.t('udt.name'),
       content: fullName,
+    },
+    {
+      title: i18n.t('udt.issuer'),
+      content: issuerAddress,
     },
     {
       title: i18n.t('udt.holder_addresses'),
