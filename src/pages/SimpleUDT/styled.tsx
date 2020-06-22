@@ -160,7 +160,7 @@ export const SimpleUDTLockScriptItemPanel = styled.div`
 export const TypeScriptController = styled(SimpleButton)`
   font-size: 16px;
   font-weight: 600;
-  margin-top: 15px;
+  margin-top: 10px;
   cursor: pointer;
   color: ${props => props.theme.primary};
   display: flex;
@@ -174,7 +174,6 @@ export const TypeScriptController = styled(SimpleButton)`
 
   @media (max-width: 750px) {
     font-size: 14px;
-    margin-top: 10px;
 
     > img {
       margin: 0px 0 0 5px;
