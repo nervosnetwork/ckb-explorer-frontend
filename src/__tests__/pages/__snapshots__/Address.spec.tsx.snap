@@ -75,19 +75,19 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="sc-fznJRM ftfaLD"
       >
         <div
-          className="sc-fzqBkg fbmIml"
+          className="sc-fznWOq cErQaJ"
         >
           <div
             className="overview__separate"
           />
           <div
-            className="sc-fzqPZZ gwMzMo"
+            className="sc-fzolEj cAaoxp"
           >
             <div
               className="overview_content__left_items"
             >
               <div
-                className="sc-fzoxKX cGEWAH"
+                className="sc-fzqBkg gCsEnU"
               >
                 <div
                   className="overview_item__title__panel"
@@ -109,7 +109,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="overview_content__right_items"
             >
               <div
-                className="sc-fzoxKX cGEWAH"
+                className="sc-fzqBkg gCsEnU"
               >
                 <div
                   className="overview_item__title__panel"
@@ -129,11 +129,12 @@ exports[`Active Page shallow renders with empty data 1`] = `
             </div>
           </div>
           <div
-            className="sc-fzqARJ dXYecO"
+            className="sc-AxhUy ifPyXr sc-fzqARJ dXYecO"
             onClick={[Function]}
-            onKeyUp={[Function]}
+            onKeyDown={[Function]}
+            onMouseOver={[Function]}
             role="button"
-            tabIndex={0}
+            tabIndex={-1}
           >
             <div>
               Lock Script

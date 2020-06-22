@@ -24,7 +24,7 @@ import { isMobile } from '../../utils/screen'
 import { Link } from 'react-router-dom'
 import SmallLoading from '../../components/Loading/SmallLoading'
 
-const TokenItem = ({ token, isLast }: { token: State.TokenInfo; isLast?: boolean }) => {
+const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) => {
   const name = token.fullName ? token.fullName : i18n.t('udt.unknown_token')
   const symbol = token.symbol ? token.symbol : `#${token.typeHash.substring(token.typeHash.length - 4)}`
   const transactions = isMobile() ? (
