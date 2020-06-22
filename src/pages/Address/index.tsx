@@ -1,5 +1,5 @@
 import queryString from 'query-string'
-import React, { useEffect, useState, ReactNode } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import Loading from '../../components/Loading'
 import AddressHashCard from '../../components/Card/HashCard'
@@ -11,13 +11,7 @@ import { getAddress, getTipBlockNumber } from '../../service/app/address'
 import { PageParams, LOADING_WAITING_TIME, BLOCK_POLLING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
 import { parsePageNumber, adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
-import {
-  AddressContentPanel,
-  AddressLockScriptController,
-  AddressTitleOverviewPanel,
-  AddressLockScriptPanel,
-  AddressLockScriptItemPanel,
-} from './styled'
+import { AddressContentPanel, AddressLockScriptController, AddressTitleOverviewPanel } from './styled'
 import { AddressTransactions, AddressAssetComp } from './AddressComp'
 import browserHistory from '../../routes/history'
 import { useTimeoutWithUnmount } from '../../utils/hook'
@@ -32,8 +26,7 @@ import { isMobile } from '../../utils/screen'
 import { Tooltip } from 'antd'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { parseSimpleDateNoSecond } from '../../utils/date'
-import { matchCodeHash } from '../../utils/util'
-import HashTag from '../../components/HashTag'
+import Script from '../../components/Script'
 
 const lockScriptIcon = (show: boolean) => {
   if (show) {
@@ -58,37 +51,6 @@ const addressContent = (address: string) => {
     )
   }
   return addressHash
-}
-
-const AddressLockScriptItem = ({ title, children }: { title: string; children?: ReactNode }) => {
-  return (
-    <AddressLockScriptItemPanel>
-      <div className="address_lock_script__title">
-        <span>{title}</span>
-      </div>
-      <div className="address_lock_script__content">{children}</div>
-    </AddressLockScriptItemPanel>
-  )
-}
-
-const AddressLockScript = ({ script }: { script: State.Script }) => {
-  const contractHashTag = matchCodeHash(script.codeHash)
-  return (
-    <AddressLockScriptPanel>
-      <AddressLockScriptItem title={i18n.t('address.code_hash')}>
-        <div className="address__lock__script_code_hash">
-          <span className="monospace">{script.codeHash}</span>
-          {contractHashTag && <HashTag content={contractHashTag.tag} />}
-        </div>
-      </AddressLockScriptItem>
-      <AddressLockScriptItem title={i18n.t('address.args')}>
-        <span className="monospace">{script.args}</span>
-      </AddressLockScriptItem>
-      <AddressLockScriptItem title={i18n.t('address.hash_type')}>
-        <code>{script.hashType}</code>
-      </AddressLockScriptItem>
-    </AddressLockScriptPanel>
-  )
 }
 
 const getAddressInfo = (addressState: State.AddressState) => {
@@ -135,16 +97,11 @@ const AddressTitleOverview = () => {
   return (
     <AddressTitleOverviewPanel>
       <OverviewCard items={getAddressInfo(addressState)} hideShadow={true}>
-        <AddressLockScriptController
-          role="button"
-          tabIndex={0}
-          onKeyUp={() => {}}
-          onClick={() => setShowLock(!showLock)}
-        >
+        <AddressLockScriptController onClick={() => setShowLock(!showLock)}>
           <div>{i18n.t('address.lock_script')}</div>
           <img alt="lock script" src={lockScriptIcon(showLock)} />
         </AddressLockScriptController>
-        {showLock && lockScript && <AddressLockScript script={lockScript} />}
+        {showLock && lockScript && <Script script={lockScript} />}
       </OverviewCard>
     </AddressTitleOverviewPanel>
   )

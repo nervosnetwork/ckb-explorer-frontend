@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Script Component shallow renders 1`] = `
+<div
+  className="sc-AxjAm buuohC"
+>
+  <div
+    className="sc-AxirZ WjSFh"
+  >
+    <div
+      className="script__title"
+    >
+      <span>
+        Code Hash: 
+      </span>
+    </div>
+    <div
+      className="script__content"
+    >
+      <div
+        className="script__code_hash"
+      >
+        <span
+          className="monospace"
+        >
+          0x48dbf59b4c7ee1547238021b4869bceedf4eea6b43772e5d66ef8865b6ae7212
+        </span>
+        <div
+          className="sc-AxiKw cHdjF"
+        >
+          <span>
+            sudt
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="sc-AxirZ WjSFh"
+  >
+    <div
+      className="script__title"
+    >
+      <span>
+        Args: 
+      </span>
+    </div>
+    <div
+      className="script__content"
+    >
+      <span
+        className="monospace"
+      >
+        0x5f77c1d1a0e384d5c7d7c02788b51e0a296d4ec13cd7b66bb16f1650ebbfd74c
+      </span>
+    </div>
+  </div>
+  <div
+    className="sc-AxirZ WjSFh"
+  >
+    <div
+      className="script__title"
+    >
+      <span>
+        Hash Type: 
+      </span>
+    </div>
+    <div
+      className="script__content"
+    >
+      <code>
+        data
+      </code>
+    </div>
+  </div>
+</div>
+`;

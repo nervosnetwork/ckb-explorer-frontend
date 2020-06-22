@@ -340,6 +340,8 @@
       "name": "Name",
       "symbol": "Symbol",
       "total_amount": "Total Amount",
+      "issuer": "Issuer",
+      "type_script": "Type Script",
       "holder_addresses": "Holder Addresses",
       "decimal": "Decimal",
       "search_placeholder": "Address",

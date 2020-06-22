@@ -339,6 +339,8 @@
       "sudt": "sUDT",
       "name": "代币名称",
       "symbol": "代币符号",
+      "issuer": "发行人",
+      "type_script": "Type Script",
       "total_amount": "总量",
       "holder_addresses": "持币用户数",
       "decimal": "小数位",

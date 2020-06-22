@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, ReactNode } from 'react'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
@@ -8,13 +8,46 @@ import { SimpleUDTTransactionsPagination, SimpleUDTTransactionsPanel, UDTNoResul
 import browserHistory from '../../routes/history'
 import { parseUDTAmount } from '../../utils/number'
 import { ComponentActions } from '../../contexts/actions'
+import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
+import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
+import CopyTooltipText from '../../components/Text/CopyTooltipText'
+import { Tooltip } from 'antd'
+import { Link } from 'react-router-dom'
+
+const addressContent = (address: string) => {
+  if (!address) {
+    return i18n.t('address.unable_decode_address')
+  }
+  const addressHash = isMobile()
+    ? adaptMobileEllipsis(address, 8)
+    : adaptPCEllipsis(address, isScreenSmallerThan1200() ? 12 : 8, 50)
+
+  if (addressHash.includes('...')) {
+    return (
+      <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
+        <Link to={`/address/${address}`} className="monospace">
+          {addressHash}
+        </Link>
+      </Tooltip>
+    )
+  }
+  return (
+    <Link to={`/address/${address}`} className="monospace">
+      {addressHash}
+    </Link>
+  )
+}
 
 const simpleUDTInfo = (udt: State.UDT) => {
-  const { fullName, symbol, addressesCount, decimal, totalAmount } = udt
+  const { fullName, issuerAddress, symbol, addressesCount, decimal, totalAmount } = udt
   return [
     {
       title: i18n.t('udt.name'),
       content: fullName,
+    },
+    {
+      title: i18n.t('udt.issuer'),
+      content: addressContent(issuerAddress),
     },
     {
       title: i18n.t('udt.holder_addresses'),
@@ -35,11 +68,15 @@ const simpleUDTInfo = (udt: State.UDT) => {
   ] as OverviewItemData[]
 }
 
-export const SimpleUDTOverview = () => {
+export const SimpleUDTOverview = ({ children }: { children: ReactNode }) => {
   const {
     udtState: { udt },
   } = useAppState()
-  return <OverviewCard items={simpleUDTInfo(udt)} hideShadow />
+  return (
+    <OverviewCard items={simpleUDTInfo(udt)} hideShadow>
+      {children}
+    </OverviewCard>
+  )
 }
 
 export const SimpleUDTComp = ({
