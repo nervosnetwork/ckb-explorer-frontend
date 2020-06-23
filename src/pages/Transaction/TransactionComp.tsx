@@ -204,7 +204,7 @@ export const TransactionOverview = () => {
 }
 
 const handleCellbaseInputs = (inputs: State.Cell[], outputs: State.Cell[]) => {
-  if (inputs[0] && inputs[0].fromCellbase) {
+  if (inputs[0] && inputs[0].fromCellbase && outputs[0] && outputs[0].baseReward) {
     const resultInputs = inputs
     resultInputs[0] = {
       ...resultInputs[0],

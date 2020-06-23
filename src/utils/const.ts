@@ -24,7 +24,7 @@ Type Script:%0a%0d
 Information:%0a%0d
    Full Name: 32 length max%0a%0d
    Symbol: 8 length max / ASCII%0a%0d
-   Decimal: 0~32%0a%0d
+   Decimal: 8 (default)%0a%0d
    Description:%0a%0d
    Website:%0a%0d
    Icon File: attachment (40 x 40)%0a%0d
@@ -44,9 +44,33 @@ export const SearchFailType = {
 
 export const CachedKeys = {
   AppLanguage: `${CONFIG.CHAIN_TYPE}-AppLanguage`,
+  Version: `${CONFIG.CHAIN_TYPE}-Version`,
+
+  // charts
   APC: `${CONFIG.CHAIN_TYPE}-APC`,
   InflationRate: `${CONFIG.CHAIN_TYPE}-InflationRate`,
-  Version: `${CONFIG.CHAIN_TYPE}-Version`,
+  TransactionCount: `${CONFIG.CHAIN_TYPE}-TransactionCount`,
+  AddressCount: `${CONFIG.CHAIN_TYPE}-AddressCount`,
+  CellCount: `${CONFIG.CHAIN_TYPE}-CellCount`,
+  TransactionFee: `${CONFIG.CHAIN_TYPE}-TransactionFee`,
+  AddressBalanceRank: `${CONFIG.CHAIN_TYPE}-AddressBalanceRank`,
+  BalanceDistribution: `${CONFIG.CHAIN_TYPE}-BalanceDistribution`,
+  AverageBlockTime: `${CONFIG.CHAIN_TYPE}-AverageBlockTime`,
+  EpochTimeDistribution: `${CONFIG.CHAIN_TYPE}-EpochTimeDistribution`,
+  BlockTimeDistribution: `${CONFIG.CHAIN_TYPE}-BlockTimeDistribution`,
+  Difficulty: `${CONFIG.CHAIN_TYPE}-Difficulty`,
+  HashRate: `${CONFIG.CHAIN_TYPE}-HashRate`,
+  UncleRate: `${CONFIG.CHAIN_TYPE}-UncleRate`,
+  DifficultyHashRate: `${CONFIG.CHAIN_TYPE}-DifficultyHashRate`,
+  DifficultyUncleRate: `${CONFIG.CHAIN_TYPE}-DifficultyUncleRate`,
+  UncleHashRate: `${CONFIG.CHAIN_TYPE}-UncleHashRate`,
+  MinerAddressDistribution: `${CONFIG.CHAIN_TYPE}-MinerAddressDistribution`,
+  TotalDeposit: `${CONFIG.CHAIN_TYPE}-TotalDeposit`,
+  DailyDeposit: `${CONFIG.CHAIN_TYPE}-DailyDeposit`,
+  DepositCirculationRatio: `${CONFIG.CHAIN_TYPE}-DepositCirculationRatio`,
+  TotalSupply: `${CONFIG.CHAIN_TYPE}-TotalSupply`,
+  SecondaryIssuance: `${CONFIG.CHAIN_TYPE}-SecondaryIssuance`,
+  Liquidity: `${CONFIG.CHAIN_TYPE}-Liquidity`,
 }
 
 export enum CellState {

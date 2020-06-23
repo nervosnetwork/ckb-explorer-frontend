@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useEffect } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
@@ -6,17 +6,18 @@ import echarts from 'echarts/lib/echarts'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
-import { getStatisticAverageBlockTimes } from '../../../service/app/charts/block'
 import { localeNumberString } from '../../../utils/number'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
-import { PageActions } from '../../../contexts/actions'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
+import { getStatisticAverageBlockTimes } from '../../../service/app/charts/block'
 
-const maxAndMinAxis = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) => {
+const stepAxis = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) => {
   const array = statisticAverageBlockTimes.flatMap(data => parseFloat(data.avgBlockTimeDaily))
-  return { max: Math.ceil(Math.max(...array) / 1000), min: Math.floor(Math.min(...array) / 1000) }
+  const max = Math.ceil(Math.max(...array))
+  const min = Math.floor(Math.min(...array))
+  return Number((Math.floor((max - min) / 3) / 1000).toFixed())
 }
 
 const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]): echarts.EChartOption => {
@@ -69,8 +70,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
             width: 0.5,
           },
         },
-        max: maxAndMinAxis(statisticAverageBlockTimes).max,
-        min: maxAndMinAxis(statisticAverageBlockTimes).min,
+        interval: stepAxis(statisticAverageBlockTimes),
         axisLine: {
           lineStyle: {
             color: '#ffffff',
@@ -110,7 +110,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
 
 export default () => {
   const dispatch = useDispatch()
-  const { statisticAverageBlockTimes } = useAppState()
+  const { statisticAverageBlockTimes, statisticAverageBlockTimesFetchEnd } = useAppState()
   const screenWidth = useRef<number>(window.innerWidth)
   const widthDiff = window.innerWidth > 750 && Math.abs(screenWidth.current - window.innerWidth)
 
@@ -121,19 +121,13 @@ export default () => {
   }, [widthDiff])
 
   useEffect(() => {
-    dispatch({
-      type: PageActions.UpdateStatisticAverageBlockTime,
-      payload: {
-        statisticAverageBlockTimes: undefined,
-      },
-    })
     getStatisticAverageBlockTimes(dispatch)
   }, [dispatch])
 
-  if (!statisticAverageBlockTimes || statisticAverageBlockTimes.length === 0) {
+  if (!statisticAverageBlockTimesFetchEnd || statisticAverageBlockTimes.length === 0) {
     return (
       <ChartLoadingPanel>
-        {statisticAverageBlockTimes === undefined ? (
+        {!statisticAverageBlockTimesFetchEnd ? (
           <SmallLoading isWhite />
         ) : (
           <img className="chart__no__data" src={ChartNoDataImage} alt="chart no data" />

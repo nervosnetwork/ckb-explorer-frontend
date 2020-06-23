@@ -31,7 +31,7 @@ export default ({
 
   const mobileHash = () => {
     if (specialAddress) {
-      return adaptMobileEllipsis(hash, 4)
+      return adaptMobileEllipsis(hash, 3)
     } else if (iconUri) {
       return adaptMobileEllipsis(hash, 11)
     }
@@ -79,7 +79,9 @@ export default ({
         </div>
         {specialAddress && (
           <Tooltip title={i18n.t('address.vesting_tooltip')} placement={isMobile() ? 'bottomRight' : 'bottom'}>
-            <Link to={`/address/${specialAddress}`}>{i18n.t('address.vesting')} className="monospace"</Link>
+            <Link to={`/address/${specialAddress}`} className="hash__vesting">
+              {i18n.t('address.vesting')}
+            </Link>
           </Tooltip>
         )}
         <div id="hash__value" className="monospace">

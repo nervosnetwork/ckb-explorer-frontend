@@ -8,6 +8,7 @@ const ContentPanel = styled.div`
   overflow-x: hidden;
   flex: 1;
   margin-top: 64px;
+  background: #ededed;
 `
 export default ({ children, style }: { children: ReactNode; style?: any }) => {
   const {

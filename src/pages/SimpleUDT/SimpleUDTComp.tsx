@@ -1,23 +1,53 @@
-import React from 'react'
+import React, { useEffect, ReactNode } from 'react'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
-import { SimpleUDTTransactionsPagination, SimpleUDTTransactionsPanel, UDTTransactionTitlePanel } from './styled'
+import { SimpleUDTTransactionsPagination, SimpleUDTTransactionsPanel, UDTNoResultPanel } from './styled'
 import browserHistory from '../../routes/history'
-import UDTSearch from '../../components/Search/UDTSearch'
-import { isMobile } from '../../utils/screen'
-import SearchLogo from '../../assets/search_black.png'
+import { parseUDTAmount } from '../../utils/number'
 import { ComponentActions } from '../../contexts/actions'
-import { parseUDTAmount, localeNumberString } from '../../utils/number'
+import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
+import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
+import CopyTooltipText from '../../components/Text/CopyTooltipText'
+import { Tooltip } from 'antd'
+import { Link } from 'react-router-dom'
+
+const addressContent = (address: string) => {
+  if (!address) {
+    return i18n.t('address.unable_decode_address')
+  }
+  const addressHash = isMobile()
+    ? adaptMobileEllipsis(address, 8)
+    : adaptPCEllipsis(address, isScreenSmallerThan1200() ? 12 : 8, 50)
+
+  if (addressHash.includes('...')) {
+    return (
+      <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
+        <Link to={`/address/${address}`} className="monospace">
+          {addressHash}
+        </Link>
+      </Tooltip>
+    )
+  }
+  return (
+    <Link to={`/address/${address}`} className="monospace">
+      {addressHash}
+    </Link>
+  )
+}
 
 const simpleUDTInfo = (udt: State.UDT) => {
-  const { fullName, symbol, addressesCount, decimal, totalAmount } = udt
+  const { fullName, issuerAddress, symbol, addressesCount, decimal, totalAmount } = udt
   return [
     {
       title: i18n.t('udt.name'),
       content: fullName,
+    },
+    {
+      title: i18n.t('udt.issuer'),
+      content: addressContent(issuerAddress),
     },
     {
       title: i18n.t('udt.holder_addresses'),
@@ -38,11 +68,15 @@ const simpleUDTInfo = (udt: State.UDT) => {
   ] as OverviewItemData[]
 }
 
-export const SimpleUDTOverview = () => {
+export const SimpleUDTOverview = ({ children }: { children: ReactNode }) => {
   const {
     udtState: { udt },
   } = useAppState()
-  return <OverviewCard items={simpleUDTInfo(udt)} hideShadow />
+  return (
+    <OverviewCard items={simpleUDTInfo(udt)} hideShadow>
+      {children}
+    </OverviewCard>
+  )
 }
 
 export const SimpleUDTComp = ({
@@ -54,12 +88,10 @@ export const SimpleUDTComp = ({
   pageSize: number
   typeHash: string
 }) => {
-  const {
-    udtState: { transactions = [], total },
-  } = useAppState()
   const dispatch = useDispatch()
   const {
-    components: { searchBarEditable },
+    udtState: { transactions = [], total },
+    components: { filterNoResult },
   } = useAppState()
 
   const totalPages = Math.ceil(total / pageSize)
@@ -68,39 +100,26 @@ export const SimpleUDTComp = ({
     browserHistory.replace(`/sudt/${typeHash}?page=${page}&size=${pageSize}`)
   }
 
-  const UDTTitleSearchComp = () => {
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: ComponentActions.UpdateFilterNoResult,
+        payload: {
+          filterNoResult: false,
+        },
+      })
+    }
+  }, [dispatch])
+
+  if (filterNoResult) {
     return (
-      <UDTTransactionTitlePanel>
-        <div className="udt__transaction__container">
-          {(!isMobile() || (isMobile() && !searchBarEditable)) && (
-            <div className="udt__transaction__title">{`${i18n.t('transaction.transactions')} (${localeNumberString(
-              total,
-            )})`}</div>
-          )}
-          {isMobile() && !searchBarEditable && (
-            <img
-              className="udt__search__icon"
-              src={SearchLogo}
-              alt="search icon"
-              onClick={() => {
-                dispatch({
-                  type: ComponentActions.UpdateHeaderSearchEditable,
-                  payload: {
-                    searchBarEditable: true,
-                  },
-                })
-              }}
-            />
-          )}
-          {(!isMobile() || (isMobile() && searchBarEditable)) && <UDTSearch typeHash={typeHash} />}
-        </div>
-      </UDTTransactionTitlePanel>
+      <UDTNoResultPanel>
+        <span>{i18n.t('search.udt_filter_no_result')}</span>
+      </UDTNoResultPanel>
     )
   }
-
   return (
     <>
-      <UDTTitleSearchComp />
       <SimpleUDTTransactionsPanel>
         {transactions.map((transaction: State.Transaction, index: number) => {
           return (

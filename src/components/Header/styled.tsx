@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import SimpleButton from '../SimpleButton'
 
 export const HeaderPanel = styled.div`
   width: 100%;
@@ -43,9 +44,33 @@ export const HeaderEmptyPanel = styled.div`
   flex: 1;
 `
 
-export const HeaderMobileMenuPanel = styled.div`
+export const HeaderMobileMenuPanel = styled(SimpleButton)`
   > img {
     width: 18px;
     height: 18px;
+  }
+
+  .menu__icon__first,
+  .menu__icon__second,
+  .menu__icon__third {
+    width: 18px;
+    height: 2px;
+    background-color: white;
+    margin: 5px 0;
+    transition: 0.4s;
+  }
+
+  .close .menu__icon__first {
+    -webkit-transform: rotate(-45deg) translate(-4px, 5px);
+    transform: rotate(-45deg) translate(-4px, 5px);
+  }
+
+  .close .menu__icon__second {
+    opacity: 0;
+  }
+
+  .close .menu__icon__third {
+    -webkit-transform: rotate(45deg) translate(-4px, -6px);
+    transform: rotate(45deg) translate(-4px, -6px);
   }
 `

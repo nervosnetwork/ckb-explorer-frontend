@@ -177,12 +177,15 @@
     },
     "search": {
       "loading": "Loading...",
-      "empty_result": "Opps! Your search did not match any record. Please try different keywords~",
+      "empty_result": "Opps! Your search did not match any record. \n\nPlease make sure input contains only one of the following items:\n",
+      "empty_result_items": "Block Number/ Block Hash/ Transaction Hash/ Address/ Lock Hash/ Type Hash",
       "address_type_testnet_error": "Testnet address detected，please goto",
       "address_type_mainnet_error": "Mainnet address detected，please goto",
       "address_type_testnet_url": "testnet explorer",
       "address_type_mainnet_url": "mainnet explorer",
-      "search": "Search"
+      "search": "Search",
+      "dao_filter_no_result": "Filter result not found.\nPlease enter only complete Transaction Hash or Address",
+      "udt_filter_no_result": "Filter result not found.\nPlease enter only complete Address"
     },
     "address": {
       "address": "Address",
@@ -337,6 +340,8 @@
       "name": "Name",
       "symbol": "Symbol",
       "total_amount": "Total Amount",
+      "issuer": "Issuer",
+      "type_script": "Type Script",
       "holder_addresses": "Holder Addresses",
       "decimal": "Decimal",
       "search_placeholder": "Address",

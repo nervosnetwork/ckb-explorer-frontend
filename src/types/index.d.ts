@@ -417,10 +417,17 @@ declare namespace State {
   export interface UDT {
     symbol: string
     fullName: string
+    iconFile: string
+    published: boolean
+    description: string
     totalAmount: string
     addressesCount: string
     decimal: string
-    iconFile: string
+    h24CkbTransactionsCount: string
+    createdAt: string
+    typeHash: string
+    issuerAddress: string
+    typeScript: Script
   }
 
   export interface UDTState {
@@ -428,6 +435,7 @@ declare namespace State {
     transactions: Transaction[]
     total: number
     status: FetchStatus
+    filterStatus: FetchStatus
   }
 
   export interface AddressState {
@@ -461,22 +469,8 @@ declare namespace State {
     total: number
   }
 
-  export interface TokenInfo {
-    symbol: string
-    fullName: string
-    iconFile: string
-    published: boolean
-    description: string
-    totalAmount: string
-    addressesCount: string
-    decimal: string
-    h24CkbTransactionsCount: string
-    createdAt: string
-    typeHash: string
-  }
-
   export interface TokensState {
-    tokens: TokenInfo[]
+    tokens: UDT[]
     status: FetchStatus
   }
 
@@ -584,6 +578,7 @@ declare namespace State {
 
   export interface Components {
     searchBarEditable: boolean
+    filterNoResult: boolean
     mobileMenuVisible: boolean
     headerSearchBarVisible: boolean
   }

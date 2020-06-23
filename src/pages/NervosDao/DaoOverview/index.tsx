@@ -7,27 +7,29 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/legendScroll'
 import { Tooltip } from 'antd'
-import { useAppState } from '../../contexts/providers'
+import { useAppState } from '../../../contexts/providers'
 import {
   DaoOverviewPanel,
   DaoOverviewLeftPanel,
+  DaoOverviewLeftItemPanel,
   DaoOverviewRightPanel,
-  DaoOverviewItemPanel,
   NervosDaoPieItemPanel,
   NervosDaoPieCapacityPanel,
+  DaoOverviewPieChartPanel,
+  DaoOverviewPieItemsPanel,
 } from './styled'
-import DaoUpIcon from '../../assets/dao_up.png'
-import DaoDownIcon from '../../assets/dao_down.png'
-import DaoBalanceIcon from '../../assets/dao_balance.png'
-import DotIcon1 from '../../assets/dot_icon1.png'
-import DotIcon2 from '../../assets/dot_icon2.png'
-import DotIcon3 from '../../assets/dot_icon3.png'
-import i18n from '../../utils/i18n'
-import { handleBigNumber, handleBigNumberFloor } from '../../utils/string'
-import { localeNumberString } from '../../utils/number'
-import { shannonToCkbDecimal, shannonToCkb } from '../../utils/util'
-import DecimalCapacity from '../../components/DecimalCapacity'
-import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
+import DaoUpIcon from '../../../assets/dao_up.png'
+import DaoDownIcon from '../../../assets/dao_down.png'
+import DaoBalanceIcon from '../../../assets/dao_balance.png'
+import DotIcon1 from '../../../assets/dot_icon1.png'
+import DotIcon2 from '../../../assets/dot_icon2.png'
+import DotIcon3 from '../../../assets/dot_icon3.png'
+import i18n from '../../../utils/i18n'
+import { handleBigNumber, handleBigNumberFloor } from '../../../utils/string'
+import { localeNumberString } from '../../../utils/number'
+import { shannonToCkbDecimal, shannonToCkb } from '../../../utils/util'
+import DecimalCapacity from '../../../components/DecimalCapacity'
+import { isMobile, isScreenSmallerThan1200 } from '../../../utils/screen'
 
 interface NervosDaoItemContent {
   title: string
@@ -46,11 +48,12 @@ interface NervosDaoPieItemContent {
 
 const colors = ['#049ECD', '#69C7D4', '#74808E']
 
-const numberSymbol = (num: number) => {
-  if (shannonToCkbDecimal(num) >= 0.01) {
+const numberSymbol = (num: number, isCapacity = true) => {
+  const value = isCapacity ? shannonToCkbDecimal(num) : num
+  if (value >= 0.01) {
     return 'positive'
   }
-  if (shannonToCkbDecimal(num) < -0.01) {
+  if (value < -0.01) {
     return 'negative'
   }
   return 'zero'
@@ -67,33 +70,6 @@ const daoIcon = (symbol: 'positive' | 'negative' | 'zero' | undefined) => {
   }
 }
 
-const NervosDaoItem = ({ item, firstLine }: { item: NervosDaoItemContent; firstLine?: boolean }) => {
-  return (
-    <DaoOverviewItemPanel hasChange={!!item.change} symbol={item.changeSymbol} hasTitleTooltip={!!item.titleTooltip}>
-      <div className="dao__overview__item__container">
-        <div className="dao__overview__item_top">
-          {item.titleTooltip && (
-            <Tooltip placement="top" title={item.titleTooltip}>
-              <span className="dao__overview__item_title">{item.title}</span>
-            </Tooltip>
-          )}
-          {!item.titleTooltip && <span className="dao__overview__item_title">{item.title}</span>}
-          {item.change && (
-            <>
-              <img src={daoIcon(item.changeSymbol)} alt="nervos dao change icon" />
-              <Tooltip placement="top" title={item.tooltip}>
-                <span className="dao__overview__item_change">{item.change}</span>
-              </Tooltip>
-            </>
-          )}
-        </div>
-        <div className="dao__overview__item_content">{item.content}</div>
-        {firstLine && <span className="dao__overview__bottom__line" />}
-      </div>
-    </DaoOverviewItemPanel>
-  )
-}
-
 const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent[] => {
   return [
     {
@@ -107,7 +83,7 @@ const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent
       title: i18n.t('nervos_dao.addresses'),
       titleTooltip: i18n.t('nervos_dao.deposit_address_tooltip'),
       change: localeNumberString(nervosDao.depositorChanges),
-      changeSymbol: numberSymbol(Number(nervosDao.depositorChanges)),
+      changeSymbol: numberSymbol(Number(nervosDao.depositorChanges), false),
       content: localeNumberString(nervosDao.depositorsCount),
       tooltip: i18n.t('nervos_dao.today_update'),
     },
@@ -137,30 +113,113 @@ const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent
   ]
 }
 
+const NervosDaoLeftItem = ({ item, firstLine }: { item: NervosDaoItemContent; firstLine?: boolean }) => {
+  return (
+    <DaoOverviewLeftItemPanel
+      hasChange={!!item.change}
+      symbol={item.changeSymbol}
+      hasTitleTooltip={!!item.titleTooltip}
+    >
+      <div className="dao__overview__item__container">
+        <div className="dao__overview__item_top">
+          {item.titleTooltip && (
+            <Tooltip placement="top" title={item.titleTooltip}>
+              <span className="dao__overview__item_title">{item.title}</span>
+            </Tooltip>
+          )}
+          {!item.titleTooltip && <span className="dao__overview__item_title">{item.title}</span>}
+          {item.change && (
+            <>
+              <img src={daoIcon(item.changeSymbol)} alt="nervos dao change icon" />
+              <Tooltip placement="top" title={item.tooltip}>
+                <span className="dao__overview__item_change">{item.change}</span>
+              </Tooltip>
+            </>
+          )}
+        </div>
+        <div className="dao__overview__item_content">{item.content}</div>
+        {firstLine && <span className="dao__overview__bottom__line" />}
+      </div>
+    </DaoOverviewLeftItemPanel>
+  )
+}
+
+const NervosDaoOverviewLeftComp = () => {
+  const {
+    nervosDaoState: { nervosDao },
+  } = useAppState()
+
+  const leftItems = nervosDaoItemContents(nervosDao)
+
+  if (isMobile()) {
+    return (
+      <DaoOverviewLeftPanel>
+        <div>
+          <NervosDaoLeftItem item={leftItems[0]} />
+          <span className="dao__overview__left_column_separate" />
+          <NervosDaoLeftItem item={leftItems[1]} />
+        </div>
+        <span className="dao__overview__middle__separate" />
+        <div>
+          <NervosDaoLeftItem item={leftItems[3]} />
+          <span className="dao__overview__left_column_separate" />
+          <NervosDaoLeftItem item={leftItems[4]} />
+        </div>
+        <span className="dao__overview__middle__separate" />
+        <div>
+          <NervosDaoLeftItem item={leftItems[2]} />
+          <span className="dao__overview__left_column_separate" />
+          <NervosDaoLeftItem item={leftItems[5]} />
+        </div>
+      </DaoOverviewLeftPanel>
+    )
+  }
+  return (
+    <DaoOverviewLeftPanel>
+      <div>
+        {leftItems.slice(0, 2).map((item, index) => (
+          <NervosDaoLeftItem item={item} key={item.title} firstLine={index === 0} />
+        ))}
+      </div>
+      <span className="dao__overview__middle__separate" />
+      <div>
+        {leftItems.slice(2, 4).map((item, index) => (
+          <NervosDaoLeftItem item={item} key={item.title} firstLine={index === 0} />
+        ))}
+      </div>
+      <span className="dao__overview__middle__separate" />
+      <div>
+        {leftItems.slice(4).map((item, index) => (
+          <NervosDaoLeftItem item={item} key={item.title} firstLine={index === 0} />
+        ))}
+      </div>
+    </DaoOverviewLeftPanel>
+  )
+}
+
 const getOption = (nervosDao: State.NervosDao): echarts.EChartOption => {
+  const { miningReward, depositCompensation, treasuryAmount } = nervosDao
   const sum =
-    shannonToCkbDecimal(nervosDao.miningReward) +
-    shannonToCkbDecimal(nervosDao.depositCompensation) +
-    shannonToCkbDecimal(nervosDao.treasuryAmount)
+    shannonToCkbDecimal(miningReward) + shannonToCkbDecimal(depositCompensation) + shannonToCkbDecimal(treasuryAmount)
   const names = [
-    `${((shannonToCkbDecimal(nervosDao.miningReward) / sum) * 100).toFixed(1)}%`,
-    `${((shannonToCkbDecimal(nervosDao.depositCompensation) / sum) * 100).toFixed(1)}%`,
-    `${((shannonToCkbDecimal(nervosDao.treasuryAmount) / sum) * 100).toFixed(1)}%`,
+    `${((shannonToCkbDecimal(miningReward) / sum) * 100).toFixed(1)}%`,
+    `${((shannonToCkbDecimal(depositCompensation) / sum) * 100).toFixed(1)}%`,
+    `${((shannonToCkbDecimal(treasuryAmount) / sum) * 100).toFixed(1)}%`,
   ]
   const seriesData = [
     {
       name: names[0],
-      value: shannonToCkbDecimal(nervosDao.miningReward),
+      value: shannonToCkbDecimal(miningReward),
       title: i18n.t('nervos_dao.mining_reward'),
     },
     {
       name: names[1],
-      value: shannonToCkbDecimal(nervosDao.depositCompensation),
+      value: shannonToCkbDecimal(depositCompensation),
       title: i18n.t('nervos_dao.deposit_compensation'),
     },
     {
       name: names[2],
-      value: shannonToCkbDecimal(nervosDao.treasuryAmount),
+      value: shannonToCkbDecimal(treasuryAmount),
       title: i18n.t('nervos_dao.burnt'),
     },
   ]
@@ -196,9 +255,8 @@ const getOption = (nervosDao: State.NervosDao): echarts.EChartOption => {
           },
         },
         labelLine: {
-          normal: {
-            length: 4,
-          },
+          length: 4,
+          length2: isMobile() ? 4 : 12,
         },
         itemStyle: {
           emphasis: {
@@ -212,48 +270,34 @@ const getOption = (nervosDao: State.NervosDao): echarts.EChartOption => {
   }
 }
 
+const NervosDaoRightCapacity = ({ reward }: { reward: string }) => {
+  return (
+    <NervosDaoPieCapacityPanel>
+      <DecimalCapacity
+        value={localeNumberString(shannonToCkb(Number(reward).toFixed()))}
+        fontSize={isMobile() ? '10px' : '12px'}
+        marginBottom="2px"
+        hideUnit
+      />
+    </NervosDaoPieCapacityPanel>
+  )
+}
+
 const nervosDaoPieItemContents = (nervosDao: State.NervosDao): NervosDaoPieItemContent[] => {
   return [
     {
       title: i18n.t('nervos_dao.mining_reward'),
-      content: (
-        <NervosDaoPieCapacityPanel>
-          <DecimalCapacity
-            value={localeNumberString(shannonToCkb(Number(nervosDao.miningReward).toFixed()))}
-            fontSize={isMobile() ? '9px' : '12px'}
-            marginBottom="2px"
-            hideUnit
-          />
-        </NervosDaoPieCapacityPanel>
-      ),
+      content: <NervosDaoRightCapacity reward={nervosDao.miningReward} />,
       img: DotIcon1,
     },
     {
       title: i18n.t('nervos_dao.deposit_compensation'),
-      content: (
-        <NervosDaoPieCapacityPanel>
-          <DecimalCapacity
-            value={localeNumberString(shannonToCkb(Number(nervosDao.depositCompensation).toFixed()))}
-            fontSize={isMobile() ? '9px' : '12px'}
-            marginBottom="2px"
-            hideUnit
-          />
-        </NervosDaoPieCapacityPanel>
-      ),
+      content: <NervosDaoRightCapacity reward={nervosDao.depositCompensation} />,
       img: DotIcon2,
     },
     {
       title: i18n.t('nervos_dao.burnt'),
-      content: (
-        <NervosDaoPieCapacityPanel>
-          <DecimalCapacity
-            value={localeNumberString(shannonToCkb(Number(nervosDao.treasuryAmount).toFixed()))}
-            fontSize={isMobile() ? '9px' : '12px'}
-            marginBottom="2px"
-            hideUnit
-          />
-        </NervosDaoPieCapacityPanel>
-      ),
+      content: <NervosDaoRightCapacity reward={nervosDao.treasuryAmount} />,
       img: DotIcon3,
     },
   ]
@@ -268,30 +312,6 @@ const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => {
         <div>{item.content}</div>
       </div>
     </NervosDaoPieItemPanel>
-  )
-}
-
-const NervosDaoLeftMobile = ({ nervosDao }: { nervosDao: State.NervosDao }) => {
-  return (
-    <DaoOverviewLeftPanel>
-      <div>
-        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[0]} />
-        <span className="dao__overview__left_column_separate" />
-        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[1]} />
-      </div>
-      <span className="dao__overview__middle__separate" />
-      <div>
-        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[3]} />
-        <span className="dao__overview__left_column_separate" />
-        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[4]} />
-      </div>
-      <span className="dao__overview__middle__separate" />
-      <div>
-        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[2]} />
-        <span className="dao__overview__left_column_separate" />
-        <NervosDaoItem item={nervosDaoItemContents(nervosDao)[5]} />
-      </div>
-    </DaoOverviewLeftPanel>
   )
 }
 
@@ -311,38 +331,10 @@ export default () => {
 
   return (
     <DaoOverviewPanel>
-      {isMobile() ? (
-        <NervosDaoLeftMobile nervosDao={nervosDao} />
-      ) : (
-        <DaoOverviewLeftPanel>
-          <div>
-            {nervosDaoItemContents(nervosDao)
-              .slice(0, 2)
-              .map((item, index) => (
-                <NervosDaoItem item={item} key={item.title} firstLine={index === 0} />
-              ))}
-          </div>
-          <span className="dao__overview__middle__separate" />
-          <div>
-            {nervosDaoItemContents(nervosDao)
-              .slice(2, 4)
-              .map((item, index) => (
-                <NervosDaoItem item={item} key={item.title} firstLine={index === 0} />
-              ))}
-          </div>
-          <span className="dao__overview__middle__separate" />
-          <div>
-            {nervosDaoItemContents(nervosDao)
-              .slice(4)
-              .map((item, index) => (
-                <NervosDaoItem item={item} key={item.title} firstLine={index === 0} />
-              ))}
-          </div>
-        </DaoOverviewLeftPanel>
-      )}
+      <NervosDaoOverviewLeftComp />
       <span className="dao__overview__separate" />
       <DaoOverviewRightPanel>
-        <div className="nervos__dao__overview_pie_chart">
+        <DaoOverviewPieChartPanel>
           <span className="nervos__dao__overview_pie_title">{i18n.t('nervos_dao.secondary_issuance')}</span>
           <ReactEchartsCore
             echarts={echarts}
@@ -355,14 +347,14 @@ export default () => {
             }}
             onEvents={{ click: clickEvent }}
           />
-        </div>
-        <div className="nervos__dao__overview_pie_panel">
+        </DaoOverviewPieChartPanel>
+        <DaoOverviewPieItemsPanel>
           <div>
             {nervosDaoPieItemContents(nervosDao).map(item => (
               <NervosDaoPieItem item={item} key={item.title} />
             ))}
           </div>
-        </div>
+        </DaoOverviewPieItemsPanel>
       </DaoOverviewRightPanel>
     </DaoOverviewPanel>
   )
