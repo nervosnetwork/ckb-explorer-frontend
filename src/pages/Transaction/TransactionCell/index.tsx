@@ -14,9 +14,9 @@ import {
   TransactionCellPanel,
   TransactionCellDetailModal,
   TransactionCellCardPanel,
-  CellbasePanel,
   TransactionCellAddressPanel,
   TransactionCellInfoPanel,
+  TransactionCellCardContent,
 } from './styled'
 import TransactionCellArrow from '../TransactionCellArrow'
 import DecimalCapacity from '../../../components/DecimalCapacity'
@@ -24,11 +24,11 @@ import CopyTooltipText from '../../../components/Text/CopyTooltipText'
 import NervosDAODepositIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import UDTTokenIcon from '../../../assets/udt_token.png'
-import HelpIcon from '../../../assets/qa_help.png'
 import TransactionCellScript from '../TransactionCellScript'
 import SimpleModal from '../../../components/Modal'
 import SimpleButton from '../../../components/SimpleButton'
 import TransactionReward from '../TransactionReward'
+import Cellbase from './Cellbase'
 
 const handleAddressHashText = (hash: string) => {
   if (isMobile()) {
@@ -37,46 +37,56 @@ const handleAddressHashText = (hash: string) => {
   return adaptPCEllipsis(hash, 4, 80)
 }
 
-const AddressHash = ({ address }: { address: string }) => {
-  const addressHash = handleAddressHashText(address)
-  if (addressHash.includes('...')) {
-    return (
-      <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
-        <Link to={`/address/${address}`} className="monospace">
-          {addressHash}
-        </Link>
-      </Tooltip>
-    )
-  }
-  return (
+const AddressText = ({ address }: { address: string }) => {
+  const addressText = handleAddressHashText(address)
+  return addressText.includes('...') ? (
+    <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
+      <Link to={`/address/${address}`} className="monospace">
+        {addressText}
+      </Link>
+    </Tooltip>
+  ) : (
     <Link to={`/address/${address}`} className="monospace">
-      {addressHash}
+      {addressText}
     </Link>
   )
 }
 
-const TransactionCellHash = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
+const TransactionCellIndexAddress = ({
+  cell,
+  cellType,
+  index,
+}: {
+  cell: State.Cell
+  cellType: CellType
+  index: number
+}) => {
   return (
-    <TransactionCellHashPanel highLight={cell.addressHash !== null}>
-      {!cell.fromCellbase && cellType === CellType.Input && (
-        <span>
-          <TransactionCellArrow cell={cell} cellType={cellType} />
-        </span>
-      )}
+    <TransactionCellAddressPanel>
+      <div className="transaction__cell_index">
+        {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
+      </div>
+      <TransactionCellHashPanel highLight={cell.addressHash !== null}>
+        {!cell.fromCellbase && cellType === CellType.Input && (
+          <span>
+            <TransactionCellArrow cell={cell} cellType={cellType} />
+          </span>
+        )}
 
-      {cell.addressHash ? (
-        <AddressHash address={cell.addressHash} />
-      ) : (
-        <span className="transaction__cell_address_no_link">
-          {cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}
-        </span>
-      )}
-      {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
-    </TransactionCellHashPanel>
+        {cell.addressHash ? (
+          <AddressText address={cell.addressHash} />
+        ) : (
+          <span className="transaction__cell_address_no_link">
+            {cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}
+          </span>
+        )}
+        {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
+      </TransactionCellHashPanel>
+    </TransactionCellAddressPanel>
   )
 }
 
-const detailTitleIcons = (cell: State.Cell) => {
+const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
   let detailTitle = i18n.t('transaction.ckb_capacity')
   let detailIcon = undefined
   if (cell.cellType === DaoType.Deposit) {
@@ -89,40 +99,6 @@ const detailTitleIcons = (cell: State.Cell) => {
     detailTitle = i18n.t('transaction.udt_cell')
     detailIcon = UDTTokenIcon
   }
-  return {
-    detailTitle,
-    detailIcon,
-  }
-}
-
-const udtAmount = (udt: State.UDTInfo) => {
-  return udt.published
-    ? `${parseUDTAmount(udt.amount, udt.decimal)} ${udt.symbol}`
-    : `${i18n.t('udt.unknown_token')} #${udt.typeHash.substring(udt.typeHash.length - 4)}`
-}
-
-const Cellbase = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
-  if (!cell.targetBlockNumber || cell.targetBlockNumber <= 0) {
-    return (
-      <CellbasePanel>
-        <div className="cellbase__content">Cellbase</div>
-      </CellbasePanel>
-    )
-  }
-  return (
-    <CellbasePanel>
-      {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
-      <div className="cellbase__content">Cellbase for Block</div>
-      <Link to={`/block/${cell.targetBlockNumber}`}>{localeNumberString(cell.targetBlockNumber)}</Link>
-      <Tooltip placement="top" title={i18n.t('transaction.cellbase_help_tooltip')}>
-        <img className="cellbase__help__icon" alt="cellbase help" src={HelpIcon} />
-      </Tooltip>
-    </CellbasePanel>
-  )
-}
-
-const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
-  const { detailTitle, detailIcon } = detailTitleIcons(cell)
   return (
     <TransactionCellDetailPanel isWithdraw={cell.cellType === DaoType.Withdraw}>
       <div className="transaction__cell__detail__panel">
@@ -159,6 +135,28 @@ const TransactionCellInfo = ({ cell, children }: { cell: State.Cell; children: s
   )
 }
 
+const TransactionCellCapacityAmount = ({ cell }: { cell: State.Cell }) => {
+  const { udtInfo } = cell
+  return udtInfo && udtInfo.typeHash ? (
+    <span>
+      {udtInfo.published
+        ? `${parseUDTAmount(udtInfo.amount, udtInfo.decimal)} ${udtInfo.symbol}`
+        : `${i18n.t('udt.unknown_token')} #${udtInfo.typeHash.substring(udtInfo.typeHash.length - 4)}`}
+    </span>
+  ) : (
+    <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
+  )
+}
+
+const TransactionCellMobileItem = ({ title, value = null }: { title: string | ReactNode; value?: ReactNode }) => {
+  return (
+    <TransactionCellCardContent>
+      <div className="transaction__cell__card__title">{title}</div>
+      <div className="transaction__cell__card__value">{value}</div>
+    </TransactionCellCardContent>
+  )
+}
+
 export default ({
   cell,
   cellType,
@@ -172,53 +170,35 @@ export default ({
   txHash?: string
   showReward?: boolean
 }) => {
-  const TransactionCellAddress = () => {
-    return (
-      <TransactionCellAddressPanel>
-        <div className="transaction__cell_index">
-          {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
-        </div>
-        <TransactionCellHash cell={cell} cellType={cellType} />
-      </TransactionCellAddressPanel>
-    )
-  }
-
   if (isMobile()) {
     return (
       <TransactionCellCardPanel>
-        <div className="transaction__cell__card__separate" />
-        <div className="transaction__cell__card__content">
-          <div className="transaction__cell__card__value">
-            {cell.fromCellbase && cellType === CellType.Input ? (
+        <span className="transaction__cell__card__separate" />
+        <TransactionCellMobileItem
+          title={
+            cell.fromCellbase && cellType === CellType.Input ? (
               <Cellbase cell={cell} cellType={cellType} />
             ) : (
-              <TransactionCellAddress />
-            )}
-          </div>
-        </div>
+              <TransactionCellIndexAddress cell={cell} cellType={cellType} index={index} />
+            )
+          }
+        />
         {cell.fromCellbase && cellType === CellType.Input ? (
           <TransactionReward showReward={showReward} cell={cell} />
         ) : (
           <>
-            <div className="transaction__cell__card__content">
-              <div className="transaction__cell__card__title">{i18n.t('transaction.detail')}</div>
-              <div className="transaction__cell__card__value">
-                <TransactionCellInfo
-                  cell={cell}
-                  children={!cell.fromCellbase && <TransactionCellDetail cell={cell} />}
-                />
-              </div>
-            </div>
-            <div className="transaction__cell__card__content">
-              <div className="transaction__cell__card__title">{i18n.t('transaction.capacity')}</div>
-              <div className="transaction__cell__card__value">
-                {cell.udtInfo && cell.udtInfo.typeHash ? (
-                  udtAmount(cell.udtInfo)
-                ) : (
-                  <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
-                )}
-              </div>
-            </div>
+            <TransactionCellMobileItem
+              title={i18n.t('transaction.detail')}
+              value={
+                <TransactionCellInfo cell={cell}>
+                  {!cell.fromCellbase && <TransactionCellDetail cell={cell} />}
+                </TransactionCellInfo>
+              }
+            />
+            <TransactionCellMobileItem
+              title={i18n.t('transaction.capacity')}
+              value={<TransactionCellCapacityAmount cell={cell} />}
+            />
           </>
         )}
       </TransactionCellCardPanel>
@@ -228,11 +208,11 @@ export default ({
   return (
     <TransactionCellPanel id={cellType === CellType.Output ? `output_${index}_${txHash}` : ''}>
       <TransactionCellContentPanel isCellbase={cell.fromCellbase}>
-        <div className="transaction__cell_hash">
+        <div className="transaction__cell__address">
           {cell.fromCellbase && cellType === CellType.Input ? (
             <Cellbase cell={cell} cellType={cellType} />
           ) : (
-            <TransactionCellAddress />
+            <TransactionCellIndexAddress cell={cell} cellType={cellType} index={index} />
           )}
         </div>
 
@@ -245,11 +225,7 @@ export default ({
         </div>
 
         <div className="transaction__cell_capacity">
-          {cell.udtInfo && cell.udtInfo.typeHash ? (
-            udtAmount(cell.udtInfo)
-          ) : (
-            <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
-          )}
+          <TransactionCellCapacityAmount cell={cell} />
         </div>
 
         <div className="transaction__detail__cell_info">
