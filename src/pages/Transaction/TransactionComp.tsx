@@ -8,9 +8,10 @@ import { localeNumberString } from '../../utils/number'
 import { formatConfirmation, shannonToCkb, matchTxHash } from '../../utils/util'
 import {
   TransactionBlockHeightPanel,
-  TransactionInfoItemPanel,
   TransactionInfoContentPanel,
   TransactionOverviewPanel,
+  TransactionInfoContentItem,
+  TransactionInfoItemPanel,
 } from './styled'
 import TransactionCellList from './TransactionCellList'
 import DecimalCapacity from '../../components/DecimalCapacity'
@@ -38,7 +39,7 @@ const transactionParamsIcon = (show: boolean) => {
   return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
 }
 
-const TransactionInfoComp = ({
+const TransactionInfoItem = ({
   title,
   value,
   linkUrl,
@@ -50,7 +51,7 @@ const TransactionInfoComp = ({
   tag?: ReactNode
 }) => {
   return (
-    <div className="transaction__info__content_item">
+    <TransactionInfoContentItem>
       <div className="transaction__info__content_title">{title ? `${title}: ` : ''}</div>
       <div className="transaction__info__content_value monospace">
         {linkUrl ? (
@@ -62,7 +63,23 @@ const TransactionInfoComp = ({
         )}
         {tag && <div className="transaction__info__content__tag">{tag}</div>}
       </div>
-    </div>
+    </TransactionInfoContentItem>
+  )
+}
+
+const TransactionInfoItemWrapper = ({
+  title,
+  value,
+  linkUrl,
+}: {
+  title?: string
+  value: string | ReactNode
+  linkUrl?: string
+}) => {
+  return (
+    <TransactionInfoContentPanel>
+      <TransactionInfoItem title={title} value={value} linkUrl={linkUrl} />
+    </TransactionInfoContentPanel>
   )
 }
 
@@ -80,7 +97,7 @@ export const TransactionOverview = () => {
     confirmation = tipBlockNumber - blockNumber
   }
 
-  const overviewItems: OverviewItemData[] = [
+  const OverviewItems: OverviewItemData[] = [
     {
       title: i18n.t('block.block_height'),
       content: <TransactionBlockHeight blockNumber={blockNumber} />,
@@ -95,7 +112,7 @@ export const TransactionOverview = () => {
     },
   ]
   if (confirmation > 0) {
-    overviewItems.push({
+    OverviewItems.push({
       title: i18n.t('transaction.status'),
       content: formatConfirmation(confirmation),
     })
@@ -114,7 +131,7 @@ export const TransactionOverview = () => {
             const hashTag = matchTxHash(txHash, index)
             return (
               <TransactionInfoContentPanel key={`${txHash}${index}`}>
-                <TransactionInfoComp
+                <TransactionInfoItem
                   title={i18n.t('transaction.out_point_tx_hash')}
                   value={txHash}
                   linkUrl={`/transaction/${txHash}`}
@@ -124,17 +141,15 @@ export const TransactionOverview = () => {
                   }
                 />
                 {isScreenSmallerThan1440() && hashTag && (
-                  <TransactionInfoComp value={<HashTag content={hashTag.tag} category={hashTag.category} />} />
+                  <TransactionInfoItem value={<HashTag content={hashTag.tag} category={hashTag.category} />} />
                 )}
-                <TransactionInfoComp title={i18n.t('transaction.out_point_index')} value={index} />
-                <TransactionInfoComp title={i18n.t('transaction.dep_type')} value={depType} />
+                <TransactionInfoItem title={i18n.t('transaction.out_point_index')} value={index} />
+                <TransactionInfoItem title={i18n.t('transaction.dep_type')} value={depType} />
               </TransactionInfoContentPanel>
             )
           })
         ) : (
-          <TransactionInfoContentPanel>
-            <TransactionInfoComp title="CellDep" value="[ ]" />
-          </TransactionInfoContentPanel>
+          <TransactionInfoItemWrapper title="CellDep" value="[ ]" />
         ),
     },
     {
@@ -143,19 +158,16 @@ export const TransactionOverview = () => {
         headerDeps && headerDeps.length > 0 ? (
           headerDeps.map(headerDep => {
             return (
-              <TransactionInfoContentPanel key={headerDep}>
-                <TransactionInfoComp
-                  title={i18n.t('transaction.header_dep')}
-                  value={headerDep}
-                  linkUrl={`/block/${headerDep}`}
-                />
-              </TransactionInfoContentPanel>
+              <TransactionInfoItemWrapper
+                key={headerDep}
+                title={i18n.t('transaction.header_dep')}
+                value={headerDep}
+                linkUrl={`/block/${headerDep}`}
+              />
             )
           })
         ) : (
-          <TransactionInfoContentPanel>
-            <TransactionInfoComp title={i18n.t('transaction.header_dep')} value="[ ]" />
-          </TransactionInfoContentPanel>
+          <TransactionInfoItemWrapper title={i18n.t('transaction.header_dep')} value="[ ]" />
         ),
     },
     {
@@ -163,23 +175,17 @@ export const TransactionOverview = () => {
       content:
         witnesses && witnesses.length > 0 ? (
           witnesses.map((witness, index) => {
-            return (
-              <TransactionInfoContentPanel key={`${witness}-${index}`}>
-                <TransactionInfoComp title="Witness" value={witness} />
-              </TransactionInfoContentPanel>
-            )
+            return <TransactionInfoItemWrapper key={`${witness}-${index}`} title="Witness" value={witness} />
           })
         ) : (
-          <TransactionInfoContentPanel>
-            <TransactionInfoComp title="Witness" value="[ ]" />
-          </TransactionInfoContentPanel>
+          <TransactionInfoItemWrapper title="Witness" value="[ ]" />
         ),
     },
   ]
 
   return (
     <TransactionOverviewPanel>
-      <OverviewCard items={overviewItems} hideShadow={true}>
+      <OverviewCard items={OverviewItems} hideShadow={true}>
         <div className="transaction__overview_info">
           <SimpleButton className="transaction__overview_parameters" onClick={() => setShowParams(!showParams)}>
             <div>{i18n.t('transaction.transaction_parameters')}</div>
@@ -227,16 +233,11 @@ export default () => {
 
   const inputs = handleCellbaseInputs(displayInputs, displayOutputs)
 
+  /// [0, 11] block doesn't show block reward and only cellbase show block reward
   return (
     <>
       <div className="transaction__inputs">
-        {inputs && (
-          <TransactionCellList
-            inputs={inputs}
-            // [0, 11] block doesn't show block reward and only cellbase show block reward
-            showReward={blockNumber > 0 && isCellbase}
-          />
-        )}
+        {inputs && <TransactionCellList inputs={inputs} showReward={blockNumber > 0 && isCellbase} />}
       </div>
       <div className="transaction__outputs">
         {displayOutputs && <TransactionCellList outputs={displayOutputs} txHash={transactionHash} />}
