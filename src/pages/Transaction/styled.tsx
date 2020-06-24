@@ -99,21 +99,21 @@ export const TransactionInfoItemPanel = styled.div`
 
 export const TransactionInfoContentPanel = styled.div`
   margin: 15px 0;
+`
 
-  .transaction__info__content_item {
-    display: flex;
-    margin: 5px 0;
+export const TransactionInfoContentItem = styled.div`
+  display: flex;
+  margin: 5px 0;
 
-    a {
-      color: ${props => props.theme.primary};
-      width: 100%;
-      word-wrap: break-word;
-      word-break: break-all;
-    }
+  a {
+    color: ${props => props.theme.primary};
+    width: 100%;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
 
-    a:hover {
-      color: ${props => props.theme.primary};
-    }
+  a:hover {
+    color: ${props => props.theme.primary};
   }
 
   .transaction__info__content_title {

@@ -30,15 +30,8 @@ import SimpleButton from '../../../components/SimpleButton'
 import TransactionReward from '../TransactionReward'
 import Cellbase from './Cellbase'
 
-const handleAddressHashText = (hash: string) => {
-  if (isMobile()) {
-    return adaptMobileEllipsis(hash, 5)
-  }
-  return adaptPCEllipsis(hash, 4, 80)
-}
-
 const AddressText = ({ address }: { address: string }) => {
-  const addressText = handleAddressHashText(address)
+  const addressText = isMobile() ? adaptMobileEllipsis(address, 5) : adaptPCEllipsis(address, 4, 80)
   return addressText.includes('...') ? (
     <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
       <Link to={`/address/${address}`} className="monospace">
@@ -72,7 +65,6 @@ const TransactionCellIndexAddress = ({
             <TransactionCellArrow cell={cell} cellType={cellType} />
           </span>
         )}
-
         {cell.addressHash ? (
           <AddressText address={cell.addressHash} />
         ) : (
