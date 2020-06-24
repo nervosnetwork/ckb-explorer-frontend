@@ -150,7 +150,7 @@ const TransactionCellInfo = ({ cell, children }: { cell: State.Cell; children: s
         children={children}
       />
       <div className="transaction__cell__info__separate" />
-      <SimpleModal isShow={showModal}>
+      <SimpleModal isShow={showModal} setIsShow={setShowModal}>
         <TransactionCellDetailModal>
           <TransactionCellScript cell={cell} onClose={() => setShowModal(false)} />
         </TransactionCellDetailModal>
