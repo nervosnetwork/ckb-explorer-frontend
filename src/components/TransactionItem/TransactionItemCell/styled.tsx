@@ -42,7 +42,7 @@ export const TransactionCellPanel = styled.div`
   }
 `
 
-export const TransactionCellCapacity = styled.div`
+export const TransactionCellCapacityPanel = styled.div`
   color: #000000;
   margin-left: 15px;
   display: flex;
@@ -61,72 +61,40 @@ export const TransactionCellCapacity = styled.div`
     margin-left: 5px;
   }
 
-  .nervos__dao__withdraw_icon {
-    margin-left: 5px;
-    width: 16px;
-    height: auto;
-    cursor: pointer;
-    @media (max-width: 750px) {
-      width: 12px;
-      height: auto;
-    }
-  }
-
-  .transaction__cell_withdraw {
-    display: flex;
-    align-items: center;
-    margin-top: 2px;
-  }
-
   .transaction__cell__without__icon {
     margin-right: 21px;
   }
 `
 
-export const CellbasePanel = styled.div`
+export const TransactionCellWithdraw = styled.div`
   display: flex;
   align-items: center;
-  height: 20px;
-  position: relative;
-  width: 100%;
-  margin-top: 20px;
+  margin-top: 2px;
 
-  @media (max-width: 750px) {
-    margin-top: 10px;
-    height: 16px;
-  }
-
-  .cellbase__content {
-    color: #000000;
-    margin-right: 10px;
-  }
-
-  a {
-    font-weight: 500;
-    color: ${props => props.theme.primary};
-  }
-
-  a:hover {
-    color: ${props => props.theme.primary};
-  }
-
-  .cellbase__help {
-    margin-left: 10px;
-    transform: translateY(2px);
-
-    &:focus {
-      outline: 0;
-    }
-  }
-
-  .cellbase__help__icon {
-    width: 18px;
-    height: 18px;
+  .nervos__dao__withdraw_icon {
     margin-left: 5px;
+    width: 16px;
+    height: auto;
+    cursor: pointer;
 
     @media (max-width: 750px) {
-      width: 16px;
-      height: 16px;
+      width: 12px;
+      height: auto;
+    }
+  }
+`
+
+export const TransactionCellUDTPanel = styled.div`
+  .transaction__cell__udt__icon {
+    margin-left: 5px;
+    width: 16px;
+    height: auto;
+    cursor: pointer;
+
+    @media (max-width: 750px) {
+      width: 12px;
+      height: auto;
+      margin-bottom: 3px;
     }
   }
 `
@@ -144,76 +112,76 @@ export const WithdrawInfoPanel = styled.div`
       margin-bottom: 8px;
     }
   }
+`
 
-  > div {
-    margin: 10px;
-    display: flex;
+export const WithdrawItemPanel = styled.div`
+  margin: 10px;
+  display: flex;
+
+  @media (max-width: 750px) {
+    margin: 5px;
+  }
+
+  .withdraw__info_title {
+    font-size: 14px;
+    font-weight: 450;
+    width: ${({ width }: { width: string }) => {
+      switch (width) {
+        case 'long':
+          return '180px'
+        case 'medium':
+          return '150px'
+        default:
+          return '85px'
+      }
+    }};
 
     @media (max-width: 750px) {
-      margin: 5px;
-    }
-
-    .withdraw__info_title {
-      font-size: 14px;
-      font-weight: 450;
+      font-size: 10px;
       width: ${({ width }: { width: string }) => {
         switch (width) {
           case 'long':
-            return '180px'
+            return '130px'
           case 'medium':
-            return '150px'
+            return '105px'
           default:
-            return '85px'
+            return '60px'
         }
       }};
-
-      @media (max-width: 750px) {
-        font-size: 10px;
-        width: ${({ width }: { width: string }) => {
-          switch (width) {
-            case 'long':
-              return '130px'
-            case 'medium':
-              return '105px'
-            default:
-              return '60px'
-          }
-        }};
-      }
-
-      @media (max-width: 375px) {
-        font-size: 9px;
-        width: ${({ width }: { width: string }) => {
-          switch (width) {
-            case 'long':
-              return '145px'
-            case 'medium':
-              return '115px'
-            default:
-              return '65px'
-          }
-        }};
-      }
     }
 
-    .withdraw__info_content {
-      font-size: 14px;
+    @media (max-width: 375px) {
+      font-size: 9px;
+      width: ${({ width }: { width: string }) => {
+        switch (width) {
+          case 'long':
+            return '145px'
+          case 'medium':
+            return '115px'
+          default:
+            return '65px'
+        }
+      }};
+    }
+  }
 
-      @media (max-width: 750px) {
-        font-size: 10px;
-      }
+  .withdraw__info_content {
+    font-size: 14px;
 
-      @media (max-width: 375px) {
-        font-size: 9px;
-      }
+    @media (max-width: 750px) {
+      font-size: 10px;
     }
 
-    a {
-      color: ${({ theme }: { theme: any }) => theme.primary};
+    @media (max-width: 375px) {
+      font-size: 9px;
     }
+  }
 
-    a:hover {
-      color: ${({ theme }: { theme: any }) => `${theme.primary}`};
-    }
+  a {
+    color: ${({ theme }: { theme: any }) => theme.primary};
+  }
+
+  a:hover {
+    color: ${({ theme }: { theme: any }) => `${theme.primary}`};
   }
 `

@@ -18,7 +18,7 @@ import {
   TransactionCellInfoPanel,
   TransactionCellCardContent,
 } from './styled'
-import TransactionCellArrow from '../TransactionCellArrow'
+import TransactionCellArrow from '../../../components/Transaction/TransactionCellArrow'
 import DecimalCapacity from '../../../components/DecimalCapacity'
 import CopyTooltipText from '../../../components/Text/CopyTooltipText'
 import NervosDAODepositIcon from '../../../assets/nervos_dao_cell.png'
@@ -28,7 +28,7 @@ import TransactionCellScript from '../TransactionCellScript'
 import SimpleModal from '../../../components/Modal'
 import SimpleButton from '../../../components/SimpleButton'
 import TransactionReward from '../TransactionReward'
-import Cellbase from './Cellbase'
+import Cellbase from '../../../components/Transaction/Cellbase'
 
 const AddressText = ({ address }: { address: string }) => {
   const addressText = isMobile() ? adaptMobileEllipsis(address, 5) : adaptPCEllipsis(address, 4, 80)
@@ -169,7 +169,7 @@ export default ({
         <TransactionCellMobileItem
           title={
             cell.fromCellbase && cellType === CellType.Input ? (
-              <Cellbase cell={cell} cellType={cellType} />
+              <Cellbase cell={cell} cellType={cellType} isDetail />
             ) : (
               <TransactionCellIndexAddress cell={cell} cellType={cellType} index={index} />
             )
@@ -202,7 +202,7 @@ export default ({
       <TransactionCellContentPanel isCellbase={cell.fromCellbase}>
         <div className="transaction__cell__address">
           {cell.fromCellbase && cellType === CellType.Input ? (
-            <Cellbase cell={cell} cellType={cellType} />
+            <Cellbase cell={cell} cellType={cellType} isDetail />
           ) : (
             <TransactionCellIndexAddress cell={cell} cellType={cellType} index={index} />
           )}
