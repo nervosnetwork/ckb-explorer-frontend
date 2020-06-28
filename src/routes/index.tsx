@@ -41,7 +41,9 @@ const TotalDaoDepositChart = lazy(() => import('../pages/StatisticsChart/nervosD
 const NewDaoDepositChart = lazy(() => import('../pages/StatisticsChart/nervosDao/NewDaoDeposit'))
 const CirculationRatioChart = lazy(() => import('../pages/StatisticsChart/nervosDao/CirculationRatio'))
 const TotalSupplyChart = lazy(() => import('../pages/StatisticsChart/monetary/TotalSupply'))
-const AnnualPercentageCompensationChart = lazy(() => import('../pages/StatisticsChart/monetary/AnnualPercentageCompensation'))
+const AnnualPercentageCompensationChart = lazy(() =>
+  import('../pages/StatisticsChart/monetary/AnnualPercentageCompensation'),
+)
 const SecondaryIssuanceChart = lazy(() => import('../pages/StatisticsChart/monetary/SecondaryIssuance'))
 const InflationRateChart = lazy(() => import('../pages/StatisticsChart/monetary/InflationRate'))
 const LiquidityChart = lazy(() => import('../pages/StatisticsChart/monetary/Liquidity'))
@@ -323,7 +325,13 @@ export default () => {
               <Suspense fallback={<span />}>
                 <Switch location={props.location}>
                   {Containers.map(container => {
-                    return <Route {...container} key={container.name} render={routeProps => <container.comp {...routeProps} />} />
+                    return (
+                      <Route
+                        {...container}
+                        key={container.name}
+                        render={routeProps => <container.comp {...routeProps} />}
+                      />
+                    )
                   })}
                   <Redirect from="*" to="/404" />
                 </Switch>
