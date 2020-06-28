@@ -20,7 +20,6 @@ const SimpleUDT = lazy(() => import('../pages/SimpleUDT'))
 const NervosDao = lazy(() => import('../pages/NervosDao'))
 const NotFoundPage = lazy(() => import('../pages/404'))
 const SearchFail = lazy(() => import('../pages/SearchFail'))
-const Maintain = lazy(() => import('../pages/Maintain'))
 const StatisticsChart = lazy(() => import('../pages/StatisticsChart'))
 const Tokens = lazy(() => import('../pages/Tokens'))
 const DifficultyHashRateChart = lazy(() => import('../pages/StatisticsChart/mining/DifficultyHashRate'))
@@ -42,9 +41,7 @@ const TotalDaoDepositChart = lazy(() => import('../pages/StatisticsChart/nervosD
 const NewDaoDepositChart = lazy(() => import('../pages/StatisticsChart/nervosDao/NewDaoDeposit'))
 const CirculationRatioChart = lazy(() => import('../pages/StatisticsChart/nervosDao/CirculationRatio'))
 const TotalSupplyChart = lazy(() => import('../pages/StatisticsChart/monetary/TotalSupply'))
-const AnnualPercentageCompensationChart = lazy(() =>
-  import('../pages/StatisticsChart/monetary/AnnualPercentageCompensation'),
-)
+const AnnualPercentageCompensationChart = lazy(() => import('../pages/StatisticsChart/monetary/AnnualPercentageCompensation'))
 const SecondaryIssuanceChart = lazy(() => import('../pages/StatisticsChart/monetary/SecondaryIssuance'))
 const InflationRateChart = lazy(() => import('../pages/StatisticsChart/monetary/InflationRate'))
 const LiquidityChart = lazy(() => import('../pages/StatisticsChart/monetary/Liquidity'))
@@ -255,12 +252,6 @@ const Containers: CustomRouter.Route[] = [
     comp: SearchFail,
   },
   {
-    name: 'Maintain',
-    path: '/maintain',
-    exact: true,
-    comp: Maintain,
-  },
-  {
     name: '404',
     path: '/404',
     exact: true,
@@ -332,13 +323,7 @@ export default () => {
               <Suspense fallback={<span />}>
                 <Switch location={props.location}>
                   {Containers.map(container => {
-                    return (
-                      <Route
-                        {...container}
-                        key={container.name}
-                        render={routeProps => <container.comp {...routeProps} />}
-                      />
-                    )
+                    return <Route {...container} key={container.name} render={routeProps => <container.comp {...routeProps} />} />
                   })}
                   <Redirect from="*" to="/404" />
                 </Switch>

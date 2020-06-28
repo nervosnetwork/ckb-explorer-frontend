@@ -54,7 +54,7 @@ export default () => {
     dispatch({
       type: ComponentActions.UpdateHeaderSearchBarVisible,
       payload: {
-        headerSearchBarVisible: pathname !== '/' && pathname !== '/search/fail' && pathname !== '/maintain',
+        headerSearchBarVisible: pathname !== '/' && pathname !== '/search/fail',
       },
     })
   }, [dispatch, pathname])

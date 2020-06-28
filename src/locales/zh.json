@@ -322,9 +322,6 @@
       "today_update": "今日变动(UTC+8:00)",
       "deposit_address_tooltip": "Nervos DAO 锁定余额不为零的地址"
     },
-    "error": {
-      "maintain": "网络维护中，请稍后再试"
-    },
     "pagination": {
       "first": "首页",
       "last": "尾页",
