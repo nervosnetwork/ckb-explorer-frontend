@@ -6,6 +6,7 @@ export const CellbasePanel = styled.div`
   height: 20px;
   position: relative;
   width: 100%;
+  margin-top: ${(props: { isDetail?: boolean }) => (props.isDetail ? '0px' : '20px')};
 
   @media (max-width: 750px) {
     margin-top: 10px;
