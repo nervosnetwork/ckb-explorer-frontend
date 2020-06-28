@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Popover, Tooltip } from 'antd'
 import 'antd/dist/antd.css'
-import HelpIcon from '../../../assets/qa_help.png'
 import NervosDAOCellIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import UDTTokenIcon from '../../../assets/udt_token.png'
@@ -10,34 +9,15 @@ import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
-import { CellbasePanel, TransactionCellPanel, TransactionCellCapacity, WithdrawInfoPanel } from './styled'
+import { TransactionCellPanel, TransactionCellCapacity, WithdrawInfoPanel } from './styled'
 import { isMobile, isScreenSmallerThan1440, isScreenSmallerThan1200 } from '../../../utils/screen'
 import { CellType, DaoType } from '../../../utils/const'
-import TransactionCellArrow from '../../../pages/Transaction/TransactionCellArrow'
+import TransactionCellArrow from '../../Transaction/TransactionCellArrow'
 import DecimalCapacity from '../../DecimalCapacity'
 import CopyTooltipText from '../../Text/CopyTooltipText'
 import { useAppState } from '../../../contexts/providers'
 import { parseDiffDate } from '../../../utils/date'
-
-const Cellbase = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
-  if (!cell.targetBlockNumber || cell.targetBlockNumber <= 0) {
-    return (
-      <CellbasePanel>
-        <div className="cellbase__content">Cellbase</div>
-      </CellbasePanel>
-    )
-  }
-  return (
-    <CellbasePanel>
-      {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
-      <div className="cellbase__content">Cellbase for Block</div>
-      <Link to={`/block/${cell.targetBlockNumber}`}>{localeNumberString(cell.targetBlockNumber)}</Link>
-      <Tooltip placement="top" title={i18n.t('transaction.cellbase_help_tooltip')}>
-        <img className="cellbase__help__icon" alt="cellbase help" src={HelpIcon} />
-      </Tooltip>
-    </CellbasePanel>
-  )
-}
+import Cellbase from '../../Transaction/Cellbase'
 
 const handleAddressText = (address: string) => {
   if (isMobile()) {

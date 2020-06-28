@@ -1,14 +1,14 @@
 import React from 'react'
 import { CellbasePanel } from './styled'
-import { CellType } from '../../../../utils/const'
-import TransactionCellArrow from '../../TransactionCellArrow'
-import { localeNumberString } from '../../../../utils/number'
+import { CellType } from '../../../utils/const'
+import TransactionCellArrow from '../TransactionCellArrow'
+import { localeNumberString } from '../../../utils/number'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
-import HelpIcon from '../../../../assets/qa_help.png'
-import i18n from '../../../../utils/i18n'
+import HelpIcon from '../../../assets/qa_help.png'
+import i18n from '../../../utils/i18n'
 
-const Cellbase = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
+const Cellbase = ({ cell, cellType, isDetail }: { cell: State.Cell; cellType: CellType; isDetail?: boolean }) => {
   if (!cell.targetBlockNumber || cell.targetBlockNumber <= 0) {
     return (
       <CellbasePanel>
@@ -17,7 +17,7 @@ const Cellbase = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) 
     )
   }
   return (
-    <CellbasePanel>
+    <CellbasePanel isDetail={isDetail}>
       {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
       <div className="cellbase__content">Cellbase for Block</div>
       <Link to={`/block/${cell.targetBlockNumber}`}>{localeNumberString(cell.targetBlockNumber)}</Link>
