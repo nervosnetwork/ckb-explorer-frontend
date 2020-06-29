@@ -84,12 +84,7 @@ const BlockchainMenu = () => {
 
   return (
     <MobileSubMenuPanel showSubMenu={false}>
-      <SimpleButton
-        className="mobile__menus__main__item"
-        onClick={() => {
-          setShowSubMenu(!showSubMenu)
-        }}
-      >
+      <SimpleButton className="mobile__menus__main__item" onClick={() => setShowSubMenu(!showSubMenu)}>
         <div className="mobile__menus__main__item__content__highlight">
           {isMainnet() ? i18n.t('navbar.mainnet') : CONFIG.TESTNET_NAME.toUpperCase()}
         </div>

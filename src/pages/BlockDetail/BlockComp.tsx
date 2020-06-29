@@ -72,6 +72,11 @@ const BlockMinerReward = ({
   tooltip: string
   sentBlockNumber?: string
 }) => {
+  const clickAction = () => {
+    if (sentBlockNumber) {
+      browserHistory.push(`/block/${sentBlockNumber}#cellbase`)
+    }
+  }
   return (
     <BlockMinerRewardPanel sent={!!sentBlockNumber}>
       <div className="block__miner__reward_value">{value}</div>

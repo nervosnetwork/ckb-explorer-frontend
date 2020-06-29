@@ -5,6 +5,10 @@ const ButtonPanel = styled.div`
   cursor: pointer;
 `
 
+const buttonAction = (event: any, action?: Function) => {
+  action && action(event)
+}
+
 export default ({
   id,
   className,
@@ -25,12 +29,8 @@ export default ({
       role="button"
       tabIndex={-1}
       onKeyDown={() => {}}
-      onMouseOver={(event: any) => {
-        onMouseOver && onMouseOver(event)
-      }}
-      onClick={(event: any) => {
-        onClick && onClick(event)
-      }}
+      onMouseOver={(event: any) => buttonAction(event, onMouseOver)}
+      onClick={(event: any) => buttonAction(event, onClick)}
     >
       {children}
     </ButtonPanel>

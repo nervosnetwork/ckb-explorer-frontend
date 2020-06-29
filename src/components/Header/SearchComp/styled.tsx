@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import SimpleButton from '../../SimpleButton'
 
 export const HeaderSearchPanel = styled.div`
   display: flex;
@@ -22,7 +23,7 @@ export const HeaderSearchPanel = styled.div`
   }
 `
 
-export const HeaderSearchBarPanel = styled.div`
+export const HeaderSearchBarPanel = styled(SimpleButton)`
   display: flex;
   align-items: center;
   margin-right: 30px;
