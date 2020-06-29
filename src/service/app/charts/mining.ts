@@ -43,7 +43,9 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
         }
       })
       dispatchDifficultyHashRate(dispatch, difficultyHashRates)
-      storeEpochChartCache(CachedKeys.DifficultyHashRate, difficultyHashRates)
+      if (difficultyHashRates && difficultyHashRates.length > 0) {
+        storeEpochChartCache(CachedKeys.DifficultyHashRate, difficultyHashRates)
+      }
     })
     .catch(() => {
       dispatch({
@@ -73,7 +75,9 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
         }
       })
       dispatchDifficultyUncleRate(dispatch, difficultyUncleRates)
-      storeEpochChartCache(CachedKeys.DifficultyUncleRate, difficultyUncleRates)
+      if (difficultyUncleRates && difficultyUncleRates.length > 0) {
+        storeEpochChartCache(CachedKeys.DifficultyUncleRate, difficultyUncleRates)
+      }
     })
     .catch(() => {
       dispatch({
@@ -102,7 +106,9 @@ export const getStatisticDifficulty = (dispatch: AppDispatch) => {
         }
       })
       dispatchDifficulty(dispatch, difficulties)
-      storeDateChartCache(CachedKeys.Difficulty, difficulties)
+      if (difficulties && difficulties.length > 0) {
+        storeDateChartCache(CachedKeys.Difficulty, difficulties)
+      }
     })
     .catch(() => {
       dispatch({
@@ -131,7 +137,9 @@ export const getStatisticHashRate = (dispatch: AppDispatch) => {
         }
       })
       dispatchHashRate(dispatch, hashRates)
-      storeDateChartCache(CachedKeys.HashRate, hashRates)
+      if (hashRates && hashRates.length > 0) {
+        storeDateChartCache(CachedKeys.HashRate, hashRates)
+      }
     })
     .catch(() => {
       dispatch({
@@ -160,7 +168,9 @@ export const getStatisticUncleRate = (dispatch: AppDispatch) => {
         }
       })
       dispatchUncleRate(dispatch, uncleRates)
-      storeDateChartCache(CachedKeys.UncleRate, uncleRates)
+      if (uncleRates && uncleRates.length > 0) {
+        storeDateChartCache(CachedKeys.UncleRate, uncleRates)
+      }
     })
     .catch(() => {
       dispatch({
@@ -193,7 +203,10 @@ export const getStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
         })
       }
       dispatchMinerAddressDistribution(dispatch, statisticMinerAddresses)
-      storeDateChartCache(CachedKeys.MinerAddressDistribution, statisticMinerAddresses)
+      if (statisticMinerAddresses && statisticMinerAddresses.length > 0) {
+        storeDateChartCache(CachedKeys.MinerAddressDistribution, statisticMinerAddresses)
+      }
+      
     })
     .catch(() => {
       dispatch({
