@@ -34,7 +34,9 @@ export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
         }),
       )
       dispatchBlockTimeDistribution(dispatch, statisticBlockTimeDistributions)
-      storeDateChartCache(CachedKeys.BlockTimeDistribution, statisticBlockTimeDistributions)
+      if (statisticBlockTimeDistributions && statisticBlockTimeDistributions.length > 0) {
+        storeDateChartCache(CachedKeys.BlockTimeDistribution, statisticBlockTimeDistributions)
+      }
     })
     .catch(() => {
       dispatch({
@@ -59,7 +61,9 @@ export const getStatisticAverageBlockTimes = (dispatch: AppDispatch) => {
         attributes: { averageBlockTime },
       } = wrap
       dispatchAverageBlockTime(dispatch, averageBlockTime)
-      storeDateChartCache(CachedKeys.AverageBlockTime, averageBlockTime)
+      if (averageBlockTime && averageBlockTime.length > 0) {
+        storeDateChartCache(CachedKeys.AverageBlockTime, averageBlockTime)
+      }
     })
     .catch(() => {
       dispatch({
@@ -93,7 +97,10 @@ export const getStatisticEpochTimeDistribution = (dispatch: AppDispatch) => {
         },
       )
       dispatchEpochTimeDistribution(dispatch, statisticEpochTimeDistributions)
-      storeDateChartCache(CachedKeys.EpochTimeDistribution, statisticEpochTimeDistributions)
+      if (statisticEpochTimeDistributions && statisticEpochTimeDistributions.length > 0) {
+        storeDateChartCache(CachedKeys.EpochTimeDistribution, statisticEpochTimeDistributions)
+      }
+      
     })
     .catch(() => {
       dispatch({

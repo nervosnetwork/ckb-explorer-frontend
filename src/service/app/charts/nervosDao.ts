@@ -32,7 +32,9 @@ export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
         }
       })
       dispatchTotalDeposit(dispatch, totalDaoDeposits)
-      storeDateChartCache(CachedKeys.TotalDeposit, totalDaoDeposits)
+      if (totalDaoDeposits && totalDaoDeposits.length > 0) {
+        storeDateChartCache(CachedKeys.TotalDeposit, totalDaoDeposits)
+      }
     })
     .catch(() => {
       dispatch({
@@ -62,7 +64,9 @@ export const getStatisticNewDaoDeposit = (dispatch: AppDispatch) => {
         }
       })
       dispatchDailyDeposit(dispatch, statisticNewDaoDeposits)
-      storeDateChartCache(CachedKeys.DailyDeposit, statisticNewDaoDeposits)
+      if (statisticNewDaoDeposits && statisticNewDaoDeposits.length > 0) {
+        storeDateChartCache(CachedKeys.DailyDeposit, statisticNewDaoDeposits)
+      }
     })
     .catch(() => {
       dispatch({
@@ -125,7 +129,9 @@ export const getStatisticCirculationRatio = (dispatch: AppDispatch) => {
         }
       })
       dispatchCirculationRatio(dispatch, statisticCirculationRatios)
-      storeDateChartCache(CachedKeys.DepositCirculationRatio, statisticCirculationRatios)
+      if (statisticCirculationRatios && statisticCirculationRatios.length > 0) {
+        storeDateChartCache(CachedKeys.DepositCirculationRatio, statisticCirculationRatios)
+      }
     })
     .catch(() => {
       dispatch({
