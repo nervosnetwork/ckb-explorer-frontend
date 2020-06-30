@@ -2,7 +2,7 @@
 
 exports[`ChainType Dropdown Component shallow renders 1`] = `
 <div
-  className="sc-AxjAm cjkygp"
+  className="sc-AxjAm bPbtao"
   onMouseLeave={[Function]}
 >
   <div

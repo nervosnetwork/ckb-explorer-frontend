@@ -77,6 +77,7 @@ export const TableMinerContentPanel = styled.div`
   width: ${(props: { width: string }) => props.width};
   line-height: 20px;
   text-align: center;
+  margin: auto 0;
   .table__miner__content {
     color: ${(props: { theme: any }) => props.theme.primary};
     text-decoration: none;

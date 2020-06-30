@@ -37,13 +37,8 @@ export const CellbasePanel = styled.div`
   }
 
   .cellbase__help__icon {
-    width: 18px;
-    height: 18px;
-    margin-left: 5px;
-
-    @media (max-width: 750px) {
-      width: 16px;
-      height: 16px;
-    }
+    width: 16px;
+    height: 16px;
+    margin: 2px 0 0 5px;
   }
 `

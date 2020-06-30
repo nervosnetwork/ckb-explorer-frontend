@@ -318,6 +318,7 @@ exports[`Active Page shallow renders 1`] = `
                 className="sc-fznWOq euexBf"
               >
                 <a
+                  className="undefined monospace"
                   href="/block/1686123"
                   onClick={[Function]}
                 >
@@ -341,7 +342,7 @@ exports[`Active Page shallow renders 1`] = `
                 Miner
               </span>
               <div
-                className="sc-fznzOf gdgizY"
+                className="sc-fznzOf bKNQLi"
                 fontSize="14px"
                 width="10%"
               >
@@ -419,6 +420,7 @@ exports[`Active Page shallow renders 1`] = `
                 className="sc-fznWOq euexBf"
               >
                 <a
+                  className="undefined monospace"
                   href="/block/1686122"
                   onClick={[Function]}
                 >
@@ -442,7 +444,7 @@ exports[`Active Page shallow renders 1`] = `
                 Miner
               </span>
               <div
-                className="sc-fznzOf gdgizY"
+                className="sc-fznzOf bKNQLi"
                 fontSize="14px"
                 width="10%"
               >
@@ -520,6 +522,7 @@ exports[`Active Page shallow renders 1`] = `
                 className="sc-fznWOq euexBf"
               >
                 <a
+                  className="undefined monospace"
                   href="/block/1686121"
                   onClick={[Function]}
                 >
@@ -543,7 +546,7 @@ exports[`Active Page shallow renders 1`] = `
                 Miner
               </span>
               <div
-                className="sc-fznzOf gdgizY"
+                className="sc-fznzOf bKNQLi"
                 fontSize="14px"
                 width="10%"
               >
@@ -637,6 +640,7 @@ exports[`Active Page shallow renders 1`] = `
               className="sc-fznWOq euexBf"
             >
               <a
+                className="undefined monospace"
                 href="/transaction/0x896ff246313e0a9fc7b392af6665774460d6d8614783f40764b17864bde10643"
                 onClick={[Function]}
               >
@@ -667,6 +671,7 @@ exports[`Active Page shallow renders 1`] = `
                 className="sc-fznWOq euexBf"
               >
                 <a
+                  className="undefined monospace"
                   href="/block/1687517"
                   onClick={[Function]}
                 >
@@ -723,6 +728,7 @@ exports[`Active Page shallow renders 1`] = `
               className="sc-fznWOq euexBf"
             >
               <a
+                className="undefined monospace"
                 href="/transaction/0x19ec38d35659da5a9e5d941ee269a134002fa43344bf83e65ea4b2cbbc40a2c2"
                 onClick={[Function]}
               >
@@ -753,6 +759,7 @@ exports[`Active Page shallow renders 1`] = `
                 className="sc-fznWOq euexBf"
               >
                 <a
+                  className="undefined monospace"
                   href="/block/1687509"
                   onClick={[Function]}
                 >
@@ -809,6 +816,7 @@ exports[`Active Page shallow renders 1`] = `
               className="sc-fznWOq euexBf"
             >
               <a
+                className="undefined monospace"
                 href="/transaction/0x69df00a2b94ab0372a4ecd4ce8ac7dd44c15b406ed5154d5425f9bfb3119a8d0"
                 onClick={[Function]}
               >
@@ -839,6 +847,7 @@ exports[`Active Page shallow renders 1`] = `
                 className="sc-fznWOq euexBf"
               >
                 <a
+                  className="undefined monospace"
                   href="/block/1687501"
                   onClick={[Function]}
                 >

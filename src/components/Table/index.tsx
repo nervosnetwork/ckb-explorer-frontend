@@ -36,6 +36,9 @@ export const TableMinerContentItem = ({
   fontSize?: string
 }) => {
   let addressText = adaptPCEllipsis(content, smallWidth ? 2 : 14, 60)
+  if (window.innerWidth <= 1320) {
+    addressText = adaptPCEllipsis(content, smallWidth ? 2 : 10, 60)
+  }
   if (isMobile()) {
     addressText = adaptMobileEllipsis(content, 11)
   }
