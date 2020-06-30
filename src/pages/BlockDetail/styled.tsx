@@ -65,15 +65,14 @@ export const BlockMinerRewardPanel = styled.div`
   }
 
   img {
-    width: ${(props: { sent: boolean }) => (props.sent ? '30px' : '18px')};
-    height： 18px;
-    margin-left: 5px;
-    margin-bottom: ${(props: { sent: boolean }) => (props.sent ? '3px' : '0')};
+    width: ${(props: { sent: boolean }) => (props.sent ? '30px' : '15px')};
+    height： 15px;
+    margin: ${(props: { sent: boolean }) => (props.sent ? '0 0 3px 5px' : '3px 0 0 5px')};
     cursor: ${(props: { sent: boolean }) => (props.sent ? 'pointer' : 'default')};
 
     @media(max-width: 750px) {
-      width: ${(props: { sent: boolean }) => (props.sent ? '27px' : '16px')};
-      height： 16px;
+      width: ${(props: { sent: boolean }) => (props.sent ? '27px' : '15px')};
+      height： 15px;
       margin-bottom: ${(props: { sent: boolean }) => (props.sent ? '1px' : '0')};
     }
   }

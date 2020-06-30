@@ -78,6 +78,7 @@ exports[`Table Component shallow renders 3`] = `
   width: 10px;
   line-height: 20px;
   text-align: center;
+  margin: auto 0;
 }
 
 .c0 .table__miner__content {
