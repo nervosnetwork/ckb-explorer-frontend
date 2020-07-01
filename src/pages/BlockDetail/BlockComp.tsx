@@ -13,7 +13,7 @@ import { useAppState } from '../../contexts/providers'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString, handleDifficulty } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
+import { isMobile, isScreenSmallerThan1440 } from '../../utils/screen'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
 import {
@@ -38,7 +38,10 @@ const handleMinerText = (address: string) => {
   if (isMobile()) {
     return adaptMobileEllipsis(address, 8)
   }
-  return adaptPCEllipsis(address, 12, 50)
+  if (isScreenSmallerThan1440()) {
+    return adaptPCEllipsis(address, 7, 50)
+  }
+  return adaptPCEllipsis(address, 15, 50)
 }
 
 const BlockMiner = ({ miner }: { miner: string }) => {
@@ -72,18 +75,16 @@ const BlockMinerReward = ({
   tooltip: string
   sentBlockNumber?: string
 }) => {
+  const clickAction = () => {
+    if (sentBlockNumber) {
+      browserHistory.push(`/block/${sentBlockNumber}#cellbase`)
+    }
+  }
   return (
     <BlockMinerRewardPanel sent={!!sentBlockNumber}>
       <div className="block__miner__reward_value">{value}</div>
       <Tooltip placement="top" title={tooltip}>
-        <div
-          className="block__miner__reward_tip"
-          onClick={() => {
-            if (sentBlockNumber) {
-              browserHistory.push(`/block/${sentBlockNumber}#cellbase`)
-            }
-          }}
-        >
+        <div className="block__miner__reward_tip" onClick={() => clickAction()}>
           <img src={sentBlockNumber ? MinerRewardIcon : HelpIcon} alt="miner reward" />
         </div>
       </Tooltip>

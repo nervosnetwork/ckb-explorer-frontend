@@ -174,12 +174,11 @@ export const DaoOverviewLeftItemPanel = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      max-width: 200px;
       cursor: ${(props: { hasTitleTooltip?: boolean; hasChange?: boolean; symbol?: string }) =>
         props.hasTitleTooltip ? 'default' : 'none'};
 
-      @media (max-width: 1920px) {
-        max-width: 120px;
+      @media (max-width: 1440px) {
+        max-width: ${(props: { hasChange?: boolean }) => (props.hasChange ? '130px' : '200px')};
       }
 
       @media (max-width: 1200px) {
