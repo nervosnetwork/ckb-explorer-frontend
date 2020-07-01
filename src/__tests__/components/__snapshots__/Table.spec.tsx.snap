@@ -76,7 +76,7 @@ exports[`Table Component shallow renders 2`] = `
 exports[`Table Component shallow renders 3`] = `
 .c0 {
   width: 10px;
-  margin: auto 0;
+  line-height: 20px;
   text-align: center;
   margin: auto 0;
 }

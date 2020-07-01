@@ -21,7 +21,7 @@ declare namespace State {
   }
 
   export interface AppError {
-    type: 'Network' | 'ChainAlert'
+    type: 'Network' | 'ChainAlert' | 'Maintain'
     message: string[]
   }
 
@@ -559,7 +559,11 @@ declare namespace State {
     toast: ToastMessage | null
     loading: boolean
     secondLoading: boolean
-    appErrors: [{ type: 'Network'; message: string[] }, { type: 'ChainAlert'; message: string[] }]
+    appErrors: [
+      { type: 'Network'; message: string[] },
+      { type: 'ChainAlert'; message: string[] },
+      { type: 'Maintain'; message: string[] },
+    ]
     nodeVersion: string
     tipBlockNumber: number
 

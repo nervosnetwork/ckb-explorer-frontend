@@ -9,7 +9,6 @@ import { SearchComp } from './SearchComp'
 import LanguageComp from './LanguageComp'
 import BlockchainComp from './BlockchainComp'
 import { useLocation } from 'react-router'
-import { AppDispatch } from '../../contexts/reducer'
 
 const LogoComp = () => {
   return (
@@ -19,22 +18,22 @@ const LogoComp = () => {
   )
 }
 
-const headerMenuAction = (dispatch: AppDispatch, mobileMenuVisible: boolean) => {
-  dispatch({
-    type: ComponentActions.UpdateHeaderMobileMenuVisible,
-    payload: {
-      mobileMenuVisible: !mobileMenuVisible,
-    },
-  })
-}
-
 const MobileMenuComp = () => {
   const dispatch = useDispatch()
   const {
     components: { mobileMenuVisible },
   } = useAppState()
   return (
-    <HeaderMobileMenuPanel onClick={() => headerMenuAction(dispatch, mobileMenuVisible)}>
+    <HeaderMobileMenuPanel
+      onClick={() => {
+        dispatch({
+          type: ComponentActions.UpdateHeaderMobileMenuVisible,
+          payload: {
+            mobileMenuVisible: !mobileMenuVisible,
+          },
+        })
+      }}
+    >
       <div className={mobileMenuVisible ? 'close' : ''}>
         <div className="menu__icon__first" />
         <div className="menu__icon__second" />
@@ -55,7 +54,7 @@ export default () => {
     dispatch({
       type: ComponentActions.UpdateHeaderSearchBarVisible,
       payload: {
-        headerSearchBarVisible: pathname !== '/' && pathname !== '/search/fail',
+        headerSearchBarVisible: pathname !== '/' && pathname !== '/search/fail' && pathname !== '/maintain',
       },
     })
   }, [dispatch, pathname])

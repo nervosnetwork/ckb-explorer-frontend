@@ -47,10 +47,12 @@ const getOption = (
               6,
               60,
             )}</div>`
-            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.balance'))} ${localeNumberString(
-              dataList[0].data,
-            )} ${i18n.t('common.ckb_unit')}</div>`
-            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.rank'))} ${dataList[0].name}</div>`
+            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+              i18n.t('statistic.balance'),
+            )} ${localeNumberString(dataList[0].data)} ${i18n.t('common.ckb_unit')}</div>`
+            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.rank'))} ${
+              dataList[0].name
+            }</div>`
             return result
           },
         }
@@ -99,7 +101,13 @@ const getOption = (
   }
 }
 
-export const AddressBalanceRankChart = ({ clickEvent, isThumbnail = false }: { clickEvent: any; isThumbnail?: boolean }) => {
+export const AddressBalanceRankChart = ({
+  clickEvent,
+  isThumbnail = false,
+}: {
+  clickEvent: any
+  isThumbnail?: boolean
+}) => {
   const { statisticAddressBalanceRanks, statisticAddressBalanceRanksFetchEnd } = useAppState()
   if (!statisticAddressBalanceRanksFetchEnd || statisticAddressBalanceRanks.length === 0) {
     return <ChartLoading show={!statisticAddressBalanceRanksFetchEnd} isThumbnail={isThumbnail} />
