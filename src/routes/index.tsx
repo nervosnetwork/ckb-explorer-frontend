@@ -1,51 +1,52 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, Suspense, lazy } from 'react'
 import { Router, Route, Redirect, Switch } from 'react-router-dom'
 import browserHistory from './history'
-
 import Page from '../components/Page'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-
-import Home from '../pages/Home'
-import Block from '../pages/BlockDetail'
-import BlockList from '../pages/BlockList'
-import Transaction from '../pages/Transaction'
-import TransactionList from '../pages/TransactionList'
-import Address from '../pages/Address'
-import SimpleUDT from '../pages/SimpleUDT'
-import NervosDao from '../pages/NervosDao'
-import NotFoundPage from '../pages/404'
-import SearchFail from '../pages/SearchFail'
-import Maintain from '../pages/Maintain'
 import Sheet from '../components/Sheet'
-import StatisticsChart from '../pages/StatisticsChart/index'
-import DifficultyHashRateChart from '../pages/StatisticsChart/mining/DifficultyHashRate'
-import DifficultyUncleRateChart from '../pages/StatisticsChart/mining/DifficultyUncleRate'
-import DifficultyChart from '../pages/StatisticsChart/mining/Difficulty'
-import TransactionCountChart from '../pages/StatisticsChart/activities/TransactionCount'
-import AddressCountChart from '../pages/StatisticsChart/activities/AddressCount'
-import TotalDaoDepositChart from '../pages/StatisticsChart/nervosDao/TotalDaoDeposit'
-import NewDaoDepositChart from '../pages/StatisticsChart/nervosDao/NewDaoDeposit'
-import CirculationRatioChart from '../pages/StatisticsChart/nervosDao/CirculationRatio'
-import CellCountChart from '../pages/StatisticsChart/activities/CellCount'
-import AddressBalanceRankChart from '../pages/StatisticsChart/activities/AddressBalanceRank'
-import HashRateChart from '../pages/StatisticsChart/mining/HashRate'
-import UncleRateChart from '../pages/StatisticsChart/mining/UncleRate'
+
 import { useDispatch, useAppState } from '../contexts/providers'
 import { ComponentActions } from '../contexts/actions'
 import { isMobile } from '../utils/screen'
-import BalanceDistributionChart from '../pages/StatisticsChart/activities/BalanceDistribution'
-import TxFeeHistoryChart from '../pages/StatisticsChart/activities/TxFeeHistory'
-import BlockTimeDistributionChart from '../pages/StatisticsChart/block/BlockTimeDistribution'
-import EpochTimeDistributionChart from '../pages/StatisticsChart/block/EpochTimeDistribution'
-import AverageBlockTimeChart from '../pages/StatisticsChart/block/AverageBlockTime'
-import TotalSupplyChart from '../pages/StatisticsChart/monetary/TotalSupply'
-import AnnualPercentageCompensationChart from '../pages/StatisticsChart/monetary/AnnualPercentageCompensation'
-import SecondaryIssuanceChart from '../pages/StatisticsChart/monetary/SecondaryIssuance'
-import InflationRateChart from '../pages/StatisticsChart/monetary/InflationRate'
-import LiquidityChart from '../pages/StatisticsChart/monetary/Liquidity'
-import MinerAddressDistributionChart from '../pages/StatisticsChart/mining/MinerAddressDistribution'
-import Tokens from '../pages/Tokens'
+
+const Home = lazy(() => import('../pages/Home'))
+const Block = lazy(() => import('../pages/BlockDetail'))
+const BlockList = lazy(() => import('../pages/BlockList'))
+const Transaction = lazy(() => import('../pages/Transaction'))
+const TransactionList = lazy(() => import('../pages/TransactionList'))
+const Address = lazy(() => import('../pages/Address'))
+const SimpleUDT = lazy(() => import('../pages/SimpleUDT'))
+const NervosDao = lazy(() => import('../pages/NervosDao'))
+const NotFoundPage = lazy(() => import('../pages/404'))
+const SearchFail = lazy(() => import('../pages/SearchFail'))
+const StatisticsChart = lazy(() => import('../pages/StatisticsChart'))
+const Tokens = lazy(() => import('../pages/Tokens'))
+const DifficultyHashRateChart = lazy(() => import('../pages/StatisticsChart/mining/DifficultyHashRate'))
+const DifficultyUncleRateChart = lazy(() => import('../pages/StatisticsChart/mining/DifficultyUncleRate'))
+const DifficultyChart = lazy(() => import('../pages/StatisticsChart/mining/Difficulty'))
+const HashRateChart = lazy(() => import('../pages/StatisticsChart/mining/HashRate'))
+const UncleRateChart = lazy(() => import('../pages/StatisticsChart/mining/UncleRate'))
+const MinerAddressDistributionChart = lazy(() => import('../pages/StatisticsChart/mining/MinerAddressDistribution'))
+const TransactionCountChart = lazy(() => import('../pages/StatisticsChart/activities/TransactionCount'))
+const AddressCountChart = lazy(() => import('../pages/StatisticsChart/activities/AddressCount'))
+const CellCountChart = lazy(() => import('../pages/StatisticsChart/activities/CellCount'))
+const AddressBalanceRankChart = lazy(() => import('../pages/StatisticsChart/activities/AddressBalanceRank'))
+const BalanceDistributionChart = lazy(() => import('../pages/StatisticsChart/activities/BalanceDistribution'))
+const TxFeeHistoryChart = lazy(() => import('../pages/StatisticsChart/activities/TxFeeHistory'))
+const BlockTimeDistributionChart = lazy(() => import('../pages/StatisticsChart/block/BlockTimeDistribution'))
+const EpochTimeDistributionChart = lazy(() => import('../pages/StatisticsChart/block/EpochTimeDistribution'))
+const AverageBlockTimeChart = lazy(() => import('../pages/StatisticsChart/block/AverageBlockTime'))
+const TotalDaoDepositChart = lazy(() => import('../pages/StatisticsChart/nervosDao/TotalDaoDeposit'))
+const NewDaoDepositChart = lazy(() => import('../pages/StatisticsChart/nervosDao/NewDaoDeposit'))
+const CirculationRatioChart = lazy(() => import('../pages/StatisticsChart/nervosDao/CirculationRatio'))
+const TotalSupplyChart = lazy(() => import('../pages/StatisticsChart/monetary/TotalSupply'))
+const AnnualPercentageCompensationChart = lazy(() =>
+  import('../pages/StatisticsChart/monetary/AnnualPercentageCompensation'),
+)
+const SecondaryIssuanceChart = lazy(() => import('../pages/StatisticsChart/monetary/SecondaryIssuance'))
+const InflationRateChart = lazy(() => import('../pages/StatisticsChart/monetary/InflationRate'))
+const LiquidityChart = lazy(() => import('../pages/StatisticsChart/monetary/Liquidity'))
 
 const Containers: CustomRouter.Route[] = [
   {
@@ -253,12 +254,6 @@ const Containers: CustomRouter.Route[] = [
     comp: SearchFail,
   },
   {
-    name: 'Maintain',
-    path: '/maintain',
-    exact: true,
-    comp: Maintain,
-  },
-  {
     name: '404',
     path: '/404',
     exact: true,
@@ -327,19 +322,21 @@ export default () => {
             <Page>
               <Header />
               <Sheet />
-              <Switch location={props.location}>
-                {Containers.map(container => {
-                  return (
-                    <Route
-                      {...container}
-                      key={container.name}
-                      render={routeProps => <container.comp {...routeProps} />}
-                    />
-                  )
-                })}
-                <Redirect from="*" to="/404" />
-              </Switch>
-              {!(isMobile() && mobileMenuVisible) && <Footer />}
+              <Suspense fallback={<span />}>
+                <Switch location={props.location}>
+                  {Containers.map(container => {
+                    return (
+                      <Route
+                        {...container}
+                        key={container.name}
+                        render={routeProps => <container.comp {...routeProps} />}
+                      />
+                    )
+                  })}
+                  <Redirect from="*" to="/404" />
+                </Switch>
+                {!(isMobile() && mobileMenuVisible) && <Footer />}
+              </Suspense>
             </Page>
           )
         }}

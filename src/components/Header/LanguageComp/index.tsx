@@ -96,12 +96,7 @@ const LanguageMenu = () => {
 
   return (
     <MobileSubMenuPanel showSubMenu={false}>
-      <SimpleButton
-        className="mobile__menus__main__item"
-        onClick={() => {
-          setShowSubMenu(!showSubMenu)
-        }}
-      >
+      <SimpleButton className="mobile__menus__main__item" onClick={() => setShowSubMenu(!showSubMenu)}>
         <div className="mobile__menus__main__item__content">
           {currentLanguage() === 'en' ? i18n.t('navbar.language_en') : i18n.t('navbar.language_zh')}
         </div>
@@ -113,20 +108,10 @@ const LanguageMenu = () => {
       </SimpleButton>
       {showSubMenu && (
         <>
-          <SimpleButton
-            className="mobile__menus__sub__item"
-            onClick={() => {
-              hideMobileMenu(dispatch)
-            }}
-          >
+          <SimpleButton className="mobile__menus__sub__item" onClick={() => hideMobileMenu(dispatch)}>
             {currentLanguage() === 'en' ? i18n.t('navbar.language_en') : i18n.t('navbar.language_zh')}
           </SimpleButton>
-          <SimpleButton
-            className="mobile__menus__sub__item"
-            onClick={() => {
-              languageAction(dispatch)
-            }}
-          >
+          <SimpleButton className="mobile__menus__sub__item" onClick={() => languageAction(dispatch)}>
             {currentLanguage() === 'en' ? i18n.t('navbar.language_zh') : i18n.t('navbar.language_en')}
           </SimpleButton>
         </>
