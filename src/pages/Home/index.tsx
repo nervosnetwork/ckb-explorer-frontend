@@ -257,7 +257,11 @@ export default () => {
           ) : (
             <Loading />
           )}
-          <TableMorePanel onClick={() => browserHistory.push(`/block/list`)}>
+          <TableMorePanel
+            onClick={() => {
+              browserHistory.push(`/block/list`)
+            }}
+          >
             <span>{t('home.more')}</span>
           </TableMorePanel>
         </BlockPanel>
@@ -281,7 +285,11 @@ export default () => {
             <Loading />
           )}
 
-          <TableMorePanel onClick={() => browserHistory.push(`/transaction/list`)}>
+          <TableMorePanel
+            onClick={() => {
+              browserHistory.push(`/transaction/list`)
+            }}
+          >
             <span>{t('home.more')}</span>
           </TableMorePanel>
         </TransactionPanel>

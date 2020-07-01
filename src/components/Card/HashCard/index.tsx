@@ -11,17 +11,6 @@ import SmallLoading from '../../Loading/SmallLoading'
 import { useDispatch } from '../../../contexts/providers'
 import { HashCardPanel, LoadingPanel } from './styled'
 import SimpleButton from '../../SimpleButton'
-import { AppDispatch } from '../../../contexts/reducer'
-
-const copyAction = (dispatch: AppDispatch) => {
-  copyElementValue(document.getElementById('hash__value'))
-  dispatch({
-    type: AppActions.ShowToastMessage,
-    payload: {
-      message: i18n.t('common.copied'),
-    },
-  })
-}
 
 export default ({
   title,
@@ -73,7 +62,18 @@ export default ({
               <span className="monospace">{isMobile() ? mobileHash() : adaptPCEllipsis(hash, 13, 25)}</span>
             </div>
           )}
-          <SimpleButton className="hash__copy_icon" onClick={() => copyAction(dispatch)}>
+          <SimpleButton
+            className="hash__copy_icon"
+            onClick={() => {
+              copyElementValue(document.getElementById('hash__value'))
+              dispatch({
+                type: AppActions.ShowToastMessage,
+                payload: {
+                  message: i18n.t('common.copied'),
+                },
+              })
+            }}
+          >
             {!loading && <img src={CopyIcon} alt="copy" />}
           </SimpleButton>
         </div>
