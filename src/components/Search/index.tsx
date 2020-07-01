@@ -41,12 +41,7 @@ const setSearchContent = (inputElement: any, content: string) => {
   }
 }
 
-const handleSearchResult = (
-  searchValue: string,
-  inputElement: any,
-  searchBarEditable: boolean,
-  dispatch: AppDispatch,
-) => {
+const handleSearchResult = (searchValue: string, inputElement: any, searchBarEditable: boolean, dispatch: AppDispatch) => {
   const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
   if (!query || containSpecialChar(query)) {
     browserHistory.push(`/search/fail?q=${query}`)
@@ -72,9 +67,7 @@ const handleSearchResult = (
         if (data.type === SearchResultType.Block) {
           browserHistory.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.blockHash}`)
         } else if (data.type === SearchResultType.Transaction) {
-          browserHistory.push(
-            `/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transactionHash}`,
-          )
+          browserHistory.push(`/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transactionHash}`)
         } else if (data.type === SearchResultType.Address) {
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.addressHash}`)
         } else if (data.type === SearchResultType.LockHash) {
@@ -138,24 +131,38 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
     }
   }, [])
 
+  const clearSearchAction = (isClear?: boolean) => {
+    if (isClear) {
+      setSearchValue('')
+      clearSearchInput(inputElement)
+      dispatch({
+        type: ComponentActions.UpdateHeaderSearchEditable,
+        payload: {
+          searchBarEditable: false,
+        },
+      })
+    }
+  }
+
+  const inputChangeAction = (event: any) => {
+    setSearchValue(event.target.value)
+    dispatch({
+      type: ComponentActions.UpdateHeaderSearchEditable,
+      payload: {
+        searchBarEditable: !!event.target.value,
+      },
+    })
+  }
+
+  const searchKeyAction = (event: any) => {
+    if (event.keyCode === 13) {
+      handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)
+    }
+  }
+
   const ImageIcon = ({ isClear }: { isClear?: boolean }) => {
-    const dispatch = useDispatch()
     return (
-      <SearchImage
-        isClear={isClear}
-        onClick={() => {
-          if (isClear) {
-            setSearchValue('')
-            clearSearchInput(inputElement)
-            dispatch({
-              type: ComponentActions.UpdateHeaderSearchEditable,
-              payload: {
-                searchBarEditable: false,
-              },
-            })
-          }
-        }}
-      >
+      <SearchImage isClear={isClear} onClick={() => clearSearchAction(isClear)}>
         <img src={isClear ? ClearLogo : SearchLogo} alt="search logo" />
       </SearchImage>
     )
@@ -170,20 +177,8 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
           ref={inputElement}
           placeholder={placeholder}
           defaultValue={searchValue || ''}
-          onChange={(event: any) => {
-            setSearchValue(event.target.value)
-            dispatch({
-              type: ComponentActions.UpdateHeaderSearchEditable,
-              payload: {
-                searchBarEditable: !!event.target.value,
-              },
-            })
-          }}
-          onKeyUp={(event: any) => {
-            if (event.keyCode === 13) {
-              handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)
-            }
-          }}
+          onChange={(event: any) => inputChangeAction(event)}
+          onKeyUp={(event: any) => searchKeyAction(event)}
         />
         {searchValue && <ImageIcon isClear />}
       </SearchPanel>

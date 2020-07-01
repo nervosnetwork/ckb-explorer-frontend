@@ -40,15 +40,7 @@ const ChartLoading = ({ show, isThumbnail = false }: { show: boolean; isThumbnai
   )
 }
 
-const ReactChartCore = ({
-  option,
-  isThumbnail,
-  clickEvent,
-}: {
-  option: any
-  isThumbnail?: boolean
-  clickEvent?: any
-}) => {
+const ReactChartCore = ({ option, isThumbnail, clickEvent }: { option: any; isThumbnail?: boolean; clickEvent?: any }) => {
   let events = undefined
   if (clickEvent) {
     events = { click: clickEvent }
@@ -126,7 +118,6 @@ const ChartPage = ({
 const tooltipColor = (color: string) =>
   `<span style="display:inline-block;margin-right:8px;margin-left:5px;margin-bottom:2px;border-radius:10px;width:6px;height:6px;background-color:${color}"></span>`
 
-const tooltipWidth = (value: string, width: number) =>
-  `<span style="width:${width}px;display:inline-block;">${value}:</span>`
+const tooltipWidth = (value: string, width: number) => `<span style="width:${width}px;display:inline-block;">${value}:</span>`
 
 export { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth }
