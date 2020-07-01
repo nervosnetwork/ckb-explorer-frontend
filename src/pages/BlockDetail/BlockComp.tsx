@@ -81,14 +81,7 @@ const BlockMinerReward = ({
     <BlockMinerRewardPanel sent={!!sentBlockNumber}>
       <div className="block__miner__reward_value">{value}</div>
       <Tooltip placement="top" title={tooltip}>
-        <div
-          className="block__miner__reward_tip"
-          onClick={() => {
-            if (sentBlockNumber) {
-              browserHistory.push(`/block/${sentBlockNumber}#cellbase`)
-            }
-          }}
-        >
+        <div className="block__miner__reward_tip" onClick={() => clickAction()}>
           <img src={sentBlockNumber ? MinerRewardIcon : HelpIcon} alt="miner reward" />
         </div>
       </Tooltip>
