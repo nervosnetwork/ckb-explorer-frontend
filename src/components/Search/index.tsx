@@ -12,6 +12,7 @@ import { HttpErrorCode, SearchFailType } from '../../utils/const'
 import { AppDispatch } from '../../contexts/reducer'
 import { ComponentActions } from '../../contexts/actions'
 import { useAppState, useDispatch } from '../../contexts/providers'
+import { isMobile } from '../../utils/screen'
 
 enum SearchResultType {
   Block = 'block',
@@ -125,7 +126,7 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
   }, [SearchPlaceholder])
 
   useEffect(() => {
-    if (inputElement.current) {
+    if (inputElement.current && !isMobile()) {
       const input = inputElement.current as HTMLInputElement
       input.focus()
     }
