@@ -9,6 +9,7 @@ import Sheet from '../components/Sheet'
 import { useDispatch, useAppState } from '../contexts/providers'
 import { ComponentActions } from '../contexts/actions'
 import { isMobile } from '../utils/screen'
+import { isChainTypeError } from '../utils/chain'
 
 const Home = lazy(() => import('../pages/Home'))
 const Block = lazy(() => import('../pages/BlockDetail'))
@@ -41,9 +42,7 @@ const TotalDaoDepositChart = lazy(() => import('../pages/StatisticsChart/nervosD
 const NewDaoDepositChart = lazy(() => import('../pages/StatisticsChart/nervosDao/NewDaoDeposit'))
 const CirculationRatioChart = lazy(() => import('../pages/StatisticsChart/nervosDao/CirculationRatio'))
 const TotalSupplyChart = lazy(() => import('../pages/StatisticsChart/monetary/TotalSupply'))
-const AnnualPercentageCompensationChart = lazy(() =>
-  import('../pages/StatisticsChart/monetary/AnnualPercentageCompensation'),
-)
+const AnnualPercentageCompensationChart = lazy(() => import('../pages/StatisticsChart/monetary/AnnualPercentageCompensation'))
 const SecondaryIssuanceChart = lazy(() => import('../pages/StatisticsChart/monetary/SecondaryIssuance'))
 const InflationRateChart = lazy(() => import('../pages/StatisticsChart/monetary/InflationRate'))
 const LiquidityChart = lazy(() => import('../pages/StatisticsChart/monetary/Liquidity'))
@@ -294,6 +293,14 @@ const useRouterLocation = (callback: () => void) => {
   }, [])
 }
 
+const RouterComp = ({ container, routeProps }: { container: CustomRouter.Route; routeProps: any }) => {
+  const { pathname = '' } = browserHistory.location
+  if (container.name === 'Address' && isChainTypeError(pathname.substring(pathname.lastIndexOf('/') + 1))) {
+    return <SearchFail {...routeProps} address={pathname.substring(pathname.lastIndexOf('/') + 1)} />
+  }
+  return <container.comp {...routeProps} />
+}
+
 export default () => {
   const dispatch = useDispatch()
   const { components } = useAppState()
@@ -317,29 +324,25 @@ export default () => {
   return (
     <Router history={browserHistory}>
       <Route
-        render={(props: any) => {
-          return (
-            <Page>
-              <Header />
-              <Sheet />
-              <Suspense fallback={<span />}>
-                <Switch location={props.location}>
-                  {Containers.map(container => {
-                    return (
-                      <Route
-                        {...container}
-                        key={container.name}
-                        render={routeProps => <container.comp {...routeProps} />}
-                      />
-                    )
-                  })}
-                  <Redirect from="*" to="/404" />
-                </Switch>
-                {!(isMobile() && mobileMenuVisible) && <Footer />}
-              </Suspense>
-            </Page>
-          )
-        }}
+        render={(props: any) => (
+          <Page>
+            <Header />
+            <Sheet />
+            <Suspense fallback={<span />}>
+              <Switch location={props.location}>
+                {Containers.map(container => (
+                  <Route
+                    {...container}
+                    key={container.name}
+                    render={routeProps => <RouterComp container={container} routeProps={routeProps} />}
+                  />
+                ))}
+                <Redirect from="*" to="/404" />
+              </Switch>
+              {!(isMobile() && mobileMenuVisible) && <Footer />}
+            </Suspense>
+          </Page>
+        )}
       />
     </Router>
   )

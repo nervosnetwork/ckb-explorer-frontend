@@ -13,6 +13,7 @@ import { AppDispatch } from '../../contexts/reducer'
 import { ComponentActions } from '../../contexts/actions'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { isMobile } from '../../utils/screen'
+import { isChainTypeError } from '../../utils/chain'
 
 enum SearchResultType {
   Block = 'block',
@@ -42,10 +43,19 @@ const setSearchContent = (inputElement: any, content: string) => {
   }
 }
 
-const handleSearchResult = (searchValue: string, inputElement: any, searchBarEditable: boolean, dispatch: AppDispatch) => {
+const handleSearchResult = (
+  searchValue: string,
+  inputElement: any,
+  searchBarEditable: boolean,
+  dispatch: AppDispatch,
+  setSearchValue: Function,
+) => {
   const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
   if (!query || containSpecialChar(query)) {
     browserHistory.push(`/search/fail?q=${query}`)
+    return
+  } else if (isChainTypeError(query)) {
+    browserHistory.push(`/search/fail?type=${SearchFailType.CHAIN_ERROR}&q=${query}`)
     return
   } else {
     if (searchBarEditable) {
@@ -65,6 +75,7 @@ const handleSearchResult = (searchValue: string, inputElement: any, searchBarEdi
           return
         }
         clearSearchInput(inputElement)
+        setSearchValue('')
         if (data.type === SearchResultType.Block) {
           browserHistory.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.blockHash}`)
         } else if (data.type === SearchResultType.Transaction) {
@@ -79,27 +90,16 @@ const handleSearchResult = (searchValue: string, inputElement: any, searchBarEdi
       })
       .catch((error: AxiosError) => {
         setSearchContent(inputElement, query)
-        if (error.response && error.response.data) {
-          if (error.response.status === 404 || error.response.status === 422) {
-            if (
-              (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
-                return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
-              })
-            ) {
-              clearSearchInput(inputElement)
-              browserHistory.push(`/address/${query}`)
-            } else if (
-              (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
-                return errorData.code === HttpErrorCode.ADDRESS_TYPE_ERROR
-              })
-            ) {
-              browserHistory.push(`/search/fail?type=${SearchFailType.CHAIN_ERROR}&q=${query}`)
-            } else {
-              browserHistory.push(`/search/fail?q=${query}`)
-            }
-          } else {
-            browserHistory.push(`/search/fail?q=${query}`)
-          }
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.status === 404 &&
+          (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
+            return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
+          })
+        ) {
+          clearSearchInput(inputElement)
+          browserHistory.push(`/address/${query}`)
         } else {
           browserHistory.push(`/search/fail?q=${query}`)
         }
@@ -157,7 +157,7 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
 
   const searchKeyAction = (event: any) => {
     if (event.keyCode === 13) {
-      handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)
+      handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch, setSearchValue)
     }
   }
 
@@ -184,7 +184,7 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
         {searchValue && <ImageIcon isClear />}
       </SearchPanel>
       {hasButton && (
-        <SearchButton onClick={() => handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch)}>
+        <SearchButton onClick={() => handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch, setSearchValue)}>
           {i18n.t('search.search')}
         </SearchButton>
       )}
