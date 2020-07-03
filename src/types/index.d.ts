@@ -85,6 +85,7 @@ declare namespace State {
     type: 'Address' | 'LockHash' | ''
     daoDeposit: number
     interest: number
+    daoCompensation: number
     lockInfo: LockInfo
     liveCellsCount: string
     minedBlocksCount: string

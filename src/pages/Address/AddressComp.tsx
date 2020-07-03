@@ -6,12 +6,7 @@ import { useAppState } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
 import { shannonToCkb, baseUrl } from '../../utils/util'
-import {
-  AddressTransactionsPagination,
-  AddressTransactionsPanel,
-  AddressUDTAssetsPanel,
-  AddressUDTItemPanel,
-} from './styled'
+import { AddressTransactionsPagination, AddressTransactionsPanel, AddressUDTAssetsPanel, AddressUDTItemPanel } from './styled'
 import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import TitleCard from '../../components/Card/TitleCard'
@@ -37,7 +32,7 @@ const addressAssetInfo = (address: State.Address) => {
     },
     {
       title: i18n.t('address.compensation'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.interest))} />,
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoCompensation))} />,
       isAsset: true,
     },
   ] as OverviewItemData[]
