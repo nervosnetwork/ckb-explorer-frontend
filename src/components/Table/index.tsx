@@ -1,9 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { Tooltip } from 'antd'
 import i18n from '../../utils/i18n'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
-import CopyTooltipText from '../Text/CopyTooltipText'
 import { isMobile } from '../../utils/screen'
 import { TableTitleRowItem, TableContentRowItem, HighlightLink, TableMinerContentPanel } from './styled'
 
@@ -46,13 +44,7 @@ export const TableMinerContentItem = ({
     <TableMinerContentPanel width={width} fontSize={fontSize}>
       {content ? (
         <Link className="table__miner__content" to={`/address/${content}`}>
-          {addressText.includes('...') ? (
-            <Tooltip placement="top" title={<CopyTooltipText content={content} />}>
-              <span className="table__miner__text monospace">{addressText}</span>
-            </Tooltip>
-          ) : (
-            <span className="table__miner__text monospace">{addressText}</span>
-          )}
+          <span className="table__miner__text monospace">{addressText}</span>
         </Link>
       ) : (
         <div className="table__miner__text__disable">{i18n.t('address.unable_decode_address')}</div>
