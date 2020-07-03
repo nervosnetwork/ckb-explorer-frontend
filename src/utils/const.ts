@@ -35,7 +35,6 @@ Note: Only accept sUDT information submission now.
 
 export const HttpErrorCode = {
   NOT_FOUND_ADDRESS: 1010,
-  ADDRESS_TYPE_ERROR: 1023,
 }
 
 export const SearchFailType = {
