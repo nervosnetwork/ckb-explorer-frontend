@@ -32,7 +32,7 @@ const addressAssetInfo = (address: State.Address) => {
     },
     {
       title: i18n.t('address.compensation'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.interest))} />,
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoCompensation))} />,
       isAsset: true,
     },
   ] as OverviewItemData[]
