@@ -305,7 +305,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzoant fkeALD"
+          className="sc-fzoant boTCPm"
         >
           <div
             className="block__card__height"
@@ -410,7 +410,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzoant fkeALD"
+          className="sc-fzoant boTCPm"
         >
           <div
             className="block__card__height"
@@ -515,7 +515,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzoant fkeALD"
+          className="sc-fzoant boTCPm"
         >
           <div
             className="block__card__height"
