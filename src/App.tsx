@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
+import 'antd/dist/antd.css'
 import Routers from './routes'
 import Toast from './components/Toast'
 import withProviders from './contexts/providers'
