@@ -68,7 +68,7 @@ export const TransactionCardItem = ({
   const confirmationUnit = confirmation > 1 ? i18n.t('address.confirmations') : i18n.t('address.confirmation')
   let transactionHash = isScreenSmallerThan1440()
     ? adaptPCEllipsis(transaction.transactionHash, 1, 80)
-    : adaptPCEllipsis(transaction.transactionHash, 3, 50)
+    : adaptPCEllipsis(transaction.transactionHash, 3, 80)
   if (isMobile()) {
     transactionHash = adaptMobileEllipsis(transaction.transactionHash, 12)
   }
