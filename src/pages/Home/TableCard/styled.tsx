@@ -46,7 +46,7 @@ export const BlockCardPanel = styled.div`
     .block__card__timestamp {
       font-size: 12px;
       color: #888888;
-      margin-top: 8px;
+      margin-top: 9px;
       font-weight: 500;
       overflow: hidden;
       white-space: nowrap;
@@ -95,7 +95,7 @@ export const BlockCardPanel = styled.div`
       font-weight: 500;
 
       > span {
-        margin-top: 8px;
+        margin-top: 9px;
         margin-right: 10px;
 
         @media (max-width: 750px) {
@@ -126,7 +126,7 @@ export const BlockCardPanel = styled.div`
     .block__card__live__cells {
       display: flex;
       font-size: 12px;
-      margin-top: 8px;
+      margin-top: 9px;
       margin-left: 10px;
       color: #888888;
       font-weight: 500;
