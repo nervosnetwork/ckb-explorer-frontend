@@ -64,6 +64,7 @@ export const TransactionCellInfoPanel = styled.div`
     background: rgba(0, 0, 0, 0.6);
     width: 45px;
     height: 1px;
+    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
 
     @media (max-width: 750px) {
       width: auto;
@@ -95,8 +96,7 @@ export const TransactionCellAddressPanel = styled.div`
 `
 
 export const TransactionCellHashPanel = styled.div`
-  color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) =>
-    highLight ? `${theme.primary}` : '#000000'};
+  color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) => (highLight ? `${theme.primary}` : '#000000')};
   text-align: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? 'left' : 'center')};
   display: flex;
   justify-content: flex-start;
@@ -172,6 +172,7 @@ export const TransactionCellCardPanel = styled.div`
     height: 1px;
     background: #ededed;
     margin: 8px 0;
+    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 
   >div: nth-child(2) {

@@ -24,6 +24,7 @@ export const OverviewCardPanel = styled.div`
     background: #eaeaea;
     width: 100%;
     height: 1px;
+    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 
   @media (max-width: 1000px) {
