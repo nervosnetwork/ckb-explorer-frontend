@@ -270,6 +270,7 @@ export const HomeHeaderItemPanel = styled.div`
       height: 1px;
       background: #eaeaea;
       width: 100%;
+      transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
     }
   }
 
@@ -334,6 +335,7 @@ export const BlockPanel = styled.div`
     width: auto;
     margin: 0 16px;
     height: 1px;
+    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 `
 
@@ -351,6 +353,7 @@ export const TransactionPanel = styled.div`
     width: auto;
     margin: 0 16px;
     height: 1px;
+    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 `
 
