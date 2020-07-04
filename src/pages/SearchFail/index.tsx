@@ -6,8 +6,8 @@ import Search from '../../components/Search'
 import i18n from '../../utils/i18n'
 import { SearchFailType } from '../../utils/const'
 import { isMainnet } from '../../utils/chain'
-import { baseUrl } from '../../utils/util'
 import { SearchContent, SearchPanel } from './styled'
+import CONFIG from '../../config'
 
 const chainErrorMessage = () => {
   return isMainnet() ? i18n.t('search.address_type_testnet_error') : i18n.t('search.address_type_mainnet_error')
@@ -15,6 +15,13 @@ const chainErrorMessage = () => {
 
 const chainUrlMessage = () => {
   return isMainnet() ? i18n.t('search.address_type_testnet_url') : i18n.t('search.address_type_mainnet_url')
+}
+
+export const chainUrl = () => {
+  const mainnetUrl = `${CONFIG.MAINNET_URL}`
+  const testnetUrl = `${CONFIG.MAINNET_URL}/${CONFIG.TESTNET_NAME}`
+
+  return isMainnet() ? testnetUrl : mainnetUrl
 }
 
 export default () => {
@@ -32,7 +39,7 @@ export default () => {
           {type && type === SearchFailType.CHAIN_ERROR ? (
             <div>
               <span>{chainErrorMessage()}</span>
-              <a href={`${baseUrl()}/address/${q}`} rel="noopener noreferrer">
+              <a href={`${chainUrl()}/address/${q}`} rel="noopener noreferrer">
                 {chainUrlMessage()}
               </a>
             </div>
