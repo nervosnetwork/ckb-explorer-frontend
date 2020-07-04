@@ -353,6 +353,8 @@ exports[`Active Page shallow renders 1`] = `
                 >
                   <span
                     className="table__miner__text monospace"
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
                   >
                     ckb1qyqq...nsh6e30l
                   </span>
@@ -453,6 +455,8 @@ exports[`Active Page shallow renders 1`] = `
                 >
                   <span
                     className="table__miner__text monospace"
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
                   >
                     ckb1qyqd...vsxasryq
                   </span>
@@ -553,6 +557,8 @@ exports[`Active Page shallow renders 1`] = `
                 >
                   <span
                     className="table__miner__text monospace"
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
                   >
                     ckb1qyqd...vsxasryq
                   </span>
