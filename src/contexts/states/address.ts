@@ -5,6 +5,7 @@ export const initAddressState: State.AddressState = {
     balance: '0',
     daoDeposit: 0,
     interest: 0,
+    daoCompensation: 0,
     transactionsCount: 0,
     pendingRewardBlocksCount: 0,
     lockScript: {

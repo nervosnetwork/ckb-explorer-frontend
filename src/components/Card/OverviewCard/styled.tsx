@@ -165,6 +165,12 @@ export const OverviewItemPanel = styled.div`
       width: 100%;
       margin-left: 0px;
     }
+
+    > img {
+      width: 15px;
+      height: 15px;
+      margin-left: 5px;
+    }
   }
 
   .overview_item__value {

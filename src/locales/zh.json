@@ -197,6 +197,7 @@
       "block_mined": "已挖区块",
       "dao_deposit": "Nervos DAO 锁定金额",
       "compensation": "Nervos DAO 锁定补贴",
+      "compensation_tooltip": "每小时更新",
       "pending_reward": "待发奖励",
       "lock_until": "锁定到期",
       "estimated": "预计",

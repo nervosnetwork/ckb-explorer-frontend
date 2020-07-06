@@ -198,6 +198,7 @@
       "block_mined": "Block Mined",
       "dao_deposit": "Nervos DAO Deposit",
       "compensation": "Nervos DAO Compensation",
+      "compensation_tooltip": "Updated every hour",
       "pending_reward": "Pending Reward",
       "lock_until": "Lock Until",
       "estimated": "Estimated",
