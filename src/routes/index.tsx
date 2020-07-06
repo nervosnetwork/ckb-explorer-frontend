@@ -42,12 +42,11 @@ const TotalDaoDepositChart = lazy(() => import('../pages/StatisticsChart/nervosD
 const NewDaoDepositChart = lazy(() => import('../pages/StatisticsChart/nervosDao/NewDaoDeposit'))
 const CirculationRatioChart = lazy(() => import('../pages/StatisticsChart/nervosDao/CirculationRatio'))
 const TotalSupplyChart = lazy(() => import('../pages/StatisticsChart/monetary/TotalSupply'))
-const AnnualPercentageCompensationChart = lazy(() =>
-  import('../pages/StatisticsChart/monetary/AnnualPercentageCompensation'),
-)
+const AnnualPercentageCompensationChart = lazy(() => import('../pages/StatisticsChart/monetary/AnnualPercentageCompensation'))
 const SecondaryIssuanceChart = lazy(() => import('../pages/StatisticsChart/monetary/SecondaryIssuance'))
 const InflationRateChart = lazy(() => import('../pages/StatisticsChart/monetary/InflationRate'))
 const LiquidityChart = lazy(() => import('../pages/StatisticsChart/monetary/Liquidity'))
+const NodeDistributionChart = lazy(() => import('../pages/StatisticsChart/network/NodeDistribution'))
 
 const Containers: CustomRouter.Route[] = [
   {
@@ -247,6 +246,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/charts/liquidity',
     exact: true,
     comp: LiquidityChart,
+  },
+  {
+    name: 'NodeDistributionChart',
+    path: '/charts/node-distribution',
+    exact: true,
+    comp: NodeDistributionChart,
   },
   {
     name: 'SearchFail',
