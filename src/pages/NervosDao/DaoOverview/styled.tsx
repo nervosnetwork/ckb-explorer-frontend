@@ -174,11 +174,11 @@ export const DaoOverviewLeftItemPanel = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      cursor: ${(props: { hasTitleTooltip?: boolean; hasChange?: boolean; symbol?: string }) =>
-        props.hasTitleTooltip ? 'default' : 'none'};
+      cursor: ${(props: { hasTooltip?: boolean }) => (props.hasTooltip ? 'default' : 'text')};
 
       @media (max-width: 1440px) {
-        max-width: ${(props: { hasChange?: boolean }) => (props.hasChange ? '130px' : '200px')};
+        max-width: ${(props: { symbol?: string; hasChange?: boolean; hasTooltip?: boolean }) =>
+          props.hasChange ? '130px' : '200px'};
       }
 
       @media (max-width: 1200px) {
@@ -201,8 +201,7 @@ export const DaoOverviewLeftItemPanel = styled.div`
     .dao__overview__item_change {
       font-size: 12px;
       font-weight: bold;
-      color: ${(props: { symbol?: string; hasChange?: boolean; theme: any }) =>
-        props.symbol === 'negative' ? '#FF464F' : props.theme.primary};
+      color: ${(props: { symbol?: string; theme: any }) => (props.symbol === 'negative' ? '#FF464F' : props.theme.primary)};
       cursor: default;
 
       @media (max-width: 750px) {
