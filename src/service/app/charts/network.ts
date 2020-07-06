@@ -1,7 +1,7 @@
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchStatisticNewNodeCount, fetchStatisticNodeDistribution } from '../../http/fetcher'
-import { fetchDateChartCache } from '../../../utils/cache'
+import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
 import { CachedKeys } from '../../../utils/const'
 import { dispatchNodeDistribution } from './action'
 
@@ -42,6 +42,9 @@ export const getStatisticNodeDistribution = (dispatch: AppDispatch) => {
         })
       })
       dispatchNodeDistribution(dispatch, statisticNodeDistributions)
+      if (statisticNodeDistributions && statisticNodeDistributions.length > 0) {
+        storeDateChartCache(CachedKeys.NodeDistribution, statisticNodeDistributions)
+      }
     })
     .catch(() => {
       dispatch({

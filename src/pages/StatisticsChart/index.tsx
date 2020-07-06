@@ -65,6 +65,7 @@ import { MinerAddressDistributionChart } from './mining/MinerAddressDistribution
 import { Tooltip } from 'antd'
 import { isMobile } from '../../utils/screen'
 import { NodeDistributionChart } from './network/NodeDistribution'
+import { getStatisticNodeDistribution } from '../../service/app/charts/network'
 
 interface ChartData {
   title: string
@@ -301,6 +302,7 @@ export default () => {
     getStatisticSecondaryIssuance(dispatch)
     getStatisticInflationRate(dispatch)
     getStatisticLiquidity(dispatch)
+    getStatisticNodeDistribution(dispatch)
   }, [dispatch])
 
   return (
