@@ -10,6 +10,7 @@ import { useDispatch, useAppState } from '../contexts/providers'
 import { ComponentActions } from '../contexts/actions'
 import { isMobile } from '../utils/screen'
 import { isChainTypeError } from '../utils/chain'
+import Alert from '../components/Alert'
 
 const Home = lazy(() => import('../pages/Home'))
 const Block = lazy(() => import('../pages/BlockDetail'))
@@ -42,9 +43,7 @@ const TotalDaoDepositChart = lazy(() => import('../pages/StatisticsChart/nervosD
 const NewDaoDepositChart = lazy(() => import('../pages/StatisticsChart/nervosDao/NewDaoDeposit'))
 const CirculationRatioChart = lazy(() => import('../pages/StatisticsChart/nervosDao/CirculationRatio'))
 const TotalSupplyChart = lazy(() => import('../pages/StatisticsChart/monetary/TotalSupply'))
-const AnnualPercentageCompensationChart = lazy(() =>
-  import('../pages/StatisticsChart/monetary/AnnualPercentageCompensation'),
-)
+const AnnualPercentageCompensationChart = lazy(() => import('../pages/StatisticsChart/monetary/AnnualPercentageCompensation'))
 const SecondaryIssuanceChart = lazy(() => import('../pages/StatisticsChart/monetary/SecondaryIssuance'))
 const InflationRateChart = lazy(() => import('../pages/StatisticsChart/monetary/InflationRate'))
 const LiquidityChart = lazy(() => import('../pages/StatisticsChart/monetary/Liquidity'))
@@ -328,6 +327,7 @@ export default () => {
       <Route
         render={(props: any) => (
           <Page>
+            <Alert />
             <Header />
             <Sheet />
             <Suspense fallback={<span />}>

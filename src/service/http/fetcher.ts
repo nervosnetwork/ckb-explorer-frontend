@@ -14,9 +14,7 @@ export const axiosIns = axios.create({
 })
 
 export const fetchBlocks = () => {
-  return axiosIns
-    .get('blocks')
-    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Block>[]>(res.data.data))
+  return axiosIns.get('blocks').then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Block>[]>(res.data.data))
 }
 
 export const fetchBlockList = (page: number, size: number) => {
@@ -111,9 +109,7 @@ export const fetchSearchResult = (param: string) => {
 }
 
 export const fetchStatistics = () => {
-  return axiosIns
-    .get('statistics')
-    .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Statistics>>(res.data.data))
+  return axiosIns.get('statistics').then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Statistics>>(res.data.data))
 }
 
 export const fetchStatisticInfo = (infoName: string) => {
@@ -121,21 +117,15 @@ export const fetchStatisticInfo = (infoName: string) => {
 }
 
 export const fetchTipBlockNumber = () => {
-  return fetchStatisticInfo('tip_block_number').then(wrapper =>
-    toCamelcase<Response.Wrapper<State.Statistics>>(wrapper.data),
-  )
+  return fetchStatisticInfo('tip_block_number').then(wrapper => toCamelcase<Response.Wrapper<State.Statistics>>(wrapper.data))
 }
 
 export const fetchBlockchainInfo = () => {
-  return fetchStatisticInfo('blockchain_info').then(wrapper =>
-    toCamelcase<Response.Wrapper<State.BlockchainInfo>>(wrapper.data),
-  )
+  return fetchStatisticInfo('blockchain_info').then(wrapper => toCamelcase<Response.Wrapper<State.BlockchainInfo>>(wrapper.data))
 }
 
 export const fetchNodeVersion = () => {
-  return axiosIns('/nets/version').then((res: AxiosResponse) =>
-    toCamelcase<Response.Wrapper<State.NodeVersion>>(res.data.data),
-  )
+  return axiosIns('/nets/version').then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.NodeVersion>>(res.data.data))
 }
 
 export const fetchNervosDao = () => {
@@ -322,9 +312,9 @@ export const fetchStatisticSecondaryIssuance = () => {
 }
 
 export const fetchStatisticInflationRate = () => {
-  return axiosIns(
-    `/monetary_data/nominal_apc50-nominal_inflation_rate-real_inflation_rate`,
-  ).then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.StatisticInflationRates>>(res.data.data))
+  return axiosIns(`/monetary_data/nominal_apc50-nominal_inflation_rate-real_inflation_rate`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticInflationRates>>(res.data.data),
+  )
 }
 
 export const fetchStatisticLiquidity = () => {
@@ -334,9 +324,7 @@ export const fetchStatisticLiquidity = () => {
 }
 
 export const fetchSimpleUDT = (typeHash: string) => {
-  return axiosIns(`/udts/${typeHash}`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Wrapper<State.UDT>>(res.data.data),
-  )
+  return axiosIns(`/udts/${typeHash}`).then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.UDT>>(res.data.data))
 }
 
 export const fetchSimpleUDTTransactions = (typeHash: string, page: number, size: number) => {
@@ -348,12 +336,7 @@ export const fetchSimpleUDTTransactions = (typeHash: string, page: number, size:
   }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 }
 
-export const fetchSimpleUDTTransactionsWithAddress = (
-  address: string,
-  typeHash: string,
-  page: number,
-  size: number,
-) => {
+export const fetchSimpleUDTTransactionsWithAddress = (address: string, typeHash: string, page: number, size: number) => {
   return axiosIns(`/address_udt_transactions/${address}`, {
     params: {
       type_hash: typeHash,
@@ -365,4 +348,10 @@ export const fetchSimpleUDTTransactionsWithAddress = (
 
 export const fetchTokens = () => {
   return axiosIns(`/udts`).then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.UDT>[]>(res.data.data))
+}
+
+export const fetchMaintenanceInfo = () => {
+  return axiosIns(`/statistics/maintenance_info`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.MaintenanceInfo>>(res.data.data),
+  )
 }

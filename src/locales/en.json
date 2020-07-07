@@ -13,10 +13,10 @@
       "ckb_explorer": "CKB Explorer"
     },
     "toast": {
-      "invalid_content": "Please input valid content",
       "invalid_network": "Network exception, please try again later",
       "data_too_large": "The data is too large, not available for download",
-      "result_not_found": "Search result not found"
+      "result_not_found": "Search result not found",
+      "maintenance": "Please note that CKB Explorer will be under maintenance from {{start}} to {{end}}"
     },
     "navbar": {
       "wallet": "Wallet",

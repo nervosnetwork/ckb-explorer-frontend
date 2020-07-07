@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { initAxiosInterceptors } from '../../service/http/interceptors'
-import { RESIZE_LATENCY, CachedKeys } from '../../utils/const'
+import { RESIZE_LATENCY, CachedKeys, MAINTENANCE_ALERT_POLLING_TIME } from '../../utils/const'
 import { initNodeVersion } from '../../service/app/nodeInfo'
 import { AppDispatch } from '../reducer'
 import { fetchCachedData } from '../../utils/cache'
 import { changeLanguage } from '../../utils/i18n'
 import { useAppState, useDispatch } from '.'
 import { AppActions } from '../actions'
+import { useInterval } from '../../utils/hook'
+import { getMaintenanceInfo } from '../../service/app/alert'
 
 const useWindowResize = (dispatch: AppDispatch) => {
   useEffect(() => {
@@ -55,8 +57,13 @@ export const useInitApp = () => {
     initAxiosInterceptors(dispatch)
     initNodeVersion(dispatch)
     initAppLanguage(app, dispatch)
+    getMaintenanceInfo(dispatch)
   }
   useWindowResize(dispatch)
+
+  useInterval(() => {
+    getMaintenanceInfo(dispatch)
+  }, MAINTENANCE_ALERT_POLLING_TIME)
 }
 
 export default useInitApp

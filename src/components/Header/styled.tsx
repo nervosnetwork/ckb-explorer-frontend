@@ -9,7 +9,7 @@ export const HeaderPanel = styled.div`
   position: fixed;
   position: -webkit-fixed;
   overflow: visible;
-  top: 0;
+  top: ${(props: { isNotTop?: boolean }) => (props.isNotTop ? '48px' : '0')};
   z-index: 10;
   display: flex;
   align-items: center;

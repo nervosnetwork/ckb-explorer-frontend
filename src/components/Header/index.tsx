@@ -49,6 +49,7 @@ export default () => {
   const dispatch = useDispatch()
   const {
     components: { searchBarEditable, headerSearchBarVisible },
+    app: { appErrors },
   } = useAppState()
 
   useEffect(() => {
@@ -61,7 +62,7 @@ export default () => {
   }, [dispatch, pathname])
 
   return (
-    <HeaderPanel>
+    <HeaderPanel isNotTop={appErrors[2].message.length > 0}>
       <LogoComp />
       {!isMobile() && (
         <>
