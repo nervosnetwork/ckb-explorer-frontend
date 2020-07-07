@@ -48,40 +48,34 @@ const Filter = ({
   const [showClear, setShowClear] = useState(false)
   const inputElement = useRef<HTMLInputElement>(null)
 
+  const filterAction = (isClear?: boolean) => {
+    if (isClear) {
+      setShowClear(false)
+      clearFilterInput(inputElement)
+    }
+  }
+
+  const resetFilterAction = () => {
+    setShowReset(false)
+    setShowClear(false)
+    clearFilterInput(inputElement)
+    if (filterType === FilterType.DAO) {
+      getNervosDaoTransactions(dispatch, 1, PageParams.PageSize)
+    } else if (typeHash) {
+      getSimpleUDTTransactions(typeHash, 1, PageParams.PageSize, dispatch)
+    }
+  }
+
   const FilterIcon = ({ isClear }: { isClear?: boolean }) => {
     return (
-      <FilterImage
-        isClear={isClear}
-        onClick={() => {
-          if (isClear) {
-            setShowClear(false)
-            clearFilterInput(inputElement)
-          }
-        }}
-      >
+      <FilterImage isClear={isClear} onClick={() => filterAction(isClear)}>
         <img src={isClear ? ClearLogo : SearchFilter} alt="search logo" />
       </FilterImage>
     )
   }
 
   const ResetFilter = () => {
-    const dispatch = useDispatch()
-    return (
-      <ResetButtonPanel
-        onClick={() => {
-          setShowReset(false)
-          setShowClear(false)
-          clearFilterInput(inputElement)
-          if (filterType === FilterType.DAO) {
-            getNervosDaoTransactions(dispatch, 1, PageParams.PageSize)
-          } else if (typeHash) {
-            getSimpleUDTTransactions(typeHash, 1, PageParams.PageSize, dispatch)
-          }
-        }}
-      >
-        {i18n.t('nervos_dao.dao_search_reset')}
-      </ResetButtonPanel>
-    )
+    return <ResetButtonPanel onClick={() => resetFilterAction()}>{i18n.t('nervos_dao.dao_search_reset')}</ResetButtonPanel>
   }
 
   const handleSearchResult = () => {

@@ -24,6 +24,7 @@ export const OverviewCardPanel = styled.div`
     background: #eaeaea;
     width: 100%;
     height: 1px;
+    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 
   @media (max-width: 1000px) {
@@ -99,13 +100,13 @@ export const OverviewItemPanel = styled.div`
 
   @media (min-width: 750px) {
     height: 20px;
-    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '35px' : '14px')};
-    margin-bottom: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '-32px' : '0px')};
+    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '0px' : '14px')};
+    margin-bottom: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '16px' : '0px')};
   }
 
   @media (min-width: 1200px) {
     height: 20px;
-    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '35px' : '14px')};
+    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '0' : '14px')};
   }
 
   @media (max-width: 750px) {
@@ -119,8 +120,7 @@ export const OverviewItemPanel = styled.div`
       background: #e2e2e2;
       height: 1px;
       width: 100%;
-      display: ${({ hideLine }: { hideLine: boolean; hasIcon: boolean; isAsset?: boolean }) =>
-        hideLine ? 'none' : 'block'};
+      display: ${({ hideLine }: { hideLine: boolean; hasIcon: boolean; isAsset?: boolean }) => (hideLine ? 'none' : 'block')};
       margin: 10px 0px 0px 0px;
 
       transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
@@ -132,8 +132,7 @@ export const OverviewItemPanel = styled.div`
     align-items: center;
 
     @media (max-width: 1200px) {
-      margin-left: ${({ hasIcon, isAsset }: { hasIcon: boolean; isAsset?: boolean }) =>
-        !hasIcon && isAsset ? '60px' : '0px'};
+      margin-left: ${({ hasIcon, isAsset }: { hasIcon: boolean; isAsset?: boolean }) => (!hasIcon && isAsset ? '60px' : '0px')};
     }
 
     @media (max-width: 750px) {
@@ -165,6 +164,12 @@ export const OverviewItemPanel = styled.div`
     @media (max-width: 750px) {
       width: 100%;
       margin-left: 0px;
+    }
+
+    > img {
+      width: 15px;
+      height: 15px;
+      margin-left: 5px;
     }
   }
 

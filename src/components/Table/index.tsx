@@ -1,11 +1,11 @@
 import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { Tooltip } from 'antd'
 import i18n from '../../utils/i18n'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
-import CopyTooltipText from '../Text/CopyTooltipText'
 import { isMobile } from '../../utils/screen'
 import { TableTitleRowItem, TableContentRowItem, HighlightLink, TableMinerContentPanel } from './styled'
+import CopyTooltipText from '../Text/CopyTooltipText'
+import { Tooltip } from 'antd'
 
 export const TableTitleItem = ({ width, title }: { width: string; title: string }) => {
   return (
@@ -36,6 +36,9 @@ export const TableMinerContentItem = ({
   fontSize?: string
 }) => {
   let addressText = adaptPCEllipsis(content, smallWidth ? 2 : 14, 60)
+  if (window.innerWidth <= 1320) {
+    addressText = adaptPCEllipsis(content, smallWidth ? 2 : 10, 60)
+  }
   if (isMobile()) {
     addressText = adaptMobileEllipsis(content, 11)
   }

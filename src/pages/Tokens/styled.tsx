@@ -166,6 +166,7 @@ export const TokensTableItem = styled.div`
     background: #d8d8d8;
     width: 100%;
     height: 1px;
+    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 `
 

@@ -7,6 +7,7 @@ exports[`Text Component shallow renders 1`] = `
   onMouseLeave={[Function]}
 >
   <a
+    className="undefined monospace"
     href="/to"
     onClick={[Function]}
   >

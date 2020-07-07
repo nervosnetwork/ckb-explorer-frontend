@@ -15,7 +15,7 @@ export const TransactionCellContentPanel = styled.div`
   color: #000000;
   text-align: center;
 
-  .transaction__cell_hash {
+  .transaction__cell__address {
     display: flex;
     flex: 0.4;
   }
@@ -64,6 +64,7 @@ export const TransactionCellInfoPanel = styled.div`
     background: rgba(0, 0, 0, 0.6);
     width: 45px;
     height: 1px;
+    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
 
     @media (max-width: 750px) {
       width: auto;
@@ -95,8 +96,7 @@ export const TransactionCellAddressPanel = styled.div`
 `
 
 export const TransactionCellHashPanel = styled.div`
-  color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) =>
-    highLight ? `${theme.primary}` : '#000000'};
+  color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) => (highLight ? `${theme.primary}` : '#000000')};
   text-align: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? 'left' : 'center')};
   display: flex;
   justify-content: flex-start;
@@ -172,6 +172,7 @@ export const TransactionCellCardPanel = styled.div`
     height: 1px;
     background: #ededed;
     margin: 8px 0;
+    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 
   >div: nth-child(2) {
@@ -181,13 +182,13 @@ export const TransactionCellCardPanel = styled.div`
   >div: nth-child(4) {
     margin-bottom: 12px;
   }
+`
 
-  .transaction__cell__card__content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 10px;
-  }
+export const TransactionCellCardContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
 
   .transaction__cell__card__title {
     font-size: 16px;
@@ -199,60 +200,13 @@ export const TransactionCellCardPanel = styled.div`
     display: flex;
     font-size: 16px;
     color: #000000;
-
-    a {
-      color: ${props => props.theme.primary};
-    }
-
-    a:hover {
-      color: ${props => props.theme.primary};
-    }
-  }
-`
-
-export const CellbasePanel = styled.div`
-  display: flex;
-  align-items: center;
-  height: 20px;
-  position: relative;
-  width: 100%;
-
-  @media (max-width: 750px) {
-    margin-top: 10px;
-    height: 16px;
-  }
-
-  .cellbase__content {
-    color: #000000;
-    margin-right: 10px;
   }
 
   a {
-    font-weight: 500;
     color: ${props => props.theme.primary};
   }
 
   a:hover {
     color: ${props => props.theme.primary};
-  }
-
-  .cellbase__help {
-    margin-left: 10px;
-    transform: translateY(2px);
-
-    &:focus {
-      outline: 0;
-    }
-  }
-
-  .cellbase__help__icon {
-    width: 18px;
-    height: 18px;
-    margin-left: 5px;
-
-    @media (max-width: 750px) {
-      width: 16px;
-      height: 16px;
-    }
   }
 `

@@ -2,7 +2,7 @@
 
 exports[`OverviewCard Component shallow renders 1`] = `
 <div
-  className="sc-AxjAm eDdUAj"
+  className="sc-AxjAm dfNVFO"
 >
   <div
     className="overview__separate"
@@ -14,7 +14,7 @@ exports[`OverviewCard Component shallow renders 1`] = `
       className="overview_content__left_items"
     >
       <div
-        className="sc-AxiKw dpTopY"
+        className="sc-AxiKw bqkStm"
       >
         <div
           className="overview_item__title__panel"
@@ -22,7 +22,9 @@ exports[`OverviewCard Component shallow renders 1`] = `
           <div
             className="overview_item__title"
           >
-            title1
+            <span>
+              title1
+            </span>
           </div>
         </div>
         <div
@@ -32,7 +34,7 @@ exports[`OverviewCard Component shallow renders 1`] = `
         </div>
       </div>
       <div
-        className="sc-AxiKw knfuKn"
+        className="sc-AxiKw cBOCpF"
       >
         <div
           className="overview_item__title__panel"
@@ -40,7 +42,9 @@ exports[`OverviewCard Component shallow renders 1`] = `
           <div
             className="overview_item__title"
           >
-            title3
+            <span>
+              title3
+            </span>
           </div>
         </div>
         <div
@@ -54,7 +58,7 @@ exports[`OverviewCard Component shallow renders 1`] = `
       className="overview_content__right_items"
     >
       <div
-        className="sc-AxiKw dpTopY"
+        className="sc-AxiKw bqkStm"
       >
         <div
           className="overview_item__title__panel"
@@ -62,7 +66,9 @@ exports[`OverviewCard Component shallow renders 1`] = `
           <div
             className="overview_item__title"
           >
-            title2
+            <span>
+              title2
+            </span>
           </div>
         </div>
         <div
@@ -74,7 +80,7 @@ exports[`OverviewCard Component shallow renders 1`] = `
         </div>
       </div>
       <div
-        className="sc-AxiKw knfuKn"
+        className="sc-AxiKw cBOCpF"
       >
         <div
           className="overview_item__title__panel"
@@ -82,7 +88,9 @@ exports[`OverviewCard Component shallow renders 1`] = `
           <div
             className="overview_item__title"
           >
-            title4
+            <span>
+              title4
+            </span>
           </div>
         </div>
         <div

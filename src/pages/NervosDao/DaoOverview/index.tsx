@@ -115,11 +115,7 @@ const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent
 
 const NervosDaoLeftItem = ({ item, firstLine }: { item: NervosDaoItemContent; firstLine?: boolean }) => {
   return (
-    <DaoOverviewLeftItemPanel
-      hasChange={!!item.change}
-      symbol={item.changeSymbol}
-      hasTitleTooltip={!!item.titleTooltip}
-    >
+    <DaoOverviewLeftItemPanel hasChange={!!item.change} symbol={item.changeSymbol} hasTooltip={!!item.titleTooltip}>
       <div className="dao__overview__item__container">
         <div className="dao__overview__item_top">
           {item.titleTooltip && (
@@ -199,8 +195,7 @@ const NervosDaoOverviewLeftComp = () => {
 
 const getOption = (nervosDao: State.NervosDao): echarts.EChartOption => {
   const { miningReward, depositCompensation, treasuryAmount } = nervosDao
-  const sum =
-    shannonToCkbDecimal(miningReward) + shannonToCkbDecimal(depositCompensation) + shannonToCkbDecimal(treasuryAmount)
+  const sum = shannonToCkbDecimal(miningReward) + shannonToCkbDecimal(depositCompensation) + shannonToCkbDecimal(treasuryAmount)
   const names = [
     `${((shannonToCkbDecimal(miningReward) / sum) * 100).toFixed(1)}%`,
     `${((shannonToCkbDecimal(depositCompensation) / sum) * 100).toFixed(1)}%`,
@@ -235,9 +230,7 @@ const getOption = (nervosDao: State.NervosDao): echarts.EChartOption => {
     tooltip: {
       trigger: 'item',
       formatter: (value: any) => {
-        return `${value.data.title}: ${localeNumberString(value.data.value)} ${i18n.t('common.ckb_unit')} (${
-          value.data.name
-        })`
+        return `${value.data.title}: ${localeNumberString(value.data.value)} ${i18n.t('common.ckb_unit')} (${value.data.name})`
       },
       position: ['10%', '50%'],
     },

@@ -75,7 +75,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="sc-fznJRM ftfaLD"
       >
         <div
-          className="sc-fznWOq cErQaJ"
+          className="sc-fznWOq ivHaTY"
         >
           <div
             className="overview__separate"
@@ -87,7 +87,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="overview_content__left_items"
             >
               <div
-                className="sc-fzqBkg gCsEnU"
+                className="sc-fzqBkg cZOofG"
               >
                 <div
                   className="overview_item__title__panel"
@@ -95,7 +95,9 @@ exports[`Active Page shallow renders with empty data 1`] = `
                   <div
                     className="overview_item__title"
                   >
-                    Live Cells
+                    <span>
+                      Live Cells
+                    </span>
                   </div>
                 </div>
                 <div
@@ -109,7 +111,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="overview_content__right_items"
             >
               <div
-                className="sc-fzqBkg gCsEnU"
+                className="sc-fzqBkg cZOofG"
               >
                 <div
                   className="overview_item__title__panel"
@@ -117,7 +119,9 @@ exports[`Active Page shallow renders with empty data 1`] = `
                   <div
                     className="overview_item__title"
                   >
-                    Block Mined
+                    <span>
+                      Block Mined
+                    </span>
                   </div>
                 </div>
                 <div

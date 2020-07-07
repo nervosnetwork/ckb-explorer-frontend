@@ -6,12 +6,7 @@ import { useAppState } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
 import { shannonToCkb, baseUrl } from '../../utils/util'
-import {
-  AddressTransactionsPagination,
-  AddressTransactionsPanel,
-  AddressUDTAssetsPanel,
-  AddressUDTItemPanel,
-} from './styled'
+import { AddressTransactionsPagination, AddressTransactionsPanel, AddressUDTAssetsPanel, AddressUDTItemPanel } from './styled'
 import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import TitleCard from '../../components/Card/TitleCard'
@@ -22,9 +17,8 @@ import { isMobile } from '../../utils/screen'
 const addressAssetInfo = (address: State.Address) => {
   const items = [
     {
-      icon: CKBTokenIcon,
-      title: i18n.t('common.ckb_unit'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} hideUnit />,
+      title: '',
+      content: '',
     },
     {
       title: i18n.t('address.dao_deposit'),
@@ -32,16 +26,21 @@ const addressAssetInfo = (address: State.Address) => {
       isAsset: true,
     },
     {
-      title: '',
-      content: '',
+      icon: CKBTokenIcon,
+      title: i18n.t('common.ckb_unit'),
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} />,
     },
     {
       title: i18n.t('address.compensation'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.interest))} />,
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoCompensation))} />,
+      tooltip: i18n.t('address.compensation_tooltip'),
       isAsset: true,
     },
   ] as OverviewItemData[]
-  if (isMobile()) items.splice(2, 1)
+  if (isMobile()) {
+    items[0] = items[2]
+    items.splice(2, 1)
+  }
   return items
 }
 

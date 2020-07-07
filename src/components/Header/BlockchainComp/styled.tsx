@@ -78,12 +78,11 @@ export const MobileSubMenuPanel = styled.div`
   }
   .blockchain__mobile__node__version {
     font-size: 8px;
-    margin-top: -5px;
     color: ${props => props.theme.primary};
   }
   .mobile__menus__sub__item {
     width: 300px;
-    padding: 24px 11px 0 11px;
+    padding: 15px 11px 8px 11px;
     font-size: 12px;
     display: flex;
     align-items: center;

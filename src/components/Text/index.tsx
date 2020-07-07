@@ -18,14 +18,14 @@ export const HighLightLink = ({
   return tooltip ? (
     <Tooltip placement="top" title={<CopyTooltipText content={tooltip} />}>
       <HighLightPanel>
-        <Link className={className} to={to}>
+        <Link className={`${className} monospace`} to={to}>
           {value}
         </Link>
       </HighLightPanel>
     </Tooltip>
   ) : (
     <HighLightPanel>
-      <Link className={className} to={to}>
+      <Link className={`${className} monospace`} to={to}>
         {value}
       </Link>
     </HighLightPanel>

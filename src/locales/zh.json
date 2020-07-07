@@ -197,6 +197,7 @@
       "block_mined": "已挖区块",
       "dao_deposit": "Nervos DAO 锁定金额",
       "compensation": "Nervos DAO 锁定补贴",
+      "compensation_tooltip": "每小时更新",
       "pending_reward": "待发奖励",
       "lock_until": "锁定到期",
       "estimated": "预计",
@@ -321,9 +322,6 @@
       "24hrs_update": "24 小时变动(UTC+8:00)",
       "today_update": "今日变动(UTC+8:00)",
       "deposit_address_tooltip": "Nervos DAO 锁定余额不为零的地址"
-    },
-    "error": {
-      "maintain": "网络维护中，请稍后再试"
     },
     "pagination": {
       "first": "首页",

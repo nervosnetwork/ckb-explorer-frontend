@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, ReactNode } from 'react'
 import { fetchCellData, fetchScript } from '../../../service/http/fetcher'
 import { CellState } from '../../../utils/const'
 import { hexToUtf8 } from '../../../utils/string'
@@ -94,43 +94,45 @@ const handleFetchScript = (
   }
 }
 
+const ScriptContentItem = ({ title = '', value = '' }: { title?: string; value?: ReactNode | string }) => {
+  return (
+    <div>
+      <div>{title}</div>
+      <div className="monospace">{value}</div>
+    </div>
+  )
+}
+
 const ScriptContent = ({ content, state }: { content: State.Script | State.Data | undefined; state: CellState }) => {
   const hashTag = (content as State.Script).codeHash ? matchCodeHash((content as State.Script).codeHash) : undefined
+  const data = content as State.Data
+  const script = content as State.Script
   if (state === CellState.DATA) {
-    return (content as State.Data).data ? (
-      <div>
-        <div>{`"${i18n.t('transaction.script_data')}": `}</div>
-        <div className="monospace">{`"${(content as State.Data).data}"`}</div>
-      </div>
-    ) : (
-      <div className="monospace">{JSON.stringify(initScriptContent.data, null, 4)}</div>
+    return (
+      <ScriptContentItem
+        title={data.data ? `"${i18n.t('transaction.script_data')}": ` : ''}
+        value={data.data ? `"${data.data}"` : JSON.stringify(initScriptContent.data, null, 4)}
+      />
     )
   }
-  return (content as State.Script).args ? (
+  if (!script.args) {
+    return <ScriptContentItem title={JSON.stringify(initScriptContent.lock, null, 4)} />
+  }
+  return (
     <>
-      <div>
-        <div>{`"${i18n.t('transaction.script_args')}": `}</div>
-        <div className="monospace">{`"${(content as State.Script).args}"`}</div>
-      </div>
-      <div>
-        <div>{`"${i18n.t('transaction.script_code_hash')}": `}</div>
-        <div className="monospace">{`"${(content as State.Script).codeHash}"`}</div>
-      </div>
+      <ScriptContentItem title={`"${i18n.t('transaction.script_args')}": `} value={(content as State.Script).args} />
+      <ScriptContentItem title={`"${i18n.t('transaction.script_code_hash')}": `} value={script.codeHash} />
       {hashTag && (
-        <div>
-          <div>{''}</div>
-          <div>
-            <HashTag content={hashTag.tag} category={hashTag.category} />
-          </div>
-        </div>
+        <ScriptContentItem
+          value={
+            <div>
+              <HashTag content={hashTag.tag} category={hashTag.category} />
+            </div>
+          }
+        />
       )}
-      <div>
-        <div>{`"${i18n.t('transaction.script_hash_type')}": `}</div>
-        <div className="monospace">{`"${(content as State.Script).hashType}"`}</div>
-      </div>
+      <ScriptContentItem title={`"${i18n.t('transaction.script_hash_type')}": `} value={script.hashType} />
     </>
-  ) : (
-    <div className="monospace">{JSON.stringify(initScriptContent.lock, null, 4)}</div>
   )
 }
 

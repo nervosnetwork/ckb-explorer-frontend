@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
 import { Tooltip } from 'antd'
 import { CellType } from '../../../utils/const'
 import RightGreenArrow from '../../../assets/right_green_arrow.png'
@@ -9,30 +8,7 @@ import LiveCellIcon from '../../../assets/live_cell.png'
 import LiveCellBlueIcon from '../../../assets/live_cell_blue.png'
 import { isMainnet } from '../../../utils/chain'
 import i18n from '../../../utils/i18n'
-
-const LeftArrowImage = styled.img`
-  width: 16px;
-  height: auto;
-  margin: 0px 5px 3px 0;
-
-  @media (max-width: 750px) {
-    width: 12px;
-    margin: 0 10px 0 0;
-  }
-`
-
-const RightArrowImage = styled.img`
-  width: 15px;
-  height: 15px;
-  height: auto;
-  margin: 1px 0 0 7px;
-
-  @media (max-width: 750px) {
-    width: 12px;
-    height: 12px;
-    margin: 0 5px 0 7px;
-  }
-`
+import { RightArrowImage, LeftArrowImage } from './styled'
 
 const CellInputIcon = ({ cell }: { cell: State.Cell }) => {
   return cell.generatedTxHash ? (

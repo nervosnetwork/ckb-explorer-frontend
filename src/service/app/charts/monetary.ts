@@ -36,7 +36,9 @@ export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
         }
       })
       dispatchTotalSupply(dispatch, statisticTotalSupplies)
-      storeDateChartCache(CachedKeys.TotalSupply, statisticTotalSupplies)
+      if (statisticTotalSupplies && statisticTotalSupplies.length > 0) {
+        storeDateChartCache(CachedKeys.TotalSupply, statisticTotalSupplies)
+      }
     })
     .catch(() => {
       dispatch({
@@ -66,7 +68,9 @@ export const getStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) 
           }
         })
       dispatchAPC(dispatch, statisticAnnualPercentageCompensations)
-      storeCachedData(CachedKeys.APC, statisticAnnualPercentageCompensations)
+      if (statisticAnnualPercentageCompensations && statisticAnnualPercentageCompensations.length > 0) {
+        storeCachedData(CachedKeys.APC, statisticAnnualPercentageCompensations)
+      }
     })
     .catch(() => {
       dispatch({
@@ -101,7 +105,9 @@ export const getStatisticSecondaryIssuance = (dispatch: AppDispatch) => {
         }
       })
       dispatchSecondaryIssuance(dispatch, statisticSecondaryIssuance)
-      storeDateChartCache(CachedKeys.SecondaryIssuance, statisticSecondaryIssuance)
+      if (statisticSecondaryIssuance && statisticSecondaryIssuance.length > 0) {
+        storeDateChartCache(CachedKeys.SecondaryIssuance, statisticSecondaryIssuance)
+      }
     })
     .catch(() => {
       dispatch({
@@ -135,7 +141,9 @@ export const getStatisticInflationRate = (dispatch: AppDispatch) => {
         }
       }
       dispatchInflationRate(dispatch, statisticInflationRates)
-      storeCachedData(CachedKeys.InflationRate, statisticInflationRates)
+      if (statisticInflationRates && statisticInflationRates.length > 0) {
+        storeCachedData(CachedKeys.InflationRate, statisticInflationRates)
+      }
     })
     .catch(() => {
       dispatch({
@@ -167,7 +175,9 @@ export const getStatisticLiquidity = (dispatch: AppDispatch) => {
         }
       })
       dispatchLiquidity(dispatch, statisticLiquidity)
-      storeDateChartCache(CachedKeys.Liquidity, statisticLiquidity)
+      if (statisticLiquidity && statisticLiquidity.length > 0) {
+        storeDateChartCache(CachedKeys.Liquidity, statisticLiquidity)
+      }
     })
     .catch(() => {
       dispatch({

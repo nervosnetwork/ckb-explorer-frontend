@@ -97,7 +97,7 @@ export const baseUrl = () => {
 }
 
 export const matchCodeHash = (contractHash: string): ContractHashTag | undefined => {
-  return ContractHashTags.find(codeHashTag => codeHashTag.codeHash === contractHash)
+  return ContractHashTags.find(codeHashTag => codeHashTag.codeHashes.find(codeHash => codeHash === contractHash))
 }
 
 export const matchTxHash = (txHash: string, index: number | string): ContractHashTag | undefined => {

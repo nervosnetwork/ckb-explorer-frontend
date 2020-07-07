@@ -21,7 +21,7 @@ declare namespace State {
   }
 
   export interface AppError {
-    type: 'Network' | 'ChainAlert' | 'Maintain'
+    type: 'Network' | 'ChainAlert'
     message: string[]
   }
 
@@ -85,6 +85,7 @@ declare namespace State {
     type: 'Address' | 'LockHash' | ''
     daoDeposit: number
     interest: number
+    daoCompensation: number
     lockInfo: LockInfo
     liveCellsCount: string
     minedBlocksCount: string
@@ -559,11 +560,7 @@ declare namespace State {
     toast: ToastMessage | null
     loading: boolean
     secondLoading: boolean
-    appErrors: [
-      { type: 'Network'; message: string[] },
-      { type: 'ChainAlert'; message: string[] },
-      { type: 'Maintain'; message: string[] },
-    ]
+    appErrors: [{ type: 'Network'; message: string[] }, { type: 'ChainAlert'; message: string[] }]
     nodeVersion: string
     tipBlockNumber: number
 
