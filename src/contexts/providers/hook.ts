@@ -59,6 +59,7 @@ export const useInitApp = () => {
     initNodeVersion(dispatch)
     initAppLanguage(app, dispatch)
     getMaintenanceInfo(dispatch)
+    flushCacheInfo()
   }
   useWindowResize(dispatch)
 
