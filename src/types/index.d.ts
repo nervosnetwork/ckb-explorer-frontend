@@ -406,6 +406,10 @@ declare namespace State {
     radio: string
   }
 
+  export interface StatisticCacheInfo {
+    flushCacheInfo: string[]
+  }
+
   interface FetchStatusValue {
     OK: string
     Error: string

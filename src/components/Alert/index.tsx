@@ -5,7 +5,7 @@ import i18n, { currentLanguage } from '../../utils/i18n'
 import { parseSimpleDateNoSecond } from '../../utils/date'
 import SimpleButton from '../SimpleButton'
 import { ComponentActions } from '../../contexts/actions'
-import { CachedKeys } from '../../utils/const'
+import { AppCachedKeys } from '../../utils/const'
 
 const Alert = () => {
   const dispatch = useDispatch()
@@ -16,7 +16,7 @@ const Alert = () => {
   const [startTime, endTime] = appErrors[2].message
 
   const hideAlert = () => {
-    sessionStorage.setItem(CachedKeys.MaintenanceAlert, 'hide')
+    sessionStorage.setItem(AppCachedKeys.MaintenanceAlert, 'hide')
     dispatch({
       type: ComponentActions.UpdateMaintenanceAlertVisible,
       payload: {
@@ -26,7 +26,7 @@ const Alert = () => {
   }
 
   useEffect(() => {
-    const hideMaintenance = sessionStorage.getItem(CachedKeys.MaintenanceAlert) === 'hide'
+    const hideMaintenance = sessionStorage.getItem(AppCachedKeys.MaintenanceAlert) === 'hide'
     if (startTime && endTime && !hideMaintenance) {
       dispatch({
         type: ComponentActions.UpdateMaintenanceAlertVisible,
