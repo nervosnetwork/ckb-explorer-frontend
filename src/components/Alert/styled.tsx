@@ -15,6 +15,8 @@ export const AlertPanel = styled.div`
     justify-content: space-between;
     padding: 0 120px;
     color: white;
+    font-size: 14px;
+    font-weight: 450;
 
     @media (max-width: 1440px) {
       padding: 0 100px;
@@ -27,5 +29,14 @@ export const AlertPanel = styled.div`
     @media (max-width: 750px) {
       padding: 0 18px;
     }
+  }
+
+  .alert__dismiss {
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 2px;
+    border: solid 1px #ffffff;
+    text-align: center;
   }
 `

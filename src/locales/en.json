@@ -16,7 +16,8 @@
       "invalid_network": "Network exception, please try again later",
       "data_too_large": "The data is too large, not available for download",
       "result_not_found": "Search result not found",
-      "maintenance": "Please note that CKB Explorer will be under maintenance from {{start}} to {{end}}"
+      "maintenance": "Please note that CKB Explorer will be under maintenance from {{start}} to {{end}}",
+      "dismiss": "Dismiss"
     },
     "navbar": {
       "wallet": "Wallet",

@@ -582,6 +582,7 @@ declare namespace State {
     filterNoResult: boolean
     mobileMenuVisible: boolean
     headerSearchBarVisible: boolean
+    maintenanceAlertVisible: boolean
   }
 
   export interface AppState extends PageState {
