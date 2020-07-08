@@ -6,7 +6,6 @@ export const getMaintenanceInfo = (dispatch: AppDispatch) => {
   fetchMaintenanceInfo().then((wrapper: Response.Wrapper<State.MaintenanceInfo> | null) => {
     if (wrapper) {
       const { maintenanceInfo = null } = wrapper.attributes
-      console.log(maintenanceInfo)
       dispatch({
         type: AppActions.UpdateAppErrors,
         payload: {
