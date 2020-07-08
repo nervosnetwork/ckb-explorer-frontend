@@ -30,7 +30,7 @@ export const AlertPanel = styled.div`
 
     @media (max-width: 750px) {
       padding: 8px 18px;
-      height: ${(props: { isEn: boolean }) => (props.isEn ? '128px' : '100px')};
+      height: ${(props: { isEn: boolean }) => (props.isEn ? '120px' : '100px')};
       flex-direction: column;
       align-items: flex-start;
     }

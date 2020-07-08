@@ -27,7 +27,7 @@ export const HeaderPanel = styled.div`
 
   @media (max-width: 750px) {
     padding: 0px 18px;
-    top: ${(props: { isNotTop?: boolean; isEn: boolean }) => (props.isNotTop ? (props.isEn ? '128px' : '100px') : '0')};
+    top: ${(props: { isNotTop?: boolean; isEn: boolean }) => (props.isNotTop ? (props.isEn ? '120px' : '100px') : '0')};
   }
 `
 
