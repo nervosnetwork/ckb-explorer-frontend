@@ -45,6 +45,7 @@ export const SearchFailType = {
 export const CachedKeys = {
   AppLanguage: `${CONFIG.CHAIN_TYPE}-AppLanguage`,
   Version: `${CONFIG.CHAIN_TYPE}-Version`,
+  MaintenanceAlert: `${CONFIG.CHAIN_TYPE}-MaintenanceAlert`,
 
   // charts
   APC: `${CONFIG.CHAIN_TYPE}-APC`,

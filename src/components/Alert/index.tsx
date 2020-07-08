@@ -5,6 +5,7 @@ import i18n from '../../utils/i18n'
 import { parseSimpleDateNoSecond } from '../../utils/date'
 import SimpleButton from '../SimpleButton'
 import { ComponentActions } from '../../contexts/actions'
+import { CachedKeys } from '../../utils/const'
 
 const Alert = () => {
   const dispatch = useDispatch()
@@ -15,6 +16,7 @@ const Alert = () => {
   const [startTime, endTime] = appErrors[2].message
 
   const hideAlert = () => {
+    sessionStorage.setItem(CachedKeys.MaintenanceAlert, 'hide')
     dispatch({
       type: ComponentActions.UpdateMaintenanceAlertVisible,
       payload: {
@@ -24,7 +26,8 @@ const Alert = () => {
   }
 
   useEffect(() => {
-    if (startTime && endTime) {
+    const hideMaintenance = sessionStorage.getItem(CachedKeys.MaintenanceAlert) === 'hide'
+    if (startTime && endTime && !hideMaintenance) {
       dispatch({
         type: ComponentActions.UpdateMaintenanceAlertVisible,
         payload: {
@@ -43,9 +46,11 @@ const Alert = () => {
             end: parseSimpleDateNoSecond(endTime, '-', false),
           })}
         </span>
-        <SimpleButton className="alert__dismiss" onClick={() => hideAlert()}>
-          {i18n.t('toast.dismiss')}
-        </SimpleButton>
+        <div>
+          <SimpleButton className="alert__dismiss" onClick={() => hideAlert()}>
+            {i18n.t('toast.dismiss')}
+          </SimpleButton>
+        </div>
       </div>
     </AlertPanel>
   ) : null

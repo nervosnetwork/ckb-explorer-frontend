@@ -24,10 +24,22 @@ export const AlertPanel = styled.div`
 
     @media (max-width: 1200px) {
       padding: 0 45px;
+      height: 64px;
     }
 
     @media (max-width: 750px) {
-      padding: 0 18px;
+      padding: 8px 18px;
+      height: 128px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    > div {
+      @media (max-width: 750px) {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+      }
     }
   }
 
@@ -38,5 +50,9 @@ export const AlertPanel = styled.div`
     border-radius: 2px;
     border: solid 1px #ffffff;
     text-align: center;
+
+    @media (max-width: 1200px) {
+      margin-left: 30px;
+    }
   }
 `
