@@ -11,6 +11,7 @@ export const AlertPanel = styled.div`
     height: 48px;
     background: #fa8f00;
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
     padding: 0 120px;
@@ -29,17 +30,17 @@ export const AlertPanel = styled.div`
 
     @media (max-width: 750px) {
       padding: 8px 18px;
-      height: 128px;
+      height: ${(props: { isEn: boolean }) => (props.isEn ? '128px' : '100px')};
       flex-direction: column;
       align-items: flex-start;
     }
+  }
 
-    > div {
-      @media (max-width: 750px) {
-        width: 100%;
-        display: flex;
-        justify-content: flex-end;
-      }
+  .alert__dismiss__panel {
+    @media (max-width: 750px) {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
     }
   }
 

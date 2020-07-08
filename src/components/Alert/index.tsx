@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { AlertPanel } from './styled'
-import i18n from '../../utils/i18n'
+import i18n, { currentLanguage } from '../../utils/i18n'
 import { parseSimpleDateNoSecond } from '../../utils/date'
 import SimpleButton from '../SimpleButton'
 import { ComponentActions } from '../../contexts/actions'
@@ -38,7 +38,7 @@ const Alert = () => {
   }, [startTime, endTime, dispatch])
 
   return maintenanceAlertVisible ? (
-    <AlertPanel>
+    <AlertPanel isEn={currentLanguage() === 'en'}>
       <div>
         <span>
           {i18n.t('toast.maintenance', {
@@ -46,7 +46,7 @@ const Alert = () => {
             end: parseSimpleDateNoSecond(endTime, '-', false),
           })}
         </span>
-        <div>
+        <div className="alert__dismiss__panel">
           <SimpleButton className="alert__dismiss" onClick={() => hideAlert()}>
             {i18n.t('toast.dismiss')}
           </SimpleButton>

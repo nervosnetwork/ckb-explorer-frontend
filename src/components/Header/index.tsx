@@ -10,6 +10,7 @@ import LanguageComp from './LanguageComp'
 import BlockchainComp from './BlockchainComp'
 import { useLocation } from 'react-router'
 import { AppDispatch } from '../../contexts/reducer'
+import { currentLanguage } from '../../utils/i18n'
 
 const LogoComp = () => {
   return (
@@ -61,7 +62,7 @@ export default () => {
   }, [dispatch, pathname])
 
   return (
-    <HeaderPanel isNotTop={maintenanceAlertVisible}>
+    <HeaderPanel isNotTop={maintenanceAlertVisible} isEn={currentLanguage() === 'en'}>
       <LogoComp />
       {!isMobile() && (
         <>
