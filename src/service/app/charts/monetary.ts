@@ -9,17 +9,11 @@ import {
 import { PageActions } from '../../../contexts/actions'
 import BigNumber from 'bignumber.js'
 import { fetchCachedData, storeCachedData, fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
-import { CachedKeys } from '../../../utils/const'
-import {
-  dispatchAPC,
-  dispatchTotalSupply,
-  dispatchSecondaryIssuance,
-  dispatchInflationRate,
-  dispatchLiquidity,
-} from './action'
+import { ChartCachedKeys } from '../../../utils/const'
+import { dispatchAPC, dispatchTotalSupply, dispatchSecondaryIssuance, dispatchInflationRate, dispatchLiquidity } from './action'
 
 export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.TotalSupply)
+  const data = fetchDateChartCache(ChartCachedKeys.TotalSupply)
   if (data) {
     dispatchTotalSupply(dispatch, data)
     return
@@ -37,7 +31,7 @@ export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
       })
       dispatchTotalSupply(dispatch, statisticTotalSupplies)
       if (statisticTotalSupplies && statisticTotalSupplies.length > 0) {
-        storeDateChartCache(CachedKeys.TotalSupply, statisticTotalSupplies)
+        storeDateChartCache(ChartCachedKeys.TotalSupply, statisticTotalSupplies)
       }
     })
     .catch(() => {
@@ -51,7 +45,7 @@ export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) => {
-  const data = fetchCachedData(CachedKeys.APC)
+  const data = fetchCachedData(ChartCachedKeys.APC)
   if (data) {
     dispatchAPC(dispatch, data)
     return
@@ -69,7 +63,7 @@ export const getStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) 
         })
       dispatchAPC(dispatch, statisticAnnualPercentageCompensations)
       if (statisticAnnualPercentageCompensations && statisticAnnualPercentageCompensations.length > 0) {
-        storeCachedData(CachedKeys.APC, statisticAnnualPercentageCompensations)
+        storeCachedData(ChartCachedKeys.APC, statisticAnnualPercentageCompensations)
       }
     })
     .catch(() => {
@@ -83,7 +77,7 @@ export const getStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) 
 }
 
 export const getStatisticSecondaryIssuance = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.SecondaryIssuance)
+  const data = fetchDateChartCache(ChartCachedKeys.SecondaryIssuance)
   if (data) {
     dispatchSecondaryIssuance(dispatch, data)
     return
@@ -106,7 +100,7 @@ export const getStatisticSecondaryIssuance = (dispatch: AppDispatch) => {
       })
       dispatchSecondaryIssuance(dispatch, statisticSecondaryIssuance)
       if (statisticSecondaryIssuance && statisticSecondaryIssuance.length > 0) {
-        storeDateChartCache(CachedKeys.SecondaryIssuance, statisticSecondaryIssuance)
+        storeDateChartCache(ChartCachedKeys.SecondaryIssuance, statisticSecondaryIssuance)
       }
     })
     .catch(() => {
@@ -120,7 +114,7 @@ export const getStatisticSecondaryIssuance = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticInflationRate = (dispatch: AppDispatch) => {
-  const data = fetchCachedData(CachedKeys.InflationRate)
+  const data = fetchCachedData(ChartCachedKeys.InflationRate)
   if (data) {
     dispatchInflationRate(dispatch, data)
     return
@@ -142,7 +136,7 @@ export const getStatisticInflationRate = (dispatch: AppDispatch) => {
       }
       dispatchInflationRate(dispatch, statisticInflationRates)
       if (statisticInflationRates && statisticInflationRates.length > 0) {
-        storeCachedData(CachedKeys.InflationRate, statisticInflationRates)
+        storeCachedData(ChartCachedKeys.InflationRate, statisticInflationRates)
       }
     })
     .catch(() => {
@@ -156,7 +150,7 @@ export const getStatisticInflationRate = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticLiquidity = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.Liquidity)
+  const data = fetchDateChartCache(ChartCachedKeys.Liquidity)
   if (data) {
     dispatchLiquidity(dispatch, data)
     return
@@ -169,14 +163,12 @@ export const getStatisticLiquidity = (dispatch: AppDispatch) => {
           createdAtUnixtimestamp: data.attributes.createdAtUnixtimestamp,
           circulatingSupply: data.attributes.circulatingSupply,
           liquidity: data.attributes.liquidity,
-          daoDeposit: new BigNumber(data.attributes.circulatingSupply)
-            .minus(new BigNumber(data.attributes.liquidity))
-            .toFixed(2),
+          daoDeposit: new BigNumber(data.attributes.circulatingSupply).minus(new BigNumber(data.attributes.liquidity)).toFixed(2),
         }
       })
       dispatchLiquidity(dispatch, statisticLiquidity)
       if (statisticLiquidity && statisticLiquidity.length > 0) {
-        storeDateChartCache(CachedKeys.Liquidity, statisticLiquidity)
+        storeDateChartCache(ChartCachedKeys.Liquidity, statisticLiquidity)
       }
     })
     .catch(() => {

@@ -323,6 +323,12 @@ export const fetchStatisticLiquidity = () => {
   )
 }
 
+export const fetchFlushChartCache = () => {
+  return axiosIns(`statistics/flush_cache_info`).then((res: AxiosResponse) =>
+    toCamelcase<Response.Wrapper<State.StatisticCacheInfo>>(res.data.data),
+  )
+}
+
 export const fetchSimpleUDT = (typeHash: string) => {
   return axiosIns(`/udts/${typeHash}`).then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.UDT>>(res.data.data))
 }
