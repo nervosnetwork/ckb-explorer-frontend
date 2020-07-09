@@ -7,6 +7,7 @@ export const RESIZE_LATENCY = 500
 export const LOADING_WAITING_TIME = 500
 export const DELAY_BLOCK_NUMBER = 11
 export const PAGE_CELL_COUNT = 200
+export const MAINTENANCE_ALERT_POLLING_TIME = 3600000 // 1 hour
 
 export const MAINNET_PRIMARY_THEME_COLOR = '#3cc68a'
 export const MAINNET_SECONDARY_THEME_COLOR = '#3cc68a'
@@ -44,6 +45,7 @@ export const SearchFailType = {
 export const CachedKeys = {
   AppLanguage: `${CONFIG.CHAIN_TYPE}-AppLanguage`,
   Version: `${CONFIG.CHAIN_TYPE}-Version`,
+  MaintenanceAlert: `${CONFIG.CHAIN_TYPE}-MaintenanceAlert`,
 
   // charts
   APC: `${CONFIG.CHAIN_TYPE}-APC`,

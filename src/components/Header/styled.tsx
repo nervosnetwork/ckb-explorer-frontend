@@ -9,7 +9,7 @@ export const HeaderPanel = styled.div`
   position: fixed;
   position: -webkit-fixed;
   overflow: visible;
-  top: 0;
+  top: ${(props: { isNotTop?: boolean }) => (props.isNotTop ? '48px' : '0')};
   z-index: 10;
   display: flex;
   align-items: center;
@@ -22,10 +22,12 @@ export const HeaderPanel = styled.div`
 
   @media (max-width: 1200px) {
     padding: 0px 45px;
+    top: ${(props: { isNotTop?: boolean }) => (props.isNotTop ? '64px' : '0')};
   }
 
   @media (max-width: 750px) {
     padding: 0px 18px;
+    top: ${(props: { isNotTop?: boolean; isEn: boolean }) => (props.isNotTop ? (props.isEn ? '120px' : '100px') : '0')};
   }
 `
 

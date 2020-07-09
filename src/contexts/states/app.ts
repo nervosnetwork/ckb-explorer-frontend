@@ -11,6 +11,10 @@ export const initApp: State.App = {
       type: 'ChainAlert',
       message: [],
     },
+    {
+      type: 'Maintenance',
+      message: [],
+    },
   ],
   nodeVersion: '',
   tipBlockNumber: 0,
