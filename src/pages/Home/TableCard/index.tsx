@@ -16,21 +16,12 @@ export const BlockCardItem = ({ block, index }: { block: State.Block; index: num
   const blockReward =
     index < DELAY_BLOCK_NUMBER ? (
       <BlockRewardPlusPanel>
-        <DecimalCapacity
-          value={localeNumberString(shannonToCkbDecimal(block.reward, 2))}
-          fontSize="9px"
-          hideUnit
-          hideZero
-        />
+        <DecimalCapacity value={localeNumberString(shannonToCkbDecimal(block.reward, 2))} fontSize="9px" hideUnit hideZero />
+        <span>+</span>
       </BlockRewardPlusPanel>
     ) : (
       <BlockRewardPanel>
-        <DecimalCapacity
-          value={localeNumberString(shannonToCkbDecimal(block.reward, 2))}
-          fontSize="9px"
-          hideUnit
-          hideZero
-        />
+        <DecimalCapacity value={localeNumberString(shannonToCkbDecimal(block.reward, 2))} fontSize="9px" hideUnit hideZero />
       </BlockRewardPanel>
     )
 
@@ -77,7 +68,7 @@ export const TransactionCardItem = ({
   const confirmationUnit = confirmation > 1 ? i18n.t('address.confirmations') : i18n.t('address.confirmation')
   let transactionHash = isScreenSmallerThan1440()
     ? adaptPCEllipsis(transaction.transactionHash, 1, 80)
-    : adaptPCEllipsis(transaction.transactionHash, 3, 50)
+    : adaptPCEllipsis(transaction.transactionHash, 3, 80)
   if (isMobile()) {
     transactionHash = adaptMobileEllipsis(transaction.transactionHash, 12)
   }
@@ -101,7 +92,6 @@ export const TransactionCardItem = ({
         <DecimalCapacity
           value={localeNumberString(shannonToCkbDecimal(transaction.capacityInvolved, 2))}
           fontSize="9px"
-          marginBottom="2px"
           hideZero
         />
         <span className="transaction__card__live__cells">

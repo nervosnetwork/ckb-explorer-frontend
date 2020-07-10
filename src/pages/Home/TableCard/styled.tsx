@@ -46,7 +46,7 @@ export const BlockCardPanel = styled.div`
     .block__card__timestamp {
       font-size: 12px;
       color: #888888;
-      margin-top: 10px;
+      margin-top: 9px;
       font-weight: 500;
       overflow: hidden;
       white-space: nowrap;
@@ -90,12 +90,16 @@ export const BlockCardPanel = styled.div`
     }
 
     .block__card__reward {
-      font-size: 12px;
+      font-size: 14px;
       color: #888888;
       font-weight: 500;
 
+      @media (max-width: 750px) {
+        font-size: 13px;
+      }
+
       > span {
-        margin-top: 10px;
+        margin-top: 9px;
         margin-right: 10px;
 
         @media (max-width: 750px) {
@@ -126,7 +130,7 @@ export const BlockCardPanel = styled.div`
     .block__card__live__cells {
       display: flex;
       font-size: 12px;
-      margin-top: 10px;
+      margin-top: 9px;
       margin-left: 10px;
       color: #888888;
       font-weight: 500;
@@ -280,12 +284,12 @@ export const BlockRewardPlusPanel = styled.div`
     justify-content: flex-start;
   }
 
-  :after {
-    display: inline;
+  > span {
     content: '+';
     color: #7f7d7d;
     font-size: 13px;
-    margin-bottom: 2px;
+    margin-bottom: -1px;
+    margin-left: 2px;
   }
 `
 

@@ -10,7 +10,7 @@ import {
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
-import { CachedKeys } from '../../../utils/const'
+import { ChartCachedKeys } from '../../../utils/const'
 import {
   dispatchTransactionCount,
   dispatchAddressCount,
@@ -21,7 +21,7 @@ import {
 } from './action'
 
 export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.TransactionCount)
+  const data = fetchDateChartCache(ChartCachedKeys.TransactionCount)
   if (data) {
     dispatchTransactionCount(dispatch, data)
     return
@@ -38,7 +38,7 @@ export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
       })
       dispatchTransactionCount(dispatch, transactionCounts)
       if (transactionCounts && transactionCounts.length > 0) {
-        storeDateChartCache(CachedKeys.TransactionCount, transactionCounts)
+        storeDateChartCache(ChartCachedKeys.TransactionCount, transactionCounts)
       }
     })
     .catch(() => {
@@ -52,7 +52,7 @@ export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticAddressCount = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.AddressCount)
+  const data = fetchDateChartCache(ChartCachedKeys.AddressCount)
   if (data) {
     dispatchAddressCount(dispatch, data)
     return
@@ -69,7 +69,7 @@ export const getStatisticAddressCount = (dispatch: AppDispatch) => {
       })
       dispatchAddressCount(dispatch, addressCounts)
       if (addressCounts && addressCounts.length > 0) {
-        storeDateChartCache(CachedKeys.AddressCount, addressCounts)
+        storeDateChartCache(ChartCachedKeys.AddressCount, addressCounts)
       }
     })
     .catch(() => {
@@ -83,7 +83,7 @@ export const getStatisticAddressCount = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticCellCount = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.CellCount)
+  const data = fetchDateChartCache(ChartCachedKeys.CellCount)
   if (data) {
     dispatchCellCount(dispatch, data)
     return
@@ -96,15 +96,13 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
         return {
           liveCellsCount: wrapper.attributes.liveCellsCount,
           deadCellsCount: wrapper.attributes.deadCellsCount,
-          allCellsCount: (
-            Number(wrapper.attributes.liveCellsCount) + Number(wrapper.attributes.deadCellsCount)
-          ).toString(),
+          allCellsCount: (Number(wrapper.attributes.liveCellsCount) + Number(wrapper.attributes.deadCellsCount)).toString(),
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
       dispatchCellCount(dispatch, cellCounts)
       if (cellCounts && cellCounts.length > 0) {
-        storeDateChartCache(CachedKeys.CellCount, cellCounts)
+        storeDateChartCache(ChartCachedKeys.CellCount, cellCounts)
       }
     })
     .catch(() => {
@@ -118,7 +116,7 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticAddressBalanceRank = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.AddressBalanceRank)
+  const data = fetchDateChartCache(ChartCachedKeys.AddressBalanceRank)
   if (data) {
     dispatchBalanceRank(dispatch, data)
     return
@@ -129,7 +127,7 @@ export const getStatisticAddressBalanceRank = (dispatch: AppDispatch) => {
       const addressBalanceRanks = wrapper.attributes.addressBalanceRanking
       dispatchBalanceRank(dispatch, addressBalanceRanks)
       if (addressBalanceRanks && addressBalanceRanks.length > 0) {
-        storeDateChartCache(CachedKeys.AddressBalanceRank, addressBalanceRanks)
+        storeDateChartCache(ChartCachedKeys.AddressBalanceRank, addressBalanceRanks)
       }
     })
     .catch(() => {
@@ -143,7 +141,7 @@ export const getStatisticAddressBalanceRank = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticBalanceDistribution = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.BalanceDistribution)
+  const data = fetchDateChartCache(ChartCachedKeys.BalanceDistribution)
   if (data) {
     dispatchBalanceDistribution(dispatch, data)
     return
@@ -162,7 +160,7 @@ export const getStatisticBalanceDistribution = (dispatch: AppDispatch) => {
       })
       dispatchBalanceDistribution(dispatch, balanceDistributions)
       if (balanceDistributions && balanceDistributions.length > 0) {
-        storeDateChartCache(CachedKeys.BalanceDistribution, balanceDistributions)
+        storeDateChartCache(ChartCachedKeys.BalanceDistribution, balanceDistributions)
       }
     })
     .catch(() => {
@@ -176,7 +174,7 @@ export const getStatisticBalanceDistribution = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticTxFeeHistory = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.TransactionFee)
+  const data = fetchDateChartCache(ChartCachedKeys.TransactionFee)
   if (data) {
     dispatchTransactionFee(dispatch, data)
     return
@@ -193,7 +191,7 @@ export const getStatisticTxFeeHistory = (dispatch: AppDispatch) => {
       })
       dispatchTransactionFee(dispatch, statisticTxFeeHistories)
       if (statisticTxFeeHistories && statisticTxFeeHistories.length > 0) {
-        storeDateChartCache(CachedKeys.TransactionFee, statisticTxFeeHistories)
+        storeDateChartCache(ChartCachedKeys.TransactionFee, statisticTxFeeHistories)
       }
     })
     .catch(() => {

@@ -1,13 +1,17 @@
 import React from 'react'
 import { useAppState } from '../../contexts/providers'
 import { SheetPanel, SheetPointPanel, SheetItem } from './styled'
+import { currentLanguage } from '../../utils/i18n'
 
 const Sheet = () => {
-  const { app } = useAppState()
+  const {
+    app,
+    components: { maintenanceAlertVisible },
+  } = useAppState()
   const messages: string[] = app.appErrors[1].message.concat(app.appErrors[0].message)
 
   return messages.length > 0 ? (
-    <SheetPanel>
+    <SheetPanel isNotTop={maintenanceAlertVisible} isEn={currentLanguage() === 'en'}>
       <div>
         {messages.map((context: string, index: number) => {
           const key = index

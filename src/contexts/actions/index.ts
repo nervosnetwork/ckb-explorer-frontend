@@ -114,6 +114,7 @@ export enum ComponentActions {
   UpdateFilterNoResult = 'updateFilterNoResult',
   UpdateHeaderMobileMenuVisible = 'updateHeaderMobileMenuVisible',
   UpdateHeaderSearchBarVisible = 'updateHeaderSearchBarVisible',
+  UpdateMaintenanceAlertVisible = 'updateMaintenanceAlertVisible',
 }
 
 export type StateActions = AppActions | PageActions | ComponentActions
