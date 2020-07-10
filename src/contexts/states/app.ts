@@ -12,7 +12,7 @@ export const initApp: State.App = {
       message: [],
     },
     {
-      type: 'Maintain',
+      type: 'Maintenance',
       message: [],
     },
   ],

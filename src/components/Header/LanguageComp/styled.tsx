@@ -63,7 +63,7 @@ export const MobileSubMenuPanel = styled.div`
 
   .mobile__menus__sub__item {
     width: 300px;
-    padding: 11px 24px;
+    padding: 12px 24px;
     font-size: 12px;
     display: flex;
     align-items: center;

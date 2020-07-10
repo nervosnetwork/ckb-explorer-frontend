@@ -9,13 +9,8 @@ import {
 } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
-import { CachedKeys } from '../../../utils/const'
-import {
-  fetchDateChartCache,
-  storeDateChartCache,
-  fetchEpochChartCache,
-  storeEpochChartCache,
-} from '../../../utils/cache'
+import { ChartCachedKeys } from '../../../utils/const'
+import { fetchDateChartCache, storeDateChartCache, fetchEpochChartCache, storeEpochChartCache } from '../../../utils/cache'
 import {
   dispatchDifficulty,
   dispatchHashRate,
@@ -26,7 +21,7 @@ import {
 } from './action'
 
 export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
-  const data = fetchEpochChartCache(CachedKeys.DifficultyHashRate)
+  const data = fetchEpochChartCache(ChartCachedKeys.DifficultyHashRate)
   if (data) {
     dispatchDifficultyHashRate(dispatch, data)
     return
@@ -44,7 +39,7 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
       })
       dispatchDifficultyHashRate(dispatch, difficultyHashRates)
       if (difficultyHashRates && difficultyHashRates.length > 0) {
-        storeEpochChartCache(CachedKeys.DifficultyHashRate, difficultyHashRates)
+        storeEpochChartCache(ChartCachedKeys.DifficultyHashRate, difficultyHashRates)
       }
     })
     .catch(() => {
@@ -58,7 +53,7 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
-  const data = fetchEpochChartCache(CachedKeys.DifficultyUncleRate)
+  const data = fetchEpochChartCache(ChartCachedKeys.DifficultyUncleRate)
   if (data) {
     dispatchDifficultyUncleRate(dispatch, data)
     return
@@ -76,7 +71,7 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
       })
       dispatchDifficultyUncleRate(dispatch, difficultyUncleRates)
       if (difficultyUncleRates && difficultyUncleRates.length > 0) {
-        storeEpochChartCache(CachedKeys.DifficultyUncleRate, difficultyUncleRates)
+        storeEpochChartCache(ChartCachedKeys.DifficultyUncleRate, difficultyUncleRates)
       }
     })
     .catch(() => {
@@ -90,7 +85,7 @@ export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticDifficulty = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.Difficulty)
+  const data = fetchDateChartCache(ChartCachedKeys.Difficulty)
   if (data) {
     dispatchDifficulty(dispatch, data)
     return
@@ -107,7 +102,7 @@ export const getStatisticDifficulty = (dispatch: AppDispatch) => {
       })
       dispatchDifficulty(dispatch, difficulties)
       if (difficulties && difficulties.length > 0) {
-        storeDateChartCache(CachedKeys.Difficulty, difficulties)
+        storeDateChartCache(ChartCachedKeys.Difficulty, difficulties)
       }
     })
     .catch(() => {
@@ -121,7 +116,7 @@ export const getStatisticDifficulty = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticHashRate = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.HashRate)
+  const data = fetchDateChartCache(ChartCachedKeys.HashRate)
   if (data) {
     dispatchHashRate(dispatch, data)
     return
@@ -138,7 +133,7 @@ export const getStatisticHashRate = (dispatch: AppDispatch) => {
       })
       dispatchHashRate(dispatch, hashRates)
       if (hashRates && hashRates.length > 0) {
-        storeDateChartCache(CachedKeys.HashRate, hashRates)
+        storeDateChartCache(ChartCachedKeys.HashRate, hashRates)
       }
     })
     .catch(() => {
@@ -152,7 +147,7 @@ export const getStatisticHashRate = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticUncleRate = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.UncleRate)
+  const data = fetchDateChartCache(ChartCachedKeys.UncleRate)
   if (data) {
     dispatchUncleRate(dispatch, data)
     return
@@ -169,7 +164,7 @@ export const getStatisticUncleRate = (dispatch: AppDispatch) => {
       })
       dispatchUncleRate(dispatch, uncleRates)
       if (uncleRates && uncleRates.length > 0) {
-        storeDateChartCache(CachedKeys.UncleRate, uncleRates)
+        storeDateChartCache(ChartCachedKeys.UncleRate, uncleRates)
       }
     })
     .catch(() => {
@@ -183,7 +178,7 @@ export const getStatisticUncleRate = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.MinerAddressDistribution)
+  const data = fetchDateChartCache(ChartCachedKeys.MinerAddressDistribution)
   if (data) {
     dispatchMinerAddressDistribution(dispatch, data)
     return
@@ -204,9 +199,8 @@ export const getStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
       }
       dispatchMinerAddressDistribution(dispatch, statisticMinerAddresses)
       if (statisticMinerAddresses && statisticMinerAddresses.length > 0) {
-        storeDateChartCache(CachedKeys.MinerAddressDistribution, statisticMinerAddresses)
+        storeDateChartCache(ChartCachedKeys.MinerAddressDistribution, statisticMinerAddresses)
       }
-      
     })
     .catch(() => {
       dispatch({

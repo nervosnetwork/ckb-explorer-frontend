@@ -178,7 +178,7 @@ exports[`Active Page shallow renders 1`] = `
         className="blockchain__item__row"
       >
         <div
-          className="sc-AxhUy jcWDVH"
+          className="sc-AxhUy iyPrqy"
         >
           <div
             className="blockchain__item__content"
@@ -208,7 +208,7 @@ exports[`Active Page shallow renders 1`] = `
           />
         </div>
         <div
-          className="sc-AxhUy jcWDVH"
+          className="sc-AxhUy iyPrqy"
         >
           <div
             className="blockchain__item__content"
@@ -237,7 +237,7 @@ exports[`Active Page shallow renders 1`] = `
         className="blockchain__item__row"
       >
         <div
-          className="sc-AxhUy jcWDVH"
+          className="sc-AxhUy iyPrqy"
         >
           <div
             className="blockchain__item__content"
@@ -262,7 +262,7 @@ exports[`Active Page shallow renders 1`] = `
           />
         </div>
         <div
-          className="sc-AxhUy jcWDVH"
+          className="sc-AxhUy iyPrqy"
         >
           <div
             className="blockchain__item__content"
@@ -290,7 +290,7 @@ exports[`Active Page shallow renders 1`] = `
     className="sc-AxheI hSfBRh container"
   >
     <div
-      className="sc-Axmtr kZrqCS"
+      className="sc-Axmtr bHlHAX"
     >
       <div
         className="sc-fzpans ezbbDY"
@@ -305,7 +305,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzoant fQLdJs"
+          className="sc-fzoant grUnPi"
         >
           <div
             className="block__card__height"
@@ -353,6 +353,8 @@ exports[`Active Page shallow renders 1`] = `
                 >
                   <span
                     className="table__miner__text monospace"
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
                   >
                     ckb1qyqq...nsh6e30l
                   </span>
@@ -366,7 +368,7 @@ exports[`Active Page shallow renders 1`] = `
                 Reward
               </span>
               <div
-                className="sc-fzqAbL hjppRf"
+                className="sc-fzqAbL eQdKTo"
               >
                 <div
                   className="sc-fzolEj eSfUyM"
@@ -381,6 +383,9 @@ exports[`Active Page shallow renders 1`] = `
                     .02
                   </div>
                 </div>
+                <span>
+                  +
+                </span>
               </div>
             </div>
           </div>
@@ -405,7 +410,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzoant fQLdJs"
+          className="sc-fzoant grUnPi"
         >
           <div
             className="block__card__height"
@@ -453,6 +458,8 @@ exports[`Active Page shallow renders 1`] = `
                 >
                   <span
                     className="table__miner__text monospace"
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
                   >
                     ckb1qyqd...vsxasryq
                   </span>
@@ -466,7 +473,7 @@ exports[`Active Page shallow renders 1`] = `
                 Reward
               </span>
               <div
-                className="sc-fzqAbL hjppRf"
+                className="sc-fzqAbL eQdKTo"
               >
                 <div
                   className="sc-fzolEj eSfUyM"
@@ -481,6 +488,9 @@ exports[`Active Page shallow renders 1`] = `
                     .02
                   </div>
                 </div>
+                <span>
+                  +
+                </span>
               </div>
             </div>
           </div>
@@ -505,7 +515,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzoant fQLdJs"
+          className="sc-fzoant grUnPi"
         >
           <div
             className="block__card__height"
@@ -553,6 +563,8 @@ exports[`Active Page shallow renders 1`] = `
                 >
                   <span
                     className="table__miner__text monospace"
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
                   >
                     ckb1qyqd...vsxasryq
                   </span>
@@ -566,7 +578,7 @@ exports[`Active Page shallow renders 1`] = `
                 Reward
               </span>
               <div
-                className="sc-fzqAbL hjppRf"
+                className="sc-fzqAbL eQdKTo"
               >
                 <div
                   className="sc-fzolEj eSfUyM"
@@ -581,6 +593,9 @@ exports[`Active Page shallow renders 1`] = `
                     .02
                   </div>
                 </div>
+                <span>
+                  +
+                </span>
               </div>
             </div>
           </div>
@@ -610,7 +625,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxmLO lmzuPY"
+      className="sc-AxmLO lnmAWt"
     >
       <div
         className="sc-fzpans ezbbDY"
@@ -689,7 +704,7 @@ exports[`Active Page shallow renders 1`] = `
                 1,113
               </span>
               <div
-                className="sc-fzqBkg mXqCD monospace"
+                className="sc-fzqBkg bVsdMM monospace"
                 fontSize="9px"
               >
                 .03
@@ -777,7 +792,7 @@ exports[`Active Page shallow renders 1`] = `
                 1,113
               </span>
               <div
-                className="sc-fzqBkg mXqCD monospace"
+                className="sc-fzqBkg bVsdMM monospace"
                 fontSize="9px"
               >
                 .03
@@ -865,7 +880,7 @@ exports[`Active Page shallow renders 1`] = `
                 1,113
               </span>
               <div
-                className="sc-fzqBkg mXqCD monospace"
+                className="sc-fzqBkg bVsdMM monospace"
                 fontSize="9px"
               >
                 .03
@@ -1075,7 +1090,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="blockchain__item__row"
       >
         <div
-          className="sc-AxhUy jcWDVH"
+          className="sc-AxhUy iyPrqy"
         >
           <div
             className="blockchain__item__content"
@@ -1105,7 +1120,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           />
         </div>
         <div
-          className="sc-AxhUy jcWDVH"
+          className="sc-AxhUy iyPrqy"
         >
           <div
             className="blockchain__item__content"
@@ -1134,7 +1149,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="blockchain__item__row"
       >
         <div
-          className="sc-AxhUy jcWDVH"
+          className="sc-AxhUy iyPrqy"
         >
           <div
             className="blockchain__item__content"
@@ -1159,7 +1174,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           />
         </div>
         <div
-          className="sc-AxhUy jcWDVH"
+          className="sc-AxhUy iyPrqy"
         >
           <div
             className="blockchain__item__content"
@@ -1187,7 +1202,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
     className="sc-AxheI hSfBRh container"
   >
     <div
-      className="sc-Axmtr kZrqCS"
+      className="sc-Axmtr bHlHAX"
     >
       <div
         className="sc-fzpans ezbbDY"
@@ -1218,7 +1233,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxmLO lmzuPY"
+      className="sc-AxmLO lnmAWt"
     >
       <div
         className="sc-fzpans ezbbDY"

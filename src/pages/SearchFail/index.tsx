@@ -24,10 +24,11 @@ export const chainUrl = () => {
   return isMainnet() ? testnetUrl : mainnetUrl
 }
 
-export default () => {
+export default ({ address }: { address?: string }) => {
   const { search } = useLocation()
   const parsed = queryString.parse(search)
-  const { q, type } = parsed
+  let { q, type } = parsed
+  q = address ? address : q
 
   return (
     <Content>
@@ -36,7 +37,7 @@ export default () => {
           <Search content={q as string} hasButton />
         </div>
         <SearchContent>
-          {type && type === SearchFailType.CHAIN_ERROR ? (
+          {(type && type === SearchFailType.CHAIN_ERROR) || address ? (
             <div>
               <span>{chainErrorMessage()}</span>
               <a href={`${chainUrl()}/address/${q}`} rel="noopener noreferrer">

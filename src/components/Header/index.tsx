@@ -9,6 +9,7 @@ import { SearchComp } from './SearchComp'
 import LanguageComp from './LanguageComp'
 import BlockchainComp from './BlockchainComp'
 import { useLocation } from 'react-router'
+import { currentLanguage } from '../../utils/i18n'
 
 const LogoComp = () => {
   return (
@@ -47,20 +48,20 @@ export default () => {
   const { pathname } = useLocation()
   const dispatch = useDispatch()
   const {
-    components: { searchBarEditable, headerSearchBarVisible },
+    components: { searchBarEditable, headerSearchBarVisible, maintenanceAlertVisible },
   } = useAppState()
 
   useEffect(() => {
     dispatch({
       type: ComponentActions.UpdateHeaderSearchBarVisible,
       payload: {
-        headerSearchBarVisible: pathname !== '/' && pathname !== '/search/fail' && pathname !== '/maintain',
+        headerSearchBarVisible: pathname !== '/' && pathname !== '/search/fail',
       },
     })
   }, [dispatch, pathname])
 
   return (
-    <HeaderPanel>
+    <HeaderPanel isNotTop={maintenanceAlertVisible} isEn={currentLanguage() === 'en'}>
       <LogoComp />
       {!isMobile() && (
         <>

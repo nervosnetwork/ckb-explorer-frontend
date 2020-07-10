@@ -13,10 +13,11 @@
       "ckb_explorer": "CKB 浏览器"
     },
     "toast": {
-      "invalid_content": "请输入有效内容",
       "invalid_network": "网络出错，请稍后再试",
       "data_too_large": "数据过大，不支持下载",
-      "result_not_found": "没有找到搜索结果"
+      "result_not_found": "没有找到搜索结果",
+      "maintenance": "请注意 CKB 浏览器将于 {{start}} 至 {{end}} 处于维护状态，期间数据更新可能会有延迟。",
+      "dismiss": "知道了"
     },
     "navbar": {
       "wallet": "钱包",

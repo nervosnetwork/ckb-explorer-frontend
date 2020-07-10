@@ -3,11 +3,15 @@ import styled from 'styled-components'
 export const SheetPanel = styled.div`
   position: sticky;
   position: -webkit-sticky;
-  top: 64px;
+  top: ${(props: { isNotTop?: boolean }) => (props.isNotTop ? '112px' : '64px')};
   z-index: 9000;
 
+  @media (max-width: 1200px) {
+    top: ${(props: { isNotTop?: boolean }) => (props.isNotTop ? '128px' : '64px')};
+  }
+
   @media (max-width: 750px) {
-    top: 42px;
+    top: ${(props: { isNotTop?: boolean; isEn: boolean }) => (props.isNotTop ? (props.isEn ? '184px' : '164px') : '64px')};
   }
 
   > div {

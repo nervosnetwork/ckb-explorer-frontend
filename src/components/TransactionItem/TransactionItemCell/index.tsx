@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Popover, Tooltip } from 'antd'
-import 'antd/dist/antd.css'
 import NervosDAOCellIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import UDTTokenIcon from '../../../assets/udt_token.png'
@@ -77,15 +76,7 @@ const udtAmount = (udt: State.UDTInfo) => {
     : `${i18n.t('udt.unknown_token')} #${udt.typeHash.substring(udt.typeHash.length - 4)}`
 }
 
-const WithdrawPopoverItem = ({
-  width,
-  title,
-  content,
-}: {
-  width: string
-  title: string
-  content: ReactNode | string
-}) => {
+const WithdrawPopoverItem = ({ width, title, content }: { width: string; title: string; content: ReactNode | string }) => {
   return (
     <WithdrawItemPanel width={width}>
       <div className="withdraw__info_title">{title}</div>
@@ -103,25 +94,17 @@ const WithdrawPopoverInfo = ({ cell }: { cell: State.Cell }) => {
   return (
     <WithdrawInfoPanel>
       <p>
-        {isDaoWithdrawCell(cell.cellType)
-          ? i18n.t('nervos_dao.withdraw_tooltip')
-          : i18n.t('nervos_dao.withdraw_request_tooltip')}
+        {isDaoWithdrawCell(cell.cellType) ? i18n.t('nervos_dao.withdraw_tooltip') : i18n.t('nervos_dao.withdraw_request_tooltip')}
       </p>
       <WithdrawPopoverItem
         width={width}
         title={`${i18n.t('nervos_dao.deposit_capacity')}: `}
-        content={
-          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} fontSize={isMobile() ? '8px' : ''} />
-        }
+        content={<DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} fontSize={isMobile() ? '8px' : ''} />}
       />
       <WithdrawPopoverItem
         width={width}
-        title={`${i18n.t(
-          isDaoWithdrawCell(cell.cellType) ? 'nervos_dao.compensation' : 'nervos_dao.unissued_compensation',
-        )}: `}
-        content={
-          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.interest))} fontSize={isMobile() ? '8px' : ''} />
-        }
+        title={`${i18n.t(isDaoWithdrawCell(cell.cellType) ? 'nervos_dao.compensation' : 'nervos_dao.unissued_compensation')}: `}
+        content={<DecimalCapacity value={localeNumberString(shannonToCkb(cell.interest))} fontSize={isMobile() ? '8px' : ''} />}
       />
       <WithdrawPopoverItem
         width={width}
@@ -188,9 +171,7 @@ const TransactionCellNervosDao = ({ cell, cellType }: { cell: State.Cell; cellTy
       ) : (
         <Tooltip
           placement={isMobile() ? 'topRight' : 'top'}
-          title={i18n.t(
-            isDaoDepositCell(cell.cellType) ? 'nervos_dao.deposit_tooltip' : 'nervos_dao.calculation_tooltip',
-          )}
+          title={i18n.t(isDaoDepositCell(cell.cellType) ? 'nervos_dao.deposit_tooltip' : 'nervos_dao.calculation_tooltip')}
           arrowPointAtCenter
           overlayStyle={{ fontSize: '14px' }}
         >

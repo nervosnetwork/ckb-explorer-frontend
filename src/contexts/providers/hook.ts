@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import { initAxiosInterceptors } from '../../service/http/interceptors'
-import { RESIZE_LATENCY, CachedKeys } from '../../utils/const'
+import { RESIZE_LATENCY, AppCachedKeys, MAINTENANCE_ALERT_POLLING_TIME, FLUSH_CHART_CACHE_POLLING_TIME } from '../../utils/const'
 import { initNodeVersion } from '../../service/app/nodeInfo'
 import { AppDispatch } from '../reducer'
 import { fetchCachedData } from '../../utils/cache'
 import { changeLanguage } from '../../utils/i18n'
 import { useAppState, useDispatch } from '.'
 import { AppActions } from '../actions'
+import { useInterval } from '../../utils/hook'
+import { getMaintenanceInfo } from '../../service/app/alert'
+import flushCacheInfo from '../../service/app/charts/cache'
 
 const useWindowResize = (dispatch: AppDispatch) => {
   useEffect(() => {
@@ -32,7 +35,7 @@ const useWindowResize = (dispatch: AppDispatch) => {
 }
 
 const initAppLanguage = (app: State.App, dispatch: AppDispatch) => {
-  const language = fetchCachedData<'zh' | 'en'>(CachedKeys.AppLanguage) || app.language
+  const language = fetchCachedData<'zh' | 'en'>(AppCachedKeys.AppLanguage) || app.language
   // Warding: https://github.com/facebook/react/issues/18147
   setTimeout(() => {
     dispatch({
@@ -55,8 +58,18 @@ export const useInitApp = () => {
     initAxiosInterceptors(dispatch)
     initNodeVersion(dispatch)
     initAppLanguage(app, dispatch)
+    getMaintenanceInfo(dispatch)
+    flushCacheInfo()
   }
   useWindowResize(dispatch)
+
+  useInterval(() => {
+    getMaintenanceInfo(dispatch)
+  }, MAINTENANCE_ALERT_POLLING_TIME)
+
+  useInterval(() => {
+    flushCacheInfo()
+  }, FLUSH_CHART_CACHE_POLLING_TIME)
 }
 
 export default useInitApp

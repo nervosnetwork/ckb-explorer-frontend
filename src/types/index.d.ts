@@ -21,7 +21,7 @@ declare namespace State {
   }
 
   export interface AppError {
-    type: 'Network' | 'ChainAlert' | 'Maintain'
+    type: 'Network' | 'ChainAlert' | 'Maintenance'
     message: string[]
   }
 
@@ -406,6 +406,10 @@ declare namespace State {
     radio: string
   }
 
+  export interface StatisticCacheInfo {
+    flushCacheInfo: string[]
+  }
+
   interface FetchStatusValue {
     OK: string
     Error: string
@@ -563,7 +567,7 @@ declare namespace State {
     appErrors: [
       { type: 'Network'; message: string[] },
       { type: 'ChainAlert'; message: string[] },
-      { type: 'Maintain'; message: string[] },
+      { type: 'Maintenance'; message: string[] },
     ]
     nodeVersion: string
     tipBlockNumber: number
@@ -582,11 +586,19 @@ declare namespace State {
     filterNoResult: boolean
     mobileMenuVisible: boolean
     headerSearchBarVisible: boolean
+    maintenanceAlertVisible: boolean
   }
 
   export interface AppState extends PageState {
     app: App
     components: Components
+  }
+
+  export interface MaintenanceInfo {
+    maintenanceInfo: {
+      startAt: string
+      endAt: string
+    }
   }
 }
 
