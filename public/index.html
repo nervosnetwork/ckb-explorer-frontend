@@ -3,10 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
     <meta name="theme-color" content="#000000" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -40,15 +38,17 @@
   </body>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script>
-    if(window.location.href.indexOf('explorer.nervos.org') > -1){
-      var googleScript = document.createElement("script");
-      googleScript.src = "https://www.googletagmanager.com/gtag/js?id=UA-139882771-4"
-      googleScript.async = true;
-      googleScript.onload = function() {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-139882771-4');
+    if (window.location.href.indexOf('explorer.nervos.org') > -1) {
+      var googleScript = document.createElement('script')
+      googleScript.src = 'https://www.googletagmanager.com/gtag/js?id=UA-139882771-4'
+      googleScript.async = true
+      googleScript.onload = function () {
+        window.dataLayer = window.dataLayer || []
+        function gtag() {
+          dataLayer.push(arguments)
+        }
+        gtag('js', new Date())
+        gtag('config', 'UA-139882771-4')
       }
       document.body.append(googleScript)
     }
