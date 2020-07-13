@@ -37,6 +37,8 @@ describe('Date methods tests', () => {
   })
 
   it('parse date no time', async () => {
+    expect(parseDateNoTime(1588734510)).toBe('2020/05/06')
+    expect(parseDateNoTime(1588734510, true)).toBe('05/06')
     expect(parseDateNoTime(1576157854)).toBe('2019/12/12')
     expect(parseDateNoTime(1576157854, false)).toBe('2019/12/12')
     expect(parseDateNoTime(1576157854, true)).toBe('12/12')
@@ -59,15 +61,15 @@ describe('Date methods tests', () => {
   })
 
   it('parseSimpleDate', async () => {
-    expect(parseSimpleDate(1588734510000)).toBe('2020/5/6 03:08:30')
-    expect(parseSimpleDate(1588651000000)).toBe('2020/5/5 03:56:40')
+    expect(parseSimpleDate(1588734510000)).toBe('2020/05/06 03:08:30')
+    expect(parseSimpleDate(1588651000000)).toBe('2020/05/05 03:56:40')
   })
 
   it('parseSimpleDateNoSecond', async () => {
-    expect(parseSimpleDateNoSecond(1588734510000)).toBe('2020-5-6 03:08')
-    expect(parseSimpleDateNoSecond(1588734510000, '/')).toBe('2020/5/6 03:08')
-    expect(parseSimpleDateNoSecond(1588734510, '/', false)).toBe('2020/5/6 03:08')
-    expect(parseSimpleDateNoSecond(1588651000000, '/')).toBe('2020/5/5 03:56')
+    expect(parseSimpleDateNoSecond(1588734510000)).toBe('2020-05-06 03:08')
+    expect(parseSimpleDateNoSecond(1588734510000, '/')).toBe('2020/05/06 03:08')
+    expect(parseSimpleDateNoSecond(1588734510, '/', false)).toBe('2020/05/06 03:08')
+    expect(parseSimpleDateNoSecond(1588651000000, '/')).toBe('2020/05/05 03:56')
   })
 
   it('getCurrentYear', async () => {
@@ -82,15 +84,15 @@ describe('Date methods tests', () => {
 
     MockDate.reset()
     timezoneMock.register('UTC')
-    expect(parseDate(1588651000000)).toBe('2020/5/5 03:56:40')
+    expect(parseDate(1588651000000)).toBe('2020/05/05 03:56:40')
   })
 
   it('getCSTTime', async () => {
     timezoneMock.register('UTC')
-    expect(parseSimpleDate(1588651000000)).toBe('2020/5/5 03:56:40')
+    expect(parseSimpleDate(1588651000000)).toBe('2020/05/05 03:56:40')
     MockDate.set(1588651000000, 0)
     expect(getCSTTime()).toBe(1588679800000)
     timezoneMock.register('UTC')
-    expect(parseSimpleDate(1588679800000)).toBe('2020/5/5 11:56:40')
+    expect(parseSimpleDate(1588679800000)).toBe('2020/05/05 11:56:40')
   })
 })

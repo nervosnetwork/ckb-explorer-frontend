@@ -6,16 +6,16 @@ export const formatData = (data: number) => {
 
 export const parseSimpleDate = (timestamp: number | string) => {
   const date = new Date(Number(timestamp))
-  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${formatData(date.getHours())}:${formatData(
-    date.getMinutes(),
-  )}:${formatData(date.getSeconds())}`
+  return `${date.getFullYear()}/${formatData(date.getMonth() + 1)}/${formatData(date.getDate())} ${formatData(
+    date.getHours(),
+  )}:${formatData(date.getMinutes())}:${formatData(date.getSeconds())}`
 }
 
 export const parseSimpleDateNoSecond = (timestamp: number | string, connector = '-', isMillisecond = true) => {
   const date = new Date(Number(timestamp) * (isMillisecond ? 1 : 1000))
-  return `${date.getFullYear()}${connector}${date.getMonth() + 1}${connector}${date.getDate()} ${formatData(
-    date.getHours(),
-  )}:${formatData(date.getMinutes())}`
+  return `${date.getFullYear()}${connector}${formatData(date.getMonth() + 1)}${connector}${formatData(
+    date.getDate(),
+  )} ${formatData(date.getHours())}:${formatData(date.getMinutes())}`
 }
 
 export const parseDiffDate = (startTime: number | string, endTime: number | string) => {
@@ -38,7 +38,7 @@ export const parseTimeNoSecond = (millisecond: number | string) => {
 export const parseDateNoTime = (timestamp: number | string, noYear = false, connector = '/') => {
   const date = new Date(Number(timestamp) * 1000)
   const year = noYear ? '' : `${date.getFullYear()}${connector}`
-  return `${year}${date.getMonth() + 1}${connector}${date.getDate()}`
+  return `${year}${formatData(date.getMonth() + 1)}${connector}${formatData(date.getDate())}`
 }
 
 export const parseDate = (timestamp: number | string) => {
