@@ -17,16 +17,17 @@ const AppDiv = styled.div`
   width: 100vw;
   height: 100vh;
 `
-const App = withProviders(() => {
-  const theme = {
-    primary: isMainnet() ? MAINNET_PRIMARY_THEME_COLOR : TESTNET_PRIMARY_THEME_COLOR,
-    secondary: isMainnet() ? MAINNET_SECONDARY_THEME_COLOR : TESTNET_SECONDARY_THEME_COLOR,
-  }
 
+const Theme = {
+  primary: isMainnet() ? MAINNET_PRIMARY_THEME_COLOR : TESTNET_PRIMARY_THEME_COLOR,
+  secondary: isMainnet() ? MAINNET_SECONDARY_THEME_COLOR : TESTNET_SECONDARY_THEME_COLOR,
+}
+
+const App = withProviders(() => {
   useInitApp()
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={Theme}>
       <AppDiv>
         <Routers />
         <Toast />

@@ -458,7 +458,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
       <div
         className="transaction_item__block"
       >
-        (Block 1,542,388)  2020/4/23 13:34:56
+        (Block 1,542,388)  2020/04/23 13:34:56
       </div>
     </div>
   </div>
