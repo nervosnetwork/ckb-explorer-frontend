@@ -64,7 +64,6 @@ import { LiquidityChart } from './monetary/Liquidity'
 import { MinerAddressDistributionChart } from './mining/MinerAddressDistribution'
 import { Tooltip } from 'antd'
 import { isMobile } from '../../utils/screen'
-import { NodeDistributionChart } from './network/NodeDistribution'
 import { getStatisticNodeDistribution } from '../../service/app/charts/network'
 
 interface ChartData {
@@ -225,16 +224,6 @@ const chartsData = (): ChartCategory[] => {
           chart: <CirculationRatioChart isThumbnail />,
           path: '/charts/circulation-ratio',
           description: i18n.t('statistic.deposit_to_circulation_ratio_description'),
-        },
-      ],
-    },
-    {
-      category: i18n.t('statistic.category_network'),
-      charts: [
-        {
-          title: `${i18n.t('statistic.node_distribution')}`,
-          chart: <NodeDistributionChart isThumbnail />,
-          path: '/charts/node-distribution',
         },
       ],
     },
