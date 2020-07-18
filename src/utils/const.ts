@@ -74,6 +74,7 @@ export const ChartCachedKeys = {
   TotalSupply: `${CONFIG.CHAIN_TYPE}-TotalSupply`,
   SecondaryIssuance: `${CONFIG.CHAIN_TYPE}-SecondaryIssuance`,
   Liquidity: `${CONFIG.CHAIN_TYPE}-Liquidity`,
+  NodeDistribution: `${CONFIG.CHAIN_TYPE}-NodeDistribution`,
 }
 
 export enum CellState {
