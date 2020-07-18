@@ -6,11 +6,11 @@ import {
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
-import { CachedKeys } from '../../../utils/const'
+import { ChartCachedKeys } from '../../../utils/const'
 import { dispatchAverageBlockTime, dispatchBlockTimeDistribution, dispatchEpochTimeDistribution } from './action'
 
 export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.BlockTimeDistribution)
+  const data = fetchDateChartCache(ChartCachedKeys.BlockTimeDistribution)
   if (data) {
     dispatchBlockTimeDistribution(dispatch, data)
     return
@@ -21,9 +21,7 @@ export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
       const {
         attributes: { blockTimeDistribution },
       } = wrap
-      const sumBlocks = blockTimeDistribution
-        .flatMap(data => Number(data[1]))
-        .reduce((previous, current) => previous + current)
+      const sumBlocks = blockTimeDistribution.flatMap(data => Number(data[1])).reduce((previous, current) => previous + current)
       const statisticBlockTimeDistributions = [{ time: '0', ratio: '0' }].concat(
         blockTimeDistribution.map(data => {
           const [time, blocks] = data
@@ -35,7 +33,7 @@ export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
       )
       dispatchBlockTimeDistribution(dispatch, statisticBlockTimeDistributions)
       if (statisticBlockTimeDistributions && statisticBlockTimeDistributions.length > 0) {
-        storeDateChartCache(CachedKeys.BlockTimeDistribution, statisticBlockTimeDistributions)
+        storeDateChartCache(ChartCachedKeys.BlockTimeDistribution, statisticBlockTimeDistributions)
       }
     })
     .catch(() => {
@@ -49,7 +47,7 @@ export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticAverageBlockTimes = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.AverageBlockTime)
+  const data = fetchDateChartCache(ChartCachedKeys.AverageBlockTime)
   if (data) {
     dispatchAverageBlockTime(dispatch, data)
     return
@@ -62,7 +60,7 @@ export const getStatisticAverageBlockTimes = (dispatch: AppDispatch) => {
       } = wrap
       dispatchAverageBlockTime(dispatch, averageBlockTime)
       if (averageBlockTime && averageBlockTime.length > 0) {
-        storeDateChartCache(CachedKeys.AverageBlockTime, averageBlockTime)
+        storeDateChartCache(ChartCachedKeys.AverageBlockTime, averageBlockTime)
       }
     })
     .catch(() => {
@@ -76,7 +74,7 @@ export const getStatisticAverageBlockTimes = (dispatch: AppDispatch) => {
 }
 
 export const getStatisticEpochTimeDistribution = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(CachedKeys.EpochTimeDistribution)
+  const data = fetchDateChartCache(ChartCachedKeys.EpochTimeDistribution)
   if (data) {
     dispatchEpochTimeDistribution(dispatch, data)
     return
@@ -87,20 +85,17 @@ export const getStatisticEpochTimeDistribution = (dispatch: AppDispatch) => {
       const {
         attributes: { epochTimeDistribution },
       } = wrap
-      const statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[] = epochTimeDistribution.map(
-        data => {
-          const [time, epoch] = data
-          return {
-            time,
-            epoch,
-          }
-        },
-      )
+      const statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[] = epochTimeDistribution.map(data => {
+        const [time, epoch] = data
+        return {
+          time,
+          epoch,
+        }
+      })
       dispatchEpochTimeDistribution(dispatch, statisticEpochTimeDistributions)
       if (statisticEpochTimeDistributions && statisticEpochTimeDistributions.length > 0) {
-        storeDateChartCache(CachedKeys.EpochTimeDistribution, statisticEpochTimeDistributions)
+        storeDateChartCache(ChartCachedKeys.EpochTimeDistribution, statisticEpochTimeDistributions)
       }
-      
     })
     .catch(() => {
       dispatch({

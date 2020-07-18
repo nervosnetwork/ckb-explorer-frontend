@@ -345,3 +345,18 @@ export const dispatchDepositCirculationRatio = (dispatch: AppDispatch, data: any
     },
   })
 }
+
+export const dispatchNodeDistribution = (dispatch: AppDispatch, data: any) => {
+  dispatch({
+    type: PageActions.UpdateStatisticNodeDistribution,
+    payload: {
+      statisticNodeDistributions: data,
+    },
+  })
+  dispatch({
+    type: PageActions.UpdateStatisticNodeDistributionFetchEnd,
+    payload: {
+      statisticNodeDistributionsFetchEnd: true,
+    },
+  })
+}

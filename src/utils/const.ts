@@ -3,10 +3,12 @@ import CONFIG from '../config'
 export const BLOCK_POLLING_TIME = 4000
 export const MAX_CONFIRMATION = 1000
 export const BLOCKCHAIN_ALERT_POLLING_TIME = 10000
+export const FLUSH_CHART_CACHE_POLLING_TIME = 300000 // 5 minutes
 export const RESIZE_LATENCY = 500
 export const LOADING_WAITING_TIME = 500
 export const DELAY_BLOCK_NUMBER = 11
 export const PAGE_CELL_COUNT = 200
+export const MAINTENANCE_ALERT_POLLING_TIME = 3600000 // 1 hour
 
 export const MAINNET_PRIMARY_THEME_COLOR = '#3cc68a'
 export const MAINNET_SECONDARY_THEME_COLOR = '#3cc68a'
@@ -41,11 +43,13 @@ export const SearchFailType = {
   CHAIN_ERROR: 'chain_error',
 }
 
-export const CachedKeys = {
+export const AppCachedKeys = {
   AppLanguage: `${CONFIG.CHAIN_TYPE}-AppLanguage`,
   Version: `${CONFIG.CHAIN_TYPE}-Version`,
+  MaintenanceAlert: `${CONFIG.CHAIN_TYPE}-MaintenanceAlert`,
+}
 
-  // charts
+export const ChartCachedKeys = {
   APC: `${CONFIG.CHAIN_TYPE}-APC`,
   InflationRate: `${CONFIG.CHAIN_TYPE}-InflationRate`,
   TransactionCount: `${CONFIG.CHAIN_TYPE}-TransactionCount`,
@@ -70,6 +74,7 @@ export const CachedKeys = {
   TotalSupply: `${CONFIG.CHAIN_TYPE}-TotalSupply`,
   SecondaryIssuance: `${CONFIG.CHAIN_TYPE}-SecondaryIssuance`,
   Liquidity: `${CONFIG.CHAIN_TYPE}-Liquidity`,
+  NodeDistribution: `${CONFIG.CHAIN_TYPE}-NodeDistribution`,
 }
 
 export enum CellState {

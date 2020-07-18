@@ -19,6 +19,10 @@ export const fetchCachedData = <T>(key: string): T | null => {
   return null
 }
 
+export const removeCachedData = (key: string) => {
+  localStorage.removeItem(key)
+}
+
 export const storeDateChartCache = (key: string, value: any) => {
   // cacheKey format: key + & + CST timestamp
   let cacheKey = fetchCachedData<string>(key)

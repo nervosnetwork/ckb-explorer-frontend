@@ -21,7 +21,7 @@ declare namespace State {
   }
 
   export interface AppError {
-    type: 'Network' | 'ChainAlert'
+    type: 'Network' | 'ChainAlert' | 'Maintenance'
     message: string[]
   }
 
@@ -406,6 +406,10 @@ declare namespace State {
     radio: string
   }
 
+  export interface StatisticCacheInfo {
+    flushCacheInfo: string[]
+  }
+
   interface FetchStatusValue {
     OK: string
     Error: string
@@ -560,7 +564,11 @@ declare namespace State {
     toast: ToastMessage | null
     loading: boolean
     secondLoading: boolean
-    appErrors: [{ type: 'Network'; message: string[] }, { type: 'ChainAlert'; message: string[] }]
+    appErrors: [
+      { type: 'Network'; message: string[] },
+      { type: 'ChainAlert'; message: string[] },
+      { type: 'Maintenance'; message: string[] },
+    ]
     nodeVersion: string
     tipBlockNumber: number
 
@@ -578,11 +586,19 @@ declare namespace State {
     filterNoResult: boolean
     mobileMenuVisible: boolean
     headerSearchBarVisible: boolean
+    maintenanceAlertVisible: boolean
   }
 
   export interface AppState extends PageState {
     app: App
     components: Components
+  }
+
+  export interface MaintenanceInfo {
+    maintenanceInfo: {
+      startAt: string
+      endAt: string
+    }
   }
 }
 

@@ -10,6 +10,7 @@ import { useDispatch, useAppState } from '../contexts/providers'
 import { ComponentActions } from '../contexts/actions'
 import { isMobile } from '../utils/screen'
 import { isChainTypeError } from '../utils/chain'
+import Alert from '../components/Alert'
 
 const Home = lazy(() => import('../pages/Home'))
 const Block = lazy(() => import('../pages/BlockDetail'))
@@ -328,6 +329,7 @@ export default () => {
       <Route
         render={(props: any) => (
           <Page>
+            <Alert />
             <Header />
             <Sheet />
             <Suspense fallback={<span />}>

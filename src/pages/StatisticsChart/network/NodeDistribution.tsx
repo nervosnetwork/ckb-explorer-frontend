@@ -21,19 +21,19 @@ const grid = {
   containLabel: true,
 }
 
-const getOption = (
-  statisticNodeDistributions: State.StatisticNodeDistribution[],
-  isThumbnail = false,
-): echarts.EChartOption => {
+const sumOfNodeCount = (statisticNodeDistributions: State.StatisticNodeDistribution[]) => {
+  return statisticNodeDistributions.flatMap(node => node.value[2]).reduce((previous, current) => previous + current, 0)
+}
+
+const getOption = (statisticNodeDistributions: State.StatisticNodeDistribution[], isThumbnail = false): echarts.EChartOption => {
   return {
     color: ChartColors,
     tooltip: !isThumbnail
       ? {
           trigger: 'item',
           formatter: (data: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 95 : 60)
-            const widthValueSpan = (value: string) =>
-              `<span style="display:inline-block;color:#AACFE9;">${value}</span>`
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 85 : 65)
+            const widthValueSpan = (value: string) => `<span style="display:inline-block;color:#AACFE9;">${value}</span>`
             let result = `<div>${widthSpan(i18n.t('statistic.city'))} ${widthValueSpan(data.data.name)}</div>`
             result += `<div>${widthSpan(i18n.t('statistic.node_count'))} ${widthValueSpan(
               localeNumberString(data.data.value[2]),
@@ -84,7 +84,7 @@ const getOption = (
         symbolSize: (value: number[]) => {
           if (value[2] < 5) return 8
           else if (value[2] < 10) return 15
-          else return value[2] * 1.5
+          else return 15 + value[2] / 10
         },
         encode: {
           value: 2,
@@ -98,7 +98,7 @@ const getOption = (
           borderColor: '#228159',
           borderWidth: 0.5,
           color: '#3CC68A',
-          capacity: 0.6,
+          opacity: 0.6,
         },
         emphasis: {
           label: {
@@ -127,13 +127,20 @@ export const NodeDistributionChart = ({ isThumbnail = false }: { isThumbnail?: b
 
 export default () => {
   const dispatch = useDispatch()
+  const { statisticNodeDistributions } = useAppState()
 
   useEffect(() => {
     getStatisticNodeDistribution(dispatch)
   }, [dispatch])
 
   return (
-    <ChartPage title={i18n.t('statistic.node_distribution')}>
+    <ChartPage
+      title={`${i18n.t('statistic.node_distribution')} (${
+        currentLanguage() === 'en' ? '' : i18n.t('statistic.node_count_in_total')
+      } ${sumOfNodeCount(statisticNodeDistributions)} ${
+        currentLanguage() === 'en' ? i18n.t('statistic.node_count_in_total') : ''
+      })`}
+    >
       <NodeDistributionChart />
     </ChartPage>
   )
