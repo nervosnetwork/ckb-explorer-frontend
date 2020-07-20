@@ -30,7 +30,7 @@ const handleAddressText = (address: string) => {
     return adaptMobileEllipsis(address, 10)
   }
   if (!isScreenSmallerThan1200() && isScreenSmallerThan1440()) {
-    return adaptPCEllipsis(address, 3, 100)
+    return adaptPCEllipsis(address, 1, 100)
   }
   return adaptPCEllipsis(address, 7, 100)
 }
