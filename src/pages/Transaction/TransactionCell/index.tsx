@@ -165,7 +165,7 @@ export default ({
   if (isMobile()) {
     return (
       <TransactionCellCardPanel>
-        <span className="transaction__cell__card__separate" />
+        <div className="transaction__cell__card__separate" />
         <TransactionCellMobileItem
           title={
             cell.fromCellbase && cellType === CellType.Input ? (
