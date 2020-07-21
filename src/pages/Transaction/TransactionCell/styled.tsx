@@ -96,7 +96,8 @@ export const TransactionCellAddressPanel = styled.div`
 `
 
 export const TransactionCellHashPanel = styled.div`
-  color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) => (highLight ? `${theme.primary}` : '#000000')};
+  color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) =>
+    highLight ? `${theme.primary}` : '#000000'};
   text-align: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? 'left' : 'center')};
   display: flex;
   justify-content: flex-start;
@@ -170,7 +171,7 @@ export const TransactionCellCardPanel = styled.div`
   .transaction__cell__card__separate {
     width: 100%;
     height: 1px;
-    background: #ededed;
+    background: #cccccc;
     margin: 8px 0;
     transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
