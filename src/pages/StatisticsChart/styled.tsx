@@ -2,11 +2,9 @@ import styled from 'styled-components'
 
 export const ChartsContent = styled.div`
   margin-top: 40px;
-  margin-bottom: 40px;
 
   @media (max-width: 750px) {
     margin-top: 20px;
-    margin-bottom: 20px;
   }
 `
 

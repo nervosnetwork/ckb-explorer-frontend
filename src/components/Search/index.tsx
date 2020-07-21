@@ -79,7 +79,9 @@ const handleSearchResult = (
         if (data.type === SearchResultType.Block) {
           browserHistory.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.blockHash}`)
         } else if (data.type === SearchResultType.Transaction) {
-          browserHistory.push(`/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transactionHash}`)
+          browserHistory.push(
+            `/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transactionHash}`,
+          )
         } else if (data.type === SearchResultType.Address) {
           browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.addressHash}`)
         } else if (data.type === SearchResultType.LockHash) {
@@ -163,7 +165,7 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
 
   const ImageIcon = ({ isClear }: { isClear?: boolean }) => {
     return (
-      <SearchImage isClear={isClear} onClick={() => clearSearchAction(isClear)}>
+      <SearchImage isClear={isClear} onClick={() => clearSearchAction()}>
         <img src={isClear ? ClearLogo : SearchLogo} alt="search logo" />
       </SearchImage>
     )
@@ -184,7 +186,9 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
         {searchValue && <ImageIcon isClear />}
       </SearchPanel>
       {hasButton && (
-        <SearchButton onClick={() => handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch, setSearchValue)}>
+        <SearchButton
+          onClick={() => handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch, setSearchValue)}
+        >
           {i18n.t('search.search')}
         </SearchButton>
       )}
