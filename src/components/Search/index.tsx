@@ -165,7 +165,7 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
 
   const ImageIcon = ({ isClear }: { isClear?: boolean }) => {
     return (
-      <SearchImage isClear={isClear} onClick={() => clearSearchAction()}>
+      <SearchImage isClear={isClear} onClick={() => clearSearchAction(isClear)}>
         <img src={isClear ? ClearLogo : SearchLogo} alt="search logo" />
       </SearchImage>
     )
