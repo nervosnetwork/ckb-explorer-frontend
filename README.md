@@ -33,7 +33,7 @@ API documentation is [available here](https://nervosnetwork.github.io/ckb-explor
 
 ### Prerequisite
 
-- Node: install version 11.10 or greater.
+- Node: install version 12.0.0 or greater.
 - Yarn: See [Yarn website for installation instructions](https://yarnpkg.com/lang/en/docs/install/). (needs 1.13.0 or greater).
 - A fork of the repo (for any contributions).
 - A clone of the `ckb-explorer-frontend` repo.

@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback } from 'react'
+import { useHistory } from 'react-router'
 import { getStatisticAddressBalanceRank } from '../../../service/app/charts/activities'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
@@ -7,9 +8,9 @@ import { isMobile } from '../../../utils/screen'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { adaptPCEllipsis } from '../../../utils/string'
-import browserHistory from '../../../routes/history'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { ChartColors } from '../../../utils/const'
+
 
 const gridThumbnail = {
   left: '4%',
@@ -129,15 +130,16 @@ const toCSV = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[]
 
 export default () => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const { statisticAddressBalanceRanks } = useAppState()
 
   const clickEvent = useCallback(
     (param: any) => {
       if (param && param.name) {
-        browserHistory.push(`/address/${getAddressWithRanking(statisticAddressBalanceRanks, param.name)}`)
+        history.push(`/address/${getAddressWithRanking(statisticAddressBalanceRanks, param.name)}`)
       }
     },
-    [statisticAddressBalanceRanks],
+    [statisticAddressBalanceRanks, history],
   )
 
   useEffect(() => {

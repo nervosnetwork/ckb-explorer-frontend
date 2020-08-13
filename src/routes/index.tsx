@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, Suspense, lazy } from 'react'
-import { Router, Route, Redirect, Switch } from 'react-router-dom'
-import browserHistory from './history'
+import { BrowserRouter as Router, Route, Redirect, Switch, useLocation } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
 import Page from '../components/Page'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -9,8 +9,9 @@ import Sheet from '../components/Sheet'
 import { useDispatch, useAppState } from '../contexts/providers'
 import { ComponentActions } from '../contexts/actions'
 import { isMobile } from '../utils/screen'
-import { isChainTypeError } from '../utils/chain'
+import { isChainTypeError, isMainnet } from '../utils/chain'
 import Alert from '../components/Alert'
+import CONFIG from '../config'
 
 const Home = lazy(() => import('../pages/Home'))
 const Block = lazy(() => import('../pages/BlockDetail'))
@@ -264,9 +265,10 @@ const Containers: CustomRouter.Route[] = [
 ]
 
 const useRouter = (callback: Function) => {
+  const history = createBrowserHistory()
   useEffect(() => {
-    let currentUrl = `${browserHistory.location.pathname}${browserHistory.location.search}`
-    const listen = browserHistory.listen((location: any) => {
+    let currentUrl = `${history.location.pathname}${history.location.search}`
+    const listen = history.listen((location: any) => {
       if (currentUrl !== `${location.pathname}${location.search}`) {
         callback()
       }
@@ -275,10 +277,11 @@ const useRouter = (callback: Function) => {
     return () => {
       listen()
     }
-  }, [callback])
+  }, [callback, history])
 }
 
 const useRouterLocation = (callback: () => void) => {
+  const history = createBrowserHistory()
   const savedCallback = useRef(() => {})
   useEffect(() => {
     savedCallback.current = callback
@@ -287,17 +290,17 @@ const useRouterLocation = (callback: () => void) => {
     const currentCallback = () => {
       savedCallback.current()
     }
-    const listen = browserHistory.listen(() => {
+    const listen = history.listen(() => {
       currentCallback()
     })
     return () => {
       listen()
     }
-  }, [])
+  }, [history])
 }
 
 const RouterComp = ({ container, routeProps }: { container: CustomRouter.Route; routeProps: any }) => {
-  const { pathname = '' } = browserHistory.location
+  const { pathname = '' } = useLocation()
   if (container.name === 'Address' && isChainTypeError(pathname.substring(pathname.lastIndexOf('/') + 1))) {
     return <SearchFail {...routeProps} address={pathname.substring(pathname.lastIndexOf('/') + 1)} />
   }
@@ -325,7 +328,7 @@ export default () => {
   })
 
   return (
-    <Router history={browserHistory}>
+    <Router basename={isMainnet() ? '/' : `/${CONFIG.TESTNET_NAME}`}>
       <Route
         render={(props: any) => (
           <Page>
