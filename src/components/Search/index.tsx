@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
+import { useHistory } from 'react-router'
+import { History } from 'history'
 import { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
 import { SearchImage, SearchInputPanel, SearchPanel, SearchButton, SearchContainer } from './styled'
 import { fetchSearchResult } from '../../service/http/fetcher'
-import browserHistory from '../../routes/history'
 import SearchLogo from '../../assets/search_black.png'
 import ClearLogo from '../../assets/clear.png'
 import { addPrefixForHash, containSpecialChar } from '../../utils/string'
@@ -49,13 +50,14 @@ const handleSearchResult = (
   searchBarEditable: boolean,
   dispatch: AppDispatch,
   setSearchValue: Function,
+  history: History,
 ) => {
   const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
   if (!query || containSpecialChar(query)) {
-    browserHistory.push(`/search/fail?q=${query}`)
+    history.push(`/search/fail?q=${query}`)
     return
   } else if (isChainTypeError(query)) {
-    browserHistory.push(`/search/fail?type=${SearchFailType.CHAIN_ERROR}&q=${query}`)
+    history.push(`/search/fail?type=${SearchFailType.CHAIN_ERROR}&q=${query}`)
     return
   } else {
     if (searchBarEditable) {
@@ -71,23 +73,21 @@ const handleSearchResult = (
       .then((response: any) => {
         const { data } = response
         if (!response || !data.type) {
-          browserHistory.push(`/search/fail?q=${query}`)
+          history.push(`/search/fail?q=${query}`)
           return
         }
         clearSearchInput(inputElement)
         setSearchValue('')
         if (data.type === SearchResultType.Block) {
-          browserHistory.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.blockHash}`)
+          history.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.blockHash}`)
         } else if (data.type === SearchResultType.Transaction) {
-          browserHistory.push(
-            `/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transactionHash}`,
-          )
+          history.push(`/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transactionHash}`)
         } else if (data.type === SearchResultType.Address) {
-          browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.addressHash}`)
+          history.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.addressHash}`)
         } else if (data.type === SearchResultType.LockHash) {
-          browserHistory.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lockHash}`)
+          history.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lockHash}`)
         } else if (data.type === SearchResultType.UDT) {
-          browserHistory.push(`/sudt/${query}`)
+          history.push(`/sudt/${query}`)
         }
       })
       .catch((error: AxiosError) => {
@@ -101,9 +101,9 @@ const handleSearchResult = (
           })
         ) {
           clearSearchInput(inputElement)
-          browserHistory.push(`/address/${query}`)
+          history.push(`/address/${query}`)
         } else {
-          browserHistory.push(`/search/fail?q=${query}`)
+          history.push(`/search/fail?q=${query}`)
         }
       })
   }
@@ -111,6 +111,7 @@ const handleSearchResult = (
 
 const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean }) => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const [t] = useTranslation()
   const SearchPlaceholder = useMemo(() => {
     return t('navbar.search_placeholder')
@@ -159,7 +160,7 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
 
   const searchKeyAction = (event: any) => {
     if (event.keyCode === 13) {
-      handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch, setSearchValue)
+      handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch, setSearchValue, history)
     }
   }
 
@@ -187,7 +188,9 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
       </SearchPanel>
       {hasButton && (
         <SearchButton
-          onClick={() => handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch, setSearchValue)}
+          onClick={() =>
+            handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch, setSearchValue, history)
+          }
         >
           {i18n.t('search.search')}
         </SearchButton>

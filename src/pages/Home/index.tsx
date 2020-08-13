@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import {
   HomeHeaderPanel,
@@ -19,7 +20,6 @@ import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME } from '../../utils/c
 import { localeNumberString, handleHashRate, handleDifficulty, parseEpochNumber } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
 import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
-import browserHistory from '../../routes/history'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { getLatestBlocks } from '../../service/app/block'
 import getStatistics from '../../service/app/statistics'
@@ -147,6 +147,7 @@ const useHomeSearchBarStatus = (dispatch: AppDispatch) => {
 
 export default () => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const {
     homeBlocks = [],
     transactionsState: { transactions = [] },
@@ -259,7 +260,7 @@ export default () => {
           )}
           <TableMorePanel
             onClick={() => {
-              browserHistory.push(`/block/list`)
+              history.push(`/block/list`)
             }}
           >
             <span>{t('home.more')}</span>
@@ -287,7 +288,7 @@ export default () => {
 
           <TableMorePanel
             onClick={() => {
-              browserHistory.push(`/transaction/list`)
+              history.push(`/transaction/list`)
             }}
           >
             <span>{t('home.more')}</span>
