@@ -1,5 +1,5 @@
 import React, { useState, ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Tooltip } from 'antd'
 import Pagination from '../../components/Pagination'
@@ -27,7 +27,6 @@ import {
 } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
 import MinerRewardIcon from '../../assets/miner_complete.png'
-import browserHistory from '../../routes/history'
 import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
@@ -72,6 +71,7 @@ const BlockMinerReward = ({
   tooltip: string
   sentBlockNumber?: string
 }) => {
+  const history = useHistory()
   return (
     <BlockMinerRewardPanel sent={!!sentBlockNumber}>
       <div className="block__miner__reward_value">{value}</div>
@@ -80,7 +80,7 @@ const BlockMinerReward = ({
           className="block__miner__reward_tip"
           onClick={() => {
             if (sentBlockNumber) {
-              browserHistory.push(`/block/${sentBlockNumber}#cellbase`)
+              history.push(`/block/${sentBlockNumber}#cellbase`)
             }
           }}
         >
@@ -213,6 +213,7 @@ export const BlockComp = ({
   pageSize: number
   blockParam: string
 }) => {
+  const history = useHistory()
   const {
     blockState: { transactions = [], total },
   } = useAppState()
@@ -220,7 +221,7 @@ export const BlockComp = ({
   const totalPages = Math.ceil(total / pageSize)
 
   const onChange = (page: number) => {
-    browserHistory.push(`/block/${blockParam}?page=${page}&size=${pageSize}`)
+    history.push(`/block/${blockParam}?page=${page}&size=${pageSize}`)
   }
 
   return (

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
@@ -7,12 +8,12 @@ import i18n from '../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
 import { shannonToCkb, baseUrl } from '../../utils/util'
 import { AddressTransactionsPagination, AddressTransactionsPanel, AddressUDTAssetsPanel, AddressUDTItemPanel } from './styled'
-import browserHistory from '../../routes/history'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { isMobile } from '../../utils/screen'
+
 
 const addressAssetInfo = (address: State.Address) => {
   const items = [
@@ -90,6 +91,7 @@ export const AddressTransactions = ({
   pageSize: number
   address: string
 }) => {
+  const history = useHistory()
   const {
     addressState: {
       transactions = [],
@@ -101,7 +103,7 @@ export const AddressTransactions = ({
   const totalPages = Math.ceil(total / pageSize)
 
   const onChange = (page: number) => {
-    browserHistory.replace(`/address/${address}?page=${page}&size=${pageSize}`)
+    history.replace(`/address/${address}?page=${page}&size=${pageSize}`)
   }
 
   return (

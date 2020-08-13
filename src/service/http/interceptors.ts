@@ -1,9 +1,9 @@
 import { AxiosError } from 'axios'
 import { axiosIns } from './fetcher'
 import i18n from '../../utils/i18n'
-import browserHistory from '../../routes/history'
 import { AppDispatch } from '../../contexts/reducer'
 import { AppActions } from '../../contexts/actions'
+import { History } from 'history'
 
 const updateNetworkError = (dispatch: AppDispatch, occurError: boolean) => {
   dispatch({
@@ -17,7 +17,7 @@ const updateNetworkError = (dispatch: AppDispatch, occurError: boolean) => {
   })
 }
 
-export const initAxiosInterceptors = (dispatch: AppDispatch) => {
+export const initAxiosInterceptors = (dispatch: AppDispatch, history: History) => {
   axiosIns.interceptors.request.use(
     config => {
       return config
@@ -50,7 +50,7 @@ export const initAxiosInterceptors = (dispatch: AppDispatch) => {
                 },
               })
             }
-            browserHistory.replace('/maintain')
+            history.replace('/maintain')
             break
           case 422:
           case 404:

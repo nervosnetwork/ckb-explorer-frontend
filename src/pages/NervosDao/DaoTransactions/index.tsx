@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import browserHistory from '../../../routes/history'
+import { useHistory } from 'react-router'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import TransactionItem from '../../../components/TransactionItem'
 import { TransactionsPagination, DAONoResultPanel } from './styled'
@@ -8,8 +8,10 @@ import { PageParams } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
 import { ComponentActions } from '../../../contexts/actions'
 
+
 export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPage: number; pageSize: number }) => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const {
     nervosDaoState: { transactions = [], total },
     components: { filterNoResult },
@@ -18,7 +20,7 @@ export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPa
   const totalPages = Math.ceil(total / pageSize)
 
   const onChange = (page: number) => {
-    browserHistory.push(`/nervosdao?page=${page}&size=${pageSize}`)
+    history.push(`/nervosdao?page=${page}&size=${pageSize}`)
   }
 
   useEffect(() => {

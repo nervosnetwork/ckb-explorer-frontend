@@ -1,6 +1,6 @@
 import queryString from 'query-string'
 import React, { useEffect, useState } from 'react'
-import { useParams, useLocation } from 'react-router-dom'
+import { useParams, useLocation, useHistory } from 'react-router-dom'
 import Loading from '../../components/Loading'
 import SimpleUDTHashCard from '../../components/Card/HashCard'
 import Error from '../../components/Error'
@@ -13,7 +13,6 @@ import i18n from '../../utils/i18n'
 import { parsePageNumber } from '../../utils/string'
 import { SimpleUDTContentPanel, UDTTransactionTitlePanel, TypeScriptController } from './styled'
 import SimpleUDTComp, { SimpleUDTOverview } from './SimpleUDTComp'
-import browserHistory from '../../routes/history'
 import { useTimeoutWithUnmount } from '../../utils/hook'
 import { getSimpleUDT, getSimpleUDTTransactions } from '../../service/app/udt'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
@@ -73,6 +72,7 @@ const SimpleUDTCompState = ({
 
 export const SimpleUDT = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const [showType, setShowType] = useState(false)
   const { search } = useLocation()
   const { hash: typeHash } = useParams<{ hash: string }>()
@@ -94,11 +94,11 @@ export const SimpleUDT = () => {
 
   useEffect(() => {
     if (pageSize > PageParams.MaxPageSize) {
-      browserHistory.replace(`/sudt/${typeHash}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
+      history.replace(`/sudt/${typeHash}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
     }
     getSimpleUDT(typeHash, dispatch)
     getSimpleUDTTransactions(typeHash, currentPage, pageSize, dispatch)
-  }, [typeHash, currentPage, pageSize, dispatch])
+  }, [typeHash, currentPage, pageSize, dispatch, history])
 
   useTimeoutWithUnmount(
     () => {
