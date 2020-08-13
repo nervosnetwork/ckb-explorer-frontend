@@ -39,7 +39,6 @@ import HashRateChart from './HashRateChart'
 import { ComponentActions } from '../../contexts/actions'
 import { AppDispatch } from '../../contexts/reducer'
 
-
 interface BlockchainData {
   name: string
   value: string

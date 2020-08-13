@@ -14,7 +14,6 @@ import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { isMobile } from '../../utils/screen'
 
-
 const addressAssetInfo = (address: State.Address) => {
   const items = [
     {

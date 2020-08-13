@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
-
 import { initAxiosInterceptors } from '../../service/http/interceptors'
 import { RESIZE_LATENCY, AppCachedKeys, MAINTENANCE_ALERT_POLLING_TIME, FLUSH_CHART_CACHE_POLLING_TIME } from '../../utils/const'
 import { initNodeVersion } from '../../service/app/nodeInfo'

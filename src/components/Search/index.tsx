@@ -16,7 +16,6 @@ import { useAppState, useDispatch } from '../../contexts/providers'
 import { isMobile } from '../../utils/screen'
 import { isChainTypeError } from '../../utils/chain'
 
-
 enum SearchResultType {
   Block = 'block',
   Transaction = 'ckb_transaction',

@@ -300,8 +300,7 @@ const useRouterLocation = (callback: () => void) => {
 }
 
 const RouterComp = ({ container, routeProps }: { container: CustomRouter.Route; routeProps: any }) => {
-  const location = useLocation()
-  const { pathname = '' } = location
+  const { pathname = '' } = useLocation()
   if (container.name === 'Address' && isChainTypeError(pathname.substring(pathname.lastIndexOf('/') + 1))) {
     return <SearchFail {...routeProps} address={pathname.substring(pathname.lastIndexOf('/') + 1)} />
   }
@@ -329,7 +328,7 @@ export default () => {
   })
 
   return (
-    <Router basename={isMainnet() ? '/' : `/${CONFIG.TESTNET_NAME}`} >
+    <Router basename={isMainnet() ? '/' : `/${CONFIG.TESTNET_NAME}`}>
       <Route
         render={(props: any) => (
           <Page>
