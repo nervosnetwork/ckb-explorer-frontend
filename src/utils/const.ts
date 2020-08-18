@@ -163,4 +163,22 @@ export const ContractHashTags: ContractHashTag[] = [
     tag: 'sudt',
     category: 'type',
   },
+  {
+    codeHashes: [
+      '0x58c5f491aba6d61678b7cf7edf4910b1f5e00ec0cde2f42e0abb4fd9aff25a63',
+      '0xbf43c3602455798c1a61a596e0d95278864c552fafe231c063b3fabf97a8febc',
+    ],
+    txHashes: [
+      '0x4f254814b972421789fafef49d4fee94116863138f72ab1e6392daf3decfaec1-0',
+      '0x1d60cb8f4666e039f418ea94730b1a8c5aa0bf2f7781474406387462924d15d4-0',
+    ],
+    tag: 'pwlock-k1-acpl',
+    category: 'lock',
+  },
+  {
+    codeHashes: ['0x6843c5fe3acb7f4dc2230392813cb9c12dbced5597fca30a52f13aa519de8d33'],
+    txHashes: ['0x28ee75f9745828eaade301ef24d0b037404717469a299180ecb679259cb688ab-0'],
+    tag: 'pwlock-r1',
+    category: 'lock',
+  },
 ]
