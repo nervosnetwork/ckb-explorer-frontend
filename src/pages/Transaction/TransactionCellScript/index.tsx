@@ -65,7 +65,6 @@ const handleFetchScript = (
     case CellState.DATA:
       fetchCellData(`${cell.id}`)
         .then((wrapper: Response.Wrapper<State.Data> | null) => {
-          setScriptFetchStatus(dispatch, true)
           const dataValue: State.Data = wrapper ? wrapper.attributes : initScriptContent.data
           if (wrapper && cell.isGenesisOutput) {
             dataValue.data = hexToUtf8(wrapper.attributes.data.substr(2))
@@ -87,6 +86,9 @@ const handleFetchScript = (
               })
             }
           }
+        })
+        .finally(() => {
+          setScriptFetchStatus(dispatch, true)
         })
       break
     default:
@@ -209,16 +211,16 @@ export default ({ cell, onClose }: { cell: State.Cell; onClose: Function }) => {
             <ScriptContentJson content={content} state={state} />
           </div>
         ) : (
-          <div className="transaction__detail_loading">
-            <SmallLoading />
+          <div className="transaction__detail_loading">{!scriptFetched ? <SmallLoading /> : null}</div>
+        )}
+        {!content && scriptFetched ? null : (
+          <div className="transaction__detail_copy">
+            <TransactionDetailCopyButton onClick={onClickCopy}>
+              <div>{i18n.t('common.copy')}</div>
+              <img src={isMainnet() ? CopyIcon : CopyBlueIcon} alt="copy" />
+            </TransactionDetailCopyButton>
           </div>
         )}
-        <div className="transaction__detail_copy">
-          <TransactionDetailCopyButton onClick={onClickCopy}>
-            <div>{i18n.t('common.copy')}</div>
-            <img src={isMainnet() ? CopyIcon : CopyBlueIcon} alt="copy" />
-          </TransactionDetailCopyButton>
-        </div>
       </TransactionDetailPanel>
     </TransactionDetailContainer>
   )
