@@ -5,14 +5,13 @@ import TransactionItem from '../../components/TransactionItem/index'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
 import { SimpleUDTTransactionsPagination, SimpleUDTTransactionsPanel, UDTNoResultPanel } from './styled'
-import browserHistory from '../../routes/history'
 import { parseUDTAmount } from '../../utils/number'
 import { ComponentActions } from '../../contexts/actions'
 import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { Tooltip } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 const addressContent = (address: string) => {
   if (!address) {
@@ -89,6 +88,7 @@ export const SimpleUDTComp = ({
   typeHash: string
 }) => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const {
     udtState: { transactions = [], total },
     components: { filterNoResult },
@@ -97,7 +97,7 @@ export const SimpleUDTComp = ({
   const totalPages = Math.ceil(total / pageSize)
 
   const onChange = (page: number) => {
-    browserHistory.replace(`/sudt/${typeHash}?page=${page}&size=${pageSize}`)
+    history.replace(`/sudt/${typeHash}?page=${page}&size=${pageSize}`)
   }
 
   useEffect(() => {

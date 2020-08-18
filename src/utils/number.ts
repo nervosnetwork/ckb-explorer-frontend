@@ -85,14 +85,16 @@ export const parseEpochNumber = (num: string) => {
 
 export const parseUDTAmount = (amount: string, decimal: string) => {
   try {
-    const result = new BigNumber(amount).dividedBy(new BigNumber(10).pow(parseInt(decimal, 10))).toFixed(5)
+    const decimalInt = parseInt(decimal, 10)
+    const amountBigInt = new BigNumber(amount)
+    const result = amountBigInt.dividedBy(new BigNumber(10).pow(decimalInt)).toFixed(decimalInt > 20 ? 20 : decimalInt)
     if (result === 'NaN') {
       return '0'
     }
-    if (Number(result) < 1) {
-      return Number(result).toString()
+    if (decimalInt > 20) {
+      return `${result}...`
     }
-    return localeNumberString(result.substring(0, result.length - 1))
+    return localeNumberString(result)
   } catch (error) {
     console.error(error)
     return '0'

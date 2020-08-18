@@ -6,7 +6,6 @@ export const TransactionDetailContainer = styled.div`
     height: 1px;
     background: #eaeaea;
     margin-top: -3px;
-    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 `
 

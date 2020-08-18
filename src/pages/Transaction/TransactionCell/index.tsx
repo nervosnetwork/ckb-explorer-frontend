@@ -45,10 +45,20 @@ const AddressText = ({ address }: { address: string }) => {
   )
 }
 
-const TransactionCellIndexAddress = ({ cell, cellType, index }: { cell: State.Cell; cellType: CellType; index: number }) => {
+const TransactionCellIndexAddress = ({
+  cell,
+  cellType,
+  index,
+}: {
+  cell: State.Cell
+  cellType: CellType
+  index: number
+}) => {
   return (
     <TransactionCellAddressPanel>
-      <div className="transaction__cell_index">{cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}</div>
+      <div className="transaction__cell_index">
+        {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
+      </div>
       <TransactionCellHashPanel highLight={cell.addressHash !== null}>
         {!cell.fromCellbase && cellType === CellType.Input && (
           <span>
@@ -100,7 +110,13 @@ const TransactionCellInfo = ({ cell, children }: { cell: State.Cell; children: s
   const [showModal, setShowModal] = useState(false)
   return (
     <TransactionCellInfoPanel>
-      <SimpleButton className="transaction__cell__info__content" onClick={() => setShowModal(true)} children={children} />
+      <SimpleButton
+        className="transaction__cell__info__content"
+        onClick={() => {
+          setShowModal(true)
+        }}
+        children={children}
+      />
       <div className="transaction__cell__info__separate" />
       <SimpleModal isShow={showModal} setIsShow={setShowModal}>
         <TransactionCellDetailModal>
@@ -149,7 +165,7 @@ export default ({
   if (isMobile()) {
     return (
       <TransactionCellCardPanel>
-        <span className="transaction__cell__card__separate" />
+        <div className="transaction__cell__card__separate" />
         <TransactionCellMobileItem
           title={
             cell.fromCellbase && cellType === CellType.Input ? (

@@ -9,7 +9,6 @@ import { isMobile } from '../../utils/screen'
 import { isMainnet } from '../../utils/chain'
 
 const NotFoundPanel = styled.div`
-  width: 100%;
   margin-top: 120px;
   margin-bottom: 140px;
 `
@@ -17,8 +16,8 @@ const NotFoundPanel = styled.div`
 const NotFoundImage = styled.img`
   width: 1038px;
   height: 480px;
-  display: block;
   margin: 0 auto;
+  display: block;
 
   @media (max-width: 750px) {
     width: 282px;

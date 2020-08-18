@@ -41,8 +41,8 @@ export const fetchDateChartCache = (key: string) => {
   if (!cacheKey) return null
   const storeTime = Number(cacheKey.substring(cacheKey.indexOf('&') + 1))
   const now = new Date(getCSTTime()) // current CST time
-  // Chart data will be updated at 0:05(CST) every day
-  const dataUpdateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 5, 0).getTime()
+  // Chart data will be updated at 0:10(CST) every day
+  const dataUpdateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 10, 0).getTime()
   // If last storage time is bigger than data update time, return cache data. Otherwise return null
   return storeTime > dataUpdateTime ? fetchCachedData(cacheKey) : null
 }

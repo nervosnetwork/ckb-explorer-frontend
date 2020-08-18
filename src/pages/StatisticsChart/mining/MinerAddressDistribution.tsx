@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react'
+import { useHistory } from 'react-router'
 import { getStatisticMinerAddressDistribution } from '../../../service/app/charts/mining'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import browserHistory from '../../../routes/history'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
@@ -112,13 +112,14 @@ const toCSV = (statisticMinerAddresses: State.StatisticMinerAddress[]) => {
 
 export default () => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const { statisticMinerAddresses } = useAppState()
 
   const clickEvent = useCallback((param: any) => {
     if (param && param.data.title) {
-      browserHistory.push(`/address/${param.data.title}`)
+      history.push(`/address/${param.data.title}`)
     }
-  }, [])
+  }, [history])
 
   useEffect(() => {
     getStatisticMinerAddressDistribution(dispatch)

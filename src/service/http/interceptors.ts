@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios'
+import { History } from 'history'
 import { axiosIns } from './fetcher'
 import i18n from '../../utils/i18n'
 import { AppDispatch } from '../../contexts/reducer'
@@ -16,7 +17,7 @@ const updateNetworkError = (dispatch: AppDispatch, occurError: boolean) => {
   })
 }
 
-export const initAxiosInterceptors = (dispatch: AppDispatch) => {
+export const initAxiosInterceptors = (dispatch: AppDispatch, history: History) => {
   axiosIns.interceptors.request.use(
     config => {
       return config
@@ -34,8 +35,23 @@ export const initAxiosInterceptors = (dispatch: AppDispatch) => {
     (error: AxiosError) => {
       updateNetworkError(dispatch, true)
       if (error && error.response && error.response.data) {
+        const { message }: { message: string } = error.response.data
         switch (error.response.status) {
           case 503:
+            updateNetworkError(dispatch, false)
+            if (message) {
+              dispatch({
+                type: AppActions.UpdateAppErrors,
+                payload: {
+                  appError: {
+                    type: 'Maintain',
+                    message: [message],
+                  },
+                },
+              })
+            }
+            history.replace('/maintain')
+            break
           case 422:
           case 404:
           case 400:

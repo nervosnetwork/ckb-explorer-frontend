@@ -201,7 +201,8 @@ export const DaoOverviewLeftItemPanel = styled.div`
     .dao__overview__item_change {
       font-size: 12px;
       font-weight: bold;
-      color: ${(props: { symbol?: string; theme: any }) => (props.symbol === 'negative' ? '#FF464F' : props.theme.primary)};
+      color: ${(props: { symbol?: string; theme: any }) =>
+        props.symbol === 'negative' ? '#FF464F' : props.theme.primary};
       cursor: default;
 
       @media (max-width: 750px) {
