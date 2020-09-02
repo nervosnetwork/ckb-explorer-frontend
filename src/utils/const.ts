@@ -143,8 +143,14 @@ export const ContractHashTags: ContractHashTag[] = [
     category: 'lock',
   },
   {
-    codeHashes: ['0x86a1c6987a4acbe1a887cca4c9dd2ac9fcb07405bbeda51b861b18bbf7492c4b'],
-    txHashes: ['0x4f32b3e39bd1b6350d326fdfafdfe05e5221865c3098ae323096f0bfc69e0a8c-0'],
+    codeHashes: [
+      '0x86a1c6987a4acbe1a887cca4c9dd2ac9fcb07405bbeda51b861b18bbf7492c4b',
+      '0x0fb343953ee78c9986b091defb6252154e0bb51044fd2879fde5b27314506111',
+    ],
+    txHashes: [
+      '0x4f32b3e39bd1b6350d326fdfafdfe05e5221865c3098ae323096f0bfc69e0a8c-0',
+      '0xa05f28c9b867f8c5682039c10d8e864cf661685252aa74a008d255c33813bb81-0',
+    ],
     tag: 'secp256k1 / anyone-can-pay',
     category: 'lock',
   },
@@ -158,9 +164,33 @@ export const ContractHashTags: ContractHashTag[] = [
     category: 'type',
   },
   {
-    codeHashes: ['0x48dbf59b4c7ee1547238021b4869bceedf4eea6b43772e5d66ef8865b6ae7212'],
-    txHashes: ['0xc1b2ae129fad7465aaa9acc9785f842ba3e6e8b8051d899defa89f5508a77958-0'],
+    codeHashes: [
+      '0x48dbf59b4c7ee1547238021b4869bceedf4eea6b43772e5d66ef8865b6ae7212',
+      '0x5e7a36a77e68eecc013dfa2fe6a23f3b6c344b04005808694ae6dd45eea4cfd5',
+    ],
+    txHashes: [
+      '0xc1b2ae129fad7465aaa9acc9785f842ba3e6e8b8051d899defa89f5508a77958-0',
+      '0xc7813f6a415144643970c2e88e0bb6ca6a8edc5dd7c1022746f628284a9936d5-0',
+    ],
     tag: 'sudt',
     category: 'type',
+  },
+  {
+    codeHashes: [
+      '0x58c5f491aba6d61678b7cf7edf4910b1f5e00ec0cde2f42e0abb4fd9aff25a63',
+      '0xbf43c3602455798c1a61a596e0d95278864c552fafe231c063b3fabf97a8febc',
+    ],
+    txHashes: [
+      '0x4f254814b972421789fafef49d4fee94116863138f72ab1e6392daf3decfaec1-0',
+      '0x1d60cb8f4666e039f418ea94730b1a8c5aa0bf2f7781474406387462924d15d4-0',
+    ],
+    tag: 'pwlock-k1-acpl',
+    category: 'lock',
+  },
+  {
+    codeHashes: ['0x6843c5fe3acb7f4dc2230392813cb9c12dbced5597fca30a52f13aa519de8d33'],
+    txHashes: ['0x28ee75f9745828eaade301ef24d0b037404717469a299180ecb679259cb688ab-0'],
+    tag: 'pwlock-r1',
+    category: 'lock',
   },
 ]
