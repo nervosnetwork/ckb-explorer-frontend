@@ -29,7 +29,7 @@ const TransactionStateComp = () => {
   }
 }
 
-const anchorAction = (hash: string, txHash: string) => {
+const anchorAction = (hash: string, txHash: string, count: number) => {
   let anchor = hash
   if (anchor) {
     anchor = anchor.replace('#', '')
@@ -37,11 +37,17 @@ const anchorAction = (hash: string, txHash: string) => {
     if (Number.isNaN(outputIndex) || outputIndex < 0 || outputIndex >= PAGE_CELL_COUNT) {
       outputIndex = 0
     }
-    const anchorElement = document.getElementById(`output_${outputIndex}_${txHash}`) as HTMLElement
-    if (anchorElement) {
-      anchorElement.style.cssText += 'background: #f5f5f5'
-      anchorElement.scrollIntoView()
-      window.scrollBy(0, isMobile() ? -48 : -66)
+    for (let index = 0; index < count; index++) {
+      const anchorElement = document.getElementById(`output_${index}_${txHash}`) as HTMLElement
+      if (anchorElement) {
+        if (index === outputIndex) {
+          anchorElement.style.cssText += 'background: #f5f5f5'
+          anchorElement.scrollIntoView()
+          window.scrollBy(0, isMobile() ? -48 : -66)
+        } else {
+          anchorElement.style.cssText += 'background: #00000000'
+        }
+      }
     }
   }
 }
@@ -72,7 +78,7 @@ export default () => {
 
   useEffect(() => {
     if (status === 'OK' && displayOutputs.length > 0) {
-      anchorAction(hash, txHash)
+      anchorAction(hash, txHash, displayOutputs.length)
     }
   }, [hash, status, displayOutputs, txHash])
 
