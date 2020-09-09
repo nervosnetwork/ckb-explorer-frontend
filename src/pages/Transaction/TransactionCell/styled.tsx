@@ -55,23 +55,23 @@ export const TransactionCellInfoPanel = styled.div`
       width: auto;
     }
 
+    .transaction__cell__info__separate {
+      background: rgba(0, 0, 0, 0.6);
+      width: 45px;
+      height: 1px;
+      transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
+
+      @media (max-width: 750px) {
+        width: auto;
+      }
+    }
+
     &:hover {
       color: ${props => props.theme.primary};
-    }
-  }
 
-  .transaction__cell__info__separate {
-    background: rgba(0, 0, 0, 0.6);
-    width: 45px;
-    height: 1px;
-    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
-
-    @media (max-width: 750px) {
-      width: auto;
-    }
-
-    &:hover {
-      background: ${props => props.theme.primary};
+      .transaction__cell__info__separate {
+        background: ${props => props.theme.primary};
+      }
     }
   }
 `
