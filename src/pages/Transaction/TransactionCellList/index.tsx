@@ -13,11 +13,13 @@ export default ({
   outputs,
   txHash,
   showReward,
+  txStatus,
 }: {
   inputs?: State.Cell[]
   outputs?: State.Cell[]
   txHash?: string
   showReward?: boolean
+  txStatus: string
 }) => {
   const [offset, setOffset] = useState(PAGE_CELL_COUNT)
   const [isEnd, setIsEnd] = useState(false)
@@ -77,6 +79,7 @@ export default ({
                   index={index}
                   txHash={txHash}
                   showReward={showReward}
+                  txStatus={txStatus}
                 />
               ))}
           {isScroll && !isEnd && <SmallLoading />}

@@ -47,49 +47,71 @@ const handleFetchScript = (
   setContent: Function,
   setState: Function,
   dispatch: AppDispatch,
+  txStatus: string,
 ) => {
   setScriptFetchStatus(dispatch, false)
   switch (state) {
     case CellState.LOCK:
-      fetchScript('lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script> | null) => {
+      if (txStatus === 'committed') {
+        fetchScript('lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script> | null) => {
+          setScriptFetchStatus(dispatch, true)
+          setContent(wrapper ? wrapper.attributes : initScriptContent.lock)
+        })
+      } else {
         setScriptFetchStatus(dispatch, true)
-        setContent(wrapper ? wrapper.attributes : initScriptContent.lock)
-      })
+        setContent(cell.cellInfo.lock || initScriptContent.lock)
+      }
       break
     case CellState.TYPE:
-      fetchScript('type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script> | null) => {
+      if (txStatus === 'committed') {
+        fetchScript('type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script> | null) => {
+          setScriptFetchStatus(dispatch, true)
+          setContent(wrapper ? wrapper.attributes : initScriptContent.type)
+        })
+      } else {
         setScriptFetchStatus(dispatch, true)
-        setContent(wrapper ? wrapper.attributes : initScriptContent.type)
-      })
+        setContent(cell.cellInfo.type || initScriptContent.type)
+      }
       break
     case CellState.DATA:
-      fetchCellData(`${cell.id}`)
-        .then((wrapper: Response.Wrapper<State.Data> | null) => {
-          const dataValue: State.Data = wrapper ? wrapper.attributes : initScriptContent.data
-          if (wrapper && cell.isGenesisOutput) {
-            dataValue.data = hexToUtf8(wrapper.attributes.data.substr(2))
-          }
-          setContent(dataValue || initScriptContent.data)
-        })
-        .catch(error => {
-          if (error.response && error.response.data && error.response.data[0]) {
-            const err = error.response.data[0]
-            if (err.status === 400 && err.code === 1022) {
-              setContent(null)
-              setState(CellState.NONE)
-              dispatch({
-                type: AppActions.ShowToastMessage,
-                payload: {
-                  message: i18n.t('toast.data_too_large'),
-                  type: 'warning',
-                },
-              })
+      if (txStatus === 'committed') {
+        fetchCellData(`${cell.id}`)
+          .then((wrapper: Response.Wrapper<State.Data> | null) => {
+            const dataValue: State.Data = wrapper ? wrapper.attributes : initScriptContent.data
+            if (wrapper && cell.isGenesisOutput) {
+              dataValue.data = hexToUtf8(wrapper.attributes.data.substr(2))
             }
-          }
-        })
-        .finally(() => {
-          setScriptFetchStatus(dispatch, true)
-        })
+            setContent(dataValue || initScriptContent.data)
+          })
+          .catch(error => {
+            if (error.response && error.response.data && error.response.data[0]) {
+              const err = error.response.data[0]
+              if (err.status === 400 && err.code === 1022) {
+                setContent(null)
+                setState(CellState.NONE)
+                dispatch({
+                  type: AppActions.ShowToastMessage,
+                  payload: {
+                    message: i18n.t('toast.data_too_large'),
+                    type: 'warning',
+                  },
+                })
+              }
+            }
+          })
+          .finally(() => {
+            setScriptFetchStatus(dispatch, true)
+          })
+      } else {
+        setScriptFetchStatus(dispatch, true)
+        let dataValue: State.Data
+        if (cell.cellInfo.data !== '0x') {
+          dataValue = { data: hexToUtf8(cell.cellInfo.data.substr(2)) }
+        } else {
+          dataValue = initScriptContent.data
+        }
+        setContent(dataValue)
+      }
       break
     default:
       break
@@ -154,7 +176,7 @@ const ScriptContentJson = ({
   )
 }
 
-export default ({ cell, onClose }: { cell: State.Cell; onClose: Function }) => {
+export default ({ cell, onClose, txStatus }: { cell: State.Cell; onClose: Function; txStatus: string }) => {
   const dispatch = useDispatch()
   const [content, setContent] = useState(null as State.Script | State.Data | null)
   const [state, setState] = useState(CellState.LOCK as CellState)
@@ -167,8 +189,8 @@ export default ({ cell, onClose }: { cell: State.Cell; onClose: Function }) => {
   }
 
   useEffect(() => {
-    handleFetchScript(cell, state, setContent, setState, dispatch)
-  }, [cell, state, setState, dispatch])
+    handleFetchScript(cell, state, setContent, setState, dispatch, txStatus)
+  }, [cell, state, setState, dispatch, txStatus])
 
   const onClickCopy = () => {
     navigator.clipboard.writeText(JSON.stringify(content, null, 4)).then(
