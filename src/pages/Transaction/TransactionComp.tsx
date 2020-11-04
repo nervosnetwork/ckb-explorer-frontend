@@ -24,10 +24,14 @@ import SimpleButton from '../../components/SimpleButton'
 import HashTag from '../../components/HashTag'
 import { isScreenSmallerThan1440 } from '../../utils/screen'
 
-const TransactionBlockHeight = ({ blockNumber }: { blockNumber: number }) => {
+const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => {
   return (
     <TransactionBlockHeightPanel>
-      <Link to={`/block/${blockNumber}`}>{localeNumberString(blockNumber)}</Link>
+      {txStatus != 'pending' ? (
+        <Link to={`/block/${blockNumber}`}>{localeNumberString(blockNumber)}</Link>
+      ) : (
+        <span>{showTxStatus(txStatus)}</span>
+      )}
     </TransactionBlockHeightPanel>
   )
 }
@@ -87,7 +91,7 @@ export const TransactionOverview = () => {
   const [showParams, setShowParams] = useState<boolean>(false)
   const {
     transactionState: {
-      transaction: { blockNumber, cellDeps, headerDeps, witnesses, blockTimestamp, transactionFee },
+      transaction: { blockNumber, cellDeps, headerDeps, witnesses, blockTimestamp, transactionFee, txStatus },
     },
     app: { tipBlockNumber },
   } = useAppState()
@@ -100,22 +104,41 @@ export const TransactionOverview = () => {
   const OverviewItems: OverviewItemData[] = [
     {
       title: i18n.t('block.block_height'),
-      content: <TransactionBlockHeight blockNumber={blockNumber} />,
-    },
-    {
-      title: i18n.t('block.timestamp'),
-      content: parseSimpleDate(blockTimestamp),
-    },
-    {
-      title: i18n.t('transaction.transaction_fee'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
+      content: <TransactionBlockHeight blockNumber={blockNumber} txStatus={txStatus} />,
     },
   ]
-  if (confirmation > 0) {
-    OverviewItems.push({
-      title: i18n.t('transaction.status'),
-      content: formatConfirmation(confirmation),
-    })
+  if (txStatus == 'pending') {
+    OverviewItems.push(
+      {
+        title: i18n.t('block.timestamp'),
+        content: showTxStatus(txStatus),
+      },
+      {
+        title: i18n.t('transaction.transaction_fee'),
+        content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
+      },
+      {
+        title: i18n.t('transaction.status'),
+        content: showTxStatus(txStatus),
+      },
+    )
+  } else {
+    if (confirmation > 0) {
+      OverviewItems.push(
+        {
+          title: i18n.t('block.timestamp'),
+          content: parseSimpleDate(blockTimestamp),
+        },
+        {
+          title: i18n.t('transaction.transaction_fee'),
+          content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
+        },
+        {
+          title: i18n.t('transaction.status'),
+          content: formatConfirmation(confirmation),
+        },
+      )
+    }
   }
 
   const TransactionParams = [
@@ -222,6 +245,10 @@ const handleCellbaseInputs = (inputs: State.Cell[], outputs: State.Cell[]) => {
     return resultInputs
   }
   return inputs
+}
+
+const showTxStatus = (txStatus: string) => {
+  return txStatus.replace(/^\S/, s => s.toUpperCase())
 }
 
 export default () => {
