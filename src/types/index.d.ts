@@ -58,6 +58,13 @@ declare namespace State {
     interest: string
     daoTypeHash: string
     udtInfo: UDTInfo
+    cellInfo: CellInfo
+  }
+
+  export interface CellInfo {
+    lock: Script,
+    type: Script,
+    data: string
   }
 
   export interface LockInfo {
