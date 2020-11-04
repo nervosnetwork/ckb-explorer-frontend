@@ -27,7 +27,7 @@ import { isScreenSmallerThan1440 } from '../../utils/screen'
 const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => {
   return (
     <TransactionBlockHeightPanel>
-      {txStatus == 'committed' ? (
+      {txStatus === 'committed' ? (
         <Link to={`/block/${blockNumber}`}>{localeNumberString(blockNumber)}</Link>
       ) : (
         <span>{showTxStatus(txStatus)}</span>
@@ -107,7 +107,7 @@ export const TransactionOverview = () => {
       content: <TransactionBlockHeight blockNumber={blockNumber} txStatus={txStatus} />,
     },
   ]
-  if (txStatus == 'committed') {
+  if (txStatus === 'committed') {
     if (confirmation > 0) {
       OverviewItems.push(
         {

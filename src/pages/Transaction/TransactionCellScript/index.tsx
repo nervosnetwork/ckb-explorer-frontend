@@ -52,7 +52,7 @@ const handleFetchScript = (
   setScriptFetchStatus(dispatch, false)
   switch (state) {
     case CellState.LOCK:
-      if (txStatus == 'committed') {
+      if (txStatus === 'committed') {
         fetchScript('lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script> | null) => {
           setScriptFetchStatus(dispatch, true)
           setContent(wrapper ? wrapper.attributes : initScriptContent.lock)
@@ -63,7 +63,7 @@ const handleFetchScript = (
       }
       break
     case CellState.TYPE:
-      if (txStatus == 'committed') {
+      if (txStatus === 'committed') {
         fetchScript('type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script> | null) => {
           setScriptFetchStatus(dispatch, true)
           setContent(wrapper ? wrapper.attributes : initScriptContent.type)
@@ -74,7 +74,7 @@ const handleFetchScript = (
       }
       break
     case CellState.DATA:
-      if (txStatus == 'committed') {
+      if (txStatus === 'committed') {
         fetchCellData(`${cell.id}`)
           .then((wrapper: Response.Wrapper<State.Data> | null) => {
             const dataValue: State.Data = wrapper ? wrapper.attributes : initScriptContent.data
@@ -105,7 +105,7 @@ const handleFetchScript = (
       } else {
         setScriptFetchStatus(dispatch, true)
         let dataValue: State.Data
-        if (cell.cellInfo.data != '0x') {
+        if (cell.cellInfo.data !== '0x') {
           dataValue = { data: hexToUtf8(cell.cellInfo.data.substr(2)) }
         } else {
           dataValue = initScriptContent.data
@@ -190,7 +190,7 @@ export default ({ cell, onClose, txStatus }: { cell: State.Cell; onClose: Functi
 
   useEffect(() => {
     handleFetchScript(cell, state, setContent, setState, dispatch, txStatus)
-  }, [cell, state, setState, dispatch])
+  }, [cell, state, setState, dispatch, txStatus])
 
   const onClickCopy = () => {
     navigator.clipboard.writeText(JSON.stringify(content, null, 4)).then(
