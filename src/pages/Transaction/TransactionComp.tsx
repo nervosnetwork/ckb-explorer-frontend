@@ -27,7 +27,7 @@ import { isScreenSmallerThan1440 } from '../../utils/screen'
 const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => {
   return (
     <TransactionBlockHeightPanel>
-      {txStatus != 'pending' ? (
+      {txStatus == 'committed' ? (
         <Link to={`/block/${blockNumber}`}>{localeNumberString(blockNumber)}</Link>
       ) : (
         <span>{showTxStatus(txStatus)}</span>
@@ -107,22 +107,7 @@ export const TransactionOverview = () => {
       content: <TransactionBlockHeight blockNumber={blockNumber} txStatus={txStatus} />,
     },
   ]
-  if (txStatus == 'pending') {
-    OverviewItems.push(
-      {
-        title: i18n.t('block.timestamp'),
-        content: showTxStatus(txStatus),
-      },
-      {
-        title: i18n.t('transaction.transaction_fee'),
-        content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
-      },
-      {
-        title: i18n.t('transaction.status'),
-        content: showTxStatus(txStatus),
-      },
-    )
-  } else {
+  if (txStatus == 'committed') {
     if (confirmation > 0) {
       OverviewItems.push(
         {
@@ -139,6 +124,21 @@ export const TransactionOverview = () => {
         },
       )
     }
+  } else {
+    OverviewItems.push(
+      {
+        title: i18n.t('block.timestamp'),
+        content: showTxStatus(txStatus),
+      },
+      {
+        title: i18n.t('transaction.transaction_fee'),
+        content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
+      },
+      {
+        title: i18n.t('transaction.status'),
+        content: showTxStatus(txStatus),
+      },
+    )
   }
 
   const TransactionParams = [
@@ -254,7 +254,7 @@ const showTxStatus = (txStatus: string) => {
 export default () => {
   const {
     transactionState: {
-      transaction: { transactionHash, displayInputs, displayOutputs, blockNumber, isCellbase },
+      transaction: { transactionHash, displayInputs, displayOutputs, blockNumber, isCellbase, txStatus },
     },
   } = useAppState()
 
@@ -264,10 +264,14 @@ export default () => {
   return (
     <>
       <div className="transaction__inputs">
-        {inputs && <TransactionCellList inputs={inputs} showReward={blockNumber > 0 && isCellbase} />}
+        {inputs && (
+          <TransactionCellList inputs={inputs} showReward={blockNumber > 0 && isCellbase} txStatus={txStatus} />
+        )}
       </div>
       <div className="transaction__outputs">
-        {displayOutputs && <TransactionCellList outputs={displayOutputs} txHash={transactionHash} />}
+        {displayOutputs && (
+          <TransactionCellList outputs={displayOutputs} txHash={transactionHash} txStatus={txStatus} />
+        )}
       </div>
     </>
   )

@@ -62,8 +62,8 @@ declare namespace State {
   }
 
   export interface CellInfo {
-    lock: Script,
-    type: Script,
+    lock: Script
+    type: Script
     data: string
   }
 

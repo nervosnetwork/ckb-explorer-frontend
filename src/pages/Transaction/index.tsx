@@ -106,7 +106,7 @@ export default () => {
     <Content>
       <TransactionPanel className="container">
         <TransactionHashCard title={i18n.t('transaction.transaction')} hash={txHash} loading={showTitleLoading}>
-          {txStatus == "pending" || blockTimestamp > 0 ? <TransactionOverview /> : null}
+          {txStatus != 'committed' || blockTimestamp > 0 ? <TransactionOverview /> : null}
         </TransactionHashCard>
         <TransactionStateComp />
       </TransactionPanel>
