@@ -106,7 +106,7 @@ const handleFetchScript = (
         setScriptFetchStatus(dispatch, true)
         let dataValue: State.Data
         if (cell.cellInfo.data !== '0x') {
-          dataValue = { data: hexToUtf8(cell.cellInfo.data.substr(2)) }
+          dataValue = { data: cell.cellInfo.data }
         } else {
           dataValue = initScriptContent.data
         }
