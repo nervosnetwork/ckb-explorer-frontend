@@ -24,10 +24,14 @@ import SimpleButton from '../../components/SimpleButton'
 import HashTag from '../../components/HashTag'
 import { isScreenSmallerThan1440 } from '../../utils/screen'
 
-const TransactionBlockHeight = ({ blockNumber }: { blockNumber: number }) => {
+const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => {
   return (
     <TransactionBlockHeightPanel>
-      <Link to={`/block/${blockNumber}`}>{localeNumberString(blockNumber)}</Link>
+      {txStatus === 'committed' ? (
+        <Link to={`/block/${blockNumber}`}>{localeNumberString(blockNumber)}</Link>
+      ) : (
+        <span>{showTxStatus(txStatus)}</span>
+      )}
     </TransactionBlockHeightPanel>
   )
 }
@@ -87,7 +91,7 @@ export const TransactionOverview = () => {
   const [showParams, setShowParams] = useState<boolean>(false)
   const {
     transactionState: {
-      transaction: { blockNumber, cellDeps, headerDeps, witnesses, blockTimestamp, transactionFee },
+      transaction: { blockNumber, cellDeps, headerDeps, witnesses, blockTimestamp, transactionFee, txStatus },
     },
     app: { tipBlockNumber },
   } = useAppState()
@@ -100,22 +104,41 @@ export const TransactionOverview = () => {
   const OverviewItems: OverviewItemData[] = [
     {
       title: i18n.t('block.block_height'),
-      content: <TransactionBlockHeight blockNumber={blockNumber} />,
-    },
-    {
-      title: i18n.t('block.timestamp'),
-      content: parseSimpleDate(blockTimestamp),
-    },
-    {
-      title: i18n.t('transaction.transaction_fee'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
+      content: <TransactionBlockHeight blockNumber={blockNumber} txStatus={txStatus} />,
     },
   ]
-  if (confirmation > 0) {
-    OverviewItems.push({
-      title: i18n.t('transaction.status'),
-      content: formatConfirmation(confirmation),
-    })
+  if (txStatus === 'committed') {
+    if (confirmation > 0) {
+      OverviewItems.push(
+        {
+          title: i18n.t('block.timestamp'),
+          content: parseSimpleDate(blockTimestamp),
+        },
+        {
+          title: i18n.t('transaction.transaction_fee'),
+          content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
+        },
+        {
+          title: i18n.t('transaction.status'),
+          content: formatConfirmation(confirmation),
+        },
+      )
+    }
+  } else {
+    OverviewItems.push(
+      {
+        title: i18n.t('block.timestamp'),
+        content: showTxStatus(txStatus),
+      },
+      {
+        title: i18n.t('transaction.transaction_fee'),
+        content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
+      },
+      {
+        title: i18n.t('transaction.status'),
+        content: showTxStatus(txStatus),
+      },
+    )
   }
 
   const TransactionParams = [
@@ -224,10 +247,14 @@ const handleCellbaseInputs = (inputs: State.Cell[], outputs: State.Cell[]) => {
   return inputs
 }
 
+const showTxStatus = (txStatus: string) => {
+  return txStatus.replace(/^\S/, s => s.toUpperCase())
+}
+
 export default () => {
   const {
     transactionState: {
-      transaction: { transactionHash, displayInputs, displayOutputs, blockNumber, isCellbase },
+      transaction: { transactionHash, displayInputs, displayOutputs, blockNumber, isCellbase, txStatus },
     },
   } = useAppState()
 
@@ -237,10 +264,14 @@ export default () => {
   return (
     <>
       <div className="transaction__inputs">
-        {inputs && <TransactionCellList inputs={inputs} showReward={blockNumber > 0 && isCellbase} />}
+        {inputs && (
+          <TransactionCellList inputs={inputs} showReward={blockNumber > 0 && isCellbase} txStatus={txStatus} />
+        )}
       </div>
       <div className="transaction__outputs">
-        {displayOutputs && <TransactionCellList outputs={displayOutputs} txHash={transactionHash} />}
+        {displayOutputs && (
+          <TransactionCellList outputs={displayOutputs} txHash={transactionHash} txStatus={txStatus} />
+        )}
       </div>
     </>
   )

@@ -15,6 +15,7 @@ export const initTransactionState: State.TransactionState = {
     witnesses: [],
     liveCellChanges: '',
     capacityInvolved: '',
+    txStatus: ''
   },
   status: 'None',
   scriptFetched: false,
