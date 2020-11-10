@@ -58,6 +58,13 @@ declare namespace State {
     interest: string
     daoTypeHash: string
     udtInfo: UDTInfo
+    cellInfo: CellInfo
+  }
+
+  export interface CellInfo {
+    lock: Script
+    type: Script
+    data: string
   }
 
   export interface LockInfo {
@@ -145,6 +152,7 @@ declare namespace State {
     witnesses: string[]
     liveCellChanges: string
     capacityInvolved: string
+    txStatus: string
   }
 
   export interface BlockchainInfo {

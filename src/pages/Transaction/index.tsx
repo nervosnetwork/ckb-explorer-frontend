@@ -60,7 +60,7 @@ export default () => {
   const [showTitleLoading, setShowTitleLoading] = useState(false)
   const {
     transactionState: {
-      transaction: { displayOutputs, blockTimestamp },
+      transaction: { displayOutputs, blockTimestamp, txStatus },
       status,
     },
   } = useAppState()
@@ -106,7 +106,7 @@ export default () => {
     <Content>
       <TransactionPanel className="container">
         <TransactionHashCard title={i18n.t('transaction.transaction')} hash={txHash} loading={showTitleLoading}>
-          {blockTimestamp > 0 ? <TransactionOverview /> : null}
+          {txStatus !== 'committed' || blockTimestamp > 0 ? <TransactionOverview /> : null}
         </TransactionHashCard>
         <TransactionStateComp />
       </TransactionPanel>
