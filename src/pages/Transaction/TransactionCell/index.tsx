@@ -106,7 +106,7 @@ const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
   )
 }
 
-const TransactionCellInfo = ({ cell, children }: { cell: State.Cell; children: string | ReactNode }) => {
+const TransactionCellInfo = ({ cell, children, txStatus }: { cell: State.Cell; children: string | ReactNode; txStatus: string }) => {
   const [showModal, setShowModal] = useState(false)
   return (
     <TransactionCellInfoPanel>
@@ -121,7 +121,7 @@ const TransactionCellInfo = ({ cell, children }: { cell: State.Cell; children: s
       </SimpleButton>
       <SimpleModal isShow={showModal} setIsShow={setShowModal}>
         <TransactionCellDetailModal>
-          <TransactionCellScript cell={cell} onClose={() => setShowModal(false)} />
+          <TransactionCellScript cell={cell} onClose={() => setShowModal(false)} txStatus={txStatus} />
         </TransactionCellDetailModal>
       </SimpleModal>
     </TransactionCellInfoPanel>
@@ -156,12 +156,14 @@ export default ({
   index,
   txHash,
   showReward,
+  txStatus,
 }: {
   cell: State.Cell
   cellType: CellType
   index: number
   txHash?: string
   showReward?: boolean
+  txStatus: string
 }) => {
   if (isMobile()) {
     return (
@@ -183,7 +185,7 @@ export default ({
             <TransactionCellMobileItem
               title={i18n.t('transaction.detail')}
               value={
-                <TransactionCellInfo cell={cell}>
+                <TransactionCellInfo cell={cell} txStatus={txStatus}>
                   {!cell.fromCellbase && <TransactionCellDetail cell={cell} />}
                 </TransactionCellInfo>
               }
@@ -222,7 +224,7 @@ export default ({
         </div>
 
         <div className="transaction__detail__cell_info">
-          <TransactionCellInfo cell={cell} children={'Cell Info'} />
+          <TransactionCellInfo cell={cell} children={'Cell Info'} txStatus={txStatus} />
         </div>
       </TransactionCellContentPanel>
     </TransactionCellPanel>

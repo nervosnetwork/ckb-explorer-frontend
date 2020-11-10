@@ -66,6 +66,9 @@ export const TransactionOverviewPanel = styled.div`
 
 export const TransactionBlockHeightPanel = styled.div`
   color: ${props => props.theme.primary};
+  span {
+    color: #000000;
+  }
 `
 
 export const TransactionInfoItemPanel = styled.div`

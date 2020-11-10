@@ -49,7 +49,7 @@ REACT_APP_CHAIN_TYPE = 'testnet'                 # Set chain type (mainnet or te
 
 REACT_APP_MAINNET_URL = 'http://localhost:3000'  # MAINNET_URL is for deploying testnet, please ignore for development
 
-REACT_APP_TESTNET_NAME = 'testnet'               # TESTNET_NAME will be displayed on explorer header
+REACT_APP_TESTNET_NAME = 'testnet'               # TESTNET_NAME will be displayed on explorer header and it also determines the subpath of the testnet
 ```
 
 ### Installation
