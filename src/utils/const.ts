@@ -151,6 +151,18 @@ export const ContractHashTags: ContractHashTag[] = [
       '0x4f32b3e39bd1b6350d326fdfafdfe05e5221865c3098ae323096f0bfc69e0a8c-0',
       '0xa05f28c9b867f8c5682039c10d8e864cf661685252aa74a008d255c33813bb81-0',
     ],
+    tag: 'secp256k1 / anyone-can-pay (deprecated)',
+    category: 'lock',
+  },
+  {
+    codeHashes: [
+      '0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356',
+      '0xd369597ff47f29fbc0d47d2e3775370d1250b85140c670e4718af712983a2354',
+    ],
+    txHashes: [
+      '0xec26b0f85ed839ece5f11c4c4e837ec359f5adc4420410f6453b1f6b60fb96a6-0',
+      '0x4153a2014952d7cac45f285ce9a7c5c0c0e1b21f2d378b82ac1433cb11c25c4d-0',
+    ],
     tag: 'secp256k1 / anyone-can-pay',
     category: 'lock',
   },
