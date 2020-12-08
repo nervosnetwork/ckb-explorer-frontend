@@ -99,6 +99,8 @@ describe('Number methods tests', () => {
     expect(parseUDTAmount('123456789828456789', '13')).toBe('12,345.6789828456789')
     expect(parseUDTAmount('123456789828456789', '11')).toBe('1,234,567.89828456789')
     expect(parseUDTAmount('123456789828456789', '10')).toBe('12,345,678.9828456789')
+    expect(parseUDTAmount('123456780000000000', '8')).toBe('1,234,567,800')
+    expect(parseUDTAmount('123456780000600000', '8')).toBe('1,234,567,800.006')
     expect(parseUDTAmount('efd4567898234abc6789', '11')).toBe('0')
     expect(parseUDTAmount('1', '11')).toBe('0.00000000001')
     expect(parseUDTAmount('100000001', '11')).toBe('0.00100000001')
