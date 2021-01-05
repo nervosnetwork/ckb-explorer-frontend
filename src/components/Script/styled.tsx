@@ -21,7 +21,7 @@ export const ScriptItemPanel = styled.div`
 
   @media (min-width: 750px) {
     min-height: 20px;
-    max-height: 45px;
+    max-height: 120px;
   }
 
   @media (max-width: 1200px) {
