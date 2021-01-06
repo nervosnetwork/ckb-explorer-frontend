@@ -22,7 +22,7 @@ const handleTransactionStatus = (dispatch: AppDispatch, transactionsStatus: Stat
   })
 }
 
-export const getAddressInfo = (hash: string, dispatch: AppDispatch) => {
+export const getAddressInformation = (hash: string, dispatch: AppDispatch) => {
   handleAddressStatus(dispatch, 'InProgress')
   fetchAddressInfo(hash)
     .then((wrapper: Response.Wrapper<State.Address> | null) => {
@@ -104,9 +104,4 @@ export const getTipBlockNumber = (dispatch: AppDispatch) => {
       })
     }
   })
-}
-
-export const getAddress = (identityHash: string, page: number, size: number, dispatch: any) => {
-  getAddressInfo(identityHash, dispatch)
-  getTransactionsByAddress(identityHash, page, size, dispatch)
 }
