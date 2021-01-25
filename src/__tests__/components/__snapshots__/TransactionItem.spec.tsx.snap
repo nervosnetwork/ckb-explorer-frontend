@@ -452,7 +452,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
         <span
           className="transaction_item__hash monospace"
         >
-          0x89699abf948440ce172a6...4d57d9309ca11929cebe5c4
+          0x89699abf948440ce172a6ef118c...7c80d24d57d9309ca11929cebe5c4
         </span>
       </a>
       <div
