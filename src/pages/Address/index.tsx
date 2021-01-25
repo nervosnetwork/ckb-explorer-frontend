@@ -1,13 +1,14 @@
 import queryString from 'query-string'
 import React, { useEffect, useState } from 'react'
 import { useParams, useLocation, useHistory } from 'react-router-dom'
+import { Tooltip } from 'antd'
 import Loading from '../../components/Loading'
 import AddressHashCard from '../../components/Card/HashCard'
 import Error from '../../components/Error'
 import Content from '../../components/Content'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
 import { PageActions, AppActions } from '../../contexts/actions'
-import { getAddress } from '../../service/app/address'
+import { getAddressInformation, getTransactionsByAddress } from '../../service/app/address'
 import { PageParams, LOADING_WAITING_TIME } from '../../utils/const'
 import i18n from '../../utils/i18n'
 import { parsePageNumber, adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
@@ -22,7 +23,6 @@ import { isMainnet } from '../../utils/chain'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { localeNumberString, parseEpochNumber } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
-import { Tooltip } from 'antd'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { parseSimpleDateNoSecond } from '../../utils/date'
 import Script from '../../components/Script'
@@ -77,9 +77,9 @@ const getAddressInfo = (addressState: State.AddressState) => {
     const estimate = Number(lockInfo.estimatedUnlockTime) > new Date().getTime() ? i18n.t('address.estimated') : ''
     items.push({
       title: i18n.t('address.lock_until'),
-      content: `${parseEpochNumber(lockInfo.epochNumber)} ${i18n.t('address.epoch')} (${estimate} ${parseSimpleDateNoSecond(
-        lockInfo.estimatedUnlockTime,
-      )})`,
+      content: `${parseEpochNumber(lockInfo.epochNumber)} ${i18n.t(
+        'address.epoch',
+      )} (${estimate} ${parseSimpleDateNoSecond(lockInfo.estimatedUnlockTime)})`,
     })
   }
   return items
@@ -95,7 +95,7 @@ const AddressTitleOverview = () => {
   } = useAppState()
   return (
     <AddressTitleOverviewPanel>
-      <OverviewCard items={getAddressInfo(addressState)} hideShadow={true}>
+      <OverviewCard items={getAddressInfo(addressState)} hideShadow>
         <AddressLockScriptController onClick={() => setShowLock(!showLock)}>
           <div>{i18n.t('address.lock_script')}</div>
           <img alt="lock script" src={lockScriptIcon(showLock)} />
@@ -156,10 +156,14 @@ export const Address = () => {
   const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
 
   useEffect(() => {
+    getAddressInformation(address, dispatch)
+  }, [address, dispatch])
+
+  useEffect(() => {
     if (pageSize > PageParams.MaxPageSize) {
       history.replace(`/address/${address}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
     }
-    getAddress(address, currentPage, pageSize, dispatch)
+    getTransactionsByAddress(address, currentPage, pageSize, dispatch)
   }, [address, currentPage, pageSize, dispatch, history])
 
   useTimeoutWithUnmount(

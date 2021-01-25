@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "4.4.2",
-    "axios": "0.18.1",
+    "axios": "0.21.1",
     "bignumber.js": "9.0.0",
     "camelcase-keys": "6.2.2",
     "default-passive-events": "2.0.0",

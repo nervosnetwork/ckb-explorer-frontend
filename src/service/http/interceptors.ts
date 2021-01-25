@@ -20,6 +20,11 @@ const updateNetworkError = (dispatch: AppDispatch, occurError: boolean) => {
 export const initAxiosInterceptors = (dispatch: AppDispatch, history: History) => {
   axiosIns.interceptors.request.use(
     config => {
+      if (config.method === 'get') {
+        config.data = {
+          unused: 0,
+        }
+      }
       return config
     },
     error => {
