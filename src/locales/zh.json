@@ -258,7 +258,8 @@
       "script_args": "args",
       "script_code_hash": "code_hash",
       "script_hash_type": "hash_type",
-      "script_data": "data"
+      "script_data": "data",
+      "tx_rejected_reason": "至少一个交易输入无效"
     },
     "block": {
       "block": "区块",
