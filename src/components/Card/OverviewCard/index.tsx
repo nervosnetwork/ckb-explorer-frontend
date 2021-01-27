@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react'
+import { Tooltip } from 'antd'
 import { OverviewCardPanel, OverviewContentPanel, OverviewItemPanel } from './styled'
 import { isMobile, isScreenSmallerThan1200 } from '../../../utils/screen'
 import HelpIcon from '../../../assets/qa_help.png'
-import { Tooltip } from 'antd'
 
 export interface OverviewItemData {
   title: ReactNode
@@ -10,6 +10,7 @@ export interface OverviewItemData {
   icon?: any
   isAsset?: boolean
   tooltip?: string
+  valueTooltip?: string
 }
 
 const handleOverviewItems = (items: OverviewItemData[]) => {
@@ -37,7 +38,14 @@ export const OverviewItem = ({ item, hideLine }: { item: OverviewItemData; hideL
           )}
         </div>
       </div>
-      <div className="overview_item__value">{item.content}</div>
+      <div className="overview_item__value">
+        <span>{item.content}</span>
+        {item.valueTooltip && (
+          <Tooltip placement="top" title={item.valueTooltip}>
+            <img src={HelpIcon} alt="help icon" />
+          </Tooltip>
+        )}
+      </div>
     </OverviewItemPanel>
   )
 }

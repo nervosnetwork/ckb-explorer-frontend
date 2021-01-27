@@ -259,7 +259,8 @@
       "script_args": "args",
       "script_code_hash": "code_hash",
       "script_hash_type": "hash_type",
-      "script_data": "data"
+      "script_data": "data",
+      "tx_rejected_reason": "At least one input is invalid"
     },
     "block": {
       "block": "Block",

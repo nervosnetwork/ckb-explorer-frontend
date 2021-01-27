@@ -32,6 +32,22 @@ const initScriptContent = {
   },
 }
 
+const updateJsonFormat = (content: State.Script | State.Data | null): string => {
+  if (content !== null && (content as State.Script).args !== undefined) {
+    const { codeHash, args, hashType } = content as State.Script
+    return JSON.stringify(
+      {
+        code_hash: codeHash,
+        args,
+        hash_type: hashType,
+      },
+      null,
+      4,
+    )
+  }
+  return JSON.stringify(content, null, 4)
+}
+
 const setScriptFetchStatus = (dispatch: AppDispatch, status: boolean) => {
   dispatch({
     type: PageActions.UpdateTransactionScriptFetched,
@@ -106,7 +122,9 @@ const handleFetchScript = (
         setScriptFetchStatus(dispatch, true)
         let dataValue: State.Data
         if (cell.cellInfo.data !== '0x') {
-          dataValue = { data: cell.cellInfo.data }
+          dataValue = {
+            data: cell.cellInfo.data,
+          }
         } else {
           dataValue = initScriptContent.data
         }
@@ -144,7 +162,6 @@ const ScriptContent = ({ content, state }: { content: State.Script | State.Data 
   }
   return (
     <>
-      <ScriptContentItem title={`"${i18n.t('transaction.script_args')}": `} value={(content as State.Script).args} />
       <ScriptContentItem title={`"${i18n.t('transaction.script_code_hash')}": `} value={script.codeHash} />
       {hashTag && (
         <ScriptContentItem
@@ -155,6 +172,7 @@ const ScriptContent = ({ content, state }: { content: State.Script | State.Data 
           }
         />
       )}
+      <ScriptContentItem title={`"${i18n.t('transaction.script_args')}": `} value={(content as State.Script).args} />
       <ScriptContentItem title={`"${i18n.t('transaction.script_hash_type')}": `} value={script.hashType} />
     </>
   )
@@ -193,7 +211,7 @@ export default ({ cell, onClose, txStatus }: { cell: State.Cell; onClose: Functi
   }, [cell, state, setState, dispatch, txStatus])
 
   const onClickCopy = () => {
-    navigator.clipboard.writeText(JSON.stringify(content, null, 4)).then(
+    navigator.clipboard.writeText(updateJsonFormat(content)).then(
       () => {
         dispatch({
           type: AppActions.ShowToastMessage,

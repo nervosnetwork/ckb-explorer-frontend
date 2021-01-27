@@ -23,7 +23,10 @@ const TransactionItem = ({
   address,
   isBlock = false,
   titleCard,
-  circleCorner = { top: false, bottom: false },
+  circleCorner = {
+    top: false,
+    bottom: false,
+  },
 }: {
   transaction: State.Transaction
   address?: string
@@ -32,7 +35,7 @@ const TransactionItem = ({
   circleCorner?: CircleCorner
 }) => {
   const txHashMobile = adaptMobileEllipsis(transaction.transactionHash, 10)
-  const txHashPC = adaptPCEllipsis(transaction.transactionHash, 14, 40)
+  const txHashPC = adaptPCEllipsis(transaction.transactionHash, 17, 28)
 
   return (
     <TransactionPanel id={isBlock && transaction.isCellbase ? 'cellbase' : ''} circleCorner={circleCorner}>

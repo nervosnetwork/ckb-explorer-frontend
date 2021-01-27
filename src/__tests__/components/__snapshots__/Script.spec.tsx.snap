@@ -5,7 +5,7 @@ exports[`Script Component shallow renders 1`] = `
   className="sc-AxjAm buuohC"
 >
   <div
-    className="sc-AxirZ WjSFh"
+    className="sc-AxirZ eQiiMj"
   >
     <div
       className="script__title"
@@ -25,18 +25,11 @@ exports[`Script Component shallow renders 1`] = `
         >
           0x48dbf59b4c7ee1547238021b4869bceedf4eea6b43772e5d66ef8865b6ae7212
         </span>
-        <div
-          className="sc-AxiKw cHdjF"
-        >
-          <span>
-            sudt
-          </span>
-        </div>
       </div>
     </div>
   </div>
   <div
-    className="sc-AxirZ WjSFh"
+    className="sc-AxirZ eQiiMj"
   >
     <div
       className="script__title"
@@ -56,7 +49,7 @@ exports[`Script Component shallow renders 1`] = `
     </div>
   </div>
   <div
-    className="sc-AxirZ WjSFh"
+    className="sc-AxirZ eQiiMj"
   >
     <div
       className="script__title"

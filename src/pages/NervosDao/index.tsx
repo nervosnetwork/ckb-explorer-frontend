@@ -62,8 +62,11 @@ export const NervosDao = () => {
 
   useEffect(() => {
     getNervosDao(dispatch)
-    getNervosDaoTransactions(dispatch, currentPage, pageSize)
     getNervosDaoDepositors(dispatch)
+  }, [dispatch])
+
+  useEffect(() => {
+    getNervosDaoTransactions(dispatch, currentPage, pageSize)
   }, [dispatch, currentPage, pageSize])
 
   useTimeoutWithUnmount(

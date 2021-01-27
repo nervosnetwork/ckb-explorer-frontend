@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import camelcaseKeys from 'camelcase-keys'
 import BigNumber from 'bignumber.js'
-import { MAX_CONFIRMATION, ContractHashTag, ContractHashTags } from './const'
+import { MAX_CONFIRMATION, ContractHashTag, MainnetContractHashTags, TestnetContractHashTags } from './const'
 import i18n from './i18n'
 import { isMainnet } from './chain'
 import CONFIG from '../config'
@@ -97,11 +97,19 @@ export const baseUrl = () => {
 }
 
 export const matchCodeHash = (contractHash: string): ContractHashTag | undefined => {
-  return ContractHashTags.find(codeHashTag => codeHashTag.codeHashes.find(codeHash => codeHash === contractHash))
+  if (isMainnet()) {
+    return MainnetContractHashTags.find(codeHashTag =>
+      codeHashTag.codeHashes.find(codeHash => codeHash === contractHash),
+    )
+  }
+  return TestnetContractHashTags.find(codeHashTag => codeHashTag.codeHashes.find(codeHash => codeHash === contractHash))
 }
 
 export const matchTxHash = (txHash: string, index: number | string): ContractHashTag | undefined => {
-  return ContractHashTags.find(codeHashTag => codeHashTag.txHashes.find(hash => hash === `${txHash}-${index}`))
+  if (isMainnet()) {
+    MainnetContractHashTags.find(codeHashTag => codeHashTag.txHashes.find(hash => hash === `${txHash}-${index}`))
+  }
+  return TestnetContractHashTags.find(codeHashTag => codeHashTag.txHashes.find(hash => hash === `${txHash}-${index}`))
 }
 
 export default {

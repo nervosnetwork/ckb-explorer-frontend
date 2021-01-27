@@ -87,14 +87,14 @@ export const parseUDTAmount = (amount: string, decimal: string) => {
   try {
     const decimalInt = parseInt(decimal, 10)
     const amountBigInt = new BigNumber(amount)
-    const result = amountBigInt.dividedBy(new BigNumber(10).pow(decimalInt)).toFixed(decimalInt > 20 ? 20 : decimalInt)
-    if (result === 'NaN') {
-      return '0'
-    }
+    const result = amountBigInt.dividedBy(new BigNumber(10).pow(decimalInt))
     if (decimalInt > 20) {
-      return `${result}...`
+      return `${result.toFixed(20)}...`
     }
-    return localeNumberString(result)
+    if (result.toString().length >= 16 || result.lt(new BigNumber(0.000001))) {
+      return localeNumberString(result.toFixed(decimalInt))
+    }
+    return localeNumberString(result.toNumber())
   } catch (error) {
     console.error(error)
     return '0'
