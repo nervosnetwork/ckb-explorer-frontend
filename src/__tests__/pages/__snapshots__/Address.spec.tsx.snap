@@ -87,7 +87,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="overview_content__left_items"
             >
               <div
-                className="sc-fzqBkg cZOofG"
+                className="sc-fzqBkg eJLblX"
               >
                 <div
                   className="overview_item__title__panel"
@@ -103,7 +103,9 @@ exports[`Active Page shallow renders with empty data 1`] = `
                 <div
                   className="overview_item__value"
                 >
-                  0
+                  <span>
+                    0
+                  </span>
                 </div>
               </div>
             </div>
@@ -111,7 +113,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
               className="overview_content__right_items"
             >
               <div
-                className="sc-fzqBkg cZOofG"
+                className="sc-fzqBkg eJLblX"
               >
                 <div
                   className="overview_item__title__panel"
@@ -127,7 +129,9 @@ exports[`Active Page shallow renders with empty data 1`] = `
                 <div
                   className="overview_item__value"
                 >
-                  0
+                  <span>
+                    0
+                  </span>
                 </div>
               </div>
             </div>
