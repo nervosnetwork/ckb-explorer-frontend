@@ -14,7 +14,7 @@ exports[`OverviewCard Component shallow renders 1`] = `
       className="overview_content__left_items"
     >
       <div
-        className="sc-AxiKw bqkStm"
+        className="sc-AxiKw eGZoJv"
       >
         <div
           className="overview_item__title__panel"
@@ -30,11 +30,13 @@ exports[`OverviewCard Component shallow renders 1`] = `
         <div
           className="overview_item__value"
         >
-          content1
+          <span>
+            content1
+          </span>
         </div>
       </div>
       <div
-        className="sc-AxiKw cBOCpF"
+        className="sc-AxiKw dzAEis"
       >
         <div
           className="overview_item__title__panel"
@@ -50,7 +52,9 @@ exports[`OverviewCard Component shallow renders 1`] = `
         <div
           className="overview_item__value"
         >
-          content3
+          <span>
+            content3
+          </span>
         </div>
       </div>
     </div>
@@ -58,7 +62,7 @@ exports[`OverviewCard Component shallow renders 1`] = `
       className="overview_content__right_items"
     >
       <div
-        className="sc-AxiKw bqkStm"
+        className="sc-AxiKw eGZoJv"
       >
         <div
           className="overview_item__title__panel"
@@ -74,13 +78,15 @@ exports[`OverviewCard Component shallow renders 1`] = `
         <div
           className="overview_item__value"
         >
-          <div>
-            content2
-          </div>
+          <span>
+            <div>
+              content2
+            </div>
+          </span>
         </div>
       </div>
       <div
-        className="sc-AxiKw cBOCpF"
+        className="sc-AxiKw dzAEis"
       >
         <div
           className="overview_item__title__panel"
@@ -96,9 +102,11 @@ exports[`OverviewCard Component shallow renders 1`] = `
         <div
           className="overview_item__value"
         >
-          <div>
-            content4
-          </div>
+          <span>
+            <div>
+              content4
+            </div>
+          </span>
         </div>
       </div>
     </div>
