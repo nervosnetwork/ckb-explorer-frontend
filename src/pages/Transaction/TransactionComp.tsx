@@ -137,6 +137,7 @@ export const TransactionOverview = () => {
       {
         title: i18n.t('transaction.status'),
         content: showTxStatus(txStatus),
+        valueTooltip: txStatus === 'rejected' ? i18n.t('transaction.tx_rejected_reason') : undefined,
       },
     )
   }
@@ -208,7 +209,7 @@ export const TransactionOverview = () => {
 
   return (
     <TransactionOverviewPanel>
-      <OverviewCard items={OverviewItems} hideShadow={true}>
+      <OverviewCard items={OverviewItems} hideShadow>
         <div className="transaction__overview_info">
           <SimpleButton className="transaction__overview_parameters" onClick={() => setShowParams(!showParams)}>
             <div>{i18n.t('transaction.transaction_parameters')}</div>
