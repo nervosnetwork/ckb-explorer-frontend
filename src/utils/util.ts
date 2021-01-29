@@ -107,7 +107,7 @@ export const matchCodeHash = (contractHash: string): ContractHashTag | undefined
 
 export const matchTxHash = (txHash: string, index: number | string): ContractHashTag | undefined => {
   if (isMainnet()) {
-    MainnetContractHashTags.find(codeHashTag => codeHashTag.txHashes.find(hash => hash === `${txHash}-${index}`))
+    return MainnetContractHashTags.find(codeHashTag => codeHashTag.txHashes.find(hash => hash === `${txHash}-${index}`))
   }
   return TestnetContractHashTags.find(codeHashTag => codeHashTag.txHashes.find(hash => hash === `${txHash}-${index}`))
 }
