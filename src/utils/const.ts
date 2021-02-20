@@ -15,6 +15,7 @@ export const MAINNET_SECONDARY_THEME_COLOR = '#3cc68a'
 export const TESTNET_PRIMARY_THEME_COLOR = '#617bbd'
 export const TESTNET_SECONDARY_THEME_COLOR = '#85A1EA'
 
+export const TOKEN_EMAIL_ADDRESS = 'asset-info-submit@nervina.io'
 export const TOKEN_EMAIL_SUBJECT = 'Submit Token Info'
 export const TOKEN_EMAIL_BODY = `
 Title: Submit Token Information%0a%0d
