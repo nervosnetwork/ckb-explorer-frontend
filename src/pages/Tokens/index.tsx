@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react'
+import { Tooltip } from 'antd'
+import { Link } from 'react-router-dom'
 import Content from '../../components/Content'
 import {
   TokensPanel,
@@ -11,7 +13,6 @@ import {
   TokensItemNamePanel,
 } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
-import { TOKEN_EMAIL_SUBJECT, TOKEN_EMAIL_BODY } from '../../utils/const'
 import { parseDateNoTime } from '../../utils/date'
 import { localeNumberString } from '../../utils/number'
 import { useAppState, useDispatch } from '../../contexts/providers'
@@ -19,9 +20,8 @@ import getTokens from '../../service/app/tokens'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
-import { Tooltip } from 'antd'
 import { isMobile } from '../../utils/screen'
-import { Link } from 'react-router-dom'
+import { udtSubmitEmail } from '../../utils/util'
 import SmallLoading from '../../components/Loading/SmallLoading'
 
 const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) => {
@@ -112,11 +112,7 @@ export default () => {
       <TokensPanel className="container">
         <div className="tokens__title__panel">
           <span>{i18n.t('udt.tokens')}</span>
-          <a
-            rel="noopener noreferrer"
-            target="_blank"
-            href={`mailto:asset-info-submit@nervos.org?subject=${TOKEN_EMAIL_SUBJECT}&body=${TOKEN_EMAIL_BODY}`}
-          >
+          <a rel="noopener noreferrer" target="_blank" href={udtSubmitEmail()}>
             {i18n.t('udt.submit_token_info')}
           </a>
         </div>

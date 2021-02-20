@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import TwitterIcon from '../../assets/footer_twitter.png'
 import TwitterHoverIcon from '../../assets/footer_twitter_hover.png'
 import TwitterAggronHoverIcon from '../../assets/footer_twitter_aggron_hover.png'
@@ -19,10 +20,9 @@ import ForumHoverIcon from '../../assets/footer_forum_hover.png'
 import ForumAggronHoverIcon from '../../assets/footer_forum_aggron_hover.png'
 import { getCurrentYear } from '../../utils/date'
 import { FooterMenuPanel, FooterItemPanel, FooterImageItemPanel, FooterPanel } from './styled'
-import { useTranslation } from 'react-i18next'
 import { isMobile } from '../../utils/screen'
-import { TOKEN_EMAIL_SUBJECT, TOKEN_EMAIL_BODY } from '../../utils/const'
 import { isMainnet } from '../../utils/chain'
+import { udtSubmitEmail } from '../../utils/util'
 
 interface FooterLinkItem {
   label?: string
@@ -101,7 +101,7 @@ export default () => {
           },
           {
             label: t('udt.submit_token_info'),
-            url: `mailto:asset-info-submit@nervos.org?subject=${TOKEN_EMAIL_SUBJECT}&body=${TOKEN_EMAIL_BODY}`,
+            url: udtSubmitEmail(),
           },
         ],
       },
@@ -191,7 +191,7 @@ export default () => {
       </FooterMenuPanel>
       <div className="footer__copyright">
         <span>{`Copyright © ${getCurrentYear()} Nervos Foundation. `}</span>
-        <span>{`All Rights Reserved.`}</span>
+        <span>All Rights Reserved.</span>
       </div>
     </FooterPanel>
   )
