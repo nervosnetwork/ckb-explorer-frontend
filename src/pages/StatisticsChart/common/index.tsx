@@ -8,6 +8,9 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/markLine'
+import ReactEchartsCore from 'echarts-for-react/lib/core'
+import echarts from 'echarts/lib/echarts'
+import { Tooltip } from 'antd'
 import { LoadingPanel, ChartNoDataPanel, ChartDetailTitle, ChartDetailPanel } from './styled'
 import Loading from '../../../components/Loading'
 import ChartNoDataImage from '../../../assets/chart_no_data.png'
@@ -15,11 +18,8 @@ import ChartNoDataAggronImage from '../../../assets/chart_no_data_aggron.png'
 import HelpIcon from '../../../assets/qa_help.png'
 import { isMainnet } from '../../../utils/chain'
 import SmallLoading from '../../../components/Loading/SmallLoading'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
-import echarts from 'echarts/lib/echarts'
 import i18n from '../../../utils/i18n'
 import Content from '../../../components/Content'
-import { Tooltip } from 'antd'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => {
   return isThumbnail ? <SmallLoading /> : <Loading show />
@@ -49,9 +49,11 @@ const ReactChartCore = ({
   isThumbnail?: boolean
   clickEvent?: any
 }) => {
-  let events = undefined
+  let events
   if (clickEvent) {
-    events = { click: clickEvent }
+    events = {
+      click: clickEvent,
+    }
   }
   return (
     <ReactEchartsCore
@@ -92,7 +94,7 @@ const ChartPage = ({
 }) => {
   const csv = dataToCsv(data)
   const fileName = (title.indexOf(' (') > 0 ? title.substring(0, title.indexOf(' (')) : title)
-    .replace('&', '')
+    .replace(/&/g, '')
     .toLowerCase()
     .replace(/\s+/g, '-')
   return (
