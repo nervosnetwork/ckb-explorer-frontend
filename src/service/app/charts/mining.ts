@@ -58,18 +58,21 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
     })
 }
 
+const sliceStatistics = (data: Array<any>) => {
+  return data.slice(isMobile() ? Math.ceil(data.length / 2) : 0)
+}
+
 export const getStatisticDifficultyUncleRateEpoch = (dispatch: AppDispatch) => {
-  const data = fetchEpochChartCache(ChartCachedKeys.DifficultyUncleRateEpoch)
+  const data = fetchEpochChartCache(ChartCachedKeys.DifficultyUncleRateEpoch) as Array<any>
   if (data) {
-    const sub = isMobile() ? (data as Array<any>).slice((data as Array<any>).length / 2) : data
-    dispatchDifficultyUncleRateEpoch(dispatch, sub)
+    dispatchDifficultyUncleRateEpoch(dispatch, sliceStatistics(data))
     return
   }
   fetchStatisticDifficultyUncleRateEpoch()
     .then((response: Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRateEpoch>[]> | null) => {
       if (!response) return
       const { data } = response
-      const difficultyUncleRateEpochs = data.map(wrapper => {
+      const difficultyUncleRateEpochs = data.slice(Math.ceil(data.length / 2)).map(wrapper => {
         return {
           epochNumber: wrapper.attributes.epochNumber,
           difficulty: wrapper.attributes.difficulty,
@@ -78,7 +81,8 @@ export const getStatisticDifficultyUncleRateEpoch = (dispatch: AppDispatch) => {
           epochLength: wrapper.attributes.epochLength,
         }
       })
-      dispatchDifficultyUncleRateEpoch(dispatch, difficultyUncleRateEpochs)
+      const dispatchData = sliceStatistics(difficultyUncleRateEpochs)
+      dispatchDifficultyUncleRateEpoch(dispatch, dispatchData)
       if (difficultyUncleRateEpochs && difficultyUncleRateEpochs.length > 0) {
         storeEpochChartCache(ChartCachedKeys.DifficultyUncleRateEpoch, difficultyUncleRateEpochs)
       }
