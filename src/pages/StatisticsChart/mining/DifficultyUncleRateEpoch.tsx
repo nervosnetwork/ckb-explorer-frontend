@@ -224,7 +224,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[]
   }
 }
 
-export const DifficultyUncleRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+export const DifficultyUncleRateEpochChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticDifficultyUncleRateEpochs, statisticDifficultyUncleRatesFetchEnd } = useAppState()
   if (!statisticDifficultyUncleRatesFetchEnd || statisticDifficultyUncleRateEpochs.length === 0) {
     return <ChartLoading show={!statisticDifficultyUncleRatesFetchEnd} isThumbnail={isThumbnail} />
@@ -261,7 +261,7 @@ export default () => {
       )}`}
       data={toCSV(statisticDifficultyUncleRateEpochs)}
     >
-      <DifficultyUncleRateChart />
+      <DifficultyUncleRateEpochChart />
     </ChartPage>
   )
 }
