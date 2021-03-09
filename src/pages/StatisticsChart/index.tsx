@@ -28,7 +28,7 @@ import { useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import HelpIcon from '../../assets/qa_help.png'
 import { DifficultyHashRateChart } from './mining/DifficultyHashRate'
-import { DifficultyUncleRateChart } from './mining/DifficultyUncleRate'
+import { DifficultyUncleRateEpochChart } from './mining/DifficultyUncleRateEpoch'
 import { TransactionCountChart } from './activities/TransactionCount'
 import { AddressCountChart } from './activities/AddressCount'
 import { CellCountChart } from './activities/CellCount'
@@ -141,7 +141,7 @@ const chartsData = (): ChartCategory[] => {
           title: `${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')} & ${i18n.t(
             'block.epoch_time',
           )} & ${i18n.t('block.epoch_length')}`,
-          chart: <DifficultyUncleRateChart isThumbnail />,
+          chart: <DifficultyUncleRateEpochChart isThumbnail />,
           path: '/charts/difficulty-uncle-rate',
         },
         {
