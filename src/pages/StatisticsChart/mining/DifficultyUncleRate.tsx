@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
 import BigNumber from 'bignumber.js'
-import { getStatisticDifficultyUncleRate } from '../../../service/app/charts/mining'
+import { getStatisticDifficultyUncleRateEpoch } from '../../../service/app/charts/mining'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
 import { handleDifficulty } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
-import { ChartColors } from '../../../utils/const'
+import { ChartMoreColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { parseHourFromMillisecond } from '../../../utils/date'
 
 const gridThumbnail = {
   left: '4%',
@@ -24,29 +25,39 @@ const grid = {
   containLabel: true,
 }
 
-const max = (statisticChartData: State.StatisticDifficultyUncleRate[]) => {
+const max = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[]) => {
   const array = statisticChartData.flatMap(data => Number(data.uncleRate) * 100)
   return Math.max(5, Math.ceil(Math.max(...array)))
 }
 
-const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isThumbnail = false) => {
+const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[], isThumbnail = false) => {
   return {
-    color: ChartColors,
+    color: ChartMoreColors,
     tooltip: !isThumbnail
       ? {
           trigger: 'axis',
           formatter: (dataList: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 75 : 50)
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 90 : 80)
             let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${dataList[0].name}</div>`
             if (dataList[0]) {
-              result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+              result += `<div>${tooltipColor(ChartMoreColors[0])}${widthSpan(
                 i18n.t('block.difficulty'),
               )} ${handleDifficulty(dataList[0].data)}</div>`
             }
             if (dataList[1]) {
-              result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${
+              result += `<div>${tooltipColor(ChartMoreColors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${
                 dataList[1].data
               }%</div>`
+            }
+            if (dataList[2]) {
+              result += `<div>${tooltipColor(ChartMoreColors[2])}${widthSpan(i18n.t('block.epoch_time'))} ${
+                dataList[2].data
+              } h</div>`
+            }
+            if (dataList[3]) {
+              result += `<div>${tooltipColor(ChartMoreColors[3])}${widthSpan(i18n.t('block.epoch_length'))} ${
+                dataList[3].data
+              }</div>`
             }
             return result
           },
@@ -54,7 +65,23 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
       : undefined,
     legend: !isThumbnail
       ? {
-          data: [{ name: i18n.t('block.difficulty') }, { name: i18n.t('block.uncle_rate') }],
+          data: [
+            {
+              name: i18n.t('block.difficulty'),
+            },
+            {
+              name: i18n.t('block.uncle_rate'),
+            },
+            {
+              name: i18n.t('block.epoch_time'),
+            },
+            {
+              name: i18n.t('block.epoch_length'),
+            },
+          ],
+          textStyle: {
+            fontSize: isMobile() ? 11 : 14,
+          },
         }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
@@ -64,7 +91,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
-        boundaryGap: false,
+        boundaryGap: true,
         data: statisticChartData.map(data => data.epochNumber),
         axisLabel: {
           formatter: (value: string) => value,
@@ -79,7 +106,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         scale: true,
         axisLine: {
           lineStyle: {
-            color: ChartColors[0],
+            color: ChartMoreColors[0],
           },
         },
         axisLabel: {
@@ -98,25 +125,49 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         min: 0,
         axisLine: {
           lineStyle: {
-            color: ChartColors[1],
+            color: ChartMoreColors[1],
           },
         },
         axisLabel: {
           formatter: (value: string) => `${value}%`,
         },
       },
+      {
+        position: 'left',
+        scale: true,
+        axisLine: {
+          lineStyle: {
+            color: ChartMoreColors[0],
+          },
+        },
+        axisLabel: {
+          formatter: () => '',
+        },
+      },
+      {
+        position: 'right',
+        scale: true,
+        axisLine: {
+          lineStyle: {
+            color: ChartMoreColors[1],
+          },
+        },
+        axisLabel: {
+          formatter: () => '',
+        },
+      },
     ],
     series: [
       {
         name: i18n.t('block.difficulty'),
-        type: 'line',
+        type: 'bar',
         step: 'start',
         areaStyle: {
           color: '#85bae0',
         },
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
-        symbolSize: 3,
+        symbolSize: 5,
         data: statisticChartData.map(data => new BigNumber(data.difficulty).toNumber()),
       },
       {
@@ -125,14 +176,14 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
         smooth: true,
         yAxisIndex: 1,
         symbol: 'circle',
-        symbolSize: 3,
+        symbolSize: 5,
         data: statisticChartData.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
         markLine: isThumbnail
           ? undefined
           : {
               symbol: 'none',
               lineStyle: {
-                color: ChartColors[1],
+                color: ChartMoreColors[1],
               },
               data: [
                 {
@@ -145,36 +196,70 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRate[], isT
               },
             },
       },
+      {
+        name: i18n.t('block.epoch_time'),
+        type: 'bar',
+        step: 'start',
+        areaStyle: {
+          color: ChartMoreColors[2],
+        },
+        yAxisIndex: 2,
+        symbol: isThumbnail ? 'none' : 'circle',
+        symbolSize: 5,
+        data: statisticChartData.map(data => parseHourFromMillisecond(data.epochTime)),
+      },
+      {
+        name: i18n.t('block.epoch_length'),
+        type: 'bar',
+        step: 'start',
+        areaStyle: {
+          color: ChartMoreColors[3],
+        },
+        yAxisIndex: 3,
+        symbol: isThumbnail ? 'none' : 'circle',
+        symbolSize: 5,
+        data: statisticChartData.map(data => data.epochLength),
+      },
     ],
   }
 }
 
 export const DifficultyUncleRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticDifficultyUncleRates, statisticDifficultyUncleRatesFetchEnd } = useAppState()
-  if (!statisticDifficultyUncleRatesFetchEnd || statisticDifficultyUncleRates.length === 0) {
+  const { statisticDifficultyUncleRateEpochs, statisticDifficultyUncleRatesFetchEnd } = useAppState()
+  if (!statisticDifficultyUncleRatesFetchEnd || statisticDifficultyUncleRateEpochs.length === 0) {
     return <ChartLoading show={!statisticDifficultyUncleRatesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticDifficultyUncleRates, isThumbnail)} isThumbnail={isThumbnail} />
+  return (
+    <ReactChartCore option={getOption(statisticDifficultyUncleRateEpochs, isThumbnail)} isThumbnail={isThumbnail} />
+  )
 }
 
-const toCSV = (statisticDifficultyUncleRates: State.StatisticDifficultyUncleRate[]) => {
-  return statisticDifficultyUncleRates
-    ? statisticDifficultyUncleRates.map(data => [data.epochNumber, data.difficulty, data.uncleRate])
+const toCSV = (statisticDifficultyUncleRateEpochs: State.StatisticDifficultyUncleRateEpoch[]) => {
+  return statisticDifficultyUncleRateEpochs
+    ? statisticDifficultyUncleRateEpochs.map(data => [
+        data.epochNumber,
+        data.difficulty,
+        data.uncleRate,
+        data.epochTime,
+        data.epochLength,
+      ])
     : []
 }
 
 export default () => {
   const dispatch = useDispatch()
-  const { statisticDifficultyUncleRates } = useAppState()
+  const { statisticDifficultyUncleRateEpochs } = useAppState()
 
   useEffect(() => {
-    getStatisticDifficultyUncleRate(dispatch)
+    getStatisticDifficultyUncleRateEpoch(dispatch)
   }, [dispatch])
 
   return (
     <ChartPage
-      title={`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`}
-      data={toCSV(statisticDifficultyUncleRates)}
+      title={`${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')} & ${i18n.t('block.epoch_time')} & ${i18n.t(
+        'block.epoch_length',
+      )}`}
+      data={toCSV(statisticDifficultyUncleRateEpochs)}
     >
       <DifficultyUncleRateChart />
     </ChartPage>
