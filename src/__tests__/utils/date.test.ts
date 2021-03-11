@@ -6,7 +6,8 @@ import {
   parseTimeNoSecond,
   parseDateNoTime,
   parseDiffDate,
-  parseHour,
+  parseHourFromMinute,
+  parseHourFromMillisecond,
   parseSimpleDate,
   parseSimpleDateNoSecond,
   getCurrentYear,
@@ -53,11 +54,16 @@ describe('Date methods tests', () => {
     }).toThrow('End timestamp must be bigger than start timestamp')
   })
 
-  it('parse hour', async () => {
-    expect(parseHour(188)).toBe(3.13)
-    expect(parseHour(192)).toBe(3.2)
-    expect(parseHour(240)).toBe(4)
-    expect(parseHour(280)).toBe(4.67)
+  it('parse hour from minute', async () => {
+    expect(parseHourFromMinute(188)).toBe(3.13)
+    expect(parseHourFromMinute(192)).toBe(3.2)
+    expect(parseHourFromMinute(240)).toBe(4)
+    expect(parseHourFromMinute(280)).toBe(4.67)
+  })
+
+  it('parse hour from millisecond', async () => {
+    expect(parseHourFromMillisecond('14252577')).toBe(3.96)
+    expect(parseHourFromMillisecond('2000000000')).toBe(555.56)
   })
 
   it('parseSimpleDate', async () => {

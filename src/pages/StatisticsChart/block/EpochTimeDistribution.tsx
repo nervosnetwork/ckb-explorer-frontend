@@ -6,7 +6,7 @@ import { ChartColors } from '../../../utils/const'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticEpochTimeDistribution } from '../../../service/app/charts/block'
 import { localeNumberString } from '../../../utils/number'
-import { parseHour } from '../../../utils/date'
+import { parseHourFromMinute } from '../../../utils/date'
 
 const gridThumbnail = {
   left: '4%',
@@ -34,9 +34,9 @@ const getOption = (
           trigger: 'axis',
           formatter: (dataList: any) => {
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 80 : 80)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.time_hour'))} ${parseHour(
-              dataList[0].name,
-            )}</div>`
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(
+              i18n.t('statistic.time_hour'),
+            )} ${parseHourFromMinute(dataList[0].name)}</div>`
             result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
               i18n.t('statistic.epochs'),
             )} ${localeNumberString(dataList[0].data)}</div>`
@@ -54,7 +54,7 @@ const getOption = (
         boundaryGap: true,
         data: statisticEpochTimeDistributions.map(data => data.time),
         axisLabel: {
-          formatter: (value: string) => parseHour(value),
+          formatter: (value: string) => parseHourFromMinute(value),
         },
       },
     ],
@@ -99,7 +99,7 @@ export const EpochTimeDistributionChart = ({ isThumbnail = false }: { isThumbnai
 
 const toCSV = (statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[]) => {
   return statisticEpochTimeDistributions
-    ? statisticEpochTimeDistributions.map(data => [parseHour(data.time), data.epoch])
+    ? statisticEpochTimeDistributions.map(data => [parseHourFromMinute(data.time), data.epoch])
     : []
 }
 

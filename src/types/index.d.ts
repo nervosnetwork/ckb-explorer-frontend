@@ -277,10 +277,12 @@ declare namespace State {
     createdAtUnixtimestamp: string
   }
 
-  export interface StatisticDifficultyUncleRate {
+  export interface StatisticDifficultyUncleRateEpoch {
     difficulty: string
     uncleRate: string
     epochNumber: string
+    epochTime: string
+    epochLength: string
   }
 
   export interface StatisticAddressBalanceRank {
@@ -490,7 +492,7 @@ declare namespace State {
   export interface StatisticChartsState {
     statisticDifficultyHashRates: StatisticDifficultyHashRate[]
     statisticDifficultyHashRatesFetchEnd: boolean
-    statisticDifficultyUncleRates: StatisticDifficultyUncleRate[]
+    statisticDifficultyUncleRateEpochs: StatisticDifficultyUncleRateEpoch[]
     statisticDifficultyUncleRatesFetchEnd: boolean
     statisticDifficulties: StatisticDifficulty[]
     statisticDifficultiesFetchEnd: boolean

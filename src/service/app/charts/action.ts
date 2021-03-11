@@ -196,11 +196,11 @@ export const dispatchDifficultyHashRate = (dispatch: AppDispatch, data: any) => 
   })
 }
 
-export const dispatchDifficultyUncleRate = (dispatch: AppDispatch, data: any) => {
+export const dispatchDifficultyUncleRateEpoch = (dispatch: AppDispatch, data: any) => {
   dispatch({
-    type: PageActions.UpdateStatisticDifficultyUncleRate,
+    type: PageActions.UpdateStatisticDifficultyUncleRateEpoch,
     payload: {
-      statisticDifficultyUncleRates: data,
+      statisticDifficultyUncleRateEpochs: data,
     },
   })
   dispatch({

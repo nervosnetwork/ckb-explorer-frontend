@@ -164,10 +164,10 @@ export const pageReducer = (
         ...state,
         statisticDifficultyHashRatesFetchEnd: payload.statisticDifficultyHashRatesFetchEnd,
       }
-    case PageActions.UpdateStatisticDifficultyUncleRate:
+    case PageActions.UpdateStatisticDifficultyUncleRateEpoch:
       return {
         ...state,
-        statisticDifficultyUncleRates: payload.statisticDifficultyUncleRates,
+        statisticDifficultyUncleRateEpochs: payload.statisticDifficultyUncleRateEpochs,
       }
     case PageActions.UpdateStatisticDifficultyUncleRateFetchEnd:
       return {
