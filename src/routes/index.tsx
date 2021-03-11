@@ -26,7 +26,7 @@ const SearchFail = lazy(() => import('../pages/SearchFail'))
 const StatisticsChart = lazy(() => import('../pages/StatisticsChart'))
 const Tokens = lazy(() => import('../pages/Tokens'))
 const DifficultyHashRateChart = lazy(() => import('../pages/StatisticsChart/mining/DifficultyHashRate'))
-const DifficultyUncleRateChart = lazy(() => import('../pages/StatisticsChart/mining/DifficultyUncleRate'))
+const DifficultyUncleRateEpochChart = lazy(() => import('../pages/StatisticsChart/mining/DifficultyUncleRateEpoch'))
 const DifficultyChart = lazy(() => import('../pages/StatisticsChart/mining/Difficulty'))
 const HashRateChart = lazy(() => import('../pages/StatisticsChart/mining/HashRate'))
 const UncleRateChart = lazy(() => import('../pages/StatisticsChart/mining/UncleRate'))
@@ -119,10 +119,10 @@ const Containers: CustomRouter.Route[] = [
     comp: DifficultyHashRateChart,
   },
   {
-    name: 'DifficultyUncleRateChart',
+    name: 'DifficultyUncleRateEpochChart',
     path: '/charts/difficulty-uncle-rate',
     exact: true,
-    comp: DifficultyUncleRateChart,
+    comp: DifficultyUncleRateEpochChart,
   },
   {
     name: 'DifficultyChart',

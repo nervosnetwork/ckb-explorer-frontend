@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import i18n from './i18n'
 
 export const formatData = (data: number) => {
@@ -75,9 +76,14 @@ export const parseTime = (millisecond: number) => {
   return `${second.toFixed(2)} s`
 }
 
-export const parseHour = (minutes: number | string) => {
+export const parseHourFromMinute = (minutes: number | string) => {
   const num = typeof minutes === 'string' ? Number(minutes) : minutes
   return parseFloat((num / 60).toFixed(2))
+}
+
+export const parseHourFromMillisecond = (millisecond: string) => {
+  const minutes = new BigNumber(millisecond).div(1000 * 60, 10).toNumber()
+  return parseHourFromMinute(minutes)
 }
 
 export const getCSTTime = () => {

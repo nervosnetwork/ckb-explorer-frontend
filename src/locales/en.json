@@ -283,6 +283,8 @@
       "hash_rate": "Hash Rate",
       "uncle_rate": "Uncle Rate",
       "uncle_rate_target": "Uncle rate target",
+      "epoch_time": "Epoch Time",
+      "epoch_length": "Epoch Length",
       "transactions_root": "Transactions Root",
       "pending": "Pending",
       "pending_tip": "The block reward of this block will be sent to the miner after 11 blocks，learn more from our Consensus Protocol",
