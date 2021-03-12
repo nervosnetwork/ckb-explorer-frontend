@@ -26,6 +26,20 @@ const grid = () => {
   }
 }
 
+const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 70 : 50)
+
+const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }): string => {
+  if (seriesName === i18n.t('block.difficulty')) {
+    return `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
+      data,
+    )}</div>`
+  }
+  if (seriesName.startsWith(i18n.t('block.hash_rate'))) {
+    return `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(data)}</div>`
+  }
+  return ''
+}
+
 const getOption = (
   statisticDifficultyHashRates: State.StatisticDifficultyHashRate[],
   isThumbnail = false,
@@ -35,26 +49,26 @@ const getOption = (
     tooltip: !isThumbnail
       ? {
           trigger: 'axis',
-          formatter: (dataList: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 70 : 50)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${dataList[0].name}</div>`
-            if (dataList[0]) {
-              result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
-                i18n.t('block.difficulty'),
-              )} ${handleDifficulty(dataList[0].data)}</div>`
-            }
-            if (dataList[1]) {
-              result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
-                dataList[1].data,
-              )}</div>`
-            }
+          formatter: (dataList: any): string => {
+            const list = dataList as Array<{ seriesName: string; data: string; name: string }>
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${list[0].name}</div>`
+            list.forEach(data => {
+              result += parseTooltip(data)
+            })
             return result
           },
         }
       : undefined,
     legend: !isThumbnail
       ? {
-          data: [{ name: i18n.t('block.difficulty') }, { name: i18n.t('block.hash_rate_hps') }],
+          data: [
+            {
+              name: i18n.t('block.difficulty'),
+            },
+            {
+              name: i18n.t('block.hash_rate_hps'),
+            },
+          ],
         }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid(),

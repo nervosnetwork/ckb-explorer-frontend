@@ -138,9 +138,7 @@ const chartsData = (): ChartCategory[] => {
           path: '/charts/difficulty-hash-rate',
         },
         {
-          title: `${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')} & ${i18n.t(
-            'block.epoch_time',
-          )} & ${i18n.t('block.epoch_length')}`,
+          title: `${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')} & ${i18n.t('block.epoch_time')} & ...`,
           chart: <DifficultyUncleRateEpochChart isThumbnail />,
           path: '/charts/difficulty-uncle-rate',
         },

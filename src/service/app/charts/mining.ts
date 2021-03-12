@@ -58,12 +58,14 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
     })
 }
 
-const sliceStatistics = (data: Array<any>) => {
+const sliceStatistics = (data: Array<State.StatisticDifficultyUncleRateEpoch>) => {
   return data.slice(isMobile() ? Math.ceil(data.length / 2) : 0)
 }
 
 export const getStatisticDifficultyUncleRateEpoch = (dispatch: AppDispatch) => {
-  const data = fetchEpochChartCache(ChartCachedKeys.DifficultyUncleRateEpoch) as Array<any>
+  const data = fetchEpochChartCache(ChartCachedKeys.DifficultyUncleRateEpoch) as Array<
+    State.StatisticDifficultyUncleRateEpoch
+  >
   if (data) {
     dispatchDifficultyUncleRateEpoch(dispatch, sliceStatistics(data))
     return

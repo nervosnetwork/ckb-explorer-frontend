@@ -66,7 +66,7 @@ exports[`Footer Component shallow renders 1`] = `
       </a>
       <a
         className="sc-AxiKw dTWoaG"
-        href="mailto:asset-info-submit@nervos.org?subject=Submit Token Info&body=
+        href="mailto:asset-info-submit@nervina.io?subject=Submit Token Info&body=
 Title: Submit Token Information%0a%0d
 Type Script:%0a%0d
     Code Hash:%0a%0d
