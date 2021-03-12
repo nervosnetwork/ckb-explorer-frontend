@@ -30,6 +30,26 @@ const max = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[]) => {
   return Math.max(5, Math.ceil(Math.max(...array)))
 }
 
+const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 90 : 80)
+
+const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }) => {
+  if (seriesName === i18n.t('block.difficulty')) {
+    return `<div>${tooltipColor(ChartMoreColors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
+      data,
+    )}</div>`
+  }
+  if (seriesName === i18n.t('block.uncle_rate')) {
+    return `<div>${tooltipColor(ChartMoreColors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${data}%</div>`
+  }
+  if (seriesName === i18n.t('block.epoch_time')) {
+    return `<div>${tooltipColor(ChartMoreColors[2])}${widthSpan(i18n.t('block.epoch_time'))} ${data} h</div>`
+  }
+  if (seriesName === i18n.t('block.epoch_length')) {
+    return `<div>${tooltipColor(ChartMoreColors[3])}${widthSpan(i18n.t('block.epoch_length'))} ${data}</div>`
+  }
+  return ''
+}
+
 const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[], isThumbnail = false) => {
   return {
     color: ChartMoreColors,
@@ -37,28 +57,11 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[]
       ? {
           trigger: 'axis',
           formatter: (dataList: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 90 : 80)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${dataList[0].name}</div>`
-            if (dataList[0]) {
-              result += `<div>${tooltipColor(ChartMoreColors[0])}${widthSpan(
-                i18n.t('block.difficulty'),
-              )} ${handleDifficulty(dataList[0].data)}</div>`
-            }
-            if (dataList[1]) {
-              result += `<div>${tooltipColor(ChartMoreColors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${
-                dataList[1].data
-              }%</div>`
-            }
-            if (dataList[2]) {
-              result += `<div>${tooltipColor(ChartMoreColors[2])}${widthSpan(i18n.t('block.epoch_time'))} ${
-                dataList[2].data
-              } h</div>`
-            }
-            if (dataList[3]) {
-              result += `<div>${tooltipColor(ChartMoreColors[3])}${widthSpan(i18n.t('block.epoch_length'))} ${
-                dataList[3].data
-              }</div>`
-            }
+            const list = dataList as Array<any>
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${list[0].name}</div>`
+            list.forEach(data => {
+              result += parseTooltip(data)
+            })
             return result
           },
         }
