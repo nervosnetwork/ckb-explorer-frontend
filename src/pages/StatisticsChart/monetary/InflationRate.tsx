@@ -51,9 +51,7 @@ const getOption = (
           trigger: 'axis',
           formatter: (dataList: any) => {
             const list = dataList as Array<{ seriesName: string; data: string; name: string }>
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.year'))} ${
-              dataList[0].name
-            }</div>`
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.year'))} ${list[0].name}</div>`
             list.forEach(data => {
               result += parseTooltip(data)
             })

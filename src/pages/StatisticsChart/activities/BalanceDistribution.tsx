@@ -24,6 +24,22 @@ const grid = {
   containLabel: true,
 }
 
+const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 270 : 110)
+
+const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }): string => {
+  if (seriesName === i18n.t('statistic.addresses_balance_group')) {
+    return `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+      i18n.t('statistic.addresses_balance_group'),
+    )} ${localeNumberString(data)}</div>`
+  }
+  if (seriesName === i18n.t('statistic.addresses_below_specific_balance')) {
+    return `<div>${tooltipColor(ChartColors[1])}${widthSpan(
+      i18n.t('statistic.addresses_below_specific_balance'),
+    )} ${localeNumberString(data)}</div>`
+  }
+  return ''
+}
+
 const getOption = (
   statisticBalanceDistributions: State.StatisticBalanceDistribution[],
   isThumbnail = false,
@@ -34,23 +50,16 @@ const getOption = (
       ? {
           trigger: 'axis',
           formatter: (dataList: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 270 : 110)
+            const list = dataList as Array<{ seriesName: string; data: string; name: string; dataIndex: number }>
             let result = `<div>${tooltipColor('#333333')}${widthSpan(
               i18n.t('statistic.addresses_balance'),
             )} ${handleLogGroupAxis(
-              new BigNumber(dataList[0].name),
-              dataList[0].dataIndex === statisticBalanceDistributions.length - 1 ? '+' : '',
+              new BigNumber(list[0].name),
+              list[0].dataIndex === statisticBalanceDistributions.length - 1 ? '+' : '',
             )} ${i18n.t('common.ckb_unit')}</div>`
-            if (dataList[0]) {
-              result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
-                i18n.t('statistic.addresses_balance_group'),
-              )} ${localeNumberString(dataList[0].data)}</div>`
-            }
-            if (dataList[1]) {
-              result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(
-                i18n.t('statistic.addresses_below_specific_balance'),
-              )} ${localeNumberString(dataList[1].data)}</div>`
-            }
+            list.forEach(data => {
+              result += parseTooltip(data)
+            })
             return result
           },
         }
@@ -58,8 +67,12 @@ const getOption = (
     legend: !isThumbnail
       ? {
           data: [
-            { name: i18n.t('block.addresses_balance_group') },
-            { name: i18n.t('block.addresses_below_specific_balance') },
+            {
+              name: i18n.t('statistic.addresses_balance_group'),
+            },
+            {
+              name: i18n.t('statistic.addresses_below_specific_balance'),
+            },
           ],
         }
       : undefined,

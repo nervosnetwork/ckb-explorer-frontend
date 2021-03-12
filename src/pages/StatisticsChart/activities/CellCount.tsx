@@ -33,7 +33,7 @@ const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }
       2,
     )}</div>`
   }
-  if (seriesName.startsWith(i18n.t('statistic.all_cells'))) {
+  if (seriesName === i18n.t('statistic.all_cells')) {
     return `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('statistic.all_cells'))} ${handleAxis(
       data,
       2,
