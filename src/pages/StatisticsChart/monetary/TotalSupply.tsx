@@ -52,7 +52,7 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
       ? {
           trigger: 'axis',
           formatter: (dataList: any) => {
-            const list = dataList as Array<any>
+            const list = dataList as Array<{ seriesName: string; data: string; name: string }>
             let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
               dataList[0].name,
             )}</div>`

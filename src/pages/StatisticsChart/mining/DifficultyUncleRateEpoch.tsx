@@ -57,7 +57,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[]
       ? {
           trigger: 'axis',
           formatter: (dataList: any) => {
-            const list = dataList as Array<any>
+            const list = dataList as Array<{ seriesName: string; data: string; name: string }>
             let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${list[0].name}</div>`
             list.forEach(data => {
               result += parseTooltip(data)
