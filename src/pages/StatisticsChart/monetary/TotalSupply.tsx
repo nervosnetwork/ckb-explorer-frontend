@@ -54,7 +54,7 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
           formatter: (dataList: any) => {
             const list = dataList as Array<{ seriesName: string; data: string; name: string }>
             let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-              dataList[0].name,
+              list[0].name,
             )}</div>`
             list.forEach(data => {
               result += parseTooltip(data)

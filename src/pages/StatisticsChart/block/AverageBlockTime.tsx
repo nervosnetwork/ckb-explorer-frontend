@@ -60,7 +60,7 @@ const getOption = (
             const list = dataList as Array<{ seriesName: string; data: string; name: string }>
             let result = `<div>${tooltipColor('#333333')}${widthSpan(
               i18n.t('statistic.date'),
-            )} ${parseSimpleDateNoSecond(dataList[0].name, '/', false)}</div>`
+            )} ${parseSimpleDateNoSecond(list[0].name, '/', false)}</div>`
             list.forEach(data => {
               result += parseTooltip(data)
             })
