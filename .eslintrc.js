@@ -36,7 +36,7 @@ module.exports = {
         ignoreRestSiblings: false,
       },
     ],
-    'operator-linebreak': [2, 'after'],
+    'operator-linebreak': [0, 'none'],
     'arrow-parens': [2, 'as-needed'],
     'max-len': [
       2,
@@ -55,7 +55,7 @@ module.exports = {
       {
         ObjectExpression: 'always',
         ObjectPattern: {
-          multiline: true,
+          consistent: true,
         },
         ImportDeclaration: {
           consistent: true,
@@ -87,6 +87,15 @@ module.exports = {
         html: 'ignore',
         custom: 'ignore',
         exceptions: [''],
+      },
+    ],
+    'react/require-default-props': [0],
+    'no-shadow': 'off',
+    'react/prop-types': [0],
+    'react/jsx-wrap-multilines': [
+      'error',
+      {
+        prop: 'ignore',
       },
     ],
     'no-console': ['error', { allow: ['error'] }],

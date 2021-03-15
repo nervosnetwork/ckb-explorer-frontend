@@ -1,4 +1,6 @@
 import React, { useEffect, ReactNode } from 'react'
+import { Tooltip } from 'antd'
+import { Link, useHistory } from 'react-router-dom'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
@@ -10,8 +12,6 @@ import { ComponentActions } from '../../contexts/actions'
 import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
-import { Tooltip } from 'antd'
-import { Link, useHistory } from 'react-router-dom'
 
 const addressContent = (address: string) => {
   if (!address) {
@@ -127,7 +127,9 @@ export const SimpleUDTComp = ({
               <TransactionItem
                 transaction={transaction}
                 key={transaction.transactionHash}
-                circleCorner={{ bottom: index === transactions.length - 1 && totalPages === 1 }}
+                circleCorner={{
+                  bottom: index === transactions.length - 1 && totalPages === 1,
+                }}
               />
             )
           )
