@@ -24,6 +24,21 @@ const grid = {
 
 const Colors = ['#74808E', '#049ECD', '#69C7D4']
 
+const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 155 : 70)
+
+const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }): string => {
+  if (seriesName === i18n.t('nervos_dao.deposit_compensation')) {
+    return `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('nervos_dao.deposit_compensation'))} ${data}%</div>`
+  }
+  if (seriesName === i18n.t('nervos_dao.mining_reward')) {
+    return `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('nervos_dao.mining_reward'))} ${data}%</div>`
+  }
+  if (seriesName === i18n.t('nervos_dao.burnt')) {
+    return `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('nervos_dao.burnt'))} ${data}%</div>`
+  }
+  return ''
+}
+
 const getOption = (
   statisticSecondaryIssuance: State.StatisticSecondaryIssuance[],
   isThumbnail = false,
@@ -34,19 +49,13 @@ const getOption = (
       ? {
           trigger: 'axis',
           formatter: (dataList: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 155 : 70)
+            const list = dataList as Array<{ seriesName: string; data: string; name: string }>
             let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-              dataList[0].name,
+              list[0].name,
             )}</div>`
-            result += `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('nervos_dao.deposit_compensation'))} ${
-              dataList[2].data
-            }%</div>`
-            result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('nervos_dao.mining_reward'))} ${
-              dataList[1].data
-            }%</div>`
-            result += `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('nervos_dao.burnt'))} ${
-              dataList[0].data
-            }%</div>`
+            list.forEach(data => {
+              result += parseTooltip(data)
+            })
             return result
           },
         }
@@ -55,9 +64,15 @@ const getOption = (
       data: isThumbnail
         ? []
         : [
-            { name: i18n.t('nervos_dao.burnt') },
-            { name: i18n.t('nervos_dao.mining_reward') },
-            { name: i18n.t('nervos_dao.deposit_compensation') },
+            {
+              name: i18n.t('nervos_dao.burnt'),
+            },
+            {
+              name: i18n.t('nervos_dao.mining_reward'),
+            },
+            {
+              name: i18n.t('nervos_dao.deposit_compensation'),
+            },
           ],
     },
     grid: isThumbnail ? gridThumbnail : grid,

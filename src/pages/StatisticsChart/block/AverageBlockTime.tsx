@@ -25,7 +25,26 @@ const grid = {
 
 const maxAndMinAxis = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) => {
   const array = statisticAverageBlockTimes.flatMap(data => parseFloat(data.avgBlockTimeDaily))
-  return { max: Math.ceil(Math.max(...array) / 1000), min: Math.floor(Math.min(...array) / 1000) }
+  return {
+    max: Math.ceil(Math.max(...array) / 1000),
+    min: Math.floor(Math.min(...array) / 1000),
+  }
+}
+
+const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 180 : 100)
+
+const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }): string => {
+  if (seriesName === i18n.t('statistic.daily_moving_average')) {
+    return `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+      i18n.t('statistic.daily_moving_average'),
+    )} ${localeNumberString(data)}</div>`
+  }
+  if (seriesName === i18n.t('statistic.weekly_moving_average')) {
+    return `<div>${tooltipColor(ChartColors[1])}${widthSpan(
+      i18n.t('statistic.weekly_moving_average'),
+    )} ${localeNumberString(data)}</div>`
+  }
+  return ''
 }
 
 const getOption = (
@@ -38,20 +57,13 @@ const getOption = (
       ? {
           trigger: 'axis',
           formatter: (dataList: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 180 : 100)
+            const list = dataList as Array<{ seriesName: string; data: string; name: string }>
             let result = `<div>${tooltipColor('#333333')}${widthSpan(
               i18n.t('statistic.date'),
-            )} ${parseSimpleDateNoSecond(dataList[0].name, '/', false)}</div>`
-            if (dataList[0]) {
-              result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
-                i18n.t('statistic.daily_moving_average'),
-              )} ${localeNumberString(dataList[0].data)}</div>`
-            }
-            if (dataList[1]) {
-              result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(
-                i18n.t('statistic.weekly_moving_average'),
-              )} ${localeNumberString(dataList[1].data)}</div>`
-            }
+            )} ${parseSimpleDateNoSecond(list[0].name, '/', false)}</div>`
+            list.forEach(data => {
+              result += parseTooltip(data)
+            })
             return result
           },
         }
@@ -59,8 +71,12 @@ const getOption = (
     legend: !isThumbnail
       ? {
           data: [
-            { name: i18n.t('statistic.daily_moving_average') },
-            { name: i18n.t('statistic.weekly_moving_average') },
+            {
+              name: i18n.t('statistic.daily_moving_average'),
+            },
+            {
+              name: i18n.t('statistic.weekly_moving_average'),
+            },
           ],
         }
       : undefined,
