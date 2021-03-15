@@ -282,6 +282,8 @@
       "hash_rate": "哈希率",
       "uncle_rate": "叔块率",
       "uncle_rate_target": "叔块率目标值",
+      "epoch_time": "Epoch 时长",
+      "epoch_length": "Epoch 长度",
       "transactions_root": "Transactions Root",
       "witnesses_root": "Witnesses Root",
       "pending": "待发放",

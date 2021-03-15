@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import {
   fetchStatisticDifficultyHashRate,
-  fetchStatisticDifficultyUncleRate,
+  fetchStatisticDifficultyUncleRateEpoch,
   fetchStatisticDifficulty,
   fetchStatisticHashRate,
   fetchStatisticUncleRate,
@@ -10,15 +10,21 @@ import {
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { ChartCachedKeys } from '../../../utils/const'
-import { fetchDateChartCache, storeDateChartCache, fetchEpochChartCache, storeEpochChartCache } from '../../../utils/cache'
+import {
+  fetchDateChartCache,
+  storeDateChartCache,
+  fetchEpochChartCache,
+  storeEpochChartCache,
+} from '../../../utils/cache'
 import {
   dispatchDifficulty,
   dispatchHashRate,
   dispatchUncleRate,
   dispatchMinerAddressDistribution,
   dispatchDifficultyHashRate,
-  dispatchDifficultyUncleRate,
+  dispatchDifficultyUncleRateEpoch,
 } from './action'
+import { isMobile } from '../../../utils/screen'
 
 export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
   const data = fetchEpochChartCache(ChartCachedKeys.DifficultyHashRate)
@@ -52,26 +58,35 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
     })
 }
 
-export const getStatisticDifficultyUncleRate = (dispatch: AppDispatch) => {
-  const data = fetchEpochChartCache(ChartCachedKeys.DifficultyUncleRate)
+const sliceStatistics = (data: Array<State.StatisticDifficultyUncleRateEpoch>) => {
+  return data.slice(isMobile() ? Math.ceil(data.length / 2) : 0)
+}
+
+export const getStatisticDifficultyUncleRateEpoch = (dispatch: AppDispatch) => {
+  const data = fetchEpochChartCache(ChartCachedKeys.DifficultyUncleRateEpoch) as Array<
+    State.StatisticDifficultyUncleRateEpoch
+  >
   if (data) {
-    dispatchDifficultyUncleRate(dispatch, data)
+    dispatchDifficultyUncleRateEpoch(dispatch, sliceStatistics(data))
     return
   }
-  fetchStatisticDifficultyUncleRate()
-    .then((response: Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRate>[]> | null) => {
+  fetchStatisticDifficultyUncleRateEpoch()
+    .then((response: Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRateEpoch>[]> | null) => {
       if (!response) return
       const { data } = response
-      const difficultyUncleRates = data.map(wrapper => {
+      const difficultyUncleRateEpochs = data.slice(Math.ceil(data.length / 2)).map(wrapper => {
         return {
           epochNumber: wrapper.attributes.epochNumber,
           difficulty: wrapper.attributes.difficulty,
           uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
+          epochTime: wrapper.attributes.epochTime,
+          epochLength: wrapper.attributes.epochLength,
         }
       })
-      dispatchDifficultyUncleRate(dispatch, difficultyUncleRates)
-      if (difficultyUncleRates && difficultyUncleRates.length > 0) {
-        storeEpochChartCache(ChartCachedKeys.DifficultyUncleRate, difficultyUncleRates)
+      const dispatchData = sliceStatistics(difficultyUncleRateEpochs)
+      dispatchDifficultyUncleRateEpoch(dispatch, dispatchData)
+      if (difficultyUncleRateEpochs && difficultyUncleRateEpochs.length > 0) {
+        storeEpochChartCache(ChartCachedKeys.DifficultyUncleRateEpoch, difficultyUncleRateEpochs)
       }
     })
     .catch(() => {
@@ -186,12 +201,12 @@ export const getStatisticMinerAddressDistribution = (dispatch: AppDispatch) => {
   fetchStatisticMinerAddressDistribution()
     .then((wrapper: Response.Wrapper<State.StatisticMinerAddressDistribution> | null) => {
       if (!wrapper) return
-      let statisticMinerAddresses: State.StatisticMinerAddress[] = []
+      const statisticMinerAddresses: State.StatisticMinerAddress[] = []
       let blockSum = 0
-      for (let value of Object.entries(wrapper.attributes.minerAddressDistribution)) {
+      for (const value of Object.entries(wrapper.attributes.minerAddressDistribution)) {
         blockSum += Number(value[1])
       }
-      for (let value of Object.entries(wrapper.attributes.minerAddressDistribution)) {
+      for (const value of Object.entries(wrapper.attributes.minerAddressDistribution)) {
         statisticMinerAddresses.push({
           address: value[0],
           radio: (Number(value[1]) / blockSum).toFixed(3),

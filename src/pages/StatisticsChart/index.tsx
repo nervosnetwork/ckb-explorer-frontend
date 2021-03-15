@@ -1,6 +1,7 @@
 import React, { useEffect, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import 'default-passive-events'
+import { Tooltip } from 'antd'
 import Content from '../../components/Content'
 import {
   getStatisticAddressCount,
@@ -12,7 +13,7 @@ import {
 } from '../../service/app/charts/activities'
 import {
   getStatisticDifficultyHashRate,
-  getStatisticDifficultyUncleRate,
+  getStatisticDifficultyUncleRateEpoch,
   getStatisticDifficulty,
   getStatisticHashRate,
   getStatisticUncleRate,
@@ -27,7 +28,7 @@ import { useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import HelpIcon from '../../assets/qa_help.png'
 import { DifficultyHashRateChart } from './mining/DifficultyHashRate'
-import { DifficultyUncleRateChart } from './mining/DifficultyUncleRate'
+import { DifficultyUncleRateEpochChart } from './mining/DifficultyUncleRateEpoch'
 import { TransactionCountChart } from './activities/TransactionCount'
 import { AddressCountChart } from './activities/AddressCount'
 import { CellCountChart } from './activities/CellCount'
@@ -62,7 +63,6 @@ import { SecondaryIssuanceChart } from './monetary/SecondaryIssuance'
 import { InflationRateChart } from './monetary/InflationRate'
 import { LiquidityChart } from './monetary/Liquidity'
 import { MinerAddressDistributionChart } from './mining/MinerAddressDistribution'
-import { Tooltip } from 'antd'
 import { isMobile } from '../../utils/screen'
 
 interface ChartData {
@@ -138,8 +138,8 @@ const chartsData = (): ChartCategory[] => {
           path: '/charts/difficulty-hash-rate',
         },
         {
-          title: `${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')}`,
-          chart: <DifficultyUncleRateChart isThumbnail />,
+          title: `${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')} & ${i18n.t('block.epoch_time')} & ...`,
+          chart: <DifficultyUncleRateEpochChart isThumbnail />,
           path: '/charts/difficulty-uncle-rate',
         },
         {
@@ -268,7 +268,7 @@ export default () => {
 
   useEffect(() => {
     getStatisticDifficultyHashRate(dispatch)
-    getStatisticDifficultyUncleRate(dispatch)
+    getStatisticDifficultyUncleRateEpoch(dispatch)
     getStatisticDifficulty(dispatch)
     getStatisticHashRate(dispatch)
     getStatisticUncleRate(dispatch)
@@ -296,11 +296,11 @@ export default () => {
     <Content>
       <ChartsContent className="container">
         <ChartsTitle>{i18n.t('statistic.charts_title')}</ChartsTitle>
-        {chartsData().map(chart => (
-          <ChartsPanel key={chart.category}>
-            <div className="charts__category__title">{chart.category}</div>
+        {chartsData().map(chartData => (
+          <ChartsPanel key={chartData.category}>
+            <div className="charts__category__title">{chartData.category}</div>
             <div className="charts__category__panel">
-              {chart.charts.map(chart => (
+              {chartData.charts.map(chart => (
                 <ChartCard chartData={chart} key={chart.title} />
               ))}
             </div>

@@ -15,6 +15,7 @@ export const MAINNET_SECONDARY_THEME_COLOR = '#3cc68a'
 export const TESTNET_PRIMARY_THEME_COLOR = '#617bbd'
 export const TESTNET_SECONDARY_THEME_COLOR = '#85A1EA'
 
+export const TOKEN_EMAIL_ADDRESS = 'asset-info-submit@nervina.io'
 export const TOKEN_EMAIL_SUBJECT = 'Submit Token Info'
 export const TOKEN_EMAIL_BODY = `
 Title: Submit Token Information%0a%0d
@@ -65,7 +66,7 @@ export const ChartCachedKeys = {
   HashRate: `${CONFIG.CHAIN_TYPE}-HashRate`,
   UncleRate: `${CONFIG.CHAIN_TYPE}-UncleRate`,
   DifficultyHashRate: `${CONFIG.CHAIN_TYPE}-DifficultyHashRate`,
-  DifficultyUncleRate: `${CONFIG.CHAIN_TYPE}-DifficultyUncleRate`,
+  DifficultyUncleRateEpoch: `${CONFIG.CHAIN_TYPE}-DifficultyUncleRateEpoch`,
   UncleHashRate: `${CONFIG.CHAIN_TYPE}-UncleHashRate`,
   MinerAddressDistribution: `${CONFIG.CHAIN_TYPE}-MinerAddressDistribution`,
   TotalDeposit: `${CONFIG.CHAIN_TYPE}-TotalDeposit`,
@@ -115,6 +116,7 @@ export enum ListPageParams {
 }
 
 export const ChartColors = ['#3182bd', '#66CC99']
+export const ChartMoreColors = ['#3182bd', '#66CC99', '#FBB04C', '#525860']
 
 export interface ContractHashTag {
   codeHashes: string[] // The code hashes whose hash type are type in mainnet and testnet are different

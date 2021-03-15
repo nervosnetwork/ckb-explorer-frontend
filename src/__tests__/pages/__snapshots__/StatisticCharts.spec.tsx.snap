@@ -203,7 +203,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
               <div
                 className="chart__card_title"
               >
-                Difficulty & Uncle Rate
+                Difficulty & Uncle Rate & Epoch Time & ...
               </div>
             </div>
             <div

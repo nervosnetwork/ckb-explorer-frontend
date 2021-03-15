@@ -26,6 +26,24 @@ const grid = {
 
 const Colors = [ChartColors[0], '#74808E', '#69C7D4']
 
+const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 140 : 120)
+
+const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }): string => {
+  if (seriesName === i18n.t('statistic.circulating_supply')) {
+    return `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
+      data,
+      2,
+    )}</div>`
+  }
+  if (seriesName === i18n.t('statistic.dao_deposit')) {
+    return `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.dao_deposit'))} ${handleAxis(data, 2)}</div>`
+  }
+  if (seriesName === i18n.t('statistic.tradable')) {
+    return `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('statistic.tradable'))} ${handleAxis(data, 2)}</div>`
+  }
+  return ''
+}
+
 const getOption = (statisticLiquidity: State.StatisticLiquidity[], isThumbnail = false): echarts.EChartOption => {
   return {
     color: Colors,
@@ -33,22 +51,13 @@ const getOption = (statisticLiquidity: State.StatisticLiquidity[], isThumbnail =
       ? {
           trigger: 'axis',
           formatter: (dataList: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 140 : 120)
+            const list = dataList as Array<{ seriesName: string; data: string; name: string }>
             let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-              dataList[0].name,
+              list[0].name,
             )}</div>`
-            result += `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
-              dataList[2].data,
-              2,
-            )}</div>`
-            result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.dao_deposit'))} ${handleAxis(
-              dataList[1].data,
-              2,
-            )}</div>`
-            result += `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('statistic.tradable'))} ${handleAxis(
-              dataList[0].data,
-              2,
-            )}</div>`
+            list.forEach(data => {
+              result += parseTooltip(data)
+            })
             return result
           },
         }
@@ -57,9 +66,15 @@ const getOption = (statisticLiquidity: State.StatisticLiquidity[], isThumbnail =
       data: isThumbnail
         ? []
         : [
-            { name: i18n.t('statistic.circulating_supply') },
-            { name: i18n.t('statistic.dao_deposit') },
-            { name: i18n.t('statistic.tradable') },
+            {
+              name: i18n.t('statistic.circulating_supply'),
+            },
+            {
+              name: i18n.t('statistic.dao_deposit'),
+            },
+            {
+              name: i18n.t('statistic.tradable'),
+            },
           ],
     },
     grid: isThumbnail ? gridThumbnail : grid,

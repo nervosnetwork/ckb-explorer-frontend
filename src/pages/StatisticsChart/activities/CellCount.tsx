@@ -24,6 +24,24 @@ const grid = {
   containLabel: true,
 }
 
+const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 60 : 80)
+
+const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }): string => {
+  if (seriesName === i18n.t('statistic.live_cell')) {
+    return `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
+      data,
+      2,
+    )}</div>`
+  }
+  if (seriesName === i18n.t('statistic.all_cells')) {
+    return `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('statistic.all_cells'))} ${handleAxis(
+      data,
+      2,
+    )}</div>`
+  }
+  return ''
+}
+
 const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail = false): echarts.EChartOption => {
   return {
     color: ChartColors,
@@ -31,29 +49,27 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       ? {
           trigger: 'axis',
           formatter: (dataList: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 60 : 80)
+            const list = dataList as Array<{ seriesName: string; data: string; name: string }>
             let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-              dataList[0].name,
+              list[0].name,
             )}</div>`
-            if (dataList[0]) {
-              result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
-                dataList[0].data,
-                2,
-              )}</div>`
-            }
-            if (dataList[1]) {
-              result += `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('statistic.all_cells'))} ${handleAxis(
-                dataList[1].data,
-                2,
-              )}</div>`
-            }
+            list.forEach(data => {
+              result += parseTooltip(data)
+            })
             return result
           },
         }
       : undefined,
     legend: !isThumbnail
       ? {
-          data: [{ name: i18n.t('statistic.live_cell') }, { name: i18n.t('statistic.all_cells') }],
+          data: [
+            {
+              name: i18n.t('statistic.live_cell'),
+            },
+            {
+              name: i18n.t('statistic.all_cells'),
+            },
+          ],
         }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
