@@ -27,6 +27,24 @@ const grid = {
 
 const Colors = ['#049ECD', '#69C7D4', '#74808E']
 
+const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 125 : 80)
+
+const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }): string => {
+  if (seriesName === i18n.t('statistic.burnt')) {
+    return `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.burnt'))} ${handleAxis(data, 2)}</div>`
+  }
+  if (seriesName === i18n.t('statistic.locked')) {
+    return `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.locked'))} ${handleAxis(data, 2)}</div>`
+  }
+  if (seriesName === i18n.t('statistic.circulating_supply')) {
+    return `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
+      data,
+      2,
+    )}</div>`
+  }
+  return ''
+}
+
 const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumbnail = false): echarts.EChartOption => {
   return {
     color: Colors,
@@ -34,22 +52,13 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
       ? {
           trigger: 'axis',
           formatter: (dataList: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 125 : 80)
+            const list = dataList as Array<{ seriesName: string; data: string; name: string }>
             let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-              dataList[0].name,
+              list[0].name,
             )}</div>`
-            result += `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.burnt'))} ${handleAxis(
-              dataList[2].data,
-              2,
-            )}</div>`
-            result += `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.locked'))} ${handleAxis(
-              dataList[1].data,
-              2,
-            )}</div>`
-            result += `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
-              dataList[0].data,
-              2,
-            )}</div>`
+            list.forEach(data => {
+              result += parseTooltip(data)
+            })
             return result
           },
         }
@@ -58,9 +67,15 @@ const getOption = (statisticTotalSupplies: State.StatisticTotalSupply[], isThumb
       data: isThumbnail
         ? []
         : [
-            { name: i18n.t('statistic.circulating_supply') },
-            { name: i18n.t('statistic.locked') },
-            { name: i18n.t('statistic.burnt') },
+            {
+              name: i18n.t('statistic.circulating_supply'),
+            },
+            {
+              name: i18n.t('statistic.locked'),
+            },
+            {
+              name: i18n.t('statistic.burnt'),
+            },
           ],
     },
     grid: isThumbnail ? gridThumbnail : grid,
