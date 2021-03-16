@@ -36,9 +36,9 @@ const UDTTitleSearchComp = ({ typeHash, total }: { typeHash: string; total: numb
   return (
     <UDTTransactionTitlePanel>
       <div className="udt__transaction__container">
-        <div className="udt__transaction__title">{`${i18n.t('transaction.transactions')} (${localeNumberString(
-          total,
-        )})`}</div>
+        <div className="udt__transaction__title">
+          {`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`}
+        </div>
         <Filter typeHash={typeHash} filterType={FilterType.UDT} />
       </div>
     </UDTTransactionTitlePanel>
@@ -123,7 +123,7 @@ export const SimpleUDT = () => {
   return (
     <Content>
       <SimpleUDTContentPanel className="container">
-        <SimpleUDTHashCard title={i18n.t('udt.sudt')} hash={typeHash} iconUri={iconFile ? iconFile : SUDTTokenIcon}>
+        <SimpleUDTHashCard title={i18n.t('udt.sudt')} hash={typeHash} iconUri={iconFile || SUDTTokenIcon}>
           <SimpleUDTOverview>
             <TypeScriptController onClick={() => setShowType(!showType)}>
               <div>{i18n.t('udt.type_script')}</div>

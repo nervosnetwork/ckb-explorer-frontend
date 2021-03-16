@@ -145,7 +145,9 @@ export default () => {
         style={{
           height: isScreenSmallerThan1200() ? '136px' : '190px',
         }}
-        onEvents={{ click: clickEvent }}
+        onEvents={{
+          click: clickEvent,
+        }}
       />
     </HomeChartLink>
   )

@@ -11,7 +11,6 @@ import { adaptPCEllipsis } from '../../../utils/string'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { ChartColors } from '../../../utils/const'
 
-
 const gridThumbnail = {
   left: '4%',
   right: '10%',

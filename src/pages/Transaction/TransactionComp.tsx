@@ -24,6 +24,10 @@ import SimpleButton from '../../components/SimpleButton'
 import HashTag from '../../components/HashTag'
 import { isScreenSmallerThan1440 } from '../../utils/screen'
 
+const showTxStatus = (txStatus: string) => {
+  return txStatus.replace(/^\S/, s => s.toUpperCase())
+}
+
 const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => {
   return (
     <TransactionBlockHeightPanel>
@@ -246,10 +250,6 @@ const handleCellbaseInputs = (inputs: State.Cell[], outputs: State.Cell[]) => {
     return resultInputs
   }
   return inputs
-}
-
-const showTxStatus = (txStatus: string) => {
-  return txStatus.replace(/^\S/, s => s.toUpperCase())
 }
 
 export default () => {

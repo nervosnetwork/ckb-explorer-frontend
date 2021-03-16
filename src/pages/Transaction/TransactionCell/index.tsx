@@ -80,7 +80,7 @@ const TransactionCellIndexAddress = ({
 
 const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
   let detailTitle = i18n.t('transaction.ckb_capacity')
-  let detailIcon = undefined
+  let detailIcon
   if (cell.cellType === DaoType.Deposit) {
     detailTitle = i18n.t('transaction.nervos_dao_deposit')
     detailIcon = NervosDAODepositIcon
@@ -106,7 +106,15 @@ const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
   )
 }
 
-const TransactionCellInfo = ({ cell, children, txStatus }: { cell: State.Cell; children: string | ReactNode; txStatus: string }) => {
+const TransactionCellInfo = ({
+  cell,
+  children,
+  txStatus,
+}: {
+  cell: State.Cell
+  children: string | ReactNode
+  txStatus: string
+}) => {
   const [showModal, setShowModal] = useState(false)
   return (
     <TransactionCellInfoPanel>
@@ -224,7 +232,9 @@ export default ({
         </div>
 
         <div className="transaction__detail__cell_info">
-          <TransactionCellInfo cell={cell} children={'Cell Info'} txStatus={txStatus} />
+          <TransactionCellInfo cell={cell} txStatus={txStatus}>
+            Cell Info
+          </TransactionCellInfo>
         </div>
       </TransactionCellContentPanel>
     </TransactionCellPanel>

@@ -93,12 +93,10 @@ const Filter = ({
           filterNoResult: true,
         },
       })
-    } else {
-      if (filterType === FilterType.DAO) {
-        searchNervosDaoTransactions(query, dispatch)
-      } else if (typeHash) {
-        getUDTTransactionsWithAddress(query, typeHash, 1, FILTER_COUNT, dispatch)
-      }
+    } else if (filterType === FilterType.DAO) {
+      searchNervosDaoTransactions(query, dispatch)
+    } else if (typeHash) {
+      getUDTTransactionsWithAddress(query, typeHash, 1, FILTER_COUNT, dispatch)
     }
   }
 
