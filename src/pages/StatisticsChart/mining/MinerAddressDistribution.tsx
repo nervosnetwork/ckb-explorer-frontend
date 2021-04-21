@@ -53,7 +53,7 @@ const getOption = (
             let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.address'))} ${addressText(
               data.data.title,
             )}</div>`
-            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.miner_radio'))} ${(
+            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.miner_ratio'))} ${(
               Number(data.data.value) * 100
             ).toFixed(1)}%</div>`
             return result
@@ -63,7 +63,7 @@ const getOption = (
     grid: isThumbnail ? gridThumbnail : grid,
     series: [
       {
-        name: i18n.t('statistic.miner_radio'),
+        name: i18n.t('statistic.miner_ratio'),
         type: 'pie',
         radius: isMobile() || isThumbnail ? '50%' : '75%',
         center: ['50%', '50%'],
@@ -115,11 +115,14 @@ export default () => {
   const history = useHistory()
   const { statisticMinerAddresses } = useAppState()
 
-  const clickEvent = useCallback((param: any) => {
-    if (param && param.data.title) {
-      history.push(`/address/${param.data.title}`)
-    }
-  }, [history])
+  const clickEvent = useCallback(
+    (param: any) => {
+      if (param && param.data.title) {
+        history.push(`/address/${param.data.title}`)
+      }
+    },
+    [history],
+  )
 
   useEffect(() => {
     getStatisticMinerAddressDistribution(dispatch)
