@@ -244,6 +244,12 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     category: 'lock',
   },
   {
+    codeHashes: ['0x9f27f3afc8d26dfa8bc0c8fa21bc033ddcdab6ad83d5e865cdd6d5d0b3b95642'],
+    txHashes: ['0x1dbbeac82db9a330ed07dd33e547facbca14378196f0e2d69ad8e83bce1d5f54-0'],
+    tag: 'cheque',
+    category: 'lock',
+  },
+  {
     codeHashes: ['0x744d2c4c4e6fabe66cfb08cb818532c50fffc682a7614746328c5d691a811c06'],
     txHashes: ['0xb59879b6ea6fff985223117fa499ce84f8cfb028c4ffdfdf5d3ec19e905a11ed-0'],
     tag: 'm-nft_issuer',
