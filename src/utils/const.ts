@@ -250,14 +250,14 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     category: 'lock',
   },
   {
-    codeHashes: ['0x744d2c4c4e6fabe66cfb08cb818532c50fffc682a7614746328c5d691a811c06'],
-    txHashes: ['0xb59879b6ea6fff985223117fa499ce84f8cfb028c4ffdfdf5d3ec19e905a11ed-0'],
+    codeHashes: ['0xb59879b6ea6fff985223117fa499ce84f8cfb028c4ffdfdf5d3ec19e905a11ed'],
+    txHashes: ['0x744d2c4c4e6fabe66cfb08cb818532c50fffc682a7614746328c5d691a811c06-0'],
     tag: 'm-nft_issuer',
     category: 'type',
   },
   {
-    codeHashes: ['0x4f27e40b302bcb3bf0af3deae460f46076de2b4db30c0212b14b341c20fcb330'],
-    txHashes: ['0x095b8c0b4e51a45f953acd1fcd1e39489f2675b4bc94e7af27bb38958790e3fc-0'],
+    codeHashes: ['0x095b8c0b4e51a45f953acd1fcd1e39489f2675b4bc94e7af27bb38958790e3fc'],
+    txHashes: ['0x4f27e40b302bcb3bf0af3deae460f46076de2b4db30c0212b14b341c20fcb330-0'],
     tag: 'm-nft_class',
     category: 'type',
   },
