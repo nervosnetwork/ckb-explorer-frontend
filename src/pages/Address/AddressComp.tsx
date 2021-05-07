@@ -7,7 +7,12 @@ import { useAppState } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
 import { shannonToCkb, baseUrl } from '../../utils/util'
-import { AddressTransactionsPagination, AddressTransactionsPanel, AddressUDTAssetsPanel, AddressUDTItemPanel } from './styled'
+import {
+  AddressTransactionsPagination,
+  AddressTransactionsPanel,
+  AddressUDTAssetsPanel,
+  AddressUDTItemPanel,
+} from './styled'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from '../../assets/ckb_token_icon.png'
@@ -38,7 +43,8 @@ const addressAssetInfo = (address: State.Address) => {
     },
   ] as OverviewItemData[]
   if (isMobile()) {
-    items[0] = items[2]
+    const item2 = items[2]
+    items[0] = item2
     items.splice(2, 1)
   }
   return items
@@ -48,7 +54,7 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
   const { decimal, symbol, amount, udtIconFile, typeHash } = udtAccount
   return (
     <AddressUDTItemPanel href={`${baseUrl()}/sudt/${typeHash}`}>
-      <img className="address__udt__item__icon" src={udtIconFile ? udtIconFile : SUDTTokenIcon} alt="udt icon" />
+      <img className="address__udt__item__icon" src={udtIconFile || SUDTTokenIcon} alt="udt icon" />
       <div className="address__udt__item__info">
         <span>{symbol}</span>
         <span>{parseUDTAmount(amount, decimal)}</span>
@@ -117,7 +123,9 @@ export const AddressTransactions = ({
                 address={addressHash}
                 transaction={transaction}
                 key={transactionHash}
-                circleCorner={{ bottom: index === transactions.length - 1 && totalPages === 1 }}
+                circleCorner={{
+                  bottom: index === transactions.length - 1 && totalPages === 1,
+                }}
               />
             )
           )
