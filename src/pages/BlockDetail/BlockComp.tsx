@@ -78,6 +78,7 @@ const BlockMinerReward = ({
       <Tooltip placement="top" title={tooltip}>
         <div
           className="block__miner__reward_tip"
+          role="button"
           onClick={() => {
             if (sentBlockNumber) {
               history.push(`/block/${sentBlockNumber}#cellbase`)
@@ -233,7 +234,9 @@ export const BlockComp = ({
             <TransactionItem
               key={transaction.transactionHash}
               transaction={transaction}
-              circleCorner={{ bottom: index === transactions.length - 1 && totalPages === 1 }}
+              circleCorner={{
+                bottom: index === transactions.length - 1 && totalPages === 1,
+              }}
               isBlock
             />
           )
@@ -248,4 +251,7 @@ export const BlockComp = ({
   )
 }
 
-export default { BlockOverview, BlockComp }
+export default {
+  BlockOverview,
+  BlockComp,
+}

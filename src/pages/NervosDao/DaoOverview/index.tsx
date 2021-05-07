@@ -195,7 +195,8 @@ const NervosDaoOverviewLeftComp = () => {
 
 const getOption = (nervosDao: State.NervosDao): echarts.EChartOption => {
   const { miningReward, depositCompensation, treasuryAmount } = nervosDao
-  const sum = shannonToCkbDecimal(miningReward) + shannonToCkbDecimal(depositCompensation) + shannonToCkbDecimal(treasuryAmount)
+  const sum =
+    shannonToCkbDecimal(miningReward) + shannonToCkbDecimal(depositCompensation) + shannonToCkbDecimal(treasuryAmount)
   const names = [
     `${((shannonToCkbDecimal(miningReward) / sum) * 100).toFixed(1)}%`,
     `${((shannonToCkbDecimal(depositCompensation) / sum) * 100).toFixed(1)}%`,
@@ -230,7 +231,9 @@ const getOption = (nervosDao: State.NervosDao): echarts.EChartOption => {
     tooltip: {
       trigger: 'item',
       formatter: (value: any) => {
-        return `${value.data.title}: ${localeNumberString(value.data.value)} ${i18n.t('common.ckb_unit')} (${value.data.name})`
+        return `${value.data.title}: ${localeNumberString(value.data.value)} ${i18n.t('common.ckb_unit')} (${
+          value.data.name
+        })`
       },
       position: ['10%', '50%'],
     },
@@ -338,7 +341,9 @@ export default () => {
               height: isMobile() ? '65%' : '90%',
               width: !isMobile() && isScreenSmallerThan1200() ? '70%' : '100%',
             }}
-            onEvents={{ click: clickEvent }}
+            onEvents={{
+              click: clickEvent,
+            }}
           />
         </DaoOverviewPieChartPanel>
         <DaoOverviewPieItemsPanel>

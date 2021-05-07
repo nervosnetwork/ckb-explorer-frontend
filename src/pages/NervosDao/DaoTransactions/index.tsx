@@ -49,7 +49,9 @@ export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPa
             <TransactionItem
               key={transaction.transactionHash}
               transaction={transaction}
-              circleCorner={{ bottom: index === transactions.length - 1 && totalPages === 1 }}
+              circleCorner={{
+                bottom: index === transactions.length - 1 && totalPages === 1,
+              }}
             />
           )
         )
