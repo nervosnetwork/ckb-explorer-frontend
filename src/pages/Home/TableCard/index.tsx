@@ -64,7 +64,8 @@ export const TransactionCardItem = ({
   tipBlockNumber: number
 }) => {
   const liveCellChanges = Number(transaction.liveCellChanges)
-  const confirmation = tipBlockNumber - Number(transaction.blockNumber)
+  let confirmation = tipBlockNumber - Number(transaction.blockNumber)
+  confirmation = confirmation < 0 ? 0 : confirmation
   const confirmationUnit = confirmation > 1 ? i18n.t('address.confirmations') : i18n.t('address.confirmation')
   let transactionHash = isScreenSmallerThan1440()
     ? adaptPCEllipsis(transaction.transactionHash, 1, 80)
