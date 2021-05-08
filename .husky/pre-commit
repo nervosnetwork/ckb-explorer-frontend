@@ -1,2 +1,3 @@
 yarn lint 
 yarn lint:css
+yarn test

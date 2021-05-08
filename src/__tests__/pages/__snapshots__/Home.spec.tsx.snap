@@ -659,7 +659,7 @@ exports[`Active Page shallow renders 1`] = `
             <span
               className="transaction__card__confirmation"
             >
-              -1354 Confirmation
+              0 Confirmation
             </span>
           </div>
           <div
@@ -747,7 +747,7 @@ exports[`Active Page shallow renders 1`] = `
             <span
               className="transaction__card__confirmation"
             >
-              -1346 Confirmation
+              0 Confirmation
             </span>
           </div>
           <div
@@ -835,7 +835,7 @@ exports[`Active Page shallow renders 1`] = `
             <span
               className="transaction__card__confirmation"
             >
-              -1338 Confirmation
+              0 Confirmation
             </span>
           </div>
           <div
