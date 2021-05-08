@@ -17,7 +17,7 @@ const handleTransactionStatus = (dispatch: AppDispatch, transactionsStatus: Stat
   dispatch({
     type: PageActions.UpdateAddressTransactionsStatus,
     payload: {
-      transactionsStatus,
+      transactionsStatus
     },
   })
 }
