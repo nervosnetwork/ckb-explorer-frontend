@@ -25,12 +25,36 @@ declare namespace State {
     message: string[]
   }
 
+  type CellTypes =
+    | 'normal'
+    | 'nervos_dao_deposit'
+    | 'nervos_dao_withdrawing'
+    | 'udt'
+    | 'm_nft_issuer'
+    | 'm_nft_class'
+    | 'm_nft_token'
+
   interface UDTInfo {
     symbol: string
     amount: string
     decimal: string
     typeHash: string
     published: boolean
+  }
+
+  interface NftIssuer {
+    issuerName: string
+  }
+
+  interface NftClass {
+    className: string
+    total: string
+  }
+
+  interface NftToken {
+    className: string
+    tokenId: string
+    total: string
   }
 
   interface Cell {
@@ -47,7 +71,7 @@ declare namespace State {
     consumedTxHash: string
     status: 'live' | 'dead'
     isGenesisOutput: boolean
-    cellType: 'normal' | 'nervos_dao_deposit' | 'nervos_dao_withdrawing' | 'udt'
+    cellType: CellTypes
     cellIndex: string
     compensationStartedBlockNumber: number
     compensationEndedBlockNumber: number
@@ -59,6 +83,7 @@ declare namespace State {
     daoTypeHash: string
     udtInfo: UDTInfo
     cellInfo: CellInfo
+    mNftInfo: NftIssuer | NftClass | NftToken
   }
 
   export interface CellInfo {

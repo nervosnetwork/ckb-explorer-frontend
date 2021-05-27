@@ -90,13 +90,6 @@ export enum CellType {
   Output = 'output',
 }
 
-export enum DaoType {
-  Normal = 'normal',
-  Deposit = 'nervos_dao_deposit',
-  Withdraw = 'nervos_dao_withdrawing',
-  Udt = 'udt',
-}
-
 export enum DataType {
   LockScript = 'lock_script',
   TypeScript = 'type_script',
