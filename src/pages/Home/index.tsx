@@ -128,7 +128,9 @@ const useHomeSearchBarStatus = (dispatch: AppDispatch) => {
   useEffect(() => {
     dispatch({
       type: ComponentActions.UpdateHeaderSearchEditable,
-      payload: { searchBarEditable: false },
+      payload: {
+        searchBarEditable: false,
+      },
     })
   }, [dispatch])
 
@@ -139,7 +141,9 @@ const useHomeSearchBarStatus = (dispatch: AppDispatch) => {
       const searchPosition = searchBar.scrollHeight + 64 + 40
       dispatch({
         type: ComponentActions.UpdateHeaderSearchBarVisible,
-        payload: { headerSearchBarVisible: window.pageYOffset > searchPosition },
+        payload: {
+          headerSearchBarVisible: window.pageYOffset > searchPosition,
+        },
       })
     }
   }, 300)
@@ -184,10 +188,14 @@ export default () => {
   return (
     <Content>
       <HomeHeaderPanel className="container">
-        <HomeHeaderTopPanel style={{ backgroundImage: `url(${HomeHeaderBackground})` }}>
+        <HomeHeaderTopPanel
+          style={{
+            backgroundImage: `url(${HomeHeaderBackground})`,
+          }}
+        >
           <div className="home__top__title">{i18n.t('common.ckb_explorer')}</div>
           <div className="home__top__search" id="home__search__bar">
-            {!headerSearchBarVisible && <Search hasButton={true} />}
+            {!headerSearchBarVisible && <Search hasButton />}
           </div>
         </HomeHeaderTopPanel>
         <HomeStatisticTopPanel>

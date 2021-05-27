@@ -73,7 +73,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
   margin-top: 2px;
 }
 
-.c12 .nervos__dao__withdraw_icon {
+.c12 img {
   margin-left: 5px;
   width: 16px;
   height: auto;
@@ -312,7 +312,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
 }
 
 @media (max-width:750px) {
-  .c12 .nervos__dao__withdraw_icon {
+  .c12 img {
     width: 12px;
     height: auto;
   }
@@ -766,8 +766,7 @@ exports[`TransactionItem Component shallow renders 1`] = `
                   </div>
                 </div>
                 <img
-                  alt="nervos dao withdraw"
-                  className="nervos__dao__withdraw_icon"
+                  alt="withdraw"
                   onMouseEnter={[Function]}
                   onMouseLeave={[Function]}
                   src="nervos_dao_cell.png"

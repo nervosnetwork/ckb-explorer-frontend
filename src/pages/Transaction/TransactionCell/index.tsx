@@ -1,7 +1,7 @@
 import React, { useState, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
-import { CellType, DaoType } from '../../../utils/const'
+import { CellType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
@@ -24,6 +24,9 @@ import CopyTooltipText from '../../../components/Text/CopyTooltipText'
 import NervosDAODepositIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import UDTTokenIcon from '../../../assets/udt_token.png'
+import NFTIssuerIcon from '../../../assets/m_nft_issuer.svg'
+import NFTClassIcon from '../../../assets/m_nft_class.svg'
+import NFTTokenIcon from '../../../assets/m_nft.svg'
 import TransactionCellScript from '../TransactionCellScript'
 import SimpleModal from '../../../components/Modal'
 import SimpleButton from '../../../components/SimpleButton'
@@ -78,35 +81,94 @@ const TransactionCellIndexAddress = ({
   )
 }
 
+const isUdt = (cell: State.Cell) => cell.udtInfo && cell.udtInfo.typeHash
+
+const sliceName = (name: string) => (name.length > 20 ? `${name.slice(0, 20)}...` : name)
+
+const parseNftInfo = (cell: State.Cell) => {
+  if (cell.cellType === 'm_nft_issuer') {
+    const nftInfo = cell.mNftInfo as State.NftIssuer
+    if (nftInfo.issuerName) {
+      return sliceName(nftInfo.issuerName)
+    }
+    return i18n.t('transaction.unknown_nft')
+  }
+  if (cell.cellType === 'm_nft_class') {
+    const nftInfo = cell.mNftInfo as State.NftClass
+    const className = nftInfo.className ? sliceName(nftInfo.className) : i18n.t('transaction.unknown_nft')
+    const limit = nftInfo.total === '0' ? i18n.t('transaction.nft_unlimited') : i18n.t('transaction.nft_limited')
+    const total = nftInfo.total === '0' ? '' : nftInfo.total
+    return `${className} ( ${limit} ${total} )`
+  }
+  const nftInfo = cell.mNftInfo as State.NftToken
+  const className = nftInfo.className ? sliceName(nftInfo.className) : i18n.t('transaction.unknown_nft')
+  const total = nftInfo.total === '0' ? '' : `/${nftInfo.total}`
+  return `${className} ( #${parseInt(nftInfo.tokenId, 16)}${total} )`
+}
+
 const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
   let detailTitle = i18n.t('transaction.ckb_capacity')
-  let detailIcon = undefined
-  if (cell.cellType === DaoType.Deposit) {
-    detailTitle = i18n.t('transaction.nervos_dao_deposit')
-    detailIcon = NervosDAODepositIcon
-  } else if (cell.cellType === DaoType.Withdraw) {
-    detailTitle = i18n.t('transaction.nervos_dao_withdraw')
-    detailIcon = NervosDAOWithdrawingIcon
-  } else if (cell.cellType === DaoType.Udt) {
-    detailTitle = i18n.t('transaction.udt_cell')
-    detailIcon = UDTTokenIcon
+  let detailIcon
+  let tooltip = ''
+  switch (cell.cellType) {
+    case 'nervos_dao_deposit':
+      detailTitle = i18n.t('transaction.nervos_dao_deposit')
+      detailIcon = NervosDAODepositIcon
+      break
+    case 'nervos_dao_withdrawing':
+      detailTitle = i18n.t('transaction.nervos_dao_withdraw')
+      detailIcon = NervosDAOWithdrawingIcon
+      break
+    case 'udt':
+      detailTitle = i18n.t('transaction.udt_cell')
+      detailIcon = UDTTokenIcon
+      if (isUdt(cell)) {
+        tooltip = `Capacity: ${shannonToCkbDecimal(cell.capacity, 8)} CKB`
+      }
+      break
+    case 'm_nft_issuer':
+      detailTitle = i18n.t('transaction.m_nft_issuer')
+      detailIcon = NFTIssuerIcon
+      tooltip = parseNftInfo(cell)
+      break
+    case 'm_nft_class':
+      detailTitle = i18n.t('transaction.m_nft_class')
+      detailIcon = NFTClassIcon
+      tooltip = parseNftInfo(cell)
+      break
+    case 'm_nft_token':
+      detailTitle = i18n.t('transaction.m_nft_token')
+      detailIcon = NFTTokenIcon
+      tooltip = parseNftInfo(cell)
+      break
+    default:
+      break
   }
   return (
-    <TransactionCellDetailPanel isWithdraw={cell.cellType === DaoType.Withdraw}>
+    <TransactionCellDetailPanel isWithdraw={cell.cellType === 'nervos_dao_withdrawing'}>
       <div className="transaction__cell__detail__panel">
-        {cell.udtInfo && cell.udtInfo.typeHash && (
-          <Tooltip placement="top" title={`Capacity: ${shannonToCkbDecimal(cell.capacity, 8)} CKB`}>
-            <img src={detailIcon} alt="cell detail icon" />
+        {tooltip ? (
+          <Tooltip placement="top" title={tooltip}>
+            <img src={detailIcon} alt="cell detail" />
           </Tooltip>
+        ) : (
+          detailIcon && <img src={detailIcon} alt="cell detail" />
         )}
-        {!cell.udtInfo && detailIcon && <img src={detailIcon} alt="cell detail icon" />}
         <div>{detailTitle}</div>
       </div>
     </TransactionCellDetailPanel>
   )
 }
 
-const TransactionCellInfo = ({ cell, children, txStatus }: { cell: State.Cell; children: string | ReactNode; txStatus: string }) => {
+const TransactionCellInfo = ({
+  cell,
+  children,
+  txStatus,
+}: {
+  cell: State.Cell
+  children: string | ReactNode
+  txStatus: string
+}) => {
   const [showModal, setShowModal] = useState(false)
   return (
     <TransactionCellInfoPanel>
@@ -224,7 +286,9 @@ export default ({
         </div>
 
         <div className="transaction__detail__cell_info">
-          <TransactionCellInfo cell={cell} children={'Cell Info'} txStatus={txStatus} />
+          <TransactionCellInfo cell={cell} txStatus={txStatus}>
+            Cell Info
+          </TransactionCellInfo>
         </div>
       </TransactionCellContentPanel>
     </TransactionCellPanel>

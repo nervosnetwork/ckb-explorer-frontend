@@ -71,7 +71,7 @@ export const TransactionCellWithdraw = styled.div`
   align-items: center;
   margin-top: 2px;
 
-  .nervos__dao__withdraw_icon {
+  img {
     margin-left: 5px;
     width: 16px;
     height: auto;
