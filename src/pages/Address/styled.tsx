@@ -120,6 +120,8 @@ export const AddressUDTItemPanel = styled.a`
   width: 260px;
   height: 56px;
 
+  pointer-events: ${(props: { isLink: boolean }) => (props.isLink ? 'auto' : 'none')};
+
   .address__udt__item__icon {
     width: 40px;
     height: 40px;
