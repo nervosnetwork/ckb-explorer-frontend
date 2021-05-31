@@ -5,7 +5,7 @@ import { CellType } from '../../../utils/const'
 import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
-import { adaptPCEllipsis, adaptMobileEllipsis } from '../../../utils/string'
+import { adaptPCEllipsis, adaptMobileEllipsis, sliceNftName } from '../../../utils/string'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import {
   TransactionCellContentPanel,
@@ -83,25 +83,23 @@ const TransactionCellIndexAddress = ({
 
 const isUdt = (cell: State.Cell) => cell.udtInfo && cell.udtInfo.typeHash
 
-const sliceName = (name: string) => (name.length > 20 ? `${name.slice(0, 20)}...` : name)
-
 const parseNftInfo = (cell: State.Cell) => {
   if (cell.cellType === 'm_nft_issuer') {
     const nftInfo = cell.mNftInfo as State.NftIssuer
     if (nftInfo.issuerName) {
-      return sliceName(nftInfo.issuerName)
+      return sliceNftName(nftInfo.issuerName)
     }
     return i18n.t('transaction.unknown_nft')
   }
   if (cell.cellType === 'm_nft_class') {
     const nftInfo = cell.mNftInfo as State.NftClass
-    const className = nftInfo.className ? sliceName(nftInfo.className) : i18n.t('transaction.unknown_nft')
+    const className = nftInfo.className ? sliceNftName(nftInfo.className) : i18n.t('transaction.unknown_nft')
     const limit = nftInfo.total === '0' ? i18n.t('transaction.nft_unlimited') : i18n.t('transaction.nft_limited')
     const total = nftInfo.total === '0' ? '' : nftInfo.total
     return `${className} ( ${limit} ${total} )`
   }
   const nftInfo = cell.mNftInfo as State.NftToken
-  const className = nftInfo.className ? sliceName(nftInfo.className) : i18n.t('transaction.unknown_nft')
+  const className = nftInfo.className ? sliceNftName(nftInfo.className) : i18n.t('transaction.unknown_nft')
   const total = nftInfo.total === '0' ? '' : `/${nftInfo.total}`
   return `${className} ( #${parseInt(nftInfo.tokenId, 16)}${total} )`
 }
