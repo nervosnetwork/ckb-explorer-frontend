@@ -99,12 +99,15 @@ declare namespace State {
     estimatedUnlockTime: string
   }
 
+  export type UDTType = 'sudt' | 'm_nft_token'
+
   export interface UDTAccount {
     symbol: string
     decimal: string
     amount: string
     typeHash: string
     udtIconFile: string
+    udtType: UDTType
   }
 
   export interface Address {

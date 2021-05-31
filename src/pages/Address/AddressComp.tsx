@@ -51,13 +51,14 @@ const addressAssetInfo = (address: State.Address) => {
 }
 
 const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
-  const { decimal, symbol, amount, udtIconFile, typeHash } = udtAccount
+  const { decimal, symbol, amount, udtIconFile, typeHash, udtType } = udtAccount
+  const isSudt = udtType === 'sudt'
   return (
-    <AddressUDTItemPanel href={`${baseUrl()}/sudt/${typeHash}`}>
+    <AddressUDTItemPanel href={`${baseUrl()}/sudt/${typeHash}`} isLink={isSudt}>
       <img className="address__udt__item__icon" src={udtIconFile || SUDTTokenIcon} alt="udt icon" />
       <div className="address__udt__item__info">
         <span>{symbol}</span>
-        <span>{parseUDTAmount(amount, decimal)}</span>
+        <span>{isSudt ? parseUDTAmount(amount, decimal) : amount}</span>
       </div>
     </AddressUDTItemPanel>
   )
