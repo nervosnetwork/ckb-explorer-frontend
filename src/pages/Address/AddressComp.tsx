@@ -18,6 +18,7 @@ import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { isMobile } from '../../utils/screen'
+import { sliceNftName } from '../../utils/string'
 
 const addressAssetInfo = (address: State.Address) => {
   const items = [
@@ -57,7 +58,7 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
     <AddressUDTItemPanel href={`${baseUrl()}/sudt/${typeHash}`} isLink={isSudt}>
       <img className="address__udt__item__icon" src={udtIconFile || SUDTTokenIcon} alt="udt icon" />
       <div className="address__udt__item__info">
-        <span>{symbol}</span>
+        <span>{isSudt ? symbol : sliceNftName(symbol)}</span>
         <span>{isSudt ? parseUDTAmount(amount, decimal) : amount}</span>
       </div>
     </AddressUDTItemPanel>
