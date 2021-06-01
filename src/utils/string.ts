@@ -150,4 +150,4 @@ export const handleBigNumberFloor = (value: BigNumber | string | number, decimal
   return `${parseFloorDecimal(bigValue, decimal)}`
 }
 
-export const sliceNftName = (name: string) => (name.length > 20 ? `${name.slice(0, 20)}...` : name)
+export const sliceNftName = (name: string) => (name.length > 32 ? `${name.slice(0, 32)}...` : name)

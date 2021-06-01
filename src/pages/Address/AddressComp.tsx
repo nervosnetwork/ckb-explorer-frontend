@@ -59,7 +59,7 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
       <img className="address__udt__item__icon" src={udtIconFile || SUDTTokenIcon} alt="udt icon" />
       <div className="address__udt__item__info">
         <span>{isSudt ? symbol : sliceNftName(symbol)}</span>
-        <span>{isSudt ? parseUDTAmount(amount, decimal) : amount}</span>
+        <span>{isSudt ? parseUDTAmount(amount, decimal) : `#${amount}`}</span>
       </div>
     </AddressUDTItemPanel>
   )
