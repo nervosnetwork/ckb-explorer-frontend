@@ -120,6 +120,12 @@ export const AddressUDTItemPanel = styled.a`
   width: 260px;
   height: 56px;
 
+  @media (max-width: 750px) {
+    width: calc(100% - 30px);
+  }
+
+  pointer-events: ${(props: { isLink: boolean }) => (props.isLink ? 'auto' : 'none')};
+
   .address__udt__item__icon {
     width: 40px;
     height: 40px;
@@ -130,10 +136,19 @@ export const AddressUDTItemPanel = styled.a`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
 
     > span {
       font-size: 14px;
       color: #000000;
+      white-space: nowrap;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      max-width: 196px;
+
+      @media (max-width: 750px) {
+        max-width: calc(100% - 42px);
+      }
     }
 
     > span:nth-child(1) {
