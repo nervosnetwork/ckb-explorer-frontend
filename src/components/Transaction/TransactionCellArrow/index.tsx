@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
-import { CellType } from '../../../utils/const'
+import { CellType } from '../../../constants/common'
 import RightGreenArrow from '../../../assets/right_green_arrow.png'
 import RightBlueArrow from '../../../assets/right_blue_arrow.png'
 import LiveCellIcon from '../../../assets/live_cell.png'

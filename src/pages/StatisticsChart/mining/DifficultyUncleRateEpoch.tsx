@@ -6,7 +6,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
 import { handleDifficulty } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
-import { ChartMoreColors } from '../../../utils/const'
+import { ChartMoreColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { parseHourFromMillisecond } from '../../../utils/date'
 

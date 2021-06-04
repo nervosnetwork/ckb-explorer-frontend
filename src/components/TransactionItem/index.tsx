@@ -11,7 +11,7 @@ import TransactionCellList from './TransactionItemCellList'
 import TransactionIncome from './TransactionIncome'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import i18n from '../../utils/i18n'
-import { CellType } from '../../utils/const'
+import { CellType } from '../../constants/common'
 
 export interface CircleCorner {
   top?: boolean

@@ -4,7 +4,7 @@ import { useAppState, useDispatch } from '../../../contexts/providers'
 import TransactionItem from '../../../components/TransactionItem'
 import { TransactionsPagination, DAONoResultPanel } from './styled'
 import Pagination from '../../../components/Pagination'
-import { PageParams } from '../../../utils/const'
+import { PageParams } from '../../../constants/common'
 import i18n from '../../../utils/i18n'
 import { ComponentActions } from '../../../contexts/actions'
 

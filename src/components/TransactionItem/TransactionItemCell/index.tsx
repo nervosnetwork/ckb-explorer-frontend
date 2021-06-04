@@ -17,7 +17,7 @@ import {
   TransactionCellUDTPanel,
 } from './styled'
 import { isMobile, isScreenSmallerThan1440, isScreenSmallerThan1200 } from '../../../utils/screen'
-import { CellType } from '../../../utils/const'
+import { CellType } from '../../../constants/common'
 import TransactionCellArrow from '../../Transaction/TransactionCellArrow'
 import DecimalCapacity from '../../DecimalCapacity'
 import CopyTooltipText from '../../Text/CopyTooltipText'

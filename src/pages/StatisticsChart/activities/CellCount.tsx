@@ -6,7 +6,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
-import { ChartColors } from '../../../utils/const'
+import { ChartColors } from '../../../constants/common'
 import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth } from '../common'
 
 const gridThumbnail = {

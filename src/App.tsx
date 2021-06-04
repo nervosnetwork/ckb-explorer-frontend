@@ -10,7 +10,7 @@ import {
   MAINNET_SECONDARY_THEME_COLOR,
   TESTNET_PRIMARY_THEME_COLOR,
   TESTNET_SECONDARY_THEME_COLOR,
-} from './utils/const'
+} from './constants/common'
 import { isMainnet } from './utils/chain'
 
 const AppDiv = styled.div`

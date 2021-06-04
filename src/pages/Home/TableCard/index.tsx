@@ -3,7 +3,7 @@ import i18n from '../../../utils/i18n'
 import { HighLightLink } from '../../../components/Text'
 import { localeNumberString } from '../../../utils/number'
 import { parseDate } from '../../../utils/date'
-import { DELAY_BLOCK_NUMBER } from '../../../utils/const'
+import { DELAY_BLOCK_NUMBER } from '../../../constants/common'
 import DecimalCapacity from '../../../components/DecimalCapacity'
 import { shannonToCkbDecimal } from '../../../utils/util'
 import { TableMinerContentItem } from '../../../components/Table'
@@ -16,12 +16,22 @@ export const BlockCardItem = ({ block, index }: { block: State.Block; index: num
   const blockReward =
     index < DELAY_BLOCK_NUMBER ? (
       <BlockRewardPlusPanel>
-        <DecimalCapacity value={localeNumberString(shannonToCkbDecimal(block.reward, 2))} fontSize="9px" hideUnit hideZero />
+        <DecimalCapacity
+          value={localeNumberString(shannonToCkbDecimal(block.reward, 2))}
+          fontSize="9px"
+          hideUnit
+          hideZero
+        />
         <span>+</span>
       </BlockRewardPlusPanel>
     ) : (
       <BlockRewardPanel>
-        <DecimalCapacity value={localeNumberString(shannonToCkbDecimal(block.reward, 2))} fontSize="9px" hideUnit hideZero />
+        <DecimalCapacity
+          value={localeNumberString(shannonToCkbDecimal(block.reward, 2))}
+          fontSize="9px"
+          hideUnit
+          hideZero
+        />
       </BlockRewardPanel>
     )
 
