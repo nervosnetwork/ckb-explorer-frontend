@@ -129,7 +129,7 @@
       "tradable": "可交易量",
       "dao_deposit": "Nervos DAO 锁定",
       "liquidity": "流通量",
-      "miner_radio": "挖矿占比",
+      "miner_ratio": "挖矿占比",
       "miner_addresses_rank": "最佳矿工 (最近 7 天)",
       "download_data": "下载数据",
       "address_count_description": "链上已使用的地址总数",
