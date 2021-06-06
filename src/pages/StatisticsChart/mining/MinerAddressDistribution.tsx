@@ -3,7 +3,7 @@ import { useHistory } from 'react-router'
 import { getStatisticMinerAddressDistribution } from '../../../service/app/charts/mining'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartColors } from '../../../utils/const'
+import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { isMobile } from '../../../utils/screen'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
@@ -115,11 +115,14 @@ export default () => {
   const history = useHistory()
   const { statisticMinerAddresses } = useAppState()
 
-  const clickEvent = useCallback((param: any) => {
-    if (param && param.data.title) {
-      history.push(`/address/${param.data.title}`)
-    }
-  }, [history])
+  const clickEvent = useCallback(
+    (param: any) => {
+      if (param && param.data.title) {
+        history.push(`/address/${param.data.title}`)
+      }
+    },
+    [history],
+  )
 
   useEffect(() => {
     getStatisticMinerAddressDistribution(dispatch)

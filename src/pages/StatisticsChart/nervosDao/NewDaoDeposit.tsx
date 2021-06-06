@@ -8,7 +8,7 @@ import { ChartNotePanel } from '../common/styled'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
-import { ChartColors } from '../../../utils/const'
+import { ChartColors } from '../../../constants/common'
 import { isMainnet } from '../../../utils/chain'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipWidth, tooltipColor } from '../common'
 

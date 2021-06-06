@@ -16,7 +16,7 @@ import {
 } from './styled'
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
-import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME } from '../../utils/const'
+import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME } from '../../constants/common'
 import { localeNumberString, handleHashRate, handleDifficulty, parseEpochNumber } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
 import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'

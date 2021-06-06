@@ -1,7 +1,7 @@
 import React, { useState, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
-import { CellType } from '../../../utils/const'
+import { CellType } from '../../../constants/common'
 import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'

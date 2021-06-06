@@ -30,7 +30,7 @@ import MinerRewardIcon from '../../assets/miner_complete.png'
 import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
-import { DELAY_BLOCK_NUMBER } from '../../utils/const'
+import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import TitleCard from '../../components/Card/TitleCard'
 
 const handleMinerText = (address: string) => {

@@ -4,7 +4,7 @@ import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { localeNumberString } from '../../../utils/number'
-import { ChartColors } from '../../../utils/const'
+import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticNewNodeCount } from '../../../service/app/charts/network'
 

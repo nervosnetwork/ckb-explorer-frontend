@@ -10,7 +10,7 @@ import {
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
-import { ChartCachedKeys } from '../../../utils/const'
+import { ChartCachedKeys } from '../../../constants/cache'
 import {
   dispatchTransactionCount,
   dispatchAddressCount,
@@ -96,7 +96,9 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
         return {
           liveCellsCount: wrapper.attributes.liveCellsCount,
           deadCellsCount: wrapper.attributes.deadCellsCount,
-          allCellsCount: (Number(wrapper.attributes.liveCellsCount) + Number(wrapper.attributes.deadCellsCount)).toString(),
+          allCellsCount: (
+            Number(wrapper.attributes.liveCellsCount) + Number(wrapper.attributes.deadCellsCount)
+          ).toString(),
           createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
         }
       })
