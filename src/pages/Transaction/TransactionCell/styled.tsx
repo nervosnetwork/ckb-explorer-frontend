@@ -153,6 +153,10 @@ export const TransactionCellDetailPanel = styled.div`
   }
 `
 
+export const TransactionCellNftInfo = styled.div`
+  white-space: pre-line;
+`
+
 export const TransactionCellDetailModal = styled.div`
   background-color: #ffffff;
   margin: 15% auto;

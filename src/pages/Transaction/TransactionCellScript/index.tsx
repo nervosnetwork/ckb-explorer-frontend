@@ -1,6 +1,6 @@
 import React, { useEffect, useState, ReactNode } from 'react'
 import { fetchCellData, fetchScript } from '../../../service/http/fetcher'
-import { CellState } from '../../../utils/const'
+import { CellState } from '../../../constants/common'
 import { hexToUtf8 } from '../../../utils/string'
 import {
   TransactionDetailCopyButton,

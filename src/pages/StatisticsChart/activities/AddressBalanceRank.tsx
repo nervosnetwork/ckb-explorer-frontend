@@ -9,7 +9,7 @@ import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { adaptPCEllipsis } from '../../../utils/string'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
-import { ChartColors } from '../../../utils/const'
+import { ChartColors } from '../../../constants/common'
 
 const gridThumbnail = {
   left: '4%',

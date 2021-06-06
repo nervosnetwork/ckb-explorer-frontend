@@ -7,8 +7,12 @@ import {
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
-import { ChartCachedKeys } from '../../../utils/const'
-import { dispatchTotalDeposit, dispatchDailyDeposit, dispatchDepositCirculationRatio as dispatchCirculationRatio } from './action'
+import { ChartCachedKeys } from '../../../constants/cache'
+import {
+  dispatchTotalDeposit,
+  dispatchDailyDeposit,
+  dispatchDepositCirculationRatio as dispatchCirculationRatio,
+} from './action'
 
 export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(ChartCachedKeys.TotalDeposit)

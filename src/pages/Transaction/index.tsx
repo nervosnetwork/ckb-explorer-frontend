@@ -12,7 +12,7 @@ import { useDispatch, useAppState } from '../../contexts/providers'
 import Loading from '../../components/Loading'
 import Error from '../../components/Error'
 import { useTimeoutWithUnmount } from '../../utils/hook'
-import { LOADING_WAITING_TIME, PAGE_CELL_COUNT } from '../../utils/const'
+import { LOADING_WAITING_TIME, PAGE_CELL_COUNT } from '../../constants/common'
 import { isMobile } from '../../utils/screen'
 
 const TransactionStateComp = () => {

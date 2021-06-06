@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartMoreColors } from '../../../utils/const'
+import { ChartMoreColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticInflationRate } from '../../../service/app/charts/monetary'
 

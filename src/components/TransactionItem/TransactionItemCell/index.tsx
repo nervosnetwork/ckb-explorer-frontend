@@ -17,7 +17,7 @@ import {
   TransactionCellUDTPanel,
 } from './styled'
 import { isMobile, isScreenSmallerThan1440, isScreenSmallerThan1200 } from '../../../utils/screen'
-import { CellType, DaoType } from '../../../utils/const'
+import { CellType } from '../../../constants/common'
 import TransactionCellArrow from '../../Transaction/TransactionCellArrow'
 import DecimalCapacity from '../../DecimalCapacity'
 import CopyTooltipText from '../../Text/CopyTooltipText'
@@ -35,15 +35,15 @@ const handleAddressText = (address: string) => {
   return adaptPCEllipsis(address, 7, 100)
 }
 
-const isDaoDepositCell = (cellType: string) => {
-  return cellType === DaoType.Deposit
+const isDaoDepositCell = (cellType: State.CellTypes) => {
+  return cellType === 'nervos_dao_deposit'
 }
 
-const isDaoWithdrawCell = (cellType: string) => {
-  return cellType === DaoType.Withdraw
+const isDaoWithdrawCell = (cellType: State.CellTypes) => {
+  return cellType === 'nervos_dao_withdrawing'
 }
 
-const isDaoCell = (cellType: string) => {
+const isDaoCell = (cellType: State.CellTypes) => {
   return isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
 }
 
@@ -178,11 +178,7 @@ const TransactionCellNervosDao = ({ cell, cellType }: { cell: State.Cell; cellTy
       <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
       {cellType === CellType.Input ? (
         <Popover placement="right" title="" content={<WithdrawPopoverInfo cell={cell} />} trigger="click">
-          <img
-            src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon}
-            className="nervos__dao__withdraw_icon"
-            alt="nervos dao withdraw"
-          />
+          <img src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon} alt="withdraw" />
         </Popover>
       ) : (
         <Tooltip
@@ -195,11 +191,7 @@ const TransactionCellNervosDao = ({ cell, cellType }: { cell: State.Cell; cellTy
             fontSize: '14px',
           }}
         >
-          <img
-            src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon}
-            className="nervos__dao__withdraw_icon"
-            alt="nervos dao withdraw"
-          />
+          <img src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon} alt="withdraw" />
         </Tooltip>
       )}
     </TransactionCellWithdraw>
