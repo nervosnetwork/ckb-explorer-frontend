@@ -77,7 +77,7 @@ export const AddressAssetComp = () => {
     <OverviewCard items={addressAssetInfo(address)} titleCard={<TitleCard title={i18n.t('address.assets')} />}>
       {udtAccounts.length > 0 && (
         <AddressUDTAssetsPanel>
-          <span>{i18n.t('address.user_define_token')}</span>
+          <span>{i18n.t('address.user_defined_token')}</span>
           <div className="address__udt__assets__grid">
             {udtAccounts.map(udt => {
               return <AddressUDTItem udtAccount={udt} key={udt.symbol} />
