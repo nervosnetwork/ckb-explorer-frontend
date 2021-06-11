@@ -1,6 +1,6 @@
 import React from 'react'
 import { CellbasePanel } from './styled'
-import { CellType } from '../../../utils/const'
+import { CellType } from '../../../constants/common'
 import TransactionCellArrow from '../TransactionCellArrow'
 import { localeNumberString } from '../../../utils/number'
 import { Link } from 'react-router-dom'

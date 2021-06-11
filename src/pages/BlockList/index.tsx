@@ -9,7 +9,7 @@ import { TableTitleItem, TableContentItem, TableMinerContentItem } from '../../c
 import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
 import { shannonToCkb } from '../../utils/util'
 import { parsePageNumber, adaptMobileEllipsis } from '../../utils/string'
-import { ListPageParams, DELAY_BLOCK_NUMBER } from '../../utils/const'
+import { ListPageParams, DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import i18n from '../../utils/i18n'

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { localeNumberString } from '../../../utils/number'
-import { ChartColors } from '../../../utils/const'
+import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipWidth } from '../common'
 import { getStatisticNodeDistribution } from '../../../service/app/charts/network'
 
@@ -25,7 +25,10 @@ const sumOfNodeCount = (statisticNodeDistributions: State.StatisticNodeDistribut
   return statisticNodeDistributions.flatMap(node => node.value[2]).reduce((previous, current) => previous + current, 0)
 }
 
-const getOption = (statisticNodeDistributions: State.StatisticNodeDistribution[], isThumbnail = false): echarts.EChartOption => {
+const getOption = (
+  statisticNodeDistributions: State.StatisticNodeDistribution[],
+  isThumbnail = false,
+): echarts.EChartOption => {
   return {
     color: ChartColors,
     tooltip: !isThumbnail
@@ -33,7 +36,8 @@ const getOption = (statisticNodeDistributions: State.StatisticNodeDistribution[]
           trigger: 'item',
           formatter: (data: any) => {
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 85 : 65)
-            const widthValueSpan = (value: string) => `<span style="display:inline-block;color:#AACFE9;">${value}</span>`
+            const widthValueSpan = (value: string) =>
+              `<span style="display:inline-block;color:#AACFE9;">${value}</span>`
             let result = `<div>${widthSpan(i18n.t('statistic.city'))} ${widthValueSpan(data.data.name)}</div>`
             result += `<div>${widthSpan(i18n.t('statistic.node_count'))} ${widthValueSpan(
               localeNumberString(data.data.value[2]),

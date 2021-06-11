@@ -4,7 +4,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { getStatisticCirculationRatio } from '../../../service/app/charts/nervosDao'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
-import { ChartColors } from '../../../utils/const'
+import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 
 const gridThumbnail = {

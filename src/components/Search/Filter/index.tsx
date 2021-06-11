@@ -9,7 +9,7 @@ import { useDispatch, useAppState } from '../../../contexts/providers'
 import { FilterImage, FilterPanel, ResetButtonPanel, FilterInputPanel } from './styled'
 import { containSpecialChar } from '../../../utils/string'
 import { getUDTTransactionsWithAddress, getSimpleUDTTransactions } from '../../../service/app/udt'
-import { PageParams } from '../../../utils/const'
+import { PageParams } from '../../../constants/common'
 
 export enum FilterType {
   DAO,

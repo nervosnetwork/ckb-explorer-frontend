@@ -9,7 +9,7 @@ import {
 } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
-import { ChartCachedKeys } from '../../../utils/const'
+import { ChartCachedKeys } from '../../../constants/cache'
 import {
   fetchDateChartCache,
   storeDateChartCache,

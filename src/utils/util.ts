@@ -1,15 +1,8 @@
 import { ReactNode } from 'react'
 import camelcaseKeys from 'camelcase-keys'
 import BigNumber from 'bignumber.js'
-import {
-  MAX_CONFIRMATION,
-  ContractHashTag,
-  MainnetContractHashTags,
-  TestnetContractHashTags,
-  TOKEN_EMAIL_SUBJECT,
-  TOKEN_EMAIL_BODY,
-  TOKEN_EMAIL_ADDRESS,
-} from './const'
+import { MAX_CONFIRMATION, TOKEN_EMAIL_SUBJECT, TOKEN_EMAIL_BODY, TOKEN_EMAIL_ADDRESS } from '../constants/common'
+import { ContractHashTag, MainnetContractHashTags, TestnetContractHashTags } from '../constants/scripts'
 import i18n from './i18n'
 import { isMainnet } from './chain'
 import CONFIG from '../config'

@@ -1,6 +1,6 @@
 import { fetchFlushChartCache } from '../../http/fetcher'
 import { removeCachedData, fetchCachedData } from '../../../utils/cache'
-import { ChartCachedKeys } from '../../../utils/const'
+import { ChartCachedKeys } from '../../../constants/cache'
 
 export const flushCacheInfo = () => {
   fetchFlushChartCache().then((wrapper: Response.Wrapper<State.StatisticCacheInfo> | null) => {

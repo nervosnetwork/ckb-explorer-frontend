@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { AppDispatch } from '../../../contexts/reducer'
 import {
   fetchStatisticTotalSupply,
@@ -7,10 +8,15 @@ import {
   fetchStatisticLiquidity,
 } from '../../http/fetcher'
 import { PageActions } from '../../../contexts/actions'
-import BigNumber from 'bignumber.js'
 import { fetchCachedData, storeCachedData, fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
-import { ChartCachedKeys } from '../../../utils/const'
-import { dispatchAPC, dispatchTotalSupply, dispatchSecondaryIssuance, dispatchInflationRate, dispatchLiquidity } from './action'
+import { ChartCachedKeys } from '../../../constants/cache'
+import {
+  dispatchAPC,
+  dispatchTotalSupply,
+  dispatchSecondaryIssuance,
+  dispatchInflationRate,
+  dispatchLiquidity,
+} from './action'
 
 export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(ChartCachedKeys.TotalSupply)
@@ -123,7 +129,7 @@ export const getStatisticInflationRate = (dispatch: AppDispatch) => {
     .then((wrapper: Response.Wrapper<State.StatisticInflationRates> | null) => {
       if (!wrapper) return
       const { nominalApc, nominalInflationRate, realInflationRate } = wrapper.attributes
-      let statisticInflationRates = []
+      const statisticInflationRates = []
       for (let i = 0; i < nominalApc.length; i++) {
         if (i % 6 === 0 || i === nominalApc.length - 1) {
           statisticInflationRates.push({
@@ -163,7 +169,9 @@ export const getStatisticLiquidity = (dispatch: AppDispatch) => {
           createdAtUnixtimestamp: data.attributes.createdAtUnixtimestamp,
           circulatingSupply: data.attributes.circulatingSupply,
           liquidity: data.attributes.liquidity,
-          daoDeposit: new BigNumber(data.attributes.circulatingSupply).minus(new BigNumber(data.attributes.liquidity)).toFixed(2),
+          daoDeposit: new BigNumber(data.attributes.circulatingSupply)
+            .minus(new BigNumber(data.attributes.liquidity))
+            .toFixed(2),
         }
       })
       dispatchLiquidity(dispatch, statisticLiquidity)
