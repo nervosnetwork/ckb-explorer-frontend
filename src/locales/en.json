@@ -209,7 +209,7 @@
       "args": "Args: ",
       "hash_type": "Hash Type: ",
       "assets": "Assets",
-      "user_define_token": "User Define Token",
+      "user_defined_token": "User Defined Token",
       "confirmation": "Confirmation",
       "confirmations": "Confirmations",
       "unable_decode_address": "Unable to decode address",
