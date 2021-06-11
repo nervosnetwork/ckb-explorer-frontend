@@ -61,7 +61,7 @@ const TransactionCellIndexAddress = ({
   return (
     <TransactionCellAddressPanel>
       <div className="transaction__cell_index">
-        {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
+        <div>{`#${index}`}</div>
       </div>
       <TransactionCellHashPanel highLight={cell.addressHash !== null}>
         {!cell.fromCellbase && cellType === CellType.Input && (
