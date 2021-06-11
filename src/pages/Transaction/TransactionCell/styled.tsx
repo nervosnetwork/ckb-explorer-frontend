@@ -116,11 +116,7 @@ export const TransactionCellHashPanel = styled.div`
   }
 
   > span {
-    margin-right: 50px;
-
-    @media (max-width: 1440px) {
-      margin-right: 30px;
-    }
+    margin: 0 3px;
   }
 
   .transaction__cell_address_no_link {
