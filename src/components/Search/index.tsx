@@ -44,6 +44,17 @@ const setSearchContent = (inputElement: any, content: string) => {
   }
 }
 
+const hideMobileMenu = (dispatch: AppDispatch) => {
+  if (isMobile()) {
+    dispatch({
+      type: ComponentActions.UpdateHeaderMobileMenuVisible,
+      payload: {
+        mobileMenuVisible: false,
+      },
+    })
+  }
+}
+
 const handleSearchResult = (
   searchValue: string,
   inputElement: any,
@@ -52,61 +63,63 @@ const handleSearchResult = (
   setSearchValue: Function,
   history: History,
 ) => {
+  hideMobileMenu(dispatch)
   const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
   if (!query || containSpecialChar(query)) {
     history.push(`/search/fail?q=${query}`)
     return
-  } else if (isChainTypeError(query)) {
+  }
+  if (isChainTypeError(query)) {
     history.push(`/search/fail?type=${SearchFailType.CHAIN_ERROR}&q=${query}`)
     return
-  } else {
-    if (searchBarEditable) {
-      dispatch({
-        type: ComponentActions.UpdateHeaderSearchEditable,
-        payload: {
-          searchBarEditable: false,
-        },
-      })
-    }
-    setSearchLoading(inputElement)
-    fetchSearchResult(addPrefixForHash(query))
-      .then((response: any) => {
-        const { data } = response
-        if (!response || !data.type) {
-          history.push(`/search/fail?q=${query}`)
-          return
-        }
-        clearSearchInput(inputElement)
-        setSearchValue('')
-        if (data.type === SearchResultType.Block) {
-          history.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.blockHash}`)
-        } else if (data.type === SearchResultType.Transaction) {
-          history.push(`/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transactionHash}`)
-        } else if (data.type === SearchResultType.Address) {
-          history.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.addressHash}`)
-        } else if (data.type === SearchResultType.LockHash) {
-          history.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lockHash}`)
-        } else if (data.type === SearchResultType.UDT) {
-          history.push(`/sudt/${query}`)
-        }
-      })
-      .catch((error: AxiosError) => {
-        setSearchContent(inputElement, query)
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.status === 404 &&
-          (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
-            return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
-          })
-        ) {
-          clearSearchInput(inputElement)
-          history.push(`/address/${query}`)
-        } else {
-          history.push(`/search/fail?q=${query}`)
-        }
-      })
   }
+
+  if (searchBarEditable) {
+    dispatch({
+      type: ComponentActions.UpdateHeaderSearchEditable,
+      payload: {
+        searchBarEditable: false,
+      },
+    })
+  }
+  setSearchLoading(inputElement)
+  fetchSearchResult(addPrefixForHash(query))
+    .then((response: any) => {
+      const { data } = response
+      if (!response || !data.type) {
+        history.push(`/search/fail?q=${query}`)
+        return
+      }
+      clearSearchInput(inputElement)
+      setSearchValue('')
+      if (data.type === SearchResultType.Block) {
+        history.push(`/block/${(data as Response.Wrapper<State.Block>).attributes.blockHash}`)
+      } else if (data.type === SearchResultType.Transaction) {
+        history.push(`/transaction/${(data as Response.Wrapper<State.Transaction>).attributes.transactionHash}`)
+      } else if (data.type === SearchResultType.Address) {
+        history.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.addressHash}`)
+      } else if (data.type === SearchResultType.LockHash) {
+        history.push(`/address/${(data as Response.Wrapper<State.Address>).attributes.lockHash}`)
+      } else if (data.type === SearchResultType.UDT) {
+        history.push(`/sudt/${query}`)
+      }
+    })
+    .catch((error: AxiosError) => {
+      setSearchContent(inputElement, query)
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.status === 404 &&
+        (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
+          return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
+        })
+      ) {
+        clearSearchInput(inputElement)
+        history.push(`/address/${query}`)
+      } else {
+        history.push(`/search/fail?q=${query}`)
+      }
+    })
 }
 
 const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean }) => {
