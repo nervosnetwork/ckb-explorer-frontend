@@ -50,19 +50,28 @@ export const MainnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0x24b04faf80ded836efc05247778eec4ec02548dab6e2012c0107374aa3f68b81'],
-    txHashes: ['0xb4c76f34382f03f39e2e39dd8a4cca037394bb3d032bde6a285c52e5a5e35535-0'],
+    txHashes: [
+      '0xb4c76f34382f03f39e2e39dd8a4cca037394bb3d032bde6a285c52e5a5e35535-0',
+      '0xd521f52a7f4f4f00a25f0f6924c439844574d77d228113077ee0c84dc60ad11d-0',
+    ],
     tag: 'm-nft_issuer',
     category: 'type',
   },
   {
     codeHashes: ['0xd51e6eaf48124c601f41abe173f1da550b4cbca9c6a166781906a287abbb3d9a'],
-    txHashes: ['0xc3b5ada764ed341d42f86aee3ec17d7ffdd6372155b41b95687a7957b359ab39-0'],
+    txHashes: [
+      '0xc3b5ada764ed341d42f86aee3ec17d7ffdd6372155b41b95687a7957b359ab39-0',
+      '0xd521f52a7f4f4f00a25f0f6924c439844574d77d228113077ee0c84dc60ad11d-1',
+    ],
     tag: 'm-nft_class',
     category: 'type',
   },
   {
     codeHashes: ['0x2b24f0d644ccbdd77bbf86b27c8cca02efa0ad051e447c212636d9ee7acaaec9'],
-    txHashes: ['0xaf35eb9ba88d0b159ba450cfcc9089796cc401bc4089a43de018c12f990909a5-0'],
+    txHashes: [
+      '0xaf35eb9ba88d0b159ba450cfcc9089796cc401bc4089a43de018c12f990909a5-0',
+      '0xd521f52a7f4f4f00a25f0f6924c439844574d77d228113077ee0c84dc60ad11d-2',
+    ],
     tag: 'm-nft',
     category: 'type',
   },
@@ -131,19 +140,28 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0xb59879b6ea6fff985223117fa499ce84f8cfb028c4ffdfdf5d3ec19e905a11ed'],
-    txHashes: ['0x744d2c4c4e6fabe66cfb08cb818532c50fffc682a7614746328c5d691a811c06-0'],
+    txHashes: [
+      '0x744d2c4c4e6fabe66cfb08cb818532c50fffc682a7614746328c5d691a811c06-0',
+      '0xbd262c87a84c08ea3bc141700cf55c1a285009de0e22c247a8d9597b4fc491e6-0',
+    ],
     tag: 'm-nft_issuer',
     category: 'type',
   },
   {
     codeHashes: ['0x095b8c0b4e51a45f953acd1fcd1e39489f2675b4bc94e7af27bb38958790e3fc'],
-    txHashes: ['0x4f27e40b302bcb3bf0af3deae460f46076de2b4db30c0212b14b341c20fcb330-0'],
+    txHashes: [
+      '0x4f27e40b302bcb3bf0af3deae460f46076de2b4db30c0212b14b341c20fcb330-0',
+      '0xbd262c87a84c08ea3bc141700cf55c1a285009de0e22c247a8d9597b4fc491e6-1',
+    ],
     tag: 'm-nft_class',
     category: 'type',
   },
   {
     codeHashes: ['0xb1837b5ad01a88558731953062d1f5cb547adf89ece01e8934a9f0aeed2d959f'],
-    txHashes: ['0x7f9e3c1a2fc90411eb90fc2363101f6bd7b33875c3535117db5e52cd8a78b313-0'],
+    txHashes: [
+      '0x7f9e3c1a2fc90411eb90fc2363101f6bd7b33875c3535117db5e52cd8a78b313-0',
+      '0xbd262c87a84c08ea3bc141700cf55c1a285009de0e22c247a8d9597b4fc491e6-2',
+    ],
     tag: 'm-nft',
     category: 'type',
   },
