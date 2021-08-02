@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, Suspense, lazy } from 'react'
+import { useEffect, useRef, Suspense, lazy } from 'react'
 import { BrowserRouter as Router, Route, Redirect, Switch, useLocation } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import Page from '../components/Page'
@@ -44,8 +44,8 @@ const TotalDaoDepositChart = lazy(() => import('../pages/StatisticsChart/nervosD
 const NewDaoDepositChart = lazy(() => import('../pages/StatisticsChart/nervosDao/NewDaoDeposit'))
 const CirculationRatioChart = lazy(() => import('../pages/StatisticsChart/nervosDao/CirculationRatio'))
 const TotalSupplyChart = lazy(() => import('../pages/StatisticsChart/monetary/TotalSupply'))
-const AnnualPercentageCompensationChart = lazy(() =>
-  import('../pages/StatisticsChart/monetary/AnnualPercentageCompensation'),
+const AnnualPercentageCompensationChart = lazy(
+  () => import('../pages/StatisticsChart/monetary/AnnualPercentageCompensation'),
 )
 const SecondaryIssuanceChart = lazy(() => import('../pages/StatisticsChart/monetary/SecondaryIssuance'))
 const InflationRateChart = lazy(() => import('../pages/StatisticsChart/monetary/InflationRate'))

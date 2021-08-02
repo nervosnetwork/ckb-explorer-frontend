@@ -1,4 +1,3 @@
-import React from 'react'
 import Search from '../../Search'
 import SearchLogo from '../../../assets/search_white.png'
 import { HeaderSearchPanel, HeaderSearchBarPanel } from './styled'

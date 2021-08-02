@@ -28,9 +28,7 @@ export const initAxiosInterceptors = (dispatch: AppDispatch, history: History) =
       }
       return config
     },
-    error => {
-      return Promise.reject(error)
-    },
+    error => Promise.reject(error),
   )
 
   axiosIns.interceptors.response.use(

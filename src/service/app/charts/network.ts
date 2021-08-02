@@ -10,12 +10,10 @@ export const getStatisticNewNodeCount = (dispatch: AppDispatch) => {
     (response: Response.Response<Response.Wrapper<State.StatisticNewNodeCount>[]> | null) => {
       if (!response) return
       const { data } = response
-      const statisticNewNodeCounts = data.map(wrapper => {
-        return {
-          nodesCount: wrapper.attributes.nodesCount ? wrapper.attributes.nodesCount : '0',
-          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-        }
-      })
+      const statisticNewNodeCounts = data.map(wrapper => ({
+        nodesCount: wrapper.attributes.nodesCount ? wrapper.attributes.nodesCount : '0',
+        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+      }))
       dispatch({
         type: PageActions.UpdateStatisticNewNodeCount,
         payload: {

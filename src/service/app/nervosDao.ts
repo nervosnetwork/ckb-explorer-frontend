@@ -69,9 +69,7 @@ export const getNervosDaoTransactions = (dispatch: AppDispatch, page: number, pa
       const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
       handleTransactionsResponse(
         dispatch,
-        data.map((wrapper: Response.Wrapper<State.Transaction>) => {
-          return wrapper.attributes
-        }),
+        data.map((wrapper: Response.Wrapper<State.Transaction>) => wrapper.attributes),
         meta === undefined ? 1 : meta.total,
       )
       handleNervosDAOStatus(dispatch, 'OK')
@@ -90,9 +88,7 @@ export const searchNervosDaoTransactions = (keyword: string, dispatch: AppDispat
         const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
         handleTransactionsResponse(
           dispatch,
-          data.map((wrapper: Response.Wrapper<State.Transaction>) => {
-            return wrapper.attributes
-          }),
+          data.map((wrapper: Response.Wrapper<State.Transaction>) => wrapper.attributes),
           meta === undefined ? 1 : meta.total,
         )
       })
@@ -118,9 +114,7 @@ export const getNervosDaoDepositors = (dispatch: AppDispatch) => {
     dispatch({
       type: PageActions.UpdateNervosDaoDepositors,
       payload: {
-        depositors: data.map((wrapper: Response.Wrapper<State.NervosDaoDepositor>) => {
-          return wrapper.attributes
-        }),
+        depositors: data.map((wrapper: Response.Wrapper<State.NervosDaoDepositor>) => wrapper.attributes),
       },
     })
   })

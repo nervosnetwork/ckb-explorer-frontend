@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import CopyIcon from '../../../assets/copy.png'

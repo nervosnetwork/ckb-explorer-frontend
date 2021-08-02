@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import { CellType } from '../../../constants/common'
@@ -10,8 +9,8 @@ import { isMainnet } from '../../../utils/chain'
 import i18n from '../../../utils/i18n'
 import { RightArrowImage, LeftArrowImage } from './styled'
 
-const CellInputIcon = ({ cell }: { cell: State.Cell }) => {
-  return cell.generatedTxHash ? (
+const CellInputIcon = ({ cell }: { cell: State.Cell }) =>
+  cell.generatedTxHash ? (
     <Link to={`/transaction/${cell.generatedTxHash}#${cell.cellIndex}`}>
       <LeftArrowImage
         className="transaction__cell_left_arrow"
@@ -20,7 +19,6 @@ const CellInputIcon = ({ cell }: { cell: State.Cell }) => {
       />
     </Link>
   ) : null
-}
 
 const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
   if (cell.status === 'dead') {
@@ -37,6 +35,5 @@ const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
   )
 }
 
-export default ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
-  return cellType === CellType.Input ? <CellInputIcon cell={cell} /> : <CellOutputIcon cell={cell} />
-}
+export default ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) =>
+  cellType === CellType.Input ? <CellInputIcon cell={cell} /> : <CellOutputIcon cell={cell} />

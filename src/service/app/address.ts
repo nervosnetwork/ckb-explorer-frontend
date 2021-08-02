@@ -61,10 +61,7 @@ export const getTransactionsByAddress = (hash: string, page: number, size: numbe
       dispatch({
         type: PageActions.UpdateAddressTransactions,
         payload: {
-          transactions:
-            data.map((wrapper: Response.Wrapper<State.Transaction>) => {
-              return wrapper.attributes
-            }) || [],
+          transactions: data.map((wrapper: Response.Wrapper<State.Transaction>) => wrapper.attributes) || [],
         },
       })
       dispatch({

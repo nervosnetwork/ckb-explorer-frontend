@@ -1,3 +1,4 @@
+import React from 'react'
 import StateActions, { AppActions, PageActions, ComponentActions } from '../actions'
 import appReducer from './app'
 import pageReducer from './page'

@@ -1,5 +1,4 @@
 /* eslint-disable object-curly-newline */
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { isMobile } from '../../../utils/screen'
 import i18n from '../../../utils/i18n'
@@ -13,39 +12,37 @@ export enum LinkType {
   Outer,
 }
 
-const menuDataList = () => {
-  return [
-    {
-      type: LinkType.Inner,
-      name: i18n.t('navbar.home'),
-      url: '/',
-    },
-    {
-      type: LinkType.Inner,
-      name: i18n.t('navbar.nervos_dao'),
-      url: '/nervosdao',
-    },
-    !isMainnet()
-      ? {
-          type: LinkType.Inner,
-          name: i18n.t('navbar.tokens'),
-          url: '/tokens',
-        }
-      : {},
-    {
-      type: LinkType.Inner,
-      name: i18n.t('navbar.charts'),
-      url: '/charts',
-    },
-    !isMainnet()
-      ? {
-          type: LinkType.Outer,
-          name: i18n.t('navbar.faucet'),
-          url: 'https://faucet.nervos.org/',
-        }
-      : {},
-  ]
-}
+const menuDataList = () => [
+  {
+    type: LinkType.Inner,
+    name: i18n.t('navbar.home'),
+    url: '/',
+  },
+  {
+    type: LinkType.Inner,
+    name: i18n.t('navbar.nervos_dao'),
+    url: '/nervosdao',
+  },
+  !isMainnet()
+    ? {
+        type: LinkType.Inner,
+        name: i18n.t('navbar.tokens'),
+        url: '/tokens',
+      }
+    : {},
+  {
+    type: LinkType.Inner,
+    name: i18n.t('navbar.charts'),
+    url: '/charts',
+  },
+  !isMainnet()
+    ? {
+        type: LinkType.Outer,
+        name: i18n.t('navbar.faucet'),
+        url: 'https://faucet.nervos.org/',
+      }
+    : {},
+]
 
 const urlPrefix = isMainnet() ? '' : `/${CONFIG.TESTNET_NAME}`
 const MenuItemLink = ({ menu }: { menu: any }) => {
@@ -61,21 +58,21 @@ const MenuItemLink = ({ menu }: { menu: any }) => {
   )
 }
 
-export default () => {
-  return isMobile() ? (
+export default () =>
+  isMobile() ? (
     <MobileMenuItem>
       {menuDataList()
         .filter(menu => menu.name !== undefined)
-        .map(menu => {
-          return <MenuItemLink menu={menu} key={menu.name} />
-        })}
+        .map(menu => (
+          <MenuItemLink menu={menu} key={menu.name} />
+        ))}
     </MobileMenuItem>
   ) : (
     <HeaderMenuPanel>
       {menuDataList()
         .filter(menu => menu.name !== undefined)
-        .map(menu => {
-          return menu.type === LinkType.Inner ? (
+        .map(menu =>
+          menu.type === LinkType.Inner ? (
             <Link className="header__menus__item" to={menu.url} key={menu.name}>
               {menu.name}
             </Link>
@@ -89,8 +86,7 @@ export default () => {
             >
               {menu.name}
             </a>
-          )
-        })}
+          ),
+        )}
     </HeaderMenuPanel>
   )
-}

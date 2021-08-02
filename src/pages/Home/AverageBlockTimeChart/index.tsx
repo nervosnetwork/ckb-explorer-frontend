@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useEffect } from 'react'
+import { useCallback, useRef, useEffect } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
@@ -20,93 +20,91 @@ const stepAxis = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[])
   return Number((Math.floor((max - min) / 3) / 1000).toFixed())
 }
 
-const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]): echarts.EChartOption => {
-  return {
-    color: ['#ffffff'],
-    title: {
-      text: i18n.t('statistic.average_block_time_title'),
-      textAlign: 'left',
-      itemGap: 15,
-      textStyle: {
-        color: '#ffffff',
-        fontSize: 12,
-        fontWeight: 'lighter',
-        fontFamily: 'Lato',
-      },
+const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]): echarts.EChartOption => ({
+  color: ['#ffffff'],
+  title: {
+    text: i18n.t('statistic.average_block_time_title'),
+    textAlign: 'left',
+    itemGap: 15,
+    textStyle: {
+      color: '#ffffff',
+      fontSize: 12,
+      fontWeight: 'lighter',
+      fontFamily: 'Lato',
     },
-    grid: {
-      left: isScreenSmallerThan1200() ? '1%' : '2%',
-      right: '3%',
-      top: isScreenSmallerThan1200() ? '20%' : '15%',
-      bottom: '2%',
-      containLabel: true,
-    },
-    backgroundColor: '#00000000',
-    xAxis: [
-      {
-        axisLine: {
-          lineStyle: {
-            color: '#ffffff',
-            width: 1,
-          },
-        },
-        data: statisticAverageBlockTimes.map(data => data.timestamp),
-        axisLabel: {
-          formatter: (value: string) => parseDateNoTime(value, true),
-        },
-      },
-    ],
-    yAxis: [
-      {
-        position: 'left',
-        type: 'value',
-        scale: true,
-        nameTextStyle: {
-          align: 'left',
-        },
-        splitLine: {
-          lineStyle: {
-            color: '#ffffff',
-            width: 0.5,
-          },
-        },
-        interval: stepAxis(statisticAverageBlockTimes),
-        axisLine: {
-          lineStyle: {
-            color: '#ffffff',
-            width: 1,
-          },
-        },
-        axisLabel: {
-          formatter: (value: string) => localeNumberString(value),
-        },
-      },
-      {
-        position: 'right',
-        type: 'value',
-        axisLine: {
-          lineStyle: {
-            color: '#ffffff',
-            width: 1,
-          },
-        },
-      },
-    ],
-    series: [
-      {
-        name: i18n.t('statistic.daily_moving_average'),
-        type: 'line',
-        yAxisIndex: 0,
+  },
+  grid: {
+    left: isScreenSmallerThan1200() ? '1%' : '2%',
+    right: '3%',
+    top: isScreenSmallerThan1200() ? '20%' : '15%',
+    bottom: '2%',
+    containLabel: true,
+  },
+  backgroundColor: '#00000000',
+  xAxis: [
+    {
+      axisLine: {
         lineStyle: {
           color: '#ffffff',
           width: 1,
         },
-        symbol: 'none',
-        data: statisticAverageBlockTimes.map(data => (Number(data.avgBlockTimeDaily) / 1000).toFixed(2)),
       },
-    ],
-  }
-}
+      data: statisticAverageBlockTimes.map(data => data.timestamp),
+      axisLabel: {
+        formatter: (value: string) => parseDateNoTime(value, true),
+      },
+    },
+  ],
+  yAxis: [
+    {
+      position: 'left',
+      type: 'value',
+      scale: true,
+      nameTextStyle: {
+        align: 'left',
+      },
+      splitLine: {
+        lineStyle: {
+          color: '#ffffff',
+          width: 0.5,
+        },
+      },
+      interval: stepAxis(statisticAverageBlockTimes),
+      axisLine: {
+        lineStyle: {
+          color: '#ffffff',
+          width: 1,
+        },
+      },
+      axisLabel: {
+        formatter: (value: string) => localeNumberString(value),
+      },
+    },
+    {
+      position: 'right',
+      type: 'value',
+      axisLine: {
+        lineStyle: {
+          color: '#ffffff',
+          width: 1,
+        },
+      },
+    },
+  ],
+  series: [
+    {
+      name: i18n.t('statistic.daily_moving_average'),
+      type: 'line',
+      yAxisIndex: 0,
+      lineStyle: {
+        color: '#ffffff',
+        width: 1,
+      },
+      symbol: 'none',
+      data: statisticAverageBlockTimes.map(data => (Number(data.avgBlockTimeDaily) / 1000).toFixed(2)),
+    },
+  ],
+})
 
 export default () => {
   const dispatch = useDispatch()

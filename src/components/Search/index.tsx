@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { useHistory } from 'react-router'
 import { History } from 'history'
 import { AxiosError } from 'axios'
@@ -110,9 +110,9 @@ const handleSearchResult = (
         error.response &&
         error.response.data &&
         error.response.status === 404 &&
-        (error.response.data as Response.Error[]).find((errorData: Response.Error) => {
-          return errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS
-        })
+        (error.response.data as Response.Error[]).find(
+          (errorData: Response.Error) => errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS,
+        )
       ) {
         clearSearchInput(inputElement)
         history.push(`/address/${query}`)
@@ -126,9 +126,7 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
   const dispatch = useDispatch()
   const history = useHistory()
   const [t] = useTranslation()
-  const SearchPlaceholder = useMemo(() => {
-    return t('navbar.search_placeholder')
-  }, [t])
+  const SearchPlaceholder = useMemo(() => t('navbar.search_placeholder'), [t])
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
   const inputElement = useRef<HTMLInputElement>(null)
@@ -177,13 +175,11 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
     }
   }
 
-  const ImageIcon = ({ isClear }: { isClear?: boolean }) => {
-    return (
-      <SearchImage isClear={isClear} onClick={() => clearSearchAction(isClear)}>
-        <img src={isClear ? ClearLogo : SearchLogo} alt="search logo" />
-      </SearchImage>
-    )
-  }
+  const ImageIcon = ({ isClear }: { isClear?: boolean }) => (
+    <SearchImage isClear={isClear} onClick={() => clearSearchAction(isClear)}>
+      <img src={isClear ? ClearLogo : SearchLogo} alt="search logo" />
+    </SearchImage>
+  )
 
   return (
     <SearchContainer>

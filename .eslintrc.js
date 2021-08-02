@@ -2,6 +2,11 @@ module.exports = {
   extends: ['airbnb', 'plugin:prettier/recommended'],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint', 'react-hooks'],
+  globals: {
+    State: 'true',
+    CustomRouter: 'true',
+    echarts: 'true',
+  },
   rules: {
     'prettier/prettier': [
       2,
@@ -92,6 +97,7 @@ module.exports = {
     'react/require-default-props': [0],
     'no-shadow': 'off',
     'react/prop-types': [0],
+    'react/react-in-jsx-scope': 'off',
     'react/jsx-wrap-multilines': [
       'error',
       {
@@ -101,6 +107,9 @@ module.exports = {
     'no-console': ['error', { allow: ['error'] }],
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'import/prefer-default-export': 'off',
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': ['error'],
     camelcase: [
       'error',
       {

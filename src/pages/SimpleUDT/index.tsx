@@ -1,5 +1,5 @@
 import queryString from 'query-string'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, useLocation, useHistory } from 'react-router-dom'
 import Loading from '../../components/Loading'
 import SimpleUDTHashCard from '../../components/Card/HashCard'
@@ -32,18 +32,16 @@ const typeScriptIcon = (show: boolean) => {
   return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
 }
 
-const UDTTitleSearchComp = ({ typeHash, total }: { typeHash: string; total: number }) => {
-  return (
-    <UDTTransactionTitlePanel>
-      <div className="udt__transaction__container">
-        <div className="udt__transaction__title">
-          {`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`}
-        </div>
-        <Filter typeHash={typeHash} filterType={FilterType.UDT} />
+const UDTTitleSearchComp = ({ typeHash, total }: { typeHash: string; total: number }) => (
+  <UDTTransactionTitlePanel>
+    <div className="udt__transaction__container">
+      <div className="udt__transaction__title">
+        {`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`}
       </div>
-    </UDTTransactionTitlePanel>
-  )
-}
+      <Filter typeHash={typeHash} filterType={FilterType.UDT} />
+    </div>
+  </UDTTransactionTitlePanel>
+)
 
 const SimpleUDTCompState = ({
   currentPage,

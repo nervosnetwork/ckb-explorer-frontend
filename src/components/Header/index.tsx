@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useLocation } from 'react-router'
 import LogoIcon from '../../assets/ckb_logo.png'
 import { HeaderPanel, HeaderEmptyPanel, HeaderMobileMenuPanel, HeaderLogoPanel } from './styled'
@@ -11,13 +11,11 @@ import LanguageComp from './LanguageComp'
 import BlockchainComp from './BlockchainComp'
 import { currentLanguage } from '../../utils/i18n'
 
-const LogoComp = () => {
-  return (
-    <HeaderLogoPanel to="/">
-      <img src={LogoIcon} alt="logo" />
-    </HeaderLogoPanel>
-  )
-}
+const LogoComp = () => (
+  <HeaderLogoPanel to="/">
+    <img src={LogoIcon} alt="logo" />
+  </HeaderLogoPanel>
+)
 
 const MobileMenuComp = () => {
   const dispatch = useDispatch()

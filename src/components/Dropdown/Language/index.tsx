@@ -1,4 +1,3 @@
-import React from 'react'
 import i18n, { currentLanguage, changeLanguage } from '../../../utils/i18n'
 import { useDispatch } from '../../../contexts/providers'
 import { AppActions } from '../../../contexts/actions'

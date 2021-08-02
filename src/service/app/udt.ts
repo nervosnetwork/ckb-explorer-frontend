@@ -49,10 +49,7 @@ export const getSimpleUDTTransactions = (typeHash: string, page: number, size: n
       dispatch({
         type: PageActions.UpdateUDTTransactions,
         payload: {
-          transactions:
-            data.map((wrapper: Response.Wrapper<State.Transaction>) => {
-              return wrapper.attributes
-            }) || [],
+          transactions: data.map((wrapper: Response.Wrapper<State.Transaction>) => wrapper.attributes) || [],
         },
       })
       dispatch({
@@ -95,10 +92,7 @@ export const getUDTTransactionsWithAddress = (
       dispatch({
         type: PageActions.UpdateUDTTransactions,
         payload: {
-          transactions:
-            data.map((wrapper: Response.Wrapper<State.Transaction>) => {
-              return wrapper.attributes
-            }) || [],
+          transactions: data.map((wrapper: Response.Wrapper<State.Transaction>) => wrapper.attributes) || [],
         },
       })
       dispatch({
