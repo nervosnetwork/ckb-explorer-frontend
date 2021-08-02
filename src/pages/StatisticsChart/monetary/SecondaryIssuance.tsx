@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 import React, { useEffect } from 'react'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'

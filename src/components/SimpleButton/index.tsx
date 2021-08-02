@@ -26,10 +26,14 @@ export default ({
       tabIndex={-1}
       onKeyDown={() => {}}
       onMouseOver={(event: any) => {
-        onMouseOver && onMouseOver(event)
+        if (onMouseOver) {
+          onMouseOver(event)
+        }
       }}
       onClick={(event: any) => {
-        onClick && onClick(event)
+        if (onClick) {
+          onClick(event)
+        }
       }}
     >
       {children}

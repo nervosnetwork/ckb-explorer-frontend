@@ -32,7 +32,8 @@ export default ({
   const mobileHash = () => {
     if (specialAddress) {
       return adaptMobileEllipsis(hash, 3)
-    } else if (iconUri) {
+    }
+    if (iconUri) {
       return adaptMobileEllipsis(hash, 11)
     }
     return adaptMobileEllipsis(hash, 4)

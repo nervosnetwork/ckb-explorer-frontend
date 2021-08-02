@@ -27,14 +27,14 @@ export const chainUrl = () => {
 export default ({ address }: { address?: string }) => {
   const { search } = useLocation()
   const parsed = queryString.parse(search)
-  let { q, type } = parsed
-  q = address ? address : q
+  const { q, type } = parsed
+  const query = address || q
 
   return (
     <Content>
       <SearchPanel className="container">
         <div className="search__fail__bar">
-          <Search content={q as string} hasButton />
+          <Search content={query as string} hasButton />
         </div>
         <SearchContent>
           {(type && type === SearchFailType.CHAIN_ERROR) || address ? (

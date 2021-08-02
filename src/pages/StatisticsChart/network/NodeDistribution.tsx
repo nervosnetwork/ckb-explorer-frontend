@@ -87,8 +87,8 @@ const getOption = (
         data: statisticNodeDistributions,
         symbolSize: (value: number[]) => {
           if (value[2] < 5) return 8
-          else if (value[2] < 10) return 15
-          else return 15 + value[2] / 10
+          if (value[2] < 10) return 15
+          return 15 + value[2] / 10
         },
         encode: {
           value: 2,

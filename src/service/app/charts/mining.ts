@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import BigNumber from 'bignumber.js'
 import {
   fetchStatisticDifficultyHashRate,

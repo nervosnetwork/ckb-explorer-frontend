@@ -131,4 +131,5 @@ const tooltipColor = (color: string) =>
 const tooltipWidth = (value: string, width: number) =>
   `<span style="width:${width}px;display:inline-block;">${value}:</span>`
 
+// eslint-disable-next-line object-curly-newline
 export { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth }

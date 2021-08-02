@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useEffect, useState, ReactNode } from 'react'
 import { fetchCellData, fetchScript } from '../../../service/http/fetcher'
 import { CellState } from '../../../constants/common'

@@ -79,6 +79,8 @@ const BlockMinerReward = ({
         <div
           className="block__miner__reward_tip"
           role="button"
+          tabIndex={-1}
+          onKeyDown={() => {}}
           onClick={() => {
             if (sentBlockNumber) {
               history.push(`/block/${sentBlockNumber}#cellbase`)
