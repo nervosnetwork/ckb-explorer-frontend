@@ -217,10 +217,10 @@ exports[`Active Page shallow renders 1`] = `
 
 exports[`Active Page shallow renders with empty data 1`] = `
 <div
-  className="sc-fznWqX bxquRW"
+  className="sc-kfYoZR hwkjfX"
 >
   <div
-    className="sc-AxirZ fjPCes container"
+    className="sc-gtsrHT ceFuCY container"
   >
     <div
       className="chart__detail__title__panel"
@@ -237,13 +237,13 @@ exports[`Active Page shallow renders with empty data 1`] = `
     </div>
   </div>
   <div
-    className="sc-AxjAm iOvncR container"
+    className="sc-bdnxRM kIEqkD container"
   >
     <div
-      className="sc-AxiKw gFWLeZ"
+      className="sc-dlnjwi cUGIXh"
     >
       <div
-        className="sc-AxgMl czXIeR"
+        className="sc-jSFjdj iRHWkb"
       >
         <img
           alt="loading"

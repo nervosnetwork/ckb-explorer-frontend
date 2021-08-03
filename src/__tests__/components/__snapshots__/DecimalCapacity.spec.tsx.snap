@@ -2,18 +2,18 @@
 
 exports[`DecimalCapacity Component shallow renders 1`] = `
 <div
-  className="sc-AxjAm LntHf"
+  className="sc-bdnxRM dqBRPR"
 >
   <span>
     128
   </span>
   <div
-    className="sc-AxirZ gyUmOw monospace"
+    className="sc-gtsrHT hYceg monospace"
   >
     .1234
   </div>
   <div
-    className="sc-AxiKw bWoPvU monospace"
+    className="sc-dlnjwi huabTw monospace"
   >
     0000
   </div>

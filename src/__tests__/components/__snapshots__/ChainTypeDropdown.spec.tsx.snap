@@ -2,11 +2,11 @@
 
 exports[`ChainType Dropdown Component shallow renders 1`] = `
 <div
-  className="sc-AxjAm bPbtao"
+  className="sc-bdnxRM ruRUW"
   onMouseLeave={[Function]}
 >
   <div
-    className="sc-AxirZ bPoBOq chain__type__selected"
+    className="sc-gtsrHT kcdbmG chain__type__selected"
     onClick={[Function]}
     onKeyDown={[Function]}
     onMouseOver={[Function]}
@@ -23,7 +23,7 @@ exports[`ChainType Dropdown Component shallow renders 1`] = `
     className="chain__type__separate"
   />
   <div
-    className="sc-AxirZ bPoBOq chain__type__normal"
+    className="sc-gtsrHT kcdbmG chain__type__normal"
     onClick={[Function]}
     onKeyDown={[Function]}
     onMouseOver={[Function]}

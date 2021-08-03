@@ -2,7 +2,7 @@
 
 exports[`HashCard Component shallow renders 1`] = `
 <div
-  className="sc-AxirZ fLjtXu"
+  className="sc-gtsrHT hYSdgq"
 >
   <div
     className="hash__card__content__panel"
@@ -26,7 +26,7 @@ exports[`HashCard Component shallow renders 1`] = `
         </span>
       </div>
       <div
-        className="sc-AxhCb dnXiiO hash__copy_icon"
+        className="sc-hKFxyN fZULHG hash__copy_icon"
         onClick={[Function]}
         onKeyDown={[Function]}
         onMouseOver={[Function]}
@@ -52,7 +52,7 @@ exports[`HashCard Component shallow renders 1`] = `
 
 exports[`HashCard Component shallow renders 2`] = `
 <div
-  className="sc-AxirZ fLjtXu"
+  className="sc-gtsrHT hYSdgq"
 >
   <div
     className="hash__card__content__panel"
@@ -67,10 +67,10 @@ exports[`HashCard Component shallow renders 2`] = `
       className="hash__card__hash__content"
     >
       <div
-        className="sc-AxiKw hSLCUF"
+        className="sc-dlnjwi DTPRZ"
       >
         <div
-          className="sc-AxjAm feiBFQ"
+          className="sc-bdnxRM iRAyPm"
         >
           <img
             alt="loading"
@@ -79,7 +79,7 @@ exports[`HashCard Component shallow renders 2`] = `
         </div>
       </div>
       <div
-        className="sc-AxhCb dnXiiO hash__copy_icon"
+        className="sc-hKFxyN fZULHG hash__copy_icon"
         onClick={[Function]}
         onKeyDown={[Function]}
         onMouseOver={[Function]}

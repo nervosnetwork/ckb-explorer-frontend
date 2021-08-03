@@ -2,7 +2,7 @@
 
 exports[`Loading Component shallow renders 1`] = `
 <div
-  className="sc-AxjAm eSXaVp"
+  className="sc-bdnxRM bYhsjP"
 >
   <img
     alt="loading"
@@ -13,7 +13,7 @@ exports[`Loading Component shallow renders 1`] = `
 
 exports[`Loading Component shallow renders 2`] = `
 <div
-  className="sc-AxirZ jZZxMz"
+  className="sc-gtsrHT KCwSX"
 >
   <img
     alt="loading"
