@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import TransactionHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'

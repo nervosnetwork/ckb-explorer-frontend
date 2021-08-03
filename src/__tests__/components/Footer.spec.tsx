@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import renderer from 'react-test-renderer'
 import Footer from '../../components/Footer'
 

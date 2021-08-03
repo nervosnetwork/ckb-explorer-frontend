@@ -1,4 +1,4 @@
-import React, { useEffect, ReactNode } from 'react'
+import { useEffect, ReactNode } from 'react'
 import { Tooltip } from 'antd'
 import { Link, useHistory } from 'react-router-dom'
 import Pagination from '../../components/Pagination'
@@ -100,16 +100,17 @@ export const SimpleUDTComp = ({
     history.replace(`/sudt/${typeHash}?page=${page}&size=${pageSize}`)
   }
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       dispatch({
         type: ComponentActions.UpdateFilterNoResult,
         payload: {
           filterNoResult: false,
         },
       })
-    }
-  }, [dispatch])
+    },
+    [dispatch],
+  )
 
   if (filterNoResult) {
     return (
@@ -121,8 +122,8 @@ export const SimpleUDTComp = ({
   return (
     <>
       <SimpleUDTTransactionsPanel>
-        {transactions.map((transaction: State.Transaction, index: number) => {
-          return (
+        {transactions.map(
+          (transaction: State.Transaction, index: number) =>
             transaction && (
               <TransactionItem
                 transaction={transaction}
@@ -131,9 +132,8 @@ export const SimpleUDTComp = ({
                   bottom: index === transactions.length - 1 && totalPages === 1,
                 }}
               />
-            )
-          )
-        })}
+            ),
+        )}
       </SimpleUDTTransactionsPanel>
       {totalPages > 1 && (
         <SimpleUDTTransactionsPagination>

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 
 const ButtonPanel = styled.div`
@@ -17,22 +17,24 @@ export default ({
   onClick?: Function
   onMouseOver?: Function
   children: ReactNode | string
-}) => {
-  return (
-    <ButtonPanel
-      id={id}
-      className={className}
-      role="button"
-      tabIndex={-1}
-      onKeyDown={() => {}}
-      onMouseOver={(event: any) => {
-        onMouseOver && onMouseOver(event)
-      }}
-      onClick={(event: any) => {
-        onClick && onClick(event)
-      }}
-    >
-      {children}
-    </ButtonPanel>
-  )
-}
+}) => (
+  <ButtonPanel
+    id={id}
+    className={className}
+    role="button"
+    tabIndex={-1}
+    onKeyDown={() => {}}
+    onMouseOver={(event: any) => {
+      if (onMouseOver) {
+        onMouseOver(event)
+      }
+    }}
+    onClick={(event: any) => {
+      if (onClick) {
+        onClick(event)
+      }
+    }}
+  >
+    {children}
+  </ButtonPanel>
+)

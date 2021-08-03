@@ -1,8 +1,8 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
-import { HighLightLink } from '../../components/Text'
 import { BrowserRouter } from 'react-router-dom'
+import { HighLightLink } from '../../components/Text'
 
 describe('Text Component', () => {
   let component: ReactElement

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 import { useAppState } from '../../contexts/providers'
 import MobileMenu from '../Header/MobileMenu'

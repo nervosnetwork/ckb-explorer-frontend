@@ -1,10 +1,9 @@
-import React from 'react'
+import { Link } from 'react-router-dom'
+import { Tooltip } from 'antd'
 import { CellbasePanel } from './styled'
 import { CellType } from '../../../constants/common'
 import TransactionCellArrow from '../TransactionCellArrow'
 import { localeNumberString } from '../../../utils/number'
-import { Link } from 'react-router-dom'
-import { Tooltip } from 'antd'
 import HelpIcon from '../../../assets/qa_help.png'
 import i18n from '../../../utils/i18n'
 

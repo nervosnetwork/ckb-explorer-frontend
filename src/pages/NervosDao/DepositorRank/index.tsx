@@ -1,4 +1,3 @@
-import React from 'react'
 import { Tooltip } from 'antd'
 import { useAppState } from '../../../contexts/providers'
 import { localeNumberString } from '../../../utils/number'
@@ -66,15 +65,13 @@ export default () => {
   return isMobile() ? (
     <DepositorRankCardPanel>
       {depositors
-        .map(depositor => {
-          return {
-            ...depositor,
-            addressHash: adaptMobileEllipsis(depositor.addressHash, 8),
-          }
-        })
-        .map((depositor: State.NervosDaoDepositor, index: number) => {
-          return <ItemCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index)} />
-        })}
+        .map(depositor => ({
+          ...depositor,
+          addressHash: adaptMobileEllipsis(depositor.addressHash, 8),
+        }))
+        .map((depositor: State.NervosDaoDepositor, index: number) => (
+          <ItemCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index)} />
+        ))}
     </DepositorRankCardPanel>
   ) : (
     <DepositorRankPanel>
@@ -85,18 +82,16 @@ export default () => {
         <div>{i18n.t('nervos_dao.dao_title_deposit_time')}</div>
       </DepositorRankTitle>
       <DepositorSeparate />
-      {depositors.map((depositor: State.NervosDaoDepositor, index: number) => {
-        return (
-          <DepositorRankItem key={depositor.addressHash}>
-            <div>{index + 1}</div>
-            <AddressText address={depositor.addressHash} />
-            <div>
-              <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />
-            </div>
-            <div>{handleBigNumber(depositor.averageDepositTime, 1)}</div>
-          </DepositorRankItem>
-        )
-      })}
+      {depositors.map((depositor: State.NervosDaoDepositor, index: number) => (
+        <DepositorRankItem key={depositor.addressHash}>
+          <div>{index + 1}</div>
+          <AddressText address={depositor.addressHash} />
+          <div>
+            <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />
+          </div>
+          <div>{handleBigNumber(depositor.averageDepositTime, 1)}</div>
+        </DepositorRankItem>
+      ))}
     </DepositorRankPanel>
   )
 }

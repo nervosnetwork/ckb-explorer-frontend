@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import Content from '../../components/Content'
 import PC404mage from '../../assets/pc_404.png'
@@ -32,12 +31,10 @@ const get404Image = () => {
   return isMobile() ? MobileBlue404Image : PCBlue404Image
 }
 
-export default () => {
-  return (
-    <Content>
-      <NotFoundPanel className="container">
-        <NotFoundImage src={get404Image()} alt="404" />
-      </NotFoundPanel>
-    </Content>
-  )
-}
+export default () => (
+  <Content>
+    <NotFoundPanel className="container">
+      <NotFoundImage src={get404Image()} alt="404" />
+    </NotFoundPanel>
+  </Content>
+)

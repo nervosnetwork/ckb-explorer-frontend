@@ -2,10 +2,10 @@
 
 exports[`Footer Component shallow renders 1`] = `
 <div
-  className="sc-AxjAm grmmOl"
+  className="sc-bdnxRM cTrDrP"
 >
   <div
-    className="sc-AxirZ RJiDd"
+    className="sc-gtsrHT fkbsHt"
   >
     <div
       className="footer__foundation"
@@ -16,7 +16,7 @@ exports[`Footer Component shallow renders 1`] = `
         Foundation
       </div>
       <a
-        className="sc-AxiKw dTWoaG"
+        className="sc-dlnjwi dXgdGy"
         href="https://www.nervos.org/"
         rel="noopener noreferrer"
         target="_blank"
@@ -33,7 +33,7 @@ exports[`Footer Component shallow renders 1`] = `
         Developer
       </div>
       <a
-        className="sc-AxiKw dTWoaG"
+        className="sc-dlnjwi dXgdGy"
         href="https://docs.nervos.org"
         rel="noopener noreferrer"
         target="_blank"
@@ -41,7 +41,7 @@ exports[`Footer Component shallow renders 1`] = `
         Docs
       </a>
       <a
-        className="sc-AxiKw dTWoaG"
+        className="sc-dlnjwi dXgdGy"
         href="https://github.com/nervosnetwork"
         rel="noopener noreferrer"
         target="_blank"
@@ -49,7 +49,7 @@ exports[`Footer Component shallow renders 1`] = `
         GitHub
       </a>
       <a
-        className="sc-AxiKw dTWoaG"
+        className="sc-dlnjwi dXgdGy"
         href="https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0002-ckb/0002-ckb.md"
         rel="noopener noreferrer"
         target="_blank"
@@ -57,7 +57,7 @@ exports[`Footer Component shallow renders 1`] = `
         Whitepaper
       </a>
       <a
-        className="sc-AxiKw dTWoaG"
+        className="sc-dlnjwi dXgdGy"
         href="https://faucet.nervos.org/"
         rel="noopener noreferrer"
         target="_blank"
@@ -65,7 +65,7 @@ exports[`Footer Component shallow renders 1`] = `
         Faucet
       </a>
       <a
-        className="sc-AxiKw dTWoaG"
+        className="sc-dlnjwi dXgdGy"
         href="mailto:asset-info-submit@nervina.io?subject=Submit Token Info&body=
 Title: Submit Token Information%0a%0d
 Type Script:%0a%0d
@@ -95,7 +95,7 @@ Note: Only accept sUDT information submission now.
     >
       <div>
         <a
-          className="sc-AxhCb dindIV"
+          className="sc-hKFxyN gjZshF"
           href="https://twitter.com/nervosnetwork"
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
@@ -111,7 +111,7 @@ Note: Only accept sUDT information submission now.
           </span>
         </a>
         <a
-          className="sc-AxhCb dindIV"
+          className="sc-hKFxyN gjZshF"
           href="https://medium.com/nervosnetwork"
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
@@ -127,7 +127,7 @@ Note: Only accept sUDT information submission now.
           </span>
         </a>
         <a
-          className="sc-AxhCb dindIV"
+          className="sc-hKFxyN gjZshF"
           href="https://t.me/nervosnetwork"
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
@@ -145,7 +145,7 @@ Note: Only accept sUDT information submission now.
       </div>
       <div>
         <a
-          className="sc-AxhCb dindIV"
+          className="sc-hKFxyN gjZshF"
           href="https://www.reddit.com/r/NervosNetwork/"
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
@@ -161,7 +161,7 @@ Note: Only accept sUDT information submission now.
           </span>
         </a>
         <a
-          className="sc-AxhCb dindIV"
+          className="sc-hKFxyN gjZshF"
           href="https://www.youtube.com/channel/UCONuJGdMzUY0Y6jrPBOzH7A"
           onMouseLeave={[Function]}
           onMouseOver={[Function]}
@@ -177,7 +177,7 @@ Note: Only accept sUDT information submission now.
           </span>
         </a>
         <a
-          className="sc-AxhCb dindIV"
+          className="sc-hKFxyN gjZshF"
           href="https://talk.nervos.org/"
           onMouseLeave={[Function]}
           onMouseOver={[Function]}

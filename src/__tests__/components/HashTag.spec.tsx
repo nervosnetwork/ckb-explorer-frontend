@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import renderer from 'react-test-renderer'
 import 'jest-styled-components'
 import HashTag from '../../components/HashTag'

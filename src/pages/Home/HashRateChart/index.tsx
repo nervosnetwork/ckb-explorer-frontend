@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useRef } from 'react'
+import { useEffect, useCallback, useRef } from 'react'
 import BigNumber from 'bignumber.js'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
@@ -21,89 +21,87 @@ const stepAxis = (statisticHashRates: State.StatisticHashRate[]) => {
   return Math.floor((max - min) / 3)
 }
 
-const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChartOption => {
-  return {
-    color: ['#ffffff'],
-    title: {
-      text: i18n.t('block.hash_rate_hps'),
-      textAlign: 'left',
-      itemGap: 15,
-      textStyle: {
-        color: '#ffffff',
-        fontSize: 12,
-        fontWeight: 'lighter',
-        fontFamily: 'Lato',
-      },
+const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChartOption => ({
+  color: ['#ffffff'],
+  title: {
+    text: i18n.t('block.hash_rate_hps'),
+    textAlign: 'left',
+    itemGap: 15,
+    textStyle: {
+      color: '#ffffff',
+      fontSize: 12,
+      fontWeight: 'lighter',
+      fontFamily: 'Lato',
     },
-    grid: {
-      left: isScreenSmallerThan1200() ? '1%' : '2%',
-      right: '3%',
-      top: isScreenSmallerThan1200() ? '20%' : '15%',
-      bottom: '2%',
-      containLabel: true,
-    },
-    xAxis: [
-      {
-        axisLine: {
-          lineStyle: {
-            color: '#ffffff',
-            width: 1,
-          },
-        },
-        data: statisticHashRates.map(data => data.createdAtUnixtimestamp),
-        axisLabel: {
-          formatter: (value: string) => parseDateNoTime(value, true),
-        },
-      },
-    ],
-    yAxis: [
-      {
-        position: 'left',
-        type: 'value',
-        scale: true,
-        axisLine: {
-          lineStyle: {
-            color: '#ffffff',
-            width: 1,
-          },
-        },
-        interval: stepAxis(statisticHashRates),
-        splitLine: {
-          lineStyle: {
-            color: '#ffffff',
-            width: 0.5,
-          },
-        },
-        axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value), 0),
-        },
-      },
-      {
-        position: 'right',
-        type: 'value',
-        axisLine: {
-          lineStyle: {
-            color: '#ffffff',
-            width: 1,
-          },
-        },
-      },
-    ],
-    series: [
-      {
-        name: i18n.t('block.hash_rate'),
-        type: 'line',
-        yAxisIndex: 0,
+  },
+  grid: {
+    left: isScreenSmallerThan1200() ? '1%' : '2%',
+    right: '3%',
+    top: isScreenSmallerThan1200() ? '20%' : '15%',
+    bottom: '2%',
+    containLabel: true,
+  },
+  xAxis: [
+    {
+      axisLine: {
         lineStyle: {
           color: '#ffffff',
           width: 1,
         },
-        symbol: 'none',
-        data: statisticHashRates.map(data => new BigNumber(data.avgHashRate).toNumber()),
       },
-    ],
-  }
-}
+      data: statisticHashRates.map(data => data.createdAtUnixtimestamp),
+      axisLabel: {
+        formatter: (value: string) => parseDateNoTime(value, true),
+      },
+    },
+  ],
+  yAxis: [
+    {
+      position: 'left',
+      type: 'value',
+      scale: true,
+      axisLine: {
+        lineStyle: {
+          color: '#ffffff',
+          width: 1,
+        },
+      },
+      interval: stepAxis(statisticHashRates),
+      splitLine: {
+        lineStyle: {
+          color: '#ffffff',
+          width: 0.5,
+        },
+      },
+      axisLabel: {
+        formatter: (value: string) => handleAxis(new BigNumber(value), 0),
+      },
+    },
+    {
+      position: 'right',
+      type: 'value',
+      axisLine: {
+        lineStyle: {
+          color: '#ffffff',
+          width: 1,
+        },
+      },
+    },
+  ],
+  series: [
+    {
+      name: i18n.t('block.hash_rate'),
+      type: 'line',
+      yAxisIndex: 0,
+      lineStyle: {
+        color: '#ffffff',
+        width: 1,
+      },
+      symbol: 'none',
+      data: statisticHashRates.map(data => new BigNumber(data.avgHashRate).toNumber()),
+    },
+  ],
+})
 
 export default () => {
   const dispatch = useDispatch()

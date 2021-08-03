@@ -50,10 +50,7 @@ export const getTransactions = (page: number, size: number, dispatch: AppDispatc
       dispatch({
         type: PageActions.UpdateTransactions,
         payload: {
-          transactions:
-            data.map((wrapper: Response.Wrapper<State.Transaction>) => {
-              return wrapper.attributes
-            }) || [],
+          transactions: data.map((wrapper: Response.Wrapper<State.Transaction>) => wrapper.attributes) || [],
         },
       })
       dispatch({
@@ -77,10 +74,7 @@ export const getLatestTransactions = (dispatch: AppDispatch) => {
       dispatch({
         type: PageActions.UpdateTransactions,
         payload: {
-          transactions:
-            data.map((wrapper: Response.Wrapper<State.Transaction>) => {
-              return wrapper.attributes
-            }) || [],
+          transactions: data.map((wrapper: Response.Wrapper<State.Transaction>) => wrapper.attributes) || [],
         },
       })
       dispatch({

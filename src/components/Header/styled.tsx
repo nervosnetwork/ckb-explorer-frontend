@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import SimpleButton from '../SimpleButton'

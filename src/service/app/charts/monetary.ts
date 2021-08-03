@@ -27,14 +27,12 @@ export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
   fetchStatisticTotalSupply()
     .then((response: Response.Wrapper<State.StatisticTotalSupply>[] | null) => {
       if (!response) return
-      const statisticTotalSupplies = response.map(wrapper => {
-        return {
-          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-          circulatingSupply: wrapper.attributes.circulatingSupply,
-          burnt: wrapper.attributes.burnt,
-          lockedCapacity: wrapper.attributes.lockedCapacity,
-        }
-      })
+      const statisticTotalSupplies = response.map(wrapper => ({
+        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+        circulatingSupply: wrapper.attributes.circulatingSupply,
+        burnt: wrapper.attributes.burnt,
+        lockedCapacity: wrapper.attributes.lockedCapacity,
+      }))
       dispatchTotalSupply(dispatch, statisticTotalSupplies)
       if (statisticTotalSupplies && statisticTotalSupplies.length > 0) {
         storeDateChartCache(ChartCachedKeys.TotalSupply, statisticTotalSupplies)
@@ -61,12 +59,10 @@ export const getStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) 
       if (!wrapper) return
       const statisticAnnualPercentageCompensations = wrapper.attributes.nominalApc
         .filter((_apc, index) => index % 3 === 0 || index === wrapper.attributes.nominalApc.length - 1)
-        .map((apc, index) => {
-          return {
-            year: 0.25 * index,
-            apc,
-          }
-        })
+        .map((apc, index) => ({
+          year: 0.25 * index,
+          apc,
+        }))
       dispatchAPC(dispatch, statisticAnnualPercentageCompensations)
       if (statisticAnnualPercentageCompensations && statisticAnnualPercentageCompensations.length > 0) {
         storeCachedData(ChartCachedKeys.APC, statisticAnnualPercentageCompensations)
@@ -164,16 +160,14 @@ export const getStatisticLiquidity = (dispatch: AppDispatch) => {
   fetchStatisticLiquidity()
     .then((wrapper: Response.Wrapper<State.StatisticLiquidity>[] | null) => {
       if (!wrapper) return
-      const statisticLiquidity: State.StatisticLiquidity[] = wrapper.map(data => {
-        return {
-          createdAtUnixtimestamp: data.attributes.createdAtUnixtimestamp,
-          circulatingSupply: data.attributes.circulatingSupply,
-          liquidity: data.attributes.liquidity,
-          daoDeposit: new BigNumber(data.attributes.circulatingSupply)
-            .minus(new BigNumber(data.attributes.liquidity))
-            .toFixed(2),
-        }
-      })
+      const statisticLiquidity: State.StatisticLiquidity[] = wrapper.map(data => ({
+        createdAtUnixtimestamp: data.attributes.createdAtUnixtimestamp,
+        circulatingSupply: data.attributes.circulatingSupply,
+        liquidity: data.attributes.liquidity,
+        daoDeposit: new BigNumber(data.attributes.circulatingSupply)
+          .minus(new BigNumber(data.attributes.liquidity))
+          .toFixed(2),
+      }))
       dispatchLiquidity(dispatch, statisticLiquidity)
       if (statisticLiquidity && statisticLiquidity.length > 0) {
         storeDateChartCache(ChartCachedKeys.Liquidity, statisticLiquidity)

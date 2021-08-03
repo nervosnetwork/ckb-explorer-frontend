@@ -1,5 +1,5 @@
 import queryString from 'query-string'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useParams, useHistory, useLocation } from 'react-router-dom'
 import BlockHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'

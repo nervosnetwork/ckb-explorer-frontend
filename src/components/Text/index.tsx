@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import CopyTooltipText from './CopyTooltipText'
@@ -14,8 +13,8 @@ export const HighLightLink = ({
   to: string
   tooltip?: string
   className?: string
-}) => {
-  return tooltip ? (
+}) =>
+  tooltip ? (
     <Tooltip placement="top" title={<CopyTooltipText content={tooltip} />}>
       <HighLightPanel>
         <Link className={`${className} monospace`} to={to}>
@@ -30,4 +29,3 @@ export const HighLightLink = ({
       </Link>
     </HighLightPanel>
   )
-}

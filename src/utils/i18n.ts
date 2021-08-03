@@ -25,8 +25,6 @@ export const changeLanguage = (lan: 'en' | 'zh') => {
   storeCachedData(AppCachedKeys.AppLanguage, lan)
 }
 
-export const currentLanguage = (): 'en' | 'zh' | null => {
-  return fetchCachedData<'en' | 'zh'>(AppCachedKeys.AppLanguage)
-}
+export const currentLanguage = (): 'en' | 'zh' | null => fetchCachedData<'en' | 'zh'>(AppCachedKeys.AppLanguage)
 
 export default i18n

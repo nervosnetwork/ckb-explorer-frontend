@@ -2,11 +2,11 @@
 
 exports[`Language Dropdown Component shallow renders 1`] = `
 <div
-  className="sc-AxjAm KBfit"
+  className="sc-bdnxRM fCNNGv"
   onMouseLeave={[Function]}
 >
   <div
-    className="sc-AxirZ bPoBOq language__selected"
+    className="sc-gtsrHT kcdbmG language__selected"
     onClick={[Function]}
     onKeyDown={[Function]}
     onMouseOver={[Function]}
@@ -19,7 +19,7 @@ exports[`Language Dropdown Component shallow renders 1`] = `
     className="language__separate"
   />
   <div
-    className="sc-AxirZ bPoBOq language__normal"
+    className="sc-gtsrHT kcdbmG language__normal"
     onClick={[Function]}
     onKeyDown={[Function]}
     onMouseOver={[Function]}
