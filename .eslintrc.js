@@ -32,6 +32,7 @@ module.exports = {
       },
     ],
     'no-unused-vars': 'off',
+    'no-undef': 'off',
     'implicit-arrow-linebreak': 'off',
     '@typescript-eslint/no-unused-vars': [
       'error',
