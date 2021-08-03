@@ -49,6 +49,12 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     category: 'lock',
   },
   {
+    codeHashes: ['0xe4d4ecc6e5f9a059bf2f7a82cca292083aebc0c421566a52484fe2ec51a9fb0c'],
+    txHashes: ['0x04632cc459459cf5c9d384b43dee3e36f542a464bdd4127be7d6618ac6f8d268-0'],
+    tag: 'cheque',
+    category: 'lock',
+  },
+  {
     codeHashes: ['0x24b04faf80ded836efc05247778eec4ec02548dab6e2012c0107374aa3f68b81'],
     txHashes: [
       '0xb4c76f34382f03f39e2e39dd8a4cca037394bb3d032bde6a285c52e5a5e35535-0',
@@ -133,8 +139,8 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     category: 'lock',
   },
   {
-    codeHashes: ['0x9f27f3afc8d26dfa8bc0c8fa21bc033ddcdab6ad83d5e865cdd6d5d0b3b95642'],
-    txHashes: ['0x1dbbeac82db9a330ed07dd33e547facbca14378196f0e2d69ad8e83bce1d5f54-0'],
+    codeHashes: ['0x60d5f39efce409c587cb9ea359cefdead650ca128f0bd9cb3855348f98c70d5b'],
+    txHashes: ['0x7f96858be0a9d584b4a9ea190e0420835156a6010a5fde15ffcdc9d9c721ccab-0'],
     tag: 'cheque',
     category: 'lock',
   },
