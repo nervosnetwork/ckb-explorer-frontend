@@ -65,7 +65,11 @@ export default ({
       <OverviewContentPanel length={leftItems.length}>
         <div className="overview_content__left_items">
           {leftItems.map((item, index) => (
-            <OverviewItem key={items.indexOf(item)} item={item} hideLine={index === leftItems.length - 1} />
+            <OverviewItem
+              key={`${item.title?.toString()}-${item.content?.toString()}`}
+              item={item}
+              hideLine={index === leftItems.length - 1}
+            />
           ))}
         </div>
         {!isScreenSmallerThan1200() && <span />}

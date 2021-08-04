@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { useState, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
@@ -193,7 +194,6 @@ export const TransactionOverview = () => {
       content:
         witnesses && witnesses.length > 0 ? (
           witnesses.map((witness, index) => (
-            // eslint-disable-next-line react/no-array-index-key
             <TransactionInfoItemWrapper key={`${witness}-${index}`} title="Witness" value={witness} />
           ))
         ) : (
