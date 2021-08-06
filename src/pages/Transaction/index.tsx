@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import TransactionHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
@@ -12,7 +12,7 @@ import { useDispatch, useAppState } from '../../contexts/providers'
 import Loading from '../../components/Loading'
 import Error from '../../components/Error'
 import { useTimeoutWithUnmount } from '../../utils/hook'
-import { LOADING_WAITING_TIME, PAGE_CELL_COUNT } from '../../utils/const'
+import { LOADING_WAITING_TIME, PAGE_CELL_COUNT } from '../../constants/common'
 import { isMobile } from '../../utils/screen'
 
 const TransactionStateComp = () => {

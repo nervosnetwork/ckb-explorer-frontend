@@ -1,8 +1,8 @@
-import React, { useState, useLayoutEffect } from 'react'
+import { useState, useLayoutEffect } from 'react'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage, changeLanguage } from '../../../utils/i18n'
-import { HeaderLanguagePanel } from './styled'
+import { HeaderLanguagePanel, MobileSubMenuPanel } from './styled'
 import SimpleButton from '../../SimpleButton'
 import WhiteDropdownIcon from '../../../assets/white_dropdown.png'
 import WhiteDropUpIcon from '../../../assets/white_drop_up.png'
@@ -10,7 +10,7 @@ import BlueDropUpIcon from '../../../assets/blue_drop_up.png'
 import GreenDropUpIcon from '../../../assets/green_drop_up.png'
 import { isMainnet } from '../../../utils/chain'
 import LanDropdown, { languageText } from '../../Dropdown/Language'
-import { MobileSubMenuPanel } from './styled'
+
 import { AppDispatch } from '../../../contexts/reducer'
 import { ComponentActions, AppActions } from '../../../contexts/actions'
 
@@ -135,6 +135,4 @@ const LanguageMenu = () => {
   )
 }
 
-export default () => {
-  return isMobile() ? <LanguageMenu /> : <LanguageDropdown />
-}
+export default () => (isMobile() ? <LanguageMenu /> : <LanguageDropdown />)

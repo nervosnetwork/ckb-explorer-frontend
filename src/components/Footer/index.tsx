@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import TwitterIcon from '../../assets/footer_twitter.png'
 import TwitterHoverIcon from '../../assets/footer_twitter_hover.png'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { shannonToCkb } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import i18n from '../../../utils/i18n'
@@ -32,16 +31,14 @@ const TransactionReward = ({ cell, showReward }: { cell: State.Cell; showReward?
   return showBlockReward ? (
     <RewardPenal>
       <div className="transaction__reward__title">{i18n.t('transaction.reward_info')}</div>
-      {Rewards(cell).map(reward => {
-        return (
-          <RewardItemPenal key={reward.name}>
-            <div className="reward__name">{reward.name}</div>
-            <div className="reward__capacity">
-              <DecimalCapacity value={localeNumberString(shannonToCkb(reward.capacity))} />
-            </div>
-          </RewardItemPenal>
-        )
-      })}
+      {Rewards(cell).map(reward => (
+        <RewardItemPenal key={reward.name}>
+          <div className="reward__name">{reward.name}</div>
+          <div className="reward__capacity">
+            <DecimalCapacity value={localeNumberString(shannonToCkb(reward.capacity))} />
+          </div>
+        </RewardItemPenal>
+      ))}
     </RewardPenal>
   ) : null
 }

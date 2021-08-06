@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment, useMemo } from 'react'
+import { useEffect, Fragment, useMemo } from 'react'
 import { useHistory, useLocation, Link } from 'react-router-dom'
 import queryString from 'query-string'
 import { useTranslation } from 'react-i18next'
@@ -9,7 +9,7 @@ import { TableTitleItem, TableContentItem, TableMinerContentItem } from '../../c
 import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
 import { shannonToCkb } from '../../utils/util'
 import { parsePageNumber, adaptMobileEllipsis } from '../../utils/string'
-import { ListPageParams, DELAY_BLOCK_NUMBER } from '../../utils/const'
+import { ListPageParams, DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import i18n from '../../utils/i18n'
@@ -19,15 +19,13 @@ import { getBlocks } from '../../service/app/block'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import ItemCard, { ItemCardData } from '../../components/Card/ItemCard'
 
-const BlockValueItem = ({ value, to }: { value: string; to: string }) => {
-  return (
-    <HighLightValue>
-      <Link to={to}>
-        <span>{value}</span>
-      </Link>
-    </HighLightValue>
-  )
-}
+const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
+  <HighLightValue>
+    <Link to={to}>
+      <span>{value}</span>
+    </Link>
+  </HighLightValue>
+)
 
 interface TableTitleData {
   title: string
@@ -118,8 +116,8 @@ export default () => {
   const { search } = useLocation()
 
   const [t] = useTranslation()
-  const TableTitles = useMemo(() => {
-    return [
+  const TableTitles = useMemo(
+    () => [
       {
         title: t('home.height'),
         width: '14%',
@@ -140,8 +138,9 @@ export default () => {
         title: t('home.time'),
         width: '15%',
       },
-    ]
-  }, [t])
+    ],
+    [t],
+  )
 
   const parsed = queryString.parse(search)
   const {
@@ -170,20 +169,20 @@ export default () => {
         {isMobile() ? (
           <ContentTable>
             <div>
-              {blocks.map((block: State.Block, index: number) => {
-                return <ItemCard key={block.number} items={BlockCardItems(block, index, currentPage)} />
-              })}
+              {blocks.map((block: State.Block, index: number) => (
+                <ItemCard key={block.number} items={BlockCardItems(block, index, currentPage)} />
+              ))}
             </div>
           </ContentTable>
         ) : (
           <ContentTable>
             <TableTitleRow>
-              {TableTitles.map((data: TableTitleData) => {
-                return <TableTitleItem width={data.width} title={data.title} key={data.title} />
-              })}
+              {TableTitles.map((data: TableTitleData) => (
+                <TableTitleItem width={data.width} title={data.title} key={data.title} />
+              ))}
             </TableTitleRow>
-            {blocks.map((block: State.Block, blockIndex: number) => {
-              return (
+            {blocks.map(
+              (block: State.Block, blockIndex: number) =>
                 block && (
                   <TableContentRow key={block.number}>
                     {getTableContentDataList(block, blockIndex, currentPage).map(
@@ -201,9 +200,8 @@ export default () => {
                       },
                     )}
                   </TableContentRow>
-                )
-              )
-            })}
+                ),
+            )}
           </ContentTable>
         )}
         <div className="block_list__pagination">

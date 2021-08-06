@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import BigNumber from 'bignumber.js'
 import { getStatisticNewDaoDeposit } from '../../../service/app/charts/nervosDao'
 import { useAppState, useDispatch } from '../../../contexts/providers'
@@ -8,7 +8,7 @@ import { ChartNotePanel } from '../common/styled'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
-import { ChartColors } from '../../../utils/const'
+import { ChartColors } from '../../../constants/common'
 import { isMainnet } from '../../../utils/chain'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipWidth, tooltipColor } from '../common'
 
@@ -49,109 +49,107 @@ const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }
 const getOption = (
   statisticNewDaoDeposits: State.StatisticNewDaoDeposit[],
   isThumbnail = false,
-): echarts.EChartOption => {
-  return {
-    color: ChartColors,
-    tooltip: !isThumbnail
-      ? {
-          trigger: 'axis',
-          formatter: (dataList: any) => {
-            const list = dataList as Array<{ seriesName: string; data: string; name: string }>
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-              list[0].name,
-            )}</div>`
-            list.forEach(data => {
-              result += parseTooltip(data)
-            })
-            return result
+): echarts.EChartOption => ({
+  color: ChartColors,
+  tooltip: !isThumbnail
+    ? {
+        trigger: 'axis',
+        formatter: (dataList: any) => {
+          const list = dataList as Array<{ seriesName: string; data: string; name: string }>
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+            list[0].name,
+          )}</div>`
+          list.forEach(data => {
+            result += parseTooltip(data)
+          })
+          return result
+        },
+      }
+    : undefined,
+  grid: isThumbnail ? gridThumbnail : grid,
+  legend: {
+    data: isThumbnail
+      ? []
+      : [
+          {
+            name: i18n.t('statistic.new_dao_deposit'),
           },
-        }
-      : undefined,
-    grid: isThumbnail ? gridThumbnail : grid,
-    legend: {
-      data: isThumbnail
-        ? []
-        : [
-            {
-              name: i18n.t('statistic.new_dao_deposit'),
-            },
-            {
-              name: i18n.t('statistic.new_dao_depositor'),
-            },
-          ],
+          {
+            name: i18n.t('statistic.new_dao_depositor'),
+          },
+        ],
+  },
+  xAxis: [
+    {
+      name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
+      nameLocation: 'middle',
+      nameGap: 30,
+      type: 'category',
+      boundaryGap: false,
+      data: statisticNewDaoDeposits.map(data => data.createdAtUnixtimestamp),
+      axisLabel: {
+        formatter: (value: string) => parseDateNoTime(value),
+      },
     },
-    xAxis: [
-      {
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
-        nameLocation: 'middle',
-        nameGap: 30,
-        type: 'category',
-        boundaryGap: false,
-        data: statisticNewDaoDeposits.map(data => data.createdAtUnixtimestamp),
-        axisLabel: {
-          formatter: (value: string) => parseDateNoTime(value),
+  ],
+  yAxis: [
+    {
+      position: 'left',
+      name: isMobile() || isThumbnail ? '' : i18n.t('statistic.new_dao_deposit'),
+      nameTextStyle: {
+        align: 'left',
+      },
+      type: 'value',
+      scale: true,
+      axisLine: {
+        lineStyle: {
+          color: ChartColors[0],
         },
       },
-    ],
-    yAxis: [
-      {
-        position: 'left',
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.new_dao_deposit'),
-        nameTextStyle: {
-          align: 'left',
-        },
-        type: 'value',
-        scale: true,
-        axisLine: {
-          lineStyle: {
-            color: ChartColors[0],
-          },
-        },
-        axisLabel: {
-          formatter: (value: string) => `${handleAxis(value)}B`,
+      axisLabel: {
+        formatter: (value: string) => `${handleAxis(value)}B`,
+      },
+    },
+    {
+      position: 'right',
+      name: isMobile() || isThumbnail ? '' : i18n.t('statistic.new_dao_depositor'),
+      nameTextStyle: {
+        align: 'right',
+      },
+      type: 'value',
+      scale: true,
+      axisLine: {
+        lineStyle: {
+          color: ChartColors[1],
         },
       },
-      {
-        position: 'right',
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.new_dao_depositor'),
-        nameTextStyle: {
-          align: 'right',
-        },
-        type: 'value',
-        scale: true,
-        axisLine: {
-          lineStyle: {
-            color: ChartColors[1],
-          },
-        },
-        axisLabel: {
-          formatter: (value: string) => `${handleAxis(new BigNumber(value))}`,
-        },
+      axisLabel: {
+        formatter: (value: string) => `${handleAxis(new BigNumber(value))}`,
       },
-    ],
-    series: [
-      {
-        name: i18n.t('statistic.new_dao_deposit'),
-        type: 'line',
-        yAxisIndex: 0,
-        areaStyle: {
-          color: '#85bae0',
-        },
-        symbol: isThumbnail ? 'none' : 'circle',
-        symbolSize: 3,
-        data: statisticNewDaoDeposits.map(data => new BigNumber(shannonToCkb(data.dailyDaoDeposit)).toFixed(0)),
+    },
+  ],
+  series: [
+    {
+      name: i18n.t('statistic.new_dao_deposit'),
+      type: 'line',
+      yAxisIndex: 0,
+      areaStyle: {
+        color: '#85bae0',
       },
-      {
-        name: i18n.t('statistic.new_dao_depositor'),
-        type: 'line',
-        yAxisIndex: 1,
-        symbol: isThumbnail ? 'none' : 'circle',
-        symbolSize: 3,
-        data: statisticNewDaoDeposits.map(data => new BigNumber(data.dailyDaoDepositorsCount).toNumber()),
-      },
-    ],
-  }
-}
+      symbol: isThumbnail ? 'none' : 'circle',
+      symbolSize: 3,
+      data: statisticNewDaoDeposits.map(data => new BigNumber(shannonToCkb(data.dailyDaoDeposit)).toFixed(0)),
+    },
+    {
+      name: i18n.t('statistic.new_dao_depositor'),
+      type: 'line',
+      yAxisIndex: 1,
+      symbol: isThumbnail ? 'none' : 'circle',
+      symbolSize: 3,
+      data: statisticNewDaoDeposits.map(data => new BigNumber(data.dailyDaoDepositorsCount).toNumber()),
+    },
+  ],
+})
 
 export const NewDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticNewDaoDeposits, statisticNewDaoDepositsFetchEnd } = useAppState()
@@ -161,15 +159,14 @@ export const NewDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: bool
   return <ReactChartCore option={getOption(statisticNewDaoDeposits, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-const toCSV = (statisticNewDaoDeposits: State.StatisticNewDaoDeposit[]) => {
-  return statisticNewDaoDeposits
+const toCSV = (statisticNewDaoDeposits: State.StatisticNewDaoDeposit[]) =>
+  statisticNewDaoDeposits
     ? statisticNewDaoDeposits.map(data => [
         data.createdAtUnixtimestamp,
         shannonToCkbDecimal(data.dailyDaoDeposit, 8),
         data.dailyDaoDepositorsCount,
       ])
     : []
-}
 
 export default () => {
   const dispatch = useDispatch()

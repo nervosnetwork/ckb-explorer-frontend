@@ -2,14 +2,14 @@
 
 exports[`Active Page shallow renders with empty data 1`] = `
 <div
-  className="sc-fzqNJr dLfJWR"
+  className="sc-fnVZcZ FgJVV"
 >
   <div
-    className="sc-fzoyAV iQkuwf container"
+    className="sc-fFSPTT fpkmzH container"
   >
     <img
       alt="404"
-      className="sc-fzoLag cea-deJ"
+      className="sc-bkbkJK cqgQDj"
       src="pc_404.png"
     />
   </div>

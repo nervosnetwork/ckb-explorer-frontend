@@ -2,26 +2,26 @@ import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchStatisticNewNodeCount, fetchStatisticNodeDistribution } from '../../http/fetcher'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
-import { ChartCachedKeys } from '../../../utils/const'
+import { ChartCachedKeys } from '../../../constants/cache'
 import { dispatchNodeDistribution } from './action'
 
 export const getStatisticNewNodeCount = (dispatch: AppDispatch) => {
-  fetchStatisticNewNodeCount().then((response: Response.Response<Response.Wrapper<State.StatisticNewNodeCount>[]> | null) => {
-    if (!response) return
-    const { data } = response
-    const statisticNewNodeCounts = data.map(wrapper => {
-      return {
+  fetchStatisticNewNodeCount().then(
+    (response: Response.Response<Response.Wrapper<State.StatisticNewNodeCount>[]> | null) => {
+      if (!response) return
+      const { data } = response
+      const statisticNewNodeCounts = data.map(wrapper => ({
         nodesCount: wrapper.attributes.nodesCount ? wrapper.attributes.nodesCount : '0',
         createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-      }
-    })
-    dispatch({
-      type: PageActions.UpdateStatisticNewNodeCount,
-      payload: {
-        statisticNewNodeCounts,
-      },
-    })
-  })
+      }))
+      dispatch({
+        type: PageActions.UpdateStatisticNewNodeCount,
+        payload: {
+          statisticNewNodeCounts,
+        },
+      })
+    },
+  )
 }
 
 export const getStatisticNodeDistribution = (dispatch: AppDispatch) => {
@@ -34,7 +34,7 @@ export const getStatisticNodeDistribution = (dispatch: AppDispatch) => {
     .then((wrapper: Response.Wrapper<State.StatisticNodeDistributions> | null) => {
       if (!wrapper) return
       const { nodesDistribution } = wrapper.attributes
-      let statisticNodeDistributions: State.StatisticNodeDistribution[] = []
+      const statisticNodeDistributions: State.StatisticNodeDistribution[] = []
       nodesDistribution.forEach(data => {
         statisticNodeDistributions.push({
           name: data.city,

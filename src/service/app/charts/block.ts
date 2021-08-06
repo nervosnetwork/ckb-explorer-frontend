@@ -6,7 +6,7 @@ import {
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
-import { ChartCachedKeys } from '../../../utils/const'
+import { ChartCachedKeys } from '../../../constants/cache'
 import { dispatchAverageBlockTime, dispatchBlockTimeDistribution, dispatchEpochTimeDistribution } from './action'
 
 export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
@@ -21,8 +21,15 @@ export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
       const {
         attributes: { blockTimeDistribution },
       } = wrap
-      const sumBlocks = blockTimeDistribution.flatMap(data => Number(data[1])).reduce((previous, current) => previous + current)
-      const statisticBlockTimeDistributions = [{ time: '0', ratio: '0' }].concat(
+      const sumBlocks = blockTimeDistribution
+        .flatMap(data => Number(data[1]))
+        .reduce((previous, current) => previous + current)
+      const statisticBlockTimeDistributions = [
+        {
+          time: '0',
+          ratio: '0',
+        },
+      ].concat(
         blockTimeDistribution.map(data => {
           const [time, blocks] = data
           return {
@@ -85,13 +92,15 @@ export const getStatisticEpochTimeDistribution = (dispatch: AppDispatch) => {
       const {
         attributes: { epochTimeDistribution },
       } = wrap
-      const statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[] = epochTimeDistribution.map(data => {
-        const [time, epoch] = data
-        return {
-          time,
-          epoch,
-        }
-      })
+      const statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[] = epochTimeDistribution.map(
+        data => {
+          const [time, epoch] = data
+          return {
+            time,
+            epoch,
+          }
+        },
+      )
       dispatchEpochTimeDistribution(dispatch, statisticEpochTimeDistributions)
       if (statisticEpochTimeDistributions && statisticEpochTimeDistributions.length > 0) {
         storeDateChartCache(ChartCachedKeys.EpochTimeDistribution, statisticEpochTimeDistributions)

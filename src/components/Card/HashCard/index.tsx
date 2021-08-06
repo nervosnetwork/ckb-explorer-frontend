@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import CopyIcon from '../../../assets/copy.png'
@@ -32,7 +32,8 @@ export default ({
   const mobileHash = () => {
     if (specialAddress) {
       return adaptMobileEllipsis(hash, 3)
-    } else if (iconUri) {
+    }
+    if (iconUri) {
       return adaptMobileEllipsis(hash, 11)
     }
     return adaptMobileEllipsis(hash, 4)

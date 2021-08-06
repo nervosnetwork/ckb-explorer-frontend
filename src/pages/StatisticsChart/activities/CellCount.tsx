@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import BigNumber from 'bignumber.js'
 import { getStatisticCellCount } from '../../../service/app/charts/activities'
 import { useAppState, useDispatch } from '../../../contexts/providers'
@@ -6,7 +6,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
-import { ChartColors } from '../../../utils/const'
+import { ChartColors } from '../../../constants/common'
 import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth } from '../common'
 
 const gridThumbnail = {
@@ -42,100 +42,98 @@ const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }
   return ''
 }
 
-const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail = false): echarts.EChartOption => {
-  return {
-    color: ChartColors,
-    tooltip: !isThumbnail
-      ? {
-          trigger: 'axis',
-          formatter: (dataList: any) => {
-            const list = dataList as Array<{ seriesName: string; data: string; name: string }>
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-              list[0].name,
-            )}</div>`
-            list.forEach(data => {
-              result += parseTooltip(data)
-            })
-            return result
+const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail = false): echarts.EChartOption => ({
+  color: ChartColors,
+  tooltip: !isThumbnail
+    ? {
+        trigger: 'axis',
+        formatter: (dataList: any) => {
+          const list = dataList as Array<{ seriesName: string; data: string; name: string }>
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
+            list[0].name,
+          )}</div>`
+          list.forEach(data => {
+            result += parseTooltip(data)
+          })
+          return result
+        },
+      }
+    : undefined,
+  legend: !isThumbnail
+    ? {
+        data: [
+          {
+            name: i18n.t('statistic.live_cell'),
           },
-        }
-      : undefined,
-    legend: !isThumbnail
-      ? {
-          data: [
-            {
-              name: i18n.t('statistic.live_cell'),
-            },
-            {
-              name: i18n.t('statistic.all_cells'),
-            },
-          ],
-        }
-      : undefined,
-    grid: isThumbnail ? gridThumbnail : grid,
-    xAxis: [
-      {
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
-        nameLocation: 'middle',
-        nameGap: 30,
-        type: 'category',
-        boundaryGap: false,
-        data: statisticCellCounts.map(data => data.createdAtUnixtimestamp),
-        axisLabel: {
-          formatter: (value: string) => parseDateNoTime(value),
-        },
-      },
-    ],
-    yAxis: [
-      {
-        position: 'left',
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.live_cell'),
-        type: 'value',
-        scale: true,
-        axisLine: {
-          lineStyle: {
-            color: ChartColors[0],
+          {
+            name: i18n.t('statistic.all_cells'),
           },
-        },
-        axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+        ],
+      }
+    : undefined,
+  grid: isThumbnail ? gridThumbnail : grid,
+  xAxis: [
+    {
+      name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
+      nameLocation: 'middle',
+      nameGap: 30,
+      type: 'category',
+      boundaryGap: false,
+      data: statisticCellCounts.map(data => data.createdAtUnixtimestamp),
+      axisLabel: {
+        formatter: (value: string) => parseDateNoTime(value),
+      },
+    },
+  ],
+  yAxis: [
+    {
+      position: 'left',
+      name: isMobile() || isThumbnail ? '' : i18n.t('statistic.live_cell'),
+      type: 'value',
+      scale: true,
+      axisLine: {
+        lineStyle: {
+          color: ChartColors[0],
         },
       },
-      {
-        position: 'right',
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.all_cells'),
-        type: 'value',
-        scale: true,
-        axisLine: {
-          lineStyle: {
-            color: ChartColors[1],
-          },
+      axisLabel: {
+        formatter: (value: string) => handleAxis(new BigNumber(value)),
+      },
+    },
+    {
+      position: 'right',
+      name: isMobile() || isThumbnail ? '' : i18n.t('statistic.all_cells'),
+      type: 'value',
+      scale: true,
+      axisLine: {
+        lineStyle: {
+          color: ChartColors[1],
         },
-        axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
-        },
       },
-    ],
-    series: [
-      {
-        name: i18n.t('statistic.live_cell'),
-        type: 'line',
-        yAxisIndex: 0,
-        symbol: isThumbnail ? 'none' : 'circle',
-        symbolSize: 3,
-        data: statisticCellCounts.map(data => new BigNumber(data.liveCellsCount).toNumber()),
+      axisLabel: {
+        formatter: (value: string) => handleAxis(new BigNumber(value)),
       },
-      {
-        name: i18n.t('statistic.all_cells'),
-        type: 'line',
-        yAxisIndex: 1,
-        symbol: isThumbnail ? 'none' : 'circle',
-        symbolSize: 3,
-        data: statisticCellCounts.map(data => new BigNumber(data.allCellsCount).toNumber()),
-      },
-    ],
-  }
-}
+    },
+  ],
+  series: [
+    {
+      name: i18n.t('statistic.live_cell'),
+      type: 'line',
+      yAxisIndex: 0,
+      symbol: isThumbnail ? 'none' : 'circle',
+      symbolSize: 3,
+      data: statisticCellCounts.map(data => new BigNumber(data.liveCellsCount).toNumber()),
+    },
+    {
+      name: i18n.t('statistic.all_cells'),
+      type: 'line',
+      yAxisIndex: 1,
+      symbol: isThumbnail ? 'none' : 'circle',
+      symbolSize: 3,
+      data: statisticCellCounts.map(data => new BigNumber(data.allCellsCount).toNumber()),
+    },
+  ],
+})
 
 export const CellCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticCellCounts, statisticCellCountsFetchEnd } = useAppState()
@@ -145,11 +143,10 @@ export const CellCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean 
   return <ReactChartCore option={getOption(statisticCellCounts, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-const toCSV = (statisticCellCounts: State.StatisticCellCount[]) => {
-  return statisticCellCounts
+const toCSV = (statisticCellCounts: State.StatisticCellCount[]) =>
+  statisticCellCounts
     ? statisticCellCounts.map(data => [data.createdAtUnixtimestamp, data.liveCellsCount, data.allCellsCount])
     : []
-}
 
 export default () => {
   const dispatch = useDispatch()

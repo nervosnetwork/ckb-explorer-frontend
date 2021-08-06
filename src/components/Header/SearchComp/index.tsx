@@ -1,9 +1,7 @@
-import React from 'react'
 import Search from '../../Search'
 import SearchLogo from '../../../assets/search_white.png'
-import { HeaderSearchPanel } from './styled'
+import { HeaderSearchPanel, HeaderSearchBarPanel } from './styled'
 import { isScreen750to1440 } from '../../../utils/screen'
-import { HeaderSearchBarPanel } from './styled'
 import { useDispatch, useAppState } from '../../../contexts/providers'
 import { ComponentActions } from '../../../contexts/actions'
 

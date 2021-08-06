@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from 'react'
+import { useState, ReactNode } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Tooltip } from 'antd'
@@ -30,7 +30,7 @@ import MinerRewardIcon from '../../assets/miner_complete.png'
 import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
-import { DELAY_BLOCK_NUMBER } from '../../utils/const'
+import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import TitleCard from '../../components/Card/TitleCard'
 
 const handleMinerText = (address: string) => {
@@ -79,6 +79,8 @@ const BlockMinerReward = ({
         <div
           className="block__miner__reward_tip"
           role="button"
+          tabIndex={-1}
+          onKeyDown={() => {}}
           onClick={() => {
             if (sentBlockNumber) {
               history.push(`/block/${sentBlockNumber}#cellbase`)
@@ -191,14 +193,12 @@ export const BlockOverview = () => {
       ) : (
         <BlockRootInfoPanel>
           <span />
-          {rootInfoItems.map(item => {
-            return (
-              <BlockRootInfoItemPanel key={item.title}>
-                <div className="block__root_info_title">{item.title}</div>
-                <div className="block__root_info_value monospace">{item.content}</div>
-              </BlockRootInfoItemPanel>
-            )
-          })}
+          {rootInfoItems.map(item => (
+            <BlockRootInfoItemPanel key={item.title}>
+              <div className="block__root_info_title">{item.title}</div>
+              <div className="block__root_info_value monospace">{item.content}</div>
+            </BlockRootInfoItemPanel>
+          ))}
         </BlockRootInfoPanel>
       )}
     </OverviewCard>
@@ -228,8 +228,8 @@ export const BlockComp = ({
   return (
     <>
       <TitleCard title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`} isSingle />
-      {transactions.map((transaction: State.Transaction, index: number) => {
-        return (
+      {transactions.map(
+        (transaction: State.Transaction, index: number) =>
           transaction && (
             <TransactionItem
               key={transaction.transactionHash}
@@ -239,9 +239,8 @@ export const BlockComp = ({
               }}
               isBlock
             />
-          )
-        )
-      })}
+          ),
+      )}
       {totalPages > 1 && (
         <BlockTransactionsPagination>
           <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />

@@ -1,4 +1,5 @@
-import React, { useState, ReactNode } from 'react'
+/* eslint-disable react/no-array-index-key */
+import { useState, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { useAppState } from '../../contexts/providers/index'
@@ -24,21 +25,17 @@ import SimpleButton from '../../components/SimpleButton'
 import HashTag from '../../components/HashTag'
 import { isScreenSmallerThan1440 } from '../../utils/screen'
 
-const showTxStatus = (txStatus: string) => {
-  return txStatus.replace(/^\S/, s => s.toUpperCase())
-}
+const showTxStatus = (txStatus: string) => txStatus.replace(/^\S/, s => s.toUpperCase())
 
-const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => {
-  return (
-    <TransactionBlockHeightPanel>
-      {txStatus === 'committed' ? (
-        <Link to={`/block/${blockNumber}`}>{localeNumberString(blockNumber)}</Link>
-      ) : (
-        <span>{showTxStatus(txStatus)}</span>
-      )}
-    </TransactionBlockHeightPanel>
-  )
-}
+const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => (
+  <TransactionBlockHeightPanel>
+    {txStatus === 'committed' ? (
+      <Link to={`/block/${blockNumber}`}>{localeNumberString(blockNumber)}</Link>
+    ) : (
+      <span>{showTxStatus(txStatus)}</span>
+    )}
+  </TransactionBlockHeightPanel>
+)
 
 const transactionParamsIcon = (show: boolean) => {
   if (show) {
@@ -57,23 +54,21 @@ const TransactionInfoItem = ({
   value: string | ReactNode
   linkUrl?: string
   tag?: ReactNode
-}) => {
-  return (
-    <TransactionInfoContentItem>
-      <div className="transaction__info__content_title">{title ? `${title}: ` : ''}</div>
-      <div className="transaction__info__content_value monospace">
-        {linkUrl ? (
-          <Link to={linkUrl} className="monospace">
-            {value}
-          </Link>
-        ) : (
-          value
-        )}
-        {tag && <div className="transaction__info__content__tag">{tag}</div>}
-      </div>
-    </TransactionInfoContentItem>
-  )
-}
+}) => (
+  <TransactionInfoContentItem>
+    <div className="transaction__info__content_title">{title ? `${title}: ` : ''}</div>
+    <div className="transaction__info__content_value monospace">
+      {linkUrl ? (
+        <Link to={linkUrl} className="monospace">
+          {value}
+        </Link>
+      ) : (
+        value
+      )}
+      {tag && <div className="transaction__info__content__tag">{tag}</div>}
+    </div>
+  </TransactionInfoContentItem>
+)
 
 const TransactionInfoItemWrapper = ({
   title,
@@ -83,13 +78,11 @@ const TransactionInfoItemWrapper = ({
   title?: string
   value: string | ReactNode
   linkUrl?: string
-}) => {
-  return (
-    <TransactionInfoContentPanel>
-      <TransactionInfoItem title={title} value={value} linkUrl={linkUrl} />
-    </TransactionInfoContentPanel>
-  )
-}
+}) => (
+  <TransactionInfoContentPanel>
+    <TransactionInfoItem title={title} value={value} linkUrl={linkUrl} />
+  </TransactionInfoContentPanel>
+)
 
 export const TransactionOverview = () => {
   const [showParams, setShowParams] = useState<boolean>(false)
@@ -184,16 +177,14 @@ export const TransactionOverview = () => {
       title: i18n.t('transaction.header_deps'),
       content:
         headerDeps && headerDeps.length > 0 ? (
-          headerDeps.map(headerDep => {
-            return (
-              <TransactionInfoItemWrapper
-                key={headerDep}
-                title={i18n.t('transaction.header_dep')}
-                value={headerDep}
-                linkUrl={`/block/${headerDep}`}
-              />
-            )
-          })
+          headerDeps.map(headerDep => (
+            <TransactionInfoItemWrapper
+              key={headerDep}
+              title={i18n.t('transaction.header_dep')}
+              value={headerDep}
+              linkUrl={`/block/${headerDep}`}
+            />
+          ))
         ) : (
           <TransactionInfoItemWrapper title={i18n.t('transaction.header_dep')} value="[ ]" />
         ),
@@ -202,9 +193,9 @@ export const TransactionOverview = () => {
       title: i18n.t('transaction.witnesses'),
       content:
         witnesses && witnesses.length > 0 ? (
-          witnesses.map((witness, index) => {
-            return <TransactionInfoItemWrapper key={`${witness}-${index}`} title="Witness" value={witness} />
-          })
+          witnesses.map((witness, index) => (
+            <TransactionInfoItemWrapper key={`${witness}-${index}`} title="Witness" value={witness} />
+          ))
         ) : (
           <TransactionInfoItemWrapper title="Witness" value="[ ]" />
         ),
@@ -221,14 +212,12 @@ export const TransactionOverview = () => {
           </SimpleButton>
           {showParams && (
             <div className="transaction__overview_params">
-              {TransactionParams.map(item => {
-                return (
-                  <TransactionInfoItemPanel key={item.title}>
-                    <div className="transaction__info_title">{item.title}</div>
-                    <div className="transaction__info_value">{item.content}</div>
-                  </TransactionInfoItemPanel>
-                )
-              })}
+              {TransactionParams.map(item => (
+                <TransactionInfoItemPanel key={item.title}>
+                  <div className="transaction__info_title">{item.title}</div>
+                  <div className="transaction__info_value">{item.content}</div>
+                </TransactionInfoItemPanel>
+              ))}
             </div>
           )}
         </div>

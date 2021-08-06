@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import {
@@ -16,7 +16,7 @@ import {
 } from './styled'
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
-import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME } from '../../utils/const'
+import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME } from '../../constants/common'
 import { localeNumberString, handleHashRate, handleDifficulty, parseEpochNumber } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
 import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
@@ -46,83 +46,73 @@ interface BlockchainData {
   showSeparate: boolean
 }
 
-const StatisticItem = ({ blockchain, isFirst }: { blockchain: BlockchainData; isFirst?: boolean }) => {
-  return (
-    <HomeStatisticItemPanel isFirst={isFirst}>
-      <div className="home__statistic__item__name">{blockchain.name}</div>
-      <div className="home__statistic__item__value">{blockchain.value}</div>
-    </HomeStatisticItemPanel>
-  )
-}
+const StatisticItem = ({ blockchain, isFirst }: { blockchain: BlockchainData; isFirst?: boolean }) => (
+  <HomeStatisticItemPanel isFirst={isFirst}>
+    <div className="home__statistic__item__name">{blockchain.name}</div>
+    <div className="home__statistic__item__value">{blockchain.value}</div>
+  </HomeStatisticItemPanel>
+)
 
-const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => {
-  return (
-    <HomeHeaderItemPanel>
-      <div className="blockchain__item__content">
-        <div className="blockchain__item__name">{blockchain.name}</div>
-        <div className="blockchain__item__value">
-          <div className="blockchain__item__left__value">{blockchain.value}</div>
-          {blockchain.rightValue && <div className="blockchain__item__right__value">{blockchain.rightValue}</div>}
-        </div>
+const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => (
+  <HomeHeaderItemPanel>
+    <div className="blockchain__item__content">
+      <div className="blockchain__item__name">{blockchain.name}</div>
+      <div className="blockchain__item__value">
+        <div className="blockchain__item__left__value">{blockchain.value}</div>
+        {blockchain.rightValue && <div className="blockchain__item__right__value">{blockchain.rightValue}</div>}
       </div>
-      {blockchain.showSeparate && <div className="blockchain__item__between_separate" />}
-    </HomeHeaderItemPanel>
-  )
-}
+    </div>
+    {blockchain.showSeparate && <div className="blockchain__item__between_separate" />}
+  </HomeHeaderItemPanel>
+)
 
-const parseHashRate = (hashRate: string | undefined) => {
-  return hashRate ? handleHashRate(Number(hashRate) * 1000) : '- -'
-}
+const parseHashRate = (hashRate: string | undefined) => (hashRate ? handleHashRate(Number(hashRate) * 1000) : '- -')
 
-const parseBlockTime = (blockTime: string | undefined) => {
-  return blockTime ? parseTime(Number(blockTime)) : '- -'
-}
+const parseBlockTime = (blockTime: string | undefined) => (blockTime ? parseTime(Number(blockTime)) : '- -')
 
-const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => {
-  return [
-    {
-      name: i18n.t('blockchain.latest_block'),
-      value: localeNumberString(statistics.tipBlockNumber),
-      showSeparate: true,
-    },
-    {
-      name: i18n.t('blockchain.average_block_time'),
-      value: parseBlockTime(statistics.averageBlockTime),
-      showSeparate: !isMobile(),
-    },
-    {
-      name: i18n.t('blockchain.hash_rate'),
-      value: parseHashRate(statistics.hashRate),
-      showSeparate: true,
-    },
-    {
-      name: i18n.t('blockchain.difficulty'),
-      value: handleDifficulty(statistics.currentEpochDifficulty),
-      showSeparate: true,
-    },
-    {
-      name: i18n.t('blockchain.epoch'),
-      value: parseEpochNumber(statistics.epochInfo.epochNumber),
-      rightValue: `${statistics.epochInfo.index}/${statistics.epochInfo.epochLength}`,
-      showSeparate: true,
-    },
-    {
-      name: i18n.t('blockchain.estimated_epoch_time'),
-      value: parseTimeNoSecond(Number(statistics.estimatedEpochTime)),
-      showSeparate: !isScreenSmallerThan1200(),
-    },
-    {
-      name: i18n.t('blockchain.transactions_per_minute'),
-      value: handleBigNumber(statistics.transactionsCountPerMinute, 2),
-      showSeparate: true,
-    },
-    {
-      name: i18n.t('blockchain.transactions_last_24hrs'),
-      value: handleBigNumber(statistics.transactionsLast24Hrs, 2),
-      showSeparate: false,
-    },
-  ]
-}
+const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => [
+  {
+    name: i18n.t('blockchain.latest_block'),
+    value: localeNumberString(statistics.tipBlockNumber),
+    showSeparate: true,
+  },
+  {
+    name: i18n.t('blockchain.average_block_time'),
+    value: parseBlockTime(statistics.averageBlockTime),
+    showSeparate: !isMobile(),
+  },
+  {
+    name: i18n.t('blockchain.hash_rate'),
+    value: parseHashRate(statistics.hashRate),
+    showSeparate: true,
+  },
+  {
+    name: i18n.t('blockchain.difficulty'),
+    value: handleDifficulty(statistics.currentEpochDifficulty),
+    showSeparate: true,
+  },
+  {
+    name: i18n.t('blockchain.epoch'),
+    value: parseEpochNumber(statistics.epochInfo.epochNumber),
+    rightValue: `${statistics.epochInfo.index}/${statistics.epochInfo.epochLength}`,
+    showSeparate: true,
+  },
+  {
+    name: i18n.t('blockchain.estimated_epoch_time'),
+    value: parseTimeNoSecond(Number(statistics.estimatedEpochTime)),
+    showSeparate: !isScreenSmallerThan1200(),
+  },
+  {
+    name: i18n.t('blockchain.transactions_per_minute'),
+    value: handleBigNumber(statistics.transactionsCountPerMinute, 2),
+    showSeparate: true,
+  },
+  {
+    name: i18n.t('blockchain.transactions_last_24hrs'),
+    value: handleBigNumber(statistics.transactionsLast24Hrs, 2),
+    showSeparate: false,
+  },
+]
 
 const useHomeSearchBarStatus = (dispatch: AppDispatch) => {
   useEffect(() => {
@@ -222,25 +212,23 @@ export default () => {
           {!isScreenSmallerThan1200() &&
             blockchainDataList(statistics)
               .slice(4)
-              .map((data: BlockchainData) => {
-                return <BlockchainItem blockchain={data} key={data.name} />
-              })}
+              .map((data: BlockchainData) => <BlockchainItem blockchain={data} key={data.name} />)}
           {isScreenSmallerThan1200() && (
             <>
               <div className="blockchain__item__row">
                 {blockchainDataList(statistics)
                   .slice(4, 6)
-                  .map((data: BlockchainData) => {
-                    return <BlockchainItem blockchain={data} key={data.name} />
-                  })}
+                  .map((data: BlockchainData) => (
+                    <BlockchainItem blockchain={data} key={data.name} />
+                  ))}
               </div>
               <div className="blockchain__item__row_separate" />
               <div className="blockchain__item__row">
                 {blockchainDataList(statistics)
                   .slice(6)
-                  .map((data: BlockchainData) => {
-                    return <BlockchainItem blockchain={data} key={data.name} />
-                  })}
+                  .map((data: BlockchainData) => (
+                    <BlockchainItem blockchain={data} key={data.name} />
+                  ))}
               </div>
             </>
           )}
@@ -254,14 +242,12 @@ export default () => {
           </TableHeaderPanel>
           {homeBlocks.length > 0 ? (
             <>
-              {homeBlocks.map((block, index) => {
-                return (
-                  <div key={block.number}>
-                    <BlockCardItem block={block} index={index} />
-                    {homeBlocks.length - 1 !== index && <div className="block__card__separate" />}
-                  </div>
-                )
-              })}
+              {homeBlocks.map((block, index) => (
+                <div key={block.number}>
+                  <BlockCardItem block={block} index={index} />
+                  {homeBlocks.length - 1 !== index && <div className="block__card__separate" />}
+                </div>
+              ))}
             </>
           ) : (
             <Loading />
@@ -281,14 +267,12 @@ export default () => {
           </TableHeaderPanel>
           {transactions.length > 0 ? (
             <>
-              {transactions.map((transaction, index) => {
-                return (
-                  <div key={transaction.transactionHash}>
-                    <TransactionCardItem transaction={transaction} tipBlockNumber={tipBlockNumber} />
-                    {transactions.length - 1 !== index && <div className="transaction__card__separate" />}
-                  </div>
-                )
-              })}
+              {transactions.map((transaction, index) => (
+                <div key={transaction.transactionHash}>
+                  <TransactionCardItem transaction={transaction} tipBlockNumber={tipBlockNumber} />
+                  {transactions.length - 1 !== index && <div className="transaction__card__separate" />}
+                </div>
+              ))}
             </>
           ) : (
             <Loading />

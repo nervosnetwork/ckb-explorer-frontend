@@ -2,13 +2,13 @@
 
 exports[`Active Page shallow renders 1`] = `
 <div
-  className="sc-fznMAR dTmaAe"
+  className="sc-bYwzuL eIKkIX"
 >
   <div
-    className="sc-AxjAm StDqN container"
+    className="sc-bdnxRM container"
   >
     <div
-      className="sc-AxirZ jopuNW"
+      className="sc-gtsrHT lfWIoK"
       style={
         Object {
           "backgroundImage": "url(home_background.svg)",
@@ -25,13 +25,13 @@ exports[`Active Page shallow renders 1`] = `
         id="home__search__bar"
       >
         <div
-          className="sc-fzoXzr lggllm"
+          className="sc-iemWCZ lieFkQ"
         >
           <div
-            className="sc-fzpjYC gjxceE"
+            className="sc-dIvrsQ iCPoYN"
           >
             <div
-              className="sc-fzoLag hNGuHT sc-fznxsB bZFuDJ"
+              className="sc-bkbkJK cWVbrl sc-hHEiqL eklywd"
               onClick={[Function]}
               onKeyDown={[Function]}
               onMouseOver={[Function]}
@@ -44,7 +44,7 @@ exports[`Active Page shallow renders 1`] = `
               />
             </div>
             <input
-              className="sc-fznJRM kSxwCF"
+              className="sc-dlMDgC bGrZXx"
               defaultValue=""
               onChange={[Function]}
               onKeyUp={[Function]}
@@ -53,7 +53,7 @@ exports[`Active Page shallow renders 1`] = `
             
           </div>
           <div
-            className="sc-fznWqX jstrxy"
+            className="sc-kfYoZR dasvWT"
             onClick={[Function]}
           >
             Search
@@ -62,7 +62,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxiKw cqkZBB"
+      className="sc-dlnjwi bVoDOF"
     >
       <div
         className="home__statistic__left__panel"
@@ -71,7 +71,7 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__left__data"
         >
           <div
-            className="sc-AxgMl iwuQHq"
+            className="sc-jSFjdj dsbnpA"
           >
             <div
               className="home__statistic__item__name"
@@ -85,7 +85,7 @@ exports[`Active Page shallow renders 1`] = `
             </div>
           </div>
           <div
-            className="sc-AxgMl ehaRnc"
+            className="sc-jSFjdj iJIkJi"
           >
             <div
               className="home__statistic__item__name"
@@ -103,10 +103,10 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__left__chart"
         >
           <div
-            className="sc-fzoYHE ehzMLn"
+            className="sc-cOifOu egozBn"
           >
             <div
-              className="sc-fzoydu ctqdBw"
+              className="sc-dPaNzc egEobz"
             >
               <img
                 alt="loading"
@@ -124,7 +124,7 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__right__data"
         >
           <div
-            className="sc-AxgMl iwuQHq"
+            className="sc-jSFjdj dsbnpA"
           >
             <div
               className="home__statistic__item__name"
@@ -138,7 +138,7 @@ exports[`Active Page shallow renders 1`] = `
             </div>
           </div>
           <div
-            className="sc-AxgMl ehaRnc"
+            className="sc-jSFjdj iJIkJi"
           >
             <div
               className="home__statistic__item__name"
@@ -156,10 +156,10 @@ exports[`Active Page shallow renders 1`] = `
           className="home__statistic__right__chart"
         >
           <div
-            className="sc-fznAgC dHiSHn"
+            className="sc-khIgEk ddNzhh"
           >
             <div
-              className="sc-fzoydu ctqdBw"
+              className="sc-dPaNzc egEobz"
             >
               <img
                 alt="loading"
@@ -172,13 +172,13 @@ exports[`Active Page shallow renders 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxhCb PGzqW"
+      className="sc-hKFxyN eaPhla"
     >
       <div
         className="blockchain__item__row"
       >
         <div
-          className="sc-AxhUy iyPrqy"
+          className="sc-eCApnc bEgH"
         >
           <div
             className="blockchain__item__content"
@@ -208,7 +208,7 @@ exports[`Active Page shallow renders 1`] = `
           />
         </div>
         <div
-          className="sc-AxhUy iyPrqy"
+          className="sc-eCApnc bEgH"
         >
           <div
             className="blockchain__item__content"
@@ -237,7 +237,7 @@ exports[`Active Page shallow renders 1`] = `
         className="blockchain__item__row"
       >
         <div
-          className="sc-AxhUy iyPrqy"
+          className="sc-eCApnc bEgH"
         >
           <div
             className="blockchain__item__content"
@@ -262,7 +262,7 @@ exports[`Active Page shallow renders 1`] = `
           />
         </div>
         <div
-          className="sc-AxhUy iyPrqy"
+          className="sc-eCApnc bEgH"
         >
           <div
             className="blockchain__item__content"
@@ -287,13 +287,13 @@ exports[`Active Page shallow renders 1`] = `
     </div>
   </div>
   <div
-    className="sc-AxheI hSfBRh container"
+    className="sc-gKAaRy hYoIpZ container"
   >
     <div
-      className="sc-Axmtr bHlHAX"
+      className="sc-iCoGMd bjkxSg"
     >
       <div
-        className="sc-fzpans ezbbDY"
+        className="sc-kEqXSa vMAUD"
       >
         <img
           alt="latest blocks"
@@ -305,7 +305,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzoant grUnPi"
+          className="sc-iBzEeX BiBXx"
         >
           <div
             className="block__card__height"
@@ -315,7 +315,7 @@ exports[`Active Page shallow renders 1`] = `
                 #
               </span>
               <div
-                className="sc-fznWOq euexBf"
+                className="sc-kLojOw UnlmM"
               >
                 <a
                   className="undefined monospace"
@@ -342,7 +342,7 @@ exports[`Active Page shallow renders 1`] = `
                 Miner
               </span>
               <div
-                className="sc-fznzOf bKNQLi"
+                className="sc-carFqZ fanaUo"
                 fontSize="14px"
                 width="10%"
               >
@@ -368,16 +368,16 @@ exports[`Active Page shallow renders 1`] = `
                 Reward
               </span>
               <div
-                className="sc-fzqAbL eQdKTo"
+                className="sc-cTJkRt gaYXXs"
               >
                 <div
-                  className="sc-fzolEj eSfUyM"
+                  className="sc-iklJeh kWIMLL"
                 >
                   <span>
                     1,113
                   </span>
                   <div
-                    className="sc-fzqBkg bVsdMM monospace"
+                    className="sc-jJMGnK kYIQdy monospace"
                     fontSize="9px"
                   >
                     .02
@@ -410,7 +410,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzoant grUnPi"
+          className="sc-iBzEeX BiBXx"
         >
           <div
             className="block__card__height"
@@ -420,7 +420,7 @@ exports[`Active Page shallow renders 1`] = `
                 #
               </span>
               <div
-                className="sc-fznWOq euexBf"
+                className="sc-kLojOw UnlmM"
               >
                 <a
                   className="undefined monospace"
@@ -447,7 +447,7 @@ exports[`Active Page shallow renders 1`] = `
                 Miner
               </span>
               <div
-                className="sc-fznzOf bKNQLi"
+                className="sc-carFqZ fanaUo"
                 fontSize="14px"
                 width="10%"
               >
@@ -473,16 +473,16 @@ exports[`Active Page shallow renders 1`] = `
                 Reward
               </span>
               <div
-                className="sc-fzqAbL eQdKTo"
+                className="sc-cTJkRt gaYXXs"
               >
                 <div
-                  className="sc-fzolEj eSfUyM"
+                  className="sc-iklJeh kWIMLL"
                 >
                   <span>
                     1,113
                   </span>
                   <div
-                    className="sc-fzqBkg bVsdMM monospace"
+                    className="sc-jJMGnK kYIQdy monospace"
                     fontSize="9px"
                   >
                     .02
@@ -515,7 +515,7 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzoant grUnPi"
+          className="sc-iBzEeX BiBXx"
         >
           <div
             className="block__card__height"
@@ -525,7 +525,7 @@ exports[`Active Page shallow renders 1`] = `
                 #
               </span>
               <div
-                className="sc-fznWOq euexBf"
+                className="sc-kLojOw UnlmM"
               >
                 <a
                   className="undefined monospace"
@@ -552,7 +552,7 @@ exports[`Active Page shallow renders 1`] = `
                 Miner
               </span>
               <div
-                className="sc-fznzOf bKNQLi"
+                className="sc-carFqZ fanaUo"
                 fontSize="14px"
                 width="10%"
               >
@@ -578,16 +578,16 @@ exports[`Active Page shallow renders 1`] = `
                 Reward
               </span>
               <div
-                className="sc-fzqAbL eQdKTo"
+                className="sc-cTJkRt gaYXXs"
               >
                 <div
-                  className="sc-fzolEj eSfUyM"
+                  className="sc-iklJeh kWIMLL"
                 >
                   <span>
                     1,113
                   </span>
                   <div
-                    className="sc-fzqBkg bVsdMM monospace"
+                    className="sc-jJMGnK kYIQdy monospace"
                     fontSize="9px"
                   >
                     .02
@@ -616,7 +616,7 @@ exports[`Active Page shallow renders 1`] = `
         </div>
       </div>
       <div
-        className="sc-fzplWN dnBFbs"
+        className="sc-iqAclL gBYvVN"
         onClick={[Function]}
       >
         <span>
@@ -625,10 +625,10 @@ exports[`Active Page shallow renders 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxmLO lnmAWt"
+      className="sc-fujyAs jGCRKG"
     >
       <div
-        className="sc-fzpans ezbbDY"
+        className="sc-kEqXSa vMAUD"
       >
         <img
           alt="latest transactions"
@@ -640,13 +640,13 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzomME bbNGIk"
+          className="sc-efHYUO eDoIAs"
         >
           <div
             className="transaction__card__hash"
           >
             <div
-              className="sc-fznWOq euexBf"
+              className="sc-kLojOw UnlmM"
             >
               <a
                 className="undefined monospace"
@@ -659,7 +659,7 @@ exports[`Active Page shallow renders 1`] = `
             <span
               className="transaction__card__confirmation"
             >
-              -1354 Confirmation
+              0 Confirmation
             </span>
           </div>
           <div
@@ -677,7 +677,7 @@ exports[`Active Page shallow renders 1`] = `
                 #
               </span>
               <div
-                className="sc-fznWOq euexBf"
+                className="sc-kLojOw UnlmM"
               >
                 <a
                   className="undefined monospace"
@@ -698,13 +698,13 @@ exports[`Active Page shallow renders 1`] = `
             className="transaction__card__capacity"
           >
             <div
-              className="sc-fzolEj eSfUyM"
+              className="sc-iklJeh kWIMLL"
             >
               <span>
                 1,113
               </span>
               <div
-                className="sc-fzqBkg bVsdMM monospace"
+                className="sc-jJMGnK kYIQdy monospace"
                 fontSize="9px"
               >
                 .03
@@ -728,13 +728,13 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzomME bbNGIk"
+          className="sc-efHYUO eDoIAs"
         >
           <div
             className="transaction__card__hash"
           >
             <div
-              className="sc-fznWOq euexBf"
+              className="sc-kLojOw UnlmM"
             >
               <a
                 className="undefined monospace"
@@ -747,7 +747,7 @@ exports[`Active Page shallow renders 1`] = `
             <span
               className="transaction__card__confirmation"
             >
-              -1346 Confirmation
+              0 Confirmation
             </span>
           </div>
           <div
@@ -765,7 +765,7 @@ exports[`Active Page shallow renders 1`] = `
                 #
               </span>
               <div
-                className="sc-fznWOq euexBf"
+                className="sc-kLojOw UnlmM"
               >
                 <a
                   className="undefined monospace"
@@ -786,13 +786,13 @@ exports[`Active Page shallow renders 1`] = `
             className="transaction__card__capacity"
           >
             <div
-              className="sc-fzolEj eSfUyM"
+              className="sc-iklJeh kWIMLL"
             >
               <span>
                 1,113
               </span>
               <div
-                className="sc-fzqBkg bVsdMM monospace"
+                className="sc-jJMGnK kYIQdy monospace"
                 fontSize="9px"
               >
                 .03
@@ -816,13 +816,13 @@ exports[`Active Page shallow renders 1`] = `
       </div>
       <div>
         <div
-          className="sc-fzomME bbNGIk"
+          className="sc-efHYUO eDoIAs"
         >
           <div
             className="transaction__card__hash"
           >
             <div
-              className="sc-fznWOq euexBf"
+              className="sc-kLojOw UnlmM"
             >
               <a
                 className="undefined monospace"
@@ -835,7 +835,7 @@ exports[`Active Page shallow renders 1`] = `
             <span
               className="transaction__card__confirmation"
             >
-              -1338 Confirmation
+              0 Confirmation
             </span>
           </div>
           <div
@@ -853,7 +853,7 @@ exports[`Active Page shallow renders 1`] = `
                 #
               </span>
               <div
-                className="sc-fznWOq euexBf"
+                className="sc-kLojOw UnlmM"
               >
                 <a
                   className="undefined monospace"
@@ -874,13 +874,13 @@ exports[`Active Page shallow renders 1`] = `
             className="transaction__card__capacity"
           >
             <div
-              className="sc-fzolEj eSfUyM"
+              className="sc-iklJeh kWIMLL"
             >
               <span>
                 1,113
               </span>
               <div
-                className="sc-fzqBkg bVsdMM monospace"
+                className="sc-jJMGnK kYIQdy monospace"
                 fontSize="9px"
               >
                 .03
@@ -900,7 +900,7 @@ exports[`Active Page shallow renders 1`] = `
         </div>
       </div>
       <div
-        className="sc-fzplWN dnBFbs"
+        className="sc-iqAclL gBYvVN"
         onClick={[Function]}
       >
         <span>
@@ -914,13 +914,13 @@ exports[`Active Page shallow renders 1`] = `
 
 exports[`Active Page shallow renders with empty data 1`] = `
 <div
-  className="sc-fznMAR dTmaAe"
+  className="sc-bYwzuL eIKkIX"
 >
   <div
-    className="sc-AxjAm StDqN container"
+    className="sc-bdnxRM container"
   >
     <div
-      className="sc-AxirZ jopuNW"
+      className="sc-gtsrHT lfWIoK"
       style={
         Object {
           "backgroundImage": "url(home_background.svg)",
@@ -937,13 +937,13 @@ exports[`Active Page shallow renders with empty data 1`] = `
         id="home__search__bar"
       >
         <div
-          className="sc-fzoXzr lggllm"
+          className="sc-iemWCZ lieFkQ"
         >
           <div
-            className="sc-fzpjYC gjxceE"
+            className="sc-dIvrsQ iCPoYN"
           >
             <div
-              className="sc-fzoLag hNGuHT sc-fznxsB bZFuDJ"
+              className="sc-bkbkJK cWVbrl sc-hHEiqL eklywd"
               onClick={[Function]}
               onKeyDown={[Function]}
               onMouseOver={[Function]}
@@ -956,7 +956,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
               />
             </div>
             <input
-              className="sc-fznJRM kSxwCF"
+              className="sc-dlMDgC bGrZXx"
               defaultValue=""
               onChange={[Function]}
               onKeyUp={[Function]}
@@ -965,7 +965,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             
           </div>
           <div
-            className="sc-fznWqX jstrxy"
+            className="sc-kfYoZR dasvWT"
             onClick={[Function]}
           >
             Search
@@ -974,7 +974,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxiKw cqkZBB"
+      className="sc-dlnjwi bVoDOF"
     >
       <div
         className="home__statistic__left__panel"
@@ -983,7 +983,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__left__data"
         >
           <div
-            className="sc-AxgMl iwuQHq"
+            className="sc-jSFjdj dsbnpA"
           >
             <div
               className="home__statistic__item__name"
@@ -997,7 +997,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             </div>
           </div>
           <div
-            className="sc-AxgMl ehaRnc"
+            className="sc-jSFjdj iJIkJi"
           >
             <div
               className="home__statistic__item__name"
@@ -1015,10 +1015,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__left__chart"
         >
           <div
-            className="sc-fzoYHE ehzMLn"
+            className="sc-cOifOu egozBn"
           >
             <div
-              className="sc-fzoydu ctqdBw"
+              className="sc-dPaNzc egEobz"
             >
               <img
                 alt="loading"
@@ -1036,7 +1036,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__right__data"
         >
           <div
-            className="sc-AxgMl iwuQHq"
+            className="sc-jSFjdj dsbnpA"
           >
             <div
               className="home__statistic__item__name"
@@ -1050,7 +1050,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             </div>
           </div>
           <div
-            className="sc-AxgMl ehaRnc"
+            className="sc-jSFjdj iJIkJi"
           >
             <div
               className="home__statistic__item__name"
@@ -1068,10 +1068,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
           className="home__statistic__right__chart"
         >
           <div
-            className="sc-fznAgC dHiSHn"
+            className="sc-khIgEk ddNzhh"
           >
             <div
-              className="sc-fzoydu ctqdBw"
+              className="sc-dPaNzc egEobz"
             >
               <img
                 alt="loading"
@@ -1084,13 +1084,13 @@ exports[`Active Page shallow renders with empty data 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxhCb PGzqW"
+      className="sc-hKFxyN eaPhla"
     >
       <div
         className="blockchain__item__row"
       >
         <div
-          className="sc-AxhUy iyPrqy"
+          className="sc-eCApnc bEgH"
         >
           <div
             className="blockchain__item__content"
@@ -1120,7 +1120,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           />
         </div>
         <div
-          className="sc-AxhUy iyPrqy"
+          className="sc-eCApnc bEgH"
         >
           <div
             className="blockchain__item__content"
@@ -1149,7 +1149,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         className="blockchain__item__row"
       >
         <div
-          className="sc-AxhUy iyPrqy"
+          className="sc-eCApnc bEgH"
         >
           <div
             className="blockchain__item__content"
@@ -1174,7 +1174,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           />
         </div>
         <div
-          className="sc-AxhUy iyPrqy"
+          className="sc-eCApnc bEgH"
         >
           <div
             className="blockchain__item__content"
@@ -1199,13 +1199,13 @@ exports[`Active Page shallow renders with empty data 1`] = `
     </div>
   </div>
   <div
-    className="sc-AxheI hSfBRh container"
+    className="sc-gKAaRy hYoIpZ container"
   >
     <div
-      className="sc-Axmtr bHlHAX"
+      className="sc-iCoGMd bjkxSg"
     >
       <div
-        className="sc-fzpans ezbbDY"
+        className="sc-kEqXSa vMAUD"
       >
         <img
           alt="latest blocks"
@@ -1216,7 +1216,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         </span>
       </div>
       <div
-        className="sc-fzoydu ctqdBw"
+        className="sc-dPaNzc egEobz"
       >
         <img
           alt="loading"
@@ -1224,7 +1224,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         />
       </div>
       <div
-        className="sc-fzplWN dnBFbs"
+        className="sc-iqAclL gBYvVN"
         onClick={[Function]}
       >
         <span>
@@ -1233,10 +1233,10 @@ exports[`Active Page shallow renders with empty data 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxmLO lnmAWt"
+      className="sc-fujyAs jGCRKG"
     >
       <div
-        className="sc-fzpans ezbbDY"
+        className="sc-kEqXSa vMAUD"
       >
         <img
           alt="latest transactions"
@@ -1247,7 +1247,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         </span>
       </div>
       <div
-        className="sc-fzoydu ctqdBw"
+        className="sc-dPaNzc egEobz"
       >
         <img
           alt="loading"
@@ -1255,7 +1255,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
         />
       </div>
       <div
-        className="sc-fzplWN dnBFbs"
+        className="sc-iqAclL gBYvVN"
         onClick={[Function]}
       >
         <span>

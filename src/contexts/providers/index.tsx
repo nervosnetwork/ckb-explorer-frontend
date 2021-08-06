@@ -1,10 +1,10 @@
-import React, { createContext, useReducer, useContext } from 'react'
+import { createContext, useReducer, useContext } from 'react'
 import initState from '../states/index'
 import { AppDispatch, reducer } from '../reducer'
 
 export const AppContext = createContext<{ state: typeof initState; dispatch: AppDispatch }>({
   state: initState,
-  dispatch: console.info,
+  dispatch: () => {},
 })
 
 const withProviders = (Comp: React.ComponentType) => (props: React.Props<any>) => {

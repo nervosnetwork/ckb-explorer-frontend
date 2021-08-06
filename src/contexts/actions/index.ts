@@ -119,4 +119,5 @@ export enum ComponentActions {
 
 export type StateActions = AppActions | PageActions | ComponentActions
 
+// eslint-disable-next-line no-undef
 export default StateActions

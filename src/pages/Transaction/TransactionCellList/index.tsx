@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from 'react'
-import { CellType, PAGE_CELL_COUNT } from '../../../utils/const'
+import { useState, useCallback } from 'react'
+import { CellType, PAGE_CELL_COUNT } from '../../../constants/common'
 import i18n from '../../../utils/i18n'
 import TransactionCell from '../TransactionCell'
 import { TransactionCellListPanel, TransactionCellListTitlePanel, TransactionCellsPanel } from './styled'

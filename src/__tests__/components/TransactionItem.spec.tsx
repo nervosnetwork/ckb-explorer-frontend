@@ -1,11 +1,11 @@
-import React, { ReactElement } from 'react'
+import { lement } from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
 import 'jest-styled-components'
 import * as timezoneMock from 'timezone-mock'
+import { BrowserRouter } from 'react-router-dom'
 import TransactionItem from '../../components/TransactionItem'
 import { toCamelcase } from '../../utils/util'
-import { BrowserRouter } from 'react-router-dom'
 
 const tx = {
   is_cellbase: false,

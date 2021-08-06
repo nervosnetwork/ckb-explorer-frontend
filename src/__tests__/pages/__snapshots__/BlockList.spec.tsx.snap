@@ -2,22 +2,22 @@
 
 exports[`Active Page shallow renders with empty data 1`] = `
 <div
-  className="sc-fznJRM lmHEkF"
+  className="sc-dlMDgC eqiOCJ"
 >
   <div
-    className="sc-AxjAm bAbQHZ container"
+    className="sc-bdnxRM fvTKHn container"
   >
     <div
       className="block__green__background"
     />
     <div
-      className="sc-AxiKw esumCH"
+      className="sc-dlnjwi kAPVVD"
     >
       <div
-        className="sc-fznWqX hHLogm"
+        className="sc-kfYoZR cBpCin"
       >
         <div
-          className="sc-fzoiQi fTOqfe"
+          className="sc-fKgJPI eKjlJz"
           width="14%"
         >
           <div>
@@ -25,7 +25,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </div>
         </div>
         <div
-          className="sc-fzoiQi bfJcav"
+          className="sc-fKgJPI bwakIW"
           width="8%"
         >
           <div>
@@ -33,7 +33,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </div>
         </div>
         <div
-          className="sc-fzoiQi cEyfUN"
+          className="sc-fKgJPI hINHmI"
           width="20%"
         >
           <div>
@@ -41,7 +41,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </div>
         </div>
         <div
-          className="sc-fzoiQi igbORU"
+          className="sc-fKgJPI DRUUp"
           width="43%"
         >
           <div>
@@ -49,7 +49,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </div>
         </div>
         <div
-          className="sc-fzoiQi fdZMGj"
+          className="sc-fKgJPI fzXPiu"
           width="15%"
         >
           <div>
@@ -62,13 +62,13 @@ exports[`Active Page shallow renders with empty data 1`] = `
       className="block_list__pagination"
     >
       <div
-        className="sc-fzoXWK kUXNpq"
+        className="sc-iJCRrE fjrOUq"
       >
         <div
-          className="sc-fzpmMD bWtinx"
+          className="sc-giAqHp RQCMl"
         >
           <div
-            className="sc-fzoLsD bpXaOq pagination__first__button"
+            className="sc-jrsJWt eRbRmm pagination__first__button"
             onClick={[Function]}
             onKeyDown={[Function]}
             onMouseOver={[Function]}
@@ -78,7 +78,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             First
           </div>
           <div
-            className="sc-fzoLsD bpXaOq pagination__left__button"
+            className="sc-jrsJWt eRbRmm pagination__left__button"
             onClick={[Function]}
             onKeyDown={[Function]}
             onMouseOver={[Function]}
@@ -96,7 +96,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             Page 0 of 1 
           </span>
           <div
-            className="sc-fzoLsD bpXaOq pagination__right__button"
+            className="sc-jrsJWt eRbRmm pagination__right__button"
             onClick={[Function]}
             onKeyDown={[Function]}
             onMouseOver={[Function]}
@@ -109,7 +109,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             />
           </div>
           <div
-            className="sc-fzoLsD bpXaOq pagination__last__button"
+            className="sc-jrsJWt eRbRmm pagination__last__button"
             onClick={[Function]}
             onKeyDown={[Function]}
             onMouseOver={[Function]}
@@ -120,7 +120,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
           </div>
         </div>
         <div
-          className="sc-fznxKY iDSXGf"
+          className="sc-ezzafa ctscoG"
         >
           <span
             className="pagination__page__label"
@@ -136,7 +136,7 @@ exports[`Active Page shallow renders with empty data 1`] = `
             value={2}
           />
           <div
-            className="sc-fzoLsD bpXaOq pagination__goto__page"
+            className="sc-jrsJWt eRbRmm pagination__goto__page"
             onClick={[Function]}
             onKeyDown={[Function]}
             onMouseOver={[Function]}

@@ -1,116 +1,3 @@
-import CONFIG from '../config'
-
-export const BLOCK_POLLING_TIME = 4000
-export const MAX_CONFIRMATION = 1000
-export const BLOCKCHAIN_ALERT_POLLING_TIME = 10000
-export const FLUSH_CHART_CACHE_POLLING_TIME = 300000 // 5 minutes
-export const RESIZE_LATENCY = 500
-export const LOADING_WAITING_TIME = 500
-export const DELAY_BLOCK_NUMBER = 11
-export const PAGE_CELL_COUNT = 200
-export const MAINTENANCE_ALERT_POLLING_TIME = 3600000 // 1 hour
-
-export const MAINNET_PRIMARY_THEME_COLOR = '#3cc68a'
-export const MAINNET_SECONDARY_THEME_COLOR = '#3cc68a'
-export const TESTNET_PRIMARY_THEME_COLOR = '#617bbd'
-export const TESTNET_SECONDARY_THEME_COLOR = '#85A1EA'
-
-export const TOKEN_EMAIL_ADDRESS = 'asset-info-submit@nervina.io'
-export const TOKEN_EMAIL_SUBJECT = 'Submit Token Info'
-export const TOKEN_EMAIL_BODY = `
-Title: Submit Token Information%0a%0d
-Type Script:%0a%0d
-    Code Hash:%0a%0d
-    Hash Type:%0a%0d
-    Args:%0a%0d
-
-Information:%0a%0d
-   Full Name: 32 length max%0a%0d
-   Symbol: 8 length max / ASCII%0a%0d
-   Decimal: 8 (default)%0a%0d
-   Description:%0a%0d
-   Website:%0a%0d
-   Icon File: attachment (40 x 40)%0a%0d
-   Other Info:%0a%0d
-
-Note: Only accept sUDT information submission now.
-`
-
-export const HttpErrorCode = {
-  NOT_FOUND_ADDRESS: 1010,
-}
-
-export const SearchFailType = {
-  CHAIN_ERROR: 'chain_error',
-}
-
-export const AppCachedKeys = {
-  AppLanguage: `${CONFIG.CHAIN_TYPE}-AppLanguage`,
-  Version: `${CONFIG.CHAIN_TYPE}-Version`,
-  MaintenanceAlert: `${CONFIG.CHAIN_TYPE}-MaintenanceAlert`,
-}
-
-export const ChartCachedKeys = {
-  APC: `${CONFIG.CHAIN_TYPE}-APC`,
-  InflationRate: `${CONFIG.CHAIN_TYPE}-InflationRate`,
-  TransactionCount: `${CONFIG.CHAIN_TYPE}-TransactionCount`,
-  AddressCount: `${CONFIG.CHAIN_TYPE}-AddressCount`,
-  CellCount: `${CONFIG.CHAIN_TYPE}-CellCount`,
-  TransactionFee: `${CONFIG.CHAIN_TYPE}-TransactionFee`,
-  AddressBalanceRank: `${CONFIG.CHAIN_TYPE}-AddressBalanceRank`,
-  BalanceDistribution: `${CONFIG.CHAIN_TYPE}-BalanceDistribution`,
-  AverageBlockTime: `${CONFIG.CHAIN_TYPE}-AverageBlockTime`,
-  EpochTimeDistribution: `${CONFIG.CHAIN_TYPE}-EpochTimeDistribution`,
-  BlockTimeDistribution: `${CONFIG.CHAIN_TYPE}-BlockTimeDistribution`,
-  Difficulty: `${CONFIG.CHAIN_TYPE}-Difficulty`,
-  HashRate: `${CONFIG.CHAIN_TYPE}-HashRate`,
-  UncleRate: `${CONFIG.CHAIN_TYPE}-UncleRate`,
-  DifficultyHashRate: `${CONFIG.CHAIN_TYPE}-DifficultyHashRate`,
-  DifficultyUncleRateEpoch: `${CONFIG.CHAIN_TYPE}-DifficultyUncleRateEpoch`,
-  UncleHashRate: `${CONFIG.CHAIN_TYPE}-UncleHashRate`,
-  MinerAddressDistribution: `${CONFIG.CHAIN_TYPE}-MinerAddressDistribution`,
-  TotalDeposit: `${CONFIG.CHAIN_TYPE}-TotalDeposit`,
-  DailyDeposit: `${CONFIG.CHAIN_TYPE}-DailyDeposit`,
-  DepositCirculationRatio: `${CONFIG.CHAIN_TYPE}-DepositCirculationRatio`,
-  TotalSupply: `${CONFIG.CHAIN_TYPE}-TotalSupply`,
-  SecondaryIssuance: `${CONFIG.CHAIN_TYPE}-SecondaryIssuance`,
-  Liquidity: `${CONFIG.CHAIN_TYPE}-Liquidity`,
-  NodeDistribution: `${CONFIG.CHAIN_TYPE}-NodeDistribution`,
-}
-
-export enum CellState {
-  NONE = 0,
-  LOCK = 1,
-  TYPE = 2,
-  DATA = 3,
-}
-
-export enum CellType {
-  Input = 'input',
-  Output = 'output',
-}
-
-export enum DataType {
-  LockScript = 'lock_script',
-  TypeScript = 'type_script',
-  Data = 'data',
-}
-
-export enum PageParams {
-  PageNo = 1,
-  PageSize = 10,
-  MaxPageSize = 100,
-}
-
-export enum ListPageParams {
-  PageNo = 1,
-  PageSize = 25,
-  MaxPageSize = 100,
-}
-
-export const ChartColors = ['#3182bd', '#66CC99']
-export const ChartMoreColors = ['#3182bd', '#66CC99', '#FBB04C', '#525860']
-
 export interface ContractHashTag {
   codeHashes: string[] // The code hashes whose hash type are type in mainnet and testnet are different
   txHashes: string[] //  mainnet and testnet contract tx hashes
@@ -160,6 +47,42 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0x1d60cb8f4666e039f418ea94730b1a8c5aa0bf2f7781474406387462924d15d4-0'],
     tag: 'pwlock-k1-acpl',
     category: 'lock',
+  },
+  {
+    codeHashes: ['0xe4d4ecc6e5f9a059bf2f7a82cca292083aebc0c421566a52484fe2ec51a9fb0c'],
+    txHashes: ['0x04632cc459459cf5c9d384b43dee3e36f542a464bdd4127be7d6618ac6f8d268-0'],
+    tag: 'cheque',
+    category: 'lock',
+  },
+  {
+    codeHashes: ['0x24b04faf80ded836efc05247778eec4ec02548dab6e2012c0107374aa3f68b81'],
+    txHashes: [
+      '0xb4c76f34382f03f39e2e39dd8a4cca037394bb3d032bde6a285c52e5a5e35535-0',
+      '0xd521f52a7f4f4f00a25f0f6924c439844574d77d228113077ee0c84dc60ad11d-0',
+      '0xdb29e26b3553559140bffddbc8f04011207db8a5996cbaf5b521db98e9d11b17-0',
+    ],
+    tag: 'm-nft_issuer',
+    category: 'type',
+  },
+  {
+    codeHashes: ['0xd51e6eaf48124c601f41abe173f1da550b4cbca9c6a166781906a287abbb3d9a'],
+    txHashes: [
+      '0xc3b5ada764ed341d42f86aee3ec17d7ffdd6372155b41b95687a7957b359ab39-0',
+      '0xd521f52a7f4f4f00a25f0f6924c439844574d77d228113077ee0c84dc60ad11d-1',
+      '0xdb29e26b3553559140bffddbc8f04011207db8a5996cbaf5b521db98e9d11b17-1',
+    ],
+    tag: 'm-nft_class',
+    category: 'type',
+  },
+  {
+    codeHashes: ['0x2b24f0d644ccbdd77bbf86b27c8cca02efa0ad051e447c212636d9ee7acaaec9'],
+    txHashes: [
+      '0xaf35eb9ba88d0b159ba450cfcc9089796cc401bc4089a43de018c12f990909a5-0',
+      '0xd521f52a7f4f4f00a25f0f6924c439844574d77d228113077ee0c84dc60ad11d-2',
+      '0xdb29e26b3553559140bffddbc8f04011207db8a5996cbaf5b521db98e9d11b17-2',
+    ],
+    tag: 'm-nft',
+    category: 'type',
   },
 ]
 
@@ -217,5 +140,41 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0x28ee75f9745828eaade301ef24d0b037404717469a299180ecb679259cb688ab-0'],
     tag: 'pwlock-r1',
     category: 'lock',
+  },
+  {
+    codeHashes: ['0x60d5f39efce409c587cb9ea359cefdead650ca128f0bd9cb3855348f98c70d5b'],
+    txHashes: ['0x7f96858be0a9d584b4a9ea190e0420835156a6010a5fde15ffcdc9d9c721ccab-0'],
+    tag: 'cheque',
+    category: 'lock',
+  },
+  {
+    codeHashes: ['0xb59879b6ea6fff985223117fa499ce84f8cfb028c4ffdfdf5d3ec19e905a11ed'],
+    txHashes: [
+      '0x744d2c4c4e6fabe66cfb08cb818532c50fffc682a7614746328c5d691a811c06-0',
+      '0xbd262c87a84c08ea3bc141700cf55c1a285009de0e22c247a8d9597b4fc491e6-0',
+      '0x194a0f84de41d006a07ece07c96a8130100818599fcf0b2ecf49e512b873ed6e-0',
+    ],
+    tag: 'm-nft_issuer',
+    category: 'type',
+  },
+  {
+    codeHashes: ['0x095b8c0b4e51a45f953acd1fcd1e39489f2675b4bc94e7af27bb38958790e3fc'],
+    txHashes: [
+      '0x4f27e40b302bcb3bf0af3deae460f46076de2b4db30c0212b14b341c20fcb330-0',
+      '0xbd262c87a84c08ea3bc141700cf55c1a285009de0e22c247a8d9597b4fc491e6-1',
+      '0x194a0f84de41d006a07ece07c96a8130100818599fcf0b2ecf49e512b873ed6e-1',
+    ],
+    tag: 'm-nft_class',
+    category: 'type',
+  },
+  {
+    codeHashes: ['0xb1837b5ad01a88558731953062d1f5cb547adf89ece01e8934a9f0aeed2d959f'],
+    txHashes: [
+      '0x7f9e3c1a2fc90411eb90fc2363101f6bd7b33875c3535117db5e52cd8a78b313-0',
+      '0xbd262c87a84c08ea3bc141700cf55c1a285009de0e22c247a8d9597b4fc491e6-2',
+      '0x194a0f84de41d006a07ece07c96a8130100818599fcf0b2ecf49e512b873ed6e-2',
+    ],
+    tag: 'm-nft',
+    category: 'type',
   },
 ]

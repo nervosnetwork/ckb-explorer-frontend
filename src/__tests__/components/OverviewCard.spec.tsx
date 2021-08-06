@@ -1,7 +1,7 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { shallow } from 'enzyme'
-import OverviewCard, { OverviewItem } from '../../components/Card/OverviewCard'
 import renderer from 'react-test-renderer'
+import OverviewCard, { OverviewItem } from '../../components/Card/OverviewCard'
 
 describe('OverviewCard Component', () => {
   let component: ReactElement

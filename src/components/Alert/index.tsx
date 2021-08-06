@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { AlertPanel } from './styled'
 import i18n, { currentLanguage } from '../../utils/i18n'
 import { parseSimpleDateNoSecond } from '../../utils/date'
 import SimpleButton from '../SimpleButton'
 import { ComponentActions } from '../../contexts/actions'
-import { AppCachedKeys } from '../../utils/const'
+import { AppCachedKeys } from '../../constants/cache'
 
 const Alert = () => {
   const dispatch = useDispatch()

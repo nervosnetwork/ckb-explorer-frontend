@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import SearchFilter from '../../../assets/search_filter.png'
 import ClearLogo from '../../../assets/clear.png'
@@ -9,7 +9,7 @@ import { useDispatch, useAppState } from '../../../contexts/providers'
 import { FilterImage, FilterPanel, ResetButtonPanel, FilterInputPanel } from './styled'
 import { containSpecialChar } from '../../../utils/string'
 import { getUDTTransactionsWithAddress, getSimpleUDTTransactions } from '../../../service/app/udt'
-import { PageParams } from '../../../utils/const'
+import { PageParams } from '../../../constants/common'
 
 export enum FilterType {
   DAO,
@@ -39,30 +39,29 @@ const Filter = ({
     udtState: { filterStatus },
   } = useAppState()
   const [t] = useTranslation()
-  const SearchPlaceholder = useMemo(() => {
-    return filterType === FilterType.DAO ? t('nervos_dao.dao_search_placeholder') : t('udt.search_placeholder')
-  }, [t, filterType])
+  const SearchPlaceholder = useMemo(
+    () => (filterType === FilterType.DAO ? t('nervos_dao.dao_search_placeholder') : t('udt.search_placeholder')),
+    [t, filterType],
+  )
   const [filterValue, setFilterValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
   const [showReset, setShowReset] = useState(false)
   const [showClear, setShowClear] = useState(false)
   const inputElement = useRef<HTMLInputElement>(null)
 
-  const FilterIcon = ({ isClear }: { isClear?: boolean }) => {
-    return (
-      <FilterImage
-        isClear={isClear}
-        onClick={() => {
-          if (isClear) {
-            setShowClear(false)
-            clearFilterInput(inputElement)
-          }
-        }}
-      >
-        <img src={isClear ? ClearLogo : SearchFilter} alt="search logo" />
-      </FilterImage>
-    )
-  }
+  const FilterIcon = ({ isClear }: { isClear?: boolean }) => (
+    <FilterImage
+      isClear={isClear}
+      onClick={() => {
+        if (isClear) {
+          setShowClear(false)
+          clearFilterInput(inputElement)
+        }
+      }}
+    >
+      <img src={isClear ? ClearLogo : SearchFilter} alt="search logo" />
+    </FilterImage>
+  )
 
   const ResetFilter = () => {
     const dispatch = useDispatch()

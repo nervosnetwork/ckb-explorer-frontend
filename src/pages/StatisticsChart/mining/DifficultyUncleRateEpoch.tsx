@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import BigNumber from 'bignumber.js'
 import { getStatisticDifficultyUncleRateEpoch } from '../../../service/app/charts/mining'
 import { useAppState, useDispatch } from '../../../contexts/providers'
@@ -6,7 +6,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
 import { handleDifficulty } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
-import { ChartMoreColors } from '../../../utils/const'
+import { ChartMoreColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { parseHourFromMillisecond } from '../../../utils/date'
 
@@ -50,182 +50,180 @@ const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }
   return ''
 }
 
-const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[], isThumbnail = false) => {
-  return {
-    color: ChartMoreColors,
-    tooltip: !isThumbnail
-      ? {
-          trigger: 'axis',
-          formatter: (dataList: any) => {
-            const list = dataList as Array<{ seriesName: string; data: string; name: string }>
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${list[0].name}</div>`
-            list.forEach(data => {
-              result += parseTooltip(data)
-            })
-            return result
+const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[], isThumbnail = false) => ({
+  color: ChartMoreColors,
+  tooltip: !isThumbnail
+    ? {
+        trigger: 'axis',
+        formatter: (dataList: any) => {
+          const list = dataList as Array<{ seriesName: string; data: string; name: string }>
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${list[0].name}</div>`
+          list.forEach(data => {
+            result += parseTooltip(data)
+          })
+          return result
+        },
+      }
+    : undefined,
+  legend: !isThumbnail
+    ? {
+        data: [
+          {
+            name: i18n.t('block.difficulty'),
           },
-        }
-      : undefined,
-    legend: !isThumbnail
-      ? {
-          data: [
-            {
-              name: i18n.t('block.difficulty'),
+          {
+            name: i18n.t('block.uncle_rate'),
+          },
+          {
+            name: i18n.t('block.epoch_time'),
+          },
+          {
+            name: i18n.t('block.epoch_length'),
+          },
+        ],
+        textStyle: {
+          fontSize: isMobile() ? 11 : 14,
+        },
+      }
+    : undefined,
+  grid: isThumbnail ? gridThumbnail : grid,
+  xAxis: [
+    {
+      name: isMobile() || isThumbnail ? '' : i18n.t('block.epoch'),
+      nameLocation: 'middle',
+      nameGap: 30,
+      type: 'category',
+      boundaryGap: true,
+      data: statisticChartData.map(data => data.epochNumber),
+      axisLabel: {
+        formatter: (value: string) => value,
+      },
+    },
+  ],
+  yAxis: [
+    {
+      position: 'left',
+      name: isMobile() || isThumbnail ? '' : i18n.t('block.difficulty'),
+      type: 'value',
+      scale: true,
+      axisLine: {
+        lineStyle: {
+          color: ChartMoreColors[0],
+        },
+      },
+      axisLabel: {
+        formatter: (value: string) => handleAxis(new BigNumber(value)),
+      },
+    },
+    {
+      position: 'right',
+      name: isMobile() || isThumbnail ? '' : i18n.t('block.uncle_rate'),
+      type: 'value',
+      scale: true,
+      splitLine: {
+        show: false,
+      },
+      max: max(statisticChartData),
+      min: 0,
+      axisLine: {
+        lineStyle: {
+          color: ChartMoreColors[1],
+        },
+      },
+      axisLabel: {
+        formatter: (value: string) => `${value}%`,
+      },
+    },
+    {
+      position: 'left',
+      scale: true,
+      axisLine: {
+        lineStyle: {
+          color: ChartMoreColors[0],
+        },
+      },
+      axisLabel: {
+        formatter: () => '',
+      },
+    },
+    {
+      position: 'right',
+      scale: true,
+      axisLine: {
+        lineStyle: {
+          color: ChartMoreColors[1],
+        },
+      },
+      axisLabel: {
+        formatter: () => '',
+      },
+    },
+  ],
+  series: [
+    {
+      name: i18n.t('block.difficulty'),
+      type: 'bar',
+      step: 'start',
+      areaStyle: {
+        color: '#85bae0',
+      },
+      yAxisIndex: 0,
+      symbol: isThumbnail ? 'none' : 'circle',
+      symbolSize: 5,
+      data: statisticChartData.map(data => new BigNumber(data.difficulty).toNumber()),
+    },
+    {
+      name: i18n.t('block.uncle_rate'),
+      type: 'line',
+      smooth: true,
+      yAxisIndex: 1,
+      symbol: 'circle',
+      symbolSize: 5,
+      data: statisticChartData.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
+      markLine: isThumbnail
+        ? undefined
+        : {
+            symbol: 'none',
+            lineStyle: {
+              color: ChartMoreColors[1],
             },
-            {
-              name: i18n.t('block.uncle_rate'),
-            },
-            {
-              name: i18n.t('block.epoch_time'),
-            },
-            {
-              name: i18n.t('block.epoch_length'),
-            },
-          ],
-          textStyle: {
-            fontSize: isMobile() ? 11 : 14,
-          },
-        }
-      : undefined,
-    grid: isThumbnail ? gridThumbnail : grid,
-    xAxis: [
-      {
-        name: isMobile() || isThumbnail ? '' : i18n.t('block.epoch'),
-        nameLocation: 'middle',
-        nameGap: 30,
-        type: 'category',
-        boundaryGap: true,
-        data: statisticChartData.map(data => data.epochNumber),
-        axisLabel: {
-          formatter: (value: string) => value,
-        },
-      },
-    ],
-    yAxis: [
-      {
-        position: 'left',
-        name: isMobile() || isThumbnail ? '' : i18n.t('block.difficulty'),
-        type: 'value',
-        scale: true,
-        axisLine: {
-          lineStyle: {
-            color: ChartMoreColors[0],
-          },
-        },
-        axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
-        },
-      },
-      {
-        position: 'right',
-        name: isMobile() || isThumbnail ? '' : i18n.t('block.uncle_rate'),
-        type: 'value',
-        scale: true,
-        splitLine: {
-          show: false,
-        },
-        max: max(statisticChartData),
-        min: 0,
-        axisLine: {
-          lineStyle: {
-            color: ChartMoreColors[1],
-          },
-        },
-        axisLabel: {
-          formatter: (value: string) => `${value}%`,
-        },
-      },
-      {
-        position: 'left',
-        scale: true,
-        axisLine: {
-          lineStyle: {
-            color: ChartMoreColors[0],
-          },
-        },
-        axisLabel: {
-          formatter: () => '',
-        },
-      },
-      {
-        position: 'right',
-        scale: true,
-        axisLine: {
-          lineStyle: {
-            color: ChartMoreColors[1],
-          },
-        },
-        axisLabel: {
-          formatter: () => '',
-        },
-      },
-    ],
-    series: [
-      {
-        name: i18n.t('block.difficulty'),
-        type: 'bar',
-        step: 'start',
-        areaStyle: {
-          color: '#85bae0',
-        },
-        yAxisIndex: 0,
-        symbol: isThumbnail ? 'none' : 'circle',
-        symbolSize: 5,
-        data: statisticChartData.map(data => new BigNumber(data.difficulty).toNumber()),
-      },
-      {
-        name: i18n.t('block.uncle_rate'),
-        type: 'line',
-        smooth: true,
-        yAxisIndex: 1,
-        symbol: 'circle',
-        symbolSize: 5,
-        data: statisticChartData.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
-        markLine: isThumbnail
-          ? undefined
-          : {
-              symbol: 'none',
-              lineStyle: {
-                color: ChartMoreColors[1],
+            data: [
+              {
+                name: i18n.t('block.uncle_rate_target'),
+                yAxis: 2.5,
               },
-              data: [
-                {
-                  name: i18n.t('block.uncle_rate_target'),
-                  yAxis: 2.5,
-                },
-              ],
-              label: {
-                formatter: (params: any) => `${params.value}%`,
-              },
+            ],
+            label: {
+              formatter: (params: any) => `${params.value}%`,
             },
+          },
+    },
+    {
+      name: i18n.t('block.epoch_time'),
+      type: 'bar',
+      step: 'start',
+      areaStyle: {
+        color: ChartMoreColors[2],
       },
-      {
-        name: i18n.t('block.epoch_time'),
-        type: 'bar',
-        step: 'start',
-        areaStyle: {
-          color: ChartMoreColors[2],
-        },
-        yAxisIndex: 2,
-        symbol: isThumbnail ? 'none' : 'circle',
-        symbolSize: 5,
-        data: statisticChartData.map(data => parseHourFromMillisecond(data.epochTime)),
+      yAxisIndex: 2,
+      symbol: isThumbnail ? 'none' : 'circle',
+      symbolSize: 5,
+      data: statisticChartData.map(data => parseHourFromMillisecond(data.epochTime)),
+    },
+    {
+      name: i18n.t('block.epoch_length'),
+      type: 'bar',
+      step: 'start',
+      areaStyle: {
+        color: ChartMoreColors[3],
       },
-      {
-        name: i18n.t('block.epoch_length'),
-        type: 'bar',
-        step: 'start',
-        areaStyle: {
-          color: ChartMoreColors[3],
-        },
-        yAxisIndex: 3,
-        symbol: isThumbnail ? 'none' : 'circle',
-        symbolSize: 5,
-        data: statisticChartData.map(data => data.epochLength),
-      },
-    ],
-  }
-}
+      yAxisIndex: 3,
+      symbol: isThumbnail ? 'none' : 'circle',
+      symbolSize: 5,
+      data: statisticChartData.map(data => data.epochLength),
+    },
+  ],
+})
 
 export const DifficultyUncleRateEpochChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticDifficultyUncleRateEpochs, statisticDifficultyUncleRatesFetchEnd } = useAppState()
@@ -237,8 +235,8 @@ export const DifficultyUncleRateEpochChart = ({ isThumbnail = false }: { isThumb
   )
 }
 
-const toCSV = (statisticDifficultyUncleRateEpochs: State.StatisticDifficultyUncleRateEpoch[]) => {
-  return statisticDifficultyUncleRateEpochs
+const toCSV = (statisticDifficultyUncleRateEpochs: State.StatisticDifficultyUncleRateEpoch[]) =>
+  statisticDifficultyUncleRateEpochs
     ? statisticDifficultyUncleRateEpochs.map(data => [
         data.epochNumber,
         data.difficulty,
@@ -247,7 +245,6 @@ const toCSV = (statisticDifficultyUncleRateEpochs: State.StatisticDifficultyUncl
         data.epochLength,
       ])
     : []
-}
 
 export default () => {
   const dispatch = useDispatch()

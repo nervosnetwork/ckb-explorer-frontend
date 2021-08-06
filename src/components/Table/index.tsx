@@ -1,19 +1,17 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { Tooltip } from 'antd'
 import i18n from '../../utils/i18n'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
 import { isMobile } from '../../utils/screen'
 import { TableTitleRowItem, TableContentRowItem, HighlightLink, TableMinerContentPanel } from './styled'
 import CopyTooltipText from '../Text/CopyTooltipText'
-import { Tooltip } from 'antd'
 
-export const TableTitleItem = ({ width, title }: { width: string; title: string }) => {
-  return (
-    <TableTitleRowItem width={width}>
-      <div>{title}</div>
-    </TableTitleRowItem>
-  )
-}
+export const TableTitleItem = ({ width, title }: { width: string; title: string }) => (
+  <TableTitleRowItem width={width}>
+    <div>{title}</div>
+  </TableTitleRowItem>
+)
 
 export const TableContentItem = ({ width, content, to }: { width: string; content: string | ReactNode; to?: any }) => {
   const highLight = to !== undefined

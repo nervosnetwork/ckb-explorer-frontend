@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import BigNumber from 'bignumber.js'
 import {
   fetchStatisticDifficultyHashRate,
@@ -9,7 +10,7 @@ import {
 } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
-import { ChartCachedKeys } from '../../../utils/const'
+import { ChartCachedKeys } from '../../../constants/cache'
 import {
   fetchDateChartCache,
   storeDateChartCache,
@@ -36,13 +37,11 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
     .then((response: Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]> | null) => {
       if (!response) return
       const { data } = response
-      const difficultyHashRates = data.map(wrapper => {
-        return {
-          epochNumber: wrapper.attributes.epochNumber,
-          difficulty: wrapper.attributes.difficulty,
-          hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toNumber(),
-        }
-      })
+      const difficultyHashRates = data.map(wrapper => ({
+        epochNumber: wrapper.attributes.epochNumber,
+        difficulty: wrapper.attributes.difficulty,
+        hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toNumber(),
+      }))
       dispatchDifficultyHashRate(dispatch, difficultyHashRates)
       if (difficultyHashRates && difficultyHashRates.length > 0) {
         storeEpochChartCache(ChartCachedKeys.DifficultyHashRate, difficultyHashRates)
@@ -58,14 +57,14 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
     })
 }
 
-const sliceStatistics = (data: Array<State.StatisticDifficultyUncleRateEpoch>) => {
-  return data.slice(isMobile() ? Math.ceil(data.length / 2) : 0)
-}
+const sliceStatistics = (data: Array<State.StatisticDifficultyUncleRateEpoch>) =>
+  data.slice(isMobile() ? Math.ceil(data.length / 2) : 0)
 
 export const getStatisticDifficultyUncleRateEpoch = (dispatch: AppDispatch) => {
-  const data = fetchEpochChartCache(ChartCachedKeys.DifficultyUncleRateEpoch) as Array<
-    State.StatisticDifficultyUncleRateEpoch
-  >
+  const data = fetchEpochChartCache(
+    ChartCachedKeys.DifficultyUncleRateEpoch,
+  ) as State.StatisticDifficultyUncleRateEpoch[]
+
   if (data) {
     dispatchDifficultyUncleRateEpoch(dispatch, sliceStatistics(data))
     return
@@ -74,15 +73,13 @@ export const getStatisticDifficultyUncleRateEpoch = (dispatch: AppDispatch) => {
     .then((response: Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRateEpoch>[]> | null) => {
       if (!response) return
       const { data } = response
-      const difficultyUncleRateEpochs = data.slice(Math.ceil(data.length / 2)).map(wrapper => {
-        return {
-          epochNumber: wrapper.attributes.epochNumber,
-          difficulty: wrapper.attributes.difficulty,
-          uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
-          epochTime: wrapper.attributes.epochTime,
-          epochLength: wrapper.attributes.epochLength,
-        }
-      })
+      const difficultyUncleRateEpochs = data.slice(Math.ceil(data.length / 2)).map(wrapper => ({
+        epochNumber: wrapper.attributes.epochNumber,
+        difficulty: wrapper.attributes.difficulty,
+        uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
+        epochTime: wrapper.attributes.epochTime,
+        epochLength: wrapper.attributes.epochLength,
+      }))
       const dispatchData = sliceStatistics(difficultyUncleRateEpochs)
       dispatchDifficultyUncleRateEpoch(dispatch, dispatchData)
       if (difficultyUncleRateEpochs && difficultyUncleRateEpochs.length > 0) {
@@ -109,12 +106,10 @@ export const getStatisticDifficulty = (dispatch: AppDispatch) => {
     .then((response: Response.Response<Response.Wrapper<State.StatisticDifficulty>[]> | null) => {
       if (!response) return
       const { data } = response
-      const difficulties = data.map(wrapper => {
-        return {
-          avgDifficulty: wrapper.attributes.avgDifficulty,
-          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-        }
-      })
+      const difficulties = data.map(wrapper => ({
+        avgDifficulty: wrapper.attributes.avgDifficulty,
+        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+      }))
       dispatchDifficulty(dispatch, difficulties)
       if (difficulties && difficulties.length > 0) {
         storeDateChartCache(ChartCachedKeys.Difficulty, difficulties)
@@ -140,12 +135,10 @@ export const getStatisticHashRate = (dispatch: AppDispatch) => {
     .then((response: Response.Response<Response.Wrapper<State.StatisticHashRate>[]> | null) => {
       if (!response) return
       const { data } = response
-      const hashRates = data.map(wrapper => {
-        return {
-          avgHashRate: new BigNumber(wrapper.attributes.avgHashRate).multipliedBy(1000).toNumber(),
-          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-        }
-      })
+      const hashRates = data.map(wrapper => ({
+        avgHashRate: new BigNumber(wrapper.attributes.avgHashRate).multipliedBy(1000).toNumber(),
+        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+      }))
       dispatchHashRate(dispatch, hashRates)
       if (hashRates && hashRates.length > 0) {
         storeDateChartCache(ChartCachedKeys.HashRate, hashRates)
@@ -171,12 +164,10 @@ export const getStatisticUncleRate = (dispatch: AppDispatch) => {
     .then((response: Response.Response<Response.Wrapper<State.StatisticUncleRate>[]> | null) => {
       if (!response) return
       const { data } = response
-      const uncleRates = data.map(wrapper => {
-        return {
-          uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
-          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-        }
-      })
+      const uncleRates = data.map(wrapper => ({
+        uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
+        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+      }))
       dispatchUncleRate(dispatch, uncleRates)
       if (uncleRates && uncleRates.length > 0) {
         storeDateChartCache(ChartCachedKeys.UncleRate, uncleRates)

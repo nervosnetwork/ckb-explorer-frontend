@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import TransactionCellListPanel from './styled'
 import i18n from '../../../utils/i18n'
@@ -13,15 +13,13 @@ export default ({
   cells: State.Cell[]
   transaction: State.Transaction
   render: (cell: State.Cell) => ReactNode
-}) => {
-  return (
-    <TransactionCellListPanel>
-      {cells && cells.map((cell, index) => index < MAX_CELL_SHOW_SIZE && render(cell))}
-      {cells && cells.length >= MAX_CELL_SHOW_SIZE && (
-        <div className="transaction_item__view_all">
-          <Link to={`/transaction/${transaction.transactionHash}`}>{i18n.t('common.view_all')}</Link>
-        </div>
-      )}
-    </TransactionCellListPanel>
-  )
-}
+}) => (
+  <TransactionCellListPanel>
+    {cells && cells.map((cell, index) => index < MAX_CELL_SHOW_SIZE && render(cell))}
+    {cells && cells.length >= MAX_CELL_SHOW_SIZE && (
+      <div className="transaction_item__view_all">
+        <Link to={`/transaction/${transaction.transactionHash}`}>{i18n.t('common.view_all')}</Link>
+      </div>
+    )}
+  </TransactionCellListPanel>
+)

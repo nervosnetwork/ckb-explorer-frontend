@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import { useTranslation } from 'react-i18next'
@@ -8,7 +8,7 @@ import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
 import { TableTitleItem, TableContentItem } from '../../components/Table'
 import { shannonToCkb } from '../../utils/util'
 import { parsePageNumber, adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
-import { ListPageParams } from '../../utils/const'
+import { ListPageParams } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import i18n from '../../utils/i18n'
@@ -30,16 +30,14 @@ interface TableContentData {
   content: string
 }
 
-const TransactionValueItem = ({ value, to }: { value: string; to: string }) => {
-  return (
-    <HighLightValue>
-      <Link to={to}>
-        {' '}
-        <span>{value}</span>
-      </Link>
-    </HighLightValue>
-  )
-}
+const TransactionValueItem = ({ value, to }: { value: string; to: string }) => (
+  <HighLightValue>
+    <Link to={to}>
+      {' '}
+      <span>{value}</span>
+    </Link>
+  </HighLightValue>
+)
 
 const getTableContentTxList = (transaction: State.Transaction) => {
   const transactionCapacity = (
@@ -112,8 +110,8 @@ export default () => {
   const { search } = useLocation()
 
   const [t] = useTranslation()
-  const TableTitles = useMemo(() => {
-    return [
+  const TableTitles = useMemo(
+    () => [
       {
         title: t('transaction.transaction_hash'),
         width: '40%',
@@ -130,8 +128,9 @@ export default () => {
         title: t('transaction.time'),
         width: '15%',
       },
-    ]
-  }, [t])
+    ],
+    [t],
+  )
 
   const parsed = queryString.parse(search)
   const { transactionsState } = useAppState()
@@ -159,20 +158,20 @@ export default () => {
         {isMobile() ? (
           <ContentTable>
             <div className="transaction__panel">
-              {transactions.map((transaction: State.Transaction) => {
-                return <ItemCard key={transaction.transactionHash} items={TransactionCardItems(transaction)} />
-              })}
+              {transactions.map((transaction: State.Transaction) => (
+                <ItemCard key={transaction.transactionHash} items={TransactionCardItems(transaction)} />
+              ))}
             </div>
           </ContentTable>
         ) : (
           <ContentTable>
             <TableTitleRow>
-              {TableTitles.map((data: TableTitleData) => {
-                return <TableTitleItem width={data.width} title={data.title} key={data.title} />
-              })}
+              {TableTitles.map((data: TableTitleData) => (
+                <TableTitleItem width={data.width} title={data.title} key={data.title} />
+              ))}
             </TableTitleRow>
-            {transactions.map((transaction: State.Transaction) => {
-              return (
+            {transactions.map(
+              (transaction: State.Transaction) =>
                 transaction && (
                   <TableContentRow key={transaction.transactionHash}>
                     {getTableContentTxList(transaction).map((data: TableContentData, index: number) => {
@@ -180,9 +179,8 @@ export default () => {
                       return <TableContentItem width={data.width} content={data.content} to={data.to} key={key} />
                     })}
                   </TableContentRow>
-                )
-              )
-            })}
+                ),
+            )}
           </ContentTable>
         )}
         <div className="transaction_list__pagination">

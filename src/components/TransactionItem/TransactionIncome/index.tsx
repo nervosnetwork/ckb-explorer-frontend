@@ -1,4 +1,3 @@
-import React from 'react'
 import BigNumber from 'bignumber.js'
 import { TransactionIncomePanel, TransactionCapacityValuePanel } from './styled'
 import { shannonToCkb } from '../../../utils/util'

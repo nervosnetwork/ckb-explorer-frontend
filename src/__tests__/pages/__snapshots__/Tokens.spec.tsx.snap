@@ -2,10 +2,10 @@
 
 exports[`Active Page shallow renders with empty data 1`] = `
 <div
-  className="sc-fzqNJr dLfJWR"
+  className="sc-fnVZcZ FgJVV"
 >
   <div
-    className="sc-fzoyAV cdOzGV container"
+    className="sc-fFSPTT kduUVl container"
   >
     <div
       className="tokens__title__panel"
@@ -39,7 +39,7 @@ Note: Only accept sUDT information submission now.
       </a>
     </div>
     <div
-      className="sc-fzoLag hsZjnX"
+      className="sc-bkbkJK kGCtLx"
     >
       <span>
         Name (symbol)
@@ -55,10 +55,10 @@ Note: Only accept sUDT information submission now.
       </span>
     </div>
     <div
-      className="sc-fznWqX fHcypZ"
+      className="sc-kfYoZR keXDDI"
     >
       <div
-        className="sc-fzqARJ mYtBK"
+        className="sc-bCwfaz dDuOhn"
       >
         <img
           alt="loading"

@@ -1,9 +1,9 @@
-import React, { useEffect, useCallback } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useHistory } from 'react-router'
 import { getStatisticMinerAddressDistribution } from '../../../service/app/charts/mining'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartColors } from '../../../utils/const'
+import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { isMobile } from '../../../utils/screen'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
@@ -43,48 +43,44 @@ const addressText = (address: string) =>
 const getOption = (
   statisticMinerAddresses: State.StatisticMinerAddress[],
   isThumbnail = false,
-): echarts.EChartOption => {
-  return {
-    color: Colors,
-    tooltip: !isThumbnail
-      ? {
-          formatter: (data: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 60 : 65)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.address'))} ${addressText(
-              data.data.title,
-            )}</div>`
-            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.miner_radio'))} ${(
-              Number(data.data.value) * 100
-            ).toFixed(1)}%</div>`
-            return result
-          },
-        }
-      : undefined,
-    grid: isThumbnail ? gridThumbnail : grid,
-    series: [
-      {
-        name: i18n.t('statistic.miner_radio'),
-        type: 'pie',
-        radius: isMobile() || isThumbnail ? '50%' : '75%',
-        center: ['50%', '50%'],
-        itemStyle: {
-          emphasis: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)',
-          },
+): echarts.EChartOption => ({
+  color: Colors,
+  tooltip: !isThumbnail
+    ? {
+        formatter: (data: any) => {
+          const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 60 : 65)
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.address'))} ${addressText(
+            data.data.title,
+          )}</div>`
+          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.miner_ratio'))} ${(
+            Number(data.data.value) * 100
+          ).toFixed(1)}%</div>`
+          return result
         },
-        data: statisticMinerAddresses.map(data => {
-          return {
-            name: `${addressText(data.address.toLowerCase())} (${(Number(data.radio) * 100).toFixed(1)}%)`,
-            title: data.address.toLowerCase(),
-            value: data.radio,
-          }
-        }),
+      }
+    : undefined,
+  grid: isThumbnail ? gridThumbnail : grid,
+  series: [
+    {
+      name: i18n.t('statistic.miner_ratio'),
+      type: 'pie',
+      radius: isMobile() || isThumbnail ? '50%' : '75%',
+      center: ['50%', '50%'],
+      itemStyle: {
+        emphasis: {
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowColor: 'rgba(0, 0, 0, 0.5)',
+        },
       },
-    ],
-  }
-}
+      data: statisticMinerAddresses.map(data => ({
+        name: `${addressText(data.address.toLowerCase())} (${(Number(data.radio) * 100).toFixed(1)}%)`,
+        title: data.address.toLowerCase(),
+        value: data.radio,
+      })),
+    },
+  ],
+})
 
 export const MinerAddressDistributionChart = ({
   isThumbnail = false,
@@ -106,20 +102,22 @@ export const MinerAddressDistributionChart = ({
   )
 }
 
-const toCSV = (statisticMinerAddresses: State.StatisticMinerAddress[]) => {
-  return statisticMinerAddresses ? statisticMinerAddresses.map(data => [data.address, data.radio]) : []
-}
+const toCSV = (statisticMinerAddresses: State.StatisticMinerAddress[]) =>
+  statisticMinerAddresses ? statisticMinerAddresses.map(data => [data.address, data.radio]) : []
 
 export default () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const { statisticMinerAddresses } = useAppState()
 
-  const clickEvent = useCallback((param: any) => {
-    if (param && param.data.title) {
-      history.push(`/address/${param.data.title}`)
-    }
-  }, [history])
+  const clickEvent = useCallback(
+    (param: any) => {
+      if (param && param.data.title) {
+        history.push(`/address/${param.data.title}`)
+      }
+    },
+    [history],
+  )
 
   useEffect(() => {
     getStatisticMinerAddressDistribution(dispatch)

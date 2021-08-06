@@ -1,21 +1,18 @@
-import React from 'react'
 import queryString from 'query-string'
 import { useLocation } from 'react-router-dom'
 import Content from '../../components/Content'
 import Search from '../../components/Search'
 import i18n from '../../utils/i18n'
-import { SearchFailType } from '../../utils/const'
+import { SearchFailType } from '../../constants/common'
 import { isMainnet } from '../../utils/chain'
 import { SearchContent, SearchPanel } from './styled'
 import CONFIG from '../../config'
 
-const chainErrorMessage = () => {
-  return isMainnet() ? i18n.t('search.address_type_testnet_error') : i18n.t('search.address_type_mainnet_error')
-}
+const chainErrorMessage = () =>
+  isMainnet() ? i18n.t('search.address_type_testnet_error') : i18n.t('search.address_type_mainnet_error')
 
-const chainUrlMessage = () => {
-  return isMainnet() ? i18n.t('search.address_type_testnet_url') : i18n.t('search.address_type_mainnet_url')
-}
+const chainUrlMessage = () =>
+  isMainnet() ? i18n.t('search.address_type_testnet_url') : i18n.t('search.address_type_mainnet_url')
 
 export const chainUrl = () => {
   const mainnetUrl = `${CONFIG.MAINNET_URL}`
@@ -27,14 +24,14 @@ export const chainUrl = () => {
 export default ({ address }: { address?: string }) => {
   const { search } = useLocation()
   const parsed = queryString.parse(search)
-  let { q, type } = parsed
-  q = address ? address : q
+  const { q, type } = parsed
+  const query = address || q
 
   return (
     <Content>
       <SearchPanel className="container">
         <div className="search__fail__bar">
-          <Search content={q as string} hasButton />
+          <Search content={query as string} hasButton />
         </div>
         <SearchContent>
           {(type && type === SearchFailType.CHAIN_ERROR) || address ? (

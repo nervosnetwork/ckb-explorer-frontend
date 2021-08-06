@@ -7,8 +7,12 @@ import {
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
-import { ChartCachedKeys } from '../../../utils/const'
-import { dispatchTotalDeposit, dispatchDailyDeposit, dispatchDepositCirculationRatio as dispatchCirculationRatio } from './action'
+import { ChartCachedKeys } from '../../../constants/cache'
+import {
+  dispatchTotalDeposit,
+  dispatchDailyDeposit,
+  dispatchDepositCirculationRatio as dispatchCirculationRatio,
+} from './action'
 
 export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(ChartCachedKeys.TotalDeposit)
@@ -20,13 +24,11 @@ export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
     .then((response: Response.Response<Response.Wrapper<State.StatisticTotalDaoDeposit>[]> | null) => {
       if (!response) return
       const { data } = response
-      const totalDaoDeposits = data.map(wrapper => {
-        return {
-          totalDaoDeposit: wrapper.attributes.totalDaoDeposit,
-          totalDepositorsCount: wrapper.attributes.totalDepositorsCount,
-          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-        }
-      })
+      const totalDaoDeposits = data.map(wrapper => ({
+        totalDaoDeposit: wrapper.attributes.totalDaoDeposit,
+        totalDepositorsCount: wrapper.attributes.totalDepositorsCount,
+        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+      }))
       dispatchTotalDeposit(dispatch, totalDaoDeposits)
       if (totalDaoDeposits && totalDaoDeposits.length > 0) {
         storeDateChartCache(ChartCachedKeys.TotalDeposit, totalDaoDeposits)
@@ -52,13 +54,11 @@ export const getStatisticNewDaoDeposit = (dispatch: AppDispatch) => {
     .then((response: Response.Response<Response.Wrapper<State.StatisticNewDaoDeposit>[]> | null) => {
       if (!response) return
       const { data } = response
-      const statisticNewDaoDeposits = data.map(wrapper => {
-        return {
-          dailyDaoDeposit: wrapper.attributes.dailyDaoDeposit,
-          dailyDaoDepositorsCount: wrapper.attributes.dailyDaoDepositorsCount,
-          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-        }
-      })
+      const statisticNewDaoDeposits = data.map(wrapper => ({
+        dailyDaoDeposit: wrapper.attributes.dailyDaoDeposit,
+        dailyDaoDepositorsCount: wrapper.attributes.dailyDaoDepositorsCount,
+        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+      }))
       dispatchDailyDeposit(dispatch, statisticNewDaoDeposits)
       if (statisticNewDaoDeposits && statisticNewDaoDeposits.length > 0) {
         storeDateChartCache(ChartCachedKeys.DailyDeposit, statisticNewDaoDeposits)
@@ -79,12 +79,10 @@ export const getStatisticNewDaoWithdraw = (dispatch: AppDispatch) => {
     .then((response: Response.Response<Response.Wrapper<State.StatisticNewDaoWithdraw>[]> | null) => {
       if (!response) return
       const { data } = response
-      const statisticNewDaoWithdraw = data.map(wrapper => {
-        return {
-          dailyDaoWithdraw: wrapper.attributes.dailyDaoWithdraw,
-          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-        }
-      })
+      const statisticNewDaoWithdraw = data.map(wrapper => ({
+        dailyDaoWithdraw: wrapper.attributes.dailyDaoWithdraw,
+        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+      }))
       dispatch({
         type: PageActions.UpdateStatisticNewDaoWithdraw,
         payload: {
@@ -118,12 +116,10 @@ export const getStatisticCirculationRatio = (dispatch: AppDispatch) => {
     .then((response: Response.Response<Response.Wrapper<State.StatisticCirculationRatio>[]> | null) => {
       if (!response) return
       const { data } = response
-      const statisticCirculationRatios = data.map(wrapper => {
-        return {
-          circulationRatio: wrapper.attributes.circulationRatio,
-          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-        }
-      })
+      const statisticCirculationRatios = data.map(wrapper => ({
+        circulationRatio: wrapper.attributes.circulationRatio,
+        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+      }))
       dispatchCirculationRatio(dispatch, statisticCirculationRatios)
       if (statisticCirculationRatios && statisticCirculationRatios.length > 0) {
         storeDateChartCache(ChartCachedKeys.DepositCirculationRatio, statisticCirculationRatios)

@@ -1,7 +1,7 @@
-import React, { useState, ReactNode } from 'react'
+import { useState, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
-import { CellType } from '../../../utils/const'
+import { CellType } from '../../../constants/common'
 import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
@@ -57,30 +57,28 @@ const TransactionCellIndexAddress = ({
   cell: State.Cell
   cellType: CellType
   index: number
-}) => {
-  return (
-    <TransactionCellAddressPanel>
-      <div className="transaction__cell_index">
-        {cellType && cellType === CellType.Output ? <div>{`#${index}`}</div> : ' '}
-      </div>
-      <TransactionCellHashPanel highLight={cell.addressHash !== null}>
-        {!cell.fromCellbase && cellType === CellType.Input && (
-          <span>
-            <TransactionCellArrow cell={cell} cellType={cellType} />
-          </span>
-        )}
-        {cell.addressHash ? (
-          <AddressText address={cell.addressHash} />
-        ) : (
-          <span className="transaction__cell_address_no_link">
-            {cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}
-          </span>
-        )}
-        {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
-      </TransactionCellHashPanel>
-    </TransactionCellAddressPanel>
-  )
-}
+}) => (
+  <TransactionCellAddressPanel>
+    <div className="transaction__cell_index">
+      <div>{`#${index}`}</div>
+    </div>
+    <TransactionCellHashPanel highLight={cell.addressHash !== null}>
+      {!cell.fromCellbase && cellType === CellType.Input && (
+        <span>
+          <TransactionCellArrow cell={cell} cellType={cellType} />
+        </span>
+      )}
+      {cell.addressHash ? (
+        <AddressText address={cell.addressHash} />
+      ) : (
+        <span className="transaction__cell_address_no_link">
+          {cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}
+        </span>
+      )}
+      {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
+    </TransactionCellHashPanel>
+  </TransactionCellAddressPanel>
+)
 
 const isUdt = (cell: State.Cell) => cell.udtInfo && cell.udtInfo.typeHash
 
@@ -202,14 +200,12 @@ const TransactionCellCapacityAmount = ({ cell }: { cell: State.Cell }) => {
   )
 }
 
-const TransactionCellMobileItem = ({ title, value = null }: { title: string | ReactNode; value?: ReactNode }) => {
-  return (
-    <TransactionCellCardContent>
-      <div className="transaction__cell__card__title">{title}</div>
-      <div className="transaction__cell__card__value">{value}</div>
-    </TransactionCellCardContent>
-  )
-}
+const TransactionCellMobileItem = ({ title, value = null }: { title: string | ReactNode; value?: ReactNode }) => (
+  <TransactionCellCardContent>
+    <div className="transaction__cell__card__title">{title}</div>
+    <div className="transaction__cell__card__value">{value}</div>
+  </TransactionCellCardContent>
+)
 
 export default ({
   cell,

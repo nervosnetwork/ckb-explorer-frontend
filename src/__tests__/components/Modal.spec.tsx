@@ -1,8 +1,8 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
-import Modal from '../../components/Modal'
 import OutsideClickHandler from 'react-outside-click-handler'
+import Modal from '../../components/Modal'
 
 describe('Modal Component', () => {
   let component: ReactElement

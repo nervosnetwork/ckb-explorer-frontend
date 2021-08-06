@@ -1,6 +1,7 @@
-import React, { useEffect, useState, ReactNode } from 'react'
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import { useEffect, useState, ReactNode } from 'react'
 import { fetchCellData, fetchScript } from '../../../service/http/fetcher'
-import { CellState } from '../../../utils/const'
+import { CellState } from '../../../constants/common'
 import { hexToUtf8 } from '../../../utils/string'
 import {
   TransactionDetailCopyButton,
@@ -136,14 +137,12 @@ const handleFetchScript = (
   }
 }
 
-const ScriptContentItem = ({ title = '', value = '' }: { title?: string; value?: ReactNode | string }) => {
-  return (
-    <div>
-      <div>{title}</div>
-      <div className="monospace">{value}</div>
-    </div>
-  )
-}
+const ScriptContentItem = ({ title = '', value = '' }: { title?: string; value?: ReactNode | string }) => (
+  <div>
+    <div>{title}</div>
+    <div className="monospace">{value}</div>
+  </div>
+)
 
 const ScriptContent = ({ content, state }: { content: State.Script | State.Data | undefined; state: CellState }) => {
   const hashTag = (content as State.Script).codeHash ? matchCodeHash((content as State.Script).codeHash) : undefined
@@ -184,15 +183,13 @@ const ScriptContentJson = ({
 }: {
   content: State.Script | State.Data | undefined
   state: CellState
-}) => {
-  return (
-    <TransactionCellScriptContentPanel isData={state === CellState.DATA}>
-      <span>{'{'}</span>
-      <ScriptContent content={content} state={state} />
-      <span>{'}'}</span>
-    </TransactionCellScriptContentPanel>
-  )
-}
+}) => (
+  <TransactionCellScriptContentPanel isData={state === CellState.DATA}>
+    <span>{'{'}</span>
+    <ScriptContent content={content} state={state} />
+    <span>{'}'}</span>
+  </TransactionCellScriptContentPanel>
+)
 
 export default ({ cell, onClose, txStatus }: { cell: State.Cell; onClose: Function; txStatus: string }) => {
   const dispatch = useDispatch()

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
-import { ChartColors } from '../../../utils/const'
+import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticEpochTimeDistribution } from '../../../service/app/charts/block'
 import { localeNumberString } from '../../../utils/number'
@@ -26,68 +26,66 @@ const grid = {
 const getOption = (
   statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[],
   isThumbnail = false,
-): echarts.EChartOption => {
-  return {
-    color: ChartColors,
-    tooltip: !isThumbnail
-      ? {
-          trigger: 'axis',
-          formatter: (dataList: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 80 : 80)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(
-              i18n.t('statistic.time_hour'),
-            )} ${parseHourFromMinute(dataList[0].name)}</div>`
-            result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
-              i18n.t('statistic.epochs'),
-            )} ${localeNumberString(dataList[0].data)}</div>`
-            return result
-          },
-        }
-      : undefined,
-    grid: isThumbnail ? gridThumbnail : grid,
-    xAxis: [
-      {
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.time_hour'),
-        nameLocation: 'middle',
-        nameGap: 30,
-        type: 'category',
-        boundaryGap: true,
-        data: statisticEpochTimeDistributions.map(data => data.time),
-        axisLabel: {
-          formatter: (value: string) => parseHourFromMinute(value),
+): echarts.EChartOption => ({
+  color: ChartColors,
+  tooltip: !isThumbnail
+    ? {
+        trigger: 'axis',
+        formatter: (dataList: any) => {
+          const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 80 : 80)
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(
+            i18n.t('statistic.time_hour'),
+          )} ${parseHourFromMinute(dataList[0].name)}</div>`
+          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.epochs'))} ${localeNumberString(
+            dataList[0].data,
+          )}</div>`
+          return result
+        },
+      }
+    : undefined,
+  grid: isThumbnail ? gridThumbnail : grid,
+  xAxis: [
+    {
+      name: isMobile() || isThumbnail ? '' : i18n.t('statistic.time_hour'),
+      nameLocation: 'middle',
+      nameGap: 30,
+      type: 'category',
+      boundaryGap: true,
+      data: statisticEpochTimeDistributions.map(data => data.time),
+      axisLabel: {
+        formatter: (value: string) => parseHourFromMinute(value),
+      },
+    },
+  ],
+  yAxis: [
+    {
+      position: 'left',
+      name: isMobile() || isThumbnail ? '' : i18n.t('statistic.epochs'),
+      type: 'value',
+      scale: true,
+      axisLine: {
+        lineStyle: {
+          color: ChartColors[0],
         },
       },
-    ],
-    yAxis: [
-      {
-        position: 'left',
-        name: isMobile() || isThumbnail ? '' : i18n.t('statistic.epochs'),
-        type: 'value',
-        scale: true,
-        axisLine: {
-          lineStyle: {
-            color: ChartColors[0],
-          },
-        },
-        axisLabel: {
-          formatter: (value: string) => localeNumberString(value),
-        },
+      axisLabel: {
+        formatter: (value: string) => localeNumberString(value),
       },
-    ],
-    series: [
-      {
-        name: i18n.t('statistic.epochs'),
-        type: 'bar',
-        yAxisIndex: 0,
-        areaStyle: {
-          color: '#85bae0',
-        },
-        barWidth: isMobile() || isThumbnail ? 2 : 5,
-        data: statisticEpochTimeDistributions.map(data => data.epoch),
+    },
+  ],
+  series: [
+    {
+      name: i18n.t('statistic.epochs'),
+      type: 'bar',
+      yAxisIndex: 0,
+      areaStyle: {
+        color: '#85bae0',
       },
-    ],
-  }
-}
+      barWidth: isMobile() || isThumbnail ? 2 : 5,
+      data: statisticEpochTimeDistributions.map(data => data.epoch),
+    },
+  ],
+})
 
 export const EpochTimeDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticEpochTimeDistributions, statisticEpochTimeDistributionsFetchEnd } = useAppState()
@@ -97,11 +95,10 @@ export const EpochTimeDistributionChart = ({ isThumbnail = false }: { isThumbnai
   return <ReactChartCore option={getOption(statisticEpochTimeDistributions, isThumbnail)} isThumbnail={isThumbnail} />
 }
 
-const toCSV = (statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[]) => {
-  return statisticEpochTimeDistributions
+const toCSV = (statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[]) =>
+  statisticEpochTimeDistributions
     ? statisticEpochTimeDistributions.map(data => [parseHourFromMinute(data.time), data.epoch])
     : []
-}
 
 export default () => {
   const dispatch = useDispatch()

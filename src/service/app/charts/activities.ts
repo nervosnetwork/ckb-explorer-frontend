@@ -10,7 +10,7 @@ import {
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
-import { ChartCachedKeys } from '../../../utils/const'
+import { ChartCachedKeys } from '../../../constants/cache'
 import {
   dispatchTransactionCount,
   dispatchAddressCount,
@@ -30,12 +30,10 @@ export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
     .then((response: Response.Response<Response.Wrapper<State.StatisticTransactionCount>[]> | null) => {
       if (!response) return
       const { data } = response
-      const transactionCounts = data.map(wrapper => {
-        return {
-          transactionsCount: wrapper.attributes.transactionsCount,
-          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-        }
-      })
+      const transactionCounts = data.map(wrapper => ({
+        transactionsCount: wrapper.attributes.transactionsCount,
+        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+      }))
       dispatchTransactionCount(dispatch, transactionCounts)
       if (transactionCounts && transactionCounts.length > 0) {
         storeDateChartCache(ChartCachedKeys.TransactionCount, transactionCounts)
@@ -61,12 +59,10 @@ export const getStatisticAddressCount = (dispatch: AppDispatch) => {
     .then((response: Response.Response<Response.Wrapper<State.StatisticAddressCount>[]> | null) => {
       if (!response) return
       const { data } = response
-      const addressCounts = data.map(wrapper => {
-        return {
-          addressesCount: wrapper.attributes.addressesCount,
-          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-        }
-      })
+      const addressCounts = data.map(wrapper => ({
+        addressesCount: wrapper.attributes.addressesCount,
+        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+      }))
       dispatchAddressCount(dispatch, addressCounts)
       if (addressCounts && addressCounts.length > 0) {
         storeDateChartCache(ChartCachedKeys.AddressCount, addressCounts)
@@ -92,14 +88,14 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
     .then((response: Response.Response<Response.Wrapper<State.StatisticCellCount>[]> | null) => {
       if (!response) return
       const { data } = response
-      const cellCounts = data.map(wrapper => {
-        return {
-          liveCellsCount: wrapper.attributes.liveCellsCount,
-          deadCellsCount: wrapper.attributes.deadCellsCount,
-          allCellsCount: (Number(wrapper.attributes.liveCellsCount) + Number(wrapper.attributes.deadCellsCount)).toString(),
-          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-        }
-      })
+      const cellCounts = data.map(wrapper => ({
+        liveCellsCount: wrapper.attributes.liveCellsCount,
+        deadCellsCount: wrapper.attributes.deadCellsCount,
+        allCellsCount: (
+          Number(wrapper.attributes.liveCellsCount) + Number(wrapper.attributes.deadCellsCount)
+        ).toString(),
+        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+      }))
       dispatchCellCount(dispatch, cellCounts)
       if (cellCounts && cellCounts.length > 0) {
         storeDateChartCache(ChartCachedKeys.CellCount, cellCounts)
@@ -183,12 +179,10 @@ export const getStatisticTxFeeHistory = (dispatch: AppDispatch) => {
     .then((response: Response.Response<Response.Wrapper<State.StatisticTransactionFee>[]> | null) => {
       if (!response) return
       const { data } = response
-      const statisticTxFeeHistories: State.StatisticTransactionFee[] = data.map(wrapper => {
-        return {
-          createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-          totalTxFee: wrapper.attributes.totalTxFee,
-        }
-      })
+      const statisticTxFeeHistories: State.StatisticTransactionFee[] = data.map(wrapper => ({
+        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
+        totalTxFee: wrapper.attributes.totalTxFee,
+      }))
       dispatchTransactionFee(dispatch, statisticTxFeeHistories)
       if (statisticTxFeeHistories && statisticTxFeeHistories.length > 0) {
         storeDateChartCache(ChartCachedKeys.TransactionFee, statisticTxFeeHistories)
