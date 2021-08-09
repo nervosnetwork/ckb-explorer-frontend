@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { CellType, PAGE_CELL_COUNT } from '../../../constants/common'
 import i18n from '../../../utils/i18n'
 import TransactionCell from '../TransactionCell'

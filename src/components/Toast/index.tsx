@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react'
+import { useState, useEffect, useReducer } from 'react'
 import { useTimeoutWithUnmount } from '../../utils/hook'
 import { useAppState } from '../../contexts/providers'
 import { ToastItemPanel, ToastPanel } from './styled'
@@ -74,9 +74,7 @@ const reducer = (state: any, action: any) => {
     case 'REMOVE':
       return {
         ...state,
-        toasts: state.toasts.filter((toast: State.ToastMessage) => {
-          return toast.id !== action.payload.toast.id
-        }),
+        toasts: state.toasts.filter((toast: State.ToastMessage) => toast.id !== action.payload.toast.id),
       }
     default:
       return state
@@ -103,22 +101,20 @@ export default () => {
   return state.toasts.length === 0 ? null : (
     <ToastPanel className="toast">
       {state.toasts &&
-        state.toasts.map((item: State.ToastMessage) => {
-          return (
-            <ToastItem
-              willLeave={() => {
-                dispatch({
-                  type: 'REMOVE',
-                  payload: {
-                    toast: item,
-                  },
-                })
-              }}
-              key={item.id}
-              data={item}
-            />
-          )
-        })}
+        state.toasts.map((item: State.ToastMessage) => (
+          <ToastItem
+            willLeave={() => {
+              dispatch({
+                type: 'REMOVE',
+                payload: {
+                  toast: item,
+                },
+              })
+            }}
+            key={item.id}
+            data={item}
+          />
+        ))}
     </ToastPanel>
   )
 }

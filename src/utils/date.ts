@@ -1,9 +1,7 @@
 import BigNumber from 'bignumber.js'
 import i18n from './i18n'
 
-export const formatData = (data: number) => {
-  return data < 10 ? `0${data}` : data
-}
+export const formatData = (data: number) => (data < 10 ? `0${data}` : data)
 
 export const parseSimpleDate = (timestamp: number | string) => {
   const date = new Date(Number(timestamp))
@@ -54,9 +52,7 @@ export const parseDate = (timestamp: number | string) => {
   return parseSimpleDate(timestamp)
 }
 
-export const getCurrentYear = () => {
-  return new Date().getFullYear()
-}
+export const getCurrentYear = () => new Date().getFullYear()
 
 export const parseTime = (millisecond: number) => {
   let second = millisecond / 1000

@@ -21,15 +21,14 @@ export const initAxiosInterceptors = (dispatch: AppDispatch, history: History) =
   axiosIns.interceptors.request.use(
     config => {
       if (config.method === 'get') {
+        // eslint-disable-next-line no-param-reassign
         config.data = {
           unused: 0,
         }
       }
       return config
     },
-    error => {
-      return Promise.reject(error)
-    },
+    error => Promise.reject(error),
   )
 
   axiosIns.interceptors.response.use(

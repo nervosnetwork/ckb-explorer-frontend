@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import queryString from 'query-string'
 import { useLocation, useHistory } from 'react-router-dom'
 import { PageActions, AppActions } from '../../contexts/actions'

@@ -1,10 +1,10 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
 import 'jest-styled-components'
+import { BrowserRouter } from 'react-router-dom'
 import { TableTitleItem, TableContentItem, TableMinerContentItem } from '../../components/Table'
 import { TableTitleRowItem, TableContentRowItem } from '../../components/Table/styled'
-import { BrowserRouter } from 'react-router-dom'
 
 describe('Table Component', () => {
   let tableTitleItem: ReactElement

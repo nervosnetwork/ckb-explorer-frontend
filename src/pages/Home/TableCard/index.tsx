@@ -1,4 +1,3 @@
-import React from 'react'
 import i18n from '../../../utils/i18n'
 import { HighLightLink } from '../../../components/Text'
 import { localeNumberString } from '../../../utils/number'

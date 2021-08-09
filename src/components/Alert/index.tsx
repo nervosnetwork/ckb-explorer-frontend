@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { AlertPanel } from './styled'
 import i18n, { currentLanguage } from '../../utils/i18n'

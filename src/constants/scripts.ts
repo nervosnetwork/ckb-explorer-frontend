@@ -59,6 +59,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     txHashes: [
       '0xb4c76f34382f03f39e2e39dd8a4cca037394bb3d032bde6a285c52e5a5e35535-0',
       '0xd521f52a7f4f4f00a25f0f6924c439844574d77d228113077ee0c84dc60ad11d-0',
+      '0xdb29e26b3553559140bffddbc8f04011207db8a5996cbaf5b521db98e9d11b17-0',
     ],
     tag: 'm-nft_issuer',
     category: 'type',
@@ -68,6 +69,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     txHashes: [
       '0xc3b5ada764ed341d42f86aee3ec17d7ffdd6372155b41b95687a7957b359ab39-0',
       '0xd521f52a7f4f4f00a25f0f6924c439844574d77d228113077ee0c84dc60ad11d-1',
+      '0xdb29e26b3553559140bffddbc8f04011207db8a5996cbaf5b521db98e9d11b17-1',
     ],
     tag: 'm-nft_class',
     category: 'type',
@@ -77,6 +79,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     txHashes: [
       '0xaf35eb9ba88d0b159ba450cfcc9089796cc401bc4089a43de018c12f990909a5-0',
       '0xd521f52a7f4f4f00a25f0f6924c439844574d77d228113077ee0c84dc60ad11d-2',
+      '0xdb29e26b3553559140bffddbc8f04011207db8a5996cbaf5b521db98e9d11b17-2',
     ],
     tag: 'm-nft',
     category: 'type',
@@ -149,6 +152,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: [
       '0x744d2c4c4e6fabe66cfb08cb818532c50fffc682a7614746328c5d691a811c06-0',
       '0xbd262c87a84c08ea3bc141700cf55c1a285009de0e22c247a8d9597b4fc491e6-0',
+      '0x194a0f84de41d006a07ece07c96a8130100818599fcf0b2ecf49e512b873ed6e-0',
     ],
     tag: 'm-nft_issuer',
     category: 'type',
@@ -158,6 +162,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: [
       '0x4f27e40b302bcb3bf0af3deae460f46076de2b4db30c0212b14b341c20fcb330-0',
       '0xbd262c87a84c08ea3bc141700cf55c1a285009de0e22c247a8d9597b4fc491e6-1',
+      '0x194a0f84de41d006a07ece07c96a8130100818599fcf0b2ecf49e512b873ed6e-1',
     ],
     tag: 'm-nft_class',
     category: 'type',
@@ -167,6 +172,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: [
       '0x7f9e3c1a2fc90411eb90fc2363101f6bd7b33875c3535117db5e52cd8a78b313-0',
       '0xbd262c87a84c08ea3bc141700cf55c1a285009de0e22c247a8d9597b4fc491e6-2',
+      '0x194a0f84de41d006a07ece07c96a8130100818599fcf0b2ecf49e512b873ed6e-2',
     ],
     tag: 'm-nft',
     category: 'type',

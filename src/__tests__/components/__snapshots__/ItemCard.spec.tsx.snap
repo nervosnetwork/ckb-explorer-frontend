@@ -2,14 +2,14 @@
 
 exports[`ItemCard Component shallow renders 1`] = `
 <div
-  className="sc-AxjAm cnVnqz"
+  className="sc-bdnxRM dlIANJ"
   id=""
 >
   <div
-    className="sc-AxirZ hoQnqS"
+    className="sc-gtsrHT fA-dmiC"
   >
     <div
-      className="sc-AxiKw jTJLLI"
+      className="sc-dlnjwi hfZqzQ"
     >
       <div
         className="item__detail__title"
@@ -23,7 +23,7 @@ exports[`ItemCard Component shallow renders 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxiKw jTJLLI"
+      className="sc-dlnjwi hfZqzQ"
     >
       <div
         className="item__detail__title"
@@ -39,7 +39,7 @@ exports[`ItemCard Component shallow renders 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxiKw jTJLLI"
+      className="sc-dlnjwi hfZqzQ"
     >
       <div
         className="item__detail__title"
@@ -53,7 +53,7 @@ exports[`ItemCard Component shallow renders 1`] = `
       </div>
     </div>
     <div
-      className="sc-AxiKw eZpOrb"
+      className="sc-dlnjwi kGkqrj"
     >
       <div
         className="item__detail__title"

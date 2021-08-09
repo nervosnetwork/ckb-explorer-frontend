@@ -1,8 +1,7 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/map'
-import 'echarts/map/js/world.js'
 import 'echarts/lib/chart/scatter'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
@@ -21,24 +20,20 @@ import SmallLoading from '../../../components/Loading/SmallLoading'
 import i18n from '../../../utils/i18n'
 import Content from '../../../components/Content'
 
-const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => {
-  return isThumbnail ? <SmallLoading /> : <Loading show />
-}
+const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => (isThumbnail ? <SmallLoading /> : <Loading show />)
 
-const ChartLoading = ({ show, isThumbnail = false }: { show: boolean; isThumbnail?: boolean }) => {
-  return (
-    <LoadingPanel isThumbnail={isThumbnail}>
-      {show ? (
-        <LoadingComp isThumbnail={isThumbnail} />
-      ) : (
-        <ChartNoDataPanel isThumbnail={isThumbnail}>
-          <img alt="no data" src={isMainnet() ? ChartNoDataImage : ChartNoDataAggronImage} />
-          <span>{i18n.t('statistic.no_data')}</span>
-        </ChartNoDataPanel>
-      )}
-    </LoadingPanel>
-  )
-}
+const ChartLoading = ({ show, isThumbnail = false }: { show: boolean; isThumbnail?: boolean }) => (
+  <LoadingPanel isThumbnail={isThumbnail}>
+    {show ? (
+      <LoadingComp isThumbnail={isThumbnail} />
+    ) : (
+      <ChartNoDataPanel isThumbnail={isThumbnail}>
+        <img alt="no data" src={isMainnet() ? ChartNoDataImage : ChartNoDataAggronImage} />
+        <span>{i18n.t('statistic.no_data')}</span>
+      </ChartNoDataPanel>
+    )}
+  </LoadingPanel>
+)
 
 const ReactChartCore = ({
   option,
@@ -131,4 +126,5 @@ const tooltipColor = (color: string) =>
 const tooltipWidth = (value: string, width: number) =>
   `<span style="width:${width}px;display:inline-block;">${value}:</span>`
 
+// eslint-disable-next-line object-curly-newline
 export { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth }

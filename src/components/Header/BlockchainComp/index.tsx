@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react'
+import { useState, useLayoutEffect } from 'react'
 import { isMainnet } from '../../../utils/chain'
 import WhiteDropdownIcon from '../../../assets/white_dropdown.png'
 import BlueDropUpIcon from '../../../assets/blue_drop_up.png'
@@ -110,6 +110,4 @@ const BlockchainMenu = () => {
   )
 }
 
-export default () => {
-  return isMobile() ? <BlockchainMenu /> : <BlockchainDropdown />
-}
+export default () => (isMobile() ? <BlockchainMenu /> : <BlockchainDropdown />)
