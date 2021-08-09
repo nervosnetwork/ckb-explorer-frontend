@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/bar'
+import 'echarts/lib/chart/pie'
 import 'echarts/lib/chart/map'
 import 'echarts/lib/chart/scatter'
 import 'echarts/lib/component/tooltip'
