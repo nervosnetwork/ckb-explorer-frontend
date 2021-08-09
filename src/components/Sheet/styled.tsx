@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import styled from 'styled-components'
 
 export const SheetPanel = styled.div`
@@ -11,7 +12,8 @@ export const SheetPanel = styled.div`
   }
 
   @media (max-width: 750px) {
-    top: ${(props: { isNotTop?: boolean; isEn: boolean }) => (props.isNotTop ? (props.isEn ? '184px' : '164px') : '64px')};
+    top: ${(props: { isNotTop?: boolean; isEn: boolean }) =>
+      props.isNotTop ? (props.isEn ? '184px' : '164px') : '64px'};
   }
 
   > div {

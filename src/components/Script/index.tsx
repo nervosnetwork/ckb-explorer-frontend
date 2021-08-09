@@ -1,19 +1,17 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { ScriptItemPanel, ScriptPanel } from './styled'
 import i18n from '../../utils/i18n'
 import HashTag from '../HashTag'
 import { matchCodeHash } from '../../utils/util'
 
-const ScriptItem = ({ title, children }: { title: string; children?: ReactNode }) => {
-  return (
-    <ScriptItemPanel>
-      <div className="script__title">
-        <span>{title}</span>
-      </div>
-      <div className="script__content">{children}</div>
-    </ScriptItemPanel>
-  )
-}
+const ScriptItem = ({ title, children }: { title: string; children?: ReactNode }) => (
+  <ScriptItemPanel>
+    <div className="script__title">
+      <span>{title}</span>
+    </div>
+    <div className="script__content">{children}</div>
+  </ScriptItemPanel>
+)
 
 const Script = ({ script }: { script: State.Script }) => {
   const contractHashTag = matchCodeHash(script.codeHash)

@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef, useCallback } from 'react'
+import { ReactNode, useRef, useCallback } from 'react'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/pie'
@@ -70,75 +70,71 @@ const daoIcon = (symbol: 'positive' | 'negative' | 'zero' | undefined) => {
   }
 }
 
-const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent[] => {
-  return [
-    {
-      title: i18n.t('nervos_dao.deposit'),
-      change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.depositChanges, 2), 2),
-      changeSymbol: numberSymbol(Number(nervosDao.depositChanges)),
-      content: localeNumberString(shannonToCkbDecimal(nervosDao.totalDeposit, 2)),
-      tooltip: i18n.t('nervos_dao.today_update'),
-    },
-    {
-      title: i18n.t('nervos_dao.addresses'),
-      titleTooltip: i18n.t('nervos_dao.deposit_address_tooltip'),
-      change: localeNumberString(nervosDao.depositorChanges),
-      changeSymbol: numberSymbol(Number(nervosDao.depositorChanges), false),
-      content: localeNumberString(nervosDao.depositorsCount),
-      tooltip: i18n.t('nervos_dao.today_update'),
-    },
+const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent[] => [
+  {
+    title: i18n.t('nervos_dao.deposit'),
+    change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.depositChanges, 2), 2),
+    changeSymbol: numberSymbol(Number(nervosDao.depositChanges)),
+    content: localeNumberString(shannonToCkbDecimal(nervosDao.totalDeposit, 2)),
+    tooltip: i18n.t('nervos_dao.today_update'),
+  },
+  {
+    title: i18n.t('nervos_dao.addresses'),
+    titleTooltip: i18n.t('nervos_dao.deposit_address_tooltip'),
+    change: localeNumberString(nervosDao.depositorChanges),
+    changeSymbol: numberSymbol(Number(nervosDao.depositorChanges), false),
+    content: localeNumberString(nervosDao.depositorsCount),
+    tooltip: i18n.t('nervos_dao.today_update'),
+  },
 
-    {
-      title: i18n.t('nervos_dao.claimed_compensation'),
-      change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.claimedCompensationChanges, 2), 2),
-      changeSymbol: numberSymbol(Number(nervosDao.claimedCompensationChanges)),
-      content: localeNumberString(shannonToCkbDecimal(nervosDao.claimedCompensation, 2)),
-      tooltip: i18n.t('nervos_dao.today_update'),
-    },
-    {
-      title: i18n.t('nervos_dao.average_deposit_time'),
-      content: `${handleBigNumber(nervosDao.averageDepositTime, 1)} ${i18n.t('nervos_dao.days')}`,
-    },
-    {
-      title: i18n.t('nervos_dao.estimated_apc'),
-      content: `${Number(nervosDao.estimatedApc).toFixed(2)}%`,
-    },
-    {
-      title: i18n.t('nervos_dao.unclaimed_compensation'),
-      change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.unclaimedCompensationChanges, 2), 2),
-      changeSymbol: numberSymbol(Number(nervosDao.unclaimedCompensationChanges)),
-      content: localeNumberString(shannonToCkbDecimal(nervosDao.unclaimedCompensation, 2)),
-      tooltip: i18n.t('nervos_dao.today_update'),
-    },
-  ]
-}
+  {
+    title: i18n.t('nervos_dao.claimed_compensation'),
+    change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.claimedCompensationChanges, 2), 2),
+    changeSymbol: numberSymbol(Number(nervosDao.claimedCompensationChanges)),
+    content: localeNumberString(shannonToCkbDecimal(nervosDao.claimedCompensation, 2)),
+    tooltip: i18n.t('nervos_dao.today_update'),
+  },
+  {
+    title: i18n.t('nervos_dao.average_deposit_time'),
+    content: `${handleBigNumber(nervosDao.averageDepositTime, 1)} ${i18n.t('nervos_dao.days')}`,
+  },
+  {
+    title: i18n.t('nervos_dao.estimated_apc'),
+    content: `${Number(nervosDao.estimatedApc).toFixed(2)}%`,
+  },
+  {
+    title: i18n.t('nervos_dao.unclaimed_compensation'),
+    change: handleBigNumberFloor(shannonToCkbDecimal(nervosDao.unclaimedCompensationChanges, 2), 2),
+    changeSymbol: numberSymbol(Number(nervosDao.unclaimedCompensationChanges)),
+    content: localeNumberString(shannonToCkbDecimal(nervosDao.unclaimedCompensation, 2)),
+    tooltip: i18n.t('nervos_dao.today_update'),
+  },
+]
 
-const NervosDaoLeftItem = ({ item, firstLine }: { item: NervosDaoItemContent; firstLine?: boolean }) => {
-  return (
-    <DaoOverviewLeftItemPanel hasChange={!!item.change} symbol={item.changeSymbol} hasTooltip={!!item.titleTooltip}>
-      <div className="dao__overview__item__container">
-        <div className="dao__overview__item_top">
-          {item.titleTooltip && (
-            <Tooltip placement="top" title={item.titleTooltip}>
-              <span className="dao__overview__item_title">{item.title}</span>
+const NervosDaoLeftItem = ({ item, firstLine }: { item: NervosDaoItemContent; firstLine?: boolean }) => (
+  <DaoOverviewLeftItemPanel hasChange={!!item.change} symbol={item.changeSymbol} hasTooltip={!!item.titleTooltip}>
+    <div className="dao__overview__item__container">
+      <div className="dao__overview__item_top">
+        {item.titleTooltip && (
+          <Tooltip placement="top" title={item.titleTooltip}>
+            <span className="dao__overview__item_title">{item.title}</span>
+          </Tooltip>
+        )}
+        {!item.titleTooltip && <span className="dao__overview__item_title">{item.title}</span>}
+        {item.change && (
+          <>
+            <img src={daoIcon(item.changeSymbol)} alt="nervos dao change icon" />
+            <Tooltip placement="top" title={item.tooltip}>
+              <span className="dao__overview__item_change">{item.change}</span>
             </Tooltip>
-          )}
-          {!item.titleTooltip && <span className="dao__overview__item_title">{item.title}</span>}
-          {item.change && (
-            <>
-              <img src={daoIcon(item.changeSymbol)} alt="nervos dao change icon" />
-              <Tooltip placement="top" title={item.tooltip}>
-                <span className="dao__overview__item_change">{item.change}</span>
-              </Tooltip>
-            </>
-          )}
-        </div>
-        <div className="dao__overview__item_content">{item.content}</div>
-        {firstLine && <span className="dao__overview__bottom__line" />}
+          </>
+        )}
       </div>
-    </DaoOverviewLeftItemPanel>
-  )
-}
+      <div className="dao__overview__item_content">{item.content}</div>
+      {firstLine && <span className="dao__overview__bottom__line" />}
+    </div>
+  </DaoOverviewLeftItemPanel>
+)
 
 const NervosDaoOverviewLeftComp = () => {
   const {
@@ -230,11 +226,10 @@ const getOption = (nervosDao: State.NervosDao): echarts.EChartOption => {
     color: colors,
     tooltip: {
       trigger: 'item',
-      formatter: (value: any) => {
-        return `${value.data.title}: ${localeNumberString(value.data.value)} ${i18n.t('common.ckb_unit')} (${
+      formatter: (value: any) =>
+        `${value.data.title}: ${localeNumberString(value.data.value)} ${i18n.t('common.ckb_unit')} (${
           value.data.name
-        })`
-      },
+        })`,
       position: ['10%', '50%'],
     },
     series: [
@@ -266,50 +261,44 @@ const getOption = (nervosDao: State.NervosDao): echarts.EChartOption => {
   }
 }
 
-const NervosDaoRightCapacity = ({ reward }: { reward: string }) => {
-  return (
-    <NervosDaoPieCapacityPanel>
-      <DecimalCapacity
-        value={localeNumberString(shannonToCkb(Number(reward).toFixed()))}
-        fontSize={isMobile() ? '10px' : '12px'}
-        marginBottom="2px"
-        hideUnit
-      />
-    </NervosDaoPieCapacityPanel>
-  )
-}
+const NervosDaoRightCapacity = ({ reward }: { reward: string }) => (
+  <NervosDaoPieCapacityPanel>
+    <DecimalCapacity
+      value={localeNumberString(shannonToCkb(Number(reward).toFixed()))}
+      fontSize={isMobile() ? '10px' : '12px'}
+      marginBottom="2px"
+      hideUnit
+    />
+  </NervosDaoPieCapacityPanel>
+)
 
-const nervosDaoPieItemContents = (nervosDao: State.NervosDao): NervosDaoPieItemContent[] => {
-  return [
-    {
-      title: i18n.t('nervos_dao.mining_reward'),
-      content: <NervosDaoRightCapacity reward={nervosDao.miningReward} />,
-      img: DotIcon1,
-    },
-    {
-      title: i18n.t('nervos_dao.deposit_compensation'),
-      content: <NervosDaoRightCapacity reward={nervosDao.depositCompensation} />,
-      img: DotIcon2,
-    },
-    {
-      title: i18n.t('nervos_dao.burnt'),
-      content: <NervosDaoRightCapacity reward={nervosDao.treasuryAmount} />,
-      img: DotIcon3,
-    },
-  ]
-}
+const nervosDaoPieItemContents = (nervosDao: State.NervosDao): NervosDaoPieItemContent[] => [
+  {
+    title: i18n.t('nervos_dao.mining_reward'),
+    content: <NervosDaoRightCapacity reward={nervosDao.miningReward} />,
+    img: DotIcon1,
+  },
+  {
+    title: i18n.t('nervos_dao.deposit_compensation'),
+    content: <NervosDaoRightCapacity reward={nervosDao.depositCompensation} />,
+    img: DotIcon2,
+  },
+  {
+    title: i18n.t('nervos_dao.burnt'),
+    content: <NervosDaoRightCapacity reward={nervosDao.treasuryAmount} />,
+    img: DotIcon3,
+  },
+]
 
-const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => {
-  return (
-    <NervosDaoPieItemPanel>
-      <img src={item.img} alt="nervos dao dot" />
-      <div>
-        <span>{item.title}</span>
-        <div>{item.content}</div>
-      </div>
-    </NervosDaoPieItemPanel>
-  )
-}
+const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
+  <NervosDaoPieItemPanel>
+    <img src={item.img} alt="nervos dao dot" />
+    <div>
+      <span>{item.title}</span>
+      <div>{item.content}</div>
+    </div>
+  </NervosDaoPieItemPanel>
+)
 
 export default () => {
   const {

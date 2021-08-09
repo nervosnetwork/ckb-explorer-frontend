@@ -2,7 +2,7 @@
 
 exports[`CopyTooltipText Component shallow renders 1`] = `
 <div
-  className="sc-AxjAm jIaAfJ"
+  className="sc-bdnxRM gcpWuX"
   id="copy__content__content"
   onClick={[Function]}
   onKeyDown={[Function]}

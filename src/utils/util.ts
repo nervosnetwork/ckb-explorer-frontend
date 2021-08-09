@@ -113,9 +113,8 @@ export const matchTxHash = (txHash: string, index: number | string): ContractHas
   return TestnetContractHashTags.find(codeHashTag => codeHashTag.txHashes.find(hash => hash === `${txHash}-${index}`))
 }
 
-export const udtSubmitEmail = () => {
-  return `mailto:${TOKEN_EMAIL_ADDRESS}?subject=${TOKEN_EMAIL_SUBJECT}&body=${TOKEN_EMAIL_BODY}`
-}
+export const udtSubmitEmail = () =>
+  `mailto:${TOKEN_EMAIL_ADDRESS}?subject=${TOKEN_EMAIL_SUBJECT}&body=${TOKEN_EMAIL_BODY}`
 
 export default {
   copyElementValue,

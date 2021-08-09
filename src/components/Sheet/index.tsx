@@ -1,4 +1,3 @@
-import React from 'react'
 import { useAppState } from '../../contexts/providers'
 import { SheetPanel, SheetPointPanel, SheetItem } from './styled'
 import { currentLanguage } from '../../utils/i18n'

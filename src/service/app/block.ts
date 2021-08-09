@@ -19,9 +19,7 @@ export const getBlockTransactions = (hash: string, page: number, size: number, d
       dispatch({
         type: PageActions.UpdateBlockTransactions,
         payload: {
-          transactions: data.map((wrapper: Response.Wrapper<State.Transaction>) => {
-            return wrapper.attributes
-          }),
+          transactions: data.map((wrapper: Response.Wrapper<State.Transaction>) => wrapper.attributes),
         },
       })
       if (meta) {
@@ -65,9 +63,7 @@ export const getBlock = (blockParam: string, page: number, size: number, dispatc
 export const getLatestBlocks = (dispatch: AppDispatch) => {
   fetchBlocks().then((wrappers: Response.Wrapper<State.Block>[] | null) => {
     if (wrappers) {
-      const blocks = wrappers.map((wrapper: Response.Wrapper<State.Block>) => {
-        return wrapper.attributes
-      })
+      const blocks = wrappers.map((wrapper: Response.Wrapper<State.Block>) => wrapper.attributes)
       dispatch({
         type: PageActions.UpdateHomeBlocks,
         payload: {
@@ -91,9 +87,7 @@ export const getBlocks = (page: number, size: number, dispatch: AppDispatch) => 
       })
     }
     if (data) {
-      const blocks = data.map((wrapper: Response.Wrapper<State.Block>) => {
-        return wrapper.attributes
-      })
+      const blocks = data.map((wrapper: Response.Wrapper<State.Block>) => wrapper.attributes)
       dispatch({
         type: PageActions.UpdateBlockList,
         payload: {

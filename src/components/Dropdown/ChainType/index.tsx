@@ -1,4 +1,3 @@
-import React from 'react'
 import i18n from '../../../utils/i18n'
 import CONFIG from '../../../config'
 import { isMainnet } from '../../../utils/chain'

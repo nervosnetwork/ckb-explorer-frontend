@@ -1,4 +1,3 @@
-import React from 'react'
 import i18n from '../../../utils/i18n'
 import { copyElementValue } from '../../../utils/util'
 import { AppActions } from '../../../contexts/actions'

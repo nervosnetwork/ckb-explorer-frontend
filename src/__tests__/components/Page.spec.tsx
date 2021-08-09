@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
 import 'jest-styled-components'
@@ -9,7 +9,14 @@ describe('Page Component', () => {
   let component: ReactElement
 
   beforeAll(() => {
-    component = <Page children={<div>children</div>} style={{ color: '#ffffff' }} />
+    component = (
+      <Page
+        children={<div>children</div>}
+        style={{
+          color: '#ffffff',
+        }}
+      />
+    )
   })
 
   it('shallow renders', () => {

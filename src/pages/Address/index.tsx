@@ -1,5 +1,5 @@
 import queryString from 'query-string'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, useLocation, useHistory } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import Loading from '../../components/Loading'
