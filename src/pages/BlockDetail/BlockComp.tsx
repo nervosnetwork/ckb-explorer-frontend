@@ -22,7 +22,6 @@ import {
   BlockMinerRewardPanel,
   BlockRootInfoItemPanel,
   BlockTransactionsPagination,
-  BlockNoncePanel,
   BlockRootInfoPanel,
 } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
@@ -37,7 +36,7 @@ const handleMinerText = (address: string) => {
   if (isMobile()) {
     return adaptMobileEllipsis(address, 8)
   }
-  return adaptPCEllipsis(address, 12, 50)
+  return adaptPCEllipsis(address, 11, 80)
 }
 
 const BlockMiner = ({ miner }: { miner: string }) => {
@@ -59,6 +58,21 @@ const BlockMiner = ({ miner }: { miner: string }) => {
         </Link>
       )}
     </BlockLinkPanel>
+  )
+}
+
+const BlockMinerMessage = ({ minerMessage }: { minerMessage: string }) => {
+  const minerMsg = handleMinerText(minerMessage)
+  return (
+    <>
+      {minerMsg.includes('...') ? (
+        <Tooltip placement="top" title={<CopyTooltipText content={minerMessage} />}>
+          {minerMsg}
+        </Tooltip>
+      ) : (
+        minerMessage
+      )}
+    </>
   )
 }
 
@@ -122,7 +136,7 @@ export const BlockOverview = () => {
     },
     {
       title: i18n.t('block.miner_message'),
-      content: block.minerMessage,
+      content: <BlockMinerMessage minerMessage={block.minerMessage ?? i18n.t('common.none')} />,
     },
     {
       title: i18n.t('block.proposal_transactions'),
@@ -160,7 +174,7 @@ export const BlockOverview = () => {
     },
     {
       title: i18n.t('block.nonce'),
-      content: <BlockNoncePanel>{`0x${new BigNumber(block.nonce).toString(16)}`}</BlockNoncePanel>,
+      content: <>{`0x${new BigNumber(block.nonce).toString(16)}`}</>,
     },
     {
       title: i18n.t('block.timestamp'),

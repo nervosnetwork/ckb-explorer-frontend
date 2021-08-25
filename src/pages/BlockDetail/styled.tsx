@@ -102,5 +102,3 @@ export const BlockTransactionsPagination = styled.div`
   margin-top: 4px;
   width: 100%;
 `
-
-export const BlockNoncePanel = styled.div``

@@ -10,7 +10,8 @@
       "second_ago": "s ago",
       "ckb_unit": "CKB",
       "note": "Note: ",
-      "ckb_explorer": "CKB Explorer"
+      "ckb_explorer": "CKB Explorer",
+      "none": "None"
     },
     "toast": {
       "invalid_network": "Network exception, please try again later",
