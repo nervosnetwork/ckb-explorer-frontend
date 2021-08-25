@@ -121,20 +121,16 @@ export const BlockOverview = () => {
       content: localeNumberString(block.transactionsCount),
     },
     {
-      title: i18n.t('block.epoch'),
-      content: localeNumberString(block.epoch),
+      title: i18n.t('block.miner_message'),
+      content: block.minerMessage,
     },
     {
       title: i18n.t('block.proposal_transactions'),
       content: block.proposalsCount ? localeNumberString(block.proposalsCount) : 0,
     },
     {
-      title: i18n.t('block.epoch_start_number'),
-      content: (
-        <BlockLinkPanel>
-          <Link to={`/block/${block.startNumber}`}>{localeNumberString(block.startNumber)}</Link>
-        </BlockLinkPanel>
-      ),
+      title: i18n.t('block.epoch'),
+      content: localeNumberString(block.epoch),
     },
     {
       title: i18n.t('block.miner_reward'),
@@ -147,20 +143,28 @@ export const BlockOverview = () => {
       ),
     },
     {
-      title: i18n.t('block.block_index'),
-      content: `${Number(block.blockIndexInEpoch) + 1}/${block.length}`,
+      title: i18n.t('block.epoch_start_number'),
+      content: (
+        <BlockLinkPanel>
+          <Link to={`/block/${block.startNumber}`}>{localeNumberString(block.startNumber)}</Link>
+        </BlockLinkPanel>
+      ),
     },
     {
       title: i18n.t('block.difficulty'),
       content: handleDifficulty(block.difficulty),
     },
     {
-      title: i18n.t('block.timestamp'),
-      content: `${parseSimpleDate(block.timestamp)}`,
+      title: i18n.t('block.block_index'),
+      content: `${Number(block.blockIndexInEpoch) + 1}/${block.length}`,
     },
     {
       title: i18n.t('block.nonce'),
       content: <BlockNoncePanel>{`0x${new BigNumber(block.nonce).toString(16)}`}</BlockNoncePanel>,
+    },
+    {
+      title: i18n.t('block.timestamp'),
+      content: `${parseSimpleDate(block.timestamp)}`,
     },
     {
       title: i18n.t('block.uncle_count'),

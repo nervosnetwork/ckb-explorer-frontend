@@ -284,6 +284,7 @@
       "proof": "PoW Proof",
       "timestamp": "Timestamp",
       "miner": "Miner",
+      "miner_message": "Miner Message",
       "difficulty": "Difficulty",
       "hash_rate_hps": "Hash Rate (H/s)",
       "hash_rate": "Hash Rate",

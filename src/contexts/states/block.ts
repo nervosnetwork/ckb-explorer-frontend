@@ -13,6 +13,7 @@ export const initBlockState: State.BlockState = {
     totalTransactionFee: '0',
     totalCellCapacity: '0',
     minerHash: '',
+    minerMessage: '',
     timestamp: 0,
     difficulty: '',
     startNumber: 0,

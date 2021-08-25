@@ -283,6 +283,7 @@
       "proof": "PoW Proof",
       "timestamp": "时间戳",
       "miner": "矿工",
+      "miner_message": "矿工信息",
       "difficulty": "难度",
       "hash_rate_hps": "哈希率 (H/s)",
       "hash_rate": "哈希率",
