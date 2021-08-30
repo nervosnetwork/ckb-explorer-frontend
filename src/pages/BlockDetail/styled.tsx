@@ -78,6 +78,25 @@ export const BlockMinerRewardPanel = styled.div`
   }
 `
 
+export const BlockMinerMessagePanel = styled.div`
+  display: flex;
+  align-items: center;
+
+  .block__miner__message_utf8 {
+    padding: 2px 3px;
+    border-radius: 6px;
+    background-color: #77838f;
+    color: white;
+    font-size: 10px;
+    margin-left: 6px;
+    cursor: pointer;
+  }
+
+  .block__miner__message_utf8:hover {
+    background-color: #666666;
+  }
+`
+
 export const BlockOverviewDisplayControlPanel = styled.div`
   display: flex;
   flex-direction: row;

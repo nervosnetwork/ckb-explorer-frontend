@@ -14,12 +14,13 @@ import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString, handleDifficulty } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
-import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
+import { adaptMobileEllipsis, adaptPCEllipsis, hexToUtf8 } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
 import {
   BlockLinkPanel,
   BlockOverviewDisplayControlPanel,
   BlockMinerRewardPanel,
+  BlockMinerMessagePanel,
   BlockRootInfoItemPanel,
   BlockTransactionsPagination,
   BlockRootInfoPanel,
@@ -64,15 +65,18 @@ const BlockMiner = ({ miner }: { miner: string }) => {
 const BlockMinerMessage = ({ minerMessage }: { minerMessage: string }) => {
   const minerMsg = handleMinerText(minerMessage)
   return (
-    <>
+    <BlockMinerMessagePanel>
       {minerMsg.includes('...') ? (
         <Tooltip placement="top" title={<CopyTooltipText content={minerMessage} />}>
           {minerMsg}
         </Tooltip>
       ) : (
-        minerMessage
+        <span>{minerMessage}</span>
       )}
-    </>
+      <Tooltip placement="top" title={hexToUtf8(minerMessage)}>
+        <span className="block__miner__message_utf8">UTF-8</span>
+      </Tooltip>
+    </BlockMinerMessagePanel>
   )
 }
 

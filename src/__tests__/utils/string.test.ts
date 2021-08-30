@@ -9,7 +9,6 @@ import {
   handleBigNumberFloor,
   containSpecialChar,
 } from '../../utils/string'
-import { async } from 'q'
 
 describe('String methods tests', () => {
   it('parse valid number', async () => {
