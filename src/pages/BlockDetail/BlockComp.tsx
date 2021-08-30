@@ -26,7 +26,7 @@ import {
   BlockRootInfoPanel,
 } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
-import MoreIcon from '../../assets/more.svg'
+import MoreIcon from '../../assets/more.png'
 import MinerRewardIcon from '../../assets/miner_complete.png'
 import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
