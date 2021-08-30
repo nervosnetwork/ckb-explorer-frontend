@@ -83,17 +83,10 @@ export const BlockMinerMessagePanel = styled.div`
   align-items: center;
 
   .block__miner__message_utf8 {
-    padding: 2px 3px;
-    border-radius: 6px;
-    background-color: #77838f;
-    color: white;
-    font-size: 10px;
+    width: 15px;
+    height: 15px;
+    margin-top: 2px;
     margin-left: 6px;
-    cursor: pointer;
-  }
-
-  .block__miner__message_utf8:hover {
-    background-color: #666666;
   }
 `
 

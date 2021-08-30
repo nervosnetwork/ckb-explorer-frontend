@@ -26,6 +26,7 @@ import {
   BlockRootInfoPanel,
 } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
+import MoreIcon from '../../assets/more.svg'
 import MinerRewardIcon from '../../assets/miner_complete.png'
 import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
@@ -73,8 +74,8 @@ const BlockMinerMessage = ({ minerMessage }: { minerMessage: string }) => {
       ) : (
         <span>{minerMessage}</span>
       )}
-      <Tooltip placement="top" title={hexToUtf8(minerMessage)}>
-        <span className="block__miner__message_utf8">UTF-8</span>
+      <Tooltip placement="top" title={`UTF-8: ${hexToUtf8(minerMessage)}`}>
+        <img className="block__miner__message_utf8" src={MoreIcon} alt="more" />
       </Tooltip>
     </BlockMinerMessagePanel>
   )
