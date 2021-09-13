@@ -78,6 +78,18 @@ export const BlockMinerRewardPanel = styled.div`
   }
 `
 
+export const BlockMinerMessagePanel = styled.div`
+  display: flex;
+  align-items: center;
+
+  .block__miner__message_utf8 {
+    width: 15px;
+    height: 15px;
+    margin-top: 2px;
+    margin-left: 6px;
+  }
+`
+
 export const BlockOverviewDisplayControlPanel = styled.div`
   display: flex;
   flex-direction: row;
@@ -102,5 +114,3 @@ export const BlockTransactionsPagination = styled.div`
   margin-top: 4px;
   width: 100%;
 `
-
-export const BlockNoncePanel = styled.div``
