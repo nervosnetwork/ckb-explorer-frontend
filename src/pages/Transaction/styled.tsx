@@ -110,7 +110,6 @@ export const TransactionInfoContentItem = styled.div`
 
   a {
     color: ${props => props.theme.primary};
-    width: 100%;
     word-wrap: break-word;
     word-break: break-all;
   }
@@ -132,15 +131,11 @@ export const TransactionInfoContentItem = styled.div`
   .transaction__info__content_value {
     color: #333333;
     font-size: 14px;
-    width: auto;
+    width: 100%;
     word-wrap: break-word;
     word-break: break-all;
     display: flex;
     justify-content: flex-start;
-
-    @media (max-width: 1440px) {
-      width: 100%;
-    }
 
     @media (max-width: 750px) {
       font-size: 12px;
