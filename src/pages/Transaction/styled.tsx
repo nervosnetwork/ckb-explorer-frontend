@@ -110,7 +110,6 @@ export const TransactionInfoContentItem = styled.div`
 
   a {
     color: ${props => props.theme.primary};
-    width: 100%;
     word-wrap: break-word;
     word-break: break-all;
   }
