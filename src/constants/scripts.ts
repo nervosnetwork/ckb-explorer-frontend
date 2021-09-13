@@ -84,6 +84,12 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     tag: 'm-nft',
     category: 'type',
   },
+  {
+    codeHashes: ['0x614d40a86e1b29a8f4d8d93b9f3b390bf740803fa19a69f1c95716e029ea09b3'],
+    txHashes: ['0x1a04142a2a745fb3b7e0e9b61241676c1c94ad8cdacb36f223661130a23fb007-0'],
+    tag: 'unipass',
+    category: 'lock',
+  },
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
@@ -176,5 +182,11 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     ],
     tag: 'm-nft',
     category: 'type',
+  },
+  {
+    codeHashes: ['0x124a60cd799e1fbca664196de46b3f7f0ecb7138133dcaea4893c51df5b02be6'],
+    txHashes: ['0x3d41e1c543f0fddcbb17157d15a2845d7c5fb0363561cd8f50ecd0e118b34f84-0'],
+    tag: 'unipass',
+    category: 'lock',
   },
 ]
