@@ -14,18 +14,19 @@ import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString, handleDifficulty } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
-import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
+import { adaptMobileEllipsis, adaptPCEllipsis, hexToUtf8 } from '../../utils/string'
 import { shannonToCkb } from '../../utils/util'
 import {
   BlockLinkPanel,
   BlockOverviewDisplayControlPanel,
   BlockMinerRewardPanel,
+  BlockMinerMessagePanel,
   BlockRootInfoItemPanel,
   BlockTransactionsPagination,
-  BlockNoncePanel,
   BlockRootInfoPanel,
 } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
+import MoreIcon from '../../assets/more.png'
 import MinerRewardIcon from '../../assets/miner_complete.png'
 import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
@@ -37,7 +38,7 @@ const handleMinerText = (address: string) => {
   if (isMobile()) {
     return adaptMobileEllipsis(address, 8)
   }
-  return adaptPCEllipsis(address, 12, 50)
+  return adaptPCEllipsis(address, 11, 80)
 }
 
 const BlockMiner = ({ miner }: { miner: string }) => {
@@ -59,6 +60,24 @@ const BlockMiner = ({ miner }: { miner: string }) => {
         </Link>
       )}
     </BlockLinkPanel>
+  )
+}
+
+const BlockMinerMessage = ({ minerMessage }: { minerMessage: string }) => {
+  const minerMsg = handleMinerText(minerMessage)
+  return (
+    <BlockMinerMessagePanel>
+      {minerMsg.includes('...') ? (
+        <Tooltip placement="top" title={<CopyTooltipText content={minerMessage} />}>
+          {minerMsg}
+        </Tooltip>
+      ) : (
+        <span>{minerMessage}</span>
+      )}
+      <Tooltip placement="top" title={`UTF-8: ${hexToUtf8(minerMessage)}`}>
+        <img className="block__miner__message_utf8" src={MoreIcon} alt="more" />
+      </Tooltip>
+    </BlockMinerMessagePanel>
   )
 }
 
@@ -121,20 +140,16 @@ export const BlockOverview = () => {
       content: localeNumberString(block.transactionsCount),
     },
     {
-      title: i18n.t('block.epoch'),
-      content: localeNumberString(block.epoch),
+      title: i18n.t('block.miner_message'),
+      content: <BlockMinerMessage minerMessage={block.minerMessage ?? i18n.t('common.none')} />,
     },
     {
       title: i18n.t('block.proposal_transactions'),
       content: block.proposalsCount ? localeNumberString(block.proposalsCount) : 0,
     },
     {
-      title: i18n.t('block.epoch_start_number'),
-      content: (
-        <BlockLinkPanel>
-          <Link to={`/block/${block.startNumber}`}>{localeNumberString(block.startNumber)}</Link>
-        </BlockLinkPanel>
-      ),
+      title: i18n.t('block.epoch'),
+      content: localeNumberString(block.epoch),
     },
     {
       title: i18n.t('block.miner_reward'),
@@ -147,20 +162,28 @@ export const BlockOverview = () => {
       ),
     },
     {
-      title: i18n.t('block.block_index'),
-      content: `${Number(block.blockIndexInEpoch) + 1}/${block.length}`,
+      title: i18n.t('block.epoch_start_number'),
+      content: (
+        <BlockLinkPanel>
+          <Link to={`/block/${block.startNumber}`}>{localeNumberString(block.startNumber)}</Link>
+        </BlockLinkPanel>
+      ),
     },
     {
       title: i18n.t('block.difficulty'),
       content: handleDifficulty(block.difficulty),
     },
     {
-      title: i18n.t('block.timestamp'),
-      content: `${parseSimpleDate(block.timestamp)}`,
+      title: i18n.t('block.block_index'),
+      content: `${Number(block.blockIndexInEpoch) + 1}/${block.length}`,
     },
     {
       title: i18n.t('block.nonce'),
-      content: <BlockNoncePanel>{`0x${new BigNumber(block.nonce).toString(16)}`}</BlockNoncePanel>,
+      content: <>{`0x${new BigNumber(block.nonce).toString(16)}`}</>,
+    },
+    {
+      title: i18n.t('block.timestamp'),
+      content: `${parseSimpleDate(block.timestamp)}`,
     },
     {
       title: i18n.t('block.uncle_count'),

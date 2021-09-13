@@ -143,6 +143,7 @@ declare namespace State {
     receivedTxFeeStatus: 'pending' | 'calculated'
     totalCellCapacity: string
     minerHash: string
+    minerMessage: string
     timestamp: number
     difficulty: string
     epoch: number

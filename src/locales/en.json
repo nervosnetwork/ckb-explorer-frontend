@@ -10,7 +10,8 @@
       "second_ago": "s ago",
       "ckb_unit": "CKB",
       "note": "Note: ",
-      "ckb_explorer": "CKB Explorer"
+      "ckb_explorer": "CKB Explorer",
+      "none": "None"
     },
     "toast": {
       "invalid_network": "Network exception, please try again later",
@@ -284,6 +285,7 @@
       "proof": "PoW Proof",
       "timestamp": "Timestamp",
       "miner": "Miner",
+      "miner_message": "Miner Message",
       "difficulty": "Difficulty",
       "hash_rate_hps": "Hash Rate (H/s)",
       "hash_rate": "Hash Rate",
