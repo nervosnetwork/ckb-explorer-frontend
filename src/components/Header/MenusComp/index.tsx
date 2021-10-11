@@ -23,13 +23,11 @@ const menuDataList = () => [
     name: i18n.t('navbar.nervos_dao'),
     url: '/nervosdao',
   },
-  !isMainnet()
-    ? {
-        type: LinkType.Inner,
-        name: i18n.t('navbar.tokens'),
-        url: '/tokens',
-      }
-    : {},
+  {
+    type: LinkType.Inner,
+    name: i18n.t('navbar.tokens'),
+    url: '/tokens',
+  },
   {
     type: LinkType.Inner,
     name: i18n.t('navbar.charts'),

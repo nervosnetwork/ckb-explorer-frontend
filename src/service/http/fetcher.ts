@@ -305,8 +305,13 @@ export const fetchSimpleUDTTransactionsWithAddress = (address: string, typeHash:
     },
   }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 
-export const fetchTokens = () =>
-  axiosIns(`/udts`).then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.UDT>[]>(res.data.data))
+export const fetchTokens = (page: number, size: number) =>
+  axiosIns(`/udts`, {
+    params: {
+      page,
+      page_size: size,
+    },
+  }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.UDT>[]>>(res.data))
 
 export const fetchMaintenanceInfo = () =>
   axiosIns(`/statistics/maintenance_info`).then((res: AxiosResponse) =>
