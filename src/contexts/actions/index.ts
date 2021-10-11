@@ -106,6 +106,7 @@ export enum PageActions {
   UpdateUDTFilterStatus = 'updateUDTFilterStatus',
 
   UpdateTokens = 'updateTokens',
+  UpdateTokensTotal = 'updateTokensTotal',
   UpdateTokensStatus = 'updateTokensStatus',
 }
 

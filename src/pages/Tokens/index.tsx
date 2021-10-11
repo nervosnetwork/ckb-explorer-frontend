@@ -1,7 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { Tooltip } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
+import queryString from 'query-string'
 import Content from '../../components/Content'
+import Pagination from '../../components/Pagination'
 import {
   TokensPanel,
   TokensTableTitle,
@@ -11,6 +13,7 @@ import {
   TokensLoadingPanel,
   TokensTitlePanel,
   TokensItemNamePanel,
+  TokensPagination,
 } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
 import { parseDateNoTime } from '../../utils/date'
@@ -23,6 +26,8 @@ import Loading from '../../components/Loading'
 import { isMobile } from '../../utils/screen'
 import { udtSubmitEmail } from '../../utils/util'
 import SmallLoading from '../../components/Loading/SmallLoading'
+import { PageParams } from '../../constants/common'
+import { parsePageNumber } from '../../utils/string'
 
 const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) => {
   const name = token.fullName ? token.fullName : i18n.t('udt.unknown_token')
@@ -82,6 +87,7 @@ const TokensTableState = () => {
   const {
     tokensState: { tokens, status },
   } = useAppState()
+
   switch (status) {
     case 'Error':
       return <TokensContentEmpty>{i18n.t('udt.tokens_empty')}</TokensContentEmpty>
@@ -102,10 +108,31 @@ const TokensTableState = () => {
 
 export default () => {
   const dispatch = useDispatch()
+  const { search } = useLocation()
+  const history = useHistory()
+  const parsed = queryString.parse(search)
+  const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
+  const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
+
+  const {
+    tokensState: { total },
+  } = useAppState()
+
+  const totalPages = Math.ceil(total / pageSize)
+
+  const onChange = useCallback(
+    (page: number) => {
+      history.replace(`/tokens?page=${page}&size=${pageSize}`)
+    },
+    [history, pageSize],
+  )
 
   useEffect(() => {
-    getTokens(dispatch)
-  }, [dispatch])
+    if (pageSize > PageParams.MaxPageSize) {
+      history.replace(`/tokens?page=${currentPage}&size=${PageParams.MaxPageSize}`)
+    }
+    getTokens(currentPage, pageSize, dispatch)
+  }, [currentPage, pageSize, dispatch, history])
 
   return (
     <Content>
@@ -125,6 +152,11 @@ export default () => {
           </TokensTableTitle>
         )}
         <TokensTableState />
+        {totalPages > 1 && (
+          <TokensPagination>
+            <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
+          </TokensPagination>
+        )}
       </TokensPanel>
     </Content>
   )
