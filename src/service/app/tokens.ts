@@ -11,15 +11,25 @@ const handleStatus = (dispatch: AppDispatch, status: State.FetchStatus) => {
   })
 }
 
-export const getTokens = (dispatch: AppDispatch) => {
+export const getTokens = (page: number, size: number, dispatch: AppDispatch) => {
   handleStatus(dispatch, 'InProgress')
-  fetchTokens()
-    .then((wrappers: Response.Wrapper<State.UDT>[] | null) => {
-      if (wrappers && wrappers.length > 0) {
+  fetchTokens(page, size)
+    .then(response => {
+      const { data, meta } = response as Response.Response<Response.Wrapper<State.UDT>[]>
+      if (meta) {
+        dispatch({
+          type: PageActions.UpdateTokensTotal,
+          payload: {
+            total: meta.total,
+          },
+        })
+      }
+      if (data && data.length > 0) {
+        const tokens = data.map((wrapper: Response.Wrapper<State.UDT>) => wrapper.attributes)
         dispatch({
           type: PageActions.UpdateTokens,
           payload: {
-            tokens: wrappers.map(wrapper => wrapper.attributes),
+            tokens,
           },
         })
         handleStatus(dispatch, 'OK')

@@ -524,6 +524,14 @@ export const pageReducer = (
           tokens: payload.tokens,
         },
       }
+    case PageActions.UpdateTokensTotal:
+      return {
+        ...state,
+        tokensState: {
+          ...state.tokensState,
+          total: payload.total,
+        },
+      }
     case PageActions.UpdateTokensStatus:
       return {
         ...state,
