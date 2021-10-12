@@ -515,6 +515,7 @@ declare namespace State {
 
   export interface TokensState {
     tokens: UDT[]
+    total: number
     status: FetchStatus
   }
 
