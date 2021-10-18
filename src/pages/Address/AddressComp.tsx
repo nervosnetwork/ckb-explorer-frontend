@@ -1,4 +1,5 @@
 import { useHistory } from 'react-router'
+import { useState } from 'react'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
@@ -53,9 +54,11 @@ const addressAssetInfo = (address: State.Address) => {
 const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
   const { decimal, symbol, amount, udtIconFile, typeHash, udtType } = udtAccount
   const isSudt = udtType === 'sudt'
+  const [icon, setIcon] = useState(udtIconFile || SUDTTokenIcon)
+  const showDefaultIcon = () => setIcon(SUDTTokenIcon)
   return (
     <AddressUDTItemPanel href={`${baseUrl()}/sudt/${typeHash}`} isLink={isSudt}>
-      <img className="address__udt__item__icon" src={udtIconFile || SUDTTokenIcon} alt="udt icon" />
+      <img className="address__udt__item__icon" src={icon} alt="udt icon" onError={showDefaultIcon} />
       <div className="address__udt__item__info">
         <span>{isSudt ? symbol : sliceNftName(symbol)}</span>
         <span>{isSudt ? parseUDTAmount(amount, decimal) : `#${amount}`}</span>
