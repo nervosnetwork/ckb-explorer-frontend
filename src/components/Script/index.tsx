@@ -23,11 +23,11 @@ const Script = ({ script }: { script: State.Script }) => {
           {contractHashTag && <HashTag content={contractHashTag.tag} />}
         </div>
       </ScriptItem>
-      <ScriptItem title={i18n.t('address.args')}>
-        <span className="monospace">{script.args}</span>
-      </ScriptItem>
       <ScriptItem title={i18n.t('address.hash_type')}>
         <code>{script.hashType}</code>
+      </ScriptItem>
+      <ScriptItem title={i18n.t('address.args')}>
+        <span className="monospace">{script.args}</span>
       </ScriptItem>
     </ScriptPanel>
   )

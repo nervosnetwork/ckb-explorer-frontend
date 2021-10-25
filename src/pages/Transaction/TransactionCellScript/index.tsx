@@ -173,8 +173,8 @@ const ScriptContent = ({ content, state }: { content: State.Script | State.Data 
           }
         />
       )}
-      <ScriptContentItem title={`"${i18n.t('transaction.script_args')}": `} value={(content as State.Script).args} />
       <ScriptContentItem title={`"${i18n.t('transaction.script_hash_type')}": `} value={script.hashType} />
+      <ScriptContentItem title={`"${i18n.t('transaction.script_args')}": `} value={(content as State.Script).args} />
     </>
   )
 }
