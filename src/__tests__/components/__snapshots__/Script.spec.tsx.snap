@@ -35,6 +35,24 @@ exports[`Script Component shallow renders 1`] = `
       className="script__title"
     >
       <span>
+        Hash Type: 
+      </span>
+    </div>
+    <div
+      className="script__content"
+    >
+      <code>
+        data
+      </code>
+    </div>
+  </div>
+  <div
+    className="sc-gtsrHT kDpyXn"
+  >
+    <div
+      className="script__title"
+    >
+      <span>
         Args: 
       </span>
     </div>
@@ -46,24 +64,6 @@ exports[`Script Component shallow renders 1`] = `
       >
         0x5f77c1d1a0e384d5c7d7c02788b51e0a296d4ec13cd7b66bb16f1650ebbfd74c
       </span>
-    </div>
-  </div>
-  <div
-    className="sc-gtsrHT kDpyXn"
-  >
-    <div
-      className="script__title"
-    >
-      <span>
-        Hash Type: 
-      </span>
-    </div>
-    <div
-      className="script__content"
-    >
-      <code>
-        data
-      </code>
     </div>
   </div>
 </div>

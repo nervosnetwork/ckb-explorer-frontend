@@ -22,7 +22,7 @@ import SmallLoading from '../../../components/Loading/SmallLoading'
 import { isMainnet } from '../../../utils/chain'
 import { useDispatch, useAppState } from '../../../contexts/providers'
 import CloseIcon from '../../../assets/modal_close.png'
-import { matchCodeHash } from '../../../utils/util'
+import { matchScript } from '../../../utils/util'
 import HashTag from '../../../components/HashTag'
 
 const initScriptContent = {
@@ -145,7 +145,9 @@ const ScriptContentItem = ({ title = '', value = '' }: { title?: string; value?:
 )
 
 const ScriptContent = ({ content, state }: { content: State.Script | State.Data | undefined; state: CellState }) => {
-  const hashTag = (content as State.Script).codeHash ? matchCodeHash((content as State.Script).codeHash) : undefined
+  const hashTag = (content as State.Script).codeHash
+    ? matchScript((content as State.Script).codeHash, (content as State.Script).hashType)
+    : undefined
   const data = content as State.Data
   const script = content as State.Script
   if (state === CellState.DATA) {
@@ -171,8 +173,8 @@ const ScriptContent = ({ content, state }: { content: State.Script | State.Data 
           }
         />
       )}
-      <ScriptContentItem title={`"${i18n.t('transaction.script_args')}": `} value={(content as State.Script).args} />
       <ScriptContentItem title={`"${i18n.t('transaction.script_hash_type')}": `} value={script.hashType} />
+      <ScriptContentItem title={`"${i18n.t('transaction.script_args')}": `} value={(content as State.Script).args} />
     </>
   )
 }
