@@ -97,13 +97,15 @@ export const baseUrl = () => {
   return isMainnet() ? mainnetUrl : testnetUrl
 }
 
-export const matchCodeHash = (contractHash: string): ContractHashTag | undefined => {
+export const matchScript = (contractHash: string, hashType: string): ContractHashTag | undefined => {
   if (isMainnet()) {
-    return MainnetContractHashTags.find(codeHashTag =>
-      codeHashTag.codeHashes.find(codeHash => codeHash === contractHash),
+    return MainnetContractHashTags.find(
+      scriptTag => scriptTag.codeHashes.find(codeHash => codeHash === contractHash) && scriptTag.hashType === hashType,
     )
   }
-  return TestnetContractHashTags.find(codeHashTag => codeHashTag.codeHashes.find(codeHash => codeHash === contractHash))
+  return TestnetContractHashTags.find(
+    scriptTag => scriptTag.codeHashes.find(codeHash => codeHash === contractHash) && scriptTag.hashType === hashType,
+  )
 }
 
 export const matchTxHash = (txHash: string, index: number | string): ContractHashTag | undefined => {

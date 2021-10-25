@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { ScriptItemPanel, ScriptPanel } from './styled'
 import i18n from '../../utils/i18n'
 import HashTag from '../HashTag'
-import { matchCodeHash } from '../../utils/util'
+import { matchScript } from '../../utils/util'
 
 const ScriptItem = ({ title, children }: { title: string; children?: ReactNode }) => (
   <ScriptItemPanel>
@@ -14,7 +14,7 @@ const ScriptItem = ({ title, children }: { title: string; children?: ReactNode }
 )
 
 const Script = ({ script }: { script: State.Script }) => {
-  const contractHashTag = matchCodeHash(script.codeHash)
+  const contractHashTag = matchScript(script.codeHash, script.hashType)
   return (
     <ScriptPanel>
       <ScriptItem title={i18n.t('address.code_hash')}>
