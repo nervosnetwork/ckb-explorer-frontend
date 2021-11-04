@@ -78,7 +78,7 @@ export const SimpleUDT = () => {
   const {
     udtState: {
       total,
-      udt: { iconFile, typeScript },
+      udt: { iconFile, typeScript, symbol },
       status,
     },
   } = useAppState()
@@ -121,7 +121,7 @@ export const SimpleUDT = () => {
   return (
     <Content>
       <SimpleUDTContentPanel className="container">
-        <SimpleUDTHashCard title={i18n.t('udt.sudt')} hash={typeHash} iconUri={iconFile || SUDTTokenIcon}>
+        <SimpleUDTHashCard title={symbol ?? i18n.t('udt.sudt')} hash={typeHash} iconUri={iconFile || SUDTTokenIcon}>
           <SimpleUDTOverview>
             <TypeScriptController onClick={() => setShowType(!showType)}>
               <div>{i18n.t('udt.type_script')}</div>
