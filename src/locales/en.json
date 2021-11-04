@@ -199,6 +199,7 @@
       "balance": "Balance",
       "live_cells": "Live Cells",
       "block_mined": "Block Mined",
+      "occupied": "Occupied",
       "dao_deposit": "Nervos DAO Deposit",
       "compensation": "Nervos DAO Compensation",
       "compensation_tooltip": "Updated every hour",
