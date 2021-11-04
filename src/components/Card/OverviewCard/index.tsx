@@ -57,6 +57,7 @@ export default ({
   titleCard?: ReactNode
   hideShadow?: boolean
 }) => {
+  /* eslint-disable react/no-array-index-key */
   const { leftItems, rightItems } = handleOverviewItems(items)
   return (
     <OverviewCardPanel hideShadow={hideShadow}>
@@ -66,7 +67,7 @@ export default ({
         <div className="overview_content__left_items">
           {leftItems.map((item, index) => (
             <OverviewItem
-              key={`${item.title?.toString()}-${item.content?.toString()}`}
+              key={`${item.title?.toString()}-${item.content?.toString()}-${index}`}
               item={item}
               hideLine={index === leftItems.length - 1}
             />

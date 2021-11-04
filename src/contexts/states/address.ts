@@ -3,6 +3,7 @@ export const initAddressState: State.AddressState = {
     addressHash: '',
     lockHash: '',
     balance: '0',
+    balanceOccupied: '0',
     daoDeposit: 0,
     interest: 0,
     daoCompensation: 0,
