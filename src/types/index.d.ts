@@ -114,6 +114,7 @@ declare namespace State {
     addressHash: string
     lockHash: string
     balance: string
+    balanceOccupied: string
     transactionsCount: number
     lockScript: Script
     pendingRewardBlocksCount: number
