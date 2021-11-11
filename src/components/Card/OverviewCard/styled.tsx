@@ -34,7 +34,7 @@ export const OverviewCardPanel = styled.div`
   @media (max-width: 750px) {
     font-size: 13px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
-    padding: 5px 20px;
+    padding: 8px 20px;
     ${(props: { hideShadow?: boolean }) =>
       props.hideShadow &&
       css`
@@ -100,13 +100,13 @@ export const OverviewItemPanel = styled.div`
 
   @media (min-width: 750px) {
     height: 20px;
-    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '0px' : '14px')};
+    margin-top: 14px;
     margin-bottom: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '16px' : '0px')};
   }
 
   @media (min-width: 1200px) {
     height: 20px;
-    margin-top: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '0' : '14px')};
+    margin-top: 14px;
   }
 
   @media (max-width: 750px) {

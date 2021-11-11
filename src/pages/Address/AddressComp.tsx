@@ -17,7 +17,7 @@ import DecimalCapacity from '../../components/DecimalCapacity'
 import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
-import { isMobile } from '../../utils/screen'
+import { isScreenSmallerThan1200 } from '../../utils/screen'
 import { sliceNftName } from '../../utils/string'
 
 const addressAssetInfo = (address: State.Address) => {
@@ -27,8 +27,8 @@ const addressAssetInfo = (address: State.Address) => {
       content: '',
     },
     {
-      title: i18n.t('address.dao_deposit'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoDeposit))} />,
+      title: i18n.t('address.occupied'),
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balanceOccupied))} />,
       isAsset: true,
     },
     {
@@ -37,16 +37,26 @@ const addressAssetInfo = (address: State.Address) => {
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} />,
     },
     {
+      title: i18n.t('address.dao_deposit'),
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoDeposit))} />,
+      isAsset: true,
+    },
+    {
+      title: '',
+      content: '',
+    },
+    {
       title: i18n.t('address.compensation'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoCompensation))} />,
       tooltip: i18n.t('address.compensation_tooltip'),
       isAsset: true,
     },
   ] as OverviewItemData[]
-  if (isMobile()) {
+  if (isScreenSmallerThan1200()) {
     const item2 = items[2]
     items[0] = item2
     items.splice(2, 1)
+    items.splice(3, 1)
   }
   return items
 }
