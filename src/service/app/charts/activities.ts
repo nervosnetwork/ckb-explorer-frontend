@@ -22,10 +22,12 @@ import {
 
 export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(ChartCachedKeys.TransactionCount)
+  console.error(JSON.stringify(data))
   if (data) {
     dispatchTransactionCount(dispatch, data)
     return
   }
+  console.error('fetch')
   fetchStatisticTransactionCount()
     .then((response: Response.Response<Response.Wrapper<State.StatisticTransactionCount>[]> | null) => {
       if (!response) return
