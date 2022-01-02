@@ -105,7 +105,7 @@ export const TransactionOverview = () => {
     },
   ]
   if (txStatus === 'committed') {
-    if (confirmation > 0) {
+    if (confirmation >= 0) {
       OverviewItems.push(
         {
           title: i18n.t('block.timestamp'),
