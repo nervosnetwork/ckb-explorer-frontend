@@ -106,6 +106,13 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     tag: 'unipass',
     category: 'lock',
   },
+  {
+    codeHashes: ['0x081dbffa88dab54ba426d231ca64eb760cea2fe9e16761a1da400da1b2cbe128'],
+    txHashes: ['0x0f0c22372a05f3c5f47acb066c65f9bae86bdce043762310e50309cc5a77abd4-0'],
+    hashType: 'type',
+    tag: 'Flashsigner',
+    category: 'lock',
+  },
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
@@ -222,6 +229,13 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0x3d41e1c543f0fddcbb17157d15a2845d7c5fb0363561cd8f50ecd0e118b34f84-0'],
     hashType: 'type',
     tag: 'unipass',
+    category: 'lock',
+  },
+  {
+    codeHashes: ['0x577a5e5930e2ecdd6200765f3442e6119dc99e87df474f22f13cab819c80b242'],
+    txHashes: ['0xb66776ff3244033fcd15312ae8b17d384c11bebbb923fce3bd896d89f4744d48-0'],
+    hashType: 'type',
+    tag: 'Flashsigner',
     category: 'lock',
   },
 ]
