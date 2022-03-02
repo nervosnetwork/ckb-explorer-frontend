@@ -106,6 +106,27 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     tag: 'unipass',
     category: 'lock',
   },
+  {
+    codeHashes: ['0x081dbffa88dab54ba426d231ca64eb760cea2fe9e16761a1da400da1b2cbe128'],
+    txHashes: ['0x0f0c22372a05f3c5f47acb066c65f9bae86bdce043762310e50309cc5a77abd4-0'],
+    hashType: 'type',
+    tag: 'flashsigner',
+    category: 'lock',
+  },
+  {
+    codeHashes: ['0x1122a4fb54697cf2e6e3a96c9d80fd398a936559b90954c6e88eb7ba0cf652df'],
+    txHashes: ['0xae2d5838730fc096e68fe839aea50d294493e10054513c10ca35e77e82e9243b-0'],
+    hashType: 'type',
+    tag: 'cota',
+    category: 'type',
+  },
+  {
+    codeHashes: ['0x90ca618be6c15f5857d3cbd09f9f24ca6770af047ba9ee70989ec3b229419ac7'],
+    txHashes: ['0xae2d5838730fc096e68fe839aea50d294493e10054513c10ca35e77e82e9243b-0'],
+    hashType: 'type',
+    tag: 'cota_registry',
+    category: 'type',
+  },
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
@@ -220,5 +241,26 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     hashType: 'type',
     tag: 'unipass',
     category: 'lock',
+  },
+  {
+    codeHashes: ['0x577a5e5930e2ecdd6200765f3442e6119dc99e87df474f22f13cab819c80b242'],
+    txHashes: ['0xb66776ff3244033fcd15312ae8b17d384c11bebbb923fce3bd896d89f4744d48-0'],
+    hashType: 'type',
+    tag: 'flashsigner',
+    category: 'lock',
+  },
+  {
+    codeHashes: ['0x89cd8003a0eaf8e65e0c31525b7d1d5c1becefd2ea75bb4cff87810ae37764d8'],
+    txHashes: ['0xeb8c99e9aaff64ffea5a97100fa9e6c23e59afe7ab9789cd882e3bb9a930c3ea-0'],
+    hashType: 'type',
+    tag: 'cota',
+    category: 'type',
+  },
+  {
+    codeHashes: ['0x9302db6cc1344b81a5efee06962abcb40427ecfcbe69d471b01b2658ed948075'],
+    txHashes: ['0xeb8c99e9aaff64ffea5a97100fa9e6c23e59afe7ab9789cd882e3bb9a930c3ea-0'],
+    hashType: 'type',
+    tag: 'cota_registry',
+    category: 'type',
   },
 ]
