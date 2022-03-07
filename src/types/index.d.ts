@@ -99,16 +99,34 @@ declare namespace State {
     estimatedUnlockTime: string
   }
 
-  export type UDTType = 'sudt' | 'm_nft_token'
-
-  export interface UDTAccount {
+  interface SUDT {
     symbol: string
     decimal: string
     amount: string
     typeHash: string
     udtIconFile: string
-    udtType: UDTType
+    udtType: 'sudt'
   }
+
+  interface MNFT {
+    symbol: string
+    decimal: string
+    amount: string
+    typeHash: string
+    udtIconFile: string
+    udtType: 'm_nft_token'
+  }
+
+  interface NRC721 {
+    symbol: string
+    decimal: string
+    amount: string // token id in fact
+    typeHash: string
+    udtIconFile: string // base uri with token id in fact
+    udtType: 'nrc_721_token'
+  }
+
+  export type UDTAccount = SUDT | MNFT | NRC721
 
   export interface Address {
     addressHash: string
@@ -127,7 +145,7 @@ declare namespace State {
     minedBlocksCount: string
     isSpecial: boolean
     specialAddress: string
-    udtAccounts: UDTAccount[]
+    udtAccounts: Array<UDTAccount>
   }
 
   export interface Block {
