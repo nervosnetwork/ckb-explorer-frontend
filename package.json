@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "4.16.10",
-    "axios": "0.21.1",
+    "axios": "0.21.2",
     "bignumber.js": "9.0.1",
     "camelcase-keys": "7.0.0",
     "default-passive-events": "2.0.0",
@@ -67,19 +67,16 @@
     "typescript": "4.3.5"
   },
   "scripts": {
-    "start": "env-cmd -f ./.env.develop react-scripts start",
+    "start": "env-cmd -f ./.env.develop react-scripts start --openssl-legacy-provider start",
     "lint": "eslint src/**/*.{ts,tsx} --fix",
     "lint:css": "stylelint src/**/*.tsx",
-    "build": "env-cmd -f ./.env.production react-scripts build",
+    "build": "env-cmd -f ./.env.production react-scripts build --openssl-legacy-provider start",
     "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "husky:init": "husky install"
   },
   "jest": {
-    "displayName": "Unit & UI Test",
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
+    "displayName": "Unit Test"
   },
   "eslintConfig": {
     "extends": "react-app"

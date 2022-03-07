@@ -101,24 +101,21 @@ export const AddressUDTAssetsPanel = styled.div`
     overflow-y: scroll;
 
     @media (min-width: 1200px) {
-      max-height: 170px;
+      max-height: 220px;
     }
 
     @media (max-width: 1200px) {
-      max-height: 240px;
+      max-height: 310px;
     }
   }
 `
 
 export const AddressUDTItemPanel = styled.a`
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
   margin: 6px 15px;
-  padding: 8px;
   background: #ffffff;
   width: 260px;
-  height: 56px;
 
   @media (max-width: 750px) {
     width: calc(100% - 30px);
@@ -126,10 +123,30 @@ export const AddressUDTItemPanel = styled.a`
 
   pointer-events: ${(props: { isLink: boolean }) => (props.isLink ? 'auto' : 'none')};
 
+  .address__udt__label {
+    text-align: left;
+    font-size: 12px;
+    padding: 2px 8px;
+    background: ${props => props.theme.primary};
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+  .address__udt__detail {
+    display: flex;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    line-height: 20px;
+  }
+
   .address__udt__item__icon {
+    display: flex;
+    align-items: center;
     width: 40px;
     height: 40px;
     margin-right: 8px;
+    object-fit: contain;
   }
 
   .address__udt__item__info {
