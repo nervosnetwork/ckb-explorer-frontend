@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from 'react'
 import { useHistory } from 'react-router'
-import { History } from 'history'
 import { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
 import { SearchImage, SearchInputPanel, SearchPanel, SearchButton, SearchContainer } from './styled'
@@ -61,7 +60,7 @@ const handleSearchResult = (
   searchBarEditable: boolean,
   dispatch: AppDispatch,
   setSearchValue: Function,
-  history: History,
+  history: ReturnType<typeof useHistory>,
 ) => {
   hideMobileMenu(dispatch)
   const query = searchValue.trim().replace(',', '') // remove front and end blank and ','

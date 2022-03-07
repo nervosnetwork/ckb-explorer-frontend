@@ -1,5 +1,6 @@
+import type { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
@@ -19,6 +20,7 @@ import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { isScreenSmallerThan1200 } from '../../utils/screen'
 import { sliceNftName } from '../../utils/string'
+import { axiosIns } from '../../service/http/fetcher'
 
 const addressAssetInfo = (address: State.Address) => {
   const items = [
@@ -61,17 +63,44 @@ const addressAssetInfo = (address: State.Address) => {
   return items
 }
 
+const UDT_LABEL: Record<State.UDTAccount['udtType'], string> = {
+  sudt: 'sudt',
+  m_nft_token: 'm nft',
+  nrc_721_token: 'nrc 721',
+}
+
 const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
   const { decimal, symbol, amount, udtIconFile, typeHash, udtType } = udtAccount
   const isSudt = udtType === 'sudt'
   const [icon, setIcon] = useState(udtIconFile || SUDTTokenIcon)
   const showDefaultIcon = () => setIcon(SUDTTokenIcon)
+
+  useEffect(() => {
+    if (udtIconFile && udtType === 'nrc_721_token') {
+      axiosIns
+        .get(udtIconFile)
+        .then((res: AxiosResponse) => {
+          if (typeof res.data?.image === 'string') {
+            setIcon(res.data.image)
+          } else {
+            throw new Error('Image not found in metadata')
+          }
+        })
+        .catch(err => {
+          console.error(err.message)
+        })
+    }
+  }, [udtIconFile, udtType])
+
   return (
     <AddressUDTItemPanel href={`${baseUrl()}/sudt/${typeHash}`} isLink={isSudt}>
-      <img className="address__udt__item__icon" src={icon} alt="udt icon" onError={showDefaultIcon} />
-      <div className="address__udt__item__info">
-        <span>{isSudt ? symbol : sliceNftName(symbol)}</span>
-        <span>{isSudt ? parseUDTAmount(amount, decimal) : `#${amount}`}</span>
+      <div className="address__udt__label">{UDT_LABEL[udtType] ?? 'unknown'}</div>
+      <div className="address__udt__detail">
+        <img className="address__udt__item__icon" src={icon} alt="udt icon" onError={showDefaultIcon} />
+        <div className="address__udt__item__info">
+          <span>{isSudt ? symbol : sliceNftName(symbol)}</span>
+          <span>{isSudt ? parseUDTAmount(amount, decimal) : `#${amount}`}</span>
+        </div>
       </div>
     </AddressUDTItemPanel>
   )
