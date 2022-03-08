@@ -368,7 +368,8 @@
       "transactions": "24小时交易数",
       "address_count": "持币用户数",
       "created_time": "创建时间",
-      "tokens_empty": "目前没有代币。"
+      "tokens_empty": "目前没有代币。",
+      "unverified": "未验证"
     }
   }
 }
