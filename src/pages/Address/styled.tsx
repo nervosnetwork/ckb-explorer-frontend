@@ -129,7 +129,9 @@ export const AddressUDTItemPanel = styled.a`
     padding: 2px 8px;
     background: ${props => props.theme.primary};
     color: #fff;
-    text-transform: uppercase;
+    span {
+      text-transform: uppercase;
+    }
   }
 
   .address__udt__detail {

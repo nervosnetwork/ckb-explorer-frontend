@@ -368,7 +368,8 @@
       "transactions": "24hr Transactions",
       "address_count": "Address Count",
       "created_time": "Created Time",
-      "tokens_empty": "There are no tokens at this time."
+      "tokens_empty": "There are no tokens at this time.",
+      "unverified": "Unverified"
     }
   }
 }

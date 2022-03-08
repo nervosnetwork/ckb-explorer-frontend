@@ -91,15 +91,21 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
         })
     }
   }, [udtIconFile, udtType])
+  const isUnverified = udtType === 'nrc_721_token' && !symbol
+  const name = isSudt ? symbol : sliceNftName(symbol)
+  const property = isSudt ? parseUDTAmount(amount, decimal) : `#${amount}`
 
   return (
     <AddressUDTItemPanel href={`${baseUrl()}/sudt/${typeHash}`} isLink={isSudt}>
-      <div className="address__udt__label">{UDT_LABEL[udtType] ?? 'unknown'}</div>
+      <div className="address__udt__label">
+        {isUnverified ? `${i18n.t('udt.unverified')}: ` : null}
+        <span>{UDT_LABEL[udtType] ?? 'unknown'}</span>
+      </div>
       <div className="address__udt__detail">
         <img className="address__udt__item__icon" src={icon} alt="udt icon" onError={showDefaultIcon} />
         <div className="address__udt__item__info">
-          <span>{isSudt ? symbol : sliceNftName(symbol)}</span>
-          <span>{isSudt ? parseUDTAmount(amount, decimal) : `#${amount}`}</span>
+          <span>{isUnverified ? '?' : name}</span>
+          <span>{isUnverified ? '?' : property}</span>
         </div>
       </div>
     </AddressUDTItemPanel>
