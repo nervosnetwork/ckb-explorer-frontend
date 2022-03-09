@@ -1,4 +1,4 @@
-import type { AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router'
 import { useState, useEffect } from 'react'
 import Pagination from '../../components/Pagination'
@@ -20,7 +20,6 @@ import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { isScreenSmallerThan1200 } from '../../utils/screen'
 import { sliceNftName } from '../../utils/string'
-import { axiosIns } from '../../service/http/fetcher'
 
 const addressAssetInfo = (address: State.Address) => {
   const items = [
@@ -77,8 +76,8 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
 
   useEffect(() => {
     if (udtIconFile && udtType === 'nrc_721_token') {
-      axiosIns
-        .get(udtIconFile)
+      axios
+        .get(/https?:\/\//.test(udtIconFile) ? udtIconFile : `https://${udtIconFile}`)
         .then((res: AxiosResponse) => {
           if (typeof res.data?.image === 'string') {
             setIcon(res.data.image)
@@ -86,7 +85,7 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
             throw new Error('Image not found in metadata')
           }
         })
-        .catch(err => {
+        .catch((err: Error) => {
           console.error(err.message)
         })
     }
@@ -127,7 +126,7 @@ export const AddressAssetComp = () => {
           <span>{i18n.t('address.user_defined_token')}</span>
           <div className="address__udt__assets__grid">
             {udtAccounts.map(udt => (
-              <AddressUDTItem udtAccount={udt} key={udt.symbol} />
+              <AddressUDTItem udtAccount={udt} key={udt.symbol + udt.udtType + udt.amount} />
             ))}
           </div>
         </AddressUDTAssetsPanel>
