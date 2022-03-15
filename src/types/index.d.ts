@@ -99,7 +99,7 @@ declare namespace State {
     estimatedUnlockTime: string
   }
 
-  interface SUDT {
+  export interface SUDT {
     symbol: string
     decimal: string
     amount: string
@@ -119,7 +119,6 @@ declare namespace State {
 
   interface NRC721 {
     symbol: string
-    decimal: string
     amount: string // token id in fact
     typeHash: string
     udtIconFile: string // base uri with token id in fact
