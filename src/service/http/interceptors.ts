@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import { History } from 'history'
+import { useHistory } from 'react-router-dom'
 import { axiosIns } from './fetcher'
 import i18n from '../../utils/i18n'
 import { AppDispatch } from '../../contexts/reducer'
@@ -17,7 +17,7 @@ const updateNetworkError = (dispatch: AppDispatch, occurError: boolean) => {
   })
 }
 
-export const initAxiosInterceptors = (dispatch: AppDispatch, history: History) => {
+export const initAxiosInterceptors = (dispatch: AppDispatch, history: ReturnType<typeof useHistory>) => {
   axiosIns.interceptors.request.use(
     config => {
       if (config.method === 'get') {
