@@ -17,6 +17,8 @@ export const TOKEN_EMAIL_ADDRESS = 'asset-info-submit@nervina.io'
 export const TOKEN_EMAIL_SUBJECT = 'Submit Token Info'
 export const TOKEN_EMAIL_BODY = `
 Title: Submit Token Information%0a%0d
+---------- Submit sUDT Token Information ----------%0a%0d
+
 Type Script:%0a%0d
     Code Hash:%0a%0d
     Hash Type:%0a%0d
@@ -29,9 +31,14 @@ Information:%0a%0d
    Description:%0a%0d
    Website:%0a%0d
    Icon File: attachment (40 x 40)%0a%0d
-   Other Info:%0a%0d
+   Other Info:%0a%0d%0a%0d
 
-Note: Only accept sUDT information submission now.
+---------- Submit NRC 721 Factory Information ----------%0a%0d
+
+Information:%0a%0d
+   Deployment Tx Hash: %0a%0d
+   Contract Source Code: %0a%0d
+   Other Info:%0a%0d
 `
 
 export const HttpErrorCode = {
