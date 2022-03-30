@@ -7,6 +7,7 @@ import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } f
 import { getStatisticEpochTimeDistribution } from '../../../service/app/charts/block'
 import { localeNumberString } from '../../../utils/number'
 import { parseHourFromMinute } from '../../../utils/date'
+import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 
 const gridThumbnail = {
   left: '4%',
@@ -44,6 +45,7 @@ const getOption = (
       }
     : undefined,
   grid: isThumbnail ? gridThumbnail : grid,
+  dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
   xAxis: [
     {
       name: isMobile() || isThumbnail ? '' : i18n.t('statistic.time_hour'),

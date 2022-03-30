@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { getStatisticBalanceDistribution } from '../../../service/app/charts/activities'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { handleAxis, handleLogGroupAxis } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, handleAxis, handleLogGroupAxis } from '../../../utils/chart'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
@@ -76,6 +76,7 @@ const getOption = (
       }
     : undefined,
   grid: isThumbnail ? gridThumbnail : grid,
+  dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
   xAxis: [
     {
       name: isMobile() || isThumbnail ? '' : `${i18n.t('statistic.addresses_balance')} (CKB)`,

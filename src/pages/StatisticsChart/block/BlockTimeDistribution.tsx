@@ -3,6 +3,7 @@ import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../constants/common'
+import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticBlockTimeDistribution } from '../../../service/app/charts/block'
 
@@ -40,6 +41,7 @@ const getOption = (
       }
     : undefined,
   grid: isThumbnail ? gridThumbnail : grid,
+  dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
   xAxis: [
     {
       name: isMobile() || isThumbnail ? '' : i18n.t('statistic.time'),

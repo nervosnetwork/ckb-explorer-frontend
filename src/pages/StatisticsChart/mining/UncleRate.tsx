@@ -6,6 +6,7 @@ import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 
 const gridThumbnail = {
   left: '4%',
@@ -34,17 +35,18 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
         trigger: 'axis',
         formatter: (dataList: any) => {
           const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 75 : 50)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-            dataList[0].name,
-          )}</div>`
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${
+            dataList[0].data[0]
+          }</div>`
           result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('block.uncle_rate'))} ${
-            dataList[0].data
+            dataList[0].data[1]
           }%</div>`
           return result
         },
       }
     : undefined,
   grid: isThumbnail ? gridThumbnail : grid,
+  dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
   xAxis: [
     {
       name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
@@ -52,10 +54,6 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
       nameGap: 30,
       type: 'category',
       boundaryGap: false,
-      data: statisticUncleRates.map(data => data.createdAtUnixtimestamp),
-      axisLabel: {
-        formatter: (value: string) => parseDateNoTime(value),
-      },
     },
   ],
   yAxis: [
@@ -95,9 +93,14 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
           formatter: (label: any) => `${label.data.value}%`,
         },
       },
-      data: statisticUncleRates.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
     },
   ],
+  dataset: {
+    source: statisticUncleRates.map(data => [
+      parseDateNoTime(data.createdAtUnixtimestamp),
+      (+data.uncleRate * 100).toFixed(2),
+    ]),
+  },
 })
 
 export const UncleRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
