@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { getStatisticNewDaoDeposit } from '../../../service/app/charts/nervosDao'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { handleAxis } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { ChartNotePanel } from '../common/styled'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
@@ -29,16 +29,16 @@ const grid = {
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 140 : 120)
 
-const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }): string => {
+const parseTooltip = ({ seriesName, data }: { seriesName: string; data: [string, string, string] }): string => {
   if (seriesName === i18n.t('statistic.new_dao_deposit')) {
     return `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.new_dao_deposit'))} ${handleAxis(
-      data,
+      data[1],
       2,
     )}</div>`
   }
   if (seriesName === i18n.t('statistic.new_dao_depositor')) {
     return `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('statistic.new_dao_depositor'))} ${handleAxis(
-      data,
+      data[2],
       2,
       true,
     )}</div>`
@@ -55,10 +55,8 @@ const getOption = (
     ? {
         trigger: 'axis',
         formatter: (dataList: any) => {
-          const list = dataList as Array<{ seriesName: string; data: string; name: string }>
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-            list[0].name,
-          )}</div>`
+          const list = dataList as Array<{ seriesName: string; data: [string, string, string]; name: string }>
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${list[0].data[0]}</div>`
           list.forEach(data => {
             result += parseTooltip(data)
           })
@@ -79,6 +77,7 @@ const getOption = (
           },
         ],
   },
+  dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
   xAxis: [
     {
       name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
@@ -86,10 +85,6 @@ const getOption = (
       nameGap: 30,
       type: 'category',
       boundaryGap: false,
-      data: statisticNewDaoDeposits.map(data => data.createdAtUnixtimestamp),
-      axisLabel: {
-        formatter: (value: string) => parseDateNoTime(value),
-      },
     },
   ],
   yAxis: [
@@ -138,7 +133,10 @@ const getOption = (
       },
       symbol: isThumbnail ? 'none' : 'circle',
       symbolSize: 3,
-      data: statisticNewDaoDeposits.map(data => new BigNumber(shannonToCkb(data.dailyDaoDeposit)).toFixed(0)),
+      encode: {
+        x: 'timestamp',
+        y: 'deposit',
+      },
     },
     {
       name: i18n.t('statistic.new_dao_depositor'),
@@ -146,9 +144,20 @@ const getOption = (
       yAxisIndex: 1,
       symbol: isThumbnail ? 'none' : 'circle',
       symbolSize: 3,
-      data: statisticNewDaoDeposits.map(data => new BigNumber(data.dailyDaoDepositorsCount).toNumber()),
+      encode: {
+        x: 'timestamp',
+        y: 'depositor',
+      },
     },
   ],
+  dataset: {
+    source: statisticNewDaoDeposits.map(data => [
+      parseDateNoTime(data.createdAtUnixtimestamp),
+      new BigNumber(shannonToCkb(data.dailyDaoDeposit)).toFixed(0),
+      new BigNumber(data.dailyDaoDepositorsCount).toNumber(),
+    ]),
+    dimensions: ['timestamp', 'deposit', 'depositor'],
+  },
 })
 
 export const NewDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
