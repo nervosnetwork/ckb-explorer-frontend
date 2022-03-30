@@ -3,7 +3,7 @@ import { useHistory } from 'react-router'
 import { getStatisticAddressBalanceRank } from '../../../service/app/charts/activities'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { handleAxis } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { isMobile } from '../../../utils/screen'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
@@ -57,6 +57,7 @@ const getOption = (
       }
     : undefined,
   grid: isThumbnail ? gridThumbnail : grid,
+  dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
   xAxis: [
     {
       name: isMobile() || isThumbnail ? '' : i18n.t('statistic.rank'),

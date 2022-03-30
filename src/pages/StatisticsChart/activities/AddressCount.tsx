@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import BigNumber from 'bignumber.js'
 import { getStatisticAddressCount } from '../../../service/app/charts/activities'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { handleAxis } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
@@ -34,17 +34,18 @@ const getOption = (
         trigger: 'axis',
         formatter: (dataList: any) => {
           const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 155 : 110)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-            dataList[0].name,
-          )}</div>`
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${
+            dataList[0].data[0]
+          }</div>`
           result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.address_count'))} ${handleAxis(
-            dataList[0].data,
+            dataList[0].data[1],
           )}</div>`
           return result
         },
       }
     : undefined,
   grid: isThumbnail ? gridThumbnail : grid,
+  dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
   xAxis: [
     {
       name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
@@ -52,9 +53,8 @@ const getOption = (
       nameGap: 30,
       type: 'category',
       boundaryGap: false,
-      data: statisticAddressCounts.map(data => data.createdAtUnixtimestamp),
-      axisLabel: {
-        formatter: (value: string) => parseDateNoTime(value),
+      splitLine: {
+        show: false,
       },
     },
   ],
@@ -84,9 +84,14 @@ const getOption = (
       yAxisIndex: 0,
       symbol: isThumbnail ? 'none' : 'circle',
       symbolSize: 3,
-      data: statisticAddressCounts.map(data => new BigNumber(data.addressesCount).toNumber()),
     },
   ],
+  dataset: {
+    source: statisticAddressCounts.map(data => [
+      parseDateNoTime(data.createdAtUnixtimestamp),
+      new BigNumber(data.addressesCount).toNumber(),
+    ]),
+  },
 })
 
 export const AddressCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {

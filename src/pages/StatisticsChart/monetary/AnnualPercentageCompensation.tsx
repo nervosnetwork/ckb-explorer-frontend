@@ -5,6 +5,7 @@ import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticAnnualPercentageCompensation } from '../../../service/app/charts/monetary'
+import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 
 const gridThumbnail = {
   left: '4%',
@@ -31,15 +32,18 @@ const getOption = (
         trigger: 'axis',
         formatter: (dataList: any) => {
           const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 220 : 80)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.year'))} ${dataList[0].name}</div>`
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.year'))} ${
+            dataList[0].data[0]
+          }</div>`
           result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.nominal_apc'))} ${
-            dataList[0].data
+            dataList[0].data[1]
           }%</div>`
           return result
         },
       }
     : undefined,
   grid: isThumbnail ? gridThumbnail : grid,
+  dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
   xAxis: [
     {
       name: isMobile() || isThumbnail ? '' : i18n.t('statistic.year'),
@@ -47,10 +51,8 @@ const getOption = (
       nameGap: 30,
       type: 'category',
       boundaryGap: false,
-      data: statisticAnnualPercentageCompensations.map(data => data.year),
       axisLabel: {
         interval: isMobile() || isThumbnail ? 7 : 3,
-        formatter: (value: string) => value,
       },
     },
   ],
@@ -80,9 +82,11 @@ const getOption = (
       symbol: isThumbnail ? 'none' : 'circle',
       symbolSize: 3,
       stack: 'sum',
-      data: statisticAnnualPercentageCompensations.map(data => Number(data.apc).toFixed(2)),
     },
   ],
+  dataset: {
+    source: statisticAnnualPercentageCompensations.map(data => [data.year, (+data.apc).toFixed(2)]),
+  },
 })
 
 export const AnnualPercentageCompensationChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
