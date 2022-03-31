@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { getStatisticCellCount } from '../../../service/app/charts/activities'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { handleAxis } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../constants/common'
@@ -26,16 +26,16 @@ const grid = {
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 60 : 80)
 
-const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }): string => {
+const parseTooltip = ({ seriesName, data }: { seriesName: string; data: [string, string, string] }): string => {
   if (seriesName === i18n.t('statistic.live_cell')) {
     return `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
-      data,
+      data[1],
       2,
     )}</div>`
   }
   if (seriesName === i18n.t('statistic.all_cells')) {
     return `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('statistic.all_cells'))} ${handleAxis(
-      data,
+      data[2],
       2,
     )}</div>`
   }
@@ -48,10 +48,8 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
     ? {
         trigger: 'axis',
         formatter: (dataList: any) => {
-          const list = dataList as Array<{ seriesName: string; data: string; name: string }>
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-            list[0].name,
-          )}</div>`
+          const list = dataList as Array<{ seriesName: string; data: [string, string, string]; name: string }>
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${list[0].data[0]}</div>`
           list.forEach(data => {
             result += parseTooltip(data)
           })
@@ -72,6 +70,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       }
     : undefined,
   grid: isThumbnail ? gridThumbnail : grid,
+  dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
   xAxis: [
     {
       name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
@@ -79,10 +78,6 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       nameGap: 30,
       type: 'category',
       boundaryGap: false,
-      data: statisticCellCounts.map(data => data.createdAtUnixtimestamp),
-      axisLabel: {
-        formatter: (value: string) => parseDateNoTime(value),
-      },
     },
   ],
   yAxis: [
@@ -122,7 +117,10 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       yAxisIndex: 0,
       symbol: isThumbnail ? 'none' : 'circle',
       symbolSize: 3,
-      data: statisticCellCounts.map(data => new BigNumber(data.liveCellsCount).toNumber()),
+      encode: {
+        x: 'timestamp',
+        y: 'live',
+      },
     },
     {
       name: i18n.t('statistic.all_cells'),
@@ -130,9 +128,20 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       yAxisIndex: 1,
       symbol: isThumbnail ? 'none' : 'circle',
       symbolSize: 3,
-      data: statisticCellCounts.map(data => new BigNumber(data.allCellsCount).toNumber()),
+      encode: {
+        x: 'timestamp',
+        y: 'all',
+      },
     },
   ],
+  dataset: {
+    source: statisticCellCounts.map(data => [
+      parseDateNoTime(data.createdAtUnixtimestamp),
+      new BigNumber(data.liveCellsCount).toNumber(),
+      new BigNumber(data.allCellsCount).toNumber(),
+    ]),
+    dimensions: ['timestamp', 'live', 'all'],
+  },
 })
 
 export const CellCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {

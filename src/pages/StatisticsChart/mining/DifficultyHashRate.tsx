@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { getStatisticDifficultyHashRate } from '../../../service/app/charts/mining'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { handleAxis } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { handleDifficulty, handleHashRate } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
 import { ChartColors } from '../../../constants/common'
@@ -69,6 +69,7 @@ const getOption = (
       }
     : undefined,
   grid: isThumbnail ? gridThumbnail : grid(),
+  dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
   xAxis: [
     {
       name: isMobile() || isThumbnail ? '' : i18n.t('block.epoch'),

@@ -5,6 +5,7 @@ import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartMoreColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticInflationRate } from '../../../service/app/charts/monetary'
+import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 
 const gridThumbnail = {
   left: '4%',
@@ -74,6 +75,7 @@ const getOption = (
         ],
   },
   grid: isThumbnail ? gridThumbnail : grid,
+  dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
   xAxis: [
     {
       name: isMobile() || isThumbnail ? '' : i18n.t('statistic.year'),
