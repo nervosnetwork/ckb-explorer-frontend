@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import BigNumber from 'bignumber.js'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { handleAxis } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
@@ -29,16 +29,16 @@ const Colors = ['#049ECD', '#69C7D4', '#74808E']
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 125 : 80)
 
-const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }): string => {
+const parseTooltip = ({ seriesName, data }: { seriesName: string; data: [string, string, string, string] }): string => {
   if (seriesName === i18n.t('statistic.burnt')) {
-    return `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.burnt'))} ${handleAxis(data, 2)}</div>`
+    return `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.burnt'))} ${handleAxis(data[3], 2)}</div>`
   }
   if (seriesName === i18n.t('statistic.locked')) {
-    return `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.locked'))} ${handleAxis(data, 2)}</div>`
+    return `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.locked'))} ${handleAxis(data[2], 2)}</div>`
   }
   if (seriesName === i18n.t('statistic.circulating_supply')) {
     return `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
-      data,
+      data[1],
       2,
     )}</div>`
   }
@@ -54,10 +54,8 @@ const getOption = (
     ? {
         trigger: 'axis',
         formatter: (dataList: any) => {
-          const list = dataList as Array<{ seriesName: string; data: string; name: string }>
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
-            list[0].name,
-          )}</div>`
+          const list = dataList as Array<{ seriesName: string; data: [string, string, string, string]; name: string }>
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${list[0].data[0]}</div>`
           list.forEach(data => {
             result += parseTooltip(data)
           })
@@ -81,6 +79,7 @@ const getOption = (
         ],
   },
   grid: isThumbnail ? gridThumbnail : grid,
+  dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
   xAxis: [
     {
       name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
@@ -88,10 +87,6 @@ const getOption = (
       nameGap: 30,
       type: 'category',
       boundaryGap: false,
-      data: statisticTotalSupplies.map(data => data.createdAtUnixtimestamp),
-      axisLabel: {
-        formatter: (value: string) => parseDateNoTime(value),
-      },
     },
   ],
   yAxis: [
@@ -119,7 +114,10 @@ const getOption = (
       areaStyle: {
         color: Colors[0],
       },
-      data: statisticTotalSupplies.map(data => new BigNumber(shannonToCkb(data.circulatingSupply)).toFixed(0)),
+      encode: {
+        x: 'timestamp',
+        y: 'circulating',
+      },
     },
     {
       name: i18n.t('statistic.locked'),
@@ -131,7 +129,10 @@ const getOption = (
       areaStyle: {
         color: Colors[1],
       },
-      data: statisticTotalSupplies.map(data => new BigNumber(shannonToCkb(data.lockedCapacity)).toFixed(0)),
+      encode: {
+        x: 'timestamp',
+        y: 'locked',
+      },
     },
     {
       name: i18n.t('statistic.burnt'),
@@ -143,9 +144,21 @@ const getOption = (
       areaStyle: {
         color: Colors[2],
       },
-      data: statisticTotalSupplies.map(data => new BigNumber(shannonToCkb(data.burnt)).toFixed(0)),
+      encode: {
+        x: 'timestamp',
+        y: 'burnt',
+      },
     },
   ],
+  dataset: {
+    source: statisticTotalSupplies.map(data => [
+      parseDateNoTime(data.createdAtUnixtimestamp),
+      new BigNumber(shannonToCkb(data.circulatingSupply)).toFixed(0),
+      new BigNumber(shannonToCkb(data.lockedCapacity)).toFixed(0),
+      new BigNumber(shannonToCkb(data.burnt)).toFixed(0),
+    ]),
+    dimensions: ['timestamp', 'circulating', 'locked', 'burnt'],
+  },
 })
 
 export const TotalSupplyChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {

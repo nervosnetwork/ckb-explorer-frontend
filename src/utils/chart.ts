@@ -1,6 +1,23 @@
 import BigNumber from 'bignumber.js'
 import { isMobile } from './screen'
 
+export const DATA_ZOOM_CONFIG = [
+  {
+    show: true,
+    realtime: true,
+    start: 0,
+    end: 100,
+    xAxisIndex: [0],
+  },
+  {
+    type: 'inside',
+    realtime: true,
+    start: 0,
+    end: 100,
+    xAxisIndex: [0],
+  },
+]
+
 export const handleAxis = (value: BigNumber | string | number, decimal?: number, hideZero?: boolean) => {
   const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
   if (bigValue.isNaN() || bigValue.isZero()) return '0'
