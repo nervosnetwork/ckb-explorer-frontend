@@ -67,22 +67,6 @@ export const handleHashRate = (value: BigNumber | string | number) => {
   return `${handleDifficulty(value)}/s`
 }
 
-export const parseIndicator = (num: string | number) => {
-  let value = typeof num === 'string' ? Number(num) : num
-  value = Math.abs(value)
-  const cent = value % 100
-  if (cent >= 10 && cent <= 20) return 'th'
-  const dec = value % 10
-  if (dec === 1) return 'st'
-  if (dec === 2) return 'nd'
-  if (dec === 3) return 'rd'
-  return 'th'
-}
-
-export const parseEpochNumber = (num: string) => {
-  return `${num}${parseIndicator(num)}`
-}
-
 export const parseUDTAmount = (amount: string, decimal: string) => {
   try {
     const decimalInt = parseInt(decimal, 10)

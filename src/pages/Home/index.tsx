@@ -17,7 +17,7 @@ import {
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
 import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME } from '../../constants/common'
-import { localeNumberString, handleHashRate, handleDifficulty, parseEpochNumber } from '../../utils/number'
+import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
 import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
@@ -93,7 +93,7 @@ const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => [
   },
   {
     name: i18n.t('blockchain.epoch'),
-    value: parseEpochNumber(statistics.epochInfo.epochNumber),
+    value: statistics.epochInfo.epochNumber,
     rightValue: `${statistics.epochInfo.index}/${statistics.epochInfo.epochLength}`,
     showSeparate: true,
   },
