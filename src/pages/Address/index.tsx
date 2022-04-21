@@ -21,7 +21,7 @@ import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import { isMainnet } from '../../utils/chain'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import { localeNumberString, parseEpochNumber } from '../../utils/number'
+import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { parseSimpleDateNoSecond } from '../../utils/date'
@@ -77,9 +77,9 @@ const getAddressInfo = (addressState: State.AddressState) => {
     const estimate = Number(lockInfo.estimatedUnlockTime) > new Date().getTime() ? i18n.t('address.estimated') : ''
     items.push({
       title: i18n.t('address.lock_until'),
-      content: `${parseEpochNumber(lockInfo.epochNumber)} ${i18n.t(
-        'address.epoch',
-      )} (${estimate} ${parseSimpleDateNoSecond(lockInfo.estimatedUnlockTime)})`,
+      content: `${lockInfo.epochNumber} ${i18n.t('address.epoch')} (${estimate} ${parseSimpleDateNoSecond(
+        lockInfo.estimatedUnlockTime,
+      )})`,
     })
   }
   return items

@@ -2,8 +2,6 @@ import {
   localeNumberString,
   handleHashRate,
   handleDifficulty,
-  parseIndicator,
-  parseEpochNumber,
   parseUDTAmount,
 } from '../../utils/number'
 
@@ -53,38 +51,6 @@ describe('Number methods tests', () => {
     expect(handleDifficulty('aswqda')).toBe('0 H')
     expect(handleDifficulty('false')).toBe('0 H')
     expect(handleDifficulty('#￥@#￥@')).toBe('0 H')
-  })
-
-  it('parse indicator', async () => {
-    expect(parseIndicator('1')).toBe('st')
-    expect(parseIndicator('2')).toBe('nd')
-    expect(parseIndicator('3')).toBe('rd')
-    expect(parseIndicator('6')).toBe('th')
-    expect(parseIndicator('11')).toBe('th')
-    expect(parseIndicator('12')).toBe('th')
-    expect(parseIndicator('13')).toBe('th')
-    expect(parseIndicator('17')).toBe('th')
-    expect(parseIndicator('231')).toBe('st')
-    expect(parseIndicator('632')).toBe('nd')
-    expect(parseIndicator('123')).toBe('rd')
-    expect(parseIndicator('636')).toBe('th')
-    expect(parseIndicator('129')).toBe('th')
-  })
-
-  it('parse epoch number', async () => {
-    expect(parseEpochNumber('1')).toBe('1st')
-    expect(parseEpochNumber('2')).toBe('2nd')
-    expect(parseEpochNumber('3')).toBe('3rd')
-    expect(parseEpochNumber('6')).toBe('6th')
-    expect(parseEpochNumber('11')).toBe('11th')
-    expect(parseEpochNumber('12')).toBe('12th')
-    expect(parseEpochNumber('13')).toBe('13th')
-    expect(parseEpochNumber('17')).toBe('17th')
-    expect(parseEpochNumber('231')).toBe('231st')
-    expect(parseEpochNumber('632')).toBe('632nd')
-    expect(parseEpochNumber('123')).toBe('123rd')
-    expect(parseEpochNumber('636')).toBe('636th')
-    expect(parseEpochNumber('129')).toBe('129th')
   })
 
   it('parse udt amount', async () => {
