@@ -1,0 +1,37 @@
+:root {
+  --footer_media_item_width: 60px;
+}
+
+.media {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  width: calc(3 * var(--footer_media_item_width));
+  margin-left:200px;
+}
+  
+@media screen and (max-width: 1900px) {
+  .media {
+    margin-left: 178px;
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .media {
+    margin-left: 138px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .media {
+    margin-left: 76px;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .media {
+    margin-top: 30px;
+    margin-left: 0;
+    width: 100%;
+  }
+}

@@ -20,9 +20,9 @@ import ForumHoverIcon from '../../assets/footer_forum_hover.png'
 import ForumAggronHoverIcon from '../../assets/footer_forum_aggron_hover.png'
 import { getCurrentYear } from '../../utils/date'
 import { FooterMenuPanel, FooterItemPanel, FooterImageItemPanel, FooterPanel } from './styled'
-import { isMobile } from '../../utils/screen'
 import { isMainnet } from '../../utils/chain'
 import { udtSubmitEmail } from '../../utils/util'
+import styles from './footer.style.module.css'
 
 interface FooterLinkItem {
   label?: string
@@ -121,6 +121,12 @@ export default () => {
             url: 'https://medium.com/nervosnetwork',
           },
           {
+            label: t('footer.discord'),
+            icon: TelegramIcon,
+            hoverIcon: isMainnet() ? TelegramHoverIcon : TelegramAggronHoverIcon,
+            url: 'https://discord.com/invite/nervos',
+          },
+          {
             label: t('footer.telegram'),
             icon: TelegramIcon,
             hoverIcon: isMainnet() ? TelegramHoverIcon : TelegramAggronHoverIcon,
@@ -166,27 +172,10 @@ export default () => {
               <FooterItem item={item} key={item.label} />
             ))}
         </div>
-        <div className="footer__community">
-          {isMobile() ? (
-            <div>
-              {Footers[2].items.map((item: any) => (
-                <FooterImageItem item={item} key={item.label} />
-              ))}
-            </div>
-          ) : (
-            <>
-              <div>
-                {Footers[2].items.slice(0, 3).map((item: any) => (
-                  <FooterImageItem item={item} key={item.label} />
-                ))}
-              </div>
-              <div>
-                {Footers[2].items.slice(3).map((item: any) => (
-                  <FooterImageItem item={item} key={item.label} />
-                ))}
-              </div>
-            </>
-          )}
+        <div className={styles.media}>
+          {Footers[2].items.map(item => (
+            <FooterImageItem item={item} key={item.label} />
+          ))}
         </div>
       </FooterMenuPanel>
       <div className="footer__copyright">
