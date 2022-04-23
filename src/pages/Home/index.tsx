@@ -2,16 +2,12 @@ import { useEffect } from 'react'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import {
-  HomeHeaderPanel,
   HomeHeaderItemPanel,
   BlockPanel,
   TableMorePanel,
   TableHeaderPanel,
   HomeTablePanel,
   TransactionPanel,
-  HomeHeaderTopPanel,
-  HomeStatisticBottomPanel,
-  HomeStatisticTopPanel,
   HomeStatisticItemPanel,
 } from './styled'
 import Content from '../../components/Content'
@@ -22,7 +18,6 @@ import { handleBigNumber } from '../../utils/string'
 import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { getLatestBlocks } from '../../service/app/block'
-import getStatistics from '../../service/app/statistics'
 import i18n from '../../utils/i18n'
 import LatestBlocksIcon from '../../assets/latest_blocks.png'
 import LatestTransactionsIcon from '../../assets/latest_transactions.png'
@@ -38,6 +33,7 @@ import AverageBlockTimeChart from './AverageBlockTimeChart'
 import HashRateChart from './HashRateChart'
 import { ComponentActions } from '../../contexts/actions'
 import { AppDispatch } from '../../contexts/reducer'
+import styles from './index.module.scss'
 
 interface BlockchainData {
   name: string
@@ -146,7 +142,7 @@ export default () => {
     homeBlocks = [],
     transactionsState: { transactions = [] },
     statistics,
-    app: { tipBlockNumber },
+    app: { tipBlockNumber, hasFinishedHardFork },
     components: { headerSearchBarVisible },
   } = useAppState()
   const [t] = useTranslation()
@@ -155,12 +151,10 @@ export default () => {
     getLatestBlocks(dispatch)
     getLatestTransactions(dispatch)
     getTipBlockNumber(dispatch)
-    getStatistics(dispatch)
     const listener = setInterval(() => {
       getTipBlockNumber(dispatch)
       getLatestBlocks(dispatch)
       getLatestTransactions(dispatch)
-      getStatistics(dispatch)
     }, BLOCK_POLLING_TIME)
     return () => {
       if (listener) {
@@ -177,38 +171,39 @@ export default () => {
 
   return (
     <Content>
-      <HomeHeaderPanel className="container">
-        <HomeHeaderTopPanel
+      <div className="container">
+        <div
           style={{
             backgroundImage: `url(${HomeHeaderBackground})`,
           }}
+          className={styles.HomeHeaderTopPanel}
         >
-          <div className="home__top__title">{i18n.t('common.ckb_explorer')}</div>
-          <div className="home__top__search" id="home__search__bar">
+          <div className={styles.title}>{i18n.t('common.ckb_explorer')}</div>
+          <div className={styles.search} id="home__search__bar">
             {!headerSearchBarVisible && <Search hasButton />}
           </div>
-        </HomeHeaderTopPanel>
-        <HomeStatisticTopPanel>
-          <div className="home__statistic__left__panel">
-            <div className="home__statistic__left__data">
+        </div>
+        <div className={`${styles.HomeStatisticTopPanel} ${hasFinishedHardFork ? styles.AfterHardFork : ''}`}>
+          <div className={styles.home__statistic__left__panel}>
+            <div className={styles.home__statistic__left__data}>
               <StatisticItem blockchain={blockchainDataList(statistics)[0]} isFirst />
               <StatisticItem blockchain={blockchainDataList(statistics)[1]} />
             </div>
-            <div className="home__statistic__left__chart">
+            <div className={styles.home__statistic__left__chart}>
               <AverageBlockTimeChart />
             </div>
           </div>
-          <div className="home__statistic__right__panel">
-            <div className="home__statistic__right__data">
+          <div className={styles.home__statistic__right__panel}>
+            <div className={styles.home__statistic__right__data}>
               <StatisticItem blockchain={blockchainDataList(statistics)[2]} isFirst />
               <StatisticItem blockchain={blockchainDataList(statistics)[3]} />
             </div>
-            <div className="home__statistic__right__chart">
+            <div className={styles.home__statistic__right__chart}>
               <HashRateChart />
             </div>
           </div>
-        </HomeStatisticTopPanel>
-        <HomeStatisticBottomPanel>
+        </div>
+        <div className={styles.HomeStatisticBottomPanel}>
           {!isScreenSmallerThan1200() &&
             blockchainDataList(statistics)
               .slice(4)
@@ -232,8 +227,8 @@ export default () => {
               </div>
             </>
           )}
-        </HomeStatisticBottomPanel>
-      </HomeHeaderPanel>
+        </div>
+      </div>
       <HomeTablePanel className="container">
         <BlockPanel>
           <TableHeaderPanel>

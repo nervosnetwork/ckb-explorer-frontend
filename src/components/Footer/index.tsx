@@ -1,34 +1,21 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import TwitterIcon from '../../assets/footer_twitter.png'
-import TwitterHoverIcon from '../../assets/footer_twitter_hover.png'
-import TwitterAggronHoverIcon from '../../assets/footer_twitter_aggron_hover.png'
-import MediumIcon from '../../assets/footer_medium.png'
-import MediumHoverIcon from '../../assets/footer_medium_hover.png'
-import MediumAggronHoverIcon from '../../assets/footer_medium_aggron_hover.png'
-import TelegramIcon from '../../assets/footer_telegram.png'
-import TelegramHoverIcon from '../../assets/footer_telegram_hover.png'
-import TelegramAggronHoverIcon from '../../assets/footer_telegram_aggron_hover.png'
-import RedditIcon from '../../assets/footer_reddit.png'
-import RedditHoverIcon from '../../assets/footer_reddit_hover.png'
-import RedditAggronHoverIcon from '../../assets/footer_reddit_aggron_hover.png'
-import YoutubeIcon from '../../assets/footer_youtube.png'
-import YoutubeHoverIcon from '../../assets/footer_youtube_hover.png'
-import YoutubeAggronHoverIcon from '../../assets/footer_youtube_aggron_hover.png'
-import ForumIcon from '../../assets/footer_forum.png'
-import ForumHoverIcon from '../../assets/footer_forum_hover.png'
-import ForumAggronHoverIcon from '../../assets/footer_forum_aggron_hover.png'
+import { ReactComponent as TwitterIcon } from '../../assets/footer_twitter.svg'
+import { ReactComponent as MediumIcon } from '../../assets/footer_medium.svg'
+import { ReactComponent as TelegramIcon } from '../../assets/footer_telegram.svg'
+import { ReactComponent as RedditIcon } from '../../assets/footer_reddit.svg'
+import { ReactComponent as YoutubeIcon } from '../../assets/footer_youtube.svg'
+import { ReactComponent as ForumIcon } from '../../assets/footer_forum.svg'
+import { ReactComponent as Discord } from '../../assets/footer_discord.svg'
 import { getCurrentYear } from '../../utils/date'
 import { FooterMenuPanel, FooterItemPanel, FooterImageItemPanel, FooterPanel } from './styled'
 import { isMobile } from '../../utils/screen'
-import { isMainnet } from '../../utils/chain'
 import { udtSubmitEmail } from '../../utils/util'
 
 interface FooterLinkItem {
   label?: string
   url?: string
   icon?: any
-  hoverIcon?: any
 }
 
 interface FooterLink {
@@ -46,22 +33,10 @@ const FooterItem = ({ item }: { item: FooterLinkItem }) => {
 }
 
 const FooterImageItem = ({ item }: { item: FooterLinkItem }) => {
-  const { label, url, icon, hoverIcon } = item
-  const [isHover, setIsHover] = useState(false)
+  const { label, url, icon: IconComponent } = item
   return (
-    <FooterImageItemPanel
-      key={label}
-      href={url}
-      rel="noopener noreferrer"
-      target="_blank"
-      onMouseOver={() => {
-        setIsHover(true)
-      }}
-      onMouseLeave={() => {
-        setIsHover(false)
-      }}
-    >
-      <img src={isHover ? hoverIcon : icon} alt="footer icon" />
+    <FooterImageItemPanel key={label} href={url} rel="noopener noreferrer" target="_blank">
+      <IconComponent />
       <span>{label}</span>
     </FooterImageItemPanel>
   )
@@ -109,39 +84,38 @@ export default () => {
         name: t('footer.community'),
         items: [
           {
+            label: t('footer.discord'),
+            icon: Discord,
+            url: 'https://discord.com/invite/nervos',
+          },
+          {
             label: t('footer.twitter'),
             icon: TwitterIcon,
-            hoverIcon: isMainnet() ? TwitterHoverIcon : TwitterAggronHoverIcon,
             url: 'https://twitter.com/nervosnetwork',
           },
           {
             label: t('footer.blog'),
             icon: MediumIcon,
-            hoverIcon: isMainnet() ? MediumHoverIcon : MediumAggronHoverIcon,
             url: 'https://medium.com/nervosnetwork',
           },
           {
             label: t('footer.telegram'),
             icon: TelegramIcon,
-            hoverIcon: isMainnet() ? TelegramHoverIcon : TelegramAggronHoverIcon,
             url: 'https://t.me/nervosnetwork',
           },
           {
             label: t('footer.reddit'),
             icon: RedditIcon,
-            hoverIcon: isMainnet() ? RedditHoverIcon : RedditAggronHoverIcon,
             url: 'https://www.reddit.com/r/NervosNetwork/',
           },
           {
             label: t('footer.youtube'),
             icon: YoutubeIcon,
-            hoverIcon: isMainnet() ? YoutubeHoverIcon : YoutubeAggronHoverIcon,
             url: 'https://www.youtube.com/channel/UCONuJGdMzUY0Y6jrPBOzH7A',
           },
           {
             label: t('footer.forum'),
             icon: ForumIcon,
-            hoverIcon: isMainnet() ? ForumHoverIcon : ForumAggronHoverIcon,
             url: 'https://talk.nervos.org/',
           },
         ],
@@ -181,7 +155,12 @@ export default () => {
                 ))}
               </div>
               <div>
-                {Footers[2].items.slice(3).map((item: any) => (
+                {Footers[2].items.slice(3, 6).map((item: any) => (
+                  <FooterImageItem item={item} key={item.label} />
+                ))}
+              </div>
+              <div>
+                {Footers[2].items.slice(6).map((item: any) => (
                   <FooterImageItem item={item} key={item.label} />
                 ))}
               </div>

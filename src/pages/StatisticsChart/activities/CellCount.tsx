@@ -6,8 +6,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
-import { ChartColors } from '../../../constants/common'
-import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
 
 const gridThumbnail = {
   left: '4%',
@@ -26,29 +25,27 @@ const grid = {
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 60 : 80)
 
-const parseTooltip = ({ seriesName, data }: { seriesName: string; data: [string, string, string] }): string => {
+const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string, string, string] }): string => {
   if (seriesName === i18n.t('statistic.live_cell')) {
-    return `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(
-      data[1],
-      2,
-    )}</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.live_cell'))} ${handleAxis(data[1], 2)}</div>`
   }
   if (seriesName === i18n.t('statistic.all_cells')) {
-    return `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('statistic.all_cells'))} ${handleAxis(
-      data[2],
-      2,
-    )}</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.all_cells'))} ${handleAxis(data[2], 2)}</div>`
   }
   return ''
 }
 
-const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail = false): echarts.EChartOption => ({
-  color: ChartColors,
+const getOption = (
+  statisticCellCounts: State.StatisticCellCount[],
+  chartColor: State.App['chartColor'],
+  isThumbnail = false,
+): echarts.EChartOption => ({
+  color: chartColor.colors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
         formatter: (dataList: any) => {
-          const list = dataList as Array<{ seriesName: string; data: [string, string, string]; name: string }>
+          const list = dataList as Array<SeriesItem & { data: [string, string, string] }>
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${list[0].data[0]}</div>`
           list.forEach(data => {
             result += parseTooltip(data)
@@ -88,7 +85,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       scale: true,
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -102,7 +99,7 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
       scale: true,
       axisLine: {
         lineStyle: {
-          color: ChartColors[1],
+          color: chartColor.colors[1],
         },
       },
       axisLabel: {
@@ -145,11 +142,13 @@ const getOption = (statisticCellCounts: State.StatisticCellCount[], isThumbnail 
 })
 
 export const CellCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticCellCounts, statisticCellCountsFetchEnd } = useAppState()
+  const { statisticCellCounts, statisticCellCountsFetchEnd, app } = useAppState()
   if (!statisticCellCountsFetchEnd || statisticCellCounts.length === 0) {
     return <ChartLoading show={!statisticCellCountsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticCellCounts, isThumbnail)} isThumbnail={isThumbnail} />
+  return (
+    <ReactChartCore option={getOption(statisticCellCounts, app.chartColor, isThumbnail)} isThumbnail={isThumbnail} />
+  )
 }
 
 const toCSV = (statisticCellCounts: State.StatisticCellCount[]) =>

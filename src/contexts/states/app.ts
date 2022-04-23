@@ -1,3 +1,5 @@
+import { getChartColor, getPrimaryColor, getSecondaryColor } from '../../constants/common'
+
 export const initApp: State.App = {
   toast: null,
   loading: false,
@@ -21,6 +23,10 @@ export const initApp: State.App = {
   appWidth: window.innerWidth,
   appHeight: window.innerHeight,
   language: navigator.language.includes('zh') ? 'zh' : 'en',
+  hasFinishedHardFork: false,
+  primaryColor: getPrimaryColor(false),
+  secondaryColor: getSecondaryColor(false),
+  chartColor: getChartColor(false),
 }
 
 export default initApp

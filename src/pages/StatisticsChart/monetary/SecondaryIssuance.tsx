@@ -4,8 +4,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartColors } from '../../../constants/common'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
 import { getStatisticSecondaryIssuance } from '../../../service/app/charts/monetary'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 
@@ -24,33 +23,32 @@ const grid = {
   containLabel: true,
 }
 
-const Colors = ['#74808E', '#049ECD', '#69C7D4']
-
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 155 : 70)
 
-const parseTooltip = ({ seriesName, data }: { seriesName: string; data: [string, string, string, string] }): string => {
+const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string, string, string, string] }): string => {
   if (seriesName === i18n.t('nervos_dao.deposit_compensation')) {
-    return `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('nervos_dao.deposit_compensation'))} ${data[3]}%</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('nervos_dao.deposit_compensation'))} ${data[3]}%</div>`
   }
   if (seriesName === i18n.t('nervos_dao.mining_reward')) {
-    return `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('nervos_dao.mining_reward'))} ${data[2]}%</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('nervos_dao.mining_reward'))} ${data[2]}%</div>`
   }
   if (seriesName === i18n.t('nervos_dao.burnt')) {
-    return `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('nervos_dao.burnt'))} ${data[1]}%</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('nervos_dao.burnt'))} ${data[1]}%</div>`
   }
   return ''
 }
 
 const getOption = (
   statisticSecondaryIssuance: State.StatisticSecondaryIssuance[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: Colors,
+  color: chartColor.secondaryIssuanceColors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
         formatter: (dataList: any) => {
-          const list = dataList as Array<{ seriesName: string; data: [string, string, string, string]; name: string }>
+          const list = dataList as Array<SeriesItem & { data: [string, string, string, string] }>
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${
             dataList[0].data[0]
           }</div>`
@@ -93,7 +91,7 @@ const getOption = (
       type: 'value',
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -154,11 +152,16 @@ const getOption = (
 })
 
 export const SecondaryIssuanceChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticSecondaryIssuance, statisticSecondaryIssuanceFetchEnd } = useAppState()
+  const { statisticSecondaryIssuance, statisticSecondaryIssuanceFetchEnd, app } = useAppState()
   if (!statisticSecondaryIssuanceFetchEnd || statisticSecondaryIssuance.length === 0) {
     return <ChartLoading show={!statisticSecondaryIssuanceFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticSecondaryIssuance, isThumbnail)} isThumbnail={isThumbnail} />
+  return (
+    <ReactChartCore
+      option={getOption(statisticSecondaryIssuance, app.chartColor, isThumbnail)}
+      isThumbnail={isThumbnail}
+    />
+  )
 }
 
 const toCSV = (statisticSecondaryIssuance: State.StatisticSecondaryIssuance[]) =>

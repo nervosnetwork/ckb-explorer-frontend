@@ -6,8 +6,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { handleDifficulty } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
-import { ChartMoreColors } from '../../../constants/common'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
 import { parseHourFromMillisecond } from '../../../utils/date'
 
 const gridThumbnail = {
@@ -32,31 +31,33 @@ const max = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[]) => {
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 90 : 80)
 
-const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }) => {
+const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: string }) => {
   if (seriesName === i18n.t('block.difficulty')) {
-    return `<div>${tooltipColor(ChartMoreColors[0])}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(
-      data,
-    )}</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(data)}</div>`
   }
   if (seriesName === i18n.t('block.uncle_rate')) {
-    return `<div>${tooltipColor(ChartMoreColors[1])}${widthSpan(i18n.t('block.uncle_rate'))} ${data}%</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('block.uncle_rate'))} ${data}%</div>`
   }
   if (seriesName === i18n.t('block.epoch_time')) {
-    return `<div>${tooltipColor(ChartMoreColors[2])}${widthSpan(i18n.t('block.epoch_time'))} ${data} h</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('block.epoch_time'))} ${data} h</div>`
   }
   if (seriesName === i18n.t('block.epoch_length')) {
-    return `<div>${tooltipColor(ChartMoreColors[3])}${widthSpan(i18n.t('block.epoch_length'))} ${data}</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('block.epoch_length'))} ${data}</div>`
   }
   return ''
 }
 
-const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[], isThumbnail = false) => ({
-  color: ChartMoreColors,
+const getOption = (
+  statisticChartData: State.StatisticDifficultyUncleRateEpoch[],
+  chartColor: State.App['chartColor'],
+  isThumbnail = false,
+) => ({
+  color: chartColor.moreColors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
         formatter: (dataList: any) => {
-          const list = dataList as Array<{ seriesName: string; data: string; name: string }>
+          const list = dataList as Array<SeriesItem & { data: string }>
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${list[0].name}</div>`
           list.forEach(data => {
             result += parseTooltip(data)
@@ -109,7 +110,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[]
       scale: true,
       axisLine: {
         lineStyle: {
-          color: ChartMoreColors[0],
+          color: chartColor.moreColors[0],
         },
       },
       axisLabel: {
@@ -128,7 +129,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[]
       min: 0,
       axisLine: {
         lineStyle: {
-          color: ChartMoreColors[1],
+          color: chartColor.moreColors[1],
         },
       },
       axisLabel: {
@@ -140,7 +141,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[]
       scale: true,
       axisLine: {
         lineStyle: {
-          color: ChartMoreColors[0],
+          color: chartColor.moreColors[0],
         },
       },
       axisLabel: {
@@ -152,7 +153,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[]
       scale: true,
       axisLine: {
         lineStyle: {
-          color: ChartMoreColors[1],
+          color: chartColor.moreColors[1],
         },
       },
       axisLabel: {
@@ -166,7 +167,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[]
       type: 'bar',
       step: 'start',
       areaStyle: {
-        color: '#85bae0',
+        color: chartColor.areaColor,
       },
       yAxisIndex: 0,
       symbol: isThumbnail ? 'none' : 'circle',
@@ -186,7 +187,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[]
         : {
             symbol: 'none',
             lineStyle: {
-              color: ChartMoreColors[1],
+              color: chartColor.moreColors[1],
             },
             data: [
               {
@@ -204,7 +205,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[]
       type: 'bar',
       step: 'start',
       areaStyle: {
-        color: ChartMoreColors[2],
+        color: chartColor.moreColors[2],
       },
       yAxisIndex: 2,
       symbol: isThumbnail ? 'none' : 'circle',
@@ -216,7 +217,7 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[]
       type: 'bar',
       step: 'start',
       areaStyle: {
-        color: ChartMoreColors[3],
+        color: chartColor.moreColors[3],
       },
       yAxisIndex: 3,
       symbol: isThumbnail ? 'none' : 'circle',
@@ -227,12 +228,15 @@ const getOption = (statisticChartData: State.StatisticDifficultyUncleRateEpoch[]
 })
 
 export const DifficultyUncleRateEpochChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticDifficultyUncleRateEpochs, statisticDifficultyUncleRatesFetchEnd } = useAppState()
+  const { statisticDifficultyUncleRateEpochs, statisticDifficultyUncleRatesFetchEnd, app } = useAppState()
   if (!statisticDifficultyUncleRatesFetchEnd || statisticDifficultyUncleRateEpochs.length === 0) {
     return <ChartLoading show={!statisticDifficultyUncleRatesFetchEnd} isThumbnail={isThumbnail} />
   }
   return (
-    <ReactChartCore option={getOption(statisticDifficultyUncleRateEpochs, isThumbnail)} isThumbnail={isThumbnail} />
+    <ReactChartCore
+      option={getOption(statisticDifficultyUncleRateEpochs, app.chartColor, isThumbnail)}
+      isThumbnail={isThumbnail}
+    />
   )
 }
 
