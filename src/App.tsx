@@ -10,6 +10,7 @@ import { isMainnet } from './utils/chain'
 const appStyle = {
   width: '100vw',
   height: '100vh',
+  maxWidth: '100%',
 }
 
 const App = withProviders(() => {
