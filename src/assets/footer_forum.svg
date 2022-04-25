@@ -1,12 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
-    <title>Group</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Group">
-            <path d="M99.9040107,199.802079 C155.077488,199.802079 199.80505,155.077489 199.80505,99.9010397 C199.80505,44.730533 155.077489,0 99.9040107,0 C44.728019,0 0,44.730533 0,99.9010397 C0,155.077489 44.7282475,199.802079 99.9040107,199.802079" id="Path" fill="#A1A1A1" class="app-icon"></path>
-            <image x="9" y="9" width="182" height="182" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGkAAABpCAYAAAA5gg06AAAABGdBTUEAALGOfPtRkwAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAaaADAAQAAAABAAAAaQAAAADFlbniAAAD2klEQVR4Ae2dO04rQRBF209P4qMnIGMnhEgEsARilkDKCggBkRBCyhIgQHJoiYw1gMgQAYjIz9dSI8sCM5+u7prhdDIeu6em6typrvn0QAg0CEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAK/iMD19fW/XxQuoUIAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQ8ElgkNOtx8fHscX+VldXw9vbW3LTDw8PYW9vLyuj5EHUMXh8fDwVaNyh9vLyMr65uTE5sOqw+1Onc9u+R0dH47Ozs/Dx8dHWVJbt19fXw/b2digtVDaRXl9fp2Cfn5/DyclJZ4RaWloKW1tbRYXKJtLa2trn0S/BJNTT09Pnd54/lM6obCLNiyChrq6uOiOUMqrU0FdMJIkmoc7Pz6dCdaFOlRKqqEgxu5RRw+EwrrpelhDKhUjKqPv7+3B7e+taoOichNrd3c12MuFCJAXfNaHkcy6h3IgUhbq7uwuDSdN6F1oOoVyJFEXRRS9CRRohuBRJ7kWhunDWJ38tM+qvdpCjqebUbRLq4uIiHB4eDk5PT8ffLQ8ODuqanva/vLz81vb7+3sjmxYbZRv7dYO1iVC6U7GysrIw9jYifWdYt6+atEmcyZm6He6aAOrrNr0QyeJZkifB3Yv001AnmHro1+fmXqQqBZxM6vMh2pHY3GdSFY4Md1UoGfapUpMY7gwFqGK6Sk2qYqfLfRjuOqBeL0RiuCt8pFWpSYVdNN+9+0yqUpM4uzM/TtrvgOGuPUMstCTgfrijJjl+MhsPvio1Kfbt69J9JvUVfJ24EKkOrUJ93YtETaImFcqNert1n0n1wulnb0TqgK7uRaImZaxJTWGXuE7SJMzZNxNLJ1vyiXyLAmo6QXKRTf22ubkZ9vf3a88a2tjYWBi/Zs3WnSTZ+cmRk2nDAwFN3QRSL6KlvtGqjLLwt2782WuSVeCawqxXO/soVHaRdBRZCSXbEmo0GoXl5WWtJmmW/lZxcOGYXMVA2z56c6Ktja+239nZmf79ha9+i9/9VJNiv9nlT/52vibNBhs/WwQl23pjUBmVuln5u8jPIsPdvENWgUuoJtky79/8upW/8/uJ6y5EkjNWgWt40stiqU8orPyNwswu3YgUhbK4iNQp+uQffJgIZeHvrED67EokOaRrKYvAZ6+lUmaVlb9iEZs7keSYVeDxWioGn2pp5W/0z6VIcs4y8HgtFSGkWFr6m8I/bEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgEBeAv8BcDMCB0RVQ1QAAAAASUVORK5CYII="></image>
-        </g>
-    </g>
+<svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M17.5 35C27.165 35 35 27.165 35 17.5C35 7.83502 27.165 0 17.5 0C7.83502 0 0 7.83502 0 17.5C0 27.165 7.83502 35 17.5 35Z" fill="#A1A1A1" class="app-icon"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8 22.5152L12.528 27H20.3636L15.8354 22.5152H8Z" fill="#5B5B5B"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M23.7576 22.5152H12.3999L12.3636 13.1818H23.7216L23.7576 22.5152Z" fill="#797979"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M23.4373 22.4787L28 27V13.5819L23.3939 9.06061L23.4373 22.4787Z" fill="#5B5B5B"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M15.7924 22.4787L20.3636 27V13.5819L15.7576 9.06061L15.7924 22.4787Z" fill="#F0F0F0"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8 9.18182L12.5549 13.6667H28L23.4449 9.18182H8Z" fill="#E1E1E1"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8 22.4787L12.5637 27L12.6061 13.5819L8 9.06061V22.4787Z" fill="#5B5B5B"/>
 </svg>
