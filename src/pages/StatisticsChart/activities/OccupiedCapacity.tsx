@@ -6,7 +6,6 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
-import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { shannonToCkb } from '../../../utils/util'
 
@@ -27,9 +26,10 @@ const grid = {
 
 const getOption = (
   statisticOccupiedCapacities: State.StatisticOccupiedCapacity[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: ChartColors,
+  color: chartColor.colors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
@@ -38,7 +38,7 @@ const getOption = (
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
             dataList[0].name,
           )}</div>`
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+          result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(
             `${i18n.t('statistic.occupied_capacity')} (CKB)`,
           )} ${handleAxis(dataList[0].data)}</div>`
           return result
@@ -67,7 +67,7 @@ const getOption = (
       scale: true,
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -88,11 +88,16 @@ const getOption = (
 })
 
 export const OccupiedCapacityChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticOccupiedCapacities, statisticOccupiedCapacitiesFetchEnd } = useAppState()
+  const { statisticOccupiedCapacities, statisticOccupiedCapacitiesFetchEnd, app } = useAppState()
   if (!statisticOccupiedCapacitiesFetchEnd || statisticOccupiedCapacities.length === 0) {
     return <ChartLoading show={!statisticOccupiedCapacitiesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticOccupiedCapacities, isThumbnail)} isThumbnail={isThumbnail} />
+  return (
+    <ReactChartCore
+      option={getOption(statisticOccupiedCapacities, app.chartColor, isThumbnail)}
+      isThumbnail={isThumbnail}
+    />
+  )
 }
 
 const toCSV = (statisticOccupiedCapacities: State.StatisticOccupiedCapacity[]) =>

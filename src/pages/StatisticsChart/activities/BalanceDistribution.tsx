@@ -5,8 +5,7 @@ import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis, handleLogGroupAxis } from '../../../utils/chart'
 import { isMobile } from '../../../utils/screen'
-import { ChartColors } from '../../../constants/common'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
 import { localeNumberString } from '../../../utils/number'
 
 const gridThumbnail = {
@@ -26,30 +25,21 @@ const grid = {
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 270 : 110)
 
-const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }): string => {
-  if (seriesName === i18n.t('statistic.addresses_balance_group')) {
-    return `<div>${tooltipColor(ChartColors[0])}${widthSpan(
-      i18n.t('statistic.addresses_balance_group'),
-    )} ${localeNumberString(data)}</div>`
-  }
-  if (seriesName === i18n.t('statistic.addresses_below_specific_balance')) {
-    return `<div>${tooltipColor(ChartColors[1])}${widthSpan(
-      i18n.t('statistic.addresses_below_specific_balance'),
-    )} ${localeNumberString(data)}</div>`
-  }
-  return ''
+const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: string }): string => {
+  return `<div>${tooltipColor(color)}${widthSpan(seriesName)} ${localeNumberString(data)}</div>`
 }
 
 const getOption = (
   statisticBalanceDistributions: State.StatisticBalanceDistribution[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: ChartColors,
+  color: chartColor.colors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
         formatter: (dataList: any) => {
-          const list = dataList as Array<{ seriesName: string; data: string; name: string; dataIndex: number }>
+          const list = dataList as (SeriesItem & { data: string })[]
           let result = `<div>${tooltipColor('#333333')}${widthSpan(
             i18n.t('statistic.addresses_balance'),
           )} ${handleLogGroupAxis(
@@ -102,7 +92,7 @@ const getOption = (
       },
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -122,7 +112,7 @@ const getOption = (
       },
       axisLine: {
         lineStyle: {
-          color: ChartColors[1],
+          color: chartColor.colors[1],
         },
       },
       axisLabel: {
@@ -135,7 +125,7 @@ const getOption = (
       name: i18n.t('statistic.addresses_balance_group'),
       type: 'bar',
       areaStyle: {
-        color: '#85bae0',
+        color: chartColor.areaColor,
       },
       yAxisIndex: 0,
       barWidth: isMobile() || isThumbnail ? 20 : 50,
@@ -153,11 +143,16 @@ const getOption = (
 })
 
 export const BalanceDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticBalanceDistributions, statisticBalanceDistributionsFetchEnd } = useAppState()
+  const { statisticBalanceDistributions, statisticBalanceDistributionsFetchEnd, app } = useAppState()
   if (!statisticBalanceDistributionsFetchEnd || statisticBalanceDistributions.length === 0) {
     return <ChartLoading show={!statisticBalanceDistributionsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticBalanceDistributions, isThumbnail)} isThumbnail={isThumbnail} />
+  return (
+    <ReactChartCore
+      option={getOption(statisticBalanceDistributions, app.chartColor, isThumbnail)}
+      isThumbnail={isThumbnail}
+    />
+  )
 }
 
 const toCSV = (statisticBalanceDistributions?: State.StatisticBalanceDistribution[]) =>

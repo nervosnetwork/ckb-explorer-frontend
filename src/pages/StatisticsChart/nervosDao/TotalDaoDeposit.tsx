@@ -8,9 +8,8 @@ import { ChartNotePanel } from '../common/styled'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
-import { ChartColors } from '../../../constants/common'
 import { isMainnet } from '../../../utils/chain'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
 
 const gridThumbnail = {
   left: '4%',
@@ -29,15 +28,15 @@ const grid = {
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 110 : 110)
 
-const parseTooltip = ({ seriesName, data }: { seriesName: string; data: [string, string, string] }): string => {
+const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string, string, string] }): string => {
   if (seriesName === i18n.t('statistic.total_dao_deposit')) {
-    return `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.total_dao_deposit'))} ${handleAxis(
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.total_dao_deposit'))} ${handleAxis(
       data[1],
       2,
     )}</div>`
   }
   if (seriesName === i18n.t('statistic.total_dao_depositor')) {
-    return `<div>${tooltipColor(ChartColors[1])}${widthSpan(i18n.t('statistic.total_dao_depositor'))} ${handleAxis(
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.total_dao_depositor'))} ${handleAxis(
       data[2],
       2,
       true,
@@ -48,14 +47,15 @@ const parseTooltip = ({ seriesName, data }: { seriesName: string; data: [string,
 
 const getOption = (
   statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: ChartColors,
+  color: chartColor.colors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
         formatter: (dataList: any) => {
-          const list = dataList as Array<{ seriesName: string; data: [string, string, string]; name: string }>
+          const list = dataList as Array<SeriesItem & { data: [string, string, string] }>
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${list[0].data[0]}</div>`
           list.forEach(data => {
             result += parseTooltip(data)
@@ -98,7 +98,7 @@ const getOption = (
       scale: true,
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -115,7 +115,7 @@ const getOption = (
       scale: true,
       axisLine: {
         lineStyle: {
-          color: ChartColors[1],
+          color: chartColor.colors[1],
         },
       },
       axisLabel: {
@@ -158,11 +158,16 @@ const getOption = (
 })
 
 export const TotalDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticTotalDaoDeposits, statisticTotalDaoDepositsFetchEnd } = useAppState()
+  const { statisticTotalDaoDeposits, statisticTotalDaoDepositsFetchEnd, app } = useAppState()
   if (!statisticTotalDaoDepositsFetchEnd || statisticTotalDaoDeposits.length === 0) {
     return <ChartLoading show={!statisticTotalDaoDepositsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticTotalDaoDeposits, isThumbnail)} isThumbnail={isThumbnail} />
+  return (
+    <ReactChartCore
+      option={getOption(statisticTotalDaoDeposits, app.chartColor, isThumbnail)}
+      isThumbnail={isThumbnail}
+    />
+  )
 }
 
 const toCSV = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]) =>

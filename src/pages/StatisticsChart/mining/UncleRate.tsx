@@ -4,7 +4,6 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 
@@ -28,8 +27,12 @@ const max = (statisticUncleRates: State.StatisticUncleRate[]) => {
   return Math.max(5, Math.ceil(Math.max(...array)))
 }
 
-const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail = false) => ({
-  color: ChartColors,
+const getOption = (
+  statisticUncleRates: State.StatisticUncleRate[],
+  chartColor: State.App['chartColor'],
+  isThumbnail = false,
+) => ({
+  color: chartColor.colors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
@@ -38,7 +41,7 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${
             dataList[0].data[0]
           }</div>`
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('block.uncle_rate'))} ${
+          result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(i18n.t('block.uncle_rate'))} ${
             dataList[0].data[1]
           }%</div>`
           return result
@@ -66,7 +69,7 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
       min: 0,
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -104,11 +107,13 @@ const getOption = (statisticUncleRates: State.StatisticUncleRate[], isThumbnail 
 })
 
 export const UncleRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticUncleRates, statisticUncleRatesFetchEnd } = useAppState()
+  const { statisticUncleRates, statisticUncleRatesFetchEnd, app } = useAppState()
   if (!statisticUncleRatesFetchEnd || statisticUncleRates.length === 0) {
     return <ChartLoading show={!statisticUncleRatesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticUncleRates, isThumbnail)} isThumbnail={isThumbnail} />
+  return (
+    <ReactChartCore option={getOption(statisticUncleRates, app.chartColor, isThumbnail)} isThumbnail={isThumbnail} />
+  )
 }
 
 const toCSV = (statisticUncleRates: State.StatisticUncleRate[]) =>

@@ -242,10 +242,11 @@ export const NervosDaoPieItemPanel = styled.div`
     margin: 5px 0;
   }
 
-  > img {
+  .nervos__dao__overview_pie_icon {
     width: 9px;
     height: 9px;
     margin-right: 10px;
+    border-radius: 9px;
   }
 
   > div {

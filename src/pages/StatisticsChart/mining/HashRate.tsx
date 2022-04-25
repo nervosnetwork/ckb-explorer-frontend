@@ -7,7 +7,6 @@ import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { handleHashRate } from '../../../utils/number'
-import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 
 const gridThumbnail = {
@@ -25,8 +24,12 @@ const grid = {
   containLabel: true,
 }
 
-const getOption = (statisticHashRates: State.StatisticHashRate[], isThumbnail = false): echarts.EChartOption => ({
-  color: ChartColors,
+const getOption = (
+  statisticHashRates: State.StatisticHashRate[],
+  chartColor: State.App['chartColor'],
+  isThumbnail = false,
+): echarts.EChartOption => ({
+  color: chartColor.colors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
@@ -35,7 +38,7 @@ const getOption = (statisticHashRates: State.StatisticHashRate[], isThumbnail = 
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${
             dataList[0].data[0]
           }</div>`
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
+          result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(
             dataList[0].data[1],
           )}</div>`
           return result
@@ -61,7 +64,7 @@ const getOption = (statisticHashRates: State.StatisticHashRate[], isThumbnail = 
       scale: true,
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -88,11 +91,13 @@ const getOption = (statisticHashRates: State.StatisticHashRate[], isThumbnail = 
 })
 
 export const HashRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticHashRates, statisticHashRatesFetchEnd } = useAppState()
+  const { statisticHashRates, statisticHashRatesFetchEnd, app } = useAppState()
   if (!statisticHashRatesFetchEnd || statisticHashRates.length === 0) {
     return <ChartLoading show={!statisticHashRatesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticHashRates, isThumbnail)} isThumbnail={isThumbnail} />
+  return (
+    <ReactChartCore option={getOption(statisticHashRates, app.chartColor, isThumbnail)} isThumbnail={isThumbnail} />
+  )
 }
 
 const toCSV = (statisticHashRates: State.StatisticHashRate[]) =>

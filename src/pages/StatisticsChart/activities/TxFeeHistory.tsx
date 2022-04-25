@@ -6,7 +6,6 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
-import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { shannonToCkbDecimal } from '../../../utils/util'
 import { isMainnet } from '../../../utils/chain'
@@ -27,9 +26,10 @@ const grid = {
 }
 const getOption = (
   statisticTxFeeHistories: State.StatisticTransactionFee[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: ChartColors,
+  color: chartColor.colors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
@@ -38,7 +38,7 @@ const getOption = (
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${
             dataList[0].data[0]
           }</div>`
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.tx_fee'))} ${handleAxis(
+          result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(i18n.t('statistic.tx_fee'))} ${handleAxis(
             dataList[0].data[1],
           )}</div>`
           return result
@@ -68,7 +68,7 @@ const getOption = (
       scale: true,
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -94,11 +94,16 @@ const getOption = (
 })
 
 export const TxFeeHistoryChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticTxFeeHistories, statisticTxFeeHistoriesFetchEnd } = useAppState()
+  const { statisticTxFeeHistories, statisticTxFeeHistoriesFetchEnd, app } = useAppState()
   if (!statisticTxFeeHistoriesFetchEnd || statisticTxFeeHistories.length === 0) {
     return <ChartLoading show={!statisticTxFeeHistoriesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticTxFeeHistories, isThumbnail)} isThumbnail={isThumbnail} />
+  return (
+    <ReactChartCore
+      option={getOption(statisticTxFeeHistories, app.chartColor, isThumbnail)}
+      isThumbnail={isThumbnail}
+    />
+  )
 }
 
 const toCSV = (statisticTxFeeHistories: State.StatisticTransactionFee[]) =>

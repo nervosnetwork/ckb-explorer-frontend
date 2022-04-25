@@ -9,7 +9,6 @@ import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { adaptPCEllipsis } from '../../../utils/string'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
-import { ChartColors } from '../../../constants/common'
 
 const gridThumbnail = {
   left: '4%',
@@ -33,9 +32,10 @@ const getAddressWithRanking = (statisticAddressBalanceRanks: State.StatisticAddr
 
 const getOption = (
   statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: ChartColors,
+  color: chartColor.colors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
@@ -46,10 +46,9 @@ const getOption = (
             6,
             60,
           )}</div>`
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.balance'))} ${localeNumberString(
-            dataList[0].data,
-          )} ${i18n.t('common.ckb_unit')}</div>`
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.rank'))} ${
+          result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(i18n.t('statistic.balance'))} \
+          ${localeNumberString(dataList[0].data)} ${i18n.t('common.ckb_unit')}</div>`
+          result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(i18n.t('statistic.rank'))} ${
             dataList[0].name
           }</div>`
           return result
@@ -77,7 +76,7 @@ const getOption = (
       scale: true,
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -105,13 +104,13 @@ export const AddressBalanceRankChart = ({
   clickEvent: any
   isThumbnail?: boolean
 }) => {
-  const { statisticAddressBalanceRanks, statisticAddressBalanceRanksFetchEnd } = useAppState()
+  const { statisticAddressBalanceRanks, statisticAddressBalanceRanksFetchEnd, app } = useAppState()
   if (!statisticAddressBalanceRanksFetchEnd || statisticAddressBalanceRanks.length === 0) {
     return <ChartLoading show={!statisticAddressBalanceRanksFetchEnd} isThumbnail={isThumbnail} />
   }
   return (
     <ReactChartCore
-      option={getOption(statisticAddressBalanceRanks, isThumbnail)}
+      option={getOption(statisticAddressBalanceRanks, app.chartColor, isThumbnail)}
       isThumbnail={isThumbnail}
       clickEvent={clickEvent}
     />

@@ -6,7 +6,6 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
-import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 
 const gridThumbnail = {
@@ -26,9 +25,10 @@ const grid = {
 
 const getOption = (
   statisticTransactionCounts: State.StatisticTransactionCount[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: ChartColors,
+  color: chartColor.colors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
@@ -37,7 +37,7 @@ const getOption = (
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${
             dataList[0].data[0]
           }</div>`
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+          result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(
             i18n.t('statistic.transaction_count'),
           )} ${handleAxis(dataList[0].data[1])}</div>`
           return result
@@ -63,7 +63,7 @@ const getOption = (
       scale: true,
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -89,11 +89,16 @@ const getOption = (
 })
 
 export const TransactionCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticTransactionCounts, statisticTransactionCountsFetchEnd } = useAppState()
+  const { statisticTransactionCounts, statisticTransactionCountsFetchEnd, app } = useAppState()
   if (!statisticTransactionCountsFetchEnd || statisticTransactionCounts.length === 0) {
     return <ChartLoading show={!statisticTransactionCountsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticTransactionCounts, isThumbnail)} isThumbnail={isThumbnail} />
+  return (
+    <ReactChartCore
+      option={getOption(statisticTransactionCounts, app.chartColor, isThumbnail)}
+      isThumbnail={isThumbnail}
+    />
+  )
 }
 
 const toCSV = (statisticTransactionCounts: State.StatisticTransactionCount[]) =>
