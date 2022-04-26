@@ -93,6 +93,7 @@ export const appReducer = (
         ...state,
         app: {
           ...state.app,
+          miranaHardForkSecondsLeft: payload.miranaHardForkSecondsLeft,
           hasFinishedHardFork: payload.hasFinishedHardFork,
           primaryColor: getPrimaryColor(payload.hasFinishedHardFork),
           secondaryColor: getSecondaryColor(payload.hasFinishedHardFork),

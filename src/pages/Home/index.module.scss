@@ -1,33 +1,39 @@
 .HomeHeaderTopPanel {
-  height: 360px;
-  margin: 0 -120px;
+  margin: 20px 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
 
-  @media (max-width: 750px) {
-    margin: 0 -18px;
+  @media (max-width: 1200px) {
+    display: block;
   }
 
   .title {
-    color: #ffffff;
-    font-size: 36px;
-    padding-top: 49px;
+    display: flex;
+    align-items: center;
+    margin-right: 24px;
+    font-weight: 800;
+    font-size: 20px;
 
-    @media (max-width: 750px) {
-      font-size: 24px;
-      padding-top: 45px;
+    & > svg {
+      margin-right: 8px;
+    }
+
+    @media (max-width: 1200px) {
+      margin-bottom: 20px;
+    }
+    @media (max-width: 375px) {
+      font-size: 16px;
+      margin-bottom: 14px;
     }
   }
 
   .search {
     height: 38px;
     width: 600px;
-    padding-top: 25px;
+    flex-grow: 2;
 
-    @media (max-width: 750px) {
-      width: calc(100% - 36px);
-      padding-top: 21px;
+    @media (max-width: 1200px) {
+      width: 100%;
     }
   }
 }
@@ -84,7 +90,6 @@
   height: 207px;
   width: 100%;
   display: flex;
-  margin-top: -148px;
 
   @media (max-width: 1200px) {
     height: 213px;
@@ -93,7 +98,6 @@
   @media (max-width: 750px) {
     flex-direction: column;
     height: 150px;
-    margin-top: -205px;
   }
 
   .home__statistic__left__panel {
@@ -223,44 +227,21 @@
 
 .HomeStatisticTopPanel {
   &.AfterHardFork {
-    height: auto;
     .home__statistic__left__panel {
-      border: 2px solid #232323;
-      display: block;
-      padding: 12px;
+      border-color: #232323;
       background-color: #232323;
-      width: 50%;
       .home__statistic__left__data {
         background: #232323;
-        flex-direction: row;
-        justify-content: flex-start;
-        width: 100%;
-        padding: 16px;
-
-        & > div {
-          flex: 1;
-        }
       }
       .home__statistic__left__chart {
         background: #232323;
       }
     }
     .home__statistic__right__panel {
-      border: 2px solid #484E4E;
-      display: block;
-      padding: 12px;
+      border-color: #484E4E;
       background-color: #484E4E;
-      width: 50%;
       .home__statistic__right__data {
         background: #484E4E;
-        flex-direction: row;
-        justify-content: flex-start;
-        width: 100%;
-        padding: 16px;
-
-        & > div {
-          flex: 1;
-        }
       }
       .home__statistic__right__chart {
         background: #484E4E;

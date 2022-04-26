@@ -4,7 +4,7 @@ import 'antd/dist/antd.css'
 import Routers from './routes'
 import Toast from './components/Toast'
 import withProviders, { useAppState } from './contexts/providers'
-import useInitApp from './contexts/providers/hook'
+import useInitApp, { useInitHardForkStatus } from './contexts/providers/hook'
 import { isMainnet } from './utils/chain'
 
 const appStyle = {
@@ -15,6 +15,7 @@ const appStyle = {
 
 const App = withProviders(() => {
   useInitApp()
+  const initHardForkStatus = useInitHardForkStatus()
   const { app } = useAppState()
   const theme = useMemo(
     () => ({
@@ -27,8 +28,12 @@ const App = withProviders(() => {
   return (
     <ThemeProvider theme={theme}>
       <div style={appStyle} data-net={isMainnet() ? 'mainnet' : 'testnet'}>
-        <Routers />
-        <Toast />
+        {initHardForkStatus && (
+          <>
+            <Routers />
+            <Toast />
+          </>
+        )}
       </div>
     </ThemeProvider>
   )

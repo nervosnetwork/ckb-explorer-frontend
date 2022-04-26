@@ -1,0 +1,122 @@
+.Root {
+  width: 100%;
+  background-color: #344150;
+  height: 200px;
+  position: relative;
+  color: #F8F9E8;
+
+  .Moon {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background-color: #0090F2;
+
+    .MoonOriginal {
+      position: absolute;
+      width: 106%;
+      height: 100%;
+      z-index: 2;
+      left: 0;
+      top: 0;
+      background-image: url('../../assets/moon.svg');
+      background-position: center;
+
+      @media (max-width: 750px) {
+        background-image: url('../../assets/moon_small.svg');
+        width: 100%;
+      }
+    }
+
+    .MoonConver {
+      width: calc(53% - 306px);
+      height: 73px;
+      position: absolute;
+      z-index: 1;
+      top: 28px;
+      background-color: #F4BA00;
+      border-radius: 73px;
+
+      @media (max-width: 750px) {
+        top: 22px;
+        height: 41px;
+        border-radius: 41px;
+      }
+    }
+  }
+
+  .CountDown {
+    position: absolute;
+    width: 400px;
+    max-width: 60%;
+    margin: 0 auto;
+    bottom: 24px;
+    z-index: 12;
+    display: flex;
+    justify-content: space-between;
+    left: 50%;
+    transform: translate(-50%, 0px);
+
+    .Item {
+      text-align: center;
+      font-size: 10px;
+
+      & > div {
+        &:first-child {
+          font-size: 36px;
+          font-weight: 900;
+
+          @media(max-width: 750px) {
+            font-size: 24px;
+          }
+        }
+      }
+    }
+  }
+
+  .Epoch {
+    position: absolute;
+    top: 28px;
+    z-index: 2;
+    left: calc(50% + 250px);
+    font-size: 12px;
+    @media(max-width: 750px) {
+      top: 60px;
+      width: 100%;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    & > span {
+      font-weight: 900;
+      font-size: 24px;
+
+      @media(max-width: 750px) {
+        font-size: 20px;
+        margin-right: 8px;
+      }
+    }
+
+    & > div {
+      text-align: left;
+    }
+  }
+
+  &[data-alive] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 900;
+  }
+
+  .AliveMirana {
+    width: 120px;
+    height: 120px;
+    background-color: #F4BA00;
+    border-radius: 120px;
+    margin-bottom: 16px;
+  }
+}

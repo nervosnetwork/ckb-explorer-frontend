@@ -21,11 +21,12 @@ import { getLatestBlocks } from '../../service/app/block'
 import i18n from '../../utils/i18n'
 import LatestBlocksIcon from '../../assets/latest_blocks.png'
 import LatestTransactionsIcon from '../../assets/latest_transactions.png'
-import HomeHeaderBackground from '../../assets/home_background.svg'
+import { ReactComponent as CkbExplore } from '../../assets/ckb_explore.svg'
 import { BlockCardItem, TransactionCardItem } from './TableCard'
 import { getLatestTransactions } from '../../service/app/transaction'
 import { getTipBlockNumber } from '../../service/app/address'
 import Loading from '../../components/Loading/SmallLoading'
+import MiranaEasterEgg from '../../components/MiranaEasterEgg'
 import { useInterval } from '../../utils/hook'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
 import Search from '../../components/Search'
@@ -142,7 +143,7 @@ export default () => {
     homeBlocks = [],
     transactionsState: { transactions = [] },
     statistics,
-    app: { tipBlockNumber, hasFinishedHardFork },
+    app: { tipBlockNumber, hasFinishedHardFork, miranaHardForkSecondsLeft, appWidth },
     components: { headerSearchBarVisible },
   } = useAppState()
   const [t] = useTranslation()
@@ -171,14 +172,13 @@ export default () => {
 
   return (
     <Content>
+      <MiranaEasterEgg miranaHardForkSecondsLeft={miranaHardForkSecondsLeft} appWidth={appWidth} />
       <div className="container">
-        <div
-          style={{
-            backgroundImage: `url(${HomeHeaderBackground})`,
-          }}
-          className={styles.HomeHeaderTopPanel}
-        >
-          <div className={styles.title}>{i18n.t('common.ckb_explorer')}</div>
+        <div className={styles.HomeHeaderTopPanel}>
+          <div className={styles.title}>
+            <CkbExplore />
+            {i18n.t('common.ckb_explorer')}
+          </div>
           <div className={styles.search} id="home__search__bar">
             {!headerSearchBarVisible && <Search hasButton />}
           </div>
@@ -210,15 +210,15 @@ export default () => {
               .map((data: BlockchainData) => <BlockchainItem blockchain={data} key={data.name} />)}
           {isScreenSmallerThan1200() && (
             <>
-              <div className="blockchain__item__row">
+              <div className={styles.blockchain__item__row}>
                 {blockchainDataList(statistics)
                   .slice(4, 6)
                   .map((data: BlockchainData) => (
                     <BlockchainItem blockchain={data} key={data.name} />
                   ))}
               </div>
-              <div className="blockchain__item__row_separate" />
-              <div className="blockchain__item__row">
+              <div className={styles.blockchain__item__row_separate} />
+              <div className={styles.blockchain__item__row}>
                 {blockchainDataList(statistics)
                   .slice(6)
                   .map((data: BlockchainData) => (

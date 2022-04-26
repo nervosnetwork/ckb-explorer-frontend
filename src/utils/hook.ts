@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-export const useInterval = (callback: () => void, delay: number) => {
+export const useInterval = (callback: () => void, delay: number, deps: any[] = []) => {
   const savedCallback = useRef(() => {})
   useEffect(() => {
     savedCallback.current = callback
@@ -8,7 +8,8 @@ export const useInterval = (callback: () => void, delay: number) => {
   useEffect(() => {
     const listener = setInterval(savedCallback.current, delay)
     return () => clearInterval(listener)
-  }, [delay])
+    // eslint-disable-next-line
+  }, [delay, ...deps])
 }
 
 export const useTimeout = (callback: () => void, delay: number) => {

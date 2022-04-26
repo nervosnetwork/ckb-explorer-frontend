@@ -1,4 +1,4 @@
-import { getChartColor, getPrimaryColor, getSecondaryColor } from '../../constants/common'
+import { getChartColor, getPrimaryColor, getSecondaryColor, DEPLOY_TIME_LEFT } from '../../constants/common'
 
 export const initApp: State.App = {
   toast: null,
@@ -23,6 +23,7 @@ export const initApp: State.App = {
   appWidth: window.innerWidth,
   appHeight: window.innerHeight,
   language: navigator.language.includes('zh') ? 'zh' : 'en',
+  miranaHardForkSecondsLeft: DEPLOY_TIME_LEFT,
   hasFinishedHardFork: false,
   primaryColor: getPrimaryColor(false),
   secondaryColor: getSecondaryColor(false),
