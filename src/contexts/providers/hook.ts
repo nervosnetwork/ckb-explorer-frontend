@@ -69,7 +69,6 @@ export const useInitApp = () => {
     initAppLanguage(app, dispatch)
     getMaintenanceInfo(dispatch)
     flushCacheInfo()
-    getStatistics(dispatch)
   }
   useWindowResize(dispatch)
 
@@ -83,6 +82,17 @@ export const useInitApp = () => {
   useInterval(() => {
     getStatistics(dispatch)
   }, BLOCK_POLLING_TIME)
+}
+
+export const useInitHardForkStatus = () => {
+  const [initHardForkStatus, setInitHardForkStatus] = useState(false)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    getStatistics(dispatch).finally(() => {
+      setInitHardForkStatus(true)
+    })
+  }, [dispatch])
+  return initHardForkStatus
 }
 
 export default useInitApp

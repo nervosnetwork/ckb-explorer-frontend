@@ -17,7 +17,7 @@ const percentProprotyMobile = {
 }
 const percentProproty = {
   width: 480,
-  basePercent: `53%`,
+  basePercent: `50%`,
   baseWidth: 306,
 }
 
