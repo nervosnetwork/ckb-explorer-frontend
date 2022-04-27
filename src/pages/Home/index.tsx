@@ -21,7 +21,6 @@ import { getLatestBlocks } from '../../service/app/block'
 import i18n from '../../utils/i18n'
 import LatestBlocksIcon from '../../assets/latest_blocks.png'
 import LatestTransactionsIcon from '../../assets/latest_transactions.png'
-import { ReactComponent as CkbExplore } from '../../assets/ckb_explore.svg'
 import { BlockCardItem, TransactionCardItem } from './TableCard'
 import { getLatestTransactions } from '../../service/app/transaction'
 import { getTipBlockNumber } from '../../service/app/address'
@@ -175,10 +174,7 @@ export default () => {
       <MiranaEasterEgg miranaHardForkSecondsLeft={miranaHardForkSecondsLeft} appWidth={appWidth} />
       <div className="container">
         <div className={styles.HomeHeaderTopPanel}>
-          <div className={styles.title}>
-            <CkbExplore />
-            {i18n.t('common.ckb_explorer')}
-          </div>
+          <div className={styles.title}>{i18n.t('common.ckb_explorer')}</div>
           <div className={styles.search} id="home__search__bar">
             {!headerSearchBarVisible && <Search hasButton />}
           </div>
