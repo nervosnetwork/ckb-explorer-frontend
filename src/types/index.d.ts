@@ -633,6 +633,7 @@ declare namespace State {
     appWidth: number
     appHeight: number
     language: 'en' | 'zh'
+    miranaHardForkSecondsLeft: number
     hasFinishedHardFork: boolean
     primaryColor: string
     secondaryColor: string

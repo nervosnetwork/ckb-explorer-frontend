@@ -11,7 +11,13 @@
       "ckb_unit": "CKB",
       "note": "注: ",
       "ckb_explorer": "CKB 浏览器",
-      "none": "无"
+      "none": "无",
+      "days": "天",
+      "hours": "小时",
+      "minutes": "分钟",
+      "seconds": "秒",
+      "minaraTime": "美国东部时间: 2022 年 05 月 10 日",
+      "miranaAlive": "MIRANA 已经激活"
     },
     "toast": {
       "invalid_network": "网络出错，请稍后再试",

@@ -10,6 +10,11 @@ export const DELAY_BLOCK_NUMBER = 11
 export const PAGE_CELL_COUNT = 200
 export const MAINTENANCE_ALERT_POLLING_TIME = 3600000 // 1 hour
 export const NEXT_HARD_FORK_EPOCH = 5414
+export const EPOCH_HOURS = 4
+export const ONE_DAY_SECOND = 24 * 60 * 60
+export const ONE_HOUR_SECOND = 60 * 60
+export const ONE_MINUTE_SECOND = 60
+export const DEPLOY_TIME_LEFT = 10 * ONE_DAY_SECOND + 10 * ONE_HOUR_SECOND
 
 export function getPrimaryColor(hasFinishedHardFork: boolean = false) {
   if (isMainnet()) {
