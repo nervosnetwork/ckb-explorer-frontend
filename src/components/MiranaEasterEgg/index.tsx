@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   DEPLOY_TIME_LEFT,
   NEXT_HARD_FORK_EPOCH,
@@ -9,6 +9,17 @@ import {
 import { useInterval } from '../../utils/hook'
 import i18n from '../../utils/i18n'
 import styles from './index.module.scss'
+
+const percentProprotyMobile = {
+  width: 266,
+  basePercent: `50%`,
+  baseWidth: 133,
+}
+const percentProproty = {
+  width: 480,
+  basePercent: `53%`,
+  baseWidth: 306,
+}
 
 export default ({ miranaHardForkSecondsLeft, appWidth }: { miranaHardForkSecondsLeft: number; appWidth: number }) => {
   const [tmpMiranaHardForkSecondsLeft, setTmpMiranaHardForkSecondsLeft] = useState(miranaHardForkSecondsLeft)
@@ -31,16 +42,23 @@ export default ({ miranaHardForkSecondsLeft, appWidth }: { miranaHardForkSeconds
     return [days, hours, minutes, seconds]
   }, [tmpMiranaHardForkSecondsLeft])
 
-  const [moonWidth, setMoonWidth] = useState(480)
+  const [moonPercentProproty, setMoonPercentProproty] = useState(
+    appWidth < 750 ? percentProprotyMobile : percentProproty,
+  )
+  const lastAppWidth = useRef(appWidth)
   useEffect(() => {
-    if (appWidth < 750) {
-      setMoonWidth(400)
+    if (lastAppWidth.current !== appWidth) {
+      if (appWidth < 750) {
+        setMoonPercentProproty(percentProprotyMobile)
+      } else {
+        setMoonPercentProproty(percentProproty)
+      }
     }
-  }, [appWidth, setMoonWidth])
+  }, [appWidth, setMoonPercentProproty])
   const [coverWidth, setCoverWidth] = useState(0)
   useEffect(() => {
-    setCoverWidth(((miranaHardForkSecondsLeft - DEPLOY_TIME_LEFT) / DEPLOY_TIME_LEFT) * moonWidth)
-  }, [miranaHardForkSecondsLeft, moonWidth])
+    setCoverWidth(((miranaHardForkSecondsLeft - DEPLOY_TIME_LEFT) / DEPLOY_TIME_LEFT) * moonPercentProproty.width)
+  }, [miranaHardForkSecondsLeft, moonPercentProproty])
 
   if (miranaHardForkSecondsLeft <= 0) {
     return (
@@ -58,7 +76,7 @@ export default ({ miranaHardForkSecondsLeft, appWidth }: { miranaHardForkSeconds
         <div
           className={styles.MoonConver}
           style={{
-            width: `calc(53% - ${306 + coverWidth}px)`,
+            width: `calc(${moonPercentProproty.basePercent} - ${moonPercentProproty.baseWidth + coverWidth}px)`,
           }}
         />
       </div>
