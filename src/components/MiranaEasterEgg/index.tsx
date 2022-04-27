@@ -6,6 +6,7 @@ import {
   ONE_HOUR_SECOND,
   ONE_MINUTE_SECOND,
 } from '../../constants/common'
+import { isMainnet } from '../../utils/chain'
 import { useInterval } from '../../utils/hook'
 import i18n from '../../utils/i18n'
 import styles from './index.module.scss'
@@ -60,6 +61,10 @@ export default ({ miranaHardForkSecondsLeft, appWidth }: { miranaHardForkSeconds
     setCoverWidth(((miranaHardForkSecondsLeft - DEPLOY_TIME_LEFT) / DEPLOY_TIME_LEFT) * moonPercentProproty.width)
   }, [miranaHardForkSecondsLeft, moonPercentProproty])
 
+  if (!isMainnet()) {
+    return <div className={styles.Root} />
+  }
+
   if (miranaHardForkSecondsLeft <= 0) {
     return (
       <div className={styles.Root} data-alive>
@@ -74,7 +79,7 @@ export default ({ miranaHardForkSecondsLeft, appWidth }: { miranaHardForkSeconds
       <div className={styles.Moon}>
         <div className={styles.MoonOriginal} />
         <div
-          className={styles.MoonConver}
+          className={styles.MoonCover}
           style={{
             width: `calc(${moonPercentProproty.basePercent} - ${moonPercentProproty.baseWidth + coverWidth}px)`,
           }}
