@@ -8,18 +8,27 @@
   .Moon {
     position: relative;
     width: 100%;
+    margin: 0 auto;
+    max-width: 1440px;
     height: 200px;
-    background-color: #0090F2;
+    background: linear-gradient(to bottom, #344150 5%, #0090F2 5% 95% , #344150 95%);
+    left: 40px;
+
+    @media (max-width: 750px) {
+      left: 0;
+      max-width: 376px;
+    }
 
     .MoonOriginal {
       position: absolute;
-      width: 106%;
+      width: 100%;
       height: 100%;
       z-index: 2;
       left: 0;
       top: 0;
       background-image: url('../../assets/moon.svg');
       background-position: center;
+      background-repeat: no-repeat;
 
       @media (max-width: 750px) {
         background-image: url('../../assets/moon_small.svg');
@@ -27,8 +36,8 @@
       }
     }
 
-    .MoonConver {
-      width: calc(53% - 306px);
+    .MoonCover {
+      width: calc(50% - 306px);
       height: 73px;
       position: absolute;
       z-index: 1;
@@ -77,10 +86,10 @@
     position: absolute;
     top: 28px;
     z-index: 2;
-    left: calc(50% + 250px);
+    left: calc(52% + 250px);
     font-size: 12px;
     @media(max-width: 750px) {
-      top: 60px;
+      top: 64px;
       width: 100%;
       left: 0;
       display: flex;
