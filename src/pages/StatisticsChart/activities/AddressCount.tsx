@@ -7,7 +7,6 @@ import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
-import { ChartColors } from '../../../constants/common'
 
 const gridThumbnail = {
   left: '4%',
@@ -26,9 +25,10 @@ const grid = {
 
 const getOption = (
   statisticAddressCounts: State.StatisticAddressCount[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: ChartColors,
+  color: chartColor.colors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
@@ -37,9 +37,8 @@ const getOption = (
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${
             dataList[0].data[0]
           }</div>`
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.address_count'))} ${handleAxis(
-            dataList[0].data[1],
-          )}</div>`
+          result += `<div>${tooltipColor(chartColor.colors[0])}\
+          ${widthSpan(i18n.t('statistic.address_count'))} ${handleAxis(dataList[0].data[1])}</div>`
           return result
         },
       }
@@ -69,7 +68,7 @@ const getOption = (
       },
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -95,11 +94,13 @@ const getOption = (
 })
 
 export const AddressCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticAddressCounts, statisticAddressCountsFetchEnd } = useAppState()
+  const { statisticAddressCounts, statisticAddressCountsFetchEnd, app } = useAppState()
   if (!statisticAddressCountsFetchEnd || statisticAddressCounts.length === 0) {
     return <ChartLoading show={!statisticAddressCountsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticAddressCounts, isThumbnail)} isThumbnail={isThumbnail} />
+  return (
+    <ReactChartCore option={getOption(statisticAddressCounts, app.chartColor, isThumbnail)} isThumbnail={isThumbnail} />
+  )
 }
 
 const toCSV = (statisticAddressCounts?: State.StatisticAddressCount[]) =>

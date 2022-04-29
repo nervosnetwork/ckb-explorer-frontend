@@ -1,3 +1,4 @@
+import { getChartColor, getPrimaryColor, getSecondaryColor } from '../../constants/common'
 import { AppActions } from '../actions'
 
 export const appReducer = (
@@ -85,6 +86,18 @@ export const appReducer = (
         app: {
           ...state.app,
           language: payload.language,
+        },
+      }
+    case AppActions.UpdateHardForkStatus:
+      return {
+        ...state,
+        app: {
+          ...state.app,
+          miranaHardForkSecondsLeft: payload.miranaHardForkSecondsLeft,
+          hasFinishedHardFork: payload.hasFinishedHardFork,
+          primaryColor: getPrimaryColor(payload.hasFinishedHardFork),
+          secondaryColor: getSecondaryColor(payload.hasFinishedHardFork),
+          chartColor: getChartColor(payload.hasFinishedHardFork),
         },
       }
     default:

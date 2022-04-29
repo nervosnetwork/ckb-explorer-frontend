@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
-import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticEpochTimeDistribution } from '../../../service/app/charts/block'
 import { localeNumberString } from '../../../utils/number'
@@ -26,9 +25,10 @@ const grid = {
 
 const getOption = (
   statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: ChartColors,
+  color: chartColor.colors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
@@ -37,9 +37,10 @@ const getOption = (
           let result = `<div>${tooltipColor('#333333')}${widthSpan(
             i18n.t('statistic.time_hour'),
           )} ${parseHourFromMinute(dataList[0].name)}</div>`
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.epochs'))} ${localeNumberString(
-            dataList[0].data,
-          )}</div>`
+          result += `\
+            <div>${tooltipColor(chartColor.colors[0])}\
+            ${widthSpan(i18n.t('statistic.epochs'))} \
+            ${localeNumberString(dataList[0].data)}</div>`
           return result
         },
       }
@@ -67,7 +68,7 @@ const getOption = (
       scale: true,
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -81,7 +82,7 @@ const getOption = (
       type: 'bar',
       yAxisIndex: 0,
       areaStyle: {
-        color: '#85bae0',
+        color: chartColor.areaColor,
       },
       barWidth: isMobile() || isThumbnail ? 2 : 5,
       data: statisticEpochTimeDistributions.map(data => data.epoch),
@@ -90,11 +91,16 @@ const getOption = (
 })
 
 export const EpochTimeDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticEpochTimeDistributions, statisticEpochTimeDistributionsFetchEnd } = useAppState()
+  const { statisticEpochTimeDistributions, statisticEpochTimeDistributionsFetchEnd, app } = useAppState()
   if (!statisticEpochTimeDistributionsFetchEnd || statisticEpochTimeDistributions.length === 0) {
     return <ChartLoading show={!statisticEpochTimeDistributionsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticEpochTimeDistributions, isThumbnail)} isThumbnail={isThumbnail} />
+  return (
+    <ReactChartCore
+      option={getOption(statisticEpochTimeDistributions, app.chartColor, isThumbnail)}
+      isThumbnail={isThumbnail}
+    />
+  )
 }
 
 const toCSV = (statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[]) =>

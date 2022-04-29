@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { localeNumberString } from '../../../utils/number'
-import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipWidth } from '../common'
 import { getStatisticNodeDistribution } from '../../../service/app/charts/network'
 
@@ -26,9 +25,10 @@ const sumOfNodeCount = (statisticNodeDistributions: State.StatisticNodeDistribut
 
 const getOption = (
   statisticNodeDistributions: State.StatisticNodeDistribution[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: ChartColors,
+  color: chartColor.colors,
   tooltip: !isThumbnail
     ? {
         trigger: 'item',
@@ -118,11 +118,16 @@ const getOption = (
 })
 
 export const NodeDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticNodeDistributions, statisticNodeDistributionsFetchEnd } = useAppState()
+  const { statisticNodeDistributions, statisticNodeDistributionsFetchEnd, app } = useAppState()
   if (!statisticNodeDistributionsFetchEnd || statisticNodeDistributions.length === 0) {
     return <ChartLoading show={!statisticNodeDistributionsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticNodeDistributions, isThumbnail)} isThumbnail={isThumbnail} />
+  return (
+    <ReactChartCore
+      option={getOption(statisticNodeDistributions, app.chartColor, isThumbnail)}
+      isThumbnail={isThumbnail}
+    />
+  )
 }
 
 export default () => {

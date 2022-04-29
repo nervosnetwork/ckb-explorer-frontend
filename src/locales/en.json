@@ -11,7 +11,13 @@
       "ckb_unit": "CKB",
       "note": "Note: ",
       "ckb_explorer": "CKB Explorer",
-      "none": "None"
+      "none": "None",
+      "days": "DAYS",
+      "hours": "HOURS",
+      "minutes": "MINS",
+      "seconds": "SECS",
+      "minaraTime": "Est May 10th 2022",
+      "miranaAlive": "MIRANA IS LIVE"
     },
     "toast": {
       "invalid_network": "Network exception, please try again later",
@@ -172,6 +178,7 @@
       "faucet": "Faucet",
       "community": "Community",
       "twitter": "Twitter",
+      "discord": "Discord",
       "blog": "Blog",
       "telegram": "Telegram",
       "reddit": "Reddit",

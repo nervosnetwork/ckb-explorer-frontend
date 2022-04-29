@@ -8,6 +8,7 @@ export enum AppActions {
   UpdateNodeVersion = 'updateNodeVersion',
   UpdateTipBlockNumber = 'updateTipBlockNumber',
   UpdateAppLanguage = 'updateAppLanguage',
+  UpdateHardForkStatus = 'updateHardForkStatus',
 }
 
 export enum PageActions {

@@ -134,9 +134,15 @@ export const FooterImageItemPanel = styled.a`
 
   &:hover {
     color: ${props => props.theme.primary};
+
+    & > svg {
+      .app-icon {
+        fill: ${props => props.theme.primary};
+      }
+    }
   }
 
-  > img {
+  > svg {
     width: 35px;
     height: 35px;
   }

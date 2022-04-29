@@ -3,7 +3,6 @@ import { useHistory } from 'react-router'
 import { getStatisticMinerAddressDistribution } from '../../../service/app/charts/mining'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { isMobile } from '../../../utils/screen'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
@@ -24,7 +23,6 @@ const grid = {
 }
 
 const Colors = [
-  '#3182BD',
   '#069ECD',
   '#69C7D4',
   '#AACFE9',
@@ -42,9 +40,10 @@ const addressText = (address: string) =>
 
 const getOption = (
   statisticMinerAddresses: State.StatisticMinerAddress[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: Colors,
+  color: [chartColor.colors[0], ...Colors],
   tooltip: !isThumbnail
     ? {
         formatter: (data: any) => {
@@ -52,7 +51,7 @@ const getOption = (
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.address'))} ${addressText(
             data.data.title,
           )}</div>`
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.miner_ratio'))} ${(
+          result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(i18n.t('statistic.miner_ratio'))} ${(
             Number(data.data.value) * 100
           ).toFixed(1)}%</div>`
           return result
@@ -89,13 +88,13 @@ export const MinerAddressDistributionChart = ({
   isThumbnail?: boolean
   clickEvent?: Function
 }) => {
-  const { statisticMinerAddresses, statisticMinerAddressesFetchEnd } = useAppState()
+  const { statisticMinerAddresses, statisticMinerAddressesFetchEnd, app } = useAppState()
   if (!statisticMinerAddressesFetchEnd || statisticMinerAddresses.length === 0) {
     return <ChartLoading show={!statisticMinerAddressesFetchEnd} isThumbnail={isThumbnail} />
   }
   return (
     <ReactChartCore
-      option={getOption(statisticMinerAddresses, isThumbnail)}
+      option={getOption(statisticMinerAddresses, app.chartColor, isThumbnail)}
       isThumbnail={isThumbnail}
       clickEvent={clickEvent}
     />
