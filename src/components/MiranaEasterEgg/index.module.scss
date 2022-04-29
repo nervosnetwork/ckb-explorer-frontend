@@ -4,6 +4,11 @@
   height: 200px;
   position: relative;
   color: #F8F9E8;
+  
+  a {
+    color: inherit;
+    display: flex;
+  }
 
   .Moon {
     position: relative;
@@ -65,6 +70,10 @@
     left: 50%;
     transform: translate(-50%, 0px);
 
+    @media(max-width: 750px){
+      width: 215px;
+    }
+
     .Item {
       text-align: center;
       font-size: 10px;
@@ -89,11 +98,11 @@
     left: calc(52% + 250px);
     font-size: 12px;
     @media(max-width: 750px) {
-      top: 64px;
+      top: 75px;
       width: 100%;
       left: 0;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
     }
 
@@ -104,11 +113,13 @@
       @media(max-width: 750px) {
         font-size: 20px;
         margin-right: 8px;
+        line-height: 1;
       }
     }
 
     & > div {
       text-align: left;
+      line-height: 14px;
     }
   }
 
