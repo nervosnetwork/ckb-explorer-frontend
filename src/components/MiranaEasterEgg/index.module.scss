@@ -69,6 +69,7 @@
     justify-content: space-between;
     left: 50%;
     transform: translate(-50%, 0px);
+    z-index: 2;
 
     @media(max-width: 750px){
       width: 215px;
