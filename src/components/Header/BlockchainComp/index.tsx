@@ -7,9 +7,9 @@ import { useAppState } from '../../../contexts/providers'
 import { HeaderBlockchainPanel, MobileSubMenuPanel } from './styled'
 import SimpleButton from '../../SimpleButton'
 import ChainDropdown from '../../Dropdown/ChainType'
-import i18n from '../../../utils/i18n'
 import CONFIG from '../../../config'
 import { isMobile } from '../../../utils/screen'
+import { getChainNames } from '../../../utils/util'
 
 const getDropdownIcon = (showDropdown: boolean) => {
   if (!showDropdown) return WhiteDropdownIcon
@@ -25,7 +25,7 @@ const handleVersion = (nodeVersion: string) => {
 
 const BlockchainDropdown = () => {
   const {
-    app: { nodeVersion, language },
+    app: { nodeVersion, language, hasFinishedHardFork },
   } = useAppState()
   const [showChainType, setShowChainType] = useState(false)
   const [chainTypeLeft, setChainTypeLeft] = useState(0)
@@ -43,6 +43,7 @@ const BlockchainDropdown = () => {
       }
     }
   }, [showChainType, language])
+  const chainNames = getChainNames(hasFinishedHardFork)
   return (
     <HeaderBlockchainPanel
       id="header__blockchain__panel"
@@ -57,21 +58,28 @@ const BlockchainDropdown = () => {
         }}
       >
         <div className="header__blockchain__content_panel">
-          <div className="header__blockchain__content">
-            {isMainnet() ? i18n.t('navbar.mainnet') : CONFIG.TESTNET_NAME.toUpperCase()}
+          <div
+            className="header__blockchain__content"
+            style={{
+              textTransform: 'uppercase',
+            }}
+          >
+            {isMainnet() ? chainNames.mainnet : chainNames.testnet}
           </div>
           <img src={getDropdownIcon(showChainType)} alt="dropdown icon" />
         </div>
         <div className="header__blockchain__node__version">{handleVersion(nodeVersion)}</div>
       </SimpleButton>
-      {showChainType && <ChainDropdown setShow={setShowChainType} left={chainTypeLeft} top={chainTypeTop} />}
+      {showChainType && (
+        <ChainDropdown setShow={setShowChainType} left={chainTypeLeft} top={chainTypeTop} chainNames={chainNames} />
+      )}
     </HeaderBlockchainPanel>
   )
 }
 
 const BlockchainMenu = () => {
   const {
-    app: { nodeVersion },
+    app: { nodeVersion, hasFinishedHardFork },
   } = useAppState()
   const [showSubMenu, setShowSubMenu] = useState(false)
 
@@ -82,6 +90,8 @@ const BlockchainMenu = () => {
     return isMainnet() ? GreenDropUpIcon : BlueDropUpIcon
   }
 
+  const chainNames = getChainNames(hasFinishedHardFork)
+
   return (
     <MobileSubMenuPanel showSubMenu={false}>
       <SimpleButton
@@ -90,8 +100,13 @@ const BlockchainMenu = () => {
           setShowSubMenu(!showSubMenu)
         }}
       >
-        <div className="mobile__menus__main__item__content__highlight">
-          {isMainnet() ? i18n.t('navbar.mainnet') : CONFIG.TESTNET_NAME.toUpperCase()}
+        <div
+          className="mobile__menus__main__item__content__highlight"
+          style={{
+            textTransform: 'uppercase',
+          }}
+        >
+          {isMainnet() ? chainNames.mainnet : chainNames.testnet}
         </div>
         <img className="mobile__menus__main__item__icon" alt="mobile chain type icon" src={chainTypeIcon()} />
       </SimpleButton>
@@ -99,10 +114,10 @@ const BlockchainMenu = () => {
       {showSubMenu && (
         <>
           <a className="mobile__menus__sub__item" href={CONFIG.MAINNET_URL}>
-            {i18n.t('blockchain.mainnet')}
+            {`${chainNames.mainnet} mainnet`}
           </a>
-          <a className="mobile__menus__sub__item" href={`${CONFIG.MAINNET_URL}/${CONFIG.TESTNET_NAME}`}>
-            {`${CONFIG.TESTNET_NAME} ${i18n.t('blockchain.testnet')}`}
+          <a className="mobile__menus__sub__item" href={`${CONFIG.MAINNET_URL}/${chainNames.testnet}`}>
+            {`${chainNames.testnet} testnet`}
           </a>
         </>
       )}
