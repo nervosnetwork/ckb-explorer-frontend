@@ -20,9 +20,13 @@ export const getStatistics = (dispatch: AppDispatch) => {
       if (isMainnet) {
         const { epochNumber, index, epochLength } = wrapper.attributes.epochInfo
         const hs = (NEXT_HARD_FORK_EPOCH - (+epochNumber + +index / +epochLength)) * EPOCH_HOURS * 60 * 60
+        const hasFinishedHardFork = hs <= 0
         const hardForkInfo = {
           miranaHardForkSecondsLeft: Math.floor(hs),
-          hasFinishedHardFork: hs <= 0,
+          hasFinishedHardFork,
+        }
+        if (hasFinishedHardFork && !localStorage.get(AppCachedKeys.NewAddrFormat)) {
+          localStorage.set(AppCachedKeys.NewAddrFormat, 'true')
         }
         storeCachedData(AppCachedKeys.HardForkInfo, hardForkInfo)
         dispatch({

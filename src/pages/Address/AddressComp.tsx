@@ -7,7 +7,7 @@ import TransactionItem from '../../components/TransactionItem/index'
 import { useAppState } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
-import { shannonToCkb, baseUrl } from '../../utils/util'
+import { shannonToCkb, baseUrl, deprecatedAddrToNewAddr } from '../../utils/util'
 import {
   AddressTransactionsPagination,
   AddressTransactionsPanel,
@@ -20,6 +20,7 @@ import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { isScreenSmallerThan1200 } from '../../utils/screen'
 import { sliceNftName } from '../../utils/string'
+import { useNewAddr } from '../../utils/hook'
 
 const addressAssetInfo = (address: State.Address) => {
   const items = [
@@ -159,11 +160,27 @@ export const AddressTransactions = ({
     history.replace(`/address/${address}?page=${page}&size=${pageSize}`)
   }
 
+  const newAddr = useNewAddr(address)
+  const isNewAddr = newAddr === address
+  const txList = isNewAddr
+    ? transactions.map(tx => ({
+        ...tx,
+        displayInputs: tx.displayInputs.map(i => ({
+          ...i,
+          addressHash: deprecatedAddrToNewAddr(i.addressHash),
+        })),
+        displayOutputs: tx.displayOutputs.map(o => ({
+          ...o,
+          addressHash: deprecatedAddrToNewAddr(o.addressHash),
+        })),
+      }))
+    : transactions
+
   return (
     <>
       <TitleCard title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`} isSingle />
       <AddressTransactionsPanel>
-        {transactions.map((transaction: State.Transaction, index: number) => {
+        {txList.map((transaction: State.Transaction, index: number) => {
           const { transactionHash } = transaction
           return (
             transaction && (

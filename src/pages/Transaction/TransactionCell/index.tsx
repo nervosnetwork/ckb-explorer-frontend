@@ -6,7 +6,7 @@ import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
 import { adaptPCEllipsis, adaptMobileEllipsis, sliceNftName } from '../../../utils/string'
-import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
+import { deprecatedAddrToNewAddr, shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import {
   TransactionCellContentPanel,
   TransactionCellDetailPanel,
@@ -53,10 +53,12 @@ const TransactionCellIndexAddress = ({
   cell,
   cellType,
   index,
+  isAddrNew,
 }: {
   cell: State.Cell
   cellType: CellType
   index: number
+  isAddrNew: boolean
 }) => (
   <TransactionCellAddressPanel>
     <div className="transaction__cell_index">
@@ -69,7 +71,7 @@ const TransactionCellIndexAddress = ({
         </span>
       )}
       {cell.addressHash ? (
-        <AddressText address={cell.addressHash} />
+        <AddressText address={isAddrNew ? deprecatedAddrToNewAddr(cell.addressHash) : cell.addressHash} />
       ) : (
         <span className="transaction__cell_address_no_link">
           {cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}
@@ -214,6 +216,7 @@ export default ({
   txHash,
   showReward,
   txStatus,
+  isAddrNew,
 }: {
   cell: State.Cell
   cellType: CellType
@@ -221,6 +224,7 @@ export default ({
   txHash?: string
   showReward?: boolean
   txStatus: string
+  isAddrNew: boolean
 }) => {
   if (isMobile()) {
     return (
@@ -231,7 +235,7 @@ export default ({
             cell.fromCellbase && cellType === CellType.Input ? (
               <Cellbase cell={cell} cellType={cellType} isDetail />
             ) : (
-              <TransactionCellIndexAddress cell={cell} cellType={cellType} index={index} />
+              <TransactionCellIndexAddress cell={cell} cellType={cellType} index={index} isAddrNew={isAddrNew} />
             )
           }
         />
@@ -264,7 +268,7 @@ export default ({
           {cell.fromCellbase && cellType === CellType.Input ? (
             <Cellbase cell={cell} cellType={cellType} isDetail />
           ) : (
-            <TransactionCellIndexAddress cell={cell} cellType={cellType} index={index} />
+            <TransactionCellIndexAddress cell={cell} cellType={cellType} index={index} isAddrNew={isAddrNew} />
           )}
         </div>
 
