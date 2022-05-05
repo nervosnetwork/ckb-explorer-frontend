@@ -122,13 +122,13 @@ export const udtSubmitEmail = () =>
 export const getChainNames = (isHardforked: boolean) =>
   isHardforked
     ? {
-      mainnet: 'mirana',
-      testnet: 'pudge',
-    }
+        mainnet: 'mirana',
+        testnet: 'pudge',
+      }
     : {
-      mainnet: 'lina',
-      testnet: 'aggron',
-    }
+        mainnet: 'lina',
+        testnet: 'aggron',
+      }
 
 export const deprecatedAddrToNewAddr = (addr: string) => {
   if (!addr.startsWith('ck')) {

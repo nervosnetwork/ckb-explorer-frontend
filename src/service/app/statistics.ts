@@ -17,7 +17,10 @@ export const getStatistics = (dispatch: AppDispatch) => {
           statistics: wrapper.attributes,
         },
       })
-      if (isMainnet && !fetchCachedData<{ hasFinishedHardFork: boolean }>(AppCachedKeys.HardForkInfo)?.hasFinishedHardFork) {
+      if (
+        isMainnet &&
+        !fetchCachedData<{ hasFinishedHardFork: boolean }>(AppCachedKeys.HardForkInfo)?.hasFinishedHardFork
+      ) {
         const { epochNumber, index, epochLength } = wrapper.attributes.epochInfo
         const hs = (NEXT_HARD_FORK_EPOCH - (+epochNumber + +index / +epochLength)) * EPOCH_HOURS * 60 * 60
         const hasFinishedHardFork = hs <= 0
