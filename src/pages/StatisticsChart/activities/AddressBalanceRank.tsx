@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useMemo } from 'react'
 import { useHistory } from 'react-router'
 import { getStatisticAddressBalanceRank } from '../../../service/app/charts/activities'
 import { useAppState, useDispatch } from '../../../contexts/providers'
@@ -105,16 +105,14 @@ export const AddressBalanceRankChart = ({
   isThumbnail?: boolean
 }) => {
   const { statisticAddressBalanceRanks, statisticAddressBalanceRanksFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticAddressBalanceRanks, app.chartColor, isThumbnail),
+    [statisticAddressBalanceRanks, app.chartColor, isThumbnail],
+  )
   if (!statisticAddressBalanceRanksFetchEnd || statisticAddressBalanceRanks.length === 0) {
     return <ChartLoading show={!statisticAddressBalanceRanksFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore
-      option={getOption(statisticAddressBalanceRanks, app.chartColor, isThumbnail)}
-      isThumbnail={isThumbnail}
-      clickEvent={clickEvent}
-    />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} clickEvent={clickEvent} />
 }
 
 const toCSV = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[]) =>

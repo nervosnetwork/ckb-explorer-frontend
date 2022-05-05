@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime, parseSimpleDate, parseSimpleDateNoSecond } from '../../../utils/date'
@@ -175,15 +175,14 @@ const getOption = (
 
 export const AverageBlockTimeChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticAverageBlockTimes, statisticAverageBlockTimesFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticAverageBlockTimes, app.chartColor, isThumbnail),
+    [statisticAverageBlockTimes, app.chartColor, isThumbnail],
+  )
   if (!statisticAverageBlockTimesFetchEnd || statisticAverageBlockTimes.length === 0) {
     return <ChartLoading show={!statisticAverageBlockTimesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore
-      option={getOption(statisticAverageBlockTimes, app.chartColor, isThumbnail)}
-      isThumbnail={isThumbnail}
-    />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) =>

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
@@ -92,15 +92,14 @@ const getOption = (
 
 export const EpochTimeDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticEpochTimeDistributions, statisticEpochTimeDistributionsFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticEpochTimeDistributions, app.chartColor, isThumbnail),
+    [statisticEpochTimeDistributions, app.chartColor, isThumbnail],
+  )
   if (!statisticEpochTimeDistributionsFetchEnd || statisticEpochTimeDistributions.length === 0) {
     return <ChartLoading show={!statisticEpochTimeDistributionsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore
-      option={getOption(statisticEpochTimeDistributions, app.chartColor, isThumbnail)}
-      isThumbnail={isThumbnail}
-    />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[]) =>

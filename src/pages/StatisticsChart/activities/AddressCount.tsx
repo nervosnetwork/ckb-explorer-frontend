@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { getStatisticAddressCount } from '../../../service/app/charts/activities'
 import i18n, { currentLanguage } from '../../../utils/i18n'
@@ -95,12 +95,14 @@ const getOption = (
 
 export const AddressCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticAddressCounts, statisticAddressCountsFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticAddressCounts, app.chartColor, isThumbnail),
+    [statisticAddressCounts, app.chartColor, isThumbnail],
+  )
   if (!statisticAddressCountsFetchEnd || statisticAddressCounts.length === 0) {
     return <ChartLoading show={!statisticAddressCountsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore option={getOption(statisticAddressCounts, app.chartColor, isThumbnail)} isThumbnail={isThumbnail} />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticAddressCounts?: State.StatisticAddressCount[]) =>

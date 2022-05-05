@@ -1,5 +1,5 @@
 /* eslint-disable object-curly-newline */
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
@@ -153,15 +153,14 @@ const getOption = (
 
 export const SecondaryIssuanceChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticSecondaryIssuance, statisticSecondaryIssuanceFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticSecondaryIssuance, app.chartColor, isThumbnail),
+    [statisticSecondaryIssuance, app.chartColor, isThumbnail],
+  )
   if (!statisticSecondaryIssuanceFetchEnd || statisticSecondaryIssuance.length === 0) {
     return <ChartLoading show={!statisticSecondaryIssuanceFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore
-      option={getOption(statisticSecondaryIssuance, app.chartColor, isThumbnail)}
-      isThumbnail={isThumbnail}
-    />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticSecondaryIssuance: State.StatisticSecondaryIssuance[]) =>

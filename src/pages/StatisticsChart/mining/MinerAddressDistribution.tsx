@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useMemo } from 'react'
 import { useHistory } from 'react-router'
 import { getStatisticMinerAddressDistribution } from '../../../service/app/charts/mining'
 import i18n, { currentLanguage } from '../../../utils/i18n'
@@ -89,16 +89,14 @@ export const MinerAddressDistributionChart = ({
   clickEvent?: Function
 }) => {
   const { statisticMinerAddresses, statisticMinerAddressesFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticMinerAddresses, app.chartColor, isThumbnail),
+    [statisticMinerAddresses, app.chartColor, isThumbnail],
+  )
   if (!statisticMinerAddressesFetchEnd || statisticMinerAddresses.length === 0) {
     return <ChartLoading show={!statisticMinerAddressesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore
-      option={getOption(statisticMinerAddresses, app.chartColor, isThumbnail)}
-      isThumbnail={isThumbnail}
-      clickEvent={clickEvent}
-    />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} clickEvent={clickEvent} />
 }
 
 const toCSV = (statisticMinerAddresses: State.StatisticMinerAddress[]) =>

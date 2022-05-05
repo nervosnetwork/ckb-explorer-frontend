@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { getStatisticUncleRate } from '../../../service/app/charts/mining'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
@@ -108,12 +108,14 @@ const getOption = (
 
 export const UncleRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticUncleRates, statisticUncleRatesFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticUncleRates, app.chartColor, isThumbnail),
+    [statisticUncleRates, app.chartColor, isThumbnail],
+  )
   if (!statisticUncleRatesFetchEnd || statisticUncleRates.length === 0) {
     return <ChartLoading show={!statisticUncleRatesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore option={getOption(statisticUncleRates, app.chartColor, isThumbnail)} isThumbnail={isThumbnail} />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticUncleRates: State.StatisticUncleRate[]) =>

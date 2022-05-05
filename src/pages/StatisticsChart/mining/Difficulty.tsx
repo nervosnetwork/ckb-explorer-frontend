@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { getStatisticDifficulty } from '../../../service/app/charts/mining'
 import i18n, { currentLanguage } from '../../../utils/i18n'
@@ -95,12 +95,14 @@ const getOption = (
 
 export const DifficultyChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticDifficulties, statisticDifficultiesFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticDifficulties, app.chartColor, isThumbnail),
+    [statisticDifficulties, app.chartColor, isThumbnail],
+  )
   if (!statisticDifficultiesFetchEnd || statisticDifficulties.length === 0) {
     return <ChartLoading show={!statisticDifficultiesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore option={getOption(statisticDifficulties, app.chartColor, isThumbnail)} isThumbnail={isThumbnail} />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticDifficulties: State.StatisticDifficulty[]) =>
