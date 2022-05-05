@@ -11,7 +11,7 @@ import { ComponentActions } from '../contexts/actions'
 import { isMobile } from '../utils/screen'
 import { isChainTypeError, isMainnet } from '../utils/chain'
 import Alert from '../components/Alert'
-import CONFIG from '../config'
+import { getChainNames } from '../utils/util'
 
 const Home = lazy(() => import('../pages/Home'))
 const Block = lazy(() => import('../pages/BlockDetail'))
@@ -309,7 +309,10 @@ const RouterComp = ({ container, routeProps }: { container: CustomRouter.Route; 
 
 export default () => {
   const dispatch = useDispatch()
-  const { components } = useAppState()
+  const {
+    components,
+    app: { hasFinishedHardFork },
+  } = useAppState()
   const { mobileMenuVisible } = components
 
   useRouter(() => {
@@ -327,8 +330,23 @@ export default () => {
     }
   })
 
+  useEffect(() => {
+    const prevTestnetChainName = new RegExp(getChainNames(false).testnet, 'g')
+    if (hasFinishedHardFork && prevTestnetChainName.test(window.location.href)) {
+      const newTestnetChainName = getChainNames(true).testnet
+      const redirect = window.location.href.replace(prevTestnetChainName, newTestnetChainName)
+      window.location.href = redirect
+    }
+  }, [hasFinishedHardFork])
+
+  let basename = '/'
+  if (!isMainnet()) {
+    const chainNames = getChainNames(hasFinishedHardFork)
+    basename += chainNames.testnet
+  }
+
   return (
-    <Router basename={isMainnet() ? '/' : `/${CONFIG.TESTNET_NAME}`}>
+    <Router basename={basename}>
       <Route
         render={(props: any) => (
           <Page>

@@ -118,10 +118,22 @@ export const matchTxHash = (txHash: string, index: number | string): ContractHas
 export const udtSubmitEmail = () =>
   `mailto:${TOKEN_EMAIL_ADDRESS}?subject=${TOKEN_EMAIL_SUBJECT}&body=${TOKEN_EMAIL_BODY}`
 
+export const getChainNames = (isHardforked: boolean) =>
+  isHardforked
+    ? {
+        mainnet: 'mirana',
+        testnet: 'pudge',
+      }
+    : {
+        mainnet: 'lina',
+        testnet: 'aggron',
+      }
+
 export default {
   copyElementValue,
   shannonToCkb,
   toCamelcase,
   formatConfirmation,
   isValidReactNode,
+  getChainNames,
 }
