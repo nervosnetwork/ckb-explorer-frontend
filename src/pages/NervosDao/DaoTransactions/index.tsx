@@ -7,6 +7,7 @@ import Pagination from '../../../components/Pagination'
 import { PageParams } from '../../../constants/common'
 import i18n from '../../../utils/i18n'
 import { ComponentActions } from '../../../contexts/actions'
+import { deprecatedAddrToNewAddr } from '../../../utils/util'
 
 export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPage: number; pageSize: number }) => {
   const dispatch = useDispatch()
@@ -14,6 +15,7 @@ export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPa
   const {
     nervosDaoState: { transactions = [], total },
     components: { filterNoResult },
+    app: { hasFinishedHardFork },
   } = useAppState()
 
   const totalPages = Math.ceil(total / pageSize)
@@ -41,17 +43,30 @@ export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPa
       </DAONoResultPanel>
     )
   }
+  const txList = hasFinishedHardFork
+    ? transactions.map(tx => ({
+        ...tx,
+        displayInputs: tx.displayInputs.map(i => ({
+          ...i,
+          addressHash: deprecatedAddrToNewAddr(i.addressHash),
+        })),
+        displayOutputs: tx.displayOutputs.map(o => ({
+          ...o,
+          addressHash: deprecatedAddrToNewAddr(o.addressHash),
+        })),
+      }))
+    : transactions
 
   return (
     <>
-      {transactions.map(
+      {txList.map(
         (transaction: State.Transaction, index: number) =>
           transaction && (
             <TransactionItem
               key={transaction.transactionHash}
               transaction={transaction}
               circleCorner={{
-                bottom: index === transactions.length - 1 && totalPages === 1,
+                bottom: index === txList.length - 1 && totalPages === 1,
               }}
             />
           ),

@@ -1,8 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
-import { ChartColors } from '../../../constants/common'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticBlockTimeDistribution } from '../../../service/app/charts/block'
@@ -24,16 +23,17 @@ const grid = {
 
 const getOption = (
   statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: ChartColors,
+  color: chartColor.colors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
         formatter: (dataList: any) => {
           const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 80 : 80)
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.time'))} ${dataList[0].name}</div>`
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(i18n.t('statistic.block_count'))} ${
+          result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(i18n.t('statistic.block_count'))} ${
             dataList[0].data
           }%</div>`
           return result
@@ -62,7 +62,7 @@ const getOption = (
       scale: true,
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -76,7 +76,7 @@ const getOption = (
       type: 'line',
       yAxisIndex: 0,
       areaStyle: {
-        color: '#85bae0',
+        color: chartColor.areaColor,
       },
       barWidth: isMobile() || isThumbnail ? 10 : 20,
       data: statisticBlockTimeDistributions.map(data => (Number(data.ratio) * 100).toFixed(3)),
@@ -85,11 +85,15 @@ const getOption = (
 })
 
 export const BlockTimeDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticBlockTimeDistributions, statisticBlockTimeDistributionsFetchEnd } = useAppState()
+  const { statisticBlockTimeDistributions, statisticBlockTimeDistributionsFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticBlockTimeDistributions, app.chartColor, isThumbnail),
+    [statisticBlockTimeDistributions, app.chartColor, isThumbnail],
+  )
   if (!statisticBlockTimeDistributionsFetchEnd || statisticBlockTimeDistributions.length === 0) {
     return <ChartLoading show={!statisticBlockTimeDistributionsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticBlockTimeDistributions, isThumbnail)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[]) =>

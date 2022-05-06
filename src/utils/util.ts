@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import camelcaseKeys from 'camelcase-keys'
 import BigNumber from 'bignumber.js'
+import { scriptToAddress, addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { MAX_CONFIRMATION, TOKEN_EMAIL_SUBJECT, TOKEN_EMAIL_BODY, TOKEN_EMAIL_ADDRESS } from '../constants/common'
 import { ContractHashTag, MainnetContractHashTags, TestnetContractHashTags } from '../constants/scripts'
 import i18n from './i18n'
@@ -118,10 +119,34 @@ export const matchTxHash = (txHash: string, index: number | string): ContractHas
 export const udtSubmitEmail = () =>
   `mailto:${TOKEN_EMAIL_ADDRESS}?subject=${TOKEN_EMAIL_SUBJECT}&body=${TOKEN_EMAIL_BODY}`
 
+export const getChainNames = (isHardforked: boolean) =>
+  isHardforked
+    ? {
+        mainnet: 'mirana',
+        testnet: 'pudge',
+      }
+    : {
+        mainnet: 'lina',
+        testnet: 'aggron',
+      }
+
+export const deprecatedAddrToNewAddr = (addr: string) => {
+  if (!addr.startsWith('ck')) {
+    return addr
+  }
+  try {
+    return scriptToAddress(addressToScript(addr), addr.startsWith('ckb'))
+  } catch {
+    return addr
+  }
+}
+
 export default {
   copyElementValue,
   shannonToCkb,
   toCamelcase,
   formatConfirmation,
   isValidReactNode,
+  getChainNames,
+  deprecatedAddrToNewAddr,
 }

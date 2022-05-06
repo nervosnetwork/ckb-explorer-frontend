@@ -11,6 +11,9 @@ import SmallLoading from '../../Loading/SmallLoading'
 import { useDispatch } from '../../../contexts/providers'
 import { HashCardPanel, LoadingPanel } from './styled'
 import SimpleButton from '../../SimpleButton'
+import { ReactComponent as OpenInNew } from '../../../assets/open_in_new.svg'
+import styles from './styles.module.scss'
+import { useNewAddr } from '../../../utils/hook'
 
 export default ({
   title,
@@ -38,6 +41,8 @@ export default ({
     }
     return adaptMobileEllipsis(hash, 4)
   }
+
+  const newAddr = useNewAddr(hash)
 
   return (
     <HashCardPanel isColumn={!!iconUri}>
@@ -77,6 +82,18 @@ export default ({
           >
             {!loading && <img src={CopyIcon} alt="copy" />}
           </SimpleButton>
+          {newAddr === hash ? null : (
+            <Tooltip placement="top" title={i18n.t(`address.view-new-address`)}>
+              <a
+                href={`${window.location.origin}/address/${newAddr}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.openInNew}
+              >
+                <OpenInNew />
+              </a>
+            </Tooltip>
+          )}
         </div>
         {specialAddress && (
           <Tooltip title={i18n.t('address.vesting_tooltip')} placement={isMobile() ? 'bottomRight' : 'bottom'}>

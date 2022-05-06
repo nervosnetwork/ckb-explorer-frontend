@@ -1,12 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartColors } from '../../../constants/common'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
 import { getStatisticTotalSupply } from '../../../service/app/charts/monetary'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 
@@ -25,19 +24,17 @@ const grid = {
   containLabel: true,
 }
 
-const Colors = ['#049ECD', '#69C7D4', '#74808E']
-
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 125 : 80)
 
-const parseTooltip = ({ seriesName, data }: { seriesName: string; data: [string, string, string, string] }): string => {
+const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string, string, string, string] }): string => {
   if (seriesName === i18n.t('statistic.burnt')) {
-    return `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.burnt'))} ${handleAxis(data[3], 2)}</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.burnt'))} ${handleAxis(data[3], 2)}</div>`
   }
   if (seriesName === i18n.t('statistic.locked')) {
-    return `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.locked'))} ${handleAxis(data[2], 2)}</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.locked'))} ${handleAxis(data[2], 2)}</div>`
   }
   if (seriesName === i18n.t('statistic.circulating_supply')) {
-    return `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
       data[1],
       2,
     )}</div>`
@@ -47,14 +44,15 @@ const parseTooltip = ({ seriesName, data }: { seriesName: string; data: [string,
 
 const getOption = (
   statisticTotalSupplies: State.StatisticTotalSupply[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: Colors,
+  color: chartColor.totalSupplyColors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
         formatter: (dataList: any) => {
-          const list = dataList as Array<{ seriesName: string; data: [string, string, string, string]; name: string }>
+          const list = dataList as Array<SeriesItem & { data: [string, string, string, string] }>
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${list[0].data[0]}</div>`
           list.forEach(data => {
             result += parseTooltip(data)
@@ -95,7 +93,7 @@ const getOption = (
       type: 'value',
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -112,7 +110,7 @@ const getOption = (
       symbolSize: 3,
       stack: 'sum',
       areaStyle: {
-        color: Colors[0],
+        color: chartColor.totalSupplyColors[0],
       },
       encode: {
         x: 'timestamp',
@@ -127,7 +125,7 @@ const getOption = (
       symbolSize: 3,
       stack: 'sum',
       areaStyle: {
-        color: Colors[1],
+        color: chartColor.totalSupplyColors[1],
       },
       encode: {
         x: 'timestamp',
@@ -142,7 +140,7 @@ const getOption = (
       symbolSize: 3,
       stack: 'sum',
       areaStyle: {
-        color: Colors[2],
+        color: chartColor.totalSupplyColors[2],
       },
       encode: {
         x: 'timestamp',
@@ -162,11 +160,15 @@ const getOption = (
 })
 
 export const TotalSupplyChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticTotalSupplies, statisticTotalSuppliesFetchEnd } = useAppState()
+  const { statisticTotalSupplies, statisticTotalSuppliesFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticTotalSupplies, app.chartColor, isThumbnail),
+    [statisticTotalSupplies, app.chartColor, isThumbnail],
+  )
   if (!statisticTotalSuppliesFetchEnd || statisticTotalSupplies.length === 0) {
     return <ChartLoading show={!statisticTotalSuppliesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticTotalSupplies, isThumbnail)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticTotalSupplies: State.StatisticTotalSupply[]) =>

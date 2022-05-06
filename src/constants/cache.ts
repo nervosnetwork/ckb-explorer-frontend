@@ -4,6 +4,8 @@ export const AppCachedKeys = {
   AppLanguage: `${CONFIG.CHAIN_TYPE}-AppLanguage`,
   Version: `${CONFIG.CHAIN_TYPE}-Version`,
   MaintenanceAlert: `${CONFIG.CHAIN_TYPE}-MaintenanceAlert`,
+  HardForkInfo: `HardforkInfo`,
+  NewAddrFormat: `is-address-format-new`,
 }
 
 export const ChartCachedKeys = {

@@ -1,10 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { localeNumberString } from '../../../utils/number'
-import { ChartColors } from '../../../constants/common'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
 import { getStatisticNewNodeCount } from '../../../service/app/charts/network'
 
@@ -25,9 +24,10 @@ const grid = {
 
 const getOption = (
   statisticNewNodeCounts: State.StatisticNewNodeCount[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: ChartColors,
+  color: chartColor.colors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
@@ -36,7 +36,7 @@ const getOption = (
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseDateNoTime(
             dataList[0].name,
           )}</div>`
-          result += `<div>${tooltipColor(ChartColors[0])}${widthSpan(
+          result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(
             i18n.t('statistic.new_node_count'),
           )} ${localeNumberString(dataList[0].data)}</div>`
           return result
@@ -65,7 +65,7 @@ const getOption = (
       scale: true,
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -86,11 +86,15 @@ const getOption = (
 })
 
 export const NewNodeCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticNewNodeCounts, statisticNewNodeCountsFetchEnd } = useAppState()
+  const { statisticNewNodeCounts, statisticNewNodeCountsFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticNewNodeCounts, app.chartColor, isThumbnail),
+    [statisticNewNodeCounts, app.chartColor, isThumbnail],
+  )
   if (!statisticNewNodeCountsFetchEnd || statisticNewNodeCounts.length === 0) {
     return <ChartLoading show={!statisticNewNodeCountsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticNewNodeCounts, isThumbnail)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticNewNodeCounts: State.StatisticNewNodeCount[]) =>

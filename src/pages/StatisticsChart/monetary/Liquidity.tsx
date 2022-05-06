@@ -1,10 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartColors } from '../../../constants/common'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
 import { getStatisticLiquidity } from '../../../service/app/charts/monetary'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
@@ -24,36 +23,35 @@ const grid = {
   containLabel: true,
 }
 
-const Colors = [ChartColors[0], '#74808E', '#69C7D4']
-
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 140 : 120)
 
-const parseTooltip = ({ seriesName, data }: { seriesName: string; data: [string, string, string, string] }): string => {
+const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string, string, string, string] }): string => {
   if (seriesName === i18n.t('statistic.circulating_supply')) {
-    return `<div>${tooltipColor(Colors[2])}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
       data[3],
       2,
     )}</div>`
   }
   if (seriesName === i18n.t('statistic.dao_deposit')) {
-    return `<div>${tooltipColor(Colors[1])}${widthSpan(i18n.t('statistic.dao_deposit'))} ${handleAxis(
-      data[2],
-      2,
-    )}</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.dao_deposit'))} ${handleAxis(data[2], 2)}</div>`
   }
   if (seriesName === i18n.t('statistic.tradable')) {
-    return `<div>${tooltipColor(Colors[0])}${widthSpan(i18n.t('statistic.tradable'))} ${handleAxis(data[1], 2)}</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.tradable'))} ${handleAxis(data[1], 2)}</div>`
   }
   return ''
 }
 
-const getOption = (statisticLiquidity: State.StatisticLiquidity[], isThumbnail = false): echarts.EChartOption => ({
-  color: Colors,
+const getOption = (
+  statisticLiquidity: State.StatisticLiquidity[],
+  chartColor: State.App['chartColor'],
+  isThumbnail = false,
+): echarts.EChartOption => ({
+  color: chartColor.liquidityColors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
         formatter: (dataList: any) => {
-          const list = dataList as Array<{ seriesName: string; data: [string, string, string, string]; name: string }>
+          const list = dataList as Array<SeriesItem & { data: [string, string, string, string] }>
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${list[0].data[0]}</div>`
           list.forEach(data => {
             result += parseTooltip(data)
@@ -94,7 +92,7 @@ const getOption = (statisticLiquidity: State.StatisticLiquidity[], isThumbnail =
       type: 'value',
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -157,11 +155,15 @@ const getOption = (statisticLiquidity: State.StatisticLiquidity[], isThumbnail =
 })
 
 export const LiquidityChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticLiquidity, statisticLiquidityFetchEnd } = useAppState()
+  const { statisticLiquidity, statisticLiquidityFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticLiquidity, app.chartColor, isThumbnail),
+    [statisticLiquidity, app.chartColor, isThumbnail],
+  )
   if (!statisticLiquidityFetchEnd || statisticLiquidity.length === 0) {
     return <ChartLoading show={!statisticLiquidityFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticLiquidity, isThumbnail)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticLiquidity: State.StatisticLiquidity[]) =>

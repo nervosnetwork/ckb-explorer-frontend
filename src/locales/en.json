@@ -11,7 +11,13 @@
       "ckb_unit": "CKB",
       "note": "Note: ",
       "ckb_explorer": "CKB Explorer",
-      "none": "None"
+      "none": "None",
+      "days": "DAYS",
+      "hours": "HOURS",
+      "minutes": "MINS",
+      "seconds": "SECS",
+      "minaraTime": "Est May 10th 2022",
+      "miranaAlive": "MIRANA IS LIVE"
     },
     "toast": {
       "invalid_network": "Network exception, please try again later",
@@ -172,6 +178,7 @@
       "faucet": "Faucet",
       "community": "Community",
       "twitter": "Twitter",
+      "discord": "Discord",
       "blog": "Blog",
       "telegram": "Telegram",
       "reddit": "Reddit",
@@ -215,7 +222,10 @@
       "confirmation": "Confirmation",
       "confirmations": "Confirmations",
       "unable_decode_address": "Unable to decode address",
-      "pending_reward_tooltip": "The block reward and transaction fee of this block will be sent to the miner after 11 blocks，learn more from our Consensus Protocol"
+      "pending_reward_tooltip": "The block reward and transaction fee of this block will be sent to the miner after 11 blocks，learn more from our Consensus Protocol",
+      "view-new-address": "View in new address format",
+      "view-deprecated-address": "Display deprecated addresses",
+      "displaying-deprecated-address": "Displaying in deprecated address format"
     },
     "transaction": {
       "transaction": "Transaction",

@@ -1,3 +1,5 @@
+import { isMainnet } from '../utils/chain'
+
 export const BLOCK_POLLING_TIME = 4000
 export const MAX_CONFIRMATION = 1000
 export const BLOCKCHAIN_ALERT_POLLING_TIME = 10000
@@ -7,11 +9,25 @@ export const LOADING_WAITING_TIME = 500
 export const DELAY_BLOCK_NUMBER = 11
 export const PAGE_CELL_COUNT = 200
 export const MAINTENANCE_ALERT_POLLING_TIME = 3600000 // 1 hour
+export const NEXT_HARD_FORK_EPOCH = 5414
+export const EPOCH_HOURS = 4
+export const ONE_DAY_SECOND = 24 * 60 * 60
+export const ONE_HOUR_SECOND = 60 * 60
+export const ONE_MINUTE_SECOND = 60
+export const DEPLOY_TIME_LEFT = 10 * ONE_DAY_SECOND + 10 * ONE_HOUR_SECOND
 
-export const MAINNET_PRIMARY_THEME_COLOR = '#3cc68a'
-export const MAINNET_SECONDARY_THEME_COLOR = '#3cc68a'
-export const TESTNET_PRIMARY_THEME_COLOR = '#617bbd'
-export const TESTNET_SECONDARY_THEME_COLOR = '#85A1EA'
+export function getPrimaryColor(hasFinishedHardFork: boolean = false) {
+  if (isMainnet()) {
+    return hasFinishedHardFork ? '#00CC9B' : '#3CC68A'
+  }
+  return hasFinishedHardFork ? '#9A2CEC' : '#85A1EA'
+}
+export function getSecondaryColor(hasFinishedHardFork: boolean = false) {
+  if (isMainnet()) {
+    return hasFinishedHardFork ? '#00CC9B' : '#3CC68A'
+  }
+  return hasFinishedHardFork ? '#9A2CEC' : '#617BBD'
+}
 
 export const TOKEN_EMAIL_ADDRESS = 'ckb-explorer@nervosnet.com'
 export const TOKEN_EMAIL_SUBJECT = 'Submit Token Info'
@@ -80,4 +96,29 @@ export enum ListPageParams {
 }
 
 export const ChartColors = ['#3182bd', '#66CC99']
-export const ChartMoreColors = ['#3182bd', '#66CC99', '#FBB04C', '#525860']
+const afterForkColors = {
+  areaColor: '#31EEB3',
+  colors: ['#5824FB', '#66CC99'],
+  moreColors: ['#5824FB', '#66CC99', '#FBB04C', '#525860'],
+  totalSupplyColors: ['#5824FB', '#31EEB3', '#484E4E'],
+  daoColors: ['#5824FB', '#31EEB3', '#484E4E'],
+  secondaryIssuanceColors: ['#484E4E', '#5824FB', '#31EEB3'],
+  liquidityColors: ['#5824FB', '#484E4E', '#31EEB3'],
+}
+
+const beforeForkColors = {
+  areaColor: '#85bae0',
+  colors: ['#3182bd', '#66CC99'],
+  moreColors: ['#3182bd', '#66CC99', '#FBB04C', '#525860'],
+  totalSupplyColors: ['#049ECD', '#69C7D4', '#74808E'],
+  daoColors: ['#049ECD', '#69C7D4', '#74808E'],
+  secondaryIssuanceColors: ['#74808E', '#049ECD', '#69C7D4'],
+  liquidityColors: ['#3182bd', '#74808E', '#69C7D4'],
+}
+
+export const getChartColor = (hasFinishedHardFork: boolean = false) => {
+  if (hasFinishedHardFork) {
+    return afterForkColors
+  }
+  return beforeForkColors
+}

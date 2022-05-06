@@ -633,6 +633,19 @@ declare namespace State {
     appWidth: number
     appHeight: number
     language: 'en' | 'zh'
+    miranaHardForkSecondsLeft: number
+    hasFinishedHardFork: boolean
+    primaryColor: string
+    secondaryColor: string
+    chartColor: {
+      areaColor: string
+      colors: string[]
+      moreColors: string[]
+      totalSupplyColors: string[]
+      daoColors: string[]
+      secondaryIssuanceColors: string[]
+      liquidityColors: string[]
+    }
   }
 
   export interface AppPayload extends App, ToastMessage {

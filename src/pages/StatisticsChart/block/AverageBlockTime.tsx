@@ -1,10 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime, parseSimpleDate, parseSimpleDateNoSecond } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
-import { ChartColors } from '../../../constants/common'
-import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
 import { getStatisticAverageBlockTimes } from '../../../service/app/charts/block'
 import { localeNumberString } from '../../../utils/number'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
@@ -34,30 +33,31 @@ const maxAndMinAxis = (statisticAverageBlockTimes: State.StatisticAverageBlockTi
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 180 : 100)
 
-const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }): string => {
+const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: string }): string => {
   if (seriesName === i18n.t('statistic.daily_moving_average')) {
-    return `<div>${tooltipColor(ChartColors[0])}${widthSpan(
-      i18n.t('statistic.daily_moving_average'),
-    )} ${localeNumberString(data[1])}</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.daily_moving_average'))} ${localeNumberString(
+      data[1],
+    )}</div>`
   }
   if (seriesName === i18n.t('statistic.weekly_moving_average')) {
-    return `<div>${tooltipColor(ChartColors[1])}${widthSpan(
-      i18n.t('statistic.weekly_moving_average'),
-    )} ${localeNumberString(data[2])}</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.weekly_moving_average'))} ${localeNumberString(
+      data[2],
+    )}</div>`
   }
   return ''
 }
 
 const getOption = (
   statisticAverageBlockTimes: State.StatisticAverageBlockTime[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: ChartColors,
+  color: chartColor.colors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
         formatter: (dataList: any) => {
-          const list = dataList as Array<{ seriesName: string; data: string; name: string }>
+          const list = dataList as Array<SeriesItem & { data: string }>
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${parseSimpleDateNoSecond(
             new Date(list[0].data[0]),
             '/',
@@ -112,7 +112,7 @@ const getOption = (
       min: () => maxAndMinAxis(statisticAverageBlockTimes).min,
       axisLine: {
         lineStyle: {
-          color: ChartColors[0],
+          color: chartColor.colors[0],
         },
       },
       axisLabel: {
@@ -131,7 +131,7 @@ const getOption = (
       min: () => maxAndMinAxis(statisticAverageBlockTimes).min,
       axisLine: {
         lineStyle: {
-          color: ChartColors[1],
+          color: chartColor.colors[1],
         },
       },
       axisLabel: {
@@ -174,11 +174,15 @@ const getOption = (
 })
 
 export const AverageBlockTimeChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticAverageBlockTimes, statisticAverageBlockTimesFetchEnd } = useAppState()
+  const { statisticAverageBlockTimes, statisticAverageBlockTimesFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticAverageBlockTimes, app.chartColor, isThumbnail),
+    [statisticAverageBlockTimes, app.chartColor, isThumbnail],
+  )
   if (!statisticAverageBlockTimesFetchEnd || statisticAverageBlockTimes.length === 0) {
     return <ChartLoading show={!statisticAverageBlockTimesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticAverageBlockTimes, isThumbnail)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) =>

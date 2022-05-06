@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { initAxiosInterceptors } from '../../service/http/interceptors'
-import { RESIZE_LATENCY, MAINTENANCE_ALERT_POLLING_TIME, FLUSH_CHART_CACHE_POLLING_TIME } from '../../constants/common'
+import {
+  RESIZE_LATENCY,
+  MAINTENANCE_ALERT_POLLING_TIME,
+  FLUSH_CHART_CACHE_POLLING_TIME,
+  BLOCK_POLLING_TIME,
+} from '../../constants/common'
 import { AppCachedKeys } from '../../constants/cache'
 import { initNodeVersion } from '../../service/app/nodeInfo'
 import { AppDispatch } from '../reducer'
@@ -12,6 +17,7 @@ import { AppActions } from '../actions'
 import { useInterval } from '../../utils/hook'
 import { getMaintenanceInfo } from '../../service/app/alert'
 import flushCacheInfo from '../../service/app/charts/cache'
+import getStatistics from '../../service/app/statistics'
 
 const useWindowResize = (dispatch: AppDispatch) => {
   useEffect(() => {
@@ -63,6 +69,7 @@ export const useInitApp = () => {
     initAppLanguage(app, dispatch)
     getMaintenanceInfo(dispatch)
     flushCacheInfo()
+    getStatistics(dispatch)
   }
   useWindowResize(dispatch)
 
@@ -73,6 +80,9 @@ export const useInitApp = () => {
   useInterval(() => {
     flushCacheInfo()
   }, FLUSH_CHART_CACHE_POLLING_TIME)
+  useInterval(() => {
+    getStatistics(dispatch)
+  }, BLOCK_POLLING_TIME)
 }
 
 export default useInitApp

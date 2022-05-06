@@ -1,9 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartMoreColors } from '../../../constants/common'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
 import { getStatisticInflationRate } from '../../../service/app/charts/monetary'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 
@@ -24,33 +23,30 @@ const grid = {
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 220 : 80)
 
-const parseTooltip = ({ seriesName, data }: { seriesName: string; data: string }): string => {
+const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: string }): string => {
   if (seriesName === i18n.t('statistic.nominal_inflation_rate')) {
-    return `<div>${tooltipColor(ChartMoreColors[0])}${widthSpan(
-      i18n.t('statistic.nominal_inflation_rate'),
-    )} ${data}%</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.nominal_inflation_rate'))} ${data}%</div>`
   }
   if (seriesName === i18n.t('statistic.nominal_apc')) {
-    return `<div>${tooltipColor(ChartMoreColors[1])}${widthSpan(i18n.t('statistic.nominal_apc'))} ${data}%</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.nominal_apc'))} ${data}%</div>`
   }
   if (seriesName === i18n.t('statistic.real_inflation_rate')) {
-    return `<div>${tooltipColor(ChartMoreColors[2])}${widthSpan(
-      i18n.t('statistic.real_inflation_rate'),
-    )} ${data}%</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.real_inflation_rate'))} ${data}%</div>`
   }
   return ''
 }
 
 const getOption = (
   statisticInflationRates: State.StatisticInflationRate[],
+  chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: ChartMoreColors,
+  color: chartColor.moreColors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
         formatter: (dataList: any) => {
-          const list = dataList as Array<{ seriesName: string; data: string; name: string }>
+          const list = dataList as Array<SeriesItem & { data: string }>
           let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.year'))} ${list[0].name}</div>`
           list.forEach(data => {
             result += parseTooltip(data)
@@ -96,7 +92,7 @@ const getOption = (
       type: 'value',
       axisLine: {
         lineStyle: {
-          color: ChartMoreColors[0],
+          color: chartColor.moreColors[0],
         },
       },
       axisLabel: {
@@ -143,11 +139,15 @@ const getOption = (
 })
 
 export const InflationRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const { statisticInflationRates, statisticInflationRatesFetchEnd } = useAppState()
+  const { statisticInflationRates, statisticInflationRatesFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticInflationRates, app.chartColor, isThumbnail),
+    [statisticInflationRates, app.chartColor, isThumbnail],
+  )
   if (!statisticInflationRatesFetchEnd || statisticInflationRates.length === 0) {
     return <ChartLoading show={!statisticInflationRatesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return <ReactChartCore option={getOption(statisticInflationRates, isThumbnail)} isThumbnail={isThumbnail} />
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticInflationRates: State.StatisticInflationRate[]) =>

@@ -1,6 +1,9 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useState, useRef, useMemo } from 'react'
+import { parseAddress } from '@nervosnetwork/ckb-sdk-utils'
+import { AppCachedKeys } from '../constants/cache'
+import { deprecatedAddrToNewAddr } from './util'
 
-export const useInterval = (callback: () => void, delay: number) => {
+export const useInterval = (callback: () => void, delay: number, deps: any[] = []) => {
   const savedCallback = useRef(() => {})
   useEffect(() => {
     savedCallback.current = callback
@@ -8,7 +11,8 @@ export const useInterval = (callback: () => void, delay: number) => {
   useEffect(() => {
     const listener = setInterval(savedCallback.current, delay)
     return () => clearInterval(listener)
-  }, [delay])
+    // eslint-disable-next-line
+  }, [delay, ...deps])
 }
 
 export const useTimeout = (callback: () => void, delay: number) => {
@@ -44,8 +48,35 @@ export const useTimeoutWithUnmount = (callback: () => void, clearCallback: () =>
   }, [delay])
 }
 
+export const useAddrFormatToggle = () => {
+  const [isNew, setIsNew] = useState(localStorage.getItem(AppCachedKeys.NewAddrFormat) === 'true')
+
+  return {
+    isNew,
+    setIsNew: (is: boolean) => {
+      localStorage.setItem(AppCachedKeys.NewAddrFormat, `${is}`)
+      setIsNew(is)
+    },
+  }
+}
+
+export const useNewAddr = (hash: string) =>
+  useMemo(() => {
+    if (hash.startsWith('0x')) {
+      return hash
+    }
+    try {
+      const isAddrNew = parseAddress(hash, 'hex').startsWith('0x00')
+      return isAddrNew ? hash : deprecatedAddrToNewAddr(hash)
+    } catch {
+      return hash
+    }
+  }, [hash])
+
 export default {
   useInterval,
   useTimeout,
   useTimeoutWithUnmount,
+  useAddrFormatToggle,
+  useNewAddr,
 }

@@ -21,9 +21,6 @@ import {
 import DaoUpIcon from '../../../assets/dao_up.png'
 import DaoDownIcon from '../../../assets/dao_down.png'
 import DaoBalanceIcon from '../../../assets/dao_balance.png'
-import DotIcon1 from '../../../assets/dot_icon1.png'
-import DotIcon2 from '../../../assets/dot_icon2.png'
-import DotIcon3 from '../../../assets/dot_icon3.png'
 import i18n from '../../../utils/i18n'
 import { handleBigNumber, handleBigNumberFloor } from '../../../utils/string'
 import { localeNumberString } from '../../../utils/number'
@@ -43,10 +40,8 @@ interface NervosDaoItemContent {
 interface NervosDaoPieItemContent {
   title: string
   content: ReactNode
-  img: any
+  color: any
 }
-
-const colors = ['#049ECD', '#69C7D4', '#74808E']
 
 const numberSymbol = (num: number, isCapacity = true) => {
   const value = isCapacity ? shannonToCkbDecimal(num) : num
@@ -189,7 +184,7 @@ const NervosDaoOverviewLeftComp = () => {
   )
 }
 
-const getOption = (nervosDao: State.NervosDao): echarts.EChartOption => {
+const getOption = (nervosDao: State.NervosDao, colors: string[]): echarts.EChartOption => {
   const { miningReward, depositCompensation, treasuryAmount } = nervosDao
   const sum =
     shannonToCkbDecimal(miningReward) + shannonToCkbDecimal(depositCompensation) + shannonToCkbDecimal(treasuryAmount)
@@ -272,27 +267,14 @@ const NervosDaoRightCapacity = ({ reward }: { reward: string }) => (
   </NervosDaoPieCapacityPanel>
 )
 
-const nervosDaoPieItemContents = (nervosDao: State.NervosDao): NervosDaoPieItemContent[] => [
-  {
-    title: i18n.t('nervos_dao.mining_reward'),
-    content: <NervosDaoRightCapacity reward={nervosDao.miningReward} />,
-    img: DotIcon1,
-  },
-  {
-    title: i18n.t('nervos_dao.deposit_compensation'),
-    content: <NervosDaoRightCapacity reward={nervosDao.depositCompensation} />,
-    img: DotIcon2,
-  },
-  {
-    title: i18n.t('nervos_dao.burnt'),
-    content: <NervosDaoRightCapacity reward={nervosDao.treasuryAmount} />,
-    img: DotIcon3,
-  },
-]
-
 const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
   <NervosDaoPieItemPanel>
-    <img src={item.img} alt="nervos dao dot" />
+    <div
+      className="nervos__dao__overview_pie_icon"
+      style={{
+        backgroundColor: item.color,
+      }}
+    />
     <div>
       <span>{item.title}</span>
       <div>{item.content}</div>
@@ -303,6 +285,7 @@ const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
 export default () => {
   const {
     nervosDaoState: { nervosDao },
+    app: { chartColor },
   } = useAppState()
 
   const screenWidth = useRef<number>(window.innerWidth)
@@ -314,6 +297,27 @@ export default () => {
     }
   }, [widthDiff])
 
+  const nervosDaoPieItemContents = useCallback(
+    (nervosDao: State.NervosDao): NervosDaoPieItemContent[] => [
+      {
+        title: i18n.t('nervos_dao.mining_reward'),
+        content: <NervosDaoRightCapacity reward={nervosDao.miningReward} />,
+        color: chartColor.daoColors[0],
+      },
+      {
+        title: i18n.t('nervos_dao.deposit_compensation'),
+        content: <NervosDaoRightCapacity reward={nervosDao.depositCompensation} />,
+        color: chartColor.daoColors[1],
+      },
+      {
+        title: i18n.t('nervos_dao.burnt'),
+        content: <NervosDaoRightCapacity reward={nervosDao.treasuryAmount} />,
+        color: chartColor.daoColors[2],
+      },
+    ],
+    [chartColor],
+  )
+
   return (
     <DaoOverviewPanel>
       <NervosDaoOverviewLeftComp />
@@ -323,7 +327,7 @@ export default () => {
           <span className="nervos__dao__overview_pie_title">{i18n.t('nervos_dao.secondary_issuance')}</span>
           <ReactEchartsCore
             echarts={echarts}
-            option={getOption(nervosDao)}
+            option={getOption(nervosDao, chartColor.daoColors)}
             notMerge
             lazyUpdate
             style={{
