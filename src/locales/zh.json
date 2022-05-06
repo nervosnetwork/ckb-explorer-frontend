@@ -221,7 +221,10 @@
       "confirmation": "确认区块",
       "confirmations": "确认区块",
       "unable_decode_address": "地址解析失败",
-      "pending_reward_tooltip": "区块奖励与交易费将在 11 个区块后发送给矿工，阅读共识协议了解更多信息"
+      "pending_reward_tooltip": "区块奖励与交易费将在 11 个区块后发送给矿工，阅读共识协议了解更多信息",
+      "view-new-address": "查看新地址",
+      "view-deprecated-address": "展示旧地址格式",
+      "displaying-deprecated-address": "正在以旧格式地址展示"
     },
     "transaction": {
       "transaction": "交易",
