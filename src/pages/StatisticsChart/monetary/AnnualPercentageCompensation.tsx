@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
@@ -91,15 +91,14 @@ const getOption = (
 
 export const AnnualPercentageCompensationChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticAnnualPercentageCompensations, statisticAnnualPercentageCompensationsFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticAnnualPercentageCompensations, app.chartColor, isThumbnail),
+    [statisticAnnualPercentageCompensations, app.chartColor, isThumbnail],
+  )
   if (!statisticAnnualPercentageCompensationsFetchEnd || statisticAnnualPercentageCompensations.length === 0) {
     return <ChartLoading show={!statisticAnnualPercentageCompensationsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore
-      option={getOption(statisticAnnualPercentageCompensations, app.chartColor, isThumbnail)}
-      isThumbnail={isThumbnail}
-    />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticAnnualPercentageCompensations: State.StatisticAnnualPercentageCompensation[]) =>

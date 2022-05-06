@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { getStatisticBalanceDistribution } from '../../../service/app/charts/activities'
 import { useAppState, useDispatch } from '../../../contexts/providers'
@@ -144,15 +144,14 @@ const getOption = (
 
 export const BalanceDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticBalanceDistributions, statisticBalanceDistributionsFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticBalanceDistributions, app.chartColor, isThumbnail),
+    [statisticBalanceDistributions, app.chartColor, isThumbnail],
+  )
   if (!statisticBalanceDistributionsFetchEnd || statisticBalanceDistributions.length === 0) {
     return <ChartLoading show={!statisticBalanceDistributionsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore
-      option={getOption(statisticBalanceDistributions, app.chartColor, isThumbnail)}
-      isThumbnail={isThumbnail}
-    />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticBalanceDistributions?: State.StatisticBalanceDistribution[]) =>

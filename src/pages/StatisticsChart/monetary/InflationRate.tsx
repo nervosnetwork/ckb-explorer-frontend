@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
 import { useAppState, useDispatch } from '../../../contexts/providers'
@@ -140,15 +140,14 @@ const getOption = (
 
 export const InflationRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticInflationRates, statisticInflationRatesFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticInflationRates, app.chartColor, isThumbnail),
+    [statisticInflationRates, app.chartColor, isThumbnail],
+  )
   if (!statisticInflationRatesFetchEnd || statisticInflationRates.length === 0) {
     return <ChartLoading show={!statisticInflationRatesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore
-      option={getOption(statisticInflationRates, app.chartColor, isThumbnail)}
-      isThumbnail={isThumbnail}
-    />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticInflationRates: State.StatisticInflationRate[]) =>

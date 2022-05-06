@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { getStatisticCirculationRatio } from '../../../service/app/charts/nervosDao'
@@ -94,15 +94,14 @@ const getOption = (
 
 export const CirculationRatioChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticCirculationRatios, statisticCirculationRatiosFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticCirculationRatios, app.chartColor, isThumbnail),
+    [statisticCirculationRatios, app.chartColor, isThumbnail],
+  )
   if (!statisticCirculationRatiosFetchEnd || statisticCirculationRatios.length === 0) {
     return <ChartLoading show={!statisticCirculationRatiosFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore
-      option={getOption(statisticCirculationRatios, app.chartColor, isThumbnail)}
-      isThumbnail={isThumbnail}
-    />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticCirculationRatios: State.StatisticCirculationRatio[]) =>

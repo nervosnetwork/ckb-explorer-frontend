@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { getStatisticTotalDaoDeposit } from '../../../service/app/charts/nervosDao'
 import { useAppState, useDispatch } from '../../../contexts/providers'
@@ -159,15 +159,14 @@ const getOption = (
 
 export const TotalDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticTotalDaoDeposits, statisticTotalDaoDepositsFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticTotalDaoDeposits, app.chartColor, isThumbnail),
+    [statisticTotalDaoDeposits, app.chartColor, isThumbnail],
+  )
   if (!statisticTotalDaoDepositsFetchEnd || statisticTotalDaoDeposits.length === 0) {
     return <ChartLoading show={!statisticTotalDaoDepositsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore
-      option={getOption(statisticTotalDaoDeposits, app.chartColor, isThumbnail)}
-      isThumbnail={isThumbnail}
-    />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[]) =>

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
@@ -86,15 +86,14 @@ const getOption = (
 
 export const BlockTimeDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticBlockTimeDistributions, statisticBlockTimeDistributionsFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticBlockTimeDistributions, app.chartColor, isThumbnail),
+    [statisticBlockTimeDistributions, app.chartColor, isThumbnail],
+  )
   if (!statisticBlockTimeDistributionsFetchEnd || statisticBlockTimeDistributions.length === 0) {
     return <ChartLoading show={!statisticBlockTimeDistributionsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore
-      option={getOption(statisticBlockTimeDistributions, app.chartColor, isThumbnail)}
-      isThumbnail={isThumbnail}
-    />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[]) =>

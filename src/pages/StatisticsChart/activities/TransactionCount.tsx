@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { getStatisticTransactionCount } from '../../../service/app/charts/activities'
 import { useAppState, useDispatch } from '../../../contexts/providers'
@@ -90,15 +90,14 @@ const getOption = (
 
 export const TransactionCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticTransactionCounts, statisticTransactionCountsFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticTransactionCounts, app.chartColor, isThumbnail),
+    [statisticTransactionCounts, app.chartColor, isThumbnail],
+  )
   if (!statisticTransactionCountsFetchEnd || statisticTransactionCounts.length === 0) {
     return <ChartLoading show={!statisticTransactionCountsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore
-      option={getOption(statisticTransactionCounts, app.chartColor, isThumbnail)}
-      isThumbnail={isThumbnail}
-    />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticTransactionCounts: State.StatisticTransactionCount[]) =>

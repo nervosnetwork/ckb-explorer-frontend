@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
@@ -156,12 +156,14 @@ const getOption = (
 
 export const LiquidityChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticLiquidity, statisticLiquidityFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticLiquidity, app.chartColor, isThumbnail),
+    [statisticLiquidity, app.chartColor, isThumbnail],
+  )
   if (!statisticLiquidityFetchEnd || statisticLiquidity.length === 0) {
     return <ChartLoading show={!statisticLiquidityFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore option={getOption(statisticLiquidity, app.chartColor, isThumbnail)} isThumbnail={isThumbnail} />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticLiquidity: State.StatisticLiquidity[]) =>

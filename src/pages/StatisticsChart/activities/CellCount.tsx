@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { getStatisticCellCount } from '../../../service/app/charts/activities'
 import { useAppState, useDispatch } from '../../../contexts/providers'
@@ -143,12 +143,14 @@ const getOption = (
 
 export const CellCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticCellCounts, statisticCellCountsFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticCellCounts, app.chartColor, isThumbnail),
+    [statisticCellCounts, app.chartColor, isThumbnail],
+  )
   if (!statisticCellCountsFetchEnd || statisticCellCounts.length === 0) {
     return <ChartLoading show={!statisticCellCountsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore option={getOption(statisticCellCounts, app.chartColor, isThumbnail)} isThumbnail={isThumbnail} />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticCellCounts: State.StatisticCellCount[]) =>
