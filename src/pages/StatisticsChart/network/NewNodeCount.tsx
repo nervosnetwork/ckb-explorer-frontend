@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
@@ -87,15 +87,14 @@ const getOption = (
 
 export const NewNodeCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticNewNodeCounts, statisticNewNodeCountsFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticNewNodeCounts, app.chartColor, isThumbnail),
+    [statisticNewNodeCounts, app.chartColor, isThumbnail],
+  )
   if (!statisticNewNodeCountsFetchEnd || statisticNewNodeCounts.length === 0) {
     return <ChartLoading show={!statisticNewNodeCountsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore
-      option={getOption(statisticNewNodeCounts, app.chartColor, isThumbnail)}
-      isThumbnail={isThumbnail}
-    />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticNewNodeCounts: State.StatisticNewNodeCount[]) =>

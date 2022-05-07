@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { getStatisticHashRate } from '../../../service/app/charts/mining'
 import i18n, { currentLanguage } from '../../../utils/i18n'
@@ -92,12 +92,14 @@ const getOption = (
 
 export const HashRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticHashRates, statisticHashRatesFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticHashRates, app.chartColor, isThumbnail),
+    [statisticHashRates, app.chartColor, isThumbnail],
+  )
   if (!statisticHashRatesFetchEnd || statisticHashRates.length === 0) {
     return <ChartLoading show={!statisticHashRatesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore option={getOption(statisticHashRates, app.chartColor, isThumbnail)} isThumbnail={isThumbnail} />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticHashRates: State.StatisticHashRate[]) =>

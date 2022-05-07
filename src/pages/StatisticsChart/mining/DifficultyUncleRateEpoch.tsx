@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { getStatisticDifficultyUncleRateEpoch } from '../../../service/app/charts/mining'
 import { useAppState, useDispatch } from '../../../contexts/providers'
@@ -229,15 +229,14 @@ const getOption = (
 
 export const DifficultyUncleRateEpochChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticDifficultyUncleRateEpochs, statisticDifficultyUncleRatesFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticDifficultyUncleRateEpochs, app.chartColor, isThumbnail),
+    [statisticDifficultyUncleRateEpochs, app.chartColor, isThumbnail],
+  )
   if (!statisticDifficultyUncleRatesFetchEnd || statisticDifficultyUncleRateEpochs.length === 0) {
     return <ChartLoading show={!statisticDifficultyUncleRatesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore
-      option={getOption(statisticDifficultyUncleRateEpochs, app.chartColor, isThumbnail)}
-      isThumbnail={isThumbnail}
-    />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticDifficultyUncleRateEpochs: State.StatisticDifficultyUncleRateEpoch[]) =>

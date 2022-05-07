@@ -1,9 +1,14 @@
 import { useState, useCallback } from 'react'
+import { Tooltip } from 'antd'
 import { CellType, PAGE_CELL_COUNT } from '../../../constants/common'
 import i18n from '../../../utils/i18n'
 import TransactionCell from '../TransactionCell'
 import { TransactionCellListPanel, TransactionCellListTitlePanel, TransactionCellsPanel } from './styled'
 import SmallLoading from '../../../components/Loading/SmallLoading'
+import { ReactComponent as DeprecatedAddrOn } from '../../../assets/deprecated_addr_on.svg'
+import { ReactComponent as DeprecatedAddrOff } from '../../../assets/deprecated_addr_off.svg'
+import { ReactComponent as Warning } from '../../../assets/warning.svg'
+import styles from './styles.module.scss'
 
 const SCROLL_BOTTOM_OFFSET = 5
 const SCROLL_LOADING_TIME = 400
@@ -14,12 +19,17 @@ export default ({
   txHash,
   showReward,
   txStatus,
+  addrToggle: { isAddrNew, setIsAddrNew },
 }: {
   inputs?: State.Cell[]
   outputs?: State.Cell[]
   txHash?: string
   showReward?: boolean
   txStatus: string
+  addrToggle: {
+    isAddrNew: boolean
+    setIsAddrNew: (is: boolean) => void
+  }
 }) => {
   const [offset, setOffset] = useState(PAGE_CELL_COUNT)
   const [isEnd, setIsEnd] = useState(false)
@@ -44,6 +54,10 @@ export default ({
     [offset, cells.length],
   )
 
+  const handleAddrToggle = () => {
+    setIsAddrNew(!isAddrNew)
+  }
+
   const cellsCount = () => {
     if (inputs) {
       return inputs.length
@@ -53,7 +67,21 @@ export default ({
 
   const cellTitle = () => {
     const title = inputs ? i18n.t('transaction.input') : i18n.t('transaction.output')
-    return `${title} (${cellsCount()})`
+    return (
+      <div className={styles.cellListTitle}>
+        {`${title} (${cellsCount()})`}
+        <Tooltip placement="top" title={i18n.t(`address.view-deprecated-address`)}>
+          <div className={styles.newAddrToggle} onClick={handleAddrToggle} role="presentation">
+            {isAddrNew ? <DeprecatedAddrOff /> : <DeprecatedAddrOn />}
+          </div>
+        </Tooltip>
+        {isAddrNew ? null : (
+          <Tooltip placement="top" title={i18n.t('address.displaying-deprecated-address')}>
+            <Warning />
+          </Tooltip>
+        )}
+      </div>
+    )
   }
 
   return (
@@ -80,6 +108,7 @@ export default ({
                   txHash={txHash}
                   showReward={showReward}
                   txStatus={txStatus}
+                  isAddrNew={isAddrNew}
                 />
               ))}
           {isScroll && !isEnd && <SmallLoading />}

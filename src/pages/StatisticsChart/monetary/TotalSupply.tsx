@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
@@ -161,12 +161,14 @@ const getOption = (
 
 export const TotalSupplyChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticTotalSupplies, statisticTotalSuppliesFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticTotalSupplies, app.chartColor, isThumbnail),
+    [statisticTotalSupplies, app.chartColor, isThumbnail],
+  )
   if (!statisticTotalSuppliesFetchEnd || statisticTotalSupplies.length === 0) {
     return <ChartLoading show={!statisticTotalSuppliesFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore option={getOption(statisticTotalSupplies, app.chartColor, isThumbnail)} isThumbnail={isThumbnail} />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 const toCSV = (statisticTotalSupplies: State.StatisticTotalSupply[]) =>

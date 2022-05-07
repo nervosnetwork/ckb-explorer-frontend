@@ -69,6 +69,8 @@ export const HashCardPanel = styled.div`
     cursor: pointer;
     margin-left: 20px;
     transform: translateY(6px);
+    display: flex;
+    align-items: center;
     @media (max-width: 750px) {
       margin-left: 10px;
       transform: translateY(3px);

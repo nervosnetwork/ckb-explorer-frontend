@@ -96,26 +96,29 @@ export enum ListPageParams {
 }
 
 export const ChartColors = ['#3182bd', '#66CC99']
+const afterForkColors = {
+  areaColor: '#31EEB3',
+  colors: ['#5824FB', '#66CC99'],
+  moreColors: ['#5824FB', '#66CC99', '#FBB04C', '#525860'],
+  totalSupplyColors: ['#5824FB', '#31EEB3', '#484E4E'],
+  daoColors: ['#5824FB', '#31EEB3', '#484E4E'],
+  secondaryIssuanceColors: ['#484E4E', '#5824FB', '#31EEB3'],
+  liquidityColors: ['#5824FB', '#484E4E', '#31EEB3'],
+}
+
+const beforeForkColors = {
+  areaColor: '#85bae0',
+  colors: ['#3182bd', '#66CC99'],
+  moreColors: ['#3182bd', '#66CC99', '#FBB04C', '#525860'],
+  totalSupplyColors: ['#049ECD', '#69C7D4', '#74808E'],
+  daoColors: ['#049ECD', '#69C7D4', '#74808E'],
+  secondaryIssuanceColors: ['#74808E', '#049ECD', '#69C7D4'],
+  liquidityColors: ['#3182bd', '#74808E', '#69C7D4'],
+}
 
 export const getChartColor = (hasFinishedHardFork: boolean = false) => {
   if (hasFinishedHardFork) {
-    return {
-      areaColor: '#31EEB3',
-      colors: ['#5824FB', '#66CC99'],
-      moreColors: ['#5824FB', '#66CC99', '#FBB04C', '#525860'],
-      totalSupplyColors: ['#5824FB', '#31EEB3', '#484E4E'],
-      daoColors: ['#5824FB', '#31EEB3', '#484E4E'],
-      secondaryIssuanceColors: ['#484E4E', '#5824FB', '#31EEB3'],
-      liquidityColors: ['#5824FB', '#484E4E', '#31EEB3'],
-    }
+    return afterForkColors
   }
-  return {
-    areaColor: '#85bae0',
-    colors: ['#3182bd', '#66CC99'],
-    moreColors: ['#3182bd', '#66CC99', '#FBB04C', '#525860'],
-    totalSupplyColors: ['#049ECD', '#69C7D4', '#74808E'],
-    daoColors: ['#049ECD', '#69C7D4', '#74808E'],
-    secondaryIssuanceColors: ['#74808E', '#049ECD', '#69C7D4'],
-    liquidityColors: ['#3182bd', '#74808E', '#69C7D4'],
-  }
+  return beforeForkColors
 }

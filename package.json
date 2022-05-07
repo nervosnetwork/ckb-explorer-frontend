@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@nervosnetwork/ckb-sdk-utils": "0.102.3",
     "antd": "4.16.10",
     "axios": "0.21.2",
     "bignumber.js": "9.0.1",

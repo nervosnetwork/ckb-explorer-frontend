@@ -1,0 +1,25 @@
+.openInNew{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: 30px;
+  margin-left: 4px;
+
+  svg {
+    width: 22px;
+    height: 22px;
+    pointer-events: none;
+    path {
+      fill: #999;
+    }
+
+  }
+  @media screen and (max-width: 750px) {
+    height: 22px;
+    margin-left: 2px;
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}

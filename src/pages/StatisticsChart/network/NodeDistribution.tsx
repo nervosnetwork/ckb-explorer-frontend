@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { localeNumberString } from '../../../utils/number'
@@ -119,15 +119,14 @@ const getOption = (
 
 export const NodeDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { statisticNodeDistributions, statisticNodeDistributionsFetchEnd, app } = useAppState()
+  const option = useMemo(
+    () => getOption(statisticNodeDistributions, app.chartColor, isThumbnail),
+    [statisticNodeDistributions, app.chartColor, isThumbnail],
+  )
   if (!statisticNodeDistributionsFetchEnd || statisticNodeDistributions.length === 0) {
     return <ChartLoading show={!statisticNodeDistributionsFetchEnd} isThumbnail={isThumbnail} />
   }
-  return (
-    <ReactChartCore
-      option={getOption(statisticNodeDistributions, app.chartColor, isThumbnail)}
-      isThumbnail={isThumbnail}
-    />
-  )
+  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
 }
 
 export default () => {
