@@ -27,11 +27,11 @@ const percentProproty = {
 export default ({ miranaHardForkSecondsLeft, appWidth }: { miranaHardForkSecondsLeft: number; appWidth: number }) => {
   const [tmpMiranaHardForkSecondsLeft, setTmpMiranaHardForkSecondsLeft] = useState(miranaHardForkSecondsLeft)
   useEffect(() => {
-    setTmpMiranaHardForkSecondsLeft(miranaHardForkSecondsLeft)
+    setTmpMiranaHardForkSecondsLeft(Math.max(miranaHardForkSecondsLeft, 0))
   }, [miranaHardForkSecondsLeft])
   useInterval(
     () => {
-      setTmpMiranaHardForkSecondsLeft(cur => cur - 1)
+      setTmpMiranaHardForkSecondsLeft(cur => Math.max(cur - 1, 0))
     },
     1000,
     [tmpMiranaHardForkSecondsLeft],
