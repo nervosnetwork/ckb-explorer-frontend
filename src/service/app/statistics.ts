@@ -28,8 +28,8 @@ export const getStatistics = (dispatch: AppDispatch) => {
           miranaHardForkSecondsLeft: Math.floor(hs),
           hasFinishedHardFork,
         }
-        if (hasFinishedHardFork && !localStorage.get(AppCachedKeys.NewAddrFormat)) {
-          localStorage.set(AppCachedKeys.NewAddrFormat, 'true')
+        if (hasFinishedHardFork && !localStorage.getItem(AppCachedKeys.NewAddrFormat)) {
+          localStorage.setItem(AppCachedKeys.NewAddrFormat, 'true')
         }
         storeCachedData(AppCachedKeys.HardForkInfo, hardForkInfo)
         dispatch({
