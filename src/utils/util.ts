@@ -141,6 +141,15 @@ export const deprecatedAddrToNewAddr = (addr: string) => {
   }
 }
 
+export const handleRedirectFromAggron = (hasFinishedHardFork: boolean) => {
+  const prevTestnetChainName = new RegExp(getChainNames(false).testnet, 'g')
+  if (hasFinishedHardFork && prevTestnetChainName.test(window.location.href)) {
+    const newTestnetChainName = getChainNames(true).testnet
+    const redirect = window.location.href.replace(prevTestnetChainName, newTestnetChainName)
+    window.location.href = redirect
+  }
+}
+
 export default {
   copyElementValue,
   shannonToCkb,
@@ -149,4 +158,5 @@ export default {
   isValidReactNode,
   getChainNames,
   deprecatedAddrToNewAddr,
+  handleRedirectFromAggron,
 }
