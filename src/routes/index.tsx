@@ -330,15 +330,6 @@ export default () => {
     }
   })
 
-  useEffect(() => {
-    const prevTestnetChainName = new RegExp(getChainNames(false).testnet, 'g')
-    if (hasFinishedHardFork && prevTestnetChainName.test(window.location.href)) {
-      const newTestnetChainName = getChainNames(true).testnet
-      const redirect = window.location.href.replace(prevTestnetChainName, newTestnetChainName)
-      window.location.href = redirect
-    }
-  }, [hasFinishedHardFork])
-
   let basename = '/'
   if (!isMainnet()) {
     const chainNames = getChainNames(hasFinishedHardFork)
