@@ -7,7 +7,7 @@ import { BlockListPanel, ContentTable, HighLightValue, BlockRewardContainer, Blo
 import Content from '../../components/Content'
 import { TableTitleItem, TableContentItem, TableMinerContentItem } from '../../components/Table'
 import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
-import { shannonToCkb } from '../../utils/util'
+import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
 import { parsePageNumber, adaptMobileEllipsis } from '../../utils/string'
 import { ListPageParams, DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
@@ -161,6 +161,10 @@ export default () => {
   const onChange = (page: number) => {
     push(`/block/list?page=${page}&size=${pageSize}`)
   }
+  const blockList = blocks.map(b => ({
+    ...b,
+    minerHash: deprecatedAddrToNewAddr(b.minerHash),
+  }))
 
   return (
     <Content>
@@ -169,7 +173,7 @@ export default () => {
         {isMobile() ? (
           <ContentTable>
             <div>
-              {blocks.map((block: State.Block, index: number) => (
+              {blockList.map((block: State.Block, index: number) => (
                 <ItemCard key={block.number} items={BlockCardItems(block, index, currentPage)} />
               ))}
             </div>
@@ -181,7 +185,7 @@ export default () => {
                 <TableTitleItem width={data.width} title={data.title} key={data.title} />
               ))}
             </TableTitleRow>
-            {blocks.map(
+            {blockList.map(
               (block: State.Block, blockIndex: number) =>
                 block && (
                   <TableContentRow key={block.number}>

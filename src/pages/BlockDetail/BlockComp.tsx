@@ -15,7 +15,7 @@ import i18n from '../../utils/i18n'
 import { localeNumberString, handleDifficulty } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import { adaptMobileEllipsis, adaptPCEllipsis, hexToUtf8 } from '../../utils/string'
-import { shannonToCkb } from '../../utils/util'
+import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
 import {
   BlockLinkPanel,
   BlockOverviewDisplayControlPanel,
@@ -256,7 +256,17 @@ export const BlockComp = ({
           transaction && (
             <TransactionItem
               key={transaction.transactionHash}
-              transaction={transaction}
+              transaction={{
+                ...transaction,
+                displayInputs: transaction.displayInputs.map(input => ({
+                  ...input,
+                  addressHash: deprecatedAddrToNewAddr(input.addressHash),
+                })),
+                displayOutputs: transaction.displayOutputs.map(output => ({
+                  ...output,
+                  addressHash: deprecatedAddrToNewAddr(output.addressHash),
+                })),
+              }}
               circleCorner={{
                 bottom: index === transactions.length - 1 && totalPages === 1,
               }}
