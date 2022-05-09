@@ -85,7 +85,7 @@ export default ({
           {newAddr === hash ? null : (
             <Tooltip placement="top" title={i18n.t(`address.view-new-address`)}>
               <a
-                href={`${window.location.origin}/address/${newAddr}`}
+                href={`${window.location.href.split('/address/')[0]}/address/${newAddr}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.openInNew}
