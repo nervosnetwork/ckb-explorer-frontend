@@ -142,7 +142,7 @@ export default () => {
     homeBlocks = [],
     transactionsState: { transactions = [] },
     statistics,
-    app: { tipBlockNumber, hasFinishedHardFork, miranaHardForkSecondsLeft, appWidth },
+    app: { tipBlockNumber, hasFinishedHardFork },
     components: { headerSearchBarVisible },
   } = useAppState()
   const [t] = useTranslation()
@@ -171,7 +171,7 @@ export default () => {
 
   return (
     <Content>
-      <MiranaEasterEgg miranaHardForkSecondsLeft={miranaHardForkSecondsLeft} appWidth={appWidth} />
+      <MiranaEasterEgg />
       <div className="container">
         <div className={styles.HomeHeaderTopPanel}>
           <div className={styles.title}>{i18n.t('common.ckb_explorer')}</div>
