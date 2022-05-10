@@ -15,7 +15,7 @@ $backgroudColor: #232323;
   
   .TextContain {
     background-color: $backgroudColor;
-    mix-blend-mode: screen;
+    mix-blend-mode: lighten;
     position: absolute;
     bottom: 25%;
     display: inline;
