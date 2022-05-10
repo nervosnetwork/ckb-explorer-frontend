@@ -27,7 +27,7 @@ export const initApp: State.App = {
   appWidth: window.innerWidth,
   appHeight: window.innerHeight,
   language: navigator.language.includes('zh') ? 'zh' : 'en',
-  miranaHardForkSecondsLeft: hardForkInfo?.miranaHardForkSecondsLeft || DEPLOY_TIME_LEFT,
+  miranaHardForkSecondsLeft: hardForkInfo?.miranaHardForkSecondsLeft ?? DEPLOY_TIME_LEFT,
   hasFinishedHardFork: !!hardForkInfo?.hasFinishedHardFork,
   primaryColor: getPrimaryColor(!!hardForkInfo?.hasFinishedHardFork),
   secondaryColor: getSecondaryColor(!!hardForkInfo?.hasFinishedHardFork),
