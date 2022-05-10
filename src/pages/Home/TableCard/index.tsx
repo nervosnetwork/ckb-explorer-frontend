@@ -4,7 +4,7 @@ import { localeNumberString } from '../../../utils/number'
 import { parseDate } from '../../../utils/date'
 import { DELAY_BLOCK_NUMBER } from '../../../constants/common'
 import DecimalCapacity from '../../../components/DecimalCapacity'
-import { shannonToCkbDecimal } from '../../../utils/util'
+import { shannonToCkbDecimal, deprecatedAddrToNewAddr } from '../../../utils/util'
 import { TableMinerContentItem } from '../../../components/Table'
 import { adaptPCEllipsis, adaptMobileEllipsis } from '../../../utils/string'
 import { isMobile, isScreenSmallerThan1440 } from '../../../utils/screen'
@@ -47,7 +47,12 @@ export const BlockCardItem = ({ block, index }: { block: State.Block; index: num
       <div className="block__card__miner">
         <div>
           <span className="block__card__miner__hash">{i18n.t('home.miner')}</span>
-          <TableMinerContentItem width="10%" content={block.minerHash} smallWidth fontSize="14px" />
+          <TableMinerContentItem
+            width="10%"
+            content={deprecatedAddrToNewAddr(block.minerHash)}
+            smallWidth
+            fontSize="14px"
+          />
         </div>
         <div className="block__card__reward">
           <span>{`${i18n.t('home.reward')}`}</span>
