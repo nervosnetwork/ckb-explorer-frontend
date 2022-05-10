@@ -1,7 +1,7 @@
 import { isMainnet } from '../../utils/chain'
 import styles from './index.module.scss'
 
-const miranaAliveText = `Mirana is live`
+const miranaAliveText = `Mirana\nis live`
 
 export default () => {
   return (
