@@ -15,7 +15,6 @@ export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPa
   const {
     nervosDaoState: { transactions = [], total },
     components: { filterNoResult },
-    app: { hasFinishedHardFork },
   } = useAppState()
 
   const totalPages = Math.ceil(total / pageSize)
@@ -43,19 +42,17 @@ export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPa
       </DAONoResultPanel>
     )
   }
-  const txList = hasFinishedHardFork
-    ? transactions.map(tx => ({
-        ...tx,
-        displayInputs: tx.displayInputs.map(i => ({
-          ...i,
-          addressHash: deprecatedAddrToNewAddr(i.addressHash),
-        })),
-        displayOutputs: tx.displayOutputs.map(o => ({
-          ...o,
-          addressHash: deprecatedAddrToNewAddr(o.addressHash),
-        })),
-      }))
-    : transactions
+  const txList = transactions.map(tx => ({
+    ...tx,
+    displayInputs: tx.displayInputs.map(i => ({
+      ...i,
+      addressHash: deprecatedAddrToNewAddr(i.addressHash),
+    })),
+    displayOutputs: tx.displayOutputs.map(o => ({
+      ...o,
+      addressHash: deprecatedAddrToNewAddr(o.addressHash),
+    })),
+  }))
 
   return (
     <>

@@ -6,7 +6,6 @@ import { MAX_CONFIRMATION, TOKEN_EMAIL_SUBJECT, TOKEN_EMAIL_BODY, TOKEN_EMAIL_AD
 import { ContractHashTag, MainnetContractHashTags, TestnetContractHashTags } from '../constants/scripts'
 import i18n from './i18n'
 import { isMainnet } from './chain'
-import CONFIG from '../config'
 
 export const copyElementValue = (component: any) => {
   if (!component) return
@@ -91,13 +90,6 @@ export const isValidReactNode = (node: ReactNode) => {
   return !!node
 }
 
-export const baseUrl = () => {
-  const mainnetUrl = `${CONFIG.MAINNET_URL}`
-  const testnetUrl = `${CONFIG.MAINNET_URL}/${CONFIG.TESTNET_NAME}`
-
-  return isMainnet() ? mainnetUrl : testnetUrl
-}
-
 export const matchScript = (contractHash: string, hashType: string): ContractHashTag | undefined => {
   if (isMainnet()) {
     return MainnetContractHashTags.find(
@@ -119,17 +111,6 @@ export const matchTxHash = (txHash: string, index: number | string): ContractHas
 export const udtSubmitEmail = () =>
   `mailto:${TOKEN_EMAIL_ADDRESS}?subject=${TOKEN_EMAIL_SUBJECT}&body=${TOKEN_EMAIL_BODY}`
 
-export const getChainNames = (isHardforked: boolean) =>
-  isHardforked
-    ? {
-        mainnet: 'mirana',
-        testnet: 'pudge',
-      }
-    : {
-        mainnet: 'lina',
-        testnet: 'aggron',
-      }
-
 export const deprecatedAddrToNewAddr = (addr: string) => {
   if (!addr.startsWith('ck')) {
     return addr
@@ -141,13 +122,18 @@ export const deprecatedAddrToNewAddr = (addr: string) => {
   }
 }
 
-export const handleRedirectFromAggron = (hasFinishedHardFork: boolean) => {
-  const prevTestnetChainName = new RegExp(getChainNames(false).testnet, 'g')
-  if (hasFinishedHardFork && prevTestnetChainName.test(window.location.href)) {
-    const newTestnetChainName = getChainNames(true).testnet
-    const redirect = window.location.href.replace(prevTestnetChainName, newTestnetChainName)
+export const handleRedirectFromAggron = () => {
+  const PREV_TESTNAME = 'aggron'
+  const CURRENT_TESTNET = 'pudge'
+  const testnetNameRegexp = new RegExp(`^/(${PREV_TESTNAME}|${CURRENT_TESTNET})`)
+  if (testnetNameRegexp.test(window.location.pathname)) {
+    const redirect = `${window.location.protocol}//${CURRENT_TESTNET}.${
+      window.location.host
+    }${window.location.pathname.replace(testnetNameRegexp, '')}`
     window.location.href = redirect
+    return true
   }
+  return false
 }
 
 export default {
@@ -156,7 +142,6 @@ export default {
   toCamelcase,
   formatConfirmation,
   isValidReactNode,
-  getChainNames,
   deprecatedAddrToNewAddr,
   handleRedirectFromAggron,
 }

@@ -7,7 +7,7 @@ import TransactionItem from '../../components/TransactionItem/index'
 import { useAppState } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
-import { shannonToCkb, baseUrl, deprecatedAddrToNewAddr } from '../../utils/util'
+import { shannonToCkb, deprecatedAddrToNewAddr } from '../../utils/util'
 import {
   AddressTransactionsPagination,
   AddressTransactionsPanel,
@@ -96,7 +96,7 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
   const property = isSudt ? parseUDTAmount(amount, (udtAccount as State.SUDT).decimal) : `#${amount}`
 
   return (
-    <AddressUDTItemPanel href={`${baseUrl()}/sudt/${typeHash}`} isLink={isSudt}>
+    <AddressUDTItemPanel href={`/sudt/${typeHash}`} isLink={isSudt}>
       <div className="address__udt__label">
         {isUnverified ? `${i18n.t('udt.unverified')}: ` : null}
         <span>{UDT_LABEL[udtType] ?? 'unknown'}</span>

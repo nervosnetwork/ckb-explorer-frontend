@@ -142,7 +142,7 @@ export default () => {
     homeBlocks = [],
     transactionsState: { transactions = [] },
     statistics,
-    app: { tipBlockNumber, hasFinishedHardFork },
+    app: { tipBlockNumber },
     components: { headerSearchBarVisible },
   } = useAppState()
   const [t] = useTranslation()
@@ -179,7 +179,7 @@ export default () => {
             {!headerSearchBarVisible && <Search hasButton />}
           </div>
         </div>
-        <div className={`${styles.HomeStatisticTopPanel} ${hasFinishedHardFork ? styles.AfterHardFork : ''}`}>
+        <div className={`${styles.HomeStatisticTopPanel} ${styles.AfterHardFork}`}>
           <div className={styles.home__statistic__left__panel}>
             <div className={styles.home__statistic__left__data}>
               <StatisticItem blockchain={blockchainDataList(statistics)[0]} isFirst />
