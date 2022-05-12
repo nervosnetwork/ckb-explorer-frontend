@@ -1,4 +1,5 @@
 import { isMainnet } from '../utils/chain'
+import config from '../config'
 
 export const BLOCK_POLLING_TIME = 4000
 export const MAX_CONFIRMATION = 1000
@@ -14,19 +15,13 @@ export const EPOCH_HOURS = 4
 export const ONE_DAY_SECOND = 24 * 60 * 60
 export const ONE_HOUR_SECOND = 60 * 60
 export const ONE_MINUTE_SECOND = 60
-export const DEPLOY_TIME_LEFT = 10 * ONE_DAY_SECOND + 10 * ONE_HOUR_SECOND
 
-export function getPrimaryColor(hasFinishedHardFork: boolean = false) {
-  if (isMainnet()) {
-    return hasFinishedHardFork ? '#00CC9B' : '#3CC68A'
-  }
-  return hasFinishedHardFork ? '#9A2CEC' : '#85A1EA'
+export function getPrimaryColor() {
+  return isMainnet() ? '#00CC9B' : '#9A2CEC'
 }
-export function getSecondaryColor(hasFinishedHardFork: boolean = false) {
-  if (isMainnet()) {
-    return hasFinishedHardFork ? '#00CC9B' : '#3CC68A'
-  }
-  return hasFinishedHardFork ? '#9A2CEC' : '#617BBD'
+
+export function getSecondaryColor() {
+  return isMainnet() ? '#00CC9B' : '#9A2CEC'
 }
 
 export const TOKEN_EMAIL_ADDRESS = 'ckb-explorer@nervosnet.com'
@@ -95,8 +90,7 @@ export enum ListPageParams {
   MaxPageSize = 100,
 }
 
-export const ChartColors = ['#3182bd', '#66CC99']
-const afterForkColors = {
+export const ChartColor = {
   areaColor: '#31EEB3',
   colors: ['#5824FB', '#66CC99'],
   moreColors: ['#5824FB', '#66CC99', '#FBB04C', '#525860'],
@@ -106,19 +100,10 @@ const afterForkColors = {
   liquidityColors: ['#5824FB', '#484E4E', '#31EEB3'],
 }
 
-const beforeForkColors = {
-  areaColor: '#85bae0',
-  colors: ['#3182bd', '#66CC99'],
-  moreColors: ['#3182bd', '#66CC99', '#FBB04C', '#525860'],
-  totalSupplyColors: ['#049ECD', '#69C7D4', '#74808E'],
-  daoColors: ['#049ECD', '#69C7D4', '#74808E'],
-  secondaryIssuanceColors: ['#74808E', '#049ECD', '#69C7D4'],
-  liquidityColors: ['#3182bd', '#74808E', '#69C7D4'],
+export enum ChainName {
+  Mainnet = 'mirana',
+  Testnet = 'pudge',
 }
 
-export const getChartColor = (hasFinishedHardFork: boolean = false) => {
-  if (hasFinishedHardFork) {
-    return afterForkColors
-  }
-  return beforeForkColors
-}
+export const MAINNET_URL = `https://${config.BASE_URL}`
+export const TESTNET_URL = `https://${ChainName.Testnet}.${config.BASE_URL}`
