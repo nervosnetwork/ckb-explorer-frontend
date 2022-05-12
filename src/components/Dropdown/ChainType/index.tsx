@@ -1,33 +1,21 @@
-import CONFIG from '../../../config'
 import { isMainnet } from '../../../utils/chain'
 import { ChainTypePanel } from './styled'
 import SimpleButton from '../../SimpleButton'
-import { getChainNames } from '../../../utils/util'
+import { ChainName, MAINNET_URL, TESTNET_URL } from '../../../constants/common'
 
-export default ({
-  setShow,
-  left,
-  top,
-  chainNames,
-}: {
-  setShow: Function
-  left: number
-  top: number
-  chainNames: ReturnType<typeof getChainNames>
-}) => {
+export default ({ setShow, left, top }: { setShow: Function; left: number; top: number }) => {
   const hideDropdown = () => {
     setShow(false)
   }
-  const testnetUrl = `${CONFIG.MAINNET_URL}/${chainNames.testnet}`
 
   return (
     <ChainTypePanel left={left} top={top} onMouseLeave={hideDropdown}>
       <SimpleButton className={`chain__type__${isMainnet() ? 'selected' : 'normal'}`} onClick={hideDropdown}>
-        <a href={CONFIG.MAINNET_URL}>{`${chainNames.mainnet} mainnet`}</a>
+        <a href={MAINNET_URL}>{`${ChainName.Mainnet} mainnet`}</a>
       </SimpleButton>
       <div className="chain__type__separate" />
       <SimpleButton className={`chain__type__${!isMainnet() ? 'selected' : 'normal'}`} onClick={hideDropdown}>
-        <a href={testnetUrl}>{`${chainNames.testnet} testnet`}</a>
+        <a href={TESTNET_URL}>{`${ChainName.Testnet} testnet`}</a>
       </SimpleButton>
     </ChainTypePanel>
   )

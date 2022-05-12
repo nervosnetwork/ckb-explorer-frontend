@@ -9,9 +9,8 @@ import Sheet from '../components/Sheet'
 import { useDispatch, useAppState } from '../contexts/providers'
 import { ComponentActions } from '../contexts/actions'
 import { isMobile } from '../utils/screen'
-import { isChainTypeError, isMainnet } from '../utils/chain'
+import { isChainTypeError } from '../utils/chain'
 import Alert from '../components/Alert'
-import { getChainNames } from '../utils/util'
 
 const Home = lazy(() => import('../pages/Home'))
 const Block = lazy(() => import('../pages/BlockDetail'))
@@ -309,10 +308,7 @@ const RouterComp = ({ container, routeProps }: { container: CustomRouter.Route; 
 
 export default () => {
   const dispatch = useDispatch()
-  const {
-    components,
-    app: { hasFinishedHardFork },
-  } = useAppState()
+  const { components } = useAppState()
   const { mobileMenuVisible } = components
 
   useRouter(() => {
@@ -330,14 +326,8 @@ export default () => {
     }
   })
 
-  let basename = '/'
-  if (!isMainnet()) {
-    const chainNames = getChainNames(hasFinishedHardFork)
-    basename += chainNames.testnet
-  }
-
   return (
-    <Router basename={basename}>
+    <Router>
       <Route
         render={(props: any) => (
           <Page>
