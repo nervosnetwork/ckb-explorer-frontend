@@ -1,7 +1,7 @@
 import { Tooltip } from 'antd'
 import { useAppState } from '../../../contexts/providers'
 import { localeNumberString } from '../../../utils/number'
-import { deprecatedAddrToNewAddr, shannonToCkb } from '../../../utils/util'
+import { shannonToCkb } from '../../../utils/util'
 import i18n from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
 import DecimalCapacity from '../../../components/DecimalCapacity'
@@ -60,19 +60,11 @@ const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
 export default () => {
   const {
     nervosDaoState: { depositors = [] },
-    app: { hasFinishedHardFork },
   } = useAppState()
-
-  const depositorList = !hasFinishedHardFork
-    ? depositors.map(d => ({
-        ...d,
-        addressHash: deprecatedAddrToNewAddr(d.addressHash),
-      }))
-    : depositors
 
   return isMobile() ? (
     <DepositorRankCardPanel>
-      {depositorList
+      {depositors
         .map(depositor => ({
           ...depositor,
           addressHash: adaptMobileEllipsis(depositor.addressHash, 8),
@@ -90,7 +82,7 @@ export default () => {
         <div>{i18n.t('nervos_dao.dao_title_deposit_time')}</div>
       </DepositorRankTitle>
       <DepositorSeparate />
-      {depositorList.map((depositor: State.NervosDaoDepositor, index: number) => (
+      {depositors.map((depositor: State.NervosDaoDepositor, index: number) => (
         <DepositorRankItem key={depositor.addressHash}>
           <div>{index + 1}</div>
           <AddressText address={depositor.addressHash} />

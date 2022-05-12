@@ -7,9 +7,8 @@ import { useAppState } from '../../../contexts/providers'
 import { HeaderBlockchainPanel, MobileSubMenuPanel } from './styled'
 import SimpleButton from '../../SimpleButton'
 import ChainDropdown from '../../Dropdown/ChainType'
-import CONFIG from '../../../config'
 import { isMobile } from '../../../utils/screen'
-import { getChainNames } from '../../../utils/util'
+import { ChainName, MAINNET_URL, TESTNET_URL } from '../../../constants/common'
 
 const getDropdownIcon = (showDropdown: boolean) => {
   if (!showDropdown) return WhiteDropdownIcon
@@ -25,7 +24,7 @@ const handleVersion = (nodeVersion: string) => {
 
 const BlockchainDropdown = () => {
   const {
-    app: { nodeVersion, language, hasFinishedHardFork },
+    app: { nodeVersion, language },
   } = useAppState()
   const [showChainType, setShowChainType] = useState(false)
   const [chainTypeLeft, setChainTypeLeft] = useState(0)
@@ -43,7 +42,6 @@ const BlockchainDropdown = () => {
       }
     }
   }, [showChainType, language])
-  const chainNames = getChainNames(hasFinishedHardFork)
   return (
     <HeaderBlockchainPanel
       id="header__blockchain__panel"
@@ -64,22 +62,20 @@ const BlockchainDropdown = () => {
               textTransform: 'uppercase',
             }}
           >
-            {isMainnet() ? chainNames.mainnet : chainNames.testnet}
+            {isMainnet() ? ChainName.Mainnet : ChainName.Testnet}
           </div>
           <img src={getDropdownIcon(showChainType)} alt="dropdown icon" />
         </div>
         <div className="header__blockchain__node__version">{handleVersion(nodeVersion)}</div>
       </SimpleButton>
-      {showChainType && (
-        <ChainDropdown setShow={setShowChainType} left={chainTypeLeft} top={chainTypeTop} chainNames={chainNames} />
-      )}
+      {showChainType && <ChainDropdown setShow={setShowChainType} left={chainTypeLeft} top={chainTypeTop} />}
     </HeaderBlockchainPanel>
   )
 }
 
 const BlockchainMenu = () => {
   const {
-    app: { nodeVersion, hasFinishedHardFork },
+    app: { nodeVersion },
   } = useAppState()
   const [showSubMenu, setShowSubMenu] = useState(false)
 
@@ -89,8 +85,6 @@ const BlockchainMenu = () => {
     }
     return isMainnet() ? GreenDropUpIcon : BlueDropUpIcon
   }
-
-  const chainNames = getChainNames(hasFinishedHardFork)
 
   return (
     <MobileSubMenuPanel showSubMenu={false}>
@@ -106,18 +100,18 @@ const BlockchainMenu = () => {
             textTransform: 'uppercase',
           }}
         >
-          {isMainnet() ? chainNames.mainnet : chainNames.testnet}
+          {isMainnet() ? ChainName.Mainnet : ChainName.Testnet}
         </div>
         <img className="mobile__menus__main__item__icon" alt="mobile chain type icon" src={chainTypeIcon()} />
       </SimpleButton>
       <div className="blockchain__mobile__node__version">{handleVersion(nodeVersion)}</div>
       {showSubMenu && (
         <>
-          <a className="mobile__menus__sub__item" href={CONFIG.MAINNET_URL}>
-            {`${chainNames.mainnet} mainnet`}
+          <a className="mobile__menus__sub__item" href={MAINNET_URL}>
+            {`${ChainName.Mainnet} mainnet`}
           </a>
-          <a className="mobile__menus__sub__item" href={`${CONFIG.MAINNET_URL}/${chainNames.testnet}`}>
-            {`${chainNames.testnet} testnet`}
+          <a className="mobile__menus__sub__item" href={TESTNET_URL}>
+            {`${ChainName.Testnet} testnet`}
           </a>
         </>
       )}

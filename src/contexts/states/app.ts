@@ -1,8 +1,4 @@
-import { AppCachedKeys } from '../../constants/cache'
-import { getChartColor, getPrimaryColor, getSecondaryColor, DEPLOY_TIME_LEFT } from '../../constants/common'
-import { fetchCachedData } from '../../utils/cache'
-
-const hardForkInfo = fetchCachedData(AppCachedKeys.HardForkInfo) as any
+import { ChartColor, getPrimaryColor, getSecondaryColor } from '../../constants/common'
 
 export const initApp: State.App = {
   toast: null,
@@ -27,11 +23,9 @@ export const initApp: State.App = {
   appWidth: window.innerWidth,
   appHeight: window.innerHeight,
   language: navigator.language.includes('zh') ? 'zh' : 'en',
-  miranaHardForkSecondsLeft: hardForkInfo?.miranaHardForkSecondsLeft ?? DEPLOY_TIME_LEFT,
-  hasFinishedHardFork: !!hardForkInfo?.hasFinishedHardFork,
-  primaryColor: getPrimaryColor(!!hardForkInfo?.hasFinishedHardFork),
-  secondaryColor: getSecondaryColor(!!hardForkInfo?.hasFinishedHardFork),
-  chartColor: getChartColor(!!hardForkInfo?.hasFinishedHardFork),
+  primaryColor: getPrimaryColor(),
+  secondaryColor: getSecondaryColor(),
+  chartColor: ChartColor,
 }
 
 export default initApp

@@ -609,14 +609,14 @@ declare namespace State {
 
   export interface PagePayload
     extends PageState,
-      AddressState,
-      BlockState,
-      BlockListState,
-      TransactionState,
-      TransactionsState,
-      NervosDaoState,
-      UDTState,
-      TokensState {}
+    AddressState,
+    BlockState,
+    BlockListState,
+    TransactionState,
+    TransactionsState,
+    NervosDaoState,
+    UDTState,
+    TokensState { }
 
   export interface App {
     toast: ToastMessage | null
@@ -633,8 +633,6 @@ declare namespace State {
     appWidth: number
     appHeight: number
     language: 'en' | 'zh'
-    miranaHardForkSecondsLeft: number
-    hasFinishedHardFork: boolean
     primaryColor: string
     secondaryColor: string
     chartColor: {
