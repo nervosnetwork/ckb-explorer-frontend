@@ -7,3 +7,9 @@ build/
 npm-debug.log
 *.log
 coverage/
+*.orig
+*.swp
+*.bak
+*.tmp
+*.swo
+
