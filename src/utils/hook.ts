@@ -1,5 +1,11 @@
 import { useEffect, useState, useRef, useMemo } from 'react'
-import { parseAddress } from '@nervosnetwork/ckb-sdk-utils'
+import {
+  AddressPrefix,
+  addressToScript,
+  bech32Address,
+  parseAddress,
+  systemScripts,
+} from '@nervosnetwork/ckb-sdk-utils'
 import { AppCachedKeys } from '../constants/cache'
 import { deprecatedAddrToNewAddr } from './util'
 
@@ -60,18 +66,39 @@ export const useAddrFormatToggle = () => {
   }
 }
 
-export const useNewAddr = (hash: string) =>
+export const useNewAddr = (addr: string) =>
   useMemo(() => {
-    if (hash.startsWith('0x')) {
-      return hash
+    if (addr.startsWith('0x')) {
+      return addr
     }
     try {
-      const isAddrNew = parseAddress(hash, 'hex').startsWith('0x00')
-      return isAddrNew ? hash : deprecatedAddrToNewAddr(hash)
+      const isAddrNew = parseAddress(addr, 'hex').startsWith('0x00')
+      return isAddrNew ? addr : deprecatedAddrToNewAddr(addr)
     } catch {
-      return hash
+      return addr
     }
-  }, [hash])
+  }, [addr])
+
+export const useSecp256k1ShortAddr = (addr: string) =>
+  useMemo(() => {
+    if (addr.startsWith('0x')) {
+      return null
+    }
+    try {
+      const script = addressToScript(addr)
+      if (
+        script.codeHash === systemScripts.SECP256K1_BLAKE160.codeHash &&
+        script.hashType === systemScripts.SECP256K1_BLAKE160.hashType
+      ) {
+        return bech32Address(script.args, {
+          prefix: addr.startsWith('ckb') ? AddressPrefix.Mainnet : AddressPrefix.Testnet,
+        })
+      }
+      return null
+    } catch {
+      return null
+    }
+  }, [addr])
 
 export default {
   useInterval,
