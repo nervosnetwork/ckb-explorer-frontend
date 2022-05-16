@@ -13,7 +13,7 @@ import { HashCardPanel, LoadingPanel } from './styled'
 import SimpleButton from '../../SimpleButton'
 import { ReactComponent as OpenInNew } from '../../../assets/open_in_new.svg'
 import styles from './styles.module.scss'
-import { useNewAddr } from '../../../utils/hook'
+import { useNewAddr, useSecp256k1ShortAddr } from '../../../utils/hook'
 
 export default ({
   title,
@@ -43,6 +43,8 @@ export default ({
   }
 
   const newAddr = useNewAddr(hash)
+  const secp256k1ShortAddr = useSecp256k1ShortAddr(hash)
+  const alternativeAddr = newAddr === hash ? secp256k1ShortAddr : newAddr
 
   return (
     <HashCardPanel isColumn={!!iconUri}>
@@ -82,10 +84,13 @@ export default ({
           >
             {!loading && <img src={CopyIcon} alt="copy" />}
           </SimpleButton>
-          {newAddr === hash ? null : (
-            <Tooltip placement="top" title={i18n.t(`address.view-new-address`)}>
+          {alternativeAddr ? (
+            <Tooltip
+              placement="top"
+              title={i18n.t(`address.${newAddr === hash ? 'view-short-address' : 'view-new-address'}`)}
+            >
               <a
-                href={`${window.location.href.split('/address/')[0]}/address/${newAddr}`}
+                href={`${window.location.href.split('/address/')[0]}/address/${alternativeAddr}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.openInNew}
@@ -93,7 +98,7 @@ export default ({
                 <OpenInNew />
               </a>
             </Tooltip>
-          )}
+          ) : null}
         </div>
         {specialAddress && (
           <Tooltip title={i18n.t('address.vesting_tooltip')} placement={isMobile() ? 'bottomRight' : 'bottom'}>
