@@ -1,0 +1,20 @@
+{
+  "root": "build/",
+  "routes": {
+    "/**": "index.html"
+  },
+  "headers": {
+    "/": {
+      "Cache-Control": "no-cache,must-revalidate,proxy-revalidate,max-age=300"
+    },
+    "/static/**": {
+      "Cache-Control": "public, max-age=512000"
+    },
+    "/*.js": {
+      "Cache-Control": "public, max-age=512000"
+    },
+    "/*.css": {
+      "Cache-Control": "public, max-age=512000"
+    }
+  }
+}

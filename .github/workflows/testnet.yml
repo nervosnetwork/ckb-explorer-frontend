@@ -1,0 +1,22 @@
+name: CI
+
+on: 
+  push:
+    branches:
+      - testnet
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 0
+
+      - name: Push to dokku
+        uses: dokku/github-action@master
+        with:
+          # specify the `main` branch as the remote branch to push to
+          branch: 'testnet'
+          git_remote_url: ${{ secrets.TESTNET_HOST_URL }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
