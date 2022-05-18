@@ -135,7 +135,6 @@ export const handleRedirectFromAggron = () => {
   }
   return false
 }
-
 export default {
   copyElementValue,
   shannonToCkb,

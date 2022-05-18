@@ -6,7 +6,7 @@ import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { isMobile } from '../../../utils/screen'
 import { adaptPCEllipsis, adaptMobileEllipsis, sliceNftName } from '../../../utils/string'
-import { deprecatedAddrToNewAddr, shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
+import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import {
   TransactionCellContentPanel,
   TransactionCellDetailPanel,
@@ -33,6 +33,7 @@ import SimpleModal from '../../../components/Modal'
 import SimpleButton from '../../../components/SimpleButton'
 import TransactionReward from '../TransactionReward'
 import Cellbase from '../../../components/Transaction/Cellbase'
+import { useDeprecatedAddr, useNewAddr } from '../../../utils/hook'
 
 const AddressText = ({ address }: { address: string }) => {
   const addressText = isMobile() ? adaptMobileEllipsis(address, 5) : adaptPCEllipsis(address, 4, 80)
@@ -59,28 +60,32 @@ const TransactionCellIndexAddress = ({
   cellType: CellType
   index: number
   isAddrNew: boolean
-}) => (
-  <TransactionCellAddressPanel>
-    <div className="transaction__cell_index">
-      <div>{`#${index}`}</div>
-    </div>
-    <TransactionCellHashPanel highLight={cell.addressHash !== null}>
-      {!cell.fromCellbase && cellType === CellType.Input && (
-        <span>
-          <TransactionCellArrow cell={cell} cellType={cellType} />
-        </span>
-      )}
-      {cell.addressHash ? (
-        <AddressText address={isAddrNew ? deprecatedAddrToNewAddr(cell.addressHash) : cell.addressHash} />
-      ) : (
-        <span className="transaction__cell_address_no_link">
-          {cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}
-        </span>
-      )}
-      {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
-    </TransactionCellHashPanel>
-  </TransactionCellAddressPanel>
-)
+}) => {
+  const deprecatedAddr = useDeprecatedAddr(cell.addressHash)!
+  const newAddr = useNewAddr(cell.addressHash)
+  return (
+    <TransactionCellAddressPanel>
+      <div className="transaction__cell_index">
+        <div>{`#${index}`}</div>
+      </div>
+      <TransactionCellHashPanel highLight={cell.addressHash !== null}>
+        {!cell.fromCellbase && cellType === CellType.Input && (
+          <span>
+            <TransactionCellArrow cell={cell} cellType={cellType} />
+          </span>
+        )}
+        {cell.addressHash ? (
+          <AddressText address={isAddrNew ? deprecatedAddr : newAddr} />
+        ) : (
+          <span className="transaction__cell_address_no_link">
+            {cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}
+          </span>
+        )}
+        {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
+      </TransactionCellHashPanel>
+    </TransactionCellAddressPanel>
+  )
+}
 
 const isUdt = (cell: State.Cell) => cell.udtInfo && cell.udtInfo.typeHash
 
