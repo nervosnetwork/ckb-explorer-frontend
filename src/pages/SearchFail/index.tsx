@@ -13,9 +13,7 @@ const chainErrorMessage = () =>
 const chainUrlMessage = () =>
   isMainnet() ? i18n.t('search.address_type_testnet_url') : i18n.t('search.address_type_mainnet_url')
 
-export const chainUrl = () => {
-  return isMainnet() ? MAINNET_URL : TESTNET_URL
-}
+const targetUrl = isMainnet() ? TESTNET_URL : MAINNET_URL
 
 export default ({ address }: { address?: string }) => {
   const { search } = useLocation()
@@ -33,7 +31,7 @@ export default ({ address }: { address?: string }) => {
           {(type && type === SearchFailType.CHAIN_ERROR) || address ? (
             <div>
               <span>{chainErrorMessage()}</span>
-              <a href={`${chainUrl()}/address/${q}`} rel="noopener noreferrer">
+              <a href={`${targetUrl}/address/${q}`} rel="noopener noreferrer">
                 {chainUrlMessage()}
               </a>
             </div>
