@@ -31,7 +31,7 @@ export default ({ address }: { address?: string }) => {
           {(type && type === SearchFailType.CHAIN_ERROR) || address ? (
             <div>
               <span>{chainErrorMessage()}</span>
-              <a href={`${targetUrl}/address/${q}`} rel="noopener noreferrer">
+              <a href={`${targetUrl}address/${q}`} rel="noopener noreferrer">
                 {chainUrlMessage()}
               </a>
             </div>
