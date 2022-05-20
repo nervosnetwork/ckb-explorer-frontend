@@ -75,7 +75,7 @@ const TransactionCellIndexAddress = ({
           </span>
         )}
         {cell.addressHash ? (
-          <AddressText address={isAddrNew ? deprecatedAddr : newAddr} />
+          <AddressText address={!isAddrNew ? deprecatedAddr : newAddr} />
         ) : (
           <span className="transaction__cell_address_no_link">
             {cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}
