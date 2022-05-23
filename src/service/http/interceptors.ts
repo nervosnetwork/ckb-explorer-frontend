@@ -5,13 +5,13 @@ import i18n from '../../utils/i18n'
 import { AppDispatch } from '../../contexts/reducer'
 import { AppActions } from '../../contexts/actions'
 
-const updateNetworkError = (dispatch: AppDispatch, occurError: boolean) => {
+const updateNetworkError = (dispatch: AppDispatch, occurError: boolean, errMessage = 'toast.invalid_network') => {
   dispatch({
     type: AppActions.UpdateAppErrors,
     payload: {
       appError: {
         type: 'Network',
-        message: occurError ? [i18n.t('toast.invalid_network')] : [],
+        message: occurError ? [i18n.t(errMessage)] : [],
       },
     },
   })
@@ -60,6 +60,9 @@ export const initAxiosInterceptors = (dispatch: AppDispatch, history: ReturnType
           case 404:
           case 400:
             updateNetworkError(dispatch, false)
+            break
+          case 429:
+            updateNetworkError(dispatch, true, 'toast.too_many_request')
             break
           default:
             updateNetworkError(dispatch, true)
