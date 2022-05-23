@@ -7,30 +7,28 @@ import { AppActions } from '../../contexts/actions'
 
 let timeout: ReturnType<typeof setTimeout> | null
 
-const updateNetworkError = (dispatch: AppDispatch, occurError: boolean, errMessage = 'toast.invalid_network') => {
-  if (occurError) {
-    if (timeout) {
-      clearTimeout(timeout)
-    }
-    timeout = setTimeout(() => {
-      dispatch({
-        type: AppActions.UpdateAppErrors,
-        payload: {
-          appError: {
-            type: 'Network',
-            message: [],
-          },
-        },
-      })
-      timeout = null
-    }, 2000)
+const updateNetworkError = (dispatch: AppDispatch, errMessage = 'toast.invalid_network') => {
+  if (timeout) {
+    clearTimeout(timeout)
   }
+  timeout = setTimeout(() => {
+    dispatch({
+      type: AppActions.UpdateAppErrors,
+      payload: {
+        appError: {
+          type: 'Network',
+          message: [],
+        },
+      },
+    })
+    timeout = null
+  }, 2000)
   dispatch({
     type: AppActions.UpdateAppErrors,
     payload: {
       appError: {
         type: 'Network',
-        message: occurError ? [i18n.t(errMessage)] : [],
+        message: [i18n.t(errMessage)],
       },
     },
   })
@@ -73,17 +71,17 @@ export const initAxiosInterceptors = (dispatch: AppDispatch, history: ReturnType
           case 422:
           case 404:
           case 400:
-            updateNetworkError(dispatch, true)
+            updateNetworkError(dispatch)
             break
           case 429:
-            updateNetworkError(dispatch, true, 'toast.too_many_request')
+            updateNetworkError(dispatch, 'toast.too_many_request')
             break
           default:
-            updateNetworkError(dispatch, true)
+            updateNetworkError(dispatch)
             break
         }
       } else {
-        updateNetworkError(dispatch, true)
+        updateNetworkError(dispatch)
       }
       return Promise.reject(error)
     },
