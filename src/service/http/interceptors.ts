@@ -5,7 +5,26 @@ import i18n from '../../utils/i18n'
 import { AppDispatch } from '../../contexts/reducer'
 import { AppActions } from '../../contexts/actions'
 
+let timeout: ReturnType<typeof setTimeout> | null
+
 const updateNetworkError = (dispatch: AppDispatch, occurError: boolean, errMessage = 'toast.invalid_network') => {
+  if (occurError) {
+    if (timeout) {
+      clearTimeout(timeout)
+    }
+    timeout = setTimeout(() => {
+      dispatch({
+        type: AppActions.UpdateAppErrors,
+        payload: {
+          appError: {
+            type: 'Network',
+            message: [],
+          },
+        },
+      })
+      timeout = null
+    }, 2000)
+  }
   dispatch({
     type: AppActions.UpdateAppErrors,
     payload: {
@@ -32,17 +51,12 @@ export const initAxiosInterceptors = (dispatch: AppDispatch, history: ReturnType
   )
 
   axiosIns.interceptors.response.use(
-    response => {
-      updateNetworkError(dispatch, false)
-      return response
-    },
+    response => response,
     (error: AxiosError) => {
-      updateNetworkError(dispatch, true)
       if (error && error.response && error.response.data) {
         const { message }: { message: string } = error.response.data
         switch (error.response.status) {
           case 503:
-            updateNetworkError(dispatch, false)
             if (message) {
               dispatch({
                 type: AppActions.UpdateAppErrors,
@@ -59,7 +73,7 @@ export const initAxiosInterceptors = (dispatch: AppDispatch, history: ReturnType
           case 422:
           case 404:
           case 400:
-            updateNetworkError(dispatch, false)
+            updateNetworkError(dispatch, true)
             break
           case 429:
             updateNetworkError(dispatch, true, 'toast.too_many_request')
@@ -68,6 +82,8 @@ export const initAxiosInterceptors = (dispatch: AppDispatch, history: ReturnType
             updateNetworkError(dispatch, true)
             break
         }
+      } else {
+        updateNetworkError(dispatch, true)
       }
       return Promise.reject(error)
     },
