@@ -3,6 +3,7 @@ export interface ContractHashTag {
   txHashes: string[] //  mainnet and testnet contract tx hashes
   tag: string
   category: 'lock' | 'type'
+  depType: 'dep_group' | 'code'
   hashType: string
 }
 
@@ -11,12 +12,14 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     codeHashes: ['0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8'],
     txHashes: ['0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c-0'],
     hashType: 'type',
+    depType: 'dep_group',
     tag: 'secp256k1_blake160',
     category: 'lock',
   },
   {
     codeHashes: ['0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8'],
     txHashes: ['0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c-1'],
+    depType: 'dep_group',
     hashType: 'type',
     tag: 'secp256k1 / multisig / locktime',
     category: 'lock',
@@ -24,6 +27,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x0fb343953ee78c9986b091defb6252154e0bb51044fd2879fde5b27314506111'],
     txHashes: ['0xa05f28c9b867f8c5682039c10d8e864cf661685252aa74a008d255c33813bb81-0'],
+    depType: 'dep_group',
     hashType: 'type',
     tag: 'secp256k1 / anyone-can-pay (deprecated)',
     category: 'lock',
@@ -31,6 +35,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0xd369597ff47f29fbc0d47d2e3775370d1250b85140c670e4718af712983a2354'],
     txHashes: ['0x4153a2014952d7cac45f285ce9a7c5c0c0e1b21f2d378b82ac1433cb11c25c4d-0'],
+    depType: 'dep_group',
     hashType: 'type',
     tag: 'secp256k1 / anyone-can-pay',
     category: 'lock',
@@ -38,6 +43,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x82d76d1b75fe2fd9a27dfbaa65a039221a380d76c926f378d3f81cf3e7e13f2e'],
     txHashes: ['0xe2fb199810d49a4d8beec56718ba2593b665db9d52299a0f9e6e75416d73ff5c-2'],
+    depType: 'code',
     hashType: 'type',
     tag: 'nervos dao',
     category: 'type',
@@ -46,12 +52,14 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     codeHashes: ['0x5e7a36a77e68eecc013dfa2fe6a23f3b6c344b04005808694ae6dd45eea4cfd5'],
     txHashes: ['0xc7813f6a415144643970c2e88e0bb6ca6a8edc5dd7c1022746f628284a9936d5-0'],
     hashType: 'type',
+    depType: 'code',
     tag: 'sudt',
     category: 'type',
   },
   {
     codeHashes: ['0xbf43c3602455798c1a61a596e0d95278864c552fafe231c063b3fabf97a8febc'],
     txHashes: ['0x1d60cb8f4666e039f418ea94730b1a8c5aa0bf2f7781474406387462924d15d4-0'],
+    depType: 'code',
     hashType: 'type',
     tag: 'pwlock-k1-acpl',
     category: 'lock',
@@ -59,6 +67,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0xe4d4ecc6e5f9a059bf2f7a82cca292083aebc0c421566a52484fe2ec51a9fb0c'],
     txHashes: ['0x04632cc459459cf5c9d384b43dee3e36f542a464bdd4127be7d6618ac6f8d268-0'],
+    depType: 'dep_group',
     hashType: 'type',
     tag: 'cheque',
     category: 'lock',
@@ -71,6 +80,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
       '0xdb29e26b3553559140bffddbc8f04011207db8a5996cbaf5b521db98e9d11b17-0',
       '0x8703457af1e3711aed7772bfe87ab50175cbf29439196cfdb34095e8cbbe3d45-0',
     ],
+    depType: 'code',
     hashType: 'type',
     tag: 'm-nft_issuer',
     category: 'type',
@@ -83,6 +93,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
       '0xdb29e26b3553559140bffddbc8f04011207db8a5996cbaf5b521db98e9d11b17-1',
       '0x8703457af1e3711aed7772bfe87ab50175cbf29439196cfdb34095e8cbbe3d45-1',
     ],
+    depType: 'code',
     hashType: 'type',
     tag: 'm-nft_class',
     category: 'type',
@@ -95,6 +106,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
       '0xdb29e26b3553559140bffddbc8f04011207db8a5996cbaf5b521db98e9d11b17-2',
       '0x8703457af1e3711aed7772bfe87ab50175cbf29439196cfdb34095e8cbbe3d45-2',
     ],
+    depType: 'code',
     hashType: 'type',
     tag: 'm-nft',
     category: 'type',
@@ -102,13 +114,23 @@ export const MainnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x614d40a86e1b29a8f4d8d93b9f3b390bf740803fa19a69f1c95716e029ea09b3'],
     txHashes: ['0x1a04142a2a745fb3b7e0e9b61241676c1c94ad8cdacb36f223661130a23fb007-0'],
+    depType: 'code',
     hashType: 'type',
-    tag: 'unipass',
+    tag: 'unipass v2',
+    category: 'lock',
+  },
+  {
+    codeHashes: ['0xd01f5152c267b7f33b9795140c2467742e8424e49ebe2331caec197f7281b60a'],
+    txHashes: ['0x86a5e91ad93475caf30a3d3b0258786dd463984f71e8471abc5574f206f6207a-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'unipass v3',
     category: 'lock',
   },
   {
     codeHashes: ['0x081dbffa88dab54ba426d231ca64eb760cea2fe9e16761a1da400da1b2cbe128'],
     txHashes: ['0x0f0c22372a05f3c5f47acb066c65f9bae86bdce043762310e50309cc5a77abd4-0'],
+    depType: 'dep_group',
     hashType: 'type',
     tag: 'flashsigner',
     category: 'lock',
@@ -116,6 +138,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x1122a4fb54697cf2e6e3a96c9d80fd398a936559b90954c6e88eb7ba0cf652df'],
     txHashes: ['0xae2d5838730fc096e68fe839aea50d294493e10054513c10ca35e77e82e9243b-0'],
+    depType: 'dep_group',
     hashType: 'type',
     tag: 'cota',
     category: 'type',
@@ -123,6 +146,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x90ca618be6c15f5857d3cbd09f9f24ca6770af047ba9ee70989ec3b229419ac7'],
     txHashes: ['0xae2d5838730fc096e68fe839aea50d294493e10054513c10ca35e77e82e9243b-0'],
+    depType: 'dep_group',
     hashType: 'type',
     tag: 'cota_registry',
     category: 'type',
@@ -133,6 +157,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8'],
     txHashes: ['0xf8de3bb47d055cdf460d93a2a6e1b05f7432f9777c8c474abf4eec1d4aee5d37-0'],
+    depType: 'dep_group',
     hashType: 'type',
     tag: 'secp256k1_blake160',
     category: 'lock',
@@ -140,6 +165,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8'],
     txHashes: ['0xf8de3bb47d055cdf460d93a2a6e1b05f7432f9777c8c474abf4eec1d4aee5d37-1'],
+    depType: 'dep_group',
     hashType: 'type',
     tag: 'secp256k1 / multisig / locktime',
     category: 'lock',
@@ -147,6 +173,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x86a1c6987a4acbe1a887cca4c9dd2ac9fcb07405bbeda51b861b18bbf7492c4b'],
     txHashes: ['0x4f32b3e39bd1b6350d326fdfafdfe05e5221865c3098ae323096f0bfc69e0a8c-0'],
+    depType: 'dep_group',
     hashType: 'type',
     tag: 'secp256k1 / anyone-can-pay (deprecated)',
     category: 'lock',
@@ -154,6 +181,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x3419a1c09eb2567f6552ee7a8ecffd64155cffe0f1796e6e61ec088d740c1356'],
     txHashes: ['0xec26b0f85ed839ece5f11c4c4e837ec359f5adc4420410f6453b1f6b60fb96a6-0'],
+    depType: 'dep_group',
     hashType: 'type',
     tag: 'secp256k1 / anyone-can-pay',
     category: 'lock',
@@ -161,6 +189,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x82d76d1b75fe2fd9a27dfbaa65a039221a380d76c926f378d3f81cf3e7e13f2e'],
     txHashes: ['0x8f8c79eb6671709633fe6a46de93c0fedc9c1b8a6527a18d3983879542635c9f-2'],
+    depType: 'code',
     hashType: 'type',
     tag: 'nervos dao',
     category: 'type',
@@ -174,6 +203,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
       '0xc1b2ae129fad7465aaa9acc9785f842ba3e6e8b8051d899defa89f5508a77958-0',
       '0xe12877ebd2c3c364dc46c5c992bcfaf4fee33fa13eebdf82c591fc9825aab769-0',
     ],
+    depType: 'code',
     hashType: 'type',
     tag: 'sudt',
     category: 'type',
@@ -181,6 +211,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x58c5f491aba6d61678b7cf7edf4910b1f5e00ec0cde2f42e0abb4fd9aff25a63'],
     txHashes: ['0x4f254814b972421789fafef49d4fee94116863138f72ab1e6392daf3decfaec1-0'],
+    depType: 'code',
     hashType: 'type',
     tag: 'pwlock-k1-acpl',
     category: 'lock',
@@ -188,6 +219,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x6843c5fe3acb7f4dc2230392813cb9c12dbced5597fca30a52f13aa519de8d33'],
     txHashes: ['0x28ee75f9745828eaade301ef24d0b037404717469a299180ecb679259cb688ab-0'],
+    depType: 'code', // TODO
     hashType: 'type',
     tag: 'pwlock-r1',
     category: 'lock',
@@ -195,6 +227,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x60d5f39efce409c587cb9ea359cefdead650ca128f0bd9cb3855348f98c70d5b'],
     txHashes: ['0x7f96858be0a9d584b4a9ea190e0420835156a6010a5fde15ffcdc9d9c721ccab-0'],
+    depType: 'dep_group',
     hashType: 'type',
     tag: 'cheque',
     category: 'lock',
@@ -208,6 +241,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
       '0x3ecf42927509645dec38667d557dd9ba20d0d07267d769983495c1b6b9c70cc4-0',
       '0xf11ccb6079c1a4b3d86abe2c574c5db8d2fd3505fdc1d5970b69b31864a4bd1c-0',
     ],
+    depType: 'code',
     hashType: 'type',
     tag: 'm-nft_issuer',
     category: 'type',
@@ -221,6 +255,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
       '0x3ecf42927509645dec38667d557dd9ba20d0d07267d769983495c1b6b9c70cc4-1',
       '0xf11ccb6079c1a4b3d86abe2c574c5db8d2fd3505fdc1d5970b69b31864a4bd1c-1',
     ],
+    depType: 'code',
     hashType: 'type',
     tag: 'm-nft_class',
     category: 'type',
@@ -234,6 +269,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
       '0x3ecf42927509645dec38667d557dd9ba20d0d07267d769983495c1b6b9c70cc4-2',
       '0xf11ccb6079c1a4b3d86abe2c574c5db8d2fd3505fdc1d5970b69b31864a4bd1c-2',
     ],
+    depType: 'code',
     hashType: 'type',
     tag: 'm-nft',
     category: 'type',
@@ -241,13 +277,23 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x124a60cd799e1fbca664196de46b3f7f0ecb7138133dcaea4893c51df5b02be6'],
     txHashes: ['0x3d41e1c543f0fddcbb17157d15a2845d7c5fb0363561cd8f50ecd0e118b34f84-0'],
+    depType: 'code',
     hashType: 'type',
-    tag: 'unipass',
+    tag: 'unipass v2',
+    category: 'lock',
+  },
+  {
+    codeHashes: ['0x3e1eb7ed4809b2d60650be96a40abfbdafb3fb942b7b37ec7709e64e2cd0a783'],
+    txHashes: ['0x8b98ede6bf7b5baba767b1d2d46a13749fc810375b14152abbc259a7fc98e46d-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'unipass v3',
     category: 'lock',
   },
   {
     codeHashes: ['0x577a5e5930e2ecdd6200765f3442e6119dc99e87df474f22f13cab819c80b242'],
     txHashes: ['0xb66776ff3244033fcd15312ae8b17d384c11bebbb923fce3bd896d89f4744d48-0'],
+    depType: 'dep_group',
     hashType: 'type',
     tag: 'flashsigner',
     category: 'lock',
@@ -255,6 +301,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x89cd8003a0eaf8e65e0c31525b7d1d5c1becefd2ea75bb4cff87810ae37764d8'],
     txHashes: ['0xeb8c99e9aaff64ffea5a97100fa9e6c23e59afe7ab9789cd882e3bb9a930c3ea-0'],
+    depType: 'dep_group',
     hashType: 'type',
     tag: 'cota',
     category: 'type',
@@ -262,6 +309,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x9302db6cc1344b81a5efee06962abcb40427ecfcbe69d471b01b2658ed948075'],
     txHashes: ['0xeb8c99e9aaff64ffea5a97100fa9e6c23e59afe7ab9789cd882e3bb9a930c3ea-0'],
+    depType: 'dep_group',
     hashType: 'type',
     tag: 'cota_registry',
     category: 'type',

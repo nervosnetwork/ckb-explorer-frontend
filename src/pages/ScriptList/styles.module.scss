@@ -1,0 +1,121 @@
+$primary-color: #000;
+$accent-color: #efefef;
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  max-width: 1080px;
+  margin: 45px auto 20px auto;
+
+  @media screen and (max-width: 1140px) {
+    margin: 45px 15px 20px;
+  }
+}
+
+.container {
+  background: white;
+  max-width: 1080px;
+  margin: 0 auto 45px auto;
+  padding: 16px;
+  border-radius: 6px;
+
+  @media screen and (max-width: 1140px) {
+    margin: 20px 15px;
+  }
+
+  h3 {
+    font-weight: 700;
+  }
+
+  details > div {
+    border-left: 1px solid $primary-color;
+    border-right: 1px solid $primary-color;
+    border-bottom: 1px solid $primary-color;
+    padding: 16px;
+  }
+
+  details + details {
+    margin-top: .5rem;
+  }
+
+  .links{
+    display: flex;
+    align-items: center;
+    a {
+      margin-right: 10px;
+      margin-bottom: 20px;
+    }
+  }
+
+  summary {
+    list-style: none;
+    border: 1px solid $primary-color;
+    padding: .75em 1em;
+    cursor: pointer;
+    position: relative;
+    padding-left: calc(1.75rem + .75rem + .75rem);
+    user-select: none;
+    transition: background 0.3s;
+
+    @media screen and (max-width: 400px) {
+      word-break: break-all;
+    }
+
+    b {
+      padding-right: 6px;
+    }
+
+    &[data-deprecated=true] {
+      text-decoration: line-through;
+    }
+
+    &:before {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: .75rem;
+      font-family: 'mono';
+      content: "▲";
+      width: 1.75rem;
+      height: 1.75rem;
+      background-color: #000;
+      color: #FFF;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    &:hover{
+      background: $accent-color;
+    }
+  }
+
+  details[open] {
+    summary {
+      background: $accent-color;
+      &:before {
+        transform: translateY(-50%) rotate(0.5turn);
+      }
+    }
+  }
+
+  a {
+    color: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 1px 0 0;
+    
+    &:hover {
+      box-shadow: 0 2px 0 0;
+    }
+  }
+
+  pre {
+    user-select: all;
+    background: #efefef;
+    padding: 6px;
+    border-radius: 6px;
+  }
+}
+
