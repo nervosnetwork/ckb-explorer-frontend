@@ -49,6 +49,7 @@ const AnnualPercentageCompensationChart = lazy(
 const SecondaryIssuanceChart = lazy(() => import('../pages/StatisticsChart/monetary/SecondaryIssuance'))
 const InflationRateChart = lazy(() => import('../pages/StatisticsChart/monetary/InflationRate'))
 const LiquidityChart = lazy(() => import('../pages/StatisticsChart/monetary/Liquidity'))
+const ScriptList = lazy(() => import('../pages/ScriptList'))
 
 const Containers: CustomRouter.Route[] = [
   {
@@ -260,6 +261,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/404',
     exact: true,
     comp: NotFoundPage,
+  },
+  {
+    name: 'ScriptList',
+    path: '/scripts',
+    exact: true,
+    comp: ScriptList,
   },
 ]
 

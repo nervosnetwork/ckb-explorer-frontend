@@ -71,7 +71,6 @@ export const initAxiosInterceptors = (dispatch: AppDispatch, history: ReturnType
           case 422:
           case 404:
           case 400:
-            updateNetworkError(dispatch)
             break
           case 429:
             updateNetworkError(dispatch, 'toast.too_many_request')
