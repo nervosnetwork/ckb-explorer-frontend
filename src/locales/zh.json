@@ -21,6 +21,7 @@
     },
     "toast": {
       "invalid_network": "网络出错，请稍后再试",
+      "too_many_request": "请求次数过多, 请稍后再试",
       "data_too_large": "数据过大，不支持下载",
       "result_not_found": "没有找到搜索结果",
       "maintenance": "请注意 CKB 浏览器将于 {{start}} 至 {{end}} 处于维护状态，期间数据更新可能会有延迟。",
@@ -381,6 +382,17 @@
       "created_time": "创建时间",
       "tokens_empty": "目前没有代币。",
       "unverified": "未验证"
+    },
+    "script_list": {
+      "title": "脚本",
+      "links": "相关链接",
+      "on_chain_data": "链上数据",
+      "link": {
+        "rfc": "RFC",
+        "code": "源代码",
+        "deprecated": "已废弃",
+        "website": "官网"
+      }
     }
   }
 }
