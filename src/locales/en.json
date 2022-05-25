@@ -382,6 +382,17 @@
       "created_time": "Created Time",
       "tokens_empty": "There are no tokens at this time.",
       "unverified": "Unverified"
+    },
+    "script_list": {
+      "title": "Scripts",
+      "links": "Links",
+      "on_chain_data": "On-chain data",
+      "link": {
+        "rfc": "RFC",
+        "code": "Source Code",
+        "deprecated": "Deprecated",
+        "website": "Website"
+      }
     }
   }
 }

@@ -382,6 +382,17 @@
       "created_time": "创建时间",
       "tokens_empty": "目前没有代币。",
       "unverified": "未验证"
+    },
+    "script_list": {
+      "title": "脚本",
+      "links": "相关链接",
+      "on_chain_data": "链上数据",
+      "link": {
+        "rfc": "RFC",
+        "code": "源代码",
+        "deprecated": "已废弃",
+        "website": "官网"
+      }
     }
   }
 }
