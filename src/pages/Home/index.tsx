@@ -25,7 +25,7 @@ import { BlockCardItem, TransactionCardItem } from './TableCard'
 import { getLatestTransactions } from '../../service/app/transaction'
 import { getTipBlockNumber } from '../../service/app/address'
 import Loading from '../../components/Loading/SmallLoading'
-import MiranaEasterEgg from '../../components/MiranaEasterEgg'
+import Banner from '../../components/Banner'
 import { useInterval } from '../../utils/hook'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
 import Search from '../../components/Search'
@@ -171,7 +171,7 @@ export default () => {
 
   return (
     <Content>
-      <MiranaEasterEgg />
+      <Banner />
       <div className="container">
         <div className={styles.HomeHeaderTopPanel}>
           <div className={styles.title}>{i18n.t('common.ckb_explorer')}</div>
