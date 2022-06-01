@@ -1,0 +1,50 @@
+name: Auto merge
+
+on: push
+
+jobs:
+  merge-develop-into-testnet:
+    if: ${{ github.ref == 'refs/heads/develop' }}
+    name: Merge develop into testnet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: repo-sync/pull-request@v2
+        with:
+          source_branch: 'develop'
+          destination_branch: 'testnet'
+          pr_title: 'Merge develop ${{ github.ref }} into testnet'
+          pr_reviewer: 'keith-cy'
+          pr_label: 'auto-pr'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  merge-testnet-into-mainnet:
+    if: ${{ github.ref == 'refs/heads/testnet' }}
+    name: Merge testnet into mainnet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: repo-sync/pull-request@v2
+        with:
+          source_branch: 'testnet'
+          destination_branch: 'master'
+          pr_title: 'Merge released ${{ github.ref }} into develop'
+          pr_reviewer: 'keith-cy'
+          pr_label: 'auto-pr'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  merge-mainnet-back-to-develop:
+    if: ${{ github.ref == 'refs/heads/master' }}
+    name: Merge mainnet back to develop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: repo-sync/pull-request@v2
+        with:
+          source_branch: 'master'
+          destination_branch: 'develop'
+          pr_title: 'Merge released ${{ github.ref }} into develop'
+          pr_reviewer: 'keith-cy'
+          pr_label: 'auto-pr'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
