@@ -56,7 +56,7 @@ export const useTimeoutWithUnmount = (callback: () => void, clearCallback: () =>
 }
 
 export const useAddrFormatToggle = () => {
-  const [isNew, setIsNew] = useState(localStorage.getItem(AppCachedKeys.NewAddrFormat) === 'true')
+  const [isNew, setIsNew] = useState(localStorage.getItem(AppCachedKeys.NewAddrFormat) !== 'false')
 
   return {
     isNew,
