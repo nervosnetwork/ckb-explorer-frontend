@@ -609,14 +609,14 @@ declare namespace State {
 
   export interface PagePayload
     extends PageState,
-    AddressState,
-    BlockState,
-    BlockListState,
-    TransactionState,
-    TransactionsState,
-    NervosDaoState,
-    UDTState,
-    TokensState { }
+      AddressState,
+      BlockState,
+      BlockListState,
+      TransactionState,
+      TransactionsState,
+      NervosDaoState,
+      UDTState,
+      TokensState {}
 
   export interface App {
     toast: ToastMessage | null

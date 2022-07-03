@@ -55,7 +55,8 @@
       "wallet_neuron_description": "An open source project from Nervos Foundation, with local CKB node to achieve trustless services",
       "wallet_renrenbit": "Renrenbit",
       "wallet_renrenbit_description": "A digital asset management platform offering 100% reserve",
-      "wallets_memo": "In alphabetical order"
+      "wallets_memo": "In alphabetical order",
+      "nft_collection": "NFT Collection"
     },
     "blockchain": {
       "latest_block": "Latest Block",
@@ -382,6 +383,27 @@
       "created_time": "Created Time",
       "tokens_empty": "There are no tokens at this time.",
       "unverified": "Unverified"
+    },
+    "nft": {
+      "nft_collection": "NFT Collection",
+      "collection_name": "Collection Name",
+      "standard": "Type",
+      "holder_and_mint_count": "Holder/Minted",
+      "minter_address": "Creator",
+      "no_record": "No records",
+      "mnft": "M-NFT",
+      "nrc721": "NRC 721",
+      "loading": "Loading...",
+      "nft": "NFT",
+      "tx_hash": "Tx",
+      "age": "Age",
+      "from": "From",
+      "to": "To",
+      "transfer-list": "Transfers",
+      "holder-list": "Holders",
+      "holder": "Holder",
+      "quantity": "Quantity",
+      "inventory": "Inventory"
     },
     "script_list": {
       "title": "Scripts",

@@ -55,7 +55,8 @@
       "wallet_neuron_description": "An open source project from Nervos Foundation, with local CKB node to achieve trustless services",
       "wallet_renrenbit": "Renrenbit",
       "wallet_renrenbit_description": "A digital asset management platform offering 100% reserve",
-      "wallets_memo": "In alphabetical order"
+      "wallets_memo": "In alphabetical order",
+      "nft_collection": "NFT 藏品"
     },
     "blockchain": {
       "latest_block": "最高块",
@@ -382,6 +383,27 @@
       "created_time": "创建时间",
       "tokens_empty": "目前没有代币。",
       "unverified": "未验证"
+    },
+    "nft": {
+      "nft_collection": "NFT 藏品",
+      "collection_name": "藏品名称",
+      "standard": "类型",
+      "holder_and_mint_count": "持有人/发行数",
+      "minter_address": "发行人",
+      "no_record": "没有记录",
+      "mnft": "M-NFT",
+      "nrc721": "NRC 721",
+      "loading": "加载中...",
+      "nft": "NFT",
+      "tx_hash": "交易",
+      "age": "时间",
+      "from": "发送方",
+      "to": "接收方",
+      "transfer-list": "转让记录",
+      "holder-list": "持有人列表",
+      "holder": "持有人",
+      "quantity": "数量",
+      "inventory": "目录"
     },
     "script_list": {
       "title": "脚本",

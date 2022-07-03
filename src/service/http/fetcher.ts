@@ -13,6 +13,15 @@ export const axiosIns = axios.create({
   data: null,
 })
 
+export const v2AxiosIns = axios.create({
+  baseURL: `${CONFIG.API_URL}/api/v2/`,
+  headers: {
+    'Content-Type': 'application/vnd.api+json',
+    Accept: 'application/vnd.api+json',
+  },
+  data: null,
+})
+
 export const fetchBlocks = () =>
   axiosIns.get('blocks').then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Block>[]>(res.data.data))
 
