@@ -156,6 +156,10 @@ export const TransactionCardPanel = styled.div`
   font-weight: 500;
   max-height: 83px;
 
+  @media screen and (max-width: 790px) {
+    max-height: unset;
+  }
+
   @media (max-width: 750px) {
     flex-direction: column;
     align-items: flex-start;
