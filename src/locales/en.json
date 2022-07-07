@@ -381,7 +381,8 @@
       "address_count": "Address Count",
       "created_time": "Created Time",
       "tokens_empty": "There are no tokens at this time.",
-      "unverified": "Unverified"
+      "unverified": "Unverified",
+      "view-deprecated-address": "View deprecated address"
     },
     "script_list": {
       "title": "Scripts",
