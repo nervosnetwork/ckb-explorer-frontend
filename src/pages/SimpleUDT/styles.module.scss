@@ -1,0 +1,15 @@
+.openInNew{
+  cursor: pointer;
+  margin-left: 4px;
+
+  svg {
+    pointer-events: none;
+    path {
+      fill: #999;
+    }
+
+  }
+  @media screen and (max-width: 750px) {
+    margin-left: 2px;
+  }
+}

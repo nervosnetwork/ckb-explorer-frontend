@@ -381,7 +381,8 @@
       "address_count": "持币用户数",
       "created_time": "创建时间",
       "tokens_empty": "目前没有代币。",
-      "unverified": "未验证"
+      "unverified": "未验证",
+      "view-deprecated-address": "查看旧地址"
     },
     "script_list": {
       "title": "脚本",
