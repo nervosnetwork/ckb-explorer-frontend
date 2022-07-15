@@ -76,8 +76,7 @@ export const getStatisticDifficultyUncleRateEpoch = (dispatch: AppDispatch) => {
         epochTime: wrapper.attributes.epochTime,
         epochLength: wrapper.attributes.epochLength,
       }))
-      const dispatchData = difficultyUncleRateEpochs
-      dispatchDifficultyUncleRateEpoch(dispatch, dispatchData)
+      dispatchDifficultyUncleRateEpoch(dispatch, difficultyUncleRateEpochs)
       if (difficultyUncleRateEpochs && difficultyUncleRateEpochs.length > 0) {
         storeEpochChartCache(ChartCachedKeys.DifficultyUncleRateEpoch, difficultyUncleRateEpochs)
       }
