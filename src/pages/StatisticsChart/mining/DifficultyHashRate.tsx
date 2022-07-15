@@ -120,7 +120,7 @@ const getOption = (
       type: 'line',
       step: 'start',
       areaStyle: {
-        color: chartColor.areaColor,
+        color: chartColor.colors[0],
       },
       yAxisIndex: 0,
       symbol: isThumbnail ? 'none' : 'circle',
@@ -131,6 +131,9 @@ const getOption = (
       name: i18n.t('block.hash_rate_hps'),
       type: 'line',
       smooth: true,
+      areaStyle: {
+        color: chartColor.colors[1],
+      },
       yAxisIndex: 1,
       symbol: isThumbnail ? 'none' : 'circle',
       symbolSize: 3,
