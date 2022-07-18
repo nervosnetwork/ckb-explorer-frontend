@@ -1,6 +1,7 @@
 import { fetchSimpleUDT, fetchSimpleUDTTransactions, fetchSimpleUDTTransactionsWithAddress } from '../http/fetcher'
 import { AppDispatch } from '../../contexts/reducer'
 import { PageActions } from '../../contexts/actions'
+import { deprecatedAddrToNewAddr } from '../../utils/util'
 
 const handleStatus = (dispatch: AppDispatch, status: State.FetchStatus) => {
   dispatch({
@@ -49,7 +50,18 @@ export const getSimpleUDTTransactions = (typeHash: string, page: number, size: n
       dispatch({
         type: PageActions.UpdateUDTTransactions,
         payload: {
-          transactions: data.map((wrapper: Response.Wrapper<State.Transaction>) => wrapper.attributes) || [],
+          transactions:
+            data.map((wrapper: Response.Wrapper<State.Transaction>) => ({
+              ...wrapper.attributes,
+              displayInputs: wrapper.attributes.displayInputs.map(input => ({
+                ...input,
+                addressHash: deprecatedAddrToNewAddr(input.addressHash),
+              })),
+              displayOutputs: wrapper.attributes.displayOutputs.map(output => ({
+                ...output,
+                addressHash: deprecatedAddrToNewAddr(output.addressHash),
+              })),
+            })) || [],
         },
       })
       dispatch({
