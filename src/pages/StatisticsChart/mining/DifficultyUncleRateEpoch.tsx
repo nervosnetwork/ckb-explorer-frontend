@@ -164,10 +164,11 @@ const getOption = (
   series: [
     {
       name: i18n.t('block.difficulty'),
-      type: 'bar',
+      type: 'line',
       step: 'start',
       areaStyle: {
-        color: chartColor.areaColor,
+        opacity: 0.3,
+        color: chartColor.moreColors[0],
       },
       yAxisIndex: 0,
       symbol: isThumbnail ? 'none' : 'circle',
@@ -202,9 +203,10 @@ const getOption = (
     },
     {
       name: i18n.t('block.epoch_time'),
-      type: 'bar',
+      type: 'line',
       step: 'start',
       areaStyle: {
+        opacity: 0.3,
         color: chartColor.moreColors[2],
       },
       yAxisIndex: 2,
@@ -214,9 +216,10 @@ const getOption = (
     },
     {
       name: i18n.t('block.epoch_length'),
-      type: 'bar',
+      type: 'line',
       step: 'start',
       areaStyle: {
+        opacity: 0.3,
         color: chartColor.moreColors[3],
       },
       yAxisIndex: 3,
