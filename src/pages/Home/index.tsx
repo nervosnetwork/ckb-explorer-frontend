@@ -121,10 +121,9 @@ const useHomeSearchBarStatus = (dispatch: AppDispatch) => {
   }, [dispatch])
 
   useInterval(() => {
-    // header height: 64 and search bar height: 40 and check scroll position per 300ms
     const searchBar = document.getElementById('home__search__bar') as HTMLElement
     if (searchBar) {
-      const searchPosition = searchBar.scrollHeight + 64 + 40
+      const searchPosition = searchBar.scrollHeight + 64 + 100
       dispatch({
         type: ComponentActions.UpdateHeaderSearchBarVisible,
         payload: {
