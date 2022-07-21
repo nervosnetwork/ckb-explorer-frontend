@@ -39,6 +39,7 @@ export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
       const difficultyHashRates = data.map(wrapper => ({
         epochNumber: wrapper.attributes.epochNumber,
         difficulty: wrapper.attributes.difficulty,
+        uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
         hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toNumber(),
       }))
       dispatchDifficultyHashRate(dispatch, difficultyHashRates)
@@ -71,8 +72,6 @@ export const getStatisticDifficultyUncleRateEpoch = (dispatch: AppDispatch) => {
       const { data } = response
       const difficultyUncleRateEpochs = data.map(wrapper => ({
         epochNumber: wrapper.attributes.epochNumber,
-        difficulty: wrapper.attributes.difficulty,
-        uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
         epochTime: wrapper.attributes.epochTime,
         epochLength: wrapper.attributes.epochLength,
       }))
