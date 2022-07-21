@@ -128,14 +128,14 @@ const chartsData = (): ChartCategory[] => [
     category: i18n.t('statistic.category_mining'),
     charts: [
       {
-        title: `${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`,
+        title: `${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')} & ${i18n.t('block.uncle_rate')}`,
         chart: <DifficultyHashRateChart isThumbnail />,
         path: '/charts/difficulty-hash-rate',
       },
       {
-        title: `${i18n.t('block.difficulty')} & ${i18n.t('block.uncle_rate')} & ${i18n.t('block.epoch_time')} & ...`,
+        title: `${i18n.t('block.epoch_time')} & ${i18n.t('block.epoch_length')}`,
         chart: <DifficultyUncleRateEpochChart isThumbnail />,
-        path: '/charts/difficulty-uncle-rate',
+        path: '/charts/epoch-time-length',
       },
       {
         title: `${i18n.t('block.difficulty')}`,

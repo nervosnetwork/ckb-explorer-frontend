@@ -26,6 +26,9 @@ const grid = () => ({
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 70 : 50)
 
 const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: string }): string => {
+  if (seriesName === i18n.t('block.uncle_rate')) {
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('block.uncle_rate'))} ${data}%</div>`
+  }
   if (seriesName === i18n.t('block.difficulty')) {
     return `<div>${tooltipColor(color)}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(data)}</div>`
   }
@@ -40,7 +43,7 @@ const getOption = (
   chartColor: State.App['chartColor'],
   isThumbnail = false,
 ): echarts.EChartOption => ({
-  color: chartColor.colors,
+  color: chartColor.moreColors,
   tooltip: !isThumbnail
     ? {
         trigger: 'axis',
@@ -62,6 +65,9 @@ const getOption = (
           },
           {
             name: i18n.t('block.hash_rate_hps'),
+          },
+          {
+            name: i18n.t('block.uncle_rate'),
           },
         ],
       }
@@ -89,7 +95,7 @@ const getOption = (
       scale: true,
       axisLine: {
         lineStyle: {
-          color: chartColor.colors[0],
+          color: chartColor.moreColors[0],
         },
       },
       axisLabel: {
@@ -103,14 +109,23 @@ const getOption = (
       splitLine: {
         show: false,
       },
-      scale: true,
       axisLine: {
         lineStyle: {
-          color: chartColor.colors[1],
+          color: chartColor.moreColors[1],
         },
       },
+      scale: true,
       axisLabel: {
         formatter: (value: string) => handleAxis(new BigNumber(value)),
+      },
+    },
+    {
+      position: 'right',
+      type: 'value',
+      max: 100,
+      show: false,
+      axisLabel: {
+        formatter: () => '',
       },
     },
   ],
@@ -118,10 +133,6 @@ const getOption = (
     {
       name: i18n.t('block.difficulty'),
       type: 'line',
-      step: 'start',
-      areaStyle: {
-        color: chartColor.colors[0],
-      },
       yAxisIndex: 0,
       symbol: isThumbnail ? 'none' : 'circle',
       symbolSize: 3,
@@ -130,14 +141,34 @@ const getOption = (
     {
       name: i18n.t('block.hash_rate_hps'),
       type: 'line',
-      smooth: true,
-      areaStyle: {
-        color: chartColor.colors[1],
-      },
       yAxisIndex: 1,
       symbol: isThumbnail ? 'none' : 'circle',
       symbolSize: 3,
       data: statisticDifficultyHashRates.map(data => new BigNumber(data.hashRate).toNumber()),
+    },
+    {
+      name: i18n.t('block.uncle_rate'),
+      type: 'line',
+      smooth: true,
+      yAxisIndex: 2,
+      symbol: isThumbnail ? 'none' : 'circle',
+      symbolSize: 3,
+      z: 0,
+      markLine: isThumbnail
+        ? undefined
+        : {
+            symbol: 'none',
+            data: [
+              {
+                name: i18n.t('block.uncle_rate_target'),
+                yAxis: 2.5,
+              },
+            ],
+            label: {
+              formatter: (params: any) => `${params.value}%`,
+            },
+          },
+      data: statisticDifficultyHashRates.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
     },
   ],
 })
@@ -156,7 +187,7 @@ export const DifficultyHashRateChart = ({ isThumbnail = false }: { isThumbnail?:
 
 const toCSV = (statisticDifficultyHashRates: State.StatisticDifficultyHashRate[]) =>
   statisticDifficultyHashRates
-    ? statisticDifficultyHashRates.map(data => [data.epochNumber, data.difficulty, data.hashRate])
+    ? statisticDifficultyHashRates.map(data => [data.epochNumber, data.difficulty, data.hashRate, data.uncleRate])
     : []
 
 export default () => {
@@ -169,7 +200,7 @@ export default () => {
 
   return (
     <ChartPage
-      title={`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')}`}
+      title={`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')} & ${i18n.t('block.uncle_rate')}`}
       data={toCSV(statisticDifficultyHashRates)}
     >
       <DifficultyHashRateChart />

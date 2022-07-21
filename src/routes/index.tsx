@@ -120,7 +120,7 @@ const Containers: CustomRouter.Route[] = [
   },
   {
     name: 'DifficultyUncleRateEpochChart',
-    path: '/charts/difficulty-uncle-rate',
+    path: '/charts/epoch-time-length',
     exact: true,
     comp: DifficultyUncleRateEpochChart,
   },

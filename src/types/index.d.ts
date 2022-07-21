@@ -298,6 +298,7 @@ declare namespace State {
 
   export interface StatisticDifficultyHashRate {
     difficulty: string
+    uncleRate: string
     hashRate: string
     epochNumber: string
   }
@@ -325,8 +326,6 @@ declare namespace State {
   }
 
   export interface StatisticDifficultyUncleRateEpoch {
-    difficulty: string
-    uncleRate: string
     epochNumber: string
     epochTime: string
     epochLength: string
@@ -609,14 +608,14 @@ declare namespace State {
 
   export interface PagePayload
     extends PageState,
-    AddressState,
-    BlockState,
-    BlockListState,
-    TransactionState,
-    TransactionsState,
-    NervosDaoState,
-    UDTState,
-    TokensState { }
+      AddressState,
+      BlockState,
+      BlockListState,
+      TransactionState,
+      TransactionsState,
+      NervosDaoState,
+      UDTState,
+      TokensState {}
 
   export interface App {
     toast: ToastMessage | null
