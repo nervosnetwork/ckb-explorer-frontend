@@ -176,7 +176,7 @@ export const fetchStatisticCirculationRatio = () =>
   )
 
 export const fetchStatisticDifficultyHashRate = () =>
-  axiosIns(`/epoch_statistics/difficulty-hash_rate`).then((res: AxiosResponse) =>
+  axiosIns(`/epoch_statistics/difficulty-uncle_rate-hash_rate`).then((res: AxiosResponse) =>
     toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]>>(res.data),
   )
 
@@ -206,7 +206,7 @@ export const fetchStatisticCellCount = () =>
   )
 
 export const fetchStatisticDifficultyUncleRateEpoch = () =>
-  axiosIns(`/epoch_statistics/difficulty-uncle_rate-epoch_time-epoch_length`).then((res: AxiosResponse) =>
+  axiosIns(`/epoch_statistics/epoch_time-epoch_length`).then((res: AxiosResponse) =>
     toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRateEpoch>[]>>(res.data),
   )
 
