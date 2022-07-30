@@ -5,6 +5,7 @@ export const ScriptPanel = styled.div`
   margin-top: 8px;
   background-color: #f7f7f7;
   padding: 12px 24px;
+  overflow: auto;
 
   @media (max-width: 750px) {
     margin-top: 5px;
