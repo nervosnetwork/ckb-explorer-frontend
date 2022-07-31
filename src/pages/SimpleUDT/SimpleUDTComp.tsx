@@ -60,11 +60,11 @@ const addressContent = (address: string) => {
 }
 
 const simpleUDTInfo = (udt: State.UDT) => {
-  const { fullName, issuerAddress, symbol, addressesCount, decimal, totalAmount } = udt
+  const { displayName, uan, fullName, issuerAddress, symbol, addressesCount, decimal, totalAmount } = udt
   return [
     {
       title: i18n.t('udt.name'),
-      content: fullName,
+      content: displayName || fullName,
     },
     {
       title: i18n.t('udt.issuer'),
@@ -75,8 +75,8 @@ const simpleUDTInfo = (udt: State.UDT) => {
       content: addressesCount,
     },
     {
-      title: i18n.t('udt.symbol'),
-      content: symbol,
+      title: i18n.t(uan ? 'udt.uan' : 'udt.symbol'),
+      content: uan || symbol,
     },
     {
       title: i18n.t('udt.decimal'),
