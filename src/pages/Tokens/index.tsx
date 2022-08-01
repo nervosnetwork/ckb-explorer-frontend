@@ -64,12 +64,12 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
               {name ? (
                 <Link to={`/sudt/${token.typeHash}`}>
                   {symbol}
-                  <span className={styles.name}>{name || defaultName}</span>
+                  <span className={styles.name}>{name}</span>
                 </Link>
               ) : (
                 <span>
                   {symbol}
-                  <span className={styles.name}>{name || defaultName}</span>
+                  <span className={styles.name}>{defaultName}</span>
                 </span>
               )}
               {!name && (
