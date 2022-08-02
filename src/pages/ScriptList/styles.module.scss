@@ -35,10 +35,10 @@ $accent-color: #efefef;
   }
 
   details + details {
-    margin-top: .5rem;
+    margin-top: 0.5rem;
   }
 
-  .links{
+  .links {
     display: flex;
     align-items: center;
     a {
@@ -50,10 +50,10 @@ $accent-color: #efefef;
   summary {
     list-style: none;
     border: 1px solid $primary-color;
-    padding: .75em 1em;
+    padding: 0.75em 1em;
     cursor: pointer;
     position: relative;
-    padding-left: calc(1.75rem + .75rem + .75rem);
+    padding-left: calc(1.75rem + 0.75rem + 0.75rem);
     user-select: none;
     transition: background 0.3s;
 
@@ -65,7 +65,7 @@ $accent-color: #efefef;
       padding-right: 6px;
     }
 
-    &[data-deprecated=true] {
+    &[data-deprecated='true'] {
       text-decoration: line-through;
     }
 
@@ -73,22 +73,26 @@ $accent-color: #efefef;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      left: .75rem;
+      left: 0.75rem;
       font-family: 'mono';
-      content: "▲";
+      content: '▲';
       width: 1.75rem;
       height: 1.75rem;
       background-color: #000;
-      color: #FFF;
+      color: #fff;
       display: inline-flex;
       justify-content: center;
       align-items: center;
       flex-shrink: 0;
     }
 
-    &:hover{
+    &:hover {
       background: $accent-color;
     }
+  }
+
+  summary::-webkit-details-marker {
+    display: none; /* Chrome */
   }
 
   details[open] {
@@ -105,7 +109,7 @@ $accent-color: #efefef;
     font-weight: 600;
     text-decoration: none;
     box-shadow: 0 1px 0 0;
-    
+
     &:hover {
       box-shadow: 0 2px 0 0;
     }
@@ -118,4 +122,3 @@ $accent-color: #efefef;
     border-radius: 6px;
   }
 }
-
