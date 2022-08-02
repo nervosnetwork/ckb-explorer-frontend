@@ -36,13 +36,16 @@ Type Script:%0a%0d
     Args:%0a%0d
 
 Information:%0a%0d
-   Full Name: 32 length max%0a%0d
-   Symbol: 8 length max / ASCII%0a%0d
+   Display Name:%0a%0d
+   UAN:%0a%0d
    Decimal: 8 (default)%0a%0d
    Description:%0a%0d
    Website:%0a%0d
    Icon File: attachment (40 x 40)%0a%0d
    Other Info:%0a%0d%0a%0d
+
+Ref:%0a%0d
+1. UAN: https://github.com/nervosnetwork/rfcs/pull/335%0a%0d
 
 ---------- Submit NRC 721 Factory Information ----------%0a%0d
 

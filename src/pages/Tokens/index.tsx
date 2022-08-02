@@ -28,10 +28,15 @@ import { udtSubmitEmail } from '../../utils/util'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { PageParams } from '../../constants/common'
 import { parsePageNumber } from '../../utils/string'
+import styles from './styles.module.scss'
 
 const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) => {
-  const name = token.fullName ? token.fullName : i18n.t('udt.unknown_token')
-  const symbol = token.symbol ? token.symbol : `#${token.typeHash.substring(token.typeHash.length - 4)}`
+  const { displayName, fullName, uan } = token
+
+  const name = displayName || fullName
+  const symbol = uan || token.symbol || `#${token.typeHash.substring(token.typeHash.length - 4)}`
+  const defaultName = i18n.t('udt.unknown_token')
+
   const transactions = isMobile() ? (
     <TokensTitlePanel>
       <span>{`${i18n.t('udt.transactions')}:`}</span>
@@ -56,12 +61,18 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
           <img src={token.iconFile ? token.iconFile : SUDTTokenIcon} alt="token icon" />
           <div>
             <TokensItemNamePanel>
-              {token.fullName ? (
-                <Link to={`/sudt/${token.typeHash}`}>{`${name} (${symbol})`}</Link>
+              {name ? (
+                <Link to={`/sudt/${token.typeHash}`}>
+                  {symbol}
+                  <span className={styles.name}>{name}</span>
+                </Link>
               ) : (
-                <span>{`${name} (${symbol})`}</span>
+                <span>
+                  {symbol}
+                  <span className={styles.name}>{defaultName}</span>
+                </span>
               )}
-              {!token.fullName && (
+              {!name && (
                 <Tooltip placement="bottom" title={i18n.t('udt.unknown_token_description')}>
                   <img src={HelpIcon} alt="token icon" />
                 </Tooltip>
@@ -145,7 +156,7 @@ export default () => {
         </div>
         {!isMobile() && (
           <TokensTableTitle>
-            <span>{i18n.t('udt.name_symbol')}</span>
+            <span>{i18n.t('udt.uan_name')}</span>
             <span>{i18n.t('udt.transactions')}</span>
             <span>{i18n.t('udt.address_count')}</span>
             <span>{i18n.t('udt.created_time')}</span>
