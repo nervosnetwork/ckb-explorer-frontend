@@ -70,7 +70,7 @@ const UDT_LABEL: Record<State.UDTAccount['udtType'], string> = {
 }
 
 const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
-  const { symbol, amount, udtIconFile, typeHash, udtType } = udtAccount
+  const { symbol, uan, amount, udtIconFile, typeHash, udtType } = udtAccount
   const isSudt = udtType === 'sudt'
   const [icon, setIcon] = useState(udtIconFile || SUDTTokenIcon)
   const showDefaultIcon = () => setIcon(SUDTTokenIcon)
@@ -91,8 +91,11 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
         })
     }
   }, [udtIconFile, udtType])
+
+  const sudtSymbol = uan || symbol
+
   const isUnverified = udtType === 'nrc_721_token' && !symbol
-  const name = isSudt ? symbol : sliceNftName(symbol)
+  const name = isSudt ? sudtSymbol : sliceNftName(symbol)
   const property = isSudt ? parseUDTAmount(amount, (udtAccount as State.SUDT).decimal) : `#${amount}`
 
   return (
