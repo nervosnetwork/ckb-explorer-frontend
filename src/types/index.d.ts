@@ -40,6 +40,7 @@ declare namespace State {
     decimal: string
     typeHash: string
     published: boolean
+    uan?: string
   }
 
   interface NftIssuer {
@@ -105,6 +106,7 @@ declare namespace State {
     amount: string
     typeHash: string
     udtIconFile: string
+    uan?: string
     udtType: 'sudt'
   }
 
@@ -115,6 +117,7 @@ declare namespace State {
     typeHash: string
     udtIconFile: string
     udtType: 'm_nft_token'
+    uan: undefined
   }
 
   interface NRC721 {
@@ -123,6 +126,7 @@ declare namespace State {
     typeHash: string
     udtIconFile: string // base uri with token id in fact
     udtType: 'nrc_721_token'
+    uan: undefined
   }
 
   export type UDTAccount = SUDT | MNFT | NRC721
@@ -489,6 +493,8 @@ declare namespace State {
     typeHash: string
     issuerAddress: string
     typeScript: Script
+    displayName?: string
+    uan?: string
   }
 
   export interface UDTState {

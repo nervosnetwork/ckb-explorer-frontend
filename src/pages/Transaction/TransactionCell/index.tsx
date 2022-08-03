@@ -199,7 +199,7 @@ const TransactionCellCapacityAmount = ({ cell }: { cell: State.Cell }) => {
   return udtInfo && udtInfo.typeHash ? (
     <span>
       {udtInfo.published
-        ? `${parseUDTAmount(udtInfo.amount, udtInfo.decimal)} ${udtInfo.symbol}`
+        ? `${parseUDTAmount(udtInfo.amount, udtInfo.decimal)} ${udtInfo.uan || udtInfo.symbol}`
         : `${i18n.t('udt.unknown_token')} #${udtInfo.typeHash.substring(udtInfo.typeHash.length - 4)}`}
     </span>
   ) : (

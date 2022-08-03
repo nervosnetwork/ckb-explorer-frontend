@@ -66,7 +66,7 @@ const AddressLink = ({ cell, address, highLight }: { cell: State.Cell; address: 
 
 const udtAmount = (udt: State.UDTInfo) =>
   udt.published
-    ? `${parseUDTAmount(udt.amount, udt.decimal)} ${udt.symbol}`
+    ? `${parseUDTAmount(udt.amount, udt.decimal)} ${udt.uan || udt.symbol}`
     : `${i18n.t('udt.unknown_token')} #${udt.typeHash.substring(udt.typeHash.length - 4)}`
 
 const WithdrawPopoverItem = ({
