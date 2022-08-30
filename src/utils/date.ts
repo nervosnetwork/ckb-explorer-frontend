@@ -1,5 +1,15 @@
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import updateLocale from 'dayjs/plugin/updateLocale'
+import 'dayjs/locale/zh-cn'
+import 'dayjs/locale/en'
 import BigNumber from 'bignumber.js'
 import i18n from './i18n'
+
+dayjs.extend(relativeTime)
+dayjs.extend(updateLocale)
+
+export { dayjs }
 
 export const formatData = (data: number) => (data < 10 ? `0${data}` : data)
 

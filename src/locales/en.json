@@ -406,6 +406,7 @@
       "transfer-list": "Transfers",
       "holder-list": "Holders",
       "holder": "Holder",
+      "owner": "Owner",
       "quantity": "Quantity",
       "inventory": "Inventory",
       "action": "Action",
@@ -414,8 +415,8 @@
         "normal": "Transfer",
         "destruction": "Burn"
       },
-      "owner": "Owner",
-      "activity": "Activity"
+      "activity": "Activity",
+      "toggle-age": "Switch time format"
     },
     "script_list": {
       "title": "Scripts",
