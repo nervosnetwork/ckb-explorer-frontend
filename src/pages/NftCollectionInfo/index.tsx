@@ -88,15 +88,25 @@ const NftCollectionInfo = () => {
     },
   )
   const { isLoading: isHolderListLoading, data: rawHolderList } = useQuery<AxiosResponse<HolderListRes>>(
-    ['nft-collection-holder-list', id],
-    () => v2AxiosIns(`/nft/collections/${id}/holders`),
+    ['nft-collection-holder-list', id, page],
+    () =>
+      v2AxiosIns(`/nft/collections/${id}/holders`, {
+        params: {
+          page,
+        },
+      }),
     {
       enabled: tab === tabs[1],
     },
   )
   const { isLoading: isInventoryLoading, data: inventoryList } = useQuery<AxiosResponse<InventoryRes>>(
-    ['nft-collection-inventory', id],
-    () => v2AxiosIns(`/nft/collections/${id}/items`),
+    ['nft-collection-inventory', id, page],
+    () =>
+      v2AxiosIns(`/nft/collections/${id}/items`, {
+        params: {
+          page,
+        },
+      }),
     {
       enabled: tab === tabs[2],
     },
@@ -117,6 +127,34 @@ const NftCollectionInfo = () => {
         }))
         .sort((h1, h2) => h2.quantity - h1.quantity)
     : []
+
+  // TODO: enable pagination of holder list
+
+  let pageSource:
+    | {
+        data: {
+          pagination: Record<'page' | 'last', number>
+        }
+      }
+    | undefined = {
+    data: {
+      pagination: {
+        page: 1,
+        last: 1,
+      },
+    },
+  }
+
+  if (tab === tabs[0]) {
+    pageSource = transferListRes
+  } else if (tab === tabs[2]) {
+    pageSource = inventoryList
+  }
+
+  const pages = {
+    currentPage: pageSource?.data.pagination.page ?? 1,
+    totalPages: pageSource?.data.pagination.last ?? 1,
+  }
 
   return (
     <Content>
@@ -159,11 +197,7 @@ const NftCollectionInfo = () => {
         {tab === tabs[2] ? (
           <>
             <NftCollectionInventory hash={id} list={inventoryList?.data.data ?? []} isLoading={isInventoryLoading} />
-            <Pagination
-              currentPage={transferListRes?.data.pagination.page ?? 1}
-              totalPages={transferListRes?.data.pagination.last ?? 1}
-              onChange={handlePageChange}
-            />
+            <Pagination {...pages} onChange={handlePageChange} />
           </>
         ) : null}
       </div>
