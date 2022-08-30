@@ -1,24 +1,48 @@
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
-import type { TransferListRes } from '../../pages/NftCollectionInfo'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../constants/common'
-import { handleNftImgError } from '../../utils/util'
 import { parseDate } from '../../utils/date'
 
 const primaryColor = getPrimaryColor()
 
-const NftCollectionTransfers: React.FC<{ list: TransferListRes['data']; isLoading: boolean }> = ({
-  list,
-  isLoading,
-}) => {
+export interface TransferListRes {
+  data: Array<{
+    id: number
+    from: string | null
+    to: string | null
+    action: 'mint' | 'normal' | 'destruction'
+    item: {
+      id: number
+      collection_id: number
+      token_id: string
+      name: string | null
+      icon_url: string | null
+      owner_id: number
+      metadata_url: string | null
+      cell_id: number | null
+    }
+    transaction: {
+      tx_hash: string
+      block_number: number
+      block_timestamp: number
+    }
+  }>
+  pagination: {
+    count: number
+    page: number
+    next: number | null
+    prev: number | null
+    last: number
+  }
+}
+const NftItemTransfers: React.FC<{ list: TransferListRes['data']; isLoading: boolean }> = ({ list, isLoading }) => {
   return (
     <div className={styles.list}>
       <table>
         <thead>
           <tr>
-            <th>{i18n.t('nft.nft')}</th>
             <th>{i18n.t('nft.tx_hash')}</th>
             <th>{i18n.t('nft.action')}</th>
             <th>{i18n.t('nft.age')}</th>
@@ -31,29 +55,6 @@ const NftCollectionTransfers: React.FC<{ list: TransferListRes['data']; isLoadin
             list.map(item => {
               return (
                 <tr key={item.id}>
-                  <td>
-                    <div className={styles.item}>
-                      {item.item.icon_url ? (
-                        <img
-                          src={item.item.icon_url}
-                          alt="cover"
-                          loading="lazy"
-                          className={styles.icon}
-                          onError={handleNftImgError}
-                        />
-                      ) : (
-                        <img src="/images/nft_placeholder.png" alt="cover" loading="lazy" className={styles.icon} />
-                      )}
-                      <Link
-                        to={`/nft-info/${item.item.type_script.script_hash}/${item.item.token_id}`}
-                        style={{
-                          color: primaryColor,
-                        }}
-                      >
-                        {`id: ${item.item.token_id}`}
-                      </Link>
-                    </div>
-                  </td>
                   <td>
                     <Link
                       to={`/transaction/${item.transaction.tx_hash}`}
@@ -111,7 +112,7 @@ const NftCollectionTransfers: React.FC<{ list: TransferListRes['data']; isLoadin
             })
           ) : (
             <tr>
-              <td colSpan={6} className={styles.noRecord}>
+              <td colSpan={5} className={styles.noRecord}>
                 {isLoading ? i18n.t('nft.loading') : i18n.t(`nft.no_record`)}
               </td>
             </tr>
@@ -122,20 +123,6 @@ const NftCollectionTransfers: React.FC<{ list: TransferListRes['data']; isLoadin
         {list.length ? (
           list.map(item => (
             <li key={item.id}>
-              <div className={styles.item}>
-                {item.item.icon_url ? (
-                  <img
-                    src={item.item.icon_url}
-                    alt="cover"
-                    loading="lazy"
-                    className={styles.icon}
-                    onError={handleNftImgError}
-                  />
-                ) : (
-                  <img src="/images/nft_placeholder.png" alt="cover" loading="lazy" className={styles.icon} />
-                )}
-                {`id: ${item.id}`}
-              </div>
               <dl>
                 <div>
                   <dt>{i18n.t('nft.tx_hash')}</dt>
@@ -208,13 +195,13 @@ const NftCollectionTransfers: React.FC<{ list: TransferListRes['data']; isLoadin
             </li>
           ))
         ) : (
-          <li className={styles.noRecord}>{isLoading ? i18n.t('nft.loading') : i18n.t(`nft.no_record`)}</li>
+          <li>{isLoading ? i18n.t('nft.loading') : i18n.t(`nft.no_record`)}</li>
         )}
       </ul>
     </div>
   )
 }
 
-NftCollectionTransfers.displayName = 'NftTransfers'
+NftItemTransfers.displayName = 'NftTransfers'
 
-export default NftCollectionTransfers
+export default NftItemTransfers

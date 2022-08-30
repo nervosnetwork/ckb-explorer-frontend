@@ -20,7 +20,7 @@ const Address = lazy(() => import('../pages/Address'))
 const SimpleUDT = lazy(() => import('../pages/SimpleUDT'))
 const NftCollections = lazy(() => import('../pages/NftCollections'))
 const NftCollectionInfo = lazy(() => import('../pages/NftCollectionInfo'))
-// const NftInfo = lazy(() => import('../pages/NftInfo'))
+const NftInfo = lazy(() => import('../pages/NftInfo'))
 const NervosDao = lazy(() => import('../pages/NervosDao'))
 const NotFoundPage = lazy(() => import('../pages/404'))
 const SearchFail = lazy(() => import('../pages/SearchFail'))
@@ -108,12 +108,12 @@ const Containers: CustomRouter.Route[] = [
     exact: true,
     comp: NftCollectionInfo,
   },
-  // {
-  //   name: 'NftInfo',
-  //   path: '/nft-info',
-  //   exact: true,
-  //   comp: NftInfo,
-  // },
+  {
+    name: 'NftInfo',
+    path: '/nft-info/:collection/:id',
+    exact: true,
+    comp: NftInfo,
+  },
   {
     name: 'NervosDao',
     path: '/nervosdao',

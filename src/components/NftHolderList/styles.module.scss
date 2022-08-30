@@ -11,9 +11,9 @@
   thead {
     position: relative;
     font-size: 14px;
-    font-weight:700;
+    font-weight: 700;
     th {
-      vertical-align:middle;
+      vertical-align: middle;
       padding-top: 12px;
       padding-bottom: 12px;
       text-transform: capitalize;
@@ -33,7 +33,7 @@
 
   tbody {
     td {
-      padding-top:15px;
+      padding-top: 15px;
       padding-bottom: 15px;
       font-size: 14px;
     }
@@ -43,23 +43,42 @@
     }
   }
 
-  th,td {
+  th,
+  td {
     text-align: left;
     padding-left: 25px;
     padding-right: 25px;
     max-width: 0.25vw;
 
-    &:last-child{
+    &:last-child {
       text-align: right;
     }
 
-    &:first-child, &:last-child{
+    &:first-child,
+    &:last-child {
       padding-left: 25px;
       padding-right: 25px;
     }
   }
 
   .noRecord {
-    text-align: center;
+    text-align: center !important;
+  }
+}
+
+.addr {
+  font-weight: 700;
+  font-family: inherit;
+}
+
+@media screen and (min-width: 1024px) {
+  .addr:last-child {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .addr:first-child {
+    display: none;
   }
 }

@@ -1,87 +1,64 @@
 .list {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  justify-items: center;
   background: #fff;
   border-top-right-radius: 6px;
-  padding: 0 15px;
-
-  table {
-    width: 100%;
-    margin-bottom: 4px;
-  }
-
-  thead {
-    position: relative;
-    font-size: 14px;
-    font-weight:700;
-    th {
-      vertical-align:middle;
-      padding-top: 12px;
-      padding-bottom: 12px;
-      text-transform: capitalize;
-      white-space: nowrap;
-    }
-    &:after {
-      position: absolute;
-      left: -15px;
-      bottom: -2px;
-      width: calc(100% + 30px);
-      height: 4px;
-      content: '';
-      display: block;
-      background-color: #ededed;
-    }
-  }
-
-  tbody {
-    td {
-      padding-top:15px;
-      padding-bottom: 15px;
-      font-size: 14px;
-    }
-
-    tr:not(:last-child) {
-      border-bottom: 1px solid #d8d8d8;
-    }
-  }
-
-  th,td {
-    text-align: left;
-    padding-left: 25px;
-    padding-right: 25px;
-    max-width: 0.25vw;
-
-    &:last-child{
-      text-align: right;
-    }
-
-    &:first-child, &:last-child{
-      padding-left: 25px;
-      padding-right: 25px;
-    }
-  }
+  padding: 20px 20px 0;
 
   .item {
     display: flex;
+    flex-direction: column;
+    width: 216px;
+    height: 276px;
+    border: 1px solid #f0f0f0;
+    border-radius: 16px;
     align-items: center;
-    white-space: nowrap;
+    padding: 12px;
+    margin-bottom: 20px;
   }
 
-  .icon, .defaultIcon {
-    display: inline-flex;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 6px;
-    flex-shrink:0;
+  .cover {
+    width: 192px;
+    height: 192px;
+  }
+  .tokenId,
+  .owner {
+    display: flex;
+    width: 100%;
+    line-height: 1em;
+    span:first-of-type {
+      flex-basis: 80px;
+      flex-shrink: 0;
+    }
+    span,
+    a {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .tokenId {
+    padding-top: 15px;
+    padding-bottom: 10px;
   }
 
-  .defaultIcon {
-    background-color: #f0f0f0;
-    justify-content: center;
+  @for $i from 0 through 12 {
+    @media screen and (min-width: 1200px + $i * 220px) {
+      grid-template-columns: repeat(3 + $i, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 1280px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media screen and (max-width: 860px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: 540px) {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    text-transform: capitalize;
-  }
-
-  .noRecord {
-    text-align: center;
   }
 }

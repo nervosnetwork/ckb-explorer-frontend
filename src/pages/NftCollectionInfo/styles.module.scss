@@ -1,13 +1,13 @@
-.container{
+.container {
   margin: 0px 120px 60px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
-  align-items:center;
+  align-items: center;
   padding-bottom: 20px;
-  h5{
+  h5 {
     font-size: 24px;
     font-weight: bold;
     color: #000;
@@ -17,18 +17,21 @@
 
 .tabs {
   overflow: hidden;
-  &>a{
-    background: #e3e3e3;
-    opacity: 0.8;
-    color: #000;
-    min-width: 160px;
-    &[data-active="true"]{
+  display: flex;
+  & > a {
+    display: flex;
+    place-content: center;
+    place-items: center;
+    width: 104px;
+    height: 40px;
+    background: #e3e2e4;
+    color: #666;
+    &[data-active='true'] {
       background: #fff;
-      opacity: 1;
+      color: #333;
     }
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
-    padding: 6px 24px;
     margin-right: 6px;
     font-size: 16px;
   }
@@ -48,9 +51,9 @@
   thead {
     position: relative;
     font-size: 14px;
-    font-weight:700;
+    font-weight: 700;
     th {
-      vertical-align:middle;
+      vertical-align: middle;
       padding-top: 12px;
       padding-bottom: 12px;
       text-transform: capitalize;
@@ -70,7 +73,7 @@
 
   tbody {
     td {
-      padding-top:15px;
+      padding-top: 15px;
       padding-bottom: 15px;
       font-size: 14px;
     }
@@ -80,16 +83,18 @@
     }
   }
 
-  th,td {
+  th,
+  td {
     text-align: left;
     padding-left: 25px;
     padding-right: 25px;
     max-width: 0.25vw;
 
     &:not(:first-of-type) {
-     text-align: right;
+      text-align: right;
     }
-    &:first-child, &:last-child{
+    &:first-child,
+    &:last-child {
       padding-left: 25px;
       padding-right: 25px;
     }
@@ -102,12 +107,12 @@
 
 @media screen and (max-width: 1200px) {
   .container {
-    margin: 40px 45px 60px;
+    margin: 0px 45px 60px;
   }
 }
 
 @media screen and (max-width: 750px) {
   .container {
-    margin: 40px 8px 60px;
+    margin: 0px 8px 60px;
   }
 }
