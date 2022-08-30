@@ -173,7 +173,11 @@ const NftCollectionInfo = () => {
         </div>
         {tab === tabs[0] ? (
           <>
-            <NftCollectionTransfers list={transferListRes?.data.data ?? []} isLoading={isTransferListLoading} />
+            <NftCollectionTransfers
+              list={transferListRes?.data.data ?? []}
+              isLoading={isTransferListLoading}
+              collection={id}
+            />
             <Pagination
               currentPage={transferListRes?.data.pagination.page ?? 1}
               totalPages={transferListRes?.data.pagination.last ?? 1}

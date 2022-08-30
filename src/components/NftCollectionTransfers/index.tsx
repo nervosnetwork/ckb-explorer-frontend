@@ -10,7 +10,8 @@ import { dayjs, parseDate } from '../../utils/date'
 
 const primaryColor = getPrimaryColor()
 
-const NftCollectionTransfers: React.FC<{ list: TransferListRes['data']; isLoading: boolean }> = ({
+const NftCollectionTransfers: React.FC<{ collection: string; list: TransferListRes['data']; isLoading: boolean }> = ({
+  collection,
   list,
   isLoading,
 }) => {
@@ -61,7 +62,7 @@ const NftCollectionTransfers: React.FC<{ list: TransferListRes['data']; isLoadin
                         <img src="/images/nft_placeholder.png" alt="cover" loading="lazy" className={styles.icon} />
                       )}
                       <Link
-                        to={`/nft-info/${item.item.type_script.script_hash}/${item.item.token_id}`}
+                        to={`/nft-info/${collection}/${item.item.token_id}`}
                         style={{
                           color: primaryColor,
                         }}
