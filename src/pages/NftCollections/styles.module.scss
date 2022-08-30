@@ -1,13 +1,13 @@
-.container{
+.container {
   margin: 40px 120px 60px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
-  align-items:center;
+  align-items: center;
   padding-bottom: 20px;
-  h5{
+  h5 {
     font-size: 24px;
     font-weight: bold;
     color: #000;
@@ -29,9 +29,9 @@
   thead {
     position: relative;
     font-size: 14px;
-    font-weight:700;
+    font-weight: 700;
     th {
-      vertical-align:middle;
+      vertical-align: middle;
       padding-top: 12px;
       padding-bottom: 12px;
       text-transform: capitalize;
@@ -51,7 +51,7 @@
 
   tbody {
     td {
-      padding-top:15px;
+      padding-top: 15px;
       padding-bottom: 15px;
       font-size: 14px;
     }
@@ -61,16 +61,18 @@
     }
   }
 
-  th,td {
+  th,
+  td {
     text-align: left;
     padding-left: 25px;
     padding-right: 25px;
     max-width: 0.25vw;
 
     &:not(:first-of-type) {
-     text-align: right;
+      text-align: right;
     }
-    &:first-child, &:last-child{
+    &:first-child,
+    &:last-child {
       padding-left: 25px;
       padding-right: 25px;
     }
@@ -78,18 +80,19 @@
 
   .name {
     display: block;
-    overflow:hidden;
+    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .icon, .defaultIcon {
+  .icon,
+  .defaultIcon {
     display: inline-flex;
     width: 30px;
     height: 30px;
     border-radius: 50%;
     margin-right: 6px;
-    flex-shrink:0;
+    flex-shrink: 0;
   }
 
   .defaultIcon {
@@ -104,21 +107,20 @@
   }
 }
 
-
-
-
 @media screen and (max-width: 1200px) {
   .container {
     margin: 40px 45px 60px;
   }
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 790px) {
   .container {
     margin: 40px 8px 60px;
-  }
-  th:nth-last-child(2),td:nth-last-child(2),
-  th:last-child, td:last-child{
-    display:none;
+    th:nth-last-child(2),
+    td:nth-last-child(2),
+    th:last-child,
+    td:last-child {
+      display: none;
+    }
   }
 }
