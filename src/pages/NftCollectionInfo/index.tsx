@@ -17,6 +17,7 @@ export interface InventoryRes {
     collection_id: number
     icon_url: string | null
     owner_id: number
+    token_id: string
   }>
   pagination: {
     count: number
@@ -30,17 +31,20 @@ export interface InventoryRes {
 export interface TransferListRes {
   data: Array<{
     id: number
-    from: string
-    to: string
+    from: string | null
+    to: string | null
+    action: 'mint' | 'transfer'
     item: {
       id: number
-      collection_id: number
       token_id: string
       name: string | null
       icon_url: string | null
       owner_id: number
       metadata_url: string | null
       cell_id: number | null
+      type_script: {
+        script_hash: string
+      }
     }
     transaction: {
       tx_hash: string
@@ -120,7 +124,7 @@ const NftCollectionInfo = () => {
       <div className={styles.container}>
         <div className={styles.tabs}>
           <Link to={`/nft-collections/${id}?tab=${tabs[0]}`} data-active={tab === tabs[0]}>
-            {i18n.t(`nft.transfer-list`)}
+            {i18n.t(`nft.activity`)}
           </Link>
           <Link to={`/nft-collections/${id}?tab=${tabs[1]}`} data-active={tab === tabs[1]}>
             {i18n.t(`nft.holder-list`)}
@@ -134,7 +138,7 @@ const NftCollectionInfo = () => {
             <NftCollectionTransfers list={transferListRes?.data.data ?? []} isLoading={isTransferListLoading} />
             <Pagination
               currentPage={transferListRes?.data.pagination.page ?? 1}
-              totalPages={transferListRes?.data.pagination.last ?? 0}
+              totalPages={transferListRes?.data.pagination.last ?? 1}
               onChange={handlePageChange}
             />
           </>
@@ -147,17 +151,17 @@ const NftCollectionInfo = () => {
             />
             <Pagination
               currentPage={+page}
-              totalPages={Math.ceil(holderList.length / PAGE_SIZE)}
+              totalPages={Math.ceil(holderList.length / PAGE_SIZE) ?? 1}
               onChange={handlePageChange}
             />
           </>
         ) : null}
         {tab === tabs[2] ? (
           <>
-            <NftCollectionInventory list={inventoryList?.data.data ?? []} isLoading={isInventoryLoading} />
+            <NftCollectionInventory hash={id} list={inventoryList?.data.data ?? []} isLoading={isInventoryLoading} />
             <Pagination
               currentPage={transferListRes?.data.pagination.page ?? 1}
-              totalPages={transferListRes?.data.pagination.last ?? 0}
+              totalPages={transferListRes?.data.pagination.last ?? 1}
               onChange={handlePageChange}
             />
           </>

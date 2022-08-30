@@ -56,7 +56,7 @@
       "wallet_renrenbit": "Renrenbit",
       "wallet_renrenbit_description": "A digital asset management platform offering 100% reserve",
       "wallets_memo": "In alphabetical order",
-      "nft_collection": "NFT Collection"
+      "nft_collections": "NFT Collections"
     },
     "blockchain": {
       "latest_block": "Latest Block",
@@ -394,7 +394,9 @@
       "minter_address": "Creator",
       "no_record": "No records",
       "mnft": "M-NFT",
+      "m_nft": "m-NFT",
       "nrc721": "NRC 721",
+      "nrc_721": "NRC 721",
       "loading": "Loading...",
       "nft": "NFT",
       "tx_hash": "Tx",
@@ -405,7 +407,15 @@
       "holder-list": "Holders",
       "holder": "Holder",
       "quantity": "Quantity",
-      "inventory": "Inventory"
+      "inventory": "Inventory",
+      "action": "Action",
+      "action_type": {
+        "mint": "Mint",
+        "normal": "Transfer",
+        "destruction": "Burn"
+      },
+      "owner": "Owner",
+      "activity": "Activity"
     },
     "script_list": {
       "title": "Scripts",

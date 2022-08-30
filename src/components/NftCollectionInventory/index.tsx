@@ -1,8 +1,10 @@
 import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
+import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../constants/common'
+import { handleNftImgError } from '../../utils/util'
 
 const primaryColor = getPrimaryColor()
 
@@ -10,61 +12,77 @@ const NftCollectionInventory: React.FC<{
   list: Array<{
     icon_url: string | null
     id: number
+    token_id: string
     owner?: string
   }>
+  hash: string
   isLoading: boolean
-}> = ({ list, isLoading }) => {
+}> = ({ list, hash, isLoading }) => {
+  if (!list.length) {
+    return (
+      <div
+        className={styles.list}
+        style={{
+          textAlign: 'center',
+          padding: '30px',
+          marginBottom: '4px',
+          gridTemplateColumns: 'auto',
+        }}
+      >
+        {isLoading ? i18n.t('nft.loading') : i18n.t(`nft.no_record`)}
+      </div>
+    )
+  }
+
   return (
     <div className={styles.list}>
-      <table>
-        <thead>
-          <tr>
-            <th>{i18n.t('nft.nft')}</th>
-            <th>{i18n.t('nft.holder')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {list.length ? (
-            list.map(item => {
-              return (
-                <tr key={item.id}>
-                  <td>
-                    <div className={styles.item}>
-                      {item.icon_url ? (
-                        <img src={item.icon_url} alt="cover" loading="lazy" className={styles.icon} />
-                      ) : (
-                        <div className={styles.defaultIcon}>{item.id}</div>
-                      )}
-                      {`id: ${item.id}`}
-                    </div>
-                  </td>
-                  <td>
-                    {item.owner ? (
-                      <Link
-                        to={`/address/${item.owner}`}
-                        style={{
-                          color: primaryColor,
-                          fontWeight: 700,
-                        }}
-                      >
-                        <Tooltip title={item.owner}>{`${item.owner.slice(0, 8)}...${item.owner.slice(-8)}`}</Tooltip>
-                      </Link>
-                    ) : (
-                      '-'
-                    )}
-                  </td>
-                </tr>
-              )
-            })
-          ) : (
-            <tr>
-              <td colSpan={5} className={styles.noRecord}>
-                {isLoading ? 'loading' : i18n.t(`nft.no_record`)}
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      {list.map(item => {
+        return (
+          <div key={item.id} className={styles.item}>
+            <div>
+              {item.icon_url ? (
+                <img
+                  src={item.icon_url}
+                  alt="cover"
+                  loading="lazy"
+                  className={styles.cover}
+                  onError={handleNftImgError}
+                />
+              ) : (
+                <Cover className={styles.cover} />
+              )}
+            </div>
+            <div className={styles.tokenId}>
+              <span>Token ID</span>
+              <Link
+                to={`/nft-info/${hash}/${item.token_id}`}
+                style={{
+                  color: primaryColor,
+                }}
+              >
+                {item.token_id}
+              </Link>
+            </div>
+            <div className={styles.owner}>
+              <span>{i18n.t(`nft.owner`)}</span>
+              {item.owner ? (
+                <Link
+                  to={`/address/${item.owner}`}
+                  style={{
+                    color: primaryColor,
+                  }}
+                >
+                  <Tooltip title={item.owner}>
+                    <span className="monospace">{item.owner}</span>
+                  </Tooltip>
+                </Link>
+              ) : (
+                '-'
+              )}
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
 }
