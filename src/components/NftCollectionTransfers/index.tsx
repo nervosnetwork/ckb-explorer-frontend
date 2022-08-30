@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import type { TransferListRes } from '../../pages/NftCollectionInfo'
@@ -5,7 +6,7 @@ import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../constants/common'
 import { handleNftImgError } from '../../utils/util'
-import { parseDate } from '../../utils/date'
+import { dayjs, parseDate } from '../../utils/date'
 
 const primaryColor = getPrimaryColor()
 
@@ -13,6 +14,9 @@ const NftCollectionTransfers: React.FC<{ list: TransferListRes['data']; isLoadin
   list,
   isLoading,
 }) => {
+  const [isShowInAge, setIsShowInAge] = useState(false)
+  dayjs.locale(i18n.language === 'zh' ? 'zh-cn' : 'en')
+
   return (
     <div className={styles.list}>
       <table>
@@ -21,7 +25,19 @@ const NftCollectionTransfers: React.FC<{ list: TransferListRes['data']; isLoadin
             <th>{i18n.t('nft.nft')}</th>
             <th>{i18n.t('nft.tx_hash')}</th>
             <th>{i18n.t('nft.action')}</th>
-            <th>{i18n.t('nft.age')}</th>
+            <th>
+              <span
+                role="presentation"
+                onClick={() => setIsShowInAge(show => !show)}
+                className={styles.age}
+                title={i18n.t('nft.toggle-age')}
+                style={{
+                  color: primaryColor,
+                }}
+              >
+                {i18n.t('nft.age')}
+              </span>
+            </th>
             <th>{i18n.t('nft.from')}</th>
             <th>{i18n.t('nft.to')}</th>
           </tr>
@@ -71,7 +87,11 @@ const NftCollectionTransfers: React.FC<{ list: TransferListRes['data']; isLoadin
                     </Link>
                   </td>
                   <td>{i18n.t(`nft.action_type.${item.action}`)}</td>
-                  <td>{parseDate(item.transaction.block_timestamp)}</td>
+                  <td>
+                    {isShowInAge
+                      ? dayjs(item.transaction.block_timestamp).fromNow()
+                      : parseDate(item.transaction.block_timestamp)}
+                  </td>
                   <td>
                     {item.from ? (
                       <Link

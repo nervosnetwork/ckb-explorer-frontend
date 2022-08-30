@@ -63,7 +63,7 @@ const NftInfo = () => {
           <div className={styles.name}>{data ? `${data.data.collection.name} #${data.data.token_id}` : '-'}</div>
           <div className={styles.items}>
             <dl>
-              <dt>Owner</dt>
+              <dt>{i18n.t('nft.owner')}</dt>
               <dd>
                 {data?.data.owner ? (
                   <Link
@@ -85,7 +85,7 @@ const NftInfo = () => {
               </dd>
             </dl>
             <dl>
-              <dt>Creator</dt>
+              <dt>{i18n.t('nft.minter_address')}</dt>
               <dd>
                 {data?.data.collection.creator ? (
                   <Link
@@ -112,7 +112,7 @@ const NftInfo = () => {
               <dd>{`#${data?.data.token_id}`}</dd>
             </dl>
             <dl>
-              <dt>Token Type</dt>
+              <dt>{i18n.t('nft.standard')}</dt>
               <dd>{data ? i18n.t(`nft.${data.data.collection.standard}`) : '-'}</dd>
             </dl>
           </div>

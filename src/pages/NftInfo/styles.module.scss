@@ -1,12 +1,20 @@
 .container {
+  --margin-top: 104px;
+  --margin-bottom: 40px;
   width: 1200px;
-  margin: 104px auto 40px;
+  margin: var(--margin-top) auto var(--margin-bottom);
+  flex: 1;
 
   @media screen and (max-width: 1232px) {
     box-sizing: border-box;
     width: 100%;
-    margin: 0;
-    padding: 84px 16px 20px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  @media screen and (max-width: 750px) {
+    --margin-top: 84px;
+    --margin-bottom: 20px;
   }
 }
 
