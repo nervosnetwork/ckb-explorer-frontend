@@ -4,6 +4,7 @@ import { useQuery } from 'react-query'
 import { v2AxiosIns } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
+import { handleNftImgError } from '../../utils/util'
 import { getPrimaryColor } from '../../constants/common'
 
 const primaryColor = getPrimaryColor()
@@ -27,7 +28,11 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        {data?.data.icon_url ? <img src={data.data.icon_url} alt="logo" className={styles.logo} /> : null}
+        {data?.data.icon_url ? (
+          <img src={data.data.icon_url} alt="logo" className={styles.logo} onError={handleNftImgError} />
+        ) : (
+          <img alt="logo" src="/images/nft_placeholder" />
+        )}
         <span>{isLoading ? i18n.t(`nft.loading`) : data?.data.name}</span>
       </div>
       <div className={styles.desc}>{data?.data.description}</div>

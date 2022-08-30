@@ -56,7 +56,7 @@
       "wallet_renrenbit": "Renrenbit",
       "wallet_renrenbit_description": "A digital asset management platform offering 100% reserve",
       "wallets_memo": "In alphabetical order",
-      "nft_collection": "NFT 藏品"
+      "nft_collections": "NFT 藏品"
     },
     "blockchain": {
       "latest_block": "最高块",
@@ -394,7 +394,9 @@
       "minter_address": "发行人",
       "no_record": "没有记录",
       "mnft": "M-NFT",
+      "m_nft": "m-NFT",
       "nrc721": "NRC 721",
+      "nrc_721": "NRC 721",
       "loading": "加载中...",
       "nft": "NFT",
       "tx_hash": "交易",
@@ -405,7 +407,15 @@
       "holder-list": "持有人列表",
       "holder": "持有人",
       "quantity": "数量",
-      "inventory": "目录"
+      "inventory": "目录",
+      "action": "操作",
+      "action_type": {
+        "mint": "铸造",
+        "normal": "转让",
+        "destruction": "销毁"
+      },
+      "owner": "持有人",
+      "activity": "活动"
     },
     "script_list": {
       "title": "脚本",

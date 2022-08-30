@@ -1,5 +1,5 @@
-.container{
-  margin: 40px 120px 60px;
+.container {
+  margin: 40px 120px 24px;
   background-color: #fff;
   margin-bottom: 18px;
   padding: 20px 40px;
@@ -24,19 +24,19 @@
   }
 }
 
-.desc{
+.desc {
   padding: 20px 0;
   color: #494949;
 }
 
 @media screen and (max-width: 1200px) {
   .container {
-    margin: 40px 45px 60px;
+    margin: 40px 45px 24px;
   }
 }
 
 @media screen and (max-width: 750px) {
   .container {
-    margin: 40px 8px 60px;
+    margin: 40px 8px 24px;
   }
 }

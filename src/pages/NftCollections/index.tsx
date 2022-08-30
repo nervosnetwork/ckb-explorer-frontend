@@ -1,12 +1,13 @@
 import type { AxiosResponse } from 'axios'
 import { useLocation, useHistory, Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
+import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
 import { v2AxiosIns } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
-import { udtSubmitEmail } from '../../utils/util'
+import { handleNftImgError, udtSubmitEmail } from '../../utils/util'
 import { getPrimaryColor } from '../../constants/common'
 
 const primaryColor = getPrimaryColor()
@@ -17,10 +18,11 @@ interface Res {
     standard: string
     name: string
     description: string
-    creator_id: string | null
+    creator: string | null
     icon_url: string | null
     items_count: number | null
     holders_count: number | null
+    type_script: { code_hash: string; hash_type: 'data' | 'type'; args: string } | null
   }>
   pagination: {
     count: number
@@ -83,17 +85,35 @@ const NftCollections = () => {
             <tbody>
               {data?.data.data.length ? (
                 data?.data.data.map(item => {
+                  let typeHash: string | null = null
+                  try {
+                    if (item.type_script) {
+                      typeHash = scriptToHash({
+                        codeHash: item.type_script.code_hash,
+                        hashType: item.type_script.hash_type,
+                        args: item.type_script.args,
+                      })
+                    }
+                  } catch {
+                    // ignore
+                  }
                   return (
                     <tr key={item.id}>
                       <td>
                         <div className={styles.name}>
                           {item.icon_url ? (
-                            <img src={item.icon_url} alt="cover" loading="lazy" className={styles.icon} />
+                            <img
+                              src={item.icon_url}
+                              alt="cover"
+                              loading="lazy"
+                              className={styles.icon}
+                              onError={handleNftImgError}
+                            />
                           ) : (
-                            <div className={styles.defaultIcon}>{item.name?.slice(0, 1)}</div>
+                            <img src="/images/nft_placeholder.png" alt="cover" loading="lazy" className={styles.icon} />
                           )}
                           <Link
-                            to={`/nft-collections/${item.id}`}
+                            to={`/nft-collections/${typeHash || item.id}`}
                             title={item.name}
                             style={{
                               color: primaryColor,
@@ -109,11 +129,14 @@ const NftCollections = () => {
                       )}`}</td>
                       <td>
                         <div>
-                          {item.creator_id ? (
-                            <a href={`/address/${item.creator_id}`} title={item.creator_id}>{`${item.creator_id.slice(
-                              0,
-                              8,
-                            )}...${item.creator_id.slice(-8)}`}</a>
+                          {item.creator ? (
+                            <Link
+                              to={`/address/${item.creator}`}
+                              className="monospace"
+                              style={{
+                                color: primaryColor,
+                              }}
+                            >{`${item.creator.slice(0, 8)}...${item.creator.slice(-8)}`}</Link>
                           ) : (
                             '-'
                           )}
@@ -135,7 +158,7 @@ const NftCollections = () => {
 
         <Pagination
           currentPage={data?.data.pagination.page ?? 1}
-          totalPages={data?.data.pagination.last ?? 0}
+          totalPages={data?.data.pagination.last ?? 1}
           onChange={handlePageChange}
         />
       </div>

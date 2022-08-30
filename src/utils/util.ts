@@ -135,6 +135,11 @@ export const handleRedirectFromAggron = () => {
   }
   return false
 }
+
+export const handleNftImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  e.currentTarget.src = '/images/nft_placeholder.png'
+}
+
 export default {
   copyElementValue,
   shannonToCkb,
