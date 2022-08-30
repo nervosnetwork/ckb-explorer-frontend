@@ -1,4 +1,3 @@
-import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
 import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import i18n from '../../utils/i18n'
@@ -70,11 +69,11 @@ const NftCollectionInventory: React.FC<{
                   to={`/address/${item.owner}`}
                   style={{
                     color: primaryColor,
+                    fontWeight: 700,
                   }}
+                  title={item.owner}
                 >
-                  <Tooltip title={item.owner}>
-                    <span className="monospace">{item.owner}</span>
-                  </Tooltip>
+                  <span className="monospace">{item.owner}</span>
                 </Link>
               ) : (
                 '-'

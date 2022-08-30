@@ -2,6 +2,7 @@ import type { AxiosResponse } from 'axios'
 import { useLocation, useHistory, Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
+import { Tooltip } from 'antd'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
 import { v2AxiosIns } from '../../service/http/fetcher'
@@ -130,13 +131,16 @@ const NftCollections = () => {
                       <td>
                         <div>
                           {item.creator ? (
-                            <Link
-                              to={`/address/${item.creator}`}
-                              className="monospace"
-                              style={{
-                                color: primaryColor,
-                              }}
-                            >{`${item.creator.slice(0, 8)}...${item.creator.slice(-8)}`}</Link>
+                            <Tooltip title={item.creator}>
+                              <Link
+                                to={`/address/${item.creator}`}
+                                className="monospace"
+                                style={{
+                                  color: primaryColor,
+                                  fontWeight: 700,
+                                }}
+                              >{`${item.creator.slice(0, 8)}...${item.creator.slice(-8)}`}</Link>
+                            </Tooltip>
                           ) : (
                             '-'
                           )}

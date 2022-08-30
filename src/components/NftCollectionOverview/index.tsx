@@ -1,6 +1,7 @@
 import type { AxiosResponse } from 'axios'
 import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
+import { Tooltip } from 'antd'
 import { v2AxiosIns } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
@@ -14,7 +15,7 @@ interface InfoRes {
   standard: string
   name: string
   description: string
-  creator_id: string | null
+  creator: string | null
   icon_url: string | null
   items_count: number | null
   holders_count: number | null
@@ -58,14 +59,18 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
         <dd>
           {isLoading ? i18n.t(`nft.loading`) : null}
 
-          {!isLoading && data?.data.creator_id ? (
-            <Link
-              to={`/address/${data?.data.creator_id}`}
-              title={data?.data.creator_id}
-              style={{
-                color: primaryColor,
-              }}
-            >{`${data?.data.creator_id.slice(0, 8)}...${data?.data.creator_id.slice(-8)}`}</Link>
+          {!isLoading && data?.data.creator ? (
+            <Tooltip title={data?.data.creator}>
+              <Link
+                to={`/address/${data?.data.creator}`}
+                title={data?.data.creator}
+                className="monospace"
+                style={{
+                  color: primaryColor,
+                  fontWeight: 700,
+                }}
+              >{`${data?.data.creator.slice(0, 12)}...${data?.data.creator.slice(-12)}`}</Link>
+            </Tooltip>
           ) : (
             '-'
           )}

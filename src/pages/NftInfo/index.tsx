@@ -74,8 +74,8 @@ const NftInfo = () => {
                     }}
                   >
                     <Tooltip title={data.data.owner}>
-                      <span className="monospace">{`${data.data.owner.slice(0, 8)}...${data.data.owner.slice(
-                        -8,
+                      <span className="monospace">{`${data.data.owner.slice(0, 12)}...${data.data.owner.slice(
+                        -12,
                       )}`}</span>
                     </Tooltip>
                   </Link>
@@ -98,8 +98,8 @@ const NftInfo = () => {
                     <Tooltip title={data.data.collection.creator}>
                       <span className="monospace">{`${data.data.collection.creator.slice(
                         0,
-                        8,
-                      )}...${data.data.collection.creator.slice(-8)}`}</span>
+                        12,
+                      )}...${data.data.collection.creator.slice(-12)}`}</span>
                     </Tooltip>
                   </Link>
                 ) : (
