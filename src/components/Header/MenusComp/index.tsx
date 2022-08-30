@@ -29,6 +29,11 @@ const menuDataList = () => [
   },
   {
     type: LinkType.Inner,
+    name: i18n.t('navbar.nft_collection'),
+    url: '/nft-collections',
+  },
+  {
+    type: LinkType.Inner,
     name: i18n.t('navbar.charts'),
     url: '/charts',
   },

@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { ThemeProvider } from 'styled-components'
 import 'antd/dist/antd.css'
 import Routers from './routes'
@@ -12,6 +13,8 @@ const appStyle = {
   height: '100vh',
   maxWidth: '100%',
 }
+
+const queryClient = new QueryClient()
 
 const App = withProviders(() => {
   useInitApp()
@@ -27,8 +30,10 @@ const App = withProviders(() => {
   return (
     <ThemeProvider theme={theme}>
       <div style={appStyle} data-net={isMainnet() ? 'mainnet' : 'testnet'}>
-        <Routers />
-        <Toast />
+        <QueryClientProvider client={queryClient}>
+          <Routers />
+          <Toast />
+        </QueryClientProvider>
       </div>
     </ThemeProvider>
   )
