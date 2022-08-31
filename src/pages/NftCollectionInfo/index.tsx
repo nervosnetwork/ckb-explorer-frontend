@@ -188,12 +188,12 @@ const NftCollectionInfo = () => {
         {tab === tabs[1] ? (
           <>
             <NftHolderList
-              list={holderList.slice((+page - 1) * PAGE_SIZE, +page * PAGE_SIZE)}
+              list={holderList?.slice((+page - 1) * PAGE_SIZE, +page * PAGE_SIZE) ?? []}
               isLoading={isHolderListLoading}
             />
             <Pagination
               currentPage={+page}
-              totalPages={Math.ceil(holderList.length / PAGE_SIZE) ?? 1}
+              totalPages={Math.ceil(holderList?.length ?? 0 / PAGE_SIZE) ?? 1}
               onChange={handlePageChange}
             />
           </>
