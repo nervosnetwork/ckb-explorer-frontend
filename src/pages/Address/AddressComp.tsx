@@ -70,7 +70,7 @@ const UDT_LABEL: Record<State.UDTAccount['udtType'], string> = {
 }
 
 const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
-  const { symbol, uan, amount, udtIconFile, typeHash, udtType } = udtAccount
+  const { symbol, uan, amount, udtIconFile, typeHash, udtType, collection } = udtAccount
   const isSudt = udtType === 'sudt'
   const isNft = ['m_nft_token', 'nrc_721_token'].includes(udtType)
   const [icon, setIcon] = useState(udtIconFile || SUDTTokenIcon)
@@ -99,8 +99,10 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
   const name = isSudt ? sudtSymbol : sliceNftName(symbol)
   const property = isSudt ? parseUDTAmount(amount, (udtAccount as State.SUDT).decimal) : `#${amount}`
 
+  const href = isSudt ? `/sudt/${typeHash}` : `/nft-collections/${collection?.typeHash}`
+
   return (
-    <AddressUDTItemPanel href={`/${isSudt ? 'sudt' : 'nft-collections'}/${typeHash}`} isLink={isSudt || isNft}>
+    <AddressUDTItemPanel href={href} isLink={isSudt || isNft}>
       <div className="address__udt__label">
         {isUnverified ? `${i18n.t('udt.unverified')}: ` : null}
         <span>{UDT_LABEL[udtType] ?? 'unknown'}</span>

@@ -108,6 +108,7 @@ declare namespace State {
     udtIconFile: string
     uan?: string
     udtType: 'sudt'
+    collection: undefined
   }
 
   interface MNFT {
@@ -118,6 +119,9 @@ declare namespace State {
     udtIconFile: string
     udtType: 'm_nft_token'
     uan: undefined
+    collection: {
+      typeHash: string
+    }
   }
 
   interface NRC721 {
@@ -127,6 +131,9 @@ declare namespace State {
     udtIconFile: string // base uri with token id in fact
     udtType: 'nrc_721_token'
     uan: undefined
+    collection: {
+      typeHash: string
+    }
   }
 
   export type UDTAccount = SUDT | MNFT | NRC721
