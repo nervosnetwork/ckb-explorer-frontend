@@ -27,7 +27,7 @@ export const HeaderSearchPanel = styled.div`
 export const HeaderSearchBarPanel = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 30px;
+  margin-right: 20px;
 
   > img {
     width: 18px;
