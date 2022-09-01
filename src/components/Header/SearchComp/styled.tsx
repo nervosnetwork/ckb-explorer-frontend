@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const HeaderSearchPanel = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 60px;
+  margin-right: 40px;
   height: 38px;
   width: 440px;
 
@@ -13,12 +13,14 @@ export const HeaderSearchPanel = styled.div`
     width: 100%;
   }
 
-  @media (max-width: 1440px) {
-    margin-right: 24px;
+  @media (max-width: 1600px) {
+    width: 360px;
+    margin-right: 16px;
   }
 
-  @media (max-width: 1920px) {
-    margin-right: 40px;
+  @media (max-width: 1480px) {
+    width: 320px;
+    margin-right: 16px;
   }
 `
 

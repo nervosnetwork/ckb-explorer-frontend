@@ -5,7 +5,6 @@ import Page from '../components/Page'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Sheet from '../components/Sheet'
-
 import { useDispatch, useAppState } from '../contexts/providers'
 import { ComponentActions } from '../contexts/actions'
 import { isMobile } from '../utils/screen'
@@ -19,6 +18,9 @@ const Transaction = lazy(() => import('../pages/Transaction'))
 const TransactionList = lazy(() => import('../pages/TransactionList'))
 const Address = lazy(() => import('../pages/Address'))
 const SimpleUDT = lazy(() => import('../pages/SimpleUDT'))
+const NftCollections = lazy(() => import('../pages/NftCollections'))
+const NftCollectionInfo = lazy(() => import('../pages/NftCollectionInfo'))
+const NftInfo = lazy(() => import('../pages/NftInfo'))
 const NervosDao = lazy(() => import('../pages/NervosDao'))
 const NotFoundPage = lazy(() => import('../pages/404'))
 const SearchFail = lazy(() => import('../pages/SearchFail'))
@@ -93,6 +95,24 @@ const Containers: CustomRouter.Route[] = [
     path: '/sudt/:hash',
     exact: true,
     comp: SimpleUDT,
+  },
+  {
+    name: 'NftCollections',
+    path: '/nft-collections',
+    exact: true,
+    comp: NftCollections,
+  },
+  {
+    name: 'NftCollectionInfo',
+    path: '/nft-collections/:id',
+    exact: true,
+    comp: NftCollectionInfo,
+  },
+  {
+    name: 'NftInfo',
+    path: '/nft-info/:collection/:id',
+    exact: true,
+    comp: NftInfo,
   },
   {
     name: 'NervosDao',

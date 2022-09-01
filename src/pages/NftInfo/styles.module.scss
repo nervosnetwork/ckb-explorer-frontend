@@ -1,0 +1,97 @@
+.container {
+  --margin-top: 104px;
+  --margin-bottom: 40px;
+  width: 1200px;
+  margin: var(--margin-top) auto var(--margin-bottom);
+  flex: 1;
+
+  @media screen and (max-width: 1232px) {
+    box-sizing: border-box;
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  @media screen and (max-width: 750px) {
+    --margin-top: 84px;
+    --margin-bottom: 20px;
+  }
+}
+
+.overview {
+  padding: 24px;
+  background: #fff;
+  display: flex;
+  & > div {
+    overflow: hidden;
+  }
+  .cover {
+    width: 440px;
+    height: 440px;
+    flex-shrink: 0;
+    margin-right: 32px;
+  }
+
+  .name {
+    font-size: 24px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1;
+  }
+  .items {
+    dl {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+    dt {
+      font-size: 14px;
+      font-weight: 400;
+      color: #999;
+      margin: 40px 0 20px;
+    }
+    dd {
+      margin: 0;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+    align-items: center;
+    .cover {
+      margin-bottom: 16px;
+      margin-right: 0;
+    }
+    .name,
+    .itmes {
+      width: 440px;
+    }
+  }
+  @media screen and (max-width: 472px) {
+    .cover {
+      width: 320px;
+      height: 320px;
+    }
+    .name,
+    .items {
+      width: 320px;
+    }
+  }
+}
+
+.tab {
+  display: flex;
+  place-content: center;
+  place-items: center;
+  width: 104px;
+  height: 40px;
+  margin-top: 24px;
+  background: #fff;
+  color: #333;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  margin-right: 6px;
+  font-size: 16px;
+}

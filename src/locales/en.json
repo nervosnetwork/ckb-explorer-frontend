@@ -55,7 +55,8 @@
       "wallet_neuron_description": "An open source project from Nervos Foundation, with local CKB node to achieve trustless services",
       "wallet_renrenbit": "Renrenbit",
       "wallet_renrenbit_description": "A digital asset management platform offering 100% reserve",
-      "wallets_memo": "In alphabetical order"
+      "wallets_memo": "In alphabetical order",
+      "nft_collections": "NFT Collections"
     },
     "blockchain": {
       "latest_block": "Latest Block",
@@ -384,6 +385,38 @@
       "tokens_empty": "There are no tokens at this time.",
       "unverified": "Unverified",
       "view-deprecated-address": "View deprecated address"
+    },
+    "nft": {
+      "nft_collection": "NFT Collection",
+      "collection_name": "Collection Name",
+      "standard": "Type",
+      "holder_and_mint_count": "Holder/Minted",
+      "minter_address": "Creator",
+      "no_record": "No records",
+      "mnft": "M-NFT",
+      "m_nft": "m-NFT",
+      "nrc721": "NRC 721",
+      "nrc_721": "NRC 721",
+      "loading": "Loading...",
+      "nft": "NFT",
+      "tx_hash": "Tx",
+      "age": "Age",
+      "from": "From",
+      "to": "To",
+      "transfer-list": "Transfers",
+      "holder-list": "Holders",
+      "holder": "Holder",
+      "owner": "Owner",
+      "quantity": "Quantity",
+      "inventory": "Inventory",
+      "action": "Action",
+      "action_type": {
+        "mint": "Mint",
+        "normal": "Transfer",
+        "destruction": "Burn"
+      },
+      "activity": "Activity",
+      "toggle-age": "Switch time format"
     },
     "script_list": {
       "title": "Scripts",

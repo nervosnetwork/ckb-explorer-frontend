@@ -1,0 +1,126 @@
+.container {
+  margin: 40px 120px 60px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  h5 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    margin: 0;
+  }
+}
+
+.list {
+  background: #fff;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  padding: 0 15px;
+
+  table {
+    width: 100%;
+    margin-bottom: 4px;
+  }
+
+  thead {
+    position: relative;
+    font-size: 14px;
+    font-weight: 700;
+    th {
+      vertical-align: middle;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-transform: capitalize;
+      white-space: nowrap;
+    }
+    &:after {
+      position: absolute;
+      left: -15px;
+      bottom: -2px;
+      width: calc(100% + 30px);
+      height: 4px;
+      content: '';
+      display: block;
+      background-color: #ededed;
+    }
+  }
+
+  tbody {
+    td {
+      padding-top: 15px;
+      padding-bottom: 15px;
+      font-size: 14px;
+    }
+
+    tr:not(:last-child) {
+      border-bottom: 1px solid #d8d8d8;
+    }
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding-left: 25px;
+    padding-right: 25px;
+    max-width: 0.25vw;
+
+    &:not(:first-of-type) {
+      text-align: right;
+    }
+    &:first-child,
+    &:last-child {
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+  }
+
+  .name {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .icon,
+  .defaultIcon {
+    display: inline-flex;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 6px;
+    flex-shrink: 0;
+  }
+
+  .defaultIcon {
+    background-color: #f0f0f0;
+    justify-content: center;
+    align-items: center;
+    text-transform: capitalize;
+  }
+
+  .noRecord {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .container {
+    margin: 40px 45px 60px;
+  }
+}
+
+@media screen and (max-width: 790px) {
+  .container {
+    margin: 40px 8px 60px;
+    th:nth-last-child(2),
+    td:nth-last-child(2),
+    th:last-child,
+    td:last-child {
+      display: none;
+    }
+  }
+}
