@@ -17,6 +17,11 @@ export const HeaderSearchPanel = styled.div`
     width: 360px;
     margin-right: 16px;
   }
+
+  @media (max-width: 1480px) {
+    width: 320px;
+    margin-right: 16px;
+  }
 `
 
 export const HeaderSearchBarPanel = styled.div`
