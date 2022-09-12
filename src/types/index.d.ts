@@ -109,6 +109,7 @@ declare namespace State {
     uan?: string
     udtType: 'sudt'
     collection: undefined
+    cota: undefined
   }
 
   interface MNFT {
@@ -122,6 +123,7 @@ declare namespace State {
     collection: {
       typeHash: string
     }
+    cota: undefined
   }
 
   interface NRC721 {
@@ -134,9 +136,24 @@ declare namespace State {
     collection: {
       typeHash: string
     }
+    cota: undefined
   }
 
-  export type UDTAccount = SUDT | MNFT | NRC721
+  interface CoTA {
+    symbol: string
+    amount: string
+    typeHash: string
+    udtIconFile: string // base uri with token id in fact
+    udtType: 'cota'
+    uan: undefined
+    collection: undefined
+    cota: {
+      cotaId: number
+      tokenId: number
+    }
+  }
+
+  export type UDTAccount = SUDT | MNFT | NRC721 | CoTA
 
   export interface Address {
     addressHash: string

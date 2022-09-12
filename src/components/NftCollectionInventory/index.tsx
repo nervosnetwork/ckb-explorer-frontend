@@ -36,9 +36,10 @@ const NftCollectionInventory: React.FC<{
   return (
     <div className={styles.list}>
       {list.map(item => {
+        const itemLink = `/nft-info/${hash}/${item.token_id}`
         return (
           <div key={item.id} className={styles.item}>
-            <div>
+            <Link to={itemLink}>
               {item.icon_url ? (
                 <img
                   src={item.icon_url}
@@ -50,11 +51,11 @@ const NftCollectionInventory: React.FC<{
               ) : (
                 <Cover className={styles.cover} />
               )}
-            </div>
+            </Link>
             <div className={styles.tokenId}>
               <span>Token ID</span>
               <Link
-                to={`/nft-info/${hash}/${item.token_id}`}
+                to={itemLink}
                 style={{
                   color: primaryColor,
                 }}

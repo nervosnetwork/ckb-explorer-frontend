@@ -1,13 +1,15 @@
 import axios, { AxiosResponse } from 'axios'
-import { useHistory } from 'react-router'
 import { useState, useEffect } from 'react'
+import { useHistory } from 'react-router'
+import { useQuery } from 'react-query'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import { useAppState } from '../../contexts/providers/index'
+import { v2AxiosIns } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
-import { shannonToCkb, deprecatedAddrToNewAddr } from '../../utils/util'
+import { shannonToCkb, deprecatedAddrToNewAddr, handleNftImgError } from '../../utils/util'
 import {
   AddressTransactionsPagination,
   AddressTransactionsPanel,
@@ -67,17 +69,18 @@ const UDT_LABEL: Record<State.UDTAccount['udtType'], string> = {
   sudt: 'sudt',
   m_nft_token: 'm nft',
   nrc_721_token: 'nrc 721',
+  cota: 'CoTA',
 }
 
 const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
-  const { symbol, uan, amount, udtIconFile, typeHash, udtType, collection } = udtAccount
+  const { symbol, uan, amount, udtIconFile, typeHash, udtType, collection, cota } = udtAccount
   const isSudt = udtType === 'sudt'
-  const isNft = ['m_nft_token', 'nrc_721_token'].includes(udtType)
+  const isNft = ['m_nft_token', 'nrc_721_token', 'cota'].includes(udtType)
   const [icon, setIcon] = useState(udtIconFile || SUDTTokenIcon)
   const showDefaultIcon = () => setIcon(SUDTTokenIcon)
 
   useEffect(() => {
-    if (udtIconFile && udtType === 'nrc_721_token') {
+    if (udtIconFile && udtType !== 'sudt') {
       axios
         .get(/https?:\/\//.test(udtIconFile) ? udtIconFile : `https://${udtIconFile}`)
         .then((res: AxiosResponse) => {
@@ -97,9 +100,25 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
 
   const isUnverified = udtType === 'nrc_721_token' && !symbol
   const name = isSudt ? sudtSymbol : sliceNftName(symbol)
-  const property = isSudt ? parseUDTAmount(amount, (udtAccount as State.SUDT).decimal) : `#${amount}`
+  let property = ''
+  let href = ''
 
-  const href = isSudt ? `/sudt/${typeHash}` : `/nft-collections/${collection?.typeHash}`
+  switch (true) {
+    case isSudt: {
+      property = parseUDTAmount(amount, (udtAccount as State.SUDT).decimal)
+      href = `/sudt/${typeHash}`
+      break
+    }
+    case !!cota: {
+      property = `#${cota?.tokenId}`
+      href = `/nft-collections/${cota?.cotaId}`
+      break
+    }
+    default: {
+      property = `#${amount}`
+      href = `/nft-collections/${collection?.typeHash}`
+    }
+  }
 
   return (
     <AddressUDTItemPanel href={href} isLink={isSudt || isNft}>
@@ -108,7 +127,12 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
         <span>{UDT_LABEL[udtType] ?? 'unknown'}</span>
       </div>
       <div className="address__udt__detail">
-        <img className="address__udt__item__icon" src={icon} alt="udt icon" onError={showDefaultIcon} />
+        <img
+          className="address__udt__item__icon"
+          src={icon}
+          alt="udt icon"
+          onError={isSudt ? showDefaultIcon : handleNftImgError}
+        />
         <div className="address__udt__item__info">
           <span>{isUnverified ? '?' : name}</span>
           <span>{isUnverified ? '?' : property}</span>
@@ -116,6 +140,23 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
       </div>
     </AddressUDTItemPanel>
   )
+}
+
+interface CoTAList {
+  data: Array<{
+    id: number
+    token_id: number
+    owner: string
+    collection: {
+      id: number
+      name: string
+      description: string
+      icon_url: string
+    }
+  }>
+  pagination: {
+    series: Array<string>
+  }
 }
 
 export const AddressAssetComp = () => {
@@ -126,6 +167,24 @@ export const AddressAssetComp = () => {
     },
   } = useAppState()
 
+  const { data: initList } = useQuery<AxiosResponse<CoTAList>>(
+    ['cota-list', address.addressHash],
+    () => v2AxiosIns(`nft/items?owner=${address.addressHash}&standard=cota`),
+    {
+      enabled: !!address?.addressHash,
+    },
+  )
+
+  const { data: cotaList } = useQuery<CoTAList['data']>(['cota-list', initList?.data.pagination.series], () =>
+    Promise.all(
+      (initList?.data.pagination.series ?? []).map(p =>
+        v2AxiosIns(`nft/items?owner=${address.addressHash}&standard=cota&page=${p}`),
+      ),
+    ).then(list => {
+      return list.reduce((total, acc) => [...total, ...acc.data.data], [] as CoTAList['data'])
+    }),
+  )
+
   return (
     <OverviewCard items={addressAssetInfo(address)} titleCard={<TitleCard title={i18n.t('address.assets')} />}>
       {udtAccounts.length > 0 && (
@@ -135,6 +194,24 @@ export const AddressAssetComp = () => {
             {udtAccounts.map(udt => (
               <AddressUDTItem udtAccount={udt} key={udt.symbol + udt.udtType + udt.amount} />
             ))}
+            {cotaList?.map(cota => (
+              <AddressUDTItem
+                udtAccount={{
+                  symbol: cota.collection.name,
+                  amount: '',
+                  typeHash: '',
+                  udtIconFile: cota.collection.icon_url,
+                  udtType: 'cota',
+                  cota: {
+                    cotaId: cota.collection.id,
+                    tokenId: cota.token_id,
+                  },
+                  uan: undefined,
+                  collection: undefined,
+                }}
+                key={`${cota.collection.id}-${cota.token_id}`}
+              />
+            )) ?? null}
           </div>
         </AddressUDTAssetsPanel>
       )}
