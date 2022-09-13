@@ -8,7 +8,7 @@ import Pagination from '../../components/Pagination'
 import { v2AxiosIns } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
-import { handleNftImgError, udtSubmitEmail } from '../../utils/util'
+import { handleNftImgError, patchMibaoImg, udtSubmitEmail } from '../../utils/util'
 import { getPrimaryColor } from '../../constants/common'
 
 const primaryColor = getPrimaryColor()
@@ -104,7 +104,7 @@ const NftCollections = () => {
                         <div className={styles.name}>
                           {item.icon_url ? (
                             <img
-                              src={item.icon_url}
+                              src={patchMibaoImg(item.icon_url)}
                               alt="cover"
                               loading="lazy"
                               className={styles.icon}
