@@ -36,9 +36,10 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
             alt="logo"
             className={styles.logo}
             onError={handleNftImgError}
+            loading="lazy"
           />
         ) : (
-          <img alt="logo" src="/images/nft_placeholder.png" />
+          <img alt="logo" src="/images/nft_placeholder.png" loading="lazy" />
         )}
         <span>{isLoading ? i18n.t(`nft.loading`) : info?.name}</span>
       </div>

@@ -149,93 +149,103 @@ const NftCollectionTransfers: React.FC<{
       </table>
       <ul>
         {list.length ? (
-          list.map(item => (
-            <li key={item.id}>
-              <div className={styles.item}>
-                {item.item.icon_url ? (
-                  <img
-                    src={item.item.icon_url}
-                    alt="cover"
-                    loading="lazy"
-                    className={styles.icon}
-                    onError={handleNftImgError}
-                  />
-                ) : (
-                  <img src="/images/nft_placeholder.png" alt="cover" loading="lazy" className={styles.icon} />
-                )}
-                {`id: ${item.id}`}
-              </div>
-              <dl>
-                <div>
-                  <dt>{i18n.t('nft.tx_hash')}</dt>
-                  <dd>
-                    <Link
-                      to={`/transaction/${item.transaction.tx_hash}`}
-                      title={item.transaction.tx_hash}
-                      style={{
-                        color: primaryColor,
-                        fontWeight: 700,
-                      }}
-                    >
-                      <Tooltip title={item.transaction.tx_hash}>
-                        <span className="monospace">
-                          {`${item.transaction.tx_hash.slice(0, 10)}...${item.transaction.tx_hash.slice(-10)}`}
-                        </span>
-                      </Tooltip>
-                    </Link>
-                  </dd>
+          list.map(item => {
+            const coverUrl = item.item.icon_url ?? info?.data.icon_url
+            return (
+              <li key={item.id}>
+                <div className={styles.item}>
+                  {coverUrl ? (
+                    <img
+                      src={`${patchMibaoImg(coverUrl)}?size=small&tid=${item.item.token_id}`}
+                      alt="cover"
+                      loading="lazy"
+                      className={styles.icon}
+                      onError={handleNftImgError}
+                    />
+                  ) : (
+                    <img src="/images/nft_placeholder.png" alt="cover" loading="lazy" className={styles.icon} />
+                  )}
+                  <Link
+                    to={`/nft-info/${collection}/${item.item.token_id}`}
+                    style={{
+                      color: primaryColor,
+                    }}
+                  >
+                    {`id: ${item.item.token_id}`}
+                  </Link>
                 </div>
-                <div>
-                  <dt>{i18n.t('nft.action')}</dt>
-                  <dd>{i18n.t(`nft.action_type.${item.action}`)}</dd>
-                </div>
-                <div>
-                  <dt>{i18n.t('nft.age')}</dt>
-                  <dd>{parseDate(item.transaction.block_timestamp)}</dd>
-                </div>
-                <div>
-                  <dt>{i18n.t('nft.from')}</dt>
-                  <dd>
-                    {item.from ? (
+                <dl>
+                  <div>
+                    <dt>{i18n.t('nft.tx_hash')}</dt>
+                    <dd>
                       <Link
-                        to={`/address/${item.from}`}
+                        to={`/transaction/${item.transaction.tx_hash}`}
+                        title={item.transaction.tx_hash}
                         style={{
                           color: primaryColor,
                           fontWeight: 700,
                         }}
                       >
-                        <Tooltip title={item.from}>
-                          <span className="monospace">{`${item.from.slice(0, 8)}...${item.from.slice(-8)}`}</span>
+                        <Tooltip title={item.transaction.tx_hash}>
+                          <span className="monospace">
+                            {`${item.transaction.tx_hash.slice(0, 10)}...${item.transaction.tx_hash.slice(-10)}`}
+                          </span>
                         </Tooltip>
                       </Link>
-                    ) : (
-                      '-'
-                    )}
-                  </dd>
-                </div>
-                <div>
-                  <dt>{i18n.t('nft.to')}</dt>
-                  <dd>
-                    {item.to ? (
-                      <Link
-                        to={`/address/${item.to}`}
-                        style={{
-                          color: primaryColor,
-                          fontWeight: 700,
-                        }}
-                      >
-                        <Tooltip title={item.to}>
-                          <span className="monospace">{`${item.to.slice(0, 8)}...${item.to.slice(-8)}`}</span>
-                        </Tooltip>
-                      </Link>
-                    ) : (
-                      '-'
-                    )}
-                  </dd>
-                </div>
-              </dl>
-            </li>
-          ))
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>{i18n.t('nft.action')}</dt>
+                    <dd>{i18n.t(`nft.action_type.${item.action}`)}</dd>
+                  </div>
+                  <div>
+                    <dt>{i18n.t('nft.age')}</dt>
+                    <dd>{parseDate(item.transaction.block_timestamp)}</dd>
+                  </div>
+                  <div>
+                    <dt>{i18n.t('nft.from')}</dt>
+                    <dd>
+                      {item.from ? (
+                        <Link
+                          to={`/address/${item.from}`}
+                          style={{
+                            color: primaryColor,
+                            fontWeight: 700,
+                          }}
+                        >
+                          <Tooltip title={item.from}>
+                            <span className="monospace">{`${item.from.slice(0, 8)}...${item.from.slice(-8)}`}</span>
+                          </Tooltip>
+                        </Link>
+                      ) : (
+                        '-'
+                      )}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>{i18n.t('nft.to')}</dt>
+                    <dd>
+                      {item.to ? (
+                        <Link
+                          to={`/address/${item.to}`}
+                          style={{
+                            color: primaryColor,
+                            fontWeight: 700,
+                          }}
+                        >
+                          <Tooltip title={item.to}>
+                            <span className="monospace">{`${item.to.slice(0, 8)}...${item.to.slice(-8)}`}</span>
+                          </Tooltip>
+                        </Link>
+                      ) : (
+                        '-'
+                      )}
+                    </dd>
+                  </div>
+                </dl>
+              </li>
+            )
+          })
         ) : (
           <li className={styles.noRecord}>{isLoading ? i18n.t('nft.loading') : i18n.t(`nft.no_record`)}</li>
         )}
