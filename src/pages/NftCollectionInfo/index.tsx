@@ -200,7 +200,11 @@ const NftCollectionInfo = () => {
         ) : null}
         {tab === tabs[2] ? (
           <>
-            <NftCollectionInventory hash={id} list={inventoryList?.data.data ?? []} isLoading={isInventoryLoading} />
+            <NftCollectionInventory
+              collection={id}
+              list={inventoryList?.data.data ?? []}
+              isLoading={isInventoryLoading}
+            />
             <Pagination {...pages} onChange={handlePageChange} />
           </>
         ) : null}

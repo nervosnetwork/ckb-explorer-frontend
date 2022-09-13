@@ -1,21 +1,28 @@
+import type { AxiosResponse } from 'axios'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useQuery } from 'react-query'
 import { Tooltip } from 'antd'
 import type { TransferListRes } from '../../pages/NftCollectionInfo'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../constants/common'
-import { handleNftImgError } from '../../utils/util'
+import { handleNftImgError, patchMibaoImg } from '../../utils/util'
+import { v2AxiosIns } from '../../service/http/fetcher'
 import { dayjs, parseDate } from '../../utils/date'
 
 const primaryColor = getPrimaryColor()
 
-const NftCollectionTransfers: React.FC<{ collection: string; list: TransferListRes['data']; isLoading: boolean }> = ({
-  collection,
-  list,
-  isLoading,
-}) => {
+const NftCollectionTransfers: React.FC<{
+  collection: string
+  list: TransferListRes['data']
+  isLoading: boolean
+}> = ({ collection, list, isLoading }) => {
   const [isShowInAge, setIsShowInAge] = useState(false)
+
+  const { data: info } = useQuery<AxiosResponse<{ icon_url: string | null }>>(['collection-info', collection], () =>
+    v2AxiosIns(`nft/collections/${collection}`),
+  )
   dayjs.locale(i18n.language === 'zh' ? 'zh-cn' : 'en')
 
   return (
@@ -46,13 +53,14 @@ const NftCollectionTransfers: React.FC<{ collection: string; list: TransferListR
         <tbody>
           {list.length ? (
             list.map(item => {
+              const coverUrl = item.item.icon_url ?? info?.data.icon_url
               return (
                 <tr key={item.id}>
                   <td>
                     <div className={styles.item}>
-                      {item.item.icon_url ? (
+                      {coverUrl ? (
                         <img
-                          src={item.item.icon_url}
+                          src={`${patchMibaoImg(coverUrl)}?size=small&tid=${item.item.token_id}`}
                           alt="cover"
                           loading="lazy"
                           className={styles.icon}

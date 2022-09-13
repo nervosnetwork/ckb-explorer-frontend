@@ -151,11 +151,11 @@ export const patchMibaoImg = (url: string) => {
   try {
     const u = new URL(url)
     if ([JINSE_ORIGIN, NERVINA_ORIGIN].includes(u.origin)) {
-      return `${NEW_MIBAO_ORIGIN}${u.pathname}?size=small`
+      return `${NEW_MIBAO_ORIGIN}${u.pathname}`
     }
 
     if ([MAD_ORIGIN].includes(u.origin)) {
-      return `${NEW_MAD_ORIGIN}${u.pathname}?size=small`
+      return `${NEW_MAD_ORIGIN}${u.pathname}`
     }
 
     return url

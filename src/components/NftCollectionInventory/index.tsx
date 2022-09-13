@@ -1,9 +1,12 @@
+import type { AxiosResponse } from 'axios'
 import { Link } from 'react-router-dom'
+import { useQuery } from 'react-query'
 import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../constants/common'
-import { handleNftImgError } from '../../utils/util'
+import { v2AxiosIns } from '../../service/http/fetcher'
+import { handleNftImgError, patchMibaoImg } from '../../utils/util'
 
 const primaryColor = getPrimaryColor()
 
@@ -14,9 +17,13 @@ const NftCollectionInventory: React.FC<{
     token_id: string
     owner?: string
   }>
-  hash: string
+  collection: string
   isLoading: boolean
-}> = ({ list, hash, isLoading }) => {
+}> = ({ list, collection, isLoading }) => {
+  const { data: info } = useQuery<AxiosResponse<{ icon_url: string | null }>>(['collection-info', collection], () =>
+    v2AxiosIns(`nft/collections/${collection}`),
+  )
+
   if (!list.length) {
     return (
       <div
@@ -36,13 +43,14 @@ const NftCollectionInventory: React.FC<{
   return (
     <div className={styles.list}>
       {list.map(item => {
-        const itemLink = `/nft-info/${hash}/${item.token_id}`
+        const itemLink = `/nft-info/${collection}/${item.token_id}`
+        const coverUrl = item.icon_url ?? info?.data.icon_url
         return (
           <div key={item.id} className={styles.item}>
             <Link to={itemLink}>
-              {item.icon_url ? (
+              {coverUrl ? (
                 <img
-                  src={item.icon_url}
+                  src={`${patchMibaoImg(coverUrl)}?size=small&tid=${item.token_id}`}
                   alt="cover"
                   loading="lazy"
                   className={styles.cover}

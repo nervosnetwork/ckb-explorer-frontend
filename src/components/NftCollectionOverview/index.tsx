@@ -31,7 +31,12 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
     <div className={styles.container}>
       <div className={styles.header}>
         {info?.icon_url ? (
-          <img src={patchMibaoImg(info.icon_url)} alt="logo" className={styles.logo} onError={handleNftImgError} />
+          <img
+            src={`${patchMibaoImg(info.icon_url)}?size=small`}
+            alt="logo"
+            className={styles.logo}
+            onError={handleNftImgError}
+          />
         ) : (
           <img alt="logo" src="/images/nft_placeholder.png" />
         )}

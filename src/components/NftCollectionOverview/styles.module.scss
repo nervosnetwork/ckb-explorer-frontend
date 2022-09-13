@@ -7,10 +7,10 @@
   border-radius: 6px;
 
   .header {
-    display:flex;
+    display: flex;
     font-size: 20px;
     font-weight: 700;
-    line-height:30px;
+    line-height: 30px;
     img {
       width: 30px;
       height: 30px;
@@ -24,6 +24,10 @@
     display: flex;
     justify-content: space-between;
   }
+}
+
+.logo {
+  object-fit: cover;
 }
 
 .desc {
