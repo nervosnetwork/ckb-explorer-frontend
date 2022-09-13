@@ -104,7 +104,7 @@ const NftCollections = () => {
                         <div className={styles.name}>
                           {item.icon_url ? (
                             <img
-                              src={patchMibaoImg(item.icon_url)}
+                              src={`${patchMibaoImg(item.icon_url)}?size=small`}
                               alt="cover"
                               loading="lazy"
                               className={styles.icon}
