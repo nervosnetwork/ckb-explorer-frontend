@@ -9,6 +9,7 @@ import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import { v2AxiosIns } from '../../service/http/fetcher'
 import { getPrimaryColor } from '../../constants/common'
 import styles from './styles.module.scss'
+import { patchMibaoImg } from '../../utils/util'
 
 const primaryColor = getPrimaryColor()
 
@@ -32,6 +33,7 @@ const NftInfo = () => {
         standard: string
         name: string
         creator: string
+        icon_url: string
       }
     }>
   >(['nft-item-info', collection, id], () => v2AxiosIns(`nft/collections/${collection}/items/${id}`))
@@ -54,11 +56,20 @@ const NftInfo = () => {
     }
     history.push(`/nft-info/${collection}/${id}?page=${pageNo}`)
   }
+  const coverUrl = data?.data.icon_url || data?.data.collection.icon_url
 
   return (
     <div className={styles.container}>
       <div className={styles.overview}>
-        <Cover className={styles.cover} />
+        {coverUrl ? (
+          <img
+            src={`${patchMibaoImg(coverUrl)}?size=medium&tid=${data?.data.token_id}`}
+            alt="cover"
+            className={styles.cover}
+          />
+        ) : (
+          <Cover className={styles.cover} />
+        )}
         <div>
           <div className={styles.name}>{data ? `${data.data.collection.name} #${data.data.token_id}` : '-'}</div>
           <div className={styles.items}>
