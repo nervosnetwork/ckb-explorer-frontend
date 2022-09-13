@@ -5,7 +5,7 @@ import { Tooltip } from 'antd'
 import { v2AxiosIns } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
-import { handleNftImgError } from '../../utils/util'
+import { handleNftImgError, patchMibaoImg } from '../../utils/util'
 import { getPrimaryColor } from '../../constants/common'
 
 const primaryColor = getPrimaryColor()
@@ -31,9 +31,9 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
     <div className={styles.container}>
       <div className={styles.header}>
         {info?.icon_url ? (
-          <img src={info.icon_url} alt="logo" className={styles.logo} onError={handleNftImgError} />
+          <img src={patchMibaoImg(info.icon_url)} alt="logo" className={styles.logo} onError={handleNftImgError} />
         ) : (
-          <img alt="logo" src="/images/nft_placeholder" />
+          <img alt="logo" src="/images/nft_placeholder.png" />
         )}
         <span>{isLoading ? i18n.t(`nft.loading`) : info?.name}</span>
       </div>

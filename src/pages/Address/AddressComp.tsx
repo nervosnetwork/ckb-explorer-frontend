@@ -9,7 +9,7 @@ import { useAppState } from '../../contexts/providers/index'
 import { v2AxiosIns } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
-import { shannonToCkb, deprecatedAddrToNewAddr, handleNftImgError } from '../../utils/util'
+import { shannonToCkb, deprecatedAddrToNewAddr, handleNftImgError, patchMibaoImg } from '../../utils/util'
 import {
   AddressTransactionsPagination,
   AddressTransactionsPanel,
@@ -129,7 +129,7 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
       <div className="address__udt__detail">
         <img
           className="address__udt__item__icon"
-          src={icon}
+          src={patchMibaoImg(icon)}
           alt="udt icon"
           onError={isSudt ? showDefaultIcon : handleNftImgError}
         />
