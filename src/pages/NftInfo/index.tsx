@@ -65,6 +65,7 @@ const NftInfo = () => {
           <img
             src={`${patchMibaoImg(coverUrl)}?size=medium&tid=${data?.data.token_id}`}
             alt="cover"
+            loading="lazy"
             className={styles.cover}
           />
         ) : (
