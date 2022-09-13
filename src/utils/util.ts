@@ -142,12 +142,22 @@ export const handleNftImgError = (e: React.SyntheticEvent<HTMLImageElement, Even
 
 export const patchMibaoImg = (url: string) => {
   const JINSE_ORIGIN = 'https://oss.jinse.cc'
-  const TARGET_ORIGIN = 'https://nft-box.s3.amazonaws.com'
+  const NERVINA_ORIGIN = 'https://goldenlegend.oss-accelerate.aliyuncs.com'
+  const MAD_ORIGIN = 'https://mad-api.nervina.cn'
+
+  const NEW_MIBAO_ORIGIN = 'https://nft-box.s3.amazonaws.com'
+  const NEW_MAD_ORIGIN = 'https://mad.digitalcompound.org'
+
   try {
     const u = new URL(url)
-    if (u.origin === JINSE_ORIGIN) {
-      return `${TARGET_ORIGIN}${u.pathname}`
+    if ([JINSE_ORIGIN, NERVINA_ORIGIN].includes(u.origin)) {
+      return `${NEW_MIBAO_ORIGIN}${u.pathname}?size=small`
     }
+
+    if ([MAD_ORIGIN].includes(u.origin)) {
+      return `${NEW_MAD_ORIGIN}${u.pathname}?size=small`
+    }
+
     return url
   } catch {
     return url
