@@ -140,6 +140,20 @@ export const handleNftImgError = (e: React.SyntheticEvent<HTMLImageElement, Even
   e.currentTarget.src = '/images/nft_placeholder.png'
 }
 
+export const patchMibaoImg = (url: string) => {
+  const JINSE_ORIGIN = 'https://oss.jinse.cc'
+  const TARGET_ORIGIN = 'https://nft-box.s3.amazonaws.com'
+  try {
+    const u = new URL(url)
+    if (u.origin === JINSE_ORIGIN) {
+      return `${TARGET_ORIGIN}${u.pathname}`
+    }
+    return url
+  } catch {
+    return url
+  }
+}
+
 export default {
   copyElementValue,
   shannonToCkb,
