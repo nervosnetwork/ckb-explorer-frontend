@@ -119,7 +119,12 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
       href = `/nft-collections/${collection?.typeHash}`
     }
   }
-  const coverParams = isSudt ? null : { size: 'small', tid: cota?.cotaId?.toString() ?? amount }
+  const coverQuery = isSudt
+    ? ''
+    : `?${new URLSearchParams({
+        size: 'small',
+        tid: cota?.cotaId?.toString() ?? amount,
+      })}`
 
   return (
     <AddressUDTItemPanel href={href} isLink={isSudt || isNft}>
@@ -130,7 +135,7 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
       <div className="address__udt__detail">
         <img
           className="address__udt__item__icon"
-          src={`${patchMibaoImg(icon)}${coverParams ? '?' + new URLSearchParams(coverParams) : ''}`}
+          src={`${patchMibaoImg(icon)}${coverQuery}`}
           alt="udt icon"
           onError={isSudt ? showDefaultIcon : handleNftImgError}
         />
