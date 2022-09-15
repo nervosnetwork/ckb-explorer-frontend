@@ -280,7 +280,8 @@
       "script_code_hash": "code_hash",
       "script_hash_type": "hash_type",
       "script_data": "data",
-      "tx_rejected_reason": "至少一个交易输入无效"
+      "tx_rejected_reason": "至少一个交易输入无效",
+      "export-transaction": "导出交易"
     },
     "block": {
       "block": "区块",
