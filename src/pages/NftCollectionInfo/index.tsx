@@ -193,7 +193,7 @@ const NftCollectionInfo = () => {
             />
             <Pagination
               currentPage={+page}
-              totalPages={Math.ceil(holderList?.length ?? 0 / PAGE_SIZE) ?? 1}
+              totalPages={Math.ceil((holderList?.length ?? 0) / PAGE_SIZE) ?? 1}
               onChange={handlePageChange}
             />
           </>
