@@ -1,4 +1,4 @@
-.openInNew{
+.openInNew {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -12,7 +12,6 @@
     path {
       fill: #999;
     }
-
   }
   @media screen and (max-width: 750px) {
     height: 22px;
@@ -21,5 +20,24 @@
       width: 16px;
       height: 16px;
     }
+  }
+}
+
+.exportTx {
+  display: flex;
+  align-items: center;
+  margin-left: 4px;
+  appearance: none;
+  color: #9b9b9b;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  &:hover {
+    color: var(--primary-color);
+  }
+  svg {
+    pointer-events: none;
   }
 }
