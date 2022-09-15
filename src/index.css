@@ -1,10 +1,15 @@
 body {
+  --primary-color: #00cc9b;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+}
+
+body[data-chain-type='testnet'] {
+  --primary-color: #9a2cec;
 }
 
 @font-face {
