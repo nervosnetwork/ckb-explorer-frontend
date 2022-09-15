@@ -183,7 +183,7 @@ const NftItemTransfers: React.FC<{ list: TransferListRes['data']; isLoading: boo
                         }}
                       >
                         <Tooltip title={item.from}>
-                          <span className="monospace">{`${item.from.slice(0, 8)}...${item.from.slice(-8)}`}</span>
+                          <span className="monospace">{`${item.from.slice(0, 10)}...${item.from.slice(-10)}`}</span>
                         </Tooltip>
                       </Link>
                     ) : (
@@ -203,7 +203,7 @@ const NftItemTransfers: React.FC<{ list: TransferListRes['data']; isLoading: boo
                         }}
                       >
                         <Tooltip title={item.to}>
-                          <span className="monospace">{`${item.to.slice(0, 8)}...${item.to.slice(-8)}`}</span>
+                          <span className="monospace">{`${item.to.slice(0, 10)}...${item.to.slice(-10)}`}</span>
                         </Tooltip>
                       </Link>
                     ) : (
