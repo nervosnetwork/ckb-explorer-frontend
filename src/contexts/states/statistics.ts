@@ -11,6 +11,7 @@ export const initStatistics: State.Statistics = {
   estimatedEpochTime: '0',
   transactionsLast24Hrs: '0',
   transactionsCountPerMinute: '0',
+  reorgStartedAt: null,
 }
 
 export default initStatistics
