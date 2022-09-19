@@ -290,6 +290,7 @@ declare namespace State {
     estimatedEpochTime: string
     transactionsLast24Hrs: string
     transactionsCountPerMinute: string
+    reorgStartedAt: string | null
   }
 
   export interface StatisticTransactionCount {
