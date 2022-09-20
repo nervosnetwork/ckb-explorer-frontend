@@ -25,7 +25,8 @@
       "data_too_large": "The data is too large, not available for download",
       "result_not_found": "Search result not found",
       "maintenance": "Please note that CKB Explorer will be under maintenance from {{start}} to {{end}}. Data update during the period might be delayed.",
-      "dismiss": "Dismiss"
+      "dismiss": "Dismiss",
+      "handling-reorg": "Reorg detected at {{time}} so CKB Explorer is checking data thoroughly. It may take half an hour, please visit later"
     },
     "navbar": {
       "wallet": "Wallet",

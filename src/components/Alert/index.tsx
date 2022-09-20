@@ -2,16 +2,18 @@ import { useEffect } from 'react'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { AlertPanel } from './styled'
 import i18n, { currentLanguage } from '../../utils/i18n'
-import { parseSimpleDateNoSecond } from '../../utils/date'
+import { dayjs, parseSimpleDateNoSecond } from '../../utils/date'
 import SimpleButton from '../SimpleButton'
 import { ComponentActions } from '../../contexts/actions'
 import { AppCachedKeys } from '../../constants/cache'
+import styles from './styles.module.scss'
 
 const Alert = () => {
   const dispatch = useDispatch()
   const {
     app: { appErrors },
     components: { maintenanceAlertVisible },
+    statistics: { reorgStartedAt },
   } = useAppState()
   const [startTime, endTime] = appErrors[2].message
 
@@ -36,6 +38,16 @@ const Alert = () => {
       })
     }
   }, [startTime, endTime, dispatch])
+
+  if (reorgStartedAt) {
+    return (
+      <div className={styles.container}>
+        {i18n.t('toast.handling-reorg', {
+          time: dayjs(reorgStartedAt).format('YYYY-MM-DD HH:mm:ss'),
+        })}
+      </div>
+    )
+  }
 
   return maintenanceAlertVisible ? (
     <AlertPanel isEn={currentLanguage() === 'en'}>

@@ -1,0 +1,18 @@
+.container {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  width: 100%;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 450;
+  line-height: 1.2;
+  text-align: center;
+  padding: 1rem;
+  background-color: #fa8f00;
+  z-index: 9;
+
+  @media screen and (max-width: 800px) {
+    text-align: left;
+  }
+}
