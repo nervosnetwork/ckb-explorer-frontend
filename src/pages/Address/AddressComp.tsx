@@ -193,34 +193,35 @@ export const AddressAssetComp = () => {
 
   return (
     <OverviewCard items={addressAssetInfo(address)} titleCard={<TitleCard title={i18n.t('address.assets')} />}>
-      {udtAccounts.length > 0 && (
-        <AddressUDTAssetsPanel>
-          <span>{i18n.t('address.user_defined_token')}</span>
-          <div className="address__udt__assets__grid">
-            {udtAccounts.map(udt => (
-              <AddressUDTItem udtAccount={udt} key={udt.symbol + udt.udtType + udt.amount} />
-            ))}
-            {cotaList?.map(cota => (
-              <AddressUDTItem
-                udtAccount={{
-                  symbol: cota.collection.name,
-                  amount: '',
-                  typeHash: '',
-                  udtIconFile: cota.collection.icon_url,
-                  udtType: 'cota',
-                  cota: {
-                    cotaId: cota.collection.id,
-                    tokenId: cota.token_id,
-                  },
-                  uan: undefined,
-                  collection: undefined,
-                }}
-                key={`${cota.collection.id}-${cota.token_id}`}
-              />
-            )) ?? null}
-          </div>
-        </AddressUDTAssetsPanel>
-      )}
+      {udtAccounts.length ||
+        (cotaList?.length && (
+          <AddressUDTAssetsPanel>
+            <span>{i18n.t('address.user_defined_token')}</span>
+            <div className="address__udt__assets__grid">
+              {udtAccounts.map(udt => (
+                <AddressUDTItem udtAccount={udt} key={udt.symbol + udt.udtType + udt.amount} />
+              ))}
+              {cotaList?.map(cota => (
+                <AddressUDTItem
+                  udtAccount={{
+                    symbol: cota.collection.name,
+                    amount: '',
+                    typeHash: '',
+                    udtIconFile: cota.collection.icon_url,
+                    udtType: 'cota',
+                    cota: {
+                      cotaId: cota.collection.id,
+                      tokenId: cota.token_id,
+                    },
+                    uan: undefined,
+                    collection: undefined,
+                  }}
+                  key={`${cota.collection.id}-${cota.token_id}`}
+                />
+              )) ?? null}
+            </div>
+          </AddressUDTAssetsPanel>
+        ))}
     </OverviewCard>
   )
 }
