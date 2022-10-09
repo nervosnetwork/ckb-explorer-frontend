@@ -193,7 +193,7 @@ export const AddressAssetComp = () => {
 
   return (
     <OverviewCard items={addressAssetInfo(address)} titleCard={<TitleCard title={i18n.t('address.assets')} />}>
-      {udtAccounts.length > 0 && (
+      {(udtAccounts.length || cotaList?.length) && (
         <AddressUDTAssetsPanel>
           <span>{i18n.t('address.user_defined_token')}</span>
           <div className="address__udt__assets__grid">
