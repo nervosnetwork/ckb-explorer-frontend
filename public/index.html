@@ -35,21 +35,17 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
+
+  <% if(process.env.REACT_APP_GA_ID) { %>
   <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=%REACT_APP_GA_ID%"></script>
   <script>
-    if (window.location.href.indexOf('explorer.nervos.org') > -1) {
-      var googleScript = document.createElement('script')
-      googleScript.src = 'https://www.googletagmanager.com/gtag/js?id=UA-139882771-4'
-      googleScript.async = true
-      googleScript.onload = function () {
-        window.dataLayer = window.dataLayer || []
-        function gtag() {
-          dataLayer.push(arguments)
-        }
-        gtag('js', new Date())
-        gtag('config', 'UA-139882771-4')
-      }
-      document.body.append(googleScript)
+    window.dataLayer = window.dataLayer || []
+    function gtag() {
+      dataLayer.push(arguments)
     }
+    gtag('js', new Date())
+    gtag('config', '%REACT_APP_GA_ID%')
   </script>
+  <% } %>
 </html>
