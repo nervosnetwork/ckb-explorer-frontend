@@ -74,6 +74,7 @@ const NftCollectionTransfers: React.FC<{
                         style={{
                           color: primaryColor,
                         }}
+                        className={styles.tokenId}
                       >
                         {`id: ${item.item.token_id}`}
                       </Link>
@@ -169,6 +170,9 @@ const NftCollectionTransfers: React.FC<{
                     to={`/nft-info/${collection}/${item.item.token_id}`}
                     style={{
                       color: primaryColor,
+                      maxWidth: '100%',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
                     }}
                   >
                     {`id: ${item.item.token_id}`}
