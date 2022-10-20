@@ -9,7 +9,7 @@ import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import { v2AxiosIns } from '../../service/http/fetcher'
 import { getPrimaryColor } from '../../constants/common'
 import styles from './styles.module.scss'
-import { patchMibaoImg } from '../../utils/util'
+import { patchMibaoImg, handleNftImgError } from '../../utils/util'
 
 const primaryColor = getPrimaryColor()
 
@@ -67,11 +67,12 @@ const NftInfo = () => {
             alt="cover"
             loading="lazy"
             className={styles.cover}
+            onError={handleNftImgError}
           />
         ) : (
           <Cover className={styles.cover} />
         )}
-        <div>
+        <div className={styles.info}>
           <div className={styles.name}>{data ? `${data.data.collection.name} #${data.data.token_id}` : '-'}</div>
           <div className={styles.items}>
             <dl>
