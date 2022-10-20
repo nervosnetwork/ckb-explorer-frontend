@@ -116,7 +116,7 @@
     flex: 1;
   }
 
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 1200px) {
     table {
       display: none;
     }
@@ -128,4 +128,18 @@
 
 .age {
   cursor: pointer;
+}
+
+.tokenId {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  @media screen and (max-width: 1800px) {
+    max-width: 200px;
+  }
+  @media screen and (max-width: 1400px) {
+    max-width: 120px;
+  }
+  @media screen and (max-width: 1200px) {
+    max-width: 80px;
+  }
 }
