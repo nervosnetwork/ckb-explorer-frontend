@@ -33,6 +33,9 @@ declare namespace State {
     | 'm_nft_issuer'
     | 'm_nft_class'
     | 'm_nft_token'
+    | 'nrc_721_token'
+    | 'cota_registry'
+    | 'cota_regular'
 
   interface UDTInfo {
     symbol: string
@@ -85,6 +88,7 @@ declare namespace State {
     udtInfo: UDTInfo
     cellInfo: CellInfo
     mNftInfo: NftIssuer | NftClass | NftToken
+    nrc721TokenInfo: Record<'amount' | 'symbol', string>
   }
 
   export interface CellInfo {
