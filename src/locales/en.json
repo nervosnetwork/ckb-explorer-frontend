@@ -315,7 +315,9 @@
       "transactions_root": "Transactions Root",
       "pending": "Pending",
       "pending_tip": "The block reward of this block will be sent to the miner after 11 blocks，learn more from our Consensus Protocol",
-      "reward_sent_tip": "The reward of this block has been sent, click to check the details"
+      "reward_sent_tip": "The reward of this block has been sent, click to check the details",
+      "view_prev_block": "View the previous block",
+      "view_next_block": "View the next block"
     },
     "nervos_dao": {
       "nervos_dao": "Nervos DAO",
