@@ -1,0 +1,48 @@
+.blockNumber {
+  display: flex;
+  align-items: center;
+  .prev,
+  .next {
+    display: flex;
+    align-items: center;
+    svg {
+      rect {
+        fill: var(--primary-color);
+        opacity: 0.15;
+      }
+      path {
+        stroke: var(--primary-color);
+      }
+    }
+    &:hover {
+      svg {
+        rect {
+          fill: var(--primary-color);
+          opacity: 1;
+        }
+        path {
+          stroke: #fff;
+        }
+      }
+    }
+    &[data-disabled='true'] {
+      pointer-events: none;
+      svg {
+        rect {
+          fill: #f0f0f0;
+          opacity: 1;
+        }
+        path {
+          stroke: #999;
+        }
+      }
+    }
+  }
+  .prev {
+    margin-right: 8px;
+  }
+  .next {
+    margin-left: 8px;
+    transform: rotate(0.5turn);
+  }
+}
