@@ -285,7 +285,6 @@
       "script_code_hash": "code_hash",
       "script_hash_type": "hash_type",
       "script_data": "data",
-      "tx_rejected_reason": "At least one input is invalid",
       "export-transaction": "Export Transaction"
     },
     "block": {
