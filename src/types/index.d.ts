@@ -232,6 +232,7 @@ declare namespace State {
     liveCellChanges: string
     capacityInvolved: string
     txStatus: string
+    detailedMessage: string
   }
 
   export interface BlockchainInfo {
