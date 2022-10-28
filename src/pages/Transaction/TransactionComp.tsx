@@ -89,7 +89,16 @@ export const TransactionOverview = () => {
   const [showParams, setShowParams] = useState<boolean>(false)
   const {
     transactionState: {
-      transaction: { blockNumber, cellDeps, headerDeps, witnesses, blockTimestamp, transactionFee, txStatus },
+      transaction: {
+        blockNumber,
+        cellDeps,
+        headerDeps,
+        witnesses,
+        blockTimestamp,
+        transactionFee,
+        txStatus,
+        detailedMessage,
+      },
     },
     app: { tipBlockNumber },
   } = useAppState()
@@ -135,7 +144,7 @@ export const TransactionOverview = () => {
       {
         title: i18n.t('transaction.status'),
         content: showTxStatus(txStatus),
-        valueTooltip: txStatus === 'rejected' ? i18n.t('transaction.tx_rejected_reason') : undefined,
+        valueTooltip: txStatus === 'rejected' ? detailedMessage : undefined,
       },
     )
   }
