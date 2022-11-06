@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useEffect, useState, ReactNode } from 'react'
+import BigNumber from 'bignumber.js'
 import { fetchCellData, fetchScript } from '../../../service/http/fetcher'
 import { CellState } from '../../../constants/common'
 import { hexToUtf8 } from '../../../utils/string'
@@ -11,6 +12,7 @@ import {
   TransactionDetailType,
   TransactionCellDetailPanel,
   TransactionDetailData,
+  TransactionDetailCapacityUsage,
   TransactionCellScriptContentPanel,
 } from './styled'
 import CopyIcon from '../../../assets/copy_green.png'
@@ -33,7 +35,9 @@ const initScriptContent = {
   },
 }
 
-const updateJsonFormat = (content: State.Script | State.Data | null): string => {
+type CapacityUsage = Record<'declared' | 'occupied', string | null>
+
+const updateJsonFormat = (content: State.Script | State.Data | CapacityUsage | null): string => {
   if (content !== null && (content as State.Script).args !== undefined) {
     const { codeHash, args, hashType } = content as State.Script
     return JSON.stringify(
@@ -58,7 +62,7 @@ const setScriptFetchStatus = (dispatch: AppDispatch, status: boolean) => {
   })
 }
 
-const handleFetchScript = (
+const handleFetchCellInfo = async (
   cell: State.Cell,
   state: CellState,
   setContent: Function,
@@ -67,70 +71,112 @@ const handleFetchScript = (
   txStatus: string,
 ) => {
   setScriptFetchStatus(dispatch, false)
+
+  const fetchLock = async () => {
+    if (txStatus === 'committed') {
+      const wrapper: Response.Wrapper<State.Script> | null = await fetchScript('lock_scripts', `${cell.id}`)
+      return wrapper ? wrapper.attributes : initScriptContent.lock
+    }
+    return cell.cellInfo.lock || initScriptContent.lock
+  }
+
+  const fetchType = async () => {
+    if (txStatus === 'committed') {
+      const wrapper: Response.Wrapper<State.Script> | null = await fetchScript('type_scripts', `${cell.id}`)
+      return wrapper ? wrapper.attributes : initScriptContent.type
+    }
+    return cell.cellInfo.type || initScriptContent.type
+  }
+
+  const fetchData = async () => {
+    if (txStatus === 'committed') {
+      return fetchCellData(`${cell.id}`)
+        .then((wrapper: Response.Wrapper<State.Data> | null) => {
+          const dataValue: State.Data = wrapper ? wrapper.attributes : initScriptContent.data
+          if (wrapper && cell.isGenesisOutput) {
+            dataValue.data = hexToUtf8(wrapper.attributes.data.substr(2))
+          }
+          return dataValue || initScriptContent.data
+        })
+        .catch(error => {
+          if (error.response && error.response.data && error.response.data[0]) {
+            const err = error.response.data[0]
+            if (err.status === 400 && err.code === 1022) {
+              setState(CellState.NONE)
+              dispatch({
+                type: AppActions.ShowToastMessage,
+                payload: {
+                  message: i18n.t('toast.data_too_large'),
+                  type: 'warning',
+                },
+              })
+              return null
+            }
+          }
+          return null
+        })
+    }
+    let dataValue: State.Data
+    if (cell.cellInfo.data !== '0x') {
+      dataValue = {
+        data: cell.cellInfo.data,
+      }
+    } else {
+      dataValue = initScriptContent.data
+    }
+    return dataValue
+  }
+
   switch (state) {
     case CellState.LOCK:
-      if (txStatus === 'committed') {
-        fetchScript('lock_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script> | null) => {
-          setScriptFetchStatus(dispatch, true)
-          setContent(wrapper ? wrapper.attributes : initScriptContent.lock)
-        })
-      } else {
+      fetchLock().then(lock => {
         setScriptFetchStatus(dispatch, true)
-        setContent(cell.cellInfo.lock || initScriptContent.lock)
-      }
+        setContent(lock)
+      })
       break
     case CellState.TYPE:
-      if (txStatus === 'committed') {
-        fetchScript('type_scripts', `${cell.id}`).then((wrapper: Response.Wrapper<State.Script> | null) => {
-          setScriptFetchStatus(dispatch, true)
-          setContent(wrapper ? wrapper.attributes : initScriptContent.type)
-        })
-      } else {
+      fetchType().then(type => {
         setScriptFetchStatus(dispatch, true)
-        setContent(cell.cellInfo.type || initScriptContent.type)
-      }
+        setContent(type)
+      })
       break
     case CellState.DATA:
-      if (txStatus === 'committed') {
-        fetchCellData(`${cell.id}`)
-          .then((wrapper: Response.Wrapper<State.Data> | null) => {
-            const dataValue: State.Data = wrapper ? wrapper.attributes : initScriptContent.data
-            if (wrapper && cell.isGenesisOutput) {
-              dataValue.data = hexToUtf8(wrapper.attributes.data.substr(2))
-            }
-            setContent(dataValue || initScriptContent.data)
-          })
-          .catch(error => {
-            if (error.response && error.response.data && error.response.data[0]) {
-              const err = error.response.data[0]
-              if (err.status === 400 && err.code === 1022) {
-                setContent(null)
-                setState(CellState.NONE)
-                dispatch({
-                  type: AppActions.ShowToastMessage,
-                  payload: {
-                    message: i18n.t('toast.data_too_large'),
-                    type: 'warning',
-                  },
-                })
-              }
-            }
-          })
-          .finally(() => {
-            setScriptFetchStatus(dispatch, true)
-          })
-      } else {
+      fetchData().then(data => {
         setScriptFetchStatus(dispatch, true)
-        let dataValue: State.Data
-        if (cell.cellInfo.data !== '0x') {
-          dataValue = {
-            data: cell.cellInfo.data,
-          }
-        } else {
-          dataValue = initScriptContent.data
+        setContent(data)
+      })
+      break
+    case CellState.CAPACITY:
+      setContent(null)
+
+      Promise.all([fetchLock(), fetchType(), fetchData()]).then(([lock, type, data]) => {
+        setScriptFetchStatus(dispatch, true)
+        const declared = new BigNumber(cell.capacity)
+
+        if (!data) {
+          setContent({
+            declared,
+            occupied: null,
+          })
+          return
         }
-        setContent(dataValue)
-      }
+
+        const CAPACITY_SIZE = 8
+        const occupied = ([lock, type] as Array<any>)
+          .filter(s => s !== 'null')
+          .map(
+            script => Math.ceil(script.codeHash.slice(2).length / 2) + Math.ceil(script.args.slice(2).length / 2) + 1,
+          )
+          .reduce((acc, cur) => acc.plus(cur), new BigNumber(0))
+          .plus(CAPACITY_SIZE)
+          .plus(Math.ceil(data.data.slice(2).length / 2))
+
+        setContent({
+          declared: `${declared.dividedBy(10 ** 8)} CKBytes`,
+          occupied: `${occupied} CKBytes`,
+        })
+      })
+
       break
     default:
       break
@@ -144,12 +190,37 @@ const ScriptContentItem = ({ title = '', value = '' }: { title?: string; value?:
   </div>
 )
 
-const ScriptContent = ({ content, state }: { content: State.Script | State.Data | undefined; state: CellState }) => {
+const ScriptContent = ({
+  content,
+  state,
+}: {
+  content: State.Script | State.Data | CapacityUsage | undefined
+  state: CellState
+}) => {
   const hashTag = (content as State.Script).codeHash
     ? matchScript((content as State.Script).codeHash, (content as State.Script).hashType)
     : undefined
   const data = content as State.Data
   const script = content as State.Script
+
+  if (state === CellState.CAPACITY) {
+    const capacities = content as CapacityUsage
+
+    return (
+      <>
+        {Object.keys(capacities).map(key => {
+          const v = capacities[key as keyof CapacityUsage]
+
+          if (!v) return null
+          const field = i18n.t(`transaction.${key}_capacity`)
+
+          return (
+            <ScriptContentItem key={key} title={`"${field}": `} value={capacities[key as keyof CapacityUsage] || ''} />
+          )
+        })}
+      </>
+    )
+  }
   if (state === CellState.DATA) {
     return (
       <ScriptContentItem
@@ -183,7 +254,7 @@ const ScriptContentJson = ({
   content,
   state,
 }: {
-  content: State.Script | State.Data | undefined
+  content: State.Script | State.Data | CapacityUsage | undefined
   state: CellState
 }) => (
   <TransactionCellScriptContentPanel isData={state === CellState.DATA}>
@@ -195,7 +266,7 @@ const ScriptContentJson = ({
 
 export default ({ cell, onClose, txStatus }: { cell: State.Cell; onClose: Function; txStatus: string }) => {
   const dispatch = useDispatch()
-  const [content, setContent] = useState(null as State.Script | State.Data | null)
+  const [content, setContent] = useState(null as State.Script | State.Data | CapacityUsage | null)
   const [state, setState] = useState(CellState.LOCK as CellState)
   const {
     transactionState: { scriptFetched },
@@ -206,7 +277,7 @@ export default ({ cell, onClose, txStatus }: { cell: State.Cell; onClose: Functi
   }
 
   useEffect(() => {
-    handleFetchScript(cell, state, setContent, setState, dispatch, txStatus)
+    handleFetchCellInfo(cell, state, setContent, setState, dispatch, txStatus)
   }, [cell, state, setState, dispatch, txStatus])
 
   const onClickCopy = () => {
@@ -237,6 +308,12 @@ export default ({ cell, onClose, txStatus }: { cell: State.Cell; onClose: Functi
         <TransactionDetailData selected={state === CellState.DATA} onClick={() => changeType(CellState.DATA)}>
           {i18n.t('transaction.data')}
         </TransactionDetailData>
+        <TransactionDetailCapacityUsage
+          selected={state === CellState.CAPACITY}
+          onClick={() => changeType(CellState.CAPACITY)}
+        >
+          {i18n.t('transaction.capacity_usage')}
+        </TransactionDetailCapacityUsage>
         <div className="transaction__detail__modal__close">
           <img src={CloseIcon} alt="close icon" tabIndex={-1} onKeyDown={() => {}} onClick={() => onClose()} />
         </div>
