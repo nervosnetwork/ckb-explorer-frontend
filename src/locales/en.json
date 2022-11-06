@@ -285,7 +285,10 @@
       "script_code_hash": "code_hash",
       "script_hash_type": "hash_type",
       "script_data": "data",
-      "export-transaction": "Export Transaction"
+      "export-transaction": "Export Transaction",
+      "capacity_usage": "Capacity Usage",
+      "declared_capacity": "declared",
+      "occupied_capacity": "occupied"
     },
     "block": {
       "block": "Block",

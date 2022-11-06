@@ -46,6 +46,13 @@ export const TransactionDetailData = styled(TransactionDetailItem)`
   }
 `
 
+export const TransactionDetailCapacityUsage = styled(TransactionDetailItem)`
+  margin-left: 90px;
+  @media (max-width: 750px) {
+    margin-left: 20px;
+  }
+`
+
 export const TransactionCellDetailPanel = styled.div`
   width: 100%;
   font-weight: 500;

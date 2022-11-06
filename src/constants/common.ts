@@ -68,6 +68,7 @@ export enum CellState {
   LOCK = 1,
   TYPE = 2,
   DATA = 3,
+  CAPACITY = 4,
 }
 
 export enum CellType {
