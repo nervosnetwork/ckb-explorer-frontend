@@ -284,7 +284,10 @@
       "script_code_hash": "code_hash",
       "script_hash_type": "hash_type",
       "script_data": "data",
-      "export-transaction": "导出交易"
+      "export-transaction": "导出交易",
+      "capacity_usage": "Capacity 使用情况",
+      "declared_capacity": "declared",
+      "occupied_capacity": "occupied"
     },
     "block": {
       "block": "区块",
