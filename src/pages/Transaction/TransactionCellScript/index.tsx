@@ -94,7 +94,7 @@ const handleFetchCellInfo = async (
         .then((wrapper: Response.Wrapper<State.Data> | null) => {
           const dataValue: State.Data = wrapper ? wrapper.attributes : initScriptContent.data
           if (wrapper && cell.isGenesisOutput) {
-            dataValue.data = hexToUtf8(wrapper.attributes.data.substr(2))
+            dataValue.data = hexToUtf8(wrapper.attributes.data)
           }
           return dataValue || initScriptContent.data
         })
