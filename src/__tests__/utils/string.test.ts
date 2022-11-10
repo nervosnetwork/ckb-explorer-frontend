@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { TextDecoder } from 'util'
 import {
   parsePageNumber,
   startEndEllipsis,
@@ -41,10 +42,19 @@ describe('String methods tests', () => {
     )
   })
 
-  it('convert hex to utf8', async () => {
-    expect(hexToUtf8('0x68656c6c6f')).toBe('hello')
-    expect(hexToUtf8('0x6e6572766f73')).toBe('nervos')
-    expect(hexToUtf8('6e6572766f73')).toBe('nervos')
+  describe('Test hex to utf8', () => {
+    beforeAll(() => {
+      globalThis['TextDecoder'] = TextDecoder as any
+    })
+
+    afterAll(() => {
+      globalThis['TextDecoder'] = undefined as any
+    })
+
+    it('convert hex to utf8', async () => {
+      expect(hexToUtf8('0x68656c6c6f')).toBe('hello')
+      expect(hexToUtf8('0x6e6572766f73')).toBe('nervos')
+    })
   })
 
   it('search text correction', async () => {

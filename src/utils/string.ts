@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 
 export const parsePageNumber = (value: any, defaultValue: number) => {
   if (typeof value !== 'string') {
@@ -34,11 +35,9 @@ export const adaptPCEllipsis = (value: string, length = 8, factor = 40) => {
   return startEndEllipsis(value, length + step, length + step)
 }
 
-export const hexToUtf8 = (value: string) => {
-  if (!value) return value
-  const newValue = value.startsWith('0x') ? value.substring(2) : value
+export const hexToUtf8 = (value: string = '') => {
   try {
-    return decodeURIComponent(newValue.replace(/\s+/g, '').replace(/[0-9a-f]{2}/g, '%$&'))
+    return new TextDecoder().decode(hexToBytes(value))
   } catch (error) {
     return value
   }
