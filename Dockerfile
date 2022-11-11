@@ -30,6 +30,6 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 
 COPY --from=builder /app/build ./
-COPY front.conf /etc/nginx/conf.d/
+COPY front.conf /etc/nginx/conf.d/front.conf
 
 EXPOSE 80
