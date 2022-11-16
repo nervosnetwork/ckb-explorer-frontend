@@ -1,0 +1,41 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ckb-explorer-frontend:$(date +%s)
+      
+    - name: GitHub Package Repository Janitor
+      uses: stripethree/gpr-janitor@v2.1.0
+      with:
+        dry-run: true #默认为真
+        keep-versions: 5 # 默认为 5
+        min-age-days: 30 # 默认是 30
+        packages-to-fetch: 1 # 默认为 1
+        versions-to-fetch: 25 # 默认为 25
+        
+    - name: kubernetes set images
+      run: curl -X PUT \
+            -H "content-type:application/json" \
+            -H "Cookie:KuboardUsername=admin; KuboardAccessKey=4idz2yhc7aii.h2zrr5kzcxaskcsdwmcd2327iwbnp44m" \
+            -d '{"kind":"deployments","namespace":"testnet","name":"gwscan-explorer","images":{"gwscan":"ckb-explorer-frontend:$(date +%s)"}}' \
+            "http://kuboard.layerview.io/kuboard-api/cluster/ckb/kind/CICDApi/admin/resource/updateImageTag"
+            
+    - name: kubernetes deploy restart
+      run: curl -X PUT \
+            -H "Content-Type:application/yaml" \
+            -H "Cookie:KuboardUsername=admin; KuboardAccessKey=4idz2yhc7aii.h2zrr5kzcxaskcsdwmcd2327iwbnp44m" \
+            -d '{"kind":"deployments","namespace":"testnet","name":"gwscan-explorer"}' \
+            "http://kuboard.layerview.io/kuboard-api/cluster/ckb/kind/CICDApi/admin/resource/restartWorkload"
