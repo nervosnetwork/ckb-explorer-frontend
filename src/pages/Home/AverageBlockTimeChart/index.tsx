@@ -1,4 +1,4 @@
-import { useCallback, useRef, useEffect } from 'react'
+import { useCallback, useRef, useEffect, useMemo } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
@@ -13,19 +13,11 @@ import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
 import { getStatisticAverageBlockTimes } from '../../../service/app/charts/block'
 
-const stepAxis = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) => {
-  const array = statisticAverageBlockTimes.flatMap(data => parseFloat(data.avgBlockTimeDaily))
-  const max = Math.ceil(Math.max(...array))
-  const min = Math.floor(Math.min(...array))
-  return Number((Math.floor((max - min) / 3) / 1000).toFixed())
-}
-
 const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]): echarts.EChartOption => ({
   color: ['#ffffff'],
   title: {
     text: i18n.t('statistic.average_block_time_title'),
     textAlign: 'left',
-    itemGap: 15,
     textStyle: {
       color: '#ffffff',
       fontSize: 12,
@@ -53,6 +45,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
       axisLabel: {
         formatter: (value: string) => parseDateNoTime(value, true),
       },
+      boundaryGap: false,
     },
   ],
   yAxis: [
@@ -67,9 +60,9 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
         lineStyle: {
           color: '#ffffff',
           width: 0.5,
+          opacity: 0.2,
         },
       },
-      interval: stepAxis(statisticAverageBlockTimes),
       axisLine: {
         lineStyle: {
           color: '#ffffff',
@@ -79,6 +72,7 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
       axisLabel: {
         formatter: (value: string) => localeNumberString(value),
       },
+      boundaryGap: false,
     },
     {
       position: 'right',
@@ -108,9 +102,15 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
 
 export default () => {
   const dispatch = useDispatch()
-  const { statisticAverageBlockTimes, statisticAverageBlockTimesFetchEnd } = useAppState()
+  const { statisticAverageBlockTimes: fullStatisticAverageBlockTimes, statisticAverageBlockTimesFetchEnd } =
+    useAppState()
   const screenWidth = useRef<number>(window.innerWidth)
   const widthDiff = window.innerWidth > 750 && Math.abs(screenWidth.current - window.innerWidth)
+
+  const statisticAverageBlockTimes = useMemo(() => {
+    const last14Dyas = -336
+    return fullStatisticAverageBlockTimes.slice(last14Dyas)
+  }, [fullStatisticAverageBlockTimes])
 
   const clickEvent = useCallback(() => {
     if (widthDiff) {
