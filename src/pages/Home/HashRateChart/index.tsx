@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef } from 'react'
+import { useEffect, useCallback, useRef, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
@@ -14,19 +14,11 @@ import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
 
-const stepAxis = (statisticHashRates: State.StatisticHashRate[]) => {
-  const array = statisticHashRates.flatMap(data => parseFloat(data.avgHashRate))
-  const max = Math.ceil(Math.max(...array))
-  const min = Math.floor(Math.min(...array))
-  return Math.floor((max - min) / 3)
-}
-
 const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChartOption => ({
   color: ['#ffffff'],
   title: {
     text: i18n.t('block.hash_rate_hps'),
     textAlign: 'left',
-    itemGap: 15,
     textStyle: {
       color: '#ffffff',
       fontSize: 12,
@@ -52,7 +44,9 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChar
       data: statisticHashRates.map(data => data.createdAtUnixtimestamp),
       axisLabel: {
         formatter: (value: string) => parseDateNoTime(value, true),
+        interval: 0,
       },
+      boundaryGap: false,
     },
   ],
   yAxis: [
@@ -66,16 +60,17 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChar
           width: 1,
         },
       },
-      interval: stepAxis(statisticHashRates),
       splitLine: {
         lineStyle: {
           color: '#ffffff',
           width: 0.5,
+          opacity: 0.2,
         },
       },
       axisLabel: {
         formatter: (value: string) => handleAxis(new BigNumber(value), 0),
       },
+      boundaryGap: ['5%', '2%'],
     },
     {
       position: 'right',
@@ -105,9 +100,14 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChar
 
 export default () => {
   const dispatch = useDispatch()
-  const { statisticHashRates, statisticHashRatesFetchEnd } = useAppState()
+  const { statisticHashRates: fullStatisticHashRates, statisticHashRatesFetchEnd } = useAppState()
   const screenWidth = useRef<number>(window.innerWidth)
   const widthDiff = window.innerWidth > 750 && Math.abs(screenWidth.current - window.innerWidth)
+
+  const statisticHashRates = useMemo(() => {
+    const last14Days = -15 // one day offset
+    return fullStatisticHashRates.slice(last14Days)
+  }, [fullStatisticHashRates])
 
   const clickEvent = useCallback(() => {
     if (widthDiff) {
