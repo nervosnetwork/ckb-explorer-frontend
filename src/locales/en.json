@@ -236,6 +236,7 @@
       "transaction": "Transaction",
       "transactions": "Transactions",
       "transaction_fee": "Transaction Fee",
+      "fee_rate": "Fee Rate",
       "cell_deps": "CellDeps",
       "out_point_tx_hash": "OutPoint.TxHash",
       "out_point_index": "OutPoint.Index",
@@ -289,7 +290,21 @@
       "export-transaction": "Export Transaction",
       "capacity_usage": "Capacity Usage",
       "declared_capacity": "declared",
-      "occupied_capacity": "occupied"
+      "occupied_capacity": "occupied",
+      "size": "Size",
+      "size_in_block": "{{bytes}} bytes in block",
+      "since": {
+        "relative": {
+          "epoch": "{{since}} epochs since committed",
+          "block": "{{since}} blocks since committed",
+          "time": "{{since}} since committed"
+        },
+        "absolute": {
+          "epoch": "Epoch {{since}}",
+          "block": "block {{since}}",
+          "time": "{{since}}"
+        }
+      }
     },
     "block": {
       "block": "Block",
@@ -320,7 +335,8 @@
       "pending_tip": "The block reward of this block will be sent to the miner after 11 blocks，learn more from our Consensus Protocol",
       "reward_sent_tip": "The reward of this block has been sent, click to check the details",
       "view_prev_block": "View the previous block",
-      "view_next_block": "View the next block"
+      "view_next_block": "View the next block",
+      "size": "Size"
     },
     "nervos_dao": {
       "nervos_dao": "Nervos DAO",

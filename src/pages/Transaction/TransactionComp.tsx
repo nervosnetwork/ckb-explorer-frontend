@@ -1,6 +1,8 @@
 /* eslint-disable react/no-array-index-key */
 import { useState, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { Tooltip } from 'antd'
+import BigNumber from 'bignumber.js'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { useAppState } from '../../contexts/providers/index'
 import { parseSimpleDate } from '../../utils/date'
@@ -20,6 +22,7 @@ import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
+import MoreIcon from '../../assets/more.png'
 import { isMainnet } from '../../utils/chain'
 import SimpleButton from '../../components/SimpleButton'
 import HashTag from '../../components/HashTag'
@@ -98,6 +101,7 @@ export const TransactionOverview = () => {
         transactionFee,
         txStatus,
         detailedMessage,
+        bytes,
       },
     },
     app: { tipBlockNumber },
@@ -121,10 +125,32 @@ export const TransactionOverview = () => {
           title: i18n.t('block.timestamp'),
           content: parseSimpleDate(blockTimestamp),
         },
-        {
-          title: i18n.t('transaction.transaction_fee'),
-          content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
-        },
+        bytes
+          ? {
+              title: `${i18n.t('transaction.transaction_fee')} | ${i18n.t('transaction.fee_rate')}`,
+              content: (
+                <div
+                  style={{
+                    display: 'flex',
+                  }}
+                >
+                  <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />
+                  <span
+                    style={{
+                      whiteSpace: 'pre',
+                    }}
+                  >{` | ${new BigNumber(transactionFee).multipliedBy(1000).dividedToIntegerBy(bytes).toFormat({
+                    groupSeparator: ',',
+                    groupSize: 3,
+                  })} shannons/kB`}</span>
+                </div>
+              ),
+            }
+          : {
+              title: i18n.t('transaction.transaction_fee'),
+              content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
+            },
+
         {
           title: i18n.t('transaction.status'),
           content: formatConfirmation(confirmation),
@@ -148,6 +174,38 @@ export const TransactionOverview = () => {
       },
     )
   }
+
+  OverviewItems.push({
+    title: i18n.t('transaction.size'),
+    content: bytes ? (
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        {`${bytes - 4} Bytes`}
+        <Tooltip
+          placement="top"
+          title={i18n.t('transaction.size_in_block', {
+            bytes,
+          })}
+        >
+          <img
+            src={MoreIcon}
+            alt="more"
+            style={{
+              width: 15,
+              height: 15,
+              marginLeft: 6,
+            }}
+          />
+        </Tooltip>
+      </div>
+    ) : (
+      ''
+    ),
+  })
 
   const TransactionParams = [
     {

@@ -205,6 +205,7 @@ declare namespace State {
     blockIndexInEpoch: string
     minerReward: string
     liveCellChanges: string
+    size: number
   }
 
   export interface CellDep {
@@ -233,6 +234,7 @@ declare namespace State {
     capacityInvolved: string
     txStatus: string
     detailedMessage: string
+    bytes: number
   }
 
   export interface BlockchainInfo {

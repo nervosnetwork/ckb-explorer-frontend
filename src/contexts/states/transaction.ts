@@ -17,6 +17,7 @@ export const initTransactionState: State.TransactionState = {
     capacityInvolved: '',
     txStatus: '',
     detailedMessage: '',
+    bytes: 0,
   },
   status: 'None',
   scriptFetched: false,
