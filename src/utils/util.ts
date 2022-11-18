@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import camelcaseKeys from 'camelcase-keys'
+import JSBI from 'jsbi'
 import BigNumber from 'bignumber.js'
 import { scriptToAddress, addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { MAX_CONFIRMATION, TOKEN_EMAIL_SUBJECT, TOKEN_EMAIL_BODY, TOKEN_EMAIL_ADDRESS } from '../constants/common'
@@ -161,6 +162,61 @@ export const patchMibaoImg = (url: string) => {
     return url
   } catch {
     return url
+  }
+}
+
+/**
+ *@link https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0017-tx-valid-since/0017-tx-valid-since.md#specification
+ */
+export const parseSince = (
+  since: string,
+): { base: 'absolute' | 'relative'; type: 'block' | 'epoch' | 'timestamp'; value: string } | null => {
+  const s = JSBI.BigInt(since)
+  if (JSBI.equal(s, JSBI.BigInt(0))) {
+    return null
+  }
+
+  const relativeFlag = JSBI.signedRightShift(s, JSBI.BigInt(63))
+  const metricFlag = JSBI.bitwiseAnd(JSBI.signedRightShift(s, JSBI.BigInt(61)), JSBI.BigInt(3))
+
+  const value = JSBI.bitwiseAnd(s, JSBI.BigInt('0xffffffffffffff'))
+
+  const base = relativeFlag.toString() === '0' ? 'absolute' : 'relative'
+
+  switch (metricFlag.toString()) {
+    case '0': {
+      // use block number
+      return {
+        base,
+        type: 'block',
+        value: JSBI.add(value, JSBI.BigInt(1)).toString(),
+      }
+    }
+    case '1': {
+      // use epoch number with fraction
+      const EFigures = JSBI.BigInt(0xffffff)
+      const IFigures = JSBI.BigInt(0xffff)
+      const LFigures = JSBI.BigInt(0xffff)
+      const E = +JSBI.bitwiseAnd(s, EFigures)
+      const I = +JSBI.bitwiseAnd(JSBI.signedRightShift(s, JSBI.BigInt(24)), IFigures)
+      const L = +JSBI.bitwiseAnd(JSBI.signedRightShift(s, JSBI.BigInt(40)), LFigures)
+      return {
+        base,
+        type: 'epoch',
+        value: `${(E + (I + 1) / L).toFixed(2)}`,
+      }
+    }
+    case '2': {
+      // use median_timestamp
+      return {
+        base,
+        type: 'timestamp',
+        value: value.toString(),
+      }
+    }
+    default: {
+      throw new Error('invalid since')
+    }
   }
 }
 

@@ -216,6 +216,7 @@ export const TransactionCardPanel = styled.div`
       .transaction__card__block__height {
         color: #000000;
         margin-right: 5px;
+        white-space: nowrap;
       }
 
       .transaction__card__block__height__prefix {
