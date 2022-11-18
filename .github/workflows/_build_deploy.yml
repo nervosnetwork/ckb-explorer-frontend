@@ -25,6 +25,7 @@ on:
         required: true
       KUBOARD_API_URL:
         required: true
+jobs:                
   deploy:
     runs-on: ubuntu-latest
 
