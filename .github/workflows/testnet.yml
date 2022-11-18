@@ -1,4 +1,4 @@
-name: CI
+name: Deploy to testnet
 
 on: 
   push:
@@ -6,18 +6,11 @@ on:
       - testnet
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/_build_deploy.yml
+    with:
+      ckb-mode: testnet
+      api-url: $TESTNET_API_URL
+      k8s-namespace: testnet
+      k8s-workload: ckb-explorer-front
+    secrets: inherit
 
-    steps:
-      - uses: actions/checkout@v1
-        with:
-          fetch-depth: 0
-
-      - name: Push to dokku
-        uses: dokku/github-action@master
-        with:
-          # specify the `main` branch as the remote branch to push to
-          branch: 'testnet'
-          git_push_flags: '--force'
-          git_remote_url: ${{ secrets.TESTNET_HOST_URL }}
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
