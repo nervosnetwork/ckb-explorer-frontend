@@ -89,6 +89,10 @@ declare namespace State {
     cellInfo: CellInfo
     mNftInfo: NftIssuer | NftClass | NftToken
     nrc721TokenInfo: Record<'amount' | 'symbol', string>
+    since?: {
+      raw: string
+      median_timestamp?: string
+    }
   }
 
   export interface CellInfo {

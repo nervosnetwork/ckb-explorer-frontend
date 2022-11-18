@@ -184,11 +184,11 @@ export const TransactionOverview = () => {
           alignItems: 'center',
         }}
       >
-        {`${bytes - 4} Bytes`}
+        {`${(bytes - 4).toLocaleString('en')} Bytes`}
         <Tooltip
           placement="top"
           title={i18n.t('transaction.size_in_block', {
-            bytes,
+            bytes: bytes.toLocaleString('en'),
           })}
         >
           <img

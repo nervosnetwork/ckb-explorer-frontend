@@ -296,12 +296,12 @@
         "relative": {
           "epoch": "自 committed 之后 {{since}} Epochs",
           "block": "自 committed 之后 {{since}} 个区块",
-          "time": "自 committed 之后 {{since}}"
+          "timestamp": "自 committed 之后 {{since}}"
         },
         "absolute": {
-          "epoch": "Epoch {{since}}",
-          "block": "区块 {{since}}",
-          "time": "{{since}}"
+          "epoch": "Epoch {{since}} 之后",
+          "block": "区块 {{since}} 之后",
+          "timestamp": "{{since}} 之后"
         }
       }
     },

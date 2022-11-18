@@ -295,14 +295,14 @@
       "size_in_block": "{{bytes}} bytes in block",
       "since": {
         "relative": {
-          "epoch": "{{since}} epochs since committed",
-          "block": "{{since}} blocks since committed",
-          "time": "{{since}} since committed"
+          "epoch": "After {{since}} epochs since committed",
+          "block": "After {{since}} blocks since committed",
+          "timestamp": "After {{since}} since committed"
         },
         "absolute": {
-          "epoch": "Epoch {{since}}",
-          "block": "block {{since}}",
-          "time": "{{since}}"
+          "epoch": "After epoch {{since}}",
+          "block": "After block {{since}}",
+          "timestamp": "After {{since}}"
         }
       }
     },
