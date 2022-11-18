@@ -1,4 +1,4 @@
-import { toCamelcase, shannonToCkb, shannonToCkbDecimal } from '../../utils/util'
+import { toCamelcase, shannonToCkb, shannonToCkbDecimal, parseSince } from '../../utils/util'
 
 describe('Number methods tests', () => {
   it('pasre simple object to camelcase', async () => {
@@ -63,5 +63,59 @@ describe('Number methods tests', () => {
     expect(shannonToCkbDecimal(153088822106905372, 2)).toBe(1530888221.06)
     expect(shannonToCkbDecimal(-153088822106905372, 2)).toBe(-1530888221.06)
     expect(shannonToCkbDecimal(153088822186905372)).toBe(1530888221)
+  })
+
+  describe('parse since', () => {
+    it('should be absolute epoch', () => {
+      expect(parseSince('0x20048e022c001984')).toMatchObject({
+        base: 'absolute',
+        type: 'epoch',
+        value: '6532.48',
+      })
+    })
+
+    it('should be absolute block', () => {
+      expect(parseSince('0x3039')).toMatchObject({
+        base: 'absolute',
+        type: 'block',
+        value: '12346',
+      })
+    })
+
+    it('should be absolute timestamp', () => {
+      expect(parseSince('0x40000000617f7363')).toMatchObject({
+        base: 'absolute',
+        type: 'timestamp',
+        value: '1635742563',
+      })
+    })
+
+    it('should be relative epoch', () => {
+      expect(parseSince('0xa0048e022c001984')).toMatchObject({
+        base: 'relative',
+        type: 'epoch',
+        value: '6532.48',
+      })
+    })
+
+    it('should be relative block', () => {
+      expect(parseSince('0x8000000000000064')).toMatchObject({
+        base: 'relative',
+        type: 'block',
+        value: '101',
+      })
+    })
+
+    it('should be relative timestamp', () => {
+      expect(parseSince('0xc000000000127500')).toMatchObject({
+        base: 'relative',
+        type: 'timestamp',
+        value: '1209600',
+      })
+    })
+
+    it('should be null', () => {
+      expect(parseSince('0x0000000000000000')).toBe(null)
+    })
   })
 })

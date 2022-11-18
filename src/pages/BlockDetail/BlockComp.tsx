@@ -173,14 +173,8 @@ export const BlockOverview = () => {
       content: localeNumberString(block.epoch),
     },
     {
-      title: i18n.t('block.miner_reward'),
-      content: (
-        <BlockMinerReward
-          value={block.rewardStatus === 'pending' ? i18n.t('block.pending') : minerReward}
-          tooltip={block.rewardStatus === 'pending' ? i18n.t('block.pending_tip') : i18n.t('block.reward_sent_tip')}
-          sentBlockNumber={block.rewardStatus === 'pending' ? undefined : sentBlockNumber}
-        />
-      ),
+      title: i18n.t('block.size'),
+      content: `${block.size.toLocaleString('en')} Bytes`,
     },
     {
       title: i18n.t('block.epoch_start_number'),
@@ -191,20 +185,30 @@ export const BlockOverview = () => {
       ),
     },
     {
-      title: i18n.t('block.difficulty'),
-      content: handleDifficulty(block.difficulty),
+      title: i18n.t('block.miner_reward'),
+      content: (
+        <BlockMinerReward
+          value={block.rewardStatus === 'pending' ? i18n.t('block.pending') : minerReward}
+          tooltip={block.rewardStatus === 'pending' ? i18n.t('block.pending_tip') : i18n.t('block.reward_sent_tip')}
+          sentBlockNumber={block.rewardStatus === 'pending' ? undefined : sentBlockNumber}
+        />
+      ),
     },
     {
       title: i18n.t('block.block_index'),
       content: `${Number(block.blockIndexInEpoch) + 1}/${block.length}`,
     },
     {
-      title: i18n.t('block.nonce'),
-      content: <>{`0x${new BigNumber(block.nonce).toString(16)}`}</>,
+      title: i18n.t('block.difficulty'),
+      content: handleDifficulty(block.difficulty),
     },
     {
       title: i18n.t('block.timestamp'),
       content: `${parseSimpleDate(block.timestamp)}`,
+    },
+    {
+      title: i18n.t('block.nonce'),
+      content: <>{`0x${new BigNumber(block.nonce).toString(16)}`}</>,
     },
     {
       title: i18n.t('block.uncle_count'),

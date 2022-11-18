@@ -235,6 +235,7 @@
       "transaction": "交易",
       "transactions": "交易",
       "transaction_fee": "交易费",
+      "fee_rate": "费率",
       "cell_deps": "CellDeps",
       "out_point_tx_hash": "OutPoint.TxHash",
       "out_point_index": "OutPoint.Index",
@@ -288,7 +289,21 @@
       "export-transaction": "导出交易",
       "capacity_usage": "Capacity 使用情况",
       "declared_capacity": "declared",
-      "occupied_capacity": "occupied"
+      "occupied_capacity": "occupied",
+      "size": "交易体积",
+      "size_in_block": "区块中占 {{bytes}} bytes",
+      "since": {
+        "relative": {
+          "epoch": "自 committed 之后 {{since}} Epochs",
+          "block": "自 committed 之后 {{since}} 个区块",
+          "timestamp": "自 committed 之后 {{since}}"
+        },
+        "absolute": {
+          "epoch": "Epoch {{since}} 之后",
+          "block": "区块 {{since}} 之后",
+          "timestamp": "{{since}} 之后"
+        }
+      }
     },
     "block": {
       "block": "区块",
@@ -320,7 +335,8 @@
       "pending_tip": "区块奖励将在 11 个区块后发送给矿工，阅读共识协议了解更多信息",
       "reward_sent_tip": "区块奖励已经发送成功，请点击查看详情",
       "view_prev_block": "查看上一区块",
-      "view_next_block": "查看下一区块"
+      "view_next_block": "查看下一区块",
+      "size": "区块体积"
     },
     "nervos_dao": {
       "nervos_dao": "Nervos DAO",
