@@ -89,6 +89,10 @@ declare namespace State {
     cellInfo: CellInfo
     mNftInfo: NftIssuer | NftClass | NftToken
     nrc721TokenInfo: Record<'amount' | 'symbol', string>
+    since?: {
+      raw: string
+      median_timestamp?: string
+    }
   }
 
   export interface CellInfo {
@@ -205,6 +209,7 @@ declare namespace State {
     blockIndexInEpoch: string
     minerReward: string
     liveCellChanges: string
+    size: number
   }
 
   export interface CellDep {
@@ -233,6 +238,7 @@ declare namespace State {
     capacityInvolved: string
     txStatus: string
     detailedMessage: string
+    bytes: number
   }
 
   export interface BlockchainInfo {

@@ -4,9 +4,10 @@ import { Tooltip } from 'antd'
 import { CellType } from '../../../constants/common'
 import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
+import { parseSimpleDate } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
 import { adaptPCEllipsis, adaptMobileEllipsis, sliceNftName } from '../../../utils/string'
-import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
+import { shannonToCkb, shannonToCkbDecimal, parseSince } from '../../../utils/util'
 import {
   TransactionCellContentPanel,
   TransactionCellDetailPanel,
@@ -30,12 +31,14 @@ import NFTClassIcon from '../../../assets/m_nft_class.svg'
 import NFTTokenIcon from '../../../assets/m_nft.svg'
 import CoTACellIcon from '../../../assets/cota_cell.svg'
 import CoTARegCellIcon from '../../../assets/cota_reg_cell.svg'
+import { ReactComponent as LockTimeIcon } from '../../../assets/clock.svg'
 import TransactionCellScript from '../TransactionCellScript'
 import SimpleModal from '../../../components/Modal'
 import SimpleButton from '../../../components/SimpleButton'
 import TransactionReward from '../TransactionReward'
 import Cellbase from '../../../components/Transaction/Cellbase'
 import { useDeprecatedAddr, useNewAddr } from '../../../utils/hook'
+import styles from './styles.module.scss'
 
 const AddressText = ({ address }: { address: string }) => {
   const addressText = isMobile() ? adaptMobileEllipsis(address, 5) : adaptPCEllipsis(address, 4, 80)
@@ -65,6 +68,21 @@ const TransactionCellIndexAddress = ({
 }) => {
   const deprecatedAddr = useDeprecatedAddr(cell.addressHash)!
   const newAddr = useNewAddr(cell.addressHash)
+  let since
+  try {
+    if (cell.since) {
+      since = parseSince(cell.since.raw)
+      if (since && since.type === 'timestamp') {
+        if (since.base === 'relative') {
+          since.value = `${+since.value / 3600} Hrs`
+        } else {
+          since.value = parseSimpleDate(+since.value * 1000)
+        }
+      }
+    }
+  } catch {
+    // ignore
+  }
   return (
     <TransactionCellAddressPanel>
       <div className="transaction__cell_index">
@@ -84,6 +102,16 @@ const TransactionCellIndexAddress = ({
           </span>
         )}
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
+        {since ? (
+          <Tooltip
+            placement="top"
+            title={i18n.t(`transaction.since.${since.base}.${since.type}`, {
+              since: since.value,
+            })}
+          >
+            <LockTimeIcon className={styles.locktime} />
+          </Tooltip>
+        ) : null}
       </TransactionCellHashPanel>
     </TransactionCellAddressPanel>
   )
