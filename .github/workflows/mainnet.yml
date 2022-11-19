@@ -1,6 +1,6 @@
 name: Deploy to mainnet
 
-on: 
+on:
   push:
     branches:
       - master
@@ -9,10 +9,7 @@ jobs:
     uses: ./.github/workflows/_build_deploy.yml
     with:
       ckb-mode: mainnet
-      api-url: $MAINNET_API_URL
       k8s-namespace: mainnet
       k8s-workload: ckb-explorer-front
       environment: mainnet
     secrets: inherit
-
-
