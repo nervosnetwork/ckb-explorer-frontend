@@ -9,7 +9,7 @@ jobs:
     uses: ./.github/workflows/_build_deploy.yml
     with:
       ckb-mode: testnet
-      api-url: $STAGING_API_URL
+      api-url: ${{ secrets.STAGING_API_URL }}
       k8s-namespace: staging
       k8s-workload: ckb-explorer-front
     secrets: inherit

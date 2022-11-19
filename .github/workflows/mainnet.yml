@@ -9,7 +9,7 @@ jobs:
     uses: ./.github/workflows/_build_deploy.yml
     with:
       ckb-mode: mainnet
-      api-url: $MAINNET_API_URL
+      api-url: ${{ secrets.MAINNET_API_URL }}
       k8s-namespace: mainnet
       k8s-workload: ckb-explorer-front
     secrets: inherit
