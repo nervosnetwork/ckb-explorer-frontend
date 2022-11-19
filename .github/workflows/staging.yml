@@ -1,4 +1,4 @@
-name: CI
+name: Deploy to staging
 
 on: 
   push:
@@ -6,18 +6,10 @@ on:
       - develop
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v1
-        with:
-          fetch-depth: 0
-
-      - name: Push to dokku
-        uses: dokku/github-action@master
-        with:
-          # specify the `main` branch as the remote branch to push to
-          branch: 'develop'
-          git_push_flags: '--force'
-          git_remote_url: ${{ secrets.STAGING_HOST_URL }}
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+    uses: ./.github/workflows/_build_deploy.yml
+    with:
+      ckb-mode: testnet
+      api-url: $STAGING_API_URL
+      k8s-namespace: staging
+      k8s-workload: ckb-explorer-front
+    secrets: inherit
