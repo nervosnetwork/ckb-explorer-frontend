@@ -12,5 +12,6 @@ jobs:
       api-url: $TESTNET_API_URL
       k8s-namespace: testnet
       k8s-workload: ckb-explorer-front
+      environment: testnet
     secrets: inherit
 

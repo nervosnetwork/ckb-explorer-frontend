@@ -5,16 +5,19 @@ on:
       ckb-mode:
         required: true
         type: string
-      api-url:
-        required: true
-        type: string
       k8s-namespace:
         required: true
         type: string
       k8s-workload:
         required: true
         type: string
+      environment:
+        required: false
+        type: string
+        default: staging
     secrets:
+      # API_URL:
+      #   required: true
       GHCR_USERNAME:
         required: true
       GHCR_TOKEN:
@@ -28,12 +31,14 @@ on:
 jobs:                
   deploy:
     runs-on: ubuntu-latest
-
+    environment: ${{ inputs.environment }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
+      # - uses: satackey/action-docker-layer-caching@v0.0.11
+      #   # Ignore the failure of a step and avoid terminating the job.
+      #   continue-on-error: true
       - name: Build and push
         id: docker_build
         uses: mr-smithers-excellent/docker-build-push@v5
@@ -41,7 +46,8 @@ jobs:
           image: ckb-explorer-frontend
           registry: ghcr.io
           githubOrg: magickbase # optional
-          buildArgs: "API_URL=${{ inputs.api-url }},CHAIN_TYPE=${{ inputs.ckb-mode }}"
+          buildArgs: "API_URL=${{ secrets.API_URL }},CHAIN_TYPE=${{ inputs.ckb-mode }}"
+          enableBuildKit: true
           username: ${{ secrets.GHCR_USERNAME }}
           password: ${{ secrets.GHCR_TOKEN }}
       - name: Update image on K8S
