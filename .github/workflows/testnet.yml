@@ -1,6 +1,6 @@
 name: Deploy to testnet
 
-on: 
+on:
   push:
     branches:
       - testnet
@@ -9,9 +9,7 @@ jobs:
     uses: ./.github/workflows/_build_deploy.yml
     with:
       ckb-mode: testnet
-      api-url: $TESTNET_API_URL
       k8s-namespace: testnet
       k8s-workload: ckb-explorer-front
       environment: testnet
     secrets: inherit
-
