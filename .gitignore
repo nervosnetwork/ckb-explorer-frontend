@@ -13,3 +13,6 @@ coverage/
 *.tmp
 *.swo
 
+.env.local
+.secrets
+!.secrets.example

@@ -1,23 +1,15 @@
-name: CI
+name: Deploy to mainnet
 
-on: 
+on:
   push:
     branches:
       - master
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v1
-        with:
-          fetch-depth: 0
-
-      - name: Push to dokku
-        uses: dokku/github-action@master
-        with:
-          # specify the `main` branch as the remote branch to push to
-          branch: 'main'
-          git_push_flags: '--force'
-          git_remote_url: ${{ secrets.MAINNET_HOST_URL }}
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+    uses: ./.github/workflows/_build_deploy.yml
+    with:
+      ckb-mode: mainnet
+      k8s-namespace: mainnet
+      k8s-workload: ckb-explorer-front
+      environment: mainnet
+    secrets: inherit
