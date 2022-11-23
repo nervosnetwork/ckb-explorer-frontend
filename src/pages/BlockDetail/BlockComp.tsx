@@ -174,7 +174,7 @@ export const BlockOverview = () => {
     },
     {
       title: i18n.t('block.size'),
-      content: `${block.size.toLocaleString('en')} Bytes`,
+      content: block.size ? `${block.size.toLocaleString('en')} Bytes` : '-',
     },
     {
       title: i18n.t('block.epoch_start_number'),
