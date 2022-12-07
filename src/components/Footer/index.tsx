@@ -86,7 +86,7 @@ export default () => {
           {
             label: t('footer.discord'),
             icon: Discord,
-            url: 'https://discord.com/invite/nervos',
+            url: 'https://discord.com/invite/FKh8Zzvwqa',
           },
           {
             label: t('footer.twitter'),
