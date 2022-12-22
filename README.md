@@ -39,7 +39,7 @@ API documentation is [available here](https://nervosnetwork.github.io/ckb-explor
 
 ### Edit .env file
 
-You need to edit .env.develop for development and .env.production for production to set your own api url as ckb explorer server.
+You need to edit .env.development for development and .env.production for production to set your own api url as ckb explorer server.
 
 ```shell
 REACT_APP_API_URL = 'http://your-api-url'        # Set your own server api url
