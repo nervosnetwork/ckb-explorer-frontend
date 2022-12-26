@@ -1,4 +1,4 @@
-FROM node:12.22.8-alpine as builder
+FROM node:18.12.1-alpine as builder
 
 ARG API_URL=https://testnet-api.explorer.nervos.org
 ARG CHAIN_TYPE=testnet
@@ -17,7 +17,7 @@ WORKDIR /app
 
 COPY package.json yarn.lock ./
 
-RUN yarn install
+RUN yarn install --ignore-platform
 
 COPY . ./
 
