@@ -137,7 +137,10 @@ export const MainnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0x1122a4fb54697cf2e6e3a96c9d80fd398a936559b90954c6e88eb7ba0cf652df'],
-    txHashes: ['0xae2d5838730fc096e68fe839aea50d294493e10054513c10ca35e77e82e9243b-0'],
+    txHashes: [
+      '0x875db3381ebe7a730676c110e1c0d78ae1bdd0c11beacb7db4db08e368c2cd95-0',
+      '0xae2d5838730fc096e68fe839aea50d294493e10054513c10ca35e77e82e9243b-0',
+    ],
     depType: 'dep_group',
     hashType: 'type',
     tag: 'cota',
@@ -145,7 +148,10 @@ export const MainnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0x90ca618be6c15f5857d3cbd09f9f24ca6770af047ba9ee70989ec3b229419ac7'],
-    txHashes: ['0xae2d5838730fc096e68fe839aea50d294493e10054513c10ca35e77e82e9243b-0'],
+    txHashes: [
+      '0x875db3381ebe7a730676c110e1c0d78ae1bdd0c11beacb7db4db08e368c2cd95-0',
+      '0xae2d5838730fc096e68fe839aea50d294493e10054513c10ca35e77e82e9243b-0',
+    ],
     depType: 'dep_group',
     hashType: 'type',
     tag: 'cota_registry',
@@ -302,7 +308,10 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0x89cd8003a0eaf8e65e0c31525b7d1d5c1becefd2ea75bb4cff87810ae37764d8'],
-    txHashes: ['0xeb8c99e9aaff64ffea5a97100fa9e6c23e59afe7ab9789cd882e3bb9a930c3ea-0'],
+    txHashes: [
+      '0xd8c7396f955348bd74a8ed4398d896dad931977b7c1e3f117649765cd3d75b86-0',
+      '0xeb8c99e9aaff64ffea5a97100fa9e6c23e59afe7ab9789cd882e3bb9a930c3ea-0',
+    ],
     depType: 'dep_group',
     hashType: 'type',
     tag: 'cota',
@@ -310,7 +319,10 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0x9302db6cc1344b81a5efee06962abcb40427ecfcbe69d471b01b2658ed948075'],
-    txHashes: ['0xeb8c99e9aaff64ffea5a97100fa9e6c23e59afe7ab9789cd882e3bb9a930c3ea-0'],
+    txHashes: [
+      '0xd8c7396f955348bd74a8ed4398d896dad931977b7c1e3f117649765cd3d75b86-0',
+      '0xeb8c99e9aaff64ffea5a97100fa9e6c23e59afe7ab9789cd882e3bb9a930c3ea-0',
+    ],
     depType: 'dep_group',
     hashType: 'type',
     tag: 'cota_registry',
