@@ -17,6 +17,7 @@ const BlockList = lazy(() => import('../pages/BlockList'))
 const Transaction = lazy(() => import('../pages/Transaction'))
 const TransactionList = lazy(() => import('../pages/TransactionList'))
 const Address = lazy(() => import('../pages/Address'))
+const ScriptPage = lazy(() => import('../pages/Script'))
 const SimpleUDT = lazy(() => import('../pages/SimpleUDT'))
 const NftCollections = lazy(() => import('../pages/NftCollections'))
 const NftCollectionInfo = lazy(() => import('../pages/NftCollectionInfo'))
@@ -73,6 +74,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/address/:address',
     exact: true,
     comp: Address,
+  },
+  {
+    name: 'Script',
+    path: '/script/:codeHash/:hashType',
+    exact: true,
+    comp: ScriptPage,
   },
   {
     name: 'Block',

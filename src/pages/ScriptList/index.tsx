@@ -216,6 +216,13 @@ const ScriptList: FC = () => {
                       </a>
                     ) : null,
                   )}
+                  <a
+                    href={`/script/${script!.codeHashes[0]}/${script!.hashType}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {i18n.t('script_list.link.detail')}
+                  </a>
                 </div>
                 {script ? (
                   <>

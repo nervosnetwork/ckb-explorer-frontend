@@ -470,8 +470,19 @@
         "rfc": "RFC",
         "code": "源代码",
         "deprecated": "已废弃",
-        "website": "官网"
+        "website": "官网",
+        "detail": "详情"
       }
+    },
+    "scripts": {
+      "script": "Script",
+      "script_name": "Script名称: ",
+      "script_type": "Script类型: ",
+      "type_id": "类型Id: ",
+      "deployed_cells": "部署的Cells: ",
+      "referring_cells": "涉及的Cells: ",
+      "capacity_of_deployed_cells": "部署的Cells所占存储容量: ",
+      "capacity_of_referring_cells": "涉及的Cells所占存储容量: "
     },
     "fee_rate_tracker": {
       "title": "费率追踪",
