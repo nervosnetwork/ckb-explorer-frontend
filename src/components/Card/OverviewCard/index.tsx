@@ -1,5 +1,7 @@
-import { ReactNode } from 'react'
+/* eslint-disable object-curly-newline */
+import { isValidElement, ReactNode } from 'react'
 import { Tooltip } from 'antd'
+import classNames from 'classnames'
 import { OverviewCardPanel, OverviewContentPanel, OverviewItemPanel } from './styled'
 import { isMobile, isScreenSmallerThan1200 } from '../../../utils/screen'
 import HelpIcon from '../../../assets/qa_help.png'
@@ -7,6 +9,7 @@ import HelpIcon from '../../../assets/qa_help.png'
 export interface OverviewItemData {
   title: ReactNode
   content: ReactNode
+  filled?: boolean
   icon?: any
   isAsset?: boolean
   tooltip?: string
@@ -35,8 +38,8 @@ export const OverviewItem = ({ item, hideLine }: { item: OverviewItemData; hideL
         )}
       </div>
     </div>
-    <div className="overview_item__value">
-      <span>{item.content}</span>
+    <div className={classNames('overview_item__value', { filled: item.filled })}>
+      {isValidElement(item.content) ? item.content : <span>{item.content}</span>}
       {item.valueTooltip && (
         <Tooltip placement="top" title={item.valueTooltip}>
           <img src={HelpIcon} alt="help icon" />

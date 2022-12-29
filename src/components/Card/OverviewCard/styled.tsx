@@ -182,11 +182,21 @@ export const OverviewItemPanel = styled.div`
     font-size: 16px;
     color: #000000;
 
+    &.filled {
+      flex: 1;
+      min-width: 0;
+      flex-direction: row-reverse;
+    }
+
     @media (max-width: 750px) {
       margin-left: 0px;
       word-wrap: break-word;
       word-break: break-all;
       width: 100%;
+
+      &.filled {
+        flex-direction: row;
+      }
     }
 
     > img {

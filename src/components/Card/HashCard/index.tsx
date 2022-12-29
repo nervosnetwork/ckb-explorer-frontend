@@ -4,7 +4,6 @@ import { Tooltip } from 'antd'
 import CopyIcon from '../../../assets/copy.png'
 import i18n from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
-import { adaptPCEllipsis, adaptMobileEllipsis } from '../../../utils/string'
 import { v2AxiosIns } from '../../../service/http/fetcher'
 import { copyElementValue } from '../../../utils/util'
 import { AppActions } from '../../../contexts/actions'
@@ -16,6 +15,7 @@ import { ReactComponent as OpenInNew } from '../../../assets/open_in_new.svg'
 import { ReactComponent as DownloadIcon } from '../../../assets/download_tx.svg'
 import { HashCardPanel, LoadingPanel } from './styled'
 import styles from './styles.module.scss'
+import AddressText from '../../AddressText'
 
 export default ({
   title,
@@ -33,16 +33,6 @@ export default ({
   children?: ReactNode
 }) => {
   const dispatch = useDispatch()
-
-  const mobileHash = () => {
-    if (specialAddress) {
-      return adaptMobileEllipsis(hash, 3)
-    }
-    if (iconUri) {
-      return adaptMobileEllipsis(hash, 11)
-    }
-    return adaptMobileEllipsis(hash, 4)
-  }
 
   const isTx = i18n.t('transaction.transaction') === title
   const newAddr = useNewAddr(hash)
@@ -91,7 +81,7 @@ export default ({
             </LoadingPanel>
           ) : (
             <div id="hash__text">
-              <span className="monospace">{isMobile() ? mobileHash() : adaptPCEllipsis(hash, 13, 25)}</span>
+              <AddressText disableTooltip>{hash}</AddressText>
             </div>
           )}
           <SimpleButton

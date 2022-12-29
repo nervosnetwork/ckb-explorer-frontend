@@ -18,6 +18,7 @@ export const TransactionCellContentPanel = styled.div`
   .transaction__cell__address {
     display: flex;
     flex: 0.4;
+    min-width: 0;
   }
 
   .transaction__cell_detail {
@@ -77,6 +78,7 @@ export const TransactionCellInfoPanel = styled.div`
 `
 
 export const TransactionCellAddressPanel = styled.div`
+  min-width: 0;
   display: flex;
   flex-direction: row;
 
@@ -99,6 +101,8 @@ export const TransactionCellHashPanel = styled.div`
   color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) =>
     highLight ? `${theme.primary}` : '#000000'};
   text-align: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? 'left' : 'center')};
+  flex: 1;
+  min-width: 0;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -117,6 +121,14 @@ export const TransactionCellHashPanel = styled.div`
 
   > span {
     margin: 0 3px;
+  }
+
+  .transaction__cell_address_link {
+    max-width: 70%;
+
+    @media (max-width: 750px) {
+      max-width: unset;
+    }
   }
 
   .transaction__cell_address_no_link {
@@ -192,6 +204,8 @@ export const TransactionCellCardContent = styled.div`
   padding: 0 10px;
 
   .transaction__cell__card__title {
+    flex: 1;
+    min-width: 0;
     font-size: 16px;
     color: #666666;
     margin-top: 3px;

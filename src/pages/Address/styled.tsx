@@ -4,6 +4,14 @@ import SimpleButton from '../../components/SimpleButton'
 export const AddressTitleOverviewPanel = styled.div`
   display: flex;
   flex-direction: column;
+
+  .address_title_overview_address_value {
+    width: 60%;
+
+    @media (max-width: 750px) {
+      width: 100%;
+    }
+  }
 `
 
 export const AddressContentPanel = styled.div`
