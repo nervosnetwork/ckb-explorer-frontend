@@ -203,7 +203,7 @@ export const parseSince = (
       return {
         base,
         type: 'epoch',
-        value: `${(E + (I + 1) / L).toFixed(2)}`,
+        value: L ? `${(E + (I + 1) / L).toFixed(2)}` : `${E}`,
       }
     }
     case '2': {
