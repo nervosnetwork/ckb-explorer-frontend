@@ -7,12 +7,13 @@ import EllipsisMiddle from '../EllipsisMiddle'
 import CopyTooltipText from '../Text/CopyTooltipText'
 import styles from './styles.module.scss'
 
-const AddressText: FC<{ children: string; className?: string; disableTooltip?: boolean; linkProps?: LinkProps }> = ({
-  children: address,
-  className,
-  disableTooltip,
-  linkProps,
-}) => {
+const AddressText: FC<{
+  children: string
+  className?: string
+  disableTooltip?: boolean
+  linkProps?: LinkProps
+  monospace?: boolean
+}> = ({ children: address, className, disableTooltip, linkProps, monospace = true }) => {
   const [isTruncated, truncatedCtl] = useBoolean(false)
 
   const content = (
@@ -23,7 +24,12 @@ const AddressText: FC<{ children: string; className?: string; disableTooltip?: b
     >
       <EllipsisMiddle
         useTextWidthForPlaceholderWidth
-        className={classNames('monospace', className)}
+        className={classNames(
+          {
+            monospace,
+          },
+          className,
+        )}
         onTruncateStateChange={truncatedCtl.toggle}
       >
         {address}

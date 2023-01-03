@@ -70,6 +70,7 @@ export const OverviewContentPanel = styled.div`
     margin-right: 45px;
     display: flex;
     flex: 1;
+    min-width: 0;
     flex-direction: column;
 
     @media (max-width: 1200px) {
@@ -82,6 +83,7 @@ export const OverviewContentPanel = styled.div`
     margin-left: 45px;
     display: flex;
     flex: 1;
+    min-width: 0;
     flex-direction: column;
 
     @media (max-width: 1200px) {
@@ -131,6 +133,7 @@ export const OverviewItemPanel = styled.div`
   .overview_item__title__panel {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
 
     @media (max-width: 1200px) {
       margin-left: ${({ hasIcon, isAsset }: { hasIcon: boolean; isAsset?: boolean }) =>
@@ -181,10 +184,10 @@ export const OverviewItemPanel = styled.div`
     align-items: center;
     font-size: 16px;
     color: #000000;
+    min-width: 0;
 
     &.filled {
       flex: 1;
-      min-width: 0;
       flex-direction: row-reverse;
     }
 

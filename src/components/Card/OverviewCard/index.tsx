@@ -9,6 +9,7 @@ import HelpIcon from '../../../assets/qa_help.png'
 export interface OverviewItemData {
   title: ReactNode
   content: ReactNode
+  contentWrapperClass?: string
   filled?: boolean
   icon?: any
   isAsset?: boolean
@@ -38,7 +39,7 @@ export const OverviewItem = ({ item, hideLine }: { item: OverviewItemData; hideL
         )}
       </div>
     </div>
-    <div className={classNames('overview_item__value', { filled: item.filled })}>
+    <div className={classNames('overview_item__value', { filled: item.filled }, item.contentWrapperClass)}>
       {isValidElement(item.content) ? item.content : <span>{item.content}</span>}
       {item.valueTooltip && (
         <Tooltip placement="top" title={item.valueTooltip}>

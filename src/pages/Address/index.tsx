@@ -24,6 +24,7 @@ import { localeNumberString } from '../../utils/number'
 import { parseSimpleDateNoSecond } from '../../utils/date'
 import Script from '../../components/Script'
 import AddressText from '../../components/AddressText'
+import styles from './styles.module.scss'
 
 const lockScriptIcon = (show: boolean) => {
   if (show) {
@@ -56,8 +57,8 @@ const getAddressInfo = (addressState: State.AddressState) => {
     } else {
       items.push({
         title: i18n.t('address.address'),
-        filled: true,
-        content: <AddressText className="address_title_overview_address_value">{addressHash}</AddressText>,
+        contentWrapperClass: styles.addressWidthModify,
+        content: <AddressText>{addressHash}</AddressText>,
       })
     }
   }

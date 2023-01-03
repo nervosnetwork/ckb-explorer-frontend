@@ -45,6 +45,8 @@ export const BlockRootInfoItemPanel = styled.div`
 `
 
 export const BlockLinkPanel = styled.div`
+  min-width: 0;
+
   a {
     font-weight: 500;
     color: ${props => props.theme.primary};
@@ -81,6 +83,7 @@ export const BlockMinerRewardPanel = styled.div`
 export const BlockMinerMessagePanel = styled.div`
   display: flex;
   align-items: center;
+  min-width: 0;
 
   .block__miner__message_utf8 {
     width: 15px;
