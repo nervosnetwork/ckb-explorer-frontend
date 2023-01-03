@@ -64,6 +64,7 @@ export const HighLightValue = styled.div`
   color: ${props => props.theme.primary};
   font-size: 13px;
   height: 16px;
+  min-width: 0;
 `
 
 export const BlockRewardContainer = styled.div`
