@@ -7,7 +7,7 @@ import Content from '../../components/Content'
 import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
 import { TableTitleItem, TableContentItem } from '../../components/Table'
 import { shannonToCkb } from '../../utils/util'
-import { parsePageNumber, adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
+import { parsePageNumber } from '../../utils/string'
 import { ListPageParams } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
@@ -18,6 +18,7 @@ import DecimalCapacity from '../../components/DecimalCapacity'
 import { getTransactions } from '../../service/app/transaction'
 import ItemCard, { ItemCardData } from '../../components/Card/ItemCard'
 import { TransactionCapacityPanel, TransactionListPanel, ContentTable, HighLightValue } from './styled'
+import AddressText from '../../components/AddressText'
 
 interface TableTitleData {
   title: string
@@ -50,7 +51,11 @@ const getTableContentTxList = (transaction: State.Transaction) => {
     {
       width: '40%',
       to: `/transaction/${transaction.transactionHash}`,
-      content: adaptPCEllipsis(transaction.transactionHash),
+      content: (
+        <AddressText disableTooltip monospace={false}>
+          {transaction.transactionHash}
+        </AddressText>
+      ),
     },
     {
       width: '15%',
@@ -78,10 +83,17 @@ const TransactionCardItems = (transaction: State.Transaction) => {
     {
       title: i18n.t('transaction.transaction_hash'),
       content: (
-        <TransactionValueItem
-          value={adaptMobileEllipsis(transaction.transactionHash, 12)}
-          to={`/transaction/${transaction.transactionHash}`}
-        />
+        <HighLightValue>
+          <AddressText
+            disableTooltip
+            monospace={false}
+            linkProps={{
+              to: `/transaction/${transaction.transactionHash}`,
+            }}
+          >
+            {transaction.transactionHash}
+          </AddressText>
+        </HighLightValue>
       ),
     },
     {
