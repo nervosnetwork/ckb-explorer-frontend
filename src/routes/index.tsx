@@ -77,7 +77,7 @@ const Containers: CustomRouter.Route[] = [
   },
   {
     name: 'Script',
-    path: '/script/:codeHash/:hashType',
+    path: '/script/:codeHash/:hashType/:tab?',
     exact: true,
     comp: ScriptPage,
   },

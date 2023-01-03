@@ -431,39 +431,3 @@ export const fetchMaintenanceInfo = () =>
   axiosIns(`/statistics/maintenance_info`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.MaintenanceInfo>>(res.data.data),
   )
-
-export const fetchScriptsCkbTransactionsInfo = (codeHash: string, hashType: string, page: number, size: number) =>
-  v2AxiosIns
-    .get(`scripts/ckb_transactions`, {
-      params: {
-        code_hash: codeHash,
-        hash_type: hashType,
-        page,
-        page_size: size,
-      },
-    })
-    .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<any[]>>>(res.data))
-
-export const fetchScriptsDeployedCellsInfo = (codeHash: string, hashType: string, page: number, size: number) =>
-  v2AxiosIns
-    .get(`scripts/deployed_cells`, {
-      params: {
-        code_hash: codeHash,
-        hash_type: hashType,
-        page,
-        page_size: size,
-      },
-    })
-    .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<any[]>>>(res.data))
-
-export const fetchScriptsReferringCellsInfo = (codeHash: string, hashType: string, page: number, size: number) =>
-  v2AxiosIns
-    .get(`scripts/referring_cells`, {
-      params: {
-        code_hash: codeHash,
-        hash_type: hashType,
-        page,
-        page_size: size,
-      },
-    })
-    .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<any[]>>>(res.data))

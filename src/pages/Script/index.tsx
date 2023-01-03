@@ -1,6 +1,5 @@
-import { Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router'
-import queryString from 'query-string'
 import { useParams } from 'react-router-dom'
 import { CopyOutlined } from '@ant-design/icons'
 import Content from '../../components/Content'
@@ -9,19 +8,12 @@ import { ScriptContentPanel, ScriptsTitleOverviewPanel, ScriptTabs } from './sty
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import i18n from '../../utils/i18n'
 import { HashCardPanel } from '../../components/Card/HashCard/styled'
-import Error from '../../components/Error'
-import Loading from '../../components/Loading'
-import { ScriptCells, ScriptTransactions } from './ScriptsComp'
 import { parsePageNumber } from '../../utils/string'
 import { PageParams } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
 import { AppActions } from '../../contexts/actions'
-import {
-  fetchScriptsCkbTransactionsInfo,
-  fetchScriptsDeployedCellsInfo,
-  fetchScriptsReferringCellsInfo,
-} from '../../service/http/fetcher'
 import { AppDispatch } from '../../contexts/reducer'
+import { ScriptCells, ScriptTransactions } from './ScriptsComp'
 
 const getScriptInfo = (scriptInfo: ScriptInfo, dispatch: AppDispatch) => {
   const { scriptName, scriptType, typeId, codeHash, hashType, capacityOfDeployedCells, capacityOfReferringCells } =
@@ -47,7 +39,7 @@ const getScriptInfo = (scriptInfo: ScriptInfo, dispatch: AppDispatch) => {
       title: i18n.t('address.code_hash'),
       content: (
         <span>
-          {`${codeHash.substring(0, 20)}...${codeHash.substring(50)}`}
+          {codeHash && `${codeHash.substring(0, 20)}...${codeHash.substring(50)}`}
           <span
             style={{
               marginLeft: '1rem',
@@ -96,19 +88,6 @@ const ScriptsTitleOverview = ({ scriptInfo }: { scriptInfo: ScriptInfo }) => {
   )
 }
 
-const LoadingState = ({ status, children }: { status: State.FetchStatus; children: ReactNode }) => {
-  switch (status) {
-    case 'Error':
-      return <Error />
-    case 'OK':
-      return <>{children}</>
-    case 'InProgress':
-    case 'None':
-    default:
-      return <Loading show />
-  }
-}
-
 export interface ScriptInfo {
   scriptName: string
   scriptType: string
@@ -117,14 +96,21 @@ export interface ScriptInfo {
   hashType: string
   capacityOfDeployedCells: string
   capacityOfReferringCells: string
-}
-
-export interface ScriptPageInfo<T> {
-  total: number
-  data: T[]
-  status: State.FetchStatus
-  page: number
-  size: number
+  ckbTransactions?: {
+    total?: number
+    page?: number
+    size?: number
+  }
+  deployedCells?: {
+    total?: number
+    page?: number
+    size?: number
+  }
+  referringCells?: {
+    total?: number
+    page?: number
+    size?: number
+  }
 }
 
 const initScriptInfo: ScriptInfo = {
@@ -135,122 +121,45 @@ const initScriptInfo: ScriptInfo = {
   hashType: '',
   capacityOfDeployedCells: '',
   capacityOfReferringCells: '',
+  ckbTransactions: {
+    total: 0,
+    page: 1,
+    size: 10,
+  },
+  deployedCells: {
+    total: 0,
+    page: 1,
+    size: 10,
+  },
+  referringCells: {
+    total: 0,
+    page: 1,
+    size: 10,
+  },
 }
 
-const initScriptPageInfo: ScriptPageInfo<any> = {
-  total: 0,
-  data: [],
-  status: 'None',
-  page: 1,
-  size: 10,
-}
-
-export const updatePageSection = (
-  fetchFunc: () => Promise<Response.Response<Response.Wrapper<any[]>> | null>,
-  setScriptInfo: Dispatch<SetStateAction<ScriptInfo>>,
-  setPagesInfo: Dispatch<SetStateAction<ScriptPageInfo<any>>>,
-  pagesInfo: ScriptPageInfo<any>,
-  pageDataName: 'ckbTransactions' | 'deployedCells' | 'referringCells',
-) => {
-  setPagesInfo({
-    ...pagesInfo,
-    status: 'InProgress',
-  })
-  fetchFunc()
-    .then(response => {
-      const data = response!.data as any
-      const meta = response!.meta as Response.Meta
-      setScriptInfo({
-        scriptName: data.scriptName,
-        scriptType: data.scriptType,
-        typeId: data.TypeId,
-        codeHash: data.codeHash,
-        hashType: data.hashType,
-        capacityOfDeployedCells: data.capacityOfDeployedCells,
-        capacityOfReferringCells: data.capacityOfReferringCells,
-      })
-      setPagesInfo({
-        ...pagesInfo,
-        data: data[pageDataName],
-        total: meta ? meta.total : 0,
-        status: 'OK',
-      })
-    })
-    .catch(error => {
-      const isEmpty = error && error.response && error.response.status === 404
-      setPagesInfo({
-        ...pagesInfo,
-        data: [],
-        total: 0,
-        status: isEmpty ? 'OK' : 'Error',
-      })
-    })
-}
+export type ScriptTabType = 'transactions' | 'deployed_cells' | 'referring_cells' | undefined
 
 export const ScriptPage = () => {
   const history = useHistory()
-  const { search, hash } = useLocation()
-  const [activeKey, setActiveKey] = useState<'transactions' | 'deployed_cells' | 'referring_cells'>('transactions')
-  const { codeHash } = useParams<{ codeHash: string }>()
-  const { hashType } = useParams<{ hashType: string }>()
-  const parsed = queryString.parse(search)
+  const { search } = useLocation()
+  const { codeHash, hashType, tab } = useParams<{ codeHash: string; hashType: string; tab: ScriptTabType }>()
+  const anchor = (tab ?? 'transactions') as ScriptTabType
+  const [activeTab, setActiveTab] = useState<ScriptTabType>(anchor)
+  const searchParams = new URLSearchParams(search)
+  const currentPage = parsePageNumber(searchParams.get('page'), PageParams.PageNo)
+  const pageSize = parsePageNumber(searchParams.get('size'), PageParams.PageSize)
   const [scriptInfo, setScriptInfo] = useState<ScriptInfo>(initScriptInfo)
-  const [ckbTransaction, setCkbTransaction] = useState<ScriptPageInfo<any>>(initScriptPageInfo)
-  const [deployedCell, setDeployedCell] = useState<ScriptPageInfo<any>>(initScriptPageInfo)
-  const [referringCell, setReferringCell] = useState<ScriptPageInfo<any>>(initScriptPageInfo)
-
-  const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
-  const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
 
   useEffect(() => {
-    const hashStart = hash.indexOf('#')
-    const pageInfo = {
-      ...initScriptPageInfo,
-      page: currentPage,
-      size: pageSize,
-    }
-    if (hashStart < 0) {
-      setActiveKey('transactions')
-      updatePageSection(
-        () => fetchScriptsCkbTransactionsInfo(codeHash, hashType, currentPage, pageSize),
-        setScriptInfo,
-        setCkbTransaction,
-        pageInfo,
-        'ckbTransactions',
-      )
+    if (anchor === 'deployed_cells') {
+      setActiveTab('deployed_cells')
+    } else if (anchor === 'referring_cells') {
+      setActiveTab('referring_cells')
     } else {
-      const hashEnd = hash.indexOf('?')
-      const anchor = hashEnd < hashStart ? hash.substring(hashStart + 1) : hash.substring(hashStart + 1, hashEnd)
-      if (anchor === 'deployed_cells') {
-        setActiveKey('deployed_cells')
-        updatePageSection(
-          () => fetchScriptsDeployedCellsInfo(codeHash, hashType, currentPage, pageSize),
-          setScriptInfo,
-          setDeployedCell,
-          pageInfo,
-          'deployedCells',
-        )
-      } else if (anchor === 'referring_cells') {
-        setActiveKey('referring_cells')
-        updatePageSection(
-          () => fetchScriptsReferringCellsInfo(codeHash, hashType, currentPage, pageSize),
-          setScriptInfo,
-          setReferringCell,
-          pageInfo,
-          'referringCells',
-        )
-      } else {
-        setActiveKey('transactions')
-        updatePageSection(
-          () => fetchScriptsCkbTransactionsInfo(codeHash, hashType, currentPage, pageSize),
-          setScriptInfo,
-          setCkbTransaction,
-          pageInfo,
-          'ckbTransactions',
-        )
-      }
+      setActiveTab('transactions')
     }
-  }, [codeHash, currentPage, hash, hashType, history, pageSize])
+  }, [anchor, codeHash, currentPage, hashType, pageSize, scriptInfo, tab])
 
   return (
     <Content>
@@ -259,49 +168,61 @@ export const ScriptPage = () => {
           <ScriptsTitleOverview scriptInfo={scriptInfo} />
         </HashCardPanel>
         <ScriptTabs
-          activeKey={activeKey}
+          activeKey={activeTab}
           onTabClick={key => {
             if (key === 'deployed_cells') {
-              history.replace(
-                `/script/${codeHash}/${hashType}?page=${deployedCell.page}&size=${deployedCell.size}#deployed_cells`,
+              history.push(
+                `/script/${codeHash}/${hashType}/deployed_cells?page=${scriptInfo!.deployedCells!.page}&size=${
+                  scriptInfo!.deployedCells!.size
+                }`,
               )
-              setActiveKey('deployed_cells')
+              setActiveTab('deployed_cells')
             } else if (key === 'referring_cells') {
-              history.replace(
-                `/script/${codeHash}/${hashType}?page=${referringCell.page}&size=${referringCell.size}#referring_cells`,
+              history.push(
+                `/script/${codeHash}/${hashType}/referring_cells?page=${scriptInfo!.referringCells!.page}&size=${
+                  scriptInfo!.referringCells!.size
+                }`,
               )
-              setActiveKey('referring_cells')
+              setActiveTab('referring_cells')
             } else {
-              history.replace(`/script/${codeHash}/${hashType}?page=${ckbTransaction.page}&size=${ckbTransaction.size}`)
-              setActiveKey('transactions')
+              history.push(
+                `/script/${codeHash}/${hashType}?page=${scriptInfo!.ckbTransactions!.page}&size=${
+                  scriptInfo!.ckbTransactions!.size
+                }`,
+              )
+              setActiveTab('transactions')
             }
           }}
           items={[
             {
-              label: `${i18n.t('transaction.transactions')} (${localeNumberString(ckbTransaction.total)})`,
+              label: `${i18n.t('transaction.transactions')} (${localeNumberString(
+                scriptInfo!.ckbTransactions!.total!,
+              )})`,
               key: 'transactions',
-              children: (
-                <LoadingState status={ckbTransaction.status}>
-                  <ScriptTransactions scriptInfo={scriptInfo} ckbTransaction={ckbTransaction} />
-                </LoadingState>
-              ),
+              children: <ScriptTransactions page={currentPage} size={pageSize} setScriptInfo={setScriptInfo} />,
             },
             {
-              label: `${i18n.t('scripts.deployed_cells')} (${localeNumberString(deployedCell.total)})`,
+              label: `${i18n.t('scripts.deployed_cells')} (${localeNumberString(scriptInfo!.deployedCells!.total!)})`,
               key: 'deployed_cells',
               children: (
-                <LoadingState status={deployedCell.status}>
-                  <ScriptCells scriptInfo={scriptInfo} cell={deployedCell} anchor="deployed_cells" />
-                </LoadingState>
+                <ScriptCells
+                  page={currentPage}
+                  size={pageSize}
+                  setScriptInfo={setScriptInfo}
+                  cellType="deployed_cells"
+                />
               ),
             },
             {
-              label: `${i18n.t('scripts.referring_cells')} (${localeNumberString(referringCell.total)})`,
+              label: `${i18n.t('scripts.referring_cells')} (${localeNumberString(scriptInfo!.referringCells!.total!)})`,
               key: 'referring_cells',
               children: (
-                <LoadingState status={referringCell.status}>
-                  <ScriptCells scriptInfo={scriptInfo} cell={referringCell} anchor="referring_cells" />
-                </LoadingState>
+                <ScriptCells
+                  page={currentPage}
+                  size={pageSize}
+                  setScriptInfo={setScriptInfo}
+                  cellType="referring_cells"
+                />
               ),
             },
           ]}

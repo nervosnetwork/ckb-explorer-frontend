@@ -1,10 +1,14 @@
-import { useState, useEffect, ReactNode } from 'react'
+import { useState, useEffect, ReactNode, Dispatch, SetStateAction, useMemo } from 'react'
 import { useHistory } from 'react-router'
 import { Button, Space, Table } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons'
+import { useQuery } from 'react-query'
+import { AxiosResponse } from 'axios'
+import camelcase from 'camelcase'
+import { useParams } from 'react-router-dom'
 import Pagination from '../../components/Pagination'
 import TransactionItem from '../../components/TransactionItem/index'
-import { fetchTransactionByHash } from '../../service/http/fetcher'
+import { fetchTransactionByHash, v2AxiosIns } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
 import { ScriptTransactionsPagination, ScriptTransactionsPanel } from './styled'
 import { initTransactionState } from '../../contexts/states/transaction'
@@ -12,7 +16,9 @@ import { TransactionCellDetailModal, TransactionCellInfoPanel } from '../Transac
 import SimpleButton from '../../components/SimpleButton'
 import SimpleModal from '../../components/Modal'
 import TransactionCellScript from '../Transaction/TransactionCellScript'
-import { ScriptInfo, ScriptPageInfo } from './index'
+import { ScriptInfo, ScriptTabType } from './index'
+import { toCamelcase } from '../../utils/util'
+import QueryState from '../../components/QueryState'
 
 export const ScriptTransactionItem = ({ txHash }: { txHash: string }) => {
   const [transaction, setTransaction] = useState<State.Transaction>(initTransactionState.transaction)
@@ -50,33 +56,84 @@ export const ScriptTransactionItem = ({ txHash }: { txHash: string }) => {
 }
 
 export const ScriptTransactions = ({
-  scriptInfo,
-  ckbTransaction,
+  page,
+  size,
+  setScriptInfo,
 }: {
-  scriptInfo: ScriptInfo
-  ckbTransaction: ScriptPageInfo<any>
+  page: number
+  size: number
+  setScriptInfo: Dispatch<SetStateAction<ScriptInfo>>
 }) => {
   const history = useHistory()
-  const totalPages = Math.ceil(ckbTransaction.total / ckbTransaction.size)
+  const { codeHash, hashType, tab } = useParams<{ codeHash: string; hashType: string; tab: ScriptTabType }>()
+
+  const [total, setTotal] = useState(0)
+  const totalPage = useMemo(() => Math.ceil(total / size), [size, total])
+  const [items, setItems] = useState([])
+
+  const { status, data: resp } = useQuery<AxiosResponse>(
+    ['scripts_ckb_transactions', codeHash, hashType, page, size],
+    () =>
+      v2AxiosIns.get(`scripts/ckb_transactions`, {
+        params: {
+          code_hash: codeHash,
+          hash_type: hashType,
+          page,
+          page_size: size,
+        },
+      }),
+  )
+
+  useEffect(() => {
+    if (status === 'success' && resp) {
+      const response = toCamelcase<Response.Response<Response.Wrapper<any[]>>>(resp?.data)
+
+      const data = response!.data as any
+      const meta = response!.meta as Response.Meta
+      const total = meta ? meta.total : 0
+      setTotal(total)
+
+      setScriptInfo(si => {
+        const newSi = {
+          ...si,
+          scriptName: data.scriptName,
+          scriptType: data.scriptType,
+          typeId: data.TypeId,
+          capacityOfDeployedCells: data.capacityOfDeployedCells,
+          capacityOfReferringCells: data.capacityOfReferringCells,
+        }
+        if (!tab || tab === 'transactions') {
+          newSi.ckbTransactions = {
+            ...si.ckbTransactions,
+            total,
+          }
+        }
+        return newSi
+      })
+
+      setItems(data.ckbTransactions)
+    }
+  }, [size, resp, setScriptInfo, status, tab])
 
   const onChange = (page: number) => {
-    history.replace(`/scripts/${scriptInfo.codeHash}/${scriptInfo.hashType}?page=${page}&size=${ckbTransaction.size}`)
+    history.push(`/scripts/${codeHash}/${hashType}?page=${page}&size=${size}`)
   }
 
   return (
-    <>
+    <QueryState status={status}>
       <ScriptTransactionsPanel>
-        {ckbTransaction.data.map((transaction: any) => {
-          const { txHash } = transaction
-          return <ScriptTransactionItem txHash={txHash} key={txHash} />
-        })}
+        {items &&
+          items.map((transaction: any) => {
+            const { txHash } = transaction
+            return <ScriptTransactionItem txHash={txHash} key={txHash} />
+          })}
       </ScriptTransactionsPanel>
-      {totalPages > 1 && (
+      {totalPage > 1 && (
         <ScriptTransactionsPagination>
-          <Pagination currentPage={ckbTransaction.page} totalPages={totalPages} onChange={onChange} />
+          <Pagination currentPage={page} totalPages={totalPage} onChange={onChange} />
         </ScriptTransactionsPagination>
       )}
-    </>
+    </QueryState>
   )
 }
 
@@ -102,27 +159,76 @@ export const CellInfo = ({ cell, children }: { cell: State.Cell; children: strin
 }
 
 export const ScriptCells = ({
-  scriptInfo,
-  cell,
-  anchor,
+  page,
+  size,
+  setScriptInfo,
+  cellType,
 }: {
-  scriptInfo: ScriptInfo
-  cell: ScriptPageInfo<any>
-  anchor: string
+  page: number
+  size: number
+  setScriptInfo: Dispatch<SetStateAction<ScriptInfo>>
+  cellType: 'deployed_cells' | 'referring_cells'
 }) => {
   const history = useHistory()
-  const totalPages = Math.ceil(cell.total / cell.size)
+  const { codeHash, hashType, tab } = useParams<{ codeHash: string; hashType: string; tab: ScriptTabType }>()
+
+  const [total, setTotal] = useState(0)
+  const totalPage = useMemo(() => Math.ceil(total / size), [size, total])
+  const [items, setItems] = useState<any>([])
+
+  const { status, data: resp } = useQuery<AxiosResponse>([`scripts_${cellType}`, codeHash, hashType, page, size], () =>
+    v2AxiosIns.get(`scripts/${cellType}`, {
+      params: {
+        code_hash: codeHash,
+        hash_type: hashType,
+        page,
+        page_size: size,
+      },
+    }),
+  )
+
+  useEffect(() => {
+    if (status === 'success' && resp) {
+      const response = toCamelcase<Response.Response<Response.Wrapper<any[]>>>(resp?.data)
+
+      const data = response!.data as any
+      const meta = response!.meta as Response.Meta
+      const total = meta ? meta.total : 0
+      setTotal(total)
+
+      setScriptInfo(si => {
+        const newSi = {
+          ...si,
+          scriptName: data.scriptName,
+          scriptType: data.scriptType,
+          typeId: data.TypeId,
+          capacityOfDeployedCells: data.capacityOfDeployedCells,
+          capacityOfReferringCells: data.capacityOfReferringCells,
+        } as any
+        if (cellType === tab) {
+          newSi[`${camelcase(cellType)}`] = {
+            page,
+            size,
+            total,
+          }
+        }
+        return newSi
+      })
+
+      setItems(data[camelcase(cellType) as string])
+    }
+  }, [cellType, size, resp, setScriptInfo, status, page, tab])
 
   const onChange = (page: number) => {
-    history.replace(`/script/${scriptInfo.codeHash}/${scriptInfo.hashType}?page=${page}&size=${cell.size}#${anchor}`)
+    history.push(`/script/${codeHash}/${hashType}/${cellType}?page=${page}&size=${size}`)
   }
 
   return (
-    <>
+    <QueryState status={status}>
       <ScriptTransactionsPanel>
         <Table
           pagination={false}
-          dataSource={cell.data}
+          dataSource={items}
           rowKey={record => `${record.txHash}_${record.cellIndex}`}
           columns={[
             {
@@ -159,11 +265,11 @@ export const ScriptCells = ({
           ]}
         />
       </ScriptTransactionsPanel>
-      {totalPages > 1 && (
+      {totalPage > 1 && (
         <ScriptTransactionsPagination>
-          <Pagination currentPage={cell.page} totalPages={totalPages} onChange={onChange} />
+          <Pagination currentPage={page} totalPages={totalPage} onChange={onChange} />
         </ScriptTransactionsPagination>
       )}
-    </>
+    </QueryState>
   )
 }
