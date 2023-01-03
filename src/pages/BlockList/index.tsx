@@ -195,7 +195,7 @@ export default () => {
                         return (
                           <Fragment key={key}>
                             {data.content === block.minerHash ? (
-                              <TableMinerContentItem width={data.width} content={data.content} />
+                              <TableMinerContentItem width={data.width} content={data.content} textCenter />
                             ) : (
                               <TableContentItem width={data.width} content={data.content} to={data.to} />
                             )}

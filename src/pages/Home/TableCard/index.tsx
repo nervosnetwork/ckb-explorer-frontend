@@ -47,12 +47,7 @@ export const BlockCardItem = ({ block, index }: { block: State.Block; index: num
       <div className="block__card__miner">
         <div>
           <span className="block__card__miner__hash">{i18n.t('home.miner')}</span>
-          <TableMinerContentItem
-            width="10%"
-            content={deprecatedAddrToNewAddr(block.minerHash)}
-            smallWidth
-            fontSize="14px"
-          />
+          <TableMinerContentItem content={deprecatedAddrToNewAddr(block.minerHash)} fontSize="14px" />
         </div>
         <div className="block__card__reward">
           <span>{`${i18n.t('home.reward')}`}</span>

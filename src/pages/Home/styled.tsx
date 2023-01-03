@@ -110,6 +110,7 @@ export const BlockPanel = styled.div`
   margin-right: 20px;
   background: white;
   flex: 1;
+  min-width: 0;
   border: 0px solid white;
   border-radius: 6px;
   box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);

@@ -61,6 +61,7 @@ export const BlockCardPanel = styled.div`
   }
 
   .block__card__miner {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -73,6 +74,7 @@ export const BlockCardPanel = styled.div`
     > div {
       display: flex;
       font-weight: 500;
+      width: 100%;
 
       @media (max-width: 750px) {
         align-items: center;
