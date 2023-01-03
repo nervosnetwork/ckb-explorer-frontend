@@ -174,6 +174,7 @@ export const TransactionCardPanel = styled.div`
     align-items: flex-start;
     font-size: 14px;
     flex: 1.4;
+    min-width: 0;
     font-weight: 500;
 
     @media (max-width: 750px) {
