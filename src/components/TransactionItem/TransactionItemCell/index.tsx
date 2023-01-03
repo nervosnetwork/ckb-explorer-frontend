@@ -1,6 +1,7 @@
-import { ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Popover, Tooltip } from 'antd'
+import classNames from 'classnames'
 import NervosDAOCellIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import UDTTokenIcon from '../../../assets/udt_token.png'
@@ -22,14 +23,53 @@ import DecimalCapacity from '../../DecimalCapacity'
 import { useAppState } from '../../../contexts/providers'
 import { parseDiffDate } from '../../../utils/date'
 import Cellbase from '../../Transaction/Cellbase'
-import AddressText from '../../AddressText'
 import styles from './index.module.scss'
+import { useDASAccount } from '../../../contexts/providers/dasQuery'
+import { ReactComponent as BitAccountIcon } from '../../../assets/bit_account.svg'
+import { useBoolean } from '../../../utils/hook'
+import CopyTooltipText from '../../Text/CopyTooltipText'
+import EllipsisMiddle from '../../EllipsisMiddle'
 
 const isDaoDepositCell = (cellType: State.CellTypes) => cellType === 'nervos_dao_deposit'
 
 const isDaoWithdrawCell = (cellType: State.CellTypes) => cellType === 'nervos_dao_withdrawing'
 
 const isDaoCell = (cellType: State.CellTypes) => isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
+
+const AddressTextWithAlias: FC<{
+  address: string
+  to?: string
+}> = ({ address, to }) => {
+  const alias = useDASAccount(address)
+
+  const [truncated, truncatedCtl] = useBoolean(false)
+
+  const content = (
+    <Tooltip trigger={truncated || alias ? 'hover' : []} placement="top" title={<CopyTooltipText content={address} />}>
+      <EllipsisMiddle className={classNames('monospace', styles.text)} onTruncateStateChange={truncatedCtl.toggle}>
+        {alias ?? address}
+      </EllipsisMiddle>
+    </Tooltip>
+  )
+
+  return (
+    <div className={classNames(styles.addressTextWithAlias, styles.addressWidthModify)}>
+      {alias && (
+        <Tooltip title=".bit Name">
+          <BitAccountIcon className={styles.icon} />
+        </Tooltip>
+      )}
+
+      {to != null ? (
+        <Link className={styles.link} to={to}>
+          {content}
+        </Link>
+      ) : (
+        content
+      )}
+    </div>
+  )
+}
 
 const udtAmount = (udt: State.UDTInfo) =>
   udt.published
@@ -200,19 +240,7 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
     <TransactionCellPanel highLight={highLight}>
       <div className="transaction__cell_address">
         {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
-        <AddressText
-          useTextWidthForPlaceholderWidth={false}
-          containerClass={styles.addressWidthModify}
-          linkProps={
-            highLight
-              ? {
-                  to: `/address/${cell.addressHash}`,
-                }
-              : undefined
-          }
-        >
-          {addressText}
-        </AddressText>
+        <AddressTextWithAlias address={addressText} to={highLight ? `/address/${cell.addressHash}` : undefined} />
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
       </div>
       <TransactionCellCapacityPanel>

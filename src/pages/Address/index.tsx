@@ -194,6 +194,7 @@ export const Address = () => {
           title={addressState.address.type === 'LockHash' ? i18n.t('address.lock_hash') : i18n.t('address.address')}
           hash={address}
           specialAddress={addressState.address.isSpecial ? addressState.address.specialAddress : ''}
+          showDASInfoOnHeader
         >
           <AddressTitleOverview />
         </AddressHashCard>
