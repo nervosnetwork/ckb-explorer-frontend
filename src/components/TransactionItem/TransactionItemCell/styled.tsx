@@ -23,6 +23,7 @@ export const TransactionCellPanel = styled.div`
       highLight ? `${theme.primary}` : '#000000'};
 
     font-weight: 500;
+    min-width: 0;
     height: 20px;
     display: flex;
     align-items: center;

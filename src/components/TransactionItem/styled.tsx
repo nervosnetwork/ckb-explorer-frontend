@@ -100,6 +100,7 @@ export const TransactionCellPanel = styled.div`
   .transaction_item__input {
     margin-right: 40px;
     flex: 1;
+    min-width: 0;
 
     @media (max-width: 1200px) {
       margin: 0px;
@@ -110,6 +111,7 @@ export const TransactionCellPanel = styled.div`
 
   .transaction_item__output {
     flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;

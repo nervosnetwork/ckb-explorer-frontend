@@ -10,10 +10,20 @@ import styles from './styles.module.scss'
 const AddressText: FC<{
   children: string
   className?: string
+  containerClass?: string
   disableTooltip?: boolean
   linkProps?: LinkProps
   monospace?: boolean
-}> = ({ children: address, className, disableTooltip, linkProps, monospace = true }) => {
+  useTextWidthForPlaceholderWidth?: boolean
+}> = ({
+  children: address,
+  className,
+  containerClass,
+  disableTooltip,
+  linkProps,
+  monospace = true,
+  useTextWidthForPlaceholderWidth = true,
+}) => {
   const [isTruncated, truncatedCtl] = useBoolean(false)
 
   const content = (
@@ -23,11 +33,12 @@ const AddressText: FC<{
       title={<CopyTooltipText content={address} />}
     >
       <EllipsisMiddle
-        useTextWidthForPlaceholderWidth
+        useTextWidthForPlaceholderWidth={useTextWidthForPlaceholderWidth}
         className={classNames(
           {
             monospace,
           },
+          linkProps == null && containerClass,
           className,
         )}
         onTruncateStateChange={truncatedCtl.toggle}
@@ -40,7 +51,7 @@ const AddressText: FC<{
   if (linkProps != null) {
     const { className, ...props } = linkProps
     return (
-      <Link className={classNames(styles.link, className)} {...props}>
+      <Link className={classNames(styles.link, containerClass, className)} {...props}>
         {content}
       </Link>
     )
