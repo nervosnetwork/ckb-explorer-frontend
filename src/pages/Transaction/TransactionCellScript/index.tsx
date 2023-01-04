@@ -323,16 +323,9 @@ export default ({ cell, onClose, txStatus }: { cell: State.Cell; onClose: Functi
             </TransactionDetailCopyButton>
             {(state === CellState.LOCK || state === CellState.TYPE) &&
               content &&
-              (content as State.Script).codeHash &&
-              (content as State.Script).hashType && (
-                <TransactionDetailScriptButton
-                  onClick={() => {
-                    window.open(
-                      `/script/${(content as State.Script).codeHash}/${(content as State.Script).hashType}`,
-                      '_blank',
-                    )
-                  }}
-                >
+              'codeHash' in content &&
+              'hashType' in content && (
+                <TransactionDetailScriptButton href={`/script/${content.codeHash}/${content.hashType}`} target="_blank">
                   <div>{i18n.t('scripts.script')}</div>
                   <OuterLinkIcon />
                 </TransactionDetailScriptButton>

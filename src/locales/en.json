@@ -476,13 +476,14 @@
     },
     "scripts": {
       "script": "Script",
+      "unnamed_script": "Unnamed Script",
       "script_name": "Script Name: ",
       "script_type": "Script Type: ",
       "type_id": "Type Id: ",
       "deployed_cells": "Deployed Cells: ",
       "referring_cells": "Referring Cells: ",
-      "capacity_of_deployed_cells": "Deployed Cells Capacity: ",
-      "capacity_of_referring_cells": "Referring Cells Capacity: "
+      "capacity_of_deployed_cells": "Capacity of deployed cells: ",
+      "capacity_of_referring_cells": "Capacity of referring cells: "
     },
     "fee_rate_tracker": {
       "title": "Fee Rate Tracker",

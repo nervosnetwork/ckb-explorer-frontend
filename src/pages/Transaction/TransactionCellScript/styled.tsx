@@ -171,7 +171,7 @@ export const TransactionDetailCopyButton = styled.div`
   }
 `
 
-export const TransactionDetailScriptButton = styled.div`
+export const TransactionDetailScriptButton = styled.a`
   margin: 0 4rem;
   cursor: pointer;
   width: 150px;

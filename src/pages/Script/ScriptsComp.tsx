@@ -8,52 +8,18 @@ import camelcase from 'camelcase'
 import { useParams } from 'react-router-dom'
 import Pagination from '../../components/Pagination'
 import TransactionItem from '../../components/TransactionItem/index'
-import { fetchTransactionByHash, v2AxiosIns } from '../../service/http/fetcher'
+import { v2AxiosIns } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
 import { ScriptTransactionsPagination, ScriptTransactionsPanel } from './styled'
-import { initTransactionState } from '../../contexts/states/transaction'
 import { TransactionCellDetailModal, TransactionCellInfoPanel } from '../Transaction/TransactionCell/styled'
 import SimpleButton from '../../components/SimpleButton'
 import SimpleModal from '../../components/Modal'
 import TransactionCellScript from '../Transaction/TransactionCellScript'
-import { ScriptInfo, ScriptTabType } from './index'
-import { toCamelcase } from '../../utils/util'
+import { shannonToCkb, toCamelcase } from '../../utils/util'
 import QueryState from '../../components/QueryState'
-
-export const ScriptTransactionItem = ({ txHash }: { txHash: string }) => {
-  const [transaction, setTransaction] = useState<State.Transaction>(initTransactionState.transaction)
-
-  useEffect(() => {
-    fetchTransactionByHash(txHash)
-      .then((wrapper: Response.Wrapper<State.Transaction> | null) => {
-        if (wrapper) {
-          const transactionValue = wrapper.attributes
-          if (transactionValue.displayOutputs && transactionValue.displayOutputs.length > 0) {
-            transactionValue.displayOutputs[0].isGenesisOutput = transactionValue.blockNumber === 0
-          }
-          setTransaction(transactionValue)
-        } else {
-          setTransaction(initTransactionState.transaction)
-        }
-      })
-      .catch(() => {
-        setTransaction(initTransactionState.transaction)
-      })
-  }, [txHash])
-
-  return (
-    transaction && (
-      <TransactionItem
-        address=""
-        transaction={transaction}
-        key={txHash}
-        circleCorner={{
-          bottom: false,
-        }}
-      />
-    )
-  )
-}
+import { localeNumberString } from '../../utils/number'
+import DecimalCapacity from '../../components/DecimalCapacity'
+import { CellInScript, CkbTransactionInScript, ScriptInfo, ScriptResponse, ScriptTabType } from './types'
 
 export const ScriptTransactions = ({
   page,
@@ -69,7 +35,7 @@ export const ScriptTransactions = ({
 
   const [total, setTotal] = useState(0)
   const totalPage = useMemo(() => Math.ceil(total / size), [size, total])
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState<CkbTransactionInScript[]>([])
 
   const { status, data: resp } = useQuery<AxiosResponse>(
     ['scripts_ckb_transactions', codeHash, hashType, page, size],
@@ -86,9 +52,9 @@ export const ScriptTransactions = ({
 
   useEffect(() => {
     if (status === 'success' && resp) {
-      const response = toCamelcase<Response.Response<Response.Wrapper<any[]>>>(resp?.data)
+      const response = toCamelcase<Response.Response<ScriptResponse>>(resp?.data)
 
-      const data = response!.data as any
+      const { data } = response!
       const meta = response!.meta as Response.Meta
       const total = meta ? meta.total : 0
       setTotal(total)
@@ -96,9 +62,8 @@ export const ScriptTransactions = ({
       setScriptInfo(si => {
         const newSi = {
           ...si,
-          scriptName: data.scriptName,
           scriptType: data.scriptType,
-          typeId: data.TypeId,
+          typeId: data.typeId,
           capacityOfDeployedCells: data.capacityOfDeployedCells,
           capacityOfReferringCells: data.capacityOfReferringCells,
         }
@@ -111,7 +76,9 @@ export const ScriptTransactions = ({
         return newSi
       })
 
-      setItems(data.ckbTransactions)
+      if (data.ckbTransactions) {
+        setItems(data.ckbTransactions)
+      }
     }
   }, [size, resp, setScriptInfo, status, tab])
 
@@ -123,9 +90,21 @@ export const ScriptTransactions = ({
     <QueryState status={status}>
       <ScriptTransactionsPanel>
         {items &&
-          items.map((transaction: any) => {
-            const { txHash } = transaction
-            return <ScriptTransactionItem txHash={txHash} key={txHash} />
+          items.map(item => {
+            const transaction = {
+              ...item,
+              transactionHash: item.txHash,
+            } as any as State.Transaction
+            return (
+              <TransactionItem
+                address=""
+                transaction={transaction}
+                key={item.txHash}
+                circleCorner={{
+                  bottom: false,
+                }}
+              />
+            )
           })}
       </ScriptTransactionsPanel>
       {totalPage > 1 && (
@@ -174,7 +153,7 @@ export const ScriptCells = ({
 
   const [total, setTotal] = useState(0)
   const totalPage = useMemo(() => Math.ceil(total / size), [size, total])
-  const [items, setItems] = useState<any>([])
+  const [items, setItems] = useState<CellInScript[]>([])
 
   const { status, data: resp } = useQuery<AxiosResponse>([`scripts_${cellType}`, codeHash, hashType, page, size], () =>
     v2AxiosIns.get(`scripts/${cellType}`, {
@@ -189,24 +168,23 @@ export const ScriptCells = ({
 
   useEffect(() => {
     if (status === 'success' && resp) {
-      const response = toCamelcase<Response.Response<Response.Wrapper<any[]>>>(resp?.data)
+      const response = toCamelcase<Response.Response<ScriptResponse>>(resp?.data)
 
-      const data = response!.data as any
+      const { data } = response!
       const meta = response!.meta as Response.Meta
       const total = meta ? meta.total : 0
       setTotal(total)
 
       setScriptInfo(si => {
-        const newSi = {
+        const newSi: ScriptInfo = {
           ...si,
-          scriptName: data.scriptName,
           scriptType: data.scriptType,
-          typeId: data.TypeId,
+          typeId: data.typeId,
           capacityOfDeployedCells: data.capacityOfDeployedCells,
           capacityOfReferringCells: data.capacityOfReferringCells,
-        } as any
+        }
         if (cellType === tab) {
-          newSi[`${camelcase(cellType)}`] = {
+          newSi[camelcase(cellType) as 'deployedCells' | 'referringCells'] = {
             page,
             size,
             total,
@@ -215,7 +193,9 @@ export const ScriptCells = ({
         return newSi
       })
 
-      setItems(data[camelcase(cellType) as string])
+      if (data[camelcase(cellType) as 'deployedCells' | 'referringCells']) {
+        setItems(data[camelcase(cellType) as 'deployedCells' | 'referringCells']!)
+      }
     }
   }, [cellType, size, resp, setScriptInfo, status, page, tab])
 
@@ -250,13 +230,14 @@ export const ScriptCells = ({
               title: i18n.t('transaction.capacity'),
               dataIndex: 'capacity',
               key: 'capacity',
+              render: (_, record) => <DecimalCapacity value={localeNumberString(shannonToCkb(record.capacity))} />,
             },
             {
               title: 'Cell Info',
               key: 'Cell Info',
               render: (_, record) => (
                 <Space size="middle">
-                  <CellInfo cell={record}>
+                  <CellInfo cell={record as any as State.Cell}>
                     <Button icon={<InfoCircleOutlined />} size="middle" />
                   </CellInfo>
                 </Space>

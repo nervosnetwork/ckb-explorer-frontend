@@ -476,6 +476,7 @@
     },
     "scripts": {
       "script": "Script",
+      "unnamed_script": "未命名 Script",
       "script_name": "Script 名称: ",
       "script_type": "Script 类型: ",
       "type_id": "Type Id: ",

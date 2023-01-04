@@ -30,7 +30,7 @@ export const ScriptTabs = styled(Tabs)`
     margin-left: 40px;
   }
   .ant-tabs-tab-btn {
-    color: #000000 !important;
+    color: #333333 !important;
     font-size: 20px;
     font-weight: 400;
     margin-bottom: 0;
@@ -38,10 +38,20 @@ export const ScriptTabs = styled(Tabs)`
   .ant-tabs-tab-btn[aria-selected='true'] {
     font-weight: 500;
   }
+  .ant-tabs-ink-bar {
+    background: ${props =>
+      `linear-gradient(to right, transparent 25%, ${props.theme.primary} 25%, ${props.theme.primary} 75%, transparent 75%)`};
+    height: 4px;
+  }
 `
 
 export const ScriptTransactionsPanel = styled.div`
   width: 100%;
+  .transaction_item__hash {
+    font-size: 14px;
+    color: ${props => props.theme.primary};
+    font-weight: 500;
+  }
 `
 
 export const ScriptTransactionsPagination = styled.div`
