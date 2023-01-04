@@ -1,4 +1,3 @@
-/* eslint-disable object-curly-newline */
 import { Link } from 'react-router-dom'
 import { isMobile } from '../../../utils/screen'
 import i18n from '../../../utils/i18n'

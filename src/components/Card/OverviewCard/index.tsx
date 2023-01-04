@@ -1,4 +1,3 @@
-/* eslint-disable object-curly-newline */
 import { isValidElement, ReactNode } from 'react'
 import { Tooltip } from 'antd'
 import classNames from 'classnames'
