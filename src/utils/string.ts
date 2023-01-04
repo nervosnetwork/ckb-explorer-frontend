@@ -17,6 +17,19 @@ export function createTextMeasurer(element: HTMLElement): CanvasText['measureTex
   return text => ctx.measureText(text)
 }
 
+export function createTextWidthMeasurer(element: HTMLElement): (text: string) => number {
+  const measureText = createTextMeasurer(element)
+
+  const charLMetrics = measureText('l')
+  const charMMetrics = measureText('m')
+  const isMonospace = charLMetrics.width === charMMetrics.width
+  if (isMonospace) {
+    return text => charLMetrics.width * text.length
+  }
+
+  return text => measureText(text).width
+}
+
 export const startEndEllipsis = (value: string, endLength = 8, startLength = 16) => {
   if (value === undefined || value === null) return ''
   if (endLength < 0 || startLength < 0) return value

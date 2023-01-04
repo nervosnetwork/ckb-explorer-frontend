@@ -1,7 +1,7 @@
 import { useResizeDetector } from 'react-resize-detector'
 import { FC, HTMLAttributes, useEffect, useMemo, useRef, useState } from 'react'
 import { assert } from '../../utils/error'
-import { createTextMeasurer } from '../../utils/string'
+import { createTextWidthMeasurer } from '../../utils/string'
 
 const EllipsisMiddle: FC<
   HTMLAttributes<HTMLDivElement> & {
@@ -34,9 +34,9 @@ const EllipsisMiddle: FC<
     const width = resizedWidth ?? ref.current.clientWidth
 
     const fullText = text ?? children ?? ''
-    const measureText = createTextMeasurer(ref.current)
+    const measureText = createTextWidthMeasurer(ref.current)
 
-    const fullWidth = measureText(fullText).width
+    const fullWidth = measureText(fullText)
     setOriginTextWidth(fullWidth)
     if (fullWidth <= width) {
       setParts([fullText])
@@ -48,7 +48,7 @@ const EllipsisMiddle: FC<
     const remainingChars = Array.from(fullText)
     const leftPart = remainingChars.splice(0, minStartLen)
     const rightPart = remainingChars.splice(remainingChars.length - minEndLen, minEndLen)
-    let currentWidth = measureText([leftPart, ellipsis, rightPart].flat().join('')).width
+    let currentWidth = measureText([leftPart, ellipsis, rightPart].flat().join(''))
     let nextDirectionIsLeft = true
 
     if (currentWidth > width) {
@@ -58,7 +58,7 @@ const EllipsisMiddle: FC<
 
         const char = nextDirectionIsLeft ? leftPart.pop() : rightPart.shift()
         assert(char)
-        const charWidth = measureText(char).width
+        const charWidth = measureText(char)
         currentWidth -= charWidth
         nextDirectionIsLeft = !nextDirectionIsLeft
       }
@@ -67,7 +67,7 @@ const EllipsisMiddle: FC<
       while (true) {
         const char = nextDirectionIsLeft ? remainingChars.shift() : remainingChars.pop()
         assert(char)
-        const charWidth = measureText(char).width
+        const charWidth = measureText(char)
 
         if (currentWidth + charWidth > width) {
           break
