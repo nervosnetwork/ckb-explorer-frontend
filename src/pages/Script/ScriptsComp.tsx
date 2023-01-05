@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactNode, Dispatch, SetStateAction, useMemo } from 'react'
+import { useState, useEffect, ReactNode, useMemo } from 'react'
 import { useHistory } from 'react-router'
 import { Button, Space, Table } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons'
@@ -18,20 +18,20 @@ import { shannonToCkb, toCamelcase } from '../../utils/util'
 import QueryState from '../../components/QueryState'
 import { localeNumberString } from '../../utils/number'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import { CellInScript, CkbTransactionInScript, ScriptInfo, ScriptResponse, ScriptTabType } from './types'
+import { CellInScript, CkbTransactionInScript } from './types'
 import styles from './styles.module.scss'
 
 export const ScriptTransactions = ({
   page,
   size,
-  setScriptInfo,
+  updateCount,
 }: {
   page: number
   size: number
-  setScriptInfo: Dispatch<SetStateAction<ScriptInfo>>
+  updateCount: (count: number) => void
 }) => {
   const history = useHistory()
-  const { codeHash, hashType, tab } = useParams<{ codeHash: string; hashType: string; tab: ScriptTabType }>()
+  const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
   const [total, setTotal] = useState(0)
   const totalPage = useMemo(() => Math.ceil(total / size), [size, total])
@@ -52,35 +52,17 @@ export const ScriptTransactions = ({
 
   useEffect(() => {
     if (status === 'success' && resp) {
-      const response = toCamelcase<Response.Response<ScriptResponse>>(resp?.data)
+      const response = toCamelcase<Response.Response<{ ckbTransactions: CkbTransactionInScript[] }>>(resp?.data)
 
       const { data } = response!
+      setItems(data.ckbTransactions)
+
       const meta = response!.meta as Response.Meta
       const total = meta ? meta.total : 0
       setTotal(total)
-
-      setScriptInfo(si => {
-        const newSi = {
-          ...si,
-          scriptType: data.scriptType,
-          typeId: data.typeId,
-          capacityOfDeployedCells: data.capacityOfDeployedCells,
-          capacityOfReferringCells: data.capacityOfReferringCells,
-        }
-        if (!tab || tab === 'transactions') {
-          newSi.ckbTransactions = {
-            ...si.ckbTransactions,
-            total,
-          }
-        }
-        return newSi
-      })
-
-      if (data.ckbTransactions) {
-        setItems(data.ckbTransactions)
-      }
+      updateCount(total)
     }
-  }, [size, resp, setScriptInfo, status, tab])
+  }, [status, resp, updateCount])
 
   const onChange = (page: number) => {
     history.push(`/scripts/${codeHash}/${hashType}?page=${page}&size=${size}`)
@@ -140,20 +122,21 @@ export const CellInfo = ({ cell, children }: { cell: State.Cell; children: strin
 export const ScriptCells = ({
   page,
   size,
-  setScriptInfo,
   cellType,
+  updateCount,
 }: {
   page: number
   size: number
-  setScriptInfo: Dispatch<SetStateAction<ScriptInfo>>
   cellType: 'deployed_cells' | 'referring_cells'
+  updateCount: (count: number) => void
 }) => {
   const history = useHistory()
-  const { codeHash, hashType, tab } = useParams<{ codeHash: string; hashType: string; tab: ScriptTabType }>()
+  const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
   const [total, setTotal] = useState(0)
   const totalPage = useMemo(() => Math.ceil(total / size), [size, total])
   const [items, setItems] = useState<CellInScript[]>([])
+  const camelCellType = camelcase(cellType) as 'deployedCells' | 'referringCells'
 
   const { status, data: resp } = useQuery<AxiosResponse>([`scripts_${cellType}`, codeHash, hashType, page, size], () =>
     v2AxiosIns.get(`scripts/${cellType}`, {
@@ -168,36 +151,21 @@ export const ScriptCells = ({
 
   useEffect(() => {
     if (status === 'success' && resp) {
-      const response = toCamelcase<Response.Response<ScriptResponse>>(resp?.data)
+      const response = toCamelcase<
+        Response.Response<{ deployedCells?: CellInScript[]; referringCells?: CellInScript[] }>
+      >(resp?.data)
 
       const { data } = response!
+      if (data[camelCellType]) {
+        setItems(data[camelCellType]!)
+      }
+
       const meta = response!.meta as Response.Meta
       const total = meta ? meta.total : 0
       setTotal(total)
-
-      setScriptInfo(si => {
-        const newSi: ScriptInfo = {
-          ...si,
-          scriptType: data.scriptType,
-          typeId: data.typeId,
-          capacityOfDeployedCells: data.capacityOfDeployedCells,
-          capacityOfReferringCells: data.capacityOfReferringCells,
-        }
-        if (cellType === tab) {
-          newSi[camelcase(cellType) as 'deployedCells' | 'referringCells'] = {
-            page,
-            size,
-            total,
-          }
-        }
-        return newSi
-      })
-
-      if (data[camelcase(cellType) as 'deployedCells' | 'referringCells']) {
-        setItems(data[camelcase(cellType) as 'deployedCells' | 'referringCells']!)
-      }
+      updateCount(total)
     }
-  }, [cellType, size, resp, setScriptInfo, status, page, tab])
+  }, [status, resp, updateCount, camelCellType])
 
   const onChange = (page: number) => {
     history.push(`/script/${codeHash}/${hashType}/${cellType}?page=${page}&size=${size}`)

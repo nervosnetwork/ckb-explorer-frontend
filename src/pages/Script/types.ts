@@ -6,26 +6,20 @@ export interface ScriptInfo {
   hashType: string
   capacityOfDeployedCells: string
   capacityOfReferringCells: string
-  ckbTransactions?: {
-    total?: number
-    page?: number
-    size?: number
-  }
-  deployedCells?: {
-    total?: number
-    page?: number
-    size?: number
-  }
-  referringCells?: {
-    total?: number
-    page?: number
-    size?: number
-  }
+  countOfTransactions: number
+  countOfDeployedCells: number
+  countOfReferringCells: number
+  pageOfTransactions: number
+  pageOfDeployedCells: number
+  pageOfReferringCells: number
+  sizeOfTransactions: number
+  sizeOfDeployedCells: number
+  sizeOfReferringCells: number
 }
 
 export type ScriptTabType = 'transactions' | 'deployed_cells' | 'referring_cells' | undefined
 
-export interface ScriptResponse {
+export interface ScriptGeneralInfoResponse {
   id: number
   codeHash: string
   hashType: 'lock' | 'type'
@@ -34,9 +28,9 @@ export interface ScriptResponse {
   scriptName: string
   capacityOfDeployedCells: string
   capacityOfReferringCells: string
-  ckbTransactions?: CkbTransactionInScript[]
-  deployedCells?: CellInScript[]
-  referringCells?: CellInScript[]
+  countOfTransactions: number
+  countOfDeployedCells: number
+  countOfReferringCells: number
 }
 
 export interface CkbTransactionInScript {
