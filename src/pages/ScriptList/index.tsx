@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+import { FC } from 'react'
+import { useLocation } from 'react-router'
 import Content from '../../components/Content'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
@@ -102,13 +103,11 @@ const scripts = new Map<string, ScriptAttributes>([
   ],
 ])
 
-const linkLablList: Array<keyof ScriptAttributes> = ['rfc', 'code', 'deprecated', 'website']
+const keysWithLinkValueInScript: Array<keyof ScriptAttributes> = ['rfc', 'code', 'deprecated', 'website']
 
-const ScriptList = () => {
-  useEffect(() => {
-    const hash = decodeURIComponent(window.location.hash.slice(1))
-    document.getElementById(hash)?.setAttribute('open', 'true')
-  }, [])
+const ScriptList: FC = () => {
+  const location = useLocation()
+  const defaultOpenLabel = decodeURIComponent(location.hash.slice(1))
 
   return (
     <Content>
@@ -117,7 +116,7 @@ const ScriptList = () => {
         {[...scripts].map(([label, meta]) => {
           const script = scriptDataList.find(s => s.tag === label)
           return (
-            <details key={label} id={label}>
+            <details key={label} id={label} open={label === defaultOpenLabel}>
               <summary data-deprecated={!!meta.deprecated} title={meta.deprecated ? 'Deprecated' : undefined}>
                 <b>{`${meta.name}:`}</b>
                 {meta.description}
@@ -125,9 +124,9 @@ const ScriptList = () => {
               <div>
                 <h3>{`${i18n.t('script_list.links')}:`}</h3>
                 <div className={styles.links}>
-                  {linkLablList.map(key =>
+                  {keysWithLinkValueInScript.map(key =>
                     meta[key] ? (
-                      <a href={meta[key]} target="_blank" rel="noopener noreferrer">
+                      <a key={key} href={meta[key]} target="_blank" rel="noopener noreferrer">
                         {i18n.t(`script_list.link.${key}`)}
                       </a>
                     ) : null,
