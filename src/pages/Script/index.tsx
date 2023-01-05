@@ -3,9 +3,9 @@ import { useHistory, useLocation } from 'react-router'
 import { useParams } from 'react-router-dom'
 import { CopyOutlined } from '@ant-design/icons'
 import queryString from 'query-string'
+import { Tabs } from 'antd'
 import Content from '../../components/Content'
 import { useDispatch } from '../../contexts/providers'
-import { ScriptContentPanel, ScriptsTitleOverviewPanel, ScriptTabs } from './styled'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import i18n from '../../utils/i18n'
 import { HashCardPanel } from '../../components/Card/HashCard/styled'
@@ -22,6 +22,7 @@ import { isMobile } from '../../utils/screen'
 import { shannonToCkb } from '../../utils/util'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { ScriptInfo, ScriptTabType } from './types'
+import styles from './styles.module.scss'
 
 const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
 
@@ -112,9 +113,9 @@ const getScriptInfo = (scriptInfo: ScriptInfo, dispatch: AppDispatch) => {
 const ScriptsTitleOverview = ({ scriptInfo }: { scriptInfo: ScriptInfo }) => {
   const dispatch = useDispatch()
   return (
-    <ScriptsTitleOverviewPanel>
+    <div className={styles.scriptsTitleOverviewPanel}>
       <OverviewCard items={getScriptInfo(scriptInfo, dispatch)} hideShadow />
-    </ScriptsTitleOverviewPanel>
+    </div>
   )
 }
 
@@ -174,11 +175,12 @@ export const ScriptPage = () => {
 
   return (
     <Content>
-      <ScriptContentPanel className="container">
+      <div className={`${styles.scriptContentPanel} container`}>
         <HashCardPanel isColumn={false}>
           <ScriptsTitleOverview scriptInfo={scriptInfo} />
         </HashCardPanel>
-        <ScriptTabs
+        <Tabs
+          className={styles.scriptTabs}
           activeKey={activeTab}
           tabBarStyle={{
             fontSize: '5rem !important',
@@ -235,7 +237,7 @@ export const ScriptPage = () => {
             },
           ]}
         />
-      </ScriptContentPanel>
+      </div>
     </Content>
   )
 }

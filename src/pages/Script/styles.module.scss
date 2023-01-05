@@ -1,0 +1,57 @@
+.scriptsTitleOverviewPanel {
+  display: flex;
+  flex-direction: column;
+}
+
+.scriptContentPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+  margin-bottom: 40px;
+
+  @media (max-width: 750px) {
+    margin: 0;
+    padding: 20px;
+  }
+}
+
+.scriptTabs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 6px 6px 0 0;
+  :global(.ant-tabs-nav-list) {
+    margin-left: 40px;
+  }
+  :global(.ant-tabs-tab-btn) {
+    color: #333333 !important;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 0;
+  }
+  :global(.ant-tabs-tab-btn[aria-selected='true']) {
+    font-weight: 500;
+  }
+  :global(.ant-tabs-ink-bar) {
+    background: linear-gradient(to right, transparent 25%, var(--primary-color) 25%, var(--primary-color) 75%, transparent 75%);
+    height: 4px;
+  }
+}
+
+.scriptTransactionsPanel {
+  width: 100%;
+
+  :global(.transaction_item__hash) {
+    font-size: 14px;
+    color: var(--primary-color);
+    font-weight: 500;
+  }
+}
+
+.scriptTransactionsPagination {
+  margin-top: 4px;
+  width: 100%;
+}

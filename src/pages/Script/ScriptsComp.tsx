@@ -10,7 +10,6 @@ import Pagination from '../../components/Pagination'
 import TransactionItem from '../../components/TransactionItem/index'
 import { v2AxiosIns } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
-import { ScriptTransactionsPagination, ScriptTransactionsPanel } from './styled'
 import { TransactionCellDetailModal, TransactionCellInfoPanel } from '../Transaction/TransactionCell/styled'
 import SimpleButton from '../../components/SimpleButton'
 import SimpleModal from '../../components/Modal'
@@ -20,6 +19,7 @@ import QueryState from '../../components/QueryState'
 import { localeNumberString } from '../../utils/number'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { CellInScript, CkbTransactionInScript, ScriptInfo, ScriptResponse, ScriptTabType } from './types'
+import styles from './styles.module.scss'
 
 export const ScriptTransactions = ({
   page,
@@ -88,7 +88,7 @@ export const ScriptTransactions = ({
 
   return (
     <QueryState status={status}>
-      <ScriptTransactionsPanel>
+      <div className={styles.scriptTransactionsPanel}>
         {items &&
           items.map(item => {
             const transaction = {
@@ -106,11 +106,11 @@ export const ScriptTransactions = ({
               />
             )
           })}
-      </ScriptTransactionsPanel>
+      </div>
       {totalPage > 1 && (
-        <ScriptTransactionsPagination>
+        <div className={styles.scriptTransactionsPagination}>
           <Pagination currentPage={page} totalPages={totalPage} onChange={onChange} />
-        </ScriptTransactionsPagination>
+        </div>
       )}
     </QueryState>
   )
@@ -205,7 +205,7 @@ export const ScriptCells = ({
 
   return (
     <QueryState status={status}>
-      <ScriptTransactionsPanel>
+      <div className={styles.scriptTransactionsPanel}>
         <Table
           pagination={false}
           dataSource={items}
@@ -245,11 +245,11 @@ export const ScriptCells = ({
             },
           ]}
         />
-      </ScriptTransactionsPanel>
+      </div>
       {totalPage > 1 && (
-        <ScriptTransactionsPagination>
+        <div className={styles.scriptTransactionsPagination}>
           <Pagination currentPage={page} totalPages={totalPage} onChange={onChange} />
-        </ScriptTransactionsPagination>
+        </div>
       )}
     </QueryState>
   )
