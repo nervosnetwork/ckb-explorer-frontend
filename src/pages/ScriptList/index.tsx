@@ -101,6 +101,91 @@ const scripts = new Map<string, ScriptAttributes>([
       code: 'https://github.com/lay2dev/pw-lock/',
     },
   ],
+  [
+    'godwoken_custodian_lock',
+    {
+      name: 'godwoken_custodian_lock',
+      description: 'Rollup uses the custodian lock to hold the deposited assets.',
+      code: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos/contracts/custodian-lock',
+      website: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos#custodian-lock',
+    },
+  ],
+  [
+    'godwoken_deposit_lock',
+    {
+      name: 'godwoken_deposit_lock',
+      description: 'A layer1 user can join the Rollup by creating a deposit cell.',
+      code: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos/contracts/deposit-lock',
+      website: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos#deposit-lock',
+    },
+  ],
+  [
+    'godwoken_withdrawal_lock',
+    {
+      name: 'godwoken_withdrawal_lock',
+      description:
+        'Withdrawal cells are generated in the RollupSubmitBlock action according to the block.withdrawals field.',
+      code: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos/contracts/withdrawal-lock',
+      website: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos#withdrawal-lock',
+    },
+  ],
+  [
+    'godwoken_challenge_lock',
+    {
+      name: 'godwoken_challenge_lock',
+      description:
+        'When a Godwoken node found that an invalid state exists in the Rollup, the node can send the RollupEnterChallenge action to the Rollup cell and generate a challenging cell.',
+      code: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos/contracts/challenge-lock',
+      website: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos#challenge-lock',
+    },
+  ],
+  [
+    'godwoken_stake_lock',
+    {
+      name: 'godwoken_stake_lock',
+      description: 'A block producer is required to provide a stake cell to perform the RollupSubmitBlock action.',
+      code: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos/contracts/stake-lock',
+      website: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos#stake-lock',
+    },
+  ],
+  [
+    'omni_lock v1',
+    {
+      name: 'omni_lock v1',
+      description:
+        'Omnilock is a lock script designed for interoperability. It comes with built-in support for verification of transaction signing methods used in Bitcoin, Ethereum, EOS, and Dogecoin. Omnilock is also extensible, so more verification algorithms can be added in future.',
+      rfc: 'https://github.com/nervosnetwork/rfcs/tree/master/rfcs/0042-omnilock',
+    },
+  ],
+  [
+    'omni_lock v2',
+    {
+      name: 'omni_lock v2',
+      description:
+        'Omnilock is a lock script designed for interoperability. It comes with built-in support for verification of transaction signing methods used in Bitcoin, Ethereum, EOS, and Dogecoin. Omnilock is also extensible, so more verification algorithms can be added in future.',
+      rfc: 'https://github.com/nervosnetwork/rfcs/tree/master/rfcs/0042-omnilock',
+      code: 'https://github.com/nervosnetwork/ckb-production-scripts/blob/master/c/omni_lock.c',
+    },
+  ],
+  [
+    'godwoken_state_validator',
+    {
+      name: 'godwoken_state_validator',
+      description:
+        'State validator is the major script to verify the on-chain Rollup cell. Rollup cell is an identity cell on CKB, it stores the structure GlobalState which represents the layer-2 state.',
+      code: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos/contracts/state-validator',
+      website: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos#state-validator',
+    },
+  ],
+  [
+    'godwoken_eth_account_lock',
+    {
+      name: 'godwoken_eth_account_lock',
+      description: 'A layer-2 lock script, ETH account lock is a script that verifies the layer-2 account signature.',
+      code: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos/contracts/eth-account-lock',
+      website: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos#eth-account-lock',
+    },
+  ],
 ])
 
 const keysWithLinkValueInScript: Array<keyof ScriptAttributes> = ['rfc', 'code', 'deprecated', 'website']
