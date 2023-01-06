@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactNode, useMemo } from 'react'
+import { useState, useEffect, ReactNode } from 'react'
 import { useHistory } from 'react-router'
 import { Button, Space, Table } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons'
@@ -33,10 +33,6 @@ export const ScriptTransactions = ({
   const history = useHistory()
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
-  const [total, setTotal] = useState(0)
-  const totalPage = useMemo(() => Math.ceil(total / size), [size, total])
-  const [items, setItems] = useState<CkbTransactionInScript[]>([])
-
   const { status, data: resp } = useQuery<AxiosResponse>(
     ['scripts_ckb_transactions', codeHash, hashType, page, size],
     () =>
@@ -50,19 +46,24 @@ export const ScriptTransactions = ({
       }),
   )
 
+  let total = 0
+  let totalPage = 0
+  let ckbTransactions: CkbTransactionInScript[] = []
+
+  if (status === 'success' && resp) {
+    const response = toCamelcase<Response.Response<{ ckbTransactions: CkbTransactionInScript[] }>>(resp.data)
+
+    const { data } = response!
+    ckbTransactions = data.ckbTransactions
+
+    const meta = response!.meta as Response.Meta
+    total = meta ? meta.total : 0
+    totalPage = Math.ceil(total / size)
+  }
+
   useEffect(() => {
-    if (status === 'success' && resp) {
-      const response = toCamelcase<Response.Response<{ ckbTransactions: CkbTransactionInScript[] }>>(resp?.data)
-
-      const { data } = response!
-      setItems(data.ckbTransactions)
-
-      const meta = response!.meta as Response.Meta
-      const total = meta ? meta.total : 0
-      setTotal(total)
-      updateCount(total)
-    }
-  }, [status, resp, updateCount])
+    updateCount(total)
+  }, [total, updateCount])
 
   const onChange = (page: number) => {
     history.push(`/scripts/${codeHash}/${hashType}?page=${page}&size=${size}`)
@@ -71,17 +72,17 @@ export const ScriptTransactions = ({
   return (
     <QueryState status={status}>
       <div className={styles.scriptTransactionsPanel}>
-        {items &&
-          items.map(item => {
+        {ckbTransactions &&
+          ckbTransactions.map(tr => {
             const transaction = {
-              ...item,
-              transactionHash: item.txHash,
+              ...tr,
+              transactionHash: tr.txHash,
             } as any as State.Transaction
             return (
               <TransactionItem
                 address=""
                 transaction={transaction}
-                key={item.txHash}
+                key={tr.txHash}
                 circleCorner={{
                   bottom: false,
                 }}
@@ -133,11 +134,6 @@ export const ScriptCells = ({
   const history = useHistory()
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
-  const [total, setTotal] = useState(0)
-  const totalPage = useMemo(() => Math.ceil(total / size), [size, total])
-  const [items, setItems] = useState<CellInScript[]>([])
-  const camelCellType = camelcase(cellType) as 'deployedCells' | 'referringCells'
-
   const { status, data: resp } = useQuery<AxiosResponse>([`scripts_${cellType}`, codeHash, hashType, page, size], () =>
     v2AxiosIns.get(`scripts/${cellType}`, {
       params: {
@@ -149,23 +145,29 @@ export const ScriptCells = ({
     }),
   )
 
-  useEffect(() => {
-    if (status === 'success' && resp) {
-      const response = toCamelcase<
-        Response.Response<{ deployedCells?: CellInScript[]; referringCells?: CellInScript[] }>
-      >(resp?.data)
+  let total = 0
+  let totalPage = 0
+  let cells: CellInScript[] = []
+  const camelCellType = camelcase(cellType) as 'deployedCells' | 'referringCells'
 
-      const { data } = response!
-      if (data[camelCellType]) {
-        setItems(data[camelCellType]!)
-      }
+  if (status === 'success' && resp) {
+    const response = toCamelcase<
+      Response.Response<{ deployedCells?: CellInScript[]; referringCells?: CellInScript[] }>
+    >(resp.data)
 
-      const meta = response!.meta as Response.Meta
-      const total = meta ? meta.total : 0
-      setTotal(total)
-      updateCount(total)
+    const { data } = response!
+    if (data[camelCellType]) {
+      cells = data[camelCellType]!
     }
-  }, [status, resp, updateCount, camelCellType])
+
+    const meta = response!.meta as Response.Meta
+    total = meta ? meta.total : 0
+    totalPage = Math.ceil(total / size)
+  }
+
+  useEffect(() => {
+    updateCount(total)
+  }, [total, updateCount])
 
   const onChange = (page: number) => {
     history.push(`/script/${codeHash}/${hashType}/${cellType}?page=${page}&size=${size}`)
@@ -176,7 +178,7 @@ export const ScriptCells = ({
       <div className={styles.scriptTransactionsPanel}>
         <Table
           pagination={false}
-          dataSource={items}
+          dataSource={cells}
           rowKey={record => `${record.txHash}_${record.cellIndex}`}
           columns={[
             {

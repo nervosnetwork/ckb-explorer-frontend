@@ -216,7 +216,7 @@ const ScriptList: FC = () => {
                       </a>
                     ) : null,
                   )}
-                  {script && (
+                  {script ? (
                     <a
                       href={`/script/${script.codeHashes[0]}/${script.hashType}`}
                       target="_blank"
@@ -224,7 +224,7 @@ const ScriptList: FC = () => {
                     >
                       {i18n.t('script_list.link.detail')}
                     </a>
-                  )}
+                  ) : null}
                 </div>
                 {script ? (
                   <>

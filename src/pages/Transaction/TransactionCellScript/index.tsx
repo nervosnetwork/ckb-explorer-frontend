@@ -322,14 +322,14 @@ export default ({ cell, onClose, txStatus }: { cell: State.Cell; onClose: Functi
               <CopyIcon />
             </TransactionDetailCopyButton>
             {(state === CellState.LOCK || state === CellState.TYPE) &&
-              content &&
-              'codeHash' in content &&
-              'hashType' in content && (
-                <TransactionDetailScriptButton href={`/script/${content.codeHash}/${content.hashType}`} target="_blank">
-                  <div>{i18n.t('scripts.script')}</div>
-                  <OuterLinkIcon />
-                </TransactionDetailScriptButton>
-              )}
+            content &&
+            'codeHash' in content &&
+            'hashType' in content ? (
+              <TransactionDetailScriptButton href={`/script/${content.codeHash}/${content.hashType}`} target="_blank">
+                <div>{i18n.t('scripts.script')}</div>
+                <OuterLinkIcon />
+              </TransactionDetailScriptButton>
+            ) : null}
           </div>
         )}
       </TransactionDetailPanel>

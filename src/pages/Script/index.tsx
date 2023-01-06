@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router'
 import { useParams } from 'react-router-dom'
 import { CopyOutlined } from '@ant-design/icons'
-import queryString from 'query-string'
 import { Tabs } from 'antd'
 import { useQuery } from 'react-query'
 import { AxiosResponse } from 'axios'
@@ -23,7 +22,7 @@ import { scripts as scriptNameList } from '../ScriptList'
 import { isMobile } from '../../utils/screen'
 import { shannonToCkb, toCamelcase } from '../../utils/util'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import { ScriptGeneralInfoResponse, ScriptInfo, ScriptTabType } from './types'
+import { ScriptInfo, ScriptTabType } from './types'
 import styles from './styles.module.scss'
 import { v2AxiosIns } from '../../service/http/fetcher'
 
@@ -122,25 +121,6 @@ const ScriptsTitleOverview = ({ scriptInfo }: { scriptInfo: ScriptInfo }) => {
   )
 }
 
-const initScriptInfo: ScriptInfo = {
-  scriptName: '',
-  scriptType: '',
-  typeId: 0,
-  codeHash: '',
-  hashType: '',
-  capacityOfDeployedCells: '',
-  capacityOfReferringCells: '',
-  countOfTransactions: 0,
-  countOfDeployedCells: 0,
-  countOfReferringCells: 0,
-  pageOfTransactions: 1,
-  pageOfDeployedCells: 1,
-  pageOfReferringCells: 1,
-  sizeOfTransactions: 10,
-  sizeOfDeployedCells: 10,
-  sizeOfReferringCells: 10,
-}
-
 const seekScriptName = (codeHash: string, hashType: string): string =>
   scriptHashNameMap.has(`${codeHash}_${hashType}`)
     ? scriptHashNameMap.get(`${codeHash}_${hashType}`)!
@@ -150,15 +130,18 @@ export const ScriptPage = () => {
   const history = useHistory()
   const { search } = useLocation()
   const { codeHash, hashType, tab } = useParams<{ codeHash: string; hashType: string; tab: ScriptTabType }>()
-  const anchor = (tab ?? 'transactions') as ScriptTabType
-  const [activeTab, setActiveTab] = useState<ScriptTabType>(anchor)
-  const parsed = queryString.parse(search)
-  const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
-  const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
-  initScriptInfo.codeHash = codeHash
-  initScriptInfo.hashType = hashType
-  initScriptInfo.scriptName = seekScriptName(codeHash, hashType)
-  const [scriptInfo, setScriptInfo] = useState<ScriptInfo>(initScriptInfo)
+
+  const searchParams = new URLSearchParams(search)
+  const currentPage = parsePageNumber(searchParams.get('page'), PageParams.PageNo)
+  const pageSize = parsePageNumber(searchParams.get('size'), PageParams.PageSize)
+
+  const [countOfTransactions, setCountOfTransactions] = useState<number>(0)
+  const [countOfDeployedCells, setCountOfDeployedCells] = useState<number>(0)
+  const [countOfReferringCells, setCountOfReferringCells] = useState<number>(0)
+
+  const [pageOfTransactions, setPageOfTransactions] = useState<number>(1)
+  const [pageOfDeployedCells, setPageOfDeployedCells] = useState<number>(1)
+  const [pageOfReferringCells, setPageOfReferringCells] = useState<number>(1)
 
   const { status, data: resp } = useQuery<AxiosResponse>(['scripts_general_info', codeHash, hashType], () =>
     v2AxiosIns.get(`scripts/general_info`, {
@@ -169,33 +152,29 @@ export const ScriptPage = () => {
     }),
   )
 
-  useEffect(() => {
-    if (status === 'success' && resp) {
-      const response = toCamelcase<Response.Response<ScriptGeneralInfoResponse>>(resp?.data)
-      const { data } = response!
+  const scriptInfo =
+    status === 'success' && resp
+      ? toCamelcase<Response.Response<ScriptInfo>>(resp?.data)!.data
+      : ({
+          id: 0,
+          scriptName: '',
+          scriptType: '',
+          typeId: '',
+          codeHash,
+          hashType,
+          capacityOfDeployedCells: '0',
+          capacityOfReferringCells: '0',
+          countOfTransactions: 0,
+          countOfDeployedCells: 0,
+          countOfReferringCells: 0,
+        } as ScriptInfo)
+  scriptInfo.scriptName = seekScriptName(scriptInfo.codeHash, scriptInfo.hashType)
 
-      setScriptInfo(si => ({
-        ...si,
-        scriptType: data.scriptType,
-        typeId: data.typeId,
-        capacityOfDeployedCells: data.capacityOfDeployedCells,
-        capacityOfReferringCells: data.capacityOfReferringCells,
-        countOfTransactions: data.countOfTransactions,
-        countOfDeployedCells: data.countOfDeployedCells,
-        countOfReferringCells: data.countOfReferringCells,
-      }))
-    }
-  }, [status, resp])
-
   useEffect(() => {
-    if (anchor === 'deployed_cells') {
-      setActiveTab('deployed_cells')
-    } else if (anchor === 'referring_cells') {
-      setActiveTab('referring_cells')
-    } else {
-      setActiveTab('transactions')
-    }
-  }, [anchor])
+    setCountOfTransactions(scriptInfo.countOfTransactions)
+    setCountOfDeployedCells(scriptInfo.countOfDeployedCells)
+    setCountOfReferringCells(scriptInfo.countOfReferringCells)
+  }, [scriptInfo.countOfDeployedCells, scriptInfo.countOfReferringCells, scriptInfo.countOfTransactions])
 
   return (
     <Content>
@@ -205,76 +184,63 @@ export const ScriptPage = () => {
         </HashCardPanel>
         <Tabs
           className={styles.scriptTabs}
-          activeKey={activeTab}
-          tabBarStyle={{
-            fontSize: '5rem !important',
-          }}
+          activeKey={tab ?? 'transactions'}
           onTabClick={key => {
+            const currentTab = tab ?? 'transactions'
+            if (currentTab === key) return
+
+            if (currentTab === 'deployed_cells') {
+              setPageOfDeployedCells(currentPage)
+            } else if (currentTab === 'referring_cells') {
+              setPageOfReferringCells(currentPage)
+            } else if (currentTab === 'transactions') {
+              setPageOfTransactions(currentPage)
+            }
             if (key === 'deployed_cells') {
               history.push(
-                `/script/${codeHash}/${hashType}/deployed_cells?page=${scriptInfo.pageOfDeployedCells}&size=${scriptInfo.sizeOfDeployedCells}`,
+                `/script/${codeHash}/${hashType}/deployed_cells?page=${pageOfDeployedCells}&size=${pageSize}`,
               )
-              setActiveTab('deployed_cells')
             } else if (key === 'referring_cells') {
               history.push(
-                `/script/${codeHash}/${hashType}/referring_cells?page=${scriptInfo.pageOfReferringCells}&size=${scriptInfo.sizeOfReferringCells}`,
+                `/script/${codeHash}/${hashType}/referring_cells?page=${pageOfReferringCells}&size=${pageSize}`,
               )
-              setActiveTab('referring_cells')
             } else if (key === 'transactions') {
-              history.push(
-                `/script/${codeHash}/${hashType}?page=${scriptInfo.pageOfTransactions}&size=${scriptInfo.sizeOfTransactions}`,
-              )
-              setActiveTab('transactions')
+              history.push(`/script/${codeHash}/${hashType}?page=${pageOfTransactions}&size=${pageSize}`)
             }
           }}
           items={[
             {
-              label: `${i18n.t('transaction.transactions')} (${localeNumberString(scriptInfo.countOfTransactions!)})`,
+              label: `${i18n.t('transaction.transactions')} (${localeNumberString(countOfTransactions!)})`,
               key: 'transactions',
               children: (
                 <ScriptTransactions
                   page={currentPage}
                   size={pageSize}
-                  updateCount={count =>
-                    setScriptInfo(si => ({
-                      ...si,
-                      countOfTransactions: count,
-                    }))
-                  }
+                  updateCount={count => setCountOfTransactions(count)}
                 />
               ),
             },
             {
-              label: `${i18n.t('scripts.deployed_cells')} (${localeNumberString(scriptInfo.countOfDeployedCells)})`,
+              label: `${i18n.t('scripts.deployed_cells')} (${localeNumberString(countOfDeployedCells)})`,
               key: 'deployed_cells',
               children: (
                 <ScriptCells
                   page={currentPage}
                   size={pageSize}
                   cellType="deployed_cells"
-                  updateCount={count =>
-                    setScriptInfo(si => ({
-                      ...si,
-                      countOfDeployedCells: count,
-                    }))
-                  }
+                  updateCount={count => setCountOfDeployedCells(count)}
                 />
               ),
             },
             {
-              label: `${i18n.t('scripts.referring_cells')} (${localeNumberString(scriptInfo.countOfReferringCells)})`,
+              label: `${i18n.t('scripts.referring_cells')} (${localeNumberString(countOfReferringCells)})`,
               key: 'referring_cells',
               children: (
                 <ScriptCells
                   page={currentPage}
                   size={pageSize}
                   cellType="referring_cells"
-                  updateCount={count =>
-                    setScriptInfo(si => ({
-                      ...si,
-                      countOfReferringCells: count,
-                    }))
-                  }
+                  updateCount={count => setCountOfReferringCells(count)}
                 />
               ),
             },

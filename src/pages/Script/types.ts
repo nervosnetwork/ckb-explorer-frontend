@@ -1,37 +1,18 @@
 export interface ScriptInfo {
+  id: number
   scriptName: string
   scriptType: string
-  typeId: number
+  typeId: string
   codeHash: string
-  hashType: string
+  hashType: 'type' | 'data'
   capacityOfDeployedCells: string
   capacityOfReferringCells: string
   countOfTransactions: number
   countOfDeployedCells: number
   countOfReferringCells: number
-  pageOfTransactions: number
-  pageOfDeployedCells: number
-  pageOfReferringCells: number
-  sizeOfTransactions: number
-  sizeOfDeployedCells: number
-  sizeOfReferringCells: number
 }
 
 export type ScriptTabType = 'transactions' | 'deployed_cells' | 'referring_cells' | undefined
-
-export interface ScriptGeneralInfoResponse {
-  id: number
-  codeHash: string
-  hashType: 'lock' | 'type'
-  scriptType: 'lock' | 'type'
-  typeId: number
-  scriptName: string
-  capacityOfDeployedCells: string
-  capacityOfReferringCells: string
-  countOfTransactions: number
-  countOfDeployedCells: number
-  countOfReferringCells: number
-}
 
 export interface CkbTransactionInScript {
   id: number
