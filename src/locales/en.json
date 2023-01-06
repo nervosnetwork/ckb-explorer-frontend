@@ -476,7 +476,7 @@
     },
     "scripts": {
       "script": "Script",
-      "unnamed_script": "Unnamed Script",
+      "unnamed_script": "Untitled Script",
       "script_name": "Script Name: ",
       "script_type": "Script Type: ",
       "type_id": "Type Id: ",
