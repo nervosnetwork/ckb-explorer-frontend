@@ -1,0 +1,16 @@
+.addressTextCol {
+  width: 48%;
+  padding: 0 24px;
+  text-align: center;
+  color: var(--primary-color);
+
+  @media (max-width: 750px) {
+    width: 100%;
+    padding: 0;
+    text-align: start;
+  }
+
+  &:hover {
+    color: var(--primary-color);
+  }
+}

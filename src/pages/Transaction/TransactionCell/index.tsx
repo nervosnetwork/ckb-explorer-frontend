@@ -1,12 +1,11 @@
 import { useState, ReactNode } from 'react'
-import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import { CellType } from '../../../constants/common'
 import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { parseSimpleDate } from '../../../utils/date'
 import { isMobile } from '../../../utils/screen'
-import { adaptPCEllipsis, adaptMobileEllipsis, sliceNftName } from '../../../utils/string'
+import { sliceNftName } from '../../../utils/string'
 import { shannonToCkb, shannonToCkbDecimal, parseSince } from '../../../utils/util'
 import {
   TransactionCellContentPanel,
@@ -22,7 +21,6 @@ import {
 } from './styled'
 import TransactionCellArrow from '../../../components/Transaction/TransactionCellArrow'
 import DecimalCapacity from '../../../components/DecimalCapacity'
-import CopyTooltipText from '../../../components/Text/CopyTooltipText'
 import NervosDAODepositIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import UDTTokenIcon from '../../../assets/udt_token.png'
@@ -39,21 +37,7 @@ import TransactionReward from '../TransactionReward'
 import Cellbase from '../../../components/Transaction/Cellbase'
 import { useDeprecatedAddr, useNewAddr } from '../../../utils/hook'
 import styles from './styles.module.scss'
-
-const AddressText = ({ address }: { address: string }) => {
-  const addressText = isMobile() ? adaptMobileEllipsis(address, 5) : adaptPCEllipsis(address, 4, 80)
-  return addressText.includes('...') ? (
-    <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
-      <Link to={`/address/${address}`} className="monospace">
-        {addressText}
-      </Link>
-    </Tooltip>
-  ) : (
-    <Link to={`/address/${address}`} className="monospace">
-      {addressText}
-    </Link>
-  )
-}
+import AddressText from '../../../components/AddressText'
 
 const TransactionCellIndexAddress = ({
   cell,
@@ -68,6 +52,7 @@ const TransactionCellIndexAddress = ({
 }) => {
   const deprecatedAddr = useDeprecatedAddr(cell.addressHash)!
   const newAddr = useNewAddr(cell.addressHash)
+  const address = !isAddrNew ? deprecatedAddr : newAddr
   let since
   try {
     if (cell.since) {
@@ -95,7 +80,14 @@ const TransactionCellIndexAddress = ({
           </span>
         )}
         {cell.addressHash ? (
-          <AddressText address={!isAddrNew ? deprecatedAddr : newAddr} />
+          <AddressText
+            linkProps={{
+              className: 'transaction__cell_address_link',
+              to: `/address/${address}`,
+            }}
+          >
+            {address}
+          </AddressText>
         ) : (
           <span className="transaction__cell_address_no_link">
             {cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}

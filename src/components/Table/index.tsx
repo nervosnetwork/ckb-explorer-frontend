@@ -1,11 +1,8 @@
 import { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
-import { Tooltip } from 'antd'
+import { Col, Row } from 'antd'
 import i18n from '../../utils/i18n'
-import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
-import { isMobile } from '../../utils/screen'
 import { TableTitleRowItem, TableContentRowItem, HighlightLink, TableMinerContentPanel } from './styled'
-import CopyTooltipText from '../Text/CopyTooltipText'
+import AddressText from '../AddressText'
 
 export const TableTitleItem = ({ width, title }: { width: string; title: string }) => (
   <TableTitleRowItem width={width}>
@@ -23,35 +20,32 @@ export const TableContentItem = ({ width, content, to }: { width: string; conten
 }
 
 export const TableMinerContentItem = ({
-  width,
+  width = 'auto',
   content,
-  smallWidth,
+  textCenter,
   fontSize = '16px',
 }: {
-  width: string
+  width?: string
   content: string
-  smallWidth?: boolean
+  textCenter?: boolean
   fontSize?: string
 }) => {
-  let addressText = adaptPCEllipsis(content, smallWidth ? 2 : 10, 60)
-  if (window.innerWidth <= 1320) {
-    addressText = adaptPCEllipsis(content, smallWidth ? 2 : 10, 60)
-  }
-  if (isMobile()) {
-    addressText = adaptMobileEllipsis(content, 11)
-  }
   return (
     <TableMinerContentPanel width={width} fontSize={fontSize}>
       {content ? (
-        <Link className="table__miner__content" to={`/address/${content}`}>
-          {addressText.includes('...') ? (
-            <Tooltip placement="top" title={<CopyTooltipText content={content} />}>
-              <span className="table__miner__text monospace">{addressText}</span>
-            </Tooltip>
-          ) : (
-            <span className="table__miner__text monospace">{addressText}</span>
-          )}
-        </Link>
+        <Row justify={textCenter ? 'center' : 'start'}>
+          <Col span={20} xl={16}>
+            <AddressText
+              className="table__miner__text"
+              linkProps={{
+                className: 'table__miner__content',
+                to: `/address/${content}`,
+              }}
+            >
+              {content}
+            </AddressText>
+          </Col>
+        </Row>
       ) : (
         <div className="table__miner__text__disable">{i18n.t('address.unable_decode_address')}</div>
       )}

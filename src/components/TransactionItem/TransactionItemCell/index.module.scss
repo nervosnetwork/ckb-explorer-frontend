@@ -1,0 +1,15 @@
+.addressWidthModify {
+  width: 260px;
+
+  @media (max-width: 1440px) {
+    width: 148px;
+  }
+
+  @media (max-width: 1200px) {
+    width: 260px;
+  }
+
+  @media (max-width: 750px) {
+    width: 460px;
+  }
+}

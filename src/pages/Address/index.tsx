@@ -1,7 +1,6 @@
 import queryString from 'query-string'
 import { useEffect, useState } from 'react'
 import { useParams, useLocation, useHistory } from 'react-router-dom'
-import { Tooltip } from 'antd'
 import Loading from '../../components/Loading'
 import AddressHashCard from '../../components/Card/HashCard'
 import Error from '../../components/Error'
@@ -11,7 +10,7 @@ import { PageActions, AppActions } from '../../contexts/actions'
 import { getAddressInformation, getTransactionsByAddress } from '../../service/app/address'
 import { PageParams, LOADING_WAITING_TIME } from '../../constants/common'
 import i18n from '../../utils/i18n'
-import { parsePageNumber, adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
+import { parsePageNumber } from '../../utils/string'
 import { AddressContentPanel, AddressLockScriptController, AddressTitleOverviewPanel } from './styled'
 import { AddressTransactions, AddressAssetComp } from './AddressComp'
 import { useTimeoutWithUnmount } from '../../utils/hook'
@@ -22,34 +21,16 @@ import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import { isMainnet } from '../../utils/chain'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
-import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { parseSimpleDateNoSecond } from '../../utils/date'
 import Script from '../../components/Script'
+import AddressText from '../../components/AddressText'
+import styles from './styles.module.scss'
 
 const lockScriptIcon = (show: boolean) => {
   if (show) {
     return isMainnet() ? ArrowUpIcon : ArrowUpBlueIcon
   }
   return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
-}
-
-const addressContent = (address: string) => {
-  if (!address) {
-    return i18n.t('address.unable_decode_address')
-  }
-  if (isMobile()) {
-    return adaptMobileEllipsis(address, 10)
-  }
-  const addressHash = adaptPCEllipsis(address, 13, 50)
-  if (addressHash.includes('...')) {
-    return (
-      <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
-        <span>{addressHash}</span>
-      </Tooltip>
-    )
-  }
-  return addressHash
 }
 
 const getAddressInfo = (addressState: State.AddressState) => {
@@ -68,10 +49,18 @@ const getAddressInfo = (addressState: State.AddressState) => {
   ]
 
   if (type === 'LockHash') {
-    items.push({
-      title: i18n.t('address.address'),
-      content: addressContent(addressHash),
-    })
+    if (!addressHash) {
+      items.push({
+        title: i18n.t('address.address'),
+        content: i18n.t('address.unable_decode_address'),
+      })
+    } else {
+      items.push({
+        title: i18n.t('address.address'),
+        contentWrapperClass: styles.addressWidthModify,
+        content: <AddressText>{addressHash}</AddressText>,
+      })
+    }
   }
   if (lockInfo && lockInfo.epochNumber !== '0' && lockInfo.estimatedUnlockTime !== '0') {
     const estimate = Number(lockInfo.estimatedUnlockTime) > new Date().getTime() ? i18n.t('address.estimated') : ''

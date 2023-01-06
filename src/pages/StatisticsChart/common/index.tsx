@@ -131,5 +131,4 @@ const tooltipWidth = (value: string, width: number) =>
 
 export type SeriesItem = { seriesName: string; name: string; color: string; dataIndex: number }
 
-// eslint-disable-next-line object-curly-newline
 export { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth }

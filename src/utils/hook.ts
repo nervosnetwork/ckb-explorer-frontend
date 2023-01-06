@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useMemo } from 'react'
+import { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import {
   AddressPrefix,
   addressToScript,
@@ -53,6 +53,32 @@ export const useTimeoutWithUnmount = (callback: () => void, clearCallback: () =>
       savedClearCallback.current()
     }
   }, [delay])
+}
+
+export function useBoolean(initialState: boolean): [
+  boolean,
+  {
+    on: () => void
+    off: () => void
+    toggle: (newState?: boolean) => void
+  },
+] {
+  const [state, setState] = useState(initialState)
+
+  const on = useCallback(() => setState(true), [])
+  const off = useCallback(() => setState(false), [])
+  const toggle = useCallback(newState => {
+    setState(oldState => (newState != null ? newState : !oldState))
+  }, [])
+
+  return [
+    state,
+    {
+      on,
+      off,
+      toggle,
+    },
+  ]
 }
 
 export const useAddrFormatToggle = () => {

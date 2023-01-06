@@ -6,9 +6,9 @@ import { DELAY_BLOCK_NUMBER } from '../../../constants/common'
 import DecimalCapacity from '../../../components/DecimalCapacity'
 import { shannonToCkbDecimal, deprecatedAddrToNewAddr } from '../../../utils/util'
 import { TableMinerContentItem } from '../../../components/Table'
-import { adaptPCEllipsis, adaptMobileEllipsis } from '../../../utils/string'
-import { isMobile, isScreenSmallerThan1440 } from '../../../utils/screen'
 import { BlockRewardPlusPanel, BlockRewardPanel, BlockCardPanel, TransactionCardPanel } from './styled'
+import AddressText from '../../../components/AddressText'
+import styles from './index.module.scss'
 
 export const BlockCardItem = ({ block, index }: { block: State.Block; index: number }) => {
   const liveCellChanges = Number(block.liveCellChanges)
@@ -47,12 +47,7 @@ export const BlockCardItem = ({ block, index }: { block: State.Block; index: num
       <div className="block__card__miner">
         <div>
           <span className="block__card__miner__hash">{i18n.t('home.miner')}</span>
-          <TableMinerContentItem
-            width="10%"
-            content={deprecatedAddrToNewAddr(block.minerHash)}
-            smallWidth
-            fontSize="14px"
-          />
+          <TableMinerContentItem content={deprecatedAddrToNewAddr(block.minerHash)} fontSize="14px" />
         </div>
         <div className="block__card__reward">
           <span>{`${i18n.t('home.reward')}`}</span>
@@ -81,16 +76,19 @@ export const TransactionCardItem = ({
   let confirmation = tipBlockNumber - Number(transaction.blockNumber)
   confirmation = confirmation < 0 ? 0 : confirmation
   const confirmationUnit = confirmation > 1 ? i18n.t('address.confirmations') : i18n.t('address.confirmation')
-  let transactionHash = isScreenSmallerThan1440()
-    ? adaptPCEllipsis(transaction.transactionHash, 1, 80)
-    : adaptPCEllipsis(transaction.transactionHash, 3, 80)
-  if (isMobile()) {
-    transactionHash = adaptMobileEllipsis(transaction.transactionHash, 12)
-  }
+
   return (
     <TransactionCardPanel>
       <div className="transaction__card__hash">
-        <HighLightLink value={transactionHash} to={`/transaction/${transaction.transactionHash}`} />
+        <AddressText
+          disableTooltip
+          linkProps={{
+            className: styles.transactionAddress,
+            to: `/transaction/${transaction.transactionHash}`,
+          }}
+        >
+          {transaction.transactionHash}
+        </AddressText>
         <span className="transaction__card__confirmation">{`${confirmation} ${confirmationUnit}`}</span>
       </div>
 

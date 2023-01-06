@@ -1,15 +1,11 @@
-import { Tooltip } from 'antd'
-import { addressToScript, scriptToAddress } from '@nervosnetwork/ckb-sdk-utils'
 import { useAppState } from '../../../contexts/providers'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkb } from '../../../utils/util'
 import i18n from '../../../utils/i18n'
 import { isMobile } from '../../../utils/screen'
 import DecimalCapacity from '../../../components/DecimalCapacity'
-import { adaptPCEllipsis, handleBigNumber, adaptMobileEllipsis } from '../../../utils/string'
-import CopyTooltipText from '../../../components/Text/CopyTooltipText'
+import { handleBigNumber } from '../../../utils/string'
 import {
-  AddressPanel,
   DepositorRankCardPanel,
   DepositorRankPanel,
   DepositorRankTitle,
@@ -17,30 +13,19 @@ import {
   DepositorRankItem,
 } from './styled'
 import ItemCard from '../../../components/Card/ItemCard'
+import AddressText from '../../../components/AddressText'
+import styles from './index.module.scss'
 
-const tryReformAddr = (address: string) => {
-  try {
-    return scriptToAddress(addressToScript(address), address.startsWith('ckb'))
-  } catch {
-    return address
-  }
-}
-
-const AddressText = ({ address }: { address: string }) => {
-  const addressText = adaptPCEllipsis(tryReformAddr(address), 10, 40)
-  if (addressText.includes('...')) {
-    return (
-      <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
-        <AddressPanel to={`/address/${address}`} className="monospace">
-          {addressText}
-        </AddressPanel>
-      </Tooltip>
-    )
-  }
+const AddressTextCol = ({ address }: { address: string }) => {
   return (
-    <AddressPanel to={`/address/${address}`} className="monospace">
-      {addressText}
-    </AddressPanel>
+    <AddressText
+      linkProps={{
+        className: styles.addressTextCol,
+        to: `/address/${address}`,
+      }}
+    >
+      {address}
+    </AddressText>
   )
 }
 
@@ -53,7 +38,7 @@ const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
     },
     {
       title: i18n.t('nervos_dao.dao_title_address'),
-      content: <AddressText address={depositor.addressHash} />,
+      content: <AddressTextCol address={depositor.addressHash} />,
     },
     {
       title: i18n.t('nervos_dao.dao_title_deposit_capacity'),
@@ -73,14 +58,9 @@ export default () => {
 
   return isMobile() ? (
     <DepositorRankCardPanel>
-      {depositors
-        .map(depositor => ({
-          ...depositor,
-          addressHash: adaptMobileEllipsis(depositor.addressHash, 8),
-        }))
-        .map((depositor: State.NervosDaoDepositor, index: number) => (
-          <ItemCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index)} />
-        ))}
+      {depositors.map((depositor: State.NervosDaoDepositor, index: number) => (
+        <ItemCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index)} />
+      ))}
     </DepositorRankCardPanel>
   ) : (
     <DepositorRankPanel>
@@ -94,7 +74,7 @@ export default () => {
       {depositors.map((depositor: State.NervosDaoDepositor, index: number) => (
         <DepositorRankItem key={depositor.addressHash}>
           <div>{index + 1}</div>
-          <AddressText address={depositor.addressHash} />
+          <AddressTextCol address={depositor.addressHash} />
           <div>
             <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />
           </div>
