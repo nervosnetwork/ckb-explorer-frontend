@@ -1,0 +1,36 @@
+.addressTextWithAlias {
+  display: flex;
+  align-items: center;
+
+  .icon {
+    flex-shrink: 0;
+    margin-right: 4px;
+  }
+
+  .text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .link {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.addressWidthModify {
+  min-width: 0;
+  width: 260px;
+
+  @media (max-width: 1440px) {
+    width: 148px;
+  }
+
+  @media (max-width: 1200px) {
+    width: 260px;
+  }
+
+  @media (max-width: 750px) {
+    width: 460px;
+  }
+}

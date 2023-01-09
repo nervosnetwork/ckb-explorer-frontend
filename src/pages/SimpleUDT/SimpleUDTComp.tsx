@@ -9,45 +9,27 @@ import i18n from '../../utils/i18n'
 import { SimpleUDTTransactionsPagination, SimpleUDTTransactionsPanel, UDTNoResultPanel } from './styled'
 import { parseUDTAmount } from '../../utils/number'
 import { ComponentActions } from '../../contexts/actions'
-import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
-import { adaptMobileEllipsis, adaptPCEllipsis } from '../../utils/string'
-import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { ReactComponent as OpenInNew } from '../../assets/open_in_new.svg'
 import { deprecatedAddrToNewAddr } from '../../utils/util'
 import styles from './styles.module.scss'
+import AddressText from '../../components/AddressText'
 
 const addressContent = (address: string) => {
   if (!address) {
     return i18n.t('address.unable_decode_address')
   }
   const newAddress = deprecatedAddrToNewAddr(address)
-  const addressHash = isMobile()
-    ? adaptMobileEllipsis(newAddress, 8)
-    : adaptPCEllipsis(newAddress, isScreenSmallerThan1200() ? 12 : 8, 50)
 
-  if (addressHash.includes('...')) {
-    return (
-      <>
-        <Tooltip placement="top" title={<CopyTooltipText content={newAddress} />}>
-          <Link to={`/address/${newAddress}`} className="monospace">
-            {addressHash}
-          </Link>
-        </Tooltip>
-        {newAddress !== address && (
-          <Tooltip placement="top" title={i18n.t(`udt.view-deprecated-address`)}>
-            <Link to={`/address/${address}`} className={styles.openInNew} target="_blank">
-              <OpenInNew />
-            </Link>
-          </Tooltip>
-        )}
-      </>
-    )
-  }
   return (
     <>
-      <Link to={`/address/${newAddress}`} className="monospace">
-        {addressHash}
-      </Link>
+      <AddressText
+        linkProps={{
+          to: `/address/${newAddress}`,
+        }}
+      >
+        {newAddress}
+      </AddressText>
+
       {newAddress !== address && (
         <Tooltip placement="top" title={i18n.t(`udt.view-deprecated-address`)}>
           <Link to={`/address/${address}`} className={styles.openInNew} target="_blank">
@@ -68,6 +50,7 @@ const simpleUDTInfo = (udt: State.UDT) => {
     },
     {
       title: i18n.t('udt.issuer'),
+      contentWrapperClass: styles.addressWidthModify,
       content: addressContent(issuerAddress),
     },
     {

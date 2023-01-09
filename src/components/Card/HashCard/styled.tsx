@@ -52,8 +52,11 @@ export const HashCardPanel = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
+    flex: 1;
+    min-width: 0;
   }
   #hash__text {
+    min-width: 0;
     margin-left: 20px;
     font-size: 18px;
     color: #000000;

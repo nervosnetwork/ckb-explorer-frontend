@@ -1,12 +1,12 @@
-import { ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Popover, Tooltip } from 'antd'
+import classNames from 'classnames'
 import NervosDAOCellIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import UDTTokenIcon from '../../../assets/udt_token.png'
 import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
-import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import {
   TransactionCellPanel,
@@ -16,24 +16,19 @@ import {
   TransactionCellWithdraw,
   TransactionCellUDTPanel,
 } from './styled'
-import { isMobile, isScreenSmallerThan1440, isScreenSmallerThan1200 } from '../../../utils/screen'
+import { isMobile } from '../../../utils/screen'
 import { CellType } from '../../../constants/common'
 import TransactionCellArrow from '../../Transaction/TransactionCellArrow'
 import DecimalCapacity from '../../DecimalCapacity'
-import CopyTooltipText from '../../Text/CopyTooltipText'
 import { useAppState } from '../../../contexts/providers'
 import { parseDiffDate } from '../../../utils/date'
 import Cellbase from '../../Transaction/Cellbase'
-
-const handleAddressText = (address: string) => {
-  if (isMobile()) {
-    return adaptMobileEllipsis(address, 10)
-  }
-  if (!isScreenSmallerThan1200() && isScreenSmallerThan1440()) {
-    return adaptPCEllipsis(address, 1, 100)
-  }
-  return adaptPCEllipsis(address, 7, 100)
-}
+import styles from './index.module.scss'
+import { useDASAccount } from '../../../contexts/providers/dasQuery'
+import { ReactComponent as BitAccountIcon } from '../../../assets/bit_account.svg'
+import { useBoolean } from '../../../utils/hook'
+import CopyTooltipText from '../../Text/CopyTooltipText'
+import EllipsisMiddle from '../../EllipsisMiddle'
 
 const isDaoDepositCell = (cellType: State.CellTypes) => cellType === 'nervos_dao_deposit'
 
@@ -41,26 +36,38 @@ const isDaoWithdrawCell = (cellType: State.CellTypes) => cellType === 'nervos_da
 
 const isDaoCell = (cellType: State.CellTypes) => isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
 
-const AddressLink = ({ cell, address, highLight }: { cell: State.Cell; address: string; highLight: boolean }) => {
-  if (address.includes('...')) {
-    return (
-      <Tooltip placement="top" title={<CopyTooltipText content={cell.addressHash} />}>
-        {highLight ? (
-          <Link to={`/address/${cell.addressHash}`} className="monospace">
-            {address}
-          </Link>
-        ) : (
-          <span className="monospace">{address}</span>
-        )}
-      </Tooltip>
-    )
-  }
-  return highLight ? (
-    <Link to={`/address/${cell.addressHash}`} className="monospace">
-      {address}
-    </Link>
-  ) : (
-    <span className="monospace">{address}</span>
+const AddressTextWithAlias: FC<{
+  address: string
+  to?: string
+}> = ({ address, to }) => {
+  const alias = useDASAccount(address)
+
+  const [truncated, truncatedCtl] = useBoolean(false)
+
+  const content = (
+    <Tooltip trigger={truncated || alias ? 'hover' : []} placement="top" title={<CopyTooltipText content={address} />}>
+      <EllipsisMiddle className={classNames('monospace', styles.text)} onTruncateStateChange={truncatedCtl.toggle}>
+        {alias ?? address}
+      </EllipsisMiddle>
+    </Tooltip>
+  )
+
+  return (
+    <div className={classNames(styles.addressTextWithAlias, styles.addressWidthModify)}>
+      {alias && (
+        <Tooltip title=".bit Name">
+          <BitAccountIcon className={styles.icon} />
+        </Tooltip>
+      )}
+
+      {to != null ? (
+        <Link className={styles.link} to={to}>
+          {content}
+        </Link>
+      ) : (
+        content
+      )}
+    </div>
   )
 }
 
@@ -225,7 +232,7 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
   let addressText = i18n.t('address.unable_decode_address')
   let highLight = false
   if (cell.addressHash) {
-    addressText = handleAddressText(cell.addressHash)
+    addressText = cell.addressHash
     highLight = cell.addressHash !== address
   }
 
@@ -233,7 +240,7 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
     <TransactionCellPanel highLight={highLight}>
       <div className="transaction__cell_address">
         {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
-        <AddressLink cell={cell} address={addressText} highLight={highLight} />
+        <AddressTextWithAlias address={addressText} to={highLight ? `/address/${cell.addressHash}` : undefined} />
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
       </div>
       <TransactionCellCapacityPanel>

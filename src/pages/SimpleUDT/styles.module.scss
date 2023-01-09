@@ -1,4 +1,4 @@
-.openInNew{
+.openInNew {
   cursor: pointer;
   margin-left: 4px;
 
@@ -7,9 +7,20 @@
     path {
       fill: #999;
     }
-
   }
   @media screen and (max-width: 750px) {
     margin-left: 2px;
+  }
+}
+
+.addressWidthModify {
+  max-width: 80%;
+
+  @media (max-width: 1200px) {
+    max-width: 40%;
+  }
+
+  @media (max-width: 750px) {
+    max-width: 100%;
   }
 }

@@ -1,17 +1,16 @@
 import { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
 import RightArrowIcon from '../../assets/input_arrow_output.png'
 import DownArrowIcon from '../../assets/input_arrow_output_down.png'
 import { parseDate } from '../../utils/date'
 import { localeNumberString } from '../../utils/number'
-import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
-import { adaptPCEllipsis, adaptMobileEllipsis } from '../../utils/string'
+import { isScreenSmallerThan1200 } from '../../utils/screen'
 import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
 import TransactionIncome from './TransactionIncome'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import i18n from '../../utils/i18n'
 import { CellType } from '../../constants/common'
+import AddressText from '../AddressText'
 
 export interface CircleCorner {
   top?: boolean
@@ -34,17 +33,20 @@ const TransactionItem = ({
   titleCard?: ReactNode | null
   circleCorner?: CircleCorner
 }) => {
-  const txHashMobile = adaptMobileEllipsis(transaction.transactionHash, 10)
-  const txHashPC = adaptPCEllipsis(transaction.transactionHash, 17, 28)
-
   return (
     <TransactionPanel id={isBlock && transaction.isCellbase ? 'cellbase' : ''} circleCorner={circleCorner}>
       {titleCard}
       <TransactionHashBlockPanel>
         <div className="transaction_item__content">
-          <Link to={`/transaction/${transaction.transactionHash}`}>
-            <span className="transaction_item__hash monospace">{isMobile() ? txHashMobile : txHashPC}</span>
-          </Link>
+          <AddressText
+            disableTooltip
+            className="transaction_item__hash"
+            linkProps={{
+              to: `/transaction/${transaction.transactionHash}`,
+            }}
+          >
+            {transaction.transactionHash}
+          </AddressText>
           {!isBlock && (
             <div className="transaction_item__block">
               {`(${i18n.t('block.block')} ${localeNumberString(transaction.blockNumber)})  ${parseDate(

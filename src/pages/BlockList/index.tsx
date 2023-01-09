@@ -8,7 +8,7 @@ import Content from '../../components/Content'
 import { TableTitleItem, TableContentItem, TableMinerContentItem } from '../../components/Table'
 import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
-import { parsePageNumber, adaptMobileEllipsis } from '../../utils/string'
+import { parsePageNumber } from '../../utils/string'
 import { ListPageParams, DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
@@ -18,6 +18,7 @@ import { useAppState, useDispatch } from '../../contexts/providers'
 import { getBlocks } from '../../service/app/block'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import ItemCard, { ItemCardData } from '../../components/Card/ItemCard'
+import AddressText from '../../components/AddressText'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
   <HighLightValue>
@@ -101,7 +102,19 @@ const BlockCardItems = (block: State.Block, index: number, page: number) => {
     },
     {
       title: i18n.t('block.miner'),
-      content: <BlockValueItem value={adaptMobileEllipsis(block.minerHash, 12)} to={`/address/${block.minerHash}`} />,
+      content: (
+        <HighLightValue>
+          <AddressText
+            disableTooltip
+            monospace={false}
+            linkProps={{
+              to: `/address/${block.minerHash}`,
+            }}
+          >
+            {block.minerHash}
+          </AddressText>
+        </HighLightValue>
+      ),
     },
     {
       title: i18n.t('home.time'),
@@ -195,7 +208,7 @@ export default () => {
                         return (
                           <Fragment key={key}>
                             {data.content === block.minerHash ? (
-                              <TableMinerContentItem width={data.width} content={data.content} />
+                              <TableMinerContentItem width={data.width} content={data.content} textCenter />
                             ) : (
                               <TableContentItem width={data.width} content={data.content} to={data.to} />
                             )}

@@ -61,6 +61,8 @@ export const BlockCardPanel = styled.div`
   }
 
   .block__card__miner {
+    min-width: 0;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -73,6 +75,7 @@ export const BlockCardPanel = styled.div`
     > div {
       display: flex;
       font-weight: 500;
+      width: 100%;
 
       @media (max-width: 750px) {
         align-items: center;
@@ -82,6 +85,7 @@ export const BlockCardPanel = styled.div`
         font-size: 14px;
         color: #000000;
         margin-right: 10px;
+        white-space: nowrap;
 
         @media (max-width: 750px) {
           font-size: 13px;
@@ -172,6 +176,7 @@ export const TransactionCardPanel = styled.div`
     align-items: flex-start;
     font-size: 14px;
     flex: 1.4;
+    min-width: 0;
     font-weight: 500;
 
     @media (max-width: 750px) {

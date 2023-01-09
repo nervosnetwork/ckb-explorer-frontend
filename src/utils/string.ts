@@ -1,11 +1,33 @@
 import BigNumber from 'bignumber.js'
 import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
+import { assert } from './error'
 
 export const parsePageNumber = (value: any, defaultValue: number) => {
   if (typeof value !== 'string') {
     return defaultValue
   }
   return parseInt(value, 10) || defaultValue
+}
+
+export function createTextMeasurer(element: HTMLElement): CanvasText['measureText'] {
+  const style = window.getComputedStyle(element)
+  const ctx = document.createElement('canvas').getContext('2d')
+  assert(ctx)
+  ctx.font = style.font ? style.font : `${style.fontSize} ${style.fontFamily}`
+  return text => ctx.measureText(text)
+}
+
+export function createTextWidthMeasurer(element: HTMLElement): (text: string) => number {
+  const measureText = createTextMeasurer(element)
+
+  const charLMetrics = measureText('l')
+  const charMMetrics = measureText('m')
+  const isMonospace = charLMetrics.width === charMMetrics.width
+  if (isMonospace) {
+    return text => charLMetrics.width * text.length
+  }
+
+  return text => measureText(text).width
 }
 
 export const startEndEllipsis = (value: string, endLength = 8, startLength = 16) => {
