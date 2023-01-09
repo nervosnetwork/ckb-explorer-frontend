@@ -85,6 +85,7 @@ export const BlockCardPanel = styled.div`
         font-size: 14px;
         color: #000000;
         margin-right: 10px;
+        white-space: nowrap;
 
         @media (max-width: 750px) {
           font-size: 13px;
