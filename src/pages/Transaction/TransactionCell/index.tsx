@@ -4,7 +4,6 @@ import { CellType } from '../../../constants/common'
 import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { parseSimpleDate } from '../../../utils/date'
-import { isMobile } from '../../../utils/screen'
 import { sliceNftName } from '../../../utils/string'
 import { shannonToCkb, shannonToCkbDecimal, parseSince } from '../../../utils/util'
 import {
@@ -35,7 +34,7 @@ import SimpleModal from '../../../components/Modal'
 import SimpleButton from '../../../components/SimpleButton'
 import TransactionReward from '../TransactionReward'
 import Cellbase from '../../../components/Transaction/Cellbase'
-import { useDeprecatedAddr, useNewAddr } from '../../../utils/hook'
+import { useDeprecatedAddr, useIsMobile, useNewAddr } from '../../../utils/hook'
 import styles from './styles.module.scss'
 import AddressText from '../../../components/AddressText'
 
@@ -276,7 +275,8 @@ export default ({
   txStatus: string
   isAddrNew: boolean
 }) => {
-  if (isMobile()) {
+  const isMobile = useIsMobile()
+  if (isMobile) {
     return (
       <TransactionCellCardPanel>
         <div className="transaction__cell__card__separate" />

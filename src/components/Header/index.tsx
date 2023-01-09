@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router'
 import LogoIcon from '../../assets/ckb_logo.png'
 import { HeaderPanel, HeaderEmptyPanel, HeaderMobileMenuPanel, HeaderLogoPanel } from './styled'
-import { isMobile, isScreen750to1440 } from '../../utils/screen'
+import { isScreen750to1440 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
 import { ComponentActions } from '../../contexts/actions'
 import MenusComp from './MenusComp'
@@ -10,6 +10,7 @@ import { SearchComp } from './SearchComp'
 import LanguageComp from './LanguageComp'
 import BlockchainComp from './BlockchainComp'
 import { currentLanguage } from '../../utils/i18n'
+import { useIsMobile } from '../../utils/hook'
 
 const LogoComp = () => (
   <HeaderLogoPanel to="/">
@@ -43,6 +44,7 @@ const MobileMenuComp = () => {
 }
 
 export default () => {
+  const isMobile = useIsMobile()
   const { pathname } = useLocation()
   const dispatch = useDispatch()
   const {
@@ -61,7 +63,7 @@ export default () => {
   return (
     <HeaderPanel isNotTop={maintenanceAlertVisible} isEn={currentLanguage() === 'en'}>
       <LogoComp />
-      {!isMobile() && (
+      {!isMobile && (
         <>
           {!(isScreen750to1440() && searchBarEditable && headerSearchBarVisible) && <MenusComp />}
           <HeaderEmptyPanel />
@@ -70,7 +72,7 @@ export default () => {
           <LanguageComp />
         </>
       )}
-      {isMobile() && (
+      {isMobile && (
         <>
           <HeaderEmptyPanel />
           <MobileMenuComp />

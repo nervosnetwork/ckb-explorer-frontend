@@ -7,7 +7,7 @@ import Footer from '../components/Footer'
 import Sheet from '../components/Sheet'
 import { useDispatch, useAppState } from '../contexts/providers'
 import { ComponentActions } from '../contexts/actions'
-import { isMobile } from '../utils/screen'
+import { useIsMobile } from '../utils/hook'
 import { isChainTypeError } from '../utils/chain'
 import Alert from '../components/Alert'
 
@@ -334,6 +334,7 @@ const RouterComp = ({ container, routeProps }: { container: CustomRouter.Route; 
 }
 
 export default () => {
+  const isMobile = useIsMobile()
   const dispatch = useDispatch()
   const { components } = useAppState()
   const { mobileMenuVisible } = components
@@ -372,7 +373,7 @@ export default () => {
                 ))}
                 <Redirect from="*" to="/404" />
               </Switch>
-              {!(isMobile() && mobileMenuVisible) && <Footer />}
+              {!(isMobile && mobileMenuVisible) && <Footer />}
             </Suspense>
           </Page>
         )}

@@ -16,7 +16,6 @@ import {
   TransactionCellWithdraw,
   TransactionCellUDTPanel,
 } from './styled'
-import { isMobile } from '../../../utils/screen'
 import { CellType } from '../../../constants/common'
 import TransactionCellArrow from '../../Transaction/TransactionCellArrow'
 import DecimalCapacity from '../../DecimalCapacity'
@@ -26,7 +25,7 @@ import Cellbase from '../../Transaction/Cellbase'
 import styles from './index.module.scss'
 import { useDASAccount } from '../../../contexts/providers/dasQuery'
 import { ReactComponent as BitAccountIcon } from '../../../assets/bit_account.svg'
-import { useBoolean } from '../../../utils/hook'
+import { useBoolean, useIsMobile } from '../../../utils/hook'
 import CopyTooltipText from '../../Text/CopyTooltipText'
 import EllipsisMiddle from '../../EllipsisMiddle'
 
@@ -92,6 +91,7 @@ const WithdrawPopoverItem = ({
 )
 
 const WithdrawPopoverInfo = ({ cell }: { cell: State.Cell }) => {
+  const isMobile = useIsMobile()
   const { app } = useAppState()
   let width = 'short'
   if (app.language === 'en') {
@@ -108,7 +108,7 @@ const WithdrawPopoverInfo = ({ cell }: { cell: State.Cell }) => {
         width={width}
         title={`${i18n.t('nervos_dao.deposit_capacity')}: `}
         content={
-          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} fontSize={isMobile() ? '8px' : ''} />
+          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} fontSize={isMobile ? '8px' : ''} />
         }
       />
       <WithdrawPopoverItem
@@ -117,7 +117,7 @@ const WithdrawPopoverInfo = ({ cell }: { cell: State.Cell }) => {
           isDaoWithdrawCell(cell.cellType) ? 'nervos_dao.compensation' : 'nervos_dao.unissued_compensation',
         )}: `}
         content={
-          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.interest))} fontSize={isMobile() ? '8px' : ''} />
+          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.interest))} fontSize={isMobile ? '8px' : ''} />
         }
       />
       <WithdrawPopoverItem
@@ -170,45 +170,51 @@ const WithdrawPopoverInfo = ({ cell }: { cell: State.Cell }) => {
   )
 }
 
-const TransactionCellNervosDao = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => (
-  <TransactionCellWithdraw>
-    <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
-    {cellType === CellType.Input ? (
-      <Popover placement="right" title="" content={<WithdrawPopoverInfo cell={cell} />} trigger="click">
-        <img src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon} alt="withdraw" />
-      </Popover>
-    ) : (
+const TransactionCellNervosDao = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
+  const isMobile = useIsMobile()
+  return (
+    <TransactionCellWithdraw>
+      <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
+      {cellType === CellType.Input ? (
+        <Popover placement="right" title="" content={<WithdrawPopoverInfo cell={cell} />} trigger="click">
+          <img src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon} alt="withdraw" />
+        </Popover>
+      ) : (
+        <Tooltip
+          placement={isMobile ? 'topRight' : 'top'}
+          title={i18n.t(
+            isDaoDepositCell(cell.cellType) ? 'nervos_dao.deposit_tooltip' : 'nervos_dao.calculation_tooltip',
+          )}
+          arrowPointAtCenter
+          overlayStyle={{
+            fontSize: '14px',
+          }}
+        >
+          <img src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon} alt="withdraw" />
+        </Tooltip>
+      )}
+    </TransactionCellWithdraw>
+  )
+}
+
+const TransactionCellUDT = ({ cell }: { cell: State.Cell }) => {
+  const isMobile = useIsMobile()
+  return (
+    <TransactionCellUDTPanel>
+      <span>{udtAmount(cell.udtInfo)}</span>
       <Tooltip
-        placement={isMobile() ? 'topRight' : 'top'}
-        title={i18n.t(
-          isDaoDepositCell(cell.cellType) ? 'nervos_dao.deposit_tooltip' : 'nervos_dao.calculation_tooltip',
-        )}
+        placement={isMobile ? 'topRight' : 'top'}
+        title={`Capacity: ${localeNumberString(shannonToCkbDecimal(cell.capacity, 8))} CKB`}
         arrowPointAtCenter
         overlayStyle={{
           fontSize: '14px',
         }}
       >
-        <img src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon} alt="withdraw" />
+        <img src={UDTTokenIcon} className="transaction__cell__udt__icon" alt="udt token" />
       </Tooltip>
-    )}
-  </TransactionCellWithdraw>
-)
-
-const TransactionCellUDT = ({ cell }: { cell: State.Cell }) => (
-  <TransactionCellUDTPanel>
-    <span>{udtAmount(cell.udtInfo)}</span>
-    <Tooltip
-      placement={isMobile() ? 'topRight' : 'top'}
-      title={`Capacity: ${localeNumberString(shannonToCkbDecimal(cell.capacity, 8))} CKB`}
-      arrowPointAtCenter
-      overlayStyle={{
-        fontSize: '14px',
-      }}
-    >
-      <img src={UDTTokenIcon} className="transaction__cell__udt__icon" alt="udt token" />
-    </Tooltip>
-  </TransactionCellUDTPanel>
-)
+    </TransactionCellUDTPanel>
+  )
+}
 
 const TransactionCellCapacity = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
   if (isDaoCell(cell.cellType)) {

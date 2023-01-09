@@ -2,7 +2,6 @@ import { useAppState } from '../../../contexts/providers'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkb } from '../../../utils/util'
 import i18n from '../../../utils/i18n'
-import { isMobile } from '../../../utils/screen'
 import DecimalCapacity from '../../../components/DecimalCapacity'
 import { handleBigNumber } from '../../../utils/string'
 import {
@@ -15,6 +14,7 @@ import {
 import ItemCard from '../../../components/Card/ItemCard'
 import AddressText from '../../../components/AddressText'
 import styles from './index.module.scss'
+import { useIsMobile } from '../../../utils/hook'
 
 const AddressTextCol = ({ address }: { address: string }) => {
   return (
@@ -56,7 +56,7 @@ export default () => {
     nervosDaoState: { depositors = [] },
   } = useAppState()
 
-  return isMobile() ? (
+  return useIsMobile() ? (
     <DepositorRankCardPanel>
       {depositors.map((depositor: State.NervosDaoDepositor, index: number) => (
         <ItemCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index)} />

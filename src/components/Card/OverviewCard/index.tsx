@@ -2,8 +2,9 @@ import { isValidElement, ReactNode } from 'react'
 import { Tooltip } from 'antd'
 import classNames from 'classnames'
 import { OverviewCardPanel, OverviewContentPanel, OverviewItemPanel } from './styled'
-import { isMobile, isScreenSmallerThan1200 } from '../../../utils/screen'
+import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import HelpIcon from '../../../assets/qa_help.png'
+import { useIsMobile } from '../../../utils/hook'
 
 export interface OverviewItemData {
   title: ReactNode
@@ -16,9 +17,9 @@ export interface OverviewItemData {
   valueTooltip?: string
 }
 
-const handleOverviewItems = (items: OverviewItemData[]) => ({
-  leftItems: isMobile() ? items : items.filter((_item: any, index: number) => index % 2 === 0),
-  rightItems: isMobile() ? [] : items.filter((_item: any, index: number) => index % 2 !== 0),
+const handleOverviewItems = (items: OverviewItemData[], isMobile: boolean) => ({
+  leftItems: isMobile ? items : items.filter((_item: any, index: number) => index % 2 === 0),
+  rightItems: isMobile ? [] : items.filter((_item: any, index: number) => index % 2 !== 0),
 })
 
 export const OverviewItem = ({ item, hideLine }: { item: OverviewItemData; hideLine: boolean }) => (
@@ -60,8 +61,9 @@ export default ({
   titleCard?: ReactNode
   hideShadow?: boolean
 }) => {
+  const isMobile = useIsMobile()
   /* eslint-disable react/no-array-index-key */
-  const { leftItems, rightItems } = handleOverviewItems(items)
+  const { leftItems, rightItems } = handleOverviewItems(items, isMobile)
   return (
     <OverviewCardPanel hideShadow={hideShadow}>
       {titleCard}

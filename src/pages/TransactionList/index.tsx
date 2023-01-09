@@ -7,7 +7,6 @@ import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
 import { TableTitleItem, TableContentItem } from '../../components/Table'
 import { shannonToCkb } from '../../utils/util'
 import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
 import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
 import { useDispatch, useAppState } from '../../contexts/providers'
@@ -16,7 +15,7 @@ import { getTransactions } from '../../service/app/transaction'
 import ItemCard, { ItemCardData } from '../../components/Card/ItemCard'
 import { TransactionCapacityPanel, TransactionListPanel, ContentTable, HighLightValue } from './styled'
 import AddressText from '../../components/AddressText'
-import { usePaginationParamsInListPage } from '../../utils/hook'
+import { useIsMobile, usePaginationParamsInListPage } from '../../utils/hook'
 
 interface TableTitleData {
   title: string
@@ -152,7 +151,7 @@ export default () => {
     <Content>
       <TransactionListPanel className="container">
         <div className="transaction__green__background" />
-        {isMobile() ? (
+        {useIsMobile() ? (
           <ContentTable>
             <div className="transaction__panel">
               {transactions.map((transaction: State.Transaction) => (

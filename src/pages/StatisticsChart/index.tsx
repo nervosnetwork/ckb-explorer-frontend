@@ -63,7 +63,7 @@ import { SecondaryIssuanceChart } from './monetary/SecondaryIssuance'
 import { InflationRateChart } from './monetary/InflationRate'
 import { LiquidityChart } from './monetary/Liquidity'
 import { MinerAddressDistributionChart } from './mining/MinerAddressDistribution'
-import { isMobile } from '../../utils/screen'
+import { useIsMobile } from '../../utils/hook'
 
 interface ChartData {
   title: string
@@ -88,15 +88,18 @@ const ChartTitle = ({ chartData }: { chartData: ChartData }) => (
   </div>
 )
 
-const ChartCard = ({ chartData }: { chartData: ChartData }) => (
-  <ChartCardPanel>
-    {isMobile() && <ChartTitle chartData={chartData} />}
-    <Link to={chartData.path}>
-      {!isMobile() && <ChartTitle chartData={chartData} />}
-      <div className="chart__card_body">{chartData.chart}</div>
-    </Link>
-  </ChartCardPanel>
-)
+const ChartCard = ({ chartData }: { chartData: ChartData }) => {
+  const isMobile = useIsMobile()
+  return (
+    <ChartCardPanel>
+      {isMobile && <ChartTitle chartData={chartData} />}
+      <Link to={chartData.path}>
+        {!isMobile && <ChartTitle chartData={chartData} />}
+        <div className="chart__card_body">{chartData.chart}</div>
+      </Link>
+    </ChartCardPanel>
+  )
+}
 
 const NullEvent = () => {}
 

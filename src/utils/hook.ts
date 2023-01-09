@@ -13,6 +13,7 @@ import { AppCachedKeys } from '../constants/cache'
 import { deprecatedAddrToNewAddr } from './util'
 import { parsePageNumber } from './string'
 import { ListPageParams, PageParams } from '../constants/common'
+import { MOBILE_DEVICE_MAX_WIDTH } from './screen'
 
 export const useInterval = (callback: () => void, delay: number, deps: any[] = []) => {
   const savedCallback = useRef(() => {})
@@ -181,6 +182,48 @@ export const usePaginationParamsInListPage = () =>
     defaultPageSize: ListPageParams.PageSize,
     maxPageSize: ListPageParams.MaxPageSize,
   })
+
+/**
+ * copied from https://usehooks-ts.com/react-hook/use-media-query
+ */
+export function useMediaQuery(query: string): boolean {
+  const getMatches = (query: string): boolean => {
+    // Prevents SSR issues
+    if (typeof window !== 'undefined') {
+      return window.matchMedia(query).matches
+    }
+    return false
+  }
+
+  const [matches, setMatches] = useState<boolean>(getMatches(query))
+
+  useEffect(() => {
+    const matchMedia = window.matchMedia(query)
+    const handleChange = () => setMatches(getMatches(query))
+
+    // Triggered at the first client-side load and if query changes
+    handleChange()
+
+    // Listen matchMedia
+    if (matchMedia.addListener) {
+      matchMedia.addListener(handleChange)
+    } else {
+      matchMedia.addEventListener('change', handleChange)
+    }
+
+    return () => {
+      if (matchMedia.removeListener) {
+        matchMedia.removeListener(handleChange)
+      } else {
+        matchMedia.removeEventListener('change', handleChange)
+      }
+    }
+  }, [query])
+
+  return matches
+}
+
+export const useIsMobile = () => useMediaQuery(`(max-width: ${MOBILE_DEVICE_MAX_WIDTH}px)`)
 
 export const useAddrFormatToggle = () => {
   const [isNew, setIsNew] = useState(localStorage.getItem(AppCachedKeys.NewAddrFormat) !== 'false')

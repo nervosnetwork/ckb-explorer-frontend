@@ -22,12 +22,11 @@ import getTokens from '../../service/app/tokens'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
-import { isMobile } from '../../utils/screen'
 import { udtSubmitEmail } from '../../utils/util'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { PageParams } from '../../constants/common'
 import styles from './styles.module.scss'
-import { usePaginationParamsInPage } from '../../utils/hook'
+import { useIsMobile, usePaginationParamsInPage } from '../../utils/hook'
 
 const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) => {
   const { displayName, fullName, uan } = token
@@ -35,8 +34,9 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
   const name = displayName || fullName
   const symbol = uan || token.symbol || `#${token.typeHash.substring(token.typeHash.length - 4)}`
   const defaultName = i18n.t('udt.unknown_token')
+  const isMobile = useIsMobile()
 
-  const transactions = isMobile() ? (
+  const transactions = isMobile ? (
     <TokensTitlePanel>
       <span>{`${i18n.t('udt.transactions')}:`}</span>
       <span>{localeNumberString(token.h24CkbTransactionsCount)}</span>
@@ -44,7 +44,7 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
   ) : (
     localeNumberString(token.h24CkbTransactionsCount)
   )
-  const addressCount = isMobile() ? (
+  const addressCount = isMobile ? (
     <TokensTitlePanel>
       <span>{`${i18n.t('udt.address_count')}:`}</span>
       <span>{localeNumberString(token.addressesCount)}</span>
@@ -77,12 +77,12 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
                 </Tooltip>
               )}
             </TokensItemNamePanel>
-            {token.description && !isMobile() && <div className="tokens__item__description">{token.description}</div>}
+            {token.description && !isMobile && <div className="tokens__item__description">{token.description}</div>}
           </div>
         </div>
         <div className="tokens__item__transactions">{transactions}</div>
         <div className="tokens__item__address__count">{addressCount}</div>
-        {!isMobile() && (
+        {!isMobile && (
           <div className="tokens__item__created__time">
             {parseDateNoTime(Number(token.createdAt) / 1000, false, '-')}
           </div>
@@ -94,6 +94,7 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
 }
 
 const TokensTableState = () => {
+  const isMobile = useIsMobile()
   const {
     tokensState: { tokens, status },
   } = useAppState()
@@ -112,11 +113,12 @@ const TokensTableState = () => {
     case 'InProgress':
     case 'None':
     default:
-      return <TokensLoadingPanel>{isMobile() ? <SmallLoading /> : <Loading show />}</TokensLoadingPanel>
+      return <TokensLoadingPanel>{isMobile ? <SmallLoading /> : <Loading show />}</TokensLoadingPanel>
   }
 }
 
 export default () => {
+  const isMobile = useIsMobile()
   const dispatch = useDispatch()
   const history = useHistory()
   const { currentPage, pageSize, setPage } = usePaginationParamsInPage()
@@ -143,7 +145,7 @@ export default () => {
             {i18n.t('udt.submit_token_info')}
           </a>
         </div>
-        {!isMobile() && (
+        {!isMobile && (
           <TokensTableTitle>
             <span>{i18n.t('udt.uan_name')}</span>
             <span>{i18n.t('udt.transactions')}</span>

@@ -9,7 +9,6 @@ import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
 import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
 import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
 import { useAppState, useDispatch } from '../../contexts/providers'
@@ -17,7 +16,7 @@ import { getBlocks } from '../../service/app/block'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import ItemCard, { ItemCardData } from '../../components/Card/ItemCard'
 import AddressText from '../../components/AddressText'
-import { usePaginationParamsInListPage } from '../../utils/hook'
+import { useIsMobile, usePaginationParamsInListPage } from '../../utils/hook'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
   <HighLightValue>
@@ -123,6 +122,7 @@ const BlockCardItems = (block: State.Block, index: number, page: number) => {
 }
 
 export default () => {
+  const isMobile = useIsMobile()
   const dispatch = useDispatch()
 
   const [t] = useTranslation()
@@ -172,7 +172,7 @@ export default () => {
     <Content>
       <BlockListPanel className="container">
         <div className="block__green__background" />
-        {isMobile() ? (
+        {isMobile ? (
           <ContentTable>
             <div>
               {blockList.map((block: State.Block, index: number) => (

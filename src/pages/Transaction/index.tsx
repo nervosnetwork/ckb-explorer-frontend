@@ -11,9 +11,8 @@ import TransactionComp, { TransactionOverview } from './TransactionComp'
 import { useDispatch, useAppState } from '../../contexts/providers'
 import Loading from '../../components/Loading'
 import Error from '../../components/Error'
-import { useTimeoutWithUnmount } from '../../utils/hook'
+import { useIsMobile, useTimeoutWithUnmount } from '../../utils/hook'
 import { LOADING_WAITING_TIME, PAGE_CELL_COUNT } from '../../constants/common'
-import { isMobile } from '../../utils/screen'
 
 const TransactionStateComp = () => {
   const { transactionState, app } = useAppState()
@@ -29,7 +28,7 @@ const TransactionStateComp = () => {
   }
 }
 
-const anchorAction = (hash: string, txHash: string, count: number) => {
+const anchorAction = (hash: string, txHash: string, count: number, isMobile: boolean) => {
   let anchor = hash
   if (anchor) {
     anchor = anchor.replace('#', '')
@@ -43,7 +42,7 @@ const anchorAction = (hash: string, txHash: string, count: number) => {
         if (index === outputIndex) {
           anchorElement.style.cssText += 'background: #f5f5f5'
           anchorElement.scrollIntoView()
-          window.scrollBy(0, isMobile() ? -48 : -66)
+          window.scrollBy(0, isMobile ? -48 : -66)
         } else {
           anchorElement.style.cssText += 'background: #00000000'
         }
@@ -53,6 +52,7 @@ const anchorAction = (hash: string, txHash: string, count: number) => {
 }
 
 export default () => {
+  const isMobile = useIsMobile()
   const dispatch = useDispatch()
   const { pathname, hash } = useLocation()
   const pathRef = useRef(pathname)
@@ -78,9 +78,9 @@ export default () => {
 
   useEffect(() => {
     if (status === 'OK' && displayOutputs.length > 0) {
-      anchorAction(hash, txHash, displayOutputs.length)
+      anchorAction(hash, txHash, displayOutputs.length, isMobile)
     }
-  }, [hash, status, displayOutputs, txHash])
+  }, [hash, status, displayOutputs, txHash, isMobile])
 
   useTimeoutWithUnmount(
     () => {
