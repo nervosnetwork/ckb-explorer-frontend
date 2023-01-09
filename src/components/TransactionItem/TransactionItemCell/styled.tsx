@@ -24,6 +24,7 @@ export const TransactionCellPanel = styled.div`
 
     font-weight: 500;
     min-width: 0;
+    width: 100%;
     height: 20px;
     display: flex;
     align-items: center;
