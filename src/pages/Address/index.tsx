@@ -1,6 +1,5 @@
-import queryString from 'query-string'
 import { useEffect, useState } from 'react'
-import { useParams, useLocation, useHistory } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Loading from '../../components/Loading'
 import AddressHashCard from '../../components/Card/HashCard'
 import Error from '../../components/Error'
@@ -8,12 +7,11 @@ import Content from '../../components/Content'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
 import { PageActions, AppActions } from '../../contexts/actions'
 import { getAddressInformation, getTransactionsByAddress } from '../../service/app/address'
-import { PageParams, LOADING_WAITING_TIME } from '../../constants/common'
+import { LOADING_WAITING_TIME } from '../../constants/common'
 import i18n from '../../utils/i18n'
-import { parsePageNumber } from '../../utils/string'
 import { AddressContentPanel, AddressLockScriptController, AddressTitleOverviewPanel } from './styled'
 import { AddressTransactions, AddressAssetComp } from './AddressComp'
-import { useTimeoutWithUnmount } from '../../utils/hook'
+import { usePaginationParamsInPage, useTimeoutWithUnmount } from '../../utils/hook'
 import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
@@ -132,28 +130,21 @@ const AddressStateTransactions = ({
 
 export const Address = () => {
   const dispatch = useDispatch()
-  const history = useHistory()
-  const { search } = useLocation()
   const { address } = useParams<{ address: string }>()
-  const parsed = queryString.parse(search)
   const {
     addressState,
     addressState: { addressStatus, transactionsStatus },
   } = useAppState()
 
-  const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
-  const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
+  const { currentPage, pageSize } = usePaginationParamsInPage()
 
   useEffect(() => {
     getAddressInformation(address, dispatch)
   }, [address, dispatch])
 
   useEffect(() => {
-    if (pageSize > PageParams.MaxPageSize) {
-      history.replace(`/address/${address}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
-    }
     getTransactionsByAddress(address, currentPage, pageSize, dispatch)
-  }, [address, currentPage, pageSize, dispatch, history])
+  }, [address, currentPage, pageSize, dispatch])
 
   useTimeoutWithUnmount(
     () => {

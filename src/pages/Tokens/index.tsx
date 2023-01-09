@@ -1,7 +1,6 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import { Tooltip } from 'antd'
-import { Link, useHistory, useLocation } from 'react-router-dom'
-import queryString from 'query-string'
+import { Link, useHistory } from 'react-router-dom'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
 import {
@@ -27,8 +26,8 @@ import { isMobile } from '../../utils/screen'
 import { udtSubmitEmail } from '../../utils/util'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { PageParams } from '../../constants/common'
-import { parsePageNumber } from '../../utils/string'
 import styles from './styles.module.scss'
+import { usePaginationParamsInPage } from '../../utils/hook'
 
 const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) => {
   const { displayName, fullName, uan } = token
@@ -119,24 +118,14 @@ const TokensTableState = () => {
 
 export default () => {
   const dispatch = useDispatch()
-  const { search } = useLocation()
   const history = useHistory()
-  const parsed = queryString.parse(search)
-  const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
-  const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
+  const { currentPage, pageSize, setPage } = usePaginationParamsInPage()
 
   const {
     tokensState: { total },
   } = useAppState()
 
   const totalPages = Math.ceil(total / pageSize)
-
-  const onChange = useCallback(
-    (page: number) => {
-      history.replace(`/tokens?page=${page}&size=${pageSize}`)
-    },
-    [history, pageSize],
-  )
 
   useEffect(() => {
     if (pageSize > PageParams.MaxPageSize) {
@@ -165,7 +154,7 @@ export default () => {
         <TokensTableState />
         {totalPages > 1 && (
           <TokensPagination>
-            <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
+            <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
           </TokensPagination>
         )}
       </TokensPanel>

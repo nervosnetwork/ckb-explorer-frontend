@@ -1,6 +1,5 @@
 import { useEffect, Fragment, useMemo } from 'react'
-import { useHistory, useLocation, Link } from 'react-router-dom'
-import queryString from 'query-string'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { parseSimpleDate } from '../../utils/date'
 import { BlockListPanel, ContentTable, HighLightValue, BlockRewardContainer, BlockRewardPanel } from './styled'
@@ -8,8 +7,7 @@ import Content from '../../components/Content'
 import { TableTitleItem, TableContentItem, TableMinerContentItem } from '../../components/Table'
 import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
-import { parsePageNumber } from '../../utils/string'
-import { ListPageParams, DELAY_BLOCK_NUMBER } from '../../constants/common'
+import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import i18n from '../../utils/i18n'
@@ -19,6 +17,7 @@ import { getBlocks } from '../../service/app/block'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import ItemCard, { ItemCardData } from '../../components/Card/ItemCard'
 import AddressText from '../../components/AddressText'
+import { usePaginationParamsInListPage } from '../../utils/hook'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
   <HighLightValue>
@@ -125,8 +124,6 @@ const BlockCardItems = (block: State.Block, index: number, page: number) => {
 
 export default () => {
   const dispatch = useDispatch()
-  const { replace, push } = useHistory()
-  const { search } = useLocation()
 
   const [t] = useTranslation()
   const TableTitles = useMemo(
@@ -155,25 +152,17 @@ export default () => {
     [t],
   )
 
-  const parsed = queryString.parse(search)
   const {
     blockListState: { blocks = [], total },
   } = useAppState()
 
-  const currentPage = parsePageNumber(parsed.page, ListPageParams.PageNo)
-  const pageSize = parsePageNumber(parsed.size, ListPageParams.PageSize)
+  const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
   const totalPages = Math.ceil(total / pageSize)
 
   useEffect(() => {
-    if (pageSize > ListPageParams.MaxPageSize) {
-      replace(`/block/list?page=${currentPage}&size=${ListPageParams.MaxPageSize}`)
-    }
     getBlocks(currentPage, pageSize, dispatch)
-  }, [replace, currentPage, pageSize, dispatch])
+  }, [currentPage, pageSize, dispatch])
 
-  const onChange = (page: number) => {
-    push(`/block/list?page=${page}&size=${pageSize}`)
-  }
   const blockList = blocks.map(b => ({
     ...b,
     minerHash: deprecatedAddrToNewAddr(b.minerHash),
@@ -222,7 +211,7 @@ export default () => {
           </ContentTable>
         )}
         <div className="block_list__pagination">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
         </div>
       </BlockListPanel>
     </Content>

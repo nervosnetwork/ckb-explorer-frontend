@@ -1,19 +1,17 @@
-import queryString from 'query-string'
 import { useEffect } from 'react'
-import { useParams, useHistory, useLocation } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import BlockHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
 import Error from '../../components/Error'
 import { useDispatch, useAppState } from '../../contexts/providers'
 import { PageActions, AppActions } from '../../contexts/actions'
 import { getBlock } from '../../service/app/block'
-import { PageParams, LOADING_WAITING_TIME } from '../../constants/common'
+import { LOADING_WAITING_TIME } from '../../constants/common'
 import i18n from '../../utils/i18n'
-import { parsePageNumber } from '../../utils/string'
 import { BlockDetailPanel } from './styled'
 import { BlockComp, BlockOverview } from './BlockComp'
 import Loading from '../../components/Loading'
-import { useTimeoutWithUnmount } from '../../utils/hook'
+import { usePaginationParamsInPage, useTimeoutWithUnmount } from '../../utils/hook'
 
 const BlockStateComp = ({
   currentPage,
@@ -39,24 +37,17 @@ const BlockStateComp = ({
 
 export default () => {
   const dispatch = useDispatch()
-  const { replace } = useHistory()
-  const { search, hash } = useLocation()
+  const { hash } = useLocation()
   // blockParam: block hash or block number
   const { param: blockParam } = useParams<{ param: string }>()
-  const parsed = queryString.parse(search)
+  const { currentPage, pageSize } = usePaginationParamsInPage()
   const {
     blockState: { status, block },
   } = useAppState()
 
-  const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
-  const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
-
   useEffect(() => {
-    if (pageSize > PageParams.MaxPageSize) {
-      replace(`/block/${blockParam}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
-    }
     getBlock(blockParam, currentPage, pageSize, dispatch)
-  }, [replace, blockParam, currentPage, pageSize, dispatch])
+  }, [blockParam, currentPage, pageSize, dispatch])
 
   useEffect(() => {
     let anchor = hash

@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
-import queryString from 'query-string'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { PageActions, AppActions } from '../../contexts/actions'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import Content from '../../components/Content'
@@ -10,11 +9,10 @@ import { getNervosDao, getNervosDaoTransactions, getNervosDaoDepositors } from '
 import DaoTransactions from './DaoTransactions'
 import Filter from '../../components/Search/Filter'
 import DepositorRank from './DepositorRank'
-import { parsePageNumber } from '../../utils/string'
-import { PageParams, LOADING_WAITING_TIME } from '../../constants/common'
+import { LOADING_WAITING_TIME } from '../../constants/common'
 import Error from '../../components/Error'
 import Loading from '../../components/Loading'
-import { useTimeoutWithUnmount } from '../../utils/hook'
+import { usePaginationParamsInPage, useSearchParams, useTimeoutWithUnmount } from '../../utils/hook'
 import DaoOverview from './DaoOverview'
 import SimpleButton from '../../components/SimpleButton'
 
@@ -46,18 +44,15 @@ const NervosDAOStateComp = ({
 
 export const NervosDao = () => {
   const dispatch = useDispatch()
-  const { search } = useLocation()
   const { push } = useHistory()
-  const parsed = queryString.parse(search)
-
-  const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
-  const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
 
   const {
     nervosDaoState: { status },
   } = useAppState()
 
-  const tab = parsed.tab as 'transactions' | 'depositors'
+  const { currentPage, pageSize } = usePaginationParamsInPage()
+  const params = useSearchParams('tab')
+  const tab = params.tab as 'transactions' | 'depositors'
   const daoTab = tab || 'transactions'
 
   useEffect(() => {

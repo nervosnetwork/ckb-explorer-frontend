@@ -1,6 +1,5 @@
-import queryString from 'query-string'
 import { useEffect, useState } from 'react'
-import { useParams, useLocation, useHistory } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Loading from '../../components/Loading'
 import SimpleUDTHashCard from '../../components/Card/HashCard'
 import Error from '../../components/Error'
@@ -8,12 +7,11 @@ import Content from '../../components/Content'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
 import { PageActions, AppActions } from '../../contexts/actions'
 import { getTipBlockNumber } from '../../service/app/address'
-import { PageParams, LOADING_WAITING_TIME } from '../../constants/common'
+import { LOADING_WAITING_TIME } from '../../constants/common'
 import i18n from '../../utils/i18n'
-import { parsePageNumber } from '../../utils/string'
 import { SimpleUDTContentPanel, UDTTransactionTitlePanel, TypeScriptController } from './styled'
 import SimpleUDTComp, { SimpleUDTOverview } from './SimpleUDTComp'
-import { useTimeoutWithUnmount } from '../../utils/hook'
+import { usePaginationParamsInPage, useTimeoutWithUnmount } from '../../utils/hook'
 import { getSimpleUDT, getSimpleUDTTransactions } from '../../service/app/udt'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import ArrowUpIcon from '../../assets/arrow_up.png'
@@ -70,11 +68,9 @@ const SimpleUDTCompState = ({
 
 export const SimpleUDT = () => {
   const dispatch = useDispatch()
-  const history = useHistory()
   const [showType, setShowType] = useState(false)
-  const { search } = useLocation()
   const { hash: typeHash } = useParams<{ hash: string }>()
-  const parsed = queryString.parse(search)
+  const { currentPage, pageSize } = usePaginationParamsInPage()
   const {
     udtState: {
       total,
@@ -83,20 +79,14 @@ export const SimpleUDT = () => {
     },
   } = useAppState()
 
-  const currentPage = parsePageNumber(parsed.page, PageParams.PageNo)
-  const pageSize = parsePageNumber(parsed.size, PageParams.PageSize)
-
   useEffect(() => {
     getTipBlockNumber(dispatch)
   }, [dispatch])
 
   useEffect(() => {
-    if (pageSize > PageParams.MaxPageSize) {
-      history.replace(`/sudt/${typeHash}?page=${currentPage}&size=${PageParams.MaxPageSize}`)
-    }
     getSimpleUDT(typeHash, dispatch)
     getSimpleUDTTransactions(typeHash, currentPage, pageSize, dispatch)
-  }, [typeHash, currentPage, pageSize, dispatch, history])
+  }, [typeHash, currentPage, pageSize, dispatch])
 
   useTimeoutWithUnmount(
     () => {

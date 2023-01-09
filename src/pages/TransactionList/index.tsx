@@ -1,14 +1,11 @@
 import { useEffect, useMemo } from 'react'
-import { Link, useHistory, useLocation } from 'react-router-dom'
-import queryString from 'query-string'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
 import { TableTitleItem, TableContentItem } from '../../components/Table'
 import { shannonToCkb } from '../../utils/util'
-import { parsePageNumber } from '../../utils/string'
-import { ListPageParams } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
 import i18n from '../../utils/i18n'
@@ -19,6 +16,7 @@ import { getTransactions } from '../../service/app/transaction'
 import ItemCard, { ItemCardData } from '../../components/Card/ItemCard'
 import { TransactionCapacityPanel, TransactionListPanel, ContentTable, HighLightValue } from './styled'
 import AddressText from '../../components/AddressText'
+import { usePaginationParamsInListPage } from '../../utils/hook'
 
 interface TableTitleData {
   title: string
@@ -118,8 +116,6 @@ const TransactionCardItems = (transaction: State.Transaction) => {
 
 export default () => {
   const dispatch = useDispatch()
-  const { replace, push } = useHistory()
-  const { search } = useLocation()
 
   const [t] = useTranslation()
   const TableTitles = useMemo(
@@ -144,24 +140,13 @@ export default () => {
     [t],
   )
 
-  const parsed = queryString.parse(search)
   const { transactionsState } = useAppState()
   const { transactions = [], total } = transactionsState
 
-  const currentPage = parsePageNumber(parsed.page, ListPageParams.PageNo)
-  const pageSize = parsePageNumber(parsed.size, ListPageParams.PageSize)
+  const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
   const totalPages = Math.ceil(total / pageSize)
 
-  useEffect(() => {
-    if (pageSize > ListPageParams.MaxPageSize) {
-      replace(`/transaction/list?page=${currentPage}&size=${ListPageParams.MaxPageSize}`)
-    }
-    getTransactions(currentPage, pageSize, dispatch)
-  }, [replace, currentPage, pageSize, dispatch])
-
-  const onChange = (page: number) => {
-    push(`/transaction/list?page=${page}&size=${pageSize}`)
-  }
+  useEffect(() => getTransactions(currentPage, pageSize, dispatch), [currentPage, pageSize, dispatch])
 
   return (
     <Content>
@@ -196,7 +181,7 @@ export default () => {
           </ContentTable>
         )}
         <div className="transaction_list__pagination">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
         </div>
       </TransactionListPanel>
     </Content>
