@@ -7,6 +7,7 @@ import Toast from './components/Toast'
 import withProviders, { useAppState } from './contexts/providers'
 import useInitApp from './contexts/providers/hook'
 import { isMainnet } from './utils/chain'
+import { DASQueryContextProvider } from './contexts/providers/dasQuery'
 
 const appStyle = {
   width: '100vw',
@@ -31,8 +32,10 @@ const App = withProviders(() => {
     <ThemeProvider theme={theme}>
       <div style={appStyle} data-net={isMainnet() ? 'mainnet' : 'testnet'}>
         <QueryClientProvider client={queryClient}>
-          <Routers />
-          <Toast />
+          <DASQueryContextProvider>
+            <Routers />
+            <Toast />
+          </DASQueryContextProvider>
         </QueryClientProvider>
       </div>
     </ThemeProvider>

@@ -1,3 +1,22 @@
+.addressTextWithAlias {
+  display: flex;
+  align-items: center;
+
+  .icon {
+    flex-shrink: 0;
+    margin-right: 4px;
+  }
+
+  .text {
+    flex: 1;
+  }
+
+  .link {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
 .addressWidthModify {
   width: 260px;
 

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { FC, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import CopyIcon from '../../../assets/copy.png'
@@ -16,6 +16,22 @@ import { ReactComponent as DownloadIcon } from '../../../assets/download_tx.svg'
 import { HashCardPanel, LoadingPanel } from './styled'
 import styles from './styles.module.scss'
 import AddressText from '../../AddressText'
+import { useDASAccount } from '../../../contexts/providers/dasQuery'
+
+const DASInfo: FC<{ address: string }> = ({ address }) => {
+  const alias = useDASAccount(address)
+
+  if (alias == null) return null
+
+  return (
+    <Tooltip placement="top" title={alias}>
+      <a className={styles.dasAccount} href={`https://data.did.id/${alias}`} target="_blank" rel="noreferrer">
+        <img src={`https://display.did.id/identicon/${alias}`} alt={alias} />
+        <span>{alias}</span>
+      </a>
+    </Tooltip>
+  )
+}
 
 export default ({
   title,
@@ -24,6 +40,7 @@ export default ({
   specialAddress = '',
   iconUri,
   children,
+  showDASInfoOnHeader,
 }: {
   title: string
   hash: string
@@ -31,6 +48,7 @@ export default ({
   specialAddress?: string
   iconUri?: string
   children?: ReactNode
+  showDASInfoOnHeader?: boolean
 }) => {
   const dispatch = useDispatch()
 
@@ -74,53 +92,59 @@ export default ({
             <div className="hash__title">{title}</div>
           </>
         )}
-        <div className="hash__card__hash__content">
-          {loading ? (
-            <LoadingPanel>
-              <SmallLoading />
-            </LoadingPanel>
-          ) : (
-            <div id="hash__text">
-              <AddressText disableTooltip>{hash}</AddressText>
-            </div>
-          )}
-          <SimpleButton
-            className="hash__copy_icon"
-            onClick={() => {
-              copyElementValue(document.getElementById('hash__value'))
-              dispatch({
-                type: AppActions.ShowToastMessage,
-                payload: {
-                  message: i18n.t('common.copied'),
-                },
-              })
-            }}
-          >
-            {!loading && <img src={CopyIcon} alt="copy" />}
-          </SimpleButton>
-          {counterpartAddr ? (
-            <Tooltip
-              placement="top"
-              title={i18n.t(`address.${newAddr === hash ? 'visit-deprecated-address' : 'view-new-address'}`)}
+
+        <div className={styles.hashCardHeaderRight}>
+          <div className="hash__card__hash__content">
+            {loading ? (
+              <LoadingPanel>
+                <SmallLoading />
+              </LoadingPanel>
+            ) : (
+              <div id="hash__text">
+                <AddressText disableTooltip>{hash}</AddressText>
+              </div>
+            )}
+            <SimpleButton
+              className="hash__copy_icon"
+              onClick={() => {
+                copyElementValue(document.getElementById('hash__value'))
+                dispatch({
+                  type: AppActions.ShowToastMessage,
+                  payload: {
+                    message: i18n.t('common.copied'),
+                  },
+                })
+              }}
             >
-              <a
-                href={`${window.location.href.split('/address/')[0]}/address/${counterpartAddr}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.openInNew}
+              {!loading && <img src={CopyIcon} alt="copy" />}
+            </SimpleButton>
+            {counterpartAddr ? (
+              <Tooltip
+                placement="top"
+                title={i18n.t(`address.${newAddr === hash ? 'visit-deprecated-address' : 'view-new-address'}`)}
               >
-                <OpenInNew />
-              </a>
-            </Tooltip>
-          ) : null}
-          {isTx ? (
-            <Tooltip placement="top" title={i18n.t(`transaction.export-transaction`)}>
-              <button className={styles.exportTx} onClick={handleExportTxClick} type="button">
-                <DownloadIcon />
-              </button>
-            </Tooltip>
-          ) : null}
+                <a
+                  href={`${window.location.href.split('/address/')[0]}/address/${counterpartAddr}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.openInNew}
+                >
+                  <OpenInNew />
+                </a>
+              </Tooltip>
+            ) : null}
+            {isTx ? (
+              <Tooltip placement="top" title={i18n.t(`transaction.export-transaction`)}>
+                <button className={styles.exportTx} onClick={handleExportTxClick} type="button">
+                  <DownloadIcon />
+                </button>
+              </Tooltip>
+            ) : null}
+          </div>
+
+          {showDASInfoOnHeader && <DASInfo address={hash} />}
         </div>
+
         {specialAddress && (
           <Tooltip title={i18n.t('address.vesting_tooltip')} placement={isMobile() ? 'bottomRight' : 'bottom'}>
             <Link to={`/address/${specialAddress}`} className="hash__vesting">
