@@ -212,37 +212,17 @@ export const ScriptPage = () => {
             {
               label: `${i18n.t('transaction.transactions')} (${localeNumberString(countOfTransactions!)})`,
               key: 'transactions',
-              children: (
-                <ScriptTransactions
-                  page={currentPage}
-                  size={pageSize}
-                  updateCount={count => setCountOfTransactions(count)}
-                />
-              ),
+              children: <ScriptTransactions page={currentPage} size={pageSize} />,
             },
             {
               label: `${i18n.t('scripts.deployed_cells')} (${localeNumberString(countOfDeployedCells)})`,
               key: 'deployed_cells',
-              children: (
-                <ScriptCells
-                  page={currentPage}
-                  size={pageSize}
-                  cellType="deployed_cells"
-                  updateCount={count => setCountOfDeployedCells(count)}
-                />
-              ),
+              children: <ScriptCells page={currentPage} size={pageSize} cellType="deployed_cells" />,
             },
             {
               label: `${i18n.t('scripts.referring_cells')} (${localeNumberString(countOfReferringCells)})`,
               key: 'referring_cells',
-              children: (
-                <ScriptCells
-                  page={currentPage}
-                  size={pageSize}
-                  cellType="referring_cells"
-                  updateCount={count => setCountOfReferringCells(count)}
-                />
-              ),
+              children: <ScriptCells page={currentPage} size={pageSize} cellType="referring_cells" />,
             },
           ]}
         />

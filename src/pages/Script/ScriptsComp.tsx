@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactNode } from 'react'
+import { useState, ReactNode } from 'react'
 import { useHistory } from 'react-router'
 import { Button, Space, Table } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons'
@@ -21,15 +21,7 @@ import DecimalCapacity from '../../components/DecimalCapacity'
 import { CellInScript, CkbTransactionInScript } from './types'
 import styles from './styles.module.scss'
 
-export const ScriptTransactions = ({
-  page,
-  size,
-  updateCount,
-}: {
-  page: number
-  size: number
-  updateCount: (count: number) => void
-}) => {
+export const ScriptTransactions = ({ page, size }: { page: number; size: number }) => {
   const history = useHistory()
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
@@ -46,7 +38,6 @@ export const ScriptTransactions = ({
       }),
   )
 
-  let total = 0
   let totalPage = 0
   let ckbTransactions: CkbTransactionInScript[] = []
 
@@ -57,13 +48,9 @@ export const ScriptTransactions = ({
     ckbTransactions = data.ckbTransactions
 
     const meta = response!.meta as Response.Meta
-    total = meta ? meta.total : 0
+    const total = meta ? meta.total : 0
     totalPage = Math.ceil(total / size)
   }
-
-  useEffect(() => {
-    updateCount(total)
-  }, [total, updateCount])
 
   const onChange = (page: number) => {
     history.push(`/scripts/${codeHash}/${hashType}?page=${page}&size=${size}`)
@@ -124,12 +111,10 @@ export const ScriptCells = ({
   page,
   size,
   cellType,
-  updateCount,
 }: {
   page: number
   size: number
   cellType: 'deployed_cells' | 'referring_cells'
-  updateCount: (count: number) => void
 }) => {
   const history = useHistory()
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
@@ -145,7 +130,6 @@ export const ScriptCells = ({
     }),
   )
 
-  let total = 0
   let totalPage = 0
   let cells: CellInScript[] = []
   const camelCellType = camelcase(cellType) as 'deployedCells' | 'referringCells'
@@ -161,13 +145,9 @@ export const ScriptCells = ({
     }
 
     const meta = response!.meta as Response.Meta
-    total = meta ? meta.total : 0
+    const total = meta ? meta.total : 0
     totalPage = Math.ceil(total / size)
   }
-
-  useEffect(() => {
-    updateCount(total)
-  }, [total, updateCount])
 
   const onChange = (page: number) => {
     history.push(`/script/${codeHash}/${hashType}/${cellType}?page=${page}&size=${size}`)
