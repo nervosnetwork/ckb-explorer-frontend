@@ -1,0 +1,83 @@
+.feeRateTrackerPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 40px;
+
+  @media (max-width: 750px) {
+    margin: 0;
+    padding: 20px;
+  }
+}
+
+.title {
+  width: 100%;
+  font-size: 50px;
+  background-color: #ffffff;
+  border-radius: 6px 6px 0 0;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  margin-top: 5px;
+  padding: 10px 20px;
+}
+
+.updatedTimeCounter {
+  width: 100%;
+  font-size: 13px;
+  justify-content: end;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 0 0 #dfdfdf;
+  margin-top: 5px;
+  padding: 10px 70px;
+}
+
+.priceCenter {
+  width: 100%;
+  font-size: 13px;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 0 0 #dfdfdf;
+  padding: 10px 0 40px;
+}
+
+.card {
+  color: #333333;
+  border: 1px #333333 solid;
+  box-shadow: 1px 1px 0 0 #777777;
+
+  > div {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 400;
+  }
+
+  > div:first-child {
+    margin-top: 4rem;
+    font-size: 30px;
+  }
+  > div:nth-child(2) {
+    margin: .6rem 0;
+  }
+  > div:last-child {
+    margin-bottom: 3rem;
+  }
+}
+
+.chartTitle {
+  color: #333333;
+  width: 100%;
+  font-size: 20px;
+  justify-content: start;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 0 0 #dfdfdf;
+  margin-top: 5px;
+  padding: 40px 70px 0;
+}
+
+.chart {
+  height: 60vw;
+  width: 100%;
+  font-size: 13px;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 0 0 #dfdfdf;
+  padding: 10px 0 40px;
+}

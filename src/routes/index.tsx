@@ -53,6 +53,7 @@ const SecondaryIssuanceChart = lazy(() => import('../pages/StatisticsChart/monet
 const InflationRateChart = lazy(() => import('../pages/StatisticsChart/monetary/InflationRate'))
 const LiquidityChart = lazy(() => import('../pages/StatisticsChart/monetary/Liquidity'))
 const ScriptList = lazy(() => import('../pages/ScriptList'))
+const FeeRateTracker = lazy(() => import('../pages/FeeRateTracker'))
 
 const Containers: CustomRouter.Route[] = [
   {
@@ -294,6 +295,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/scripts',
     exact: true,
     comp: ScriptList,
+  },
+  {
+    name: 'FeeRateTracker',
+    path: '/fee-rate-tracker',
+    exact: true,
+    comp: FeeRateTracker,
   },
 ]
 
