@@ -1,6 +1,4 @@
 interface Window {
-  webkitRequestAnimationFrame?: any
-  webkitCancelAnimationFrame?: any
+  webkitRequestAnimationFrame?: AnimationFrameProvider['requestAnimationFrame']
+  webkitCancelAnimationFrame?: AnimationFrameProvider['cancelAnimationFrame']
 }
-
-export default Window

@@ -14,7 +14,7 @@ import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString, handleDifficulty } from '../../utils/number'
 import { isMobile } from '../../utils/screen'
-import { adaptMobileEllipsis, adaptPCEllipsis, hexToUtf8 } from '../../utils/string'
+import { hexToUtf8 } from '../../utils/string'
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
 import {
   BlockLinkPanel,
@@ -31,51 +31,32 @@ import MinerRewardIcon from '../../assets/miner_complete.png'
 import { ReactComponent as LeftArrow } from '../../assets/prev_block.svg'
 import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import CopyTooltipText from '../../components/Text/CopyTooltipText'
 import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import TitleCard from '../../components/Card/TitleCard'
 import styles from './styles.module.scss'
-
-const handleMinerText = (address: string) => {
-  if (isMobile()) {
-    return adaptMobileEllipsis(address, 8)
-  }
-  return adaptPCEllipsis(address, 11, 80)
-}
+import AddressText from '../../components/AddressText'
 
 const BlockMiner = ({ miner }: { miner: string }) => {
   if (!miner) {
     return <BlockLinkPanel>{i18n.t('address.unable_decode_address')}</BlockLinkPanel>
   }
-  const minerText = handleMinerText(miner)
   return (
     <BlockLinkPanel>
-      {minerText.includes('...') ? (
-        <Tooltip placement="top" title={<CopyTooltipText content={miner} />}>
-          <Link to={`/address/${miner}`} className="monospace">
-            {minerText}
-          </Link>
-        </Tooltip>
-      ) : (
-        <Link to={`/address/${miner}`} className="monospace">
-          {minerText}
-        </Link>
-      )}
+      <AddressText
+        linkProps={{
+          to: `/address/${miner}`,
+        }}
+      >
+        {miner}
+      </AddressText>
     </BlockLinkPanel>
   )
 }
 
 const BlockMinerMessage = ({ minerMessage }: { minerMessage: string }) => {
-  const minerMsg = handleMinerText(minerMessage)
   return (
     <BlockMinerMessagePanel>
-      {minerMsg.includes('...') ? (
-        <Tooltip placement="top" title={<CopyTooltipText content={minerMessage} />}>
-          {minerMsg}
-        </Tooltip>
-      ) : (
-        <span>{minerMessage}</span>
-      )}
+      <AddressText monospace={false}>{minerMessage}</AddressText>
       <Tooltip placement="top" title={`UTF-8: ${hexToUtf8(minerMessage)}`}>
         <img className="block__miner__message_utf8" src={MoreIcon} alt="more" />
       </Tooltip>
@@ -154,6 +135,7 @@ export const BlockOverview = () => {
     },
     {
       title: i18n.t('block.miner'),
+      contentWrapperClass: styles.addressWidthModify,
       content: <BlockMiner miner={block.minerHash} />,
     },
     {
@@ -162,6 +144,7 @@ export const BlockOverview = () => {
     },
     {
       title: i18n.t('block.miner_message'),
+      contentWrapperClass: styles.addressWidthModify,
       content: <BlockMinerMessage minerMessage={block.minerMessage ?? i18n.t('common.none')} />,
     },
     {

@@ -1,0 +1,15 @@
+.transactionAddress {
+  max-width: 90%;
+  color: var(--primary-color);
+  font-size: 14px;
+  margin-top: 3px;
+
+  @media (max-width: 750px) {
+    font-size: 13px;
+    margin-top: 1px;
+  }
+
+  &:hover {
+    color: var(--primary-color);
+  }
+}

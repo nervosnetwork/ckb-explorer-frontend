@@ -56,22 +56,6 @@ module.exports = {
         ignoreRegExpLiterals: true,
       },
     ],
-    'object-curly-newline': [
-      'error',
-      {
-        ObjectExpression: 'always',
-        ObjectPattern: {
-          consistent: true,
-        },
-        ImportDeclaration: {
-          consistent: true,
-        },
-        ExportDeclaration: {
-          multiline: true,
-          minProperties: 3,
-        },
-      },
-    ],
     'no-plusplus': [0],
     'react/jsx-filename-extension': [
       1,

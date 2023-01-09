@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 
 export const DepositorRankPanel = styled.div`
   width: 100%;
@@ -71,19 +70,5 @@ export const DepositorRankItem = styled.div`
   }
   >div: nth-child(4) {
     width: 20%;
-  }
-`
-export const AddressPanel = styled(props => <Link {...props} />)`
-  color: ${props => props.theme.primary};
-  width: 48%;
-  text-align: center;
-
-  @media (max-width: 750px) {
-    width: 100%;
-    text-align: start;
-  }
-
-  :hover {
-    color: ${props => props.theme.primary};
   }
 `
