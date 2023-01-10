@@ -45,6 +45,7 @@ export const TransactionCellPanel = styled.div`
 `
 
 export const TransactionCellCapacityPanel = styled.div`
+  flex-shrink: 0;
   color: #000000;
   margin-left: 15px;
   display: flex;
