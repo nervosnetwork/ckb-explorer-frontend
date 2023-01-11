@@ -70,6 +70,18 @@ export const fetchTransactions = (page: number, size: number) =>
     })
     .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 
+export const fetchPendingTransactions = (page: number, size: number) =>
+  v2AxiosIns
+    .get('pending_transactions', {
+      params: {
+        page,
+        page_size: size,
+      },
+    })
+    .then(res => toCamelcase<Response.Response<State.Transaction[]>>(res.data))
+
+export const fetchPendingTransactionsCount = () => fetchPendingTransactions(1, 1).then(resp => resp.meta?.total)
+
 export const fetchTransactionsByBlockHash = (blockHash: string, page: number, size: number) =>
   axiosIns
     .get(`/block_transactions/${blockHash}`, {

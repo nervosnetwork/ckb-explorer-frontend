@@ -241,6 +241,7 @@ declare namespace State {
     detailedMessage: string
     bytes: number
     cycles: number | null
+    createTimestamp?: number
   }
 
   export interface BlockchainInfo {
