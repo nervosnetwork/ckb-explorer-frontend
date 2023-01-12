@@ -1,4 +1,4 @@
-import { useEffect, Fragment, useMemo } from 'react'
+import { useEffect, Fragment, useMemo, FC } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { parseSimpleDate } from '../../utils/date'
@@ -14,7 +14,7 @@ import Pagination from '../../components/Pagination'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { getBlocks } from '../../service/app/block'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import ItemCard, { ItemCardData } from '../../components/Card/ItemCard'
+import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
 import AddressText from '../../components/AddressText'
 import { useIsMobile, usePaginationParamsInListPage } from '../../utils/hook'
 
@@ -74,33 +74,32 @@ const getTableContentDataList = (block: State.Block, index: number, page: number
   ] as TableContentData[]
 }
 
-const BlockCardItems = (block: State.Block, index: number, page: number) => {
-  const blockReward =
-    index < DELAY_BLOCK_NUMBER && page === 1 ? (
-      <BlockRewardContainer>
-        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
-      </BlockRewardContainer>
-    ) : (
-      <BlockRewardPanel>
-        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
-      </BlockRewardPanel>
-    )
-  return [
+const BlockCardGroup: FC<{ blocks: State.Block[]; isFirstPage: boolean }> = ({ blocks, isFirstPage }) => {
+  const items: ItemCardData<State.Block>[] = [
     {
       title: i18n.t('home.height'),
-      content: <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
+      render: block => <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
     },
     {
       title: i18n.t('home.transactions'),
-      content: localeNumberString(block.transactionsCount),
+      render: block => localeNumberString(block.transactionsCount),
     },
     {
       title: i18n.t('home.block_reward'),
-      content: blockReward,
+      render: (block, index) =>
+        index < DELAY_BLOCK_NUMBER && isFirstPage ? (
+          <BlockRewardContainer>
+            <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+          </BlockRewardContainer>
+        ) : (
+          <BlockRewardPanel>
+            <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+          </BlockRewardPanel>
+        ),
     },
     {
       title: i18n.t('block.miner'),
-      content: (
+      render: block => (
         <HighLightValue>
           <AddressText
             disableTooltip
@@ -116,9 +115,11 @@ const BlockCardItems = (block: State.Block, index: number, page: number) => {
     },
     {
       title: i18n.t('home.time'),
-      content: parseSimpleDate(block.timestamp),
+      render: block => parseSimpleDate(block.timestamp),
     },
-  ] as ItemCardData[]
+  ]
+
+  return <ItemCardGroup items={items} dataSource={blocks} getDataKey={block => block.number} />
 }
 
 export default () => {
@@ -174,11 +175,7 @@ export default () => {
         <div className="block__green__background" />
         {isMobile ? (
           <ContentTable>
-            <div>
-              {blockList.map((block: State.Block, index: number) => (
-                <ItemCard key={block.number} items={BlockCardItems(block, index, currentPage)} />
-              ))}
-            </div>
+            <BlockCardGroup blocks={blockList} isFirstPage={currentPage === 1} />
           </ContentTable>
         ) : (
           <ContentTable>

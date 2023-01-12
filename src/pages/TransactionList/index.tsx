@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { parseSimpleDate } from '../../utils/date'
@@ -12,7 +12,7 @@ import Pagination from '../../components/Pagination'
 import { useDispatch, useAppState } from '../../contexts/providers'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { getTransactions } from '../../service/app/transaction'
-import ItemCard, { ItemCardData } from '../../components/Card/ItemCard'
+import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
 import { TransactionCapacityPanel, TransactionListPanel, ContentTable, HighLightValue } from './styled'
 import AddressText from '../../components/AddressText'
 import { useIsMobile, usePaginationParamsInListPage } from '../../utils/hook'
@@ -70,16 +70,11 @@ const getTableContentTxList = (transaction: State.Transaction) => {
   ] as TableContentData[]
 }
 
-const TransactionCardItems = (transaction: State.Transaction) => {
-  const transactionCapacity = (
-    <TransactionCapacityPanel>
-      <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
-    </TransactionCapacityPanel>
-  )
-  return [
+const TransactionCardGroup: FC<{ transactions: State.Transaction[] }> = ({ transactions }) => {
+  const items: ItemCardData<State.Transaction>[] = [
     {
       title: i18n.t('transaction.transaction_hash'),
-      content: (
+      render: transaction => (
         <HighLightValue>
           <AddressText
             disableTooltip
@@ -95,7 +90,7 @@ const TransactionCardItems = (transaction: State.Transaction) => {
     },
     {
       title: i18n.t('transaction.height'),
-      content: (
+      render: transaction => (
         <TransactionValueItem
           value={localeNumberString(transaction.blockNumber)}
           to={`/block/${transaction.blockNumber}`}
@@ -104,13 +99,26 @@ const TransactionCardItems = (transaction: State.Transaction) => {
     },
     {
       title: i18n.t('transaction.capacity'),
-      content: transactionCapacity,
+      render: transaction => (
+        <TransactionCapacityPanel>
+          <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
+        </TransactionCapacityPanel>
+      ),
     },
     {
       title: i18n.t('transaction.time'),
-      content: parseSimpleDate(transaction.blockTimestamp),
+      render: transaction => parseSimpleDate(transaction.blockTimestamp),
     },
-  ] as ItemCardData[]
+  ]
+
+  return (
+    <ItemCardGroup
+      className="transaction__panel"
+      items={items}
+      dataSource={transactions}
+      getDataKey={transaction => transaction.transactionHash}
+    />
+  )
 }
 
 export default () => {
@@ -153,11 +161,7 @@ export default () => {
         <div className="transaction__green__background" />
         {useIsMobile() ? (
           <ContentTable>
-            <div className="transaction__panel">
-              {transactions.map((transaction: State.Transaction) => (
-                <ItemCard key={transaction.transactionHash} items={TransactionCardItems(transaction)} />
-              ))}
-            </div>
+            <TransactionCardGroup transactions={transactions} />
           </ContentTable>
         ) : (
           <ContentTable>

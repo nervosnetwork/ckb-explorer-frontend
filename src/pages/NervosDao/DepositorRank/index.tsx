@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import { useAppState } from '../../../contexts/providers'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkb } from '../../../utils/util'
@@ -11,7 +12,7 @@ import {
   DepositorSeparate,
   DepositorRankItem,
 } from './styled'
-import ItemCard from '../../../components/Card/ItemCard'
+import { ItemCardData, ItemCardGroup } from '../../../components/Card/ItemCard'
 import AddressText from '../../../components/AddressText'
 import styles from './index.module.scss'
 import { useIsMobile } from '../../../utils/hook'
@@ -29,26 +30,27 @@ const AddressTextCol = ({ address }: { address: string }) => {
   )
 }
 
-const depositRanks = (depositor: State.NervosDaoDepositor, index: number) => {
-  const daoDeposit = localeNumberString(shannonToCkb(depositor.daoDeposit))
-  return [
+const DepositorCardGroup: FC<{ depositors: State.NervosDaoDepositor[] }> = ({ depositors }) => {
+  const items: ItemCardData<State.NervosDaoDepositor>[] = [
     {
       title: i18n.t('nervos_dao.dao_title_rank'),
-      content: index + 1,
+      render: (_, index) => index + 1,
     },
     {
       title: i18n.t('nervos_dao.dao_title_address'),
-      content: <AddressTextCol address={depositor.addressHash} />,
+      render: depositor => <AddressTextCol address={depositor.addressHash} />,
     },
     {
       title: i18n.t('nervos_dao.dao_title_deposit_capacity'),
-      content: <DecimalCapacity value={daoDeposit} />,
+      render: depositor => <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />,
     },
     {
       title: i18n.t('nervos_dao.dao_title_deposit_time'),
-      content: handleBigNumber(depositor.averageDepositTime, 1),
+      render: depositor => handleBigNumber(depositor.averageDepositTime, 1),
     },
   ]
+
+  return <ItemCardGroup items={items} dataSource={depositors} getDataKey={(_, idx) => idx} />
 }
 
 export default () => {
@@ -58,9 +60,7 @@ export default () => {
 
   return useIsMobile() ? (
     <DepositorRankCardPanel>
-      {depositors.map((depositor: State.NervosDaoDepositor, index: number) => (
-        <ItemCard key={depositors.indexOf(depositor)} items={depositRanks(depositor, index)} />
-      ))}
+      <DepositorCardGroup depositors={depositors} />
     </DepositorRankCardPanel>
   ) : (
     <DepositorRankPanel>
