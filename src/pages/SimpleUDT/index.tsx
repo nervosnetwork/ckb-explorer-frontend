@@ -5,14 +5,13 @@ import SimpleUDTHashCard from '../../components/Card/HashCard'
 import Error from '../../components/Error'
 import Content from '../../components/Content'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
-import { PageActions, AppActions } from '../../contexts/actions'
 import { getTipBlockNumber } from '../../service/app/address'
 import { LOADING_WAITING_TIME } from '../../constants/common'
 import i18n from '../../utils/i18n'
 import { SimpleUDTContentPanel, UDTTransactionTitlePanel, TypeScriptController } from './styled'
 import SimpleUDTComp, { SimpleUDTOverview } from './SimpleUDTComp'
-import { usePaginationParamsInPage, useTimeoutWithUnmount } from '../../utils/hook'
-import { getSimpleUDT, getSimpleUDTTransactions } from '../../service/app/udt'
+import { useDelayLoading, usePaginationParamsInPage } from '../../utils/hook'
+import { getSimpleUDT, getSimpleUDTTransactions, handleUDTStatus } from '../../service/app/udt'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
@@ -52,8 +51,9 @@ const SimpleUDTCompState = ({
 }) => {
   const {
     udtState: { status },
-    app,
   } = useAppState()
+  const loading = useDelayLoading(LOADING_WAITING_TIME, status === 'None' || status === 'InProgress')
+
   switch (status) {
     case 'Error':
       return <Error />
@@ -62,7 +62,7 @@ const SimpleUDTCompState = ({
     case 'InProgress':
     case 'None':
     default:
-      return <Loading show={app.secondLoading} />
+      return <Loading show={loading} />
   }
 }
 
@@ -75,7 +75,6 @@ export const SimpleUDT = () => {
     udtState: {
       total,
       udt: { iconFile, typeScript, symbol, uan },
-      status,
     },
   } = useAppState()
 
@@ -88,25 +87,10 @@ export const SimpleUDT = () => {
     getSimpleUDTTransactions(typeHash, currentPage, pageSize, dispatch)
   }, [typeHash, currentPage, pageSize, dispatch])
 
-  useTimeoutWithUnmount(
-    () => {
-      dispatch({
-        type: AppActions.UpdateLoading,
-        payload: {
-          loading: status === 'None' || status === 'InProgress',
-        },
-      })
-    },
-    () => {
-      dispatch({
-        type: PageActions.UpdateUDTStatus,
-        payload: {
-          status: 'None',
-        },
-      })
-    },
-    LOADING_WAITING_TIME,
-  )
+  useEffect(() => {
+    return () => handleUDTStatus(dispatch, 'None')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Content>

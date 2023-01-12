@@ -86,6 +86,12 @@ export function useBoolean(initialState: boolean): [
   ]
 }
 
+export function useDelayLoading(delay: number, loading: boolean) {
+  const [isDelayFinished, delayFinishedCtl] = useBoolean(false)
+  useTimeout(delayFinishedCtl.on, delay)
+  return isDelayFinished && loading
+}
+
 function getSearchParams<T extends string = string>(search: string, names?: T[]): Partial<Record<T, string>> {
   const params = queryString.parse(search, { parseBooleans: false, parseNumbers: false })
   const entries = Object.entries(params).filter((entry): entry is [T, string] => {

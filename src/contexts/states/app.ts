@@ -2,8 +2,6 @@ import { ChartColor, getPrimaryColor, getSecondaryColor } from '../../constants/
 
 export const initApp: State.App = {
   toast: null,
-  loading: false,
-  secondLoading: false,
   appErrors: [
     {
       type: 'Network',

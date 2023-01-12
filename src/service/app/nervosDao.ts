@@ -9,7 +9,7 @@ import { AppDispatch } from '../../contexts/reducer'
 import { PageActions } from '../../contexts/actions'
 import { addPrefixForHash } from '../../utils/string'
 
-const handleNervosDAOStatus = (dispatch: AppDispatch, status: State.FetchStatus) => {
+export const handleNervosDAOStatus = (dispatch: AppDispatch, status: State.FetchStatus) => {
   dispatch({
     type: PageActions.UpdateNervosDaoStatus,
     payload: {

@@ -2,21 +2,24 @@ import { useEffect, useState, useRef } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import TransactionHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
-import { PageActions, AppActions } from '../../contexts/actions'
 import { getTipBlockNumber } from '../../service/app/address'
-import { getTransactionByHash } from '../../service/app/transaction'
+import { getTransactionByHash, handleTransactionStatus } from '../../service/app/transaction'
 import i18n from '../../utils/i18n'
 import { TransactionDiv as TransactionPanel } from './styled'
 import TransactionComp, { TransactionOverview } from './TransactionComp'
 import { useDispatch, useAppState } from '../../contexts/providers'
 import Loading from '../../components/Loading'
 import Error from '../../components/Error'
-import { useIsMobile, useTimeoutWithUnmount } from '../../utils/hook'
+import { useDelayLoading, useIsMobile } from '../../utils/hook'
 import { LOADING_WAITING_TIME, PAGE_CELL_COUNT } from '../../constants/common'
 
 const TransactionStateComp = () => {
-  const { transactionState, app } = useAppState()
-  switch (transactionState.status) {
+  const {
+    transactionState: { status },
+  } = useAppState()
+  const loading = useDelayLoading(LOADING_WAITING_TIME, status === 'None' || status === 'InProgress')
+
+  switch (status) {
     case 'Error':
       return <Error />
     case 'OK':
@@ -24,7 +27,7 @@ const TransactionStateComp = () => {
     case 'InProgress':
     case 'None':
     default:
-      return <Loading show={app.loading} />
+      return <Loading show={loading} />
   }
 }
 
@@ -82,25 +85,10 @@ export default () => {
     }
   }, [hash, status, displayOutputs, txHash, isMobile])
 
-  useTimeoutWithUnmount(
-    () => {
-      dispatch({
-        type: AppActions.UpdateLoading,
-        payload: {
-          loading: status === 'None' || status === 'InProgress',
-        },
-      })
-    },
-    () => {
-      dispatch({
-        type: PageActions.UpdateTransactionStatus,
-        payload: {
-          status: 'None',
-        },
-      })
-    },
-    LOADING_WAITING_TIME,
-  )
+  useEffect(() => {
+    return () => handleTransactionStatus(dispatch, 'None')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Content>

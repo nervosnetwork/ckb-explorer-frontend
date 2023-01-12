@@ -1,18 +1,22 @@
 import { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { PageActions, AppActions } from '../../contexts/actions'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import Content from '../../components/Content'
 import i18n from '../../utils/i18n'
 import { DaoContentPanel, DaoTabBarPanel } from './styled'
-import { getNervosDao, getNervosDaoTransactions, getNervosDaoDepositors } from '../../service/app/nervosDao'
+import {
+  getNervosDao,
+  getNervosDaoTransactions,
+  getNervosDaoDepositors,
+  handleNervosDAOStatus,
+} from '../../service/app/nervosDao'
 import DaoTransactions from './DaoTransactions'
 import Filter from '../../components/Search/Filter'
 import DepositorRank from './DepositorRank'
 import { LOADING_WAITING_TIME } from '../../constants/common'
 import Error from '../../components/Error'
 import Loading from '../../components/Loading'
-import { usePaginationParamsInPage, useSearchParams, useTimeoutWithUnmount } from '../../utils/hook'
+import { useDelayLoading, usePaginationParamsInPage, useSearchParams } from '../../utils/hook'
 import DaoOverview from './DaoOverview'
 import SimpleButton from '../../components/SimpleButton'
 
@@ -25,8 +29,12 @@ const NervosDAOStateComp = ({
   currentPage: number
   pageSize: number
 }) => {
-  const { nervosDaoState, app } = useAppState()
-  switch (nervosDaoState.status) {
+  const {
+    nervosDaoState: { status },
+  } = useAppState()
+  const loading = useDelayLoading(LOADING_WAITING_TIME, status === 'None' || status === 'InProgress')
+
+  switch (status) {
     case 'Error':
       return <Error />
     case 'OK':
@@ -38,17 +46,13 @@ const NervosDAOStateComp = ({
     case 'InProgress':
     case 'None':
     default:
-      return <Loading show={app.loading} />
+      return <Loading show={loading} />
   }
 }
 
 export const NervosDao = () => {
   const dispatch = useDispatch()
   const { push } = useHistory()
-
-  const {
-    nervosDaoState: { status },
-  } = useAppState()
 
   const { currentPage, pageSize } = usePaginationParamsInPage()
   const params = useSearchParams('tab')
@@ -64,25 +68,10 @@ export const NervosDao = () => {
     getNervosDaoTransactions(dispatch, currentPage, pageSize)
   }, [dispatch, currentPage, pageSize])
 
-  useTimeoutWithUnmount(
-    () => {
-      dispatch({
-        type: AppActions.UpdateLoading,
-        payload: {
-          loading: status === 'None' || status === 'InProgress',
-        },
-      })
-    },
-    () => {
-      dispatch({
-        type: PageActions.UpdateNervosDaoStatus,
-        payload: {
-          status: 'None',
-        },
-      })
-    },
-    LOADING_WAITING_TIME,
-  )
+  useEffect(() => {
+    return () => handleNervosDAOStatus(dispatch, 'None')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Content>

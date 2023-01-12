@@ -5,13 +5,17 @@ import AddressHashCard from '../../components/Card/HashCard'
 import Error from '../../components/Error'
 import Content from '../../components/Content'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
-import { PageActions, AppActions } from '../../contexts/actions'
-import { getAddressInformation, getTransactionsByAddress } from '../../service/app/address'
+import {
+  getAddressInformation,
+  getTransactionsByAddress,
+  handleAddressStatus,
+  handleTransactionStatus,
+} from '../../service/app/address'
 import { LOADING_WAITING_TIME } from '../../constants/common'
 import i18n from '../../utils/i18n'
 import { AddressContentPanel, AddressLockScriptController, AddressTitleOverviewPanel } from './styled'
 import { AddressTransactions, AddressAssetComp } from './AddressComp'
-import { usePaginationParamsInPage, useTimeoutWithUnmount } from '../../utils/hook'
+import { useDelayLoading, usePaginationParamsInPage } from '../../utils/hook'
 import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
@@ -94,15 +98,19 @@ const AddressTitleOverview = () => {
 }
 
 const AddressAssetCompState = () => {
-  const { addressState, app } = useAppState()
-  switch (addressState.addressStatus) {
+  const {
+    addressState: { addressStatus },
+  } = useAppState()
+  const loading = useDelayLoading(LOADING_WAITING_TIME, addressStatus === 'None' || addressStatus === 'InProgress')
+
+  switch (addressStatus) {
     case 'Error':
       return <Error />
     case 'OK':
       return <AddressAssetComp />
     case 'None':
     default:
-      return <Loading show={app.loading} />
+      return <Loading show={loading} />
   }
 }
 
@@ -115,8 +123,15 @@ const AddressStateTransactions = ({
   pageSize: number
   address: string
 }) => {
-  const { addressState, app } = useAppState()
-  switch (addressState.transactionsStatus) {
+  const {
+    addressState: { transactionsStatus },
+  } = useAppState()
+  const loading = useDelayLoading(
+    LOADING_WAITING_TIME,
+    transactionsStatus === 'None' || transactionsStatus === 'InProgress',
+  )
+
+  switch (transactionsStatus) {
     case 'Error':
       return <Error />
     case 'OK':
@@ -124,17 +139,14 @@ const AddressStateTransactions = ({
     case 'InProgress':
     case 'None':
     default:
-      return <Loading show={app.secondLoading} />
+      return <Loading show={loading} />
   }
 }
 
 export const Address = () => {
   const dispatch = useDispatch()
   const { address } = useParams<{ address: string }>()
-  const {
-    addressState,
-    addressState: { addressStatus, transactionsStatus },
-  } = useAppState()
+  const { addressState } = useAppState()
 
   const { currentPage, pageSize } = usePaginationParamsInPage()
 
@@ -146,37 +158,14 @@ export const Address = () => {
     getTransactionsByAddress(address, currentPage, pageSize, dispatch)
   }, [address, currentPage, pageSize, dispatch])
 
-  useTimeoutWithUnmount(
-    () => {
-      dispatch({
-        type: AppActions.UpdateLoading,
-        payload: {
-          loading: addressStatus === 'None' || addressStatus === 'InProgress',
-        },
-      })
-      dispatch({
-        type: AppActions.UpdateSecondLoading,
-        payload: {
-          secondLoading: transactionsStatus === 'None' || transactionsStatus === 'InProgress',
-        },
-      })
-    },
-    () => {
-      dispatch({
-        type: PageActions.UpdateAddressStatus,
-        payload: {
-          addressStatus: 'None',
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateAddressTransactionsStatus,
-        payload: {
-          transactionsStatus: 'None',
-        },
-      })
-    },
-    LOADING_WAITING_TIME,
-  )
+  useEffect(() => {
+    return () => {
+      // cleanup side effects of getAddressInformation and getTransactionsByAddress
+      handleAddressStatus(dispatch, 'None')
+      handleTransactionStatus(dispatch, 'None')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Content>

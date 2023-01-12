@@ -1,7 +1,5 @@
 export enum AppActions {
   ResizeWindow = 'resizeWindow',
-  UpdateLoading = 'updateLoading',
-  UpdateSecondLoading = 'updateSecondLoading',
   UpdateModal = 'updateModal',
   ShowToastMessage = 'showToastMessage',
   UpdateAppErrors = 'updateAppErrors',

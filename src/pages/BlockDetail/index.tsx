@@ -4,14 +4,13 @@ import BlockHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
 import Error from '../../components/Error'
 import { useDispatch, useAppState } from '../../contexts/providers'
-import { PageActions, AppActions } from '../../contexts/actions'
-import { getBlock } from '../../service/app/block'
+import { getBlock, handleBlockStatus } from '../../service/app/block'
 import { LOADING_WAITING_TIME } from '../../constants/common'
 import i18n from '../../utils/i18n'
 import { BlockDetailPanel } from './styled'
 import { BlockComp, BlockOverview } from './BlockComp'
 import Loading from '../../components/Loading'
-import { usePaginationParamsInPage, useTimeoutWithUnmount } from '../../utils/hook'
+import { useDelayLoading, usePaginationParamsInPage } from '../../utils/hook'
 
 const BlockStateComp = ({
   currentPage,
@@ -22,8 +21,12 @@ const BlockStateComp = ({
   pageSize: number
   blockParam: string
 }) => {
-  const { blockState, app } = useAppState()
-  switch (blockState.status) {
+  const {
+    blockState: { status },
+  } = useAppState()
+  const loading = useDelayLoading(LOADING_WAITING_TIME, status === 'None' || status === 'InProgress')
+
+  switch (status) {
     case 'Error':
       return <Error />
     case 'OK':
@@ -31,7 +34,7 @@ const BlockStateComp = ({
     case 'InProgress':
     case 'None':
     default:
-      return <Loading show={app.loading} />
+      return <Loading show={loading} />
   }
 }
 
@@ -60,25 +63,10 @@ export default () => {
     }
   }, [hash])
 
-  useTimeoutWithUnmount(
-    () => {
-      dispatch({
-        type: AppActions.UpdateLoading,
-        payload: {
-          loading: status === 'None' || status === 'InProgress',
-        },
-      })
-    },
-    () => {
-      dispatch({
-        type: PageActions.UpdateBlockStatus,
-        payload: {
-          status: 'None',
-        },
-      })
-    },
-    LOADING_WAITING_TIME,
-  )
+  useEffect(() => {
+    return () => handleBlockStatus(dispatch, 'None')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Content>
