@@ -634,7 +634,6 @@ declare namespace State {
   }
 
   export interface PageState extends StatisticChartsState {
-    addressState: AddressState
     blockState: BlockState
     blockListState: BlockListState
     transactionState: TransactionState
@@ -646,7 +645,6 @@ declare namespace State {
 
   export interface PagePayload
     extends PageState,
-      AddressState,
       BlockState,
       BlockListState,
       TransactionState,

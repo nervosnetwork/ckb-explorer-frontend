@@ -23,48 +23,6 @@ export const pageReducer = (
         },
       }
 
-    // address page
-    case PageActions.UpdateAddress:
-      return {
-        ...state,
-        addressState: {
-          ...state.addressState,
-          address: payload.address,
-        },
-      }
-    case PageActions.UpdateAddressTransactions:
-      return {
-        ...state,
-        addressState: {
-          ...state.addressState,
-          transactions: payload.transactions,
-        },
-      }
-    case PageActions.UpdateAddressTotal:
-      return {
-        ...state,
-        addressState: {
-          ...state.addressState,
-          total: payload.total,
-        },
-      }
-    case PageActions.UpdateAddressStatus:
-      return {
-        ...state,
-        addressState: {
-          ...state.addressState,
-          addressStatus: payload.addressStatus,
-        },
-      }
-    case PageActions.UpdateAddressTransactionsStatus:
-      return {
-        ...state,
-        addressState: {
-          ...state.addressState,
-          transactionsStatus: payload.transactionsStatus,
-        },
-      }
-
     // block detail page
     case PageActions.UpdateBlock:
       return {

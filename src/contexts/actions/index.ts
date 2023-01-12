@@ -10,12 +10,6 @@ export enum AppActions {
 }
 
 export enum PageActions {
-  UpdateAddress = 'updateAddress',
-  UpdateAddressTransactions = 'updateAddressTransactions',
-  UpdateAddressTotal = 'updateAddressTotal',
-  UpdateAddressStatus = 'updateAddressStatus',
-  UpdateAddressTransactionsStatus = 'updateAddressTransactionsStatus',
-
   UpdateBlockList = 'updateBlockList',
   UpdateBlockListTotal = 'updateBlockListTotal',
 
