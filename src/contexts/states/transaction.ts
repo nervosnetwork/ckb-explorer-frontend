@@ -23,8 +23,3 @@ export const initTransactionState: State.TransactionState = {
   status: 'None',
   scriptFetched: false,
 }
-
-export const initTransactionsState: State.TransactionsState = {
-  transactions: [],
-  total: 0,
-}

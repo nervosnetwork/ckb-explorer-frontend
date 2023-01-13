@@ -16,8 +16,6 @@ export enum PageActions {
   UpdateAddressStatus = 'updateAddressStatus',
   UpdateAddressTransactionsStatus = 'updateAddressTransactionsStatus',
 
-  UpdateHomeBlocks = 'updateHomeBlocks',
-
   UpdateBlockList = 'updateBlockList',
   UpdateBlockListTotal = 'updateBlockListTotal',
 
@@ -29,8 +27,6 @@ export enum PageActions {
   UpdateTransaction = 'updateTransaction',
   UpdateTransactionStatus = 'updateTransactionStatus',
   UpdateTransactionScriptFetched = 'updateTransactionScriptFetched',
-  UpdateTransactions = 'updateTransactions',
-  UpdateTransactionsTotal = 'updateTransactionsTotal',
 
   UpdateStatistics = 'updateStatistics',
 

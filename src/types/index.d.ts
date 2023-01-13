@@ -569,11 +569,6 @@ declare namespace State {
     scriptFetched: boolean
   }
 
-  export interface TransactionsState {
-    transactions: Transaction[]
-    total: number
-  }
-
   export interface TokensState {
     tokens: UDT[]
     total: number
@@ -640,10 +635,8 @@ declare namespace State {
   export interface PageState extends StatisticChartsState {
     addressState: AddressState
     blockState: BlockState
-    homeBlocks: Block[]
     blockListState: BlockListState
     transactionState: TransactionState
-    transactionsState: TransactionsState
     statistics: Statistics
     nervosDaoState: NervosDaoState
     udtState: UDTState
@@ -656,7 +649,6 @@ declare namespace State {
       BlockState,
       BlockListState,
       TransactionState,
-      TransactionsState,
       NervosDaoState,
       UDTState,
       TokensState {}

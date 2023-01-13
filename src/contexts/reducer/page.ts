@@ -5,13 +5,6 @@ export const pageReducer = (
   { type, payload }: { type: PageActions; payload: State.PagePayload },
 ): State.AppState => {
   switch (type) {
-    // home page
-    case PageActions.UpdateHomeBlocks:
-      return {
-        ...state,
-        homeBlocks: payload.homeBlocks,
-      }
-
     // block list page
     case PageActions.UpdateBlockList:
       return {
@@ -121,22 +114,6 @@ export const pageReducer = (
         transactionState: {
           ...state.transactionState,
           status: payload.status,
-        },
-      }
-    case PageActions.UpdateTransactions:
-      return {
-        ...state,
-        transactionsState: {
-          ...state.transactionsState,
-          transactions: payload.transactions,
-        },
-      }
-    case PageActions.UpdateTransactionsTotal:
-      return {
-        ...state,
-        transactionsState: {
-          ...state.transactionsState,
-          total: payload.total,
         },
       }
     case PageActions.UpdateTransactionScriptFetched:

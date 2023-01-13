@@ -1,4 +1,4 @@
-import { fetchTransactionsByBlockHash, fetchBlock, fetchBlocks, fetchBlockList } from '../http/fetcher'
+import { fetchTransactionsByBlockHash, fetchBlock, fetchBlockList } from '../http/fetcher'
 import { AppDispatch } from '../../contexts/reducer'
 import { PageActions } from '../../contexts/actions'
 
@@ -57,21 +57,6 @@ export const getBlock = (blockParam: string, page: number, size: number, dispatc
     .catch(() => {
       handleBlockStatus(dispatch, 'Error')
     })
-}
-
-// home page
-export const getLatestBlocks = (dispatch: AppDispatch) => {
-  fetchBlocks().then((wrappers: Response.Wrapper<State.Block>[] | null) => {
-    if (wrappers) {
-      const blocks = wrappers.map((wrapper: Response.Wrapper<State.Block>) => wrapper.attributes)
-      dispatch({
-        type: PageActions.UpdateHomeBlocks,
-        payload: {
-          homeBlocks: blocks,
-        },
-      })
-    }
-  })
 }
 
 // block list page

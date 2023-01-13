@@ -1,6 +1,7 @@
-import { FC, useEffect, useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { FC, useMemo } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
@@ -9,13 +10,13 @@ import { shannonToCkb } from '../../utils/util'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
-import { useDispatch, useAppState } from '../../contexts/providers'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import { getTransactions } from '../../service/app/transaction'
 import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
 import { TransactionCapacityPanel, TransactionListPanel, ContentTable, HighLightValue } from './styled'
 import AddressText from '../../components/AddressText'
 import { useIsMobile, usePaginationParamsInListPage } from '../../utils/hook'
+import { fetchTransactions } from '../../service/http/fetcher'
+import { RouteState } from '../../routes/state'
 
 interface TableTitleData {
   title: string
@@ -122,8 +123,6 @@ const TransactionCardGroup: FC<{ transactions: State.Transaction[] }> = ({ trans
 }
 
 export default () => {
-  const dispatch = useDispatch()
-
   const [t] = useTranslation()
   const TableTitles = useMemo(
     () => [
@@ -147,13 +146,29 @@ export default () => {
     [t],
   )
 
-  const { transactionsState } = useAppState()
-  const { transactions = [], total } = transactionsState
-
   const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
-  const totalPages = Math.ceil(total / pageSize)
+  const { state } = useLocation<RouteState>()
+  const stateStaleTime = 3000
 
-  useEffect(() => getTransactions(currentPage, pageSize, dispatch), [currentPage, pageSize, dispatch])
+  const query = useQuery(
+    ['transactions', currentPage, pageSize],
+    async () => {
+      const resp = await fetchTransactions(currentPage, pageSize)
+      return {
+        transactions: resp.data.map(wrapper => wrapper.attributes) ?? [],
+        total: resp.meta?.total ?? 0,
+      }
+    },
+    {
+      keepPreviousData: true,
+      initialData:
+        state?.type === 'TransactionListPage' && state.createTime + stateStaleTime > Date.now()
+          ? state.transactionsDataWithFirstPage
+          : undefined,
+    },
+  )
+  const transactions = query.data?.transactions ?? []
+  const totalPages = Math.ceil((query.data?.total ?? 0) / pageSize)
 
   return (
     <Content>
