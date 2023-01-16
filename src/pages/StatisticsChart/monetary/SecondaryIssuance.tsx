@@ -1,26 +1,11 @@
 import { useEffect, useMemo } from 'react'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
-import { isMobile } from '../../../utils/screen'
+import { useIsMobile } from '../../../utils/hook'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
 import { getStatisticSecondaryIssuance } from '../../../service/app/charts/monetary'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
-
-const gridThumbnail = {
-  left: '4%',
-  right: '10%',
-  top: '8%',
-  bottom: '6%',
-  containLabel: true,
-}
-const grid = {
-  left: '4%',
-  right: '3%',
-  top: '8%',
-  bottom: '5%',
-  containLabel: true,
-}
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 155 : 70)
 
@@ -40,121 +25,139 @@ const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string,
 const getOption = (
   statisticSecondaryIssuance: State.StatisticSecondaryIssuance[],
   chartColor: State.App['chartColor'],
+  isMobile: boolean,
   isThumbnail = false,
-): echarts.EChartOption => ({
-  color: chartColor.secondaryIssuanceColors,
-  tooltip: !isThumbnail
-    ? {
-        trigger: 'axis',
-        formatter: (dataList: any) => {
-          const list = dataList as Array<SeriesItem & { data: [string, string, string, string] }>
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${
-            dataList[0].data[0]
-          }</div>`
-          list.forEach(data => {
-            result += parseTooltip(data)
-          })
-          return result
+): echarts.EChartOption => {
+  const gridThumbnail = {
+    left: '4%',
+    right: '10%',
+    top: '8%',
+    bottom: '6%',
+    containLabel: true,
+  }
+  const grid = {
+    left: '4%',
+    right: '3%',
+    top: '8%',
+    bottom: '5%',
+    containLabel: true,
+  }
+  return {
+    color: chartColor.secondaryIssuanceColors,
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: (dataList: any) => {
+            const list = dataList as Array<SeriesItem & { data: [string, string, string, string] }>
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${
+              dataList[0].data[0]
+            }</div>`
+            list.forEach(data => {
+              result += parseTooltip(data)
+            })
+            return result
+          },
+        }
+      : undefined,
+    legend: {
+      data: isThumbnail
+        ? []
+        : [
+            {
+              name: i18n.t('nervos_dao.burnt'),
+            },
+            {
+              name: i18n.t('nervos_dao.mining_reward'),
+            },
+            {
+              name: i18n.t('nervos_dao.deposit_compensation'),
+            },
+          ],
+    },
+    grid: isThumbnail ? gridThumbnail : grid,
+    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    xAxis: [
+      {
+        name: isMobile || isThumbnail ? '' : i18n.t('statistic.date'),
+        nameLocation: 'middle',
+        nameGap: 30,
+        type: 'category',
+        boundaryGap: false,
+      },
+    ],
+    yAxis: [
+      {
+        position: 'left',
+        type: 'value',
+        axisLine: {
+          lineStyle: {
+            color: chartColor.colors[0],
+          },
         },
-      }
-    : undefined,
-  legend: {
-    data: isThumbnail
-      ? []
-      : [
-          {
-            name: i18n.t('nervos_dao.burnt'),
-          },
-          {
-            name: i18n.t('nervos_dao.mining_reward'),
-          },
-          {
-            name: i18n.t('nervos_dao.deposit_compensation'),
-          },
-        ],
-  },
-  grid: isThumbnail ? gridThumbnail : grid,
-  dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
-  xAxis: [
-    {
-      name: isMobile() || isThumbnail ? '' : i18n.t('statistic.date'),
-      nameLocation: 'middle',
-      nameGap: 30,
-      type: 'category',
-      boundaryGap: false,
-    },
-  ],
-  yAxis: [
-    {
-      position: 'left',
-      type: 'value',
-      axisLine: {
-        lineStyle: {
-          color: chartColor.colors[0],
+        axisLabel: {
+          formatter: (value: string) => `${value}%`,
         },
       },
-      axisLabel: {
-        formatter: (value: string) => `${value}%`,
+    ],
+    series: [
+      {
+        name: i18n.t('nervos_dao.burnt'),
+        type: 'line',
+        yAxisIndex: 0,
+        symbol: isThumbnail ? 'none' : 'circle',
+        symbolSize: 3,
+        stack: 'sum',
+        areaStyle: {},
+        encode: {
+          x: 'timestamp',
+          y: 'treasury',
+        },
       },
-    },
-  ],
-  series: [
-    {
-      name: i18n.t('nervos_dao.burnt'),
-      type: 'line',
-      yAxisIndex: 0,
-      symbol: isThumbnail ? 'none' : 'circle',
-      symbolSize: 3,
-      stack: 'sum',
-      areaStyle: {},
-      encode: {
-        x: 'timestamp',
-        y: 'treasury',
+      {
+        name: i18n.t('nervos_dao.mining_reward'),
+        type: 'line',
+        yAxisIndex: 0,
+        symbol: isThumbnail ? 'none' : 'circle',
+        symbolSize: 3,
+        stack: 'sum',
+        areaStyle: {},
+        encode: {
+          x: 'timestamp',
+          y: 'reward',
+        },
       },
-    },
-    {
-      name: i18n.t('nervos_dao.mining_reward'),
-      type: 'line',
-      yAxisIndex: 0,
-      symbol: isThumbnail ? 'none' : 'circle',
-      symbolSize: 3,
-      stack: 'sum',
-      areaStyle: {},
-      encode: {
-        x: 'timestamp',
-        y: 'reward',
+      {
+        name: i18n.t('nervos_dao.deposit_compensation'),
+        type: 'line',
+        yAxisIndex: 0,
+        symbol: isThumbnail ? 'none' : 'circle',
+        symbolSize: 3,
+        stack: 'sum',
+        areaStyle: {},
+        encode: {
+          x: 'timestamp',
+          y: 'compensation',
+        },
       },
+    ],
+    dataset: {
+      source: statisticSecondaryIssuance.map(data => [
+        parseDateNoTime(data.createdAtUnixtimestamp),
+        data.treasuryAmount,
+        data.miningReward,
+        data.depositCompensation,
+      ]),
+      dimensions: ['timestamp', 'treasury', 'reward', 'compensation'],
     },
-    {
-      name: i18n.t('nervos_dao.deposit_compensation'),
-      type: 'line',
-      yAxisIndex: 0,
-      symbol: isThumbnail ? 'none' : 'circle',
-      symbolSize: 3,
-      stack: 'sum',
-      areaStyle: {},
-      encode: {
-        x: 'timestamp',
-        y: 'compensation',
-      },
-    },
-  ],
-  dataset: {
-    source: statisticSecondaryIssuance.map(data => [
-      parseDateNoTime(data.createdAtUnixtimestamp),
-      data.treasuryAmount,
-      data.miningReward,
-      data.depositCompensation,
-    ]),
-    dimensions: ['timestamp', 'treasury', 'reward', 'compensation'],
-  },
-})
+  }
+}
 
 export const SecondaryIssuanceChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const isMobile = useIsMobile()
   const { statisticSecondaryIssuance, statisticSecondaryIssuanceFetchEnd, app } = useAppState()
   const option = useMemo(
-    () => getOption(statisticSecondaryIssuance, app.chartColor, isThumbnail),
-    [statisticSecondaryIssuance, app.chartColor, isThumbnail],
+    () => getOption(statisticSecondaryIssuance, app.chartColor, isMobile, isThumbnail),
+    [statisticSecondaryIssuance, app.chartColor, isMobile, isThumbnail],
   )
   if (!statisticSecondaryIssuanceFetchEnd || statisticSecondaryIssuance.length === 0) {
     return <ChartLoading show={!statisticSecondaryIssuanceFetchEnd} isThumbnail={isThumbnail} />

@@ -12,7 +12,7 @@ import { HttpErrorCode, SearchFailType } from '../../constants/common'
 import { AppDispatch } from '../../contexts/reducer'
 import { ComponentActions } from '../../contexts/actions'
 import { useAppState, useDispatch } from '../../contexts/providers'
-import { isMobile } from '../../utils/screen'
+import { useIsMobile } from '../../utils/hook'
 import { isChainTypeError } from '../../utils/chain'
 
 enum SearchResultType {
@@ -44,14 +44,12 @@ const setSearchContent = (inputElement: any, content: string) => {
 }
 
 const hideMobileMenu = (dispatch: AppDispatch) => {
-  if (isMobile()) {
-    dispatch({
-      type: ComponentActions.UpdateHeaderMobileMenuVisible,
-      payload: {
-        mobileMenuVisible: false,
-      },
-    })
-  }
+  dispatch({
+    type: ComponentActions.UpdateHeaderMobileMenuVisible,
+    payload: {
+      mobileMenuVisible: false,
+    },
+  })
 }
 
 const handleSearchResult = (
@@ -61,8 +59,9 @@ const handleSearchResult = (
   dispatch: AppDispatch,
   setSearchValue: Function,
   history: ReturnType<typeof useHistory>,
+  isMobile: boolean,
 ) => {
-  hideMobileMenu(dispatch)
+  if (isMobile) hideMobileMenu(dispatch)
   const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
   if (!query || containSpecialChar(query)) {
     history.push(`/search/fail?q=${query}`)
@@ -122,6 +121,7 @@ const handleSearchResult = (
 }
 
 const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean }) => {
+  const isMobile = useIsMobile()
   const dispatch = useDispatch()
   const history = useHistory()
   const [t] = useTranslation()
@@ -139,10 +139,11 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
   }, [SearchPlaceholder])
 
   useEffect(() => {
-    if (inputElement.current && !isMobile()) {
+    if (inputElement.current && !isMobile) {
       const input = inputElement.current as HTMLInputElement
       input.focus()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const clearSearchAction = (isClear?: boolean) => {
@@ -170,7 +171,7 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
 
   const searchKeyAction = (event: any) => {
     if (event.keyCode === 13) {
-      handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch, setSearchValue, history)
+      handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch, setSearchValue, history, isMobile)
     }
   }
 
@@ -197,7 +198,15 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
       {hasButton && (
         <SearchButton
           onClick={() =>
-            handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch, setSearchValue, history)
+            handleSearchResult(
+              searchValue,
+              inputElement,
+              searchBarEditable,
+              dispatch,
+              setSearchValue,
+              history,
+              isMobile,
+            )
           }
         >
           {i18n.t('search.search')}

@@ -59,19 +59,14 @@ export const shannonToCkb = (value: BigNumber | string | number): string => {
   return `${num}`
 }
 
-export const toCamelcase = <T>(object: any): T | null => {
-  try {
-    return JSON.parse(
-      JSON.stringify(
-        camelcaseKeys(object, {
-          deep: true,
-        }),
-      ),
-    ) as T
-  } catch (error) {
-    console.error(error)
-  }
-  return null
+export const toCamelcase = <T>(object: any): T => {
+  return JSON.parse(
+    JSON.stringify(
+      camelcaseKeys(object, {
+        deep: true,
+      }),
+    ),
+  ) as T
 }
 
 export const formatConfirmation = (confirmation: number) => {

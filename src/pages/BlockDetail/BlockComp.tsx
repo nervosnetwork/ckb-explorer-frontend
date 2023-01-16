@@ -13,7 +13,7 @@ import { useAppState } from '../../contexts/providers'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString, handleDifficulty } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
+import { useIsMobile } from '../../utils/hook'
 import { hexToUtf8 } from '../../utils/string'
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
 import {
@@ -97,6 +97,7 @@ const BlockMinerReward = ({
 }
 
 export const BlockOverview = () => {
+  const isMobile = useIsMobile()
   const {
     blockState: { block },
     statistics: { tipBlockNumber },
@@ -199,7 +200,7 @@ export const BlockOverview = () => {
     },
   ]
 
-  if (isMobile()) {
+  if (isMobile) {
     const newItems: OverviewItemData[] = []
     overviewItems.forEach((item, index) => (index % 2 === 0 ? newItems.push(item) : null))
     overviewItems.forEach((item, index) => (index % 2 !== 0 ? newItems.push(item) : null))
@@ -217,7 +218,7 @@ export const BlockOverview = () => {
   }
   return (
     <OverviewCard items={overviewItems} hideShadow>
-      {isMobile() ? (
+      {isMobile ? (
         <BlockOverviewDisplayControlPanel onClick={() => setShowAllOverview(!showAllOverview)}>
           <img src={getDropdownIcon()} alt={showAllOverview ? 'show' : 'hide'} />
         </BlockOverviewDisplayControlPanel>

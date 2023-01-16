@@ -4,23 +4,8 @@ import { getStatisticMinerAddressDistribution } from '../../../service/app/chart
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
-import { isMobile } from '../../../utils/screen'
+import { useIsMobile } from '../../../utils/hook'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
-
-const gridThumbnail = {
-  left: '4%',
-  right: '10%',
-  top: '8%',
-  bottom: '6%',
-  containLabel: true,
-}
-const grid = {
-  left: '3%',
-  right: '3%',
-  top: '5%',
-  bottom: '5%',
-  containLabel: true,
-}
 
 const Colors = [
   '#069ECD',
@@ -35,51 +20,69 @@ const Colors = [
   '#FBB04C',
 ]
 
-const addressText = (address: string) =>
-  isMobile() ? adaptMobileEllipsis(address, 4) : adaptPCEllipsis(address, 2, 80)
-
 const getOption = (
   statisticMinerAddresses: State.StatisticMinerAddress[],
   chartColor: State.App['chartColor'],
+  isMobile: boolean,
   isThumbnail = false,
-): echarts.EChartOption => ({
-  color: [chartColor.colors[0], ...Colors],
-  tooltip: !isThumbnail
-    ? {
-        formatter: (data: any) => {
-          const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 60 : 65)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.address'))} ${addressText(
-            data.data.title,
-          )}</div>`
-          result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(i18n.t('statistic.miner_ratio'))} ${(
-            Number(data.data.value) * 100
-          ).toFixed(1)}%</div>`
-          return result
+): echarts.EChartOption => {
+  const gridThumbnail = {
+    left: '4%',
+    right: '10%',
+    top: '8%',
+    bottom: '6%',
+    containLabel: true,
+  }
+  const grid = {
+    left: '3%',
+    right: '3%',
+    top: '5%',
+    bottom: '5%',
+    containLabel: true,
+  }
+
+  const addressText = (address: string) =>
+    isMobile ? adaptMobileEllipsis(address, 4) : adaptPCEllipsis(address, 2, 80)
+
+  return {
+    color: [chartColor.colors[0], ...Colors],
+    tooltip: !isThumbnail
+      ? {
+          formatter: (data: any) => {
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 60 : 65)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.address'))} ${addressText(
+              data.data.title,
+            )}</div>`
+            result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(i18n.t('statistic.miner_ratio'))} ${(
+              Number(data.data.value) * 100
+            ).toFixed(1)}%</div>`
+            return result
+          },
+        }
+      : undefined,
+    grid: isThumbnail ? gridThumbnail : grid,
+    series: [
+      {
+        name: i18n.t('statistic.miner_ratio'),
+        type: 'pie',
+        radius: isMobile || isThumbnail ? '50%' : '75%',
+        center: ['50%', '50%'],
+        itemStyle: {
+          emphasis: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)',
+          },
         },
-      }
-    : undefined,
-  grid: isThumbnail ? gridThumbnail : grid,
-  series: [
-    {
-      name: i18n.t('statistic.miner_ratio'),
-      type: 'pie',
-      radius: isMobile() || isThumbnail ? '50%' : '75%',
-      center: ['50%', '50%'],
-      itemStyle: {
-        emphasis: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: 'rgba(0, 0, 0, 0.5)',
-        },
+        data: statisticMinerAddresses.map(data => ({
+          name: `${addressText(data.address.toLowerCase())} (${(Number(data.radio) * 100).toFixed(1)}%)`,
+          title: data.address.toLowerCase(),
+          value: data.radio,
+        })),
       },
-      data: statisticMinerAddresses.map(data => ({
-        name: `${addressText(data.address.toLowerCase())} (${(Number(data.radio) * 100).toFixed(1)}%)`,
-        title: data.address.toLowerCase(),
-        value: data.radio,
-      })),
-    },
-  ],
-})
+    ],
+  }
+}
 
 export const MinerAddressDistributionChart = ({
   isThumbnail = false,
@@ -88,10 +91,11 @@ export const MinerAddressDistributionChart = ({
   isThumbnail?: boolean
   clickEvent?: Function
 }) => {
+  const isMobile = useIsMobile()
   const { statisticMinerAddresses, statisticMinerAddressesFetchEnd, app } = useAppState()
   const option = useMemo(
-    () => getOption(statisticMinerAddresses, app.chartColor, isThumbnail),
-    [statisticMinerAddresses, app.chartColor, isThumbnail],
+    () => getOption(statisticMinerAddresses, app.chartColor, isMobile, isThumbnail),
+    [statisticMinerAddresses, app.chartColor, isMobile, isThumbnail],
   )
   if (!statisticMinerAddressesFetchEnd || statisticMinerAddresses.length === 0) {
     return <ChartLoading show={!statisticMinerAddressesFetchEnd} isThumbnail={isThumbnail} />

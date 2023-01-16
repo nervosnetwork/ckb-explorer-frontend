@@ -7,7 +7,7 @@ import { useAppState } from '../../../contexts/providers'
 import { HeaderBlockchainPanel, MobileSubMenuPanel } from './styled'
 import SimpleButton from '../../SimpleButton'
 import ChainDropdown from '../../Dropdown/ChainType'
-import { isMobile } from '../../../utils/screen'
+import { useIsMobile } from '../../../utils/hook'
 import { ChainName, MAINNET_URL, TESTNET_URL } from '../../../constants/common'
 
 const getDropdownIcon = (showDropdown: boolean) => {
@@ -119,4 +119,4 @@ const BlockchainMenu = () => {
   )
 }
 
-export default () => (isMobile() ? <BlockchainMenu /> : <BlockchainDropdown />)
+export default () => (useIsMobile() ? <BlockchainMenu /> : <BlockchainDropdown />)

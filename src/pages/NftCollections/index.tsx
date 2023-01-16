@@ -1,5 +1,5 @@
 import type { AxiosResponse } from 'axios'
-import { useLocation, useHistory, Link } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 import { Tooltip } from 'antd'
@@ -10,6 +10,7 @@ import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import { handleNftImgError, patchMibaoImg, udtSubmitEmail } from '../../utils/util'
 import { getPrimaryColor } from '../../constants/common'
+import { useSearchParams } from '../../utils/hook'
 
 const primaryColor = getPrimaryColor()
 
@@ -37,10 +38,8 @@ interface Res {
 const submitTokenInfoUrl = udtSubmitEmail()
 
 const NftCollections = () => {
-  const { search } = useLocation()
   const history = useHistory()
-  const q = new URLSearchParams(search)
-  const page = q.get('page') ?? '1'
+  const { page = '1' } = useSearchParams('page')
 
   const { isLoading, data } = useQuery<AxiosResponse<Res>>(['nft-collections', page], () =>
     v2AxiosIns('nft/collections', {

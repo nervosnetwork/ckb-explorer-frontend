@@ -1,24 +1,21 @@
-import { useEffect, useMemo } from 'react'
-import { Link, useHistory, useLocation } from 'react-router-dom'
-import queryString from 'query-string'
+import { FC, useEffect, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
 import { TableTitleItem, TableContentItem } from '../../components/Table'
 import { shannonToCkb } from '../../utils/util'
-import { parsePageNumber } from '../../utils/string'
-import { ListPageParams } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
 import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
 import { useDispatch, useAppState } from '../../contexts/providers'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { getTransactions } from '../../service/app/transaction'
-import ItemCard, { ItemCardData } from '../../components/Card/ItemCard'
+import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
 import { TransactionCapacityPanel, TransactionListPanel, ContentTable, HighLightValue } from './styled'
 import AddressText from '../../components/AddressText'
+import { useIsMobile, usePaginationParamsInListPage } from '../../utils/hook'
 
 interface TableTitleData {
   title: string
@@ -73,16 +70,11 @@ const getTableContentTxList = (transaction: State.Transaction) => {
   ] as TableContentData[]
 }
 
-const TransactionCardItems = (transaction: State.Transaction) => {
-  const transactionCapacity = (
-    <TransactionCapacityPanel>
-      <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
-    </TransactionCapacityPanel>
-  )
-  return [
+const TransactionCardGroup: FC<{ transactions: State.Transaction[] }> = ({ transactions }) => {
+  const items: ItemCardData<State.Transaction>[] = [
     {
       title: i18n.t('transaction.transaction_hash'),
-      content: (
+      render: transaction => (
         <HighLightValue>
           <AddressText
             disableTooltip
@@ -98,7 +90,7 @@ const TransactionCardItems = (transaction: State.Transaction) => {
     },
     {
       title: i18n.t('transaction.height'),
-      content: (
+      render: transaction => (
         <TransactionValueItem
           value={localeNumberString(transaction.blockNumber)}
           to={`/block/${transaction.blockNumber}`}
@@ -107,19 +99,30 @@ const TransactionCardItems = (transaction: State.Transaction) => {
     },
     {
       title: i18n.t('transaction.capacity'),
-      content: transactionCapacity,
+      render: transaction => (
+        <TransactionCapacityPanel>
+          <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
+        </TransactionCapacityPanel>
+      ),
     },
     {
       title: i18n.t('transaction.time'),
-      content: parseSimpleDate(transaction.blockTimestamp),
+      render: transaction => parseSimpleDate(transaction.blockTimestamp),
     },
-  ] as ItemCardData[]
+  ]
+
+  return (
+    <ItemCardGroup
+      className="transaction__panel"
+      items={items}
+      dataSource={transactions}
+      getDataKey={transaction => transaction.transactionHash}
+    />
+  )
 }
 
 export default () => {
   const dispatch = useDispatch()
-  const { replace, push } = useHistory()
-  const { search } = useLocation()
 
   const [t] = useTranslation()
   const TableTitles = useMemo(
@@ -144,36 +147,21 @@ export default () => {
     [t],
   )
 
-  const parsed = queryString.parse(search)
   const { transactionsState } = useAppState()
   const { transactions = [], total } = transactionsState
 
-  const currentPage = parsePageNumber(parsed.page, ListPageParams.PageNo)
-  const pageSize = parsePageNumber(parsed.size, ListPageParams.PageSize)
+  const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
   const totalPages = Math.ceil(total / pageSize)
 
-  useEffect(() => {
-    if (pageSize > ListPageParams.MaxPageSize) {
-      replace(`/transaction/list?page=${currentPage}&size=${ListPageParams.MaxPageSize}`)
-    }
-    getTransactions(currentPage, pageSize, dispatch)
-  }, [replace, currentPage, pageSize, dispatch])
-
-  const onChange = (page: number) => {
-    push(`/transaction/list?page=${page}&size=${pageSize}`)
-  }
+  useEffect(() => getTransactions(currentPage, pageSize, dispatch), [currentPage, pageSize, dispatch])
 
   return (
     <Content>
       <TransactionListPanel className="container">
         <div className="transaction__green__background" />
-        {isMobile() ? (
+        {useIsMobile() ? (
           <ContentTable>
-            <div className="transaction__panel">
-              {transactions.map((transaction: State.Transaction) => (
-                <ItemCard key={transaction.transactionHash} items={TransactionCardItems(transaction)} />
-              ))}
-            </div>
+            <TransactionCardGroup transactions={transactions} />
           </ContentTable>
         ) : (
           <ContentTable>
@@ -196,7 +184,7 @@ export default () => {
           </ContentTable>
         )}
         <div className="transaction_list__pagination">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
         </div>
       </TransactionListPanel>
     </Content>
