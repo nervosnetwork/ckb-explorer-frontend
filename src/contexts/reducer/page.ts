@@ -433,30 +433,6 @@ export const pageReducer = (
           filterStatus: payload.filterStatus,
         },
       }
-    case PageActions.UpdateTokens:
-      return {
-        ...state,
-        tokensState: {
-          ...state.tokensState,
-          tokens: payload.tokens,
-        },
-      }
-    case PageActions.UpdateTokensTotal:
-      return {
-        ...state,
-        tokensState: {
-          ...state.tokensState,
-          total: payload.total,
-        },
-      }
-    case PageActions.UpdateTokensStatus:
-      return {
-        ...state,
-        tokensState: {
-          ...state.tokensState,
-          status: payload.status,
-        },
-      }
     default:
       return state
   }

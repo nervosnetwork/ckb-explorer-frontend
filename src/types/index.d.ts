@@ -565,12 +565,6 @@ declare namespace State {
     scriptFetched: boolean
   }
 
-  export interface TokensState {
-    tokens: UDT[]
-    total: number
-    status: FetchStatus
-  }
-
   export interface StatisticChartsState {
     statisticDifficultyHashRates: StatisticDifficultyHashRate[]
     statisticDifficultyHashRatesFetchEnd: boolean
@@ -634,10 +628,9 @@ declare namespace State {
     statistics: Statistics
     nervosDaoState: NervosDaoState
     udtState: UDTState
-    tokensState: TokensState
   }
 
-  export interface PagePayload extends PageState, BlockState, TransactionState, NervosDaoState, UDTState, TokensState {}
+  export interface PagePayload extends PageState, BlockState, TransactionState, NervosDaoState, UDTState {}
 
   export interface App {
     toast: ToastMessage | null

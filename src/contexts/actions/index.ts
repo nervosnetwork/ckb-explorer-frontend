@@ -90,10 +90,6 @@ export enum PageActions {
   UpdateUDTTransactionsTotal = 'updateUDTTransactionsTotal',
   UpdateUDTStatus = 'updateUDTStatus',
   UpdateUDTFilterStatus = 'updateUDTFilterStatus',
-
-  UpdateTokens = 'updateTokens',
-  UpdateTokensTotal = 'updateTokensTotal',
-  UpdateTokensStatus = 'updateTokensStatus',
 }
 
 export enum ComponentActions {
