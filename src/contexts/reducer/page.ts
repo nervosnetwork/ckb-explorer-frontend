@@ -5,24 +5,6 @@ export const pageReducer = (
   { type, payload }: { type: PageActions; payload: State.PagePayload },
 ): State.AppState => {
   switch (type) {
-    // block list page
-    case PageActions.UpdateBlockList:
-      return {
-        ...state,
-        blockListState: {
-          ...state.blockListState,
-          blocks: payload.blocks,
-        },
-      }
-    case PageActions.UpdateBlockListTotal:
-      return {
-        ...state,
-        blockListState: {
-          ...state.blockListState,
-          total: payload.total,
-        },
-      }
-
     // block detail page
     case PageActions.UpdateBlock:
       return {

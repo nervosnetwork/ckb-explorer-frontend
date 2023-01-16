@@ -1,5 +1,5 @@
 import initApp from './app'
-import { initBlockState, initBlockListState } from './block'
+import { initBlockState } from './block'
 import initStatistics from './statistics'
 import { initTransactionState } from './transaction'
 import initComponents from './components'
@@ -13,7 +13,6 @@ export type FetchStatus = keyof State.FetchStatus
 const initState: State.AppState = {
   app: initApp,
   blockState: initBlockState,
-  blockListState: initBlockListState,
   transactionState: initTransactionState,
   statistics: initStatistics,
   nervosDaoState: initNervosDaoState,

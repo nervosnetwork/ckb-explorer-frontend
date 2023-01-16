@@ -1,4 +1,4 @@
-import { fetchTransactionsByBlockHash, fetchBlock, fetchBlockList } from '../http/fetcher'
+import { fetchTransactionsByBlockHash, fetchBlock } from '../http/fetcher'
 import { AppDispatch } from '../../contexts/reducer'
 import { PageActions } from '../../contexts/actions'
 
@@ -57,28 +57,4 @@ export const getBlock = (blockParam: string, page: number, size: number, dispatc
     .catch(() => {
       handleBlockStatus(dispatch, 'Error')
     })
-}
-
-// block list page
-export const getBlocks = (page: number, size: number, dispatch: AppDispatch) => {
-  fetchBlockList(page, size).then(response => {
-    const { data, meta } = response as Response.Response<Response.Wrapper<State.Block>[]>
-    if (meta) {
-      dispatch({
-        type: PageActions.UpdateBlockListTotal,
-        payload: {
-          total: meta.total,
-        },
-      })
-    }
-    if (data) {
-      const blocks = data.map((wrapper: Response.Wrapper<State.Block>) => wrapper.attributes)
-      dispatch({
-        type: PageActions.UpdateBlockList,
-        payload: {
-          blocks,
-        },
-      })
-    }
-  })
 }

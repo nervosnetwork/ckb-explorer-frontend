@@ -1,6 +1,7 @@
-import { useEffect, Fragment, useMemo, FC } from 'react'
+import { Fragment, useMemo, FC } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import { parseSimpleDate } from '../../utils/date'
 import { BlockListPanel, ContentTable, HighLightValue, BlockRewardContainer, BlockRewardPanel } from './styled'
 import Content from '../../components/Content'
@@ -11,12 +12,11 @@ import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
-import { useAppState, useDispatch } from '../../contexts/providers'
-import { getBlocks } from '../../service/app/block'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
 import AddressText from '../../components/AddressText'
 import { useIsMobile, usePaginationParamsInListPage } from '../../utils/hook'
+import { fetchBlockList } from '../../service/http/fetcher'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
   <HighLightValue>
@@ -124,7 +124,6 @@ const BlockCardGroup: FC<{ blocks: State.Block[]; isFirstPage: boolean }> = ({ b
 
 export default () => {
   const isMobile = useIsMobile()
-  const dispatch = useDispatch()
 
   const [t] = useTranslation()
   const TableTitles = useMemo(
@@ -153,16 +152,18 @@ export default () => {
     [t],
   )
 
-  const {
-    blockListState: { blocks = [], total },
-  } = useAppState()
-
   const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
-  const totalPages = Math.ceil(total / pageSize)
 
-  useEffect(() => {
-    getBlocks(currentPage, pageSize, dispatch)
-  }, [currentPage, pageSize, dispatch])
+  const query = useQuery(['blocks', currentPage, pageSize], async () => {
+    const { data, meta } = await fetchBlockList(currentPage, pageSize)
+    return {
+      blocks: data.map(wrapper => wrapper.attributes),
+      total: meta?.total ?? 0,
+    }
+  })
+  const blocks = query.data?.blocks ?? []
+  const total = query.data?.total ?? 0
+  const totalPages = Math.ceil(total / pageSize)
 
   const blockList = blocks.map(b => ({
     ...b,

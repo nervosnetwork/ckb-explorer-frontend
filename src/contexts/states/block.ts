@@ -32,13 +32,3 @@ export const initBlockState: State.BlockState = {
   total: 0,
   status: 'None',
 }
-
-export const initBlockListState: State.BlockListState = {
-  blocks: [],
-  total: 0,
-}
-
-export default {
-  initBlockState,
-  initBlockListState,
-}
