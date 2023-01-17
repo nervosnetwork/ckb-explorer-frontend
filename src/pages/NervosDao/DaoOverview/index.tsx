@@ -26,7 +26,8 @@ import { handleBigNumber, handleBigNumberFloor } from '../../../utils/string'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkbDecimal, shannonToCkb } from '../../../utils/util'
 import DecimalCapacity from '../../../components/DecimalCapacity'
-import { isMobile, isScreenSmallerThan1200 } from '../../../utils/screen'
+import { isScreenSmallerThan1200 } from '../../../utils/screen'
+import { useIsMobile } from '../../../utils/hook'
 
 interface NervosDaoItemContent {
   title: string
@@ -132,13 +133,14 @@ const NervosDaoLeftItem = ({ item, firstLine }: { item: NervosDaoItemContent; fi
 )
 
 const NervosDaoOverviewLeftComp = () => {
+  const isMobile = useIsMobile()
   const {
     nervosDaoState: { nervosDao },
   } = useAppState()
 
   const leftItems = nervosDaoItemContents(nervosDao)
 
-  if (isMobile()) {
+  if (isMobile) {
     return (
       <DaoOverviewLeftPanel>
         <div>
@@ -184,7 +186,7 @@ const NervosDaoOverviewLeftComp = () => {
   )
 }
 
-const getOption = (nervosDao: State.NervosDao, colors: string[]): echarts.EChartOption => {
+const getOption = (nervosDao: State.NervosDao, colors: string[], isMobile: boolean): echarts.EChartOption => {
   const { miningReward, depositCompensation, treasuryAmount } = nervosDao
   const sum =
     shannonToCkbDecimal(miningReward) + shannonToCkbDecimal(depositCompensation) + shannonToCkbDecimal(treasuryAmount)
@@ -242,7 +244,7 @@ const getOption = (nervosDao: State.NervosDao, colors: string[]): echarts.EChart
         },
         labelLine: {
           length: 4,
-          length2: isMobile() ? 4 : 12,
+          length2: isMobile ? 4 : 12,
         },
         itemStyle: {
           emphasis: {
@@ -256,16 +258,19 @@ const getOption = (nervosDao: State.NervosDao, colors: string[]): echarts.EChart
   }
 }
 
-const NervosDaoRightCapacity = ({ reward }: { reward: string }) => (
-  <NervosDaoPieCapacityPanel>
-    <DecimalCapacity
-      value={localeNumberString(shannonToCkb(Number(reward).toFixed()))}
-      fontSize={isMobile() ? '10px' : '12px'}
-      marginBottom="2px"
-      hideUnit
-    />
-  </NervosDaoPieCapacityPanel>
-)
+const NervosDaoRightCapacity = ({ reward }: { reward: string }) => {
+  const isMobile = useIsMobile()
+  return (
+    <NervosDaoPieCapacityPanel>
+      <DecimalCapacity
+        value={localeNumberString(shannonToCkb(Number(reward).toFixed()))}
+        fontSize={isMobile ? '10px' : '12px'}
+        marginBottom="2px"
+        hideUnit
+      />
+    </NervosDaoPieCapacityPanel>
+  )
+}
 
 const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
   <NervosDaoPieItemPanel>
@@ -283,6 +288,7 @@ const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
 )
 
 export default () => {
+  const isMobile = useIsMobile()
   const {
     nervosDaoState: { nervosDao },
     app: { chartColor },
@@ -327,12 +333,12 @@ export default () => {
           <span className="nervos__dao__overview_pie_title">{i18n.t('nervos_dao.secondary_issuance')}</span>
           <ReactEchartsCore
             echarts={echarts}
-            option={getOption(nervosDao, chartColor.daoColors)}
+            option={getOption(nervosDao, chartColor.daoColors, isMobile)}
             notMerge
             lazyUpdate
             style={{
-              height: isMobile() ? '65%' : '90%',
-              width: !isMobile() && isScreenSmallerThan1200() ? '70%' : '100%',
+              height: isMobile ? '65%' : '90%',
+              width: !isMobile && isScreenSmallerThan1200() ? '70%' : '100%',
             }}
             onEvents={{
               click: clickEvent,

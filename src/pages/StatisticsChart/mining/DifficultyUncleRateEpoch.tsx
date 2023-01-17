@@ -4,24 +4,9 @@ import { getStatisticDifficultyUncleRateEpoch } from '../../../service/app/chart
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
-import { isMobile } from '../../../utils/screen'
+import { useIsMobile } from '../../../utils/hook'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
 import { parseHourFromMillisecond } from '../../../utils/date'
-
-const gridThumbnail = {
-  left: '4%',
-  right: '4%',
-  top: '8%',
-  bottom: '6%',
-  containLabel: true,
-}
-const grid = {
-  left: '3%',
-  right: '3%',
-  top: '8%',
-  bottom: '5%',
-  containLabel: true,
-}
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 90 : 80)
 
@@ -38,8 +23,24 @@ const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: string }
 const getOption = (
   statisticChartData: State.StatisticDifficultyUncleRateEpoch[],
   chartColor: State.App['chartColor'],
+  isMobile: boolean,
   isThumbnail = false,
 ) => {
+  const gridThumbnail = {
+    left: '4%',
+    right: '4%',
+    top: '8%',
+    bottom: '6%',
+    containLabel: true,
+  }
+  const grid = {
+    left: '3%',
+    right: '3%',
+    top: '8%',
+    bottom: '5%',
+    containLabel: true,
+  }
+
   const COUNT_IN_THUMBNAIL = 90
   const epochNumberSerie = statisticChartData.map(data => data.epochNumber)
   const epochTimeSerie = statisticChartData.map(data => parseHourFromMillisecond(data.epochTime))
@@ -73,7 +74,7 @@ const getOption = (
             },
           ],
           textStyle: {
-            fontSize: isMobile() ? 11 : 14,
+            fontSize: isMobile ? 11 : 14,
           },
         }
       : undefined,
@@ -99,7 +100,7 @@ const getOption = (
 
     xAxis: [
       {
-        name: isMobile() || isThumbnail ? '' : i18n.t('block.epoch'),
+        name: isMobile || isThumbnail ? '' : i18n.t('block.epoch'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -113,7 +114,7 @@ const getOption = (
     yAxis: [
       {
         position: 'left',
-        name: isMobile() || isThumbnail ? '' : i18n.t('block.epoch_time'),
+        name: isMobile || isThumbnail ? '' : i18n.t('block.epoch_time'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -127,7 +128,7 @@ const getOption = (
       },
       {
         position: 'right',
-        name: isMobile() || isThumbnail ? '' : i18n.t('block.epoch_length'),
+        name: isMobile || isThumbnail ? '' : i18n.t('block.epoch_length'),
         type: 'value',
         scale: true,
         splitLine: {
@@ -188,10 +189,11 @@ const getOption = (
 }
 
 export const DifficultyUncleRateEpochChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const isMobile = useIsMobile()
   const { statisticDifficultyUncleRateEpochs, statisticDifficultyUncleRatesFetchEnd, app } = useAppState()
   const option = useMemo(
-    () => getOption(statisticDifficultyUncleRateEpochs, app.chartColor, isThumbnail),
-    [statisticDifficultyUncleRateEpochs, app.chartColor, isThumbnail],
+    () => getOption(statisticDifficultyUncleRateEpochs, app.chartColor, isMobile, isThumbnail),
+    [statisticDifficultyUncleRateEpochs, app.chartColor, isMobile, isThumbnail],
   )
   if (!statisticDifficultyUncleRatesFetchEnd || statisticDifficultyUncleRateEpochs.length === 0) {
     return <ChartLoading show={!statisticDifficultyUncleRatesFetchEnd} isThumbnail={isThumbnail} />

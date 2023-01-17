@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { isMobile } from './screen'
 
 export const DATA_ZOOM_CONFIG = [
   {
@@ -71,7 +70,7 @@ export const handleStepGroupAxis = (value: BigNumber | string | number, step?: n
 }
 
 export const parseInterval = (max: number, min: number) => {
-  const count = isMobile() ? 5 : 20
+  const count = 20
   const interval = (max - min) / count
   const { length } = Math.ceil(interval).toString()
   const factor = 10 ** (length > 2 ? length - 2 : 0)

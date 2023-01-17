@@ -7,8 +7,13 @@ import {
   parseAddress,
   systemScripts,
 } from '@nervosnetwork/ckb-sdk-utils'
+import { useHistory, useLocation } from 'react-router-dom'
+import queryString from 'query-string'
 import { AppCachedKeys } from '../constants/cache'
 import { deprecatedAddrToNewAddr } from './util'
+import { parsePageNumber } from './string'
+import { ListPageParams, PageParams } from '../constants/common'
+import { MOBILE_DEVICE_MAX_WIDTH } from './screen'
 
 export const useInterval = (callback: () => void, delay: number, deps: any[] = []) => {
   const savedCallback = useRef(() => {})
@@ -80,6 +85,151 @@ export function useBoolean(initialState: boolean): [
     },
   ]
 }
+
+export function useDelayLoading(delay: number, loading: boolean) {
+  const [isDelayFinished, delayFinishedCtl] = useBoolean(false)
+  useTimeout(delayFinishedCtl.on, delay)
+  return isDelayFinished && loading
+}
+
+function getSearchParams<T extends string = string>(search: string, names?: T[]): Partial<Record<T, string>> {
+  const params = queryString.parse(search, { parseBooleans: false, parseNumbers: false })
+  const entries = Object.entries(params).filter((entry): entry is [T, string] => {
+    const [key, value] = entry
+    return (names == null || (names as string[]).includes(key)) && typeof value === 'string'
+  })
+  return Object.fromEntries(entries) as Partial<Record<T, string>>
+}
+
+export function useSearchParams<T extends string>(...names: T[]): Partial<Record<T, string>> {
+  const location = useLocation()
+  return useMemo(() => getSearchParams(location.search, names), [location.search, names])
+}
+
+export function useUpdateSearchParams<T extends string>(): (
+  updater: (current: Partial<Record<T, string>>) => Partial<Record<T, string>>,
+  replace?: boolean,
+) => void {
+  const history = useHistory()
+  const { search, pathname, hash } = useLocation()
+
+  return useCallback(
+    (updater, replace) => {
+      const oldParams: Partial<Record<T, string>> = getSearchParams(search)
+      const newParams = updater(oldParams)
+      const to = queryString.stringifyUrl({
+        url: `${pathname}${hash}`,
+        query: newParams,
+      })
+
+      if (replace) {
+        history.replace(to)
+      } else {
+        history.push(to)
+      }
+    },
+    [hash, history, pathname, search],
+  )
+}
+
+export function usePaginationParamsFromSearch(opts: {
+  defaultPage?: number
+  maxPage?: number
+  defaultPageSize?: number
+  maxPageSize?: number
+}) {
+  const { defaultPage = 1, maxPage = Infinity, defaultPageSize = 10, maxPageSize = 100 } = opts
+  const updateSearchParams = useUpdateSearchParams<'page' | 'size'>()
+  const params = useSearchParams('page', 'size')
+  const currentPage = parsePageNumber(params.page, defaultPage)
+  const pageSize = parsePageNumber(params.size, defaultPageSize)
+
+  useEffect(() => {
+    const pageSizeOversized = pageSize > maxPageSize
+    const pageOversized = currentPage > maxPage
+    if (pageSizeOversized || pageOversized) {
+      updateSearchParams(
+        params => ({
+          ...params,
+          page: pageOversized ? maxPage.toString() : params.page,
+          size: pageSizeOversized ? maxPageSize.toString() : params.size,
+        }),
+        true,
+      )
+    }
+  }, [currentPage, maxPage, maxPageSize, pageSize, updateSearchParams])
+
+  const setPage = useCallback(
+    (page: number) =>
+      updateSearchParams(params => ({
+        ...params,
+        page: Math.min(page, maxPage).toString(),
+      })),
+    [maxPage, updateSearchParams],
+  )
+
+  return {
+    currentPage: Math.min(currentPage, maxPage),
+    pageSize: Math.min(pageSize, maxPageSize),
+    setPage,
+  }
+}
+
+export const usePaginationParamsInPage = () =>
+  usePaginationParamsFromSearch({
+    defaultPage: PageParams.PageNo,
+    defaultPageSize: PageParams.PageSize,
+    maxPageSize: PageParams.MaxPageSize,
+  })
+
+export const usePaginationParamsInListPage = () =>
+  usePaginationParamsFromSearch({
+    defaultPage: ListPageParams.PageNo,
+    defaultPageSize: ListPageParams.PageSize,
+    maxPageSize: ListPageParams.MaxPageSize,
+  })
+
+/**
+ * copied from https://usehooks-ts.com/react-hook/use-media-query
+ */
+export function useMediaQuery(query: string): boolean {
+  const getMatches = (query: string): boolean => {
+    // Prevents SSR issues
+    if (typeof window !== 'undefined') {
+      return window.matchMedia(query).matches
+    }
+    return false
+  }
+
+  const [matches, setMatches] = useState<boolean>(getMatches(query))
+
+  useEffect(() => {
+    const matchMedia = window.matchMedia(query)
+    const handleChange = () => setMatches(getMatches(query))
+
+    // Triggered at the first client-side load and if query changes
+    handleChange()
+
+    // Listen matchMedia
+    if (matchMedia.addListener) {
+      matchMedia.addListener(handleChange)
+    } else {
+      matchMedia.addEventListener('change', handleChange)
+    }
+
+    return () => {
+      if (matchMedia.removeListener) {
+        matchMedia.removeListener(handleChange)
+      } else {
+        matchMedia.removeEventListener('change', handleChange)
+      }
+    }
+  }, [query])
+
+  return matches
+}
+
+export const useIsMobile = () => useMediaQuery(`(max-width: ${MOBILE_DEVICE_MAX_WIDTH}px)`)
 
 export const useAddrFormatToggle = () => {
   const [isNew, setIsNew] = useState(localStorage.getItem(AppCachedKeys.NewAddrFormat) !== 'false')

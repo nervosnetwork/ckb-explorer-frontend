@@ -1,24 +1,18 @@
 import { fetchTransactionByHash, fetchTransactions, fetchLatestTransactions } from '../http/fetcher'
 import { AppDispatch } from '../../contexts/reducer'
-import { AppActions, PageActions } from '../../contexts/actions'
+import { PageActions } from '../../contexts/actions'
 
-const handleStatus = (dispatch: AppDispatch, status: State.FetchStatus) => {
+export const handleTransactionStatus = (dispatch: AppDispatch, status: State.FetchStatus) => {
   dispatch({
     type: PageActions.UpdateTransactionStatus,
     payload: {
       status,
     },
   })
-  dispatch({
-    type: AppActions.UpdateLoading,
-    payload: {
-      loading: false,
-    },
-  })
 }
 
 export const getTransactionByHash = (hash: string, dispatch: AppDispatch) => {
-  handleStatus(dispatch, 'InProgress')
+  handleTransactionStatus(dispatch, 'InProgress')
   fetchTransactionByHash(hash)
     .then((wrapper: Response.Wrapper<State.Transaction> | null) => {
       if (wrapper) {
@@ -32,18 +26,18 @@ export const getTransactionByHash = (hash: string, dispatch: AppDispatch) => {
             transaction: transactionValue,
           },
         })
-        handleStatus(dispatch, 'OK')
+        handleTransactionStatus(dispatch, 'OK')
       } else {
-        handleStatus(dispatch, 'Error')
+        handleTransactionStatus(dispatch, 'Error')
       }
     })
     .catch(() => {
-      handleStatus(dispatch, 'Error')
+      handleTransactionStatus(dispatch, 'Error')
     })
 }
 
 export const getTransactions = (page: number, size: number, dispatch: AppDispatch) => {
-  handleStatus(dispatch, 'InProgress')
+  handleTransactionStatus(dispatch, 'InProgress')
   fetchTransactions(page, size)
     .then(response => {
       const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
@@ -59,15 +53,15 @@ export const getTransactions = (page: number, size: number, dispatch: AppDispatc
           total: meta ? meta.total : 0,
         },
       })
-      handleStatus(dispatch, 'OK')
+      handleTransactionStatus(dispatch, 'OK')
     })
     .catch(() => {
-      handleStatus(dispatch, 'Error')
+      handleTransactionStatus(dispatch, 'Error')
     })
 }
 
 export const getLatestTransactions = (dispatch: AppDispatch) => {
-  handleStatus(dispatch, 'InProgress')
+  handleTransactionStatus(dispatch, 'InProgress')
   fetchLatestTransactions()
     .then(response => {
       const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
@@ -83,9 +77,9 @@ export const getLatestTransactions = (dispatch: AppDispatch) => {
           total: meta ? meta.total : 0,
         },
       })
-      handleStatus(dispatch, 'OK')
+      handleTransactionStatus(dispatch, 'OK')
     })
     .catch(() => {
-      handleStatus(dispatch, 'Error')
+      handleTransactionStatus(dispatch, 'Error')
     })
 }

@@ -3,7 +3,7 @@ import { AppDispatch } from '../../contexts/reducer'
 import { PageActions } from '../../contexts/actions'
 import { deprecatedAddrToNewAddr } from '../../utils/util'
 
-const handleStatus = (dispatch: AppDispatch, status: State.FetchStatus) => {
+export const handleUDTStatus = (dispatch: AppDispatch, status: State.FetchStatus) => {
   dispatch({
     type: PageActions.UpdateUDTStatus,
     payload: {
@@ -22,7 +22,7 @@ const handleFilterStatus = (dispatch: AppDispatch, filterStatus: State.FetchStat
 }
 
 export const getSimpleUDT = (typeHash: string, dispatch: AppDispatch) => {
-  handleStatus(dispatch, 'InProgress')
+  handleUDTStatus(dispatch, 'InProgress')
   fetchSimpleUDT(typeHash)
     .then((wrapper: Response.Wrapper<State.UDT> | null) => {
       if (wrapper) {
@@ -32,18 +32,18 @@ export const getSimpleUDT = (typeHash: string, dispatch: AppDispatch) => {
             udt: wrapper.attributes,
           },
         })
-        handleStatus(dispatch, 'OK')
+        handleUDTStatus(dispatch, 'OK')
       } else {
-        handleStatus(dispatch, 'Error')
+        handleUDTStatus(dispatch, 'Error')
       }
     })
     .catch(() => {
-      handleStatus(dispatch, 'Error')
+      handleUDTStatus(dispatch, 'Error')
     })
 }
 
 export const getSimpleUDTTransactions = (typeHash: string, page: number, size: number, dispatch: AppDispatch) => {
-  handleStatus(dispatch, 'InProgress')
+  handleUDTStatus(dispatch, 'InProgress')
   fetchSimpleUDTTransactions(typeHash, page, size)
     .then((response: any) => {
       const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
@@ -70,7 +70,7 @@ export const getSimpleUDTTransactions = (typeHash: string, page: number, size: n
           total: meta ? meta.total : 0,
         },
       })
-      handleStatus(dispatch, 'OK')
+      handleUDTStatus(dispatch, 'OK')
     })
     .catch(() => {
       dispatch({
@@ -85,7 +85,7 @@ export const getSimpleUDTTransactions = (typeHash: string, page: number, size: n
           total: 0,
         },
       })
-      handleStatus(dispatch, 'Error')
+      handleUDTStatus(dispatch, 'Error')
     })
 }
 

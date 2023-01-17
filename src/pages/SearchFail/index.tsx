@@ -1,11 +1,10 @@
-import queryString from 'query-string'
-import { useLocation } from 'react-router-dom'
 import Content from '../../components/Content'
 import Search from '../../components/Search'
 import i18n from '../../utils/i18n'
 import { SearchFailType, MAINNET_URL, TESTNET_URL } from '../../constants/common'
 import { isMainnet } from '../../utils/chain'
 import { SearchContent, SearchPanel } from './styled'
+import { useSearchParams } from '../../utils/hook'
 
 const chainErrorMessage = () =>
   isMainnet() ? i18n.t('search.address_type_testnet_error') : i18n.t('search.address_type_mainnet_error')
@@ -16,9 +15,8 @@ const chainUrlMessage = () =>
 const targetUrl = isMainnet() ? TESTNET_URL : MAINNET_URL
 
 export default ({ address }: { address?: string }) => {
-  const { search } = useLocation()
-  const parsed = queryString.parse(search)
-  const { q, type } = parsed
+  const params = useSearchParams('q', 'type')
+  const { q, type } = params
   const query = address || q
 
   return (
@@ -28,7 +26,7 @@ export default ({ address }: { address?: string }) => {
           <Search content={query as string} hasButton />
         </div>
         <SearchContent>
-          {(type && type === SearchFailType.CHAIN_ERROR) || address ? (
+          {type === SearchFailType.CHAIN_ERROR || address ? (
             <div>
               <span>{chainErrorMessage()}</span>
               <a href={`${targetUrl}address/${q}`} rel="noopener noreferrer">

@@ -1,5 +1,5 @@
 import type { AxiosResponse } from 'axios'
-import { Link, useParams, useLocation, useHistory } from 'react-router-dom'
+import { Link, useParams, useHistory } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { Tooltip } from 'antd'
 import i18n from '../../utils/i18n'
@@ -10,15 +10,14 @@ import { v2AxiosIns } from '../../service/http/fetcher'
 import { getPrimaryColor } from '../../constants/common'
 import styles from './styles.module.scss'
 import { patchMibaoImg, handleNftImgError } from '../../utils/util'
+import { useSearchParams } from '../../utils/hook'
 
 const primaryColor = getPrimaryColor()
 
 const NftInfo = () => {
   const { id, collection } = useParams<Record<'collection' | 'id', string>>()
-  const { search } = useLocation()
   const history = useHistory()
-  const q = new URLSearchParams(search)
-  const page = q.get('page') ?? '1'
+  const { page = '1' } = useSearchParams('page')
   const { data } = useQuery<
     AxiosResponse<{
       id: number
