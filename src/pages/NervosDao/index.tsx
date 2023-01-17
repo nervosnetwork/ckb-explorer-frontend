@@ -61,7 +61,7 @@ export const NervosDao = () => {
   const { push } = useHistory()
   const [t] = useTranslation()
 
-  const { currentPage, pageSize } = usePaginationParamsInPage()
+  const { currentPage, pageSize, setPage } = usePaginationParamsInPage()
   const params = useSearchParams('tab')
   const tab = params.tab as 'transactions' | 'depositors'
   const daoTab = tab || 'transactions'
@@ -91,7 +91,7 @@ export const NervosDao = () => {
         })
         return
       }
-      searchNervosDaoTransactions(filterText, dispatch)
+      searchNervosDaoTransactions(filterText, dispatch, currentPage, pageSize)
     }
   }, [currentPage, dispatch, filterText, pageSize])
 
@@ -132,8 +132,14 @@ export const NervosDao = () => {
             <Filter
               showReset={showReset}
               placeholder={t('nervos_dao.dao_search_placeholder')}
-              onFilter={setFilterText}
-              onReset={() => setFilterText(undefined)}
+              onFilter={query => {
+                setPage(1)
+                setFilterText(query)
+              }}
+              onReset={() => {
+                setPage(1)
+                setFilterText(undefined)
+              }}
             />
           )}
         </DaoTabBarPanel>

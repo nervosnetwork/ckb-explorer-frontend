@@ -70,7 +70,7 @@ export const SimpleUDT = () => {
   const [t] = useTranslation()
   const [showType, setShowType] = useState(false)
   const { hash: typeHash } = useParams<{ hash: string }>()
-  const { currentPage, pageSize } = usePaginationParamsInPage()
+  const { currentPage, pageSize, setPage } = usePaginationParamsInPage()
   const {
     udtState: {
       total,
@@ -107,7 +107,7 @@ export const SimpleUDT = () => {
         })
         return
       }
-      getUDTTransactionsWithAddress(filterText, typeHash, 1, FILTER_COUNT, dispatch)
+      getUDTTransactionsWithAddress(filterText, typeHash, currentPage, FILTER_COUNT, dispatch)
     }
   }, [currentPage, dispatch, filterText, pageSize, typeHash])
 
@@ -150,8 +150,14 @@ export const SimpleUDT = () => {
             <Filter
               showReset={showReset}
               placeholder={t('udt.search_placeholder')}
-              onFilter={setFilterText}
-              onReset={() => setFilterText(undefined)}
+              onFilter={query => {
+                setPage(1)
+                setFilterText(query)
+              }}
+              onReset={() => {
+                setPage(1)
+                setFilterText(undefined)
+              }}
             />
           </div>
         </UDTTransactionTitlePanel>

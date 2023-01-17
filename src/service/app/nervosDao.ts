@@ -79,10 +79,10 @@ export const getNervosDaoTransactions = (dispatch: AppDispatch, page: number, pa
     })
 }
 
-export const searchNervosDaoTransactions = (keyword: string, dispatch: AppDispatch) => {
+export const searchNervosDaoTransactions = (keyword: string, dispatch: AppDispatch, page: number, pageSize: number) => {
   handleTransactionsStatus(dispatch, 'InProgress')
   if (keyword.startsWith('ckt') || keyword.startsWith('ckb')) {
-    fetchNervosDaoTransactionsByAddress(keyword)
+    fetchNervosDaoTransactionsByAddress(keyword, page, pageSize)
       .then((response: any) => {
         handleTransactionsStatus(dispatch, 'OK')
         const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>

@@ -155,10 +155,13 @@ export const fetchNervosDaoTransactionsByHash = (hash: string) =>
     toCamelcase<Response.Wrapper<State.Transaction>>(res.data.data),
   )
 
-export const fetchNervosDaoTransactionsByAddress = (address: string) =>
-  axiosIns(`/address_dao_transactions/${address}`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data),
-  )
+export const fetchNervosDaoTransactionsByAddress = (address: string, page: number, size: number) =>
+  axiosIns(`/address_dao_transactions/${address}`, {
+    params: {
+      page,
+      page_size: size,
+    },
+  }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 
 export const fetchNervosDaoDepositors = () =>
   axiosIns(`/dao_depositors`).then((res: AxiosResponse) =>
