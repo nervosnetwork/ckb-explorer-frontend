@@ -26,6 +26,7 @@ export const initBlockState: State.BlockState = {
     minerReward: '',
     liveCellChanges: '',
     size: 0,
+    cycles: null,
   },
   transactions: [],
   total: 0,
