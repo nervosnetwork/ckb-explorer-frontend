@@ -60,7 +60,11 @@ const Filter = ({
         onKeyUp={event => {
           if (event.keyCode === 13) {
             const query = filterValue.trim().replace(',', '')
-            onFilter(query)
+            if (query !== '') {
+              onFilter(query)
+            } else {
+              onReset()
+            }
           }
         }}
       />

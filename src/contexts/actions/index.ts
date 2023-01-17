@@ -75,12 +75,6 @@ export enum PageActions {
   UpdateNervosDaoTransactionsTotal = 'updateNervosDaoTransactionsTotal',
   UpdateNervosDaoDepositors = 'updateNervosDaoDepositors',
   UpdateNervosDaoStatus = 'updateNervosDaoStatus',
-
-  UpdateUDT = 'updateUDT',
-  UpdateUDTTransactions = 'updateUDTTransactions',
-  UpdateUDTTransactionsTotal = 'updateUDTTransactionsTotal',
-  UpdateUDTStatus = 'updateUDTStatus',
-  UpdateUDTFilterStatus = 'updateUDTFilterStatus',
 }
 
 export enum ComponentActions {

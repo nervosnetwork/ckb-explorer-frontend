@@ -168,10 +168,20 @@ export function usePaginationParamsFromSearch(opts: {
     [maxPage, updateSearchParams],
   )
 
+  const setPageSize = useCallback(
+    (size: number) =>
+      updateSearchParams(params => ({
+        ...params,
+        size: Math.min(size, maxPageSize).toString(),
+      })),
+    [maxPageSize, updateSearchParams],
+  )
+
   return {
     currentPage: Math.min(currentPage, maxPage),
     pageSize: Math.min(pageSize, maxPageSize),
     setPage,
+    setPageSize,
   }
 }
 

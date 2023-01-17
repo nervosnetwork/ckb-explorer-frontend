@@ -332,47 +332,6 @@ export const pageReducer = (
         },
       }
 
-    // simple udt page
-    case PageActions.UpdateUDT:
-      return {
-        ...state,
-        udtState: {
-          ...state.udtState,
-          udt: payload.udt,
-        },
-      }
-    case PageActions.UpdateUDTTransactions:
-      return {
-        ...state,
-        udtState: {
-          ...state.udtState,
-          transactions: payload.transactions,
-        },
-      }
-    case PageActions.UpdateUDTTransactionsTotal:
-      return {
-        ...state,
-        udtState: {
-          ...state.udtState,
-          total: payload.total,
-        },
-      }
-    case PageActions.UpdateUDTStatus:
-      return {
-        ...state,
-        udtState: {
-          ...state.udtState,
-          status: payload.status,
-        },
-      }
-    case PageActions.UpdateUDTFilterStatus:
-      return {
-        ...state,
-        udtState: {
-          ...state.udtState,
-          filterStatus: payload.filterStatus,
-        },
-      }
     default:
       return state
   }

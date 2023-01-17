@@ -536,14 +536,6 @@ declare namespace State {
     uan?: string
   }
 
-  export interface UDTState {
-    udt: UDT
-    transactions: Transaction[]
-    total: number
-    status: FetchStatus
-    filterStatus: FetchStatus
-  }
-
   export interface AddressState {
     address: Address
     transactions: Transaction[]
@@ -612,10 +604,9 @@ declare namespace State {
   export interface PageState extends StatisticChartsState {
     statistics: Statistics
     nervosDaoState: NervosDaoState
-    udtState: UDTState
   }
 
-  export interface PagePayload extends PageState, NervosDaoState, UDTState {}
+  export interface PagePayload extends PageState, NervosDaoState {}
 
   export interface App {
     toast: ToastMessage | null

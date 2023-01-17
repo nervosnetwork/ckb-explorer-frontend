@@ -1,23 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import Loading from '../../components/Loading'
+import { useQuery } from 'react-query'
 import SimpleUDTHashCard from '../../components/Card/HashCard'
-import Error from '../../components/Error'
 import Content from '../../components/Content'
-import { useAppState, useDispatch } from '../../contexts/providers/index'
+import { useDispatch } from '../../contexts/providers/index'
 import { getTipBlockNumber } from '../../service/app/address'
-import { LOADING_WAITING_TIME } from '../../constants/common'
 import i18n from '../../utils/i18n'
 import { SimpleUDTContentPanel, UDTTransactionTitlePanel, TypeScriptController } from './styled'
 import SimpleUDTComp, { SimpleUDTOverview } from './SimpleUDTComp'
-import { useDelayLoading, usePaginationParamsInPage } from '../../utils/hook'
-import {
-  getSimpleUDT,
-  getSimpleUDTTransactions,
-  getUDTTransactionsWithAddress,
-  handleUDTStatus,
-} from '../../service/app/udt'
+import { usePaginationParamsInPage } from '../../utils/hook'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
@@ -28,7 +20,15 @@ import Filter from '../../components/Search/Filter'
 import { localeNumberString } from '../../utils/number'
 import Script from '../../components/Script'
 import { containSpecialChar } from '../../utils/string'
-import { ComponentActions } from '../../contexts/actions'
+import {
+  fetchSimpleUDT,
+  fetchSimpleUDTTransactions,
+  fetchSimpleUDTTransactionsWithAddress,
+} from '../../service/http/fetcher'
+import { deprecatedAddrToNewAddr } from '../../utils/util'
+import { QueryResult } from '../../components/QueryResult'
+import { PageParams } from '../../constants/common'
+import { defaultUDTInfo } from './state'
 
 const FILTER_COUNT = 100
 
@@ -39,91 +39,64 @@ const typeScriptIcon = (show: boolean) => {
   return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
 }
 
-const SimpleUDTCompState = ({
-  currentPage,
-  pageSize,
-  typeHash,
-}: {
-  currentPage: number
-  pageSize: number
-  typeHash: string
-}) => {
-  const {
-    udtState: { status },
-  } = useAppState()
-  const loading = useDelayLoading(LOADING_WAITING_TIME, status === 'None' || status === 'InProgress')
-
-  switch (status) {
-    case 'Error':
-      return <Error />
-    case 'OK':
-      return <SimpleUDTComp currentPage={currentPage} pageSize={pageSize} typeHash={typeHash} />
-    case 'InProgress':
-    case 'None':
-    default:
-      return <Loading show={loading} />
-  }
-}
-
 export const SimpleUDT = () => {
   const dispatch = useDispatch()
   const [t] = useTranslation()
   const [showType, setShowType] = useState(false)
   const { hash: typeHash } = useParams<{ hash: string }>()
-  const { currentPage, pageSize, setPage } = usePaginationParamsInPage()
-  const {
-    udtState: {
-      total,
-      udt: { iconFile, typeScript, symbol, uan },
-      filterStatus,
-    },
-  } = useAppState()
+  const { currentPage, pageSize, setPage, setPageSize } = usePaginationParamsInPage()
 
   useEffect(() => {
     getTipBlockNumber(dispatch)
   }, [dispatch])
 
-  useEffect(() => {
-    getSimpleUDT(typeHash, dispatch)
-  }, [typeHash, currentPage, pageSize, dispatch])
-
-  useEffect(() => {
-    return () => handleUDTStatus(dispatch, 'None')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const querySimpleUDT = useQuery(['simple-udt'], async () => {
+    const wrapper = await fetchSimpleUDT(typeHash)
+    const udt = wrapper.attributes
+    return udt
+  })
+  const udt = querySimpleUDT.data ?? defaultUDTInfo
+  const { iconFile, typeScript, symbol, uan } = udt
 
   const [filterText, setFilterText] = useState<string>()
-
-  useEffect(() => {
-    if (filterText == null) {
-      getSimpleUDTTransactions(typeHash, currentPage, pageSize, dispatch)
-    } else {
-      if (!filterText || containSpecialChar(filterText)) {
-        dispatch({
-          type: ComponentActions.UpdateFilterNoResult,
-          payload: {
-            filterNoResult: true,
-          },
-        })
-        return
-      }
-      getUDTTransactionsWithAddress(filterText, typeHash, currentPage, FILTER_COUNT, dispatch)
-    }
-  }, [currentPage, dispatch, filterText, pageSize, typeHash])
-
-  useEffect(() => {
-    if (filterStatus === 'Error') {
-      dispatch({
-        type: ComponentActions.UpdateFilterNoResult,
-        payload: {
-          filterNoResult: true,
-        },
-      })
-    }
-  }, [dispatch, filterStatus])
-
   const filtering = filterText != null
-  const showReset = filtering && (filterStatus === 'OK' || filterStatus === 'Error')
+  const isInvalidFilter = filtering && containSpecialChar(filterText)
+
+  const querySimpleUDTTransactions = useQuery(
+    ['simple-udt-transactions', typeHash, currentPage, pageSize, filterText, isInvalidFilter],
+    async () => {
+      if (filterText != null) {
+        if (isInvalidFilter) {
+          return { transactions: [], total: 0 }
+        }
+
+        const { data, meta } = await fetchSimpleUDTTransactionsWithAddress(filterText, typeHash, currentPage, pageSize)
+        return {
+          transactions: data.map(wrapper => wrapper.attributes),
+          total: meta?.total ?? 0,
+        }
+      }
+
+      const { data, meta } = await fetchSimpleUDTTransactions(typeHash, currentPage, pageSize)
+      return {
+        transactions:
+          data.map(wrapper => ({
+            ...wrapper.attributes,
+            displayInputs: wrapper.attributes.displayInputs.map(input => ({
+              ...input,
+              addressHash: deprecatedAddrToNewAddr(input.addressHash),
+            })),
+            displayOutputs: wrapper.attributes.displayOutputs.map(output => ({
+              ...output,
+              addressHash: deprecatedAddrToNewAddr(output.addressHash),
+            })),
+          })) || [],
+        total: meta?.total ?? 0,
+      }
+    },
+  )
+  const total = querySimpleUDTTransactions.data?.total ?? 0
+  const filterNoResult = filtering && (isInvalidFilter || querySimpleUDTTransactions.isError)
 
   return (
     <Content>
@@ -133,7 +106,7 @@ export const SimpleUDT = () => {
           hash={typeHash}
           iconUri={iconFile || SUDTTokenIcon}
         >
-          <SimpleUDTOverview>
+          <SimpleUDTOverview udt={udt}>
             <TypeScriptController onClick={() => setShowType(!showType)}>
               <div>{i18n.t('udt.type_script')}</div>
               <img alt="type script" src={typeScriptIcon(showType)} />
@@ -148,21 +121,34 @@ export const SimpleUDT = () => {
               {`${t('transaction.transactions')} (${localeNumberString(total)})`}
             </div>
             <Filter
-              showReset={showReset}
+              showReset={filtering}
               placeholder={t('udt.search_placeholder')}
               onFilter={query => {
                 setPage(1)
+                setPageSize(FILTER_COUNT)
                 setFilterText(query)
               }}
               onReset={() => {
                 setPage(1)
+                setPageSize(PageParams.PageSize)
                 setFilterText(undefined)
               }}
             />
           </div>
         </UDTTransactionTitlePanel>
 
-        <SimpleUDTCompState currentPage={currentPage} pageSize={pageSize} typeHash={typeHash} />
+        <QueryResult query={querySimpleUDTTransactions} delayLoading>
+          {data => (
+            <SimpleUDTComp
+              currentPage={currentPage}
+              pageSize={pageSize}
+              transactions={data.transactions}
+              total={data.total}
+              onPageChange={setPage}
+              filterNoResult={filterNoResult}
+            />
+          )}
+        </QueryResult>
       </SimpleUDTContentPanel>
     </Content>
   )
