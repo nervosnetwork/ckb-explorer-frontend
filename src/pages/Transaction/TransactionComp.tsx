@@ -102,6 +102,7 @@ export const TransactionOverview = () => {
         txStatus,
         detailedMessage,
         bytes,
+        cycles,
       },
     },
     app: { tipBlockNumber },
@@ -112,7 +113,7 @@ export const TransactionOverview = () => {
     confirmation = tipBlockNumber - blockNumber
   }
 
-  const OverviewItems: OverviewItemData[] = [
+  const OverviewItems: Array<OverviewItemData> = [
     {
       title: i18n.t('block.block_height'),
       content: <TransactionBlockHeight blockNumber={blockNumber} txStatus={txStatus} />,
@@ -175,37 +176,44 @@ export const TransactionOverview = () => {
     )
   }
 
-  OverviewItems.push({
-    title: i18n.t('transaction.size'),
-    content: bytes ? (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        {`${(bytes - 4).toLocaleString('en')} Bytes`}
-        <Tooltip
-          placement="top"
-          title={i18n.t('transaction.size_in_block', {
-            bytes: bytes.toLocaleString('en'),
-          })}
+  OverviewItems.push(
+    {
+      title: i18n.t('transaction.size'),
+      content: bytes ? (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
         >
-          <img
-            src={MoreIcon}
-            alt="more"
-            style={{
-              width: 15,
-              height: 15,
-              marginLeft: 6,
-            }}
-          />
-        </Tooltip>
-      </div>
-    ) : (
-      ''
-    ),
-  })
+          {`${(bytes - 4).toLocaleString('en')} Bytes`}
+          <Tooltip
+            placement="top"
+            title={i18n.t('transaction.size_in_block', {
+              bytes: bytes.toLocaleString('en'),
+            })}
+          >
+            <img
+              src={MoreIcon}
+              alt="more"
+              style={{
+                width: 15,
+                height: 15,
+                marginLeft: 6,
+              }}
+            />
+          </Tooltip>
+        </div>
+      ) : (
+        ''
+      ),
+    },
+    null,
+    {
+      title: i18n.t('transaction.cycles'),
+      content: cycles ? `${cycles.toLocaleString('en')} Bytes` : '-',
+    },
+  )
 
   const TransactionParams = [
     {

@@ -210,6 +210,7 @@ declare namespace State {
     minerReward: string
     liveCellChanges: string
     size: number
+    cycles: number | null
   }
 
   export interface CellDep {
@@ -239,6 +240,7 @@ declare namespace State {
     txStatus: string
     detailedMessage: string
     bytes: number
+    cycles: number | null
   }
 
   export interface BlockchainInfo {

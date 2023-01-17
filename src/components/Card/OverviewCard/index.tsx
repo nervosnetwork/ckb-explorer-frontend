@@ -6,7 +6,7 @@ import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import HelpIcon from '../../../assets/qa_help.png'
 import { useIsMobile } from '../../../utils/hook'
 
-export interface OverviewItemData {
+export type OverviewItemData = {
   title: ReactNode
   content: ReactNode
   contentWrapperClass?: string
@@ -15,40 +15,41 @@ export interface OverviewItemData {
   isAsset?: boolean
   tooltip?: string
   valueTooltip?: string
-}
+} | null
 
 const handleOverviewItems = (items: OverviewItemData[], isMobile: boolean) => ({
   leftItems: isMobile ? items : items.filter((_item: any, index: number) => index % 2 === 0),
   rightItems: isMobile ? [] : items.filter((_item: any, index: number) => index % 2 !== 0),
 })
 
-export const OverviewItem = ({ item, hideLine }: { item: OverviewItemData; hideLine: boolean }) => (
-  <OverviewItemPanel hideLine={hideLine} hasIcon={item.icon} isAsset={item.isAsset}>
-    <div className="overview_item__title__panel">
-      {item.icon && (
-        <div className="overview_item__icon">
-          <img src={item.icon} alt="item icon" />
+export const OverviewItem = ({ item, hideLine }: { item: OverviewItemData; hideLine: boolean }) =>
+  item ? (
+    <OverviewItemPanel hideLine={hideLine} hasIcon={item.icon} isAsset={item.isAsset}>
+      <div className="overview_item__title__panel">
+        {item.icon && (
+          <div className="overview_item__icon">
+            <img src={item.icon} alt="item icon" />
+          </div>
+        )}
+        <div className="overview_item__title">
+          <span>{item.title}</span>
+          {item.tooltip && (
+            <Tooltip placement="top" title={item.tooltip}>
+              <img src={HelpIcon} alt="help icon" />
+            </Tooltip>
+          )}
         </div>
-      )}
-      <div className="overview_item__title">
-        <span>{item.title}</span>
-        {item.tooltip && (
-          <Tooltip placement="top" title={item.tooltip}>
+      </div>
+      <div className={classNames('overview_item__value', { filled: item.filled }, item.contentWrapperClass)}>
+        {isValidElement(item.content) ? item.content : <span>{item.content}</span>}
+        {item.valueTooltip && (
+          <Tooltip placement="top" title={item.valueTooltip}>
             <img src={HelpIcon} alt="help icon" />
           </Tooltip>
         )}
       </div>
-    </div>
-    <div className={classNames('overview_item__value', { filled: item.filled }, item.contentWrapperClass)}>
-      {isValidElement(item.content) ? item.content : <span>{item.content}</span>}
-      {item.valueTooltip && (
-        <Tooltip placement="top" title={item.valueTooltip}>
-          <img src={HelpIcon} alt="help icon" />
-        </Tooltip>
-      )}
-    </div>
-  </OverviewItemPanel>
-)
+    </OverviewItemPanel>
+  ) : null
 
 export default ({
   items,
@@ -70,13 +71,15 @@ export default ({
       <div className="overview__separate" />
       <OverviewContentPanel length={leftItems.length}>
         <div className="overview_content__left_items">
-          {leftItems.map((item, index) => (
-            <OverviewItem
-              key={`${item.title?.toString()}-${item.content?.toString()}-${index}`}
-              item={item}
-              hideLine={index === leftItems.length - 1}
-            />
-          ))}
+          {leftItems.map((item, index) =>
+            item ? (
+              <OverviewItem
+                key={`${item.title?.toString()}-${item.content?.toString()}-${index}`}
+                item={item}
+                hideLine={index === leftItems.length - 1}
+              />
+            ) : null,
+          )}
         </div>
         {!isScreenSmallerThan1200() && <span />}
         <div className="overview_content__right_items">
