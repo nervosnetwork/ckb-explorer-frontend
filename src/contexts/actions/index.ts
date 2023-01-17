@@ -15,10 +15,6 @@ export enum PageActions {
   UpdateBlockTotal = 'updateBlockTotal',
   UpdateBlockStatus = 'updateBlockStatus',
 
-  UpdateTransaction = 'updateTransaction',
-  UpdateTransactionStatus = 'updateTransactionStatus',
-  UpdateTransactionScriptFetched = 'updateTransactionScriptFetched',
-
   UpdateStatistics = 'updateStatistics',
 
   UpdateStatisticDifficultyHashRate = 'updateStatisticDifficultyHashRate',

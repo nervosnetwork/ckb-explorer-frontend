@@ -19,10 +19,10 @@ import CopyIcon from '../../../assets/copy_green.png'
 import CopyBlueIcon from '../../../assets/copy_blue.png'
 import i18n from '../../../utils/i18n'
 import { AppDispatch } from '../../../contexts/reducer'
-import { AppActions, PageActions } from '../../../contexts/actions'
+import { AppActions } from '../../../contexts/actions'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { isMainnet } from '../../../utils/chain'
-import { useDispatch, useAppState } from '../../../contexts/providers'
+import { useDispatch } from '../../../contexts/providers'
 import CloseIcon from '../../../assets/modal_close.png'
 import { matchScript } from '../../../utils/util'
 import HashTag from '../../../components/HashTag'
@@ -53,24 +53,16 @@ const updateJsonFormat = (content: State.Script | State.Data | CapacityUsage | n
   return JSON.stringify(content, null, 4)
 }
 
-const setScriptFetchStatus = (dispatch: AppDispatch, status: boolean) => {
-  dispatch({
-    type: PageActions.UpdateTransactionScriptFetched,
-    payload: {
-      scriptFetched: status,
-    },
-  })
-}
-
 const handleFetchCellInfo = async (
   cell: State.Cell,
   state: CellState,
+  setScriptFetchStatus: (val: boolean) => void,
   setContent: Function,
   setState: Function,
   dispatch: AppDispatch,
   txStatus: string,
 ) => {
-  setScriptFetchStatus(dispatch, false)
+  setScriptFetchStatus(false)
 
   const fetchLock = async () => {
     if (txStatus === 'committed') {
@@ -130,19 +122,19 @@ const handleFetchCellInfo = async (
   switch (state) {
     case CellState.LOCK:
       fetchLock().then(lock => {
-        setScriptFetchStatus(dispatch, true)
+        setScriptFetchStatus(true)
         setContent(lock)
       })
       break
     case CellState.TYPE:
       fetchType().then(type => {
-        setScriptFetchStatus(dispatch, true)
+        setScriptFetchStatus(true)
         setContent(type)
       })
       break
     case CellState.DATA:
       fetchData().then(data => {
-        setScriptFetchStatus(dispatch, true)
+        setScriptFetchStatus(true)
         setContent(data)
       })
       break
@@ -150,7 +142,7 @@ const handleFetchCellInfo = async (
       setContent(null)
 
       Promise.all([fetchLock(), fetchType(), fetchData()]).then(([lock, type, data]) => {
-        setScriptFetchStatus(dispatch, true)
+        setScriptFetchStatus(true)
         const declared = new BigNumber(cell.capacity)
 
         if (!data) {
@@ -266,18 +258,16 @@ const ScriptContentJson = ({
 
 export default ({ cell, onClose, txStatus }: { cell: State.Cell; onClose: Function; txStatus: string }) => {
   const dispatch = useDispatch()
+  const [scriptFetched, setScriptFetched] = useState(false)
   const [content, setContent] = useState(null as State.Script | State.Data | CapacityUsage | null)
   const [state, setState] = useState(CellState.LOCK as CellState)
-  const {
-    transactionState: { scriptFetched },
-  } = useAppState()
 
   const changeType = (newState: CellState) => {
     setState(state !== newState ? newState : state)
   }
 
   useEffect(() => {
-    handleFetchCellInfo(cell, state, setContent, setState, dispatch, txStatus)
+    handleFetchCellInfo(cell, state, setScriptFetched, setContent, setState, dispatch, txStatus)
   }, [cell, state, setState, dispatch, txStatus])
 
   const onClickCopy = () => {

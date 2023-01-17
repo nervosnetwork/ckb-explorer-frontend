@@ -39,32 +39,6 @@ export const pageReducer = (
         },
       }
 
-    // transaction page
-    case PageActions.UpdateTransaction:
-      return {
-        ...state,
-        transactionState: {
-          ...state.transactionState,
-          transaction: payload.transaction,
-        },
-      }
-    case PageActions.UpdateTransactionStatus:
-      return {
-        ...state,
-        transactionState: {
-          ...state.transactionState,
-          status: payload.status,
-        },
-      }
-    case PageActions.UpdateTransactionScriptFetched:
-      return {
-        ...state,
-        transactionState: {
-          ...state.transactionState,
-          scriptFetched: payload.scriptFetched,
-        },
-      }
-
     // statistic chart page
     case PageActions.UpdateStatistics:
       return {
