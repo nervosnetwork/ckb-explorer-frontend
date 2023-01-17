@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import Loading from '../../components/Loading'
 import SimpleUDTHashCard from '../../components/Card/HashCard'
 import Error from '../../components/Error'
@@ -11,16 +12,25 @@ import i18n from '../../utils/i18n'
 import { SimpleUDTContentPanel, UDTTransactionTitlePanel, TypeScriptController } from './styled'
 import SimpleUDTComp, { SimpleUDTOverview } from './SimpleUDTComp'
 import { useDelayLoading, usePaginationParamsInPage } from '../../utils/hook'
-import { getSimpleUDT, getSimpleUDTTransactions, handleUDTStatus } from '../../service/app/udt'
+import {
+  getSimpleUDT,
+  getSimpleUDTTransactions,
+  getUDTTransactionsWithAddress,
+  handleUDTStatus,
+} from '../../service/app/udt'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import { isMainnet } from '../../utils/chain'
-import Filter, { FilterType } from '../../components/Search/Filter'
+import Filter from '../../components/Search/Filter'
 import { localeNumberString } from '../../utils/number'
 import Script from '../../components/Script'
+import { containSpecialChar } from '../../utils/string'
+import { ComponentActions } from '../../contexts/actions'
+
+const FILTER_COUNT = 100
 
 const typeScriptIcon = (show: boolean) => {
   if (show) {
@@ -28,17 +38,6 @@ const typeScriptIcon = (show: boolean) => {
   }
   return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
 }
-
-const UDTTitleSearchComp = ({ typeHash, total }: { typeHash: string; total: number }) => (
-  <UDTTransactionTitlePanel>
-    <div className="udt__transaction__container">
-      <div className="udt__transaction__title">
-        {`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`}
-      </div>
-      <Filter typeHash={typeHash} filterType={FilterType.UDT} />
-    </div>
-  </UDTTransactionTitlePanel>
-)
 
 const SimpleUDTCompState = ({
   currentPage,
@@ -68,6 +67,7 @@ const SimpleUDTCompState = ({
 
 export const SimpleUDT = () => {
   const dispatch = useDispatch()
+  const [t] = useTranslation()
   const [showType, setShowType] = useState(false)
   const { hash: typeHash } = useParams<{ hash: string }>()
   const { currentPage, pageSize } = usePaginationParamsInPage()
@@ -75,6 +75,7 @@ export const SimpleUDT = () => {
     udtState: {
       total,
       udt: { iconFile, typeScript, symbol, uan },
+      filterStatus,
     },
   } = useAppState()
 
@@ -84,13 +85,45 @@ export const SimpleUDT = () => {
 
   useEffect(() => {
     getSimpleUDT(typeHash, dispatch)
-    getSimpleUDTTransactions(typeHash, currentPage, pageSize, dispatch)
   }, [typeHash, currentPage, pageSize, dispatch])
 
   useEffect(() => {
     return () => handleUDTStatus(dispatch, 'None')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const [filterText, setFilterText] = useState<string>()
+
+  useEffect(() => {
+    if (filterText == null) {
+      getSimpleUDTTransactions(typeHash, currentPage, pageSize, dispatch)
+    } else {
+      if (!filterText || containSpecialChar(filterText)) {
+        dispatch({
+          type: ComponentActions.UpdateFilterNoResult,
+          payload: {
+            filterNoResult: true,
+          },
+        })
+        return
+      }
+      getUDTTransactionsWithAddress(filterText, typeHash, 1, FILTER_COUNT, dispatch)
+    }
+  }, [currentPage, dispatch, filterText, pageSize, typeHash])
+
+  useEffect(() => {
+    if (filterStatus === 'Error') {
+      dispatch({
+        type: ComponentActions.UpdateFilterNoResult,
+        payload: {
+          filterNoResult: true,
+        },
+      })
+    }
+  }, [dispatch, filterStatus])
+
+  const filtering = filterText != null
+  const showReset = filtering && (filterStatus === 'OK' || filterStatus === 'Error')
 
   return (
     <Content>
@@ -108,7 +141,21 @@ export const SimpleUDT = () => {
             {showType && typeScript && <Script script={typeScript} />}
           </SimpleUDTOverview>
         </SimpleUDTHashCard>
-        <UDTTitleSearchComp typeHash={typeHash} total={total} />
+
+        <UDTTransactionTitlePanel>
+          <div className="udt__transaction__container">
+            <div className="udt__transaction__title">
+              {`${t('transaction.transactions')} (${localeNumberString(total)})`}
+            </div>
+            <Filter
+              showReset={showReset}
+              placeholder={t('udt.search_placeholder')}
+              onFilter={setFilterText}
+              onReset={() => setFilterText(undefined)}
+            />
+          </div>
+        </UDTTransactionTitlePanel>
+
         <SimpleUDTCompState currentPage={currentPage} pageSize={pageSize} typeHash={typeHash} />
       </SimpleUDTContentPanel>
     </Content>

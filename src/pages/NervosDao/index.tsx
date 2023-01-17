@@ -1,14 +1,15 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import Content from '../../components/Content'
-import i18n from '../../utils/i18n'
 import { DaoContentPanel, DaoTabBarPanel } from './styled'
 import {
   getNervosDao,
   getNervosDaoTransactions,
   getNervosDaoDepositors,
   handleNervosDAOStatus,
+  searchNervosDaoTransactions,
 } from '../../service/app/nervosDao'
 import DaoTransactions from './DaoTransactions'
 import Filter from '../../components/Search/Filter'
@@ -19,6 +20,8 @@ import Loading from '../../components/Loading'
 import { useDelayLoading, usePaginationParamsInPage, useSearchParams } from '../../utils/hook'
 import DaoOverview from './DaoOverview'
 import SimpleButton from '../../components/SimpleButton'
+import { ComponentActions } from '../../contexts/actions'
+import { containSpecialChar } from '../../utils/string'
 
 const NervosDAOStateComp = ({
   daoTab,
@@ -52,7 +55,11 @@ const NervosDAOStateComp = ({
 
 export const NervosDao = () => {
   const dispatch = useDispatch()
+  const {
+    nervosDaoState: { transactionsStatus },
+  } = useAppState()
   const { push } = useHistory()
+  const [t] = useTranslation()
 
   const { currentPage, pageSize } = usePaginationParamsInPage()
   const params = useSearchParams('tab')
@@ -65,13 +72,42 @@ export const NervosDao = () => {
   }, [dispatch])
 
   useEffect(() => {
-    getNervosDaoTransactions(dispatch, currentPage, pageSize)
-  }, [dispatch, currentPage, pageSize])
-
-  useEffect(() => {
     return () => handleNervosDAOStatus(dispatch, 'None')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const [filterText, setFilterText] = useState<string>()
+
+  useEffect(() => {
+    if (filterText == null) {
+      getNervosDaoTransactions(dispatch, currentPage, pageSize)
+    } else {
+      if (!filterText || containSpecialChar(filterText)) {
+        dispatch({
+          type: ComponentActions.UpdateFilterNoResult,
+          payload: {
+            filterNoResult: true,
+          },
+        })
+        return
+      }
+      searchNervosDaoTransactions(filterText, dispatch)
+    }
+  }, [currentPage, dispatch, filterText, pageSize])
+
+  useEffect(() => {
+    if (transactionsStatus === 'Error') {
+      dispatch({
+        type: ComponentActions.UpdateFilterNoResult,
+        payload: {
+          filterNoResult: true,
+        },
+      })
+    }
+  }, [dispatch, transactionsStatus])
+
+  const filtering = filterText != null
+  const showReset = filtering && (transactionsStatus === 'OK' || transactionsStatus === 'Error')
 
   return (
     <Content>
@@ -83,16 +119,23 @@ export const NervosDao = () => {
               className={daoTab === 'transactions' ? 'tab_bar_selected' : 'tab_bar_normal'}
               onClick={() => push('/nervosdao?tab=transactions')}
             >
-              {i18n.t('nervos_dao.dao_tab_transactions')}
+              {t('nervos_dao.dao_tab_transactions')}
             </SimpleButton>
             <SimpleButton
               className={daoTab === 'depositors' ? 'tab_bar_selected' : 'tab_bar_normal'}
               onClick={() => push('/nervosdao?tab=depositors')}
             >
-              {i18n.t('nervos_dao.dao_tab_depositors')}
+              {t('nervos_dao.dao_tab_depositors')}
             </SimpleButton>
           </div>
-          {daoTab === 'transactions' && <Filter />}
+          {daoTab === 'transactions' && (
+            <Filter
+              showReset={showReset}
+              placeholder={t('nervos_dao.dao_search_placeholder')}
+              onFilter={setFilterText}
+              onReset={() => setFilterText(undefined)}
+            />
+          )}
         </DaoTabBarPanel>
 
         <NervosDAOStateComp daoTab={daoTab} currentPage={currentPage} pageSize={pageSize} />
