@@ -1,6 +1,6 @@
 .container {
   position: fixed;
-  top: 64px;
+  top: var(--navbar-height);
   left: 0;
   width: 100%;
   color: #fff;

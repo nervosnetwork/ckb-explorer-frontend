@@ -1,5 +1,4 @@
-import { useEffect } from 'react'
-import { useParams, useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import BlockHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
@@ -13,7 +12,6 @@ import { QueryResult } from '../../components/QueryResult'
 import { defaultBlockInfo } from './state'
 
 export default () => {
-  const { hash } = useLocation()
   const { param: blockHeightOrHash } = useParams<{ param: string }>()
   const { currentPage, pageSize, setPage } = usePaginationParamsInPage()
 
@@ -39,17 +37,6 @@ export default () => {
       enabled: blockHash != null,
     },
   )
-
-  useEffect(() => {
-    let anchor = hash
-    if (anchor) {
-      anchor = anchor.replace('#', '')
-      const anchorElement = document.getElementById(anchor)
-      if (anchorElement) {
-        anchorElement.scrollIntoView()
-      }
-    }
-  }, [hash])
 
   return (
     <Content>

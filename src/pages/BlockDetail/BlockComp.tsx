@@ -1,5 +1,5 @@
 import { useState, ReactNode, FC } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Tooltip } from 'antd'
 import Pagination from '../../components/Pagination'
@@ -35,6 +35,8 @@ import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import TitleCard from '../../components/Card/TitleCard'
 import styles from './styles.module.scss'
 import AddressText from '../../components/AddressText'
+
+const CELL_BASE_ANCHOR = 'cellbase'
 
 const BlockMiner = ({ miner }: { miner: string }) => {
   if (!miner) {
@@ -85,7 +87,7 @@ const BlockMinerReward = ({
           onKeyDown={() => {}}
           onClick={() => {
             if (sentBlockNumber) {
-              history.push(`/block/${sentBlockNumber}#cellbase`)
+              history.push(`/block/${sentBlockNumber}#${CELL_BASE_ANCHOR}`)
             }
           }}
         >
@@ -256,15 +258,17 @@ export const BlockComp = ({
   total: number
 }) => {
   const totalPages = Math.ceil(total / pageSize)
+  const { hash } = useLocation()
 
   return (
     <>
       <TitleCard title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`} isSingle />
       {transactions.map(
-        (transaction: State.Transaction, index: number) =>
+        (transaction, index) =>
           transaction && (
             <TransactionItem
               key={transaction.transactionHash}
+              scrollIntoViewOnMount={transaction.isCellbase && hash === `#${CELL_BASE_ANCHOR}`}
               transaction={{
                 ...transaction,
                 displayInputs: transaction.displayInputs.map(input => ({
