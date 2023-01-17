@@ -293,6 +293,7 @@
       "occupied_capacity": "occupied",
       "size": "Size",
       "size_in_block": "{{bytes}} bytes in block",
+      "cycles": "Cycles",
       "since": {
         "relative": {
           "epoch": "After {{since}} epochs since committed",
@@ -336,7 +337,8 @@
       "reward_sent_tip": "The reward of this block has been sent, click to check the details",
       "view_prev_block": "View the previous block",
       "view_next_block": "View the next block",
-      "size": "Size"
+      "size": "Size",
+      "cycles": "Cycles"
     },
     "nervos_dao": {
       "nervos_dao": "Nervos DAO",

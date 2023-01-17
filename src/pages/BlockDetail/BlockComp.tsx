@@ -149,24 +149,22 @@ export const BlockOverview = () => {
       content: <BlockMinerMessage minerMessage={block.minerMessage ?? i18n.t('common.none')} />,
     },
     {
+      title: i18n.t('block.size'),
+      content: block.size ? `${block.size.toLocaleString('en')} Bytes` : '-',
+    },
+    null,
+    {
+      title: i18n.t('block.cycles'),
+      content: block.cycles ? `${block.cycles.toLocaleString('en')} Bytes` : '-',
+    },
+    null,
+    {
       title: i18n.t('block.proposal_transactions'),
       content: block.proposalsCount ? localeNumberString(block.proposalsCount) : 0,
     },
     {
       title: i18n.t('block.epoch'),
       content: localeNumberString(block.epoch),
-    },
-    {
-      title: i18n.t('block.size'),
-      content: block.size ? `${block.size.toLocaleString('en')} Bytes` : '-',
-    },
-    {
-      title: i18n.t('block.epoch_start_number'),
-      content: (
-        <BlockLinkPanel>
-          <Link to={`/block/${block.startNumber}`}>{localeNumberString(block.startNumber)}</Link>
-        </BlockLinkPanel>
-      ),
     },
     {
       title: i18n.t('block.miner_reward'),
@@ -179,20 +177,28 @@ export const BlockOverview = () => {
       ),
     },
     {
-      title: i18n.t('block.block_index'),
-      content: `${Number(block.blockIndexInEpoch) + 1}/${block.length}`,
+      title: i18n.t('block.epoch_start_number'),
+      content: (
+        <BlockLinkPanel>
+          <Link to={`/block/${block.startNumber}`}>{localeNumberString(block.startNumber)}</Link>
+        </BlockLinkPanel>
+      ),
     },
     {
       title: i18n.t('block.difficulty'),
       content: handleDifficulty(block.difficulty),
     },
     {
-      title: i18n.t('block.timestamp'),
-      content: `${parseSimpleDate(block.timestamp)}`,
+      title: i18n.t('block.block_index'),
+      content: `${Number(block.blockIndexInEpoch) + 1}/${block.length}`,
     },
     {
       title: i18n.t('block.nonce'),
       content: <>{`0x${new BigNumber(block.nonce).toString(16)}`}</>,
+    },
+    {
+      title: i18n.t('block.timestamp'),
+      content: `${parseSimpleDate(block.timestamp)}`,
     },
     {
       title: i18n.t('block.uncle_count'),

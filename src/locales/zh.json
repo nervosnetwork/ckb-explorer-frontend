@@ -292,6 +292,7 @@
       "occupied_capacity": "occupied",
       "size": "交易体积",
       "size_in_block": "区块中占 {{bytes}} bytes",
+      "cycles": "Cycles",
       "since": {
         "relative": {
           "epoch": "自 committed 之后 {{since}} Epochs",
@@ -336,7 +337,8 @@
       "reward_sent_tip": "区块奖励已经发送成功，请点击查看详情",
       "view_prev_block": "查看上一区块",
       "view_next_block": "查看下一区块",
-      "size": "区块体积"
+      "size": "区块体积",
+      "cycles": "Cycles"
     },
     "nervos_dao": {
       "nervos_dao": "Nervos DAO",
