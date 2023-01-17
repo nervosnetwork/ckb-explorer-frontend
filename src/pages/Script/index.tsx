@@ -19,7 +19,7 @@ import { ScriptCells, ScriptTransactions } from './ScriptsComp'
 import { MainnetContractHashTags, TestnetContractHashTags } from '../../constants/scripts'
 import { isMainnet } from '../../utils/chain'
 import { scripts as scriptNameList } from '../ScriptList'
-import { isMobile } from '../../utils/screen'
+import { useIsMobile } from '../../utils/hook'
 import { shannonToCkb, toCamelcase } from '../../utils/util'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { ScriptInfo, ScriptTabType } from './types'
@@ -44,7 +44,7 @@ const scriptHashNameMap = new Map<string, string>(
     .flat(),
 )
 
-const getScriptInfo = (scriptInfo: ScriptInfo, dispatch: AppDispatch) => {
+const getScriptInfo = (scriptInfo: ScriptInfo, dispatch: AppDispatch, isMobile: boolean) => {
   const { scriptName, scriptType, typeId, codeHash, hashType, capacityOfDeployedCells, capacityOfReferringCells } =
     scriptInfo
   const items: OverviewItemData[] = [
@@ -68,7 +68,7 @@ const getScriptInfo = (scriptInfo: ScriptInfo, dispatch: AppDispatch) => {
       title: i18n.t('address.code_hash'),
       content: (
         <span>
-          {codeHash && `${isMobile() ? adaptMobileEllipsis(codeHash, 60) : adaptPCEllipsis(codeHash, 10, 80)}`}
+          {codeHash && `${isMobile ? adaptMobileEllipsis(codeHash, 60) : adaptPCEllipsis(codeHash, 10, 80)}`}
           <span
             style={{
               marginLeft: '1rem',
@@ -115,9 +115,10 @@ const getScriptInfo = (scriptInfo: ScriptInfo, dispatch: AppDispatch) => {
 
 const ScriptsTitleOverview = ({ scriptInfo }: { scriptInfo: ScriptInfo }) => {
   const dispatch = useDispatch()
+  const isMobile = useIsMobile()
   return (
     <div className={styles.scriptsTitleOverviewPanel}>
-      <OverviewCard items={getScriptInfo(scriptInfo, dispatch)} hideShadow />
+      <OverviewCard items={getScriptInfo(scriptInfo, dispatch, isMobile)} hideShadow />
     </div>
   )
 }
