@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import { useAppState } from '../../../contexts/providers'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkb } from '../../../utils/util'
 import i18n from '../../../utils/i18n'
@@ -53,11 +52,7 @@ const DepositorCardGroup: FC<{ depositors: State.NervosDaoDepositor[] }> = ({ de
   return <ItemCardGroup items={items} dataSource={depositors} getDataKey={(_, idx) => idx} />
 }
 
-export default () => {
-  const {
-    nervosDaoState: { depositors = [] },
-  } = useAppState()
-
+export default ({ depositors }: { depositors: State.NervosDaoDepositor[] }) => {
   return useIsMobile() ? (
     <DepositorRankCardPanel>
       <DepositorCardGroup depositors={depositors} />

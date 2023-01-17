@@ -282,56 +282,6 @@ export const pageReducer = (
         statisticMinerAddressesFetchEnd: payload.statisticMinerAddressesFetchEnd,
       }
 
-    // nervos dao page
-    case PageActions.UpdateNervosDao:
-      return {
-        ...state,
-        nervosDaoState: {
-          ...state.nervosDaoState,
-          nervosDao: payload.nervosDao,
-        },
-      }
-    case PageActions.UpdateNervosDaoTransactions:
-      return {
-        ...state,
-        nervosDaoState: {
-          ...state.nervosDaoState,
-          transactions: payload.transactions,
-        },
-      }
-    case PageActions.UpdateNervosDaoTransactionsStatus:
-      return {
-        ...state,
-        nervosDaoState: {
-          ...state.nervosDaoState,
-          transactionsStatus: payload.transactionsStatus,
-        },
-      }
-    case PageActions.UpdateNervosDaoTransactionsTotal:
-      return {
-        ...state,
-        nervosDaoState: {
-          ...state.nervosDaoState,
-          total: payload.total,
-        },
-      }
-    case PageActions.UpdateNervosDaoDepositors:
-      return {
-        ...state,
-        nervosDaoState: {
-          ...state.nervosDaoState,
-          depositors: payload.depositors,
-        },
-      }
-    case PageActions.UpdateNervosDaoStatus:
-      return {
-        ...state,
-        nervosDaoState: {
-          ...state.nervosDaoState,
-          status: payload.status,
-        },
-      }
-
     default:
       return state
   }

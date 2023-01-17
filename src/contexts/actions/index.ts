@@ -68,18 +68,10 @@ export enum PageActions {
   UpdateStatisticLiquidityFetchEnd = 'updateStatisticLiquidityFetchEnd',
   UpdateStatisticMinerAddressDistribution = 'updateStatisticMinerAddressDistribution',
   UpdateStatisticMinerAddressDistributionFetchEnd = 'updateStatisticMinerAddressDistributionFetchEnd',
-
-  UpdateNervosDao = 'updateNervosDao',
-  UpdateNervosDaoTransactions = 'updateNervosDaoTransactions',
-  UpdateNervosDaoTransactionsStatus = 'updateNervosDaoTransactionsStatus',
-  UpdateNervosDaoTransactionsTotal = 'updateNervosDaoTransactionsTotal',
-  UpdateNervosDaoDepositors = 'updateNervosDaoDepositors',
-  UpdateNervosDaoStatus = 'updateNervosDaoStatus',
 }
 
 export enum ComponentActions {
   UpdateHeaderSearchEditable = 'updateHeaderSearchEditable',
-  UpdateFilterNoResult = 'updateFilterNoResult',
   UpdateHeaderMobileMenuVisible = 'updateHeaderMobileMenuVisible',
   UpdateHeaderSearchBarVisible = 'updateHeaderSearchBarVisible',
   UpdateMaintenanceAlertVisible = 'updateMaintenanceAlertVisible',

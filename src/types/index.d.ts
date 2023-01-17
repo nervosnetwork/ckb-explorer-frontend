@@ -282,15 +282,6 @@ declare namespace State {
     averageDepositTime: string
   }
 
-  export interface NervosDaoState {
-    nervosDao: NervosDao
-    transactions: Transaction[]
-    transactionsStatus: FetchStatus
-    total: number
-    depositors: NervosDaoDepositor[]
-    status: FetchStatus
-  }
-
   export interface Statistics {
     tipBlockNumber: string
     averageBlockTime: string
@@ -603,10 +594,9 @@ declare namespace State {
 
   export interface PageState extends StatisticChartsState {
     statistics: Statistics
-    nervosDaoState: NervosDaoState
   }
 
-  export interface PagePayload extends PageState, NervosDaoState {}
+  export interface PagePayload extends PageState {}
 
   export interface App {
     toast: ToastMessage | null
@@ -640,7 +630,6 @@ declare namespace State {
 
   export interface Components {
     searchBarEditable: boolean
-    filterNoResult: boolean
     mobileMenuVisible: boolean
     headerSearchBarVisible: boolean
     maintenanceAlertVisible: boolean
