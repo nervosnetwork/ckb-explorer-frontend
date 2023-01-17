@@ -92,10 +92,9 @@ export const fetchTransactionsByBlockHash = (blockHash: string, page: number, si
     })
     .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 
-// blockParam: block hash or block number
-export const fetchBlock = (blockParam: string) =>
+export const fetchBlock = (blockHeightOrHash: string) =>
   axiosIns
-    .get(`blocks/${blockParam}`)
+    .get(`blocks/${blockHeightOrHash}`)
     .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Block>>(res.data.data))
 
 export const fetchScript = (scriptType: 'lock_scripts' | 'type_scripts', id: string) =>

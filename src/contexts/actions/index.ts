@@ -10,11 +10,6 @@ export enum AppActions {
 }
 
 export enum PageActions {
-  UpdateBlock = 'updateBlock',
-  UpdateBlockTransactions = 'updateBlockTransactions',
-  UpdateBlockTotal = 'updateBlockTotal',
-  UpdateBlockStatus = 'updateBlockStatus',
-
   UpdateStatistics = 'updateStatistics',
 
   UpdateStatisticDifficultyHashRate = 'updateStatisticDifficultyHashRate',

@@ -1,5 +1,4 @@
 import initApp from './app'
-import { initBlockState } from './block'
 import initStatistics from './statistics'
 import initComponents from './components'
 import initNervosDaoState from './nervosDao'
@@ -10,7 +9,6 @@ export type FetchStatus = keyof State.FetchStatus
 
 const initState: State.AppState = {
   app: initApp,
-  blockState: initBlockState,
   statistics: initStatistics,
   nervosDaoState: initNervosDaoState,
   ...initStatisticChartsState,

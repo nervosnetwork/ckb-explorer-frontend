@@ -1,9 +1,4 @@
-import {
-  localeNumberString,
-  handleHashRate,
-  handleDifficulty,
-  parseUDTAmount,
-} from '../../utils/number'
+import { localeNumberString, handleHashRate, handleDifficulty, parseUDTAmount } from '../../utils/number'
 
 describe('Number methods tests', () => {
   it('local number string', async () => {

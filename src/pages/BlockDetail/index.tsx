@@ -1,56 +1,44 @@
 import { useEffect } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
+import { useQuery } from 'react-query'
 import BlockHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
-import Error from '../../components/Error'
-import { useDispatch, useAppState } from '../../contexts/providers'
-import { getBlock, handleBlockStatus } from '../../service/app/block'
-import { LOADING_WAITING_TIME } from '../../constants/common'
 import i18n from '../../utils/i18n'
 import { BlockDetailPanel } from './styled'
 import { BlockComp, BlockOverview } from './BlockComp'
-import Loading from '../../components/Loading'
-import { useDelayLoading, usePaginationParamsInPage } from '../../utils/hook'
-
-const BlockStateComp = ({
-  currentPage,
-  pageSize,
-  blockParam,
-}: {
-  currentPage: number
-  pageSize: number
-  blockParam: string
-}) => {
-  const {
-    blockState: { status },
-  } = useAppState()
-  const loading = useDelayLoading(LOADING_WAITING_TIME, status === 'None' || status === 'InProgress')
-
-  switch (status) {
-    case 'Error':
-      return <Error />
-    case 'OK':
-      return <BlockComp currentPage={currentPage} pageSize={pageSize} blockParam={blockParam} />
-    case 'InProgress':
-    case 'None':
-    default:
-      return <Loading show={loading} />
-  }
-}
+import { usePaginationParamsInPage } from '../../utils/hook'
+import { fetchBlock, fetchTransactionsByBlockHash } from '../../service/http/fetcher'
+import { assert } from '../../utils/error'
+import { QueryResult } from '../../components/QueryResult'
+import { defaultBlockInfo } from './state'
 
 export default () => {
-  const dispatch = useDispatch()
   const { hash } = useLocation()
-  // blockParam: block hash or block number
-  const { param: blockParam } = useParams<{ param: string }>()
-  const { currentPage, pageSize } = usePaginationParamsInPage()
-  const {
-    blockState: { status, block },
-  } = useAppState()
+  const { param: blockHeightOrHash } = useParams<{ param: string }>()
+  const { currentPage, pageSize, setPage } = usePaginationParamsInPage()
 
-  useEffect(() => {
-    getBlock(blockParam, currentPage, pageSize, dispatch)
-  }, [blockParam, currentPage, pageSize, dispatch])
+  const queryBlock = useQuery(['block', blockHeightOrHash], async () => {
+    const wrapper = await fetchBlock(blockHeightOrHash)
+    const block = wrapper.attributes
+    return block
+  })
+  const blockHash = queryBlock.data?.blockHash
+  const block = queryBlock.data ?? defaultBlockInfo
+
+  const queryBlockTransactions = useQuery(
+    ['block-transactions', blockHash, currentPage, pageSize],
+    async () => {
+      assert(blockHash != null)
+      const { data, meta } = await fetchTransactionsByBlockHash(blockHash, currentPage, pageSize)
+      return {
+        transactions: data.map(wrapper => wrapper.attributes),
+        total: meta?.total ?? 0,
+      }
+    },
+    {
+      enabled: blockHash != null,
+    },
+  )
 
   useEffect(() => {
     let anchor = hash
@@ -63,18 +51,24 @@ export default () => {
     }
   }, [hash])
 
-  useEffect(() => {
-    return () => handleBlockStatus(dispatch, 'None')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <Content>
       <BlockDetailPanel className="container">
-        <BlockHashCard title={i18n.t('block.block')} hash={status === 'OK' ? block.blockHash : blockParam}>
-          <BlockOverview />
+        <BlockHashCard title={i18n.t('block.block')} hash={blockHash ?? blockHeightOrHash}>
+          <BlockOverview block={block} />
         </BlockHashCard>
-        <BlockStateComp currentPage={currentPage} pageSize={pageSize} blockParam={blockParam} />
+
+        <QueryResult query={queryBlockTransactions} delayLoading>
+          {data => (
+            <BlockComp
+              onPageChange={setPage}
+              currentPage={currentPage}
+              pageSize={pageSize}
+              total={data.total}
+              transactions={data.transactions}
+            />
+          )}
+        </QueryResult>
       </BlockDetailPanel>
     </Content>
   )

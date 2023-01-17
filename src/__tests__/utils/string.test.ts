@@ -44,11 +44,11 @@ describe('String methods tests', () => {
 
   describe('Test hex to utf8', () => {
     beforeAll(() => {
-      globalThis['TextDecoder'] = TextDecoder as any
+      globalThis.TextDecoder = TextDecoder as any
     })
 
     afterAll(() => {
-      globalThis['TextDecoder'] = undefined as any
+      globalThis.TextDecoder = undefined as any
     })
 
     it('convert hex to utf8', async () => {

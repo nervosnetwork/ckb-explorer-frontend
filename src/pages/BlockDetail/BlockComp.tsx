@@ -1,4 +1,4 @@
-import { useState, ReactNode } from 'react'
+import { useState, ReactNode, FC } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Tooltip } from 'antd'
@@ -96,10 +96,9 @@ const BlockMinerReward = ({
   )
 }
 
-export const BlockOverview = () => {
+export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
   const isMobile = useIsMobile()
   const {
-    blockState: { block },
     statistics: { tipBlockNumber },
   } = useAppState()
   const [showAllOverview, setShowAllOverview] = useState(false)
@@ -244,24 +243,19 @@ export const BlockOverview = () => {
 }
 
 export const BlockComp = ({
+  onPageChange,
   currentPage,
   pageSize,
-  blockParam,
+  transactions,
+  total,
 }: {
+  onPageChange: (page: number) => void
   currentPage: number
   pageSize: number
-  blockParam: string
+  transactions: State.Transaction[]
+  total: number
 }) => {
-  const history = useHistory()
-  const {
-    blockState: { transactions = [], total },
-  } = useAppState()
-
   const totalPages = Math.ceil(total / pageSize)
-
-  const onChange = (page: number) => {
-    history.push(`/block/${blockParam}?page=${page}&size=${pageSize}`)
-  }
 
   return (
     <>
@@ -291,14 +285,9 @@ export const BlockComp = ({
       )}
       {totalPages > 1 && (
         <BlockTransactionsPagination>
-          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onPageChange} />
         </BlockTransactionsPagination>
       )}
     </>
   )
-}
-
-export default {
-  BlockOverview,
-  BlockComp,
 }
