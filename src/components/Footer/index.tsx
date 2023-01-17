@@ -9,7 +9,7 @@ import { ReactComponent as ForumIcon } from '../../assets/footer_forum.svg'
 import { ReactComponent as Discord } from '../../assets/footer_discord.svg'
 import { getCurrentYear } from '../../utils/date'
 import { FooterMenuPanel, FooterItemPanel, FooterImageItemPanel, FooterPanel } from './styled'
-import { isMobile } from '../../utils/screen'
+import { useIsMobile } from '../../utils/hook'
 import { udtSubmitEmail } from '../../utils/util'
 
 interface FooterLinkItem {
@@ -43,6 +43,7 @@ const FooterImageItem = ({ item }: { item: FooterLinkItem }) => {
 }
 
 export default () => {
+  const isMobile = useIsMobile()
   const [t] = useTranslation()
   const Footers: FooterLink[] = useMemo(
     () => [
@@ -141,7 +142,7 @@ export default () => {
             ))}
         </div>
         <div className="footer__community">
-          {isMobile() ? (
+          {isMobile ? (
             <div>
               {Footers[2].items.map((item: any) => (
                 <FooterImageItem item={item} key={item.label} />

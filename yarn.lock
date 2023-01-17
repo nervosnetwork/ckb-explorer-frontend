@@ -2928,15 +2928,15 @@
   dependencies:
     "@typescript-eslint/utils" "5.47.0"
 
-"@typescript-eslint/parser@4.29.0":
-  version "4.29.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-4.29.0.tgz#e5367ca3c63636bb5d8e0748fcbab7a4f4a04289"
-  integrity sha512-+92YRNHFdXgq+GhWQPT2bmjX09X7EH36JfgN2/4wmhtwV/HPxozpCNst8jrWcngLtEVd/4zAwA6BKojAlf+YqA==
+"@typescript-eslint/parser@5.48.1":
+  version "5.48.1"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.48.1.tgz#d0125792dab7e232035434ab8ef0658154db2f10"
+  integrity sha512-4yg+FJR/V1M9Xoq56SF9Iygqm+r5LMXvheo6DQ7/yUWynQ4YfCRnsKuRgqH4EQ5Ya76rVwlEpw4Xu+TgWQUcdA==
   dependencies:
-    "@typescript-eslint/scope-manager" "4.29.0"
-    "@typescript-eslint/types" "4.29.0"
-    "@typescript-eslint/typescript-estree" "4.29.0"
-    debug "^4.3.1"
+    "@typescript-eslint/scope-manager" "5.48.1"
+    "@typescript-eslint/types" "5.48.1"
+    "@typescript-eslint/typescript-estree" "5.48.1"
+    debug "^4.3.4"
 
 "@typescript-eslint/parser@^5.5.0":
   version "5.47.0"
@@ -2964,6 +2964,14 @@
     "@typescript-eslint/types" "5.47.0"
     "@typescript-eslint/visitor-keys" "5.47.0"
 
+"@typescript-eslint/scope-manager@5.48.1":
+  version "5.48.1"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-5.48.1.tgz#39c71e4de639f5fe08b988005beaaf6d79f9d64d"
+  integrity sha512-S035ueRrbxRMKvSTv9vJKIWgr86BD8s3RqoRZmsSh/s8HhIs90g6UlK8ZabUSjUZQkhVxt7nmZ63VJ9dcZhtDQ==
+  dependencies:
+    "@typescript-eslint/types" "5.48.1"
+    "@typescript-eslint/visitor-keys" "5.48.1"
+
 "@typescript-eslint/type-utils@5.47.0":
   version "5.47.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/type-utils/-/type-utils-5.47.0.tgz#2b440979c574e317d3473225ae781f292c99e55d"
@@ -2983,6 +2991,11 @@
   version "5.47.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.47.0.tgz#67490def406eaa023dbbd8da42ee0d0c9b5229d3"
   integrity sha512-eslFG0Qy8wpGzDdYKu58CEr3WLkjwC5Usa6XbuV89ce/yN5RITLe1O8e+WFEuxnfftHiJImkkOBADj58ahRxSg==
+
+"@typescript-eslint/types@5.48.1":
+  version "5.48.1"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.48.1.tgz#efd1913a9aaf67caf8a6e6779fd53e14e8587e14"
+  integrity sha512-xHyDLU6MSuEEdIlzrrAerCGS3T7AA/L8Hggd0RCYBi0w3JMvGYxlLlXHeg50JI9Tfg5MrtsfuNxbS/3zF1/ATg==
 
 "@typescript-eslint/typescript-estree@4.29.0":
   version "4.29.0"
@@ -3004,6 +3017,19 @@
   dependencies:
     "@typescript-eslint/types" "5.47.0"
     "@typescript-eslint/visitor-keys" "5.47.0"
+    debug "^4.3.4"
+    globby "^11.1.0"
+    is-glob "^4.0.3"
+    semver "^7.3.7"
+    tsutils "^3.21.0"
+
+"@typescript-eslint/typescript-estree@5.48.1":
+  version "5.48.1"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.48.1.tgz#9efa8ee2aa471c6ab62e649f6e64d8d121bc2056"
+  integrity sha512-Hut+Osk5FYr+sgFh8J/FHjqX6HFcDzTlWLrFqGoK5kVUN3VBHF/QzZmAsIXCQ8T/W9nQNBTqalxi1P3LSqWnRA==
+  dependencies:
+    "@typescript-eslint/types" "5.48.1"
+    "@typescript-eslint/visitor-keys" "5.48.1"
     debug "^4.3.4"
     globby "^11.1.0"
     is-glob "^4.0.3"
@@ -3038,6 +3064,14 @@
   integrity sha512-ByPi5iMa6QqDXe/GmT/hR6MZtVPi0SqMQPDx15FczCBXJo/7M8T88xReOALAfpBLm+zxpPfmhuEvPb577JRAEg==
   dependencies:
     "@typescript-eslint/types" "5.47.0"
+    eslint-visitor-keys "^3.3.0"
+
+"@typescript-eslint/visitor-keys@5.48.1":
+  version "5.48.1"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.48.1.tgz#79fd4fb9996023ef86849bf6f904f33eb6c8fccb"
+  integrity sha512-Ns0XBwmfuX7ZknznfXozgnydyR8F6ev/KEGePP4i74uL3ArsKbEhJ7raeKr1JSa997DBDwol/4a0Y+At82c9dA==
+  dependencies:
+    "@typescript-eslint/types" "5.48.1"
     eslint-visitor-keys "^3.3.0"
 
 "@webassemblyjs/ast@1.11.1":
@@ -5962,12 +5996,7 @@ eslint-plugin-prettier@3.4.0:
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
-eslint-plugin-react-hooks@4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.2.0.tgz#8c229c268d468956334c943bb45fc860280f5556"
-  integrity sha512-623WEiZJqxR7VdxFCKLI6d6LLpwJkGPYKODnkH3D7WpOG5KM8yWueBd8TLsNAetEJNF5iJmolaAKO3F8yzyVBQ==
-
-eslint-plugin-react-hooks@^4.3.0:
+eslint-plugin-react-hooks@4.6.0, eslint-plugin-react-hooks@^4.3.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.6.0.tgz#4c3e697ad95b77e93f8646aaa1630c1ba607edd3"
   integrity sha512-oFc7Itz9Qxh2x4gNHStv3BqJq54ExXmfC+a1NjAta66IAN87Wu0R/QArgIS9qKzX3dXKPI9H5crl9QchNMY9+g==

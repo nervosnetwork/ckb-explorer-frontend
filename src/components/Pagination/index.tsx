@@ -5,7 +5,7 @@ import RightBlack from '../../assets/pagination_black_right.png'
 import LeftGrey from '../../assets/pagination_grey_left.png'
 import RightGrey from '../../assets/pagination_grey_right.png'
 import i18n from '../../utils/i18n'
-import { isMobile } from '../../utils/screen'
+import { useIsMobile } from '../../utils/hook'
 import SimpleButton from '../SimpleButton'
 
 const Pagination = ({
@@ -19,6 +19,7 @@ const Pagination = ({
   gotoPage?: number
   onChange: (page: number) => void
 }) => {
+  const isMobile = useIsMobile()
   const [inputPage, setInputPage] = useState(gotoPage)
 
   const total = Math.max(totalPages, 1)
@@ -46,11 +47,11 @@ const Pagination = ({
           <img src={current === 1 ? LeftGrey : LeftBlack} alt="left button" />
         </SimpleButton>
 
-        {!isMobile() && <span className="pagination__middle__label">{pcPagination}</span>}
+        {!isMobile && <span className="pagination__middle__label">{pcPagination}</span>}
         <SimpleButton className="pagination__right__button" onClick={() => changePage(current + 1)}>
           <img src={current === total ? RightGrey : RightBlack} alt="right button" />
         </SimpleButton>
-        {isMobile() && <span className="pagination__middle__label">{mobilePagination}</span>}
+        {isMobile && <span className="pagination__middle__label">{mobilePagination}</span>}
 
         <SimpleButton className="pagination__last__button" onClick={() => changePage(total)}>
           {i18n.t('pagination.last')}

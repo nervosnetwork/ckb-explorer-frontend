@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import CopyIcon from '../../../assets/copy.png'
 import i18n from '../../../utils/i18n'
-import { isMobile } from '../../../utils/screen'
 import { v2AxiosIns } from '../../../service/http/fetcher'
 import { copyElementValue } from '../../../utils/util'
 import { AppActions } from '../../../contexts/actions'
 import SmallLoading from '../../Loading/SmallLoading'
 import { useDispatch } from '../../../contexts/providers'
-import { useNewAddr, useDeprecatedAddr } from '../../../utils/hook'
+import { useIsMobile, useNewAddr, useDeprecatedAddr } from '../../../utils/hook'
 import SimpleButton from '../../SimpleButton'
 import { ReactComponent as OpenInNew } from '../../../assets/open_in_new.svg'
 import { ReactComponent as DownloadIcon } from '../../../assets/download_tx.svg'
@@ -50,6 +49,7 @@ export default ({
   children?: ReactNode
   showDASInfoOnHeader?: boolean
 }) => {
+  const isMobile = useIsMobile()
   const dispatch = useDispatch()
 
   const isTx = i18n.t('transaction.transaction') === title
@@ -81,7 +81,7 @@ export default ({
   return (
     <HashCardPanel isColumn={!!iconUri}>
       <div className="hash__card__content__panel" id="hash_content">
-        {iconUri && isMobile() ? (
+        {iconUri && isMobile ? (
           <div>
             <img className="hash__icon" src={iconUri} alt="hash icon" />
             <div className="hash__title">{title}</div>
@@ -146,7 +146,7 @@ export default ({
         </div>
 
         {specialAddress && (
-          <Tooltip title={i18n.t('address.vesting_tooltip')} placement={isMobile() ? 'bottomRight' : 'bottom'}>
+          <Tooltip title={i18n.t('address.vesting_tooltip')} placement={isMobile ? 'bottomRight' : 'bottom'}>
             <Link to={`/address/${specialAddress}`} className="hash__vesting">
               {i18n.t('address.vesting')}
             </Link>

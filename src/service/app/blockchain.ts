@@ -10,6 +10,8 @@ const alertNotEmpty = (wrapper: Response.Wrapper<State.BlockchainInfo> | null): 
   wrapper.attributes.blockchainInfo.alerts &&
   wrapper.attributes.blockchainInfo.alerts.length > 0
 
+const ALERT_TO_FILTER_OUT = 'CKB v0.105.* have bugs. Please upgrade to the latest version.'
+
 export const handleBlockchainAlert = (dispatch: AppDispatch) => {
   fetchBlockchainInfo().then((wrapper: Response.Wrapper<State.BlockchainInfo> | null) => {
     if (alertNotEmpty(wrapper)) {
@@ -18,7 +20,9 @@ export const handleBlockchainAlert = (dispatch: AppDispatch) => {
         payload: {
           appError: {
             type: 'ChainAlert',
-            message: wrapper!.attributes.blockchainInfo.alerts.map(alert => alert.message),
+            message: wrapper!.attributes.blockchainInfo.alerts
+              .map(alert => alert.message)
+              .filter(msg => msg !== ALERT_TO_FILTER_OUT),
           },
         },
       })

@@ -1,6 +1,5 @@
-import { useEffect, Fragment, useMemo } from 'react'
-import { useHistory, useLocation, Link } from 'react-router-dom'
-import queryString from 'query-string'
+import { useEffect, Fragment, useMemo, FC } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { parseSimpleDate } from '../../utils/date'
 import { BlockListPanel, ContentTable, HighLightValue, BlockRewardContainer, BlockRewardPanel } from './styled'
@@ -8,17 +7,16 @@ import Content from '../../components/Content'
 import { TableTitleItem, TableContentItem, TableMinerContentItem } from '../../components/Table'
 import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
-import { parsePageNumber } from '../../utils/string'
-import { ListPageParams, DELAY_BLOCK_NUMBER } from '../../constants/common'
+import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
-import { isMobile } from '../../utils/screen'
 import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { getBlocks } from '../../service/app/block'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import ItemCard, { ItemCardData } from '../../components/Card/ItemCard'
+import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
 import AddressText from '../../components/AddressText'
+import { useIsMobile, usePaginationParamsInListPage } from '../../utils/hook'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
   <HighLightValue>
@@ -76,33 +74,32 @@ const getTableContentDataList = (block: State.Block, index: number, page: number
   ] as TableContentData[]
 }
 
-const BlockCardItems = (block: State.Block, index: number, page: number) => {
-  const blockReward =
-    index < DELAY_BLOCK_NUMBER && page === 1 ? (
-      <BlockRewardContainer>
-        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
-      </BlockRewardContainer>
-    ) : (
-      <BlockRewardPanel>
-        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
-      </BlockRewardPanel>
-    )
-  return [
+const BlockCardGroup: FC<{ blocks: State.Block[]; isFirstPage: boolean }> = ({ blocks, isFirstPage }) => {
+  const items: ItemCardData<State.Block>[] = [
     {
       title: i18n.t('home.height'),
-      content: <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
+      render: block => <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
     },
     {
       title: i18n.t('home.transactions'),
-      content: localeNumberString(block.transactionsCount),
+      render: block => localeNumberString(block.transactionsCount),
     },
     {
       title: i18n.t('home.block_reward'),
-      content: blockReward,
+      render: (block, index) =>
+        index < DELAY_BLOCK_NUMBER && isFirstPage ? (
+          <BlockRewardContainer>
+            <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+          </BlockRewardContainer>
+        ) : (
+          <BlockRewardPanel>
+            <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+          </BlockRewardPanel>
+        ),
     },
     {
       title: i18n.t('block.miner'),
-      content: (
+      render: block => (
         <HighLightValue>
           <AddressText
             disableTooltip
@@ -118,15 +115,16 @@ const BlockCardItems = (block: State.Block, index: number, page: number) => {
     },
     {
       title: i18n.t('home.time'),
-      content: parseSimpleDate(block.timestamp),
+      render: block => parseSimpleDate(block.timestamp),
     },
-  ] as ItemCardData[]
+  ]
+
+  return <ItemCardGroup items={items} dataSource={blocks} getDataKey={block => block.number} />
 }
 
 export default () => {
+  const isMobile = useIsMobile()
   const dispatch = useDispatch()
-  const { replace, push } = useHistory()
-  const { search } = useLocation()
 
   const [t] = useTranslation()
   const TableTitles = useMemo(
@@ -155,25 +153,17 @@ export default () => {
     [t],
   )
 
-  const parsed = queryString.parse(search)
   const {
     blockListState: { blocks = [], total },
   } = useAppState()
 
-  const currentPage = parsePageNumber(parsed.page, ListPageParams.PageNo)
-  const pageSize = parsePageNumber(parsed.size, ListPageParams.PageSize)
+  const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
   const totalPages = Math.ceil(total / pageSize)
 
   useEffect(() => {
-    if (pageSize > ListPageParams.MaxPageSize) {
-      replace(`/block/list?page=${currentPage}&size=${ListPageParams.MaxPageSize}`)
-    }
     getBlocks(currentPage, pageSize, dispatch)
-  }, [replace, currentPage, pageSize, dispatch])
+  }, [currentPage, pageSize, dispatch])
 
-  const onChange = (page: number) => {
-    push(`/block/list?page=${page}&size=${pageSize}`)
-  }
   const blockList = blocks.map(b => ({
     ...b,
     minerHash: deprecatedAddrToNewAddr(b.minerHash),
@@ -183,13 +173,9 @@ export default () => {
     <Content>
       <BlockListPanel className="container">
         <div className="block__green__background" />
-        {isMobile() ? (
+        {isMobile ? (
           <ContentTable>
-            <div>
-              {blockList.map((block: State.Block, index: number) => (
-                <ItemCard key={block.number} items={BlockCardItems(block, index, currentPage)} />
-              ))}
-            </div>
+            <BlockCardGroup blocks={blockList} isFirstPage={currentPage === 1} />
           </ContentTable>
         ) : (
           <ContentTable>
@@ -222,7 +208,7 @@ export default () => {
           </ContentTable>
         )}
         <div className="block_list__pagination">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
         </div>
       </BlockListPanel>
     </Content>

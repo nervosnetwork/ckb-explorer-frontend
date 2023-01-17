@@ -1,5 +1,5 @@
 import type { AxiosResponse } from 'axios'
-import { useParams, useLocation, useHistory, Link } from 'react-router-dom'
+import { useParams, useHistory, Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
@@ -10,6 +10,7 @@ import { v2AxiosIns } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import NftCollectionInventory from '../../components/NftCollectionInventory'
+import { useSearchParams } from '../../utils/hook'
 
 export interface InventoryRes {
   data: Array<{
@@ -68,11 +69,8 @@ const tabs = ['transfers', 'holders', 'inventory']
 const PAGE_SIZE = 50
 const NftCollectionInfo = () => {
   const { id } = useParams<{ id: string }>()
-  const { search } = useLocation()
   const history = useHistory()
-  const q = new URLSearchParams(search)
-  const page = q.get('page') ?? '1'
-  const tab = q.get('tab') ?? tabs[0]
+  const { tab = tabs[0], page = '1' } = useSearchParams('tab', 'page')
 
   const { isLoading: isTransferListLoading, data: transferListRes } = useQuery<AxiosResponse<TransferListRes>>(
     ['nft-collection-transfer-list', id, page],

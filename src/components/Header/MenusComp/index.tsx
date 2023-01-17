@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { isMobile } from '../../../utils/screen'
+import { useIsMobile } from '../../../utils/hook'
 import i18n from '../../../utils/i18n'
 import { MobileMenuItem, MobileMenuLink, HeaderMenuPanel } from './styled'
 
@@ -55,7 +55,7 @@ const MenuItemLink = ({ menu }: { menu: any }) => {
 }
 
 export default () =>
-  isMobile() ? (
+  useIsMobile() ? (
     <MobileMenuItem>
       {menuDataList()
         .filter(menu => menu.name !== undefined)

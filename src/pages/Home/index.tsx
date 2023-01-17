@@ -15,7 +15,7 @@ import { parseTime, parseTimeNoSecond } from '../../utils/date'
 import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME } from '../../constants/common'
 import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
-import { isMobile, isScreenSmallerThan1200 } from '../../utils/screen'
+import { isScreenSmallerThan1200 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import { getLatestBlocks } from '../../service/app/block'
 import i18n from '../../utils/i18n'
@@ -26,7 +26,7 @@ import { getLatestTransactions } from '../../service/app/transaction'
 import { getTipBlockNumber } from '../../service/app/address'
 import Loading from '../../components/Loading/SmallLoading'
 import Banner from '../../components/Banner'
-import { useInterval } from '../../utils/hook'
+import { useInterval, useIsMobile } from '../../utils/hook'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
 import Search from '../../components/Search'
 import AverageBlockTimeChart from './AverageBlockTimeChart'
@@ -66,7 +66,7 @@ const parseHashRate = (hashRate: string | undefined) => (hashRate ? handleHashRa
 
 const parseBlockTime = (blockTime: string | undefined) => (blockTime ? parseTime(Number(blockTime)) : '- -')
 
-const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => [
+const getBlockchainDataList = (statistics: State.Statistics, isMobile: boolean): BlockchainData[] => [
   {
     name: i18n.t('blockchain.latest_block'),
     value: localeNumberString(statistics.tipBlockNumber),
@@ -75,7 +75,7 @@ const blockchainDataList = (statistics: State.Statistics): BlockchainData[] => [
   {
     name: i18n.t('blockchain.average_block_time'),
     value: parseBlockTime(statistics.averageBlockTime),
-    showSeparate: !isMobile(),
+    showSeparate: !isMobile,
   },
   {
     name: i18n.t('blockchain.hash_rate'),
@@ -135,6 +135,7 @@ const useHomeSearchBarStatus = (dispatch: AppDispatch) => {
 }
 
 export default () => {
+  const isMobile = useIsMobile()
   const dispatch = useDispatch()
   const history = useHistory()
   const {
@@ -168,6 +169,8 @@ export default () => {
 
   useHomeSearchBarStatus(dispatch)
 
+  const blockchainDataList = getBlockchainDataList(statistics, isMobile)
+
   return (
     <Content>
       <Banner />
@@ -181,8 +184,8 @@ export default () => {
         <div className={`${styles.HomeStatisticTopPanel} ${styles.AfterHardFork}`}>
           <div className={styles.home__statistic__left__panel}>
             <div className={styles.home__statistic__left__data}>
-              <StatisticItem blockchain={blockchainDataList(statistics)[0]} isFirst />
-              <StatisticItem blockchain={blockchainDataList(statistics)[1]} />
+              <StatisticItem blockchain={blockchainDataList[0]} isFirst />
+              <StatisticItem blockchain={blockchainDataList[1]} />
             </div>
             <div className={styles.home__statistic__left__chart}>
               <AverageBlockTimeChart />
@@ -190,8 +193,8 @@ export default () => {
           </div>
           <div className={styles.home__statistic__right__panel}>
             <div className={styles.home__statistic__right__data}>
-              <StatisticItem blockchain={blockchainDataList(statistics)[2]} isFirst />
-              <StatisticItem blockchain={blockchainDataList(statistics)[3]} />
+              <StatisticItem blockchain={blockchainDataList[2]} isFirst />
+              <StatisticItem blockchain={blockchainDataList[3]} />
             </div>
             <div className={styles.home__statistic__right__chart}>
               <HashRateChart />
@@ -200,25 +203,21 @@ export default () => {
         </div>
         <div className={styles.HomeStatisticBottomPanel}>
           {!isScreenSmallerThan1200() &&
-            blockchainDataList(statistics)
+            blockchainDataList
               .slice(4)
               .map((data: BlockchainData) => <BlockchainItem blockchain={data} key={data.name} />)}
           {isScreenSmallerThan1200() && (
             <>
               <div className={styles.blockchain__item__row}>
-                {blockchainDataList(statistics)
-                  .slice(4, 6)
-                  .map((data: BlockchainData) => (
-                    <BlockchainItem blockchain={data} key={data.name} />
-                  ))}
+                {blockchainDataList.slice(4, 6).map((data: BlockchainData) => (
+                  <BlockchainItem blockchain={data} key={data.name} />
+                ))}
               </div>
               <div className={styles.blockchain__item__row_separate} />
               <div className={styles.blockchain__item__row}>
-                {blockchainDataList(statistics)
-                  .slice(6)
-                  .map((data: BlockchainData) => (
-                    <BlockchainItem blockchain={data} key={data.name} />
-                  ))}
+                {blockchainDataList.slice(6).map((data: BlockchainData) => (
+                  <BlockchainItem blockchain={data} key={data.name} />
+                ))}
               </div>
             </>
           )}

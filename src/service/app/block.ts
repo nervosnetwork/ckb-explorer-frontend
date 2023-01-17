@@ -2,7 +2,7 @@ import { fetchTransactionsByBlockHash, fetchBlock, fetchBlocks, fetchBlockList }
 import { AppDispatch } from '../../contexts/reducer'
 import { PageActions } from '../../contexts/actions'
 
-const handleStatus = (dispatch: AppDispatch, status: State.FetchStatus) => {
+export const handleBlockStatus = (dispatch: AppDispatch, status: State.FetchStatus) => {
   dispatch({
     type: PageActions.UpdateBlockStatus,
     payload: {
@@ -14,7 +14,7 @@ const handleStatus = (dispatch: AppDispatch, status: State.FetchStatus) => {
 export const getBlockTransactions = (hash: string, page: number, size: number, dispatch: AppDispatch) => {
   fetchTransactionsByBlockHash(hash, page, size)
     .then(response => {
-      handleStatus(dispatch, 'OK')
+      handleBlockStatus(dispatch, 'OK')
       const { data, meta } = response as Response.Response<Response.Wrapper<State.Transaction>[]>
       dispatch({
         type: PageActions.UpdateBlockTransactions,
@@ -32,13 +32,13 @@ export const getBlockTransactions = (hash: string, page: number, size: number, d
       }
     })
     .catch(() => {
-      handleStatus(dispatch, 'Error')
+      handleBlockStatus(dispatch, 'Error')
     })
 }
 
 // blockParam: block hash or block number
 export const getBlock = (blockParam: string, page: number, size: number, dispatch: AppDispatch) => {
-  handleStatus(dispatch, 'InProgress')
+  handleBlockStatus(dispatch, 'InProgress')
   fetchBlock(blockParam)
     .then((wrapper: Response.Wrapper<State.Block> | null) => {
       if (wrapper) {
@@ -51,11 +51,11 @@ export const getBlock = (blockParam: string, page: number, size: number, dispatc
         })
         getBlockTransactions(block.blockHash, page, size, dispatch)
       } else {
-        handleStatus(dispatch, 'OK')
+        handleBlockStatus(dispatch, 'OK')
       }
     })
     .catch(() => {
-      handleStatus(dispatch, 'Error')
+      handleBlockStatus(dispatch, 'Error')
     })
 }
 

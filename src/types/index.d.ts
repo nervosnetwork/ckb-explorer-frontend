@@ -661,8 +661,6 @@ declare namespace State {
 
   export interface App {
     toast: ToastMessage | null
-    loading: boolean
-    secondLoading: boolean
     appErrors: [
       { type: 'Network'; message: string[] },
       { type: 'ChainAlert'; message: string[] },

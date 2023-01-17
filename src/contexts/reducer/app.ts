@@ -15,22 +15,6 @@ export const appReducer = (
           appHeight: payload.appHeight,
         },
       }
-    case AppActions.UpdateLoading:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          loading: payload.loading,
-        },
-      }
-    case AppActions.UpdateSecondLoading:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          secondLoading: payload.secondLoading,
-        },
-      }
     case AppActions.UpdateModal:
       return {
         ...state,

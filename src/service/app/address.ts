@@ -4,7 +4,7 @@ import { AppActions, PageActions } from '../../contexts/actions'
 import initAddress from '../../contexts/states/address'
 import { fetchAddressInfo, fetchTipBlockNumber, fetchTransactionsByAddress } from '../http/fetcher'
 
-const handleAddressStatus = (dispatch: AppDispatch, addressStatus: State.FetchStatus) => {
+export const handleAddressStatus = (dispatch: AppDispatch, addressStatus: State.FetchStatus) => {
   dispatch({
     type: PageActions.UpdateAddressStatus,
     payload: {
@@ -13,7 +13,7 @@ const handleAddressStatus = (dispatch: AppDispatch, addressStatus: State.FetchSt
   })
 }
 
-const handleTransactionStatus = (dispatch: AppDispatch, transactionsStatus: State.FetchStatus) => {
+export const handleTransactionStatus = (dispatch: AppDispatch, transactionsStatus: State.FetchStatus) => {
   dispatch({
     type: PageActions.UpdateAddressTransactionsStatus,
     payload: {

@@ -1,7 +1,9 @@
 import styled from 'styled-components'
 
 export const ErrorPanel = styled.div`
+  width: 100%;
   margin: 112px 0 203px 0;
+  text-align: center;
 
   @media (max-width: 750px) {
     margin: 120px 0 130px 0;
@@ -9,7 +11,7 @@ export const ErrorPanel = styled.div`
 
   > img {
     width: 1038px;
-    height: 480px;
+    max-width: 100%;
     margin: 0 auto;
 
     @media (max-width: 750px) {

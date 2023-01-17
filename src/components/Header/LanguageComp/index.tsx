@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect } from 'react'
-import { isMobile } from '../../../utils/screen'
+import { useIsMobile } from '../../../utils/hook'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage, changeLanguage } from '../../../utils/i18n'
 import { HeaderLanguagePanel, MobileSubMenuPanel } from './styled'
@@ -135,4 +135,4 @@ const LanguageMenu = () => {
   )
 }
 
-export default () => (isMobile() ? <LanguageMenu /> : <LanguageDropdown />)
+export default () => (useIsMobile() ? <LanguageMenu /> : <LanguageDropdown />)
