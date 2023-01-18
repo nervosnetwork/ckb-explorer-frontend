@@ -164,6 +164,7 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
   const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
   const { state } = useLocation<RouteState>()
   const stateStaleTime = 3000
+  const MAX_PAGE_NUMBER = 5000
 
   const query = useQuery(
     [`${type}-transactions`, type, currentPage, pageSize] as const,
@@ -198,22 +199,30 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
 
   return (
     <QueryResult query={query}>
-      {data => (
-        <>
-          {isMobile ? (
-            <TransactionCardGroup type={type} transactions={data.transactions} />
-          ) : (
-            <TransactionTable type={type} transactions={data.transactions} />
-          )}
+      {data => {
+        const totalPages = Math.min(Math.ceil(data.total / pageSize), MAX_PAGE_NUMBER)
+        return (
+          <>
+            {isMobile ? (
+              <TransactionCardGroup type={type} transactions={data.transactions} />
+            ) : (
+              <TransactionTable type={type} transactions={data.transactions} />
+            )}
 
-          <Pagination
-            className={styles.pagination}
-            currentPage={currentPage}
-            totalPages={Math.ceil(data.total / pageSize)}
-            onChange={setPage}
-          />
-        </>
-      )}
+            <Pagination
+              className={styles.pagination}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onChange={setPage}
+              annotation={
+                totalPages === MAX_PAGE_NUMBER
+                  ? i18n.t('pagination.only_first_pages_visible', { pages: MAX_PAGE_NUMBER })
+                  : undefined
+              }
+            />
+          </>
+        )
+      }}
     </QueryResult>
   )
 }
