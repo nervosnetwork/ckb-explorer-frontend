@@ -1,5 +1,5 @@
 import { Fragment, useMemo, FC } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { parseSimpleDate } from '../../utils/date'
@@ -16,7 +16,8 @@ import DecimalCapacity from '../../components/DecimalCapacity'
 import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
 import AddressText from '../../components/AddressText'
 import { useIsMobile, usePaginationParamsInListPage } from '../../utils/hook'
-import { fetchBlockList } from '../../service/http/fetcher'
+import { fetchBlocks } from '../../service/http/fetcher'
+import { RouteState } from '../../routes/state'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
   <HighLightValue>
@@ -153,14 +154,25 @@ export default () => {
   )
 
   const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
+  const { state } = useLocation<RouteState>()
+  const stateStaleTime = 3000
 
-  const query = useQuery(['blocks', currentPage, pageSize], async () => {
-    const { data, meta } = await fetchBlockList(currentPage, pageSize)
-    return {
-      blocks: data.map(wrapper => wrapper.attributes),
-      total: meta?.total ?? 0,
-    }
-  })
+  const query = useQuery(
+    ['blocks', currentPage, pageSize],
+    async () => {
+      const { data, meta } = await fetchBlocks(currentPage, pageSize)
+      return {
+        blocks: data.map(wrapper => wrapper.attributes),
+        total: meta?.total ?? 0,
+      }
+    },
+    {
+      initialData:
+        state?.type === 'BlockListPage' && state.createTime + stateStaleTime > Date.now()
+          ? state.blocksDataWithFirstPage
+          : undefined,
+    },
+  )
   const blocks = query.data?.blocks ?? []
   const total = query.data?.total ?? 0
   const totalPages = Math.ceil(total / pageSize)
