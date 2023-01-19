@@ -538,8 +538,6 @@ declare namespace State {
   export interface StatisticChartsState {
     statisticDifficultyHashRates: StatisticDifficultyHashRate[]
     statisticDifficultyHashRatesFetchEnd: boolean
-    statisticDifficultyUncleRateEpochs: StatisticDifficultyUncleRateEpoch[]
-    statisticDifficultyUncleRatesFetchEnd: boolean
     statisticDifficulties: StatisticDifficulty[]
     statisticDifficultiesFetchEnd: boolean
     statisticHashRates: StatisticHashRate[]

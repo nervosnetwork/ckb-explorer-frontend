@@ -11,8 +11,6 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticAddressCountsFetchEnd: false,
   statisticCellCounts: [],
   statisticCellCountsFetchEnd: false,
-  statisticDifficultyUncleRateEpochs: [],
-  statisticDifficultyUncleRatesFetchEnd: false,
   statisticTotalDaoDeposits: [],
   statisticTotalDaoDepositsFetchEnd: false,
   statisticNewDaoDeposits: [],

@@ -196,21 +196,6 @@ export const dispatchDifficultyHashRate = (dispatch: AppDispatch, data: any) => 
   })
 }
 
-export const dispatchDifficultyUncleRateEpoch = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticDifficultyUncleRateEpoch,
-    payload: {
-      statisticDifficultyUncleRateEpochs: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticDifficultyUncleRateFetchEnd,
-    payload: {
-      statisticDifficultyUncleRatesFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchMinerAddressDistribution = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticMinerAddressDistribution,

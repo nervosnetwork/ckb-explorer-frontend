@@ -13,8 +13,6 @@ export enum PageActions {
 
   UpdateStatisticDifficultyHashRate = 'updateStatisticDifficultyHashRate',
   UpdateStatisticDifficultyHashRateFetchEnd = 'updateStatisticDifficultyHashRateFetchEnd',
-  UpdateStatisticDifficultyUncleRateEpoch = 'updateStatisticDifficultyUncleRateEpoch',
-  UpdateStatisticDifficultyUncleRateFetchEnd = 'updateStatisticDifficultyUncleRateFetchEnd',
   UpdateStatisticDifficulty = 'updateStatisticDifficulty',
   UpdateStatisticDifficultyFetchEnd = 'updateStatisticDifficultyFetchEnd',
   UpdateStatisticHashRate = 'updateStatisticHashRate',
