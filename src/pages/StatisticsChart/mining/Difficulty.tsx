@@ -1,14 +1,10 @@
-import { useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import { useQuery } from 'react-query'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
-import { useIsMobile } from '../../../utils/hook'
-import { useAppState } from '../../../contexts/providers'
 import { handleDifficulty } from '../../../utils/number'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
-import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
+import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { fetchStatisticDifficulty } from '../../../service/http/fetcher'
 
@@ -102,39 +98,17 @@ const toCSV = (statisticDifficulties: State.StatisticDifficulty[]) =>
   statisticDifficulties ? statisticDifficulties.map(data => [data.createdAtUnixtimestamp, data.avgDifficulty]) : []
 
 export const DifficultyChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { app } = useAppState()
-
-  const query = useQuery(['fetchStatisticDifficulty'], async () => {
-    const cache = fetchDateChartCache<State.StatisticDifficulty[]>(ChartCachedKeys.Difficulty)
-    if (cache) return cache
-
-    const { data } = await fetchStatisticDifficulty()
-    const difficulties = data.map(wrapper => wrapper.attributes)
-    if (difficulties && difficulties.length > 0) {
-      storeDateChartCache<State.StatisticDifficulty[]>(ChartCachedKeys.Difficulty, difficulties)
-    }
-    return difficulties
-  })
-  const statisticDifficulties = useMemo(() => query.data ?? [], [query.data])
-
-  const option = useMemo(
-    () => getOption(statisticDifficulties, app.chartColor, isMobile, isThumbnail),
-    [statisticDifficulties, app.chartColor, isMobile, isThumbnail],
-  )
-
-  const content = query.isLoading ? (
-    <ChartLoading show isThumbnail={isThumbnail} />
-  ) : (
-    <ReactChartCore option={option} isThumbnail={isThumbnail} />
-  )
-
-  return isThumbnail ? (
-    content
-  ) : (
-    <ChartPage title={i18n.t('block.difficulty')} data={toCSV(statisticDifficulties)}>
-      {content}
-    </ChartPage>
+  const [t] = useTranslation()
+  return (
+    <SmartChartPage
+      title={t('block.difficulty')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticDifficulty}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.Difficulty}
+      cacheMode="date"
+    />
   )
 }
 

@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import CONFIG from '../../config'
+import { pick } from '../../utils/object'
 import { toCamelcase } from '../../utils/util'
 
 const baseURL = `${CONFIG.API_URL}/api/v1/`
@@ -229,9 +230,17 @@ export const fetchStatisticCellCount = () =>
   )
 
 export const fetchStatisticDifficultyUncleRateEpoch = () =>
-  axiosIns(`/epoch_statistics/epoch_time-epoch_length`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRateEpoch>[]>>(res.data),
-  )
+  axiosIns(`/epoch_statistics/epoch_time-epoch_length`).then((res: AxiosResponse) => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRateEpoch>[]>>(res.data)
+    return {
+      ...resp,
+      data: resp.data.map(wrapper => ({
+        ...wrapper,
+        // Data may enter the cache, so it is purify to reduce volume.
+        attributes: pick(wrapper.attributes, ['epochNumber', 'epochTime', 'epochLength']),
+      })),
+    }
+  })
 
 export const fetchStatisticAddressBalanceRank = () =>
   axiosIns(`/statistics/address_balance_ranking`).then((res: AxiosResponse) =>

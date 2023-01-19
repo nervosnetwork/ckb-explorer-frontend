@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactElement, ReactNode, useMemo } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/pie'
@@ -13,6 +13,7 @@ import 'echarts/lib/component/brush'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import { Tooltip } from 'antd'
+import { useQuery } from 'react-query'
 import { LoadingPanel, ChartNoDataPanel, ChartDetailTitle, ChartDetailPanel } from './styled'
 import Loading from '../../../components/Loading'
 import ChartNoDataImage from '../../../assets/chart_no_data.png'
@@ -22,6 +23,16 @@ import { isMainnet } from '../../../utils/chain'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import i18n from '../../../utils/i18n'
 import Content from '../../../components/Content'
+import { useIsMobile } from '../../../utils/hook'
+import { useAppState } from '../../../contexts/providers'
+import {
+  fetchCachedData,
+  fetchDateChartCache,
+  fetchEpochChartCache,
+  storeCachedData,
+  storeDateChartCache,
+  storeEpochChartCache,
+} from '../../../utils/cache'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => (isThumbnail ? <SmallLoading /> : <Loading show />)
 
@@ -120,6 +131,74 @@ const ChartPage = ({
       </ChartDetailTitle>
       <ChartDetailPanel className="container">{children}</ChartDetailPanel>
     </Content>
+  )
+}
+
+export function SmartChartPage<T>({
+  title,
+  isThumbnail = false,
+  fetchData,
+  getEChartOption,
+  toCSV,
+  cacheKey,
+  cacheMode = 'forever',
+}: {
+  title: string
+  isThumbnail?: boolean
+  fetchData: () => Promise<T[] | Response.Response<Response.Wrapper<T>[]>>
+  getEChartOption: (
+    dataList: T[],
+    chartColor: State.App['chartColor'],
+    isMobile: boolean,
+    isThumbnail: boolean,
+  ) => echarts.EChartOption
+  toCSV: (dataList: T[]) => string[][]
+  cacheKey?: string
+  cacheMode: 'forever' | 'date' | 'epoch'
+}): ReactElement {
+  const isMobile = useIsMobile()
+  const { app } = useAppState()
+
+  const query = useQuery([fetchData], async () => {
+    if (cacheKey) {
+      const fetchCache =
+        // eslint-disable-next-line no-nested-ternary
+        cacheMode === 'forever' ? fetchCachedData : cacheMode === 'date' ? fetchDateChartCache : fetchEpochChartCache
+      const dataList = fetchCache<T[]>(cacheKey)
+      if (dataList) return dataList
+    }
+
+    let dataList = await fetchData()
+    if ('data' in dataList) {
+      dataList = dataList.data.map(wrapper => wrapper.attributes)
+    }
+    if (cacheKey && dataList.length > 0) {
+      const storeCache =
+        // eslint-disable-next-line no-nested-ternary
+        cacheMode === 'forever' ? storeCachedData : cacheMode === 'date' ? storeDateChartCache : storeEpochChartCache
+      storeCache<T[]>(cacheKey, dataList)
+    }
+    return dataList
+  })
+  const dataList = useMemo(() => query.data ?? [], [query.data])
+
+  const option = useMemo(
+    () => getEChartOption(dataList, app.chartColor, isMobile, isThumbnail),
+    [app.chartColor, dataList, getEChartOption, isMobile, isThumbnail],
+  )
+
+  const content = query.isLoading ? (
+    <ChartLoading show isThumbnail={isThumbnail} />
+  ) : (
+    <ReactChartCore option={option} isThumbnail={isThumbnail} />
+  )
+
+  return isThumbnail ? (
+    content
+  ) : (
+    <ChartPage title={title} data={toCSV(dataList)}>
+      {content}
+    </ChartPage>
   )
 }
 
