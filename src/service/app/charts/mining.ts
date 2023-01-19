@@ -1,44 +1,11 @@
 /* eslint-disable no-restricted-syntax */
 import BigNumber from 'bignumber.js'
-import {
-  fetchStatisticHashRate,
-  fetchStatisticUncleRate,
-  fetchStatisticMinerAddressDistribution,
-} from '../../http/fetcher'
+import { fetchStatisticUncleRate, fetchStatisticMinerAddressDistribution } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
-import { dispatchHashRate, dispatchUncleRate, dispatchMinerAddressDistribution } from './action'
-
-export const getStatisticHashRate = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(ChartCachedKeys.HashRate)
-  if (data) {
-    dispatchHashRate(dispatch, data)
-    return
-  }
-  fetchStatisticHashRate()
-    .then((response: Response.Response<Response.Wrapper<State.StatisticHashRate>[]> | null) => {
-      if (!response) return
-      const { data } = response
-      const hashRates = data.map(wrapper => ({
-        avgHashRate: new BigNumber(wrapper.attributes.avgHashRate).multipliedBy(1000).toNumber(),
-        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-      }))
-      dispatchHashRate(dispatch, hashRates)
-      if (hashRates && hashRates.length > 0) {
-        storeDateChartCache(ChartCachedKeys.HashRate, hashRates)
-      }
-    })
-    .catch(() => {
-      dispatch({
-        type: PageActions.UpdateStatisticHashRateFetchEnd,
-        payload: {
-          statisticHashRatesFetchEnd: true,
-        },
-      })
-    })
-}
+import { dispatchUncleRate, dispatchMinerAddressDistribution } from './action'
 
 export const getStatisticUncleRate = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(ChartCachedKeys.UncleRate)

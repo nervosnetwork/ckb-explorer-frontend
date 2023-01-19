@@ -13,7 +13,6 @@ import 'echarts/lib/component/brush'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import { Tooltip } from 'antd'
-import { useQuery } from 'react-query'
 import { LoadingPanel, ChartNoDataPanel, ChartDetailTitle, ChartDetailPanel } from './styled'
 import Loading from '../../../components/Loading'
 import ChartNoDataImage from '../../../assets/chart_no_data.png'
@@ -23,16 +22,8 @@ import { isMainnet } from '../../../utils/chain'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import i18n from '../../../utils/i18n'
 import Content from '../../../components/Content'
-import { useIsMobile } from '../../../utils/hook'
+import { useChartQueryWithCache, useIsMobile } from '../../../utils/hook'
 import { useAppState } from '../../../contexts/providers'
-import {
-  fetchCachedData,
-  fetchDateChartCache,
-  fetchEpochChartCache,
-  storeCachedData,
-  storeDateChartCache,
-  storeEpochChartCache,
-} from '../../../utils/cache'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => (isThumbnail ? <SmallLoading /> : <Loading show />)
 
@@ -159,27 +150,7 @@ export function SmartChartPage<T>({
   const isMobile = useIsMobile()
   const { app } = useAppState()
 
-  const query = useQuery([fetchData], async () => {
-    if (cacheKey) {
-      const fetchCache =
-        // eslint-disable-next-line no-nested-ternary
-        cacheMode === 'forever' ? fetchCachedData : cacheMode === 'date' ? fetchDateChartCache : fetchEpochChartCache
-      const dataList = fetchCache<T[]>(cacheKey)
-      if (dataList) return dataList
-    }
-
-    let dataList = await fetchData()
-    if ('data' in dataList) {
-      dataList = dataList.data.map(wrapper => wrapper.attributes)
-    }
-    if (cacheKey && dataList.length > 0) {
-      const storeCache =
-        // eslint-disable-next-line no-nested-ternary
-        cacheMode === 'forever' ? storeCachedData : cacheMode === 'date' ? storeDateChartCache : storeEpochChartCache
-      storeCache<T[]>(cacheKey, dataList)
-    }
-    return dataList
-  })
+  const query = useChartQueryWithCache(fetchData, cacheKey, cacheMode)
   const dataList = useMemo(() => query.data ?? [], [query.data])
 
   const option = useMemo(

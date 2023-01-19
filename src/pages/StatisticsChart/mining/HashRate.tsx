@@ -1,13 +1,12 @@
-import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import { getStatisticHashRate } from '../../../service/app/charts/mining'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
-import { useIsMobile } from '../../../utils/hook'
-import { useAppState, useDispatch } from '../../../contexts/providers'
 import { handleHashRate } from '../../../utils/number'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
+import { fetchStatisticHashRate } from '../../../service/http/fetcher'
+import { ChartCachedKeys } from '../../../constants/cache'
 
 const getOption = (
   statisticHashRates: State.StatisticHashRate[],
@@ -92,33 +91,22 @@ const getOption = (
   }
 }
 
-export const HashRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticHashRates, statisticHashRatesFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticHashRates, app.chartColor, isMobile, isThumbnail),
-    [statisticHashRates, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticHashRatesFetchEnd || statisticHashRates.length === 0) {
-    return <ChartLoading show={!statisticHashRatesFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticHashRates: State.StatisticHashRate[]) =>
   statisticHashRates ? statisticHashRates.map(data => [data.createdAtUnixtimestamp, data.avgHashRate]) : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticHashRates } = useAppState()
-
-  useEffect(() => {
-    getStatisticHashRate(dispatch)
-  }, [dispatch])
-
+export const HashRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage title={i18n.t('block.hash_rate')} data={toCSV(statisticHashRates)}>
-      <HashRateChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('block.hash_rate')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticHashRate}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.HashRate}
+      cacheMode="date"
+    />
   )
 }
+
+export default HashRateChart

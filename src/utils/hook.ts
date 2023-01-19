@@ -9,11 +9,20 @@ import {
 } from '@nervosnetwork/ckb-sdk-utils'
 import { useHistory, useLocation } from 'react-router-dom'
 import queryString from 'query-string'
+import { useQuery } from 'react-query'
 import { AppCachedKeys } from '../constants/cache'
 import { deprecatedAddrToNewAddr } from './util'
 import { parsePageNumber } from './string'
 import { ListPageParams, PageParams } from '../constants/common'
 import { MOBILE_DEVICE_MAX_WIDTH } from './screen'
+import {
+  fetchCachedData,
+  fetchDateChartCache,
+  fetchEpochChartCache,
+  storeCachedData,
+  storeDateChartCache,
+  storeEpochChartCache,
+} from './cache'
 
 export const useInterval = (callback: () => void, delay: number, deps: any[] = []) => {
   const savedCallback = useRef(() => {})
@@ -337,6 +346,34 @@ export const useDeprecatedAddr = (addr: string) =>
       return null
     }
   }, [addr])
+
+export function useChartQueryWithCache<T>(
+  fetchData: () => Promise<T[] | Response.Response<Response.Wrapper<T>[]>>,
+  cacheKey?: string,
+  cacheMode: 'forever' | 'date' | 'epoch' = 'forever',
+) {
+  return useQuery([fetchData, cacheKey, cacheMode], async () => {
+    if (cacheKey) {
+      const fetchCache =
+        // eslint-disable-next-line no-nested-ternary
+        cacheMode === 'forever' ? fetchCachedData : cacheMode === 'date' ? fetchDateChartCache : fetchEpochChartCache
+      const dataList = fetchCache<T[]>(cacheKey)
+      if (dataList) return dataList
+    }
+
+    let dataList = await fetchData()
+    if ('data' in dataList) {
+      dataList = dataList.data.map(wrapper => wrapper.attributes)
+    }
+    if (cacheKey && dataList.length > 0) {
+      const storeCache =
+        // eslint-disable-next-line no-nested-ternary
+        cacheMode === 'forever' ? storeCachedData : cacheMode === 'date' ? storeDateChartCache : storeEpochChartCache
+      storeCache<T[]>(cacheKey, dataList)
+    }
+    return dataList
+  })
+}
 
 export default {
   useInterval,

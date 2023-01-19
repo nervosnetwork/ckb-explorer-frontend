@@ -136,21 +136,6 @@ export const dispatchEpochTimeDistribution = (dispatch: AppDispatch, data: any) 
   })
 }
 
-export const dispatchHashRate = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticHashRate,
-    payload: {
-      statisticHashRates: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticHashRateFetchEnd,
-    payload: {
-      statisticHashRatesFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchUncleRate = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticUncleRate,

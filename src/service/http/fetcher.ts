@@ -223,9 +223,19 @@ export const fetchStatisticDifficulty = () =>
   )
 
 export const fetchStatisticHashRate = () =>
-  axiosIns(`/daily_statistics/avg_hash_rate`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticHashRate>[]>>(res.data),
-  )
+  axiosIns(`/daily_statistics/avg_hash_rate`).then((res: AxiosResponse) => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticHashRate>[]>>(res.data)
+    return {
+      ...resp,
+      data: resp.data.map(wrapper => ({
+        ...wrapper,
+        attributes: {
+          ...wrapper.attributes,
+          avgHashRate: new BigNumber(wrapper.attributes.avgHashRate).multipliedBy(1000).toString(),
+        },
+      })),
+    }
+  })
 
 export const fetchStatisticUncleRate = () =>
   axiosIns(`/daily_statistics/uncle_rate`).then((res: AxiosResponse) =>
