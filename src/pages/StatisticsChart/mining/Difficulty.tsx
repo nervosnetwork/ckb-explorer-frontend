@@ -1,13 +1,16 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import { getStatisticDifficulty } from '../../../service/app/charts/mining'
+import { useQuery } from 'react-query'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { useIsMobile } from '../../../utils/hook'
-import { useAppState, useDispatch } from '../../../contexts/providers'
+import { useAppState } from '../../../contexts/providers'
 import { handleDifficulty } from '../../../utils/number'
 import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticDifficulty } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticDifficulties: State.StatisticDifficulty[],
@@ -95,33 +98,44 @@ const getOption = (
   }
 }
 
+const toCSV = (statisticDifficulties: State.StatisticDifficulty[]) =>
+  statisticDifficulties ? statisticDifficulties.map(data => [data.createdAtUnixtimestamp, data.avgDifficulty]) : []
+
 export const DifficultyChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const isMobile = useIsMobile()
-  const { statisticDifficulties, statisticDifficultiesFetchEnd, app } = useAppState()
+  const { app } = useAppState()
+
+  const query = useQuery(['fetchStatisticDifficulty'], async () => {
+    const cache = fetchDateChartCache<State.StatisticDifficulty[]>(ChartCachedKeys.Difficulty)
+    if (cache) return cache
+
+    const { data } = await fetchStatisticDifficulty()
+    const difficulties = data.map(wrapper => wrapper.attributes)
+    if (difficulties && difficulties.length > 0) {
+      storeDateChartCache<State.StatisticDifficulty[]>(ChartCachedKeys.Difficulty, difficulties)
+    }
+    return difficulties
+  })
+  const statisticDifficulties = useMemo(() => query.data ?? [], [query.data])
+
   const option = useMemo(
     () => getOption(statisticDifficulties, app.chartColor, isMobile, isThumbnail),
     [statisticDifficulties, app.chartColor, isMobile, isThumbnail],
   )
-  if (!statisticDifficultiesFetchEnd || statisticDifficulties.length === 0) {
-    return <ChartLoading show={!statisticDifficultiesFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
 
-const toCSV = (statisticDifficulties: State.StatisticDifficulty[]) =>
-  statisticDifficulties ? statisticDifficulties.map(data => [data.createdAtUnixtimestamp, data.avgDifficulty]) : []
+  const content = query.isLoading ? (
+    <ChartLoading show isThumbnail={isThumbnail} />
+  ) : (
+    <ReactChartCore option={option} isThumbnail={isThumbnail} />
+  )
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticDifficulties } = useAppState()
-
-  useEffect(() => {
-    getStatisticDifficulty(dispatch)
-  }, [dispatch])
-
-  return (
+  return isThumbnail ? (
+    content
+  ) : (
     <ChartPage title={i18n.t('block.difficulty')} data={toCSV(statisticDifficulties)}>
-      <DifficultyChart />
+      {content}
     </ChartPage>
   )
 }
+
+export default DifficultyChart

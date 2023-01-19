@@ -5,8 +5,6 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticHashRatesFetchEnd: false,
   statisticUncleRates: [],
   statisticUncleRatesFetchEnd: false,
-  statisticDifficulties: [],
-  statisticDifficultiesFetchEnd: false,
   statisticAddressCounts: [],
   statisticAddressCountsFetchEnd: false,
   statisticCellCounts: [],

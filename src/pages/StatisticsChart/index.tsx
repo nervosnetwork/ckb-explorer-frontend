@@ -13,7 +13,6 @@ import {
 } from '../../service/app/charts/activities'
 import {
   getStatisticDifficultyHashRate,
-  getStatisticDifficulty,
   getStatisticHashRate,
   getStatisticUncleRate,
   getStatisticMinerAddressDistribution,
@@ -264,7 +263,6 @@ export default () => {
 
   useEffect(() => {
     getStatisticDifficultyHashRate(dispatch)
-    getStatisticDifficulty(dispatch)
     getStatisticHashRate(dispatch)
     getStatisticUncleRate(dispatch)
     getStatisticMinerAddressDistribution(dispatch)
