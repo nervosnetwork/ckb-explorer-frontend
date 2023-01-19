@@ -136,21 +136,6 @@ export const dispatchEpochTimeDistribution = (dispatch: AppDispatch, data: any) 
   })
 }
 
-export const dispatchUncleRate = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticUncleRate,
-    payload: {
-      statisticUncleRates: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticUncleRateFetchEnd,
-    payload: {
-      statisticUncleRatesFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchTotalSupply = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticTotalSupply,

@@ -11,16 +11,6 @@ export const pageReducer = (
         ...state,
         statistics: payload.statistics,
       }
-    case PageActions.UpdateStatisticUncleRate:
-      return {
-        ...state,
-        statisticUncleRates: payload.statisticUncleRates,
-      }
-    case PageActions.UpdateStatisticUncleRateFetchEnd:
-      return {
-        ...state,
-        statisticUncleRatesFetchEnd: payload.statisticUncleRatesFetchEnd,
-      }
     case PageActions.UpdateStatisticTransactionCount:
       return {
         ...state,

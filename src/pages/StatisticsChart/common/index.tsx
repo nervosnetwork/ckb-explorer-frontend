@@ -127,6 +127,7 @@ const ChartPage = ({
 
 export function SmartChartPage<T>({
   title,
+  description,
   isThumbnail = false,
   chartProps,
   fetchData,
@@ -136,6 +137,7 @@ export function SmartChartPage<T>({
   cacheMode = 'forever',
 }: {
   title: string
+  description?: string
   isThumbnail?: boolean
   chartProps?: Partial<ComponentProps<typeof ReactChartCore>>
   fetchData: () => Promise<T[] | Response.Response<Response.Wrapper<T>[]>>
@@ -169,7 +171,7 @@ export function SmartChartPage<T>({
   return isThumbnail ? (
     content
   ) : (
-    <ChartPage title={title} data={toCSV(dataList)}>
+    <ChartPage title={title} description={description} data={toCSV(dataList)}>
       {content}
     </ChartPage>
   )

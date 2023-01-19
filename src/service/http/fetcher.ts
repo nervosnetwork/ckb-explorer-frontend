@@ -238,9 +238,19 @@ export const fetchStatisticHashRate = () =>
   })
 
 export const fetchStatisticUncleRate = () =>
-  axiosIns(`/daily_statistics/uncle_rate`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticUncleRate>[]>>(res.data),
-  )
+  axiosIns(`/daily_statistics/uncle_rate`).then((res: AxiosResponse) => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticUncleRate>[]>>(res.data)
+    return {
+      ...resp,
+      data: resp.data.map(wrapper => ({
+        ...wrapper,
+        attributes: {
+          ...wrapper.attributes,
+          uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
+        },
+      })),
+    }
+  })
 
 export const fetchStatisticMinerAddressDistribution = () =>
   axiosIns(`/distribution_data/miner_address_distribution`).then((res: AxiosResponse) =>

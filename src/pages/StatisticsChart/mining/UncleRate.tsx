@@ -1,11 +1,10 @@
-import { useEffect, useMemo } from 'react'
-import { getStatisticUncleRate } from '../../../service/app/charts/mining'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
-import { useIsMobile } from '../../../utils/hook'
-import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
+import { fetchStatisticUncleRate } from '../../../service/http/fetcher'
+import { ChartCachedKeys } from '../../../constants/cache'
 
 const max = (statisticUncleRates: State.StatisticUncleRate[]) => {
   const array = statisticUncleRates.flatMap(data => Number(data.uncleRate) * 100)
@@ -17,7 +16,7 @@ const getOption = (
   chartColor: State.App['chartColor'],
   isMobile: boolean,
   isThumbnail = false,
-) => {
+): echarts.EChartOption => {
   const gridThumbnail = {
     left: '4%',
     right: '12%',
@@ -108,37 +107,23 @@ const getOption = (
   }
 }
 
-export const UncleRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticUncleRates, statisticUncleRatesFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticUncleRates, app.chartColor, isMobile, isThumbnail),
-    [statisticUncleRates, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticUncleRatesFetchEnd || statisticUncleRates.length === 0) {
-    return <ChartLoading show={!statisticUncleRatesFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticUncleRates: State.StatisticUncleRate[]) =>
   statisticUncleRates ? statisticUncleRates.map(data => [data.createdAtUnixtimestamp, data.uncleRate]) : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticUncleRates } = useAppState()
-
-  useEffect(() => {
-    getStatisticUncleRate(dispatch)
-  }, [dispatch])
-
+export const UncleRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage
-      title={i18n.t('block.uncle_rate')}
-      description={i18n.t('statistic.uncle_rate_description')}
-      data={toCSV(statisticUncleRates)}
-    >
-      <UncleRateChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('block.uncle_rate')}
+      description={t('statistic.uncle_rate_description')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticUncleRate}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.UncleRate}
+      cacheMode="date"
+    />
   )
 }
+
+export default UncleRateChart

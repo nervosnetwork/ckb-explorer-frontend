@@ -536,8 +536,6 @@ declare namespace State {
   }
 
   export interface StatisticChartsState {
-    statisticUncleRates: StatisticUncleRate[]
-    statisticUncleRatesFetchEnd: boolean
     statisticTransactionCounts: StatisticTransactionCount[]
     statisticTransactionCountsFetchEnd: boolean
     statisticCellCounts: StatisticCellCount[]
