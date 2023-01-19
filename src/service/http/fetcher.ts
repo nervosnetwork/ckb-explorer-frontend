@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
+import BigNumber from 'bignumber.js'
 import CONFIG from '../../config'
 import { pick } from '../../utils/object'
 import { toCamelcase } from '../../utils/util'
@@ -200,9 +201,21 @@ export const fetchStatisticCirculationRatio = () =>
   )
 
 export const fetchStatisticDifficultyHashRate = () =>
-  axiosIns(`/epoch_statistics/difficulty-uncle_rate-hash_rate`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]>>(res.data),
-  )
+  axiosIns(`/epoch_statistics/difficulty-uncle_rate-hash_rate`).then((res: AxiosResponse) => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]>>(res.data)
+    return {
+      ...resp,
+      data: resp.data.map(wrapper => ({
+        ...wrapper,
+        attributes: {
+          // Data may enter the cache, so it is purify to reduce volume.
+          ...pick(wrapper.attributes, ['difficulty', 'epochNumber']),
+          uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
+          hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toString(),
+        },
+      })),
+    }
+  })
 
 export const fetchStatisticDifficulty = () =>
   axiosIns(`/daily_statistics/avg_difficulty`).then((res: AxiosResponse) =>

@@ -1,7 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import BigNumber from 'bignumber.js'
 import {
-  fetchStatisticDifficultyHashRate,
   fetchStatisticHashRate,
   fetchStatisticUncleRate,
   fetchStatisticMinerAddressDistribution,
@@ -9,49 +8,8 @@ import {
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { ChartCachedKeys } from '../../../constants/cache'
-import {
-  fetchDateChartCache,
-  storeDateChartCache,
-  fetchEpochChartCache,
-  storeEpochChartCache,
-} from '../../../utils/cache'
-import {
-  dispatchHashRate,
-  dispatchUncleRate,
-  dispatchMinerAddressDistribution,
-  dispatchDifficultyHashRate,
-} from './action'
-
-export const getStatisticDifficultyHashRate = (dispatch: AppDispatch) => {
-  const data = fetchEpochChartCache(ChartCachedKeys.DifficultyHashRate)
-  if (data) {
-    dispatchDifficultyHashRate(dispatch, data)
-    return
-  }
-  fetchStatisticDifficultyHashRate()
-    .then((response: Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]> | null) => {
-      if (!response) return
-      const { data } = response
-      const difficultyHashRates = data.map(wrapper => ({
-        epochNumber: wrapper.attributes.epochNumber,
-        difficulty: wrapper.attributes.difficulty,
-        uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
-        hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toNumber(),
-      }))
-      dispatchDifficultyHashRate(dispatch, difficultyHashRates)
-      if (difficultyHashRates && difficultyHashRates.length > 0) {
-        storeEpochChartCache(ChartCachedKeys.DifficultyHashRate, difficultyHashRates)
-      }
-    })
-    .catch(() => {
-      dispatch({
-        type: PageActions.UpdateStatisticDifficultyHashRateFetchEnd,
-        payload: {
-          statisticDifficultyHashRatesFetchEnd: true,
-        },
-      })
-    })
-}
+import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
+import { dispatchHashRate, dispatchUncleRate, dispatchMinerAddressDistribution } from './action'
 
 export const getStatisticHashRate = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(ChartCachedKeys.HashRate)

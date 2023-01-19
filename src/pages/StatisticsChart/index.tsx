@@ -12,7 +12,6 @@ import {
   getStatisticTxFeeHistory,
 } from '../../service/app/charts/activities'
 import {
-  getStatisticDifficultyHashRate,
   getStatisticHashRate,
   getStatisticUncleRate,
   getStatisticMinerAddressDistribution,
@@ -262,7 +261,6 @@ export default () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    getStatisticDifficultyHashRate(dispatch)
     getStatisticHashRate(dispatch)
     getStatisticUncleRate(dispatch)
     getStatisticMinerAddressDistribution(dispatch)
