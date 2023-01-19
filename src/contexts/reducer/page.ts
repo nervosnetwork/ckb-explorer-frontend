@@ -231,16 +231,6 @@ export const pageReducer = (
         ...state,
         statisticLiquidityFetchEnd: payload.statisticLiquidityFetchEnd,
       }
-    case PageActions.UpdateStatisticMinerAddressDistribution:
-      return {
-        ...state,
-        statisticMinerAddresses: payload.statisticMinerAddresses,
-      }
-    case PageActions.UpdateStatisticMinerAddressDistributionFetchEnd:
-      return {
-        ...state,
-        statisticMinerAddressesFetchEnd: payload.statisticMinerAddressesFetchEnd,
-      }
 
     default:
       return state

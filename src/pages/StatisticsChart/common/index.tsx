@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useMemo } from 'react'
+import { ComponentProps, ReactElement, ReactNode, useMemo } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/pie'
@@ -128,6 +128,7 @@ const ChartPage = ({
 export function SmartChartPage<T>({
   title,
   isThumbnail = false,
+  chartProps,
   fetchData,
   getEChartOption,
   toCSV,
@@ -136,6 +137,7 @@ export function SmartChartPage<T>({
 }: {
   title: string
   isThumbnail?: boolean
+  chartProps?: Partial<ComponentProps<typeof ReactChartCore>>
   fetchData: () => Promise<T[] | Response.Response<Response.Wrapper<T>[]>>
   getEChartOption: (
     dataList: T[],
@@ -161,7 +163,7 @@ export function SmartChartPage<T>({
   const content = query.isLoading ? (
     <ChartLoading show isThumbnail={isThumbnail} />
   ) : (
-    <ReactChartCore option={option} isThumbnail={isThumbnail} />
+    <ReactChartCore option={option} isThumbnail={isThumbnail} {...chartProps} />
   )
 
   return isThumbnail ? (

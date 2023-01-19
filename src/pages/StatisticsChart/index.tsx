@@ -11,7 +11,7 @@ import {
   getStatisticBalanceDistribution,
   getStatisticTxFeeHistory,
 } from '../../service/app/charts/activities'
-import { getStatisticUncleRate, getStatisticMinerAddressDistribution } from '../../service/app/charts/mining'
+import { getStatisticUncleRate } from '../../service/app/charts/mining'
 import {
   getStatisticTotalDaoDeposit,
   getStatisticNewDaoDeposit,
@@ -258,7 +258,6 @@ export default () => {
 
   useEffect(() => {
     getStatisticUncleRate(dispatch)
-    getStatisticMinerAddressDistribution(dispatch)
     getStatisticAddressCount(dispatch)
     getStatisticCellCount(dispatch)
     getStatisticTransactionCount(dispatch)

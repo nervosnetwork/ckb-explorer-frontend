@@ -151,21 +151,6 @@ export const dispatchUncleRate = (dispatch: AppDispatch, data: any) => {
   })
 }
 
-export const dispatchMinerAddressDistribution = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticMinerAddressDistribution,
-    payload: {
-      statisticMinerAddresses: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticMinerAddressDistributionFetchEnd,
-    payload: {
-      statisticMinerAddressesFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchTotalSupply = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticTotalSupply,

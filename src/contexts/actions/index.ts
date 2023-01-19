@@ -57,8 +57,6 @@ export enum PageActions {
   UpdateStatisticInflationRateFetchEnd = 'updateStatisticInflationRateFetchEnd',
   UpdateStatisticLiquidity = 'updateStatisticLiquidity',
   UpdateStatisticLiquidityFetchEnd = 'updateStatisticLiquidityFetchEnd',
-  UpdateStatisticMinerAddressDistribution = 'updateStatisticMinerAddressDistribution',
-  UpdateStatisticMinerAddressDistributionFetchEnd = 'updateStatisticMinerAddressDistributionFetchEnd',
 }
 
 export enum ComponentActions {

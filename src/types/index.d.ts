@@ -488,7 +488,7 @@ declare namespace State {
   }
 
   export interface StatisticMinerAddressDistribution {
-    minerAddressDistribution: object
+    minerAddressDistribution: Record<string, string>
   }
 
   export interface StatisticMinerAddress {
@@ -580,8 +580,6 @@ declare namespace State {
     statisticInflationRatesFetchEnd: boolean
     statisticLiquidity: StatisticLiquidity[]
     statisticLiquidityFetchEnd: boolean
-    statisticMinerAddresses: StatisticMinerAddress[]
-    statisticMinerAddressesFetchEnd: boolean
   }
 
   export interface PageState extends StatisticChartsState {
