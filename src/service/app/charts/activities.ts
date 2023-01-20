@@ -1,8 +1,4 @@
-import {
-  fetchStatisticTransactionCount,
-  fetchStatisticTxFeeHistory,
-  fetchStatisticOccupiedCapacity,
-} from '../../http/fetcher'
+import { fetchStatisticTransactionCount, fetchStatisticTxFeeHistory } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
@@ -62,35 +58,6 @@ export const getStatisticTxFeeHistory = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticTxFeeHistoryFetchEnd,
         payload: {
           statisticTxFeeHistoriesFetchEnd: true,
-        },
-      })
-    })
-}
-
-export const getStatisticOccupiedCapacity = (dispatch: AppDispatch) => {
-  fetchStatisticOccupiedCapacity()
-    .then((response: Response.Response<Response.Wrapper<State.StatisticOccupiedCapacity>[]> | null) => {
-      if (!response) return
-      const { data } = response
-      const statisticOccupiedCapacities = data.map(wrapper => wrapper.attributes)
-      dispatch({
-        type: PageActions.UpdateStatisticOccupiedCapacity,
-        payload: {
-          statisticOccupiedCapacities,
-        },
-      })
-      dispatch({
-        type: PageActions.UpdateStatisticOccupiedCapacityFetchEnd,
-        payload: {
-          statisticOccupiedCapacitiesFetchEnd: true,
-        },
-      })
-    })
-    .catch(() => {
-      dispatch({
-        type: PageActions.UpdateStatisticOccupiedCapacityFetchEnd,
-        payload: {
-          statisticOccupiedCapacitiesFetchEnd: true,
         },
       })
     })

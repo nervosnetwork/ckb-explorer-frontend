@@ -550,8 +550,6 @@ declare namespace State {
     statisticBlockTimeDistributionsFetchEnd: boolean
     statisticAverageBlockTimes: StatisticAverageBlockTime[]
     statisticAverageBlockTimesFetchEnd: boolean
-    statisticOccupiedCapacities: StatisticOccupiedCapacity[]
-    statisticOccupiedCapacitiesFetchEnd: boolean
     statisticEpochTimeDistributions: StatisticEpochTimeDistribution[]
     statisticEpochTimeDistributionsFetchEnd: boolean
     statisticCirculationRatios: StatisticCirculationRatio[]

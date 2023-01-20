@@ -13,8 +13,6 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticBlockTimeDistributionsFetchEnd: false,
   statisticAverageBlockTimes: [],
   statisticAverageBlockTimesFetchEnd: false,
-  statisticOccupiedCapacities: [],
-  statisticOccupiedCapacitiesFetchEnd: false,
   statisticEpochTimeDistributions: [],
   statisticEpochTimeDistributionsFetchEnd: false,
   statisticCirculationRatios: [],

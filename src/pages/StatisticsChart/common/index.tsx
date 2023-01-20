@@ -150,7 +150,7 @@ export function SmartChartPage<T>({
   ) => echarts.EChartOption
   toCSV: (dataList: T[]) => (string | number)[][]
   cacheKey?: string
-  cacheMode: 'forever' | 'date' | 'epoch'
+  cacheMode?: 'forever' | 'date' | 'epoch'
 }): ReactElement {
   const isMobile = useIsMobile()
   const { app } = useAppState()

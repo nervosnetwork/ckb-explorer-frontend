@@ -27,8 +27,6 @@ export enum PageActions {
   UpdateStatisticBlockTimeDistributionFetchEnd = 'updateStatisticBlockTimeDistributionFetchEnd',
   UpdateStatisticAverageBlockTime = 'updateStatisticAverageBlockTime',
   UpdateStatisticAverageBlockTimeFetchEnd = 'updateStatisticAverageBlockTimeFetchEnd',
-  UpdateStatisticOccupiedCapacity = 'updateStatisticOccupiedCapacity',
-  UpdateStatisticOccupiedCapacityFetchEnd = 'updateStatisticOccupiedCapacityFetchEnd',
   UpdateStatisticEpochTimeDistribution = 'updateStatisticEpochTimeDistribution',
   UpdateStatisticEpochTimeDistributionFetchEnd = 'updateStatisticEpochTimeDistributionFetchEnd',
   UpdateStatisticEpochLengthDistribution = 'updateStatisticEpochLengthDistribution',

@@ -91,16 +91,6 @@ export const pageReducer = (
         ...state,
         statisticAverageBlockTimesFetchEnd: payload.statisticAverageBlockTimesFetchEnd,
       }
-    case PageActions.UpdateStatisticOccupiedCapacity:
-      return {
-        ...state,
-        statisticOccupiedCapacities: payload.statisticOccupiedCapacities,
-      }
-    case PageActions.UpdateStatisticOccupiedCapacityFetchEnd:
-      return {
-        ...state,
-        statisticOccupiedCapacitiesFetchEnd: payload.statisticOccupiedCapacitiesFetchEnd,
-      }
     case PageActions.UpdateStatisticEpochTimeDistribution:
       return {
         ...state,

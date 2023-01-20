@@ -1,13 +1,11 @@
-import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import { getStatisticOccupiedCapacity } from '../../../service/app/charts/activities'
-import { useAppState, useDispatch } from '../../../contexts/providers'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
-import { useIsMobile } from '../../../utils/hook'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { shannonToCkb } from '../../../utils/util'
+import { fetchStatisticOccupiedCapacity } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticOccupiedCapacities: State.StatisticOccupiedCapacity[],
@@ -89,35 +87,22 @@ const getOption = (
   }
 }
 
-export const OccupiedCapacityChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticOccupiedCapacities, statisticOccupiedCapacitiesFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticOccupiedCapacities, app.chartColor, isMobile, isThumbnail),
-    [statisticOccupiedCapacities, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticOccupiedCapacitiesFetchEnd || statisticOccupiedCapacities.length === 0) {
-    return <ChartLoading show={!statisticOccupiedCapacitiesFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticOccupiedCapacities: State.StatisticOccupiedCapacity[]) =>
   statisticOccupiedCapacities
     ? statisticOccupiedCapacities.map(data => [data.createdAtUnixtimestamp, data.occupiedCapacity])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticOccupiedCapacities } = useAppState()
-
-  useEffect(() => {
-    getStatisticOccupiedCapacity(dispatch)
-  }, [dispatch])
-
+export const OccupiedCapacityChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage title={i18n.t('statistic.occupied_capacity')} data={toCSV(statisticOccupiedCapacities)}>
-      <OccupiedCapacityChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.occupied_capacity')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticOccupiedCapacity}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+    />
   )
 }
+
+export default OccupiedCapacityChart
