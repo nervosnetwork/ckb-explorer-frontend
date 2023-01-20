@@ -141,13 +141,14 @@ export function SmartChartPage<T>({
   isThumbnail?: boolean
   chartProps?: Partial<ComponentProps<typeof ReactChartCore>>
   fetchData: () => Promise<T[] | Response.Response<Response.Wrapper<T>[]>>
+  onFetched?: (dataList: T[]) => void
   getEChartOption: (
     dataList: T[],
     chartColor: State.App['chartColor'],
     isMobile: boolean,
     isThumbnail: boolean,
   ) => echarts.EChartOption
-  toCSV: (dataList: T[]) => string[][]
+  toCSV: (dataList: T[]) => (string | number)[][]
   cacheKey?: string
   cacheMode: 'forever' | 'date' | 'epoch'
 }): ReactElement {

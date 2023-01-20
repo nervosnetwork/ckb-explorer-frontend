@@ -11,8 +11,6 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticNewDaoWithdrawFetchEnd: false,
   statisticTransactionCounts: [],
   statisticTransactionCountsFetchEnd: false,
-  statisticAddressBalanceRanks: [],
-  statisticAddressBalanceRanksFetchEnd: false,
   statisticBalanceDistributions: [],
   statisticBalanceDistributionsFetchEnd: false,
   statisticTxFeeHistories: [],

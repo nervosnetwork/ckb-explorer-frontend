@@ -7,7 +7,6 @@ import {
   getStatisticAddressCount,
   getStatisticCellCount,
   getStatisticTransactionCount,
-  getStatisticAddressBalanceRank,
   getStatisticBalanceDistribution,
   getStatisticTxFeeHistory,
 } from '../../service/app/charts/activities'
@@ -93,8 +92,6 @@ const ChartCard = ({ chartData }: { chartData: ChartData }) => {
   )
 }
 
-const NullEvent = () => {}
-
 const chartsData = (): ChartCategory[] => [
   {
     category: i18n.t('statistic.category_block'),
@@ -176,7 +173,7 @@ const chartsData = (): ChartCategory[] => [
       },
       {
         title: `${i18n.t('statistic.balance_ranking')}`,
-        chart: <AddressBalanceRankChart clickEvent={NullEvent} isThumbnail />,
+        chart: <AddressBalanceRankChart isThumbnail />,
         path: '/charts/address-balance-rank',
         description: i18n.t('statistic.balance_ranking_description'),
       },
@@ -262,7 +259,6 @@ export default () => {
     getStatisticTotalDaoDeposit(dispatch)
     getStatisticNewDaoDeposit(dispatch)
     getStatisticCirculationRatio(dispatch)
-    getStatisticAddressBalanceRank(dispatch)
     getStatisticBalanceDistribution(dispatch)
     getStatisticTxFeeHistory(dispatch)
     getStatisticBlockTimeDistribution(dispatch)

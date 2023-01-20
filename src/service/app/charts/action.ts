@@ -61,21 +61,6 @@ export const dispatchTransactionFee = (dispatch: AppDispatch, data: any) => {
   })
 }
 
-export const dispatchBalanceRank = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticAddressBalanceRank,
-    payload: {
-      statisticAddressBalanceRanks: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticAddressBalanceRankFetchEnd,
-    payload: {
-      statisticAddressBalanceRanksFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchBalanceDistribution = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticBalanceDistribution,

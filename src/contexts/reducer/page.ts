@@ -81,16 +81,6 @@ export const pageReducer = (
         ...state,
         statisticCellCountsFetchEnd: payload.statisticCellCountsFetchEnd,
       }
-    case PageActions.UpdateStatisticAddressBalanceRank:
-      return {
-        ...state,
-        statisticAddressBalanceRanks: payload.statisticAddressBalanceRanks,
-      }
-    case PageActions.UpdateStatisticAddressBalanceRankFetchEnd:
-      return {
-        ...state,
-        statisticAddressBalanceRanksFetchEnd: payload.statisticAddressBalanceRanksFetchEnd,
-      }
     case PageActions.UpdateStatisticBalanceDistribution:
       return {
         ...state,

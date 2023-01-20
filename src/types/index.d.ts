@@ -548,8 +548,6 @@ declare namespace State {
     statisticNewDaoWithdrawFetchEnd: boolean
     statisticAddressCounts: StatisticAddressCount[]
     statisticAddressCountsFetchEnd: boolean
-    statisticAddressBalanceRanks: StatisticAddressBalanceRank[]
-    statisticAddressBalanceRanksFetchEnd: boolean
     statisticBalanceDistributions: StatisticBalanceDistribution[]
     statisticBalanceDistributionsFetchEnd: boolean
     statisticTxFeeHistories: StatisticTransactionFee[]

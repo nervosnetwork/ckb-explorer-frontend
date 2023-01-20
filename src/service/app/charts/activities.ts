@@ -2,7 +2,6 @@ import {
   fetchStatisticTransactionCount,
   fetchStatisticAddressCount,
   fetchStatisticCellCount,
-  fetchStatisticAddressBalanceRank,
   fetchStatisticBalanceDistribution,
   fetchStatisticTxFeeHistory,
   fetchStatisticOccupiedCapacity,
@@ -16,7 +15,6 @@ import {
   dispatchAddressCount,
   dispatchCellCount,
   dispatchTransactionFee,
-  dispatchBalanceRank,
   dispatchBalanceDistribution,
 } from './action'
 
@@ -106,31 +104,6 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticCellCountFetchEnd,
         payload: {
           statisticCellCountsFetchEnd: true,
-        },
-      })
-    })
-}
-
-export const getStatisticAddressBalanceRank = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(ChartCachedKeys.AddressBalanceRank)
-  if (data) {
-    dispatchBalanceRank(dispatch, data)
-    return
-  }
-  fetchStatisticAddressBalanceRank()
-    .then((wrapper: Response.Wrapper<State.StatisticAddressBalanceRanking> | null) => {
-      if (!wrapper) return
-      const addressBalanceRanks = wrapper.attributes.addressBalanceRanking
-      dispatchBalanceRank(dispatch, addressBalanceRanks)
-      if (addressBalanceRanks && addressBalanceRanks.length > 0) {
-        storeDateChartCache(ChartCachedKeys.AddressBalanceRank, addressBalanceRanks)
-      }
-    })
-    .catch(() => {
-      dispatch({
-        type: PageActions.UpdateStatisticAddressBalanceRankFetchEnd,
-        payload: {
-          statisticAddressBalanceRanksFetchEnd: true,
         },
       })
     })
