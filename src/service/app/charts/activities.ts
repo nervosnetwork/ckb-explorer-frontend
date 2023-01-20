@@ -1,7 +1,6 @@
 import {
   fetchStatisticTransactionCount,
   fetchStatisticCellCount,
-  fetchStatisticBalanceDistribution,
   fetchStatisticTxFeeHistory,
   fetchStatisticOccupiedCapacity,
 } from '../../http/fetcher'
@@ -9,12 +8,7 @@ import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
 import { ChartCachedKeys } from '../../../constants/cache'
-import {
-  dispatchTransactionCount,
-  dispatchCellCount,
-  dispatchTransactionFee,
-  dispatchBalanceDistribution,
-} from './action'
+import { dispatchTransactionCount, dispatchCellCount, dispatchTransactionFee } from './action'
 
 export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(ChartCachedKeys.TransactionCount)
@@ -73,39 +67,6 @@ export const getStatisticCellCount = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticCellCountFetchEnd,
         payload: {
           statisticCellCountsFetchEnd: true,
-        },
-      })
-    })
-}
-
-export const getStatisticBalanceDistribution = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(ChartCachedKeys.BalanceDistribution)
-  if (data) {
-    dispatchBalanceDistribution(dispatch, data)
-    return
-  }
-  fetchStatisticBalanceDistribution()
-    .then((wrapper: Response.Wrapper<State.StatisticAddressBalanceDistribution> | null) => {
-      if (!wrapper) return
-      const balanceDistributionArray = wrapper.attributes.addressBalanceDistribution
-      const balanceDistributions = balanceDistributionArray.map(distribution => {
-        const [balance, addresses, sumAddresses] = distribution
-        return {
-          balance,
-          addresses,
-          sumAddresses,
-        }
-      })
-      dispatchBalanceDistribution(dispatch, balanceDistributions)
-      if (balanceDistributions && balanceDistributions.length > 0) {
-        storeDateChartCache(ChartCachedKeys.BalanceDistribution, balanceDistributions)
-      }
-    })
-    .catch(() => {
-      dispatch({
-        type: PageActions.UpdateStatisticBalanceDistributionFetchEnd,
-        payload: {
-          statisticBalanceDistributionsFetchEnd: true,
         },
       })
     })

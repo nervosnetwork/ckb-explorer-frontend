@@ -6,7 +6,6 @@ import Content from '../../components/Content'
 import {
   getStatisticCellCount,
   getStatisticTransactionCount,
-  getStatisticBalanceDistribution,
   getStatisticTxFeeHistory,
 } from '../../service/app/charts/activities'
 import {
@@ -257,7 +256,6 @@ export default () => {
     getStatisticTotalDaoDeposit(dispatch)
     getStatisticNewDaoDeposit(dispatch)
     getStatisticCirculationRatio(dispatch)
-    getStatisticBalanceDistribution(dispatch)
     getStatisticTxFeeHistory(dispatch)
     getStatisticBlockTimeDistribution(dispatch)
     getStatisticEpochTimeDistribution(dispatch)

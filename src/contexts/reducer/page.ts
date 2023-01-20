@@ -71,16 +71,6 @@ export const pageReducer = (
         ...state,
         statisticCellCountsFetchEnd: payload.statisticCellCountsFetchEnd,
       }
-    case PageActions.UpdateStatisticBalanceDistribution:
-      return {
-        ...state,
-        statisticBalanceDistributions: payload.statisticBalanceDistributions,
-      }
-    case PageActions.UpdateStatisticBalanceDistributionFetchEnd:
-      return {
-        ...state,
-        statisticBalanceDistributionsFetchEnd: payload.statisticBalanceDistributionsFetchEnd,
-      }
     case PageActions.UpdateStatisticTxFeeHistory:
       return {
         ...state,

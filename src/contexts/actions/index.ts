@@ -23,8 +23,6 @@ export enum PageActions {
   UpdateStatisticCirculationRatioFetchEnd = 'updateStatisticCirculationRatioFetchEnd',
   UpdateStatisticCellCount = 'updateStatisticCellCount',
   UpdateStatisticCellCountFetchEnd = 'updateStatisticCellCountFetchEnd',
-  UpdateStatisticBalanceDistribution = 'updateStatisticBalanceDistribution',
-  UpdateStatisticBalanceDistributionFetchEnd = 'updateStatisticBalanceDistributionFetchEnd',
   UpdateStatisticTxFeeHistory = 'updateStatisticTxFeeHistory',
   UpdateStatisticTxFeeHistoryFetchEnd = 'updateStatisticTxFeeHistoryFetchEnd',
   UpdateStatisticBlockTimeDistribution = 'updateStatisticBlockTimeDistribution',

@@ -46,21 +46,6 @@ export const dispatchTransactionFee = (dispatch: AppDispatch, data: any) => {
   })
 }
 
-export const dispatchBalanceDistribution = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticBalanceDistribution,
-    payload: {
-      statisticBalanceDistributions: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticBalanceDistributionFetchEnd,
-    payload: {
-      statisticBalanceDistributionsFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchAverageBlockTime = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticAverageBlockTime,
