@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import 'default-passive-events'
 import { Tooltip } from 'antd'
 import Content from '../../components/Content'
-import { getStatisticTransactionCount, getStatisticTxFeeHistory } from '../../service/app/charts/activities'
+import { getStatisticTxFeeHistory } from '../../service/app/charts/activities'
 import {
   getStatisticTotalDaoDeposit,
   getStatisticNewDaoDeposit,
@@ -247,7 +247,6 @@ export default () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    getStatisticTransactionCount(dispatch)
     getStatisticTotalDaoDeposit(dispatch)
     getStatisticNewDaoDeposit(dispatch)
     getStatisticCirculationRatio(dispatch)

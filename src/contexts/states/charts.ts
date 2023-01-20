@@ -5,8 +5,6 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticNewDaoDepositsFetchEnd: false,
   statisticNewDaoWithdraw: [],
   statisticNewDaoWithdrawFetchEnd: false,
-  statisticTransactionCounts: [],
-  statisticTransactionCountsFetchEnd: false,
   statisticTxFeeHistories: [],
   statisticTxFeeHistoriesFetchEnd: false,
   statisticBlockTimeDistributions: [],

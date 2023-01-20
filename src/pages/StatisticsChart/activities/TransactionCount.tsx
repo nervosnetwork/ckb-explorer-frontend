@@ -1,12 +1,11 @@
-import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import { getStatisticTransactionCount } from '../../../service/app/charts/activities'
-import { useAppState, useDispatch } from '../../../contexts/providers'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
-import { useIsMobile } from '../../../utils/hook'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticTransactionCount } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticTransactionCounts: State.StatisticTransactionCount[],
@@ -90,35 +89,24 @@ const getOption = (
   }
 }
 
-export const TransactionCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticTransactionCounts, statisticTransactionCountsFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticTransactionCounts, app.chartColor, isMobile, isThumbnail),
-    [statisticTransactionCounts, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticTransactionCountsFetchEnd || statisticTransactionCounts.length === 0) {
-    return <ChartLoading show={!statisticTransactionCountsFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticTransactionCounts: State.StatisticTransactionCount[]) =>
   statisticTransactionCounts
     ? statisticTransactionCounts.map(data => [data.createdAtUnixtimestamp, data.transactionsCount])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticTransactionCounts } = useAppState()
-
-  useEffect(() => {
-    getStatisticTransactionCount(dispatch)
-  }, [dispatch])
-
+export const TransactionCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage title={i18n.t('statistic.transaction_count')} data={toCSV(statisticTransactionCounts)}>
-      <TransactionCountChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.transaction_count')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticTransactionCount}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.TransactionCount}
+      cacheMode="date"
+    />
   )
 }
+
+export default TransactionCountChart

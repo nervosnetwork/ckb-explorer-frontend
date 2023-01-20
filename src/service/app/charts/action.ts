@@ -1,21 +1,6 @@
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 
-export const dispatchTransactionCount = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticTransactionCount,
-    payload: {
-      statisticTransactionCounts: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticTransactionCountFetchEnd,
-    payload: {
-      statisticTransactionCountsFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchTransactionFee = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticTxFeeHistory,

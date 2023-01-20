@@ -11,16 +11,6 @@ export const pageReducer = (
         ...state,
         statistics: payload.statistics,
       }
-    case PageActions.UpdateStatisticTransactionCount:
-      return {
-        ...state,
-        statisticTransactionCounts: payload.statisticTransactionCounts,
-      }
-    case PageActions.UpdateStatisticTransactionCountFetchEnd:
-      return {
-        ...state,
-        statisticTransactionCountsFetchEnd: payload.statisticTransactionCountsFetchEnd,
-      }
     case PageActions.UpdateStatisticTotalDaoDeposit:
       return {
         ...state,

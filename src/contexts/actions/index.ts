@@ -11,8 +11,6 @@ export enum AppActions {
 export enum PageActions {
   UpdateStatistics = 'updateStatistics',
 
-  UpdateStatisticTransactionCount = 'updateStatisticTransactionCount',
-  UpdateStatisticTransactionCountFetchEnd = 'updateStatisticTransactionCountFetchEnd',
   UpdateStatisticTotalDaoDeposit = 'updateStatisticTotalDaoDeposit',
   UpdateStatisticTotalDaoDepositFetchEnd = 'updateStatisticTotalDaoDepositFetchEnd',
   UpdateStatisticNewDaoDeposit = 'updateStatisticNewDaoDeposit',
