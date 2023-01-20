@@ -542,8 +542,6 @@ declare namespace State {
     statisticNewDaoDepositsFetchEnd: boolean
     statisticNewDaoWithdraw: StatisticNewDaoWithdraw[]
     statisticNewDaoWithdrawFetchEnd: boolean
-    statisticTxFeeHistories: StatisticTransactionFee[]
-    statisticTxFeeHistoriesFetchEnd: boolean
     statisticBlockTimeDistributions: StatisticBlockTimeDistribution[]
     statisticBlockTimeDistributionsFetchEnd: boolean
     statisticAverageBlockTimes: StatisticAverageBlockTime[]

@@ -51,16 +51,6 @@ export const pageReducer = (
         ...state,
         statisticCirculationRatiosFetchEnd: payload.statisticCirculationRatiosFetchEnd,
       }
-    case PageActions.UpdateStatisticTxFeeHistory:
-      return {
-        ...state,
-        statisticTxFeeHistories: payload.statisticTxFeeHistories,
-      }
-    case PageActions.UpdateStatisticTxFeeHistoryFetchEnd:
-      return {
-        ...state,
-        statisticTxFeeHistoriesFetchEnd: payload.statisticTxFeeHistoriesFetchEnd,
-      }
     case PageActions.UpdateStatisticBlockTimeDistribution:
       return {
         ...state,

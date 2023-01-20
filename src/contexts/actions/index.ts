@@ -19,8 +19,6 @@ export enum PageActions {
   UpdateStatisticNewDaoWithdrawFetchEnd = 'updateStatisticNewDaoWithdrawFetchEnd',
   UpdateStatisticCirculationRatio = 'updateStatisticCirculationRatio',
   UpdateStatisticCirculationRatioFetchEnd = 'updateStatisticCirculationRatioFetchEnd',
-  UpdateStatisticTxFeeHistory = 'updateStatisticTxFeeHistory',
-  UpdateStatisticTxFeeHistoryFetchEnd = 'updateStatisticTxFeeHistoryFetchEnd',
   UpdateStatisticBlockTimeDistribution = 'updateStatisticBlockTimeDistribution',
   UpdateStatisticBlockTimeDistributionFetchEnd = 'updateStatisticBlockTimeDistributionFetchEnd',
   UpdateStatisticAverageBlockTime = 'updateStatisticAverageBlockTime',
