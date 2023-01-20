@@ -13,8 +13,6 @@ export enum PageActions {
 
   UpdateStatisticTransactionCount = 'updateStatisticTransactionCount',
   UpdateStatisticTransactionCountFetchEnd = 'updateStatisticTransactionCountFetchEnd',
-  UpdateStatisticAddressCount = 'updateStatisticAddressCount',
-  UpdateStatisticAddressCountFetchEnd = 'updateStatisticAddressCountFetchEnd',
   UpdateStatisticTotalDaoDeposit = 'updateStatisticTotalDaoDeposit',
   UpdateStatisticTotalDaoDepositFetchEnd = 'updateStatisticTotalDaoDepositFetchEnd',
   UpdateStatisticNewDaoDeposit = 'updateStatisticNewDaoDeposit',

@@ -16,21 +16,6 @@ export const dispatchTransactionCount = (dispatch: AppDispatch, data: any) => {
   })
 }
 
-export const dispatchAddressCount = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticAddressCount,
-    payload: {
-      statisticAddressCounts: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticAddressCountFetchEnd,
-    payload: {
-      statisticAddressCountsFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchCellCount = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticCellCount,

@@ -1,6 +1,4 @@
 const initStatisticChartsState: State.StatisticChartsState = {
-  statisticAddressCounts: [],
-  statisticAddressCountsFetchEnd: false,
   statisticCellCounts: [],
   statisticCellCountsFetchEnd: false,
   statisticTotalDaoDeposits: [],

@@ -4,7 +4,6 @@ import 'default-passive-events'
 import { Tooltip } from 'antd'
 import Content from '../../components/Content'
 import {
-  getStatisticAddressCount,
   getStatisticCellCount,
   getStatisticTransactionCount,
   getStatisticBalanceDistribution,
@@ -253,7 +252,6 @@ export default () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    getStatisticAddressCount(dispatch)
     getStatisticCellCount(dispatch)
     getStatisticTransactionCount(dispatch)
     getStatisticTotalDaoDeposit(dispatch)
