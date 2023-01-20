@@ -61,16 +61,6 @@ export const pageReducer = (
         ...state,
         statisticCirculationRatiosFetchEnd: payload.statisticCirculationRatiosFetchEnd,
       }
-    case PageActions.UpdateStatisticCellCount:
-      return {
-        ...state,
-        statisticCellCounts: payload.statisticCellCounts,
-      }
-    case PageActions.UpdateStatisticCellCountFetchEnd:
-      return {
-        ...state,
-        statisticCellCountsFetchEnd: payload.statisticCellCountsFetchEnd,
-      }
     case PageActions.UpdateStatisticTxFeeHistory:
       return {
         ...state,

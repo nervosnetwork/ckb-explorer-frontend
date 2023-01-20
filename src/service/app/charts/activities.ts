@@ -1,6 +1,5 @@
 import {
   fetchStatisticTransactionCount,
-  fetchStatisticCellCount,
   fetchStatisticTxFeeHistory,
   fetchStatisticOccupiedCapacity,
 } from '../../http/fetcher'
@@ -8,7 +7,7 @@ import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { dispatchTransactionCount, dispatchCellCount, dispatchTransactionFee } from './action'
+import { dispatchTransactionCount, dispatchTransactionFee } from './action'
 
 export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(ChartCachedKeys.TransactionCount)
@@ -34,39 +33,6 @@ export const getStatisticTransactionCount = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticTransactionCountFetchEnd,
         payload: {
           statisticTransactionCountsFetchEnd: true,
-        },
-      })
-    })
-}
-
-export const getStatisticCellCount = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(ChartCachedKeys.CellCount)
-  if (data) {
-    dispatchCellCount(dispatch, data)
-    return
-  }
-  fetchStatisticCellCount()
-    .then((response: Response.Response<Response.Wrapper<State.StatisticCellCount>[]> | null) => {
-      if (!response) return
-      const { data } = response
-      const cellCounts = data.map(wrapper => ({
-        liveCellsCount: wrapper.attributes.liveCellsCount,
-        deadCellsCount: wrapper.attributes.deadCellsCount,
-        allCellsCount: (
-          Number(wrapper.attributes.liveCellsCount) + Number(wrapper.attributes.deadCellsCount)
-        ).toString(),
-        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-      }))
-      dispatchCellCount(dispatch, cellCounts)
-      if (cellCounts && cellCounts.length > 0) {
-        storeDateChartCache(ChartCachedKeys.CellCount, cellCounts)
-      }
-    })
-    .catch(() => {
-      dispatch({
-        type: PageActions.UpdateStatisticCellCountFetchEnd,
-        payload: {
-          statisticCellCountsFetchEnd: true,
         },
       })
     })

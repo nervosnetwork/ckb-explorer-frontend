@@ -16,21 +16,6 @@ export const dispatchTransactionCount = (dispatch: AppDispatch, data: any) => {
   })
 }
 
-export const dispatchCellCount = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticCellCount,
-    payload: {
-      statisticCellCounts: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticCellCountFetchEnd,
-    payload: {
-      statisticCellCountsFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchTransactionFee = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticTxFeeHistory,

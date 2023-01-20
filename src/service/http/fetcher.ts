@@ -257,10 +257,24 @@ export const fetchStatisticMinerAddressDistribution = () =>
     toCamelcase<Response.Wrapper<State.StatisticMinerAddressDistribution>>(res.data.data),
   )
 
-export const fetchStatisticCellCount = () =>
-  axiosIns(`/daily_statistics/live_cells_count-dead_cells_count`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticCellCount>[]>>(res.data),
-  )
+export const fetchStatisticCellCount = (): Promise<Response.Response<Response.Wrapper<State.StatisticCellCount>[]>> =>
+  axiosIns(`/daily_statistics/live_cells_count-dead_cells_count`).then(res => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<Omit<State.StatisticCellCount, 'allCellsCount'>>[]>>(
+      res.data,
+    )
+    return {
+      ...resp,
+      data: resp.data.map(wrapper => ({
+        ...wrapper,
+        attributes: {
+          ...wrapper.attributes,
+          allCellsCount: (
+            Number(wrapper.attributes.liveCellsCount) + Number(wrapper.attributes.deadCellsCount)
+          ).toString(),
+        },
+      })),
+    }
+  })
 
 export const fetchStatisticDifficultyUncleRateEpoch = () =>
   axiosIns(`/epoch_statistics/epoch_time-epoch_length`).then((res: AxiosResponse) => {
