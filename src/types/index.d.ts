@@ -668,7 +668,6 @@ declare namespace State {
       { type: 'ChainAlert'; message: string[] },
       { type: 'Maintenance'; message: string[] },
     ]
-    nodeVersion: string
     tipBlockNumber: number
 
     appWidth: number

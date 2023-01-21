@@ -1,5 +1,6 @@
-import { useState, ReactNode } from 'react'
+import { useState, ReactNode, FC } from 'react'
 import { Tooltip } from 'antd'
+import { Link } from 'react-router-dom'
 import { CellType } from '../../../constants/common'
 import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
@@ -29,14 +30,55 @@ import NFTTokenIcon from '../../../assets/m_nft.svg'
 import CoTACellIcon from '../../../assets/cota_cell.svg'
 import CoTARegCellIcon from '../../../assets/cota_reg_cell.svg'
 import { ReactComponent as LockTimeIcon } from '../../../assets/clock.svg'
+import { ReactComponent as BitAccountIcon } from '../../../assets/bit_account.svg'
 import TransactionCellScript from '../TransactionCellScript'
 import SimpleModal from '../../../components/Modal'
 import SimpleButton from '../../../components/SimpleButton'
 import TransactionReward from '../TransactionReward'
 import Cellbase from '../../../components/Transaction/Cellbase'
+import CopyTooltipText from '../../../components/Text/CopyTooltipText'
 import { useDeprecatedAddr, useIsMobile, useNewAddr } from '../../../utils/hook'
+import { useDASAccount } from '../../../contexts/providers/dasQuery'
 import styles from './styles.module.scss'
 import AddressText from '../../../components/AddressText'
+
+const Addr: FC<{ address: string; isCellBase: boolean }> = ({ address, isCellBase }) => {
+  const alias = useDASAccount(address)
+
+  if (alias && address) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Tooltip title=".bit Name">
+          <BitAccountIcon className={styles.icon} />
+        </Tooltip>
+
+        <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
+          <Link to={`/address/${address}`} className="monospace TransactionItemCell_text__RoMn0">
+            {alias}
+          </Link>
+        </Tooltip>
+      </div>
+    )
+  }
+
+  if (address) {
+    return (
+      <AddressText
+        linkProps={{
+          className: 'transaction__cell_address_link',
+          to: `/address/${address}`,
+        }}
+      >
+        {address}
+      </AddressText>
+    )
+  }
+  return (
+    <span className="transaction__cell_address_no_link">
+      {isCellBase ? 'Cellbase' : i18n.t('address.unable_decode_address')}
+    </span>
+  )
+}
 
 const TransactionCellIndexAddress = ({
   cell,
@@ -52,6 +94,7 @@ const TransactionCellIndexAddress = ({
   const deprecatedAddr = useDeprecatedAddr(cell.addressHash)!
   const newAddr = useNewAddr(cell.addressHash)
   const address = !isAddrNew ? deprecatedAddr : newAddr
+
   let since
   try {
     if (cell.since) {
@@ -78,20 +121,7 @@ const TransactionCellIndexAddress = ({
             <TransactionCellArrow cell={cell} cellType={cellType} />
           </span>
         )}
-        {cell.addressHash ? (
-          <AddressText
-            linkProps={{
-              className: 'transaction__cell_address_link',
-              to: `/address/${address}`,
-            }}
-          >
-            {address}
-          </AddressText>
-        ) : (
-          <span className="transaction__cell_address_no_link">
-            {cell.fromCellbase ? 'Cellbase' : i18n.t('address.unable_decode_address')}
-          </span>
-        )}
+        <Addr address={address} isCellBase={cell.fromCellbase} />
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
         {since ? (
           <Tooltip

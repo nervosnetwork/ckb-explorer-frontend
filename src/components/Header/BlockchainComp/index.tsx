@@ -1,4 +1,5 @@
-import { useState, useLayoutEffect } from 'react'
+import { useState, useLayoutEffect, FC } from 'react'
+import { useQuery } from 'react-query'
 import { isMainnet } from '../../../utils/chain'
 import WhiteDropdownIcon from '../../../assets/white_dropdown.png'
 import BlueDropUpIcon from '../../../assets/blue_drop_up.png'
@@ -9,6 +10,9 @@ import SimpleButton from '../../SimpleButton'
 import ChainDropdown from '../../Dropdown/ChainType'
 import { useIsMobile } from '../../../utils/hook'
 import { ChainName, MAINNET_URL, TESTNET_URL } from '../../../constants/common'
+import { fetchNodeVersion } from '../../../service/http/fetcher'
+import { AppCachedKeys } from '../../../constants/cache'
+import { fetchCachedData, storeCachedData } from '../../../utils/cache'
 
 const getDropdownIcon = (showDropdown: boolean) => {
   if (!showDropdown) return WhiteDropdownIcon
@@ -22,9 +26,9 @@ const handleVersion = (nodeVersion: string) => {
   return nodeVersion
 }
 
-const BlockchainDropdown = () => {
+const BlockchainDropdown: FC<{ nodeVersion: string }> = ({ nodeVersion }) => {
   const {
-    app: { nodeVersion, language },
+    app: { language },
   } = useAppState()
   const [showChainType, setShowChainType] = useState(false)
   const [chainTypeLeft, setChainTypeLeft] = useState(0)
@@ -73,10 +77,7 @@ const BlockchainDropdown = () => {
   )
 }
 
-const BlockchainMenu = () => {
-  const {
-    app: { nodeVersion },
-  } = useAppState()
+const BlockchainMenu: FC<{ nodeVersion: string }> = ({ nodeVersion }) => {
   const [showSubMenu, setShowSubMenu] = useState(false)
 
   const chainTypeIcon = () => {
@@ -119,4 +120,35 @@ const BlockchainMenu = () => {
   )
 }
 
-export default () => (useIsMobile() ? <BlockchainMenu /> : <BlockchainDropdown />)
+export default () => {
+  const isMobile = useIsMobile()
+
+  const query = useQuery(
+    ['node_version'],
+    async () => {
+      const wrapper = await fetchNodeVersion()
+      const nodeVersion = wrapper.attributes.version
+      storeCachedData(AppCachedKeys.Version, `${nodeVersion}&${new Date().getTime()}`)
+      return nodeVersion
+    },
+    {
+      keepPreviousData: true,
+      initialData: () => {
+        // version cache format: version&timestamp
+        const data = fetchCachedData<string>(AppCachedKeys.Version)
+        if (!data?.includes('&')) return undefined
+
+        const timestamp = Number(data.substring(data.indexOf('&') + 1))
+        const DAY_TIMESTAMP = 24 * 60 * 60 * 1000
+        const isStale = Date.now() - timestamp > DAY_TIMESTAMP
+        if (isStale) return undefined
+
+        const nodeVersion = data.substring(0, data.indexOf('&'))
+        return nodeVersion
+      },
+    },
+  )
+  const nodeVersion = query.data ?? ''
+
+  return isMobile ? <BlockchainMenu nodeVersion={nodeVersion} /> : <BlockchainDropdown nodeVersion={nodeVersion} />
+}

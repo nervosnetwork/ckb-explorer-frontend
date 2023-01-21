@@ -16,7 +16,6 @@ export const initApp: State.App = {
       message: [],
     },
   ],
-  nodeVersion: '',
   tipBlockNumber: 0,
   appWidth: window.innerWidth,
   appHeight: window.innerHeight,

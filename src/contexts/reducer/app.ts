@@ -48,14 +48,6 @@ export const appReducer = (
           }) as typeof state.app.appErrors,
         },
       }
-    case AppActions.UpdateNodeVersion:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          nodeVersion: payload.nodeVersion,
-        },
-      }
     case AppActions.UpdateTipBlockNumber:
       return {
         ...state,

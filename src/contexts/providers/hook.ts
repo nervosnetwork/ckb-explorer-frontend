@@ -8,7 +8,6 @@ import {
   BLOCK_POLLING_TIME,
 } from '../../constants/common'
 import { AppCachedKeys } from '../../constants/cache'
-import { initNodeVersion } from '../../service/app/nodeInfo'
 import { AppDispatch } from '../reducer'
 import { fetchCachedData } from '../../utils/cache'
 import { changeLanguage } from '../../utils/i18n'
@@ -65,7 +64,6 @@ export const useInitApp = () => {
   if (!init) {
     setInit(true)
     initAxiosInterceptors(dispatch, history)
-    initNodeVersion(dispatch)
     initAppLanguage(app, dispatch)
     getMaintenanceInfo(dispatch)
     flushCacheInfo()
