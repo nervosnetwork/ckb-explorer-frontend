@@ -76,7 +76,7 @@
     "statistic": {
       "transaction_count": "交易数量",
       "address_count": "已使用的地址数",
-      "total_dao_deposit_depositor": "Nervos DAO 锁定总额 & 锁定地址数",
+      "total_dao_deposit_depositor": "Nervos DAO 锁定总额 & 累计锁定地址数",
       "total_dao_deposit_title": "Nervos DAO 锁定总额",
       "total_dao_deposit": "锁定总额",
       "total_dao_depositor": "累计锁定地址数",
@@ -151,7 +151,7 @@
       "balance_ranking_description": "持币最多的前 50 个地址",
       "balance_distribution_description": "展示在特定余额区间的地址数量以及低于特定余额的地址总数。",
       "tx_fee_description": "矿工收取的手续费用",
-      "total_dao_deposit_description": "展示当前 DAO 的存款总额以及存款地址数量",
+      "total_dao_deposit_description": "展示当前 DAO 的存款总额以及累计存款地址数量",
       "deposit_to_circulation_ratio_description": "显示 DAO 存款占总流通量比率，其中总流通量等于总供给量减去销毁量和未释放的锁定部分",
       "total_supply_description": "总发行量为一级发行和二级发行的总和；\n销毁量等于创世块销毁的 25% 加上后续二级发行的销毁部分；\n未解锁的部分是由时间锁管理的部分，他们会按照预定计划逐渐解锁",
       "nominal_rpc_description": "二级发行全部释放到市场上时的 DAO 名义补偿率，该数值会比实际补偿率偏低。",
