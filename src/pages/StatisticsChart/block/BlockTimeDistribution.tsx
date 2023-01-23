@@ -1,10 +1,9 @@
-import { useEffect, useMemo } from 'react'
-import { useAppState, useDispatch } from '../../../contexts/providers'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { useIsMobile } from '../../../utils/hook'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
-import { getStatisticBlockTimeDistribution } from '../../../service/app/charts/block'
+import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticBlockTimeDistribution } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[],
@@ -88,17 +87,28 @@ const getOption = (
   }
 }
 
-export const BlockTimeDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticBlockTimeDistributions, statisticBlockTimeDistributionsFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticBlockTimeDistributions, app.chartColor, isMobile, isThumbnail),
-    [statisticBlockTimeDistributions, app.chartColor, isMobile, isThumbnail],
+const fetchStatisticBlockTimeDistributions = async () => {
+  const {
+    attributes: { blockTimeDistribution },
+  } = await fetchStatisticBlockTimeDistribution()
+  const sumBlocks = blockTimeDistribution
+    .flatMap(data => Number(data[1]))
+    .reduce((previous, current) => previous + current)
+  const statisticBlockTimeDistributions = [
+    {
+      time: '0',
+      ratio: '0',
+    },
+  ].concat(
+    blockTimeDistribution.map(data => {
+      const [time, blocks] = data
+      return {
+        time,
+        ratio: (Number(blocks) / sumBlocks).toFixed(5),
+      }
+    }),
   )
-  if (!statisticBlockTimeDistributionsFetchEnd || statisticBlockTimeDistributions.length === 0) {
-    return <ChartLoading show={!statisticBlockTimeDistributionsFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
+  return statisticBlockTimeDistributions
 }
 
 const toCSV = (statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[]) =>
@@ -106,21 +116,20 @@ const toCSV = (statisticBlockTimeDistributions: State.StatisticBlockTimeDistribu
     ? statisticBlockTimeDistributions.map(data => [data.time, Number(data.ratio).toFixed(4)])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticBlockTimeDistributions } = useAppState()
-
-  useEffect(() => {
-    getStatisticBlockTimeDistribution(dispatch)
-  }, [dispatch])
-
+export const BlockTimeDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage
-      title={i18n.t('statistic.block_time_distribution_more')}
-      description={i18n.t('statistic.block_time_distribution_description')}
-      data={toCSV(statisticBlockTimeDistributions)}
-    >
-      <BlockTimeDistributionChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.block_time_distribution_more')}
+      description={t('statistic.block_time_distribution_description')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticBlockTimeDistributions}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.BlockTimeDistribution}
+      cacheMode="date"
+    />
   )
 }
+
+export default BlockTimeDistributionChart

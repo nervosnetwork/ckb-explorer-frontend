@@ -1,21 +1,6 @@
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 
-export const dispatchBlockTimeDistribution = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticBlockTimeDistribution,
-    payload: {
-      statisticBlockTimeDistributions: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticBlockTimeDistributionFetchEnd,
-    payload: {
-      statisticBlockTimeDistributionsFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchEpochTimeDistribution = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticEpochTimeDistribution,
