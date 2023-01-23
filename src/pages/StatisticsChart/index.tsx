@@ -25,11 +25,7 @@ import { UncleRateChart } from './mining/UncleRate'
 import { BalanceDistributionChart } from './activities/BalanceDistribution'
 import { TxFeeHistoryChart } from './activities/TxFeeHistory'
 import { BlockTimeDistributionChart } from './block/BlockTimeDistribution'
-import {
-  getStatisticBlockTimeDistribution,
-  getStatisticEpochTimeDistribution,
-  getStatisticAverageBlockTimes,
-} from '../../service/app/charts/block'
+import { getStatisticBlockTimeDistribution, getStatisticEpochTimeDistribution } from '../../service/app/charts/block'
 import { EpochTimeDistributionChart } from './block/EpochTimeDistribution'
 import { NewDaoDepositChart } from './nervosDao/NewDaoDeposit'
 import { CirculationRatioChart } from './nervosDao/CirculationRatio'
@@ -251,7 +247,6 @@ export default () => {
     getStatisticCirculationRatio(dispatch)
     getStatisticBlockTimeDistribution(dispatch)
     getStatisticEpochTimeDistribution(dispatch)
-    getStatisticAverageBlockTimes(dispatch)
     getStatisticTotalSupply(dispatch)
     getStatisticAnnualPercentageCompensation(dispatch)
     getStatisticSecondaryIssuance(dispatch)

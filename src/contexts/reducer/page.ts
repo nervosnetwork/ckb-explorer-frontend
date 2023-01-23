@@ -61,16 +61,6 @@ export const pageReducer = (
         ...state,
         statisticBlockTimeDistributionsFetchEnd: payload.statisticBlockTimeDistributionsFetchEnd,
       }
-    case PageActions.UpdateStatisticAverageBlockTime:
-      return {
-        ...state,
-        statisticAverageBlockTimes: payload.statisticAverageBlockTimes,
-      }
-    case PageActions.UpdateStatisticAverageBlockTimeFetchEnd:
-      return {
-        ...state,
-        statisticAverageBlockTimesFetchEnd: payload.statisticAverageBlockTimesFetchEnd,
-      }
     case PageActions.UpdateStatisticEpochTimeDistribution:
       return {
         ...state,

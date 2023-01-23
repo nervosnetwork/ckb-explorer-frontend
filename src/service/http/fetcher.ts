@@ -310,9 +310,12 @@ export const fetchStatisticBlockTimeDistribution = () =>
   )
 
 export const fetchStatisticAverageBlockTimes = () =>
-  axiosIns(`/distribution_data/average_block_time`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Wrapper<State.StatisticAverageBlockTimes>>(res.data.data),
-  )
+  axiosIns(`/distribution_data/average_block_time`).then((res: AxiosResponse) => {
+    const {
+      attributes: { averageBlockTime },
+    } = toCamelcase<Response.Wrapper<State.StatisticAverageBlockTimes>>(res.data.data)
+    return averageBlockTime
+  })
 
 export const fetchStatisticOccupiedCapacity = () =>
   axiosIns(`/daily_statistics/occupied_capacity`).then((res: AxiosResponse) =>

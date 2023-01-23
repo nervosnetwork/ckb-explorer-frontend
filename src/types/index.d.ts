@@ -544,8 +544,6 @@ declare namespace State {
     statisticNewDaoWithdrawFetchEnd: boolean
     statisticBlockTimeDistributions: StatisticBlockTimeDistribution[]
     statisticBlockTimeDistributionsFetchEnd: boolean
-    statisticAverageBlockTimes: StatisticAverageBlockTime[]
-    statisticAverageBlockTimesFetchEnd: boolean
     statisticEpochTimeDistributions: StatisticEpochTimeDistribution[]
     statisticEpochTimeDistributionsFetchEnd: boolean
     statisticCirculationRatios: StatisticCirculationRatio[]

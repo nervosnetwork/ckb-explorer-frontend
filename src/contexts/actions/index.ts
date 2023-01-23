@@ -21,8 +21,6 @@ export enum PageActions {
   UpdateStatisticCirculationRatioFetchEnd = 'updateStatisticCirculationRatioFetchEnd',
   UpdateStatisticBlockTimeDistribution = 'updateStatisticBlockTimeDistribution',
   UpdateStatisticBlockTimeDistributionFetchEnd = 'updateStatisticBlockTimeDistributionFetchEnd',
-  UpdateStatisticAverageBlockTime = 'updateStatisticAverageBlockTime',
-  UpdateStatisticAverageBlockTimeFetchEnd = 'updateStatisticAverageBlockTimeFetchEnd',
   UpdateStatisticEpochTimeDistribution = 'updateStatisticEpochTimeDistribution',
   UpdateStatisticEpochTimeDistributionFetchEnd = 'updateStatisticEpochTimeDistributionFetchEnd',
   UpdateStatisticEpochLengthDistribution = 'updateStatisticEpochLengthDistribution',

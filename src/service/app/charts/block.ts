@@ -1,13 +1,9 @@
-import {
-  fetchStatisticBlockTimeDistribution,
-  fetchStatisticEpochTimeDistribution,
-  fetchStatisticAverageBlockTimes,
-} from '../../http/fetcher'
+import { fetchStatisticBlockTimeDistribution, fetchStatisticEpochTimeDistribution } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { dispatchAverageBlockTime, dispatchBlockTimeDistribution, dispatchEpochTimeDistribution } from './action'
+import { dispatchBlockTimeDistribution, dispatchEpochTimeDistribution } from './action'
 
 export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(ChartCachedKeys.BlockTimeDistribution)
@@ -48,33 +44,6 @@ export const getStatisticBlockTimeDistribution = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticBlockTimeDistributionFetchEnd,
         payload: {
           statisticBlockTimeDistributionsFetchEnd: true,
-        },
-      })
-    })
-}
-
-export const getStatisticAverageBlockTimes = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(ChartCachedKeys.AverageBlockTime)
-  if (data) {
-    dispatchAverageBlockTime(dispatch, data)
-    return
-  }
-  fetchStatisticAverageBlockTimes()
-    .then((wrap: Response.Wrapper<State.StatisticAverageBlockTimes> | null) => {
-      if (!wrap) return
-      const {
-        attributes: { averageBlockTime },
-      } = wrap
-      dispatchAverageBlockTime(dispatch, averageBlockTime)
-      if (averageBlockTime && averageBlockTime.length > 0) {
-        storeDateChartCache(ChartCachedKeys.AverageBlockTime, averageBlockTime)
-      }
-    })
-    .catch(() => {
-      dispatch({
-        type: PageActions.UpdateStatisticAverageBlockTimeFetchEnd,
-        payload: {
-          statisticAverageBlockTimesFetchEnd: true,
         },
       })
     })

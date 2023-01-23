@@ -7,8 +7,6 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticNewDaoWithdrawFetchEnd: false,
   statisticBlockTimeDistributions: [],
   statisticBlockTimeDistributionsFetchEnd: false,
-  statisticAverageBlockTimes: [],
-  statisticAverageBlockTimesFetchEnd: false,
   statisticEpochTimeDistributions: [],
   statisticEpochTimeDistributionsFetchEnd: false,
   statisticCirculationRatios: [],
