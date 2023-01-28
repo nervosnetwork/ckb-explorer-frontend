@@ -17,8 +17,6 @@ export enum PageActions {
   UpdateStatisticNewDaoDepositFetchEnd = 'updateStatisticNewDaoDepositFetchEnd',
   UpdateStatisticNewDaoWithdraw = 'updateStatisticNewDaoWithdraw',
   UpdateStatisticNewDaoWithdrawFetchEnd = 'updateStatisticNewDaoWithdrawFetchEnd',
-  UpdateStatisticCirculationRatio = 'updateStatisticCirculationRatio',
-  UpdateStatisticCirculationRatioFetchEnd = 'updateStatisticCirculationRatioFetchEnd',
   UpdateStatisticEpochLengthDistribution = 'updateStatisticEpochLengthDistribution',
   UpdateStatisticEpochLengthDistributionFetchEnd = 'updateStatisticEpochLengthDistributionFetchEnd',
   UpdateStatisticNewNodeCount = 'updateStatisticNewNodeCount',

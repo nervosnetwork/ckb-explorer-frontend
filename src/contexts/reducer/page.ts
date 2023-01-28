@@ -41,16 +41,6 @@ export const pageReducer = (
         ...state,
         statisticNewDaoWithdrawFetchEnd: payload.statisticNewDaoWithdrawFetchEnd,
       }
-    case PageActions.UpdateStatisticCirculationRatio:
-      return {
-        ...state,
-        statisticCirculationRatios: payload.statisticCirculationRatios,
-      }
-    case PageActions.UpdateStatisticCirculationRatioFetchEnd:
-      return {
-        ...state,
-        statisticCirculationRatiosFetchEnd: payload.statisticCirculationRatiosFetchEnd,
-      }
     case PageActions.UpdateStatisticNewNodeCount:
       return {
         ...state,

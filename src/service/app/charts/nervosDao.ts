@@ -2,17 +2,12 @@ import {
   fetchStatisticTotalDaoDeposit,
   fetchStatisticNewDaoDeposit,
   fetchStatisticNewDaoWithdraw,
-  fetchStatisticCirculationRatio,
 } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
 import { ChartCachedKeys } from '../../../constants/cache'
-import {
-  dispatchTotalDeposit,
-  dispatchDailyDeposit,
-  dispatchDepositCirculationRatio as dispatchCirculationRatio,
-} from './action'
+import { dispatchTotalDeposit, dispatchDailyDeposit } from './action'
 
 export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(ChartCachedKeys.TotalDeposit)
@@ -101,35 +96,6 @@ export const getStatisticNewDaoWithdraw = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticNewDaoWithdrawFetchEnd,
         payload: {
           statisticNewDaoWithdrawFetchEnd: true,
-        },
-      })
-    })
-}
-
-export const getStatisticCirculationRatio = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(ChartCachedKeys.DepositCirculationRatio)
-  if (data) {
-    dispatchCirculationRatio(dispatch, data)
-    return
-  }
-  fetchStatisticCirculationRatio()
-    .then((response: Response.Response<Response.Wrapper<State.StatisticCirculationRatio>[]> | null) => {
-      if (!response) return
-      const { data } = response
-      const statisticCirculationRatios = data.map(wrapper => ({
-        circulationRatio: wrapper.attributes.circulationRatio,
-        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-      }))
-      dispatchCirculationRatio(dispatch, statisticCirculationRatios)
-      if (statisticCirculationRatios && statisticCirculationRatios.length > 0) {
-        storeDateChartCache(ChartCachedKeys.DepositCirculationRatio, statisticCirculationRatios)
-      }
-    })
-    .catch(() => {
-      dispatch({
-        type: PageActions.UpdateStatisticCirculationRatioFetchEnd,
-        payload: {
-          statisticCirculationRatiosFetchEnd: true,
         },
       })
     })

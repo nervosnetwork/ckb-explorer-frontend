@@ -31,21 +31,6 @@ export const dispatchDailyDeposit = (dispatch: AppDispatch, data: any) => {
   })
 }
 
-export const dispatchDepositCirculationRatio = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticCirculationRatio,
-    payload: {
-      statisticCirculationRatios: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticCirculationRatioFetchEnd,
-    payload: {
-      statisticCirculationRatiosFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchNodeDistribution = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticNodeDistribution,
