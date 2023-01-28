@@ -1,101 +1,140 @@
-import { useEffect } from 'react'
+import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useAppState, useDispatch } from '../../contexts/providers'
+import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import Content from '../../components/Content'
-import i18n from '../../utils/i18n'
 import { DaoContentPanel, DaoTabBarPanel } from './styled'
-import {
-  getNervosDao,
-  getNervosDaoTransactions,
-  getNervosDaoDepositors,
-  handleNervosDAOStatus,
-} from '../../service/app/nervosDao'
 import DaoTransactions from './DaoTransactions'
 import Filter from '../../components/Search/Filter'
 import DepositorRank from './DepositorRank'
-import { LOADING_WAITING_TIME } from '../../constants/common'
-import Error from '../../components/Error'
-import Loading from '../../components/Loading'
-import { useDelayLoading, usePaginationParamsInPage, useSearchParams } from '../../utils/hook'
+import { usePaginationParamsInPage, useSearchParams } from '../../utils/hook'
 import DaoOverview from './DaoOverview'
 import SimpleButton from '../../components/SimpleButton'
-
-const NervosDAOStateComp = ({
-  daoTab,
-  currentPage,
-  pageSize,
-}: {
-  daoTab: 'transactions' | 'depositors'
-  currentPage: number
-  pageSize: number
-}) => {
-  const {
-    nervosDaoState: { status },
-  } = useAppState()
-  const loading = useDelayLoading(LOADING_WAITING_TIME, status === 'None' || status === 'InProgress')
-
-  switch (status) {
-    case 'Error':
-      return <Error />
-    case 'OK':
-      return daoTab === 'transactions' ? (
-        <DaoTransactions currentPage={currentPage} pageSize={pageSize} />
-      ) : (
-        <DepositorRank />
-      )
-    case 'InProgress':
-    case 'None':
-    default:
-      return <Loading show={loading} />
-  }
-}
+import { addPrefixForHash, containSpecialChar } from '../../utils/string'
+import {
+  fetchNervosDao,
+  fetchNervosDaoDepositors,
+  fetchNervosDaoTransactions,
+  fetchNervosDaoTransactionsByAddress,
+  fetchNervosDaoTransactionsByHash,
+} from '../../service/http/fetcher'
+import { QueryResult } from '../../components/QueryResult'
+import { defaultNervosDaoInfo } from './state'
 
 export const NervosDao = () => {
-  const dispatch = useDispatch()
   const { push } = useHistory()
+  const [t] = useTranslation()
 
-  const { currentPage, pageSize } = usePaginationParamsInPage()
+  const { currentPage, pageSize, setPage } = usePaginationParamsInPage()
   const params = useSearchParams('tab')
   const tab = params.tab as 'transactions' | 'depositors'
   const daoTab = tab || 'transactions'
 
-  useEffect(() => {
-    getNervosDao(dispatch)
-    getNervosDaoDepositors(dispatch)
-  }, [dispatch])
+  const queryNervosDao = useQuery(['nervos-dao'], async () => {
+    const wrapper = await fetchNervosDao()
+    const nervosDao = wrapper.attributes
+    return nervosDao
+  })
 
-  useEffect(() => {
-    getNervosDaoTransactions(dispatch, currentPage, pageSize)
-  }, [dispatch, currentPage, pageSize])
+  const [filterText, setFilterText] = useState<string>()
+  const filtering = filterText != null
+  const isInvalidFilter = filtering && containSpecialChar(filterText)
 
-  useEffect(() => {
-    return () => handleNervosDAOStatus(dispatch, 'None')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const queryNervosDaoTransactions = useQuery(
+    ['nervos-dao-transactions', currentPage, pageSize, filterText, isInvalidFilter],
+    async () => {
+      if (filterText != null) {
+        if (isInvalidFilter) {
+          return { transactions: [], total: 0 }
+        }
+
+        // search address
+        if (filterText.startsWith('ckt') || filterText.startsWith('ckb')) {
+          const { data, meta } = await fetchNervosDaoTransactionsByAddress(filterText, currentPage, pageSize)
+          const transactions = data.map(wrapper => wrapper.attributes)
+          return {
+            transactions,
+            total: meta?.total ?? transactions.length,
+          }
+        }
+
+        // search transaction
+        const wrapper = await fetchNervosDaoTransactionsByHash(addPrefixForHash(filterText))
+        const transactions = [wrapper.attributes]
+        return {
+          transactions,
+          total: transactions.length,
+        }
+      }
+
+      const { data, meta } = await fetchNervosDaoTransactions(currentPage, pageSize)
+      const transactions = data.map(wrapper => wrapper.attributes)
+      return {
+        transactions,
+        total: meta?.total ?? transactions.length,
+      }
+    },
+  )
+  const filterNoResult = filtering && (isInvalidFilter || queryNervosDaoTransactions.isError)
+
+  const queryNervosDaoDepositors = useQuery(['nervos-dao-depositors'], async () => {
+    const { data } = await fetchNervosDaoDepositors()
+    return { depositors: data.map(wrapper => wrapper.attributes) }
+  })
 
   return (
     <Content>
       <DaoContentPanel className="container">
-        <DaoOverview />
+        <DaoOverview nervosDao={queryNervosDao.data ?? defaultNervosDaoInfo} />
         <DaoTabBarPanel containSearchBar={daoTab === 'transactions'}>
           <div className="nervos_dao_tab_bar">
             <SimpleButton
               className={daoTab === 'transactions' ? 'tab_bar_selected' : 'tab_bar_normal'}
               onClick={() => push('/nervosdao?tab=transactions')}
             >
-              {i18n.t('nervos_dao.dao_tab_transactions')}
+              {t('nervos_dao.dao_tab_transactions')}
             </SimpleButton>
             <SimpleButton
               className={daoTab === 'depositors' ? 'tab_bar_selected' : 'tab_bar_normal'}
               onClick={() => push('/nervosdao?tab=depositors')}
             >
-              {i18n.t('nervos_dao.dao_tab_depositors')}
+              {t('nervos_dao.dao_tab_depositors')}
             </SimpleButton>
           </div>
-          {daoTab === 'transactions' && <Filter />}
+          {daoTab === 'transactions' && (
+            <Filter
+              showReset={filtering}
+              placeholder={t('nervos_dao.dao_search_placeholder')}
+              onFilter={query => {
+                setPage(1)
+                setFilterText(query)
+              }}
+              onReset={() => {
+                setPage(1)
+                setFilterText(undefined)
+              }}
+            />
+          )}
         </DaoTabBarPanel>
 
-        <NervosDAOStateComp daoTab={daoTab} currentPage={currentPage} pageSize={pageSize} />
+        {daoTab === 'transactions' ? (
+          <QueryResult query={queryNervosDaoTransactions} delayLoading>
+            {data => (
+              <DaoTransactions
+                currentPage={currentPage}
+                pageSize={pageSize}
+                transactions={data.transactions}
+                total={data.total}
+                onPageChange={setPage}
+                filterNoResult={filterNoResult}
+              />
+            )}
+          </QueryResult>
+        ) : (
+          <QueryResult query={queryNervosDaoDepositors} delayLoading>
+            {data => <DepositorRank depositors={data.depositors} />}
+          </QueryResult>
+        )}
       </DaoContentPanel>
     </Content>
   )

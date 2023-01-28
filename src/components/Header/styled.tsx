@@ -5,7 +5,7 @@ import SimpleButton from '../SimpleButton'
 
 export const HeaderPanel = styled.div`
   width: 100%;
-  min-height: 64px;
+  min-height: var(--navbar-height);
   background-color: #040607;
   position: fixed;
   position: -webkit-fixed;
@@ -23,7 +23,7 @@ export const HeaderPanel = styled.div`
 
   @media (max-width: 1200px) {
     padding: 0px 45px;
-    top: ${(props: { isNotTop?: boolean }) => (props.isNotTop ? '64px' : '0')};
+    top: ${(props: { isNotTop?: boolean }) => (props.isNotTop ? 'var(--navbar-height)' : '0')};
   }
 
   @media (max-width: 780px) {

@@ -17,7 +17,7 @@ export const ToastItemPanel = styled.div`
   width: 100%;
   position: fixed;
   position: -webkit-fixed;
-  top: 64px;
+  top: var(--navbar-height);
   opacity: 0.96;
   z-index: 9999;
   height: 60px;

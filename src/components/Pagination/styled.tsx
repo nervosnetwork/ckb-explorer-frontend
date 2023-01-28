@@ -78,7 +78,8 @@ export const PaginationLeftItem = styled.div`
 
   .pagination__middle__label {
     height: 30px;
-    line-height: 30px;
+    display: flex;
+    align-items: center;
     background: #f5f5f5;
     border-radius: 6px;
     text-align: center;
@@ -91,6 +92,12 @@ export const PaginationLeftItem = styled.div`
       border-radius: 0px;
       margin-left: 10px;
       padding: 0;
+    }
+
+    img {
+      width: 14px;
+      height: 14px;
+      margin-left: 4px;
     }
   }
 

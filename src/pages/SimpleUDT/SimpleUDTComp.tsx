@@ -1,14 +1,12 @@
-import { useEffect, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { Tooltip } from 'antd'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
-import { useAppState, useDispatch } from '../../contexts/providers/index'
 import i18n from '../../utils/i18n'
 import { SimpleUDTTransactionsPagination, SimpleUDTTransactionsPanel, UDTNoResultPanel } from './styled'
 import { parseUDTAmount } from '../../utils/number'
-import { ComponentActions } from '../../contexts/actions'
 import { ReactComponent as OpenInNew } from '../../assets/open_in_new.svg'
 import { deprecatedAddrToNewAddr } from '../../utils/util'
 import styles from './styles.module.scss'
@@ -72,10 +70,7 @@ const simpleUDTInfo = (udt: State.UDT) => {
   ] as OverviewItemData[]
 }
 
-export const SimpleUDTOverview = ({ children }: { children: ReactNode }) => {
-  const {
-    udtState: { udt },
-  } = useAppState()
+export const SimpleUDTOverview = ({ children, udt }: { children: ReactNode; udt: State.UDT }) => {
   return (
     <OverviewCard items={simpleUDTInfo(udt)} hideShadow>
       {children}
@@ -86,36 +81,19 @@ export const SimpleUDTOverview = ({ children }: { children: ReactNode }) => {
 export const SimpleUDTComp = ({
   currentPage,
   pageSize,
-  typeHash,
+  transactions,
+  total,
+  onPageChange,
+  filterNoResult,
 }: {
   currentPage: number
   pageSize: number
-  typeHash: string
+  transactions: State.Transaction[]
+  total: number
+  onPageChange: (page: number) => void
+  filterNoResult?: boolean
 }) => {
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const {
-    udtState: { transactions = [], total },
-    components: { filterNoResult },
-  } = useAppState()
-
   const totalPages = Math.ceil(total / pageSize)
-
-  const onChange = (page: number) => {
-    history.replace(`/sudt/${typeHash}?page=${page}&size=${pageSize}`)
-  }
-
-  useEffect(
-    () => () => {
-      dispatch({
-        type: ComponentActions.UpdateFilterNoResult,
-        payload: {
-          filterNoResult: false,
-        },
-      })
-    },
-    [dispatch],
-  )
 
   if (filterNoResult) {
     return (
@@ -142,7 +120,7 @@ export const SimpleUDTComp = ({
       </SimpleUDTTransactionsPanel>
       {totalPages > 1 && (
         <SimpleUDTTransactionsPagination>
-          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onPageChange} />
         </SimpleUDTTransactionsPagination>
       )}
     </>

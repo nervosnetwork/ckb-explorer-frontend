@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useCallback } from 'react'
+import { ReactNode, useRef, useCallback, FC } from 'react'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/pie'
@@ -132,11 +132,8 @@ const NervosDaoLeftItem = ({ item, firstLine }: { item: NervosDaoItemContent; fi
   </DaoOverviewLeftItemPanel>
 )
 
-const NervosDaoOverviewLeftComp = () => {
+const NervosDaoOverviewLeftComp: FC<{ nervosDao: State.NervosDao }> = ({ nervosDao }) => {
   const isMobile = useIsMobile()
-  const {
-    nervosDaoState: { nervosDao },
-  } = useAppState()
 
   const leftItems = nervosDaoItemContents(nervosDao)
 
@@ -287,10 +284,9 @@ const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
   </NervosDaoPieItemPanel>
 )
 
-export default () => {
+export default ({ nervosDao }: { nervosDao: State.NervosDao }) => {
   const isMobile = useIsMobile()
   const {
-    nervosDaoState: { nervosDao },
     app: { chartColor },
   } = useAppState()
 
@@ -326,7 +322,7 @@ export default () => {
 
   return (
     <DaoOverviewPanel>
-      <NervosDaoOverviewLeftComp />
+      <NervosDaoOverviewLeftComp nervosDao={nervosDao} />
       <span className="dao__overview__separate" />
       <DaoOverviewRightPanel>
         <DaoOverviewPieChartPanel>

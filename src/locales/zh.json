@@ -389,7 +389,8 @@
       "total_page": "共",
       "end_page": "页",
       "current_page": "第",
-      "of_page": "页，共"
+      "of_page": "页，共",
+      "only_first_pages_visible": "显示最近 {{pages}} 页"
     },
     "udt": {
       "sudt": "sUDT",

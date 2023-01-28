@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { useState, ReactNode } from 'react'
+import { useState, ReactNode, FC } from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import BigNumber from 'bignumber.js'
@@ -88,25 +88,23 @@ const TransactionInfoItemWrapper = ({
   </TransactionInfoContentPanel>
 )
 
-export const TransactionOverview = () => {
+export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ transaction }) => {
   const [showParams, setShowParams] = useState<boolean>(false)
   const {
-    transactionState: {
-      transaction: {
-        blockNumber,
-        cellDeps,
-        headerDeps,
-        witnesses,
-        blockTimestamp,
-        transactionFee,
-        txStatus,
-        detailedMessage,
-        bytes,
-        cycles,
-      },
-    },
     app: { tipBlockNumber },
   } = useAppState()
+  const {
+    blockNumber,
+    cellDeps,
+    headerDeps,
+    witnesses,
+    blockTimestamp,
+    transactionFee,
+    txStatus,
+    detailedMessage,
+    bytes,
+    cycles,
+  } = transaction
 
   let confirmation = 0
   if (tipBlockNumber && blockNumber) {
@@ -317,12 +315,8 @@ const handleCellbaseInputs = (inputs: State.Cell[], outputs: State.Cell[]) => {
   return inputs
 }
 
-export default () => {
-  const {
-    transactionState: {
-      transaction: { transactionHash, displayInputs, displayOutputs, blockNumber, isCellbase, txStatus },
-    },
-  } = useAppState()
+export default ({ transaction }: { transaction: State.Transaction }) => {
+  const { transactionHash, displayInputs, displayOutputs, blockNumber, isCellbase, txStatus } = transaction
 
   const { isNew: isAddrNew, setIsNew: setIsAddrNew } = useAddrFormatToggle()
   const inputs = handleCellbaseInputs(displayInputs, displayOutputs)

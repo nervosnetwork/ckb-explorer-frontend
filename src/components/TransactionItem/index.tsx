@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useRef } from 'react'
 import RightArrowIcon from '../../assets/input_arrow_output.png'
 import DownArrowIcon from '../../assets/input_arrow_output_down.png'
 import { parseDate } from '../../utils/date'
@@ -26,15 +26,31 @@ const TransactionItem = ({
     top: false,
     bottom: false,
   },
+  scrollIntoViewOnMount,
 }: {
   transaction: State.Transaction
   address?: string
   isBlock?: boolean
   titleCard?: ReactNode | null
   circleCorner?: CircleCorner
+  scrollIntoViewOnMount?: boolean
 }) => {
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (el && scrollIntoViewOnMount) {
+      const style = getComputedStyle(ref.current)
+      const navbarHeight = parseInt(style.getPropertyValue('--navbar-height'), 10)
+      const marginTop = parseInt(style.getPropertyValue('margin-top'), 10)
+      const y = el.getBoundingClientRect().top + window.pageYOffset - navbarHeight - marginTop
+      window.scrollTo({ top: y, behavior: 'smooth' })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
-    <TransactionPanel id={isBlock && transaction.isCellbase ? 'cellbase' : ''} circleCorner={circleCorner}>
+    <TransactionPanel ref={ref} circleCorner={circleCorner}>
       {titleCard}
       <TransactionHashBlockPanel>
         <div className="transaction_item__content">

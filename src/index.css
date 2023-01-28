@@ -1,5 +1,6 @@
 body {
   --primary-color: #00cc9b;
+  --navbar-height: 64px;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;

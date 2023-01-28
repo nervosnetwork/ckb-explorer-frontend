@@ -1,7 +1,12 @@
 import { toCamelcase } from '../utils/util'
 
 export const blockMock = () => {
-  return toCamelcase<State.BlockState>({
+  return toCamelcase<{
+    block: State.Block
+    transactions: State.Transaction[]
+    total: number
+    status: State.FetchStatus
+  }>({
     block: {
       block_hash: '0xd48737284040b2c6d221a16ba65b1497593ffb7b9cd250a1d0f40aecc5c8d4c0',
       block_index_in_epoch: '209',
@@ -138,7 +143,7 @@ export const blockMock = () => {
     },
     total: 2,
     status: 'OK',
-  }) as State.BlockState
+  })
 }
 
 export default blockMock

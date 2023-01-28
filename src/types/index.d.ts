@@ -241,6 +241,7 @@ declare namespace State {
     detailedMessage: string
     bytes: number
     cycles: number | null
+    createTimestamp?: number
   }
 
   export interface BlockchainInfo {
@@ -279,15 +280,6 @@ declare namespace State {
     addressHash: string
     daoDeposit: number
     averageDepositTime: string
-  }
-
-  export interface NervosDaoState {
-    nervosDao: NervosDao
-    transactions: Transaction[]
-    transactionsStatus: FetchStatus
-    total: number
-    depositors: NervosDaoDepositor[]
-    status: FetchStatus
   }
 
   export interface Statistics {
@@ -535,49 +527,12 @@ declare namespace State {
     uan?: string
   }
 
-  export interface UDTState {
-    udt: UDT
-    transactions: Transaction[]
-    total: number
-    status: FetchStatus
-    filterStatus: FetchStatus
-  }
-
   export interface AddressState {
     address: Address
     transactions: Transaction[]
     total: number
     addressStatus: FetchStatus
     transactionsStatus: FetchStatus
-  }
-
-  export interface BlockState {
-    block: Block
-    transactions: Transaction[]
-    total: number
-    status: FetchStatus
-  }
-
-  export interface BlockListState {
-    blocks: Block[]
-    total: number
-  }
-
-  export interface TransactionState {
-    transaction: Transaction
-    status: FetchStatus
-    scriptFetched: boolean
-  }
-
-  export interface TransactionsState {
-    transactions: Transaction[]
-    total: number
-  }
-
-  export interface TokensState {
-    tokens: UDT[]
-    total: number
-    status: FetchStatus
   }
 
   export interface StatisticChartsState {
@@ -638,28 +593,10 @@ declare namespace State {
   }
 
   export interface PageState extends StatisticChartsState {
-    addressState: AddressState
-    blockState: BlockState
-    homeBlocks: Block[]
-    blockListState: BlockListState
-    transactionState: TransactionState
-    transactionsState: TransactionsState
     statistics: Statistics
-    nervosDaoState: NervosDaoState
-    udtState: UDTState
-    tokensState: TokensState
   }
 
-  export interface PagePayload
-    extends PageState,
-      AddressState,
-      BlockState,
-      BlockListState,
-      TransactionState,
-      TransactionsState,
-      NervosDaoState,
-      UDTState,
-      TokensState {}
+  export interface PagePayload extends PageState {}
 
   export interface App {
     toast: ToastMessage | null
@@ -692,7 +629,6 @@ declare namespace State {
 
   export interface Components {
     searchBarEditable: boolean
-    filterNoResult: boolean
     mobileMenuVisible: boolean
     headerSearchBarVisible: boolean
     maintenanceAlertVisible: boolean
