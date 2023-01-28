@@ -13,7 +13,7 @@ import {
 } from './styled'
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
-import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME } from '../../constants/common'
+import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME, ListPageParams } from '../../constants/common'
 import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
 import { isScreenSmallerThan1200 } from '../../utils/screen'
@@ -33,7 +33,7 @@ import HashRateChart from './HashRateChart'
 import { ComponentActions } from '../../contexts/actions'
 import { AppDispatch } from '../../contexts/reducer'
 import styles from './index.module.scss'
-import { fetchBlocks, fetchLatestTransactions } from '../../service/http/fetcher'
+import { fetchLatestBlocks, fetchLatestTransactions } from '../../service/http/fetcher'
 import { RouteState } from '../../routes/state'
 
 interface BlockchainData {
@@ -149,30 +149,37 @@ export default () => {
   const blocksQuery = useQuery(
     'latest_blocks',
     async () => {
-      const wrappers = await fetchBlocks()
-      const blocks = wrappers.map(wrapper => wrapper.attributes)
-      return blocks
-    },
-    {
-      refetchInterval: BLOCK_POLLING_TIME,
-    },
-  )
-  const homeBlocks = blocksQuery.data ?? []
-
-  const transactionsQuery = useQuery(
-    ['latest_transactions'],
-    async () => {
-      const { data, meta } = await fetchLatestTransactions()
+      // Using the size of list pages to request will be more friendly to the data reuse of the list pages.
+      const { data, meta } = await fetchLatestBlocks(ListPageParams.PageSize)
+      const blocks = data.map(wrapper => wrapper.attributes)
       return {
-        transactions: data.map(wrapper => wrapper.attributes) ?? [],
-        total: meta?.total ?? 0,
+        blocks,
+        total: meta?.total ?? blocks.length,
       }
     },
     {
       refetchInterval: BLOCK_POLLING_TIME,
     },
   )
-  const transactions = transactionsQuery.data?.transactions ?? []
+
+  const transactionsQuery = useQuery(
+    ['latest_transactions'],
+    async () => {
+      const { data, meta } = await fetchLatestTransactions(ListPageParams.PageSize)
+      const transactions = data.map(wrapper => wrapper.attributes)
+      return {
+        transactions,
+        total: meta?.total ?? transactions.length,
+      }
+    },
+    {
+      refetchInterval: BLOCK_POLLING_TIME,
+    },
+  )
+
+  const maxDisplaysCount = 15
+  const blocks = blocksQuery.data?.blocks.slice(0, maxDisplaysCount) ?? []
+  const transactions = transactionsQuery.data?.transactions.slice(0, maxDisplaysCount) ?? []
 
   useInterval(() => {
     getTipBlockNumber(dispatch)
@@ -244,12 +251,12 @@ export default () => {
             <img src={LatestBlocksIcon} alt="latest blocks" />
             <span>{i18n.t('home.latest_blocks')}</span>
           </TableHeaderPanel>
-          {homeBlocks.length > 0 ? (
+          {blocks.length > 0 ? (
             <>
-              {homeBlocks.map((block, index) => (
+              {blocks.map((block, index) => (
                 <div key={block.number}>
                   <BlockCardItem block={block} index={index} />
-                  {homeBlocks.length - 1 !== index && <div className="block__card__separate" />}
+                  {blocks.length - 1 !== index && <div className="block__card__separate" />}
                 </div>
               ))}
             </>
@@ -258,7 +265,16 @@ export default () => {
           )}
           <TableMorePanel
             onClick={() => {
-              history.push(`/block/list`)
+              history.push(
+                `/block/list`,
+                blocksQuery.data
+                  ? {
+                      type: 'BlockListPage',
+                      createTime: Date.now(),
+                      blocksDataWithFirstPage: blocksQuery.data,
+                    }
+                  : undefined,
+              )
             }}
           >
             <span>{t('home.more')}</span>
@@ -290,9 +306,7 @@ export default () => {
                   ? {
                       type: 'TransactionListPage',
                       createTime: Date.now(),
-                      transactionsDataWithFirstPage: {
-                        ...transactionsQuery.data,
-                      },
+                      transactionsDataWithFirstPage: transactionsQuery.data,
                     }
                   : undefined,
               )
