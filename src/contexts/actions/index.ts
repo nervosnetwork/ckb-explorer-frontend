@@ -27,8 +27,6 @@ export enum PageActions {
   UpdateStatisticNodeDistributionFetchEnd = 'updateStatisticNodeDistributionFetchEnd',
   UpdateStatisticTotalSupply = 'updateStatisticTotalSupply',
   UpdateStatisticTotalSupplyFetchEnd = 'updateStatisticTotalSupplyFetchEnd',
-  UpdateStatisticSecondaryIssuance = 'updateStatisticSecondaryIssuance',
-  UpdateStatisticSecondaryIssuanceFetchEnd = 'updateStatisticSecondaryIssuanceFetchEnd',
 }
 
 export enum ComponentActions {

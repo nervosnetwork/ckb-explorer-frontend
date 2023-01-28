@@ -348,9 +348,28 @@ export const fetchStatisticAnnualPercentageCompensation = () =>
   )
 
 export const fetchStatisticSecondaryIssuance = () =>
-  axiosIns(`/daily_statistics/treasury_amount-mining_reward-deposit_compensation`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Wrapper<State.StatisticSecondaryIssuance>[]>(res.data.data),
-  )
+  axiosIns(`/daily_statistics/treasury_amount-mining_reward-deposit_compensation`).then((res: AxiosResponse) => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticSecondaryIssuance>[]>>(res.data)
+    return {
+      ...resp,
+      data: resp.data.map(wrapper => {
+        const { depositCompensation, miningReward, treasuryAmount } = wrapper.attributes
+        const sum = Number(treasuryAmount) + Number(miningReward) + Number(depositCompensation)
+        const treasuryAmountPercent = Number(((Number(treasuryAmount) / sum) * 100).toFixed(2))
+        const miningRewardPercent = Number(((Number(miningReward) / sum) * 100).toFixed(2))
+        const depositCompensationPercent = (100 - treasuryAmountPercent - miningRewardPercent).toFixed(2)
+        return {
+          ...wrapper,
+          attributes: {
+            ...wrapper.attributes,
+            treasuryAmount: treasuryAmountPercent.toString(),
+            miningReward: miningRewardPercent.toString(),
+            depositCompensation: depositCompensationPercent,
+          },
+        }
+      }),
+    }
+  })
 
 export const fetchStatisticInflationRate = () =>
   axiosIns(`/monetary_data/nominal_apc50-nominal_inflation_rate-real_inflation_rate`).then((res: AxiosResponse) =>

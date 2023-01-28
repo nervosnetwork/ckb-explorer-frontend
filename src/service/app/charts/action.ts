@@ -16,21 +16,6 @@ export const dispatchTotalSupply = (dispatch: AppDispatch, data: any) => {
   })
 }
 
-export const dispatchSecondaryIssuance = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticSecondaryIssuance,
-    payload: {
-      statisticSecondaryIssuance: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticSecondaryIssuanceFetchEnd,
-    payload: {
-      statisticSecondaryIssuanceFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchTotalDeposit = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticTotalDaoDeposit,

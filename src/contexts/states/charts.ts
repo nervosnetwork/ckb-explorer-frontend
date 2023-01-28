@@ -13,8 +13,6 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticNodeDistributionsFetchEnd: false,
   statisticTotalSupplies: [],
   statisticTotalSuppliesFetchEnd: false,
-  statisticSecondaryIssuance: [],
-  statisticSecondaryIssuanceFetchEnd: false,
 }
 
 export default initStatisticChartsState

@@ -81,16 +81,6 @@ export const pageReducer = (
         ...state,
         statisticTotalSuppliesFetchEnd: payload.statisticTotalSuppliesFetchEnd,
       }
-    case PageActions.UpdateStatisticSecondaryIssuance:
-      return {
-        ...state,
-        statisticSecondaryIssuance: payload.statisticSecondaryIssuance,
-      }
-    case PageActions.UpdateStatisticSecondaryIssuanceFetchEnd:
-      return {
-        ...state,
-        statisticSecondaryIssuanceFetchEnd: payload.statisticSecondaryIssuanceFetchEnd,
-      }
 
     default:
       return state
