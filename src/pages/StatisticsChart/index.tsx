@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import 'default-passive-events'
 import { Tooltip } from 'antd'
 import Content from '../../components/Content'
-import { getStatisticTotalDaoDeposit, getStatisticNewDaoDeposit } from '../../service/app/charts/nervosDao'
+import { getStatisticTotalDaoDeposit } from '../../service/app/charts/nervosDao'
 import { useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import HelpIcon from '../../assets/qa_help.png'
@@ -231,7 +231,6 @@ export default () => {
 
   useEffect(() => {
     getStatisticTotalDaoDeposit(dispatch)
-    getStatisticNewDaoDeposit(dispatch)
   }, [dispatch])
 
   return (

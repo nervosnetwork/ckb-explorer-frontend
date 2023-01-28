@@ -16,21 +16,6 @@ export const dispatchTotalDeposit = (dispatch: AppDispatch, data: any) => {
   })
 }
 
-export const dispatchDailyDeposit = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticNewDaoDeposit,
-    payload: {
-      statisticNewDaoDeposits: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticNewDaoDepositFetchEnd,
-    payload: {
-      statisticNewDaoDepositsFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchNodeDistribution = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticNodeDistribution,

@@ -538,8 +538,6 @@ declare namespace State {
   export interface StatisticChartsState {
     statisticTotalDaoDeposits: StatisticTotalDaoDeposit[]
     statisticTotalDaoDepositsFetchEnd: boolean
-    statisticNewDaoDeposits: StatisticNewDaoDeposit[]
-    statisticNewDaoDepositsFetchEnd: boolean
     statisticNewDaoWithdraw: StatisticNewDaoWithdraw[]
     statisticNewDaoWithdrawFetchEnd: boolean
     statisticNewNodeCounts: StatisticNewNodeCount[]

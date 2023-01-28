@@ -13,7 +13,7 @@ import 'echarts/lib/component/brush'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import { Tooltip } from 'antd'
-import { LoadingPanel, ChartNoDataPanel, ChartDetailTitle, ChartDetailPanel } from './styled'
+import { LoadingPanel, ChartNoDataPanel, ChartDetailTitle, ChartDetailPanel, ChartNotePanel } from './styled'
 import Loading from '../../../components/Loading'
 import ChartNoDataImage from '../../../assets/chart_no_data.png'
 import ChartNoDataAggronImage from '../../../assets/chart_no_data_aggron.png'
@@ -128,6 +128,7 @@ const ChartPage = ({
 export function SmartChartPage<T>({
   title,
   description,
+  note,
   isThumbnail = false,
   chartProps,
   fetchData,
@@ -138,6 +139,7 @@ export function SmartChartPage<T>({
 }: {
   title: string
   description?: string
+  note?: string
   isThumbnail?: boolean
   chartProps?: Partial<ComponentProps<typeof ReactChartCore>>
   fetchData: () => Promise<T[] | Response.Response<Response.Wrapper<T>[]>>
@@ -174,6 +176,7 @@ export function SmartChartPage<T>({
   ) : (
     <ChartPage title={title} description={description} data={toCSV(dataList)}>
       {content}
+      {note != null && <ChartNotePanel>{note}</ChartNotePanel>}
     </ChartPage>
   )
 }

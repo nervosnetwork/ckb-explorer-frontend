@@ -13,8 +13,6 @@ export enum PageActions {
 
   UpdateStatisticTotalDaoDeposit = 'updateStatisticTotalDaoDeposit',
   UpdateStatisticTotalDaoDepositFetchEnd = 'updateStatisticTotalDaoDepositFetchEnd',
-  UpdateStatisticNewDaoDeposit = 'updateStatisticNewDaoDeposit',
-  UpdateStatisticNewDaoDepositFetchEnd = 'updateStatisticNewDaoDepositFetchEnd',
   UpdateStatisticNewDaoWithdraw = 'updateStatisticNewDaoWithdraw',
   UpdateStatisticNewDaoWithdrawFetchEnd = 'updateStatisticNewDaoWithdrawFetchEnd',
   UpdateStatisticEpochLengthDistribution = 'updateStatisticEpochLengthDistribution',

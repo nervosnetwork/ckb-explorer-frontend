@@ -1,13 +1,9 @@
-import {
-  fetchStatisticTotalDaoDeposit,
-  fetchStatisticNewDaoDeposit,
-  fetchStatisticNewDaoWithdraw,
-} from '../../http/fetcher'
+import { fetchStatisticTotalDaoDeposit, fetchStatisticNewDaoWithdraw } from '../../http/fetcher'
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { dispatchTotalDeposit, dispatchDailyDeposit } from './action'
+import { dispatchTotalDeposit } from './action'
 
 export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(ChartCachedKeys.TotalDeposit)
@@ -34,36 +30,6 @@ export const getStatisticTotalDaoDeposit = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticTotalDaoDepositFetchEnd,
         payload: {
           statisticTotalDaoDepositsFetchEnd: true,
-        },
-      })
-    })
-}
-
-export const getStatisticNewDaoDeposit = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(ChartCachedKeys.DailyDeposit)
-  if (data) {
-    dispatchDailyDeposit(dispatch, data)
-    return
-  }
-  fetchStatisticNewDaoDeposit()
-    .then((response: Response.Response<Response.Wrapper<State.StatisticNewDaoDeposit>[]> | null) => {
-      if (!response) return
-      const { data } = response
-      const statisticNewDaoDeposits = data.map(wrapper => ({
-        dailyDaoDeposit: wrapper.attributes.dailyDaoDeposit,
-        dailyDaoDepositorsCount: wrapper.attributes.dailyDaoDepositorsCount,
-        createdAtUnixtimestamp: wrapper.attributes.createdAtUnixtimestamp,
-      }))
-      dispatchDailyDeposit(dispatch, statisticNewDaoDeposits)
-      if (statisticNewDaoDeposits && statisticNewDaoDeposits.length > 0) {
-        storeDateChartCache(ChartCachedKeys.DailyDeposit, statisticNewDaoDeposits)
-      }
-    })
-    .catch(() => {
-      dispatch({
-        type: PageActions.UpdateStatisticNewDaoDepositFetchEnd,
-        payload: {
-          statisticNewDaoDepositsFetchEnd: true,
         },
       })
     })

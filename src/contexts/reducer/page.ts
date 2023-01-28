@@ -21,16 +21,6 @@ export const pageReducer = (
         ...state,
         statisticTotalDaoDepositsFetchEnd: payload.statisticTotalDaoDepositsFetchEnd,
       }
-    case PageActions.UpdateStatisticNewDaoDeposit:
-      return {
-        ...state,
-        statisticNewDaoDeposits: payload.statisticNewDaoDeposits,
-      }
-    case PageActions.UpdateStatisticNewDaoDepositFetchEnd:
-      return {
-        ...state,
-        statisticNewDaoDepositsFetchEnd: payload.statisticNewDaoDepositsFetchEnd,
-      }
     case PageActions.UpdateStatisticNewDaoWithdraw:
       return {
         ...state,

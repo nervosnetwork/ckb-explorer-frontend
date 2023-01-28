@@ -1,15 +1,13 @@
-import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import { getStatisticNewDaoDeposit } from '../../../service/app/charts/nervosDao'
-import { useAppState, useDispatch } from '../../../contexts/providers'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
-import { ChartNotePanel } from '../common/styled'
 import { parseDateNoTime } from '../../../utils/date'
-import { useIsMobile } from '../../../utils/hook'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { isMainnet } from '../../../utils/chain'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipWidth, tooltipColor, SeriesItem } from '../common'
+import { tooltipWidth, tooltipColor, SeriesItem, SmartChartPage } from '../common'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticNewDaoDeposit } from '../../../service/http/fetcher'
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 140 : 120)
 
@@ -164,19 +162,6 @@ const getOption = (
   }
 }
 
-export const NewDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticNewDaoDeposits, statisticNewDaoDepositsFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticNewDaoDeposits, app.chartColor, isMobile, isThumbnail),
-    [statisticNewDaoDeposits, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticNewDaoDepositsFetchEnd || statisticNewDaoDeposits.length === 0) {
-    return <ChartLoading show={!statisticNewDaoDepositsFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticNewDaoDeposits: State.StatisticNewDaoDeposit[]) =>
   statisticNewDaoDeposits
     ? statisticNewDaoDeposits.map(data => [
@@ -186,18 +171,20 @@ const toCSV = (statisticNewDaoDeposits: State.StatisticNewDaoDeposit[]) =>
       ])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticNewDaoDeposits } = useAppState()
-
-  useEffect(() => {
-    getStatisticNewDaoDeposit(dispatch)
-  }, [dispatch])
-
+export const NewDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage title={i18n.t('statistic.new_dao_deposit_depositor')} data={toCSV(statisticNewDaoDeposits)}>
-      <NewDaoDepositChart />
-      {isMainnet() && <ChartNotePanel>{`${i18n.t('common.note')}1MB = 1,000,000 CKBytes`}</ChartNotePanel>}
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.new_dao_deposit_depositor')}
+      note={isMainnet() ? `${t('common.note')}1MB = 1,000,000 CKBytes` : undefined}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticNewDaoDeposit}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.DailyDeposit}
+      cacheMode="date"
+    />
   )
 }
+
+export default NewDaoDepositChart
