@@ -51,16 +51,6 @@ export const pageReducer = (
         ...state,
         statisticCirculationRatiosFetchEnd: payload.statisticCirculationRatiosFetchEnd,
       }
-    case PageActions.UpdateStatisticEpochTimeDistribution:
-      return {
-        ...state,
-        statisticEpochTimeDistributions: payload.statisticEpochTimeDistributions,
-      }
-    case PageActions.UpdateStatisticEpochTimeDistributionFetchEnd:
-      return {
-        ...state,
-        statisticEpochTimeDistributionsFetchEnd: payload.statisticEpochTimeDistributionsFetchEnd,
-      }
     case PageActions.UpdateStatisticNewNodeCount:
       return {
         ...state,
