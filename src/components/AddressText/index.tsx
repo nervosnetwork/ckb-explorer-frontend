@@ -1,5 +1,5 @@
 import { Tooltip } from 'antd'
-import { FC } from 'react'
+import { ComponentProps, FC } from 'react'
 import classNames from 'classnames'
 import { Link, LinkProps } from 'react-router-dom'
 import { useBoolean } from '../../utils/hook'
@@ -9,6 +9,7 @@ import styles from './styles.module.scss'
 
 const AddressText: FC<{
   children: string
+  fontKey?: ComponentProps<typeof EllipsisMiddle>['fontKey']
   className?: string
   containerClass?: string
   disableTooltip?: boolean
@@ -17,6 +18,7 @@ const AddressText: FC<{
   useTextWidthForPlaceholderWidth?: boolean
 }> = ({
   children: address,
+  fontKey,
   className,
   containerClass,
   disableTooltip,
@@ -34,6 +36,7 @@ const AddressText: FC<{
     >
       <EllipsisMiddle
         useTextWidthForPlaceholderWidth={useTextWidthForPlaceholderWidth}
+        fontKey={fontKey}
         className={classNames(
           {
             monospace,
