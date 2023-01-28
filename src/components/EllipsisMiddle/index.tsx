@@ -7,6 +7,8 @@ const EllipsisMiddle: FC<
   HTMLAttributes<HTMLDivElement> & {
     children?: string
     text?: string
+    // Any key that represents the use of a different font
+    fontKey?: string | number | boolean
     minStartLen?: number
     minEndLen?: number
     onTruncateStateChange?: (isTruncated: boolean) => void
@@ -15,6 +17,7 @@ const EllipsisMiddle: FC<
 > = ({
   text,
   children,
+  fontKey,
   minStartLen = 0,
   minEndLen = 0,
   onTruncateStateChange,
@@ -85,7 +88,17 @@ const EllipsisMiddle: FC<
 
     setParts([leftPart.join(''), ellipsis, rightPart.join('')])
     onTruncateStateChange?.(true)
-  }, [children, minEndLen, minStartLen, onTruncateStateChange, ref, resizedWidth, text])
+  }, [
+    children,
+    // Active trigger recalculation
+    fontKey,
+    minEndLen,
+    minStartLen,
+    onTruncateStateChange,
+    ref,
+    resizedWidth,
+    text,
+  ])
 
   const { style, ...restDivProps } = divProps
   const combinedStyle = useMemo(

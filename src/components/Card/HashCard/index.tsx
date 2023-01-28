@@ -101,7 +101,9 @@ export default ({
               </LoadingPanel>
             ) : (
               <div id="hash__text">
-                <AddressText disableTooltip>{hash}</AddressText>
+                <AddressText disableTooltip fontKey={isMobile}>
+                  {hash}
+                </AddressText>
               </div>
             )}
             <SimpleButton

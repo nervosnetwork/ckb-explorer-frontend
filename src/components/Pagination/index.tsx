@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { Tooltip } from 'antd'
 import { PaginationLeftItem, PaginationRightItem, PaginationPanel } from './styled'
 import LeftBlack from '../../assets/pagination_black_left.png'
 import RightBlack from '../../assets/pagination_black_right.png'
 import LeftGrey from '../../assets/pagination_grey_left.png'
 import RightGrey from '../../assets/pagination_grey_right.png'
+import HelpIcon from '../../assets/qa_help.png'
 import i18n from '../../utils/i18n'
 import { useIsMobile } from '../../utils/hook'
 import SimpleButton from '../SimpleButton'
@@ -13,11 +15,15 @@ const Pagination = ({
   totalPages,
   gotoPage = currentPage === totalPages ? totalPages : currentPage + 1,
   onChange,
+  className,
+  annotation,
 }: {
   currentPage: number
   totalPages: number
   gotoPage?: number
   onChange: (page: number) => void
+  className?: string
+  annotation?: string
 }) => {
   const isMobile = useIsMobile()
   const [inputPage, setInputPage] = useState(gotoPage)
@@ -30,6 +36,12 @@ const Pagination = ({
     'pagination.of_page',
   )} ${total} ${i18n.t('pagination.end_page')}`
 
+  const annotationComp = annotation ? (
+    <Tooltip placement="top" title={annotation}>
+      <img src={HelpIcon} alt="annotation" />
+    </Tooltip>
+  ) : null
+
   const changePage = (page: number) => {
     if (page && page >= 1 && page <= total) {
       onChange(page)
@@ -38,7 +50,7 @@ const Pagination = ({
   }
 
   return (
-    <PaginationPanel>
+    <PaginationPanel className={className}>
       <PaginationLeftItem isFirstPage={current === 1} isLastPage={current === total}>
         <SimpleButton className="pagination__first__button" onClick={() => changePage(1)}>
           {i18n.t('pagination.first')}
@@ -47,11 +59,21 @@ const Pagination = ({
           <img src={current === 1 ? LeftGrey : LeftBlack} alt="left button" />
         </SimpleButton>
 
-        {!isMobile && <span className="pagination__middle__label">{pcPagination}</span>}
+        {!isMobile && (
+          <span className="pagination__middle__label">
+            {pcPagination}
+            {annotationComp}
+          </span>
+        )}
         <SimpleButton className="pagination__right__button" onClick={() => changePage(current + 1)}>
           <img src={current === total ? RightGrey : RightBlack} alt="right button" />
         </SimpleButton>
-        {isMobile && <span className="pagination__middle__label">{mobilePagination}</span>}
+        {isMobile && (
+          <span className="pagination__middle__label">
+            {mobilePagination}
+            {annotationComp}
+          </span>
+        )}
 
         <SimpleButton className="pagination__last__button" onClick={() => changePage(total)}>
           {i18n.t('pagination.last')}

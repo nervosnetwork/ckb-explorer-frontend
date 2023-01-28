@@ -1,5 +1,5 @@
-import { useState, ReactNode } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { useState, ReactNode, FC } from 'react'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Tooltip } from 'antd'
 import Pagination from '../../components/Pagination'
@@ -35,6 +35,8 @@ import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import TitleCard from '../../components/Card/TitleCard'
 import styles from './styles.module.scss'
 import AddressText from '../../components/AddressText'
+
+const CELL_BASE_ANCHOR = 'cellbase'
 
 const BlockMiner = ({ miner }: { miner: string }) => {
   if (!miner) {
@@ -85,7 +87,7 @@ const BlockMinerReward = ({
           onKeyDown={() => {}}
           onClick={() => {
             if (sentBlockNumber) {
-              history.push(`/block/${sentBlockNumber}#cellbase`)
+              history.push(`/block/${sentBlockNumber}#${CELL_BASE_ANCHOR}`)
             }
           }}
         >
@@ -96,10 +98,9 @@ const BlockMinerReward = ({
   )
 }
 
-export const BlockOverview = () => {
+export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
   const isMobile = useIsMobile()
   const {
-    blockState: { block },
     statistics: { tipBlockNumber },
   } = useAppState()
   const [showAllOverview, setShowAllOverview] = useState(false)
@@ -244,33 +245,30 @@ export const BlockOverview = () => {
 }
 
 export const BlockComp = ({
+  onPageChange,
   currentPage,
   pageSize,
-  blockParam,
+  transactions,
+  total,
 }: {
+  onPageChange: (page: number) => void
   currentPage: number
   pageSize: number
-  blockParam: string
+  transactions: State.Transaction[]
+  total: number
 }) => {
-  const history = useHistory()
-  const {
-    blockState: { transactions = [], total },
-  } = useAppState()
-
   const totalPages = Math.ceil(total / pageSize)
-
-  const onChange = (page: number) => {
-    history.push(`/block/${blockParam}?page=${page}&size=${pageSize}`)
-  }
+  const { hash } = useLocation()
 
   return (
     <>
       <TitleCard title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`} isSingle />
       {transactions.map(
-        (transaction: State.Transaction, index: number) =>
+        (transaction, index) =>
           transaction && (
             <TransactionItem
               key={transaction.transactionHash}
+              scrollIntoViewOnMount={transaction.isCellbase && hash === `#${CELL_BASE_ANCHOR}`}
               transaction={{
                 ...transaction,
                 displayInputs: transaction.displayInputs.map(input => ({
@@ -291,14 +289,9 @@ export const BlockComp = ({
       )}
       {totalPages > 1 && (
         <BlockTransactionsPagination>
-          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onPageChange} />
         </BlockTransactionsPagination>
       )}
     </>
   )
-}
-
-export default {
-  BlockOverview,
-  BlockComp,
 }

@@ -1,6 +1,6 @@
-import { useEffect } from 'react'
 import { Tooltip } from 'antd'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { useQuery } from 'react-query'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
 import {
@@ -17,16 +17,15 @@ import {
 import HelpIcon from '../../assets/qa_help.png'
 import { parseDateNoTime } from '../../utils/date'
 import { localeNumberString } from '../../utils/number'
-import { useAppState, useDispatch } from '../../contexts/providers'
-import getTokens from '../../service/app/tokens'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
 import { udtSubmitEmail } from '../../utils/util'
 import SmallLoading from '../../components/Loading/SmallLoading'
-import { PageParams } from '../../constants/common'
 import styles from './styles.module.scss'
 import { useIsMobile, usePaginationParamsInPage } from '../../utils/hook'
+import { fetchTokens } from '../../service/http/fetcher'
+import { QueryResult } from '../../components/QueryResult'
 
 const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) => {
   const { displayName, fullName, uan } = token
@@ -93,48 +92,22 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
   )
 }
 
-const TokensTableState = () => {
-  const isMobile = useIsMobile()
-  const {
-    tokensState: { tokens, status },
-  } = useAppState()
-
-  switch (status) {
-    case 'Error':
-      return <TokensContentEmpty>{i18n.t('udt.tokens_empty')}</TokensContentEmpty>
-    case 'OK':
-      return (
-        <TokensTableContent>
-          {tokens.map((token, index) => (
-            <TokenItem key={token.typeHash} token={token} isLast={index === tokens.length - 1} />
-          ))}
-        </TokensTableContent>
-      )
-    case 'InProgress':
-    case 'None':
-    default:
-      return <TokensLoadingPanel>{isMobile ? <SmallLoading /> : <Loading show />}</TokensLoadingPanel>
-  }
-}
-
 export default () => {
   const isMobile = useIsMobile()
-  const dispatch = useDispatch()
-  const history = useHistory()
   const { currentPage, pageSize, setPage } = usePaginationParamsInPage()
 
-  const {
-    tokensState: { total },
-  } = useAppState()
-
-  const totalPages = Math.ceil(total / pageSize)
-
-  useEffect(() => {
-    if (pageSize > PageParams.MaxPageSize) {
-      history.replace(`/tokens?page=${currentPage}&size=${PageParams.MaxPageSize}`)
+  const query = useQuery(['tokens', currentPage, pageSize], async () => {
+    const { data, meta } = await fetchTokens(currentPage, pageSize)
+    if (data == null || data.length === 0) {
+      throw new Error('Tokens empty')
     }
-    getTokens(currentPage, pageSize, dispatch)
-  }, [currentPage, pageSize, dispatch, history])
+    return {
+      total: meta?.total ?? 0,
+      tokens: data.map(wrapper => wrapper.attributes),
+    }
+  })
+  const total = query.data?.total ?? 0
+  const totalPages = Math.ceil(total / pageSize)
 
   return (
     <Content>
@@ -153,7 +126,23 @@ export default () => {
             <span>{i18n.t('udt.created_time')}</span>
           </TokensTableTitle>
         )}
-        <TokensTableState />
+
+        <QueryResult
+          query={query}
+          errorRender={() => <TokensContentEmpty>{i18n.t('udt.tokens_empty')}</TokensContentEmpty>}
+          loadingRender={() => (
+            <TokensLoadingPanel>{isMobile ? <SmallLoading /> : <Loading show />}</TokensLoadingPanel>
+          )}
+        >
+          {data => (
+            <TokensTableContent>
+              {data.tokens.map((token, index) => (
+                <TokenItem key={token.typeHash} token={token} isLast={index === data.tokens.length - 1} />
+              ))}
+            </TokensTableContent>
+          )}
+        </QueryResult>
+
         {totalPages > 1 && (
           <TokensPagination>
             <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />

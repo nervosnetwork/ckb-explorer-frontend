@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import {
   HomeHeaderItemPanel,
   BlockPanel,
@@ -12,17 +13,15 @@ import {
 } from './styled'
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
-import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME } from '../../constants/common'
+import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME, ListPageParams } from '../../constants/common'
 import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
 import { isScreenSmallerThan1200 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
-import { getLatestBlocks } from '../../service/app/block'
 import i18n from '../../utils/i18n'
 import LatestBlocksIcon from '../../assets/latest_blocks.png'
 import LatestTransactionsIcon from '../../assets/latest_transactions.png'
 import { BlockCardItem, TransactionCardItem } from './TableCard'
-import { getLatestTransactions } from '../../service/app/transaction'
 import { getTipBlockNumber } from '../../service/app/address'
 import Loading from '../../components/Loading/SmallLoading'
 import Banner from '../../components/Banner'
@@ -34,6 +33,8 @@ import HashRateChart from './HashRateChart'
 import { ComponentActions } from '../../contexts/actions'
 import { AppDispatch } from '../../contexts/reducer'
 import styles from './index.module.scss'
+import { fetchLatestBlocks, fetchLatestTransactions } from '../../service/http/fetcher'
+import { RouteState } from '../../routes/state'
 
 interface BlockchainData {
   name: string
@@ -137,31 +138,52 @@ const useHomeSearchBarStatus = (dispatch: AppDispatch) => {
 export default () => {
   const isMobile = useIsMobile()
   const dispatch = useDispatch()
-  const history = useHistory()
+  const history = useHistory<RouteState>()
   const {
-    homeBlocks = [],
-    transactionsState: { transactions = [] },
     statistics,
     app: { tipBlockNumber },
     components: { headerSearchBarVisible },
   } = useAppState()
   const [t] = useTranslation()
 
-  useEffect(() => {
-    getLatestBlocks(dispatch)
-    getLatestTransactions(dispatch)
-    getTipBlockNumber(dispatch)
-    const listener = setInterval(() => {
-      getTipBlockNumber(dispatch)
-      getLatestBlocks(dispatch)
-      getLatestTransactions(dispatch)
-    }, BLOCK_POLLING_TIME)
-    return () => {
-      if (listener) {
-        clearInterval(listener)
+  const blocksQuery = useQuery(
+    'latest_blocks',
+    async () => {
+      // Using the size of list pages to request will be more friendly to the data reuse of the list pages.
+      const { data, meta } = await fetchLatestBlocks(ListPageParams.PageSize)
+      const blocks = data.map(wrapper => wrapper.attributes)
+      return {
+        blocks,
+        total: meta?.total ?? blocks.length,
       }
-    }
-  }, [dispatch])
+    },
+    {
+      refetchInterval: BLOCK_POLLING_TIME,
+    },
+  )
+
+  const transactionsQuery = useQuery(
+    ['latest_transactions'],
+    async () => {
+      const { data, meta } = await fetchLatestTransactions(ListPageParams.PageSize)
+      const transactions = data.map(wrapper => wrapper.attributes)
+      return {
+        transactions,
+        total: meta?.total ?? transactions.length,
+      }
+    },
+    {
+      refetchInterval: BLOCK_POLLING_TIME,
+    },
+  )
+
+  const maxDisplaysCount = 15
+  const blocks = blocksQuery.data?.blocks.slice(0, maxDisplaysCount) ?? []
+  const transactions = transactionsQuery.data?.transactions.slice(0, maxDisplaysCount) ?? []
+
+  useInterval(() => {
+    getTipBlockNumber(dispatch)
+  }, BLOCK_POLLING_TIME)
 
   useInterval(() => {
     handleBlockchainAlert(dispatch)
@@ -229,12 +251,12 @@ export default () => {
             <img src={LatestBlocksIcon} alt="latest blocks" />
             <span>{i18n.t('home.latest_blocks')}</span>
           </TableHeaderPanel>
-          {homeBlocks.length > 0 ? (
+          {blocks.length > 0 ? (
             <>
-              {homeBlocks.map((block, index) => (
+              {blocks.map((block, index) => (
                 <div key={block.number}>
                   <BlockCardItem block={block} index={index} />
-                  {homeBlocks.length - 1 !== index && <div className="block__card__separate" />}
+                  {blocks.length - 1 !== index && <div className="block__card__separate" />}
                 </div>
               ))}
             </>
@@ -243,7 +265,16 @@ export default () => {
           )}
           <TableMorePanel
             onClick={() => {
-              history.push(`/block/list`)
+              history.push(
+                `/block/list`,
+                blocksQuery.data
+                  ? {
+                      type: 'BlockListPage',
+                      createTime: Date.now(),
+                      blocksDataWithFirstPage: blocksQuery.data,
+                    }
+                  : undefined,
+              )
             }}
           >
             <span>{t('home.more')}</span>
@@ -269,7 +300,16 @@ export default () => {
 
           <TableMorePanel
             onClick={() => {
-              history.push(`/transaction/list`)
+              history.push(
+                `/transaction/list`,
+                transactionsQuery.data
+                  ? {
+                      type: 'TransactionListPage',
+                      createTime: Date.now(),
+                      transactionsDataWithFirstPage: transactionsQuery.data,
+                    }
+                  : undefined,
+              )
             }}
           >
             <span>{t('home.more')}</span>

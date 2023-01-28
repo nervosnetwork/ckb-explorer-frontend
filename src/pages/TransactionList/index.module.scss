@@ -1,0 +1,100 @@
+.tabs {
+  margin: 24px 0 40px 0;
+
+  @media screen and (max-width: 750px) {
+    margin: 20px 0;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    padding: 0 32px;
+    overflow: auto;
+    background: #fff;
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0px 4px 4px rgba(16, 16, 16, 0.05);
+
+    .tab {
+      position: relative;
+      line-height: 56px;
+      white-space: nowrap;
+      font-size: 18px;
+      color: #000;
+
+      &.active {
+        font-weight: bold;
+
+        &::after {
+          $width: 72px;
+
+          content: ' ';
+          position: absolute;
+          width: $width;
+          height: 4px;
+          left: calc(50% - $width / 2);
+          bottom: 0;
+          background: var(--primary-color);
+        }
+      }
+    }
+  }
+}
+
+.table {
+  .headerRow,
+  .row {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .headerRow {
+    min-height: 48px;
+  }
+
+  .row {
+    min-height: 64px;
+    border-top: 1px solid #e5e5e5;
+  }
+
+  .cell {
+    display: flex;
+    justify-content: center;
+  }
+
+  .link {
+    flex: 1;
+    min-width: 0;
+    max-width: fit-content;
+    display: flex;
+    justify-content: center;
+    color: var(--primary-color);
+  }
+}
+
+.transactionCard {
+  &:first-child {
+    border-radius: 0 0 4px 4px;
+  }
+
+  .addressLink {
+    font-size: 13px;
+  }
+}
+
+.transactionTable {
+  margin-top: 4px;
+  padding: 0 40px;
+  background: #fff;
+  box-shadow: 0px 4px 4px rgba(16, 16, 16, 0.05);
+
+  .colHash {
+    font-size: 14px;
+  }
+}
+
+.pagination {
+  margin-top: 4px;
+}
