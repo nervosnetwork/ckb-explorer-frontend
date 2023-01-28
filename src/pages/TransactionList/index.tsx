@@ -1,119 +1,88 @@
-import { FC, useEffect, useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { FC } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
-import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
-import { TableTitleItem, TableContentItem } from '../../components/Table'
 import { shannonToCkb } from '../../utils/util'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
-import { useDispatch, useAppState } from '../../contexts/providers'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import { getTransactions } from '../../service/app/transaction'
 import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
-import { TransactionCapacityPanel, TransactionListPanel, ContentTable, HighLightValue } from './styled'
 import AddressText from '../../components/AddressText'
-import { useIsMobile, usePaginationParamsInListPage } from '../../utils/hook'
+import { useIsMobile, usePaginationParamsInListPage, useSearchParams } from '../../utils/hook'
+import { fetchPendingTransactions, fetchPendingTransactionsCount, fetchTransactions } from '../../service/http/fetcher'
+import { Tabs } from './Tabs'
+import styles from './index.module.scss'
+import { QueryResult } from '../../components/QueryResult'
+import { Column, Table } from './Table'
+import { RouteState } from '../../routes/state'
+import { assert } from '../../utils/error'
 
-interface TableTitleData {
-  title: string
-  width: string
-}
+type TxStatus = 'confirmed' | 'pending'
 
-interface TableContentData {
-  width: string
-  to?: any
-  content: string
-}
-
-const TransactionValueItem = ({ value, to }: { value: string; to: string }) => (
-  <HighLightValue>
-    <Link to={to}>
-      {' '}
-      <span>{value}</span>
-    </Link>
-  </HighLightValue>
-)
-
-const getTableContentTxList = (transaction: State.Transaction) => {
-  const transactionCapacity = (
-    <TransactionCapacityPanel>
+const TransactionCardGroup: FC<{ transactions: State.Transaction[]; type: TxStatus }> = ({ transactions, type }) => {
+  const itemHash: ItemCardData<State.Transaction> = {
+    title: i18n.t('transaction.transaction_hash'),
+    render: transaction => (
+      <AddressText
+        disableTooltip
+        monospace={false}
+        linkProps={{
+          className: styles.addressLink,
+          to: `/transaction/${transaction.transactionHash}`,
+        }}
+      >
+        {transaction.transactionHash}
+      </AddressText>
+    ),
+  }
+  const itemCapacity: ItemCardData<State.Transaction> = {
+    title: i18n.t('transaction.capacity'),
+    render: transaction => (
       <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
-    </TransactionCapacityPanel>
-  )
+    ),
+  }
 
-  return [
-    {
-      width: '40%',
-      to: `/transaction/${transaction.transactionHash}`,
-      content: (
-        <AddressText disableTooltip monospace={false}>
-          {transaction.transactionHash}
-        </AddressText>
-      ),
-    },
-    {
-      width: '15%',
-      to: `/block/${transaction.blockNumber}`,
-      content: localeNumberString(transaction.blockNumber),
-    },
-    {
-      width: '30%',
-      content: transactionCapacity,
-    },
-    {
-      width: '15%',
-      content: parseSimpleDate(transaction.blockTimestamp),
-    },
-  ] as TableContentData[]
-}
-
-const TransactionCardGroup: FC<{ transactions: State.Transaction[] }> = ({ transactions }) => {
-  const items: ItemCardData<State.Transaction>[] = [
-    {
-      title: i18n.t('transaction.transaction_hash'),
-      render: transaction => (
-        <HighLightValue>
-          <AddressText
-            disableTooltip
-            monospace={false}
-            linkProps={{
-              to: `/transaction/${transaction.transactionHash}`,
-            }}
-          >
-            {transaction.transactionHash}
-          </AddressText>
-        </HighLightValue>
-      ),
-    },
+  const confirmedItems: ItemCardData<State.Transaction>[] = [
+    itemHash,
     {
       title: i18n.t('transaction.height'),
       render: transaction => (
-        <TransactionValueItem
-          value={localeNumberString(transaction.blockNumber)}
-          to={`/block/${transaction.blockNumber}`}
-        />
+        <Link to={`/block/${transaction.blockNumber}`}>
+          <span>{localeNumberString(transaction.blockNumber)}</span>
+        </Link>
       ),
     },
-    {
-      title: i18n.t('transaction.capacity'),
-      render: transaction => (
-        <TransactionCapacityPanel>
-          <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
-        </TransactionCapacityPanel>
-      ),
-    },
+    itemCapacity,
     {
       title: i18n.t('transaction.time'),
       render: transaction => parseSimpleDate(transaction.blockTimestamp),
     },
   ]
 
+  const pendingItems: ItemCardData<State.Transaction>[] = [
+    itemHash,
+    itemCapacity,
+    {
+      title: i18n.t('transaction.time'),
+      render: transaction => {
+        assert(transaction.createTimestamp != null)
+        return parseSimpleDate(transaction.createTimestamp)
+      },
+    },
+    {
+      title: i18n.t('transaction.transaction_fee'),
+      render: transaction => <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.transactionFee))} />,
+    },
+  ]
+
+  const items = type === 'confirmed' ? confirmedItems : pendingItems
+
   return (
     <ItemCardGroup
-      className="transaction__panel"
+      cardClassName={styles.transactionCard}
       items={items}
       dataSource={transactions}
       getDataKey={transaction => transaction.transactionHash}
@@ -121,72 +90,161 @@ const TransactionCardGroup: FC<{ transactions: State.Transaction[] }> = ({ trans
   )
 }
 
-export default () => {
-  const dispatch = useDispatch()
-
+const TransactionTable: FC<{ transactions: State.Transaction[]; type: TxStatus }> = ({ transactions, type }) => {
   const [t] = useTranslation()
-  const TableTitles = useMemo(
-    () => [
-      {
-        title: t('transaction.transaction_hash'),
-        width: '40%',
+
+  const colHash: Column<State.Transaction> = {
+    title: t('transaction.transaction_hash'),
+    className: styles.colHash,
+    width: '40%',
+    getLinkProps: transaction => ({ to: `/transaction/${transaction.transactionHash}` }),
+    render: transaction => <AddressText disableTooltip>{transaction.transactionHash}</AddressText>,
+  }
+
+  const confirmedColumns: Column<State.Transaction>[] = [
+    colHash,
+    {
+      title: t('transaction.height'),
+      width: '15%',
+      getLinkProps: transaction => ({ to: `/block/${transaction.blockNumber}` }),
+      render: transaction => localeNumberString(transaction.blockNumber),
+    },
+    {
+      title: t('transaction.capacity'),
+      width: '30%',
+      render: transaction => (
+        <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
+      ),
+    },
+    {
+      title: t('transaction.time'),
+      width: '15%',
+      render: transaction => parseSimpleDate(transaction.blockTimestamp),
+    },
+  ]
+
+  const pendingColumns: Column<State.Transaction>[] = [
+    colHash,
+    {
+      title: t('transaction.capacity'),
+      width: '22%',
+      render: transaction => (
+        <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
+      ),
+    },
+    {
+      title: t('transaction.time'),
+      width: '16%',
+      render: transaction => {
+        assert(transaction.createTimestamp != null)
+        return parseSimpleDate(transaction.createTimestamp)
       },
-      {
-        title: t('transaction.height'),
-        width: '15%',
-      },
-      {
-        title: t('transaction.capacity'),
-        width: '30%',
-      },
-      {
-        title: t('transaction.time'),
-        width: '15%',
-      },
-    ],
-    [t],
+    },
+    {
+      title: t('transaction.transaction_fee'),
+      width: '22%',
+      render: transaction => <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.transactionFee))} />,
+    },
+  ]
+
+  const columns = type === 'confirmed' ? confirmedColumns : pendingColumns
+
+  return (
+    <Table
+      className={styles.transactionTable}
+      columns={columns}
+      dataSource={transactions}
+      getRowKey={transaction => transaction.transactionHash}
+    />
+  )
+}
+
+const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
+  const isMobile = useIsMobile()
+  const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
+  const { state } = useLocation<RouteState>()
+  const stateStaleTime = 3000
+
+  const query = useQuery(
+    [`${type}-transactions`, type, currentPage, pageSize] as const,
+    async ({ queryKey }) => {
+      const [, type] = queryKey
+      switch (type) {
+        case 'pending': {
+          const resp = await fetchPendingTransactions(currentPage, pageSize)
+          return {
+            transactions: resp.data,
+            total: resp.meta?.total ?? 0,
+          }
+        }
+        case 'confirmed':
+        default: {
+          const resp = await fetchTransactions(currentPage, pageSize)
+          return {
+            transactions: resp.data.map(wrapper => wrapper.attributes) ?? [],
+            total: resp.meta?.total ?? 0,
+          }
+        }
+      }
+    },
+    {
+      keepPreviousData: true,
+      initialData:
+        state?.type === 'TransactionListPage' && state.createTime + stateStaleTime > Date.now()
+          ? state.transactionsDataWithFirstPage
+          : undefined,
+    },
   )
 
-  const { transactionsState } = useAppState()
-  const { transactions = [], total } = transactionsState
+  return (
+    <QueryResult query={query}>
+      {data => (
+        <>
+          {isMobile ? (
+            <TransactionCardGroup type={type} transactions={data.transactions} />
+          ) : (
+            <TransactionTable type={type} transactions={data.transactions} />
+          )}
 
-  const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
-  const totalPages = Math.ceil(total / pageSize)
+          <Pagination
+            className={styles.pagination}
+            currentPage={currentPage}
+            totalPages={Math.ceil(data.total / pageSize)}
+            onChange={setPage}
+          />
+        </>
+      )}
+    </QueryResult>
+  )
+}
 
-  useEffect(() => getTransactions(currentPage, pageSize, dispatch), [currentPage, pageSize, dispatch])
+export default () => {
+  const { tab } = useSearchParams('tab')
+
+  const { data } = useQuery(['transactions-count'], fetchPendingTransactionsCount)
 
   return (
     <Content>
-      <TransactionListPanel className="container">
-        <div className="transaction__green__background" />
-        {useIsMobile() ? (
-          <ContentTable>
-            <TransactionCardGroup transactions={transactions} />
-          </ContentTable>
-        ) : (
-          <ContentTable>
-            <TableTitleRow>
-              {TableTitles.map((data: TableTitleData) => (
-                <TableTitleItem width={data.width} title={data.title} key={data.title} />
-              ))}
-            </TableTitleRow>
-            {transactions.map(
-              (transaction: State.Transaction) =>
-                transaction && (
-                  <TableContentRow key={transaction.transactionHash}>
-                    {getTableContentTxList(transaction).map((data: TableContentData, index: number) => {
-                      const key = index
-                      return <TableContentItem width={data.width} content={data.content} to={data.to} key={key} />
-                    })}
-                  </TableContentRow>
-                ),
-            )}
-          </ContentTable>
-        )}
-        <div className="transaction_list__pagination">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
-        </div>
-      </TransactionListPanel>
+      <div className="container">
+        <Tabs
+          activeKey={tab}
+          getItemLink={key => `/transaction/list?tab=${key}`}
+          items={[
+            {
+              label: 'Transactions',
+              key: 'confirmed',
+              // Use different keys on the components to ensure that they do not
+              // reuse useQuery with keepPreviousData option from each other
+              children: <TransactionsPanel key="confirmed" type="confirmed" />,
+            },
+            {
+              label: `Pending Transactions${data == null ? '' : `(${data})`}`,
+              key: 'pending',
+              children: <TransactionsPanel key="pending" type="pending" />,
+            },
+          ]}
+        />
+      </div>
     </Content>
   )
 }

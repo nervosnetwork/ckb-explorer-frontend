@@ -3,23 +3,12 @@ import styled from 'styled-components'
 export const ItemCardPanel = styled.div`
   width: 100%;
   background-color: #ffffff;
-  color: #000000;
+  color: #333;
   font-size: 16px;
-  margin-top: 20px;
-  border-radius: 0px 0px 6px 6px;
-  box-shadow: 2px 2px 6px 0 #dfdfdf;
-  padding: 15px 40px;
-
-  @media (max-width: 1000px) {
-    font-size: 13px;
-  }
-
-  @media (max-width: 750px) {
-    font-size: 13px;
-    box-shadow: 1px 1px 3px 0 #dfdfdf;
-    padding: 10px 20px;
-    margin-top: 4px;
-  }
+  margin-top: 4px;
+  border-radius: 4px;
+  box-shadow: 1px 1px 3px 0 #dfdfdf;
+  padding: 0 16px;
 `
 
 export const ItemContentPanel = styled.div`
@@ -27,69 +16,35 @@ export const ItemContentPanel = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-
-  @media (max-width: 1200px) {
-    width: 100%;
-    margin-right: 0px;
-  }
+  width: 100%;
+  margin-right: 0px;
 `
 
 export const ItemDetailPanel = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   width: 100%;
-  align-items: center;
-  justify-content: space-between;
   position: relative;
-
-  @media (min-width: 750px) {
-    height: 20px;
-    margin-top: 14px;
-  }
-
-  @media (min-width: 1200px) {
-    height: 20px;
-    margin-top: 14px;
-  }
-
-  @media (max-width: 750px) {
-    justify-content: normal;
-    flex-direction: column;
-    align-items: flex-start;
-
-    &:after {
-      content: '';
-      background: #e2e2e2;
-      height: 1px;
-      width: 100%;
-      margin: 10px 0px 0px 0px;
-      display: ${({ hideLine }: { hideLine: boolean }) => (hideLine ? 'none' : 'block')};
-      transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
-    }
-  }
+  padding: 16px 0;
+  border-bottom: solid #f0f0f0;
+  border-bottom-width: ${({ hideLine }: { hideLine: boolean }) => (hideLine ? '0' : '1px')};
 
   .item__detail__title {
-    font-size: 16px;
-    color: rgba(0, 0, 0, 0.6);
+    color: #666;
+    width: 100%;
     margin-left: 0px;
-
-    @media (max-width: 750px) {
-      width: 100%;
-      margin-left: 0px;
-    }
+    line-height: 1;
   }
 
   .item__detail__value {
-    margin-left: 15px;
     display: flex;
-    font-size: 16px;
-    color: #000000;
-
-    @media (max-width: 750px) {
-      margin-left: 0px;
-      word-wrap: break-word;
-      word-break: break-all;
-      width: 100%;
-    }
+    width: 100%;
+    margin-left: 0px;
+    margin-top: 8px;
+    line-height: 1;
+    word-wrap: break-word;
+    word-break: break-all;
 
     a {
       color: ${props => props.theme.primary};

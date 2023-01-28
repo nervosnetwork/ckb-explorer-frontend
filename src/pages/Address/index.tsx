@@ -1,21 +1,11 @@
-import { useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import Loading from '../../components/Loading'
+import { useQuery } from 'react-query'
 import AddressHashCard from '../../components/Card/HashCard'
-import Error from '../../components/Error'
 import Content from '../../components/Content'
-import { useAppState, useDispatch } from '../../contexts/providers/index'
-import {
-  getAddressInformation,
-  getTransactionsByAddress,
-  handleAddressStatus,
-  handleTransactionStatus,
-} from '../../service/app/address'
-import { LOADING_WAITING_TIME } from '../../constants/common'
 import i18n from '../../utils/i18n'
 import { AddressContentPanel, AddressLockScriptController, AddressTitleOverviewPanel } from './styled'
 import { AddressTransactions, AddressAssetComp } from './AddressComp'
-import { useDelayLoading, usePaginationParamsInPage } from '../../utils/hook'
 import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
@@ -27,6 +17,11 @@ import { parseSimpleDateNoSecond } from '../../utils/date'
 import Script from '../../components/Script'
 import AddressText from '../../components/AddressText'
 import styles from './styles.module.scss'
+import { fetchAddressInfo, fetchTransactionsByAddress } from '../../service/http/fetcher'
+import { QueryResult } from '../../components/QueryResult'
+import { defaultAddressInfo } from './state'
+import { usePaginationParamsInPage } from '../../utils/hook'
+import { isAxiosError } from '../../utils/error'
 
 const lockScriptIcon = (show: boolean) => {
   if (show) {
@@ -35,10 +30,7 @@ const lockScriptIcon = (show: boolean) => {
   return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
 }
 
-const getAddressInfo = (addressState: State.AddressState) => {
-  const {
-    address: { liveCellsCount, minedBlocksCount, type, addressHash, lockInfo },
-  } = addressState
+const getAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, lockInfo }: State.Address) => {
   const items: OverviewItemData[] = [
     {
       title: i18n.t('address.live_cells'),
@@ -76,110 +68,84 @@ const getAddressInfo = (addressState: State.AddressState) => {
   return items
 }
 
-const AddressTitleOverview = () => {
+const AddressTitleOverview: FC<{ address: State.Address }> = ({ address }) => {
   const [showLock, setShowLock] = useState<boolean>(false)
-  const {
-    addressState,
-    addressState: {
-      address: { lockScript = undefined },
-    },
-  } = useAppState()
+
   return (
     <AddressTitleOverviewPanel>
-      <OverviewCard items={getAddressInfo(addressState)} hideShadow>
+      <OverviewCard items={getAddressInfo(address)} hideShadow>
         <AddressLockScriptController onClick={() => setShowLock(!showLock)}>
           <div>{i18n.t('address.lock_script')}</div>
           <img alt="lock script" src={lockScriptIcon(showLock)} />
         </AddressLockScriptController>
-        {showLock && lockScript && <Script script={lockScript} />}
+        {showLock && address.lockScript && <Script script={address.lockScript} />}
       </OverviewCard>
     </AddressTitleOverviewPanel>
   )
 }
 
-const AddressAssetCompState = () => {
-  const {
-    addressState: { addressStatus },
-  } = useAppState()
-  const loading = useDelayLoading(LOADING_WAITING_TIME, addressStatus === 'None' || addressStatus === 'InProgress')
-
-  switch (addressStatus) {
-    case 'Error':
-      return <Error />
-    case 'OK':
-      return <AddressAssetComp />
-    case 'None':
-    default:
-      return <Loading show={loading} />
-  }
-}
-
-const AddressStateTransactions = ({
-  currentPage,
-  pageSize,
-  address,
-}: {
-  currentPage: number
-  pageSize: number
-  address: string
-}) => {
-  const {
-    addressState: { transactionsStatus },
-  } = useAppState()
-  const loading = useDelayLoading(
-    LOADING_WAITING_TIME,
-    transactionsStatus === 'None' || transactionsStatus === 'InProgress',
-  )
-
-  switch (transactionsStatus) {
-    case 'Error':
-      return <Error />
-    case 'OK':
-      return <AddressTransactions currentPage={currentPage} pageSize={pageSize} address={address} />
-    case 'InProgress':
-    case 'None':
-    default:
-      return <Loading show={loading} />
-  }
-}
-
 export const Address = () => {
-  const dispatch = useDispatch()
   const { address } = useParams<{ address: string }>()
-  const { addressState } = useAppState()
-
   const { currentPage, pageSize } = usePaginationParamsInPage()
 
-  useEffect(() => {
-    getAddressInformation(address, dispatch)
-  }, [address, dispatch])
-
-  useEffect(() => {
-    getTransactionsByAddress(address, currentPage, pageSize, dispatch)
-  }, [address, currentPage, pageSize, dispatch])
-
-  useEffect(() => {
-    return () => {
-      // cleanup side effects of getAddressInformation and getTransactionsByAddress
-      handleAddressStatus(dispatch, 'None')
-      handleTransactionStatus(dispatch, 'None')
+  const addressInfoQuery = useQuery(['address_info', address], async () => {
+    const wrapper = await fetchAddressInfo(address)
+    const result: State.Address = {
+      ...wrapper.attributes,
+      type: wrapper.type === 'lock_hash' ? 'LockHash' : 'Address',
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    return result
+  })
+
+  const addressTransactionsQuery = useQuery(['address_transactions', address, currentPage, pageSize], async () => {
+    try {
+      const { data, meta } = await fetchTransactionsByAddress(address, currentPage, pageSize)
+      return {
+        transactions: data.map(wrapper => wrapper.attributes),
+        total: meta ? meta.total : 0,
+      }
+    } catch (err) {
+      const isEmptyAddress = isAxiosError(err) && err.response?.status === 404
+      if (isEmptyAddress) {
+        return {
+          transactions: [],
+          total: 0,
+        }
+      }
+      throw err
+    }
+  })
 
   return (
     <Content>
       <AddressContentPanel className="container">
         <AddressHashCard
-          title={addressState.address.type === 'LockHash' ? i18n.t('address.lock_hash') : i18n.t('address.address')}
+          title={
+            (addressInfoQuery.data?.type ?? '') === 'LockHash' ? i18n.t('address.lock_hash') : i18n.t('address.address')
+          }
           hash={address}
-          specialAddress={addressState.address.isSpecial ? addressState.address.specialAddress : ''}
+          specialAddress={addressInfoQuery.data?.isSpecial ? addressInfoQuery.data.specialAddress : ''}
           showDASInfoOnHeader
         >
-          <AddressTitleOverview />
+          <AddressTitleOverview address={addressInfoQuery.data ?? defaultAddressInfo} />
         </AddressHashCard>
-        <AddressAssetCompState />
-        <AddressStateTransactions currentPage={currentPage} pageSize={pageSize} address={address} />
+
+        <QueryResult query={addressInfoQuery} delayLoading>
+          {data => <AddressAssetComp address={data} />}
+        </QueryResult>
+
+        <QueryResult query={addressTransactionsQuery} delayLoading>
+          {data => (
+            <AddressTransactions
+              currentPage={currentPage}
+              pageSize={pageSize}
+              address={address}
+              transactions={data.transactions}
+              transactionsTotal={data.total}
+              addressInfo={addressInfoQuery.data ?? defaultAddressInfo}
+            />
+          )}
+        </QueryResult>
       </AddressContentPanel>
     </Content>
   )

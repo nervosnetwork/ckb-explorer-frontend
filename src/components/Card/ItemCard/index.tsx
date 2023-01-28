@@ -10,13 +10,15 @@ export function ItemCard<T>({
   items,
   data,
   children,
+  className,
 }: {
   items: ItemCardData<T>[]
   data: T
   children?: ReactNode
+  className?: string
 }): ReactElement {
   return (
-    <ItemCardPanel>
+    <ItemCardPanel className={className}>
       <ItemContentPanel>
         {items.map((item, index) => (
           <ItemDetailPanel key={item.title} hideLine={index === items.length - 1}>
@@ -35,16 +37,18 @@ export function ItemCardGroup<T>({
   dataSource,
   getDataKey,
   className,
+  cardClassName,
 }: {
   items: ItemCardData<T>[]
   dataSource: T[]
   getDataKey: (data: T, index: number) => string | number
   className?: string
+  cardClassName?: string
 }): ReactElement {
   return (
     <div className={className}>
       {dataSource.map((data, index) => (
-        <ItemCard key={getDataKey(data, index)} items={items} data={data} />
+        <ItemCard key={getDataKey(data, index)} className={cardClassName} items={items} data={data} />
       ))}
     </div>
   )

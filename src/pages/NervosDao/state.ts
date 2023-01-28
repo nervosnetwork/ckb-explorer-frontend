@@ -1,0 +1,15 @@
+export const defaultNervosDaoInfo: State.NervosDao = {
+  totalDeposit: '',
+  depositorsCount: '',
+  depositChanges: '',
+  unclaimedCompensationChanges: '',
+  claimedCompensationChanges: '',
+  depositorChanges: '',
+  unclaimedCompensation: '',
+  claimedCompensation: '',
+  averageDepositTime: '',
+  miningReward: '',
+  depositCompensation: '',
+  treasuryAmount: '',
+  estimatedApc: '',
+}

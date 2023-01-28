@@ -1,39 +1,26 @@
-import { useEffect } from 'react'
-import { useHistory } from 'react-router'
-import { useAppState, useDispatch } from '../../../contexts/providers'
 import TransactionItem from '../../../components/TransactionItem'
 import { TransactionsPagination, DAONoResultPanel } from './styled'
 import Pagination from '../../../components/Pagination'
 import { PageParams } from '../../../constants/common'
 import i18n from '../../../utils/i18n'
-import { ComponentActions } from '../../../contexts/actions'
 import { deprecatedAddrToNewAddr } from '../../../utils/util'
 
-export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPage: number; pageSize: number }) => {
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const {
-    nervosDaoState: { transactions = [], total },
-    components: { filterNoResult },
-  } = useAppState()
-
+export default ({
+  currentPage = 1,
+  pageSize = PageParams.PageSize,
+  transactions,
+  total,
+  onPageChange,
+  filterNoResult,
+}: {
+  currentPage: number
+  pageSize: number
+  transactions: State.Transaction[]
+  total: number
+  onPageChange: (page: number) => void
+  filterNoResult?: boolean
+}) => {
   const totalPages = Math.ceil(total / pageSize)
-
-  const onChange = (page: number) => {
-    history.push(`/nervosdao?page=${page}&size=${pageSize}`)
-  }
-
-  useEffect(
-    () => () => {
-      dispatch({
-        type: ComponentActions.UpdateFilterNoResult,
-        payload: {
-          filterNoResult: false,
-        },
-      })
-    },
-    [dispatch],
-  )
 
   if (filterNoResult) {
     return (
@@ -70,7 +57,7 @@ export default ({ currentPage = 1, pageSize = PageParams.PageSize }: { currentPa
       )}
       {totalPages > 1 && (
         <TransactionsPagination>
-          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onPageChange} />
         </TransactionsPagination>
       )}
     </>

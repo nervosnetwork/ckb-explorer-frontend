@@ -70,6 +70,18 @@ export const fetchTransactions = (page: number, size: number) =>
     })
     .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 
+export const fetchPendingTransactions = (page: number, size: number) =>
+  v2AxiosIns
+    .get('pending_transactions', {
+      params: {
+        page,
+        page_size: size,
+      },
+    })
+    .then(res => toCamelcase<Response.Response<State.Transaction[]>>(res.data))
+
+export const fetchPendingTransactionsCount = () => fetchPendingTransactions(1, 1).then(resp => resp.meta?.total)
+
 export const fetchTransactionsByBlockHash = (blockHash: string, page: number, size: number) =>
   axiosIns
     .get(`/block_transactions/${blockHash}`, {
@@ -80,10 +92,9 @@ export const fetchTransactionsByBlockHash = (blockHash: string, page: number, si
     })
     .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 
-// blockParam: block hash or block number
-export const fetchBlock = (blockParam: string) =>
+export const fetchBlock = (blockHeightOrHash: string) =>
   axiosIns
-    .get(`blocks/${blockParam}`)
+    .get(`blocks/${blockHeightOrHash}`)
     .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Block>>(res.data.data))
 
 export const fetchScript = (scriptType: 'lock_scripts' | 'type_scripts', id: string) =>
@@ -144,10 +155,13 @@ export const fetchNervosDaoTransactionsByHash = (hash: string) =>
     toCamelcase<Response.Wrapper<State.Transaction>>(res.data.data),
   )
 
-export const fetchNervosDaoTransactionsByAddress = (address: string) =>
-  axiosIns(`/address_dao_transactions/${address}`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data),
-  )
+export const fetchNervosDaoTransactionsByAddress = (address: string, page: number, size: number) =>
+  axiosIns(`/address_dao_transactions/${address}`, {
+    params: {
+      page,
+      page_size: size,
+    },
+  }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 
 export const fetchNervosDaoDepositors = () =>
   axiosIns(`/dao_depositors`).then((res: AxiosResponse) =>

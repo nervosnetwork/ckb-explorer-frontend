@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
 import {
   HomeHeaderItemPanel,
   BlockPanel,
@@ -17,12 +18,10 @@ import { localeNumberString, handleHashRate, handleDifficulty } from '../../util
 import { handleBigNumber } from '../../utils/string'
 import { isScreenSmallerThan1200 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
-import { getLatestBlocks } from '../../service/app/block'
 import i18n from '../../utils/i18n'
 import LatestBlocksIcon from '../../assets/latest_blocks.png'
 import LatestTransactionsIcon from '../../assets/latest_transactions.png'
 import { BlockCardItem, TransactionCardItem } from './TableCard'
-import { getLatestTransactions } from '../../service/app/transaction'
 import { getTipBlockNumber } from '../../service/app/address'
 import Loading from '../../components/Loading/SmallLoading'
 import Banner from '../../components/Banner'
@@ -34,6 +33,8 @@ import HashRateChart from './HashRateChart'
 import { ComponentActions } from '../../contexts/actions'
 import { AppDispatch } from '../../contexts/reducer'
 import styles from './index.module.scss'
+import { fetchBlocks, fetchLatestTransactions } from '../../service/http/fetcher'
+import { RouteState } from '../../routes/state'
 
 interface BlockchainData {
   name: string
@@ -137,31 +138,45 @@ const useHomeSearchBarStatus = (dispatch: AppDispatch) => {
 export default () => {
   const isMobile = useIsMobile()
   const dispatch = useDispatch()
-  const history = useHistory()
+  const history = useHistory<RouteState>()
   const {
-    homeBlocks = [],
-    transactionsState: { transactions = [] },
     statistics,
     app: { tipBlockNumber },
     components: { headerSearchBarVisible },
   } = useAppState()
   const [t] = useTranslation()
 
-  useEffect(() => {
-    getLatestBlocks(dispatch)
-    getLatestTransactions(dispatch)
-    getTipBlockNumber(dispatch)
-    const listener = setInterval(() => {
-      getTipBlockNumber(dispatch)
-      getLatestBlocks(dispatch)
-      getLatestTransactions(dispatch)
-    }, BLOCK_POLLING_TIME)
-    return () => {
-      if (listener) {
-        clearInterval(listener)
+  const blocksQuery = useQuery(
+    'latest_blocks',
+    async () => {
+      const wrappers = await fetchBlocks()
+      const blocks = wrappers.map(wrapper => wrapper.attributes)
+      return blocks
+    },
+    {
+      refetchInterval: BLOCK_POLLING_TIME,
+    },
+  )
+  const homeBlocks = blocksQuery.data ?? []
+
+  const transactionsQuery = useQuery(
+    ['latest_transactions'],
+    async () => {
+      const { data, meta } = await fetchLatestTransactions()
+      return {
+        transactions: data.map(wrapper => wrapper.attributes) ?? [],
+        total: meta?.total ?? 0,
       }
-    }
-  }, [dispatch])
+    },
+    {
+      refetchInterval: BLOCK_POLLING_TIME,
+    },
+  )
+  const transactions = transactionsQuery.data?.transactions ?? []
+
+  useInterval(() => {
+    getTipBlockNumber(dispatch)
+  }, BLOCK_POLLING_TIME)
 
   useInterval(() => {
     handleBlockchainAlert(dispatch)
@@ -269,7 +284,18 @@ export default () => {
 
           <TableMorePanel
             onClick={() => {
-              history.push(`/transaction/list`)
+              history.push(
+                `/transaction/list`,
+                transactionsQuery.data
+                  ? {
+                      type: 'TransactionListPage',
+                      createTime: Date.now(),
+                      transactionsDataWithFirstPage: {
+                        ...transactionsQuery.data,
+                      },
+                    }
+                  : undefined,
+              )
             }}
           >
             <span>{t('home.more')}</span>

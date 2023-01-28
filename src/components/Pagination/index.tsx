@@ -13,11 +13,13 @@ const Pagination = ({
   totalPages,
   gotoPage = currentPage === totalPages ? totalPages : currentPage + 1,
   onChange,
+  className,
 }: {
   currentPage: number
   totalPages: number
   gotoPage?: number
   onChange: (page: number) => void
+  className?: string
 }) => {
   const isMobile = useIsMobile()
   const [inputPage, setInputPage] = useState(gotoPage)
@@ -38,7 +40,7 @@ const Pagination = ({
   }
 
   return (
-    <PaginationPanel>
+    <PaginationPanel className={className}>
       <PaginationLeftItem isFirstPage={current === 1} isLastPage={current === total}>
         <SimpleButton className="pagination__first__button" onClick={() => changePage(1)}>
           {i18n.t('pagination.first')}

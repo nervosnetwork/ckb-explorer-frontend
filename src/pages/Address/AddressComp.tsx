@@ -1,11 +1,10 @@
 import axios, { AxiosResponse } from 'axios'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, FC } from 'react'
 import { useHistory } from 'react-router'
 import { useQuery } from 'react-query'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
-import { useAppState } from '../../contexts/providers/index'
 import { v2AxiosIns } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
@@ -165,13 +164,8 @@ interface CoTAList {
   }
 }
 
-export const AddressAssetComp = () => {
-  const {
-    addressState: {
-      address,
-      address: { udtAccounts = [] },
-    },
-  } = useAppState()
+export const AddressAssetComp: FC<{ address: State.Address }> = ({ address }) => {
+  const { udtAccounts } = address
 
   const { data: initList } = useQuery<AxiosResponse<CoTAList>>(
     ['cota-list', address.addressHash],
@@ -229,19 +223,18 @@ export const AddressTransactions = ({
   currentPage,
   pageSize,
   address,
+  transactions,
+  transactionsTotal: total,
+  addressInfo: { addressHash },
 }: {
   currentPage: number
   pageSize: number
   address: string
+  transactions: State.Transaction[]
+  transactionsTotal: number
+  addressInfo: State.Address
 }) => {
   const history = useHistory()
-  const {
-    addressState: {
-      transactions = [],
-      total,
-      address: { addressHash },
-    },
-  } = useAppState()
 
   const totalPages = Math.ceil(total / pageSize)
 

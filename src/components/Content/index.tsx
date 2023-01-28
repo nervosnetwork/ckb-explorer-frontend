@@ -7,7 +7,7 @@ const ContentPanel = styled.div`
   width: 100%;
   overflow-x: hidden;
   flex: 1;
-  margin-top: 64px;
+  margin-top: var(--navbar-height);
   background: #ededed;
 `
 export default ({ children, style }: { children: ReactNode; style?: any }) => {
