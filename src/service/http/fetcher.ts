@@ -358,9 +358,21 @@ export const fetchStatisticInflationRate = () =>
   )
 
 export const fetchStatisticLiquidity = () =>
-  axiosIns(`/daily_statistics/circulating_supply-liquidity`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Wrapper<State.StatisticLiquidity>[]>(res.data.data),
-  )
+  axiosIns(`/daily_statistics/circulating_supply-liquidity`).then((res: AxiosResponse) => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticLiquidity>[]>>(res.data)
+    return {
+      ...resp,
+      data: resp.data.map(wrapper => ({
+        ...wrapper,
+        attributes: {
+          ...wrapper.attributes,
+          daoDeposit: new BigNumber(wrapper.attributes.circulatingSupply)
+            .minus(new BigNumber(wrapper.attributes.liquidity))
+            .toFixed(2),
+        },
+      })),
+    }
+  })
 
 export const fetchFlushChartCache = () =>
   axiosIns(`statistics/flush_cache_info`).then((res: AxiosResponse) =>

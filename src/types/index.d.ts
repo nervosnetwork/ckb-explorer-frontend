@@ -552,8 +552,6 @@ declare namespace State {
     statisticTotalSuppliesFetchEnd: boolean
     statisticSecondaryIssuance: StatisticSecondaryIssuance[]
     statisticSecondaryIssuanceFetchEnd: boolean
-    statisticLiquidity: StatisticLiquidity[]
-    statisticLiquidityFetchEnd: boolean
   }
 
   export interface PageState extends StatisticChartsState {

@@ -91,16 +91,6 @@ export const pageReducer = (
         ...state,
         statisticSecondaryIssuanceFetchEnd: payload.statisticSecondaryIssuanceFetchEnd,
       }
-    case PageActions.UpdateStatisticLiquidity:
-      return {
-        ...state,
-        statisticLiquidity: payload.statisticLiquidity,
-      }
-    case PageActions.UpdateStatisticLiquidityFetchEnd:
-      return {
-        ...state,
-        statisticLiquidityFetchEnd: payload.statisticLiquidityFetchEnd,
-      }
 
     default:
       return state

@@ -1,10 +1,9 @@
-import BigNumber from 'bignumber.js'
 import { AppDispatch } from '../../../contexts/reducer'
-import { fetchStatisticTotalSupply, fetchStatisticSecondaryIssuance, fetchStatisticLiquidity } from '../../http/fetcher'
+import { fetchStatisticTotalSupply, fetchStatisticSecondaryIssuance } from '../../http/fetcher'
 import { PageActions } from '../../../contexts/actions'
 import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { dispatchTotalSupply, dispatchSecondaryIssuance, dispatchLiquidity } from './action'
+import { dispatchTotalSupply, dispatchSecondaryIssuance } from './action'
 
 export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(ChartCachedKeys.TotalSupply)
@@ -68,38 +67,6 @@ export const getStatisticSecondaryIssuance = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticSecondaryIssuanceFetchEnd,
         payload: {
           statisticSecondaryIssuanceFetchEnd: true,
-        },
-      })
-    })
-}
-
-export const getStatisticLiquidity = (dispatch: AppDispatch) => {
-  const data = fetchDateChartCache(ChartCachedKeys.Liquidity)
-  if (data) {
-    dispatchLiquidity(dispatch, data)
-    return
-  }
-  fetchStatisticLiquidity()
-    .then((wrapper: Response.Wrapper<State.StatisticLiquidity>[] | null) => {
-      if (!wrapper) return
-      const statisticLiquidity: State.StatisticLiquidity[] = wrapper.map(data => ({
-        createdAtUnixtimestamp: data.attributes.createdAtUnixtimestamp,
-        circulatingSupply: data.attributes.circulatingSupply,
-        liquidity: data.attributes.liquidity,
-        daoDeposit: new BigNumber(data.attributes.circulatingSupply)
-          .minus(new BigNumber(data.attributes.liquidity))
-          .toFixed(2),
-      }))
-      dispatchLiquidity(dispatch, statisticLiquidity)
-      if (statisticLiquidity && statisticLiquidity.length > 0) {
-        storeDateChartCache(ChartCachedKeys.Liquidity, statisticLiquidity)
-      }
-    })
-    .catch(() => {
-      dispatch({
-        type: PageActions.UpdateStatisticLiquidityFetchEnd,
-        payload: {
-          statisticLiquidityFetchEnd: true,
         },
       })
     })

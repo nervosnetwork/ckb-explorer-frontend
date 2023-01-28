@@ -30,11 +30,7 @@ import { NewDaoDepositChart } from './nervosDao/NewDaoDeposit'
 import { CirculationRatioChart } from './nervosDao/CirculationRatio'
 import { AverageBlockTimeChart } from './block/AverageBlockTime'
 import { TotalSupplyChart } from './monetary/TotalSupply'
-import {
-  getStatisticTotalSupply,
-  getStatisticSecondaryIssuance,
-  getStatisticLiquidity,
-} from '../../service/app/charts/monetary'
+import { getStatisticTotalSupply, getStatisticSecondaryIssuance } from '../../service/app/charts/monetary'
 import { AnnualPercentageCompensationChart } from './monetary/AnnualPercentageCompensation'
 import { SecondaryIssuanceChart } from './monetary/SecondaryIssuance'
 import { InflationRateChart } from './monetary/InflationRate'
@@ -244,7 +240,6 @@ export default () => {
     getStatisticCirculationRatio(dispatch)
     getStatisticTotalSupply(dispatch)
     getStatisticSecondaryIssuance(dispatch)
-    getStatisticLiquidity(dispatch)
   }, [dispatch])
 
   return (
