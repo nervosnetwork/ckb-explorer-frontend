@@ -535,16 +535,7 @@ declare namespace State {
     transactionsStatus: FetchStatus
   }
 
-  export interface StatisticChartsState {
-    statisticNewDaoWithdraw: StatisticNewDaoWithdraw[]
-    statisticNewDaoWithdrawFetchEnd: boolean
-    statisticNewNodeCounts: StatisticNewNodeCount[]
-    statisticNewNodeCountsFetchEnd: boolean
-    statisticNodeDistributions: StatisticNodeDistribution[]
-    statisticNodeDistributionsFetchEnd: boolean
-  }
-
-  export interface PageState extends StatisticChartsState {
+  export interface PageState {
     statistics: Statistics
   }
 

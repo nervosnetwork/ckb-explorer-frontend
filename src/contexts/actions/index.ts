@@ -10,15 +10,6 @@ export enum AppActions {
 
 export enum PageActions {
   UpdateStatistics = 'updateStatistics',
-
-  UpdateStatisticNewDaoWithdraw = 'updateStatisticNewDaoWithdraw',
-  UpdateStatisticNewDaoWithdrawFetchEnd = 'updateStatisticNewDaoWithdrawFetchEnd',
-  UpdateStatisticEpochLengthDistribution = 'updateStatisticEpochLengthDistribution',
-  UpdateStatisticEpochLengthDistributionFetchEnd = 'updateStatisticEpochLengthDistributionFetchEnd',
-  UpdateStatisticNewNodeCount = 'updateStatisticNewNodeCount',
-  UpdateStatisticNewNodeCountFetchEnd = 'updateStatisticNewNodeCountFetchEnd',
-  UpdateStatisticNodeDistribution = 'updateStatisticNodeDistribution',
-  UpdateStatisticNodeDistributionFetchEnd = 'updateStatisticNodeDistributionFetchEnd',
 }
 
 export enum ComponentActions {

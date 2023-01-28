@@ -11,36 +11,6 @@ export const pageReducer = (
         ...state,
         statistics: payload.statistics,
       }
-    case PageActions.UpdateStatisticNewDaoWithdraw:
-      return {
-        ...state,
-        statisticNewDaoWithdraw: payload.statisticNewDaoWithdraw,
-      }
-    case PageActions.UpdateStatisticNewDaoWithdrawFetchEnd:
-      return {
-        ...state,
-        statisticNewDaoWithdrawFetchEnd: payload.statisticNewDaoWithdrawFetchEnd,
-      }
-    case PageActions.UpdateStatisticNewNodeCount:
-      return {
-        ...state,
-        statisticNewNodeCounts: payload.statisticNewNodeCounts,
-      }
-    case PageActions.UpdateStatisticNewNodeCountFetchEnd:
-      return {
-        ...state,
-        statisticNewNodeCountsFetchEnd: payload.statisticNewNodeCountsFetchEnd,
-      }
-    case PageActions.UpdateStatisticNodeDistribution:
-      return {
-        ...state,
-        statisticNodeDistributions: payload.statisticNodeDistributions,
-      }
-    case PageActions.UpdateStatisticNodeDistributionFetchEnd:
-      return {
-        ...state,
-        statisticNodeDistributionsFetchEnd: payload.statisticNodeDistributionsFetchEnd,
-      }
 
     default:
       return state
