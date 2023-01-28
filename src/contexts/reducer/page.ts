@@ -71,16 +71,6 @@ export const pageReducer = (
         ...state,
         statisticNodeDistributionsFetchEnd: payload.statisticNodeDistributionsFetchEnd,
       }
-    case PageActions.UpdateStatisticTotalSupply:
-      return {
-        ...state,
-        statisticTotalSupplies: payload.statisticTotalSupplies,
-      }
-    case PageActions.UpdateStatisticTotalSupplyFetchEnd:
-      return {
-        ...state,
-        statisticTotalSuppliesFetchEnd: payload.statisticTotalSuppliesFetchEnd,
-      }
 
     default:
       return state

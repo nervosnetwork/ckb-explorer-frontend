@@ -11,8 +11,6 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticNewNodeCountsFetchEnd: false,
   statisticNodeDistributions: [],
   statisticNodeDistributionsFetchEnd: false,
-  statisticTotalSupplies: [],
-  statisticTotalSuppliesFetchEnd: false,
 }
 
 export default initStatisticChartsState

@@ -339,7 +339,7 @@ export const fetchStatisticNodeDistribution = () =>
 
 export const fetchStatisticTotalSupply = () =>
   axiosIns(`/daily_statistics/circulating_supply-burnt-locked_capacity`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Wrapper<State.StatisticTotalSupply>[]>(res.data.data),
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticTotalSupply>[]>>(res.data),
   )
 
 export const fetchStatisticAnnualPercentageCompensation = () =>

@@ -1,21 +1,6 @@
 import { AppDispatch } from '../../../contexts/reducer'
 import { PageActions } from '../../../contexts/actions'
 
-export const dispatchTotalSupply = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticTotalSupply,
-    payload: {
-      statisticTotalSupplies: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticTotalSupplyFetchEnd,
-    payload: {
-      statisticTotalSuppliesFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchTotalDeposit = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticTotalDaoDeposit,

@@ -548,8 +548,6 @@ declare namespace State {
     statisticNewNodeCountsFetchEnd: boolean
     statisticNodeDistributions: StatisticNodeDistribution[]
     statisticNodeDistributionsFetchEnd: boolean
-    statisticTotalSupplies: StatisticTotalSupply[]
-    statisticTotalSuppliesFetchEnd: boolean
   }
 
   export interface PageState extends StatisticChartsState {

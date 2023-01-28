@@ -30,7 +30,6 @@ import { NewDaoDepositChart } from './nervosDao/NewDaoDeposit'
 import { CirculationRatioChart } from './nervosDao/CirculationRatio'
 import { AverageBlockTimeChart } from './block/AverageBlockTime'
 import { TotalSupplyChart } from './monetary/TotalSupply'
-import { getStatisticTotalSupply } from '../../service/app/charts/monetary'
 import { AnnualPercentageCompensationChart } from './monetary/AnnualPercentageCompensation'
 import { SecondaryIssuanceChart } from './monetary/SecondaryIssuance'
 import { InflationRateChart } from './monetary/InflationRate'
@@ -238,7 +237,6 @@ export default () => {
     getStatisticTotalDaoDeposit(dispatch)
     getStatisticNewDaoDeposit(dispatch)
     getStatisticCirculationRatio(dispatch)
-    getStatisticTotalSupply(dispatch)
   }, [dispatch])
 
   return (
