@@ -1,10 +1,8 @@
-import { useEffect, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import 'default-passive-events'
 import { Tooltip } from 'antd'
 import Content from '../../components/Content'
-import { getStatisticTotalDaoDeposit } from '../../service/app/charts/nervosDao'
-import { useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import HelpIcon from '../../assets/qa_help.png'
 import { DifficultyHashRateChart } from './mining/DifficultyHashRate'
@@ -227,12 +225,6 @@ const chartsData = (): ChartCategory[] => [
 ]
 
 export default () => {
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    getStatisticTotalDaoDeposit(dispatch)
-  }, [dispatch])
-
   return (
     <Content>
       <ChartsContent className="container">
