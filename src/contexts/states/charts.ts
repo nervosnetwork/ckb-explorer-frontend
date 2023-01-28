@@ -15,8 +15,6 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticTotalSuppliesFetchEnd: false,
   statisticSecondaryIssuance: [],
   statisticSecondaryIssuanceFetchEnd: false,
-  statisticInflationRates: [],
-  statisticInflationRatesFetchEnd: false,
   statisticLiquidity: [],
   statisticLiquidityFetchEnd: false,
 }

@@ -31,21 +31,6 @@ export const dispatchSecondaryIssuance = (dispatch: AppDispatch, data: any) => {
   })
 }
 
-export const dispatchInflationRate = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticInflationRate,
-    payload: {
-      statisticInflationRates: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticInflationRateFetchEnd,
-    payload: {
-      statisticInflationRatesFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchLiquidity = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticLiquidity,

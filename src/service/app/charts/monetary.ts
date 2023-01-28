@@ -1,15 +1,10 @@
 import BigNumber from 'bignumber.js'
 import { AppDispatch } from '../../../contexts/reducer'
-import {
-  fetchStatisticTotalSupply,
-  fetchStatisticSecondaryIssuance,
-  fetchStatisticInflationRate,
-  fetchStatisticLiquidity,
-} from '../../http/fetcher'
+import { fetchStatisticTotalSupply, fetchStatisticSecondaryIssuance, fetchStatisticLiquidity } from '../../http/fetcher'
 import { PageActions } from '../../../contexts/actions'
-import { fetchCachedData, storeCachedData, fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
+import { fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { dispatchTotalSupply, dispatchSecondaryIssuance, dispatchInflationRate, dispatchLiquidity } from './action'
+import { dispatchTotalSupply, dispatchSecondaryIssuance, dispatchLiquidity } from './action'
 
 export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(ChartCachedKeys.TotalSupply)
@@ -73,42 +68,6 @@ export const getStatisticSecondaryIssuance = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticSecondaryIssuanceFetchEnd,
         payload: {
           statisticSecondaryIssuanceFetchEnd: true,
-        },
-      })
-    })
-}
-
-export const getStatisticInflationRate = (dispatch: AppDispatch) => {
-  const data = fetchCachedData(ChartCachedKeys.InflationRate)
-  if (data) {
-    dispatchInflationRate(dispatch, data)
-    return
-  }
-  fetchStatisticInflationRate()
-    .then((wrapper: Response.Wrapper<State.StatisticInflationRates> | null) => {
-      if (!wrapper) return
-      const { nominalApc, nominalInflationRate, realInflationRate } = wrapper.attributes
-      const statisticInflationRates = []
-      for (let i = 0; i < nominalApc.length; i++) {
-        if (i % 6 === 0 || i === nominalApc.length - 1) {
-          statisticInflationRates.push({
-            year: i % 6 === 0 ? Math.floor(i / 6) * 0.5 : 50,
-            nominalApc: nominalApc[i],
-            nominalInflationRate: nominalInflationRate[i],
-            realInflationRate: realInflationRate[i],
-          })
-        }
-      }
-      dispatchInflationRate(dispatch, statisticInflationRates)
-      if (statisticInflationRates && statisticInflationRates.length > 0) {
-        storeCachedData(ChartCachedKeys.InflationRate, statisticInflationRates)
-      }
-    })
-    .catch(() => {
-      dispatch({
-        type: PageActions.UpdateStatisticInflationRateFetchEnd,
-        payload: {
-          statisticInflationRatesFetchEnd: true,
         },
       })
     })

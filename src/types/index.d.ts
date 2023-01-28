@@ -552,8 +552,6 @@ declare namespace State {
     statisticTotalSuppliesFetchEnd: boolean
     statisticSecondaryIssuance: StatisticSecondaryIssuance[]
     statisticSecondaryIssuanceFetchEnd: boolean
-    statisticInflationRates: StatisticInflationRate[]
-    statisticInflationRatesFetchEnd: boolean
     statisticLiquidity: StatisticLiquidity[]
     statisticLiquidityFetchEnd: boolean
   }

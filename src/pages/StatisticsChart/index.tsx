@@ -33,7 +33,6 @@ import { TotalSupplyChart } from './monetary/TotalSupply'
 import {
   getStatisticTotalSupply,
   getStatisticSecondaryIssuance,
-  getStatisticInflationRate,
   getStatisticLiquidity,
 } from '../../service/app/charts/monetary'
 import { AnnualPercentageCompensationChart } from './monetary/AnnualPercentageCompensation'
@@ -245,7 +244,6 @@ export default () => {
     getStatisticCirculationRatio(dispatch)
     getStatisticTotalSupply(dispatch)
     getStatisticSecondaryIssuance(dispatch)
-    getStatisticInflationRate(dispatch)
     getStatisticLiquidity(dispatch)
   }, [dispatch])
 

@@ -29,8 +29,6 @@ export enum PageActions {
   UpdateStatisticTotalSupplyFetchEnd = 'updateStatisticTotalSupplyFetchEnd',
   UpdateStatisticSecondaryIssuance = 'updateStatisticSecondaryIssuance',
   UpdateStatisticSecondaryIssuanceFetchEnd = 'updateStatisticSecondaryIssuanceFetchEnd',
-  UpdateStatisticInflationRate = 'updateStatisticInflationRate',
-  UpdateStatisticInflationRateFetchEnd = 'updateStatisticInflationRateFetchEnd',
   UpdateStatisticLiquidity = 'updateStatisticLiquidity',
   UpdateStatisticLiquidityFetchEnd = 'updateStatisticLiquidityFetchEnd',
 }
