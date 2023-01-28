@@ -550,8 +550,6 @@ declare namespace State {
     statisticNodeDistributionsFetchEnd: boolean
     statisticTotalSupplies: StatisticTotalSupply[]
     statisticTotalSuppliesFetchEnd: boolean
-    statisticAnnualPercentageCompensations: StatisticAnnualPercentageCompensation[]
-    statisticAnnualPercentageCompensationsFetchEnd: boolean
     statisticSecondaryIssuance: StatisticSecondaryIssuance[]
     statisticSecondaryIssuanceFetchEnd: boolean
     statisticInflationRates: StatisticInflationRate[]

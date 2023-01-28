@@ -16,21 +16,6 @@ export const dispatchTotalSupply = (dispatch: AppDispatch, data: any) => {
   })
 }
 
-export const dispatchAPC = (dispatch: AppDispatch, data: any) => {
-  dispatch({
-    type: PageActions.UpdateStatisticAnnualPercentageCompensation,
-    payload: {
-      statisticAnnualPercentageCompensations: data,
-    },
-  })
-  dispatch({
-    type: PageActions.UpdateStatisticAnnualPercentageCompensationFetchEnd,
-    payload: {
-      statisticAnnualPercentageCompensationsFetchEnd: true,
-    },
-  })
-}
-
 export const dispatchSecondaryIssuance = (dispatch: AppDispatch, data: any) => {
   dispatch({
     type: PageActions.UpdateStatisticSecondaryIssuance,

@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import { AppDispatch } from '../../../contexts/reducer'
 import {
   fetchStatisticTotalSupply,
-  fetchStatisticAnnualPercentageCompensation,
   fetchStatisticSecondaryIssuance,
   fetchStatisticInflationRate,
   fetchStatisticLiquidity,
@@ -10,13 +9,7 @@ import {
 import { PageActions } from '../../../contexts/actions'
 import { fetchCachedData, storeCachedData, fetchDateChartCache, storeDateChartCache } from '../../../utils/cache'
 import { ChartCachedKeys } from '../../../constants/cache'
-import {
-  dispatchAPC,
-  dispatchTotalSupply,
-  dispatchSecondaryIssuance,
-  dispatchInflationRate,
-  dispatchLiquidity,
-} from './action'
+import { dispatchTotalSupply, dispatchSecondaryIssuance, dispatchInflationRate, dispatchLiquidity } from './action'
 
 export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
   const data = fetchDateChartCache(ChartCachedKeys.TotalSupply)
@@ -43,36 +36,6 @@ export const getStatisticTotalSupply = (dispatch: AppDispatch) => {
         type: PageActions.UpdateStatisticTotalSupplyFetchEnd,
         payload: {
           statisticTotalSuppliesFetchEnd: true,
-        },
-      })
-    })
-}
-
-export const getStatisticAnnualPercentageCompensation = (dispatch: AppDispatch) => {
-  const data = fetchCachedData(ChartCachedKeys.APC)
-  if (data) {
-    dispatchAPC(dispatch, data)
-    return
-  }
-  fetchStatisticAnnualPercentageCompensation()
-    .then((wrapper: Response.Wrapper<State.StatisticAnnualPercentageCompensations> | null) => {
-      if (!wrapper) return
-      const statisticAnnualPercentageCompensations = wrapper.attributes.nominalApc
-        .filter((_apc, index) => index % 3 === 0 || index === wrapper.attributes.nominalApc.length - 1)
-        .map((apc, index) => ({
-          year: 0.25 * index,
-          apc,
-        }))
-      dispatchAPC(dispatch, statisticAnnualPercentageCompensations)
-      if (statisticAnnualPercentageCompensations && statisticAnnualPercentageCompensations.length > 0) {
-        storeCachedData(ChartCachedKeys.APC, statisticAnnualPercentageCompensations)
-      }
-    })
-    .catch(() => {
-      dispatch({
-        type: PageActions.UpdateStatisticAnnualPercentageCompensationFetchEnd,
-        payload: {
-          statisticAnnualPercentageCompensationsFetchEnd: true,
         },
       })
     })

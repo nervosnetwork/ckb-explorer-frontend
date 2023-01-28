@@ -81,16 +81,6 @@ export const pageReducer = (
         ...state,
         statisticTotalSuppliesFetchEnd: payload.statisticTotalSuppliesFetchEnd,
       }
-    case PageActions.UpdateStatisticAnnualPercentageCompensation:
-      return {
-        ...state,
-        statisticAnnualPercentageCompensations: payload.statisticAnnualPercentageCompensations,
-      }
-    case PageActions.UpdateStatisticAnnualPercentageCompensationFetchEnd:
-      return {
-        ...state,
-        statisticAnnualPercentageCompensationsFetchEnd: payload.statisticAnnualPercentageCompensationsFetchEnd,
-      }
     case PageActions.UpdateStatisticSecondaryIssuance:
       return {
         ...state,

@@ -32,7 +32,6 @@ import { AverageBlockTimeChart } from './block/AverageBlockTime'
 import { TotalSupplyChart } from './monetary/TotalSupply'
 import {
   getStatisticTotalSupply,
-  getStatisticAnnualPercentageCompensation,
   getStatisticSecondaryIssuance,
   getStatisticInflationRate,
   getStatisticLiquidity,
@@ -245,7 +244,6 @@ export default () => {
     getStatisticNewDaoDeposit(dispatch)
     getStatisticCirculationRatio(dispatch)
     getStatisticTotalSupply(dispatch)
-    getStatisticAnnualPercentageCompensation(dispatch)
     getStatisticSecondaryIssuance(dispatch)
     getStatisticInflationRate(dispatch)
     getStatisticLiquidity(dispatch)

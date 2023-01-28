@@ -1,10 +1,9 @@
-import { useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { useIsMobile } from '../../../utils/hook'
-import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
-import { getStatisticAnnualPercentageCompensation } from '../../../service/app/charts/monetary'
+import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticAnnualPercentageCompensation } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticAnnualPercentageCompensations: State.StatisticAnnualPercentageCompensation[],
@@ -91,17 +90,17 @@ const getOption = (
   }
 }
 
-export const AnnualPercentageCompensationChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticAnnualPercentageCompensations, statisticAnnualPercentageCompensationsFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticAnnualPercentageCompensations, app.chartColor, isMobile, isThumbnail),
-    [statisticAnnualPercentageCompensations, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticAnnualPercentageCompensationsFetchEnd || statisticAnnualPercentageCompensations.length === 0) {
-    return <ChartLoading show={!statisticAnnualPercentageCompensationsFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
+const fetchStatisticAnnualPercentageCompensations = async () => {
+  const {
+    attributes: { nominalApc },
+  } = await fetchStatisticAnnualPercentageCompensation()
+  const statisticAnnualPercentageCompensations = nominalApc
+    .filter((_apc, index) => index % 3 === 0 || index === nominalApc.length - 1)
+    .map((apc, index) => ({
+      year: 0.25 * index,
+      apc,
+    }))
+  return statisticAnnualPercentageCompensations
 }
 
 const toCSV = (statisticAnnualPercentageCompensations: State.StatisticAnnualPercentageCompensation[]) =>
@@ -109,21 +108,20 @@ const toCSV = (statisticAnnualPercentageCompensations: State.StatisticAnnualPerc
     ? statisticAnnualPercentageCompensations.map(data => [data.year, (Number(data.apc) / 100).toFixed(4)])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticAnnualPercentageCompensations } = useAppState()
-
-  useEffect(() => {
-    getStatisticAnnualPercentageCompensation(dispatch)
-  }, [dispatch])
-
+export const AnnualPercentageCompensationChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage
-      title={i18n.t('statistic.nominal_apc')}
-      description={i18n.t('statistic.nominal_rpc_description')}
-      data={toCSV(statisticAnnualPercentageCompensations)}
-    >
-      <AnnualPercentageCompensationChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.nominal_apc')}
+      description={t('statistic.nominal_rpc_description')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticAnnualPercentageCompensations}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.APC}
+      cacheMode="forever"
+    />
   )
 }
+
+export default AnnualPercentageCompensationChart

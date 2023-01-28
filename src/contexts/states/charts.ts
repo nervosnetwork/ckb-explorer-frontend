@@ -13,8 +13,6 @@ const initStatisticChartsState: State.StatisticChartsState = {
   statisticNodeDistributionsFetchEnd: false,
   statisticTotalSupplies: [],
   statisticTotalSuppliesFetchEnd: false,
-  statisticAnnualPercentageCompensations: [],
-  statisticAnnualPercentageCompensationsFetchEnd: false,
   statisticSecondaryIssuance: [],
   statisticSecondaryIssuanceFetchEnd: false,
   statisticInflationRates: [],
