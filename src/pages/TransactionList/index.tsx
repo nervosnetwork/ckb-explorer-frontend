@@ -247,7 +247,7 @@ export default () => {
               children: <TransactionsPanel key="confirmed" type="confirmed" />,
             },
             {
-              label: `Pending Transactions${data == null ? '' : `(${data})`}`,
+              label: `Pending Transactions${data == null ? '' : `(${data.toLocaleString('en')})`}`,
               key: 'pending',
               children: <TransactionsPanel key="pending" type="pending" />,
             },
