@@ -156,7 +156,7 @@ export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
     null,
     {
       title: i18n.t('block.cycles'),
-      content: block.cycles ? `${block.cycles.toLocaleString('en')} Bytes` : '-',
+      content: block.cycles ? `${block.cycles.toLocaleString('en')}` : '-',
     },
     null,
     {

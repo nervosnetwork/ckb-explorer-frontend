@@ -209,7 +209,7 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
     null,
     {
       title: i18n.t('transaction.cycles'),
-      content: cycles ? `${cycles.toLocaleString('en')} Bytes` : '-',
+      content: cycles ? `${cycles.toLocaleString('en')}` : '-',
     },
   )
 
