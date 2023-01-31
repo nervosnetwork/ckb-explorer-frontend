@@ -1,12 +1,11 @@
-import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import { getStatisticDifficultyHashRate } from '../../../service/app/charts/mining'
-import { useAppState, useDispatch } from '../../../contexts/providers'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { handleDifficulty, handleHashRate } from '../../../utils/number'
-import { useIsMobile } from '../../../utils/hook'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
+import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
+import { fetchStatisticDifficultyHashRate } from '../../../service/http/fetcher'
+import { ChartCachedKeys } from '../../../constants/cache'
 
 const getOption = (
   statisticDifficultyHashRates: State.StatisticDifficultyHashRate[],
@@ -175,38 +174,24 @@ const getOption = (
   }
 }
 
-export const DifficultyHashRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticDifficultyHashRates, statisticDifficultyHashRatesFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticDifficultyHashRates, app.chartColor, isMobile, isThumbnail),
-    [statisticDifficultyHashRates, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticDifficultyHashRatesFetchEnd || statisticDifficultyHashRates.length === 0) {
-    return <ChartLoading show={!statisticDifficultyHashRatesFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticDifficultyHashRates: State.StatisticDifficultyHashRate[]) =>
   statisticDifficultyHashRates
     ? statisticDifficultyHashRates.map(data => [data.epochNumber, data.difficulty, data.hashRate, data.uncleRate])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticDifficultyHashRates } = useAppState()
-
-  useEffect(() => {
-    getStatisticDifficultyHashRate(dispatch)
-  }, [dispatch])
-
+export const DifficultyHashRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage
-      title={`${i18n.t('block.difficulty')} & ${i18n.t('block.hash_rate')} & ${i18n.t('block.uncle_rate')}`}
-      data={toCSV(statisticDifficultyHashRates)}
-    >
-      <DifficultyHashRateChart />
-    </ChartPage>
+    <SmartChartPage
+      title={`${t('block.difficulty')} & ${t('block.hash_rate')} & ${t('block.uncle_rate')}`}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticDifficultyHashRate}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.DifficultyHashRate}
+      cacheMode="epoch"
+    />
   )
 }
+
+export default DifficultyHashRateChart

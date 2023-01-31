@@ -1,10 +1,9 @@
-import { useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { useIsMobile } from '../../../utils/hook'
-import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
-import { getStatisticInflationRate } from '../../../service/app/charts/monetary'
+import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticInflationRate } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticInflationRates: State.StatisticInflationRate[],
@@ -140,17 +139,22 @@ const getOption = (
   }
 }
 
-export const InflationRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticInflationRates, statisticInflationRatesFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticInflationRates, app.chartColor, isMobile, isThumbnail),
-    [statisticInflationRates, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticInflationRatesFetchEnd || statisticInflationRates.length === 0) {
-    return <ChartLoading show={!statisticInflationRatesFetchEnd} isThumbnail={isThumbnail} />
+const fetchStatisticInflationRates = async () => {
+  const {
+    attributes: { nominalApc, nominalInflationRate, realInflationRate },
+  } = await fetchStatisticInflationRate()
+  const statisticInflationRates = []
+  for (let i = 0; i < nominalApc.length; i++) {
+    if (i % 6 === 0 || i === nominalApc.length - 1) {
+      statisticInflationRates.push({
+        year: i % 6 === 0 ? Math.floor(i / 6) * 0.5 : 50,
+        nominalApc: nominalApc[i],
+        nominalInflationRate: nominalInflationRate[i],
+        realInflationRate: realInflationRate[i],
+      })
+    }
   }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
+  return statisticInflationRates
 }
 
 const toCSV = (statisticInflationRates: State.StatisticInflationRate[]) =>
@@ -163,21 +167,20 @@ const toCSV = (statisticInflationRates: State.StatisticInflationRate[]) =>
       ])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticInflationRates } = useAppState()
-
-  useEffect(() => {
-    getStatisticInflationRate(dispatch)
-  }, [dispatch])
-
+export const InflationRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage
-      title={i18n.t('statistic.inflation_rate')}
-      description={i18n.t('statistic.inflation_rate_description')}
-      data={toCSV(statisticInflationRates)}
-    >
-      <InflationRateChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.inflation_rate')}
+      description={t('statistic.inflation_rate_description')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticInflationRates}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.InflationRate}
+      cacheMode="forever"
+    />
   )
 }
+
+export default InflationRateChart

@@ -1,12 +1,11 @@
-import { useEffect, useMemo } from 'react'
-import { useAppState, useDispatch } from '../../../contexts/providers'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime, parseSimpleDate, parseSimpleDateNoSecond } from '../../../utils/date'
-import { useIsMobile } from '../../../utils/hook'
-import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
-import { getStatisticAverageBlockTimes } from '../../../service/app/charts/block'
+import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { localeNumberString } from '../../../utils/number'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
+import { fetchStatisticAverageBlockTimes } from '../../../service/http/fetcher'
+import { ChartCachedKeys } from '../../../constants/cache'
 
 const getOption = (
   statisticAverageBlockTimes: State.StatisticAverageBlockTime[],
@@ -173,39 +172,25 @@ const getOption = (
   }
 }
 
-export const AverageBlockTimeChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticAverageBlockTimes, statisticAverageBlockTimesFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticAverageBlockTimes, app.chartColor, isMobile, isThumbnail),
-    [statisticAverageBlockTimes, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticAverageBlockTimesFetchEnd || statisticAverageBlockTimes.length === 0) {
-    return <ChartLoading show={!statisticAverageBlockTimesFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]) =>
   statisticAverageBlockTimes
     ? statisticAverageBlockTimes.map(data => [data.timestamp, data.avgBlockTimeDaily, data.avgBlockTimeWeekly])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticAverageBlockTimes } = useAppState()
-
-  useEffect(() => {
-    getStatisticAverageBlockTimes(dispatch)
-  }, [dispatch])
-
+export const AverageBlockTimeChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage
-      title={i18n.t('statistic.average_block_time')}
-      description={i18n.t('statistic.average_block_time_description')}
-      data={toCSV(statisticAverageBlockTimes)}
-    >
-      <AverageBlockTimeChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.average_block_time')}
+      description={t('statistic.average_block_time_description')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticAverageBlockTimes}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.AverageBlockTime}
+      cacheMode="date"
+    />
   )
 }
+
+export default AverageBlockTimeChart

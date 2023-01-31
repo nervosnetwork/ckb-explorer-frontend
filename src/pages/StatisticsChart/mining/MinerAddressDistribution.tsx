@@ -1,11 +1,11 @@
-import { useEffect, useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { useHistory } from 'react-router'
-import { getStatisticMinerAddressDistribution } from '../../../service/app/charts/mining'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
-import { useIsMobile } from '../../../utils/hook'
+import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticMinerAddressDistribution } from '../../../service/http/fetcher'
 
 const Colors = [
   '#069ECD',
@@ -84,33 +84,27 @@ const getOption = (
   }
 }
 
-export const MinerAddressDistributionChart = ({
-  isThumbnail = false,
-  clickEvent,
-}: {
-  isThumbnail?: boolean
-  clickEvent?: Function
-}) => {
-  const isMobile = useIsMobile()
-  const { statisticMinerAddresses, statisticMinerAddressesFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticMinerAddresses, app.chartColor, isMobile, isThumbnail),
-    [statisticMinerAddresses, app.chartColor, isMobile, isThumbnail],
+const fetchStatisticMinerAddresses = async () => {
+  const {
+    attributes: { minerAddressDistribution },
+  } = await fetchStatisticMinerAddressDistribution()
+  const blockSum = Object.values(minerAddressDistribution).reduce((sum, val) => sum + Number(val), 0)
+  const statisticMinerAddresses: State.StatisticMinerAddress[] = Object.entries(minerAddressDistribution).map(
+    ([key, val]) => ({
+      address: key,
+      radio: (Number(val) / blockSum).toFixed(3),
+    }),
   )
-  if (!statisticMinerAddressesFetchEnd || statisticMinerAddresses.length === 0) {
-    return <ChartLoading show={!statisticMinerAddressesFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} clickEvent={clickEvent} />
+  return statisticMinerAddresses
 }
 
 const toCSV = (statisticMinerAddresses: State.StatisticMinerAddress[]) =>
   statisticMinerAddresses ? statisticMinerAddresses.map(data => [data.address, data.radio]) : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const { statisticMinerAddresses } = useAppState()
+export const MinerAddressDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
 
+  const history = useHistory()
   const clickEvent = useCallback(
     (param: any) => {
       if (param && param.data.title) {
@@ -120,13 +114,18 @@ export default () => {
     [history],
   )
 
-  useEffect(() => {
-    getStatisticMinerAddressDistribution(dispatch)
-  }, [dispatch])
-
   return (
-    <ChartPage title={i18n.t('statistic.miner_addresses_rank')} data={toCSV(statisticMinerAddresses)}>
-      <MinerAddressDistributionChart clickEvent={clickEvent} />
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.miner_addresses_rank')}
+      isThumbnail={isThumbnail}
+      chartProps={{ clickEvent: !isThumbnail ? clickEvent : undefined }}
+      fetchData={fetchStatisticMinerAddresses}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.MinerAddressDistribution}
+      cacheMode="date"
+    />
   )
 }
+
+export default MinerAddressDistributionChart

@@ -1,12 +1,11 @@
-import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import { getStatisticBalanceDistribution } from '../../../service/app/charts/activities'
-import { useAppState, useDispatch } from '../../../contexts/providers'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis, handleLogGroupAxis } from '../../../utils/chart'
-import { useIsMobile } from '../../../utils/hook'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
+import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { localeNumberString } from '../../../utils/number'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticBalanceDistribution } from '../../../service/http/fetcher'
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 270 : 110)
 
@@ -147,17 +146,18 @@ const getOption = (
   }
 }
 
-export const BalanceDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticBalanceDistributions, statisticBalanceDistributionsFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticBalanceDistributions, app.chartColor, isMobile, isThumbnail),
-    [statisticBalanceDistributions, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticBalanceDistributionsFetchEnd || statisticBalanceDistributions.length === 0) {
-    return <ChartLoading show={!statisticBalanceDistributionsFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
+const fetchStatisticBalanceDistributions = async () => {
+  const wrapper = await fetchStatisticBalanceDistribution()
+  const balanceDistributionArray = wrapper.attributes.addressBalanceDistribution
+  const balanceDistributions = balanceDistributionArray.map(distribution => {
+    const [balance, addresses, sumAddresses] = distribution
+    return {
+      balance,
+      addresses,
+      sumAddresses,
+    }
+  })
+  return balanceDistributions
 }
 
 const toCSV = (statisticBalanceDistributions?: State.StatisticBalanceDistribution[]) =>
@@ -172,21 +172,20 @@ const toCSV = (statisticBalanceDistributions?: State.StatisticBalanceDistributio
       ])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticBalanceDistributions } = useAppState()
-
-  useEffect(() => {
-    getStatisticBalanceDistribution(dispatch)
-  }, [dispatch])
-
+export const BalanceDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage
-      title={i18n.t('statistic.balance_distribution')}
-      description={i18n.t('statistic.balance_distribution_description')}
-      data={toCSV(statisticBalanceDistributions)}
-    >
-      <BalanceDistributionChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.balance_distribution')}
+      description={t('statistic.balance_distribution_description')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticBalanceDistributions}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.BalanceDistribution}
+      cacheMode="date"
+    />
   )
 }
+
+export default BalanceDistributionChart

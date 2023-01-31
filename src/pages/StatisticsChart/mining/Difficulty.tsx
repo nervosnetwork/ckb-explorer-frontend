@@ -1,13 +1,12 @@
-import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import { getStatisticDifficulty } from '../../../service/app/charts/mining'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
-import { useIsMobile } from '../../../utils/hook'
-import { useAppState, useDispatch } from '../../../contexts/providers'
 import { handleDifficulty } from '../../../utils/number'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticDifficulty } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticDifficulties: State.StatisticDifficulty[],
@@ -95,33 +94,22 @@ const getOption = (
   }
 }
 
-export const DifficultyChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticDifficulties, statisticDifficultiesFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticDifficulties, app.chartColor, isMobile, isThumbnail),
-    [statisticDifficulties, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticDifficultiesFetchEnd || statisticDifficulties.length === 0) {
-    return <ChartLoading show={!statisticDifficultiesFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticDifficulties: State.StatisticDifficulty[]) =>
   statisticDifficulties ? statisticDifficulties.map(data => [data.createdAtUnixtimestamp, data.avgDifficulty]) : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticDifficulties } = useAppState()
-
-  useEffect(() => {
-    getStatisticDifficulty(dispatch)
-  }, [dispatch])
-
+export const DifficultyChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage title={i18n.t('block.difficulty')} data={toCSV(statisticDifficulties)}>
-      <DifficultyChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('block.difficulty')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticDifficulty}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.Difficulty}
+      cacheMode="date"
+    />
   )
 }
+
+export default DifficultyChart

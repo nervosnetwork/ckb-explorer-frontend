@@ -1,12 +1,11 @@
-import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import { getStatisticAddressCount } from '../../../service/app/charts/activities'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
-import { useIsMobile } from '../../../utils/hook'
-import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
+import { fetchStatisticAddressCount } from '../../../service/http/fetcher'
+import { ChartCachedKeys } from '../../../constants/cache'
 
 const getOption = (
   statisticAddressCounts: State.StatisticAddressCount[],
@@ -95,37 +94,23 @@ const getOption = (
   }
 }
 
-export const AddressCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticAddressCounts, statisticAddressCountsFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticAddressCounts, app.chartColor, isMobile, isThumbnail),
-    [statisticAddressCounts, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticAddressCountsFetchEnd || statisticAddressCounts.length === 0) {
-    return <ChartLoading show={!statisticAddressCountsFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticAddressCounts?: State.StatisticAddressCount[]) =>
   statisticAddressCounts ? statisticAddressCounts.map(data => [data.createdAtUnixtimestamp, data.addressesCount]) : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticAddressCounts } = useAppState()
-
-  useEffect(() => {
-    getStatisticAddressCount(dispatch)
-  }, [dispatch])
-
+export const AddressCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage
-      title={i18n.t('statistic.address_count')}
-      description={i18n.t('statistic.address_count_description')}
-      data={toCSV(statisticAddressCounts)}
-    >
-      <AddressCountChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.address_count')}
+      description={t('statistic.address_count_description')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticAddressCount}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.AddressCount}
+      cacheMode="date"
+    />
   )
 }
+
+export default AddressCountChart

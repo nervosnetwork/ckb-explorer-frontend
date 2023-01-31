@@ -1,12 +1,11 @@
-import { useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
-import { useIsMobile } from '../../../utils/hook'
-import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
-import { getStatisticLiquidity } from '../../../service/app/charts/monetary'
+import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticLiquidity } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticLiquidity: State.StatisticLiquidity[],
@@ -162,19 +161,6 @@ const getOption = (
   }
 }
 
-export const LiquidityChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticLiquidity, statisticLiquidityFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticLiquidity, app.chartColor, isMobile, isThumbnail),
-    [statisticLiquidity, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticLiquidityFetchEnd || statisticLiquidity.length === 0) {
-    return <ChartLoading show={!statisticLiquidityFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticLiquidity: State.StatisticLiquidity[]) =>
   statisticLiquidity
     ? statisticLiquidity.map(data => [
@@ -185,17 +171,19 @@ const toCSV = (statisticLiquidity: State.StatisticLiquidity[]) =>
       ])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticLiquidity } = useAppState()
-
-  useEffect(() => {
-    getStatisticLiquidity(dispatch)
-  }, [dispatch])
-
+export const LiquidityChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage title={i18n.t('statistic.liquidity')} data={toCSV(statisticLiquidity)}>
-      <LiquidityChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.liquidity')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticLiquidity}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.Liquidity}
+      cacheMode="date"
+    />
   )
 }
+
+export default LiquidityChart
