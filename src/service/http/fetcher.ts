@@ -253,6 +253,11 @@ export const fetchStatisticMinerAddressDistribution = () =>
     toCamelcase<Response.Wrapper<State.StatisticMinerAddressDistribution>>(res.data.data),
   )
 
+export const fetchStatisticMinerVersionDistribution = () =>
+  v2AxiosIns(`/blocks/ckb_node_versions`).then((res: AxiosResponse) =>
+    toCamelcase<{ data: Array<{ version: string; blocksCount: number }> }>(res.data),
+  )
+
 export const fetchStatisticCellCount = (): Promise<Response.Response<Response.Wrapper<State.StatisticCellCount>[]>> =>
   axiosIns(`/daily_statistics/live_cells_count-dead_cells_count`).then(res => {
     const resp = toCamelcase<Response.Response<Response.Wrapper<Omit<State.StatisticCellCount, 'allCellsCount'>>[]>>(

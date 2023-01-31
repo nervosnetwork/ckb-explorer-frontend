@@ -32,6 +32,7 @@ const DifficultyChart = lazy(() => import('../pages/StatisticsChart/mining/Diffi
 const HashRateChart = lazy(() => import('../pages/StatisticsChart/mining/HashRate'))
 const UncleRateChart = lazy(() => import('../pages/StatisticsChart/mining/UncleRate'))
 const MinerAddressDistributionChart = lazy(() => import('../pages/StatisticsChart/mining/MinerAddressDistribution'))
+const MinerVersionDistributionChart = lazy(() => import('../pages/StatisticsChart/mining/MinerVersionDistribution'))
 const TransactionCountChart = lazy(() => import('../pages/StatisticsChart/activities/TransactionCount'))
 const AddressCountChart = lazy(() => import('../pages/StatisticsChart/activities/AddressCount'))
 const CellCountChart = lazy(() => import('../pages/StatisticsChart/activities/CellCount'))
@@ -167,6 +168,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/charts/miner-address-distribution',
     exact: true,
     comp: MinerAddressDistributionChart,
+  },
+  {
+    name: 'MinerVersionDistributionChart',
+    path: '/charts/miner-version-distribution',
+    exact: true,
+    comp: MinerVersionDistributionChart,
   },
   {
     name: 'TransactionCountChart',
