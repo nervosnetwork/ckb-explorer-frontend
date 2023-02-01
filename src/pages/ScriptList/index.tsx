@@ -72,7 +72,7 @@ const scripts = new Map<string, ScriptAttributes>([
     'unipass v3',
     {
       name: 'Unipass',
-      description: 'Simple UDT provides a way for dapp developers to issue custom tokens on Nervos CKB.',
+      description: 'UniPass Wallet is a smart contract wallet solution that supports on-chain Email social recovery.',
       website: 'https://www.unipass.id/',
     },
   ],
