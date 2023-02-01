@@ -1,13 +1,12 @@
-import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
-import { useIsMobile } from '../../../utils/hook'
-import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
-import { getStatisticTotalSupply } from '../../../service/app/charts/monetary'
+import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticTotalSupply } from '../../../service/http/fetcher'
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 125 : 80)
 
@@ -163,19 +162,6 @@ const getOption = (
   }
 }
 
-export const TotalSupplyChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticTotalSupplies, statisticTotalSuppliesFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticTotalSupplies, app.chartColor, isMobile, isThumbnail),
-    [statisticTotalSupplies, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticTotalSuppliesFetchEnd || statisticTotalSupplies.length === 0) {
-    return <ChartLoading show={!statisticTotalSuppliesFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticTotalSupplies: State.StatisticTotalSupply[]) =>
   statisticTotalSupplies
     ? statisticTotalSupplies.map(data => [
@@ -186,21 +172,20 @@ const toCSV = (statisticTotalSupplies: State.StatisticTotalSupply[]) =>
       ])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticTotalSupplies } = useAppState()
-
-  useEffect(() => {
-    getStatisticTotalSupply(dispatch)
-  }, [dispatch])
-
+export const TotalSupplyChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage
-      title={i18n.t('statistic.total_supply')}
-      description={i18n.t('statistic.total_supply_description')}
-      data={toCSV(statisticTotalSupplies)}
-    >
-      <TotalSupplyChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.total_supply')}
+      description={t('statistic.total_supply_description')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticTotalSupply}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.TotalSupply}
+      cacheMode="date"
+    />
   )
 }
+
+export default TotalSupplyChart

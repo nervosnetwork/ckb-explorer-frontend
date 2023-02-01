@@ -1,14 +1,13 @@
-import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import { getStatisticTxFeeHistory } from '../../../service/app/charts/activities'
-import { useAppState, useDispatch } from '../../../contexts/providers'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
-import { useIsMobile } from '../../../utils/hook'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { shannonToCkbDecimal } from '../../../utils/util'
 import { isMainnet } from '../../../utils/chain'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticTxFeeHistory } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticTxFeeHistories: State.StatisticTransactionFee[],
@@ -96,39 +95,25 @@ const getOption = (
   }
 }
 
-export const TxFeeHistoryChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticTxFeeHistories, statisticTxFeeHistoriesFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticTxFeeHistories, app.chartColor, isMobile, isThumbnail),
-    [statisticTxFeeHistories, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticTxFeeHistoriesFetchEnd || statisticTxFeeHistories.length === 0) {
-    return <ChartLoading show={!statisticTxFeeHistoriesFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticTxFeeHistories: State.StatisticTransactionFee[]) =>
   statisticTxFeeHistories
     ? statisticTxFeeHistories.map(data => [data.createdAtUnixtimestamp, shannonToCkbDecimal(data.totalTxFee, 8)])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticTxFeeHistories } = useAppState()
-
-  useEffect(() => {
-    getStatisticTxFeeHistory(dispatch)
-  }, [dispatch])
-
+export const TxFeeHistoryChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage
-      title={i18n.t('statistic.tx_fee_history')}
-      description={i18n.t('statistic.tx_fee_description')}
-      data={toCSV(statisticTxFeeHistories)}
-    >
-      <TxFeeHistoryChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.tx_fee_history')}
+      description={t('statistic.tx_fee_description')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticTxFeeHistory}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.TransactionFee}
+      cacheMode="date"
+    />
   )
 }
+
+export default TxFeeHistoryChart

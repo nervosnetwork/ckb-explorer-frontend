@@ -1,11 +1,10 @@
-import { useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
-import { useIsMobile } from '../../../utils/hook'
-import { useAppState, useDispatch } from '../../../contexts/providers'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
-import { getStatisticSecondaryIssuance } from '../../../service/app/charts/monetary'
+import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticSecondaryIssuance } from '../../../service/http/fetcher'
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 155 : 70)
 
@@ -152,19 +151,6 @@ const getOption = (
   }
 }
 
-export const SecondaryIssuanceChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticSecondaryIssuance, statisticSecondaryIssuanceFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticSecondaryIssuance, app.chartColor, isMobile, isThumbnail),
-    [statisticSecondaryIssuance, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticSecondaryIssuanceFetchEnd || statisticSecondaryIssuance.length === 0) {
-    return <ChartLoading show={!statisticSecondaryIssuanceFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticSecondaryIssuance: State.StatisticSecondaryIssuance[]) =>
   statisticSecondaryIssuance
     ? statisticSecondaryIssuance.map(data => [
@@ -175,21 +161,20 @@ const toCSV = (statisticSecondaryIssuance: State.StatisticSecondaryIssuance[]) =
       ])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticSecondaryIssuance } = useAppState()
-
-  useEffect(() => {
-    getStatisticSecondaryIssuance(dispatch)
-  }, [dispatch])
-
+export const SecondaryIssuanceChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage
-      title={i18n.t('nervos_dao.secondary_issuance')}
-      description={i18n.t('statistic.secondary_issuance_description')}
-      data={toCSV(statisticSecondaryIssuance)}
-    >
-      <SecondaryIssuanceChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('nervos_dao.secondary_issuance')}
+      description={t('statistic.secondary_issuance_description')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticSecondaryIssuance}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.SecondaryIssuance}
+      cacheMode="date"
+    />
   )
 }
+
+export default SecondaryIssuanceChart

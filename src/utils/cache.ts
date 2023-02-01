@@ -1,6 +1,6 @@
 import { getCSTTime } from './date'
 
-export const storeCachedData = (key: string, value: any) => {
+export const storeCachedData = <T>(key: string, value: T) => {
   localStorage.setItem(key, JSON.stringify(value))
 }
 
@@ -23,7 +23,7 @@ export const removeCachedData = (key: string) => {
   localStorage.removeItem(key)
 }
 
-export const storeDateChartCache = (key: string, value: any) => {
+export const storeDateChartCache = <T>(key: string, value: T) => {
   // cacheKey format: key + & + CST timestamp
   let cacheKey = fetchCachedData<string>(key)
   // Detect stored data and if null, remove it
@@ -35,7 +35,7 @@ export const storeDateChartCache = (key: string, value: any) => {
   storeCachedData(cacheKey, value)
 }
 
-export const fetchDateChartCache = (key: string) => {
+export const fetchDateChartCache = <T>(key: string): T | null => {
   // cacheKey format: key + & + CST timestamp
   const cacheKey = fetchCachedData<string>(key)
   if (!cacheKey) return null
@@ -44,21 +44,21 @@ export const fetchDateChartCache = (key: string) => {
   // Chart data will be updated at 0:10(CST) every day
   const dataUpdateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 10, 0).getTime()
   // If last storage time is bigger than data update time, return cache data. Otherwise return null
-  return storeTime > dataUpdateTime ? fetchCachedData(cacheKey) : null
+  return storeTime > dataUpdateTime ? fetchCachedData<T>(cacheKey) : null
 }
 
-export const storeEpochChartCache = (key: string, value: any) => {
+export const storeEpochChartCache = <T>(key: string, value: T) => {
   storeDateChartCache(key, value)
 }
 
 const ThreeHours = 3 * 60 * 60 * 1000
-export const fetchEpochChartCache = (key: string) => {
+export const fetchEpochChartCache = <T>(key: string): T | null => {
   // cacheKey format: key + & + CST timestamp
   const cacheKey = fetchCachedData<string>(key)
   if (!cacheKey) return null
   const storeTime = Number(cacheKey.substring(cacheKey.indexOf('&') + 1))
   // If last storage time is bigger than data update time, return cache data. Otherwise return null
-  return getCSTTime() - storeTime < ThreeHours ? fetchCachedData(cacheKey) : null
+  return getCSTTime() - storeTime < ThreeHours ? fetchCachedData<T>(cacheKey) : null
 }
 
 export default {
