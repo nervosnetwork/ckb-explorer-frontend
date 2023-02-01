@@ -1,12 +1,11 @@
-import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import { getStatisticCellCount } from '../../../service/app/charts/activities'
-import { useAppState, useDispatch } from '../../../contexts/providers'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
-import { useIsMobile } from '../../../utils/hook'
-import { ReactChartCore, ChartLoading, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
+import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticCellCount } from '../../../service/http/fetcher'
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 60 : 80)
 
@@ -145,35 +144,24 @@ const getOption = (
   }
 }
 
-export const CellCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticCellCounts, statisticCellCountsFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticCellCounts, app.chartColor, isMobile, isThumbnail),
-    [statisticCellCounts, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticCellCountsFetchEnd || statisticCellCounts.length === 0) {
-    return <ChartLoading show={!statisticCellCountsFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticCellCounts: State.StatisticCellCount[]) =>
   statisticCellCounts
     ? statisticCellCounts.map(data => [data.createdAtUnixtimestamp, data.liveCellsCount, data.allCellsCount])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticCellCounts } = useAppState()
-
-  useEffect(() => {
-    getStatisticCellCount(dispatch)
-  }, [dispatch])
-
+export const CellCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage title={i18n.t('statistic.cell_count')} data={toCSV(statisticCellCounts)}>
-      <CellCountChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.cell_count')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticCellCount}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.CellCount}
+      cacheMode="date"
+    />
   )
 }
+
+export default CellCountChart

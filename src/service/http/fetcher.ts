@@ -1,5 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
+import BigNumber from 'bignumber.js'
 import CONFIG from '../../config'
+import { pick } from '../../utils/object'
 import { toCamelcase } from '../../utils/util'
 
 const baseURL = `${CONFIG.API_URL}/api/v1/`
@@ -195,9 +197,21 @@ export const fetchStatisticCirculationRatio = () =>
   )
 
 export const fetchStatisticDifficultyHashRate = () =>
-  axiosIns(`/epoch_statistics/difficulty-uncle_rate-hash_rate`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]>>(res.data),
-  )
+  axiosIns(`/epoch_statistics/difficulty-uncle_rate-hash_rate`).then((res: AxiosResponse) => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]>>(res.data)
+    return {
+      ...resp,
+      data: resp.data.map(wrapper => ({
+        ...wrapper,
+        attributes: {
+          // Data may enter the cache, so it is purify to reduce volume.
+          ...pick(wrapper.attributes, ['difficulty', 'epochNumber']),
+          uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
+          hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toString(),
+        },
+      })),
+    }
+  })
 
 export const fetchStatisticDifficulty = () =>
   axiosIns(`/daily_statistics/avg_difficulty`).then((res: AxiosResponse) =>
@@ -205,29 +219,76 @@ export const fetchStatisticDifficulty = () =>
   )
 
 export const fetchStatisticHashRate = () =>
-  axiosIns(`/daily_statistics/avg_hash_rate`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticHashRate>[]>>(res.data),
-  )
+  axiosIns(`/daily_statistics/avg_hash_rate`).then((res: AxiosResponse) => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticHashRate>[]>>(res.data)
+    return {
+      ...resp,
+      data: resp.data.map(wrapper => ({
+        ...wrapper,
+        attributes: {
+          ...wrapper.attributes,
+          avgHashRate: new BigNumber(wrapper.attributes.avgHashRate).multipliedBy(1000).toString(),
+        },
+      })),
+    }
+  })
 
 export const fetchStatisticUncleRate = () =>
-  axiosIns(`/daily_statistics/uncle_rate`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticUncleRate>[]>>(res.data),
-  )
+  axiosIns(`/daily_statistics/uncle_rate`).then((res: AxiosResponse) => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticUncleRate>[]>>(res.data)
+    return {
+      ...resp,
+      data: resp.data.map(wrapper => ({
+        ...wrapper,
+        attributes: {
+          ...wrapper.attributes,
+          uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
+        },
+      })),
+    }
+  })
 
 export const fetchStatisticMinerAddressDistribution = () =>
   axiosIns(`/distribution_data/miner_address_distribution`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.StatisticMinerAddressDistribution>>(res.data.data),
   )
 
-export const fetchStatisticCellCount = () =>
-  axiosIns(`/daily_statistics/live_cells_count-dead_cells_count`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticCellCount>[]>>(res.data),
+export const fetchStatisticMinerVersionDistribution = () =>
+  v2AxiosIns(`/blocks/ckb_node_versions`).then((res: AxiosResponse) =>
+    toCamelcase<{ data: Array<{ version: string; blocksCount: number }> }>(res.data),
   )
 
+export const fetchStatisticCellCount = (): Promise<Response.Response<Response.Wrapper<State.StatisticCellCount>[]>> =>
+  axiosIns(`/daily_statistics/live_cells_count-dead_cells_count`).then(res => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<Omit<State.StatisticCellCount, 'allCellsCount'>>[]>>(
+      res.data,
+    )
+    return {
+      ...resp,
+      data: resp.data.map(wrapper => ({
+        ...wrapper,
+        attributes: {
+          ...wrapper.attributes,
+          allCellsCount: (
+            Number(wrapper.attributes.liveCellsCount) + Number(wrapper.attributes.deadCellsCount)
+          ).toString(),
+        },
+      })),
+    }
+  })
+
 export const fetchStatisticDifficultyUncleRateEpoch = () =>
-  axiosIns(`/epoch_statistics/epoch_time-epoch_length`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRateEpoch>[]>>(res.data),
-  )
+  axiosIns(`/epoch_statistics/epoch_time-epoch_length`).then((res: AxiosResponse) => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyUncleRateEpoch>[]>>(res.data)
+    return {
+      ...resp,
+      data: resp.data.map(wrapper => ({
+        ...wrapper,
+        // Data may enter the cache, so it is purify to reduce volume.
+        attributes: pick(wrapper.attributes, ['epochNumber', 'epochTime', 'epochLength']),
+      })),
+    }
+  })
 
 export const fetchStatisticAddressBalanceRank = () =>
   axiosIns(`/statistics/address_balance_ranking`).then((res: AxiosResponse) =>
@@ -250,9 +311,12 @@ export const fetchStatisticBlockTimeDistribution = () =>
   )
 
 export const fetchStatisticAverageBlockTimes = () =>
-  axiosIns(`/distribution_data/average_block_time`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Wrapper<State.StatisticAverageBlockTimes>>(res.data.data),
-  )
+  axiosIns(`/distribution_data/average_block_time`).then((res: AxiosResponse) => {
+    const {
+      attributes: { averageBlockTime },
+    } = toCamelcase<Response.Wrapper<State.StatisticAverageBlockTimes>>(res.data.data)
+    return averageBlockTime
+  })
 
 export const fetchStatisticOccupiedCapacity = () =>
   axiosIns(`/daily_statistics/occupied_capacity`).then((res: AxiosResponse) =>
@@ -276,7 +340,7 @@ export const fetchStatisticNodeDistribution = () =>
 
 export const fetchStatisticTotalSupply = () =>
   axiosIns(`/daily_statistics/circulating_supply-burnt-locked_capacity`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Wrapper<State.StatisticTotalSupply>[]>(res.data.data),
+    toCamelcase<Response.Response<Response.Wrapper<State.StatisticTotalSupply>[]>>(res.data),
   )
 
 export const fetchStatisticAnnualPercentageCompensation = () =>
@@ -285,9 +349,28 @@ export const fetchStatisticAnnualPercentageCompensation = () =>
   )
 
 export const fetchStatisticSecondaryIssuance = () =>
-  axiosIns(`/daily_statistics/treasury_amount-mining_reward-deposit_compensation`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Wrapper<State.StatisticSecondaryIssuance>[]>(res.data.data),
-  )
+  axiosIns(`/daily_statistics/treasury_amount-mining_reward-deposit_compensation`).then((res: AxiosResponse) => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticSecondaryIssuance>[]>>(res.data)
+    return {
+      ...resp,
+      data: resp.data.map(wrapper => {
+        const { depositCompensation, miningReward, treasuryAmount } = wrapper.attributes
+        const sum = Number(treasuryAmount) + Number(miningReward) + Number(depositCompensation)
+        const treasuryAmountPercent = Number(((Number(treasuryAmount) / sum) * 100).toFixed(2))
+        const miningRewardPercent = Number(((Number(miningReward) / sum) * 100).toFixed(2))
+        const depositCompensationPercent = (100 - treasuryAmountPercent - miningRewardPercent).toFixed(2)
+        return {
+          ...wrapper,
+          attributes: {
+            ...wrapper.attributes,
+            treasuryAmount: treasuryAmountPercent.toString(),
+            miningReward: miningRewardPercent.toString(),
+            depositCompensation: depositCompensationPercent,
+          },
+        }
+      }),
+    }
+  })
 
 export const fetchStatisticInflationRate = () =>
   axiosIns(`/monetary_data/nominal_apc50-nominal_inflation_rate-real_inflation_rate`).then((res: AxiosResponse) =>
@@ -295,9 +378,21 @@ export const fetchStatisticInflationRate = () =>
   )
 
 export const fetchStatisticLiquidity = () =>
-  axiosIns(`/daily_statistics/circulating_supply-liquidity`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Wrapper<State.StatisticLiquidity>[]>(res.data.data),
-  )
+  axiosIns(`/daily_statistics/circulating_supply-liquidity`).then((res: AxiosResponse) => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticLiquidity>[]>>(res.data)
+    return {
+      ...resp,
+      data: resp.data.map(wrapper => ({
+        ...wrapper,
+        attributes: {
+          ...wrapper.attributes,
+          daoDeposit: new BigNumber(wrapper.attributes.circulatingSupply)
+            .minus(new BigNumber(wrapper.attributes.liquidity))
+            .toFixed(2),
+        },
+      })),
+    }
+  })
 
 export const fetchFlushChartCache = () =>
   axiosIns(`statistics/flush_cache_info`).then((res: AxiosResponse) =>

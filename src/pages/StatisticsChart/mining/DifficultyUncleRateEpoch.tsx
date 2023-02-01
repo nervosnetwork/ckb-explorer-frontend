@@ -1,12 +1,12 @@
-import { useEffect, useMemo } from 'react'
+import { FC } from 'react'
 import BigNumber from 'bignumber.js'
-import { getStatisticDifficultyUncleRateEpoch } from '../../../service/app/charts/mining'
-import { useAppState, useDispatch } from '../../../contexts/providers'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
-import { useIsMobile } from '../../../utils/hook'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth, SeriesItem } from '../common'
+import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { parseHourFromMillisecond } from '../../../utils/date'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticDifficultyUncleRateEpoch } from '../../../service/http/fetcher'
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 90 : 80)
 
@@ -25,7 +25,7 @@ const getOption = (
   chartColor: State.App['chartColor'],
   isMobile: boolean,
   isThumbnail = false,
-) => {
+): echarts.EChartOption => {
   const gridThumbnail = {
     left: '4%',
     right: '4%',
@@ -188,38 +188,24 @@ const getOption = (
   }
 }
 
-export const DifficultyUncleRateEpochChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticDifficultyUncleRateEpochs, statisticDifficultyUncleRatesFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticDifficultyUncleRateEpochs, app.chartColor, isMobile, isThumbnail),
-    [statisticDifficultyUncleRateEpochs, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticDifficultyUncleRatesFetchEnd || statisticDifficultyUncleRateEpochs.length === 0) {
-    return <ChartLoading show={!statisticDifficultyUncleRatesFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticDifficultyUncleRateEpochs: State.StatisticDifficultyUncleRateEpoch[]) =>
   statisticDifficultyUncleRateEpochs
     ? statisticDifficultyUncleRateEpochs.map(data => [data.epochNumber, data.epochTime, data.epochLength])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticDifficultyUncleRateEpochs } = useAppState()
-
-  useEffect(() => {
-    getStatisticDifficultyUncleRateEpoch(dispatch)
-  }, [dispatch])
-
+export const DifficultyUncleRateEpochChart: FC<{ isThumbnail?: boolean }> = ({ isThumbnail = false }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage
-      title={`${i18n.t('block.epoch_time')} & ${i18n.t('block.epoch_length')}`}
-      data={toCSV(statisticDifficultyUncleRateEpochs)}
-    >
-      <DifficultyUncleRateEpochChart />
-    </ChartPage>
+    <SmartChartPage
+      title={`${t('block.epoch_time')} & ${t('block.epoch_length')}`}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticDifficultyUncleRateEpoch}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.DifficultyUncleRateEpoch}
+      cacheMode="epoch"
+    />
   )
 }
+
+export default DifficultyUncleRateEpochChart

@@ -1,14 +1,14 @@
-import { useEffect, useCallback, useMemo } from 'react'
+import { useCallback, useState } from 'react'
 import { useHistory } from 'react-router'
-import { getStatisticAddressBalanceRank } from '../../../service/app/charts/activities'
-import { useAppState, useDispatch } from '../../../contexts/providers'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
-import { useIsMobile } from '../../../utils/hook'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { adaptPCEllipsis } from '../../../utils/string'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
+import { fetchStatisticAddressBalanceRank } from '../../../service/http/fetcher'
+import { ChartCachedKeys } from '../../../constants/cache'
 
 const getAddressWithRanking = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[], ranking: string) => {
   const addressBalanceRank = statisticAddressBalanceRanks.find(rank => rank.ranking === ranking)
@@ -99,23 +99,9 @@ const getOption = (
   }
 }
 
-export const AddressBalanceRankChart = ({
-  clickEvent,
-  isThumbnail = false,
-}: {
-  clickEvent: any
-  isThumbnail?: boolean
-}) => {
-  const isMobile = useIsMobile()
-  const { statisticAddressBalanceRanks, statisticAddressBalanceRanksFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticAddressBalanceRanks, app.chartColor, isMobile, isThumbnail),
-    [statisticAddressBalanceRanks, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticAddressBalanceRanksFetchEnd || statisticAddressBalanceRanks.length === 0) {
-    return <ChartLoading show={!statisticAddressBalanceRanksFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} clickEvent={clickEvent} />
+const fetchStatisticAddressBalanceRanks = async () => {
+  const resp = await fetchStatisticAddressBalanceRank()
+  return resp.attributes.addressBalanceRanking
 }
 
 const toCSV = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[]) =>
@@ -123,11 +109,13 @@ const toCSV = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[]
     ? statisticAddressBalanceRanks.map(data => [data.ranking, shannonToCkbDecimal(data.balance, 8)])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
+export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const history = useHistory()
-  const { statisticAddressBalanceRanks } = useAppState()
+  const [t] = useTranslation()
 
+  const [statisticAddressBalanceRanks, setStatisticAddressBalanceRanks] = useState<State.StatisticAddressBalanceRank[]>(
+    [],
+  )
   const clickEvent = useCallback(
     (param: any) => {
       if (param && param.name) {
@@ -137,17 +125,20 @@ export default () => {
     [statisticAddressBalanceRanks, history],
   )
 
-  useEffect(() => {
-    getStatisticAddressBalanceRank(dispatch)
-  }, [dispatch])
-
   return (
-    <ChartPage
-      title={i18n.t('statistic.balance_ranking')}
-      description={i18n.t('statistic.balance_ranking_description')}
-      data={toCSV(statisticAddressBalanceRanks)}
-    >
-      <AddressBalanceRankChart clickEvent={clickEvent} />
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.balance_ranking')}
+      description={t('statistic.balance_ranking_description')}
+      isThumbnail={isThumbnail}
+      chartProps={{ clickEvent: !isThumbnail ? clickEvent : undefined }}
+      fetchData={fetchStatisticAddressBalanceRanks}
+      onFetched={setStatisticAddressBalanceRanks}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.AddressBalanceRank}
+      cacheMode="date"
+    />
   )
 }
+
+export default AddressBalanceRankChart

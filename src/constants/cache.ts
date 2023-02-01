@@ -26,6 +26,7 @@ export const ChartCachedKeys = {
   DifficultyUncleRateEpoch: `${CONFIG.CHAIN_TYPE}-DifficultyUncleRateEpoch`,
   UncleHashRate: `${CONFIG.CHAIN_TYPE}-UncleHashRate`,
   MinerAddressDistribution: `${CONFIG.CHAIN_TYPE}-MinerAddressDistribution`,
+  MinerVersionDistribution: `${CONFIG.CHAIN_TYPE}-MinerVersionDistribution`,
   TotalDeposit: `${CONFIG.CHAIN_TYPE}-TotalDeposit`,
   DailyDeposit: `${CONFIG.CHAIN_TYPE}-DailyDeposit`,
   DepositCirculationRatio: `${CONFIG.CHAIN_TYPE}-DepositCirculationRatio`,

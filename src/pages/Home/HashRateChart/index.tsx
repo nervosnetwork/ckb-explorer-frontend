@@ -1,18 +1,19 @@
-import { useEffect, useCallback, useRef, useMemo } from 'react'
+import { useCallback, useRef, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
-import { getStatisticHashRate } from '../../../service/app/charts/mining'
 import i18n from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
-import { useAppState, useDispatch } from '../../../contexts/providers'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
+import { useChartQueryWithCache } from '../../../utils/hook'
+import { fetchStatisticHashRate } from '../../../service/http/fetcher'
+import { ChartCachedKeys } from '../../../constants/cache'
 
 const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChartOption => ({
   color: ['#ffffff'],
@@ -99,10 +100,11 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChar
 })
 
 export default () => {
-  const dispatch = useDispatch()
-  const { statisticHashRates: fullStatisticHashRates, statisticHashRatesFetchEnd } = useAppState()
   const screenWidth = useRef<number>(window.innerWidth)
   const widthDiff = window.innerWidth > 750 && Math.abs(screenWidth.current - window.innerWidth)
+
+  const query = useChartQueryWithCache(fetchStatisticHashRate, ChartCachedKeys.HashRate, 'date')
+  const fullStatisticHashRates = useMemo(() => query.data ?? [], [query.data])
 
   const statisticHashRates = useMemo(() => {
     const last14Days = -15 // one day offset
@@ -115,14 +117,10 @@ export default () => {
     }
   }, [widthDiff])
 
-  useEffect(() => {
-    getStatisticHashRate(dispatch)
-  }, [dispatch])
-
-  if (!statisticHashRatesFetchEnd || statisticHashRates.length === 0) {
+  if (query.isLoading || statisticHashRates.length === 0) {
     return (
       <ChartLoadingPanel>
-        {!statisticHashRatesFetchEnd ? (
+        {query.isLoading ? (
           <SmallLoading isWhite />
         ) : (
           <img className="chart__no__data" src={ChartNoDataImage} alt="chart no data" />

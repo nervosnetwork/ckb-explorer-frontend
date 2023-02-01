@@ -1,9 +1,8 @@
-import { useCallback, useRef, useEffect, useMemo } from 'react'
+import { useCallback, useRef, useMemo } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
-import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
 import { localeNumberString } from '../../../utils/number'
@@ -11,7 +10,9 @@ import SmallLoading from '../../../components/Loading/SmallLoading'
 import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
-import { getStatisticAverageBlockTimes } from '../../../service/app/charts/block'
+import { useChartQueryWithCache } from '../../../utils/hook'
+import { fetchStatisticAverageBlockTimes } from '../../../service/http/fetcher'
+import { ChartCachedKeys } from '../../../constants/cache'
 
 const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]): echarts.EChartOption => ({
   color: ['#ffffff'],
@@ -101,11 +102,11 @@ const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]
 })
 
 export default () => {
-  const dispatch = useDispatch()
-  const { statisticAverageBlockTimes: fullStatisticAverageBlockTimes, statisticAverageBlockTimesFetchEnd } =
-    useAppState()
   const screenWidth = useRef<number>(window.innerWidth)
   const widthDiff = window.innerWidth > 750 && Math.abs(screenWidth.current - window.innerWidth)
+
+  const query = useChartQueryWithCache(fetchStatisticAverageBlockTimes, ChartCachedKeys.AverageBlockTime, 'date')
+  const fullStatisticAverageBlockTimes = useMemo(() => query.data ?? [], [query.data])
 
   const statisticAverageBlockTimes = useMemo(() => {
     const last14Dyas = -336
@@ -118,14 +119,10 @@ export default () => {
     }
   }, [widthDiff])
 
-  useEffect(() => {
-    getStatisticAverageBlockTimes(dispatch)
-  }, [dispatch])
-
-  if (!statisticAverageBlockTimesFetchEnd || statisticAverageBlockTimes.length === 0) {
+  if (query.isLoading || statisticAverageBlockTimes.length === 0) {
     return (
       <ChartLoadingPanel>
-        {!statisticAverageBlockTimesFetchEnd ? (
+        {query.isLoading ? (
           <SmallLoading isWhite />
         ) : (
           <img className="chart__no__data" src={ChartNoDataImage} alt="chart no data" />

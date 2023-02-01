@@ -1,30 +1,8 @@
-import { useEffect, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import 'default-passive-events'
 import { Tooltip } from 'antd'
 import Content from '../../components/Content'
-import {
-  getStatisticAddressCount,
-  getStatisticCellCount,
-  getStatisticTransactionCount,
-  getStatisticAddressBalanceRank,
-  getStatisticBalanceDistribution,
-  getStatisticTxFeeHistory,
-} from '../../service/app/charts/activities'
-import {
-  getStatisticDifficultyHashRate,
-  getStatisticDifficultyUncleRateEpoch,
-  getStatisticDifficulty,
-  getStatisticHashRate,
-  getStatisticUncleRate,
-  getStatisticMinerAddressDistribution,
-} from '../../service/app/charts/mining'
-import {
-  getStatisticTotalDaoDeposit,
-  getStatisticNewDaoDeposit,
-  getStatisticCirculationRatio,
-} from '../../service/app/charts/nervosDao'
-import { useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import HelpIcon from '../../assets/qa_help.png'
 import { DifficultyHashRateChart } from './mining/DifficultyHashRate'
@@ -41,28 +19,17 @@ import { UncleRateChart } from './mining/UncleRate'
 import { BalanceDistributionChart } from './activities/BalanceDistribution'
 import { TxFeeHistoryChart } from './activities/TxFeeHistory'
 import { BlockTimeDistributionChart } from './block/BlockTimeDistribution'
-import {
-  getStatisticBlockTimeDistribution,
-  getStatisticEpochTimeDistribution,
-  getStatisticAverageBlockTimes,
-} from '../../service/app/charts/block'
 import { EpochTimeDistributionChart } from './block/EpochTimeDistribution'
 import { NewDaoDepositChart } from './nervosDao/NewDaoDeposit'
 import { CirculationRatioChart } from './nervosDao/CirculationRatio'
 import { AverageBlockTimeChart } from './block/AverageBlockTime'
 import { TotalSupplyChart } from './monetary/TotalSupply'
-import {
-  getStatisticTotalSupply,
-  getStatisticAnnualPercentageCompensation,
-  getStatisticSecondaryIssuance,
-  getStatisticInflationRate,
-  getStatisticLiquidity,
-} from '../../service/app/charts/monetary'
 import { AnnualPercentageCompensationChart } from './monetary/AnnualPercentageCompensation'
 import { SecondaryIssuanceChart } from './monetary/SecondaryIssuance'
 import { InflationRateChart } from './monetary/InflationRate'
 import { LiquidityChart } from './monetary/Liquidity'
 import { MinerAddressDistributionChart } from './mining/MinerAddressDistribution'
+import { MinerVersionDistributionChart } from './mining/MinerVersionDistribution'
 import { useIsMobile } from '../../utils/hook'
 
 interface ChartData {
@@ -100,8 +67,6 @@ const ChartCard = ({ chartData }: { chartData: ChartData }) => {
     </ChartCardPanel>
   )
 }
-
-const NullEvent = () => {}
 
 const chartsData = (): ChartCategory[] => [
   {
@@ -161,6 +126,11 @@ const chartsData = (): ChartCategory[] => [
         chart: <MinerAddressDistributionChart isThumbnail />,
         path: '/charts/miner-address-distribution',
       },
+      {
+        title: `${i18n.t('statistic.miner_version_distribution')}`,
+        chart: <MinerVersionDistributionChart isThumbnail />,
+        path: '/charts/miner-version-distribution',
+      },
     ],
   },
   {
@@ -184,7 +154,7 @@ const chartsData = (): ChartCategory[] => [
       },
       {
         title: `${i18n.t('statistic.balance_ranking')}`,
-        chart: <AddressBalanceRankChart clickEvent={NullEvent} isThumbnail />,
+        chart: <AddressBalanceRankChart isThumbnail />,
         path: '/charts/address-balance-rank',
         description: i18n.t('statistic.balance_ranking_description'),
       },
@@ -261,34 +231,6 @@ const chartsData = (): ChartCategory[] => [
 ]
 
 export default () => {
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    getStatisticDifficultyHashRate(dispatch)
-    getStatisticDifficultyUncleRateEpoch(dispatch)
-    getStatisticDifficulty(dispatch)
-    getStatisticHashRate(dispatch)
-    getStatisticUncleRate(dispatch)
-    getStatisticMinerAddressDistribution(dispatch)
-    getStatisticAddressCount(dispatch)
-    getStatisticCellCount(dispatch)
-    getStatisticTransactionCount(dispatch)
-    getStatisticTotalDaoDeposit(dispatch)
-    getStatisticNewDaoDeposit(dispatch)
-    getStatisticCirculationRatio(dispatch)
-    getStatisticAddressBalanceRank(dispatch)
-    getStatisticBalanceDistribution(dispatch)
-    getStatisticTxFeeHistory(dispatch)
-    getStatisticBlockTimeDistribution(dispatch)
-    getStatisticEpochTimeDistribution(dispatch)
-    getStatisticAverageBlockTimes(dispatch)
-    getStatisticTotalSupply(dispatch)
-    getStatisticAnnualPercentageCompensation(dispatch)
-    getStatisticSecondaryIssuance(dispatch)
-    getStatisticInflationRate(dispatch)
-    getStatisticLiquidity(dispatch)
-  }, [dispatch])
-
   return (
     <Content>
       <ChartsContent className="container">

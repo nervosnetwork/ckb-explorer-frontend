@@ -1,11 +1,10 @@
-import { useEffect, useMemo } from 'react'
-import { useAppState, useDispatch } from '../../../contexts/providers'
+import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { getStatisticCirculationRatio } from '../../../service/app/charts/nervosDao'
 import { parseDateNoTime } from '../../../utils/date'
-import { useIsMobile } from '../../../utils/hook'
-import { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth } from '../common'
+import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
+import { ChartCachedKeys } from '../../../constants/cache'
+import { fetchStatisticCirculationRatio } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticCirculationRatios: State.StatisticCirculationRatio[],
@@ -94,39 +93,25 @@ const getOption = (
   }
 }
 
-export const CirculationRatioChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const isMobile = useIsMobile()
-  const { statisticCirculationRatios, statisticCirculationRatiosFetchEnd, app } = useAppState()
-  const option = useMemo(
-    () => getOption(statisticCirculationRatios, app.chartColor, isMobile, isThumbnail),
-    [statisticCirculationRatios, app.chartColor, isMobile, isThumbnail],
-  )
-  if (!statisticCirculationRatiosFetchEnd || statisticCirculationRatios.length === 0) {
-    return <ChartLoading show={!statisticCirculationRatiosFetchEnd} isThumbnail={isThumbnail} />
-  }
-  return <ReactChartCore option={option} isThumbnail={isThumbnail} />
-}
-
 const toCSV = (statisticCirculationRatios: State.StatisticCirculationRatio[]) =>
   statisticCirculationRatios
     ? statisticCirculationRatios.map(data => [data.createdAtUnixtimestamp, data.circulationRatio])
     : []
 
-export default () => {
-  const dispatch = useDispatch()
-  const { statisticCirculationRatios } = useAppState()
-
-  useEffect(() => {
-    getStatisticCirculationRatio(dispatch)
-  }, [dispatch])
-
+export const CirculationRatioChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
+  const [t] = useTranslation()
   return (
-    <ChartPage
-      title={i18n.t('statistic.circulation_ratio')}
-      description={i18n.t('statistic.deposit_to_circulation_ratio_description')}
-      data={toCSV(statisticCirculationRatios)}
-    >
-      <CirculationRatioChart />
-    </ChartPage>
+    <SmartChartPage
+      title={t('statistic.circulation_ratio')}
+      description={t('statistic.deposit_to_circulation_ratio_description')}
+      isThumbnail={isThumbnail}
+      fetchData={fetchStatisticCirculationRatio}
+      getEChartOption={getOption}
+      toCSV={toCSV}
+      cacheKey={ChartCachedKeys.DepositCirculationRatio}
+      cacheMode="date"
+    />
   )
 }
+
+export default CirculationRatioChart
