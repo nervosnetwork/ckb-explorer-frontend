@@ -29,6 +29,7 @@ import { SecondaryIssuanceChart } from './monetary/SecondaryIssuance'
 import { InflationRateChart } from './monetary/InflationRate'
 import { LiquidityChart } from './monetary/Liquidity'
 import { MinerAddressDistributionChart } from './mining/MinerAddressDistribution'
+import { MinerVersionDistributionChart } from './mining/MinerVersionDistribution'
 import { useIsMobile } from '../../utils/hook'
 
 interface ChartData {
@@ -124,6 +125,11 @@ const chartsData = (): ChartCategory[] => [
         title: `${i18n.t('statistic.miner_addresses_rank')}`,
         chart: <MinerAddressDistributionChart isThumbnail />,
         path: '/charts/miner-address-distribution',
+      },
+      {
+        title: `${i18n.t('statistic.miner_version_distribution')}`,
+        chart: <MinerVersionDistributionChart isThumbnail />,
+        path: '/charts/miner-version-distribution',
       },
     ],
   },
