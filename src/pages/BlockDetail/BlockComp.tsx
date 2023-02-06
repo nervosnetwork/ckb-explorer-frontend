@@ -1,7 +1,7 @@
 import { useState, ReactNode, FC } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
-import { Tooltip } from 'antd'
+import { Progress, Tooltip } from 'antd'
 import Pagination from '../../components/Pagination'
 import DropDownIcon from '../../assets/content_drop_down.png'
 import PackUpIcon from '../../assets/content_pack_up.png'
@@ -112,6 +112,14 @@ export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
     },
   ]
   const sentBlockNumber = `${Number(block.number) + DELAY_BLOCK_NUMBER}`
+  const blockSizePercentOfLargestInEpoch =
+    block.size && block.largestBlockInEpoch ? Math.round(100 * (block.size / block.largestBlockInEpoch)) : 0
+  const blockSizePercentOfLargestInChain =
+    block.size && block.largestBlock ? Math.round(100 * (block.size / block.largestBlock)) : 0
+  const cyclesPercentOfMaxInEpoch =
+    block.cycles && block.maxCyclesInEpoch ? Math.round(100 * (block.cycles / block.maxCyclesInEpoch)) : 0
+  const cyclesPercentOfMaxInChain =
+    block.cycles && block.maxCycles ? Math.round(100 * (block.cycles / block.maxCycles)) : 0
   let overviewItems: OverviewItemData[] = [
     {
       title: i18n.t('block.block_height'),
@@ -151,12 +159,106 @@ export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
     },
     {
       title: i18n.t('block.size'),
-      content: block.size ? `${block.size.toLocaleString('en')} Bytes` : '-',
+      content: block.size ? (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          {`${block.size.toLocaleString('en')} Bytes`}
+          <Tooltip
+            placement="top"
+            overlayClassName={styles.comparedSizeTooltip}
+            title={
+              <>
+                {block.largestBlockInEpoch ? (
+                  <div>
+                    <div>Compared to the max size in epoch</div>
+                    <div>
+                      {localeNumberString(block.largestBlockInEpoch)} ({blockSizePercentOfLargestInEpoch}%)
+                    </div>
+                    <Progress percent={blockSizePercentOfLargestInEpoch} showInfo={false} status="success" />
+                  </div>
+                ) : null}
+                {block.largestBlock ? (
+                  <div>
+                    <div>Compared to the max size in chain</div>
+                    <div>
+                      {localeNumberString(block.largestBlock)} ({blockSizePercentOfLargestInChain}%)
+                    </div>
+                    <Progress percent={blockSizePercentOfLargestInChain} showInfo={false} status="normal" />
+                  </div>
+                ) : null}
+              </>
+            }
+          >
+            <img
+              src={MoreIcon}
+              alt="more"
+              style={{
+                width: 15,
+                height: 15,
+                marginLeft: 6,
+              }}
+            />
+          </Tooltip>
+        </div>
+      ) : (
+        '-'
+      ),
     },
     null,
     {
       title: i18n.t('block.cycles'),
-      content: block.cycles ? `${block.cycles.toLocaleString('en')}` : '-',
+      content: block.cycles ? (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          {`${block.cycles.toLocaleString('en')}`}
+          <Tooltip
+            placement="top"
+            overlayClassName={styles.comparedSizeTooltip}
+            title={
+              <>
+                {block.maxCyclesInEpoch ? (
+                  <div>
+                    <div>Compared to the max cycles in epoch</div>
+                    <div>
+                      {localeNumberString(block.maxCyclesInEpoch)} ({cyclesPercentOfMaxInEpoch}%)
+                    </div>
+                    <Progress percent={cyclesPercentOfMaxInEpoch} showInfo={false} status="success" />
+                  </div>
+                ) : null}
+                {block.maxCycles ? (
+                  <div>
+                    <div>Compared to the max cycles in chain</div>
+                    <div>
+                      {localeNumberString(block.maxCycles)} ({cyclesPercentOfMaxInChain}%)
+                    </div>
+                    <Progress percent={cyclesPercentOfMaxInChain} showInfo={false} status="normal" />
+                  </div>
+                ) : null}
+              </>
+            }
+          >
+            <img
+              src={MoreIcon}
+              alt="more"
+              style={{
+                width: 15,
+                height: 15,
+                marginLeft: 6,
+              }}
+            />
+          </Tooltip>
+        </div>
+      ) : (
+        '-'
+      ),
     },
     null,
     {
