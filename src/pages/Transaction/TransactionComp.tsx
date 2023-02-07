@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { useState, ReactNode, FC } from 'react'
 import { Link } from 'react-router-dom'
-import { Progress, Tooltip } from 'antd'
 import BigNumber from 'bignumber.js'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { useAppState } from '../../contexts/providers/index'
@@ -22,13 +21,12 @@ import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
-import MoreIcon from '../../assets/more.png'
 import { isMainnet } from '../../utils/chain'
 import SimpleButton from '../../components/SimpleButton'
 import HashTag from '../../components/HashTag'
 import { isScreenSmallerThan1440 } from '../../utils/screen'
 import { useAddrFormatToggle } from '../../utils/hook'
-import styles from './styles.module.scss'
+import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 
 const showTxStatus = (txStatus: string) => txStatus.replace(/^\S/, s => s.toUpperCase())
 
@@ -179,10 +177,6 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
     )
   }
 
-  const blockSizePercentOfLargestInEpoch = bytes && largestTxInEpoch ? Math.round(100 * (bytes / largestTxInEpoch)) : 0
-  const blockSizePercentOfLargestInChain = bytes && largestTx ? Math.round(100 * (bytes / largestTx)) : 0
-  const cyclesPercentOfMaxInEpoch = cycles && maxCyclesInEpoch ? Math.round(100 * (cycles / maxCyclesInEpoch)) : 0
-  const cyclesPercentOfMaxInChain = cycles && maxCycles ? Math.round(100 * (cycles / maxCycles)) : 0
   OverviewItems.push(
     {
       title: i18n.t('transaction.size'),
@@ -194,42 +188,17 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
           }}
         >
           {`${(bytes - 4).toLocaleString('en')} Bytes`}
-          <Tooltip
-            placement="top"
-            overlayClassName={styles.comparedSizeTooltip}
-            title={
-              <>
-                {largestTxInEpoch ? (
-                  <div>
-                    <div>Compared to the max size in epoch</div>
-                    <div>
-                      {localeNumberString(largestTxInEpoch)} ({blockSizePercentOfLargestInEpoch}%)
-                    </div>
-                    <Progress percent={blockSizePercentOfLargestInEpoch} showInfo={false} status="success" />
-                  </div>
-                ) : null}
-                {largestTx ? (
-                  <div>
-                    <div>Compared to the max size in chain</div>
-                    <div>
-                      {localeNumberString(largestTx)} ({blockSizePercentOfLargestInChain}%)
-                    </div>
-                    <Progress percent={blockSizePercentOfLargestInChain} showInfo={false} status="normal" />
-                  </div>
-                ) : null}
-              </>
-            }
+          <ComparedToMaxTooltip
+            numerator={bytes}
+            maxInEpoch={largestTxInEpoch}
+            maxInChain={largestTx}
+            titleInEpoch={i18n.t('transaction.compared_to_the_max_size_in_epoch')}
+            titleInChain={i18n.t('transaction.compared_to_the_max_size_in_chain')}
           >
-            <img
-              src={MoreIcon}
-              alt="more"
-              style={{
-                width: 15,
-                height: 15,
-                marginLeft: 6,
-              }}
-            />
-          </Tooltip>
+            {i18n.t('transaction.size_in_block', {
+              bytes: bytes.toLocaleString('en'),
+            })}
+          </ComparedToMaxTooltip>
         </div>
       ) : (
         ''
@@ -246,42 +215,13 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
           }}
         >
           {`${cycles.toLocaleString('en')}`}
-          <Tooltip
-            placement="top"
-            overlayClassName={styles.comparedSizeTooltip}
-            title={
-              <>
-                {maxCyclesInEpoch ? (
-                  <div>
-                    <div>Compared to the max cycles in epoch</div>
-                    <div>
-                      {localeNumberString(maxCyclesInEpoch)} ({cyclesPercentOfMaxInEpoch}%)
-                    </div>
-                    <Progress percent={cyclesPercentOfMaxInEpoch} showInfo={false} status="success" />
-                  </div>
-                ) : null}
-                {maxCycles ? (
-                  <div>
-                    <div>Compared to the max cycles in chain</div>
-                    <div>
-                      {localeNumberString(maxCycles)} ({cyclesPercentOfMaxInChain}%)
-                    </div>
-                    <Progress percent={cyclesPercentOfMaxInChain} showInfo={false} status="normal" />
-                  </div>
-                ) : null}
-              </>
-            }
-          >
-            <img
-              src={MoreIcon}
-              alt="more"
-              style={{
-                width: 15,
-                height: 15,
-                marginLeft: 6,
-              }}
-            />
-          </Tooltip>
+          <ComparedToMaxTooltip
+            numerator={cycles}
+            maxInEpoch={maxCyclesInEpoch}
+            maxInChain={maxCycles}
+            titleInEpoch={i18n.t('transaction.compared_to_the_max_cycles_in_epoch')}
+            titleInChain={i18n.t('transaction.compared_to_the_max_cycles_in_chain')}
+          />
         </div>
       ) : (
         '-'
