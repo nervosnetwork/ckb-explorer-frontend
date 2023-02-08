@@ -3,7 +3,7 @@ declare namespace FeeRateTracker {
     id: number
     timestamp: number
     feeRate: number
-    confirmationTime?: number
+    confirmationTime: number
   }
 
   export interface PendingTransactionFeeRate {
@@ -25,7 +25,6 @@ declare namespace FeeRateTracker {
   export interface FeeRateCard {
     priority: string
     feeRate?: number
-    limitTimeDisplay: string
-    limitTimeSeconds: number
+    confirmationTime: number
   }
 }

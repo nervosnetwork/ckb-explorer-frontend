@@ -484,6 +484,30 @@ export function useChartQueryWithCache<T>(
   })
 }
 
+export const useAnimationFrame = (callback: () => void, running: boolean = true) => {
+  const savedCallback = useRef(callback)
+  const requestId = useRef(0)
+
+  useEffect(() => {
+    savedCallback.current = callback
+  })
+
+  useEffect(() => {
+    function tick() {
+      savedCallback.current()
+      if (running) {
+        requestId.current = window.requestAnimationFrame(tick)
+      }
+    }
+    if (running) {
+      const animationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame
+      requestId.current = animationFrame(tick)
+    }
+    const cancelAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame
+    return () => cancelAnimationFrame(requestId.current)
+  }, [running])
+}
+
 export default {
   useInterval,
   useTimeout,

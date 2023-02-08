@@ -471,6 +471,25 @@
         "deprecated": "已废弃",
         "website": "官网"
       }
+    },
+    "fee_rate_tracker": {
+      "title": "费率追踪",
+      "updated_time": "{{second}}秒前更新",
+      "low": "低",
+      "average": "平均",
+      "high": "高",
+      "mins": "分",
+      "secs": "秒",
+      "second": "秒",
+      "n_days": "{{n}} 天",
+      "shannons_per_byte": "香农每字节",
+      "confirmation_time_x_fee_rate": "确认时间 与 费率 (最近10000笔交易)",
+      "fee_rate": "费率",
+      "back": "返回",
+      "confirmation_time": "确认时间",
+      "fee_rate_of_pending_transactions": "未确认交易的费率",
+      "transaction_count": "交易数量",
+      "n_days_historical_fee_rate": "{{n}} 天历史费率"
     }
   }
 }

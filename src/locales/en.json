@@ -471,6 +471,25 @@
         "deprecated": "Deprecated",
         "website": "Website"
       }
+    },
+    "fee_rate_tracker": {
+      "title": "Fee Rate Tracker",
+      "updated_time": "Updated {{second}}s ago",
+      "low": "Low",
+      "average": "Average",
+      "high": "High",
+      "mins": "mins",
+      "secs": "secs",
+      "second": "second",
+      "n_days": "{{n}} Days",
+      "shannons_per_byte": "shannons/byte",
+      "confirmation_time_x_fee_rate": "Confirmation Time x Fee Rate (Last 10000 transactions)",
+      "fee_rate": "Fee Rate",
+      "back": "Back",
+      "confirmation_time": "Confirmation Time",
+      "fee_rate_of_pending_transactions": "Fee Rate of Pending Transactions",
+      "transaction_count": "Transaction Count",
+      "n_days_historical_fee_rate": "{{n}} Days Historical Fee Rate"
     }
   }
 }

@@ -6,47 +6,77 @@ import { useEffect, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
 import styles from './styles.module.scss'
 import { isScreenSmallerThan1200 } from '../../utils/screen'
-import { useIsMobile } from '../../utils/hook'
+import i18n from '../../utils/i18n'
+import { useAppState } from '../../contexts/providers'
 
 export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: FeeRateTracker.TransactionFeeRate[] }) => {
+  const getWeightedMedian = (tfrs: FeeRateTracker.TransactionFeeRate[]): number => {
+    if (!tfrs || tfrs.length === 0) {
+      return 0
+    }
+    return tfrs.length % 2 === 0
+      ? (tfrs[tfrs.length / 2 - 1].confirmationTime + tfrs[tfrs.length / 2 - 1].confirmationTime) / 2
+      : tfrs[(tfrs.length - 1) / 2].confirmationTime
+  }
+
+  const allFrs = [...transactionFeeRates.filter(r => r.confirmationTime === 0 || r.confirmationTime)].sort(
+    (a, b) => a.confirmationTime - b.confirmationTime,
+  )
+  const avgConfirmationTime = getWeightedMedian(allFrs)
+  const lowFrs = allFrs.filter(r => r.confirmationTime >= avgConfirmationTime)
+  const lowConfirmationTime = getWeightedMedian(lowFrs)
+  const highFrs = allFrs.filter(r => r.confirmationTime <= avgConfirmationTime)
+  const highConfirmationTime = getWeightedMedian(highFrs)
+
   const feeRateCards = [
     {
-      priority: 'Low',
-      limitTimeDisplay: '3 mins',
-      limitTimeSeconds: 180,
+      priority: i18n.t('fee_rate_tracker.low'),
+      tfrs: lowFrs,
+      confirmationTime: lowConfirmationTime,
     },
     {
-      priority: 'Average',
-      limitTimeDisplay: '1 mins',
-      limitTimeSeconds: 60,
+      priority: i18n.t('fee_rate_tracker.average'),
+      tfrs: allFrs,
+      confirmationTime: avgConfirmationTime,
     },
     {
-      priority: 'High',
-      limitTimeDisplay: '30 secs',
-      limitTimeSeconds: 30,
+      priority: i18n.t('fee_rate_tracker.high'),
+      tfrs: highFrs,
+      confirmationTime: highConfirmationTime,
     },
   ].map(c => {
-    const frs = transactionFeeRates.filter(r => {
-      return r.confirmationTime === 0 || (r.confirmationTime && r.confirmationTime <= c.limitTimeSeconds)
-    })
     const feeRate =
-      frs.length === 0
+      c.tfrs.length === 0
         ? 0
-        : BigNumber.sum(...frs.map(r => r.feeRate))
-            .div(frs.length)
+        : BigNumber.sum(...c.tfrs.map(r => r.feeRate))
+            .div(c.tfrs.length)
             .dp(3, BigNumber.ROUND_HALF_EVEN)
             .toNumber()
-    return { ...c, feeRate } as FeeRateTracker.FeeRateCard
+    return {
+      priority: c.priority,
+      feeRate,
+      confirmationTime: c.confirmationTime,
+    } as FeeRateTracker.FeeRateCard
   })
 
   return (
     <Row justify="space-evenly" className={styles.priceCenter}>
-      {feeRateCards.map(feeRateCard => (
-        <Col span={6} key={feeRateCard.limitTimeSeconds}>
+      {feeRateCards.map(c => (
+        <Col span={6} key={c.priority}>
           <div className={styles.card}>
-            <div>{feeRateCard.priority}</div>
-            <div>{feeRateCard.feeRate} shannons/byte</div>
-            <div>{feeRateCard.limitTimeDisplay}</div>
+            <div>{c.priority}</div>
+            <div>
+              {c.feeRate} {i18n.t('fee_rate_tracker.shannons_per_byte')}
+            </div>
+            <div>
+              {c.confirmationTime >= 60
+                ? `${Math.floor(c.confirmationTime / 60)} ${i18n.t('fee_rate_tracker.mins')}${
+                    c.confirmationTime % 60 === 0
+                      ? ''
+                      : ` ${c.confirmationTime % 60} ${i18n.t('fee_rate_tracker.secs')}`
+                  }`
+                : `${c.confirmationTime} ${i18n.t('fee_rate_tracker.secs')}`}
+            </div>
           </div>
         </Col>
       ))}
@@ -92,7 +122,7 @@ export const ConfirmationTimeFeeRateChart = ({
       option={{
         xAxis: {
           type: 'category',
-          name: 'Confirmation Time (second)',
+          name: `${i18n.t('fee_rate_tracker.confirmation_time')} (${i18n.t('fee_rate_tracker.second')})`,
           nameGap: 32,
           nameLocation: 'middle',
           axisTick: {
@@ -102,7 +132,9 @@ export const ConfirmationTimeFeeRateChart = ({
         },
         yAxis: {
           type: 'value',
-          name: isScreenSmallerThan1200() ? 'Fee Rate\n(shannons/byte)' : 'Fee Rate (shannons/byte)',
+          name: `${i18n.t('fee_rate_tracker.fee_rate')}${isScreenSmallerThan1200() ? '\n' : ''}(${i18n.t(
+            'fee_rate_tracker.shannons_per_byte',
+          )})`,
         },
         series: [
           {
@@ -137,7 +169,6 @@ export const FeeRateTransactionCountChartCore = ({
 }) => {
   const [feeRatePrecision, setFeeRatePrecision] = useState<number>(1)
   const [feeRateCeilFilter, setFeeRateCeilFilter] = useState<BigNumber | null>(null)
-  const isMobile = useIsMobile()
 
   let minFeeRate = Number.MAX_SAFE_INTEGER
   let maxFeeRate = Number.MIN_SAFE_INTEGER
@@ -183,13 +214,13 @@ export const FeeRateTransactionCountChartCore = ({
         xAxis: {
           type: 'category',
           data: feeRateTransactionCountX,
-          name: 'Fee Rate (shannons/byte)',
+          name: `${i18n.t('fee_rate_tracker.fee_rate')} (${i18n.t('fee_rate_tracker.shannons_per_byte')})`,
           nameGap: 32,
           nameLocation: 'middle',
         },
         yAxis: {
           type: 'value',
-          name: isMobile ? 'Transaction\nCount' : 'Transaction Count',
+          name: i18n.t('fee_rate_tracker.transaction_count'),
         },
         series: [
           {
@@ -216,7 +247,7 @@ export const FeeRateTransactionCountChartCore = ({
                   right: 80,
                   top: 4,
                   style: {
-                    text: '← Back',
+                    text: `← ${i18n.t('fee_rate_tracker.back')}`,
                     fontSize: 18,
                   },
                   onclick: () => {
@@ -257,10 +288,12 @@ export const FeeRateTransactionCountChart = ({
 }: {
   pendingTransactionFeeRates: FeeRateTracker.PendingTransactionFeeRate[]
 }) => {
-  return useMemo(
-    () => <FeeRateTransactionCountChartCore pendingTransactionFeeRates={pendingTransactionFeeRates} />,
-    [pendingTransactionFeeRates],
-  )
+  const { app } = useAppState()
+  return useMemo(() => {
+    // eslint-disable-next-line no-console
+    console.log(`language changed to ${app.language}, Fee Rate of Transaction Count Chart needs to be re-rendered.`)
+    return <FeeRateTransactionCountChartCore pendingTransactionFeeRates={pendingTransactionFeeRates} />
+  }, [pendingTransactionFeeRates, app.language])
 }
 
 export const LastNDaysTransactionFeeRateChart = ({
@@ -278,7 +311,7 @@ export const LastNDaysTransactionFeeRateChart = ({
       option={{
         xAxis: {
           type: 'category',
-          name: '7 Days',
+          name: `${i18n.t('fee_rate_tracker.n_days', { n: 7 })}`,
           nameGap: 32,
           nameLocation: 'middle',
           axisTick: {
@@ -288,7 +321,9 @@ export const LastNDaysTransactionFeeRateChart = ({
         },
         yAxis: {
           type: 'value',
-          name: isScreenSmallerThan1200() ? 'Fee Rate\n(shannons/byte)' : 'Fee Rate (shannons/byte)',
+          name: `${i18n.t('fee_rate_tracker.fee_rate')}${isScreenSmallerThan1200() ? '\n' : ''}(${i18n.t(
+            'fee_rate_tracker.shannons_per_byte',
+          )})`,
         },
         series: [
           {
