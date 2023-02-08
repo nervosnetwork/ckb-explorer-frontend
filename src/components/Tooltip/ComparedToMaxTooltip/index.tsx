@@ -19,8 +19,8 @@ export default ({
   titleInChain: string
   children?: ReactNode
 }) => {
-  const percentOfMaxInEpoch = numerator && maxInEpoch ? Math.round((100 * numerator) / maxInEpoch) : 0
-  const percentOfMaxInChain = numerator && maxInChain ? Math.round((100 * numerator) / maxInChain) : 0
+  const percentOfMaxInEpoch = numerator && maxInEpoch ? Math.round((10000 * numerator) / maxInEpoch) / 100 : 0
+  const percentOfMaxInChain = numerator && maxInChain ? Math.round((10000 * numerator) / maxInChain) / 100 : 0
 
   return (
     <Tooltip
