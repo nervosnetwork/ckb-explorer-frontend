@@ -483,7 +483,7 @@
       "second": "秒",
       "n_days": "{{n}} 天",
       "shannons_per_byte": "香农每字节",
-      "confirmation_time_x_fee_rate": "确认时间 与 费率 (最近10000笔交易)",
+      "confirmation_time_x_fee_rate": "确认时间与费率 (最近{{c}}笔交易)",
       "fee_rate": "费率",
       "back": "返回",
       "confirmation_time": "确认时间",

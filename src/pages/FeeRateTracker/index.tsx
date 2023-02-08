@@ -14,6 +14,7 @@ import {
 } from './FeeRateTrackerComp'
 import Loading from '../../components/Loading'
 import i18n from '../../utils/i18n'
+import { localeNumberString } from '../../utils/number'
 
 const FeeRateTracker = () => {
   const [lastFetchedTime, setLastFetchedTime] = useState<number>(Number.MAX_SAFE_INTEGER)
@@ -59,7 +60,11 @@ const FeeRateTracker = () => {
         ) : (
           <Loading show />
         )}
-        <Row className={styles.chartTitle}>{i18n.t('fee_rate_tracker.confirmation_time_x_fee_rate')}</Row>
+        <Row className={styles.chartTitle}>
+          {i18n.t('fee_rate_tracker.confirmation_time_x_fee_rate', {
+            c: localeNumberString(10000),
+          })}
+        </Row>
         <Row className={styles.chart}>
           {transactionFeesStatistic ? (
             <ConfirmationTimeFeeRateChart transactionFeeRates={transactionFeesStatistic.transactionFeeRates} />

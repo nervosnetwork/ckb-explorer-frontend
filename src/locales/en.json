@@ -483,7 +483,7 @@
       "second": "second",
       "n_days": "{{n}} Days",
       "shannons_per_byte": "shannons/byte",
-      "confirmation_time_x_fee_rate": "Confirmation Time x Fee Rate (Last 10000 transactions)",
+      "confirmation_time_x_fee_rate": "Confirmation Time x Fee Rate (Last {{c}} transactions)",
       "fee_rate": "Fee Rate",
       "back": "Back",
       "confirmation_time": "Confirmation Time",
