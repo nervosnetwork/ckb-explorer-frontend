@@ -1,0 +1,11 @@
+.banner {
+  background: #000;
+
+  .renderer {
+    position: relative;
+    $w: 1200px;
+    left: calc(50% - $w / 2);
+    width: $w;
+    height: 300px;
+  }
+}
