@@ -43,7 +43,6 @@ export function createBannerRender(container: HTMLElement) {
   camera.updateWorldMatrix(true, false)
 
   const cubeMap = createCubes(camera, 100, 10)
-  const dataCubes = getDataCubes(cubeMap)
   const textCubes = getTextCubes(cubeMap, 'C K B')
   textCubes.forEach(cube => {
     // eslint-disable-next-line no-param-reassign
@@ -97,8 +96,13 @@ export function createBannerRender(container: HTMLElement) {
   }
 
   return {
-    onNewBlock() {
-      playNewBlockAnime(cubes, textCubes, dataCubes, createFloatCube)
+    onNewBlock(block: State.Block) {
+      playNewBlockAnime(
+        cubes,
+        textCubes,
+        getDataCubes(camera, cubeMap, textCubes, block.transactionsCount),
+        createFloatCube,
+      )
     },
     destroy() {
       stopRenderLoop?.()
@@ -164,17 +168,41 @@ function createCubes(camera: Camera, size: number, gap: number, centerPos: Vecto
   return cubeMap
 }
 
-function getDataCubes(cubeMap: CubeMap) {
-  return [
-    [-12, -9],
-    [-7, -7],
-    [0, -10],
-    [1, 6],
-    [6, 10],
-    [11, 5],
-  ]
-    .map(([x, y]) => cubeMap[x]?.[y])
-    .filter(BooleanT())
+function getDataCubes(camera: OrthographicCamera, cubeMap: CubeMap, textCubes: Mesh[], count: number) {
+  const smallVisionCamera = camera.clone()
+  smallVisionCamera.left *= 0.7
+  smallVisionCamera.right *= 0.7
+  smallVisionCamera.updateProjectionMatrix()
+  const frustum = new Frustum()
+  frustum.setFromProjectionMatrix(
+    new Matrix4().multiplyMatrices(smallVisionCamera.projectionMatrix, smallVisionCamera.matrixWorldInverse),
+  )
+  const isNearToViewport = (pos: Vector3) => containsPoint(frustum, pos, -100)
+
+  const textRect = { x1: 0, z1: 0, x2: 0, z2: 0 }
+  textCubes.forEach(cube => {
+    textRect.x1 = Math.min(textRect.x1, cube.position.x)
+    textRect.z1 = Math.min(textRect.z1, cube.position.z)
+    textRect.x2 = Math.max(textRect.x2, cube.position.x)
+    textRect.z2 = Math.max(textRect.z2, cube.position.z)
+  })
+  const isInTextRect = (cube: Mesh) =>
+    cube.position.x >= textRect.x1 &&
+    cube.position.x <= textRect.x2 &&
+    cube.position.z >= textRect.z1 &&
+    cube.position.z <= textRect.z2
+
+  const cubes: Mesh[] = []
+  while (count > cubes.length) {
+    const cube = cubeMap[random(-25, 25)]?.[random(-30, 25)]
+    if (cube == null || cubes.includes(cube) || isInTextRect(cube) || !isNearToViewport(cube.position)) continue
+    cubes.push(cube)
+  }
+  return cubes
+}
+
+function random(min: number, max: number) {
+  return min + Math.floor(Math.random() * (max - min + 1))
 }
 
 function getTextCubes(cubeMap: CubeMap, text: string, font = '100 8px Arial') {

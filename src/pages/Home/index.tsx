@@ -195,7 +195,7 @@ export default () => {
 
   return (
     <Content>
-      <Banner />
+      <Banner latestBlock={blocksQuery.data?.blocks[0]} />
       <div className="container">
         <div className={styles.HomeHeaderTopPanel}>
           <div className={styles.title}>{i18n.t('common.ckb_explorer')}</div>

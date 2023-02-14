@@ -44,7 +44,7 @@ function _playNewBlockAnime(cubes: Mesh[], textCubes: Mesh[], dataCubes: Mesh[],
 
     if (!dataCubes.includes(cube)) return timeline
 
-    const isFloatCubeCreator = cube === dataCubes[1]
+    const isFloatCubeCreator = cube === dataCubes[0]
 
     const createFloatCubeTimeline = () => {
       const floatCubeDuration = getMoveTime(1500) / 5
@@ -61,6 +61,15 @@ function _playNewBlockAnime(cubes: Mesh[], textCubes: Mesh[], dataCubes: Mesh[],
           {
             // Set a large value to offset transmission.
             opacity: 10,
+            duration: 1,
+          },
+          'start',
+        )
+        .to(
+          floatCube.material,
+          {
+            opacity: 0,
+            delay: floatCubeDuration - 1,
             duration: 1,
           },
           'start',

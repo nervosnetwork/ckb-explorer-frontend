@@ -1,32 +1,26 @@
 import { FC, useEffect, useRef, useState } from 'react'
-import { useAppState } from '../../../contexts/providers'
 import { createBannerRender } from './render'
 import styles from './index.module.scss'
+import { usePrevious } from '../../../utils/hook'
 
-export const Banner: FC = () => {
+export const Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
   const ref = useRef<HTMLDivElement>(null)
-  const {
-    statistics: { tipBlockNumber },
-  } = useAppState()
-  const [onNewBlock, setOnNewBlock] = useState<() => void>()
+  const [onNewBlock, setOnNewBlock] = useState<(block: State.Block) => void>()
 
   useEffect(() => {
     if (!ref.current) return
 
     const render = createBannerRender(ref.current)
     setOnNewBlock(() => render.onNewBlock)
-    // eslint-disable-next-line consistent-return
     return () => render.destroy()
   }, [])
 
-  const prevTipBlockNumber = useRef(tipBlockNumber)
+  const prevLatestBlock = usePrevious(latestBlock)
   useEffect(() => {
-    if (tipBlockNumber !== prevTipBlockNumber.current && prevTipBlockNumber.current !== '0') {
-      onNewBlock?.()
-    }
-    prevTipBlockNumber.current = tipBlockNumber
+    if (!latestBlock || !prevLatestBlock) return
+    onNewBlock?.(latestBlock)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tipBlockNumber])
+  }, [latestBlock])
 
   return (
     <div className={styles.banner}>
