@@ -29,8 +29,12 @@
     }
     > div.inChain {
       :global(.ant-progress-bg) {
-        background-color: #346DFF;
+        background-color: #346dff;
       }
     }
+  }
+  hr {
+    margin: 8px 0;
+    opacity: 0.2;
   }
 }
