@@ -166,10 +166,8 @@ function createCubes(camera: Camera, size: number, gap: number, centerPos: Vecto
         centerPos.z + (zOffset + gap / 2 + cubeLong),
       )
       if (isVisibleToCamera(cloned.position)) {
-        if (!cubeMap[x]) cubeMap[x] = {}
-        // TODO: typescript prompts undefined errors when an index is not declared by const,
-        // which is not expected. For now, use `!` syntax, we'll look into it later.
-        cubeMap[x]![z] = cloned
+        const cubeMapWithColumn = cubeMap[x] ?? (cubeMap[x] = {})
+        cubeMapWithColumn[z] = cloned
       }
     }
   }
