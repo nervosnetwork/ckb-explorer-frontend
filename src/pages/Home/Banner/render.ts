@@ -38,7 +38,7 @@ export function createBannerRender(container: HTMLElement) {
   camera.rotation.y = Math.PI / (180 / -33.83)
   camera.rotation.z = Math.PI / (180 / -28)
   camera.position.x = -540
-  camera.position.z = 740
+  camera.position.z = 880
   camera.position.y = 680
   camera.updateWorldMatrix(true, false)
 
