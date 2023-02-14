@@ -295,7 +295,7 @@
       "declared_capacity": "declared",
       "occupied_capacity": "occupied",
       "size": "交易体积",
-      "size_in_block": "区块中占 {{bytes}} bytes",
+      "size_in_block": " 备注: 区块中占 {{bytes}} Bytes",
       "compared_to_the_max_size_in_epoch": "相较Epoch中最大交易体积块的占比",
       "compared_to_the_max_size_in_chain": "相较链上最大交易体积块的占比",
       "cycles": "Cycles",

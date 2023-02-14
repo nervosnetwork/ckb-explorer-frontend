@@ -11,6 +11,7 @@ export default ({
   titleInEpoch,
   titleInChain,
   children,
+  unit,
 }: {
   numerator: number | null
   maxInEpoch: number | null
@@ -18,6 +19,7 @@ export default ({
   titleInEpoch: string
   titleInChain: string
   children?: ReactNode
+  unit?: string
 }) => {
   const percentOfMaxInEpoch = numerator && maxInEpoch ? Math.round((10000 * numerator) / maxInEpoch) / 100 : 0
   const percentOfMaxInChain = numerator && maxInChain ? Math.round((10000 * numerator) / maxInChain) / 100 : 0
@@ -32,7 +34,8 @@ export default ({
             <div className={styles.inEpoch}>
               <div>{titleInEpoch}</div>
               <div>
-                {localeNumberString(maxInEpoch)} ({percentOfMaxInEpoch}%)
+                {localeNumberString(maxInEpoch)}
+                {unit ? ` ${unit}` : ''} ({percentOfMaxInEpoch}%)
               </div>
               <Progress percent={percentOfMaxInEpoch} showInfo={false} />
             </div>
@@ -41,11 +44,13 @@ export default ({
             <div className={styles.inChain}>
               <div>{titleInChain}</div>
               <div>
-                {localeNumberString(maxInChain)} ({percentOfMaxInChain}%)
+                {localeNumberString(maxInChain)}
+                {unit ? ` ${unit}` : ''} ({percentOfMaxInChain}%)
               </div>
               <Progress percent={percentOfMaxInChain} showInfo={false} />
             </div>
           ) : null}
+          {children ? <hr /> : ''}
           {children}
         </>
       }

@@ -194,6 +194,7 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
             maxInChain={largestTx}
             titleInEpoch={i18n.t('transaction.compared_to_the_max_size_in_epoch')}
             titleInChain={i18n.t('transaction.compared_to_the_max_size_in_chain')}
+            unit="Bytes"
           >
             {i18n.t('transaction.size_in_block', {
               bytes: bytes.toLocaleString('en'),

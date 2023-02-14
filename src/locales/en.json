@@ -296,7 +296,7 @@
       "declared_capacity": "declared",
       "occupied_capacity": "occupied",
       "size": "Size",
-      "size_in_block": "{{bytes}} bytes in block",
+      "size_in_block": "Note: {{bytes}} bytes in block",
       "compared_to_the_max_size_in_epoch": "Compared to the max size in epoch",
       "compared_to_the_max_size_in_chain": "Compared to the max size in chain",
       "cycles": "Cycles",

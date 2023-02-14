@@ -166,6 +166,7 @@ export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
             maxInChain={block.largestBlock}
             titleInEpoch={i18n.t('block.compared_to_the_max_size_in_epoch')}
             titleInChain={i18n.t('block.compared_to_the_max_size_in_chain')}
+            unit="Bytes"
           />
         </div>
       ) : (
