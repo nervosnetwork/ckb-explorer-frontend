@@ -1,7 +1,7 @@
 import { useState, ReactNode } from 'react'
 import { useHistory } from 'react-router'
 import { Button, Space, Table } from 'antd'
-import { InfoCircleOutlined } from '@ant-design/icons'
+import { InfoCircleFilled } from '@ant-design/icons'
 import { useQuery } from 'react-query'
 import { AxiosResponse } from 'axios'
 import camelcase from 'camelcase'
@@ -188,7 +188,7 @@ export const ScriptCells = ({
               render: (_, record) => (
                 <Space size="middle">
                   <CellInfo cell={record as any as State.Cell}>
-                    <Button icon={<InfoCircleOutlined />} size="middle" />
+                    <Button icon={<InfoCircleFilled />} size="middle" style={{ border: 'none', color: 'black' }} />
                   </CellInfo>
                 </Space>
               ),
