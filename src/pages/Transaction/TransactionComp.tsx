@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { useState, ReactNode, FC } from 'react'
 import { Link } from 'react-router-dom'
-import { Tooltip } from 'antd'
 import BigNumber from 'bignumber.js'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { useAppState } from '../../contexts/providers/index'
@@ -22,12 +21,12 @@ import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
-import MoreIcon from '../../assets/more.png'
 import { isMainnet } from '../../utils/chain'
 import SimpleButton from '../../components/SimpleButton'
 import HashTag from '../../components/HashTag'
 import { isScreenSmallerThan1440 } from '../../utils/screen'
 import { useAddrFormatToggle } from '../../utils/hook'
+import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 
 const showTxStatus = (txStatus: string) => txStatus.replace(/^\S/, s => s.toUpperCase())
 
@@ -103,7 +102,11 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
     txStatus,
     detailedMessage,
     bytes,
+    largestTxInEpoch,
+    largestTx,
     cycles,
+    maxCyclesInEpoch,
+    maxCycles,
   } = transaction
 
   let confirmation = 0
@@ -185,22 +188,17 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
           }}
         >
           {`${(bytes - 4).toLocaleString('en')} Bytes`}
-          <Tooltip
-            placement="top"
-            title={i18n.t('transaction.size_in_block', {
+          <ComparedToMaxTooltip
+            numerator={bytes}
+            maxInEpoch={largestTxInEpoch}
+            maxInChain={largestTx}
+            titleInEpoch={i18n.t('transaction.compared_to_the_max_size_in_epoch')}
+            titleInChain={i18n.t('transaction.compared_to_the_max_size_in_chain')}
+          >
+            {i18n.t('transaction.size_in_block', {
               bytes: bytes.toLocaleString('en'),
             })}
-          >
-            <img
-              src={MoreIcon}
-              alt="more"
-              style={{
-                width: 15,
-                height: 15,
-                marginLeft: 6,
-              }}
-            />
-          </Tooltip>
+          </ComparedToMaxTooltip>
         </div>
       ) : (
         ''
@@ -209,7 +207,25 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
     null,
     {
       title: i18n.t('transaction.cycles'),
-      content: cycles ? `${cycles.toLocaleString('en')}` : '-',
+      content: cycles ? (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          {`${cycles.toLocaleString('en')}`}
+          <ComparedToMaxTooltip
+            numerator={cycles}
+            maxInEpoch={maxCyclesInEpoch}
+            maxInChain={maxCycles}
+            titleInEpoch={i18n.t('transaction.compared_to_the_max_cycles_in_epoch')}
+            titleInChain={i18n.t('transaction.compared_to_the_max_cycles_in_chain')}
+          />
+        </div>
+      ) : (
+        '-'
+      ),
     },
   )
 

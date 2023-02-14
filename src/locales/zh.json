@@ -296,7 +296,11 @@
       "occupied_capacity": "occupied",
       "size": "交易体积",
       "size_in_block": "区块中占 {{bytes}} bytes",
+      "compared_to_the_max_size_in_epoch": "相较Epoch中最大交易体积块的占比",
+      "compared_to_the_max_size_in_chain": "相较链上最大交易体积块的占比",
       "cycles": "Cycles",
+      "compared_to_the_max_cycles_in_epoch": "相较Epoch中最大Cycles的占比",
+      "compared_to_the_max_cycles_in_chain": "相较链上最大Cycles的占比",
       "since": {
         "relative": {
           "epoch": "自 committed 之后 {{since}} Epochs",
@@ -342,7 +346,11 @@
       "view_prev_block": "查看上一区块",
       "view_next_block": "查看下一区块",
       "size": "区块体积",
-      "cycles": "Cycles"
+      "compared_to_the_max_size_in_epoch": "相较Epoch中最大交易体积块的占比",
+      "compared_to_the_max_size_in_chain": "相较链上最大交易体积块的占比",
+      "cycles": "Cycles",
+      "compared_to_the_max_cycles_in_epoch": "相较Epoch中最大Cycles的占比",
+      "compared_to_the_max_cycles_in_chain": "相较链上最大Cycles的占比"
     },
     "nervos_dao": {
       "nervos_dao": "Nervos DAO",
