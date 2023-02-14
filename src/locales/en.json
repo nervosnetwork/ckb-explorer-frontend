@@ -297,7 +297,11 @@
       "occupied_capacity": "occupied",
       "size": "Size",
       "size_in_block": "{{bytes}} bytes in block",
+      "compared_to_the_max_size_in_epoch": "Compared to the max size in epoch",
+      "compared_to_the_max_size_in_chain": "Compared to the max size in chain",
       "cycles": "Cycles",
+      "compared_to_the_max_cycles_in_epoch": "Compared to the max cycles in epoch",
+      "compared_to_the_max_cycles_in_chain": "Compared to the max cycles in chain",
       "since": {
         "relative": {
           "epoch": "After {{since}} epochs since committed",
@@ -342,7 +346,11 @@
       "view_prev_block": "View the previous block",
       "view_next_block": "View the next block",
       "size": "Size",
-      "cycles": "Cycles"
+      "compared_to_the_max_size_in_epoch": "Compared to the max size in epoch",
+      "compared_to_the_max_size_in_chain": "Compared to the max size in chain",
+      "cycles": "Cycles",
+      "compared_to_the_max_cycles_in_epoch": "Compared to the max cycles in epoch",
+      "compared_to_the_max_cycles_in_chain": "Compared to the max cycles in chain"
     },
     "nervos_dao": {
       "nervos_dao": "Nervos DAO",
