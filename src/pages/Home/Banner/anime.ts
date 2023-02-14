@@ -100,10 +100,11 @@ function _playNewBlockAnime(cubes: Mesh[], textCubes: Mesh[], dataCubes: Mesh[],
         )
     }
 
+    const dataCubeProtrudingHeight = 40
     timeline
       .to(cube.scale, {
-        y: 1 + (120 * 2) / 100,
-        duration: 120 / (ySpeedPerSecond * 2),
+        y: 1 + (dataCubeProtrudingHeight * 2) / 100,
+        duration: getMoveTime(dataCubeProtrudingHeight),
       })
       // ">" The end of the previous animation, "<" The start of previous animation
       .addLabel('onDataCubeScaleEnd', '>')
@@ -114,7 +115,7 @@ function _playNewBlockAnime(cubes: Mesh[], textCubes: Mesh[], dataCubes: Mesh[],
         {
           delay: 1,
           y: 1,
-          duration: 120 / (ySpeedPerSecond * 2),
+          duration: getMoveTime(dataCubeProtrudingHeight),
         },
         'onDataCubeScaleEnd',
       )
