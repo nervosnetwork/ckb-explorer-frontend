@@ -1,11 +1,15 @@
 .banner {
   background: #000;
+  --rendererWidth: 1200px;
+
+  &.mobile {
+    --rendererWidth: 600px;
+  }
 
   .renderer {
     position: relative;
-    $w: 1200px;
-    left: calc(50% - $w / 2);
-    width: $w;
-    height: 300px;
+    left: calc(50% - var(--rendererWidth) / 2);
+    width: var(--rendererWidth);
+    height: calc(var(--rendererWidth) / 4);
   }
 }

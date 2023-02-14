@@ -21,6 +21,12 @@ import { createTextureOverlapPass } from './shaderPass/textureOverlapPass'
 import { containsPoint, createBloomComposerController, CubeMap } from './renderUtils'
 import { assert } from '../../../utils/error'
 
+export interface BannerRender {
+  onNewBlock: (block: State.Block) => void
+  onResize: () => void
+  destroy: () => void
+}
+
 export function createBannerRender(container: HTMLElement) {
   const width = container.clientWidth
   const height = container.clientHeight
@@ -103,6 +109,9 @@ export function createBannerRender(container: HTMLElement) {
         getDataCubes(camera, cubeMap, textCubes, block.transactionsCount),
         createFloatCube,
       )
+    },
+    onResize() {
+      renderer.setSize(container.clientWidth, container.clientHeight)
     },
     destroy() {
       stopRenderLoop?.()
