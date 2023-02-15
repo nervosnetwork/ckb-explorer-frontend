@@ -12,4 +12,8 @@
     width: var(--rendererWidth);
     height: calc(var(--rendererWidth) / 4);
   }
+
+  canvas {
+    filter: drop-shadow(2px 4px 6px #000);
+  }
 }

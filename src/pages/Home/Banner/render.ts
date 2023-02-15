@@ -45,7 +45,7 @@ export function createBannerRender(container: HTMLElement) {
   camera.rotation.z = Math.PI / (180 / -28)
   camera.position.x = -540
   camera.position.z = 880
-  camera.position.y = 680
+  camera.position.y = 720
   camera.updateWorldMatrix(true, false)
 
   const cubeMap = createCubes(camera, 100, 10)
@@ -139,7 +139,7 @@ export function createBannerRender(container: HTMLElement) {
 }
 
 function createCubes(camera: Camera, size: number, gap: number, centerPos: Vector3 = new Vector3(0, 0, 0)) {
-  const boxGeometry = new RoundedBoxGeometry(size, size, size, 6, 6)
+  const boxGeometry = new RoundedBoxGeometry(size, size * 2, size, 6, 6)
   const boxMaterial = new MeshPhysicalMaterial({
     metalness: 0,
     roughness: 0.6,

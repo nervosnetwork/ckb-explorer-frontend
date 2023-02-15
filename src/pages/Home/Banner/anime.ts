@@ -5,41 +5,54 @@ import { assert } from '../../../utils/error'
 
 export const playNewBlockAnime = singleton(_playNewBlockAnime)
 
+const DURATION_TO_PROTRUDE = 5 // duration to protrude
+const DELAY_OF_RIPPLE = 10 // change the distance between edges of a ripple
+
 // eslint-disable-next-line no-underscore-dangle
 function _playNewBlockAnime(cubes: Mesh[], textCubes: Mesh[], dataCubes: Mesh[], createFloatCube: () => Mesh) {
   return Promise.all(cubes.map(startCubeAnime))
 
   async function startCubeAnime(cube: Mesh): Promise<gsap.core.Animation> {
     const textCubeFirstUpDistance = 40
-    const ySpeedPerSecond = 60
+    const ySpeedPerSecond = 150
     const getMoveTime = (distance: number) => distance / ySpeedPerSecond
 
     if (textCubes.includes(cube)) {
       return gsap
         .timeline()
         .to(cube.position, {
-          y: cube.position.y + textCubeFirstUpDistance,
-          duration: getMoveTime(textCubeFirstUpDistance),
+          y: cube.position.y + textCubeFirstUpDistance * 2,
+          duration: getMoveTime(DURATION_TO_PROTRUDE * 5),
         })
-        .to(cube.position, { delay: 1.1, y: cube.position.y, duration: getMoveTime(textCubeFirstUpDistance) })
+        .to(cube.position, {
+          delay: 0.1,
+          y: cube.position.y - textCubeFirstUpDistance / 2,
+          duration: getMoveTime(DURATION_TO_PROTRUDE * 3),
+        })
+        .to(cube.position, {
+          delay: 0.05,
+          y: cube.position.y + textCubeFirstUpDistance / 3,
+          duration: getMoveTime(DURATION_TO_PROTRUDE * 2),
+        })
+        .to(cube.position, { delay: 0.01, y: cube.position.y, duration: getMoveTime(DURATION_TO_PROTRUDE * 2) })
     }
 
     const distance = Math.sqrt(cube.position.x ** 2 + cube.position.z ** 2)
     const maxDistanceWithReduction = 1000
     const reductionRatio = distance > maxDistanceWithReduction ? 0 : 1 - distance / maxDistanceWithReduction
-    const textCubeFirstUpDuration = getMoveTime(textCubeFirstUpDistance) * 1e3
+    const textCubeFirstUpDuration = getMoveTime(textCubeFirstUpDistance) * 4e3
 
     const timeline = gsap
       .timeline()
       .to(cube.position, {
-        delay: (distance + textCubeFirstUpDuration - 500 * reductionRatio) / 1e3,
+        delay: (distance + textCubeFirstUpDuration - 500 * reductionRatio) / 2500,
         y: cube.position.y + 40,
-        duration: getMoveTime(40),
+        duration: getMoveTime(DURATION_TO_PROTRUDE),
       })
       .to(cube.position, {
-        delay: getMoveTime(60),
+        delay: getMoveTime(DELAY_OF_RIPPLE),
         y: cube.position.y,
-        duration: getMoveTime(40),
+        duration: getMoveTime(DURATION_TO_PROTRUDE),
       })
 
     if (!dataCubes.includes(cube)) return timeline
