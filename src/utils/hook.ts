@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useMemo, useCallback } from 'react'
+import { useEffect, useState, useRef, useMemo, useCallback, RefObject } from 'react'
 import {
   AddressPrefix,
   addressToScript,
@@ -93,6 +93,32 @@ export function useBoolean(initialState: boolean): [
       toggle,
     },
   ]
+}
+
+export function useElementIntersecting(
+  ref: RefObject<HTMLElement>,
+  opts: IntersectionObserverInit = {},
+  defaultValue = false,
+) {
+  const [isIntersecting, setIntersecting] = useState(defaultValue)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIntersecting(entry.isIntersecting)
+    }, opts)
+    observer.observe(el)
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      observer.unobserve(el)
+      observer.disconnect()
+    }
+  }, [opts, ref])
+
+  return isIntersecting
 }
 
 export function useDelayLoading(delay: number, loading: boolean) {
