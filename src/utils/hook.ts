@@ -10,6 +10,7 @@ import {
 import { useHistory, useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import { useQuery } from 'react-query'
+import { useResizeDetector } from 'react-resize-detector'
 import { AppCachedKeys } from '../constants/cache'
 import { deprecatedAddrToNewAddr } from './util'
 import { parsePageNumber } from './string'
@@ -119,6 +120,15 @@ export function useElementIntersecting(
   }, [opts, ref])
 
   return isIntersecting
+}
+
+export function useElementSize(ref: RefObject<HTMLElement>) {
+  const { width: resizedWidth, height: resizedHeight } = useResizeDetector({
+    targetRef: ref,
+  })
+  const width = resizedWidth ?? ref.current?.clientWidth ?? null
+  const height = resizedHeight ?? ref.current?.clientHeight ?? null
+  return { width, height }
 }
 
 export function useDelayLoading(delay: number, loading: boolean) {

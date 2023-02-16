@@ -579,7 +579,6 @@ declare namespace State {
   }
 
   export interface Components {
-    searchBarEditable: boolean
     mobileMenuVisible: boolean
     headerSearchBarVisible: boolean
     maintenanceAlertVisible: boolean

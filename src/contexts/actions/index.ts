@@ -13,7 +13,6 @@ export enum PageActions {
 }
 
 export enum ComponentActions {
-  UpdateHeaderSearchEditable = 'updateHeaderSearchEditable',
   UpdateHeaderMobileMenuVisible = 'updateHeaderMobileMenuVisible',
   UpdateHeaderSearchBarVisible = 'updateHeaderSearchBarVisible',
   UpdateMaintenanceAlertVisible = 'updateMaintenanceAlertVisible',
