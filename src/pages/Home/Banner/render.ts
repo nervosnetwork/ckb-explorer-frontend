@@ -4,22 +4,34 @@ import {
   Frustum,
   Matrix4,
   Mesh,
-  MeshNormalMaterial,
   MeshPhysicalMaterial,
   OrthographicCamera,
   Scene,
   Vector3,
   WebGLRenderer,
+  sRGBEncoding,
+  MeshLambertMaterial,
 } from 'three'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
 import { playNewBlockAnime } from './anime'
 import { BooleanT } from '../../../utils/array'
+import { isMainnet } from '../../../utils/chain'
 import { createSideFadeOutPass } from './shaderPass/sideFadeOutPass'
 import { createTextureOverlapPass } from './shaderPass/textureOverlapPass'
 import { containsPoint, createBloomComposerController, CubeMap } from './renderUtils'
 import { assert } from '../../../utils/error'
+
+const COLORS = isMainnet()
+  ? {
+      primary: 0x00cc9b,
+      float: 0x00330b,
+    }
+  : {
+      primary: 0x9a2cec,
+      float: 0x4d1676,
+    }
 
 export interface BannerRender {
   onNewBlock: (block: State.Block) => void
@@ -34,8 +46,9 @@ export function createBannerRender(container: HTMLElement) {
   const scene = new Scene()
   // The following number constants are from the design draft.
   const camera = new OrthographicCamera(-700 * aspect, 700 * aspect, 150 * aspect, -150 * aspect, -100000, 100000)
-
-  const renderer = new WebGLRenderer({ alpha: true })
+  const renderer = new WebGLRenderer({ antialias: true, alpha: true })
+  renderer.setPixelRatio(window.devicePixelRatio)
+  renderer.outputEncoding = sRGBEncoding
   renderer.setSize(width, height)
   container.appendChild(renderer.domElement)
 
@@ -52,7 +65,13 @@ export function createBannerRender(container: HTMLElement) {
   const textCubes = getTextCubes(cubeMap, 'C K B')
   textCubes.forEach(cube => {
     // eslint-disable-next-line no-param-reassign
-    cube.material = new MeshNormalMaterial()
+    cube.material = new MeshPhysicalMaterial({
+      clearcoatRoughness: 1,
+      metalness: 0.08,
+      roughness: 0.95,
+      transmission: 1,
+      color: 0xcccccc,
+    })
     cube.position.add(new Vector3(0, 40, 0))
   })
   const cubes = Object.values(cubeMap)
@@ -61,9 +80,17 @@ export function createBannerRender(container: HTMLElement) {
     .filter(BooleanT())
   cubes.forEach(cube => scene.add(cube))
 
-  const light = new DirectionalLight(0xfff0dd, 20)
-  light.position.set(0, 50, 120)
-  scene.add(light)
+  const hightlight = new DirectionalLight(0x999999, 12)
+  hightlight.position.set(1, 1, 0)
+  scene.add(hightlight)
+
+  const hightlight2 = new DirectionalLight(COLORS.primary, 600)
+  hightlight2.position.set(1, -80, 1)
+  scene.add(hightlight2)
+
+  const hightlight3 = new DirectionalLight(0xffffff, 20)
+  hightlight3.position.set(-1, -5, 0)
+  scene.add(hightlight3)
 
   const renderPass = new RenderPass(scene, camera)
   const sideFadeOutPass = createSideFadeOutPass()
@@ -87,13 +114,12 @@ export function createBannerRender(container: HTMLElement) {
 
   function createFloatCube() {
     const boxGeometry = new RoundedBoxGeometry(100, 100, 100, 6, 6)
-    const boxMaterial = new MeshPhysicalMaterial({
-      metalness: 0.1,
-      roughness: 0.7,
-
-      transmission: 1,
-      color: 0x26b562,
+    const boxMaterial = new MeshLambertMaterial({
+      color: COLORS.float,
+      emissive: COLORS.float,
+      emissiveIntensity: 0.001,
       transparent: true,
+      opacity: 0.8,
     })
     const cube = new Mesh(boxGeometry, boxMaterial)
     bloomComposerCtl.toggleBloom(cube)
@@ -125,7 +151,9 @@ export function createBannerRender(container: HTMLElement) {
       bloomComposerCtl.dispose()
       bloomTextureOverlapPass.dispose()
 
-      light.dispose()
+      hightlight.dispose()
+      hightlight2.dispose()
+
       cubes.forEach(cube => {
         cube.removeFromParent()
         cube.geometry.dispose()
@@ -139,11 +167,11 @@ export function createBannerRender(container: HTMLElement) {
 }
 
 function createCubes(camera: Camera, size: number, gap: number, centerPos: Vector3 = new Vector3(0, 0, 0)) {
-  const boxGeometry = new RoundedBoxGeometry(size, size * 2, size, 6, 6)
+  const boxGeometry = new RoundedBoxGeometry(size, size * 2, size, 5, 8)
   const boxMaterial = new MeshPhysicalMaterial({
-    metalness: 0,
-    roughness: 0.6,
-
+    metalness: 0.01,
+    roughness: 0.9,
+    clearcoatRoughness: 1,
     transmission: 1,
   })
   const cube = new Mesh(boxGeometry, boxMaterial)
