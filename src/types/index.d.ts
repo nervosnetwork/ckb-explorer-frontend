@@ -558,8 +558,6 @@ declare namespace State {
     ]
     tipBlockNumber: number
 
-    appWidth: number
-    appHeight: number
     language: 'en' | 'zh'
     primaryColor: string
     secondaryColor: string
