@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useCallback, FC } from 'react'
+import { ReactNode, useCallback, FC } from 'react'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/pie'
@@ -290,15 +290,6 @@ export default ({ nervosDao }: { nervosDao: State.NervosDao }) => {
     app: { chartColor },
   } = useAppState()
 
-  const screenWidth = useRef<number>(window.innerWidth)
-  const widthDiff = window.innerWidth > 750 && Math.abs(screenWidth.current - window.innerWidth)
-
-  const clickEvent = useCallback(() => {
-    if (widthDiff) {
-      screenWidth.current = window.innerWidth
-    }
-  }, [widthDiff])
-
   const nervosDaoPieItemContents = useCallback(
     (nervosDao: State.NervosDao): NervosDaoPieItemContent[] => [
       {
@@ -335,9 +326,6 @@ export default ({ nervosDao }: { nervosDao: State.NervosDao }) => {
             style={{
               height: isMobile ? '65%' : '90%',
               width: isExactLG ? '70%' : '100%',
-            }}
-            onEvents={{
-              click: clickEvent,
             }}
           />
         </DaoOverviewPieChartPanel>

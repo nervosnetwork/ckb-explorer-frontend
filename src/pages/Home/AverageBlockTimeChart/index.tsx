@@ -1,4 +1,4 @@
-import { useCallback, useRef, useMemo } from 'react'
+import { useMemo } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
@@ -105,8 +105,6 @@ const getOption = (
 
 export default () => {
   const isLG = useIsLGScreen()
-  const screenWidth = useRef<number>(window.innerWidth)
-  const widthDiff = window.innerWidth > 750 && Math.abs(screenWidth.current - window.innerWidth)
 
   const query = useChartQueryWithCache(fetchStatisticAverageBlockTimes, ChartCachedKeys.AverageBlockTime, 'date')
   const fullStatisticAverageBlockTimes = useMemo(() => query.data ?? [], [query.data])
@@ -115,12 +113,6 @@ export default () => {
     const last14Dyas = -336
     return fullStatisticAverageBlockTimes.slice(last14Dyas)
   }, [fullStatisticAverageBlockTimes])
-
-  const clickEvent = useCallback(() => {
-    if (widthDiff) {
-      screenWidth.current = window.innerWidth
-    }
-  }, [widthDiff])
 
   if (query.isLoading || statisticAverageBlockTimes.length === 0) {
     return (
@@ -142,9 +134,6 @@ export default () => {
         lazyUpdate
         style={{
           height: isLG ? '136px' : '190px',
-        }}
-        onEvents={{
-          click: clickEvent,
         }}
       />
     </HomeChartLink>

@@ -13,7 +13,7 @@ import { useQuery } from 'react-query'
 import { useResizeDetector } from 'react-resize-detector'
 import { AppCachedKeys } from '../constants/cache'
 import { deprecatedAddrToNewAddr } from './util'
-import { parsePageNumber } from './string'
+import { parsePageNumber, startEndEllipsis } from './string'
 import { ListPageParams, PageParams } from '../constants/common'
 import {
   fetchCachedData,
@@ -128,6 +128,19 @@ export function useElementSize(ref: RefObject<HTMLElement>) {
   const width = resizedWidth ?? ref.current?.clientWidth ?? null
   const height = resizedHeight ?? ref.current?.clientHeight ?? null
   return { width, height }
+}
+
+export function useWindowResize(callback: (event: UIEvent) => void) {
+  useEffect(() => {
+    window.addEventListener('resize', callback)
+    return () => window.removeEventListener('resize', callback)
+  }, [callback])
+}
+
+export function useWindowSize() {
+  const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight })
+  useWindowResize(() => setSize({ width: window.innerWidth, height: window.innerHeight }))
+  return size
 }
 
 export function useDelayLoading(delay: number, loading: boolean) {
@@ -289,6 +302,47 @@ export const useIsLGScreen = (exact = false) => {
   const isMobile = useIsMobile()
   const isLG = useMediaQuery(`(max-width: 1200px)`)
   return !exact ? isLG : isLG && !isMobile
+}
+
+export function useAdaptMobileEllipsis() {
+  const { width } = useWindowSize()
+
+  const adaptMobileEllipsis = useCallback(
+    (value: string, length = 8) => {
+      if (width <= 320) {
+        return startEndEllipsis(value, length, length)
+      }
+      if (width < 500) {
+        const step = Math.ceil((width - 420) / 15)
+        return startEndEllipsis(value, length + step, length + step)
+      }
+      if (width < 750) {
+        const step = Math.ceil((width - 500) / 15)
+        return startEndEllipsis(value, length + step, length + step)
+      }
+      return value
+    },
+    [width],
+  )
+
+  return adaptMobileEllipsis
+}
+
+export function useAdaptPCEllipsis(factor = 40) {
+  const { width } = useWindowSize()
+  const isMobile = width < 750
+  const clippedWidth = Math.min(width, 1200)
+  const step = Math.ceil((clippedWidth - 700) / factor)
+
+  const adaptPCEllipsis = useCallback(
+    (value: string, length = 8) => {
+      if (isMobile) return value
+      return startEndEllipsis(value, length + step, length + step)
+    },
+    [isMobile, step],
+  )
+
+  return adaptPCEllipsis
 }
 
 export const useAddrFormatToggle = () => {

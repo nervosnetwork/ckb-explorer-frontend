@@ -1,4 +1,4 @@
-import { useCallback, useRef, useMemo } from 'react'
+import { useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
@@ -100,8 +100,6 @@ const getOption = (statisticHashRates: State.StatisticHashRate[], useMiniStyle: 
 
 export default () => {
   const isLG = useIsLGScreen()
-  const screenWidth = useRef<number>(window.innerWidth)
-  const widthDiff = window.innerWidth > 750 && Math.abs(screenWidth.current - window.innerWidth)
 
   const query = useChartQueryWithCache(fetchStatisticHashRate, ChartCachedKeys.HashRate, 'date')
   const fullStatisticHashRates = useMemo(() => query.data ?? [], [query.data])
@@ -110,12 +108,6 @@ export default () => {
     const last14Days = -15 // one day offset
     return fullStatisticHashRates.slice(last14Days)
   }, [fullStatisticHashRates])
-
-  const clickEvent = useCallback(() => {
-    if (widthDiff) {
-      screenWidth.current = window.innerWidth
-    }
-  }, [widthDiff])
 
   if (query.isLoading || statisticHashRates.length === 0) {
     return (
@@ -137,9 +129,6 @@ export default () => {
         lazyUpdate
         style={{
           height: isLG ? '136px' : '190px',
-        }}
-        onEvents={{
-          click: clickEvent,
         }}
       />
     </HomeChartLink>
