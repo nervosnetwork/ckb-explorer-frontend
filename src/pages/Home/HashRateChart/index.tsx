@@ -2,7 +2,6 @@ import { useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import i18n from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
@@ -13,6 +12,7 @@ import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
 import { useChartQueryWithCache, useIsLGScreen } from '../../../utils/hook'
 import { fetchStatisticHashRate } from '../../../service/http/fetcher'
 import { ChartCachedKeys } from '../../../constants/cache'
+import { ReactChartCore } from '../../StatisticsChart/common'
 
 const getOption = (statisticHashRates: State.StatisticHashRate[], useMiniStyle: boolean): echarts.EChartOption => ({
   color: ['#ffffff'],
@@ -122,8 +122,7 @@ export default () => {
   }
   return (
     <HomeChartLink to="/charts/hash-rate">
-      <ReactEchartsCore
-        echarts={echarts}
+      <ReactChartCore
         option={getOption(statisticHashRates, isLG)}
         notMerge
         lazyUpdate

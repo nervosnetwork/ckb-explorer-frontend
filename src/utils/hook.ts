@@ -8,7 +8,6 @@ import {
   systemScripts,
 } from '@nervosnetwork/ckb-sdk-utils'
 import { useHistory, useLocation } from 'react-router-dom'
-import queryString from 'query-string'
 import { useQuery } from 'react-query'
 import { useResizeDetector } from 'react-resize-detector'
 import { AppCachedKeys } from '../constants/cache'
@@ -166,11 +165,10 @@ export function useDelayLoading(delay: number, loading: boolean) {
 }
 
 function getSearchParams<T extends string = string>(search: string, names?: T[]): Partial<Record<T, string>> {
-  const params = queryString.parse(search, { parseBooleans: false, parseNumbers: false })
-  const entries = Object.entries(params).filter((entry): entry is [T, string] => {
-    const [key, value] = entry
-    return (names == null || (names as string[]).includes(key)) && typeof value === 'string'
-  })
+  const urlSearchParams = new URLSearchParams(search)
+  const entries = [...urlSearchParams.entries()].filter(
+    (entry): entry is [T, string] => names == null || (names as string[]).includes(entry[0]),
+  )
   return Object.fromEntries(entries) as Partial<Record<T, string>>
 }
 
@@ -190,10 +188,10 @@ export function useUpdateSearchParams<T extends string>(): (
     (updater, replace) => {
       const oldParams: Partial<Record<T, string>> = getSearchParams(search)
       const newParams = updater(oldParams)
-      const to = queryString.stringifyUrl({
-        url: `${pathname}${hash}`,
-        query: newParams,
-      })
+      const newUrlSearchParams = new URLSearchParams(newParams as Record<string, string>)
+      newUrlSearchParams.sort()
+      const newQueryString = newUrlSearchParams.toString()
+      const to = `${pathname}${newQueryString ? `?${newQueryString}` : ''}${hash}`
 
       if (replace) {
         history.replace(to)

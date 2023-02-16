@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import i18n from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
@@ -12,6 +11,7 @@ import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
 import { useChartQueryWithCache, useIsLGScreen } from '../../../utils/hook'
 import { fetchStatisticAverageBlockTimes } from '../../../service/http/fetcher'
 import { ChartCachedKeys } from '../../../constants/cache'
+import { ReactChartCore } from '../../StatisticsChart/common'
 
 const getOption = (
   statisticAverageBlockTimes: State.StatisticAverageBlockTime[],
@@ -127,8 +127,7 @@ export default () => {
   }
   return (
     <HomeChartLink to="/charts/average-block-time">
-      <ReactEchartsCore
-        echarts={echarts}
+      <ReactChartCore
         option={getOption(statisticAverageBlockTimes, isLG)}
         notMerge
         lazyUpdate
