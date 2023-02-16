@@ -15,7 +15,6 @@ import { AppCachedKeys } from '../constants/cache'
 import { deprecatedAddrToNewAddr } from './util'
 import { parsePageNumber } from './string'
 import { ListPageParams, PageParams } from '../constants/common'
-import { MOBILE_DEVICE_MAX_WIDTH } from './screen'
 import {
   fetchCachedData,
   fetchDateChartCache,
@@ -284,7 +283,13 @@ export function useMediaQuery(query: string): boolean {
   return matches
 }
 
+export const MOBILE_DEVICE_MAX_WIDTH = 750
 export const useIsMobile = () => useMediaQuery(`(max-width: ${MOBILE_DEVICE_MAX_WIDTH}px)`)
+export const useIsLGScreen = (exact = false) => {
+  const isMobile = useIsMobile()
+  const isLG = useMediaQuery(`(max-width: 1200px)`)
+  return !exact ? isLG : isLG && !isMobile
+}
 
 export const useAddrFormatToggle = () => {
   const [isNew, setIsNew] = useState(localStorage.getItem(AppCachedKeys.NewAddrFormat) !== 'false')

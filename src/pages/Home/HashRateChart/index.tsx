@@ -8,14 +8,13 @@ import i18n from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import SmallLoading from '../../../components/Loading/SmallLoading'
-import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
-import { useChartQueryWithCache } from '../../../utils/hook'
+import { useChartQueryWithCache, useIsLGScreen } from '../../../utils/hook'
 import { fetchStatisticHashRate } from '../../../service/http/fetcher'
 import { ChartCachedKeys } from '../../../constants/cache'
 
-const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChartOption => ({
+const getOption = (statisticHashRates: State.StatisticHashRate[], useMiniStyle: boolean): echarts.EChartOption => ({
   color: ['#ffffff'],
   title: {
     text: i18n.t('block.hash_rate_hps'),
@@ -28,9 +27,9 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChar
     },
   },
   grid: {
-    left: isScreenSmallerThan1200() ? '1%' : '2%',
+    left: useMiniStyle ? '1%' : '2%',
     right: '3%',
-    top: isScreenSmallerThan1200() ? '20%' : '15%',
+    top: useMiniStyle ? '20%' : '15%',
     bottom: '2%',
     containLabel: true,
   },
@@ -100,6 +99,7 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChar
 })
 
 export default () => {
+  const isLG = useIsLGScreen()
   const screenWidth = useRef<number>(window.innerWidth)
   const widthDiff = window.innerWidth > 750 && Math.abs(screenWidth.current - window.innerWidth)
 
@@ -132,11 +132,11 @@ export default () => {
     <HomeChartLink to="/charts/hash-rate">
       <ReactEchartsCore
         echarts={echarts}
-        option={getOption(statisticHashRates)}
+        option={getOption(statisticHashRates, isLG)}
         notMerge
         lazyUpdate
         style={{
-          height: isScreenSmallerThan1200() ? '136px' : '190px',
+          height: isLG ? '136px' : '190px',
         }}
         onEvents={{
           click: clickEvent,

@@ -26,8 +26,7 @@ import { handleBigNumber, handleBigNumberFloor } from '../../../utils/string'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkbDecimal, shannonToCkb } from '../../../utils/util'
 import DecimalCapacity from '../../../components/DecimalCapacity'
-import { isScreenSmallerThan1200 } from '../../../utils/screen'
-import { useIsMobile } from '../../../utils/hook'
+import { useIsLGScreen, useIsMobile } from '../../../utils/hook'
 
 interface NervosDaoItemContent {
   title: string
@@ -286,6 +285,7 @@ const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
 
 export default ({ nervosDao }: { nervosDao: State.NervosDao }) => {
   const isMobile = useIsMobile()
+  const isExactLG = useIsLGScreen(true)
   const {
     app: { chartColor },
   } = useAppState()
@@ -334,7 +334,7 @@ export default ({ nervosDao }: { nervosDao: State.NervosDao }) => {
             lazyUpdate
             style={{
               height: isMobile ? '65%' : '90%',
-              width: !isMobile && isScreenSmallerThan1200() ? '70%' : '100%',
+              width: isExactLG ? '70%' : '100%',
             }}
             onEvents={{
               click: clickEvent,

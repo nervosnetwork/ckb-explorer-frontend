@@ -17,7 +17,6 @@ import { parseTime, parseTimeNoSecond } from '../../utils/date'
 import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME, ListPageParams } from '../../constants/common'
 import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
-import { isScreenSmallerThan1200 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import LatestBlocksIcon from '../../assets/latest_blocks.png'
@@ -26,7 +25,7 @@ import { BlockCardItem, TransactionCardItem } from './TableCard'
 import { getTipBlockNumber } from '../../service/app/address'
 import Loading from '../../components/Loading/SmallLoading'
 import Banner from '../../components/Banner'
-import { useElementIntersecting, useInterval, useIsMobile } from '../../utils/hook'
+import { useElementIntersecting, useInterval, useIsLGScreen, useIsMobile } from '../../utils/hook'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
 import Search from '../../components/Search'
 import AverageBlockTimeChart from './AverageBlockTimeChart'
@@ -67,7 +66,7 @@ const parseHashRate = (hashRate: string | undefined) => (hashRate ? handleHashRa
 
 const parseBlockTime = (blockTime: string | undefined) => (blockTime ? parseTime(Number(blockTime)) : '- -')
 
-const getBlockchainDataList = (statistics: State.Statistics, isMobile: boolean): BlockchainData[] => [
+const getBlockchainDataList = (statistics: State.Statistics, isMobile: boolean, isLG: boolean): BlockchainData[] => [
   {
     name: i18n.t('blockchain.latest_block'),
     value: localeNumberString(statistics.tipBlockNumber),
@@ -97,7 +96,7 @@ const getBlockchainDataList = (statistics: State.Statistics, isMobile: boolean):
   {
     name: i18n.t('blockchain.estimated_epoch_time'),
     value: parseTimeNoSecond(Number(statistics.estimatedEpochTime)),
-    showSeparate: !isScreenSmallerThan1200(),
+    showSeparate: !isLG,
   },
   {
     name: i18n.t('blockchain.transactions_per_minute'),
@@ -167,6 +166,7 @@ const HomeHeaderTopPanel: FC = () => {
 
 export default () => {
   const isMobile = useIsMobile()
+  const isLG = useIsLGScreen()
   const dispatch = useDispatch()
   const history = useHistory<RouteState>()
   const {
@@ -218,7 +218,7 @@ export default () => {
     handleBlockchainAlert(dispatch)
   }, BLOCKCHAIN_ALERT_POLLING_TIME)
 
-  const blockchainDataList = getBlockchainDataList(statistics, isMobile)
+  const blockchainDataList = getBlockchainDataList(statistics, isMobile, isLG)
 
   return (
     <Content>
@@ -246,11 +246,11 @@ export default () => {
           </div>
         </div>
         <div className={styles.HomeStatisticBottomPanel}>
-          {!isScreenSmallerThan1200() &&
+          {!isLG ? (
             blockchainDataList
               .slice(4)
-              .map((data: BlockchainData) => <BlockchainItem blockchain={data} key={data.name} />)}
-          {isScreenSmallerThan1200() && (
+              .map((data: BlockchainData) => <BlockchainItem blockchain={data} key={data.name} />)
+          ) : (
             <>
               <div className={styles.blockchain__item__row}>
                 {blockchainDataList.slice(4, 6).map((data: BlockchainData) => (
