@@ -1,12 +1,46 @@
-import { Mesh, Frustum, Vector3, Layers, Object3D, Vector2, Scene, WebGLRenderer } from 'three'
+import {
+  Mesh,
+  Frustum,
+  Vector3,
+  Layers,
+  Object3D,
+  Vector2,
+  Scene,
+  WebGLRenderer,
+  Quaternion,
+  BoxGeometry,
+  InstancedMesh,
+  Material,
+  Matrix4,
+} from 'three'
 import { EffectComposer, Pass } from 'three/examples/jsm/postprocessing/EffectComposer'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass'
+import { pick } from '../../../utils/object'
 
 export type CubeMap = Partial<{
   [x: number]: Partial<{
     [z: number]: Mesh
   }>
 }>
+
+export interface CubeOffset {
+  x: number
+  z: number
+}
+
+// eslint-disable-next-line no-redeclare
+export namespace CubeOffset {
+  export function isEqual(a: CubeOffset, b: CubeOffset) {
+    return a.x === b.x && a.z === b.z
+  }
+}
+
+export interface InstancedCubeUnitControl {
+  position: Vector3
+  quaternion: Quaternion
+  scale: Vector3
+  onUpdate: () => void
+}
 
 // `frustum.containsPoint` of the variation
 export function containsPoint(frustum: Frustum, point: Vector3, tolerance = 0) {
@@ -71,6 +105,45 @@ export function createBloomComposerController(
     dispose() {
       composer.dispose()
       bloomPass.dispose()
+    },
+  }
+}
+
+export function createInstancedCubeMesh(
+  cubes: { x: number; z: number; initPosition: Vector3 }[],
+  cubeIndexMap: Record<string, Record<string, number>>,
+  geometry: BoxGeometry,
+  material: Material,
+) {
+  const mesh = new InstancedMesh(geometry, material, cubes.length)
+  const matrix = new Matrix4()
+  cubes.forEach(({ initPosition }, idx) => {
+    matrix.setPosition(initPosition)
+    mesh.setMatrixAt(idx, matrix)
+  })
+
+  return {
+    mesh,
+    cubeOffsets: cubes.map(cube => pick(cube, ['x', 'z'])),
+    getCubeControl(xOrIndex: number, z?: number): InstancedCubeUnitControl | null {
+      const idx = z == null ? xOrIndex : cubeIndexMap[xOrIndex]?.[z]
+      if (idx == null) return null
+
+      mesh.getMatrixAt(idx, matrix)
+      const position = new Vector3()
+      const quaternion = new Quaternion()
+      const scale = new Vector3()
+      matrix.decompose(position, quaternion, scale)
+
+      return {
+        position,
+        quaternion,
+        scale,
+        onUpdate() {
+          mesh.setMatrixAt(idx, new Matrix4().compose(position, quaternion, scale))
+          mesh.instanceMatrix.needsUpdate = true
+        },
+      }
     },
   }
 }
