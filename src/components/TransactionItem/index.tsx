@@ -3,7 +3,6 @@ import RightArrowIcon from '../../assets/input_arrow_output.png'
 import DownArrowIcon from '../../assets/input_arrow_output_down.png'
 import { parseDate } from '../../utils/date'
 import { localeNumberString } from '../../utils/number'
-import { isScreenSmallerThan1200 } from '../../utils/screen'
 import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
 import TransactionIncome from './TransactionIncome'
@@ -11,6 +10,7 @@ import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, Transaction
 import i18n from '../../utils/i18n'
 import { CellType } from '../../constants/common'
 import AddressText from '../AddressText'
+import { useIsLGScreen } from '../../utils/hook'
 
 export interface CircleCorner {
   top?: boolean
@@ -35,6 +35,7 @@ const TransactionItem = ({
   circleCorner?: CircleCorner
   scrollIntoViewOnMount?: boolean
 }) => {
+  const isLG = useIsLGScreen()
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -80,7 +81,7 @@ const TransactionItem = ({
             render={cell => <TransactionCell cell={cell} address={address} cellType={CellType.Input} key={cell.id} />}
           />
         </div>
-        <img src={isScreenSmallerThan1200() ? DownArrowIcon : RightArrowIcon} alt="input and output" />
+        <img src={isLG ? DownArrowIcon : RightArrowIcon} alt="input and output" />
         <div className="transaction_item__output">
           {transaction.displayOutputs && transaction.displayOutputs.length !== 0 ? (
             <TransactionCellList

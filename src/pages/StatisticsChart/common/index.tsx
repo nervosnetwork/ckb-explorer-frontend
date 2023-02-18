@@ -125,18 +125,7 @@ const ChartPage = ({
   )
 }
 
-export function SmartChartPage<T>({
-  title,
-  description,
-  note,
-  isThumbnail = false,
-  chartProps,
-  fetchData,
-  getEChartOption,
-  toCSV,
-  cacheKey,
-  cacheMode = 'forever',
-}: {
+export interface SmartChartPageProps<T> {
   title: string
   description?: string
   note?: string
@@ -153,7 +142,20 @@ export function SmartChartPage<T>({
   toCSV: (dataList: T[]) => (string | number)[][]
   cacheKey?: string
   cacheMode?: 'forever' | 'date' | 'epoch'
-}): ReactElement {
+}
+
+export function SmartChartPage<T>({
+  title,
+  description,
+  note,
+  isThumbnail = false,
+  chartProps,
+  fetchData,
+  getEChartOption,
+  toCSV,
+  cacheKey,
+  cacheMode = 'forever',
+}: SmartChartPageProps<T>): ReactElement {
   const isMobile = useIsMobile()
   const { app } = useAppState()
 

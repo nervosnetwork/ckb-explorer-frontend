@@ -1,38 +1,30 @@
+import { FC } from 'react'
 import Search from '../../Search'
 import SearchLogo from '../../../assets/search_white.png'
 import { HeaderSearchPanel, HeaderSearchBarPanel } from './styled'
-import { isScreen750to1440 } from '../../../utils/screen'
-import { useDispatch, useAppState } from '../../../contexts/providers'
-import { ComponentActions } from '../../../contexts/actions'
 
-export const SearchComp = () => {
-  const dispatch = useDispatch()
-  const {
-    components: { searchBarEditable },
-  } = useAppState()
-
-  if (isScreen750to1440() && !searchBarEditable) {
+export const SearchComp: FC<{
+  expanded: boolean
+  setExpanded: (expanded: boolean) => void
+}> = ({ expanded, setExpanded }) => {
+  if (!expanded) {
     return (
       <HeaderSearchBarPanel
         role="button"
         tabIndex={-1}
         onKeyDown={() => {}}
         onClick={() => {
-          dispatch({
-            type: ComponentActions.UpdateHeaderSearchEditable,
-            payload: {
-              searchBarEditable: true,
-            },
-          })
+          setExpanded(true)
         }}
       >
         <img alt="header search bar" src={SearchLogo} />
       </HeaderSearchBarPanel>
     )
   }
+
   return (
     <HeaderSearchPanel>
-      <Search />
+      <Search onEditEnd={() => setExpanded(false)} />
     </HeaderSearchPanel>
   )
 }

@@ -1,8 +1,7 @@
-import { useEffect } from 'react'
+import { FC, ReactNode, useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router'
 import LogoIcon from '../../assets/ckb_logo.png'
 import { HeaderPanel, HeaderEmptyPanel, HeaderMobileMenuPanel, HeaderLogoPanel } from './styled'
-import { isScreen750to1440 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers/index'
 import { ComponentActions } from '../../contexts/actions'
 import MenusComp from './MenusComp'
@@ -10,7 +9,8 @@ import { SearchComp } from './SearchComp'
 import LanguageComp from './LanguageComp'
 import BlockchainComp from './BlockchainComp'
 import { currentLanguage } from '../../utils/i18n'
-import { useIsMobile } from '../../utils/hook'
+import { useElementSize, useIsMobile } from '../../utils/hook'
+import styles from './index.module.scss'
 
 const LogoComp = () => (
   <HeaderLogoPanel to="/">
@@ -43,12 +43,34 @@ const MobileMenuComp = () => {
   )
 }
 
+const AutoExpand: FC<{
+  leftContent: ReactNode
+  expandableWidthRange: { minimum: number; maximum: number }
+  renderExpandable: (expanded: boolean, setExpanded: (expanded: boolean) => void) => ReactNode
+}> = ({ leftContent, expandableWidthRange, renderExpandable }) => {
+  const ref = useRef<HTMLDivElement>(null)
+  const [_expanded, setExpanded] = useState(false)
+
+  const { width } = useElementSize(ref)
+  const canMinimumRender = width != null && width >= expandableWidthRange.minimum
+  const expanded = canMinimumRender || _expanded
+
+  return (
+    <div className={styles.AutoExpand}>
+      {!_expanded && <div className={styles.content}>{leftContent}</div>}
+      <div ref={ref} className={styles.expandable} style={{ width: _expanded ? '100%' : expandableWidthRange.minimum }}>
+        {renderExpandable(expanded, setExpanded)}
+      </div>
+    </div>
+  )
+}
+
 export default () => {
   const isMobile = useIsMobile()
   const { pathname } = useLocation()
   const dispatch = useDispatch()
   const {
-    components: { searchBarEditable, headerSearchBarVisible, maintenanceAlertVisible },
+    components: { headerSearchBarVisible, maintenanceAlertVisible },
   } = useAppState()
 
   useEffect(() => {
@@ -65,9 +87,13 @@ export default () => {
       <LogoComp />
       {!isMobile && (
         <>
-          {!(isScreen750to1440() && searchBarEditable && headerSearchBarVisible) && <MenusComp />}
-          <HeaderEmptyPanel />
-          {headerSearchBarVisible && <SearchComp />}
+          <AutoExpand
+            leftContent={<MenusComp />}
+            expandableWidthRange={{ minimum: 320, maximum: 440 }}
+            renderExpandable={(expanded, setExpanded) =>
+              headerSearchBarVisible && <SearchComp expanded={expanded} setExpanded={setExpanded} />
+            }
+          />
           <BlockchainComp />
           <LanguageComp />
         </>
