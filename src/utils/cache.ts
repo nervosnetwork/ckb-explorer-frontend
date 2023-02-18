@@ -1,7 +1,11 @@
 import { getCSTTime } from './date'
 
 export const storeCachedData = <T>(key: string, value: T) => {
-  localStorage.setItem(key, JSON.stringify(value))
+  try {
+    localStorage.setItem(key, JSON.stringify(value))
+  } catch (e) {
+    localStorage.removeItem(key)
+  }
 }
 
 export const fetchCachedData = <T>(key: string): T | null => {

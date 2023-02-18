@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useRef, useMemo } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
 import ReactEchartsCore from 'echarts-for-react/lib/core'
@@ -7,16 +7,14 @@ import i18n from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
 import { localeNumberString } from '../../../utils/number'
 import SmallLoading from '../../../components/Loading/SmallLoading'
+import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
-import { useChartQueryWithCache, useIsLGScreen } from '../../../utils/hook'
+import { useChartQueryWithCache } from '../../../utils/hook'
 import { fetchStatisticAverageBlockTimes } from '../../../service/http/fetcher'
 import { ChartCachedKeys } from '../../../constants/cache'
 
-const getOption = (
-  statisticAverageBlockTimes: State.StatisticAverageBlockTime[],
-  useMiniStyle: boolean,
-): echarts.EChartOption => ({
+const getOption = (statisticAverageBlockTimes: State.StatisticAverageBlockTime[]): echarts.EChartOption => ({
   color: ['#ffffff'],
   title: {
     text: i18n.t('statistic.average_block_time_title'),
@@ -29,9 +27,9 @@ const getOption = (
     },
   },
   grid: {
-    left: useMiniStyle ? '1%' : '2%',
+    left: isScreenSmallerThan1200() ? '1%' : '2%',
     right: '3%',
-    top: useMiniStyle ? '20%' : '15%',
+    top: isScreenSmallerThan1200() ? '20%' : '15%',
     bottom: '2%',
     containLabel: true,
   },
@@ -104,7 +102,8 @@ const getOption = (
 })
 
 export default () => {
-  const isLG = useIsLGScreen()
+  const screenWidth = useRef<number>(window.innerWidth)
+  const widthDiff = window.innerWidth > 750 && Math.abs(screenWidth.current - window.innerWidth)
 
   const query = useChartQueryWithCache(fetchStatisticAverageBlockTimes, ChartCachedKeys.AverageBlockTime, 'date')
   const fullStatisticAverageBlockTimes = useMemo(() => query.data ?? [], [query.data])
@@ -113,6 +112,12 @@ export default () => {
     const last14Dyas = -336
     return fullStatisticAverageBlockTimes.slice(last14Dyas)
   }, [fullStatisticAverageBlockTimes])
+
+  const clickEvent = useCallback(() => {
+    if (widthDiff) {
+      screenWidth.current = window.innerWidth
+    }
+  }, [widthDiff])
 
   if (query.isLoading || statisticAverageBlockTimes.length === 0) {
     return (
@@ -129,11 +134,14 @@ export default () => {
     <HomeChartLink to="/charts/average-block-time">
       <ReactEchartsCore
         echarts={echarts}
-        option={getOption(statisticAverageBlockTimes, isLG)}
+        option={getOption(statisticAverageBlockTimes)}
         notMerge
         lazyUpdate
         style={{
-          height: isLG ? '136px' : '190px',
+          height: isScreenSmallerThan1200() ? '136px' : '190px',
+        }}
+        onEvents={{
+          click: clickEvent,
         }}
       />
     </HomeChartLink>

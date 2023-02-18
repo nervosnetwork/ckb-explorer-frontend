@@ -25,9 +25,5 @@ export const defaultBlockInfo: State.Block = {
   minerReward: '',
   liveCellChanges: '',
   size: 0,
-  largestBlockInEpoch: 0,
-  largestBlock: 0,
   cycles: null,
-  maxCyclesInEpoch: null,
-  maxCycles: null,
 }
