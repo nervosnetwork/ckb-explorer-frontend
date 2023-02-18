@@ -210,7 +210,11 @@ declare namespace State {
     minerReward: string
     liveCellChanges: string
     size: number
+    largestBlockInEpoch: number
+    largestBlock: number
     cycles: number | null
+    maxCyclesInEpoch: number | null
+    maxCycles: number | null
   }
 
   export interface CellDep {
@@ -240,7 +244,11 @@ declare namespace State {
     txStatus: string
     detailedMessage: string
     bytes: number
+    largestTxInEpoch: number
+    largestTx: number
     cycles: number | null
+    maxCyclesInEpoch: number | null
+    maxCycles: number | null
     createTimestamp?: number
   }
 
@@ -550,8 +558,6 @@ declare namespace State {
     ]
     tipBlockNumber: number
 
-    appWidth: number
-    appHeight: number
     language: 'en' | 'zh'
     primaryColor: string
     secondaryColor: string
@@ -571,7 +577,6 @@ declare namespace State {
   }
 
   export interface Components {
-    searchBarEditable: boolean
     mobileMenuVisible: boolean
     headerSearchBarVisible: boolean
     maintenanceAlertVisible: boolean

@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { FC, useEffect, useMemo, useRef } from 'react'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
+import { useResizeDetector } from 'react-resize-detector'
 import {
   HomeHeaderItemPanel,
   BlockPanel,
@@ -16,7 +17,6 @@ import { parseTime, parseTimeNoSecond } from '../../utils/date'
 import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME, ListPageParams } from '../../constants/common'
 import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
-import { isScreenSmallerThan1200 } from '../../utils/screen'
 import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import LatestBlocksIcon from '../../assets/latest_blocks.png'
@@ -24,14 +24,13 @@ import LatestTransactionsIcon from '../../assets/latest_transactions.png'
 import { BlockCardItem, TransactionCardItem } from './TableCard'
 import { getTipBlockNumber } from '../../service/app/address'
 import Loading from '../../components/Loading/SmallLoading'
-import Banner from '../../components/Banner'
-import { useInterval, useIsMobile } from '../../utils/hook'
+import { useElementIntersecting, useInterval, useIsLGScreen, useIsMobile } from '../../utils/hook'
+import { Banner } from './Banner'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
 import Search from '../../components/Search'
 import AverageBlockTimeChart from './AverageBlockTimeChart'
 import HashRateChart from './HashRateChart'
 import { ComponentActions } from '../../contexts/actions'
-import { AppDispatch } from '../../contexts/reducer'
 import styles from './index.module.scss'
 import { fetchLatestBlocks, fetchLatestTransactions } from '../../service/http/fetcher'
 import { RouteState } from '../../routes/state'
@@ -67,7 +66,7 @@ const parseHashRate = (hashRate: string | undefined) => (hashRate ? handleHashRa
 
 const parseBlockTime = (blockTime: string | undefined) => (blockTime ? parseTime(Number(blockTime)) : '- -')
 
-const getBlockchainDataList = (statistics: State.Statistics, isMobile: boolean): BlockchainData[] => [
+const getBlockchainDataList = (statistics: State.Statistics, isMobile: boolean, isLG: boolean): BlockchainData[] => [
   {
     name: i18n.t('blockchain.latest_block'),
     value: localeNumberString(statistics.tipBlockNumber),
@@ -97,7 +96,7 @@ const getBlockchainDataList = (statistics: State.Statistics, isMobile: boolean):
   {
     name: i18n.t('blockchain.estimated_epoch_time'),
     value: parseTimeNoSecond(Number(statistics.estimatedEpochTime)),
-    showSeparate: !isScreenSmallerThan1200(),
+    showSeparate: !isLG,
   },
   {
     name: i18n.t('blockchain.transactions_per_minute'),
@@ -111,38 +110,68 @@ const getBlockchainDataList = (statistics: State.Statistics, isMobile: boolean):
   },
 ]
 
-const useHomeSearchBarStatus = (dispatch: AppDispatch) => {
+const HomeHeaderTopPanel: FC = () => {
+  const dispatch = useDispatch()
+  const ref = useRef<HTMLDivElement>(null)
+
+  const { height: resizedHeight } = useResizeDetector({
+    targetRef: ref,
+    handleWidth: false,
+  })
+  const height = Math.round(resizedHeight ?? ref.current?.clientHeight ?? 0)
+  const selfMarginTop = 20
+  const headerHeight = 64
+  const intersectingCheckOffset = height + selfMarginTop + headerHeight
+
+  const isFullDisplayInScreen = useElementIntersecting(
+    ref,
+    useMemo(
+      () => ({
+        threshold: 0,
+        rootMargin: `-${intersectingCheckOffset}px`,
+      }),
+      [intersectingCheckOffset],
+    ),
+    true,
+  )
+
   useEffect(() => {
+    if (ref.current == null) return
+
     dispatch({
-      type: ComponentActions.UpdateHeaderSearchEditable,
+      type: ComponentActions.UpdateHeaderSearchBarVisible,
       payload: {
-        searchBarEditable: false,
+        headerSearchBarVisible: !isFullDisplayInScreen,
       },
     })
-  }, [dispatch])
 
-  useInterval(() => {
-    const searchBar = document.getElementById('home__search__bar') as HTMLElement
-    if (searchBar) {
-      const searchPosition = searchBar.scrollHeight + 64 + 100
+    // eslint-disable-next-line consistent-return
+    return () => {
       dispatch({
         type: ComponentActions.UpdateHeaderSearchBarVisible,
         payload: {
-          headerSearchBarVisible: window.pageYOffset > searchPosition,
+          headerSearchBarVisible: true,
         },
       })
     }
-  }, 300)
+  }, [dispatch, isFullDisplayInScreen])
+
+  return (
+    <div ref={ref} className={styles.HomeHeaderTopPanel}>
+      <div className={styles.title}>{i18n.t('common.ckb_explorer')}</div>
+      <div className={styles.search}>{isFullDisplayInScreen && <Search hasButton />}</div>
+    </div>
+  )
 }
 
 export default () => {
   const isMobile = useIsMobile()
+  const isLG = useIsLGScreen()
   const dispatch = useDispatch()
   const history = useHistory<RouteState>()
   const {
     statistics,
     app: { tipBlockNumber },
-    components: { headerSearchBarVisible },
   } = useAppState()
   const [t] = useTranslation()
 
@@ -189,20 +218,13 @@ export default () => {
     handleBlockchainAlert(dispatch)
   }, BLOCKCHAIN_ALERT_POLLING_TIME)
 
-  useHomeSearchBarStatus(dispatch)
-
-  const blockchainDataList = getBlockchainDataList(statistics, isMobile)
+  const blockchainDataList = getBlockchainDataList(statistics, isMobile, isLG)
 
   return (
     <Content>
-      <Banner />
+      <Banner latestBlock={blocksQuery.data?.blocks[0]} />
       <div className="container">
-        <div className={styles.HomeHeaderTopPanel}>
-          <div className={styles.title}>{i18n.t('common.ckb_explorer')}</div>
-          <div className={styles.search} id="home__search__bar">
-            {!headerSearchBarVisible && <Search hasButton />}
-          </div>
-        </div>
+        <HomeHeaderTopPanel />
         <div className={`${styles.HomeStatisticTopPanel} ${styles.AfterHardFork}`}>
           <div className={styles.home__statistic__left__panel}>
             <div className={styles.home__statistic__left__data}>
@@ -224,11 +246,11 @@ export default () => {
           </div>
         </div>
         <div className={styles.HomeStatisticBottomPanel}>
-          {!isScreenSmallerThan1200() &&
+          {!isLG ? (
             blockchainDataList
               .slice(4)
-              .map((data: BlockchainData) => <BlockchainItem blockchain={data} key={data.name} />)}
-          {isScreenSmallerThan1200() && (
+              .map((data: BlockchainData) => <BlockchainItem blockchain={data} key={data.name} />)
+          ) : (
             <>
               <div className={styles.blockchain__item__row}>
                 {blockchainDataList.slice(4, 6).map((data: BlockchainData) => (
