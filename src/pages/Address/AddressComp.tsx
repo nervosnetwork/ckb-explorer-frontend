@@ -19,11 +19,10 @@ import DecimalCapacity from '../../components/DecimalCapacity'
 import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
-import { isScreenSmallerThan1200 } from '../../utils/screen'
 import { sliceNftName } from '../../utils/string'
-import { useNewAddr } from '../../utils/hook'
+import { useIsLGScreen, useNewAddr } from '../../utils/hook'
 
-const addressAssetInfo = (address: State.Address) => {
+const addressAssetInfo = (address: State.Address, useMiniStyle: boolean) => {
   const items = [
     {
       title: '',
@@ -55,7 +54,7 @@ const addressAssetInfo = (address: State.Address) => {
       isAsset: true,
     },
   ] as OverviewItemData[]
-  if (isScreenSmallerThan1200()) {
+  if (useMiniStyle) {
     const item2 = items[2]
     items[0] = item2
     items.splice(2, 1)
@@ -165,6 +164,7 @@ interface CoTAList {
 }
 
 export const AddressAssetComp: FC<{ address: State.Address }> = ({ address }) => {
+  const isLG = useIsLGScreen()
   const { udtAccounts } = address
 
   const { data: initList } = useQuery<AxiosResponse<CoTAList>>(
@@ -186,7 +186,7 @@ export const AddressAssetComp: FC<{ address: State.Address }> = ({ address }) =>
   )
 
   return (
-    <OverviewCard items={addressAssetInfo(address)} titleCard={<TitleCard title={i18n.t('address.assets')} />}>
+    <OverviewCard items={addressAssetInfo(address, isLG)} titleCard={<TitleCard title={i18n.t('address.assets')} />}>
       {udtAccounts.length || cotaList?.length ? (
         <AddressUDTAssetsPanel>
           <span>{i18n.t('address.user_defined_token')}</span>

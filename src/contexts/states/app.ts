@@ -17,8 +17,6 @@ export const initApp: State.App = {
     },
   ],
   tipBlockNumber: 0,
-  appWidth: window.innerWidth,
-  appHeight: window.innerHeight,
   language: navigator.language.includes('zh') ? 'zh' : 'en',
   primaryColor: getPrimaryColor(),
   secondaryColor: getSecondaryColor(),

@@ -1,0 +1,17 @@
+.AutoExpand {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+
+  .content {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .expandable {
+    display: flex;
+    justify-content: right;
+    flex: 1;
+    min-width: 0;
+  }
+}

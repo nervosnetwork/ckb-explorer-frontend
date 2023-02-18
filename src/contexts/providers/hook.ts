@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useHistory } from 'react-router'
 import { initAxiosInterceptors } from '../../service/http/interceptors'
 import {
-  RESIZE_LATENCY,
   MAINTENANCE_ALERT_POLLING_TIME,
   FLUSH_CHART_CACHE_POLLING_TIME,
   BLOCK_POLLING_TIME,
@@ -17,29 +16,6 @@ import { useInterval } from '../../utils/hook'
 import { getMaintenanceInfo } from '../../service/app/alert'
 import flushCacheInfo from '../../service/app/charts/cache'
 import getStatistics from '../../service/app/statistics'
-
-const useWindowResize = (dispatch: AppDispatch) => {
-  useEffect(() => {
-    let resizeTimer: any = null
-    const resizeListener = () => {
-      if (resizeTimer) clearTimeout(resizeTimer)
-      resizeTimer = setTimeout(() => {
-        dispatch({
-          type: AppActions.ResizeWindow,
-          payload: {
-            appWidth: window.innerWidth,
-            appHeight: window.innerHeight,
-          },
-        })
-        resizeTimer = null
-      }, RESIZE_LATENCY)
-    }
-    window.addEventListener('resize', resizeListener)
-    return () => {
-      window.removeEventListener('resize', resizeListener)
-    }
-  }, [dispatch])
-}
 
 const initAppLanguage = (app: State.App, dispatch: AppDispatch) => {
   const language = fetchCachedData<'zh' | 'en'>(AppCachedKeys.AppLanguage) || app.language
@@ -69,7 +45,6 @@ export const useInitApp = () => {
     flushCacheInfo()
     getStatistics(dispatch)
   }
-  useWindowResize(dispatch)
 
   useInterval(() => {
     getMaintenanceInfo(dispatch)

@@ -215,6 +215,29 @@ export const parseSince = (
   }
 }
 
+export function singleton<Fn extends (...args: any) => Promise<any>>(fn: Fn): Fn {
+  let latestPromise: Promise<unknown> | null = null
+
+  // eslint-disable-next-line func-names
+  return function (this: unknown, ...args) {
+    if (latestPromise) return latestPromise
+
+    const promise = fn.apply(this, args)
+    promise.finally(() => {
+      if (promise === latestPromise) {
+        latestPromise = null
+      }
+    })
+
+    latestPromise = promise
+    return promise
+  } as Fn
+}
+
+export function sleep(time: number) {
+  return new Promise<void>(resolve => setTimeout(resolve, time))
+}
+
 export default {
   copyElementValue,
   shannonToCkb,

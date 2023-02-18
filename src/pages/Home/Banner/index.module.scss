@@ -1,0 +1,19 @@
+.banner {
+  background: #000;
+  --rendererWidth: 1200px;
+
+  &.mobile {
+    --rendererWidth: 600px;
+  }
+
+  .renderer {
+    position: relative;
+    left: calc(50% - var(--rendererWidth) / 2);
+    width: var(--rendererWidth);
+    height: calc(var(--rendererWidth) / 4);
+  }
+
+  canvas {
+    filter: drop-shadow(2px 4px 6px #000);
+  }
+}
