@@ -298,10 +298,10 @@
       "size": "Size",
       "size_in_block": "Note: {{bytes}} bytes in block",
       "compared_to_the_max_size_in_epoch": "Compared to the max size in epoch",
-      "compared_to_the_max_size_in_chain": "Compared to the max size in chain",
+      "compared_to_the_max_size_in_chain": "Compared to the max size on chain",
       "cycles": "Cycles",
       "compared_to_the_max_cycles_in_epoch": "Compared to the max cycles in epoch",
-      "compared_to_the_max_cycles_in_chain": "Compared to the max cycles in chain",
+      "compared_to_the_max_cycles_in_chain": "Compared to the max cycles on chain",
       "since": {
         "relative": {
           "epoch": "After {{since}} epochs since committed",
