@@ -6,6 +6,15 @@ export const appReducer = (
   { type, payload }: { type: AppActions; payload: State.AppPayload },
 ): State.AppState => {
   switch (type) {
+    case AppActions.ResizeWindow:
+      return {
+        ...state,
+        app: {
+          ...state.app,
+          appWidth: payload.appWidth,
+          appHeight: payload.appHeight,
+        },
+      }
     case AppActions.UpdateModal:
       return {
         ...state,
