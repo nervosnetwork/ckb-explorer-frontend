@@ -37,30 +37,6 @@ export const startEndEllipsis = (value: string, endLength = 8, startLength = 16)
   return `${value.substr(0, startLength)}...${value.substr(value.length - endLength, endLength)}`
 }
 
-export const adaptMobileEllipsis = (value: string, length = 8) => {
-  if (window.innerWidth <= 320) {
-    return startEndEllipsis(value, length, length)
-  }
-  if (window.innerWidth < 500) {
-    const step = Math.ceil((window.innerWidth - 420) / 15)
-    return startEndEllipsis(value, length + step, length + step)
-  }
-  if (window.innerWidth < 750) {
-    const step = Math.ceil((window.innerWidth - 500) / 15)
-    return startEndEllipsis(value, length + step, length + step)
-  }
-  return value
-}
-
-export const adaptPCEllipsis = (value: string, length = 8, factor = 40) => {
-  if (window.innerWidth < 750) {
-    return value
-  }
-  const width = window.innerWidth > 1200 ? 1200 : window.innerWidth
-  const step = Math.ceil((width - 700) / factor)
-  return startEndEllipsis(value, length + step, length + step)
-}
-
 export const hexToUtf8 = (value: string = '') => {
   try {
     return new TextDecoder().decode(hexToBytes(value))
