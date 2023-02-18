@@ -278,10 +278,10 @@ function getTextCubes(cubeMap: CubeMap, text: string, font = '100 8px Arial') {
     [5, 1],
     [5, 2],
     [6, -3],
-    [6, 0],
+    [6, -1],
     [6, 2],
     [7, -2],
-    [7, -1],
+    [7, 0],
     [7, 1],
   ]
     .map(([x, y]) => cubeMap[x]?.[y])
