@@ -5,6 +5,14 @@ export const componentReducer = (
   { type, payload }: { type: ComponentActions; payload: State.Components },
 ): State.AppState => {
   switch (type) {
+    case ComponentActions.UpdateHeaderSearchEditable:
+      return {
+        ...state,
+        components: {
+          ...state.components,
+          searchBarEditable: payload.searchBarEditable,
+        },
+      }
     case ComponentActions.UpdateHeaderMobileMenuVisible:
       return {
         ...state,

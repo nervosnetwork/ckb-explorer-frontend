@@ -94,8 +94,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'import/prefer-default-export': 'off',
     'no-use-before-define': 'off',
-    'consistent-return': 'off',
-    'no-continue': 'off',
+    '@typescript-eslint/no-use-before-define': ['error'],
     camelcase: [
       'error',
       {

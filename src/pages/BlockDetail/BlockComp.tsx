@@ -35,7 +35,6 @@ import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import TitleCard from '../../components/Card/TitleCard'
 import styles from './styles.module.scss'
 import AddressText from '../../components/AddressText'
-import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 
 const CELL_BASE_ANCHOR = 'cellbase'
 
@@ -152,49 +151,12 @@ export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
     },
     {
       title: i18n.t('block.size'),
-      content: block.size ? (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          {`${block.size.toLocaleString('en')} Bytes`}
-          <ComparedToMaxTooltip
-            numerator={block.size}
-            maxInEpoch={block.largestBlockInEpoch}
-            maxInChain={block.largestBlock}
-            titleInEpoch={i18n.t('block.compared_to_the_max_size_in_epoch')}
-            titleInChain={i18n.t('block.compared_to_the_max_size_in_chain')}
-            unit="Bytes"
-          />
-        </div>
-      ) : (
-        '-'
-      ),
+      content: block.size ? `${block.size.toLocaleString('en')} Bytes` : '-',
     },
     null,
     {
       title: i18n.t('block.cycles'),
-      content: block.cycles ? (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          {`${block.cycles.toLocaleString('en')}`}
-          <ComparedToMaxTooltip
-            numerator={block.cycles}
-            maxInEpoch={block.maxCyclesInEpoch}
-            maxInChain={block.maxCycles}
-            titleInEpoch={i18n.t('block.compared_to_the_max_cycles_in_epoch')}
-            titleInChain={i18n.t('block.compared_to_the_max_cycles_in_chain')}
-          />
-        </div>
-      ) : (
-        '-'
-      ),
+      content: block.cycles ? `${block.cycles.toLocaleString('en')}` : '-',
     },
     null,
     {

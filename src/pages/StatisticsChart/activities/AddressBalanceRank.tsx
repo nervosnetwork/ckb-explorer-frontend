@@ -5,10 +5,10 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
-import { tooltipColor, tooltipWidth, SmartChartPage, SmartChartPageProps } from '../common'
+import { adaptPCEllipsis } from '../../../utils/string'
+import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { fetchStatisticAddressBalanceRank } from '../../../service/http/fetcher'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { useAdaptPCEllipsis } from '../../../utils/hook'
 
 const getAddressWithRanking = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[], ranking: string) => {
   const addressBalanceRank = statisticAddressBalanceRanks.find(rank => rank.ranking === ranking)
@@ -20,7 +20,6 @@ const getOption = (
   chartColor: State.App['chartColor'],
   isMobile: boolean,
   isThumbnail = false,
-  getAdaptAddressText: (address: string) => string,
 ): echarts.EChartOption => {
   const gridThumbnail = {
     left: '4%',
@@ -43,9 +42,11 @@ const getOption = (
           trigger: 'axis',
           formatter: (dataList: any) => {
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 60 : 35)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(
-              i18n.t('statistic.address'),
-            )} ${getAdaptAddressText(getAddressWithRanking(statisticAddressBalanceRanks, dataList[0].name))}</div>`
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.address'))} ${adaptPCEllipsis(
+              getAddressWithRanking(statisticAddressBalanceRanks, dataList[0].name),
+              6,
+              60,
+            )}</div>`
             result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(i18n.t('statistic.balance'))} \
           ${localeNumberString(dataList[0].data)} ${i18n.t('common.ckb_unit')}</div>`
             result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(i18n.t('statistic.rank'))} ${
@@ -124,12 +125,6 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
     [statisticAddressBalanceRanks, history],
   )
 
-  const adaptPCEllipsis = useAdaptPCEllipsis(60)
-  const getEChartOption: SmartChartPageProps<State.StatisticAddressBalanceRank>['getEChartOption'] = useCallback(
-    (...args) => getOption(...args, address => adaptPCEllipsis(address, 6)),
-    [adaptPCEllipsis],
-  )
-
   return (
     <SmartChartPage
       title={t('statistic.balance_ranking')}
@@ -138,7 +133,7 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
       chartProps={{ clickEvent: !isThumbnail ? clickEvent : undefined }}
       fetchData={fetchStatisticAddressBalanceRanks}
       onFetched={setStatisticAddressBalanceRanks}
-      getEChartOption={getEChartOption}
+      getEChartOption={getOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.AddressBalanceRank}
       cacheMode="date"
