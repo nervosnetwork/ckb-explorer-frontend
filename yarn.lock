@@ -2821,6 +2821,13 @@
     "@types/react" "*"
     csstype "^3.0.2"
 
+"@types/three@0.149.0":
+  version "0.149.0"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.149.0.tgz#f48c03ffcf35b2d196f3532b51bc845e96f6090e"
+  integrity sha512-fgNBm9LWc65ER/W0cvoXdC0iMy7Ke9e2CONmEr6Jt8sDSY3sw4DgOubZfmdZ747dkPhbQrgRQAWwDEr2S/7IEg==
+  dependencies:
+    "@types/webxr" "*"
+
 "@types/trusted-types@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@types/trusted-types/-/trusted-types-2.0.2.tgz#fc25ad9943bcac11cceb8168db4f275e0e72e756"
@@ -2835,6 +2842,11 @@
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.3.tgz#9c088679876f374eb5983f150d4787aa6fb32d7e"
   integrity sha512-FvUupuM3rlRsRtCN+fDudtmytGO6iHJuuRKS1Ss0pG5z8oX0diNEw94UEL7hgDbpN94rgaK5R7sWm6RrSkZuAQ==
+
+"@types/webxr@*":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@types/webxr/-/webxr-0.5.1.tgz#4908349419104bd476a4252d04e4c3abb496748d"
+  integrity sha512-xlFXPfgJR5vIuDefhaHuUM9uUgvPaXB6GKdXy2gdEh8gBWQZ2ul24AJz3foUd8NNKlSTQuWYJpCb1/pL81m1KQ==
 
 "@types/ws@^8.5.1":
   version "8.5.3"
@@ -7024,6 +7036,11 @@ grapheme-splitter@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz#9cf3a665c6247479896834af35cf1dbb4400767e"
   integrity sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==
+
+gsap@3.11.4:
+  version "3.11.4"
+  resolved "https://registry.yarnpkg.com/gsap/-/gsap-3.11.4.tgz#e6d972d3509a7431b86d81d6fc3bbeb6862e5ff1"
+  integrity sha512-McHhEguHyExMMnjqKA8G+7TvxmlKQGMbjgwAilnFe1e4id7V/tFveRQ2YMZhTYu0oxHGWvbPltdVYQOu3z1SCA==
 
 gzip-size@^6.0.0:
   version "6.0.0"
@@ -13422,6 +13439,11 @@ text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
+
+three@0.149.0:
+  version "0.149.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.149.0.tgz#a9cf78b17d02f063ffe6dfca1e300eff2eab2927"
+  integrity sha512-tohpUxPDht0qExRLDTM8sjRLc5d9STURNrdnK3w9A+V4pxaTBfKWWT/IqtiLfg23Vfc3Z+ImNfvRw1/0CtxrkQ==
 
 throat@^6.0.1:
   version "6.0.1"
