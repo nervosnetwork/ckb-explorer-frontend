@@ -11,7 +11,7 @@ import i18n from '../../utils/i18n'
 import { HttpErrorCode, SearchFailType } from '../../constants/common'
 import { AppDispatch } from '../../contexts/reducer'
 import { ComponentActions } from '../../contexts/actions'
-import { useDispatch } from '../../contexts/providers'
+import { useAppState, useDispatch } from '../../contexts/providers'
 import { useIsMobile } from '../../utils/hook'
 import { isChainTypeError } from '../../utils/chain'
 
@@ -55,6 +55,7 @@ const hideMobileMenu = (dispatch: AppDispatch) => {
 const handleSearchResult = (
   searchValue: string,
   inputElement: any,
+  searchBarEditable: boolean,
   dispatch: AppDispatch,
   setSearchValue: Function,
   history: ReturnType<typeof useHistory>,
@@ -71,6 +72,14 @@ const handleSearchResult = (
     return
   }
 
+  if (searchBarEditable) {
+    dispatch({
+      type: ComponentActions.UpdateHeaderSearchEditable,
+      payload: {
+        searchBarEditable: false,
+      },
+    })
+  }
   setSearchLoading(inputElement)
   fetchSearchResult(addPrefixForHash(query))
     .then((response: any) => {
@@ -111,15 +120,7 @@ const handleSearchResult = (
     })
 }
 
-const Search = ({
-  content,
-  hasButton,
-  onEditEnd,
-}: {
-  content?: string
-  hasButton?: boolean
-  onEditEnd?: () => void
-}) => {
+const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean }) => {
   const isMobile = useIsMobile()
   const dispatch = useDispatch()
   const history = useHistory()
@@ -128,6 +129,9 @@ const Search = ({
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
   const inputElement = useRef<HTMLInputElement>(null)
+  const {
+    components: { searchBarEditable },
+  } = useAppState()
 
   // update input placeholder when language change
   useEffect(() => {
@@ -146,19 +150,28 @@ const Search = ({
     if (isClear) {
       setSearchValue('')
       clearSearchInput(inputElement)
-      onEditEnd?.()
+      dispatch({
+        type: ComponentActions.UpdateHeaderSearchEditable,
+        payload: {
+          searchBarEditable: false,
+        },
+      })
     }
   }
 
   const inputChangeAction = (event: any) => {
     setSearchValue(event.target.value)
-    if (!event.target.value) onEditEnd?.()
+    dispatch({
+      type: ComponentActions.UpdateHeaderSearchEditable,
+      payload: {
+        searchBarEditable: !!event.target.value,
+      },
+    })
   }
 
   const searchKeyAction = (event: any) => {
     if (event.keyCode === 13) {
-      handleSearchResult(searchValue, inputElement, dispatch, setSearchValue, history, isMobile)
-      onEditEnd?.()
+      handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch, setSearchValue, history, isMobile)
     }
   }
 
@@ -173,6 +186,7 @@ const Search = ({
       <SearchPanel moreHeight={hasButton} hasButton={hasButton}>
         <ImageIcon />
         <SearchInputPanel
+          searchBarEditable={searchBarEditable}
           ref={inputElement}
           placeholder={placeholder}
           defaultValue={searchValue || ''}
@@ -183,10 +197,17 @@ const Search = ({
       </SearchPanel>
       {hasButton && (
         <SearchButton
-          onClick={() => {
-            handleSearchResult(searchValue, inputElement, dispatch, setSearchValue, history, isMobile)
-            onEditEnd?.()
-          }}
+          onClick={() =>
+            handleSearchResult(
+              searchValue,
+              inputElement,
+              searchBarEditable,
+              dispatch,
+              setSearchValue,
+              history,
+              isMobile,
+            )
+          }
         >
           {i18n.t('search.search')}
         </SearchButton>
