@@ -24,7 +24,7 @@ import LatestTransactionsIcon from '../../assets/latest_transactions.png'
 import { BlockCardItem, TransactionCardItem } from './TableCard'
 import { getTipBlockNumber } from '../../service/app/address'
 import Loading from '../../components/Loading/SmallLoading'
-import Banner from '../../components/Banner'
+import { Banner } from './Banner'
 import { useInterval, useIsMobile } from '../../utils/hook'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
 import Search from '../../components/Search'
@@ -195,7 +195,7 @@ export default () => {
 
   return (
     <Content>
-      <Banner />
+      <Banner latestBlock={blocksQuery.data?.blocks[0]} />
       <div className="container">
         <div className={styles.HomeHeaderTopPanel}>
           <div className={styles.title}>{i18n.t('common.ckb_explorer')}</div>
