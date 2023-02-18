@@ -13,7 +13,6 @@
     "default-passive-events": "2.0.0",
     "echarts": "4.8.0",
     "echarts-for-react": "^2.0.1",
-    "gsap": "3.11.4",
     "history": "5.0.0",
     "i18next": "20.3.5",
     "jsbi": "3.2.5",
@@ -28,8 +27,7 @@
     "react-router-dom": "5.2.0",
     "react-scripts": "5.0.1",
     "sass": "1.50.1",
-    "styled-components": "5.3.0",
-    "three": "0.149.0"
+    "styled-components": "5.3.0"
   },
   "devDependencies": {
     "@types/echarts": "4.9.9",
@@ -44,7 +42,6 @@
     "@types/react-router-dom": "5.1.8",
     "@types/react-test-renderer": "^17.0.1",
     "@types/styled-components": "5.1.11",
-    "@types/three": "0.149.0",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
     "@typescript-eslint/parser": "5.48.1",
     "create-react-app": "^4.0.3",

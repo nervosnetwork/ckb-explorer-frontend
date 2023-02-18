@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useRef, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
@@ -8,13 +8,14 @@ import i18n from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import SmallLoading from '../../../components/Loading/SmallLoading'
+import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
-import { useChartQueryWithCache, useIsLGScreen } from '../../../utils/hook'
+import { useChartQueryWithCache } from '../../../utils/hook'
 import { fetchStatisticHashRate } from '../../../service/http/fetcher'
 import { ChartCachedKeys } from '../../../constants/cache'
 
-const getOption = (statisticHashRates: State.StatisticHashRate[], useMiniStyle: boolean): echarts.EChartOption => ({
+const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChartOption => ({
   color: ['#ffffff'],
   title: {
     text: i18n.t('block.hash_rate_hps'),
@@ -27,9 +28,9 @@ const getOption = (statisticHashRates: State.StatisticHashRate[], useMiniStyle: 
     },
   },
   grid: {
-    left: useMiniStyle ? '1%' : '2%',
+    left: isScreenSmallerThan1200() ? '1%' : '2%',
     right: '3%',
-    top: useMiniStyle ? '20%' : '15%',
+    top: isScreenSmallerThan1200() ? '20%' : '15%',
     bottom: '2%',
     containLabel: true,
   },
@@ -99,7 +100,8 @@ const getOption = (statisticHashRates: State.StatisticHashRate[], useMiniStyle: 
 })
 
 export default () => {
-  const isLG = useIsLGScreen()
+  const screenWidth = useRef<number>(window.innerWidth)
+  const widthDiff = window.innerWidth > 750 && Math.abs(screenWidth.current - window.innerWidth)
 
   const query = useChartQueryWithCache(fetchStatisticHashRate, ChartCachedKeys.HashRate, 'date')
   const fullStatisticHashRates = useMemo(() => query.data ?? [], [query.data])
@@ -108,6 +110,12 @@ export default () => {
     const last14Days = -15 // one day offset
     return fullStatisticHashRates.slice(last14Days)
   }, [fullStatisticHashRates])
+
+  const clickEvent = useCallback(() => {
+    if (widthDiff) {
+      screenWidth.current = window.innerWidth
+    }
+  }, [widthDiff])
 
   if (query.isLoading || statisticHashRates.length === 0) {
     return (
@@ -124,11 +132,14 @@ export default () => {
     <HomeChartLink to="/charts/hash-rate">
       <ReactEchartsCore
         echarts={echarts}
-        option={getOption(statisticHashRates, isLG)}
+        option={getOption(statisticHashRates)}
         notMerge
         lazyUpdate
         style={{
-          height: isLG ? '136px' : '190px',
+          height: isScreenSmallerThan1200() ? '136px' : '190px',
+        }}
+        onEvents={{
+          click: clickEvent,
         }}
       />
     </HomeChartLink>

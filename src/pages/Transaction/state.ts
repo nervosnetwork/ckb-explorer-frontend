@@ -17,9 +17,5 @@ export const defaultTransactionInfo: State.Transaction = {
   txStatus: '',
   detailedMessage: '',
   bytes: 0,
-  largestTxInEpoch: 0,
-  largestTx: 0,
   cycles: null,
-  maxCyclesInEpoch: null,
-  maxCycles: null,
 }

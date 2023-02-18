@@ -1,4 +1,5 @@
 export enum AppActions {
+  ResizeWindow = 'resizeWindow',
   UpdateModal = 'updateModal',
   ShowToastMessage = 'showToastMessage',
   UpdateAppErrors = 'updateAppErrors',
@@ -12,6 +13,7 @@ export enum PageActions {
 }
 
 export enum ComponentActions {
+  UpdateHeaderSearchEditable = 'updateHeaderSearchEditable',
   UpdateHeaderMobileMenuVisible = 'updateHeaderMobileMenuVisible',
   UpdateHeaderSearchBarVisible = 'updateHeaderSearchBarVisible',
   UpdateMaintenanceAlertVisible = 'updateMaintenanceAlertVisible',
