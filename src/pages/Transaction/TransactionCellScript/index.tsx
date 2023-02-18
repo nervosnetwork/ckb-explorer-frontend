@@ -25,6 +25,7 @@ import { isMainnet } from '../../../utils/chain'
 import { useDispatch } from '../../../contexts/providers'
 import CloseIcon from '../../../assets/modal_close.png'
 import { matchScript } from '../../../utils/util'
+import { localeNumberString } from '../../../utils/number'
 import HashTag from '../../../components/HashTag'
 
 const initScriptContent = {
@@ -58,7 +59,6 @@ const handleFetchCellInfo = async (
   state: CellState,
   setScriptFetchStatus: (val: boolean) => void,
   setContent: Function,
-  setState: Function,
   dispatch: AppDispatch,
   txStatus: string,
 ) => {
@@ -94,7 +94,6 @@ const handleFetchCellInfo = async (
           if (error.response && error.response.data && error.response.data[0]) {
             const err = error.response.data[0]
             if (err.status === 400 && err.code === 1022) {
-              setState(CellState.NONE)
               dispatch({
                 type: AppActions.ShowToastMessage,
                 payload: {
@@ -147,7 +146,7 @@ const handleFetchCellInfo = async (
 
         if (!data) {
           setContent({
-            declared,
+            declared: `${localeNumberString(declared.dividedBy(10 ** 8))} CKBytes`,
             occupied: null,
           })
           return
@@ -164,8 +163,8 @@ const handleFetchCellInfo = async (
           .plus(Math.ceil(data.data.slice(2).length / 2))
 
         setContent({
-          declared: `${declared.dividedBy(10 ** 8)} CKBytes`,
-          occupied: `${occupied} CKBytes`,
+          declared: `${localeNumberString(declared.dividedBy(10 ** 8))} CKBytes`,
+          occupied: `${localeNumberString(occupied)} CKBytes`,
         })
       })
 
@@ -205,10 +204,7 @@ const ScriptContent = ({
 
           if (!v) return null
           const field = i18n.t(`transaction.${key}_capacity`)
-
-          return (
-            <ScriptContentItem key={key} title={`"${field}": `} value={capacities[key as keyof CapacityUsage] || ''} />
-          )
+          return <ScriptContentItem key={key} title={`"${field}": `} value={v || ''} />
         })}
       </>
     )
@@ -267,8 +263,8 @@ export default ({ cell, onClose, txStatus }: { cell: State.Cell; onClose: Functi
   }
 
   useEffect(() => {
-    handleFetchCellInfo(cell, state, setScriptFetched, setContent, setState, dispatch, txStatus)
-  }, [cell, state, setState, dispatch, txStatus])
+    handleFetchCellInfo(cell, state, setScriptFetched, setContent, dispatch, txStatus)
+  }, [cell, state, dispatch, txStatus])
 
   const onClickCopy = () => {
     navigator.clipboard.writeText(updateJsonFormat(content)).then(

@@ -24,8 +24,8 @@ import LatestTransactionsIcon from '../../assets/latest_transactions.png'
 import { BlockCardItem, TransactionCardItem } from './TableCard'
 import { getTipBlockNumber } from '../../service/app/address'
 import Loading from '../../components/Loading/SmallLoading'
-import Banner from '../../components/Banner'
 import { useElementIntersecting, useInterval, useIsLGScreen, useIsMobile } from '../../utils/hook'
+import { Banner } from './Banner'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
 import Search from '../../components/Search'
 import AverageBlockTimeChart from './AverageBlockTimeChart'
@@ -222,7 +222,7 @@ export default () => {
 
   return (
     <Content>
-      <Banner />
+      <Banner latestBlock={blocksQuery.data?.blocks[0]} />
       <div className="container">
         <HomeHeaderTopPanel />
         <div className={`${styles.HomeStatisticTopPanel} ${styles.AfterHardFork}`}>
