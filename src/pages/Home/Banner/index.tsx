@@ -1,10 +1,11 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, memo, useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { BannerRender, createBannerRender } from './render'
 import styles from './index.module.scss'
 import { useIsMobile, usePrevious } from '../../../utils/hook'
 
-export const Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
+// eslint-disable-next-line no-underscore-dangle
+const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
   const isMobile = useIsMobile()
   const ref = useRef<HTMLDivElement>(null)
   const [render, setRender] = useState<BannerRender>()
@@ -33,3 +34,4 @@ export const Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
     </div>
   )
 }
+export const Banner = memo(_Banner, (a, b) => a.latestBlock?.number === b.latestBlock?.number)

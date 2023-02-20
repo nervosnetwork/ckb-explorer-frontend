@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, memo, useCallback } from 'react'
 import Search from '../../Search'
 import SearchLogo from '../../../assets/search_white.png'
 import { HeaderSearchPanel, HeaderSearchBarPanel } from './styled'
@@ -6,7 +6,9 @@ import { HeaderSearchPanel, HeaderSearchBarPanel } from './styled'
 export const SearchComp: FC<{
   expanded: boolean
   setExpanded: (expanded: boolean) => void
-}> = ({ expanded, setExpanded }) => {
+}> = memo(({ expanded, setExpanded }) => {
+  const onEditEnd = useCallback(() => setExpanded(false), [setExpanded])
+
   if (!expanded) {
     return (
       <HeaderSearchBarPanel
@@ -24,7 +26,7 @@ export const SearchComp: FC<{
 
   return (
     <HeaderSearchPanel>
-      <Search onEditEnd={() => setExpanded(false)} />
+      <Search onEditEnd={onEditEnd} />
     </HeaderSearchPanel>
   )
-}
+})
