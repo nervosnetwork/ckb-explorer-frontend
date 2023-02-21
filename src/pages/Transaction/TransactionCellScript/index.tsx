@@ -325,6 +325,7 @@ export default ({ cell, onClose, txStatus }: { cell: State.Cell; onClose: Functi
             </TransactionDetailCopyButton>
             {(state === CellState.LOCK || state === CellState.TYPE) &&
             content &&
+            typeof content === 'object' &&
             'codeHash' in content &&
             'hashType' in content ? (
               <TransactionDetailScriptButton href={`/script/${content.codeHash}/${content.hashType}`} target="_blank">

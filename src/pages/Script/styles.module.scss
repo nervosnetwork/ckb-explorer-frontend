@@ -55,7 +55,13 @@
   }
 }
 
-.scriptTransactionsPagination {
+.scriptPagination {
   margin-top: 4px;
   width: 100%;
+}
+
+.codeHashMessagePanel {
+  display: flex;
+  align-items: center;
+  min-width: 0;
 }

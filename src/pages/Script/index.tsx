@@ -1,19 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { useParams } from 'react-router-dom'
-import { CopyOutlined } from '@ant-design/icons'
 import { Tabs } from 'antd'
 import { useQuery } from 'react-query'
 import { AxiosResponse } from 'axios'
 import Content from '../../components/Content'
-import { useDispatch } from '../../contexts/providers'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import i18n from '../../utils/i18n'
 import { HashCardPanel } from '../../components/Card/HashCard/styled'
 import { localeNumberString } from '../../utils/number'
-import { AppActions } from '../../contexts/actions'
-import { AppDispatch } from '../../contexts/reducer'
-import { ScriptCells, ScriptTransactions } from './ScriptsComp'
+import { CodeHashMessage, ScriptCells, ScriptTransactions } from './ScriptsComp'
 import { MainnetContractHashTags, TestnetContractHashTags } from '../../constants/scripts'
 import { isMainnet } from '../../utils/chain'
 import { scripts as scriptNameList } from '../ScriptList'
@@ -23,7 +19,6 @@ import DecimalCapacity from '../../components/DecimalCapacity'
 import { ScriptInfo, ScriptTabType } from './types'
 import styles from './styles.module.scss'
 import { v2AxiosIns } from '../../service/http/fetcher'
-import EllipsisMiddle from '../../components/EllipsisMiddle'
 
 const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
 
@@ -43,7 +38,7 @@ const scriptHashNameMap = new Map<string, string>(
     .flat(),
 )
 
-const getScriptInfo = (scriptInfo: ScriptInfo, dispatch: AppDispatch) => {
+const getScriptInfo = (scriptInfo: ScriptInfo) => {
   const { scriptName, scriptType, typeId, codeHash, hashType, capacityOfDeployedCells, capacityOfReferringCells } =
     scriptInfo
   const items: OverviewItemData[] = [
@@ -65,34 +60,7 @@ const getScriptInfo = (scriptInfo: ScriptInfo, dispatch: AppDispatch) => {
     },
     {
       title: i18n.t('address.code_hash'),
-      content: (
-        <span>
-          {codeHash ? <EllipsisMiddle className="monospace">{codeHash}</EllipsisMiddle> : null}
-          <span
-            style={{
-              marginLeft: '1rem',
-            }}
-          >
-            <CopyOutlined
-              onClick={() => {
-                navigator.clipboard.writeText(codeHash).then(
-                  () => {
-                    dispatch({
-                      type: AppActions.ShowToastMessage,
-                      payload: {
-                        message: i18n.t('common.copied'),
-                      },
-                    })
-                  },
-                  error => {
-                    console.error(error)
-                  },
-                )
-              }}
-            />
-          </span>
-        </span>
-      ),
+      content: <CodeHashMessage codeHash={codeHash} />,
     },
     {
       title: i18n.t('scripts.capacity_of_deployed_cells'),
@@ -113,10 +81,9 @@ const getScriptInfo = (scriptInfo: ScriptInfo, dispatch: AppDispatch) => {
 }
 
 const ScriptsTitleOverview = ({ scriptInfo }: { scriptInfo: ScriptInfo }) => {
-  const dispatch = useDispatch()
   return (
     <div className={styles.scriptsTitleOverviewPanel}>
-      <OverviewCard items={getScriptInfo(scriptInfo, dispatch)} hideShadow />
+      <OverviewCard items={getScriptInfo(scriptInfo)} hideShadow />
     </div>
   )
 }
