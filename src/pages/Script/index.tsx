@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useHistory, useLocation } from 'react-router'
+import { useHistory } from 'react-router'
 import { useParams } from 'react-router-dom'
 import { CopyOutlined } from '@ant-design/icons'
 import { Tabs } from 'antd'
@@ -10,8 +10,6 @@ import { useDispatch } from '../../contexts/providers'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import i18n from '../../utils/i18n'
 import { HashCardPanel } from '../../components/Card/HashCard/styled'
-import { adaptMobileEllipsis, adaptPCEllipsis, parsePageNumber } from '../../utils/string'
-import { PageParams } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
 import { AppActions } from '../../contexts/actions'
 import { AppDispatch } from '../../contexts/reducer'
@@ -19,12 +17,13 @@ import { ScriptCells, ScriptTransactions } from './ScriptsComp'
 import { MainnetContractHashTags, TestnetContractHashTags } from '../../constants/scripts'
 import { isMainnet } from '../../utils/chain'
 import { scripts as scriptNameList } from '../ScriptList'
-import { useIsMobile } from '../../utils/hook'
+import { usePaginationParamsInPage } from '../../utils/hook'
 import { shannonToCkb, toCamelcase } from '../../utils/util'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { ScriptInfo, ScriptTabType } from './types'
 import styles from './styles.module.scss'
 import { v2AxiosIns } from '../../service/http/fetcher'
+import EllipsisMiddle from '../../components/EllipsisMiddle'
 
 const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
 
@@ -44,7 +43,7 @@ const scriptHashNameMap = new Map<string, string>(
     .flat(),
 )
 
-const getScriptInfo = (scriptInfo: ScriptInfo, dispatch: AppDispatch, isMobile: boolean) => {
+const getScriptInfo = (scriptInfo: ScriptInfo, dispatch: AppDispatch) => {
   const { scriptName, scriptType, typeId, codeHash, hashType, capacityOfDeployedCells, capacityOfReferringCells } =
     scriptInfo
   const items: OverviewItemData[] = [
@@ -68,7 +67,7 @@ const getScriptInfo = (scriptInfo: ScriptInfo, dispatch: AppDispatch, isMobile: 
       title: i18n.t('address.code_hash'),
       content: (
         <span>
-          {codeHash && `${isMobile ? adaptMobileEllipsis(codeHash, 60) : adaptPCEllipsis(codeHash, 10, 80)}`}
+          {codeHash ? <EllipsisMiddle className="monospace">{codeHash}</EllipsisMiddle> : null}
           <span
             style={{
               marginLeft: '1rem',
@@ -115,10 +114,9 @@ const getScriptInfo = (scriptInfo: ScriptInfo, dispatch: AppDispatch, isMobile: 
 
 const ScriptsTitleOverview = ({ scriptInfo }: { scriptInfo: ScriptInfo }) => {
   const dispatch = useDispatch()
-  const isMobile = useIsMobile()
   return (
     <div className={styles.scriptsTitleOverviewPanel}>
-      <OverviewCard items={getScriptInfo(scriptInfo, dispatch, isMobile)} hideShadow />
+      <OverviewCard items={getScriptInfo(scriptInfo, dispatch)} hideShadow />
     </div>
   )
 }
@@ -130,12 +128,8 @@ const seekScriptName = (codeHash: string, hashType: string): string =>
 
 export const ScriptPage = () => {
   const history = useHistory()
-  const { search } = useLocation()
   const { codeHash, hashType, tab } = useParams<{ codeHash: string; hashType: string; tab: ScriptTabType }>()
-
-  const searchParams = new URLSearchParams(search)
-  const currentPage = parsePageNumber(searchParams.get('page'), PageParams.PageNo)
-  const pageSize = parsePageNumber(searchParams.get('size'), PageParams.PageSize)
+  const { currentPage, pageSize } = usePaginationParamsInPage()
 
   const [countOfTransactions, setCountOfTransactions] = useState<number>(0)
   const [countOfDeployedCells, setCountOfDeployedCells] = useState<number>(0)
