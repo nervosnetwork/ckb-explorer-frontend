@@ -5,7 +5,7 @@ import ReactEchartsCore from 'echarts-for-react/lib/core'
 import { useEffect, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
 import styles from './styles.module.scss'
-import { isScreenSmallerThan1200 } from '../../utils/screen'
+import { useIsLGScreen } from '../../utils/hook'
 import i18n from '../../utils/i18n'
 import { useAppState } from '../../contexts/providers'
 
@@ -28,7 +28,7 @@ export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: Fee
   const highFrs = allFrs.filter(r => r.confirmationTime <= avgConfirmationTime)
   const highConfirmationTime = getWeightedMedian(highFrs)
 
-  const feeRateCards = [
+  const feeRateCards: FeeRateTracker.FeeRateCard[] = [
     {
       priority: i18n.t('fee_rate_tracker.low'),
       tfrs: lowFrs,
@@ -56,7 +56,7 @@ export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: Fee
       priority: c.priority,
       feeRate,
       confirmationTime: c.confirmationTime,
-    } as FeeRateTracker.FeeRateCard
+    }
   })
 
   return (
@@ -89,6 +89,7 @@ export const ConfirmationTimeFeeRateChart = ({
 }: {
   transactionFeeRates: FeeRateTracker.TransactionFeeRate[]
 }) => {
+  const isLG = useIsLGScreen()
   const confirmationTimeFeeRatesMap = new Map<number, number[]>()
   let minCt = Number.MAX_SAFE_INTEGER
   let maxCt = Number.MIN_SAFE_INTEGER
@@ -132,7 +133,7 @@ export const ConfirmationTimeFeeRateChart = ({
         },
         yAxis: {
           type: 'value',
-          name: `${i18n.t('fee_rate_tracker.fee_rate')}${isScreenSmallerThan1200() ? '\n' : ''}(${i18n.t(
+          name: `${i18n.t('fee_rate_tracker.fee_rate')}${isLG ? '' : '\n'}(${i18n.t(
             'fee_rate_tracker.shannons_per_byte',
           )})`,
         },
@@ -301,6 +302,7 @@ export const LastNDaysTransactionFeeRateChart = ({
 }: {
   lastNDaysTransactionFeeRates: FeeRateTracker.LastNDaysTransactionFeeRate[]
 }) => {
+  const isLG = useIsLGScreen()
   const sortedLastNDaysTransactionFeeRates = [...lastNDaysTransactionFeeRates].sort((a, b) =>
     dayjs(a.date).isBefore(dayjs(b.date)) ? -1 : 1,
   )
@@ -321,7 +323,7 @@ export const LastNDaysTransactionFeeRateChart = ({
         },
         yAxis: {
           type: 'value',
-          name: `${i18n.t('fee_rate_tracker.fee_rate')}${isScreenSmallerThan1200() ? '\n' : ''}(${i18n.t(
+          name: `${i18n.t('fee_rate_tracker.fee_rate')}${isLG ? '' : '\n'}(${i18n.t(
             'fee_rate_tracker.shannons_per_byte',
           )})`,
         },

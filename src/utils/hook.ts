@@ -486,25 +486,18 @@ export function useChartQueryWithCache<T>(
 
 export const useAnimationFrame = (callback: () => void, running: boolean = true) => {
   const savedCallback = useRef(callback)
-  const requestId = useRef(0)
 
   useEffect(() => {
-    savedCallback.current = callback
-  })
+    if (!running) return
 
-  useEffect(() => {
+    let requestId = 0
     function tick() {
       savedCallback.current()
-      if (running) {
-        requestId.current = window.requestAnimationFrame(tick)
-      }
+      requestId = window.requestAnimationFrame(tick)
     }
-    if (running) {
-      const animationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame
-      requestId.current = animationFrame(tick)
-    }
-    const cancelAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame
-    return () => cancelAnimationFrame(requestId.current)
+    requestId = window.requestAnimationFrame(tick)
+
+    return () => window.cancelAnimationFrame(requestId)
   }, [running])
 }
 
