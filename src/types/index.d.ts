@@ -180,7 +180,7 @@ declare namespace State {
     minedBlocksCount: string
     isSpecial: boolean
     specialAddress: string
-    udtAccounts: Array<UDTAccount>
+    udtAccounts?: Array<UDTAccount>
   }
 
   export interface Block {
