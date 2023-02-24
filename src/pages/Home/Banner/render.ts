@@ -16,22 +16,24 @@ import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeom
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
 import { playNewBlockAnime } from './anime'
-import { BooleanT } from '../../../utils/array'
 import { isMainnet } from '../../../utils/chain'
 import { createSideFadeOutPass } from './shaderPass/sideFadeOutPass'
 import { createTextureOverlapPass } from './shaderPass/textureOverlapPass'
-import { containsPoint, createBloomComposerController, CubeMap } from './renderUtils'
+import {
+  containsPoint,
+  createBloomComposerController,
+  createInstancedCubeMesh,
+  CubeOffset,
+  InstancedCubeUnitControl,
+} from './renderUtils'
 import { assert } from '../../../utils/error'
+import { randomInt } from '../../../utils/util'
+import { getPrimaryColor } from '../../../constants/common'
 
-const COLORS = isMainnet()
-  ? {
-      primary: 0x00cc9b,
-      float: 0x00330b,
-    }
-  : {
-      primary: 0x9a2cec,
-      float: 0x4d1676,
-    }
+const COLORS = {
+  primary: getPrimaryColor(),
+  float: isMainnet() ? 0x00330b : 0x4d1676,
+}
 
 export interface BannerRender {
   onNewBlock: (block: State.Block) => void
@@ -61,36 +63,32 @@ export function createBannerRender(container: HTMLElement) {
   camera.position.y = 720
   camera.updateWorldMatrix(true, false)
 
-  const cubeMap = createCubes(camera, 100, 10)
-  const textCubes = getTextCubes(cubeMap, 'C K B')
-  textCubes.forEach(cube => {
-    // eslint-disable-next-line no-param-reassign
-    cube.material = new MeshPhysicalMaterial({
-      clearcoatRoughness: 1,
-      metalness: 0.08,
-      roughness: 0.95,
-      transmission: 1,
-      color: 0xcccccc,
-    })
-    cube.position.add(new Vector3(0, 40, 0))
-  })
-  const cubes = Object.values(cubeMap)
-    .map(cubeMapWithColumn => Object.values(cubeMapWithColumn ?? {}))
-    .flat()
-    .filter(BooleanT())
-  cubes.forEach(cube => scene.add(cube))
+  const cubeSize = new Vector3(100, 200, 100)
+  const gap = 10
+  const {
+    mesh: textCubes,
+    cubeOffsets: textCubeOffsets,
+    getCubeControl: getTextCubeControl,
+  } = createTextCubes(cubeSize, gap)
+  const {
+    mesh: normalCubes,
+    cubeOffsets: normalCubeOffsets,
+    getCubeControl: getNormalCubeControl,
+  } = createNormalCubes(cubeSize, gap, camera, textCubeOffsets)
+  scene.add(normalCubes)
+  scene.add(textCubes)
 
-  const hightlight = new DirectionalLight(0x999999, 12)
-  hightlight.position.set(1, 1, 0)
-  scene.add(hightlight)
+  const highlight1 = new DirectionalLight(0x999999, 12)
+  highlight1.position.set(1, 1, 0)
+  scene.add(highlight1)
 
-  const hightlight2 = new DirectionalLight(COLORS.primary, 600)
-  hightlight2.position.set(1, -80, 1)
-  scene.add(hightlight2)
+  const highlight2 = new DirectionalLight(COLORS.primary, 600)
+  highlight2.position.set(1, -80, 1)
+  scene.add(highlight2)
 
-  const hightlight3 = new DirectionalLight(0xffffff, 20)
-  hightlight3.position.set(-1, -5, 0)
-  scene.add(hightlight3)
+  const highlight3 = new DirectionalLight(0xffffff, 20)
+  highlight3.position.set(-1, -5, 0)
+  scene.add(highlight3)
 
   const renderPass = new RenderPass(scene, camera)
   const sideFadeOutPass = createSideFadeOutPass()
@@ -129,12 +127,18 @@ export function createBannerRender(container: HTMLElement) {
 
   return {
     onNewBlock(block: State.Block) {
-      playNewBlockAnime(
-        cubes,
-        textCubes,
-        getDataCubes(camera, cubeMap, textCubes, block.transactionsCount),
-        createFloatCube,
-      )
+      const dataCubeOffsets = getDataCubeOffsets(camera, getNormalCubeControl, textCubeOffsets, block.transactionsCount)
+      const combinedGetCubeControl = (x: number, z: number) => {
+        const control = getNormalCubeControl(x, z) ?? getTextCubeControl(x, z)
+        if (control == null) return null
+
+        const isTextCube = textCubeOffsets.some(offset => CubeOffset.isEqual(offset, { x, z }))
+        const isDataCube = dataCubeOffsets.some(offset => CubeOffset.isEqual(offset, { x, z }))
+        const isFloatCubeCreator = isDataCube && CubeOffset.isEqual(dataCubeOffsets[0], { x, z })
+        return { ...control, isTextCube, isDataCube, isFloatCubeCreator }
+      }
+
+      playNewBlockAnime([...normalCubeOffsets, ...textCubeOffsets], combinedGetCubeControl, createFloatCube)
     },
     onResize() {
       renderer.setSize(container.clientWidth, container.clientHeight)
@@ -151,14 +155,16 @@ export function createBannerRender(container: HTMLElement) {
       bloomComposerCtl.dispose()
       bloomTextureOverlapPass.dispose()
 
-      hightlight.dispose()
-      hightlight2.dispose()
+      highlight1.dispose()
+      highlight2.dispose()
+      highlight3.dispose()
 
-      cubes.forEach(cube => {
-        cube.removeFromParent()
-        cube.geometry.dispose()
-        assert(!Array.isArray(cube.material))
-        cube.material.dispose()
+      const meshes = [normalCubes, textCubes]
+      meshes.forEach(mesh => {
+        mesh.removeFromParent()
+        mesh.geometry.dispose()
+        assert(!Array.isArray(mesh.material))
+        mesh.material.dispose()
       })
 
       renderer.domElement.remove()
@@ -166,44 +172,92 @@ export function createBannerRender(container: HTMLElement) {
   }
 }
 
-function createCubes(camera: Camera, size: number, gap: number, centerPos: Vector3 = new Vector3(0, 0, 0)) {
-  const boxGeometry = new RoundedBoxGeometry(size, size * 2, size, 5, 8)
+function createNormalCubes(
+  cubeSize: Vector3,
+  spacingBetweenCubes: number,
+  camera: Camera,
+  disabledOffsets: CubeOffset[],
+  centerPos: Vector3 = new Vector3(0, 0, 0),
+) {
+  const cubeCanvasRangeLimit = { minX: -25, maxX: 25, minZ: -30, maxZ: 25 }
+  const cubeWidth = cubeSize.x
+  const cubeHeight = cubeSize.y
+  const cubeLong = cubeSize.z
+
+  const frustum = new Frustum()
+  frustum.setFromProjectionMatrix(new Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse))
+  const isVisibleToCamera = (pos: Vector3) => containsPoint(frustum, pos, Math.max(cubeWidth, cubeLong))
+
+  const cubes: { x: number; z: number; initPosition: Vector3 }[] = []
+  const cubeIndexMap: Record<string, Record<string, number>> = {}
+  for (let x = cubeCanvasRangeLimit.minX; x < cubeCanvasRangeLimit.maxX; x++) {
+    for (let z = cubeCanvasRangeLimit.minZ; z < cubeCanvasRangeLimit.maxZ; z++) {
+      const xOffset = x * (cubeWidth + spacingBetweenCubes)
+      const zOffset = z * (cubeLong + spacingBetweenCubes)
+      const position = new Vector3(
+        centerPos.x + (xOffset + spacingBetweenCubes / 2 + cubeWidth),
+        centerPos.y + 0,
+        centerPos.z + (zOffset + spacingBetweenCubes / 2 + cubeLong),
+      )
+      const disabled = disabledOffsets.some(offset => CubeOffset.isEqual(offset, { x, z }))
+      if (!disabled && isVisibleToCamera(position)) {
+        const index = cubes.push({ x, z, initPosition: position }) - 1
+        const mapWithColumn = cubeIndexMap[x] ?? (cubeIndexMap[x] = {})
+        mapWithColumn[z] = index
+      }
+    }
+  }
+
+  const boxGeometry = new RoundedBoxGeometry(cubeWidth, cubeHeight, cubeLong, 5, 8)
   const boxMaterial = new MeshPhysicalMaterial({
     metalness: 0.01,
     roughness: 0.9,
     clearcoatRoughness: 1,
     transmission: 1,
   })
-  const cube = new Mesh(boxGeometry, boxMaterial)
-  const cubeWidth = size
-  const cubeLong = size
 
-  const frustum = new Frustum()
-  frustum.setFromProjectionMatrix(new Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse))
-  const isVisibleToCamera = (pos: Vector3) => containsPoint(frustum, pos, 100)
-
-  const cubeMap: CubeMap = {}
-  for (let x = -25; x < 25; x++) {
-    for (let z = -30; z < 25; z++) {
-      const cloned = cube.clone()
-      const xOffset = x * (cubeWidth + gap)
-      const zOffset = z * (cubeLong + gap)
-      cloned.position.set(
-        centerPos.x + (xOffset + gap / 2 + cubeWidth),
-        centerPos.y + cube.position.y,
-        centerPos.z + (zOffset + gap / 2 + cubeLong),
-      )
-      if (isVisibleToCamera(cloned.position)) {
-        const cubeMapWithColumn = cubeMap[x] ?? (cubeMap[x] = {})
-        cubeMapWithColumn[z] = cloned
-      }
-    }
-  }
-
-  return cubeMap
+  return createInstancedCubeMesh(cubes, cubeIndexMap, boxGeometry, boxMaterial)
 }
 
-function getDataCubes(camera: OrthographicCamera, cubeMap: CubeMap, textCubes: Mesh[], count: number) {
+function createTextCubes(cubeSize: Vector3, spacingBetweenCubes: number, centerPos: Vector3 = new Vector3(0, 0, 0)) {
+  const cubeWidth = cubeSize.x
+  const cubeHeight = cubeSize.y
+  const cubeLong = cubeSize.z
+
+  const textCubePoints = getTextPoints('C K B')
+  const cubes: { x: number; z: number; initPosition: Vector3 }[] = []
+  const cubeIndexMap: Record<string, Record<string, number>> = {}
+  textCubePoints.forEach(({ x, z }) => {
+    const xOffset = x * (cubeWidth + spacingBetweenCubes)
+    const zOffset = z * (cubeLong + spacingBetweenCubes)
+    const position = new Vector3(
+      centerPos.x + (xOffset + spacingBetweenCubes / 2 + cubeWidth),
+      centerPos.y + 40,
+      centerPos.z + (zOffset + spacingBetweenCubes / 2 + cubeLong),
+    )
+    const index = cubes.push({ x, z, initPosition: position }) - 1
+    const mapWithColumn = cubeIndexMap[x] ?? (cubeIndexMap[x] = {})
+    mapWithColumn[z] = index
+  })
+
+  const boxGeometry = new RoundedBoxGeometry(cubeWidth, cubeHeight, cubeLong, 5, 8)
+  const boxMaterial = new MeshPhysicalMaterial({
+    clearcoatRoughness: 1,
+    metalness: 0.08,
+    roughness: 0.95,
+    transmission: 1,
+    color: 0xcccccc,
+  })
+
+  return createInstancedCubeMesh(cubes, cubeIndexMap, boxGeometry, boxMaterial)
+}
+
+function getDataCubeOffsets(
+  camera: OrthographicCamera,
+  getCubeControl: (x: number, z: number) => InstancedCubeUnitControl | null,
+  textCubeOffsets: CubeOffset[],
+  count: number,
+) {
   const smallVisionCamera = camera.clone()
   smallVisionCamera.left *= 0.7
   smallVisionCamera.right *= 0.7
@@ -215,32 +269,33 @@ function getDataCubes(camera: OrthographicCamera, cubeMap: CubeMap, textCubes: M
   const isNearToViewport = (pos: Vector3) => containsPoint(frustum, pos, -100)
 
   const textRect = { x1: 0, z1: 0, x2: 0, z2: 0 }
-  textCubes.forEach(cube => {
-    textRect.x1 = Math.min(textRect.x1, cube.position.x)
-    textRect.z1 = Math.min(textRect.z1, cube.position.z)
-    textRect.x2 = Math.max(textRect.x2, cube.position.x)
-    textRect.z2 = Math.max(textRect.z2, cube.position.z)
+  textCubeOffsets.forEach(({ x, z }) => {
+    textRect.x1 = Math.min(textRect.x1, x)
+    textRect.z1 = Math.min(textRect.z1, z)
+    textRect.x2 = Math.max(textRect.x2, x)
+    textRect.z2 = Math.max(textRect.z2, z)
   })
-  const isInTextRect = (cube: Mesh) =>
-    cube.position.x >= textRect.x1 &&
-    cube.position.x <= textRect.x2 &&
-    cube.position.z >= textRect.z1 &&
-    cube.position.z <= textRect.z2
+  const isInTextRect = ({ x, z }: CubeOffset) =>
+    x >= textRect.x1 && x <= textRect.x2 && z >= textRect.z1 && z <= textRect.z2
 
-  const cubes: Mesh[] = []
-  while (count > cubes.length) {
-    const cube = cubeMap[random(-25, 25)]?.[random(-30, 25)]
-    if (cube == null || cubes.includes(cube) || isInTextRect(cube) || !isNearToViewport(cube.position)) continue
-    cubes.push(cube)
+  const offsets: CubeOffset[] = []
+  while (count > offsets.length) {
+    const offset: CubeOffset = { x: randomInt(-25, 25), z: randomInt(-30, 25) }
+    const info = getCubeControl(offset.x, offset.z)
+    if (
+      info == null ||
+      offsets.some(existed => CubeOffset.isEqual(existed, offset)) ||
+      isInTextRect(offset) ||
+      !isNearToViewport(info.position)
+    )
+      continue
+    offsets.push(offset)
   }
-  return cubes
+
+  return offsets
 }
 
-function random(min: number, max: number) {
-  return min + Math.floor(Math.random() * (max - min + 1))
-}
-
-function getTextCubes(cubeMap: CubeMap, text: string, font = '100 8px Arial') {
+function getTextPoints(text: string, font = '100 8px Arial') {
   if (text !== 'C K B' || font !== '100 8px Arial') {
     throw new Error(
       'This function is not fully implemented, you need to refactor this function to pass in parameters freely',
@@ -283,7 +338,5 @@ function getTextCubes(cubeMap: CubeMap, text: string, font = '100 8px Arial') {
     [7, -2],
     [7, 0],
     [7, 1],
-  ]
-    .map(([x, y]) => cubeMap[x]?.[y])
-    .filter(BooleanT())
+  ].map(([x, z]) => ({ x, z }))
 }

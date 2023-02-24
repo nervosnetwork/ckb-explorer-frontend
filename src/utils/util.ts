@@ -308,6 +308,10 @@ export const isDeepEqual = (left: any, right: any, ignoredKeys?: string[]): bool
   return equal(left, right)
 }
 
+export function randomInt(min: number, max: number) {
+  return min + Math.floor(Math.random() * (max - min + 1))
+}
+
 export default {
   copyElementValue,
   shannonToCkb,

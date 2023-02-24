@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
 import echarts from 'echarts/lib/echarts'
@@ -103,7 +103,7 @@ const getOption = (
   ],
 })
 
-export default () => {
+export default memo(() => {
   const isLG = useIsLGScreen()
 
   const query = useChartQueryWithCache(fetchStatisticAverageBlockTimes, ChartCachedKeys.AverageBlockTime, 'date')
@@ -137,4 +137,4 @@ export default () => {
       />
     </HomeChartLink>
   )
-}
+})
