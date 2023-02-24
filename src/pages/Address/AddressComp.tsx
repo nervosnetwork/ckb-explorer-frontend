@@ -165,7 +165,7 @@ interface CoTAList {
 
 export const AddressAssetComp: FC<{ address: State.Address }> = ({ address }) => {
   const isLG = useIsLGScreen()
-  const { udtAccounts } = address
+  const { udtAccounts = [] } = address
 
   const { data: initList } = useQuery<AxiosResponse<CoTAList>>(
     ['cota-list', address.addressHash],
