@@ -1,5 +1,4 @@
 import { ReactNode, useCallback, FC } from 'react'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/pie'
 import 'echarts/lib/component/tooltip'
@@ -27,6 +26,7 @@ import { localeNumberString } from '../../../utils/number'
 import { shannonToCkbDecimal, shannonToCkb } from '../../../utils/util'
 import DecimalCapacity from '../../../components/DecimalCapacity'
 import { useIsLGScreen, useIsMobile } from '../../../utils/hook'
+import { ReactChartCore } from '../../StatisticsChart/common'
 
 interface NervosDaoItemContent {
   title: string
@@ -318,8 +318,7 @@ export default ({ nervosDao }: { nervosDao: State.NervosDao }) => {
       <DaoOverviewRightPanel>
         <DaoOverviewPieChartPanel>
           <span className="nervos__dao__overview_pie_title">{i18n.t('nervos_dao.secondary_issuance')}</span>
-          <ReactEchartsCore
-            echarts={echarts}
+          <ReactChartCore
             option={getOption(nervosDao, chartColor.daoColors, isMobile)}
             notMerge
             lazyUpdate

@@ -96,6 +96,7 @@ module.exports = {
     'no-use-before-define': 'off',
     'consistent-return': 'off',
     'no-continue': 'off',
+    'no-restricted-syntax': 'off',
     camelcase: [
       'error',
       {
