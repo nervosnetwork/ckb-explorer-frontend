@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from 'react'
+import { useState, useRef, useEffect, useMemo, FC, memo } from 'react'
 import { useHistory } from 'react-router'
 import { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
@@ -111,15 +111,11 @@ const handleSearchResult = (
     })
 }
 
-const Search = ({
-  content,
-  hasButton,
-  onEditEnd,
-}: {
+const Search: FC<{
   content?: string
   hasButton?: boolean
   onEditEnd?: () => void
-}) => {
+}> = memo(({ content, hasButton, onEditEnd }) => {
   const isMobile = useIsMobile()
   const dispatch = useDispatch()
   const history = useHistory()
@@ -193,6 +189,6 @@ const Search = ({
       )}
     </SearchContainer>
   )
-}
+})
 
 export default Search

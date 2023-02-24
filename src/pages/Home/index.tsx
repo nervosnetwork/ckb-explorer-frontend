@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useRef } from 'react'
+import { FC, memo, useEffect, useMemo, useRef } from 'react'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -14,7 +14,12 @@ import {
 } from './styled'
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
-import { BLOCK_POLLING_TIME, BLOCKCHAIN_ALERT_POLLING_TIME, ListPageParams } from '../../constants/common'
+import {
+  BLOCK_POLLING_TIME,
+  BLOCKCHAIN_ALERT_POLLING_TIME,
+  ListPageParams,
+  DELAY_BLOCK_NUMBER,
+} from '../../constants/common'
 import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
 import { useAppState, useDispatch } from '../../contexts/providers'
@@ -110,7 +115,7 @@ const getBlockchainDataList = (statistics: State.Statistics, isMobile: boolean, 
   },
 ]
 
-const HomeHeaderTopPanel: FC = () => {
+const HomeHeaderTopPanel: FC = memo(() => {
   const dispatch = useDispatch()
   const ref = useRef<HTMLDivElement>(null)
 
@@ -162,7 +167,39 @@ const HomeHeaderTopPanel: FC = () => {
       <div className={styles.search}>{isFullDisplayInScreen && <Search hasButton />}</div>
     </div>
   )
-}
+})
+
+const BlockList: FC<{ blocks: State.Block[] }> = memo(({ blocks }) => {
+  return blocks.length > 0 ? (
+    <>
+      {blocks.map((block, index) => (
+        <div key={block.number}>
+          <BlockCardItem block={block} isDelayBlock={index < DELAY_BLOCK_NUMBER} />
+          {blocks.length - 1 !== index && <div className="block__card__separate" />}
+        </div>
+      ))}
+    </>
+  ) : (
+    <Loading />
+  )
+})
+
+const TransactionList: FC<{ transactions: State.Transaction[]; tipBlockNumber: number }> = memo(
+  ({ transactions, tipBlockNumber }) => {
+    return transactions.length > 0 ? (
+      <>
+        {transactions.map((transaction, index) => (
+          <div key={transaction.transactionHash}>
+            <TransactionCardItem transaction={transaction} tipBlockNumber={tipBlockNumber} />
+            {transactions.length - 1 !== index && <div className="transaction__card__separate" />}
+          </div>
+        ))}
+      </>
+    ) : (
+      <Loading />
+    )
+  },
+)
 
 export default () => {
   const isMobile = useIsMobile()
@@ -207,8 +244,11 @@ export default () => {
   )
 
   const maxDisplaysCount = 15
-  const blocks = blocksQuery.data?.blocks.slice(0, maxDisplaysCount) ?? []
-  const transactions = transactionsQuery.data?.transactions.slice(0, maxDisplaysCount) ?? []
+  const blocks = useMemo(() => blocksQuery.data?.blocks.slice(0, maxDisplaysCount) ?? [], [blocksQuery.data?.blocks])
+  const transactions = useMemo(
+    () => transactionsQuery.data?.transactions.slice(0, maxDisplaysCount) ?? [],
+    [transactionsQuery.data?.transactions],
+  )
 
   useInterval(() => {
     getTipBlockNumber(dispatch)
@@ -273,18 +313,7 @@ export default () => {
             <img src={LatestBlocksIcon} alt="latest blocks" />
             <span>{i18n.t('home.latest_blocks')}</span>
           </TableHeaderPanel>
-          {blocks.length > 0 ? (
-            <>
-              {blocks.map((block, index) => (
-                <div key={block.number}>
-                  <BlockCardItem block={block} index={index} />
-                  {blocks.length - 1 !== index && <div className="block__card__separate" />}
-                </div>
-              ))}
-            </>
-          ) : (
-            <Loading />
-          )}
+          <BlockList blocks={blocks} />
           <TableMorePanel
             onClick={() => {
               history.push(
@@ -302,24 +331,13 @@ export default () => {
             <span>{t('home.more')}</span>
           </TableMorePanel>
         </BlockPanel>
+
         <TransactionPanel>
           <TableHeaderPanel>
             <img src={LatestTransactionsIcon} alt="latest transactions" />
             <span>{i18n.t('home.latest_transactions')}</span>
           </TableHeaderPanel>
-          {transactions.length > 0 ? (
-            <>
-              {transactions.map((transaction, index) => (
-                <div key={transaction.transactionHash}>
-                  <TransactionCardItem transaction={transaction} tipBlockNumber={tipBlockNumber} />
-                  {transactions.length - 1 !== index && <div className="transaction__card__separate" />}
-                </div>
-              ))}
-            </>
-          ) : (
-            <Loading />
-          )}
-
+          <TransactionList transactions={transactions} tipBlockNumber={tipBlockNumber} />
           <TableMorePanel
             onClick={() => {
               history.push(

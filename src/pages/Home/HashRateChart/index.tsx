@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
@@ -98,7 +98,7 @@ const getOption = (statisticHashRates: State.StatisticHashRate[], useMiniStyle: 
   ],
 })
 
-export default () => {
+export default memo(() => {
   const isLG = useIsLGScreen()
 
   const query = useChartQueryWithCache(fetchStatisticHashRate, ChartCachedKeys.HashRate, 'date')
@@ -133,4 +133,4 @@ export default () => {
       />
     </HomeChartLink>
   )
-}
+})

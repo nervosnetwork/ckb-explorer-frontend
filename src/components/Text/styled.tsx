@@ -1,23 +1,12 @@
-import styled from 'styled-components'
+import classNames from 'classnames'
+import { FC, HTMLAttributes } from 'react'
+import styles from './index.module.scss'
 
-export const HighLightPanel = styled.div`
-  color: ${props => props.theme.primary};
-  font-size: 14px;
-
-  @media (max-width: 750px) {
-    font-size: 13px;
-  }
-
-  a {
-    color: ${props => props.theme.primary};
-    margin-top: 3px;
-
-    @media (max-width: 750px) {
-      margin-top: 1px;
-    }
-  }
-
-  a:hover {
-    color: ${props => props.theme.primary};
-  }
-`
+export const HighLightPanel: FC<HTMLAttributes<HTMLDivElement>> = props => {
+  const { children, className, ...rest } = props
+  return (
+    <div className={classNames(styles.HighLightPanel, className)} {...rest}>
+      {children}
+    </div>
+  )
+}
