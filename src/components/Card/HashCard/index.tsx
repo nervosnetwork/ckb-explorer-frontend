@@ -47,7 +47,7 @@ export default ({
   specialAddress?: string
   iconUri?: string
   children?: ReactNode
-  showDASInfoOnHeader?: boolean
+  showDASInfoOnHeader?: boolean | string
 }) => {
   const isMobile = useIsMobile()
   const dispatch = useDispatch()
@@ -144,7 +144,9 @@ export default ({
             ) : null}
           </div>
 
-          {showDASInfoOnHeader && <DASInfo address={hash} />}
+          {(showDASInfoOnHeader || showDASInfoOnHeader === '') && (
+            <DASInfo address={typeof showDASInfoOnHeader === 'string' ? showDASInfoOnHeader : hash} />
+          )}
         </div>
 
         {specialAddress && (
