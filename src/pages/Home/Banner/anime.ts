@@ -40,7 +40,7 @@ function _playNewBlockAnime(
         .timeline()
         .to(position, {
           y: position.y + textCubeFirstUpDistance * 2,
-          duration: getMoveTime(DURATION_TO_PROTRUDE * 5),
+          duration: getMoveTime(DURATION_TO_PROTRUDE * 4),
           onUpdate,
         })
         .to(position, {
@@ -49,9 +49,13 @@ function _playNewBlockAnime(
           onUpdate,
         })
         .to(position, {
-          delay: getMoveTime(2),
+          y: position.y + textCubeFirstUpDistance,
+          duration: getMoveTime(DURATION_TO_PROTRUDE * 4),
+          onUpdate,
+        })
+        .to(position, {
           y: position.y,
-          duration: getMoveTime(DURATION_TO_PROTRUDE * 2),
+          duration: getMoveTime(DURATION_TO_PROTRUDE * 5),
           onUpdate,
         })
     }
@@ -64,7 +68,7 @@ function _playNewBlockAnime(
     const timeline = gsap
       .timeline()
       .to(position, {
-        delay: (distance + textCubeFirstUpDuration - 500 * reductionRatio) / 1250,
+        delay: (distance + textCubeFirstUpDuration - 500 * reductionRatio) / 2000,
         y: position.y + 40,
         duration: getMoveTime(DURATION_TO_PROTRUDE),
         onUpdate,
