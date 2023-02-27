@@ -1,13 +1,29 @@
-import { Col, Row } from 'antd'
 import BigNumber from 'bignumber.js'
-import echarts from 'echarts'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
 import { useEffect, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
+import classNames from 'classnames'
 import styles from './styles.module.scss'
-import { useIsLGScreen } from '../../utils/hook'
 import i18n from '../../utils/i18n'
 import { useAppState } from '../../contexts/providers'
+import { ReactChartCore } from '../StatisticsChart/common'
+import { ReactComponent as BikeIcon } from '../../assets/bike.svg'
+import { ReactComponent as CarIcon } from '../../assets/car.svg'
+import { ReactComponent as RocketIcon } from '../../assets/rocket.svg'
+import { getPrimaryColor } from '../../constants/common'
+
+const textStyleInChart: echarts.EChartOption.TextStyle = {
+  color: '#999999',
+  fontWeight: 400,
+  fontSize: 14,
+  lineHeight: 16,
+}
+
+const textStyleOfTooltip: echarts.EChartOption.TextStyle = {
+  color: '#ffffff',
+  fontWeight: 400,
+  fontSize: 16,
+  lineHeight: 18,
+}
 
 export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: FeeRateTracker.TransactionFeeRate[] }) => {
   const getWeightedMedian = (tfrs: FeeRateTracker.TransactionFeeRate[]): number => {
@@ -28,59 +44,57 @@ export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: Fee
   const highFrs = allFrs.filter(r => r.confirmationTime <= avgConfirmationTime)
   const highConfirmationTime = getWeightedMedian(highFrs)
 
+  const calcFeeRate = (tfrs: FeeRateTracker.TransactionFeeRate[]): number =>
+    tfrs.length === 0
+      ? 0
+      : BigNumber.sum(...tfrs.map(r => r.feeRate))
+          .div(tfrs.length)
+          .dp(3, BigNumber.ROUND_HALF_EVEN)
+          .toNumber()
+
   const feeRateCards: FeeRateTracker.FeeRateCard[] = [
     {
       priority: i18n.t('fee_rate_tracker.low'),
-      tfrs: lowFrs,
+      icon: <BikeIcon />,
+      feeRate: calcFeeRate(lowFrs),
+      priorityClass: styles.low,
       confirmationTime: lowConfirmationTime,
     },
     {
       priority: i18n.t('fee_rate_tracker.average'),
-      tfrs: allFrs,
+      icon: <CarIcon />,
+      feeRate: calcFeeRate(allFrs),
+      priorityClass: styles.average,
       confirmationTime: avgConfirmationTime,
     },
     {
       priority: i18n.t('fee_rate_tracker.high'),
-      tfrs: highFrs,
+      icon: <RocketIcon />,
+      feeRate: calcFeeRate(highFrs),
+      priorityClass: styles.high,
       confirmationTime: highConfirmationTime,
     },
-  ].map(c => {
-    const feeRate =
-      c.tfrs.length === 0
-        ? 0
-        : BigNumber.sum(...c.tfrs.map(r => r.feeRate))
-            .div(c.tfrs.length)
-            .dp(3, BigNumber.ROUND_HALF_EVEN)
-            .toNumber()
-    return {
-      priority: c.priority,
-      feeRate,
-      confirmationTime: c.confirmationTime,
-    }
-  })
+  ]
 
   return (
-    <Row justify="space-evenly" className={styles.priceCenter}>
-      {feeRateCards.map(c => (
-        <Col span={6} key={c.priority}>
-          <div className={styles.card}>
-            <div>{c.priority}</div>
-            <div>
-              {c.feeRate} {i18n.t('fee_rate_tracker.shannons_per_byte')}
-            </div>
-            <div>
-              {c.confirmationTime >= 60
-                ? `${Math.floor(c.confirmationTime / 60)} ${i18n.t('fee_rate_tracker.mins')}${
-                    c.confirmationTime % 60 === 0
-                      ? ''
-                      : ` ${c.confirmationTime % 60} ${i18n.t('fee_rate_tracker.secs')}`
-                  }`
-                : `${c.confirmationTime} ${i18n.t('fee_rate_tracker.secs')}`}
-            </div>
+    <>
+      {feeRateCards.map(({ priority, icon, feeRate, priorityClass, confirmationTime }) => (
+        <div className={classNames(styles.card, priorityClass)} key={priority}>
+          <div className={styles.icon}>{icon}</div>
+          <div className={styles.priority}>{priority}</div>
+          <div className={styles.shannonsPerByte}>
+            {feeRate} {i18n.t('fee_rate_tracker.shannons_per_byte')}
           </div>
-        </Col>
+          <div className={styles.secs}>
+            {confirmationTime >= 60
+              ? `${Math.floor(confirmationTime / 60)} ${i18n.t('fee_rate_tracker.mins')}${
+                  confirmationTime % 60 === 0 ? '' : ` ${confirmationTime % 60} ${i18n.t('fee_rate_tracker.secs')}`
+                }`
+              : `${confirmationTime} ${i18n.t('fee_rate_tracker.secs')}`}
+          </div>
+        </div>
       ))}
-    </Row>
+    </>
   )
 }
 
@@ -89,7 +103,6 @@ export const ConfirmationTimeFeeRateChart = ({
 }: {
   transactionFeeRates: FeeRateTracker.TransactionFeeRate[]
 }) => {
-  const isLG = useIsLGScreen()
   const confirmationTimeFeeRatesMap = new Map<number, number[]>()
   let minCt = Number.MAX_SAFE_INTEGER
   let maxCt = Number.MIN_SAFE_INTEGER
@@ -118,40 +131,67 @@ export const ConfirmationTimeFeeRateChart = ({
   })
 
   return (
-    <ReactEchartsCore
-      echarts={echarts}
+    <ReactChartCore
       option={{
+        tooltip: {
+          trigger: 'item',
+          position: 'top',
+          textStyle: textStyleOfTooltip,
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          formatter(params) {
+            const param: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
+            return `${i18n.t('fee_rate_tracker.fee_rate')}: ${param.name} ${i18n.t(
+              'fee_rate_tracker.shannons_per_byte',
+            )}<br />${i18n.t('fee_rate_tracker.confirmation_time')}: ${param.value} ${i18n.t('fee_rate_tracker.secs')}`
+          },
+        },
         xAxis: {
           type: 'category',
           name: `${i18n.t('fee_rate_tracker.confirmation_time')} (${i18n.t('fee_rate_tracker.second')})`,
           nameGap: 32,
           nameLocation: 'middle',
+          nameTextStyle: textStyleInChart,
+          axisLabel: textStyleInChart,
+          axisLine: {
+            show: false,
+          },
           axisTick: {
-            alignWithLabel: true,
+            show: false,
           },
           data: confirmationTimeFeeRateX,
         },
         yAxis: {
           type: 'value',
-          name: `${i18n.t('fee_rate_tracker.fee_rate')}${isLG ? '' : '\n'}(${i18n.t(
-            'fee_rate_tracker.shannons_per_byte',
-          )})`,
+          nameGap: 54,
+          nameRotate: 90,
+          nameLocation: 'middle',
+          nameTextStyle: textStyleInChart,
+          axisLabel: textStyleInChart,
+          axisLine: {
+            show: false,
+          },
+          axisTick: {
+            show: false,
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#e5e5e5',
+            },
+          },
+          name: `${i18n.t('fee_rate_tracker.fee_rate')}(${i18n.t('fee_rate_tracker.shannons_per_byte')})`,
         },
         series: [
           {
             data: confirmationTimeFeeRateY,
             type: 'bar',
             itemStyle: {
-              color: 'blue',
-            },
-            label: {
-              show: true,
-              position: 'top',
-              color: 'black',
-              fontSize: 10,
+              color: getPrimaryColor(),
             },
           },
         ],
+        grid: {
+          left: '20%',
+        },
       }}
       notMerge
       lazyUpdate
@@ -209,18 +249,50 @@ export const FeeRateTransactionCountChartCore = ({
   }, [feeRatePrecision, feeRateTransactionCountY])
 
   return (
-    <ReactEchartsCore
-      echarts={echarts}
+    <ReactChartCore
       option={{
+        tooltip: {
+          trigger: 'item',
+          position: 'top',
+          textStyle: textStyleOfTooltip,
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          formatter(params) {
+            const param: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
+            return `${param.name} ${i18n.t('fee_rate_tracker.shannons_per_byte')}<br />${i18n.t(
+              'fee_rate_tracker.transaction_count',
+            )}: ${param.value}`
+          },
+        },
         xAxis: {
           type: 'category',
           data: feeRateTransactionCountX,
           name: `${i18n.t('fee_rate_tracker.fee_rate')} (${i18n.t('fee_rate_tracker.shannons_per_byte')})`,
           nameGap: 32,
           nameLocation: 'middle',
+          nameTextStyle: textStyleInChart,
+          axisLabel: textStyleInChart,
+          axisLine: {
+            show: false,
+          },
         },
         yAxis: {
           type: 'value',
+          nameGap: 54,
+          nameRotate: 90,
+          nameLocation: 'middle',
+          nameTextStyle: textStyleInChart,
+          axisLabel: textStyleInChart,
+          axisLine: {
+            show: false,
+          },
+          axisTick: {
+            show: false,
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#e5e5e5',
+            },
+          },
           name: i18n.t('fee_rate_tracker.transaction_count'),
         },
         series: [
@@ -228,18 +300,13 @@ export const FeeRateTransactionCountChartCore = ({
             data: feeRateTransactionCountY,
             type: 'bar',
             itemStyle: {
-              color: 'blue',
-            },
-            label: {
-              show: true,
-              position: 'top',
-              color: 'black',
-              formatter: ({ value }: { value: number }) => {
-                return value === 0 ? '' : value
-              },
+              color: getPrimaryColor(),
             },
           },
         ],
+        grid: {
+          left: '20%',
+        },
         graphic:
           feeRatePrecision > 1
             ? [
@@ -271,14 +338,12 @@ export const FeeRateTransactionCountChartCore = ({
         height: '100%',
         width: '100%',
       }}
-      onEvents={{
-        click: ({ name }: { name: string }) => {
-          if (!name || feeRatePrecision > 3) {
-            return
-          }
-          setFeeRateCeilFilter(new BigNumber(name))
-          setFeeRatePrecision(p => p + 1)
-        },
+      clickEvent={({ name }: { name: string }) => {
+        if (!name || feeRatePrecision > 3) {
+          return
+        }
+        setFeeRateCeilFilter(new BigNumber(name))
+        setFeeRatePrecision(p => p + 1)
       }}
     />
   )
@@ -302,48 +367,75 @@ export const LastNDaysTransactionFeeRateChart = ({
 }: {
   lastNDaysTransactionFeeRates: FeeRateTracker.LastNDaysTransactionFeeRate[]
 }) => {
-  const isLG = useIsLGScreen()
-  const sortedLastNDaysTransactionFeeRates = [...lastNDaysTransactionFeeRates].sort((a, b) =>
-    dayjs(a.date).isBefore(dayjs(b.date)) ? -1 : 1,
-  )
+  const sortedLastNDaysTransactionFeeRates = lastNDaysTransactionFeeRates
+    .filter(r => dayjs(r.date).isValid())
+    .sort((a, b) => (dayjs(a.date).isBefore(dayjs(b.date)) ? -1 : 1))
 
   return (
-    <ReactEchartsCore
-      echarts={echarts}
+    <ReactChartCore
       option={{
+        tooltip: {
+          trigger: 'item',
+          position: 'top',
+          textStyle: textStyleOfTooltip,
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          formatter(params) {
+            const param: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
+            const feeRate = sortedLastNDaysTransactionFeeRates.find(r => dayjs(r.date).format('MM/DD') === param.name)
+            return `${i18n.t('fee_rate_tracker.date')}: ${
+              feeRate ? dayjs(feeRate.date).format('YYYY/MM/DD') : ''
+            }<br />${i18n.t('fee_rate_tracker.average_fee_rate')}: ${param.value} ${i18n.t(
+              'fee_rate_tracker.shannons_per_byte',
+            )}`
+          },
+        },
         xAxis: {
           type: 'category',
-          name: `${i18n.t('fee_rate_tracker.n_days', { n: 7 })}`,
+          name: `${i18n.t('fee_rate_tracker.date')}`,
           nameGap: 32,
           nameLocation: 'middle',
-          axisTick: {
-            alignWithLabel: true,
+          nameTextStyle: textStyleInChart,
+          axisLabel: textStyleInChart,
+          axisLine: {
+            show: false,
           },
-          data: sortedLastNDaysTransactionFeeRates.map(r => dayjs(r.date).format('YYYY-MM-DD')),
+          axisTick: {
+            show: false,
+          },
+          data: sortedLastNDaysTransactionFeeRates.map(r => dayjs(r.date).format('MM/DD')),
         },
         yAxis: {
           type: 'value',
-          name: `${i18n.t('fee_rate_tracker.fee_rate')}${isLG ? '' : '\n'}(${i18n.t(
-            'fee_rate_tracker.shannons_per_byte',
-          )})`,
+          nameGap: 54,
+          nameRotate: 90,
+          nameLocation: 'middle',
+          nameTextStyle: textStyleInChart,
+          axisLabel: { ...textStyleInChart, margin: 2 },
+          axisLine: {
+            show: false,
+          },
+          axisTick: {
+            show: false,
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#e5e5e5',
+            },
+          },
+          name: `${i18n.t('fee_rate_tracker.fee_rate')}(${i18n.t('fee_rate_tracker.shannons_per_byte')})`,
         },
         series: [
           {
-            data: sortedLastNDaysTransactionFeeRates.map(r => Number(r.feeRate)),
+            data: sortedLastNDaysTransactionFeeRates.map(r => Math.round(Number(r.feeRate))),
             type: 'line',
             itemStyle: {
-              color: 'blue',
-            },
-            label: {
-              show: true,
-              position: 'top',
-              color: 'black',
-              formatter: ({ value }: { value: number }) => {
-                return value.toFixed(12)
-              },
+              color: getPrimaryColor(),
             },
           },
         ],
+        grid: {
+          left: '20%',
+        },
       }}
       notMerge
       lazyUpdate

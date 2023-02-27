@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-import { Row } from 'antd'
 import { v2AxiosIns } from '../../service/http/fetcher'
 import styles from './styles.module.scss'
 import Content from '../../components/Content'
 import { toCamelcase } from '../../utils/util'
-import { useAnimationFrame } from '../../utils/hook'
+import { useAnimationFrame, useIsMobile } from '../../utils/hook'
 import {
   ConfirmationTimeFeeRateChart,
   FeeRateCards,
@@ -17,15 +16,18 @@ import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
 
 const FeeRateTracker = () => {
-  const [lastFetchedTime, setLastFetchedTime] = useState<number>(Number.MAX_SAFE_INTEGER)
+  let lastFetchedTime = Number.MAX_SAFE_INTEGER
+  let shadowedSecond = 0
   const [secondAfterUpdate, setSecondAfterUpdate] = useState<number>(0)
+  const isMobile = useIsMobile()
 
   const { data: transactionFeesStatistic } = useQuery<FeeRateTracker.TransactionFeesStatistic>(
     ['statistics-transaction_fees'],
     () =>
       v2AxiosIns.get(`statistics/transaction_fees`).then(({ status, data }) => {
         if (status === 200 && data) {
-          setLastFetchedTime(Date.now())
+          lastFetchedTime = Date.now()
+          shadowedSecond = 0
           setSecondAfterUpdate(0)
           return toCamelcase<FeeRateTracker.TransactionFeesStatistic>(data)
         }
@@ -41,7 +43,8 @@ const FeeRateTracker = () => {
   )
 
   useAnimationFrame(() => {
-    if (Date.now() - lastFetchedTime >= (secondAfterUpdate + 1) * 1000) {
+    if (Date.now() - lastFetchedTime >= (shadowedSecond + 1) * 1000) {
+      shadowedSecond += 1
       setSecondAfterUpdate(s => s + 1)
     }
   })
@@ -49,49 +52,64 @@ const FeeRateTracker = () => {
   return (
     <Content>
       <div className={`${styles.feeRateTrackerPanel} container`}>
-        <Row className={styles.title}>{i18n.t('fee_rate_tracker.title')}</Row>
-        <Row className={styles.updatedTimeCounter}>
-          {i18n.t('fee_rate_tracker.updated_time', {
-            second: secondAfterUpdate,
-          })}
-        </Row>
-        {transactionFeesStatistic ? (
-          <FeeRateCards transactionFeeRates={transactionFeesStatistic.transactionFeeRates} />
-        ) : (
-          <Loading show />
-        )}
-        <Row className={styles.chartTitle}>
-          {i18n.t('fee_rate_tracker.confirmation_time_x_fee_rate', {
-            c: localeNumberString(10000),
-          })}
-        </Row>
-        <Row className={styles.chart}>
-          {transactionFeesStatistic ? (
-            <ConfirmationTimeFeeRateChart transactionFeeRates={transactionFeesStatistic.transactionFeeRates} />
-          ) : (
-            <Loading show />
-          )}
-        </Row>
-        <Row className={styles.chartTitle}>{i18n.t('fee_rate_tracker.fee_rate_of_pending_transactions')}</Row>
-        <Row className={styles.chart}>
-          {transactionFeesStatistic ? (
-            <FeeRateTransactionCountChart
-              pendingTransactionFeeRates={transactionFeesStatistic.pendingTransactionFeeRates}
-            />
-          ) : (
-            <Loading show />
-          )}
-        </Row>
-        <Row className={styles.chartTitle}>{i18n.t('fee_rate_tracker.n_days_historical_fee_rate', { n: 7 })}</Row>
-        <Row className={styles.chart}>
-          {transactionFeesStatistic ? (
-            <LastNDaysTransactionFeeRateChart
-              lastNDaysTransactionFeeRates={transactionFeesStatistic.lastNDaysTransactionFeeRates}
-            />
-          ) : (
-            <Loading show />
-          )}
-        </Row>
+        <div className={styles.title}>{i18n.t('fee_rate_tracker.title')}</div>
+        <div className={styles.charts}>
+          <div className={styles.feeRateSection}>
+            <div className={styles.updatedTimeCounter}>
+              {i18n.t('fee_rate_tracker.updated_time', {
+                second: secondAfterUpdate,
+              })}
+            </div>
+            <div className={styles.cards}>
+              {transactionFeesStatistic ? (
+                <FeeRateCards transactionFeeRates={transactionFeesStatistic.transactionFeeRates} />
+              ) : (
+                <Loading show />
+              )}
+            </div>
+          </div>
+          <div>
+            <div className={styles.chartTitle}>
+              {`${i18n.t('fee_rate_tracker.confirmation_time_x_fee_rate')}${isMobile ? '\n' : ' '}(${i18n.t(
+                'fee_rate_tracker.last_n_transactions',
+                {
+                  c: localeNumberString(10000),
+                },
+              )})`}
+            </div>
+            <div className={styles.chart}>
+              {transactionFeesStatistic ? (
+                <ConfirmationTimeFeeRateChart transactionFeeRates={transactionFeesStatistic.transactionFeeRates} />
+              ) : (
+                <Loading show />
+              )}
+            </div>
+          </div>
+          <div>
+            <div className={styles.chartTitle}>{i18n.t('fee_rate_tracker.fee_rate_of_pending_transactions')}</div>
+            <div className={styles.chart}>
+              {transactionFeesStatistic ? (
+                <FeeRateTransactionCountChart
+                  pendingTransactionFeeRates={transactionFeesStatistic.pendingTransactionFeeRates}
+                />
+              ) : (
+                <Loading show />
+              )}
+            </div>
+          </div>
+          <div>
+            <div className={styles.chartTitle}>{i18n.t('fee_rate_tracker.n_days_historical_fee_rate', { n: 7 })}</div>
+            <div className={styles.chart}>
+              {transactionFeesStatistic ? (
+                <LastNDaysTransactionFeeRateChart
+                  lastNDaysTransactionFeeRates={transactionFeesStatistic.lastNDaysTransactionFeeRates}
+                />
+              ) : (
+                <Loading show />
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     </Content>
   )
