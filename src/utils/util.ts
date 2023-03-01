@@ -215,6 +215,103 @@ export const parseSince = (
   }
 }
 
+export function singleton<Fn extends (...args: any) => Promise<any>>(fn: Fn): Fn {
+  let latestPromise: Promise<unknown> | null = null
+
+  // eslint-disable-next-line func-names
+  return function (this: unknown, ...args) {
+    if (latestPromise) return latestPromise
+
+    const promise = fn.apply(this, args)
+    promise.finally(() => {
+      if (promise === latestPromise) {
+        latestPromise = null
+      }
+    })
+
+    latestPromise = promise
+    return promise
+  } as Fn
+}
+
+export function sleep(time: number) {
+  return new Promise<void>(resolve => setTimeout(resolve, time))
+}
+
+export const isDeepEqual = (left: any, right: any, ignoredKeys?: string[]): boolean => {
+  const equal = (a: any, b: any): boolean => {
+    if (a === b) return true
+
+    if (a && b && typeof a === 'object' && typeof b === 'object') {
+      if (a.constructor !== b.constructor) return false
+
+      let length
+      let i
+      if (Array.isArray(a)) {
+        length = a.length
+        if (length !== b.length) return false
+        for (i = length; i-- !== 0; ) {
+          if (!equal(a[i], b[i])) return false
+        }
+        return true
+      }
+
+      if (a instanceof Map && b instanceof Map) {
+        if (a.size !== b.size) return false
+        for (i of a.entries()) {
+          if (!b.has(i[0])) return false
+        }
+        for (i of a.entries()) {
+          if (!equal(i[1], b.get(i[0]))) return false
+        }
+        return true
+      }
+
+      if (a instanceof Set && b instanceof Set) {
+        if (a.size !== b.size) return false
+        for (i of a.entries()) if (!b.has(i[0])) return false
+        return true
+      }
+
+      if (a.constructor === RegExp) return a.source === b.source && a.flags === b.flags
+      if (a.valueOf !== Object.prototype.valueOf) return a.valueOf() === b.valueOf()
+      if (a.toString !== Object.prototype.toString) return a.toString() === b.toString()
+
+      const keys = Object.keys(a)
+      length = keys.length
+      if (length !== Object.keys(b).length) return false
+
+      for (i = length; i-- !== 0; ) {
+        if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false
+      }
+
+      for (i = length; i-- !== 0; ) {
+        const key = keys[i]
+
+        if (key === '_owner' && a.$$typeof) {
+          // React
+          continue
+        }
+
+        if (ignoredKeys && ignoredKeys.includes(key)) {
+          continue
+        }
+
+        if (!equal(a[key], b[key])) return false
+      }
+
+      return true
+    }
+    // eslint-disable-next-line no-self-compare
+    return a !== a && b !== b
+  }
+  return equal(left, right)
+}
+
+export function randomInt(min: number, max: number) {
+  return min + Math.floor(Math.random() * (max - min + 1))
+}
+
 export default {
   copyElementValue,
   shannonToCkb,

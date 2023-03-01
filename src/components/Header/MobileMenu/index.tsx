@@ -9,6 +9,6 @@ export default () => (
     <MenuItems />
     <BlockchainComp />
     <LanguageComp />
-    <SearchComp />
+    <SearchComp expanded setExpanded={() => {}} />
   </MobileMenusPanel>
 )

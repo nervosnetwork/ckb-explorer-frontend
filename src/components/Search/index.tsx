@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from 'react'
+import { useState, useRef, useEffect, useMemo, FC, memo } from 'react'
 import { useHistory } from 'react-router'
 import { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
@@ -11,7 +11,7 @@ import i18n from '../../utils/i18n'
 import { HttpErrorCode, SearchFailType } from '../../constants/common'
 import { AppDispatch } from '../../contexts/reducer'
 import { ComponentActions } from '../../contexts/actions'
-import { useAppState, useDispatch } from '../../contexts/providers'
+import { useDispatch } from '../../contexts/providers'
 import { useIsMobile } from '../../utils/hook'
 import { isChainTypeError } from '../../utils/chain'
 
@@ -55,7 +55,6 @@ const hideMobileMenu = (dispatch: AppDispatch) => {
 const handleSearchResult = (
   searchValue: string,
   inputElement: any,
-  searchBarEditable: boolean,
   dispatch: AppDispatch,
   setSearchValue: Function,
   history: ReturnType<typeof useHistory>,
@@ -72,14 +71,6 @@ const handleSearchResult = (
     return
   }
 
-  if (searchBarEditable) {
-    dispatch({
-      type: ComponentActions.UpdateHeaderSearchEditable,
-      payload: {
-        searchBarEditable: false,
-      },
-    })
-  }
   setSearchLoading(inputElement)
   fetchSearchResult(addPrefixForHash(query))
     .then((response: any) => {
@@ -120,7 +111,11 @@ const handleSearchResult = (
     })
 }
 
-const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean }) => {
+const Search: FC<{
+  content?: string
+  hasButton?: boolean
+  onEditEnd?: () => void
+}> = memo(({ content, hasButton, onEditEnd }) => {
   const isMobile = useIsMobile()
   const dispatch = useDispatch()
   const history = useHistory()
@@ -129,9 +124,6 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
   const [searchValue, setSearchValue] = useState(content || '')
   const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
   const inputElement = useRef<HTMLInputElement>(null)
-  const {
-    components: { searchBarEditable },
-  } = useAppState()
 
   // update input placeholder when language change
   useEffect(() => {
@@ -150,28 +142,19 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
     if (isClear) {
       setSearchValue('')
       clearSearchInput(inputElement)
-      dispatch({
-        type: ComponentActions.UpdateHeaderSearchEditable,
-        payload: {
-          searchBarEditable: false,
-        },
-      })
+      onEditEnd?.()
     }
   }
 
   const inputChangeAction = (event: any) => {
     setSearchValue(event.target.value)
-    dispatch({
-      type: ComponentActions.UpdateHeaderSearchEditable,
-      payload: {
-        searchBarEditable: !!event.target.value,
-      },
-    })
+    if (!event.target.value) onEditEnd?.()
   }
 
   const searchKeyAction = (event: any) => {
     if (event.keyCode === 13) {
-      handleSearchResult(searchValue, inputElement, searchBarEditable, dispatch, setSearchValue, history, isMobile)
+      handleSearchResult(searchValue, inputElement, dispatch, setSearchValue, history, isMobile)
+      onEditEnd?.()
     }
   }
 
@@ -186,7 +169,6 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
       <SearchPanel moreHeight={hasButton} hasButton={hasButton}>
         <ImageIcon />
         <SearchInputPanel
-          searchBarEditable={searchBarEditable}
           ref={inputElement}
           placeholder={placeholder}
           defaultValue={searchValue || ''}
@@ -197,23 +179,16 @@ const Search = ({ content, hasButton }: { content?: string; hasButton?: boolean 
       </SearchPanel>
       {hasButton && (
         <SearchButton
-          onClick={() =>
-            handleSearchResult(
-              searchValue,
-              inputElement,
-              searchBarEditable,
-              dispatch,
-              setSearchValue,
-              history,
-              isMobile,
-            )
-          }
+          onClick={() => {
+            handleSearchResult(searchValue, inputElement, dispatch, setSearchValue, history, isMobile)
+            onEditEnd?.()
+          }}
         >
           {i18n.t('search.search')}
         </SearchButton>
       )}
     </SearchContainer>
   )
-}
+})
 
 export default Search

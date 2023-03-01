@@ -1,5 +1,4 @@
-import { ReactNode, useRef, useCallback, FC } from 'react'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
+import { ReactNode, useCallback, FC } from 'react'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/pie'
 import 'echarts/lib/component/tooltip'
@@ -26,8 +25,8 @@ import { handleBigNumber, handleBigNumberFloor } from '../../../utils/string'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkbDecimal, shannonToCkb } from '../../../utils/util'
 import DecimalCapacity from '../../../components/DecimalCapacity'
-import { isScreenSmallerThan1200 } from '../../../utils/screen'
-import { useIsMobile } from '../../../utils/hook'
+import { useIsLGScreen, useIsMobile } from '../../../utils/hook'
+import { ReactChartCore } from '../../StatisticsChart/common'
 
 interface NervosDaoItemContent {
   title: string
@@ -286,18 +285,10 @@ const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
 
 export default ({ nervosDao }: { nervosDao: State.NervosDao }) => {
   const isMobile = useIsMobile()
+  const isExactLG = useIsLGScreen(true)
   const {
     app: { chartColor },
   } = useAppState()
-
-  const screenWidth = useRef<number>(window.innerWidth)
-  const widthDiff = window.innerWidth > 750 && Math.abs(screenWidth.current - window.innerWidth)
-
-  const clickEvent = useCallback(() => {
-    if (widthDiff) {
-      screenWidth.current = window.innerWidth
-    }
-  }, [widthDiff])
 
   const nervosDaoPieItemContents = useCallback(
     (nervosDao: State.NervosDao): NervosDaoPieItemContent[] => [
@@ -327,17 +318,13 @@ export default ({ nervosDao }: { nervosDao: State.NervosDao }) => {
       <DaoOverviewRightPanel>
         <DaoOverviewPieChartPanel>
           <span className="nervos__dao__overview_pie_title">{i18n.t('nervos_dao.secondary_issuance')}</span>
-          <ReactEchartsCore
-            echarts={echarts}
+          <ReactChartCore
             option={getOption(nervosDao, chartColor.daoColors, isMobile)}
             notMerge
             lazyUpdate
             style={{
               height: isMobile ? '65%' : '90%',
-              width: !isMobile && isScreenSmallerThan1200() ? '70%' : '100%',
-            }}
-            onEvents={{
-              click: clickEvent,
+              width: isExactLG ? '70%' : '100%',
             }}
           />
         </DaoOverviewPieChartPanel>

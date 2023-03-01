@@ -24,7 +24,6 @@ import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import { isMainnet } from '../../utils/chain'
 import SimpleButton from '../../components/SimpleButton'
 import HashTag from '../../components/HashTag'
-import { isScreenSmallerThan1440 } from '../../utils/screen'
 import { useAddrFormatToggle } from '../../utils/hook'
 import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 
@@ -60,14 +59,16 @@ const TransactionInfoItem = ({
 }) => (
   <TransactionInfoContentItem>
     <div className="transaction__info__content_title">{title ? `${title}: ` : ''}</div>
-    <div className="transaction__info__content_value monospace">
-      {linkUrl ? (
-        <Link to={linkUrl} className="monospace">
-          {value}
-        </Link>
-      ) : (
-        value
-      )}
+    <div className="transaction__info__content_container monospace">
+      <div className="transaction__info__content_value">
+        {linkUrl ? (
+          <Link to={linkUrl} className="monospace">
+            {value}
+          </Link>
+        ) : (
+          value
+        )}
+      </div>
       {tag && <div className="transaction__info__content__tag">{tag}</div>}
     </div>
   </TransactionInfoContentItem>
@@ -247,14 +248,8 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
                   title={i18n.t('transaction.out_point_tx_hash')}
                   value={txHash}
                   linkUrl={`/transaction/${txHash}`}
-                  tag={
-                    !isScreenSmallerThan1440() &&
-                    hashTag && <HashTag content={hashTag.tag} category={hashTag.category} />
-                  }
+                  tag={hashTag && <HashTag content={hashTag.tag} category={hashTag.category} />}
                 />
-                {isScreenSmallerThan1440() && hashTag && (
-                  <TransactionInfoItem value={<HashTag content={hashTag.tag} category={hashTag.category} />} />
-                )}
                 <TransactionInfoItem title={i18n.t('transaction.out_point_index')} value={index} />
                 <TransactionInfoItem title={i18n.t('transaction.dep_type')} value={depType} />
               </TransactionInfoContentPanel>

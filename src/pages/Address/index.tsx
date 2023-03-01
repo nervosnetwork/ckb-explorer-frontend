@@ -120,12 +120,10 @@ export const Address = () => {
     <Content>
       <AddressContentPanel className="container">
         <AddressHashCard
-          title={
-            (addressInfoQuery.data?.type ?? '') === 'LockHash' ? i18n.t('address.lock_hash') : i18n.t('address.address')
-          }
+          title={addressInfoQuery.data?.type === 'LockHash' ? i18n.t('address.lock_hash') : i18n.t('address.address')}
           hash={address}
           specialAddress={addressInfoQuery.data?.isSpecial ? addressInfoQuery.data.specialAddress : ''}
-          showDASInfoOnHeader
+          showDASInfoOnHeader={addressInfoQuery.data?.addressHash ?? false}
         >
           <AddressTitleOverview address={addressInfoQuery.data ?? defaultAddressInfo} />
         </AddressHashCard>
