@@ -1,4 +1,4 @@
-import { ComponentProps, ReactElement, ReactNode, useMemo } from 'react'
+import { ComponentProps, ReactElement, ReactNode, useMemo, useEffect } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/pie'
@@ -132,6 +132,7 @@ export function SmartChartPage<T>({
   isThumbnail = false,
   chartProps,
   fetchData,
+  onFetched,
   getEChartOption,
   toCSV,
   cacheKey,
@@ -159,6 +160,11 @@ export function SmartChartPage<T>({
 
   const query = useChartQueryWithCache(fetchData, cacheKey, cacheMode)
   const dataList = useMemo(() => query.data ?? [], [query.data])
+  useEffect(() => {
+    if (onFetched && query.data) {
+      onFetched(query.data)
+    }
+  }, [onFetched, query.data])
 
   const option = useMemo(
     () => getEChartOption(dataList, app.chartColor, isMobile, isThumbnail),
