@@ -32,6 +32,7 @@
     "navbar": {
       "wallet": "钱包",
       "charts": "图表",
+      "fee_rate": "费率",
       "nervos_dao": "Nervos DAO",
       "faucet": "水龙头",
       "tokens": "代币",

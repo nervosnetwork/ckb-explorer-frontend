@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 import { v2AxiosIns } from '../../service/http/fetcher'
 import styles from './styles.module.scss'
@@ -16,8 +16,8 @@ import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
 
 const FeeRateTracker = () => {
-  let lastFetchedTime = Number.MAX_SAFE_INTEGER
-  let shadowedSecond = 0
+  const lastFetchedTime = useRef(Number.MAX_SAFE_INTEGER)
+  const deltaSecond = useRef(0)
   const [secondAfterUpdate, setSecondAfterUpdate] = useState<number>(0)
   const isMobile = useIsMobile()
 
@@ -26,8 +26,8 @@ const FeeRateTracker = () => {
     () =>
       v2AxiosIns.get(`statistics/transaction_fees`).then(({ status, data }) => {
         if (status === 200 && data) {
-          lastFetchedTime = Date.now()
-          shadowedSecond = 0
+          lastFetchedTime.current = Date.now()
+          deltaSecond.current = 0
           setSecondAfterUpdate(0)
           return toCamelcase<FeeRateTracker.TransactionFeesStatistic>(data)
         }
@@ -43,9 +43,9 @@ const FeeRateTracker = () => {
   )
 
   useAnimationFrame(() => {
-    if (Date.now() - lastFetchedTime >= (shadowedSecond + 1) * 1000) {
-      shadowedSecond += 1
-      setSecondAfterUpdate(s => s + 1)
+    const deltaTime = Date.now() - lastFetchedTime.current
+    if (deltaTime >= (deltaSecond.current + 1) * 1000) {
+      setSecondAfterUpdate((deltaSecond.current = Math.floor(deltaTime / 1000)))
     }
   })
 

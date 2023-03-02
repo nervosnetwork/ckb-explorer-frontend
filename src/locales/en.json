@@ -32,6 +32,7 @@
     "navbar": {
       "wallet": "Wallet",
       "charts": "Charts",
+      "fee_rate": "Fee Rate",
       "nervos_dao": "Nervos DAO",
       "faucet": "Faucet",
       "tokens": "Tokens",

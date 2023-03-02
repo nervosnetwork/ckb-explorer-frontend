@@ -140,9 +140,9 @@ export const ConfirmationTimeFeeRateChart = ({
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           formatter(params) {
             const param: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
-            return `${i18n.t('fee_rate_tracker.fee_rate')}: ${param.name} ${i18n.t(
+            return `${i18n.t('fee_rate_tracker.fee_rate')}: ${param.value} ${i18n.t(
               'fee_rate_tracker.shannons_per_byte',
-            )}<br />${i18n.t('fee_rate_tracker.confirmation_time')}: ${param.value} ${i18n.t('fee_rate_tracker.secs')}`
+            )}<br />${i18n.t('fee_rate_tracker.confirmation_time')}: ${param.name} ${i18n.t('fee_rate_tracker.secs')}`
           },
         },
         xAxis: {
