@@ -36,6 +36,8 @@ const get404Image = (isMobile: boolean) => {
 export default ({ errorMessage, errorDescription }: { errorMessage?: string; errorDescription?: string }) => {
   const isMobile = useIsMobile()
   const [t] = useTranslation()
+  const isProduction = process.env.NODE_ENV === 'production'
+
   return (
     <Content>
       <NotFoundPanel className="container">
@@ -44,10 +46,12 @@ export default ({ errorMessage, errorDescription }: { errorMessage?: string; err
         {(errorMessage || errorDescription) && (
           <>
             <div className={styles.pageCrashedTip}>{t('error.page_crashed_tip')}</div>
-            <pre className={styles.pageCrashedError}>
-              {errorMessage}
-              {errorDescription}
-            </pre>
+            {!isProduction && (
+              <pre className={styles.pageCrashedError}>
+                {errorMessage}
+                {errorDescription}
+              </pre>
+            )}
           </>
         )}
       </NotFoundPanel>
