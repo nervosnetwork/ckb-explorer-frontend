@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from 'react'
+import { useState, useLayoutEffect, memo } from 'react'
 import { useIsMobile } from '../../../utils/hook'
 import { useAppState, useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage, changeLanguage } from '../../../utils/i18n'
@@ -135,4 +135,4 @@ const LanguageMenu = () => {
   )
 }
 
-export default () => (useIsMobile() ? <LanguageMenu /> : <LanguageDropdown />)
+export default memo(() => (useIsMobile() ? <LanguageMenu /> : <LanguageDropdown />))

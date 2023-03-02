@@ -128,7 +128,7 @@ export const TransactionInfoContentItem = styled.div`
     }
   }
 
-  .transaction__info__content_value {
+  .transaction__info__content_container {
     color: #333333;
     font-size: 14px;
     width: 100%;
@@ -136,13 +136,20 @@ export const TransactionInfoContentItem = styled.div`
     word-break: break-all;
     display: flex;
     justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 0 12px;
 
     @media (max-width: 750px) {
       font-size: 12px;
     }
 
+    .transaction__info__content_value {
+      flex-shrink: 0;
+    }
+
     .transaction__info__content__tag {
-      margin-left: 12px;
+      width: 400px;
+      max-width: 100%;
     }
   }
 `

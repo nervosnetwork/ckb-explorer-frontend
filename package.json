@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@nervosnetwork/ckb-sdk-utils": "0.103.1",
+    "@sentry/react": "7.38.0",
+    "@sentry/tracing": "7.38.0",
     "antd": "4.24.5",
     "axios": "0.21.4",
     "bignumber.js": "9.0.1",
@@ -12,11 +14,10 @@
     "dayjs": "1.11.5",
     "default-passive-events": "2.0.0",
     "echarts": "4.8.0",
-    "echarts-for-react": "^2.0.1",
+    "gsap": "3.11.4",
     "history": "5.0.0",
     "i18next": "20.3.5",
     "jsbi": "3.2.5",
-    "query-string": "7.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-i18next": "11.11.4",
@@ -27,9 +28,11 @@
     "react-router-dom": "5.2.0",
     "react-scripts": "5.0.1",
     "sass": "1.50.1",
-    "styled-components": "5.3.0"
+    "styled-components": "5.3.0",
+    "three": "0.149.0"
   },
   "devDependencies": {
+    "@sentry/webpack-plugin": "1.20.0",
     "@types/echarts": "4.9.9",
     "@types/enzyme": "^3.10.9",
     "@types/enzyme-adapter-react-16": "^1.0.6",
@@ -42,6 +45,7 @@
     "@types/react-router-dom": "5.1.8",
     "@types/react-test-renderer": "^17.0.1",
     "@types/styled-components": "5.1.11",
+    "@types/three": "0.149.0",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
     "@typescript-eslint/parser": "5.48.1",
     "create-react-app": "^4.0.3",

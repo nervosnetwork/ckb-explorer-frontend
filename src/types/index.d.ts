@@ -180,7 +180,7 @@ declare namespace State {
     minedBlocksCount: string
     isSpecial: boolean
     specialAddress: string
-    udtAccounts: Array<UDTAccount>
+    udtAccounts?: Array<UDTAccount>
   }
 
   export interface Block {
@@ -558,8 +558,6 @@ declare namespace State {
     ]
     tipBlockNumber: number
 
-    appWidth: number
-    appHeight: number
     language: 'en' | 'zh'
     primaryColor: string
     secondaryColor: string
@@ -579,7 +577,6 @@ declare namespace State {
   }
 
   export interface Components {
-    searchBarEditable: boolean
     mobileMenuVisible: boolean
     headerSearchBarVisible: boolean
     maintenanceAlertVisible: boolean
