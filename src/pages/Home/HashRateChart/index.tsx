@@ -45,7 +45,6 @@ const getOption = (statisticHashRates: State.StatisticHashRate[]): echarts.EChar
       data: statisticHashRates.map(data => data.createdAtUnixtimestamp),
       axisLabel: {
         formatter: (value: string) => parseDateNoTime(value, true),
-        interval: 0,
       },
       boundaryGap: false,
     },
