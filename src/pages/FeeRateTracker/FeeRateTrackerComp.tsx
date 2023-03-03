@@ -4,7 +4,6 @@ import dayjs from 'dayjs'
 import classNames from 'classnames'
 import styles from './styles.module.scss'
 import i18n from '../../utils/i18n'
-import { useAppState } from '../../contexts/providers'
 import { ReactChartCore } from '../StatisticsChart/common'
 import { ReactComponent as BikeIcon } from '../../assets/bike.svg'
 import { ReactComponent as CarIcon } from '../../assets/car.svg'
@@ -190,7 +189,8 @@ export const ConfirmationTimeFeeRateChart = ({
           },
         ],
         grid: {
-          left: '20%',
+          left: '24%',
+          right: '16%',
         },
       }}
       notMerge
@@ -305,7 +305,8 @@ export const FeeRateTransactionCountChartCore = ({
           },
         ],
         grid: {
-          left: '20%',
+          left: '24%',
+          right: '16%',
         },
         graphic:
           feeRatePrecision > 1
@@ -354,12 +355,10 @@ export const FeeRateTransactionCountChart = ({
 }: {
   pendingTransactionFeeRates: FeeRateTracker.PendingTransactionFeeRate[]
 }) => {
-  const { app } = useAppState()
   return useMemo(() => {
-    // eslint-disable-next-line no-console
-    console.log(`language changed to ${app.language}, Fee Rate of Transaction Count Chart needs to be re-rendered.`)
     return <FeeRateTransactionCountChartCore pendingTransactionFeeRates={pendingTransactionFeeRates} />
-  }, [pendingTransactionFeeRates, app.language])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingTransactionFeeRates, i18n.language])
 }
 
 export const LastNDaysTransactionFeeRateChart = ({
@@ -434,7 +433,8 @@ export const LastNDaysTransactionFeeRateChart = ({
           },
         ],
         grid: {
-          left: '20%',
+          left: '24%',
+          right: '16%',
         },
       }}
       notMerge
