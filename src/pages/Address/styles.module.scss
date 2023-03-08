@@ -9,3 +9,59 @@
     max-width: 100%;
   }
 }
+
+.transactionTitleCard {
+  height: 80px;
+}
+
+.layoutButtons {
+  > label {
+    height: 40px;
+    width: 120px;
+    text-align: center;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 38px;
+    color: #333333;
+    border: 1px solid #e5e5e5;
+    box-shadow: none !important;
+    &::before {
+      background-color: #ffffff !important;
+    }
+    &:hover {
+      color: #333333;
+      background: #ffffff;
+    }
+    &:global(.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)) {
+      background: #333333;
+      border-color: #e5e5e5 !important;
+      &:hover {
+        background: #333333;
+      }
+    }
+  }
+}
+
+.liteTransactionHeader {
+  display: flex;
+  height: 100px;
+  width: 100%;
+  background-color: #ffffff;
+  margin-top: 4px;
+  padding: 23px 40px;
+  flex-direction: row;
+  align-items: center;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #333333;
+  > div {
+    width: calc(100% / 6);
+    &:first-child {
+      width: calc(100% / 3);
+    }
+    &:last-child {
+      text-align: right;
+    }
+  }
+}

@@ -1,7 +1,8 @@
 import axios, { AxiosResponse } from 'axios'
-import { useState, useEffect, FC } from 'react'
+import { useState, useEffect, FC, ReactNode } from 'react'
 import { useHistory } from 'react-router'
 import { useQuery } from 'react-query'
+import { Radio } from 'antd'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
@@ -20,7 +21,9 @@ import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { sliceNftName } from '../../utils/string'
-import { useIsLGScreen, useNewAddr } from '../../utils/hook'
+import { useIsLGScreen, useNewAddr, useSearchParams } from '../../utils/hook'
+import styles from './styles.module.scss'
+import TransactionLiteItem from '../../components/TransactionItem/TransactionLiteItem'
 
 const addressAssetInfo = (address: State.Address, useMiniStyle: boolean) => {
   const items = [
@@ -163,7 +166,7 @@ interface CoTAList {
   }
 }
 
-export const AddressAssetComp: FC<{ address: State.Address }> = ({ address }) => {
+export const AddressAssetComp: FC<{ address: State.Address; children?: ReactNode }> = ({ address, children }) => {
   const isLG = useIsLGScreen()
   const { udtAccounts = [] } = address
 
@@ -186,7 +189,7 @@ export const AddressAssetComp: FC<{ address: State.Address }> = ({ address }) =>
   )
 
   return (
-    <OverviewCard items={addressAssetInfo(address, isLG)} titleCard={<TitleCard title={i18n.t('address.assets')} />}>
+    <OverviewCard items={addressAssetInfo(address, isLG)} titleCard={<TitleCard title={i18n.t('address.overview')} />}>
       {udtAccounts.length || cotaList?.length ? (
         <AddressUDTAssetsPanel>
           <span>{i18n.t('address.user_defined_token')}</span>
@@ -215,6 +218,7 @@ export const AddressAssetComp: FC<{ address: State.Address }> = ({ address }) =>
           </div>
         </AddressUDTAssetsPanel>
       ) : null}
+      {children}
     </OverviewCard>
   )
 }
@@ -235,11 +239,24 @@ export const AddressTransactions = ({
   addressInfo: State.Address
 }) => {
   const history = useHistory()
-
+  const searchParams = useSearchParams('layout')
+  const layout = (searchParams.layout ?? 'professional') as 'professional' | 'lite'
   const totalPages = Math.ceil(total / pageSize)
 
+  const handleChange = (page: number, lo: 'professional' | 'lite') => {
+    if (page === 1) {
+      history.replace(`/address/${address}${lo === 'lite' ? '?layout=lite' : ''}`)
+    } else {
+      history.replace(`/address/${address}?page=${page}&size=${pageSize}${lo === 'lite' ? '&layout=lite' : ''}`)
+    }
+  }
+
   const onChange = (page: number) => {
-    history.replace(`/address/${address}?page=${page}&size=${pageSize}`)
+    handleChange(page, layout)
+  }
+
+  const onChangeLayout = (lo: 'professional' | 'lite') => {
+    handleChange(currentPage, lo)
   }
 
   const newAddr = useNewAddr(address)
@@ -260,12 +277,38 @@ export const AddressTransactions = ({
 
   return (
     <>
-      <TitleCard title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`} isSingle />
+      <TitleCard
+        title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`}
+        className={styles.transactionTitleCard}
+        isSingle
+        rear={
+          <Radio.Group
+            className={styles.layoutButtons}
+            options={[
+              { label: i18n.t('transaction.professional'), value: 'professional' },
+              { label: i18n.t('transaction.lite'), value: 'lite' },
+            ]}
+            onChange={({ target: { value } }) => onChangeLayout(value)}
+            value={layout}
+            optionType="button"
+            buttonStyle="solid"
+          />
+        }
+      />
       <AddressTransactionsPanel>
+        {layout === 'lite' && (
+          <div className={styles.liteTransactionHeader}>
+            <div>Transaction Hash</div>
+            <div>Height</div>
+            <div>Time</div>
+            <div>Input & Output</div>
+            <div>UTXO Change</div>
+          </div>
+        )}
         {txList.map((transaction: State.Transaction, index: number) => {
           const { transactionHash } = transaction
-          return (
-            transaction && (
+          if (transaction && layout === 'professional') {
+            return (
               <TransactionItem
                 address={addressHash}
                 transaction={transaction}
@@ -275,7 +318,11 @@ export const AddressTransactions = ({
                 }}
               />
             )
-          )
+          }
+          if (transaction && layout === 'lite') {
+            return <TransactionLiteItem address={addressHash} transaction={transaction} key={transactionHash} />
+          }
+          return null
         })}
       </AddressTransactionsPanel>
       {totalPages > 1 && (

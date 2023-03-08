@@ -124,12 +124,14 @@ export const Address = () => {
           hash={address}
           specialAddress={addressInfoQuery.data?.isSpecial ? addressInfoQuery.data.specialAddress : ''}
           showDASInfoOnHeader={addressInfoQuery.data?.addressHash ?? false}
-        >
-          <AddressTitleOverview address={addressInfoQuery.data ?? defaultAddressInfo} />
-        </AddressHashCard>
+        />
 
         <QueryResult query={addressInfoQuery} delayLoading>
-          {data => <AddressAssetComp address={data} />}
+          {data => (
+            <AddressAssetComp address={data}>
+              <AddressTitleOverview address={addressInfoQuery.data ?? defaultAddressInfo} />
+            </AddressAssetComp>
+          )}
         </QueryResult>
 
         <QueryResult query={addressTransactionsQuery} delayLoading>

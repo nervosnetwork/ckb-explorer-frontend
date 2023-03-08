@@ -227,6 +227,7 @@
       "args": "Args: ",
       "hash_type": "Hash Type: ",
       "assets": "Assets",
+      "overview": "Overview",
       "user_defined_token": "User Defined Token",
       "confirmation": "Confirmation",
       "confirmations": "Confirmations",
@@ -314,7 +315,9 @@
           "block": "After block {{since}}",
           "timestamp": "After {{since}}"
         }
-      }
+      },
+      "professional": "Professional",
+      "lite": "Lite"
     },
     "block": {
       "block": "Block",

@@ -226,6 +226,7 @@
       "args": "Args: ",
       "hash_type": "Hash Type: ",
       "assets": "资产",
+      "overview": "概览",
       "user_defined_token": "User Defined Token",
       "confirmation": "确认区块",
       "confirmations": "确认区块",
@@ -313,7 +314,9 @@
           "block": "区块 {{since}} 之后",
           "timestamp": "{{since}} 之后"
         }
-      }
+      },
+      "professional": "专业版",
+      "lite": "精简版"
     },
     "block": {
       "block": "区块",
