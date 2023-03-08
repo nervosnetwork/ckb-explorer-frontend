@@ -484,6 +484,23 @@ export function useChartQueryWithCache<T>(
   })
 }
 
+export const useAnimationFrame = (callback: () => void, running: boolean = true) => {
+  const savedCallback = useRef(callback)
+
+  useEffect(() => {
+    if (!running) return
+
+    let requestId = 0
+    function tick() {
+      savedCallback.current()
+      requestId = window.requestAnimationFrame(tick)
+    }
+    requestId = window.requestAnimationFrame(tick)
+
+    return () => window.cancelAnimationFrame(requestId)
+  }, [running])
+}
+
 export default {
   useInterval,
   useTimeout,

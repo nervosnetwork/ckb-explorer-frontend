@@ -36,6 +36,11 @@ const menuDataList = () => [
     name: i18n.t('navbar.charts'),
     url: '/charts',
   },
+  {
+    type: LinkType.Inner,
+    name: i18n.t('navbar.fee_rate'),
+    url: '/fee-rate-tracker',
+  },
   !isMainnet()
     ? {
         type: LinkType.Outer,

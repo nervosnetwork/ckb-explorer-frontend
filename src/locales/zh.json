@@ -32,6 +32,7 @@
     "navbar": {
       "wallet": "钱包",
       "charts": "图表",
+      "fee_rate": "费率",
       "nervos_dao": "Nervos DAO",
       "faucet": "水龙头",
       "tokens": "代币",
@@ -471,6 +472,27 @@
         "deprecated": "已废弃",
         "website": "官网"
       }
+    },
+    "fee_rate_tracker": {
+      "title": "费率追踪",
+      "updated_time": "{{second}}秒前更新",
+      "low": "低",
+      "average": "平均",
+      "high": "高",
+      "mins": "分",
+      "secs": "秒",
+      "second": "秒",
+      "date": "日期",
+      "shannons_per_byte": "香农每字节",
+      "average_fee_rate": "平均费率",
+      "confirmation_time_x_fee_rate": "确认时间与费率",
+      "last_n_transactions": "最近{{c}}笔交易",
+      "fee_rate": "费率",
+      "back": "返回",
+      "confirmation_time": "确认时间",
+      "fee_rate_of_pending_transactions": "未确认交易的费率",
+      "transaction_count": "交易数量",
+      "n_days_historical_fee_rate": "{{n}} 天历史费率"
     }
   }
 }

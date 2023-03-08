@@ -22,7 +22,7 @@ import { isMainnet } from '../../../utils/chain'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import i18n from '../../../utils/i18n'
 import Content from '../../../components/Content'
-import { useChartQueryWithCache, useIsMobile, usePrevious } from '../../../utils/hook'
+import { useChartQueryWithCache, useIsMobile, usePrevious, useWindowResize } from '../../../utils/hook'
 import { useAppState } from '../../../contexts/providers'
 import { isDeepEqual } from '../../../utils/util'
 
@@ -89,6 +89,12 @@ const ReactChartCore = ({
       }
     }
   }, [clickEvent, lazyUpdate, notMerge, option, prevClickEvent, prevOption])
+
+  useWindowResize(() => {
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current?.resize()
+    }
+  })
 
   return <div style={{ height: isThumbnail ? '200px' : '70vh', ...style }} className={className} ref={chartRef} />
 }
