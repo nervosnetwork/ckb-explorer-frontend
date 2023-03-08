@@ -117,8 +117,11 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
   )
   const clickEvent = useCallback(
     (param: any) => {
-      if (param && param.name) {
-        history.push(`/address/${getAddressWithRanking(statisticAddressBalanceRanks, param.name)}`)
+      if (param && param.name && statisticAddressBalanceRanks.length > 0) {
+        const address = getAddressWithRanking(statisticAddressBalanceRanks, param.name)
+        if (address) {
+          history.push(`/address/${address}`)
+        }
       }
     },
     [statisticAddressBalanceRanks, history],
