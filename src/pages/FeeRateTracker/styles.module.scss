@@ -16,13 +16,15 @@
   .charts {
     width: 100%;
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
     margin-bottom: 28px;
     > div {
       margin: 12px;
       display: flex;
-      width: calc(50% - 24px);
+      /* width: calc(50% - 24px); */
+      width: 100%;
       height: 375px;
       background-color: #ffffff;
       flex-direction: column;
@@ -98,11 +100,11 @@
         }
         .card.low {
           > .icon > svg > path {
-            fill: #23BFF0;
+            fill: #23bff0;
           }
           > .priority {
-            color: #23BFF0;
-            background-color: #E8F9FF
+            color: #23bff0;
+            background-color: #e8f9ff;
           }
         }
         .card.average {
@@ -110,20 +112,20 @@
           border-right: 1px solid;
           border-image: linear-gradient(to bottom, transparent 36%, #e5e5e5 36%, #e5e5e5 64%, transparent 64%) 1;
           > .icon > svg > path {
-            fill: #00CC9B;
+            fill: #00cc9b;
           }
           > .priority {
-            color: #00CC9B;
-            background-color: #E8FFF1;
+            color: #00cc9b;
+            background-color: #e8fff1;
           }
         }
         .card.high {
           > .icon > svg > path {
-            fill: #FF5656;
+            fill: #ff5656;
           }
           > .priority {
-            color: #FF5656;
-            background-color: #FFE8E8;
+            color: #ff5656;
+            background-color: #ffe8e8;
           }
         }
       }

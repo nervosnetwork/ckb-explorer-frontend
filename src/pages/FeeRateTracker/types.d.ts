@@ -25,7 +25,7 @@ declare namespace FeeRateTracker {
   export interface FeeRateCard {
     priority: string
     icon: ReactComponent
-    feeRate?: number
+    feeRate?: string
     priorityClass: string
     confirmationTime: number
   }

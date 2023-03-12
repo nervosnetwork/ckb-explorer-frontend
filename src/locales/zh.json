@@ -483,7 +483,6 @@
       "secs": "秒",
       "second": "秒",
       "date": "日期",
-      "shannons_per_byte": "香农每字节",
       "average_fee_rate": "平均费率",
       "confirmation_time_x_fee_rate": "确认时间与费率",
       "last_n_transactions": "最近{{c}}笔交易",

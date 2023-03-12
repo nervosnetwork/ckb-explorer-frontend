@@ -85,10 +85,10 @@ const FeeRateTracker = () => {
               )}
             </div>
           </div>
-          <div>
+          <div style={{ display: 'none' }}>
             <div className={styles.chartTitle}>{i18n.t('fee_rate_tracker.fee_rate_of_pending_transactions')}</div>
             <div className={styles.chart}>
-              {transactionFeesStatistic ? (
+              {transactionFeesStatistic?.pendingTransactionFeeRates ? (
                 <FeeRateTransactionCountChart
                   pendingTransactionFeeRates={transactionFeesStatistic.pendingTransactionFeeRates}
                 />
@@ -97,10 +97,10 @@ const FeeRateTracker = () => {
               )}
             </div>
           </div>
-          <div>
+          <div style={{ display: 'none' }}>
             <div className={styles.chartTitle}>{i18n.t('fee_rate_tracker.n_days_historical_fee_rate', { n: 7 })}</div>
             <div className={styles.chart}>
-              {transactionFeesStatistic ? (
+              {transactionFeesStatistic?.lastNDaysTransactionFeeRates ? (
                 <LastNDaysTransactionFeeRateChart
                   lastNDaysTransactionFeeRates={transactionFeesStatistic.lastNDaysTransactionFeeRates}
                 />

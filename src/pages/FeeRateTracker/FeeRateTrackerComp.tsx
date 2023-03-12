@@ -24,32 +24,30 @@ const textStyleOfTooltip: echarts.EChartOption.TextStyle = {
   lineHeight: 18,
 }
 
-export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: FeeRateTracker.TransactionFeeRate[] }) => {
-  const getWeightedMedian = (tfrs: FeeRateTracker.TransactionFeeRate[]): number => {
-    if (!tfrs || tfrs.length === 0) {
-      return 0
-    }
-    return tfrs.length % 2 === 0
-      ? (tfrs[tfrs.length / 2 - 1].confirmationTime + tfrs[tfrs.length / 2 - 1].confirmationTime) / 2
-      : tfrs[(tfrs.length - 1) / 2].confirmationTime
+const getWeightedMedian = (tfrs: FeeRateTracker.TransactionFeeRate[]): number => {
+  if (tfrs?.length === 0) {
+    return 0
   }
+  return tfrs.length % 2 === 0
+    ? (tfrs[tfrs.length / 2 - 1].confirmationTime + tfrs[tfrs.length / 2 - 1].confirmationTime) / 2
+    : tfrs[(tfrs.length - 1) / 2].confirmationTime
+}
 
-  const allFrs = [...transactionFeeRates.filter(r => r.confirmationTime === 0 || r.confirmationTime)].sort(
-    (a, b) => a.confirmationTime - b.confirmationTime,
-  )
+const calcFeeRate = (tfrs: FeeRateTracker.TransactionFeeRate[]): string =>
+  tfrs.length === 0
+    ? '0'
+    : Math.round(tfrs.reduce((acc, cur) => acc + cur.feeRate * 1000, 0) / tfrs.length).toLocaleString('en')
+
+export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: FeeRateTracker.TransactionFeeRate[] }) => {
+  const validFeeRateList = transactionFeeRates.filter(feeRate => feeRate.confirmationTime)
+  const allFrs = validFeeRateList.sort((a, b) => a.confirmationTime - b.confirmationTime)
   const avgConfirmationTime = getWeightedMedian(allFrs)
+
   const lowFrs = allFrs.filter(r => r.confirmationTime >= avgConfirmationTime)
   const lowConfirmationTime = getWeightedMedian(lowFrs)
+
   const highFrs = allFrs.filter(r => r.confirmationTime <= avgConfirmationTime)
   const highConfirmationTime = getWeightedMedian(highFrs)
-
-  const calcFeeRate = (tfrs: FeeRateTracker.TransactionFeeRate[]): number =>
-    tfrs.length === 0
-      ? 0
-      : BigNumber.sum(...tfrs.map(r => r.feeRate))
-          .div(tfrs.length)
-          .dp(3, BigNumber.ROUND_HALF_EVEN)
-          .toNumber()
 
   const feeRateCards: FeeRateTracker.FeeRateCard[] = [
     {
@@ -81,9 +79,7 @@ export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: Fee
         <div className={classNames(styles.card, priorityClass)} key={priority}>
           <div className={styles.icon}>{icon}</div>
           <div className={styles.priority}>{priority}</div>
-          <div className={styles.shannonsPerByte}>
-            {feeRate} {i18n.t('fee_rate_tracker.shannons_per_byte')}
-          </div>
+          <div className={styles.shannonsPerByte}>{`${feeRate} shannons/kB`}</div>
           <div className={styles.secs}>
             {confirmationTime >= 60
               ? `${Math.floor(confirmationTime / 60)} ${i18n.t('fee_rate_tracker.mins')}${
@@ -102,32 +98,17 @@ export const ConfirmationTimeFeeRateChart = ({
 }: {
   transactionFeeRates: FeeRateTracker.TransactionFeeRate[]
 }) => {
-  const confirmationTimeFeeRatesMap = new Map<number, number[]>()
-  let minCt = Number.MAX_SAFE_INTEGER
-  let maxCt = Number.MIN_SAFE_INTEGER
-  transactionFeeRates.forEach(r => {
-    if (r.confirmationTime === 0 || r.confirmationTime) {
-      if (r.confirmationTime < minCt) minCt = r.confirmationTime
-      if (r.confirmationTime > maxCt) maxCt = r.confirmationTime
-      const feeRates = confirmationTimeFeeRatesMap.get(r.confirmationTime)
-      if (feeRates) {
-        feeRates.push(r.feeRate)
-      } else {
-        confirmationTimeFeeRatesMap.set(r.confirmationTime, [r.feeRate])
-      }
+  const data = transactionFeeRates.reduce<Array<Array<number>>>((acc, cur) => {
+    if (!cur.confirmationTime) {
+      return acc
     }
-  })
-
-  const confirmationTimeFeeRateX = maxCt >= minCt ? [...Array(maxCt - minCt + 1).keys()].map(i => i + minCt) : []
-  const confirmationTimeFeeRateY = confirmationTimeFeeRateX.map(i => {
-    const feeRates = confirmationTimeFeeRatesMap.get(i)
-    return feeRates
-      ? BigNumber.sum(...feeRates)
-          .div(feeRates.length)
-          .dp(1, BigNumber.ROUND_HALF_EVEN)
-          .toNumber()
-      : 0
-  })
+    const range = Math.round(cur.confirmationTime / 10)
+    if (!Array.isArray(acc[range])) {
+      acc[range] = []
+    }
+    acc[range].push(cur.feeRate * 1000)
+    return acc
+  }, [])
 
   return (
     <ReactChartCore
@@ -139,14 +120,16 @@ export const ConfirmationTimeFeeRateChart = ({
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           formatter(params) {
             const param: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
-            return `${i18n.t('fee_rate_tracker.fee_rate')}: ${param.value} ${i18n.t(
-              'fee_rate_tracker.shannons_per_byte',
-            )}<br />${i18n.t('fee_rate_tracker.confirmation_time')}: ${param.name} ${i18n.t('fee_rate_tracker.secs')}`
+            return `${i18n.t('fee_rate_tracker.fee_rate')}: ${param.value?.toLocaleString(
+              'en',
+            )} shannons/kB<br />${i18n.t('fee_rate_tracker.confirmation_time')}: ${param.name} ${i18n.t(
+              'fee_rate_tracker.secs',
+            )}`
           },
         },
         xAxis: {
           type: 'category',
-          name: `${i18n.t('fee_rate_tracker.confirmation_time')} (${i18n.t('fee_rate_tracker.second')})`,
+          name: `${i18n.t('fee_rate_tracker.confirmation_time')} (${i18n.t('fee_rate_tracker.seconds')})`,
           nameGap: 32,
           nameLocation: 'middle',
           nameTextStyle: textStyleInChart,
@@ -157,15 +140,15 @@ export const ConfirmationTimeFeeRateChart = ({
           axisTick: {
             show: false,
           },
-          data: confirmationTimeFeeRateX,
+          data: Array.from({ length: data.length }, (_, idx) => `${idx * 10} ~ ${idx * 10 + 10}s`),
         },
         yAxis: {
           type: 'value',
-          nameGap: 54,
+          nameGap: 80,
           nameRotate: 90,
           nameLocation: 'middle',
           nameTextStyle: textStyleInChart,
-          axisLabel: textStyleInChart,
+          axisLabel: { ...textStyleInChart, formatter: (v: number) => `${(v / 1000).toLocaleString('en')}k` },
           axisLine: {
             show: false,
           },
@@ -177,11 +160,13 @@ export const ConfirmationTimeFeeRateChart = ({
               color: '#e5e5e5',
             },
           },
-          name: `${i18n.t('fee_rate_tracker.fee_rate')}(${i18n.t('fee_rate_tracker.shannons_per_byte')})`,
+          name: `${i18n.t('fee_rate_tracker.fee_rate')}(shannons/kB)`,
         },
         series: [
           {
-            data: confirmationTimeFeeRateY,
+            data: data.map(feeList =>
+              feeList.length ? Math.round(feeList.reduce((acc, cur) => acc + cur) / feeList.length) : 0,
+            ),
             type: 'bar',
             itemStyle: {
               color: getPrimaryColor(),
@@ -189,8 +174,9 @@ export const ConfirmationTimeFeeRateChart = ({
           },
         ],
         grid: {
-          left: '24%',
-          right: '16%',
+          left: '18%',
+          // left: '24%',
+          // right: '16%',
         },
       }}
       notMerge
@@ -258,15 +244,13 @@ export const FeeRateTransactionCountChartCore = ({
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           formatter(params) {
             const param: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
-            return `${param.name} ${i18n.t('fee_rate_tracker.shannons_per_byte')}<br />${i18n.t(
-              'fee_rate_tracker.transaction_count',
-            )}: ${param.value}`
+            return `${param.name} shannons/kB<br />${i18n.t('fee_rate_tracker.transaction_count')}: ${param.value}`
           },
         },
         xAxis: {
           type: 'category',
           data: feeRateTransactionCountX,
-          name: `${i18n.t('fee_rate_tracker.fee_rate')} (${i18n.t('fee_rate_tracker.shannons_per_byte')})`,
+          name: `${i18n.t('fee_rate_tracker.fee_rate')} (shannons/kB)`,
           nameGap: 32,
           nameLocation: 'middle',
           nameTextStyle: textStyleInChart,
@@ -383,9 +367,7 @@ export const LastNDaysTransactionFeeRateChart = ({
             const feeRate = sortedLastNDaysTransactionFeeRates.find(r => dayjs(r.date).format('MM/DD') === param.name)
             return `${i18n.t('fee_rate_tracker.date')}: ${
               feeRate ? dayjs(feeRate.date).format('YYYY/MM/DD') : ''
-            }<br />${i18n.t('fee_rate_tracker.average_fee_rate')}: ${param.value} ${i18n.t(
-              'fee_rate_tracker.shannons_per_byte',
-            )}`
+            }<br />${i18n.t('fee_rate_tracker.average_fee_rate')}: ${param.value} shannons/kB`
           },
         },
         xAxis: {
@@ -421,7 +403,7 @@ export const LastNDaysTransactionFeeRateChart = ({
               color: '#e5e5e5',
             },
           },
-          name: `${i18n.t('fee_rate_tracker.fee_rate')}(${i18n.t('fee_rate_tracker.shannons_per_byte')})`,
+          name: `${i18n.t('fee_rate_tracker.fee_rate')}(shannons/kB)`,
         },
         series: [
           {
