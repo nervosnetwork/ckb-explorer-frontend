@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { parseDate } from '../../../utils/date'
 import { localeNumberString } from '../../../utils/number'
 import AddressText from '../../AddressText'
@@ -20,15 +21,9 @@ const TransactionLiteItem = ({ transaction, address }: { transaction: State.Tran
           </AddressText>
         </div>
         <div>
-          <AddressText
-            disableTooltip
-            className={styles.blockLink}
-            linkProps={{
-              to: `/block/${transaction.blockNumber}`,
-            }}
-          >
+          <Link className={styles.blockLink} to={`/block/${transaction.blockNumber}`}>
             {localeNumberString(transaction.blockNumber)}
-          </AddressText>
+          </Link>
         </div>
         <div>{parseDate(transaction.blockTimestamp)}</div>
         <div>
