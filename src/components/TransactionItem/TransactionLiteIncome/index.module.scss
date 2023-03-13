@@ -7,8 +7,7 @@
       font-size: 14px;
       line-height: 16px;
     }
-    @media (max-width: 750px) {
-      flex-direction: column;
+    @media (min-width: 751px) and (max-width: 960px) {
       > div:not(:last-child) {
         display: none;
       }

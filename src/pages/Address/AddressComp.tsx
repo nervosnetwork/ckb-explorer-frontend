@@ -21,7 +21,7 @@ import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { sliceNftName } from '../../utils/string'
-import { useIsLGScreen, useNewAddr, useSearchParams } from '../../utils/hook'
+import { useIsLGScreen, useIsMobile, useNewAddr, useSearchParams } from '../../utils/hook'
 import styles from './styles.module.scss'
 import TransactionLiteItem from '../../components/TransactionItem/TransactionLiteItem'
 
@@ -239,6 +239,7 @@ export const AddressTransactions = ({
   addressInfo: State.Address
 }) => {
   const history = useHistory()
+  const isMobile = useIsMobile()
   const searchParams = useSearchParams('layout')
   const layout = (searchParams.layout ?? 'professional') as 'professional' | 'lite'
   const totalPages = Math.ceil(total / pageSize)
@@ -296,13 +297,13 @@ export const AddressTransactions = ({
         }
       />
       <AddressTransactionsPanel>
-        {layout === 'lite' && (
+        {layout === 'lite' && !isMobile && (
           <div className={styles.liteTransactionHeader}>
-            <div>Transaction Hash</div>
-            <div>Height</div>
-            <div>Time</div>
-            <div>Input & Output</div>
-            <div>UTXO Change</div>
+            <div>{i18n.t('transaction.transaction_hash')}</div>
+            <div>{i18n.t('transaction.height')}</div>
+            <div>{i18n.t('transaction.time')}</div>
+            <div>{`${i18n.t('transaction.input')} & ${i18n.t('transaction.output')}`}</div>
+            <div>{i18n.t('transaction.utxo_change')}</div>
           </div>
         )}
         {txList.map((transaction: State.Transaction, index: number) => {
