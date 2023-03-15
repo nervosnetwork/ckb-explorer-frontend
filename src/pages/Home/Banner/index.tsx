@@ -4,6 +4,7 @@ import { BannerRender, createBannerRender } from './render'
 import styles from './index.module.scss'
 import { useIsMobile, usePrevious } from '../../../utils/hook'
 import BannerFallback from '../../../components/BannerFallback'
+import { createPioneerRender } from './pioneerRender'
 
 // eslint-disable-next-line no-underscore-dangle
 const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
@@ -15,9 +16,9 @@ const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
     const container = ref.current
     if (!container) return
     try {
-      const r = createBannerRender(container)
-      setRender(r)
-      return () => r.destroy()
+      let r: BannerRender
+      createPioneerRender(container, setRender, () => createBannerRender(container))
+      return () => r && r.destroy()
     } catch (e) {
       if (e instanceof Error) {
         console.error(e.message)

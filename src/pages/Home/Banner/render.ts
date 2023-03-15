@@ -219,7 +219,11 @@ function createNormalCubes(
   return createInstancedCubeMesh(cubes, cubeIndexMap, boxGeometry, boxMaterial)
 }
 
-function createTextCubes(cubeSize: Vector3, spacingBetweenCubes: number, centerPos: Vector3 = new Vector3(0, 0, 0)) {
+export function createTextCubes(
+  cubeSize: Vector3,
+  spacingBetweenCubes: number,
+  centerPos: Vector3 = new Vector3(0, 0, 0),
+) {
   const cubeWidth = cubeSize.x
   const cubeHeight = cubeSize.y
   const cubeLong = cubeSize.z
