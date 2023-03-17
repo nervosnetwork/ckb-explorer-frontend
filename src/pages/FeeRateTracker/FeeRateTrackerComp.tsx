@@ -102,7 +102,7 @@ export const ConfirmationTimeFeeRateChart = ({
     if (!cur.confirmationTime) {
       return acc
     }
-    const range = Math.floor((Math.ceil(cur.confirmationTime) - 1) / 10)
+    const range = Math.floor((cur.confirmationTime - 1) / 10)
     if (!Array.isArray(acc[range])) {
       acc[range] = []
     }
