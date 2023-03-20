@@ -47,11 +47,41 @@
 
 .scriptTransactionsPanel {
   width: 100%;
+  padding: 0 40px;
+
+  thead th {
+    padding: 5px 0 22px;
+    background: #ffffff;
+    &::before {
+      display: none;
+    }
+  }
+
+  tbody td {
+    padding: 22px 0;
+  }
 
   :global(.transaction_item__hash) {
     font-size: 14px;
     color: var(--primary-color);
     font-weight: 500;
+  }
+}
+
+.scriptDecimalCenter {
+  > div {
+    justify-content: center;
+  }
+}
+
+.cellInfoMore {
+  > div {
+    float: right;
+  }
+  :global(.transaction__cell__info__content) {
+    width: fit-content !important;
+    padding: 0 20px;
+    line-height: 0;
   }
 }
 

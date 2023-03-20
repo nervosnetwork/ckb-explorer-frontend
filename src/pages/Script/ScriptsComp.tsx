@@ -1,7 +1,7 @@
-import { useState, ReactNode } from 'react'
+import { useState } from 'react'
 import { useHistory } from 'react-router'
-import { Button, Space, Table } from 'antd'
-import { CopyOutlined, InfoCircleFilled } from '@ant-design/icons'
+import { Table } from 'antd'
+import { CopyOutlined } from '@ant-design/icons'
 import { useQuery } from 'react-query'
 import { AxiosResponse } from 'axios'
 import camelcase from 'camelcase'
@@ -23,6 +23,7 @@ import { QueryResult } from '../../components/QueryResult'
 import AddressText from '../../components/AddressText'
 import { AppActions } from '../../contexts/actions'
 import { useDispatch } from '../../contexts/providers'
+import { ReactComponent as InfoMoreIcon } from '../../assets/info_more_icon.svg'
 
 export const ScriptTransactions = ({ page, size }: { page: number; size: number }) => {
   const history = useHistory()
@@ -91,7 +92,7 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
   )
 }
 
-export const CellInfo = ({ cell, children }: { cell: State.Cell; children: string | ReactNode }) => {
+export const CellInfo = ({ cell }: { cell: State.Cell }) => {
   const [showModal, setShowModal] = useState(false)
   return (
     <TransactionCellInfoPanel>
@@ -101,7 +102,7 @@ export const CellInfo = ({ cell, children }: { cell: State.Cell; children: strin
           setShowModal(true)
         }}
       >
-        <div>{children}</div>
+        <InfoMoreIcon />
       </SimpleButton>
       <SimpleModal isShow={showModal} setIsShow={setShowModal}>
         <TransactionCellDetailModal>
@@ -171,6 +172,7 @@ export const ScriptCells = ({
                   title: i18n.t('transaction.transactions'),
                   dataIndex: 'txHash',
                   key: 'txHash',
+                  width: '40%',
                   render: (_, record) => (
                     <a href={`/transaction/${record.txHash}`}>
                       <span className="transaction_item__hash monospace">{record.txHash}</span>
@@ -181,26 +183,30 @@ export const ScriptCells = ({
                   title: 'Index',
                   dataIndex: 'cellIndex',
                   key: 'cellIndex',
+                  align: 'center',
+                  width: '20%',
                 },
                 {
                   title: i18n.t('transaction.capacity'),
                   dataIndex: 'capacity',
                   key: 'capacity',
-                  render: (_, record) => <DecimalCapacity value={localeNumberString(shannonToCkb(record.capacity))} />,
+                  align: 'center',
+                  width: '20%',
+                  render: (_, record) => (
+                    <div className={styles.scriptDecimalCenter}>
+                      <DecimalCapacity value={localeNumberString(shannonToCkb(record.capacity))} />
+                    </div>
+                  ),
                 },
                 {
                   title: 'Cell Info',
                   key: 'Cell Info',
+                  align: 'right',
+                  width: '20%',
                   render: (_, record) => (
-                    <Space size="middle">
-                      <CellInfo cell={record as any as State.Cell}>
-                        <Button
-                          icon={<InfoCircleFilled />}
-                          size="middle"
-                          style={{ background: 'transparent', border: 'none', boxShadow: 'none', color: 'black' }}
-                        />
-                      </CellInfo>
-                    </Space>
+                    <div className={styles.cellInfoMore}>
+                      <CellInfo cell={record as any as State.Cell} />
+                    </div>
                   ),
                 },
               ]}
