@@ -9,7 +9,7 @@ import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../commo
 import { ChartCachedKeys } from '../../../constants/cache'
 import { fetchStatisticTotalDaoDeposit } from '../../../service/http/fetcher'
 
-const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 110 : 110)
+const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 168 : 110)
 
 const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string, string, string] }): string => {
   if (seriesName === i18n.t('statistic.total_dao_deposit')) {
