@@ -31,8 +31,9 @@
   }
   :global(.ant-tabs-tab-btn) {
     color: #333333 !important;
-    font-size: 20px;
     font-weight: 400;
+    font-size: 20px;
+    line-height: 23px;
     margin-bottom: 0;
   }
   :global(.ant-tabs-tab-btn[aria-selected='true']) {
@@ -52,6 +53,9 @@
   thead th {
     padding: 5px 0 22px;
     background: #ffffff;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
     &::before {
       display: none;
     }
@@ -59,18 +63,23 @@
 
   tbody td {
     padding: 22px 0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
   }
 
   :global(.transaction_item__hash) {
-    font-size: 14px;
-    color: var(--primary-color);
     font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--primary-color);
   }
 }
 
 .scriptDecimalCenter {
   > div {
     justify-content: center;
+    align-items: baseline;
   }
 }
 

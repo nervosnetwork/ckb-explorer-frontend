@@ -47,7 +47,7 @@ const getScriptInfo = (scriptInfo: ScriptInfo) => {
       content: scriptName,
     },
     {
-      title: i18n.t('address.hash_type'),
+      title: i18n.t('scripts.hash_type'),
       content: hashType,
     },
     {
@@ -59,12 +59,12 @@ const getScriptInfo = (scriptInfo: ScriptInfo) => {
       content: typeId,
     },
     {
-      title: i18n.t('address.code_hash'),
+      title: i18n.t('scripts.code_hash'),
       content: <CodeHashMessage codeHash={codeHash} />,
     },
     {
       title: i18n.t('scripts.capacity_of_deployed_cells'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(capacityOfDeployedCells))} />,
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(capacityOfDeployedCells))} hideZero />,
     },
     {
       title: '',
@@ -72,7 +72,7 @@ const getScriptInfo = (scriptInfo: ScriptInfo) => {
     },
     {
       title: i18n.t('scripts.capacity_of_referring_cells'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(capacityOfReferringCells))} />,
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(capacityOfReferringCells))} hideZero />,
     },
   ]
 

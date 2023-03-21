@@ -477,13 +477,17 @@
     "scripts": {
       "script": "Script",
       "unnamed_script": "Untitled Script",
-      "script_name": "Script Name: ",
-      "script_type": "Script Type: ",
-      "type_id": "Type Id: ",
-      "deployed_cells": "Deployed Cells: ",
-      "referring_cells": "Referring Cells: ",
-      "capacity_of_deployed_cells": "Capacity of deployed cells: ",
-      "capacity_of_referring_cells": "Capacity of referring cells: "
+      "script_name": "Script Name",
+      "script_type": "Script Type",
+      "hash_type": "Hash Type",
+      "code_hash": "Code Hash",
+      "type_id": "Type Id",
+      "index": "Index",
+      "cell_info": "Cell Info",
+      "deployed_cells": "Deployed Cells",
+      "referring_cells": "Referring Cells",
+      "capacity_of_deployed_cells": "Capacity of deployed cells",
+      "capacity_of_referring_cells": "Capacity of referring cells"
     },
     "fee_rate_tracker": {
       "title": "Fee Rate Tracker",

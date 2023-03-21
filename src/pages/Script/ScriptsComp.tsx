@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useHistory } from 'react-router'
 import { Table } from 'antd'
-import { CopyOutlined } from '@ant-design/icons'
 import { useQuery } from 'react-query'
 import { AxiosResponse } from 'axios'
 import camelcase from 'camelcase'
@@ -23,6 +22,7 @@ import { QueryResult } from '../../components/QueryResult'
 import AddressText from '../../components/AddressText'
 import { AppActions } from '../../contexts/actions'
 import { useDispatch } from '../../contexts/providers'
+import { ReactComponent as CopyIcon } from '../../assets/copy_icon.svg'
 import { ReactComponent as InfoMoreIcon } from '../../assets/info_more_icon.svg'
 
 export const ScriptTransactions = ({ page, size }: { page: number; size: number }) => {
@@ -169,7 +169,7 @@ export const ScriptCells = ({
               rowKey={record => `${record.txHash}_${record.cellIndex}`}
               columns={[
                 {
-                  title: i18n.t('transaction.transactions'),
+                  title: i18n.t('transaction.transaction'),
                   dataIndex: 'txHash',
                   key: 'txHash',
                   width: '40%',
@@ -180,7 +180,7 @@ export const ScriptCells = ({
                   ),
                 },
                 {
-                  title: 'Index',
+                  title: i18n.t('scripts.index'),
                   dataIndex: 'cellIndex',
                   key: 'cellIndex',
                   align: 'center',
@@ -194,13 +194,13 @@ export const ScriptCells = ({
                   width: '20%',
                   render: (_, record) => (
                     <div className={styles.scriptDecimalCenter}>
-                      <DecimalCapacity value={localeNumberString(shannonToCkb(record.capacity))} />
+                      <DecimalCapacity value={localeNumberString(shannonToCkb(record.capacity))} hideZero />
                     </div>
                   ),
                 },
                 {
-                  title: 'Cell Info',
-                  key: 'Cell Info',
+                  title: i18n.t('scripts.cell_info'),
+                  key: 'cell_info',
                   align: 'right',
                   width: '20%',
                   render: (_, record) => (
@@ -228,12 +228,13 @@ export const CodeHashMessage = ({ codeHash }: { codeHash: string }) => {
   return (
     <div className={styles.codeHashMessagePanel}>
       <AddressText monospace={false}>{codeHash}</AddressText>
-      <span
+      <div
         style={{
-          marginLeft: '1rem',
+          lineHeight: 0,
+          marginLeft: '16px',
         }}
       >
-        <CopyOutlined
+        <CopyIcon
           onClick={() => {
             navigator.clipboard.writeText(codeHash).then(
               () => {
@@ -250,7 +251,7 @@ export const CodeHashMessage = ({ codeHash }: { codeHash: string }) => {
             )
           }}
         />
-      </span>
+      </div>
     </div>
   )
 }
