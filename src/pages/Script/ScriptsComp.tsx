@@ -190,7 +190,7 @@ export const ScriptCells = ({
                   title: i18n.t('transaction.capacity'),
                   dataIndex: 'capacity',
                   key: 'capacity',
-                  align: 'center',
+                  align: 'right',
                   width: '20%',
                   render: (_, record) => (
                     <div className={styles.scriptDecimalCenter}>

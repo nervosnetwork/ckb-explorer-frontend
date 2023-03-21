@@ -146,6 +146,7 @@ export const ScriptPage = () => {
           <ScriptsTitleOverview scriptInfo={scriptInfo} />
         </HashCardPanel>
         <Tabs
+          key={i18n.language + countOfTransactions + countOfDeployedCells + countOfReferringCells}
           className={styles.scriptTabs}
           activeKey={tab ?? 'transactions'}
           onTabClick={key => {

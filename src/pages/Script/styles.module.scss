@@ -9,6 +9,9 @@
   align-items: center;
   margin-top: 25px;
   margin-bottom: 40px;
+  * {
+    font-family: Roboto, serif;
+  }
 
   @media (max-width: 750px) {
     margin: 0;
@@ -24,7 +27,7 @@
   background-color: #ffffff;
   border-radius: 6px 6px 0 0;
   :global(.ant-tabs-nav:before) {
-    border-bottom-width: 3px;
+    border-bottom-width: 4px;
   }
   :global(.ant-tabs-nav-list) {
     margin-left: 40px;
@@ -72,13 +75,13 @@
     font-weight: 500;
     font-size: 14px;
     line-height: 18px;
+    font-family: "JetBrains Mono", serif;
     color: var(--primary-color);
   }
 }
 
 .scriptDecimalCenter {
   > div {
-    justify-content: center;
     align-items: baseline;
   }
 }
