@@ -149,6 +149,7 @@ export const ScriptPage = () => {
           key={i18n.language + countOfTransactions + countOfDeployedCells + countOfReferringCells}
           className={styles.scriptTabs}
           activeKey={tab ?? 'transactions'}
+          animated={{ inkBar: false }}
           onTabClick={key => {
             const currentTab = tab ?? 'transactions'
             if (currentTab === key) return
