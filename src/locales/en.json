@@ -485,14 +485,15 @@
       "seconds": "seconds",
       "date": "Date",
       "average_fee_rate": "Average fee rate",
-      "confirmation_time_x_fee_rate": "Fee Rate / Confirmation Time",
+      "confirmation_time_x_avg_fee_rate": "Average Fee Rate / Confirmation Time",
       "last_n_transactions": "Last {{c}} transactions",
       "fee_rate": "Fee Rate",
       "back": "Back",
       "confirmation_time": "Confirmation Time",
       "fee_rate_of_pending_transactions": "Fee Rate of Pending Transactions",
       "transaction_count": "Transaction Count",
-      "n_days_historical_fee_rate": "{{n}} Days Historical Fee Rate"
+      "n_days_historical_fee_rate": "Average fee rate (Recent {{n}} days)",
+      "count": "Count"
     }
   }
 }

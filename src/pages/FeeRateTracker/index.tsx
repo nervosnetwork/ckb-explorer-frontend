@@ -70,7 +70,7 @@ const FeeRateTracker = () => {
           </div>
           <div>
             <div className={styles.chartTitle}>
-              {`${i18n.t('fee_rate_tracker.confirmation_time_x_fee_rate')}${isMobile ? '\n' : ' '}(${i18n.t(
+              {`${i18n.t('fee_rate_tracker.confirmation_time_x_avg_fee_rate')}${isMobile ? '\n' : ' '}(${i18n.t(
                 'fee_rate_tracker.last_n_transactions',
                 {
                   c: localeNumberString(10000),
@@ -97,7 +97,7 @@ const FeeRateTracker = () => {
               )}
             </div>
           </div>
-          <div style={{ display: 'none' }}>
+          <div>
             <div className={styles.chartTitle}>{i18n.t('fee_rate_tracker.n_days_historical_fee_rate', { n: 7 })}</div>
             <div className={styles.chart}>
               {transactionFeesStatistic?.lastNDaysTransactionFeeRates ? (

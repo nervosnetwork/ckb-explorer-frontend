@@ -8,7 +8,7 @@ import { ReactChartCore } from '../StatisticsChart/common'
 import { ReactComponent as BikeIcon } from '../../assets/bike.svg'
 import { ReactComponent as CarIcon } from '../../assets/car.svg'
 import { ReactComponent as RocketIcon } from '../../assets/rocket.svg'
-import { getPrimaryColor } from '../../constants/common'
+import { ChartColor } from '../../constants/common'
 
 const textStyleInChart: echarts.EChartOption.TextStyle = {
   color: '#999999',
@@ -37,6 +37,8 @@ const calcFeeRate = (tfrs: FeeRateTracker.TransactionFeeRate[]): string =>
   tfrs.length === 0
     ? '0'
     : Math.round(tfrs.reduce((acc, cur) => acc + cur.feeRate * 1000, 0) / tfrs.length).toLocaleString('en')
+
+const colors = ChartColor.moreColors
 
 export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: FeeRateTracker.TransactionFeeRate[] }) => {
   const validFeeRateList = transactionFeeRates.filter(feeRate => feeRate.confirmationTime)
@@ -113,18 +115,20 @@ export const ConfirmationTimeFeeRateChart = ({
   return (
     <ReactChartCore
       option={{
+        color: colors,
         tooltip: {
-          trigger: 'item',
+          trigger: 'axis',
           position: 'top',
           textStyle: textStyleOfTooltip,
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           formatter(params) {
-            const param: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
-            return `${i18n.t('fee_rate_tracker.fee_rate')}: ${param.value?.toLocaleString(
+            const feeRate: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
+            const count: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[1] : params
+            return `${i18n.t('fee_rate_tracker.fee_rate')}: ${feeRate.value?.toLocaleString(
               'en',
-            )} shannons/kB<br />${i18n.t('fee_rate_tracker.confirmation_time')}: ${param.name} ${i18n.t(
-              'fee_rate_tracker.secs',
-            )}`
+            )} shannons/kB<br />${i18n.t('fee_rate_tracker.confirmation_time')}: ${feeRate.name}<br />${i18n.t(
+              'fee_rate_tracker.count',
+            )}: ${count.value}`
           },
         },
         xAxis: {
@@ -134,49 +138,79 @@ export const ConfirmationTimeFeeRateChart = ({
           nameLocation: 'middle',
           nameTextStyle: textStyleInChart,
           axisLabel: textStyleInChart,
-          axisLine: {
-            show: false,
-          },
           axisTick: {
             show: false,
           },
           data: Array.from({ length: data.length }, (_, idx) => `${idx * 10} ~ ${idx * 10 + 10}s`),
         },
-        yAxis: {
-          type: 'value',
-          nameGap: 80,
-          nameRotate: 90,
-          nameLocation: 'middle',
-          nameTextStyle: textStyleInChart,
-          axisLabel: { ...textStyleInChart, formatter: (v: number) => `${(v / 1000).toLocaleString('en')}k` },
-          axisLine: {
-            show: false,
-          },
-          axisTick: {
-            show: false,
-          },
-          splitLine: {
-            lineStyle: {
-              color: '#e5e5e5',
+        yAxis: [
+          {
+            position: 'left',
+            type: 'value',
+            nameLocation: 'end',
+            nameTextStyle: { ...textStyleInChart, color: colors[0] },
+            axisLabel: {
+              ...textStyleInChart,
+              color: ChartColor.moreColors[0],
+              formatter: (v: number) => `${(v / 1000).toLocaleString('en')}k`,
             },
+            axisLine: {
+              lineStyle: {
+                color: colors[0],
+              },
+            },
+            axisTick: {
+              show: false,
+            },
+            splitLine: {
+              lineStyle: {
+                color: '#e5e5e5',
+              },
+            },
+            name: `${i18n.t('fee_rate_tracker.fee_rate')}(shannons/kB)`,
           },
-          name: `${i18n.t('fee_rate_tracker.fee_rate')}(shannons/kB)`,
-        },
+          {
+            position: 'right',
+            type: 'value',
+            nameLocation: 'end',
+            nameTextStyle: { ...textStyleInChart, color: colors[1] },
+            axisLabel: {
+              ...textStyleInChart,
+              color: colors[1],
+              formatter: (v: number) => v.toLocaleString('en'),
+            },
+            axisLine: {
+              lineStyle: {
+                color: colors[1],
+              },
+            },
+            axisTick: {
+              show: false,
+            },
+            splitLine: {
+              show: false,
+            },
+            name: `${i18n.t('fee_rate_tracker.count')}`,
+          },
+        ],
         series: [
           {
+            yAxisIndex: 0,
             data: data.map(feeList =>
               feeList.length ? Math.round(feeList.reduce((acc, cur) => acc + cur) / feeList.length) : 0,
             ),
             type: 'bar',
-            itemStyle: {
-              color: getPrimaryColor(),
-            },
+            barMaxWidth: 6,
+          },
+          {
+            yAxisIndex: 1,
+            data: data.map(feeList => feeList.length),
+            type: 'bar',
+            barMaxWidth: 6,
           },
         ],
         grid: {
-          left: '18%',
-          // left: '24%',
-          // right: '16%',
+          containLabel: true,
         },
       }}
       notMerge
@@ -237,6 +271,7 @@ export const FeeRateTransactionCountChartCore = ({
   return (
     <ReactChartCore
       option={{
+        color: ChartColor.moreColors,
         tooltip: {
           trigger: 'item',
           position: 'top',
@@ -283,9 +318,6 @@ export const FeeRateTransactionCountChartCore = ({
           {
             data: feeRateTransactionCountY,
             type: 'bar',
-            itemStyle: {
-              color: getPrimaryColor(),
-            },
           },
         ],
         grid: {
@@ -357,6 +389,7 @@ export const LastNDaysTransactionFeeRateChart = ({
   return (
     <ReactChartCore
       option={{
+        color: ChartColor.moreColors,
         tooltip: {
           trigger: 'item',
           position: 'top',
@@ -367,7 +400,7 @@ export const LastNDaysTransactionFeeRateChart = ({
             const feeRate = sortedLastNDaysTransactionFeeRates.find(r => dayjs(r.date).format('MM/DD') === param.name)
             return `${i18n.t('fee_rate_tracker.date')}: ${
               feeRate ? dayjs(feeRate.date).format('YYYY/MM/DD') : ''
-            }<br />${i18n.t('fee_rate_tracker.average_fee_rate')}: ${param.value} shannons/kB`
+            }<br />${i18n.t('fee_rate_tracker.average_fee_rate')}: ${param.value?.toLocaleString('en')} shannons/kB`
           },
         },
         xAxis: {
@@ -377,9 +410,6 @@ export const LastNDaysTransactionFeeRateChart = ({
           nameLocation: 'middle',
           nameTextStyle: textStyleInChart,
           axisLabel: textStyleInChart,
-          axisLine: {
-            show: false,
-          },
           axisTick: {
             show: false,
           },
@@ -387,13 +417,18 @@ export const LastNDaysTransactionFeeRateChart = ({
         },
         yAxis: {
           type: 'value',
-          nameGap: 54,
-          nameRotate: 90,
-          nameLocation: 'middle',
-          nameTextStyle: textStyleInChart,
-          axisLabel: { ...textStyleInChart, margin: 2 },
+          nameLocation: 'end',
+          nameTextStyle: { ...textStyleInChart, color: colors[0] },
+          axisLabel: {
+            ...textStyleInChart,
+            color: colors[0],
+            margin: 2,
+            formatter: (v: number) => `${(v / 1000).toLocaleString('en')}k`,
+          },
           axisLine: {
-            show: false,
+            lineStyle: {
+              color: colors[0],
+            },
           },
           axisTick: {
             show: false,
@@ -407,16 +442,12 @@ export const LastNDaysTransactionFeeRateChart = ({
         },
         series: [
           {
-            data: sortedLastNDaysTransactionFeeRates.map(r => Math.round(Number(r.feeRate))),
+            data: sortedLastNDaysTransactionFeeRates.map(r => Math.round(Number(r.feeRate) * 1000)),
             type: 'line',
-            itemStyle: {
-              color: getPrimaryColor(),
-            },
           },
         ],
         grid: {
-          left: '24%',
-          right: '16%',
+          containLabel: true,
         },
       }}
       notMerge
