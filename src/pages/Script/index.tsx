@@ -48,15 +48,15 @@ const getScriptInfo = (scriptInfo: ScriptInfo) => {
     },
     {
       title: i18n.t('scripts.hash_type'),
-      content: hashType,
+      content: <span className={styles.hashType}>{hashType}</span>,
     },
     {
       title: i18n.t('scripts.script_type'),
-      content: scriptType,
+      content: i18n.t(`scripts.${scriptType}`),
     },
     {
       title: i18n.t('scripts.type_id'),
-      content: typeId,
+      content: typeId || '-',
     },
     {
       title: i18n.t('scripts.code_hash'),
@@ -150,6 +150,10 @@ export const ScriptPage = () => {
           className={styles.scriptTabs}
           activeKey={tab ?? 'transactions'}
           animated={{ inkBar: false }}
+          tabBarStyle={{
+            marginBottom: 0,
+            height: 56,
+          }}
           onTabClick={key => {
             const currentTab = tab ?? 'transactions'
             if (currentTab === key) return

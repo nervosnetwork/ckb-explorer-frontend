@@ -487,7 +487,9 @@
       "deployed_cells": "Deployed Cells",
       "referring_cells": "Referring Cells",
       "capacity_of_deployed_cells": "Capacity of deployed cells",
-      "capacity_of_referring_cells": "Capacity of referring cells"
+      "capacity_of_referring_cells": "Capacity of referring cells",
+      "LockScript": "Lock Script",
+      "TypeScript": "Type Script"
     },
     "fee_rate_tracker": {
       "title": "Fee Rate Tracker",

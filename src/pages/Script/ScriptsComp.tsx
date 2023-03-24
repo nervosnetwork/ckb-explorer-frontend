@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useHistory } from 'react-router'
-import { Table } from 'antd'
 import { useQuery } from 'react-query'
 import { AxiosResponse } from 'axios'
 import camelcase from 'camelcase'
@@ -162,55 +161,45 @@ export const ScriptCells = ({
     <>
       <QueryResult query={cellsQuery}>
         {data => (
-          <div className={styles.scriptTransactionsPanel}>
-            <Table
-              pagination={false}
-              dataSource={data.cells}
-              rowKey={record => `${record.txHash}_${record.cellIndex}`}
-              columns={[
-                {
-                  title: i18n.t('transaction.transaction'),
-                  dataIndex: 'txHash',
-                  key: 'txHash',
-                  width: '40%',
-                  render: (_, record) => (
-                    <a href={`/transaction/${record.txHash}`}>
-                      <span className="transaction_item__hash monospace">{record.txHash}</span>
-                    </a>
-                  ),
-                },
-                {
-                  title: i18n.t('scripts.index'),
-                  dataIndex: 'cellIndex',
-                  key: 'cellIndex',
-                  align: 'center',
-                  width: '20%',
-                },
-                {
-                  title: i18n.t('transaction.capacity'),
-                  dataIndex: 'capacity',
-                  key: 'capacity',
-                  align: 'right',
-                  width: '20%',
-                  render: (_, record) => (
-                    <div className={styles.scriptDecimalCenter}>
-                      <DecimalCapacity value={localeNumberString(shannonToCkb(record.capacity))} hideZero />
-                    </div>
-                  ),
-                },
-                {
-                  title: i18n.t('scripts.cell_info'),
-                  key: 'cell_info',
-                  align: 'right',
-                  width: '20%',
-                  render: (_, record) => (
-                    <div className={styles.cellInfoMore}>
-                      <CellInfo cell={record as any as State.Cell} />
-                    </div>
-                  ),
-                },
-              ]}
-            />
+          <div className={styles.scriptCellsPanel}>
+            <table>
+              <thead>
+                <tr>
+                  <th align="left">{i18n.t('transaction.transaction')}</th>
+                  <th>{i18n.t('scripts.index')}</th>
+                  <th align="left">{i18n.t('transaction.capacity')}</th>
+                  <th align="right">{i18n.t('scripts.cell_info')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.cells.map(record => {
+                  return (
+                    <tr key={`${record.txHash}_${record.cellIndex}`}>
+                      <td align="left">
+                        <AddressText
+                          disableTooltip
+                          className="transaction_item__hash"
+                          linkProps={{
+                            to: `/transaction/${record.txHash}`,
+                          }}
+                        >
+                          {record.txHash}
+                        </AddressText>
+                      </td>
+                      <td align="center">{record.cellIndex}</td>
+                      <td align="left">
+                        <DecimalCapacity value={localeNumberString(shannonToCkb(record.capacity))} hideZero />
+                      </td>
+                      <td>
+                        <div className={styles.cellInfoMore}>
+                          <CellInfo cell={record as any as State.Cell} />
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
           </div>
         )}
       </QueryResult>
@@ -227,7 +216,7 @@ export const CodeHashMessage = ({ codeHash }: { codeHash: string }) => {
   const dispatch = useDispatch()
   return (
     <div className={styles.codeHashMessagePanel}>
-      <AddressText monospace={false}>{codeHash}</AddressText>
+      <AddressText>{codeHash}</AddressText>
       <div
         style={{
           lineHeight: 0,
