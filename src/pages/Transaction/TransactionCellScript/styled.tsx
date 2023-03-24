@@ -114,6 +114,7 @@ export const TransactionDetailPanel = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     margin-top: 20px;
     width: 100%;
     @media (max-width: 750px) {
@@ -129,7 +130,49 @@ export const TransactionDetailPanel = styled.div`
 `
 
 export const TransactionDetailCopyButton = styled.div`
-  margin: auto;
+  margin: 0 4rem;
+  cursor: pointer;
+  width: 150px;
+  height: 40px;
+  background: ${props => props.theme.default};
+  border: 1px ${props => props.theme.primary} solid;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  > div {
+    color: ${props => props.theme.primary};
+    font-size: 20px;
+  }
+
+  svg {
+    > path {
+      fill: ${props => props.theme.primary};
+    }
+  }
+  > img {
+    width: 24px;
+    height: 24px;
+  }
+
+  @media (max-width: 750px) {
+    width: 75px;
+    height: 20px;
+    padding: 0 10px;
+    > div {
+      font-size: 12px;
+    }
+
+    > img {
+      width: 14px;
+      height: 14px;
+    }
+  }
+`
+
+export const TransactionDetailScriptButton = styled.a`
+  margin: 0 4rem;
   cursor: pointer;
   width: 150px;
   height: 40px;

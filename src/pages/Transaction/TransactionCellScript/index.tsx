@@ -14,19 +14,19 @@ import {
   TransactionDetailData,
   TransactionDetailCapacityUsage,
   TransactionCellScriptContentPanel,
+  TransactionDetailScriptButton,
 } from './styled'
-import CopyIcon from '../../../assets/copy_green.png'
-import CopyBlueIcon from '../../../assets/copy_blue.png'
 import i18n from '../../../utils/i18n'
 import { AppDispatch } from '../../../contexts/reducer'
 import { AppActions } from '../../../contexts/actions'
 import SmallLoading from '../../../components/Loading/SmallLoading'
-import { isMainnet } from '../../../utils/chain'
 import { useDispatch } from '../../../contexts/providers'
 import CloseIcon from '../../../assets/modal_close.png'
 import { matchScript } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import HashTag from '../../../components/HashTag'
+import { ReactComponent as CopyIcon } from '../../../assets/copy_icon.svg'
+import { ReactComponent as OuterLinkIcon } from '../../../assets/outer_link_icon.svg'
 
 const initScriptContent = {
   lock: 'null',
@@ -319,8 +319,18 @@ export default ({ cell, onClose, txStatus }: { cell: State.Cell; onClose: Functi
           <div className="transaction__detail_copy">
             <TransactionDetailCopyButton onClick={onClickCopy}>
               <div>{i18n.t('common.copy')}</div>
-              <img src={isMainnet() ? CopyIcon : CopyBlueIcon} alt="copy" />
+              <CopyIcon />
             </TransactionDetailCopyButton>
+            {(state === CellState.LOCK || state === CellState.TYPE) &&
+            content &&
+            typeof content === 'object' &&
+            'codeHash' in content &&
+            'hashType' in content ? (
+              <TransactionDetailScriptButton href={`/script/${content.codeHash}/${content.hashType}`} target="_blank">
+                <div>{i18n.t('scripts.script')}</div>
+                <OuterLinkIcon />
+              </TransactionDetailScriptButton>
+            ) : null}
           </div>
         )}
       </TransactionDetailPanel>

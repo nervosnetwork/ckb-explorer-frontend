@@ -470,8 +470,24 @@
         "rfc": "RFC",
         "code": "源代码",
         "deprecated": "已废弃",
-        "website": "官网"
+        "website": "官网",
+        "detail": "详情"
       }
+    },
+    "scripts": {
+      "script": "Script",
+      "unnamed_script": "未命名 Script",
+      "script_name": "Script 名称",
+      "script_type": "Script 类型",
+      "hash_type": "Hash Type",
+      "code_hash": "Code Hash",
+      "type_id": "Type Id",
+      "index": "序号",
+      "cell_info": "Cell 信息",
+      "deployed_cells": "部署的 Cells",
+      "referring_cells": "引用的 Cells",
+      "capacity_of_deployed_cells": "部署的 Cells 所占 Capacity",
+      "capacity_of_referring_cells": "引用的 Cells 所占 Capacity"
     },
     "fee_rate_tracker": {
       "title": "费率追踪",

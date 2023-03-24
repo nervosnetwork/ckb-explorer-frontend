@@ -11,7 +11,7 @@ const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHa
 type ScriptAttributes = Record<'name' | 'description', string> &
   Partial<Record<'code' | 'rfc' | 'deprecated' | 'website', string>>
 
-const scripts = new Map<string, ScriptAttributes>([
+export const scripts = new Map<string, ScriptAttributes>([
   [
     'secp256k1_blake160',
     {
@@ -216,6 +216,15 @@ const ScriptList: FC = () => {
                       </a>
                     ) : null,
                   )}
+                  {script ? (
+                    <a
+                      href={`/script/${script.codeHashes[0]}/${script.hashType}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {i18n.t('script_list.link.detail')}
+                    </a>
+                  ) : null}
                 </div>
                 {script ? (
                   <>
