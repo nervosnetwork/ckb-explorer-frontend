@@ -1,3 +1,5 @@
+@import './assets/fonts/fonts.css';
+
 body {
   --primary-color: #00cc9b;
   --navbar-height: 64px;
@@ -11,13 +13,6 @@ body {
 
 body[data-chain-type='testnet'] {
   --primary-color: #9a2cec;
-}
-
-@font-face {
-  font-family: 'Lato';
-  src: local('Lato'), url('./assets/fonts/Lato-Regular.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
 }
 
 * {
