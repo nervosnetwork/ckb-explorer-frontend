@@ -52,7 +52,7 @@ const getScriptInfo = (scriptInfo: ScriptInfo) => {
     },
     {
       title: i18n.t('scripts.script_type'),
-      content: i18n.t(`scripts.${scriptType}`),
+      content: scriptType ? i18n.t(`scripts.${scriptType}`) : '-',
     },
     {
       title: i18n.t('scripts.type_id'),
