@@ -57,15 +57,21 @@
     border: 1px solid #e5e5e5;
     box-shadow: none !important;
     &::before {
-      background-color: #ffffff !important;
+      content: none !important;
     }
     &:hover {
       color: #333333;
       background: #ffffff;
     }
+    &:first-child {
+      border-radius: 4px 0 0 4px;
+    }
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+    }
     &:global(.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)) {
       background: #333333;
-      border-color: #e5e5e5 !important;
+      border-color: #333333 !important;
       &:hover {
         background: #333333;
       }
@@ -75,11 +81,10 @@
 
 .liteTransactionHeader {
   display: flex;
-  height: 100px;
   width: 100%;
   background-color: #ffffff;
   margin-top: 4px;
-  padding: 23px 40px;
+  padding: 23px 40px 22px;
   flex-direction: row;
   align-items: center;
   font-weight: 500;
