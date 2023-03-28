@@ -276,7 +276,7 @@
       "transaction_hash": "Transaction Hash",
       "height": "Height",
       "time": "Time",
-      "utxo_change": "UTXO Change",
+      "capacity_change": "Capacity Change",
       "transaction_parameters": "Transaction Parameters",
       "ckb_capacity": "CKB Capacity",
       "nervos_dao_deposit": "Nervos DAO Deposit",

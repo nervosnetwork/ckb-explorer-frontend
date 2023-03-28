@@ -44,7 +44,7 @@ const TransactionLiteItem = ({ transaction, address }: { transaction: State.Tran
           </span>
         </div>
         <div>
-          {isMobile && <div>{i18n.t('transaction.utxo_change')}</div>}
+          {isMobile && <div>{i18n.t('transaction.capacity_change')}</div>}
           {address && <TransactionLiteIncome income={transaction.income} />}
         </div>
       </div>

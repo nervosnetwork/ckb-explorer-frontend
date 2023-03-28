@@ -18,7 +18,7 @@ const Cellbase = ({ cell, cellType, isDetail }: { cell: State.Cell; cellType: Ce
   }
 
   const tooltipHtml = i18n.t('transaction.cellbase_help_tooltip', {
-    consensus: `<a href="https://docs.nervos.org/docs/basics/concepts/consensus/">${i18n.t(
+    consensus: `<a href="https://docs.nervos.org/docs/basics/concepts/consensus/" target="_blank">${i18n.t(
       'transaction.consensus_protocol',
     )}</a>`,
   })

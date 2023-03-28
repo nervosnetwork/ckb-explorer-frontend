@@ -275,7 +275,7 @@
       "transaction_hash": "交易哈希",
       "height": "区块高度",
       "time": "时间戳",
-      "utxo_change": "UTXO 变化",
+      "capacity_change": "Capacity 变化",
       "transaction_parameters": "更多交易参数",
       "ckb_capacity": "CKB Capacity",
       "nervos_dao_deposit": "Nervos DAO 锁定",

@@ -303,7 +303,7 @@ export const AddressTransactions = ({
             <div>{i18n.t('transaction.height')}</div>
             <div>{i18n.t('transaction.time')}</div>
             <div>{`${i18n.t('transaction.input')} & ${i18n.t('transaction.output')}`}</div>
-            <div>{i18n.t('transaction.utxo_change')}</div>
+            <div>{i18n.t('transaction.capacity_change')}</div>
           </div>
         )}
         {txList.map((transaction: State.Transaction, index: number) => {
