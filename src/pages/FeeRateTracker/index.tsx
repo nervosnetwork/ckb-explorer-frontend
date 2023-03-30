@@ -85,7 +85,7 @@ const FeeRateTracker = () => {
               )}
             </div>
           </div>
-          <div style={{ display: 'none' }}>
+          <div>
             <div className={styles.chartTitle}>{i18n.t('fee_rate_tracker.fee_rate_of_pending_transactions')}</div>
             <div className={styles.chart}>
               {transactionFeesStatistic?.pendingTransactionFeeRates ? (
