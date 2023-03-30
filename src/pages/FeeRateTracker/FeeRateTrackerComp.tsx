@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import dayjs from 'dayjs'
 import classNames from 'classnames'
 import styles from './styles.module.scss'
@@ -228,45 +228,11 @@ export const FeeRateTransactionCountChartCore = ({
 }: {
   pendingTransactionFeeRates: FeeRateTracker.PendingTransactionFeeRate[]
 }) => {
-  const [feeRatePrecision, setFeeRatePrecision] = useState<number>(1)
-  const [feeRateCeilFilter, setFeeRateCeilFilter] = useState<BigNumber | null>(null)
-
-  let minFeeRate = Number.MAX_SAFE_INTEGER
-  let maxFeeRate = Number.MIN_SAFE_INTEGER
-  pendingTransactionFeeRates.forEach(r => {
-    if (r.feeRate < minFeeRate) minFeeRate = r.feeRate
-    if (r.feeRate > maxFeeRate) maxFeeRate = r.feeRate
-  })
-
-  const rootFeeRateTransactionCountX =
-    maxFeeRate < minFeeRate
-      ? []
-      : [...Array(Math.floor(maxFeeRate * 10) - Math.floor(minFeeRate * 10) + 1).keys()].map(
-          i => (i + Math.floor(minFeeRate * 10)) / 10,
-        )
-
-  const feeRateTransactionCountX =
-    feeRatePrecision === 1 || !feeRateCeilFilter
-      ? rootFeeRateTransactionCountX
-      : [...Array(10).keys()].map(i =>
-          feeRateCeilFilter.plus(new BigNumber(10).pow(-feeRatePrecision).multipliedBy(i)).toString(),
-        )
-
-  const feeRateTransactionCountY = feeRateTransactionCountX.map(
-    tc =>
-      pendingTransactionFeeRates.filter(fr =>
-        new BigNumber(fr.feeRate)
-          .dp(feeRatePrecision, BigNumber.ROUND_FLOOR)
-          .isEqualTo(new BigNumber(tc).dp(feeRatePrecision, BigNumber.ROUND_FLOOR)),
-      ).length,
-  )
-
-  useEffect(() => {
-    if (feeRatePrecision !== 1 && !feeRateTransactionCountY.find(y => y !== 0)) {
-      setFeeRatePrecision(1)
-      setFeeRateCeilFilter(null)
-    }
-  }, [feeRatePrecision, feeRateTransactionCountY])
+  const feeRateCount = pendingTransactionFeeRates.reduce((acc, cur) => {
+    const count = acc.get(cur.feeRate) ?? 0
+    acc.set(cur.feeRate, count + 1)
+    return acc
+  }, new Map())
 
   return (
     <ReactChartCore
@@ -284,7 +250,6 @@ export const FeeRateTransactionCountChartCore = ({
         },
         xAxis: {
           type: 'category',
-          data: feeRateTransactionCountX,
           name: `${i18n.t('fee_rate_tracker.fee_rate')} (shannons/kB)`,
           nameGap: 32,
           nameLocation: 'middle',
@@ -293,12 +258,12 @@ export const FeeRateTransactionCountChartCore = ({
           axisLine: {
             show: false,
           },
+          data: [...feeRateCount.keys()].map((v: string) => new BigNumber(+v * 1000).toFormat()),
         },
         yAxis: {
+          position: 'left',
           type: 'value',
-          nameGap: 54,
-          nameRotate: 90,
-          nameLocation: 'middle',
+          nameLocation: 'end',
           nameTextStyle: textStyleInChart,
           axisLabel: textStyleInChart,
           axisLine: {
@@ -316,51 +281,20 @@ export const FeeRateTransactionCountChartCore = ({
         },
         series: [
           {
-            data: feeRateTransactionCountY,
+            data: [...feeRateCount.values()],
             type: 'bar',
+            barMaxWidth: 6,
           },
         ],
         grid: {
-          left: '24%',
-          right: '16%',
+          containLabel: true,
         },
-        graphic:
-          feeRatePrecision > 1
-            ? [
-                {
-                  type: 'text',
-                  right: 80,
-                  top: 4,
-                  style: {
-                    text: `← ${i18n.t('fee_rate_tracker.back')}`,
-                    fontSize: 18,
-                  },
-                  onclick: () => {
-                    if (feeRatePrecision > 1) {
-                      if (feeRatePrecision === 2) {
-                        setFeeRateCeilFilter(null)
-                      } else {
-                        setFeeRateCeilFilter(cf => (cf ? cf.dp(feeRatePrecision - 1, BigNumber.ROUND_FLOOR) : null))
-                      }
-                      setFeeRatePrecision(p => p - 1)
-                    }
-                  },
-                },
-              ]
-            : [],
       }}
       notMerge
       lazyUpdate
       style={{
         height: '100%',
         width: '100%',
-      }}
-      clickEvent={({ name }: { name: string }) => {
-        if (!name || feeRatePrecision > 3) {
-          return
-        }
-        setFeeRateCeilFilter(new BigNumber(name))
-        setFeeRatePrecision(p => p + 1)
       }}
     />
   )
