@@ -241,7 +241,7 @@ export const AddressTransactions = ({
   const history = useHistory()
   const isMobile = useIsMobile()
   const searchParams = useSearchParams('layout')
-  const layout = (searchParams.layout ?? 'professional') as 'professional' | 'lite'
+  const layout = searchParams.layout === 'professional' ? 'professional' : 'lite'
   const totalPages = Math.ceil(total / pageSize)
 
   const handleChange = (page: number, lo: 'professional' | 'lite') => {
