@@ -109,6 +109,15 @@
   }
 }
 
+.holder_and_minted_header {
+  > span {
+    cursor: pointer;
+    &.sortActive {
+      color: var(--primary-color);
+    }
+  }
+}
+
 @media screen and (max-width: 1200px) {
   .container {
     margin: 40px 45px 60px;
@@ -118,11 +127,15 @@
 @media screen and (max-width: 790px) {
   .container {
     margin: 40px 8px 60px;
-    th:nth-last-child(2),
-    td:nth-last-child(2),
+    th:first-child,
     th:last-child,
+    td:nth-last-child(2),
     td:last-child {
       display: none;
+    }
+    th:nth-child(2),
+    th:nth-child(3) {
+      text-align: left;
     }
   }
 }

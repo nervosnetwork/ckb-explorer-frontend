@@ -355,7 +355,8 @@
       "compared_to_the_max_size_in_chain": "Compared to the max size in chain",
       "cycles": "Cycles",
       "compared_to_the_max_cycles_in_epoch": "Compared to the max cycles in epoch",
-      "compared_to_the_max_cycles_in_chain": "Compared to the max cycles in chain"
+      "compared_to_the_max_cycles_in_chain": "Compared to the max cycles in chain",
+      "address_or_hash": "Address/Hash"
     },
     "nervos_dao": {
       "nervos_dao": "Nervos DAO",
@@ -437,7 +438,6 @@
       "nft_collection": "NFT Collection",
       "collection_name": "Collection Name",
       "standard": "Type",
-      "holder_and_mint_count": "Holder/Minted",
       "minter_address": "Creator",
       "no_record": "No records",
       "mnft": "M-NFT",
@@ -454,6 +454,7 @@
       "transfer-list": "Transfers",
       "holder-list": "Holders",
       "holder": "Holder",
+      "minted": "Minted",
       "owner": "Owner",
       "quantity": "Quantity",
       "inventory": "Inventory",

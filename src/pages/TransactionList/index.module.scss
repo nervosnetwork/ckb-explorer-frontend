@@ -62,6 +62,7 @@
   .cell {
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   .link {
@@ -72,6 +73,16 @@
     justify-content: center;
     color: var(--primary-color);
   }
+}
+
+.transactionCardHeader {
+  background: white;
+  display: flex;
+  border-radius: 0 0 6px 6px;
+  padding: 5px 20px;
+  margin-top: 1px;
+  margin-bottom: 10px;
+  flex-flow: row wrap;
 }
 
 .transactionCard {
@@ -92,6 +103,23 @@
 
   .colHash {
     font-size: 14px;
+  }
+}
+
+.sortIcon {
+  display: flex;
+  margin-left: 8px;
+}
+
+.sortAsc {
+  svg > path:first-child {
+    fill: var(--primary-color);
+  }
+}
+
+.sortDesc {
+  svg > path:last-child {
+    fill: var(--primary-color);
   }
 }
 

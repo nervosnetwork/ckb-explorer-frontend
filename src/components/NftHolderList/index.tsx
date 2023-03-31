@@ -1,22 +1,27 @@
 import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
+import { ReactNode } from 'react'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../constants/common'
+import { NftHolderSortByType } from '../../pages/NftCollectionInfo'
 
 const primaryColor = getPrimaryColor()
 
-const NftHolderList: React.FC<{ list: Array<{ addr: string; quantity: number }>; isLoading: boolean }> = ({
-  list,
-  isLoading,
-}) => {
+const NftHolderList: React.FC<{
+  list: Array<{ addr: string; quantity: number }>
+  isLoading: boolean
+  sortButton: (sortRule: NftHolderSortByType) => ReactNode
+}> = ({ list, isLoading, sortButton }) => {
   return (
     <div className={styles.list}>
       <table>
         <thead>
           <tr>
             <th>{i18n.t('nft.holder')}</th>
-            <th>{i18n.t('nft.quantity')}</th>
+            <th>
+              {i18n.t('nft.quantity')} {sortButton('quantity')}
+            </th>
           </tr>
         </thead>
         <tbody>

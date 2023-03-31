@@ -36,6 +36,7 @@ import TitleCard from '../../components/Card/TitleCard'
 import styles from './styles.module.scss'
 import AddressText from '../../components/AddressText'
 import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
+import Filter from '../../components/Search/Filter'
 
 const CELL_BASE_ANCHOR = 'cellbase'
 
@@ -298,33 +299,55 @@ export const BlockComp = ({
   const totalPages = Math.ceil(total / pageSize)
   const { hash } = useLocation()
 
+  const [txHashFilterText, setTxHashFilterText] = useState<string | undefined>(undefined)
+
   return (
     <>
-      <TitleCard title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`} isSingle />
-      {transactions.map(
-        (transaction, index) =>
-          transaction && (
-            <TransactionItem
-              key={transaction.transactionHash}
-              scrollIntoViewOnMount={transaction.isCellbase && hash === `#${CELL_BASE_ANCHOR}`}
-              transaction={{
-                ...transaction,
-                displayInputs: transaction.displayInputs.map(input => ({
-                  ...input,
-                  addressHash: deprecatedAddrToNewAddr(input.addressHash),
-                })),
-                displayOutputs: transaction.displayOutputs.map(output => ({
-                  ...output,
-                  addressHash: deprecatedAddrToNewAddr(output.addressHash),
-                })),
-              }}
-              circleCorner={{
-                bottom: index === transactions.length - 1 && totalPages === 1,
-              }}
-              isBlock
-            />
-          ),
-      )}
+      <TitleCard
+        title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`}
+        className={styles.transactionTitleCard}
+        isSingle
+        rear={
+          <Filter
+            showReset={!!txHashFilterText}
+            placeholder={i18n.t('block.address_or_hash')}
+            onFilter={query => {
+              setTxHashFilterText(query)
+            }}
+            onReset={() => {
+              setTxHashFilterText(undefined)
+            }}
+          />
+        }
+      />
+      {transactions
+        .filter(transaction =>
+          txHashFilterText ? transaction.transactionHash.toLowerCase().includes(txHashFilterText.toLowerCase()) : true,
+        )
+        .map(
+          (transaction, index) =>
+            transaction && (
+              <TransactionItem
+                key={transaction.transactionHash}
+                scrollIntoViewOnMount={transaction.isCellbase && hash === `#${CELL_BASE_ANCHOR}`}
+                transaction={{
+                  ...transaction,
+                  displayInputs: transaction.displayInputs.map(input => ({
+                    ...input,
+                    addressHash: deprecatedAddrToNewAddr(input.addressHash),
+                  })),
+                  displayOutputs: transaction.displayOutputs.map(output => ({
+                    ...output,
+                    addressHash: deprecatedAddrToNewAddr(output.addressHash),
+                  })),
+                }}
+                circleCorner={{
+                  bottom: index === transactions.length - 1 && totalPages === 1,
+                }}
+                isBlock
+              />
+            ),
+        )}
       {totalPages > 1 && (
         <BlockTransactionsPagination>
           <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onPageChange} />

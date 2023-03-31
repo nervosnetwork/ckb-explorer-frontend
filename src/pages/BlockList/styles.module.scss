@@ -1,12 +1,5 @@
-.name {
-  margin-left: 0.25rem;
-  font-size: smaller;
-  color: #aaa;
-}
-
 .sortIcon {
-  display: inline-block;
-  vertical-align: text-top;
+  display: flex;
   margin-left: 8px;
 }
 
@@ -21,4 +14,3 @@
     fill: var(--primary-color);
   }
 }
-

@@ -1,6 +1,7 @@
 import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
+import classNames from 'classnames'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
 import {
@@ -23,9 +24,12 @@ import Loading from '../../components/Loading'
 import { udtSubmitEmail } from '../../utils/util'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import styles from './styles.module.scss'
-import { useIsMobile, usePaginationParamsInPage } from '../../utils/hook'
+import { useIsMobile, usePaginationParamsInPage, useSortParam } from '../../utils/hook'
 import { fetchTokens } from '../../service/http/fetcher'
 import { QueryResult } from '../../components/QueryResult'
+import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
+
+type TokensSortByType = 'transactions' | 'addresses_count' | 'created_time'
 
 const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) => {
   const { displayName, fullName, uan } = token
@@ -96,8 +100,12 @@ export default () => {
   const isMobile = useIsMobile()
   const { currentPage, pageSize, setPage } = usePaginationParamsInPage()
 
-  const query = useQuery(['tokens', currentPage, pageSize], async () => {
-    const { data, meta } = await fetchTokens(currentPage, pageSize)
+  const { sortBy, orderBy, sort, handleSortClick } = useSortParam<TokensSortByType>(
+    s => s === 'transactions' || s === 'addresses_count' || s === 'created_time',
+  )
+
+  const query = useQuery(['tokens', currentPage, pageSize, sort], async () => {
+    const { data, meta } = await fetchTokens(currentPage, pageSize, sort)
     if (data == null || data.length === 0) {
       throw new Error('Tokens empty')
     }
@@ -109,6 +117,19 @@ export default () => {
   const total = query.data?.total ?? 0
   const totalPages = Math.ceil(total / pageSize)
 
+  const sortButton = (sortRule: TokensSortByType) => (
+    <div
+      className={classNames(styles.sortIcon, {
+        [styles.sortAsc]: sortRule === sortBy && orderBy === 'asc',
+        [styles.sortDesc]: sortRule === sortBy && orderBy === 'desc',
+      })}
+      onClick={() => handleSortClick(sortRule)}
+      aria-hidden
+    >
+      <SortIcon />
+    </div>
+  )
+
   return (
     <Content>
       <TokensPanel className="container">
@@ -118,14 +139,18 @@ export default () => {
             {i18n.t('udt.submit_token_info')}
           </a>
         </div>
-        {!isMobile && (
-          <TokensTableTitle>
-            <span>{i18n.t('udt.uan_name')}</span>
-            <span>{i18n.t('udt.transactions')}</span>
-            <span>{i18n.t('udt.address_count')}</span>
-            <span>{i18n.t('udt.created_time')}</span>
-          </TokensTableTitle>
-        )}
+        <TokensTableTitle>
+          {!isMobile && <span>{i18n.t('udt.uan_name')}</span>}
+          <span>
+            {i18n.t('udt.transactions')} {sortButton('transactions')}
+          </span>
+          <span>
+            {i18n.t('udt.address_count')} {sortButton('addresses_count')}
+          </span>
+          <span>
+            {i18n.t('udt.created_time')} {sortButton('created_time')}
+          </span>
+        </TokensTableTitle>
 
         <QueryResult
           query={query}

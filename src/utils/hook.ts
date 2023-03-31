@@ -177,6 +177,74 @@ export function useSearchParams<T extends string>(...names: T[]): Partial<Record
   return useMemo(() => getSearchParams(location.search, names), [location.search, names])
 }
 
+export function useSortParam<T extends string>(
+  isSortBy: (s?: string) => boolean,
+): {
+  sortBy: T | undefined
+  orderBy: State.SortOrderTypes
+  sort?: string
+  handleSortClick: (sortRule?: T) => void
+} {
+  type SortType = T | undefined
+  function isSortByType(s?: string): s is SortType {
+    return isSortBy(s) || s === undefined
+  }
+  function isOrderByType(s?: string): s is State.SortOrderTypes {
+    return s === 'asc' || s === 'desc'
+  }
+  const { sort: sortParam } = useSearchParams('sort')
+  const updateSearchParams = useUpdateSearchParams<'sort'>()
+  let sortBy: SortType
+  let orderBy: State.SortOrderTypes = 'asc'
+  if (sortParam) {
+    const sortEntry = sortParam.split(',')[0]
+    const indexOfPoint = sortEntry.indexOf('.')
+    if (indexOfPoint < 0) {
+      if (isSortByType(sortEntry)) {
+        sortBy = sortEntry
+      }
+    } else {
+      const sBy = sortEntry.substring(0, indexOfPoint)
+      if (isSortByType(sBy)) {
+        sortBy = sBy
+        const oBy = sortEntry.substring(indexOfPoint + 1)
+        if (isOrderByType(oBy)) {
+          orderBy = oBy
+        }
+      }
+    }
+  }
+  const sort = sortBy ? `${sortBy}.${orderBy}` : undefined
+
+  const handleSortClick = (sortRule?: SortType) => {
+    if (sortBy === sortRule) {
+      if (orderBy === 'desc') {
+        updateSearchParams(
+          params =>
+            Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'sort' && entry[0] !== 'page')),
+          true,
+        )
+      } else {
+        updateSearchParams(
+          params =>
+            Object.fromEntries(
+              Object.entries({ ...params, sort: `${sortRule}.desc` }).filter(entry => entry[0] !== 'page'),
+            ),
+          true,
+        )
+      }
+    } else {
+      updateSearchParams(
+        params =>
+          Object.fromEntries(Object.entries({ ...params, sort: sortRule }).filter(entry => entry[0] !== 'page')),
+        true,
+      )
+    }
+  }
+
+  return { sortBy, orderBy, sort, handleSortClick }
+}
+
 export function useUpdateSearchParams<T extends string>(): (
   updater: (current: Partial<Record<T, string>>) => Partial<Record<T, string>>,
   replace?: boolean,

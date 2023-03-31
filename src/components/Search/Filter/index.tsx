@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import SearchFilter from '../../../assets/search_filter.png'
+import SearchBlack from '../../../assets/search_black.png'
 import ClearLogo from '../../../assets/clear.png'
 import { FilterImage, FilterPanel, ResetButtonPanel, FilterInputPanel } from './styled'
 
@@ -30,7 +30,7 @@ const Filter = ({
         }
       }}
     >
-      <img src={isClear ? ClearLogo : SearchFilter} alt="search logo" />
+      <img src={isClear ? ClearLogo : SearchBlack} alt="search logo" />
     </FilterImage>
   )
 

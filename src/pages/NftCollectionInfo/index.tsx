@@ -1,6 +1,7 @@
 import type { AxiosResponse } from 'axios'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
+import classNames from 'classnames'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
 import NftHolderList from '../../components/NftHolderList'
@@ -10,7 +11,10 @@ import { v2AxiosIns } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import NftCollectionInventory from '../../components/NftCollectionInventory'
-import { useSearchParams } from '../../utils/hook'
+import { useSearchParams, useSortParam } from '../../utils/hook'
+import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
+
+export type NftHolderSortByType = 'quantity'
 
 export interface InventoryRes {
   data: Array<{
@@ -72,6 +76,8 @@ const NftCollectionInfo = () => {
   const history = useHistory()
   const { tab = tabs[0], page = '1' } = useSearchParams('tab', 'page')
 
+  const { sortBy, orderBy, sort, handleSortClick } = useSortParam<NftHolderSortByType>(s => s === 'quantity')
+
   const { isLoading: isTransferListLoading, data: transferListRes } = useQuery<AxiosResponse<TransferListRes>>(
     ['nft-collection-transfer-list', id, page],
     () =>
@@ -86,11 +92,12 @@ const NftCollectionInfo = () => {
     },
   )
   const { isLoading: isHolderListLoading, data: rawHolderList } = useQuery<AxiosResponse<HolderListRes>>(
-    ['nft-collection-holder-list', id, page],
+    ['nft-collection-holder-list', id, page, sort],
     () =>
       v2AxiosIns(`/nft/collections/${id}/holders`, {
         params: {
           page,
+          sort,
         },
       }),
     {
@@ -154,6 +161,19 @@ const NftCollectionInfo = () => {
     totalPages: pageSource?.data.pagination.last ?? 1,
   }
 
+  const sortButton = (sortRule: NftHolderSortByType) => (
+    <div
+      className={classNames(styles.sortIcon, {
+        [styles.sortAsc]: sortRule === sortBy && orderBy === 'asc',
+        [styles.sortDesc]: sortRule === sortBy && orderBy === 'desc',
+      })}
+      onClick={() => handleSortClick(sortRule)}
+      aria-hidden
+    >
+      <SortIcon />
+    </div>
+  )
+
   return (
     <Content>
       <NftCollectionOverview id={id} />
@@ -188,6 +208,7 @@ const NftCollectionInfo = () => {
             <NftHolderList
               list={holderList?.slice((+page - 1) * PAGE_SIZE, +page * PAGE_SIZE) ?? []}
               isLoading={isHolderListLoading}
+              sortButton={sortButton}
             />
             <Pagination
               currentPage={+page}

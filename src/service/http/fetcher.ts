@@ -24,12 +24,13 @@ export const v2AxiosIns = axios.create({
   data: null,
 })
 
-export const fetchBlocks = (page: number, size: number) =>
+export const fetchBlocks = (page: number, size: number, sort?: string) =>
   axiosIns
     .get('blocks', {
       params: {
         page,
         page_size: size,
+        sort,
       },
     })
     .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Block>[]>>(res.data))
@@ -41,12 +42,20 @@ export const fetchAddressInfo = (address: string) =>
     .get(`addresses/${address}`)
     .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Address>>(res.data.data))
 
-export const fetchTransactionsByAddress = (address: string, page: number, size: number) =>
+export const fetchTransactionsByAddress = (
+  address: string,
+  page: number,
+  size: number,
+  sort?: string,
+  txTypeFilter?: string,
+) =>
   axiosIns
     .get(`address_transactions/${address}`, {
       params: {
         page,
         page_size: size,
+        sort,
+        tx_type: txTypeFilter,
       },
     })
     .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
@@ -56,24 +65,26 @@ export const fetchTransactionByHash = (hash: string) =>
     .get(`transactions/${hash}`)
     .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Transaction>>(res.data.data))
 
-export const fetchTransactions = (page: number, size: number) =>
+export const fetchTransactions = (page: number, size: number, sort?: string) =>
   axiosIns
     .get('transactions', {
       params: {
         page,
         page_size: size,
+        sort,
       },
     })
     .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 
 export const fetchLatestTransactions = (size: number) => fetchTransactions(1, size)
 
-export const fetchPendingTransactions = (page: number, size: number) =>
+export const fetchPendingTransactions = (page: number, size: number, sort?: string) =>
   v2AxiosIns
     .get('pending_transactions', {
       params: {
         page,
         page_size: size,
+        sort,
       },
     })
     .then(res => toCamelcase<Response.Response<State.Transaction[]>>(res.data))
@@ -419,11 +430,12 @@ export const fetchSimpleUDTTransactionsWithAddress = (address: string, typeHash:
     },
   }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 
-export const fetchTokens = (page: number, size: number) =>
+export const fetchTokens = (page: number, size: number, sort?: string) =>
   axiosIns(`/udts`, {
     params: {
       page,
       page_size: size,
+      sort,
     },
   }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.UDT>[]>>(res.data))
 
