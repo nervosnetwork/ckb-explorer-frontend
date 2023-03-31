@@ -234,6 +234,8 @@ export const FeeRateTransactionCountChartCore = ({
     return acc
   }, new Map())
 
+  const feeRateCountList = [...feeRateCount.entries()].sort((a, b) => a[0] - b[0])
+
   return (
     <ReactChartCore
       option={{
@@ -258,7 +260,7 @@ export const FeeRateTransactionCountChartCore = ({
           axisLine: {
             show: false,
           },
-          data: [...feeRateCount.keys()].map((v: string) => new BigNumber(+v * 1000).toFormat()),
+          data: feeRateCountList.map(([feeRate]) => new BigNumber(+feeRate * 1000).toFormat()),
         },
         yAxis: {
           position: 'left',
@@ -281,7 +283,7 @@ export const FeeRateTransactionCountChartCore = ({
         },
         series: [
           {
-            data: [...feeRateCount.values()],
+            data: feeRateCountList.map(([, count]) => count),
             type: 'bar',
             barMaxWidth: 6,
           },
