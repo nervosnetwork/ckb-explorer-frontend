@@ -8,12 +8,24 @@ import { AddressTransactions, AddressOverview } from './AddressComp'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../service/http/fetcher'
 import { QueryResult } from '../../components/QueryResult'
 import { defaultAddressInfo } from './state'
-import { usePaginationParamsInPage } from '../../utils/hook'
+import { usePaginationParamsInPage, useSearchParams, useSortParam } from '../../utils/hook'
 import { isAxiosError } from '../../utils/error'
+
+export type TxTypeType = 'outgoing' | 'incoming' | 'customised' | undefined
+
+function isTxFilterType(s?: string): s is TxTypeType {
+  return s === 'outgoing' || s === 'incoming' || s === 'customised' || s === undefined
+}
 
 export const Address = () => {
   const { address } = useParams<{ address: string }>()
   const { currentPage, pageSize } = usePaginationParamsInPage()
+
+  const { tx_type: txTypeFilterParam } = useSearchParams('tx_type')
+
+  const { sortBy, orderBy, sort } = useSortParam<'time'>(s => s === 'time')
+
+  const txTypeFilter = isTxFilterType(txTypeFilterParam) ? txTypeFilterParam : undefined
 
   const addressInfoQuery = useQuery(['address_info', address], async () => {
     const wrapper = await fetchAddressInfo(address)
@@ -24,24 +36,27 @@ export const Address = () => {
     return result
   })
 
-  const addressTransactionsQuery = useQuery(['address_transactions', address, currentPage, pageSize], async () => {
-    try {
-      const { data, meta } = await fetchTransactionsByAddress(address, currentPage, pageSize)
-      return {
-        transactions: data.map(wrapper => wrapper.attributes),
-        total: meta ? meta.total : 0,
-      }
-    } catch (err) {
-      const isEmptyAddress = isAxiosError(err) && err.response?.status === 404
-      if (isEmptyAddress) {
+  const addressTransactionsQuery = useQuery(
+    ['address_transactions', address, currentPage, pageSize, sort, txTypeFilter],
+    async () => {
+      try {
+        const { data, meta } = await fetchTransactionsByAddress(address, currentPage, pageSize, sort, txTypeFilter)
         return {
-          transactions: [],
-          total: 0,
+          transactions: data.map(wrapper => wrapper.attributes),
+          total: meta ? meta.total : 0,
         }
+      } catch (err) {
+        const isEmptyAddress = isAxiosError(err) && err.response?.status === 404
+        if (isEmptyAddress) {
+          return {
+            transactions: [],
+            total: 0,
+          }
+        }
+        throw err
       }
-      throw err
-    }
-  })
+    },
+  )
 
   return (
     <Content>
@@ -64,6 +79,8 @@ export const Address = () => {
               transactions={data.transactions}
               transactionsTotal={data.total}
               addressInfo={addressInfoQuery.data ?? defaultAddressInfo}
+              timeOrderBy={sortBy === 'time' ? orderBy : 'desc'}
+              txTypeFilter={txTypeFilter}
             />
           )}
         </QueryResult>

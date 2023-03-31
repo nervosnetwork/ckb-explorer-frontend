@@ -2,11 +2,18 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 export const TableTitleRow = styled.div`
-  background: ${props => props.theme.primary};
+  background: white;
   display: flex;
   min-height: 65px;
   border-radius: 6px 6px 0px 0px;
   padding: 0 20px;
+  margin-bottom: 4px;
+
+  @media (max-width: 750px) {
+    flex-flow: row wrap;
+    min-height: auto;
+    padding: 5px 20px;
+  }
 `
 
 export const TableTitleRowItem = styled.div`
@@ -18,7 +25,7 @@ export const TableTitleRowItem = styled.div`
   min-height: 65px;
 
   > div {
-    color: white;
+    color: #333333;
     font-size: 18px;
     font-weight: 450;
     text-align: center;
@@ -26,6 +33,11 @@ export const TableTitleRowItem = styled.div`
     @media (max-width: 1000px) {
       font-size: 16px;
     }
+  }
+
+  @media (max-width: 750px) {
+    margin: 10px 40px 10px 0;
+    min-height: auto;
   }
 `
 

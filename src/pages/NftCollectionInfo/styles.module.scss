@@ -116,3 +116,22 @@
     margin: 0px 8px 60px;
   }
 }
+
+.sortIcon {
+  float: right;
+  padding-top: 3px;
+  height: 19px;
+  margin-left: 8px;
+}
+
+.sortAsc {
+  svg > path:first-child {
+    fill: var(--primary-color);
+  }
+}
+
+.sortDesc {
+  svg > path:last-child {
+    fill: var(--primary-color);
+  }
+}

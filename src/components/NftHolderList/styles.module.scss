@@ -19,6 +19,15 @@
       padding-bottom: 12px;
       text-transform: capitalize;
       white-space: nowrap;
+
+      @media (max-width: 750px) {
+        &:first-child {
+          padding-right: 0;
+        }
+        &:last-child {
+          padding-left: 0;
+        }
+      }
     }
     &:after {
       position: absolute;

@@ -2,11 +2,12 @@ import { Fragment, useMemo, FC } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
+import classNames from 'classnames'
 import { parseSimpleDate } from '../../utils/date'
 import { BlockListPanel, ContentTable, HighLightValue, BlockRewardContainer, BlockRewardPanel } from './styled'
 import Content from '../../components/Content'
-import { TableTitleItem, TableContentItem, TableMinerContentItem } from '../../components/Table'
-import { TableTitleRow, TableContentRow } from '../../components/Table/styled'
+import { TableContentItem, TableMinerContentItem } from '../../components/Table'
+import { TableTitleRow, TableContentRow, TableTitleRowItem } from '../../components/Table/styled'
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
 import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
@@ -15,9 +16,11 @@ import Pagination from '../../components/Pagination'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
 import AddressText from '../../components/AddressText'
-import { useIsMobile, usePaginationParamsInListPage } from '../../utils/hook'
+import { useIsMobile, useMediaQuery, usePaginationParamsInListPage, useSortParam } from '../../utils/hook'
 import { fetchBlocks } from '../../service/http/fetcher'
 import { RouteState } from '../../routes/state'
+import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
+import styles from './styles.module.scss'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
   <HighLightValue>
@@ -27,9 +30,12 @@ const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
   </HighLightValue>
 )
 
+type BlockListSortByType = 'height' | 'transactions' | 'reward'
+
 interface TableTitleData {
   title: string
   width: string
+  sortRule?: BlockListSortByType
 }
 
 interface TableContentData {
@@ -38,7 +44,7 @@ interface TableContentData {
   content: string
 }
 
-const getTableContentDataList = (block: State.Block, index: number, page: number) => {
+const getTableContentDataList = (block: State.Block, index: number, page: number, isMaxW: boolean) => {
   const blockReward =
     index < DELAY_BLOCK_NUMBER && page === 1 ? (
       <BlockRewardContainer>
@@ -52,12 +58,12 @@ const getTableContentDataList = (block: State.Block, index: number, page: number
 
   return [
     {
-      width: '14%',
+      width: isMaxW ? '16%' : '14%',
       to: `/block/${block.number}`,
       content: localeNumberString(block.number),
     },
     {
-      width: '8%',
+      width: isMaxW ? '18%' : '8%',
       content: `${block.transactionsCount}`,
     },
     {
@@ -65,11 +71,11 @@ const getTableContentDataList = (block: State.Block, index: number, page: number
       content: blockReward,
     },
     {
-      width: '43%',
+      width: isMaxW ? '33%' : '43%',
       content: block.minerHash,
     },
     {
-      width: '15%',
+      width: isMaxW ? '13%' : '15%',
       content: parseSimpleDate(block.timestamp),
     },
   ] as TableContentData[]
@@ -125,32 +131,40 @@ const BlockCardGroup: FC<{ blocks: State.Block[]; isFirstPage: boolean }> = ({ b
 
 export default () => {
   const isMobile = useIsMobile()
+  const isMaxW = useMediaQuery(`(max-width: 1111px)`)
+
+  const { sortBy, orderBy, sort, handleSortClick } = useSortParam<BlockListSortByType>(
+    s => s === 'height' || s === 'transactions' || s === 'reward',
+  )
 
   const [t] = useTranslation()
-  const TableTitles = useMemo(
+  const TableTitles: TableTitleData[] = useMemo(
     () => [
       {
         title: t('home.height'),
-        width: '14%',
+        width: isMaxW ? '16%' : '14%',
+        sortRule: 'height',
       },
       {
         title: t('home.transactions'),
-        width: '8%',
+        width: isMaxW ? '18%' : '8%',
+        sortRule: 'transactions',
       },
       {
         title: t('home.block_reward'),
         width: '20%',
+        sortRule: 'reward',
       },
       {
         title: t('block.miner'),
-        width: '43%',
+        width: isMaxW ? '33%' : '43%',
       },
       {
         title: t('home.time'),
-        width: '15%',
+        width: isMaxW ? '13%' : '15%',
       },
     ],
-    [t],
+    [t, isMaxW],
   )
 
   const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
@@ -158,9 +172,9 @@ export default () => {
   const stateStaleTime = 3000
 
   const query = useQuery(
-    ['blocks', currentPage, pageSize],
+    ['blocks', currentPage, pageSize, sort],
     async () => {
-      const { data, meta } = await fetchBlocks(currentPage, pageSize)
+      const { data, meta } = await fetchBlocks(currentPage, pageSize, sort)
       return {
         blocks: data.map(wrapper => wrapper.attributes),
         total: meta?.total ?? 0,
@@ -188,20 +202,51 @@ export default () => {
         <div className="block__green__background" />
         {isMobile ? (
           <ContentTable>
+            <TableTitleRow>
+              {TableTitles.filter(data => data.sortRule).map((data: TableTitleData) => (
+                <TableTitleRowItem width="fit-content" key={data.title}>
+                  <div>{data.title}</div>
+                  <div
+                    className={classNames(styles.sortIcon, {
+                      [styles.sortAsc]: data.sortRule === sortBy && orderBy === 'asc',
+                      [styles.sortDesc]: data.sortRule === sortBy && orderBy === 'desc',
+                    })}
+                    onClick={() => handleSortClick(data.sortRule)}
+                    aria-hidden
+                  >
+                    <SortIcon />
+                  </div>
+                </TableTitleRowItem>
+              ))}
+            </TableTitleRow>
             <BlockCardGroup blocks={blockList} isFirstPage={currentPage === 1} />
           </ContentTable>
         ) : (
           <ContentTable>
             <TableTitleRow>
               {TableTitles.map((data: TableTitleData) => (
-                <TableTitleItem width={data.width} title={data.title} key={data.title} />
+                <TableTitleRowItem width={data.width} key={data.title}>
+                  <div>{data.title}</div>
+                  {data.sortRule && (
+                    <div
+                      className={classNames(styles.sortIcon, {
+                        [styles.sortAsc]: data.sortRule === sortBy && orderBy === 'asc',
+                        [styles.sortDesc]: data.sortRule === sortBy && orderBy === 'desc',
+                      })}
+                      onClick={() => handleSortClick(data.sortRule)}
+                      aria-hidden
+                    >
+                      <SortIcon />
+                    </div>
+                  )}
+                </TableTitleRowItem>
               ))}
             </TableTitleRow>
             {blockList.map(
               (block: State.Block, blockIndex: number) =>
                 block && (
                   <TableContentRow key={block.number}>
-                    {getTableContentDataList(block, blockIndex, currentPage).map(
+                    {getTableContentDataList(block, blockIndex, currentPage, isMaxW).map(
                       (data: TableContentData, index: number) => {
                         const key = index
                         return (

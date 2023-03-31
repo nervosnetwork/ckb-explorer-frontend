@@ -58,3 +58,19 @@
     max-width: 100%;
   }
 }
+
+.transactionTitleCard {
+  @media (max-width: 750px) {
+    flex-direction: column;
+    justify-content: center;
+    height: 110px;
+
+    img {
+      height: 12px;
+      width: 12px;
+    }
+    input {
+      padding-left: 38px;
+    }
+  }
+}

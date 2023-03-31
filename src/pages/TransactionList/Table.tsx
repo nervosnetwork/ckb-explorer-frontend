@@ -4,7 +4,7 @@ import { Link, LinkProps } from 'react-router-dom'
 import styles from './index.module.scss'
 
 export interface Column<T> {
-  title: string
+  title: ReactElement
   key?: string
   width?: string | number
   getLinkProps?: (data: T) => LinkProps
@@ -29,7 +29,7 @@ export function Table<T>({
       <div className={styles.headerRow}>
         {columns.map(col => (
           <div
-            key={col.key ?? col.title}
+            key={col.key ?? col.title.key}
             className={classNames(styles.cell, col.headerClassName)}
             style={{
               width: col.width,
@@ -44,7 +44,7 @@ export function Table<T>({
         <div key={getRowKey?.(row) ?? idx} className={styles.row}>
           {columns.map(col => (
             <div
-              key={col.key ?? col.title}
+              key={col.key ?? col.title.key}
               className={classNames(styles.cell, col.className)}
               style={{
                 width: col.width,

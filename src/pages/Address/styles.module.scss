@@ -14,7 +14,7 @@
   height: 80px;
 
   @media (max-width: 750px) {
-    height: 124px;
+    height: 152px;
     flex-direction: column;
     align-items: flex-start;
     padding: 0;
@@ -22,11 +22,15 @@
       display: flex;
       align-items: center;
       padding: 0 12px;
+    }
+    > div:first-child {
+      margin: 0;
       height: 56px;
     }
     > div:last-child {
       width: 100%;
       order: 3;
+      height: 92px;
       > div {
         width: 100%;
         > label {
@@ -42,7 +46,66 @@
       width: 100%;
     }
   }
+}
 
+.sortingFilteringIcons {
+
+  display: flex;
+  padding: 0 28px;
+
+  > div {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+  }
+
+  .activeIcon {
+    path {
+      fill: var(--primary-color);
+    }
+  }
+}
+
+.filterPop {
+  :global {
+    .ant-popover-content {
+      .ant-popover-arrow {
+        display: none;
+      }
+    }
+    .ant-popover-inner-content {
+      border-radius: 8px;
+      padding: 14px 15px 14px 16px;
+
+      @media (max-width: 750px) {
+        padding: 14px 15px 14px 8px !important;
+      }
+
+      > div {
+        > div {
+          padding: 10px 0 10px 8px;
+          border-radius: 8px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          &:hover {
+            background: #E8FFF1;
+            color: var(--primary-color);
+            cursor: pointer;
+          }
+          > div:last-child {
+            height: 16px;
+            width: 16px;
+            margin-left: 10px;
+            path {
+              fill: var(--primary-color);
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .layoutButtons {

@@ -33,4 +33,18 @@ export const TitleCardPanel = styled.div`
       margin-bottom: 8px;
     }
   }
+
+  .title__card__rear {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    @media (max-width: 750px) {
+      flex-direction: column-reverse;
+      > div:first-child {
+        padding: 16px 0 0 0;
+        justify-content: flex-end;
+      }
+    }
+  }
 `

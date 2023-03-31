@@ -1,7 +1,8 @@
 import axios, { AxiosResponse } from 'axios'
 import { useState, useEffect, FC } from 'react'
 import { useQuery } from 'react-query'
-import { Radio } from 'antd'
+import { Popover, Radio } from 'antd'
+import classNames from 'classnames'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
@@ -21,6 +22,10 @@ import DecimalCapacity from '../../components/DecimalCapacity'
 import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
+import { ReactComponent as TimeDownIcon } from '../../assets/time_down.svg'
+import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
+import { ReactComponent as FilterIcon } from '../../assets/filter_icon.svg'
+import { ReactComponent as SelectedCheckIcon } from '../../assets/selected_check_icon.svg'
 import { sliceNftName } from '../../utils/string'
 import {
   useIsLGScreen,
@@ -40,6 +45,7 @@ import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
+import { TxTypeType } from './index'
 
 const addressAssetInfo = (address: State.Address, useMiniStyle: boolean) => {
   const items = [
@@ -305,25 +311,60 @@ export const AddressTransactions = ({
   transactions,
   transactionsTotal: total,
   addressInfo: { addressHash },
+  timeOrderBy,
+  txTypeFilter,
 }: {
   address: string
   transactions: State.Transaction[]
   transactionsTotal: number
   addressInfo: State.Address
+  timeOrderBy: State.SortOrderTypes
+  txTypeFilter: TxTypeType
 }) => {
   const isMobile = useIsMobile()
   const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
   const searchParams = useSearchParams('layout')
   const defaultLayout = 'professional'
-  const updateSearchParams = useUpdateSearchParams<'layout'>()
+  const updateSearchParams = useUpdateSearchParams<'layout' | 'sort'>()
   const layout = searchParams.layout === 'lite' ? 'lite' : defaultLayout
   const totalPages = Math.ceil(total / pageSize)
+
+  const filterList: { value: TxTypeType; title: string }[] = [
+    {
+      value: 'outgoing',
+      title: 'View Outgoing Txns',
+    },
+    {
+      value: 'incoming',
+      title: 'View Incoming Txns',
+    },
+    {
+      value: 'customised',
+      title: 'View Customised Cell included Txns',
+    },
+  ]
 
   const onChangeLayout = (lo: 'professional' | 'lite') => {
     updateSearchParams(params =>
       lo === defaultLayout
         ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'layout'))
         : { ...params, layout: lo },
+    )
+  }
+
+  const handleTimeSort = () => {
+    updateSearchParams(params =>
+      timeOrderBy === 'asc'
+        ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'sort' && entry[0] !== 'tx_type'))
+        : Object.fromEntries(Object.entries({ ...params, sort: 'time' }).filter(entry => entry[0] !== 'tx_type')),
+    )
+  }
+
+  const handleFilterClick = (filterType: TxTypeType) => {
+    updateSearchParams(params =>
+      filterType === txTypeFilter
+        ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'sort' && entry[0] !== 'tx_type'))
+        : Object.fromEntries(Object.entries({ ...params, tx_type: filterType }).filter(entry => entry[0] !== 'sort')),
     )
   }
 
@@ -350,17 +391,47 @@ export const AddressTransactions = ({
         className={styles.transactionTitleCard}
         isSingle
         rear={
-          <Radio.Group
-            className={styles.layoutButtons}
-            options={[
-              { label: i18n.t('transaction.professional'), value: 'professional' },
-              { label: i18n.t('transaction.lite'), value: 'lite' },
-            ]}
-            onChange={({ target: { value } }) => onChangeLayout(value)}
-            value={layout}
-            optionType="button"
-            buttonStyle="solid"
-          />
+          <>
+            <div className={styles.sortingFilteringIcons}>
+              <div className={classNames({ [styles.activeIcon]: timeOrderBy === 'asc' })}>
+                {timeOrderBy === 'asc' ? (
+                  <TimeDownIcon onClick={handleTimeSort} />
+                ) : (
+                  <TimeUpIcon onClick={handleTimeSort} />
+                )}
+              </div>
+              <div className={classNames({ [styles.activeIcon]: txTypeFilter })}>
+                <Popover
+                  placement={isMobile ? 'bottomRight' : 'bottomLeft'}
+                  trigger={isMobile ? 'click' : 'hover'}
+                  overlayClassName={styles.filterPop}
+                  content={
+                    <div>
+                      {filterList.map(f => (
+                        <div onClick={() => handleFilterClick(f.value)} aria-hidden="true">
+                          <div>{f.title}</div>
+                          <div>{f.value === txTypeFilter && <SelectedCheckIcon />}</div>
+                        </div>
+                      ))}
+                    </div>
+                  }
+                >
+                  <FilterIcon />
+                </Popover>
+              </div>
+            </div>
+            <Radio.Group
+              className={styles.layoutButtons}
+              options={[
+                { label: i18n.t('transaction.professional'), value: 'professional' },
+                { label: i18n.t('transaction.lite'), value: 'lite' },
+              ]}
+              onChange={({ target: { value } }) => onChangeLayout(value)}
+              value={layout}
+              optionType="button"
+              buttonStyle="solid"
+            />
+          </>
         }
       />
       <AddressTransactionsPanel>
