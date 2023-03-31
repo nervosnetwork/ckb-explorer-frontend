@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import SimpleButton from '../../components/SimpleButton'
 import { TransactionPanel } from '../../components/TransactionItem/styled'
 
-export const AddressTitleOverviewPanel = styled.div`
+export const AddressLockScriptPanel = styled.div`
   display: flex;
   flex-direction: column;
 `
