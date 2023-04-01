@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { BannerRender, createBannerRender } from './render'
 import styles from './index.module.scss'
 import { useIsMobile, usePrevious } from '../../../utils/hook'
+import BannerFallback from '../../../components/BannerFallback'
 
 // eslint-disable-next-line no-underscore-dangle
 const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
@@ -11,12 +12,19 @@ const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
   const [render, setRender] = useState<BannerRender>()
 
   useEffect(() => {
-    if (!ref.current) return
-
-    const render = createBannerRender(ref.current)
-    setRender(render)
-    return () => render.destroy()
-  }, [])
+    const container = ref.current
+    if (!container) return
+    try {
+      const r = createBannerRender(container)
+      setRender(r)
+      return () => r.destroy()
+    } catch (e) {
+      if (e instanceof Error) {
+        console.error(e.message)
+      }
+      // ignore
+    }
+  }, [setRender])
 
   const prevLatestBlock = usePrevious(latestBlock)
   useEffect(() => {
@@ -29,8 +37,11 @@ const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
   useEffect(() => render?.onResize(), [isMobile])
 
   return (
-    <div className={classNames(styles.banner, { [styles.mobile]: isMobile })}>
-      <div ref={ref} className={styles.renderer} />
+    <div className={styles.container} data-is-fallback={!render}>
+      <BannerFallback />
+      <div className={classNames(styles.banner, { [styles.mobile]: isMobile })}>
+        <div ref={ref} className={styles.renderer} />
+      </div>
     </div>
   )
 }
