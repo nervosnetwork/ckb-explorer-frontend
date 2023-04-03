@@ -225,7 +225,7 @@
       "code_hash": "Code Hash: ",
       "args": "Args: ",
       "hash_type": "Hash Type: ",
-      "assets": "资产",
+      "overview": "概览",
       "user_defined_token": "User Defined Token",
       "confirmation": "确认区块",
       "confirmations": "确认区块",
@@ -263,7 +263,8 @@
       "secondary": "二级",
       "commit": "提交",
       "proposal": "提案",
-      "cellbase_help_tooltip": "区块 N 的 Cellbase 交易将作为奖励发送给区块 N-11 的出块矿工，阅读共识协议了解更多信息",
+      "cellbase_help_tooltip": "区块 N 的 Cellbase 交易将作为奖励发送给区块 N-11 的出块矿工，阅读{{consensus}}了解更多信息",
+      "consensus_protocol": "共识协议",
       "capacity": "Capacity",
       "capacity_amount": "Capacity/Amount",
       "reward_info": "区块奖励",
@@ -273,6 +274,7 @@
       "transaction_hash": "交易哈希",
       "height": "区块高度",
       "time": "时间戳",
+      "capacity_change": "Capacity 变化",
       "transaction_parameters": "更多交易参数",
       "ckb_capacity": "CKB Capacity",
       "nervos_dao_deposit": "Nervos DAO 锁定",
@@ -313,7 +315,9 @@
           "block": "区块 {{since}} 之后",
           "timestamp": "{{since}} 之后"
         }
-      }
+      },
+      "professional": "专业版",
+      "lite": "精简版"
     },
     "block": {
       "block": "区块",

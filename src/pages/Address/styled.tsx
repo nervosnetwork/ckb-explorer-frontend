@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 import SimpleButton from '../../components/SimpleButton'
+import { TransactionPanel } from '../../components/TransactionItem/styled'
 
-export const AddressTitleOverviewPanel = styled.div`
+export const AddressLockScriptPanel = styled.div`
   display: flex;
   flex-direction: column;
 `
@@ -14,7 +15,7 @@ export const AddressContentPanel = styled.div`
   margin-bottom: 40px;
 
   @media (max-width: 750px) {
-    margin: 0px;
+    margin: 0;
     padding: 20px;
   }
 `
@@ -64,13 +65,20 @@ export const AddressLockScriptController = styled(SimpleButton)`
     margin-top: 10px;
 
     > img {
-      margin: 0px 0 0 5px;
+      margin: 0 0 0 5px;
     }
   }
 `
 
 export const AddressTransactionsPanel = styled.div`
   width: 100%;
+
+  @media (max-width: 750px) {
+    ${TransactionPanel}:first-child {
+      margin-top: 0;
+      box-shadow: none;
+    }
+  }
 `
 
 export const AddressTransactionsPagination = styled.div`
@@ -137,7 +145,6 @@ export const AddressUDTItemPanel = styled.a`
   .address__udt__detail {
     display: flex;
     padding: 8px;
-    display: flex;
     align-items: center;
     line-height: 20px;
   }

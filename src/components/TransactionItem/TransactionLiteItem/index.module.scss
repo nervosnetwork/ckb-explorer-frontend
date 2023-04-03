@@ -1,0 +1,100 @@
+.transactionLitePanel {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 0 40px;
+  display: flex;
+
+  .transactionLiteRow {
+    width: 100%;
+    border-top: 1px solid #e5e5e5;
+    padding: 23px 0;
+    display: flex;
+    flex-direction: row;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+
+    .transactionLink {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 18px;
+      color: var(--primary-color);
+    }
+
+    .blockLink {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+      color: var(--primary-color);
+    }
+
+    > div {
+      padding: 0 6px 0 0;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+      color: #333333;
+      &:first-child {
+        width: 28%;
+        padding-right: 20px;
+        @media (min-width: 1200px) {
+          padding-right: 50px;
+        }
+      }
+      &:nth-child(2) {
+        width: 13%;
+      }
+      &:nth-child(3) {
+        width: 20%;
+      }
+      &:nth-child(4) {
+        width: 27%;
+        > span:last-child {
+          margin-left: 16px;
+        }
+      }
+      &:last-child {
+        width: 12%;
+        text-align: right;
+        padding: 0;
+      }
+    }
+  }
+  @media (max-width: 750px) {
+    padding: 0 16px;
+    margin-bottom: 4px;
+    .transactionLiteRow {
+      flex-direction: column;
+      border-top: none;
+      padding: 0;
+      > div {
+        width: 100% !important;
+        padding: 16px 0 !important;
+        > div:first-child {
+          color: #666666;
+          margin-bottom: 8px;
+        }
+        &:not(:first-child) {
+          border-top: 1px solid #f0f0f0;
+        }
+      }
+      > div:first-child {
+        > a > div {
+          padding-right: 38px;
+        }
+      }
+      > div:nth-child(4) {
+        > span:last-child {
+          margin-left: 24px;
+        }
+      }
+      > div:last-child {
+        text-align: left;
+        width: 100%;
+        > div:last-child > div {
+          justify-content: flex-start;
+        }
+      }
+    }
+  }
+}

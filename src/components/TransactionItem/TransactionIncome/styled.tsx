@@ -14,14 +14,13 @@ export const TransactionIncomePanel = styled.div`
 export const TransactionCapacityValuePanel = styled.div`
   height: 36px;
   border-radius: 18px;
-  background-color: ${(props: { increased: boolean; theme: any }) =>
-    props.increased ? props.theme.primary : '#FF6347'};
-  padding: 0 12px;
+  background-color: white;
+  padding: 0 21px;
   width: 220px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  color: white;
+  color: ${(props: { increased: boolean; theme: any }) => (props.increased ? props.theme.primary : '#FF6347')};
   font-size: 16px;
 
   @media (max-width: 750px) {
