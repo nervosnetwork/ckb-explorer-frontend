@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import { useState, useEffect, FC } from 'react'
-import { useHistory } from 'react-router'
 import { useQuery } from 'react-query'
+import { Radio } from 'antd'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
@@ -10,6 +10,8 @@ import i18n from '../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
 import { shannonToCkb, deprecatedAddrToNewAddr, handleNftImgError, patchMibaoImg } from '../../utils/util'
 import {
+  AddressLockScriptController,
+  AddressLockScriptPanel,
   AddressTransactionsPagination,
   AddressTransactionsPanel,
   AddressUDTAssetsPanel,
@@ -20,7 +22,24 @@ import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { sliceNftName } from '../../utils/string'
-import { useIsLGScreen, useNewAddr } from '../../utils/hook'
+import {
+  useIsLGScreen,
+  useIsMobile,
+  useNewAddr,
+  usePaginationParamsInListPage,
+  useSearchParams,
+  useUpdateSearchParams,
+} from '../../utils/hook'
+import styles from './styles.module.scss'
+import TransactionLiteItem from '../../components/TransactionItem/TransactionLiteItem'
+import Script from '../../components/Script'
+import AddressText from '../../components/AddressText'
+import { parseSimpleDateNoSecond } from '../../utils/date'
+import { isMainnet } from '../../utils/chain'
+import ArrowUpIcon from '../../assets/arrow_up.png'
+import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
+import ArrowDownIcon from '../../assets/arrow_down.png'
+import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 
 const addressAssetInfo = (address: State.Address, useMiniStyle: boolean) => {
   const items = [
@@ -163,7 +182,68 @@ interface CoTAList {
   }
 }
 
-export const AddressAssetComp: FC<{ address: State.Address }> = ({ address }) => {
+const lockScriptIcon = (show: boolean) => {
+  if (show) {
+    return isMainnet() ? ArrowUpIcon : ArrowUpBlueIcon
+  }
+  return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
+}
+
+const getAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, lockInfo }: State.Address) => {
+  const items: OverviewItemData[] = [
+    {
+      title: i18n.t('address.live_cells'),
+      content: localeNumberString(liveCellsCount),
+    },
+    {
+      title: i18n.t('address.block_mined'),
+      content: localeNumberString(minedBlocksCount),
+    },
+  ]
+
+  if (type === 'LockHash') {
+    if (!addressHash) {
+      items.push({
+        title: i18n.t('address.address'),
+        content: i18n.t('address.unable_decode_address'),
+      })
+    } else {
+      items.push({
+        title: i18n.t('address.address'),
+        contentWrapperClass: styles.addressWidthModify,
+        content: <AddressText>{addressHash}</AddressText>,
+      })
+    }
+  }
+  if (lockInfo && lockInfo.epochNumber !== '0' && lockInfo.estimatedUnlockTime !== '0') {
+    const estimate = Number(lockInfo.estimatedUnlockTime) > new Date().getTime() ? i18n.t('address.estimated') : ''
+    items.push({
+      title: i18n.t('address.lock_until'),
+      content: `${lockInfo.epochNumber} ${i18n.t('address.epoch')} (${estimate} ${parseSimpleDateNoSecond(
+        lockInfo.estimatedUnlockTime,
+      )})`,
+    })
+  }
+  return items
+}
+
+const AddressLockScript: FC<{ address: State.Address }> = ({ address }) => {
+  const [showLock, setShowLock] = useState<boolean>(false)
+
+  return (
+    <AddressLockScriptPanel>
+      <OverviewCard items={getAddressInfo(address)} hideShadow>
+        <AddressLockScriptController onClick={() => setShowLock(!showLock)}>
+          <div>{i18n.t('address.lock_script')}</div>
+          <img alt="lock script" src={lockScriptIcon(showLock)} />
+        </AddressLockScriptController>
+        {showLock && address.lockScript && <Script script={address.lockScript} />}
+      </OverviewCard>
+    </AddressLockScriptPanel>
+  )
+}
+
+export const AddressOverview: FC<{ address: State.Address }> = ({ address }) => {
   const isLG = useIsLGScreen()
   const { udtAccounts = [] } = address
 
@@ -186,7 +266,7 @@ export const AddressAssetComp: FC<{ address: State.Address }> = ({ address }) =>
   )
 
   return (
-    <OverviewCard items={addressAssetInfo(address, isLG)} titleCard={<TitleCard title={i18n.t('address.assets')} />}>
+    <OverviewCard items={addressAssetInfo(address, isLG)} titleCard={<TitleCard title={i18n.t('address.overview')} />}>
       {udtAccounts.length || cotaList?.length ? (
         <AddressUDTAssetsPanel>
           <span>{i18n.t('address.user_defined_token')}</span>
@@ -215,31 +295,36 @@ export const AddressAssetComp: FC<{ address: State.Address }> = ({ address }) =>
           </div>
         </AddressUDTAssetsPanel>
       ) : null}
+      <AddressLockScript address={address} />
     </OverviewCard>
   )
 }
 
 export const AddressTransactions = ({
-  currentPage,
-  pageSize,
   address,
   transactions,
   transactionsTotal: total,
   addressInfo: { addressHash },
 }: {
-  currentPage: number
-  pageSize: number
   address: string
   transactions: State.Transaction[]
   transactionsTotal: number
   addressInfo: State.Address
 }) => {
-  const history = useHistory()
-
+  const isMobile = useIsMobile()
+  const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
+  const searchParams = useSearchParams('layout')
+  const defaultLayout = 'professional'
+  const updateSearchParams = useUpdateSearchParams<'layout'>()
+  const layout = searchParams.layout === 'lite' ? 'lite' : defaultLayout
   const totalPages = Math.ceil(total / pageSize)
 
-  const onChange = (page: number) => {
-    history.replace(`/address/${address}?page=${page}&size=${pageSize}`)
+  const onChangeLayout = (lo: 'professional' | 'lite') => {
+    updateSearchParams(params =>
+      lo === defaultLayout
+        ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'layout'))
+        : { ...params, layout: lo },
+    )
   }
 
   const newAddr = useNewAddr(address)
@@ -260,27 +345,56 @@ export const AddressTransactions = ({
 
   return (
     <>
-      <TitleCard title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`} isSingle />
+      <TitleCard
+        title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`}
+        className={styles.transactionTitleCard}
+        isSingle
+        rear={
+          <Radio.Group
+            className={styles.layoutButtons}
+            options={[
+              { label: i18n.t('transaction.professional'), value: 'professional' },
+              { label: i18n.t('transaction.lite'), value: 'lite' },
+            ]}
+            onChange={({ target: { value } }) => onChangeLayout(value)}
+            value={layout}
+            optionType="button"
+            buttonStyle="solid"
+          />
+        }
+      />
       <AddressTransactionsPanel>
-        {txList.map((transaction: State.Transaction, index: number) => {
-          const { transactionHash } = transaction
-          return (
-            transaction && (
-              <TransactionItem
-                address={addressHash}
-                transaction={transaction}
-                key={transactionHash}
-                circleCorner={{
-                  bottom: index === transactions.length - 1 && totalPages === 1,
-                }}
-              />
-            )
-          )
-        })}
+        {layout === 'lite' ? (
+          <>
+            {!isMobile && (
+              <div className={styles.liteTransactionHeader}>
+                <div>{i18n.t('transaction.transaction_hash')}</div>
+                <div>{i18n.t('transaction.height')}</div>
+                <div>{i18n.t('transaction.time')}</div>
+                <div>{`${i18n.t('transaction.input')} & ${i18n.t('transaction.output')}`}</div>
+                <div>{i18n.t('transaction.capacity_change')}</div>
+              </div>
+            )}
+            {txList.map((transaction: State.Transaction) => (
+              <TransactionLiteItem address={addressHash} transaction={transaction} key={transaction.transactionHash} />
+            ))}
+          </>
+        ) : (
+          txList.map((transaction: State.Transaction, index: number) => (
+            <TransactionItem
+              address={addressHash}
+              transaction={transaction}
+              key={transaction.transactionHash}
+              circleCorner={{
+                bottom: index === transactions.length - 1 && totalPages === 1,
+              }}
+            />
+          ))
+        )}
       </AddressTransactionsPanel>
       {totalPages > 1 && (
         <AddressTransactionsPagination>
-          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onChange} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
         </AddressTransactionsPagination>
       )}
     </>
@@ -288,6 +402,6 @@ export const AddressTransactions = ({
 }
 
 export default {
-  AddressAssetComp,
+  AddressOverview,
   AddressTransactions,
 }

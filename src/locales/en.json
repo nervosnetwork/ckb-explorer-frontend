@@ -226,7 +226,7 @@
       "code_hash": "Code Hash: ",
       "args": "Args: ",
       "hash_type": "Hash Type: ",
-      "assets": "Assets",
+      "overview": "Overview",
       "user_defined_token": "User Defined Token",
       "confirmation": "Confirmation",
       "confirmations": "Confirmations",
@@ -264,7 +264,8 @@
       "secondary": "Secondary",
       "commit": "Commit",
       "proposal": "Proposal",
-      "cellbase_help_tooltip": "The cellbase transaction of block N is sent to the miner of block N-11 as reward, learn more from our Consensus Protocol",
+      "cellbase_help_tooltip": "The cellbase transaction of block N is sent to the miner of block N-11 as reward, learn more from our {{consensus}}",
+      "consensus_protocol": "Consensus Protocol",
       "capacity_amount": "Capacity/Amount",
       "capacity": "Capacity",
       "reward_info": "Reward Info",
@@ -274,6 +275,7 @@
       "transaction_hash": "Transaction Hash",
       "height": "Height",
       "time": "Time",
+      "capacity_change": "Capacity Change",
       "transaction_parameters": "Transaction Parameters",
       "ckb_capacity": "CKB Capacity",
       "nervos_dao_deposit": "Nervos DAO Deposit",
@@ -314,7 +316,9 @@
           "block": "After block {{since}}",
           "timestamp": "After {{since}}"
         }
-      }
+      },
+      "professional": "Professional",
+      "lite": "Lite"
     },
     "block": {
       "block": "Block",

@@ -1,0 +1,23 @@
+.transactionLitePanel {
+  > div {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    > div:not(:last-child) {
+      font-size: 14px;
+      line-height: 16px;
+    }
+    @media (min-width: 751px) and (max-width: 960px) {
+      > div:not(:last-child) {
+        display: none;
+      }
+    }
+  }
+}
+.increased {
+  color: var(--primary-color)
+}
+
+.decreased {
+  color: #fa504f;
+}
