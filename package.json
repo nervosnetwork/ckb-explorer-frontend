@@ -35,9 +35,8 @@
   },
   "devDependencies": {
     "@sentry/webpack-plugin": "1.20.0",
+    "@testing-library/react": "12.1.5",
     "@types/echarts": "4.9.9",
-    "@types/enzyme": "^3.10.9",
-    "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/eslint": "7.28.0",
     "@types/jest": "26.0.24",
     "@types/node": "16.4.10",
@@ -51,9 +50,6 @@
     "@typescript-eslint/eslint-plugin": "^4.29.0",
     "@typescript-eslint/parser": "5.48.1",
     "create-react-app": "^4.0.3",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
-    "enzyme-to-json": "^3.6.2",
     "eslint": "7.32.0",
     "eslint-config-airbnb": "18.2.1",
     "eslint-config-prettier": "8.3.0",
@@ -63,8 +59,6 @@
     "eslint-plugin-react": "7.31.11",
     "eslint-plugin-react-hooks": "4.6.0",
     "husky": "^7.0.1",
-    "jest-environment-enzyme": "^7.1.2",
-    "jest-enzyme": "^7.1.2",
     "jest-styled-components": "^7.0.5",
     "mockdate": "^2.0.5",
     "prettier": "2.3.2",
@@ -95,15 +89,12 @@
     "extends": "react-app"
   },
   "engines": {
-    "node": "18.12.1"
+    "node": "^18.13.0"
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "resolutions": {
-    "fsevents": ">=2.0.0"
-  }
+  ]
 }
