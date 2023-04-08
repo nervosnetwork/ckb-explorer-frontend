@@ -515,6 +515,26 @@
       "transaction_count": "交易数量",
       "n_days_historical_fee_rate": " 平均费率 (最近 {{n}} 天)",
       "count": "数量"
+    },
+    "export_transactions": {
+      "download_data": "下载数据",
+      "transactions": "交易",
+      "description_str": "您请求的信息可以从该页面下载。 在继续之前，请通过填写下面的验证码来验证您不是机器人。",
+      "select_download_options": "选择下载选项",
+      "date": "日期",
+      "start_date": "开始日期",
+      "end_date": "结束日期",
+      "from_block": "起始块高",
+      "to_block": "目标块高",
+      "note_str": "这将导出所选范围内最早的 5,000 条记录",
+      "download": "下载",
+      "block_number": "块高",
+      "please_pick_date": "请选择开始日期和结束日期!",
+      "error_date_order": "结束日期应该比开始日期晚!",
+      "download_processed": "您的下载请求已被处理!",
+      "please_input_block_number": "请输入起始块高和目标块高!",
+      "error_block_number_order": "目标块高不应该小于起始块高!",
+      "too_many_blocks": "选择的范围超过了 5,000 个区块, 请重新输入区块高度!"
     }
   }
 }

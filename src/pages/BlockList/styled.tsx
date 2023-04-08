@@ -23,6 +23,52 @@ export const BlockListPanel = styled.div`
   }
 
   .block_list__pagination {
+    display: flex;
+    flex-direction: row;
+    margin-top: 4px;
+    width: 100%;
+    background-color: white;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
+
+    > div {
+      border-radius: 0;
+      box-shadow: none;
+    }
+    > div:nth-child(2) {
+      padding-right: 40px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      color: var(--primary-color);
+      cursor: pointer;
+
+      > div:first-child {
+        margin-right: 8px;
+      }
+    }
+
+    @media (max-width: 842px) {
+      flex-direction: column;
+      height: 96px;
+
+      > div:first-child {
+        margin-bottom: 0;
+      }
+
+      > div:last-child {
+        height: 40px;
+        background-color: white;
+        border-radius: 0 0 6px 6px;
+        padding-right: 20px;
+        margin: 0 12px;
+        border-top: 1px solid #f0f0f0;
+
+        @media (max-width: 750px) {
+          padding: 0;
+        }
+      }
+    }
     @media (max-width: 750px) {
       margin-top: 5px;
     }

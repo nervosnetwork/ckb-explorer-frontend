@@ -2,6 +2,7 @@ import { Fragment, useMemo, FC } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
+import { useHistory } from 'react-router'
 import { parseSimpleDate } from '../../utils/date'
 import { BlockListPanel, ContentTable, HighLightValue, BlockRewardContainer, BlockRewardPanel } from './styled'
 import Content from '../../components/Content'
@@ -18,6 +19,7 @@ import AddressText from '../../components/AddressText'
 import { useIsMobile, usePaginationParamsInListPage } from '../../utils/hook'
 import { fetchBlocks } from '../../service/http/fetcher'
 import { RouteState } from '../../routes/state'
+import { ReactComponent as ExportIcon } from '../../assets/export_icon.svg'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
   <HighLightValue>
@@ -125,6 +127,7 @@ const BlockCardGroup: FC<{ blocks: State.Block[]; isFirstPage: boolean }> = ({ b
 
 export default () => {
   const isMobile = useIsMobile()
+  const history = useHistory()
 
   const [t] = useTranslation()
   const TableTitles = useMemo(
@@ -222,6 +225,10 @@ export default () => {
         )}
         <div className="block_list__pagination">
           <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
+          <div onClick={() => history.push('/export-transactions', { format: 'block' })} aria-hidden>
+            <div>CSV Export</div>
+            <ExportIcon />
+          </div>
         </div>
       </BlockListPanel>
     </Content>

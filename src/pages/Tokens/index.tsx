@@ -1,6 +1,7 @@
 import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
+import { useHistory } from 'react-router'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
 import {
@@ -26,6 +27,7 @@ import styles from './styles.module.scss'
 import { useIsMobile, usePaginationParamsInPage } from '../../utils/hook'
 import { fetchTokens } from '../../service/http/fetcher'
 import { QueryResult } from '../../components/QueryResult'
+import { ReactComponent as ExportIcon } from '../../assets/export_icon.svg'
 
 const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) => {
   const { displayName, fullName, uan } = token
@@ -94,6 +96,7 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
 
 export default () => {
   const isMobile = useIsMobile()
+  const history = useHistory()
   const { currentPage, pageSize, setPage } = usePaginationParamsInPage()
 
   const query = useQuery(['tokens', currentPage, pageSize], async () => {
@@ -146,6 +149,10 @@ export default () => {
         {totalPages > 1 && (
           <TokensPagination>
             <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
+            <div onClick={() => history.push('/export-transactions', { format: 'token' })} aria-hidden>
+              <div>CSV Export</div>
+              <ExportIcon />
+            </div>
           </TokensPagination>
         )}
       </TokensPanel>

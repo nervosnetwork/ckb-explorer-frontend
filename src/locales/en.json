@@ -516,6 +516,26 @@
       "transaction_count": "Transaction Count",
       "n_days_historical_fee_rate": "Average fee rate (Recent {{n}} days)",
       "count": "Count"
+    },
+    "export_transactions": {
+      "download_data": "Download Data",
+      "transactions": "Transactions",
+      "description_str": "The information you requested can be downloaded from this page. Before continuing please verify that you are not a robot by completing the captcha below.",
+      "select_download_options": "Select download options",
+      "date": "Date",
+      "start_date": "Start Date",
+      "end_date": "End Date",
+      "from_block": "From Block",
+      "to_block": "To Block",
+      "note_str": "The earliest 5,000 records within the selected range will be exported",
+      "download": "Download",
+      "block_number": "Block Number",
+      "please_pick_date": "please pick start date and end date!",
+      "error_date_order": "end date should be after than start date!",
+      "download_processed": "Your download is being processed!",
+      "please_input_block_number": "please input start block number and end block number!",
+      "error_block_number_order": "end block number should be higher than start block number!",
+      "too_many_blocks": "The selected range exceeds 5,000 blocks, please re-enter the block numbers!"
     }
   }
 }

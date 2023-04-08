@@ -431,3 +431,26 @@ export const fetchMaintenanceInfo = () =>
   axiosIns(`/statistics/maintenance_info`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.MaintenanceInfo>>(res.data.data),
   )
+
+export const exportTransactions = ({
+  startDate,
+  endDate,
+  startHeight,
+  endHeight,
+  format,
+}: {
+  startDate?: string
+  endDate?: string
+  startHeight?: number
+  endHeight?: number
+  format?: string
+}) =>
+  v2AxiosIns
+    .post('export_transactions', {
+      start_date: startDate,
+      end_date: endDate,
+      start_height: startHeight,
+      end_height: endHeight,
+      format,
+    })
+    .then(res => toCamelcase<Response.Response<string>>(res.data))

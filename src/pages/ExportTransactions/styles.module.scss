@@ -1,0 +1,229 @@
+.title {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+
+  > span {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+  }
+  > span:first-child {
+    color: #333333;
+  }
+  > span:last-child {
+    color: #999999;
+  }
+}
+
+.description {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+
+  > div {
+    width: 60%;
+    text-align: center;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #333333;
+  }
+
+  @media (max-width: 750px) {
+    display: none;
+  }
+}
+
+.downloadPanel {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+
+  > div {
+    border-radius: 4px 4px 0 0;
+    background: white;
+    width: 70%;
+
+    > div:first-child {
+      padding-top: 24px;
+      padding-bottom: 12px;
+      text-align: center;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 19px;
+      color: #333333;
+    }
+  }
+
+  :global(div.ant-tabs-nav-wrap) {
+    justify-content: center;
+  }
+
+  :global(div.ant-tabs-tab) {
+    width: 120px;
+    margin-left: 60px;
+    margin-right: 60px;
+    justify-content: center;
+
+    @media (max-width: 750px) {
+      width: 80px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+
+  :global(div.ant-tabs-ink-bar) {
+    background: var(--primary-color);
+  }
+
+  :global(.ant-tabs-tab .ant-tabs-tab-btn) {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #333333;
+  }
+
+  :global(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #333333;
+  }
+
+  @media (max-width: 750px) {
+    margin-top: 12px;
+  }
+}
+
+.dateOrBlockPanel {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+
+  > div {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+
+    @media (max-width: 750px) {
+      flex-direction: column;
+
+      > div:nth-child(2) {
+        margin-top: 16px;
+      }
+    }
+
+    > div {
+      margin-left: 24px;
+      margin-right: 24px;
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+
+      @media (max-width: 750px) {
+        width: 80%;
+      }
+
+      > div:first-child {
+        margin-bottom: 14px;
+      }
+      > div:last-child {
+        width: 100%;
+
+        input {
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  :global(.ant-picker-input) {
+    flex-direction: row-reverse;
+
+    > input {
+      text-align: center;
+    }
+  }
+}
+
+.note {
+  display: flex;
+  justify-content: center;
+
+  > div {
+    background: white;
+    width: 70%;
+    text-align: center;
+    padding-top: 56px;
+  }
+}
+
+.hint {
+  display: flex;
+  justify-content: center;
+
+  > div {
+    background: white;
+    width: 70%;
+    padding-top: 41px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    > div {
+      padding: 12px 32px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 16px;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+
+      > svg {
+        margin-right: 8px;
+      }
+
+      &.noHint {
+        display: none;
+      }
+      &.successHint {
+        border: 1px solid var(--primary-color);
+        background: #E6FCF7;
+        color: var(--primary-color);
+      }
+      &.errorHint {
+        border: 1px solid #FFA6A6;
+        background: #FFF2F2;
+        color: #FA504F;
+      }
+    }
+  }
+}
+
+.downloadButton {
+  display: flex;
+  justify-content: center;
+
+  > div {
+    border-radius: 0 0 4px 4px;
+    background: white;
+    width: 70%;
+    text-align: center;
+    padding-top: 34px;
+    padding-bottom: 56px;
+
+    > button {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 14px 40px;
+      cursor: pointer;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+    }
+  }
+}
