@@ -235,7 +235,10 @@
       "view-new-address": "View in new address format",
       "visit-deprecated-address": "View in deprecated address format",
       "view-deprecated-address": "Display deprecated addresses",
-      "displaying-deprecated-address": "Displaying in deprecated address format"
+      "displaying-deprecated-address": "Displaying in deprecated address format",
+      "view_outgoing_txns": "View Outgoing Txns",
+      "view_incoming_txns": "View Incoming Txns",
+      "view_customised_cell_included_txns": "View Customised Cell included Txns"
     },
     "transaction": {
       "transaction": "Transaction",

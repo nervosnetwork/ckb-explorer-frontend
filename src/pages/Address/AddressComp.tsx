@@ -46,6 +46,7 @@ import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import { TxTypeType } from './index'
+import { omit } from '../../utils/object'
 
 const addressAssetInfo = (address: State.Address, useMiniStyle: boolean) => {
   const items = [
@@ -325,46 +326,40 @@ export const AddressTransactions = ({
   const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
   const searchParams = useSearchParams('layout')
   const defaultLayout = 'professional'
-  const updateSearchParams = useUpdateSearchParams<'layout' | 'sort'>()
+  const updateSearchParams = useUpdateSearchParams<'layout' | 'sort' | 'tx_type'>()
   const layout = searchParams.layout === 'lite' ? 'lite' : defaultLayout
   const totalPages = Math.ceil(total / pageSize)
 
   const filterList: { value: TxTypeType; title: string }[] = [
     {
       value: 'outgoing',
-      title: 'View Outgoing Txns',
+      title: i18n.t('address.view_outgoing_txns'),
     },
     {
       value: 'incoming',
-      title: 'View Incoming Txns',
+      title: i18n.t('address.view_incoming_txns'),
     },
     {
       value: 'customised',
-      title: 'View Customised Cell included Txns',
+      title: i18n.t('address.view_customised_cell_included_txns'),
     },
   ]
 
   const onChangeLayout = (lo: 'professional' | 'lite') => {
-    updateSearchParams(params =>
-      lo === defaultLayout
-        ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'layout'))
-        : { ...params, layout: lo },
-    )
+    updateSearchParams(params => (lo === defaultLayout ? omit(params, ['layout']) : { ...params, layout: lo }))
   }
 
   const handleTimeSort = () => {
     updateSearchParams(params =>
-      timeOrderBy === 'asc'
-        ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'sort' && entry[0] !== 'tx_type'))
-        : Object.fromEntries(Object.entries({ ...params, sort: 'time' }).filter(entry => entry[0] !== 'tx_type')),
+      timeOrderBy === 'asc' ? omit(params, ['sort', 'tx_type']) : omit({ ...params, sort: 'time' }, ['tx_type']),
     )
   }
 
   const handleFilterClick = (filterType: TxTypeType) => {
     updateSearchParams(params =>
       filterType === txTypeFilter
-        ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'sort' && entry[0] !== 'tx_type'))
-        : Object.fromEntries(Object.entries({ ...params, tx_type: filterType }).filter(entry => entry[0] !== 'sort')),
+        ? omit(params, ['sort', 'tx_type'])
+        : omit({ ...params, tx_type: filterType }, ['sort']),
     )
   }
 
@@ -408,10 +403,10 @@ export const AddressTransactions = ({
                   content={
                     <div>
                       {filterList.map(f => (
-                        <div onClick={() => handleFilterClick(f.value)} aria-hidden="true">
+                        <button type="button" onClick={() => handleFilterClick(f.value)}>
                           <div>{f.title}</div>
                           <div>{f.value === txTypeFilter && <SelectedCheckIcon />}</div>
-                        </div>
+                        </button>
                       ))}
                     </div>
                   }
