@@ -24,6 +24,7 @@ import {
   storeEpochChartCache,
 } from './cache'
 import { parseDate } from './date'
+import { omit } from './object'
 
 /**
  * Returns the value of the argument from the previous render
@@ -195,7 +196,7 @@ export function useSortParam<T extends string>(
     return s === 'asc' || s === 'desc'
   }
   const { sort: sortParam } = useSearchParams('sort')
-  const updateSearchParams = useUpdateSearchParams<'sort'>()
+  const updateSearchParams = useUpdateSearchParams<'sort' | 'page'>()
   let sortBy: SortType
   let orderBy: State.SortOrderTypes = 'asc'
   if (sortParam) {
@@ -221,26 +222,12 @@ export function useSortParam<T extends string>(
   const handleSortClick = (sortRule?: SortType) => {
     if (sortBy === sortRule) {
       if (orderBy === 'desc') {
-        updateSearchParams(
-          params =>
-            Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'sort' && entry[0] !== 'page')),
-          true,
-        )
+        updateSearchParams(params => omit(params, ['sort', 'page']), true)
       } else {
-        updateSearchParams(
-          params =>
-            Object.fromEntries(
-              Object.entries({ ...params, sort: `${sortRule}.desc` }).filter(entry => entry[0] !== 'page'),
-            ),
-          true,
-        )
+        updateSearchParams(params => omit({ ...params, sort: `${sortRule}.desc` }, ['page']), true)
       }
     } else {
-      updateSearchParams(
-        params =>
-          Object.fromEntries(Object.entries({ ...params, sort: sortRule }).filter(entry => entry[0] !== 'page')),
-        true,
-      )
+      updateSearchParams(params => omit({ ...params, sort: sortRule }, ['page']), true)
     }
   }
 

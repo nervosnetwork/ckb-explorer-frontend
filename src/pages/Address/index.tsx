@@ -14,7 +14,7 @@ import { isAxiosError } from '../../utils/error'
 export type TxTypeType = 'outgoing' | 'incoming' | 'customised' | undefined
 
 function isTxFilterType(s?: string): s is TxTypeType {
-  return s === 'outgoing' || s === 'incoming' || s === 'customised' || s === undefined
+  return s ? ['outgoing', 'incoming', 'customised'].includes(s) : false
 }
 
 export const Address = () => {

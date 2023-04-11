@@ -24,7 +24,11 @@ export const TableTitleRowItem = styled.div`
   width: ${({ width }: { width: string }) => width};
   min-height: 65px;
 
-  > div {
+  > div,
+  > button {
+    border: none;
+    outline: none;
+    background-color: transparent;
     color: #333333;
     font-size: 18px;
     font-weight: 450;

@@ -164,16 +164,16 @@ const NftCollectionInfo = () => {
   }
 
   const sortButton = (sortRule: NftHolderSortByType) => (
-    <div
+    <button
+      type="button"
       className={classNames(styles.sortIcon, {
         [styles.sortAsc]: sortRule === sortBy && orderBy === 'asc',
         [styles.sortDesc]: sortRule === sortBy && orderBy === 'desc',
       })}
       onClick={() => handleSortClick(sortRule)}
-      aria-hidden
     >
       <SortIcon />
-    </div>
+    </button>
   )
 
   return (

@@ -12,6 +12,7 @@ import styles from './styles.module.scss'
 import { handleNftImgError, patchMibaoImg, udtSubmitEmail } from '../../utils/util'
 import { getPrimaryColor } from '../../constants/common'
 import { useSearchParams, useSortParam, useUpdateSearchParams } from '../../utils/hook'
+import { omit } from '../../utils/object'
 
 const primaryColor = getPrimaryColor()
 
@@ -44,7 +45,7 @@ const NftCollections = () => {
   const history = useHistory()
   const { page = '1' } = useSearchParams('page')
 
-  const updateSearchParams = useUpdateSearchParams<'sort'>()
+  const updateSearchParams = useUpdateSearchParams<'sort' | 'page'>()
   const { sortBy, sort } = useSortParam<NftSortByType>(s => s === 'holder' || s === 'minted')
 
   const { isLoading, data } = useQuery<AxiosResponse<Res>>(['nft-collections', page, sort], () =>
@@ -58,13 +59,9 @@ const NftCollections = () => {
 
   const handleSortClick = (sortRule: NftSortByType) => {
     if (sortBy === sortRule) {
-      updateSearchParams(params =>
-        Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'sort' && entry[0] !== 'page')),
-      )
+      updateSearchParams(params => omit(params, ['sort', 'page']))
     } else {
-      updateSearchParams(params =>
-        Object.fromEntries(Object.entries({ ...params, sort: sortRule }).filter(entry => entry[0] !== 'page')),
-      )
+      updateSearchParams(params => omit({ ...params, sort: sortRule }, ['page']))
     }
   }
 

@@ -234,7 +234,10 @@
       "view-new-address": "查看新地址",
       "visit-deprecated-address": "查看废弃地址格式",
       "view-deprecated-address": "展示旧地址格式",
-      "displaying-deprecated-address": "正在以旧格式地址展示"
+      "displaying-deprecated-address": "正在以旧格式地址展示",
+      "view_outgoing_txns": "查看支出交易",
+      "view_incoming_txns": "查看收入交易",
+      "view_customised_cell_included_txns": "查看包含定制Cell的交易"
     },
     "transaction": {
       "transaction": "交易",

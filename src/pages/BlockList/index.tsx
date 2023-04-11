@@ -206,16 +206,16 @@ export default () => {
               {TableTitles.filter(data => data.sortRule).map((data: TableTitleData) => (
                 <TableTitleRowItem width="fit-content" key={data.title}>
                   <div>{data.title}</div>
-                  <div
+                  <button
+                    type="button"
                     className={classNames(styles.sortIcon, {
                       [styles.sortAsc]: data.sortRule === sortBy && orderBy === 'asc',
                       [styles.sortDesc]: data.sortRule === sortBy && orderBy === 'desc',
                     })}
                     onClick={() => handleSortClick(data.sortRule)}
-                    aria-hidden
                   >
                     <SortIcon />
-                  </div>
+                  </button>
                 </TableTitleRowItem>
               ))}
             </TableTitleRow>
@@ -228,16 +228,16 @@ export default () => {
                 <TableTitleRowItem width={data.width} key={data.title}>
                   <div>{data.title}</div>
                   {data.sortRule && (
-                    <div
+                    <button
+                      type="button"
                       className={classNames(styles.sortIcon, {
                         [styles.sortAsc]: data.sortRule === sortBy && orderBy === 'asc',
                         [styles.sortDesc]: data.sortRule === sortBy && orderBy === 'desc',
                       })}
                       onClick={() => handleSortClick(data.sortRule)}
-                      aria-hidden
                     >
                       <SortIcon />
-                    </div>
+                    </button>
                   )}
                 </TableTitleRowItem>
               ))}

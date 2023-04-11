@@ -82,7 +82,12 @@
       }
 
       > div {
-        > div {
+        > button {
+          margin: 0;
+          border: none;
+          outline: none;
+          width: 100%;
+          background-color: transparent;
           padding: 10px 0 10px 8px;
           border-radius: 8px;
           display: flex;
