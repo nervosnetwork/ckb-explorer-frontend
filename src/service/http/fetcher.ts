@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import BigNumber from 'bignumber.js'
+import { Dayjs } from 'dayjs'
 import CONFIG from '../../config'
 import { pick } from '../../utils/object'
 import { toCamelcase } from '../../utils/util'
@@ -435,22 +436,22 @@ export const fetchMaintenanceInfo = () =>
 export const exportTransactions = ({
   startDate,
   endDate,
-  startHeight,
-  endHeight,
+  fromHeight,
+  toHeight,
   format,
 }: {
-  startDate?: string
-  endDate?: string
-  startHeight?: number
-  endHeight?: number
+  startDate?: Dayjs
+  endDate?: Dayjs
+  fromHeight?: number
+  toHeight?: number
   format?: string
 }) =>
   v2AxiosIns
     .post('export_transactions', {
-      start_date: startDate,
-      end_date: endDate,
-      start_height: startHeight,
-      end_height: endHeight,
+      start_date: startDate ? startDate.format('YYYY-MM-DD') : undefined,
+      end_date: endDate ? endDate.format('YYYY-MM-DD') : undefined,
+      from_height: fromHeight,
+      to_height: toHeight,
       format,
     })
     .then(res => toCamelcase<Response.Response<string>>(res.data))

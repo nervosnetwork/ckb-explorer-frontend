@@ -1,7 +1,10 @@
 import { useMemo } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ThemeProvider } from 'styled-components'
-import 'antd/dist/antd.css'
+import 'antd/dist/reset.css'
+import dayjs from 'dayjs'
+import weekday from 'dayjs/plugin/weekday'
+import localeData from 'dayjs/plugin/localeData'
 import Routers from './routes'
 import Toast from './components/Toast'
 import withProviders, { useAppState } from './contexts/providers'
@@ -19,6 +22,8 @@ const queryClient = new QueryClient()
 
 const App = withProviders(() => {
   useInitApp()
+  dayjs.extend(weekday)
+  dayjs.extend(localeData)
   const { app } = useAppState()
   const theme = useMemo(
     () => ({

@@ -1,7 +1,6 @@
 import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
-import { useHistory } from 'react-router'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
 import {
@@ -96,7 +95,6 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
 
 export default () => {
   const isMobile = useIsMobile()
-  const history = useHistory()
   const { currentPage, pageSize, setPage } = usePaginationParamsInPage()
 
   const query = useQuery(['tokens', currentPage, pageSize], async () => {
@@ -149,10 +147,10 @@ export default () => {
         {totalPages > 1 && (
           <TokensPagination>
             <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
-            <div onClick={() => history.push('/export-transactions', { format: 'token' })} aria-hidden>
+            <a href="/export-transactions?format=token" target="_blank">
               <div>CSV Export</div>
               <ExportIcon />
-            </div>
+            </a>
           </TokensPagination>
         )}
       </TokensPanel>

@@ -2,7 +2,6 @@ import { Fragment, useMemo, FC } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
-import { useHistory } from 'react-router'
 import { parseSimpleDate } from '../../utils/date'
 import { BlockListPanel, ContentTable, HighLightValue, BlockRewardContainer, BlockRewardPanel } from './styled'
 import Content from '../../components/Content'
@@ -127,7 +126,6 @@ const BlockCardGroup: FC<{ blocks: State.Block[]; isFirstPage: boolean }> = ({ b
 
 export default () => {
   const isMobile = useIsMobile()
-  const history = useHistory()
 
   const [t] = useTranslation()
   const TableTitles = useMemo(
@@ -225,10 +223,10 @@ export default () => {
         )}
         <div className="block_list__pagination">
           <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
-          <div onClick={() => history.push('/export-transactions', { format: 'block' })} aria-hidden>
+          <a href="/export-transactions?format=block" target="_blank">
             <div>CSV Export</div>
             <ExportIcon />
-          </div>
+          </a>
         </div>
       </BlockListPanel>
     </Content>

@@ -94,7 +94,7 @@ export const AddressTransactionsPagination = styled.div`
     border-radius: 0;
     box-shadow: none;
   }
-  > div:nth-child(2) {
+  > a {
     padding-right: 40px;
     display: flex;
     justify-content: flex-end;
@@ -115,7 +115,7 @@ export const AddressTransactionsPagination = styled.div`
       margin-bottom: 0;
     }
 
-    > div:last-child {
+    > a {
       height: 40px;
       background-color: white;
       border-radius: 0 0 6px 6px;

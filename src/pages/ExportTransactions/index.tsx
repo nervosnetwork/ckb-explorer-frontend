@@ -1,143 +1,161 @@
 import { DatePicker, InputNumber, Tabs } from 'antd'
 import * as cnLocale from 'antd/es/date-picker/locale/zh_CN'
 import * as enLocale from 'antd/es/date-picker/locale/en_US'
-import { Moment } from 'moment'
+import dayjs from 'dayjs'
 import { useState } from 'react'
 import classNames from 'classnames'
-import { useSearchParams } from '../../utils/hook'
+import { useTranslation } from 'react-i18next'
+import { useSearchParams, useUpdateSearchParams } from '../../utils/hook'
 import Content from '../../components/Content'
 import styles from './styles.module.scss'
-import i18n, { currentLanguage } from '../../utils/i18n'
-import 'moment/locale/es-us'
-import 'moment/locale/zh-cn'
+import 'dayjs/locale/es-us'
+import 'dayjs/locale/zh-cn'
 import { ReactComponent as BlockIcon } from '../../assets/block_icon.svg'
 import { ReactComponent as ErrorIcon } from '../../assets/error_icon.svg'
 import { ReactComponent as SuccessIcon } from '../../assets/success_icon.svg'
 import { exportTransactions } from '../../service/http/fetcher'
+import { omit } from '../../utils/object'
 
 const ExportTransactions = () => {
-  const { format } = useSearchParams('format')
+  const [t, { language }] = useTranslation()
 
-  const locale = currentLanguage() === 'zh' ? cnLocale : enLocale
+  const locale = language === 'zh' ? cnLocale.default : enLocale.default
 
-  const [tabs, setTabs] = useState<'date' | 'height'>('date')
-  const [startDate, setStartDate] = useState<Moment | null>()
-  const [endDate, setEndDate] = useState<Moment | null>()
+  const {
+    format,
+    tab: tabStr,
+    'start-date': startDateStr,
+    'end-date': endDateStr,
+    'from-height': fromHeightStr,
+    'to-height': toHeightStr,
+  } = useSearchParams('format', 'tab', 'start-date', 'end-date', 'from-height', 'to-height')
 
-  const [startHeight, setStartHeight] = useState<number | null>()
-  const [endHeight, setEndHeight] = useState<number | null>()
+  const defaultTab = 'date'
 
-  const [hintType, setHintType] = useState<'success' | 'error' | undefined>()
-  const [hint, setHint] = useState<string | undefined>()
+  const tab = tabStr && ['date', 'height'].includes(tabStr) ? tabStr : defaultTab
 
-  const handleTabsChange = (v?: string) => {
-    if (v === 'date') {
-      setTabs('date')
-      setStartHeight(null)
-      setEndHeight(null)
-    } else if (v === 'height') {
-      setTabs('height')
-      setStartDate(null)
-      setEndDate(null)
-    }
-    setHintType(undefined)
-    setHint(undefined)
+  const startDate = tab === 'date' && startDateStr ? dayjs(startDateStr) : undefined
+  const endDate = tab === 'date' && endDateStr ? dayjs(endDateStr) : undefined
+
+  const fromHeight = tab === 'height' && fromHeightStr ? parseInt(fromHeightStr, 10) : undefined
+  const toHeight = tab === 'height' && toHeightStr ? parseInt(toHeightStr, 10) : undefined
+
+  const updateSearchParams = useUpdateSearchParams<
+    'format' | 'tab' | 'start-date' | 'end-date' | 'from-height' | 'to-height'
+  >()
+
+  const [hint, setHint] = useState<{ type: 'success' | 'error' | undefined; msg?: string }>({
+    type: undefined,
+    msg: undefined,
+  })
+
+  const handleTabChange = (tab?: string) => {
+    updateSearchParams(params => omit({ ...params, tab }, ['start-date', 'end-date', 'from-height', 'to-height']), true)
+    setHint({ type: undefined })
   }
 
   const handleDownload = () => {
-    if (tabs === 'date') {
+    if (tab === 'date') {
       if (!startDate || !endDate) {
-        setHintType('error')
-        setHint(i18n.t('export_transactions.please_pick_date'))
+        setHint({ type: 'error', msg: t('export_transactions.please_pick_date') })
         return
       }
       if (endDate.isBefore(startDate)) {
-        setHintType('error')
-        setHint(i18n.t('export_transactions.error_date_order'))
+        setHint({ type: 'error', msg: t('export_transactions.error_date_order') })
         return
       }
-      setHintType('success')
-      setHint(i18n.t('export_transactions.download_processed'))
-      exportTransactions({
-        startDate: startDate.format('YYYY-MM-DD'),
-        endDate: endDate.format('YYYY-MM-DD'),
-        format,
-      }).then((resp: Response.Response<string> | null) => {
-        if (resp) {
-          window.open(resp.data, '_blank')
-        }
-      })
     }
-    if (tabs === 'height') {
-      if (!startHeight || !endHeight) {
-        setHintType('error')
-        setHint(i18n.t('export_transactions.please_input_block_number'))
+    if (tab === 'height') {
+      if (!fromHeight || !toHeight) {
+        setHint({ type: 'error', msg: t('export_transactions.please_input_block_number') })
         return
       }
-      if (endHeight < startHeight) {
-        setHintType('error')
-        setHint(i18n.t('export_transactions.error_block_number_order'))
+      if (toHeight < fromHeight) {
+        setHint({ type: 'error', msg: t('export_transactions.error_block_number_order') })
         return
       }
-      if (endHeight > startHeight + 5000) {
-        setHintType('error')
-        setHint(i18n.t('export_transactions.too_many_blocks'))
+      if (fromHeight <= 0 || toHeight <= 0) {
+        setHint({ type: 'error', msg: t('export_transactions.block_number_should_be_positive') })
         return
       }
-      setHintType('success')
-      setHint(i18n.t('export_transactions.download_processed'))
-      exportTransactions({
-        startHeight,
-        endHeight,
-        format,
-      }).then((resp: Response.Response<string> | null) => {
-        if (resp) {
-          window.open(resp.data, '_blank')
-        }
-      })
+      if (toHeight > fromHeight + 5000) {
+        setHint({ type: 'error', msg: t('export_transactions.too_many_blocks') })
+        return
+      }
     }
+    setHint({ type: 'success', msg: t('export_transactions.download_processed') })
+    exportTransactions({ startDate, endDate, fromHeight, toHeight, format }).then(
+      (resp: Response.Response<string> | null) => {
+        if (resp && !resp.error) {
+          window.open(resp.data, '_blank', 'noopener, noreferrer')
+        } else {
+          setHint({
+            type: 'error',
+            msg: `${t('export_transactions.fetch_processed_export_link_error')}: ${
+              resp && resp?.error ? resp.error.map(r => r.title).join(',') : ''
+            }`,
+          })
+        }
+      },
+    )
   }
 
   return (
     <Content>
       <div className="container">
         <div className={styles.title}>
-          <span>{i18n.t('export_transactions.download_data')}</span>
-          <span>({i18n.t('export_transactions.transactions')})</span>
+          <span>{t('export_transactions.download_data')}</span>
+          <span>({t('export_transactions.transactions')})</span>
         </div>
         <div className={styles.description}>
-          <div>{i18n.t('export_transactions.description_str')}</div>
+          <div>{t('export_transactions.description_str')}</div>
         </div>
         <div className={styles.downloadPanel}>
           <div>
-            <div>{i18n.t('export_transactions.select_download_options')}</div>
+            <div>{t('export_transactions.select_download_options')}</div>
             <div>
               <Tabs
-                activeKey={tabs}
-                onChange={handleTabsChange}
+                activeKey={tab}
+                onChange={handleTabChange}
                 items={[
                   {
-                    label: i18n.t('export_transactions.date'),
+                    label: t('export_transactions.date'),
                     key: 'date',
                     children: (
                       <div className={styles.dateOrBlockPanel}>
                         <div>
                           <div>
-                            <div>{i18n.t('export_transactions.start_date')}</div>
+                            <div>{t('export_transactions.start_date')}</div>
                             <DatePicker
                               size="large"
-                              locale={locale.default}
+                              locale={locale}
                               value={startDate}
-                              onChange={m => setStartDate(m)}
+                              onChange={d => {
+                                // eslint-disable-next-line no-console
+                                console.log(d)
+                                updateSearchParams(
+                                  params =>
+                                    d
+                                      ? { ...params, 'start-date': d.format('YYYY-MM-DD') }
+                                      : omit(params, ['start-date']),
+                                  true,
+                                )
+                              }}
                             />
                           </div>
                           <div>
-                            <div>{i18n.t('export_transactions.end_date')}</div>
+                            <div>{t('export_transactions.end_date')}</div>
                             <DatePicker
                               size="large"
-                              locale={locale.default}
+                              locale={locale}
                               value={endDate}
-                              onChange={m => setEndDate(m)}
+                              onChange={d =>
+                                updateSearchParams(
+                                  params =>
+                                    d ? { ...params, 'end-date': d.format('YYYY-MM-DD') } : omit(params, ['end-date']),
+                                  true,
+                                )
+                              }
                             />
                           </div>
                         </div>
@@ -145,28 +163,40 @@ const ExportTransactions = () => {
                     ),
                   },
                   {
-                    label: i18n.t('export_transactions.block_number'),
+                    label: t('export_transactions.block_number'),
                     key: 'height',
                     children: (
                       <div className={styles.dateOrBlockPanel}>
                         <div>
                           <div>
-                            <div>{i18n.t('export_transactions.from_block')}</div>
+                            <div>{t('export_transactions.from_block')}</div>
                             <InputNumber
                               size="large"
                               prefix={<BlockIcon />}
-                              value={startHeight}
+                              value={fromHeight}
                               parser={t => (t ? parseInt(t.replace(/\D+/g, ''), 10) : 0)}
-                              onChange={h => setStartHeight(h)}
+                              onChange={h =>
+                                updateSearchParams(
+                                  params =>
+                                    h ? { ...params, 'from-height': h.toString() } : omit(params, ['from-height']),
+                                  true,
+                                )
+                              }
                             />
                           </div>
                           <div>
-                            <div>{i18n.t('export_transactions.to_block')}</div>
+                            <div>{t('export_transactions.to_block')}</div>
                             <InputNumber
                               size="large"
                               prefix={<BlockIcon />}
-                              value={endHeight}
-                              onChange={h => setEndHeight(h)}
+                              value={toHeight}
+                              onChange={h =>
+                                updateSearchParams(
+                                  params =>
+                                    h ? { ...params, 'to-height': h.toString() } : omit(params, ['to-height']),
+                                  true,
+                                )
+                              }
                             />
                           </div>
                         </div>
@@ -179,27 +209,27 @@ const ExportTransactions = () => {
           </div>
         </div>
         <div className={styles.note}>
-          <div>{i18n.t('export_transactions.note_str')}</div>
+          <div>{t('export_transactions.note_str')}</div>
         </div>
         <div className={styles.hint}>
           <div>
             <div
               className={classNames({
-                [styles.successHint]: hintType === 'success',
-                [styles.errorHint]: hintType === 'error',
-                [styles.noHint]: hintType === undefined,
+                [styles.successHint]: hint.type === 'success',
+                [styles.errorHint]: hint.type === 'error',
+                [styles.noHint]: hint.type === undefined,
               })}
             >
-              {hintType === 'error' && <ErrorIcon />}
-              {hintType === 'success' && <SuccessIcon />}
-              <div>{hint}</div>
+              {hint.type === 'error' && <ErrorIcon />}
+              {hint.type === 'success' && <SuccessIcon />}
+              <div>{hint.msg}</div>
             </div>
           </div>
         </div>
         <div className={styles.downloadButton}>
           <div>
             <button type="button" onClick={handleDownload}>
-              {i18n.t('export_transactions.download')}
+              {t('export_transactions.download')}
             </button>
           </div>
         </div>

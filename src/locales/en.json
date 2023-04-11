@@ -533,9 +533,11 @@
       "please_pick_date": "please pick start date and end date!",
       "error_date_order": "end date should be after than start date!",
       "download_processed": "Your download is being processed!",
-      "please_input_block_number": "please input start block number and end block number!",
-      "error_block_number_order": "end block number should be higher than start block number!",
-      "too_many_blocks": "The selected range exceeds 5,000 blocks, please re-enter the block numbers!"
+      "please_input_block_number": "please input `from block number` and `to block number`!",
+      "error_block_number_order": "`to block number` should be higher than `from block number`!",
+      "block_number_should_be_positive": "block number should be positive",
+      "too_many_blocks": "The selected range exceeds 5,000 blocks, please re-enter the block numbers!",
+      "fetch_processed_export_link_error": "fetch processed export link error"
     }
   }
 }

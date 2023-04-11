@@ -2,7 +2,6 @@ import axios, { AxiosResponse } from 'axios'
 import { useState, useEffect, FC } from 'react'
 import { useQuery } from 'react-query'
 import { Radio } from 'antd'
-import { useHistory } from 'react-router'
 import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
@@ -314,7 +313,6 @@ export const AddressTransactions = ({
   addressInfo: State.Address
 }) => {
   const isMobile = useIsMobile()
-  const history = useHistory()
   const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
   const searchParams = useSearchParams('layout')
   const defaultLayout = 'professional'
@@ -398,10 +396,10 @@ export const AddressTransactions = ({
       {totalPages > 1 && (
         <AddressTransactionsPagination>
           <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
-          <div onClick={() => history.push('/export-transactions', { format: 'address' })} aria-hidden>
+          <a href="/export-transactions?format=address" target="_blank">
             <div>CSV Export</div>
             <ExportIcon />
-          </div>
+          </a>
         </AddressTransactionsPagination>
       )}
     </>

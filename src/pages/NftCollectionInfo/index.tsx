@@ -185,10 +185,10 @@ const NftCollectionInfo = () => {
                 totalPages={transferListRes?.data.pagination.last ?? 1}
                 onChange={handlePageChange}
               />
-              <div onClick={() => history.push('/export-transactions', { format: 'nft' })} aria-hidden>
+              <a href="/export-transactions?format=nft" target="_blank">
                 <div>CSV Export</div>
                 <ExportIcon />
-              </div>
+              </a>
             </div>
           </>
         ) : null}

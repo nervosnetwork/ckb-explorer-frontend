@@ -534,7 +534,9 @@
       "download_processed": "您的下载请求已被处理!",
       "please_input_block_number": "请输入起始块高和目标块高!",
       "error_block_number_order": "目标块高不应该小于起始块高!",
-      "too_many_blocks": "选择的范围超过了 5,000 个区块, 请重新输入区块高度!"
+      "block_number_should_be_positive": "块高应该输入正数!",
+      "too_many_blocks": "选择的范围超过了 5,000 个区块, 请重新输入区块高度!",
+      "fetch_processed_export_link_error": "获取已处理的导出链接失败"
     }
   }
 }
