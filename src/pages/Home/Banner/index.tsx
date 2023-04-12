@@ -4,7 +4,7 @@ import { BannerRender, createBannerRender } from './render'
 import styles from './index.module.scss'
 import { useIsMobile, usePrevious } from '../../../utils/hook'
 import BannerFallback from '../../../components/BannerFallback'
-import { createPioneerRender } from './pioneerRender'
+import { renderTinyTestScene } from './tinyTestScene'
 
 // eslint-disable-next-line no-underscore-dangle
 const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
@@ -16,9 +16,14 @@ const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
     const container = ref.current
     if (!container) return
     try {
-      let r: BannerRender
-      createPioneerRender(container, setRender, () => createBannerRender(container))
-      return () => r && r.destroy()
+      const testRenderTime = renderTinyTestScene(container)
+      // eslint-disable-next-line no-console
+      console.log(testRenderTime)
+      if (testRenderTime < 160) {
+        const r = createBannerRender(container)
+        setRender(r)
+        return () => r.destroy()
+      }
     } catch (e) {
       if (e instanceof Error) {
         console.error(e.message)
