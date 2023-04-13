@@ -2,6 +2,7 @@
 
 body {
   --primary-color: #00cc9b;
+  --primary-hover-bg-color: #e8fff1;
   --navbar-height: 64px;
   margin: 0;
   padding: 0;
@@ -13,6 +14,7 @@ body {
 
 body[data-chain-type='testnet'] {
   --primary-color: #9a2cec;
+  --primary-hover-bg-color: #eeeafc;
 }
 
 * {

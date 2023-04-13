@@ -435,7 +435,10 @@
       "created_time": "创建时间",
       "tokens_empty": "目前没有代币。",
       "unverified": "未验证",
-      "view-deprecated-address": "查看旧地址"
+      "view-deprecated-address": "查看旧地址",
+      "view_mint_txns": "查看铸币交易",
+      "view_transfer_txns": "查看转帐交易",
+      "view_burn_txns": "查看销币交易"
     },
     "nft": {
       "nft_collection": "NFT 藏品",
@@ -468,7 +471,8 @@
       },
       "owner": "持有人",
       "activity": "活动",
-      "toggle-age": "切换时间格式"
+      "toggle-age": "切换时间格式",
+      "all_type": "所有类型"
     },
     "script_list": {
       "title": "脚本",

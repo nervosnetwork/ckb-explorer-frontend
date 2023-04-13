@@ -107,6 +107,62 @@
   .noRecord {
     text-align: center;
   }
+
+  .buttonIcon {
+    cursor: pointer;
+  }
+
+  .activeIcon {
+    color: var(--primary-color);
+  }
+}
+
+.filterPop {
+  :global {
+    .ant-popover-content {
+      .ant-popover-arrow {
+        display: none;
+      }
+    }
+    .ant-popover-inner-content {
+      border-radius: 8px;
+      padding: 14px 15px 14px 16px;
+
+      @media (max-width: 750px) {
+        padding: 14px 15px 14px 8px !important;
+      }
+
+      > div {
+        width: 200px;
+        > button {
+          margin: 0;
+          border: none;
+          outline: none;
+          width: 100%;
+          background-color: transparent;
+          padding: 10px 0 10px 8px;
+          border-radius: 8px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          &:hover {
+            background: var(--primary-hover-bg-color);
+            color: var(--primary-color);
+            cursor: pointer;
+          }
+          > div:last-child {
+            height: 16px;
+            width: 16px;
+            margin-left: 10px;
+            path {
+              fill: var(--primary-color);
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .holder_and_minted_header {
