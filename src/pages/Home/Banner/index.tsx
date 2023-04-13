@@ -17,7 +17,7 @@ const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
     if (!container) return
     try {
       const testRenderTime = renderTinyTestScene(container)
-      if (testRenderTime < 160) {
+      if (testRenderTime < 120) {
         const r = createBannerRender(container)
         setRender(r)
         return () => r.destroy()

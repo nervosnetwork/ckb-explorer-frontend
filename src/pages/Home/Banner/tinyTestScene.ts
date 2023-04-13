@@ -7,7 +7,6 @@ import { assert } from '../../../utils/error'
 import { createTextCubes } from './render'
 
 export function renderTinyTestScene(container: HTMLElement) {
-  const startTime = Date.now()
   const scene = new Scene()
   // The following number constants are from the design draft.
   const camera = new OrthographicCamera()
@@ -44,6 +43,7 @@ export function renderTinyTestScene(container: HTMLElement) {
     bloomComposerCtl.render()
     finalComposer.render()
   }
+  const startRenderMark = performance.mark('start-render')
   render()
 
   function destroy() {
@@ -67,6 +67,8 @@ export function renderTinyTestScene(container: HTMLElement) {
 
     renderer.domElement.remove()
   }
+  const endRenderMark = performance.mark('end-render')
   destroy()
-  return Date.now() - startTime
+  const { duration } = performance.measure('renderMeasure', startRenderMark.name, endRenderMark.name)
+  return duration
 }
