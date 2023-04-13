@@ -17,8 +17,6 @@ const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
     if (!container) return
     try {
       const testRenderTime = renderTinyTestScene(container)
-      // eslint-disable-next-line no-console
-      console.log(testRenderTime)
       if (testRenderTime < 160) {
         const r = createBannerRender(container)
         setRender(r)
