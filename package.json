@@ -7,7 +7,7 @@
     "@nervosnetwork/ckb-sdk-utils": "0.103.1",
     "@sentry/react": "7.38.0",
     "@sentry/tracing": "7.38.0",
-    "antd": "^5.4.1",
+    "antd": "5.4.1",
     "axios": "0.21.4",
     "bignumber.js": "9.0.1",
     "camelcase": "7.0.0",
