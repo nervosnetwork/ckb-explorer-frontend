@@ -63,7 +63,7 @@ const getTableContentDataList = (block: State.Block, index: number, page: number
       content: localeNumberString(block.number),
     },
     {
-      width: isMaxW ? '18%' : '8%',
+      width: isMaxW ? '18%' : '11%',
       content: `${block.transactionsCount}`,
     },
     {
@@ -71,7 +71,7 @@ const getTableContentDataList = (block: State.Block, index: number, page: number
       content: blockReward,
     },
     {
-      width: isMaxW ? '33%' : '43%',
+      width: isMaxW ? '33%' : '40%',
       content: block.minerHash,
     },
     {
@@ -133,8 +133,8 @@ export default () => {
   const isMobile = useIsMobile()
   const isMaxW = useMediaQuery(`(max-width: 1111px)`)
 
-  const { sortBy, orderBy, sort, handleSortClick } = useSortParam<BlockListSortByType>(
-    s => s === 'height' || s === 'transactions' || s === 'reward',
+  const { sortBy, orderBy, sort, handleSortClick } = useSortParam<BlockListSortByType>(s =>
+    s ? ['height', 'transactions', 'reward'].includes(s) : false,
   )
 
   const [t] = useTranslation()
@@ -147,7 +147,7 @@ export default () => {
       },
       {
         title: t('home.transactions'),
-        width: isMaxW ? '18%' : '8%',
+        width: isMaxW ? '18%' : '11%',
         sortRule: 'transactions',
       },
       {
@@ -157,7 +157,7 @@ export default () => {
       },
       {
         title: t('block.miner'),
-        width: isMaxW ? '33%' : '43%',
+        width: isMaxW ? '33%' : '40%',
       },
       {
         title: t('home.time'),

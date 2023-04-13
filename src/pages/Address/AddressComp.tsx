@@ -350,16 +350,20 @@ export const AddressTransactions = ({
   }
 
   const handleTimeSort = () => {
-    updateSearchParams(params =>
-      timeOrderBy === 'asc' ? omit(params, ['sort', 'tx_type']) : omit({ ...params, sort: 'time' }, ['tx_type']),
+    updateSearchParams(
+      params =>
+        timeOrderBy === 'asc' ? omit(params, ['sort', 'tx_type']) : omit({ ...params, sort: 'time' }, ['tx_type']),
+      true,
     )
   }
 
   const handleFilterClick = (filterType: TxTypeType) => {
-    updateSearchParams(params =>
-      filterType === txTypeFilter
-        ? omit(params, ['sort', 'tx_type'])
-        : omit({ ...params, tx_type: filterType }, ['sort']),
+    updateSearchParams(
+      params =>
+        filterType === txTypeFilter
+          ? omit(params, ['sort', 'tx_type'])
+          : omit({ ...params, tx_type: filterType }, ['sort']),
+      true,
     )
   }
 

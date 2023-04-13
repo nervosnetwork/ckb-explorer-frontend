@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
+import classNames from 'classnames'
+import { Popover } from 'antd'
 import SimpleUDTHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
 import { useDispatch } from '../../contexts/providers/index'
@@ -9,7 +11,7 @@ import { getTipBlockNumber } from '../../service/app/address'
 import i18n from '../../utils/i18n'
 import { SimpleUDTContentPanel, UDTTransactionTitlePanel, TypeScriptController } from './styled'
 import SimpleUDTComp, { SimpleUDTOverview } from './SimpleUDTComp'
-import { usePaginationParamsInPage } from '../../utils/hook'
+import { useIsMobile, usePaginationParamsInPage, useSearchParams, useUpdateSearchParams } from '../../utils/hook'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
@@ -29,6 +31,10 @@ import { deprecatedAddrToNewAddr } from '../../utils/util'
 import { QueryResult } from '../../components/QueryResult'
 import { PageParams } from '../../constants/common'
 import { defaultUDTInfo } from './state'
+import { ReactComponent as FilterIcon } from '../../assets/filter_icon.svg'
+import { ReactComponent as SelectedCheckIcon } from '../../assets/selected_check_icon.svg'
+import styles from './styles.module.scss'
+import { omit } from '../../utils/object'
 
 const FILTER_COUNT = 100
 
@@ -39,12 +45,23 @@ const typeScriptIcon = (show: boolean) => {
   return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
 }
 
+export type TxTypeType = 'mint' | 'transfer' | 'burn' | undefined
+
+function isTxFilterType(s?: string): s is TxTypeType {
+  return s ? ['mint', 'transfer', 'burn'].includes(s) : false
+}
+
 export const SimpleUDT = () => {
+  const isMobile = useIsMobile()
   const dispatch = useDispatch()
   const [t] = useTranslation()
   const [showType, setShowType] = useState(false)
   const { hash: typeHash } = useParams<{ hash: string }>()
   const { currentPage, pageSize, setPage, setPageSize } = usePaginationParamsInPage()
+
+  const { tx_type: txTypeFilterParam } = useSearchParams('tx_type')
+
+  const txTypeFilter = isTxFilterType(txTypeFilterParam) ? txTypeFilterParam : undefined
 
   useEffect(() => {
     getTipBlockNumber(dispatch)
@@ -98,6 +115,30 @@ export const SimpleUDT = () => {
   const total = querySimpleUDTTransactions.data?.total ?? 0
   const filterNoResult = filtering && (isInvalidFilter || querySimpleUDTTransactions.isError)
 
+  const filterList: { value: TxTypeType; title: string }[] = [
+    {
+      value: 'mint',
+      title: i18n.t('udt.view_mint_txns'),
+    },
+    {
+      value: 'transfer',
+      title: i18n.t('udt.view_transfer_txns'),
+    },
+    {
+      value: 'burn',
+      title: i18n.t('udt.view_burn_txns'),
+    },
+  ]
+
+  const updateSearchParams = useUpdateSearchParams<'tx_type'>()
+
+  const handleFilterClick = (filterType: TxTypeType) => {
+    updateSearchParams(
+      params => (filterType === txTypeFilter ? omit(params, ['tx_type']) : { ...params, tx_type: filterType }),
+      true,
+    )
+  }
+
   return (
     <Content>
       <SimpleUDTContentPanel className="container">
@@ -120,20 +161,41 @@ export const SimpleUDT = () => {
             <div className="udt__transaction__title">
               {`${t('transaction.transactions')} (${localeNumberString(total)})`}
             </div>
-            <Filter
-              showReset={filtering}
-              placeholder={t('udt.search_placeholder')}
-              onFilter={query => {
-                setPage(1)
-                setPageSize(FILTER_COUNT)
-                setFilterText(query)
-              }}
-              onReset={() => {
-                setPage(1)
-                setPageSize(PageParams.PageSize)
-                setFilterText(undefined)
-              }}
-            />
+            <div className={styles.searchAndfilter}>
+              <Filter
+                showReset={filtering}
+                placeholder={t('udt.search_placeholder')}
+                onFilter={query => {
+                  setPage(1)
+                  setPageSize(FILTER_COUNT)
+                  setFilterText(query)
+                }}
+                onReset={() => {
+                  setPage(1)
+                  setPageSize(PageParams.PageSize)
+                  setFilterText(undefined)
+                }}
+              />
+              <div className={classNames({ [styles.activeIcon]: txTypeFilter })}>
+                <Popover
+                  placement={isMobile ? 'bottomRight' : 'bottomLeft'}
+                  trigger={isMobile ? 'click' : 'hover'}
+                  overlayClassName={styles.filterPop}
+                  content={
+                    <div>
+                      {filterList.map(f => (
+                        <button type="button" onClick={() => handleFilterClick(f.value)}>
+                          <div>{f.title}</div>
+                          <div>{f.value === txTypeFilter && <SelectedCheckIcon />}</div>
+                        </button>
+                      ))}
+                    </div>
+                  }
+                >
+                  <FilterIcon />
+                </Popover>
+              </div>
+            </div>
           </div>
         </UDTTransactionTitlePanel>
 

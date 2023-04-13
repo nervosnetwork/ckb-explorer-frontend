@@ -57,6 +57,7 @@
     display: flex;
     align-items: center;
     padding: 0 12px;
+    cursor: pointer;
   }
 
   .activeIcon {
@@ -95,7 +96,7 @@
           justify-content: space-between;
           align-items: center;
           &:hover {
-            background: #E8FFF1;
+            background: var(--primary-hover-bg-color);
             color: var(--primary-color);
             cursor: pointer;
           }

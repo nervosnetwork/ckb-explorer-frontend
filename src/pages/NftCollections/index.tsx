@@ -2,7 +2,7 @@ import type { AxiosResponse } from 'axios'
 import { useHistory, Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
-import { Tooltip } from 'antd'
+import { Popover, Tooltip } from 'antd'
 import classNames from 'classnames'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
@@ -11,10 +11,17 @@ import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import { handleNftImgError, patchMibaoImg, udtSubmitEmail } from '../../utils/util'
 import { getPrimaryColor } from '../../constants/common'
-import { useSearchParams, useSortParam, useUpdateSearchParams } from '../../utils/hook'
+import { useIsMobile, useSearchParams, useSortParam, useUpdateSearchParams } from '../../utils/hook'
 import { omit } from '../../utils/object'
+import { ReactComponent as SelectedCheckIcon } from '../../assets/selected_check_icon.svg'
 
 const primaryColor = getPrimaryColor()
+
+type TxTypeType = 'all' | 'mnft' | 'nrc721' | 'cota' | undefined
+
+function isTxFilterType(s?: string): s is TxTypeType {
+  return s ? ['all', 'mnft', 'nrc721', 'cota'].includes(s) : false
+}
 
 type NftSortByType = 'holder' | 'minted'
 
@@ -42,11 +49,33 @@ interface Res {
 const submitTokenInfoUrl = udtSubmitEmail()
 
 const NftCollections = () => {
+  const isMobile = useIsMobile()
   const history = useHistory()
-  const { page = '1' } = useSearchParams('page')
+  const { page = '1', tx_type: txTypeFilterParam } = useSearchParams('page', 'tx_type')
 
-  const updateSearchParams = useUpdateSearchParams<'sort' | 'page'>()
-  const { sortBy, sort } = useSortParam<NftSortByType>(s => s === 'holder' || s === 'minted')
+  const txTypeFilter = isTxFilterType(txTypeFilterParam) ? txTypeFilterParam : undefined
+
+  const filterList: { value: TxTypeType; title: string }[] = [
+    {
+      value: 'all',
+      title: i18n.t('nft.all_type'),
+    },
+    {
+      value: 'mnft',
+      title: i18n.t('nft.m_nft'),
+    },
+    {
+      value: 'nrc721',
+      title: i18n.t('nft.nrc_721'),
+    },
+    {
+      value: 'cota',
+      title: i18n.t('nft.cota'),
+    },
+  ]
+
+  const updateSearchParams = useUpdateSearchParams<'sort' | 'page' | 'tx_type'>()
+  const { sortBy = 'holder', sort = 'holder' } = useSortParam<NftSortByType>(s => s === 'holder' || s === 'minted')
 
   const { isLoading, data } = useQuery<AxiosResponse<Res>>(['nft-collections', page, sort], () =>
     v2AxiosIns('nft/collections', {
@@ -58,11 +87,7 @@ const NftCollections = () => {
   )
 
   const handleSortClick = (sortRule: NftSortByType) => {
-    if (sortBy === sortRule) {
-      updateSearchParams(params => omit(params, ['sort', 'page']))
-    } else {
-      updateSearchParams(params => omit({ ...params, sort: sortRule }, ['page']))
-    }
+    updateSearchParams(params => omit({ ...params, sort: sortRule }, ['page', 'tx_type']))
   }
 
   const handlePageChange = (pageNo: number) => {
@@ -70,6 +95,16 @@ const NftCollections = () => {
       return
     }
     history.push(`/nft-collections?page=${pageNo}`)
+  }
+
+  const handleFilterClick = (filterType: TxTypeType) => {
+    updateSearchParams(
+      params =>
+        filterType === txTypeFilter
+          ? omit(params, ['sort', 'tx_type'])
+          : omit({ ...params, tx_type: filterType }, ['sort']),
+      true,
+    )
   }
 
   return (
@@ -93,7 +128,27 @@ const NftCollections = () => {
             <thead>
               <tr>
                 <th>{i18n.t('nft.collection_name')}</th>
-                <th>{i18n.t('nft.standard')}</th>
+                <th>
+                  <div className={classNames({ [styles.activeIcon]: txTypeFilter }, styles.buttonIcon)}>
+                    <Popover
+                      placement={isMobile ? 'bottomRight' : 'bottomLeft'}
+                      trigger={isMobile ? 'click' : 'hover'}
+                      overlayClassName={styles.filterPop}
+                      content={
+                        <div>
+                          {filterList.map(f => (
+                            <button type="button" onClick={() => handleFilterClick(f.value)}>
+                              <div>{f.title}</div>
+                              <div>{f.value === txTypeFilter && <SelectedCheckIcon />}</div>
+                            </button>
+                          ))}
+                        </div>
+                      }
+                    >
+                      {i18n.t('nft.standard')}
+                    </Popover>
+                  </div>
+                </th>
                 <th className={styles.holder_and_minted_header}>
                   <span
                     className={classNames({

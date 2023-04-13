@@ -435,7 +435,10 @@
       "created_time": "Created Time",
       "tokens_empty": "There are no tokens at this time.",
       "unverified": "Unverified",
-      "view-deprecated-address": "View deprecated address"
+      "view-deprecated-address": "View deprecated address",
+      "view_mint_txns": "view Mint Txns",
+      "view_transfer_txns": "view Transfer Txns",
+      "view_burn_txns": "view Burn Txns"
     },
     "nft": {
       "nft_collection": "NFT Collection",
@@ -468,7 +471,8 @@
         "destruction": "Burn"
       },
       "activity": "Activity",
-      "toggle-age": "Switch time format"
+      "toggle-age": "Switch time format",
+      "all_type": "All Type"
     },
     "script_list": {
       "title": "Scripts",
