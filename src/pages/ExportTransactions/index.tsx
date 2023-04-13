@@ -131,8 +131,6 @@ const ExportTransactions = () => {
                               locale={locale}
                               value={startDate}
                               onChange={d => {
-                                // eslint-disable-next-line no-console
-                                console.log(d)
                                 updateSearchParams(
                                   params =>
                                     d
