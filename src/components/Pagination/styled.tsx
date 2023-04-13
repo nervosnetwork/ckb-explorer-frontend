@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const PaginationPanel = styled.div`
   display: flex;
-  flex: 6;
+  flex: 1 0.8 auto;
   width: 100%;
   height: 50px;
   background: white;
@@ -10,7 +10,6 @@ export const PaginationPanel = styled.div`
   justify-content: center;
   border-radius: 0 0 6px 6px;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
-  background-color: #ffffff;
 
   @media (max-width: 750px) {
     margin-bottom: 30px;

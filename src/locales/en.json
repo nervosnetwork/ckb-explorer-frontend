@@ -518,6 +518,7 @@
       "count": "Count"
     },
     "export_transactions": {
+      "csv_export": "CSV Export",
       "download_data": "Download Data",
       "transactions": "Transactions",
       "description_str": "The information you requested can be downloaded from this page. Before continuing please verify that you are not a robot by completing the captcha below.",
@@ -537,6 +538,7 @@
       "error_block_number_order": "`to block number` should be higher than `from block number`!",
       "block_number_should_be_positive": "block number should be positive",
       "too_many_blocks": "The selected range exceeds 5,000 blocks, please re-enter the block numbers!",
+      "fetch_processed_export_link_empty": "fetch processed export link empty",
       "fetch_processed_export_link_error": "fetch processed export link error"
     }
   }

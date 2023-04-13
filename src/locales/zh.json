@@ -517,6 +517,7 @@
       "count": "数量"
     },
     "export_transactions": {
+      "csv_export": "CSV导出",
       "download_data": "下载数据",
       "transactions": "交易",
       "description_str": "您请求的信息可以从该页面下载。 在继续之前，请通过填写下面的验证码来验证您不是机器人。",
@@ -536,6 +537,7 @@
       "error_block_number_order": "目标块高不应该小于起始块高!",
       "block_number_should_be_positive": "块高应该输入正数!",
       "too_many_blocks": "选择的范围超过了 5,000 个区块, 请重新输入区块高度!",
+      "fetch_processed_export_link_empty": "获取已处理的导出链接为空",
       "fetch_processed_export_link_error": "获取已处理的导出链接失败"
     }
   }

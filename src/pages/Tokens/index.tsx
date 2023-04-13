@@ -2,7 +2,6 @@ import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import Content from '../../components/Content'
-import Pagination from '../../components/Pagination'
 import {
   TokensPanel,
   TokensTableTitle,
@@ -12,7 +11,6 @@ import {
   TokensLoadingPanel,
   TokensTitlePanel,
   TokensItemNamePanel,
-  TokensPagination,
 } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
 import { parseDateNoTime } from '../../utils/date'
@@ -26,7 +24,8 @@ import styles from './styles.module.scss'
 import { useIsMobile, usePaginationParamsInPage } from '../../utils/hook'
 import { fetchTokens } from '../../service/http/fetcher'
 import { QueryResult } from '../../components/QueryResult'
-import { ReactComponent as ExportIcon } from '../../assets/export_icon.svg'
+import { CsvExport } from '../../components/CsvExport'
+import PaginationWithRear from '../../components/PaginationWithRear'
 
 const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) => {
   const { displayName, fullName, uan } = token
@@ -144,15 +143,12 @@ export default () => {
           )}
         </QueryResult>
 
-        {totalPages > 1 && (
-          <TokensPagination>
-            <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
-            <a href="/export-transactions?format=token" target="_blank">
-              <div>CSV Export</div>
-              <ExportIcon />
-            </a>
-          </TokensPagination>
-        )}
+        <PaginationWithRear
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onChange={setPage}
+          rear={<CsvExport type="token" />}
+        />
       </TokensPanel>
     </Content>
   )

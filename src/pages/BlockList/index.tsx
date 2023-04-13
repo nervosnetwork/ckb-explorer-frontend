@@ -11,14 +11,14 @@ import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
 import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
 import i18n from '../../utils/i18n'
-import Pagination from '../../components/Pagination'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
 import AddressText from '../../components/AddressText'
 import { useIsMobile, usePaginationParamsInListPage } from '../../utils/hook'
 import { fetchBlocks } from '../../service/http/fetcher'
 import { RouteState } from '../../routes/state'
-import { ReactComponent as ExportIcon } from '../../assets/export_icon.svg'
+import { CsvExport } from '../../components/CsvExport'
+import PaginationWithRear from '../../components/PaginationWithRear'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
   <HighLightValue>
@@ -221,13 +221,12 @@ export default () => {
             )}
           </ContentTable>
         )}
-        <div className="block_list__pagination">
-          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
-          <a href="/export-transactions?format=block" target="_blank">
-            <div>CSV Export</div>
-            <ExportIcon />
-          </a>
-        </div>
+        <PaginationWithRear
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onChange={setPage}
+          rear={<CsvExport type="block" />}
+        />
       </BlockListPanel>
     </Content>
   )

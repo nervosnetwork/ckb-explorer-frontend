@@ -2,15 +2,14 @@ import { useMemo } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ThemeProvider } from 'styled-components'
 import 'antd/dist/reset.css'
-import dayjs from 'dayjs'
-import weekday from 'dayjs/plugin/weekday'
-import localeData from 'dayjs/plugin/localeData'
+import { ConfigProvider } from 'antd'
 import Routers from './routes'
 import Toast from './components/Toast'
 import withProviders, { useAppState } from './contexts/providers'
 import useInitApp from './contexts/providers/hook'
 import { isMainnet } from './utils/chain'
 import { DASQueryContextProvider } from './contexts/providers/dasQuery'
+import { getPrimaryColor } from './constants/common'
 
 const appStyle = {
   width: '100vw',
@@ -22,8 +21,6 @@ const queryClient = new QueryClient()
 
 const App = withProviders(() => {
   useInitApp()
-  dayjs.extend(weekday)
-  dayjs.extend(localeData)
   const { app } = useAppState()
   const theme = useMemo(
     () => ({
@@ -33,16 +30,24 @@ const App = withProviders(() => {
     [app.primaryColor, app.secondaryColor],
   )
 
+  const antdTheme = {
+    token: {
+      colorPrimary: getPrimaryColor(),
+    },
+  }
+
   return (
     <ThemeProvider theme={theme}>
-      <div style={appStyle} data-net={isMainnet() ? 'mainnet' : 'testnet'}>
-        <QueryClientProvider client={queryClient}>
-          <DASQueryContextProvider>
-            <Routers />
-            <Toast />
-          </DASQueryContextProvider>
-        </QueryClientProvider>
-      </div>
+      <ConfigProvider theme={antdTheme}>
+        <div style={appStyle} data-net={isMainnet() ? 'mainnet' : 'testnet'}>
+          <QueryClientProvider client={queryClient}>
+            <DASQueryContextProvider>
+              <Routers />
+              <Toast />
+            </DASQueryContextProvider>
+          </QueryClientProvider>
+        </div>
+      </ConfigProvider>
     </ThemeProvider>
   )
 })

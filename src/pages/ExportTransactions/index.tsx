@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import { useState } from 'react'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
+import type { RangePickerProps } from 'antd/es/date-picker'
 import { useSearchParams, useUpdateSearchParams } from '../../utils/hook'
 import Content from '../../components/Content'
 import styles from './styles.module.scss'
@@ -22,27 +23,38 @@ const ExportTransactions = () => {
   const locale = language === 'zh' ? cnLocale.default : enLocale.default
 
   const {
-    format,
-    tab: tabStr,
+    type,
+    address,
+    nft,
+    tab = 'date',
     'start-date': startDateStr,
     'end-date': endDateStr,
     'from-height': fromHeightStr,
     'to-height': toHeightStr,
-  } = useSearchParams('format', 'tab', 'start-date', 'end-date', 'from-height', 'to-height')
-
-  const defaultTab = 'date'
-
-  const tab = tabStr && ['date', 'height'].includes(tabStr) ? tabStr : defaultTab
+  } = useSearchParams('type', 'address', 'nft', 'tab', 'start-date', 'end-date', 'from-height', 'to-height')
 
   const startDate = tab === 'date' && startDateStr ? dayjs(startDateStr) : undefined
   const endDate = tab === 'date' && endDateStr ? dayjs(endDateStr) : undefined
 
-  const fromHeight = tab === 'height' && fromHeightStr ? parseInt(fromHeightStr, 10) : undefined
-  const toHeight = tab === 'height' && toHeightStr ? parseInt(toHeightStr, 10) : undefined
+  const fromHeight =
+    tab === 'height' && fromHeightStr && /^[1-9]\d*$/.test(fromHeightStr) ? parseInt(fromHeightStr, 10) : undefined
+  const toHeight =
+    tab === 'height' && toHeightStr && /^[1-9]\d*$/.test(toHeightStr) ? parseInt(toHeightStr, 10) : undefined
 
   const updateSearchParams = useUpdateSearchParams<
-    'format' | 'tab' | 'start-date' | 'end-date' | 'from-height' | 'to-height'
+    'type' | 'tab' | 'start-date' | 'end-date' | 'from-height' | 'to-height'
   >()
+
+  if (!['date', 'height'].includes(tab)) {
+    updateSearchParams(params => ({ ...params, tab: 'date' }), true)
+  }
+
+  if (tab === 'date') {
+    const now = dayjs().endOf('day')
+    if ((startDate && startDate > now) || (endDate && endDate > now) || (startDate && endDate && startDate > endDate)) {
+      updateSearchParams(params => omit(params, ['start-date', 'end-date']), true)
+    }
+  }
 
   const [hint, setHint] = useState<{ type: 'success' | 'error' | undefined; msg?: string }>({
     type: undefined,
@@ -52,6 +64,20 @@ const ExportTransactions = () => {
   const handleTabChange = (tab?: string) => {
     updateSearchParams(params => omit({ ...params, tab }, ['start-date', 'end-date', 'from-height', 'to-height']), true)
     setHint({ type: undefined })
+  }
+
+  const disabledStartDate: RangePickerProps['disabledDate'] = current => {
+    return (
+      (current && current > dayjs().endOf('day')) || (current && endDate && current >= endDate.endOf('day')) || false
+    )
+  }
+
+  const disabledEndDate: RangePickerProps['disabledDate'] = current => {
+    return (
+      (current && current > dayjs().endOf('day')) ||
+      (current && startDate && current <= startDate.endOf('day')) ||
+      false
+    )
   }
 
   const handleDownload = () => {
@@ -84,11 +110,16 @@ const ExportTransactions = () => {
       }
     }
     setHint({ type: 'success', msg: t('export_transactions.download_processed') })
-    exportTransactions({ startDate, endDate, fromHeight, toHeight, format }).then(
-      (resp: Response.Response<string> | null) => {
-        if (resp && !resp.error) {
-          window.open(resp.data, '_blank', 'noopener, noreferrer')
-        } else {
+    exportTransactions({ startDate, endDate, fromHeight, toHeight, type, address, nft })
+      .then((resp: Response.Response<string> | null) => {
+        if (!resp || !resp.data) {
+          setHint({
+            type: 'error',
+            msg: t('export_transactions.fetch_processed_export_link_empty'),
+          })
+          return
+        }
+        if (resp.error) {
           setHint({
             type: 'error',
             msg: `${t('export_transactions.fetch_processed_export_link_error')}: ${
@@ -96,13 +127,19 @@ const ExportTransactions = () => {
             }`,
           })
         }
-      },
-    )
+        window.open(resp.data, '_blank', 'noopener, noreferrer')
+      })
+      .catch(reason => {
+        setHint({
+          type: 'error',
+          msg: `${t('export_transactions.fetch_processed_export_link_error')}: ${reason}`,
+        })
+      })
   }
 
   return (
     <Content>
-      <div className="container">
+      <div className={classNames('container', styles.containerPanel)}>
         <div className={styles.title}>
           <span>{t('export_transactions.download_data')}</span>
           <span>({t('export_transactions.transactions')})</span>
@@ -110,8 +147,8 @@ const ExportTransactions = () => {
         <div className={styles.description}>
           <div>{t('export_transactions.description_str')}</div>
         </div>
-        <div className={styles.downloadPanel}>
-          <div>
+        <div className={styles.exportPanel}>
+          <div className={styles.exportHeader}>
             <div>{t('export_transactions.select_download_options')}</div>
             <div>
               <Tabs
@@ -123,39 +160,41 @@ const ExportTransactions = () => {
                     key: 'date',
                     children: (
                       <div className={styles.dateOrBlockPanel}>
-                        <div>
-                          <div>
-                            <div>{t('export_transactions.start_date')}</div>
-                            <DatePicker
-                              size="large"
-                              locale={locale}
-                              value={startDate}
-                              onChange={d => {
-                                updateSearchParams(
-                                  params =>
-                                    d
-                                      ? { ...params, 'start-date': d.format('YYYY-MM-DD') }
-                                      : omit(params, ['start-date']),
-                                  true,
-                                )
-                              }}
-                            />
-                          </div>
-                          <div>
-                            <div>{t('export_transactions.end_date')}</div>
-                            <DatePicker
-                              size="large"
-                              locale={locale}
-                              value={endDate}
-                              onChange={d =>
-                                updateSearchParams(
-                                  params =>
-                                    d ? { ...params, 'end-date': d.format('YYYY-MM-DD') } : omit(params, ['end-date']),
-                                  true,
-                                )
-                              }
-                            />
-                          </div>
+                        <div className={styles.datePickerPanel}>
+                          <div>{t('export_transactions.start_date')}</div>
+                          <DatePicker
+                            size="large"
+                            locale={locale}
+                            value={startDate}
+                            popupClassName={styles.calendar}
+                            disabledDate={disabledStartDate}
+                            onChange={d => {
+                              updateSearchParams(
+                                params =>
+                                  d
+                                    ? { ...params, 'start-date': d.format('YYYY-MM-DD') }
+                                    : omit(params, ['start-date']),
+                                true,
+                              )
+                            }}
+                          />
+                        </div>
+                        <div className={styles.datePickerPanel}>
+                          <div>{t('export_transactions.end_date')}</div>
+                          <DatePicker
+                            size="large"
+                            locale={locale}
+                            value={endDate}
+                            popupClassName={styles.calendar}
+                            disabledDate={disabledEndDate}
+                            onChange={d =>
+                              updateSearchParams(
+                                params =>
+                                  d ? { ...params, 'end-date': d.format('YYYY-MM-DD') } : omit(params, ['end-date']),
+                                true,
+                              )
+                            }
+                          />
                         </div>
                       </div>
                     ),
@@ -165,38 +204,35 @@ const ExportTransactions = () => {
                     key: 'height',
                     children: (
                       <div className={styles.dateOrBlockPanel}>
-                        <div>
-                          <div>
-                            <div>{t('export_transactions.from_block')}</div>
-                            <InputNumber
-                              size="large"
-                              prefix={<BlockIcon />}
-                              value={fromHeight}
-                              parser={t => (t ? parseInt(t.replace(/\D+/g, ''), 10) : 0)}
-                              onChange={h =>
-                                updateSearchParams(
-                                  params =>
-                                    h ? { ...params, 'from-height': h.toString() } : omit(params, ['from-height']),
-                                  true,
-                                )
-                              }
-                            />
-                          </div>
-                          <div>
-                            <div>{t('export_transactions.to_block')}</div>
-                            <InputNumber
-                              size="large"
-                              prefix={<BlockIcon />}
-                              value={toHeight}
-                              onChange={h =>
-                                updateSearchParams(
-                                  params =>
-                                    h ? { ...params, 'to-height': h.toString() } : omit(params, ['to-height']),
-                                  true,
-                                )
-                              }
-                            />
-                          </div>
+                        <div className={styles.heightInputPanel}>
+                          <div>{t('export_transactions.from_block')}</div>
+                          <InputNumber
+                            size="large"
+                            prefix={<BlockIcon />}
+                            value={fromHeight}
+                            parser={t => (t ? parseInt(t.replace(/\D+/g, ''), 10) : 0)}
+                            onChange={h =>
+                              updateSearchParams(
+                                params =>
+                                  h ? { ...params, 'from-height': h.toString() } : omit(params, ['from-height']),
+                                true,
+                              )
+                            }
+                          />
+                        </div>
+                        <div className={styles.heightInputPanel}>
+                          <div>{t('export_transactions.to_block')}</div>
+                          <InputNumber
+                            size="large"
+                            prefix={<BlockIcon />}
+                            value={toHeight}
+                            onChange={h =>
+                              updateSearchParams(
+                                params => (h ? { ...params, 'to-height': h.toString() } : omit(params, ['to-height'])),
+                                true,
+                              )
+                            }
+                          />
                         </div>
                       </div>
                     ),
@@ -205,12 +241,10 @@ const ExportTransactions = () => {
               />
             </div>
           </div>
-        </div>
-        <div className={styles.note}>
-          <div>{t('export_transactions.note_str')}</div>
-        </div>
-        <div className={styles.hint}>
-          <div>
+          <div className={styles.note}>
+            <div>{t('export_transactions.note_str')}</div>
+          </div>
+          <div className={styles.hint}>
             <div
               className={classNames({
                 [styles.successHint]: hint.type === 'success',
@@ -223,9 +257,7 @@ const ExportTransactions = () => {
               <div>{hint.msg}</div>
             </div>
           </div>
-        </div>
-        <div className={styles.downloadButton}>
-          <div>
+          <div className={styles.downloadButton}>
             <button type="button" onClick={handleDownload}>
               {t('export_transactions.download')}
             </button>

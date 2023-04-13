@@ -11,7 +11,8 @@ import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import NftCollectionInventory from '../../components/NftCollectionInventory'
 import { useSearchParams } from '../../utils/hook'
-import { ReactComponent as ExportIcon } from '../../assets/export_icon.svg'
+import { CsvExport } from '../../components/CsvExport'
+import PaginationWithRear from '../../components/PaginationWithRear'
 
 export interface InventoryRes {
   data: Array<{
@@ -179,17 +180,12 @@ const NftCollectionInfo = () => {
               isLoading={isTransferListLoading}
               collection={id}
             />
-            <div className={styles.paginationAndExport}>
-              <Pagination
-                currentPage={transferListRes?.data.pagination.page ?? 1}
-                totalPages={transferListRes?.data.pagination.last ?? 1}
-                onChange={handlePageChange}
-              />
-              <a href="/export-transactions?format=nft" target="_blank">
-                <div>CSV Export</div>
-                <ExportIcon />
-              </a>
-            </div>
+            <PaginationWithRear
+              currentPage={transferListRes?.data.pagination.page ?? 1}
+              totalPages={transferListRes?.data.pagination.last ?? 1}
+              onChange={handlePageChange}
+              rear={<CsvExport type="nft" nft={id} />}
+            />
           </>
         ) : null}
         {tab === tabs[1] ? (

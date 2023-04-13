@@ -438,13 +438,17 @@ export const exportTransactions = ({
   endDate,
   fromHeight,
   toHeight,
-  format,
+  type,
+  address,
+  nft,
 }: {
   startDate?: Dayjs
   endDate?: Dayjs
   fromHeight?: number
   toHeight?: number
-  format?: string
+  type?: string
+  address?: string
+  nft?: string
 }) =>
   v2AxiosIns
     .post('export_transactions', {
@@ -452,6 +456,8 @@ export const exportTransactions = ({
       end_date: endDate ? endDate.format('YYYY-MM-DD') : undefined,
       from_height: fromHeight,
       to_height: toHeight,
-      format,
+      type,
+      address,
+      nft,
     })
     .then(res => toCamelcase<Response.Response<string>>(res.data))

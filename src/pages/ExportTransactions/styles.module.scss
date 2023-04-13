@@ -1,3 +1,9 @@
+.containerPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .title {
   display: flex;
   justify-content: center;
@@ -35,16 +41,22 @@
   }
 }
 
-.downloadPanel {
+.exportPanel {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   margin-top: 24px;
+  width: 70%;
+  border-radius: 4px;
+  background: white;
 
   > div {
-    border-radius: 4px 4px 0 0;
-    background: white;
-    width: 70%;
-
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  .exportHeader {
+    flex-direction: column;
     > div:first-child {
       padding-top: 24px;
       padding-bottom: 12px;
@@ -54,57 +66,53 @@
       line-height: 19px;
       color: #333333;
     }
-  }
 
-  :global(div.ant-tabs-nav-wrap) {
-    justify-content: center;
-  }
+    :global(div.ant-tabs-nav-wrap) {
+      justify-content: center;
+    }
 
-  :global(div.ant-tabs-tab) {
-    width: 120px;
-    margin-left: 60px;
-    margin-right: 60px;
-    justify-content: center;
+    :global(div.ant-tabs-tab) {
+      width: 120px;
+      margin-left: 60px;
+      margin-right: 60px;
+      justify-content: center;
+      align-items: center;
+
+      @media (max-width: 750px) {
+        width: 80px;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    }
+
+    :global(div.ant-tabs-ink-bar) {
+      background: var(--primary-color);
+    }
+
+    :global(.ant-tabs-tab .ant-tabs-tab-btn) {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      color: #333333;
+    }
+
+    :global(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 16px;
+      color: #333333;
+    }
 
     @media (max-width: 750px) {
-      width: 80px;
-      margin-left: 10px;
-      margin-right: 10px;
+      margin-top: 12px;
     }
   }
 
-  :global(div.ant-tabs-ink-bar) {
-    background: var(--primary-color);
-  }
-
-  :global(.ant-tabs-tab .ant-tabs-tab-btn) {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 16px;
-    color: #333333;
-  }
-
-  :global(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 16px;
-    color: #333333;
-  }
-
-  @media (max-width: 750px) {
-    margin-top: 12px;
-  }
-}
-
-.dateOrBlockPanel {
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
-
-  > div {
+  .dateOrBlockPanel {
     display: flex;
     justify-content: center;
-    width: 80%;
+    align-items: center;
+    margin-top: 16px;
 
     @media (max-width: 750px) {
       flex-direction: column;
@@ -114,12 +122,13 @@
       }
     }
 
-    > div {
+    .datePickerPanel,
+    .heightInputPanel {
       margin-left: 24px;
       margin-right: 24px;
       display: flex;
       flex-direction: column;
-      width: 50%;
+      width: 40%;
 
       @media (max-width: 750px) {
         width: 80%;
@@ -128,6 +137,7 @@
       > div:first-child {
         margin-bottom: 14px;
       }
+
       > div:last-child {
         width: 100%;
 
@@ -136,41 +146,29 @@
         }
       }
     }
-  }
 
-  :global(.ant-picker-input) {
-    flex-direction: row-reverse;
+    :global(.ant-picker-input) {
+      flex-direction: row-reverse;
 
-    > input {
-      text-align: center;
+      > input {
+        text-align: center;
+      }
     }
   }
-}
 
-.note {
-  display: flex;
-  justify-content: center;
-
-  > div {
-    background: white;
-    width: 70%;
-    text-align: center;
-    padding-top: 56px;
-  }
-}
-
-.hint {
-  display: flex;
-  justify-content: center;
-
-  > div {
-    background: white;
-    width: 70%;
-    padding-top: 41px;
+  .note {
     display: flex;
     justify-content: center;
-    align-items: center;
 
+    > div {
+      background: white;
+      text-align: center;
+      padding-top: 56px;
+      padding-bottom: 41px;
+    }
+  }
+
+  .hint {
     > div {
       padding: 12px 32px;
       font-weight: 400;
@@ -200,21 +198,12 @@
       }
     }
   }
-}
 
-.downloadButton {
-  display: flex;
-  justify-content: center;
-
-  > div {
-    border-radius: 0 0 4px 4px;
-    background: white;
-    width: 70%;
-    text-align: center;
-    padding-top: 34px;
-    padding-bottom: 56px;
-
+  .downloadButton {
     > button {
+      text-align: center;
+      margin-top: 34px;
+      margin-bottom: 56px;
       background: var(--primary-color);
       color: white;
       border: none;
@@ -224,6 +213,18 @@
       font-weight: 400;
       font-size: 16px;
       line-height: 19px;
+    }
+  }
+}
+
+.calendar {
+  :global(.ant-picker-today-btn) {
+    color: var(--primary-color);
+    &:hover {
+      color: var(--primary-color);
+    }
+    &:active {
+      color: var(--primary-color);
     }
   }
 }
