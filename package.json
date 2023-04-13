@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@ant-design/icons": "^5.0.1",
+    "@ant-design/icons": "5.0.1",
     "@nervosnetwork/ckb-sdk-utils": "0.103.1",
     "@sentry/react": "7.38.0",
     "@sentry/tracing": "7.38.0",
