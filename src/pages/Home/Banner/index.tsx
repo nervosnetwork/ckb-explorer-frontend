@@ -7,7 +7,7 @@ import BannerFallback from '../../../components/BannerFallback'
 import { tinyTestSceneRender } from './tinyTestScene'
 
 // eslint-disable-next-line no-underscore-dangle
-const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
+const _Banner: FC<{ latestBlock?: State.Block; fallbackThreshold: number }> = ({ latestBlock, fallbackThreshold }) => {
   const isMobile = useIsMobile()
   const ref = useRef<HTMLDivElement>(null)
   const [render, setRender] = useState<BannerRender>()
@@ -19,7 +19,9 @@ const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
       // The `tinyTestSceneRender` is used to determine whether the performance of browser is sufficient to render the three.js animated banner
       // Related issue: https://github.com/Magickbase/ckb-explorer-public-issues/issues/218
       const testRenderTime = tinyTestSceneRender(container)
-      if (testRenderTime < 60) {
+      // eslint-disable-next-line no-console
+      console.log(`duration: ${testRenderTime} , threshold: ${fallbackThreshold}`)
+      if (testRenderTime < fallbackThreshold) {
         const r = createBannerRender(container)
         setRender(r)
         return () => r.destroy()
@@ -30,7 +32,7 @@ const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
       }
       // ignore
     }
-  }, [setRender])
+  }, [setRender, fallbackThreshold])
 
   const prevLatestBlock = usePrevious(latestBlock)
   useEffect(() => {

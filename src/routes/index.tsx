@@ -12,6 +12,15 @@ import { isChainTypeError } from '../utils/chain'
 import Alert from '../components/Alert'
 
 const Home = lazy(() => import('../pages/Home'))
+const Home30 = lazy(() => import('../pages/Home30'))
+const Home40 = lazy(() => import('../pages/Home40'))
+const Home50 = lazy(() => import('../pages/Home50'))
+const Home60 = lazy(() => import('../pages/Home60'))
+const Home70 = lazy(() => import('../pages/Home70'))
+const Home80 = lazy(() => import('../pages/Home80'))
+const Home90 = lazy(() => import('../pages/Home90'))
+const Home100 = lazy(() => import('../pages/Home100'))
+const Home110 = lazy(() => import('../pages/Home110'))
 const Block = lazy(() => import('../pages/BlockDetail'))
 const BlockList = lazy(() => import('../pages/BlockList'))
 const Transaction = lazy(() => import('../pages/Transaction'))
@@ -62,6 +71,60 @@ const Containers: CustomRouter.Route[] = [
     path: '/',
     exact: true,
     comp: Home,
+  },
+  {
+    name: 'Home30',
+    path: '/30',
+    exact: true,
+    comp: Home30,
+  },
+  {
+    name: 'Home40',
+    path: '/40',
+    exact: true,
+    comp: Home40,
+  },
+  {
+    name: 'Home50',
+    path: '/50',
+    exact: true,
+    comp: Home50,
+  },
+  {
+    name: 'Home60',
+    path: '/60',
+    exact: true,
+    comp: Home60,
+  },
+  {
+    name: 'Home70',
+    path: '/70',
+    exact: true,
+    comp: Home70,
+  },
+  {
+    name: 'Home80',
+    path: '/80',
+    exact: true,
+    comp: Home80,
+  },
+  {
+    name: 'Home90',
+    path: '/90',
+    exact: true,
+    comp: Home90,
+  },
+  {
+    name: 'Home100',
+    path: '/100',
+    exact: true,
+    comp: Home100,
+  },
+  {
+    name: 'Home110',
+    path: '/110',
+    exact: true,
+    comp: Home110,
   },
   {
     name: 'BlockList',

@@ -3,8 +3,6 @@ import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { useResizeDetector } from 'react-resize-detector'
-import { Link } from 'react-router-dom'
-import { Button } from 'antd'
 import {
   HomeHeaderItemPanel,
   BlockPanel,
@@ -13,7 +11,7 @@ import {
   HomeTablePanel,
   TransactionPanel,
   HomeStatisticItemPanel,
-} from './styled'
+} from '../Home/styled'
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
 import {
@@ -28,17 +26,17 @@ import { useAppState, useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import LatestBlocksIcon from '../../assets/latest_blocks.png'
 import LatestTransactionsIcon from '../../assets/latest_transactions.png'
-import { BlockCardItem, TransactionCardItem } from './TableCard'
+import { BlockCardItem, TransactionCardItem } from '../Home/TableCard'
 import { getTipBlockNumber } from '../../service/app/address'
 import Loading from '../../components/Loading/SmallLoading'
 import { useElementIntersecting, useInterval, useIsLGScreen, useIsMobile } from '../../utils/hook'
-import { Banner } from './Banner'
+import { Banner } from '../Home/Banner'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
 import Search from '../../components/Search'
-import AverageBlockTimeChart from './AverageBlockTimeChart'
-import HashRateChart from './HashRateChart'
+import AverageBlockTimeChart from '../Home/AverageBlockTimeChart'
+import HashRateChart from '../Home/HashRateChart'
 import { ComponentActions } from '../../contexts/actions'
-import styles from './index.module.scss'
+import styles from '../Home/index.module.scss'
 import { fetchLatestBlocks, fetchLatestTransactions } from '../../service/http/fetcher'
 import { RouteState } from '../../routes/state'
 
@@ -264,36 +262,7 @@ export default () => {
 
   return (
     <Content>
-      <Banner latestBlock={blocksQuery.data?.blocks[0]} fallbackThreshold={10} />
-      <div style={{ display: 'flex', justifyContent: 'space-around', margin: '12px' }}>
-        <Link to="/30">
-          <Button>30ms</Button>
-        </Link>
-        <Link to="/40">
-          <Button>40ms</Button>
-        </Link>
-        <Link to="/50">
-          <Button>50ms</Button>
-        </Link>
-        <Link to="/60">
-          <Button>60ms</Button>
-        </Link>
-        <Link to="/70">
-          <Button>70ms</Button>
-        </Link>
-        <Link to="/80">
-          <Button>80ms</Button>
-        </Link>
-        <Link to="/90">
-          <Button>90ms</Button>
-        </Link>
-        <Link to="/100">
-          <Button>100ms</Button>
-        </Link>
-        <Link to="/110">
-          <Button>110ms</Button>
-        </Link>
-      </div>
+      <Banner latestBlock={blocksQuery.data?.blocks[0]} fallbackThreshold={100} />
       <div className="container">
         <HomeHeaderTopPanel />
         <div className={`${styles.HomeStatisticTopPanel} ${styles.AfterHardFork}`}>
