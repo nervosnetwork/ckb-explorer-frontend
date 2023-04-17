@@ -19,7 +19,7 @@ const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
       // The `tinyTestSceneRender` is used to determine whether the performance of browser is sufficient to render the three.js animated banner
       // Related issue: https://github.com/Magickbase/ckb-explorer-public-issues/issues/218
       const testRenderTime = tinyTestSceneRender(container)
-      if (testRenderTime < 120) {
+      if (testRenderTime < 60) {
         const r = createBannerRender(container)
         setRender(r)
         return () => r.destroy()
