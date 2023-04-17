@@ -6,7 +6,7 @@ import { createBloomComposerController } from './renderUtils'
 import { assert } from '../../../utils/error'
 import { createTextCubes } from './render'
 
-export function renderTinyTestScene(container: HTMLElement) {
+export function tinyTestSceneRender(container: HTMLElement) {
   const scene = new Scene()
   // The following number constants are from the design draft.
   const camera = new OrthographicCamera()
@@ -43,8 +43,6 @@ export function renderTinyTestScene(container: HTMLElement) {
     bloomComposerCtl.render()
     finalComposer.render()
   }
-  const startRenderMark = performance.mark('start-render')
-  render()
 
   function destroy() {
     // It is expected that the rest of the resources will be automatically reclaimed by GC.
@@ -67,6 +65,8 @@ export function renderTinyTestScene(container: HTMLElement) {
 
     renderer.domElement.remove()
   }
+  const startRenderMark = performance.mark('start-render')
+  render()
   const endRenderMark = performance.mark('end-render')
   destroy()
   const { duration } = performance.measure('renderMeasure', startRenderMark.name, endRenderMark.name)

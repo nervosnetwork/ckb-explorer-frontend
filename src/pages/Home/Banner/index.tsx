@@ -4,7 +4,7 @@ import { BannerRender, createBannerRender } from './render'
 import styles from './index.module.scss'
 import { useIsMobile, usePrevious } from '../../../utils/hook'
 import BannerFallback from '../../../components/BannerFallback'
-import { renderTinyTestScene } from './tinyTestScene'
+import { tinyTestSceneRender } from './tinyTestScene'
 
 // eslint-disable-next-line no-underscore-dangle
 const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
@@ -16,7 +16,9 @@ const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
     const container = ref.current
     if (!container) return
     try {
-      const testRenderTime = renderTinyTestScene(container)
+      // The `tinyTestSceneRender` is used to determine whether the performance of browser is sufficient to render the three.js animated banner
+      // Related issue: https://github.com/Magickbase/ckb-explorer-public-issues/issues/218
+      const testRenderTime = tinyTestSceneRender(container)
       if (testRenderTime < 120) {
         const r = createBannerRender(container)
         setRender(r)
