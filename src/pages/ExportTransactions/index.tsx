@@ -37,9 +37,8 @@ const ExportTransactions = () => {
   const endDate = tab === 'date' && endDateStr ? dayjs(endDateStr) : undefined
 
   const fromHeight =
-    tab === 'height' && fromHeightStr && /^[1-9]\d*$/.test(fromHeightStr) ? parseInt(fromHeightStr, 10) : undefined
-  const toHeight =
-    tab === 'height' && toHeightStr && /^[1-9]\d*$/.test(toHeightStr) ? parseInt(toHeightStr, 10) : undefined
+    tab === 'height' && fromHeightStr && /^(0|[1-9]\d*)$/.test(fromHeightStr) ? parseInt(fromHeightStr, 10) : 0
+  const toHeight = tab === 'height' && toHeightStr && /^(0|[1-9]\d*)$/.test(toHeightStr) ? parseInt(toHeightStr, 10) : 0
 
   const updateSearchParams = useUpdateSearchParams<
     'type' | 'tab' | 'start-date' | 'end-date' | 'from-height' | 'to-height'
@@ -93,7 +92,7 @@ const ExportTransactions = () => {
       }
     }
     if (tab === 'height') {
-      if (!fromHeight || !toHeight) {
+      if ((!fromHeight && fromHeight !== 0) || (!toHeight && toHeight !== 0)) {
         setHint({ type: 'error', msg: 'please_input_block_number' })
         return
       }
@@ -101,7 +100,7 @@ const ExportTransactions = () => {
         setHint({ type: 'error', msg: 'error_block_number_order' })
         return
       }
-      if (fromHeight <= 0 || toHeight <= 0) {
+      if (fromHeight < 0 || toHeight < 0) {
         setHint({ type: 'error', msg: 'block_number_should_be_positive' })
         return
       }
@@ -136,6 +135,11 @@ const ExportTransactions = () => {
           extraMsg: `: ${reason}`,
         })
       })
+  }
+
+  const heightParser = (t?: string) => {
+    const res = t ? parseInt(t.replace(/[^-\d]/g, ''), 10) : 0
+    return res < 0 ? 0 : res
   }
 
   return (
@@ -212,7 +216,7 @@ const ExportTransactions = () => {
                             prefix={<BlockIcon />}
                             value={fromHeight}
                             min={0}
-                            parser={t => (t ? parseInt(t.replace(/\D+/g, ''), 10) : 0)}
+                            parser={heightParser}
                             onChange={h =>
                               updateSearchParams(
                                 params =>
@@ -228,6 +232,7 @@ const ExportTransactions = () => {
                             size="large"
                             prefix={<BlockIcon />}
                             min={0}
+                            parser={heightParser}
                             value={toHeight}
                             onChange={h =>
                               updateSearchParams(
