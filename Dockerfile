@@ -1,4 +1,4 @@
-FROM node:18.12.1-alpine as builder
+FROM node:18.13.0-alpine as builder
 
 ARG SENTRY_AUTH_TOKEN
 ARG SENTRY_DSN=https://3357d5dab93b4a88bea7f0ea4a6439f2@o1200558.ingest.sentry.io/4504750561034240
