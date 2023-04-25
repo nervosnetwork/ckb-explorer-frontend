@@ -29,6 +29,7 @@ import { shannonToCkbDecimal, shannonToCkb } from '../../../utils/util'
 import DecimalCapacity from '../../../components/DecimalCapacity'
 import { useIsLGScreen, useIsMobile } from '../../../utils/hook'
 import { ReactChartCore } from '../../StatisticsChart/common'
+import { isMainnet } from '../../../utils/chain'
 
 interface NervosDaoItemContent {
   title: string
@@ -139,8 +140,12 @@ const NervosDaoOverviewLeftComp: FC<{ nervosDao: State.NervosDao }> = ({ nervosD
   /*
    * FIXME: this is only a patch, should be removed when data from API is correct
    */
-  const { data: patchNervosDao } = useQuery(['nervos-dao-daily-patch'], () =>
-    fetchStatisticNewDaoDeposit().then(res => res.data?.[res.data?.length - 1]?.attributes),
+  const { data: patchNervosDao } = useQuery(
+    ['nervos-dao-daily-patch'],
+    () => fetchStatisticNewDaoDeposit().then(res => res.data?.[res.data?.length - 1]?.attributes),
+    {
+      enabled: isMainnet(),
+    },
   )
 
   const leftItems = nervosDaoItemContents({
