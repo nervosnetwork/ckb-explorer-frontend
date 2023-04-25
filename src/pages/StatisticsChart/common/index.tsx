@@ -1,4 +1,4 @@
-import { ComponentProps, ReactElement, ReactNode, useMemo, useEffect } from 'react'
+import { ComponentProps, CSSProperties, ReactElement, ReactNode, useEffect, useMemo, useRef } from 'react'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/pie'
@@ -10,9 +10,9 @@ import 'echarts/lib/component/legend'
 import 'echarts/lib/component/markLine'
 import 'echarts/lib/component/dataZoom'
 import 'echarts/lib/component/brush'
-import ReactEchartsCore from 'echarts-for-react/lib/core'
 import echarts from 'echarts/lib/echarts'
 import { Tooltip } from 'antd'
+import { EChartOption, ECharts } from 'echarts'
 import { LoadingPanel, ChartNoDataPanel, ChartDetailTitle, ChartDetailPanel, ChartNotePanel } from './styled'
 import Loading from '../../../components/Loading'
 import ChartNoDataImage from '../../../assets/chart_no_data.png'
@@ -22,8 +22,9 @@ import { isMainnet } from '../../../utils/chain'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import i18n from '../../../utils/i18n'
 import Content from '../../../components/Content'
-import { useChartQueryWithCache, useIsMobile } from '../../../utils/hook'
+import { useChartQueryWithCache, useIsMobile, usePrevious, useWindowResize } from '../../../utils/hook'
 import { useAppState } from '../../../contexts/providers'
+import { isDeepEqual } from '../../../utils/util'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => (isThumbnail ? <SmallLoading /> : <Loading show />)
 
@@ -44,29 +45,58 @@ const ReactChartCore = ({
   option,
   isThumbnail,
   clickEvent,
+  notMerge = false,
+  lazyUpdate = false,
+  style,
+  className = '',
 }: {
-  option: any
+  option: EChartOption
   isThumbnail?: boolean
   clickEvent?: any
+  notMerge?: boolean
+  lazyUpdate?: boolean
+  style?: CSSProperties
+  className?: string
 }) => {
-  let events
-  if (clickEvent) {
-    events = {
-      click: clickEvent,
+  const chartRef = useRef<HTMLDivElement>(null)
+  const chartInstanceRef = useRef<ECharts | null>(null)
+  const prevOption = usePrevious(option)
+  const prevClickEvent = usePrevious(clickEvent)
+
+  useEffect(() => {
+    let chartInstance: ECharts | null = null
+    if (chartRef.current) {
+      if (!chartInstanceRef.current) {
+        const renderedInstance = echarts.getInstanceByDom(chartRef.current)
+        if (renderedInstance) {
+          renderedInstance.dispose()
+        }
+        chartInstanceRef.current = echarts.init(chartRef.current)
+      }
+      chartInstance = chartInstanceRef.current
+      try {
+        if (!isDeepEqual(prevOption, option, ['formatter'])) {
+          chartInstance.setOption(option, { notMerge, lazyUpdate })
+        }
+        if (clickEvent && typeof clickEvent === 'function' && clickEvent !== prevClickEvent) {
+          chartInstance.on('click', clickEvent)
+        }
+      } catch (error) {
+        console.error('error', error)
+        if (chartInstance) {
+          chartInstance.dispose()
+        }
+      }
     }
-  }
-  return (
-    <ReactEchartsCore
-      echarts={echarts}
-      option={option}
-      notMerge
-      lazyUpdate
-      style={{
-        height: isThumbnail ? '200px' : '70vh',
-      }}
-      onEvents={events}
-    />
-  )
+  }, [clickEvent, lazyUpdate, notMerge, option, prevClickEvent, prevOption])
+
+  useWindowResize(() => {
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current?.resize()
+    }
+  })
+
+  return <div style={{ height: isThumbnail ? '200px' : '70vh', ...style }} className={className} ref={chartRef} />
 }
 
 const dataToCsv = (data: any[] | undefined) => {
@@ -125,19 +155,7 @@ const ChartPage = ({
   )
 }
 
-export function SmartChartPage<T>({
-  title,
-  description,
-  note,
-  isThumbnail = false,
-  chartProps,
-  fetchData,
-  onFetched,
-  getEChartOption,
-  toCSV,
-  cacheKey,
-  cacheMode = 'forever',
-}: {
+export interface SmartChartPageProps<T> {
   title: string
   description?: string
   note?: string
@@ -154,7 +172,21 @@ export function SmartChartPage<T>({
   toCSV: (dataList: T[]) => (string | number)[][]
   cacheKey?: string
   cacheMode?: 'forever' | 'date' | 'epoch'
-}): ReactElement {
+}
+
+export function SmartChartPage<T>({
+  title,
+  description,
+  note,
+  isThumbnail = false,
+  chartProps,
+  fetchData,
+  onFetched,
+  getEChartOption,
+  toCSV,
+  cacheKey,
+  cacheMode = 'forever',
+}: SmartChartPageProps<T>): ReactElement {
   const isMobile = useIsMobile()
   const { app } = useAppState()
 

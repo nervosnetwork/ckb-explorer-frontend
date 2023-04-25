@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useMemo, useCallback } from 'react'
+import { useEffect, useState, useRef, useMemo, useCallback, RefObject } from 'react'
 import {
   AddressPrefix,
   addressToScript,
@@ -8,13 +8,12 @@ import {
   systemScripts,
 } from '@nervosnetwork/ckb-sdk-utils'
 import { useHistory, useLocation } from 'react-router-dom'
-import queryString from 'query-string'
 import { useQuery } from 'react-query'
+import { useResizeDetector } from 'react-resize-detector'
 import { AppCachedKeys } from '../constants/cache'
 import { deprecatedAddrToNewAddr } from './util'
-import { parsePageNumber } from './string'
+import { parsePageNumber, startEndEllipsis } from './string'
 import { ListPageParams, PageParams } from '../constants/common'
-import { MOBILE_DEVICE_MAX_WIDTH } from './screen'
 import {
   fetchCachedData,
   fetchDateChartCache,
@@ -23,6 +22,22 @@ import {
   storeDateChartCache,
   storeEpochChartCache,
 } from './cache'
+
+/**
+ * Returns the value of the argument from the previous render
+ * @param {T} value
+ * @returns {T | undefined} previous value
+ * @see https://react-hooks-library.vercel.app/core/usePrevious
+ */
+export function usePrevious<T>(value: T): T | undefined {
+  const ref = useRef<T>()
+
+  useEffect(() => {
+    ref.current = value
+  }, [value])
+
+  return ref.current
+}
 
 export const useInterval = (callback: () => void, delay: number, deps: any[] = []) => {
   const savedCallback = useRef(() => {})
@@ -95,6 +110,54 @@ export function useBoolean(initialState: boolean): [
   ]
 }
 
+export function useElementIntersecting(
+  ref: RefObject<HTMLElement>,
+  opts: IntersectionObserverInit = {},
+  defaultValue = false,
+) {
+  const [isIntersecting, setIntersecting] = useState(defaultValue)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIntersecting(entry.isIntersecting)
+    }, opts)
+    observer.observe(el)
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      observer.unobserve(el)
+      observer.disconnect()
+    }
+  }, [opts, ref])
+
+  return isIntersecting
+}
+
+export function useElementSize(ref: RefObject<HTMLElement>) {
+  const { width: resizedWidth, height: resizedHeight } = useResizeDetector({
+    targetRef: ref,
+  })
+  const width = resizedWidth ?? ref.current?.clientWidth ?? null
+  const height = resizedHeight ?? ref.current?.clientHeight ?? null
+  return { width, height }
+}
+
+export function useWindowResize(callback: (event: UIEvent) => void) {
+  useEffect(() => {
+    window.addEventListener('resize', callback)
+    return () => window.removeEventListener('resize', callback)
+  }, [callback])
+}
+
+export function useWindowSize() {
+  const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight })
+  useWindowResize(() => setSize({ width: window.innerWidth, height: window.innerHeight }))
+  return size
+}
+
 export function useDelayLoading(delay: number, loading: boolean) {
   const [isDelayFinished, delayFinishedCtl] = useBoolean(false)
   useTimeout(delayFinishedCtl.on, delay)
@@ -102,11 +165,10 @@ export function useDelayLoading(delay: number, loading: boolean) {
 }
 
 function getSearchParams<T extends string = string>(search: string, names?: T[]): Partial<Record<T, string>> {
-  const params = queryString.parse(search, { parseBooleans: false, parseNumbers: false })
-  const entries = Object.entries(params).filter((entry): entry is [T, string] => {
-    const [key, value] = entry
-    return (names == null || (names as string[]).includes(key)) && typeof value === 'string'
-  })
+  const urlSearchParams = new URLSearchParams(search)
+  const entries = [...urlSearchParams.entries()].filter(
+    (entry): entry is [T, string] => names == null || (names as string[]).includes(entry[0]),
+  )
   return Object.fromEntries(entries) as Partial<Record<T, string>>
 }
 
@@ -126,10 +188,10 @@ export function useUpdateSearchParams<T extends string>(): (
     (updater, replace) => {
       const oldParams: Partial<Record<T, string>> = getSearchParams(search)
       const newParams = updater(oldParams)
-      const to = queryString.stringifyUrl({
-        url: `${pathname}${hash}`,
-        query: newParams,
-      })
+      const newUrlSearchParams = new URLSearchParams(newParams as Record<string, string>)
+      newUrlSearchParams.sort()
+      const newQueryString = newUrlSearchParams.toString()
+      const to = `${pathname}${newQueryString ? `?${newQueryString}` : ''}${hash}`
 
       if (replace) {
         history.replace(to)
@@ -248,7 +310,54 @@ export function useMediaQuery(query: string): boolean {
   return matches
 }
 
+export const MOBILE_DEVICE_MAX_WIDTH = 750
 export const useIsMobile = () => useMediaQuery(`(max-width: ${MOBILE_DEVICE_MAX_WIDTH}px)`)
+export const useIsLGScreen = (exact = false) => {
+  const isMobile = useIsMobile()
+  const isLG = useMediaQuery(`(max-width: 1200px)`)
+  return !exact ? isLG : isLG && !isMobile
+}
+
+export function useAdaptMobileEllipsis() {
+  const { width } = useWindowSize()
+
+  const adaptMobileEllipsis = useCallback(
+    (value: string, length = 8) => {
+      if (width <= 320) {
+        return startEndEllipsis(value, length, length)
+      }
+      if (width < 500) {
+        const step = Math.ceil((width - 420) / 15)
+        return startEndEllipsis(value, length + step, length + step)
+      }
+      if (width < 750) {
+        const step = Math.ceil((width - 500) / 15)
+        return startEndEllipsis(value, length + step, length + step)
+      }
+      return value
+    },
+    [width],
+  )
+
+  return adaptMobileEllipsis
+}
+
+export function useAdaptPCEllipsis(factor = 40) {
+  const { width } = useWindowSize()
+  const isMobile = width < 750
+  const clippedWidth = Math.min(width, 1200)
+  const step = Math.ceil((clippedWidth - 700) / factor)
+
+  const adaptPCEllipsis = useCallback(
+    (value: string, length = 8) => {
+      if (isMobile) return value
+      return startEndEllipsis(value, length + step, length + step)
+    },
+    [isMobile, step],
+  )
+
+  return adaptPCEllipsis
+}
 
 export const useAddrFormatToggle = () => {
   const [isNew, setIsNew] = useState(localStorage.getItem(AppCachedKeys.NewAddrFormat) !== 'false')
@@ -373,6 +482,23 @@ export function useChartQueryWithCache<T>(
     }
     return dataList
   })
+}
+
+export const useAnimationFrame = (callback: () => void, running: boolean = true) => {
+  const savedCallback = useRef(callback)
+
+  useEffect(() => {
+    if (!running) return
+
+    let requestId = 0
+    function tick() {
+      savedCallback.current()
+      requestId = window.requestAnimationFrame(tick)
+    }
+    requestId = window.requestAnimationFrame(tick)
+
+    return () => window.cancelAnimationFrame(requestId)
+  }, [running])
 }
 
 export default {

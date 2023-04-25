@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, FC } from 'react'
+import { useState, useLayoutEffect, FC, memo } from 'react'
 import { useQuery } from 'react-query'
 import { isMainnet } from '../../../utils/chain'
 import WhiteDropdownIcon from '../../../assets/white_dropdown.png'
@@ -120,7 +120,7 @@ const BlockchainMenu: FC<{ nodeVersion: string }> = ({ nodeVersion }) => {
   )
 }
 
-export default () => {
+export default memo(() => {
   const isMobile = useIsMobile()
 
   const query = useQuery(
@@ -151,4 +151,4 @@ export default () => {
   const nodeVersion = query.data ?? ''
 
   return isMobile ? <BlockchainMenu nodeVersion={nodeVersion} /> : <BlockchainDropdown nodeVersion={nodeVersion} />
-}
+})

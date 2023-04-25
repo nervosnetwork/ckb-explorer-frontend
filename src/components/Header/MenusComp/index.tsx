@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
+import { memo } from 'react'
 import { useIsMobile } from '../../../utils/hook'
 import i18n from '../../../utils/i18n'
 import { MobileMenuItem, MobileMenuLink, HeaderMenuPanel } from './styled'
-
 import { isMainnet } from '../../../utils/chain'
 
 export enum LinkType {
@@ -36,6 +36,11 @@ const menuDataList = () => [
     name: i18n.t('navbar.charts'),
     url: '/charts',
   },
+  {
+    type: LinkType.Inner,
+    name: i18n.t('navbar.fee_rate'),
+    url: '/fee-rate-tracker',
+  },
   !isMainnet()
     ? {
         type: LinkType.Outer,
@@ -54,7 +59,7 @@ const MenuItemLink = ({ menu }: { menu: any }) => {
   )
 }
 
-export default () =>
+export default memo(() =>
   useIsMobile() ? (
     <MobileMenuItem>
       {menuDataList()
@@ -85,4 +90,5 @@ export default () =>
           ),
         )}
     </HeaderMenuPanel>
-  )
+  ),
+)

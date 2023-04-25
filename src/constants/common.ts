@@ -5,7 +5,6 @@ export const BLOCK_POLLING_TIME = 4000
 export const MAX_CONFIRMATION = 1000
 export const BLOCKCHAIN_ALERT_POLLING_TIME = 10000
 export const FLUSH_CHART_CACHE_POLLING_TIME = 300000 // 5 minutes
-export const RESIZE_LATENCY = 500
 export const LOADING_WAITING_TIME = 500
 export const DELAY_BLOCK_NUMBER = 11
 export const PAGE_CELL_COUNT = 200

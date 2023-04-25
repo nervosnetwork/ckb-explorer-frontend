@@ -3,20 +3,23 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "4.8.0",
     "@nervosnetwork/ckb-sdk-utils": "0.103.1",
+    "@sentry/react": "7.38.0",
+    "@sentry/tracing": "7.38.0",
     "antd": "4.24.5",
     "axios": "0.21.4",
     "bignumber.js": "9.0.1",
+    "camelcase": "7.0.0",
     "camelcase-keys": "7.0.0",
     "classnames": "2.3.2",
     "dayjs": "1.11.5",
     "default-passive-events": "2.0.0",
     "echarts": "4.8.0",
-    "echarts-for-react": "^2.0.1",
+    "gsap": "3.11.4",
     "history": "5.0.0",
     "i18next": "20.3.5",
     "jsbi": "3.2.5",
-    "query-string": "7.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-i18next": "11.11.4",
@@ -27,12 +30,13 @@
     "react-router-dom": "5.2.0",
     "react-scripts": "5.0.1",
     "sass": "1.50.1",
-    "styled-components": "5.3.0"
+    "styled-components": "5.3.0",
+    "three": "0.149.0"
   },
   "devDependencies": {
+    "@sentry/webpack-plugin": "1.20.0",
+    "@testing-library/react": "12.1.5",
     "@types/echarts": "4.9.9",
-    "@types/enzyme": "^3.10.9",
-    "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/eslint": "7.28.0",
     "@types/jest": "26.0.24",
     "@types/node": "16.4.10",
@@ -42,12 +46,10 @@
     "@types/react-router-dom": "5.1.8",
     "@types/react-test-renderer": "^17.0.1",
     "@types/styled-components": "5.1.11",
+    "@types/three": "0.149.0",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
     "@typescript-eslint/parser": "5.48.1",
     "create-react-app": "^4.0.3",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
-    "enzyme-to-json": "^3.6.2",
     "eslint": "7.32.0",
     "eslint-config-airbnb": "18.2.1",
     "eslint-config-prettier": "8.3.0",
@@ -57,8 +59,6 @@
     "eslint-plugin-react": "7.31.11",
     "eslint-plugin-react-hooks": "4.6.0",
     "husky": "^7.0.1",
-    "jest-environment-enzyme": "^7.1.2",
-    "jest-enzyme": "^7.1.2",
     "jest-styled-components": "^7.0.5",
     "mockdate": "^2.0.5",
     "prettier": "2.3.2",
@@ -89,15 +89,12 @@
     "extends": "react-app"
   },
   "engines": {
-    "node": "18.12.1"
+    "node": "^18.13.0"
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "resolutions": {
-    "fsevents": ">=2.0.0"
-  }
+  ]
 }

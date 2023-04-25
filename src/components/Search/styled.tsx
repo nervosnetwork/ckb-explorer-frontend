@@ -45,7 +45,6 @@ export const SearchInputPanel = styled.input`
   font-size: 14px;
   padding-left: 10px;
   padding-right: 20px;
-  margin-left: ${(props: { searchBarEditable: boolean }) => (props.searchBarEditable ? '0px' : '-8px')}
   background: white;
   color: #333333;
   border: 0px solid white;

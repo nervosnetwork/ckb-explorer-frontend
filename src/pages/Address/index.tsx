@@ -1,88 +1,15 @@
-import { FC, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import AddressHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
 import i18n from '../../utils/i18n'
-import { AddressContentPanel, AddressLockScriptController, AddressTitleOverviewPanel } from './styled'
-import { AddressTransactions, AddressAssetComp } from './AddressComp'
-import ArrowUpIcon from '../../assets/arrow_up.png'
-import ArrowDownIcon from '../../assets/arrow_down.png'
-import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
-import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
-import { isMainnet } from '../../utils/chain'
-import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import { localeNumberString } from '../../utils/number'
-import { parseSimpleDateNoSecond } from '../../utils/date'
-import Script from '../../components/Script'
-import AddressText from '../../components/AddressText'
-import styles from './styles.module.scss'
+import { AddressContentPanel } from './styled'
+import { AddressTransactions, AddressOverview } from './AddressComp'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../service/http/fetcher'
 import { QueryResult } from '../../components/QueryResult'
 import { defaultAddressInfo } from './state'
 import { usePaginationParamsInPage } from '../../utils/hook'
 import { isAxiosError } from '../../utils/error'
-
-const lockScriptIcon = (show: boolean) => {
-  if (show) {
-    return isMainnet() ? ArrowUpIcon : ArrowUpBlueIcon
-  }
-  return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
-}
-
-const getAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, lockInfo }: State.Address) => {
-  const items: OverviewItemData[] = [
-    {
-      title: i18n.t('address.live_cells'),
-      content: localeNumberString(liveCellsCount),
-    },
-    {
-      title: i18n.t('address.block_mined'),
-      content: localeNumberString(minedBlocksCount),
-    },
-  ]
-
-  if (type === 'LockHash') {
-    if (!addressHash) {
-      items.push({
-        title: i18n.t('address.address'),
-        content: i18n.t('address.unable_decode_address'),
-      })
-    } else {
-      items.push({
-        title: i18n.t('address.address'),
-        contentWrapperClass: styles.addressWidthModify,
-        content: <AddressText>{addressHash}</AddressText>,
-      })
-    }
-  }
-  if (lockInfo && lockInfo.epochNumber !== '0' && lockInfo.estimatedUnlockTime !== '0') {
-    const estimate = Number(lockInfo.estimatedUnlockTime) > new Date().getTime() ? i18n.t('address.estimated') : ''
-    items.push({
-      title: i18n.t('address.lock_until'),
-      content: `${lockInfo.epochNumber} ${i18n.t('address.epoch')} (${estimate} ${parseSimpleDateNoSecond(
-        lockInfo.estimatedUnlockTime,
-      )})`,
-    })
-  }
-  return items
-}
-
-const AddressTitleOverview: FC<{ address: State.Address }> = ({ address }) => {
-  const [showLock, setShowLock] = useState<boolean>(false)
-
-  return (
-    <AddressTitleOverviewPanel>
-      <OverviewCard items={getAddressInfo(address)} hideShadow>
-        <AddressLockScriptController onClick={() => setShowLock(!showLock)}>
-          <div>{i18n.t('address.lock_script')}</div>
-          <img alt="lock script" src={lockScriptIcon(showLock)} />
-        </AddressLockScriptController>
-        {showLock && address.lockScript && <Script script={address.lockScript} />}
-      </OverviewCard>
-    </AddressTitleOverviewPanel>
-  )
-}
 
 export const Address = () => {
   const { address } = useParams<{ address: string }>()
@@ -120,25 +47,19 @@ export const Address = () => {
     <Content>
       <AddressContentPanel className="container">
         <AddressHashCard
-          title={
-            (addressInfoQuery.data?.type ?? '') === 'LockHash' ? i18n.t('address.lock_hash') : i18n.t('address.address')
-          }
+          title={addressInfoQuery.data?.type === 'LockHash' ? i18n.t('address.lock_hash') : i18n.t('address.address')}
           hash={address}
           specialAddress={addressInfoQuery.data?.isSpecial ? addressInfoQuery.data.specialAddress : ''}
-          showDASInfoOnHeader
-        >
-          <AddressTitleOverview address={addressInfoQuery.data ?? defaultAddressInfo} />
-        </AddressHashCard>
+          showDASInfoOnHeader={addressInfoQuery.data?.addressHash ?? false}
+        />
 
         <QueryResult query={addressInfoQuery} delayLoading>
-          {data => <AddressAssetComp address={data} />}
+          {data => <AddressOverview address={data} />}
         </QueryResult>
 
         <QueryResult query={addressTransactionsQuery} delayLoading>
           {data => (
             <AddressTransactions
-              currentPage={currentPage}
-              pageSize={pageSize}
               address={address}
               transactions={data.transactions}
               transactionsTotal={data.total}

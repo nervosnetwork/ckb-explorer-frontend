@@ -1,4 +1,7 @@
+import classNames from 'classnames'
+import { FC, HTMLAttributes } from 'react'
 import styled from 'styled-components'
+import styles from './index.module.scss'
 
 export const HomeHeaderItemPanel = styled.div`
   display: flex;
@@ -218,31 +221,14 @@ export const TableHeaderPanel = styled.div`
   }
 `
 
-export const TableMorePanel = styled.div`
-  height: 44px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f8f9fa;
-  border: 0px solid white;
-  border-radius: 0 0 6px 6px;
-  cursor: pointer;
-
-  > span {
-    font-size: 16px;
-    font-weight: 500;
-    color: ${props => props.theme.primary};
-  }
-
-  &:hover {
-    background: ${props => props.theme.primary};
-
-    > span {
-      color: white;
-    }
-  }
-`
+export const TableMorePanel: FC<HTMLAttributes<HTMLDivElement>> = props => {
+  const { children, className, ...rest } = props
+  return (
+    <div className={classNames(styles.TableMorePanel, className)} {...rest}>
+      {children}
+    </div>
+  )
+}
 
 export const HighLightValue = styled.div`
   color: ${props => props.theme.primary};

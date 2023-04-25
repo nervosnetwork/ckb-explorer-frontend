@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactComponent as TwitterIcon } from '../../assets/footer_twitter.svg'
 import { ReactComponent as MediumIcon } from '../../assets/footer_medium.svg'
@@ -42,7 +42,7 @@ const FooterImageItem = ({ item }: { item: FooterLinkItem }) => {
   )
 }
 
-export default () => {
+export default memo(() => {
   const isMobile = useIsMobile()
   const [t] = useTranslation()
   const Footers: FooterLink[] = useMemo(
@@ -175,4 +175,4 @@ export default () => {
       </div>
     </FooterPanel>
   )
-}
+})

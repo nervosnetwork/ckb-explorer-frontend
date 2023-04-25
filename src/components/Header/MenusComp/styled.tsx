@@ -42,8 +42,16 @@ export const HeaderMenuPanel = styled.div`
       padding-left: 24px;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 960px) {
       padding-left: 16px;
+    }
+
+    @media (max-width: 900px) {
+      padding-left: 10px;
+    }
+
+    @media (max-width: 840px) {
+      padding-left: 4px;
     }
 
     @media (max-width: 750px) {

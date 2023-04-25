@@ -1,8 +1,8 @@
+import { FC, memo } from 'react'
 import i18n from '../../../utils/i18n'
 import { HighLightLink } from '../../../components/Text'
 import { localeNumberString } from '../../../utils/number'
 import { parseDate } from '../../../utils/date'
-import { DELAY_BLOCK_NUMBER } from '../../../constants/common'
 import DecimalCapacity from '../../../components/DecimalCapacity'
 import { shannonToCkbDecimal, deprecatedAddrToNewAddr } from '../../../utils/util'
 import { TableMinerContentItem } from '../../../components/Table'
@@ -10,29 +10,29 @@ import { BlockRewardPlusPanel, BlockRewardPanel, BlockCardPanel, TransactionCard
 import AddressText from '../../../components/AddressText'
 import styles from './index.module.scss'
 
-export const BlockCardItem = ({ block, index }: { block: State.Block; index: number }) => {
+// eslint-disable-next-line no-underscore-dangle
+const _BlockCardItem: FC<{ block: State.Block; isDelayBlock?: boolean }> = ({ block, isDelayBlock }) => {
   const liveCellChanges = Number(block.liveCellChanges)
-  const blockReward =
-    index < DELAY_BLOCK_NUMBER ? (
-      <BlockRewardPlusPanel>
-        <DecimalCapacity
-          value={localeNumberString(shannonToCkbDecimal(block.reward, 2))}
-          fontSize="9px"
-          hideUnit
-          hideZero
-        />
-        <span>+</span>
-      </BlockRewardPlusPanel>
-    ) : (
-      <BlockRewardPanel>
-        <DecimalCapacity
-          value={localeNumberString(shannonToCkbDecimal(block.reward, 2))}
-          fontSize="9px"
-          hideUnit
-          hideZero
-        />
-      </BlockRewardPanel>
-    )
+  const blockReward = isDelayBlock ? (
+    <BlockRewardPlusPanel>
+      <DecimalCapacity
+        value={localeNumberString(shannonToCkbDecimal(block.reward, 2))}
+        fontSize="9px"
+        hideUnit
+        hideZero
+      />
+      <span>+</span>
+    </BlockRewardPlusPanel>
+  ) : (
+    <BlockRewardPanel>
+      <DecimalCapacity
+        value={localeNumberString(shannonToCkbDecimal(block.reward, 2))}
+        fontSize="9px"
+        hideUnit
+        hideZero
+      />
+    </BlockRewardPanel>
+  )
 
   return (
     <BlockCardPanel>
@@ -64,14 +64,16 @@ export const BlockCardItem = ({ block, index }: { block: State.Block; index: num
     </BlockCardPanel>
   )
 }
+export const BlockCardItem = memo(
+  _BlockCardItem,
+  (a, b) => a.block.number === b.block.number && a.isDelayBlock === b.isDelayBlock,
+)
 
-export const TransactionCardItem = ({
-  transaction,
-  tipBlockNumber,
-}: {
+// eslint-disable-next-line no-underscore-dangle
+const _TransactionCardItem: FC<{
   transaction: State.Transaction
   tipBlockNumber: number
-}) => {
+}> = ({ transaction, tipBlockNumber }) => {
   const liveCellChanges = Number(transaction.liveCellChanges)
   let confirmation = tipBlockNumber - Number(transaction.blockNumber)
   confirmation = confirmation < 0 ? 0 : confirmation
@@ -114,5 +116,7 @@ export const TransactionCardItem = ({
     </TransactionCardPanel>
   )
 }
-
-export default BlockCardItem
+export const TransactionCardItem = memo(
+  _TransactionCardItem,
+  (a, b) => a.transaction.transactionHash === b.transaction.transactionHash && a.tipBlockNumber === b.tipBlockNumber,
+)

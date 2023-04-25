@@ -2,10 +2,10 @@ import { useCallback } from 'react'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
-import { adaptMobileEllipsis, adaptPCEllipsis } from '../../../utils/string'
+import { tooltipColor, tooltipWidth, SmartChartPage, SmartChartPageProps } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { fetchStatisticMinerAddressDistribution } from '../../../service/http/fetcher'
+import { useAdaptMobileEllipsis, useAdaptPCEllipsis, useIsMobile } from '../../../utils/hook'
 
 const Colors = [
   '#069ECD',
@@ -25,6 +25,7 @@ const getOption = (
   chartColor: State.App['chartColor'],
   isMobile: boolean,
   isThumbnail = false,
+  getAdaptAddressText: (address: string) => string,
 ): echarts.EChartOption => {
   const gridThumbnail = {
     left: '4%',
@@ -41,18 +42,15 @@ const getOption = (
     containLabel: true,
   }
 
-  const addressText = (address: string) =>
-    isMobile ? adaptMobileEllipsis(address, 4) : adaptPCEllipsis(address, 2, 80)
-
   return {
     color: [chartColor.colors[0], ...Colors],
     tooltip: !isThumbnail
       ? {
           formatter: (data: any) => {
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 60 : 65)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.address'))} ${addressText(
-              data.data.title,
-            )}</div>`
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(
+              i18n.t('statistic.address'),
+            )} ${getAdaptAddressText(data.data.title)}</div>`
             result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(i18n.t('statistic.miner_ratio'))} ${(
               Number(data.data.value) * 100
             ).toFixed(1)}%</div>`
@@ -75,7 +73,7 @@ const getOption = (
           },
         },
         data: statisticMinerAddresses.map(data => ({
-          name: `${addressText(data.address.toLowerCase())} (${(Number(data.radio) * 100).toFixed(1)}%)`,
+          name: `${getAdaptAddressText(data.address.toLowerCase())} (${(Number(data.radio) * 100).toFixed(1)}%)`,
           title: data.address.toLowerCase(),
           value: data.radio,
         })),
@@ -114,13 +112,22 @@ export const MinerAddressDistributionChart = ({ isThumbnail = false }: { isThumb
     [history],
   )
 
+  const isMobile = useIsMobile()
+  const adaptMobileEllipsis = useAdaptMobileEllipsis()
+  const adaptPCEllipsis = useAdaptPCEllipsis(80)
+  const getEChartOption: SmartChartPageProps<State.StatisticMinerAddress>['getEChartOption'] = useCallback(
+    (...args) =>
+      getOption(...args, address => (isMobile ? adaptMobileEllipsis(address, 4) : adaptPCEllipsis(address, 2))),
+    [adaptMobileEllipsis, adaptPCEllipsis, isMobile],
+  )
+
   return (
     <SmartChartPage
       title={t('statistic.miner_addresses_rank')}
       isThumbnail={isThumbnail}
       chartProps={{ clickEvent: !isThumbnail ? clickEvent : undefined }}
       fetchData={fetchStatisticMinerAddresses}
-      getEChartOption={getOption}
+      getEChartOption={getEChartOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.MinerAddressDistribution}
       cacheMode="date"

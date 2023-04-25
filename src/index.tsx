@@ -4,6 +4,12 @@ import './utils/i18n'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { handleRedirectFromAggron } from './utils/util'
+import { initSentry } from './utils/error'
+
+const { REACT_APP_SENTRY_DSN } = process.env
+if (REACT_APP_SENTRY_DSN) {
+  initSentry(REACT_APP_SENTRY_DSN)
+}
 
 const redirect = handleRedirectFromAggron()
 if (!redirect) {

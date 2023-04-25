@@ -1,4 +1,4 @@
-import { useEffect, useRef, Suspense, lazy } from 'react'
+import { useEffect, useRef, Suspense, lazy, Component } from 'react'
 import { BrowserRouter as Router, Route, Redirect, Switch, useLocation } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import Page from '../components/Page'
@@ -17,6 +17,7 @@ const BlockList = lazy(() => import('../pages/BlockList'))
 const Transaction = lazy(() => import('../pages/Transaction'))
 const TransactionList = lazy(() => import('../pages/TransactionList'))
 const Address = lazy(() => import('../pages/Address'))
+const ScriptPage = lazy(() => import('../pages/Script'))
 const SimpleUDT = lazy(() => import('../pages/SimpleUDT'))
 const NftCollections = lazy(() => import('../pages/NftCollections'))
 const NftCollectionInfo = lazy(() => import('../pages/NftCollectionInfo'))
@@ -53,6 +54,7 @@ const SecondaryIssuanceChart = lazy(() => import('../pages/StatisticsChart/monet
 const InflationRateChart = lazy(() => import('../pages/StatisticsChart/monetary/InflationRate'))
 const LiquidityChart = lazy(() => import('../pages/StatisticsChart/monetary/Liquidity'))
 const ScriptList = lazy(() => import('../pages/ScriptList'))
+const FeeRateTracker = lazy(() => import('../pages/FeeRateTracker'))
 
 const Containers: CustomRouter.Route[] = [
   {
@@ -72,6 +74,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/address/:address',
     exact: true,
     comp: Address,
+  },
+  {
+    name: 'Script',
+    path: '/script/:codeHash/:hashType/:tab?',
+    exact: true,
+    comp: ScriptPage,
   },
   {
     name: 'Block',
@@ -295,6 +303,12 @@ const Containers: CustomRouter.Route[] = [
     exact: true,
     comp: ScriptList,
   },
+  {
+    name: 'FeeRateTracker',
+    path: '/fee-rate-tracker',
+    exact: true,
+    comp: FeeRateTracker,
+  },
 ]
 
 const useRouter = (callback: Function) => {
@@ -340,6 +354,39 @@ const RouterComp = ({ container, routeProps }: { container: CustomRouter.Route; 
   return <container.comp {...routeProps} />
 }
 
+class PageErrorBoundary extends Component<
+  {},
+  {
+    error?: Error | null
+    info: {
+      componentStack?: string
+    }
+  }
+> {
+  constructor(props: {}) {
+    super(props)
+
+    this.state = {
+      error: undefined,
+      info: {
+        componentStack: '',
+      },
+    }
+  }
+
+  componentDidCatch(error: Error | null, info: object) {
+    this.setState({ error, info })
+  }
+
+  render() {
+    const { children } = this.props
+    const { error, info } = this.state
+    if (!error) return children
+
+    return <NotFoundPage errorMessage={error.toString()} errorDescription={info.componentStack} />
+  }
+}
+
 export default () => {
   const isMobile = useIsMobile()
   const dispatch = useDispatch()
@@ -370,16 +417,18 @@ export default () => {
             <Header />
             <Sheet />
             <Suspense fallback={<span />}>
-              <Switch location={props.location}>
-                {Containers.map(container => (
-                  <Route
-                    {...container}
-                    key={container.name}
-                    render={routeProps => <RouterComp container={container} routeProps={routeProps} />}
-                  />
-                ))}
-                <Redirect from="*" to="/404" />
-              </Switch>
+              <PageErrorBoundary>
+                <Switch location={props.location}>
+                  {Containers.map(container => (
+                    <Route
+                      {...container}
+                      key={container.name}
+                      render={routeProps => <RouterComp container={container} routeProps={routeProps} />}
+                    />
+                  ))}
+                  <Redirect from="*" to="/404" />
+                </Switch>
+              </PageErrorBoundary>
               {!(isMobile && mobileMenuVisible) && <Footer />}
             </Suspense>
           </Page>

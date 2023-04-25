@@ -2,9 +2,8 @@ import { isValidElement, ReactNode } from 'react'
 import { Tooltip } from 'antd'
 import classNames from 'classnames'
 import { OverviewCardPanel, OverviewContentPanel, OverviewItemPanel } from './styled'
-import { isScreenSmallerThan1200 } from '../../../utils/screen'
 import HelpIcon from '../../../assets/qa_help.png'
-import { useIsMobile } from '../../../utils/hook'
+import { useIsLGScreen, useIsMobile } from '../../../utils/hook'
 
 export type OverviewItemData = {
   title: ReactNode
@@ -63,6 +62,7 @@ export default ({
   hideShadow?: boolean
 }) => {
   const isMobile = useIsMobile()
+  const isLG = useIsLGScreen()
   /* eslint-disable react/no-array-index-key */
   const { leftItems, rightItems } = handleOverviewItems(items, isMobile)
   return (
@@ -81,7 +81,7 @@ export default ({
             ) : null,
           )}
         </div>
-        {!isScreenSmallerThan1200() && <span />}
+        {!isLG && <span />}
         <div className="overview_content__right_items">
           {rightItems.map((item, index) => (
             <OverviewItem key={items.indexOf(item)} item={item} hideLine={index === rightItems.length - 1} />
