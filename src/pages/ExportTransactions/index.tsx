@@ -56,9 +56,10 @@ const ExportTransactions = () => {
     }
   }
 
-  const [hint, setHint] = useState<{ type: 'success' | 'error' | undefined; msg?: string }>({
+  const [hint, setHint] = useState<{ type: 'success' | 'error' | undefined; msg?: string; extraMsg?: string }>({
     type: undefined,
     msg: undefined,
+    extraMsg: undefined,
   })
 
   const handleTabChange = (tab?: string) => {
@@ -83,48 +84,47 @@ const ExportTransactions = () => {
   const handleDownload = () => {
     if (tab === 'date') {
       if (!startDate || !endDate) {
-        setHint({ type: 'error', msg: t('export_transactions.please_pick_date') })
+        setHint({ type: 'error', msg: 'please_pick_date' })
         return
       }
       if (endDate.isBefore(startDate)) {
-        setHint({ type: 'error', msg: t('export_transactions.error_date_order') })
+        setHint({ type: 'error', msg: 'error_date_order' })
         return
       }
     }
     if (tab === 'height') {
       if (!fromHeight || !toHeight) {
-        setHint({ type: 'error', msg: t('export_transactions.please_input_block_number') })
+        setHint({ type: 'error', msg: 'please_input_block_number' })
         return
       }
       if (toHeight < fromHeight) {
-        setHint({ type: 'error', msg: t('export_transactions.error_block_number_order') })
+        setHint({ type: 'error', msg: 'error_block_number_order' })
         return
       }
       if (fromHeight <= 0 || toHeight <= 0) {
-        setHint({ type: 'error', msg: t('export_transactions.block_number_should_be_positive') })
+        setHint({ type: 'error', msg: 'block_number_should_be_positive' })
         return
       }
       if (toHeight > fromHeight + 5000) {
-        setHint({ type: 'error', msg: t('export_transactions.too_many_blocks') })
+        setHint({ type: 'error', msg: 'too_many_blocks' })
         return
       }
     }
-    setHint({ type: 'success', msg: t('export_transactions.download_processed') })
+    setHint({ type: 'success', msg: 'download_processed' })
     exportTransactions({ startDate, endDate, fromHeight, toHeight, type, address, nft })
       .then((resp: Response.Response<string> | null) => {
         if (!resp || !resp.data) {
           setHint({
             type: 'error',
-            msg: t('export_transactions.fetch_processed_export_link_empty'),
+            msg: 'fetch_processed_export_link_empty',
           })
           return
         }
         if (resp.error) {
           setHint({
             type: 'error',
-            msg: `${t('export_transactions.fetch_processed_export_link_error')}: ${
-              resp && resp?.error ? resp.error.map(r => r.title).join(',') : ''
-            }`,
+            msg: 'fetch_processed_export_link_error',
+            extraMsg: `: ${resp && resp?.error ? resp.error.map(r => r.title).join(',') : ''}`,
           })
         }
         window.open(resp.data, '_blank', 'noopener, noreferrer')
@@ -132,7 +132,8 @@ const ExportTransactions = () => {
       .catch(reason => {
         setHint({
           type: 'error',
-          msg: `${t('export_transactions.fetch_processed_export_link_error')}: ${reason}`,
+          msg: 'fetch_processed_export_link_error',
+          extraMsg: `: ${reason}`,
         })
       })
   }
@@ -210,6 +211,7 @@ const ExportTransactions = () => {
                             size="large"
                             prefix={<BlockIcon />}
                             value={fromHeight}
+                            min={0}
                             parser={t => (t ? parseInt(t.replace(/\D+/g, ''), 10) : 0)}
                             onChange={h =>
                               updateSearchParams(
@@ -225,6 +227,7 @@ const ExportTransactions = () => {
                           <InputNumber
                             size="large"
                             prefix={<BlockIcon />}
+                            min={0}
                             value={toHeight}
                             onChange={h =>
                               updateSearchParams(
@@ -254,7 +257,10 @@ const ExportTransactions = () => {
             >
               {hint.type === 'error' && <ErrorIcon />}
               {hint.type === 'success' && <SuccessIcon />}
-              <div>{hint.msg}</div>
+              <div>
+                {t(`export_transactions.${hint.msg}`)}
+                {hint.extraMsg}
+              </div>
             </div>
           </div>
           <div className={styles.downloadButton}>
