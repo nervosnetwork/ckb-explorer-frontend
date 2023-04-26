@@ -14,6 +14,7 @@ import { getPrimaryColor } from '../../constants/common'
 import { useIsMobile, useSearchParams, useSortParam, useUpdateSearchParams } from '../../utils/hook'
 import { omit } from '../../utils/object'
 import { ReactComponent as SelectedCheckIcon } from '../../assets/selected_check_icon.svg'
+import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
 
 const primaryColor = getPrimaryColor()
 
@@ -23,7 +24,7 @@ function isTxFilterType(s?: string): s is TxTypeType {
   return s ? ['all', 'mnft', 'nrc721', 'cota'].includes(s) : false
 }
 
-type NftSortByType = 'holder' | 'minted'
+type NftSortByType = 'transactions' | 'holder' | 'minted'
 
 interface Res {
   data: Array<{
@@ -31,6 +32,7 @@ interface Res {
     standard: string
     name: string
     description: string
+    h24_ckb_transactions_count: string
     creator: string | null
     icon_url: string | null
     items_count: number | null
@@ -75,7 +77,25 @@ const NftCollections = () => {
   ]
 
   const updateSearchParams = useUpdateSearchParams<'sort' | 'page' | 'tx_type'>()
-  const { sortBy = 'holder', sort = 'holder' } = useSortParam<NftSortByType>(s => s === 'holder' || s === 'minted')
+  const {
+    sortBy = 'holder',
+    orderBy,
+    sort = 'holder',
+    handleSortClick: handleTransactionsSortClick,
+  } = useSortParam<NftSortByType>(s => s === 'transactions' || s === 'holder' || s === 'minted')
+
+  const sortButton = (sortRule: NftSortByType) => (
+    <button
+      type="button"
+      className={classNames(styles.sortIcon, {
+        [styles.sortAsc]: sortRule === sortBy && orderBy === 'asc',
+        [styles.sortDesc]: sortRule === sortBy && orderBy === 'desc',
+      })}
+      onClick={() => handleTransactionsSortClick(sortRule)}
+    >
+      <SortIcon />
+    </button>
+  )
 
   const { isLoading, data } = useQuery<AxiosResponse<Res>>(['nft-collections', page, sort], () =>
     v2AxiosIns('nft/collections', {
@@ -149,6 +169,11 @@ const NftCollections = () => {
                     </Popover>
                   </div>
                 </th>
+                <th className={styles.transactions_header}>
+                  <span>
+                    {i18n.t('nft.transactions')} {sortButton('transactions')}
+                  </span>
+                </th>
                 <th className={styles.holder_and_minted_header}>
                   <span
                     className={classNames({
@@ -215,6 +240,7 @@ const NftCollections = () => {
                         </div>
                       </td>
                       <td>{i18n.t(`nft.${item.standard}`)}</td>
+                      <td>{item.h24_ckb_transactions_count}</td>
                       <td>{`${(item.holders_count ?? 0).toLocaleString('en')}/${(item.items_count ?? 0).toLocaleString(
                         'en',
                       )}`}</td>
