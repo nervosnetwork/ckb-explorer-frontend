@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { Tooltip } from 'antd'
+import { Radio, Tooltip } from 'antd'
 import CopyIcon from '../../../assets/copy.png'
 import i18n from '../../../utils/i18n'
 import { v2AxiosIns } from '../../../service/http/fetcher'
@@ -8,7 +8,7 @@ import { copyElementValue } from '../../../utils/util'
 import { AppActions } from '../../../contexts/actions'
 import SmallLoading from '../../Loading/SmallLoading'
 import { useDispatch } from '../../../contexts/providers'
-import { useIsMobile, useNewAddr, useDeprecatedAddr } from '../../../utils/hook'
+import { useIsMobile, useNewAddr, useDeprecatedAddr, useSearchParams, useUpdateSearchParams } from '../../../utils/hook'
 import SimpleButton from '../../SimpleButton'
 import { ReactComponent as OpenInNew } from '../../../assets/open_in_new.svg'
 import { ReactComponent as DownloadIcon } from '../../../assets/download_tx.svg'
@@ -56,6 +56,19 @@ export default ({
   const newAddr = useNewAddr(hash)
   const deprecatedAddr = useDeprecatedAddr(hash)
   const counterpartAddr = newAddr === hash ? deprecatedAddr : newAddr
+
+  const searchParams = useSearchParams('layout')
+  const defaultLayout = 'professional'
+  const updateSearchParams = useUpdateSearchParams<'layout'>()
+  const layout = searchParams.layout === 'lite' ? 'lite' : defaultLayout
+
+  const onChangeLayout = (lo: 'professional' | 'lite') => {
+    updateSearchParams(params =>
+      lo === defaultLayout
+        ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'layout'))
+        : { ...params, layout: lo },
+    )
+  }
 
   const handleExportTxClick = async () => {
     const res = await v2AxiosIns(`transactions/${hash}/raw`).catch(error => {
@@ -135,7 +148,7 @@ export default ({
                 </a>
               </Tooltip>
             ) : null}
-            {isTx ? (
+            {isTx && !loading ? (
               <Tooltip placement="top" title={i18n.t(`transaction.export-transaction`)}>
                 <button className={styles.exportTx} onClick={handleExportTxClick} type="button">
                   <DownloadIcon />
@@ -143,6 +156,22 @@ export default ({
               </Tooltip>
             ) : null}
           </div>
+
+          {isTx && !loading ? (
+            <div>
+              <Radio.Group
+                className={styles.layoutButtons}
+                options={[
+                  { label: i18n.t('transaction.professional'), value: 'professional' },
+                  { label: i18n.t('transaction.lite'), value: 'lite' },
+                ]}
+                onChange={({ target: { value } }) => onChangeLayout(value)}
+                value={layout}
+                optionType="button"
+                buttonStyle="solid"
+              />
+            </div>
+          ) : null}
 
           {(showDASInfoOnHeader || showDASInfoOnHeader === '') && (
             <DASInfo address={typeof showDASInfoOnHeader === 'string' ? showDASInfoOnHeader : hash} />

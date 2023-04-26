@@ -80,3 +80,37 @@
     color: #333;
   }
 }
+
+.layoutButtons {
+  > label {
+    height: 40px;
+    width: 120px;
+    text-align: center;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 38px;
+    color: #333333;
+    border: 1px solid #e5e5e5;
+    box-shadow: none !important;
+    &::before {
+      content: none !important;
+    }
+    &:hover {
+      color: #333333;
+      background: #ffffff;
+    }
+    &:first-child {
+      border-radius: 4px 0 0 4px;
+    }
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+    }
+    &:global(.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)) {
+      background: #333333;
+      border-color: #333333 !important;
+      &:hover {
+        background: #333333;
+      }
+    }
+  }
+}
