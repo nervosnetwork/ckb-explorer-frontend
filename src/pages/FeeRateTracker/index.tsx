@@ -97,7 +97,7 @@ const FeeRateTracker = () => {
               )}
             </div>
           </div>
-          <div style={{ display: 'none' }}>
+          <div>
             <div className={styles.chartTitle}>{i18n.t('fee_rate_tracker.n_days_historical_fee_rate', { n: 7 })}</div>
             <div className={styles.chart}>
               {transactionFeesStatistic?.lastNDaysTransactionFeeRates ? (
