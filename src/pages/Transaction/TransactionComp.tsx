@@ -88,7 +88,10 @@ const TransactionInfoItemWrapper = ({
   </TransactionInfoContentPanel>
 )
 
-export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ transaction }) => {
+export const TransactionOverview: FC<{ transaction: State.Transaction; layout: string }> = ({
+  transaction,
+  layout,
+}) => {
   const [showParams, setShowParams] = useState<boolean>(false)
   const {
     app: { tipBlockNumber },
@@ -111,6 +114,8 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
   } = transaction
 
   let confirmation = 0
+  const isLite: boolean = layout === 'professional'
+
   if (tipBlockNumber && blockNumber) {
     confirmation = tipBlockNumber - blockNumber
   }
@@ -123,42 +128,55 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
   ]
   if (txStatus === 'committed') {
     if (confirmation >= 0) {
-      OverviewItems.push(
-        {
-          title: i18n.t('block.timestamp'),
-          content: parseSimpleDate(blockTimestamp),
-        },
-        bytes
-          ? {
-              title: `${i18n.t('transaction.transaction_fee')} | ${i18n.t('transaction.fee_rate')}`,
-              content: (
-                <div
-                  style={{
-                    display: 'flex',
-                  }}
-                >
-                  <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />
-                  <span
+      if (isLite) {
+        OverviewItems.push(
+          {
+            title: i18n.t('block.timestamp'),
+            content: parseSimpleDate(blockTimestamp),
+          },
+          bytes
+            ? {
+                title: `${i18n.t('transaction.transaction_fee')} | ${i18n.t('transaction.fee_rate')}`,
+                content: (
+                  <div
                     style={{
-                      whiteSpace: 'pre',
+                      display: 'flex',
                     }}
-                  >{` | ${new BigNumber(transactionFee).multipliedBy(1000).dividedToIntegerBy(bytes).toFormat({
-                    groupSeparator: ',',
-                    groupSize: 3,
-                  })} shannons/kB`}</span>
-                </div>
-              ),
-            }
-          : {
-              title: i18n.t('transaction.transaction_fee'),
-              content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
-            },
+                  >
+                    <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />
+                    <span
+                      style={{
+                        whiteSpace: 'pre',
+                      }}
+                    >{` | ${new BigNumber(transactionFee).multipliedBy(1000).dividedToIntegerBy(bytes).toFormat({
+                      groupSeparator: ',',
+                      groupSize: 3,
+                    })} shannons/kB`}</span>
+                  </div>
+                ),
+              }
+            : {
+                title: i18n.t('transaction.transaction_fee'),
+                content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
+              },
 
-        {
-          title: i18n.t('transaction.status'),
-          content: formatConfirmation(confirmation),
-        },
-      )
+          {
+            title: i18n.t('transaction.status'),
+            content: formatConfirmation(confirmation),
+          },
+        )
+      } else {
+        OverviewItems.push(
+          {
+            title: i18n.t('block.timestamp'),
+            content: parseSimpleDate(blockTimestamp),
+          },
+          {
+            title: i18n.t('transaction.status'),
+            content: formatConfirmation(confirmation),
+          },
+        )
+      }
     }
   } else {
     OverviewItems.push(
@@ -178,58 +196,60 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
     )
   }
 
-  OverviewItems.push(
-    {
-      title: i18n.t('transaction.size'),
-      content: bytes ? (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          {`${(bytes - 4).toLocaleString('en')} Bytes`}
-          <ComparedToMaxTooltip
-            numerator={bytes}
-            maxInEpoch={largestTxInEpoch}
-            maxInChain={largestTx}
-            titleInEpoch={i18n.t('transaction.compared_to_the_max_size_in_epoch')}
-            titleInChain={i18n.t('transaction.compared_to_the_max_size_in_chain')}
-            unit="Bytes"
+  if (isLite) {
+    OverviewItems.push(
+      {
+        title: i18n.t('transaction.size'),
+        content: bytes ? (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
           >
-            {i18n.t('transaction.size_in_block', {
-              bytes: bytes.toLocaleString('en'),
-            })}
-          </ComparedToMaxTooltip>
-        </div>
-      ) : (
-        ''
-      ),
-    },
-    null,
-    {
-      title: i18n.t('transaction.cycles'),
-      content: cycles ? (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          {`${cycles.toLocaleString('en')}`}
-          <ComparedToMaxTooltip
-            numerator={cycles}
-            maxInEpoch={maxCyclesInEpoch}
-            maxInChain={maxCycles}
-            titleInEpoch={i18n.t('transaction.compared_to_the_max_cycles_in_epoch')}
-            titleInChain={i18n.t('transaction.compared_to_the_max_cycles_in_chain')}
-          />
-        </div>
-      ) : (
-        '-'
-      ),
-    },
-  )
+            {`${(bytes - 4).toLocaleString('en')} Bytes`}
+            <ComparedToMaxTooltip
+              numerator={bytes}
+              maxInEpoch={largestTxInEpoch}
+              maxInChain={largestTx}
+              titleInEpoch={i18n.t('transaction.compared_to_the_max_size_in_epoch')}
+              titleInChain={i18n.t('transaction.compared_to_the_max_size_in_chain')}
+              unit="Bytes"
+            >
+              {i18n.t('transaction.size_in_block', {
+                bytes: bytes.toLocaleString('en'),
+              })}
+            </ComparedToMaxTooltip>
+          </div>
+        ) : (
+          ''
+        ),
+      },
+      null,
+      {
+        title: i18n.t('transaction.cycles'),
+        content: cycles ? (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            {`${cycles.toLocaleString('en')}`}
+            <ComparedToMaxTooltip
+              numerator={cycles}
+              maxInEpoch={maxCyclesInEpoch}
+              maxInChain={maxCycles}
+              titleInEpoch={i18n.t('transaction.compared_to_the_max_cycles_in_epoch')}
+              titleInChain={i18n.t('transaction.compared_to_the_max_cycles_in_chain')}
+            />
+          </div>
+        ) : (
+          '-'
+        ),
+      },
+    )
+  }
 
   const TransactionParams = [
     {
@@ -291,22 +311,24 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
   return (
     <TransactionOverviewPanel>
       <OverviewCard items={OverviewItems} hideShadow>
-        <div className="transaction__overview_info">
-          <SimpleButton className="transaction__overview_parameters" onClick={() => setShowParams(!showParams)}>
-            <div>{i18n.t('transaction.transaction_parameters')}</div>
-            <img alt="transaction parameters" src={transactionParamsIcon(showParams)} />
-          </SimpleButton>
-          {showParams && (
-            <div className="transaction__overview_params">
-              {TransactionParams.map(item => (
-                <TransactionInfoItemPanel key={item.title}>
-                  <div className="transaction__info_title">{item.title}</div>
-                  <div className="transaction__info_value">{item.content}</div>
-                </TransactionInfoItemPanel>
-              ))}
-            </div>
-          )}
-        </div>
+        {isLite && (
+          <div className="transaction__overview_info">
+            <SimpleButton className="transaction__overview_parameters" onClick={() => setShowParams(!showParams)}>
+              <div>{i18n.t('transaction.transaction_parameters')}</div>
+              <img alt="transaction parameters" src={transactionParamsIcon(showParams)} />
+            </SimpleButton>
+            {showParams && (
+              <div className="transaction__overview_params">
+                {TransactionParams.map(item => (
+                  <TransactionInfoItemPanel key={item.title}>
+                    <div className="transaction__info_title">{item.title}</div>
+                    <div className="transaction__info_value">{item.content}</div>
+                  </TransactionInfoItemPanel>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </OverviewCard>
     </TransactionOverviewPanel>
   )

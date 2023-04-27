@@ -11,6 +11,7 @@ import { useDispatch } from '../../contexts/providers'
 import { fetchTransactionByHash } from '../../service/http/fetcher'
 import { QueryResult } from '../../components/QueryResult'
 import { defaultTransactionInfo } from './state'
+import { useSearchParams } from '../../utils/hook'
 
 export default () => {
   const dispatch = useDispatch()
@@ -26,6 +27,9 @@ export default () => {
   })
   const transaction = query.data ?? defaultTransactionInfo
   const { blockTimestamp, txStatus } = transaction
+  const searchParams = useSearchParams('layout')
+  const defaultLayout = 'professional'
+  const layout: string = searchParams.layout === 'lite' ? 'lite' : defaultLayout
 
   useEffect(() => getTipBlockNumber(dispatch), [dispatch])
 
@@ -33,7 +37,9 @@ export default () => {
     <Content>
       <TransactionPanel className="container">
         <TransactionHashCard title={i18n.t('transaction.transaction')} hash={txHash} loading={query.isLoading}>
-          {txStatus !== 'committed' || blockTimestamp > 0 ? <TransactionOverview transaction={transaction} /> : null}
+          {txStatus !== 'committed' || blockTimestamp > 0 ? (
+            <TransactionOverview transaction={transaction} layout={layout} />
+          ) : null}
         </TransactionHashCard>
         <QueryResult query={query} delayLoading>
           {data => <TransactionComp transaction={data} />}
