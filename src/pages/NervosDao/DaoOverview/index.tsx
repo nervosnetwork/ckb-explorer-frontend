@@ -134,11 +134,7 @@ const NervosDaoLeftItem = ({ item, firstLine }: { item: NervosDaoItemContent; fi
 const NervosDaoOverviewLeftComp: FC<{ nervosDao: State.NervosDao }> = ({ nervosDao }) => {
   const isMobile = useIsMobile()
 
-  const leftItems = nervosDaoItemContents({
-    ...nervosDao,
-    depositChanges: nervosDao.depositChanges,
-    depositorChanges: nervosDao.depositorChanges,
-  })
+  const leftItems = nervosDaoItemContents(nervosDao)
 
   if (isMobile) {
     return (
