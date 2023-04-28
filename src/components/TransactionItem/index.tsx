@@ -1,7 +1,6 @@
 import { ReactNode, useEffect, useRef } from 'react'
 import RightArrowIcon from '../../assets/input_arrow_output.png'
 import DownArrowIcon from '../../assets/input_arrow_output_down.png'
-import { parseDate } from '../../utils/date'
 import { localeNumberString } from '../../utils/number'
 import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
@@ -10,7 +9,7 @@ import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, Transaction
 import i18n from '../../utils/i18n'
 import { CellType } from '../../constants/common'
 import AddressText from '../AddressText'
-import { useIsLGScreen } from '../../utils/hook'
+import { useIsLGScreen, useParsedDate } from '../../utils/hook'
 
 export interface CircleCorner {
   top?: boolean
@@ -50,6 +49,8 @@ const TransactionItem = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const parsedBlockCreateAt = useParsedDate(transaction.blockTimestamp)
+
   return (
     <TransactionPanel ref={ref} circleCorner={circleCorner}>
       {titleCard}
@@ -66,9 +67,7 @@ const TransactionItem = ({
           </AddressText>
           {!isBlock && (
             <div className="transaction_item__block">
-              {`(${i18n.t('block.block')} ${localeNumberString(transaction.blockNumber)})  ${parseDate(
-                transaction.blockTimestamp,
-              )}`}
+              {`(${i18n.t('block.block')} ${localeNumberString(transaction.blockNumber)})  ${parsedBlockCreateAt}`}
             </div>
           )}
         </div>
