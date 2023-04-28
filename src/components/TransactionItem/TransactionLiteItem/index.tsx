@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom'
-import { parseDate } from '../../../utils/date'
 import { localeNumberString } from '../../../utils/number'
 import AddressText from '../../AddressText'
 import styles from './index.module.scss'
 import TransactionLiteIncome from '../TransactionLiteIncome'
 import i18n from '../../../utils/i18n'
-import { useIsMobile } from '../../../utils/hook'
+import { useIsMobile, useParsedDate } from '../../../utils/hook'
 
 const TransactionLiteItem = ({ transaction, address }: { transaction: State.Transaction; address?: string }) => {
   const isMobile = useIsMobile()
+  const parsedBlockCreateAt = useParsedDate(transaction.blockTimestamp)
   return (
     <div className={styles.transactionLitePanel}>
       <div className={styles.transactionLiteRow}>
@@ -32,7 +32,7 @@ const TransactionLiteItem = ({ transaction, address }: { transaction: State.Tran
         </div>
         <div>
           {isMobile && <div>{i18n.t('transaction.time')}</div>}
-          {parseDate(transaction.blockTimestamp)}
+          {parsedBlockCreateAt}
         </div>
         <div>
           {isMobile && <div>{`${i18n.t('transaction.input')} & ${i18n.t('transaction.output')}`}</div>}

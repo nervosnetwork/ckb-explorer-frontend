@@ -2,13 +2,13 @@ import { FC, memo } from 'react'
 import i18n from '../../../utils/i18n'
 import { HighLightLink } from '../../../components/Text'
 import { localeNumberString } from '../../../utils/number'
-import { parseDate } from '../../../utils/date'
 import DecimalCapacity from '../../../components/DecimalCapacity'
 import { shannonToCkbDecimal, deprecatedAddrToNewAddr } from '../../../utils/util'
 import { TableMinerContentItem } from '../../../components/Table'
 import { BlockRewardPlusPanel, BlockRewardPanel, BlockCardPanel, TransactionCardPanel } from './styled'
 import AddressText from '../../../components/AddressText'
 import styles from './index.module.scss'
+import { useParsedDate } from '../../../utils/hook'
 
 // eslint-disable-next-line no-underscore-dangle
 const _BlockCardItem: FC<{ block: State.Block; isDelayBlock?: boolean }> = ({ block, isDelayBlock }) => {
@@ -34,6 +34,8 @@ const _BlockCardItem: FC<{ block: State.Block; isDelayBlock?: boolean }> = ({ bl
     </BlockRewardPanel>
   )
 
+  const parsedBlockCreateAt = useParsedDate(block.timestamp)
+
   return (
     <BlockCardPanel>
       <div className="block__card__height">
@@ -41,7 +43,7 @@ const _BlockCardItem: FC<{ block: State.Block; isDelayBlock?: boolean }> = ({ bl
           <span>#</span>
           <HighLightLink value={localeNumberString(block.number)} to={`/block/${block.number}`} />
         </div>
-        <span className="block__card__timestamp">{parseDate(block.timestamp)}</span>
+        <span className="block__card__timestamp">{parsedBlockCreateAt}</span>
       </div>
 
       <div className="block__card__miner">
@@ -79,6 +81,8 @@ const _TransactionCardItem: FC<{
   confirmation = confirmation < 0 ? 0 : confirmation
   const confirmationUnit = confirmation > 1 ? i18n.t('address.confirmations') : i18n.t('address.confirmation')
 
+  const parsedBlockCreateAt = useParsedDate(transaction.blockTimestamp)
+
   return (
     <TransactionCardPanel>
       <div className="transaction__card__hash">
@@ -100,7 +104,7 @@ const _TransactionCardItem: FC<{
           <span className="transaction__card__block__height__prefix">#</span>
           <HighLightLink value={localeNumberString(transaction.blockNumber)} to={`/block/${transaction.blockNumber}`} />
         </div>
-        <div className="transaction__card__timestamp">{parseDate(transaction.blockTimestamp)}</div>
+        <div className="transaction__card__timestamp">{parsedBlockCreateAt}</div>
       </div>
 
       <div className="transaction__card__capacity">

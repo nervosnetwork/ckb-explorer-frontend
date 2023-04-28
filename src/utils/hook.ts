@@ -10,6 +10,7 @@ import {
 import { useHistory, useLocation } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { useResizeDetector } from 'react-resize-detector'
+import { interval, share } from 'rxjs'
 import { AppCachedKeys } from '../constants/cache'
 import { deprecatedAddrToNewAddr } from './util'
 import { parsePageNumber, startEndEllipsis } from './string'
@@ -22,6 +23,7 @@ import {
   storeDateChartCache,
   storeEpochChartCache,
 } from './cache'
+import { parseDate } from './date'
 
 /**
  * Returns the value of the argument from the previous render
@@ -499,6 +501,24 @@ export const useAnimationFrame = (callback: () => void, running: boolean = true)
 
     return () => window.cancelAnimationFrame(requestId)
   }, [running])
+}
+
+const secondSignal$ = interval(1000).pipe(share())
+
+export function useTimestamp(): number {
+  const [timestamp, setTimestamp] = useState(Date.now())
+
+  useEffect(() => {
+    const sub = secondSignal$.subscribe(() => setTimestamp(Date.now()))
+    return () => sub.unsubscribe()
+  }, [])
+
+  return timestamp
+}
+
+export function useParsedDate(timestamp: number): string {
+  const now = useTimestamp()
+  return parseDate(timestamp, now)
 }
 
 export default {
