@@ -29,30 +29,32 @@ export interface InventoryRes {
   }
 }
 
-export interface TransferListRes {
-  data: Array<{
+export interface TransferRes {
+  id: number
+  from: string | null
+  to: string | null
+  action: 'mint' | 'transfer'
+  item: {
     id: number
-    from: string | null
-    to: string | null
-    action: 'mint' | 'transfer'
-    item: {
-      id: number
-      token_id: string
-      name: string | null
-      icon_url: string | null
-      owner_id: number
-      metadata_url: string | null
-      cell_id: number | null
-      type_script: {
-        script_hash: string
-      }
+    token_id: string
+    name: string | null
+    icon_url: string | null
+    owner_id: number
+    metadata_url: string | null
+    cell_id: number | null
+    type_script: {
+      script_hash: string
     }
-    transaction: {
-      tx_hash: string
-      block_number: number
-      block_timestamp: number
-    }
-  }>
+  }
+  transaction: {
+    tx_hash: string
+    block_number: number
+    block_timestamp: number
+  }
+}
+
+export interface TransferListRes {
+  data: Array<TransferRes>
   pagination: {
     count: number
     page: number

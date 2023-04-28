@@ -50,8 +50,7 @@ export const parseDateNoTime = (timestamp: number | string | Date, noYear = fals
   return `${year}${formatData(date.getMonth() + 1)}${connector}${formatData(date.getDate())}`
 }
 
-export const parseDate = (timestamp: number | string) => {
-  const now = new Date().getTime()
+export const parseDate = (timestamp: number | string, now = new Date().getTime()) => {
   const diff = (now - Number(timestamp)) / 1000
   if (diff < 60) {
     return `${Math.floor(diff)}${i18n.t('common.second_ago')}`
