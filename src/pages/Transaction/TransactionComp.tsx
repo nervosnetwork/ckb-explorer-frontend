@@ -8,6 +8,7 @@ import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
 import { formatConfirmation, shannonToCkb, matchTxHash } from '../../utils/util'
+import { Addr } from './TransactionCell'
 import {
   TransactionBlockHeightPanel,
   TransactionInfoContentPanel,
@@ -26,8 +27,10 @@ import SimpleButton from '../../components/SimpleButton'
 import HashTag from '../../components/HashTag'
 import { useAddrFormatToggle } from '../../utils/hook'
 import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
+import styles from './styles.module.scss'
 
 const showTxStatus = (txStatus: string) => txStatus.replace(/^\S/, s => s.toUpperCase())
+const defaultLayout = 'professional'
 
 const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => (
   <TransactionBlockHeightPanel>
@@ -114,7 +117,7 @@ export const TransactionOverview: FC<{ transaction: State.Transaction; layout: s
   } = transaction
 
   let confirmation = 0
-  const isLite: boolean = layout === 'professional'
+  const isLite: boolean = layout === defaultLayout
 
   if (tipBlockNumber && blockNumber) {
     confirmation = tipBlockNumber - blockNumber
@@ -349,6 +352,37 @@ const handleCellbaseInputs = (inputs: State.Cell[], outputs: State.Cell[]) => {
   return inputs
 }
 
+export const TransactionCompLite: FC<{ transaction: State.Transaction }> = ({ transaction }) => {
+  const { displayInputs, isCellbase } = transaction
+
+  return (
+    <div className="transaction_lite">
+      <div className={styles.transactionLiteBox}>
+        <div className={styles.transactionLiteBoxHeader}>
+          <div className={styles.transactionLiteBoxHeaderAddr}>
+            <Addr address={displayInputs[0].addressHash} isCellBase={isCellbase} />
+          </div>
+          <span className={styles.tag}>Mine</span>
+        </div>
+        <div className={styles.transactionLiteBoxContent}>
+          <div>
+            <p>CKB</p>
+            <p>
+              <span className={styles.tag}>Nervos DAO deposit</span> +10000000.00000 CKB
+            </p>
+          </div>
+          <div>
+            <p>Unknown Assets #62bc</p>
+            <p>
+              <span className={styles.tag}>Mint</span> +10000000.00000 CKB
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default ({ transaction }: { transaction: State.Transaction }) => {
   const { transactionHash, displayInputs, displayOutputs, blockNumber, isCellbase, txStatus } = transaction
 
@@ -358,7 +392,7 @@ export default ({ transaction }: { transaction: State.Transaction }) => {
   /// [0, 11] block doesn't show block reward and only cellbase show block reward
   return (
     <>
-      <div className="transaction__inputs">
+      <div className="transaction__inputs ">
         {inputs && (
           <TransactionCellList
             inputs={inputs}

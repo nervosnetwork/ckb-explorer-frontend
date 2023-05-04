@@ -6,7 +6,7 @@ import Content from '../../components/Content'
 import { getTipBlockNumber } from '../../service/app/address'
 import i18n from '../../utils/i18n'
 import { TransactionDiv as TransactionPanel } from './styled'
-import TransactionComp, { TransactionOverview } from './TransactionComp'
+import TransactionComp, { TransactionOverview, TransactionCompLite } from './TransactionComp'
 import { useDispatch } from '../../contexts/providers'
 import { fetchTransactionByHash } from '../../service/http/fetcher'
 import { QueryResult } from '../../components/QueryResult'
@@ -41,9 +41,15 @@ export default () => {
             <TransactionOverview transaction={transaction} layout={layout} />
           ) : null}
         </TransactionHashCard>
-        <QueryResult query={query} delayLoading>
-          {data => <TransactionComp transaction={data} />}
-        </QueryResult>
+        {layout === defaultLayout ? (
+          <QueryResult query={query} delayLoading>
+            {data => <TransactionComp transaction={data} />}
+          </QueryResult>
+        ) : (
+          <QueryResult query={query} delayLoading>
+            {data => <TransactionCompLite transaction={data} />}
+          </QueryResult>
+        )}
       </TransactionPanel>
     </Content>
   )

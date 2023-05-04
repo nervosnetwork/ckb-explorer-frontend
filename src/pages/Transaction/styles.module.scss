@@ -1,0 +1,65 @@
+.transactionLiteBox {
+  .transactionLiteBoxHeader {
+    width: 100%;
+    height: auto;
+    margin-bottom: 16px;
+    overflow-x: hidden;
+
+    .transactionLiteBoxHeaderAddr {
+      width: 260px;
+      display: inline-block;
+    }
+
+    .tag {
+      background: #E8FFF1;
+      color: #00cc9b;
+      font-size: 12px;
+      padding: 4px 6px;
+      box-shadow: 0px 4px 4px rgba(16, 16, 16, 0.05);
+      border: 1px solid #CAFFDF;
+      border-radius: 4px;
+      display: inline-block;
+      margin-left: 8px;
+    }
+  }
+
+  .transactionLiteBoxContent {
+    width: 100%;
+    height: auto;
+
+    div {
+      width: 100%;
+      height: 22px;
+      margin-bottom: 12px;
+      display: flex;
+
+      p {
+        flex: 1;
+
+        &:first-child {
+          text-align: left;
+          font-size: 16px;
+          color: #333;
+        }
+
+        &:last-child {
+          text-align: right;
+          font-size: 14px;
+          color: #00CC9B;
+        }
+
+        .tag {
+          box-sizing: border-box;
+          background: #D7E5FD;
+          padding: 4px 6px;
+          border: 1px solid #B0CBFC;
+          border-radius: 4px;
+          font-size: 12px;
+          color: #333;
+          display: inline-block;
+          margin-right: 12px;
+        }
+      }
+    }
+  }
+}
