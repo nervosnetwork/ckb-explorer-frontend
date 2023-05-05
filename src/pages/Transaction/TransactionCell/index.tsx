@@ -268,7 +268,7 @@ const TransactionCellInfo = ({
   )
 }
 
-const TransactionCellCapacityAmount = ({ cell }: { cell: State.Cell }) => {
+export const TransactionCellCapacityAmount = ({ cell }: { cell: State.Cell }) => {
   const { udtInfo } = cell
   return udtInfo && udtInfo.typeHash ? (
     <span>

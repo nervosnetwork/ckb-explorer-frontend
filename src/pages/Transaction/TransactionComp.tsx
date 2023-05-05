@@ -8,7 +8,7 @@ import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
 import { formatConfirmation, shannonToCkb, matchTxHash } from '../../utils/util'
-import { Addr } from './TransactionCell'
+import { Addr, TransactionCellCapacityAmount } from './TransactionCell'
 import {
   TransactionBlockHeightPanel,
   TransactionInfoContentPanel,
@@ -368,13 +368,14 @@ export const TransactionCompLite: FC<{ transaction: State.Transaction }> = ({ tr
           <div>
             <p>CKB</p>
             <p>
-              <span className={styles.tag}>Nervos DAO deposit</span> +10000000.00000 CKB
+              <span className={styles.tag}>Nervos DAO deposit</span> +
+              <TransactionCellCapacityAmount cell={displayInputs[0]} />
             </p>
           </div>
           <div>
             <p>Unknown Assets #62bc</p>
             <p>
-              <span className={styles.tag}>Mint</span> +10000000.00000 CKB
+              <span className={styles.tag}>Mint</span> +<TransactionCellCapacityAmount cell={displayInputs[0]} />
             </p>
           </div>
         </div>
