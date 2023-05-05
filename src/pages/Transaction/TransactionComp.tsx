@@ -2,6 +2,7 @@
 import { useState, ReactNode, FC } from 'react'
 import { Link } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
+import { Tooltip } from 'antd'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { useAppState } from '../../contexts/providers/index'
 import { parseSimpleDate } from '../../utils/date'
@@ -25,7 +26,7 @@ import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import { isMainnet } from '../../utils/chain'
 import SimpleButton from '../../components/SimpleButton'
 import HashTag from '../../components/HashTag'
-import { useAddrFormatToggle } from '../../utils/hook'
+import { useAddrFormatToggle, useIsMobile } from '../../utils/hook'
 import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 import styles from './styles.module.scss'
 
@@ -353,6 +354,7 @@ const handleCellbaseInputs = (inputs: State.Cell[], outputs: State.Cell[]) => {
 }
 
 export const TransactionCompLite: FC<{ transaction: State.Transaction }> = ({ transaction }) => {
+  const isMobile = useIsMobile()
   const { displayInputs, isCellbase } = transaction
 
   return (
@@ -364,21 +366,59 @@ export const TransactionCompLite: FC<{ transaction: State.Transaction }> = ({ tr
           </div>
           <span className={styles.tag}>Mine</span>
         </div>
-        <div className={styles.transactionLiteBoxContent}>
-          <div>
-            <p>CKB</p>
-            <p>
-              <span className={styles.tag}>Nervos DAO deposit</span> +
-              <TransactionCellCapacityAmount cell={displayInputs[0]} />
-            </p>
+        {isMobile ? (
+          <div className={styles.transactionLiteBoxContentMobile}>
+            <div className={styles.transactionLiteMobileName}>
+              <p>CKB</p>
+              <p>Unknown Assets #62bc</p>
+            </div>
+            <div className={styles.transactionLiteMobileContent}>
+              <p>
+                <Tooltip
+                  placement="top"
+                  title={
+                    <>
+                      <span>Nervos DAO deposit</span>
+                      <TransactionCellCapacityAmount cell={displayInputs[0]} />
+                    </>
+                  }
+                >
+                  <span className={styles.tag}>Nervos DAO deposit</span>
+                </Tooltip>
+                + <TransactionCellCapacityAmount cell={displayInputs[0]} />
+              </p>
+              <p>
+                <span className={styles.tag}>Mint</span> +<TransactionCellCapacityAmount cell={displayInputs[0]} />
+              </p>
+            </div>
           </div>
-          <div>
-            <p>Unknown Assets #62bc</p>
-            <p>
-              <span className={styles.tag}>Mint</span> +<TransactionCellCapacityAmount cell={displayInputs[0]} />
-            </p>
+        ) : (
+          <div className={styles.transactionLiteBoxContent}>
+            <div>
+              <p>CKB</p>
+              <p>
+                <Tooltip
+                  placement="top"
+                  title={
+                    <>
+                      <span>Nervos DAO deposit</span>
+                      <TransactionCellCapacityAmount cell={displayInputs[0]} />
+                    </>
+                  }
+                >
+                  <span className={styles.tag}>Nervos DAO deposit</span>
+                </Tooltip>
+                + <TransactionCellCapacityAmount cell={displayInputs[0]} />
+              </p>
+            </div>
+            <div>
+              <p>Unknown Assets #62bc</p>
+              <p>
+                <span className={styles.tag}>Mint</span> +<TransactionCellCapacityAmount cell={displayInputs[0]} />
+              </p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )

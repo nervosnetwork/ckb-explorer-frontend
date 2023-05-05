@@ -7,7 +7,15 @@
 
     .transactionLiteBoxHeaderAddr {
       width: 260px;
+      max-width: 400px;
       display: inline-block;
+    }
+
+    @media (max-width: 750px) {
+      .transactionLiteBoxHeaderAddr {
+        width: 200px;
+        display: inline-block;
+      }
     }
 
     .tag {
@@ -65,6 +73,51 @@
           margin-right: 12px;
         }
       }
+    }
+  }
+
+  .transactionLiteBoxContentMobile {
+    width: 100%;
+    height: auto;
+
+    div {
+      display: inline-block;
+      color: #00CC9B;
+    }
+
+    .transactionLiteMobileName {
+      p {
+        font-size: 16px;
+        color: #333;
+      }
+
+    }
+
+    .transactionLiteMobileContent {
+      &:first-child {
+        text-align: left;
+      }
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+
+    .tag {
+      box-sizing: border-box;
+      background: #D7E5FD;
+      padding: 2px 6px;
+      border: 1px solid #B0CBFC;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #333;
+      margin-right: 12px;
+      float: left;
+    }
+
+    &>div {
+      width: 100%;
+      height: auto;
     }
   }
 }
