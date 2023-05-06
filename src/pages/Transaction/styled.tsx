@@ -28,7 +28,11 @@ export const TransactionDiv = styled.div.attrs({
     border-radius: 6px;
     box-shadow: 2px 2px 6px 0 #dfdfdf;
     background-color: #ffffff;
-    padding: 12px 20px 12px 40px;
+    padding: 16px 36px 12px 36px;
+
+    @media (max-width: 750px) {
+      padding: 16px 18px;
+    }
   }
 `
 

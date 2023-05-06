@@ -364,13 +364,13 @@ export const TransactionCompLite: FC<{ transaction: State.Transaction }> = ({ tr
           <div className={styles.transactionLiteBoxHeaderAddr}>
             <Addr address={displayInputs[0].addressHash} isCellBase={isCellbase} />
           </div>
-          <span className={styles.tag}>Mine</span>
+          <span className={styles.tag}>{i18n.t('transaction.mint')}</span>
         </div>
         {isMobile ? (
           <div className={styles.transactionLiteBoxContentMobile}>
             <div className={styles.transactionLiteMobileName}>
               <p>CKB</p>
-              <p>Unknown Assets #62bc</p>
+              <p>{i18n.t('transaction.unknown_assets')} #62bc</p>
             </div>
             <div className={styles.transactionLiteMobileContent}>
               <p>
@@ -378,17 +378,18 @@ export const TransactionCompLite: FC<{ transaction: State.Transaction }> = ({ tr
                   placement="top"
                   title={
                     <>
-                      <span>Nervos DAO deposit</span>
+                      <span>{i18n.t('transaction.nervos_dao_deposit')}</span>
                       <TransactionCellCapacityAmount cell={displayInputs[0]} />
                     </>
                   }
                 >
-                  <span className={styles.tag}>Nervos DAO deposit</span>
+                  <span className={styles.tag}> {i18n.t('transaction.nervos_dao_deposit')}</span>
                 </Tooltip>
                 + <TransactionCellCapacityAmount cell={displayInputs[0]} />
               </p>
               <p>
-                <span className={styles.tag}>Mint</span> +<TransactionCellCapacityAmount cell={displayInputs[0]} />
+                <span className={styles.tag}>{i18n.t('transaction.mint')}</span> +
+                <TransactionCellCapacityAmount cell={displayInputs[0]} />
               </p>
             </div>
           </div>
@@ -401,20 +402,21 @@ export const TransactionCompLite: FC<{ transaction: State.Transaction }> = ({ tr
                   placement="top"
                   title={
                     <>
-                      <span>Nervos DAO deposit</span>
+                      <span>{i18n.t('transaction.nervos_dao_deposit')}</span>
                       <TransactionCellCapacityAmount cell={displayInputs[0]} />
                     </>
                   }
                 >
-                  <span className={styles.tag}>Nervos DAO deposit</span>
+                  <span className={styles.tag}>{i18n.t('transaction.nervos_dao_deposit')}</span>
                 </Tooltip>
                 + <TransactionCellCapacityAmount cell={displayInputs[0]} />
               </p>
             </div>
             <div>
-              <p>Unknown Assets #62bc</p>
+              <p>{i18n.t('transaction.unknown_assets')} #62bc</p>
               <p>
-                <span className={styles.tag}>Mint</span> +<TransactionCellCapacityAmount cell={displayInputs[0]} />
+                <span className={styles.tag}>{i18n.t('transaction.mint')}</span> +
+                <TransactionCellCapacityAmount cell={displayInputs[0]} />
               </p>
             </div>
           </div>

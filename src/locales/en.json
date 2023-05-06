@@ -318,7 +318,9 @@
         }
       },
       "professional": "Professional",
-      "lite": "Lite"
+      "lite": "Lite",
+      "unknown_assets": "Unknown Assets",
+      "mint": "Mint"
     },
     "block": {
       "block": "Block",

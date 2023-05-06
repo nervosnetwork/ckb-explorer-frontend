@@ -317,7 +317,9 @@
         }
       },
       "professional": "专业版",
-      "lite": "精简版"
+      "lite": "精简版",
+      "unknown_assets": "未知资产",
+      "mint": "铸造"
     },
     "block": {
       "block": "区块",
