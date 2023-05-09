@@ -9,6 +9,10 @@
       width: 260px;
       max-width: 400px;
       display: inline-block;
+
+      div {
+        color: #00CC9B;
+      }
     }
 
     @media (max-width: 750px) {
@@ -37,6 +41,9 @@
 
     div {
       display: inline-block;
+    }
+
+    .nftId {
       color: #00CC9B;
     }
 
@@ -46,7 +53,8 @@
       margin-bottom: 12px;
       display: flex;
 
-      p {
+
+      div {
         flex: 1;
 
         &:first-child {
@@ -71,6 +79,31 @@
           color: #333;
           display: inline-block;
           margin-right: 12px;
+        }
+      }
+    }
+
+    @media (max-width: 750px) {
+      &>div {
+        display: inline-block;
+
+        div {
+          &:first-child {
+            flex: .2;
+            font-size: 14px;
+            float: left;
+          }
+
+          &:last-child {
+            text-align: right;
+            font-size: 14px;
+            float: right;
+          }
+
+          .tag {
+            padding: 2px 2px;
+            margin-right: 2px;
+          }
         }
       }
     }

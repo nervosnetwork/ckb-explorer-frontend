@@ -158,7 +158,7 @@ export default ({
             </div>
 
             {!isMobile && isTx && !loading ? (
-              <div>
+              <div className={styles.professionalLiteBox}>
                 <Radio.Group
                   className={styles.layoutButtons}
                   options={[
@@ -190,9 +190,9 @@ export default ({
         </div>
 
         {isMobile && isTx && !loading ? (
-          <div className={styles.radioWidth}>
+          <div className={styles.professionalLiteBox}>
             <Radio.Group
-              className={isMobile ? styles.layoutButtonsMobile : styles.layoutButtons}
+              className={styles.layoutButtons}
               options={[
                 { label: i18n.t('transaction.professional'), value: 'professional' },
                 { label: i18n.t('transaction.lite'), value: 'lite' },

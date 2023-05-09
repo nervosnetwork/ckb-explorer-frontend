@@ -32,7 +32,13 @@ export default ({
 
   return (
     <DecimalPanel>
-      <span>{integer}</span>
+      <span
+        style={{
+          color: color || 'rgba(0, 0, 0, 0.85)',
+        }}
+      >
+        {integer}
+      </span>
       <DecimalPartPanel className="monospace" fontSize={fontSize} color={color} marginBottom={marginBottom}>
         {decimal}
       </DecimalPartPanel>
@@ -41,7 +47,16 @@ export default ({
           {zeros}
         </DecimalZerosPanel>
       )}
-      {!hideUnit && <div className="decimal__unit monospace">{i18n.t('common.ckb_unit')}</div>}
+      {!hideUnit && (
+        <div
+          className="decimal__unit monospace"
+          style={{
+            color: color || 'rgba(0, 0, 0, 0.85)',
+          }}
+        >
+          {i18n.t('common.ckb_unit')}
+        </div>
+      )}
     </DecimalPanel>
   )
 }

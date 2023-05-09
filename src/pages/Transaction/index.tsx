@@ -25,6 +25,7 @@ export default () => {
     }
     return transaction
   })
+
   const transaction = query.data ?? defaultTransactionInfo
   const { blockTimestamp, txStatus } = transaction
   const searchParams = useSearchParams('layout')

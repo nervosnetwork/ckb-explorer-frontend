@@ -36,6 +36,9 @@ declare namespace State {
     | 'nrc_721_token'
     | 'cota_registry'
     | 'cota_regular'
+    | 'nft_transfer'
+    | 'ordinary_transfer'
+    | 'nft_mint'
 
   interface UDTInfo {
     symbol: string
@@ -93,6 +96,25 @@ declare namespace State {
       raw: string
       median_timestamp?: string
     }
+  }
+
+  export interface TransactionLiteDetails {
+    address: string;
+    transfers: Transfer[];
+  }
+
+  interface Transfer {
+    tokenName: string;
+    capacity: number;
+    transferType: CellTypes;
+    compensationStartedBlockNumber: number;
+    compensationEndedBlockNumber: number;
+    compensationStartedTimestamp: number;
+    compensationEndedTimestamp: number;
+    interest: number;
+    lockedUntilBlockNumber: number;
+    lockedUntilBlockTimestamp: number;
+    nftId: number | string;
   }
 
   export interface CellInfo {
@@ -547,7 +569,7 @@ declare namespace State {
     statistics: Statistics
   }
 
-  export interface PagePayload extends PageState {}
+  export interface PagePayload extends PageState { }
 
   export interface App {
     toast: ToastMessage | null

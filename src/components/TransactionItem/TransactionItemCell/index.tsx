@@ -29,11 +29,11 @@ import { useBoolean, useIsMobile } from '../../../utils/hook'
 import CopyTooltipText from '../../Text/CopyTooltipText'
 import EllipsisMiddle from '../../EllipsisMiddle'
 
-const isDaoDepositCell = (cellType: State.CellTypes) => cellType === 'nervos_dao_deposit'
+export const isDaoDepositCell = (cellType: State.CellTypes) => cellType === 'nervos_dao_deposit'
 
-const isDaoWithdrawCell = (cellType: State.CellTypes) => cellType === 'nervos_dao_withdrawing'
+export const isDaoWithdrawCell = (cellType: State.CellTypes) => cellType === 'nervos_dao_withdrawing'
 
-const isDaoCell = (cellType: State.CellTypes) => isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
+export const isDaoCell = (cellType: State.CellTypes) => isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
 
 const AddressTextWithAlias: FC<{
   address: string
@@ -90,10 +90,26 @@ const WithdrawPopoverItem = ({
   </WithdrawItemPanel>
 )
 
-const WithdrawPopoverInfo = ({ cell }: { cell: State.Cell }) => {
+export const WithdrawPopoverInfo = ({ cell, cellV2 }: { cell: State.Cell; cellV2?: State.Transfer }) => {
   const isMobile = useIsMobile()
   const { app } = useAppState()
   let width = 'short'
+
+  // Compatible with V2 interface
+  if (cellV2) {
+    /* eslint-disable */
+    cell.cellType = cellV2.transferType
+    cell.capacity = cellV2.capacity.toString()
+    cell.interest = cellV2.interest.toString() || ''
+    cell.compensationStartedBlockNumber = cellV2.compensationStartedBlockNumber || 0
+    cell.compensationEndedBlockNumber = cellV2.compensationEndedBlockNumber || 0
+    cell.compensationStartedTimestamp = cellV2.compensationStartedTimestamp || 0
+    cell.compensationEndedTimestamp = cellV2.compensationEndedTimestamp || 0
+    cell.lockedUntilBlockNumber = cellV2.lockedUntilBlockNumber || 0
+    cell.lockedUntilBlockTimestamp = cellV2.lockedUntilBlockTimestamp || 0
+    /* eslint-enable */
+  }
+
   if (app.language === 'en') {
     width = isDaoDepositCell(cell.cellType) ? 'long' : 'medium'
   }

@@ -1,15 +1,16 @@
 /* eslint-disable react/no-array-index-key */
 import { useState, ReactNode, FC } from 'react'
-import { Link } from 'react-router-dom'
+import { useQuery } from 'react-query'
+import { Popover } from 'antd'
+import { Link, useParams } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
-import { Tooltip } from 'antd'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { useAppState } from '../../contexts/providers/index'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
 import { formatConfirmation, shannonToCkb, matchTxHash } from '../../utils/util'
-import { Addr, TransactionCellCapacityAmount } from './TransactionCell'
+import { Addr } from './TransactionCell'
 import {
   TransactionBlockHeightPanel,
   TransactionInfoContentPanel,
@@ -26,9 +27,12 @@ import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import { isMainnet } from '../../utils/chain'
 import SimpleButton from '../../components/SimpleButton'
 import HashTag from '../../components/HashTag'
-import { useAddrFormatToggle, useIsMobile } from '../../utils/hook'
+import { useAddrFormatToggle } from '../../utils/hook'
 import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 import styles from './styles.module.scss'
+import { defaultTransactionLiteDetails } from './state'
+import { fetchTransactionLiteDetailsByHash } from '../../service/http/fetcher'
+import { WithdrawPopoverInfo, isDaoWithdrawCell } from '../../components/TransactionItem/TransactionItemCell'
 
 const showTxStatus = (txStatus: string) => txStatus.replace(/^\S/, s => s.toUpperCase())
 const defaultLayout = 'professional'
@@ -354,75 +358,71 @@ const handleCellbaseInputs = (inputs: State.Cell[], outputs: State.Cell[]) => {
 }
 
 export const TransactionCompLite: FC<{ transaction: State.Transaction }> = ({ transaction }) => {
-  const isMobile = useIsMobile()
+  const { hash: txHash } = useParams<{ hash: string }>()
   const { displayInputs, isCellbase } = transaction
 
+  const query = useQuery(['ckb_transaction_details', txHash], async () => {
+    const ckbTransactionDetails = await fetchTransactionLiteDetailsByHash(txHash)
+    return ckbTransactionDetails
+  })
+
+  const transactionLiteDetails: State.TransactionLiteDetails[] = query.data ?? defaultTransactionLiteDetails
+
   return (
-    <div className="transaction_lite">
-      <div className={styles.transactionLiteBox}>
-        <div className={styles.transactionLiteBoxHeader}>
-          <div className={styles.transactionLiteBoxHeaderAddr}>
-            <Addr address={displayInputs[0].addressHash} isCellBase={isCellbase} />
-          </div>
-          <span className={styles.tag}>{i18n.t('transaction.mint')}</span>
-        </div>
-        {isMobile ? (
-          <div className={styles.transactionLiteBoxContentMobile}>
-            <div className={styles.transactionLiteMobileName}>
-              <p>CKB</p>
-              <p>{i18n.t('transaction.unknown_assets')} #62bc</p>
+    <>
+      {transactionLiteDetails &&
+        transactionLiteDetails.map((item, index) => {
+          return (
+            <div className="transaction_lite" key={index}>
+              <div className={styles.transactionLiteBox}>
+                <div className={styles.transactionLiteBoxHeader}>
+                  <div className={styles.transactionLiteBoxHeaderAddr}>
+                    <Addr address={item.address} isCellBase={isCellbase} />
+                  </div>
+                  {/* <span className={styles.tag}>{i18n.t('transaction.mint')}</span> */}
+                </div>
+                <div className={styles.transactionLiteBoxContent}>
+                  {item.transfers.map((items, index) => {
+                    return (
+                      <div key={index}>
+                        <div>{items.tokenName}</div>
+                        <div>
+                          {(items.transferType && items.transferType === 'nervos_dao_deposit') ||
+                          items.transferType === 'nervos_dao_withdrawing' ? (
+                            <Popover
+                              placement="right"
+                              title=""
+                              content={<WithdrawPopoverInfo cell={displayInputs[0]} cellV2={items} />}
+                              trigger="click"
+                            >
+                              <span className={styles.tag}>
+                                {isDaoWithdrawCell(items.transferType)
+                                  ? i18n.t('nervos_dao.withdraw_tooltip')
+                                  : i18n.t('nervos_dao.withdraw_request_tooltip')}
+                              </span>
+                            </Popover>
+                          ) : null}
+                          {items.transferType === 'nft_transfer' ? (
+                            <span className={styles.nftId}>-ID : {items.nftId}</span>
+                          ) : (
+                            <>
+                              {items.capacity > 0 ? <span style={{ color: '#00CC9B' }}>+</span> : null}
+                              <DecimalCapacity
+                                color={items.capacity > 0 ? '#00CC9B' : '#FA504F'}
+                                value={localeNumberString(shannonToCkb(items.capacity))}
+                              />
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
             </div>
-            <div className={styles.transactionLiteMobileContent}>
-              <p>
-                <Tooltip
-                  placement="top"
-                  title={
-                    <>
-                      <span>{i18n.t('transaction.nervos_dao_deposit')}</span>
-                      <TransactionCellCapacityAmount cell={displayInputs[0]} />
-                    </>
-                  }
-                >
-                  <span className={styles.tag}> {i18n.t('transaction.nervos_dao_deposit')}</span>
-                </Tooltip>
-                + <TransactionCellCapacityAmount cell={displayInputs[0]} />
-              </p>
-              <p>
-                <span className={styles.tag}>{i18n.t('transaction.mint')}</span> +
-                <TransactionCellCapacityAmount cell={displayInputs[0]} />
-              </p>
-            </div>
-          </div>
-        ) : (
-          <div className={styles.transactionLiteBoxContent}>
-            <div>
-              <p>CKB</p>
-              <p>
-                <Tooltip
-                  placement="top"
-                  title={
-                    <>
-                      <span>{i18n.t('transaction.nervos_dao_deposit')}</span>
-                      <TransactionCellCapacityAmount cell={displayInputs[0]} />
-                    </>
-                  }
-                >
-                  <span className={styles.tag}>{i18n.t('transaction.nervos_dao_deposit')}</span>
-                </Tooltip>
-                + <TransactionCellCapacityAmount cell={displayInputs[0]} />
-              </p>
-            </div>
-            <div>
-              <p>{i18n.t('transaction.unknown_assets')} #62bc</p>
-              <p>
-                <span className={styles.tag}>{i18n.t('transaction.mint')}</span> +
-                <TransactionCellCapacityAmount cell={displayInputs[0]} />
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+          )
+        })}
+    </>
   )
 }
 

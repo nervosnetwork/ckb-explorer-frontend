@@ -23,3 +23,5 @@ export const defaultTransactionInfo: State.Transaction = {
   maxCyclesInEpoch: null,
   maxCycles: null,
 }
+
+export const defaultTransactionLiteDetails: State.TransactionLiteDetails[] = []
