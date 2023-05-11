@@ -188,8 +188,11 @@
       }
       &.successHint {
         border: 1px solid var(--primary-color);
-        background: #E6FCF7;
+        background: var(--primary-chiffon-color);
         color: var(--primary-color);
+        path {
+          fill: var(--primary-color);
+        }
       }
       &.errorHint {
         border: 1px solid #FFA6A6;

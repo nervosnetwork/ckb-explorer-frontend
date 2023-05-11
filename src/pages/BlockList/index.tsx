@@ -225,7 +225,7 @@ export default () => {
           currentPage={currentPage}
           totalPages={totalPages}
           onChange={setPage}
-          rear={<CsvExport type="block" />}
+          rear={<CsvExport type="blocks" />}
         />
       </BlockListPanel>
     </Content>

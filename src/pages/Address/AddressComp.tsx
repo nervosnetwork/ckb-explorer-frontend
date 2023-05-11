@@ -396,7 +396,7 @@ export const AddressTransactions = ({
         currentPage={currentPage}
         totalPages={totalPages}
         onChange={setPage}
-        rear={<CsvExport type="address" address={addressHash} />}
+        rear={<CsvExport type="address_transactions" id={addressHash} />}
       />
     </>
   )

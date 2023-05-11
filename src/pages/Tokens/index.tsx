@@ -147,7 +147,7 @@ export default () => {
           currentPage={currentPage}
           totalPages={totalPages}
           onChange={setPage}
-          rear={<CsvExport type="token" />}
+          rear={<CsvExport type="udts" id="" />}
         />
       </TokensPanel>
     </Content>

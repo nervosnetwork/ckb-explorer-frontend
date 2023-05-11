@@ -538,8 +538,7 @@
       "error_block_number_order": "`to block number` should be higher than `from block number`!",
       "block_number_should_be_positive": "block number should be positive",
       "too_many_blocks": "The selected range exceeds 5,000 blocks, please re-enter the block numbers!",
-      "fetch_processed_export_link_empty": "fetch processed export link empty",
-      "fetch_processed_export_link_error": "fetch processed export link error"
+      "fetch_processed_export_link_empty": "fetch processed export link empty"
     }
   }
 }

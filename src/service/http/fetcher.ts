@@ -434,30 +434,30 @@ export const fetchMaintenanceInfo = () =>
   )
 
 export const exportTransactions = ({
+  type,
+  id,
   startDate,
   endDate,
   fromHeight,
   toHeight,
-  type,
-  address,
-  nft,
+  tab,
 }: {
+  type: State.TransactionCsvExportType
+  id?: string
   startDate?: Dayjs
   endDate?: Dayjs
   fromHeight?: number
   toHeight?: number
-  type?: string
-  address?: string
-  nft?: string
+  tab: string
 }) =>
-  v2AxiosIns
-    .post('export_transactions', {
-      start_date: startDate ? startDate.format('YYYY-MM-DD') : undefined,
-      end_date: endDate ? endDate.format('YYYY-MM-DD') : undefined,
-      from_height: fromHeight,
-      to_height: toHeight,
-      type,
-      address,
-      nft,
+  axiosIns
+    .get(`/${type}/download_csv`, {
+      params: {
+        id,
+        start_date: tab === 'date' && startDate ? startDate.format('YYYY-MM-DD') : undefined,
+        end_date: tab === 'date' && endDate ? endDate.format('YYYY-MM-DD') : undefined,
+        from_number: tab === 'height' ? fromHeight : undefined,
+        to_number: tab === 'height' ? toHeight : undefined,
+      },
     })
     .then(res => toCamelcase<Response.Response<string>>(res.data))

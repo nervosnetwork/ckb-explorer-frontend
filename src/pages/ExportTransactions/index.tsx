@@ -14,8 +14,8 @@ import 'dayjs/locale/zh-cn'
 import { ReactComponent as BlockIcon } from '../../assets/block_icon.svg'
 import { ReactComponent as ErrorIcon } from '../../assets/error_icon.svg'
 import { ReactComponent as SuccessIcon } from '../../assets/success_icon.svg'
-import { exportTransactions } from '../../service/http/fetcher'
 import { omit } from '../../utils/object'
+import { exportTransactions } from '../../service/http/fetcher'
 
 const ExportTransactions = () => {
   const [t, { language }] = useTranslation()
@@ -23,15 +23,20 @@ const ExportTransactions = () => {
   const locale = language === 'zh' ? cnLocale.default : enLocale.default
 
   const {
-    type,
-    address,
-    nft,
+    type: typeStr,
+    id,
     tab = 'date',
     'start-date': startDateStr,
     'end-date': endDateStr,
     'from-height': fromHeightStr,
     'to-height': toHeightStr,
-  } = useSearchParams('type', 'address', 'nft', 'tab', 'start-date', 'end-date', 'from-height', 'to-height')
+  } = useSearchParams('type', 'id', 'tab', 'start-date', 'end-date', 'from-height', 'to-height')
+
+  function isTransactionCsvExportType(s?: string): s is State.TransactionCsvExportType {
+    return s ? ['address_transactions', 'blocks', 'udts', 'nft'].includes(s) : false
+  }
+
+  const type = isTransactionCsvExportType(typeStr) ? typeStr : 'blocks'
 
   const startDate = tab === 'date' && startDateStr ? dayjs(startDateStr) : undefined
   const endDate = tab === 'date' && endDateStr ? dayjs(endDateStr) : undefined
@@ -110,23 +115,25 @@ const ExportTransactions = () => {
       }
     }
     setHint({ type: 'success', msg: 'download_processed' })
-    exportTransactions({ startDate, endDate, fromHeight, toHeight, type, address, nft })
+    exportTransactions({ type, id, startDate, endDate, fromHeight, toHeight, tab })
       .then((resp: Response.Response<string> | null) => {
-        if (!resp || !resp.data) {
+        if (!resp) {
           setHint({
             type: 'error',
             msg: 'fetch_processed_export_link_empty',
           })
           return
         }
-        if (resp.error) {
-          setHint({
-            type: 'error',
-            msg: 'fetch_processed_export_link_error',
-            extraMsg: `: ${resp && resp?.error ? resp.error.map(r => r.title).join(',') : ''}`,
-          })
-        }
-        window.open(resp.data, '_blank', 'noopener, noreferrer')
+        const a = document.createElement('a')
+        a.href = `data:,${resp}`
+        a.download = `exported-txs-${type}${type === 'blocks' ? '' : `-${id}`}-${
+          tab === 'date' && startDate ? startDate.format('YYYY-MM-DD') : ''
+        }${tab === 'height' ? fromHeight : ''}-${tab === 'date' && endDate ? endDate.format('YYYY-MM-DD') : ''}${
+          tab === 'height' ? toHeight : ''
+        }.csv`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
       })
       .catch(reason => {
         setHint({
