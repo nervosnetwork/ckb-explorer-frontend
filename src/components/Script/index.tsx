@@ -14,7 +14,7 @@ const ScriptItem = ({ title, children }: { title: string; children?: ReactNode }
 )
 
 const Script = ({ script }: { script: State.Script }) => {
-  const contractHashTag = matchScript(script.codeHash, script.hashType)
+  const contractHashTag = matchScript(script)
   return (
     <ScriptPanel>
       <ScriptItem title={i18n.t('address.code_hash')}>

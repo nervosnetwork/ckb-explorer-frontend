@@ -188,9 +188,7 @@ const ScriptContent = ({
   content: State.Script | State.Data | CapacityUsage | undefined
   state: CellState
 }) => {
-  const hashTag = (content as State.Script).codeHash
-    ? matchScript((content as State.Script).codeHash, (content as State.Script).hashType)
-    : undefined
+  const hashTag = (content as State.Script).codeHash ? matchScript(content as State.Script) : undefined
   const data = content as State.Data
   const script = content as State.Script
 

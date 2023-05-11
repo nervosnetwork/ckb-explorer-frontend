@@ -21,7 +21,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c-1'],
     depType: 'dep_group',
     hashType: 'type',
-    tag: 'secp256k1 / multisig / locktime',
+    tag: 'secp256k1 / multisig',
     category: 'lock',
   },
   {
@@ -245,7 +245,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0xf8de3bb47d055cdf460d93a2a6e1b05f7432f9777c8c474abf4eec1d4aee5d37-1'],
     depType: 'dep_group',
     hashType: 'type',
-    tag: 'secp256k1 / multisig / locktime',
+    tag: 'secp256k1 / multisig',
     category: 'lock',
   },
   {

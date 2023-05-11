@@ -86,15 +86,17 @@ export const isValidReactNode = (node: ReactNode) => {
   return !!node
 }
 
-export const matchScript = (contractHash: string, hashType: string): ContractHashTag | undefined => {
-  if (isMainnet()) {
-    return MainnetContractHashTags.find(
-      scriptTag => scriptTag.codeHashes.find(codeHash => codeHash === contractHash) && scriptTag.hashType === hashType,
-    )
-  }
-  return TestnetContractHashTags.find(
-    scriptTag => scriptTag.codeHashes.find(codeHash => codeHash === contractHash) && scriptTag.hashType === hashType,
+export const matchScript = (script: State.Script): ContractHashTag | undefined => {
+  const matchedScript = (isMainnet() ? MainnetContractHashTags : TestnetContractHashTags).find(
+    scriptTag =>
+      scriptTag.codeHashes.find(codeHash => codeHash === script.codeHash) && scriptTag.hashType === script.hashType,
   )
+  // Multi-signature locking with time limit: unlock after a specified on-chain time (timestamp, block)
+  // The args length is 20bytes without time lock, and 28bytes with time lock.
+  if (matchedScript && matchedScript.tag === 'secp256k1 / multisig' && script.args.length === 28 * 2 + 2) {
+    matchedScript.tag += ' / locktime'
+  }
+  return matchedScript
 }
 
 export const matchTxHash = (txHash: string, index: number | string): ContractHashTag | undefined => {
