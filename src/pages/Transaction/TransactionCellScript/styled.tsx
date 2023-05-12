@@ -59,6 +59,12 @@ export const TransactionCellDetailPanel = styled.div`
   display: flex;
   flex-direction: row;
 
+  @media (max-width: 750px) {
+    div {
+      font-size: 13px;
+    }
+  }
+
   .transaction__detail__modal__close {
     flex: 1;
     display: flex;
@@ -119,6 +125,11 @@ export const TransactionDetailPanel = styled.div`
     width: 100%;
     @media (max-width: 750px) {
       margin-top: 10px;
+      svg {
+        width: 12px;
+        height: 12px;
+        margin-left: 6px;
+      }
     }
   }
   .transaction__detail_loading {

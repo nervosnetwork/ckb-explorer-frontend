@@ -23,12 +23,15 @@
   width: 100%;
   background-color: #ffffff;
   border-radius: 6px 6px 0 0;
+
   :global(.ant-tabs-nav:before) {
     border-bottom-width: 4px;
   }
+
   :global(.ant-tabs-nav-list) {
     margin-left: 40px;
   }
+
   :global(.ant-tabs-tab-btn) {
     color: #333333 !important;
     font-weight: 400;
@@ -36,17 +39,17 @@
     line-height: 23px;
     margin-bottom: 0;
   }
+
   :global(.ant-tabs-tab-btn[aria-selected='true']) {
     font-weight: 500;
   }
+
   :global(.ant-tabs-ink-bar) {
-    background: linear-gradient(
-      to right,
-      transparent 30%,
-      var(--primary-color) 30%,
-      var(--primary-color) 70%,
-      transparent 70%
-    );
+    background: linear-gradient(to right,
+        transparent 30%,
+        var(--primary-color) 30%,
+        var(--primary-color) 70%,
+        transparent 70%);
     height: 3px !important;
     bottom: 3px !important;
   }
@@ -57,55 +60,66 @@
   table {
     width: 100%;
     line-height: 1.2;
+
     tr {
       border-bottom: 1px solid #e5e5e5;
     }
+
     tbody tr:last-child {
       border-bottom: none;
     }
+
     th {
       font-size: 1rem;
       font-weight: 500;
       color: #333;
     }
+
     th,
     td {
       white-space: nowrap;
       padding: 22px 0;
       user-select: none;
       cursor: default;
+
       &:nth-child(3) {
         padding-left: 22px;
+
         div {
           justify-content: flex-start;
         }
       }
     }
+
     td:first-child {
       max-width: 25vw;
     }
+
     a {
       color: var(--primary-color);
     }
   }
 }
+
 .scriptCellsPanel {
   padding: 0 40px;
+
   @media screen and (max-width: 1200px) {
     padding: 0 10px;
   }
 }
 
 .scriptDecimalCenter {
-  > div {
+  >div {
     align-items: baseline;
   }
 }
 
 .cellInfoMore {
-  > div {
+  >div {
     float: right;
   }
+
   :global(.transaction__cell__info__content) {
     width: fit-content !important;
     padding: 0 20px;
@@ -122,6 +136,23 @@
   display: flex;
   align-items: center;
   min-width: 0;
+
+  .codeHash {
+    width: 350px !important;
+    margin-right: 16px;
+  }
+
+  @media screen and (max-width: 1300px) {
+    .codeHash {
+      width: 280px !important;
+    }
+  }
+
+  @media screen and (max-width: 750px) {
+    .codeHash {
+      width: 600px !important;
+    }
+  }
 }
 
 .hashType {
