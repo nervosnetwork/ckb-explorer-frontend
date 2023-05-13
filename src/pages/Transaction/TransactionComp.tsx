@@ -29,10 +29,9 @@ import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 
 const showTxStatus = (txStatus: string) => txStatus?.replace(/^\S/, s => s.toUpperCase()) ?? '-'
 
-// FIXME: tx status could be null due to a bug in backend,so !txStatus was added temporarily, should be removed once the bug is fixed
 const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => (
   <TransactionBlockHeightPanel>
-    {!txStatus || txStatus === 'committed' ? (
+    {txStatus === 'committed' ? (
       <Link to={`/block/${blockNumber}`}>{localeNumberString(blockNumber)}</Link>
     ) : (
       <span>{showTxStatus(txStatus)}</span>
@@ -122,8 +121,7 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
       content: <TransactionBlockHeight blockNumber={blockNumber} txStatus={txStatus} />,
     },
   ]
-  // FIXME: tx status could be null due to a bug in backend,so !txStatus was added temporarily, should be removed once the bug is fixed
-  if (!txStatus || txStatus === 'committed') {
+  if (txStatus === 'committed') {
     if (confirmation >= 0) {
       OverviewItems.push(
         {
