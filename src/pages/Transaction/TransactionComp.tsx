@@ -27,7 +27,7 @@ import HashTag from '../../components/HashTag'
 import { useAddrFormatToggle } from '../../utils/hook'
 import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 
-const showTxStatus = (txStatus: string) => txStatus.replace(/^\S/, s => s.toUpperCase())
+const showTxStatus = (txStatus: string) => txStatus?.replace(/^\S/, s => s.toUpperCase()) ?? '-'
 
 const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => (
   <TransactionBlockHeightPanel>
