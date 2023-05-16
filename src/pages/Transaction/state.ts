@@ -24,4 +24,9 @@ export const defaultTransactionInfo: State.Transaction = {
   maxCycles: null,
 }
 
-export const defaultTransactionLiteDetails: State.TransactionLiteDetails[] = []
+export const defaultTransactionLiteDetails: State.TransactionLiteDetails[] = [
+  {
+    address: '',
+    transfers: [],
+  },
+]

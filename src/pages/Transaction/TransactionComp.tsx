@@ -363,7 +363,7 @@ export const TransactionCompLite: FC<{ transaction: State.Transaction }> = ({ tr
 
   const query = useQuery(['ckb_transaction_details', txHash], async () => {
     const ckbTransactionDetails = await fetchTransactionLiteDetailsByHash(txHash)
-    return ckbTransactionDetails
+    return ckbTransactionDetails.data
   })
 
   const transactionLiteDetails: State.TransactionLiteDetails[] = query.data ?? defaultTransactionLiteDetails
@@ -382,9 +382,9 @@ export const TransactionCompLite: FC<{ transaction: State.Transaction }> = ({ tr
                   {/* <span className={styles.tag}>{i18n.t('transaction.mint')}</span> */}
                 </div>
                 <div className={styles.transactionLiteBoxContent}>
-                  {item.transfers.map((items, index) => {
+                  {item.transfers.map((items, innerIndex) => {
                     return (
-                      <div key={index}>
+                      <div key={innerIndex}>
                         <div>{items.tokenName}</div>
                         <div>
                           {(items.transferType && items.transferType === 'nervos_dao_deposit') ||
@@ -406,7 +406,7 @@ export const TransactionCompLite: FC<{ transaction: State.Transaction }> = ({ tr
                             <span className={styles.nftId}>-ID : {items.nftId}</span>
                           ) : (
                             <>
-                              {items.capacity > 0 ? <span style={{ color: '#00CC9B' }}>+</span> : null}
+                              {items.capacity > 0 && <span style={{ color: '#00CC9B' }}>+</span>}
                               <DecimalCapacity
                                 color={items.capacity > 0 ? '#00CC9B' : '#FA504F'}
                                 value={localeNumberString(shannonToCkb(items.capacity))}

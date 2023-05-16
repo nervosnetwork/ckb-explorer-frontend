@@ -100,7 +100,7 @@ export const WithdrawPopoverInfo = ({ cell, cellV2 }: { cell: State.Cell; cellV2
     /* eslint-disable */
     cell.cellType = cellV2.transferType
     cell.capacity = cellV2.capacity.toString()
-    cell.interest = cellV2.interest.toString() || ''
+    cell.interest = cellV2.interest ? cellV2.interest.toString() : ''
     cell.compensationStartedBlockNumber = cellV2.compensationStartedBlockNumber || 0
     cell.compensationEndedBlockNumber = cellV2.compensationEndedBlockNumber || 0
     cell.compensationStartedTimestamp = cellV2.compensationStartedTimestamp || 0
