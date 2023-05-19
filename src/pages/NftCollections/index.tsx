@@ -81,7 +81,7 @@ const NftCollections = () => {
     sortBy = 'holder',
     orderBy,
     sort = 'holder',
-    handleSortClick: handleTransactionsSortClick,
+    handleSortClick,
   } = useSortParam<NftSortByType>(s => s === 'transactions' || s === 'holder' || s === 'minted')
 
   const sortButton = (sortRule: NftSortByType) => (
@@ -91,7 +91,7 @@ const NftCollections = () => {
         [styles.sortAsc]: sortRule === sortBy && orderBy === 'asc',
         [styles.sortDesc]: sortRule === sortBy && orderBy === 'desc',
       })}
-      onClick={() => handleTransactionsSortClick(sortRule)}
+      onClick={() => handleSortClick(sortRule)}
     >
       <SortIcon />
     </button>
@@ -105,10 +105,6 @@ const NftCollections = () => {
       },
     }),
   )
-
-  const handleSortClick = (sortRule: NftSortByType) => {
-    updateSearchParams(params => omit({ ...params, sort: sortRule }, ['page', 'tx_type']))
-  }
 
   const handlePageChange = (pageNo: number) => {
     if (pageNo === +page) {
@@ -182,6 +178,7 @@ const NftCollections = () => {
                     onClick={() => handleSortClick('holder')}
                     aria-hidden
                   >
+                    {sortButton('holder')}
                     {i18n.t('nft.holder')}
                   </span>
                   /
@@ -193,6 +190,7 @@ const NftCollections = () => {
                     aria-hidden
                   >
                     {i18n.t('nft.minted')}
+                    {sortButton('minted')}
                   </span>
                 </th>
                 <th>{i18n.t('nft.minter_address')}</th>
