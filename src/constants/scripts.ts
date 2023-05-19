@@ -7,6 +7,13 @@ export interface ContractHashTag {
   hashType: string
 }
 
+export const ScriptTagExtraRules = new Map<string, (s: State.Script) => string>([
+  [
+    'secp256k1 / multisig',
+    script => (script.args.length === 28 * 2 + 2 ? 'secp256k1 / multisig / locktime' : 'secp256k1 / multisig'),
+  ],
+])
+
 export const MainnetContractHashTags: ContractHashTag[] = [
   {
     codeHashes: ['0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8'],
