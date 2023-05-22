@@ -22,7 +22,7 @@ export const scripts = new Map<string, ScriptAttributes>([
     },
   ],
   [
-    'secp256k1 / multisig / locktime',
+    'secp256k1 / multisig',
     {
       name: 'SECP256K1/multisig',
       description: 'SECP256K1/multisig is a script which allows a group of users to sign a single transaction.',
