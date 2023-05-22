@@ -37,6 +37,9 @@ export const TransactionDetailType = styled(TransactionDetailItem)`
   @media (max-width: 750px) {
     margin-left: 20px;
   }
+  @media (max-width: 1300px) {
+    margin-left: 50px;
+  }
 `
 
 export const TransactionDetailData = styled(TransactionDetailItem)`
@@ -44,12 +47,18 @@ export const TransactionDetailData = styled(TransactionDetailItem)`
   @media (max-width: 750px) {
     margin-left: 20px;
   }
+  @media (max-width: 1300px) {
+    margin-left: 50px;
+  }
 `
 
 export const TransactionDetailCapacityUsage = styled(TransactionDetailItem)`
   margin-left: 90px;
   @media (max-width: 750px) {
     margin-left: 20px;
+  }
+  @media (max-width: 1300px) {
+    margin-left: 50px;
   }
 `
 
@@ -62,6 +71,12 @@ export const TransactionCellDetailPanel = styled.div`
   @media (max-width: 750px) {
     div {
       font-size: 13px;
+    }
+  }
+
+  @media (max-width: 1300px) {
+    div {
+      font-size: 15px;
     }
   }
 
