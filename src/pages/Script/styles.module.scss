@@ -97,12 +97,12 @@
   }
 }
 .scriptDecimalCenter {
-  >div {
+  > div {
     align-items: baseline;
   }
 }
 .cellInfoMore {
-  >div {
+  > div {
     float: right;
   }
   :global(.transaction__cell__info__content) {
@@ -121,7 +121,7 @@
   display: flex;
   align-items: center;
   min-width: 0;
-  
+
   .codeHash {
     width: 350px !important;
     margin-right: 16px;
