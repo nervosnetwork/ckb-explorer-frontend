@@ -12,9 +12,11 @@ import { fetchTransactionByHash } from '../../service/http/fetcher'
 import { QueryResult } from '../../components/QueryResult'
 import { defaultTransactionInfo } from './state'
 import { useSearchParams } from '../../utils/hook'
+import { LayoutLiteProfessional } from '../../constants/common'
 
 export default () => {
   const dispatch = useDispatch()
+  const { Professional, Lite } = LayoutLiteProfessional
   const { hash: txHash } = useParams<{ hash: string }>()
 
   const query = useQuery(['transaction', txHash], async () => {
@@ -29,8 +31,8 @@ export default () => {
   const transaction = query.data ?? defaultTransactionInfo
   const { blockTimestamp, txStatus } = transaction
   const searchParams = useSearchParams('layout')
-  const defaultLayout = 'professional'
-  const layout: string = searchParams.layout === 'lite' ? 'lite' : defaultLayout
+  const defaultLayout = Professional
+  const layout: string = searchParams.layout === Lite ? Lite : defaultLayout
 
   useEffect(() => getTipBlockNumber(dispatch), [dispatch])
 

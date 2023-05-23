@@ -1,6 +1,7 @@
 import type { FC, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Radio, Tooltip } from 'antd'
+import { LayoutLiteProfessional } from '../../../constants/common'
 import CopyIcon from '../../../assets/copy.png'
 import i18n from '../../../utils/i18n'
 import { v2AxiosIns } from '../../../service/http/fetcher'
@@ -51,18 +52,18 @@ export default ({
 }) => {
   const isMobile = useIsMobile()
   const dispatch = useDispatch()
-
+  const { Professional, Lite } = LayoutLiteProfessional
   const isTx = i18n.t('transaction.transaction') === title
   const newAddr = useNewAddr(hash)
   const deprecatedAddr = useDeprecatedAddr(hash)
   const counterpartAddr = newAddr === hash ? deprecatedAddr : newAddr
 
   const searchParams = useSearchParams('layout')
-  const defaultLayout = 'professional'
+  const defaultLayout = Professional
   const updateSearchParams = useUpdateSearchParams<'layout'>()
-  const layout = searchParams.layout === 'lite' ? 'lite' : defaultLayout
+  const layout = searchParams.layout === Lite ? Lite : defaultLayout
 
-  const onChangeLayout = (lo: 'professional' | 'lite') => {
+  const onChangeLayout = (lo: LayoutLiteProfessional.Professional | LayoutLiteProfessional.Lite) => {
     updateSearchParams(params =>
       lo === defaultLayout
         ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'layout'))
@@ -162,8 +163,8 @@ export default ({
                 <Radio.Group
                   className={styles.layoutButtons}
                   options={[
-                    { label: i18n.t('transaction.professional'), value: 'professional' },
-                    { label: i18n.t('transaction.lite'), value: 'lite' },
+                    { label: i18n.t('transaction.professional'), value: Professional },
+                    { label: i18n.t('transaction.lite'), value: Lite },
                   ]}
                   onChange={({ target: { value } }) => onChangeLayout(value)}
                   value={layout}
@@ -194,8 +195,8 @@ export default ({
             <Radio.Group
               className={styles.layoutButtons}
               options={[
-                { label: i18n.t('transaction.professional'), value: 'professional' },
-                { label: i18n.t('transaction.lite'), value: 'lite' },
+                { label: i18n.t('transaction.professional'), value: Professional },
+                { label: i18n.t('transaction.lite'), value: Lite },
               ]}
               onChange={({ target: { value } }) => onChangeLayout(value)}
               value={layout}

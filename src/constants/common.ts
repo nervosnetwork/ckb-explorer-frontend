@@ -108,5 +108,10 @@ export enum ChainName {
   Testnet = 'pudge',
 }
 
+export enum LayoutLiteProfessional {
+  Lite = 'lite',
+  Professional = 'professional',
+}
+
 export const MAINNET_URL = `https://${config.BASE_URL}`
 export const TESTNET_URL = `https://${ChainName.Testnet}.${config.BASE_URL}`

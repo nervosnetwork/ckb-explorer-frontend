@@ -9,6 +9,10 @@ export const DecimalPanel = styled.div`
     margin-bottom: 1px;
   }
 
+  .subtraction {
+    color: #fa504f !important;
+  }
+
   .decimal__unit {
     margin-left: 5px;
 

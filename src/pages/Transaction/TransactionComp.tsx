@@ -9,7 +9,7 @@ import { useAppState } from '../../contexts/providers/index'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
-import { formatConfirmation, shannonToCkb, matchTxHash } from '../../utils/util'
+import { formatConfirmation, shannonToCkb, matchTxHash, isDaoWithdrawCell } from '../../utils/util'
 import { Addr } from './TransactionCell'
 import {
   TransactionBlockHeightPanel,
@@ -32,10 +32,10 @@ import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 import styles from './styles.module.scss'
 import { defaultTransactionLiteDetails } from './state'
 import { fetchTransactionLiteDetailsByHash } from '../../service/http/fetcher'
-import { WithdrawPopoverInfo, isDaoWithdrawCell } from '../../components/TransactionItem/TransactionItemCell'
+import { WithdrawPopoverInfo } from '../../components/TransactionItem/TransactionItemCell'
+import { LayoutLiteProfessional } from '../../constants/common'
 
 const showTxStatus = (txStatus: string) => txStatus.replace(/^\S/, s => s.toUpperCase())
-const defaultLayout = 'professional'
 
 const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => (
   <TransactionBlockHeightPanel>
@@ -122,7 +122,7 @@ export const TransactionOverview: FC<{ transaction: State.Transaction; layout: s
   } = transaction
 
   let confirmation = 0
-  const isLite: boolean = layout === defaultLayout
+  const isLite: boolean = layout === LayoutLiteProfessional.Professional
 
   if (tipBlockNumber && blockNumber) {
     confirmation = tipBlockNumber - blockNumber
@@ -379,7 +379,6 @@ export const TransactionCompLite: FC<{ transaction: State.Transaction }> = ({ tr
                   <div className={styles.transactionLiteBoxHeaderAddr}>
                     <Addr address={item.address} isCellBase={isCellbase} />
                   </div>
-                  {/* <span className={styles.tag}>{i18n.t('transaction.mint')}</span> */}
                 </div>
                 <div className={styles.transactionLiteBoxContent}>
                   {item.transfers.map((items, innerIndex) => {
@@ -406,7 +405,11 @@ export const TransactionCompLite: FC<{ transaction: State.Transaction }> = ({ tr
                             <span className={styles.nftId}>-ID : {items.nftId}</span>
                           ) : (
                             <>
-                              {items.capacity > 0 && <span style={{ color: '#00CC9B' }}>+</span>}
+                              {items.capacity > 0 ? (
+                                <span className={styles.add}>+</span>
+                              ) : (
+                                <span className={styles.subtraction}>-</span>
+                              )}
                               <DecimalCapacity
                                 color={items.capacity > 0 ? '#00CC9B' : '#FA504F'}
                                 value={localeNumberString(shannonToCkb(items.capacity))}
@@ -435,7 +438,7 @@ export default ({ transaction }: { transaction: State.Transaction }) => {
   /// [0, 11] block doesn't show block reward and only cellbase show block reward
   return (
     <>
-      <div className="transaction__inputs ">
+      <div className="transaction__inputs">
         {inputs && (
           <TransactionCellList
             inputs={inputs}

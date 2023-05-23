@@ -7,7 +7,7 @@ import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png
 import UDTTokenIcon from '../../../assets/udt_token.png'
 import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
-import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
+import { isDaoCell, isDaoDepositCell, isDaoWithdrawCell, shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import {
   TransactionCellPanel,
   TransactionCellCapacityPanel,
@@ -28,12 +28,6 @@ import { ReactComponent as BitAccountIcon } from '../../../assets/bit_account.sv
 import { useBoolean, useIsMobile } from '../../../utils/hook'
 import CopyTooltipText from '../../Text/CopyTooltipText'
 import EllipsisMiddle from '../../EllipsisMiddle'
-
-export const isDaoDepositCell = (cellType: State.CellTypes) => cellType === 'nervos_dao_deposit'
-
-export const isDaoWithdrawCell = (cellType: State.CellTypes) => cellType === 'nervos_dao_withdrawing'
-
-export const isDaoCell = (cellType: State.CellTypes) => isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
 
 const AddressTextWithAlias: FC<{
   address: string

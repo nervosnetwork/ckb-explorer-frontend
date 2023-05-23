@@ -40,6 +40,7 @@ import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
+import { LayoutLiteProfessional } from '../../constants/common'
 
 const addressAssetInfo = (address: State.Address, useMiniStyle: boolean) => {
   const items = [
@@ -313,13 +314,14 @@ export const AddressTransactions = ({
 }) => {
   const isMobile = useIsMobile()
   const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
+  const { Professional, Lite } = LayoutLiteProfessional
   const searchParams = useSearchParams('layout')
-  const defaultLayout = 'professional'
+  const defaultLayout = Professional
   const updateSearchParams = useUpdateSearchParams<'layout'>()
-  const layout = searchParams.layout === 'lite' ? 'lite' : defaultLayout
+  const layout = searchParams.layout === Lite ? Lite : defaultLayout
   const totalPages = Math.ceil(total / pageSize)
 
-  const onChangeLayout = (lo: 'professional' | 'lite') => {
+  const onChangeLayout = (lo: LayoutLiteProfessional.Professional | LayoutLiteProfessional.Lite) => {
     updateSearchParams(params =>
       lo === defaultLayout
         ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'layout'))
@@ -353,8 +355,8 @@ export const AddressTransactions = ({
           <Radio.Group
             className={styles.layoutButtons}
             options={[
-              { label: i18n.t('transaction.professional'), value: 'professional' },
-              { label: i18n.t('transaction.lite'), value: 'lite' },
+              { label: i18n.t('transaction.professional'), value: Professional },
+              { label: i18n.t('transaction.lite'), value: Lite },
             ]}
             onChange={({ target: { value } }) => onChangeLayout(value)}
             value={layout}
