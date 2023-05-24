@@ -90,27 +90,28 @@ export const WithdrawPopoverInfo = ({ cell, cellV2 }: { cell: State.Cell; cellV2
   let width = 'short'
 
   // Compatible with V2 interface
-  if (cellV2) {
-    /* eslint-disable */
-    cell.cellType = cellV2.transferType
-    cell.capacity = cellV2.capacity.toString()
-    cell.interest = cellV2.interest ? cellV2.interest.toString() : ''
-    cell.compensationStartedBlockNumber = cellV2.compensationStartedBlockNumber || 0
-    cell.compensationEndedBlockNumber = cellV2.compensationEndedBlockNumber || 0
-    cell.compensationStartedTimestamp = cellV2.compensationStartedTimestamp || 0
-    cell.compensationEndedTimestamp = cellV2.compensationEndedTimestamp || 0
-    cell.lockedUntilBlockNumber = cellV2.lockedUntilBlockNumber || 0
-    cell.lockedUntilBlockTimestamp = cellV2.lockedUntilBlockTimestamp || 0
-    /* eslint-enable */
+  const updatedCell = {
+    ...cell,
+    ...(cellV2 && {
+      cellType: cellV2.transferType,
+      capacity: cellV2.capacity.toString(),
+      interest: cellV2.interest ? cellV2.interest.toString() : '',
+      compensationStartedBlockNumber: cellV2.compensationStartedBlockNumber || 0,
+      compensationEndedBlockNumber: cellV2.compensationEndedBlockNumber || 0,
+      compensationStartedTimestamp: cellV2.compensationStartedTimestamp || 0,
+      compensationEndedTimestamp: cellV2.compensationEndedTimestamp || 0,
+      lockedUntilBlockNumber: cellV2.lockedUntilBlockNumber || 0,
+      lockedUntilBlockTimestamp: cellV2.lockedUntilBlockTimestamp || 0,
+    }),
   }
 
   if (app.language === 'en') {
-    width = isDaoDepositCell(cell.cellType) ? 'long' : 'medium'
+    width = isDaoDepositCell(updatedCell.cellType) ? 'long' : 'medium'
   }
   return (
     <WithdrawInfoPanel>
       <p>
-        {isDaoWithdrawCell(cell.cellType)
+        {isDaoWithdrawCell(updatedCell.cellType)
           ? i18n.t('nervos_dao.withdraw_tooltip')
           : i18n.t('nervos_dao.withdraw_request_tooltip')}
       </p>
@@ -118,16 +119,22 @@ export const WithdrawPopoverInfo = ({ cell, cellV2 }: { cell: State.Cell; cellV2
         width={width}
         title={`${i18n.t('nervos_dao.deposit_capacity')}: `}
         content={
-          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} fontSize={isMobile ? '8px' : ''} />
+          <DecimalCapacity
+            value={localeNumberString(shannonToCkb(updatedCell.capacity))}
+            fontSize={isMobile ? '8px' : ''}
+          />
         }
       />
       <WithdrawPopoverItem
         width={width}
         title={`${i18n.t(
-          isDaoWithdrawCell(cell.cellType) ? 'nervos_dao.compensation' : 'nervos_dao.unissued_compensation',
+          isDaoWithdrawCell(updatedCell.cellType) ? 'nervos_dao.compensation' : 'nervos_dao.unissued_compensation',
         )}: `}
         content={
-          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.interest))} fontSize={isMobile ? '8px' : ''} />
+          <DecimalCapacity
+            value={localeNumberString(shannonToCkb(updatedCell.interest))}
+            fontSize={isMobile ? '8px' : ''}
+          />
         }
       />
       <WithdrawPopoverItem
@@ -136,12 +143,12 @@ export const WithdrawPopoverInfo = ({ cell, cellV2 }: { cell: State.Cell; cellV2
         content={
           <>
             <span>{`${i18n.t('block.block')} `}</span>
-            <Link to={`/block/${cell.compensationStartedBlockNumber}`}>
-              <span>{localeNumberString(cell.compensationStartedBlockNumber)}</span>
+            <Link to={`/block/${updatedCell.compensationStartedBlockNumber}`}>
+              <span>{localeNumberString(updatedCell.compensationStartedBlockNumber)}</span>
             </Link>
             <span> - </span>
-            <Link to={`/block/${cell.compensationStartedBlockNumber}`}>
-              <span>{localeNumberString(cell.compensationEndedBlockNumber)}</span>
+            <Link to={`/block/${updatedCell.compensationStartedBlockNumber}`}>
+              <span>{localeNumberString(updatedCell.compensationEndedBlockNumber)}</span>
             </Link>
           </>
         }
@@ -149,9 +156,9 @@ export const WithdrawPopoverInfo = ({ cell, cellV2 }: { cell: State.Cell; cellV2
       <WithdrawPopoverItem
         width={width}
         title={`${i18n.t('nervos_dao.compensation_time')}: `}
-        content={parseDiffDate(cell.compensationStartedTimestamp, cell.compensationEndedTimestamp)}
+        content={parseDiffDate(updatedCell.compensationStartedTimestamp, updatedCell.compensationEndedTimestamp)}
       />
-      {isDaoWithdrawCell(cell.cellType) && (
+      {isDaoWithdrawCell(updatedCell.cellType) && (
         <>
           <WithdrawPopoverItem
             width={width}
@@ -159,12 +166,12 @@ export const WithdrawPopoverInfo = ({ cell, cellV2 }: { cell: State.Cell; cellV2
             content={
               <>
                 <span>{`${i18n.t('block.block')} `}</span>
-                <Link to={`/block/${cell.compensationStartedBlockNumber}`}>
-                  <span>{localeNumberString(cell.compensationStartedBlockNumber)}</span>
+                <Link to={`/block/${updatedCell.compensationStartedBlockNumber}`}>
+                  <span>{localeNumberString(updatedCell.compensationStartedBlockNumber)}</span>
                 </Link>
                 <span> - </span>
-                <Link to={`/block/${cell.lockedUntilBlockNumber}`}>
-                  <span>{localeNumberString(cell.lockedUntilBlockNumber)}</span>
+                <Link to={`/block/${updatedCell.lockedUntilBlockNumber}`}>
+                  <span>{localeNumberString(updatedCell.lockedUntilBlockNumber)}</span>
                 </Link>
               </>
             }
@@ -172,7 +179,7 @@ export const WithdrawPopoverInfo = ({ cell, cellV2 }: { cell: State.Cell; cellV2
           <WithdrawPopoverItem
             width={width}
             title={`${i18n.t('nervos_dao.locked_time')}: `}
-            content={parseDiffDate(cell.compensationStartedTimestamp, cell.lockedUntilBlockTimestamp)}
+            content={parseDiffDate(updatedCell.compensationStartedTimestamp, updatedCell.lockedUntilBlockTimestamp)}
           />
         </>
       )}
