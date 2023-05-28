@@ -4,14 +4,10 @@ import { axiosIns } from './fetcher'
 import i18n from '../../utils/i18n'
 import { AppDispatch } from '../../contexts/reducer'
 import { AppActions } from '../../contexts/actions'
-import { isMainnet } from '../../utils/chain'
 
 let timeout: ReturnType<typeof setTimeout> | null
 
 const updateNetworkError = (dispatch: AppDispatch, errMessage = 'toast.invalid_network') => {
-  if (isMainnet()) {
-    return
-  }
   if (timeout) {
     clearTimeout(timeout)
   }
