@@ -7,6 +7,7 @@ import SimpleButton from '../SimpleButton'
 import { ComponentActions } from '../../contexts/actions'
 import { AppCachedKeys } from '../../constants/cache'
 import styles from './styles.module.scss'
+
 const FIFTEEN_MINUTES = 15 * 60 * 1000
 
 const Alert = () => {
