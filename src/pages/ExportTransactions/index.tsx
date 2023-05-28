@@ -41,9 +41,8 @@ const ExportTransactions = () => {
   const startDate = tab === 'date' && startDateStr ? dayjs(startDateStr) : undefined
   const endDate = tab === 'date' && endDateStr ? dayjs(endDateStr) : undefined
 
-  const fromHeight =
-    tab === 'height' && fromHeightStr && /^(0|[1-9]\d*)$/.test(fromHeightStr) ? parseInt(fromHeightStr, 10) : 0
-  const toHeight = tab === 'height' && toHeightStr && /^(0|[1-9]\d*)$/.test(toHeightStr) ? parseInt(toHeightStr, 10) : 0
+  const fromHeight = tab === 'height' && fromHeightStr ? parseInt(fromHeightStr, 10) : 0
+  const toHeight = tab === 'height' && toHeightStr ? parseInt(toHeightStr, 10) : 0
 
   const updateSearchParams = useUpdateSearchParams<
     'type' | 'tab' | 'start-date' | 'end-date' | 'from-height' | 'to-height'
@@ -145,7 +144,7 @@ const ExportTransactions = () => {
   }
 
   const heightParser = (t?: string) => {
-    const res = t ? parseInt(t.replace(/[^-\d]/g, ''), 10) : 0
+    const res = t ? Math.abs(parseInt(t, 10)) : 0
     return res < 0 ? 0 : res
   }
 
