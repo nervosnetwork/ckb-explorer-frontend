@@ -7,7 +7,7 @@ import SimpleButton from '../SimpleButton'
 import { ComponentActions } from '../../contexts/actions'
 import { AppCachedKeys } from '../../constants/cache'
 import styles from './styles.module.scss'
-// import { isMainnet } from '../../utils/chain'
+
 const FIFTEEN_MINUTES = 15 * 60 * 1000
 
 const Alert = () => {
@@ -51,7 +51,7 @@ const Alert = () => {
     )
   }
 
-  // if (!isMainnet()) {
+  // if (isMainnet()) {
   //   return <div className={styles.container}>{i18n.t('error.maintain')}</div>
   // }
 
