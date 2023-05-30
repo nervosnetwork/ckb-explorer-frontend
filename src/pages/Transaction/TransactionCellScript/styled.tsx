@@ -35,21 +35,30 @@ export const TransactionDetailLock = styled(TransactionDetailItem)``
 export const TransactionDetailType = styled(TransactionDetailItem)`
   margin-left: 90px;
   @media (max-width: 750px) {
-    margin-left: 20px;
+    margin-left: 12px;
+  }
+  @media screen and (min-width: 751px) and (max-width: 1300px) {
+    margin-left: 50px;
   }
 `
 
 export const TransactionDetailData = styled(TransactionDetailItem)`
   margin-left: 90px;
   @media (max-width: 750px) {
-    margin-left: 20px;
+    margin-left: 12px;
+  }
+  @media screen and (min-width: 751px) and (max-width: 1300px) {
+    margin-left: 50px;
   }
 `
 
 export const TransactionDetailCapacityUsage = styled(TransactionDetailItem)`
   margin-left: 90px;
   @media (max-width: 750px) {
-    margin-left: 20px;
+    margin-left: 12px;
+  }
+  @media screen and (min-width: 751px) and (max-width: 1300px) {
+    margin-left: 50px;
   }
 `
 
@@ -58,6 +67,18 @@ export const TransactionCellDetailPanel = styled.div`
   font-weight: 500;
   display: flex;
   flex-direction: row;
+
+  @media (max-width: 750px) {
+    div {
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 1300px) {
+    div {
+      font-size: 15px;
+    }
+  }
 
   .transaction__detail__modal__close {
     flex: 1;
@@ -119,6 +140,11 @@ export const TransactionDetailPanel = styled.div`
     width: 100%;
     @media (max-width: 750px) {
       margin-top: 10px;
+      svg {
+        width: 12px;
+        height: 12px;
+        margin-left: 6px;
+      }
     }
   }
   .transaction__detail_loading {
