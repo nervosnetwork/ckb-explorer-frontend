@@ -91,17 +91,16 @@
 }
 .scriptCellsPanel {
   padding: 0 40px;
+
   @media screen and (max-width: 1200px) {
     padding: 0 10px;
   }
 }
-
 .scriptDecimalCenter {
   > div {
     align-items: baseline;
   }
 }
-
 .cellInfoMore {
   > div {
     float: right;
@@ -122,6 +121,23 @@
   display: flex;
   align-items: center;
   min-width: 0;
+
+  .codeHash {
+    width: 350px !important;
+    margin-right: 16px;
+  }
+
+  @media screen and (max-width: 1300px) {
+    .codeHash {
+      width: 280px !important;
+    }
+  }
+
+  @media screen and (max-width: 750px) {
+    .codeHash {
+      width: 600px !important;
+    }
+  }
 }
 
 .hashType {
