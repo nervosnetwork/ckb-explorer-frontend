@@ -37,7 +37,7 @@ declare namespace State {
     | 'cota_registry'
     | 'cota_regular'
     | 'nft_transfer'
-    | 'ordinary_transfer'
+    | 'simple_transfer'
     | 'nft_mint'
 
   interface UDTInfo {
