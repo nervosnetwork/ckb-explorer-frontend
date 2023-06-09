@@ -114,7 +114,12 @@ const ExportTransactions = () => {
       }
     }
     setHint({ type: 'success', msg: 'download_processed' })
-    exportTransactions({ type, id, startDate, endDate, fromHeight, toHeight, tab })
+    exportTransactions({
+      type,
+      id,
+      date: tab === 'date' ? { start: startDate, end: endDate } : undefined,
+      block: tab === 'height' ? { from: fromHeight, to: toHeight } : undefined,
+    })
       .then((resp: Response.Response<string> | null) => {
         if (!resp) {
           setHint({
