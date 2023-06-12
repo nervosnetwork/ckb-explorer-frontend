@@ -138,16 +138,14 @@ const TransactionCellIndexAddress = ({
   )
 }
 
-const isUdt = (cell: State.Cell) => cell.udtInfo && cell.udtInfo.typeHash
-
 const parseNftInfo = (cell: State.Cell) => {
   if (cell.cellType === 'nrc_721_token') {
-    const nftInfo = cell.nrc721TokenInfo
+    const nftInfo = cell.extraInfo
     return <TransactionCellNftInfo>{`${nftInfo.symbol} #${nftInfo.amount}`}</TransactionCellNftInfo>
   }
 
   if (cell.cellType === 'm_nft_issuer') {
-    const nftInfo = cell.mNftInfo as State.NftIssuer
+    const nftInfo = cell.extraInfo
     if (nftInfo.issuerName) {
       return sliceNftName(nftInfo.issuerName)
     }
@@ -155,16 +153,19 @@ const parseNftInfo = (cell: State.Cell) => {
   }
 
   if (cell.cellType === 'm_nft_class') {
-    const nftInfo = cell.mNftInfo as State.NftClass
+    const nftInfo = cell.extraInfo
     const className = nftInfo.className ? sliceNftName(nftInfo.className) : i18n.t('transaction.unknown_nft')
     const limit = nftInfo.total === '0' ? i18n.t('transaction.nft_unlimited') : i18n.t('transaction.nft_limited')
     const total = nftInfo.total === '0' ? '' : nftInfo.total
     return <TransactionCellNftInfo>{`${className}\n${limit} ${total}`}</TransactionCellNftInfo>
   }
-  const nftInfo = cell.mNftInfo as State.NftToken
-  const className = nftInfo.className ? sliceNftName(nftInfo.className) : i18n.t('transaction.unknown_nft')
-  const total = nftInfo.total === '0' ? '' : ` / ${nftInfo.total}`
-  return <TransactionCellNftInfo>{`${className}\n#${parseInt(nftInfo.tokenId, 16)}${total}`}</TransactionCellNftInfo>
+
+  if (cell.cellType === 'm_nft_token') {
+    const nftInfo = cell.extraInfo
+    const className = nftInfo.className ? sliceNftName(nftInfo.className) : i18n.t('transaction.unknown_nft')
+    const total = nftInfo.total === '0' ? '' : ` / ${nftInfo.total}`
+    return <TransactionCellNftInfo>{`${className}\n#${parseInt(nftInfo.tokenId, 16)}${total}`}</TransactionCellNftInfo>
+  }
 }
 
 const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
@@ -183,9 +184,7 @@ const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
     case 'udt':
       detailTitle = i18n.t('transaction.udt_cell')
       detailIcon = UDTTokenIcon
-      if (isUdt(cell)) {
-        tooltip = `Capacity: ${shannonToCkbDecimal(cell.capacity, 8)} CKB`
-      }
+      tooltip = `Capacity: ${shannonToCkbDecimal(cell.capacity, 8)} CKB`
       break
     case 'm_nft_issuer':
       detailTitle = i18n.t('transaction.m_nft_issuer')
@@ -269,16 +268,14 @@ const TransactionCellInfo = ({
 }
 
 const TransactionCellCapacityAmount = ({ cell }: { cell: State.Cell }) => {
-  const { udtInfo } = cell
-  return udtInfo && udtInfo.typeHash ? (
-    <span>
-      {udtInfo.published
-        ? `${parseUDTAmount(udtInfo.amount, udtInfo.decimal)} ${udtInfo.uan || udtInfo.symbol}`
-        : `${i18n.t('udt.unknown_token')} #${udtInfo.typeHash.substring(udtInfo.typeHash.length - 4)}`}
-    </span>
-  ) : (
-    <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
-  )
+  if (cell.cellType === 'udt') {
+    const udtInfo = cell.extraInfo
+    if (udtInfo.published) {
+      return <span>{`${parseUDTAmount(udtInfo.amount, udtInfo.decimal)} ${udtInfo.uan || udtInfo.symbol}`}</span>
+    }
+    return <span>{`${i18n.t('udt.unknown_token')} #${udtInfo.typeHash.substring(udtInfo.typeHash.length - 4)}`}</span>
+  }
+  return <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
 }
 
 const TransactionCellMobileItem = ({ title, value = null }: { title: string | ReactNode; value?: ReactNode }) => (
