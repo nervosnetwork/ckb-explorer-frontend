@@ -216,31 +216,25 @@ export const CodeHashMessage = ({ codeHash }: { codeHash: string }) => {
   const dispatch = useDispatch()
   return (
     <div className={styles.codeHashMessagePanel}>
-      <AddressText>{codeHash}</AddressText>
-      <div
-        style={{
-          lineHeight: 0,
-          marginLeft: '16px',
+      <AddressText className={styles.codeHash}>{codeHash}</AddressText>
+
+      <CopyIcon
+        onClick={() => {
+          navigator.clipboard.writeText(codeHash).then(
+            () => {
+              dispatch({
+                type: AppActions.ShowToastMessage,
+                payload: {
+                  message: i18n.t('common.copied'),
+                },
+              })
+            },
+            error => {
+              console.error(error)
+            },
+          )
         }}
-      >
-        <CopyIcon
-          onClick={() => {
-            navigator.clipboard.writeText(codeHash).then(
-              () => {
-                dispatch({
-                  type: AppActions.ShowToastMessage,
-                  payload: {
-                    message: i18n.t('common.copied'),
-                  },
-                })
-              },
-              error => {
-                console.error(error)
-              },
-            )
-          }}
-        />
-      </div>
+      />
     </div>
   )
 }
