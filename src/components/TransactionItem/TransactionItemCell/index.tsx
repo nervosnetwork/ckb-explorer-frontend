@@ -197,11 +197,13 @@ const TransactionCellNervosDao = ({ cell, cellType }: { cell: State.Cell; cellTy
   )
 }
 
-const TransactionCellUDT = ({ cell }: { cell: State.Cell }) => {
+const TransactionCellUDT = ({ cell }: { cell: State.Cell$UDT }) => {
   const isMobile = useIsMobile()
+  const { extraInfo } = cell
+
   return (
     <TransactionCellUDTPanel>
-      <span>{udtAmount(cell.udtInfo)}</span>
+      <span>{udtAmount(extraInfo)}</span>
       <Tooltip
         placement={isMobile ? 'topRight' : 'top'}
         title={`Capacity: ${localeNumberString(shannonToCkbDecimal(cell.capacity, 8))} CKB`}
@@ -220,9 +222,11 @@ const TransactionCellCapacity = ({ cell, cellType }: { cell: State.Cell; cellTyp
   if (isDaoCell(cell.cellType)) {
     return <TransactionCellNervosDao cell={cell} cellType={cellType} />
   }
-  if (cell.udtInfo && cell.udtInfo.typeHash) {
+
+  if (cell.cellType === 'udt') {
     return <TransactionCellUDT cell={cell} />
   }
+
   return (
     <div className="transaction__cell__without__icon">
       <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
