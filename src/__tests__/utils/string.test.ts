@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { TextDecoder } from 'util'
 import {
-  parsePageNumber,
   startEndEllipsis,
   hexToUtf8,
   addPrefixForHash,
@@ -12,14 +11,6 @@ import {
 } from '../../utils/string'
 
 describe('String methods tests', () => {
-  it('parse valid number', async () => {
-    expect(parsePageNumber('a', 10)).toBe(10)
-    expect(parsePageNumber(2, 10)).toBe(10)
-    expect(parsePageNumber('2', 10)).toBe(2)
-    expect(parsePageNumber('0', 10)).toBe(10)
-    expect(parsePageNumber(undefined, 10)).toBe(10)
-  })
-
   it('start end ellipsis', async () => {
     expect(startEndEllipsis('0xckt1q9gry5zgmceslalm5xwn20v0krjpsugdnkkmkw5pqe5ge4')).toBe('0xckt1q9gry5zgmc...5pqe5ge4')
     expect(startEndEllipsis('0xckt1q9gry5zgmceslalm5xwn20v0krjpsugdnkkmkw5pqe5ge4', 16)).toBe(
