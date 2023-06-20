@@ -13,7 +13,7 @@ import { useResizeDetector } from 'react-resize-detector'
 import { interval, share } from 'rxjs'
 import { AppCachedKeys } from '../constants/cache'
 import { deprecatedAddrToNewAddr } from './util'
-import { parsePageNumber, startEndEllipsis } from './string'
+import { startEndEllipsis } from './string'
 import { ListPageParams, PageParams } from '../constants/common'
 import {
   fetchCachedData,
@@ -214,8 +214,8 @@ export function usePaginationParamsFromSearch(opts: {
   const { defaultPage = 1, maxPage = Infinity, defaultPageSize = 10, maxPageSize = 100 } = opts
   const updateSearchParams = useUpdateSearchParams<'page' | 'size'>()
   const params = useSearchParams('page', 'size')
-  const currentPage = parsePageNumber(params.page, defaultPage)
-  const pageSize = parsePageNumber(params.size, defaultPageSize)
+  const currentPage = Number.isNaN(Number(params.page)) ? defaultPage : Number(params.page)
+  const pageSize = Number.isNaN(Number(params.size)) ? defaultPageSize : Number(params.size)
 
   useEffect(() => {
     const pageSizeOversized = pageSize > maxPageSize

@@ -2,13 +2,6 @@ import BigNumber from 'bignumber.js'
 import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 import { assert } from './error'
 
-export const parsePageNumber = (value: any, defaultValue: number) => {
-  if (typeof value !== 'string') {
-    return defaultValue
-  }
-  return parseInt(value, 10) || defaultValue
-}
-
 export function createTextMeasurer(element: HTMLElement): CanvasText['measureText'] {
   const style = window.getComputedStyle(element)
   const ctx = document.createElement('canvas').getContext('2d')
