@@ -234,7 +234,8 @@
       "view-new-address": "查看新地址",
       "visit-deprecated-address": "查看废弃地址格式",
       "view-deprecated-address": "展示旧地址格式",
-      "displaying-deprecated-address": "正在以旧格式地址展示"
+      "displaying-deprecated-address": "正在以旧格式地址展示",
+      "currentAddress":"当前地址"
     },
     "transaction": {
       "transaction": "交易",
