@@ -88,6 +88,7 @@
       "new_dao_withdraw": "每日新增解锁",
       "circulation_ratio": "锁定量占当前流通量比率",
       "live_cell": "未花费 Cell",
+      "dead_cell": "已消费 Cell",
       "archived_cell": "已花费 Cell",
       "all_cells": "所有的 Cell",
       "cell_count": "Cell 数量",

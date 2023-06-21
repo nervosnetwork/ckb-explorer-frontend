@@ -88,6 +88,7 @@
       "new_dao_withdraw": "Daily Withdraw",
       "circulation_ratio": "Deposit to Circulation Ratio",
       "live_cell": "Live Cell",
+      "dead_cell": "Dead Cell",
       "archived_cell": "Archived Cell",
       "all_cells": "All Cells",
       "cell_count": "Cell Count",
