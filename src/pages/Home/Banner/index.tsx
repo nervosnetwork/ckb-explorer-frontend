@@ -20,13 +20,8 @@ const GPUTier = {
   },
   async update() {
     const info = await getGPUTier()
-    const time = new Date().getTime()
-    localStorage.setItem(this.key, JSON.stringify({ time, ...info }))
+    localStorage.setItem(this.key, JSON.stringify(info))
     return info.tier
-  },
-  async upsert() {
-    const tier = this.get()
-    return tier === null ? this.update() : tier
   },
 }
 
@@ -40,7 +35,7 @@ const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
   const isFallbackDisplayed = gpuTier === null || gpuTier < GPUTier.MIN_TIER
 
   useEffect(() => {
-    GPUTier.upsert().then(setGPUTier).catch(console.error)
+    GPUTier.update().then(setGPUTier).catch(console.error)
   }, [setGPUTier])
 
   useEffect(() => {
