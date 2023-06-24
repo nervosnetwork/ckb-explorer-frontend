@@ -66,11 +66,7 @@ const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
   useEffect(() => render?.onResize(), [isMobile])
 
   if (isFallbackDisplayed) {
-    return (
-      <div className={styles.fallback}>
-        <BannerFallback />
-      </div>
-    )
+    return <BannerFallback />
   }
 
   return (
